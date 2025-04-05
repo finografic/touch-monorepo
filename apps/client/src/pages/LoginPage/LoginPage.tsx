@@ -2,7 +2,7 @@ import { useState } from 'react';
 // import { useNavigate } from '@tanstack/react-router';
 import { useAuth } from 'lib/auth/AuthContext';
 import { Col, Container, Row } from 'react-grid-system';
-import { styles } from './LoginPage.css';
+import { styles } from './LoginPage.styles';
 
 export function LoginPage() {
   // const navigate = useNavigate();

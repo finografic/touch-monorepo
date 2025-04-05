@@ -1,4 +1,4 @@
 export { BREAKPOINTS, mediaQueries } from './breakpoints';
-export { colors } from './colors.css';
+export { colors } from './colors.styles';
 export { spacing } from './spacing';
-export { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from './typography.css';
+export { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from './typography.styles';

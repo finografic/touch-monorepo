@@ -1,6 +1,6 @@
 import { Container } from 'react-grid-system';
 import { useAuth } from 'lib/auth/AuthContext';
-import { styles } from './DashboardPage.css';
+import { styles } from './DashboardPage.styles';
 
 export function DashboardPage() {
   const { user } = useAuth();

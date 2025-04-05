@@ -1,5 +1,5 @@
 import { Container } from 'react-grid-system';
-import { styles } from './Header.css';
+import { styles } from './Header.styles';
 
 export function Header() {
   return (

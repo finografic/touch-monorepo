@@ -2,7 +2,7 @@
 import { Outlet } from 'react-router-dom';
 
 import { useAuth } from 'lib/auth/AuthContext';
-import { styles } from './Layout.css';
+import { styles } from './Layout.styles';
 
 export function Layout() {
   const { user, logout } = useAuth();

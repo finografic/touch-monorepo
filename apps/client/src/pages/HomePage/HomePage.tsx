@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Container } from 'react-grid-system';
-import { styles } from './HomePage.css';
+import { styles } from './HomePage.styles';
 
 export function HomePage() {
   return (

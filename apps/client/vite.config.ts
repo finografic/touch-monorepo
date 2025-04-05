@@ -34,7 +34,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     },
     clearScreen: false,
     define: {
-      'global': {},
+      'global': 'window',
       'process.env': {
         ...envShared,
         NODE_ENV: mode,

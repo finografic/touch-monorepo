@@ -1,7 +1,7 @@
 import { Container } from 'react-grid-system';
 import { useEffect } from 'react';
 import mermaid from 'mermaid';
-import { styles } from './DocsPage.css';
+import { styles } from './DocsPage.styles';
 
 const SCHEMA_DIAGRAM = `
 erDiagram
