@@ -25,7 +25,7 @@ with the `@finografic` scope, to install / update directly from the private GitH
 
 ```sh
 # .npmrc
-use-node-version=20.18.1
+use-node-version=20.18.2
 save-prefix=""
 strict-peer-dependencies=false
 link-workspace-packages=false
