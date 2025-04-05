@@ -67,8 +67,13 @@
   },
   "devDependencies": {
     "@finografic/eslint-config": "9.0.8",
+    "@fullhuman/postcss-purgecss": "7.0.2",
     "@types/better-sqlite3": "^7.6.12",
+    "autoprefixer": "10.4.20",
     "drizzle-kit": "^0.28.1",
+    "postcss": "^8.4.31",
+    "postcss-import": "16.1.0",
+    "postcss-nesting": "13.0.1",
     "shx": "0.3.4",
     "tsup": "8.3.6",
     "tsx": "4.19.2"

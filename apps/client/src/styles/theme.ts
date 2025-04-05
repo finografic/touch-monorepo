@@ -1,4 +1,4 @@
-import { colors } from './colors.styles';
+import { colors } from './backup/colors.styles';
 import { spacing } from './spacing';
 import { BREAKPOINTS, mediaQueries } from './breakpoints';
 import { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from './typography.styles';

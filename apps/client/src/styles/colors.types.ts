@@ -1,30 +1,48 @@
-export type ColorShade = 50 | 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
+/**
+ * Basic color type definitions and hex color validation
+ */
+import type { ColorBaseName, ColorPalette } from './palette.types';
+import { RadixColorName, RadixColorVariable } from './radix-ui/radix.types';
+import { TWColorShade } from './tailwind/tailwind.types';
 
-export type ColorScale = {
-  [key in ColorShade]: string;
+// Union type for possible color values
+export type ColorValue = RadixColorVariable | HexColor;
+
+// Valid base shades (allowing +/- 3 for variants)
+export type RadixBaseShade = 4 | 5 | 6 | 7 | 8 | 9;
+
+// Type for the color mapping structure
+export type ColorMapping = {
+  [K in ColorBaseName]:
+    | {
+        color: RadixColorName;
+        shade: RadixBaseShade;
+      }
+    | {
+        value: HexColor;
+      };
 };
 
-export interface ThemeColors {
-  primary: ColorScale;
-  neutral: ColorScale;
-  success: ColorScale;
-  warning: ColorScale;
-  error: ColorScale;
-  info: ColorScale;
-  // Semantic colors
-  background: {
-    primary: string;
-    secondary: string;
-    tertiary: string;
-  };
-  text: {
-    primary: string;
-    secondary: string;
-    disabled: string;
-  };
-  border: {
-    light: string;
-    default: string;
-    dark: string;
-  };
-}
+/**
+ * Type for any valid color name in the palette
+ */
+export type ColorName = keyof ColorPalette;
+
+// ======================================================================== //
+
+/**
+ * Basic color type definitions and hex color validation
+ */
+export type HexColor = Lowercase<`#${HexChar}${string}`> | Uppercase<`#${HexChar}${string}`>;
+type HexChar = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f';
+
+/**
+ * Shade suffixes in PascalCase (used in color variant names)
+ */
+export type ShadeSuffix = 'XXLight' | 'XLight' | 'Light' | 'Dark' | 'XDark' | 'XXDark';
+
+/**
+ * Shade keys in lowercase (used in configuration and mapping)
+ * Note: 'base' is handled specially and doesn't have a suffix
+ */
+export type ShadeKey = Lowercase<ShadeSuffix> | 'base';

@@ -7,4 +7,8 @@ export default fino({
     'react': reactPlugin,
     'react-hooks': reactHooksPlugin,
   },
+  rules: {
+    'style/no-multi-spaces': OFF,
+    'regexp/prefer-w': OFF,
+  },
 });

@@ -1,5 +1,6 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv, type UserConfig } from 'vite';
+import TurboConsole from 'unplugin-turbo-console/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { logApiURL } from './src/utils/vite.utils';
 import { envShared } from '@fino/config/envShared';
@@ -14,6 +15,9 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
 
   return {
     plugins: [
+      tsconfigPaths({
+        projects: ['./tsconfig.vite.json'],
+      }),
       react({
         include: ['**/*.tsx', '**/*.ts'],
         jsxImportSource: '@emotion/react',
@@ -21,7 +25,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
           plugins: ['@emotion/babel-plugin'],
         },
       }),
-      tsconfigPaths(),
+      TurboConsole(),
     ],
     base: './',
     server: {
