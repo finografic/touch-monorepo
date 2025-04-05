@@ -1,0 +1,29 @@
+{
+  "name": "@touch/shared",
+  "type": "module",
+  "version": "0.0.2",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "dev": "tsc --watch",
+    "build": "tsc",
+    "clean": "rimraf dist .turbo tsconfig.tsbuildinfo",
+    "lint": "eslint .",
+    "lint.fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "shx": "0.3.4",
+    "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "zod": "^3.23.8"
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "eslint.enable": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "eslint.workingDirectories": [
+    {
+      "mode": "auto"
+    }
+  ],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
+  // "eslint.nodePath": ".pnpm",
+  "eslint.nodePath": null,
+  "eslint.runtime": "node",
+  "npm.packageManager": "pnpm",
+  "eslint.useFlatConfig": true,
+  "eslint.execArgv": null,
+  "eslint.nodeEnv": null,
+  "terminal.integrated.env.osx": {
+    "NODE_PATH": ""
+  },
+  "json.schemas": [
+    {
+      "url": "https://cdn.jsdelivr.net/npm/tsup/schema.json",
+      "fileMatch": [
+        "package.json",
+        "tsup.config.json"
+      ]
+    }
+  ]
+}

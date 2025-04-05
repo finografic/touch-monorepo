@@ -1,0 +1,102 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "target": "ES2020",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "module": "ESNext",
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "paths": {
+      "@fino/config": [
+        "../../config"
+      ],
+      "@fino/config/*": [
+        "../../config/*"
+      ],
+      "@touch/shared/*": [
+        "../../packages/shared/src/*"
+      ],
+      "@touch/shared": [
+        "../../packages/shared/src"
+      ],
+      "config": [
+        "./src/config"
+      ],
+      "config/*": [
+        "./src/config/*"
+      ],
+      "constants/*": [
+        "./src/constants/*"
+      ],
+      "db": [
+        "./src/db"
+      ],
+      "db/*": [
+        "./src/db/*"
+      ],
+      "drizzle.config": [
+        "../../drizzle.config"
+      ],
+      "env": [
+        "./src/env"
+      ],
+      "i18n/*": [
+        "./src/i18n/*"
+      ],
+      "lib/*": [
+        "./src/lib/*"
+      ],
+      "middlewares/*": [
+        "./src/middlewares/*"
+      ],
+      "openapi/*": [
+        "./src/openapi/*"
+      ],
+      "routes/*": [
+        "./src/routes/*"
+      ],
+      "schemas": [
+        "./src/schemas"
+      ],
+      "schemas/*": [
+        "./src/schemas/*"
+      ],
+      "types": [
+        "./src/types"
+      ],
+      "types/*": [
+        "./src/types/*"
+      ],
+      "utils/*": [
+        "./src/utils/*"
+      ]
+    },
+    "resolveJsonModule": true,
+    "allowJs": true,
+    /* Linting */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "declaration": true,
+    "outDir": "./dist",
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "skipLibCheck": true
+  },
+  "references": [
+    {
+      "path": "../../packages/shared"
+    },
+    {
+      "path": "../../config"
+    }
+  ],
+  "include": [
+    "src/**/*",
+    "src/**/*.json",
+    "package.json"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    ".next",
+    "build",
+    "coverage",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+  "references": [
+    {
+      "path": "./config"
+    },
+    {
+      "path": "./packages/globals"
+    },
+    {
+      "path": "./packages/shared"
+    },
+    {
+      "path": "./apps/client"
+    },
+    {
+      "path": "./apps/server"
+    }
+  ]
+}

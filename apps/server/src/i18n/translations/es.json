@@ -1,0 +1,12 @@
+{
+  "t": {
+    "titles": {
+      "create_new": "Crear nuevo {{subject}}",
+      "events": "Evento",
+      "events_plural": "Eventos",
+      "entity": "Entidad",
+      "entity_plural": "Entidades",
+      "registros": "Mis Registros"
+    }
+  }
+}

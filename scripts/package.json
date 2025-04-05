@@ -1,0 +1,9 @@
+{
+  "name": "@touch/scripts",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@dotenvx/dotenvx": "1.31.3",
+    "chalk": "^5.3.0"
+  }
+}
