@@ -1,11 +1,10 @@
-// import { Container } from 'react-grid-system';
 import { Outlet } from 'react-router-dom';
-
-import { useAuth } from 'lib/auth/AuthContext';
 import { styles } from './Layout.styles';
+// import { Container } from 'react-grid-system';
+// import { useAuth } from 'lib/auth/AuthContext';
 
 export function Layout() {
-  const { user, logout } = useAuth();
+  // const { user, logout } = useAuth();
 
   return (
     <div css={styles}>

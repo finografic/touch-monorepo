@@ -10,7 +10,6 @@ import health from 'routes/health-check/health-check.index';
 // Import routes
 import index from 'routes/index.route';
 import posts from 'routes/posts';
-import projects from 'routes/projects';
 import users from 'routes/users';
 import { CLI } from 'utils/utils.cli';
 
@@ -35,7 +34,7 @@ app.use('*', async (c, next) => {
 
 configureOpenAPI(app);
 
-const routes = [index, health, auth, users, posts, projects] as const;
+const routes = [index, health, auth, users, posts] as const;
 
 routes.forEach((route) => {
   app.route(envShared.API_BASE_PATH, route);
