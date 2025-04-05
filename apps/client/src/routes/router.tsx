@@ -5,6 +5,7 @@ import { RequireAuth } from './RequireAuth';
 import { HomePage } from 'pages/HomePage/HomePage';
 import { Layout } from 'layout/Layout';
 import { AuthProvider } from 'lib/auth/AuthProvider';
+import { DocsPage } from '../pages/DocsPage/DocsPage';
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +23,10 @@ export const router = createBrowserRouter([
       {
         path: '/login',
         element: <LoginPage />,
+      },
+      {
+        path: '/docs',
+        element: <DocsPage />,
       },
       {
         path: '/dashboard',

@@ -1,4 +1,4 @@
-import { Container } from 'react-grid-system';
+// import { Container } from 'react-grid-system';
 import { Outlet } from 'react-router-dom';
 
 import { useAuth } from 'lib/auth/AuthContext';
@@ -9,10 +9,10 @@ export function Layout() {
 
   return (
     <div css={styles}>
-      <header>
+      {/* <header>
         <Container>
           <nav>
-            <div className="app-logo">Your App</div>
+            <div className="app-logo">ServiFresc</div>
             {user && (
               <div className="user-menu">
                 <span>{user.email}</span>
@@ -23,7 +23,7 @@ export function Layout() {
             )}
           </nav>
         </Container>
-      </header>
+      </header> */}
       <main>
         <Outlet />
       </main>

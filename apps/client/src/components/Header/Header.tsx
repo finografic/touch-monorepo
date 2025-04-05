@@ -6,7 +6,7 @@ export function Header() {
     <header css={styles}>
       <Container>
         <nav className="nav">
-          <div className="logo">Your App</div>
+          <div className="logo">ServiFresc (header)</div>
           <div className="user-name">{/* User menu content */}</div>
         </nav>
       </Container>

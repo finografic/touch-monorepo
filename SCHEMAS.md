@@ -4,6 +4,99 @@
 
 The database schema is designed for a beverage dispensing system with temperature control. The system consists of 11 elements (dispensing stations), where elements 1-10 are beverage dispensers and element 11 is a simple on/off switch.
 
+## Schema Relationships
+
+```mermaid
+erDiagram
+    BeverageTypes ||--o{ BeverageSubtypes : "has subtypes"
+    BeverageTypes ||--o{ BeverageConfigs : "used in"
+    BeverageSubtypes ||--o{ BeverageConfigs : "used in"
+    ContainerTypes ||--o{ BeverageConfigs : "used in"
+    Volumes ||--o{ BeverageConfigs : "used in"
+
+    TemperatureTables ||--o{ TemperatureTableEntries : "contains"
+    BeverageConfigs ||--o{ TemperatureTables : "references"
+
+    Elements ||--o{ RunningOrders : "executes"
+    BeverageConfigs ||--o{ RunningOrders : "configures"
+
+    BeverageTypes {
+        string id PK
+        string name
+        string displayName
+        boolean hasSubtypes
+        integer defaultConsumptionTemp
+        integer defaultFreezeTemp
+    }
+
+    BeverageSubtypes {
+        string id PK
+        string beverageTypeId FK
+        string name
+        string displayName
+        integer consumptionTemp
+        integer freezeTemp
+    }
+
+    ContainerTypes {
+        string id PK
+        string name
+        string displayName
+        integer thermalConductivity
+    }
+
+    Volumes {
+        string id PK
+        string name
+        integer valueInMl
+        integer sortOrder
+        float coolingFactor
+    }
+
+    BeverageConfigs {
+        string id PK
+        string beverageTypeId FK
+        string beverageSubtypeId FK
+        string containerTypeId FK
+        string volumeId FK
+        string timeTableId1
+        string timeTableId2
+        string timeTableId3
+    }
+
+    TemperatureTables {
+        string id PK
+        string tableNumber
+        integer elementType
+    }
+
+    TemperatureTableEntries {
+        string id PK
+        string tableId FK
+        float temperature
+        float timeMinutes
+        integer sortOrder
+    }
+
+    Elements {
+        string id PK
+        integer elementNumber
+        integer elementType
+        string position
+        integer voltage
+        string currentOrderId FK
+    }
+
+    RunningOrders {
+        string id PK
+        string elementId FK
+        string beverageConfigId FK
+        integer startTemp
+        integer targetTemp
+        string status
+    }
+```
+
 ## Core Schemas
 
 ### `beverage_types.schema.ts`

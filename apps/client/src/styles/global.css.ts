@@ -20,4 +20,8 @@ export const cssGlobal = css`
   #root {
     min-height: 100vh;
   }
+
+  main {
+    padding: 0 !important;
+  }
 `;
