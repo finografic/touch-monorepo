@@ -6,6 +6,7 @@ import { HomePage } from 'pages/HomePage/HomePage';
 import { Layout } from 'layout/Layout';
 import { AuthProvider } from 'lib/auth/AuthProvider';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
+import { MenuPage } from '../pages/MenuPage/MenuPage';
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +28,10 @@ export const router = createBrowserRouter([
       {
         path: '/docs',
         element: <DocsPage />,
+      },
+      {
+        path: '/menu',
+        element: <MenuPage />,
       },
       {
         path: '/dashboard',

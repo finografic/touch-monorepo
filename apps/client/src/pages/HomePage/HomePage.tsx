@@ -32,9 +32,15 @@ export function HomePage() {
           System Ready
         </div>
 
-        <Link to="/docs" className="docs-link">
-          System Documentation
-        </Link>
+        <div className="bottom-links">
+          <Link to="/docs" className="docs-link">
+            System Documentation
+          </Link>
+          <span className="separator">·</span>
+          <Link to="/menu" className="menu-link">
+            Dispensing Menu
+          </Link>
+        </div>
       </div>
       {/* </Container> */}
     </div>
