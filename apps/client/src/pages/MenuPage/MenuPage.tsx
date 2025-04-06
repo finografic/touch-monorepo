@@ -5,12 +5,14 @@ import { Pad } from 'components/Pad';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 export function MenuPage() {
-  const { activePads } = useOrders();
+  const { orders } = useOrders();
   const { setIsNextDisabled } = usePagination();
 
+  const numSelected = Object.values(orders).filter((order) => order.isSelected).length;
+
   useEffect(() => {
-    setIsNextDisabled(!Object.values(activePads).some((isActive) => isActive));
-  }, [activePads, setIsNextDisabled]);
+    setIsNextDisabled(numSelected === 0);
+  }, [numSelected, setIsNextDisabled]);
 
   return (
     <div css={styles}>

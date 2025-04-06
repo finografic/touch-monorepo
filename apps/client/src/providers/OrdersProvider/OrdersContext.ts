@@ -2,26 +2,16 @@ import { createStore, useStore, type StoreApi } from 'zustand';
 import { createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './Orders.types';
 import { createSetters } from 'utils/zustand';
+import { OrderItem } from 'types/orders.types';
 
 export const DISPLAY_NAME = 'Orders';
 
 export enum OrdersKeys {
-  activePads = 'activePads',
   orders = 'orders',
 }
 
 export const defaultValue: OrdersValues = {
-  activePads: {
-    1: false,
-    2: false,
-    3: false,
-    4: false,
-    5: false,
-    6: false,
-    7: false,
-    8: false,
-  },
-  orders: {},
+  orders: [],
 };
 
 export const OrdersContext = createZustandContext(({ initialValue }) => {
@@ -30,46 +20,46 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, defaultValue }),
-      togglePad: (padNumber: number) => {
-        const { activePads } = get();
+      togglePad: (itemNumber: number) => {
+        const { orders } = get();
+        const draftOrder = orders.find((order: OrderItem) => order.itemNumber === itemNumber);
         set({
-          activePads: {
-            ...activePads,
-            [padNumber]: !activePads[padNumber],
-          },
+          orders: draftOrder
+            ? [...orders, { ...draftOrder, isSelected: !draftOrder.isSelected }]
+            : [...orders],
         });
       },
       selectAllPads: () => {
-        set({
-          activePads: {
-            ...defaultValue.activePads,
-            1: true,
-            2: true,
-            3: true,
-            4: true,
-            5: true,
-            6: true,
-            7: true,
-            8: true,
-          },
-        });
+        // set({
+        //   activePads: {
+        //     ...defaultValue.activePads,
+        //     1: true,
+        //     2: true,
+        //     3: true,
+        //     4: true,
+        //     5: true,
+        //     6: true,
+        //     7: true,
+        //     8: true,
+        //   },
+        // });
       },
       handleNextStep: () => {
-        const { activePads, orders } = get();
-        const newOrders = { ...orders };
+        const { orders } = get();
+        const draftOrders = { ...orders };
 
-        Object.entries(activePads).forEach(([padNumber, isActive]) => {
-          if (isActive) {
-            const padNum = parseInt(padNumber);
-            if (!newOrders[padNum]) {
-              newOrders[padNum] = {
-                padNumber: padNum,
-              };
-            }
-          }
-        });
+        // Object.entries(activePads).forEach(([itemNumber, isActive]) => {
+        //   if (isActive) {
+        //     const padNum = parseInt(itemNumber);
+        //     if (!newOrders[padNum]) {
+        //       newOrders[padNum] = {
+        //         itemNumber: padNum,
+        //       };
+        //     }
+        //   }
+        // });
 
-        set({ orders: newOrders });
+        // set({ orders: newOrders });
       },
     },
   }));

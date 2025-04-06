@@ -8,14 +8,14 @@ type PadProps = {
 };
 
 export const Pad = ({ number, isFirst, isError, isSpecial }: PadProps) => {
-  const { activePads, togglePad } = useOrders();
+  const { togglePad, orders } = useOrders();
 
   const className = [
     'pad',
     isFirst && 'first',
     isError && 'error',
     isSpecial && 'special',
-    activePads[number] && 'active',
+    orders.find((order) => order.itemNumber === number)?.isSelected && 'active',
   ]
     .filter(Boolean)
     .join(' ');

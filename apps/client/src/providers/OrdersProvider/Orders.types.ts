@@ -1,34 +1,9 @@
 import type { ReactNode } from 'react';
 import { OrdersKeys } from './OrdersContext';
-
-// DB Schema types
-export type BeverageType = {
-  id: string;
-  name: string;
-  displayName: string;
-  hasSubtypes: boolean;
-  defaultConsumptionTemp: number;
-  defaultFreezeTemp: number;
-};
-
-export type BeverageSubtype = {
-  id: string;
-  beverageTypeId: string;
-  name: string;
-  displayName: string;
-  consumptionTemp: number;
-  freezeTemp: number;
-};
-
-export type OrderItem = {
-  padNumber: number;
-  beverageType?: BeverageType;
-  beverageSubtype?: BeverageSubtype;
-};
+import { OrderItem } from '../../types/orders.types';
 
 export type OrdersValues = {
-  [OrdersKeys.activePads]: Record<number, boolean>;
-  [OrdersKeys.orders]: Record<number, OrderItem>;
+  [OrdersKeys.orders]: OrderItem[];
 };
 
 type OrdersSetters = {
@@ -36,7 +11,7 @@ type OrdersSetters = {
 };
 
 type OrdersActions = OrdersSetters & {
-  togglePad: (padNumber: number) => void;
+  togglePad: (itemNumber: number) => void;
   selectAllPads: () => void;
   handleNextStep: () => void;
 };
