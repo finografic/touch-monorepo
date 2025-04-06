@@ -58,12 +58,15 @@ export const styles = css`
     padding: 2rem 0;
     width: 100vw;
     height: 100vh;
-    /* background-color: rgba(150, 150, 150, 0.15); */
+    background-color: ${colors.background};
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
 
     div.main-content {
-      border: 1px solid white;
-      /* width: 66vw;
-      height: 66vh; */
+      width: 66vw;
+      height: 70vh;
     }
   }
 `;

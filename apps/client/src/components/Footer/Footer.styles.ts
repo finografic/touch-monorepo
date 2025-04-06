@@ -2,8 +2,8 @@ import { css } from '@emotion/react';
 import { colors, layout } from 'styles';
 
 export const styles = css`
-  position: fixed;
-  bottom: 15vh;
+  position: relative;
+  bottom: 3rem;
   left: 0;
   right: 0;
   display: flex;

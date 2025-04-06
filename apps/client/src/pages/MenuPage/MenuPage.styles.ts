@@ -25,10 +25,11 @@ export const styles = css`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 100vh;
+  /* min-height: 100vh; */
   background-color: ${colors.background};
   color: ${colors.white};
   padding: 2rem;
+  height: unset;
 
   section.menu-main {
     /* border: 1px solid transparent; */

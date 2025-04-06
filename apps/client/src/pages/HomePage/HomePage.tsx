@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
-import { Container } from 'react-grid-system';
 import { styles } from './HomePage.styles';
+import { HeaderDashboard } from 'components/HeaderDashboard/HeaderDashboard';
 
-export function HomePage() {
+export const HomePage = () => {
   return (
     <div css={styles}>
+      <HeaderDashboard />
       {/* <Container> */}
       <div className="splash-screen">
         <div className="logo-container">
@@ -45,4 +46,4 @@ export function HomePage() {
       {/* </Container> */}
     </div>
   );
-}
+};

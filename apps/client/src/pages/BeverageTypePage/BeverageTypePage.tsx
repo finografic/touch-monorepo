@@ -1,8 +1,7 @@
-import { useOrders } from '../../providers/OrdersProvider';
-import { usePagination } from '../../providers/PaginationProvider/PaginationContext';
-import { useNavigate } from 'react-router-dom';
+import { useOrders } from 'providers/OrdersProvider';
+import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { styles } from './BeverageTypePage.styles';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const BEVERAGE_TYPES = [
   { id: 'vino', name: 'Vino' },
@@ -16,21 +15,16 @@ const BEVERAGE_TYPES = [
 
 export const BeverageTypePage = () => {
   const { orders } = useOrders();
-  const { setPageCurrent } = usePagination();
-  const navigate = useNavigate();
+  const { setIsNextDisabled } = usePagination();
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
-  const handleBack = () => {
-    setPageCurrent(0);
-    navigate('/');
-  };
+  const {} = usePagination();
 
-  const handleNext = () => {
-    if (selectedType) {
-      setPageCurrent(2);
-      navigate('/beverage-subtype');
-    }
-  };
+  const numSelected = Object.values(orders).filter((order) => !!order.beverageType).length;
+
+  useEffect(() => {
+    setIsNextDisabled(numSelected === 0);
+  }, [numSelected, setIsNextDisabled]);
 
   return (
     <div css={styles}>
