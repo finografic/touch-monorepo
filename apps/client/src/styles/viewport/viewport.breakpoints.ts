@@ -1,5 +1,5 @@
 import type { BreakpointMap } from 'styles/viewport/viewport.types';
-import { mapNewBreakpointRules, toEmNumeric, toPixelString, toRemNumeric } from 'utils/utils.viewport';
+import { mapNewBreakpointRules, toEmNumeric, toPixelString, toRemNumeric } from 'utils/viewport.utils';
 
 // BREAKPOINT DEFAULT pixel values (from Carbon) best defined NUMERICALLY,
 // allowing for calculations etc..

@@ -2,7 +2,7 @@ import { setConfiguration } from 'react-grid-system';
 import type { ScreenClass } from 'styles/viewport/viewport.types';
 import { BREAKPOINTS } from './viewport.breakpoints';
 import type { MediaQueryMap, BreakpointMap } from 'styles/viewport/viewport.types';
-import { mapNewBreakpointRules, toMediaMinWidth, toMediaMaxWidth } from 'utils/utils.viewport';
+import { mapNewBreakpointRules, toMediaMinWidth, toMediaMaxWidth } from 'utils/viewport.utils';
 
 // ======================================================================== //
 // NOTE: V1 - FOR USE in TSX FILES..
