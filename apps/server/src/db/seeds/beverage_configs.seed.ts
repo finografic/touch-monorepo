@@ -14,7 +14,7 @@ export async function seed() {
     }
 
     // Get references to existing data
-    const [beer] = await db.select().from(beverage_types).where(eq(beverage_types.name, 'Cerveza'));
+    const [beer] = await db.select().from(beverage_types).where(eq(beverage_types.name, 'cerveza'));
     const [plastic] = await db.select().from(container_types).where(eq(container_types.name, 'plastico'));
     const [glass] = await db.select().from(container_types).where(eq(container_types.name, 'vidrio'));
     const [metal] = await db.select().from(container_types).where(eq(container_types.name, 'metal'));

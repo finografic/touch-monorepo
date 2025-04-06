@@ -4,6 +4,7 @@ import { execSync } from 'child_process';
 import fs from 'node:fs';
 import path from 'node:path';
 import { config } from '@dotenvx/dotenvx';
+import { getAllSchemas, getSortedSchemas, validateDependencies } from './seed.config';
 
 // Load server's env file at the start
 config({ path: path.resolve(process.cwd(), 'apps/server/.env.development') });
@@ -18,18 +19,15 @@ async function getSchemaSelection() {
     process.exit(1);
   }
 
-  const schemas = fs
-    .readdirSync(schemasDir)
-    .filter((file) => file.endsWith('.schema.ts'))
-    .map((file) => file.replace('.schema.ts', ''))
-    .filter((schema) => !SCHEMA_BLACKLIST.includes(schema));
+  // Get available schemas from config
+  const schemas = getAllSchemas().filter((schema) => !SCHEMA_BLACKLIST.includes(schema));
 
   if (schemas.length === 0) {
     console.warn(chalk.yellow('⚠️ No schema files found'));
     return [];
   }
 
-  return checkbox({
+  const selected = await checkbox({
     message: 'Select schemas to process',
     choices: schemas.map((schema) => ({
       name: schema,
@@ -37,6 +35,19 @@ async function getSchemaSelection() {
       checked: false,
     })),
   });
+
+  // Validate dependencies
+  const missingDeps = validateDependencies(selected);
+  if (missingDeps.length > 0) {
+    console.error(chalk.red('\n❌ Missing dependencies:'));
+    missingDeps.forEach(({ schema, dependencies }) => {
+      console.error(chalk.red(`  ${schema} requires: ${dependencies.join(', ')}`));
+    });
+    process.exit(1);
+  }
+
+  // Sort based on dependencies
+  return getSortedSchemas(selected);
 }
 
 async function generateMigrations() {

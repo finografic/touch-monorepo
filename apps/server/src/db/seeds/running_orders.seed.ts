@@ -1,6 +1,13 @@
 import { db } from '../db.adapter';
 import { eq } from 'drizzle-orm';
-import { running_orders, elements, beverage_configs } from '../schemas';
+import {
+  running_orders,
+  elements,
+  beverage_configs,
+  beverage_types,
+  container_types,
+  volumes,
+} from '../schemas';
 
 export async function seed() {
   console.log('Seeding running_orders...');
@@ -18,8 +25,23 @@ export async function seed() {
     const [element5] = await db.select().from(elements).where(eq(elements.elementNumber, 5));
     const [element10] = await db.select().from(elements).where(eq(elements.elementNumber, 10));
 
-    // Get a beer config (33cl can)
-    const [beerConfig] = await db.select().from(beverage_configs).limit(1); // We'll take the first config (33cl beer can)
+    // Get a beer config (33cl plastic)
+    const [beer] = await db.select().from(beverage_types).where(eq(beverage_types.name, 'cerveza'));
+    const [plastic] = await db.select().from(container_types).where(eq(container_types.name, 'plastico'));
+    const [vol33cl] = await db.select().from(volumes).where(eq(volumes.name, '33cl'));
+
+    if (!beer || !plastic || !vol33cl) {
+      throw new Error('Required beverage config reference data not found');
+    }
+
+    const [beerConfig] = await db
+      .select()
+      .from(beverage_configs)
+      .where(
+        eq(beverage_configs.beverageTypeId, beer.id) &&
+          eq(beverage_configs.containerTypeId, plastic.id) &&
+          eq(beverage_configs.volumeId, vol33cl.id),
+      );
 
     if (!element1 || !element5 || !element10 || !beerConfig) {
       throw new Error('Required reference data not found');
