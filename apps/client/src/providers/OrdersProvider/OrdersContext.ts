@@ -26,7 +26,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
         set({
           orders: !draftOrder
             ? [...orders, { ...INITIAL_ORDER_ITEM, itemNumber, isSelected: true }]
-            : [...orders],
+            : [...orders].filter((order) => order.itemNumber !== itemNumber),
         });
       },
       selectAllPads: () => {
