@@ -34,7 +34,7 @@ importers:
         version: 0.36.4(@types/better-sqlite3@7.6.13)(@types/react@18.3.20)(better-sqlite3@9.6.0)(kysely@0.27.6)(react@18.3.1)
       drizzle-zod:
         specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.36.4(@types/better-sqlite3@7.6.13)(@types/react@18.3.20)(better-sqlite3@9.6.0)(kysely@0.27.6)(react@18.3.1))(zod@3.24.2)
+        version: 0.5.1(drizzle-orm@0.36.4(@types/better-sqlite3@7.6.13)(@types/react@18.3.20)(better-sqlite3@9.6.0)(kysely@0.27.6))(zod@3.24.2)
       lodash:
         specifier: 4.17.21
         version: 4.17.21
@@ -351,7 +351,7 @@ importers:
         version: 0.36.4(@types/better-sqlite3@7.6.13)(@types/react@18.3.20)(better-sqlite3@9.6.0)(kysely@0.27.6)(react@18.3.1)
       drizzle-zod:
         specifier: ^0.5.1
-        version: 0.5.1(drizzle-orm@0.36.4(@types/better-sqlite3@7.6.13)(@types/react@18.3.20)(better-sqlite3@9.6.0)(kysely@0.27.6)(react@18.3.1))(zod@3.24.2)
+        version: 0.5.1(drizzle-orm@0.36.4(@types/better-sqlite3@7.6.13)(@types/react@18.3.20)(better-sqlite3@9.6.0)(kysely@0.27.6))(zod@3.24.2)
       hono:
         specifier: 4.6.10
         version: 4.6.10
@@ -11834,7 +11834,7 @@ snapshots:
       kysely: 0.27.6
       react: 18.3.1
 
-  drizzle-zod@0.5.1(drizzle-orm@0.36.4(@types/better-sqlite3@7.6.13)(@types/react@18.3.20)(better-sqlite3@9.6.0)(kysely@0.27.6)(react@18.3.1))(zod@3.24.2):
+  drizzle-zod@0.5.1(drizzle-orm@0.36.4(@types/better-sqlite3@7.6.13)(@types/react@18.3.20)(better-sqlite3@9.6.0)(kysely@0.27.6))(zod@3.24.2):
     dependencies:
       drizzle-orm: 0.36.4(@types/better-sqlite3@7.6.13)(@types/react@18.3.20)(better-sqlite3@9.6.0)(kysely@0.27.6)(react@18.3.1)
       zod: 3.24.2
