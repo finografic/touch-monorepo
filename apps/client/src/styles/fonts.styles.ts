@@ -1,0 +1,27 @@
+import { css } from '@emotion/react';
+import { colors } from './colors.styles';
+import { twFontFamily, twFontSmoothing, twFontWeight } from './tailwind/tailwind.constants';
+
+export const cssFontDefaults = css`
+  font-family: ${twFontFamily.sans};
+  ${css(twFontSmoothing.antialiased)}
+  font-feature-settings: 'kern' 1;
+  font-kerning: normal;
+`;
+
+export const cssFontMono = css`
+  font-family: ${twFontFamily.mono};
+  ${css(twFontSmoothing.antialiased)}
+`;
+
+export const cssLabels = css`
+  display: inline-block;
+  font-weight: ${twFontWeight.bold};
+  letter-spacing: 0;
+  color: ${colors.primaryDark};
+  margin: 0.5em 0.5em 0.7em 0.1em;
+  span {
+    // NOTE: REMOVED: - 2024-04-14
+    /* opacity: 0.66; */
+  }
+`;

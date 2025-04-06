@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from './colors.styles';
+import { twLayout } from './tailwind/tailwind.constants';
 
 export const border = css`
   border-color: ${colors.greyXLight};
@@ -9,27 +10,12 @@ export const border = css`
 
 // LAYOUT VARIABLES
 export const layout = {
-  fontSize: '16px',
-  padding: '16px',
-  borderWidth: '2px',
-  borderRadius: '15px',
+  fontSize: twLayout.fontSize,
+  padding: twLayout.padding,
+  borderWidth: twLayout.borderWidth,
+  borderRadius: twLayout.borderRadius,
   pageColor: colors.white,
   bgColor: colors.white,
-  pageHeader: {
-    height: '180px',
-  },
-  footer: {
-    height: '50px',
-  },
-  sidebar: {
-    width: '300px',
-  },
-  navbar: {
-    height: '41px',
-  },
-  imagePreview: {
-    height: '300px',
-  },
 } as const;
 
 export const spacing = {

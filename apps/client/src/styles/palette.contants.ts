@@ -1,6 +1,5 @@
 import { ShadeKey, ShadeSuffix } from './colors.types';
 import { ColorBaseName } from './palette.types';
-import { ConstEnumOf } from 'types';
 
 export const BASE_COLORS: Record<ColorBaseName, ColorBaseName> = {
   primary: 'primary',

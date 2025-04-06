@@ -6,6 +6,7 @@ import 'sanitize.css/forms.css';
 import { css } from '@emotion/react';
 import { colors } from './colors.styles';
 import { cssLayout } from './layout.styles';
+import { cssFontDefaults } from './fonts.styles';
 import { generateColorVariables } from './utils/custom.variables';
 
 export const cssGlobal = css`
@@ -19,6 +20,12 @@ export const cssGlobal = css`
     box-sizing: border-box;
     /* Custom color palette */
     ${generateColorVariables({ colors })}
+  }
+
+  html,
+  body,
+  * {
+    ${cssFontDefaults}
   }
 
   ${cssLayout}
