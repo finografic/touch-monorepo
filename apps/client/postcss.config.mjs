@@ -1,4 +1,4 @@
-// import tailwindcss from '@tailwindcss/vite/postcss';
+import tailwindcss from '@tailwindcss/vite/postcss';
 import autoprefixer from 'autoprefixer';
 import postcssImport from 'postcss-import';
 import nesting from 'postcss-nesting';
@@ -9,8 +9,8 @@ export default {
   plugins: {
     'postcss-import': {},
     'postcss-radix-colors': radixColors(),
-    // 'tailwindcss/nesting': {},
-    // tailwindcss: {},
+    'tailwindcss/nesting': {},
+    'tailwindcss': {},
     'autoprefixer': {},
     ...(process.env.NODE_ENV === 'production'
       ? {

@@ -1,6 +1,7 @@
 import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv, type UserConfig } from 'vite';
 import TurboConsole from 'unplugin-turbo-console/vite';
+import tailwindcss from '@tailwindcss/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { logApiURL } from './src/utils/vite.utils';
 import { envShared } from '@fino/config/envShared';
@@ -28,6 +29,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
           plugins: ['@emotion/babel-plugin'],
         },
       }),
+      tailwindcss(),
       TurboConsole(),
     ],
     base: './',
@@ -84,7 +86,10 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       host: 'localhost',
     },
     optimizeDeps: {
-      include: ['@fino/config', '@fino/globals'],
+      include: ['react/jsx-runtime', '@fino/config', '@fino/globals'],
+      esbuildOptions: {
+        target: 'es2020',
+      },
     },
   };
 });
