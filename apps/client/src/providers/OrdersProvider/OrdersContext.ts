@@ -12,6 +12,7 @@ export enum OrdersKeys {
 
 export const defaultValue: OrdersValues = {
   activePads: {
+    1: false,
     2: false,
     3: false,
     4: false,
@@ -19,7 +20,6 @@ export const defaultValue: OrdersValues = {
     6: false,
     7: false,
     8: false,
-    9: false,
   },
   orders: {},
 };
@@ -30,6 +30,30 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, defaultValue }),
+      togglePad: (padNumber: number) => {
+        const { activePads } = get();
+        set({
+          activePads: {
+            ...activePads,
+            [padNumber]: !activePads[padNumber],
+          },
+        });
+      },
+      selectAllPads: () => {
+        set({
+          activePads: {
+            ...defaultValue.activePads,
+            1: true,
+            2: true,
+            3: true,
+            4: true,
+            5: true,
+            6: true,
+            7: true,
+            8: true,
+          },
+        });
+      },
       handleNextStep: () => {
         const { activePads, orders } = get();
         const newOrders = { ...orders };

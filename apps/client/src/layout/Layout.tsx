@@ -2,6 +2,7 @@ import { Outlet } from 'react-router-dom';
 import { styles } from './Layout.styles';
 import { OrdersProvider } from '../providers/OrdersProvider';
 import { PaginationProvider } from '../providers/PaginationProvider/PaginationProvider';
+import { Footer } from '../components/Footer';
 
 export const Layout = () => {
   return (
@@ -10,6 +11,7 @@ export const Layout = () => {
         <div css={styles}>
           <main>
             <Outlet />
+            <Footer />
           </main>
         </div>
       </PaginationProvider>

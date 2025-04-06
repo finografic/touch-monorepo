@@ -2,40 +2,13 @@ import { styles } from './MenuPage.styles';
 import { Col, Row } from 'react-grid-system';
 import { useOrders } from '../../providers/OrdersProvider';
 import { useNavigate } from 'react-router-dom';
-import { usePagination } from '../../providers/PaginationProvider/PaginationContext';
+import { Pad } from '../../components/Pad';
 
 export function MenuPage() {
-  const { activePads, setActivePads, handleNextStep } = useOrders();
-  const { setPageCurrent } = usePagination();
+  const { activePads, selectAllPads } = useOrders();
   const navigate = useNavigate();
 
   const hasSelectedPads = Object.values(activePads).some((isActive) => isActive);
-
-  const handlePadToggle = (padNumber: number) => {
-    setActivePads({
-      ...activePads,
-      [padNumber]: !activePads[padNumber],
-    });
-  };
-
-  const handleSelectAll = () => {
-    setActivePads({
-      2: true,
-      3: true,
-      4: true,
-      5: true,
-      6: true,
-      7: true,
-      8: true,
-      9: true,
-    });
-  };
-
-  const onNext = () => {
-    handleNextStep();
-    setPageCurrent(1);
-    navigate('/beverage-type');
-  };
 
   return (
     <div css={styles}>
@@ -45,18 +18,18 @@ export function MenuPage() {
             <div className="menu-grid-left">
               {/* First row */}
               <div className="pad first" />
-              <div className={`pad ${activePads[2] ? 'active' : ''}`} onClick={() => handlePadToggle(2)} />
-              <div className={`pad ${activePads[3] ? 'active' : ''}`} onClick={() => handlePadToggle(3)} />
+              <Pad number={1} />
+              <Pad number={2} />
 
               {/* Second row */}
-              <div className={`pad ${activePads[4] ? 'active' : ''}`} onClick={() => handlePadToggle(4)} />
-              <div className={`pad ${activePads[5] ? 'active' : ''}`} onClick={() => handlePadToggle(5)} />
-              <div className={`pad ${activePads[6] ? 'active' : ''}`} onClick={() => handlePadToggle(6)} />
+              <Pad number={3} />
+              <Pad number={4} />
+              <Pad number={5} />
 
               {/* Third row */}
-              <div className={`pad ${activePads[7] ? 'active' : ''}`} onClick={() => handlePadToggle(7)} />
-              <div className={`pad ${activePads[8] ? 'active' : ''}`} onClick={() => handlePadToggle(8)} />
-              <div className={`pad ${activePads[9] ? 'active' : ''}`} onClick={() => handlePadToggle(9)} />
+              <Pad number={6} />
+              <Pad number={7} />
+              <Pad number={8} />
             </div>
           </Col>
 
@@ -68,16 +41,6 @@ export function MenuPage() {
           </Col>
         </Row>
       </section>
-
-      <div className="controls">
-        <button className="control-btn" onClick={handleSelectAll}>
-          ALL
-        </button>
-        <button className="control-btn">« Back</button>
-        <button className="control-btn" onClick={onNext} disabled={!hasSelectedPads}>
-          Next »
-        </button>
-      </div>
     </div>
   );
 }

@@ -56,5 +56,8 @@ export const styles = css`
   main {
     flex: 1;
     padding: 2rem 0;
+    /* width: 66vw;
+    height: 66vh; */
+    border: 1px solid white;
   }
 `;

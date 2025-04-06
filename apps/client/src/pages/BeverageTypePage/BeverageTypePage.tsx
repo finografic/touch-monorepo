@@ -2,29 +2,60 @@ import { useOrders } from '../../providers/OrdersProvider';
 import { usePagination } from '../../providers/PaginationProvider/PaginationContext';
 import { useNavigate } from 'react-router-dom';
 import { styles } from './BeverageTypePage.styles';
+import { useState } from 'react';
+
+const BEVERAGE_TYPES = [
+  { id: 'vino', name: 'Vino' },
+  { id: 'licor', name: 'Licor' },
+  { id: 'cava', name: 'Cava' },
+  { id: 'zumo', name: 'Zumo' },
+  { id: 'cerveza', name: 'Cerveza' },
+  { id: 'agua', name: 'Agua' },
+  { id: 'refresco', name: 'Refresco' },
+] as const;
 
 export function BeverageTypePage() {
   const { orders } = useOrders();
   const { setPageCurrent } = usePagination();
   const navigate = useNavigate();
+  const [selectedType, setSelectedType] = useState<string | null>(null);
 
   const handleBack = () => {
     setPageCurrent(0);
     navigate('/');
   };
 
+  const handleNext = () => {
+    if (selectedType) {
+      setPageCurrent(2);
+      navigate('/beverage-subtype');
+    }
+  };
+
   return (
     <div css={styles}>
-      <h2>Select Beverage Type</h2>
+      <h2>Select drink type:</h2>
       <div className="selected-pads">Selected pads: {Object.keys(orders).join(', ')}</div>
 
-      {/* We'll add the beverage type selection UI here */}
+      <div className="beverage-grid">
+        {BEVERAGE_TYPES.map(({ id, name }) => (
+          <div
+            key={id}
+            className={`beverage-type ${id} ${selectedType === id ? 'selected' : ''}`}
+            onClick={() => setSelectedType(id)}
+          >
+            {name}
+          </div>
+        ))}
+      </div>
 
       <div className="controls">
         <button className="control-btn" onClick={handleBack}>
           « Back
         </button>
-        <button className="control-btn">Next »</button>
+        <button className="control-btn" onClick={handleNext} disabled={!selectedType}>
+          Next »
+        </button>
       </div>
     </div>
   );

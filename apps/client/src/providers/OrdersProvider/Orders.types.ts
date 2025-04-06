@@ -36,6 +36,8 @@ type OrdersSetters = {
 };
 
 type OrdersActions = OrdersSetters & {
+  togglePad: (padNumber: number) => void;
+  selectAllPads: () => void;
   handleNextStep: () => void;
 };
 
