@@ -75,7 +75,9 @@ async function cleanAll({ dryRun = false, verbose = false, recursive = false }: 
   const packageScope = getPackageScope();
   const baseDir = packageScope ? path.join(WORKSPACE_ROOT, packageScope) : WORKSPACE_ROOT;
 
-  console.log(chalk.blue('\nCleaning', packageScope || 'workspace root', recursive ? '(recursive)' : ''));
+  console.log(
+    chalk.yellow('\nCleaning', packageScope || `${('workspace root', recursive ? 'recursively' : '')}...`),
+  );
   if (dryRun) console.log(chalk.yellow('DRY RUN - no files will be deleted\n'));
 
   let totalPaths = 0;

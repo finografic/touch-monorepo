@@ -492,6 +492,9 @@ importers:
       '@touch/scripts':
         specifier: workspace:*
         version: link:../../scripts
+      tsx:
+        specifier: 4.19.2
+        version: 4.19.2
 
   packages/shared:
     devDependencies:
@@ -1523,17 +1526,6 @@ packages:
       eslint-plugin-format: '>=0.1.0'
       eslint-plugin-react-hooks: ^5.0.0
       eslint-plugin-react-refresh: ^0.4.4
-    peerDependenciesMeta:
-      '@eslint-react/eslint-plugin':
-        optional: true
-      '@unocss/eslint-plugin':
-        optional: true
-      eslint-plugin-format:
-        optional: true
-      eslint-plugin-react-hooks:
-        optional: true
-      eslint-plugin-react-refresh:
-        optional: true
 
   '@floating-ui/core@1.6.9':
     resolution: {integrity: sha512-uMXCuQ3BItDUbAMhIXw7UPXRfAlOAvZzdK9BWpE60MCn+Svt3aLn9jsPTi/WNGlRUu2uI0v5S7JiIUsbsvh3fw==}
@@ -8955,7 +8947,6 @@ snapshots:
       - eslint
       - supports-color
       - typescript
-    optional: true
 
   '@eslint-react/core@1.40.3(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -8975,10 +8966,8 @@ snapshots:
       - eslint
       - supports-color
       - typescript
-    optional: true
 
-  '@eslint-react/eff@1.40.3':
-    optional: true
+  '@eslint-react/eff@1.40.3': {}
 
   '@eslint-react/eslint-plugin@1.40.3(eslint@9.16.0(jiti@2.4.2))(ts-api-utils@2.1.0(typescript@5.8.3))(typescript@5.8.3)':
     dependencies:
@@ -9001,7 +8990,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
       - ts-api-utils
-    optional: true
 
   '@eslint-react/jsx@1.40.3(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -9016,7 +9004,6 @@ snapshots:
       - eslint
       - supports-color
       - typescript
-    optional: true
 
   '@eslint-react/kit@1.40.3(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -9028,7 +9015,6 @@ snapshots:
       - eslint
       - supports-color
       - typescript
-    optional: true
 
   '@eslint-react/shared@1.40.3(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -9042,7 +9028,6 @@ snapshots:
       - eslint
       - supports-color
       - typescript
-    optional: true
 
   '@eslint-react/var@1.40.3(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -9057,7 +9042,6 @@ snapshots:
       - eslint
       - supports-color
       - typescript
-    optional: true
 
   '@eslint/compat@1.2.8(eslint@9.16.0(jiti@2.4.2))':
     optionalDependencies:
@@ -9123,6 +9107,7 @@ snapshots:
       '@dotenvx/dotenvx': 1.39.0
       '@emotion/eslint-plugin': 11.12.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)
       '@eslint-community/eslint-plugin-eslint-comments': 4.4.1(eslint@9.16.0(jiti@2.4.2))
+      '@eslint-react/eslint-plugin': 1.40.3(eslint@9.16.0(jiti@2.4.2))(ts-api-utils@2.1.0(typescript@5.8.3))(typescript@5.8.3)
       '@eslint/markdown': 6.3.0
       '@inquirer/checkbox': 4.1.4(@types/node@22.14.0)
       '@inquirer/confirm': 5.1.8(@types/node@22.14.0)
@@ -9135,11 +9120,13 @@ snapshots:
       '@typescript-eslint/eslint-plugin': 8.29.0(@typescript-eslint/parser@8.29.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)
       '@typescript-eslint/parser': 8.29.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)
       '@typescript-eslint/utils': 8.29.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)
+      '@unocss/eslint-plugin': 66.0.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)
       '@vitest/eslint-plugin': 1.1.39(@typescript-eslint/utils@8.29.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)(vitest@2.1.6(@types/node@22.14.0)(jiti@2.4.2)(lightningcss@1.29.3)(tsx@4.19.2)(yaml@2.7.1))
       eslint-config-flat-gitignore: 2.1.0(eslint@9.16.0(jiti@2.4.2))
       eslint-flat-config-utils: 2.0.1
       eslint-merge-processors: 2.0.0(eslint@9.16.0(jiti@2.4.2))
       eslint-plugin-command: 3.2.0(eslint@9.16.0(jiti@2.4.2))
+      eslint-plugin-format: 0.1.3(eslint@9.16.0(jiti@2.4.2))
       eslint-plugin-import: 2.31.0(@typescript-eslint/parser@8.29.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3))(eslint@9.16.0(jiti@2.4.2))
       eslint-plugin-import-x: 4.10.1(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)
       eslint-plugin-jsdoc: 50.6.9(eslint@9.16.0(jiti@2.4.2))
@@ -9149,6 +9136,8 @@ snapshots:
       eslint-plugin-no-only-tests: 3.3.0
       eslint-plugin-perfectionist: 4.11.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)
       eslint-plugin-react: 7.37.5(eslint@9.16.0(jiti@2.4.2))
+      eslint-plugin-react-hooks: 5.2.0(eslint@9.16.0(jiti@2.4.2))
+      eslint-plugin-react-refresh: 0.4.19(eslint@9.16.0(jiti@2.4.2))
       eslint-plugin-regexp: 2.7.0(eslint@9.16.0(jiti@2.4.2))
       eslint-plugin-toml: 0.12.0(eslint@9.16.0(jiti@2.4.2))
       eslint-plugin-unicorn: 58.0.0(eslint@9.16.0(jiti@2.4.2))
@@ -9162,12 +9151,6 @@ snapshots:
       toml-eslint-parser: 0.10.0
       yaml-eslint-parser: 1.3.0
       yargs: 17.7.2
-    optionalDependencies:
-      '@eslint-react/eslint-plugin': 1.40.3(eslint@9.16.0(jiti@2.4.2))(ts-api-utils@2.1.0(typescript@5.8.3))(typescript@5.8.3)
-      '@unocss/eslint-plugin': 66.0.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)
-      eslint-plugin-format: 0.1.3(eslint@9.16.0(jiti@2.4.2))
-      eslint-plugin-react-hooks: 5.2.0(eslint@9.16.0(jiti@2.4.2))
-      eslint-plugin-react-refresh: 0.4.19(eslint@9.16.0(jiti@2.4.2))
     transitivePeerDependencies:
       - '@eslint/json'
       - '@types/node'
@@ -11178,10 +11161,8 @@ snapshots:
     dependencies:
       '@unocss/core': 66.0.0
       unconfig: 7.0.0
-    optional: true
 
-  '@unocss/core@66.0.0':
-    optional: true
+  '@unocss/core@66.0.0': {}
 
   '@unocss/eslint-plugin@66.0.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -11195,13 +11176,11 @@ snapshots:
       - eslint
       - supports-color
       - typescript
-    optional: true
 
   '@unocss/rule-utils@66.0.0':
     dependencies:
       '@unocss/core': 66.0.0
       magic-string: 0.30.17
-    optional: true
 
   '@unrs/resolver-binding-darwin-arm64@1.3.3':
     optional: true
@@ -11546,8 +11525,7 @@ snapshots:
     dependencies:
       file-uri-to-path: 1.0.0
 
-  birecord@0.1.1:
-    optional: true
+  birecord@0.1.1: {}
 
   bl@4.1.0:
     dependencies:
@@ -11784,8 +11762,7 @@ snapshots:
 
   comment-parser@1.4.1: {}
 
-  compare-versions@6.1.1:
-    optional: true
+  compare-versions@6.1.1: {}
 
   concat-map@0.0.1: {}
 
@@ -12864,7 +12841,6 @@ snapshots:
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   eslint-plugin-react-dom@1.40.3(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3):
     dependencies:
@@ -12886,7 +12862,6 @@ snapshots:
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   eslint-plugin-react-hooks-extra@1.40.3(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3):
     dependencies:
@@ -12908,7 +12883,6 @@ snapshots:
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   eslint-plugin-react-hooks@5.2.0(eslint@9.16.0(jiti@2.4.2)):
     dependencies:
@@ -12934,12 +12908,10 @@ snapshots:
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   eslint-plugin-react-refresh@0.4.19(eslint@9.16.0(jiti@2.4.2)):
     dependencies:
       eslint: 9.16.0(jiti@2.4.2)
-    optional: true
 
   eslint-plugin-react-web-api@1.40.3(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3):
     dependencies:
@@ -12960,7 +12932,6 @@ snapshots:
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   eslint-plugin-react-x@1.40.3(eslint@9.16.0(jiti@2.4.2))(ts-api-utils@2.1.0(typescript@5.8.3))(typescript@5.8.3):
     dependencies:
@@ -12985,7 +12956,6 @@ snapshots:
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   eslint-plugin-react@7.37.5(eslint@9.16.0(jiti@2.4.2)):
     dependencies:
@@ -13705,7 +13675,6 @@ snapshots:
       typescript: 5.8.3
     transitivePeerDependencies:
       - supports-color
-    optional: true
 
   is-interactive@2.0.0: {}
 
@@ -15624,8 +15593,7 @@ snapshots:
 
   string-argv@0.3.2: {}
 
-  string-ts@2.2.1:
-    optional: true
+  string-ts@2.2.1: {}
 
   string-width@4.2.3:
     dependencies:
@@ -15894,14 +15862,12 @@ snapshots:
     dependencies:
       picomatch: 4.0.2
       typescript: 5.8.3
-    optional: true
 
   ts-dedent@2.2.0: {}
 
   ts-interface-checker@0.1.13: {}
 
-  ts-pattern@5.7.0:
-    optional: true
+  ts-pattern@5.7.0: {}
 
   ts-toolbelt@9.6.0: {}
 
@@ -16065,7 +16031,6 @@ snapshots:
       '@antfu/utils': 8.1.1
       defu: 6.1.4
       jiti: 2.4.2
-    optional: true
 
   uncrypto@0.1.3: {}
 
@@ -16195,7 +16160,6 @@ snapshots:
   valibot@1.0.0(typescript@5.8.3):
     optionalDependencies:
       typescript: 5.8.3
-    optional: true
 
   validate-npm-package-license@3.0.4:
     dependencies:
