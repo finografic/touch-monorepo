@@ -40,13 +40,13 @@ async function getSchemaSelection() {
 }
 
 async function generateMigrations() {
-  execSync('pnpm --filter @touch/server db:migrations:generate', {
+  execSync('pnpm --filter @touch/server db.migrations.generate', {
     stdio: 'inherit',
   });
 }
 
 async function runMigrations() {
-  execSync('pnpm --filter @touch/server db:migrations:run', {
+  execSync('pnpm --filter @touch/server db.migrations.run', {
     stdio: 'inherit',
   });
 }
@@ -59,7 +59,7 @@ async function seedData(schemas: string[]) {
       const seedName = schema.startsWith('auth_') ? schema.replace('auth_', '') : schema;
 
       // Use the working command that runs from the server context
-      execSync(`pnpm --filter @touch/server db:migrations:seed ${seedName}`, {
+      execSync(`pnpm --filter @touch/server db.migrations.seed ${seedName}`, {
         stdio: 'inherit',
       });
 

@@ -5,6 +5,8 @@ import chalk from 'chalk';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
 import { env } from '../../env.server';
+import { paths } from '@fino/config/paths';
+import path from 'path';
 
 interface TableInfo {
   name: string;
@@ -15,6 +17,9 @@ async function main() {
 
   const sqlite = new Database(env.DB_PATH);
   const db = drizzle(sqlite);
+
+  // Get project root path (3 levels up from this file)
+  // const projectRoot = path.resolve(__dirname, '../../../..');
 
   // Check if tables exist
   const result = db.$client
@@ -43,7 +48,7 @@ async function main() {
   // Run migrations
   console.log('Running migrations...');
   await migrate(db, {
-    migrationsFolder: 'data/migrations',
+    migrationsFolder: path.join(paths.data.dir, 'migrations'),
   });
 
   console.log('✅ Migrations completed successfully!');
