@@ -2,6 +2,7 @@ import { Container } from 'react-grid-system';
 import { styles } from './Header.styles';
 
 export const Header = () => {
+  //
   return (
     <header css={styles}>
       <Container>
