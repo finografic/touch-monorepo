@@ -13,7 +13,6 @@ type OrdersSetters = {
 type OrdersActions = OrdersSetters & {
   togglePad: (itemNumber: number) => void;
   selectAllPads: () => void;
-  handleNextStep: () => void;
 };
 
 export type OrdersProviderProps = {

@@ -30,36 +30,15 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
         });
       },
       selectAllPads: () => {
-        // set({
-        //   activePads: {
-        //     ...defaultValue.activePads,
-        //     1: true,
-        //     2: true,
-        //     3: true,
-        //     4: true,
-        //     5: true,
-        //     6: true,
-        //     7: true,
-        //     8: true,
-        //   },
-        // });
-      },
-      handleNextStep: () => {
-        const { orders } = get();
-        const draftOrders = { ...orders };
-
-        // Object.entries(activePads).forEach(([itemNumber, isActive]) => {
-        //   if (isActive) {
-        //     const padNum = parseInt(itemNumber);
-        //     if (!newOrders[padNum]) {
-        //       newOrders[padNum] = {
-        //         itemNumber: padNum,
-        //       };
-        //     }
-        //   }
-        // });
-
-        // set({ orders: newOrders });
+        const newOrders = [];
+        for (let i = 1; i <= 8; i++) {
+          newOrders.push({
+            ...INITIAL_ORDER_ITEM,
+            itemNumber: i,
+            isSelected: true,
+          });
+        }
+        set({ orders: newOrders });
       },
     },
   }));

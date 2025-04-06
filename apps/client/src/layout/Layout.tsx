@@ -10,7 +10,9 @@ export const Layout = () => {
       <PaginationProvider>
         <div css={styles}>
           <main>
-            <Outlet />
+            <div className="main-content">
+              <Outlet />
+            </div>
             <Footer />
           </main>
         </div>

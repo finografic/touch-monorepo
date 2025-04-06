@@ -56,8 +56,14 @@ export const styles = css`
   main {
     flex: 1;
     padding: 2rem 0;
-    /* width: 66vw;
-    height: 66vh; */
-    border: 1px solid white;
+    width: 100vw;
+    height: 100vh;
+    /* background-color: rgba(150, 150, 150, 0.15); */
+
+    div.main-content {
+      border: 1px solid white;
+      /* width: 66vw;
+      height: 66vh; */
+    }
   }
 `;
