@@ -44,9 +44,9 @@ const insertBeverageConfigSchema = createInsertSchema(beverage_configs, {
   defaultConsumptionTemp: (schema) => schema.defaultConsumptionTemp.min(-10).max(30),
   minConsumptionTemp: (schema) => schema.minConsumptionTemp.min(-10).max(30),
   maxConsumptionTemp: (schema) => schema.maxConsumptionTemp.min(-10).max(30),
-  timeTableId1: (schema) => schema.timeTableId1.min(1).max(9999),
-  timeTableId2: (schema) => schema.timeTableId2.min(1).max(9999),
-  timeTableId3: (schema) => schema.timeTableId3.min(1).max(9999),
+  timeTableId1: (schema) => schema.timeTableId1.length(4).regex(/^\d{4}$/),
+  timeTableId2: (schema) => schema.timeTableId2.length(4).regex(/^\d{4}$/),
+  timeTableId3: (schema) => schema.timeTableId3.length(4).regex(/^\d{4}$/),
 })
   .required({
     beverageTypeId: true,

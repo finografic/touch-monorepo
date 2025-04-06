@@ -18,9 +18,13 @@ export const seedOrder: SeedConfig[] = [
     description: 'Available volumes (33cl, 50cl, etc)',
   },
   {
+    name: 'temperature_tables',
+    description: 'Temperature-time cooling tables',
+  },
+  {
     name: 'beverage_configs',
     description: 'Beverage configurations',
-    dependencies: ['beverage_types', 'container_types', 'volumes'],
+    dependencies: ['beverage_types', 'container_types', 'volumes', 'temperature_tables'],
   },
   {
     name: 'elements',

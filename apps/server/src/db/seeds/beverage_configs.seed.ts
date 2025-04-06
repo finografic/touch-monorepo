@@ -13,65 +13,65 @@ export async function seed() {
       return;
     }
 
-    // Get references to existing data
-    const [beer] = await db.select().from(beverage_types).where(eq(beverage_types.name, 'cerveza'));
-    const [plastic] = await db.select().from(container_types).where(eq(container_types.name, 'plastico'));
-    const [glass] = await db.select().from(container_types).where(eq(container_types.name, 'vidrio'));
-    const [metal] = await db.select().from(container_types).where(eq(container_types.name, 'metal'));
+    // Get all required references
+    const [beerType] = await db.select().from(beverage_types).where(eq(beverage_types.name, 'cerveza'));
+    const [plasticType] = await db.select().from(container_types).where(eq(container_types.name, 'plastico'));
+    const [glassType] = await db.select().from(container_types).where(eq(container_types.name, 'vidrio'));
+    const [metalType] = await db.select().from(container_types).where(eq(container_types.name, 'metal'));
     const [vol33cl] = await db.select().from(volumes).where(eq(volumes.name, '33cl'));
     const [vol50cl] = await db.select().from(volumes).where(eq(volumes.name, '50cl'));
     const [vol2L] = await db.select().from(volumes).where(eq(volumes.name, '2L'));
 
-    if (!beer || !plastic || !glass || !metal || !vol33cl || !vol50cl || !vol2L) {
+    if (!beerType || !plasticType || !glassType || !metalType || !vol33cl || !vol50cl || !vol2L) {
       throw new Error('Required reference data not found');
     }
 
-    // Insert common configurations
-    const insertedConfigs = await db.insert(beverage_configs).values([
+    // Insert beverage configs
+    await db.insert(beverage_configs).values([
       // Beer in 33cl plastic
       {
-        beverageTypeId: beer.id,
-        containerTypeId: plastic.id,
+        beverageTypeId: beerType.id,
+        containerTypeId: plasticType.id,
         volumeId: vol33cl.id,
-        defaultConsumptionTemp: beer.defaultConsumptionTemp,
-        minConsumptionTemp: beer.defaultConsumptionTemp - 1,
-        maxConsumptionTemp: beer.defaultConsumptionTemp + 2,
-        timeTableId1: '1001', // Element 1
-        timeTableId2: '2001', // Elements 2-9
-        timeTableId3: '3001', // Element 10
+        defaultConsumptionTemp: beerType.defaultConsumptionTemp,
+        minConsumptionTemp: beerType.defaultConsumptionTemp - 1,
+        maxConsumptionTemp: beerType.defaultConsumptionTemp + 2,
+        timeTableId1: '1001',
+        timeTableId2: '2001',
+        timeTableId3: '3001',
       },
       // Beer in 50cl plastic
       {
-        beverageTypeId: beer.id,
-        containerTypeId: plastic.id,
+        beverageTypeId: beerType.id,
+        containerTypeId: plasticType.id,
         volumeId: vol50cl.id,
-        defaultConsumptionTemp: beer.defaultConsumptionTemp,
-        minConsumptionTemp: beer.defaultConsumptionTemp - 1,
-        maxConsumptionTemp: beer.defaultConsumptionTemp + 2,
+        defaultConsumptionTemp: beerType.defaultConsumptionTemp,
+        minConsumptionTemp: beerType.defaultConsumptionTemp - 1,
+        maxConsumptionTemp: beerType.defaultConsumptionTemp + 2,
         timeTableId1: '1001',
         timeTableId2: '2001',
         timeTableId3: '3001',
       },
       // Beer in 33cl glass
       {
-        beverageTypeId: beer.id,
-        containerTypeId: glass.id,
+        beverageTypeId: beerType.id,
+        containerTypeId: glassType.id,
         volumeId: vol33cl.id,
-        defaultConsumptionTemp: beer.defaultConsumptionTemp,
-        minConsumptionTemp: beer.defaultConsumptionTemp - 1,
-        maxConsumptionTemp: beer.defaultConsumptionTemp + 2,
+        defaultConsumptionTemp: beerType.defaultConsumptionTemp,
+        minConsumptionTemp: beerType.defaultConsumptionTemp - 1,
+        maxConsumptionTemp: beerType.defaultConsumptionTemp + 2,
         timeTableId1: '1001',
         timeTableId2: '2001',
         timeTableId3: '3001',
       },
       // Beer in 2L metal
       {
-        beverageTypeId: beer.id,
-        containerTypeId: metal.id,
+        beverageTypeId: beerType.id,
+        containerTypeId: metalType.id,
         volumeId: vol2L.id,
-        defaultConsumptionTemp: beer.defaultConsumptionTemp,
-        minConsumptionTemp: beer.defaultConsumptionTemp - 1,
-        maxConsumptionTemp: beer.defaultConsumptionTemp + 2,
+        defaultConsumptionTemp: beerType.defaultConsumptionTemp,
+        minConsumptionTemp: beerType.defaultConsumptionTemp - 1,
+        maxConsumptionTemp: beerType.defaultConsumptionTemp + 2,
         timeTableId1: '1001',
         timeTableId2: '2001',
         timeTableId3: '3001',
@@ -79,7 +79,6 @@ export async function seed() {
     ]);
 
     console.log('✅ Beverage configs seed completed successfully!');
-    return insertedConfigs;
   } catch (error) {
     console.error('❌ Error seeding beverage configs:', error);
     throw error;
