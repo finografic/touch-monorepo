@@ -12,7 +12,8 @@ function isValidSchema(schema: string): boolean {
   return Object.keys(schemas).some(
     (key) =>
       key.toLowerCase() === `${schema}Schema` || // matches postSchema
-      key.toLowerCase() === schema, // matches posts
+      key.toLowerCase() === schema || // matches posts
+      key.toLowerCase() === schema.replace(/-/g, '_'), // matches snake_case
   );
 }
 
@@ -23,8 +24,7 @@ async function seedSchema(schema: string) {
       console.error(`❌ Invalid schema name: ${schema}`);
       console.log(
         `Available schemas: ${Object.keys(schemas)
-          .filter((key) => key.endsWith('Schema'))
-          .map((key) => key.replace('Schema', '').toLowerCase())
+          .filter((key) => !key.endsWith('Schema'))
           .join(', ')}`,
       );
       process.exit(1);

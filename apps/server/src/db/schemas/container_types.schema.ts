@@ -2,7 +2,7 @@ import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 
-export const containerTypes = sqliteTable('container_types', {
+export const container_types = sqliteTable('container_types', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createCuid()),
@@ -18,7 +18,7 @@ export const containerTypes = sqliteTable('container_types', {
 });
 
 // Zod schema for validation
-const insertContainerTypeSchema = createInsertSchema(containerTypes, {
+const insertContainerTypeSchema = createInsertSchema(container_types, {
   name: (schema) => schema.name.min(1).max(50),
   displayName: (schema) => schema.displayName.min(1).max(100),
   thermalConductivity: (schema) => schema.thermalConductivity.min(1).max(100), // Scale of 1-100
@@ -31,7 +31,7 @@ const insertContainerTypeSchema = createInsertSchema(containerTypes, {
   .omit({ id: true, createdAt: true, updatedAt: true });
 
 export const containerTypeSchemas = {
-  select: createSelectSchema(containerTypes),
+  select: createSelectSchema(container_types),
   insert: insertContainerTypeSchema,
   patch: insertContainerTypeSchema.partial(),
 } as const;

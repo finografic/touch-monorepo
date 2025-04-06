@@ -1,19 +1,19 @@
 import { db } from '../db.adapter';
-import { beverageTypes, beverageSubtypes } from '../schemas';
+import { beverage_types, beverage_subtypes } from '../schemas';
 
 export async function seed() {
   console.log('Seeding beverage_types...');
 
   try {
     // Check if beverage types already exist
-    const existing = await db.select().from(beverageTypes).limit(1);
+    const existing = await db.select().from(beverage_types).limit(1);
     if (existing.length > 0) {
       console.log('✓ Beverage types already seeded, skipping...');
       return;
     }
 
     // First insert the main types
-    const insertedTypes = await db.insert(beverageTypes).values([
+    const insertedTypes = await db.insert(beverage_types).values([
       {
         name: 'Cerveza',
         displayName: 'Cerveza',
@@ -66,13 +66,13 @@ export async function seed() {
     ]);
 
     // Get the beer type ID for subtypes
-    const beerType = await db.query.beverageTypes.findFirst({
+    const beerType = await db.query.beverage_types.findFirst({
       where: (types, { eq }) => eq(types.name, 'Cerveza'),
     });
 
     if (beerType) {
       // Add beer subtypes
-      await db.insert(beverageSubtypes).values([
+      await db.insert(beverage_subtypes).values([
         {
           beverageTypeId: beerType.id,
           name: 'Rubia',

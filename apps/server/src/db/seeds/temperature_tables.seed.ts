@@ -1,19 +1,19 @@
 import { db } from '../db.adapter';
-import { temperatureTables, temperatureTableEntries } from '../schemas';
+import { temperature_tables, temperature_table_entries } from '../schemas';
 
 export async function seed() {
   console.log('Seeding temperature_tables...');
 
   try {
     // Check if temperature tables already exist
-    const existing = await db.select().from(temperatureTables).limit(1);
+    const existing = await db.select().from(temperature_tables).limit(1);
     if (existing.length > 0) {
       console.log('✓ Temperature tables already seeded, skipping...');
       return;
     }
 
     // Insert the temperature tables
-    const insertedTables = await db.insert(temperatureTables).values([
+    const insertedTables = await db.insert(temperature_tables).values([
       {
         tableNumber: '1001',
         elementType: 1,
@@ -32,12 +32,12 @@ export async function seed() {
     ]);
 
     // Get all tables to reference their IDs
-    const tables = await db.select().from(temperatureTables);
+    const tables = await db.select().from(temperature_tables);
     const tableMap = new Map(tables.map((t) => [t.tableNumber, t.id]));
 
     // Insert entries for each table
     // Table 1001 (Element 1) - Slower cooling
-    await db.insert(temperatureTableEntries).values([
+    await db.insert(temperature_table_entries).values([
       {
         tableId: tableMap.get('1001')!,
         temperature: 30,
@@ -77,7 +77,7 @@ export async function seed() {
     ]);
 
     // Table 2001 (Elements 2-9) - Medium cooling
-    await db.insert(temperatureTableEntries).values([
+    await db.insert(temperature_table_entries).values([
       {
         tableId: tableMap.get('2001')!,
         temperature: 30,
@@ -117,7 +117,7 @@ export async function seed() {
     ]);
 
     // Table 3001 (Element 10) - Fast cooling
-    await db.insert(temperatureTableEntries).values([
+    await db.insert(temperature_table_entries).values([
       {
         tableId: tableMap.get('3001')!,
         temperature: 30,

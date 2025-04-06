@@ -3,7 +3,7 @@ import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 
 // Main table to store the temperature table metadata
-export const temperatureTables = sqliteTable('temperature_tables', {
+export const temperature_tables = sqliteTable('temperature_tables', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createCuid()),
@@ -19,14 +19,14 @@ export const temperatureTables = sqliteTable('temperature_tables', {
 });
 
 // Table entries storing the actual temperature-time relationships
-export const temperatureTableEntries = sqliteTable('temperature_table_entries', {
+export const temperature_table_entries = sqliteTable('temperature_table_entries', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createCuid()),
 
   tableId: text('table_id')
     .notNull()
-    .references(() => temperatureTables.id, { onDelete: 'cascade' }),
+    .references(() => temperature_tables.id, { onDelete: 'cascade' }),
 
   temperature: real('temperature').notNull(), // Temperature in Celsius
   timeMinutes: real('time_minutes').notNull(), // Time in minutes (allowing decimals for precision)
@@ -40,7 +40,7 @@ export const temperatureTableEntries = sqliteTable('temperature_table_entries', 
 });
 
 // Zod schemas for validation
-const insertTemperatureTableSchema = createInsertSchema(temperatureTables, {
+const insertTemperatureTableSchema = createInsertSchema(temperature_tables, {
   tableNumber: (schema) => schema.tableNumber.min(4).max(4), // Must be exactly 4 digits
   description: (schema) => schema.description.max(500),
   elementType: (schema) => schema.elementType.min(1).max(3), // Only 1, 2, or 3 are valid
@@ -51,7 +51,7 @@ const insertTemperatureTableSchema = createInsertSchema(temperatureTables, {
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 
-const insertTemperatureTableEntrySchema = createInsertSchema(temperatureTableEntries, {
+const insertTemperatureTableEntrySchema = createInsertSchema(temperature_table_entries, {
   temperature: (schema) => schema.temperature.min(-20).max(40), // Reasonable temperature range
   timeMinutes: (schema) => schema.timeMinutes.min(0).max(120), // Up to 2 hours
   sortOrder: (schema) => schema.sortOrder.min(0),
@@ -65,13 +65,13 @@ const insertTemperatureTableEntrySchema = createInsertSchema(temperatureTableEnt
   .omit({ id: true, createdAt: true, updatedAt: true });
 
 export const temperatureTableSchemas = {
-  select: createSelectSchema(temperatureTables),
+  select: createSelectSchema(temperature_tables),
   insert: insertTemperatureTableSchema,
   patch: insertTemperatureTableSchema.partial(),
 } as const;
 
 export const temperatureTableEntrySchemas = {
-  select: createSelectSchema(temperatureTableEntries),
+  select: createSelectSchema(temperature_table_entries),
   insert: insertTemperatureTableEntrySchema,
   patch: insertTemperatureTableEntrySchema.partial(),
 } as const;

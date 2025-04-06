@@ -1,13 +1,13 @@
 import { db } from '../db.adapter';
 import { eq } from 'drizzle-orm';
-import { runningOrders, elements, beverageConfigs } from '../schemas';
+import { running_orders, elements, beverage_configs } from '../schemas';
 
 export async function seed() {
   console.log('Seeding running_orders...');
 
   try {
     // Check if orders already exist
-    const existing = await db.select().from(runningOrders).limit(1);
+    const existing = await db.select().from(running_orders).limit(1);
     if (existing.length > 0) {
       console.log('✓ Running orders already seeded, skipping...');
       return;
@@ -19,7 +19,7 @@ export async function seed() {
     const [element10] = await db.select().from(elements).where(eq(elements.elementNumber, 10));
 
     // Get a beer config (33cl can)
-    const [beerConfig] = await db.select().from(beverageConfigs).limit(1); // We'll take the first config (33cl beer can)
+    const [beerConfig] = await db.select().from(beverage_configs).limit(1); // We'll take the first config (33cl beer can)
 
     if (!element1 || !element5 || !element10 || !beerConfig) {
       throw new Error('Required reference data not found');
@@ -27,7 +27,7 @@ export async function seed() {
 
     // Insert some example orders in different states
     const insertedOrders = await db
-      .insert(runningOrders)
+      .insert(running_orders)
       .values([
         // Completed order on element 1
         {

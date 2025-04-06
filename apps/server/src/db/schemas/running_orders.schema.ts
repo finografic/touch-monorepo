@@ -1,10 +1,10 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { beverageConfigs } from './beverage_configs.schema';
+import { beverage_configs } from './beverage_configs.schema';
 import { elements } from './elements.schema';
 
-export const runningOrders = sqliteTable('running_orders', {
+export const running_orders = sqliteTable('running_orders', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createCuid()),
@@ -15,7 +15,7 @@ export const runningOrders = sqliteTable('running_orders', {
     .references(() => elements.id),
   beverageConfigId: text('beverage_config_id')
     .notNull()
-    .references(() => beverageConfigs.id),
+    .references(() => beverage_configs.id),
 
   // Temperature settings for this run
   startTemp: integer('start_temp').notNull(), // Initial temperature
@@ -40,7 +40,7 @@ export const runningOrders = sqliteTable('running_orders', {
 });
 
 // Zod schema for validation
-const insertRunningOrderSchema = createInsertSchema(runningOrders, {
+const insertRunningOrderSchema = createInsertSchema(running_orders, {
   startTemp: (schema) => schema.startTemp.min(-10).max(40),
   targetTemp: (schema) => schema.targetTemp.min(-10).max(40),
   lastTemp: (schema) => schema.lastTemp.min(-10).max(40).optional(),
@@ -68,7 +68,7 @@ const insertRunningOrderSchema = createInsertSchema(runningOrders, {
   });
 
 export const runningOrderSchemas = {
-  select: createSelectSchema(runningOrders),
+  select: createSelectSchema(running_orders),
   insert: insertRunningOrderSchema,
   patch: insertRunningOrderSchema.partial(),
 } as const;

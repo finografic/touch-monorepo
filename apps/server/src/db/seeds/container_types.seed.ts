@@ -1,33 +1,33 @@
 import { db } from '../db.adapter';
-import { containerTypes } from '../schemas';
+import { container_types } from '../schemas';
 
 export async function seed() {
   console.log('Seeding container_types...');
 
   try {
     // Check if container types already exist
-    const existing = await db.select().from(containerTypes).limit(1);
+    const existing = await db.select().from(container_types).limit(1);
     if (existing.length > 0) {
       console.log('✓ Container types already seeded, skipping...');
       return;
     }
 
-    // From the presentation, we have these container types
-    const insertedTypes = await db.insert(containerTypes).values([
+    // Insert the container types
+    const insertedTypes = await db.insert(container_types).values([
       {
-        name: 'Botella',
-        displayName: 'Botella',
-        thermalConductivity: 1.0,
+        name: 'plastico',
+        displayName: 'Plástico',
+        thermalConductivity: 20, // Lower conductivity
       },
       {
-        name: 'Lata',
-        displayName: 'Lata',
-        thermalConductivity: 0.8,
+        name: 'vidrio',
+        displayName: 'Vidrio',
+        thermalConductivity: 50, // Medium conductivity
       },
       {
-        name: 'Barril',
-        displayName: 'Barril',
-        thermalConductivity: 1.5,
+        name: 'metal',
+        displayName: 'Metal',
+        thermalConductivity: 90, // High conductivity
       },
     ]);
 
