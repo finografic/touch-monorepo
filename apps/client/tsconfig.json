@@ -34,6 +34,9 @@
       "components/*": [
         "./src/components/*"
       ],
+      "constants/*": [
+        "./src/constants/*"
+      ],
       "env.client": [
         "./src/env.client"
       ],
@@ -52,14 +55,8 @@
       "pages/*": [
         "./src/pages/*"
       ],
-      "providers": [
-        "./src/providers"
-      ],
       "providers/*": [
         "./src/providers/*"
-      ],
-      "routes": [
-        "./src/routes"
       ],
       "routes/*": [
         "./src/routes/*"

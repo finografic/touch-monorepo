@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import { OrdersKeys } from './OrdersContext';
-import { OrderItem } from '../../types/orders.types';
+import { OrderItem } from 'types/orders.types';
 
 export type OrdersValues = {
   [OrdersKeys.orders]: OrderItem[];

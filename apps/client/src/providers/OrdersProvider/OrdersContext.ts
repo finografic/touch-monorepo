@@ -3,7 +3,7 @@ import { createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './Orders.types';
 import { createSetters } from 'utils/zustand';
 import { OrderItem } from 'types/orders.types';
-
+import { INITIAL_ORDER_ITEM } from 'constants/orders.constants';
 export const DISPLAY_NAME = 'Orders';
 
 export enum OrdersKeys {
@@ -23,11 +23,10 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
       togglePad: (itemNumber: number) => {
         const { orders } = get();
         const draftOrder = orders.find((order: OrderItem) => order.itemNumber === itemNumber);
-        console.log('%c __TOGGLE', 'color:grey', itemNumber);
         set({
-          orders: draftOrder
-            ? [...orders, { ...draftOrder, isSelected: false }]
-            : [...orders, { itemNumber, isSelected: true, isLocked: false }],
+          orders: !draftOrder
+            ? [...orders, { ...INITIAL_ORDER_ITEM, itemNumber, isSelected: true }]
+            : [...orders],
         });
       },
       selectAllPads: () => {

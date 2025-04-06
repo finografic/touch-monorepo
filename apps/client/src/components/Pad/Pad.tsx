@@ -11,6 +11,11 @@ export const Pad = ({ number }: PadProps) => {
   const order = orders.find((order) => order.itemNumber === number) as OrderItem;
   const className = ['pad', order?.isSelected && 'active'].filter(Boolean).join(' ');
 
+  console.log('%c __PAD', 'color:grey', {
+    number,
+    order,
+  });
+
   const handleClick = () => {
     togglePad(number);
   };
