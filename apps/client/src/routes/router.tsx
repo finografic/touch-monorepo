@@ -1,12 +1,13 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
-import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
-import { RequireAuth } from './RequireAuth';
+// import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
+// import { RequireAuth } from './RequireAuth';
 import { HomePage } from 'pages/HomePage/HomePage';
 import { Layout } from 'layout/Layout';
 import { AuthProvider } from 'lib/auth/AuthProvider';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
+import { BeverageTypePage } from '../pages/BeverageTypePage/BeverageTypePage';
 
 export const router = createBrowserRouter([
   {
@@ -33,6 +34,14 @@ export const router = createBrowserRouter([
         path: '/menu',
         element: <MenuPage />,
       },
+      // ============================================== //
+      // NOTE: BEVERAGE FLOW ROUTES
+      {
+        path: '/beverage-type',
+        element: <BeverageTypePage />,
+      },
+      // ============================================== //
+      /*
       {
         path: '/dashboard',
         element: (
@@ -41,7 +50,7 @@ export const router = createBrowserRouter([
           </RequireAuth>
         ),
       },
-      // ... other routes
+      */
     ],
   },
 ]);

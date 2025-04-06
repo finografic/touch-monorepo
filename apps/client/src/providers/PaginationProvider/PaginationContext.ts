@@ -12,7 +12,7 @@ export enum PaginationKeys {
 
 export const defaultValue: PaginationValues = {
   total: 5,
-  current: 1,
+  current: 0,
 };
 
 export const PaginationContext = createZustandContext(({ initialValue }) => {

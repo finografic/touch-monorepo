@@ -2,10 +2,14 @@ import { styles } from './MenuPage.styles';
 import { Col, Row } from 'react-grid-system';
 import { useOrders } from '../../providers/OrdersProvider';
 import { useNavigate } from 'react-router-dom';
+import { usePagination } from '../../providers/PaginationProvider/PaginationContext';
 
 export function MenuPage() {
   const { activePads, setActivePads, handleNextStep } = useOrders();
+  const { setPageCurrent } = usePagination();
   const navigate = useNavigate();
+
+  const hasSelectedPads = Object.values(activePads).some((isActive) => isActive);
 
   const handlePadToggle = (padNumber: number) => {
     setActivePads({
@@ -29,7 +33,8 @@ export function MenuPage() {
 
   const onNext = () => {
     handleNextStep();
-    navigate('/beverage-type'); // We'll create this route later
+    setPageCurrent(1);
+    navigate('/beverage-type');
   };
 
   return (
@@ -69,7 +74,7 @@ export function MenuPage() {
           ALL
         </button>
         <button className="control-btn">« Back</button>
-        <button className="control-btn" onClick={onNext}>
+        <button className="control-btn" onClick={onNext} disabled={!hasSelectedPads}>
           Next »
         </button>
       </div>
