@@ -1,8 +1,17 @@
+import { useEffect } from 'react';
 import { styles } from './MenuPage.styles';
 import { Col, Row } from 'react-grid-system';
 import { Pad } from 'components/Pad';
-
+import { useOrders } from 'providers/OrdersProvider';
+import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 export function MenuPage() {
+  const { activePads } = useOrders();
+  const { setIsNextDisabled } = usePagination();
+
+  useEffect(() => {
+    setIsNextDisabled(!Object.values(activePads).some((isActive) => isActive));
+  }, [activePads, setIsNextDisabled]);
+
   return (
     <div css={styles}>
       <section className="menu-main">

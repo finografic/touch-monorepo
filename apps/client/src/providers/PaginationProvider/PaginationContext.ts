@@ -8,11 +8,13 @@ export const DISPLAY_NAME = 'Pagination';
 export enum PaginationKeys {
   total = 'total',
   current = 'current',
+  isNextDisabled = 'isNextDisabled',
 }
 
 export const defaultValue: PaginationValues = {
   total: 5,
   current: 0,
+  isNextDisabled: true,
 };
 
 export const PaginationContext = createZustandContext(({ initialValue }) => {
@@ -21,6 +23,9 @@ export const PaginationContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, prefix: 'Page', defaultValue }),
+      setIsNextDisabled: (isNextDisabled: boolean) => {
+        set({ isNextDisabled });
+      },
     },
   }));
 });

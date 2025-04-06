@@ -1,11 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { usePagination } from '../../providers/PaginationProvider/PaginationContext';
 import { styles } from './Footer.styles';
-import { useOrders } from '../../providers/OrdersProvider';
+// import { useOrders } from '../../providers/OrdersProvider';
+
 export const Footer = () => {
   const navigate = useNavigate();
-  const { current, total, setPageCurrent } = usePagination();
-  const { activePads } = useOrders();
+  const { current, total, setPageCurrent, isNextDisabled } = usePagination();
 
   const handleSelectAll = () => {};
 
@@ -35,11 +35,7 @@ export const Footer = () => {
           </button>
         )}
         {current < total && (
-          <button
-            className="control-btn"
-            onClick={handleNext}
-            disabled={!Object.values(activePads).some((isActive) => isActive)}
-          >
+          <button className="control-btn" onClick={handleNext} disabled={isNextDisabled}>
             Next »
           </button>
         )}

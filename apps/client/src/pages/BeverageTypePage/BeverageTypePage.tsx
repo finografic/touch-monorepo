@@ -14,7 +14,7 @@ const BEVERAGE_TYPES = [
   { id: 'refresco', name: 'Refresco' },
 ] as const;
 
-export function BeverageTypePage() {
+export const BeverageTypePage = () => {
   const { orders } = useOrders();
   const { setPageCurrent } = usePagination();
   const navigate = useNavigate();
@@ -48,15 +48,6 @@ export function BeverageTypePage() {
           </div>
         ))}
       </div>
-
-      <div className="controls">
-        <button className="control-btn" onClick={handleBack}>
-          « Back
-        </button>
-        <button className="control-btn" onClick={handleNext} disabled={!selectedType}>
-          Next »
-        </button>
-      </div>
     </div>
   );
-}
+};
