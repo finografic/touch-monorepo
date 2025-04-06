@@ -23,10 +23,11 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
       togglePad: (itemNumber: number) => {
         const { orders } = get();
         const draftOrder = orders.find((order: OrderItem) => order.itemNumber === itemNumber);
+        console.log('%c __TOGGLE', 'color:grey', itemNumber);
         set({
           orders: draftOrder
-            ? [...orders, { ...draftOrder, isSelected: !draftOrder.isSelected }]
-            : [...orders],
+            ? [...orders, { ...draftOrder, isSelected: false }]
+            : [...orders, { itemNumber, isSelected: true, isLocked: false }],
         });
       },
       selectAllPads: () => {
