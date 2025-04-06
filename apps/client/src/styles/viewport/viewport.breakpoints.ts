@@ -5,7 +5,7 @@ import { mapNewBreakpointRules, toEmNumeric, toPixelString, toRemNumeric } from 
 // allowing for calculations etc..
 
 // NOTE: breakpoints from radix-ui
-export const BREAKPOINTS: BreakpointMap<number> = {
+export const BREAKPOINTS_RADIX: BreakpointMap<number> = {
   xs: 0, // (not really used)
   sm: 520,
   md: 768,
@@ -13,6 +13,18 @@ export const BREAKPOINTS: BreakpointMap<number> = {
   xl: 1280,
   xxl: 1640,
 } as const;
+
+// NOTE: breakpoints from radix-ui
+export const BREAKPOINTS_TW: BreakpointMap<number> = {
+  xs: 0, // (not really used)
+  sm: 640,
+  md: 768,
+  lg: 1024,
+  xl: 1280,
+  xxl: 1536,
+} as const;
+
+export const BREAKPOINTS = BREAKPOINTS_RADIX;
 
 // Type to access either xxl or 2xl
 export type TailwindBreakpoints = {
