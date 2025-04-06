@@ -1,23 +1,24 @@
 import { css } from '@emotion/react';
+import { colors } from 'styles';
 
 export const styles = css`
   padding: 2rem 0;
-  background: #ffffff;
+  background: ${colors.white};
   min-height: 100vh;
 
   h1 {
-    color: #00c6ff;
+    color: ${colors.info};
     margin-bottom: 2rem;
   }
 
   .schema-section {
-    background: #f5f5f5;
+    background: ${colors.greyXXLight};
     border-radius: 1rem;
     padding: 2rem;
     margin-bottom: 2rem;
 
     h2 {
-      color: #333;
+      color: ${colors.textXDark};
       margin-bottom: 2rem;
     }
 
@@ -43,7 +44,7 @@ export const styles = css`
 
     .schema-legend {
       h3 {
-        color: #333;
+        color: ${colors.textXDark};
         margin: 1.5rem 0 1rem;
       }
 
@@ -54,10 +55,10 @@ export const styles = css`
 
         li {
           margin-bottom: 0.5rem;
-          color: #666;
+          color: ${colors.text};
 
           strong {
-            color: #333;
+            color: ${colors.textXDark};
           }
         }
       }

@@ -24,10 +24,6 @@ export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black'> = {
   info: { color: 'blue', shade: 9 },
 } as const;
 
-export const colors = generateRadixColorPalette(COLOR_MAPPING);
-
-/**
- * NOTE: ALSO - Tailwind v4 COLORS
- * tool: https://tailscan.com/colors
- * ref: https://tailwindcss.com/docs/colors
- */
+// TODO: radix or custom ??
+export const colorsRadix = generateRadixColorPalette(COLOR_MAPPING);
+export { colors } from './custom/custom.colors';

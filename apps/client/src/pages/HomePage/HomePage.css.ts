@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { colors } from 'styles';
 
 export const styles = css`
   display: flex;
@@ -6,8 +7,8 @@ export const styles = css`
   align-items: center;
   justify-content: center;
   min-height: 100vh;
-  background-color: #1a1a1a;
-  color: white;
+  background-color: ${colors.background};
+  color: ${colors.white};
   text-align: center;
   padding: 2rem;
 
@@ -20,13 +21,13 @@ export const styles = css`
 
   .title {
     font-size: 4rem;
-    color: #00bfff;
+    color: ${colors.info};
     margin: 0;
   }
 
   .subtitle {
     font-size: 1.5rem;
-    color: #666;
+    color: ${colors.text};
     margin: 0;
   }
 
@@ -44,11 +45,11 @@ export const styles = css`
 
   .value {
     font-size: 3.5rem;
-    color: #00bfff;
+    color: ${colors.info};
   }
 
   .label {
-    color: #666;
+    color: ${colors.text};
     margin-top: 0.5rem;
   }
 
@@ -56,13 +57,13 @@ export const styles = css`
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    color: #666;
+    color: ${colors.text};
   }
 
   .statusDot {
     width: 8px;
     height: 8px;
-    background-color: #00ff00;
+    background-color: ${colors.success};
     border-radius: 50%;
   }
 
@@ -75,17 +76,17 @@ export const styles = css`
 
   .docsLink,
   .menuLink {
-    color: #00bfff;
+    color: ${colors.info};
     text-decoration: none;
     font-size: 0.9rem;
     transition: color 0.2s;
 
     &:hover {
-      color: #66d9ff;
+      color: ${colors.info}aa;
     }
   }
 
   .separator {
-    color: #666;
+    color: ${colors.text};
   }
 `;
