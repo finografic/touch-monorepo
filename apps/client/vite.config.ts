@@ -14,6 +14,9 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
   }
 
   return {
+    css: {
+      transformer: 'lightningcss',
+    },
     plugins: [
       tsconfigPaths({
         projects: ['./tsconfig.vite.json'],

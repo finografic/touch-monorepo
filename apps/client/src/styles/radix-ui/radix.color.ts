@@ -1,5 +1,5 @@
 import * as radix from '@radix-ui/colors';
-import type { HexColor } from 'styles/colors.types';
+import type { HexColor } from '../colors.types';
 import { RadixColorName, RadixShade } from './radix.types';
 
 // Helper to ensure number is a valid RadixShade

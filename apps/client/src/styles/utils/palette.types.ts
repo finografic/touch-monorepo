@@ -1,4 +1,4 @@
-import type { HexColor, ShadeKey } from 'styles/colors.types';
+import type { HexColor, ShadeKey } from '../colors.types';
 
 export type ShadeConfig = {
   [key in ShadeKey]?: {

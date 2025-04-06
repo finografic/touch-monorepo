@@ -1,5 +1,5 @@
-import type { ColorMapping, HexColor, RadixBaseShade } from 'styles/colors.types';
-import { GeneratedPalette } from 'styles/palette.types';
+import type { ColorMapping, HexColor, RadixBaseShade } from '../colors.types';
+import { GeneratedPalette } from '../palette.types';
 import { getRadixHex } from './radix.color';
 import type { RadixColorName, RadixShade } from './radix.types';
 

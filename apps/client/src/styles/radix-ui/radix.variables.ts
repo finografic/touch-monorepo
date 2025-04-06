@@ -1,6 +1,6 @@
-import type { ShadeKey, ColorMapping } from 'styles/colors.types';
-import type { ColorBaseName } from 'styles/palette.types';
-import { COLOR_MAPPING } from 'styles/colors.styles';
+import type { ShadeKey, ColorMapping } from '../colors.types';
+import type { ColorBaseName } from '../palette.types';
+import { COLOR_MAPPING } from '../colors.styles';
 import type { Root } from 'postcss';
 
 type ColorMappingWithVariants = Extract<ColorMapping[keyof ColorMapping], { color: string; shade: number }>;
