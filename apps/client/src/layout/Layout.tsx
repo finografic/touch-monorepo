@@ -1,8 +1,8 @@
 import { Outlet } from 'react-router-dom';
 import { styles } from './Layout.styles';
-import { OrdersProvider } from '../providers/OrdersProvider';
-import { PaginationProvider } from '../providers/PaginationProvider/PaginationProvider';
-import { Footer } from '../components/Footer';
+import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
+import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
+import { Footer } from 'components/Footer';
 
 export const Layout = () => {
   return (

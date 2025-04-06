@@ -1,15 +1,8 @@
 import { styles } from './MenuPage.styles';
 import { Col, Row } from 'react-grid-system';
-import { useOrders } from '../../providers/OrdersProvider';
-import { useNavigate } from 'react-router-dom';
-import { Pad } from '../../components/Pad';
+import { Pad } from 'components/Pad';
 
 export function MenuPage() {
-  const { activePads, selectAllPads } = useOrders();
-  const navigate = useNavigate();
-
-  const hasSelectedPads = Object.values(activePads).some((isActive) => isActive);
-
   return (
     <div css={styles}>
       <section className="menu-main">

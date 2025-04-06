@@ -52,6 +52,12 @@
       "pages/*": [
         "./src/pages/*"
       ],
+      "providers": [
+        "./src/providers"
+      ],
+      "providers/*": [
+        "./src/providers/*"
+      ],
       "routes": [
         "./src/routes"
       ],
