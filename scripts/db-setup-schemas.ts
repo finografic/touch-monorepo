@@ -1,3 +1,4 @@
+#!/usr/bin/env tsx
 import { checkbox } from '@inquirer/prompts';
 import chalk from 'chalk';
 import { execSync } from 'child_process';

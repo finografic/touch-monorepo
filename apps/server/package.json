@@ -19,7 +19,7 @@
     "build": "tsup src/index.ts",
     "build.orig": "tsc --build",
     "·········· CLEAN": "·····················································",
-    "clean": "rimraf --glob '.turbo' '*.tsbuildinfo' 'pnpm-lock.yaml' 'dist' 'node_modules/**/.*' 'node_modules/.pnpm/**/.*' 'node_modules/.pnpm/**' 'node_modules'",
+    "clean": "tsx ../../scripts/clean-all.ts",
     "·········· PACKAGES": "···················································",
     "eslint-config.update": "pnpm update @finografic/eslint-config --latest",
     "·········· DB.UTILS": "···················································",
@@ -69,6 +69,7 @@
   "devDependencies": {
     "@finografic/eslint-config": "9.0.8",
     "@fullhuman/postcss-purgecss": "7.0.2",
+    "@touch/scripts": "workspace:*",
     "@types/better-sqlite3": "^7.6.12",
     "autoprefixer": "10.4.20",
     "drizzle-kit": "^0.28.1",

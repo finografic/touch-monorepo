@@ -21,7 +21,7 @@
     "dev": "tsc --watch",
     "build": "tsup",
     "build.V1": "pnpm clean && tsc --build",
-    "clean": "rimraf dist .turbo tsconfig.tsbuildinfo",
+    "clean": "tsx ../../scripts/clean-all.ts",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",
     "typecheck": "tsc --noEmit"
@@ -32,6 +32,7 @@
   },
   "devDependencies": {
     "@microsoft/api-extractor": "7.49.1",
+    "@touch/scripts": "workspace:*",
     "@types/node": "^22.9.0",
     "tsup": "^8.3.5",
     "typescript": "^5.3.3"
