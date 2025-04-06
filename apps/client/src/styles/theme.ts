@@ -1,13 +1,12 @@
-import { colors } from './backup/colors.styles';
-import { spacing } from './spacing';
-import { BREAKPOINTS, mediaQueries } from './breakpoints';
+import { colors } from './colors.styles';
+import { spacing } from './layout.styles';
+import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
 import { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from './typography.styles';
 
 export const theme = {
   colors,
   spacing,
   BREAKPOINTS,
-  mediaQueries,
   typography,
   fonts: fontFamilies,
   fontSizes,

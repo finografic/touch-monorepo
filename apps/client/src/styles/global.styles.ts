@@ -1,4 +1,12 @@
+import 'sanitize.css/sanitize.css';
+import 'sanitize.css/assets.css';
+import 'sanitize.css/typography.css';
+import 'sanitize.css/forms.css';
+
 import { css } from '@emotion/react';
+import { colors } from './colors.styles';
+import { cssLayout } from './layout.styles';
+import { generateColorVariables } from './utils/custom.variables';
 
 export const cssGlobal = css`
   *,
@@ -6,6 +14,14 @@ export const cssGlobal = css`
   *::after {
     box-sizing: border-box;
   }
+
+  :root {
+    box-sizing: border-box;
+    /* Custom color palette */
+    ${generateColorVariables({ colors })}
+  }
+
+  ${cssLayout}
 
   body {
     margin: 0;

@@ -1,5 +1,5 @@
-import type { ColorMapping, HexColor, RadixBaseShade, ShadeKey } from '../backup/colors.types';
-import { GeneratedPalette } from '../palette.types';
+import type { ColorMapping, HexColor, RadixBaseShade } from 'styles/colors.types';
+import { GeneratedPalette } from 'styles/palette.types';
 import { getRadixHex } from './radix.color';
 import type { RadixColorName, RadixShade } from './radix.types';
 
@@ -60,8 +60,6 @@ export const generateRadixColorPalette = (
         [`${key}XDark`]: getRadixHex(color, calculateVariantShade(shade, 2)),
         [`${key}XXDark`]: getRadixHex(color, calculateVariantShade(shade, 3)),
       };
-
-      log('COLOR: ', 'grey', color, getRadixHex(color, 10));
 
       // Add base color and its variants
       const result = { ...acc, ...variants };

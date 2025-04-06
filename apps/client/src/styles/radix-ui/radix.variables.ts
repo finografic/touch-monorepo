@@ -1,13 +1,16 @@
-import type { ShadeKey } from 'styles/backup/colors.types';
-import type { ColorBaseName } from '../palette.types';
-import { COLOR_MAPPING } from '../backup/colors.styles';
+import type { ShadeKey, ColorMapping } from 'styles/colors.types';
+import type { ColorBaseName } from 'styles/palette.types';
+import { COLOR_MAPPING } from 'styles/colors.styles';
+import type { Root } from 'postcss';
+
+type ColorMappingWithVariants = Extract<ColorMapping[keyof ColorMapping], { color: string; shade: number }>;
 
 // Helper to get the CSS variable for a color
 export function generateCssColorVariables(colorName: ColorBaseName, shade: ShadeKey): string {
-  const mapping = COLOR_MAPPING[colorName];
-  if (!('color' in mapping)) return '';
+  const mapping = COLOR_MAPPING[colorName as keyof typeof COLOR_MAPPING];
+  if (!mapping || !('color' in mapping)) return '';
 
-  const { color, shade: baseShade } = mapping;
+  const { color, shade: baseShade } = mapping as ColorMappingWithVariants;
   const shadeOffset = {
     xxlight: -3,
     xlight: -2,
@@ -25,8 +28,8 @@ export function generateCssColorVariables(colorName: ColorBaseName, shade: Shade
 // Export a PostCSS plugin
 export default () => {
   return {
-    postcssPlugin: 'postcss-color-variables',
-    Once(root) {
+    postcssPlugin: 'postcss-color-variables' as const,
+    Once(root: Root) {
       let css = ':root {\n';
       css += '  color-scheme: light;\n\n';
 
@@ -34,8 +37,8 @@ export default () => {
       const shades: ShadeKey[] = ['xxlight', 'xlight', 'light', 'base', 'dark', 'xdark', 'xxdark'];
 
       baseColors.forEach((colorName) => {
-        const mapping = COLOR_MAPPING[colorName];
-        if (!('color' in mapping)) return;
+        const mapping = COLOR_MAPPING[colorName as keyof typeof COLOR_MAPPING];
+        if (!mapping || !('color' in mapping)) return;
 
         // Generate variables for each shade
         shades.forEach((shade) => {

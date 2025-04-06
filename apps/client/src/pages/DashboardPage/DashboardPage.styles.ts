@@ -6,20 +6,18 @@ export const styles = css`
 
   .title {
     ${typography.h1};
-    /* color: ${colors.text.primary}; */
     margin-bottom: ${spacing[4]};
   }
 
   .welcome {
     ${typography.h3};
-    /* color: ${colors.text.secondary}; */
     margin-bottom: ${spacing[6]};
   }
 
   .content {
-    background: ${colors.background.secondary};
+    background: ${colors.background};
     padding: ${spacing[6]};
     border-radius: 8px;
-    border: 1px solid ${colors.border.light};
+    border: 1px solid ${colors.greyLight};
   }
 `;

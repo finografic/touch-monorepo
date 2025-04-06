@@ -31,13 +31,13 @@ export const styles = css`
 
   .title {
     ${typography.h1};
-    color: ${colors.text.primary};
+    color: ${colors.text};
     margin-bottom: ${spacing[4]};
   }
 
   .subtitle {
     ${typography.body};
-    color: ${colors.text.secondary};
+    color: ${colors.textLight};
   }
 
   button.btn-logout {

@@ -23,8 +23,8 @@ export const styles = css`
   }
 
   .error-message {
-    background-color: ${colors.error[50]};
-    color: ${colors.error[700]};
+    background-color: ${colors.dangerXLight};
+    color: ${colors.dangerDark};
     padding: ${spacing[3]};
     border-radius: 4px;
   }
@@ -42,7 +42,7 @@ export const styles = css`
     input {
       width: 100%;
       padding: ${spacing[2]};
-      border: 1px solid ${colors.border.light};
+      border: 1px solid ${colors.greyLight};
       border-radius: 4px;
       font-size: ${fontSizes.base};
 

@@ -1,13 +1,13 @@
 import { css } from '@emotion/react';
-import { colors, mediaQueries, spacing, typography } from 'styles';
+import { colors, min, spacing, typography } from 'styles';
 
 export const styles = css`
   .header {
-    background-color: ${colors.background.primary};
-    border-bottom: 1px solid ${colors.border.light};
+    background-color: ${colors.background};
+    border-bottom: 1px solid ${colors.greyXLight};
     padding: ${spacing[4]} 0;
 
-    ${mediaQueries.down('md')} {
+    ${min.md} {
       padding: ${spacing[2]} 0;
     }
   }

@@ -3,7 +3,6 @@
  */
 import type { ColorBaseName, ColorPalette } from './palette.types';
 import { RadixColorName, RadixColorVariable } from './radix-ui/radix.types';
-import { TWColorShade } from './tailwind/tailwind.types';
 
 // Union type for possible color values
 export type ColorValue = RadixColorVariable | HexColor;

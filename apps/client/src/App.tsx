@@ -1,4 +1,8 @@
+import '@radix-ui/themes/styles.css';
+import 'styles/radix-ui/radix.css';
+
 import { ScreenClassProvider } from 'react-grid-system';
+import { Theme as RadixTheme } from '@radix-ui/themes';
 import { Global } from '@emotion/react';
 import { cssGlobal } from 'styles/global.styles';
 import { RouterProvider } from 'react-router-dom';
@@ -8,7 +12,9 @@ export function App() {
   return (
     <ScreenClassProvider>
       <Global styles={cssGlobal} />
-      <RouterProvider router={router} />
+      <RadixTheme>
+        <RouterProvider router={router} />
+      </RadixTheme>
     </ScreenClassProvider>
   );
 }

@@ -1,7 +1,6 @@
 import * as radix from '@radix-ui/colors';
-import type { ColorMapping, HexColor, ShadeKey } from './colors.types';
+import type { ColorMapping, HexColor } from './colors.types';
 import { generateRadixColorPalette } from './radix-ui/radix.palette';
-import { generateTWColorPalette } from './tailwind/tailwind.palette';
 
 /**
  * Radix color mapping with VS Code highlighting support
@@ -32,5 +31,3 @@ export const colors = generateRadixColorPalette(COLOR_MAPPING);
  * tool: https://tailscan.com/colors
  * ref: https://tailwindcss.com/docs/colors
  */
-
-console.log('%c __COLORS', 'color:hotpink', colors);

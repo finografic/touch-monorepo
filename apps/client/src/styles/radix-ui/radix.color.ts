@@ -1,5 +1,5 @@
 import * as radix from '@radix-ui/colors';
-import type { HexColor } from 'styles/backup/colors.types';
+import type { HexColor } from 'styles/colors.types';
 import { RadixColorName, RadixShade } from './radix.types';
 
 // Helper to ensure number is a valid RadixShade
@@ -10,5 +10,5 @@ export const toRadixShade = (num: number): RadixShade => {
 // Helper to get hex value from Radix colors
 export const getRadixHex = (color: RadixColorName, shade: RadixShade): HexColor => {
   const key = `${color}${shade}`;
-  return radix[color][key] as HexColor;
+  return radix[color][key as keyof (typeof radix)[RadixColorName]] as HexColor;
 };
