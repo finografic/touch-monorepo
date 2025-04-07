@@ -4,6 +4,8 @@ import type { OrdersStore, OrdersValues } from './Orders.types';
 import { createSetters } from 'utils/zustand';
 import { OrderItem } from 'types/orders.types';
 import { INITIAL_ORDER_ITEM } from 'constants/orders.constants';
+import { findOrderByNumber } from 'utils/orders.utils';
+
 export const DISPLAY_NAME = 'Orders';
 
 export enum OrdersKeys {
@@ -22,7 +24,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
       ...createSetters({ set, defaultValue }),
       togglePad: (itemNumber: number) => {
         const { orders } = get();
-        const draftOrder = orders.find((order: OrderItem) => order.itemNumber === itemNumber);
+        const draftOrder = findOrderByNumber(orders, itemNumber);
         set({
           orders: !draftOrder
             ? [...orders, { ...INITIAL_ORDER_ITEM, itemNumber, isSelected: true }]

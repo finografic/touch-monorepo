@@ -1,13 +1,9 @@
 import { Container } from 'react-grid-system';
-import { useLocation } from 'react-router-dom';
-import { PAGE_TITLES } from 'constants/pages.constants';
-import { ROUTES } from 'constants/routes.constants';
+import { useRouteConfig } from '../../hooks/useRouteConfig';
 import { styles } from './Header.styles';
-import { PagePathname } from 'types/pages.types';
 
 export const Header = () => {
-  const { pathname } = useLocation();
-  const title = PAGE_TITLES[pathname as PagePathname] || PAGE_TITLES[ROUTES.HOME];
+  const { title } = useRouteConfig();
 
   return (
     <header css={styles}>
