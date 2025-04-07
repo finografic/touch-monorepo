@@ -9,15 +9,13 @@ export const Layout = () => {
   return (
     <OrdersProvider>
       <PaginationProvider>
-        <div css={styles}>
-          <main>
-            <Header />
-            <div className="main-content">
-              <Outlet />
-            </div>
-            <Footer />
-          </main>
-        </div>
+        <main css={styles}>
+          <Header />
+          <div className="main-content">
+            <Outlet />
+          </div>
+          <Footer />
+        </main>
       </PaginationProvider>
     </OrdersProvider>
   );

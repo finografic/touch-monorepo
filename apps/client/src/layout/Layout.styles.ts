@@ -5,6 +5,20 @@ export const styles = css`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  flex: 1;
+  padding: 2rem 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: ${colors.background};
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+
+  div.main-content {
+    width: 66vw;
+    height: 70vh;
+  }
 
   header {
     background-color: white;
@@ -50,23 +64,6 @@ export const styles = css`
 
     &:hover {
       background-color: #f3f4f6;
-    }
-  }
-
-  main {
-    flex: 1;
-    padding: 2rem 0;
-    width: 100vw;
-    height: 100vh;
-    background-color: ${colors.background};
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-around;
-
-    div.main-content {
-      width: 66vw;
-      height: 70vh;
     }
   }
 `;
