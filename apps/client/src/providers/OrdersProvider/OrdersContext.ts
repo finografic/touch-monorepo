@@ -2,7 +2,6 @@ import { createStore, useStore, type StoreApi } from 'zustand';
 import { createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './Orders.types';
 import { createSetters } from 'utils/zustand';
-import { OrderItem } from 'types/orders.types';
 import { INITIAL_ORDER_ITEM } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/orders.utils';
 

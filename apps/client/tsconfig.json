@@ -43,6 +43,9 @@
       "i18n/*": [
         "./src/i18n/*"
       ],
+      "hooks/*": [
+        "./src/hooks/*"
+      ],
       "layout/*": [
         "./src/layout/*"
       ],

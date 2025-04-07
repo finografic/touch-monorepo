@@ -1,5 +1,5 @@
 import { Container } from 'react-grid-system';
-import { useRouteConfig } from '../../hooks/useRouteConfig';
+import { useRouteConfig } from 'hooks/useRouteConfig';
 import { styles } from './Header.styles';
 
 export const Header = () => {
