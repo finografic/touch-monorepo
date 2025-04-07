@@ -17,7 +17,7 @@ export const Footer = () => {
 
   const handleNext = () => {
     setPageCurrent(current + 1);
-    navigate('/beverage-type');
+    navigate('/drink-type');
   };
 
   return (

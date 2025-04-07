@@ -1,20 +1,20 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { beverage_subtypes, beverage_types } from './beverage_types.schema';
+import { drink_subtypes, drink_types } from './drink_types.schema';
 import { container_types } from './container_types.schema';
 import { volumes } from './volumes.schema';
 
-export const beverage_configs = sqliteTable('beverage_configs', {
+export const drink_configs = sqliteTable('drink_configs', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createCuid()),
 
   // Core relationships
-  beverageTypeId: text('beverage_type_id')
+  drinkTypeId: text('drink_type_id')
     .notNull()
-    .references(() => beverage_types.id),
-  beverageSubtypeId: text('beverage_subtype_id').references(() => beverage_subtypes.id),
+    .references(() => drink_types.id),
+  drinkSubtypeId: text('drink_subtype_id').references(() => drink_subtypes.id),
   containerTypeId: text('container_type_id')
     .notNull()
     .references(() => container_types.id),
@@ -40,7 +40,7 @@ export const beverage_configs = sqliteTable('beverage_configs', {
 });
 
 // Zod schema for validation
-const insertBeverageConfigSchema = createInsertSchema(beverage_configs, {
+const insertDrinkConfigSchema = createInsertSchema(drink_configs, {
   defaultConsumptionTemp: (schema) => schema.defaultConsumptionTemp.min(-10).max(30),
   minConsumptionTemp: (schema) => schema.minConsumptionTemp.min(-10).max(30),
   maxConsumptionTemp: (schema) => schema.maxConsumptionTemp.min(-10).max(30),
@@ -49,7 +49,7 @@ const insertBeverageConfigSchema = createInsertSchema(beverage_configs, {
   timeTableId3: (schema) => schema.timeTableId3.length(4).regex(/^\d{4}$/),
 })
   .required({
-    beverageTypeId: true,
+    drinkTypeId: true,
     containerTypeId: true,
     volumeId: true,
     defaultConsumptionTemp: true,
@@ -61,8 +61,8 @@ const insertBeverageConfigSchema = createInsertSchema(beverage_configs, {
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 
-export const beverageConfigSchemas = {
-  select: createSelectSchema(beverage_configs),
-  insert: insertBeverageConfigSchema,
-  patch: insertBeverageConfigSchema.partial(),
+export const drinkConfigSchemas = {
+  select: createSelectSchema(drink_configs),
+  insert: insertDrinkConfigSchema,
+  patch: insertDrinkConfigSchema.partial(),
 } as const;

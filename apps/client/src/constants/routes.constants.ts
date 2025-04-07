@@ -1,7 +1,7 @@
 export const ROUTES = {
   HOME: '/',
-  BEVERAGE_TYPE: '/beverage-type',
-  BEVERAGE_VOLUME: '/beverage-volume',
+  DRINK_TYPE: '/drink-type',
+  DRINK_VOLUME: '/drink-volume',
   FINAL_TEMPERATURE: '/final-temperature',
   CONTAINER_TYPE: '/container-type',
   INITIAL_TEMPERATURE: '/initial-temperature',

@@ -1,7 +1,7 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { beverage_configs } from './beverage_configs.schema';
+import { drink_configs } from './drink_configs.schema';
 import { elements } from './elements.schema';
 
 export const running_orders = sqliteTable('running_orders', {
@@ -13,9 +13,9 @@ export const running_orders = sqliteTable('running_orders', {
   elementId: text('element_id')
     .notNull()
     .references(() => elements.id),
-  beverageConfigId: text('beverage_config_id')
+  drinkConfigId: text('drink_config_id')
     .notNull()
-    .references(() => beverage_configs.id),
+    .references(() => drink_configs.id),
 
   // Temperature settings for this run
   startTemp: integer('start_temp').notNull(), // Initial temperature
@@ -53,7 +53,7 @@ const insertRunningOrderSchema = createInsertSchema(running_orders, {
 })
   .required({
     elementId: true,
-    beverageConfigId: true,
+    drinkConfigId: true,
     startTemp: true,
     targetTemp: true,
     estimatedMinutes: true,

@@ -2,8 +2,8 @@ import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 
-// Main beverage types table
-export const beverage_types = sqliteTable('beverage_types', {
+// Main drink types table
+export const drink_types = sqliteTable('drink_types', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createCuid()),
@@ -20,14 +20,14 @@ export const beverage_types = sqliteTable('beverage_types', {
     .$onUpdate(() => new Date()),
 });
 
-// Beverage subtypes table (for beers: Rubia, Negra, etc.)
-export const beverage_subtypes = sqliteTable('beverage_subtypes', {
+// Drink subtypes table (for beers: Rubia, Negra, etc.)
+export const drink_subtypes = sqliteTable('drink_subtypes', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createCuid()),
-  beverageTypeId: text('beverage_type_id')
+  drinkTypeId: text('drink_type_id')
     .notNull()
-    .references(() => beverage_types.id, { onDelete: 'cascade' }),
+    .references(() => drink_types.id, { onDelete: 'cascade' }),
   name: text('name').notNull(), // e.g., 'Rubia', 'Negra'
   displayName: text('display_name').notNull(), // Localized display name
   consumptionTemp: integer('consumption_temp').notNull(), // Can override parent's default
@@ -41,7 +41,7 @@ export const beverage_subtypes = sqliteTable('beverage_subtypes', {
 });
 
 // Zod schemas for validation
-const insertBeverageTypeSchema = createInsertSchema(beverage_types, {
+const insertDrinkTypeSchema = createInsertSchema(drink_types, {
   name: (schema) => schema.name.min(1).max(50),
   displayName: (schema) => schema.displayName.min(1).max(100),
   defaultConsumptionTemp: (schema) => schema.defaultConsumptionTemp.min(-10).max(30),
@@ -55,14 +55,14 @@ const insertBeverageTypeSchema = createInsertSchema(beverage_types, {
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 
-const insertBeverageSubtypeSchema = createInsertSchema(beverage_subtypes, {
+const insertDrinkSubtypeSchema = createInsertSchema(drink_subtypes, {
   name: (schema) => schema.name.min(1).max(50),
   displayName: (schema) => schema.displayName.min(1).max(100),
   consumptionTemp: (schema) => schema.consumptionTemp.min(-10).max(30),
   freezeTemp: (schema) => schema.freezeTemp.min(-20).max(10),
 })
   .required({
-    beverageTypeId: true,
+    drinkTypeId: true,
     name: true,
     displayName: true,
     consumptionTemp: true,
@@ -70,14 +70,14 @@ const insertBeverageSubtypeSchema = createInsertSchema(beverage_subtypes, {
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 
-export const beverageTypeSchemas = {
-  select: createSelectSchema(beverage_types),
-  insert: insertBeverageTypeSchema,
-  patch: insertBeverageTypeSchema.partial(),
+export const drinkTypeSchemas = {
+  select: createSelectSchema(drink_types),
+  insert: insertDrinkTypeSchema,
+  patch: insertDrinkTypeSchema.partial(),
 } as const;
 
-export const beverageSubtypeSchemas = {
-  select: createSelectSchema(beverage_subtypes),
-  insert: insertBeverageSubtypeSchema,
-  patch: insertBeverageSubtypeSchema.partial(),
+export const drinkSubtypeSchemas = {
+  select: createSelectSchema(drink_subtypes),
+  insert: insertDrinkSubtypeSchema,
+  patch: insertDrinkSubtypeSchema.partial(),
 } as const;

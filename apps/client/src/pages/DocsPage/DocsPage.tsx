@@ -5,17 +5,17 @@ import { styles } from './DocsPage.styles';
 
 const SCHEMA_DIAGRAM = `
 erDiagram
-    BeverageTypes ||--o{ BeverageSubtypes : "has subtypes"
-    BeverageTypes ||--o{ BeverageConfigs : "used in"
-    BeverageSubtypes ||--o{ BeverageConfigs : "used in"
-    ContainerTypes ||--o{ BeverageConfigs : "used in"
-    Volumes ||--o{ BeverageConfigs : "used in"
+    drinkTypes ||--o{ drinkSubtypes : "has subtypes"
+    drinkTypes ||--o{ DrinkConfigs : "used in"
+    drinkSubtypes ||--o{ DrinkConfigs : "used in"
+    ContainerTypes ||--o{ DrinkConfigs : "used in"
+    Volumes ||--o{ DrinkConfigs : "used in"
 
     TemperatureTables ||--o{ TemperatureTableEntries : "contains"
-    BeverageConfigs ||--o{ TemperatureTables : "references"
+    DrinkConfigs ||--o{ TemperatureTables : "references"
 
     Elements ||--o{ RunningOrders : "executes"
-    BeverageConfigs ||--o{ RunningOrders : "configures"
+    DrinkConfigs ||--o{ RunningOrders : "configures"
 `;
 
 export function DocsPage() {
@@ -44,7 +44,7 @@ export function DocsPage() {
             <h3>Core Entities</h3>
             <ul>
               <li>
-                <strong>BeverageTypes & Subtypes:</strong> Define available beverages and their variants
+                <strong>drinkTypes & Subtypes:</strong> Define available DRINKs and their variants
               </li>
               <li>
                 <strong>ContainerTypes:</strong> Material types (Plástico, Vidrio, Metal)
@@ -53,7 +53,7 @@ export function DocsPage() {
                 <strong>Volumes:</strong> Available container sizes
               </li>
               <li>
-                <strong>BeverageConfigs:</strong> Valid combinations of types, containers, and volumes
+                <strong>DrinkConfigs:</strong> Valid combinations of types, containers, and volumes
               </li>
             </ul>
 

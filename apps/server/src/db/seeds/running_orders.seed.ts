@@ -1,13 +1,6 @@
 import { db } from '../db.adapter';
 import { eq } from 'drizzle-orm';
-import {
-  running_orders,
-  elements,
-  beverage_configs,
-  beverage_types,
-  container_types,
-  volumes,
-} from '../schemas';
+import { running_orders, elements, drink_configs, drink_types, container_types, volumes } from '../schemas';
 
 export async function seed() {
   console.log('Seeding running_orders...');
@@ -26,21 +19,21 @@ export async function seed() {
     const [element10] = await db.select().from(elements).where(eq(elements.elementNumber, 10));
 
     // Get a beer config (33cl plastic)
-    const [beer] = await db.select().from(beverage_types).where(eq(beverage_types.name, 'cerveza'));
+    const [beer] = await db.select().from(drink_types).where(eq(drink_types.name, 'cerveza'));
     const [plastic] = await db.select().from(container_types).where(eq(container_types.name, 'plastico'));
     const [vol33cl] = await db.select().from(volumes).where(eq(volumes.name, '33cl'));
 
     if (!beer || !plastic || !vol33cl) {
-      throw new Error('Required beverage config reference data not found');
+      throw new Error('Required drink config reference data not found');
     }
 
     const [beerConfig] = await db
       .select()
-      .from(beverage_configs)
+      .from(drink_configs)
       .where(
-        eq(beverage_configs.beverageTypeId, beer.id) &&
-          eq(beverage_configs.containerTypeId, plastic.id) &&
-          eq(beverage_configs.volumeId, vol33cl.id),
+        eq(drink_configs.drinkTypeId, beer.id) &&
+          eq(drink_configs.containerTypeId, plastic.id) &&
+          eq(drink_configs.volumeId, vol33cl.id),
       );
 
     if (!element1 || !element5 || !element10 || !beerConfig) {
@@ -54,7 +47,7 @@ export async function seed() {
         // Completed order on element 1
         {
           elementId: element1.id,
-          beverageConfigId: beerConfig.id,
+          drinkConfigId: beerConfig.id,
           startTemp: 22,
           targetTemp: beerConfig.defaultConsumptionTemp,
           lastTemp: beerConfig.defaultConsumptionTemp,
@@ -67,7 +60,7 @@ export async function seed() {
         // Running order on element 5
         {
           elementId: element5.id,
-          beverageConfigId: beerConfig.id,
+          drinkConfigId: beerConfig.id,
           startTemp: 24,
           targetTemp: beerConfig.defaultConsumptionTemp,
           lastTemp: 8, // Partially cooled
@@ -78,7 +71,7 @@ export async function seed() {
         // Failed order on element 10
         {
           elementId: element10.id,
-          beverageConfigId: beerConfig.id,
+          drinkConfigId: beerConfig.id,
           startTemp: 25,
           targetTemp: beerConfig.defaultConsumptionTemp,
           lastTemp: 15, // Stopped halfway

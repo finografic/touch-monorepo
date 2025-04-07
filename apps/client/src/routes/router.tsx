@@ -7,11 +7,11 @@ import { Layout } from 'layout/Layout';
 import { AuthProvider } from 'lib/auth/AuthProvider';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
-import { BeverageTypePage } from '../pages/BeverageTypePage/BeverageTypePage';
+import { DrinkTypePage } from '../pages/DrinkPages/DrinkTypePage';
 import { ROUTES } from '../constants/routes.constants';
 
 // TODO: Create and import these components
-// import { BeverageVolumePage } from '../pages/BeverageVolumePage/BeverageVolumePage';
+// import { DrinkVolumePage } from '../pages/DrinkVolumePage/DrinkVolumePage';
 // import { FinalTemperaturePage } from '../pages/FinalTemperaturePage/FinalTemperaturePage';
 // import { ContainerTypePage } from '../pages/ContainerTypePage/ContainerTypePage';
 // import { InitialTemperaturePage } from '../pages/InitialTemperaturePage/InitialTemperaturePage';
@@ -42,15 +42,15 @@ export const router = createBrowserRouter([
         element: <MenuPage />,
       },
       // ============================================== //
-      // Beverage Configuration Flow
+      // Drink Configuration Flow
       // ============================================== //
       {
-        path: ROUTES.BEVERAGE_TYPE,
-        element: <BeverageTypePage />,
+        path: ROUTES.DRINK_TYPE,
+        element: <DrinkTypePage />,
       },
       {
-        path: ROUTES.BEVERAGE_VOLUME,
-        element: <div>Volume Page - TODO</div>, // TODO: Replace with BeverageVolumePage
+        path: ROUTES.DRINK_VOLUME,
+        element: <div>Volume Page - TODO</div>, // TODO: Replace with DrinkVolumePage
       },
       {
         path: ROUTES.FINAL_TEMPERATURE,

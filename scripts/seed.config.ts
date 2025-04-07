@@ -6,8 +6,8 @@ export interface SeedConfig {
 
 export const seedOrder: SeedConfig[] = [
   {
-    name: 'beverage_types',
-    description: 'Base beverage types and subtypes',
+    name: 'drink_types',
+    description: 'Base drink types and subtypes',
   },
   {
     name: 'container_types',
@@ -22,9 +22,9 @@ export const seedOrder: SeedConfig[] = [
     description: 'Temperature-time cooling tables',
   },
   {
-    name: 'beverage_configs',
-    description: 'Beverage configurations',
-    dependencies: ['beverage_types', 'container_types', 'volumes', 'temperature_tables'],
+    name: 'drink_configs',
+    description: 'drink configurations',
+    dependencies: ['drink_types', 'container_types', 'volumes', 'temperature_tables'],
   },
   {
     name: 'elements',
@@ -33,7 +33,7 @@ export const seedOrder: SeedConfig[] = [
   {
     name: 'running_orders',
     description: 'Example running orders',
-    dependencies: ['elements', 'beverage_configs'],
+    dependencies: ['elements', 'drink_configs'],
   },
 ];
 

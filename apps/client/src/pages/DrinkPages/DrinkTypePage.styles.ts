@@ -51,7 +51,7 @@ export const styles = css`
     }
   }
 
-  .beverage-grid {
+  .DRINK-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
@@ -60,7 +60,7 @@ export const styles = css`
     margin: 0 auto;
   }
 
-  .beverage-type {
+  .drink-type {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -86,7 +86,7 @@ export const styles = css`
     }
   }
 
-  .beverage-type.refresco {
+  .drink-type.refresco {
     grid-column: 1 / -1;
   }
 `;

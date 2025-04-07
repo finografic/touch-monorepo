@@ -1,20 +1,20 @@
 import { db } from '../db.adapter';
-import { beverage_types, beverage_subtypes } from '../schemas';
+import { drink_types, drink_subtypes } from '../schemas';
 
 export async function seed() {
-  console.log('Seeding beverage_types...');
+  console.log('Seeding drink_types...');
 
   try {
     // Check if types already exist
-    const existing = await db.select().from(beverage_types).limit(1);
+    const existing = await db.select().from(drink_types).limit(1);
     if (existing.length > 0) {
-      console.log('✓ Beverage types already seeded, skipping...');
+      console.log('✓ Drink types already seeded, skipping...');
       return;
     }
 
-    // Insert beverage types
+    // Insert drink types
     const insertedTypes = await db
-      .insert(beverage_types)
+      .insert(drink_types)
       .values([
         {
           name: 'cerveza',
@@ -73,45 +73,45 @@ export async function seed() {
     const wineTypeId = insertedTypes.find((t) => t.name === 'vino')?.id;
 
     if (!beerTypeId || !wineTypeId) {
-      throw new Error('Parent beverage types not found');
+      throw new Error('Parent drink types not found');
     }
 
     // Insert subtypes for beer and wine
-    await db.insert(beverage_subtypes).values([
+    await db.insert(drink_subtypes).values([
       {
         name: 'rubia',
         displayName: 'Rubia',
-        beverageTypeId: beerTypeId,
+        drinkTypeId: beerTypeId,
         consumptionTemp: 3,
         freezeTemp: -2,
       },
       {
         name: 'negra',
         displayName: 'Negra',
-        beverageTypeId: beerTypeId,
+        drinkTypeId: beerTypeId,
         consumptionTemp: 3,
         freezeTemp: -6,
       },
       {
         name: 'tinto',
         displayName: 'Tinto',
-        beverageTypeId: wineTypeId,
+        drinkTypeId: wineTypeId,
         consumptionTemp: 15,
         freezeTemp: 12,
       },
       {
         name: 'blanco',
         displayName: 'Blanco',
-        beverageTypeId: wineTypeId,
+        drinkTypeId: wineTypeId,
         consumptionTemp: 12,
         freezeTemp: 8,
       },
     ]);
 
-    console.log('✅ Beverage types seed completed successfully!');
+    console.log('✅ Drink types seed completed successfully!');
     return insertedTypes;
   } catch (error) {
-    console.error('❌ Error seeding beverage types:', error);
+    console.error('❌ Error seeding drink types:', error);
     throw error;
   }
 }

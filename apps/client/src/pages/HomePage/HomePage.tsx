@@ -10,7 +10,7 @@ export const HomePage = () => {
       <div className="splash-screen">
         <div className="logo-container">
           <h1 className="app-title">ServiFresc</h1>
-          <p className="app-subtitle">Smart Beverage Temperature Control</p>
+          <p className="app-subtitle">Smart Drink Temperature Control</p>
         </div>
 
         <div className="feature-grid">
@@ -20,7 +20,7 @@ export const HomePage = () => {
           </div>
           <div className="feature-item">
             <span className="feature-number">7</span>
-            <span className="feature-text">Beverage Types</span>
+            <span className="feature-text">Drink Types</span>
           </div>
           <div className="feature-item">
             <span className="feature-number">8</span>

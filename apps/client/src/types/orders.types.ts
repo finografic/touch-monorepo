@@ -1,9 +1,9 @@
-import { BeverageSubtype, BeverageType } from './beverages.types';
+import { DrinkSubtype, DrinkType } from './drinks.types';
 
 export type OrderItem = {
   itemNumber: number;
-  beverageType?: BeverageType;
-  beverageSubtype?: BeverageSubtype;
+  drinkType?: DrinkType;
+  drinkSubtype?: DrinkSubtype;
   isSelected: boolean;
   isLocked: boolean;
 };
