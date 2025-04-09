@@ -1,7 +1,8 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { drink_subtypes, drink_types } from './drink_types.schema';
+import { drink_types } from './drink_types.schema';
+import { drink_subtypes } from './drink_subtypes.schema';
 import { container_types } from './container_types.schema';
 import { volumes } from './volumes.schema';
 
