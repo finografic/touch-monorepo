@@ -14,7 +14,8 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
-    "clean": "tsx ../../scripts/clean-all.ts",
+    "clean": "rimraf dist .turbo tsconfig.tsbuildinfo",
+    "clean.IN_DEVELOPMENT": "tsx ../../scripts/clean-all.ts",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",
     "typecheck": "tsc --noEmit"
