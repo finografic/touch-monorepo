@@ -27,10 +27,8 @@ export const DrinkTypePage = () => {
   }, [numSelected, setIsNextDisabled]);
 
   return (
-    <div css={styles}>
-      <div className="selected-pads">Selected pads: {Object.keys(orders).join(', ')}</div>
-
-      <div className="DRINK-grid">
+    <section css={styles}>
+      <div className="drink-grid">
         {DRINK_TYPES.map(({ id, name }) => (
           <div
             key={id}
@@ -41,6 +39,6 @@ export const DrinkTypePage = () => {
           </div>
         ))}
       </div>
-    </div>
+    </section>
   );
 };

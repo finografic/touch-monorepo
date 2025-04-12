@@ -45,7 +45,7 @@ export const styles = css`
 
   div.main-content {
     width: 66vw;
-    height: 70vh;
+    height: 66vh;
     display: flex;
     align-items: center;
     justify-content: center;

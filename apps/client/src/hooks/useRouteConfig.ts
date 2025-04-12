@@ -4,10 +4,12 @@ import { ROUTES } from 'constants/routes.constants';
 
 export const useRouteConfig = () => {
   const { pathname } = useLocation();
-  const config = ROUTE_CONFIG[pathname] || ROUTE_CONFIG[ROUTES.HOME];
+  const routeConfig = ROUTE_CONFIG[pathname] || ROUTE_CONFIG[ROUTES.HOME];
 
-  return {
-    title: config.title,
-    // We can add more properties here as needed
-  };
+  return routeConfig;
+
+  // return {
+  //   title: config.title,
+  //   // We can add more properties here as needed
+  // };
 };

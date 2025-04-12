@@ -21,19 +21,8 @@ const props = {
 };
 
 export const styles = css`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-
   color: ${colors.white};
   padding: 2rem;
-
-  section.menu-main {
-    /* border: 1px solid transparent; */
-    height: 412px;
-    margin-bottom: 3rem;
-  }
 
   .menu-grid-left {
     display: grid;

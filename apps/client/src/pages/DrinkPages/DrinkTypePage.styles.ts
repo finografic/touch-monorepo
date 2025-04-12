@@ -51,7 +51,7 @@ export const styles = css`
     }
   }
 
-  .DRINK-grid {
+  .drink-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
