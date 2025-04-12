@@ -1,4 +1,4 @@
-import { ROUTES } from './routes.constants';
+import { ROUTES } from '../routes/routes.constants';
 
 type PageTitles = {
   [K in (typeof ROUTES)[keyof typeof ROUTES]]: string;

@@ -1,6 +1,6 @@
 import { useLocation } from 'react-router-dom';
-import { ROUTE_CONFIG } from 'constants/routes.config';
-import { ROUTES } from 'constants/routes.constants';
+import { ROUTE_CONFIG } from 'routes/routes.config';
+import { ROUTES } from 'routes/routes.constants';
 
 export const useRouteConfig = () => {
   const { pathname } = useLocation();

@@ -1,6 +1,16 @@
-import { ROUTES } from './routes.constants';
-import { PAGE_TITLES } from './pages.constants';
+import { PAGE_TITLES } from '../constants/pages.constants';
 import type { RouteConfig } from 'types/routes.types';
+
+export const ROUTES = {
+  HOME: '/',
+  DRINK_TYPE: '/drink-type',
+  DRINK_VOLUME: '/drink-volume',
+  FINAL_TEMPERATURE: '/final-temperature',
+  CONTAINER_TYPE: '/container-type',
+  INITIAL_TEMPERATURE: '/initial-temperature',
+} as const;
+
+export type Routes = (typeof ROUTES)[keyof typeof ROUTES];
 
 export const ROUTE_CONFIG: Record<string, RouteConfig> = {
   [ROUTES.HOME]: {

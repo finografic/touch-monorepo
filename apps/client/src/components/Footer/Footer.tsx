@@ -1,9 +1,11 @@
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { styles } from './Footer.styles';
 import { useOrders } from 'providers/OrdersProvider';
+import { ROUTES } from 'routes/routes.constants';
 
 export const Footer = () => {
+  const location = useLocation();
   const navigate = useNavigate();
   const { current, total, setPageCurrent, isNextDisabled } = usePagination();
   const { selectAllPads } = useOrders();
@@ -23,7 +25,7 @@ export const Footer = () => {
   return (
     <footer css={styles}>
       <div className="controls">
-        {current === 0 && (
+        {location.pathname === ROUTES.HOME && (
           <button className="control-btn" onClick={selectAllPads}>
             ALL
           </button>

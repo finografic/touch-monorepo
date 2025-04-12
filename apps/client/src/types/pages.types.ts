@@ -1,3 +1,3 @@
-import { ROUTES } from 'constants/routes.constants';
+import { ROUTES } from 'routes/routes.constants';
 
 export type PagePathname = (typeof ROUTES)[keyof typeof ROUTES];
