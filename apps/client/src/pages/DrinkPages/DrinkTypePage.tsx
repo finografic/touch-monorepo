@@ -1,6 +1,6 @@
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { styles } from './DrinkTypePage.styles';
+import { stylesItemsGrid } from './items-grid.styles';
 import { useEffect, useState } from 'react';
 
 const DRINK_TYPES = [
@@ -27,13 +27,13 @@ export const DrinkTypePage = () => {
   }, [numSelected, setIsNextDisabled]);
 
   return (
-    <section css={styles}>
-      <div className="drink-grid">
+    <section css={stylesItemsGrid}>
+      <div className="items-grid">
         {DRINK_TYPES.map(({ id, name }) => (
           <div
             key={id}
-            className={`drink-type ${id} ${selectedType === id ? 'selected' : ''}`}
-            onClick={() => setSelectedType(id)}
+            className={`item-button ${id} ${selectedType === id ? 'selected' : ''}`}
+            onClick={() => setSelectedType(selectedType === id ? null : id)}
           >
             {name}
           </div>

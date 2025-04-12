@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { colors, layout } from 'styles';
 
 export const stylesItemsGrid = css`
-  .item-button-grid {
+  .items-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 2rem;
