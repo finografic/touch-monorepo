@@ -18,11 +18,10 @@ export const DrinkTypePage = () => {
   const { setIsNextDisabled } = usePagination();
   const [selectedType, setSelectedType] = useState<string | null>(null);
 
-  const {} = usePagination();
-
   const numSelected = Object.values(orders).filter((order) => !!order.drinkType).length;
 
   useEffect(() => {
+    console.log('SELECTED', 'cyan', numSelected);
     setIsNextDisabled(numSelected === 0);
   }, [numSelected, setIsNextDisabled]);
 
