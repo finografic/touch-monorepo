@@ -11,6 +11,9 @@
     "moduleResolution": "Bundler",
     "declaration": true,
     "declarationMap": false,
-    "sourceMap": false
+    "sourceMap": false,
+    "types": [
+      "node"
+    ]
   }
 }
