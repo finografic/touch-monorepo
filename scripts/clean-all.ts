@@ -27,7 +27,7 @@ function getPackageScope(): string | null {
 }
 
 // Never delete these
-const NEVER_DELETE = [
+const GLOB_DELETE_EXCLUDE = [
   '.git',
   '.env',
   '.env.*',
@@ -37,10 +37,10 @@ const NEVER_DELETE = [
   'packages',
   'config',
   'scripts',
-];
+] as const;
 
 // Patterns to delete, in order of safety
-const PATTERNS_TO_DELETE = [
+const GLOB_DELETE_INCLUDE = [
   // Build artifacts first
   '.turbo',
   '**/dist',
@@ -76,7 +76,7 @@ async function cleanAll({ dryRun = false, verbose = false, recursive = false }: 
   const baseDir = packageScope ? path.join(WORKSPACE_ROOT, packageScope) : WORKSPACE_ROOT;
 
   console.log(
-    chalk.yellow('\nCleaning', packageScope || `${('workspace root', recursive ? 'recursively' : '')}...`),
+    chalk.yellow(`\nCleaning ${packageScope || 'workspace root'}${recursive ? ' recursively' : ''}...`),
   );
   if (dryRun) console.log(chalk.yellow('DRY RUN - no files will be deleted\n'));
 
@@ -86,7 +86,7 @@ async function cleanAll({ dryRun = false, verbose = false, recursive = false }: 
 
   try {
     // Delete patterns in sequence to maintain order
-    for (const pattern of PATTERNS_TO_DELETE) {
+    for (const pattern of GLOB_DELETE_INCLUDE) {
       const fullPattern = path.join(baseDir, pattern).replace(/\\/g, '/');
       // Only apply recursive flag at root level
       const finalPattern = !packageScope && recursive ? fullPattern : fullPattern.replace(/^\*\*\//, '');
@@ -100,7 +100,7 @@ async function cleanAll({ dryRun = false, verbose = false, recursive = false }: 
               console.log(chalk.gray(`Progress: ${deletedCount}/${totalCount} (${percent.toFixed(1)}%)`));
             }
           : undefined,
-        ignore: NEVER_DELETE.map((p) => path.join(baseDir, p).replace(/\\/g, '/')),
+        ignore: GLOB_DELETE_EXCLUDE.map((p) => path.join(baseDir, p).replace(/\\/g, '/')),
       });
 
       // Add root-level paths to our set
@@ -124,7 +124,7 @@ async function cleanAll({ dryRun = false, verbose = false, recursive = false }: 
     console.log(chalk.green(`\n✔ Clean ${dryRun ? 'simulation' : 'operation'} completed successfully`));
     console.log(chalk.gray(`  ${rootPaths.size} root paths ${dryRun ? 'would be' : 'were'} affected`));
     if (totalFiles > 0) {
-      const fileCount = deletedPaths.reduce((acc, path) => acc + (isFile(path) ? 1 : 0), 0);
+      const fileCount = totalFiles;
       console.log(chalk.gray(`  ${fileCount} total files ${dryRun ? 'would be' : 'were'} deleted\n`));
     }
   } catch (error) {
@@ -143,4 +143,5 @@ if (import.meta.url === pathToFileURL(process.argv[1]).href) {
   });
 }
 
-export { cleanAll as clean, CleanOptions, NEVER_DELETE, PATTERNS_TO_DELETE };
+export type { CleanOptions };
+export { cleanAll as clean, GLOB_DELETE_EXCLUDE, GLOB_DELETE_INCLUDE };

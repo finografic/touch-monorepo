@@ -5,7 +5,7 @@
   "type": "module",
   "bin": {
     "clean-all": "./clean-all.ts",
-    "db-setup-schemas": "./db-setup-schemas.ts"
+    "db.setup": "./db.setup.ts"
   },
   "dependencies": {
     "@inquirer/prompts": "7.1.0",

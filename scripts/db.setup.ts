@@ -89,9 +89,9 @@ async function main() {
     const operations = await checkbox({
       message: 'Select operations to perform',
       choices: [
-        { name: 'Generate migrations', value: 'generate', checked: true },
-        { name: 'Run migrations', value: 'migrate', checked: false },
         { name: 'Seed data', value: 'seed', checked: true },
+        { name: 'Run migrations', value: 'migrate', checked: false },
+        { name: 'Generate migrations', value: 'generate', checked: false },
       ],
     });
 

@@ -14,6 +14,8 @@ export function MenuPage() {
     setIsNextDisabled(numSelected === 0);
   }, [numSelected, setIsNextDisabled]);
 
+  // TODO: NEW - MODE BUTTON !! (SECRET PAGE for ADMIN)
+
   return (
     <div css={styles}>
       <section className="menu-main">
