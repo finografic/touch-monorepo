@@ -4,7 +4,8 @@ import { Col, Row } from 'react-grid-system';
 import { Pad } from 'components/Pad';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-export function MenuPage() {
+
+export const MenuPage = () => {
   const { orders } = useOrders();
   const { setIsNextDisabled } = usePagination();
 
@@ -49,4 +50,4 @@ export function MenuPage() {
       </section>
     </div>
   );
-}
+};

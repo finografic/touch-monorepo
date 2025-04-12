@@ -28,7 +28,6 @@ export const DrinkTypePage = () => {
 
   return (
     <div css={styles}>
-      <h2>Select drink type:</h2>
       <div className="selected-pads">Selected pads: {Object.keys(orders).join(', ')}</div>
 
       <div className="DRINK-grid">

@@ -2,28 +2,49 @@ import { css } from '@emotion/react';
 import { colors, spacing, typography } from 'styles';
 
 export const styles = css`
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  flex: 1;
-  padding: 2rem 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: ${colors.background};
+  /********** <main> **********/
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  flex: 1;
+  /* padding: 2rem 0; */
+  width: 100vw;
+  height: 100vh;
+  background-color: ${colors.background};
+
+  /* <<< DEVELOPMENT **************************/
+
+  box-shadow: inset 0 0 0 2px red;
 
   div.main-content {
+    border: 1px solid yellow;
+  }
+  header {
+    box-shadow: inset 0 0 0 2px blue;
+  }
+  footer {
+    box-shadow: inset 0 0 0 2px green;
+  }
+
+  section {
+    box-shadow: inset 0 0 0 2px green;
+  }
+
+  /*********************** DEVELOPMENT >>> */
+
+  div.main-content {
+    border: 1px solid yellow;
     width: 66vw;
     height: 70vh;
   }
 
   header {
-    background-color: white;
-    border-bottom: 1px solid #e5e7eb;
-    padding: 1rem 0;
+    width: 100vw;
+  }
+
+  footer {
+    width: 100vw;
   }
 
   nav {
