@@ -21,8 +21,8 @@ const props = {
 };
 
 export const styles = css`
+  width: max-content !important;
   color: ${colors.white};
-  padding: 2rem;
 
   .menu-grid-left {
     display: grid;

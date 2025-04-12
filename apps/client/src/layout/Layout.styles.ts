@@ -29,7 +29,7 @@ export const styles = css`
     box-shadow: inset 0 0 0 2px blue;
   }
   footer {
-    box-shadow: inset 0 0 0 2px green;
+    box-shadow: inset 0 0 0 2px blue;
   } */
   section {
     box-shadow: inset 0 0 0 2px green;
@@ -49,6 +49,11 @@ export const styles = css`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  section {
+    width: 66%;
+    padding: 2rem;
   }
 
   nav {

@@ -12,8 +12,6 @@ export const styles = css`
   padding: 1.5rem;
   overflow-x: visible;
 
-  /* border: 1px solid white; */
-
   h2 {
     font-family: monospace;
     font-size: 1rem;
@@ -22,10 +20,9 @@ export const styles = css`
   }
 
   pre {
-    color: ${colors.text};
+    color: ${colors.textLight};
     font-size: 0.7rem;
     line-height: 1.5;
     margin: 0;
-    /* white-space: wrap; */
   }
 `;

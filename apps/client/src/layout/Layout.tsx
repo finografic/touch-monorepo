@@ -6,7 +6,7 @@ import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
 import { DevPanel } from 'layout/DevPanel/DevPanel';
 
-export const Layout = () => {
+export const Layout: React.FC = () => {
   return (
     <OrdersProvider>
       <PaginationProvider>

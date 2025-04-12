@@ -16,12 +16,13 @@ export const styles = css`
   }
 
   .control-btn {
+    cursor: pointer;
+    min-width: 150px;
     padding: 0.5rem 1.5rem;
     border: ${layout.borderWidth} solid ${colors.greyDark};
     border-radius: 4px;
     background: transparent;
     color: ${colors.info};
-    cursor: pointer;
     transition: all 0.2s;
 
     &:hover {
