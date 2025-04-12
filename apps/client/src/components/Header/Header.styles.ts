@@ -9,7 +9,7 @@ export const styles = css`
 
   padding: ${spacing[4]} 0;
   background-color: transparent;
-  /* background-color: white; */
+  /* background-color: pink; */
   border-bottom: none;
 
   ${min.md} {

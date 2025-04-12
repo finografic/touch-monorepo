@@ -31,18 +31,17 @@ export const cssGlobal = css`
     ${cssFontDefaults}
   }
 
-  html {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  body {
+    width: 100vw;
+    height: 100vh;
+
     /** SCROLLBAR HANDLING **/
     scrollbar-gutter: auto;
     overflow-x: hidden;
     overflow-y: auto;
     /** NEXT LINE ENSURES *NO* JUMP WHEN SCROLLBAR TOGGLES **/
     margin-right: calc(-1 * (100vw - 100%));
-    body {
-      width: 100vw;
-    }
+
+    background-color: ${colors.background};
   }
 `;
