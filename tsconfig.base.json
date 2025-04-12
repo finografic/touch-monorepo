@@ -24,8 +24,6 @@
       "node"
     ],
     "strict": true,
-    "allowImportingTsExtensions": true,
-    "emitDeclarationOnly": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "skipLibCheck": true,
