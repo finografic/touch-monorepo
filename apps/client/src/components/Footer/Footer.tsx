@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { styles } from './Footer.styles';
 import { useOrders } from 'providers/OrdersProvider';
-import { ROUTES } from 'routes/routes.constants';
+import { ROUTES } from 'routes/routes.config';
 
 export const Footer = () => {
   const location = useLocation();

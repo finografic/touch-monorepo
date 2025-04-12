@@ -8,7 +8,7 @@ import { AuthProvider } from 'lib/auth/AuthProvider';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
 import { DrinkTypePage } from '../pages/DrinkPages/DrinkTypePage';
-import { ROUTES } from './routes.constants';
+import { ROUTES } from './routes.config';
 
 // TODO: Create and import these components
 // import { DrinkVolumePage } from '../pages/DrinkVolumePage/DrinkVolumePage';
@@ -27,7 +27,8 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <HomePage />,
+        // element: <HomePage />,
+        element: <MenuPage />,
       },
       {
         path: '/login',
