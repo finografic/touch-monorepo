@@ -4,6 +4,7 @@ import { DRINK_TYPES } from './drink-type.data';
 import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
+import { getGridFlowClasses } from './utils/getGridFlowClasses';
 
 export const DrinkTypePage = () => {
   const {
@@ -23,7 +24,7 @@ export const DrinkTypePage = () => {
 
   return (
     <section css={stylesItemsGrid}>
-      <div className="items-grid">
+      <div className={getGridFlowClasses(DRINK_TYPES.length)}>
         {DRINK_TYPES.map((drinkType) => (
           <div
             key={drinkType.id}

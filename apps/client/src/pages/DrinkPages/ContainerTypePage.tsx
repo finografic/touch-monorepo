@@ -4,6 +4,7 @@ import { CONTAINER_TYPES } from './container-type.data';
 import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
+import { getGridFlowClasses } from './utils/getGridFlowClasses';
 
 export const ContainerTypePage = () => {
   const {
@@ -23,7 +24,7 @@ export const ContainerTypePage = () => {
 
   return (
     <section css={stylesItemsGrid}>
-      <div className="items-grid">
+      <div className={getGridFlowClasses(CONTAINER_TYPES.length)}>
         {CONTAINER_TYPES.map((containerType) => (
           <div
             key={containerType.id}

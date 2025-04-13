@@ -14,6 +14,30 @@ export const stylesItemsGrid = css`
     /* Create a more dynamic grid layout */
     grid-auto-rows: minmax(80px, auto);
     align-items: stretch;
+
+    /* When vertical-flow class is added, items flow down columns instead of across rows */
+    &.vertical-flow {
+      grid-auto-flow: column;
+      /* Ensure we have enough row space for items */
+      grid-template-rows: repeat(4, minmax(80px, auto));
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Centers items when combined with vertical-flow */
+    &.vertical-flow.centered-flow {
+      /* Calculate columns based on number of items */
+      grid-template-columns: repeat(1, minmax(200px, 300px));
+      justify-content: center;
+
+      /* Adjust max-width to prevent stretching */
+      max-width: 800px;
+      margin: 0 auto;
+
+      /* Ensure consistent item sizing */
+      .item-button {
+        width: 100%;
+      }
+    }
   }
 
   .item-button {

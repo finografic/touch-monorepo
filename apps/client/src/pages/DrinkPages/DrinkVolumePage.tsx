@@ -4,6 +4,7 @@ import { VOLUMES } from './volume.data';
 import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
+import { getGridFlowClasses } from './utils/getGridFlowClasses';
 
 const formatVolume = (volume: Volume): string => {
   if (volume.unit === 'L') {
@@ -34,7 +35,7 @@ export const DrinkVolumePage = () => {
 
   return (
     <section css={stylesItemsGrid}>
-      <div className="items-grid">
+      <div className={getGridFlowClasses(VOLUMES.length)}>
         {VOLUMES.map((volume) => (
           <div
             key={`${volume.amount}${volume.unit}`}
