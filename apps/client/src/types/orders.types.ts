@@ -1,4 +1,4 @@
-import type { DrinkType } from './drinks.types';
+import type { DrinkSubtype, DrinkType } from './drinks.types';
 
 // Types for the values of each field
 export interface Volume {
@@ -19,6 +19,7 @@ export interface ContainerType {
 // The fields that are managed by the selection process
 export interface OrderSelectionFields {
   drinkType?: DrinkType;
+  drinkSubtype?: DrinkSubtype;
   volume?: Volume;
   finalTemperature?: Temperature;
   containerType?: ContainerType;

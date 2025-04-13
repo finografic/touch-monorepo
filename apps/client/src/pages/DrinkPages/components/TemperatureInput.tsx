@@ -34,8 +34,10 @@ const styles = css`
 
   .input-container {
     display: flex;
+    flex-direction: column;
     align-items: center;
     gap: 1rem;
+    width: 180px; /* Set fixed width for the container */
   }
 
   .temp-display {
@@ -47,34 +49,36 @@ const styles = css`
     font-size: 2rem;
     color: ${colors.info};
     background: transparent;
-    min-width: 120px;
+    width: 100%;
     justify-content: center;
-  }
-
-  .buttons-container {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
   }
 
   .temp-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 100%;
+    height: 44px;
     border: ${layout.borderWidth} solid ${colors.greyDark};
     border-radius: 8px;
     color: ${colors.info};
-    font-size: 1.5rem;
+    font-size: 2rem;
+    font-weight: 500;
     cursor: pointer;
     transition: all 0.3s;
     background: transparent;
     padding: 0;
+    line-height: 1;
+
+    span {
+      /* baseline-shift: -1px;
+       */
+      padding-bottom: 0.15em;
+    }
 
     &:hover:not(:disabled) {
       border-color: ${colors.info};
-      transform: scale(1.05);
+      transform: scale(1.02);
     }
 
     &:disabled {
@@ -121,26 +125,24 @@ export const TemperatureInput = ({
       <div className="temperature-container">
         <p className="description">{description}</p>
         <div className="input-container">
-          <div className="buttons-container">
-            <button
-              className="temp-button"
-              onClick={() => handleTemperatureChange(temperature + step)}
-              disabled={temperature >= max}
-            >
-              +
-            </button>
-            <button
-              className="temp-button"
-              onClick={() => handleTemperatureChange(temperature - step)}
-              disabled={temperature <= min}
-            >
-              -
-            </button>
-          </div>
+          <button
+            className="temp-button"
+            onClick={() => handleTemperatureChange(temperature + step)}
+            disabled={temperature >= max}
+          >
+            <span>+</span>
+          </button>
           <div className="temp-display">
             {temperature.toFixed(1)}
             <span className="unit">°C</span>
           </div>
+          <button
+            className="temp-button"
+            onClick={() => handleTemperatureChange(temperature - step)}
+            disabled={temperature <= min}
+          >
+            <span>-</span>
+          </button>
         </div>
       </div>
     </div>
