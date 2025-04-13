@@ -1,31 +1,25 @@
-import { useOrders } from 'providers/OrdersProvider';
-import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { stylesItemsGrid } from './items-grid.styles';
-import { useEffect, useState } from 'react';
 import type { DrinkType } from 'types/drinks.types';
 import { DRINK_TYPES } from './drink-type.data';
+import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
+import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { useEffect } from 'react';
 
 export const DrinkTypePage = () => {
-  const { orders, setOrders } = useOrders();
+  const {
+    selectedValue: selectedType,
+    handleSelection: handleTypeSelection,
+    hasValidSelection,
+  } = useOrderSelection<DrinkType>({
+    field: OrderFieldKeys.drinkType,
+  });
+
   const { setIsNextDisabled } = usePagination();
-  const [selectedType, setSelectedType] = useState<DrinkType | null>(null);
 
+  // Update next button state based on selection
   useEffect(() => {
-    setIsNextDisabled(!selectedType);
-  }, [selectedType, setIsNextDisabled]);
-
-  const handleTypeSelection = (drinkType: DrinkType) => {
-    const newType = selectedType?.id === drinkType.id ? undefined : drinkType;
-    setSelectedType(newType || null);
-
-    // Update all orders with the new drink type
-    const updatedOrders = orders.map((order) => ({
-      ...order,
-      drinkType: newType,
-    }));
-
-    setOrders(updatedOrders);
-  };
+    setIsNextDisabled(!hasValidSelection);
+  }, [hasValidSelection, setIsNextDisabled]);
 
   return (
     <section css={stylesItemsGrid}>
