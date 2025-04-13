@@ -7,10 +7,11 @@ export const styles = css`
   position: absolute;
   top: 0;
   left: 0;
-  min-width: 15vw;
+  min-width: 17vw;
   height: 100%;
   padding: 1.5rem;
   overflow-x: visible;
+  overflow-y: hidden;
 
   h2 {
     font-family: monospace;

@@ -1,6 +1,6 @@
 import { stylesItemsGrid } from './items-grid.styles';
 import type { DrinkType } from 'types/drinks.types';
-import { DRINK_TYPES } from './drink-type.data';
+import { DRINK_TYPES } from './data/drink-type.data';
 import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';

@@ -8,6 +8,7 @@ export type OrderField = keyof OrderSelectionFields;
 // Create a const object with the same keys for usage in components
 export const OrderFieldKeys: { [K in OrderField]: K } = {
   drinkType: 'drinkType',
+  drinkSubtype: 'drinkSubtype',
   volume: 'volume',
   finalTemperature: 'finalTemperature',
   containerType: 'containerType',

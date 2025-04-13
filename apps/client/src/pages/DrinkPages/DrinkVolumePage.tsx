@@ -1,6 +1,6 @@
 import { stylesItemsGrid } from './items-grid.styles';
 import type { Volume } from 'types/orders.types';
-import { VOLUMES } from './volume.data';
+import { VOLUMES } from './data/volume.data';
 import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';

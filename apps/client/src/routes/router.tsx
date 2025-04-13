@@ -1,8 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
-// import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 // import { RequireAuth } from './RequireAuth';
-import { HomePage } from 'pages/HomePage/HomePage';
+import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 import { Layout } from 'layout/Layout';
 import { AuthProvider } from 'lib/auth/AuthProvider';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
@@ -70,16 +69,15 @@ export const router = createBrowserRouter([
         element: <InitialTemperaturePage />,
       },
       // ============================================== //
-      /*
+
       {
         path: '/dashboard',
         element: (
-          <RequireAuth>
-            <DashboardPage />
-          </RequireAuth>
+          // <RequireAuth>
+          <DashboardPage />
+          // </RequireAuth>
         ),
       },
-      */
     ],
   },
 ]);

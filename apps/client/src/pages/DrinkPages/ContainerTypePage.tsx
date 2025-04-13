@@ -1,6 +1,6 @@
 import { stylesItemsGrid } from './items-grid.styles';
 import type { ContainerType } from 'types/orders.types';
-import { CONTAINER_TYPES } from './container-type.data';
+import { CONTAINER_TYPES } from './data/container-type.data';
 import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
