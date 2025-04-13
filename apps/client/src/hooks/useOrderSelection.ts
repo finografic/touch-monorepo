@@ -1,11 +1,12 @@
 import { useState, useCallback } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
-import type { OrderItem } from 'types/orders.types';
+import type { OrderSelectionFields } from 'types/orders.types';
 
-type OrderField = keyof typeof OrderFieldKeys;
+// Derive the field keys from the OrderSelectionFields type
+export type OrderField = keyof OrderSelectionFields;
 
-// These keys should match both the database fields and the order context fields
-export const OrderFieldKeys = {
+// Create a const object with the same keys for usage in components
+export const OrderFieldKeys: { [K in OrderField]: K } = {
   drinkType: 'drinkType',
   volume: 'volume',
   finalTemperature: 'finalTemperature',
@@ -13,11 +14,7 @@ export const OrderFieldKeys = {
   initialTemperature: 'initialTemperature',
 } as const;
 
-interface UseOrderSelectionOptions<T> {
-  field: OrderField;
-}
-
-export function useOrderSelection<T>({ field }: UseOrderSelectionOptions<T>) {
+export function useOrderSelection<T>({ field }: { field: OrderField }) {
   const { orders, setOrders } = useOrders();
   const [selectedValue, setSelectedValue] = useState<T | null>(() => {
     // Initialize from first order's value if it exists

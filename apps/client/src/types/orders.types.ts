@@ -16,14 +16,21 @@ export interface ContainerType {
   name: string;
 }
 
-// The main order item type that matches our OrderFieldKeys
-export interface OrderItem {
-  itemNumber: number;
+// The fields that are managed by the selection process
+export interface OrderSelectionFields {
   drinkType?: DrinkType;
   volume?: Volume;
   finalTemperature?: Temperature;
   containerType?: ContainerType;
   initialTemperature?: Temperature;
+}
+
+// Base properties that every order has
+interface OrderBaseProps {
+  itemNumber: number;
   isSelected: boolean;
   isLocked: boolean;
 }
+
+// The complete order type combining selection fields and base properties
+export interface OrderItem extends OrderBaseProps, OrderSelectionFields {}

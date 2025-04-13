@@ -8,6 +8,7 @@ import { AuthProvider } from 'lib/auth/AuthProvider';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
 import { DrinkTypePage } from '../pages/DrinkPages/DrinkTypePage';
+import { DrinkVolumePage } from '../pages/DrinkPages/DrinkVolumePage';
 import { ROUTES, ROUTE_CONFIG } from './routes.config';
 
 // TODO: Create and import these components
@@ -51,7 +52,7 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTE_CONFIG[ROUTES.DRINK_VOLUME].pathname,
-        element: <div>Volume Page - TODO</div>,
+        element: <DrinkVolumePage />,
       },
       {
         path: ROUTE_CONFIG[ROUTES.FINAL_TEMPERATURE].pathname,
