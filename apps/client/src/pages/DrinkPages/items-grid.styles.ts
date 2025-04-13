@@ -41,16 +41,10 @@ export const stylesItemsGrid = css`
       background-color: rgba(0, 191, 255, 0.1);
     }
 
-    /* Make the last item span full width and be taller */
-    &:last-child {
+    /* Only make specific items span full width when needed */
+    &.full-width {
       grid-column: 1 / -1;
-      min-height: 100px; /* Slightly taller than other items */
-    }
-
-    /* If there's an odd number of items before the last one,
-       make the second-to-last item also span full width */
-    &:nth-last-child(2):nth-child(odd) {
-      grid-column: 1 / -1;
+      min-height: 100px;
     }
   }
 `;

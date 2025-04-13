@@ -12,7 +12,7 @@ export enum PaginationKeys {
 }
 
 export const defaultValue: PaginationValues = {
-  total: 2,
+  total: 5,
   current: 0,
   isNextDisabled: true,
 };
