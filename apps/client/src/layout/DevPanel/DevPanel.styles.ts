@@ -7,7 +7,7 @@ export const styles = css`
   position: absolute;
   top: 0;
   left: 0;
-  width: 15vw;
+  min-width: 15vw;
   height: 100%;
   padding: 1.5rem;
   overflow-x: visible;

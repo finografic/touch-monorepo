@@ -19,20 +19,20 @@ export const styles = css`
 
   /* <<< DEVELOPMENT **************************/
 
-  /* main {
-    box-shadow: inset 0 0 0 2px red;
-  } */
-  div.main-content {
-    border: 1px solid yellow;
+  main {
+    /* box-shadow: inset 0 0 0 2px red; */
   }
-  /* header {
-    box-shadow: inset 0 0 0 2px blue;
+  div.main-content {
+    /* border: 1px solid yellow; */
+  }
+  header {
+    /* box-shadow: inset 0 0 0 2px blue; */
   }
   footer {
-    box-shadow: inset 0 0 0 2px blue;
-  } */
+    /* box-shadow: inset 0 0 0 2px blue; */
+  }
   section {
-    box-shadow: inset 0 0 0 2px green;
+    /* box-shadow: inset 0 0 0 2px green; */
   }
 
   /*********************** DEVELOPMENT >>> */

@@ -11,38 +11,29 @@ export const ROUTES = {
 
 export type Routes = (typeof ROUTES)[keyof typeof ROUTES];
 
-const PAGE_TITLES = {
-  [ROUTES.HOME]: 'ServiFresc',
-  [ROUTES.DRINK_TYPE]: 'Select drink type:',
-  [ROUTES.DRINK_VOLUME]: 'Select volume:',
-  [ROUTES.FINAL_TEMPERATURE]: 'Temperatura final:',
-  [ROUTES.CONTAINER_TYPE]: 'Seleccione tipo de envase:',
-  [ROUTES.INITIAL_TEMPERATURE]: 'Temperatura inicial:',
-} as const;
-
 export const ROUTE_CONFIG: Record<string, RouteConfig> = {
   [ROUTES.HOME]: {
-    path: ROUTES.HOME,
-    title: PAGE_TITLES[ROUTES.HOME],
+    pathname: ROUTES.HOME,
+    title: 'ServiFresc',
   },
   [ROUTES.DRINK_TYPE]: {
-    path: ROUTES.DRINK_TYPE,
-    title: PAGE_TITLES[ROUTES.DRINK_TYPE],
+    pathname: ROUTES.DRINK_TYPE,
+    title: 'Select drink type:',
   },
   [ROUTES.DRINK_VOLUME]: {
-    path: ROUTES.DRINK_VOLUME,
-    title: PAGE_TITLES[ROUTES.DRINK_VOLUME],
+    pathname: ROUTES.DRINK_VOLUME,
+    title: 'Select volume:',
   },
   [ROUTES.FINAL_TEMPERATURE]: {
-    path: ROUTES.FINAL_TEMPERATURE,
-    title: PAGE_TITLES[ROUTES.FINAL_TEMPERATURE],
+    pathname: ROUTES.FINAL_TEMPERATURE,
+    title: 'Temperatura final:',
   },
   [ROUTES.CONTAINER_TYPE]: {
-    path: ROUTES.CONTAINER_TYPE,
-    title: PAGE_TITLES[ROUTES.CONTAINER_TYPE],
+    pathname: ROUTES.CONTAINER_TYPE,
+    title: 'Seleccione tipo de envase:',
   },
   [ROUTES.INITIAL_TEMPERATURE]: {
-    path: ROUTES.INITIAL_TEMPERATURE,
-    title: PAGE_TITLES[ROUTES.INITIAL_TEMPERATURE],
+    pathname: ROUTES.INITIAL_TEMPERATURE,
+    title: 'Temperatura inicial:',
   },
 };

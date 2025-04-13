@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 
-export type RouteConfig = RouteObject & {
+export type RouteConfig = Omit<RouteObject, 'path'> & {
+  pathname: string;
   title: string;
   // We can add more route-specific config here later like:
   // fetchConfig?: {

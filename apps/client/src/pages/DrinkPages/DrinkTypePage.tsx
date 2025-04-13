@@ -3,72 +3,7 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { stylesItemsGrid } from './items-grid.styles';
 import { useEffect, useState } from 'react';
 import type { DrinkType } from 'types/drinks.types';
-
-const DRINK_TYPES = [
-  {
-    id: 'vino',
-    name: 'Vino',
-    display_name: 'Vino',
-    has_subtypes: 0,
-    default_consumption_time: 0,
-    default_freeze_temp: 0,
-    is_active: 1,
-  },
-  {
-    id: 'licor',
-    name: 'Licor',
-    display_name: 'Licor',
-    has_subtypes: 0,
-    default_consumption_time: 0,
-    default_freeze_temp: 0,
-    is_active: 1,
-  },
-  {
-    id: 'cava',
-    name: 'Cava',
-    display_name: 'Cava',
-    has_subtypes: 0,
-    default_consumption_time: 0,
-    default_freeze_temp: 0,
-    is_active: 1,
-  },
-  {
-    id: 'zumo',
-    name: 'Zumo',
-    display_name: 'Zumo',
-    has_subtypes: 0,
-    default_consumption_time: 0,
-    default_freeze_temp: 0,
-    is_active: 1,
-  },
-  {
-    id: 'cerveza',
-    name: 'Cerveza',
-    display_name: 'Cerveza',
-    has_subtypes: 0,
-    default_consumption_time: 0,
-    default_freeze_temp: 0,
-    is_active: 1,
-  },
-  {
-    id: 'agua',
-    name: 'Agua',
-    display_name: 'Agua',
-    has_subtypes: 0,
-    default_consumption_time: 0,
-    default_freeze_temp: 0,
-    is_active: 1,
-  },
-  {
-    id: 'refresco',
-    name: 'Refresco',
-    display_name: 'Refresco',
-    has_subtypes: 0,
-    default_consumption_time: 0,
-    default_freeze_temp: 0,
-    is_active: 1,
-  },
-] as const;
+import { DRINK_TYPES } from './drink-type.data';
 
 export const DrinkTypePage = () => {
   const { orders, setOrders } = useOrders();

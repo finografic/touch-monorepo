@@ -2,7 +2,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { styles } from './Footer.styles';
 import { useOrders } from 'providers/OrdersProvider';
-import { ROUTES } from 'routes/routes.config';
+import { ROUTES, ROUTE_CONFIG } from 'routes/routes.config';
+
+const PATHNAMES = Object.values(ROUTE_CONFIG).map((route) => route.pathname);
 
 export const Footer = () => {
   const location = useLocation();
@@ -19,7 +21,10 @@ export const Footer = () => {
 
   const handleNext = () => {
     setPageCurrent(current + 1);
-    navigate('/drink-type');
+    const nextPathname = PATHNAMES[current + 1];
+    if (nextPathname) {
+      navigate(nextPathname);
+    }
   };
 
   return (

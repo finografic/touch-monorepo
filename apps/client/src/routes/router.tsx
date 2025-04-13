@@ -8,7 +8,7 @@ import { AuthProvider } from 'lib/auth/AuthProvider';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
 import { DrinkTypePage } from '../pages/DrinkPages/DrinkTypePage';
-import { ROUTES } from './routes.config';
+import { ROUTES, ROUTE_CONFIG } from './routes.config';
 
 // TODO: Create and import these components
 // import { DrinkVolumePage } from '../pages/DrinkVolumePage/DrinkVolumePage';
@@ -46,24 +46,24 @@ export const router = createBrowserRouter([
       // Drink Configuration Flow
       // ============================================== //
       {
-        path: ROUTES.DRINK_TYPE,
+        path: ROUTE_CONFIG[ROUTES.DRINK_TYPE].pathname,
         element: <DrinkTypePage />,
       },
       {
-        path: ROUTES.DRINK_VOLUME,
-        element: <div>Volume Page - TODO</div>, // TODO: Replace with DrinkVolumePage
+        path: ROUTE_CONFIG[ROUTES.DRINK_VOLUME].pathname,
+        element: <div>Volume Page - TODO</div>,
       },
       {
-        path: ROUTES.FINAL_TEMPERATURE,
-        element: <div>Final Temperature Page - TODO</div>, // TODO: Replace with FinalTemperaturePage
+        path: ROUTE_CONFIG[ROUTES.FINAL_TEMPERATURE].pathname,
+        element: <div>Final Temperature Page - TODO</div>,
       },
       {
-        path: ROUTES.CONTAINER_TYPE,
-        element: <div>Container Type Page - TODO</div>, // TODO: Replace with ContainerTypePage
+        path: ROUTE_CONFIG[ROUTES.CONTAINER_TYPE].pathname,
+        element: <div>Container Type Page - TODO</div>,
       },
       {
-        path: ROUTES.INITIAL_TEMPERATURE,
-        element: <div>Initial Temperature Page - TODO</div>, // TODO: Replace with InitialTemperaturePage
+        path: ROUTE_CONFIG[ROUTES.INITIAL_TEMPERATURE].pathname,
+        element: <div>Initial Temperature Page - TODO</div>,
       },
       // ============================================== //
       /*
