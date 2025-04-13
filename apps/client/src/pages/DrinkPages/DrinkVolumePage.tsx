@@ -35,20 +35,15 @@ export const DrinkVolumePage = () => {
   return (
     <section css={stylesItemsGrid}>
       <div className="items-grid">
-        {VOLUMES.map((volume, index) => {
-          // Make the last two items (33cl and 25cl) full width
-          const isFullWidth = index >= VOLUMES.length - 2;
-
-          return (
-            <div
-              key={`${volume.amount}${volume.unit}`}
-              className={`item-button ${selectedVolume?.amount === volume.amount && selectedVolume?.unit === volume.unit ? 'selected' : ''} ${isFullWidth ? 'full-width' : ''}`}
-              onClick={() => handleVolumeSelection(volume)}
-            >
-              {formatVolume(volume)}
-            </div>
-          );
-        })}
+        {VOLUMES.map((volume) => (
+          <div
+            key={`${volume.amount}${volume.unit}`}
+            className={`item-button ${selectedVolume?.amount === volume.amount && selectedVolume?.unit === volume.unit ? 'selected' : ''}`}
+            onClick={() => handleVolumeSelection(volume)}
+          >
+            {formatVolume(volume)}
+          </div>
+        ))}
       </div>
     </section>
   );

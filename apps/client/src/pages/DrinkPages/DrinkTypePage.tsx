@@ -24,20 +24,15 @@ export const DrinkTypePage = () => {
   return (
     <section css={stylesItemsGrid}>
       <div className="items-grid">
-        {DRINK_TYPES.map((drinkType, index) => {
-          // Make only the last item (Refresco) full width
-          const isFullWidth = index === DRINK_TYPES.length - 1;
-
-          return (
-            <div
-              key={drinkType.id}
-              className={`item-button ${selectedType?.id === drinkType.id ? 'selected' : ''} ${isFullWidth ? 'full-width' : ''}`}
-              onClick={() => handleTypeSelection(drinkType)}
-            >
-              {drinkType.display_name}
-            </div>
-          );
-        })}
+        {DRINK_TYPES.map((drinkType) => (
+          <div
+            key={drinkType.id}
+            className={`item-button ${selectedType?.id === drinkType.id ? 'selected' : ''}`}
+            onClick={() => handleTypeSelection(drinkType)}
+          >
+            {drinkType.display_name}
+          </div>
+        ))}
       </div>
     </section>
   );
