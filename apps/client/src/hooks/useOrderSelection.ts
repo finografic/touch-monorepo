@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
+import type { OrderItem } from 'types/orders.types';
 
 type OrderField = keyof typeof OrderFieldKeys;
 
