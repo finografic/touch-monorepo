@@ -27,22 +27,35 @@ export const Footer = () => {
     }
   };
 
+  const handleStart = () => {
+    setPageCurrent(0);
+    const nextPathname = PATHNAMES[0];
+    if (nextPathname) {
+      navigate(nextPathname);
+    }
+  };
+
   return (
     <footer css={styles}>
       <div className="controls">
         {location.pathname === ROUTES.HOME && (
-          <button className="control-btn" onClick={selectAllPads}>
+          <button className="btn-control" onClick={selectAllPads}>
             ALL
           </button>
         )}
         {current > 0 && (
-          <button className="control-btn" onClick={handleBack}>
+          <button className="btn-control" onClick={handleBack}>
             « Back
           </button>
         )}
         {current < total && (
-          <button className="control-btn" onClick={handleNext} disabled={isNextDisabled}>
+          <button className="btn-control" onClick={handleNext} disabled={isNextDisabled}>
             Next »
+          </button>
+        )}
+        {location.pathname === ROUTES.FINAL_TEMPERATURE && (
+          <button className="btn-control btn-start" onClick={handleStart}>
+            START
           </button>
         )}
       </div>

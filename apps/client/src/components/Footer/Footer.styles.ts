@@ -15,7 +15,7 @@ export const styles = css`
     gap: 2rem;
   }
 
-  .control-btn {
+  .btn-control {
     cursor: pointer;
     min-width: 150px;
     padding: 0.5rem 1.5rem;
@@ -36,6 +36,27 @@ export const styles = css`
       &:hover {
         border-color: ${colors.greyDark};
         background-color: transparent;
+      }
+    }
+
+    &.btn-start {
+      border: ${layout.borderWidth} solid ${colors.success};
+      border-radius: 4px;
+      background: transparent;
+      color: ${colors.success};
+
+      &:hover {
+        border-color: ${colors.successLight};
+        background-color: rgba(1, 250, 20, 0.1);
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        &:hover {
+          border-color: ${colors.greyDark};
+          background-color: transparent;
+        }
       }
     }
   }

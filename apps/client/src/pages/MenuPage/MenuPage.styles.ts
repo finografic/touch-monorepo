@@ -91,7 +91,7 @@ export const styles = css`
     margin-top: 2rem;
   }
 
-  .control-btn {
+  .btn-control {
     padding: 0.5rem 1.5rem;
     border: ${layout.borderWidth} solid ${colors.greyDark};
     border-radius: 4px;
