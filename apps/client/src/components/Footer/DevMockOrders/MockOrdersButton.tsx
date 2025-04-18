@@ -1,6 +1,7 @@
 import { useOrders } from 'providers/OrdersProvider';
 import { styles } from './MockOrdersButton.styles';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
+import { ButtonControl } from '../../ButtonControl';
 
 export const MockOrdersButton = () => {
   const { setOrders } = useOrders();
@@ -10,8 +11,8 @@ export const MockOrdersButton = () => {
   };
 
   return (
-    <button css={styles} className="btn-control btn-mock" onClick={handleMockData}>
+    <ButtonControl css={styles} className="btn-control btn-mock" onClick={handleMockData}>
       MOCK
-    </button>
+    </ButtonControl>
   );
 };

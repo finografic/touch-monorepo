@@ -55,9 +55,9 @@ export const Footer = () => {
       <div className="controls">
         {location.pathname === ROUTES.HOME && <MockOrdersButton />}
         {location.pathname === ROUTES.HOME && (
-          <button className="btn-control" onClick={selectAllPads}>
+          <ButtonControl className="btn-control" onClick={selectAllPads}>
             ALL
-          </button>
+          </ButtonControl>
         )}
         {current > 0 && (
           <ButtonControl className="btn-control" onClick={handleBack}>
