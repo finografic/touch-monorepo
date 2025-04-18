@@ -9,15 +9,15 @@ import { MenuPage } from '../pages/MenuPage/MenuPage';
 import { DrinkTypePage } from '../pages/DrinkPages/DrinkTypePage';
 import { DrinkVolumePage } from '../pages/DrinkPages/DrinkVolumePage';
 import { ContainerTypePage } from '../pages/DrinkPages/ContainerTypePage';
-import { InitialTemperaturePage } from '../pages/DrinkPages/InitialTemperaturePage';
-import { FinalTemperaturePage } from '../pages/DrinkPages/FinalTemperaturePage';
+import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPage';
+import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
 import { ROUTES, ROUTE_CONFIG } from './routes.config';
 
 // TODO: Create and import these components
 // import { DrinkVolumePage } from '../pages/DrinkVolumePage/DrinkVolumePage';
-// import { FinalTemperaturePage } from '../pages/FinalTemperaturePage/FinalTemperaturePage';
+// import { TemperatureFinalPage } from '../pages/TemperatureFinalPage/TemperatureFinalPage';
 // import { ContainerTypePage } from '../pages/ContainerTypePage/ContainerTypePage';
-// import { InitialTemperaturePage } from '../pages/InitialTemperaturePage/InitialTemperaturePage';
+// import { TemperatureInitialPage } from '../pages/TemperatureInitialPage/TemperatureInitialPage';
 
 export const router = createBrowserRouter([
   {
@@ -62,11 +62,11 @@ export const router = createBrowserRouter([
       },
       {
         path: ROUTE_CONFIG[ROUTES.FINAL_TEMPERATURE].pathname,
-        element: <FinalTemperaturePage />,
+        element: <TemperatureFinalPage />,
       },
       {
         path: ROUTE_CONFIG[ROUTES.INITIAL_TEMPERATURE].pathname,
-        element: <InitialTemperaturePage />,
+        element: <TemperatureInitialPage />,
       },
       // ============================================== //
 

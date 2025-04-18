@@ -4,13 +4,21 @@ import { useEffect } from 'react';
 import { TemperatureInput } from '../../components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 
-export const InitialTemperaturePage = () => {
+const DEFAULT_INITIAL_TEMP = 23.5;
+
+const DEFAULT_TEMP: Temperature = {
+  value: DEFAULT_INITIAL_TEMP,
+  unit: '°C',
+};
+
+export const TemperatureInitialPage = () => {
   const {
     selectedValue: selectedTemperature,
     handleSelection: handleTemperatureSelection,
     hasValidSelection,
   } = useOrderSelection<Temperature>({
     field: OrderFieldKeys.initialTemperature,
+    initialValue: DEFAULT_TEMP,
   });
 
   const { setIsNextDisabled } = usePagination();
@@ -23,7 +31,7 @@ export const InitialTemperaturePage = () => {
     <TemperatureInput
       value={selectedTemperature}
       onChange={handleTemperatureSelection}
-      defaultValue={23.5}
+      defaultValue={DEFAULT_INITIAL_TEMP}
       description="By default, it indicates the ambient temperature supplied by a probe. The user can modify it using the + and - buttons. Units are in degrees Celsius with one decimal place."
       min={-10}
       max={40}

@@ -4,13 +4,21 @@ import { useEffect } from 'react';
 import { TemperatureInput } from '../../components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 
-export const FinalTemperaturePage = () => {
+const DEFAULT_FINAL_TEMP = 4.5;
+
+const DEFAULT_TEMP: Temperature = {
+  value: DEFAULT_FINAL_TEMP,
+  unit: '°C',
+};
+
+export const TemperatureFinalPage = () => {
   const {
     selectedValue: selectedTemperature,
     handleSelection: handleTemperatureSelection,
     hasValidSelection,
   } = useOrderSelection<Temperature>({
     field: OrderFieldKeys.finalTemperature,
+    initialValue: DEFAULT_TEMP,
   });
 
   const { setIsNextDisabled } = usePagination();
@@ -23,7 +31,7 @@ export const FinalTemperaturePage = () => {
     <TemperatureInput
       value={selectedTemperature}
       onChange={handleTemperatureSelection}
-      defaultValue={4.5}
+      defaultValue={DEFAULT_FINAL_TEMP}
       description="By default, it indicates the recommended serving temperature for the selected beverage. The user can change it using the + and - buttons. Units are in degrees Celsius with one decimal place."
       min={-10}
       max={40}

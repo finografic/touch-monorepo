@@ -15,12 +15,30 @@ export const OrderFieldKeys: { [K in OrderField]: K } = {
   initialTemperature: 'initialTemperature',
 } as const;
 
-export function useOrderSelection<T>({ field }: { field: OrderField }) {
+interface UseOrderSelectionProps<T> {
+  field: OrderField;
+  initialValue?: T;
+}
+
+export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionProps<T>) {
   const { orders, setOrders } = useOrders();
   const [selectedValue, setSelectedValue] = useState<T | null>(() => {
     // Initialize from first order's value if it exists
     const firstOrder = orders[0];
-    return firstOrder && firstOrder[field] ? (firstOrder[field] as T) : null;
+    if (firstOrder && firstOrder[field]) {
+      return firstOrder[field] as T;
+    }
+    // Use initialValue if provided
+    if (initialValue) {
+      // Update all orders with the initial value
+      const updatedOrders = orders.map((order) => ({
+        ...order,
+        [field]: initialValue,
+      }));
+      setOrders(updatedOrders);
+      return initialValue;
+    }
+    return null;
   });
 
   const handleSelection = useCallback(
