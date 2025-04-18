@@ -17,6 +17,6 @@
     "@dotenvx/dotenvx": "1.31.3"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "^0.2.0"
+    "@finografic/project-scripts": "^0.2.3"
   }
 }

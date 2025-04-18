@@ -22,7 +22,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "^0.2.0",
+    "@finografic/project-scripts": "^0.2.3",
     "@touch/scripts": "workspace:*",
     "shx": "0.3.4",
     "tsx": "4.19.2",
