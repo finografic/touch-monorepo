@@ -8,7 +8,7 @@ export const styles = css`
   top: 0;
   left: 0;
   min-width: 17vw;
-  height: 100%;
+  /* height: 100vh; */
   padding: 1.5rem;
   overflow-x: visible;
   overflow-y: hidden;
