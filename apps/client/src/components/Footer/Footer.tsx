@@ -10,7 +10,7 @@ export const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { current, total, setPageCurrent, isNextDisabled } = usePagination();
-  const { selectAllPads } = useOrders();
+  const { selectAllPads, orders, setOrders } = useOrders();
 
   const handleBack = () => {
     if (current > 0) {
@@ -28,6 +28,19 @@ export const Footer = () => {
   };
 
   const handleStart = () => {
+    // Update processStatus for all selected orders
+    const updatedOrders = orders.map((order) => ({
+      ...order,
+      processStatus: order.isSelected
+        ? {
+            isProcessing: true,
+            timeRemaining: 60, // Mock value: 60 seconds
+          }
+        : order.processStatus,
+    }));
+    setOrders(updatedOrders);
+
+    // Navigate back to first page
     setPageCurrent(0);
     const nextPathname = PATHNAMES[0];
     if (nextPathname) {
@@ -54,7 +67,11 @@ export const Footer = () => {
           </button>
         )}
         {location.pathname === ROUTES.FINAL_TEMPERATURE && (
-          <button className="btn-control btn-start" onClick={handleStart}>
+          <button
+            className="btn-control btn-start"
+            onClick={handleStart}
+            style={{ backgroundColor: 'rgba(1, 250, 20, 0.1)' }}
+          >
             START
           </button>
         )}
