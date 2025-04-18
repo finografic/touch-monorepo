@@ -1,82 +1,19 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { styles } from './Footer.styles';
-import { useOrders } from 'providers/OrdersProvider';
-import { ROUTES, ROUTE_CONFIG } from 'routes/routes.config';
-import { MockOrdersButton } from './DevMockOrders/MockOrdersButton';
-const PATHNAMES = Object.values(ROUTE_CONFIG).map((route) => route.pathname);
+import { styles } from './ButtonControl.styles';
+import { FC } from 'react';
 
-export const Footer = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
-  const { current, total, setPageCurrent, isNextDisabled } = usePagination();
-  const { selectAllPads, orders, setOrders } = useOrders();
+type ButtonControlProps = {
+  className?: string;
+  disabled?: boolean;
+  onClick: () => void;
+  children: React.ReactNode;
+};
 
-  const handleBack = () => {
-    if (current > 0) {
-      setPageCurrent(current - 1);
-      navigate(-1);
-    }
-  };
-
-  const handleNext = () => {
-    setPageCurrent(current + 1);
-    const nextPathname = PATHNAMES[current + 1];
-    if (nextPathname) {
-      navigate(nextPathname);
-    }
-  };
-
-  const handleStart = () => {
-    // Update processStatus for all selected orders
-    const updatedOrders = orders.map((order) => ({
-      ...order,
-      processStatus: order.isSelected
-        ? {
-            isProcessing: true,
-            timeRemaining: 60, // Mock value: 60 seconds
-          }
-        : order.processStatus,
-    }));
-    setOrders(updatedOrders);
-
-    // Navigate back to first page
-    setPageCurrent(0);
-    const nextPathname = PATHNAMES[0];
-    if (nextPathname) {
-      navigate(nextPathname);
-    }
-  };
+export const ButtonControl: FC<ButtonControlProps> = ({ className, disabled = false, onClick, children }) => {
+  // const classNames = [...new Set(['btn-control', className].filter(Boolean))].join(' ');
 
   return (
-    <footer css={styles}>
-      <div className="controls">
-        {location.pathname === ROUTES.HOME && <MockOrdersButton />}
-        {location.pathname === ROUTES.HOME && (
-          <button className="btn-control" onClick={selectAllPads}>
-            ALL
-          </button>
-        )}
-        {current > 0 && (
-          <button className="btn-control" onClick={handleBack}>
-            « Back
-          </button>
-        )}
-        {current < total && (
-          <button className="btn-control" onClick={handleNext} disabled={isNextDisabled}>
-            Next »
-          </button>
-        )}
-        {location.pathname === ROUTES.FINAL_TEMPERATURE && (
-          <button
-            className="btn-control btn-start"
-            onClick={handleStart}
-            style={{ backgroundColor: 'rgba(1, 250, 20, 0.1)' }}
-          >
-            START
-          </button>
-        )}
-      </div>
-    </footer>
+    <button css={styles} className={`btn ${className}`} onClick={onClick} disabled={disabled}>
+      {children}
+    </button>
   );
 };

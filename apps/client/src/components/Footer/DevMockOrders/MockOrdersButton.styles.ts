@@ -1,29 +1,28 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles';
+import { colors, layout } from 'styles';
+import { styles as buttonStyles } from 'components/ButtonControl/ButtonControl.styles';
 
 export const styles = css`
-  display: flex;
-  flex-direction: column;
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 17vw;
-  /* height: 100vh; */
-  padding: 1.5rem;
-  overflow-x: visible;
-  overflow-y: hidden;
+  ${buttonStyles}
 
-  h2 {
-    font-family: monospace;
-    font-size: 1rem;
-    color: ${colors.info};
-    opacity: 0.5;
-  }
+  &.btn-mock {
+    border: ${layout.borderWidth} solid ${colors.warning};
+    border-radius: 4px;
+    background: transparent;
+    color: ${colors.warning};
 
-  pre {
-    color: ${colors.textLight};
-    font-size: 0.7rem;
-    line-height: 1.5;
-    margin: 0;
+    &:hover {
+      border-color: ${colors.warningLight};
+      background-color: rgba(255, 165, 0, 0.1);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      &:hover {
+        border-color: ${colors.greyDark};
+        background-color: transparent;
+      }
+    }
   }
 `;

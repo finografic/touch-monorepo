@@ -4,6 +4,8 @@ import { styles } from './Footer.styles';
 import { useOrders } from 'providers/OrdersProvider';
 import { ROUTES, ROUTE_CONFIG } from 'routes/routes.config';
 import { MockOrdersButton } from './DevMockOrders/MockOrdersButton';
+import { ButtonControl } from 'components/ButtonControl/ButtonControl';
+
 const PATHNAMES = Object.values(ROUTE_CONFIG).map((route) => route.pathname);
 
 export const Footer = () => {
@@ -58,23 +60,19 @@ export const Footer = () => {
           </button>
         )}
         {current > 0 && (
-          <button className="btn-control" onClick={handleBack}>
+          <ButtonControl className="btn-control" onClick={handleBack}>
             « Back
-          </button>
+          </ButtonControl>
         )}
         {current < total && (
-          <button className="btn-control" onClick={handleNext} disabled={isNextDisabled}>
+          <ButtonControl className="btn-control" onClick={handleNext} disabled={isNextDisabled}>
             Next »
-          </button>
+          </ButtonControl>
         )}
         {location.pathname === ROUTES.FINAL_TEMPERATURE && (
-          <button
-            className="btn-control btn-start"
-            onClick={handleStart}
-            style={{ backgroundColor: 'rgba(1, 250, 20, 0.1)' }}
-          >
+          <ButtonControl className="btn-control btn-start" onClick={handleStart} disabled={isNextDisabled}>
             START
-          </button>
+          </ButtonControl>
         )}
       </div>
     </footer>
