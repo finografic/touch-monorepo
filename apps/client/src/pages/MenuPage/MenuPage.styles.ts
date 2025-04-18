@@ -40,7 +40,7 @@ export const styles = css`
     padding-left: 1rem;
   }
 
-  .pad {
+  .pad:not(.is-processing) {
     width: ${props.pad.width};
     height: ${props.pad.height};
     border-radius: 50%;
@@ -83,26 +83,28 @@ export const styles = css`
       height: ${props.special.height};
       grid-row: span 2;
     }
-  }
 
-  .controls {
-    display: flex;
-    gap: 2rem;
-    margin-top: 2rem;
-  }
+    &.active.is-processing {
+      border: ${layout.borderWidth} solid ${colors.success};
+      border-radius: 4px;
+      /* background: transparent; */
+      background-color: rgba(1, 250, 20, 0.1);
+      color: ${colors.success};
 
-  .btn-control {
-    padding: 0.5rem 1.5rem;
-    border: ${layout.borderWidth} solid ${colors.greyDark};
-    border-radius: 4px;
-    background: transparent;
-    color: ${colors.info};
-    cursor: pointer;
-    transition: all 0.2s;
+      &:hover {
+        border-color: ${colors.successLight};
+        background-color: rgba(1, 250, 20, 0.1);
+      }
 
-    &:hover {
-      border-color: ${colors.info};
-      background-color: rgba(0, 191, 255, 0.1);
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        &:hover {
+          border-color: ${colors.greyDark};
+          /* background-color: transparent; */
+          background-color: rgba(1, 250, 20, 0.1);
+        }
+      }
     }
   }
 `;
