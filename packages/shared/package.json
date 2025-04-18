@@ -14,12 +14,15 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "tsc",
-    "clean": "tsx ../../scripts/clean-all.ts",
+    "clean": "clean-all",
+    "clean.dry": "clean-all --dry-run",
+    "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@finografic/project-scripts": "^0.2.0",
     "@touch/scripts": "workspace:*",
     "shx": "0.3.4",
     "tsx": "4.19.2",

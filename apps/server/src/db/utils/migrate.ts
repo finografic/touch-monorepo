@@ -6,7 +6,7 @@ import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
 import { env } from '../../env.server';
 import { paths } from '@fino/config/paths';
-import path from 'path';
+import path from 'node:path';
 
 interface TableInfo {
   name: string;
