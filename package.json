@@ -38,6 +38,7 @@
     "clean.all.dry": "tsx scripts/clean-all.ts --recursive --dry-run",
     "·········· PACKAGES": "··················································",
     "eslint-config": "dotenvx run -- pnpm update @finografic/eslint-config --latest --recursive",
+    "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
     "db.sqlite3.rebuild": "pnpm add -D node-gyp && npm_config_build_from_source=true pnpm rebuild better-sqlite3",
     "·········· DB.BATCH": "··················································",
     "db.reset": "pnpm db.drop && pnpm db.create && pnpm db.migrations.run",
