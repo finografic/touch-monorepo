@@ -58,7 +58,7 @@ export const DrinkSubtypePage = () => {
           ))}
         </div>
       ) : (
-        <div>No subtypes available for this drink type</div>
+        <div style={{ color: 'orange' }}>No subtypes available for this drink type</div>
       )}
     </section>
   );
