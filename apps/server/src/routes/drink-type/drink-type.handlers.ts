@@ -6,7 +6,6 @@ import { eq } from 'drizzle-orm';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
-// import { DrinkTypeDto } from 'types/dto/drink-types.dto';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const drinkTypes = await db.query.drink_types.findMany({
@@ -20,7 +19,6 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
     },
   });
   return context.json(drinkTypes);
-  // return context.json(drinkTypes.map(DrinkTypeDto.toApi));
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
@@ -40,7 +38,6 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
     );
   }
 
-  // return context.json(DrinkTypeDto.toApi(drinkType), HttpStatusCodes.OK);
   return context.json(drinkType, HttpStatusCodes.OK);
 };
 
@@ -73,8 +70,6 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
-  // const dbUpdates = DrinkTypeDto.fromApi({ ...apiUpdates, id } as any);
-  // const [drinkType] = await db.update(drink_types).set(dbUpdates).where(eq(drink_types.id, id)).returning();
   const [drinkType] = await db.update(drink_types).set(updates).where(eq(drink_types.id, id)).returning();
 
   if (!drinkType) {

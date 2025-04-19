@@ -1,10 +1,10 @@
-export interface DrinkVolume {
+export interface DrinkVolumeEntity {
   id: string;
   name: string;
   valueInMl: number;
   sortOrder: number;
   coolingFactor: number;
   isActive: boolean;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: Date | null;
+  updatedAt: Date | null;
 }

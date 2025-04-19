@@ -100,6 +100,7 @@
   "include": [
     "src/**/*",
     "src/**/*.json",
-    "package.json"
+    "package.json",
+    "../client/src/queries/drink-types/drink-types.dto.ts"
   ]
 }

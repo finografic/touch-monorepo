@@ -1,19 +1,21 @@
-export type DrinkType = {
+export type DrinkTypeEntity = {
   id: string;
   name: string;
   display_name: string;
-  has_subtypes: number;
-  default_consumption_time: number;
+  has_subtypes: number; // Stored as integer in DB
+  default_consumption_temp: number;
   default_freeze_temp: number;
-  is_active: number;
-  // createdAt: Date | null;
-  // updatedAt: Date | null;
+  is_active: number; // Stored as integer in DB
+  created_at: number; // Stored as timestamp in DB
+  updated_at: number; // Stored as timestamp in DB
 };
 
-export type DrinkSubtype = {
+export type DrinkSubtypeEntity = {
   id: string;
-  drink_type_id: string;
+  drinkTypeId: string;
   name: string;
   display_name: string;
-  is_active: number;
+  is_active: number; // Stored as integer in DB
+  created_at: number; // Stored as timestamp in DB
+  updated_at: number; // Stored as timestamp in DB
 };
