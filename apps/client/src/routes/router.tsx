@@ -7,6 +7,7 @@ import { AuthProvider } from 'lib/auth/AuthProvider';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
 import { DrinkTypePage } from '../pages/DrinkPages/DrinkTypePage';
+import { DrinkSubtypePage } from '../pages/DrinkPages/DrinkSubtypePage';
 import { DrinkVolumePage } from '../pages/DrinkPages/DrinkVolumePage';
 import { ContainerTypePage } from '../pages/DrinkPages/ContainerTypePage';
 import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPage';
@@ -51,6 +52,10 @@ export const router = createBrowserRouter([
       {
         path: ROUTE_CONFIG[ROUTES.DRINK_TYPE].pathname,
         element: <DrinkTypePage />,
+      },
+      {
+        path: ROUTE_CONFIG[ROUTES.DRINK_SUBTYPE].pathname,
+        element: <DrinkSubtypePage />,
       },
       {
         path: ROUTE_CONFIG[ROUTES.DRINK_VOLUME].pathname,

@@ -1,6 +1,13 @@
 /* This file contains base Radix UI styles */
 /* Color variables are now generated at build time by postcss-radix-colors plugin */
 
+@layer theme, base, radix-themes, components, utilities;
+
+/* Tailwind Preset for Radix Themes */
+/* NOTE: https://github.com/viktorbonino/radix-themes-tw */
+
+@import 'radix-themes-tw';
+
 /* Radix UI Colors - Light Mode */
 
 @import '@radix-ui/colors/gray.css';

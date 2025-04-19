@@ -3,6 +3,7 @@ import type { RouteConfig } from 'types/routes.types';
 export const ROUTES = {
   HOME: '/',
   DRINK_TYPE: '/drink-type',
+  DRINK_SUBTYPE: '/drink-subtype',
   DRINK_VOLUME: '/drink-volume',
   CONTAINER_TYPE: '/container-type',
   INITIAL_TEMPERATURE: '/initial-temperature',
@@ -19,6 +20,10 @@ export const ROUTE_CONFIG: Record<string, RouteConfig> = {
   [ROUTES.DRINK_TYPE]: {
     pathname: ROUTES.DRINK_TYPE,
     title: 'Select drink type:',
+  },
+  [ROUTES.DRINK_SUBTYPE]: {
+    pathname: ROUTES.DRINK_SUBTYPE,
+    title: 'Select drink subtype:',
   },
   [ROUTES.DRINK_VOLUME]: {
     pathname: ROUTES.DRINK_VOLUME,

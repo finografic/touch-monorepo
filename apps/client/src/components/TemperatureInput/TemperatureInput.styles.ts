@@ -33,7 +33,7 @@ export const styles = css`
   .temp-display {
     display: flex;
     align-items: center;
-    border: ${layout.borderWidth} solid ${colors.info};
+    border: ${layout.borderWidth} solid rgba(128, 128, 128, 0.8); /* greyDark at 80% opacity */
     border-radius: 8px;
     padding: 1rem 2rem;
     font-size: 2rem;
@@ -49,7 +49,7 @@ export const styles = css`
     justify-content: center;
     width: 100%;
     height: 44px;
-    border: ${layout.borderWidth} solid ${colors.greyDark};
+    border: ${layout.borderWidth} solid rgba(0, 191, 255, 0.7); /* info at 70% opacity */
     border-radius: 8px;
     color: ${colors.info};
     font-size: 2rem;
@@ -61,8 +61,6 @@ export const styles = css`
     line-height: 1;
 
     span {
-      /* baseline-shift: -1px;
-       */
       padding-bottom: 0.15em;
     }
 

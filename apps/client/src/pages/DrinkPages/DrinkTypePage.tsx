@@ -2,13 +2,17 @@ import { stylesItemsGrid } from './grid.styles';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
 import { useGetDrinkTypes } from 'queries/drink-types/useGetDrinkTypes';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Loader } from 'components/Loader/Loader';
+import { useNavigate } from 'react-router-dom';
+import { ROUTES } from 'routes/routes.config';
 
 export const DrinkTypePage = () => {
+  const navigate = useNavigate();
+  const [nextClicked, setNextClicked] = useState(false);
   const {
     selectedValue: selectedDrinkType,
     handleSelection: handleDrinkTypeSelection,
@@ -23,6 +27,22 @@ export const DrinkTypePage = () => {
   useEffect(() => {
     setIsNextDisabled(!hasValidSelection);
   }, [hasValidSelection, setIsNextDisabled]);
+
+  // Handle navigation on Next button click
+  useEffect(() => {
+    if (selectedDrinkType && nextClicked) {
+      // Navigate to subtype page if the drink has subtypes, otherwise go to volume page
+      const nextRoute = selectedDrinkType.hasSubtypes ? ROUTES.DRINK_SUBTYPE : ROUTES.DRINK_VOLUME;
+      navigate(nextRoute);
+    }
+  }, [selectedDrinkType, nextClicked, navigate]);
+
+  // Listen for next button clicks
+  useEffect(() => {
+    if (!setIsNextDisabled) {
+      setNextClicked(true);
+    }
+  }, [setIsNextDisabled]);
 
   if (isLoading) {
     return <Loader message="Loading drink types..." />;

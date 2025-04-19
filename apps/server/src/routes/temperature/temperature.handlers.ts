@@ -1,8 +1,6 @@
 import type { AppRouteHandler } from 'types/app.types';
 import type { CalculateRoute } from './temperature.routes';
 import { db } from 'db';
-import { drink_configs } from 'db/schemas';
-import { and, eq } from 'drizzle-orm';
 import type { DrinkConfigEntity } from '../../types/entities/drink-config.entity';
 import type { DrinkTypeEntity } from '../../types/entities/drink-type.entity';
 import type { ContainerTypeEntity } from '../../types/entities/container-type.entity';
@@ -88,5 +86,51 @@ export const calculate: AppRouteHandler<CalculateRoute> = async (context) => {
       `Optimal serving temperature for ${config.drinkType.display_name} is ${config.default_consumption_temp}°C`,
       `Using ${config.containerType.display_name} with ${config.volume.value_in_ml}ml capacity`,
     ],
+  });
+};
+
+export const getSettings: AppRouteHandler<typeof import('./temperature.routes').getSettings> = async (
+  context,
+) => {
+  const { drinkTypeId, drinkSubtypeId, containerTypeId, volumeId } = context.req.valid('query');
+
+  // Find matching drink configuration
+  const config = (await db.query.drink_configs.findFirst({
+    where: (fields, operators) => {
+      const conditions = [
+        operators.eq(fields.drinkTypeId, drinkTypeId),
+        operators.eq(fields.containerTypeId, containerTypeId),
+        operators.eq(fields.volumeId, volumeId),
+        operators.eq(fields.isActive, true),
+      ];
+
+      if (drinkSubtypeId) {
+        conditions.push(operators.eq(fields.drinkSubtypeId, drinkSubtypeId));
+      }
+
+      return operators.and(...conditions);
+    },
+    with: {
+      drinkType: true,
+      drinkSubtype: drinkSubtypeId ? true : undefined,
+    },
+  })) as (DrinkConfigEntity & { drinkType: DrinkTypeEntity; drinkSubtype?: DrinkTypeEntity }) | undefined;
+
+  if (!config) {
+    return context.json(
+      {
+        message: 'No matching drink configuration found',
+      },
+      422,
+    );
+  }
+
+  // Return temperature settings
+  return context.json({
+    defaultConsumptionTemp: config.default_consumption_temp,
+    minConsumptionTemp: config.min_consumption_temp,
+    maxConsumptionTemp: config.max_consumption_temp,
+    // If there's a subtype, use its freeze temp, otherwise use the drink type's default
+    defaultFreezeTemp: config.drinkSubtype?.default_freeze_temp ?? config.drinkType.default_freeze_temp,
   });
 };

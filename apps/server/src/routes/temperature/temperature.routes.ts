@@ -1,6 +1,10 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContentRequired } from 'stoker/openapi/helpers';
+import { Hono } from 'hono';
+import { zValidator } from '@hono/zod-validator';
+import { calculateTemperatureSchema } from './temperature.schemas';
+import { calculate } from './temperature.handlers';
 
 const tags = ['Temperature'];
 
@@ -29,7 +33,19 @@ const temperatureResultSchema = z.object({
   recommendations: z.array(z.string()),
 });
 
-export const calculate = createRoute({
+// Schema for temperature settings response
+const temperatureSettingsSchema = z.object({
+  defaultConsumptionTemp: z.number(),
+  minConsumptionTemp: z.number(),
+  maxConsumptionTemp: z.number(),
+  defaultFreezeTemp: z.number().optional(),
+});
+
+const router = new Hono();
+
+router.post('/calculate', zValidator('json', calculateTemperatureSchema), calculate);
+
+export const calculateRoute = createRoute({
   path: '/temperature/calculate',
   method: 'post',
   tags,
@@ -51,4 +67,34 @@ export const calculate = createRoute({
   },
 });
 
-export type CalculateRoute = typeof calculate;
+// Route for getting temperature settings
+export const getSettings = createRoute({
+  path: '/temperature/settings',
+  method: 'get',
+  tags,
+  request: {
+    query: z.object({
+      drinkTypeId: z.string(),
+      drinkSubtypeId: z.string().optional(),
+      containerTypeId: z.string(),
+      volumeId: z.string(),
+    }),
+  },
+  responses: {
+    [HttpStatusCodes.OK]: {
+      content: {
+        'application/json': {
+          schema: temperatureSettingsSchema,
+        },
+      },
+      description: 'Temperature settings for the given configuration',
+    },
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: {
+      description: 'Invalid parameters provided',
+    },
+  },
+});
+
+export type CalculateRoute = typeof calculateRoute;
+
+export default router;

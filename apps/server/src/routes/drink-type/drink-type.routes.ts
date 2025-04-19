@@ -1,5 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import { drinkTypeSchemas } from 'db/schemas/drink_types.schema';
+import { drinkSubtypeSchemas } from 'db/schemas/drink_subtypes.schema';
 import { notFoundSchema } from 'lib/constants';
 import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
@@ -87,8 +88,29 @@ export const remove = createRoute({
   },
 });
 
+export const getSubtypes = createRoute({
+  path: '/drink-types/{id}/subtypes',
+  method: 'get',
+  request: {
+    params: IdCuidParamsSchema,
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.array(drinkSubtypeSchemas.select),
+      'List of subtypes for the drink type',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(IdParamsSchema),
+      'Invalid id error',
+    ),
+  },
+});
+
 export type ListRoute = typeof list;
 export type CreateRoute = typeof create;
 export type GetOneRoute = typeof getOne;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;
+export type GetSubtypesRoute = typeof getSubtypes;
