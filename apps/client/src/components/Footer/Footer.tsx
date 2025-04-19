@@ -1,12 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import { ButtonControl } from 'components/ButtonControl/ButtonControl';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { ROUTE_CONFIG, ROUTES } from 'routes/routes.config';
-
 import { MockOrdersButton } from './DevMockOrders/MockOrdersButton';
-
 import { styles } from './Footer.styles';
 
 const PATHNAMES = Object.values(ROUTE_CONFIG).map((route) => route.pathname);
@@ -19,16 +16,19 @@ export function Footer() {
 
   const handleBack = () => {
     if (current > 0) {
-      setPageCurrent(current - 1);
-      navigate(-1);
+      const newIndex = current - 1;
+      const nextPathname = PATHNAMES[newIndex];
+      setPageCurrent(newIndex);
+      navigate(nextPathname, { replace: true });
     }
   };
 
   const handleNext = () => {
-    setPageCurrent(current + 1);
-    const nextPathname = PATHNAMES[current + 1];
+    const newIndex = current + 1;
+    const nextPathname = PATHNAMES[newIndex];
+    setPageCurrent(newIndex);
     if (nextPathname) {
-      navigate(nextPathname);
+      navigate(nextPathname, { replace: true });
     }
   };
 
@@ -49,7 +49,7 @@ export function Footer() {
     setPageCurrent(0);
     const nextPathname = PATHNAMES[0];
     if (nextPathname) {
-      navigate(nextPathname);
+      navigate(nextPathname, { replace: true });
     }
   };
 
