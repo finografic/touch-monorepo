@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { DrinkType } from 'types/drinks.types';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
-import { api } from 'lib/axios';
+import { api } from 'lib/api';
 
 const getDrinkTypes = async (): Promise<DrinkType[]> => {
   return api.get('/drink-types');
