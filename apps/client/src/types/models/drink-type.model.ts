@@ -1,4 +1,4 @@
-import type { DrinkSubtypeEntity, DrinkTypeEntity } from '@touch/server/types/entities/drink-types.types';
+import type { DrinkSubtypeEntity, DrinkTypeEntity } from '@touch/server/types/entities/drink-type.entity';
 import type { ConvertKeysToCamelCase, Override } from 'types/utility.types';
 import type { ModelBaseProps } from 'types/base.types';
 

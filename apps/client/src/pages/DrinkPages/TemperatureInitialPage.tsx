@@ -1,7 +1,7 @@
-import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
+import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
-import { TemperatureInput } from '../../components/TemperatureInput/TemperatureInput';
+import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 
 const DEFAULT_INITIAL_TEMP = 23.5;

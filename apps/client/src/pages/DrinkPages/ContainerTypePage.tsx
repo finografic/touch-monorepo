@@ -1,4 +1,4 @@
-import { stylesItemsGrid } from './items-grid.styles';
+import { stylesItemsGrid } from './grid.styles';
 import type { ContainerType } from 'types/orders.types';
 import { CONTAINER_TYPES } from './data/container-type.data';
 import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';

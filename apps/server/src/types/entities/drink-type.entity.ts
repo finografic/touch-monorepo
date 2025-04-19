@@ -1,6 +1,3 @@
-export type { VolumeEntity } from './volumes.types';
-export type { ContainerTypeEntity } from './container-types.types';
-
 export type DrinkTypeEntity = {
   id: string;
   name: string;

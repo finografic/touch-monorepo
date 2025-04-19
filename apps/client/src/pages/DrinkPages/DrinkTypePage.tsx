@@ -1,4 +1,4 @@
-import { stylesItemsGrid } from './items-grid.styles';
+import { stylesItemsGrid } from './grid.styles';
 import type { DrinkType } from '@touch/shared/types';
 import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';

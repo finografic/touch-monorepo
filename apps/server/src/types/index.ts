@@ -1,3 +1,3 @@
-export type { ContainerTypeEntity } from './entities/container-types.types';
-export type { DrinkTypeEntity, DrinkSubtypeEntity } from './entities/drink-types.types';
-export type { VolumeEntity } from './entities/volumes.types';
+export type { ContainerTypeEntity } from './entities/container-type.entity';
+export type { DrinkTypeEntity, DrinkSubtypeEntity } from './entities/drink-type.entity';
+export type { VolumeEntity } from './entities/volume.entity';
