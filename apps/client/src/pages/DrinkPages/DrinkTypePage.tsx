@@ -4,14 +4,14 @@ import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
-import { useGetDrinkTypes } from 'queries/drink-types';
+import { useGetDrinkTypes } from 'queries/drink-types/useGetDrinkTypes';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Loader } from 'components/Loader/Loader';
 
 export const DrinkTypePage = () => {
   const {
-    selectedValue: selectedType,
-    handleSelection: handleTypeSelection,
+    selectedValue: selectedDrinkType,
+    handleSelection: handleDrinkTypeSelection,
     hasValidSelection,
   } = useOrderSelection<DrinkType>({
     field: OrderFieldKeys.drinkType,
@@ -40,10 +40,10 @@ export const DrinkTypePage = () => {
           {data.map((drinkType: DrinkType) => (
             <div
               key={drinkType.id}
-              className={`item-button ${selectedType?.id === drinkType.id ? 'selected' : ''}`}
-              onClick={() => handleTypeSelection(drinkType)}
+              className={`item-button ${selectedDrinkType?.id === drinkType.id ? 'selected' : ''}`}
+              onClick={() => handleDrinkTypeSelection(drinkType)}
             >
-              {drinkType.displayName}
+              {drinkType.display_name}
             </div>
           ))}
         </div>

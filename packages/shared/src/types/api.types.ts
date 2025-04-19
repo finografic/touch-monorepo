@@ -30,7 +30,3 @@ export interface ApiResponse<T> extends Omit<AxiosResponse<T>, 'data'> {
   message?: string;
   timestamp: number;
 }
-
-// Remove redundant types since ApiResponse now extends AxiosResponse
-export type ApiListResponse<T> = ApiResponse<T[]>;
-export type ApiItemResponse<T> = ApiResponse<T>;

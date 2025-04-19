@@ -1,4 +1,4 @@
-import type { DrinkSubtype, DrinkType } from './drinks.types';
+import type { DrinkSubtype, DrinkType } from '../../../server/src/types/entities/drink-types.types';
 
 // Base properties that every order has
 interface OrderBaseProps {

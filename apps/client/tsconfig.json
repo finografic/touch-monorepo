@@ -112,7 +112,8 @@
   ],
   "include": [
     "src",
-    "src/**/*.json"
+    "src/**/*.json",
+    "../server/src/types/entities/drinks.types.ts"
   ],
   "exclude": [
     "dist",
