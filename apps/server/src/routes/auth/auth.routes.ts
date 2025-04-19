@@ -54,10 +54,10 @@ router.post('/auth/signup', async (context) => {
 
 // Other auth routes
 router.on(['GET', 'POST'], '/auth/*', async (context) => {
-  if (c.req.path === `${envShared.API_BASE_PATH}/auth/login`) return;
+  if (context.req.path === `${envShared.API_BASE_PATH}/auth/login`) return;
   console.log('Other auth route hit:', context.req.path);
 
-  return auth.handler(c.req.raw);
+  return auth.handler(context.req.raw);
 });
 
 export default router;
