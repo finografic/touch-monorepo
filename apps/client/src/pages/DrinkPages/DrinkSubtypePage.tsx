@@ -9,7 +9,7 @@ import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Loader } from 'components/Loader/Loader';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'routes/routes.config';
-
+import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
 export const DrinkSubtypePage = () => {
   const navigate = useNavigate();
   const {
@@ -22,12 +22,20 @@ export const DrinkSubtypePage = () => {
   });
 
   const { setIsNextDisabled } = usePagination();
+  const { setPageContentTitle } = usePageContent();
   const { data, isLoading, error } = useGetDrinkSubtypes(orders[0]?.drinkType?.id);
 
   useEffect(() => {
     // If the selected drink type doesn't have subtypes, skip this page
     if (orders[0]?.drinkType && !orders[0].drinkType.hasSubtypes) {
+      setPageContentTitle('');
       navigate(ROUTES.DRINK_VOLUME);
+    } else {
+      const drinkTypeName = orders[0]?.drinkType?.displayName;
+      const newTitle = drinkTypeName
+        ? `Select type of ${drinkTypeName.toLowerCase()}:`
+        : 'Select drink subtype:';
+      setPageContentTitle(newTitle);
     }
   }, [orders, navigate]);
 
@@ -43,8 +51,13 @@ export const DrinkSubtypePage = () => {
     return <ErrorMessage error={error} />;
   }
 
+  const mainDrinkType = orders[0]?.drinkType?.displayName;
+
   return (
     <section css={stylesItemsGrid}>
+      <h2 style={{ color: '#00B4D8', marginBottom: '2rem', textAlign: 'center' }}>
+        Select type of {mainDrinkType}
+      </h2>
       {data?.length ? (
         <div className={getGridFlowClasses(data.length)}>
           {data.map((subtype: DrinkSubtype) => (
