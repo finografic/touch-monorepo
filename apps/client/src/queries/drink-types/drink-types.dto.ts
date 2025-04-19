@@ -1,5 +1,5 @@
 import type { DrinkTypeEntity } from '@touch/server/types/entities/drink-types.types';
-import type { DrinkTypeModel } from 'types/models.types';
+import type { DrinkTypeModel } from 'types/models/models.types';
 
 export const DrinkTypeDTO = {
   fromApi(data: DrinkTypeEntity): DrinkTypeModel {
