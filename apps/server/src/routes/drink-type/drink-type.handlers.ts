@@ -1,33 +1,42 @@
 import type { AppRouteHandler } from 'types/app.types';
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './drink-type.routes';
 import { db } from 'db';
-import { posts } from 'db/schemas';
+import { drink_types } from 'db/schemas';
 import { eq } from 'drizzle-orm';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
-export const list: AppRouteHandler<ListRoute> = async (c) => {
-  const posts = await db.query.posts.findMany();
-  return c.json(posts);
+export const list: AppRouteHandler<ListRoute> = async (context) => {
+  const drinkTypes = await db.query.drink_types.findMany({
+    where: (fields, operators) => operators.eq(fields.isActive, true),
+    columns: {
+      id: true,
+      displayName: true,
+      defaultConsumptionTemp: true,
+      hasSubtypes: true,
+      isActive: true,
+    },
+  });
+  return context.json(drinkTypes);
 };
 
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
-  const post = c.req.valid('json');
-  const [inserted] = await db.insert(posts).values(post).returning();
-  return c.json(inserted, HttpStatusCodes.OK);
+export const create: AppRouteHandler<CreateRoute> = async (context) => {
+  const drinkType = context.req.valid('json');
+  const [inserted] = await db.insert(drink_types).values(drinkType).returning();
+  return context.json(inserted, HttpStatusCodes.OK);
 };
 
-export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
-  const { id } = c.req.valid('param');
-  const post = await db.query.posts.findFirst({
+export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
+  const { id } = context.req.valid('param');
+  const drinkType = await db.query.drink_types.findFirst({
     where(fields, operators) {
       return operators.eq(fields.id, id);
     },
   });
 
-  if (!post) {
-    return c.json(
+  if (!drinkType) {
+    return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
       },
@@ -35,15 +44,15 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
     );
   }
 
-  return c.json(post, HttpStatusCodes.OK);
+  return context.json(drinkType, HttpStatusCodes.OK);
 };
 
-export const patch: AppRouteHandler<PatchRoute> = async (c) => {
-  const { id } = c.req.valid('param');
-  const updates = c.req.valid('json');
+export const patch: AppRouteHandler<PatchRoute> = async (context) => {
+  const { id } = context.req.valid('param');
+  const updates = context.req.valid('json');
 
   if (Object.keys(updates).length === 0) {
-    return c.json(
+    return context.json(
       {
         success: false,
         error: {
@@ -61,10 +70,10 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
     );
   }
 
-  const [post] = await db.update(posts).set(updates).where(eq(posts.id, id)).returning();
+  const [drinkType] = await db.update(drink_types).set(updates).where(eq(drink_types.id, id)).returning();
 
-  if (!post) {
-    return c.json(
+  if (!drinkType) {
+    return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
       },
@@ -72,15 +81,15 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
     );
   }
 
-  return c.json(post, HttpStatusCodes.OK);
+  return context.json(drinkType, HttpStatusCodes.OK);
 };
 
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
-  const { id } = c.req.valid('param');
-  const result = await db.delete(posts).where(eq(posts.id, id));
+export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
+  const { id } = context.req.valid('param');
+  const result = await db.delete(drink_types).where(eq(drink_types.id, id));
 
   if (result.changes === 0) {
-    return c.json(
+    return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
       },
@@ -88,5 +97,5 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
     );
   }
 
-  return c.body(null, HttpStatusCodes.NO_CONTENT);
+  return context.body(null, HttpStatusCodes.NO_CONTENT);
 };

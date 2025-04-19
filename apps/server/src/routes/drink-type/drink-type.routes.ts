@@ -1,48 +1,59 @@
 import { createRoute, z } from '@hono/zod-openapi';
-import { postSchemas } from 'db/schemas/posts.schema';
+import { drinkTypeSchemas } from 'db/schemas/drink_types.schema';
 import { notFoundSchema } from 'lib/constants';
 import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
 
-const tags = ['Posts'];
+const tags = ['DrinkTypes'];
 
 export const list = createRoute({
-  path: '/posts',
+  path: '/drink-types',
   method: 'get',
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(z.array(postSchemas.select), 'The list of posts'),
+    [HttpStatusCodes.OK]: jsonContent(
+      z.array(
+        drinkTypeSchemas.select.pick({
+          id: true,
+          displayName: true,
+          defaultConsumptionTemp: true,
+          hasSubtypes: true,
+          isActive: true,
+        }),
+      ),
+      'List of available drink types',
+    ),
   },
 });
 
 export const create = createRoute({
-  path: '/posts',
+  path: '/drink-types',
   method: 'post',
   request: {
-    body: jsonContentRequired(postSchemas.insert, 'The post to create'),
+    body: jsonContentRequired(drinkTypeSchemas.insert, 'The drink type to create'),
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(postSchemas.select, 'The created post'),
+    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The created drink type'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(postSchemas.insert),
+      createErrorSchema(drinkTypeSchemas.insert),
       'The validation error(s)',
     ),
   },
 });
 
 export const getOne = createRoute({
-  path: '/posts/{id}',
+  path: '/drink-types/{id}',
   method: 'get',
   request: {
     params: IdCuidParamsSchema,
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(postSchemas.select, 'The requested post'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Post not found'),
+    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The requested drink type'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(IdParamsSchema),
       'Invalid id error',
@@ -51,25 +62,25 @@ export const getOne = createRoute({
 });
 
 export const patch = createRoute({
-  path: '/posts/{id}',
+  path: '/drink-types/{id}',
   method: 'patch',
   request: {
     params: IdCuidParamsSchema,
-    body: jsonContentRequired(postSchemas.patch, 'The post updates'),
+    body: jsonContentRequired(drinkTypeSchemas.patch, 'The drink type updates'),
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(postSchemas.select, 'The updated post'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Post not found'),
+    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The updated drink type'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(postSchemas.patch).or(createErrorSchema(IdParamsSchema)),
+      createErrorSchema(drinkTypeSchemas.patch).or(createErrorSchema(IdParamsSchema)),
       'The validation error(s)',
     ),
   },
 });
 
 export const remove = createRoute({
-  path: '/posts/{id}',
+  path: '/drink-types/{id}',
   method: 'delete',
   request: {
     params: IdCuidParamsSchema,
@@ -77,9 +88,9 @@ export const remove = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.NO_CONTENT]: {
-      description: 'Post deleted',
+      description: 'Drink type deleted',
     },
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Post not found'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(IdParamsSchema),
       'Invalid id error',

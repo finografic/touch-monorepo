@@ -25,9 +25,9 @@ app.use(
   }),
 );
 
-app.use('*', async (c, next) => {
-  const method = c.req.method as RequestMethod;
-  const path = c.req.path;
+app.use('*', async (context, next) => {
+  const method = context.req.method as RequestMethod;
+  const path = context.req.path;
   console.log(CLI.BR, CLI.HR_1);
   console.log(CLI.METHOD[method], chalk.cyan(path), CLI.BR);
   await next();
