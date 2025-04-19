@@ -64,6 +64,12 @@
       "routes/*": [
         "./src/routes/*"
       ],
+      "queries": [
+        "./src/queries"
+      ],
+      "queries/*": [
+        "./src/queries/*"
+      ],
       "styles": [
         "./src/styles"
       ],
