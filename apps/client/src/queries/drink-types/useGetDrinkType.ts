@@ -4,11 +4,12 @@ import type { ApiResponse, ErrorResponse } from '@touch/shared/types';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 import { api } from 'lib/api';
 import { transformAxiosError } from 'lib/api/api.utils';
-import type { DrinkType } from 'types/models/temperature.model';
+import type { DrinkType } from 'types/models/drink-type.model';
+import type { DrinkTypeEntity } from '@touch/server/types/entities/drink-type.entity';
 
 const getDrinkType = async (id: string) => {
   try {
-    const response = await api.get<ApiResponse<DrinkType>>(`/drink-types/${id}`);
+    const response = await api.get<ApiResponse<DrinkTypeEntity>>(`/drink-types/${id}`);
     if (response.status !== 200) {
       throw new Error(`Failed to fetch drink type: ${response.statusText}`);
     }

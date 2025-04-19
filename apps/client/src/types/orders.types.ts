@@ -1,4 +1,4 @@
-import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model.types';
+import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
 
 // Base properties that every order has
 interface OrderBaseProps {

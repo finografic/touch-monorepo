@@ -1,4 +1,4 @@
-import { ERROR, fino, IGNORES, OFF } from '@finografic/eslint-config';
+import { ERROR, fino, OFF } from '@finografic/eslint-config';
 // import simpleImport from 'eslint-plugin-import';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
@@ -24,6 +24,16 @@ export default fino(
       'style/no-multi-spaces': OFF,
       'regexp/prefer-w': OFF,
       'fino/top-level-function': OFF,
+      'no-undef': [ERROR, { typeof: true }],
+      'node/prefer-global/process': [ERROR, 'always'],
+      'ts/no-unused-vars': [
+        ERROR,
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+          caughtErrorsIgnorePattern: '^_',
+        },
+      ],
     },
   },
 );
