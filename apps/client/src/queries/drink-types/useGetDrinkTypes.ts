@@ -10,6 +10,6 @@ const getDrinkTypes = async (): Promise<DrinkType[]> => {
 export const useGetDrinkTypes = () => {
   return useQuery({
     queryKey: GET_DRINK_TYPES_QUERYKEY,
-    queryFn: getDrinkTypes,
+    queryFn: async () => getDrinkTypes(),
   });
 };

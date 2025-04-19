@@ -10,7 +10,7 @@ const getDrinkType = async (id: string): Promise<DrinkType> => {
 export const useGetDrinkType = (id: string) => {
   return useQuery({
     queryKey: [...GET_DRINK_TYPES_QUERYKEY, id],
-    queryFn: () => getDrinkType(id),
-    enabled: !!id, // Only run the query if we have an ID
+    queryFn: async () => getDrinkType(id),
+    enabled: !!id,
   });
 };
