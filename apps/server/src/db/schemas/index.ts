@@ -5,9 +5,6 @@ export * from './auth_session.schema';
 export * from './auth_user.schema';
 export * from './auth_verification.schema';
 
-// NOTE: REFERENCE SCHEMA (for future development)
-export * from './posts.schema';
-
 // NOTE: DRINK CONTROL SYSTEM SCHEMAS
 // Core schemas
 export * from './temperature_tables.schema';

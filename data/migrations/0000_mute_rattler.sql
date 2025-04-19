@@ -123,18 +123,6 @@ CREATE TABLE `elements` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `elements_element_number_unique` ON `elements` (`element_number`);--> statement-breakpoint
-CREATE TABLE `posts` (
-	`id` text PRIMARY KEY NOT NULL,
-	`name` text NOT NULL,
-	`cat_id` text NOT NULL,
-	`user_id` text NOT NULL,
-	`json_meta` text NOT NULL,
-	`is_active` integer DEFAULT true NOT NULL,
-	`created_at` integer,
-	`updated_at` integer,
-	FOREIGN KEY (`user_id`) REFERENCES `auth_user`(`id`) ON UPDATE no action ON DELETE cascade
-);
---> statement-breakpoint
 CREATE TABLE `running_orders` (
 	`id` text PRIMARY KEY NOT NULL,
 	`element_id` text NOT NULL,

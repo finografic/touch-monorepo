@@ -105,12 +105,8 @@
           "name": "auth_account_userId_auth_user_id_fk",
           "tableFrom": "auth_account",
           "tableTo": "auth_user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -182,9 +178,7 @@
       "indexes": {
         "auth_session_token_unique": {
           "name": "auth_session_token_unique",
-          "columns": [
-            "token"
-          ],
+          "columns": ["token"],
           "isUnique": true
         }
       },
@@ -193,12 +187,8 @@
           "name": "auth_session_userId_auth_user_id_fk",
           "tableFrom": "auth_session",
           "tableTo": "auth_user",
-          "columnsFrom": [
-            "userId"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["userId"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -263,9 +253,7 @@
       "indexes": {
         "auth_user_email_unique": {
           "name": "auth_user_email_unique",
-          "columns": [
-            "email"
-          ],
+          "columns": ["email"],
           "isUnique": true
         }
       },
@@ -495,12 +483,8 @@
           "name": "drink_configs_drink_type_id_drink_types_id_fk",
           "tableFrom": "drink_configs",
           "tableTo": "drink_types",
-          "columnsFrom": [
-            "drink_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["drink_type_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -508,12 +492,8 @@
           "name": "drink_configs_drink_subtype_id_drink_subtypes_id_fk",
           "tableFrom": "drink_configs",
           "tableTo": "drink_subtypes",
-          "columnsFrom": [
-            "drink_subtype_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["drink_subtype_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -521,12 +501,8 @@
           "name": "drink_configs_container_type_id_container_types_id_fk",
           "tableFrom": "drink_configs",
           "tableTo": "container_types",
-          "columnsFrom": [
-            "container_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["container_type_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -534,12 +510,8 @@
           "name": "drink_configs_volume_id_volumes_id_fk",
           "tableFrom": "drink_configs",
           "tableTo": "volumes",
-          "columnsFrom": [
-            "volume_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["volume_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -622,12 +594,8 @@
           "name": "drink_subtypes_drink_type_id_drink_types_id_fk",
           "tableFrom": "drink_subtypes",
           "tableTo": "drink_types",
-          "columnsFrom": [
-            "drink_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["drink_type_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -825,94 +793,11 @@
       "indexes": {
         "elements_element_number_unique": {
           "name": "elements_element_number_unique",
-          "columns": [
-            "element_number"
-          ],
+          "columns": ["element_number"],
           "isUnique": true
         }
       },
       "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "posts": {
-      "name": "posts",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "cat_id": {
-          "name": "cat_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "json_meta": {
-          "name": "json_meta",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "is_active": {
-          "name": "is_active",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "posts_user_id_auth_user_id_fk": {
-          "name": "posts_user_id_auth_user_id_fk",
-          "tableFrom": "posts",
-          "tableTo": "auth_user",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
@@ -1034,12 +919,8 @@
           "name": "running_orders_element_id_elements_id_fk",
           "tableFrom": "running_orders",
           "tableTo": "elements",
-          "columnsFrom": [
-            "element_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["element_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         },
@@ -1047,12 +928,8 @@
           "name": "running_orders_drink_config_id_drink_configs_id_fk",
           "tableFrom": "running_orders",
           "tableTo": "drink_configs",
-          "columnsFrom": [
-            "drink_config_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["drink_config_id"],
+          "columnsTo": ["id"],
           "onDelete": "no action",
           "onUpdate": "no action"
         }
@@ -1128,12 +1005,8 @@
           "name": "temperature_table_entries_table_id_temperature_tables_id_fk",
           "tableFrom": "temperature_table_entries",
           "tableTo": "temperature_tables",
-          "columnsFrom": [
-            "table_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["table_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -1199,9 +1072,7 @@
       "indexes": {
         "temperature_tables_table_number_unique": {
           "name": "temperature_tables_table_number_unique",
-          "columns": [
-            "table_number"
-          ],
+          "columns": ["table_number"],
           "isUnique": true
         }
       },

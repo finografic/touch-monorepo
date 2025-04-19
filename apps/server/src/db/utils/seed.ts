@@ -11,9 +11,9 @@ const __dirname = path.dirname(__filename);
 function isValidSchema(schema: string): boolean {
   return Object.keys(schemas).some(
     (key) =>
-      key.toLowerCase() === `${schema}Schema` || // matches postSchema
-      key.toLowerCase() === schema || // matches posts
-      key.toLowerCase() === schema.replace(/-/g, '_'), // matches snake_case
+      key.toLowerCase() === `${schema}Schema` || // matches postSchema (example)
+      key.toLowerCase() === schema || // matches posts (example)
+      key.toLowerCase() === schema.replace(/-/g, '_'), // matches snake_case (example)
   );
 }
 

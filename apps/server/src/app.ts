@@ -1,6 +1,7 @@
 import type { RequestMethod } from 'types/request.types';
 import { envShared } from '@fino/config/envShared';
 import chalk from 'chalk';
+import { CLI } from 'utils/utils.cli';
 import { cors } from 'hono/cors';
 import configureOpenAPI from 'lib/configure-open-api';
 import createApp from 'lib/create-app';
@@ -11,8 +12,6 @@ import health from 'routes/health-check/health-check.index';
 import index from 'routes/index.route';
 import users from 'routes/users';
 import drinkType from 'routes/drink-type';
-// import posts from 'routes/posts';
-import { CLI } from 'utils/utils.cli';
 import drinkVolume from './routes/drink-volume';
 
 const app = createApp();

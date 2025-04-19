@@ -6,15 +6,15 @@ import type { ModelBaseProps } from 'types/base.types';
 
 // ------------------------------------------------------------------------ //
 
-export type DrinkTypeModel = Override<DrinkTypeCamelCase, ModelBaseProps & { hasSubtypes: boolean }>;
-export type DrinkSubtypeModel = Override<DrinkSubtypeCamelCase, ModelBaseProps>;
+export type DrinkType = Override<DrinkTypeCamelCase, ModelBaseProps & { hasSubtypes: boolean }>;
+export type DrinkSubtype = Override<DrinkSubtypeCamelCase, ModelBaseProps>;
 
 type DrinkTypeCamelCase = ConvertKeysToCamelCase<DrinkTypeEntity>;
 type DrinkSubtypeCamelCase = ConvertKeysToCamelCase<DrinkSubtypeEntity>;
 
 // ------------------------------------------------------------------------ //
 
-export type ContainerTypeModel = Override<ContainerTypeCamelCase, ModelBaseProps>;
+export type ContainerType = Override<ContainerTypeCamelCase, ModelBaseProps>;
 type ContainerTypeCamelCase = ConvertKeysToCamelCase<ContainerTypeEntity>;
 
 // ------------------------------------------------------------------------ //

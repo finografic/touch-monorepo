@@ -101,6 +101,9 @@
     "src/**/*",
     "src/**/*.json",
     "package.json",
+    "src/types/**/*"
+    // "src/types/entities/drinks.types.ts",
+    // "src/types/entities/volumes.types.ts"
     // "../client/src/queries/drink-types/drink-types.dto.ts"
   ]
 }

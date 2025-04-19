@@ -1,3 +1,5 @@
+export type { DrinkSubtypeEntity, DrinkTypeEntity } from './drink-types.types';
+
 export type VolumeEntity = {
   id: string;
   name: string;
