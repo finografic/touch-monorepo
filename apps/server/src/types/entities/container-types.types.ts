@@ -1,9 +1,9 @@
-export interface ContainerTypeEntity {
+export type ContainerTypeEntity = {
   id: string;
   name: string;
-  displayName: string;
-  thermalConductivity: number;
-  isActive: boolean;
-  createdAt: Date | null;
-  updatedAt: Date | null;
-}
+  display_name: string;
+  thermal_conductivity: number;
+  is_active: number; // Stored as integer in DB
+  created_at: number; // Stored as timestamp in DB
+  updated_at: number; // Stored as timestamp in DB
+};

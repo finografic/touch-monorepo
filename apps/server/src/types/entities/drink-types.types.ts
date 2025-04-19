@@ -1,3 +1,6 @@
+export type { VolumeEntity } from './volumes.types';
+export type { ContainerTypeEntity } from './container-types.types';
+
 export type DrinkTypeEntity = {
   id: string;
   name: string;
@@ -12,7 +15,7 @@ export type DrinkTypeEntity = {
 
 export type DrinkSubtypeEntity = {
   id: string;
-  drinkTypeId: string;
+  drink_type_id: string;
   name: string;
   display_name: string;
   is_active: number; // Stored as integer in DB

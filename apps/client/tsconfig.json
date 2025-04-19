@@ -34,6 +34,9 @@
       "@touch/server/*": [
         "../server/src/*"
       ],
+      "@touch/server/types/entities": [
+        "../server/src/types/entities/index.ts"
+      ],
       "components/*": [
         "./src/components/*"
       ],
@@ -116,7 +119,8 @@
   "include": [
     "src",
     "src/**/*.json",
-    "../server/src/types/entities/drinks.types.ts"
+    "../server/src/types/entities/drinks.types.ts",
+    "../server/src/types/entities/volumes.types.ts"
   ],
   "exclude": [
     "dist",
