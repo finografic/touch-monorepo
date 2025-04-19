@@ -6,19 +6,22 @@ import { eq } from 'drizzle-orm';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { DrinkTypeDto } from 'types/dto/drink-types.dto';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const drinkTypes = await db.query.drink_types.findMany({
     where: (fields, operators) => operators.eq(fields.isActive, true),
     columns: {
       id: true,
-      displayName: true,
-      defaultConsumptionTemp: true,
-      hasSubtypes: true,
-      isActive: true,
+      name: true,
+      display_name: true,
+      has_subtypes: true,
+      default_consumption_time: true,
+      default_freeze_temp: true,
+      is_active: true,
     },
   });
-  return context.json(drinkTypes);
+  return context.json(drinkTypes.map(DrinkTypeDto.toApi));
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
@@ -38,20 +41,21 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
     );
   }
 
-  return context.json(drinkType, HttpStatusCodes.OK);
+  return context.json(DrinkTypeDto.toApi(drinkType), HttpStatusCodes.OK);
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (context) => {
-  const drinkType = context.req.valid('json');
-  const [inserted] = await db.insert(drink_types).values(drinkType).returning();
-  return context.json(inserted, HttpStatusCodes.OK);
+  const apiDrinkType = context.req.valid('json');
+  const dbDrinkType = DrinkTypeDto.fromApi(apiDrinkType);
+  const [inserted] = await db.insert(drink_types).values(dbDrinkType).returning();
+  return context.json(DrinkTypeDto.toApi(inserted), HttpStatusCodes.OK);
 };
 
 export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   const { id } = context.req.valid('param');
-  const updates = context.req.valid('json');
+  const apiUpdates = context.req.valid('json');
 
-  if (Object.keys(updates).length === 0) {
+  if (Object.keys(apiUpdates).length === 0) {
     return context.json(
       {
         success: false,
@@ -70,7 +74,8 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
-  const [drinkType] = await db.update(drink_types).set(updates).where(eq(drink_types.id, id)).returning();
+  const dbUpdates = DrinkTypeDto.fromApi({ ...apiUpdates, id } as any);
+  const [drinkType] = await db.update(drink_types).set(dbUpdates).where(eq(drink_types.id, id)).returning();
 
   if (!drinkType) {
     return context.json(
@@ -81,7 +86,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
-  return context.json(drinkType, HttpStatusCodes.OK);
+  return context.json(DrinkTypeDto.toApi(drinkType), HttpStatusCodes.OK);
 };
 
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {

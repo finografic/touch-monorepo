@@ -6,9 +6,11 @@ export interface DrinkType {
   name: string;
   displayName: string;
   hasSubtypes: boolean;
-  defaultConsumptionTime: number;
+  defaultConsumptionTemp: number;
   defaultFreezeTemp: number;
   isActive: boolean;
+  createdAt: string | null;
+  updatedAt: string | null;
 }
 
 export interface DrinkSubtype {
