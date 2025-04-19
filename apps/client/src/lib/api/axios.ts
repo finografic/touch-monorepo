@@ -20,7 +20,6 @@ export const api = axios.create({
 api.interceptors.response.use(
   (response: AxiosResponse) => response,
   (error: AxiosError<ErrorResponse>) => {
-    const message = error.response?.data?.message ?? 'An error occurred';
-    throw new Error(message);
+    return Promise.reject({ ...error });
   },
 );
