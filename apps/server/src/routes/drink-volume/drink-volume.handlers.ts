@@ -1,35 +1,36 @@
 import type { AppRouteHandler } from 'types/app.types';
-import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './drink-type.routes';
+import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './drink-volume.routes';
 import { db } from 'db';
-import { drink_types } from 'db/schemas';
+import { volumes } from 'db/schemas/volumes.schema';
 import { eq } from 'drizzle-orm';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
-  const drinkTypes = await db.query.drink_types.findMany({
+  const drinkVolumes = await db.query.volumes.findMany({
     where: (fields, operators) => operators.eq(fields.isActive, true),
     columns: {
       id: true,
-      displayName: true,
-      defaultConsumptionTemp: true,
-      hasSubtypes: true,
+      name: true,
+      valueInMl: true,
+      sortOrder: true,
+      coolingFactor: true,
       isActive: true,
     },
   });
-  return context.json(drinkTypes);
+  return context.json(drinkVolumes);
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   const { id } = context.req.valid('param');
-  const drinkType = await db.query.drink_types.findFirst({
+  const drinkVolume = await db.query.volumes.findFirst({
     where(fields, operators) {
       return operators.eq(fields.id, id);
     },
   });
 
-  if (!drinkType) {
+  if (!drinkVolume) {
     return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
@@ -38,12 +39,12 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
     );
   }
 
-  return context.json(drinkType, HttpStatusCodes.OK);
+  return context.json(drinkVolume, HttpStatusCodes.OK);
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (context) => {
-  const drinkType = context.req.valid('json');
-  const [inserted] = await db.insert(drink_types).values(drinkType).returning();
+  const drinkVolume = context.req.valid('json');
+  const [inserted] = await db.insert(volumes).values(drinkVolume).returning();
   return context.json(inserted, HttpStatusCodes.OK);
 };
 
@@ -70,9 +71,9 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
-  const [drinkType] = await db.update(drink_types).set(updates).where(eq(drink_types.id, id)).returning();
+  const [drinkVolume] = await db.update(volumes).set(updates).where(eq(volumes.id, id)).returning();
 
-  if (!drinkType) {
+  if (!drinkVolume) {
     return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
@@ -81,12 +82,12 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
-  return context.json(drinkType, HttpStatusCodes.OK);
+  return context.json(drinkVolume, HttpStatusCodes.OK);
 };
 
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   const { id } = context.req.valid('param');
-  const result = await db.delete(drink_types).where(eq(drink_types.id, id));
+  const result = await db.delete(volumes).where(eq(volumes.id, id));
 
   if (result.changes === 0) {
     return context.json(

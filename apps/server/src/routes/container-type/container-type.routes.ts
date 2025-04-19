@@ -1,43 +1,43 @@
 import { createRoute, z } from '@hono/zod-openapi';
-import { drinkTypeSchemas } from 'db/schemas/drink_types.schema';
+import { containerTypeSchemas } from 'db/schemas/container_types.schema';
 import { notFoundSchema } from 'lib/constants';
 import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
 
-const tags = ['DrinkTypes'];
+const tags = ['ContainerTypes'];
 
 export const list = createRoute({
-  path: '/drink-types',
+  path: '/container-types',
   method: 'get',
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
       z.array(
-        drinkTypeSchemas.select.pick({
+        containerTypeSchemas.select.pick({
           id: true,
+          name: true,
           displayName: true,
-          defaultConsumptionTemp: true,
-          hasSubtypes: true,
+          thermalConductivity: true,
           isActive: true,
         }),
       ),
-      'List of available drink types',
+      'List of available container types',
     ),
   },
 });
 
 export const getOne = createRoute({
-  path: '/drink-types/{id}',
+  path: '/container-types/{id}',
   method: 'get',
   request: {
     params: IdCuidParamsSchema,
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The requested drink type'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
+    [HttpStatusCodes.OK]: jsonContent(containerTypeSchemas.select, 'The requested container type'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Container type not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(IdParamsSchema),
       'Invalid id error',
@@ -46,41 +46,41 @@ export const getOne = createRoute({
 });
 
 export const create = createRoute({
-  path: '/drink-types',
+  path: '/container-types',
   method: 'post',
   request: {
-    body: jsonContentRequired(drinkTypeSchemas.insert, 'The drink type to create'),
+    body: jsonContentRequired(containerTypeSchemas.insert, 'The container type to create'),
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The created drink type'),
+    [HttpStatusCodes.OK]: jsonContent(containerTypeSchemas.select, 'The created container type'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(drinkTypeSchemas.insert),
+      createErrorSchema(containerTypeSchemas.insert),
       'The validation error(s)',
     ),
   },
 });
 
 export const patch = createRoute({
-  path: '/drink-types/{id}',
+  path: '/container-types/{id}',
   method: 'patch',
   request: {
     params: IdCuidParamsSchema,
-    body: jsonContentRequired(drinkTypeSchemas.patch, 'The drink type updates'),
+    body: jsonContentRequired(containerTypeSchemas.patch, 'The container type updates'),
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The updated drink type'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
+    [HttpStatusCodes.OK]: jsonContent(containerTypeSchemas.select, 'The updated container type'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Container type not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(drinkTypeSchemas.patch).or(createErrorSchema(IdParamsSchema)),
+      createErrorSchema(containerTypeSchemas.patch).or(createErrorSchema(IdParamsSchema)),
       'The validation error(s)',
     ),
   },
 });
 
 export const remove = createRoute({
-  path: '/drink-types/{id}',
+  path: '/container-types/{id}',
   method: 'delete',
   request: {
     params: IdCuidParamsSchema,
@@ -88,9 +88,9 @@ export const remove = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.NO_CONTENT]: {
-      description: 'Drink type deleted',
+      description: 'Container type deleted',
     },
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Container type not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(IdParamsSchema),
       'Invalid id error',

@@ -11,8 +11,9 @@ import health from 'routes/health-check/health-check.index';
 import index from 'routes/index.route';
 import users from 'routes/users';
 import drinkType from 'routes/drink-type';
-import posts from 'routes/posts';
+// import posts from 'routes/posts';
 import { CLI } from 'utils/utils.cli';
+import drinkVolume from './routes/drink-volume';
 
 const app = createApp();
 
@@ -35,7 +36,8 @@ app.use('*', async (context, next) => {
 
 configureOpenAPI(app);
 
-const routes = [index, health, auth, users, drinkType, posts] as const;
+const routesDrinkFlow = [drinkType, drinkVolume] as const;
+const routes = [index, health, auth, users, ...routesDrinkFlow] as const;
 
 routes.forEach((route) => {
   app.route(envShared.API_BASE_PATH, route);

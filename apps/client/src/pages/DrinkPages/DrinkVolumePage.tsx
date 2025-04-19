@@ -1,20 +1,20 @@
 import { stylesItemsGrid } from './items-grid.styles';
-import type { Volume } from 'types/orders.types';
-import { VOLUMES } from './data/volume.data';
+import type { DrinkVolume } from '@touch/shared/types';
 import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
+import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
+import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
+import { Loader } from 'components/Loader/Loader';
 
-const formatVolume = (volume: Volume): string => {
-  if (volume.unit === 'L') {
-    return `${volume.amount}L`;
+const formatVolume = (volume: DrinkVolume) => {
+  // Convert ml to L if volume is 1000ml or more
+  if (volume.valueInMl >= 1000) {
+    return `${volume.valueInMl / 1000}L`;
   }
-  // For centiliters, check if we need to format with a comma
-  if (volume.unit === 'cl') {
-    return `${volume.amount}cl`;
-  }
-  return `${volume.amount}${volume.unit}`;
+  // For volumes less than 1L, show in cl
+  return `${volume.valueInMl / 10}cl`;
 };
 
 export const DrinkVolumePage = () => {
@@ -22,30 +22,43 @@ export const DrinkVolumePage = () => {
     selectedValue: selectedVolume,
     handleSelection: handleVolumeSelection,
     hasValidSelection,
-  } = useOrderSelection<Volume>({
+  } = useOrderSelection<DrinkVolume>({
     field: OrderFieldKeys.volume,
   });
 
   const { setIsNextDisabled } = usePagination();
+  const { data, isLoading, error } = useGetDrinkVolumes();
 
   // Update next button state based on selection
   useEffect(() => {
     setIsNextDisabled(!hasValidSelection);
   }, [hasValidSelection, setIsNextDisabled]);
 
+  if (isLoading) {
+    return <Loader message="Loading drink volumes..." />;
+  }
+
+  if (error) {
+    return <ErrorMessage error={error} />;
+  }
+
   return (
     <section css={stylesItemsGrid}>
-      <div className={getGridFlowClasses(VOLUMES.length)}>
-        {VOLUMES.map((volume) => (
-          <div
-            key={`${volume.amount}${volume.unit}`}
-            className={`item-button ${selectedVolume?.amount === volume.amount && selectedVolume?.unit === volume.unit ? 'selected' : ''}`}
-            onClick={() => handleVolumeSelection(volume)}
-          >
-            {formatVolume(volume)}
-          </div>
-        ))}
-      </div>
+      {data?.length ? (
+        <div className={getGridFlowClasses(data.length)}>
+          {data.map((volume: DrinkVolume) => (
+            <div
+              key={volume.id}
+              className={`item-button ${selectedVolume?.id === volume.id ? 'selected' : ''}`}
+              onClick={() => handleVolumeSelection(volume)}
+            >
+              {formatVolume(volume)}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>No drink volumes available</div>
+      )}
     </section>
   );
 };
