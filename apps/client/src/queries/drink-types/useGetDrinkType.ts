@@ -1,13 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import type { DrinkType } from 'types/drinks.types';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
+import { api } from 'lib/axios';
 
 const getDrinkType = async (id: string): Promise<DrinkType> => {
-  const response = await fetch(`/api/drink-types/${id}`);
-  if (!response.ok) {
-    throw new Error(`Failed to fetch drink type with id ${id}`);
-  }
-  return response.json();
+  return api.get(`/drink-types/${id}`);
 };
 
 export const useGetDrinkType = (id: string) => {

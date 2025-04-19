@@ -14,7 +14,7 @@ export function MenuPage() {
 
   const numSelected = Object.values(orders).filter((order) => order.isSelected).length;
 
-  log('ENV_META', 'cyan', import.meta.env.API_URL);
+  log('ENV_META', 'cyan', import.meta.env.VITE_API_URL);
   log('ENV_META', 'hotpink', process.env.API_URL);
 
   useEffect(() => {
