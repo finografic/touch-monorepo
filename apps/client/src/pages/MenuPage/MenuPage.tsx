@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { styles } from './MenuPage.styles';
 import { Col, Row } from 'react-grid-system';
-import { OrderItemPad } from 'components/OrderItemPad';
+import { MenuPad } from 'components/MenuPad';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 
@@ -23,26 +23,27 @@ export const MenuPage = () => {
         <Col>
           <div className="menu-grid-left">
             {/* First row */}
-            <div className="pad first" />
-            <OrderItemPad number={1} />
-            <OrderItemPad number={2} />
+
+            <MenuPad className="first" />
+            <MenuPad number={1} />
+            <MenuPad number={2} />
 
             {/* Second row */}
-            <OrderItemPad number={3} />
-            <OrderItemPad number={4} />
-            <OrderItemPad number={5} />
+            <MenuPad number={3} />
+            <MenuPad number={4} />
+            <MenuPad number={5} />
 
             {/* Third row */}
-            <OrderItemPad number={6} />
-            <OrderItemPad number={7} />
-            <OrderItemPad number={8} />
+            <MenuPad number={6} />
+            <MenuPad number={7} />
+            <MenuPad number={8} />
           </div>
         </Col>
 
         <Col>
           <div className="menu-grid-right">
-            <div className="pad error" />
-            <div className="pad special" />
+            <div className="pad-special error" />
+            <div className="pad-special power" />
           </div>
         </Col>
       </Row>

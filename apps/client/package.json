@@ -92,6 +92,7 @@
     "autoprefixer": "10.4.20",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^5.1.0",
+    "eslint-plugin-simple-import-sort": "12.1.1",
     "globals": "16.0.0",
     "lightningcss": "1.29.3",
     "postcss": "^8.4.31",
