@@ -114,6 +114,9 @@
     },
     {
       "path": "../../config"
+    },
+    {
+      "path": "../server"
     }
   ],
   "include": [

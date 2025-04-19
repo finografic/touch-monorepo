@@ -1,5 +1,3 @@
-export type { DrinkSubtypeEntity, DrinkTypeEntity } from './drink-types.types';
-
 export type ContainerTypeEntity = {
   id: string;
   name: string;
