@@ -1,3 +1,8 @@
+// Constants
 export * from './constants/misc.constants';
-export * from './types/api.types';
+
+// Types
+export * from './types';
+
+// Utils
 export * from './utils/string.utils';

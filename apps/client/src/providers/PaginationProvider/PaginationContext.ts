@@ -39,7 +39,7 @@ export const usePagination = (): PaginationReturn => {
   }
 
   store.subscribe((state, prev) => {
-    log('__STRORE_CHANGE Event', 'grey', 'grey', { state, prev });
+    // log('__STORE_CHANGE Event', 'grey', 'grey', { state, prev });
   });
 
   return useStore<StoreApi<PaginationStore>, PaginationReturn>(store, ({ actions, ...state }) => ({

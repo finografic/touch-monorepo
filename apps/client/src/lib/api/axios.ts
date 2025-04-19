@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import { ErrorResponse } from './api.types';
+import type { ErrorResponse } from '@touch/shared/types';
 
 // TypeScript now knows API_URL exists and is a string
 const { API_URL } = process.env;
@@ -18,7 +18,7 @@ export const api = axios.create({
 
 // Add response interceptor for consistent error handling
 api.interceptors.response.use(
-  (response: AxiosResponse) => response.data,
+  (response: AxiosResponse) => response,
   (error: AxiosError<ErrorResponse>) => {
     const message = error.response?.data?.message ?? 'An error occurred';
     throw new Error(message);

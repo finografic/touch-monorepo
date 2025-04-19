@@ -7,6 +7,7 @@ import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 
 import { styles } from './MenuPage.styles';
+import { useGetDrinkTypes } from 'queries/drink-types/useGetDrinkTypes';
 
 export function MenuPage() {
   const { orders } = useOrders();
@@ -14,8 +15,10 @@ export function MenuPage() {
 
   const numSelected = Object.values(orders).filter((order) => order.isSelected).length;
 
-  log('ENV_META', 'cyan', import.meta.env.VITE_API_URL);
-  log('ENV_META', 'hotpink', process.env.API_URL);
+  const { data, isLoading, isFetching, isSuccess, isError } = useGetDrinkTypes();
+
+  log('RESPONSE', 'cyan', { data, isLoading, isFetching, isSuccess, isError });
+  // log('ENV_META', 'hotpink', process.env.API_URL);
 
   useEffect(() => {
     setIsNextDisabled(numSelected === 0);
