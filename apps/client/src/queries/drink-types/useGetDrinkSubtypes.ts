@@ -1,11 +1,21 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { ErrorResponse } from '@touch/shared/types';
-import type { ApiResponse } from '@touch/shared/types/api.types';
-import type { DrinkSubtypeEntity } from '@touch/server/types/entities/drink-type.entity';
 import { api } from 'lib/api';
 import type { DrinkSubtype } from 'types/models/drink-type.model';
-import { DrinkTypeDTO } from './DrinkTypes.dto';
+
+interface SubtypesResponse {
+  data?: DrinkSubtype[];
+  success: boolean;
+  error?: {
+    issues: Array<{
+      code: string;
+      path: string[];
+      message: string;
+    }>;
+    name: string;
+  };
+}
 
 export const useGetDrinkSubtypes = (drinkTypeId?: string): UseQueryResult<DrinkSubtype[], ErrorResponse> => {
   return useQuery({
@@ -14,10 +24,14 @@ export const useGetDrinkSubtypes = (drinkTypeId?: string): UseQueryResult<DrinkS
       if (!drinkTypeId) {
         return [];
       }
-      const response = await api.get<ApiResponse<DrinkSubtypeEntity[]>>(
-        `/drink-types/${drinkTypeId}/subtypes`,
-      );
-      return response.data.data.map((subtype) => DrinkTypeDTO.fromSubtypeEntity(subtype));
+
+      const response = await api.get<SubtypesResponse>(`/drink-types/${drinkTypeId}/subtypes`);
+
+      if (!response.data.success) {
+        throw response.data.error;
+      }
+
+      return response.data.data || [];
     },
     enabled: !!drinkTypeId,
   });
