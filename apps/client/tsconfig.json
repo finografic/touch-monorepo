@@ -31,6 +31,9 @@
       "@touch/shared": [
         "../../packages/shared/src"
       ],
+      "@touch/server/*": [
+        "../server/src/*"
+      ],
       "components/*": [
         "./src/components/*"
       ],

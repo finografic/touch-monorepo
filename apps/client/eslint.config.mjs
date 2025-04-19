@@ -23,6 +23,7 @@ export default fino(
     rules: {
       'style/no-multi-spaces': OFF,
       'regexp/prefer-w': OFF,
+      'fino/top-level-function': OFF,
     },
   },
 );

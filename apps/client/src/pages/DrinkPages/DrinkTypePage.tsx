@@ -1,6 +1,6 @@
 import { stylesItemsGrid } from './items-grid.styles';
 import type { DrinkType } from '@touch/shared/types';
-import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
+import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
@@ -20,7 +20,6 @@ export const DrinkTypePage = () => {
   const { setIsNextDisabled } = usePagination();
   const { data, isLoading, error } = useGetDrinkTypes();
 
-  // Update next button state based on selection
   useEffect(() => {
     setIsNextDisabled(!hasValidSelection);
   }, [hasValidSelection, setIsNextDisabled]);
@@ -43,7 +42,7 @@ export const DrinkTypePage = () => {
               className={`item-button ${selectedDrinkType?.id === drinkType.id ? 'selected' : ''}`}
               onClick={() => handleDrinkTypeSelection(drinkType)}
             >
-              {drinkType.display_name}
+              {drinkType.displayName}
             </div>
           ))}
         </div>

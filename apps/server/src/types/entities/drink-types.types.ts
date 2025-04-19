@@ -6,8 +6,8 @@ export type DrinkType = {
   default_consumption_time: number;
   default_freeze_temp: number;
   is_active: number;
-  createdAt: Date | null;
-  updatedAt: Date | null;
+  // createdAt: Date | null;
+  // updatedAt: Date | null;
 };
 
 export type DrinkSubtype = {

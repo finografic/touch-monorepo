@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { ApiResponse, ErrorResponse } from '@touch/shared/types';
-import type { DrinkType } from 'apps/server/src/types/entities/drink-types.types';
+import type { DrinkType } from '@touch/server/types/entities/drink-types.types';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 import { api } from 'lib/api';
 import { transformAxiosError } from 'lib/api/api.utils';
