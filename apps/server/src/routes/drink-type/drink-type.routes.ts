@@ -13,18 +13,7 @@ export const list = createRoute({
   method: 'get',
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(
-        drinkTypeSchemas.select.pick({
-          id: true,
-          displayName: true,
-          defaultConsumptionTemp: true,
-          hasSubtypes: true,
-          isActive: true,
-        }),
-      ),
-      'List of available drink types',
-    ),
+    [HttpStatusCodes.OK]: jsonContent(z.array(drinkTypeSchemas.select), 'List of available drink types'),
   },
 });
 
