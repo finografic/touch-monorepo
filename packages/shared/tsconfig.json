@@ -1,25 +1,27 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "composite": true,
+    "outDir": "./dist",
     "rootDir": "./src",
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
+    "composite": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
     "types": [
       "node"
     ],
     "declaration": true,
     "declarationMap": true,
-    "outDir": "./dist",
-    "removeComments": true,
-    "verbatimModuleSyntax": true
+    "resolveJsonModule": true
   },
   "include": [
-    "src/**/*"
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.json"
   ],
   "exclude": [
-    "dist",
     "node_modules",
-    "**/*.test.ts"
+    "dist",
+    "**/*.test.ts",
+    "**/*.spec.ts"
   ]
 }

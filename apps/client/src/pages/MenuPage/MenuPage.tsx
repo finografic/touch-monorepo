@@ -1,24 +1,15 @@
 import { useEffect } from 'react';
-
 import { Col, Row } from 'react-grid-system';
-
 import { MenuPad } from 'components/MenuPad';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-
 import { styles } from './MenuPage.styles';
-import { useGetDrinkTypes } from 'queries/drink-types/useGetDrinkTypes';
 
 export function MenuPage() {
   const { orders } = useOrders();
   const { setIsNextDisabled } = usePagination();
 
   const numSelected = Object.values(orders).filter((order) => order.isSelected).length;
-
-  const { data, isLoading, isFetching, isSuccess, isError } = useGetDrinkTypes();
-
-  log('RESPONSE', 'cyan', { data, isLoading, isFetching, isSuccess, isError });
-  // log('ENV_META', 'hotpink', process.env.API_URL);
 
   useEffect(() => {
     setIsNextDisabled(numSelected === 0);

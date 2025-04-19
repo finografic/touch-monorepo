@@ -5,6 +5,8 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
 import { useGetDrinkTypes } from 'queries/drink-types';
+import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
+import { Loader } from 'components/Loader/Loader';
 
 export const DrinkTypePage = () => {
   const {
@@ -16,7 +18,7 @@ export const DrinkTypePage = () => {
   });
 
   const { setIsNextDisabled } = usePagination();
-  const { data: drinkTypes, isLoading, error } = useGetDrinkTypes();
+  const { data, isLoading, error } = useGetDrinkTypes();
 
   // Update next button state based on selection
   useEffect(() => {
@@ -24,30 +26,30 @@ export const DrinkTypePage = () => {
   }, [hasValidSelection, setIsNextDisabled]);
 
   if (isLoading) {
-    return <div>Loading drink types...</div>;
+    return <Loader message="Loading drink types..." />;
   }
 
   if (error) {
-    return <div>Error loading drink types</div>;
-  }
-
-  if (!drinkTypes?.length) {
-    return <div>No drink types available</div>;
+    return <ErrorMessage error={error} />;
   }
 
   return (
     <section css={stylesItemsGrid}>
-      <div className={getGridFlowClasses(drinkTypes.length)}>
-        {drinkTypes.map((drinkType: DrinkType) => (
-          <div
-            key={drinkType.id}
-            className={`item-button ${selectedType?.id === drinkType.id ? 'selected' : ''}`}
-            onClick={() => handleTypeSelection(drinkType)}
-          >
-            {drinkType.displayName}
-          </div>
-        ))}
-      </div>
+      {data?.length ? (
+        <div className={getGridFlowClasses(data.length)}>
+          {data.map((drinkType: DrinkType) => (
+            <div
+              key={drinkType.id}
+              className={`item-button ${selectedType?.id === drinkType.id ? 'selected' : ''}`}
+              onClick={() => handleTypeSelection(drinkType)}
+            >
+              {drinkType.displayName}
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div>No drink types available</div>
+      )}
     </section>
   );
 };
