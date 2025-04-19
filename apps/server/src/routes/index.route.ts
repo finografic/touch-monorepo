@@ -18,7 +18,7 @@ const router = createRouter().openapi(
     },
   }),
   (c) => {
-    return c.json(
+    return context.json(
       {
         message: 'Hono + Drizzle API',
       },

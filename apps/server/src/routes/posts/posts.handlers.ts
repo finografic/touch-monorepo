@@ -7,19 +7,19 @@ import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
-export const list: AppRouteHandler<ListRoute> = async (c) => {
+export const list: AppRouteHandler<ListRoute> = async (context) => {
   const posts = await db.query.posts.findMany();
-  return c.json(posts);
+  return context.json(posts);
 };
 
-export const create: AppRouteHandler<CreateRoute> = async (c) => {
-  const post = c.req.valid('json');
+export const create: AppRouteHandler<CreateRoute> = async (context) => {
+  const post = context.req.valid('json');
   const [inserted] = await db.insert(posts).values(post).returning();
-  return c.json(inserted, HttpStatusCodes.OK);
+  return context.json(inserted, HttpStatusCodes.OK);
 };
 
-export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
-  const { id } = c.req.valid('param');
+export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
+  const { id } = context.req.valid('param');
   const post = await db.query.posts.findFirst({
     where(fields, operators) {
       return operators.eq(fields.id, id);
@@ -27,7 +27,7 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
   });
 
   if (!post) {
-    return c.json(
+    return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
       },
@@ -35,15 +35,15 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (c) => {
     );
   }
 
-  return c.json(post, HttpStatusCodes.OK);
+  return context.json(post, HttpStatusCodes.OK);
 };
 
-export const patch: AppRouteHandler<PatchRoute> = async (c) => {
-  const { id } = c.req.valid('param');
-  const updates = c.req.valid('json');
+export const patch: AppRouteHandler<PatchRoute> = async (context) => {
+  const { id } = context.req.valid('param');
+  const updates = context.req.valid('json');
 
   if (Object.keys(updates).length === 0) {
-    return c.json(
+    return context.json(
       {
         success: false,
         error: {
@@ -64,7 +64,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
   const [post] = await db.update(posts).set(updates).where(eq(posts.id, id)).returning();
 
   if (!post) {
-    return c.json(
+    return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
       },
@@ -72,15 +72,15 @@ export const patch: AppRouteHandler<PatchRoute> = async (c) => {
     );
   }
 
-  return c.json(post, HttpStatusCodes.OK);
+  return context.json(post, HttpStatusCodes.OK);
 };
 
-export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
-  const { id } = c.req.valid('param');
+export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
+  const { id } = context.req.valid('param');
   const result = await db.delete(posts).where(eq(posts.id, id));
 
   if (result.changes === 0) {
-    return c.json(
+    return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
       },
@@ -88,5 +88,5 @@ export const remove: AppRouteHandler<RemoveRoute> = async (c) => {
     );
   }
 
-  return c.body(null, HttpStatusCodes.NO_CONTENT);
+  return context.body(null, HttpStatusCodes.NO_CONTENT);
 };
