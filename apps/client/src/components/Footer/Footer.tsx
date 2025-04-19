@@ -1,14 +1,17 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { styles } from './Footer.styles';
-import { useOrders } from 'providers/OrdersProvider';
-import { ROUTES, ROUTE_CONFIG } from 'routes/routes.config';
-import { MockOrdersButton } from './DevMockOrders/MockOrdersButton';
+
 import { ButtonControl } from 'components/ButtonControl/ButtonControl';
+import { useOrders } from 'providers/OrdersProvider';
+import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { ROUTE_CONFIG, ROUTES } from 'routes/routes.config';
+
+import { MockOrdersButton } from './DevMockOrders/MockOrdersButton';
+
+import { styles } from './Footer.styles';
 
 const PATHNAMES = Object.values(ROUTE_CONFIG).map((route) => route.pathname);
 
-export const Footer = () => {
+export function Footer() {
   const location = useLocation();
   const navigate = useNavigate();
   const { current, total, setPageCurrent, isNextDisabled } = usePagination();
@@ -77,4 +80,4 @@ export const Footer = () => {
       </div>
     </footer>
   );
-};
+}

@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
-import { styles } from './MenuPage.styles';
+
 import { Col, Row } from 'react-grid-system';
+
 import { MenuPad } from 'components/MenuPad';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 
-export const MenuPage = () => {
+import { styles } from './MenuPage.styles';
+
+export function MenuPage() {
   const { orders } = useOrders();
   const { setIsNextDisabled } = usePagination();
 
@@ -49,4 +52,4 @@ export const MenuPage = () => {
       </Row>
     </section>
   );
-};
+}

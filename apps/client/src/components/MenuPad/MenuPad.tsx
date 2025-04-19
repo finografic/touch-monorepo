@@ -1,11 +1,11 @@
+import clsx from 'clsx';
+import type { FC } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
-import { OrderItem } from 'types/orders.types';
+import type { OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/orders.utils';
+import type { MenuPadBaseProps } from './MenuPad.types';
 import { OrderItemProcessing } from './OrderItemProcessing';
 import { OrderItemToggle } from './OrderItemToggle';
-import { MenuPadBaseProps } from './MenuPad.types';
-import { FC } from 'react';
-import clsx from 'clsx';
 import { styles } from './MenuPad.styles';
 
 export const MenuPad: FC<MenuPadBaseProps> = ({ number, className }) => {

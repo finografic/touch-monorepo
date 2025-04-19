@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
-import { layout, colors } from 'styles';
+
+import { colors, layout } from 'styles';
 
 const props = {
   box: {

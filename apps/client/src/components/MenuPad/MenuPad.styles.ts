@@ -1,5 +1,5 @@
-import { css } from '@emotion/react';
 import { layout, colors } from 'styles';
+import { css } from '@emotion/react';
 
 const props = {
   pad: {
@@ -31,7 +31,7 @@ export const styles = css`
     background-color: transparent;
     cursor: pointer;
 
-    &:not(.is-processing):hover {
+    &:hover {
       border-color: ${colors.info};
       transform: scale(1.05);
     }
@@ -44,6 +44,9 @@ export const styles = css`
     &.first {
       border-color: ${colors.grey};
       background-color: rgba(150, 150, 150, 0.15);
+      &:hover {
+        transform: none; /* Ensure no transform */
+      }
     }
 
     &.error {
@@ -67,10 +70,12 @@ export const styles = css`
       background-color: rgba(1, 250, 20, 0.1);
       color: ${colors.success};
       cursor: not-allowed;
+      cursor: wait;
 
       &:hover {
         border-color: ${colors.successLight};
         background-color: rgba(1, 250, 20, 0.1);
+        transform: none; /* Ensure no transform */
       }
 
       &:disabled {
