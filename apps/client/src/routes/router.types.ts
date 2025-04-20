@@ -1,4 +1,4 @@
-import type { User } from 'lib/api/auth';
+import type { User } from 'src/api/auth';
 
 export interface RouterContext {
   auth: {

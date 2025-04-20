@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { ApiResponse, ErrorResponse } from '@touch/shared/types';
 import { GET_DRINK_VOLUMES_QUERYKEY } from '.';
-import { api } from 'lib/api';
-import { transformAxiosError } from 'lib/api/api.utils';
-import { DrinkVolume } from 'types/models/volume.model';
+import { api } from 'src/api';
+import { transformAxiosError } from 'src/api/api.utils';
+import type { DrinkVolume } from 'types/models/volume.model';
 
 const getDrinkVolume = async (id: string) => {
   try {

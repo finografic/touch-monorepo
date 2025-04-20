@@ -3,8 +3,8 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import type { ApiResponse, ErrorResponse } from '@touch/shared/types';
 import type { ContainerType } from 'types/orders.types';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
-import { api } from 'lib/api';
-import { transformAxiosError } from 'lib/api/api.utils';
+import { api } from 'src/api';
+import { transformAxiosError } from 'src/api/api.utils';
 
 const getContainerType = async (id: string) => {
   try {

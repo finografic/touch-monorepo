@@ -6,9 +6,11 @@ import { PageContentProvider } from 'providers/PageContentProvider/PageContentPr
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
 import { DevDialog } from 'components/DevDialog/DevDialog';
+import { DevPanel } from './DevPanel/DevPanel';
+import type { FC } from 'react';
 // import { DevPanel } from 'layout/DevPanel/DevPanel';
 
-export const Layout: React.FC = () => {
+export const Layout: FC = () => {
   return (
     <OrdersProvider>
       <PaginationProvider>
@@ -23,7 +25,7 @@ export const Layout: React.FC = () => {
             <Footer />
           </div>
           <DevDialog />
-          {/* <DevPanel /> */}
+          <DevPanel />
         </PageContentProvider>
       </PaginationProvider>
     </OrdersProvider>

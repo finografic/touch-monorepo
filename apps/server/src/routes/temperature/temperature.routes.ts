@@ -1,7 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContentRequired } from 'stoker/openapi/helpers';
-import { Hono } from 'hono';
 import { zValidator } from '@hono/zod-validator';
 import { calculateTemperatureSchema } from './temperature.schemas';
 import { calculate } from './temperature.handlers';
@@ -40,10 +39,6 @@ const temperatureSettingsSchema = z.object({
   maxConsumptionTemp: z.number(),
   defaultFreezeTemp: z.number().optional(),
 });
-
-const router = new Hono();
-
-router.post('/calculate', zValidator('json', calculateTemperatureSchema), calculate);
 
 export const calculateRoute = createRoute({
   path: '/temperature/calculate',
@@ -96,5 +91,4 @@ export const getSettings = createRoute({
 });
 
 export type CalculateRoute = typeof calculateRoute;
-
-export default router;
+export type GetSettingsRoute = typeof getSettings;

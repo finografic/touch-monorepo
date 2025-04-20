@@ -2,25 +2,25 @@
 
 ## Overview
 
-The database schema is designed for a beverage dispensing system with temperature control. The system consists of 11 elements (dispensing stations), where elements 1-10 are beverage dispensers and element 11 is a simple on/off switch.
+The database schema is designed for a drink dispensing system with temperature control. The system consists of 11 elements (dispensing stations), where elements 1-10 are drink dispensers and element 11 is a simple on/off switch.
 
 ## Schema Relationships
 
 ```mermaid
 erDiagram
-    BeverageTypes ||--o{ BeverageSubtypes : "has subtypes"
-    BeverageTypes ||--o{ BeverageConfigs : "used in"
-    BeverageSubtypes ||--o{ BeverageConfigs : "used in"
-    ContainerTypes ||--o{ BeverageConfigs : "used in"
-    Volumes ||--o{ BeverageConfigs : "used in"
+    DrinkTypes ||--o{ DrinkSubtypes : "has subtypes"
+    DrinkTypes ||--o{ DrinkConfigs : "used in"
+    DrinkSubtypes ||--o{ DrinkConfigs : "used in"
+    ContainerTypes ||--o{ DrinkConfigs : "used in"
+    Volumes ||--o{ DrinkConfigs : "used in"
 
     TemperatureTables ||--o{ TemperatureTableEntries : "contains"
-    BeverageConfigs ||--o{ TemperatureTables : "references"
+    DrinkConfigs ||--o{ TemperatureTables : "references"
 
     Elements ||--o{ RunningOrders : "executes"
-    BeverageConfigs ||--o{ RunningOrders : "configures"
+    DrinkConfigs ||--o{ RunningOrders : "configures"
 
-    BeverageTypes {
+    DrinkTypes {
         string id PK
         string name
         string displayName
@@ -29,9 +29,9 @@ erDiagram
         integer defaultFreezeTemp
     }
 
-    BeverageSubtypes {
+    DrinkSubtypes {
         string id PK
-        string beverageTypeId FK
+        string drinkTypeId FK
         string name
         string displayName
         integer consumptionTemp
@@ -53,10 +53,10 @@ erDiagram
         float coolingFactor
     }
 
-    BeverageConfigs {
+    DrinkConfigs {
         string id PK
-        string beverageTypeId FK
-        string beverageSubtypeId FK
+        string drinkTypeId FK
+        string drinkSubtypeId FK
         string containerTypeId FK
         string volumeId FK
         string timeTableId1
@@ -90,7 +90,7 @@ erDiagram
     RunningOrders {
         string id PK
         string elementId FK
-        string beverageConfigId FK
+        string drinkConfigId FK
         integer startTemp
         integer targetTemp
         string status
@@ -99,15 +99,15 @@ erDiagram
 
 ## Core Schemas
 
-### `beverage_types.schema.ts`
+### `drink_types.schema.ts`
 
-Primary schema for beverage categorization:
-- **Main Types Table**: Basic beverages (Cerveza, Vino, Licor, etc.)
+Primary schema for drink categorization:
+- **Main Types Table**: Basic drinks (Cerveza, Vino, Licor, etc.)
   - Name and localized display name
   - Temperature defaults (-10°C to 30°C for consumption)
   - Flag for subtypes existence
 - **Subtypes Table**: Variants of main types (e.g., Cerveza: Rubia, Negra)
-  - References parent beverage type
+  - References parent drink type
   - Can override parent's temperature settings
   - Maintains same validation patterns
 
@@ -126,10 +126,10 @@ Manages available container sizes:
 - Includes cooling factor for volume-based timing adjustments
 - Maintains sort order for display purposes
 
-### `beverage_configs.schema.ts`
+### `drink_configs.schema.ts`
 
 Links core entities and defines valid combinations:
-- Connects beverage types/subtypes with containers and volumes
+- Connects drink types/subtypes with containers and volumes
 - Stores temperature ranges and defaults
 - References time-temperature tables (1XXX, 2XXX, 3XXX series)
 - Enforces valid combinations through foreign key relationships
@@ -159,7 +159,7 @@ Controls the 11 dispensing stations:
 ### `running_orders.schema.ts`
 
 Tracks active dispensing operations:
-- Links elements to beverage configurations
+- Links elements to drink configurations
 - Monitors temperatures (start, target, current)
 - Manages timing (estimated vs actual)
 - Status tracking (pending, running, completed, failed)
@@ -177,8 +177,8 @@ All schemas include:
 ## Relationships
 
 - Elements 1-10 use different temperature table series (1XXX, 2XXX, 3XXX)
-- Beverage configs link to multiple temperature tables
-- Running orders connect elements to specific beverage configurations
+- Drink configs link to multiple temperature tables
+- Running orders connect elements to specific drink configurations
 - Elements maintain current order references while active
 
 ## Validation

@@ -1,6 +1,5 @@
 import type { OrdersProviderProps } from './Orders.types';
-import { OrdersContext as Orders } from './OrdersContext';
-import { DISPLAY_NAME } from './OrdersContext';
+import { DISPLAY_NAME, OrdersContext as Orders } from './OrdersContext';
 
 export const OrdersProvider = ({ initialValue, children }: OrdersProviderProps) => {
   return <Orders.Provider initialValue={initialValue}>{children}</Orders.Provider>;

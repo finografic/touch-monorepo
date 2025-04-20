@@ -1,6 +1,6 @@
 import { useState } from 'react';
 // import { useNavigate } from '@tanstack/react-router';
-import { useAuth } from 'lib/auth/AuthContext';
+import { useAuth } from 'src/auth/AuthContext';
 import { Col, Container, Row } from 'react-grid-system';
 import { styles } from './LoginPage.styles';
 

@@ -1,5 +1,5 @@
 import { Navigate } from 'react-router-dom';
-import { useAuth } from 'lib/auth/AuthContext';
+import { useAuth } from 'src/auth/AuthContext';
 
 // Protected route wrapper
 export function RequireAuth({ children }: { children: React.ReactNode }) {

@@ -21,6 +21,7 @@ export interface OrderSelectionFields {
 export interface ContainerType {
   id: string;
   name: string;
+  displayName: string;
 }
 
 // Types for the values of each field
@@ -38,6 +39,7 @@ export interface Temperature {
 export interface OrderProcessStatus {
   isProcessing: boolean;
   timeRemaining?: number;
+  estimatedCompletionTime?: string; // ISO date string for completion time
 }
 
 // The complete order type combining selection fields and base properties

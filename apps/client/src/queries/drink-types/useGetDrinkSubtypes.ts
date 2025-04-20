@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { ErrorResponse } from '@touch/shared/types';
-import { api } from 'lib/api';
+import { api } from 'src/api';
 import type { DrinkSubtype } from 'types/models/drink-type.model';
 
 interface SubtypesResponse {

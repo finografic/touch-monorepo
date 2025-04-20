@@ -1,6 +1,6 @@
 import type { DrinkTypeEntity } from '@touch/server/types/entities/drink-type.entity';
 import type { DrinkType } from 'types/models/drink-type.model';
-import { ApiResponse } from '../../../../../packages/shared/src/types/api.types';
+import type { ApiResponse } from '@touch/shared/types/api.types';
 
 export const DrinkTypeDTO = {
   fromApi(data: ApiResponse<DrinkTypeEntity[]>): DrinkType[] {

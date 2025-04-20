@@ -1,4 +1,4 @@
-import { OrderItem } from 'types/orders.types';
+// import { OrderItem } from 'types/models/orders.model';
 
 export const MOCK_ORDERS_DATA: any[] = [
   {

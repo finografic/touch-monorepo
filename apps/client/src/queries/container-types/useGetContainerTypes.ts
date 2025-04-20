@@ -1,8 +1,10 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import type { ContainerType, ApiResponse, ErrorResponse } from '@touch/shared/types';
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import type { ContainerType } from 'types/models/container.model';
+import type { ApiResponse, ErrorResponse } from '@touch/shared/types';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
-import { api } from 'lib/api';
-import { transformAxiosError } from 'lib/api/api.utils';
+import { api } from 'src/api';
+import { transformAxiosError } from 'src/api/api.utils';
 
 const getContainerTypes = async () => {
   try {

@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
-import { PageContentKeys } from './PageContentContext';
+import type { PageContentKeys } from './PageContentContext';
 
-export type PageContentValues = {
+export interface PageContentValues {
   [PageContentKeys.title]: string;
   [PageContentKeys.isDevDialogOpen]: boolean;
-};
+}
 
 type PageContentSetters = {
   [K in keyof PageContentValues as `setPageContent${Capitalize<string & K>}`]: (
@@ -16,10 +16,10 @@ type PageContentActions = PageContentSetters & {
   setIsDevDialogOpen: (value: boolean) => void;
 };
 
-export type PageContentProviderProps = {
+export interface PageContentProviderProps {
   initialValue?: PageContentStore;
   children: ReactNode;
-};
+}
 
 export interface PageContentStore extends PageContentValues {
   actions: PageContentActions;

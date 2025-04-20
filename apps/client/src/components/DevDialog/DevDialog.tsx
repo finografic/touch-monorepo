@@ -75,7 +75,7 @@ const OrderDataList = ({ data }: { data: any }) => {
           <DataList.Label color="blue" highContrast>
             Container
           </DataList.Label>
-          <DataList.Value>{data.containerType.name}</DataList.Value>
+          <DataList.Value>{data.containerType.displayName}</DataList.Value>
         </DataList.Item>
       )}
     </DataList.Root>

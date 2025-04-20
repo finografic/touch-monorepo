@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderSelectionFields } from 'types/orders.types';
 

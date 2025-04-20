@@ -1,10 +1,10 @@
 import type { ReactNode } from 'react';
-import { OrdersKeys } from './OrdersContext';
-import { OrderItem } from 'types/orders.types';
+import type { OrdersKeys } from './OrdersContext';
+import type { OrderItem } from 'types/orders.types';
 
-export type OrdersValues = {
+export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
-};
+}
 
 type OrdersSetters = {
   [K in keyof OrdersValues as `set${Capitalize<string & K>}`]: (val: OrdersValues[K]) => void;
@@ -15,10 +15,10 @@ type OrdersActions = OrdersSetters & {
   selectAllPads: () => void;
 };
 
-export type OrdersProviderProps = {
+export interface OrdersProviderProps {
   initialValue?: OrdersStore;
   children: ReactNode;
-};
+}
 
 export interface OrdersStore extends OrdersValues {
   actions: OrdersActions;

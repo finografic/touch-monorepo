@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { ErrorResponse } from '@touch/shared/types';
 import type { ApiResponse } from '@touch/shared/types/api.types';
-import { api } from 'lib/api';
-import { transformAxiosError } from 'lib/api/api.utils';
+import { api } from 'src/api';
+import { transformAxiosError } from 'src/api/api.utils';
 
 export interface TemperatureSettings {
   defaultConsumptionTemp: number;

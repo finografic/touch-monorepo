@@ -2,15 +2,18 @@ import type { ContainerType } from 'types/orders.types';
 
 export const CONTAINER_TYPES: ContainerType[] = [
   {
-    id: 'plastic',
-    name: 'Plastic',
+    id: 'cm9n959tj0000gqlw092e73e9',
+    name: 'plastico',
+    displayName: 'Plástico',
   },
   {
-    id: 'glass',
-    name: 'Glass',
+    id: 'cm9n959tj0001gqlwooqbq2pq',
+    name: 'vidrio',
+    displayName: 'Vidrio',
   },
   {
-    id: 'metal',
-    name: 'Metal',
+    id: 'cm9n959tj0002gqlwh75pfoyp',
+    name: 'metal',
+    displayName: 'Metal',
   },
 ];

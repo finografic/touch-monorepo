@@ -31,7 +31,7 @@ export const ContainerTypePage = () => {
             className={`item-button ${selectedContainer?.id === containerType.id ? 'selected' : ''}`}
             onClick={() => handleContainerSelection(containerType)}
           >
-            {containerType.name}
+            {containerType.displayName}
           </div>
         ))}
       </div>

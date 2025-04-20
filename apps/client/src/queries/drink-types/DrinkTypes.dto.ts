@@ -1,13 +1,13 @@
-import type { DrinkTypeEntity, DrinkSubtypeEntity } from '@touch/server/types/entities/drink-type.entity';
-import type { DrinkType, DrinkSubtype } from 'types/models/drink-type.model';
+import type { DrinkSubtypeEntity, DrinkTypeEntity } from '@touch/server/types/entities/drink-type.entity';
+import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
 import type { ApiResponse } from '@touch/shared/types/api.types';
 
-type FromApiOverloads = {
+interface FromApiOverloads {
   (data: ApiResponse<DrinkTypeEntity[]>): DrinkType[];
   (data: ApiResponse<DrinkTypeEntity>): DrinkType;
   (data: ApiResponse<DrinkSubtypeEntity[]>): DrinkSubtype[];
   (data: ApiResponse<DrinkSubtypeEntity>): DrinkSubtype;
-};
+}
 
 const transformEntity = (drinkType: DrinkTypeEntity): DrinkType => ({
   id: drinkType.id,

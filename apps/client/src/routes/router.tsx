@@ -3,7 +3,7 @@ import { LoginPage } from 'pages/LoginPage/LoginPage';
 // import { RequireAuth } from './RequireAuth';
 import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 import { Layout } from 'layout/Layout';
-import { AuthProvider } from 'lib/auth/AuthProvider';
+import { AuthProvider } from 'src/auth/AuthProvider';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
 import { DrinkTypePage } from '../pages/DrinkPages/DrinkTypePage';

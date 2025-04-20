@@ -6,6 +6,7 @@ import { findOrderByNumber } from 'utils/orders.utils';
 import type { MenuPadBaseProps } from './MenuPad.types';
 import { OrderItemProcessing } from './OrderItemProcessing';
 import { OrderItemToggle } from './OrderItemToggle';
+import { OrderItemCountdown } from './OrderItemCountdown';
 import { styles } from './MenuPad.styles';
 
 export const MenuPad: FC<MenuPadBaseProps> = ({ number, className }) => {
@@ -14,6 +15,11 @@ export const MenuPad: FC<MenuPadBaseProps> = ({ number, className }) => {
   if (number) {
     const order = findOrderByNumber(orders, number) as OrderItem;
     const isProcessing = order?.processStatus?.isProcessing;
+    const hasCountdown = order?.processStatus?.estimatedCompletionTime;
+
+    if (isProcessing && hasCountdown) {
+      return <OrderItemCountdown number={number} />;
+    }
 
     return isProcessing ? <OrderItemProcessing number={number} /> : <OrderItemToggle number={number} />;
   }
