@@ -8,11 +8,7 @@ import { envShared } from '@fino/config/envShared';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
   const viteEnv = loadEnv(mode as string, process.cwd(), '');
-
-  // NOTE: dev only.. log API URL that is being used
-  if (mode) {
-    logApiURL({ mode });
-  }
+  if (mode) logApiURL({ mode });
 
   return {
     css: {
