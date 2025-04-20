@@ -66,6 +66,10 @@ export function Footer() {
     }
   };
 
+  const isVisibleBackButton = current > 0;
+  const isVisibleNextButton = location.pathname !== ROUTES.FINAL_TEMPERATURE;
+  // const isVisibleNextButton = current < total;
+
   return (
     <footer css={styles}>
       <div className="controls">
@@ -78,12 +82,12 @@ export function Footer() {
             ALL
           </ButtonControl>
         )}
-        {current > 0 && (
+        {isVisibleBackButton && (
           <ButtonControl className="btn-control" onClick={handleBack}>
             « Back
           </ButtonControl>
         )}
-        {current < total && (
+        {isVisibleNextButton && (
           <ButtonControl className="btn-control" onClick={handleNext} disabled={isNextDisabled}>
             Next »
           </ButtonControl>
