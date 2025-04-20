@@ -83,6 +83,7 @@
     "@finografic/eslint-config": "9.0.8",
     "@finografic/project-scripts": "^0.2.3",
     "@fullhuman/postcss-purgecss": "7.0.2",
+    "@tanstack/eslint-plugin-query": "5.73.3",
     "@touch/scripts": "workspace:*",
     "@types/better-sqlite3": "^7.6.12",
     "autoprefixer": "10.4.20",

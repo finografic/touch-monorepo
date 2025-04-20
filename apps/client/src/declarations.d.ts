@@ -1,3 +1,11 @@
+import '@tanstack/react-query';
+
+declare module '@tanstack/react-query' {
+  interface Register {
+    defaultError: AxiosError;
+  }
+}
+
 declare module 'uuid';
 
 declare module '*.module.css' {

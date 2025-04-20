@@ -4,6 +4,7 @@ import type { ErrorResponse } from '@touch/shared/types';
 import type { ApiResponse } from '@touch/shared/types/api.types';
 import { api } from 'src/api';
 import { transformAxiosError } from 'src/api/api.utils';
+import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '.';
 
 export interface TemperatureSettings {
   defaultConsumptionTemp: number;
@@ -39,7 +40,7 @@ export const useTemperatureSettings = (
   params: GetTemperatureSettingsRequest,
 ): UseQueryResult<TemperatureSettings, ErrorResponse> => {
   return useQuery({
-    queryKey: ['temperatureSettings', params],
+    queryKey: [...GET_TEMPERATURE_SETTINGS_QUERYKEY, params],
     queryFn: () => getTemperatureSettings(params),
     enabled: Boolean(params.drinkTypeId && params.containerTypeId && params.volumeId),
   });

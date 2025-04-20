@@ -1,9 +1,10 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { UseMutationResult } from '@tanstack/react-query';
 import type { ErrorResponse } from '@touch/shared/types';
 import type { ApiResponse } from '@touch/shared/types/api.types';
 import { api } from 'src/api';
 import { transformAxiosError } from 'src/api/api.utils';
+import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '.';
 
 export interface CalculateTemperatureRequest {
   drinkTypeId: string;
@@ -50,7 +51,12 @@ export const useCalculateTemperature = (): UseMutationResult<
   ErrorResponse,
   CalculateTemperatureRequest
 > => {
+  const queryClient = useQueryClient();
   return useMutation({
     mutationFn: calculateTemperature,
+    onSuccess: () => {
+      // NOTE: refetch temperature settings
+      queryClient.invalidateQueries({ queryKey: [...GET_TEMPERATURE_SETTINGS_QUERYKEY] });
+    },
   });
 };

@@ -6,3 +6,5 @@ export type {
   TemperaturePhase,
 } from './useCalculateTemperature';
 export type { TemperatureSettings, GetTemperatureSettingsRequest } from './useTemperatureSettings';
+
+export const GET_TEMPERATURE_SETTINGS_QUERYKEY = ['get-temperature-settings'] as const;

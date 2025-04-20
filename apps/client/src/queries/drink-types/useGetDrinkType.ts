@@ -18,6 +18,35 @@ const getDrinkType = async (id: string) => {
     return response.data;
   } catch (error) {
     throw transformAxiosError(error);
+    // ======================================================================== //
+    // TODO: SOMETHING LIKE THIS, MAYBE ??
+    /*
+    export class APIError extends Error {
+      constructor(
+        public err: AxiosError,
+        public code: string,
+        public response: any,
+      ) {
+        super('Conso API a répondu avec une erreur');
+      }
+
+      toString() {
+        return (
+          `Conso API a répondu avec une erreur\nCode: ${this.code}\nRéponse : ` +
+          JSON.stringify(this.response, null, 4)
+        );
+      }
+    }
+    if (err.response) {
+      throw new APIError(err, err.response.status, err.response.data);
+    }
+    if (err.request) {
+      throw new Error(`Aucune réponse de Conso API\nRequête : ` + JSON.stringify(err.request, null, 4));
+    }
+    throw new Error(`Impossible d'appeler Conso API\nErreur : ${err.message}`);
+    */
+
+    // ======================================================================== //
   }
 };
 

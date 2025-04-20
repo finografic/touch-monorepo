@@ -31,13 +31,17 @@ export type ConvertKeysToCamelCase<T> = {
  *
  * @example
  * type Original = { foo: number; bar: string; baz: number };
- * type NewType = Override<Original, { foo: string; baz: boolean }>;
+ * type NewType = OverridePropTypes<Original, { foo: string; baz: boolean }>;
  * RESULT: { foo: string; bar: string; baz: boolean }
  */
-export type Override<T, U> = Omit<T, keyof U> & U;
+export type OverridePropTypes<T, U> = Omit<T, keyof U> & U;
 
 // ------------------------------------------------------------------------ //
 
 export type RemoveIndexSignature<Obj extends Record<string, any>> = {
   [Key in keyof Obj as Key extends `${infer Str}` ? Str : never]: Obj[Key];
 };
+
+// ------------------------------------------------------------------------ //
+
+export type OptionalProp<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
