@@ -18,6 +18,13 @@ export function Footer() {
   const { current, setPageCurrent, isNextDisabled } = usePagination();
   const { selectAllPads, orders, setOrders } = useOrders();
 
+  // ------------------------------------------------------------------------ //
+
+  const hasDrinkSubtypes = orders.some((order) => order?.drinkType?.hasSubtypes);
+  const shouldFetchDrinkSubtypes = location.pathname === ROUTES.DRINK_TYPE && hasDrinkSubtypes;
+
+  // ------------------------------------------------------------------------ //
+
   const { calculateForOrder, isPending: isCalculating } = useTemperatureCalculation({
     onSuccess: (data) => {
       // Update processStatus for the order
@@ -52,6 +59,7 @@ export function Footer() {
   };
 
   const handleNext = () => {
+    log('(FOOTER) handleNext', 'grey', { pathname: location.pathname, hasDrinkSubtypes });
     const newIndex = current + 1;
     const nextPathname = PATHNAMES[newIndex];
     setPageCurrent(newIndex);

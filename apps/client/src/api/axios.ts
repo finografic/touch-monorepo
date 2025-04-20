@@ -63,17 +63,17 @@ api.interceptors.response.use(
     // TODO: TESTING (NON-ERROR RESPONSE ERRORS)
 
     if (response.data.error) {
-      log('TEST_SUCCESS_ERROR: response.data.error', 'yellow', response.data.error);
+      log('(AXIOS) TEST_SUCCESS_ERROR: response.data.error', 'yellow', response.data.error);
       // return { ...response.data.errors }
     }
 
     if (response.data.errors) {
-      log('TEST_SUCCESS_ERROR: response.data.errors', 'yellow', response.data.errors);
+      log('(AXIOS) TEST_SUCCESS_ERROR: response.data.errors', 'yellow', response.data.errors);
       // return { ...response.data.errors }
     }
 
     if (response.data.message) {
-      log('TEST_SUCCESS_ERROR: response.data.message', 'yellow', response.data.message);
+      log('(AXIOS) TEST_SUCCESS_ERROR: response.data.message', 'yellow', response.data.message);
       // return { error: response.data.message }
     }
 
@@ -87,12 +87,12 @@ api.interceptors.response.use(
 
     // TODO: TESTING (NON-ERROR RESPONSE ERRORS)
     if (error.response?.data) {
-      log('TEST_ERROR: error.response.data', 'orange', error.response.data);
+      log('(AXIOS) TEST_ERROR: error.response.data', 'orange', error.response.data);
       // return error.response.data
     }
 
     if (error.response?.data?.message) {
-      log('TEST_ERROR: error.response.data.message', 'orange', error.response.data.message);
+      log('(AXIOS) TEST_ERROR: error.response.data.message', 'orange', error.response.data.message);
       // return { error: rerror.response.data.message }
     }
 
@@ -101,7 +101,7 @@ api.interceptors.response.use(
         ? new Error(error.response?.data ? JSON.stringify(error.response?.data) : error.message)
         : error;
 
-    log('TEST_NEW_ERROR_REJECT', 'red', TEST_NEW_ERROR_REJECT);
+    log('(AXIOS) TEST_NEW_ERROR_REJECT', 'red', TEST_NEW_ERROR_REJECT);
 
     return Promise.reject({ ...error });
   },

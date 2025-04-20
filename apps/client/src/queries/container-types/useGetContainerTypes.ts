@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import type { ContainerType } from 'types/models/container.model';
 import type { ApiResponse, ErrorResponse } from '@touch/shared/types';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
-import { api } from 'src/api';
+import { api } from 'api';
 import { transformAxiosError } from 'src/api/api.utils';
 
 const getContainerTypes = async () => {

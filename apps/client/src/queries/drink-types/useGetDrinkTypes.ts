@@ -4,7 +4,7 @@ import type { ErrorResponse } from '@touch/shared/types';
 import type { ApiResponse } from '@touch/shared/types/api.types';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
-import { api } from 'src/api';
+import { api } from 'api';
 import { transformAxiosError } from 'src/api/api.utils';
 
 const getDrinkTypes = async () => {
