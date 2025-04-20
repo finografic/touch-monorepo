@@ -10,6 +10,8 @@ import { Loader } from 'components/Loader/Loader';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'routes/routes.config';
 import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
+import { NoItems } from 'components/NoItems/NoItems';
+
 export const DrinkSubtypePage = () => {
   const navigate = useNavigate();
   const {
@@ -51,13 +53,8 @@ export const DrinkSubtypePage = () => {
     return <ErrorMessage error={error} />;
   }
 
-  const mainDrinkType = orders[0]?.drinkType?.displayName;
-
   return (
     <section css={stylesItemsGrid}>
-      <h2 style={{ color: '#00B4D8', marginBottom: '2rem', textAlign: 'center' }}>
-        Select type of {mainDrinkType}
-      </h2>
       {data?.length ? (
         <div className={getGridFlowClasses(data.length)}>
           {data.map((subtype: DrinkSubtype) => (
@@ -71,7 +68,7 @@ export const DrinkSubtypePage = () => {
           ))}
         </div>
       ) : (
-        <div style={{ color: 'orange' }}>No subtypes available for this drink type</div>
+        <NoItems message="No subtypes available for this drink type" />
       )}
     </section>
   );

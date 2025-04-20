@@ -1,5 +1,5 @@
 import '@radix-ui/themes/styles.css';
-import 'styles/radix-ui/radix.css';
+// import 'styles/radix-ui/radix.css';
 
 import { ScreenClassProvider } from 'react-grid-system';
 import { Theme as RadixTheme } from '@radix-ui/themes';

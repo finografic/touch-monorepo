@@ -9,6 +9,7 @@ import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Loader } from 'components/Loader/Loader';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'routes/routes.config';
+import { NoItems } from 'components/NoItems/NoItems';
 
 export const DrinkTypePage = () => {
   const navigate = useNavigate();
@@ -67,7 +68,7 @@ export const DrinkTypePage = () => {
           ))}
         </div>
       ) : (
-        <div>No drink types available</div>
+        <NoItems message="No drink types available" />
       )}
     </section>
   );

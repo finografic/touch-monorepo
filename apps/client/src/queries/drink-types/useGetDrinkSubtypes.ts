@@ -27,8 +27,6 @@ export const useGetDrinkSubtypes = (drinkTypeId?: string): UseQueryResult<DrinkS
 
       const response = await api.get<SubtypesResponse>(`/drink-types/${drinkTypeId}/subtypes`);
 
-      log('RES >>>>>', 'lime', response);
-
       if (response.status !== 200) {
         throw new Error('Failed to fetch drink subtypes');
       }

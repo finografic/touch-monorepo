@@ -1,5 +1,5 @@
 import { stylesItemsGrid } from './grid.styles';
-import type { DrinkVolume } from '@touch/shared/types';
+import type { DrinkVolume } from 'types/models/volume.model';
 import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
@@ -7,6 +7,7 @@ import { getGridFlowClasses } from './utils/getGridFlowClasses';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Loader } from 'components/Loader/Loader';
+import { NoItems } from 'components/NoItems/NoItems';
 
 const formatVolume = (volume: DrinkVolume) => {
   // Convert ml to L if volume is 1000ml or more
@@ -57,7 +58,7 @@ export const DrinkVolumePage = () => {
           ))}
         </div>
       ) : (
-        <div>No drink volumes available</div>
+        <NoItems message="No drink volumes available" />
       )}
     </section>
   );
