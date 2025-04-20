@@ -5,7 +5,8 @@ import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvi
 import { PageContentProvider } from 'providers/PageContentProvider/PageContentProvider';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
-import { DevPanel } from 'layout/DevPanel/DevPanel';
+import { DevDialog } from 'components/DevDialog/DevDialog';
+// import { DevPanel } from 'layout/DevPanel/DevPanel';
 
 export const Layout: React.FC = () => {
   return (
@@ -21,7 +22,8 @@ export const Layout: React.FC = () => {
             </main>
             <Footer />
           </div>
-          <DevPanel />
+          <DevDialog />
+          {/* <DevPanel /> */}
         </PageContentProvider>
       </PaginationProvider>
     </OrdersProvider>

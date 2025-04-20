@@ -3,6 +3,7 @@ import { PageContentKeys } from './PageContentContext';
 
 export type PageContentValues = {
   [PageContentKeys.title]: string;
+  [PageContentKeys.isDevDialogOpen]: boolean;
 };
 
 type PageContentSetters = {
@@ -11,7 +12,9 @@ type PageContentSetters = {
   ) => void;
 };
 
-type PageContentActions = PageContentSetters & {};
+type PageContentActions = PageContentSetters & {
+  setIsDevDialogOpen: (value: boolean) => void;
+};
 
 export type PageContentProviderProps = {
   initialValue?: PageContentStore;

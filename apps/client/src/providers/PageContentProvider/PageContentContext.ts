@@ -7,10 +7,12 @@ export const DISPLAY_NAME = 'PageContent';
 
 export enum PageContentKeys {
   title = 'title',
+  isDevDialogOpen = 'isDevDialogOpen',
 }
 
 export const defaultValue: PageContentValues = {
   title: '',
+  isDevDialogOpen: false,
 };
 
 export const PageContentContext = createZustandContext(({ initialValue }) => {
@@ -19,6 +21,7 @@ export const PageContentContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, prefix: 'PageContent', defaultValue }),
+      setIsDevDialogOpen: (value: boolean) => set({ isDevDialogOpen: value }),
     },
   }));
 });

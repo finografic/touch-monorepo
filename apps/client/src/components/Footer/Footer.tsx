@@ -6,12 +6,14 @@ import { ROUTE_CONFIG, ROUTES } from 'routes/routes.config';
 import { MockOrdersButton } from './DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
+import { usePageContent } from '../../providers/PageContentProvider/PageContentContext';
 
 const PATHNAMES = Object.values(ROUTE_CONFIG).map((route) => route.pathname);
 
 export function Footer() {
   const location = useLocation();
   const navigate = useNavigate();
+  const { setIsDevDialogOpen } = usePageContent();
   const { current, total, setPageCurrent, isNextDisabled } = usePagination();
   const { selectAllPads, orders, setOrders } = useOrders();
   const { calculateForOrder, isPending: isCalculating } = useTemperatureCalculation({
@@ -67,6 +69,9 @@ export function Footer() {
   return (
     <footer css={styles}>
       <div className="controls">
+        <ButtonControl className="btn-control" onClick={() => setIsDevDialogOpen(true)}>
+          DATA
+        </ButtonControl>
         {location.pathname === ROUTES.HOME && <MockOrdersButton />}
         {location.pathname === ROUTES.HOME && (
           <ButtonControl className="btn-control" onClick={selectAllPads}>
