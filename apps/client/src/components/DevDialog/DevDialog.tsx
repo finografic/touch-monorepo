@@ -1,4 +1,4 @@
-import { Dialog, Tabs, ScrollArea, Button, Theme, DataList, Code, Flex } from '@radix-ui/themes';
+import { Button, Code, DataList, Dialog, Flex, ScrollArea, Tabs, Theme } from '@radix-ui/themes';
 import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
 import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
 import { useState } from 'react';
@@ -96,7 +96,10 @@ const CalculationDataList = ({ data }: { data: Calculation | null }) => {
         <DataList.Label color="amber" highContrast>
           Temperature Δ
         </DataList.Label>
-        <DataList.Value>{data.temperatureDelta}°C</DataList.Value>
+        <DataList.Value>
+          {data.temperatureDelta}
+          °C
+        </DataList.Value>
       </DataList.Item>
       <DataList.Item>
         <DataList.Label color="amber" highContrast>

@@ -50,7 +50,6 @@ export const OrderItemCountdown: FC<OrderItemPadProps> = ({ number, className })
     <div css={styles} className={clsx('pad', 'is-processing', className)}>
       <div style={{ textAlign: 'center' }}>
         <div style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>
-          {/* eslint-disable-next-line style/jsx-one-expression-per-line */}
           {String(timeLeft.minutes).padStart(2, '0')} : {String(timeLeft.seconds).padStart(2, '0')}
         </div>
         <div style={{ fontSize: '0.9rem', marginTop: '4px' }}>remaining</div>

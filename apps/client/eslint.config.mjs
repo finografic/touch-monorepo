@@ -26,6 +26,7 @@ export default fino(
       'fino/top-level-function': OFF,
       'no-undef': [ERROR, { typeof: true }],
       'node/prefer-global/process': [ERROR, 'always'],
+      'style/jsx-one-expression-per-line': OFF,
       'ts/no-unused-vars': [
         ERROR,
         {

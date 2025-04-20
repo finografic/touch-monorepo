@@ -1,10 +1,10 @@
 import type { AppRouteHandler } from 'types/app.types';
 import type { CalculateRoute, GetSettingsRoute } from './temperature.routes';
 import { db } from 'db';
-import type { DrinkConfigEntity } from '../../types/entities/drink-config.entity';
-import type { DrinkTypeEntity } from '../../types/entities/drink-type.entity';
-import type { ContainerTypeEntity } from '../../types/entities/container-type.entity';
-import type { VolumeEntity } from '../../types/entities/volume.entity';
+import type { DrinkConfigEntity } from 'types/entities/drink-config.entity';
+import type { DrinkTypeEntity } from 'types/entities/drink-type.entity';
+import type { ContainerTypeEntity } from 'types/entities/container-type.entity';
+import type { VolumeEntity } from 'types/entities/volume.entity';
 
 type DrinkConfigWithRelations = DrinkConfigEntity & {
   drinkType: DrinkTypeEntity;

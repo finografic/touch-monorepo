@@ -13,6 +13,7 @@ const PATHNAMES = Object.values(ROUTE_CONFIG).map((route) => route.pathname);
 export function Footer() {
   const location = useLocation();
   const navigate = useNavigate();
+
   const { setIsDevDialogOpen } = usePageContent();
   const { current, setPageCurrent, isNextDisabled } = usePagination();
   const { selectAllPads, orders, setOrders } = useOrders();
