@@ -68,6 +68,7 @@
     "lucide-react": "0.487.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "5.0.0",
     "react-grid-system": "8.2.1",
     "react-helmet-async": "2.0.5",
     "react-i18next": "15.4.0",
