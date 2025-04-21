@@ -13,7 +13,6 @@ import { usePageContent } from 'providers/PageContentProvider/PageContentContext
 import { NoItems } from 'components/NoItems/NoItems';
 
 export const DrinkSubtypePage = () => {
-  log('SUBTYPES', 'red');
   const navigate = useNavigate();
   const {
     selectedValue: selectedDrinkSubtype,
@@ -29,23 +28,10 @@ export const DrinkSubtypePage = () => {
 
   const { setIsNextDisabled } = usePagination();
   const { setPageContentTitle } = usePageContent();
-  const { data, isLoading, error, refetch } = useGetDrinkSubtypes({ drinkTypeId, enabled: false });
-
-  /*
-  useEffect(() => {
-    // If the selected drink type doesn't have subtypes, skip this page
-    if (orders[0]?.drinkType && !orders[0].drinkType.hasSubtypes) {
-      setPageContentTitle('');
-      navigate(ROUTES.DRINK_VOLUME);
-    } else {
-      const drinkTypeName = orders[0]?.drinkType?.displayName;
-      const newTitle = drinkTypeName
-        ? `Select type of ${drinkTypeName.toLowerCase()}:`
-        : 'Select drink subtype:';
-      setPageContentTitle(newTitle);
-    }
-  }, [orders, navigate]);
-  */
+  const { data, isLoading, error } = useGetDrinkSubtypes({
+    drinkTypeId,
+    enabled: !!(drinkTypeId && hasSubtypes),
+  });
 
   useEffect(() => {
     if (hasSubtypes) {
@@ -54,7 +40,8 @@ export const DrinkSubtypePage = () => {
         ? `Select type of ${drinkTypeName.toLowerCase()}:`
         : 'Select drink subtype:';
       setPageContentTitle(newTitle);
-      refetch();
+    } else {
+      navigate(ROUTES.DRINK_TYPE, { replace: true });
     }
   }, [orders, navigate]);
 
