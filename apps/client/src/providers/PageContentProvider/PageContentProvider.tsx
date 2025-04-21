@@ -1,4 +1,4 @@
-import type { PageContentProviderProps } from './PageContent.types';
+import type { PageContentProviderProps } from './PageContentContext.types';
 import { PageContentContext as PageContent } from './PageContentContext';
 import { DISPLAY_NAME } from './PageContentContext';
 

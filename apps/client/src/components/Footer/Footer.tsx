@@ -3,7 +3,7 @@ import { ButtonControl } from 'components/ButtonControl/ButtonControl';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { ROUTE_CONFIG, ROUTES } from 'routes/routes.config';
-import { MockOrdersButton } from './DevMockOrders/MockOrdersButton';
+import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
 import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
@@ -20,8 +20,6 @@ export const Footer = () => {
   // ------------------------------------------------------------------------ //
 
   const hasDrinkSubtypes = orders.some((order) => order?.drinkType?.hasSubtypes);
-  const shouldFetchDrinkSubtypes = location.pathname === ROUTES.DRINK_TYPE && hasDrinkSubtypes;
-
   const pathnames = hasDrinkSubtypes
     ? Object.values(ROUTE_CONFIG).map((route) => route.pathname)
     : Object.values(ROUTE_CONFIG)
@@ -63,14 +61,6 @@ export const Footer = () => {
   });
 
   const handleBack = () => {
-    // if (location.pathname === ROUTES.DRINK_SUBTYPE && hasDrinkSubtypes) {
-    //   navigate(ROUTES.DRINK_TYPE, { replace: true });
-    //   return;
-    // }
-    // if (location.pathname === ROUTES.DRINK_VOLUME && hasDrinkSubtypes) {
-    //   navigate(ROUTES.DRINK_SUBTYPE, { replace: true });
-    //   return;
-    // }
     if (current > 0) {
       const newIndex = current - 1;
       const nextPathname = pathnames[newIndex];
@@ -80,11 +70,6 @@ export const Footer = () => {
   };
 
   const handleNext = () => {
-    // log('(FOOTER) handleNext', 'grey', { pathname: location.pathname, hasDrinkSubtypes });
-    // if (location.pathname === ROUTES.DRINK_TYPE && hasDrinkSubtypes) {
-    //   navigate(ROUTES.DRINK_SUBTYPE, { replace: true });
-    //   return;
-    // }
     const newIndex = current + 1;
     const nextPathname = pathnames[newIndex];
     setPageCurrent(newIndex);

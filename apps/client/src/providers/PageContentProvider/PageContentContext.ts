@@ -1,6 +1,6 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
-import type { PageContentStore, PageContentValues } from './PageContent.types';
+import type { PageContentStore, PageContentValues } from './PageContentContext.types';
 
 export const DISPLAY_NAME = 'PageContent';
 

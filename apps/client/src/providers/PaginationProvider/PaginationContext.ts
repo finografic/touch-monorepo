@@ -1,6 +1,6 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
-import type { PaginationStore, PaginationValues } from './Pagination.types';
+import type { PaginationStore, PaginationValues } from './PaginationContext.types';
 
 export const DISPLAY_NAME = 'Pagination';
 

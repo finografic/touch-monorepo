@@ -1,4 +1,4 @@
-import type { PaginationProviderProps } from './Pagination.types';
+import type { PaginationProviderProps } from './PaginationContext.types';
 import { DISPLAY_NAME, PaginationContext as Pagination } from './PaginationContext';
 
 export const PaginationProvider = ({ initialValue, children }: PaginationProviderProps) => {
