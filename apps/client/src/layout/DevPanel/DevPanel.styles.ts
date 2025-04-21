@@ -9,6 +9,7 @@ export const styles = css`
   left: 0;
   min-width: 17vw;
   /* height: 100vh; */
+  max-height: 100vh;
   padding: 1.5rem;
   overflow-x: visible;
   overflow-y: hidden;
@@ -25,5 +26,9 @@ export const styles = css`
     font-size: 0.7rem;
     line-height: 1.5;
     margin: 0;
+  }
+
+  pre {
+    overflow-y: hidden;
   }
 `;

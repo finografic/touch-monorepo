@@ -7,8 +7,12 @@
     "enabled": true,
     "rules": {
       "recommended": true,
+      "a11y": {
+        "useKeyWithClickEvents": "off"
+      },
       "correctness": {
-        "noUnusedVariables": "error"
+        "noUnusedVariables": "error",
+        "useExhaustiveDependencies": "off"
       },
       "suspicious": {
         "noExplicitAny": "warn"
@@ -46,8 +50,7 @@
       "dist",
       ".git",
       "coverage",
-      "package.json",
-      "apps/client"
+      "package.json"
     ]
   }
 }

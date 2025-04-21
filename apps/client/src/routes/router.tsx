@@ -12,7 +12,7 @@ import { DrinkVolumePage } from '../pages/DrinkPages/DrinkVolumePage';
 import { ContainerTypePage } from '../pages/DrinkPages/ContainerTypePage';
 import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPage';
 import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
-import { ROUTES, ROUTE_CONFIG } from './routes.config';
+import { ROUTE_CONFIG, ROUTES } from './routes.config';
 
 // TODO: Create and import these components
 // import { DrinkVolumePage } from '../pages/DrinkVolumePage/DrinkVolumePage';
@@ -51,11 +51,16 @@ export const router = createBrowserRouter([
       // ============================================== //
       {
         path: ROUTE_CONFIG[ROUTES.DRINK_TYPE].pathname,
-        element: <DrinkTypePage />,
-      },
-      {
-        path: ROUTE_CONFIG[ROUTES.DRINK_SUBTYPE].pathname,
-        element: <DrinkSubtypePage />,
+        children: [
+          {
+            index: true,
+            element: <DrinkTypePage />,
+          },
+          {
+            path: ROUTE_CONFIG[ROUTES.DRINK_SUBTYPE].pathname,
+            element: <DrinkSubtypePage />,
+          },
+        ],
       },
       {
         path: ROUTE_CONFIG[ROUTES.DRINK_VOLUME].pathname,

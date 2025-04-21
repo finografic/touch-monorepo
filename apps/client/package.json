@@ -85,6 +85,7 @@
     "zustand": "^4.5.5"
   },
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
     "@finografic/eslint-config": "9.0.8",
     "@finografic/project-scripts": "^0.3.2",
     "@fullhuman/postcss-purgecss": "7.0.2",

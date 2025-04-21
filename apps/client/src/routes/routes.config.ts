@@ -3,7 +3,7 @@ import type { RouteConfig } from 'types/routes.types';
 export const ROUTES = {
   HOME: '/',
   DRINK_TYPE: '/drink-type',
-  DRINK_SUBTYPE: '/drink-subtype',
+  DRINK_SUBTYPE: '/drink-type/drink-subtype',
   DRINK_VOLUME: '/drink-volume',
   CONTAINER_TYPE: '/container-type',
   INITIAL_TEMPERATURE: '/initial-temperature',

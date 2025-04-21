@@ -1,8 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { ErrorResponse } from '@touch/shared/types';
+import type { ErrorResponse } from '@workspace/shared/types';
 import { api } from 'api';
 import type { DrinkSubtype } from 'types/models/drink-type.model';
+import { GET_DRINK_SUBTYPES_QUERYKEY } from '.';
 
 interface SubtypesResponse {
   data?: DrinkSubtype[];
@@ -17,14 +18,16 @@ interface SubtypesResponse {
   };
 }
 
-export const useGetDrinkSubtypes = (drinkTypeId?: string): UseQueryResult<DrinkSubtype[], ErrorResponse> => {
+export const useGetDrinkSubtypes = ({
+  drinkTypeId,
+  enabled,
+}: {
+  drinkTypeId: string;
+  enabled?: boolean;
+}): UseQueryResult<DrinkSubtype[], ErrorResponse> => {
   return useQuery({
-    queryKey: ['drinkSubtypes', drinkTypeId],
+    queryKey: [...GET_DRINK_SUBTYPES_QUERYKEY, drinkTypeId],
     queryFn: async () => {
-      if (!drinkTypeId) {
-        return [];
-      }
-
       const response = await api.get<SubtypesResponse>(`/drink-types/${drinkTypeId}/subtypes`);
 
       if (response.status !== 200) {
@@ -33,6 +36,6 @@ export const useGetDrinkSubtypes = (drinkTypeId?: string): UseQueryResult<DrinkS
 
       return response.data || [];
     },
-    enabled: !!drinkTypeId,
+    enabled: enabled !== false && !!drinkTypeId,
   });
 };

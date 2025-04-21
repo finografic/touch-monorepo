@@ -3,9 +3,13 @@ import { ERROR, fino, IGNORES, INCLUDE_FILES_TS, OFF } from '@finografic/eslint-
 export default fino({
   typescript: true,
   gitignore: true,
-  parserOptions: {
+  languageOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
+    globals: {
+      log: 'readonly',
+      getDotEnv: 'readonly',
+    },
   },
   files: [...INCLUDE_FILES_TS],
   ignores: [...IGNORES],

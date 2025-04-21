@@ -1,3 +1,5 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable unicorn/error-message */
 import type { LogColor } from 'types/logger.types';
 
 declare global {
@@ -5,17 +7,17 @@ declare global {
   function getDotEnv(): Record<string, any>;
 }
 
-const _global = (window /* browser */ || globalThis) /* node */ as any;
+const _global = (window /* browser */ || global) /* node */ as any;
 
 _global.log = function (message: string, color: LogColor, ...args: any): void {
-  const error = new Error('---');
+  const error = new Error();
   if ('captureStackTrace' in Error) {
     Error.captureStackTrace(error, _global.log);
   }
 
   // TODO: CALLER is the FILE that made the call to log()
   // Get the caller's file and line number
-  const _caller = error.stack?.split('\n')[1]?.trim();
+  const caller = error.stack?.split('\n')[1]?.trim();
 
   color = color || 'white';
   if (args) {

@@ -12,7 +12,11 @@ export default fino(
     ignores: [...IGNORES],
     languageOptions: {
       ecmaVersion: 2020,
-      globals: globals.browser,
+      globals: {
+        ...globals.browser,
+        log: 'readonly',
+        getDotEnv: 'readonly',
+      },
     },
     plugins: {
       'react': reactPlugin,

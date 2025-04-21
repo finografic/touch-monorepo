@@ -1,5 +1,5 @@
 import React, { createContext, useEffect } from 'react';
-import { type StoreApi } from 'zustand';
+import type { StoreApi } from 'zustand';
 
 export const createZustandContext = <TInitial extends object, TStore extends StoreApi<any>>(
   getStore: (props: { initialValue?: Partial<TInitial> }) => TStore,

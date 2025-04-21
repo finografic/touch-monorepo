@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { ApiResponse, ErrorResponse } from '@touch/shared/types';
+import type { ApiResponse, ErrorResponse } from '@workspace/shared/types';
 import type { ContainerType } from 'types/orders.types';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 import { api } from 'api';

@@ -7,10 +7,9 @@ import { MockOrdersButton } from './DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
 import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
+import { useEffect } from 'react';
 
-const PATHNAMES = Object.values(ROUTE_CONFIG).map((route) => route.pathname);
-
-export function Footer() {
+export const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -22,6 +21,20 @@ export function Footer() {
 
   const hasDrinkSubtypes = orders.some((order) => order?.drinkType?.hasSubtypes);
   const shouldFetchDrinkSubtypes = location.pathname === ROUTES.DRINK_TYPE && hasDrinkSubtypes;
+
+  const pathnames = hasDrinkSubtypes
+    ? Object.values(ROUTE_CONFIG).map((route) => route.pathname)
+    : Object.values(ROUTE_CONFIG)
+        .map((route) => route.pathname)
+        .filter((pathname) => pathname !== ROUTES.DRINK_SUBTYPE);
+
+  // ------------------------------------------------------------------------ //
+
+  useEffect(() => {
+    if (orders.length === 0 && location.pathname !== ROUTES.HOME) {
+      navigate(ROUTES.HOME);
+    }
+  }, [orders, location.pathname, navigate]);
 
   // ------------------------------------------------------------------------ //
 
@@ -41,7 +54,7 @@ export function Footer() {
 
       // Navigate back to first page
       setPageCurrent(0);
-      navigate(PATHNAMES[0], { replace: true });
+      navigate(pathnames[0], { replace: true });
     },
     onError: (error) => {
       // TODO: Show error message to user
@@ -50,18 +63,30 @@ export function Footer() {
   });
 
   const handleBack = () => {
+    // if (location.pathname === ROUTES.DRINK_SUBTYPE && hasDrinkSubtypes) {
+    //   navigate(ROUTES.DRINK_TYPE, { replace: true });
+    //   return;
+    // }
+    // if (location.pathname === ROUTES.DRINK_VOLUME && hasDrinkSubtypes) {
+    //   navigate(ROUTES.DRINK_SUBTYPE, { replace: true });
+    //   return;
+    // }
     if (current > 0) {
       const newIndex = current - 1;
-      const nextPathname = PATHNAMES[newIndex];
+      const nextPathname = pathnames[newIndex];
       setPageCurrent(newIndex);
       navigate(nextPathname, { replace: true });
     }
   };
 
   const handleNext = () => {
-    log('(FOOTER) handleNext', 'grey', { pathname: location.pathname, hasDrinkSubtypes });
+    // log('(FOOTER) handleNext', 'grey', { pathname: location.pathname, hasDrinkSubtypes });
+    // if (location.pathname === ROUTES.DRINK_TYPE && hasDrinkSubtypes) {
+    //   navigate(ROUTES.DRINK_SUBTYPE, { replace: true });
+    //   return;
+    // }
     const newIndex = current + 1;
-    const nextPathname = PATHNAMES[newIndex];
+    const nextPathname = pathnames[newIndex];
     setPageCurrent(newIndex);
     if (nextPathname) {
       navigate(nextPathname, { replace: true });
@@ -114,4 +139,4 @@ export function Footer() {
       </div>
     </footer>
   );
-}
+};

@@ -1,7 +1,6 @@
-import { createStore, useStore, type StoreApi } from 'zustand';
-import { createZustandContext } from 'utils/zustand';
+import { createStore, type StoreApi, useStore } from 'zustand';
+import { createSetters, createZustandContext } from 'utils/zustand';
 import type { PaginationStore, PaginationValues } from './Pagination.types';
-import { createSetters } from 'utils/zustand';
 
 export const DISPLAY_NAME = 'Pagination';
 
@@ -26,6 +25,9 @@ export const PaginationContext = createZustandContext(({ initialValue }) => {
       setIsNextDisabled: (isNextDisabled: boolean) => {
         set({ isNextDisabled });
       },
+      // onBeforeNavigateNext: (fn?: () => void) => {
+      //   fn?.();
+      // },
     },
   }));
 });
@@ -38,8 +40,8 @@ export const usePagination = (): PaginationReturn => {
     throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  store.subscribe((state, prev) => {
-    // log('__STORE_CHANGE Event', 'grey', 'grey', { state, prev });
+  store.subscribe((_state, _prev) => {
+    // log('__STORE_CHANGE Event', 'grey', 'grey', { _state, _prev });
   });
 
   return useStore<StoreApi<PaginationStore>, PaginationReturn>(store, ({ actions, ...state }) => ({
