@@ -58,11 +58,14 @@ export const createSetters = <
   return Object.keys(defaultValues).reduce(
     (acc, key) => ({
       ...acc,
-      [`set${prefix}${key.charAt(0).toUpperCase() + key.slice(1)}`]: (val: TValues[typeof key]) =>
-        set((state) => ({ ...state, [key]: val })),
+      [`set${typeof defaultValues[key] === 'boolean' ? '' : prefix}${
+        key.charAt(0).toUpperCase() + key.slice(1)
+      }`]: (val: TValues[typeof key]) => set((state) => ({ ...state, [key]: val })),
     }),
     {},
   ) as {
-    [K in keyof TValues as `set${TPrefix}${Capitalize<string & K>}`]: (val: TValues[K]) => void;
+    [K in keyof TValues as TValues[K] extends boolean
+      ? `set${Capitalize<string & K>}`
+      : `set${TPrefix}${Capitalize<string & K>}`]: (val: TValues[K]) => void;
   };
 };

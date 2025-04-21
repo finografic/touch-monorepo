@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { PaginationKeys } from './PaginationContext';
+import { SETTER_PREFIX } from './PaginationContext';
 
 export interface PaginationValues {
   [PaginationKeys.total]: number;
@@ -8,12 +9,13 @@ export interface PaginationValues {
 }
 
 type PaginationSetters = {
-  [K in keyof PaginationValues as `setPage${Capitalize<string & K>}`]: (val: PaginationValues[K]) => void;
+  [K in keyof PaginationValues as PaginationValues[K] extends boolean
+    ? `set${Capitalize<string & K>}`
+    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: PaginationValues[K]) => void;
 };
 
 type PaginationActions = PaginationSetters & {
   setIsNextDisabled: (isNextDisabled: boolean) => void;
-  // onBeforeNavigateNext: () => void;
 };
 
 export interface PaginationProviderProps {

@@ -1,34 +1,34 @@
-import { Box, Flex, Theme } from '@radix-ui/themes';
-import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
-import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
-import { useDev } from '../../providers/DevProvider/DevContext';
-import { TableIcon } from '@radix-ui/react-icons';
+import { Box, Flex } from '@radix-ui/themes';
+import { useDev } from 'providers/DevProvider/DevContext';
+import { TextAlignLeftIcon, TextAlignTopIcon } from '@radix-ui/react-icons';
+import { DevPanel } from './DevPanel/DevPanel';
+import { styles } from './DevTools.styles';
+import { QueryDevtoolsPanel } from './QueryDevtoolsPanel/QueryDevtoolsPanel';
 
-export const DevDialog = () => {
+export const DevTools = () => {
   const { isDevDataVisible, setIsDevDataVisible, isDevQueryPanelOpen, setIsDevQueryPanelOpen } = useDev();
-  const { orders } = useOrderSelection({
-    field: OrderFieldKeys.drinkType,
-  });
 
   return (
-    <Theme appearance="dark" grayColor="sand" accentColor="blue">
-      <Flex gap="3">
-        <Box width="64px" height="64px">
-          <button id="toggle-query-devtools" onClick={() => setIsDevDataVisible(!isDevDataVisible)}>
-            <TableIcon />
-          </button>
-        </Box>
-        <Box width="64px" height="64px">
-          <button id="toggle-query-devtools" onClick={() => setIsDevQueryPanelOpen(!isDevQueryPanelOpen)}>
-            <TableIcon />
-          </button>
-        </Box>
-        <Box width="64px" height="64px">
-          <button id="toggle-query-devtools" onClick={() => setIsDevQueryPanelOpen(!isDevQueryPanelOpen)}>
-            <TableIcon />
-          </button>
-        </Box>
-      </Flex>
-    </Theme>
+    <>
+      <>
+        {isDevDataVisible && <DevPanel />}
+        {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
+      </>
+      <div css={styles} className="devtools-container">
+        <Flex gap="3" justify="end">
+          <Box width="64px" height="64px">
+            <button className="btn-dev" onClick={() => setIsDevDataVisible(!isDevDataVisible)}>
+              <TextAlignLeftIcon />
+            </button>
+          </Box>
+
+          <Box width="64px" height="64px">
+            <button className="btn-query" onClick={() => setIsDevQueryPanelOpen(!isDevQueryPanelOpen)}>
+              <TextAlignTopIcon />
+            </button>
+          </Box>
+        </Flex>
+      </div>
+    </>
   );
 };

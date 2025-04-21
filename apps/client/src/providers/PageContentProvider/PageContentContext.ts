@@ -19,8 +19,8 @@ export const PageContentContext = createZustandContext(({ initialValue }) => {
     ...defaultValue,
     ...initialValue,
     actions: {
-      ...createSetters({ set, prefix: 'PageContent', defaultValue }),
-      setIsDevDialogOpen: (value: boolean) => set({ isDevDialogOpen: value }),
+      ...createSetters({ set, prefix: DISPLAY_NAME, defaultValue }),
+      // setIsDevDialogOpen: (value: boolean) => set({ isDevDialogOpen: value }),
     },
   }));
 });

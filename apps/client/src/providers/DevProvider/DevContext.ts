@@ -21,8 +21,7 @@ export const DevContext = createZustandContext(({ initialValue }) => {
     ...defaultValue,
     ...initialValue,
     actions: {
-      ...createSetters({ set, prefix: 'Dev', defaultValue }),
-      // setIsDevDialogOpen: (value: boolean) => set({ isDevDialogOpen: value }),
+      ...createSetters({ set, prefix: DISPLAY_NAME, defaultValue }),
     },
   }));
 });

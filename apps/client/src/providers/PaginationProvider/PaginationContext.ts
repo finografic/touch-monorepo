@@ -3,6 +3,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { PaginationStore, PaginationValues } from './PaginationContext.types';
 
 export const DISPLAY_NAME = 'Pagination';
+export const SETTER_PREFIX = 'Page';
 
 export enum PaginationKeys {
   total = 'total',
@@ -21,7 +22,7 @@ export const PaginationContext = createZustandContext(({ initialValue }) => {
     ...defaultValue,
     ...initialValue,
     actions: {
-      ...createSetters({ set, prefix: 'Page', defaultValue }),
+      ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
       setIsNextDisabled: (isNextDisabled: boolean) => {
         set({ isNextDisabled });
       },

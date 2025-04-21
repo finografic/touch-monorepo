@@ -2,7 +2,7 @@ import React from 'react';
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
-import { QueryDevtoolsPanel } from './QueryDevtoolsPanel';
+// import { QueryDevtoolsPanel } from './QueryDevtoolsPanel';
 
 export default function ({ children }: { children: React.ReactNode }) {
   const queryClient = new QueryClient({
@@ -27,7 +27,7 @@ export default function ({ children }: { children: React.ReactNode }) {
     <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
       {children}
       {/* <ReactQueryDevtools initialIsOpen /> */}
-      <QueryDevtoolsPanel />
+      {/* <QueryDevtoolsPanel /> */}
     </PersistQueryClientProvider>
   );
 }

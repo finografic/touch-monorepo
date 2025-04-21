@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { DevKeys } from './DevContext';
+import { DISPLAY_NAME } from './DevContext';
 
 export interface DevValues {
   [DevKeys.title]: string;
@@ -10,7 +11,7 @@ export interface DevValues {
 type DevSetters = {
   [K in keyof DevValues as DevValues[K] extends boolean
     ? `set${Capitalize<string & K>}`
-    : `setDev${Capitalize<string & K>}`]: (val: DevValues[K]) => void;
+    : `set${typeof DISPLAY_NAME}${Capitalize<string & K>}`]: (val: DevValues[K]) => void;
 };
 
 type DevActions = DevSetters & {};
