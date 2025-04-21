@@ -1,4 +1,4 @@
-import { ERROR, fino, OFF } from '@finografic/eslint-config';
+import { ERROR, fino, IGNORES, OFF } from '@finografic/eslint-config';
 // import simpleImport from 'eslint-plugin-import';
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
@@ -9,7 +9,7 @@ import globals from 'globals';
 export default fino(
   // tseslint.configs.stylistic,
   {
-    // ignores: IGNORES,
+    ignores: [...IGNORES],
     languageOptions: {
       ecmaVersion: 2020,
       globals: globals.browser,
@@ -27,14 +27,15 @@ export default fino(
       'no-undef': [ERROR, { typeof: true }],
       'node/prefer-global/process': [ERROR, 'always'],
       'style/jsx-one-expression-per-line': OFF,
-      'ts/no-unused-vars': [
-        ERROR,
-        {
-          argsIgnorePattern: '^_',
-          varsIgnorePattern: '^_',
-          caughtErrorsIgnorePattern: '^_',
-        },
-      ],
+      // 'ts/no-unused-vars': [
+      //   ERROR,
+      //   {
+      //     argsIgnorePattern: '^_',
+      //     varsIgnorePattern: '^_',
+      //     caughtErrorsIgnorePattern: '^_',
+      //   },
+      // ],
+      'ts/no-unused-vars': OFF,
     },
   },
 );

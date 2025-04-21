@@ -1,12 +1,12 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { ErrorResponse } from '@touch/shared/types';
-import type { ApiResponse } from '@touch/shared/types/api.types';
+import type { ErrorResponse } from '@workspace/shared/types';
+import type { ApiResponse } from '@workspace/shared/types/api.types';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 import { api } from 'api';
 import { transformAxiosError } from 'src/api/api.utils';
 import type { DrinkType } from 'types/models/drink-type.model';
-import type { DrinkTypeEntity } from '@touch/server/types/entities/drink-type.entity';
+import type { DrinkTypeEntity } from '@workspace/server/types/entities/drink-type.entity';
 import { DrinkTypeDTO } from './DrinkTypes.dto';
 
 const getDrinkType = async (id: string) => {

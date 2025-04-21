@@ -1,5 +1,5 @@
 {
-  "name": "@touch/server",
+  "name": "@workspace/server",
   "type": "module",
   "private": true,
   "exports": {
@@ -58,7 +58,7 @@
     "@hono/zod-openapi": "^0.18.3",
     "@hono/zod-validator": "0.4.3",
     "@scalar/hono-api-reference": "0.5.162",
-    "@touch/shared": "workspace:*",
+    "@workspace/shared": "workspace:*",
     "ansis": "^1.5.5",
     "better-auth": "1.0.22",
     "better-call": "0.3.3-beta.4",
@@ -81,11 +81,11 @@
   },
   "devDependencies": {
     "@finografic/eslint-config": "9.0.8",
-    "@finografic/project-scripts": "^0.2.3",
+    "@finografic/project-scripts": "^0.3.2",
     "@fullhuman/postcss-purgecss": "7.0.2",
     "@tanstack/eslint-plugin-query": "5.73.3",
-    "@touch/scripts": "workspace:*",
     "@types/better-sqlite3": "^7.6.12",
+    "@workspace/scripts": "workspace:*",
     "autoprefixer": "10.4.20",
     "drizzle-kit": "^0.28.1",
     "postcss": "^8.4.31",

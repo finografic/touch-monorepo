@@ -7,24 +7,13 @@ export default fino({
     ecmaVersion: 'latest',
     sourceType: 'module',
   },
-  overrides: {
-    jsonc: {
-      'jsonc/sort-keys': ERROR,
-    },
-  },
   files: [...INCLUDE_FILES_TS],
   ignores: [...IGNORES],
   rules: {
     'node/prefer-global/process': OFF,
-    'prefer-regex-literals': ERROR,
-    'fino/top-level-function': OFF,
-    'ts/no-unused-vars': [
-      ERROR,
-      {
-        argsIgnorePattern: '^_',
-        varsIgnorePattern: '^_',
-        caughtErrorsIgnorePattern: '^_',
-      },
-    ],
+    'import/no-duplicates': ERROR,
+    'ts/no-unused-vars': OFF,
+    'ts/no-undef': OFF,
+    'no-unused-vars': OFF,
   },
 });

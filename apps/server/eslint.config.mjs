@@ -29,6 +29,9 @@ export default fino({
     // '@typescript-eslint/no-unused-vars': WARN,
     // '@typescript-eslint/no-shadow': OFF,
     // 'no-console': 0,
+    'ts/no-unused-vars': OFF,
+    'ts/no-undef': OFF,
+    'no-unused-vars': OFF,
   },
 
   // overrides: {

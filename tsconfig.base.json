@@ -11,7 +11,7 @@
       "config/*": [
         "config/*"
       ],
-      "@touch/*": [
+      "@workspace/*": [
         "packages/*/src"
       ]
     },

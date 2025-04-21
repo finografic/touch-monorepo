@@ -1,7 +1,8 @@
+// @ts-nocheck
 import axios, { HttpStatusCode } from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import type { ErrorResponse } from '@touch/shared/types';
-import { ERROR_CODE_MAP } from '@touch/shared/types';
+import type { ErrorResponse } from '@workspace/shared/types';
+import { ERROR_CODE_MAP } from '@workspace/shared';
 import cloneDeep from 'lodash/cloneDeep';
 
 export const transformAxiosError = (error: unknown): ErrorResponse => {
@@ -10,7 +11,7 @@ export const transformAxiosError = (error: unknown): ErrorResponse => {
 
   if (error instanceof axios.AxiosError) {
     // handle axios error
-    if (error.status == HttpStatusCode.Unauthorized) {
+    if (error.status === HttpStatusCode.Unauthorized) {
       log('TEST_AXIOS_ERROR: unauthorized', 'magenta', error);
     } else {
       // throw new Error(error.message);

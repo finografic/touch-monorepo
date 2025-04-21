@@ -1,7 +1,8 @@
 import { defineConfig } from 'tsup';
+import type { Options } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts'],
+  entry: ['src/index.ts', 'src/types/index.ts', 'src/utils/index.ts'],
   format: ['esm'],
   // dts: true,
   // splitting: false,
@@ -15,4 +16,4 @@ export default defineConfig({
   clean: true,
   experimentalDts: true,
   bundle: false,
-});
+} satisfies Options);

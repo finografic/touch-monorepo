@@ -1,5 +1,5 @@
 {
-  "name": "@touch/scripts",
+  "name": "@workspace/scripts",
   "version": "0.0.1",
   "private": true,
   "type": "module",
@@ -17,6 +17,6 @@
     "@dotenvx/dotenvx": "1.31.3"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "^0.2.3"
+    "@finografic/project-scripts": "^0.3.2"
   }
 }

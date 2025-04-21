@@ -1,3 +1,3 @@
 // misc contants..
 
-export const APP_NAME = '@touch';
+export const APP_NAME = '@workspace';

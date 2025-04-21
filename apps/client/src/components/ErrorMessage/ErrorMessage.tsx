@@ -1,6 +1,6 @@
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import type { ErrorResponse } from '@touch/shared/types';
-import { getErrorMessage } from '@touch/shared/utils/api.utils';
+import type { ErrorResponse } from '@workspace/shared/types';
+import { getErrorMessage } from '@workspace/shared/utils/api.utils';
 
 interface ErrorMessageProps {
   error: ErrorResponse;

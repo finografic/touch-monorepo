@@ -1,9 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContentRequired } from 'stoker/openapi/helpers';
-import { zValidator } from '@hono/zod-validator';
-import { calculateTemperatureSchema } from './temperature.schemas';
-import { calculate } from './temperature.handlers';
 
 const tags = ['Temperature'];
 

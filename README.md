@@ -44,12 +44,12 @@ load-dot-env=true
 ```sh
 # If starting fresh:
 1. Delete the database file (data/development.sqlite.db)
-2. pnpm --filter @touch/server db:generate  # Generate migration files
-3. pnpm --filter @touch/server db:migrate   # Run migrations
+2. pnpm --filter @workspace/server db:generate  # Generate migration files
+3. pnpm --filter @workspace/server db:migrate   # Run migrations
 
 # OR for development:
 Just use db:push which will update the schema directly:
-pnpm --filter @touch/server db:push
+pnpm --filter @workspace/server db:push
 ```
 
 ---

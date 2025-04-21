@@ -1,9 +1,11 @@
 packages:
-  - 'config'
-  - 'packages/*'
-  - 'apps/*'
-  - 'scripts'
+  - config
+  - packages/*
+  - apps/*
+  - scripts
+
 onlyBuiltDependencies:
   - '@swc/core'
   - better-sqlite3
   - esbuild
+  - unrs-resolver

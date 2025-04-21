@@ -1,7 +1,7 @@
 module.exports = {
   versionGroups: [
     {
-      dependencies: ['@touch/*'],
+      dependencies: ['@workspace/*'],
       isIgnored: true,
     },
   ],

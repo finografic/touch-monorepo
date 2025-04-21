@@ -1,4 +1,5 @@
 import { defineConfig } from 'tsup';
+import type { Options } from 'tsup';
 
 export default defineConfig({
   entry: ['src/index.ts'],
@@ -11,4 +12,4 @@ export default defineConfig({
     NODE_ENV: 'production',
   },
   onSuccess: 'tsc --emitDeclarationOnly --declaration',
-});
+} satisfies Options);

@@ -25,16 +25,16 @@
       "@fino/config/*": [
         "../../config/*"
       ],
-      "@touch/shared/*": [
+      "@workspace/shared/*": [
         "../../packages/shared/src/*"
       ],
-      "@touch/shared": [
+      "@workspace/shared": [
         "../../packages/shared/src"
       ],
-      "@touch/server/*": [
+      "@workspace/server/*": [
         "../server/src/*"
       ],
-      "@touch/server/types/entities": [
+      "@workspace/server/types/entities": [
         "../server/src/types/entities/index.ts"
       ],
       "api": [
