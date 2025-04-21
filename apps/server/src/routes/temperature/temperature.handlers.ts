@@ -1,170 +1,199 @@
 import type { AppRouteHandler } from 'types/app.types';
 import type { CalculateRoute, GetSettingsRoute } from './temperature.routes';
 import { db } from 'db';
-import type { DrinkConfigEntity } from 'types/entities/drink-config.entity';
-import type { DrinkTypeEntity } from 'types/entities/drink-type.entity';
-import type { ContainerTypeEntity } from 'types/entities/container-type.entity';
-import type { VolumeEntity } from 'types/entities/volume.entity';
+import * as HttpStatusCodes from 'stoker/http-status-codes';
+import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { ZOD_ERROR_CODES } from 'lib/constants';
 
-type DrinkConfigWithRelations = DrinkConfigEntity & {
-  drinkType: DrinkTypeEntity;
-  drinkSubtype?: DrinkTypeEntity;
-  containerType: ContainerTypeEntity;
-  volume: VolumeEntity;
-};
-
-export const calculate: AppRouteHandler<CalculateRoute> = async (context) => {
+export const getSettings: AppRouteHandler<GetSettingsRoute> = async (context) => {
   try {
-    console.log('Calculating temperature settings...');
-    const { drinkTypeId, drinkSubtypeId, containerTypeId, volumeId, initialTemp, targetTemp } =
-      context.req.valid('json');
+    const { drinkTypeId, drinkSubtypeId, containerTypeId, volumeId } = context.req.valid('query');
 
-    console.log('Request params:', {
-      drinkTypeId,
-      drinkSubtypeId,
-      containerTypeId,
-      volumeId,
-      initialTemp,
-      targetTemp,
+    // Get drink type and optional subtype
+    const drinkType = await db.query.drink_types.findFirst({
+      where: (fields, operators) =>
+        operators.and(operators.eq(fields.id, drinkTypeId), operators.eq(fields.isActive, true)),
     });
 
-    // 1. Find matching drink configuration
-    const config = (await db.query.drink_configs.findFirst({
-      where: (fields, operators) => {
-        const conditions = [
-          operators.eq(fields.drinkTypeId, drinkTypeId),
-          operators.eq(fields.containerTypeId, containerTypeId),
-          operators.eq(fields.volumeId, volumeId),
-          operators.eq(fields.isActive, true),
-        ];
-
-        if (drinkSubtypeId) {
-          conditions.push(operators.eq(fields.drinkSubtypeId, drinkSubtypeId));
-        }
-
-        return operators.and(...conditions);
-      },
-      with: {
-        drinkType: true,
-        containerType: true,
-        volume: true,
-        drinkSubtype: drinkSubtypeId ? true : undefined,
-      },
-    })) as DrinkConfigWithRelations | undefined;
-
-    console.log('Found config:', config);
-
-    if (!config) {
-      return context.json(
-        {
-          message: 'No matching drink configuration found',
-        },
-        422,
-      );
+    if (!drinkType) {
+      return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
     }
 
-    // 2. Validate temperature ranges
-    if (targetTemp < config.min_consumption_temp || targetTemp > config.max_consumption_temp) {
-      return context.json(
-        {
-          message: `Target temperature must be between ${config.min_consumption_temp}°C and ${config.max_consumption_temp}°C`,
-        },
-        422,
-      );
+    // Get subtype if specified
+    // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+    let drinkSubtype;
+    if (drinkSubtypeId) {
+      drinkSubtype = await db.query.drink_subtypes.findFirst({
+        where: (fields, operators) =>
+          operators.and(
+            operators.eq(fields.id, drinkSubtypeId),
+            operators.eq(fields.drinkTypeId, drinkTypeId),
+            operators.eq(fields.isActive, true),
+          ),
+      });
+
+      if (!drinkSubtype) {
+        return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
+      }
     }
 
-    // 3. Calculate time based on configuration
-    const tempDiff = Math.abs(targetTemp - initialTemp);
-    const baseTime = tempDiff * 60; // 1 minute per degree difference as base
-    const volumeFactor = config.volume.cooling_factor;
-    const containerFactor = config.containerType.thermal_conductivity;
-
-    const estimatedSeconds = Math.round(baseTime * volumeFactor * containerFactor);
-
-    // 4. Return calculated result
-    return context.json({
-      estimatedDurationSeconds: estimatedSeconds,
-      phases: [
-        {
-          durationSeconds: estimatedSeconds,
-          startTemp: initialTemp,
-          endTemp: targetTemp,
-          description: `${tempDiff > 0 ? 'Heating' : 'Cooling'} from ${initialTemp}°C to ${targetTemp}°C`,
-        },
-      ],
-      timeTableId: tempDiff > 0 ? config.time_table_id_2 : config.time_table_id_1,
-      recommendations: [
-        `Optimal serving temperature for ${config.drinkType.display_name} is ${config.default_consumption_temp}°C`,
-        `Using ${config.containerType.display_name} with ${config.volume.value_in_ml}ml capacity`,
-      ],
+    // Get container type
+    const containerType = await db.query.container_types.findFirst({
+      where: (fields, operators) =>
+        operators.and(operators.eq(fields.id, containerTypeId), operators.eq(fields.isActive, true)),
     });
-  } catch (error) {
-    console.error('Error in calculate handler:', error);
+
+    if (!containerType) {
+      return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
+    }
+
+    // Get volume
+    const volume = await db.query.volumes.findFirst({
+      where: (fields, operators) =>
+        operators.and(operators.eq(fields.id, volumeId), operators.eq(fields.isActive, true)),
+    });
+
+    if (!volume) {
+      return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
+    }
+
+    // Build dynamic configuration
+    const defaultConsumptionTemp = drinkSubtype?.consumptionTemp ?? drinkType.defaultConsumptionTemp;
+    const defaultFreezeTemp = drinkSubtype?.freezeTemp ?? drinkType.defaultFreezeTemp;
+
+    // Return dynamically calculated settings
     return context.json(
       {
-        message: 'Internal server error',
-        error: error instanceof Error ? error.message : String(error),
+        defaultConsumptionTemp,
+        minConsumptionTemp: defaultConsumptionTemp - 2, // 2 degrees below default
+        maxConsumptionTemp: defaultConsumptionTemp + 2, // 2 degrees above default
+        defaultFreezeTemp,
       },
-      500,
+      HttpStatusCodes.OK,
+    );
+  } catch (error) {
+    console.error('Error in getSettings handler:', error);
+    return context.json(
+      { message: error instanceof Error ? error.message : String(error) },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
     );
   }
 };
 
-export const getSettings: AppRouteHandler<GetSettingsRoute> = async (context) => {
+export const calculate: AppRouteHandler<CalculateRoute> = async (context) => {
   try {
-    console.log('Getting temperature settings...');
-    const { drinkTypeId, drinkSubtypeId, containerTypeId, volumeId } = context.req.valid('query');
+    const { drinkTypeId, drinkSubtypeId, containerTypeId, volumeId, initialTemp, targetTemp } =
+      context.req.valid('json');
 
-    console.log('Request params:', { drinkTypeId, drinkSubtypeId, containerTypeId, volumeId });
+    // Get drink type and optional subtype
+    const drinkType = await db.query.drink_types.findFirst({
+      where: (fields, operators) =>
+        operators.and(operators.eq(fields.id, drinkTypeId), operators.eq(fields.isActive, true)),
+    });
 
-    // Find matching drink configuration
-    const config = (await db.query.drink_configs.findFirst({
-      where: (fields, operators) => {
-        const conditions = [
-          operators.eq(fields.drinkTypeId, drinkTypeId),
-          operators.eq(fields.containerTypeId, containerTypeId),
-          operators.eq(fields.volumeId, volumeId),
-          operators.eq(fields.isActive, true),
-        ];
+    if (!drinkType) {
+      return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
+    }
 
-        if (drinkSubtypeId) {
-          conditions.push(operators.eq(fields.drinkSubtypeId, drinkSubtypeId));
-        }
+    // Get subtype if specified
+    // biome-ignore lint/suspicious/noImplicitAnyLet: <explanation>
+    let drinkSubtype;
+    if (drinkSubtypeId) {
+      drinkSubtype = await db.query.drink_subtypes.findFirst({
+        where: (fields, operators) =>
+          operators.and(
+            operators.eq(fields.id, drinkSubtypeId),
+            operators.eq(fields.drinkTypeId, drinkTypeId),
+            operators.eq(fields.isActive, true),
+          ),
+      });
 
-        return operators.and(...conditions);
-      },
-      with: {
-        drinkType: true,
-        drinkSubtype: drinkSubtypeId ? true : undefined,
-      },
-    })) as (DrinkConfigEntity & { drinkType: DrinkTypeEntity; drinkSubtype?: DrinkTypeEntity }) | undefined;
+      if (!drinkSubtype) {
+        return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
+      }
+    }
 
-    console.log('Found config:', config);
+    // Get container type
+    const containerType = await db.query.container_types.findFirst({
+      where: (fields, operators) =>
+        operators.and(operators.eq(fields.id, containerTypeId), operators.eq(fields.isActive, true)),
+    });
 
-    if (!config) {
+    if (!containerType) {
+      return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
+    }
+
+    // Get volume
+    const volume = await db.query.volumes.findFirst({
+      where: (fields, operators) =>
+        operators.and(operators.eq(fields.id, volumeId), operators.eq(fields.isActive, true)),
+    });
+
+    if (!volume) {
+      return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
+    }
+
+    // Get consumption temperature from subtype or drink type
+    const defaultConsumptionTemp = drinkSubtype?.consumptionTemp ?? drinkType.defaultConsumptionTemp;
+    const minConsumptionTemp = defaultConsumptionTemp - 2;
+    const maxConsumptionTemp = defaultConsumptionTemp + 2;
+
+    // Validate target temperature
+    if (targetTemp < minConsumptionTemp || targetTemp > maxConsumptionTemp) {
       return context.json(
         {
-          message: 'No matching drink configuration found',
+          success: false,
+          error: {
+            issues: [
+              {
+                code: ZOD_ERROR_CODES.INVALID_UPDATES,
+                path: ['targetTemp'],
+                message: `Target temperature must be between ${minConsumptionTemp}°C and ${maxConsumptionTemp}°C`,
+              },
+            ],
+            name: 'ZodError',
+          },
         },
-        422,
+        HttpStatusCodes.UNPROCESSABLE_ENTITY,
       );
     }
 
-    // Return temperature settings
-    return context.json({
-      defaultConsumptionTemp: config.default_consumption_temp,
-      minConsumptionTemp: config.min_consumption_temp,
-      maxConsumptionTemp: config.max_consumption_temp,
-      defaultFreezeTemp: config.drinkSubtype?.default_freeze_temp ?? config.drinkType.default_freeze_temp,
-    });
-  } catch (error) {
-    console.error('Error in getSettings handler:', error);
+    // Calculate duration
+    const tempDiff = Math.abs(targetTemp - initialTemp);
+    const baseTime = tempDiff * 60; // 1 minute per degree difference as base
+    const volumeFactor = volume.coolingFactor;
+    const containerFactor = containerType.thermalConductivity / 100; // Normalize to a reasonable factor
+
+    const estimatedSeconds = Math.round(baseTime * volumeFactor * containerFactor);
+
+    // Select appropriate time table
+    const timeTableId = tempDiff > 0 ? '2001' : '1001'; // Heating vs Cooling
+
+    // Return calculated result
     return context.json(
       {
-        message: 'Internal server error',
-        error: error instanceof Error ? error.message : String(error),
+        estimatedDurationSeconds: estimatedSeconds,
+        phases: [
+          {
+            durationSeconds: estimatedSeconds,
+            startTemp: initialTemp,
+            endTemp: targetTemp,
+            description: `${tempDiff > 0 ? 'Heating' : 'Cooling'} from ${initialTemp}°C to ${targetTemp}°C`,
+          },
+        ],
+        timeTableId,
+        recommendations: [
+          `Optimal serving temperature for ${drinkType.displayName}${drinkSubtype ? ` (${drinkSubtype.displayName})` : ''} is ${defaultConsumptionTemp}°C`,
+          `Using ${containerType.displayName} with ${volume.valueInMl}ml capacity`,
+        ],
       },
-      500,
+      HttpStatusCodes.OK,
+    );
+  } catch (error) {
+    console.error('Error in calculate handler:', error);
+    return context.json(
+      { message: error instanceof Error ? error.message : String(error) },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
     );
   }
 };

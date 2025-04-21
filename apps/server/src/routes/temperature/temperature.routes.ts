@@ -1,10 +1,20 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import { jsonContentRequired } from 'stoker/openapi/helpers';
+import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
+import { createErrorSchema } from 'stoker/openapi/schemas';
+import { notFoundSchema } from 'lib/constants';
 
 const tags = ['Temperature'];
 
-// Input schema for temperature calculation
+// Schema for temperature settings response
+const temperatureSettingsSchema = z.object({
+  defaultConsumptionTemp: z.number(),
+  minConsumptionTemp: z.number(),
+  maxConsumptionTemp: z.number(),
+  defaultFreezeTemp: z.number().optional(),
+});
+
+// Schema for temperature calculation request
 const temperatureCalculationSchema = z.object({
   drinkTypeId: z.string(),
   drinkSubtypeId: z.string().optional(),
@@ -14,7 +24,7 @@ const temperatureCalculationSchema = z.object({
   targetTemp: z.number(),
 });
 
-// Response schema for temperature calculation
+// Schema for temperature calculation response
 const temperatureResultSchema = z.object({
   estimatedDurationSeconds: z.number(),
   phases: z.array(
@@ -29,34 +39,9 @@ const temperatureResultSchema = z.object({
   recommendations: z.array(z.string()),
 });
 
-// Schema for temperature settings response
-const temperatureSettingsSchema = z.object({
-  defaultConsumptionTemp: z.number(),
-  minConsumptionTemp: z.number(),
-  maxConsumptionTemp: z.number(),
-  defaultFreezeTemp: z.number().optional(),
-});
-
-export const calculateRoute = createRoute({
-  path: '/temperature/calculate',
-  method: 'post',
-  tags,
-  request: {
-    body: jsonContentRequired(temperatureCalculationSchema, 'Temperature calculation parameters'),
-  },
-  responses: {
-    [HttpStatusCodes.OK]: {
-      content: {
-        'application/json': {
-          schema: temperatureResultSchema,
-        },
-      },
-      description: 'Temperature calculation result',
-    },
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: {
-      description: 'Invalid parameters provided',
-    },
-  },
+// Schema for error response
+const errorResponseSchema = z.object({
+  message: z.string(),
 });
 
 // Route for getting temperature settings
@@ -73,19 +58,43 @@ export const getSettings = createRoute({
     }),
   },
   responses: {
-    [HttpStatusCodes.OK]: {
-      content: {
-        'application/json': {
-          schema: temperatureSettingsSchema,
-        },
-      },
-      description: 'Temperature settings for the given configuration',
-    },
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: {
-      description: 'Invalid parameters provided',
-    },
+    [HttpStatusCodes.OK]: jsonContent(
+      temperatureSettingsSchema,
+      'Temperature settings for the given configuration',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(errorResponseSchema, 'Resource not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(
+        z.object({
+          drinkTypeId: z.string(),
+          containerTypeId: z.string(),
+          volumeId: z.string(),
+        }),
+      ),
+      'Invalid parameters provided',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorResponseSchema, 'Internal server error'),
   },
 });
 
-export type CalculateRoute = typeof calculateRoute;
+// Route for calculating temperature change duration
+export const calculate = createRoute({
+  path: '/temperature/calculate',
+  method: 'post',
+  tags,
+  request: {
+    body: jsonContentRequired(temperatureCalculationSchema, 'Temperature calculation parameters'),
+  },
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(temperatureResultSchema, 'Temperature calculation result'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(errorResponseSchema, 'Resource not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(temperatureCalculationSchema),
+      'Invalid parameters provided',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorResponseSchema, 'Internal server error'),
+  },
+});
+
 export type GetSettingsRoute = typeof getSettings;
+export type CalculateRoute = typeof calculate;
