@@ -13,6 +13,7 @@ import index from 'routes/index.route';
 import users from 'routes/users';
 import drinkType from 'routes/drink-type';
 import drinkVolume from './routes/drink-volume';
+import containerType from 'routes/container-type';
 import temperature from './routes/temperature';
 const app = createApp();
 
@@ -35,7 +36,7 @@ app.use('*', async (context, next) => {
 
 configureOpenAPI(app);
 
-const routesDrinkFlow = [drinkType, drinkVolume, temperature] as const;
+const routesDrinkFlow = [drinkType, drinkVolume, containerType, temperature] as const;
 const routes = [index, health, auth, users, ...routesDrinkFlow] as const;
 
 routes.forEach((route) => {
