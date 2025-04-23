@@ -36,6 +36,31 @@ export default fino({
     'ts/no-unused-vars': OFF,
     'ts/no-undef': OFF,
     'no-unused-vars': OFF,
+    'simple-import-sort/imports': [
+      ERROR,
+      {
+        groups: [
+          [
+            // Side effect imports
+            '^\\u0000',
+            // `react`-> `@sage`packages ->`carbon-react`->`RTL`, then other packages in alphabetical order
+            '^react',
+            '^@sage',
+            '^carbon-react',
+            '^@testing-library',
+            '^@',
+            '^[a-z]',
+            // Imports starting with `../`
+            '^\\.\\.(?!/?$)',
+            '^\\.\\./?$',
+            // Imports starting with `./`
+            '^\\./(?=.*/)(?!/?$)',
+            '^\\.(?!/?$)',
+            '^\\./?$',
+          ],
+        ],
+      },
+    ],
   },
 
   // overrides: {

@@ -11,18 +11,6 @@ export const styles = css`
     overflow-y: auto;
   }
 
-  .dnd-drop-area {
-    width: 100%;
-    height: 100px;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-
-    &.hovering {
-      background-color: ${colors.successXXLight};
-    }
-  }
-
   .dnd-item {
     width: 100%;
     height: 100px;
@@ -39,11 +27,6 @@ export const styles = css`
 
     &:hover {
       box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    & > div {
-      width: 100%;
-      background-color: ${colors.greyXXLight};
     }
   }
 

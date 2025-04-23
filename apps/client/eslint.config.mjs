@@ -18,6 +18,8 @@ export default fino(
         getDotEnv: 'readonly',
       },
     },
+    react: true,
+    typescript: true,
     plugins: {
       'react': reactPlugin,
       'react-hooks': reactHooksPlugin,

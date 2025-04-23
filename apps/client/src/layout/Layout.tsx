@@ -6,6 +6,7 @@ import { DevDialog } from 'components/DevDialog/DevDialog';
 import { PageContentProvider } from 'providers/PageContentProvider/PageContentProvider';
 import { styles } from './Layout.styles';
 import { DevTools } from 'components/DevTools/DevTools';
+import { DndDemo } from './drag-and-drop/DndDemo';
 
 export const Layout: FC = () => {
   return (
@@ -14,7 +15,8 @@ export const Layout: FC = () => {
         <Header />
         <main>
           <div className="main-content">
-            <Outlet />
+            {/* <Outlet /> */}
+            <DndDemo />
           </div>
         </main>
         <Footer />
