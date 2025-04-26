@@ -1,8 +1,7 @@
-import { useCallback, useState, useEffect, useMemo } from 'react';
+import { useCallback, useState, useEffect } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderSelectionFields } from 'types/orders.types';
 import { useOutletContext } from 'react-router-dom';
-import type { DataLayerContext } from 'layout/DataLayer';
 
 // Derive the field keys from the OrderSelectionFields type
 export type OrderField = keyof OrderSelectionFields;
@@ -23,18 +22,13 @@ interface UseOrderSelectionProps<T> {
 }
 
 export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionProps<T>) {
-  const context = useOutletContext<DataLayerContext>();
-  const { isMounted = false } = context || {};
+  const isMounted = !!useOutletContext<{ isMounted: boolean }>()?.isMounted;
   const { orders, setOrders } = useOrders();
   const [selectedValue, setSelectedValue] = useState<T | null>((orders[0] as T) || (initialValue as T));
 
   useEffect(() => {
     if (isMounted && orders.length && initialValue) {
-      const updatedOrders = orders.map((order) => ({
-        ...order,
-        [field]: initialValue,
-      }));
-
+      const updatedOrders = orders.map((order) => ({ ...order, [field]: initialValue }));
       setOrders(updatedOrders);
     }
   }, [initialValue, isMounted, orders, setOrders]);
@@ -44,14 +38,9 @@ export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionP
       if (!isMounted) return;
 
       const valueToSet = selectedValue && newValue === selectedValue ? null : newValue || null;
-      setSelectedValue(valueToSet);
-
-      const updatedOrders = orders.map((order) => ({
-        ...order,
-        [field]: valueToSet,
-      }));
-
+      const updatedOrders = orders.map((order) => ({ ...order, [field]: valueToSet }));
       setOrders(updatedOrders);
+      setSelectedValue(valueToSet);
     },
     [field, orders, selectedValue, setOrders, isMounted],
   );
