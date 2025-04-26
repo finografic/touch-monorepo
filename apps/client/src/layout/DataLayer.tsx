@@ -19,9 +19,5 @@ export const DataLayer: FC<PropsWithChildren> = () => {
     };
   }, []);
 
-  return (
-    <div data-layer="page-data">
-      <Outlet context={{ isMounted }} />
-    </div>
-  );
+  return <div data-layer="page-data">{/* <Outlet context={{ isMounted }} /> */}</div>;
 };

@@ -7,16 +7,14 @@ import { Global } from '@emotion/react';
 import { cssGlobal } from 'styles/global.styles';
 import { RouterProvider } from 'react-router-dom';
 import { router } from 'routes/router';
-import { OrdersProvider } from './providers/OrdersProvider/OrdersProvider';
+// import { OrdersProvider } from './providers/OrdersProvider/OrdersProvider';
 
 export function App() {
   return (
     <ScreenClassProvider>
       <Global styles={cssGlobal} />
       <RadixTheme>
-        <OrdersProvider>
-          <RouterProvider router={router} />
-        </OrdersProvider>
+        <RouterProvider router={router} />
       </RadixTheme>
     </ScreenClassProvider>
   );

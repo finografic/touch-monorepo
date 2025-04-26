@@ -31,7 +31,7 @@ export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionP
       const updatedOrders = orders.map((order) => ({ ...order, [field]: initialValue }));
       setOrders(updatedOrders);
     }
-  }, [initialValue, isMounted, orders, setOrders]);
+  }, [initialValue, isMounted]);
 
   const handleSelection = useCallback(
     (newValue: T | undefined) => {

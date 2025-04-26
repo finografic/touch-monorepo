@@ -3,7 +3,7 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect, useRef } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
-import { useTemperatureSettings } from 'queries/temperature';
+import { TemperatureSettings, useGetTemperatureSettings } from 'queries/temperature';
 import type { DrinkVolume } from 'types/models/volume.model';
 
 const DEFAULT_INITIAL_TEMP = 23.5;
@@ -28,9 +28,9 @@ export const TemperatureInitialPage = () => {
   });
 
   const currentVolume = orders[0]?.volume as DrinkVolume | undefined;
-
-  // Fetch temperature settings when order details are available
-  const { data: tempSettings, isLoading } = useTemperatureSettings({
+  //
+  // // Fetch temperature settings when order details are available
+  const tempSettingsQuery = useGetTemperatureSettings<TemperatureSettings>({
     drinkTypeId: orders[0]?.drinkType?.id ?? '',
     drinkSubtypeId: orders[0]?.drinkSubtype?.id,
     containerTypeId: orders[0]?.containerType?.id ?? '',
@@ -38,27 +38,27 @@ export const TemperatureInitialPage = () => {
   });
 
   const { setIsNextDisabled } = usePagination();
-  const prevStateRef = useRef({ isLoading, hasValidSelection });
+  const prevStateRef = useRef({ isLoading: tempSettingsQuery.isLoading, hasValidSelection });
 
   useEffect(() => {
     const { isLoading: wasLoading, hasValidSelection: hadValidSelection } = prevStateRef.current;
 
     // Only update if the state actually changed
-    if (wasLoading !== isLoading || hadValidSelection !== hasValidSelection) {
-      prevStateRef.current = { isLoading, hasValidSelection };
+    if (wasLoading !== tempSettingsQuery.isLoading || hadValidSelection !== hasValidSelection) {
+      prevStateRef.current = { isLoading: tempSettingsQuery.isLoading, hasValidSelection };
 
       // Schedule the state update for the next tick
       queueMicrotask(() => {
-        setIsNextDisabled(isLoading || !hasValidSelection);
+        setIsNextDisabled(tempSettingsQuery.isLoading || !hasValidSelection);
       });
     }
-  }, [hasValidSelection, setIsNextDisabled, isLoading]);
+  }, [hasValidSelection, setIsNextDisabled, tempSettingsQuery.isLoading]);
 
-  // Ensure initial temperature is within bounds when settings load
+  // // Ensure initial temperature is within bounds when settings load
   useEffect(() => {
-    if (tempSettings && selectedTemperature) {
-      const minTemp = tempSettings.defaultFreezeTemp ?? DEFAULT_MIN_TEMP;
-      const maxTemp = tempSettings.maxConsumptionTemp ?? DEFAULT_MAX_TEMP;
+    if (tempSettingsQuery.data && selectedTemperature) {
+      const minTemp = tempSettingsQuery.data.defaultFreezeTemp ?? DEFAULT_MIN_TEMP;
+      const maxTemp = tempSettingsQuery.data.maxConsumptionTemp ?? DEFAULT_MAX_TEMP;
 
       if (selectedTemperature.value < minTemp || selectedTemperature.value > maxTemp) {
         // Bound the temperature within the allowed range
@@ -69,9 +69,9 @@ export const TemperatureInitialPage = () => {
         });
       }
     }
-  }, [tempSettings, selectedTemperature, handleTemperatureSelection]);
+  }, [tempSettingsQuery.data, selectedTemperature, handleTemperatureSelection]);
 
-  if (isLoading) {
+  if (tempSettingsQuery.isLoading) {
     return <div>Loading temperature settings...</div>;
   }
 
@@ -81,8 +81,8 @@ export const TemperatureInitialPage = () => {
       onChange={handleTemperatureSelection}
       defaultValue={DEFAULT_INITIAL_TEMP}
       description="By default, it indicates the ambient temperature supplied by a probe. The user can modify it using the + and - buttons. Units are in degrees Celsius with one decimal place."
-      min={tempSettings?.defaultFreezeTemp ?? DEFAULT_MIN_TEMP}
-      max={tempSettings?.maxConsumptionTemp ?? DEFAULT_MAX_TEMP}
+      min={tempSettingsQuery.data?.defaultFreezeTemp ?? DEFAULT_MIN_TEMP}
+      max={tempSettingsQuery.data?.maxConsumptionTemp ?? DEFAULT_MAX_TEMP}
       step={0.5}
     />
   );

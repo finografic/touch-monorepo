@@ -21,27 +21,23 @@ export interface GetTemperatureSettingsRequest {
 }
 
 const getTemperatureSettings = async (
-  request: GetTemperatureSettingsRequest,
-): Promise<TemperatureSettings> => {
+  params: GetTemperatureSettingsRequest,
+): Promise<ApiResponse<TemperatureSettings>> => {
   try {
-    const response = await api.get<ApiResponse<TemperatureSettings>>('/temperature/settings', {
-      params: request,
-    });
-    if (response.status !== 200) {
-      throw new Error(`Failed to fetch temperature settings: ${response.statusText}`);
-    }
-    return response.data.data;
+    const response = await api.get<ApiResponse<TemperatureSettings>>('/temperature/settings', { params });
+
+    return response.data;
   } catch (error) {
     throw transformAxiosError(error);
   }
 };
 
-export const useTemperatureSettings = (
+export const useGetTemperatureSettings = (
   params: GetTemperatureSettingsRequest,
 ): UseQueryResult<TemperatureSettings, ErrorResponse> => {
   return useQuery({
     queryKey: [...GET_TEMPERATURE_SETTINGS_QUERYKEY, params],
     queryFn: () => getTemperatureSettings(params),
-    enabled: Boolean(params.drinkTypeId && params.containerTypeId && params.volumeId),
+    enabled: Boolean(params?.drinkTypeId && params?.containerTypeId && params?.volumeId),
   });
 };

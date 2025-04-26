@@ -9,27 +9,30 @@ import { Suspense } from 'react';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
 import { useIsMounted } from 'hooks/useIsMounted';
 import { Outlet } from 'react-router-dom';
+import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 
 export const Layout: FC = () => {
-  const isMounted = useIsMounted();
+  const isMounted: boolean = !!useIsMounted();
 
   return (
-    <PaginationProvider>
-      <PageContentProvider>
-        <div id="layout" css={styles}>
-          <Header />
-          <Suspense fallback={<div>Loading...</div>}>
-            <main>
-              <div className="main-content">
-                <Outlet context={{ isMounted }} />
-              </div>
-            </main>
-            <Footer />
-            <DevDialog />
-          </Suspense>
-        </div>
-        <DevTools />
-      </PageContentProvider>
-    </PaginationProvider>
+    <OrdersProvider>
+      <PaginationProvider>
+        <PageContentProvider>
+          <div id="layout" css={styles}>
+            <Header />
+            <Suspense fallback={<div>Loading...</div>}>
+              <main>
+                <div className="main-content">
+                  <Outlet context={{ isMounted }} />
+                </div>
+              </main>
+              <Footer />
+              <DevDialog />
+            </Suspense>
+          </div>
+          <DevTools />
+        </PageContentProvider>
+      </PaginationProvider>
+    </OrdersProvider>
   );
 };
