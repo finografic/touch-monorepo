@@ -20,7 +20,7 @@ const ItemDndContainer: FC<ItemDndContainerProps> = ({ id, index, onDndMove, chi
       data-handler-id={handlerId}
       isDragging={isDragging}
     >
-      <Row style={{ width: '100%' }} align="center" justify="between">
+      <Row align="center" justify="between">
         <Col>
           <button ref={dragHandleRef} aria-grabbed={isDragging} className="dnd-item-handle">
             <HamburgerMenuIcon width={24} height={24} />

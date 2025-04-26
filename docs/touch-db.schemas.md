@@ -4,7 +4,7 @@
 
 The database schema is designed for a drink dispensing system with temperature control. The system consists of 11 elements (dispensing stations), where elements 1-10 are drink dispensers and element 11 is a simple on/off switch.
 
-## Schema Relationships
+## **Schema** Relationships
 
 ```mermaid
 erDiagram
