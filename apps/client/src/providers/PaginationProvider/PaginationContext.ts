@@ -1,6 +1,7 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { PaginationStore, PaginationValues } from './PaginationContext.types';
+import { subscribeWithSelector } from 'zustand/middleware';
 
 export const DISPLAY_NAME = 'Pagination';
 export const SETTER_PREFIX = 'Page';
@@ -18,19 +19,27 @@ export const defaultValue: PaginationValues = {
 };
 
 export const PaginationContext = createZustandContext(({ initialValue }) => {
-  return createStore<PaginationStore>((set, _get) => ({
-    ...defaultValue,
-    ...initialValue,
-    actions: {
-      ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
-      setIsNextDisabled: (isNextDisabled: boolean) => {
-        set({ isNextDisabled });
+  return createStore<PaginationStore>()(
+    subscribeWithSelector((set, get) => ({
+      ...defaultValue,
+      ...initialValue,
+      actions: {
+        ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
+        setIsNextDisabled: (isNextDisabled: boolean) => {
+          // Only update if the value is different
+          if (get().isNextDisabled !== isNextDisabled) {
+            // Use setTimeout to defer the state update
+            setTimeout(() => {
+              set({ isNextDisabled });
+            }, 0);
+          }
+        },
+        // onBeforeNavigateNext: (fn?: () => void) => {
+        //   fn?.();
+        // },
       },
-      // onBeforeNavigateNext: (fn?: () => void) => {
-      //   fn?.();
-      // },
-    },
-  }));
+    })),
+  );
 });
 
 type PaginationReturn = Omit<PaginationStore, 'actions'> & PaginationStore['actions'];

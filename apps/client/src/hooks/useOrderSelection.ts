@@ -1,6 +1,8 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect, useMemo } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderSelectionFields } from 'types/orders.types';
+import { useOutletContext } from 'react-router-dom';
+import type { DataLayerContext } from 'layout/DataLayer';
 
 // Derive the field keys from the OrderSelectionFields type
 export type OrderField = keyof OrderSelectionFields;
@@ -10,9 +12,9 @@ export const OrderFieldKeys: { [K in OrderField]: K } = {
   drinkType: 'drinkType',
   drinkSubtype: 'drinkSubtype',
   volume: 'volume',
-  finalTemperature: 'finalTemperature',
   containerType: 'containerType',
   initialTemperature: 'initialTemperature',
+  finalTemperature: 'finalTemperature',
 } as const;
 
 interface UseOrderSelectionProps<T> {
@@ -21,33 +23,29 @@ interface UseOrderSelectionProps<T> {
 }
 
 export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionProps<T>) {
+  const context = useOutletContext<DataLayerContext>();
+  const { isMounted = false } = context || {};
   const { orders, setOrders } = useOrders();
-  const [selectedValue, setSelectedValue] = useState<T | null>(() => {
-    // Initialize from first order's value if it exists
-    const firstOrder = orders[0];
-    if (firstOrder && firstOrder[field]) {
-      return firstOrder[field] as T;
-    }
-    // Use initialValue if provided
-    if (initialValue) {
-      // Update all orders with the initial value
+  const [selectedValue, setSelectedValue] = useState<T | null>((orders[0] as T) || (initialValue as T));
+
+  useEffect(() => {
+    if (isMounted && orders.length && initialValue) {
       const updatedOrders = orders.map((order) => ({
         ...order,
         [field]: initialValue,
       }));
+
       setOrders(updatedOrders);
-      return initialValue;
     }
-    return null;
-  });
+  }, [initialValue, isMounted, orders, setOrders]);
 
   const handleSelection = useCallback(
     (newValue: T | undefined) => {
-      // If selecting the same value, clear it
+      if (!isMounted) return;
+
       const valueToSet = selectedValue && newValue === selectedValue ? null : newValue || null;
       setSelectedValue(valueToSet);
 
-      // Update all orders with the new value
       const updatedOrders = orders.map((order) => ({
         ...order,
         [field]: valueToSet,
@@ -55,16 +53,14 @@ export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionP
 
       setOrders(updatedOrders);
     },
-    [field, orders, selectedValue, setOrders],
+    [field, orders, selectedValue, setOrders, isMounted],
   );
 
   return {
     selectedValue,
     handleSelection,
-    // Expose these in case the component needs them directly
     orders,
     setOrders,
-    // Helper to check if there's a valid selection
     hasValidSelection: selectedValue !== null,
   };
 }

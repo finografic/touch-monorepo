@@ -3,7 +3,6 @@ import { LoginPage } from 'pages/LoginPage/LoginPage';
 // import { RequireAuth } from './RequireAuth';
 import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 import { Layout } from 'layout/Layout';
-import { AuthProvider } from 'src/auth/AuthProvider';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
 import { DrinkTypePage } from '../pages/DrinkPages/DrinkTypePage';
@@ -23,11 +22,12 @@ import { ROUTE_CONFIG, ROUTES } from './routes.config';
 export const router = createBrowserRouter([
   {
     path: ROUTES.HOME,
-    element: (
-      <AuthProvider>
-        <Layout />
-      </AuthProvider>
-    ),
+    element: <Layout />,
+    // element: (
+    //   <AuthProvider>
+    //     <Layout />
+    //   </AuthProvider>
+    // ),
     children: [
       {
         index: true,
@@ -71,12 +71,12 @@ export const router = createBrowserRouter([
         element: <ContainerTypePage />,
       },
       {
-        path: ROUTE_CONFIG[ROUTES.FINAL_TEMPERATURE].pathname,
-        element: <TemperatureFinalPage />,
-      },
-      {
         path: ROUTE_CONFIG[ROUTES.INITIAL_TEMPERATURE].pathname,
         element: <TemperatureInitialPage />,
+      },
+      {
+        path: ROUTE_CONFIG[ROUTES.FINAL_TEMPERATURE].pathname,
+        element: <TemperatureFinalPage />,
       },
       // ============================================== //
 

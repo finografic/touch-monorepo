@@ -1,6 +1,6 @@
 import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 import { useTemperatureSettings } from 'queries/temperature';
@@ -38,10 +38,20 @@ export const TemperatureInitialPage = () => {
   });
 
   const { setIsNextDisabled } = usePagination();
+  const prevStateRef = useRef({ isLoading, hasValidSelection });
 
   useEffect(() => {
-    // Disable next button if loading or no valid selection
-    setIsNextDisabled(isLoading || !hasValidSelection);
+    const { isLoading: wasLoading, hasValidSelection: hadValidSelection } = prevStateRef.current;
+
+    // Only update if the state actually changed
+    if (wasLoading !== isLoading || hadValidSelection !== hasValidSelection) {
+      prevStateRef.current = { isLoading, hasValidSelection };
+
+      // Schedule the state update for the next tick
+      queueMicrotask(() => {
+        setIsNextDisabled(isLoading || !hasValidSelection);
+      });
+    }
   }, [hasValidSelection, setIsNextDisabled, isLoading]);
 
   // Ensure initial temperature is within bounds when settings load

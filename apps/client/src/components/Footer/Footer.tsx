@@ -7,11 +7,12 @@ import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
 import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
-import { useEffect } from 'react';
+import { useEffect, useCallback, useTransition } from 'react';
 
 export const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isPending, startTransition] = useTransition();
 
   const { setIsDevDialogOpen } = usePageContent();
   const { current, setPageCurrent, isNextDisabled } = usePagination();
@@ -38,21 +39,23 @@ export const Footer = () => {
 
   const { calculateForOrder, isPending: isCalculating } = useTemperatureCalculation({
     onSuccess: (data) => {
-      // Update processStatus for the order
-      const updatedOrders = orders.map((order) => ({
-        ...order,
-        processStatus: order.isSelected
-          ? {
-              isProcessing: true,
-              timeRemaining: data.estimatedDurationSeconds,
-            }
-          : order.processStatus,
-      }));
-      setOrders(updatedOrders);
+      startTransition(() => {
+        // Update processStatus for the order
+        const updatedOrders = orders.map((order) => ({
+          ...order,
+          processStatus: order.isSelected
+            ? {
+                isProcessing: true,
+                timeRemaining: data.estimatedDurationSeconds,
+              }
+            : order.processStatus,
+        }));
+        setOrders(updatedOrders);
 
-      // Navigate back to first page
-      setPageCurrent(0);
-      navigate(pathnames[0], { replace: true });
+        // Navigate back to first page
+        setPageCurrent(0);
+        navigate(pathnames[0], { replace: true });
+      });
     },
     onError: (error) => {
       // TODO: Show error message to user
@@ -60,31 +63,36 @@ export const Footer = () => {
     },
   });
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     if (current > 0) {
-      const newIndex = current - 1;
-      const nextPathname = pathnames[newIndex];
-      setPageCurrent(newIndex);
-      navigate(nextPathname, { replace: true });
+      startTransition(() => {
+        const newIndex = current - 1;
+        const nextPathname = pathnames[newIndex];
+        setPageCurrent(newIndex);
+        navigate(nextPathname, { replace: true });
+      });
     }
-  };
+  }, [current, navigate, pathnames, setPageCurrent]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     const newIndex = current + 1;
     const nextPathname = pathnames[newIndex];
-    setPageCurrent(newIndex);
-    if (nextPathname) {
-      navigate(nextPathname, { replace: true });
-    }
-  };
 
-  const handleStart = () => {
+    startTransition(() => {
+      setPageCurrent(newIndex);
+      if (nextPathname) {
+        navigate(nextPathname, { replace: true });
+      }
+    });
+  }, [current, navigate, pathnames, setPageCurrent]);
+
+  const handleStart = useCallback(() => {
     // Get the first selected order and calculate its temperature
     const selectedOrder = orders.find((order) => order.isSelected);
     if (selectedOrder) {
       calculateForOrder(selectedOrder);
     }
-  };
+  }, [calculateForOrder, orders]);
 
   const isVisibleBackButton = current > 0;
   const isVisibleNextButton = location.pathname !== ROUTES.FINAL_TEMPERATURE;
@@ -103,12 +111,12 @@ export const Footer = () => {
           </ButtonControl>
         )}
         {isVisibleBackButton && (
-          <ButtonControl className="btn-control" onClick={handleBack}>
+          <ButtonControl className="btn-control" onClick={handleBack} disabled={isPending}>
             « Back
           </ButtonControl>
         )}
         {isVisibleNextButton && (
-          <ButtonControl className="btn-control" onClick={handleNext} disabled={isNextDisabled}>
+          <ButtonControl className="btn-control" onClick={handleNext} disabled={isNextDisabled || isPending}>
             Next »
           </ButtonControl>
         )}
@@ -116,7 +124,7 @@ export const Footer = () => {
           <ButtonControl
             className="btn-control btn-start"
             onClick={handleStart}
-            disabled={isNextDisabled || isCalculating}
+            disabled={isNextDisabled || isCalculating || isPending}
           >
             {isCalculating ? 'Calculating...' : 'START'}
           </ButtonControl>
