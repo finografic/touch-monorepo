@@ -30,6 +30,14 @@ export default fino(
       'node/prefer-global/process': OFF,
       'prefer-regex-literals': ERROR,
       'fino/top-level-function': OFF,
+      '@typescript-eslint/consistent-type-imports': [
+        ERROR,
+        {
+          prefer: 'type-imports',
+          disallowTypeAnnotations: true,
+          fixStyle: 'separate-type-imports',
+        },
+      ],
       'ts/no-unused-vars': [
         ERROR,
         {

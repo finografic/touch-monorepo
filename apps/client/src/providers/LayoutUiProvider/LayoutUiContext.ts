@@ -1,6 +1,7 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
+import { NUM_SLOTS_TYPE_B } from 'constants/app.config';
 
 export const DISPLAY_NAME = 'LayoutUi';
 
@@ -10,7 +11,8 @@ export enum LayoutUiKeys {
 }
 
 export const defaultValue: LayoutUiValues = {
-  selections: [],
+  numSlots: NUM_SLOTS_TYPE_B,
+  selections: Array.from({ length: NUM_SLOTS_TYPE_B }, (_, i) => i + 1),
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {

@@ -6,12 +6,10 @@ export const DISPLAY_NAME = 'PageContent';
 
 export enum PageContentKeys {
   title = 'title',
-  isDevDialogOpen = 'isDevDialogOpen',
 }
 
 export const defaultValue: PageContentValues = {
   title: '',
-  isDevDialogOpen: false,
 };
 
 export const PageContentContext = createZustandContext(({ initialValue }) => {

@@ -4,7 +4,6 @@ import { DISPLAY_NAME } from './PageContentContext';
 
 export interface PageContentValues {
   [PageContentKeys.title]: string;
-  [PageContentKeys.isDevDialogOpen]: boolean;
 }
 
 type PageContentSetters = {
@@ -13,9 +12,7 @@ type PageContentSetters = {
     : `set${typeof DISPLAY_NAME}${Capitalize<string & K>}`]: (val: PageContentValues[K]) => void;
 };
 
-type PageContentActions = PageContentSetters & {
-  setIsDevDialogOpen: (value: boolean) => void;
-};
+type PageContentActions = PageContentSetters & {};
 
 export interface PageContentProviderProps {
   initialValue?: PageContentStore;

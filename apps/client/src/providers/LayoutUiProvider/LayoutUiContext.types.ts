@@ -3,6 +3,7 @@ import type { LayoutUiKeys } from './LayoutUiContext';
 import { DISPLAY_NAME } from './LayoutUiContext';
 
 export interface LayoutUiValues {
+  [LayoutUiKeys.numSlots]: ValidTypeBCount;
   [LayoutUiKeys.selections]: number[];
 }
 
