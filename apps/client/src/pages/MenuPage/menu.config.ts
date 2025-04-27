@@ -13,7 +13,7 @@ export type MenuBCount = typeof TYPE_B_COUNT;
 export const menuLayout = createMenuLayout<MenuBCount>({
   typeA: { index: 0 },
   typeB: { startIndex: 1, count: TYPE_B_COUNT, indices: [1, 2, 3, 4, 5, 6, 7, 8] },
-  typeC: { startIndex: 13 },
+  typeC: { startIndex: 9 },
 });
 
 // Export the layout type for use in other components
@@ -27,7 +27,7 @@ export type ValidMenuPadNumber<T extends 'A' | 'B' | 'C'> = T extends 'A'
   : T extends 'B'
     ? 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
     : T extends 'C'
-      ? 13 | 14 | 15
+      ? 9 | 10 | 11
       : never;
 
 /**

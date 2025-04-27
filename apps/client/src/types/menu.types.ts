@@ -30,18 +30,18 @@ export type TypeBIndices<Count extends ValidTypeBCount> = Count extends 5
  * Calculates the starting index for Type C based on Type B count
  * @example
  * ```typescript
- * type WithFiveB = TypeCStartIndex<5>;   // 10
- * type WithEightB = TypeCStartIndex<8>;   // 13
+ * type WithFiveB = TypeCStartIndex<5>;   // 6
+ * type WithEightB = TypeCStartIndex<8>;   // 9
  * ```
  */
 export type TypeCStartIndex<BCount extends ValidTypeBCount> = BCount extends 5
-  ? 10
+  ? 6
   : BCount extends 8
-    ? 13
+    ? 9
     : BCount extends 11
-      ? 16
+      ? 12
       : BCount extends 14 | 15
-        ? 19
+        ? 15
         : never;
 
 /**
@@ -52,7 +52,7 @@ export type TypeCStartIndex<BCount extends ValidTypeBCount> = BCount extends 5
  * const config: Layout = {
  *   typeA: { index: 0 },
  *   typeB: { startIndex: 1, count: 8 },
- *   typeC: { startIndex: 13 }
+ *   typeC: { startIndex: 9 }
  * };
  * ```
  */
@@ -76,7 +76,7 @@ export interface MenuSlotLayout<BCount extends ValidTypeBCount> {
  * ```typescript
  * type Layout = SlotTypeAtIndex<8, 0>;  // "A"
  * type Layout = SlotTypeAtIndex<8, 4>;  // "B"
- * type Layout = SlotTypeAtIndex<8, 13>; // "C"
+ * type Layout = SlotTypeAtIndex<8, 9>; // "C"
  * ```
  */
 export type SlotTypeAtIndex<BCount extends ValidTypeBCount, Index extends number> = Index extends 0
@@ -94,7 +94,7 @@ export type SlotTypeAtIndex<BCount extends ValidTypeBCount, Index extends number
  * const layout = createMenuLayout<8>({
  *   typeA: { index: 0 },
  *   typeB: { startIndex: 1, count: 8 },
- *   typeC: { startIndex: 13 }
+ *   typeC: { startIndex: 9 }
  * });
  * ```
  */

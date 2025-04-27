@@ -5,6 +5,9 @@ import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { styles } from './MenuPage.styles';
 
+// <MenuPad type="A" number={0} className="first" />
+// {/* <div className="pad-special error" /> */}
+
 export function MenuPage() {
   const { orders } = useOrders();
   const { setIsNextDisabled } = usePagination();
@@ -23,7 +26,7 @@ export function MenuPage() {
         <Col>
           <div className="menu-grid-left">
             {/* First row */}
-            <MenuPad type="A" number={0} className="first" />
+            <MenuPad type="A" number={0} />
             <MenuPad type="B" number={1} />
             <MenuPad type="B" number={2} />
 
@@ -41,7 +44,7 @@ export function MenuPage() {
 
         <Col>
           <div className="menu-grid-right">
-            <div className="pad-special error" />
+            <MenuPad type="C" number={9} />
             <div className="pad-special power" />
           </div>
         </Col>
