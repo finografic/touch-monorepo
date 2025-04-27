@@ -23,20 +23,19 @@ export function MenuPage() {
         <Col>
           <div className="menu-grid-left">
             {/* First row */}
-
-            <MenuPad className="first" />
-            <MenuPad number={1} />
-            <MenuPad number={2} />
+            <MenuPad type="A" number={0} className="first" />
+            <MenuPad type="B" number={1} />
+            <MenuPad type="B" number={2} />
 
             {/* Second row */}
-            <MenuPad number={3} />
-            <MenuPad number={4} />
-            <MenuPad number={5} />
+            <MenuPad type="B" number={3} />
+            <MenuPad type="B" number={4} />
+            <MenuPad type="B" number={5} />
 
             {/* Third row */}
-            <MenuPad number={6} />
-            <MenuPad number={7} />
-            <MenuPad number={8} />
+            <MenuPad type="B" number={6} />
+            <MenuPad type="B" number={7} />
+            <MenuPad type="B" number={8} />
           </div>
         </Col>
 

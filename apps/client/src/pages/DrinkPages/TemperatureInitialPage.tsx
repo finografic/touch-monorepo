@@ -19,7 +19,6 @@ const DEFAULT_TEMP: Temperature = {
 };
 
 export const TemperatureInitialPage = () => {
-  const { setIsNextDisabled } = usePagination();
   const {
     selectedValue: selectedTemperature,
     handleSelection: handleTemperatureSelection,
@@ -39,7 +38,6 @@ export const TemperatureInitialPage = () => {
     volumeId: currentVolume?.id ?? '',
   });
 
-  /*
   const { setIsNextDisabled } = usePagination();
   const prevStateRef = useRef({ isLoading: tempSettingsQuery.isLoading, hasValidSelection });
 
@@ -56,7 +54,6 @@ export const TemperatureInitialPage = () => {
       });
     }
   }, [hasValidSelection, setIsNextDisabled, tempSettingsQuery.isLoading]);
-  */
 
   // // Ensure initial temperature is within bounds when settings load
   useEffect(() => {

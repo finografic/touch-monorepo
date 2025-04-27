@@ -7,11 +7,13 @@ export const DISPLAY_NAME = 'PageContent';
 export enum PageContentKeys {
   title = 'title',
   isDevDialogOpen = 'isDevDialogOpen',
+  selections = 'selections',
 }
 
 export const defaultValue: PageContentValues = {
   title: '',
   isDevDialogOpen: false,
+  selections: [],
 };
 
 export const PageContentContext = createZustandContext(({ initialValue }) => {
@@ -21,6 +23,26 @@ export const PageContentContext = createZustandContext(({ initialValue }) => {
     actions: {
       ...createSetters({ set, prefix: DISPLAY_NAME, defaultValue }),
       // setIsDevDialogOpen: (value: boolean) => set({ isDevDialogOpen: value }),
+      togglePad: (itemNumber: number) => {
+        const { orders } = get();
+        const draftOrder = findOrderByNumber(orders, itemNumber);
+        set({
+          orders: !draftOrder
+            ? [...orders, { ...INITIAL_ORDER_ITEM, itemNumber, isSelected: true }]
+            : [...orders].filter((order) => order.itemNumber !== itemNumber),
+        });
+      },
+      selectAllPads: () => {
+        const newOrders = [];
+        for (let i = 1; i <= 8; i++) {
+          newOrders.push({
+            ...INITIAL_ORDER_ITEM,
+            itemNumber: i,
+            isSelected: true,
+          });
+        }
+        set({ orders: newOrders });
+      },
     },
   }));
 });
