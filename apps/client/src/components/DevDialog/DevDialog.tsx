@@ -1,5 +1,5 @@
 import { Button, Code, DataList, Dialog, Flex, ScrollArea, Tabs, Theme } from '@radix-ui/themes';
-import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
+import { useDev } from 'providers/DevProvider/DevContext';
 import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
 import { useState, useEffect } from 'react';
 import type { OrderItem } from 'types/orders.types';
@@ -170,7 +170,7 @@ const JsonView = ({ data, color }: { data: any; color: 'blue' | 'amber' | 'gray'
 };
 
 export const DevDialog = () => {
-  const { isDevDialogOpen, setIsDevDialogOpen } = usePageContent();
+  const { isDevDialogOpen, setIsDevDialogOpen } = useDev();
   const { orders } = useOrderSelection<OrderWithMetadata>({
     field: OrderFieldKeys.drinkType,
   });

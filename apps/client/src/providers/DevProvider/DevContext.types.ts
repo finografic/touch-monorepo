@@ -3,7 +3,7 @@ import type { DevKeys } from './DevContext';
 import { DISPLAY_NAME } from './DevContext';
 
 export interface DevValues {
-  [DevKeys.title]: string;
+  [DevKeys.isDevDialogOpen]: boolean;
   [DevKeys.isDevDataVisible]: boolean;
   [DevKeys.isDevQueryPanelOpen]: boolean;
 }

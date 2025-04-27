@@ -2,11 +2,9 @@ import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
 import { findOrderByNumber } from 'utils/orders.utils';
-import type { OrderItemPadProps } from './MenuPad.types';
 import { styles } from './MenuPad.styles';
-import clsx from 'clsx';
 
-export const OrderItemCountdown: FC<OrderItemPadProps> = ({ number, className }) => {
+export const OrderItemCountdown: FC<{ number: number }> = ({ number }) => {
   const { orders } = useOrders();
   const order = findOrderByNumber(orders, number);
   const [timeLeft, setTimeLeft] = useState<{ minutes: number; seconds: number }>({ minutes: 0, seconds: 0 });
@@ -47,7 +45,7 @@ export const OrderItemCountdown: FC<OrderItemPadProps> = ({ number, className })
   }, [order?.processStatus?.estimatedCompletionTime]);
 
   return (
-    <div css={styles} className={clsx('pad', 'is-processing', className)}>
+    <div css={styles}>
       <div style={{ textAlign: 'center' }}>
         <div style={{ fontSize: '1.8rem', fontWeight: 'bold' }}>
           {String(timeLeft.minutes).padStart(2, '0')} : {String(timeLeft.seconds).padStart(2, '0')}

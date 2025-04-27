@@ -1,18 +1,14 @@
-import {
-  createMenuLayout,
-  type MenuSlotLayout,
-  type ValidTypeBCount,
-  type SlotTypeAtIndex,
-} from 'types/menu.types';
+import type { MenuSlotLayout, SlotTypeAtIndex } from 'types/menu.types';
+import { createMenuLayout } from 'types/menu.types';
+import { NUM_SLOTS_TYPE_B } from 'constants/app.config';
 
 // Define the number of Type B pads we're using
-export const TYPE_B_COUNT = 8 as const;
-export type MenuBCount = typeof TYPE_B_COUNT;
+export type MenuBCount = typeof NUM_SLOTS_TYPE_B;
 
 // Create and export the menu layout configuration
 export const menuLayout = createMenuLayout<MenuBCount>({
   typeA: { index: 0 },
-  typeB: { startIndex: 1, count: TYPE_B_COUNT, indices: [1, 2, 3, 4, 5, 6, 7, 8] },
+  typeB: { startIndex: 1, count: NUM_SLOTS_TYPE_B, indices: [1, 2, 3, 4, 5, 6, 7, 8] },
   typeC: { startIndex: 9 },
 });
 

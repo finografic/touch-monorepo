@@ -5,14 +5,14 @@ import type { DevStore, DevValues } from './DevContext.types';
 export const DISPLAY_NAME = 'Dev';
 
 export enum DevKeys {
-  title = 'title',
+  isDevDialogOpen = 'isDevDialogOpen',
   isDevDataVisible = 'isDevDataVisible',
   isDevQueryPanelOpen = 'isDevQueryPanelOpen',
 }
 
 export const defaultValue: DevValues = {
-  title: '',
-  isDevDataVisible: false,
+  isDevDialogOpen: false,
+  isDevDataVisible: true,
   isDevQueryPanelOpen: false,
 };
 
@@ -35,7 +35,7 @@ export const useDev = (): DevReturn => {
   }
 
   store.subscribe((_state, _prev) => {
-    // log('__STORE_CHANGE Event', 'grey', 'grey', { state, prev });
+    // store change
   });
 
   return useStore<StoreApi<DevStore>, DevReturn>(store, ({ actions, ...state }) => ({

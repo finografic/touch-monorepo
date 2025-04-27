@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 export interface MenuPadBaseProps {
   number?: number;
   className?: string;
@@ -5,4 +7,5 @@ export interface MenuPadBaseProps {
 
 export interface OrderItemPadProps extends MenuPadBaseProps {
   number: number;
+  children: ReactNode;
 }
