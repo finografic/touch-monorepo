@@ -10,9 +10,14 @@ import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvi
 import { useIsMounted } from 'hooks/useIsMounted';
 import { Outlet } from 'react-router-dom';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
+import { Loader } from '../components/Loader/Loader';
 
 export const Layout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
+
+  if (!isMounted) {
+    return <Loader message="Loading..." />;
+  }
 
   return (
     <OrdersProvider>
@@ -20,17 +25,17 @@ export const Layout: FC = () => {
         <PageContentProvider>
           <div id="layout" css={styles}>
             <Header />
-            <Suspense fallback={<div>Loading...</div>}>
-              <main>
-                <div className="main-content">
-                  <Outlet context={{ isMounted }} />
-                </div>
-              </main>
-              <Footer />
-              <DevDialog />
-            </Suspense>
+            <main>
+              <div className="main-content">
+                <Suspense fallback={<Loader message="Loading..." />}>
+                  <Outlet />
+                  <DevDialog />
+                  <DevTools />
+                </Suspense>
+              </div>
+            </main>
+            <Footer />
           </div>
-          <DevTools />
         </PageContentProvider>
       </PaginationProvider>
     </OrdersProvider>

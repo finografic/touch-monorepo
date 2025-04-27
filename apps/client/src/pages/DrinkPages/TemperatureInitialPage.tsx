@@ -3,8 +3,10 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect, useRef } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
-import { TemperatureSettings, useGetTemperatureSettings } from 'queries/temperature';
+import { useGetTemperatureSettings } from 'queries/temperature';
 import type { DrinkVolume } from 'types/models/volume.model';
+import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
+import { Loader } from '../../components/Loader/Loader';
 
 const DEFAULT_INITIAL_TEMP = 23.5;
 // Safe default limits that match most drink types
@@ -17,6 +19,7 @@ const DEFAULT_TEMP: Temperature = {
 };
 
 export const TemperatureInitialPage = () => {
+  const { setIsNextDisabled } = usePagination();
   const {
     selectedValue: selectedTemperature,
     handleSelection: handleTemperatureSelection,
@@ -28,15 +31,15 @@ export const TemperatureInitialPage = () => {
   });
 
   const currentVolume = orders[0]?.volume as DrinkVolume | undefined;
-  //
-  // // Fetch temperature settings when order details are available
-  const tempSettingsQuery = useGetTemperatureSettings<TemperatureSettings>({
+
+  const tempSettingsQuery = useGetTemperatureSettings({
     drinkTypeId: orders[0]?.drinkType?.id ?? '',
     drinkSubtypeId: orders[0]?.drinkSubtype?.id,
     containerTypeId: orders[0]?.containerType?.id ?? '',
     volumeId: currentVolume?.id ?? '',
   });
 
+  /*
   const { setIsNextDisabled } = usePagination();
   const prevStateRef = useRef({ isLoading: tempSettingsQuery.isLoading, hasValidSelection });
 
@@ -53,6 +56,7 @@ export const TemperatureInitialPage = () => {
       });
     }
   }, [hasValidSelection, setIsNextDisabled, tempSettingsQuery.isLoading]);
+  */
 
   // // Ensure initial temperature is within bounds when settings load
   useEffect(() => {
@@ -71,9 +75,26 @@ export const TemperatureInitialPage = () => {
     }
   }, [tempSettingsQuery.data, selectedTemperature, handleTemperatureSelection]);
 
-  if (tempSettingsQuery.isLoading) {
-    return <div>Loading temperature settings...</div>;
+  // if (tempSettingsQuery.isLoading) {
+  //   return <div>Loading temperature settings...</div>;
+  // }
+
+  if (tempSettingsQuery.status === 'pending') {
+    return <Loader message="Loading drink subtypes..." />;
   }
+
+  if (tempSettingsQuery.error) {
+    return <ErrorMessage error={tempSettingsQuery.error} />;
+  }
+
+  log('__DEV: tempSettingsQuery', 'magenta', {
+    status: tempSettingsQuery.status,
+    data: tempSettingsQuery.data,
+    error: tempSettingsQuery.error,
+    isLoading: tempSettingsQuery.isLoading,
+    isFetching: tempSettingsQuery.isFetching,
+    isPending: tempSettingsQuery.isPending,
+  });
 
   return (
     <TemperatureInput

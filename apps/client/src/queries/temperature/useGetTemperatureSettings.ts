@@ -25,7 +25,6 @@ const getTemperatureSettings = async (
 ): Promise<ApiResponse<TemperatureSettings>> => {
   try {
     const response = await api.get<ApiResponse<TemperatureSettings>>('/temperature/settings', { params });
-
     return response.data;
   } catch (error) {
     throw transformAxiosError(error);
@@ -37,7 +36,7 @@ export const useGetTemperatureSettings = (
 ): UseQueryResult<TemperatureSettings, ErrorResponse> => {
   return useQuery({
     queryKey: [...GET_TEMPERATURE_SETTINGS_QUERYKEY, params],
-    queryFn: () => getTemperatureSettings(params),
+    queryFn: async () => await getTemperatureSettings(params),
     enabled: Boolean(params?.drinkTypeId && params?.containerTypeId && params?.volumeId),
   });
 };

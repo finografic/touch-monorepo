@@ -1,7 +1,6 @@
 import { useCallback, useState, useEffect } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderSelectionFields } from 'types/orders.types';
-import { useOutletContext } from 'react-router-dom';
 
 // Derive the field keys from the OrderSelectionFields type
 export type OrderField = keyof OrderSelectionFields;
@@ -22,27 +21,31 @@ interface UseOrderSelectionProps<T> {
 }
 
 export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionProps<T>) {
-  const isMounted = !!useOutletContext<{ isMounted: boolean }>()?.isMounted;
   const { orders, setOrders } = useOrders();
-  const [selectedValue, setSelectedValue] = useState<T | null>((orders[0] as T) || (initialValue as T));
+  const [selectedValue, setSelectedValue] = useState<T | null>({
+    ...(orders[0] || null),
+    [field]: initialValue,
+  } as T);
 
   useEffect(() => {
-    if (isMounted && orders.length && initialValue) {
+    if (orders.length && initialValue) {
       const updatedOrders = orders.map((order) => ({ ...order, [field]: initialValue }));
       setOrders(updatedOrders);
     }
-  }, [initialValue, isMounted]);
+  }, [initialValue]);
+
+  const isValid: boolean = !!(Object.keys(orders[0] || {}).length > 0) ? Boolean(field in orders[0]) : false;
+
+  log('__DEV: isValid', 'hotpink', { TEST: orders[0], initialValue, isValid });
 
   const handleSelection = useCallback(
     (newValue: T | undefined) => {
-      if (!isMounted) return;
-
       const valueToSet = selectedValue && newValue === selectedValue ? null : newValue || null;
       const updatedOrders = orders.map((order) => ({ ...order, [field]: valueToSet }));
       setOrders(updatedOrders);
       setSelectedValue(valueToSet);
     },
-    [field, orders, selectedValue, setOrders, isMounted],
+    [field, orders, selectedValue, setOrders],
   );
 
   return {

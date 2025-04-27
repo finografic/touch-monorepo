@@ -8,14 +8,18 @@ import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
 import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
 import { useEffect, useCallback, useTransition } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '../../queries/temperature';
 
 export const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
+  // const queryClient = useQueryClient();
+  // const isFetching = queryClient.isFetching() || queryClient.isMutating();
 
   const { setIsDevDialogOpen } = usePageContent();
-  const { current, setPageCurrent, isNextDisabled } = usePagination();
+  const { current, setPageCurrent, isNextDisabled, setIsNextDisabled } = usePagination();
   const { selectAllPads, orders, setOrders } = useOrders();
 
   // ------------------------------------------------------------------------ //
@@ -29,11 +33,17 @@ export const Footer = () => {
 
   // ------------------------------------------------------------------------ //
 
+  // useEffect(() => {
+  //   setIsNextDisabled(true);
+  // }, [location.pathname]);
+
   useEffect(() => {
     if (orders.length === 0 && location.pathname !== ROUTES.HOME) {
       navigate(ROUTES.HOME);
     }
   }, [orders, location.pathname, navigate]);
+
+  log('__DEV: isPending', 'grey', isPending);
 
   // ------------------------------------------------------------------------ //
 

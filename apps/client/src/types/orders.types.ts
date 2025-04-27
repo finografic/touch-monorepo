@@ -30,6 +30,19 @@ export interface Volume {
   unit: string;
 }
 
+// Derive the field keys from the OrderSelectionFields type
+export type OrderField = keyof OrderSelectionFields;
+
+// Create a const object with the same keys for usage in components
+export const OrderFieldKeys: { [K in OrderField]: K } = {
+  drinkType: 'drinkType',
+  drinkSubtype: 'drinkSubtype',
+  volume: 'volume',
+  containerType: 'containerType',
+  initialTemperature: 'initialTemperature',
+  finalTemperature: 'finalTemperature',
+} as const;
+
 export interface Temperature {
   value: number;
   unit: string;

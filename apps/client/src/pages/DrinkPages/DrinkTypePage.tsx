@@ -10,23 +10,32 @@ import { Loader } from 'components/Loader/Loader';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'routes/routes.config';
 import { NoItems } from 'components/NoItems/NoItems';
+import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 export const DrinkTypePage = () => {
   const navigate = useNavigate();
   const [nextClicked, setNextClicked] = useState(false);
+  const { orders } = useOrders();
+  const field = OrderFieldKeys.drinkType;
+  const initialValue = orders[0]?.[field];
+  const isValid = Boolean(initialValue !== null && initialValue !== undefined);
+
   const {
     selectedValue: selectedDrinkType,
     handleSelection: handleDrinkTypeSelection,
     hasValidSelection,
-  } = useOrderSelection<DrinkType>({
-    field: OrderFieldKeys.drinkType,
-  });
+  } = useOrderSelection<DrinkType>({ field, initialValue });
 
   const { setIsNextDisabled } = usePagination();
   const { data, isLoading, error } = useGetDrinkTypes();
 
+  log('__DEV: isValid', 'blue', { isValid });
+
   useEffect(() => {
-    setIsNextDisabled(!hasValidSelection);
+    log('__DEV: DrinkTypePage', 'blue', {
+      hasValidSelection,
+    });
+    // setIsNextDisabled(!hasValidSelection);
   }, [hasValidSelection, setIsNextDisabled]);
 
   // Handle navigation on Next button click
