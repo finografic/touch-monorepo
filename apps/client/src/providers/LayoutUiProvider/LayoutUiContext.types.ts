@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import type { LayoutUiKeys } from './LayoutUiContext';
-import { DISPLAY_NAME } from './LayoutUiContext';
+import type { DISPLAY_NAME, LayoutUiKeys } from './LayoutUiContext';
+import type { ValidTypeBCount } from 'types/menu.types';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numSlots]: ValidTypeBCount;

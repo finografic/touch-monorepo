@@ -1,4 +1,4 @@
-import { ERROR, fino, IGNORES, INCLUDE_FILES_TS, OFF } from '@finografic/eslint-config';
+import { ERROR, fino, OFF } from '@finografic/eslint-config';
 
 export default fino({
   typescript: true,
@@ -16,8 +16,7 @@ export default fino({
   //   lodash: pluginLodash,
   //   import: pluginImport,
   // },
-  files: [...INCLUDE_FILES_TS],
-  ignores: [...IGNORES],
+  // files: [...INCLUDE_FILES_TS],
   rules: {
     // ...prettier.rules,
     // 'prettier/prettier': [
@@ -36,31 +35,31 @@ export default fino({
     'ts/no-unused-vars': OFF,
     'ts/no-undef': OFF,
     'no-unused-vars': OFF,
-    'simple-import-sort/imports': [
-      ERROR,
-      {
-        groups: [
-          [
-            // Side effect imports
-            '^\\u0000',
-            // `react`-> `@sage`packages ->`carbon-react`->`RTL`, then other packages in alphabetical order
-            '^react',
-            '^@sage',
-            '^carbon-react',
-            '^@testing-library',
-            '^@',
-            '^[a-z]',
-            // Imports starting with `../`
-            '^\\.\\.(?!/?$)',
-            '^\\.\\./?$',
-            // Imports starting with `./`
-            '^\\./(?=.*/)(?!/?$)',
-            '^\\.(?!/?$)',
-            '^\\./?$',
-          ],
-        ],
-      },
-    ],
+    // 'simple-import-sort/imports': [
+    //   ERROR,
+    //   {
+    //     groups: [
+    //       [
+    //         // Side effect imports
+    //         '^\\u0000',
+    //         // `react`-> `@sage`packages ->`carbon-react`->`RTL`, then other packages in alphabetical order
+    //         '^react',
+    //         '^@sage',
+    //         '^carbon-react',
+    //         '^@testing-library',
+    //         '^@',
+    //         '^[a-z]',
+    //         // Imports starting with `../`
+    //         '^\\.\\.(?!/?$)',
+    //         '^\\.\\./?$',
+    //         // Imports starting with `./`
+    //         '^\\./(?=.*/)(?!/?$)',
+    //         '^\\.(?!/?$)',
+    //         '^\\./?$',
+    //       ],
+    //     ],
+    //   },
+    // ],
   },
 
   // overrides: {

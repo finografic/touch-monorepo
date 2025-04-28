@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@finografic/eslint-config": "9.0.8",
+    "@finografic/eslint-config": "9.2.1",
     "@finografic/project-scripts": "^0.3.2",
     "@fullhuman/postcss-purgecss": "7.0.2",
     "@tailwindcss/forms": "0.5.10",
@@ -112,6 +112,7 @@
     "postcss-nesting": "13.0.1",
     "radix-themes-tw": "1.0.0",
     "shx": "0.3.4",
+    "typescript-eslint": "8.18.2",
     "vite": "6.0.7",
     "vite-plugin-checker": "0.8.0",
     "vite-tsconfig-paths": "^5.1.4"
