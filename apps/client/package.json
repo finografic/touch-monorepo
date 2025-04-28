@@ -90,7 +90,7 @@
   },
   "devDependencies": {
     "@biomejs/biome": "1.9.4",
-    "@finografic/eslint-config": "9.2.1",
+    "@finografic/eslint-config": "9.8.0",
     "@finografic/project-scripts": "^0.3.2",
     "@fullhuman/postcss-purgecss": "7.0.2",
     "@tailwindcss/forms": "0.5.10",

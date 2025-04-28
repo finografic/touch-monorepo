@@ -1,0 +1,20 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "noEmit": true,
+    "rootDir": "..",
+    "baseUrl": ".."
+  },
+  "include": [
+    "./**/*.ts",
+    "./**/*.tsx",
+    "../apps/client/eslint.config.mjs"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
+}

@@ -71,5 +71,14 @@ export default fino(
         version: 'detect',
       },
     },
+    rules: {
+      'react-hooks/rules-of-hooks': ERROR,
+      'react-hooks/exhaustive-deps': ERROR,
+      'react/prop-types': ERROR,
+      // 'react/no-unknown-property': [ERROR, { ignore: ['css'] }],
+      'react-dom/no-unknown-property': [ERROR, { ignore: ['css'] }],
+      'react/jsx-uses-react': ERROR,
+      'react/jsx-uses-vars': ERROR,
+    },
   },
 );
