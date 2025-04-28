@@ -60,10 +60,8 @@ async function runTest() {
           ...(acc.languageOptions || {}),
           ...(curr.languageOptions || {}),
           parserOptions: {
-            // biome-ignore lint/complexity/useOptionalChain: <explanation>
-            ...((acc.languageOptions || {}).parserOptions || {}),
-            // biome-ignore lint/complexity/useOptionalChain: <explanation>
-            ...((curr.languageOptions || {}).parserOptions || {}),
+            ...(acc.languageOptions?.parserOptions || {}),
+            ...(curr.languageOptions?.parserOptions || {}),
             project: null, // Disable TypeScript project requirement for testing
           },
         },
@@ -73,7 +71,16 @@ async function runTest() {
     const eslint = new ESLint({
       baseConfig: {
         ...mergedConfig,
-        files: ['**/*.tsx', '**/*.ts'], // Explicitly include all TypeScript files
+        files: ['**/*.tsx', '**/*.ts'],
+        plugins: {
+          'react': (await import('eslint-plugin-react')).default,
+          'react-hooks': (await import('eslint-plugin-react-hooks')).default,
+        },
+        settings: {
+          react: {
+            version: 'detect',
+          },
+        },
         languageOptions: {
           ...mergedConfig.languageOptions,
           parserOptions: {
@@ -82,12 +89,21 @@ async function runTest() {
             ecmaFeatures: {
               jsx: true,
             },
-            project: null, // Disable TypeScript project requirement
+            project: null,
           },
+        },
+        rules: {
+          ...mergedConfig.rules,
+          'react-hooks/rules-of-hooks': 'error',
+          'react-hooks/exhaustive-deps': 'error',
+          'react/prop-types': 'error',
+          'react/jsx-uses-react': 'error',
+          'react/jsx-uses-vars': 'error',
+          'react/no-unknown-property': ['error', { ignore: ['css'] }],
         },
       },
       fix: false,
-      overrideConfigFile: true, // Don't use external config files
+      overrideConfigFile: true,
     });
 
     // Verify the configuration
