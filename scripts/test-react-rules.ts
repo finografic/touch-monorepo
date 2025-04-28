@@ -161,10 +161,20 @@ async function runTest() {
     console.log(chalk.white(`• Total Issues: ${messages.length}`));
     console.log(chalk.red(`• Errors: ${errors.length}`));
     console.log(chalk.yellow(`• Warnings: ${warnings.length}`));
-    console.log(chalk.green(`• Fixable: ${messages.filter((m) => m.fix).length}\n`));
+    console.log(chalk.green(`• Fixable: ${messages.filter((m) => m.fix).length}`));
 
-    // Exit with error if there are errors
+    // Final status message
     if (errors.length > 0) {
+      console.log(
+        chalk.yellow.bold(
+          `\n✨ Test completed: ${errors.length} React rule violation${errors.length === 1 ? '' : 's'} found, as expected.\n`,
+        ),
+      );
+      process.exit(0); // Exit successfully since finding errors is the purpose of the test
+    } else {
+      console.log(
+        chalk.red.bold('\n❌ Test failed: No React rule violations found when violations were expected.\n'),
+      );
       process.exit(1);
     }
   } catch (error: unknown) {
