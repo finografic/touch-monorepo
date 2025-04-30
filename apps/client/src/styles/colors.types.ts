@@ -2,7 +2,7 @@
  * Basic color type definitions and hex color validation
  */
 import type { ColorBaseName, ColorPalette } from './palette.types';
-import { RadixColorName, RadixColorVariable } from './radix-ui/radix.types';
+import type { RadixColorName, RadixColorVariable } from './radix-ui/radix.types';
 
 // Union type for possible color values
 export type ColorValue = RadixColorVariable | HexColor;
