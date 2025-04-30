@@ -26,7 +26,9 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         },
       }),
       tailwindcss(),
-      TurboConsole(),
+      TurboConsole({
+        specifiedEditor: 'cursor',
+      }),
     ],
     base: './',
     server: {

@@ -11,15 +11,19 @@ export default fino({
       getDotEnv: 'readonly',
       log: 'readonly',
     },
-    // parserOptions: {
-    //   ecmaFeatures: {
-    //     jsx: true,
-    //   },
-    // },
+    parserOptions: {
+      project: './tsconfig.json',
+      parser: '@typescript-eslint/parser',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
   },
   formatters: true,
   // react: true,
   typescript: true,
+  gitignore: true,
+  ignores: ['**/*.json', '**/*.jsonc', '**/*.md'],
   rules: {
     'fino/top-level-function': OFF,
     'no-undef': [ERROR, { typeof: true }],
@@ -28,5 +32,15 @@ export default fino({
     'style/jsx-one-expression-per-line': OFF,
     'style/no-multi-spaces': OFF,
     'ts/no-unused-vars': OFF,
+    'ts/consistent-type-imports': [
+      ERROR,
+      {
+        prefer: 'type-imports',
+        disallowTypeAnnotations: true,
+        fixStyle: 'separate-type-imports',
+      },
+    ],
+    'jsdoc/check-alignment': OFF,
+    // 'jsdoc/check-alignment': OFF,
   },
 });

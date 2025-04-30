@@ -1,6 +1,6 @@
 import * as radix from '@radix-ui/colors';
 import type { HexColor } from '../colors.types';
-import { RadixColorName, RadixShade } from './radix.types';
+import type { RadixColorName, RadixShade } from './radix.types';
 
 // Helper to ensure number is a valid RadixShade
 export const toRadixShade = (num: number): RadixShade => {

@@ -1,9 +1,10 @@
-import { ERROR, fino, GLOB_ESLINT_FILES, OFF } from '@finografic/eslint-config';
+import { ERROR, fino, OFF } from '@finografic/eslint-config';
 
 export default fino({
   typescript: {
     parserOptions: {
       project: './tsconfig.base.json',
+      parser: '@typescript-eslint/parser',
       tsconfigRootDir: '.',
     },
   },
@@ -41,5 +42,6 @@ export default fino({
         caughtErrorsIgnorePattern: '^_',
       },
     ],
+    'jsdoc/check-alignment': OFF,
   },
 });
