@@ -80,7 +80,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
-    "@finografic/eslint-config": "9.2.1",
+    "@finografic/eslint-config": "9.0.8",
     "@finografic/project-scripts": "^0.3.2",
     "@fullhuman/postcss-purgecss": "7.0.2",
     "@tanstack/eslint-plugin-query": "5.73.3",

@@ -1,5 +1,5 @@
-import { HexColor, ShadeSuffix, ColorValue } from './colors.types';
-import { RadixColorVariable } from './radix-ui/radix.types';
+import type { ColorValue, HexColor, ShadeSuffix } from './colors.types';
+import type { RadixColorVariable } from './radix-ui/radix.types';
 
 /**
  * Base color names available in the system
