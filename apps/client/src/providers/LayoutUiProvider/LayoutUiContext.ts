@@ -3,6 +3,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import { NUM_SLOTS_TYPE_B } from 'constants/app.config';
 import type { PadItem } from 'types/ui.types';
+import { initPadItems } from 'utils/ui.utils';
 
 export const DISPLAY_NAME = 'LayoutUi';
 
@@ -13,12 +14,13 @@ export enum LayoutUiKeys {
 
 export const defaultValue: LayoutUiValues = {
   numSlots: NUM_SLOTS_TYPE_B,
-  pads: Array.from({ length: NUM_SLOTS_TYPE_B }, (_, i) => ({
-    index: i + 1,
-    id: `Pad ${i + 1}`,
-    type: 'radio',
-    isChecked: false,
-  })) as PadItem[],
+  // pads: Array.from({ length: NUM_SLOTS_TYPE_B }, (_, i) => ({
+  //   index: i + 1,
+  //   id: `Pad ${i + 1}`,
+  //   type: 'radio',
+  //   isChecked: false,
+  // })) as PadItem[],
+  pads: initPadItems({ num: NUM_SLOTS_TYPE_B, ids: [], type: 'radio' }),
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {

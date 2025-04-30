@@ -6,15 +6,17 @@ export const initPadItems = ({
   type = 'radio',
 }: {
   num: number;
-  ids: string[];
+  ids?: string[];
   type: PadType;
 }): PadItem[] => {
-  return Array.from({ length: num }, (_, i) => ({
-    index: i + 1,
-    id: `Pad ${i + 1}`,
-    type,
-    isChecked: false,
-  }));
+  return num > 0
+    ? Array.from({ length: num }, (_, i) => ({
+        index: i + 1,
+        id: ids[i] || `Pad ${i + 1}`,
+        type,
+        isChecked: false,
+      }))
+    : [];
 };
 
 export const initPadItem = ({

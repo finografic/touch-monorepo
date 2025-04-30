@@ -1,9 +1,8 @@
-import { useCallback, useState, useEffect } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
-import type { OrderSelectionFields } from 'types/orders.types';
+import type { OrderField, OrderSelectionFields } from 'types/orders.types';
 
 // Derive the field keys from the OrderSelectionFields type
-export type OrderField = keyof OrderSelectionFields;
 
 // Create a const object with the same keys for usage in components
 export const OrderFieldKeys: { [K in OrderField]: K } = {
@@ -34,7 +33,7 @@ export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionP
     }
   }, [initialValue]);
 
-  const isValid: boolean = !!(Object.keys(orders[0] || {}).length > 0) ? Boolean(field in orders[0]) : false;
+  const isValid: boolean = Object.keys(orders[0] || {}).length > 0 ? Boolean(field in orders[0]) : false;
 
   log('__DEV: isValid', 'hotpink', { TEST: orders[0], initialValue, isValid });
 

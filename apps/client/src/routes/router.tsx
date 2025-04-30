@@ -65,6 +65,13 @@ export const router = createBrowserRouter([
       {
         path: ROUTE_CONFIG[ROUTES.DRINK_VOLUME].pathname,
         element: <DrinkVolumePage />,
+        // action: async ({ request }) => {
+        //   const formData = await request.formData();
+        //   const drinkType = formData.get('drinkType');
+        //   const drinkSubtype = formData.get('drinkSubtype');
+        //   const volume = formData.get('volume');
+        //   const containerType = formData.get('containerType');
+        // },
       },
       {
         path: ROUTE_CONFIG[ROUTES.CONTAINER_TYPE].pathname,
