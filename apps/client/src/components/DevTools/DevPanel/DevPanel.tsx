@@ -3,7 +3,7 @@ import { useOrders } from 'providers/OrdersProvider';
 import { styles } from './DevPanel.styles';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { OrderItem } from 'types/orders.types';
+import type { OrderItem } from 'types/orders.types';
 import { useLocation } from 'react-router-dom';
 export const DevPanel = () => {
   const location = useLocation();

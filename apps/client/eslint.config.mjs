@@ -10,7 +10,7 @@ export default fino({
       ...globals.browser,
       getDotEnv: 'readonly',
       log: 'readonly',
-      React: true,
+      // React: true,
     },
     // parserOptions: {
     //   ecmaFeatures: {

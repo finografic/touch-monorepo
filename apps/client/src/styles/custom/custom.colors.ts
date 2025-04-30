@@ -1,5 +1,5 @@
-import { ColorMapping } from '../colors.types';
-import { ColorPalette } from '../palette.types';
+import type { ColorMapping } from '../colors.types';
+import type { ColorPalette } from '../palette.types';
 import { generateColorPalette } from './custom.palette';
 
 export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'> = {

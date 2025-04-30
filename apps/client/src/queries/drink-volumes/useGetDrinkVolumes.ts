@@ -1,5 +1,7 @@
-import { useQuery, UseQueryResult } from '@tanstack/react-query';
-import type { DrinkVolume, ApiResponse, ErrorResponse } from '@workspace/shared/types';
+import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import type { ApiResponse, ErrorResponse } from '@workspace/shared/types';
+import type { DrinkVolume } from 'types/models/volume.model';
 import { GET_DRINK_VOLUMES_QUERYKEY } from '.';
 import { api } from 'api';
 import { transformAxiosError } from 'src/api/api.utils';

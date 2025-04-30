@@ -1,4 +1,4 @@
-import { OrderItem } from 'types/orders.types';
+import type { OrderItem } from 'types/orders.types';
 
 export const INITIAL_ORDER_ITEM: OrderItem = {
   itemNumber: 0,

@@ -1,7 +1,7 @@
 import Color from 'color';
 import type { ColorMapping, ColorName, HexColor, ShadeKey } from 'styles/colors.types';
 import { SHADE_PREFIX } from 'styles/palette.contants';
-import { ColorBaseName, ColorPalette } from '../palette.types';
+import type { ColorBaseName, ColorPalette } from '../palette.types';
 
 export type ShadeConfig = {
   [key in ShadeKey]?: {
@@ -25,30 +25,6 @@ const COLOR_SHADES: ShadeConfig = {
   xdark: { mix: { color: '#000000', amount: 0.4 }, saturate: 0.15 },
   xxdark: { mix: { color: '#000000', amount: 0.6 }, saturate: 0.2 },
 } as const;
-
-export const generateColorPalette = ({
-  colors,
-}: {
-  colors: Omit<ColorMapping, 'white' | 'black' | 'background'>;
-}) => {
-  const palette = {} as ColorPalette;
-
-  for (const [name, { value }] of Object.entries(colors) as [ColorBaseName, { value: HexColor }][]) {
-    try {
-      Object.assign(palette, {
-        ...generatePaletteColorVariants({
-          name,
-          color: value,
-          shadeConfig: COLOR_SHADES,
-        }),
-      });
-    } catch (error) {
-      console.error(`Error generating color variants for ${name}:`, error);
-    }
-  }
-
-  return palette;
-};
 
 /**
  * Generate color variants using Color.js lightening/darkening
@@ -114,4 +90,28 @@ export const generatePaletteColorVariants = ({
   });
 
   return variants;
+};
+
+export const generateColorPalette = ({
+  colors,
+}: {
+  colors: Omit<ColorMapping, 'white' | 'black' | 'background'>;
+}) => {
+  const palette = {} as ColorPalette;
+
+  for (const [name, { value }] of Object.entries(colors) as [ColorBaseName, { value: HexColor }][]) {
+    try {
+      Object.assign(palette, {
+        ...generatePaletteColorVariants({
+          name,
+          color: value,
+          shadeConfig: COLOR_SHADES,
+        }),
+      });
+    } catch (error) {
+      console.error(`Error generating color variants for ${name}:`, error);
+    }
+  }
+
+  return palette;
 };

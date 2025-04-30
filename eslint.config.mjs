@@ -9,7 +9,7 @@ export default fino({
     globals: {
       log: 'readonly',
       getDotEnv: 'readonly',
-      React: true,
+      // React: true,
     },
   },
   overrides: {
