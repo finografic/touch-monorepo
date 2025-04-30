@@ -1,10 +1,11 @@
 import type { ReactNode } from 'react';
 import type { DISPLAY_NAME, LayoutUiKeys } from './LayoutUiContext';
 import type { ValidTypeBCount } from 'types/menu.types';
+import type { PadItem } from 'types/ui.types';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numSlots]: ValidTypeBCount;
-  [LayoutUiKeys.selections]: number[];
+  [LayoutUiKeys.pads]: PadItem[];
 }
 
 type LayoutUiSetters = {

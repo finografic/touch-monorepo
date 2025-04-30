@@ -2,17 +2,23 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import { NUM_SLOTS_TYPE_B } from 'constants/app.config';
+import type { PadItem } from 'types/ui.types';
 
 export const DISPLAY_NAME = 'LayoutUi';
 
 export enum LayoutUiKeys {
   numSlots = 'numSlots',
-  selections = 'selections',
+  pads = 'pads',
 }
 
 export const defaultValue: LayoutUiValues = {
   numSlots: NUM_SLOTS_TYPE_B,
-  selections: Array.from({ length: NUM_SLOTS_TYPE_B }, (_, i) => i + 1),
+  pads: Array.from({ length: NUM_SLOTS_TYPE_B }, (_, i) => ({
+    id: i + 1,
+    type: 'radio',
+    name: `Pad ${i + 1}`,
+    isChecked: false,
+  })) as PadItem[],
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {
@@ -21,22 +27,22 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, prefix: DISPLAY_NAME, defaultValue }),
-      togglePad: (selections: number[]) => {
-        set({
-          selections: selections.filter((selection) => selection.itemNumber !== itemNumber),
-        });
-      },
-      selectAllPads: () => {
-        const newOrders = [];
-        for (let i = 1; i <= 8; i++) {
-          newOrders.push({
-            ...INITIAL_ORDER_ITEM,
-            itemNumber: i,
-            isSelected: true,
-          });
-        }
-        set({ selections: newOrders });
-      },
+      // togglePad: (selections: PadItem[]) => {
+      //   set({
+      //     pads: selections.filter((selection) => selection.itemNumber !== itemNumber),
+      //   });
+      // },
+      // selectAllPads: () => {
+      //   const newOrders = [];
+      //   for (let i = 1; i <= 8; i++) {
+      //     newOrders.push({
+      //       ...INITIAL_ORDER_ITEM,
+      //       itemNumber: i,
+      //       isSelected: true,
+      //     });
+      //   }
+      //   set({ selections: newOrders });
+      // },
     },
   }));
 });
