@@ -1,6 +1,6 @@
 import { stylesItemsGrid } from './grid.styles';
 import type { DrinkType } from 'types/models/drink-type.model';
-import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
+import { useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect, useState } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
@@ -11,6 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'routes/routes.config';
 import { NoItems } from 'components/NoItems/NoItems';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
+import { OrderFieldKeys } from 'constants/app.config';
 
 export const DrinkTypePage = () => {
   const navigate = useNavigate();
