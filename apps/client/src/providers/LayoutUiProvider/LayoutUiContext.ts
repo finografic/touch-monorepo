@@ -14,9 +14,9 @@ export enum LayoutUiKeys {
 export const defaultValue: LayoutUiValues = {
   numSlots: NUM_SLOTS_TYPE_B,
   pads: Array.from({ length: NUM_SLOTS_TYPE_B }, (_, i) => ({
-    id: i + 1,
+    index: i + 1,
+    id: `Pad ${i + 1}`,
     type: 'radio',
-    name: `Pad ${i + 1}`,
     isChecked: false,
   })) as PadItem[],
 };
@@ -32,17 +32,17 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
       //     pads: selections.filter((selection) => selection.itemNumber !== itemNumber),
       //   });
       // },
-      // selectAllPads: () => {
-      //   const newOrders = [];
-      //   for (let i = 1; i <= 8; i++) {
-      //     newOrders.push({
-      //       ...INITIAL_ORDER_ITEM,
-      //       itemNumber: i,
-      //       isSelected: true,
-      //     });
-      //   }
-      //   set({ selections: newOrders });
-      // },
+      selectAll: () => {
+        const newOrders = [];
+        for (let i = 1; i <= 8; i++) {
+          newOrders.push({
+            ...INITIAL_ORDER_ITEM,
+            itemNumber: i,
+            isSelected: true,
+          });
+        }
+        set({ pads: newOrders });
+      },
     },
   }));
 });

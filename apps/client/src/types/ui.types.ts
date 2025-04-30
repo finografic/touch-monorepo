@@ -3,9 +3,11 @@ export interface OptionUI {
   value: string;
 }
 
+export type PadType = 'radio' | 'checkbox';
+
 export interface PadItem {
-  id: number;
-  type: 'radio' | 'checkbox';
-  name: string;
+  index: number;
+  id: string;
+  type: PadType;
   isChecked: boolean;
 }

@@ -3,7 +3,6 @@ import type { OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/orders.utils';
 import type { OrderItemPadProps } from './MenuPad.types';
 import clsx from 'clsx';
-import { styles } from './MenuPad.styles';
 
 export const OrderItemToggle = ({ number, className, children }: OrderItemPadProps) => {
   const { togglePad, orders } = useOrders();
