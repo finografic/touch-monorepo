@@ -42,6 +42,10 @@ export const styles = css`
     }
 
     &.first {
+    }
+
+    &.slot-type-A {
+      pointer-events: none;
       border-color: ${colors.grey};
       background-color: rgba(150, 150, 150, 0.15);
       &:hover {
@@ -49,7 +53,15 @@ export const styles = css`
       }
     }
 
+    &.slot-type-B {
+      &:hover {
+        border-color: ${colors.info};
+        transform: scale(1.05);
+      }
+    }
+
     &.slot-type-C {
+      pointer-events: none;
       border-color: ${colors.danger};
       color: ${colors.danger};
       width: ${props.padLG.width};
