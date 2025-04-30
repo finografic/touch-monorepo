@@ -5,7 +5,7 @@ import type { OrderItemPadProps } from './MenuPad.types';
 import clsx from 'clsx';
 import { styles } from './MenuPad.styles';
 
-export const OrderItemToggle = ({ number, children }: OrderItemPadProps) => {
+export const OrderItemToggle = ({ number, className, children }: OrderItemPadProps) => {
   const { togglePad, orders } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;
@@ -15,7 +15,7 @@ export const OrderItemToggle = ({ number, children }: OrderItemPadProps) => {
   };
 
   return (
-    <div css={styles} className={clsx('pad', { active: order?.isSelected })} onClick={handleClick}>
+    <div className={clsx(className, { active: order?.isSelected })} onClick={handleClick}>
       {children}
     </div>
   );

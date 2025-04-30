@@ -1,4 +1,4 @@
-import { layout, colors } from 'styles';
+import { colors, layout } from 'styles';
 import { css } from '@emotion/react';
 
 const props = {
@@ -49,7 +49,7 @@ export const styles = css`
       }
     }
 
-    &.error {
+    &.slot-type-C {
       border-color: ${colors.danger};
       color: ${colors.danger};
       width: ${props.padLG.width};
