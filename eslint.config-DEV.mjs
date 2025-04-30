@@ -1,7 +1,13 @@
-import { ERROR, fino, IGNORES, INCLUDE_FILES_TS, OFF } from '@finografic/eslint-config';
+import { ERROR, fino, OFF } from '@finografic/eslint-config';
 
 export default fino({
-  typescript: true,
+  typescript: {
+    parserOptions: {
+      project: './tsconfig.base.json',
+      parser: '@typescript-eslint/parser',
+      tsconfigRootDir: '.',
+    },
+  },
   gitignore: true,
   languageOptions: {
     ecmaVersion: 'latest',
@@ -9,7 +15,6 @@ export default fino({
     globals: {
       log: 'readonly',
       getDotEnv: 'readonly',
-      React: true,
     },
   },
   overrides: {
@@ -17,12 +22,18 @@ export default fino({
       'jsonc/sort-keys': ERROR,
     },
   },
-  files: [...INCLUDE_FILES_TS],
-  ignores: [...IGNORES],
   rules: {
     'node/prefer-global/process': OFF,
     'prefer-regex-literals': ERROR,
     'fino/top-level-function': OFF,
+    'ts/consistent-type-imports': [
+      ERROR,
+      {
+        prefer: 'type-imports',
+        disallowTypeAnnotations: true,
+        fixStyle: 'separate-type-imports',
+      },
+    ],
     'ts/no-unused-vars': [
       ERROR,
       {
@@ -31,5 +42,6 @@ export default fino({
         caughtErrorsIgnorePattern: '^_',
       },
     ],
+    'jsdoc/check-alignment': OFF,
   },
 });

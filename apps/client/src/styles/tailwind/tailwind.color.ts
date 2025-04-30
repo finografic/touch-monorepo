@@ -12,7 +12,8 @@ export const generateTWColorVariants = ({
   name,
   shadeConfig,
 }: {
-  color: ColorConstructor;
+  // color: ColorConstructor;
+  color: any;
   name: ColorName;
   shadeConfig: ShadeConfig;
 }) => {
@@ -26,7 +27,7 @@ export const generateTWColorVariants = ({
     }
 
     let colorVariant = ColorConstructor(color.hex());
-    const luminosity = colorVariant.luminosity();
+    // const luminosity = colorVariant.luminosity();
 
     if ('mix' in factors && factors.mix) {
       colorVariant = colorVariant.mix(ColorConstructor(factors.mix.color), factors.mix.amount);
@@ -63,7 +64,7 @@ export const generateTWColorVariants = ({
       (shadeKey as ShadeKey) in SHADE_PREFIX ? SHADE_PREFIX[shadeKey as ShadeKey] : shadeKey;
 
     const variantKey = `${name}${shadeKeySuffix}`;
-    variants[variantKey] = hexValue;
+    variants[variantKey as keyof typeof variants] = hexValue;
   });
 
   return variants;

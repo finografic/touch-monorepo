@@ -10,17 +10,20 @@ export default fino({
       ...globals.browser,
       getDotEnv: 'readonly',
       log: 'readonly',
-      React: true,
     },
-    // parserOptions: {
-    //   ecmaFeatures: {
-    //     jsx: true,
-    //   },
-    // },
+    parserOptions: {
+      project: './tsconfig.json',
+      parser: '@typescript-eslint/parser',
+      ecmaFeatures: {
+        jsx: true,
+      },
+    },
   },
   formatters: true,
   // react: true,
   typescript: true,
+  gitignore: true,
+  ignores: ['**/*.json', '**/*.jsonc', '**/*.md'],
   rules: {
     'fino/top-level-function': OFF,
     'no-undef': [ERROR, { typeof: true }],
@@ -38,5 +41,6 @@ export default fino({
       },
     ],
     'jsdoc/check-alignment': OFF,
+    // 'jsdoc/check-alignment': OFF,
   },
 });

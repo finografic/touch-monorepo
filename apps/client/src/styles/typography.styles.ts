@@ -1,8 +1,7 @@
 import { css } from '@emotion/react';
 
 export const fontFamilies = {
-  system:
-    '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  system: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
   mono: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
 } as const;
 

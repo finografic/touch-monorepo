@@ -1,4 +1,4 @@
-import twColors from 'tailwindcss/colors';
+import type twColors from 'tailwindcss/colors';
 
 export type TWColorName = keyof typeof twColors;
 

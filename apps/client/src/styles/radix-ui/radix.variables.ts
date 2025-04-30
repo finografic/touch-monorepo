@@ -1,4 +1,4 @@
-import type { ShadeKey, ColorMapping } from '../colors.types';
+import type { ColorMapping, ShadeKey } from '../colors.types';
 import type { ColorBaseName } from '../palette.types';
 import { COLOR_MAPPING } from '../colors.styles';
 import type { Root } from 'postcss';

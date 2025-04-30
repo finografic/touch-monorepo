@@ -1,8 +1,8 @@
 import twColors from 'tailwindcss/colors';
 import type { TWColorName, TWColorShade, TWColorWithShades } from './tailwind.types';
 import type { ShadeKey } from '../colors.types';
-import { SHADES_TW, SHADES_CUSTOM_TO_TW } from './tailwind.constants';
-import { camelCaseToKebab } from '../../utils/string.utils';
+import { SHADES_CUSTOM_TO_TW } from './tailwind.constants';
+import { camelCaseToKebab } from 'utils/string-case.utils';
 
 /**
  * Core function to generate a CSS variable declaration
@@ -81,7 +81,7 @@ export const generateCssColorVariablesTW = (colorNames?: TWColorName[]) => {
     if (typeof colorValue === 'object') {
       // Add ALL numeric shade variables available for this color
       Object.entries(colorValue).forEach(([numericShade, value]) => {
-        const shade = parseInt(numericShade) as TWColorShade;
+        const shade = Number.parseInt(numericShade) as TWColorShade;
         if (colorName === 'gray') {
           css += generateGrayGreyVariables(shade, value);
         } else {

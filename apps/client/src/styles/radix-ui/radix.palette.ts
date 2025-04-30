@@ -1,5 +1,5 @@
 import type { ColorMapping, HexColor, RadixBaseShade } from '../colors.types';
-import { GeneratedPalette } from '../palette.types';
+import type { GeneratedPalette } from '../palette.types';
 import { getRadixHex } from './radix.color';
 import type { RadixColorName, RadixShade } from './radix.types';
 
@@ -20,7 +20,7 @@ function isColorMappingWithVariants(
  */
 function calculateVariantShade(baseShade: number, offset: number): RadixShade {
   // Use exponential offset for more dramatic shifts
-  const exponentialOffset = Math.sign(offset) * Math.pow(Math.abs(offset), 1.5);
+  const exponentialOffset = Math.sign(offset) * Math.abs(offset) ** 1.5;
   const newShade = Math.round(baseShade + exponentialOffset);
   // Clamp between 1 and 12 (Radix's range)
   return Math.max(1, Math.min(12, newShade)) as RadixShade;
