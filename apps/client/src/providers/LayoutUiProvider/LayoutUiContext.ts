@@ -32,17 +32,17 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
       //     pads: selections.filter((selection) => selection.itemNumber !== itemNumber),
       //   });
       // },
-      selectAll: () => {
-        const newOrders = [];
-        for (let i = 1; i <= 8; i++) {
-          newOrders.push({
-            ...INITIAL_ORDER_ITEM,
-            itemNumber: i,
-            isSelected: true,
-          });
-        }
-        set({ pads: newOrders });
-      },
+      // selectAll: () => {
+      //   const newOrders = [];
+      //   for (let i = 1; i <= 8; i++) {
+      //     newOrders.push({
+      //       ...INITIAL_ORDER_ITEM,
+      //       itemNumber: i,
+      //       isSelected: true,
+      //     });
+      //   }
+      //   set({ pads: newOrders });
+      // },
     },
   }));
 });
