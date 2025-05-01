@@ -45,6 +45,9 @@
       "api/*": [
         "./src/api/*"
       ],
+      "auth/*": [
+        "./src/auth/*"
+      ],
       "components/*": [
         "./src/components/*"
       ],

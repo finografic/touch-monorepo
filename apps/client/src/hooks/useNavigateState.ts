@@ -4,7 +4,7 @@ import type { LocationState, LocationWithState } from 'types/location.types';
 import { cleanRoutePath } from 'routes/utils/routes.utils';
 import { getFromLocation } from 'routes/utils/useRouter.utils';
 import { ROUTES_CONFIG } from 'routes/routes.config';
-import { useRouteMetadata } from 'routes/context/RouteMetadataContext';
+import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 
 type NavigateWithState = (to: To | number, options?: NavigateOptions) => Promise<void>;
 interface FromLocationProps extends Omit<Location, 'pathname' | 'search'>, LocationState {}

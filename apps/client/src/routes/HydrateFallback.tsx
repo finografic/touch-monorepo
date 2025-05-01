@@ -1,19 +1,26 @@
-import { Loader } from 'components/Loader/Loader';
-import type { FC } from 'react';
+import { Theme as RadixTheme, Spinner } from '@radix-ui/themes';
+import { Global } from '@emotion/react';
+import { cssGlobal } from 'styles/global.styles';
 
-export const HydrateFallback: FC = () => {
-  return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        // backgroundColor: '#f5f5f5',
-      }}
-    >
-      <Loader />
-    </div>
-  );
-};
+/**
+ * Fallback shown during initial router hydration.
+ * Includes minimal styling context to match app theme.
+ */
+export const HydrateFallback = () => (
+  <>
+    <Global styles={cssGlobal} />
+    <RadixTheme>
+      <div
+        style={{
+          height: '100vh',
+          width: '100vw',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Spinner size="3" />
+      </div>
+    </RadixTheme>
+  </>
+);

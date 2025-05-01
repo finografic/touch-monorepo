@@ -8,7 +8,7 @@ import 'i18n/locale';
 import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider } from 'react-i18next';
 import App from './App';
-import { RouteMetadataProvider } from 'routes/context/RouteMetadataProvider';
+import { RouteMetadataProvider } from 'routes/providers/RouteMetadataProvider';
 // import ErrorBoundary from './ErrorBoundary';
 // import { DevProvider } from 'providers/DevProvider/DevProvider';
 

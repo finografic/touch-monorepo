@@ -1,8 +1,8 @@
+import type { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { useAuth } from 'src/auth/AuthContext';
+import { useAuth } from 'auth/AuthContext';
 
-// Protected route wrapper
-export function RequireAuth({ children }: { children: React.ReactNode }) {
+export function RequireAuth({ children }: { children: ReactNode }) {
   const { user, isLoading } = useAuth();
 
   if (isLoading) {

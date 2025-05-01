@@ -9,14 +9,15 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from 'routes/ErrorBoundary';
 import { Suspense } from 'react';
 import { useRouterLoader } from 'routes/hooks/useRouterLoader';
-import { useRouteMetadata } from 'routes/context/RouteMetadataContext';
+import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
+// import { HydrateFallback } from 'routes/HydrateFallback';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
     <ScreenClassProvider>
       <Global styles={cssGlobal} />
       <RadixTheme>
-        <Suspense fallback={<Spinner />}>
+        <Suspense fallback={<Spinner size="2" />}>
           <Outlet />
         </Suspense>
       </RadixTheme>
@@ -34,14 +35,23 @@ const App = () => {
       path: '/',
       loader: routerLoader, // loader: () => routes,
       element: <AppBaseLayout />,
-      children: isInitialized ? [...routes] : [{ id: 'pending-routes', path: '*', element: <Spinner /> }],
+      errorElement: (
+        <ErrorBoundary>
+          <RadixTheme>
+            <Spinner size="2" />
+          </RadixTheme>
+        </ErrorBoundary>
+      ),
+      children: isInitialized
+        ? [...routes]
+        : [{ id: 'pending-routes', path: '*', element: <Spinner size="2" /> }],
     },
   ]);
 
   return (
     <RouterProvider
       router={router}
-      //  fallbackElement={<HydrteFallback />}
+      // fallbackElement={<HydrateFallback />}
     />
   );
 };
