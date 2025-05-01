@@ -3,32 +3,36 @@ import { Outlet } from 'react-router-dom';
 import React, { type ReactNode, useMemo } from 'react';
 import { useRouterLoader } from 'routes/hooks/useRouterLoader';
 import { withRouteMetadata } from 'routes/utils/withRouteMetadata';
-import { RouteMetadata } from './RouteMetadataContext';
+import { RouteMetadataContext } from './RouteMetadataContext';
 import NotFound from 'pages/NotFound';
 import cloneDeep from 'lodash/cloneDeep';
 import { ROUTES_CONFIG } from 'routes/routes.config';
 
+interface RouteMetadataProviderProps {
+  children: ReactNode;
+}
+
 /**
  * Provides enhanced routes with metadata throughout the app.
  * Wraps the router configuration with metadata from ROUTES_CONFIG
- * and makes it available via useRoutesTree hook.
+ * and makes it available via useRouteMetadata hook.
  */
-
-export const RouteMetadataProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ children }) => {
   const { routerLoader } = useRouterLoader();
 
   const routesState = useMemo(() => {
-    const baseRoutes: RouteObject[] = [
+    const base: RouteObject[] = [
       {
         id: 'base',
         path: '/',
         loader: routerLoader,
         element: <Outlet />,
-        children: [{ path: '*', element: <NotFound /> }],
+        children: [{ id: 'not-found', path: '*', element: <NotFound /> }],
       },
     ];
 
-    const enhancedRoutes = withRouteMetadata(cloneDeep(baseRoutes), ROUTES_CONFIG);
+    // Enhance routes with metadata
+    const enhancedRoutes = withRouteMetadata(cloneDeep(base), ROUTES_CONFIG);
 
     return {
       routes: enhancedRoutes,
@@ -36,5 +40,5 @@ export const RouteMetadataProvider: React.FC<{ children: ReactNode }> = ({ child
     };
   }, [routerLoader]);
 
-  return <RouteMetadata.Provider value={routesState}>{children}</RouteMetadata.Provider>;
+  return <RouteMetadataContext.Provider value={routesState}>{children}</RouteMetadataContext.Provider>;
 };

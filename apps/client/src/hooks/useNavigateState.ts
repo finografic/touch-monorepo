@@ -14,7 +14,7 @@ interface UseNavigateState {
   key: FromLocationProps['key'];
   hash: FromLocationProps['hash'];
   state: FromLocationProps['state'];
-  from: FromLocationProps['from'];
+  from: FromLocationProps['from'] | undefined;
   action: FromLocationProps['action'];
   navigateExternal: ({ url }: { url: string }) => void;
 }
@@ -28,8 +28,6 @@ export const useNavigateState = (): UseNavigateState => {
     location: location as unknown as LocationWithState,
     metaRoutes: ROUTES_CONFIG,
   });
-
-  // log('FROM_LOCATION', 'blue', fromLocation);
 
   const navigate: NavigateWithState = async (to: To | number, options: NavigateOptions = {}) => {
     if (typeof to === 'number') return navigateReactRouter(to); // Directly return as no additional options are needed
@@ -60,8 +58,7 @@ export const useNavigateState = (): UseNavigateState => {
     key: location.key,
     hash: location.hash,
     state: location.state,
-    // from: locationState?.from,
-    from: route,
+    from: fromLocation,
     action: locationState?.action,
     navigateExternal,
   };
