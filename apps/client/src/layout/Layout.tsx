@@ -8,12 +8,15 @@ import { DevTools } from 'components/DevTools/DevTools';
 import { Suspense } from 'react';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
 import { useIsMounted } from 'hooks/useIsMounted';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useRouteLoaderData } from 'react-router-dom';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { Loader } from '../components/Loader/Loader';
+import type { DrinkType } from 'types/models/drink-type.model';
+import { OrderFieldKeys } from 'constants/app.config';
 
 export const Layout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
+  const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
 
   if (!isMounted) {
     return <Loader message="Loading..." />;

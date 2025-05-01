@@ -7,9 +7,10 @@ import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
 import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
-import { useEffect, useCallback, useTransition } from 'react';
+import { useCallback, useEffect, useTransition } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '../../queries/temperature';
+import { useDev } from 'providers/DevProvider/DevContext';
 
 export const Footer = () => {
   const location = useLocation();
@@ -18,7 +19,7 @@ export const Footer = () => {
   // const queryClient = useQueryClient();
   // const isFetching = queryClient.isFetching() || queryClient.isMutating();
 
-  const { setIsDevDialogOpen } = usePageContent();
+  const { setIsDevDialogOpen } = useDev();
   const { current, setPageCurrent, isNextDisabled, setIsNextDisabled } = usePagination();
   const { selectAllPads, orders, setOrders } = useOrders();
 

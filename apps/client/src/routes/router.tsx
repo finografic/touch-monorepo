@@ -13,6 +13,7 @@ import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPa
 import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
 import { ROUTE_CONFIG, ROUTES } from './routes.config';
 import { EndpointHelper } from 'api/endpoints/api.endpoints';
+import { OrderFieldKeys } from 'constants/app.config';
 
 // TODO: Create and import these components
 // import { DrinkVolumePage } from '../pages/DrinkVolumePage/DrinkVolumePage';
@@ -52,6 +53,7 @@ export const router = createBrowserRouter([
       // ============================================== //
       {
         path: ROUTE_CONFIG[ROUTES.DRINK_TYPE].pathname,
+        id: OrderFieldKeys.drinkType,
         children: [
           {
             index: true,
