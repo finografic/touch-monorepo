@@ -2,22 +2,25 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import { NUM_SLOTS_TYPE_B } from 'constants/app.config';
+import type { PadItem } from 'types/ui.types';
 import { initPadItems } from 'utils/ui.utils';
 
 export const DISPLAY_NAME = 'LayoutUi';
 
 export enum LayoutUiKeys {
   numSlots = 'numSlots',
-  fieldKey = 'fieldKey',
-  numPads = 'numPads',
   pads = 'pads',
 }
 
 export const defaultValue: LayoutUiValues = {
   numSlots: NUM_SLOTS_TYPE_B,
-  fieldKey: undefined,
-  numPads: 0,
-  pads: initPadItems({ numPads: NUM_SLOTS_TYPE_B, keys: [], type: 'radio' }),
+  // pads: Array.from({ length: NUM_SLOTS_TYPE_B }, (_, i) => ({
+  //   index: i + 1,
+  //   id: `Pad ${i + 1}`,
+  //   type: 'radio',
+  //   isChecked: false,
+  // })) as PadItem[],
+  pads: initPadItems({ num: NUM_SLOTS_TYPE_B, ids: [], type: 'radio' }),
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {
@@ -26,6 +29,22 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, prefix: DISPLAY_NAME, defaultValue }),
+      // togglePad: (selections: PadItem[]) => {
+      //   set({
+      //     pads: selections.filter((selection) => selection.itemNumber !== itemNumber),
+      //   });
+      // },
+      // selectAll: () => {
+      //   const newOrders = [];
+      //   for (let i = 1; i <= 8; i++) {
+      //     newOrders.push({
+      //       ...INITIAL_ORDER_ITEM,
+      //       itemNumber: i,
+      //       isSelected: true,
+      //     });
+      //   }
+      //   set({ pads: newOrders });
+      // },
     },
   }));
 });
@@ -38,20 +57,8 @@ export const useLayoutUi = (): LayoutUiReturn => {
     throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  store.subscribe((state, prevState) => {
-    // Only update if fieldKey has changed
-    if (state.fieldKey !== prevState.fieldKey) {
-      // Reset pads when fieldKey changes
-      const numPads = state.numPads;
-      store.setState({
-        numPads,
-        pads: initPadItems({
-          numPads,
-          keys: [...state.pads.map(({ key }) => key)],
-          type: 'radio',
-        }),
-      });
-    }
+  store.subscribe((_state, _prev) => {
+    // store change
   });
 
   return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(store, ({ actions, ...state }) => ({

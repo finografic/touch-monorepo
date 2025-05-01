@@ -1,18 +1,17 @@
 import type { PadItem, PadType } from 'types/ui.types';
 
 export const initPadItems = ({
-  num = 0,
-  ids = [],
+  numPads = 0,
+  keys = [],
   type = 'radio',
 }: {
-  num: number;
-  ids?: string[];
+  numPads: number;
+  keys?: string[];
   type: PadType;
 }): PadItem[] => {
-  return num > 0
-    ? Array.from({ length: num }, (_, i) => ({
-        index: i + 1,
-        id: ids[i] || `Pad ${i + 1}`,
+  return numPads > 0
+    ? Array.from({ length: numPads }, (_, i) => ({
+        key: keys[i],
         type,
         isChecked: false,
       }))
@@ -20,19 +19,16 @@ export const initPadItems = ({
 };
 
 export const initPadItem = ({
-  index,
-  id,
+  key,
   type = 'radio',
   isChecked = false,
 }: {
-  index: number;
-  id: string;
+  key: string;
   type: PadType;
   isChecked: boolean;
 }): PadItem => {
   return {
-    index,
-    id,
+    key,
     type,
     isChecked,
   };

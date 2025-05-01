@@ -6,8 +6,7 @@ export interface OptionUI {
 export type PadType = 'radio' | 'checkbox';
 
 export interface PadItem {
-  index: number;
-  id: string;
+  key: string;
   type: PadType;
   isChecked: boolean;
 }

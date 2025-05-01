@@ -12,11 +12,21 @@ import { Outlet, useRouteLoaderData } from 'react-router-dom';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { Loader } from '../components/Loader/Loader';
 import type { DrinkType } from 'types/models/drink-type.model';
-import { OrderFieldKeys } from 'constants/app.config';
+import { NUM_SLOTS_TYPE_B, OrderFieldKeys } from 'constants/app.config';
+import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
+import { initPadItems } from 'utils/ui.utils';
+import type { LayoutUiValues } from 'providers/LayoutUiProvider/LayoutUiContext.types';
 
 export const Layout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
   const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
+
+  const initialValue: LayoutUiValues = {
+    fieldKey: drinkTypes ? OrderFieldKeys.drinkType : undefined,
+    numSlots: NUM_SLOTS_TYPE_B,
+    numPads: drinkTypes ? drinkTypes.length : 0,
+    pads: initPadItems({ numPads: drinkTypes ? drinkTypes.length : 0, keys: [], type: 'radio' }),
+  };
 
   if (!isMounted) {
     return <Loader message="Loading..." />;
@@ -25,21 +35,23 @@ export const Layout: FC = () => {
   return (
     <OrdersProvider>
       <PaginationProvider>
-        <PageContentProvider>
-          <div id="layout" css={styles}>
-            <Header />
-            <main>
-              <div className="main-content">
-                <Suspense fallback={<Loader message="Loading..." />}>
-                  <Outlet />
-                  <DevDialog />
-                  <DevTools />
-                </Suspense>
-              </div>
-            </main>
-            <Footer />
-          </div>
-        </PageContentProvider>
+        <LayoutUiProvider initialValue={initialValue}>
+          <PageContentProvider>
+            <div id="layout" css={styles}>
+              <Header />
+              <main>
+                <div className="main-content">
+                  <Suspense fallback={<Loader message="Loading..." />}>
+                    <Outlet />
+                    <DevDialog />
+                    <DevTools />
+                  </Suspense>
+                </div>
+              </main>
+              <Footer />
+            </div>
+          </PageContentProvider>
+        </LayoutUiProvider>
       </PaginationProvider>
     </OrdersProvider>
   );
