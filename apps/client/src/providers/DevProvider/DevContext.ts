@@ -3,17 +3,20 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { DevStore, DevValues } from './DevContext.types';
 
 export const DISPLAY_NAME = 'Dev';
+export const SETTER_PREFIX = DISPLAY_NAME;
 
 export enum DevKeys {
+  isDevToolsVisible = 'isDevToolsVisible',
+  isDevQueryPanelOpen = 'isDevQueryPanelOpen',
   isDevDialogOpen = 'isDevDialogOpen',
   isDevDataVisible = 'isDevDataVisible',
-  isDevQueryPanelOpen = 'isDevQueryPanelOpen',
 }
 
 export const defaultValue: DevValues = {
-  isDevDialogOpen: false,
-  isDevDataVisible: true,
+  isDevToolsVisible: false,
   isDevQueryPanelOpen: false,
+  isDevDataVisible: true,
+  isDevDialogOpen: false,
 };
 
 export const DevContext = createZustandContext(({ initialValue }) => {
@@ -21,7 +24,7 @@ export const DevContext = createZustandContext(({ initialValue }) => {
     ...defaultValue,
     ...initialValue,
     actions: {
-      ...createSetters({ set, prefix: DISPLAY_NAME, defaultValue }),
+      ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
     },
   }));
 });

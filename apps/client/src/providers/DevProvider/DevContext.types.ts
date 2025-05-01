@@ -1,17 +1,17 @@
 import type { ReactNode } from 'react';
-import type { DevKeys } from './DevContext';
-import { DISPLAY_NAME } from './DevContext';
+import type { DevKeys, SETTER_PREFIX } from './DevContext';
 
 export interface DevValues {
-  [DevKeys.isDevDialogOpen]: boolean;
-  [DevKeys.isDevDataVisible]: boolean;
+  [DevKeys.isDevToolsVisible]: boolean;
   [DevKeys.isDevQueryPanelOpen]: boolean;
+  [DevKeys.isDevDataVisible]: boolean;
+  [DevKeys.isDevDialogOpen]: boolean;
 }
 
 type DevSetters = {
   [K in keyof DevValues as DevValues[K] extends boolean
     ? `set${Capitalize<string & K>}`
-    : `set${typeof DISPLAY_NAME}${Capitalize<string & K>}`]: (val: DevValues[K]) => void;
+    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: DevValues[K]) => void;
 };
 
 type DevActions = DevSetters & {};
