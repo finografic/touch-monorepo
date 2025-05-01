@@ -18,7 +18,6 @@ import { LoaderDataHelper } from 'api/loaders/loader.data';
 export const routes: RouteObject[] = [
   {
     path: ROUTES.HOME,
-    // element: <Layout />,
     element: (
       // <AuthProvider>
       <Layout />
@@ -28,16 +27,6 @@ export const routes: RouteObject[] = [
       {
         index: true,
         element: <MenuPage />,
-      },
-      // {
-      //   path: '/menu',
-      //   // index: true,
-      //   // element: <HomePage />,
-      //   element: <MenuPage />,
-      // },
-      {
-        path: '/login',
-        element: <LoginPage />,
       },
       {
         path: '/docs',
@@ -100,6 +89,10 @@ export const routes: RouteObject[] = [
           // </RequireAuth>
         ),
       },
+      // {
+      //   path: '/login',
+      //   element: <LoginPage />,
+      // },
     ],
   },
 ];
