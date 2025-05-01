@@ -9,7 +9,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from 'routes/ErrorBoundary';
 import { Suspense } from 'react';
 import { useRouterLoader } from 'routes/hooks/useRouterLoader';
-import { useRoutes as useRoutesTree } from 'routes/context/RoutesContext';
+import { useRouteMetadata } from 'routes/context/RouteMetadataContext';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
@@ -25,7 +25,7 @@ const AppBaseLayout = () => (
 );
 
 const App = () => {
-  const { routes, isInitialized } = useRoutesTree();
+  const { routes, isInitialized } = useRouteMetadata();
   const { routerLoader } = useRouterLoader();
 
   const router = createBrowserRouter([
