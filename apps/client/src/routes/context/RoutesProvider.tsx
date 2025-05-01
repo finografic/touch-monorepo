@@ -6,7 +6,7 @@ import { withRouteMetadata } from 'routes/utils/withRouteMetadata';
 import { RoutesContext } from './RoutesContext';
 import NotFound from 'pages/NotFound';
 import cloneDeep from 'lodash/cloneDeep';
-import { ROUTE_CONFIG } from 'routes/routes.config';
+import { ROUTES_CONFIG } from 'routes/routes.config';
 
 interface RoutesProviderProps {
   children: ReactNode;
@@ -32,7 +32,7 @@ export const RoutesProvider__V1: React.FC<RoutesProviderProps> = ({ children }) 
             children: [{ path: '*', element: <NotFound /> }],
           },
         ]),
-        ROUTE_CONFIG,
+        ROUTES_CONFIG,
       );
       setRoutes(routesWithMetadata);
     } finally {
@@ -63,11 +63,11 @@ export const RoutesProvider__V2: React.FC<RoutesProviderProps> = ({ children }) 
             children: [{ path: '*', element: <NotFound /> }],
           },
         ]),
-        ROUTE_CONFIG,
+        ROUTES_CONFIG,
       ),
       isInitialized: true,
     };
-  }, [ROUTE_CONFIG, routerLoader]);
+  }, [ROUTES_CONFIG, routerLoader]);
 
   return <RoutesContext.Provider value={{ routes, isInitialized }}>{children}</RoutesContext.Provider>;
 };

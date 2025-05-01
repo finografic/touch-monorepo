@@ -23,7 +23,7 @@ const _OrderFieldKeys: { [K in OrderField]: K } = {
 
 export type Routes = (typeof ROUTES)[keyof typeof ROUTES];
 
-export const ROUTE_CONFIG: RouteConfig[] = [
+export const ROUTES_CONFIG: RouteConfig[] = [
   {
     path: ROUTES.HOME,
     title: 'ServiFresc',

@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
-import { LoginPage } from 'pages/LoginPage/LoginPage';
+// import { LoginPage } from 'pages/LoginPage/LoginPage';
 // import { RequireAuth } from './RequireAuth';
 import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 import { Layout } from 'layout/Layout';
