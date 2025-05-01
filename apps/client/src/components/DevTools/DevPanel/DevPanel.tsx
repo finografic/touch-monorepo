@@ -16,6 +16,7 @@ export const DevPanel = () => {
 
   // const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
   const drinkTypes = useLoaderData() as DrinkType[] | undefined;
+
   const {
     numSlots,
     fieldKey,

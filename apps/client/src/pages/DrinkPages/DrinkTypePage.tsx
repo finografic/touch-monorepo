@@ -57,7 +57,7 @@ export const DrinkTypePage = () => {
 
   return (
     <>
-      <DevTools />
+      {/* <DevTools /> */}
       <section css={stylesItemsGrid}>
         <div className={getGridFlowClasses(drinkTypes.length)}>
           {drinkTypes.map((drinkType: DrinkType) => (

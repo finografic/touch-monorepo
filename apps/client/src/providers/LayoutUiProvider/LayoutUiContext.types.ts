@@ -23,7 +23,7 @@ type LayoutUiActions = LayoutUiSetters & {
 };
 
 export interface LayoutUiProviderProps {
-  initialValue?: LayoutUiStore;
+  initialValue?: Partial<LayoutUiValues>;
   children: ReactNode;
 }
 
