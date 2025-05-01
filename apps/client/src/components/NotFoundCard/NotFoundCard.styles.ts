@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
-import { layout } from 'styles/layout.styles';
-import { colors } from 'styles/colors.styles';
+import { colors, layout } from 'styles';
 
 export const styles = css`
   display: flex;
