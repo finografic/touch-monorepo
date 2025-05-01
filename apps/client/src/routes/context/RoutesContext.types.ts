@@ -1,6 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 
-export interface RouteContextValues {
+export interface RoutesContextValues {
   routes: RouteObject[];
   isInitialized: boolean;
 }
