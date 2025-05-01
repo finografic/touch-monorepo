@@ -17,7 +17,7 @@ const AppBaseLayout = () => (
     <ScreenClassProvider>
       <Global styles={cssGlobal} />
       <RadixTheme>
-        <Suspense fallback={<Spinner size="2" />}>
+        <Suspense fallback={<Spinner size="3" />}>
           <Outlet />
         </Suspense>
       </RadixTheme>
@@ -26,7 +26,7 @@ const AppBaseLayout = () => (
 );
 
 const App = () => {
-  const { routes, isInitialized } = useRouteMetadata();
+  // const { routes, isInitialized } = useRouteMetadata();
   const { routerLoader } = useRouterLoader();
 
   const router = createBrowserRouter([
@@ -42,9 +42,9 @@ const App = () => {
           </RadixTheme>
         </ErrorBoundary>
       ),
-      children: isInitialized
-        ? [...routes]
-        : [{ id: 'pending-routes', path: '*', element: <Spinner size="2" /> }],
+      // children: isInitialized
+      //   ? [...routes]
+      //   : [{ id: 'pending-routes', path: '*', element: <Spinner size="2" /> }],
     },
   ]);
 
