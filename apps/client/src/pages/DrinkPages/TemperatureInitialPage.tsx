@@ -1,4 +1,4 @@
-import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
+import { useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect, useRef } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
@@ -7,6 +7,7 @@ import { useGetTemperatureSettings } from 'queries/temperature';
 import type { DrinkVolume } from 'types/models/volume.model';
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import { Loader } from '../../components/Loader/Loader';
+import { OrderFieldKeys } from 'constants/app.config';
 
 const DEFAULT_INITIAL_TEMP = 23.5;
 // Safe default limits that match most drink types

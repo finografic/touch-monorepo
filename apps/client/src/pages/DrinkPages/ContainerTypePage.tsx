@@ -1,10 +1,11 @@
 import { stylesItemsGrid } from './grid.styles';
 import type { ContainerType } from 'types/orders.types';
-import { useOrderSelection, OrderFieldKeys } from 'hooks/useOrderSelection';
+import { useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
 import { useGetContainerTypes } from 'queries/container-types';
+import { OrderFieldKeys } from 'constants/app.config';
 
 export const ContainerTypePage = () => {
   const {

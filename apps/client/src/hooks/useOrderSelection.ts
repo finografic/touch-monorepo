@@ -1,18 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
-import type { OrderField, OrderSelectionFields } from 'types/orders.types';
-
-// Derive the field keys from the OrderSelectionFields type
-
-// Create a const object with the same keys for usage in components
-export const OrderFieldKeys: { [K in OrderField]: K } = {
-  drinkType: 'drinkType',
-  drinkSubtype: 'drinkSubtype',
-  volume: 'volume',
-  containerType: 'containerType',
-  initialTemperature: 'initialTemperature',
-  finalTemperature: 'finalTemperature',
-} as const;
+import type { OrderField } from 'types/orders.types';
 
 interface UseOrderSelectionProps<T> {
   field: OrderField;

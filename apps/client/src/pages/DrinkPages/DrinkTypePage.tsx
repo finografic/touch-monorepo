@@ -4,10 +4,9 @@ import { useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect, useState } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
-import { useGetDrinkTypes } from 'queries/drink-types/useGetDrinkTypes';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Loader } from 'components/Loader/Loader';
-import { useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'routes/routes.config';
 import { NoItems } from 'components/NoItems/NoItems';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
@@ -28,7 +27,7 @@ export const DrinkTypePage = () => {
   } = useOrderSelection<DrinkType>({ field, initialValue });
 
   const { setIsNextDisabled } = usePagination();
-  const { data, isLoading, error } = useGetDrinkTypes();
+  const drinkTypes = useLoaderData() as DrinkType[];
 
   // log('__DEV: isValid', 'blue', { isValid });
 
@@ -38,31 +37,31 @@ export const DrinkTypePage = () => {
     });
   }, [hasValidSelection, setIsNextDisabled]);
 
-  if (isLoading) {
-    return <Loader message="Loading drink types..." />;
-  }
+  // if (isLoading) {
+  //   return <Loader message="Loading drink types..." />;
+  // }
 
-  if (error) {
-    return <ErrorMessage error={error} />;
+  // if (error) {
+  //   return <ErrorMessage error={error} />;
+  // }
+
+  if (!drinkTypes?.length) {
+    return <NoItems message="No drink types found" />;
   }
 
   return (
     <section css={stylesItemsGrid}>
-      {data?.length ? (
-        <div className={getGridFlowClasses(data.length)}>
-          {data.map((drinkType: DrinkType) => (
-            <div
-              key={drinkType.id}
-              className={`item-button ${selectedDrinkType?.id === drinkType.id ? 'selected' : ''}`}
-              onClick={() => handleDrinkTypeSelection(drinkType)}
-            >
-              {drinkType.displayName}
-            </div>
-          ))}
-        </div>
-      ) : (
-        <NoItems message="No drink types available" />
-      )}
+      <div className={getGridFlowClasses(drinkTypes.length)}>
+        {drinkTypes.map((drinkType: DrinkType) => (
+          <div
+            key={drinkType.id}
+            className={`item-button ${selectedDrinkType?.id === drinkType.id ? 'selected' : ''}`}
+            onClick={() => handleDrinkTypeSelection(drinkType)}
+          >
+            {drinkType.displayName}
+          </div>
+        ))}
+      </div>
     </section>
   );
 };

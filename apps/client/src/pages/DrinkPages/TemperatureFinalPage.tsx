@@ -1,4 +1,4 @@
-import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
+import { useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';

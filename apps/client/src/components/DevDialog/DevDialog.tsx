@@ -1,9 +1,10 @@
 import { Button, Code, DataList, Dialog, Flex, ScrollArea, Tabs, Theme } from '@radix-ui/themes';
 import { useDev } from 'providers/DevProvider/DevContext';
-import { OrderFieldKeys, useOrderSelection } from 'hooks/useOrderSelection';
-import { useState, useEffect } from 'react';
+import { useOrderSelection } from 'hooks/useOrderSelection';
+import { useEffect, useState } from 'react';
 import type { OrderItem } from 'types/orders.types';
 import { styles } from './DevDialog.styles';
+import { OrderFieldKeys } from 'constants/app.config';
 
 interface OrderWithMetadata extends OrderItem {
   id?: string;
@@ -80,17 +81,17 @@ const OrderDataList = ({ data }: { data: any }) => {
       {data.initialTemperature && (
         <DataList.Item>
           <DataList.Label css={styles.label}>Initial Temperature</DataList.Label>
-          <DataList.Value
-            css={styles.value}
-          >{`${data.initialTemperature.value}${data.initialTemperature.unit}`}</DataList.Value>
+          <DataList.Value css={styles.value}>
+            {`${data.initialTemperature.value}${data.initialTemperature.unit}`}
+          </DataList.Value>
         </DataList.Item>
       )}
       {data.finalTemperature && (
         <DataList.Item>
           <DataList.Label css={styles.label}>Final Temperature</DataList.Label>
-          <DataList.Value
-            css={styles.value}
-          >{`${data.finalTemperature.value}${data.finalTemperature.unit}`}</DataList.Value>
+          <DataList.Value css={styles.value}>
+            {`${data.finalTemperature.value}${data.finalTemperature.unit}`}
+          </DataList.Value>
         </DataList.Item>
       )}
     </DataList.Root>
@@ -114,9 +115,9 @@ const CalculationDataList = ({ data }: { data: Calculation | null }) => {
       </DataList.Item>
       <DataList.Item>
         <DataList.Label css={styles.label}>Duration</DataList.Label>
-        <DataList.Value
-          css={styles.value}
-        >{`${data.estimatedDuration.minutes}m ${data.estimatedDuration.seconds}s`}</DataList.Value>
+        <DataList.Value css={styles.value}>
+          {`${data.estimatedDuration.minutes}m ${data.estimatedDuration.seconds}s`}
+        </DataList.Value>
       </DataList.Item>
       {data.recommendations?.length > 0 && (
         <DataList.Item>
