@@ -1,5 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
-import type { RouteConfig } from 'routes/router.types';
+import type { RouteConfig } from 'routes/routea.types';
 import type { OrderField } from 'types/orders.types';
 
 export const ROUTES = {

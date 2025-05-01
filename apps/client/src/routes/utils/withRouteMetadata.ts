@@ -1,10 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
-import type { RouteConfig } from 'routes/router.types';
-
-const generatePathname = (path: string | undefined, parentPath: string = ''): string => {
-  if (!path) return parentPath || '/';
-  return path === '/' ? '/' : `${parentPath}/${path}`.replace(/\/+/g, '/');
-};
+import type { RouteConfig } from 'routes/routea.types';
+import { generatePathname } from 'routes/utils/routes.utils';
 
 /**
  * Transforms a routes tree by computing full pathnames and adding metadata to route.handle

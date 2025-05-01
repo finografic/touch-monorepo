@@ -4,7 +4,7 @@ import { colors } from 'styles/colors.styles';
 export const styles = css`
   padding: 20px;
   background-color: #f8d7da;
-  color: #721c24;
+  color: ${colors.dangerDark};
   border-radius: 5px;
   max-width: 800px;
   margin: 20px auto;
@@ -41,7 +41,7 @@ export const styles = css`
   a {
     display: inline-block;
     padding: 10px 15px;
-    background-color: #007bff;
+    background-color: ${colors.info};
     color: #fff;
     text-decoration: none;
     border-radius: 5px;
