@@ -3,7 +3,7 @@ import { useOrders } from 'providers/OrdersProvider';
 import { styles } from './DevPanel.styles';
 import { useEffect, useState } from 'react';
 import type { OrderItem } from 'types/orders.types';
-import { useLocation, useRouteLoaderData } from 'react-router-dom';
+import { useLoaderData, useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { OrderFieldKeys } from 'constants/app.config';
 import type { DrinkType } from 'types/models/drink-type.model';
@@ -13,12 +13,22 @@ export const DevPanel = () => {
   const routeConfig = useRouteConfig();
   const [data, setData] = useState<OrderItem[]>([]);
   const { orders } = useOrders();
-  const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
-  const { numSlots, fieldKey, numPads, pads, updateFromDrinkTypes } = useLayoutUi();
+
+  // const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
+  const drinkTypes = useLoaderData() as DrinkType[] | undefined;
+  const {
+    numSlots,
+    fieldKey,
+    numPads,
+    pads,
+    //  updateFromDrinkTypes
+  } = useLayoutUi();
+
+  console.log('%c __DRINK', 'color:yellow', { drinkTypes });
 
   useEffect(() => {
     // Update UI state when drinkTypes change
-    updateFromDrinkTypes(drinkTypes);
+    // updateFromDrinkTypes(drinkTypes);
 
     // Update orders data
     if (orders.length) {

@@ -11,6 +11,7 @@ import { ROUTES } from 'routes/routes.config';
 import { NoItems } from 'components/NoItems/NoItems';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { OrderFieldKeys } from 'constants/app.config';
+import { DevTools } from 'components/DevTools/DevTools';
 
 export const DrinkTypePage = () => {
   // const navigate = useNavigate();
@@ -32,7 +33,7 @@ export const DrinkTypePage = () => {
   // const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
   const drinkTypes = useLoaderData() as DrinkType[] | undefined;
 
-  console.log('%c __DRINK', 'color:orange', { drinkTypes });
+  // console.log('%c __DRINK', 'color:orange', { drinkTypes });
 
   // log('__DEV: isValid', 'blue', { isValid });
 
@@ -55,18 +56,21 @@ export const DrinkTypePage = () => {
   }
 
   return (
-    <section css={stylesItemsGrid}>
-      <div className={getGridFlowClasses(drinkTypes.length)}>
-        {drinkTypes.map((drinkType: DrinkType) => (
-          <div
-            key={drinkType.id}
-            className={`item-button ${selectedDrinkType?.id === drinkType.id ? 'selected' : ''}`}
-            onClick={() => handleDrinkTypeSelection(drinkType)}
-          >
-            {drinkType.displayName}
-          </div>
-        ))}
-      </div>
-    </section>
+    <>
+      <DevTools />
+      <section css={stylesItemsGrid}>
+        <div className={getGridFlowClasses(drinkTypes.length)}>
+          {drinkTypes.map((drinkType: DrinkType) => (
+            <div
+              key={drinkType.id}
+              className={`item-button ${selectedDrinkType?.id === drinkType.id ? 'selected' : ''}`}
+              onClick={() => handleDrinkTypeSelection(drinkType)}
+            >
+              {drinkType.displayName}
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 };

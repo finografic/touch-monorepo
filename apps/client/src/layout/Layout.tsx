@@ -49,7 +49,7 @@ export const Layout: FC = () => {
                     <Outlet />
                   </Suspense>
                   <DevDialog />
-                  <DevTools />
+                  {/* <DevTools /> */}
                 </div>
               </main>
               <Footer />
