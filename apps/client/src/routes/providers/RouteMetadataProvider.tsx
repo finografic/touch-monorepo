@@ -7,6 +7,7 @@ import { RouteMetadataContext } from './RouteMetadataContext';
 import NotFound from 'pages/NotFound';
 import cloneDeep from 'lodash/cloneDeep';
 import { ROUTES_CONFIG } from 'routes/routes.config';
+import { routes } from 'routes/routes';
 
 interface RouteMetadataProviderProps {
   children: ReactNode;
@@ -27,7 +28,7 @@ export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ ch
         path: '/',
         loader: routerLoader,
         element: <Outlet />,
-        children: [{ id: 'not-found', path: '*', element: <NotFound /> }],
+        children: [...routes, { id: 'not-found', path: '*', element: <NotFound /> }],
       },
     ];
 

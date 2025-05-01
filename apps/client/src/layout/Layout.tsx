@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
 import { DevDialog } from 'components/DevDialog/DevDialog';
-import { PageContentProvider } from 'providers/ContentProvider/ContenttProvider';
+import { ContentProvider } from 'providers/ContentProvider';
 import { styles } from './Layout.styles';
 // import { Suspense } from 'react';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
@@ -26,7 +26,7 @@ export const Layout: FC = () => {
     <React.Fragment>
       <OrdersProvider>
         <PaginationProvider>
-          <PageContentProvider>
+          <ContentProvider>
             <LayoutUiProvider>
               <DevProvider>
                 <div id="layout" css={styles}>
@@ -43,7 +43,7 @@ export const Layout: FC = () => {
                 </div>
               </DevProvider>
             </LayoutUiProvider>
-          </PageContentProvider>
+          </ContentProvider>
         </PaginationProvider>
       </OrdersProvider>
     </React.Fragment>

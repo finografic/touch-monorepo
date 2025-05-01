@@ -18,7 +18,6 @@ const AppBaseLayout = () => (
       <Global styles={cssGlobal} />
       <RadixTheme>
         <Suspense fallback={<Spinner size="3" />}>
-          <>TEST</>
           <Outlet />
         </Suspense>
       </RadixTheme>

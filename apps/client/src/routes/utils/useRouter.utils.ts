@@ -1,4 +1,4 @@
-import type { RouteConfig } from 'routes/routea.types';
+import type { RouteConfig } from 'routes/routes.types';
 import { ROUTES_CONFIG } from 'routes/routes.config';
 import type { LocationWithState } from 'types/location.types';
 

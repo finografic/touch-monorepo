@@ -1,5 +1,5 @@
 import type { Location, NavigateOptions } from 'react-router-dom';
-import type { RouteConfig } from 'routes/routea.types';
+import type { RouteConfig } from 'routes/routes.types';
 import type { IGeneric } from 'types/data.types';
 
 export interface LocationState extends IGeneric {
