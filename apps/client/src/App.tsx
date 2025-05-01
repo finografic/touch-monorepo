@@ -12,21 +12,21 @@ import { HydrateFallback } from 'routes/HydrateFallback';
 import type { Layout } from 'layout/Layout';
 import type { Suspense } from 'react';
 // import { OrdersProvider } from './providers/OrdersProvider/OrdersProvider';
-import { useRouterLoader } from 'routes/useRouterLoader';
+import { useRouterLoader } from 'routes/hooks/useRouterLoader';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
-        <ScreenClassProvider>
+    <ScreenClassProvider>
       <Global styles={cssGlobal} />
       <RadixTheme>
-    <LayoutProvider contextName="layout" value={{ ...initialState }}>
+        <LayoutProvider contextName="layout" value={{ ...initialState }}>
           <Layout>
             <Suspense fallback={<Spinner />}>
               <Outlet />
             </Suspense>
           </Layout>
-    </LayoutProvider>
-    </RadixTheme>
+        </LayoutProvider>
+      </RadixTheme>
     </ScreenClassProvider>
   </ErrorBoundary>
 );
@@ -63,19 +63,16 @@ const App = () => {
   ];
 
   // Create router based on available routes
-  const router = createBrowserRouter(
-      ? [
-          {
-            id: 'root',
-            path: '/',
-            loader: routerLoader,
-            // loader: () => routes,
-            element: <AppBaseLayout />,
-            children: routes,
-          },
-        ]
-      : baseRoutes,
-  );
+  const router = createBrowserRouter([
+    {
+      id: 'root',
+      path: '/',
+      loader: routerLoader,
+      // loader: () => routes,
+      element: <AppBaseLayout />,
+      children: routes,
+    },
+  ]);
 
   return (
     <RouterProvider

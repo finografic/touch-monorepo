@@ -18,3 +18,5 @@ export interface RouteConfig {
 
   readonly pathname?: string; // computed during transformation, not set manually
 }
+
+export type RouteMetadata = Omit<RouteConfig, 'children' | 'element'>;
