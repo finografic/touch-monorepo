@@ -8,8 +8,4 @@ export interface RouteMetadataValues {
 
 export const RouteMetadata = createContext<RouteMetadataValues>({ routes: [], isInitialized: false });
 
-/**
- * Hook to access the current route's metadata and enhanced routes information.
- * Provides access to route metadata attached via the withRouteMetadata utility.
- */
 export const useRouteMetadata = () => useContext(RouteMetadata);

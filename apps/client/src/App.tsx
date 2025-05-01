@@ -41,7 +41,7 @@ const App = () => {
   return (
     <RouterProvider
       router={router}
-      //  fallbackElement={<HydrateFallback />}
+      //  fallbackElement={<HydrteFallback />}
     />
   );
 };
