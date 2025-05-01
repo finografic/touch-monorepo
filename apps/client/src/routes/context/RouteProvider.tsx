@@ -1,7 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 import React, { type ReactNode, useEffect, useState } from 'react';
 import { useRouterLoader } from 'routes/hooks/useRouter/useRouterLoader';
-import { transformRoutesWithMetadata } from 'routes/utils/transformRoutesWithMetadata';
+import { withRouteMetadata } from 'routes/utils/withRouteMetadata';
 import { RouteContext } from './RouteContext';
 import NotFound from 'pages/NotFound';
 import cloneDeep from 'lodash/cloneDeep';
@@ -33,7 +33,7 @@ export const RouteProvider: React.FC<RouteProviderProps> = ({ children }) => {
         },
       ]);
 
-      const routesWithMetadata = transformRoutesWithMetadata(appRoutes, routesConfiguration);
+      const routesWithMetadata = withRouteMetadata(appRoutes, routesConfiguration);
       setRoutes(routesWithMetadata);
     } finally {
       setIsInitialized(true);

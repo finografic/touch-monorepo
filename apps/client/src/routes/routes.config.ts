@@ -25,34 +25,36 @@ export type Routes = (typeof ROUTES)[keyof typeof ROUTES];
 
 export const ROUTE_CONFIG: RouteConfig[] = [
   {
-    pathname: ROUTES.HOME,
+    path: ROUTES.HOME,
     title: 'ServiFresc',
   },
   {
-    pathname: ROUTES.DRINK_TYPE,
+    path: ROUTES.DRINK_TYPE,
     title: 'Select drink type:',
   },
   {
-    pathname: ROUTES.DRINK_SUBTYPE,
+    path: ROUTES.DRINK_SUBTYPE,
     title: 'Select drink subtype:',
   },
   {
-    pathname: ROUTES.DRINK_VOLUME,
+    path: ROUTES.DRINK_VOLUME,
     title: 'Select volume:',
   },
   {
-    pathname: ROUTES.CONTAINER_TYPE,
+    path: ROUTES.CONTAINER_TYPE,
     title: 'Select container type:',
   },
   {
-    pathname: ROUTES.INITIAL_TEMPERATURE,
+    path: ROUTES.INITIAL_TEMPERATURE,
     title: 'Initial temperature:',
   },
   {
-    pathname: ROUTES.FINAL_TEMPERATURE,
+    path: ROUTES.FINAL_TEMPERATURE,
     title: 'Final temperature:',
   },
 ];
+
+export const ROUTE_ACTION_SLUGS = ['new', 'view', 'edit', 'create', 'delete'];
 
 // ======================================================================== //
 

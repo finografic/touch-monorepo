@@ -12,8 +12,9 @@ export interface RouteConfig {
   title?: string;
   description?: string;
   path?: string;
-  pathname?: string;
   parent?: RouteConfig | null;
   children?: RouteConfig[];
   element?: ReactElement;
+
+  readonly pathname?: string; // computed during transformation, not set manually
 }
