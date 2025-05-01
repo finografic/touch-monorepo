@@ -6,7 +6,7 @@ import { Theme as RadixTheme, Spinner } from '@radix-ui/themes';
 import { Global } from '@emotion/react';
 import { cssGlobal } from 'styles/global.styles';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
-import { ErrorBoundary } from 'routes/ErrorBoundary';
+import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { Suspense } from 'react';
 import { useRouterLoader } from 'routes/hooks/useRouterLoader';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';

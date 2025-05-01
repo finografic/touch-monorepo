@@ -2,9 +2,14 @@ import React from 'react';
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persister';
+import { HydrateLoader } from 'routes/components/HydrateLoader';
 // import { QueryDevtoolsPanel } from './QueryDevtoolsPanel';
 
-export default function ({ children }: { children: React.ReactNode }) {
+interface Props {
+  children: React.ReactNode;
+}
+
+export default function ({ children }: Props) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
@@ -24,10 +29,17 @@ export default function ({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <PersistQueryClientProvider client={queryClient} persistOptions={{ persister }}>
+    <PersistQueryClientProvider
+      client={queryClient}
+      persistOptions={{ persister }}
+      onSuccess={() => {
+        // Optional: Handle successful hydration
+        console.log('Query cache hydrated!');
+      }}
+    >
       {children}
-      {/* <ReactQueryDevtools initialIsOpen /> */}
-      {/* <QueryDevtoolsPanel /> */}
+      {/* Show loading state while hydrating */}
+      <HydrateLoader />
     </PersistQueryClientProvider>
   );
 }

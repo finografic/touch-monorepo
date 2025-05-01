@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Theme as RadixTheme, Spinner } from '@radix-ui/themes';
+import { HydrateLoader } from 'routes/components/HydrateLoader';
 // import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 // import { QueryDevtoolsPanel } from './QueryDevtoolsPanel';
 
 export default function ({ children }: { children: React.ReactNode }) {
+  const [isHydrating, setIsHydrating] = useState(true);
   const [queryClient] = useState(
     () =>
       new QueryClient({
@@ -20,6 +23,15 @@ export default function ({ children }: { children: React.ReactNode }) {
         },
       }),
   );
+
+  // Handle initial hydration
+  React.useEffect(() => {
+    setIsHydrating(false);
+  }, []);
+
+  if (isHydrating) {
+    return <HydrateLoader />;
+  }
 
   return (
     <QueryClientProvider client={queryClient}>

@@ -6,7 +6,7 @@ import { cssGlobal } from 'styles/global.styles';
  * Fallback shown during initial router hydration.
  * Includes minimal styling context to match app theme.
  */
-export const HydrateFallback = () => (
+export const HydrateLoader = () => (
   <>
     <Global styles={cssGlobal} />
     <RadixTheme>
