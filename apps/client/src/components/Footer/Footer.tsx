@@ -2,11 +2,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ButtonControl } from 'components/ButtonControl/ButtonControl';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { ROUTE_CONFIG, ROUTES } from 'routes/routes.config';
+import { ROUTE_CONFIG_V1, ROUTES } from 'routes/routes.config';
 import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
-import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
+import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useCallback, useEffect, useTransition } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '../../queries/temperature';
@@ -27,8 +27,8 @@ export const Footer = () => {
 
   const hasDrinkSubtypes = orders.some((order) => order?.drinkType?.hasSubtypes);
   const pathnames = hasDrinkSubtypes
-    ? Object.values(ROUTE_CONFIG).map((route) => route.pathname)
-    : Object.values(ROUTE_CONFIG)
+    ? Object.values(ROUTE_CONFIG_V1).map((route) => route.pathname)
+    : Object.values(ROUTE_CONFIG_V1)
         .map((route) => route.pathname)
         .filter((pathname) => pathname !== ROUTES.DRINK_SUBTYPE);
 

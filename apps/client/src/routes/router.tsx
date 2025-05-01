@@ -11,7 +11,7 @@ import { DrinkVolumePage } from '../pages/DrinkPages/DrinkVolumePage';
 import { ContainerTypePage } from '../pages/DrinkPages/ContainerTypePage';
 import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPage';
 import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
-import { ROUTE_CONFIG, ROUTES } from './routes.config';
+import { ROUTE_CONFIG_V1, ROUTES } from './routes.config';
 import { OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 // import { DataLayer } from 'layout/DataLayer';
@@ -56,7 +56,7 @@ export const router = createBrowserRouter([
       // ============================================== //
 
       {
-        path: ROUTE_CONFIG[ROUTES.DRINK_TYPE].pathname,
+        path: ROUTE_CONFIG_V1[ROUTES.DRINK_TYPE].pathname,
         id: OrderFieldKeys.drinkType,
         loader: LoaderDataHelper[OrderFieldKeys.drinkType],
         children: [
@@ -65,7 +65,7 @@ export const router = createBrowserRouter([
             element: <DrinkTypePage />,
           },
           {
-            path: ROUTE_CONFIG[ROUTES.DRINK_SUBTYPE].pathname,
+            path: ROUTE_CONFIG_V1[ROUTES.DRINK_SUBTYPE].pathname,
             id: OrderFieldKeys.drinkSubtype,
             loader: LoaderDataHelper[OrderFieldKeys.drinkSubtype],
             element: <DrinkSubtypePage />,
@@ -73,25 +73,25 @@ export const router = createBrowserRouter([
         ],
       },
       {
-        path: ROUTE_CONFIG[ROUTES.DRINK_VOLUME].pathname,
+        path: ROUTE_CONFIG_V1[ROUTES.DRINK_VOLUME].pathname,
         id: OrderFieldKeys.volume,
         loader: LoaderDataHelper[OrderFieldKeys.volume],
         element: <DrinkVolumePage />,
       },
       {
-        path: ROUTE_CONFIG[ROUTES.CONTAINER_TYPE].pathname,
+        path: ROUTE_CONFIG_V1[ROUTES.CONTAINER_TYPE].pathname,
         id: OrderFieldKeys.containerType,
         loader: LoaderDataHelper[OrderFieldKeys.containerType],
         element: <ContainerTypePage />,
       },
       {
-        path: ROUTE_CONFIG[ROUTES.INITIAL_TEMPERATURE].pathname,
+        path: ROUTE_CONFIG_V1[ROUTES.INITIAL_TEMPERATURE].pathname,
         id: OrderFieldKeys.initialTemperature,
         loader: LoaderDataHelper[OrderFieldKeys.initialTemperature],
         element: <TemperatureInitialPage />,
       },
       {
-        path: ROUTE_CONFIG[ROUTES.FINAL_TEMPERATURE].pathname,
+        path: ROUTE_CONFIG_V1[ROUTES.FINAL_TEMPERATURE].pathname,
         id: OrderFieldKeys.finalTemperature,
         loader: LoaderDataHelper[OrderFieldKeys.finalTemperature],
         element: <TemperatureFinalPage />,

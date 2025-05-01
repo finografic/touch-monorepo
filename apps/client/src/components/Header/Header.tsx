@@ -1,17 +1,17 @@
 import { Container } from 'react-grid-system';
 import { useRouteConfig } from 'hooks/useRouteConfig';
 import { styles } from './Header.styles';
-import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
+import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 
 export const Header = () => {
   const location = useLocation();
-  const pageContent = usePageContent();
+  const pageContent = useContent();
   const { title } = useRouteConfig();
 
   useEffect(() => {
-    pageContent.setPageContentTitle('');
+    pageContent.setContentTitle('');
   }, [location.pathname]);
 
   return (

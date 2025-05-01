@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
 import { DevDialog } from 'components/DevDialog/DevDialog';
-import { PageContentProvider } from 'providers/PageContentProvider/PageContentProvider';
+import { PageContentProvider } from 'providers/ContentProvider/ContenttProvider';
 import { styles } from './Layout.styles';
 // import { Suspense } from 'react';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';

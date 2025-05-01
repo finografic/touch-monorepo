@@ -1,4 +1,6 @@
-import type { RouteConfig } from 'types/routes.types';
+import type { RouteObject } from 'react-router-dom';
+import type { RouteConfig } from 'routes/router.types';
+import type { OrderField } from 'types/orders.types';
 
 export const ROUTES = {
   HOME: '/',
@@ -10,9 +12,64 @@ export const ROUTES = {
   FINAL_TEMPERATURE: '/final-temperature',
 } as const;
 
+const _OrderFieldKeys: { [K in OrderField]: K } = {
+  drinkType: 'drinkType',
+  drinkSubtype: 'drinkSubtype',
+  volume: 'volume',
+  containerType: 'containerType',
+  initialTemperature: 'initialTemperature',
+  finalTemperature: 'finalTemperature',
+} as const;
+
 export type Routes = (typeof ROUTES)[keyof typeof ROUTES];
 
-export const ROUTE_CONFIG: Record<string, RouteConfig> = {
+export const ROUTE_CONFIG: RouteConfig[] = [
+  {
+    pathname: ROUTES.HOME,
+    title: 'ServiFresc',
+  },
+  {
+    pathname: ROUTES.DRINK_TYPE,
+    title: 'Select drink type:',
+  },
+  {
+    pathname: ROUTES.DRINK_SUBTYPE,
+    title: 'Select drink subtype:',
+  },
+  {
+    pathname: ROUTES.DRINK_VOLUME,
+    title: 'Select volume:',
+  },
+  {
+    pathname: ROUTES.CONTAINER_TYPE,
+    title: 'Select container type:',
+  },
+  {
+    pathname: ROUTES.INITIAL_TEMPERATURE,
+    title: 'Initial temperature:',
+  },
+  {
+    pathname: ROUTES.FINAL_TEMPERATURE,
+    title: 'Final temperature:',
+  },
+];
+
+// ======================================================================== //
+
+type RouteConfig__V1 = Omit<RouteObject, 'path'> & {
+  pathname: string;
+  title: string;
+  // We can add more route-specific config here later like:
+  // fetchConfig?: {
+  //   endpoint: string;
+  //   params?: Record<string, unknown>;
+  // };
+  // allowBack?: boolean;
+  // allowNext?: boolean;
+  // etc...
+};
+
+export const ROUTE_CONFIG_V1: Record<string, RouteConfig__V1> = {
   [ROUTES.HOME]: {
     pathname: ROUTES.HOME,
     title: 'ServiFresc',

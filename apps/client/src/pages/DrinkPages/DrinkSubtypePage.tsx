@@ -9,7 +9,7 @@ import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Loader } from 'components/Loader/Loader';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from 'routes/routes.config';
-import { usePageContent } from 'providers/PageContentProvider/PageContentContext';
+import { useContent } from 'providers/ContentProvider/ContentContext';
 import { NoItems } from 'components/NoItems/NoItems';
 import { OrderFieldKeys } from 'constants/app.config';
 
@@ -28,7 +28,7 @@ export const DrinkSubtypePage = () => {
   const hasSubtypes = !!orders[0]?.drinkType?.hasSubtypes;
 
   const { setIsNextDisabled } = usePagination();
-  const { setPageContentTitle } = usePageContent();
+  const { setContentTitle } = useContent();
   const { data, isLoading, error } = useGetDrinkSubtypes({
     drinkTypeId,
     enabled: !!(drinkTypeId && hasSubtypes),
@@ -40,7 +40,7 @@ export const DrinkSubtypePage = () => {
       const newTitle = drinkTypeName
         ? `Select type of ${drinkTypeName.toLowerCase()}:`
         : 'Select drink subtype:';
-      setPageContentTitle(newTitle);
+      setContentTitle(newTitle);
     } else {
       navigate(ROUTES.DRINK_TYPE, { replace: true });
     }

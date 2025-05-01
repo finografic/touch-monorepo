@@ -1,9 +1,9 @@
 import { useLocation } from 'react-router-dom';
-import { ROUTE_CONFIG, ROUTES } from 'routes/routes.config';
+import { ROUTE_CONFIG_V1, ROUTES } from 'routes/routes.config';
 
 export const useRouteConfig = () => {
   const { pathname } = useLocation();
-  const routeConfig = ROUTE_CONFIG[pathname] || ROUTE_CONFIG[ROUTES.HOME];
+  const routeConfig = ROUTE_CONFIG_V1[pathname] || ROUTE_CONFIG_V1[ROUTES.HOME];
 
   return routeConfig;
 

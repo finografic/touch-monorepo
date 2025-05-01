@@ -1,4 +1,7 @@
+import type { ORDER_FIELD_KEYS } from 'constants/app.config';
 import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
+
+export type OrderField = (typeof ORDER_FIELD_KEYS)[number];
 
 // Base properties that every order has
 interface OrderBaseProps {
@@ -29,20 +32,6 @@ export interface Volume {
   amount: number;
   unit: string;
 }
-
-// Derive the field keys from the OrderSelectionFields type
-export type OrderField = keyof OrderSelectionFields;
-
-// Create a const object with the same keys for usage in components
-export const OrderFieldKeys: { [K in OrderField]: K } = {
-  drinkType: 'drinkType',
-  drinkSubtype: 'drinkSubtype',
-  volume: 'volume',
-  containerType: 'containerType',
-  initialTemperature: 'initialTemperature',
-  finalTemperature: 'finalTemperature',
-} as const;
-
 export interface Temperature {
   value: number;
   unit: string;
