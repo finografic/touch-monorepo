@@ -1,4 +1,5 @@
-import './globals';
+// import './globals';
+import '@fino/globals';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

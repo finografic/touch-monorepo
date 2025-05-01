@@ -4,12 +4,13 @@ import { Header } from 'components/Header/Header';
 import { DevDialog } from 'components/DevDialog/DevDialog';
 import { PageContentProvider } from 'providers/PageContentProvider/PageContentProvider';
 import { styles } from './Layout.styles';
-import { Suspense } from 'react';
+// import { Suspense } from 'react';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
 import { useIsMounted } from 'hooks/useIsMounted';
 import { Outlet } from 'react-router-dom';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { Loader } from '../components/Loader/Loader';
+import { DataLayer } from 'layout/DataLayer';
 
 export const Layout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
@@ -21,20 +22,22 @@ export const Layout: FC = () => {
   return (
     <OrdersProvider>
       <PaginationProvider>
-        <PageContentProvider>
-          <div id="layout" css={styles}>
-            <Header />
-            <main>
-              <div className="main-content">
-                <Suspense fallback={<Loader message="Loading..." />}>
+        <DataLayer>
+          <PageContentProvider>
+            <div id="layout" css={styles}>
+              <Header />
+              <main>
+                <div className="main-content">
+                  {/* <Suspense fallback={<Loader message="Loading..." />}> */}
                   <Outlet />
-                </Suspense>
-                <DevDialog />
-              </div>
-            </main>
-            <Footer />
-          </div>
-        </PageContentProvider>
+                  {/* </Suspense> */}
+                  <DevDialog />
+                </div>
+              </main>
+              <Footer />
+            </div>
+          </PageContentProvider>
+        </DataLayer>
       </PaginationProvider>
     </OrdersProvider>
   );

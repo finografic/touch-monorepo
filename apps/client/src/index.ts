@@ -1,2 +1,2 @@
-import '@fino/globals';
+// import '@fino/globals';
 import './main.tsx';

@@ -1,4 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, Outlet } from 'react-router-dom';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 // import { RequireAuth } from './RequireAuth';
 import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
@@ -12,10 +12,10 @@ import { ContainerTypePage } from '../pages/DrinkPages/ContainerTypePage';
 import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPage';
 import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
 import { ROUTE_CONFIG, ROUTES } from './routes.config';
-import { EndpointHelper } from 'api/endpoints/api.endpoints';
 import { OrderFieldKeys } from 'constants/app.config';
-import { DrinkTypeLayout } from 'layout/DrinkTypeLayout';
-
+import { LoaderDataHelper } from 'api/loaders/loader.data';
+// import { DataLayer } from 'layout/DataLayer';
+// import { AuthProvider } from 'providers/AuthProvider/AuthProvider';
 // TODO: Create and import these components
 // import { DrinkVolumePage } from '../pages/DrinkVolumePage/DrinkVolumePage';
 // import { TemperatureFinalPage } from '../pages/TemperatureFinalPage/TemperatureFinalPage';
@@ -25,18 +25,23 @@ import { DrinkTypeLayout } from 'layout/DrinkTypeLayout';
 export const router = createBrowserRouter([
   {
     path: ROUTES.HOME,
-    element: <Layout />,
-    // element: (
-    //   <AuthProvider>
-    //     <Layout />
-    //   </AuthProvider>
-    // ),
+    // element: <Layout />,
+    element: (
+      // <AuthProvider>
+      <Layout />
+      // </AuthProvider>
+    ),
     children: [
       {
         index: true,
-        // element: <HomePage />,
         element: <MenuPage />,
       },
+      // {
+      //   path: '/menu',
+      //   // index: true,
+      //   // element: <HomePage />,
+      //   element: <MenuPage />,
+      // },
       {
         path: '/login',
         element: <LoginPage />,
@@ -45,18 +50,15 @@ export const router = createBrowserRouter([
         path: '/docs',
         element: <DocsPage />,
       },
-      {
-        path: '/menu',
-        element: <MenuPage />,
-      },
+
       // ============================================== //
       // Drink Configuration Flow
       // ============================================== //
+
       {
         path: ROUTE_CONFIG[ROUTES.DRINK_TYPE].pathname,
         id: OrderFieldKeys.drinkType,
-        loader: EndpointHelper.getDrinkTypes,
-        element: <DrinkTypeLayout />,
+        loader: LoaderDataHelper[OrderFieldKeys.drinkType],
         children: [
           {
             index: true,
@@ -64,33 +66,37 @@ export const router = createBrowserRouter([
           },
           {
             path: ROUTE_CONFIG[ROUTES.DRINK_SUBTYPE].pathname,
+            id: OrderFieldKeys.drinkSubtype,
+            loader: LoaderDataHelper[OrderFieldKeys.drinkSubtype],
             element: <DrinkSubtypePage />,
           },
         ],
       },
       {
         path: ROUTE_CONFIG[ROUTES.DRINK_VOLUME].pathname,
+        id: OrderFieldKeys.volume,
+        loader: LoaderDataHelper[OrderFieldKeys.volume],
         element: <DrinkVolumePage />,
-        // action: async ({ request }) => {
-        //   const formData = await request.formData();
-        //   const drinkType = formData.get('drinkType');
-        //   const drinkSubtype = formData.get('drinkSubtype');
-        //   const volume = formData.get('volume');
-        //   const containerType = formData.get('containerType');
-        // },
       },
       {
         path: ROUTE_CONFIG[ROUTES.CONTAINER_TYPE].pathname,
+        id: OrderFieldKeys.containerType,
+        loader: LoaderDataHelper[OrderFieldKeys.containerType],
         element: <ContainerTypePage />,
       },
       {
         path: ROUTE_CONFIG[ROUTES.INITIAL_TEMPERATURE].pathname,
+        id: OrderFieldKeys.initialTemperature,
+        loader: LoaderDataHelper[OrderFieldKeys.initialTemperature],
         element: <TemperatureInitialPage />,
       },
       {
         path: ROUTE_CONFIG[ROUTES.FINAL_TEMPERATURE].pathname,
+        id: OrderFieldKeys.finalTemperature,
+        loader: LoaderDataHelper[OrderFieldKeys.finalTemperature],
         element: <TemperatureFinalPage />,
       },
+
       // ============================================== //
 
       {
