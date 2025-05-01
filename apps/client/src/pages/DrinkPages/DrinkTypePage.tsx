@@ -27,7 +27,12 @@ export const DrinkTypePage = () => {
   } = useOrderSelection<DrinkType>({ field, initialValue });
 
   const { setIsNextDisabled } = usePagination();
-  const drinkTypes = useLoaderData() as DrinkType[];
+  // const drinkTypes = useLoaderData() as DrinkType[];
+
+  // const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
+  const drinkTypes = useLoaderData() as DrinkType[] | undefined;
+
+  console.log('%c __DRINK', 'color:orange', { drinkTypes });
 
   // log('__DEV: isValid', 'blue', { isValid });
 

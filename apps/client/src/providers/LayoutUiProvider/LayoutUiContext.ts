@@ -1,8 +1,9 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
-import { NUM_SLOTS_TYPE_B } from 'constants/app.config';
+import { NUM_SLOTS_TYPE_B, OrderFieldKeys } from 'constants/app.config';
 import { initPadItems } from 'utils/ui.utils';
+import type { DrinkType } from 'types/models/drink-type.model';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
@@ -22,11 +23,26 @@ export const defaultValue: LayoutUiValues = {
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {
-  return createStore<LayoutUiStore>((set, _get) => ({
+  return createStore<LayoutUiStore>((set, get) => ({
     ...defaultValue,
     ...initialValue,
     actions: {
       ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
+      updateFromDrinkTypes: (drinkTypes: DrinkType[] | undefined) => {
+        const state = get();
+        const numPads = drinkTypes?.length ?? 0;
+
+        set({
+          fieldKey: drinkTypes ? OrderFieldKeys.drinkType : undefined,
+          numPads,
+          pads: initPadItems({
+            numPads,
+            // Preserve existing keys if they exist
+            keys: state.pads.slice(0, numPads).map((pad) => pad.key),
+            type: 'radio',
+          }),
+        });
+      },
     },
   }));
 });
@@ -38,40 +54,6 @@ export const useLayoutUi = (): LayoutUiReturn => {
   if (!store) {
     throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
   }
-
-  log('__UI', 'blue', {
-    fieldKey: store?.getState()?.fieldKey,
-    // prevFieldKey: prevState?.fieldKey,
-    // changed: state?.fieldKey !== prevState?.fieldKey,
-  });
-  store.subscribe((state, prevState) => {
-    // Only update if fieldKey has changed
-    // log('__UI', 'blue', {
-    //   fieldKey: state?.fieldKey,
-    //   prevFieldKey: prevState?.fieldKey,
-    //   changed: state?.fieldKey !== prevState?.fieldKey,
-    // });
-    // if (state?.fieldKey !== prevState?.fieldKey) {
-    //   // Reset pads when fieldKey changes
-    //   const numPads = state.numPads;
-    //   store.setState({
-    //     numPads,
-    //     pads: initPadItems({
-    //       numPads,
-    //       keys: [...state.pads.map(({ key }) => key)],
-    //       type: 'radio',
-    //     }),
-    //   });
-    // log('UI', 'blue', {
-    //   numPads,
-    //   pads: initPadItems({
-    //     numPads,
-    //     keys: [...state.pads.map(({ key }) => key)],
-    //     type: 'radio',
-    //   }),
-    // });
-    // }
-  });
 
   return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(store, ({ actions, ...state }) => ({
     ...state,

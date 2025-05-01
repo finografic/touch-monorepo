@@ -8,7 +8,7 @@ import { DevTools } from 'components/DevTools/DevTools';
 import { Suspense } from 'react';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
 import { useIsMounted } from 'hooks/useIsMounted';
-import { Outlet, useRouteLoaderData } from 'react-router-dom';
+import { Outlet, useLoaderData } from 'react-router-dom';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { Loader } from '../components/Loader/Loader';
 import type { DrinkType } from 'types/models/drink-type.model';
@@ -19,14 +19,17 @@ import type { LayoutUiValues } from 'providers/LayoutUiProvider/LayoutUiContext.
 
 export const Layout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
-  const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
+  // // const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
+  // const drinkTypes = useLoaderData() as DrinkType[] | undefined;
 
-  const initialValue: LayoutUiValues = {
-    fieldKey: drinkTypes ? OrderFieldKeys.drinkType : undefined,
-    numSlots: NUM_SLOTS_TYPE_B,
-    numPads: drinkTypes ? drinkTypes.length : 0,
-    pads: initPadItems({ numPads: drinkTypes ? drinkTypes.length : 0, keys: [], type: 'radio' }),
-  };
+  // console.log('%c __DRINK', 'color:orange', { drinkTypes });
+
+  // const initialValue: LayoutUiValues = {
+  //   fieldKey: drinkTypes ? OrderFieldKeys.drinkType : undefined,
+  //   numSlots: NUM_SLOTS_TYPE_B,
+  //   numPads: drinkTypes ? drinkTypes.length : 0,
+  //   pads: initPadItems({ numPads: drinkTypes ? drinkTypes.length : 0, keys: [], type: 'radio' }),
+  // };
 
   if (!isMounted) {
     return <Loader message="Loading..." />;
@@ -35,16 +38,17 @@ export const Layout: FC = () => {
   return (
     <OrdersProvider>
       <PaginationProvider>
-        <LayoutUiProvider initialValue={initialValue}>
+        <LayoutUiProvider>
           <PageContentProvider>
             <div id="layout" css={styles}>
               <Header />
               <main>
                 <div className="main-content">
                   <Suspense fallback={<Loader message="Loading..." />}>
+                    {/* <pre>{drinkTypes ? JSON.stringify({ drinkTypes }, null, 2) : 'No drink types'}</pre> */}
                     <Outlet />
-                    <DevDialog />
                   </Suspense>
+                  <DevDialog />
                   <DevTools />
                 </div>
               </main>

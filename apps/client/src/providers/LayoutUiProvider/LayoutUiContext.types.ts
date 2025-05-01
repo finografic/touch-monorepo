@@ -3,6 +3,7 @@ import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { PadItem } from 'types/ui.types';
 import type { OrderField } from 'types/orders.types';
+import type { DrinkType } from 'types/models/drink-type.model';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numSlots]: ValidTypeBCount;
@@ -17,7 +18,9 @@ type LayoutUiSetters = {
     : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: LayoutUiValues[K]) => void;
 };
 
-type LayoutUiActions = LayoutUiSetters & {};
+type LayoutUiActions = LayoutUiSetters & {
+  updateFromDrinkTypes: (drinkTypes: DrinkType[] | undefined) => void;
+};
 
 export interface LayoutUiProviderProps {
   initialValue?: LayoutUiStore;

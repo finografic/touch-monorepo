@@ -5,7 +5,7 @@ import { INITIAL_ORDER_ITEM } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/orders.utils';
 
 export const DISPLAY_NAME = 'Orders';
-export const SETTER_PREFIX = DISPLAY_NAME;
+export const SETTER_PREFIX = '';
 
 export enum OrdersKeys {
   orders = 'orders',
@@ -20,7 +20,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
     ...defaultValue,
     ...initialValue,
     actions: {
-      ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
+      ...createSetters({ set, defaultValue }),
       togglePad: (itemNumber: number) => {
         const { orders } = get();
         const draftOrder = findOrderByNumber(orders, itemNumber);
