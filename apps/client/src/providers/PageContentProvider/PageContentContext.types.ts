@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
-import type { PageContentKeys } from './PageContentContext';
-import { DISPLAY_NAME } from './PageContentContext';
+import type { PageContentKeys, SETTER_PREFIX } from './PageContentContext';
 
 export interface PageContentValues {
   [PageContentKeys.title]: string;
@@ -9,7 +8,7 @@ export interface PageContentValues {
 type PageContentSetters = {
   [K in keyof PageContentValues as PageContentValues[K] extends boolean
     ? `set${Capitalize<string & K>}`
-    : `set${typeof DISPLAY_NAME}${Capitalize<string & K>}`]: (val: PageContentValues[K]) => void;
+    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: PageContentValues[K]) => void;
 };
 
 type PageContentActions = PageContentSetters & {};

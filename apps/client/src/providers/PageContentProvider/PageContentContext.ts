@@ -3,6 +3,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { PageContentStore, PageContentValues } from './PageContentContext.types';
 
 export const DISPLAY_NAME = 'PageContent';
+export const SETTER_PREFIX = DISPLAY_NAME;
 
 export enum PageContentKeys {
   title = 'title',

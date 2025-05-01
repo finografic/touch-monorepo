@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { DISPLAY_NAME, LayoutUiKeys } from './LayoutUiContext';
+import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { PadItem } from 'types/ui.types';
 import type { OrderField } from 'types/orders.types';
@@ -14,7 +14,7 @@ export interface LayoutUiValues {
 type LayoutUiSetters = {
   [K in keyof LayoutUiValues as LayoutUiValues[K] extends boolean
     ? `set${Capitalize<string & K>}`
-    : `set${typeof DISPLAY_NAME}${Capitalize<string & K>}`]: (val: LayoutUiValues[K]) => void;
+    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: LayoutUiValues[K]) => void;
 };
 
 type LayoutUiActions = LayoutUiSetters & {};

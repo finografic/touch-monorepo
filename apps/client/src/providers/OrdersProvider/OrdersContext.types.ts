@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import type { OrdersKeys } from './OrdersContext';
+import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
 import type { OrderItem } from 'types/orders.types';
 
 export interface OrdersValues {
@@ -7,7 +7,9 @@ export interface OrdersValues {
 }
 
 type OrdersSetters = {
-  [K in keyof OrdersValues as `set${Capitalize<string & K>}`]: (val: OrdersValues[K]) => void;
+  [K in keyof OrdersValues as OrdersValues[K] extends boolean
+    ? `set${Capitalize<string & K>}`
+    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: OrdersValues[K]) => void;
 };
 
 type OrdersActions = OrdersSetters & {

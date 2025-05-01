@@ -5,6 +5,7 @@ import { NUM_SLOTS_TYPE_B } from 'constants/app.config';
 import { initPadItems } from 'utils/ui.utils';
 
 export const DISPLAY_NAME = 'LayoutUi';
+export const SETTER_PREFIX = 'Ui';
 
 export enum LayoutUiKeys {
   numSlots = 'numSlots',
@@ -25,7 +26,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
     ...defaultValue,
     ...initialValue,
     actions: {
-      ...createSetters({ set, prefix: DISPLAY_NAME, defaultValue }),
+      ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
     },
   }));
 });

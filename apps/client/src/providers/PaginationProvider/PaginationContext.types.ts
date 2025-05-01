@@ -1,6 +1,5 @@
 import type { ReactNode } from 'react';
-import type { PaginationKeys } from './PaginationContext';
-import { SETTER_PREFIX } from './PaginationContext';
+import type { PaginationKeys, SETTER_PREFIX } from './PaginationContext';
 
 export interface PaginationValues {
   [PaginationKeys.total]: number;
