@@ -34,7 +34,7 @@ export default function ({ children }: Props) {
       persistOptions={{ persister }}
       onSuccess={() => {
         // Optional: Handle successful hydration
-        console.log('Query cache hydrated!');
+        log('Query cache hydrated!', 'grey');
       }}
     >
       {children}
