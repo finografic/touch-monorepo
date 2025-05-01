@@ -4,8 +4,8 @@ import { useOrderSelection } from 'hooks/useOrderSelection';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect, useState } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
-import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
-import { Loader } from 'components/Loader/Loader';
+// import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
+// import { Loader } from 'components/Loader/Loader';
 import { useLoaderData, useNavigate } from 'react-router-dom';
 import { ROUTES } from 'routes/routes.config';
 import { NoItems } from 'components/NoItems/NoItems';
@@ -13,8 +13,8 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { OrderFieldKeys } from 'constants/app.config';
 
 export const DrinkTypePage = () => {
-  const navigate = useNavigate();
-  const [nextClicked, setNextClicked] = useState(false);
+  // const navigate = useNavigate();
+  // const [nextClicked, setNextClicked] = useState(false);
   const { orders } = useOrders();
   const field = OrderFieldKeys.drinkType;
   const initialValue = orders[0]?.[field];
