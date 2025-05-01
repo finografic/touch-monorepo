@@ -185,7 +185,7 @@ export const DevDialog = () => {
       const storedCalc = localStorage.getItem(`temperatureCalculation_${orders[0].itemNumber}`);
       if (storedCalc) {
         try {
-          const parsedCalc = JSON.parse(storedCalc);
+          const parsedCalc = JSON.parse(storedCalc || '{}');
           setCalculation({
             status: parsedCalc.phases[0].description.toLowerCase().includes('cooling')
               ? 'cooling'

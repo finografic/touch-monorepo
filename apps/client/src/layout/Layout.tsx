@@ -44,8 +44,8 @@ export const Layout: FC = () => {
                   <Suspense fallback={<Loader message="Loading..." />}>
                     <Outlet />
                     <DevDialog />
-                    <DevTools />
                   </Suspense>
+                  <DevTools />
                 </div>
               </main>
               <Footer />

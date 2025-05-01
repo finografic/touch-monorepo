@@ -38,20 +38,38 @@ export const useLayoutUi = (): LayoutUiReturn => {
     throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
+  log('__UI', 'blue', {
+    fieldKey: store?.getState()?.fieldKey,
+    // prevFieldKey: prevState?.fieldKey,
+    // changed: state?.fieldKey !== prevState?.fieldKey,
+  });
   store.subscribe((state, prevState) => {
     // Only update if fieldKey has changed
-    if (state.fieldKey !== prevState.fieldKey) {
-      // Reset pads when fieldKey changes
-      const numPads = state.numPads;
-      store.setState({
-        numPads,
-        pads: initPadItems({
-          numPads,
-          keys: [...state.pads.map(({ key }) => key)],
-          type: 'radio',
-        }),
-      });
-    }
+    // log('__UI', 'blue', {
+    //   fieldKey: state?.fieldKey,
+    //   prevFieldKey: prevState?.fieldKey,
+    //   changed: state?.fieldKey !== prevState?.fieldKey,
+    // });
+    // if (state?.fieldKey !== prevState?.fieldKey) {
+    //   // Reset pads when fieldKey changes
+    //   const numPads = state.numPads;
+    //   store.setState({
+    //     numPads,
+    //     pads: initPadItems({
+    //       numPads,
+    //       keys: [...state.pads.map(({ key }) => key)],
+    //       type: 'radio',
+    //     }),
+    //   });
+    // log('UI', 'blue', {
+    //   numPads,
+    //   pads: initPadItems({
+    //     numPads,
+    //     keys: [...state.pads.map(({ key }) => key)],
+    //     type: 'radio',
+    //   }),
+    // });
+    // }
   });
 
   return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(store, ({ actions, ...state }) => ({
