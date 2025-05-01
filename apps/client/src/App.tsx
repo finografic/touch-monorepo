@@ -10,7 +10,7 @@ import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { Suspense } from 'react';
 import { useRouterLoader } from 'routes/hooks/useRouterLoader';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
-// import { HydrateFallback } from 'routes/HydrateFallback';
+import { HydrateLoader } from 'routes/components/HydrateLoader';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
@@ -18,6 +18,7 @@ const AppBaseLayout = () => (
       <Global styles={cssGlobal} />
       <RadixTheme>
         <Suspense fallback={<Spinner size="3" />}>
+          <>TEST</>
           <Outlet />
         </Suspense>
       </RadixTheme>
@@ -26,7 +27,7 @@ const AppBaseLayout = () => (
 );
 
 const App = () => {
-  // const { routes, isInitialized } = useRouteMetadata();
+  const { routes, isInitialized } = useRouteMetadata();
   const { routerLoader } = useRouterLoader();
 
   const router = createBrowserRouter([
@@ -35,25 +36,14 @@ const App = () => {
       path: '/',
       loader: routerLoader, // loader: () => routes,
       element: <AppBaseLayout />,
-      errorElement: (
-        <ErrorBoundary>
-          <RadixTheme>
-            <Spinner size="2" />
-          </RadixTheme>
-        </ErrorBoundary>
-      ),
-      // children: isInitialized
-      //   ? [...routes]
-      //   : [{ id: 'pending-routes', path: '*', element: <Spinner size="2" /> }],
+      hydrateFallbackElement: <HydrateLoader />,
+      children: isInitialized
+        ? [...routes]
+        : [{ id: 'pending-routes', path: '*', element: <Spinner size="2" /> }],
     },
   ]);
 
-  return (
-    <RouterProvider
-      router={router}
-      // fallbackElement={<HydrateFallback />}
-    />
-  );
+  return <RouterProvider router={router} />;
 };
 
 export default App;
