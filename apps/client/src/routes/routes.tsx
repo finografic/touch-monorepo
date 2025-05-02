@@ -18,13 +18,7 @@ import { LoaderDataHelper } from 'api/loaders/loader.data';
 export const routes: RouteObject[] = [
   {
     path: '/',
-    element: (
-      // <AuthProvider>
-      <Layout>
-        <Outlet />
-      </Layout>
-      // </AuthProvider>
-    ),
+    element: <Layout />,
     children: [
       {
         index: true,

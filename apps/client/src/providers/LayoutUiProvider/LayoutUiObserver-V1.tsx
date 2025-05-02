@@ -10,7 +10,6 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 // Observer pattern approach
 const useLayoutUiObserver = (callback: (state: LayoutUiValues) => void) => {
   const store = LayoutUi.useContext();
-  console.log('🔍 1 - Layout UI State changed:', store);
   if (!store) return;
 
   useEffect(() => {
@@ -26,7 +25,6 @@ export const LayoutUiObserver: FC = () => {
 
   // Watch for route changes and update store
   useEffect(() => {
-    console.log('🔍 2 - Layout UI State changed:', store);
     if (!store || !routeFieldKey) return;
 
     const actions = store.getState().actions;
@@ -53,12 +51,11 @@ export const LayoutUiObserver: FC = () => {
 
   // Watch store changes and initialize pads
   useLayoutUiObserver((state) => {
-    console.log('🔍 3 - Layout UI State changed:', state);
     if (!store) return;
     const actions = store.getState().actions;
     const fieldKey = state.fieldKey;
 
-    console.log('🔍 4 -Layout UI State changed:', { fieldKey, state });
+    console.log('🔍 Layout UI State changed:', { fieldKey, state });
 
     // Clear pads if no fieldKey or no valid config exists
     if (!fieldKey || !PADS_UI_CONFIG[fieldKey]) {

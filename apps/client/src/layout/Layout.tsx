@@ -15,7 +15,8 @@ import { Loader } from '../components/Loader/Loader';
 import { DevProvider } from 'providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 
-export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
+// export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
+export const Layout: FC = () => {
   // const { route, fieldKey } = useRouteConfig();
   // const data = useLoaderData();
   const isMounted: boolean = !!useIsMounted();
