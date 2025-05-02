@@ -5,9 +5,7 @@ import { OrderFieldKeys } from 'constants/app.config';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { OverridePropTypes } from 'types/utilities/object.utils.types';
 import { useMemo } from 'react';
-
-const assertMatchConfig = (match: UIMatch) =>
-  match?.id && Object.values(OrderFieldKeys).includes(match?.id as OrderFieldKey);
+import cloneDeep from 'lodash/cloneDeep';
 
 export const useRouteConfig = (): { route: RouteConfig | undefined } => {
   const { routesMetadata } = useRouteLoaderData('routes') as { routesMetadata: RouteConfig[] };
@@ -18,25 +16,27 @@ export const useRouteConfig = (): { route: RouteConfig | undefined } => {
   const routeConfig = useMemo(() => {
     // NOTE: Strategy 1 - get the most specific match (last)
     const currentMatch = matches[matches.length - 1];
-    let routeConfig = currentMatch
+    let matchedConfig = currentMatch
       ? routesMetadata.find((r) => !!(r.id === currentMatch.id || r.pathname === location.pathname))
       : undefined;
 
     // NOTE: Strategy 2 - find first match with OrderFieldKey (fallback)
-    if (!routeConfig) {
-      const routeMatch = matches.find(assertMatchConfig) as OverridePropTypes<
-        RouteConfig,
-        { id: OrderFieldKey }
-      >;
+    if (!matchedConfig) {
+      const routeMatch = matches.find(
+        (match: UIMatch) => match?.id && Object.values(OrderFieldKeys).includes(match?.id as OrderFieldKey),
+      ) as OverridePropTypes<RouteConfig, { id: OrderFieldKey }>;
       if (routeMatch) {
-        routeConfig = routesMetadata.find((r) => r.id === routeMatch.id);
+        matchedConfig = routesMetadata.find((r) => r.id === routeMatch.id);
       }
     }
 
+    const routeConfig = cloneDeep(matchedConfig);
+
     // NOTE: export RouteObject `handle` prop, if present..
     if (routeConfig?.handle) {
-      Object.assign(routeConfig, { ...routeConfig.handle });
-      delete routeConfig.handle;
+      const { handle, ...configExpanded } = routeConfig;
+      Object.assign(configExpanded, { ...handle });
+      return configExpanded;
     }
 
     return routeConfig;
