@@ -17,9 +17,10 @@ import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { OrderFieldKeys } from 'constants/app.config';
 import type { OrderFieldKey } from 'types/orders.types';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
-  // const { routes } = useRouteMetadata();
+  const { route } = useRouteConfig();
 
   const matches = useMatches();
   const routeMatch = matches.find(
@@ -32,7 +33,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
 
   // const loaderData = useRouteLoaderData(currentFieldKey || 'root');
 
-  // log('LOADER_DATA - route', 'red', route);
+  log('LOADER_DATA - route', 'red', route);
 
   if (!isMounted) {
     return <Loader message="Loading..." />;

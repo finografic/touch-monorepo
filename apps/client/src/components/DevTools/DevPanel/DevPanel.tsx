@@ -25,7 +25,7 @@ export const DevPanel = () => {
     //  updateFromDrinkTypes
   } = useLayoutUi();
 
-  log('%c __DRINK', 'yellow', { drinkTypes });
+  // log('%c __DRINK', 'yellow', { drinkTypes });
 
   useEffect(() => {
     // Update UI state when drinkTypes change

@@ -7,18 +7,29 @@ import type { OverridePropTypes } from 'types/utilities/object.utils.types';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
-export const useRouteConfig = (): { route: RouteConfig | undefined } => {
+interface UseRouteConfigReturn {
+  route: RouteConfig | undefined;
+  fieldKey: OrderFieldKey | undefined;
+}
+
+export const useRouteConfig = (): UseRouteConfigReturn => {
   const { routesMetadata } = useRouteLoaderData('routes') as { routesMetadata: RouteConfig[] };
 
   const location = useLocation();
   const matches = useMatches();
 
-  const routeConfig = useMemo(() => {
+  const routeConfig = useMemo((): UseRouteConfigReturn => {
+    let matchedConfig: RouteConfig | undefined;
+    let fieldKey: OrderFieldKey | undefined;
+
     // NOTE: Strategy 1 - get the most specific match (last)
     const currentMatch = matches[matches.length - 1];
-    let matchedConfig = currentMatch
-      ? routesMetadata.find((r) => !!(r.id === currentMatch.id || r.pathname === location.pathname))
-      : undefined;
+    if (currentMatch) {
+      matchedConfig = routesMetadata.find(
+        (r) => !!(r.pathname === location.pathname || r.id === currentMatch.id),
+      );
+      fieldKey = (matchedConfig?.id || currentMatch?.id) as OrderFieldKey;
+    }
 
     // NOTE: Strategy 2 - find first match with OrderFieldKey (fallback)
     if (!matchedConfig) {
@@ -27,20 +38,22 @@ export const useRouteConfig = (): { route: RouteConfig | undefined } => {
       ) as OverridePropTypes<RouteConfig, { id: OrderFieldKey }>;
       if (routeMatch) {
         matchedConfig = routesMetadata.find((r) => r.id === routeMatch.id);
+        fieldKey = fieldKey || (routeMatch.id as OrderFieldKey);
       }
     }
 
+    // NOTE: safety copy
     const routeConfig = cloneDeep(matchedConfig);
 
     // NOTE: export RouteObject `handle` prop, if present..
     if (routeConfig?.handle) {
       const { handle, ...configExpanded } = routeConfig;
       Object.assign(configExpanded, { ...handle });
-      return configExpanded;
+      return { route: configExpanded, fieldKey };
     }
 
-    return routeConfig;
+    return { route: routeConfig, fieldKey };
   }, [matches, routesMetadata, location.pathname]);
 
-  return { route: routeConfig };
+  return { route: routeConfig?.route, fieldKey: routeConfig?.fieldKey };
 };

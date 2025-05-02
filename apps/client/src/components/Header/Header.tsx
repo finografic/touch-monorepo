@@ -10,8 +10,6 @@ export const Header = () => {
   const pageContent = useContent();
   const { route } = useRouteConfig();
 
-  log('__header', 'grey', route);
-
   useEffect(() => {
     pageContent.setContentTitle('');
   }, [location.pathname]);
@@ -19,7 +17,7 @@ export const Header = () => {
   return (
     <header css={styles}>
       <Container>
-        <h1>{pageContent.title || route?.title}</h1>
+        <h1>{pageContent?.title || route?.title}</h1>
       </Container>
     </header>
   );
