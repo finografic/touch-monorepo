@@ -6,10 +6,10 @@ import { PATHS, ROUTES_CONFIG } from 'routes/routes.config';
 import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
-import { useContent } from 'providers/ContentProvider/ContentContext';
+// import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useCallback, useEffect, useTransition } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '../../queries/temperature';
+// import { useQueryClient } from '@tanstack/react-query';
+// import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '../../queries/temperature';
 import { useDev } from 'providers/DevProvider/DevContext';
 
 export const Footer = () => {
@@ -26,11 +26,11 @@ export const Footer = () => {
   // ------------------------------------------------------------------------ //
 
   const hasDrinkSubtypes = orders.some((order) => order?.drinkType?.hasSubtypes);
-  const pathnames = hasDrinkSubtypes
-    ? Object.values(ROUTES_CONFIG).map((route) => route.pathname)
-    : Object.values(ROUTES_CONFIG)
-        .map((route) => route.pathname)
-        .filter((pathname) => pathname !== PATHS.DRINK_SUBTYPE);
+  const pathnames = (
+    hasDrinkSubtypes
+      ? ROUTES_CONFIG.map((route) => route.path)
+      : ROUTES_CONFIG.map((route) => route.path).filter((pathname) => pathname !== PATHS.DRINK_SUBTYPE)
+  ) as string[];
 
   // ------------------------------------------------------------------------ //
 
@@ -39,8 +39,8 @@ export const Footer = () => {
   // }, [location.pathname]);
 
   useEffect(() => {
-    if (orders.length === 0 && location.pathname !== '/') {
-      navigate('/');
+    if (orders.length === 0 && location.pathname !== PATHS.HOME) {
+      navigate(PATHS.HOME);
     }
   }, [orders, location.pathname, navigate]);
 
@@ -65,7 +65,7 @@ export const Footer = () => {
 
         // Navigate back to first page
         setPageCurrent(0);
-        navigate(pathnames[0], { replace: true });
+        navigate(pathnames[0]!, { replace: true });
       });
     },
     onError: (error) => {
@@ -80,7 +80,7 @@ export const Footer = () => {
         const newIndex = current - 1;
         const nextPathname = pathnames[newIndex];
         setPageCurrent(newIndex);
-        navigate(nextPathname, { replace: true });
+        navigate(nextPathname!, { replace: true });
       });
     }
   }, [current, navigate, pathnames, setPageCurrent]);
@@ -92,7 +92,7 @@ export const Footer = () => {
     startTransition(() => {
       setPageCurrent(newIndex);
       if (nextPathname) {
-        navigate(nextPathname, { replace: true });
+        navigate(nextPathname!, { replace: true });
       }
     });
   }, [current, navigate, pathnames, setPageCurrent]);
@@ -106,7 +106,7 @@ export const Footer = () => {
   }, [calculateForOrder, orders]);
 
   const isVisibleBackButton = current > 0;
-  const isVisibleNextButton = location.pathname !== ROUTES.FINAL_TEMPERATURE;
+  const isVisibleNextButton = location.pathname !== PATHS.FINAL_TEMPERATURE;
   // const isVisibleNextButton = current < total;
 
   return (
@@ -115,8 +115,8 @@ export const Footer = () => {
         <ButtonControl className="btn-control" onClick={() => setIsDevDialogOpen(true)}>
           DATA
         </ButtonControl>
-        {location.pathname === ROUTES.HOME && <MockOrdersButton />}
-        {location.pathname === ROUTES.HOME && (
+        {location.pathname === PATHS.HOME && <MockOrdersButton />}
+        {location.pathname === PATHS.HOME && (
           <ButtonControl className="btn-control" onClick={selectAllPads}>
             ALL
           </ButtonControl>
@@ -131,7 +131,7 @@ export const Footer = () => {
             Next »
           </ButtonControl>
         )}
-        {location.pathname === ROUTES.FINAL_TEMPERATURE && (
+        {location.pathname === PATHS.FINAL_TEMPERATURE && (
           <ButtonControl
             className="btn-control btn-start"
             onClick={handleStart}
