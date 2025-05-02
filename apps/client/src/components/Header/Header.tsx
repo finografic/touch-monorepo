@@ -8,9 +8,9 @@ import { useLocation } from 'react-router-dom';
 export const Header = () => {
   const location = useLocation();
   const pageContent = useContent();
-  const routeConfig = useRouteConfig();
+  const { route } = useRouteConfig();
 
-  log('__TEST', 'yellow', { routeConfig });
+  log('__header', 'grey', route);
 
   useEffect(() => {
     pageContent.setContentTitle('');
@@ -19,7 +19,7 @@ export const Header = () => {
   return (
     <header css={styles}>
       <Container>
-        <h1>{pageContent.title || routeConfig?.title}</h1>
+        <h1>{pageContent.title || route?.title}</h1>
       </Container>
     </header>
   );

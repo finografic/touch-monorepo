@@ -3,7 +3,7 @@ import { useOrders } from 'providers/OrdersProvider';
 import type { OrderFieldKey } from 'types/orders.types';
 
 interface UseOrderSelectionProps<T> {
-  field: OrderField;
+  field: OrderFieldKey;
   initialValue?: T;
 }
 
@@ -23,7 +23,7 @@ export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionP
 
   const isValid: boolean = Object.keys(orders[0] || {}).length > 0 ? Boolean(field in orders[0]) : false;
 
-  log('__DEV: isValid', 'hotpink', { TEST: orders[0], initialValue, isValid });
+  // log('__DEV: isValid', 'hotpink', { TEST: orders[0], initialValue, isValid });
 
   const handleSelection = useCallback(
     (newValue: T | undefined) => {

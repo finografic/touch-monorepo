@@ -9,6 +9,7 @@ import cloneDeep from 'lodash/cloneDeep';
 import { ROUTES_CONFIG } from 'routes/routes.config';
 import { routes } from 'routes/routes';
 import { flatttenChildren } from 'routes/utils/routes.utils.flatten';
+import { cleanRoutesOfProps } from 'routes/utils/routes.utils';
 
 interface RouteMetadataProviderProps {
   children: ReactNode;
@@ -27,7 +28,7 @@ interface RoutesMetadataReturns {
 export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ children }) => {
   const { routerLoader } = useRouterLoader();
 
-  const routesState = useMemo((): RoutesMetadataReturns => {
+  const stateValues = useMemo((): RoutesMetadataReturns => {
     const base: RouteObject[] = [
       {
         id: 'base',
@@ -38,16 +39,15 @@ export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ ch
       },
     ];
 
-    // Enhance routes with metadata
-    const enhancedRoutes = withRouteMetadata(cloneDeep(base), ROUTES_CONFIG);
-    const routesMetadata = flatttenChildren<RouteObject>(cloneDeep(enhancedRoutes));
+    const routesWithMetadata = withRouteMetadata(cloneDeep(base), ROUTES_CONFIG);
+    const routesFlattened = flatttenChildren<RouteObject>(cloneDeep(routesWithMetadata));
+    const routesMetadata = cleanRoutesOfProps<RouteObject[]>({
+      routes: routesFlattened,
+      props: ['element', 'children'],
+    });
 
-    return {
-      routes: enhancedRoutes,
-      routesMetadata,
-      isInitialized: true,
-    };
-  }, [routerLoader]);
+    return { isInitialized: true, routes: routesWithMetadata, routesMetadata };
+  }, [routes, routerLoader]);
 
-  return <RouteMetadataContext.Provider value={routesState}>{children}</RouteMetadataContext.Provider>;
+  return <RouteMetadataContext.Provider value={stateValues}>{children}</RouteMetadataContext.Provider>;
 };

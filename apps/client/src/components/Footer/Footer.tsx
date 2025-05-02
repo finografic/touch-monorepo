@@ -27,8 +27,8 @@ export const Footer = () => {
 
   const hasDrinkSubtypes = orders.some((order) => order?.drinkType?.hasSubtypes);
 
-  const loaderData = useLoaderData();
-  log('LOADER_DATA', 'hotpink', { loaderData });
+  // const loaderData = useLoaderData();
+  // log('LOADER_DATA', 'hotpink', { loaderData });
 
   const pathnames = (
     hasDrinkSubtypes
@@ -48,7 +48,7 @@ export const Footer = () => {
     }
   }, [orders, location.pathname, navigate]);
 
-  log('__DEV: isPending', 'grey', isPending);
+  // log('__DEV: isPending', 'grey', isPending);
 
   // ------------------------------------------------------------------------ //
 

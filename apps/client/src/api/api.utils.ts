@@ -22,7 +22,7 @@ export const transformAxiosError = (error: unknown): ErrorResponse => {
   }
 
   if (error instanceof Error) {
-    log('TEST_NON_AXIOS_ERROR_INSTANCEOF_ERROR: instanceof Error', 'magenta', error.message);
+    log('TEST_NON_AXIOS_ERROR_INSTANCEOF_ERROR: instanceof Error', 'red', error.message);
   }
 
   if (
