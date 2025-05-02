@@ -12,7 +12,7 @@ export const LoaderDataHelper: LoaderMap = {
     // TODO: Implement when ready
     return [];
   },
-  [OrderFieldKeys.volume]: async () => {
+  [OrderFieldKeys.drinkVolume]: async () => {
     // TODO: Implement when ready
     return [];
   },

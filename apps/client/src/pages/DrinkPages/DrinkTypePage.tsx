@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
 // import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 // import { Loader } from 'components/Loader/Loader';
-import { useLoaderData, useNavigate } from 'react-router-dom';
+import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router-dom';
 import { PATHS } from 'routes/routes.config';
 import { NoItems } from 'components/NoItems/NoItems';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
@@ -30,7 +30,7 @@ export const DrinkTypePage = () => {
   const { setIsNextDisabled } = usePagination();
   // const drinkTypes = useLoaderData() as DrinkType[];
 
-  // const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
+  // const drinkTypes = useRouteLoaderData(PATHS.DRINK_TYPE) as DrinkType[] | undefined;
   const drinkTypes = useLoaderData() as DrinkType[] | undefined;
 
   // console.log('%c __DRINK', 'color:orange', { drinkTypes });
@@ -38,10 +38,8 @@ export const DrinkTypePage = () => {
   // log('__DEV: isValid', 'blue', { isValid });
 
   useEffect(() => {
-    log('__DEV: DrinkTypePage', 'blue', {
-      hasValidSelection,
-    });
-  }, [hasValidSelection, setIsNextDisabled]);
+    log('__DEV: DrinkTypePage', 'blue', drinkTypes);
+  }, [drinkTypes]);
 
   // if (isLoading) {
   //   return <Loader message="Loading drink types..." />;

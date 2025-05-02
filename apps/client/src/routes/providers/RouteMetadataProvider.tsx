@@ -35,6 +35,8 @@ export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ ch
     // Enhance routes with metadata
     const enhancedRoutes = withRouteMetadata(cloneDeep(base), ROUTES_CONFIG);
 
+    log('ROUTES!!', 'lime', enhancedRoutes);
+
     return {
       routes: enhancedRoutes,
       isInitialized: true,

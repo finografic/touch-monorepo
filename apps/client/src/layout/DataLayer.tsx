@@ -12,9 +12,9 @@ export const DataLayer: FC<{ children: ReactNode }> = ({ children }) => {
   // Get the current route match that has an ID
   const matches = useMatches();
   const routeMatch = matches.find(
-    (match) => match.id && Object.values(OrderFieldKeys).includes(match.id as OrderField),
+    (match) => match.id && Object.values(OrderFieldKeys).includes(match.id as OrderFieldKey),
   );
-  const currentFieldKey = routeMatch?.id as OrderField | undefined;
+  const currentFieldKey = routeMatch?.id as OrderFieldKey | undefined;
 
   // Get the loader data for the current route
   const loaderData = useLoaderData();

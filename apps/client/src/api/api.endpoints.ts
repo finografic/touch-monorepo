@@ -29,6 +29,6 @@ const createEndpoints = <T extends Record<string, (...args: any[]) => Promise<an
 };
 
 export const EndpointHelper = createEndpoints({
-  getDrinkTypes: () => api.get<ApiResponse<DrinkType[]>>('/drink-types'),
-  getDrinkType: (id: string) => api.get<ApiResponse<DrinkTypeEntity>>(`/drink-types/${id}`),
+  getDrinkTypes: async () => await api.get<ApiResponse<DrinkType[]>>('/drink-types'),
+  getDrinkType: async (id: string) => await api.get<ApiResponse<DrinkTypeEntity>>(`/drink-types/${id}`),
 }) as const;

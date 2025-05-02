@@ -24,7 +24,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
   },
   {
     path: PATHS.DRINK_TYPE,
-    id: 'drink-type',
+    id: PATHS.DRINK_TYPE,
     title: 'Select drink type:',
   },
   {

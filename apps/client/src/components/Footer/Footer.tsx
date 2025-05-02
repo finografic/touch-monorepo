@@ -45,7 +45,7 @@ export const Footer = () => {
     }
   }, [orders, location.pathname, navigate]);
 
-  log('__DEV: isPending', 'grey', isPending);
+  console.log('__DEV: isPending', 'grey', isPending);
 
   // ------------------------------------------------------------------------ //
 

@@ -39,12 +39,12 @@ export const routes: RouteObject[] = [
 
       {
         path: PATHS.DRINK_TYPE,
-        id: OrderFieldKeys.drinkType,
-        loader: LoaderDataHelper[OrderFieldKeys.drinkType],
         children: [
           {
             index: true,
+            id: OrderFieldKeys.drinkType,
             element: <DrinkTypePage />,
+            loader: LoaderDataHelper[OrderFieldKeys.drinkType],
           },
           {
             path: PATHS.DRINK_SUBTYPE,
