@@ -3,7 +3,8 @@ import type { RouteConfig } from 'routes/routes.types';
 import type { OrderFieldKeyKebab, OrderFieldKeySnake } from 'types/orders.types';
 import type { ConstMapOf } from 'types/utility.types';
 
-export const PATHS: ConstMapOf<Uppercase<OrderFieldKeySnake>, OrderFieldKeyKebab> = {
+export const PATHS: ConstMapOf<Uppercase<OrderFieldKeySnake & 'home'>, OrderFieldKeyKebab | '/'> = {
+  HOME: '/',
   DRINK_TYPE: 'drink-type',
   DRINK_SUBTYPE: 'drink-subtype',
   DRINK_VOLUME: 'drink-volume',
@@ -16,7 +17,7 @@ export type Routes = (typeof PATHS)[keyof typeof PATHS];
 
 export const ROUTES_CONFIG: RouteConfig[] = [
   {
-    path: '/',
+    path: PATHS.HOME,
     id: 'home',
     title: 'ServiFresc',
   },

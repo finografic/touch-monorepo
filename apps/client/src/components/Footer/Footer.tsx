@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ButtonControl } from 'components/ButtonControl/ButtonControl';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { ROUTE_CONFIG_V1, ROUTES } from 'routes/routes.config';
+import { PATHS, ROUTES_CONFIG } from 'routes/routes.config';
 import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
@@ -27,10 +27,10 @@ export const Footer = () => {
 
   const hasDrinkSubtypes = orders.some((order) => order?.drinkType?.hasSubtypes);
   const pathnames = hasDrinkSubtypes
-    ? Object.values(ROUTE_CONFIG_V1).map((route) => route.pathname)
-    : Object.values(ROUTE_CONFIG_V1)
+    ? Object.values(ROUTES_CONFIG).map((route) => route.pathname)
+    : Object.values(ROUTES_CONFIG)
         .map((route) => route.pathname)
-        .filter((pathname) => pathname !== ROUTES.DRINK_SUBTYPE);
+        .filter((pathname) => pathname !== PATHS.DRINK_SUBTYPE);
 
   // ------------------------------------------------------------------------ //
 
@@ -39,8 +39,8 @@ export const Footer = () => {
   // }, [location.pathname]);
 
   useEffect(() => {
-    if (orders.length === 0 && location.pathname !== ROUTES.HOME) {
-      navigate(ROUTES.HOME);
+    if (orders.length === 0 && location.pathname !== '/') {
+      navigate('/');
     }
   }, [orders, location.pathname, navigate]);
 
