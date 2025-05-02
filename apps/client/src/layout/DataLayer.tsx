@@ -1,5 +1,5 @@
 import { useLoaderData, useMatches } from 'react-router-dom';
-import type { FC, ReactNode } from 'react';
+import { type FC, type ReactNode, useMemo } from 'react';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { NUM_SLOTS_TYPE_B, OrderFieldKeys } from 'constants/app.config';
@@ -20,19 +20,21 @@ export const DataLayer: FC<{ children: ReactNode }> = ({ children }) => {
   const loaderData = useLoaderData();
   const numPads = Array.isArray(loaderData) ? loaderData.length : 0;
 
-  log('LOADER_DATA', 'hotpink', { loaderData });
+  const initialValue: LayoutUiValues = useMemo(() => {
+    // log('LOADER_DATA', 'hotpink', { loaderData });
 
-  const initialValue: LayoutUiValues = {
-    fieldKey: currentFieldKey,
-    numSlots: NUM_SLOTS_TYPE_B,
-    numPads,
-    pads: initPadItems({ numPads, keys: [], type: 'radio' }),
-  };
+    return {
+      fieldKey: currentFieldKey as OrderFieldKey,
+      numSlots: NUM_SLOTS_TYPE_B,
+      numPads,
+      pads: initPadItems({ numPads, keys: [], type: 'radio' }),
+    };
+  }, [currentFieldKey, loaderData, numPads]);
 
   return (
     <LayoutUiProvider initialValue={initialValue}>
       {children}
-      <DevTools />
+      {/* <DevTools /> */}
     </LayoutUiProvider>
   );
 };

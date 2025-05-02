@@ -35,9 +35,11 @@ export const withRouteMetadata = (routes: RouteObject[], routesConfig: RouteConf
   const traverseRoutes = (routes: RouteObject[], parentPath: string = ''): RouteObject[] => {
     return routes.map((route) => {
       const pathname = generatePathname(route.path, parentPath);
+
       const metadata = metadataMap.get(pathname);
 
       if (metadata) {
+        log('PATHNAME', 'orange', { metadata });
         route.handle = { ...route.handle, ...metadata };
       }
 

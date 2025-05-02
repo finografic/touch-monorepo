@@ -1,4 +1,4 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { ButtonControl } from 'components/ButtonControl/ButtonControl';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
@@ -27,10 +27,13 @@ export const Footer = () => {
 
   const hasDrinkSubtypes = orders.some((order) => order?.drinkType?.hasSubtypes);
 
+  const loaderData = useLoaderData();
+  log('LOADER_DATA', 'hotpink', { loaderData });
+
   const pathnames = (
     hasDrinkSubtypes
       ? ROUTES_CONFIG.map((route) => route.path)
-      : ROUTES_CONFIG.map((route) => route.path).filter((pathname) => pathname !== PATHS.DRINK_SUBTYPE)
+      : ROUTES_CONFIG.map((route) => route.path).filter((pathname) => pathname !== PATHS.drinkSubtype)
   ) as RoutePath[];
 
   // ------------------------------------------------------------------------ //
@@ -40,12 +43,12 @@ export const Footer = () => {
   // }, [location.pathname]);
 
   useEffect(() => {
-    if (orders.length === 0 && location.pathname !== PATHS.HOME) {
-      navigate(PATHS.HOME);
+    if (orders.length === 0 && location.pathname !== PATHS.home) {
+      navigate(PATHS.home);
     }
   }, [orders, location.pathname, navigate]);
 
-  console.log('__DEV: isPending', 'grey', isPending);
+  log('__DEV: isPending', 'grey', isPending);
 
   // ------------------------------------------------------------------------ //
 
@@ -107,7 +110,7 @@ export const Footer = () => {
   }, [calculateForOrder, orders]);
 
   const isVisibleBackButton = current > 0;
-  const isVisibleNextButton = location.pathname !== PATHS.FINAL_TEMPERATURE;
+  const isVisibleNextButton = location.pathname !== PATHS.finalTemperature;
   // const isVisibleNextButton = current < total;
 
   return (
@@ -116,8 +119,8 @@ export const Footer = () => {
         <ButtonControl className="btn-control" onClick={() => setIsDevDialogOpen(true)}>
           DATA
         </ButtonControl>
-        {location.pathname === PATHS.HOME && <MockOrdersButton />}
-        {location.pathname === PATHS.HOME && (
+        {location.pathname === PATHS.home && <MockOrdersButton />}
+        {location.pathname === PATHS.home && (
           <ButtonControl className="btn-control" onClick={selectAllPads}>
             ALL
           </ButtonControl>
@@ -132,7 +135,7 @@ export const Footer = () => {
             Next »
           </ButtonControl>
         )}
-        {location.pathname === PATHS.FINAL_TEMPERATURE && (
+        {location.pathname === PATHS.finalTemperature && (
           <ButtonControl
             className="btn-control btn-start"
             onClick={handleStart}

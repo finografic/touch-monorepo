@@ -43,7 +43,7 @@ export const DrinkTypePage = () => {
   useEffect(() => {
     if (selectedDrinkType && nextClicked) {
       // Navigate to subtype page if the drink has subtypes, otherwise go to volume page
-      const nextRoute = selectedDrinkType.hasSubtypes ? PATHS.DRINK_SUBTYPE : PATHS.DRINK_VOLUME;
+      const nextRoute = selectedDrinkType.hasSubtypes ? PATHS.drinkSubtype : PATHS.drinkVolume;
       navigate(nextRoute);
     }
   }, [selectedDrinkType, nextClicked, navigate]);

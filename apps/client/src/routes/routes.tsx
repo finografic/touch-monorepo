@@ -1,4 +1,4 @@
-import type { RouteObject } from 'react-router-dom';
+import { Outlet, type RouteObject } from 'react-router-dom';
 // import { LoginPage } from 'pages/LoginPage/LoginPage';
 // import { RequireAuth } from './RequireAuth';
 import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
@@ -20,7 +20,9 @@ export const routes: RouteObject[] = [
     path: '/',
     element: (
       // <AuthProvider>
-      <Layout />
+      <Layout>
+        <Outlet />
+      </Layout>
       // </AuthProvider>
     ),
     children: [
@@ -38,7 +40,7 @@ export const routes: RouteObject[] = [
       // ============================================== //
 
       {
-        path: PATHS.DRINK_TYPE,
+        path: PATHS.drinkType,
         children: [
           {
             index: true,
@@ -47,7 +49,7 @@ export const routes: RouteObject[] = [
             loader: LoaderDataHelper[OrderFieldKeys.drinkType],
           },
           {
-            path: PATHS.DRINK_SUBTYPE,
+            path: PATHS.drinkSubtype,
             id: OrderFieldKeys.drinkSubtype,
             loader: LoaderDataHelper[OrderFieldKeys.drinkSubtype],
             element: <DrinkSubtypePage />,
@@ -55,25 +57,25 @@ export const routes: RouteObject[] = [
         ],
       },
       {
-        path: PATHS.DRINK_VOLUME,
+        path: PATHS.drinkVolume,
         id: OrderFieldKeys.drinkVolume,
         loader: LoaderDataHelper[OrderFieldKeys.drinkVolume],
         element: <DrinkVolumePage />,
       },
       {
-        path: PATHS.CONTAINER_TYPE,
+        path: PATHS.containerType,
         id: OrderFieldKeys.containerType,
         loader: LoaderDataHelper[OrderFieldKeys.containerType],
         element: <ContainerTypePage />,
       },
       {
-        path: PATHS.INITIAL_TEMPERATURE,
+        path: PATHS.initialTemperature,
         id: OrderFieldKeys.initialTemperature,
         loader: LoaderDataHelper[OrderFieldKeys.initialTemperature],
         element: <TemperatureInitialPage />,
       },
       {
-        path: PATHS.FINAL_TEMPERATURE,
+        path: PATHS.finalTemperature,
         id: OrderFieldKeys.finalTemperature,
         loader: LoaderDataHelper[OrderFieldKeys.finalTemperature],
         element: <TemperatureFinalPage />,

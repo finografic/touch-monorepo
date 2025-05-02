@@ -42,7 +42,7 @@ export const DrinkSubtypePage = () => {
         : 'Select drink subtype:';
       setContentTitle(newTitle);
     } else {
-      navigate(PATHS.DRINK_TYPE, { replace: true });
+      navigate(PATHS.drinkType, { replace: true });
     }
   }, [orders, navigate]);
 

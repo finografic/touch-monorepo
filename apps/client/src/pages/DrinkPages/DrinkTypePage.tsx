@@ -30,7 +30,7 @@ export const DrinkTypePage = () => {
   const { setIsNextDisabled } = usePagination();
   // const drinkTypes = useLoaderData() as DrinkType[];
 
-  // const drinkTypes = useRouteLoaderData(PATHS.DRINK_TYPE) as DrinkType[] | undefined;
+  // const drinkTypes = useRouteLoaderData(PATHS.drinkType) as DrinkType[] | undefined;
   const drinkTypes = useLoaderData() as DrinkType[] | undefined;
 
   // console.log('%c __DRINK', 'color:orange', { drinkTypes });

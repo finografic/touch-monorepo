@@ -7,7 +7,7 @@ import type { DrinkType } from 'types/models/drink-type.model';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numSlots]: ValidTypeBCount;
-  [LayoutUiKeys.fieldKey]: OrderField | undefined;
+  [LayoutUiKeys.fieldKey]: OrderFieldKey | undefined;
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadItem[];
 }
@@ -19,7 +19,7 @@ type LayoutUiSetters = {
 };
 
 type LayoutUiActions = LayoutUiSetters & {
-  updateFromDrinkTypes: (drinkTypes: DrinkType[] | undefined) => void;
+  // updateFromDrinkTypes: (drinkTypes: DrinkType[] | undefined) => void;
 };
 
 export interface LayoutUiProviderProps {

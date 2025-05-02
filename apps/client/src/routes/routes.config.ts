@@ -1,54 +1,54 @@
 import type { RouteConfig } from 'routes/routes.types';
-import type { OrderFieldKeyKebab, OrderFieldKeySnake } from 'types/orders.types';
+import type { OrderFieldKey, OrderFieldKeyKebab } from 'types/orders.types';
 import type { ConstMapOf } from 'types/utility.types';
 
-export const PATHS: ConstMapOf<Uppercase<OrderFieldKeySnake>, OrderFieldKeyKebab> & {
-  HOME: '/';
+export const PATHS: ConstMapOf<OrderFieldKey, OrderFieldKeyKebab> & {
+  home: '/';
 } = {
-  HOME: '/',
-  DRINK_TYPE: 'drink-type',
-  DRINK_SUBTYPE: 'drink-subtype',
-  DRINK_VOLUME: 'drink-volume',
-  CONTAINER_TYPE: 'container-type',
-  INITIAL_TEMPERATURE: 'initial-temperature',
-  FINAL_TEMPERATURE: 'final-temperature',
+  home: '/',
+  drinkType: 'drink-type',
+  drinkSubtype: 'drink-subtype',
+  drinkVolume: 'drink-volume',
+  containerType: 'container-type',
+  initialTemperature: 'initial-temperature',
+  finalTemperature: 'final-temperature',
 } as const;
 
 export type RoutePath = (typeof PATHS)[keyof typeof PATHS];
 
 export const ROUTES_CONFIG: RouteConfig[] = [
   {
-    path: PATHS.HOME,
+    path: PATHS.home,
     id: 'home',
     title: 'ServiFresc',
   },
   {
-    path: PATHS.DRINK_TYPE,
-    id: PATHS.DRINK_TYPE,
+    path: PATHS.drinkType,
+    id: 'drink-type',
     title: 'Select drink type:',
   },
   {
-    path: PATHS.DRINK_SUBTYPE,
+    path: PATHS.drinkSubtype,
     id: 'drink-subtype',
     title: 'Select drink subtype:',
   },
   {
-    path: PATHS.DRINK_VOLUME,
+    path: PATHS.drinkVolume,
     id: 'drink-volume',
     title: 'Select volume:',
   },
   {
-    path: PATHS.CONTAINER_TYPE,
+    path: PATHS.containerType,
     id: 'container-type',
     title: 'Select container type:',
   },
   {
-    path: PATHS.INITIAL_TEMPERATURE,
+    path: PATHS.initialTemperature,
     id: 'initial-temperature',
     title: 'Initial temperature:',
   },
   {
-    path: PATHS.FINAL_TEMPERATURE,
+    path: PATHS.finalTemperature,
     id: 'final-temperature',
     title: 'Final temperature:',
   },
