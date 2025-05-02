@@ -184,6 +184,7 @@ export const DataDialog = () => {
     if (orders?.[0]?.itemNumber) {
       const storedCalc = localStorage.getItem(`temperatureCalculation_${orders[0].itemNumber}`);
       if (storedCalc) {
+        log('__DATA_DIALOG', 'grey', storedCalc);
         try {
           const parsedCalc = JSON.parse(storedCalc || '{}');
           setCalculation({

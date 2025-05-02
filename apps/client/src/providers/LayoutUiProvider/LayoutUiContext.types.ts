@@ -4,6 +4,7 @@ import type { ValidTypeBCount } from 'types/menu.types';
 import type { PadItem } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { DrinkType } from 'types/models/drink-type.model';
+import type { RouteLoaderData } from 'types/data.types';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numSlots]: ValidTypeBCount;
@@ -19,7 +20,7 @@ type LayoutUiSetters = {
 };
 
 type LayoutUiActions = LayoutUiSetters & {
-  // updateFromDrinkTypes: (drinkTypes: DrinkType[] | undefined) => void;
+  initPadsFromLoaderData: (loaderData: RouteLoaderData) => void;
 };
 
 export interface LayoutUiProviderProps {

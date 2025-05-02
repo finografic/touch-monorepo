@@ -1,39 +1,44 @@
-// REF - Record TYPE: https://fjolt.com/article/typescript-record-type
+/** Primitive types supported in API responses */
+export type DataType = string | number | boolean | null | undefined;
 
-// export type UnknownArrayOrObject = unknown[] | Record<string, unknown>;
-
-// export type UnknownArrayOrObject = Record<string, unknown | SelectOption> | SelectOption[];
-
-// V1:
-// export type DataType = string | number | boolean | Blob;
-// V2:
-// Base type for primitive values commonly found in API responses
-// type APIValue = string | number | boolean | null | undefined; (ORIGINALLY FOR DataEntry)
-export type DataType = string | number | boolean | null | undefined | Blob;
-
-// V1:
-// export type DataEntry = Record<string, string | number | boolean>;
-// V2:
-// Allow nested objects and arrays while maintaining flexibility
-// export type DataEntry = {
-//   [K: string]: DataType | DataType[] | Record<string, DataType> | DataEntry;
-// };
-
-// export interface ISchema extends DataEntry {}
-
-// export interface DataEntryFromModel {
-//   fieldsName: string;
-//   dataType: string;
-//   allowNull?: boolean;
-// }
-export interface IParams {
-  [key: string]: string | number | boolean;
+/** Base interface for API resource objects */
+export interface DataEntry {
+  /** Optional unique identifier */
+  id?: string;
+  /** Dynamic keys supporting primitive values, arrays, and nested objects */
+  [key: string]: DataType | DataType[] | Record<string, DataType> | DataEntry;
 }
 
-export interface IStorage {
-  [key: string]: string | number | boolean | IStorage | undefined;
+/** Generic type for loader data that can be either a single entry or array */
+export type Dataset<T extends DataEntry = DataEntry> = T[] | T;
+
+/** Type guard to narrow Dataset<T> to T[] */
+export const isDatasetArray = <T extends DataEntry>(data: Dataset<T>): data is T[] => {
+  return Array.isArray(data);
+};
+
+// Utility type for route loader data
+export interface RouteLoaderData<T extends DataEntry = DataEntry> {
+  data: Dataset<T>;
+  meta?: {
+    total?: number;
+    page?: number;
+    pageSize?: number;
+    [key: string]: DataType | undefined;
+  };
 }
 
-export interface IGeneric {
-  [key: string]: any;
+// Params type for route parameters
+export interface RouteParams {
+  [key: string]: string | number | boolean | undefined;
+}
+
+// Storage interface for persistent data
+export interface Storage {
+  [key: string]: DataType | Storage | undefined;
+}
+
+// Only use this as a last resort when types are truly unknown
+export interface Generic {
+  [key: string]: unknown;
 }
