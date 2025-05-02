@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
-import type { OrderField } from 'types/orders.types';
+import type { OrderFieldKey } from 'types/orders.types';
 
 interface UseOrderSelectionProps<T> {
   field: OrderField;

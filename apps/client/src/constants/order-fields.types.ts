@@ -1,4 +1,4 @@
-import type { CamelToKebab, CamelToSnake } from '../utilities/casing.utils.types';
+import type { CamelToKebab, CamelToSnake } from '../types/utilities/casing.utils.types';
 
 // Base keys in camelCase - our source of truth
 export const ORDER_FIELD_KEYS = [
@@ -11,8 +11,8 @@ export const ORDER_FIELD_KEYS = [
 ] as const;
 
 export type OrderFieldKey = (typeof ORDER_FIELD_KEYS)[number];
-export type OrderFieldKebabCase = CamelToKebab<OrderFieldKey>;
-export type OrderFieldSnakeCase = CamelToSnake<OrderFieldKey>;
+export type OrderFieldKebab = CamelToKebab<OrderFieldKey>;
+export type OrderFieldSnake = CamelToSnake<OrderFieldKey>;
 
 // Type-safe object with both formats
 export const OrderFields = {

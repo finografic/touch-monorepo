@@ -1,4 +1,4 @@
-export type ContainerTypeEntity = {
+export interface ContainerTypeEntity {
   id: string;
   name: string;
   display_name: string;
@@ -6,4 +6,4 @@ export type ContainerTypeEntity = {
   is_active: number; // Stored as integer in DB
   created_at: number; // Stored as timestamp in DB
   updated_at: number; // Stored as timestamp in DB
-};
+}

@@ -4,7 +4,7 @@ import type { AxiosError, AxiosResponse } from 'axios';
 import type { ErrorResponse } from '@workspace/shared/types';
 import { ERROR_CODE_MAP } from '@workspace/shared';
 import cloneDeep from 'lodash/cloneDeep';
-import type { OrderField } from 'types/orders.types';
+import type { OrderFieldKey } from 'types/orders.types';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
 import type { DrinkType } from 'types/models/drink-type.model';
 import type { DrinkTypeEntity } from '@workspace/server/types/entities/drink-type.entity';

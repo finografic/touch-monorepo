@@ -3,7 +3,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import type { ErrorResponse } from '@workspace/shared/types';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
-import { EndpointHelper } from 'api/endpoints/api.endpoints';
+import { EndpointHelper } from 'api/api.endpoints';
 
 export const useGetDrinkTypes = (): UseQueryResult<DrinkType[], ErrorResponse> => {
   return useQuery({

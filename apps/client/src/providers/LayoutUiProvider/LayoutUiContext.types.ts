@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { PadItem } from 'types/ui.types';
-import type { OrderField } from 'types/orders.types';
+import type { OrderFieldKey } from 'types/orders.types';
 import type { DrinkType } from 'types/models/drink-type.model';
 
 export interface LayoutUiValues {

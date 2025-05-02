@@ -1,4 +1,4 @@
-export type DrinkTypeEntity = {
+export interface DrinkTypeEntity {
   id: string;
   name: string;
   display_name: string;
@@ -8,9 +8,9 @@ export type DrinkTypeEntity = {
   is_active: number; // Stored as integer in DB
   created_at: number; // Stored as timestamp in DB
   updated_at: number; // Stored as timestamp in DB
-};
+}
 
-export type DrinkSubtypeEntity = {
+export interface DrinkSubtypeEntity {
   id: string;
   drink_type_id: string;
   name: string;
@@ -18,4 +18,4 @@ export type DrinkSubtypeEntity = {
   is_active: number; // Stored as integer in DB
   created_at: number; // Stored as timestamp in DB
   updated_at: number; // Stored as timestamp in DB
-};
+}

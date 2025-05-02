@@ -1,4 +1,4 @@
-export type TemperatureTableEntity = {
+export interface TemperatureTableEntity {
   id: string;
   table_number: string;
   description: string | null;
@@ -6,9 +6,9 @@ export type TemperatureTableEntity = {
   is_active: number; // Stored as integer in DB
   created_at: number; // Stored as timestamp in DB
   updated_at: number; // Stored as timestamp in DB
-};
+}
 
-export type TemperatureTableEntryEntity = {
+export interface TemperatureTableEntryEntity {
   id: string;
   table_id: string;
   temperature: number;
@@ -17,4 +17,4 @@ export type TemperatureTableEntryEntity = {
   is_active: number; // Stored as integer in DB
   created_at: number; // Stored as timestamp in DB
   updated_at: number; // Stored as timestamp in DB
-};
+}

@@ -1,5 +1,5 @@
 import type { ValidTypeBCount } from 'types/menu.types';
-import type { OrderField } from 'types/orders.types';
+import type { OrderFieldKey } from 'types/orders.types';
 
 export const NUM_SLOTS_TYPE_B: ValidTypeBCount = 8 as const;
 
@@ -7,16 +7,16 @@ export const NUM_SLOTS_TYPE_B: ValidTypeBCount = 8 as const;
 export const ORDER_FIELD_KEYS = [
   'drinkType',
   'drinkSubtype',
-  'volume',
+  'drinkVolume',
   'containerType',
   'initialTemperature',
   'finalTemperature',
 ] as const;
 
-export const OrderFieldKeys: { [K in OrderField]: K } = {
+export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
   drinkType: 'drinkType',
   drinkSubtype: 'drinkSubtype',
-  volume: 'volume',
+  drinkVolume: 'drinkVolume',
   containerType: 'containerType',
   initialTemperature: 'initialTemperature',
   finalTemperature: 'finalTemperature',

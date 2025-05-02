@@ -1,7 +1,10 @@
 import type { ORDER_FIELD_KEYS } from 'constants/app.config';
 import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
+import type { CamelToKebab, CamelToSnake } from 'types/utilities/casing.utils.types';
 
-export type OrderField = (typeof ORDER_FIELD_KEYS)[number];
+export type OrderFieldKey = (typeof ORDER_FIELD_KEYS)[number];
+export type OrderFieldKeyKebab = CamelToKebab<OrderFieldKey>;
+export type OrderFieldKeySnake = CamelToSnake<OrderFieldKey>;
 
 // Base properties that every order has
 interface OrderBaseProps {

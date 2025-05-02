@@ -1,4 +1,4 @@
-export type VolumeEntity = {
+export interface VolumeEntity {
   id: string;
   name: string;
   value_in_ml: number;
@@ -7,4 +7,4 @@ export type VolumeEntity = {
   is_active: number;
   created_at: number;
   updated_at: number;
-};
+}

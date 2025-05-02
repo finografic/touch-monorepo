@@ -6,7 +6,7 @@ import { NUM_SLOTS_TYPE_B, OrderFieldKeys } from 'constants/app.config';
 import type { LayoutUiValues } from 'providers/LayoutUiProvider/LayoutUiContext.types';
 import { initPadItems } from 'utils/ui.utils';
 import { DevTools } from 'components/DevTools/DevTools';
-import type { OrderField } from 'types/orders.types';
+import type { OrderFieldKey } from 'types/orders.types';
 
 export const DataLayer: FC<{ children: ReactNode }> = ({ children }) => {
   // Get the current route match that has an ID

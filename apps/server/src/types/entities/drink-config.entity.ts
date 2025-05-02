@@ -1,4 +1,4 @@
-export type DrinkConfigEntity = {
+export interface DrinkConfigEntity {
   id: string;
   drink_type_id: string;
   drink_subtype_id?: string;
@@ -13,4 +13,4 @@ export type DrinkConfigEntity = {
   is_active: number;
   created_at: number;
   updated_at: number;
-};
+}

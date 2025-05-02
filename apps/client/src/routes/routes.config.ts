@@ -1,55 +1,53 @@
 import type { RouteObject } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
-import type { OrderField } from 'types/orders.types';
+import type { OrderFieldKeyKebab, OrderFieldKeySnake } from 'types/orders.types';
+import type { ConstMapOf } from 'types/utility.types';
 
-export const ROUTES = {
-  HOME: '/',
-  DRINK_TYPE: '/drink-type',
-  DRINK_SUBTYPE: '/drink-type/drink-subtype',
-  DRINK_VOLUME: '/drink-volume',
-  CONTAINER_TYPE: '/container-type',
-  INITIAL_TEMPERATURE: '/initial-temperature',
-  FINAL_TEMPERATURE: '/final-temperature',
+export const PATHS: ConstMapOf<Uppercase<OrderFieldKeySnake>, OrderFieldKeyKebab> = {
+  DRINK_TYPE: 'drink-type',
+  DRINK_SUBTYPE: 'drink-subtype',
+  DRINK_VOLUME: 'drink-volume',
+  CONTAINER_TYPE: 'container-type',
+  INITIAL_TEMPERATURE: 'initial-temperature',
+  FINAL_TEMPERATURE: 'final-temperature',
 } as const;
 
-const _OrderFieldKeys: { [K in OrderField]: K } = {
-  drinkType: 'drinkType',
-  drinkSubtype: 'drinkSubtype',
-  volume: 'volume',
-  containerType: 'containerType',
-  initialTemperature: 'initialTemperature',
-  finalTemperature: 'finalTemperature',
-} as const;
-
-export type Routes = (typeof ROUTES)[keyof typeof ROUTES];
+export type Routes = (typeof PATHS)[keyof typeof PATHS];
 
 export const ROUTES_CONFIG: RouteConfig[] = [
   {
-    path: ROUTES.HOME,
+    path: '/',
+    id: 'home',
     title: 'ServiFresc',
   },
   {
-    path: ROUTES.DRINK_TYPE,
+    path: PATHS.DRINK_TYPE,
+    id: 'drink-type',
     title: 'Select drink type:',
   },
   {
-    path: ROUTES.DRINK_SUBTYPE,
+    path: PATHS.DRINK_SUBTYPE,
+    id: 'drink-subtype',
     title: 'Select drink subtype:',
   },
   {
-    path: ROUTES.DRINK_VOLUME,
+    path: PATHS.DRINK_VOLUME,
+    id: 'drink-volume',
     title: 'Select volume:',
   },
   {
-    path: ROUTES.CONTAINER_TYPE,
+    path: PATHS.CONTAINER_TYPE,
+    id: 'container-type',
     title: 'Select container type:',
   },
   {
-    path: ROUTES.INITIAL_TEMPERATURE,
+    path: PATHS.INITIAL_TEMPERATURE,
+    id: 'initial-temperature',
     title: 'Initial temperature:',
   },
   {
-    path: ROUTES.FINAL_TEMPERATURE,
+    path: PATHS.FINAL_TEMPERATURE,
+    id: 'final-temperature',
     title: 'Final temperature:',
   },
 ];
@@ -72,32 +70,32 @@ type RouteConfig__V1 = Omit<RouteObject, 'path'> & {
 };
 
 export const ROUTE_CONFIG_V1: Record<string, RouteConfig__V1> = {
-  [ROUTES.HOME]: {
-    pathname: ROUTES.HOME,
+  HOME: {
+    pathname: '/',
     title: 'ServiFresc',
   },
-  [ROUTES.DRINK_TYPE]: {
-    pathname: ROUTES.DRINK_TYPE,
+  [PATHS.DRINK_TYPE]: {
+    pathname: PATHS.DRINK_TYPE,
     title: 'Select drink type:',
   },
-  [ROUTES.DRINK_SUBTYPE]: {
-    pathname: ROUTES.DRINK_SUBTYPE,
+  [PATHS.DRINK_SUBTYPE]: {
+    pathname: PATHS.DRINK_SUBTYPE,
     title: 'Select drink subtype:',
   },
-  [ROUTES.DRINK_VOLUME]: {
-    pathname: ROUTES.DRINK_VOLUME,
+  [PATHS.DRINK_VOLUME]: {
+    pathname: PATHS.DRINK_VOLUME,
     title: 'Select volume:',
   },
-  [ROUTES.CONTAINER_TYPE]: {
-    pathname: ROUTES.CONTAINER_TYPE,
+  [PATHS.CONTAINER_TYPE]: {
+    pathname: PATHS.CONTAINER_TYPE,
     title: 'Select container type:',
   },
-  [ROUTES.INITIAL_TEMPERATURE]: {
-    pathname: ROUTES.INITIAL_TEMPERATURE,
+  [PATHS.INITIAL_TEMPERATURE]: {
+    pathname: PATHS.INITIAL_TEMPERATURE,
     title: 'Initial temperature:',
   },
-  [ROUTES.FINAL_TEMPERATURE]: {
-    pathname: ROUTES.FINAL_TEMPERATURE,
+  [PATHS.FINAL_TEMPERATURE]: {
+    pathname: PATHS.FINAL_TEMPERATURE,
     title: 'Final temperature:',
   },
 };

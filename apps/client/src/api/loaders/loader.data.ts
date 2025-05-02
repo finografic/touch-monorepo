@@ -1,4 +1,4 @@
-import { EndpointHelper } from 'api/endpoints/api.endpoints';
+import { EndpointHelper } from 'api/api.endpoints';
 import { OrderFieldKeys } from 'constants/app.config';
 import type { LoaderFunction } from 'react-router-dom';
 
