@@ -1,3 +1,4 @@
+import type { PadsConfig } from 'providers/LayoutUiProvider/LayoutUiContext.types';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 
@@ -21,3 +22,16 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
   initialTemperature: 'initialTemperature',
   finalTemperature: 'finalTemperature',
 } as const;
+
+export const PADS_UI_CONFIG: Partial<Record<OrderFieldKey, PadsConfig>> = {
+  [OrderFieldKeys.drinkType]: {
+    maxPads: 10,
+    type: 'radio',
+    labelKey: 'name',
+  },
+  [OrderFieldKeys.drinkSubtype]: {
+    maxPads: 10,
+    type: 'radio',
+    labelKey: 'name',
+  },
+};

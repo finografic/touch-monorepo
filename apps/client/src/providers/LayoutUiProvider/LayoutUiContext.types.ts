@@ -1,9 +1,8 @@
 import type { ReactNode } from 'react';
 import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
 import type { ValidTypeBCount } from 'types/menu.types';
-import type { PadItem } from 'types/ui.types';
+import type { PadItem, PadsConfig } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { DrinkType } from 'types/models/drink-type.model';
 import type { RouteLoaderData } from 'types/data.types';
 
 export interface LayoutUiValues {
@@ -20,7 +19,7 @@ type LayoutUiSetters = {
 };
 
 type LayoutUiActions = LayoutUiSetters & {
-  initPadsFromLoaderData: (loaderData: RouteLoaderData) => void;
+  initPadsFromLoaderData: (loaderData: RouteLoaderData, padsConfig: PadsConfig) => void;
 };
 
 export interface LayoutUiProviderProps {

@@ -46,8 +46,6 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
                     <div className="main-content">
                       {/* <Suspense fallback={<Loader message="Loading..." />}> */}
                       <Outlet />
-
-                      {/* </Suspense> */}
                       <DataDialog />
                     </div>
                   </main>

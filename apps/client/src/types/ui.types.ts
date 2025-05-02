@@ -10,3 +10,9 @@ export interface PadItem {
   type: PadType;
   isChecked: boolean;
 }
+
+export interface PadsConfig {
+  maxPads: number;
+  type: PadType;
+  labelKey: string;
+}
