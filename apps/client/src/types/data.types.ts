@@ -28,6 +28,16 @@ export interface RouteLoaderData<T extends DataEntry = DataEntry> {
   };
 }
 
+export interface RouteLoaderData__FULL<T extends DataEntry = DataEntry> {
+  data: Dataset<T>;
+  meta?: {
+    total?: number;
+    page?: number;
+    pageSize?: number;
+    [key: string]: DataType | undefined;
+  };
+}
+
 // Params type for route parameters
 export interface RouteParams {
   [key: string]: string | number | boolean | undefined;

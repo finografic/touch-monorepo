@@ -95,7 +95,8 @@ export const useLayoutUi = (): LayoutUiReturn => {
 
   // Initialize pads when fieldKey or loaderData changes
   useEffect(() => {
-    if (fieldKey && loaderData?.data) {
+    if (fieldKey && loaderData) {
+      console.log('%c __SUB', 'color:magenta', { fieldKey }, loaderData);
       const padsConfig = PADS_UI_CONFIG[fieldKey];
       if (padsConfig) {
         store.getState().actions.initPadsFromLoaderData(loaderData, padsConfig);
