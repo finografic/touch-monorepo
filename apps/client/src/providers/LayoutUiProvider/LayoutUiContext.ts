@@ -4,9 +4,9 @@ import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import type { PadsConfig } from 'types/ui.types';
 import { NUM_SLOTS_TYPE_B, PADS_UI_CONFIG } from 'constants/app.config';
 import { initPadItems, parsePadsConfig } from 'utils/ui.utils';
-import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
-import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { useEffect } from 'react';
+// import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
+// import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+// import { useEffect } from 'react';
 import type { DataEntry, Dataset, RouteLoaderData } from 'types/data.types';
 // import type { OrderFieldKey } from 'types/orders.types';
 
@@ -23,13 +23,12 @@ export enum LayoutUiKeys {
 export const defaultValue: LayoutUiValues = {
   numSlots: NUM_SLOTS_TYPE_B,
   fieldKey: undefined,
-  // loaderData: undefined,
   numPads: 0,
-  pads: initPadItems({ numPads: NUM_SLOTS_TYPE_B, keys: [], type: 'radio' }),
+  pads: [],
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {
-  log('__DEV: LayoutUi', 'orange', initialValue);
+  // log('__DEV: LayoutUi', 'orange', initialValue);
 
   return createStore<LayoutUiStore>((set, get) => ({
     ...defaultValue,
@@ -70,15 +69,15 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
 type LayoutUiReturn = Omit<LayoutUiStore, 'actions'> & LayoutUiStore['actions'];
 
 export const useLayoutUi = (): LayoutUiReturn => {
-  const { route, fieldKey } = useRouteConfig();
-  const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
+  // const { route, fieldKey } = useRouteConfig();
+  // const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const store = LayoutUiContext.useContext();
 
   if (!store) {
     throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  // Initialize or clear pads based on fieldKey and data availability
+  /* Moving this logic to provider-level subscription
   useEffect(() => {
     const actions = store.getState().actions;
 
@@ -103,6 +102,7 @@ export const useLayoutUi = (): LayoutUiReturn => {
     actions.setUiPads(pads);
     actions.setUiNumPads(numPads);
   }, [fieldKey, loaderData, store]);
+  */
 
   return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(store, ({ actions, ...state }) => ({
     ...state,

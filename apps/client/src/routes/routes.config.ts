@@ -2,10 +2,8 @@ import type { RouteConfig } from 'routes/routes.types';
 import type { OrderFieldKey, OrderFieldKeyKebab } from 'types/orders.types';
 import type { ConstMapOf } from 'types/utility.types';
 
-export const PATHS: ConstMapOf<OrderFieldKey, OrderFieldKeyKebab> & {
-  home: '/';
-} = {
-  home: '/',
+export const PATHS: ConstMapOf<OrderFieldKey, OrderFieldKeyKebab> = {
+  home: '/' as OrderFieldKeyKebab,
   drinkType: 'drink-type',
   drinkSubtype: 'drink-subtype',
   drinkVolume: 'drink-volume',

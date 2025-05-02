@@ -14,19 +14,14 @@ import { Loader } from '../components/Loader/Loader';
 // import { DataLayer } from 'layout/DataLayer';
 import { DevProvider } from 'providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
-import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
-import { OrderFieldKeys } from 'constants/app.config';
-import type { OrderFieldKey } from 'types/orders.types';
-import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
-  const { route, fieldKey } = useRouteConfig();
+  // const { route, fieldKey } = useRouteConfig();
   // const data = useLoaderData();
   const isMounted: boolean = !!useIsMounted();
 
-  const loaderData = useRouteLoaderData(fieldKey || 'root');
-
-  log('LOADER_DATA - route', 'cyan', loaderData);
+  // const loaderData = useRouteLoaderData(fieldKey || 'root');
+  // log('LOADER_DATA - route', 'cyan', loaderData);
 
   if (!isMounted) {
     return <Loader message="Loading..." />;
@@ -37,7 +32,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
       <OrdersProvider>
         <PaginationProvider>
           <ContentProvider>
-            <LayoutUiProvider initialValue={{ fieldKey }}>
+            <LayoutUiProvider>
               <DevProvider>
                 {/* <DataLayer> */}
                 <div id="layout" css={styles}>
