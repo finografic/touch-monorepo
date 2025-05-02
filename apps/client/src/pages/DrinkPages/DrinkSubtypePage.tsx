@@ -8,7 +8,7 @@ import { useGetDrinkSubtypes } from 'queries/drink-types/useGetDrinkSubtypes';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Loader } from 'components/Loader/Loader';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from 'routes/routes.config';
+import { PATHS } from 'routes/routes.config';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { NoItems } from 'components/NoItems/NoItems';
 import { OrderFieldKeys } from 'constants/app.config';
@@ -42,7 +42,7 @@ export const DrinkSubtypePage = () => {
         : 'Select drink subtype:';
       setContentTitle(newTitle);
     } else {
-      navigate(ROUTES.DRINK_TYPE, { replace: true });
+      navigate(PATHS.DRINK_TYPE, { replace: true });
     }
   }, [orders, navigate]);
 

@@ -2,7 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { ButtonControl } from 'components/ButtonControl/ButtonControl';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { PATHS, ROUTES_CONFIG } from 'routes/routes.config';
+import { PATHS, type RoutePath, ROUTES_CONFIG } from 'routes/routes.config';
 import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
@@ -26,11 +26,12 @@ export const Footer = () => {
   // ------------------------------------------------------------------------ //
 
   const hasDrinkSubtypes = orders.some((order) => order?.drinkType?.hasSubtypes);
+
   const pathnames = (
     hasDrinkSubtypes
       ? ROUTES_CONFIG.map((route) => route.path)
       : ROUTES_CONFIG.map((route) => route.path).filter((pathname) => pathname !== PATHS.DRINK_SUBTYPE)
-  ) as string[];
+  ) as RoutePath[];
 
   // ------------------------------------------------------------------------ //
 
@@ -80,7 +81,7 @@ export const Footer = () => {
         const newIndex = current - 1;
         const nextPathname = pathnames[newIndex];
         setPageCurrent(newIndex);
-        navigate(nextPathname!, { replace: true });
+        navigate(nextPathname, { replace: true });
       });
     }
   }, [current, navigate, pathnames, setPageCurrent]);
@@ -92,7 +93,7 @@ export const Footer = () => {
     startTransition(() => {
       setPageCurrent(newIndex);
       if (nextPathname) {
-        navigate(nextPathname!, { replace: true });
+        navigate(nextPathname, { replace: true });
       }
     });
   }, [current, navigate, pathnames, setPageCurrent]);

@@ -1,4 +1,4 @@
-import { useRouteConfig } from 'hooks/useRouteConfig';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider';
 import { styles } from './DevPanel.styles';
 import { useEffect, useState } from 'react';

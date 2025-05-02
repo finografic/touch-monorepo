@@ -7,7 +7,7 @@ import { getGridFlowClasses } from './utils/getGridFlowClasses';
 // import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 // import { Loader } from 'components/Loader/Loader';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { ROUTES } from 'routes/routes.config';
+import { PATHS } from 'routes/routes.config';
 import { NoItems } from 'components/NoItems/NoItems';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { OrderFieldKeys } from 'constants/app.config';

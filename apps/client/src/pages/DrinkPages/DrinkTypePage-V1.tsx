@@ -8,7 +8,7 @@ import { useGetDrinkTypes } from 'queries/drink-types/useGetDrinkTypes';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Loader } from 'components/Loader/Loader';
 import { useNavigate } from 'react-router-dom';
-import { ROUTES } from 'routes/routes.config';
+import { PATHS } from 'routes/routes.config';
 import { NoItems } from 'components/NoItems/NoItems';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { OrderFieldKeys } from 'constants/app.config';
@@ -43,7 +43,7 @@ export const DrinkTypePage = () => {
   useEffect(() => {
     if (selectedDrinkType && nextClicked) {
       // Navigate to subtype page if the drink has subtypes, otherwise go to volume page
-      const nextRoute = selectedDrinkType.hasSubtypes ? ROUTES.DRINK_SUBTYPE : ROUTES.DRINK_VOLUME;
+      const nextRoute = selectedDrinkType.hasSubtypes ? PATHS.DRINK_SUBTYPE : PATHS.DRINK_VOLUME;
       navigate(nextRoute);
     }
   }, [selectedDrinkType, nextClicked, navigate]);
