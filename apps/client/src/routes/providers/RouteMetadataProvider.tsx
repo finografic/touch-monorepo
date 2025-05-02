@@ -8,9 +8,15 @@ import NotFound from 'pages/NotFound';
 import cloneDeep from 'lodash/cloneDeep';
 import { ROUTES_CONFIG } from 'routes/routes.config';
 import { routes } from 'routes/routes';
+import { flatttenChildren } from 'routes/utils/routes.utils.flatten';
 
 interface RouteMetadataProviderProps {
   children: ReactNode;
+}
+interface RoutesMetadataReturns {
+  routes: RouteObject[];
+  routesMetadata: RouteObject[];
+  isInitialized: boolean;
 }
 
 /**
@@ -21,7 +27,7 @@ interface RouteMetadataProviderProps {
 export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ children }) => {
   const { routerLoader } = useRouterLoader();
 
-  const routesState = useMemo(() => {
+  const routesState = useMemo((): RoutesMetadataReturns => {
     const base: RouteObject[] = [
       {
         id: 'base',
@@ -34,11 +40,13 @@ export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ ch
 
     // Enhance routes with metadata
     const enhancedRoutes = withRouteMetadata(cloneDeep(base), ROUTES_CONFIG);
+    const routesMetadata = flatttenChildren<RouteObject>(cloneDeep(enhancedRoutes));
 
     log('ROUTES!!', 'lime', enhancedRoutes);
 
     return {
       routes: enhancedRoutes,
+      routesMetadata,
       isInitialized: true,
     };
   }, [routerLoader]);

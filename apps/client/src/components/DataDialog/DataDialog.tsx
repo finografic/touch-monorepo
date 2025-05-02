@@ -3,7 +3,7 @@ import { useDev } from 'providers/DevProvider/DevContext';
 import { useOrderSelection } from 'hooks/useOrderSelection';
 import { useEffect, useState } from 'react';
 import type { OrderItem } from 'types/orders.types';
-import { styles } from './DevDialog.styles';
+import { styles } from './DataDialog.styles';
 import { OrderFieldKeys } from 'constants/app.config';
 
 interface OrderWithMetadata extends OrderItem {
@@ -170,7 +170,7 @@ const JsonView = ({ data, color }: { data: any; color: 'blue' | 'amber' | 'gray'
   );
 };
 
-export const DevDialog = () => {
+export const DataDialog = () => {
   const { isDevDialogOpen, setIsDevDialogOpen } = useDev();
   const { orders } = useOrderSelection<OrderWithMetadata>({
     field: OrderFieldKeys.drinkType,

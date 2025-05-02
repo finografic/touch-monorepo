@@ -13,7 +13,7 @@ const NotFound = (): ReactElement => {
 
   // NOTE: FOR DEVELOPMENT - OUTPUT FULL ROUTES OBJECT
   const { isDevToolsVisible } = useDev();
-  const routesLoaderDataRoot = useRouteLoaderData('root') as RouteObject[];
+  const routesLoaderDataRoot = useRouteLoaderData('routes') as RouteObject[];
 
   useEffect(() => {
     // TODO: MAKE "reset" UTIL INSIDE OF STORE

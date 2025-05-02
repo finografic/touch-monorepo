@@ -6,8 +6,14 @@ import { styles } from './DevTools.styles';
 import { QueryDevtoolsPanel } from './QueryDevtoolsPanel/QueryDevtoolsPanel';
 
 export const DevTools = () => {
-  const { isDevDataVisible, setIsDevDataVisible, isDevQueryPanelOpen, setIsDevQueryPanelOpen } = useDev();
-  log('__TEST', 'yellow', { isDevDataVisible, isDevQueryPanelOpen });
+  const {
+    isDevToolsVisible,
+    isDevDataVisible,
+    setIsDevDataVisible,
+    isDevQueryPanelOpen,
+    setIsDevQueryPanelOpen,
+  } = useDev();
+  // log('__TEST', 'yellow', { isDevToolsVisible, isDevDataVisible, isDevQueryPanelOpen });
   return (
     <>
       <>

@@ -1,5 +1,7 @@
+import cloneDeep from 'lodash/cloneDeep';
 import type { RouteObject } from 'react-router-dom';
 import { ROUTE_ACTION_SLUGS } from 'routes/routes.config';
+import type { RouteConfig } from 'routes/routes.types';
 
 export const generatePathname = (path: string | undefined, parentPath: string = ''): string => {
   if (!path) return parentPath || '/';
@@ -37,4 +39,35 @@ export const cleanRoutesOfElements = (routes: RouteObject[]): RouteObject[] => {
   };
 
   return routes.map(cleanRoute);
+};
+
+// ======================================================================== //
+
+export const cleanRoutesOfProps = <T extends RouteObject[] | RouteConfig[]>({
+  routes,
+  props = ['element', 'children'],
+}: {
+  routes: T;
+  props?: string[];
+}): Partial<T[number]>[] => {
+  const cleanRoute = (route: T[number]): T[number] => {
+    const cleanedRoute: T[number] = { ...route };
+
+    if ('children' in cleanedRoute) {
+      if (Array.isArray(cleanedRoute.children) && cleanedRoute.children.length > 0) {
+        cleanedRoute.children.map(cleanRoute);
+      }
+      delete cleanedRoute.children;
+    }
+
+    for (const prop of props.filter((p) => p !== 'children') as (keyof T[number])[]) {
+      if (prop in cleanedRoute) {
+        delete cleanedRoute[prop];
+      }
+    }
+
+    return cleanedRoute;
+  };
+
+  return cloneDeep(routes).map(cleanRoute);
 };

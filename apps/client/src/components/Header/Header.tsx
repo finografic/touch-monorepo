@@ -10,6 +10,8 @@ export const Header = () => {
   const pageContent = useContent();
   const routeConfig = useRouteConfig();
 
+  log('__TEST', 'yellow', { routeConfig });
+
   useEffect(() => {
     pageContent.setContentTitle('');
   }, [location.pathname]);

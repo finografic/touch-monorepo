@@ -2,7 +2,7 @@ import React from 'react';
 import type { FC, ReactNode } from 'react';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
-import { DevDialog } from 'components/DevDialog/DevDialog';
+import { DataDialog } from 'components/DataDialog/DataDialog';
 import { ContentProvider } from 'providers/ContentProvider';
 import { styles } from './Layout.styles';
 // import { Suspense } from 'react';
@@ -14,13 +14,12 @@ import { Loader } from '../components/Loader/Loader';
 // import { DataLayer } from 'layout/DataLayer';
 import { DevProvider } from 'providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
-import { DataLayer } from 'layout/DataLayer';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { OrderFieldKeys } from 'constants/app.config';
 import type { OrderFieldKey } from 'types/orders.types';
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
-  const { routes } = useRouteMetadata();
+  // const { routes } = useRouteMetadata();
 
   const matches = useMatches();
   const routeMatch = matches.find(
@@ -28,12 +27,12 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
   );
   const currentFieldKey = routeMatch?.id as OrderFieldKey | undefined;
 
-  const route = routes.find((route) => route.path === currentFieldKey);
+  // const route = routes.find((route) => route.path === currentFieldKey);
   const isMounted: boolean = !!useIsMounted();
 
-  const loaderData = useRouteLoaderData(currentFieldKey || 'root');
-  log('LOADER_DATA', 'red', { currentFieldKey, loaderData });
-  log('LOADER_DATA - route', 'red', route);
+  // const loaderData = useRouteLoaderData(currentFieldKey || 'root');
+
+  // log('LOADER_DATA - route', 'red', route);
 
   if (!isMounted) {
     return <Loader message="Loading..." />;
@@ -52,10 +51,10 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
                   <main>
                     <div className="main-content">
                       {/* <Suspense fallback={<Loader message="Loading..." />}> */}
-                      <Outlet key={loaderData?.id} />
+                      <Outlet />
 
                       {/* </Suspense> */}
-                      <DevDialog />
+                      <DataDialog />
                     </div>
                   </main>
                   <Footer />
