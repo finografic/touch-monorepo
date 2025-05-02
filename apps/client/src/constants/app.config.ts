@@ -1,4 +1,4 @@
-import type { PadsConfig } from 'providers/LayoutUiProvider/LayoutUiContext.types';
+import type { PadsConfig } from 'types/ui.types';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 
@@ -6,6 +6,7 @@ export const NUM_SLOTS_TYPE_B: ValidTypeBCount = 8 as const;
 
 // Base keys in camelCase - our source of truth
 export const ORDER_FIELD_KEYS = [
+  'home',
   'drinkType',
   'drinkSubtype',
   'drinkVolume',
@@ -15,6 +16,7 @@ export const ORDER_FIELD_KEYS = [
 ] as const;
 
 export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
+  home: 'home',
   drinkType: 'drinkType',
   drinkSubtype: 'drinkSubtype',
   drinkVolume: 'drinkVolume',
@@ -24,6 +26,11 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
 } as const;
 
 export const PADS_UI_CONFIG: Partial<Record<OrderFieldKey, PadsConfig>> = {
+  [OrderFieldKeys.home]: {
+    maxPads: 2,
+    type: 'checkbox',
+    labelKey: 'name',
+  },
   [OrderFieldKeys.drinkType]: {
     maxPads: 10,
     type: 'radio',

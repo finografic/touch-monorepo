@@ -3,7 +3,7 @@ import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { PadItem, PadsConfig } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { RouteLoaderData } from 'types/data.types';
+import type { DataEntry, Dataset, RouteLoaderData } from 'types/data.types';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numSlots]: ValidTypeBCount;
@@ -19,7 +19,7 @@ type LayoutUiSetters = {
 };
 
 type LayoutUiActions = LayoutUiSetters & {
-  initPadsFromLoaderData: (loaderData: RouteLoaderData, padsConfig: PadsConfig) => void;
+  initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadsConfig) => void;
 };
 
 export interface LayoutUiProviderProps {

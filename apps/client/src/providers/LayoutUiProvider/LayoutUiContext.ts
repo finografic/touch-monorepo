@@ -3,11 +3,11 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import type { PadsConfig } from 'types/ui.types';
 import { NUM_SLOTS_TYPE_B, PADS_UI_CONFIG } from 'constants/app.config';
-import { initPadItems } from 'utils/ui.utils';
+import { initPadItems, parsePadsConfig } from 'utils/ui.utils';
 import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useEffect } from 'react';
-import type { RouteLoaderData } from 'types/data.types';
+import type { DataEntry, Dataset, RouteLoaderData } from 'types/data.types';
 // import type { OrderFieldKey } from 'types/orders.types';
 
 export const DISPLAY_NAME = 'LayoutUi';
@@ -36,27 +36,12 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
-      initPadsFromLoaderData: (loaderData: RouteLoaderData, padsConfig: PadsConfig) => {
-        if (!Array.isArray(loaderData.data)) {
+      initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadsConfig) => {
+        if (!Array.isArray(loaderData)) {
           console.warn('Loader data is not an array, cannot initialize pads');
           return;
         }
-
-        const { maxPads, type, labelKey } = padsConfig;
-        const numPads = Math.min(loaderData.data.length, maxPads);
-
-        // Extract keys from loader data using the configured labelKey
-        const keys = loaderData.data
-          .slice(0, numPads)
-          .map((item) => (item as Record<string, string>)[labelKey] || '');
-
-        // Initialize pads with the extracted keys
-        const pads = initPadItems({
-          numPads,
-          keys,
-          type,
-        });
-
+        const { pads, numPads } = parsePadsConfig({ data: loaderData, config: padsConfig });
         set({ numPads, pads });
       },
       // updateFromDrinkTypes: (drinkTypes: DrinkType[] | undefined) => {
@@ -75,10 +60,10 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
       //   });
       // },
     },
-    subscribe: (listener: (state: LayoutUiStore, prevState: LayoutUiStore) => void) => {
-      const state = get();
-      listener(state, state);
-    },
+    // subscribe: (listener: (state: LayoutUiStore, prevState: LayoutUiStore) => void) => {
+    //   const state = get();
+    //   listener(state, state);
+    // },
   }));
 });
 
@@ -86,22 +71,37 @@ type LayoutUiReturn = Omit<LayoutUiStore, 'actions'> & LayoutUiStore['actions'];
 
 export const useLayoutUi = (): LayoutUiReturn => {
   const { route, fieldKey } = useRouteConfig();
-  const loaderData = useRouteLoaderData(fieldKey || 'root') as RouteLoaderData;
+  const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const store = LayoutUiContext.useContext();
 
   if (!store) {
     throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  // Initialize pads when fieldKey or loaderData changes
+  // Initialize or clear pads based on fieldKey and data availability
   useEffect(() => {
-    if (fieldKey && loaderData) {
-      console.log('%c __SUB', 'color:magenta', { fieldKey }, loaderData);
-      const padsConfig = PADS_UI_CONFIG[fieldKey];
-      if (padsConfig) {
-        store.getState().actions.initPadsFromLoaderData(loaderData, padsConfig);
-      }
+    const actions = store.getState().actions;
+
+    // Clear pads if no fieldKey or no valid config exists
+    if (!fieldKey || !PADS_UI_CONFIG[fieldKey]) {
+      actions.setUiPads([]);
+      actions.setUiNumPads(0);
+      return;
     }
+
+    // Clear pads if no data or empty array
+    if (!loaderData?.length) {
+      actions.setUiPads([]);
+      actions.setUiNumPads(0);
+      return;
+    }
+
+    // Initialize pads with config if everything is valid
+    const padsConfig = PADS_UI_CONFIG[fieldKey];
+    const { pads, numPads } = parsePadsConfig({ data: loaderData, config: padsConfig });
+
+    actions.setUiPads(pads);
+    actions.setUiNumPads(numPads);
   }, [fieldKey, loaderData, store]);
 
   return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(store, ({ actions, ...state }) => ({

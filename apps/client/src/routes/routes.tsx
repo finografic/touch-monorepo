@@ -28,7 +28,7 @@ export const routes: RouteObject[] = [
     children: [
       {
         index: true,
-        id: 'menu',
+        id: 'home',
         element: <MenuPage />,
       },
       {
