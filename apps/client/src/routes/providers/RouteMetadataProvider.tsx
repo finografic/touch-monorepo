@@ -42,8 +42,6 @@ export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ ch
     const enhancedRoutes = withRouteMetadata(cloneDeep(base), ROUTES_CONFIG);
     const routesMetadata = flatttenChildren<RouteObject>(cloneDeep(enhancedRoutes));
 
-    log('ROUTES!!', 'lime', enhancedRoutes);
-
     return {
       routes: enhancedRoutes,
       routesMetadata,
