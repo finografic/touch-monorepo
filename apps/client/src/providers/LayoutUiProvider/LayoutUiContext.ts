@@ -5,6 +5,8 @@ import { NUM_SLOTS_TYPE_B, OrderFieldKeys } from 'constants/app.config';
 import { initPadItems } from 'utils/ui.utils';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { useLoaderData } from 'react-router-dom';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { useEffect } from 'react';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
@@ -24,6 +26,8 @@ export const defaultValue: LayoutUiValues = {
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {
+  log('__DEV: LayoutUi', 'orange', initialValue);
+
   return createStore<LayoutUiStore>((set, get) => ({
     ...defaultValue,
     ...initialValue,
@@ -51,15 +55,20 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
 type LayoutUiReturn = Omit<LayoutUiStore, 'actions'> & LayoutUiStore['actions'];
 
 export const useLayoutUi = (): LayoutUiReturn => {
-  const loaderData = useLoaderData();
+  // const loaderData = useLoaderData();
+  // const { route } = useRouteConfig();
   const store = LayoutUiContext.useContext();
   if (!store) {
     throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
   }
+  // log('__DEV: LayoutUi', 'lime', route);
+  store.subscribe((_state, _prev) => {
+    // log('__DEV: LayoutUi', 'orange');
+  });
 
-  log('__DEV: LayoutUi', 'lime', { loaderData });
-
-  store.subscribe((_state, _prev) => {});
+  // useEffect(() => {
+  //   log('__DEV: LayoutUi', 'lime', route);
+  // }, [route]);
 
   return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(store, ({ actions, ...state }) => ({
     ...state,

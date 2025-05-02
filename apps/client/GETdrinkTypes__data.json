@@ -1,0 +1,79 @@
+[
+  {
+    "id": "cm9n959050000fnlwr63nmln7",
+    "name": "cerveza",
+    "displayName": "Cerveza",
+    "hasSubtypes": true,
+    "defaultConsumptionTemp": 3,
+    "defaultFreezeTemp": -2,
+    "isActive": true,
+    "createdAt": "2025-04-18T20:38:54.000Z",
+    "updatedAt": "2025-04-18T20:38:54.000Z"
+  },
+  {
+    "id": "cm9n959050001fnlwlwobwlth",
+    "name": "vino",
+    "displayName": "Vino",
+    "hasSubtypes": true,
+    "defaultConsumptionTemp": 15,
+    "defaultFreezeTemp": 12,
+    "isActive": true,
+    "createdAt": "2025-04-18T20:38:54.000Z",
+    "updatedAt": "2025-04-18T20:38:54.000Z"
+  },
+  {
+    "id": "cm9n959050002fnlwnd7ga33l",
+    "name": "cava",
+    "displayName": "Cava",
+    "hasSubtypes": false,
+    "defaultConsumptionTemp": 8,
+    "defaultFreezeTemp": 6,
+    "isActive": true,
+    "createdAt": "2025-04-18T20:38:54.000Z",
+    "updatedAt": "2025-04-18T20:38:54.000Z"
+  },
+  {
+    "id": "cm9n959050003fnlwntowtir8",
+    "name": "licor",
+    "displayName": "Licor",
+    "hasSubtypes": false,
+    "defaultConsumptionTemp": 18,
+    "defaultFreezeTemp": 16,
+    "isActive": true,
+    "createdAt": "2025-04-18T20:38:54.000Z",
+    "updatedAt": "2025-04-18T20:38:54.000Z"
+  },
+  {
+    "id": "cm9n959050004fnlwwuc4m5ch",
+    "name": "zumo",
+    "displayName": "Zumo",
+    "hasSubtypes": false,
+    "defaultConsumptionTemp": 4,
+    "defaultFreezeTemp": 2,
+    "isActive": true,
+    "createdAt": "2025-04-18T20:38:54.000Z",
+    "updatedAt": "2025-04-18T20:38:54.000Z"
+  },
+  {
+    "id": "cm9n959060005fnlwn5tyc92u",
+    "name": "refresco",
+    "displayName": "Refresco",
+    "hasSubtypes": false,
+    "defaultConsumptionTemp": 4,
+    "defaultFreezeTemp": 2,
+    "isActive": true,
+    "createdAt": "2025-04-18T20:38:54.000Z",
+    "updatedAt": "2025-04-18T20:38:54.000Z"
+  },
+  {
+    "id": "cm9n959060006fnlw3ksslrjt",
+    "name": "agua",
+    "displayName": "Agua",
+    "hasSubtypes": false,
+    "defaultConsumptionTemp": 4,
+    "defaultFreezeTemp": 2,
+    "isActive": true,
+    "createdAt": "2025-04-18T20:38:54.000Z",
+    "updatedAt": "2025-04-18T20:38:54.000Z"
+  }
+]

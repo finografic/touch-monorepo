@@ -20,20 +20,13 @@ import type { OrderFieldKey } from 'types/orders.types';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
-  const { route } = useRouteConfig();
-
-  const matches = useMatches();
-  const routeMatch = matches.find(
-    (match) => match.id && Object.values(OrderFieldKeys).includes(match.id as OrderFieldKey),
-  );
-  const currentFieldKey = routeMatch?.id as OrderFieldKey | undefined;
-
-  // const route = routes.find((route) => route.path === currentFieldKey);
+  const { route, fieldKey } = useRouteConfig();
+  // const data = useLoaderData();
   const isMounted: boolean = !!useIsMounted();
 
-  // const loaderData = useRouteLoaderData(currentFieldKey || 'root');
+  const loaderData = useRouteLoaderData(fieldKey || 'root');
 
-  log('LOADER_DATA - route', 'red', route);
+  log('LOADER_DATA - route', 'cyan', loaderData);
 
   if (!isMounted) {
     return <Loader message="Loading..." />;
@@ -44,7 +37,7 @@ export const Layout: FC<{ children: ReactNode }> = ({ children }) => {
       <OrdersProvider>
         <PaginationProvider>
           <ContentProvider>
-            <LayoutUiProvider>
+            <LayoutUiProvider initialValue={{ fieldKey }}>
               <DevProvider>
                 {/* <DataLayer> */}
                 <div id="layout" css={styles}>

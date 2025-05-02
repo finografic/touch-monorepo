@@ -37,9 +37,9 @@ export const DrinkTypePage = () => {
 
   // log('__DEV: isValid', 'blue', { isValid });
 
-  useEffect(() => {
-    log('__DEV: DrinkTypePage', 'blue', drinkTypes);
-  }, [drinkTypes]);
+  // useEffect(() => {
+  //   log('__DEV: DrinkTypePage', 'blue', drinkTypes);
+  // }, [drinkTypes]);
 
   // if (isLoading) {
   //   return <Loader message="Loading drink types..." />;
