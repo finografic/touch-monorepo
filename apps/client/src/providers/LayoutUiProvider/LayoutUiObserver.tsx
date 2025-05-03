@@ -105,12 +105,30 @@ export const LayoutUiObserver: FC = () => {
       console.log('🔍 2 - Route Change Effect:', { routeFieldKey });
       if (!store || !routeFieldKey) return;
 
-      handleStateChange(store?.getState());
+      // handleStateChange(store?.getState());
+
+      // console.log('🔍 2 - Route Change Effect:', store?.getState());
 
       const actions = store.getState().actions;
       actions.setUiFieldKey(routeFieldKey as OrderFieldKey);
     },
     [routeFieldKey, routes, store],
+  );
+
+  // Watch for route changes and update store
+  useEffect(
+    function handleRouteChange() {
+      console.log('🔍 2 - Route Change Effect:', { routeFieldKey });
+      if (!store || !routeFieldKey) return;
+
+      handleStateChange(store?.getState());
+
+      console.log('🔍 2 - Route Change Effect:', store?.getState());
+
+      const actions = store.getState().actions;
+      actions.setUiFieldKey(routeFieldKey as OrderFieldKey);
+    },
+    [routeFieldKey, routes, store, location.pathname],
   );
 
   // Subscribe to store changes
