@@ -1,3 +1,5 @@
+import type { DataEntry } from 'types/data.types';
+
 export interface OptionUI {
   label: string;
   value: string;
@@ -9,6 +11,7 @@ export interface PadItem {
   key: string;
   type: PadType;
   isChecked: boolean;
+  metadata?: DataEntry;
 }
 
 export interface PadsConfig {

@@ -1,14 +1,10 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
-import type { PadsConfig } from 'types/ui.types';
+import type { PadItem, PadsConfig } from 'types/ui.types';
 import { NUM_SLOTS_TYPE_B, PADS_UI_CONFIG } from 'constants/app.config';
-import { initPadItems, parsePadsConfig } from 'utils/ui.utils';
-// import { useLoaderData, useRouteLoaderData } from 'react-router-dom';
-// import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-// import { useEffect } from 'react';
+import { parsePadsConfig } from 'utils/ui.utils';
 import type { DataEntry, Dataset, RouteLoaderData } from 'types/data.types';
-// import type { OrderFieldKey } from 'types/orders.types';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
@@ -28,20 +24,20 @@ export const defaultValue: LayoutUiValues = {
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {
-  // log('__DEV: LayoutUi', 'orange', initialValue);
-
   return createStore<LayoutUiStore>((set, get) => ({
     ...defaultValue,
     ...initialValue,
     actions: {
       ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
+      setUiPads: (pads: PadItem[]) => {
+        console.log('%c🔍 IN - SET UI PADS', 'color:hotpink', pads);
+        set({ pads });
+      },
       initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadsConfig) => {
-        if (!Array.isArray(loaderData)) {
-          console.warn('Loader data is not an array, cannot initialize pads');
-          return;
-        }
-        const { pads, numPads } = parsePadsConfig({ data: loaderData, config: padsConfig });
-        set({ numPads, pads });
+        const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
+        const { pads, numPads } = parsePadsConfig({ data, config: padsConfig });
+        set({ pads });
+        set({ numPads });
       },
       // updateFromDrinkTypes: (drinkTypes: DrinkType[] | undefined) => {
       //   const state = get();
