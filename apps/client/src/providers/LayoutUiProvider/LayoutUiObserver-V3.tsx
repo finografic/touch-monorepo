@@ -10,7 +10,6 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { RouteConfig } from 'routes/routes.types';
 import { routes } from 'routes/routes';
-import type { PadsConfig } from 'types/ui.types';
 
 // Observer pattern approach
 const useLayoutUiObserver = (callback: (state: LayoutUiValues) => void) => {
@@ -29,6 +28,7 @@ export const LayoutUiObserver: FC = () => {
   const store = LayoutUi.useContext();
   const { route, fieldKey: routeFieldKey } = useRouteConfig() as {
     route: RouteConfig;
+    // Get loader data at the component level
     fieldKey: OrderFieldKey;
   };
   const prevStateRef = useRef<{ fieldKey?: string; numPads: number }>({ numPads: 0 });
@@ -40,66 +40,65 @@ export const LayoutUiObserver: FC = () => {
 
   console.log('%c 🔍 loaderData:', 'color:yellows', loaderData);
 
-  // // Define the state change handler
-  // const handleStateChange = useCallback(
-  //   (state: LayoutUiValues) => {
-  //     console.log('🔍 3 - State Change Handler Called:', state);
+  // Define the state change handler
+  const handleStateChange = useCallback(
+    (state: LayoutUiValues) => {
+      console.log('🔍 3 - State Change Handler Called:', state);
 
-  //     if (!store) return;
-  //     const actions = store.getState().actions;
-  //     // const fieldKey = state.fieldKey;
-  //     const fieldKey = routeFieldKey;
+      if (!store) return;
+      const actions = store.getState().actions;
+      // const fieldKey = state.fieldKey;
+      const fieldKey = routeFieldKey;
 
-  //     // Prevent unnecessary updates
-  //     if (fieldKey === prevStateRef.current.fieldKey && state.numPads === prevStateRef.current.numPads) {
-  //       console.log('🔍 3.5 - Skipping redundant update');
-  //       return;
-  //     }
+      // Prevent unnecessary updates
+      if (fieldKey === prevStateRef.current.fieldKey && state.numPads === prevStateRef.current.numPads) {
+        console.log('🔍 3.5 - Skipping redundant update');
+        return;
+      }
 
-  //     // Update ref
-  //     prevStateRef.current = {
-  //       fieldKey,
-  //       numPads: state.numPads,
-  //     };
+      // Update ref
+      prevStateRef.current = {
+        fieldKey,
+        numPads: state.numPads,
+      };
 
-  //     console.log(
-  //       '🔍 4 - Processing State Change:',
-  //       PADS_UI_CONFIG[fieldKey],
-  //       // { fieldKey, state }
-  //     );
+      console.log(
+        '🔍 4 - Processing State Change:',
+        PADS_UI_CONFIG[fieldKey],
+        // { fieldKey, state }
+      );
 
-  //     // Clear pads if no fieldKey or no valid config exists
-  //     if (!fieldKey || !PADS_UI_CONFIG[fieldKey]) {
-  //       console.log('%c🔍 4.5 - BEFORE_PARSE', 'color:yellow', PADS_UI_CONFIG[fieldKey]);
-  //       actions.setUiPads([]);
-  //       actions.setUiNumPads(0);
-  //       return;
-  //     }
+      // Clear pads if no fieldKey or no valid config exists
+      if (!fieldKey || !PADS_UI_CONFIG[fieldKey]) {
+        console.log('%c🔍 4.5 - BEFORE_PARSE', 'color:yellow', PADS_UI_CONFIG[fieldKey]);
+        actions.setUiPads([]);
+        actions.setUiNumPads(0);
+        return;
+      }
 
-  //     // Clear pads if no data or empty array
-  //     // if (!loaderData?.length) {
-  //     //   console.log('%c🔍 4.6 - BEFORE_PARSE', 'color:yellow', loaderData);
-  //     //   actions.setUiPads([]);
-  //     //   actions.setUiNumPads(0);
-  //     //   return;
-  //     // }
+      // Clear pads if no data or empty array
+      // if (!loaderData?.length) {
+      //   console.log('%c🔍 4.6 - BEFORE_PARSE', 'color:yellow', loaderData);
+      //   actions.setUiPads([]);
+      //   actions.setUiNumPads(0);
+      //   return;
+      // }
 
-  //     // console.log('%c🔍 4 - Processing State Change:', 'color:yellow', { fieldKey, state });
+      // console.log('%c🔍 4 - Processing State Change:', 'color:yellow', { fieldKey, state });
 
-  //     console.log('%c🔍 8 - BEFORE_PARSE', 'color:hotpink', fieldKey, PADS_UI_CONFIG[fieldKey]);
+      console.log('%c🔍 8 - BEFORE_PARSE', 'color:hotpink', fieldKey, PADS_UI_CONFIG[fieldKey]);
 
-  //     // Initialize pads with config if everything is valid
-  //     const padsConfig = PADS_UI_CONFIG[fieldKey];
-  //     const { pads, numPads } = parsePadsConfig({ data: loaderData, config: padsConfig });
-  //     console.log('%c🔍 9 - AFTER PARSE', 'color:lime', { pads, numPads });
+      // Initialize pads with config if everything is valid
+      const padsConfig = PADS_UI_CONFIG[fieldKey];
+      const { pads, numPads } = parsePadsConfig({ data: loaderData, config: padsConfig });
+      console.log('%c🔍 9 - AFTER PARSE', 'color:lime', { pads, numPads });
 
-  //     actions.setUiPads(pads);
-  //     actions.setUiNumPads(numPads);
-  //   },
-  //   [store, loaderData],
-  // );
+      actions.setUiPads(pads);
+      actions.setUiNumPads(numPads);
+    },
+    [store, loaderData],
+  );
 
-  /*
   // Watch for route changes and update store
   useEffect(
     function handleRouteChange() {
@@ -115,7 +114,6 @@ export const LayoutUiObserver: FC = () => {
     },
     [routeFieldKey, routes, store],
   );
-*/
 
   // Watch for route changes and update store
   useEffect(
@@ -123,27 +121,16 @@ export const LayoutUiObserver: FC = () => {
       console.log('🔍 2 - Route Change Effect:', { routeFieldKey });
       if (!store || !routeFieldKey) return;
 
-      // handleStateChange(store?.getState());
+      handleStateChange(store?.getState());
 
       console.log('🔍 2 - Route Change Effect:', routeFieldKey, store?.getState());
 
-      // Initialize pads with config if everything is valid
-      const padsConfig = PADS_UI_CONFIG[routeFieldKey] as PadsConfig;
-      if (padsConfig) {
-        const { pads, numPads } = parsePadsConfig({ data: loaderData, config: padsConfig });
-        console.log('%c🔍 10 - AFTER PARSE', 'color:lime', { pads, numPads });
-
-        const actions = store.getState().actions;
-        actions.setUiPads(pads);
-        actions.setUiNumPads(numPads);
-      }
-
-      // actions.setUiFieldKey(routeFieldKey as OrderFieldKey);
+      const actions = store.getState().actions;
+      actions.setUiFieldKey(routeFieldKey as OrderFieldKey);
     },
     [routeFieldKey, routes, store, location.pathname],
   );
 
-  /*
   // Subscribe to store changes
   useEffect(
     function subscriptToStoreChanges() {
@@ -158,7 +145,6 @@ export const LayoutUiObserver: FC = () => {
     },
     [store, handleStateChange],
   );
-  */
 
   return null;
 };

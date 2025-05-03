@@ -45,6 +45,7 @@ export const parsePadsConfig = ({
   data: DataEntry[];
   config: PadsConfig;
 }): { pads: PadItem[]; numPads: number } => {
+  console.log('%c🔍 IN - 1 - parsePadsConfig', 'color:hotpink', { data, config });
   const { maxPads, type, labelKey } = config;
   const numPads = Math.min(data.length, maxPads);
 
