@@ -25,11 +25,7 @@ interface UseRouteConfigReturn<T = DataEntry[]> {
 
 type RequiredRouteConfig<T = DataEntry[]> = RequiredProp<UseRouteConfigReturn<T>, 'route' | 'fieldKey'>;
 
-export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T>;
-export function useRouteConfig<T = DataEntry[]>(allowPartial: true): UseRouteConfigReturn<T>;
-export function useRouteConfig<T = DataEntry[]>(
-  allowPartial?: boolean,
-): UseRouteConfigReturn<T> | RequiredRouteConfig<T> {
+export function useRouteConfig<T = DataEntry[]>(): UseRouteConfigReturn<T> | RequiredRouteConfig<T> {
   const { routesMetadata } = useRouteLoaderData('routes') as { routesMetadata: RouteConfig[] };
 
   const location = useLocation();
@@ -75,17 +71,18 @@ export function useRouteConfig<T = DataEntry[]>(
   const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T | undefined;
   const result = { ...routeConfig, loaderData } as UseRouteConfigReturn<T>;
 
-  // If allowPartial is true, return the potentially partial result
-  if (allowPartial) return result;
+  // Check if we have all required fields
+  const hasRequiredFields = !hasOptionalProperties({ route: result.route, fieldKey: result.fieldKey });
 
-  // Otherwise, verify we have complete data
-  if (hasOptionalProperties({ route: result.route, fieldKey: result.fieldKey })) {
-    throw new Error('Route configuration is incomplete - missing route or fieldKey');
+  // If we have all required fields, return the full type
+  if (hasRequiredFields) {
+    return {
+      ...result,
+      route: result.route,
+      fieldKey: result.fieldKey,
+    } as RequiredRouteConfig<T>;
   }
 
-  return {
-    ...result,
-    route: result.route as RouteConfig,
-    fieldKey: result.fieldKey as OrderFieldKey,
-  } as RequiredRouteConfig<T>;
+  // Otherwise return the partial result
+  return result;
 }
