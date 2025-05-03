@@ -59,7 +59,8 @@ export const parsePadsConfig = <T extends DataEntry>({
   data: T[];
   config: PadsConfig<T>;
 }): { pads: PadItem[]; numPads: number } => {
-  const { maxPads, type, labelKey } = config;
+  const { maxPads, type } = config;
+  const labelKey = (config.labelKey as keyof T) || ('displayName' as keyof T);
   const numPads = Math.min(data.length, maxPads);
 
   // Slice the data to maxPads length

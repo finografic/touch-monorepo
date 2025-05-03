@@ -1,4 +1,5 @@
 import type { DataEntry } from 'types/data.types';
+import type { ConstEnumOf } from 'types/utilities/enum.utils.types';
 
 export interface OptionUI {
   label: string;
@@ -6,6 +7,11 @@ export interface OptionUI {
 }
 
 export type PadType = 'radio' | 'checkbox';
+
+export const PAD_TYPE: ConstEnumOf<PadType> = {
+  RADIO: 'radio',
+  CHECKBOX: 'checkbox',
+} as const;
 
 export interface PadItem {
   id: string;

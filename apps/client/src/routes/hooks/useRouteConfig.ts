@@ -23,15 +23,8 @@ interface PartialRouteConfig<T = DataEntry[]> {
   loaderData: T | undefined;
 }
 
-// Type guard to check if we have all required fields
-function isRequiredConfig<T>(config: PartialRouteConfig<T>): config is RequiredRouteConfig<T> {
-  return config.route !== undefined && config.fieldKey !== undefined;
-}
-
-// Now we can be explicit about the two possible return types
 export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   const { routesMetadata } = useRouteLoaderData('routes') as { routesMetadata: RouteConfig[] };
-
   const location = useLocation();
   const matches = useMatches();
 
@@ -73,20 +66,19 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   }, [matches, routesMetadata, location.pathname]);
 
   const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T | undefined;
-  const result: PartialRouteConfig<T> = { ...routeConfig, loaderData };
+  const result = { ...routeConfig, loaderData } as PartialRouteConfig<T>;
 
   // Check if we have all required fields
-  if (isRequiredConfig(result)) {
+  if (!hasOptionalProperties(result as unknown as Record<keyof PartialRouteConfig<T>, unknown>)) {
     // Only return RequiredRouteConfig if we also have loaderData
     if (result.loaderData !== undefined) {
       return {
         route: result.route,
         fieldKey: result.fieldKey,
         loaderData: result.loaderData,
-      } satisfies RequiredRouteConfig<T>;
+      } as RequiredRouteConfig<T>;
     }
   }
 
   return result as RequiredRouteConfig<T>;
-  // return result satisfies PartialRouteConfig<T>;
 }
