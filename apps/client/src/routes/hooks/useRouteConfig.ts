@@ -55,5 +55,5 @@ export const useRouteConfig = (): UseRouteConfigReturn => {
     return { route: routeConfig, fieldKey };
   }, [matches, routesMetadata, location.pathname]);
 
-  return { route: routeConfig?.route, fieldKey: routeConfig?.fieldKey };
+  return { fieldKey: routeConfig?.fieldKey, route: routeConfig?.route };
 };

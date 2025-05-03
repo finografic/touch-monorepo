@@ -39,7 +39,7 @@ export const initPadItem = ({
 
 /** Parse loader data and config to initialize pad items */
 export const parsePadsConfig = ({
-  data,
+  data = [],
   config,
 }: {
   data: DataEntry[];

@@ -21,9 +21,7 @@ interface RoutesMetadataReturns {
 }
 
 /**
- * Provides enhanced routes with metadata throughout the app.
- * Wraps the router configuration with metadata from ROUTES_CONFIG
- * and makes it available via useRouteMetadata hook.
+ * Provides enhanced route]outeMetadata hook.
  */
 export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ children }) => {
   const { routerLoader } = useRouterLoader();
