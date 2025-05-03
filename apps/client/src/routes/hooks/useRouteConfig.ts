@@ -9,10 +9,18 @@ import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
 
+// Base interface with all optional properties
+interface BaseRouteConfig {
+  route: RouteConfig | undefined;
+  fieldKey: OrderFieldKey | undefined;
+  loaderData: unknown;
+}
+
+// Type for the hook return value that handles array vs non-array types
 interface UseRouteConfigReturn<T = DataEntry[]> {
   route: RouteConfig | undefined;
   fieldKey: OrderFieldKey | undefined;
-  loaderData: T | undefined;
+  loaderData: T extends any[] ? T : T | undefined;
 }
 
 type RequiredRouteConfig<T = DataEntry[]> = RequiredProp<UseRouteConfigReturn<T>, 'route' | 'fieldKey'>;
@@ -27,7 +35,7 @@ export function useRouteConfig<T = DataEntry[]>(
   const location = useLocation();
   const matches = useMatches();
 
-  const routeConfig = useMemo((): Omit<UseRouteConfigReturn<T>, 'loaderData'> => {
+  const routeConfig = useMemo((): BaseRouteConfig => {
     let matchedConfig: RouteConfig | undefined;
     let fieldKey: OrderFieldKey | undefined;
 
@@ -58,22 +66,26 @@ export function useRouteConfig<T = DataEntry[]>(
     if (routeConfig?.handle) {
       const { handle, ...configExpanded } = routeConfig;
       Object.assign(configExpanded, { ...handle });
-      return { route: configExpanded, fieldKey };
+      return { route: configExpanded, fieldKey, loaderData: undefined };
     }
 
-    return { route: routeConfig, fieldKey };
+    return { route: routeConfig, fieldKey, loaderData: undefined };
   }, [matches, routesMetadata, location.pathname]);
 
-  const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T;
-  const result = { route: routeConfig.route, fieldKey: routeConfig.fieldKey, loaderData };
+  const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T | undefined;
+  const result = { ...routeConfig, loaderData } as UseRouteConfigReturn<T>;
 
   // If allowPartial is true, return the potentially partial result
   if (allowPartial) return result;
 
   // Otherwise, verify we have complete data
-  if (hasOptionalProperties(result)) {
+  if (hasOptionalProperties({ route: result.route, fieldKey: result.fieldKey })) {
     throw new Error('Route configuration is incomplete - missing route or fieldKey');
   }
 
-  return result as RequiredRouteConfig<T>;
+  return {
+    ...result,
+    route: result.route as RouteConfig,
+    fieldKey: result.fieldKey as OrderFieldKey,
+  } as RequiredRouteConfig<T>;
 }
