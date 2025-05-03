@@ -3,7 +3,7 @@ import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { PadItem, PadsConfig } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { DataEntry, Dataset, RouteLoaderData } from 'types/data.types';
+import type { DataEntry } from 'types/data.types';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numSlots]: ValidTypeBCount;

@@ -12,7 +12,7 @@ import type { PadsConfig } from 'types/ui.types';
 export const LayoutUiObserver: FC = () => {
   const { fieldKey } = useRouteConfig();
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
-  const { setUiPads, setUiNumPads, initPadsFromLoaderData } = useLayoutUi();
+  const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
 
   useEffect(
     function handleRouteChange() {
@@ -23,6 +23,7 @@ export const LayoutUiObserver: FC = () => {
 
       if (loaderData && padsConfig) {
         initPadsFromLoaderData(loaderData, padsConfig);
+        setUiFieldKey(fieldKey);
         // setUiPads([]);
         // setUiNumPads(0);
         return;
