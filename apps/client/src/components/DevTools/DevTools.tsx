@@ -4,6 +4,7 @@ import { TextAlignLeftIcon, TextAlignTopIcon } from '@radix-ui/react-icons';
 import { DevPanel } from './DevPanel/DevPanel';
 import { styles } from './DevTools.styles';
 import { QueryDevtoolsPanel } from './QueryDevtoolsPanel/QueryDevtoolsPanel';
+import { DevScreenSize } from './DevScreenSize/DevScreenSize';
 
 export const DevTools = () => {
   const {
@@ -19,6 +20,7 @@ export const DevTools = () => {
       <>
         {isDevDataVisible && <DevPanel />}
         {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
+        <DevScreenSize />
       </>
       <div css={styles} className="devtools-container">
         <Flex gap="3" justify="end">

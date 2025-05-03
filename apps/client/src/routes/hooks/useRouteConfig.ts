@@ -4,7 +4,6 @@ import type { RouteConfig } from 'routes/routes.types';
 import { OrderFieldKeys } from 'src/config/app.config';
 import type { OrderFieldKey } from 'types/orders.types';
 import { hasOptionalProperties } from 'types/utilities/object.utils.types';
-import type { RequiredProp } from 'types/utilities/props.utils.types';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';

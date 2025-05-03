@@ -5,6 +5,7 @@ import type { PadItem, PadsConfig } from 'types/ui.types';
 import { NUM_SLOTS_TYPE_B } from 'src/config/app.config';
 import { parsePadsConfig } from 'utils/ui.utils';
 import type { Dataset } from 'types/data.types';
+import type { OrderFieldKey } from 'types/orders.types';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
@@ -29,15 +30,18 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
-      setUiPads: (pads: PadItem[]) => {
-        console.log('%c🔍 IN - SET UI PADS', 'color:hotpink', pads);
-        set({ pads });
-      },
       initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadsConfig) => {
         const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
         const { pads, numPads } = parsePadsConfig({ data, config: padsConfig });
         set({ pads });
         set({ numPads });
+      },
+      updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadItem[]) => PadItem[]) => {
+        const currentPads = get().pads;
+        if (!currentPads?.length) return;
+
+        const updatedPads = updater(currentPads);
+        set({ pads: updatedPads });
       },
       // updateFromDrinkTypes: (drinkTypes: DrinkType[] | undefined) => {
       //   const state = get();

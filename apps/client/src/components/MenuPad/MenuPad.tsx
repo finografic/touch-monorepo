@@ -9,13 +9,15 @@ import { OrderItemCountdown } from './OrderItemCountdown';
 import { styles } from './MenuPad.styles';
 import type { MenuSlotType } from 'types/menu.types';
 import type { ValidMenuPadNumber } from 'pages/MenuPage/menu.config';
+import type { DataEntry } from 'types/data.types';
 
 export interface MenuPadProps<T extends MenuSlotType> {
   slotType: T; // 'A' | 'B' | 'C'
   number: ValidMenuPadNumber<T>;
+  metadata?: DataEntry;
 }
 
-export const MenuPad = <T extends MenuSlotType>({ slotType, number }: MenuPadProps<T>) => {
+export const MenuPad = <T extends MenuSlotType>({ slotType, number, metadata }: MenuPadProps<T>) => {
   const { orders } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;

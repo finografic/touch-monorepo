@@ -11,14 +11,14 @@ import JSONTree from 'components/DevTools/JSONTree/JSONTreeAlt';
 
 export const DevPanel = () => {
   const location = useLocation();
-  const routeConfig = useRouteConfig();
+  const { route, fieldKey, loaderData } = useRouteConfig();
   const [data, setData] = useState<OrderItem[]>([]);
   const { orders } = useOrders();
 
   const drinkTypes = useLoaderData() as DrinkType[] | undefined;
-  const { numSlots, fieldKey, numPads, pads } = useLayoutUi();
+  const { numSlots, numPads, pads } = useLayoutUi();
 
-  const padsConfig = PADS_UI_CONFIG[routeConfig.fieldKey as OrderFieldKey];
+  const padsConfig = PADS_UI_CONFIG[fieldKey];
 
   // log('%c __DRINK', 'yellow', { drinkTypes });
 
@@ -33,7 +33,7 @@ export const DevPanel = () => {
   }, [drinkTypes, location.pathname]);
 
   const devData = {
-    route: routeConfig,
+    route: { route, fieldKey },
     ui: {
       config: padsConfig,
       state: { numSlots, fieldKey, numPads, pads },
@@ -42,6 +42,7 @@ export const DevPanel = () => {
       count: orders.length,
       first: data[0],
     },
+    loaderData,
   };
 
   return (

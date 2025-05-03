@@ -8,17 +8,17 @@ import { useDev } from 'providers/DevProvider/DevContext';
 export const DevScreenSize = ({ variant = 'light' }: { variant?: 'light' | 'dark' }): ReactElement => {
   if (import.meta.env.NODE_ENV === 'production') return <Fragment />;
 
-  const { isDevToolsVisible, setIsDevToolsVisible } = useDev();
-  useKeyPress();
+  const { isDevDataVisible, setIsDevDataVisible } = useDev();
+  // useKeyPress();
 
   const handleClick = () => {
-    setIsDevToolsVisible(!isDevToolsVisible);
+    setIsDevDataVisible(!isDevDataVisible);
   };
 
   return (
     <div css={styles} onClick={handleClick} className={`dev-screen-size variant-${variant}`}>
       <pre>
-        <span style={{ paddingRight: '1em' }}>{isDevToolsVisible ? '(DEV)' : ''}</span>
+        <span style={{ paddingRight: '1em' }}>{isDevDataVisible ? '(DEV)' : ''}</span>
         <Visible xs>XS</Visible>
         <Visible sm>SM</Visible>
         <Visible md>MD</Visible>
