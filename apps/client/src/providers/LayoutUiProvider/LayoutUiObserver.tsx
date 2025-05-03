@@ -12,7 +12,7 @@ import { routes } from 'routes/routes';
 import type { PadsConfig } from 'types/ui.types';
 
 export const LayoutUiObserver: FC = () => {
-  const { route, fieldKey } = useRouteConfig() as { route: RouteConfig; fieldKey: OrderFieldKey };
+  const { fieldKey } = useRouteConfig() as { route: RouteConfig; fieldKey: OrderFieldKey };
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, initPadsFromLoaderData } = useLayoutUi();
 

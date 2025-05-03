@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react';
 import type { OrderItem } from 'types/orders.types';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
-import { OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys, PADS_UI_CONFIG } from 'constants/app.config';
 import type { DrinkType } from 'types/models/drink-type.model';
+import type { PadsConfig } from 'types/ui.types';
 
 export const DevPanel = () => {
   const location = useLocation();
@@ -17,13 +18,9 @@ export const DevPanel = () => {
   // const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
   const drinkTypes = useLoaderData() as DrinkType[] | undefined;
 
-  const {
-    numSlots,
-    fieldKey,
-    numPads,
-    pads,
-    //  updateFromDrinkTypes
-  } = useLayoutUi();
+  const { numSlots, fieldKey, numPads, pads } = useLayoutUi();
+
+  const padsConfig = PADS_UI_CONFIG[routeConfig.fieldKey as keyof typeof PASS_UI_CONFIG] as PadsConfig;
 
   // log('%c __DRINK', 'yellow', { drinkTypes });
 
@@ -42,6 +39,10 @@ export const DevPanel = () => {
       <pre>
         <h2>route</h2>
         {JSON.stringify({ ...routeConfig }, null, 2)}
+      </pre>
+      <pre>
+        <h2>UI CONFIG</h2>
+        {JSON.stringify({ numSlots, fieldKey, numPads, pads }, null, 2)}
       </pre>
       <pre>
         <h2>UI State</h2>
