@@ -1,18 +1,6 @@
 import { useEffect } from 'react';
-import type { LayoutUiProviderProps, LayoutUiValues } from './LayoutUiContext.types';
-import { DISPLAY_NAME, LayoutUiContext as LayoutUi } from './LayoutUiContext';
-
-// Observer pattern approach
-const useLayoutUiObserver = (callback: (state: LayoutUiValues) => void) => {
-  const store = LayoutUi.useContext();
-  if (!store) return;
-
-  useEffect(() => {
-    return store.subscribe((state) => {
-      callback(state);
-    });
-  }, [store, callback]);
-};
+import type { LayoutUiProviderProps, LayoutUiValues } from '../LayoutUiContext.types';
+import { DISPLAY_NAME, LayoutUiContext as LayoutUi } from '../LayoutUiContext';
 
 export const LayoutUiProvider = ({ initialValue, children }: LayoutUiProviderProps) => {
   const store = LayoutUi.useContext();
@@ -36,12 +24,23 @@ export const LayoutUiProvider = ({ initialValue, children }: LayoutUiProviderPro
     return unsubscribe;
   }, [store]);
 
-  /* Approach 2: Using the observer pattern
+  // Observer pattern approach
+  const useLayoutUiObserver = (callback: (state: LayoutUiValues) => void) => {
+    const store = LayoutUi.useContext();
+    if (!store) return;
+
+    useEffect(() => {
+      return store.subscribe((state) => {
+        callback(state);
+      });
+    }, [store, callback]);
+  };
+
+  // Approach 2: Using the observer pattern
   useLayoutUiObserver((state) => {
     console.log('🔍 Layout UI State changed:', state);
     // Here you could handle any state changes
   });
-  */
 
   return <LayoutUi.Provider initialValue={initialValue}>{children}</LayoutUi.Provider>;
 };

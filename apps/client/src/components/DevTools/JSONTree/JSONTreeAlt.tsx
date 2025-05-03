@@ -1,4 +1,4 @@
-import { stylesEmo } from 'components/JSONTree/JSONTree.styles';
+import { stylesEmo } from 'components/DevTools/JSONTree/JSONTree.styles';
 import { type GetItemString, JSONTree, type LabelRenderer } from 'react-json-tree';
 
 // VS Code Dark+ inspired theme

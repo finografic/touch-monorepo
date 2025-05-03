@@ -7,7 +7,7 @@ import { useLoaderData, useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { PADS_UI_CONFIG } from 'constants/app.config';
 import type { DrinkType } from 'types/models/drink-type.model';
-import JSONTree from 'components/JSONTree/JSONTreeAlt';
+import JSONTree from 'components/DevTools/JSONTree/JSONTreeAlt';
 
 export const DevPanel = () => {
   const location = useLocation();
