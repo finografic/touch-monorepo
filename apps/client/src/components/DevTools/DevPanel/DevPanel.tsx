@@ -8,6 +8,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { PADS_UI_CONFIG } from 'constants/app.config';
 import type { DrinkType } from 'types/models/drink-type.model';
 import JSONTree from 'components/DevTools/JSONTree/JSONTreeAlt';
+import { transformPadData } from 'utils/data.utils';
 
 export const DevPanel = () => {
   const location = useLocation();
@@ -16,7 +17,7 @@ export const DevPanel = () => {
   const { orders } = useOrders();
 
   const drinkTypes = useLoaderData() as DrinkType[] | undefined;
-  const { numSlots, numPads, pads } = useLayoutUi();
+  const { numSlots, numPads, pads: padsSource } = useLayoutUi();
 
   const padsConfig = PADS_UI_CONFIG[fieldKey];
 
@@ -32,17 +33,30 @@ export const DevPanel = () => {
     }
   }, [drinkTypes, location.pathname]);
 
-  const devData = {
+  const ____devData = {
     route: { route, fieldKey },
     ui: {
       config: padsConfig,
-      state: { numSlots, fieldKey, numPads, pads },
+      // state: { numSlots, fieldKey, numPads, pads },
     },
     orders: {
       count: orders.length,
       first: data[0],
     },
     loaderData,
+  };
+
+  const __devData = {
+    route: { route, fieldKey },
+    ui: {
+      config: padsConfig,
+      fieldKey,
+      // pads,
+    },
+  };
+
+  const devData = {
+    pads: transformPadData(padsSource),
   };
 
   return (

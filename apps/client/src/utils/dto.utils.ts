@@ -1,5 +1,5 @@
-import { CamelCasedPropertiesDeep } from 'type-fest';
-import { camelCase } from 'lodash';
+import type { CamelCasedPropertiesDeep } from 'type-fest';
+import camelCase from 'lodash/camelCase';
 
 export const toCamelCaseKeys = <T extends object>(input: T): CamelCasedPropertiesDeep<T> => {
   if (input === null || input === undefined) {
