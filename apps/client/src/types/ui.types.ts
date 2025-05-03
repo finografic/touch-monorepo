@@ -6,19 +6,23 @@ export interface OptionUI {
   value: string;
 }
 
-export type PadType = 'radio' | 'checkbox';
+export type PadType = 'radio' | 'checkbox' | 'button';
 
 export const PAD_TYPE: ConstEnumOf<PadType> = {
   RADIO: 'radio',
   CHECKBOX: 'checkbox',
+  BUTTON: 'button',
 } as const;
 
-export interface PadItem {
+export interface PadUI {
   id: string;
-  key: string;
+  index?: number;
   label: string;
+  name: string;
   type: PadType;
   isChecked: boolean;
+  disabled?: boolean;
+  className?: string;
   metadata?: DataEntry;
 }
 

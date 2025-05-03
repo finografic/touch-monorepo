@@ -14,7 +14,6 @@ export const DevTools = () => {
     isDevQueryPanelOpen,
     setIsDevQueryPanelOpen,
   } = useDev();
-  // log('__TEST', 'yellow', { isDevToolsVisible, isDevDataVisible, isDevQueryPanelOpen });
   return (
     <>
       <>

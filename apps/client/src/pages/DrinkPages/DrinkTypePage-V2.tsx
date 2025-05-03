@@ -7,7 +7,7 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { OrderFieldKeys } from 'src/config/app.config';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import type { PadItem } from 'types/ui.types';
+import type { PadUI } from 'types/ui.types';
 import { Pad } from 'components/Pad/Pad';
 
 export const DrinkTypePage = () => {
@@ -22,7 +22,7 @@ export const DrinkTypePage = () => {
   return (
     <section css={stylesItemsGrid}>
       <div className={getGridFlowClasses(pads.length)}>
-        {pads.map((pad: PadItem) => (
+        {pads.map((pad: PadUI) => (
           <Pad key={pad.key} pad={pad} fieldKey={fieldKey} className="item-button" />
         ))}
       </div>

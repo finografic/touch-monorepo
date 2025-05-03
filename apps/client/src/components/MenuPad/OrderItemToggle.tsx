@@ -1,6 +1,6 @@
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderItem } from 'types/orders.types';
-import { findOrderByNumber } from 'utils/orders.utils';
+import { findOrderByNumber } from 'utils/context.utils';
 import type { OrderItemPadProps } from './MenuPad.types';
 import clsx from 'clsx';
 

@@ -1,9 +1,8 @@
-import type { MenuSlotLayout, SlotTypeAtIndex } from 'types/menu.types';
 import { createMenuLayout } from 'types/menu.types';
 import { NUM_SLOTS_TYPE_B } from 'src/config/app.config';
-
-// Define the number of Type B pads we're using
-export type MenuBCount = typeof NUM_SLOTS_TYPE_B;
+import type { MenuBCount } from 'pages/MenuPage/menu.types';
+import type { ConstEnumOf, ConstMapOf } from 'types/utility.types';
+import type { PadTestProps } from 'pages/MenuPage/MenuPage';
 
 // Create and export the menu layout configuration
 export const menuLayout = createMenuLayout<MenuBCount>({
@@ -12,21 +11,52 @@ export const menuLayout = createMenuLayout<MenuBCount>({
   typeC: { startIndex: 9 },
 });
 
-// Export the layout type for use in other components
-export type MenuLayout = MenuSlotLayout<MenuBCount>;
+type FlowType = 'product' | 'repeat' | 'time';
 
-/**
- * Get valid menu pad numbers based on their type
- */
-export type ValidMenuPadNumber<T extends 'A' | 'B' | 'C'> = T extends 'A'
-  ? 0
-  : T extends 'B'
-    ? 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
-    : T extends 'C'
-      ? 9 | 10 | 11
-      : never;
+export const FLOW_TYPE = {
+  PRODUCT: 'product',
+  REPEAT: 'repeat',
+  TIME: 'time',
+} as const;
 
-/**
- * Get the type of a menu pad at a specific number
- */
-export type MenuPadTypeAtNumber<N extends number> = SlotTypeAtIndex<MenuBCount, N>;
+export const TEST: PadTestProps = {
+  id: '1',
+  label: 'LABEL A',
+  type: 'button',
+  fieldKey: 'home',
+  className: 'pad-rect',
+  isChecked: false,
+  disabled: false,
+};
+
+type FlowTypeValues = (typeof FLOW_TYPE)[keyof typeof FLOW_TYPE];
+
+export const FLOW_CONFIG: Record<FlowTypeValues, PadTestProps> = {
+  [FLOW_TYPE.PRODUCT]: {
+    id: '1',
+    label: 'LABEL A',
+    type: 'button',
+    fieldKey: 'home',
+    className: 'pad-rect',
+    isChecked: false,
+    disabled: false,
+  },
+  [FLOW_TYPE.REPEAT]: {
+    id: '2',
+    label: 'LABEL B',
+    type: 'button',
+    fieldKey: 'home',
+    className: 'pad-rect',
+    isChecked: false,
+    disabled: false,
+  },
+  [FLOW_TYPE.TIME]: {
+    id: '3',
+    label: 'LABEL C',
+    type: 'button',
+    fieldKey: 'home',
+    className: 'pad-rect',
+    isChecked: false,
+    disabled: false,
+  },
+};

@@ -1,7 +1,7 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
-import type { PadItem, PadsConfig } from 'types/ui.types';
+import type { PadsConfig, PadUI } from 'types/ui.types';
 import { NUM_SLOTS_TYPE_B } from 'src/config/app.config';
 import { parsePadsConfig } from 'utils/ui.utils';
 import type { Dataset } from 'types/data.types';
@@ -30,34 +30,25 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
-      initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadsConfig) => {
+      initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadsConfig, fieldKey: OrderFieldKey) => {
         const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
-        const { pads, numPads } = parsePadsConfig({ data, config: padsConfig });
+        const { pads, numPads } = parsePadsConfig({ data, config: padsConfig, fieldKey });
         set({ pads });
         set({ numPads });
       },
-      updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadItem[]) => PadItem[]) => {
+      updatePadState: (_fieldKey: OrderFieldKey, updater: (pads: PadUI[]) => PadUI[]) => {
         const currentPads = get().pads;
         if (!currentPads?.length) return;
 
         const updatedPads = updater(currentPads);
         set({ pads: updatedPads });
       },
-      // updateFromDrinkTypes: (drinkTypes: DrinkType[] | undefined) => {
-      //   const state = get();
-      //   const numPads = drinkTypes?.length ?? 0;
-
-      //   set({
-      //     fieldKey: drinkTypes ? OrderFieldKeys.drinkType : undefined,
-      //     numPads,
-      //     pads: initPadItems({
-      //       numPads,
-      //       // Preserve existing keys if they exist
-      //       keys: state.pads.slice(0, numPads).map((pad) => pad.key),
-      //       type: 'radio',
-      //     }),
-      //   });
-      // },
+      // TODO: ignore the following for now..
+      togglePad: (index: number) => {
+        const { pads } = get();
+        const draftPads = pads.find((pad) => pad.index === index);
+        // set({ pads: draftPads });
+      },
     },
     // subscribe: (listener: (state: LayoutUiStore, prevState: LayoutUiStore) => void) => {
     //   const state = get();

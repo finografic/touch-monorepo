@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { PadItem } from 'types/ui.types';
+import type { PadUI } from 'types/ui.types';
 
 interface UseOrderSelectionProps<T> {
   field: OrderFieldKey;
@@ -27,7 +27,7 @@ export function usePadSelection<T>({ field, initialValue }: UseOrderSelectionPro
   // log('__DEV: isValid', 'hotpink', { TEST: orders[0], initialValue, isValid });
 
   const handleSelection = useCallback(
-    ({ pad, fieldKey }: { pad: PadItem; fieldKey: OrderFieldKey }) => {
+    ({ pad, fieldKey }: { pad: PadUI; fieldKey: OrderFieldKey }) => {
       const valueToSet = selectedValue && pad.id === selectedValue ? null : pad.id || null;
       const updatedOrders = orders.map((order) => ({ ...order, [fieldKey]: valueToSet }));
       setOrders(updatedOrders);

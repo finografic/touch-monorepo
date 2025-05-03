@@ -1,72 +1,114 @@
-import { useState } from 'react';
-import * as Collapsible from '@radix-ui/react-collapsible';
-import { ChevronDownIcon, ChevronRightIcon } from '@radix-ui/react-icons';
-import { styles } from './JSONTree.styles';
+import { stylesEmo } from 'components/DevTools/JSONTree/JSONTree.styles';
+import type { GetItemString, LabelRenderer } from 'react-json-tree';
+import { JSONTree as JSONTreeReact } from 'react-json-tree';
 
-interface JSONTreeProps {
-  data: unknown;
-  level?: number;
+// VS Code Dark+ inspired theme
+const _theme_vscode_dark = {
+  scheme: 'vs-dark',
+  base00: '#1E1E1E', // background
+  base01: '#262626', // lighter background
+  base02: '#303030', // selection background
+  base03: '#6D6D6D', // comments, invisibles
+  base04: '#808080', // dark foreground
+  base05: '#D4D4D4', // default foreground
+  base06: '#E9E9E9', // light foreground
+  base07: '#FFFFFF', // light background
+  base08: '#CD9077', // variables
+  base09: '#6B9955', // integers, booleans
+  base0A: '#DCDCAA', // classes, css classes
+  base0B: '#CE9178', // strings
+  base0C: '#4EC9B0', // support, regular expressions
+  base0D: '#569CD6', // functions, methods
+  base0E: '#C586C0', // keywords
+  base0F: '#9CDCFE', // object keys
+};
+
+const _theme_monokai = {
+  scheme: 'monokai',
+  author: 'wimer hazenberg (http://www.monokai.nl)',
+  base00: '#272822',
+  base01: '#383830',
+  base02: '#49483e',
+  base03: '#75715e',
+  base04: '#a59f85',
+  base05: '#f8f8f2',
+  base06: '#f5f4f1',
+  base07: '#f9f8f5',
+  base08: '#f92672',
+  base09: '#fd971f',
+  base0A: '#f4bf75',
+  base0B: '#a6e22e',
+  base0C: '#a1efe4',
+  base0D: '#66d9ef',
+  base0E: '#ae81ff',
+  base0F: '#cc6633',
+};
+
+const theme = {
+  scheme: 'monokai',
+  author: 'wimer hazenberg (http://www.monokai.nl)',
+  base00: '#272822',
+  base01: '#383830',
+  base02: '#49483e',
+  base03: '#75715e',
+  base04: '#a59f85',
+  base05: '#f8f8f2',
+  base06: '#f5f4f1',
+  base07: '#f9f8f5',
+  base08: '#f92672',
+  base09: '#f92672',
+  base0A: '#f4bf75',
+  base0B: '#a6e22e',
+  base0C: '#a1efe4',
+  base0D: '#66d9ef',
+  base0E: '#ae81ff',
+  base0F: '#4EC9B0', // object keys
+};
+
+const valueRenderer = (raw: unknown): string => {
+  // if (typeof raw === 'string') return `"${raw}"`;
+  if (typeof raw === 'string') return `${raw}`;
+  if (raw === null) return 'null';
+  if (raw === undefined) return 'undefined';
+  return String(raw);
+};
+
+interface CustomJSONTreeProps {
+  data: any;
   expanded?: boolean;
 }
 
-const JSONTree = ({ data, level = 0, expanded = false }: JSONTreeProps) => {
-  const [isOpen, setIsOpen] = useState(expanded);
-  const [isHovered, setIsHovered] = useState(false);
-  const indent = level * 12; // Reduced from 16px to 12px
+const getItemString: GetItemString = (type, data, itemType) => (
+  <span style={{ color: theme.base05 }}>
+    {itemType} {Array.isArray(data) ? `(${data.length})` : ''}
+  </span>
+);
 
-  if (data === null) return <span style={styles.null}>null</span>;
-  if (data === undefined) return <span style={styles.undefined}>undefined</span>;
-  if (typeof data === 'string') return <span style={styles.string}>"{data}"</span>;
-  if (typeof data === 'number') return <span style={styles.number}>{data}</span>;
-  if (typeof data === 'boolean') return <span style={styles.boolean}>{data.toString()}</span>;
+const labelRenderer: LabelRenderer = (keyPath) => (
+  <span style={{ color: theme.base0F }}>{typeof keyPath[0] === 'string' ? `${keyPath[0]}` : keyPath[0]}</span>
+);
 
-  if (Array.isArray(data) || typeof data === 'object') {
-    const isArray = Array.isArray(data);
-    const items = isArray ? data : Object.entries(data);
-    const isEmpty = items.length === 0;
-
-    if (isEmpty) {
-      return <span style={styles.punctuation}>{isArray ? '[]' : '{}'}</span>;
-    }
-
-    return (
-      <div style={{ ...styles.container, marginLeft: indent }}>
-        <Collapsible.Root open={isOpen} onOpenChange={setIsOpen}>
-          <Collapsible.Trigger
-            style={{ ...styles.trigger, ...(isHovered ? styles.triggerHover : {}) }}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-          >
-            {isOpen ? (
-              <ChevronDownIcon style={styles.chevron} />
-            ) : (
-              <ChevronRightIcon style={styles.chevron} />
-            )}
-            <span style={styles.punctuation}>{isArray ? '[' : '{'}</span>
-          </Collapsible.Trigger>
-
-          <Collapsible.Content style={styles.content}>
-            {(isArray ? items : (items as [string, unknown][])).map((item, index) => (
-              <div key={isArray ? index : item[0]} style={styles.item}>
-                {!isArray && (
-                  <>
-                    <span style={styles.key}>"{item[0]}"</span>
-                    <span style={styles.punctuation}>:</span>
-                  </>
-                )}
-                <JSONTree data={isArray ? item : item[1]} level={level + 1} expanded={expanded} />
-                {index < items.length - 1 && <span style={styles.punctuation}>,</span>}
-              </div>
-            ))}
-          </Collapsible.Content>
-
-          <span style={styles.punctuation}>{isArray ? ']' : '}'}</span>
-        </Collapsible.Root>
-      </div>
-    );
-  }
-
-  return null;
+export const JSONTree = ({ data, expanded = true }: CustomJSONTreeProps) => {
+  return (
+    <span css={stylesEmo}>
+      <JSONTreeReact
+        data={data}
+        theme={theme}
+        invertTheme={false}
+        valueRenderer={valueRenderer}
+        shouldExpandNodeInitially={() => expanded}
+        hideRoot
+        getItemString={getItemString}
+        labelRenderer={labelRenderer}
+        {...{
+          style: {
+            fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
+            fontSize: '13px',
+            lineHeight: '1.4',
+            backgroundColor: 'transparent',
+          },
+        }}
+      />
+    </span>
+  );
 };
-
-export default JSONTree;

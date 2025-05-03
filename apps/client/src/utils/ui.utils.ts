@@ -1,23 +1,29 @@
-import type { PadItem, PadsConfig, PadType } from 'types/ui.types';
+import type { PadsConfig, PadType, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
+import type { OrderFieldKey } from 'types/orders.types';
 
 /** Initialize an array of pad items with default values */
-export const initPadItems = ({
+export const initAllPadUI = ({
   numPads = 0,
-  keys = [],
+  ids = [],
+  labels = [],
+  name = '',
   type = 'radio',
   metadata = [],
 }: {
   numPads: number;
-  keys?: string[];
+  ids: string[];
+  labels?: string[];
+  name: string;
   type: PadType;
   metadata?: DataEntry[];
-}): PadItem[] => {
+}): PadUI[] => {
   return numPads > 0
     ? Array.from({ length: numPads }, (_, i) => ({
-        id: keys[i],
-        key: keys[i],
-        label: keys[i],
+        index: i,
+        id: ids[i],
+        label: labels[i],
+        name,
         type,
         isChecked: false,
         metadata: metadata[i],
@@ -26,25 +32,20 @@ export const initPadItems = ({
 };
 
 /** Initialize a single pad item */
-export const initPadItem = ({
-  key,
-  id = key,
-  label = key,
+export const initPadUI = ({
+  index,
+  id,
+  label,
+  name,
   type = 'radio',
   isChecked = false,
   metadata,
-}: {
-  key: string;
-  id: string;
-  label: string;
-  type: PadType;
-  isChecked: boolean;
-  metadata?: DataEntry;
-}): PadItem => {
+}: PadUI): PadUI => {
   return {
+    index,
     id,
-    key,
     label,
+    name,
     type,
     isChecked,
     metadata,
@@ -55,22 +56,23 @@ export const initPadItem = ({
 export const parsePadsConfig = <T extends DataEntry>({
   data = [],
   config,
+  fieldKey,
 }: {
   data: T[];
   config: PadsConfig<T>;
-}): { pads: PadItem[]; numPads: number } => {
+  fieldKey: OrderFieldKey;
+}): { pads: PadUI[]; numPads: number } => {
   const { maxPads, type } = config;
   const labelKey = (config.labelKey as keyof T) || ('displayName' as keyof T);
   const numPads = Math.min(data.length, maxPads);
-
-  // Slice the data to maxPads length
   const slicedData = data.slice(0, numPads);
 
-  // Extract keys from data using the configured labelKey
-  const keys = labelKey ? slicedData.map((item) => String(item[labelKey] ?? '')) : [];
-
+  // Extract ids, keys from data...
+  const ids = slicedData.map((item) => String(item?.name ?? item?.id ?? '')) ?? [];
+  // Extract labels from data using the configured labelKey
+  const labels = labelKey ? slicedData.map((item) => String(item[labelKey] ?? '')) : [];
   // Initialize pads with the extracted keys and metadata
-  const pads = initPadItems({ numPads, keys, type, metadata: slicedData });
+  const pads = initAllPadUI({ numPads, ids, labels, name: fieldKey, type, metadata: slicedData });
 
   return { pads, numPads };
 };

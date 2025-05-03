@@ -18,14 +18,12 @@ export const LayoutUiObserver: FC = () => {
     function handleRouteChange() {
       if (!fieldKey) return;
 
-      console.log('🔍  Route Change Effect:', { fieldKey });
+      console.log('🚦 route changed:', { fieldKey });
       const padsConfig = PADS_UI_CONFIG[fieldKey] as PadsConfig;
 
       if (loaderData && padsConfig) {
-        initPadsFromLoaderData(loaderData, padsConfig);
+        initPadsFromLoaderData(loaderData, padsConfig, fieldKey);
         setUiFieldKey(fieldKey);
-        // setUiPads([]);
-        // setUiNumPads(0);
         return;
       }
 

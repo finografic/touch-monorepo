@@ -2,7 +2,7 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM } from 'src/config/orders.constants';
-import { findOrderByNumber } from 'utils/orders.utils';
+import { findOrderByNumber } from 'utils/context.utils';
 
 export const DISPLAY_NAME = 'Orders';
 export const SETTER_PREFIX = '';

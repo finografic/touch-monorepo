@@ -3,8 +3,9 @@ export type DataType = string | number | boolean | null | undefined;
 
 /** Base interface for API resource objects */
 export interface DataEntry {
-  /** Optional unique identifier */
+  /** Optional unique identifiers */
   id?: string;
+  name?: string;
   /** Dynamic keys supporting primitive values, arrays, and nested objects */
   [key: string]: DataType | DataType[] | Record<string, DataType> | DataEntry;
 }

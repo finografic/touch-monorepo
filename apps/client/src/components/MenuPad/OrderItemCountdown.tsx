@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
-import { findOrderByNumber } from 'utils/orders.utils';
+import { findOrderByNumber } from 'utils/context.utils';
 import { styles } from './MenuPad.styles';
 
 export const OrderItemCountdown: FC<{ number: number }> = ({ number }) => {

@@ -1,13 +1,13 @@
-import type { PadItem } from 'types/ui.types';
+import type { PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
 import type { OrderItem } from 'types/orders.types';
 
 interface TransformedPad {
+  index: number;
   id: string;
-  type: PadItem['type'];
+  name: string;
+  type: PadUI['type'];
   isChecked: boolean;
-  // name: string;
-  // displayName: string;
   hasSubtypes: boolean;
 }
 
@@ -15,10 +15,10 @@ interface TransformedPad {
  * Transforms pad items into a flattened structure with specific props.
  * Maintains reactivity by creating new objects only for transformed properties.
  */
-export const transformPadData = (pads: PadItem[]): TransformedPad[] => {
+export const transformPadData = (pads: PadUI[]): TransformedPad[] => {
   if (!pads?.length) return [];
 
-  return pads.map((pad) => {
+  return pads.map((pad, index) => {
     // Keep reference to original metadata to maintain reactivity
     const metadata = pad.metadata as DataEntry & {
       name: string;
@@ -28,24 +28,13 @@ export const transformPadData = (pads: PadItem[]): TransformedPad[] => {
 
     return {
       // Core pad properties - maintain references
+      index,
       id: pad.id,
+      name: pad.name,
       type: pad.type,
       isChecked: pad.isChecked,
       hasSubtypes: !!metadata?.hasSubtypes,
     };
-
-    /*
-    return {
-      // Core pad properties - maintain references
-      id: pad.id,
-      type: pad.type,
-      isChecked: pad.isChecked,
-      // Flattened metadata properties
-      name: metadata?.name || '',
-      displayName: metadata?.displayName || '',
-      hasSubtypes: !!metadata?.hasSubtypes,
-    };
-    */
   });
 };
 
@@ -58,10 +47,9 @@ export const isTransformedPad = (obj: unknown): obj is TransformedPad => {
   const pad = obj as Partial<TransformedPad>;
   return (
     typeof pad.id === 'string' &&
+    typeof pad.name === 'string' &&
     typeof pad.type === 'string' &&
     typeof pad.isChecked === 'boolean' &&
-    // typeof pad.name === 'string' &&
-    // typeof pad.displayName === 'string' &&
     typeof pad.hasSubtypes === 'boolean'
   );
 };

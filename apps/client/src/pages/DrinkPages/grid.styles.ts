@@ -37,6 +37,10 @@ export const stylesItemsGrid = css`
       .item-button {
         width: 100%;
       }
+
+      &.pad-rect {
+        width: 300px;
+      }
     }
   }
 

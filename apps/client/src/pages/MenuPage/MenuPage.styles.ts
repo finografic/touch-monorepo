@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-
 import { colors, layout } from 'styles';
 
 const props = {
@@ -19,16 +18,27 @@ const props = {
     width: '150px',
     height: '239px',
   },
+  // menu,
 };
 
 export const styles = css`
   width: max-content !important;
   color: ${colors.white};
+  /* box-shadow: inset 0 0 0 4px rgba(150, 0, 0, 0.5); */
+
+  .menu-grid-base {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    gap: 2.5rem;
+    height: 100%;
+    transform: translateX(4rem);
+  }
 
   .menu-grid-left {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2.5rem;
+    height: 100%;
   }
 
   .menu-grid-right {
@@ -37,8 +47,7 @@ export const styles = css`
     flex-direction: column;
     align-items: space-between;
     justify-content: space-between;
-    /* gap: 1.5rem; */
-    padding-left: 1rem;
+    height: 100%;
   }
 
   .pad-special {
