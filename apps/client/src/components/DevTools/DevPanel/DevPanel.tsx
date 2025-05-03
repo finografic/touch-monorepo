@@ -5,9 +5,8 @@ import { useEffect, useState } from 'react';
 import type { OrderFieldKey, OrderItem } from 'types/orders.types';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
-import { OrderFieldKeys, PADS_UI_CONFIG } from 'constants/app.config';
+import { PADS_UI_CONFIG } from 'constants/app.config';
 import type { DrinkType } from 'types/models/drink-type.model';
-import type { PadsConfig } from 'types/ui.types';
 
 export const DevPanel = () => {
   const location = useLocation();
@@ -15,7 +14,6 @@ export const DevPanel = () => {
   const [data, setData] = useState<OrderItem[]>([]);
   const { orders } = useOrders();
 
-  // const drinkTypes = useRouteLoaderData(OrderFieldKeys.drinkType) as DrinkType[] | undefined;
   const drinkTypes = useLoaderData() as DrinkType[] | undefined;
 
   const { numSlots, fieldKey, numPads, pads } = useLayoutUi();
