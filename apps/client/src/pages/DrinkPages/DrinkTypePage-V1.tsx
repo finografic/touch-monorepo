@@ -17,7 +17,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 export const DrinkTypePage = () => {
   // const navigate = useNavigate();
   // const [nextClicked, setNextClicked] = useState(false);
-  const { fieldKey, loaderData: drinkTypes } = useRouteConfig<DrinkType[]>();
+  // const { fieldKey, loaderData } = useRouteConfig();
   const { orders } = useOrders();
   const field = OrderFieldKeys.drinkType;
   const initialValue = orders[0]?.[field];
@@ -32,10 +32,8 @@ export const DrinkTypePage = () => {
   const { setIsNextDisabled } = usePagination();
   // const drinkTypes = useLoaderData() as DrinkType[];
 
-  console.log('%c __USE_ROUTE:', 'color:lime', { fieldKey, drinkTypes });
-
   // const drinkTypes = useRouteLoaderData(PATHS.drinkType) as DrinkType[] | undefined;
-  // const drinkTypes = useLoaderData() as DrinkType[] | undefined;
+  const drinkTypes = useLoaderData() as DrinkType[] | undefined;
 
   // console.log('%c __DRINK', 'color:orange', { drinkTypes });
 

@@ -9,23 +9,25 @@ import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
 
-interface UseRouteConfigReturn {
+interface UseRouteConfigReturn<T = DataEntry[]> {
   route: RouteConfig | undefined;
   fieldKey: OrderFieldKey | undefined;
-  loaderData: DataEntry[] | undefined;
+  loaderData: T | undefined;
 }
 
-type RequiredRouteConfig = RequiredProp<UseRouteConfigReturn, 'route' | 'fieldKey'>;
+type RequiredRouteConfig<T = DataEntry[]> = RequiredProp<UseRouteConfigReturn<T>, 'route' | 'fieldKey'>;
 
-export function useRouteConfig(): RequiredRouteConfig;
-export function useRouteConfig(allowPartial: true): UseRouteConfigReturn;
-export function useRouteConfig(allowPartial?: boolean): UseRouteConfigReturn | RequiredRouteConfig {
+export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T>;
+export function useRouteConfig<T = DataEntry[]>(allowPartial: true): UseRouteConfigReturn<T>;
+export function useRouteConfig<T = DataEntry[]>(
+  allowPartial?: boolean,
+): UseRouteConfigReturn<T> | RequiredRouteConfig<T> {
   const { routesMetadata } = useRouteLoaderData('routes') as { routesMetadata: RouteConfig[] };
 
   const location = useLocation();
   const matches = useMatches();
 
-  const routeConfig = useMemo((): Omit<UseRouteConfigReturn, 'loaderData'> => {
+  const routeConfig = useMemo((): Omit<UseRouteConfigReturn<T>, 'loaderData'> => {
     let matchedConfig: RouteConfig | undefined;
     let fieldKey: OrderFieldKey | undefined;
 
@@ -62,7 +64,7 @@ export function useRouteConfig(allowPartial?: boolean): UseRouteConfigReturn | R
     return { route: routeConfig, fieldKey };
   }, [matches, routesMetadata, location.pathname]);
 
-  const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as DataEntry[];
+  const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T;
   const result = { route: routeConfig.route, fieldKey: routeConfig.fieldKey, loaderData };
 
   // If allowPartial is true, return the potentially partial result
@@ -73,5 +75,5 @@ export function useRouteConfig(allowPartial?: boolean): UseRouteConfigReturn | R
     throw new Error('Route configuration is incomplete - missing route or fieldKey');
   }
 
-  return result as RequiredRouteConfig;
+  return result as RequiredRouteConfig<T>;
 }
