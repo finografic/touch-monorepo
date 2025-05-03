@@ -2,7 +2,7 @@ import { stylesEmo } from 'components/DevTools/JSONTree/JSONTree.styles';
 import { type GetItemString, JSONTree, type LabelRenderer } from 'react-json-tree';
 
 // VS Code Dark+ inspired theme
-const theme = {
+const theme_vscode_dark = {
   scheme: 'vs-dark',
   base00: '#1E1E1E', // background
   base01: '#262626', // lighter background
@@ -22,8 +22,51 @@ const theme = {
   base0F: '#9CDCFE', // object keys
 };
 
+const theme_monokai = {
+  scheme: 'monokai',
+  author: 'wimer hazenberg (http://www.monokai.nl)',
+  base00: '#272822',
+  base01: '#383830',
+  base02: '#49483e',
+  base03: '#75715e',
+  base04: '#a59f85',
+  base05: '#f8f8f2',
+  base06: '#f5f4f1',
+  base07: '#f9f8f5',
+  base08: '#f92672',
+  base09: '#fd971f',
+  base0A: '#f4bf75',
+  base0B: '#a6e22e',
+  base0C: '#a1efe4',
+  base0D: '#66d9ef',
+  base0E: '#ae81ff',
+  base0F: '#cc6633',
+};
+
+const theme = {
+  scheme: 'monokai',
+  author: 'wimer hazenberg (http://www.monokai.nl)',
+  base00: '#272822',
+  base01: '#383830',
+  base02: '#49483e',
+  base03: '#75715e',
+  base04: '#a59f85',
+  base05: '#f8f8f2',
+  base06: '#f5f4f1',
+  base07: '#f9f8f5',
+  base08: '#f92672',
+  base09: '#f92672',
+  base0A: '#f4bf75',
+  base0B: '#a6e22e',
+  base0C: '#a1efe4',
+  base0D: '#66d9ef',
+  base0E: '#ae81ff',
+  base0F: '#4EC9B0', // object keys
+};
+
 const valueRenderer = (raw: unknown): string => {
-  if (typeof raw === 'string') return `"${raw}"`;
+  // if (typeof raw === 'string') return `"${raw}"`;
+  if (typeof raw === 'string') return `${raw}`;
   if (raw === null) return 'null';
   if (raw === undefined) return 'undefined';
   return String(raw);
@@ -41,9 +84,7 @@ const getItemString: GetItemString = (type, data, itemType) => (
 );
 
 const labelRenderer: LabelRenderer = (keyPath) => (
-  <span style={{ color: theme.base0F }}>
-    {typeof keyPath[0] === 'string' ? `"${keyPath[0]}"` : keyPath[0]}
-  </span>
+  <span style={{ color: theme.base0F }}>{typeof keyPath[0] === 'string' ? `${keyPath[0]}` : keyPath[0]}</span>
 );
 
 const JSONTreeAlt = ({ data, expanded = false }: CustomJSONTreeProps) => {

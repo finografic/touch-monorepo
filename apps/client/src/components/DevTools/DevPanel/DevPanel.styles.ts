@@ -36,6 +36,10 @@ export const styles = css`
 
 export const stylesLeft = css`
   ${styles}
+  & * {
+    font-size: 0.85rem;
+    font-family: monospace;
+  }
   display: flex;
   flex-direction: column;
   position: absolute;
@@ -47,10 +51,14 @@ export const stylesLeft = css`
 
 export const stylesRight = css`
   ${styles}
+  & * {
+    font-size: 0.85rem;
+    font-family: monospace;
+  }
   display: flex;
   flex-direction: column;
   position: absolute;
-  min-width: 17vw;
+  min-width: 24vw;
   top: 0;
   left: unset;
   right: 0;
