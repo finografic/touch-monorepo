@@ -8,6 +8,7 @@ export const styles = css`
   top: 0;
   left: 0;
   min-width: 17vw;
+  height: 100%;
   /* height: 100vh; */
   max-height: 100vh;
   padding: 1.5rem;
@@ -31,4 +32,26 @@ export const styles = css`
   pre {
     overflow-y: hidden;
   }
+`;
+
+export const stylesLeft = css`
+  ${styles}
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  min-width: 17vw;
+  top: 0;
+  left: 0;
+  right: unset;
+`;
+
+export const stylesRight = css`
+  ${styles}
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  min-width: 17vw;
+  top: 0;
+  left: unset;
+  right: 0;
 `;

@@ -1,14 +1,14 @@
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider';
-import { styles } from './DevPanel.styles';
 import { useEffect, useState } from 'react';
 import type { OrderFieldKey, OrderItem } from 'types/orders.types';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { PADS_UI_CONFIG } from 'constants/app.config';
 import type { DrinkType } from 'types/models/drink-type.model';
-import JSONTree from 'components/DevTools/JSONTree/JSONTreeAlt';
-import { transformPadData } from 'utils/data.utils';
+import { JSONTree } from './JSONTree';
+import { flattenOrders, transformPadData } from 'utils/data.utils';
+import { stylesLeft, stylesRight } from './DevPanel.styles';
 
 export const DevPanel = () => {
   const location = useLocation();
@@ -46,22 +46,44 @@ export const DevPanel = () => {
     loaderData,
   };
 
-  const __devData = {
-    route: { route, fieldKey },
-    ui: {
-      config: padsConfig,
-      fieldKey,
-      // pads,
-    },
-  };
-
   const devData = {
     pads: transformPadData(padsSource),
   };
 
+  const devOrders = flattenOrders(orders);
+
+  const devDataRight = {
+    orders: {
+      count: devOrders.length,
+      first: devOrders[0],
+    },
+  };
+
   return (
-    <aside css={styles}>
-      <JSONTree data={devData} expanded={true} />
-    </aside>
+    <>
+      <aside id="dev-data-left" css={stylesLeft}>
+        <JSONTree data={devData} />
+      </aside>
+      <aside id="dev-data-right" css={stylesRight}>
+        <JSONTree data={devDataRight} />
+      </aside>
+    </>
   );
+
+  // return (
+  //   <aside css={styles}>
+  //     <div id="dev-data-left">
+  //       <JSONTree data={devData} />
+  //     </div>
+  //     <div id="dev-data-right">
+  //       <JSONTree data={devDataRight} />
+  //     </div>
+  //   </aside>
+  // );
+
+  // return (
+  //   <aside css={styles}>
+  //     <JSONTree data={devData} expanded={true} />
+  //   </aside>
+  // );
 };
