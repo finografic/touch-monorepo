@@ -21,19 +21,9 @@ export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionP
     }
   }, [initialValue]);
 
-  const __isValid: boolean = Object.keys(orders[0] || {}).length > 0 ? Boolean(field in orders[0]) : false;
+  const isValid: boolean = Object.keys(orders[0] || {}).length > 0 ? Boolean(field in orders[0]) : false;
 
   // log('__DEV: isValid', 'hotpink', { TEST: orders[0], initialValue, isValid });
-
-  const __handleSelection__V1 = useCallback(
-    (newValue: T | undefined) => {
-      const valueToSet = selectedValue && newValue === selectedValue ? null : newValue || null;
-      const updatedOrders = orders.map((order) => ({ ...order, [field]: valueToSet }));
-      setOrders(updatedOrders);
-      setSelectedValue(valueToSet);
-    },
-    [field, orders, selectedValue, setOrders],
-  );
 
   const handleSelection = useCallback(
     (newValue: T | undefined) => {

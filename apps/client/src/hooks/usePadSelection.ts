@@ -1,13 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderFieldKey } from 'types/orders.types';
+import type { PadItem } from 'types/ui.types';
 
 interface UseOrderSelectionProps<T> {
   field: OrderFieldKey;
   initialValue?: T;
 }
 
-export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionProps<T>) {
+export function usePadSelection<T>({ field, initialValue }: UseOrderSelectionProps<T>) {
   const { orders, setOrders } = useOrders();
   const [selectedValue, setSelectedValue] = useState<T | null>({
     ...(orders[0] || null),
@@ -25,20 +26,10 @@ export function useOrderSelection<T>({ field, initialValue }: UseOrderSelectionP
 
   // log('__DEV: isValid', 'hotpink', { TEST: orders[0], initialValue, isValid });
 
-  const __handleSelection__V1 = useCallback(
-    (newValue: T | undefined) => {
-      const valueToSet = selectedValue && newValue === selectedValue ? null : newValue || null;
-      const updatedOrders = orders.map((order) => ({ ...order, [field]: valueToSet }));
-      setOrders(updatedOrders);
-      setSelectedValue(valueToSet);
-    },
-    [field, orders, selectedValue, setOrders],
-  );
-
   const handleSelection = useCallback(
-    (newValue: T | undefined) => {
-      const valueToSet = selectedValue && newValue === selectedValue ? null : newValue || null;
-      const updatedOrders = orders.map((order) => ({ ...order, [field]: valueToSet }));
+    ({ pad, fieldKey }: { pad: PadItem; fieldKey: OrderFieldKey }) => {
+      const valueToSet = selectedValue && pad.id === selectedValue ? null : pad.id || null;
+      const updatedOrders = orders.map((order) => ({ ...order, [fieldKey]: valueToSet }));
       setOrders(updatedOrders);
       setSelectedValue(valueToSet);
     },

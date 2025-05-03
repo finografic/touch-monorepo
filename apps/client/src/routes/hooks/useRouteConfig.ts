@@ -9,29 +9,33 @@ import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
 
-// Base interface with all optional properties
-interface BaseRouteConfig {
-  route: RouteConfig | undefined;
-  fieldKey: OrderFieldKey | undefined;
-  loaderData: unknown;
+// First define the required (non-undefined) version
+interface RequiredRouteConfig<T = DataEntry[]> {
+  route: RouteConfig;
+  fieldKey: OrderFieldKey;
+  loaderData: T;
 }
 
-// Type for the hook return value that handles array vs non-array types
-interface UseRouteConfigReturn<T = DataEntry[]> {
+// Then define the partial version separately (not derived from RequiredRouteConfig)
+interface PartialRouteConfig<T = DataEntry[]> {
   route: RouteConfig | undefined;
   fieldKey: OrderFieldKey | undefined;
-  loaderData: T extends any[] ? T : T | undefined;
+  loaderData: T | undefined;
 }
 
-type RequiredRouteConfig<T = DataEntry[]> = RequiredProp<UseRouteConfigReturn<T>, 'route' | 'fieldKey'>;
+// Type guard to check if we have all required fields
+function isRequiredConfig<T>(config: PartialRouteConfig<T>): config is RequiredRouteConfig<T> {
+  return config.route !== undefined && config.fieldKey !== undefined;
+}
 
-export function useRouteConfig<T = DataEntry[]>(): UseRouteConfigReturn<T> | RequiredRouteConfig<T> {
+// Now we can be explicit about the two possible return types
+export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   const { routesMetadata } = useRouteLoaderData('routes') as { routesMetadata: RouteConfig[] };
 
   const location = useLocation();
   const matches = useMatches();
 
-  const routeConfig = useMemo((): BaseRouteConfig => {
+  const routeConfig = useMemo(() => {
     let matchedConfig: RouteConfig | undefined;
     let fieldKey: OrderFieldKey | undefined;
 
@@ -62,27 +66,27 @@ export function useRouteConfig<T = DataEntry[]>(): UseRouteConfigReturn<T> | Req
     if (routeConfig?.handle) {
       const { handle, ...configExpanded } = routeConfig;
       Object.assign(configExpanded, { ...handle });
-      return { route: configExpanded, fieldKey, loaderData: undefined };
+      return { route: configExpanded, fieldKey };
     }
 
-    return { route: routeConfig, fieldKey, loaderData: undefined };
+    return { route: routeConfig, fieldKey };
   }, [matches, routesMetadata, location.pathname]);
 
   const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T | undefined;
-  const result = { ...routeConfig, loaderData } as UseRouteConfigReturn<T>;
+  const result: PartialRouteConfig<T> = { ...routeConfig, loaderData };
 
   // Check if we have all required fields
-  const hasRequiredFields = !hasOptionalProperties({ route: result.route, fieldKey: result.fieldKey });
-
-  // If we have all required fields, return the full type
-  if (hasRequiredFields) {
-    return {
-      ...result,
-      route: result.route,
-      fieldKey: result.fieldKey,
-    } as RequiredRouteConfig<T>;
+  if (isRequiredConfig(result)) {
+    // Only return RequiredRouteConfig if we also have loaderData
+    if (result.loaderData !== undefined) {
+      return {
+        route: result.route,
+        fieldKey: result.fieldKey,
+        loaderData: result.loaderData,
+      } satisfies RequiredRouteConfig<T>;
+    }
   }
 
-  // Otherwise return the partial result
-  return result;
+  return result as RequiredRouteConfig<T>;
+  // return result satisfies PartialRouteConfig<T>;
 }

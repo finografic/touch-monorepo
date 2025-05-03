@@ -15,7 +15,9 @@ export const initPadItems = ({
 }): PadItem[] => {
   return numPads > 0
     ? Array.from({ length: numPads }, (_, i) => ({
+        id: keys[i],
         key: keys[i],
+        label: keys[i],
         type,
         isChecked: false,
         metadata: metadata[i],
@@ -26,17 +28,23 @@ export const initPadItems = ({
 /** Initialize a single pad item */
 export const initPadItem = ({
   key,
+  id = key,
+  label = key,
   type = 'radio',
   isChecked = false,
   metadata,
 }: {
   key: string;
+  id: string;
+  label: string;
   type: PadType;
   isChecked: boolean;
   metadata?: DataEntry;
 }): PadItem => {
   return {
+    id,
     key,
+    label,
     type,
     isChecked,
     metadata,

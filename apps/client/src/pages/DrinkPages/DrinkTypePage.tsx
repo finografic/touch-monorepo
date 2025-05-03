@@ -13,11 +13,13 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { OrderFieldKeys } from 'src/config/app.config';
 import { DevTools } from 'components/DevTools/DevTools';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
+import type { PadItem } from 'types/ui.types';
+import { usePadSelection } from 'hooks/usePadSelection';
 
 export const DrinkTypePage = () => {
-  // const navigate = useNavigate();
-  // const [nextClicked, setNextClicked] = useState(false);
-  const { fieldKey, loaderData: drinkTypes } = useRouteConfig<DrinkType[]>();
+  const { fieldKey, loaderData: drinkTypes } = useRouteConfig();
+  const { pads } = useLayoutUi();
   const { orders } = useOrders();
   const field = OrderFieldKeys.drinkType;
   const initialValue = orders[0]?.[field];
@@ -27,12 +29,12 @@ export const DrinkTypePage = () => {
     selectedValue: selectedDrinkType,
     handleSelection: handleDrinkTypeSelection,
     hasValidSelection,
-  } = useOrderSelection<DrinkType>({ field, initialValue });
+  } = usePadSelection<DrinkType>({ field, initialValue });
 
-  const { setIsNextDisabled } = usePagination();
+  // const { setIsNextDisabled } = usePagination();
   // const drinkTypes = useLoaderData() as DrinkType[];
 
-  console.log('%c __USE_ROUTE:', 'color:lime', { fieldKey, drinkTypes });
+  console.log('%c __USE_ROUTE:', 'color:lime', { pads });
 
   // const drinkTypes = useRouteLoaderData(PATHS.drinkType) as DrinkType[] | undefined;
   // const drinkTypes = useLoaderData() as DrinkType[] | undefined;
@@ -53,7 +55,7 @@ export const DrinkTypePage = () => {
   //   return <ErrorMessage error={error} />;
   // }
 
-  if (!drinkTypes?.length) {
+  if (!pads?.length) {
     return <NoItems message="No drink types found" />;
   }
 
@@ -61,14 +63,14 @@ export const DrinkTypePage = () => {
     <>
       {/* <DevTools /> */}
       <section css={stylesItemsGrid}>
-        <div className={getGridFlowClasses(drinkTypes.length)}>
-          {drinkTypes.map((drinkType: DrinkType) => (
+        <div className={getGridFlowClasses(pads.length)}>
+          {pads.map((pad: PadItem) => (
             <div
-              key={drinkType.id}
-              className={`item-button ${selectedDrinkType?.id === drinkType.id ? 'selected' : ''}`}
-              onClick={() => handleDrinkTypeSelection(drinkType)}
+              key={pad.key}
+              className={`item-button ${selectedDrinkType?.id === pad.id ? 'selected' : ''}`}
+              onClick={() => handleDrinkTypeSelection({ pad, fieldKey })}
             >
-              {drinkType.displayName}
+              {pad.label}
             </div>
           ))}
         </div>
