@@ -85,6 +85,33 @@ export type OverridePropTypes<T, U> = Omit<T, keyof U> & U;
 
 // -------------------------------------------------------------------------- //
 
+/**
+Type guard that checks if an object has any optional (undefined) properties.
+@category Type Guard
+@example
+```
+interface User {
+  id: string;
+  name: string;
+  email?: string;
+}
+
+const user: User = { id: '1', name: 'John' };
+
+if (hasOptionalProperties(user)) {
+  // TypeScript knows some properties are undefined here
+  console.log('User has optional properties');
+}
+```
+*/
+export function hasOptionalProperties<T extends Record<string, unknown>>(
+  obj: T,
+): obj is T & { [K in keyof T]: undefined extends T[K] ? T[K] : T[K] } {
+  return Object.values(obj).includes(undefined);
+}
+
+// -------------------------------------------------------------------------- //
+
 // NOTE: Future additions could include:
 // - DeepPartial
 // - RecursiveRequired

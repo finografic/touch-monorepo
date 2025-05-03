@@ -3,7 +3,7 @@ import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
 import { OrderFieldKeys } from 'src/config/app.config';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { OverridePropTypes } from 'types/utilities/object.utils.types';
+import { hasOptionalProperties } from 'types/utilities/object.utils.types';
 import type { RequiredProp } from 'types/utilities/props.utils.types';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
@@ -14,11 +14,6 @@ interface UseRouteConfigReturn {
 }
 
 type RequiredRouteConfig = RequiredProp<UseRouteConfigReturn, 'route' | 'fieldKey'>;
-
-// Runtime type guard
-function isCompleteRouteConfig(config: UseRouteConfigReturn): config is RequiredRouteConfig {
-  return config.route !== undefined && config.fieldKey !== undefined;
-}
 
 export function useRouteConfig(): RequiredRouteConfig;
 export function useRouteConfig(allowPartial: true): UseRouteConfigReturn;
@@ -45,7 +40,7 @@ export function useRouteConfig(allowPartial?: boolean): UseRouteConfigReturn | R
     if (!matchedConfig) {
       const routeMatch = matches.find(
         (match: UIMatch) => match?.id && Object.values(OrderFieldKeys).includes(match?.id as OrderFieldKey),
-      ) as OverridePropTypes<RouteConfig, { id: OrderFieldKey }>;
+      );
       if (routeMatch) {
         matchedConfig = routesMetadata.find((r) => r.id === routeMatch.id);
         fieldKey = fieldKey || (routeMatch.id as OrderFieldKey);
@@ -71,9 +66,9 @@ export function useRouteConfig(allowPartial?: boolean): UseRouteConfigReturn | R
   if (allowPartial) return result;
 
   // Otherwise, verify we have complete data
-  if (!isCompleteRouteConfig(result)) {
+  if (hasOptionalProperties(result)) {
     throw new Error('Route configuration is incomplete - missing route or fieldKey');
   }
 
-  return result;
+  return result as RequiredRouteConfig;
 }
