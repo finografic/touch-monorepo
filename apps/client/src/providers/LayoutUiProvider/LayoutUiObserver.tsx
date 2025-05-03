@@ -2,17 +2,15 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useLayoutUi } from './LayoutUiContext';
-import { PADS_UI_CONFIG } from 'constants/app.config';
+import { PADS_UI_CONFIG } from 'src/config/app.config';
 import { useRouteLoaderData } from 'react-router-dom';
 import type { DataEntry } from 'types/data.types';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import type { OrderFieldKey } from 'types/orders.types';
-import type { RouteConfig } from 'routes/routes.types';
 import { routes } from 'routes/routes';
 import type { PadsConfig } from 'types/ui.types';
 
 export const LayoutUiObserver: FC = () => {
-  const { fieldKey } = useRouteConfig() as { route: RouteConfig; fieldKey: OrderFieldKey };
+  const { fieldKey } = useRouteConfig();
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, initPadsFromLoaderData } = useLayoutUi();
 

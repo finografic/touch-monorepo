@@ -4,7 +4,7 @@ import { useOrderSelection } from 'hooks/useOrderSelection';
 import { useEffect, useState } from 'react';
 import type { OrderItem } from 'types/orders.types';
 import { styles } from './DataDialog.styles';
-import { OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys } from 'src/config/app.config';
 
 interface OrderWithMetadata extends OrderItem {
   id?: string;

@@ -2,7 +2,7 @@
 import { type FC, useCallback, useEffect, useRef } from 'react';
 import type { LayoutUiValues } from './LayoutUiContext.types';
 import { DISPLAY_NAME, LayoutUiContext as LayoutUi } from './LayoutUiContext';
-import { PADS_UI_CONFIG } from 'constants/app.config';
+import { PADS_UI_CONFIG } from 'src/config/app.config';
 import { parsePadsConfig } from 'utils/ui.utils';
 import { useRouteLoaderData } from 'react-router-dom';
 import type { DataEntry } from 'types/data.types';

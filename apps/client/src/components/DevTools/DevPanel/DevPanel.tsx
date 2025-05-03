@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import type { OrderFieldKey, OrderItem } from 'types/orders.types';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
-import { PADS_UI_CONFIG } from 'constants/app.config';
+import { PADS_UI_CONFIG } from 'src/config/app.config';
 import type { DrinkType } from 'types/models/drink-type.model';
 
 export const DevPanel = () => {

@@ -52,7 +52,7 @@
         "./src/components/*"
       ],
       "constants/*": [
-        "./src/constants/*"
+        "src/config/*"
       ],
       "env.client": [
         "./src/env.client"

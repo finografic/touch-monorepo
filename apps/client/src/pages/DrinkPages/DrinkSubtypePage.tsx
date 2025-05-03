@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { PATHS } from 'routes/routes.config';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { NoItems } from 'components/NoItems/NoItems';
-import { OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys } from 'src/config/app.config';
 
 export const DrinkSubtypePage = () => {
   const navigate = useNavigate();

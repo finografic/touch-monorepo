@@ -1,6 +1,6 @@
 import type { MenuSlotLayout, SlotTypeAtIndex } from 'types/menu.types';
 import { createMenuLayout } from 'types/menu.types';
-import { NUM_SLOTS_TYPE_B } from 'constants/app.config';
+import { NUM_SLOTS_TYPE_B } from 'src/config/app.config';
 
 // Define the number of Type B pads we're using
 export type MenuBCount = typeof NUM_SLOTS_TYPE_B;

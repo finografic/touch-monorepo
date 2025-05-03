@@ -10,7 +10,7 @@ import { useLoaderData, useNavigate, useRouteLoaderData } from 'react-router-dom
 import { PATHS } from 'routes/routes.config';
 import { NoItems } from 'components/NoItems/NoItems';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
-import { OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys } from 'src/config/app.config';
 import { DevTools } from 'components/DevTools/DevTools';
 
 export const DrinkTypePage = () => {

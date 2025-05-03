@@ -22,9 +22,29 @@ type UserWithOptionalContact = OptionalProp<User, "email" | "phone">;
 
 export type OptionalProp<T, K extends keyof T> = Pick<Partial<T>, K> & Omit<T, K>;
 
+/**
+Makes specific properties of a type required by removing undefined/optional.
+@category Type
+@example
+```
+interface User {
+  id?: number;
+  name?: string;
+  email: string;
+}
+
+type UserWithRequiredIdName = RequiredProp<User, "id" | "name">;
+// Result: {
+//   id: number;     // Required
+//   name: string;   // Required
+//   email: string;  // Unchanged
+// }
+```
+*/
+export type RequiredProp<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+
 // -------------------------------------------------------------------------- //
 
-// NOTE: Future additions could include:
-// - RequiredProp
+// TODO: Future additions could include:
 // - ReadonlyProp
 // - NullableProp

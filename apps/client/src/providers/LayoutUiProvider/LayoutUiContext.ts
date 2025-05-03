@@ -2,7 +2,7 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import type { PadItem, PadsConfig } from 'types/ui.types';
-import { NUM_SLOTS_TYPE_B } from 'constants/app.config';
+import { NUM_SLOTS_TYPE_B } from 'src/config/app.config';
 import { parsePadsConfig } from 'utils/ui.utils';
 import type { Dataset } from 'types/data.types';
 

@@ -2,7 +2,7 @@ import { useLoaderData, useMatches } from 'react-router-dom';
 import { type FC, type ReactNode, useMemo } from 'react';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
-import { NUM_SLOTS_TYPE_B, OrderFieldKeys } from 'constants/app.config';
+import { NUM_SLOTS_TYPE_B, OrderFieldKeys } from 'src/config/app.config';
 import type { LayoutUiValues } from 'providers/LayoutUiProvider/LayoutUiContext.types';
 import { initPadItems } from 'utils/ui.utils';
 import { DevTools } from 'components/DevTools/DevTools';

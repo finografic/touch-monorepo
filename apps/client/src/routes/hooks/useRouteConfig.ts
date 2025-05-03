@@ -1,9 +1,10 @@
 import type { UIMatch } from 'react-router-dom';
 import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
-import { OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys } from 'src/config/app.config';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { OverridePropTypes } from 'types/utilities/object.utils.types';
+import type { RequiredProp } from 'types/utilities/props.utils.types';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 
@@ -12,7 +13,16 @@ interface UseRouteConfigReturn {
   fieldKey: OrderFieldKey | undefined;
 }
 
-export const useRouteConfig = (): UseRouteConfigReturn => {
+type RequiredRouteConfig = RequiredProp<UseRouteConfigReturn, 'route' | 'fieldKey'>;
+
+// Runtime type guard
+function isCompleteRouteConfig(config: UseRouteConfigReturn): config is RequiredRouteConfig {
+  return config.route !== undefined && config.fieldKey !== undefined;
+}
+
+export function useRouteConfig(): RequiredRouteConfig;
+export function useRouteConfig(allowPartial: true): UseRouteConfigReturn;
+export function useRouteConfig(allowPartial?: boolean): UseRouteConfigReturn | RequiredRouteConfig {
   const { routesMetadata } = useRouteLoaderData('routes') as { routesMetadata: RouteConfig[] };
 
   const location = useLocation();
@@ -55,5 +65,15 @@ export const useRouteConfig = (): UseRouteConfigReturn => {
     return { route: routeConfig, fieldKey };
   }, [matches, routesMetadata, location.pathname]);
 
-  return { fieldKey: routeConfig?.fieldKey, route: routeConfig?.route };
-};
+  const result = { route: routeConfig.route, fieldKey: routeConfig.fieldKey };
+
+  // If allowPartial is true, return the potentially partial result
+  if (allowPartial) return result;
+
+  // Otherwise, verify we have complete data
+  if (!isCompleteRouteConfig(result)) {
+    throw new Error('Route configuration is incomplete - missing route or fieldKey');
+  }
+
+  return result;
+}

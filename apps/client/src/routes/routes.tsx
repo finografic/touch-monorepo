@@ -12,7 +12,7 @@ import { ContainerTypePage } from '../pages/DrinkPages/ContainerTypePage';
 import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPage';
 import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
 import { PATHS, ROUTES_CONFIG } from './routes.config';
-import { OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys } from 'src/config/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 
 export const routes: RouteObject[] = [

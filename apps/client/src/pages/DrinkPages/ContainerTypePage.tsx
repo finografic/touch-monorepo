@@ -5,7 +5,7 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
 import { useGetContainerTypes } from 'queries/container-types';
-import { OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys } from 'src/config/app.config';
 
 export const ContainerTypePage = () => {
   const {

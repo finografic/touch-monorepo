@@ -8,7 +8,7 @@ import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { ErrorMessage } from 'components/ErrorMessage/ErrorMessage';
 import { Loader } from 'components/Loader/Loader';
 import { NoItems } from 'components/NoItems/NoItems';
-import { OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys } from 'src/config/app.config';
 
 const formatVolume = (volume: DrinkVolume) => {
   // Convert ml to L if volume is 1000ml or more
