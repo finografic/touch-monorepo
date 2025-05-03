@@ -7,10 +7,12 @@ import { hasOptionalProperties } from 'types/utilities/object.utils.types';
 import type { RequiredProp } from 'types/utilities/props.utils.types';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
+import type { DataEntry } from 'types/data.types';
 
 interface UseRouteConfigReturn {
   route: RouteConfig | undefined;
   fieldKey: OrderFieldKey | undefined;
+  loaderData: DataEntry[] | undefined;
 }
 
 type RequiredRouteConfig = RequiredProp<UseRouteConfigReturn, 'route' | 'fieldKey'>;
@@ -23,7 +25,7 @@ export function useRouteConfig(allowPartial?: boolean): UseRouteConfigReturn | R
   const location = useLocation();
   const matches = useMatches();
 
-  const routeConfig = useMemo((): UseRouteConfigReturn => {
+  const routeConfig = useMemo((): Omit<UseRouteConfigReturn, 'loaderData'> => {
     let matchedConfig: RouteConfig | undefined;
     let fieldKey: OrderFieldKey | undefined;
 
@@ -60,7 +62,8 @@ export function useRouteConfig(allowPartial?: boolean): UseRouteConfigReturn | R
     return { route: routeConfig, fieldKey };
   }, [matches, routesMetadata, location.pathname]);
 
-  const result = { route: routeConfig.route, fieldKey: routeConfig.fieldKey };
+  const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as DataEntry[];
+  const result = { route: routeConfig.route, fieldKey: routeConfig.fieldKey, loaderData };
 
   // If allowPartial is true, return the potentially partial result
   if (allowPartial) return result;
