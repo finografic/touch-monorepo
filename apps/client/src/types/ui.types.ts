@@ -14,8 +14,22 @@ export interface PadItem {
   metadata?: DataEntry;
 }
 
-export interface PadsConfig {
+// Base configuration type with all properties required
+export interface PadsConfigOptions<T extends DataEntry = DataEntry> {
   maxPads: number;
   type: PadType;
-  labelKey: string;
+  labelKey: keyof T;
+  metadataKey: keyof T;
 }
+
+// Fully optional configuration
+export type PartialPadsConfig<T extends DataEntry = DataEntry> = Partial<PadsConfigOptions<T>>;
+
+// Mixed configuration with some required and some optional properties
+export type MixedPadsConfig<T extends DataEntry = DataEntry> = Required<
+  Pick<PadsConfigOptions<T>, 'maxPads' | 'type'>
+> &
+  Partial<Pick<PadsConfigOptions<T>, 'labelKey' | 'metadataKey'>>;
+
+// Default export type - choose which variation you want to use as the main PadsConfig
+export type PadsConfig<T extends DataEntry = DataEntry> = MixedPadsConfig<T>;

@@ -5,8 +5,9 @@ import { useEffect, useState } from 'react';
 import type { OrderFieldKey, OrderItem } from 'types/orders.types';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
-import { PADS_UI_CONFIG } from 'src/config/app.config';
+import { PADS_UI_CONFIG } from 'constants/app.config';
 import type { DrinkType } from 'types/models/drink-type.model';
+import JSONTree from 'components/JSONTree/JSONTree';
 
 export const DevPanel = () => {
   const location = useLocation();
@@ -15,7 +16,6 @@ export const DevPanel = () => {
   const { orders } = useOrders();
 
   const drinkTypes = useLoaderData() as DrinkType[] | undefined;
-
   const { numSlots, fieldKey, numPads, pads } = useLayoutUi();
 
   const padsConfig = PADS_UI_CONFIG[routeConfig.fieldKey as OrderFieldKey];
@@ -32,24 +32,21 @@ export const DevPanel = () => {
     }
   }, [drinkTypes, location.pathname]);
 
+  const devData = {
+    route: routeConfig,
+    ui: {
+      config: padsConfig,
+      state: { numSlots, fieldKey, numPads, pads },
+    },
+    orders: {
+      count: orders.length,
+      first: data[0],
+    },
+  };
+
   return (
     <aside css={styles}>
-      <pre>
-        <h2>route</h2>
-        {JSON.stringify({ ...routeConfig }, null, 2)}
-      </pre>
-      <pre>
-        <h2>UI CONFIG</h2>
-        {JSON.stringify({ padsConfig }, null, 2)}
-      </pre>
-      <pre>
-        <h2>UI State</h2>
-        {JSON.stringify({ numSlots, fieldKey, numPads, pads }, null, 2)}
-      </pre>
-      <pre>
-        <h2>orders: {orders.length}</h2>
-        {JSON.stringify(data[0], null, 2)}
-      </pre>
+      <JSONTree data={devData} expanded={false} />
     </aside>
   );
 };
