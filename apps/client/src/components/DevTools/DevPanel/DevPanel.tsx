@@ -2,7 +2,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider';
 import { styles } from './DevPanel.styles';
 import { useEffect, useState } from 'react';
-import type { OrderItem } from 'types/orders.types';
+import type { OrderFieldKey, OrderItem } from 'types/orders.types';
 import { useLoaderData, useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { OrderFieldKeys, PADS_UI_CONFIG } from 'constants/app.config';
@@ -20,7 +20,7 @@ export const DevPanel = () => {
 
   const { numSlots, fieldKey, numPads, pads } = useLayoutUi();
 
-  const padsConfig = PADS_UI_CONFIG[routeConfig.fieldKey as keyof typeof PASS_UI_CONFIG] as PadsConfig;
+  const padsConfig = PADS_UI_CONFIG[routeConfig.fieldKey as OrderFieldKey];
 
   // log('%c __DRINK', 'yellow', { drinkTypes });
 
@@ -42,7 +42,7 @@ export const DevPanel = () => {
       </pre>
       <pre>
         <h2>UI CONFIG</h2>
-        {JSON.stringify({ numSlots, fieldKey, numPads, pads }, null, 2)}
+        {JSON.stringify({ padsConfig }, null, 2)}
       </pre>
       <pre>
         <h2>UI State</h2>
