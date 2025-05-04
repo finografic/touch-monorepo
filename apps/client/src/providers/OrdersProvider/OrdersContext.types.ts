@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
-import type { OrderItem } from 'types/orders.types';
+import type { OrderFilters, OrderItem } from 'types/orders.types';
 
 export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
@@ -13,7 +13,13 @@ type OrdersSetters = {
 };
 
 type OrdersActions = OrdersSetters & {
-  setOrderFilter: ({ itemNumber, filter }: { itemNumber: number; filter: any }) => void;
+  setOrderFilter: ({
+    itemNumber,
+    filter,
+  }: {
+    itemNumber: number;
+    filter: Partial<OrderFilters> | null;
+  }) => void;
   toggleOrder: (itemNumber: number) => void;
   selectAllOrders: () => void;
 };

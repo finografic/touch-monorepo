@@ -18,12 +18,10 @@ export const DrinkTypePage = () => {
   const { orders, setOrderFilter } = useOrders();
 
   const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
-    log('pad', 'yellow', pad);
     if (orders?.length) {
-      const hasSelection = pads.some((pad) => pad.isChecked);
       for (const order of orders) {
-        if (hasSelection) {
-          setOrderFilter({ itemNumber: order.itemNumber, filter: { [fieldKey]: {} } });
+        if (pad.isChecked) {
+          setOrderFilter({ itemNumber: order.itemNumber, filter: { [fieldKey]: pad.id } });
           // const filters = { [fieldKey]: {} };
           // Object.assign(order.filters, { [fieldKey]: {} });
         } else {

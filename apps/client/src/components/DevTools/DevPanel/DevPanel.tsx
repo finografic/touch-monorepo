@@ -32,7 +32,7 @@ export const DevPanel = () => {
       // count: devOrders.orders.length,
       // first: devOrders.orders,
       count: orders.length,
-      first: orders[0],
+      first: orders,
     },
   };
 
