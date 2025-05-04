@@ -1,1 +1,1 @@
-export * from './DrinkTypePage';
+export * from './GenericSelectPage';

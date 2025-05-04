@@ -17,10 +17,7 @@ export const LoaderDataHelper: LoaderMap = {
     return [];
   },
   [OrderFieldKeys.drinkVolume]: EndpointHelper.getDrinkVolumes,
-  [OrderFieldKeys.containerType]: async () => {
-    // TODO: Implement when ready
-    return [];
-  },
+  [OrderFieldKeys.containerType]: EndpointHelper.getContainerTypes,
   [OrderFieldKeys.initialTemperature]: async () => {
     // TODO: Implement when ready
     return [];

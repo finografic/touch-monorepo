@@ -41,4 +41,24 @@ export const PADS_UI_CONFIG: Partial<Record<OrderFieldKey, PadsConfig>> = {
     type: 'radio',
     labelKey: 'name',
   },
+  [OrderFieldKeys.drinkVolume]: {
+    maxPads: 10,
+    type: 'radio',
+    labelKey: 'name',
+  },
+  [OrderFieldKeys.containerType]: {
+    maxPads: 10,
+    type: 'radio',
+    labelKey: 'name',
+  },
+  [OrderFieldKeys.initialTemperature]: {
+    maxPads: 10,
+    type: 'radio',
+    labelKey: 'name',
+  },
+  [OrderFieldKeys.finalTemperature]: {
+    maxPads: 10,
+    type: 'radio',
+    labelKey: 'name',
+  },
 };

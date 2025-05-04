@@ -5,9 +5,7 @@ import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 import { Layout } from 'layout/Layout';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
-import { DrinkTypePage } from '../pages/DrinkPages/DrinkTypePage';
-import { DrinkSubtypePage } from '../pages/DrinkPages/DrinkSubtypePage';
-import { DrinkVolumePage } from '../pages/DrinkPages/DrinkVolumePage';
+import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
 import { ContainerTypePage } from '../pages/DrinkPages/ContainerTypePage';
 import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPage';
 import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
@@ -40,14 +38,14 @@ export const routes: RouteObject[] = [
           {
             index: true,
             id: OrderFieldKeys.drinkType,
-            element: <DrinkTypePage />,
+            element: <GenericSelectPage />,
             loader: LoaderDataHelper[OrderFieldKeys.drinkType],
           },
           {
             path: PATHS.drinkSubtype,
             id: OrderFieldKeys.drinkSubtype,
             loader: LoaderDataHelper[OrderFieldKeys.drinkSubtype],
-            element: <DrinkSubtypePage />,
+            element: <GenericSelectPage />,
           },
         ],
       },
@@ -55,14 +53,14 @@ export const routes: RouteObject[] = [
         path: PATHS.drinkVolume,
         id: OrderFieldKeys.drinkVolume,
         loader: LoaderDataHelper[OrderFieldKeys.drinkVolume],
-        // element: <DrinkVolumePage />,
-        element: <DrinkTypePage />,
+        element: <GenericSelectPage />,
       },
       {
         path: PATHS.containerType,
         id: OrderFieldKeys.containerType,
         loader: LoaderDataHelper[OrderFieldKeys.containerType],
-        element: <ContainerTypePage />,
+        // element: <ContainerTypePage />,
+        element: <GenericSelectPage />,
       },
       {
         path: PATHS.initialTemperature,

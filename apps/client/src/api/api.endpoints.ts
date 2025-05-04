@@ -12,6 +12,8 @@ import type { DrinkSubtype } from 'types/models/drink-subtype.model';
 import type { DrinkSubtypeEntity } from '@workspace/server/types/entities/drink-subtype.entity';
 import type { DrinkVolume } from 'types/models/drink-volume.model';
 import type { DrinkVolumeEntity } from '@workspace/server/types/entities/drink-volume.entity';
+import type { ContainerType } from 'types/models/container-type.model';
+import type { ContainerTypeEntity } from '@workspace/server/types/entities/container-type.entity';
 import { api } from 'api';
 import { transformAxiosError } from 'src/api/api.utils';
 
@@ -46,4 +48,7 @@ export const EndpointHelper = createEndpoints({
     await api.get<ApiResponse<DrinkSubtypeEntity>>(`/drink-subtypes/${id}`),
   getDrinkVolumes: async () => await api.get<ApiResponse<DrinkVolume[]>>('/drink-volumes'),
   getDrinkVolume: async (id: string) => await api.get<ApiResponse<DrinkVolumeEntity>>(`/drink-volumes/${id}`),
+  getContainerTypes: async () => await api.get<ApiResponse<ContainerType[]>>('/container-types'),
+  getContainerType: async (id: string) =>
+    await api.get<ApiResponse<ContainerTypeEntity>>(`/container-types/${id}`),
 }) as const;

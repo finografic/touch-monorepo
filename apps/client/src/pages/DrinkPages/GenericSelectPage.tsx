@@ -1,18 +1,15 @@
 import { useEffect, useRef } from 'react';
 import { stylesItemsGrid } from './grid.styles';
-// import type { DrinkType } from 'types/models/drink-type.model';
-// import { useEffect } from 'react';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
 import { NoItems } from 'components/NoItems/NoItems';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
-// import { OrderFieldKeys } from 'src/config/app.config';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import type { PadUI } from 'types/ui.types';
 import { Pad } from 'components/Pad';
 import type { OrderFieldKey } from 'types/orders.types';
 
-export const DrinkTypePage = () => {
+export const GenericSelectPage = () => {
   const { fieldKey } = useRouteConfig();
   const { pads } = useLayoutUi();
   const { orders, setOrderFilter } = useOrders();
