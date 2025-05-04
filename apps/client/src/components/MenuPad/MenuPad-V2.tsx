@@ -19,15 +19,15 @@ export interface MenuPadProps<T extends MenuItemType> {
 }
 
 export const MenuPad = <T extends MenuItemType>({ itemType, number, metadata }: MenuPadProps<T>) => {
-  const { orders, toggleItem } = useOrders();
+  const { orders, toggleOrder } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;
   const isProcessing = !!order?.processStatus?.isProcessing;
   const isSelected = !!order?.isSelected;
 
   const handleSelect = React.useCallback(() => {
-    toggleItem(number);
-  }, [number, toggleItem]);
+    toggleOrder(number);
+  }, [number, toggleOrder]);
 
   const className = clsx(`item-type-${itemType}`, {
     'active': isSelected,

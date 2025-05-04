@@ -19,7 +19,7 @@ export interface MenuPadProps<T extends MenuItemType> {
 }
 
 export const MenuPad = <T extends MenuItemType>({ itemType, number, metadata }: MenuPadProps<T>) => {
-  const { orders, toggleItem } = useOrders();
+  const { orders, toggleOrder } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;
   const isProcessing = !!order?.processStatus?.isProcessing;
@@ -32,8 +32,8 @@ export const MenuPad = <T extends MenuItemType>({ itemType, number, metadata }: 
   });
 
   const handleSelect = React.useCallback(() => {
-    toggleItem(number);
-  }, [number, toggleItem, isSelected]);
+    toggleOrder(number);
+  }, [number, toggleOrder, isSelected]);
 
   if (!isProcessing) {
     return (

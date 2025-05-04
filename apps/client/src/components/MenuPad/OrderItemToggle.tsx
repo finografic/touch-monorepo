@@ -5,12 +5,12 @@ import type { OrderItemPadProps } from './MenuPad.types';
 import clsx from 'clsx';
 
 export const OrderItemToggle = ({ number, className, children }: OrderItemPadProps) => {
-  const { toggleItem, orders } = useOrders();
+  const { toggleOrder, orders } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;
 
   const handleClick = () => {
-    toggleItem(number);
+    toggleOrder(number);
   };
 
   return (

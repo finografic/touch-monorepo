@@ -21,7 +21,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, defaultValue }),
-      toggleItem: (itemNumber: number) => {
+      toggleOrder: (itemNumber: number) => {
         const { orders } = get();
         const draftOrder = findOrderByNumber(orders, itemNumber);
         set({

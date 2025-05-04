@@ -13,7 +13,7 @@ type OrdersSetters = {
 };
 
 type OrdersActions = OrdersSetters & {
-  toggleItem: (itemNumber: number) => void;
+  toggleOrder: (itemNumber: number) => void;
   selectAllPads: () => void;
 };
 
