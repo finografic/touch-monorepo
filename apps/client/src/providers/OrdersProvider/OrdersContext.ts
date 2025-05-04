@@ -26,16 +26,15 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
         const { orders } = get();
         const updatedOrders = orders.map((order) => {
           if (order.itemNumber === itemNumber) {
-            // If filter is null, remove the filter for this fieldKey
-            if (filter === null) {
-              const fieldKey = Object.keys(filter)[0] as keyof OrderFilters;
-              const { [fieldKey]: removed, ...remainingFilters } = order.filters;
+            // If filter is an empty object, remove all filters
+            if (Object.keys(filter).length === 0) {
               return {
                 ...order,
-                filters: remainingFilters,
+                filters: {},
               };
             }
-            // Otherwise, merge the new filter with existing filters
+
+            // Otherwise merge the new filter
             return {
               ...order,
               filters: {

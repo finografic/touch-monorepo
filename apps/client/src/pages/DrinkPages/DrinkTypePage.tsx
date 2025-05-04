@@ -18,16 +18,23 @@ export const DrinkTypePage = () => {
   const { orders, setOrderFilter } = useOrders();
 
   const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
-    if (orders?.length) {
-      for (const order of orders) {
-        if (pad.isChecked) {
-          setOrderFilter({ itemNumber: order.itemNumber, filter: { [fieldKey]: pad.id } });
-          // const filters = { [fieldKey]: {} };
-          // Object.assign(order.filters, { [fieldKey]: {} });
-        } else {
-          setOrderFilter({ itemNumber: order.itemNumber, filter: { [fieldKey]: null } });
-          // delete order.filters[fieldKey];
-        }
+    if (!orders?.length) return;
+
+    // For each order in the selection...
+    for (const order of orders) {
+      if (pad.isChecked) {
+        // Pad is checked - set the filter with the pad's ID
+        setOrderFilter({
+          itemNumber: order.itemNumber,
+          filter: { [fieldKey]: pad.id },
+        });
+      } else {
+        // Pad is unchecked - remove the filter by setting an empty object
+        // This will effectively remove the filter key from the order's filters
+        setOrderFilter({
+          itemNumber: order.itemNumber,
+          filter: {},
+        });
       }
     }
   };

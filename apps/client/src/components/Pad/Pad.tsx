@@ -44,7 +44,7 @@ const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) 
 
     updatePadState(fieldKey, updateFn);
 
-    onSelect?.({ fieldKey, pad });
+    onSelect?.({ fieldKey, pad: { ...pad, isChecked: !pad.isChecked } });
   }, [pad.disabled, pad.type, pad.id, isCheckedOptimistic, fieldKey, updatePadState, onSelect]);
 
   // Separate state-related classes from passed-in classes
