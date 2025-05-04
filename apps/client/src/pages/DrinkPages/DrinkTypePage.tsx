@@ -20,20 +20,16 @@ export const DrinkTypePage = () => {
   const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
     log('pad', 'yellow', pad);
     if (orders?.length) {
-      // log('orders', 'hotpink', orders);
-      // log('pads', 'hotpink', pads);
       const hasSelection = pads.some((pad) => pad.isChecked);
       for (const order of orders) {
         if (hasSelection) {
-          const filters = { [fieldKey]: {} };
-          Object.assign(order.filters, { [fieldKey]: {} });
+          setOrderFilter({ itemNumber: order.itemNumber, filter: { [fieldKey]: {} } });
+          // const filters = { [fieldKey]: {} };
+          // Object.assign(order.filters, { [fieldKey]: {} });
         } else {
-          delete order.filters[fieldKey];
+          setOrderFilter({ itemNumber: order.itemNumber, filter: { [fieldKey]: null } });
+          // delete order.filters[fieldKey];
         }
-        // const pad = pads.find((pad) => pad.id === order.id);
-        // if (pad) {
-        //   pad.isSelected = true;
-        // }
       }
     }
   };
