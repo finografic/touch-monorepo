@@ -17,8 +17,11 @@ export const DrinkTypePage = () => {
   const { orders } = useOrders();
 
   useEffect(() => {
-    console.log('pads', pads);
-  }, [pads]);
+    if (orders?.length) {
+      log('orders', 'hotpink', orders);
+      log('pads', 'hotpink', pads);
+    }
+  }, [orders, pads]);
 
   if (!pads?.length) {
     return <NoItems message="No drink types found" />;

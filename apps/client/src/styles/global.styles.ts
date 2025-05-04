@@ -43,5 +43,8 @@ export const cssGlobal = css`
     margin-right: calc(-1 * (100vw - 100%));
 
     background-color: ${colors.background};
+
+    height: 100vh;
+    overflow: hidden;
   }
 `;
