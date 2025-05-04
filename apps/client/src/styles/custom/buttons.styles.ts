@@ -1,6 +1,21 @@
 import { colors, layout } from 'styles';
 import { css } from '@emotion/react';
 
+export const padProps = {
+  pad: {
+    width: '110px',
+    height: '110px',
+  },
+  padLG: {
+    width: '150px',
+    height: '150px',
+  },
+  special: {
+    width: '150px',
+    height: '239px',
+  },
+};
+
 export const stylesPad = css`
   display: flex;
   align-items: center;

@@ -1,45 +1,14 @@
 import { colors, layout } from 'styles';
 import { css } from '@emotion/react';
-import { stylesPad } from 'styles/custom/buttons.styles';
-
-const props = {
-  pad: {
-    width: '110px',
-    height: '110px',
-  },
-  padLG: {
-    width: '150px',
-    height: '150px',
-  },
-  special: {
-    width: '150px',
-    height: '239px',
-  },
-};
+import { padProps, stylesPad } from 'styles/custom/buttons.styles';
 
 export const styles = css`
   &.pad-menu {
     ${stylesPad}
 
-    width: ${props.pad.width};
-    height: ${props.pad.height};
+    width: ${padProps.pad.width};
+    height: ${padProps.pad.height};
     border-radius: 50%;
-
-    /*
-    color: ${colors.info};
-
-     &:hover {
-      border-color: ${colors.info};
-      transform: scale(1.05);
-    }
-
-    &.active {
-      border-color: ${colors.info};
-      background-color: rgba(0, 191, 255, 0.1);
-    }
-
-    &.first {
-    } */
 
     &.slot-type-A {
       pointer-events: none;
@@ -56,21 +25,21 @@ export const styles = css`
         transform: scale(1.05);
       }
     }
-    /*
+
     &.slot-type-C {
       pointer-events: none;
       border-color: ${colors.danger};
       color: ${colors.danger};
-      width: ${props.padLG.width};
-      height: ${props.padLG.height};
-    } */
+      width: ${padProps.padLG.width};
+      height: ${padProps.padLG.height};
+    }
 
     &.special {
       border-radius: 10px;
       border-color: ${colors.success};
       color: ${colors.success};
-      width: ${props.special.width};
-      height: ${props.special.height};
+      width: ${padProps.special.width};
+      height: ${padProps.special.height};
       grid-row: span 2;
     }
 

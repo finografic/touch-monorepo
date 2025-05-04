@@ -44,19 +44,20 @@ const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) 
 
     updatePadState(fieldKey, updateFn);
 
-    // Call the onSelect callback if provided
     onSelect?.();
   }, [pad.disabled, pad.type, pad.id, isCheckedOptimistic, fieldKey, updatePadState, onSelect]);
+
+  // Separate state-related classes from passed-in classes
+  const stateClasses = {
+    checked: pad.isChecked || isCheckedOptimistic,
+    disabled: pad.disabled,
+    [pad.type]: true, // radio, checkbox, or button
+  };
 
   return (
     <div
       css={padStyles}
-      className={clsx('pad', className, {
-        selected: pad.isChecked || isCheckedOptimistic,
-        disabled: pad.disabled,
-        radio: pad.type === 'radio',
-        checkbox: pad.type === 'checkbox',
-      })}
+      className={clsx('pad', stateClasses, className)}
       onClick={handleClick}
       role={pad.type}
       aria-checked={isCheckedOptimistic}

@@ -1,7 +1,7 @@
 import { Visible } from 'react-grid-system';
 import type { ReactElement } from 'react';
 import { Fragment } from 'react';
-import { useKeyPress } from '../hooks/useKeyPress';
+import { useKeyPress } from '../useKeyPress';
 import { styles } from './DevScreenSize.styles';
 import { useDev } from 'providers/DevProvider/DevContext';
 
@@ -9,7 +9,7 @@ export const DevScreenSize = ({ variant = 'light' }: { variant?: 'light' | 'dark
   if (import.meta.env.NODE_ENV === 'production') return <Fragment />;
 
   const { isDevDataVisible, setIsDevDataVisible } = useDev();
-  // useKeyPress();
+  useKeyPress();
 
   const handleClick = () => {
     setIsDevDataVisible(!isDevDataVisible);

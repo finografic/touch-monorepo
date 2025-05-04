@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
-// import type { MenuPadBaseProps } from './MenuPad.types';
 import { OrderItemToggle } from './OrderItemToggle';
 import { OrderItemCountdown } from './OrderItemCountdown';
 import { styles } from './MenuPad.styles';
@@ -21,29 +20,25 @@ export interface MenuPadProps<T extends MenuSlotType> {
 
 export const MenuPad = <T extends MenuSlotType>({ slotType, number, metadata }: MenuPadProps<T>) => {
   const { orders, togglePad } = useOrders();
-  // const { orders } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;
   const isProcessing = !!order?.processStatus?.isProcessing;
   const isSelected = !!order?.isSelected;
 
-  const className = clsx(`pad-menu slot-type-${slotType}`, {
-    'checked': isSelected,
+  // NOTE: Only add menu-specific classes here,
+  // let PAD component handle its own state classes
+  const className = clsx('pad-menu', `slot-type-${slotType}`, {
     'is-processing': isProcessing,
   });
 
   const handleSelect = React.useCallback(() => {
-    console.log('%c order - toggle', 'color:red', number, order?.isSelected);
     togglePad(number);
-  }, [number, togglePad]);
-
-  if (order?.isSelected !== undefined) {
-    console.log('%c order', 'color:red', order?.isSelected);
-  }
+  }, [number, togglePad, isSelected]);
 
   if (!isProcessing) {
     return (
       <Pad
+        css={styles}
         id={String(number)}
         name={`menu-${slotType}`}
         type="checkbox"
