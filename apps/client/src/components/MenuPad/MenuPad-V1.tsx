@@ -10,8 +10,6 @@ import { styles } from './MenuPad.styles';
 import type { MenuSlotType } from 'types/menu.types';
 import type { ValidMenuPadNumber } from 'pages/MenuPage/menu.types';
 import type { DataEntry } from 'types/data.types';
-import { Pad } from 'components/Pad';
-import { OrderFieldKeys } from 'constants/app.config';
 
 export interface MenuPadProps<T extends MenuSlotType> {
   slotType: T; // 'A' | 'B' | 'C'
@@ -30,22 +28,6 @@ export const MenuPad = <T extends MenuSlotType>({ slotType, number, metadata }: 
     'active': order?.isSelected,
     'is-processing': isProcessing,
   });
-
-  if (!isProcessing) {
-    return (
-      <Pad
-        id={String(number)}
-        name={`menu-${slotType}`}
-        type="button"
-        fieldKey={OrderFieldKeys.home}
-        isChecked={order?.isSelected}
-        className={className}
-        label={String(number)}
-        metadata={metadata}
-        // onSelect={handleSelect}
-      />
-    );
-  }
 
   return (
     <OrderItemToggle css={styles} number={number} className={className}>

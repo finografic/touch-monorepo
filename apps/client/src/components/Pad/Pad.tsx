@@ -10,9 +10,10 @@ import isEqual from 'lodash/isEqual';
 export interface PadProps extends PadUI {
   fieldKey: OrderFieldKey;
   className?: string;
+  onSelect?: () => void;
 }
 
-const Pad: FC<PadProps> = ({ fieldKey, className, ...pad }) => {
+const Pad: FC<PadProps> = ({ fieldKey, className, onSelect, ...pad }) => {
   const { updatePadState } = useLayoutUi();
   const [isCheckedOptimistic, setIsCheckedOptimistic] = useState(pad.isChecked);
 
@@ -41,7 +42,10 @@ const Pad: FC<PadProps> = ({ fieldKey, className, ...pad }) => {
             pads.map((p: PadUI) => (p.id === pad.id ? { ...p, isChecked: !p.isChecked } : p));
 
     updatePadState(fieldKey, updateFn);
-  }, [pad.disabled, pad.type, pad.id, isCheckedOptimistic, fieldKey, updatePadState]);
+
+    // Call the onSelect callback if provided
+    onSelect?.();
+  }, [pad.disabled, pad.type, pad.id, isCheckedOptimistic, fieldKey, updatePadState, onSelect]);
 
   return (
     <div
