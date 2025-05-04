@@ -1,5 +1,6 @@
 import { colors, layout } from 'styles';
 import { css } from '@emotion/react';
+import { stylesPad } from 'styles/custom/buttons.styles';
 
 const props = {
   pad: {
@@ -17,21 +18,17 @@ const props = {
 };
 
 export const styles = css`
-  &.pad {
+  &.pad-menu {
+    ${stylesPad}
+
     width: ${props.pad.width};
     height: ${props.pad.height};
     border-radius: 50%;
-    border: ${layout.borderWidth} solid ${colors.greyDark};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5rem;
-    color: ${colors.info};
-    transition: all 0.3s;
-    background-color: transparent;
-    cursor: pointer;
 
-    &:hover {
+    /*
+    color: ${colors.info};
+
+     &:hover {
       border-color: ${colors.info};
       transform: scale(1.05);
     }
@@ -42,7 +39,7 @@ export const styles = css`
     }
 
     &.first {
-    }
+    } */
 
     &.slot-type-A {
       pointer-events: none;
@@ -59,14 +56,14 @@ export const styles = css`
         transform: scale(1.05);
       }
     }
-
+    /*
     &.slot-type-C {
       pointer-events: none;
       border-color: ${colors.danger};
       color: ${colors.danger};
       width: ${props.padLG.width};
       height: ${props.padLG.height};
-    }
+    } */
 
     &.special {
       border-radius: 10px;
@@ -87,7 +84,7 @@ export const styles = css`
       &:hover {
         border-color: ${colors.successLight};
         background-color: rgba(1, 250, 20, 0.1);
-        transform: none; /* Ensure no transform */
+        transform: none;
       }
 
       &:disabled {
@@ -95,7 +92,6 @@ export const styles = css`
         cursor: not-allowed;
         &:hover {
           border-color: ${colors.greyDark};
-          /* background-color: transparent; */
           background-color: rgba(1, 250, 20, 0.1);
         }
       }

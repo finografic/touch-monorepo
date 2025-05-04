@@ -39,7 +39,7 @@ export const MenuPad = <T extends MenuSlotType>({ slotType, number, metadata }: 
       <Pad
         id={String(number)}
         name={`menu-${slotType}`}
-        type="button"
+        type="checkbox"
         fieldKey={OrderFieldKeys.home}
         isChecked={isSelected}
         className={className}

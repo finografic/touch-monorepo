@@ -2,11 +2,22 @@ import { colors, layout } from 'styles';
 import { css } from '@emotion/react';
 
 export const stylesPad = css`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  padding: 1rem;
+  text-align: center;
+
   cursor: pointer;
   color: ${colors.info};
   background: transparent;
   border: ${layout.borderWidth} solid ${colors.greyDark};
   transition: all 0.2s;
+
+  &.pad-menu {
+    border-radius: 50%;
+  }
 
   &:hover:not(.disabled) {
     border-color: ${colors.info};

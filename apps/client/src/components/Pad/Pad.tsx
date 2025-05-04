@@ -3,17 +3,18 @@ import type { OrderFieldKey } from 'types/orders.types';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import clsx from 'clsx';
 import { padStyles } from './Pad.styles';
-import type { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 import { memo, useCallback, useEffect, useState } from 'react';
 import isEqual from 'lodash/isEqual';
 
 export interface PadProps extends PadUI {
   fieldKey: OrderFieldKey;
   className?: string;
+  children?: ReactNode;
   onSelect?: () => void;
 }
 
-const Pad: FC<PadProps> = ({ fieldKey, className, onSelect, ...pad }) => {
+const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) => {
   const { updatePadState } = useLayoutUi();
   const [isCheckedOptimistic, setIsCheckedOptimistic] = useState(pad.isChecked);
 
@@ -61,7 +62,7 @@ const Pad: FC<PadProps> = ({ fieldKey, className, onSelect, ...pad }) => {
       aria-checked={isCheckedOptimistic}
       data-testid={`pad-${pad.id}`}
     >
-      {pad.label}
+      {children ?? pad.label}
     </div>
   );
 };

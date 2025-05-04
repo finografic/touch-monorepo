@@ -20,29 +20,39 @@ export interface MenuPadProps<T extends MenuSlotType> {
 }
 
 export const MenuPad = <T extends MenuSlotType>({ slotType, number, metadata }: MenuPadProps<T>) => {
-  const { orders } = useOrders();
+  const { orders, togglePad } = useOrders();
   // const { orders } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;
   const isProcessing = !!order?.processStatus?.isProcessing;
+  const isSelected = !!order?.isSelected;
 
-  const className = clsx(`pad slot-type-${slotType}`, {
-    'active': order?.isSelected,
+  const className = clsx(`pad-menu slot-type-${slotType}`, {
+    'checked': isSelected,
     'is-processing': isProcessing,
   });
+
+  const handleSelect = React.useCallback(() => {
+    console.log('%c order - toggle', 'color:red', number, order?.isSelected);
+    togglePad(number);
+  }, [number, togglePad]);
+
+  if (order?.isSelected !== undefined) {
+    console.log('%c order', 'color:red', order?.isSelected);
+  }
 
   if (!isProcessing) {
     return (
       <Pad
         id={String(number)}
         name={`menu-${slotType}`}
-        type="button"
+        type="checkbox"
         fieldKey={OrderFieldKeys.home}
-        isChecked={order?.isSelected}
+        isChecked={isSelected}
         className={className}
         label={String(number)}
         metadata={metadata}
-        // onSelect={handleSelect}
+        onSelect={handleSelect}
       />
     );
   }
