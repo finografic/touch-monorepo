@@ -21,7 +21,6 @@ type LayoutUiSetters = {
 type LayoutUiActions = LayoutUiSetters & {
   initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadsConfig, fieldKey: OrderFieldKey) => void;
   updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadUI[]) => PadUI[]) => void;
-  togglePad: (index: number) => void;
 };
 
 export interface LayoutUiProviderProps {

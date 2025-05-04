@@ -43,12 +43,6 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
         const updatedPads = updater(currentPads);
         set({ pads: updatedPads });
       },
-      // TODO: ignore the following for now..
-      togglePad: (index: number) => {
-        const { pads } = get();
-        const draftPads = pads.find((pad) => pad.index === index);
-        // set({ pads: draftPads });
-      },
     },
     // subscribe: (listener: (state: LayoutUiStore, prevState: LayoutUiStore) => void) => {
     //   const state = get();
