@@ -21,7 +21,7 @@ export const Footer = () => {
 
   const { setIsDevDialogOpen } = useDev();
   const { current, setPageCurrent, isNextDisabled, setIsNextDisabled } = usePagination();
-  const { selectAllPads, orders, setOrders } = useOrders();
+  const { selectAllOrders, orders, setOrders } = useOrders();
 
   // ------------------------------------------------------------------------ //
 
@@ -121,7 +121,7 @@ export const Footer = () => {
         </ButtonControl>
         {location.pathname === PATHS.home && <MockOrdersButton />}
         {location.pathname === PATHS.home && (
-          <ButtonControl className="btn-control" onClick={selectAllPads}>
+          <ButtonControl className="btn-control" onClick={selectAllOrders}>
             ALL
           </ButtonControl>
         )}

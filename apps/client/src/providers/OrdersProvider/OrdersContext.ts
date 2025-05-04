@@ -30,7 +30,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             : [...orders].filter((order) => order.itemNumber !== itemNumber),
         });
       },
-      selectAllPads: () => {
+      selectAllOrders: () => {
         const newOrders = [];
         for (let i = 1; i <= 8; i++) {
           newOrders.push({

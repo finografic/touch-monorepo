@@ -14,7 +14,7 @@ type OrdersSetters = {
 
 type OrdersActions = OrdersSetters & {
   toggleOrder: (itemNumber: number) => void;
-  selectAllPads: () => void;
+  selectAllOrders: () => void;
 };
 
 export interface OrdersProviderProps {
