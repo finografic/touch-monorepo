@@ -97,6 +97,7 @@ export const flattenOrders = (orders: OrderItem[]): FlattenedOrder[] => {
     timeRemaining: order.processStatus?.timeRemaining,
     estimatedCompletion: order.processStatus?.estimatedCompletionTime,
 
+    /*
     // Drink type info
     drinkTypeId: order.drinkType?.id,
     drinkTypeName: order.drinkType?.displayName,
@@ -118,6 +119,7 @@ export const flattenOrders = (orders: OrderItem[]): FlattenedOrder[] => {
     initialTempUnit: order.initialTemperature?.unit,
     finalTemp: order.finalTemperature?.value,
     finalTempUnit: order.finalTemperature?.unit,
+    */
   }));
 };
 

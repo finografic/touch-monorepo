@@ -11,11 +11,12 @@ interface OrderBaseProps {
   itemNumber: number;
   isSelected: boolean;
   isLocked: boolean;
+  filters: OrderFilters;
   processStatus: OrderProcessStatus;
 }
 
 // The fields that are managed by the selection process
-export interface OrderSelectionFields {
+export interface OrderFilters extends Partial<Record<OrderFieldKey, unknown>> {
   drinkType?: DrinkType;
   drinkSubtype?: DrinkSubtype;
   volume?: Volume;
@@ -48,4 +49,4 @@ export interface OrderProcessStatus {
 }
 
 // The complete order type combining selection fields and base properties
-export interface OrderItem extends OrderBaseProps, OrderSelectionFields {}
+export interface OrderItem extends OrderBaseProps {}

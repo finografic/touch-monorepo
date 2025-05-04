@@ -6,6 +6,7 @@ export const INITIAL_ORDER_ITEM: OrderItem = {
   // drinkSubtype: undefined,
   isSelected: false,
   isLocked: false,
+  filters: {},
   processStatus: {
     isProcessing: false,
   },
