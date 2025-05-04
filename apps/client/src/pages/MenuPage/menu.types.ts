@@ -1,11 +1,11 @@
-import type { MenuSlotLayout, SlotTypeAtIndex } from 'types/menu.types';
-import type { NUM_SLOTS_TYPE_B } from 'src/config/app.config';
+import type { MenuItemLayout, ItemTypeAtIndex } from 'types/menu.types';
+import type { NUM_ITEMS_TYPE_B } from 'src/config/app.config';
 
 // Define the number of Type B pads we're using
-export type MenuBCount = typeof NUM_SLOTS_TYPE_B;
+export type MenuBCount = typeof NUM_ITEMS_TYPE_B;
 
 // Export the layout type for use in other components
-export type MenuLayout = MenuSlotLayout<MenuBCount>;
+export type MenuLayout = MenuItemLayout<MenuBCount>;
 
 /**
  * Get valid menu pad numbers based on their type
@@ -21,4 +21,4 @@ export type ValidMenuPadNumber<T extends 'A' | 'B' | 'C'> = T extends 'A'
 /**
  * Get the type of a menu pad at a specific number
  */
-export type MenuPadTypeAtNumber<N extends number> = SlotTypeAtIndex<MenuBCount, N>;
+export type MenuPadTypeAtNumber<N extends number> = ItemTypeAtIndex<MenuBCount, N>;

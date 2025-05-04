@@ -1,5 +1,5 @@
 import { createMenuLayout } from 'types/menu.types';
-import { NUM_SLOTS_TYPE_B } from 'src/config/app.config';
+import { NUM_ITEMS_TYPE_B } from 'src/config/app.config';
 import type { MenuBCount } from 'pages/MenuPage/menu.types';
 import type { ConstEnumOf, ConstMapOf } from 'types/utility.types';
 import type { PadTestProps } from 'pages/MenuPage/MenuPage';
@@ -7,7 +7,7 @@ import type { PadTestProps } from 'pages/MenuPage/MenuPage';
 // Create and export the menu layout configuration
 export const menuLayout = createMenuLayout<MenuBCount>({
   typeA: { index: 0 },
-  typeB: { startIndex: 1, count: NUM_SLOTS_TYPE_B, indices: [1, 2, 3, 4, 5, 6, 7, 8] },
+  typeB: { startIndex: 1, count: NUM_ITEMS_TYPE_B, indices: [1, 2, 3, 4, 5, 6, 7, 8] },
   typeC: { startIndex: 9 },
 });
 

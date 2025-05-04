@@ -1,7 +1,7 @@
 /**
- * Menu slot type identifiers
+ * Menu item type identifiers
  */
-export type MenuSlotType = 'A' | 'B' | 'C';
+export type MenuItemType = 'A' | 'B' | 'C';
 
 /**
  * Valid counts for Type B pads (must be in increments of 3, from 5 to 15)
@@ -48,7 +48,7 @@ export type TypeCStartIndex<BCount extends ValidTypeBCount> = BCount extends 5
  * Configuration for a menu pad layout
  * @example
  * ```typescript
- * type Layout = MenuSlotLayout<8>; // 8 Type B pads
+ * type Layout = MenuItemLayout<8>; // 8 Type B pads
  * const config: Layout = {
  *   typeA: { index: 0 },
  *   typeB: { startIndex: 1, count: 8 },
@@ -56,7 +56,7 @@ export type TypeCStartIndex<BCount extends ValidTypeBCount> = BCount extends 5
  * };
  * ```
  */
-export interface MenuSlotLayout<BCount extends ValidTypeBCount> {
+export interface MenuItemLayout<BCount extends ValidTypeBCount> {
   typeA: {
     index: 0;
   };
@@ -74,12 +74,12 @@ export interface MenuSlotLayout<BCount extends ValidTypeBCount> {
  * Helper type to get the pad type based on index
  * @example
  * ```typescript
- * type Layout = SlotTypeAtIndex<8, 0>;  // "A"
- * type Layout = SlotTypeAtIndex<8, 4>;  // "B"
- * type Layout = SlotTypeAtIndex<8, 9>; // "C"
+ * type Layout = ItemTypeAtIndex<8, 0>;  // "A"
+ * type Layout = ItemTypeAtIndex<8, 4>;  // "B"
+ * type Layout = ItemTypeAtIndex<8, 9>; // "C"
  * ```
  */
-export type SlotTypeAtIndex<BCount extends ValidTypeBCount, Index extends number> = Index extends 0
+export type ItemTypeAtIndex<BCount extends ValidTypeBCount, Index extends number> = Index extends 0
   ? 'A'
   : Index extends TypeBIndices<BCount>
     ? 'B'
@@ -98,6 +98,6 @@ export type SlotTypeAtIndex<BCount extends ValidTypeBCount, Index extends number
  * });
  * ```
  */
-export function createMenuLayout<BCount extends ValidTypeBCount>(config: MenuSlotLayout<BCount>) {
+export function createMenuLayout<BCount extends ValidTypeBCount>(config: MenuItemLayout<BCount>) {
   return config;
 }

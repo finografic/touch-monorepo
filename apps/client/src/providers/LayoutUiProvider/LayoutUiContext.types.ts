@@ -6,7 +6,7 @@ import type { OrderFieldKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
 
 export interface LayoutUiValues {
-  [LayoutUiKeys.numSlots]: ValidTypeBCount;
+  [LayoutUiKeys.numItems]: ValidTypeBCount;
   [LayoutUiKeys.fieldKey]: OrderFieldKey | undefined;
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadUI[];

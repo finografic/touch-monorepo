@@ -78,25 +78,25 @@ export function MenuPage() {
         <Col>
           <div className="menu-grid-left">
             {/* First row */}
-            <MenuPad slotType="A" number={0} />
-            <MenuPad slotType="B" number={1} />
-            <MenuPad slotType="B" number={2} />
+            <MenuPad itemType="A" number={0} />
+            <MenuPad itemType="B" number={1} />
+            <MenuPad itemType="B" number={2} />
 
             {/* Second row */}
-            <MenuPad slotType="B" number={3} />
-            <MenuPad slotType="B" number={4} />
-            <MenuPad slotType="B" number={5} />
+            <MenuPad itemType="B" number={3} />
+            <MenuPad itemType="B" number={4} />
+            <MenuPad itemType="B" number={5} />
 
             {/* Third row */}
-            <MenuPad slotType="B" number={6} />
-            <MenuPad slotType="B" number={7} />
-            <MenuPad slotType="B" number={8} />
+            <MenuPad itemType="B" number={6} />
+            <MenuPad itemType="B" number={7} />
+            <MenuPad itemType="B" number={8} />
           </div>
         </Col>
 
         <Col>
           <div className="menu-grid-right">
-            <MenuPad slotType="C" number={9} />
+            <MenuPad itemType="C" number={9} />
             <div className="pad-special power" />
           </div>
         </Col>

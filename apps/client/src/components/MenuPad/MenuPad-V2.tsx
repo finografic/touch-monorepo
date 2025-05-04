@@ -5,20 +5,20 @@ import type { OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
 // import type { MenuPadBaseProps } from './MenuPad.types';
 import { styles } from './MenuPad.styles';
-import type { MenuSlotType } from 'types/menu.types';
+import type { MenuItemType } from 'types/menu.types';
 import type { ValidMenuPadNumber } from 'pages/MenuPage/menu.types';
 import type { DataEntry } from 'types/data.types';
 import { Pad } from 'components/Pad';
 import { OrderItemCountdown } from './OrderItemCountdown';
 import { OrderFieldKeys } from 'src/config/app.config';
 
-export interface MenuPadProps<T extends MenuSlotType> {
-  slotType: T; // 'A' | 'B' | 'C'
+export interface MenuPadProps<T extends MenuItemType> {
+  itemType: T; // 'A' | 'B' | 'C'
   number: ValidMenuPadNumber<T>;
   metadata?: DataEntry;
 }
 
-export const MenuPad = <T extends MenuSlotType>({ slotType, number, metadata }: MenuPadProps<T>) => {
+export const MenuPad = <T extends MenuItemType>({ itemType, number, metadata }: MenuPadProps<T>) => {
   const { orders, togglePad } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;
@@ -29,7 +29,7 @@ export const MenuPad = <T extends MenuSlotType>({ slotType, number, metadata }: 
     togglePad(number);
   }, [number, togglePad]);
 
-  const className = clsx(`slot-type-${slotType}`, {
+  const className = clsx(`item-type-${itemType}`, {
     'active': isSelected,
     'is-processing': isProcessing,
   });
@@ -38,7 +38,7 @@ export const MenuPad = <T extends MenuSlotType>({ slotType, number, metadata }: 
     <div css={styles}>
       <Pad
         id={String(number)}
-        name={`menu-${slotType}`}
+        name={`menu-${itemType}`}
         type="checkbox"
         fieldKey={OrderFieldKeys.home}
         isChecked={isSelected}

@@ -2,7 +2,7 @@ import type { PadsConfig } from 'types/ui.types';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 
-export const NUM_SLOTS_TYPE_B: ValidTypeBCount = 8 as const;
+export const NUM_ITEMS_TYPE_B: ValidTypeBCount = 8 as const;
 
 // Base keys in camelCase - our source of truth
 export const ORDER_FIELD_KEYS = [

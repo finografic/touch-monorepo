@@ -10,7 +10,7 @@ import { stylesLeft, stylesRight } from './DevPanel.styles';
 export const DevPanel = () => {
   const location = useLocation();
   const { fieldKey } = useRouteConfig();
-  const { numSlots, pads: padsSource } = useLayoutUi();
+  const { numItems, pads: padsSource } = useLayoutUi();
   const { orders } = useOrders();
 
   const padsConfig = PADS_UI_CONFIG[fieldKey];
@@ -27,10 +27,12 @@ export const DevPanel = () => {
   };
 
   const devDataRight = {
-    numSlots,
+    numItems,
     orders: {
-      count: devOrders.orders.length,
-      first: devOrders.orders[0],
+      // count: devOrders.orders.length,
+      // first: devOrders.orders,
+      count: orders.length,
+      first: orders,
     },
   };
 
