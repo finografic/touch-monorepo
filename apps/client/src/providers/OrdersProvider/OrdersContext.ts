@@ -21,6 +21,15 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
     ...initialValue,
     actions: {
       ...createSetters({ set, defaultValue }),
+      setOrderFilter: ({ itemNumber, filter }: { itemNumber: number; filter: any }) => {
+        console.log('setOrderFilters', 'orange', itemNumber, filter);
+        const { orders } = get();
+        // set({
+        //   orders: !draftOrder
+        //     ? [...orders, { ...INITIAL_ORDER_ITEM, itemNumber, isSelected: true }]
+        //     : [...orders].filter((order) => order.itemNumber !== itemNumber),
+        // });
+      },
       toggleOrder: (itemNumber: number) => {
         const { orders } = get();
         const draftOrder = findOrderByNumber(orders, itemNumber);

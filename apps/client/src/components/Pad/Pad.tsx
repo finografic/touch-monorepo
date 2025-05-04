@@ -11,7 +11,7 @@ export interface PadProps extends PadUI {
   fieldKey: OrderFieldKey;
   className?: string;
   children?: ReactNode;
-  onSelect?: () => void;
+  onSelect?: ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => void;
 }
 
 const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) => {
@@ -44,7 +44,7 @@ const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) 
 
     updatePadState(fieldKey, updateFn);
 
-    onSelect?.();
+    onSelect?.({ fieldKey, pad });
   }, [pad.disabled, pad.type, pad.id, isCheckedOptimistic, fieldKey, updatePadState, onSelect]);
 
   // Separate state-related classes from passed-in classes
