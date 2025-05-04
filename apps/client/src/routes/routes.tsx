@@ -55,7 +55,8 @@ export const routes: RouteObject[] = [
         path: PATHS.drinkVolume,
         id: OrderFieldKeys.drinkVolume,
         loader: LoaderDataHelper[OrderFieldKeys.drinkVolume],
-        element: <DrinkVolumePage />,
+        // element: <DrinkVolumePage />,
+        element: <DrinkTypePage />,
       },
       {
         path: PATHS.containerType,

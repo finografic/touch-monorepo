@@ -8,6 +8,10 @@ import type { OrderFieldKey } from 'types/orders.types';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
 import type { DrinkType } from 'types/models/drink-type.model';
 import type { DrinkTypeEntity } from '@workspace/server/types/entities/drink-type.entity';
+import type { DrinkSubtype } from 'types/models/drink-subtype.model';
+import type { DrinkSubtypeEntity } from '@workspace/server/types/entities/drink-subtype.entity';
+import type { DrinkVolume } from 'types/models/drink-volume.model';
+import type { DrinkVolumeEntity } from '@workspace/server/types/entities/drink-volume.entity';
 import { api } from 'api';
 import { transformAxiosError } from 'src/api/api.utils';
 
@@ -37,4 +41,9 @@ const createEndpoints = <T extends Record<string, (...args: any[]) => Promise<an
 export const EndpointHelper = createEndpoints({
   getDrinkTypes: async () => await api.get<ApiResponse<DrinkType[]>>('/drink-types'),
   getDrinkType: async (id: string) => await api.get<ApiResponse<DrinkTypeEntity>>(`/drink-types/${id}`),
+  getDrinkSubtypes: async () => await api.get<ApiResponse<DrinkSubtype[]>>('/drink-subtypes'),
+  getDrinkSubtype: async (id: string) =>
+    await api.get<ApiResponse<DrinkSubtypeEntity>>(`/drink-subtypes/${id}`),
+  getDrinkVolumes: async () => await api.get<ApiResponse<DrinkVolume[]>>('/drink-volumes'),
+  getDrinkVolume: async (id: string) => await api.get<ApiResponse<DrinkVolumeEntity>>(`/drink-volumes/${id}`),
 }) as const;

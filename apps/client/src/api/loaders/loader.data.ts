@@ -7,15 +7,16 @@ type LoaderMap = {
 };
 
 export const LoaderDataHelper: LoaderMap = {
+  [OrderFieldKeys.home]: async () => {
+    // TODO: Implement when ready
+    return [];
+  },
   [OrderFieldKeys.drinkType]: EndpointHelper.getDrinkTypes,
   [OrderFieldKeys.drinkSubtype]: async () => {
     // TODO: Implement when ready
     return [];
   },
-  [OrderFieldKeys.drinkVolume]: async () => {
-    // TODO: Implement when ready
-    return [];
-  },
+  [OrderFieldKeys.drinkVolume]: EndpointHelper.getDrinkVolumes,
   [OrderFieldKeys.containerType]: async () => {
     // TODO: Implement when ready
     return [];
