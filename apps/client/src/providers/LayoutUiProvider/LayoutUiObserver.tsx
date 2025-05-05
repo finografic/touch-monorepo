@@ -6,7 +6,7 @@ import { useRouteLoaderData } from 'react-router-dom';
 import type { DataEntry } from 'types/data.types';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { routes } from 'routes/routes';
-import type { PadsConfig } from 'types/ui.types';
+import type { PadsConfig, PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
 
 export const LayoutUiObserver: FC = () => {
@@ -31,7 +31,7 @@ export const LayoutUiObserver: FC = () => {
           loaderData,
           {
             ...padsConfig,
-            initChecked: (pad) => activeFilters.has(pad.id),
+            initChecked: (pad: PadUI) => activeFilters.has(pad.id),
           },
           fieldKey,
         );

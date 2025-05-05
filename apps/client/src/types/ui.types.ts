@@ -30,6 +30,7 @@ export interface PadUI {
 export interface PadsConfigOptions<T extends DataEntry = DataEntry> {
   maxPads: number;
   type: PadType;
+  minRequired: number;
   labelKey: keyof T;
   metadataKey: keyof T;
   initChecked: (pad: PadUI) => boolean;
@@ -42,7 +43,7 @@ export type PartialPadsConfig<T extends DataEntry = DataEntry> = Partial<PadsCon
 export type MixedPadsConfig<T extends DataEntry = DataEntry> = Required<
   Pick<PadsConfigOptions<T>, 'maxPads' | 'type'>
 > &
-  Partial<Pick<PadsConfigOptions<T>, 'labelKey' | 'metadataKey'>>;
+  Partial<Pick<PadsConfigOptions<T>, 'labelKey' | 'metadataKey' | 'initChecked' | 'minRequired'>>;
 
 // Default export type - choose which variation you want to use as the main PadsConfig
 export type PadsConfig<T extends DataEntry = DataEntry> = MixedPadsConfig<T>;
