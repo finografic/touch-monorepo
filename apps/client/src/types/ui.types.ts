@@ -36,6 +36,13 @@ export interface PadsConfigOptions<T extends DataEntry = DataEntry> {
   initChecked: (pad: PadUI) => boolean;
 }
 
+export interface PadsConfigOptions<T extends DataEntry = DataEntry> {
+  minRequired: number;
+  labelKey: keyof T;
+  metadataKey: keyof T;
+  initChecked: (pad: PadUI) => boolean;
+}
+
 // Fully optional configuration
 export type PartialPadsConfig<T extends DataEntry = DataEntry> = Partial<PadsConfigOptions<T>>;
 
