@@ -2,9 +2,10 @@ import { Box, Flex } from '@radix-ui/themes';
 import { useDev } from 'providers/DevProvider/DevContext';
 import { TextAlignLeftIcon, TextAlignTopIcon } from '@radix-ui/react-icons';
 import { DevPanel } from './DevPanel/DevPanel';
-import { styles } from './DevTools.styles';
 import { QueryDevtoolsPanel } from './QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { DevScreenSize } from './DevScreenSize/DevScreenSize';
+import { useKeyPress } from './useKeyPress';
+import { styles } from './DevTools.styles';
 
 export const DevTools = () => {
   const {
@@ -14,6 +15,11 @@ export const DevTools = () => {
     isDevQueryPanelOpen,
     setIsDevQueryPanelOpen,
   } = useDev();
+
+  useKeyPress();
+
+  if (!isDevToolsVisible) return null;
+
   return (
     <>
       <>

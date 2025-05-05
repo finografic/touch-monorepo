@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import type { FC } from 'react';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
@@ -19,29 +19,27 @@ export const Layout: FC = () => {
   }
 
   return (
-    <React.Fragment>
-      <OrdersProvider>
-        <PaginationProvider>
-          <LayoutUiProvider>
-            <ContentProvider>
-              <DevProvider>
-                <div id="layout" css={styles}>
-                  <Header />
-                  <main>
-                    <div className="main-content">
-                      <Suspense fallback={<Loader message="Loading..." />}>
-                        <Outlet />
-                      </Suspense>
-                      {/* <DataDialog /> */}
-                    </div>
-                  </main>
-                  <Footer />
-                </div>
-              </DevProvider>
-            </ContentProvider>
-          </LayoutUiProvider>
-        </PaginationProvider>
-      </OrdersProvider>
-    </React.Fragment>
+    <OrdersProvider>
+      <PaginationProvider>
+        <LayoutUiProvider>
+          <ContentProvider>
+            <DevProvider>
+              <div id="layout" css={styles}>
+                <Header />
+                <main>
+                  <div className="main-content">
+                    <Suspense fallback={<Loader message="Loading..." />}>
+                      <Outlet />
+                    </Suspense>
+                    {/* <DataDialog /> */}
+                  </div>
+                </main>
+                <Footer />
+              </div>
+            </DevProvider>
+          </ContentProvider>
+        </LayoutUiProvider>
+      </PaginationProvider>
+    </OrdersProvider>
   );
 };
