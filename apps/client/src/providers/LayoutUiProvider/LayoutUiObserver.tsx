@@ -1,12 +1,11 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { useLayoutUi } from './LayoutUiContext';
-import { PADS_UI_CONFIG } from 'src/config/app.config';
 import { useRouteLoaderData } from 'react-router-dom';
 import type { DataEntry } from 'types/data.types';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { routes } from 'routes/routes';
-import type { PadsConfig, PadUI } from 'types/ui.types';
+import type { PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 
@@ -50,6 +49,7 @@ export const LayoutUiObserver: FC = () => {
   useEffect(
     function handlePadChange() {
       if (!pads || !pads.length) return;
+
       if (padsConfig?.minRequired) {
         // TODO: implement minRequired check using setIsNextDisabled
         console.log('🚦 pads changed:', { pads });
