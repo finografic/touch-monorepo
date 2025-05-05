@@ -43,8 +43,8 @@ export const LayoutUiObserver: FC = () => {
         isInitializedRef.current[fieldKey] = true;
       }
 
-      // setUiPads([]);
-      // setUiNumPads(0);
+      setUiPads([]);
+      setUiNumPads(0);
     },
     [fieldKey, routes, location.pathname, loaderData, orders],
   );
