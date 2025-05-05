@@ -50,7 +50,7 @@ export type PartialPadsConfig<T extends DataEntry = DataEntry> = Partial<PadsCon
 export type MixedPadsConfig<T extends DataEntry = DataEntry> = Required<
   Pick<PadsConfigOptions<T>, 'maxPads' | 'type'>
 > &
-  Partial<Pick<PadsConfigOptions<T>, 'labelKey' | 'metadataKey' | 'initChecked' | 'minRequired'>>;
+  Partial<Omit<PadsConfigOptions<T>, 'maxPads' | 'type'>>;
 
 // Default export type - choose which variation you want to use as the main PadsConfig
 export type PadsConfig<T extends DataEntry = DataEntry> = MixedPadsConfig<T>;
