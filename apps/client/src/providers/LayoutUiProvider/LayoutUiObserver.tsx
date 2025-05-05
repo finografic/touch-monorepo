@@ -8,19 +8,21 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { routes } from 'routes/routes';
 import type { PadsConfig, PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
+import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 
 export const LayoutUiObserver: FC = () => {
-  const { fieldKey } = useRouteConfig();
+  // const isMounted = useIsMounted();
+  const { fieldKey, padsConfig } = useRouteConfig();
   const { orders } = useOrders();
+  const { isNextDisabled, setIsNextDisabled } = usePagination();
+  const { pads } = useLayoutUi();
+
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
 
   useEffect(
     function handleRouteChange() {
       if (!fieldKey) return;
-
-      console.log('🚦 route changed:', { fieldKey });
-      const padsConfig = PADS_UI_CONFIG[fieldKey] as PadsConfig;
 
       if (loaderData && padsConfig) {
         // Get unique filter values for the current fieldKey across all orders
@@ -43,6 +45,17 @@ export const LayoutUiObserver: FC = () => {
       setUiNumPads(0);
     },
     [fieldKey, routes, location.pathname, loaderData, orders],
+  );
+
+  useEffect(
+    function handlePadChange() {
+      if (!pads || !pads.length) return;
+      if (padsConfig?.minRequired) {
+        // TODO: implement minRequired check using setIsNextDisabled
+        console.log('🚦 pads changed:', { pads });
+      }
+    },
+    [pads],
   );
 
   return null;

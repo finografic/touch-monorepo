@@ -1,18 +1,20 @@
 import type { UIMatch } from 'react-router-dom';
 import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
-import { OrderFieldKeys } from 'src/config/app.config';
+import { OrderFieldKeys, PADS_UI_CONFIG } from 'src/config/app.config';
 import type { OrderFieldKey } from 'types/orders.types';
 import { hasOptionalProperties } from 'types/utilities/object.utils.types';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
+import type { PadsConfig } from 'types/ui.types';
 
 // First define the required (non-undefined) version
 interface RequiredRouteConfig<T = DataEntry[]> {
   route: RouteConfig;
   fieldKey: OrderFieldKey;
   loaderData: T;
+  padsConfig: PadsConfig;
 }
 
 // Then define the partial version separately (not derived from RequiredRouteConfig)
@@ -20,6 +22,7 @@ interface PartialRouteConfig<T = DataEntry[]> {
   route: RouteConfig | undefined;
   fieldKey: OrderFieldKey | undefined;
   loaderData: T | undefined;
+  padsConfig: PadsConfig | undefined;
 }
 
 export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
@@ -64,8 +67,10 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     return { route: routeConfig, fieldKey };
   }, [matches, routesMetadata, location.pathname]);
 
-  const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T | undefined;
-  const result = { ...routeConfig, loaderData } as PartialRouteConfig<T>;
+  const fieldKey = routeConfig.fieldKey as OrderFieldKey;
+  const padsConfig = PADS_UI_CONFIG[fieldKey];
+  const loaderData = useRouteLoaderData(fieldKey || 'root') as T | undefined;
+  const result = { ...routeConfig, loaderData, fieldKey, padsConfig } as PartialRouteConfig<T>;
 
   // Check if we have all required fields
   if (!hasOptionalProperties(result as unknown as Record<keyof PartialRouteConfig<T>, unknown>)) {
@@ -75,6 +80,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
         route: result.route,
         fieldKey: result.fieldKey,
         loaderData: result.loaderData,
+        padsConfig: result.padsConfig,
       } as RequiredRouteConfig<T>;
     }
   }
