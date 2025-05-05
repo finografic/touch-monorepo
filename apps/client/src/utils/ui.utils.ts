@@ -10,6 +10,7 @@ export const initAllPadUI = ({
   name = '',
   type = 'radio',
   metadata = [],
+  initChecked = () => false,
 }: {
   numPads: number;
   ids: string[];
@@ -17,17 +18,22 @@ export const initAllPadUI = ({
   name: string;
   type: PadType;
   metadata?: DataEntry[];
+  initChecked?: (pad: PadUI) => boolean;
 }): PadUI[] => {
   return numPads > 0
-    ? Array.from({ length: numPads }, (_, i) => ({
-        index: i,
-        id: ids[i],
-        label: labels[i],
-        name,
-        type,
-        isChecked: false,
-        metadata: metadata[i],
-      }))
+    ? Array.from({ length: numPads }, (_, i) => {
+        const pad: PadUI = {
+          index: i,
+          id: ids[i],
+          label: labels[i],
+          name,
+          type,
+          isChecked: false,
+          metadata: metadata[i],
+        };
+        pad.isChecked = initChecked(pad);
+        return pad;
+      })
     : [];
 };
 
@@ -62,7 +68,7 @@ export const parsePadsConfig = <T extends DataEntry>({
   config: PadsConfig<T>;
   fieldKey: OrderFieldKey;
 }): { pads: PadUI[]; numPads: number } => {
-  const { maxPads, type } = config;
+  const { maxPads, type, initChecked } = config;
   const labelKey = (config.labelKey as keyof T) || ('displayName' as keyof T);
   const numPads = Math.min(data.length, maxPads);
   const slicedData = data.slice(0, numPads);
@@ -72,7 +78,15 @@ export const parsePadsConfig = <T extends DataEntry>({
   // Extract labels from data using the configured labelKey
   const labels = labelKey ? slicedData.map((item) => String(item[labelKey] ?? '')) : [];
   // Initialize pads with the extracted keys and metadata
-  const pads = initAllPadUI({ numPads, ids, labels, name: fieldKey, type, metadata: slicedData });
+  const pads = initAllPadUI({
+    numPads,
+    ids,
+    labels,
+    name: fieldKey,
+    type,
+    metadata: slicedData,
+    initChecked,
+  });
 
   return { pads, numPads };
 };

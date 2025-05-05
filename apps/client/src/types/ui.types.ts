@@ -32,6 +32,7 @@ export interface PadsConfigOptions<T extends DataEntry = DataEntry> {
   type: PadType;
   labelKey: keyof T;
   metadataKey: keyof T;
+  initChecked: (pad: PadUI) => boolean;
 }
 
 // Fully optional configuration
