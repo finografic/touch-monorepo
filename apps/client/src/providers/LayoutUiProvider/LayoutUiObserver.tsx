@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLayoutUi } from './LayoutUiContext';
 import { useRouteLoaderData } from 'react-router-dom';
 import type { DataEntry } from 'types/data.types';
@@ -10,11 +10,11 @@ import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 
 export const LayoutUiObserver: FC = () => {
-  // const isMounted = useIsMounted();
   const { fieldKey, padsConfig } = useRouteConfig();
   const { orders } = useOrders();
-  const { isNextDisabled, setIsNextDisabled } = usePagination();
+  const { setIsNextDisabled } = usePagination();
   const { pads } = useLayoutUi();
+  const isInitializedRef = useRef<Record<string, boolean>>({});
 
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
@@ -24,6 +24,8 @@ export const LayoutUiObserver: FC = () => {
       if (!fieldKey) return;
 
       if (loaderData && padsConfig) {
+        isInitializedRef.current[fieldKey] = false;
+
         // Get unique filter values for the current fieldKey across all orders
         const activeFilters = new Set(orders.map((order) => order.filters[fieldKey]).filter(Boolean));
 
@@ -37,25 +39,28 @@ export const LayoutUiObserver: FC = () => {
           fieldKey,
         );
         setUiFieldKey(fieldKey);
-        return;
+
+        isInitializedRef.current[fieldKey] = true;
       }
 
-      setUiPads([]);
-      setUiNumPads(0);
+      // setUiPads([]);
+      // setUiNumPads(0);
     },
     [fieldKey, routes, location.pathname, loaderData, orders],
   );
 
   useEffect(
     function handlePadChange() {
-      if (!pads || !pads.length) return;
+      if (!pads?.length || !fieldKey) return;
+      if (!isInitializedRef.current[fieldKey]) return;
 
-      if (padsConfig?.minRequired) {
-        // TODO: implement minRequired check using setIsNextDisabled
-        console.log('🚦 pads changed:', { pads });
+      // Only check minRequired if it's specified in config
+      if (padsConfig?.minRequired !== undefined) {
+        const checkedCount = pads.filter((pad) => pad.isChecked).length;
+        setIsNextDisabled(checkedCount < padsConfig.minRequired);
       }
     },
-    [pads],
+    [pads, fieldKey, padsConfig],
   );
 
   return null;
