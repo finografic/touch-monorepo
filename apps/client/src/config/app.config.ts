@@ -52,7 +52,7 @@ export const PADS_UI_CONFIG: Partial<Record<OrderFieldKey, PadsConfig>> = {
   },
   [OrderFieldKeys.containerType]: {
     maxPads: 10,
-    type: 'radio',
+    type: 'checkbox',
     labelKey: 'name',
     minRequired: 1,
   },

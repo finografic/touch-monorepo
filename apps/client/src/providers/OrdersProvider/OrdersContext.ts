@@ -28,14 +28,20 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           if (order.itemNumber === itemNumber) {
             const updatedFilters = { ...order.filters };
 
+            log('__FILTERS: 1 - updatedOrders', 'grey', updatedFilters);
+
             // Handle each filter key
-            (Object.entries(filter) as [OrderFieldKey, unknown][]).forEach(([key, value]) => {
+            (Object.entries(filter) as [OrderFieldKey, unknown][]).forEach(([key, value], i) => {
+              log(`__FILTERS: 2-${i} - key, value`, 'blue', { key, value });
               if (value === undefined) {
+                log('__FILTERS: 3 - value === undefined', 'blue', { key, value });
                 // Remove this specific filter
                 delete updatedFilters[key];
               } else {
+                log('__FILTERS: 4-BEFORE - value', 'orange', updatedFilters);
                 // Set/update this filter
                 updatedFilters[key] = value;
+                log('__FILTERS: 4-AFTER - value DELETE', 'red', updatedFilters);
               }
             });
 
