@@ -3,7 +3,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM } from 'src/config/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { OrderFilters } from 'types/orders.types';
+import type { OrderFieldKey, OrderFilters } from 'types/orders.types';
 
 export const DISPLAY_NAME = 'Orders';
 export const SETTER_PREFIX = '';
@@ -26,21 +26,22 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
         const { orders } = get();
         const updatedOrders = orders.map((order) => {
           if (order.itemNumber === itemNumber) {
-            // If filter is an empty object, remove all filters
-            if (Object.keys(filter).length === 0) {
-              return {
-                ...order,
-                filters: {},
-              };
-            }
+            const updatedFilters = { ...order.filters };
 
-            // Otherwise merge the new filter
+            // Handle each filter key
+            (Object.entries(filter) as [OrderFieldKey, unknown][]).forEach(([key, value]) => {
+              if (value === undefined) {
+                // Remove this specific filter
+                delete updatedFilters[key];
+              } else {
+                // Set/update this filter
+                updatedFilters[key] = value;
+              }
+            });
+
             return {
               ...order,
-              filters: {
-                ...order.filters,
-                ...filter,
-              },
+              filters: updatedFilters,
             };
           }
           return order;

@@ -21,7 +21,11 @@ export const LayoutUiObserver: FC = () => {
 
   useEffect(
     function handleRouteChange() {
-      if (!fieldKey) return;
+      if (!fieldKey) {
+        setUiPads([]);
+        setUiNumPads(0);
+        return;
+      }
 
       if (loaderData && padsConfig) {
         isInitializedRef.current[fieldKey] = false;
@@ -41,8 +45,10 @@ export const LayoutUiObserver: FC = () => {
         setUiFieldKey(fieldKey);
 
         isInitializedRef.current[fieldKey] = true;
+        return;
       }
 
+      // Only clear pads if we don't have valid data
       setUiPads([]);
       setUiNumPads(0);
     },
