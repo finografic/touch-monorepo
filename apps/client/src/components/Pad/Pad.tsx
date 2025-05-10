@@ -29,6 +29,8 @@ const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) 
     if (pad.disabled) return;
 
     const newCheckedState = pad.type === 'radio' ? true : !isCheckedOptimistic;
+
+    console.log('%c __CHECK-A', 'color:grey', pad.index, newCheckedState);
     setIsCheckedOptimistic(newCheckedState);
 
     // Update global state
@@ -52,14 +54,20 @@ const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) 
         isChecked: newCheckedState,
       },
     });
-  }, [pad.disabled, pad.type, pad.id, isCheckedOptimistic, fieldKey, updatePadState, onSelect]);
+  }, [pad.disabled, pad.type, pad.id, fieldKey, updatePadState, onSelect]);
+
+  console.log('%c __CHECK-B', 'color:grey', pad.index, isCheckedOptimistic);
 
   // Separate state-related classes from passed-in classes
   const stateClasses = {
-    checked: pad.isChecked || isCheckedOptimistic,
+    // checked: pad.isChecked || isCheckedOptimistic,
+    // checked: false,
+    checked: isCheckedOptimistic,
     disabled: pad.disabled,
     [pad.type]: true, // radio, checkbox, or button
   };
+
+  console.log('%c __CHECK-C', 'color:yellow', pad.index, stateClasses);
 
   return (
     <div

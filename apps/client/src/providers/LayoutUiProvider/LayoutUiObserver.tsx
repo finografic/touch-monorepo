@@ -27,6 +27,8 @@ export const LayoutUiObserver: FC = () => {
         return;
       }
 
+      console.log('%c __PAGE_INIT-A', 'color:blue', location.pathname, fieldKey);
+
       if (loaderData && padsConfig) {
         isInitializedRef.current[fieldKey] = false;
 
@@ -43,6 +45,8 @@ export const LayoutUiObserver: FC = () => {
           fieldKey,
         );
         setUiFieldKey(fieldKey);
+
+        console.log('%c __PAGE_INIT-B', 'color:cyan', location.pathname, fieldKey);
 
         isInitializedRef.current[fieldKey] = true;
         return;

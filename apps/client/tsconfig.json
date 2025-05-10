@@ -21,10 +21,10 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@workspace/config": [
+      "@fino/config": [
         "../../config"
       ],
-      "@workspace/config/*": [
+      "@fino/config/*": [
         "../../config/*"
       ],
       "@workspace/shared/*": [
