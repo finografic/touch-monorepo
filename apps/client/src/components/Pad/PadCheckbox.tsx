@@ -28,7 +28,7 @@ export const PadCheckbox: React.FC<PadProps> = ({
         }
       }}
     >
-      {children ?? label}
+      (c) {children ?? label}
       <Checkbox.Indicator />
     </Checkbox.Root>
   );

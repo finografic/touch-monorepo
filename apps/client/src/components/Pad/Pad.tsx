@@ -8,6 +8,7 @@ import { memo, useCallback } from 'react';
 import isEqual from 'lodash/isEqual';
 import { PadCheckbox } from './PadCheckbox';
 import { PadRadio } from './PadRadio';
+import { PadButton } from './PadButton';
 
 export interface PadProps extends PadUI {
   fieldKey: OrderFieldKey;
@@ -23,7 +24,10 @@ const Pad: FC<PadProps> = (props) => {
   if (props.type === 'radio') {
     return <PadRadio {...props} />;
   }
-  // fallback (button or unknown type)
+  if (props.type === 'button') {
+    return <PadButton {...props} />;
+  }
+  // fallback (unknown type)
   return null;
 };
 

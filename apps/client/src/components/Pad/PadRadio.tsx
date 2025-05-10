@@ -27,7 +27,7 @@ export const PadRadio: React.FC<PadProps> = ({
         }
       }}
     >
-      {children ?? label}
+      (r) {children ?? label}
       <RadioGroup.Indicator />
     </RadioGroup.Item>
   );
