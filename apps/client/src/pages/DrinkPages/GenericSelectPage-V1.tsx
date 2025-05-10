@@ -40,30 +40,26 @@ export const GenericSelectPage = () => {
 
     console.log('%c __FILTER_PAD:', 'color:yellow', pad);
 
+    // For each order in the selection...
     for (const order of orders) {
-      const currentFilters = order.filters || {};
-
       if (pad.isChecked) {
-        // Only update if the filter value is different
-        if (currentFilters[fieldKey] !== pad.id) {
-          setOrdersFilter({
-            itemNumber: order.itemNumber,
-            filter: { ...currentFilters, [fieldKey]: pad.id },
-          });
-        }
+        // Pad is checked - set the filter with the pad's ID
+        setOrdersFilter({
+          itemNumber: order.itemNumber,
+          filter: { [fieldKey]: pad.id },
+        });
       } else {
-        // Only update if the filter key exists
-        if (fieldKey in currentFilters) {
-          // Remove the fieldKey from filters
-          const { [fieldKey]: _, ...newFilters } = currentFilters;
-          setOrdersFilter({
-            itemNumber: order.itemNumber,
-            filter: newFilters,
-          });
-        }
+        // Pad is unchecked - remove the filter by setting an empty object
+        // This will effectively remove the filter key from the order's filters
+
+        setOrdersFilter({
+          itemNumber: order.itemNumber,
+          filter: {},
+        });
       }
     }
   };
+
   if (!pads?.length) {
     return <NoItems message="No drink types found" />;
   }
