@@ -30,11 +30,15 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
 
             (Object.entries(filter) as [OrderFieldKey, unknown][]).forEach(([key, value]) => {
               if (value === undefined) {
+                console.log('%c __FILTER: DELETE', 'color:orange', key, value);
                 delete updatedFilters[key as OrderFieldKey];
               } else {
+                console.log('%c __FILTER: SET', 'color:lime', key, value);
                 (updatedFilters as Partial<Record<OrderFieldKey, unknown>>)[key as OrderFieldKey] = value;
               }
             });
+
+            console.log('%c __FILTERS: AFTER', 'color:cyan', updatedFilters);
 
             return {
               ...order,
