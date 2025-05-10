@@ -58,7 +58,8 @@ export const GenericSelectPage = () => {
           const { [fieldKey]: _, ...newFilters } = currentFilters;
           setOrdersFilter({
             itemNumber: order.itemNumber,
-            filter: newFilters,
+            // filter: newFilters,
+            filter: { ...currentFilters, [fieldKey]: undefined },
           });
         }
       }
