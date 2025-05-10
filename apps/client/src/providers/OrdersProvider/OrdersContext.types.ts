@@ -13,7 +13,7 @@ type OrdersSetters = {
 };
 
 type OrdersActions = OrdersSetters & {
-  setOrderFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => void;
+  setOrdersFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => void;
   toggleOrder: (itemNumber: number) => void;
   selectAllOrders: () => void;
 };

@@ -12,7 +12,7 @@ import type { OrderFieldKey } from 'types/orders.types';
 export const GenericSelectPage = () => {
   const { fieldKey } = useRouteConfig();
   const { pads } = useLayoutUi();
-  const { orders, setOrderFilter } = useOrders();
+  const { orders, setOrdersFilter } = useOrders();
   const { updatePadState } = useLayoutUi();
   const initialSyncDone = useRef(false);
 
@@ -38,18 +38,20 @@ export const GenericSelectPage = () => {
   const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
     if (!orders?.length) return;
 
+    console.log('%c __FILTER_PAD:', 'color:yellow', pad);
+
     // For each order in the selection...
     for (const order of orders) {
       if (pad.isChecked) {
         // Pad is checked - set the filter with the pad's ID
-        setOrderFilter({
+        setOrdersFilter({
           itemNumber: order.itemNumber,
           filter: { [fieldKey]: pad.id },
         });
       } else {
         // Pad is unchecked - remove the filter by setting an empty object
         // This will effectively remove the filter key from the order's filters
-        setOrderFilter({
+        setOrdersFilter({
           itemNumber: order.itemNumber,
           filter: {},
         });

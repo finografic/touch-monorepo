@@ -21,8 +21,8 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
     ...defaultValue,
     ...initialValue,
     actions: {
-      ...createSetters({ set, defaultValue }),
-      setOrderFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => {
+      ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
+      setOrdersFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => {
         const { orders } = get();
         const updatedOrders = orders.map((order) => {
           if (order.itemNumber === itemNumber) {
