@@ -1,7 +1,6 @@
 import { createMenuLayout } from 'types/menu.types';
 import { NUM_ITEMS_TYPE_B } from 'src/config/app.config';
 import type { MenuBCount } from 'pages/MenuPage/menu.types';
-import type { ConstEnumOf, ConstMapOf } from 'types/utility.types';
 import type { PadTestProps } from 'pages/MenuPage/MenuPage';
 
 // Create and export the menu layout configuration

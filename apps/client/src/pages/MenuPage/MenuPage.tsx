@@ -61,7 +61,6 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
 
 export function MenuPage() {
   const { orders } = useOrders();
-  const { fieldKey } = useRouteConfig();
   const { setIsNextDisabled } = usePagination();
 
   const numSelected = Object.values(orders).filter((order) => order.isSelected).length;

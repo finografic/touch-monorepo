@@ -1,4 +1,4 @@
-import type { MenuItemLayout, ItemTypeAtIndex } from 'types/menu.types';
+import type { ItemTypeAtIndex, MenuItemLayout } from 'types/menu.types';
 import type { NUM_ITEMS_TYPE_B } from 'src/config/app.config';
 
 // Define the number of Type B pads we're using
