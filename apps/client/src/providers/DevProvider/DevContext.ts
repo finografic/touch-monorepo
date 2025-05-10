@@ -3,7 +3,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { DevStore, DevValues } from './DevContext.types';
 
 export const DISPLAY_NAME = 'Dev';
-export const SETTER_PREFIX = DISPLAY_NAME;
+export const SETTER_PREFIX = '';
 
 export enum DevKeys {
   isDevToolsVisible = 'isDevToolsVisible',

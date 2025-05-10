@@ -57,6 +57,21 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
 
         set({ pads: updatedPads });
       },
+      togglePad: (fieldKey: OrderFieldKey, padId: string, type: 'checkbox' | 'radio') => {
+        set((state) => {
+          const pads = state.pads.map((pad) => {
+            if (pad.name !== fieldKey) return pad;
+            if (type === 'radio') {
+              return { ...pad, isChecked: pad.id === padId };
+            }
+            if (pad.id === padId) {
+              return { ...pad, isChecked: !pad.isChecked };
+            }
+            return pad;
+          });
+          return { pads };
+        });
+      },
     },
     // subscribe: (listener: (state: LayoutUiStore, prevState: LayoutUiStore) => void) => {
     //   const state = get();
