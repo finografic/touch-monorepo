@@ -1,7 +1,7 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
-import type { PadsConfig, PadUI } from 'types/ui.types';
+import type { PadsConfig, PadType, PadUI } from 'types/ui.types';
 import { NUM_ITEMS_TYPE_B } from 'src/config/app.config';
 import { parsePadsConfig } from 'utils/ui.utils';
 import type { Dataset } from 'types/data.types';
@@ -57,7 +57,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
 
         set({ pads: updatedPads });
       },
-      togglePad: (fieldKey: OrderFieldKey, padId: string, type: 'checkbox' | 'radio') => {
+      togglePad: (fieldKey: OrderFieldKey, padId: string, type: PadType) => {
         set((state) => {
           const pads = state.pads.map((pad) => {
             if (pad.name !== fieldKey) return pad;
