@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
 import type { ValidTypeBCount } from 'types/menu.types';
-import type { PadsConfig, PadUI } from 'types/ui.types';
+import type { PadsConfig, PadType, PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
 
@@ -21,7 +21,7 @@ type LayoutUiSetters = {
 type LayoutUiActions = LayoutUiSetters & {
   initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadsConfig, fieldKey: OrderFieldKey) => void;
   updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadUI[]) => PadUI[]) => void;
-  togglePad: (fieldKey: OrderFieldKey, padId: string, type: 'checkbox' | 'radio') => void;
+  togglePad: (fieldKey: OrderFieldKey, padId: string, type: PadType) => void;
 };
 
 export interface LayoutUiProviderProps {

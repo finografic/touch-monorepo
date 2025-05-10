@@ -15,7 +15,7 @@ export interface PadProps extends PadUI {
 }
 
 const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) => {
-  const { togglePad } = useLayoutUi();
+  const { updatePadState } = useLayoutUi();
   const [isCheckedOptimistic, setIsCheckedOptimistic] = useState(pad.isChecked);
 
   useEffect(
@@ -28,22 +28,41 @@ const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) 
   const handleClick = useCallback(() => {
     if (pad.disabled) return;
 
-    togglePad(fieldKey, pad.id, pad.type);
+    const newCheckedState = pad.type === 'radio' ? true : !isCheckedOptimistic;
 
+    console.log('%c __CHECK-A', 'color:grey', pad.index, newCheckedState);
+    setIsCheckedOptimistic(newCheckedState);
+
+    // Update global state
+    const updateFn =
+      pad.type === 'radio'
+        ? (pads: PadUI[]) =>
+            pads.map((p: PadUI) => ({
+              ...p,
+              isChecked: p.id === pad.id,
+            }))
+        : (pads: PadUI[]) =>
+            pads.map((p: PadUI) => (p.id === pad.id ? { ...p, isChecked: !p.isChecked } : p));
+
+    updatePadState(fieldKey, updateFn);
+
+    // When unchecking, set the specific filter key to undefined to remove just that filter
     onSelect?.({
       fieldKey,
       pad: {
         ...pad,
-        isChecked: !pad.isChecked, // This is the new state after toggle
+        isChecked: newCheckedState,
       },
     });
-  }, [pad.disabled, pad.type, pad.id, pad.isChecked, fieldKey, togglePad, onSelect, pad]);
+  }, [pad.disabled, pad.type, pad.id, fieldKey, updatePadState, onSelect]);
 
   console.log('%c __CHECK-B', 'color:grey', pad.index, isCheckedOptimistic);
 
   // Separate state-related classes from passed-in classes
   const stateClasses = {
     checked: pad.isChecked || isCheckedOptimistic,
+    // checked: false,
+    // checked: isCheckedOptimistic,
     disabled: pad.disabled,
     [pad.type]: true, // radio, checkbox, or button
   };
