@@ -16,14 +16,10 @@ export const GenericSelectPage = () => {
   const { updatePadState } = useLayoutUi();
   const initialSyncDone = useRef(false);
 
-  // Sync pad states with orders' filters on mount
   useEffect(() => {
     if (!orders?.length || !pads?.length || initialSyncDone.current) return;
 
-    // Get unique filter values for the current fieldKey across all orders
     const activeFilters = new Set(orders.map((order) => order.filters[fieldKey]).filter(Boolean));
-
-    // Check if we need to update any pads
     const needsUpdate = pads.some((pad) => activeFilters.has(pad.id) !== pad.isChecked);
 
     if (needsUpdate) {
@@ -38,13 +34,10 @@ export const GenericSelectPage = () => {
   const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
     if (!orders?.length) return;
 
-    console.log('%c __FILTER_PAD:', 'color:yellow', pad);
-
     for (const order of orders) {
       const currentFilters = order.filters || {};
 
       if (pad.isChecked) {
-        // Only update if the filter value is different
         if (currentFilters[fieldKey] !== pad.id) {
           setOrdersFilter({
             itemNumber: order.itemNumber,
@@ -52,13 +45,10 @@ export const GenericSelectPage = () => {
           });
         }
       } else {
-        // Only update if the filter key exists
         if (fieldKey in currentFilters) {
-          // Remove the fieldKey from filters
-          const { [fieldKey]: _, ...newFilters } = currentFilters;
+          // const { [fieldKey]: _, ...newFilters } = currentFilters;
           setOrdersFilter({
             itemNumber: order.itemNumber,
-            // filter: newFilters,
             filter: { ...currentFilters, [fieldKey]: undefined },
           });
         }
