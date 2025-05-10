@@ -1,2 +1,2 @@
-export * from './OrdersProvider';
 export { useOrders } from './OrdersContext';
+export * from './OrdersProvider';

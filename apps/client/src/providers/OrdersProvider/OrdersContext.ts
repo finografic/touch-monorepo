@@ -4,6 +4,7 @@ import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM } from 'src/config/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
 import type { OrderFieldKey, OrderFilters } from 'types/orders.types';
+import { ORDER_FIELD_KEYS } from 'constants/app.config';
 
 export const DISPLAY_NAME = 'Orders';
 export const SETTER_PREFIX = '';
@@ -30,24 +31,25 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
 
             (Object.entries(filter) as [OrderFieldKey, unknown][]).forEach(([key, value]) => {
               if (value === undefined) {
-                console.log('%c __FILTER: DELETE', 'color:orange', key, value);
                 delete updatedFilters[key as OrderFieldKey];
               } else {
-                console.log('%c __FILTER: SET', 'color:lime', key, value);
                 (updatedFilters as Partial<Record<OrderFieldKey, unknown>>)[key as OrderFieldKey] = value;
               }
             });
 
-            console.log('%c __FILTERS: AFTER', 'color:cyan', updatedFilters);
+            const orderedFilters: OrderFilters = {} as OrderFilters;
+            for (const key of ORDER_FIELD_KEYS) {
+              if (key in updatedFilters) {
+                (orderedFilters as Partial<Record<OrderFieldKey, unknown>>)[key] = (
+                  updatedFilters as Partial<Record<OrderFieldKey, unknown>>
+                )[key];
+              }
+            }
 
-            return {
-              ...order,
-              filters: updatedFilters,
-            };
+            return { ...order, filters: orderedFilters };
           }
           return order;
         });
-
         set({ orders: updatedOrders });
       },
       toggleOrder: (itemNumber: number) => {

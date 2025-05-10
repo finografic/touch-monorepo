@@ -42,15 +42,11 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
 
         // Split pads into current field and other fields
         const currentFieldPads = currentPads.filter((pad) => pad.name === fieldKey);
-        const otherPads = currentPads.filter((pad) => pad.name !== fieldKey);
-
-        // Apply update only to current field pads
         const updatedFieldPads = updater(currentFieldPads);
 
         // Reconstruct the full pad array maintaining original order
         const updatedPads = currentPads.map((pad) => {
           if (pad.name !== fieldKey) return pad;
-          // Find the corresponding updated pad
           const updatedPad = updatedFieldPads.find((p) => p.id === pad.id);
           return updatedPad || pad;
         });
