@@ -4,7 +4,6 @@ import { useLayoutUi } from './LayoutUiContext';
 import { useRouteLoaderData } from 'react-router-dom';
 import type { DataEntry } from 'types/data.types';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { routes } from 'routes/routes';
 import type { PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
@@ -27,8 +26,6 @@ export const LayoutUiObserver: FC = () => {
         return;
       }
 
-      console.log('%c __PAGE_INIT-A', 'color:blue', location.pathname, fieldKey);
-
       if (loaderData && padsConfig) {
         isInitializedRef.current[fieldKey] = false;
 
@@ -46,8 +43,6 @@ export const LayoutUiObserver: FC = () => {
         );
         setUiFieldKey(fieldKey);
 
-        console.log('%c __PAGE_INIT-B', 'color:cyan', location.pathname, fieldKey);
-
         isInitializedRef.current[fieldKey] = true;
         return;
       }
@@ -56,7 +51,8 @@ export const LayoutUiObserver: FC = () => {
       setUiPads([]);
       setUiNumPads(0);
     },
-    [fieldKey, routes, location.pathname, loaderData, orders],
+    [location.pathname, loaderData],
+    // [fieldKey, routes, location.pathname, loaderData, orders],
   );
 
   useEffect(
@@ -64,7 +60,7 @@ export const LayoutUiObserver: FC = () => {
       if (!pads?.length || !fieldKey) return;
       if (!isInitializedRef.current[fieldKey]) return;
 
-      // Only check minRequired if it's specified in config
+      // NOTE: enable / disable navigation controls, base on padsConfig + current selection(s)
       if (padsConfig?.minRequired !== undefined) {
         const checkedCount = pads.filter((pad) => pad.isChecked).length;
         setIsNextDisabled(checkedCount < padsConfig.minRequired);

@@ -60,9 +60,9 @@ const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) 
 
   // Separate state-related classes from passed-in classes
   const stateClasses = {
-    // checked: pad.isChecked || isCheckedOptimistic,
+    checked: pad.isChecked || isCheckedOptimistic,
     // checked: false,
-    checked: isCheckedOptimistic,
+    // checked: isCheckedOptimistic,
     disabled: pad.disabled,
     [pad.type]: true, // radio, checkbox, or button
   };
