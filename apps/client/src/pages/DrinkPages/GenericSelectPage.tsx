@@ -51,6 +51,7 @@ export const GenericSelectPage = () => {
       } else {
         // Pad is unchecked - remove the filter by setting an empty object
         // This will effectively remove the filter key from the order's filters
+
         setOrdersFilter({
           itemNumber: order.itemNumber,
           filter: {},
