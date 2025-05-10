@@ -20,7 +20,13 @@ const Pad: FC<PadProps> = ({ fieldKey, onSelect, className, children, ...pad }) 
   const handleClick = useCallback(() => {
     if (pad.disabled) return;
 
-    togglePad(fieldKey, pad.id, pad.type);
+    if (pad.type === 'checkbox') {
+      togglePad(fieldKey, pad.id, pad.type);
+    } else if (pad.type === 'radio' && !pad.isChecked) {
+      togglePad(fieldKey, pad.id, pad.type);
+    } else {
+      return;
+    }
 
     onSelect?.({
       fieldKey,
