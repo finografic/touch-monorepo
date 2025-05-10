@@ -26,22 +26,13 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
         const { orders } = get();
         const updatedOrders = orders.map((order) => {
           if (order.itemNumber === itemNumber) {
-            const updatedFilters = { ...order.filters };
+            const updatedFilters: OrderFilters = { ...order.filters };
 
-            log('__FILTERS: 1 - updatedOrders', 'grey', updatedFilters);
-
-            // Handle each filter key
-            (Object.entries(filter) as [OrderFieldKey, unknown][]).forEach(([key, value], i) => {
-              log(`__FILTERS: 2-${i} - key, value`, 'blue', { key, value });
+            (Object.entries(filter) as [OrderFieldKey, unknown][]).forEach(([key, value]) => {
               if (value === undefined) {
-                log('__FILTERS: 3 - value === undefined', 'blue', { key, value });
-                // Remove this specific filter
-                delete updatedFilters[key];
+                delete updatedFilters[key as OrderFieldKey];
               } else {
-                log('__FILTERS: 4-BEFORE - value', 'orange', updatedFilters);
-                // Set/update this filter
-                updatedFilters[key] = value;
-                log('__FILTERS: 4-AFTER - value DELETE', 'red', updatedFilters);
+                (updatedFilters as Partial<Record<OrderFieldKey, unknown>>)[key as OrderFieldKey] = value;
               }
             });
 
