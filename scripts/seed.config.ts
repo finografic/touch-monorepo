@@ -3,6 +3,11 @@ import type { SeedConfig } from './src/db-setup';
 
 export const seedOrder: SeedConfig[] = [
   {
+    name: 'orders',
+    description: 'Example orders',
+    // dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types'],
+  },
+  {
     name: 'drink_types',
     description: 'Base drink types and subtypes',
   },
