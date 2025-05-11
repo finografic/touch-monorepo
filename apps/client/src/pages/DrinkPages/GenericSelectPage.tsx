@@ -46,8 +46,7 @@ export const GenericSelectPage = () => {
               ...currentFilters,
               //  [fieldKey]: pad.id
               [fieldKey]: {
-                value: pad.id,
-                ...pad.metadata,
+                ...pad.value,
               },
             },
           });

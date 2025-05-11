@@ -1,47 +1,47 @@
-import type { PadsConfig, PadType, PadUI } from 'types/ui.types';
+import type { PadsConfig, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import { PAD_TYPE } from 'types/ui.types';
 
 // -------------------------------------------------------------------------- //
 // NOTE: Initialize an array of pad items with default values
 
-export const initAllPadUI = ({
-  numPads = 0,
-  ids = [],
-  labels = [],
-  name = '',
-  type = PAD_TYPE.RADIO,
-  metadata = [],
-  initChecked = () => false,
+export const initAllPadUI = <T extends DataEntry>({
+  data = [],
+  config,
+  fieldKey,
 }: {
-  numPads: number;
-  ids: string[];
-  labels?: string[];
-  name: string;
-  type: PadType;
-  metadata?: DataEntry[];
-  initChecked?: (pad: PadUI) => boolean;
+  data: T[];
+  config: PadsConfig<T>;
+  fieldKey: OrderFieldKey;
 }): PadUI[] => {
-  return numPads > 0
-    ? Array.from({ length: numPads }, (_, i) => {
-        const pad: PadUI = {
-          index: i,
-          id: ids[i],
-          label: labels[i],
-          name,
-          type,
-          isChecked: false,
-          value: {
-            name: ids[i],
-            // ...(pad?.metadataKeys?.length ? { [pad.metadataKeys]: pad.metadataKeys } : {}),
-          },
-          metadata: metadata[i],
-        };
-        pad.isChecked = initChecked(pad);
-        return pad;
-      })
-    : [];
+  const labelKey = (config.labelKey as keyof T) || ('displayName' as keyof T);
+  const maxPads = config.maxPads ?? data.length;
+  const numPads = Math.min(data.length, maxPads);
+  const slicedData = data.slice(0, numPads);
+  const metadataKeys = config.metadataKeys;
+  const type = config.type;
+  const initChecked = config.initChecked ?? (() => false);
+
+  return slicedData.map((item, i) => {
+    const value: PadUI['value'] = {
+      name: String(item?.name ?? item?.id ?? ''),
+      ...(metadataKeys ? Object.fromEntries(metadataKeys.map((key) => [key, item[key]])) : {}),
+    };
+
+    const pad: PadUI = {
+      index: i,
+      id: String(item?.name ?? item?.id ?? ''),
+      label: String(item[labelKey] ?? ''),
+      name: fieldKey,
+      type,
+      isChecked: false,
+      value,
+      metadata: item,
+    };
+    pad.isChecked = initChecked(pad);
+
+    return pad;
+  });
 };
 
 // -------------------------------------------------------------------------- //
@@ -56,23 +56,6 @@ export const parsePadsConfig = <T extends DataEntry>({
   config: PadsConfig<T>;
   fieldKey: OrderFieldKey;
 }): { pads: PadUI[]; numPads: number } => {
-  const { maxPads, type, initChecked } = config;
-  const labelKey = (config.labelKey as keyof T) || ('displayName' as keyof T); // NOTE: which key to use for label
-  const numPads = Math.min(data.length, maxPads);
-  const slicedData = data.slice(0, numPads);
-
-  const ids = slicedData.map((item) => String(item?.name ?? item?.id ?? '')) ?? [];
-  const labels = labelKey ? slicedData.map((item) => String(item[labelKey] ?? '')) : [];
-
-  const pads = initAllPadUI({
-    numPads,
-    ids,
-    labels,
-    name: fieldKey,
-    type,
-    metadata: slicedData,
-    initChecked,
-  });
-
-  return { pads, numPads };
+  const pads = initAllPadUI({ data, config, fieldKey });
+  return { pads, numPads: pads.length };
 };

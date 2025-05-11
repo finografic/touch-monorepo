@@ -10,7 +10,7 @@ interface TransformedPad {
   isChecked: boolean;
   hasSubtypes?: boolean;
   value: PadUI['value'];
-  metadata: PadUI['metadata'];
+  metadata?: PadUI['metadata'];
 }
 
 /**
@@ -34,9 +34,9 @@ export const transformPadData = (pads: PadUI[]): TransformedPad[] => {
       type: pad.type,
       isChecked: pad.isChecked,
       value: pad.value,
-      metadata: {
-        ...metadata,
-      },
+      // metadata: {
+      //   ...metadata,
+      // },
       // hasSubtypes: !!metadata?.hasSubtypes,
       // ...('hasSubtypes' in metadata && { hasSubtypes: !!metadata?.hasSubtypes }),
     };
