@@ -29,23 +29,23 @@ export const routes: RouteObject[] = [
       // Drink Configuration Flow
       // ============================================== //
 
-      // {
-      //   path: PATHS.drinkType,
-      //   children: [
-      //     {
-      //       index: true,
-      //       id: OrderFieldKeys.drinkType,
-      //       element: <GenericSelectPage />,
-      //       loader: LoaderDataHelper[OrderFieldKeys.drinkType],
-      //     },
-      //     {
-      //       path: PATHS.drinkSubtype,
-      //       id: OrderFieldKeys.drinkSubtype,
-      //       loader: LoaderDataHelper[OrderFieldKeys.drinkSubtype],
-      //       element: <GenericSelectPage />,
-      //     },
-      //   ],
-      // },
+      {
+        path: PATHS.drinkType,
+        children: [
+          {
+            index: true,
+            id: OrderFieldKeys.drinkType,
+            element: <GenericSelectPage />,
+            loader: LoaderDataHelper[OrderFieldKeys.drinkType],
+          },
+          {
+            path: PATHS.drinkSubtype,
+            id: OrderFieldKeys.drinkSubtype,
+            loader: LoaderDataHelper[OrderFieldKeys.drinkSubtype],
+            element: <GenericSelectPage />,
+          },
+        ],
+      },
       // ------------------------------------------------------------------------ //
       /*
       {

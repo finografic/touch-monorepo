@@ -8,7 +8,7 @@ import { styles } from './MenuPage.styles';
 import type { PadType, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+// import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 // <MenuPad type="A" number={0} className="first" />
 // {/* <div className="pad-special error" /> */}
@@ -37,6 +37,7 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
     className: 'pad-rect',
     isChecked: false,
     disabled: false,
+    value: { id: 'labelA', name: 'LABEL A' },
   },
   {
     id: 'labelB',
@@ -46,6 +47,7 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
     className: 'pad-rect',
     isChecked: false,
     disabled: false,
+    value: { id: 'labelB', name: 'LABEL B' },
   },
   {
     id: 'labelC',
@@ -55,6 +57,7 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
     className: 'pad-rect',
     isChecked: false,
     disabled: false,
+    value: { id: 'labelC', name: 'LABEL C' },
   },
 ];
 // ======================================================================== //
