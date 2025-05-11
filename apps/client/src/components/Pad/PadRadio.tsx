@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { padStyles } from './Pad.styles';
 import type { PadProps } from './Pad';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
+import { PAD_TYPE } from 'types/ui.types';
 
 export const PadRadio: React.FC<PadProps> = ({
   fieldKey,
@@ -20,19 +21,19 @@ export const PadRadio: React.FC<PadProps> = ({
 
   return (
     <RadioGroup.Item
-      className={clsx('pad', 'radio', { checked: isChecked, disabled }, className)}
+      className={clsx('pad', PAD_TYPE.RADIO, { checked: isChecked, disabled }, className)}
       css={padStyles}
       value={id}
       disabled={disabled}
       aria-checked={isChecked}
       onClick={() => {
         if (!disabled && !isChecked) {
-          togglePad(fieldKey, id, 'radio');
+          togglePad(fieldKey, id, PAD_TYPE.RADIO);
           onSelect?.({ fieldKey, pad: { ...rest, id, label, isChecked: true, disabled } });
         }
       }}
     >
-      (r) {children ?? label}
+      {children ?? label}
       <RadioGroup.Indicator />
     </RadioGroup.Item>
   );

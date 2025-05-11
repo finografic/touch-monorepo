@@ -34,14 +34,14 @@ export const PADS_UI_CONFIG: Partial<Record<OrderFieldKey, PadsConfig>> = {
   },
   [OrderFieldKeys.drinkType]: {
     maxPads: 10,
-    type: 'checkbox',
+    type: 'radio',
     labelKey: 'displayName',
     minRequired: 1,
   },
   [OrderFieldKeys.drinkSubtype]: {
     maxPads: 10,
-    type: 'checkbox',
-    labelKey: 'name',
+    type: 'radio',
+    labelKey: 'displayName',
     minRequired: 1,
   },
   [OrderFieldKeys.drinkVolume]: {
@@ -53,17 +53,17 @@ export const PADS_UI_CONFIG: Partial<Record<OrderFieldKey, PadsConfig>> = {
   [OrderFieldKeys.containerType]: {
     maxPads: 10,
     type: 'radio',
-    labelKey: 'name',
+    labelKey: 'displayName',
     minRequired: 1,
   },
   [OrderFieldKeys.initialTemperature]: {
     maxPads: 10,
     type: 'radio',
-    labelKey: 'name',
+    labelKey: 'displayName',
   },
   [OrderFieldKeys.finalTemperature]: {
     maxPads: 10,
     type: 'radio',
-    labelKey: 'name',
+    labelKey: 'displayName',
   },
 };

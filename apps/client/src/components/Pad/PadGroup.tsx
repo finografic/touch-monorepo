@@ -1,11 +1,13 @@
 import * as React from 'react';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { PadButton, PadCheckbox, PadRadio } from './index';
-import type { PadUI } from 'types/ui.types';
+import type { PadType, PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
+import { CheckboxGroup } from '@radix-ui/themes';
+import { PAD_TYPE } from 'types/ui.types';
 
 interface PadGroupProps {
-  type: 'radio' | 'checkbox' | 'button';
+  type: PadType;
   pads: PadUI[];
   onSelect?: ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => void;
   fieldKey: OrderFieldKey;
@@ -23,37 +25,40 @@ const PadGroup: React.FC<PadGroupProps> = ({
   children,
   ...rest
 }) => {
-  if (type === 'radio') {
-    return (
-      <RadioGroup.Root className={className} {...rest}>
-        {pads.map((pad) => (
-          <PadRadio key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
-        ))}
-        {children}
-      </RadioGroup.Root>
-    );
+  switch (type) {
+    case PAD_TYPE.RADIO:
+      return (
+        <RadioGroup.Root className={className} {...rest}>
+          {pads.map((pad) => (
+            <PadRadio key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
+          ))}
+          {children}
+        </RadioGroup.Root>
+      );
+
+    case PAD_TYPE.CHECKBOX:
+      return (
+        <CheckboxGroup.Root className={className} {...rest}>
+          {pads.map((pad) => (
+            <PadCheckbox key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
+          ))}
+          {children}
+        </CheckboxGroup.Root>
+      );
+
+    case PAD_TYPE.BUTTON:
+    default:
+      return (
+        <div className={className}>
+          {pads.map((pad) =>
+            pad.type === 'button' ? (
+              <PadButton key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
+            ) : null,
+          )}
+          {children}
+        </div>
+      );
   }
-  if (type === 'checkbox') {
-    return (
-      <>
-        {pads.map((pad) => (
-          <PadCheckbox key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
-        ))}
-        {children}
-      </>
-    );
-  }
-  // fallback for buttons or unknown
-  return (
-    <>
-      {pads.map((pad) =>
-        pad.type === 'button' ? (
-          <PadButton key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
-        ) : null,
-      )}
-      {children}
-    </>
-  );
 };
 
 export default PadGroup;

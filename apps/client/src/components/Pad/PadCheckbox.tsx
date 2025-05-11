@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { padStyles } from './Pad.styles';
 import type { PadProps } from './Pad';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
+import { PAD_TYPE } from 'types/ui.types';
 
 export const PadCheckbox: React.FC<PadProps> = ({
   fieldKey,
@@ -16,12 +17,11 @@ export const PadCheckbox: React.FC<PadProps> = ({
   disabled,
   ...rest
 }) => {
-  console.log('%c __PAD_CHECKBOX:', 'color:lime', { fieldKey, id, label, isChecked, disabled });
   const { togglePad } = useLayoutUi();
 
   return (
     <Checkbox.Root
-      className={clsx('pad', 'checkbox', { checked: isChecked, disabled }, className)}
+      className={clsx('pad', PAD_TYPE.CHECKBOX, { checked: isChecked, disabled }, className)}
       css={padStyles}
       id={id}
       checked={isChecked}
@@ -29,12 +29,12 @@ export const PadCheckbox: React.FC<PadProps> = ({
       aria-checked={isChecked}
       onCheckedChange={() => {
         if (!disabled) {
-          togglePad(fieldKey, id, 'checkbox');
+          togglePad(fieldKey, id, PAD_TYPE.CHECKBOX);
           onSelect?.({ fieldKey, pad: { ...rest, id, label, isChecked: !isChecked, disabled } });
         }
       }}
     >
-      (c) {children ?? label}
+      {children ?? label}
       <Checkbox.Indicator />
     </Checkbox.Root>
   );

@@ -6,7 +6,6 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import type { PadType, PadUI } from 'types/ui.types';
-import { Pad } from 'components/Pad';
 import type { OrderFieldKey } from 'types/orders.types';
 import PadGroup from 'components/Pad/PadGroup';
 
@@ -64,18 +63,13 @@ export const GenericSelectPage = () => {
 
   return (
     <section css={stylesItemsGrid}>
-      <div className={getGridFlowClasses(pads.length)}>
-        <PadGroup
-          type={padType}
-          pads={pads}
-          onSelect={handleSelect}
-          fieldKey={fieldKey}
-          className="item-button"
-        />
-        {/* {pads.map((pad: PadUI) => (
-          <Pad {...pad} key={pad.id} onSelect={handleSelect} fieldKey={fieldKey} className="item-button" />
-        ))} */}
-      </div>
+      <PadGroup
+        type={padType}
+        pads={pads}
+        onSelect={handleSelect}
+        fieldKey={fieldKey}
+        className={getGridFlowClasses(pads.length)}
+      />
     </section>
   );
 };

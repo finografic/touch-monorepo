@@ -1,10 +1,7 @@
 import type { PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import { useLayoutUi } from 'providers/LayoutUiProvider';
-import clsx from 'clsx';
-import { padStyles } from './Pad.styles';
 import type { FC, ReactNode } from 'react';
-import { memo, useCallback } from 'react';
+import { memo } from 'react';
 import isEqual from 'lodash/isEqual';
 import { PadCheckbox } from './PadCheckbox';
 import { PadRadio } from './PadRadio';
