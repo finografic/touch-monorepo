@@ -40,8 +40,16 @@ async function main() {
     }
 
     console.log('Dropping existing tables...');
+    // for (const { name } of result) {
+    //   db.$client.prepare(`DROP TABLE IF EXISTS "${name}"`).run();
+    // }
     for (const { name } of result) {
-      db.$client.prepare(`DROP TABLE IF EXISTS "${name}"`).run();
+      try {
+        db.$client.prepare(`DROP TABLE IF EXISTS "${name}"`).run();
+      } catch (err) {
+        console.warn(`Warning: Could not drop table "${name}". Skipping.`, err);
+        // Continue to next table
+      }
     }
   }
 

@@ -1,20 +1,37 @@
 {
-  "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    "target": "ES2022",
     "module": "ESNext",
-    "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
-    "noEmit": true,
-    "rootDir": "..",
-    "baseUrl": ".."
+    "moduleResolution": "Bundler",
+    "allowJs": true,
+    "strict": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "constants/*": [
+        "./src/constants/*"
+      ],
+      "hooks/*": [
+        "./src/hooks/*"
+      ],
+      "lib/*": [
+        "./src/lib/*"
+      ],
+      "types": [
+        "./src/types"
+      ],
+      "types/*": [
+        "./src/types/*"
+      ],
+      "utils/*": [
+        "./src/utils/*"
+      ]
+    },
   },
   "include": [
-    "./**/*.ts",
-    "./**/*.tsx",
-    "../apps/client/eslint.config.mjs"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist"
+    "src",
+    "./seed.config.ts"
   ]
 }

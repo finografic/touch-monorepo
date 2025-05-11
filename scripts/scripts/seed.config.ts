@@ -1,5 +1,4 @@
-// import type { SeedConfig } from '@finografic/project-scripts/db-setup';
-import type { SeedConfig } from './src/db-setup';
+import type { SeedConfig } from '../src/db-setup/db-setup.types';
 
 export const seedOrder: SeedConfig[] = [
   {

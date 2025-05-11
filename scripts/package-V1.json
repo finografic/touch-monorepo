@@ -1,0 +1,21 @@
+{
+  "name": "@workspace/scripts",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "files": ["seed.config.ts"],
+  "exports": {
+    "./seed.config": "./seed.config.ts"
+  },
+  "scripts": {
+    "db.setup": "pnpm ./bin/db-setup.js",
+    "db.setup.v1": "NODE_OPTIONS='--import tsx' db-setup",
+    "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "1.31.3"
+  },
+  "devDependencies": {
+    "@finografic/project-scripts": "^0.3.2"
+  }
+}

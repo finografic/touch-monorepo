@@ -58,6 +58,7 @@ CREATE TABLE `container_types` (
 	`updated_at` integer
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `container_types_name_unique` ON `container_types` (`name`);--> statement-breakpoint
 CREATE TABLE `drink_configs` (
 	`id` text PRIMARY KEY NOT NULL,
 	`drink_type_id` text NOT NULL,
@@ -92,6 +93,7 @@ CREATE TABLE `drink_subtypes` (
 	FOREIGN KEY (`drink_type_id`) REFERENCES `drink_types`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `drink_subtypes_name_unique` ON `drink_subtypes` (`name`);--> statement-breakpoint
 CREATE TABLE `drink_types` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
@@ -104,6 +106,7 @@ CREATE TABLE `drink_types` (
 	`updated_at` integer
 );
 --> statement-breakpoint
+CREATE UNIQUE INDEX `drink_types_name_unique` ON `drink_types` (`name`);--> statement-breakpoint
 CREATE TABLE `elements` (
 	`id` text PRIMARY KEY NOT NULL,
 	`element_number` integer NOT NULL,
@@ -123,6 +126,21 @@ CREATE TABLE `elements` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `elements_element_number_unique` ON `elements` (`element_number`);--> statement-breakpoint
+CREATE TABLE `orders` (
+	`id` text PRIMARY KEY NOT NULL,
+	`drink_type_name` text NOT NULL,
+	`drink_subtype_name` text,
+	`container_type_name` text NOT NULL,
+	`volume_name` text NOT NULL,
+	`is_active` integer DEFAULT true NOT NULL,
+	`created_at` integer,
+	`updated_at` integer,
+	FOREIGN KEY (`drink_type_name`) REFERENCES `drink_types`(`name`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`drink_subtype_name`) REFERENCES `drink_subtypes`(`name`) ON UPDATE no action ON DELETE set null,
+	FOREIGN KEY (`container_type_name`) REFERENCES `container_types`(`name`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`volume_name`) REFERENCES `volumes`(`name`) ON UPDATE no action ON DELETE cascade
+);
+--> statement-breakpoint
 CREATE TABLE `running_orders` (
 	`id` text PRIMARY KEY NOT NULL,
 	`element_id` text NOT NULL,
@@ -176,3 +194,5 @@ CREATE TABLE `volumes` (
 	`created_at` integer,
 	`updated_at` integer
 );
+--> statement-breakpoint
+CREATE UNIQUE INDEX `volumes_name_unique` ON `volumes` (`name`);
