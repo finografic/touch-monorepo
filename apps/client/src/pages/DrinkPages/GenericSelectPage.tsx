@@ -29,7 +29,12 @@ export const GenericSelectPage = () => {
     }
 
     initialSyncDone.current = true;
-  }, [fieldKey, orders, pads, updatePadState]);
+  }, [
+    fieldKey,
+    orders,
+    //  pads,
+    updatePadState,
+  ]);
 
   const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
     if (!orders?.length) return;

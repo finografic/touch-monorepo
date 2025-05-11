@@ -22,12 +22,12 @@ export interface OrderFilter {
 
 // The fields that are managed by the selection process
 export interface OrderFilters extends Partial<Record<OrderFieldKey, unknown>> {
-  drinkType?: { value: DrinkType; hasSubtypes: boolean };
-  drinkSubtype?: { value: DrinkSubtype };
-  volume?: { value: Volume };
-  containerType?: { value: ContainerType };
-  initialTemperature?: { value: Temperature };
-  finalTemperature?: { value: Temperature };
+  drinkType?: { name: string; id: string; hasSubtypes: boolean };
+  drinkSubtype?: { name: string; id: string };
+  volume?: { name: string; id: string };
+  containerType?: { name: string; id: string };
+  initialTemperature?: { name: string; id: string };
+  finalTemperature?: { name: string; id: string };
 }
 
 export interface ContainerType {

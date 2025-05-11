@@ -30,7 +30,11 @@ export const LayoutUiObserver: FC = () => {
         isInitializedRef.current[fieldKey] = false;
 
         // Get unique filter values for the current fieldKey across all orders
-        const activeFilters = new Set(orders.map((order) => order.filters[fieldKey]).filter(Boolean));
+        const activeFilters = new Set( // TODO: REMOVE any
+          orders.map((order) => (order.filters[fieldKey] as any)?.name).filter(Boolean),
+        );
+
+        console.log('%c __ACTIVE_FILTERS:', 'color:lime', { activeFilters });
 
         // Initialize pads with checked state from orders
         initPadsFromLoaderData(
