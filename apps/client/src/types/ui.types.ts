@@ -25,8 +25,8 @@ export interface PadUI {
   className?: string;
   metadata?: DataEntry;
   value: {
-    name: PadUI['name'];
-  } & { [K in keyof DataEntry]?: DataEntry[K] };
+    [K in 'name' | 'id' | 'hasSubtypes']?: DataEntry[K];
+  };
 }
 
 // Base configuration type with all properties required
@@ -35,7 +35,7 @@ export interface PadsConfigOptions<T extends DataEntry = DataEntry> {
   maxPads: number;
   minRequired: number;
   labelKey: keyof T;
-  metadataKeys?: (keyof T)[];
+  valueKeys: (keyof T)[];
   initChecked: (pad: PadUI) => boolean;
 }
 

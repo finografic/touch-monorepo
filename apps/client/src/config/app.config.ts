@@ -25,7 +25,7 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
   finalTemperature: 'finalTemperature',
 } as const;
 
-export const PADS_UI_CONFIG: Partial<Record<OrderFieldKey, PadsConfig>> = {
+export const PADS_UI_CONFIG: Record<OrderFieldKey, PadsConfig> = {
   [OrderFieldKeys.home]: {
     maxPads: 2,
     type: 'checkbox',
@@ -36,35 +36,40 @@ export const PADS_UI_CONFIG: Partial<Record<OrderFieldKey, PadsConfig>> = {
     maxPads: 10,
     type: 'checkbox',
     labelKey: 'displayName',
-    metadataKeys: ['hasSubtypes'],
+    valueKeys: ['name', 'id', 'hasSubtypes'],
     minRequired: 1,
   },
   [OrderFieldKeys.drinkSubtype]: {
     maxPads: 10,
     type: 'radio',
     labelKey: 'displayName',
+    valueKeys: ['id', 'name'],
     minRequired: 1,
   },
   [OrderFieldKeys.drinkVolume]: {
     maxPads: 10,
     type: 'radio',
     labelKey: 'name',
+    valueKeys: ['id', 'name'],
     minRequired: 1,
   },
   [OrderFieldKeys.containerType]: {
     maxPads: 10,
     type: 'radio',
     labelKey: 'displayName',
+    valueKeys: ['id', 'name'],
     minRequired: 1,
   },
   [OrderFieldKeys.initialTemperature]: {
     maxPads: 10,
     type: 'radio',
     labelKey: 'displayName',
+    valueKeys: ['id', 'name'],
   },
   [OrderFieldKeys.finalTemperature]: {
     maxPads: 10,
     type: 'radio',
     labelKey: 'displayName',
+    valueKeys: ['id', 'name'],
   },
 };

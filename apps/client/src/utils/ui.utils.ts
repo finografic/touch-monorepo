@@ -18,14 +18,14 @@ export const initAllPadUI = <T extends DataEntry>({
   const maxPads = config.maxPads ?? data.length;
   const numPads = Math.min(data.length, maxPads);
   const slicedData = data.slice(0, numPads);
-  const metadataKeys = config.metadataKeys;
+  const valueKeys = config.valueKeys;
   const type = config.type;
   const initChecked = config.initChecked ?? (() => false);
 
   return slicedData.map((item, i) => {
     const value: PadUI['value'] = {
-      name: String(item?.name ?? item?.id ?? ''),
-      ...(metadataKeys ? Object.fromEntries(metadataKeys.map((key) => [key, item[key]])) : {}),
+      name: item.name,
+      ...(valueKeys ? Object.fromEntries(valueKeys.map((key) => [key, item[key]])) : {}),
     };
 
     const pad: PadUI = {
