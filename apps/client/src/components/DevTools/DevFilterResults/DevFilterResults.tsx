@@ -31,12 +31,16 @@ export const DevFilterResults = () => {
     <>
       <div id="dev-filter-results" css={styles}>
         <pre>
-          <h4>APPLIED FILTERS:{Number(filters?.length)}</h4>
+          <h4>FILTERS:{Number(filters?.length)}</h4>
         </pre>
         <pre>
           <h4>RESULTS:{Number(data?.length)}</h4>
         </pre>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+        <pre>
+          {data.map((entry) => (
+            <div>{JSON.stringify(entry)}</div>
+          ))}
+        </pre>
       </div>
     </>
   );
