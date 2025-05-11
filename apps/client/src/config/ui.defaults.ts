@@ -10,6 +10,10 @@ export const INITIAL_PAD_CHECKBOX: PadUI = {
   name: '',
   type: 'checkbox',
   isChecked: false,
+  value: {
+    name: '',
+    id: '',
+  },
 };
 
 export const INITIAL_PAD_RADIO: PadUI = {
@@ -19,4 +23,8 @@ export const INITIAL_PAD_RADIO: PadUI = {
   type: 'radio',
   name: '',
   isChecked: false,
+  value: {
+    name: '',
+    id: '',
+  },
 };
