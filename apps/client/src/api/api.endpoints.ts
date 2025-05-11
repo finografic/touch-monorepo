@@ -44,10 +44,10 @@ export const EndpointHelper = createEndpoints({
   getDrinkTypes: async () => await api.get<ApiResponse<DrinkType[]>>('/drink-types'),
   getDrinkType: async (id: string) => await api.get<ApiResponse<DrinkTypeEntity>>(`/drink-types/${id}`),
   // getDrinkSubtypes
-  getDrinkSubtypes: async (id: string) =>
-    await api.get<ApiResponse<DrinkSubtypeEntity>>(`/drink-types/${id}/subtypes`),
-  getDrinkSubtype: async (id: string) =>
-    await api.get<ApiResponse<DrinkSubtypeEntity>>(`/drink-types/${id}/subtypes`),
+  getDrinkSubtypes: async ({ drinkTypeId }: { drinkTypeId: string }) =>
+    await api.get<ApiResponse<DrinkSubtypeEntity>>(`/drink-types/${drinkTypeId}/subtypes`),
+  getDrinkSubtype: async ({ drinkTypeId }: { drinkTypeId: string }) =>
+    await api.get<ApiResponse<DrinkSubtypeEntity>>(`/drink-types/${drinkTypeId}/subtypes`),
   getDrinkVolumes: async () => await api.get<ApiResponse<DrinkVolume[]>>('/drink-volumes'),
   getDrinkVolume: async (id: string) => await api.get<ApiResponse<DrinkVolumeEntity>>(`/drink-volumes/${id}`),
   getContainerTypes: async () => await api.get<ApiResponse<ContainerType[]>>('/container-types'),

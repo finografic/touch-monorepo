@@ -12,11 +12,12 @@ export const LoaderDataHelper: LoaderMap = {
     return [];
   },
   [OrderFieldKeys.drinkType]: EndpointHelper.getDrinkTypes,
-  [OrderFieldKeys.drinkSubtype]: EndpointHelper.getDrinkSubtype,
-  // [OrderFieldKeys.drinkSubtype]: async () => {
-  //   // TODO: Implement when ready
-  //   return [];
-  // },
+  // [OrderFieldKeys.drinkSubtype]: EndpointHelper.getDrinkSubtype,
+  [OrderFieldKeys.drinkSubtype]: async ({ params }) => {
+    const { drinkTypeId } = params;
+    // TODO: Implement when ready
+    return EndpointHelper.getDrinkSubtype({ drinkTypeId: drinkTypeId as string });
+  },
   [OrderFieldKeys.drinkVolume]: EndpointHelper.getDrinkVolumes,
   [OrderFieldKeys.containerType]: EndpointHelper.getContainerTypes,
   [OrderFieldKeys.initialTemperature]: async () => {
