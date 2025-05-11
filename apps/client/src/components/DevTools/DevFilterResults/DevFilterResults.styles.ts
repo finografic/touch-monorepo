@@ -6,7 +6,7 @@ export const styles = css`
   flex-direction: column;
   position: absolute;
   top: 0;
-  left: 1 vw;
+  left: 1vw;
   min-width: 12vw;
   height: 100%;
   /* height: 100vh; */
