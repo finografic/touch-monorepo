@@ -1,12 +1,9 @@
-import { Outlet, type RouteObject } from 'react-router-dom';
-// import { LoginPage } from 'pages/LoginPage/LoginPage';
-// import { RequireAuth } from './RequireAuth';
+import type { RouteObject } from 'react-router-dom';
 import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 import { Layout } from 'layout/Layout';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
 import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
-import { ContainerTypePage } from '../pages/DrinkPages/ContainerTypePage';
 import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPage';
 import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
 import { PATHS, ROUTES_CONFIG } from './routes.config';
@@ -59,7 +56,6 @@ export const routes: RouteObject[] = [
         path: PATHS.containerType,
         id: OrderFieldKeys.containerType,
         loader: LoaderDataHelper[OrderFieldKeys.containerType],
-        // element: <ContainerTypePage />,
         element: <GenericSelectPage />,
       },
       {

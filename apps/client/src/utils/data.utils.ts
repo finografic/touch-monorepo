@@ -31,7 +31,8 @@ export const transformPadData = (pads: PadUI[]): TransformedPad[] => {
       name: pad.name,
       type: pad.type,
       isChecked: pad.isChecked,
-      ...(metadata?.hasSubtypes && { hasSubtypes: !!metadata?.hasSubtypes }),
+      // hasSubtypes: !!metadata?.hasSubtypes,
+      ...('hasSubtypes' in metadata && { hasSubtypes: !!metadata?.hasSubtypes }),
     };
   });
 };

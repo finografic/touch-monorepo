@@ -25,7 +25,11 @@ export const Footer = () => {
 
   // ------------------------------------------------------------------------ //
 
-  const hasDrinkSubtypes = orders.some((order) => order?.drinkType?.hasSubtypes);
+  const hasDrinkSubtypes = orders.some((order) => {
+    console.log('%c __ORDER:', 'color:blue', order);
+    // return false;
+    return order?.drinkType?.hasSubtypes;
+  });
 
   // const loaderData = useLoaderData();
   // log('LOADER_DATA', 'hotpink', { loaderData });
@@ -38,17 +42,11 @@ export const Footer = () => {
 
   // ------------------------------------------------------------------------ //
 
-  // useEffect(() => {
-  //   setIsNextDisabled(true);
-  // }, [location.pathname]);
-
   useEffect(() => {
     if (orders.length === 0 && location.pathname !== PATHS.home) {
       navigate(PATHS.home);
     }
   }, [orders, location.pathname, navigate]);
-
-  // log('__DEV: isPending', 'grey', isPending);
 
   // ------------------------------------------------------------------------ //
 
