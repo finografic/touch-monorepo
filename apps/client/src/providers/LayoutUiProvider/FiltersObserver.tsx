@@ -8,7 +8,7 @@ import type { PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 
-export const LayoutUiObserver: FC = () => {
+export const FiltersObserver: FC = () => {
   const { fieldKey, padsConfig } = useRouteConfig();
   const { orders } = useOrders();
   const { setIsNextDisabled } = usePagination();
