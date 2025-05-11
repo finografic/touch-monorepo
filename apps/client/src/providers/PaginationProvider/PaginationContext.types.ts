@@ -4,6 +4,7 @@ import type { PaginationKeys, SETTER_PREFIX } from './PaginationContext';
 export interface PaginationValues {
   [PaginationKeys.total]: number;
   [PaginationKeys.current]: number;
+  [PaginationKeys.isPrevDisabled]: boolean;
   [PaginationKeys.isNextDisabled]: boolean;
 }
 
@@ -14,6 +15,7 @@ type PaginationSetters = {
 };
 
 type PaginationActions = PaginationSetters & {
+  setIsPrevDisabled: (isPrevDisabled: boolean) => void;
   setIsNextDisabled: (isNextDisabled: boolean) => void;
 };
 

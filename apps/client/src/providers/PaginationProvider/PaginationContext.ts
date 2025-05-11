@@ -9,12 +9,14 @@ export const SETTER_PREFIX = 'Page';
 export enum PaginationKeys {
   total = 'total',
   current = 'current',
+  isPrevDisabled = 'isPrevDisabled',
   isNextDisabled = 'isNextDisabled',
 }
 
 export const defaultValue: PaginationValues = {
   total: 5,
   current: 0,
+  isPrevDisabled: true,
   isNextDisabled: true,
 };
 
@@ -25,10 +27,15 @@ export const PaginationContext = createZustandContext(({ initialValue }) => {
       ...initialValue,
       actions: {
         ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
+        setIsPrevDisabled: (isPrevDisabled: boolean) => {
+          if (get().isPrevDisabled !== isPrevDisabled) {
+            setTimeout(() => {
+              set({ isPrevDisabled });
+            }, 0);
+          }
+        },
         setIsNextDisabled: (isNextDisabled: boolean) => {
-          // Only update if the value is different
           if (get().isNextDisabled !== isNextDisabled) {
-            // Use setTimeout to defer the state update
             setTimeout(() => {
               set({ isNextDisabled });
             }, 0);
