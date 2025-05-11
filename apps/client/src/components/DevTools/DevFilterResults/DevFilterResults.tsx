@@ -1,7 +1,7 @@
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider';
 import { useLocation } from 'react-router-dom';
-import { stylesLeft, stylesRight } from './DevFilterResults.styles';
+import { styles } from './DevFilterResults.styles';
 import { useEffect, useMemo, useState } from 'react';
 import type { DataEntry } from 'types/data.types';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
@@ -17,9 +17,9 @@ export const DevFilterResults = () => {
   const filters = useMemo(() => {
     const filters = orders[0]?.filters;
     if (filters) {
-      return { ...filters };
+      return [...Object.entries(filters)];
     }
-    return { hasSubtypes: false, drinkTypeId: '' };
+    return [];
   }, [orders]);
 
   useEffect(() => {
@@ -29,9 +29,15 @@ export const DevFilterResults = () => {
 
   return (
     <>
-      <aside id="dev-filter-results" css={stylesLeft}>
+      <div id="dev-filter-results" css={styles}>
+        <pre>
+          <h4>APPLIED FILTERS:{Number(filters?.length)}</h4>
+        </pre>
+        <pre>
+          <h4>RESULTS:{Number(data?.length)}</h4>
+        </pre>
         <pre>{JSON.stringify(data, null, 2)}</pre>
-      </aside>
+      </div>
     </>
   );
 };
