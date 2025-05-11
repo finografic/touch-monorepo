@@ -12,6 +12,7 @@ export * from './drink_subtypes.schema';
 
 export * from './drink_types.schema';
 export * from './elements.schema';
+export * from './orders.schema';
 export * from './running_orders.schema';
 // NOTE: DRINK CONTROL SYSTEM SCHEMAS
 // Core schemas
