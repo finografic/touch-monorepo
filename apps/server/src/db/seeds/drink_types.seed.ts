@@ -1,5 +1,5 @@
 import { db } from '../db.adapter';
-import { drink_types, drink_subtypes } from '../schemas';
+import { drink_subtypes, drink_types } from '../schemas';
 
 export async function seed() {
   console.log('Seeding drink_types...');
