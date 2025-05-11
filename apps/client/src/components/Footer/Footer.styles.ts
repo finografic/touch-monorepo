@@ -21,13 +21,14 @@ export const styles = css`
   & > div {
     width: 100%;
     justify-content: center;
-    border: 1px solid red;
+    display: flex;
+    flex-direction: row;
 
     & > div {
       width: 100%;
       display: flex;
+      flex-direction: row;
       justify-content: center;
-      border: 1px solid yellow;
     }
   }
 `;

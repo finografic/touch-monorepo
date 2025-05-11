@@ -31,7 +31,7 @@ export interface PadTestProps extends PadUITest {
 export const PADS_TOUCH_CONFIG: PadUI[] = [
   {
     id: 'labelA',
-    label: 'LABEL A',
+    label: 'Programar Producto',
     type: 'button',
     name: 'home',
     className: 'pad-rect',
@@ -41,7 +41,7 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
   },
   {
     id: 'labelB',
-    label: 'LABEL B',
+    label: 'Programar Selección',
     type: 'button',
     name: 'home',
     className: 'pad-rect',
@@ -51,7 +51,7 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
   },
   {
     id: 'labelC',
-    label: 'LABEL C',
+    label: 'Programar Tiempo',
     type: 'button',
     name: 'home',
     className: 'pad-rect',

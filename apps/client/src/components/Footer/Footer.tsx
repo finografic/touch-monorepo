@@ -164,9 +164,6 @@ export const Footer = () => {
           </div>
         </Col>
       </Row>
-      <Row>
-        <Col xs={12}>{isDevDataVisible && <DevFilterResults />}</Col>
-      </Row>
     </footer>
   );
 };

@@ -4,6 +4,7 @@ import { OrderFieldKeys } from '../../../config/app.config';
 import type { DataEntry } from 'types/data.types';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
 import { styles } from './DevFilterResults.styles';
+import { Col, Row } from 'react-grid-system';
 
 export const DevFilterResults = () => {
   const [data, setData] = useState<DataEntry[]>([]);
@@ -62,35 +63,58 @@ export const DevFilterResults = () => {
 
   return (
     <div id="dev-filter-results" css={styles}>
-      <h4>Filters ({Object.keys(filters).length}):</h4>
-      <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
-        {Object.entries(OrderFieldKeys).map(([key, label]) => {
-          if (typeof label !== 'string' || !uniqueValues[label] || uniqueValues[label].length === 0)
-            return null;
-          return (
-            <label key={label} style={{ display: 'flex', flexDirection: 'column' }}>
-              {label}
-              <select
-                value={filters[label] || ''}
-                onChange={(e) => handleFilterChange(label, e.target.value)}
-              >
-                <option value="">All</option>
-                {uniqueValues[label].map((val) =>
-                  typeof val === 'string' ? (
-                    <option key={val} value={val}>
-                      {val}
-                    </option>
-                  ) : null,
-                )}
-              </select>
-            </label>
-          );
-        })}
-      </div>
-      <h4>Results: {filteredData.length}</h4>
-      <pre style={{ maxHeight: 400, overflow: 'auto', background: '#222', color: '#fff', padding: 8 }}>
-        {JSON.stringify(filteredData, null, 2)}
-      </pre>
+      <Row>
+        <Col xs={12} className="filters">
+          <h4>Filters ({Object.keys(filters).length}):</h4>
+          <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+            {Object.entries(OrderFieldKeys).map(([key, label]) => {
+              if (typeof label !== 'string' || !uniqueValues[label] || uniqueValues[label].length === 0)
+                return null;
+              return (
+                <label key={label} style={{ display: 'flex', flexDirection: 'column' }}>
+                  {label}
+                  <select
+                    value={filters[label] || ''}
+                    onChange={(e) => handleFilterChange(label, e.target.value)}
+                  >
+                    <option value="">All</option>
+                    {uniqueValues[label].map((val) =>
+                      typeof val === 'string' ? (
+                        <option key={val} value={val}>
+                          {val}
+                        </option>
+                      ) : null,
+                    )}
+                  </select>
+                </label>
+              );
+            })}
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} className="results-list">
+          <h4>Results: {filteredData.length}</h4>
+          <pre>
+            {filteredData.map((item: any) => (
+              <Row key={item.id}>
+                <Col xs={3}>
+                  <strong>{item.drinkTypeName}</strong>
+                </Col>
+                <Col xs={3}>
+                  <p>{item.drinkSubtypeName}</p>
+                </Col>
+                <Col xs={3}>
+                  <p>{item.volumeName}</p>
+                </Col>
+                <Col xs={3}>
+                  <p>{item.containerTypeName}</p>
+                </Col>
+              </Row>
+            ))}
+          </pre>
+        </Col>
+      </Row>
     </div>
   );
 };

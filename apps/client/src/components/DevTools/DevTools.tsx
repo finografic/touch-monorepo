@@ -6,7 +6,7 @@ import { QueryDevtoolsPanel } from './QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { DevScreenSize } from './DevScreenSize/DevScreenSize';
 import { useKeyPress } from './useKeyPress';
 import { styles } from './DevTools.styles';
-// import { DevFilterResults } from './DevFilterResults/DevFilterResults';
+import { DevFilterResults } from './DevFilterResults/DevFilterResults';
 
 export const DevTools = () => {
   const {
@@ -25,7 +25,7 @@ export const DevTools = () => {
     <>
       <>
         {/* {isDevDataVisible && <DevPanel />} */}
-        {/* {isDevDataVisible && <DevFilterResults />} */}
+        {isDevDataVisible && <DevFilterResults />}
         {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
         <DevScreenSize />
       </>
