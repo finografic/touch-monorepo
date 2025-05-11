@@ -18,7 +18,7 @@ export const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
-  const { route } = useRouteConfig();
+  // const { route } = useRouteConfig();
   const { routes, routesMetadata } = useRouteMetadata();
   // const queryClient = useQueryClient();
   // const isFetching = queryClient.isFetching() || queryClient.isMutating();
@@ -30,8 +30,6 @@ export const Footer = () => {
 
   // ------------------------------------------------------------------------ //
 
-  log('__ROUTE_CONFIG', 'grey', orders?.[0]?.filters?.drinkType);
-
   const filters = useMemo((): { hasSubtypes: boolean; drinkTypeId: string } => {
     const filters = orders[0]?.filters;
     if (filters) {
@@ -42,29 +40,18 @@ export const Footer = () => {
     return { hasSubtypes: false, drinkTypeId: '' };
   }, [orders]);
 
-  // const pathnames = useMemo((): RoutePath[] => {
-  //   if (filters.hasSubtypes && filters.drinkTypeId) {
-  //     return ROUTES_CONFIG.map((route) => route.path).map((path) =>
-  //       path === PATHS.drinkSubtype
-  //         ? PATHS.drinkSubtype.replace(':drinkTypeId', filters.drinkTypeId as string)
-  //         : path,
-  //     ) as RoutePath[];
-  //   }
+  const pathnames = useMemo((): RoutePath[] => {
+    const paths = ROUTES_CONFIG.map((route) => route.path) as RoutePath[];
 
-  //   return ROUTES_CONFIG.filter(({ path }) => path !== PATHS.drinkSubtype) as RoutePath[];
-  // }, [filters]);
-
-  log('__ROUTE_CONFIG', 'blue', filters.hasSubtypes, filters.drinkTypeId);
-
-  const pathnames = (
-    filters.hasSubtypes && filters.drinkTypeId
-      ? ROUTES_CONFIG.map((route) => route.path).map((path) => {
-          return path === PATHS.drinkSubtype
-            ? PATHS.drinkSubtype.replace(':drinkTypeId', filters.drinkTypeId as string)
-            : path;
-        })
-      : ROUTES_CONFIG.map((route) => route.path).filter((path) => path !== PATHS.drinkSubtype)
-  ) as RoutePath[];
+    if (filters.hasSubtypes && filters.drinkTypeId) {
+      return paths.map((path: RoutePath) =>
+        path === PATHS.drinkSubtype
+          ? PATHS.drinkSubtype.replace(':drinkTypeId', filters.drinkTypeId as string)
+          : path,
+      );
+    }
+    return paths.filter((path: RoutePath) => path !== PATHS.drinkSubtype);
+  }, [filters, routes]);
 
   // ------------------------------------------------------------------------ //
 
