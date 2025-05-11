@@ -1,6 +1,10 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { drink_types } from './drink_types.schema';
+import { drink_subtypes } from './drink_subtypes.schema';
+import { container_types } from './container_types.schema';
+import { volumes } from './volumes.schema';
 
 // Orders table
 export const orders = sqliteTable('orders', {
@@ -8,10 +12,18 @@ export const orders = sqliteTable('orders', {
     .primaryKey()
     .$defaultFn(() => createCuid()),
 
-  drinkTypeName: text('drink_type_name').notNull(), // references drink_types.name
-  drinkSubtypeName: text('drink_subtype_name'), // references drink_subtypes.name (nullable)
-  containerTypeName: text('container_type_name').notNull(), // references container_types.name
-  volumeName: text('volume_name').notNull(), // references volumes.name
+  drinkTypeName: text('drink_type_name')
+    .notNull()
+    .references(() => drink_types.name, { onDelete: 'cascade' }), // references drink_types.name
+  drinkSubtypeName: text('drink_subtype_name').references(() => drink_subtypes.name, {
+    onDelete: 'set null',
+  }), // references drink_subtypes.name (nullable)
+  containerTypeName: text('container_type_name')
+    .notNull()
+    .references(() => container_types.name, { onDelete: 'cascade' }), // references container_types.name
+  volumeName: text('volume_name')
+    .notNull()
+    .references(() => volumes.name, { onDelete: 'cascade' }), // references volumes.name
 
   // Add any other fields you need for orders here
 
