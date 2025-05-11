@@ -37,7 +37,7 @@ export const styles = css`
 export const stylesLeft = css`
   ${styles}
   & * {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-family: monospace;
   }
   display: flex;
@@ -52,7 +52,7 @@ export const stylesLeft = css`
 export const stylesRight = css`
   ${styles}
   & * {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-family: monospace;
   }
   display: flex;
