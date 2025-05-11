@@ -6,7 +6,7 @@ export const styles = css`
   position: fixed;
   left: calc(50vw) !important;
   transform: translate(calc(-50% - (${layout.padding} * 2)), 0px) !important;
-  z-index: 999999999999;
+  z-index: 999999;
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
