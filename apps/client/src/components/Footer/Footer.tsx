@@ -25,10 +25,8 @@ export const Footer = () => {
 
   // ------------------------------------------------------------------------ //
 
-  const hasDrinkSubtypes = orders.some((order) => {
-    console.log('%c __ORDER:', 'color:blue', order);
-    // return false;
-    return order?.drinkType?.hasSubtypes;
+  const hasDrinkSubtypes = orders.some(({ filters }) => {
+    return filters?.drinkType?.hasSubtypes;
   });
 
   // const loaderData = useLoaderData();
