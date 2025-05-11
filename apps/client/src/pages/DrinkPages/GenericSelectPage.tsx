@@ -41,7 +41,15 @@ export const GenericSelectPage = () => {
         if (currentFilters[fieldKey] !== pad.id) {
           setOrdersFilter({
             itemNumber: order.itemNumber,
-            filter: { ...currentFilters, [fieldKey]: pad.id },
+            // filter: { ...currentFilters, [fieldKey]: pad.id },
+            filter: {
+              ...currentFilters,
+              //  [fieldKey]: pad.id
+              [fieldKey]: {
+                value: pad.id,
+                ...pad.metadata,
+              },
+            },
           });
         }
       } else {

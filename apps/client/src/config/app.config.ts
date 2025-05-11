@@ -34,8 +34,9 @@ export const PADS_UI_CONFIG: Partial<Record<OrderFieldKey, PadsConfig>> = {
   },
   [OrderFieldKeys.drinkType]: {
     maxPads: 10,
-    type: 'radio',
+    type: 'checkbox',
     labelKey: 'displayName',
+    metadataKeys: ['hasSubtypes'],
     minRequired: 1,
   },
   [OrderFieldKeys.drinkSubtype]: {

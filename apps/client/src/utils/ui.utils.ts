@@ -32,6 +32,10 @@ export const initAllPadUI = ({
           name,
           type,
           isChecked: false,
+          value: {
+            name: ids[i],
+            // ...(pad?.metadataKeys?.length ? { [pad.metadataKeys]: pad.metadataKeys } : {}),
+          },
           metadata: metadata[i],
         };
         pad.isChecked = initChecked(pad);

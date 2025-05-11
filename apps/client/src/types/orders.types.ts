@@ -15,14 +15,19 @@ interface OrderBaseProps {
   processStatus: OrderProcessStatus;
 }
 
+export interface OrderFilter {
+  value: DrinkType | DrinkSubtype | Volume | ContainerType | Temperature;
+  hasSubtypes?: boolean;
+}
+
 // The fields that are managed by the selection process
 export interface OrderFilters extends Partial<Record<OrderFieldKey, unknown>> {
-  drinkType?: DrinkType;
-  drinkSubtype?: DrinkSubtype;
-  volume?: Volume;
-  containerType?: ContainerType;
-  initialTemperature?: Temperature;
-  finalTemperature?: Temperature;
+  drinkType?: { value: DrinkType; hasSubtypes: boolean };
+  drinkSubtype?: { value: DrinkSubtype };
+  volume?: { value: Volume };
+  containerType?: { value: ContainerType };
+  initialTemperature?: { value: Temperature };
+  finalTemperature?: { value: Temperature };
 }
 
 export interface ContainerType {
