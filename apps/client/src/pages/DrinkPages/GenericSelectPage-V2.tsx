@@ -5,10 +5,9 @@ import { NoItems } from 'components/NoItems/NoItems';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import type { PadType, PadUI } from 'types/ui.types';
+import type { PadUI } from 'types/ui.types';
 import { Pad } from 'components/Pad';
 import type { OrderFieldKey } from 'types/orders.types';
-import PadGroup from 'components/Pad/PadGroup';
 
 export const GenericSelectPage = () => {
   const { fieldKey } = useRouteConfig();
@@ -60,21 +59,12 @@ export const GenericSelectPage = () => {
     return <NoItems message="No drink types found" />;
   }
 
-  const padType: PadType = pads[0].type;
-
   return (
     <section css={stylesItemsGrid}>
       <div className={getGridFlowClasses(pads.length)}>
-        <PadGroup
-          type={padType}
-          pads={pads}
-          onSelect={handleSelect}
-          fieldKey={fieldKey}
-          className="item-button"
-        />
-        {/* {pads.map((pad: PadUI) => (
+        {pads.map((pad: PadUI) => (
           <Pad {...pad} key={pad.id} onSelect={handleSelect} fieldKey={fieldKey} className="item-button" />
-        ))} */}
+        ))}
       </div>
     </section>
   );
