@@ -3,12 +3,12 @@ import type { DataEntry } from 'types/data.types';
 import type { OrderItem } from 'types/orders.types';
 
 interface TransformedPad {
-  index: number;
+  index?: number;
   id: string;
   name: string;
   type: PadUI['type'];
   isChecked: boolean;
-  hasSubtypes: boolean;
+  hasSubtypes?: boolean;
 }
 
 /**
@@ -18,7 +18,7 @@ interface TransformedPad {
 export const transformPadData = (pads: PadUI[]): TransformedPad[] => {
   if (!pads?.length) return [];
 
-  return pads.map((pad, index) => {
+  return pads.map((pad, _index) => {
     // Keep reference to original metadata to maintain reactivity
     const metadata = pad.metadata as DataEntry & {
       name: string;
@@ -27,13 +27,11 @@ export const transformPadData = (pads: PadUI[]): TransformedPad[] => {
     };
 
     return {
-      // Core pad properties - maintain references
-      index,
       id: pad.id,
       name: pad.name,
       type: pad.type,
       isChecked: pad.isChecked,
-      hasSubtypes: !!metadata?.hasSubtypes,
+      ...(metadata?.hasSubtypes && { hasSubtypes: !!metadata?.hasSubtypes }),
     };
   });
 };

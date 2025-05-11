@@ -52,7 +52,6 @@ export const LayoutUiObserver: FC = () => {
       setUiNumPads(0);
     },
     [location.pathname, loaderData],
-    // [fieldKey, routes, location.pathname, loaderData, orders],
   );
 
   useEffect(

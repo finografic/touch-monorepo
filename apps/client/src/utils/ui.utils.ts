@@ -1,6 +1,7 @@
 import type { PadsConfig, PadType, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
+import { PAD_TYPE } from 'types/ui.types';
 
 // -------------------------------------------------------------------------- //
 // NOTE: Initialize an array of pad items with default values
@@ -10,7 +11,7 @@ export const initAllPadUI = ({
   ids = [],
   labels = [],
   name = '',
-  type = 'radio',
+  type = PAD_TYPE.RADIO,
   metadata = [],
   initChecked = () => false,
 }: {

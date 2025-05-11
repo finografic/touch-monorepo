@@ -22,9 +22,9 @@ export const DevPanel = () => {
     pads: transformPadData(padsSource),
   };
 
-  const devOrders = {
-    orders: flattenOrders(orders),
-  };
+  // const devOrders = {
+  //   orders: flattenOrders(orders),
+  // };
 
   const devDataRight = {
     numItems,
