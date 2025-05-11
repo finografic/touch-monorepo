@@ -19,18 +19,17 @@ export const DevFilterResults = () => {
   // Compute filtered data
   const filteredData = useMemo(() => {
     return data.filter((entry) => {
-      return Object.entries(filters).every(([key, value]: any) => {
-        if (!value) return true;
-        // Map OrderFieldKeys to actual data keys
+      return Object.entries(filters).every(([key, value]) => {
+        if (!value) return true; // If filter is empty, do not restrict
         switch (key) {
           case OrderFieldKeys.drinkType:
-            return entry.drinkTypeName === value?.name;
+            return entry.drinkTypeName === value;
           case OrderFieldKeys.drinkSubtype:
-            return entry.drinkSubtypeName === value?.name;
+            return entry.drinkSubtypeName === value;
           case OrderFieldKeys.drinkVolume:
-            return entry.volumeName === value?.name;
+            return entry.volumeName === value;
           case OrderFieldKeys.containerType:
-            return entry.containerTypeName === value?.name;
+            return entry.containerTypeName === value;
           default:
             return true;
         }

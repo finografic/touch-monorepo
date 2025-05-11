@@ -33,7 +33,7 @@ type FlowTypeValues = (typeof FLOW_TYPE)[keyof typeof FLOW_TYPE];
 export const FLOW_CONFIG: Record<FlowTypeValues, PadTestProps> = {
   [FLOW_TYPE.PRODUCT]: {
     id: '1',
-    label: 'LABEL A',
+    label: 'Programar Producto',
     type: 'button',
     fieldKey: 'home',
     className: 'pad-rect',
@@ -42,7 +42,7 @@ export const FLOW_CONFIG: Record<FlowTypeValues, PadTestProps> = {
   },
   [FLOW_TYPE.REPEAT]: {
     id: '2',
-    label: 'LABEL B',
+    label: 'Programar Selección',
     type: 'button',
     fieldKey: 'home',
     className: 'pad-rect',
@@ -51,7 +51,7 @@ export const FLOW_CONFIG: Record<FlowTypeValues, PadTestProps> = {
   },
   [FLOW_TYPE.TIME]: {
     id: '3',
-    label: 'LABEL C',
+    label: 'Programar Tiempo',
     type: 'button',
     fieldKey: 'home',
     className: 'pad-rect',
