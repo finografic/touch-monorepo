@@ -29,6 +29,8 @@ export const Footer = () => {
     return filters?.drinkType?.hasSubtypes;
   });
 
+  console.log('%c __SUBTYPES:', 'color:lime', { hasDrinkSubtypes });
+
   // const loaderData = useLoaderData();
   // log('LOADER_DATA', 'hotpink', { loaderData });
 
@@ -37,6 +39,8 @@ export const Footer = () => {
       ? ROUTES_CONFIG.map((route) => route.path)
       : ROUTES_CONFIG.map((route) => route.path).filter((pathname) => pathname !== PATHS.drinkSubtype)
   ) as RoutePath[];
+
+  console.log('%c SUBS:', 'color:lime', pathnames);
 
   // ------------------------------------------------------------------------ //
 

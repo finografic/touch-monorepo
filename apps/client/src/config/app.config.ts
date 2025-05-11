@@ -36,7 +36,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadsConfig> = {
     maxPads: 10,
     type: 'checkbox',
     labelKey: 'displayName',
-    valueKeys: ['name', 'id', 'hasSubtypes'],
+    valueKeys: ['id', 'hasSubtypes'],
     minRequired: 1,
   },
   [OrderFieldKeys.drinkSubtype]: {

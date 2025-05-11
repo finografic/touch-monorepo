@@ -43,9 +43,11 @@ const createEndpoints = <T extends Record<string, (...args: any[]) => Promise<an
 export const EndpointHelper = createEndpoints({
   getDrinkTypes: async () => await api.get<ApiResponse<DrinkType[]>>('/drink-types'),
   getDrinkType: async (id: string) => await api.get<ApiResponse<DrinkTypeEntity>>(`/drink-types/${id}`),
-  getDrinkSubtypes: async () => await api.get<ApiResponse<DrinkSubtype[]>>('/drink-subtypes'),
+  // getDrinkSubtypes
+  getDrinkSubtypes: async (id: string) =>
+    await api.get<ApiResponse<DrinkSubtypeEntity>>(`/drink-types/${id}/subtypes`),
   getDrinkSubtype: async (id: string) =>
-    await api.get<ApiResponse<DrinkSubtypeEntity>>(`/drink-subtypes/${id}`),
+    await api.get<ApiResponse<DrinkSubtypeEntity>>(`/drink-types/${id}/subtypes`),
   getDrinkVolumes: async () => await api.get<ApiResponse<DrinkVolume[]>>('/drink-volumes'),
   getDrinkVolume: async (id: string) => await api.get<ApiResponse<DrinkVolumeEntity>>(`/drink-volumes/${id}`),
   getContainerTypes: async () => await api.get<ApiResponse<ContainerType[]>>('/container-types'),

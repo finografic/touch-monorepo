@@ -9,21 +9,21 @@ import { useDev } from 'providers/DevProvider/DevContext';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 
 const NotFound = (): ReactElement => {
-  const { setContentTitle } = useContent();
+  // const { setContentTitle } = useContent();
 
   // NOTE: FOR DEVELOPMENT - OUTPUT FULL ROUTES OBJECT
-  const { isDevToolsVisible } = useDev();
-  const routesLoaderDataRoot = useRouteLoaderData('routes') as RouteObject[];
+  // const { isDevToolsVisible } = useDev();
+  // const routesLoaderDataRoot = useRouteLoaderData('routes') as RouteObject[];
 
   useEffect(() => {
     // TODO: MAKE "reset" UTIL INSIDE OF STORE
-    setContentTitle('');
+    // setContentTitle('');
   }, []);
 
   return (
     <section css={styles}>
       <NotFoundCard />
-      {isDevToolsVisible && (
+      {/* {isDevToolsVisible && (
         <Row style={{ width: '66%', textAlign: 'left' }}>
           <Col>
             <pre style={{ fontSize: '0.7em', lineHeight: 1.3 }}>
@@ -31,7 +31,7 @@ const NotFound = (): ReactElement => {
             </pre>
           </Col>
         </Row>
-      )}
+      )} */}
     </section>
   );
 };
