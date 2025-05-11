@@ -6,7 +6,7 @@ export const volumes = sqliteTable('volumes', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createCuid()),
-  name: text('name').notNull(), // Display format: '2L', '75cl', etc.
+  name: text('name').notNull().unique(), // Display format: '2L', '75cl', etc.
   valueInMl: integer('value_in_ml').notNull(), // Normalized to milliliters
   sortOrder: integer('sort_order').notNull(), // For display ordering
   coolingFactor: real('cooling_factor').notNull().default(1), // Multiplier for cooling time

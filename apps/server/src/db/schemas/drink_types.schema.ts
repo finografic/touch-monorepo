@@ -7,7 +7,7 @@ export const drink_types = sqliteTable('drink_types', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createCuid()),
-  name: text('name').notNull(), // e.g., 'Cerveza', 'Vino', 'Licor', etc.
+  name: text('name').notNull().unique(), // e.g., 'Cerveza', 'Vino', 'Licor', etc.
   displayName: text('display_name').notNull(), // Localized display name
   hasSubtypes: integer('has_subtypes', { mode: 'boolean' }).notNull().default(false),
   defaultConsumptionTemp: integer('default_consumption_temp').notNull(), // in Celsius

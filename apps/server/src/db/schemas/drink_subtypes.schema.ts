@@ -11,7 +11,7 @@ export const drink_subtypes = sqliteTable('drink_subtypes', {
   drinkTypeId: text('drink_type_id')
     .notNull()
     .references(() => drink_types.id, { onDelete: 'cascade' }),
-  name: text('name').notNull(), // e.g., 'Rubia', 'Negra'
+  name: text('name').notNull().unique(), // e.g., 'Rubia', 'Negra'
   displayName: text('display_name').notNull(), // Localized display name
   consumptionTemp: integer('consumption_temp').notNull(), // Can override parent's default
   freezeTemp: integer('freeze_temp').notNull(), // Can override parent's default
