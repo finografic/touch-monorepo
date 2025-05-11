@@ -3,6 +3,7 @@ import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
 import { padStyles } from './Pad.styles';
 import type { PadProps } from './Pad';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
 
 export const PadRadio: React.FC<PadProps> = ({
   fieldKey,
@@ -15,14 +16,18 @@ export const PadRadio: React.FC<PadProps> = ({
   disabled,
   ...rest
 }) => {
+  const { togglePad } = useLayoutUi();
+
   return (
     <RadioGroup.Item
       className={clsx('pad', 'radio', { checked: isChecked, disabled }, className)}
       css={padStyles}
       value={id}
       disabled={disabled}
+      aria-checked={isChecked}
       onClick={() => {
         if (!disabled && !isChecked) {
+          togglePad(fieldKey, id, 'radio');
           onSelect?.({ fieldKey, pad: { ...rest, id, label, isChecked: true, disabled } });
         }
       }}

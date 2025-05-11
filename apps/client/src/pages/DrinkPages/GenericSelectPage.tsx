@@ -46,7 +46,6 @@ export const GenericSelectPage = () => {
         }
       } else {
         if (fieldKey in currentFilters) {
-          // const { [fieldKey]: _, ...newFilters } = currentFilters;
           setOrdersFilter({
             itemNumber: order.itemNumber,
             filter: { ...currentFilters, [fieldKey]: undefined },
@@ -55,6 +54,7 @@ export const GenericSelectPage = () => {
       }
     }
   };
+
   if (!pads?.length) {
     return <NoItems message="No drink types found" />;
   }
