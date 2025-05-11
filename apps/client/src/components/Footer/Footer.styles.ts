@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
-import { colors, layout } from 'styles';
 
 export const styles = css`
+  z-index: 9999999;
   position: relative;
   bottom: 3rem;
   left: 0;
