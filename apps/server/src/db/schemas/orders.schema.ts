@@ -24,8 +24,9 @@ export const orders = sqliteTable('orders', {
   volumeName: text('volume_name')
     .notNull()
     .references(() => volumes.name, { onDelete: 'cascade' }), // references volumes.name
-
-  // Add any other fields you need for orders here
+  tableA: text('table_a').notNull(),
+  tableB: text('table_b').notNull(),
+  tableC: text('table_c').notNull(),
 
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
