@@ -39,7 +39,8 @@ export const styles = css`
     }
   }
 
-  h2 {
+  h2,
+  h4 {
     font-family: monospace;
     font-size: 1rem;
     color: ${colors.info};

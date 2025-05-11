@@ -30,6 +30,16 @@ export interface PadTestProps extends PadUITest {
 
 export const PADS_TOUCH_CONFIG: PadUI[] = [
   {
+    id: 'labelC',
+    label: 'Programar Tiempo',
+    type: 'button',
+    name: 'home',
+    className: 'pad-rect',
+    isChecked: false,
+    disabled: false,
+    value: { id: 'labelC', name: 'LABEL C' },
+  },
+  {
     id: 'labelA',
     label: 'Programar Producto',
     type: 'button',
@@ -41,23 +51,13 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
   },
   {
     id: 'labelB',
-    label: 'Programar Selección',
+    label: 'Repetir Selección',
     type: 'button',
     name: 'home',
     className: 'pad-rect',
     isChecked: false,
     disabled: false,
     value: { id: 'labelB', name: 'LABEL B' },
-  },
-  {
-    id: 'labelC',
-    label: 'Programar Tiempo',
-    type: 'button',
-    name: 'home',
-    className: 'pad-rect',
-    isChecked: false,
-    disabled: false,
-    value: { id: 'labelC', name: 'LABEL C' },
   },
 ];
 // ======================================================================== //
