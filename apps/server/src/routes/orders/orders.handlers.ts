@@ -12,11 +12,13 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
     where: (fields, operators) => operators.eq(fields.isActive, true),
     columns: {
       id: true,
-      name: true,
-      valueInMl: true,
-      sortOrder: true,
-      coolingFactor: true,
-      isActive: true,
+      drinkTypeName: true,
+      drinkSubtypeName: true,
+      volumeName: true,
+      containerTypeName: true,
+      tableA: true,
+      tableB: true,
+      tableC: true,
     },
   });
   return context.json(drinkOrders);
