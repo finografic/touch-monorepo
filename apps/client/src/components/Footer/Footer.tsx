@@ -10,13 +10,16 @@ import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
 import { useCallback, useEffect, useMemo, useTransition } from 'react';
 // import { useQueryClient } from '@tanstack/react-query';
 // import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '../../queries/temperature';
+import { Col, Row } from 'react-grid-system';
 import { useDev } from 'providers/DevProvider/DevContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
+import { DevFilterResults } from 'components/DevTools/DevFilterResults/DevFilterResults';
 
 export const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { isDevDataVisible } = useDev();
   const [isPending, startTransition] = useTransition();
   // const { route } = useRouteConfig();
   const { routes, routesMetadata } = useRouteMetadata();
@@ -126,36 +129,44 @@ export const Footer = () => {
 
   return (
     <footer css={styles}>
-      <div className="controls">
-        <ButtonControl className="btn-control" onClick={() => setIsDevDialogOpen(true)}>
-          DATA
-        </ButtonControl>
-        {location.pathname === PATHS.home && <MockOrdersButton />}
-        {location.pathname === PATHS.home && (
-          <ButtonControl className="btn-control" onClick={selectAllOrders}>
-            ALL
-          </ButtonControl>
-        )}
-        {isVisibleBackButton && (
-          <ButtonControl className="btn-control" onClick={handleBack} disabled={isPending}>
-            « Back
-          </ButtonControl>
-        )}
-        {isVisibleNextButton && (
-          <ButtonControl className="btn-control" onClick={handleNext} disabled={isNextDisabled || isPending}>
-            Next »
-          </ButtonControl>
-        )}
-        {location.pathname === PATHS.finalTemperature && (
-          <ButtonControl
-            className="btn-control btn-start"
-            onClick={handleStart}
-            disabled={isNextDisabled || isCalculating || isPending}
-          >
-            {isCalculating ? 'Calculating...' : 'START'}
-          </ButtonControl>
-        )}
-      </div>
+      <Row>
+        <Col xs={12}>
+          <div className="controls">
+            {location.pathname === PATHS.home && <MockOrdersButton />}
+            {location.pathname === PATHS.home && (
+              <ButtonControl className="btn-control" onClick={selectAllOrders}>
+                ALL
+              </ButtonControl>
+            )}
+            {isVisibleBackButton && (
+              <ButtonControl className="btn-control" onClick={handleBack} disabled={isPending}>
+                « Back
+              </ButtonControl>
+            )}
+            {isVisibleNextButton && (
+              <ButtonControl
+                className="btn-control"
+                onClick={handleNext}
+                disabled={isNextDisabled || isPending}
+              >
+                Next »
+              </ButtonControl>
+            )}
+            {location.pathname === PATHS.finalTemperature && (
+              <ButtonControl
+                className="btn-control btn-start"
+                onClick={handleStart}
+                disabled={isNextDisabled || isCalculating || isPending}
+              >
+                {isCalculating ? 'Calculating...' : 'START'}
+              </ButtonControl>
+            )}
+          </div>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12}>{isDevDataVisible && <DevFilterResults />}</Col>
+      </Row>
     </footer>
   );
 };

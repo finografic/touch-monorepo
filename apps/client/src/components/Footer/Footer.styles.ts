@@ -7,11 +7,27 @@ export const styles = css`
   left: 0;
   right: 0;
   display: flex;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
+  width: 100%;
   padding: 1rem;
 
   .controls {
     display: flex;
     gap: 2rem;
+  }
+
+  & > div {
+    width: 100%;
+    justify-content: center;
+    border: 1px solid red;
+
+    & > div {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      border: 1px solid yellow;
+    }
   }
 `;

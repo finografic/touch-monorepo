@@ -2,19 +2,20 @@ import { css } from '@emotion/react';
 import { colors } from 'styles';
 
 export const styles = css`
+  background-color: ${colors.greyXDark};
   display: flex;
   flex-direction: column;
-  position: absolute;
-  top: 0;
-  left: 0;
-  min-width: 17vw;
-  height: 100%;
+  /* position: absolute; */
+  /* top: 0;
+  left: 0; */
+  /* min-width: 17vw;
+  height: 100%; */
   /* height: 100vh; */
-  max-height: 100vh;
+  /* max-height: 100vh; */
   padding: 1.5rem;
   overflow-x: visible;
   overflow-y: hidden;
-
+  width: 100%;
   h2 {
     font-family: monospace;
     font-size: 1rem;
@@ -31,6 +32,7 @@ export const styles = css`
 
   pre {
     overflow-y: hidden;
+    width: 100%;
   }
 `;
 
