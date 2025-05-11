@@ -5,13 +5,10 @@ import type { DataEntry } from 'types/data.types';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
 import { styles } from './DevFilterResults.styles';
 import { Col, Row } from 'react-grid-system';
-import { useOrders } from 'providers/OrdersProvider';
-import type { OrderFilters } from 'types/orders.types';
 
 export const DevFilterResults = () => {
-  const { orders } = useOrders();
   const [data, setData] = useState<DataEntry[]>([]);
-  const [filters, setFilters] = useState<OrderFilters>({});
+  const [filters, setFilters] = useState<Record<string, string>>({});
 
   // Fetch all orders once
   useEffect(() => {
@@ -21,27 +18,19 @@ export const DevFilterResults = () => {
   }, []);
 
   // Compute filtered data
-  useEffect(() => {
-    const filters = orders[0]?.filters;
-    if (filters) {
-      setFilters(filters);
-    }
-  }, [orders]);
-
-  // Compute filtered data
   const filteredData = useMemo(() => {
     return data.filter((entry) => {
       return Object.entries(filters).every(([key, value]) => {
         if (!value) return true; // If filter is empty, do not restrict
         switch (key) {
           case OrderFieldKeys.drinkType:
-            return entry.drinkTypeName === value.name;
+            return entry.drinkTypeName === value;
           case OrderFieldKeys.drinkSubtype:
-            return entry.drinkSubtypeName === value.name;
+            return entry.drinkSubtypeName === value;
           case OrderFieldKeys.drinkVolume:
-            return entry.volumeName === value.name;
+            return entry.volumeName === value;
           case OrderFieldKeys.containerType:
-            return entry.containerTypeName === value.name;
+            return entry.containerTypeName === value;
           default:
             return true;
         }
@@ -68,17 +57,16 @@ export const DevFilterResults = () => {
   }, [data]);
 
   // Handle filter change
-  // const handleFilterChange = (key: string, value: string) => {
-  //   setFilters((prev) => ({ ...prev, [key]: value }));
-  // };
+  const handleFilterChange = (key: string, value: string) => {
+    setFilters((prev) => ({ ...prev, [key]: value }));
+  };
 
   return (
     <div id="dev-filter-results" css={styles}>
       <Row>
         <Col xs={12} className="filters">
           <h4>Filters ({Object.keys(filters).length}):</h4>
-          <pre>{JSON.stringify(filters, null, 2)}</pre>
-          {/* <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
+          <div style={{ display: 'flex', gap: 16, marginBottom: 16 }}>
             {Object.entries(OrderFieldKeys).map(([key, label]) => {
               if (typeof label !== 'string' || !uniqueValues[label] || uniqueValues[label].length === 0)
                 return null;
@@ -101,7 +89,7 @@ export const DevFilterResults = () => {
                 </label>
               );
             })}
-          </div> */}
+          </div>
         </Col>
       </Row>
       <Row>
@@ -109,11 +97,11 @@ export const DevFilterResults = () => {
           <h4>Results: {filteredData.length}</h4>
           <pre>
             {filteredData.map((item: any) => (
-              <Row key={item.id} direction="row" align="center">
-                <Col xs={4}>
+              <Row key={item.id}>
+                <Col xs={3}>
                   <strong>{item.drinkTypeName}</strong>
                 </Col>
-                <Col xs={2}>
+                <Col xs={3}>
                   <p>{item.drinkSubtypeName}</p>
                 </Col>
                 <Col xs={3}>
