@@ -7,40 +7,64 @@ import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
 // import { useContent } from 'providers/ContentProvider/ContentContext';
-import { useCallback, useEffect, useTransition } from 'react';
+import { useCallback, useEffect, useMemo, useTransition } from 'react';
 // import { useQueryClient } from '@tanstack/react-query';
 // import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '../../queries/temperature';
 import { useDev } from 'providers/DevProvider/DevContext';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 
 export const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
+  const { route } = useRouteConfig();
+  const { routes, routesMetadata } = useRouteMetadata();
   // const queryClient = useQueryClient();
   // const isFetching = queryClient.isFetching() || queryClient.isMutating();
 
   const { setIsDevDialogOpen } = useDev();
-  const { current, setPageCurrent, isNextDisabled, setIsNextDisabled } = usePagination();
+  const { current, setPageCurrent, isPrevDisabled, setIsPrevDisabled, isNextDisabled, setIsNextDisabled } =
+    usePagination();
   const { selectAllOrders, orders, setOrders } = useOrders();
 
   // ------------------------------------------------------------------------ //
 
-  const hasDrinkSubtypes = orders.some(({ filters }) => {
-    return filters?.drinkType?.hasSubtypes;
-  });
+  log('__ROUTE_CONFIG', 'grey', orders?.[0]?.filters?.drinkType);
 
-  console.log('%c __SUBTYPES:', 'color:lime', { hasDrinkSubtypes });
+  const filters = useMemo((): { hasSubtypes: boolean; drinkTypeId: string } => {
+    const filters = orders[0]?.filters;
+    if (filters) {
+      const hasSubtypes = !!filters.drinkType?.hasSubtypes;
+      const drinkTypeId = (filters.drinkType as any)?.id || '';
+      return { hasSubtypes, drinkTypeId };
+    }
+    return { hasSubtypes: false, drinkTypeId: '' };
+  }, [orders]);
 
-  // const loaderData = useLoaderData();
-  // log('LOADER_DATA', 'hotpink', { loaderData });
+  // const pathnames = useMemo((): RoutePath[] => {
+  //   if (filters.hasSubtypes && filters.drinkTypeId) {
+  //     return ROUTES_CONFIG.map((route) => route.path).map((path) =>
+  //       path === PATHS.drinkSubtype
+  //         ? PATHS.drinkSubtype.replace(':drinkTypeId', filters.drinkTypeId as string)
+  //         : path,
+  //     ) as RoutePath[];
+  //   }
+
+  //   return ROUTES_CONFIG.filter(({ path }) => path !== PATHS.drinkSubtype) as RoutePath[];
+  // }, [filters]);
+
+  log('__ROUTE_CONFIG', 'blue', filters.hasSubtypes, filters.drinkTypeId);
 
   const pathnames = (
-    hasDrinkSubtypes
-      ? ROUTES_CONFIG.map((route) => route.path)
-      : ROUTES_CONFIG.map((route) => route.path).filter((pathname) => pathname !== PATHS.drinkSubtype)
+    filters.hasSubtypes && filters.drinkTypeId
+      ? ROUTES_CONFIG.map((route) => route.path).map((path) => {
+          return path === PATHS.drinkSubtype
+            ? PATHS.drinkSubtype.replace(':drinkTypeId', filters.drinkTypeId as string)
+            : path;
+        })
+      : ROUTES_CONFIG.map((route) => route.path).filter((path) => path !== PATHS.drinkSubtype)
   ) as RoutePath[];
-
-  console.log('%c SUBS:', 'color:lime', pathnames);
 
   // ------------------------------------------------------------------------ //
 

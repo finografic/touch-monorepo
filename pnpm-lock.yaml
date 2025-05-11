@@ -273,6 +273,12 @@ importers:
       i18next-fs-backend:
         specifier: 2.6.0
         version: 2.6.0
+      idb-keyval:
+        specifier: 6.2.2
+        version: 6.2.2
+      localstorage-slim:
+        specifier: 2.7.1
+        version: 2.7.1
       lucide-react:
         specifier: 0.487.0
         version: 0.487.0(react@18.3.1)
@@ -6588,6 +6594,9 @@ packages:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
 
+  idb-keyval@6.2.2:
+    resolution: {integrity: sha512-yjD9nARJ/jb1g+CvD0tlhUHOrJ9Sy0P8T9MF3YaLlHnSRpwPfpTX0XIvpmw3gAJUmEu3FiICLBDPXVwyEvrleg==}
+
   ieee754@1.2.1:
     resolution: {integrity: sha512-dcyqhDvX1C46lXZcVqCpK+FtMRQVdIMN6/Df5js2zouUsqG7I6sFxitIC+7KYK29KdXOLHdu9zL4sFnoVQnqaA==}
 
@@ -7108,6 +7117,9 @@ packages:
   local-pkg@1.1.1:
     resolution: {integrity: sha512-WunYko2W1NcdfAFpuLUoucsgULmgDBRkdxHxWQ7mK0cQqwPiy8E1enjuRBrhLtZkB5iScJ1XIPdhVEFK8aOLSg==}
     engines: {node: '>=14'}
+
+  localstorage-slim@2.7.1:
+    resolution: {integrity: sha512-ExqYZl+pRpxPIcx0n0541T5CmSdRulHJCPDLrxIe23d4ehbqERDNJHcwsAVrVP09CZ/0j3PU92sI8a3KaGqXPQ==}
 
   locate-path@5.0.0:
     resolution: {integrity: sha512-t7hw9pI+WvuwNJXwk5zVHpyhIqzg2qTlklJOf0mVxGSbe3Fp2VieZcduNYjaLDoy6p9uGpQEGWG87WpMKlNq8g==}
@@ -16198,6 +16210,8 @@ snapshots:
     dependencies:
       safer-buffer: 2.1.2
 
+  idb-keyval@6.2.2: {}
+
   ieee754@1.2.1: {}
 
   ignore@5.3.2: {}
@@ -16644,6 +16658,8 @@ snapshots:
       mlly: 1.7.4
       pkg-types: 2.1.0
       quansync: 0.2.10
+
+  localstorage-slim@2.7.1: {}
 
   locate-path@5.0.0:
     dependencies:

@@ -28,11 +28,9 @@ export const DevPanel = () => {
 
   const devDataRight = {
     numItems,
+    count: orders.length,
     orders: {
-      // count: devOrders.orders.length,
-      // first: devOrders.orders,
-      count: orders.length,
-      first: orders[0],
+      ...(orders?.[0] || {}),
     },
   };
 
