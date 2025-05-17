@@ -3,6 +3,7 @@ import { styles } from './DevFilterResults.styles';
 import { Col, Row } from 'react-grid-system';
 
 export const DevFilterResults = () => {
+  //
   const { filteredData, filters } = useFilters({});
 
   return (

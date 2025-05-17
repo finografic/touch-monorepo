@@ -7,7 +7,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import type { PadType, PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import PadGroup from 'components/Pad/PadGroup';
-// import { getPadIdsForField } from 'utils/ui.utils';
+import { getPadIdsForField } from 'utils/ui.utils';
 
 export const GenericSelectPage = () => {
   const { fieldKey } = useRouteConfig();
@@ -44,32 +44,24 @@ export const GenericSelectPage = () => {
     return <NoItems message="No drink types found" />;
   }
 
-  // const padsResults = getPadIdsForField(orders, fieldKey);
-
-  // log('__DEV - PAD RESULTS', 'red', { padsResults });
-  // log('__DEV - ARGS', 'grey', { orders, fieldKey });
-
   const padType: PadType = pads[0].type;
 
-  // Filter pads to only those present in padsResults
-  // const visiblePads = pads.filter((pad) => pad.id && !padsResults.has(pad.id)
-  //
-  // const padsResults = getPadIdsForField(orders, fieldKey);
-  // const visiblePads = padsResults.size === 0 ? pads : pads.filter((pad) => pad.id && padsResults.has(pad.id));
-  const visiblePads = pads;
-
-  log('__DEV - PADS', 'cyan', pads);
-  log('__DEV - RES', 'lime', visiblePads);
+  // Debug current state
+  log('__DEV - Current State', 'cyan', {
+    pads: pads.length,
+    orders: orders.length,
+    fieldKey,
+  });
 
   return (
     <section css={stylesItemsGrid}>
-      <PadGroup
+      {/* <PadGroup
         type={padType}
-        pads={visiblePads}
+        pads={pads}
         onSelect={handleSelect}
         fieldKey={fieldKey}
-        className={getGridFlowClasses(visiblePads.length)}
-      />
+        className={getGridFlowClasses(pads.length)}
+      /> */}
     </section>
   );
 };
