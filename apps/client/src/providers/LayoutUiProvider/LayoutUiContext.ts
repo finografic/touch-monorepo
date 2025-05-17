@@ -56,14 +56,10 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
         },
         togglePad: (fieldKey: OrderFieldKey, clickedId: string, type: PadType) => {
           set((state) => {
-            const isRadiosInitialized = state.pads.some((p) => p.isChecked);
             const pads = state.pads.map((pad) => {
               if (pad.name !== fieldKey) return pad;
               if (type === 'radio') {
-                // const isChecked = !isRadiosInitialized && pad.id === clickedId ? true : pad.id === clickedId;
-                const isChecked = pad.id === clickedId;
-
-                return { ...pad, isChecked };
+                return { ...pad, isChecked: pad.id === clickedId };
               }
               if (pad.id === clickedId) {
                 return { ...pad, isChecked: !pad.isChecked };
