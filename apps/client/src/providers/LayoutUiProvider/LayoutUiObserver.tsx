@@ -7,6 +7,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { useFilters } from 'hooks/useFilters';
 
 export const LayoutUiObserver = () => {
   const { fieldKey, padsConfig } = useRouteConfig();
@@ -17,6 +18,15 @@ export const LayoutUiObserver = () => {
 
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
+
+  // ======================================================================== //
+
+  const { filteredData, filters } = useFilters({});
+
+  log('__DEV - FILTERS', 'cyan', filters);
+  log('__DEV - FILTERED DATA', 'hotpink', filteredData);
+
+  // ======================================================================== //
 
   useEffect(
     function handleRouteChange() {

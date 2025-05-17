@@ -10,6 +10,7 @@ export interface LayoutUiValues {
   [LayoutUiKeys.fieldKey]: OrderFieldKey | undefined;
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadUI[];
+  [LayoutUiKeys.padsFiltered]: PadUI[];
 }
 
 type LayoutUiSetters = {

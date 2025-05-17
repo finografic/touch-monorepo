@@ -15,6 +15,7 @@ export enum LayoutUiKeys {
   fieldKey = 'fieldKey',
   numPads = 'numPads',
   pads = 'pads',
+  padsFiltered = 'padsFiltered',
 }
 
 export const defaultValue: LayoutUiValues = {
@@ -22,6 +23,7 @@ export const defaultValue: LayoutUiValues = {
   fieldKey: undefined,
   numPads: 0,
   pads: [],
+  padsFiltered: [],
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {
