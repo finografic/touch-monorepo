@@ -1,4 +1,3 @@
-import type { FC } from 'react';
 import { useEffect, useRef } from 'react';
 import { useLayoutUi } from './LayoutUiContext';
 import { useRouteLoaderData } from 'react-router-dom';
@@ -7,7 +6,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useFilters } from 'hooks/useFilters';
+// import { useFilters } from 'hooks/useFilters';
 
 export const LayoutUiObserver = () => {
   const { fieldKey, padsConfig } = useRouteConfig();
@@ -21,10 +20,10 @@ export const LayoutUiObserver = () => {
 
   // ======================================================================== //
 
-  const { filteredData, filters } = useFilters({});
+  // const { filteredData, filters } = useFilters({});
 
-  log('__DEV - FILTERS', 'cyan', filters);
-  log('__DEV - FILTERED DATA', 'hotpink', filteredData);
+  // log('__DEV - FILTERS', 'cyan', filters);
+  // log('__DEV - FILTERED DATA', 'hotpink', filteredData);
 
   // ======================================================================== //
 

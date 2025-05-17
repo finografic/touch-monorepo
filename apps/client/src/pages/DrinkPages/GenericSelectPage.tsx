@@ -55,13 +55,13 @@ export const GenericSelectPage = () => {
 
   return (
     <section css={stylesItemsGrid}>
-      {/* <PadGroup
+      <PadGroup
         type={padType}
         pads={pads}
         onSelect={handleSelect}
         fieldKey={fieldKey}
         className={getGridFlowClasses(pads.length)}
-      /> */}
+      />
     </section>
   );
 };
