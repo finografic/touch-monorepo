@@ -14,13 +14,15 @@ export const defaultValue: ContentValues = {
 };
 
 export const ContentContext = createZustandContext(({ initialValue }) => {
-  return createStore<ContentStore>((set, _get) => ({
-    ...defaultValue,
-    ...initialValue,
-    actions: {
-      ...createSetters({ set, prefix: DISPLAY_NAME, defaultValue }),
-    },
-  }));
+  return createStore<ContentStore>(
+    (set, _get): ContentStore => ({
+      ...defaultValue,
+      ...initialValue,
+      actions: {
+        ...createSetters({ set, prefix: DISPLAY_NAME, defaultValue }),
+      },
+    }),
+  );
 });
 
 type ContentReturn = Omit<ContentStore, 'actions'> & ContentStore['actions'];

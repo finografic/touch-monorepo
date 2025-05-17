@@ -25,55 +25,65 @@ export const defaultValue: LayoutUiValues = {
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {
-  return createStore<LayoutUiStore>((set, get) => ({
-    ...defaultValue,
-    ...initialValue,
-    actions: {
-      ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
-      initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadsConfig, fieldKey: OrderFieldKey) => {
-        const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
-        const { pads, numPads } = parsePadsConfig({ data, config: padsConfig, fieldKey });
-        set({ pads });
-        set({ numPads });
-      },
-      updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadUI[]) => PadUI[]) => {
-        const currentPads = get().pads;
-        if (!currentPads?.length) return;
+  return createStore<LayoutUiStore>(
+    (set, get): LayoutUiStore => ({
+      ...defaultValue,
+      ...initialValue,
+      actions: {
+        ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
+        initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadsConfig, fieldKey: OrderFieldKey) => {
+          const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
+          const { pads, numPads } = parsePadsConfig({ data, config: padsConfig, fieldKey });
+          set({ pads });
+          set({ numPads });
+        },
+        updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadUI[]) => PadUI[]) => {
+          const currentPads = get().pads;
+          if (!currentPads?.length) return;
 
-        // Split pads into current field and other fields
-        const currentFieldPads = currentPads.filter((pad) => pad.name === fieldKey);
-        const updatedFieldPads = updater(currentFieldPads);
+          // Split pads into current field and other fields
+          const currentFieldPads = currentPads.filter((pad) => pad.name === fieldKey);
+          const updatedFieldPads = updater(currentFieldPads);
 
-        // Reconstruct the full pad array maintaining original order
-        const updatedPads = currentPads.map((pad) => {
-          if (pad.name !== fieldKey) return pad;
-          const updatedPad = updatedFieldPads.find((p) => p.id === pad.id);
-          return updatedPad || pad;
-        });
-
-        set({ pads: updatedPads });
-      },
-      togglePad: (fieldKey: OrderFieldKey, padId: string, type: PadType) => {
-        set((state) => {
-          const pads = state.pads.map((pad) => {
+          // Reconstruct the full pad array maintaining original order
+          const updatedPads = currentPads.map((pad) => {
             if (pad.name !== fieldKey) return pad;
-            if (type === 'radio') {
-              return { ...pad, isChecked: pad.id === padId };
-            }
-            if (pad.id === padId) {
-              return { ...pad, isChecked: !pad.isChecked };
-            }
-            return pad;
+            const updatedPad = updatedFieldPads.find((p) => p.id === pad.id);
+            return updatedPad || pad;
           });
-          return { pads };
-        });
+
+          set({ pads: updatedPads });
+        },
+        togglePad: (fieldKey: OrderFieldKey, clickedId: string, type: PadType) => {
+          set((state) => {
+            const isRadiosInitialized = state.pads.some((p) => p.isChecked);
+            log('__DEV: INIT', 'hotpink', isRadiosInitialized);
+            const pads = state.pads.map((pad) => {
+              if (pad.name !== fieldKey) return pad;
+              if (type === 'radio') {
+                log('__DEV: togglePad', 'orange', { fieldKey, clickedId, type });
+                log('__DEV: INIT', 'orange', isRadiosInitialized);
+                const isChecked = !isRadiosInitialized && pad.id === clickedId ? true : pad.id === clickedId;
+
+                log('__DEV: INIT', 'lime', pad.id, pad.isChecked, isRadiosInitialized, { isChecked });
+
+                return { ...pad, isChecked };
+              }
+              if (pad.id === clickedId) {
+                return { ...pad, isChecked: !pad.isChecked };
+              }
+              return pad;
+            });
+            return { pads };
+          });
+        },
       },
-    },
-    // subscribe: (listener: (state: LayoutUiStore, prevState: LayoutUiStore) => void) => {
-    //   const state = get();
-    //   listener(state, state);
-    // },
-  }));
+      // subscribe: (listener: (state: LayoutUiStore, prevState: LayoutUiStore) => void) => {
+      //   const state = get();
+      //   listener(state, state);
+      // },
+    }),
+  );
 });
 
 type LayoutUiReturn = Omit<LayoutUiStore, 'actions'> & LayoutUiStore['actions'];

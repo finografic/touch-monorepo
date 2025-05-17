@@ -20,13 +20,15 @@ export const defaultValue: DevValues = {
 };
 
 export const DevContext = createZustandContext(({ initialValue }) => {
-  return createStore<DevStore>((set, _get) => ({
-    ...defaultValue,
-    ...initialValue,
-    actions: {
-      ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
-    },
-  }));
+  return createStore<DevStore>(
+    (set, _get): DevStore => ({
+      ...defaultValue,
+      ...initialValue,
+      actions: {
+        ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
+      },
+    }),
+  );
 });
 
 type DevReturn = Omit<DevStore, 'actions'> & DevStore['actions'];

@@ -22,30 +22,32 @@ export const defaultValue: PaginationValues = {
 
 export const PaginationContext = createZustandContext(({ initialValue }) => {
   return createStore<PaginationStore>()(
-    subscribeWithSelector((set, get) => ({
-      ...defaultValue,
-      ...initialValue,
-      actions: {
-        ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
-        setIsPrevDisabled: (isPrevDisabled: boolean) => {
-          if (get().isPrevDisabled !== isPrevDisabled) {
-            setTimeout(() => {
-              set({ isPrevDisabled });
-            }, 0);
-          }
+    subscribeWithSelector(
+      (set, get): PaginationStore => ({
+        ...defaultValue,
+        ...initialValue,
+        actions: {
+          ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
+          setIsPrevDisabled: (isPrevDisabled: boolean) => {
+            if (get().isPrevDisabled !== isPrevDisabled) {
+              setTimeout(() => {
+                set({ isPrevDisabled });
+              }, 0);
+            }
+          },
+          setIsNextDisabled: (isNextDisabled: boolean) => {
+            if (get().isNextDisabled !== isNextDisabled) {
+              setTimeout(() => {
+                set({ isNextDisabled });
+              }, 0);
+            }
+          },
+          // onBeforeNavigateNext: (fn?: () => void) => {
+          //   fn?.();
+          // },
         },
-        setIsNextDisabled: (isNextDisabled: boolean) => {
-          if (get().isNextDisabled !== isNextDisabled) {
-            setTimeout(() => {
-              set({ isNextDisabled });
-            }, 0);
-          }
-        },
-        // onBeforeNavigateNext: (fn?: () => void) => {
-        //   fn?.();
-        // },
-      },
-    })),
+      }),
+    ),
   );
 });
 

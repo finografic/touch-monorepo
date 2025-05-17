@@ -8,7 +8,7 @@ import type { PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 
-export const LayoutUiObserver: FC = () => {
+export const LayoutUiObserver = () => {
   const { fieldKey, padsConfig } = useRouteConfig();
   const { orders } = useOrders();
   const { setIsNextDisabled } = usePagination();
@@ -17,6 +17,9 @@ export const LayoutUiObserver: FC = () => {
 
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
+
+  // const isRadiosInitialized = pads.some((p) => p.isChecked);
+  // log('__DEV: INIT', 'hotpink', isRadiosInitialized);
 
   useEffect(
     function handleRouteChange() {
@@ -39,7 +42,10 @@ export const LayoutUiObserver: FC = () => {
           loaderData,
           {
             ...padsConfig,
-            initChecked: (pad: PadUI) => activeFilters.has(pad.id),
+            initChecked: (pad: PadUI) => {
+              log('__DEV: OBSERVEER', 'cyan', pad);
+              return activeFilters.has(pad.id);
+            },
           },
           fieldKey,
         );
