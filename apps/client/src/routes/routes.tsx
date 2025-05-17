@@ -9,6 +9,7 @@ import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
 import { PATHS, ROUTES_CONFIG } from './routes.config';
 import { OrderFieldKeys } from 'src/config/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
+import { AdminPage } from 'pages/AdminPage/AdminPage';
 
 export const routes: RouteObject[] = [
   {
@@ -23,6 +24,10 @@ export const routes: RouteObject[] = [
       {
         path: '/docs',
         element: <DocsPage />,
+      },
+      {
+        path: '/admin/:table',
+        element: <AdminPage />,
       },
       // ============================================== //
       // Drink Configuration Flow

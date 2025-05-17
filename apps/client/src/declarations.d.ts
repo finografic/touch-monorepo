@@ -3,6 +3,8 @@ import type { AxiosError } from 'axios';
 import Color from 'color';
 import type { ColorConstructor as ColorContrutorType } from 'color';
 
+declare module 'drizzle-admin';
+
 declare module '@tanstack/react-query' {
   interface Register {
     defaultError: AxiosError;
