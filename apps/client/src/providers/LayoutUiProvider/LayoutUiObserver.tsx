@@ -18,9 +18,6 @@ export const LayoutUiObserver = () => {
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
 
-  // const isRadiosInitialized = pads.some((p) => p.isChecked);
-  // log('__DEV: INIT', 'hotpink', isRadiosInitialized);
-
   useEffect(
     function handleRouteChange() {
       if (!fieldKey) {
@@ -42,10 +39,7 @@ export const LayoutUiObserver = () => {
           loaderData,
           {
             ...padsConfig,
-            initChecked: (pad: PadUI) => {
-              log('__DEV: OBSERVEER', 'cyan', pad);
-              return activeFilters.has(pad.id);
-            },
+            initChecked: (pad: PadUI) => activeFilters.has(pad.id),
           },
           fieldKey,
         );
