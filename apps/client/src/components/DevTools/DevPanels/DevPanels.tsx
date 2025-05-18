@@ -32,7 +32,7 @@ export const DevPanels = () => {
     orders: {
       ...(orders?.[0] || {}),
     },
-    UNFILTERED: loaderData?.map((padData) => padData.name),
+    ALL_PADS_UNFILTERED: loaderData?.map((padData) => padData.name),
   };
 
   return (
