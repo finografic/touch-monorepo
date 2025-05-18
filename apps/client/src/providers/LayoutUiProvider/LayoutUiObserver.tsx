@@ -6,6 +6,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import type { OrderFilters } from 'types/orders.types';
 // import { useFilters } from 'hooks/useFilters';
 
 export const LayoutUiObserver = () => {
@@ -29,20 +30,60 @@ export const LayoutUiObserver = () => {
       if (loaderData && padsConfig) {
         isInitializedRef.current[fieldKey] = false;
 
+        log('__DEV - loaderData FULL', 'lime', loaderData);
+
+        /*
         // Get unique filter values for the current fieldKey across all orders
         const activeFilters = [
           ...new Set(orders.map((order) => (order.filters[fieldKey] as any)?.name).filter(Boolean)), // TODO: REMOVE any
         ];
+        */
 
-        log('__DEV - FILTERS', 'cyan', activeFilters);
+        // ======================================================================== //
+
+        // Get unique filter values by combining all orders' filters into a single object
+        const activeFilters = orders.reduce(
+          (acc, order) => {
+            Object.entries(order.filters as OrderFilters).forEach(([filterKey, filterValue]) => {
+              if (filterValue?.name) {
+                acc[filterKey] = filterValue.name;
+              }
+            });
+            return acc;
+          },
+          {} as Record<string, string>,
+        );
+
+        // log('__DEV - loaderData x FILTERS', 'cyan', activeFilters);
+
+        // ======================================================================== //
+
+        const activeFiltersV2 = orders.reduce(
+          (acc, order) => {
+            Object.values(order.filters as OrderFilters).map((filter) => {
+              if (filter?.lookup) {
+                acc[filter.lookup] = filter.name;
+              }
+            });
+            return acc;
+          },
+          {} as Record<string, string>,
+        );
+
+        log('__DEV - loaderData x FILTERS', 'cyan', activeFiltersV2);
         // log('__DEV - FILTERED DATA', 'hotpink', filteredData);
+
+        // ======================================================================== //
 
         // Initialize pads with CHECKED state (from orders filters)
         initPadsFromLoaderData(
           loaderData,
           {
             ...padsConfig,
-            initChecked: (pad: PadUI) => activeFilters.includes(pad.value.name),
+            initChecked: (pad: PadUI) => {
+              // Check if this pad's value matches the active filter for its field
+              return activeFilters[pad.name] === pad.value.name;
+            },
           },
           fieldKey,
         );

@@ -26,7 +26,7 @@ const createEndpoints = <T extends Record<string, (...args: any[]) => Promise<an
           const response = await fn(...args);
           if (response.status > 399) {
             const code = response.status;
-            const message = response?.message || response?.data?.message || 'Note found';
+            const message = response?.message || response?.data?.message || 'Not found';
             throw new Error(message, JSON.parse(Object.assign({}, { code, message, ...response })));
           }
 

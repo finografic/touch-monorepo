@@ -24,9 +24,10 @@ export const GenericSelectPage = () => {
 
       if (pad.isChecked) {
         if (currentFilters[fieldKey] !== pad.id) {
+          const lookup = { [padsConfig.filterKey as keyof DataEntry]: pad.value.name };
           setOrdersFilter({
             itemNumber: order.itemNumber,
-            filter: { ...currentFilters, [fieldKey]: { ...pad.value } },
+            filter: { ...currentFilters, [fieldKey]: { ...pad.value, lookup } },
           });
         }
       } else {

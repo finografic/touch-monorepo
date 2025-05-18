@@ -11,6 +11,7 @@ export const LoaderDataHelper: LoaderMap = {
     // TODO: Implement when ready
     return [];
   },
+  // [OrderFieldKeys.drinkType]: EndpointHelper.getDrinkTypes,
   [OrderFieldKeys.drinkType]: EndpointHelper.getDrinkTypes,
   // [OrderFieldKeys.drinkSubtype]: EndpointHelper.getDrinkSubtype,
   [OrderFieldKeys.drinkSubtype]: async ({ params }) => {
