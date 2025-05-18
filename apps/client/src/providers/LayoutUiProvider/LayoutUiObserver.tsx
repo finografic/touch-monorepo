@@ -16,7 +16,7 @@ export const LayoutUiObserver = () => {
 
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
-  const { filteredData, filters } = useFilters();
+  const { filteredData, filters, serverFieldMap } = useFilters();
 
   useEffect(
     function handleRouteChange() {
@@ -32,18 +32,13 @@ export const LayoutUiObserver = () => {
         // ======================================================================== //
         // NOTE: HANDLE FILTERS - FILTER VISIBLE PADS, DEPENDANT ON ACTIVE FILTERS
 
-        const activeFilters = Object.entries(filters as OrderFilters).reduce(
-          (acc, [filterKey, filterValue]) => ({ ...acc, [filterKey]: filterValue.name }),
-          {} as Record<string, string>,
-        );
-
         const visiblePadNames = [
           ...new Set(filteredData.map((entry) => entry?.[filterKey as keyof DataEntry]).filter(Boolean)),
         ];
 
         const filteredLoaderData = loaderData.filter((padData) => visiblePadNames.includes(padData.name));
 
-        log('__DEV - ** FILTERS **', 'orange', activeFilters);
+        log('__DEV - ** FILTERS **', 'cyan', serverFieldMap);
 
         // ======================================================================== //
 
@@ -54,7 +49,8 @@ export const LayoutUiObserver = () => {
             ...padsConfig,
             initChecked: (pad: PadUI) => {
               // Check if this pad's value matches the active filter for its field
-              return activeFilters[pad.name] === pad.value.name;
+              return serverFieldMap[pad.name] === pad.value.name;
+              // return serverFieldMap[pad.name] === pad.filterKey;
             },
           },
           fieldKey,

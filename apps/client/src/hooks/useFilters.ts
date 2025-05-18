@@ -18,7 +18,7 @@ const FILTER_ORDER: OrderFieldKey[] = [
 ];
 
 export const useFilters = (initialFilters?: OrderFilters) => {
-  const { fieldKey, padsConfig } = useRouteConfig();
+  const { fieldKey, filterKey, padsConfig } = useRouteConfig();
   const { orders } = useOrders();
   const [data, setData] = useState<DataEntry[]>([]);
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
@@ -111,13 +111,22 @@ export const useFilters = (initialFilters?: OrderFilters) => {
     });
   }, []);
 
-  log('__DEV - load PAD', 'grey', padsConfig);
+  // Map filter keys from app-local names to server-side field names
+  const serverFieldMap = useMemo(() => {
+    return Object.entries(filters as OrderFilters).reduce(
+      // (acc, [, filterValue]) => ({ ...acc, [filterKey as keyof DataEntry]: filterValue.name }),
+      (acc, [_filterKey, filterValue]) => ({ ...acc, [_filterKey as keyof DataEntry]: filterValue.name }),
+      {} as Record<string, string>,
+    );
+  }, [filters]);
+
+  // log('__DEV - load PAD', 'grey', padsConfig);
 
   return {
     data,
     filteredData,
     filters,
-    // filterKey,
+    serverFieldMap,
     setFilter,
     clearFilter,
     clearFilters,

@@ -52,6 +52,7 @@ export const parsePadConfig = <T extends DataEntry>({
             name: fieldKey,
             type: config.type,
             isChecked: false,
+            filterKey: config.filterKey,
             metadata: slicedData[i],
           };
           pad.isChecked = initChecked(pad as PadUI);

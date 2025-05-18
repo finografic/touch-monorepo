@@ -27,7 +27,7 @@ export const DevTools = () => {
       <>
         {isDevDataVisible && <DevPanels />}
         {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
-        {isDevDataVisible && <DevFilterResults />}
+        {/* {isDevDataVisible && <DevFilterResults />} */}
         <DevScreenSize />
       </>
       <div css={styles} className="devtools-container">

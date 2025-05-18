@@ -75,6 +75,8 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   const loaderData = useRouteLoaderData(fieldKey || 'root') as T | undefined;
   const result = { ...routeConfig, loaderData, fieldKey, padsConfig } as PartialRouteConfig<T>;
 
+  log('__DEV - ** FILTERS **', 'orange', result.padsConfig?.filterKey);
+
   // Check if we have all required fields
   if (!hasOptionalProperties(result as unknown as Record<keyof PartialRouteConfig<T>, unknown>)) {
     // Only return RequiredRouteConfig if we also have loaderData

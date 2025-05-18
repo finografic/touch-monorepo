@@ -19,6 +19,7 @@ export interface PadUI {
   index?: number;
   type: PadType;
   isChecked: boolean;
+  filterKey?: FilterKey;
   metadata?: DataEntry;
   disabled?: boolean;
   className?: string;
