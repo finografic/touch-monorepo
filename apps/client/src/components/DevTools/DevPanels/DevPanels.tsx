@@ -38,7 +38,7 @@ export const DevPanels = () => {
     <>
       <aside id="dev-data-left" css={stylesLeft}>
         {/* <JSONTree data={devDataLeft} /> */}
-        <pre>{JSON.stringify(devDataLeft, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(devDataLeft, null, 2)}</pre> */}
       </aside>
       <aside id="dev-data-right" css={stylesRight}>
         <JSONTree data={devDataRight} />

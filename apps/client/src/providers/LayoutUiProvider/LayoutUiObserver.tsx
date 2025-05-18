@@ -86,14 +86,18 @@ export const LayoutUiObserver = () => {
         // ];
 
         const filteredEntries = [
-          ...new Set(filteredData.map((orderEntry) => orderEntry[filterKey]).filter(Boolean)),
+          ...new Set(filteredData.map((orderEntry) => orderEntry?.[filterKey]).filter(Boolean)),
         ];
+
+        log('__DEV - Z-1', 'blue', filteredData, filteredEntries);
+
+        log('__DEV - Z-2', 'grey', { filterKey }, filteredData.length, filteredEntries.length);
 
         const filteredLoaderData = loaderData.filter((padData) => filteredEntries.includes(padData.name));
 
-        log('__DEV - loaderData RESULTS', 'blue', filterKey, filteredEntries, filteredData);
+        // log('__DEV - loaderData RESULTS', 'blue', filterKey, filteredEntries, filteredData);
         // log('__DEV - XXX', 'blue', { loaderData: loaderData.length }, loaderData, filteredEntries);
-        log('__DEV - XXX', 'blue', filteredLoaderData);
+        // log('__DEV - XXX', 'blue', filteredLoaderData);
 
         // const filtered
 

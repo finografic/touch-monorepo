@@ -30,7 +30,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     minRequired: 1,
   },
   [OrderFieldKeys.drinkVolume]: {
-    filterKey: FilterKeys.drinkVolumeName,
+    filterKey: FilterKeys.volumeName,
     type: 'radio',
     labelKey: 'name',
     valueKeys: ['id', 'name'],

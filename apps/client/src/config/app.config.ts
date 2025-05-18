@@ -24,10 +24,10 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
   finalTemperature: 'finalTemperature',
 } as const;
 
-export const FilterKeys: { [K in `${Exclude<OrderFieldKey, 'home'>}Name`]: K } = {
+export const FilterKeys: { [K in string]: K } = {
   drinkTypeName: 'drinkTypeName',
   drinkSubtypeName: 'drinkSubtypeName',
-  drinkVolumeName: 'drinkVolumeName',
+  volumeName: 'volumeName',
   containerTypeName: 'containerTypeName',
   initialTemperatureName: 'initialTemperatureName',
   finalTemperatureName: 'finalTemperatureName',
