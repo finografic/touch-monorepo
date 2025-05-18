@@ -48,7 +48,8 @@ export const LayoutUiObserver = () => {
           loaderData,
           {
             ...padsConfig,
-            initChecked: (pad: PadUI) => activeFilters.has(pad.id),
+            // initChecked: (pad: PadUI) => activeFilters.has(pad.id),
+            initChecked: (pad: PadUI) => activeFilters.has(pad.value.name),
           },
           fieldKey,
         );
