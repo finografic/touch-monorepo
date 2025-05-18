@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { PADS_UI_CONFIG } from 'constants/ui.config';
 import { JSONTree } from '../JSONTree/JSONTree';
-import { flattenOrders, transformPadData } from 'utils/data.utils';
+import { transformPadData } from 'utils/data.utils';
 import { stylesLeft, stylesRight } from './DevPanels.styles';
 
 export const DevPanels = () => {
