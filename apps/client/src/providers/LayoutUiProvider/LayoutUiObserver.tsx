@@ -43,12 +43,14 @@ export const LayoutUiObserver = () => {
           orders.map((order) => (order.filters[fieldKey] as any)?.name).filter(Boolean),
         );
 
-        // Initialize pads with checked state from orders
+        log('__DEV - FILTERS', 'cyan', activeFilters.entries());
+        // log('__DEV - FILTERED DATA', 'hotpink', filteredData);
+
+        // Initialize pads with CHECKED state (from orders filters)
         initPadsFromLoaderData(
           loaderData,
           {
             ...padsConfig,
-            // initChecked: (pad: PadUI) => activeFilters.has(pad.id),
             initChecked: (pad: PadUI) => activeFilters.has(pad.value.name),
           },
           fieldKey,
