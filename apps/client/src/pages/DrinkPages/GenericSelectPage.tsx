@@ -12,7 +12,7 @@ import type { DataEntry } from 'types/data.types';
 // import { getPadIdsForField } from 'utils/ui.utils';
 
 export const GenericSelectPage = () => {
-  const { fieldKey, loaderData } = useRouteConfig();
+  const { fieldKey, loaderData, padsConfig } = useRouteConfig();
   const { pads } = useLayoutUi();
   const { orders, setOrdersFilter } = useOrders();
 
@@ -45,8 +45,8 @@ export const GenericSelectPage = () => {
   // ======================================================================== //
 
   const { filteredData, filters } = useFilters();
+  // log('__DEV - padsConfig', 'red', padsConfig);
   log('__DEV - filteredData', 'lime', filteredData);
-  log('__DEV - filters', 'orange', filters);
 
   // ======================================================================== //
 
@@ -61,6 +61,9 @@ export const GenericSelectPage = () => {
       //   : filteredData.find((o) => o.id === localFilters.id);
     }
 
+    log('__DEV - filters', 'orange', localFilter, filters);
+
+    /*
     log(
       '__DEV - filters ARR[]',
       'blue',
@@ -70,12 +73,17 @@ export const GenericSelectPage = () => {
       },
       filteredData,
     );
+    */
+
     // log('__DEV - localFilters.id', 'orange', localFilters.id);
     // log('__DEV - localFilters.id', 'orange', localFilters.id);
+    // log('__DEV - currentFilter', 'cyan', localFilter);
 
-    log('__DEV - currentFilter', 'cyan', localFilter);
+    const results = filteredData.filter(
+      (entry: DataEntry) => entry[padsConfig.filterKey as keyof DataEntry] === localFilter.name,
+    );
 
-    const results = filteredData.filter((entry: DataEntry) => entry);
+    log('__DEV - RESULTS', 'red', localFilter, results);
 
     if (results.length > 0) {
       for (const filterId of results) {
@@ -98,11 +106,11 @@ export const GenericSelectPage = () => {
   const padType: PadType = pads[0].type;
 
   // Debug current state
-  log('__DEV - Current State', 'grey', {
-    pads: pads.length,
-    orders: orders.length,
-    fieldKey,
-  });
+  // log('__DEV - Current State', 'grey', {
+  //   pads: pads.length,
+  //   orders: orders.length,
+  //   fieldKey,
+  // });
 
   return (
     <section css={stylesItemsGrid}>
