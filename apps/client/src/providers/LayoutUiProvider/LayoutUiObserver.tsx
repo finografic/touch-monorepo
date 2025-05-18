@@ -18,15 +18,6 @@ export const LayoutUiObserver = () => {
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
 
-  // ======================================================================== //
-
-  // const { filteredData, filters } = useFilters({});
-
-  // log('__DEV - FILTERS', 'cyan', filters);
-  // log('__DEV - FILTERED DATA', 'hotpink', filteredData);
-
-  // ======================================================================== //
-
   useEffect(
     function handleRouteChange() {
       if (!fieldKey) {
@@ -39,11 +30,11 @@ export const LayoutUiObserver = () => {
         isInitializedRef.current[fieldKey] = false;
 
         // Get unique filter values for the current fieldKey across all orders
-        const activeFilters = new Set( // TODO: REMOVE any
-          orders.map((order) => (order.filters[fieldKey] as any)?.name).filter(Boolean),
-        );
+        const activeFilters = [
+          ...new Set(orders.map((order) => (order.filters[fieldKey] as any)?.name).filter(Boolean)), // TODO: REMOVE any
+        ];
 
-        log('__DEV - FILTERS', 'cyan', activeFilters.entries());
+        log('__DEV - FILTERS', 'cyan', activeFilters);
         // log('__DEV - FILTERED DATA', 'hotpink', filteredData);
 
         // Initialize pads with CHECKED state (from orders filters)
@@ -51,17 +42,17 @@ export const LayoutUiObserver = () => {
           loaderData,
           {
             ...padsConfig,
-            initChecked: (pad: PadUI) => activeFilters.has(pad.value.name),
+            initChecked: (pad: PadUI) => activeFilters.includes(pad.value.name),
           },
           fieldKey,
         );
-        setUiFieldKey(fieldKey);
 
+        setUiFieldKey(fieldKey);
         isInitializedRef.current[fieldKey] = true;
         return;
       }
 
-      // Only clear pads if we don't have valid data
+      // NOTE: Only clear pads if we don't have valid data
       setUiPads([]);
       setUiNumPads(0);
     },

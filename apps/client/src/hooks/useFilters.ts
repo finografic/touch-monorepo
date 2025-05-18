@@ -6,14 +6,10 @@ import { api } from 'api';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
 import { useOrders } from 'providers/OrdersProvider';
 
-interface UseFiltersProps {
-  initialFilters?: OrderFilters;
-}
-
-export function useFilters({ initialFilters = {} }: UseFiltersProps) {
+export const useFilters = (initialFilters?: OrderFilters) => {
   const { orders } = useOrders();
   const [data, setData] = useState<DataEntry[]>([]);
-  const [filters, setFilters] = useState<OrderFilters>(initialFilters);
+  const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
 
   // Fetch all orders once at initialization
   useEffect(() => {
@@ -96,4 +92,4 @@ export function useFilters({ initialFilters = {} }: UseFiltersProps) {
     clearFilters,
     uniqueValues,
   };
-}
+};

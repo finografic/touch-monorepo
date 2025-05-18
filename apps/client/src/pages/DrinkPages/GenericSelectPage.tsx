@@ -44,7 +44,7 @@ export const GenericSelectPage = () => {
 
   // ======================================================================== //
 
-  const { filteredData, filters } = useFilters({});
+  const { filteredData, filters } = useFilters();
   log('__DEV - filteredData', 'lime', filteredData);
   log('__DEV - filters', 'orange', filters);
 
