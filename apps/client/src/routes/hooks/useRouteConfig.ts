@@ -1,20 +1,21 @@
 import type { UIMatch } from 'react-router-dom';
 import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
-import { OrderFieldKeys, PADS_UI_CONFIG } from 'src/config/app.config';
+import { OrderFieldKeys } from 'src/config/app.config';
+import { PADS_UI_CONFIG } from 'src/config/ui.config';
 import type { OrderFieldKey } from 'types/orders.types';
 import { hasOptionalProperties } from 'types/utilities/object.utils.types';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
-import type { PadsConfig } from 'types/ui.types';
+import type { PadConfig } from 'types/ui.types';
 
 // First define the required (non-undefined) version
 interface RequiredRouteConfig<T = DataEntry[]> {
   route: RouteConfig;
   fieldKey: OrderFieldKey;
   loaderData: T;
-  padsConfig: PadsConfig;
+  padsConfig: PadConfig;
 }
 
 // Then define the partial version separately (not derived from RequiredRouteConfig)
@@ -22,7 +23,7 @@ interface PartialRouteConfig<T = DataEntry[]> {
   route: RouteConfig | undefined;
   fieldKey: OrderFieldKey | undefined;
   loaderData: T | undefined;
-  padsConfig: PadsConfig | undefined;
+  padsConfig: PadConfig | undefined;
 }
 
 export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {

@@ -1,4 +1,4 @@
-import type { PadsConfig, PadType, PadUI } from 'types/ui.types';
+import type { PadConfig, PadType, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey /* , OrderFilters, OrderItem */ } from 'types/orders.types';
 import { PAD_TYPE } from 'types/ui.types';
@@ -29,7 +29,8 @@ export const initAllPadUI = ({
         const pad: PadUI = {
           index: i,
           id: ids[i],
-          label: labels[i],
+          key: ids[i],
+          label: ids[i],
           name,
           type,
           isChecked: false,
@@ -45,13 +46,13 @@ export const initAllPadUI = ({
 // -------------------------------------------------------------------------- //
 // NOTE: Parse loader data and config to initialize pad items
 
-export const parsePadsConfig = <T extends DataEntry>({
+export const parsePadConfig = <T extends DataEntry>({
   data = [],
   config,
   fieldKey,
 }: {
   data: T[];
-  config: PadsConfig<T>;
+  config: PadConfig<T>;
   fieldKey: OrderFieldKey;
 }): { pads: PadUI[]; numPads: number } => {
   const { maxPads, type, initChecked } = config;

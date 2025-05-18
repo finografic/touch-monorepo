@@ -1,9 +1,9 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
-import type { PadsConfig, PadType, PadUI } from 'types/ui.types';
+import type { PadConfig, PadType, PadUI } from 'types/ui.types';
 import { NUM_ITEMS_TYPE_B } from 'src/config/app.config';
-import { parsePadsConfig } from 'utils/ui.utils';
+import { parsePadConfig } from 'utils/ui.utils';
 import type { Dataset } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 
@@ -33,9 +33,9 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
       ...initialValue,
       actions: {
         ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
-        initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadsConfig, fieldKey: OrderFieldKey) => {
+        initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, fieldKey: OrderFieldKey) => {
           const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
-          const { pads, numPads } = parsePadsConfig({ data, config: padsConfig, fieldKey });
+          const { pads, numPads } = parsePadConfig({ data, config: padsConfig, fieldKey });
           set({ pads });
           set({ numPads });
         },

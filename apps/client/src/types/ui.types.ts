@@ -16,6 +16,7 @@ export const PAD_TYPE: ConstEnumOf<PadType> = {
 
 export interface PadUI {
   id: string;
+  key: string;
   index?: number;
   label: string;
   name: string;

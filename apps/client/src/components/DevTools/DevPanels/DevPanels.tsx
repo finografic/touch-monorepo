@@ -2,7 +2,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider';
 import { useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
-import { PADS_UI_CONFIG } from 'constants/app.config';
+import { PADS_UI_CONFIG } from 'constants/ui.config';
 import { JSONTree } from '../JSONTree/JSONTree';
 import { flattenOrders, transformPadData } from 'utils/data.utils';
 import { stylesLeft, stylesRight } from './DevPanels.styles';

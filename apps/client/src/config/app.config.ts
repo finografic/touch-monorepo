@@ -1,4 +1,3 @@
-import type { PadsConfig } from 'types/ui.types';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 
@@ -24,52 +23,3 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
   initialTemperature: 'initialTemperature',
   finalTemperature: 'finalTemperature',
 } as const;
-
-export const PADS_UI_CONFIG: Record<OrderFieldKey, PadsConfig> = {
-  [OrderFieldKeys.home]: {
-    maxPads: 2,
-    type: 'checkbox',
-    labelKey: 'name',
-    minRequired: 1,
-  },
-  [OrderFieldKeys.drinkType]: {
-    maxPads: 10,
-    type: 'radio',
-    labelKey: 'displayName',
-    valueKeys: ['id', 'hasSubtypes'],
-    minRequired: 1,
-  },
-  [OrderFieldKeys.drinkSubtype]: {
-    maxPads: 10,
-    type: 'radio',
-    labelKey: 'displayName',
-    valueKeys: ['id', 'name'],
-    minRequired: 1,
-  },
-  [OrderFieldKeys.drinkVolume]: {
-    maxPads: 10,
-    type: 'radio',
-    labelKey: 'name',
-    valueKeys: ['id', 'name'],
-    minRequired: 1,
-  },
-  [OrderFieldKeys.containerType]: {
-    maxPads: 10,
-    type: 'radio',
-    labelKey: 'displayName',
-    valueKeys: ['id', 'name'],
-    minRequired: 1,
-  },
-  [OrderFieldKeys.initialTemperature]: {
-    maxPads: 10,
-    type: 'radio',
-    labelKey: 'displayName',
-    valueKeys: ['id', 'name'],
-  },
-  [OrderFieldKeys.finalTemperature]: {
-    maxPads: 10,
-    type: 'radio',
-    labelKey: 'displayName',
-    valueKeys: ['id', 'name'],
-  },
-};
