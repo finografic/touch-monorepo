@@ -37,13 +37,13 @@ export const LayoutUiObserver = () => {
           {} as Record<string, string>,
         );
 
-        log('__DEV - ** FILTERS **', 'yellow', activeFilters);
-
-        const filteredEntries = [
+        const visiblePadNames = [
           ...new Set(filteredData.map((entry) => entry?.[filterKey as keyof DataEntry]).filter(Boolean)),
         ];
 
-        const filteredLoaderData = loaderData.filter((padData) => filteredEntries.includes(padData.name));
+        const filteredLoaderData = loaderData.filter((padData) => visiblePadNames.includes(padData.name));
+
+        log('__DEV - ** FILTERS **', 'yellow', visiblePadNames);
 
         // ======================================================================== //
 
