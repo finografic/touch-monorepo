@@ -62,7 +62,7 @@ export const INITIAL_PAD_CHECKBOX: PadUI = {
   id: '',
   key: '',
   label: '',
-  name: '',
+  name: '' as OrderFieldKey,
   type: 'checkbox',
   isChecked: false,
   value: {
@@ -77,7 +77,7 @@ export const INITIAL_PAD_RADIO: PadUI = {
   key: '',
   label: '',
   type: 'radio',
-  name: '',
+  name: '' as OrderFieldKey,
   isChecked: false,
   value: {
     name: '',

@@ -19,52 +19,31 @@ export const parsePadConfig = <T extends DataEntry>({
   const numPads = Math.min(data.length, config.maxPads);
   const slicedData = data.slice(0, numPads);
 
-  log('__VALUE', 'blue', config);
-
   const pads =
     numPads > 0
       ? Array.from({ length: numPads }, (_, i) => {
           const id = slicedData.map((item) => String(item.id ?? ''))[i] ?? '';
-          const name = slicedData.map((item) => String(item.name ?? ''))[i] ?? '';
+          // const name = slicedData.map((item) => String(item.name ?? ''))[i] ?? '';
           const label = labelKey ? slicedData.map((item) => String(item[labelKey] ?? ''))[i] : '';
-
-          // const value = slicedData.map((item) => String(item.name ?? ''))[i];
-          // const value = slicedData[i].map((item) => {
-          //   return {
-          //     nane: item.name ?? '',
-          //   };
-          // });
-
-          // const value = config.valueKeys?.map((valueKey: string) => {
-          //     return {
-          //       name,
-          //       id,
-          //       ...OrderFieldKeys(valueKey === 'hasSubt')
-          //       hasSubtypes: slicedData[i].hasSubtypes ?? false,
-          //     };
-          //   }) ?? {};
-
-          // const value = {} as { [K in keyof T]: T[K] };
-          const value = {} as { [K in keyof T]: T[K] };
-
-          // for (const valueKey of config.valueKeys as (keyof T)[]) {
-          for (const valueKey of config.valueKeys as (keyof T)[]) {
-            value[valueKey] = slicedData[i][valueKey] ?? '';
-          }
-          // const values =
-          //   config.valueKeys?.map((valueKey: keyof T) => {
-          //     return {
-          //       [valueKey]: slicedData[i][valueKey] ?? '',
-          //     };
-          //   }) ?? {};
-
-          // const value = Object.assign({}, ...config.valueKeys.map((valueKey: string) => {
-          //   return {
-          //     [valueKey]: slicedData[i][valueKey] ?? '',
-          //   };
-          // }));
-
           const initChecked = config.initChecked ?? (() => false);
+          const value: { [key: string]: string | number | boolean } = {};
+
+          for (const valueKey of config.valueKeys) {
+            const rawValue = slicedData[i][valueKey];
+            // Coerce the value to the expected type
+            if (
+              typeof rawValue === 'string' ||
+              typeof rawValue === 'number' ||
+              typeof rawValue === 'boolean'
+            ) {
+              value[valueKey as string] = rawValue;
+            } else if (rawValue === undefined || rawValue === null) {
+              value[valueKey as string] = '';
+            } else {
+              // For complex objects/arrays, convert to string
+              value[valueKey as string] = String(rawValue);
+            }
+          }
 
           const pad: PadUI = {
             index: i,
@@ -78,13 +57,7 @@ export const parsePadConfig = <T extends DataEntry>({
             metadata: slicedData[i],
           };
           pad.isChecked = initChecked(pad as PadUI);
-          /*
-          get isChecked(pad): boolean {
-              return initChecked(pad);
-            },
-          };
-          pad.isChecked = (): boolean => initChecked(pad as PadUI) as boolean;
-          */
+
           return pad;
         })
       : [];
