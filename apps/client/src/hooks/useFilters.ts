@@ -5,8 +5,10 @@ import { OrderFieldKeys } from '../config/app.config';
 import { api } from 'api';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
 import { useOrders } from 'providers/OrdersProvider';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 export const useFilters = (initialFilters?: OrderFilters) => {
+  const { fieldKey, padsConfig } = useRouteConfig();
   const { orders } = useOrders();
   const [data, setData] = useState<DataEntry[]>([]);
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
@@ -83,10 +85,13 @@ export const useFilters = (initialFilters?: OrderFilters) => {
     });
   }, []);
 
+  log('__DEV - load PAD', 'grey', padsConfig);
+
   return {
     data,
     filteredData,
     filters,
+    // filterKey,
     setFilter,
     clearFilter,
     clearFilters,

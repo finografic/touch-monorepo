@@ -7,6 +7,7 @@ import type { PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import type { OrderFilters } from 'types/orders.types';
+import { useFilters } from 'hooks/useFilters';
 // import { useFilters } from 'hooks/useFilters';
 
 export const LayoutUiObserver = () => {
@@ -18,6 +19,7 @@ export const LayoutUiObserver = () => {
 
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
+  const { filteredData, filters } = useFilters();
 
   useEffect(
     function handleRouteChange() {
@@ -60,9 +62,10 @@ export const LayoutUiObserver = () => {
 
         const activeFiltersV2 = orders.reduce(
           (acc, order) => {
-            Object.values(order.filters as OrderFilters).map((filter) => {
-              if (filter?.lookup) {
-                acc[filter.lookup] = filter.name;
+            Object.values(order.filters as OrderFilters).forEach((filterValue) => {
+              if (filterValue?.lookup) {
+                const [key, value] = Object.entries(filterValue.lookup)[0];
+                acc[key as string] = value as string;
               }
             });
             return acc;
@@ -70,7 +73,9 @@ export const LayoutUiObserver = () => {
           {} as Record<string, string>,
         );
 
-        log('__DEV - loaderData x FILTERS', 'cyan', activeFiltersV2);
+        log('__DEV - loaderData x FILTERS_V2', 'cyan', activeFiltersV2);
+
+        log('__DEV - loaderData RESULTS', 'blue', filteredData);
         // log('__DEV - FILTERED DATA', 'hotpink', filteredData);
 
         // ======================================================================== //

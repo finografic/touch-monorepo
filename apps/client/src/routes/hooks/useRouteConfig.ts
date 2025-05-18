@@ -80,6 +80,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
       return {
         route: result.route,
         fieldKey: result.fieldKey,
+        ...(result.padsConfig?.filterKey && { filterKey: result.padsConfig.filterKey }),
         loaderData: result.loaderData,
         padsConfig: result.padsConfig,
       } as RequiredRouteConfig<T>;
