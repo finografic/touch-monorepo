@@ -23,7 +23,6 @@ export const parsePadConfig = <T extends DataEntry>({
     numPads > 0
       ? Array.from({ length: numPads }, (_, i) => {
           const id = slicedData.map((item) => String(item.id ?? ''))[i] ?? '';
-          // const name = slicedData.map((item) => String(item.name ?? ''))[i] ?? '';
           const label = labelKey ? slicedData.map((item) => String(item[labelKey] ?? ''))[i] : '';
           const initChecked = config.initChecked ?? (() => false);
           const value: { [key: string]: string | number | boolean } = {};
@@ -49,7 +48,6 @@ export const parsePadConfig = <T extends DataEntry>({
             index: i,
             id,
             value,
-            // key: id,
             label,
             name: fieldKey,
             type: config.type,

@@ -23,7 +23,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
   [OrderFieldKeys.drinkSubtype]: {
     type: 'radio',
     labelKey: 'displayName',
-    valueKeys: ['id', 'name'],
+    valueKeys: ['name'],
     maxPads: 10,
     minRequired: 1,
   },

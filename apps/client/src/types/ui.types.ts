@@ -19,7 +19,7 @@ export interface PadUI {
   id: string;
   label: string;
   name: OrderFieldKey;
-  value: { [K in string]: string | number | boolean };
+  value: { [K in 'id' | 'name' | string]: string | number | boolean };
   index?: number;
   type: PadType;
   isChecked: boolean;
@@ -32,7 +32,7 @@ export interface PadUI {
 export interface PadConfigOptions<T extends DataEntry = DataEntry> {
   type: PadType;
   labelKey: keyof T;
-  valueKeys: (keyof T)[];
+  valueKeys: (keyof T & { id: string; name: string })[];
   minRequired: number;
   maxPads: number;
   initChecked?: (pad: PadUI) => boolean;
