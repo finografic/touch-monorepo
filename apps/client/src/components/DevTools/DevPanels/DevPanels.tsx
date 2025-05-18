@@ -6,9 +6,11 @@ import { PADS_UI_CONFIG } from 'constants/ui.config';
 import { JSONTree } from '../JSONTree/JSONTree';
 import { transformPadData } from 'utils/data.utils';
 import { stylesLeft, stylesRight } from './DevPanels.styles';
+import { useFilters } from 'hooks/useFilters';
 
 export const DevPanels = () => {
   const location = useLocation();
+  const { data, filteredData } = useFilters();
   const { fieldKey, loaderData } = useRouteConfig();
   const { numItems, pads: padsSource } = useLayoutUi();
   const { orders } = useOrders();
@@ -32,7 +34,9 @@ export const DevPanels = () => {
     orders: {
       ...(orders?.[0] || {}),
     },
-    ALL_PADS_UNFILTERED: loaderData?.map((padData) => padData.name),
+    DATA_TOTAL: data?.length,
+    DATA_FILTERED: filteredData?.length,
+    PADS_ALL: loaderData?.map((padData) => padData.name),
   };
 
   return (

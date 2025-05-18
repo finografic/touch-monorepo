@@ -38,7 +38,7 @@ export const LayoutUiObserver = () => {
 
         const filteredLoaderData = loaderData.filter((padData) => visiblePadNames.includes(padData.name));
 
-        log('__DEV - ** FILTERS **', 'cyan', serverFieldMap);
+        // log('__DEV - ** FILTERS **', 'cyan', serverFieldMap);
 
         // ======================================================================== //
 
