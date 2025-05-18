@@ -23,3 +23,14 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
   initialTemperature: 'initialTemperature',
   finalTemperature: 'finalTemperature',
 } as const;
+
+export const FilterKeys: { [K in `${Exclude<OrderFieldKey, 'home'>}Name`]: K } = {
+  drinkTypeName: 'drinkTypeName',
+  drinkSubtypeName: 'drinkSubtypeName',
+  drinkVolumeName: 'drinkVolumeName',
+  containerTypeName: 'containerTypeName',
+  initialTemperatureName: 'initialTemperatureName',
+  finalTemperatureName: 'finalTemperatureName',
+} as const;
+
+export type FilterKey = keyof typeof FilterKeys;

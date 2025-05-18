@@ -1,11 +1,7 @@
+import type { FilterKey } from 'constants/app.config';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { ConstEnumOf } from 'types/utilities/enum.utils.types';
-
-export interface OptionUI {
-  label: string;
-  value: string;
-}
 
 export type PadType = 'radio' | 'checkbox' | 'button';
 
@@ -30,6 +26,7 @@ export interface PadUI {
 
 // Base configuration type with all properties required
 export interface PadConfigOptions<T extends DataEntry = DataEntry> {
+  filterKey?: FilterKey;
   type: PadType;
   labelKey: keyof T;
   valueKeys: ['id', 'name', ...(keyof T)[]];

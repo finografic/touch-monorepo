@@ -1,4 +1,4 @@
-import { OrderFieldKeys } from 'constants/app.config';
+import { FilterKeys, OrderFieldKeys } from 'constants/app.config';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { PadConfig, PadUI } from 'types/ui.types';
@@ -14,6 +14,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     minRequired: 1,
   },
   [OrderFieldKeys.drinkType]: {
+    filterKey: FilterKeys.drinkTypeName,
     type: 'radio',
     labelKey: 'displayName',
     valueKeys: ['id', 'name', 'hasSubtypes'],
@@ -21,6 +22,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     minRequired: 1,
   },
   [OrderFieldKeys.drinkSubtype]: {
+    filterKey: FilterKeys.drinkSubtypeName,
     type: 'radio',
     labelKey: 'displayName',
     valueKeys: ['id', 'name'],
@@ -28,6 +30,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     minRequired: 1,
   },
   [OrderFieldKeys.drinkVolume]: {
+    filterKey: FilterKeys.drinkVolumeName,
     type: 'radio',
     labelKey: 'name',
     valueKeys: ['id', 'name'],
@@ -35,6 +38,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     minRequired: 1,
   },
   [OrderFieldKeys.containerType]: {
+    filterKey: FilterKeys.containerTypeName,
     type: 'radio',
     labelKey: 'displayName',
     valueKeys: ['id', 'name'],
@@ -42,6 +46,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     minRequired: 1,
   },
   [OrderFieldKeys.initialTemperature]: {
+    filterKey: FilterKeys.initialTemperatureName,
     type: 'radio',
     labelKey: 'displayName',
     valueKeys: ['id', 'name'],
@@ -49,6 +54,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     minRequired: 1,
   },
   [OrderFieldKeys.finalTemperature]: {
+    filterKey: FilterKeys.finalTemperatureName,
     type: 'radio',
     labelKey: 'displayName',
     valueKeys: ['id', 'name'],
