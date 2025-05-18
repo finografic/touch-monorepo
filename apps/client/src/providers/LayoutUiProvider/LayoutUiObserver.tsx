@@ -4,22 +4,19 @@ import { useRouteLoaderData } from 'react-router-dom';
 import type { DataEntry } from 'types/data.types';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { PadUI } from 'types/ui.types';
-import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import type { OrderFilters } from 'types/orders.types';
 import { useFilters } from 'hooks/useFilters';
-// import { useFilters } from 'hooks/useFilters';
 
 export const LayoutUiObserver = () => {
   const { fieldKey, filterKey, padsConfig } = useRouteConfig();
-  const { orders } = useOrders();
   const { setIsNextDisabled } = usePagination();
   const { pads } = useLayoutUi();
   const isInitializedRef = useRef<Record<string, boolean>>({});
 
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
-  const { filteredData, filters } = useFilters();
+  const { data, filteredData, filters } = useFilters();
 
   useEffect(
     function handleRouteChange() {
@@ -32,80 +29,21 @@ export const LayoutUiObserver = () => {
       if (loaderData && padsConfig) {
         isInitializedRef.current[fieldKey] = false;
 
-        log('__DEV - loaderData FULL', 'lime', loaderData);
-
-        /*
-        // Get unique filter values for the current fieldKey across all orders
-        const activeFilters = [
-          ...new Set(orders.map((order) => (order.filters[fieldKey] as any)?.name).filter(Boolean)), // TODO: REMOVE any
-        ];
-        */
-
         // ======================================================================== //
+        // NOTE: HANDLE FILTERS - FILTER VISIBLE PADS, DEPENDANT ON ACTIVE FILTERS
 
-        // Get unique filter values by combining all orders' filters into a single object
-        const activeFilters = orders.reduce(
-          (acc, order) => {
-            Object.entries(order.filters as OrderFilters).forEach(([filterKey, filterValue]) => {
-              if (filterValue?.name) {
-                acc[filterKey] = filterValue.name;
-              }
-            });
-            return acc;
-          },
+        const activeFilters = Object.entries(filters as OrderFilters).reduce(
+          (acc, [filterKey, filterValue]) => ({ ...acc, [filterKey]: filterValue.name }),
           {} as Record<string, string>,
         );
 
-        // log('__DEV - loaderData x FILTERS', 'cyan', activeFilters);
-
-        // ======================================================================== //
-
-        const activeFiltersV2 = orders.reduce(
-          (acc, order) => {
-            Object.values(order.filters as OrderFilters).forEach((filterValue) => {
-              if (filterValue?.lookup) {
-                const [key, value] = Object.entries(filterValue.lookup)[0];
-                acc[key as string] = value as string;
-              }
-            });
-            return acc;
-          },
-          {} as Record<string, string>,
-        );
-
-        log('__DEV - loaderData x FILTERS_V2', 'cyan', activeFiltersV2);
-
-        // log('__DEV - FILTERED DATA', 'hotpink', filteredData);
-
-        // log('__DEV - XXX', 'blue', filterKey, filters);
-        // log('__DEV - XXX', 'blue', filterKey, filters, loaderData);
-
-        // Get unique filter values for the current fieldKey across all orders
-        // const filterValues = [
-        //   ...new Set(loaderData.map((padData) => (padData[filterKey] as any)?.name).filter(Boolean)), // TODO: REMOVE any
-        // ];
+        log('__DEV - ** FILTERS **', 'yellow', activeFilters);
 
         const filteredEntries = [
-          ...new Set(filteredData.map((orderEntry) => orderEntry?.[filterKey]).filter(Boolean)),
+          ...new Set(filteredData.map((entry) => entry?.[filterKey as keyof DataEntry]).filter(Boolean)),
         ];
 
-        log('__DEV - Z-1', 'blue', filteredData, filteredEntries);
-
-        log('__DEV - Z-2', 'grey', { filterKey }, filteredData.length, filteredEntries.length);
-
         const filteredLoaderData = loaderData.filter((padData) => filteredEntries.includes(padData.name));
-
-        // log('__DEV - loaderData RESULTS', 'blue', filterKey, filteredEntries, filteredData);
-        // log('__DEV - XXX', 'blue', { loaderData: loaderData.length }, loaderData, filteredEntries);
-        // log('__DEV - XXX', 'blue', filteredLoaderData);
-
-        // const filtered
-
-        // loaderData.map((padData) => {
-        //   const TEST = (padData[filterKey] as any)?.name;
-        //   log('__DEV - XXX', 'blue', padData, filterKey, TEST);
-        //   return TEST;
-        // });
 
         // ======================================================================== //
 

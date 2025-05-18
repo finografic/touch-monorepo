@@ -9,7 +9,7 @@ import { stylesLeft, stylesRight } from './DevPanels.styles';
 
 export const DevPanels = () => {
   const location = useLocation();
-  const { fieldKey } = useRouteConfig();
+  const { fieldKey, loaderData } = useRouteConfig();
   const { numItems, pads: padsSource } = useLayoutUi();
   const { orders } = useOrders();
 
@@ -32,6 +32,7 @@ export const DevPanels = () => {
     orders: {
       ...(orders?.[0] || {}),
     },
+    UNFILTERED: loaderData?.map((padData) => padData.name),
   };
 
   return (

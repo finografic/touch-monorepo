@@ -2,6 +2,7 @@ import type { UIMatch } from 'react-router-dom';
 import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
 import { OrderFieldKeys } from 'src/config/app.config';
+import type { FilterKey } from 'src/config/app.config';
 import { PADS_UI_CONFIG } from 'src/config/ui.config';
 import type { OrderFieldKey } from 'types/orders.types';
 import { hasOptionalProperties } from 'types/utilities/object.utils.types';
@@ -14,6 +15,7 @@ import type { PadConfig } from 'types/ui.types';
 interface RequiredRouteConfig<T = DataEntry[]> {
   route: RouteConfig;
   fieldKey: OrderFieldKey;
+  filterKey: FilterKey | undefined;
   loaderData: T;
   padsConfig: PadConfig;
 }
@@ -80,7 +82,8 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
       return {
         route: result.route,
         fieldKey: result.fieldKey,
-        ...(result.padsConfig?.filterKey && { filterKey: result.padsConfig.filterKey }),
+        filterKey: result.padsConfig?.filterKey,
+        // ...(result.padsConfig?.filterKey && { filterKey: result.padsConfig.filterKey }),
         loaderData: result.loaderData,
         padsConfig: result.padsConfig,
       } as RequiredRouteConfig<T>;
