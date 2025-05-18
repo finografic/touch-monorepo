@@ -30,7 +30,9 @@ export interface PadUI {
   value: {
     // [K in 'name' | 'id' | 'hasSubtypes']: DataEntry[K];
     // [K in 'name' | 'id']: DataEntry[K];
-    [K in string]: DataEntry;
+    // [K in string]: DataEntry;
+    // [K in string]: DataEntry[K];
+    [K in string]: string | number | boolean;
   };
 }
 

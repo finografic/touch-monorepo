@@ -44,10 +44,12 @@ export const parsePadConfig = <T extends DataEntry>({
           //     };
           //   }) ?? {};
 
-          const value = {} as PadUI['value'];
+          // const value = {} as { [K in keyof T]: T[K] };
+          const value = {} as any;
 
+          // for (const valueKey of config.valueKeys as (keyof T)[]) {
           for (const valueKey of config.valueKeys as (keyof T)[]) {
-            value[valueKey] = slicedData[i][valueKey] ?? ('' as DataEntry[keyof DataEntry]);
+            value[valueKey] = slicedData[i][valueKey] ?? '';
           }
           // const values =
           //   config.valueKeys?.map((valueKey: keyof T) => {
