@@ -32,13 +32,13 @@ export interface PadUI {
 export interface PadConfigOptions<T extends DataEntry = DataEntry> {
   type: PadType;
   labelKey: keyof T;
-  valueKeys: (keyof T & { id: string; name: string })[];
+  valueKeys: (keyof T)[] & ['id', 'name'];
   minRequired: number;
   maxPads: number;
   initChecked?: (pad: PadUI) => boolean;
 }
 
-// // Fully optional configuration
+// Fully optional configuration
 // export type PartialPadConfig<T extends DataEntry = DataEntry> = Partial<PadConfigOptions<T>>;
 
 // Mixed configuration with some required and some optional properties
