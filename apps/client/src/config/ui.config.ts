@@ -60,27 +60,25 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
 export const INITIAL_PAD_CHECKBOX: PadUI = {
   index: 0,
   id: '',
-  key: '',
   label: '',
   name: '' as OrderFieldKey,
-  type: 'checkbox',
-  isChecked: false,
   value: {
     name: '',
     id: '',
   },
+  type: 'checkbox',
+  isChecked: false,
 };
 
 export const INITIAL_PAD_RADIO: PadUI = {
   index: 0,
   id: '',
-  key: '',
   label: '',
-  type: 'radio',
   name: '' as OrderFieldKey,
-  isChecked: false,
   value: {
     name: '',
     id: '',
   },
+  type: 'radio',
+  isChecked: false,
 };

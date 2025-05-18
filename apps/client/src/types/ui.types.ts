@@ -17,23 +17,15 @@ export const PAD_TYPE: ConstEnumOf<PadType> = {
 
 export interface PadUI {
   id: string;
-  key: string;
-  // value: string;
   label: string;
-  index?: number;
   name: OrderFieldKey;
+  value: { [K in string]: string | number | boolean };
+  index?: number;
   type: PadType;
   isChecked: boolean;
+  metadata?: DataEntry;
   disabled?: boolean;
   className?: string;
-  metadata?: DataEntry;
-  value: {
-    // [K in 'name' | 'id' | 'hasSubtypes']: DataEntry[K];
-    // [K in 'name' | 'id']: DataEntry[K];
-    // [K in string]: DataEntry;
-    // [K in string]: DataEntry[K];
-    [K in string]: string | number | boolean;
-  };
 }
 
 // Base configuration type with all properties required

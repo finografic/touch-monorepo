@@ -49,7 +49,7 @@ export const parsePadConfig = <T extends DataEntry>({
             index: i,
             id,
             value,
-            key: id,
+            // key: id,
             label,
             name: fieldKey,
             type: config.type,
