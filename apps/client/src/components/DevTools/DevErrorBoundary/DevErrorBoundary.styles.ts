@@ -17,7 +17,7 @@ export const styles = css`
   z-index: 9999;
 
   h2 {
-    color: ${colors.error};
+    color: ${colors.danger};
     margin-bottom: 1rem;
   }
 

@@ -30,7 +30,7 @@ export interface PadUI {
 }
 
 // Base configuration type with all properties required
-export interface PadsConfigOptions<T extends DataEntry = DataEntry> {
+export interface PadConfigOptions<T extends DataEntry = DataEntry> {
   type: PadType;
   maxPads: number;
   minRequired: number;
@@ -40,13 +40,13 @@ export interface PadsConfigOptions<T extends DataEntry = DataEntry> {
 }
 
 // Fully optional configuration
-export type PartialPadsConfig<T extends DataEntry = DataEntry> = Partial<PadsConfigOptions<T>>;
+export type PartialPadConfig<T extends DataEntry = DataEntry> = Partial<PadConfigOptions<T>>;
 
 // Mixed configuration with some required and some optional properties
-export type MixedPadsConfig<T extends DataEntry = DataEntry> = Required<
-  Pick<PadsConfigOptions<T>, 'maxPads' | 'type'>
+export type MixedPadConfig<T extends DataEntry = DataEntry> = Required<
+  Pick<PadConfigOptions<T>, 'maxPads' | 'type'>
 > &
-  Partial<Omit<PadsConfigOptions<T>, 'maxPads' | 'type'>>;
+  Partial<Omit<PadConfigOptions<T>, 'maxPads' | 'type'>>;
 
-// Default export type - choose which variation you want to use as the main PadsConfig
-export type PadsConfig<T extends DataEntry = DataEntry> = MixedPadsConfig<T>;
+// Default export type - choose which variation you want to use as the main PadConfig
+export type PadConfig<T extends DataEntry = DataEntry> = MixedPadConfig<T>;

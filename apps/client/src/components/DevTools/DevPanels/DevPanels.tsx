@@ -5,9 +5,9 @@ import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { PADS_UI_CONFIG } from 'constants/app.config';
 import { JSONTree } from '../JSONTree/JSONTree';
 import { flattenOrders, transformPadData } from 'utils/data.utils';
-import { stylesLeft, stylesRight } from './DevPanel.styles';
+import { stylesLeft, stylesRight } from './DevPanels.styles';
 
-export const DevPanel = () => {
+export const DevPanels = () => {
   const location = useLocation();
   const { fieldKey } = useRouteConfig();
   const { numItems, pads: padsSource } = useLayoutUi();
@@ -36,10 +36,10 @@ export const DevPanel = () => {
 
   return (
     <>
-      {/* <aside id="dev-data-left" css={stylesLeft}>
-        <JSONTree data={devDataLeft} />
+      <aside id="dev-data-left" css={stylesLeft}>
+        {/* <JSONTree data={devDataLeft} /> */}
         <pre>{JSON.stringify(devDataLeft, null, 2)}</pre>
-      </aside> */}
+      </aside>
       <aside id="dev-data-right" css={stylesRight}>
         <JSONTree data={devDataRight} />
       </aside>
