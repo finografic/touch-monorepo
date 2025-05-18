@@ -30,16 +30,14 @@ export const transformPadData = (pads: PadUI[]): TransformedPad[] => {
 
     return {
       id: pad.id,
-      value: pad.value,
       label: pad.label,
       name: pad.name,
+      value: pad.value,
       type: pad.type,
       isChecked: pad.isChecked,
       metadata: {
         ...metadata,
       },
-      // hasSubtypes: !!metadata?.hasSubtypes,
-      // ...('hasSubtypes' in metadata && { hasSubtypes: !!metadata?.hasSubtypes }),
     };
   });
 };
