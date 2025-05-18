@@ -45,7 +45,7 @@ export const parsePadConfig = <T extends DataEntry>({
           //   }) ?? {};
 
           // const value = {} as { [K in keyof T]: T[K] };
-          const value = {} as any;
+          const value = {} as { [K in keyof T]: T[K] };
 
           // for (const valueKey of config.valueKeys as (keyof T)[]) {
           for (const valueKey of config.valueKeys as (keyof T)[]) {

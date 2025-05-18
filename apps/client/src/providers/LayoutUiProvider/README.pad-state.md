@@ -91,7 +91,7 @@ interface PadUI {
 
 ```typescript
 // Proper pad initialization
-const { pads, numPads } = parsePadsConfig({
+const { pads, numPads } = parsePadConfig({
   data,
   config: padsConfig,
   fieldKey  // Important for proper pad identification
