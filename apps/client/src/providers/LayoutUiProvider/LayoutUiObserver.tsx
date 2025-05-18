@@ -11,7 +11,7 @@ import { useFilters } from 'hooks/useFilters';
 // import { useFilters } from 'hooks/useFilters';
 
 export const LayoutUiObserver = () => {
-  const { fieldKey, padsConfig } = useRouteConfig();
+  const { fieldKey, filterKey, padsConfig } = useRouteConfig();
   const { orders } = useOrders();
   const { setIsNextDisabled } = usePagination();
   const { pads } = useLayoutUi();
@@ -75,14 +75,39 @@ export const LayoutUiObserver = () => {
 
         log('__DEV - loaderData x FILTERS_V2', 'cyan', activeFiltersV2);
 
-        log('__DEV - loaderData RESULTS', 'blue', filteredData);
         // log('__DEV - FILTERED DATA', 'hotpink', filteredData);
+
+        // log('__DEV - XXX', 'blue', filterKey, filters);
+        // log('__DEV - XXX', 'blue', filterKey, filters, loaderData);
+
+        // Get unique filter values for the current fieldKey across all orders
+        // const filterValues = [
+        //   ...new Set(loaderData.map((padData) => (padData[filterKey] as any)?.name).filter(Boolean)), // TODO: REMOVE any
+        // ];
+
+        const filteredEntries = [
+          ...new Set(filteredData.map((orderEntry) => orderEntry[filterKey]).filter(Boolean)),
+        ];
+
+        const filteredLoaderData = loaderData.filter((padData) => filteredEntries.includes(padData.name));
+
+        log('__DEV - loaderData RESULTS', 'blue', filterKey, filteredEntries, filteredData);
+        // log('__DEV - XXX', 'blue', { loaderData: loaderData.length }, loaderData, filteredEntries);
+        log('__DEV - XXX', 'blue', filteredLoaderData);
+
+        // const filtered
+
+        // loaderData.map((padData) => {
+        //   const TEST = (padData[filterKey] as any)?.name;
+        //   log('__DEV - XXX', 'blue', padData, filterKey, TEST);
+        //   return TEST;
+        // });
 
         // ======================================================================== //
 
         // Initialize pads with CHECKED state (from orders filters)
         initPadsFromLoaderData(
-          loaderData,
+          filteredLoaderData,
           {
             ...padsConfig,
             initChecked: (pad: PadUI) => {
