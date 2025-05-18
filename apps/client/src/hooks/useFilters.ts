@@ -7,6 +7,16 @@ import type { ApiResponse } from '@workspace/shared/types/api.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
+// Order of filter application - used to determine which filters to apply at each step
+const FILTER_ORDER: OrderFieldKey[] = [
+  OrderFieldKeys.drinkType,
+  OrderFieldKeys.drinkSubtype,
+  OrderFieldKeys.drinkVolume,
+  OrderFieldKeys.containerType,
+  OrderFieldKeys.initialTemperature,
+  OrderFieldKeys.finalTemperature,
+];
+
 export const useFilters = (initialFilters?: OrderFilters) => {
   const { fieldKey, padsConfig } = useRouteConfig();
   const { orders } = useOrders();
@@ -46,10 +56,22 @@ export const useFilters = (initialFilters?: OrderFilters) => {
     return values;
   }, [data]);
 
-  // Client-side filtering
+  // Client-side filtering - only apply filters up to current step
   const filteredData = useMemo(() => {
+    if (!fieldKey) return data;
+
+    // Find the index of the current field in the filter order
+    const currentStepIndex = FILTER_ORDER.indexOf(fieldKey);
+    if (currentStepIndex === -1) return data;
+
+    // Get only the filters up to the current step
+    const applicableFilters = Object.entries(filters).filter(([key]) => {
+      const filterIndex = FILTER_ORDER.indexOf(key as OrderFieldKey);
+      return filterIndex !== -1 && filterIndex < currentStepIndex;
+    });
+
     return data.filter((entry) => {
-      return Object.entries(filters).every(([key, value]) => {
+      return applicableFilters.every(([key, value]) => {
         if (!value) return true; // If filter is empty, do not restrict
         switch (key as OrderFieldKey) {
           case OrderFieldKeys.drinkType:
@@ -60,12 +82,16 @@ export const useFilters = (initialFilters?: OrderFilters) => {
             return entry.volumeName === value.name;
           case OrderFieldKeys.containerType:
             return entry.containerTypeName === value.name;
+          case OrderFieldKeys.initialTemperature:
+            return entry.initialTemperatureName === value.name;
+          case OrderFieldKeys.finalTemperature:
+            return entry.finalTemperatureName === value.name;
           default:
             return true;
         }
       });
     });
-  }, [data, filters]);
+  }, [data, filters, fieldKey]);
 
   // Handle filter change
   const setFilter = useCallback((key: OrderFieldKey, value: any) => {
