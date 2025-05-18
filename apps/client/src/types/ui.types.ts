@@ -32,7 +32,7 @@ export interface PadUI {
 export interface PadConfigOptions<T extends DataEntry = DataEntry> {
   type: PadType;
   labelKey: keyof T;
-  valueKeys: (keyof T)[] & ['id', 'name'];
+  valueKeys: ['id', 'name', ...(keyof T)[]];
   minRequired: number;
   maxPads: number;
   initChecked?: (pad: PadUI) => boolean;

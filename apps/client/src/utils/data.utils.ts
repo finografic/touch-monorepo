@@ -35,9 +35,9 @@ export const transformPadData = (pads: PadUI[]): TransformedPad[] => {
       value: pad.value,
       type: pad.type,
       isChecked: pad.isChecked,
-      metadata: {
-        ...metadata,
-      },
+      // metadata: {
+      //   ...metadata,
+      // },
     };
   });
 };
