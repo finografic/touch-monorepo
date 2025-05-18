@@ -47,7 +47,7 @@ export const useFilters = (initialFilters?: OrderFilters) => {
   }, [data]);
 
   // Client-side filtering
-  const filteredData = useMemo(() => {
+  const dataFiltered = useMemo(() => {
     return data.filter((entry) => {
       return Object.entries(filters).every(([key, value]) => {
         if (!value) return true; // If filter is empty, do not restrict
@@ -89,7 +89,7 @@ export const useFilters = (initialFilters?: OrderFilters) => {
 
   return {
     data,
-    filteredData,
+    dataFiltered,
     filters,
     // filterKey,
     setFilter,

@@ -15,7 +15,7 @@ import type { PadConfig } from 'types/ui.types';
 interface RequiredRouteConfig<T = DataEntry[]> {
   route: RouteConfig;
   fieldKey: OrderFieldKey;
-  filterKey: FilterKey | undefined;
+  filterKey: FilterKey;
   loaderData: T;
   padsConfig: PadConfig;
 }
@@ -24,6 +24,7 @@ interface RequiredRouteConfig<T = DataEntry[]> {
 interface PartialRouteConfig<T = DataEntry[]> {
   route: RouteConfig | undefined;
   fieldKey: OrderFieldKey | undefined;
+  filterKey: FilterKey | undefined;
   loaderData: T | undefined;
   padsConfig: PadConfig | undefined;
 }
@@ -74,9 +75,6 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   const padsConfig = PADS_UI_CONFIG[fieldKey];
   const loaderData = useRouteLoaderData(fieldKey || 'root') as T | undefined;
   const result = { ...routeConfig, loaderData, fieldKey, padsConfig } as PartialRouteConfig<T>;
-
-  log('__DEV - ** FILTERS **', 'orange', result.padsConfig?.filterKey);
-
   // Check if we have all required fields
   if (!hasOptionalProperties(result as unknown as Record<keyof PartialRouteConfig<T>, unknown>)) {
     // Only return RequiredRouteConfig if we also have loaderData
@@ -85,7 +83,6 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
         route: result.route,
         fieldKey: result.fieldKey,
         filterKey: result.padsConfig?.filterKey,
-        // ...(result.padsConfig?.filterKey && { filterKey: result.padsConfig.filterKey }),
         loaderData: result.loaderData,
         padsConfig: result.padsConfig,
       } as RequiredRouteConfig<T>;

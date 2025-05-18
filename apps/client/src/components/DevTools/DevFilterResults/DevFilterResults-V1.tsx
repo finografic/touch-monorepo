@@ -18,7 +18,7 @@ export const DevFilterResults = () => {
   }, []);
 
   // Compute filtered data
-  const filteredData = useMemo(() => {
+  const dataFiltered = useMemo(() => {
     return data.filter((entry) => {
       return Object.entries(filters).every(([key, value]) => {
         if (!value) return true; // If filter is empty, do not restrict
@@ -94,9 +94,9 @@ export const DevFilterResults = () => {
       </Row>
       <Row>
         <Col xs={12} className="results-list">
-          <h4>Results: {filteredData.length}</h4>
+          <h4>Results: {dataFiltered.length}</h4>
           <pre>
-            {filteredData.map((item: any) => (
+            {dataFiltered.map((item: any) => (
               <Row key={item.id}>
                 <Col xs={3}>
                   <strong>{item.drinkTypeName}</strong>

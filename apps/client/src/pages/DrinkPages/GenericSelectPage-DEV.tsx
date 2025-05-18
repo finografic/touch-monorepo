@@ -45,9 +45,9 @@ export const GenericSelectPage = () => {
 
   // ======================================================================== //
 
-  const { filteredData, filters } = useFilters();
+  const { dataFiltered, filters } = useFilters();
   // log('__DEV - padsConfig', 'red', padsConfig);
-  log('__DEV - filteredData', 'lime', filteredData);
+  log('__DEV - dataFiltered', 'lime', dataFiltered);
 
   // ======================================================================== //
 
@@ -55,11 +55,11 @@ export const GenericSelectPage = () => {
     const localFilter = filters[fieldKey] as { name: string; id: string; hasSubtypes: boolean };
 
     if (localFilter) {
-      // const filteredPads = filteredData.filter((o) => fieldKey in o);
-      // const filteredPads = filteredData.filter((o) => Boolean('id' in o?.[fieldKey]));
+      // const filteredPads = dataFiltered.filter((o) => fieldKey in o);
+      // const filteredPads = dataFiltered.filter((o) => Boolean('id' in o?.[fieldKey]));
       // const filteredPads = filterKeys.includes(fieldKey)
       //   ? filters[fieldKey]
-      //   : filteredData.find((o) => o.id === localFilters.id);
+      //   : dataFiltered.find((o) => o.id === localFilters.id);
     }
 
     log('__DEV - filters', 'orange', localFilter, filters);
@@ -69,10 +69,10 @@ export const GenericSelectPage = () => {
       '__DEV - filters ARR[]',
       'blue',
       {
-        filteredData: filteredData.length,
+        dataFiltered: dataFiltered.length,
         // filteredPads: filteredPads?.length,
       },
-      filteredData,
+      dataFiltered,
     );
     */
 
@@ -80,7 +80,7 @@ export const GenericSelectPage = () => {
     // log('__DEV - localFilters.id', 'orange', localFilters.id);
     // log('__DEV - currentFilter', 'cyan', localFilter);
 
-    const results = filteredData.filter(
+    const results = dataFiltered.filter(
       (entry: DataEntry) => entry[padsConfig.filterKey as keyof DataEntry] === localFilter.name,
     );
 
@@ -95,7 +95,7 @@ export const GenericSelectPage = () => {
     // .includes(localFilters.id);
     // log('__DEV - filter.id', 'red', hasPads);
 
-    // filteredData.forEach((filter: DataEntry) => {
+    // dataFiltered.forEach((filter: DataEntry) => {
     //   log('__DEV - filter.id', 'red', filter.id);
     // });
   }

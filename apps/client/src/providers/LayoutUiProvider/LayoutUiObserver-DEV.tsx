@@ -19,7 +19,7 @@ export const LayoutUiObserver = () => {
 
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
-  const { filteredData, filters } = useFilters();
+  const { dataFiltered, filters } = useFilters();
 
   useEffect(
     function handleRouteChange() {
@@ -75,7 +75,7 @@ export const LayoutUiObserver = () => {
 
         log('__DEV - loaderData x FILTERS_V2', 'cyan', activeFiltersV2);
 
-        // log('__DEV - FILTERED DATA', 'hotpink', filteredData);
+        // log('__DEV - FILTERED DATA', 'hotpink', dataFiltered);
 
         // log('__DEV - XXX', 'blue', filterKey, filters);
         // log('__DEV - XXX', 'blue', filterKey, filters, loaderData);
@@ -86,16 +86,16 @@ export const LayoutUiObserver = () => {
         // ];
 
         const filteredEntries = [
-          ...new Set(filteredData.map((orderEntry) => orderEntry?.[filterKey]).filter(Boolean)),
+          ...new Set(dataFiltered.map((orderEntry) => orderEntry?.[filterKey]).filter(Boolean)),
         ];
 
-        log('__DEV - Z-1', 'blue', filteredData, filteredEntries);
+        log('__DEV - Z-1', 'blue', dataFiltered, filteredEntries);
 
-        log('__DEV - Z-2', 'grey', { filterKey }, filteredData.length, filteredEntries.length);
+        log('__DEV - Z-2', 'grey', { filterKey }, dataFiltered.length, filteredEntries.length);
 
         const filteredLoaderData = loaderData.filter((padData) => filteredEntries.includes(padData.name));
 
-        // log('__DEV - loaderData RESULTS', 'blue', filterKey, filteredEntries, filteredData);
+        // log('__DEV - loaderData RESULTS', 'blue', filterKey, filteredEntries, dataFiltered);
         // log('__DEV - XXX', 'blue', { loaderData: loaderData.length }, loaderData, filteredEntries);
         // log('__DEV - XXX', 'blue', filteredLoaderData);
 

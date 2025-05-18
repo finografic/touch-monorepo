@@ -10,7 +10,7 @@ import { useFilters } from 'hooks/useFilters';
 
 export const DevPanels = () => {
   const location = useLocation();
-  const { data, filteredData } = useFilters();
+  const { data, dataFiltered } = useFilters();
   const { fieldKey, loaderData } = useRouteConfig();
   const { numItems, pads: padsSource } = useLayoutUi();
   const { orders } = useOrders();
@@ -35,7 +35,7 @@ export const DevPanels = () => {
       ...(orders?.[0] || {}),
     },
     DATA_TOTAL: data?.length,
-    DATA_FILTERED: filteredData?.length,
+    DATA_FILTERED: dataFiltered?.length,
     PADS_ALL: loaderData?.map((padData) => padData.name),
   };
 

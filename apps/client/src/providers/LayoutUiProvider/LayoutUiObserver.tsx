@@ -16,7 +16,7 @@ export const LayoutUiObserver = () => {
 
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
-  const { filteredData, filters, serverFieldMap } = useFilters();
+  const { dataFiltered, filters, serverFieldMap } = useFilters();
 
   useEffect(
     function handleRouteChange() {
@@ -33,7 +33,7 @@ export const LayoutUiObserver = () => {
         // NOTE: HANDLE FILTERS - FILTER VISIBLE PADS, DEPENDANT ON ACTIVE FILTERS
 
         const visiblePadNames = [
-          ...new Set(filteredData.map((entry) => entry?.[filterKey as keyof DataEntry]).filter(Boolean)),
+          ...new Set(dataFiltered.map((entry) => entry?.[filterKey as keyof DataEntry]).filter(Boolean)),
         ];
 
         const filteredLoaderData = loaderData.filter((padData) => visiblePadNames.includes(padData.name));

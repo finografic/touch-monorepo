@@ -57,7 +57,7 @@ export const useFilters = (initialFilters?: OrderFilters) => {
   }, [data]);
 
   // Client-side filtering - only apply filters up to current step
-  const filteredData = useMemo(() => {
+  const dataFiltered = useMemo(() => {
     if (!fieldKey) return data;
 
     // Find the index of the current field in the filter order
@@ -124,7 +124,7 @@ export const useFilters = (initialFilters?: OrderFilters) => {
 
   return {
     data,
-    filteredData,
+    dataFiltered,
     filters,
     serverFieldMap,
     setFilter,
