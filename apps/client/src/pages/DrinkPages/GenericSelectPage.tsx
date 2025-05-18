@@ -61,10 +61,15 @@ export const GenericSelectPage = () => {
       //   : filteredData.find((o) => o.id === localFilters.id);
     }
 
-    log('__DEV - filters ARR[]', 'blue', {
-      filteredData: filteredData.length,
-      // filteredPads: filteredPads?.length,
-    });
+    log(
+      '__DEV - filters ARR[]',
+      'blue',
+      {
+        filteredData: filteredData.length,
+        // filteredPads: filteredPads?.length,
+      },
+      filteredData,
+    );
     // log('__DEV - localFilters.id', 'orange', localFilters.id);
     // log('__DEV - localFilters.id', 'orange', localFilters.id);
 
