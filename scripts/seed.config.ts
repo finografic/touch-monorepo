@@ -3,6 +3,10 @@ import type { SeedConfig } from './src/db-setup';
 
 export const seedOrder: SeedConfig[] = [
   {
+    name: 'temperature_profiles',
+    description: 'Temperature-time profiles for orders',
+  },
+  {
     name: 'orders',
     description: 'Example orders',
     // dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types'],
