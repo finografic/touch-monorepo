@@ -14,6 +14,22 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { Box, Flex } from '@radix-ui/themes';
 import { styles } from './content.styles';
 
+// ======================================================================== //
+// NOTE:  HOW TEMPERATURE WORKS:
+/*
+Initial
+def: 25
+min 0
+max 40 (temp db)
+
+Final
+def: (consumo db)
+min: (cong db)
+max: INITIAL TEMPERATURE VALUE
+*/
+
+// ======================================================================== //
+
 const DEFAULT_INITIAL_TEMP = 23.5;
 // Safe default limits that match most drink types
 const DEFAULT_MIN_TEMP = 2;

@@ -1,6 +1,8 @@
 import { db } from '../db.adapter';
 import { cooling_profiles, temperature_profiles } from '../schemas';
-import { randomUUID } from 'node:crypto';
+
+// Define the type for our temperature profile rows
+type TemperatureProfileRow = typeof temperature_profiles.$inferInsert;
 
 export async function seed() {
   console.log('Seeding temperature_profiles...');
@@ -38,13 +40,17 @@ export async function seed() {
     const mediumTimes = generateTimeValues(8); // Medium cooling
     const fastTimes = generateTimeValues(5); // Fast cooling
 
-    const rows = [];
-    for (let i = 0; i < temperatures.length; i++) {
+    const rows: TemperatureProfileRow[] = [];
+    temperatures.forEach((temp, i) => {
+      // Create ordered IDs based on temperature and profile
+      // This ensures consistent ordering by temperature
+      const tempPadded = (temp >= 0 ? '+' : '-') + Math.abs(temp).toString().padStart(2, '0');
+
       // Slow profile points
       rows.push({
-        id: randomUUID(),
+        id: `temp_${tempPadded}_slow`,
         coolingProfileId: slowProfile.id,
-        temperature: temperatures[i],
+        temperature: temp,
         timeA: slowTimes[i],
         timeB: slowTimes[i],
         timeC: slowTimes[i],
@@ -52,9 +58,9 @@ export async function seed() {
 
       // Medium profile points
       rows.push({
-        id: randomUUID(),
+        id: `temp_${tempPadded}_med`,
         coolingProfileId: mediumProfile.id,
-        temperature: temperatures[i],
+        temperature: temp,
         timeA: mediumTimes[i],
         timeB: mediumTimes[i],
         timeC: mediumTimes[i],
@@ -62,14 +68,14 @@ export async function seed() {
 
       // Fast profile points
       rows.push({
-        id: randomUUID(),
+        id: `temp_${tempPadded}_fast`,
         coolingProfileId: fastProfile.id,
-        temperature: temperatures[i],
+        temperature: temp,
         timeA: fastTimes[i],
         timeB: fastTimes[i],
         timeC: fastTimes[i],
       });
-    }
+    });
 
     await db.insert(temperature_profiles).values(rows);
     console.log('✅ Inserted temperature profiles!');
