@@ -14,11 +14,9 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
       id: true,
       drinkTypeName: true,
       drinkSubtypeName: true,
-      volumeName: true,
       containerTypeName: true,
-      tableA: true,
-      tableB: true,
-      tableC: true,
+      volumeName: true,
+      temperatureProfileId: true,
     },
   });
   return context.json(drinkOrders);

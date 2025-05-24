@@ -59,6 +59,12 @@ CREATE TABLE `container_types` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `container_types_name_unique` ON `container_types` (`name`);--> statement-breakpoint
+CREATE TABLE `cooling_profiles` (
+	`id` text PRIMARY KEY NOT NULL,
+	`name` text NOT NULL,
+	`description` text
+);
+--> statement-breakpoint
 CREATE TABLE `drink_configs` (
 	`id` text PRIMARY KEY NOT NULL,
 	`drink_type_id` text NOT NULL,
@@ -165,11 +171,12 @@ CREATE TABLE `running_orders` (
 --> statement-breakpoint
 CREATE TABLE `temperature_profiles` (
 	`id` text PRIMARY KEY NOT NULL,
-	`profile_id` text NOT NULL,
+	`cooling_profile_id` text NOT NULL,
 	`temperature` real NOT NULL,
 	`time_a` real NOT NULL,
 	`time_b` real NOT NULL,
-	`time_c` real NOT NULL
+	`time_c` real NOT NULL,
+	FOREIGN KEY (`cooling_profile_id`) REFERENCES `cooling_profiles`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `volumes` (

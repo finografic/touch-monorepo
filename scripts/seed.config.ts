@@ -33,13 +33,9 @@ export const seedOrder: SeedConfig[] = [
     dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types', 'temperature_profiles'],
   },
   {
-    name: 'temperature_tables',
-    description: 'Temperature-time cooling tables',
-  },
-  {
     name: 'drink_configs',
     description: 'drink configurations',
-    dependencies: ['drink_types', 'container_types', 'volumes', 'temperature_tables'],
+    dependencies: ['drink_types', 'container_types', 'volumes'],
   },
   {
     name: 'elements',

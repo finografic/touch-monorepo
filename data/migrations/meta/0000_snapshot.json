@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "7de77eec-181d-45b9-a6a8-6aa0295fcebb",
+  "id": "d99ed1d2-5352-4523-921a-950ebb2880c5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -389,6 +389,37 @@
           "isUnique": true
         }
       },
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
+    "cooling_profiles": {
+      "name": "cooling_profiles",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
@@ -1154,8 +1185,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "profile_id": {
-          "name": "profile_id",
+        "cooling_profile_id": {
+          "name": "cooling_profile_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -1191,7 +1222,21 @@
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "temperature_profiles_cooling_profile_id_cooling_profiles_id_fk": {
+          "name": "temperature_profiles_cooling_profile_id_cooling_profiles_id_fk",
+          "tableFrom": "temperature_profiles",
+          "tableTo": "cooling_profiles",
+          "columnsFrom": [
+            "cooling_profile_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraints": {}
