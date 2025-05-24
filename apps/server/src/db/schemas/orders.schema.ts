@@ -1,6 +1,7 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { relations } from 'drizzle-orm';
 import { drink_types } from './drink_types.schema';
 import { drink_subtypes } from './drink_subtypes.schema';
 import { container_types } from './container_types.schema';
@@ -35,6 +36,30 @@ export const orders = sqliteTable('orders', {
     .$defaultFn(() => new Date())
     .$onUpdate(() => new Date()),
 });
+
+// Define relations
+export const ordersRelations = relations(orders, ({ one }) => ({
+  drinkType: one(drink_types, {
+    fields: [orders.drinkTypeName],
+    references: [drink_types.name],
+  }),
+  drinkSubtype: one(drink_subtypes, {
+    fields: [orders.drinkSubtypeName],
+    references: [drink_subtypes.name],
+  }),
+  containerType: one(container_types, {
+    fields: [orders.containerTypeName],
+    references: [container_types.name],
+  }),
+  volume: one(volumes, {
+    fields: [orders.volumeName],
+    references: [volumes.name],
+  }),
+  temperatureProfile: one(temperature_profiles, {
+    fields: [orders.temperatureProfileId],
+    references: [temperature_profiles.id],
+  }),
+}));
 
 // Zod schema for validation
 const insertOrderSchema = createInsertSchema(orders, {

@@ -1,5 +1,5 @@
 import { db } from '../db.adapter';
-import { temperature_profiles } from '../schemas';
+import { cooling_profiles, temperature_profiles } from '../schemas';
 import { randomUUID } from 'node:crypto';
 
 export async function seed() {
@@ -9,14 +9,19 @@ export async function seed() {
     // Check if already seeded
     const existing = await db.select().from(temperature_profiles).limit(1);
     if (existing.length > 0) {
-      console.log('✓ temperature_profiles already seeded, skipping...');
+      console.log('✓ Temperature profiles already seeded, skipping...');
       return;
     }
 
-    // Example profile IDs
-    const slowProfileId = randomUUID();
-    const mediumProfileId = randomUUID();
-    const fastProfileId = randomUUID();
+    // Get the cooling profiles
+    const coolingProfiles = await db.select().from(cooling_profiles);
+    const slowProfile = coolingProfiles.find((p) => p.name === 'slow');
+    const mediumProfile = coolingProfiles.find((p) => p.name === 'medium');
+    const fastProfile = coolingProfiles.find((p) => p.name === 'fast');
+
+    if (!slowProfile || !mediumProfile || !fastProfile) {
+      throw new Error('Required cooling profiles not found. Please seed cooling_profiles first.');
+    }
 
     // Temperatures to seed
     const temperatures = [30, 29, 28, 27, 26, 25];
@@ -28,25 +33,30 @@ export async function seed() {
 
     const rows = [];
     for (let i = 0; i < temperatures.length; i++) {
+      // Slow profile points
       rows.push({
         id: randomUUID(),
-        profileId: slowProfileId,
+        coolingProfileId: slowProfile.id,
         temperature: temperatures[i],
         timeA: slowTimes[i],
         timeB: slowTimes[i],
         timeC: slowTimes[i],
       });
+
+      // Medium profile points
       rows.push({
         id: randomUUID(),
-        profileId: mediumProfileId,
+        coolingProfileId: mediumProfile.id,
         temperature: temperatures[i],
         timeA: mediumTimes[i],
         timeB: mediumTimes[i],
         timeC: mediumTimes[i],
       });
+
+      // Fast profile points
       rows.push({
         id: randomUUID(),
-        profileId: fastProfileId,
+        coolingProfileId: fastProfile.id,
         temperature: temperatures[i],
         timeA: fastTimes[i],
         timeB: fastTimes[i],
@@ -55,10 +65,10 @@ export async function seed() {
     }
 
     await db.insert(temperature_profiles).values(rows);
-    console.log('✅ Inserted temperature_profiles!');
+    console.log('✅ Inserted temperature profiles!');
     return rows;
   } catch (error) {
-    console.error('❌ Error seeding temperature_profiles:', error);
+    console.error('❌ Error seeding temperature profiles:', error);
     throw error;
   }
 }

@@ -19,13 +19,18 @@ export const seedOrder: SeedConfig[] = [
     description: 'Available volumes (33cl, 50cl, etc)',
   },
   {
+    name: 'cooling_profiles',
+    description: 'Cooling profile definitions (slow, medium, fast)',
+  },
+  {
     name: 'temperature_profiles',
-    description: 'Temperature-time profiles for orders',
+    description: 'Temperature-time points for cooling profiles',
+    dependencies: ['cooling_profiles'],
   },
   {
     name: 'orders',
     description: 'Example orders',
-    // dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types'],
+    dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types', 'temperature_profiles'],
   },
   {
     name: 'temperature_tables',

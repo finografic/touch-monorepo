@@ -38,7 +38,14 @@ export async function seed() {
     const allVolumes = await db.select().from(volumes);
     const allContainers = await db.select().from(container_types);
     const profiles = await db.select().from(temperature_profiles);
-    const profileIds = profiles.map((p) => p.profileId || p.id);
+
+    // Get unique temperature profile IDs (one per cooling profile)
+    const uniqueProfileIds = Array.from(new Set(profiles.map((p) => p.coolingProfileId)))
+      .map((coolingProfileId) => {
+        const profile = profiles.find((p) => p.coolingProfileId === coolingProfileId);
+        return profile?.id;
+      })
+      .filter((id): id is string => id !== undefined);
 
     const orderRows = [];
     let profileIdx = 0;
@@ -57,7 +64,7 @@ export async function seed() {
                 drinkSubtypeName: null,
                 containerTypeName: container.name,
                 volumeName: volume.name,
-                temperatureProfileId: profileIds[profileIdx % profileIds.length],
+                temperatureProfileId: uniqueProfileIds[profileIdx % uniqueProfileIds.length],
               });
               profileIdx++;
             }
@@ -76,7 +83,7 @@ export async function seed() {
                   drinkSubtypeName: subtype.name,
                   containerTypeName: container.name,
                   volumeName: volume.name,
-                  temperatureProfileId: profileIds[profileIdx % profileIds.length],
+                  temperatureProfileId: uniqueProfileIds[profileIdx % uniqueProfileIds.length],
                 });
                 profileIdx++;
               }
