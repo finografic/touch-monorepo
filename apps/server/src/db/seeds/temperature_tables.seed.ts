@@ -1,5 +1,5 @@
 import { db } from '../db.adapter';
-import { temperature_tables, temperature_table_entries } from '../schemas';
+import { temperature_table_entries, temperature_tables } from '../schemas';
 
 export async function seed() {
   console.log('Seeding temperature_tables...');

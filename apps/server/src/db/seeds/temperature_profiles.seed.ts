@@ -1,5 +1,5 @@
 import { db } from '../db.adapter';
-import { temperatureProfiles } from '../schemas';
+import { temperature_profiles } from '../schemas';
 import { randomUUID } from 'node:crypto';
 
 export async function seed() {
@@ -7,7 +7,7 @@ export async function seed() {
 
   try {
     // Check if already seeded
-    const existing = await db.select().from(temperatureProfiles).limit(1);
+    const existing = await db.select().from(temperature_profiles).limit(1);
     if (existing.length > 0) {
       console.log('✓ temperature_profiles already seeded, skipping...');
       return;
@@ -54,7 +54,7 @@ export async function seed() {
       });
     }
 
-    await db.insert(temperatureProfiles).values(rows);
+    await db.insert(temperature_profiles).values(rows);
     console.log('✅ Inserted temperature_profiles!');
     return rows;
   } catch (error) {

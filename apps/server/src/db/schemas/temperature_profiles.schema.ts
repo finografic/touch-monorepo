@@ -1,7 +1,7 @@
 import { real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 
-export const temperatureProfiles = sqliteTable('temperature_profiles', {
+export const temperature_profiles = sqliteTable('temperature_profiles', {
   id: text('id').primaryKey(),
   profileId: text('profile_id').notNull(),
   temperature: real('temperature').notNull(),
@@ -11,7 +11,7 @@ export const temperatureProfiles = sqliteTable('temperature_profiles', {
 });
 
 export const temperatureProfileSchemas = {
-  select: createSelectSchema(temperatureProfiles),
-  insert: createInsertSchema(temperatureProfiles),
-  patch: createInsertSchema(temperatureProfiles).partial(),
+  select: createSelectSchema(temperature_profiles),
+  insert: createInsertSchema(temperature_profiles),
+  patch: createInsertSchema(temperature_profiles).partial(),
 } as const;

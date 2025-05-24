@@ -1,6 +1,6 @@
 import { db } from '../db.adapter';
 import { eq } from 'drizzle-orm';
-import { running_orders, elements, drink_configs, drink_types, container_types, volumes } from '../schemas';
+import { container_types, drink_configs, drink_types, elements, running_orders, volumes } from '../schemas';
 
 export async function seed() {
   console.log('Seeding running_orders...');

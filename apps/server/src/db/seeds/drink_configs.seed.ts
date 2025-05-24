@@ -1,6 +1,6 @@
 import { db } from '../db.adapter';
 import { eq } from 'drizzle-orm';
-import { drink_configs, drink_types, container_types, volumes } from '../schemas';
+import { container_types, drink_configs, drink_types, volumes } from '../schemas';
 import createCuid from '@bugsnag/cuid';
 
 export async function seed() {
