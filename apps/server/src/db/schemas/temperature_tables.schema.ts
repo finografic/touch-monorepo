@@ -10,6 +10,7 @@ export const temperature_tables = sqliteTable('temperature_tables', {
   tableNumber: text('table_number').notNull().unique(), // e.g., '1001', '2001', '3001'
   description: text('description'), // Optional description of what this table is for
   elementType: integer('element_type').notNull(), // 1 = Element 1, 2 = Elements 2-9, 3 = Element 10
+  temperatureTimeProfileId: text('temperature_time_profile_id').notNull(), // references temperature_time_profiles.id
 
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
@@ -31,6 +32,7 @@ export const temperature_table_entries = sqliteTable('temperature_table_entries'
   temperature: real('temperature').notNull(), // Temperature in Celsius
   timeMinutes: real('time_minutes').notNull(), // Time in minutes (allowing decimals for precision)
   sortOrder: integer('sort_order').notNull(), // For maintaining the correct order of entries
+  temperatureTimeProfileId: text('temperature_time_profile_id').notNull(), // references temperature_time_profiles.id
 
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
