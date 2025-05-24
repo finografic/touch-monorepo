@@ -1,28 +1,70 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLoaderData, useLocation, useNavigate } from 'react-router-dom';
 import { ButtonControl } from 'components/ButtonControl/ButtonControl';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { PATHS } from 'routes/routes.config';
+import { PATHS, type RoutePath, ROUTES_CONFIG } from 'routes/routes.config';
 import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
-import { useCallback, useEffect, useTransition } from 'react';
+// import { useContent } from 'providers/ContentProvider/ContentContext';
+import { useCallback, useEffect, useMemo, useTransition } from 'react';
+// import { useQueryClient } from '@tanstack/react-query';
+// import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '../../queries/temperature';
 import { Col, Row } from 'react-grid-system';
-import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
+import { useDev } from 'providers/DevProvider/DevContext';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
+import { DevFilterResults } from 'components/DevTools/DevFilterResults/DevFilterResults';
 
 export const Footer = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { isDevDataVisible } = useDev();
   const [isPending, startTransition] = useTransition();
-  const { current, setPageCurrent, isNextDisabled } = usePagination();
+  // const { route } = useRouteConfig();
+  const { routes, routesMetadata } = useRouteMetadata();
+  // const queryClient = useQueryClient();
+  // const isFetching = queryClient.isFetching() || queryClient.isMutating();
+
+  const { setIsDevDialogOpen } = useDev();
+  const { current, setPageCurrent, isPrevDisabled, setIsPrevDisabled, isNextDisabled, setIsNextDisabled } =
+    usePagination();
   const { selectAllOrders, orders, setOrders } = useOrders();
-  const { pathnames } = useRoutePathnamesByFilters();
+
+  // ------------------------------------------------------------------------ //
+
+  const filters = useMemo((): { hasSubtypes: boolean; drinkTypeId: string } => {
+    const filters = orders[0]?.filters;
+    if (filters) {
+      const hasSubtypes = !!filters.drinkType?.hasSubtypes;
+      const drinkTypeId = (filters.drinkType as any)?.id || '';
+      return { hasSubtypes, drinkTypeId };
+    }
+    return { hasSubtypes: false, drinkTypeId: '' };
+  }, [orders]);
+
+  const pathnames = useMemo((): RoutePath[] => {
+    const paths = ROUTES_CONFIG.map((route) => route.path) as RoutePath[];
+
+    if (filters.hasSubtypes && filters.drinkTypeId) {
+      return paths.map((path: RoutePath) =>
+        path === PATHS.drinkSubtype
+          ? PATHS.drinkSubtype.replace(':drinkTypeId', filters.drinkTypeId as string)
+          : path,
+      );
+    }
+    return paths.filter((path: RoutePath) => path !== PATHS.drinkSubtype);
+  }, [filters, routes]);
+
+  // ------------------------------------------------------------------------ //
 
   useEffect(() => {
     if (orders.length === 0 && location.pathname !== PATHS.home) {
       navigate(PATHS.home);
     }
   }, [orders, location.pathname, navigate]);
+
+  // ------------------------------------------------------------------------ //
 
   const { calculateForOrder, isPending: isCalculating } = useTemperatureCalculation({
     onSuccess: (data) => {
@@ -83,6 +125,7 @@ export const Footer = () => {
 
   const isVisibleBackButton = current > 0;
   const isVisibleNextButton = location.pathname !== PATHS.finalTemperature;
+  // const isVisibleNextButton = current < total;
 
   return (
     <footer css={styles}>

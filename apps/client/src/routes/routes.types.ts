@@ -1,7 +1,10 @@
 import type { ReactElement } from 'react';
 import type { RouteObject } from 'react-router-dom';
+import type { PATHS } from 'routes/routes.config';
 import type { User } from 'src/api/auth';
 import type { OrderFieldKey } from 'types/orders.types';
+
+export type RoutePath = (typeof PATHS)[keyof typeof PATHS];
 
 export interface RouterContext {
   auth: {

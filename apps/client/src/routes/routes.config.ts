@@ -12,8 +12,6 @@ export const PATHS: ConstMapOf<OrderFieldKey, string> = {
   finalTemperature: 'final-temperature',
 } as const;
 
-export type RoutePath = (typeof PATHS)[keyof typeof PATHS];
-
 export const ROUTES_CONFIG: RouteConfig[] = [
   {
     path: PATHS.home,

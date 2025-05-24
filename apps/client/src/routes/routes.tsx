@@ -10,6 +10,7 @@ import { PATHS, ROUTES_CONFIG } from './routes.config';
 import { OrderFieldKeys } from 'src/config/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPage/AdminPage';
+import { TemperaturePage } from 'pages/DrinkPages/TemperaturePage';
 
 export const routes: RouteObject[] = [
   {
@@ -80,7 +81,8 @@ export const routes: RouteObject[] = [
         path: PATHS.initialTemperature,
         id: OrderFieldKeys.initialTemperature,
         loader: LoaderDataHelper[OrderFieldKeys.initialTemperature],
-        element: <TemperatureInitialPage />,
+        element: <TemperaturePage />,
+        // element: <TemperatureInitialPage />,
       },
       {
         path: PATHS.finalTemperature,

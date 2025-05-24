@@ -4,7 +4,7 @@ import type { Temperature } from 'types/orders.types';
 import { styles } from './TemperatureInput.styles';
 
 interface TemperatureInputProps {
-  value: number;
+  value: Temperature | null;
   onChange: (temp: Temperature) => void;
   defaultValue?: number;
   description: string;

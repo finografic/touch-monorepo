@@ -1,0 +1,44 @@
+[
+  {
+    "itemNumber": 2,
+    "isSelected": true,
+    "isLocked": false,
+    "filters": {
+      "drinkType": {
+        "id": "cmak3r33x0003g6lwm8xmwdp1",
+        "name": "licor",
+        "hasSubtypes": false,
+        "lookup": { "drinkTypeName": "licor" }
+      },
+      "drinkVolume": { "id": "cmak3r5260003itlwzg48zpul", "name": "1L", "lookup": { "volumeName": "1L" } },
+      "containerType": {
+        "id": "cmak3r43g0002hhlwi5uup2a5",
+        "name": "metal",
+        "lookup": { "containerTypeName": "metal" }
+      }
+    },
+    "processStatus": { "isProcessing": false },
+    "initialTemperature": { "value": 23.5, "unit": "°C" }
+  },
+  {
+    "itemNumber": 4,
+    "isSelected": true,
+    "isLocked": false,
+    "filters": {
+      "drinkType": {
+        "id": "cmak3r33x0003g6lwm8xmwdp1",
+        "name": "licor",
+        "hasSubtypes": false,
+        "lookup": { "drinkTypeName": "licor" }
+      },
+      "drinkVolume": { "id": "cmak3r5260003itlwzg48zpul", "name": "1L", "lookup": { "volumeName": "1L" } },
+      "containerType": {
+        "id": "cmak3r43g0002hhlwi5uup2a5",
+        "name": "metal",
+        "lookup": { "containerTypeName": "metal" }
+      }
+    },
+    "processStatus": { "isProcessing": false },
+    "initialTemperature": { "value": 23.5, "unit": "°C" }
+  }
+]
