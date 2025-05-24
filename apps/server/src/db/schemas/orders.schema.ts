@@ -24,7 +24,7 @@ export const orders = sqliteTable('orders', {
   volumeName: text('volume_name')
     .notNull()
     .references(() => volumes.name, { onDelete: 'cascade' }), // references volumes.name
-  temperatureTimeProfileId: text('temperature_time_profile_id').notNull(),
+  profileId: text('profile_id').notNull(),
 
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
@@ -39,13 +39,13 @@ const insertOrderSchema = createInsertSchema(orders, {
   drinkSubtypeName: (schema) => schema.drinkSubtypeName.max(50),
   containerTypeName: (schema) => schema.containerTypeName.min(1).max(50),
   volumeName: (schema) => schema.volumeName.min(1).max(50),
-  temperatureTimeProfileId: (schema) => schema.temperatureTimeProfileId.min(1).max(50),
+  profileId: (schema) => schema.profileId.min(1).max(50),
 })
   .required({
     drinkTypeName: true,
     containerTypeName: true,
     volumeName: true,
-    temperatureTimeProfileId: true,
+    profileId: true,
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 

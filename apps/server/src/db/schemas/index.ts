@@ -14,7 +14,8 @@ export * from './drink_types.schema';
 export * from './elements.schema';
 export * from './orders.schema';
 export * from './running_orders.schema';
+export * from './temperature_profiles.schema';
 // NOTE: DRINK CONTROL SYSTEM SCHEMAS
 // Core schemas
-export * from './temperature_tables.schema';
+// export * from './temperature_tables.schema';
 export * from './volumes.schema';
