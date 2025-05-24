@@ -5,6 +5,7 @@ import { drink_types } from './drink_types.schema';
 import { drink_subtypes } from './drink_subtypes.schema';
 import { container_types } from './container_types.schema';
 import { volumes } from './volumes.schema';
+import { temperature_profiles } from './temperature_profiles.schema';
 
 // Orders table
 export const orders = sqliteTable('orders', {
@@ -24,7 +25,9 @@ export const orders = sqliteTable('orders', {
   volumeName: text('volume_name')
     .notNull()
     .references(() => volumes.name, { onDelete: 'cascade' }), // references volumes.name
-  profileId: text('profile_id').notNull(),
+  temperatureProfileId: text('temperature_profile_id')
+    .notNull()
+    .references(() => temperature_profiles.id, { onDelete: 'cascade' }),
 
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
@@ -39,13 +42,13 @@ const insertOrderSchema = createInsertSchema(orders, {
   drinkSubtypeName: (schema) => schema.drinkSubtypeName.max(50),
   containerTypeName: (schema) => schema.containerTypeName.min(1).max(50),
   volumeName: (schema) => schema.volumeName.min(1).max(50),
-  profileId: (schema) => schema.profileId.min(1).max(50),
+  temperatureProfileId: (schema) => schema.temperatureProfileId.min(1).max(50),
 })
   .required({
     drinkTypeName: true,
     containerTypeName: true,
     volumeName: true,
-    profileId: true,
+    temperatureProfileId: true,
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 

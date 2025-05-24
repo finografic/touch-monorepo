@@ -3,17 +3,12 @@ import type { SeedConfig } from './src/db-setup';
 
 export const seedOrder: SeedConfig[] = [
   {
-    name: 'temperature_profiles',
-    description: 'Temperature-time profiles for orders',
-  },
-  {
-    name: 'orders',
-    description: 'Example orders',
-    // dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types'],
-  },
-  {
     name: 'drink_types',
     description: 'Base drink types and subtypes',
+  },
+  {
+    name: 'drink_subtypes',
+    description: 'Drink subtypes',
   },
   {
     name: 'container_types',
@@ -22,6 +17,15 @@ export const seedOrder: SeedConfig[] = [
   {
     name: 'volumes',
     description: 'Available volumes (33cl, 50cl, etc)',
+  },
+  {
+    name: 'temperature_profiles',
+    description: 'Temperature-time profiles for orders',
+  },
+  {
+    name: 'orders',
+    description: 'Example orders',
+    // dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types'],
   },
   {
     name: 'temperature_tables',

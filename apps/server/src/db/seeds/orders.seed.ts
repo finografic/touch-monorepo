@@ -57,7 +57,7 @@ export async function seed() {
                 drinkSubtypeName: null,
                 containerTypeName: container.name,
                 volumeName: volume.name,
-                profileId: profileIds[profileIdx % profileIds.length],
+                temperatureProfileId: profileIds[profileIdx % profileIds.length],
               });
               profileIdx++;
             }
@@ -76,7 +76,7 @@ export async function seed() {
                   drinkSubtypeName: subtype.name,
                   containerTypeName: container.name,
                   volumeName: volume.name,
-                  profileId: profileIds[profileIdx % profileIds.length],
+                  temperatureProfileId: profileIds[profileIdx % profileIds.length],
                 });
                 profileIdx++;
               }
