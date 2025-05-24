@@ -6,12 +6,10 @@ export async function seed() {
   console.log('Seeding temperature_profiles...');
 
   try {
-    // Check if already seeded
-    const existing = await db.select().from(temperature_profiles).limit(1);
-    if (existing.length > 0) {
-      console.log('✓ Temperature profiles already seeded, skipping...');
-      return;
-    }
+    // Clean existing data first
+    console.log('Cleaning existing temperature profiles...');
+    await db.delete(temperature_profiles);
+    console.log('✓ Cleaned existing temperature profiles');
 
     // Get the cooling profiles
     const coolingProfiles = await db.select().from(cooling_profiles);
@@ -23,13 +21,22 @@ export async function seed() {
       throw new Error('Required cooling profiles not found. Please seed cooling_profiles first.');
     }
 
-    // Temperatures to seed
-    const temperatures = [30, 29, 28, 27, 26, 25];
+    // Generate temperatures from 30 to -10 (41 values)
+    const temperatures = Array.from({ length: 41 }, (_, i) => 30 - i);
 
-    // Example time values for each profile
-    const slowTimes = [0, 3, 5, 7, 9, 11];
-    const mediumTimes = [0, 2, 4, 5.5, 7.4, 8];
-    const fastTimes = [0, 2.3, 4.7, 6.2, 8.1, 9.6];
+    // Helper function to generate random time values
+    const generateTimeValues = (baseTime: number) => {
+      return temperatures.map((_, index) => {
+        // Increase time as temperature decreases
+        const progress = index / temperatures.length;
+        return +(baseTime * (1 + progress)).toFixed(1);
+      });
+    };
+
+    // Generate time values for each profile
+    const slowTimes = generateTimeValues(12); // Slower cooling
+    const mediumTimes = generateTimeValues(8); // Medium cooling
+    const fastTimes = generateTimeValues(5); // Fast cooling
 
     const rows = [];
     for (let i = 0; i < temperatures.length; i++) {

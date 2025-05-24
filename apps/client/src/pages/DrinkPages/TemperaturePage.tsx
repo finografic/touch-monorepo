@@ -112,7 +112,7 @@ export const TemperaturePage = () => {
             value={25}
             onChange={handleChange}
             defaultValue={DEFAULT_INITIAL_TEMP}
-            label="Initial temperature"
+            label="initial temperature"
             min={0}
             max={40}
             step={0.5}
@@ -123,7 +123,7 @@ export const TemperaturePage = () => {
             value={25}
             onChange={handleChange}
             defaultValue={DEFAULT_INITIAL_TEMP}
-            label="Final temperature"
+            label="final temperature"
             min={DEFAULT_MIN_TEMP}
             max={DEFAULT_MAX_TEMP}
             step={0.5}

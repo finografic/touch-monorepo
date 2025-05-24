@@ -82,7 +82,7 @@ export const Footer = () => {
   }, [calculateForOrder, orders]);
 
   const isVisibleBackButton = current > 0;
-  const isVisibleNextButton = location.pathname !== PATHS.finalTemperature;
+  const isVisibleNextButton = location.pathname === PATHS.temperature;
 
   return (
     <footer css={styles}>
@@ -110,7 +110,7 @@ export const Footer = () => {
                 Next »
               </ButtonControl>
             )}
-            {location.pathname === PATHS.finalTemperature && (
+            {location.pathname === PATHS.temperature && (
               <ButtonControl
                 className="btn-control btn-start"
                 onClick={handleStart}

@@ -23,8 +23,8 @@ export const styles = css`
 
   label {
     font-size: 1.5rem;
-    font-weight: 600;
-    color: ${colors.textXLight};
+    font-weight: 500;
+    color: ${colors.textLight};
     text-align: center;
     max-width: 500px;
     margin-bottom: 5%;
