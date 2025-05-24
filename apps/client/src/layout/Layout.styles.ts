@@ -96,4 +96,14 @@ export const styles = css`
       background-color: #f3f4f6;
     }
   }
+
+  p {
+    color: ${colors.text};
+    font-size: 1.2rem;
+    text-align: center;
+    max-width: 400px;
+    line-height: 1.6;
+    margin-top: -66%;
+    padding-bottom: 2rem;
+  }
 `;

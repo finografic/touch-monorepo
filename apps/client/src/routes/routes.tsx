@@ -78,11 +78,19 @@ export const routes: RouteObject[] = [
         element: <GenericSelectPage />,
       },
       {
+        path: PATHS.temperature,
+        id: OrderFieldKeys.temperature,
+        loader: LoaderDataHelper[OrderFieldKeys.temperature],
+        element: <TemperaturePage />,
+      },
+      // ============================================== //
+      /*
+      {
         path: PATHS.initialTemperature,
         id: OrderFieldKeys.initialTemperature,
         loader: LoaderDataHelper[OrderFieldKeys.initialTemperature],
         element: <TemperaturePage />,
-        // element: <TemperatureInitialPage />,
+        element: <TemperatureInitialPage />,
       },
       {
         path: PATHS.finalTemperature,
@@ -90,7 +98,7 @@ export const routes: RouteObject[] = [
         loader: LoaderDataHelper[OrderFieldKeys.finalTemperature],
         element: <TemperatureFinalPage />,
       },
-
+*/
       // ============================================== //
 
       {

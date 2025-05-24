@@ -8,18 +8,28 @@ export const styles = css`
     align-items: center;
     gap: 2rem;
     padding: 2rem;
-    max-width: 600px;
+    min-width: 400px;
     margin: 0 auto;
   }
 
+  .label,
   .description {
     color: ${colors.text};
     font-size: 1.2rem;
     text-align: center;
-    max-width: 400px;
+    max-width: 500px;
     line-height: 1.6;
-    margin-top: -66%;
+    /* margin-top: -66%; */
+    margin-top: -33%;
     padding-bottom: 2rem;
+  }
+
+  .label {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: ${colors.textXLight};
+    text-align: center;
+    max-width: 500px;
   }
 
   .input-container {
@@ -48,12 +58,12 @@ export const styles = css`
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 44px;
+    height: 64px;
     border: ${layout.borderWidth} solid rgba(0, 191, 255, 0.7); /* info at 70% opacity */
     border-radius: 8px;
     color: ${colors.info};
-    font-size: 2rem;
-    font-weight: 500;
+    font-size: 2.5rem;
+    font-weight: 400;
     cursor: pointer;
     transition: all 0.3s;
     background: transparent;

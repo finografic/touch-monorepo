@@ -10,7 +10,7 @@ export const MockOrdersButton = () => {
 
   const handleMockData = () => {
     setOrders(MOCK_ORDERS_DATA);
-    navigate(PATHS.initialTemperature);
+    navigate(PATHS.temperature);
   };
 
   return (

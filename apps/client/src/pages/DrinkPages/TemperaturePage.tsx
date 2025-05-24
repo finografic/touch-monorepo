@@ -11,6 +11,8 @@ import { OrderFieldKeys } from 'src/config/app.config';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { Box, Flex } from '@radix-ui/themes';
+import { styles } from './content.styles';
 
 const DEFAULT_INITIAL_TEMP = 23.5;
 // Safe default limits that match most drink types
@@ -95,15 +97,40 @@ export const TemperaturePage = () => {
   // return <pre>{JSON.stringify(orders, null, 2)}</pre>;
 
   return (
-    <TemperatureInput
-      value={25}
-      onChange={handleChange}
-      defaultValue={DEFAULT_INITIAL_TEMP}
-      description="By default, it indicates the ambient temperature supplied by a probe. The user can modify it using the + and - buttons. Units are in degrees Celsius with one decimal place."
-      min={DEFAULT_MIN_TEMP}
-      max={DEFAULT_MAX_TEMP}
-      step={0.5}
-    />
+    <Flex css={styles} className="temperature-content" gap="3" direction="column">
+      <Flex gap="3" justify="center">
+        <Box>
+          <p>
+            By default, it indicates the ambient temperature supplied by a probe. The user can modify it using
+            the + and - buttons. Units are in degrees Celsius with one decimal place.
+          </p>
+        </Box>
+      </Flex>
+      <Flex gap="2" justify="center">
+        <Box>
+          <TemperatureInput
+            value={25}
+            onChange={handleChange}
+            defaultValue={DEFAULT_INITIAL_TEMP}
+            label="Initial temperature"
+            min={0}
+            max={40}
+            step={0.5}
+          />
+        </Box>
+        <Box>
+          <TemperatureInput
+            value={25}
+            onChange={handleChange}
+            defaultValue={DEFAULT_INITIAL_TEMP}
+            label="Final temperature"
+            min={DEFAULT_MIN_TEMP}
+            max={DEFAULT_MAX_TEMP}
+            step={0.5}
+          />
+        </Box>
+      </Flex>
+    </Flex>
   );
 
   // return (

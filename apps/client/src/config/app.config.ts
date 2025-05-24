@@ -10,8 +10,9 @@ export const ORDER_FIELD_KEYS = [
   'drinkSubtype',
   'drinkVolume',
   'containerType',
-  'initialTemperature',
-  'finalTemperature',
+  'temperature',
+  // 'initialTemperature',
+  // 'finalTemperature',
 ] as const;
 
 export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
@@ -20,8 +21,9 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
   drinkSubtype: 'drinkSubtype',
   drinkVolume: 'drinkVolume',
   containerType: 'containerType',
-  initialTemperature: 'initialTemperature',
-  finalTemperature: 'finalTemperature',
+  temperature: 'temperature',
+  // initialTemperature: 'initialTemperature',
+  // finalTemperature: 'finalTemperature',
 } as const;
 
 export const FilterKeys: { [K in string]: K } = {
@@ -29,8 +31,9 @@ export const FilterKeys: { [K in string]: K } = {
   drinkSubtypeName: 'drinkSubtypeName',
   volumeName: 'volumeName',
   containerTypeName: 'containerTypeName',
-  initialTemperatureName: 'initialTemperatureName',
-  finalTemperatureName: 'finalTemperatureName',
+  temperatureName: 'temperatureName',
+  // initialTemperatureName: 'initialTemperatureName',
+  // finalTemperatureName: 'finalTemperatureName',
 } as const;
 
 export type FilterKey = keyof typeof FilterKeys;

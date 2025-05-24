@@ -8,8 +8,9 @@ export const PATHS: ConstMapOf<OrderFieldKey, string> = {
   drinkSubtype: 'drink-type/:drinkTypeId',
   drinkVolume: 'drink-volume',
   containerType: 'container-type',
-  initialTemperature: 'initial-temperature',
-  finalTemperature: 'final-temperature',
+  temperature: 'temperature',
+  // initialTemperature: 'initial-temperature',
+  // finalTemperature: 'final-temperature',
 } as const;
 
 export const ROUTES_CONFIG: RouteConfig[] = [
@@ -39,15 +40,20 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     title: 'Select container type:',
   },
   {
-    path: PATHS.initialTemperature,
-    id: 'initial-temperature',
-    title: 'Initial temperature:',
+    path: PATHS.temperature,
+    id: 'temperature',
+    title: 'Select initial and final temperatures:',
   },
-  {
-    path: PATHS.finalTemperature,
-    id: 'final-temperature',
-    title: 'Final temperature:',
-  },
+  // {
+  //   path: PATHS.initialTemperature,
+  //   id: 'initial-temperature',
+  //   title: 'Initial temperature:',
+  // },
+  // {
+  //   path: PATHS.finalTemperature,
+  //   id: 'final-temperature',
+  //   title: 'Final temperature:',
+  // },
 ];
 
 export const ROUTE_ACTION_SLUGS = ['new', 'view', 'edit', 'create', 'delete'];
