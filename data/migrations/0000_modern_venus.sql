@@ -138,6 +138,8 @@ CREATE TABLE `orders` (
 	`drink_subtype_name` text,
 	`container_type_name` text NOT NULL,
 	`volume_name` text NOT NULL,
+	`temperature_consumption` integer NOT NULL,
+	`temperature_freezing` integer NOT NULL,
 	`temperature_profile_id` text NOT NULL,
 	`is_active` integer DEFAULT true NOT NULL,
 	`created_at` integer,

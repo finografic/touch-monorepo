@@ -103,7 +103,7 @@ export const styles = css`
     text-align: center;
     max-width: 400px;
     line-height: 1.6;
-    margin-top: -66%;
+    margin-top: -50%;
     padding-bottom: 2rem;
   }
 `;

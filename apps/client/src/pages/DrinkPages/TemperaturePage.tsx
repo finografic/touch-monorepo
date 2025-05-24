@@ -13,6 +13,14 @@ import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { Box, Flex } from '@radix-ui/themes';
 import { styles } from './content.styles';
+import {
+  FINAL_TEMP_DEFAULT,
+  FINAL_TEMP_MAX,
+  FINAL_TEMP_MIN,
+  INITIAL_TEMP_DEFAULT,
+  INITIAL_TEMP_MAX,
+  INITIAL_TEMP_MIN,
+} from 'config/temperature.config';
 
 // ======================================================================== //
 // NOTE:  HOW TEMPERATURE WORKS:
@@ -30,13 +38,16 @@ max: INITIAL TEMPERATURE VALUE
 
 // ======================================================================== //
 
-const DEFAULT_INITIAL_TEMP = 23.5;
-// Safe default limits that match most drink types
-const DEFAULT_MIN_TEMP = 2;
-const DEFAULT_MAX_TEMP = 40;
+// const INITIAL_TEMP_DEFAULT = 25;
+// const INITIAL_TEMP_MIN = 10;
+// const INITIAL_TEMP_MAX = 40;
+
+// const FINAL_TEMP_DEFAULT = 25;
+// const FINAL_TEMP_MIN = 10;
+// const FINAL_TEMP_MAX = 40;
 
 const DEFAULT_TEMP: Temperature = {
-  value: DEFAULT_INITIAL_TEMP,
+  value: INITIAL_TEMP_DEFAULT,
   unit: '°C',
 };
 
@@ -122,12 +133,12 @@ export const TemperaturePage = () => {
           </p>
         </Box>
       </Flex>
-      <Flex gap="2" justify="center">
+      <Flex gap="3" justify="center">
         <Box>
           <TemperatureInput
             value={25}
             onChange={handleChange}
-            defaultValue={DEFAULT_INITIAL_TEMP}
+            defaultValue={INITIAL_TEMP_DEFAULT}
             label="initial temperature"
             min={0}
             max={40}
@@ -138,10 +149,10 @@ export const TemperaturePage = () => {
           <TemperatureInput
             value={25}
             onChange={handleChange}
-            defaultValue={DEFAULT_INITIAL_TEMP}
+            defaultValue={FINAL_TEMP_DEFAULT}
             label="final temperature"
-            min={DEFAULT_MIN_TEMP}
-            max={DEFAULT_MAX_TEMP}
+            min={FINAL_TEMP_MIN}
+            max={FINAL_TEMP_MAX}
             step={0.5}
           />
         </Box>

@@ -8,7 +8,7 @@ export const styles = css`
     align-items: center;
     gap: 2rem;
     padding: 2rem;
-    min-width: 400px;
+    min-width: 340px;
     margin: 0 auto;
   }
 

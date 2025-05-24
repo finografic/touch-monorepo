@@ -2,10 +2,10 @@ import type { AppRouteHandler } from 'types/app.types';
 import type {
   CreateRoute,
   GetOneRoute,
+  GetSubtypesRoute,
   ListRoute,
   PatchRoute,
   RemoveRoute,
-  GetSubtypesRoute,
 } from './drink-type.routes';
 import { db } from 'db';
 import { drink_types } from 'db/schemas';
@@ -14,11 +14,13 @@ import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
-const formatDrinkType = (drinkType: any) => ({
-  ...drinkType,
-  createdAt: drinkType.createdAt?.toISOString() ?? null,
-  updatedAt: drinkType.updatedAt?.toISOString() ?? null,
-});
+function formatDrinkType(drinkType: any) {
+  return {
+    ...drinkType,
+    createdAt: drinkType.createdAt?.toISOString() ?? null,
+    updatedAt: drinkType.updatedAt?.toISOString() ?? null,
+  };
+}
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const drinkTypes = await db.query.drink_types.findMany({

@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "dc66e371-9b5e-4c9d-9229-1ec2340e5b11",
+  "id": "51886cb3-0f63-49a2-8401-3db460602bce",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -925,6 +925,20 @@
         "volume_name": {
           "name": "volume_name",
           "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "temperature_consumption": {
+          "name": "temperature_consumption",
+          "type": "integer",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "temperature_freezing": {
+          "name": "temperature_freezing",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
