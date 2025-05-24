@@ -12,38 +12,37 @@ export const styles = css`
     margin: 0 auto;
   }
 
-  .label,
   .description {
     color: ${colors.text};
     font-size: 1.2rem;
     text-align: center;
     max-width: 500px;
     line-height: 1.6;
-    /* margin-top: -66%; */
-    margin-top: -33%;
     padding-bottom: 2rem;
   }
 
-  .label {
+  label {
     font-size: 1.5rem;
     font-weight: 600;
     color: ${colors.textXLight};
     text-align: center;
     max-width: 500px;
+    margin-bottom: 5%;
   }
 
   .input-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
+    gap: 1.25rem;
     width: 180px; /* Set fixed width for the container */
+    margin-bottom: 10%;
   }
 
-  .temp-display {
+  .value-container {
     display: flex;
     align-items: center;
-    border: ${layout.borderWidth} solid rgba(128, 128, 128, 0.8); /* greyDark at 80% opacity */
+    border: ${layout.borderWidth} solid rgba(128, 128, 128, 0.5); /* greyDark at 80% opacity */
     border-radius: 8px;
     padding: 1rem 2rem;
     font-size: 2rem;
@@ -53,13 +52,13 @@ export const styles = css`
     justify-content: center;
   }
 
-  .temp-button {
+  .control-button {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 100%;
     height: 64px;
-    border: ${layout.borderWidth} solid rgba(0, 191, 255, 0.7); /* info at 70% opacity */
+    border: ${layout.borderWidth} solid ${colors.info}99; /* info at 70% opacity */
     border-radius: 8px;
     color: ${colors.info};
     font-size: 2.5rem;

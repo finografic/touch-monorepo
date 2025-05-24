@@ -42,21 +42,21 @@ export const TemperatureInput: FC<TemperatureInputProps> = ({
   return (
     <div css={styles}>
       <div className="temperature-container">
-        <p className="label">{label}</p>
+        <label>{label}</label>
         <div className="input-container">
           <button
-            className="temp-button"
+            className="control-button"
             onClick={() => handleTemperatureChange(temperature + step)}
             disabled={temperature >= max}
           >
             <span>+</span>
           </button>
-          <div className="temp-display">
+          <div className="value-container">
             {temperature.toFixed(1)}
             <span className="unit">°C</span>
           </div>
           <button
-            className="temp-button"
+            className="control-button"
             onClick={() => handleTemperatureChange(temperature - step)}
             disabled={temperature <= min}
           >
