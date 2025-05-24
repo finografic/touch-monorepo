@@ -7,6 +7,7 @@ import { drink_subtypes } from './drink_subtypes.schema';
 import { container_types } from './container_types.schema';
 import { volumes } from './volumes.schema';
 import { temperature_profiles } from './temperature_profiles.schema';
+import { TEMPERATURE_RANGES, ZOD_ERROR_MESSAGES } from '../../lib/constants';
 
 // Orders table
 export const orders = sqliteTable('orders', {
@@ -26,6 +27,12 @@ export const orders = sqliteTable('orders', {
   volumeName: text('volume_name')
     .notNull()
     .references(() => volumes.name, { onDelete: 'cascade' }), // references volumes.name
+  temperatureConsumption: integer('temperature_consumption')
+    .notNull()
+    .$defaultFn(() => TEMPERATURE_RANGES.CONSUMPTION.MAX),
+  temperatureFreezing: integer('temperature_freezing')
+    .notNull()
+    .$defaultFn(() => TEMPERATURE_RANGES.FREEZING.MIN),
   temperatureProfileId: text('temperature_profile_id')
     .notNull()
     .references(() => temperature_profiles.id, { onDelete: 'cascade' }),
@@ -68,12 +75,22 @@ const insertOrderSchema = createInsertSchema(orders, {
   containerTypeName: (schema) => schema.containerTypeName.min(1).max(50),
   volumeName: (schema) => schema.volumeName.min(1).max(50),
   temperatureProfileId: (schema) => schema.temperatureProfileId.min(1).max(50),
+  temperatureConsumption: (schema) =>
+    schema.temperatureConsumption
+      .min(TEMPERATURE_RANGES.CONSUMPTION.MIN, ZOD_ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE)
+      .max(TEMPERATURE_RANGES.CONSUMPTION.MAX, ZOD_ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE),
+  temperatureFreezing: (schema) =>
+    schema.temperatureFreezing
+      .min(TEMPERATURE_RANGES.FREEZING.MIN, ZOD_ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE)
+      .max(TEMPERATURE_RANGES.FREEZING.MAX, ZOD_ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE),
 })
   .required({
     drinkTypeName: true,
     containerTypeName: true,
     volumeName: true,
     temperatureProfileId: true,
+    temperatureConsumption: true,
+    temperatureFreezing: true,
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 

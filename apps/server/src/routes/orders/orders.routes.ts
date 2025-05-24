@@ -22,6 +22,8 @@ export const list = createRoute({
           containerTypeName: true,
           volumeName: true,
           temperatureProfileId: true,
+          temperatureConsumption: true,
+          temperatureFreezing: true,
         }),
       ),
       'List of available drink orders',
