@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "8bc3d294-5baf-4b09-9bc6-b0bca31c0367",
+  "id": "92cfdf3d-bb24-455f-a30d-983bfc4d3764",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -898,6 +898,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "profile_id": {
+          "name": "profile_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "is_active": {
           "name": "is_active",
           "type": "integer",
@@ -1124,8 +1131,8 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "temperature_table_entries": {
-      "name": "temperature_table_entries",
+    "temperature_profiles": {
+      "name": "temperature_profiles",
       "columns": {
         "id": {
           "name": "id",
@@ -1134,8 +1141,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "table_id": {
-          "name": "table_id",
+        "profile_id": {
+          "name": "profile_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -1148,126 +1155,29 @@
           "notNull": true,
           "autoincrement": false
         },
-        "time_minutes": {
-          "name": "time_minutes",
+        "time_a": {
+          "name": "time_a",
           "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "sort_order": {
-          "name": "sort_order",
-          "type": "integer",
+        "time_b": {
+          "name": "time_b",
+          "type": "real",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "is_active": {
-          "name": "is_active",
-          "type": "integer",
+        "time_c": {
+          "name": "time_c",
+          "type": "real",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
           "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {
-        "temperature_table_entries_table_id_temperature_tables_id_fk": {
-          "name": "temperature_table_entries_table_id_temperature_tables_id_fk",
-          "tableFrom": "temperature_table_entries",
-          "tableTo": "temperature_tables",
-          "columnsFrom": [
-            "table_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
-    "temperature_tables": {
-      "name": "temperature_tables",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "table_number": {
-          "name": "table_number",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "element_type": {
-          "name": "element_type",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "is_active": {
-          "name": "is_active",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false,
-          "default": true
-        },
-        "created_at": {
-          "name": "created_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        },
-        "updated_at": {
-          "name": "updated_at",
-          "type": "integer",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {
-        "temperature_tables_table_number_unique": {
-          "name": "temperature_tables_table_number_unique",
-          "columns": [
-            "table_number"
-          ],
-          "isUnique": true
-        }
-      },
       "foreignKeys": {},
       "compositePrimaryKeys": {},
       "uniqueConstraints": {},

@@ -1,9 +1,12 @@
 import { db } from '../db.adapter';
-import { container_types, drink_subtypes, drink_types, orders, volumes } from '../schemas';
-
-function generateTableCode(prefix: string, index: number): string {
-  return `${prefix}${String(index).padStart(3, '0')}`;
-}
+import {
+  container_types,
+  drink_subtypes,
+  drink_types,
+  orders,
+  temperature_profiles,
+  volumes,
+} from '../schemas';
 
 function getRandomSample<T>(arr: T[], n: number): T[] {
   const result = [];
@@ -34,9 +37,11 @@ export async function seed() {
     const subtypes = await db.select().from(drink_subtypes);
     const allVolumes = await db.select().from(volumes);
     const allContainers = await db.select().from(container_types);
+    const profiles = await db.select().from(temperature_profiles);
+    const profileIds = profiles.map((p) => p.profileId || p.id);
 
     const orderRows = [];
-    let orderIndex = 1;
+    let profileIdx = 0;
 
     for (const type of drinkTypes) {
       const typeSubtypes = subtypes.filter((s) => s.drinkTypeId === type.id);
@@ -52,11 +57,9 @@ export async function seed() {
                 drinkSubtypeName: null,
                 containerTypeName: container.name,
                 volumeName: volume.name,
-                tableA: generateTableCode('A', orderIndex),
-                tableB: generateTableCode('B', orderIndex),
-                tableC: generateTableCode('C', orderIndex),
+                profileId: profileIds[profileIdx % profileIds.length],
               });
-              orderIndex++;
+              profileIdx++;
             }
           }
         }
@@ -73,16 +76,18 @@ export async function seed() {
                   drinkSubtypeName: subtype.name,
                   containerTypeName: container.name,
                   volumeName: volume.name,
-                  tableA: generateTableCode('A', orderIndex),
-                  tableB: generateTableCode('B', orderIndex),
-                  tableC: generateTableCode('C', orderIndex),
+                  profileId: profileIds[profileIdx % profileIds.length],
                 });
-                orderIndex++;
+                profileIdx++;
               }
             }
           }
         }
       }
+    }
+
+    if (orderRows.length === 0) {
+      throw new Error('No orders to insert! Check your seed logic.');
     }
 
     await db.insert(orders).values(orderRows);
