@@ -10,7 +10,7 @@ import type { ValidMenuPadNumber } from 'pages/MenuPage/menu.types';
 import type { DataEntry } from 'types/data.types';
 import { Pad } from 'components/Pad';
 import { OrderItemCountdown } from './OrderItemCountdown';
-import { OrderFieldKeys } from 'src/config/app.config';
+import { OrderFieldKeys } from 'constants/app.config';
 
 export interface MenuPadProps<T extends MenuItemType> {
   itemType: T; // 'A' | 'B' | 'C'

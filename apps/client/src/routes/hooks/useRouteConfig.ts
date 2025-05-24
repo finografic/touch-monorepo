@@ -1,9 +1,9 @@
 import type { UIMatch } from 'react-router-dom';
 import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
-import { OrderFieldKeys } from 'src/config/app.config';
-import type { FilterKey } from 'src/config/app.config';
-import { PADS_UI_CONFIG } from 'src/config/ui.config';
+import { OrderFieldKeys } from 'constants/app.config';
+import type { FilterKey } from 'constants/app.config';
+import { PADS_UI_CONFIG } from 'constants/ui.config';
 import type { OrderFieldKey } from 'types/orders.types';
 import { hasOptionalProperties } from 'types/utilities/object.utils.types';
 import { useMemo } from 'react';

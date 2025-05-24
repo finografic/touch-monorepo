@@ -1,5 +1,5 @@
 import { createMenuLayout } from 'types/menu.types';
-import { NUM_ITEMS_TYPE_B } from 'src/config/app.config';
+import { NUM_ITEMS_TYPE_B } from 'constants/app.config';
 import type { MenuBCount } from 'pages/MenuPage/menu.types';
 import type { PadTestProps } from 'pages/MenuPage/MenuPage';
 

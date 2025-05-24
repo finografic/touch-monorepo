@@ -1,5 +1,5 @@
 import { EndpointHelper } from 'api/api.endpoints';
-import { OrderFieldKeys } from 'src/config/app.config';
+import { OrderFieldKeys } from 'constants/app.config';
 import type { LoaderFunction } from 'react-router-dom';
 
 type LoaderMap = {

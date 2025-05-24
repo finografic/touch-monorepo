@@ -7,7 +7,7 @@ import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
 import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPage';
 import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
 import { PATHS, ROUTES_CONFIG } from './routes.config';
-import { OrderFieldKeys } from 'src/config/app.config';
+import { OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPage/AdminPage';
 import { TemperaturePage } from 'pages/DrinkPages/TemperaturePage';

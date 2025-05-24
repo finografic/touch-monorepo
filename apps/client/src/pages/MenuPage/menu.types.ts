@@ -1,5 +1,5 @@
 import type { ItemTypeAtIndex, MenuItemLayout } from 'types/menu.types';
-import type { NUM_ITEMS_TYPE_B } from 'src/config/app.config';
+import type { NUM_ITEMS_TYPE_B } from 'constants/app.config';
 
 // Define the number of Type B pads we're using
 export type MenuBCount = typeof NUM_ITEMS_TYPE_B;

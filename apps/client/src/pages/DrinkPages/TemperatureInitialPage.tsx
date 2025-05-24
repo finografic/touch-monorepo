@@ -7,7 +7,7 @@ import { useGetTemperatureSettings } from 'queries/temperature';
 import type { DrinkVolume } from 'types/models/volume.model';
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import { Loader } from '../../components/Loader/Loader';
-import { OrderFieldKeys } from 'src/config/app.config';
+import { OrderFieldKeys } from 'constants/app.config';
 
 const DEFAULT_INITIAL_TEMP = 23.5;
 // Safe default limits that match most drink types

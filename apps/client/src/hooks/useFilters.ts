@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey, OrderFilters } from 'types/orders.types';
-import { OrderFieldKeys } from '../config/app.config';
+import { OrderFieldKeys } from 'constants/app.config';
 import { api } from 'api';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
 import { useOrders } from 'providers/OrdersProvider';
@@ -11,10 +11,10 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 const FILTER_ORDER: OrderFieldKey[] = [
   OrderFieldKeys.drinkType,
   OrderFieldKeys.drinkSubtype,
-  OrderFieldKeys.drinkVolume,
   OrderFieldKeys.containerType,
-  OrderFieldKeys.initialTemperature,
-  OrderFieldKeys.finalTemperature,
+  OrderFieldKeys.drinkVolume,
+  // OrderFieldKeys.initialTemperature,
+  // OrderFieldKeys.finalTemperature,
 ];
 
 export const useFilters = (initialFilters?: OrderFilters) => {
@@ -82,10 +82,10 @@ export const useFilters = (initialFilters?: OrderFilters) => {
             return entry.volumeName === value.name;
           case OrderFieldKeys.containerType:
             return entry.containerTypeName === value.name;
-          case OrderFieldKeys.initialTemperature:
-            return entry.initialTemperatureName === value.name;
-          case OrderFieldKeys.finalTemperature:
-            return entry.finalTemperatureName === value.name;
+          // case OrderFieldKeys.initialTemperature:
+          //   return entry.initialTemperatureName === value.name;
+          // case OrderFieldKeys.finalTemperature:
+          //   return entry.finalTemperatureName === value.name;
           default:
             return true;
         }

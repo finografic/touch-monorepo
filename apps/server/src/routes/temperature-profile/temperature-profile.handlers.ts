@@ -10,32 +10,38 @@ import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
 import { db } from 'db';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
-import { ZOD_ERROR_CODES } from 'lib/constants';
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
+import { eq } from 'drizzle-orm';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
-  const drinkVolumes = await db.query.temperature_profiles.findMany({
-    where: (fields, operators) => operators.eq(fields.isActive, true),
+  const temperatureProfiles = await db.query.temperature_profiles.findMany({
     columns: {
       id: true,
-      name: true,
-      valueInMl: true,
-      sortOrder: true,
-      coolingFactor: true,
-      isActive: true,
+      coolingProfileId: true,
+      temperature: true,
+      timeA: true,
+      timeB: true,
+      timeC: true,
+    },
+    with: {
+      coolingProfile: true,
     },
   });
-  return context.json(drinkVolumes);
+  return context.json(temperatureProfiles);
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   const { id } = context.req.valid('param');
-  const drinkVolume = await db.query.temperature_profiles.findFirst({
+  const temperatureProfile = await db.query.temperature_profiles.findFirst({
     where(fields, operators) {
       return operators.eq(fields.id, id);
     },
+    with: {
+      coolingProfile: true,
+    },
   });
 
-  if (!drinkVolume) {
+  if (!temperatureProfile) {
     return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
@@ -44,12 +50,12 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
     );
   }
 
-  return context.json(drinkVolume, HttpStatusCodes.OK);
+  return context.json(temperatureProfile, HttpStatusCodes.OK);
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (context) => {
-  const drinkVolume = context.req.valid('json');
-  const [inserted] = await db.insert(temperature_profiles).values(drinkVolume).returning();
+  const temperatureProfile = context.req.valid('json');
+  const [inserted] = await db.insert(temperature_profiles).values(temperatureProfile).returning();
   return context.json(inserted, HttpStatusCodes.OK);
 };
 
@@ -76,13 +82,13 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
-  const [drinkVolume] = await db
+  const [temperatureProfile] = await db
     .update(temperature_profiles)
     .set(updates)
     .where(eq(temperature_profiles.id, id))
     .returning();
 
-  if (!drinkVolume) {
+  if (!temperatureProfile) {
     return context.json(
       {
         message: HttpStatusPhrases.NOT_FOUND,
@@ -91,7 +97,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
-  return context.json(drinkVolume, HttpStatusCodes.OK);
+  return context.json(temperatureProfile, HttpStatusCodes.OK);
 };
 
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {

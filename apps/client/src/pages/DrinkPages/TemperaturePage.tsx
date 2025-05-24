@@ -7,7 +7,7 @@ import { useGetTemperatureSettings } from 'queries/temperature';
 import type { DrinkVolume } from 'types/models/volume.model';
 import { ErrorMessage } from '../../components/ErrorMessage/ErrorMessage';
 import { Loader } from '../../components/Loader/Loader';
-import { OrderFieldKeys } from 'src/config/app.config';
+import { OrderFieldKeys } from 'constants/app.config';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
@@ -20,7 +20,7 @@ import {
   INITIAL_TEMP_DEFAULT,
   INITIAL_TEMP_MAX,
   INITIAL_TEMP_MIN,
-} from 'config/temperature.config';
+} from 'constants/temperature.config';
 
 // ======================================================================== //
 // NOTE:  HOW TEMPERATURE WORKS:
