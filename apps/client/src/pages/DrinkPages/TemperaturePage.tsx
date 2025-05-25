@@ -70,8 +70,8 @@ export const TemperaturePage = () => {
     const initial = temp.value;
     const final = temperatureRef.current.final;
 
-    // Ensure final temp doesn't exceed initial
-    const adjustedFinal = Math.min(final, initial);
+    // If initial temp is decreased below final temp, adjust final temp to match initial
+    const adjustedFinal = initial <= final ? initial : final;
     updateTemperatures(initial, adjustedFinal);
   };
 
@@ -107,7 +107,8 @@ export const TemperaturePage = () => {
           <TemperatureInput
             value={temperatureRef.current.initial}
             onChange={handleInitialTempChange}
-            label="initial temperature"
+            label="temperatura inicial"
+            description="por defecto, la temperatura ambiente suministrada"
             min={INITIAL_TEMP_MIN}
             max={INITIAL_TEMP_MAX}
             step={0.5}
@@ -117,7 +118,8 @@ export const TemperaturePage = () => {
           <TemperatureInput
             value={temperatureRef.current.final}
             onChange={handleFinalTempChange}
-            label="final temperature"
+            label="temperatura final"
+            description="por defecto, la temperatura de consumo recomendada"
             min={FINAL_TEMP_MIN}
             max={Math.min(FINAL_TEMP_MAX, temperatureRef.current.initial)}
             step={0.5}

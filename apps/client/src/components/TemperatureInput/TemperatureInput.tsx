@@ -8,6 +8,7 @@ interface TemperatureInputProps {
   onChange: (temp: Temperature) => void;
   defaultValue?: number;
   label: string;
+  description: string;
   step?: number;
   min?: number;
   max?: number;
@@ -18,6 +19,7 @@ export const TemperatureInput: FC<TemperatureInputProps> = ({
   onChange,
   defaultValue = 20,
   label,
+  description,
   step = 0.5,
   min = -10,
   max = 40,
@@ -43,6 +45,7 @@ export const TemperatureInput: FC<TemperatureInputProps> = ({
     <div css={styles}>
       <div className="temperature-container">
         <label>{label}</label>
+        <p>{description}</p>
         <div className="input-container">
           <button
             className="control-button"

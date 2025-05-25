@@ -10,24 +10,26 @@ export const styles = css`
     padding: 2rem;
     min-width: 340px;
     margin: 0 auto;
-  }
 
-  .description {
-    color: ${colors.text};
-    font-size: 1.2rem;
-    text-align: center;
-    max-width: 500px;
-    line-height: 1.6;
-    padding-bottom: 2rem;
-  }
+    label {
+      font-size: 1.5rem;
+      font-weight: 500;
+      color: ${colors.textLight};
+      text-align: center;
+      max-width: 500px;
+      margin: 0;
+      padding: 0;
+    }
 
-  label {
-    font-size: 1.5rem;
-    font-weight: 500;
-    color: ${colors.textLight};
-    text-align: center;
-    max-width: 500px;
-    margin-bottom: 5%;
+    p {
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: ${colors.text};
+      text-align: center;
+      max-width: 320px;
+      margin: 0;
+      /* padding: 0; */
+    }
   }
 
   .input-container {

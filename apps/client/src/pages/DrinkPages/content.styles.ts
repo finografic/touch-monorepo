@@ -14,5 +14,6 @@ export const styles = css`
 
   .page-description {
     margin-top: -33%;
+    margin-bottom: -8%;
   }
 `;
