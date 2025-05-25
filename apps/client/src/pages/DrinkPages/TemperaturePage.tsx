@@ -83,13 +83,17 @@ export const TemperaturePage = () => {
 
   useEffect(() => {
     // Subtype takes precedence over type
-    const filtersTempConsumption = Object.values(filters).reduce(
-      (acc, value) => value?.defaultTempConsume ?? acc,
-      0,
-    );
+    if (!isInitializedRef.current) {
+      setTimeout(() => {
+        const filtersTempConsumption = Object.values(filters).reduce(
+          (acc, value) => value?.defaultTempConsume ?? acc,
+          0,
+        );
 
-    temperatureRef.current.final = filtersTempConsumption;
-    isInitializedRef.current = true;
+        temperatureRef.current.final = filtersTempConsumption;
+        isInitializedRef.current = true;
+      }, 100);
+    }
   }, [filters]);
 
   return (
