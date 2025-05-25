@@ -6,7 +6,7 @@ type LoaderMap = {
   [K in keyof typeof OrderFieldKeys]: LoaderFunction;
 };
 
-export const LoaderDataHelper: LoaderMap = {
+export const LoaderDataHelper: Partial<LoaderMap> = {
   [OrderFieldKeys.home]: async () => {
     // TODO: Implement when ready
     return [];
@@ -21,6 +21,12 @@ export const LoaderDataHelper: LoaderMap = {
   },
   [OrderFieldKeys.drinkVolume]: EndpointHelper.getDrinkVolumes,
   [OrderFieldKeys.containerType]: EndpointHelper.getContainerTypes,
+  [OrderFieldKeys.temperature]: async ({ params }) => {
+    // TODO: Implement when ready
+    log('__DEV: params', 'hotpink', params);
+    return [];
+  },
+  /*
   [OrderFieldKeys.initialTemperature]: async () => {
     // TODO: Implement when ready
     return [];
@@ -29,4 +35,5 @@ export const LoaderDataHelper: LoaderMap = {
     // TODO: Implement when ready
     return [];
   },
+  */
 };

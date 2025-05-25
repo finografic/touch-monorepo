@@ -52,9 +52,16 @@ const DEFAULT_TEMP: Temperature = {
 };
 
 export const TemperaturePage = () => {
-  const { fieldKey, padsConfig } = useRouteConfig();
-  const { pads } = useLayoutUi();
+  const { fieldKey } = useRouteConfig();
+  // const { pads } = useLayoutUi();
   const { orders, setOrdersFilter } = useOrders();
+
+  log('__DEV: fieldKey', 'blue', fieldKey);
+  // log('__DEV: padsConfig', 'magenta', padsConfig);
+  // log('__DEV: pads', 'hotpink', pads);
+  log('__DEV: orders', 'cyan', orders);
+
+  // ======================================================================== //
   /*
 
   const { setIsNextDisabled } = usePagination();

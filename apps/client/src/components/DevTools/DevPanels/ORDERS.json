@@ -1,6 +1,6 @@
 [
   {
-    "itemNumber": 2,
+    "itemNumber": 1,
     "isSelected": true,
     "isLocked": false,
     "filters": {
@@ -31,7 +31,7 @@
     "processStatus": { "isProcessing": false }
   },
   {
-    "itemNumber": 1,
+    "itemNumber": 2,
     "isSelected": true,
     "isLocked": false,
     "filters": {
