@@ -32,6 +32,7 @@ export const FilterKeys: { [K in string]: K } = {
   volumeName: 'volumeName',
   containerTypeName: 'containerTypeName',
   temperatureName: 'temperatureName',
+  defaultTempConsume: 'defaultTempConsume',
   // initialTemperatureName: 'initialTemperatureName',
   // finalTemperatureName: 'finalTemperatureName',
 } as const;

@@ -1,8 +1,8 @@
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
-import { OrderFieldKeys } from 'constants/app.config';
+import { FilterKeys, OrderFieldKeys } from 'constants/app.config';
 
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useFilters } from 'hooks/useFilters';
@@ -40,8 +40,9 @@ const DEFAULT_TEMP: Temperature = {
 };
 
 export const TemperaturePage = () => {
+  const [defaultTempConsumption, setDefaultTempConsumption] = useState(0);
   const { fieldKey } = useRouteConfig();
-  const { setFilter } = useFilters();
+  const { filters, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
 
   // Track both temperatures for validation
@@ -80,6 +81,18 @@ export const TemperaturePage = () => {
     updateTemperatures(initial, final);
   };
 
+  useEffect(() => {
+    // Subtype takes precedence over type
+    const filtersTempConsumption = Object.values(filters).reduce(
+      (acc, value) => value?.defaultTempConsume ?? acc,
+      0,
+    );
+
+    setDefaultTempConsumption(filtersTempConsumption);
+  }, [filters]);
+
+  log('__DEV: defaultTempConsumption', 'lime', defaultTempConsumption);
+
   return (
     <Flex css={styles} className="temperature-content" gap="3" direction="column">
       <Flex className="page-description" gap="3" justify="center">
@@ -95,7 +108,7 @@ export const TemperaturePage = () => {
           <TemperatureInput
             value={temperatureRef.current.initial}
             onChange={handleInitialTempChange}
-            defaultValue={INITIAL_TEMP_DEFAULT}
+            // defaultValue={INITIAL_TEMP_DEFAULT}
             label="initial temperature"
             min={INITIAL_TEMP_MIN}
             max={INITIAL_TEMP_MAX}
@@ -104,9 +117,9 @@ export const TemperaturePage = () => {
         </Box>
         <Box>
           <TemperatureInput
-            value={temperatureRef.current.final}
+            value={defaultTempConsumption ?? temperatureRef.current.final}
             onChange={handleFinalTempChange}
-            defaultValue={FINAL_TEMP_DEFAULT}
+            defaultValue={defaultTempConsumption}
             label="final temperature"
             min={FINAL_TEMP_MIN}
             max={Math.min(FINAL_TEMP_MAX, temperatureRef.current.initial)}

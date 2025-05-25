@@ -1,60 +1,29 @@
 [
   {
-    "itemNumber": 1,
-    "isSelected": true,
-    "isLocked": false,
-    "filters": {
-      "drinkType": {
-        "id": "cmb3mq1ov0001dilw6ntbasot",
-        "name": "vino",
-        "hasSubtypes": true,
-        "defaultTempConsume": 15,
-        "lookup": { "drinkTypeName": "vino" }
-      },
-      "drinkSubtype": {
-        "id": "cmb3mq1ow000adilwbsb4x0pq",
-        "name": "blanco",
-        "defaultTempConsume": 12,
-        "lookup": { "drinkSubtypeName": "blanco" }
-      },
-      "drinkVolume": {
-        "id": "cmb3mq3oo0005gllwwe406k0a",
-        "name": "50cl",
-        "lookup": { "volumeName": "50cl" }
-      },
-      "containerType": {
-        "id": "cmb3mq3020001fllw75pmefxe",
-        "name": "vidrio",
-        "lookup": { "containerTypeName": "vidrio" }
-      }
-    },
-    "processStatus": { "isProcessing": false }
-  },
-  {
     "itemNumber": 2,
     "isSelected": true,
     "isLocked": false,
     "filters": {
       "drinkType": {
-        "id": "cmb3mq1ov0001dilw6ntbasot",
+        "id": "cmb3o9phl000143lwk5lqgska",
         "name": "vino",
         "hasSubtypes": true,
         "defaultTempConsume": 15,
         "lookup": { "drinkTypeName": "vino" }
       },
       "drinkSubtype": {
-        "id": "cmb3mq1ow000adilwbsb4x0pq",
+        "id": "cmb3o9phn000a43lw595nj4ca",
         "name": "blanco",
         "defaultTempConsume": 12,
         "lookup": { "drinkSubtypeName": "blanco" }
       },
       "drinkVolume": {
-        "id": "cmb3mq3oo0005gllwwe406k0a",
-        "name": "50cl",
-        "lookup": { "volumeName": "50cl" }
+        "id": "cmb3o9rh200047alwjmovz12n",
+        "name": "75cl",
+        "lookup": { "volumeName": "75cl" }
       },
       "containerType": {
-        "id": "cmb3mq3020001fllw75pmefxe",
+        "id": "cmb3o9qss000168lw7vpqia7q",
         "name": "vidrio",
         "lookup": { "containerTypeName": "vidrio" }
       }
@@ -67,25 +36,25 @@
     "isLocked": false,
     "filters": {
       "drinkType": {
-        "id": "cmb3mq1ov0001dilw6ntbasot",
+        "id": "cmb3o9phl000143lwk5lqgska",
         "name": "vino",
         "hasSubtypes": true,
         "defaultTempConsume": 15,
         "lookup": { "drinkTypeName": "vino" }
       },
       "drinkSubtype": {
-        "id": "cmb3mq1ow000adilwbsb4x0pq",
+        "id": "cmb3o9phn000a43lw595nj4ca",
         "name": "blanco",
         "defaultTempConsume": 12,
         "lookup": { "drinkSubtypeName": "blanco" }
       },
       "drinkVolume": {
-        "id": "cmb3mq3oo0005gllwwe406k0a",
-        "name": "50cl",
-        "lookup": { "volumeName": "50cl" }
+        "id": "cmb3o9rh200047alwjmovz12n",
+        "name": "75cl",
+        "lookup": { "volumeName": "75cl" }
       },
       "containerType": {
-        "id": "cmb3mq3020001fllw75pmefxe",
+        "id": "cmb3o9qss000168lw7vpqia7q",
         "name": "vidrio",
         "lookup": { "containerTypeName": "vidrio" }
       }
