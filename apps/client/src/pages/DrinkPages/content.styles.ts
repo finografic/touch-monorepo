@@ -11,4 +11,8 @@ export const styles = css`
     justify-content: center;
     gap: 2rem;
   }
+
+  .page-description {
+    margin-top: -33%;
+  }
 `;

@@ -125,7 +125,7 @@ export const TemperaturePage = () => {
 
   return (
     <Flex css={styles} className="temperature-content" gap="3" direction="column">
-      <Flex gap="3" justify="center">
+      <Flex className="page-description" gap="3" justify="center">
         <Box>
           <p>
             By default, it indicates the ambient temperature supplied by a probe. The user can modify it using
