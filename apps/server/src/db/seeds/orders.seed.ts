@@ -67,8 +67,8 @@ export async function seed() {
               orderRows.push({
                 drinkTypeName: type.name,
                 drinkSubtypeName: null,
-                containerTypeName: container.name,
                 volumeName: volume.name,
+                containerTypeName: container.name,
                 defaultTempConsume: getRandomInt(
                   TEMPERATURE_RANGES.CONSUMPTION.MIN,
                   TEMPERATURE_RANGES.CONSUMPTION.MAX,
@@ -94,8 +94,8 @@ export async function seed() {
                 orderRows.push({
                   drinkTypeName: type.name,
                   drinkSubtypeName: subtype.name,
-                  containerTypeName: container.name,
                   volumeName: volume.name,
+                  containerTypeName: container.name,
                   defaultTempConsume: getRandomInt(
                     TEMPERATURE_RANGES.CONSUMPTION.MIN,
                     TEMPERATURE_RANGES.CONSUMPTION.MAX,

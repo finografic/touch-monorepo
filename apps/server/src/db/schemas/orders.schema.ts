@@ -21,12 +21,12 @@ export const orders = sqliteTable('orders', {
   drinkSubtypeName: text('drink_subtype_name').references(() => drink_subtypes.name, {
     onDelete: 'set null',
   }), // references drink_subtypes.name (nullable)
-  containerTypeName: text('container_type_name')
-    .notNull()
-    .references(() => container_types.name, { onDelete: 'cascade' }), // references container_types.name
   volumeName: text('volume_name')
     .notNull()
     .references(() => volumes.name, { onDelete: 'cascade' }), // references volumes.name
+  containerTypeName: text('container_type_name')
+    .notNull()
+    .references(() => container_types.name, { onDelete: 'cascade' }), // references container_types.name
   defaultTempConsume: integer('default_temp_consume')
     .notNull()
     .$defaultFn(() => TEMPERATURE_RANGES.CONSUMPTION.MAX),
@@ -54,13 +54,13 @@ export const ordersRelations = relations(orders, ({ one }) => ({
     fields: [orders.drinkSubtypeName],
     references: [drink_subtypes.name],
   }),
-  containerType: one(container_types, {
-    fields: [orders.containerTypeName],
-    references: [container_types.name],
-  }),
   volume: one(volumes, {
     fields: [orders.volumeName],
     references: [volumes.name],
+  }),
+  containerType: one(container_types, {
+    fields: [orders.containerTypeName],
+    references: [container_types.name],
   }),
   temperatureProfile: one(temperature_profiles, {
     fields: [orders.temperatureProfileId],
@@ -72,8 +72,8 @@ export const ordersRelations = relations(orders, ({ one }) => ({
 const insertOrderSchema = createInsertSchema(orders, {
   drinkTypeName: (schema) => schema.drinkTypeName.min(1).max(50),
   drinkSubtypeName: (schema) => schema.drinkSubtypeName.max(50),
-  containerTypeName: (schema) => schema.containerTypeName.min(1).max(50),
   volumeName: (schema) => schema.volumeName.min(1).max(50),
+  containerTypeName: (schema) => schema.containerTypeName.min(1).max(50),
   temperatureProfileId: (schema) => schema.temperatureProfileId.min(1).max(50),
   defaultTempConsume: (schema) =>
     schema.defaultTempConsume
@@ -86,10 +86,10 @@ const insertOrderSchema = createInsertSchema(orders, {
 })
   .required({
     drinkTypeName: true,
-    containerTypeName: true,
     volumeName: true,
-    temperatureProfileId: true,
+    containerTypeName: true,
     defaultTempConsume: true,
+    temperatureProfileId: true,
     // defaultTempFreeze: true,
   })
   .omit({ id: true, createdAt: true, updatedAt: true });

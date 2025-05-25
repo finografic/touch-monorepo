@@ -134,8 +134,8 @@ CREATE TABLE `orders` (
 	`id` text PRIMARY KEY NOT NULL,
 	`drink_type_name` text NOT NULL,
 	`drink_subtype_name` text,
-	`container_type_name` text NOT NULL,
 	`volume_name` text NOT NULL,
+	`container_type_name` text NOT NULL,
 	`default_temp_consume` integer NOT NULL,
 	`temperature_profile_id` text NOT NULL,
 	`is_active` integer DEFAULT true NOT NULL,
@@ -143,8 +143,8 @@ CREATE TABLE `orders` (
 	`updated_at` integer,
 	FOREIGN KEY (`drink_type_name`) REFERENCES `drink_types`(`name`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`drink_subtype_name`) REFERENCES `drink_subtypes`(`name`) ON UPDATE no action ON DELETE set null,
-	FOREIGN KEY (`container_type_name`) REFERENCES `container_types`(`name`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`volume_name`) REFERENCES `volumes`(`name`) ON UPDATE no action ON DELETE cascade,
+	FOREIGN KEY (`container_type_name`) REFERENCES `container_types`(`name`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`temperature_profile_id`) REFERENCES `temperature_profiles`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint

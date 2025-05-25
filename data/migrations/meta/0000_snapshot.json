@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "b431108e-a518-4a52-b771-947fb352b35a",
+  "id": "4d1bbfb1-40be-42cf-9066-d66faabf125f",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -901,15 +901,15 @@
           "notNull": false,
           "autoincrement": false
         },
-        "container_type_name": {
-          "name": "container_type_name",
+        "volume_name": {
+          "name": "volume_name",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "volume_name": {
-          "name": "volume_name",
+        "container_type_name": {
+          "name": "container_type_name",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -980,12 +980,12 @@
           "onDelete": "set null",
           "onUpdate": "no action"
         },
-        "orders_container_type_name_container_types_name_fk": {
-          "name": "orders_container_type_name_container_types_name_fk",
+        "orders_volume_name_volumes_name_fk": {
+          "name": "orders_volume_name_volumes_name_fk",
           "tableFrom": "orders",
-          "tableTo": "container_types",
+          "tableTo": "volumes",
           "columnsFrom": [
-            "container_type_name"
+            "volume_name"
           ],
           "columnsTo": [
             "name"
@@ -993,12 +993,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "orders_volume_name_volumes_name_fk": {
-          "name": "orders_volume_name_volumes_name_fk",
+        "orders_container_type_name_container_types_name_fk": {
+          "name": "orders_container_type_name_container_types_name_fk",
           "tableFrom": "orders",
-          "tableTo": "volumes",
+          "tableTo": "container_types",
           "columnsFrom": [
-            "volume_name"
+            "container_type_name"
           ],
           "columnsTo": [
             "name"
