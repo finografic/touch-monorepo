@@ -41,7 +41,7 @@ export const GenericSelectPage = () => {
   };
 
   if (!pads?.length) {
-    return <NoItems message="No drink types found" />;
+    return <NoItems message="No entries found" />;
   }
 
   const padType: PadType = pads[0].type;
