@@ -4,9 +4,7 @@ import { Layout } from 'layout/Layout';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MenuPage } from '../pages/MenuPage/MenuPage';
 import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
-import { TemperatureInitialPage } from '../pages/DrinkPages/TemperatureInitialPage';
-import { TemperatureFinalPage } from '../pages/DrinkPages/TemperatureFinalPage';
-import { PATHS, ROUTES_CONFIG } from './routes.config';
+import { PATHS } from './routes.config';
 import { OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPage/AdminPage';
@@ -33,24 +31,6 @@ export const routes: RouteObject[] = [
       // ============================================== //
       // Drink Configuration Flow
       // ============================================== //
-      // {
-      //   path: PATHS.drinkType,
-      //   children: [
-      //     {
-      //       index: true,
-      //       id: OrderFieldKeys.drinkType,
-      //       element: <GenericSelectPage />,
-      //       loader: LoaderDataHelper[OrderFieldKeys.drinkType],
-      //     },
-      //     {
-      //       path: PATHS.drinkSubtype,
-      //       id: OrderFieldKeys.drinkSubtype,
-      //       loader: LoaderDataHelper[OrderFieldKeys.drinkSubtype],
-      //       element: <GenericSelectPage />,
-      //     },
-      //   ],
-      // },
-      // ------------------------------------------------------------------------ //
       {
         path: PATHS.drinkType,
         id: OrderFieldKeys.drinkType,
