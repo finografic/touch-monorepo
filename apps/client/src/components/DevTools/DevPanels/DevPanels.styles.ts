@@ -59,7 +59,13 @@ export const stylesRight = css`
   flex-direction: column;
   position: absolute;
   min-width: 24vw;
+  overflow-x: visible;
   top: 0;
   left: unset;
   right: 0;
+
+  pre {
+    max-width: 24vw;
+    overflow-x: hidden;
+  }
 `;
