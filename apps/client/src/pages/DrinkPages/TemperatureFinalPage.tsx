@@ -39,11 +39,11 @@ export const TemperatureFinalPage = () => {
 
   // // Update the initial value when temperature settings are loaded
   // useEffect(() => {
-  //   if (tempSettings?.defaultConsumptionTemp) {
+  //   if (tempSettings?.defaultTempConsume) {
   //     // Ensure the initial value is within bounds
   //     const boundedTemp = Math.min(
-  //       Math.max(tempSettings.defaultConsumptionTemp, tempSettings.minConsumptionTemp ?? DEFAULT_MIN_TEMP),
-  //       tempSettings.maxConsumptionTemp ?? DEFAULT_MAX_TEMP,
+  //       Math.max(tempSettings.defaultTempConsume, tempSettings.minTempConsume ?? DEFAULT_MIN_TEMP),
+  //       tempSettings.maxTempConsume ?? DEFAULT_MAX_TEMP,
   //     );
 
   //     handleTemperatureSelection({
@@ -70,10 +70,10 @@ export const TemperatureFinalPage = () => {
   //   <TemperatureInput
   //     value={selectedTemperature}
   //     onChange={handleTemperatureSelection}
-  //     defaultValue={tempSettings?.defaultConsumptionTemp ?? FALLBACK_FINAL_TEMP}
+  //     defaultValue={tempSettings?.defaultTempConsume ?? FALLBACK_FINAL_TEMP}
   //     description="By default, it indicates the recommended serving temperature for the selected beverage. The user can change it using the + and - buttons. Units are in degrees Celsius with one decimal place."
-  //     min={tempSettings?.minConsumptionTemp ?? DEFAULT_MIN_TEMP}
-  //     max={tempSettings?.maxConsumptionTemp ?? DEFAULT_MAX_TEMP}
+  //     min={tempSettings?.minTempConsume ?? DEFAULT_MIN_TEMP}
+  //     max={tempSettings?.maxTempConsume ?? DEFAULT_MAX_TEMP}
   //     step={0.5}
   //   />
   // );

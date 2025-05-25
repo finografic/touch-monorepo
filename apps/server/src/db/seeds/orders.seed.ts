@@ -70,11 +70,11 @@ export async function seed() {
                 containerTypeName: container.name,
                 volumeName: volume.name,
                 temperatureProfileId: uniqueProfileIds[profileIdx % uniqueProfileIds.length],
-                temperatureConsumption: getRandomInt(
+                defaultTempConsume: getRandomInt(
                   TEMPERATURE_RANGES.CONSUMPTION.MIN,
                   TEMPERATURE_RANGES.CONSUMPTION.MAX,
                 ),
-                temperatureFreezing: getRandomInt(
+                defaultTempFreeze: getRandomInt(
                   TEMPERATURE_RANGES.FREEZING.MIN,
                   TEMPERATURE_RANGES.FREEZING.MAX,
                 ),
@@ -97,11 +97,11 @@ export async function seed() {
                   containerTypeName: container.name,
                   volumeName: volume.name,
                   temperatureProfileId: uniqueProfileIds[profileIdx % uniqueProfileIds.length],
-                  temperatureConsumption: getRandomInt(
+                  defaultTempConsume: getRandomInt(
                     TEMPERATURE_RANGES.CONSUMPTION.MIN,
                     TEMPERATURE_RANGES.CONSUMPTION.MAX,
                   ),
-                  temperatureFreezing: getRandomInt(
+                  defaultTempFreeze: getRandomInt(
                     TEMPERATURE_RANGES.FREEZING.MIN,
                     TEMPERATURE_RANGES.FREEZING.MAX,
                   ),

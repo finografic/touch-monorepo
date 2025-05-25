@@ -59,8 +59,8 @@ export const TemperatureInitialPage = () => {
   // // Ensure initial temperature is within bounds when settings load
   useEffect(() => {
     if (tempSettingsQuery.data && selectedTemperature) {
-      const minTemp = tempSettingsQuery.data.defaultFreezeTemp ?? DEFAULT_MIN_TEMP;
-      const maxTemp = tempSettingsQuery.data.maxConsumptionTemp ?? DEFAULT_MAX_TEMP;
+      const minTemp = tempSettingsQuery.data.defaultTempFreeze ?? DEFAULT_MIN_TEMP;
+      const maxTemp = tempSettingsQuery.data.maxTempConsume ?? DEFAULT_MAX_TEMP;
 
       if (selectedTemperature.value < minTemp || selectedTemperature.value > maxTemp) {
         // Bound the temperature within the allowed range
@@ -100,8 +100,8 @@ export const TemperatureInitialPage = () => {
       onChange={handleTemperatureSelection}
       defaultValue={DEFAULT_INITIAL_TEMP}
       description="By default, it indicates the ambient temperature supplied by a probe. The user can modify it using the + and - buttons. Units are in degrees Celsius with one decimal place."
-      min={tempSettingsQuery.data?.defaultFreezeTemp ?? DEFAULT_MIN_TEMP}
-      max={tempSettingsQuery.data?.maxConsumptionTemp ?? DEFAULT_MAX_TEMP}
+      min={tempSettingsQuery.data?.defaultTempFreeze ?? DEFAULT_MIN_TEMP}
+      max={tempSettingsQuery.data?.maxTempConsume ?? DEFAULT_MAX_TEMP}
       step={0.5}
     />
   );

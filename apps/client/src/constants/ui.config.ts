@@ -17,7 +17,13 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     filterKey: FilterKeys.drinkTypeName,
     type: 'radio',
     labelKey: 'displayName',
-    valueKeys: ['id', 'name', 'hasSubtypes', 'temperatureConsume', 'temperatureFreeze'],
+    valueKeys: [
+      'id',
+      'name',
+      'hasSubtypes',
+      // 'temperatureConsume',
+      // 'tempFreeze',
+    ],
     maxPads: 10,
     minRequired: 1,
   },
@@ -25,7 +31,12 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     filterKey: FilterKeys.drinkSubtypeName,
     type: 'radio',
     labelKey: 'displayName',
-    valueKeys: ['id', 'name', 'temperatureConsume', 'temperatureFreeze'],
+    valueKeys: [
+      'id',
+      'name',
+      //  'temperatureConsume',
+      //  'tempFreeze'
+    ],
     maxPads: 10,
     minRequired: 1,
   },

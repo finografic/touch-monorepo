@@ -8,10 +8,10 @@ const tags = ['Temperature'];
 
 // Schema for temperature settings response
 const temperatureSettingsSchema = z.object({
-  defaultConsumptionTemp: z.number(),
-  minConsumptionTemp: z.number(),
-  maxConsumptionTemp: z.number(),
-  defaultFreezeTemp: z.number().optional(),
+  defaultTempConsume: z.number(),
+  minTempConsume: z.number(),
+  maxTempConsume: z.number(),
+  defaultTempFreeze: z.number().optional(),
 });
 
 // Schema for temperature calculation request

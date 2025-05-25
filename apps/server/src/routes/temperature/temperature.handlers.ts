@@ -58,16 +58,16 @@ export const getSettings: AppRouteHandler<GetSettingsRoute> = async (context) =>
     }
 
     // Build dynamic configuration
-    const defaultConsumptionTemp = drinkSubtype?.consumptionTemp ?? drinkType.defaultConsumptionTemp;
-    const defaultFreezeTemp = drinkSubtype?.freezeTemp ?? drinkType.defaultFreezeTemp;
+    const defaultTempConsume = drinkSubtype?.defaultTempConsume ?? drinkType.defaultTempConsume;
+    const defaultTempFreeze = drinkSubtype?.defaultTempFreeze ?? drinkType.defaultTempFreeze;
 
     // Return dynamically calculated settings
     return context.json(
       {
-        defaultConsumptionTemp,
-        minConsumptionTemp: defaultConsumptionTemp - 2, // 2 degrees below default
-        maxConsumptionTemp: defaultConsumptionTemp + 2, // 2 degrees above default
-        defaultFreezeTemp,
+        defaultTempConsume,
+        minTempConsume: defaultTempConsume - 2, // 2 degrees below default
+        maxTempConsume: defaultTempConsume + 2, // 2 degrees above default
+        defaultTempFreeze,
       },
       HttpStatusCodes.OK,
     );
@@ -134,12 +134,12 @@ export const calculate: AppRouteHandler<CalculateRoute> = async (context) => {
     }
 
     // Get consumption temperature from subtype or drink type
-    const defaultConsumptionTemp = drinkSubtype?.consumptionTemp ?? drinkType.defaultConsumptionTemp;
-    const minConsumptionTemp = defaultConsumptionTemp - 2;
-    const maxConsumptionTemp = defaultConsumptionTemp + 2;
+    const defaultTempConsume = drinkSubtype?.defaultTempConsume ?? drinkType.defaultTempConsume;
+    const minTempConsume = defaultTempConsume - 2;
+    const maxTempConsume = defaultTempConsume + 2;
 
     // Validate target temperature
-    if (targetTemp < minConsumptionTemp || targetTemp > maxConsumptionTemp) {
+    if (targetTemp < minTempConsume || targetTemp > maxTempConsume) {
       return context.json(
         {
           success: false,
@@ -148,7 +148,7 @@ export const calculate: AppRouteHandler<CalculateRoute> = async (context) => {
               {
                 code: ZOD_ERROR_CODES.INVALID_UPDATES,
                 path: ['targetTemp'],
-                message: `Target temperature must be between ${minConsumptionTemp}°C and ${maxConsumptionTemp}°C`,
+                message: `Target temperature must be between ${minTempConsume}°C and ${maxTempConsume}°C`,
               },
             ],
             name: 'ZodError',
@@ -183,7 +183,7 @@ export const calculate: AppRouteHandler<CalculateRoute> = async (context) => {
         ],
         timeTableId,
         recommendations: [
-          `Optimal serving temperature for ${drinkType.displayName}${drinkSubtype ? ` (${drinkSubtype.displayName})` : ''} is ${defaultConsumptionTemp}°C`,
+          `Optimal serving temperature for ${drinkType.displayName}${drinkSubtype ? ` (${drinkSubtype.displayName})` : ''} is ${defaultTempConsume}°C`,
           `Using ${containerType.displayName} with ${volume.valueInMl}ml capacity`,
         ],
       },

@@ -12,8 +12,8 @@ The temperature calculation system determines how long it will take to heat or c
 
 - Base configuration for each type of drink
 - Key fields:
-  - `default_consumption_temp`: Ideal serving temperature
-  - `default_freeze_temp`: Safe freezing temperature
+  - `default_temp_consume`: Ideal serving temperature
+  - `default_temp_freeze`: Safe freeze temperature
   - `has_subtypes`: Whether this drink type has variants
 
 #### `drink_subtypes`
@@ -46,9 +46,9 @@ Central configuration table linking everything together:
   - `container_type_id`
   - `volume_id`
 - Temperature constraints:
-  - `min_consumption_temp`
-  - `max_consumption_temp`
-  - `default_consumption_temp`
+  - `min_temp_consume`
+  - `max_temp_consume`
+  - `default_temp_consume`
 - Time table references:
   - `time_table_id_1`: For cooling
   - `time_table_id_2`: For heating
@@ -127,8 +127,8 @@ const estimatedSeconds = baseTime * volumeFactor * containerFactor;
    - Ensures target temperature is within allowed range:
 
    ```typescript
-   if (targetTemp < config.min_consumption_temp ||
-       targetTemp > config.max_consumption_temp) {
+   if (targetTemp < config.min_temp_consume ||
+       targetTemp > config.max_temp_consume) {
      // Error: Temperature out of range
    }
    ```

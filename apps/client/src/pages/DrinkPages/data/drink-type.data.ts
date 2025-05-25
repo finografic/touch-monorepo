@@ -5,7 +5,7 @@ export const DRINK_TYPES = [
     display_name: 'Vino',
     has_subtypes: 0,
     default_consumption_time: 0,
-    default_freeze_temp: 0,
+    default_temp_freeze: 0,
     is_active: 1,
   },
   {
@@ -14,7 +14,7 @@ export const DRINK_TYPES = [
     display_name: 'Licor',
     has_subtypes: 0,
     default_consumption_time: 0,
-    default_freeze_temp: 0,
+    default_temp_freeze: 0,
     is_active: 1,
   },
   {
@@ -23,7 +23,7 @@ export const DRINK_TYPES = [
     display_name: 'Cava',
     has_subtypes: 0,
     default_consumption_time: 0,
-    default_freeze_temp: 0,
+    default_temp_freeze: 0,
     is_active: 1,
   },
   {
@@ -32,7 +32,7 @@ export const DRINK_TYPES = [
     display_name: 'Zumo',
     has_subtypes: 0,
     default_consumption_time: 0,
-    default_freeze_temp: 0,
+    default_temp_freeze: 0,
     is_active: 1,
   },
   {
@@ -41,7 +41,7 @@ export const DRINK_TYPES = [
     display_name: 'Cerveza',
     has_subtypes: 0,
     default_consumption_time: 0,
-    default_freeze_temp: 0,
+    default_temp_freeze: 0,
     is_active: 1,
   },
   {
@@ -50,7 +50,7 @@ export const DRINK_TYPES = [
     display_name: 'Agua',
     has_subtypes: 0,
     default_consumption_time: 0,
-    default_freeze_temp: 0,
+    default_temp_freeze: 0,
     is_active: 1,
   },
   {
@@ -59,7 +59,7 @@ export const DRINK_TYPES = [
     display_name: 'Refresco',
     has_subtypes: 0,
     default_consumption_time: 0,
-    default_freeze_temp: 0,
+    default_temp_freeze: 0,
     is_active: 1,
   },
 ];

@@ -12,8 +12,8 @@ El sistema de cálculo de temperatura determina cuánto tiempo llevará calentar
 
 - Configuración base para cada tipo de bebida
 - Campos clave:
-  - `default_consumption_temp`: Temperatura ideal de servicio
-  - `default_freeze_temp`: Temperatura segura de congelación
+  - `default_temp_consume`: Temperatura ideal de servicio
+  - `default_temp_freeze`: Temperatura segura de congelación
   - `has_subtypes`: Indica si este tipo de bebida tiene variantes
 
 #### `drink_subtypes` (Subtipos de Bebida)
@@ -46,9 +46,9 @@ Tabla central de configuración que vincula todo:
   - `container_type_id`
   - `volume_id`
 - Restricciones de temperatura:
-  - `min_consumption_temp`
-  - `max_consumption_temp`
-  - `default_consumption_temp`
+  - `min_temp_consume`
+  - `max_temp_consume`
+  - `default_temp_consume`
 - Referencias a tablas de tiempo:
   - `time_table_id_1`: Para enfriamiento
   - `time_table_id_2`: Para calentamiento
@@ -127,8 +127,8 @@ const estimatedSeconds = baseTime * volumeFactor * containerFactor;
    - Asegura que la temperatura objetivo esté dentro del rango permitido:
 
    ```typescript
-   if (targetTemp < config.min_consumption_temp ||
-       targetTemp > config.max_consumption_temp) {
+   if (targetTemp < config.min_temp_consume ||
+       targetTemp > config.max_temp_consume) {
      // Error: Temperatura fuera de rango
    }
    ```

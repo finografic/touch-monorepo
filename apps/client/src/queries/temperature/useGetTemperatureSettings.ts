@@ -7,10 +7,10 @@ import { transformAxiosError } from 'src/api/api.utils';
 import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '.';
 
 export interface TemperatureSettings {
-  defaultConsumptionTemp: number;
-  minConsumptionTemp: number;
-  maxConsumptionTemp: number;
-  defaultFreezeTemp?: number;
+  defaultTempConsume: number;
+  minTempConsume: number;
+  maxTempConsume: number;
+  defaultTempFreeze?: number;
 }
 
 export interface GetTemperatureSettingsRequest {

@@ -3,8 +3,8 @@ export interface DrinkTypeEntity {
   name: string;
   display_name: string;
   has_subtypes: number; // Stored as integer in DB
-  // default_consumption_temp: number;
-  // default_freeze_temp: number;
+  default_temp_consume: number;
+  default_temp_freeze: number;
   is_active: number; // Stored as integer in DB
   created_at: number; // Stored as timestamp in DB
   updated_at: number; // Stored as timestamp in DB
@@ -15,6 +15,8 @@ export interface DrinkSubtypeEntity {
   drink_type_id: string;
   name: string;
   display_name: string;
+  default_temp_consume: number;
+  default_temp_freeze: number;
   is_active: number; // Stored as integer in DB
   created_at: number; // Stored as timestamp in DB
   updated_at: number; // Stored as timestamp in DB

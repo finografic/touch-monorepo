@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "78f9840c-38a9-4e14-bf6b-33e7f90ddfd8",
-  "prevId": "00000000-0000-0000-0000-000000000000",
+  "id": "ee41e92c-d10c-4868-af8a-207541dabec1",
+  "prevId": "78f9840c-38a9-4e14-bf6b-33e7f90ddfd8",
   "tables": {
     "auth_account": {
       "name": "auth_account",
@@ -929,15 +929,15 @@
           "notNull": true,
           "autoincrement": false
         },
-        "temp_consume": {
-          "name": "temp_consume",
+        "default_temp_consume": {
+          "name": "default_temp_consume",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "temp_freeze": {
-          "name": "temp_freeze",
+        "default_temp_freeze": {
+          "name": "default_temp_freeze",
           "type": "integer",
           "primaryKey": false,
           "notNull": true,

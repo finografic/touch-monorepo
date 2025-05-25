@@ -9,7 +9,7 @@ import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
 const tags = ['TemperatureProfile'];
 
 export const list = createRoute({
-  path: '/temperature-profile',
+  path: '/temperature-profiles',
   method: 'get',
   tags,
   responses: {
@@ -21,7 +21,7 @@ export const list = createRoute({
 });
 
 export const getOne = createRoute({
-  path: '/temperature-profile/{id}',
+  path: '/temperature-profiles/{id}',
   method: 'get',
   request: {
     params: IdCuidParamsSchema,
@@ -38,7 +38,7 @@ export const getOne = createRoute({
 });
 
 export const create = createRoute({
-  path: '/temperature-profile',
+  path: '/temperature-profiles',
   method: 'post',
   request: {
     body: jsonContentRequired(temperatureProfileSchemas.insert, 'The drink type to create'),
@@ -54,7 +54,7 @@ export const create = createRoute({
 });
 
 export const patch = createRoute({
-  path: '/temperature-profile/{id}',
+  path: '/temperature-profiles/{id}',
   method: 'patch',
   request: {
     params: IdCuidParamsSchema,
@@ -72,7 +72,7 @@ export const patch = createRoute({
 });
 
 export const remove = createRoute({
-  path: '/temperature-profile/{id}',
+  path: '/temperature-profiles/{id}',
   method: 'delete',
   request: {
     params: IdCuidParamsSchema,

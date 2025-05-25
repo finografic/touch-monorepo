@@ -49,8 +49,8 @@ export async function seed() {
           elementId: element1.id,
           drinkConfigId: beerConfig.id,
           startTemp: 22,
-          targetTemp: beerConfig.defaultConsumptionTemp,
-          lastTemp: beerConfig.defaultConsumptionTemp,
+          targetTemp: beerConfig.defaultTempConsume,
+          lastTemp: beerConfig.defaultTempConsume,
           startedAt: new Date(Date.now() - 1000 * 60 * 15), // 15 mins ago
           estimatedMinutes: 12,
           actualMinutes: 12,
@@ -62,7 +62,7 @@ export async function seed() {
           elementId: element5.id,
           drinkConfigId: beerConfig.id,
           startTemp: 24,
-          targetTemp: beerConfig.defaultConsumptionTemp,
+          targetTemp: beerConfig.defaultTempConsume,
           lastTemp: 8, // Partially cooled
           startedAt: new Date(Date.now() - 1000 * 60 * 5), // 5 mins ago
           estimatedMinutes: 10,
@@ -73,7 +73,7 @@ export async function seed() {
           elementId: element10.id,
           drinkConfigId: beerConfig.id,
           startTemp: 25,
-          targetTemp: beerConfig.defaultConsumptionTemp,
+          targetTemp: beerConfig.defaultTempConsume,
           lastTemp: 15, // Stopped halfway
           startedAt: new Date(Date.now() - 1000 * 60 * 20), // 20 mins ago
           estimatedMinutes: 8,

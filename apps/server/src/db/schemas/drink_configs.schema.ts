@@ -25,9 +25,9 @@ export const drink_configs = sqliteTable('drink_configs', {
     .references(() => volumes.id),
 
   // Temperature settings
-  defaultConsumptionTemp: integer('default_consumption_temp').notNull(), // in Celsius
-  minConsumptionTemp: integer('min_consumption_temp').notNull(), // Minimum allowed temp
-  maxConsumptionTemp: integer('max_consumption_temp').notNull(), // Maximum allowed temp
+  defaultTempConsume: integer('default_temp_consume').notNull(), // in Celsius
+  minTempConsume: integer('min_temp_consume').notNull(), // Minimum allowed temp
+  maxTempConsume: integer('max_temp_consume').notNull(), // Maximum allowed temp
 
   // Time-temperature table references (from the PowerPoint example)
   timeTableId1: text('time_table_id_1').notNull(), // e.g., '1001' for element 1
@@ -63,9 +63,9 @@ export const drinkConfigsRelations = relations(drink_configs, ({ one }) => ({
 
 // Zod schema for validation
 const insertDrinkConfigSchema = createInsertSchema(drink_configs, {
-  defaultConsumptionTemp: (schema) => schema.defaultConsumptionTemp.min(-10).max(30),
-  minConsumptionTemp: (schema) => schema.minConsumptionTemp.min(-10).max(30),
-  maxConsumptionTemp: (schema) => schema.maxConsumptionTemp.min(-10).max(30),
+  defaultTempConsume: (schema) => schema.defaultTempConsume.min(-10).max(30),
+  minTempConsume: (schema) => schema.minTempConsume.min(-10).max(30),
+  maxTempConsume: (schema) => schema.maxTempConsume.min(-10).max(30),
   timeTableId1: (schema) => schema.timeTableId1.length(4).regex(/^\d{4}$/),
   timeTableId2: (schema) => schema.timeTableId2.length(4).regex(/^\d{4}$/),
   timeTableId3: (schema) => schema.timeTableId3.length(4).regex(/^\d{4}$/),
@@ -74,9 +74,9 @@ const insertDrinkConfigSchema = createInsertSchema(drink_configs, {
     drinkTypeId: true,
     containerTypeId: true,
     volumeId: true,
-    defaultConsumptionTemp: true,
-    minConsumptionTemp: true,
-    maxConsumptionTemp: true,
+    defaultTempConsume: true,
+    minTempConsume: true,
+    maxTempConsume: true,
     timeTableId1: true,
     timeTableId2: true,
     timeTableId3: true,
