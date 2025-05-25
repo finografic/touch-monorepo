@@ -40,7 +40,7 @@ const DEFAULT_TEMP: Temperature = {
 };
 
 export const TemperaturePage = () => {
-  const [defaultTempConsumption, setDefaultTempConsumption] = useState(0);
+  const isInitializedRef = useRef(false);
   const { fieldKey } = useRouteConfig();
   const { filters, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
@@ -88,10 +88,9 @@ export const TemperaturePage = () => {
       0,
     );
 
-    setDefaultTempConsumption(filtersTempConsumption);
+    temperatureRef.current.final = filtersTempConsumption;
+    isInitializedRef.current = true;
   }, [filters]);
-
-  log('__DEV: defaultTempConsumption', 'lime', defaultTempConsumption);
 
   return (
     <Flex css={styles} className="temperature-content" gap="3" direction="column">
@@ -108,7 +107,6 @@ export const TemperaturePage = () => {
           <TemperatureInput
             value={temperatureRef.current.initial}
             onChange={handleInitialTempChange}
-            // defaultValue={INITIAL_TEMP_DEFAULT}
             label="initial temperature"
             min={INITIAL_TEMP_MIN}
             max={INITIAL_TEMP_MAX}
@@ -117,9 +115,8 @@ export const TemperaturePage = () => {
         </Box>
         <Box>
           <TemperatureInput
-            value={defaultTempConsumption ?? temperatureRef.current.final}
+            value={temperatureRef.current.final}
             onChange={handleFinalTempChange}
-            defaultValue={defaultTempConsumption}
             label="final temperature"
             min={FINAL_TEMP_MIN}
             max={Math.min(FINAL_TEMP_MAX, temperatureRef.current.initial)}
