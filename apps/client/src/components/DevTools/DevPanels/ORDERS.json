@@ -5,40 +5,56 @@
     "isLocked": false,
     "filters": {
       "drinkType": {
-        "id": "cmak3r33x0003g6lwm8xmwdp1",
-        "name": "licor",
-        "hasSubtypes": false,
-        "lookup": { "drinkTypeName": "licor" }
+        "id": "cmb3lmg97000195lwtz34zc9b",
+        "name": "vino",
+        "hasSubtypes": true,
+        "lookup": { "drinkTypeName": "vino" }
       },
-      "drinkVolume": { "id": "cmak3r5260003itlwzg48zpul", "name": "1L", "lookup": { "volumeName": "1L" } },
+      "drinkSubtype": {
+        "id": "cmb3lmg98000995lwbc1sspwr",
+        "name": "tinto",
+        "lookup": { "drinkSubtypeName": "tinto" }
+      },
+      "drinkVolume": {
+        "id": "cmb3lmib60004cglwtq1d6uuk",
+        "name": "75cl",
+        "lookup": { "volumeName": "75cl" }
+      },
       "containerType": {
-        "id": "cmak3r43g0002hhlwi5uup2a5",
-        "name": "metal",
-        "lookup": { "containerTypeName": "metal" }
+        "id": "cmb3lmhle0001b3lwq60n4hz1",
+        "name": "vidrio",
+        "lookup": { "containerTypeName": "vidrio" }
       }
     },
-    "processStatus": { "isProcessing": false },
-    "initialTemperature": { "value": 23.5, "unit": "°C" }
+    "processStatus": { "isProcessing": false }
   },
   {
-    "itemNumber": 4,
+    "itemNumber": 1,
     "isSelected": true,
     "isLocked": false,
     "filters": {
       "drinkType": {
-        "id": "cmak3r33x0003g6lwm8xmwdp1",
-        "name": "licor",
-        "hasSubtypes": false,
-        "lookup": { "drinkTypeName": "licor" }
+        "id": "cmb3lmg97000195lwtz34zc9b",
+        "name": "vino",
+        "hasSubtypes": true,
+        "lookup": { "drinkTypeName": "vino" }
       },
-      "drinkVolume": { "id": "cmak3r5260003itlwzg48zpul", "name": "1L", "lookup": { "volumeName": "1L" } },
+      "drinkSubtype": {
+        "id": "cmb3lmg98000995lwbc1sspwr",
+        "name": "tinto",
+        "lookup": { "drinkSubtypeName": "tinto" }
+      },
+      "drinkVolume": {
+        "id": "cmb3lmib60004cglwtq1d6uuk",
+        "name": "75cl",
+        "lookup": { "volumeName": "75cl" }
+      },
       "containerType": {
-        "id": "cmak3r43g0002hhlwi5uup2a5",
-        "name": "metal",
-        "lookup": { "containerTypeName": "metal" }
+        "id": "cmb3lmhle0001b3lwq60n4hz1",
+        "name": "vidrio",
+        "lookup": { "containerTypeName": "vidrio" }
       }
     },
-    "processStatus": { "isProcessing": false },
-    "initialTemperature": { "value": 23.5, "unit": "°C" }
+    "processStatus": { "isProcessing": false }
   }
 ]
