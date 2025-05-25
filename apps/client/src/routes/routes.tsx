@@ -63,7 +63,6 @@ export const routes: RouteObject[] = [
         loader: LoaderDataHelper[OrderFieldKeys.drinkSubtype],
         element: <GenericSelectPage />,
       },
-
       // ------------------------------------------------------------------------ //
       {
         path: PATHS.drinkVolume,
