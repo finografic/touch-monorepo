@@ -30,9 +30,9 @@ export const orders = sqliteTable('orders', {
   defaultTempConsume: integer('default_temp_consume')
     .notNull()
     .$defaultFn(() => TEMPERATURE_RANGES.CONSUMPTION.MAX),
-  defaultTempFreeze: integer('default_temp_freeze')
-    .notNull()
-    .$defaultFn(() => TEMPERATURE_RANGES.FREEZING.MIN),
+  // defaultTempFreeze: integer('default_temp_freeze')
+  //   .notNull()
+  //   .$defaultFn(() => TEMPERATURE_RANGES.FREEZING.MIN),
   temperatureProfileId: text('temperature_profile_id')
     .notNull()
     .references(() => temperature_profiles.id, { onDelete: 'cascade' }),
@@ -79,10 +79,10 @@ const insertOrderSchema = createInsertSchema(orders, {
     schema.defaultTempConsume
       .min(TEMPERATURE_RANGES.CONSUMPTION.MIN, ZOD_ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE)
       .max(TEMPERATURE_RANGES.CONSUMPTION.MAX, ZOD_ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE),
-  defaultTempFreeze: (schema) =>
-    schema.defaultTempFreeze
-      .min(TEMPERATURE_RANGES.FREEZING.MIN, ZOD_ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE)
-      .max(TEMPERATURE_RANGES.FREEZING.MAX, ZOD_ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE),
+  // defaultTempFreeze: (schema) =>
+  //   schema.defaultTempFreeze
+  //     .min(TEMPERATURE_RANGES.FREEZING.MIN, ZOD_ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE)
+  //     .max(TEMPERATURE_RANGES.FREEZING.MAX, ZOD_ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE),
 })
   .required({
     drinkTypeName: true,
@@ -90,7 +90,7 @@ const insertOrderSchema = createInsertSchema(orders, {
     volumeName: true,
     temperatureProfileId: true,
     defaultTempConsume: true,
-    defaultTempFreeze: true,
+    // defaultTempFreeze: true,
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 

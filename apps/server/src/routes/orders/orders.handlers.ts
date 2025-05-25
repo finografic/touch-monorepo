@@ -16,9 +16,9 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
       drinkSubtypeName: true,
       containerTypeName: true,
       volumeName: true,
-      temperatureProfileId: true,
       defaultTempConsume: true,
-      defaultTempFreeze: true,
+      // defaultTempFreeze: true,
+      temperatureProfileId: true,
     },
   });
   return context.json(drinkOrders);

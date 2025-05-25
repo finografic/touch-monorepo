@@ -69,15 +69,15 @@ export async function seed() {
                 drinkSubtypeName: null,
                 containerTypeName: container.name,
                 volumeName: volume.name,
-                temperatureProfileId: uniqueProfileIds[profileIdx % uniqueProfileIds.length],
                 defaultTempConsume: getRandomInt(
                   TEMPERATURE_RANGES.CONSUMPTION.MIN,
                   TEMPERATURE_RANGES.CONSUMPTION.MAX,
                 ),
-                defaultTempFreeze: getRandomInt(
-                  TEMPERATURE_RANGES.FREEZING.MIN,
-                  TEMPERATURE_RANGES.FREEZING.MAX,
-                ),
+                // defaultTempFreeze: getRandomInt(
+                //   TEMPERATURE_RANGES.FREEZING.MIN,
+                //   TEMPERATURE_RANGES.FREEZING.MAX,
+                // ),
+                temperatureProfileId: uniqueProfileIds[profileIdx % uniqueProfileIds.length],
               });
               profileIdx++;
             }
@@ -96,15 +96,15 @@ export async function seed() {
                   drinkSubtypeName: subtype.name,
                   containerTypeName: container.name,
                   volumeName: volume.name,
-                  temperatureProfileId: uniqueProfileIds[profileIdx % uniqueProfileIds.length],
                   defaultTempConsume: getRandomInt(
                     TEMPERATURE_RANGES.CONSUMPTION.MIN,
                     TEMPERATURE_RANGES.CONSUMPTION.MAX,
                   ),
-                  defaultTempFreeze: getRandomInt(
-                    TEMPERATURE_RANGES.FREEZING.MIN,
-                    TEMPERATURE_RANGES.FREEZING.MAX,
-                  ),
+                  // defaultTempFreeze: getRandomInt(
+                  //   TEMPERATURE_RANGES.FREEZING.MIN,
+                  //   TEMPERATURE_RANGES.FREEZING.MAX,
+                  // ),
+                  temperatureProfileId: uniqueProfileIds[profileIdx % uniqueProfileIds.length],
                 });
                 profileIdx++;
               }
