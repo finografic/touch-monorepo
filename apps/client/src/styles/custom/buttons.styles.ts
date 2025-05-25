@@ -25,10 +25,10 @@ export const stylesPad = css`
   text-align: center;
 
   cursor: pointer;
-  color: ${colors.info};
   background: transparent;
-  border: ${layout.borderWidth} solid ${colors.greyDark};
   transition: all 0.2s;
+  border: ${layout.borderWidth} solid ${colors.greyDark};
+  color: ${colors.info};
 
   &.pad-menu {
     border-radius: 50%;
@@ -41,7 +41,7 @@ export const stylesPad = css`
 
   &.checked {
     border-color: ${colors.info};
-    background-color: rgba(0, 191, 255, 0.1);
+    background-color: ${colors.info}11;
   }
 
   &.disabled {

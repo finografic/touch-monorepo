@@ -42,14 +42,14 @@ export const styles = css`
   .value-container {
     display: flex;
     align-items: center;
-    border: ${layout.borderWidth} solid rgba(128, 128, 128, 0.5); /* greyDark at 80% opacity */
     border-radius: 8px;
     padding: 1rem 2rem;
     font-size: 2rem;
-    color: ${colors.info};
     background: transparent;
     width: 100%;
     justify-content: center;
+    border: ${layout.borderWidth} solid ${colors.greyXXDark}; /* greyDark at 80% opacity */
+    color: ${colors.info};
   }
 
   .control-button {
@@ -58,9 +58,7 @@ export const styles = css`
     justify-content: center;
     width: 100%;
     height: 64px;
-    border: ${layout.borderWidth} solid ${colors.info}99; /* info at 70% opacity */
     border-radius: 8px;
-    color: ${colors.info};
     font-size: 2.5rem;
     font-weight: 400;
     cursor: pointer;
@@ -68,19 +66,25 @@ export const styles = css`
     background: transparent;
     padding: 0;
     line-height: 1;
+    border: ${layout.borderWidth} solid ${colors.info};
+    color: ${colors.info};
 
     span {
       padding-bottom: 0.15em;
     }
 
     &:hover:not(:disabled) {
-      border-color: ${colors.info};
       transform: scale(1.02);
+      border-color: ${colors.info};
+      color: ${colors.info};
+      background-color: ${colors.info}11;
     }
 
     &:disabled {
-      opacity: 0.5;
       cursor: not-allowed;
+      background-color: transparent;
+      border-color: ${colors.greyXDark};
+      color: ${colors.greyXDark};
     }
   }
 

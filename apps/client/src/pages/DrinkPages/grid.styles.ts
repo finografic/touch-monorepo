@@ -49,15 +49,15 @@ export const stylesItemsGrid = css`
     align-items: center;
     justify-content: center;
     min-height: 80px;
-    border: ${layout.borderWidth} solid ${colors.greyDark};
     border-radius: 8px;
-    color: ${colors.info};
     font-size: 1.5rem;
     cursor: pointer;
     transition: all 0.3s;
-    background: transparent;
     padding: 1rem;
     text-align: center;
+    background: transparent;
+    border: ${layout.borderWidth} solid ${colors.greyDark};
+    color: ${colors.info};
 
     &:hover {
       border-color: ${colors.info};
@@ -66,7 +66,7 @@ export const stylesItemsGrid = css`
 
     &.selected {
       border-color: ${colors.info};
-      background-color: rgba(0, 191, 255, 0.1);
+      background-color: ${colors.info}99;
     }
 
     /* Only make specific items span full width when needed */
