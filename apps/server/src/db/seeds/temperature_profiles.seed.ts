@@ -13,14 +13,10 @@ export async function seed() {
     await db.delete(temperature_profiles);
     console.log('✓ Cleaned existing temperature profiles');
 
-    // Get the cooling profiles
-    const coolingProfiles = await db.select().from(cooling_profiles);
-    const slowProfile = coolingProfiles.find((p) => p.name === 'slow');
-    const mediumProfile = coolingProfiles.find((p) => p.name === 'medium');
-    const fastProfile = coolingProfiles.find((p) => p.name === 'fast');
-
-    if (!slowProfile || !mediumProfile || !fastProfile) {
-      throw new Error('Required cooling profiles not found. Please seed cooling_profiles first.');
+    // Get a cooling profile
+    const [coolingProfile] = await db.select().from(cooling_profiles).limit(1);
+    if (!coolingProfile) {
+      throw new Error('No cooling profile found. Please seed cooling_profiles first.');
     }
 
     // Generate temperatures from 30.0 to -10.0 in 0.5 degree increments
@@ -40,7 +36,7 @@ export async function seed() {
       // Add a single profile point for each temperature
       rows.push({
         id: `temp_${tempStr}`,
-        coolingProfileId: slowProfile.id, // Using slow profile for all points
+        coolingProfileId: coolingProfile.id,
         temperature: temp,
         timeA: baseTime,
         timeB: baseTime + 1,
