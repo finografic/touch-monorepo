@@ -3,7 +3,7 @@ import { styles } from './DevFilterResults.styles';
 import { Col, Row } from 'react-grid-system';
 
 export const DevFilterResults = () => {
-  const { dataFiltered, dataFilteredCurrent, filters } = useFilters({});
+  const { dataFiltered, filters } = useFilters({});
 
   return (
     <div id="dev-filter-results" css={styles}>
@@ -15,9 +15,9 @@ export const DevFilterResults = () => {
       </Row>
       <Row>
         <Col xs={12} className="results-list">
-          <h4>Results: {dataFilteredCurrent.length}</h4>
+          <h4>Results: {dataFiltered.length}</h4>
           <pre>
-            {dataFilteredCurrent.map((item: any) => (
+            {dataFiltered.map((item: any) => (
               <Row key={item.id} direction="row" align="center">
                 <Col xs={4}>
                   <strong>{item.drinkTypeName}</strong>

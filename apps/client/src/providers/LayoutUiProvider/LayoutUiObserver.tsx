@@ -17,7 +17,7 @@ export const LayoutUiObserver = () => {
 
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { setUiPads, setUiNumPads, setUiFieldKey, initPadsFromLoaderData } = useLayoutUi();
-  const { dataFiltered, filters, serverFieldMap } = useFilters();
+  const { dataPool, filters, serverFieldMap } = useFilters();
 
   useEffect(
     function handleRouteChange() {
@@ -30,9 +30,9 @@ export const LayoutUiObserver = () => {
       if (loaderData && padsConfig) {
         isInitializedRef.current[fieldKey] = false;
 
-        // Always use dataFiltered which only includes filters up to (but not including) current step
+        // Always use dataPool which only includes filters up to (but not including) current step
         const visiblePadNames = [
-          ...new Set(dataFiltered.map((entry) => entry?.[filterKey as keyof DataEntry]).filter(Boolean)),
+          ...new Set(dataPool.map((entry) => entry?.[filterKey as keyof DataEntry]).filter(Boolean)),
         ];
 
         const filteredLoaderData = loaderData.filter((padData) => visiblePadNames.includes(padData.name));
@@ -54,7 +54,7 @@ export const LayoutUiObserver = () => {
       setUiPads([]);
       setUiNumPads(0);
     },
-    [location.pathname, loaderData, dataFiltered, filters],
+    [location.pathname, loaderData, dataPool, filters],
   );
 
   useEffect(

@@ -74,11 +74,11 @@ export const useFilters = (initialFilters?: OrderFilters) => {
   }, []);
 
   // Client-side filtering with both datasets
-  const { dataFiltered, dataFilteredCurrent } = useMemo(() => {
-    if (!fieldKey) return { dataFiltered: data, dataFilteredCurrent: data };
+  const { dataPool, dataFiltered } = useMemo(() => {
+    if (!fieldKey) return { dataPool: data, dataFiltered: data };
 
     const currentStepIndex = FILTER_ORDER.indexOf(fieldKey);
-    if (currentStepIndex === -1) return { dataFiltered: data, dataFilteredCurrent: data };
+    if (currentStepIndex === -1) return { dataPool: data, dataFiltered: data };
 
     // Get filters up to (but not including) current step
     const filtersBeforeCurrent = Object.entries(filters).filter(([key]) => {
@@ -93,8 +93,8 @@ export const useFilters = (initialFilters?: OrderFilters) => {
     });
 
     return {
-      dataFiltered: data.filter((entry) => applyFilters(entry, filtersBeforeCurrent)),
-      dataFilteredCurrent: data.filter((entry) => applyFilters(entry, filtersUpToCurrent)),
+      dataPool: data.filter((entry) => applyFilters(entry, filtersBeforeCurrent)),
+      dataFiltered: data.filter((entry) => applyFilters(entry, filtersUpToCurrent)),
     };
   }, [data, filters, fieldKey, applyFilters]);
 
@@ -126,8 +126,8 @@ export const useFilters = (initialFilters?: OrderFilters) => {
 
   return {
     data,
+    dataPool,
     dataFiltered,
-    dataFilteredCurrent,
     filters,
     serverFieldMap,
     setFilter,
