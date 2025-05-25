@@ -16,6 +16,7 @@ import type { ContainerType } from 'types/models/container-type.model';
 import type { ContainerTypeEntity } from '@workspace/server/types/entities/container-type.entity';
 import { api } from 'api';
 import { transformAxiosError } from 'src/api/api.utils';
+import type { TemperatureProfileEntity } from 'types/models/temperature.model';
 
 const createEndpoints = <T extends Record<string, (...args: any[]) => Promise<any>>>(endpoints: T) => {
   return Object.entries(endpoints).reduce(
@@ -52,4 +53,6 @@ export const EndpointHelper = createEndpoints({
   getContainerTypes: async () => await api.get<ApiResponse<ContainerType[]>>('/container-types'),
   getContainerType: async (id: string) =>
     await api.get<ApiResponse<ContainerTypeEntity>>(`/container-types/${id}`),
+  getTemperatureProfile: async (id: string) =>
+    await api.get<ApiResponse<TemperatureProfileEntity>>(`/temperature-profiles/${id}`),
 }) as const;

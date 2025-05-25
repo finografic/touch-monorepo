@@ -92,7 +92,7 @@ export const TemperaturePage = () => {
 
         temperatureRef.current.final = filtersTempConsumption;
         isInitializedRef.current = true;
-      }, 100);
+      }, 150);
     }
   }, [filters]);
 
