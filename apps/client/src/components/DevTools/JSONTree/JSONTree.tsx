@@ -1,6 +1,6 @@
-import { stylesEmo } from 'components/DevTools/JSONTree/JSONTree.styles';
 import type { GetItemString, LabelRenderer } from 'react-json-tree';
 import { JSONTree as JSONTreeReact } from 'react-json-tree';
+import { styles } from './JSONTree.styles';
 
 // VS Code Dark+ inspired theme
 const _theme_vscode_dark = {
@@ -90,7 +90,7 @@ const labelRenderer: LabelRenderer = (keyPath) => (
 
 export const JSONTree = ({ data, expanded = true }: CustomJSONTreeProps) => {
   return (
-    <span css={stylesEmo}>
+    <span css={styles}>
       <JSONTreeReact
         data={data}
         theme={theme}

@@ -35,9 +35,9 @@ export const transformPadData = (pads: PadUI[]): TransformedPad[] => {
       value: pad.value,
       type: pad.type,
       isChecked: pad.isChecked,
-      // metadata: {
-      //   ...metadata,
-      // },
+      metadata: {
+        ...metadata,
+      },
     };
   });
 };
@@ -84,7 +84,7 @@ interface FlattenedOrder {
 }
 
 /**
- * Transforms order items into a flattened structure for easier consumption.
+ * Transforms order items into a flattened structure for easier consume.
  * Maintains reactivity by avoiding deep cloning of objects.
  * @param orders Array of OrderItem objects to flatten
  * @returns Array of FlattenedOrder objects

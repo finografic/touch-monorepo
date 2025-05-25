@@ -1,15 +1,20 @@
 import { css } from '@emotion/react';
 // import { colors } from 'styles';
 
-export const stylesEmo = css`
+export const styles = css`
   ul {
     background-color: transparent !important;
     line-height: 1.8 !important;
     font-size: 14px !important;
   }
+
+  /* Hide spans containing {} which have specific margin styling */
+  span[style*='margin-left: 0.3em'][style*='margin-right: 0.3em'] {
+    display: none;
+  }
 `;
 
-export const styles = {
+export const stylesTheme = {
   container: {
     fontFamily: 'ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace',
     fontSize: '12px',

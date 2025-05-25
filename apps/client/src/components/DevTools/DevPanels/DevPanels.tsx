@@ -46,7 +46,9 @@ export const DevPanels = () => {
         <pre>{JSON.stringify(devDataLeft, null, 2)}</pre>
       </aside>
       <aside id="dev-data-right" css={stylesRight}>
-        <JSONTree data={devDataRight} />
+        <div className="data-tree">
+          <JSONTree data={devDataRight} />
+        </div>
         {/* <pre>{JSON.stringify(orders)}</pre> */}
       </aside>
     </>

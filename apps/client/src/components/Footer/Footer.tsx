@@ -90,7 +90,6 @@ export const Footer = () => {
         <Col xs={12}>
           <div className="controls">
             {/* {location.pathname === PATHS.home && <MockOrdersButton />} */}
-            <MockOrdersButton />
             {location.pathname === PATHS.home && (
               <ButtonControl className="btn-control" onClick={selectAllOrders}>
                 ALL
@@ -101,15 +100,15 @@ export const Footer = () => {
                 « Back
               </ButtonControl>
             )}
-            {isVisibleNextButton && (
-              <ButtonControl
-                className="btn-control"
-                onClick={handleNext}
-                disabled={isNextDisabled || isPending}
-              >
-                Next »
-              </ButtonControl>
-            )}
+            {/* {isVisibleNextButton && ( */}
+            <ButtonControl
+              className="btn-control"
+              onClick={handleNext}
+              disabled={isNextDisabled || isPending}
+            >
+              Next »
+            </ButtonControl>
+            {/* )} */}
             {location.pathname === PATHS.temperature && (
               <ButtonControl
                 className="btn-control btn-start"

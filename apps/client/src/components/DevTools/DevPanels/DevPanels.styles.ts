@@ -37,7 +37,7 @@ export const styles = css`
 export const stylesLeft = css`
   ${styles}
   & *, & pre {
-    font-size: 0.85rem;
+    font-size: 0.8rem;
     font-family: monospace;
   }
   display: flex;
