@@ -11,8 +11,8 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 export const FILTER_ORDER: OrderFieldKey[] = [
   OrderFieldKeys.drinkType,
   OrderFieldKeys.drinkSubtype,
-  OrderFieldKeys.containerType,
   OrderFieldKeys.drinkVolume,
+  OrderFieldKeys.containerType,
 ];
 
 export const useFilters = (initialFilters?: OrderFilters) => {
