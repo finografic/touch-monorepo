@@ -51,6 +51,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             }
             return order;
           });
+          log('__DEV: updatedOrders', 'grey', updatedOrders);
           set({ orders: updatedOrders });
         },
         toggleOrder: (itemNumber: number) => {
