@@ -23,57 +23,28 @@ export async function seed() {
       throw new Error('Required cooling profiles not found. Please seed cooling_profiles first.');
     }
 
-    // Generate temperatures from 30 to -10 (41 values)
-    const temperatures = Array.from({ length: 41 }, (_, i) => 30 - i);
-
-    // Helper function to generate random time values
-    const generateTimeValues = (baseTime: number) => {
-      return temperatures.map((_, index) => {
-        // Increase time as temperature decreases
-        const progress = index / temperatures.length;
-        return +(baseTime * (1 + progress)).toFixed(1);
-      });
-    };
-
-    // Generate time values for each profile
-    const slowTimes = generateTimeValues(12); // Slower cooling
-    const mediumTimes = generateTimeValues(8); // Medium cooling
-    const fastTimes = generateTimeValues(5); // Fast cooling
+    // Generate temperatures from 30.0 to -10.0 in 0.5 degree increments
+    const temperatures: number[] = [];
+    for (let temp = 30.0; temp >= -10.0; temp -= 0.5) {
+      temperatures.push(Number(temp.toFixed(1))); // Ensure we have exactly one decimal place
+    }
 
     const rows: TemperatureProfileRow[] = [];
     temperatures.forEach((temp, i) => {
-      // Create ordered IDs based on temperature and profile
-      // This ensures consistent ordering by temperature
-      const tempPadded = (temp >= 0 ? '+' : '-') + Math.abs(temp).toString().padStart(2, '0');
+      // Calculate base time value (increases by 3 for each temperature point)
+      const baseTime = i * 3;
 
-      // Slow profile points
-      rows.push({
-        id: `temp_${tempPadded}_slow`,
-        coolingProfileId: slowProfile.id,
-        temperature: temp,
-        timeA: slowTimes[i],
-        timeB: slowTimes[i],
-        timeC: slowTimes[i],
-      });
+      // Format temperature for ID with sign and one decimal
+      const tempStr = (temp >= 0 ? '+' : '') + temp.toFixed(1);
 
-      // Medium profile points
+      // Add a single profile point for each temperature
       rows.push({
-        id: `temp_${tempPadded}_med`,
-        coolingProfileId: mediumProfile.id,
+        id: `temp_${tempStr}`,
+        coolingProfileId: slowProfile.id, // Using slow profile for all points
         temperature: temp,
-        timeA: mediumTimes[i],
-        timeB: mediumTimes[i],
-        timeC: mediumTimes[i],
-      });
-
-      // Fast profile points
-      rows.push({
-        id: `temp_${tempPadded}_fast`,
-        coolingProfileId: fastProfile.id,
-        temperature: temp,
-        timeA: fastTimes[i],
-        timeB: fastTimes[i],
-        timeC: fastTimes[i],
+        timeA: baseTime,
+        timeB: baseTime + 1,
+        timeC: baseTime + 2,
       });
     });
 
