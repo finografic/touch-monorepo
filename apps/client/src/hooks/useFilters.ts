@@ -8,13 +8,11 @@ import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 // Order of filter application - used to determine which filters to apply at each step
-const FILTER_ORDER: OrderFieldKey[] = [
+export const FILTER_ORDER: OrderFieldKey[] = [
   OrderFieldKeys.drinkType,
   OrderFieldKeys.drinkSubtype,
   OrderFieldKeys.containerType,
   OrderFieldKeys.drinkVolume,
-  // OrderFieldKeys.initialTemperature,
-  // OrderFieldKeys.finalTemperature,
 ];
 
 export const useFilters = (initialFilters?: OrderFilters) => {
@@ -56,42 +54,49 @@ export const useFilters = (initialFilters?: OrderFilters) => {
     return values;
   }, [data]);
 
-  // Client-side filtering - only apply filters up to current step
-  const dataFiltered = useMemo(() => {
-    if (!fieldKey) return data;
+  // Helper function to apply filters to data
+  const applyFilters = useCallback((entry: DataEntry, activeFilters: [string, any][]) => {
+    return activeFilters.every(([key, value]) => {
+      if (!value) return true;
+      switch (key as OrderFieldKey) {
+        case OrderFieldKeys.drinkType:
+          return entry.drinkTypeName === value.name;
+        case OrderFieldKeys.drinkSubtype:
+          return entry.drinkSubtypeName === value.name;
+        case OrderFieldKeys.drinkVolume:
+          return entry.volumeName === value.name;
+        case OrderFieldKeys.containerType:
+          return entry.containerTypeName === value.name;
+        default:
+          return true;
+      }
+    });
+  }, []);
 
-    // Find the index of the current field in the filter order
+  // Client-side filtering with both datasets
+  const { dataFiltered, dataFilteredCurrent } = useMemo(() => {
+    if (!fieldKey) return { dataFiltered: data, dataFilteredCurrent: data };
+
     const currentStepIndex = FILTER_ORDER.indexOf(fieldKey);
-    if (currentStepIndex === -1) return data;
+    if (currentStepIndex === -1) return { dataFiltered: data, dataFilteredCurrent: data };
 
-    // Get only the filters up to the current step
-    const applicableFilters = Object.entries(filters).filter(([key]) => {
+    // Get filters up to (but not including) current step
+    const filtersBeforeCurrent = Object.entries(filters).filter(([key]) => {
       const filterIndex = FILTER_ORDER.indexOf(key as OrderFieldKey);
       return filterIndex !== -1 && filterIndex < currentStepIndex;
     });
 
-    return data.filter((entry) => {
-      return applicableFilters.every(([key, value]) => {
-        if (!value) return true; // If filter is empty, do not restrict
-        switch (key as OrderFieldKey) {
-          case OrderFieldKeys.drinkType:
-            return entry.drinkTypeName === value.name;
-          case OrderFieldKeys.drinkSubtype:
-            return entry.drinkSubtypeName === value.name;
-          case OrderFieldKeys.drinkVolume:
-            return entry.volumeName === value.name;
-          case OrderFieldKeys.containerType:
-            return entry.containerTypeName === value.name;
-          // case OrderFieldKeys.initialTemperature:
-          //   return entry.initialTemperatureName === value.name;
-          // case OrderFieldKeys.finalTemperature:
-          //   return entry.finalTemperatureName === value.name;
-          default:
-            return true;
-        }
-      });
+    // Get filters up to and including current step
+    const filtersUpToCurrent = Object.entries(filters).filter(([key]) => {
+      const filterIndex = FILTER_ORDER.indexOf(key as OrderFieldKey);
+      return filterIndex !== -1 && filterIndex <= currentStepIndex;
     });
-  }, [data, filters, fieldKey]);
+
+    return {
+      dataFiltered: data.filter((entry) => applyFilters(entry, filtersBeforeCurrent)),
+      dataFilteredCurrent: data.filter((entry) => applyFilters(entry, filtersUpToCurrent)),
+    };
+  }, [data, filters, fieldKey, applyFilters]);
 
   // Handle filter change
   const setFilter = useCallback((key: OrderFieldKey, value: any) => {
@@ -114,17 +119,15 @@ export const useFilters = (initialFilters?: OrderFilters) => {
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {
     return Object.entries(filters as OrderFilters).reduce(
-      // (acc, [, filterValue]) => ({ ...acc, [filterKey as keyof DataEntry]: filterValue.name }),
       (acc, [_filterKey, filterValue]) => ({ ...acc, [_filterKey as keyof DataEntry]: filterValue.name }),
       {} as Record<string, string>,
     );
   }, [filters]);
 
-  // log('__DEV - load PAD', 'grey', padsConfig);
-
   return {
     data,
     dataFiltered,
+    dataFilteredCurrent,
     filters,
     serverFieldMap,
     setFilter,

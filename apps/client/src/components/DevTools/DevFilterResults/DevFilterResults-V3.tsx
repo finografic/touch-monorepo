@@ -15,9 +15,9 @@ export const DevFilterResults = () => {
       </Row>
       <Row>
         <Col xs={12} className="results-list">
-          <h4>Results: {dataFilteredCurrent.length}</h4>
+          <h4>Results: {dataFiltered.length}</h4>
           <pre>
-            {dataFilteredCurrent.map((item: any) => (
+            {dataFiltered.map((item: any) => (
               <Row key={item.id} direction="row" align="center">
                 <Col xs={4}>
                   <strong>{item.drinkTypeName}</strong>

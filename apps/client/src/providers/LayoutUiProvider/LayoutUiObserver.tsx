@@ -6,7 +6,8 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { PadUI } from 'types/ui.types';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import type { OrderFilters } from 'types/orders.types';
-import { useFilters } from 'hooks/useFilters';
+import { FILTER_ORDER, useFilters } from 'hooks/useFilters';
+import { OrderFieldKeys } from 'constants/app.config';
 
 export const LayoutUiObserver = () => {
   const { fieldKey, filterKey, padsConfig } = useRouteConfig();
@@ -29,29 +30,18 @@ export const LayoutUiObserver = () => {
       if (loaderData && padsConfig) {
         isInitializedRef.current[fieldKey] = false;
 
-        // ======================================================================== //
-        // NOTE: HANDLE FILTERS - FILTER VISIBLE PADS, DEPENDANT ON ACTIVE FILTERS
-
+        // Always use dataFiltered which only includes filters up to (but not including) current step
         const visiblePadNames = [
           ...new Set(dataFiltered.map((entry) => entry?.[filterKey as keyof DataEntry]).filter(Boolean)),
         ];
 
         const filteredLoaderData = loaderData.filter((padData) => visiblePadNames.includes(padData.name));
 
-        // log('__DEV - ** FILTERS **', 'cyan', serverFieldMap);
-
-        // ======================================================================== //
-
-        // Initialize pads with CHECKED state (from orders filters)
         initPadsFromLoaderData(
           filteredLoaderData,
           {
             ...padsConfig,
-            initChecked: (pad: PadUI) => {
-              // Check if this pad's value matches the active filter for its field
-              return serverFieldMap[pad.name] === pad.value.name;
-              // return serverFieldMap[pad.name] === pad.filterKey;
-            },
+            initChecked: (pad: PadUI) => serverFieldMap[pad.name] === pad.value.name,
           },
           fieldKey,
         );
@@ -61,11 +51,10 @@ export const LayoutUiObserver = () => {
         return;
       }
 
-      // NOTE: Only clear pads if we don't have valid data
       setUiPads([]);
       setUiNumPads(0);
     },
-    [location.pathname, loaderData],
+    [location.pathname, loaderData, dataFiltered, filters],
   );
 
   useEffect(
@@ -73,7 +62,6 @@ export const LayoutUiObserver = () => {
       if (!pads?.length || !fieldKey) return;
       if (!isInitializedRef.current[fieldKey]) return;
 
-      // NOTE: enable / disable navigation controls, base on padsConfig + current selection(s)
       if (padsConfig?.minRequired !== undefined) {
         const checkedCount = pads.filter((pad) => pad.isChecked).length;
         setIsNextDisabled(checkedCount < padsConfig.minRequired);
