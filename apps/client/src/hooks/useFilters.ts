@@ -13,6 +13,7 @@ export const FILTER_ORDER: OrderFieldKey[] = [
   OrderFieldKeys.drinkSubtype,
   OrderFieldKeys.drinkVolume,
   OrderFieldKeys.containerType,
+  OrderFieldKeys.temperature,
 ];
 
 export const useFilters = (initialFilters?: OrderFilters) => {
@@ -67,6 +68,15 @@ export const useFilters = (initialFilters?: OrderFilters) => {
           return entry.volumeName === value.name;
         case OrderFieldKeys.containerType:
           return entry.containerTypeName === value.name;
+        case OrderFieldKeys.temperature:
+          // For temperature, we'll check both initial and final temps are within range
+          if (value.initial !== undefined && value.final !== undefined) {
+            return (
+              (!entry.initialTemperature || entry.initialTemperature === value.initial) &&
+              (!entry.finalTemperature || entry.finalTemperature === value.final)
+            );
+          }
+          return true;
         default:
           return true;
       }
