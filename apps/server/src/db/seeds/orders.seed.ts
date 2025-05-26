@@ -26,6 +26,75 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// Helper function to determine appropriate temperature profile based on drink characteristics
+function determineTemperatureProfile(
+  drinkType: string,
+  drinkSubtype: string | null,
+  volume: string,
+  container: string,
+  profiles: { id: string; coolingProfileId: string }[],
+): string {
+  // Extract numeric temperature from profile ID (e.g., "temp_+30.0" -> 30)
+  const getTemp = (profileId: string) => {
+    const match = profileId.match(/temp_([+-]\d+\.\d+)/);
+    return match ? Number.parseFloat(match[1]) : 0;
+  };
+
+  // Sort profiles by temperature
+  const sortedProfiles = [...profiles].sort((a, b) => getTemp(a.id) - getTemp(b.id));
+
+  // Base temperature ranges for different drink types
+  const tempRanges = {
+    cerveza: {
+      rubia: { min: 2, max: 8 }, // Light beer: cool to cold
+      negra: { min: 6, max: 12 }, // Dark beer: slightly warmer
+    },
+  };
+
+  // Container temperature adjustments
+  const containerAdjustments = {
+    vidrio: 0, // Glass: neutral
+    plastico: +1, // Plastic: slightly warmer
+    metal: -1, // Metal: slightly colder
+  };
+
+  // Volume temperature adjustments (larger volumes stay cold longer)
+  const volumeAdjustments = {
+    '33cl': 0,
+    '50cl': -0.5,
+    '75cl': -1,
+    '1L': -1.5,
+    '1.25L': -2,
+    '2L': -2.5,
+  };
+
+  // Get base temperature range
+  let baseTemp;
+  if (drinkType === 'cerveza') {
+    baseTemp = tempRanges.cerveza[drinkSubtype as 'rubia' | 'negra']?.min || 4;
+  }
+
+  // Apply adjustments
+  const containerAdj = containerAdjustments[container as keyof typeof containerAdjustments] || 0;
+  const volumeAdj = volumeAdjustments[volume as keyof typeof volumeAdjustments] || 0;
+
+  const targetTemp = baseTemp + containerAdj + volumeAdj;
+
+  // Find the closest matching temperature profile
+  let closestProfile = sortedProfiles[0];
+  let minDiff = Math.abs(getTemp(sortedProfiles[0].id) - targetTemp);
+
+  for (const profile of sortedProfiles) {
+    const diff = Math.abs(getTemp(profile.id) - targetTemp);
+    if (diff < minDiff) {
+      minDiff = diff;
+      closestProfile = profile;
+    }
+  }
+
+  return closestProfile.id;
+}
+
 export async function seed() {
   console.log('Seeding orders...');
 
@@ -44,16 +113,7 @@ export async function seed() {
     const allContainers = await db.select().from(container_types);
     const profiles = await db.select().from(temperature_profiles);
 
-    // Get unique temperature profile IDs (one per cooling profile)
-    const uniqueProfileIds = Array.from(new Set(profiles.map((p) => p.coolingProfileId)))
-      .map((coolingProfileId) => {
-        const profile = profiles.find((p) => p.coolingProfileId === coolingProfileId);
-        return profile?.id;
-      })
-      .filter((id): id is string => id !== undefined);
-
     const orderRows = [];
-    let profileIdx = 0;
 
     for (const type of drinkTypes) {
       const typeSubtypes = subtypes.filter((s) => s.drinkTypeId === type.id);
@@ -73,13 +133,14 @@ export async function seed() {
                   TEMPERATURE_RANGES.CONSUMPTION.MIN,
                   TEMPERATURE_RANGES.CONSUMPTION.MAX,
                 ),
-                // defaultTempFreeze: getRandomInt(
-                //   TEMPERATURE_RANGES.FREEZING.MIN,
-                //   TEMPERATURE_RANGES.FREEZING.MAX,
-                // ),
-                temperatureProfileId: uniqueProfileIds[profileIdx % uniqueProfileIds.length],
+                temperatureProfileId: determineTemperatureProfile(
+                  type.name,
+                  null,
+                  volume.name,
+                  container.name,
+                  profiles,
+                ),
               });
-              profileIdx++;
             }
           }
         }
@@ -100,13 +161,14 @@ export async function seed() {
                     TEMPERATURE_RANGES.CONSUMPTION.MIN,
                     TEMPERATURE_RANGES.CONSUMPTION.MAX,
                   ),
-                  // defaultTempFreeze: getRandomInt(
-                  //   TEMPERATURE_RANGES.FREEZING.MIN,
-                  //   TEMPERATURE_RANGES.FREEZING.MAX,
-                  // ),
-                  temperatureProfileId: uniqueProfileIds[profileIdx % uniqueProfileIds.length],
+                  temperatureProfileId: determineTemperatureProfile(
+                    type.name,
+                    subtype.name,
+                    volume.name,
+                    container.name,
+                    profiles,
+                  ),
                 });
-                profileIdx++;
               }
             }
           }

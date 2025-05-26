@@ -59,7 +59,7 @@ export const getSettings: AppRouteHandler<GetSettingsRoute> = async (context) =>
 
     // Build dynamic configuration
     const defaultTempConsume = drinkSubtype?.defaultTempConsume ?? drinkType.defaultTempConsume;
-    const defaultTempFreeze = drinkSubtype?.defaultTempFreeze ?? drinkType.defaultTempFreeze;
+    // const defaultTempFreeze = drinkSubtype?.defaultTempFreeze ?? drinkType.defaultTempFreeze;
 
     // Return dynamically calculated settings
     return context.json(
@@ -67,7 +67,7 @@ export const getSettings: AppRouteHandler<GetSettingsRoute> = async (context) =>
         defaultTempConsume,
         minTempConsume: defaultTempConsume - 2, // 2 degrees below default
         maxTempConsume: defaultTempConsume + 2, // 2 degrees above default
-        defaultTempFreeze,
+        // defaultTempFreeze,
       },
       HttpStatusCodes.OK,
     );
