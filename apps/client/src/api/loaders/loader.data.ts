@@ -21,8 +21,8 @@ export const LoaderDataHelper: Partial<LoaderMap> = {
   [OrderFieldKeys.temperature]: async ({ params }) => {
     // TODO: Implement when ready
     log('__DEV: LoaderDataHelper { params }', 'grey', params);
-    // return [];
-    return EndpointHelper.getTemperatureProfile(params.temperatureProfileId as string);
+    return [];
+    // return EndpointHelper.getTemperatureProfile(params.temperatureProfileId as string);
   },
   /*
   [OrderFieldKeys.initialTemperature]: async () => {

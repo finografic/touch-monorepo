@@ -19,17 +19,20 @@ export const DevFilterResults = () => {
           <pre>
             {dataFiltered.map((item: any) => (
               <Row key={item.id} direction="row" align="center">
-                <Col xs={4}>
+                <Col xs={3}>
                   <strong>{item.drinkTypeName}</strong>
                 </Col>
                 <Col xs={2}>
                   <p>{item.drinkSubtypeName}</p>
                 </Col>
-                <Col xs={3}>
+                <Col xs={2}>
                   <p>{item.volumeName}</p>
                 </Col>
-                <Col xs={3}>
+                <Col xs={2}>
                   <p>{item.containerTypeName}</p>
+                </Col>
+                <Col xs={3}>
+                  <p>{item.temperatureProfileId}</p>
                 </Col>
               </Row>
             ))}

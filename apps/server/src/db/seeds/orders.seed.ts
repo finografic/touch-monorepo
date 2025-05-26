@@ -32,10 +32,10 @@ function determineTemperatureProfile(
   drinkSubtype: string | null,
   volume: string,
   container: string,
-  profiles: { id: string; coolingProfileId: string }[],
+  profiles: Array<{ id: string; coolingProfileId: string }>,
 ): string {
   // Extract numeric temperature from profile ID (e.g., "temp_+30.0" -> 30)
-  const getTemp = (profileId: string) => {
+  const getTemp = (profileId: string): number => {
     const match = profileId.match(/temp_([+-]\d+\.\d+)/);
     return match ? Number.parseFloat(match[1]) : 0;
   };
@@ -69,9 +69,9 @@ function determineTemperatureProfile(
   };
 
   // Get base temperature range
-  let baseTemp;
+  let baseTemp = 4; // Default temperature
   if (drinkType === 'cerveza') {
-    baseTemp = tempRanges.cerveza[drinkSubtype as 'rubia' | 'negra']?.min || 4;
+    baseTemp = tempRanges.cerveza[drinkSubtype as 'rubia' | 'negra']?.min ?? 4;
   }
 
   // Apply adjustments

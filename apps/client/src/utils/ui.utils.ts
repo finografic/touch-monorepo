@@ -22,25 +22,46 @@ export const parsePadConfig = <T extends DataEntry>({
   const pads =
     numPads > 0
       ? Array.from({ length: numPads }, (_, i) => {
-          const id = slicedData.map((item) => String(item.id ?? ''))[i] ?? '';
-          const label = labelKey ? slicedData.map((item) => String(item[labelKey] ?? ''))[i] : '';
+          const currentItem = slicedData[i];
+          const id = String(currentItem?.id ?? '');
+          const label = labelKey ? String(currentItem?.[labelKey] ?? '') : '';
           const initChecked = config.initChecked ?? (() => false);
           const value: { [key: string]: string | number | boolean } = {};
 
-          for (const valueKey of config.valueKeys) {
-            const rawValue = slicedData[i][valueKey];
-            // Coerce the value to the expected type
+          for (const key of config.valueKeys) {
+            const valueKey = key as keyof typeof value;
+            // Special handling for temperatureProfileId
+            if (valueKey === 'temperatureProfileId') {
+              const profileId = currentItem?.temperatureProfileId;
+              if (profileId === undefined || profileId === null) {
+                if (fieldKey === OrderFieldKeys.drinkType || fieldKey === OrderFieldKeys.drinkSubtype) {
+                  // For now, we'll use a placeholder. This should be populated from the database
+                  value[valueKey] = 'temp_+30.0'; // TODO: Replace with actual temperature profile lookup
+                } else {
+                  value[valueKey] = '';
+                }
+              } else {
+                value[valueKey] = String(profileId);
+              }
+              continue;
+            }
+
+            // Handle other standard fields
+            const rawValue = currentItem?.[valueKey as keyof typeof currentItem];
+
+            // Regular value handling for other fields
             if (
               typeof rawValue === 'string' ||
               typeof rawValue === 'number' ||
               typeof rawValue === 'boolean'
             ) {
-              value[valueKey as string] = rawValue;
+              value[valueKey] = rawValue;
             } else if (rawValue === undefined || rawValue === null) {
-              value[valueKey as string] = '';
+              // For non-temperature fields, empty string is fine as a default
+              value[valueKey] = '';
             } else {
               // For complex objects/arrays, convert to string
-              value[valueKey as string] = String(rawValue);
+              value[valueKey] = String(rawValue);
             }
           }
 
@@ -53,7 +74,7 @@ export const parsePadConfig = <T extends DataEntry>({
             type: config.type,
             isChecked: false,
             filterKey: config.filterKey,
-            metadata: slicedData[i],
+            metadata: currentItem,
           };
           pad.isChecked = initChecked(pad as PadUI);
 
