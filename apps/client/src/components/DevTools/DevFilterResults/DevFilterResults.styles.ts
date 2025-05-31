@@ -31,6 +31,8 @@ export const styles = css`
     /* background-color: ${colors.grayXXDark}; */
     font-size: 0.85rem;
     height: 66vh !important;
+    border: 1px solid red;
+    bottom: 0;
     pre {
       font-size: 0.85rem;
       height: 66vh !important;
