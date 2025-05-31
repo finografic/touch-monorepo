@@ -6,14 +6,14 @@ export const styles = css`
   flex-direction: column;
   position: absolute;
   top: 0;
-  left: 1vw;
+  left: 0;
   min-width: 12vw;
   height: 100vh; /* Use viewport height for the wrapper */
   padding: 1.5rem;
   overflow: hidden; /* Control overflow at the container level */
 
   .filters {
-    color: ${colors.textLight};
+    color: ${colors.textXLight}AA;
     font-size: 0.85rem;
     font-family: monospace;
     line-height: 1.5;
@@ -47,12 +47,12 @@ export const styles = css`
     font-family: monospace;
     font-size: 1rem;
     color: ${colors.info};
-    opacity: 0.5;
+    opacity: 0.8;
     margin: 0 0 0.5rem 0;
   }
 
   pre {
-    color: ${colors.textLight};
+    color: ${colors.textXLight}AA;
     font-size: 0.7rem;
     line-height: 1.5;
   }
@@ -68,6 +68,7 @@ export const stylesLeft = css`
   flex-direction: column;
   position: absolute;
   min-width: 18vw;
+  overflow-x: visible;
   top: 0;
   left: 0;
   right: unset;

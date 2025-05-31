@@ -43,7 +43,8 @@ export const stylesLeft = css`
   display: flex;
   flex-direction: column;
   position: absolute;
-  min-width: 17vw;
+  min-width: 18vw;
+  overflow-x: visible;
   top: 0;
   left: 0;
   right: unset;
