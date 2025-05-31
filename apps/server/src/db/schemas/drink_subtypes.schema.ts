@@ -14,7 +14,7 @@ export const drink_subtypes = sqliteTable('drink_subtypes', {
   name: text('name').notNull().unique(), // e.g., 'Rubia', 'Negra'
   displayName: text('display_name').notNull(), // Localized display name
   defaultTempConsume: integer('default_temp_consume').notNull(), // Can override parent's default
-  // defaultTempFreeze: integer('default_temp_freeze').notNull(), // Can override parent's default
+  defaultTempFreeze: integer('default_temp_freeze').notNull(), // Can override parent's default
 
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
@@ -28,14 +28,14 @@ const insertDrinkSubtypeSchema = createInsertSchema(drink_subtypes, {
   name: (schema) => schema.name.min(1).max(50),
   displayName: (schema) => schema.displayName.min(1).max(100),
   defaultTempConsume: (schema) => schema.defaultTempConsume.min(-10).max(30),
-  // defaultTempFreeze: (schema) => schema.defaultTempFreeze.min(-20).max(10),
+  defaultTempFreeze: (schema) => schema.defaultTempFreeze.min(-20).max(10),
 })
   .required({
     drinkTypeId: true,
     name: true,
     displayName: true,
     defaultTempConsume: true,
-    // defaultTempFreeze: true,
+    defaultTempFreeze: true,
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 

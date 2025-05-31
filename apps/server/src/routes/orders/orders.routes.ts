@@ -22,7 +22,7 @@ export const list = createRoute({
           containerTypeName: true,
           volumeName: true,
           defaultTempConsume: true,
-          // defaultTempFreeze: true,
+          defaultTempFreeze: true,
           temperatureProfileId: true,
         }),
       ),

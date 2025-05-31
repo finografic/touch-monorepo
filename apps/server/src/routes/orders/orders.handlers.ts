@@ -17,7 +17,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
       containerTypeName: true,
       volumeName: true,
       defaultTempConsume: true,
-      // defaultTempFreeze: true,
+      defaultTempFreeze: true,
       temperatureProfileId: true,
     },
   });
