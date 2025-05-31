@@ -18,7 +18,7 @@ export const DevFilterResults = () => {
           <h4>Results: {dataFiltered.length}</h4>
           <pre>
             {dataFiltered.map((item: any) => (
-              <Row key={item.id} direction="row" align="center">
+              <Row key={item.id} direction="row" align="center" className="result-row">
                 <Col xs={3}>
                   <strong>{item.drinkTypeName}</strong>
                 </Col>

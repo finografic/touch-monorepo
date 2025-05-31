@@ -8,36 +8,37 @@ export const styles = css`
   top: 0;
   left: 1vw;
   min-width: 12vw;
-  height: 100%;
-  /* height: 100vh; */
-  max-height: 100vh;
+  height: 100vh; /* Use viewport height for the wrapper */
   padding: 1.5rem;
-  overflow-x: visible;
-  overflow-y: hidden;
-
-  /* background-color: ${colors.grayXXDark}; */
+  overflow: hidden; /* Control overflow at the container level */
 
   .filters {
-    /* background-color: ${colors.grayXXDark}; */
     color: ${colors.textLight};
     font-size: 0.85rem;
     font-family: monospace;
     line-height: 1.5;
     margin: 0;
     padding: 0;
+    flex: 0 0 auto; /* Don't grow or shrink, use content height */
   }
 
   .results-list {
-    /* background-color: ${colors.grayXXDark}; */
     font-size: 0.85rem;
-    height: 66vh !important;
-    border: 1px solid red;
-    bottom: 0;
+    flex: 1; /* Fill remaining space */
+    min-height: 0; /* Allow flex container to shrink below content size */
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+
     pre {
       font-size: 0.85rem;
-      height: 66vh !important;
-      overflow-x: visible;
-      overflow-y: visible;
+      flex: 1;
+      overflow-y: auto; /* Enable scrolling if content overflows */
+      margin: 0;
+    }
+
+    .result-row {
+      line-height: 0.66;
     }
   }
 
@@ -47,17 +48,13 @@ export const styles = css`
     font-size: 1rem;
     color: ${colors.info};
     opacity: 0.5;
+    margin: 0 0 0.5rem 0;
   }
 
   pre {
     color: ${colors.textLight};
     font-size: 0.7rem;
     line-height: 1.5;
-    margin: 0;
-  }
-
-  pre {
-    overflow-y: hidden;
   }
 `;
 
@@ -70,7 +67,7 @@ export const stylesLeft = css`
   display: flex;
   flex-direction: column;
   position: absolute;
-  min-width: 17vw;
+  min-width: 18vw;
   top: 0;
   left: 0;
   right: unset;
