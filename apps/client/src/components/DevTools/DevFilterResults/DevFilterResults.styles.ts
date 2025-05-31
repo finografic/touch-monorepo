@@ -11,6 +11,8 @@ export const styles = css`
   height: 100vh; /* Use viewport height for the wrapper */
   padding: 1.5rem;
   overflow: hidden; /* Control overflow at the container level */
+  overflow-x: visible;
+  pointer-events: none;
 
   .filters {
     color: ${colors.textXLight}AA;
