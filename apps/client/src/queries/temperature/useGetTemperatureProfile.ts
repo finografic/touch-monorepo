@@ -22,10 +22,6 @@ export const useGetTemperatureProfile = ({ id }: { id: string }) => {
   return useQuery({
     queryKey: [...GET_TEMPERATURE_PROFILE_QUERYKEY, id],
     queryFn: async () => {
-      if (!id) {
-        return null;
-      }
-
       const response = await api.get<ApiResponse<TemperatureProfile[]>>(`/temperature-profiles/${id}`);
 
       if (response.status !== 200) {

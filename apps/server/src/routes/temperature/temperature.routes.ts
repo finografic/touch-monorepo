@@ -14,6 +14,23 @@ const TempProfileIdParamsSchema = z.object({
     .regex(/^temp_\+\d+(\.\d+)?$/, 'Invalid temperature profile ID format - must match pattern temp_+X.Y'),
 });
 
+// Static routes first
+export const getMinMax = createRoute({
+  path: '/temperature-profiles/min-max',
+  method: 'get',
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.object({
+        min: z.number(),
+        max: z.number(),
+      }),
+      'Min and max temperatures from all profiles',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'No temperature profiles found'),
+  },
+});
+
 export const list = createRoute({
   path: '/temperature-profiles',
   method: 'get',
@@ -34,6 +51,7 @@ export const list = createRoute({
   },
 });
 
+// Dynamic routes after
 export const getOne = createRoute({
   path: '/temperature-profiles/{id}',
   method: 'get',
@@ -101,22 +119,6 @@ export const remove = createRoute({
       createErrorSchema(TempProfileIdParamsSchema),
       'Invalid id format',
     ),
-  },
-});
-
-export const getMinMax = createRoute({
-  path: '/temperature-profiles/min-max',
-  method: 'get',
-  tags,
-  responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.object({
-        min: z.number(),
-        max: z.number(),
-      }),
-      'Min and max temperatures from all profiles',
-    ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'No temperature profiles found'),
   },
 });
 

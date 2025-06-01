@@ -116,7 +116,7 @@ export const getMinMax: AppRouteHandler<GetMinMaxRoute> = async (context) => {
     })
     .from(temperature_profiles);
 
-  // Handle case where table might be empty
+  // Handle case where table might be empty or has null values
   if (!result[0] || result[0].min === null || result[0].max === null) {
     return context.json(
       {
@@ -126,8 +126,12 @@ export const getMinMax: AppRouteHandler<GetMinMaxRoute> = async (context) => {
     );
   }
 
-  return context.json({
-    min: result[0].min,
-    max: result[0].max,
-  });
+  // At this point, we know min and max are numbers
+  return context.json(
+    {
+      min: result[0].min,
+      max: result[0].max,
+    },
+    HttpStatusCodes.OK,
+  );
 };

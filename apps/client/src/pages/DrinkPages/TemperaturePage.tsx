@@ -21,6 +21,7 @@ import {
 import { reduceFilterProperty } from 'utils/filters.utils';
 import { findClosestTemperature, getTimeValue } from 'utils/temperature.utils';
 import { FilterKeys } from 'constants/filters.constants';
+import { useGetMinMaxTemperatures } from 'queries/temperature/useGetMinMaxTemperatures';
 
 // ======================================================================== //
 // NOTE:  HOW TEMPERATURE WORKS:
@@ -63,6 +64,11 @@ export const TemperaturePage = () => {
     filters,
   });
 
+  // Get min and max temperatures
+  const { data: minMaxTemperatures } = useGetMinMaxTemperatures();
+
+  log('__TEMP__MIN_MAX:', 'hotpink', minMaxTemperatures);
+
   // Get temperature profile data
   const { data: temperatureProfile } = useGetTemperatureProfile({ id: temperatureProfileId });
 
@@ -104,6 +110,7 @@ export const TemperaturePage = () => {
 
   // ======================================================================== //
 
+  /*
   useEffect(
     function updateFinalTemp() {
       // NOTE: reduce so DrinkSubtype.defaultTempConsume takes precedence over DrinkType.defaultTempConsume
@@ -121,6 +128,7 @@ export const TemperaturePage = () => {
     },
     [filters],
   );
+  */
 
   // ======================================================================== //
 
