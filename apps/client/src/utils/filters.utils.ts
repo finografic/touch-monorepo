@@ -1,19 +1,8 @@
-import type { PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
-import type { OrderFieldKey, OrderItem } from 'types/orders.types';
+import type { OrderFieldKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import { OrderFieldKeys } from 'constants/app.config';
-
-/**
- * Order of filter application - used to determine which filters to apply at each step
- */
-export const FILTER_ORDER: OrderFieldKey[] = [
-  OrderFieldKeys.drinkType,
-  OrderFieldKeys.drinkSubtype,
-  OrderFieldKeys.drinkVolume,
-  OrderFieldKeys.containerType,
-  OrderFieldKeys.temperature,
-];
+import { FILTER_ORDER } from 'constants/filters.constants';
 
 /**
  * Reduces filters to find the most specific/dominant value for a given property.

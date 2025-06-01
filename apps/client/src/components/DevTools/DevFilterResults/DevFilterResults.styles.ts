@@ -7,7 +7,7 @@ export const styles = css`
   position: absolute;
   top: 0;
   left: 0;
-  min-width: 12vw;
+  min-width: 26vw;
   height: 100vh; /* Use viewport height for the wrapper */
   padding: 1.5rem;
   overflow: visible; /* Allow content to overflow for visibility */

@@ -32,16 +32,3 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
   // initialTemperature: 'initialTemperature',
   // finalTemperature: 'finalTemperature',
 } as const;
-
-// export const FilterKeys: { [K in string]: K } = {
-//   drinkTypeName: 'drinkTypeName',
-//   drinkSubtypeName: 'drinkSubtypeName',
-//   volumeName: 'volumeName',
-//   containerTypeName: 'containerTypeName',
-//   temperatureName: 'temperatureName',
-//   defaultTempConsume: 'defaultTempConsume',
-//   // initialTemperatureName: 'initialTemperatureName',
-//   // finalTemperatureName: 'finalTemperatureName',
-// } as const;
-
-// export type FilterKey = keyof typeof FilterKeys;

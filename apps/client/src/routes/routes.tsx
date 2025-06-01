@@ -63,23 +63,6 @@ export const routes: RouteObject[] = [
         element: <TemperaturePage />,
       },
       // ============================================== //
-      /*
-      {
-        path: PATHS.initialTemperature,
-        id: OrderFieldKeys.initialTemperature,
-        loader: LoaderDataHelper[OrderFieldKeys.initialTemperature],
-        element: <TemperaturePage />,
-        element: <TemperatureInitialPage />,
-      },
-      {
-        path: PATHS.finalTemperature,
-        id: OrderFieldKeys.finalTemperature,
-        loader: LoaderDataHelper[OrderFieldKeys.finalTemperature],
-        element: <TemperatureFinalPage />,
-      },
-*/
-      // ============================================== //
-
       {
         path: '/dashboard',
         element: (
