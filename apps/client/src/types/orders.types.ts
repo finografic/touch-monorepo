@@ -38,5 +38,13 @@ export interface OrderProcessStatus {
   estimatedCompletionTime?: string; // ISO date string for completion time
 }
 
+export interface TemperatureFilter {
+  initial: number;
+  final: number;
+  name: string;
+  duration?: number;
+  status?: 'pending' | 'in_progress' | 'completed' | 'error';
+}
+
 // The complete order type combining selection fields and base properties
 export interface OrderItem extends OrderBaseProps {}

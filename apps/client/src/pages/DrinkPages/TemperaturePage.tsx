@@ -3,7 +3,6 @@ import { useEffect, useMemo, useRef } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 import { OrderFieldKeys } from 'constants/app.config';
-import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useFilters } from 'hooks/useFilters';
 import { Box, Flex } from '@radix-ui/themes';
 import { styles } from './content.styles';
@@ -47,9 +46,17 @@ const DEFAULT_TEMP: Temperature = {
 
 export const TemperaturePage = () => {
   const isInitializedRef = useRef(false);
-  const { fieldKey } = useRouteConfig();
   const { filters, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
+
+  // Get element number from filters (defaulting to 1 for now)
+  const elementNumber =
+    Number(
+      reduceFilterProperty<{ elementNumber: number }>({
+        propKey: 'elementNumber' as const,
+        filters,
+      }),
+    ) || 1;
 
   const temperatureProfileId = reduceFilterProperty<{ temperatureProfileId: string }>({
     propKey: 'temperatureProfileId' as const,
@@ -89,12 +96,11 @@ export const TemperaturePage = () => {
     const initialTempRow = findClosestTemperature(temperatureProfile, temperatureRef.current.initial);
     const finalTempRow = findClosestTemperature(temperatureProfile, temperatureRef.current.final);
 
-    // Example using element 1 (timeA) - this would need to be dynamic based on selected element
-    const initialTime = getTimeValue(initialTempRow, 1);
-    const finalTime = getTimeValue(finalTempRow, 1);
+    const initialTime = getTimeValue(initialTempRow, elementNumber);
+    const finalTime = getTimeValue(finalTempRow, elementNumber);
 
     return Math.abs(finalTime - initialTime);
-  }, [temperatureProfile, temperatureRef.current.initial, temperatureRef.current.final]);
+  }, [temperatureProfile, temperatureRef.current.initial, temperatureRef.current.final, elementNumber]);
 
   // Update filters and validate when temperatures change
   const updateTemperatures = (initial: number, final: number) => {
@@ -172,6 +178,11 @@ export const TemperaturePage = () => {
           />
         </Box>
       </Flex>
+      {duration > 0 && (
+        <Box>
+          <p>Estimated duration: {Math.round(duration)} seconds</p>
+        </Box>
+      )}
     </Flex>
   );
 };

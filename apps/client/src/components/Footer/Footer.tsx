@@ -3,12 +3,11 @@ import { ButtonControl } from 'components/ButtonControl/ButtonControl';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { PATHS } from 'routes/routes.config';
-import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
 import { styles } from './Footer.styles';
-import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
 import { useCallback, useEffect, useTransition } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
+import { useTemperatureControl } from 'hooks/useTemperatureControl';
 
 export const Footer = () => {
   const location = useLocation();
@@ -18,22 +17,16 @@ export const Footer = () => {
   const { selectAllOrders, orders, setOrders } = useOrders();
   const { pathnames } = useRoutePathnamesByFilters();
 
-  useEffect(() => {
-    if (orders.length === 0 && location.pathname !== PATHS.home) {
-      navigate(PATHS.home);
-    }
-  }, [orders, location.pathname, navigate]);
-
-  const { calculateForOrder, isPending: isCalculating } = useTemperatureCalculation({
-    onSuccess: (data) => {
+  const { isCalculating, startTemperatureControl } = useTemperatureControl({
+    onSuccess: (duration) => {
       startTransition(() => {
-        // Update processStatus for the order
+        // Update processStatus for selected orders
         const updatedOrders = orders.map((order) => ({
           ...order,
           processStatus: order.isSelected
             ? {
                 isProcessing: true,
-                timeRemaining: data.estimatedDurationSeconds,
+                timeRemaining: duration,
               }
             : order.processStatus,
         }));
@@ -46,9 +39,15 @@ export const Footer = () => {
     },
     onError: (error) => {
       // TODO: Show error message to user
-      console.error('Failed to calculate temperature:', error);
+      console.error('Failed to control temperature:', error);
     },
   });
+
+  useEffect(() => {
+    if (orders.length === 0 && location.pathname !== PATHS.home) {
+      navigate(PATHS.home);
+    }
+  }, [orders, location.pathname, navigate]);
 
   const handleBack = useCallback(() => {
     if (current > 0) {
@@ -74,12 +73,8 @@ export const Footer = () => {
   }, [current, navigate, pathnames, setPageCurrent]);
 
   const handleStart = useCallback(() => {
-    // Get the first selected order and calculate its temperature
-    const selectedOrder = orders.find((order) => order.isSelected);
-    if (selectedOrder) {
-      calculateForOrder(selectedOrder);
-    }
-  }, [calculateForOrder, orders]);
+    startTemperatureControl();
+  }, [startTemperatureControl]);
 
   const isVisibleBackButton = current > 0;
   const isVisibleNextButton = location.pathname === PATHS.temperature;
@@ -109,7 +104,7 @@ export const Footer = () => {
               Next »
             </ButtonControl>
             {/* )} */}
-            {location.pathname === PATHS.temperature && (
+            {location.pathname === `/${PATHS.temperature}` && (
               <ButtonControl
                 className="btn-control btn-start"
                 onClick={handleStart}

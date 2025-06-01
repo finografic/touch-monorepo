@@ -2,56 +2,72 @@
 
 ## Overview
 
-The system uses pre-calculated temperature-time tables to determine cooling/heating times for beverages. Each combination of drink type, volume, and container material is linked to three time tables.
+The system uses pre-calculated temperature-time tables to determine cooling/heating times for beverages. Each combination of drink type, volume, and container material is linked to a temperature profile that contains time values for different elements.
 
-## Temperature Profile Tables
+## Temperature Profile Structure
 
 Each row in `temperature_profiles` contains:
 - `id`: Format `temp_+X.Y` (e.g., `temp_+10.0`)
 - `temperature`: Target temperature point
-- `timeA`: Time value for element 1
-- `timeB`: Time value for elements 2-9
-- `timeC`: Time value for element 10
+- `time_a`: Time value for element 1
+- `time_b`: Time value for elements 2-9
+- `time_c`: Time value for element 10
 
-## Time Calculation Logic
+## Duration Calculation
 
-1. **Table Selection**:
-   - Element 1 uses timeA column
-   - Elements 2-9 use timeB column
-   - Element 10 uses timeC column
+1. **Find Closest Temperature Profiles**:
 
-2. **Duration Calculation**:
+   ```typescript
+   const initialTempRow = findClosestTemperature(profiles, initialTemp);
+   const finalTempRow = findClosestTemperature(profiles, finalTemp);
+   ```
+
+2. **Get Time Values**:
+
+   ```typescript
+   // Time values depend on which element (1-10) is being used
+   const initialTime = getTimeValue(initialTempRow, elementNumber);
+   const finalTime = getTimeValue(finalTempRow, elementNumber);
+   ```
+
+3. **Calculate Duration**:
 
    ```typescript
    // Example: Initial temp 24.2°C -> 24°C, Final temp -1°C
-   const duration = timeAtInitialTemp - timeAtFinalTemp;
+   const duration = Math.abs(finalTime - initialTime);
    ```
+
+## Element Selection
+
+Time values are selected based on element number:
+- Element 1: Uses `time_a`
+- Elements 2-9: Use `time_b`
+- Element 10: Uses `time_c`
 
 ## Temperature Constraints
 
 1. **Initial Temperature**:
-   - Default: Ambient probe reading
+   - Default: 25°C (ambient)
    - Min: 0°C
-   - Max: 40°C
+   - Max: 40°C (from temperature profiles)
 
 2. **Final Temperature**:
-   - Default: From drink configuration (`defaultTempConsume`)
-   - Min: From drink configuration (`defaultTempFreeze`)
-   - Max: Current initial temperature
+   - Default: From drink type's recommended consumption temperature
+   - Min: From drink type's freeze temperature
+   - Max: Current initial temperature value
 
-## Element Behavior
+## Status Tracking
 
-- Elements 1-10: Temperature control elements
-- Element 11: Independent on/off switch
-- Elements can be selected individually or in groups:
-  - Elements 2-9: Can be selected together (ALL button)
-  - Elements 1 and 10: Individual selection only
+Temperature control process has several states:
+- `pending`: Initial state
+- `in_progress`: Calculation started
+- `completed`: Process finished successfully
+- `error`: Process failed
 
-## Operation Flow
+## Future Improvements
 
-1. Select drink parameters (type, volume, container)
-2. System identifies appropriate temperature profile tables
-3. User sets/confirms temperatures
-4. System calculates duration using appropriate time column
-5. Elements activate for calculated duration
-6. System cuts power and sounds alarm when complete
+1. Real-time temperature monitoring
+2. Dynamic element selection based on container position
+3. Multiple phase temperature control
+4. Integration with hardware control system
+5. Temperature curve optimization

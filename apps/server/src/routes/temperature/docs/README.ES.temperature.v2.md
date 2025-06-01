@@ -2,56 +2,72 @@
 
 ## Descripción General
 
-El sistema utiliza tablas pre-calculadas de temperatura-tiempo para determinar los tiempos de enfriamiento/calentamiento de bebidas. Cada combinación de tipo de bebida, volumen y material del contenedor está vinculada a tres tablas de tiempo.
+El sistema utiliza tablas pre-calculadas de temperatura-tiempo para determinar los tiempos de enfriamiento/calentamiento de bebidas. Cada combinación de tipo de bebida, volumen y material del contenedor está vinculada a un perfil de temperatura que contiene valores de tiempo para diferentes elementos.
 
-## Tablas de Perfiles de Temperatura
+## Estructura del Perfil de Temperatura
 
 Cada fila en `temperature_profiles` contiene:
 - `id`: Formato `temp_+X.Y` (ej., `temp_+10.0`)
 - `temperature`: Punto de temperatura objetivo
-- `timeA`: Valor de tiempo para elemento 1
-- `timeB`: Valor de tiempo para elementos 2-9
-- `timeC`: Valor de tiempo para elemento 10
+- `time_a`: Valor de tiempo para elemento 1
+- `time_b`: Valor de tiempo para elementos 2-9
+- `time_c`: Valor de tiempo para elemento 10
 
-## Lógica de Cálculo de Tiempo
+## Cálculo de Duración
 
-1. **Selección de Tabla**:
-   - Elemento 1 usa columna timeA
-   - Elementos 2-9 usan columna timeB
-   - Elemento 10 usa columna timeC
+1. **Encontrar Perfiles de Temperatura más Cercanos**:
 
-2. **Cálculo de Duración**:
+   ```typescript
+   const initialTempRow = findClosestTemperature(profiles, initialTemp);
+   const finalTempRow = findClosestTemperature(profiles, finalTemp);
+   ```
+
+2. **Obtener Valores de Tiempo**:
+
+   ```typescript
+   // Los valores de tiempo dependen del elemento (1-10) que se está usando
+   const initialTime = getTimeValue(initialTempRow, elementNumber);
+   const finalTime = getTimeValue(finalTempRow, elementNumber);
+   ```
+
+3. **Calcular Duración**:
 
    ```typescript
    // Ejemplo: Temp inicial 24.2°C -> 24°C, Temp final -1°C
-   const duracion = tiempoTempInicial - tiempoTempFinal;
+   const duration = Math.abs(finalTime - initialTime);
    ```
+
+## Selección de Elementos
+
+Los valores de tiempo se seleccionan según el número de elemento:
+- Elemento 1: Usa `time_a`
+- Elementos 2-9: Usan `time_b`
+- Elemento 10: Usa `time_c`
 
 ## Restricciones de Temperatura
 
 1. **Temperatura Inicial**:
-   - Por defecto: Lectura de sonda ambiental
+   - Por defecto: 25°C (ambiente)
    - Mínimo: 0°C
-   - Máximo: 40°C
+   - Máximo: 40°C (de perfiles de temperatura)
 
 2. **Temperatura Final**:
-   - Por defecto: De configuración de bebida (`defaultTempConsume`)
-   - Mínimo: De configuración de bebida (`defaultTempFreeze`)
-   - Máximo: Temperatura inicial actual
+   - Por defecto: De la temperatura de consumo recomendada del tipo de bebida
+   - Mínimo: De la temperatura de congelación del tipo de bebida
+   - Máximo: Valor actual de temperatura inicial
 
-## Comportamiento de Elementos
+## Seguimiento de Estado
 
-- Elementos 1-10: Elementos de control de temperatura
-- Elemento 11: Interruptor independiente on/off
-- Los elementos pueden seleccionarse individual o grupalmente:
-  - Elementos 2-9: Pueden seleccionarse juntos (botón TODOS)
-  - Elementos 1 y 10: Solo selección individual
+El proceso de control de temperatura tiene varios estados:
+- `pending`: Estado inicial
+- `in_progress`: Cálculo iniciado
+- `completed`: Proceso finalizado con éxito
+- `error`: Proceso fallido
 
-## Flujo de Operación
+## Mejoras Futuras
 
-1. Seleccionar parámetros de bebida (tipo, volumen, contenedor)
-2. Sistema identifica tablas de perfil de temperatura apropiadas
-3. Usuario establece/confirma temperaturas
-4. Sistema calcula duración usando columna de tiempo apropiada
-5. Elementos se activan por la duración calculada
-6. Sistema corta energía y suena alarma al completar
+1. Monitoreo de temperatura en tiempo real
+2. Selección dinámica de elementos basada en la posición del contenedor
+3. Control de temperatura en múltiples fases
+4. Integración con sistema de control de hardware
+5. Optimización de curva de temperatura
