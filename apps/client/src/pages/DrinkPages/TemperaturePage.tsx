@@ -7,18 +7,14 @@ import { useFilters } from 'hooks/useFilters';
 import { Box, Flex } from '@radix-ui/themes';
 import { styles } from './content.styles';
 import {
-  FINAL_TEMP_DEFAULT,
   FINAL_TEMP_MAX,
   FINAL_TEMP_MIN,
   INITIAL_TEMP_DEFAULT,
   INITIAL_TEMP_MAX,
   INITIAL_TEMP_MIN,
+  MIN_TEMP_DIFFERENCE,
 } from 'constants/temperature.config';
-import { useGetTemperatureProfile } from 'queries/temperature/useGetTemperatureProfile';
-import { reduceFilterProperty } from 'utils/filters.utils';
-import { getTimeValue } from 'utils/temperature.utils';
 import { useGetMinMaxTemperatures } from 'queries/temperature/useGetMinMaxTemperatures';
-import { useOrders } from 'providers/OrdersProvider';
 
 // ======================================================================== //
 // NOTE:  HOW TEMPERATURE WORKS:
@@ -39,8 +35,7 @@ max: INITIAL TEMPERATURE VALUE
 
 export const TemperaturePage = () => {
   const isInitializedRef = useRef(false);
-  const { orders } = useOrders();
-  const { dataFiltered, filters, setFilter } = useFilters();
+  const { dataFiltered, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
 
   // Convert from ref to state
@@ -48,15 +43,6 @@ export const TemperaturePage = () => {
     initial: INITIAL_TEMP_DEFAULT,
     final: INITIAL_TEMP_DEFAULT,
   });
-
-  // Get element number from filters (defaulting to 1 for now)
-  // const elementNumber =
-  //   Number(
-  //     reduceFilterProperty<{ elementNumber: number }>({
-  //       propKey: 'elementNumber' as const,
-  //       filters,
-  //     }),
-  //   ) || 1;
 
   // Get min and max temperatures
   const { data: minMaxTemperatures } = useGetMinMaxTemperatures();
@@ -147,26 +133,28 @@ export const TemperaturePage = () => {
       initial,
       final,
       name: `${initial}°C → ${final}°C`, // For display purposes
-      duration, // Add calculated duration to the filter
     });
 
-    // Enable Next button only if final temp is less than initial
-    setIsNextDisabled(final >= initial);
+    // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
+    setIsNextDisabled(final >= initial - MIN_TEMP_DIFFERENCE);
   };
 
   const handleInitialTempChange = (temp: Temperature) => {
     const initial = temp.value;
     const final = temperatures.final;
 
-    // If initial temp is decreased below final temp, adjust final temp to match initial
-    const adjustedFinal = initial <= final ? initial : final;
+    // If initial temp is decreased, adjust final temp to maintain MIN_TEMP_DIFFERENCE
+    const adjustedFinal = initial - MIN_TEMP_DIFFERENCE <= final ? initial - MIN_TEMP_DIFFERENCE : final;
     updateTemperatures(initial, adjustedFinal);
   };
 
   const handleFinalTempChange = (temp: Temperature) => {
     const initial = temperatures.initial;
     const final = temp.value;
-    updateTemperatures(initial, final);
+
+    // Ensure final temp is at least MIN_TEMP_DIFFERENCE below initial
+    const adjustedFinal = Math.min(final, initial - MIN_TEMP_DIFFERENCE);
+    updateTemperatures(initial, adjustedFinal);
   };
 
   log('__DEV: isInitializedRef.current', 'grey', typeof isInitializedRef.current, isInitializedRef.current);
