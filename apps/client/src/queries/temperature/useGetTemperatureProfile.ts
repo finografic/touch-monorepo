@@ -19,23 +19,15 @@ export interface TemperaturePhase {
 
 export const GET_TEMPERATURE_PROFILE_QUERYKEY = ['temperature-profile'];
 
-export const useGetTemperatureProfile = (filters: Record<string, any>) => {
-  // Reduce filters to get the most specific temperatureProfileId
-  const temperatureProfileId = Object.values(filters).reduce(
-    (acc, value) => value?.temperatureProfileId ?? acc,
-    '',
-  );
-
+export const useGetTemperatureProfile = ({ id }: { id: string }) => {
   return useQuery({
-    queryKey: [...GET_TEMPERATURE_PROFILE_QUERYKEY, temperatureProfileId],
+    queryKey: [...GET_TEMPERATURE_PROFILE_QUERYKEY, id],
     queryFn: async () => {
-      if (!temperatureProfileId) {
+      if (!id) {
         return null;
       }
 
-      const response = await api.get<ApiResponse<TemperatureProfile[]>>(
-        `/temperature-profiles/${temperatureProfileId}`,
-      );
+      const response = await api.get<ApiResponse<TemperatureProfile[]>>(`/temperature-profiles/${id}`);
 
       if (response.status !== 200) {
         throw new Error('Failed to fetch temperature profile');
@@ -43,6 +35,6 @@ export const useGetTemperatureProfile = (filters: Record<string, any>) => {
 
       return response.data.data;
     },
-    enabled: Boolean(temperatureProfileId),
+    enabled: Boolean(id),
   });
 };

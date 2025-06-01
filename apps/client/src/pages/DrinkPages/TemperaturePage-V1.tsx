@@ -16,8 +16,6 @@ import {
   INITIAL_TEMP_MIN,
 } from 'constants/temperature.config';
 import { useGetTemperatureProfile } from 'queries/temperature/useGetTemperatureProfile';
-import { reduceFilterProperty } from 'utils/filters.utils';
-import { FilterKeys } from 'constants/filters.constants';
 
 // ======================================================================== //
 // NOTE:  HOW TEMPERATURE WORKS:
@@ -47,37 +45,15 @@ export const TemperaturePage = () => {
   const { filters, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
 
-  // Get the temperature profile ID from filters
-  const temperatureProfileId = reduceFilterProperty<{ temperatureProfileId: string }>({
-    propKey: 'temperatureProfileId' as const,
-    filters,
-  });
-
-  // Get temperature profile data
-  const { data: temperatureProfile } = useGetTemperatureProfile({ id: temperatureProfileId });
-
-  // Get consumption and freeze temperatures from filters
-  const defaultTempConsume =
-    Number(
-      reduceFilterProperty<{ defaultTempConsume: number }>({
-        propKey: 'defaultTempConsume' as const,
-        filters,
-      }),
-    ) || FINAL_TEMP_DEFAULT;
-
-  const defaultTempFreeze =
-    Number(
-      reduceFilterProperty<{ defaultTempFreeze: number }>({
-        propKey: 'defaultTempFreeze' as const,
-        filters,
-      }),
-    ) || undefined;
+  const { data: temperatureProfile } = useGetTemperatureProfile(filters);
 
   // Track both temperatures for validation
   const temperatureRef = useRef({
     initial: INITIAL_TEMP_DEFAULT,
-    final: defaultTempConsume,
+    final: FINAL_TEMP_DEFAULT,
   });
+
+  log('__TEMP__DATA:', 'hotpink', temperatureProfile);
 
   // Update filters and validate when temperatures change
   const updateTemperatures = (initial: number, final: number) => {
@@ -109,15 +85,22 @@ export const TemperaturePage = () => {
     updateTemperatures(initial, final);
   };
 
-  // Initialize final temperature from filters when component mounts
   useEffect(
-    function initializeFinalTemp() {
-      if (!isInitializedRef.current && defaultTempConsume) {
-        temperatureRef.current.final = defaultTempConsume;
-        isInitializedRef.current = true;
+    function updateFinalTemp() {
+      // NOTE: reduce so DrinkSubtype.defaultTempConsume takes precedence over DrinkType.defaultTempConsume
+      if (!isInitializedRef.current) {
+        setTimeout(() => {
+          const filtersTempConsumption = Object.values(filters).reduce(
+            (acc, value) => value?.defaultTempConsume ?? acc,
+            0,
+          );
+
+          temperatureRef.current.final = filtersTempConsumption;
+          isInitializedRef.current = true;
+        }, 150);
       }
     },
-    [defaultTempConsume],
+    [filters],
   );
 
   return (
@@ -148,8 +131,8 @@ export const TemperaturePage = () => {
             onChange={handleFinalTempChange}
             label="temperatura final"
             description="por defecto, la temperatura de consumo recomendada"
-            min={defaultTempFreeze ?? -Infinity} // Use freeze temp as min if available
-            max={temperatureRef.current.initial} // Max should be current initial temp
+            min={FINAL_TEMP_MIN}
+            max={Math.min(FINAL_TEMP_MAX, temperatureRef.current.initial)}
             step={0.5}
           />
         </Box>

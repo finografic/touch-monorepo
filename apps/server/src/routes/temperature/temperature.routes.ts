@@ -3,98 +3,109 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { createErrorSchema } from 'stoker/openapi/schemas';
 import { notFoundSchema } from 'lib/constants';
+import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
 
 const tags = ['Temperature'];
 
-// Schema for temperature settings response
-const temperatureSettingsSchema = z.object({
-  defaultTempConsume: z.number(),
-  minTempConsume: z.number(),
-  maxTempConsume: z.number(),
-  defaultTempFreeze: z.number().optional(),
+// Custom schema for temperature profile IDs which follow the format temp_+X.Y
+const TempProfileIdParamsSchema = z.object({
+  id: z
+    .string()
+    .regex(/^temp_\+\d+(\.\d+)?$/, 'Invalid temperature profile ID format - must match pattern temp_+X.Y'),
 });
 
-// Schema for temperature calculation request
-const temperatureCalculationSchema = z.object({
-  drinkTypeId: z.string(),
-  drinkSubtypeId: z.string().optional(),
-  containerTypeId: z.string(),
-  volumeId: z.string(),
-  initialTemp: z.number(),
-  targetTemp: z.number(),
-});
-
-// Schema for temperature calculation response
-const temperatureResultSchema = z.object({
-  estimatedDurationSeconds: z.number(),
-  phases: z.array(
-    z.object({
-      durationSeconds: z.number(),
-      startTemp: z.number(),
-      endTemp: z.number(),
-      description: z.string(),
-    }),
-  ),
-  timeTableId: z.string(),
-  recommendations: z.array(z.string()),
-});
-
-// Schema for error response
-const errorResponseSchema = z.object({
-  message: z.string(),
-});
-
-// Route for getting temperature settings
-export const getSettings = createRoute({
-  path: '/temperature/settings',
+export const list = createRoute({
+  path: '/temperature-profiles',
   method: 'get',
   tags,
-  request: {
-    query: z.object({
-      drinkTypeId: z.string(),
-      drinkSubtypeId: z.string().optional(),
-      containerTypeId: z.string(),
-      volumeId: z.string(),
-    }),
-  },
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      temperatureSettingsSchema,
-      'Temperature settings for the given configuration',
-    ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(errorResponseSchema, 'Resource not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(
-        z.object({
-          drinkTypeId: z.string(),
-          containerTypeId: z.string(),
-          volumeId: z.string(),
+      z.array(
+        temperatureProfileSchemas.select.pick({
+          id: true,
+          temperature: true,
+          timeA: true,
+          timeB: true,
+          timeC: true,
         }),
       ),
-      'Invalid parameters provided',
+      'List of available temperature profiles',
     ),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorResponseSchema, 'Internal server error'),
   },
 });
 
-// Route for calculating temperature change duration
-export const calculate = createRoute({
-  path: '/temperature/calculate',
-  method: 'post',
-  tags,
+export const getOne = createRoute({
+  path: '/temperature-profiles/{id}',
+  method: 'get',
   request: {
-    body: jsonContentRequired(temperatureCalculationSchema, 'Temperature calculation parameters'),
+    params: TempProfileIdParamsSchema,
   },
+  tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(temperatureResultSchema, 'Temperature calculation result'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(errorResponseSchema, 'Resource not found'),
+    [HttpStatusCodes.OK]: jsonContent(temperatureProfileSchemas.select, 'The requested temperature profile'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Temperature profile not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(temperatureCalculationSchema),
-      'Invalid parameters provided',
+      createErrorSchema(TempProfileIdParamsSchema),
+      'Invalid id format',
     ),
-    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorResponseSchema, 'Internal server error'),
   },
 });
 
-export type GetSettingsRoute = typeof getSettings;
-export type CalculateRoute = typeof calculate;
+export const create = createRoute({
+  path: '/temperature-profiles',
+  method: 'post',
+  request: {
+    body: jsonContentRequired(temperatureProfileSchemas.insert, 'The temperature profile to create'),
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(temperatureProfileSchemas.select, 'The created temperature profile'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(temperatureProfileSchemas.insert),
+      'The validation error(s)',
+    ),
+  },
+});
+
+export const patch = createRoute({
+  path: '/temperature-profiles/{id}',
+  method: 'patch',
+  request: {
+    params: TempProfileIdParamsSchema,
+    body: jsonContentRequired(temperatureProfileSchemas.patch, 'The temperature profile updates'),
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(temperatureProfileSchemas.select, 'The updated temperature profile'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Temperature profile not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(temperatureProfileSchemas.patch).or(createErrorSchema(TempProfileIdParamsSchema)),
+      'The validation error(s)',
+    ),
+  },
+});
+
+export const remove = createRoute({
+  path: '/temperature-profiles/{id}',
+  method: 'delete',
+  request: {
+    params: TempProfileIdParamsSchema,
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.NO_CONTENT]: {
+      description: 'Temperature profile deleted',
+    },
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Temperature profile not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(TempProfileIdParamsSchema),
+      'Invalid id format',
+    ),
+  },
+});
+
+export type ListRoute = typeof list;
+export type CreateRoute = typeof create;
+export type GetOneRoute = typeof getOne;
+export type PatchRoute = typeof patch;
+export type RemoveRoute = typeof remove;

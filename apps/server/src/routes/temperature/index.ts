@@ -3,5 +3,8 @@ import * as handlers from './temperature.handlers';
 import * as routes from './temperature.routes';
 
 export default createRouter()
-  .openapi(routes.getSettings, handlers.getSettings)
-  .openapi(routes.calculate, handlers.calculate);
+  .openapi(routes.list, handlers.list)
+  .openapi(routes.getOne, handlers.getOne)
+  .openapi(routes.create, handlers.create)
+  .openapi(routes.patch, handlers.patch)
+  .openapi(routes.remove, handlers.remove);

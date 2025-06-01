@@ -11,14 +11,14 @@ import { FILTER_ORDER } from 'constants/filters.constants';
  * @returns The most specific value found, or empty string if not found
  */
 export const reduceFilterProperty = <T>({
-  propertyKey,
+  propKey,
   filters,
 }: {
-  propertyKey: keyof T;
+  propKey: keyof T;
   filters: OrderFilters;
 }): T[keyof T] | '' => {
   return Object.values(filters).reduce<T[keyof T] | ''>(
-    (acc, value) => (value?.[propertyKey as keyof typeof value] as T[keyof T]) ?? acc,
+    (acc, value) => (value?.[propKey as keyof typeof value] as T[keyof T]) ?? acc,
     '',
   );
 };
