@@ -29,8 +29,11 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
     filters,
   });
 
-  // Get temperature profile data
-  const { data: temperatureProfile } = useGetTemperatureProfile({ id: temperatureProfileId });
+  // Get temperature profile data - only enabled when we have a valid temperature filter and profile ID
+  const { data: temperatureProfile } = useGetTemperatureProfile({
+    id: temperatureProfileId,
+    enabled: Boolean(temperatureProfileId && filters[OrderFieldKeys.temperature]),
+  });
 
   const startTemperatureControl = async () => {
     if (!temperatureProfile?.length) return;

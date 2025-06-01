@@ -23,9 +23,10 @@ export const GenericSelectPage = () => {
       if (pad.isChecked) {
         if (currentFilters[fieldKey] !== pad.id) {
           const lookup = { [padsConfig.filterKey as keyof DataEntry]: pad.value.name };
+          const { temperatureProfileId, ...filterValue } = pad.value;
           setOrdersFilter({
             itemNumber: order.itemNumber,
-            filter: { ...currentFilters, [fieldKey]: { ...pad.value, lookup } },
+            filter: { ...currentFilters, [fieldKey]: { ...filterValue, lookup } },
           });
         }
       } else {

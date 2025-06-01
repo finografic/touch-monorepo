@@ -18,7 +18,12 @@ export interface TemperaturePhase {
   description: string;
 }
 
-export const useGetTemperatureProfile = ({ id }: { id: string }) => {
+interface UseGetTemperatureProfileOptions {
+  id: string;
+  enabled?: boolean;
+}
+
+export const useGetTemperatureProfile = ({ id, enabled }: UseGetTemperatureProfileOptions) => {
   return useQuery({
     queryKey: [...GET_TEMPERATURE_PROFILE_QUERYKEY, id],
     queryFn: async () => {
@@ -30,6 +35,6 @@ export const useGetTemperatureProfile = ({ id }: { id: string }) => {
 
       return response.data.data;
     },
-    enabled: Boolean(id),
+    enabled: enabled ?? Boolean(id),
   });
 };

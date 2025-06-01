@@ -30,16 +30,12 @@ export const PaginationContext = createZustandContext(({ initialValue }) => {
           ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
           setIsPrevDisabled: (isPrevDisabled: boolean) => {
             if (get().isPrevDisabled !== isPrevDisabled) {
-              setTimeout(() => {
-                set({ isPrevDisabled });
-              }, 0);
+              set({ isPrevDisabled });
             }
           },
           setIsNextDisabled: (isNextDisabled: boolean) => {
             if (get().isNextDisabled !== isNextDisabled) {
-              setTimeout(() => {
-                set({ isNextDisabled });
-              }, 0);
+              set({ isNextDisabled });
             }
           },
           // onBeforeNavigateNext: (fn?: () => void) => {

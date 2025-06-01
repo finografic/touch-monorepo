@@ -18,13 +18,11 @@ interface BaseFilter {
 interface DrinkTypeFilter extends BaseFilter {
   hasSubtypes: boolean;
   defaultTempConsume?: number;
-  temperatureProfileId?: string;
   lookup?: { [FilterKeys.drinkTypeName]: string };
 }
 
 interface DrinkSubtypeFilter extends BaseFilter {
   defaultTempConsume?: number;
-  temperatureProfileId?: string;
   lookup?: { [FilterKeys.drinkSubtypeName]: string };
 }
 
