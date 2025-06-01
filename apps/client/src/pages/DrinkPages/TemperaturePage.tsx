@@ -81,20 +81,23 @@ export const TemperaturePage = () => {
     updateTemperatures(initial, final);
   };
 
-  useEffect(() => {
-    // Subtype takes precedence over type
-    if (!isInitializedRef.current) {
-      setTimeout(() => {
-        const filtersTempConsumption = Object.values(filters).reduce(
-          (acc, value) => value?.defaultTempConsume ?? acc,
-          0,
-        );
+  useEffect(
+    function updateFinalTemp() {
+      // NOTE: reduce so DrinkSubtype.defaultTempConsume takes precedence over DrinkType.defaultTempConsume
+      if (!isInitializedRef.current) {
+        setTimeout(() => {
+          const filtersTempConsumption = Object.values(filters).reduce(
+            (acc, value) => value?.defaultTempConsume ?? acc,
+            0,
+          );
 
-        temperatureRef.current.final = filtersTempConsumption;
-        isInitializedRef.current = true;
-      }, 150);
-    }
-  }, [filters]);
+          temperatureRef.current.final = filtersTempConsumption;
+          isInitializedRef.current = true;
+        }, 150);
+      }
+    },
+    [filters],
+  );
 
   return (
     <Flex css={styles} className="temperature-content" gap="3" direction="column">

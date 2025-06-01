@@ -41,7 +41,6 @@ export const styles = css`
     flex-direction: column;
     width: 100%;
     min-width: fit-content;
-    border: 1px solid red;
 
     pre {
       font-size: 0.85rem;
