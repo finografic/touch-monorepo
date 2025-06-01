@@ -1,4 +1,5 @@
-import { FilterKeys, OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys } from 'constants/app.config';
+import { FilterKeys } from 'constants/filters.constants';
 import type { ValidTypeBCount } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { PadConfig, PadUI } from 'types/ui.types';

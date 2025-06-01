@@ -6,7 +6,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { PadUI } from 'types/ui.types';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import type { OrderFilters } from 'types/filters.types';
-import { FILTER_ORDER, useFilters } from 'hooks/useFilters';
+import { useFilters } from 'hooks/useFilters';
 import { OrderFieldKeys } from 'constants/app.config';
 
 export const LayoutUiObserver = () => {

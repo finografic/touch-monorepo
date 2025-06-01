@@ -2,23 +2,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
-import { OrderFieldKeys } from 'constants/app.config';
 import { api } from 'api';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-
-// Order of filter application - used to determine which filters to apply at each step
-export const FILTER_ORDER: OrderFieldKey[] = [
-  OrderFieldKeys.drinkType,
-  OrderFieldKeys.drinkSubtype,
-  OrderFieldKeys.drinkVolume,
-  OrderFieldKeys.containerType,
-  OrderFieldKeys.temperature,
-];
+import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';
 
 export const useFilters = (initialFilters?: OrderFilters) => {
-  const { fieldKey, filterKey, padsConfig } = useRouteConfig();
+  const { fieldKey } = useRouteConfig();
   const { orders } = useOrders();
   const [data, setData] = useState<DataEntry[]>([]);
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
@@ -39,75 +30,20 @@ export const useFilters = (initialFilters?: OrderFilters) => {
   }, [orders]);
 
   // Get unique values for each filter key
-  const uniqueValues = useMemo(() => {
-    const values: Record<string, string[]> = {};
-    values[OrderFieldKeys.drinkType] = Array.from(
-      new Set(data.map((d) => d.drinkTypeName).filter((v): v is string => typeof v === 'string')),
-    );
-    values[OrderFieldKeys.drinkSubtype] = Array.from(
-      new Set(data.map((d) => d.drinkSubtypeName).filter((v): v is string => typeof v === 'string')),
-    );
-    values[OrderFieldKeys.drinkVolume] = Array.from(
-      new Set(data.map((d) => d.volumeName).filter((v): v is string => typeof v === 'string')),
-    );
-    values[OrderFieldKeys.containerType] = Array.from(
-      new Set(data.map((d) => d.containerTypeName).filter((v): v is string => typeof v === 'string')),
-    );
-    return values;
-  }, [data]);
-
-  // Helper function to apply filters to data
-  const applyFilters = useCallback((entry: DataEntry, activeFilters: [string, any][]) => {
-    return activeFilters.every(([key, value]) => {
-      if (!value) return true;
-      switch (key as OrderFieldKey) {
-        case OrderFieldKeys.drinkType:
-          return entry.drinkTypeName === value.name;
-        case OrderFieldKeys.drinkSubtype:
-          return entry.drinkSubtypeName === value.name;
-        case OrderFieldKeys.drinkVolume:
-          return entry.volumeName === value.name;
-        case OrderFieldKeys.containerType:
-          return entry.containerTypeName === value.name;
-        case OrderFieldKeys.temperature:
-          // For temperature, we'll check both initial and final temps are within range
-          if (value.initial !== undefined && value.final !== undefined) {
-            return (
-              (!entry.initialTemperature || entry.initialTemperature === value.initial) &&
-              (!entry.finalTemperature || entry.finalTemperature === value.final)
-            );
-          }
-          return true;
-        default:
-          return true;
-      }
-    });
-  }, []);
+  const uniqueValues = useMemo(() => getUniqueFilterValues(data), [data]);
 
   // Client-side filtering with both datasets
   const { dataPool, dataFiltered } = useMemo(() => {
     if (!fieldKey) return { dataPool: data, dataFiltered: data };
 
-    const currentStepIndex = FILTER_ORDER.indexOf(fieldKey);
-    if (currentStepIndex === -1) return { dataPool: data, dataFiltered: data };
-
-    // Get filters up to (but not including) current step
-    const filtersBeforeCurrent = Object.entries(filters).filter(([key]) => {
-      const filterIndex = FILTER_ORDER.indexOf(key as OrderFieldKey);
-      return filterIndex !== -1 && filterIndex < currentStepIndex;
-    });
-
-    // Get filters up to and including current step
-    const filtersUpToCurrent = Object.entries(filters).filter(([key]) => {
-      const filterIndex = FILTER_ORDER.indexOf(key as OrderFieldKey);
-      return filterIndex !== -1 && filterIndex <= currentStepIndex;
-    });
+    const filtersBeforeCurrent = getFiltersByStep(filters, fieldKey, false);
+    const filtersUpToCurrent = getFiltersByStep(filters, fieldKey, true);
 
     return {
-      dataPool: data.filter((entry) => applyFilters(entry, filtersBeforeCurrent)),
-      dataFiltered: data.filter((entry) => applyFilters(entry, filtersUpToCurrent)),
+      dataPool: data.filter((entry) => matchesFilters(entry, filtersBeforeCurrent)),
+      dataFiltered: data.filter((entry) => matchesFilters(entry, filtersUpToCurrent)),
     };
-  }, [data, filters, fieldKey, applyFilters]);
+  }, [data, filters, fieldKey]);
 
   // Handle filter change
   const setFilter = useCallback((key: OrderFieldKey, value: any) => {

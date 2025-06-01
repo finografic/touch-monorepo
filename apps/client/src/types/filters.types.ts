@@ -1,6 +1,12 @@
-import type { FilterKeys, OrderFieldKeys } from 'constants/app.config';
+import type { FilterKeys } from 'constants/filters.constants';
 import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
 import type { ContainerType, Temperature, Volume } from 'types/orders.types';
+import type { OrderFieldKeys } from 'constants/app.config';
+
+/**
+ * Type representing valid filter keys derived from FilterKeys constant
+ */
+export type FilterKey = keyof typeof FilterKeys;
 
 // Base interface for all filters
 interface BaseFilter {

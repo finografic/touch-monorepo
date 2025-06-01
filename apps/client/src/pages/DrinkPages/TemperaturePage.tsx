@@ -2,7 +2,8 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useEffect, useRef, useState } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
-import { FilterKeys, OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys } from 'constants/app.config';
+import { FilterKeys } from 'constants/filters.constants';
 
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useFilters } from 'hooks/useFilters';
