@@ -14,9 +14,13 @@ import {
   INITIAL_TEMP_MAX,
   INITIAL_TEMP_MIN,
 } from 'constants/temperature.config';
-import { useGetTemperatureProfile } from 'queries/temperature/useGetTemperatureProfile';
+import {
+  type TemperatureProfile,
+  useGetTemperatureProfile,
+} from 'queries/temperature/useGetTemperatureProfile';
 import { reduceFilterProperty } from 'utils/filters.utils';
-import { getTimeValue } from 'utils/temperature.utils';
+import { findClosestTemperature, getTimeValue } from 'utils/temperature.utils';
+import { FilterKeys } from 'constants/filters.constants';
 import { useGetMinMaxTemperatures } from 'queries/temperature/useGetMinMaxTemperatures';
 import { useOrders } from 'providers/OrdersProvider';
 
@@ -50,63 +54,73 @@ export const TemperaturePage = () => {
   });
 
   // Get element number from filters (defaulting to 1 for now)
-  // const elementNumber =
-  //   Number(
-  //     reduceFilterProperty<{ elementNumber: number }>({
-  //       propKey: 'elementNumber' as const,
-  //       filters,
-  //     }),
-  //   ) || 1;
+  const elementNumber =
+    Number(
+      reduceFilterProperty<{ elementNumber: number }>({
+        propKey: 'elementNumber' as const,
+        filters,
+      }),
+    ) || 1;
 
   // Get min and max temperatures
   const { data: minMaxTemperatures } = useGetMinMaxTemperatures();
 
-  // Calculate duration when temperatures or profile changes
-  const defaultTempConsume = useMemo(() => {
-    if (!dataFiltered || dataFiltered.length === 0) return;
-
-    return dataFiltered[0].defaultTempConsume;
-  }, [dataFiltered]);
-
-  // Get temperature profile data
-  // const { data: temperatureProfile } = useGetTemperatureProfile({
-  //   id: temperatureProfileId,
-  //   enabled: !!temperatureProfileId,
+  // const temperatureProfileId = reduceFilterProperty<{ temperatureProfileId: string }>({
+  //   propKey: 'temperatureProfileId' as const,
+  //   filters,
   // });
 
   // Calculate duration when temperatures or profile changes
-  // const duration = useMemo(() => {
-  //   if (!temperatureProfile) return 0;
+  const temperatureProfileId = useMemo(() => {
+    if (!dataFiltered || dataFiltered.length === 0) return;
 
-  //   // With a single profile, we can directly calculate the times
-  //   const initialTime = getTimeValue(temperatureProfile, elementNumber);
-  //   const finalTime = getTimeValue(temperatureProfile, elementNumber);
+    return dataFiltered[0].temperatureProfileId;
+  }, [dataFiltered]);
 
-  //   return Math.abs(finalTime - initialTime);
-  // }, [temperatureProfile, elementNumber]);
+  // Get temperature profile data
+  const { data: temperatureProfile } = useGetTemperatureProfile({
+    id: temperatureProfileId,
+    enabled: !!temperatureProfileId,
+  });
 
-  // ======================================================================== //
+  // log('__TEMP__temperatureProfileId:', 'lime', typeof temperatureProfileId, temperatureProfileId);
+  // log('__PROFILE: temperatureProfile', 'lime', { temperatureProfileId, temperatureProfile });
 
-  useEffect(
-    function initializeFinalTemp() {
-      if (!isInitializedRef.current) {
-        setTimeout(() => {
-          if (defaultTempConsume) {
-            setTemperatures((prev) => ({
-              ...prev,
-              final: defaultTempConsume,
-            }));
-            isInitializedRef.current = true;
-          }
-        }, 150);
-      }
-    },
-    [defaultTempConsume],
-  );
+  // Get consumption and freeze temperatures from filters
+  const defaultTempConsume =
+    Number(
+      reduceFilterProperty<{ defaultTempConsume: number }>({
+        propKey: 'defaultTempConsume' as const,
+        filters,
+      }),
+    ) || FINAL_TEMP_DEFAULT;
 
   // ======================================================================== //
+  // TODO:  REMOVE (TEMPORARILY??) -- depending, if needed
 
   /*
+  const defaultTempFreeze =
+    Number(
+      reduceFilterProperty<{ defaultTempFreeze: number }>({
+        propKey: 'defaultTempFreeze' as const,
+        filters,
+      }),
+    ) || undefined;
+     */
+
+  // ======================================================================== //
+
+  // Calculate duration when temperatures or profile changes
+  const duration = useMemo(() => {
+    if (!temperatureProfile) return 0;
+
+    // With a single profile, we can directly calculate the times
+    const initialTime = getTimeValue(temperatureProfile, elementNumber);
+    const finalTime = getTimeValue(temperatureProfile, elementNumber);
+
+    return Math.abs(finalTime - initialTime);
+  }, [temperatureProfile, elementNumber]);
+
   // Initialize final temperature from filters when component mounts
   useEffect(
     function initializeFinalTemp() {
@@ -134,9 +148,6 @@ export const TemperaturePage = () => {
     },
     [filters],
   );
-  */
-
-  // ======================================================================== //
 
   // Update filters and validate when temperatures change
   const updateTemperatures = (initial: number, final: number) => {
@@ -209,11 +220,11 @@ export const TemperaturePage = () => {
           </Box>
         </Flex>
       )}
-      {/* {duration > 0 && (
+      {duration > 0 && (
         <Box>
           <p>Estimated duration: {Math.round(duration)} seconds</p>
         </Box>
-      )} */}
+      )}
     </Flex>
   );
 };

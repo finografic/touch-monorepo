@@ -19,7 +19,7 @@ export interface TemperaturePhase {
 }
 
 interface UseGetTemperatureProfileOptions {
-  id: string;
+  id?: string;
   enabled?: boolean;
 }
 

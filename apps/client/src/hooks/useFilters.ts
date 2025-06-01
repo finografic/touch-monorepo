@@ -2,21 +2,41 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
+import type { OrderModel } from 'types/models/order.model';
 import { api } from 'api';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';
 
-export const useFilters = (initialFilters?: OrderFilters) => {
+interface UseFiltersReturn {
+  // Data arrays - using the OrderModel type which extends DataEntry
+  data: OrderModel[];
+  dataPool: OrderModel[];
+  dataFiltered: OrderModel[];
+
+  // Filters state
+  filters: OrderFilters;
+  serverFieldMap: Record<string, string>;
+
+  // Filter manipulation functions
+  setFilter: (key: OrderFieldKey, value: unknown) => void;
+  clearFilter: (key: OrderFieldKey) => void;
+  clearFilters: () => void;
+
+  // Unique values for filters - matches the return type of getUniqueFilterValues
+  uniqueValues: Record<string, string[]>;
+}
+
+export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
   const { orders } = useOrders();
-  const [data, setData] = useState<DataEntry[]>([]);
+  const [data, setData] = useState<OrderModel[]>([]);
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
 
-  // Fetch all orders once at initialization
+  // Fetch orders data
   useEffect(() => {
-    api.get<ApiResponse<DataEntry[]>>('/orders').then((results) => {
+    api.get<ApiResponse<OrderModel[]>>('/orders').then((results) => {
       setData(results.data.data ?? results.data);
     });
   }, []);
@@ -46,7 +66,7 @@ export const useFilters = (initialFilters?: OrderFilters) => {
   }, [data, filters, fieldKey]);
 
   // Handle filter change
-  const setFilter = useCallback((key: OrderFieldKey, value: any) => {
+  const setFilter = useCallback((key: OrderFieldKey, value: unknown) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   }, []);
 
@@ -66,7 +86,7 @@ export const useFilters = (initialFilters?: OrderFilters) => {
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {
     return Object.entries(filters as OrderFilters).reduce(
-      (acc, [_filterKey, filterValue]) => ({ ...acc, [_filterKey as keyof DataEntry]: filterValue.name }),
+      (acc, [_filterKey, filterValue]) => ({ ...acc, [_filterKey as string]: filterValue.name }),
       {} as Record<string, string>,
     );
   }, [filters]);
