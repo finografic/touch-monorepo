@@ -3,7 +3,8 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { OrderFieldKey, OrderFilters } from 'types/orders.types';
+import type { OrderFieldKey } from 'types/orders.types';
+import type { OrderFilters } from 'types/filers.types';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
 
 export const DISPLAY_NAME = 'Orders';

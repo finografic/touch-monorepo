@@ -1,5 +1,5 @@
 import type { ORDER_FIELD_KEYS } from 'constants/app.config';
-import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
+import type { OrderFilters } from 'types/filers.types';
 import type { CamelToKebab, CamelToSnake } from 'types/utilities/casing.utils.types';
 
 export type OrderFieldKey = (typeof ORDER_FIELD_KEYS)[number];
@@ -13,21 +13,6 @@ interface OrderBaseProps {
   isLocked: boolean;
   filters: OrderFilters;
   processStatus: OrderProcessStatus;
-}
-
-export interface OrderFilter {
-  value: DrinkType | DrinkSubtype | Volume | ContainerType | Temperature;
-  hasSubtypes?: boolean;
-}
-
-// The fields that are managed by the selection process
-export interface OrderFilters extends Partial<Record<OrderFieldKey, unknown>> {
-  drinkType?: { name: string; id: string; hasSubtypes: boolean };
-  drinkSubtype?: { name: string; id: string };
-  volume?: { name: string; id: string };
-  containerType?: { name: string; id: string };
-  initialTemperature?: { name: string; id: string };
-  finalTemperature?: { name: string; id: string };
 }
 
 export interface ContainerType {

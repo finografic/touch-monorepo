@@ -6,7 +6,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { PadUI } from 'types/ui.types';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import type { OrderFilters } from 'types/orders.types';
+import type { OrderFilters } from 'types/filers.types';
 import { useFilters } from 'hooks/useFilters';
 // import { useFilters } from 'hooks/useFilters';
 

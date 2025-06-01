@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
-import type { OrderFilters, OrderItem } from 'types/orders.types';
+import type { OrderItem } from 'types/orders.types';
+import type { OrderFilters } from 'types/filers.types';
 
 export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
