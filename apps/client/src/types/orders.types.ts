@@ -1,5 +1,5 @@
 import type { ORDER_FIELD_KEYS } from 'constants/app.config';
-import type { OrderFilters } from 'types/filers.types';
+import type { OrderFilters } from 'types/filters.types';
 import type { CamelToKebab, CamelToSnake } from 'types/utilities/casing.utils.types';
 
 export type OrderFieldKey = (typeof ORDER_FIELD_KEYS)[number];

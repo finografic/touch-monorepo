@@ -4,7 +4,7 @@ import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { OrderFilters } from 'types/filers.types';
+import type { OrderFilters } from 'types/filters.types';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
 
 export const DISPLAY_NAME = 'Orders';

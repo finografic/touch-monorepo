@@ -1,5 +1,5 @@
 import { useOrders } from 'providers/OrdersProvider';
-import { MOCK_ORDERS_DATA } from './mock-orders-C.data';
+import { MOCK_ORDERS_DATA } from './mock-orders.data';
 import { StarIcon } from '@radix-ui/react-icons';
 import { useNavigate } from 'react-router-dom';
 import { PATHS } from 'routes/routes.config';

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { OrderFilters } from 'types/filers.types';
+import type { OrderFilters } from 'types/filters.types';
 import { OrderFieldKeys } from 'constants/app.config';
 import { api } from 'api';
 import type { ApiResponse } from '@workspace/shared/types/api.types';

@@ -16,19 +16,20 @@ import {
   INITIAL_TEMP_MAX,
   INITIAL_TEMP_MIN,
 } from 'constants/temperature.config';
+import { useGetTemperatureProfile } from 'queries/temperature/useGetTemperatureProfile';
 
 // ======================================================================== //
 // NOTE:  HOW TEMPERATURE WORKS:
 
 /*
-Initial
+INITIAL:
 def: 25
 min 0
 max 40 (temp db)
 
-Final
-def: (consumo db)
-min: (cong db)
+FINAL:
+def: (consume db)
+min: (freeze db)
 max: INITIAL TEMPERATURE VALUE
 */
 
@@ -45,11 +46,15 @@ export const TemperaturePage = () => {
   const { filters, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
 
+  const { data: temperatureProfile } = useGetTemperatureProfile(filters);
+
   // Track both temperatures for validation
   const temperatureRef = useRef({
     initial: INITIAL_TEMP_DEFAULT,
     final: FINAL_TEMP_DEFAULT,
   });
+
+  log('__TEMP__DATA:', 'hotpink', temperatureProfile);
 
   // Update filters and validate when temperatures change
   const updateTemperatures = (initial: number, final: number) => {
