@@ -1,6 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import type { ApiResponse } from '@workspace/shared/types/api.types';
 import { api } from 'api';
+import { GET_TEMPERATURE_PROFILE_QUERYKEY } from 'queries/temperature';
 
 export interface TemperatureProfile {
   id: string;
@@ -16,8 +17,6 @@ export interface TemperaturePhase {
   endTemp: number;
   description: string;
 }
-
-export const GET_TEMPERATURE_PROFILE_QUERYKEY = ['temperature-profile'];
 
 export const useGetTemperatureProfile = ({ id }: { id: string }) => {
   return useQuery({

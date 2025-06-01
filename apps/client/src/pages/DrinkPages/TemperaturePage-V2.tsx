@@ -102,28 +102,6 @@ export const TemperaturePage = () => {
     return Math.abs(finalTime - initialTime);
   }, [temperatureProfile, temperatureRef.current.initial, temperatureRef.current.final, elementNumber]);
 
-  // ======================================================================== //
-
-  useEffect(
-    function updateFinalTemp() {
-      // NOTE: reduce so DrinkSubtype.defaultTempConsume takes precedence over DrinkType.defaultTempConsume
-      if (!isInitializedRef.current) {
-        setTimeout(() => {
-          const filtersTempConsumption = Object.values(filters).reduce(
-            (acc, value) => value?.defaultTempConsume ?? acc,
-            0,
-          );
-
-          temperatureRef.current.final = filtersTempConsumption;
-          isInitializedRef.current = true;
-        }, 150);
-      }
-    },
-    [filters],
-  );
-
-  // ======================================================================== //
-
   // Update filters and validate when temperatures change
   const updateTemperatures = (initial: number, final: number) => {
     temperatureRef.current = { initial, final };

@@ -1,11 +1,18 @@
 import type { AppRouteHandler } from 'types/app.types';
-import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './temperature.routes';
+import type {
+  CreateRoute,
+  GetMinMaxRoute,
+  GetOneRoute,
+  ListRoute,
+  PatchRoute,
+  RemoveRoute,
+} from './temperature.routes';
 import { temperature_profiles } from 'db/schemas';
 import { db } from 'db';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
-import { eq } from 'drizzle-orm';
+import { eq, max, min } from 'drizzle-orm';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const temperatureProfiles = await db.query.temperature_profiles.findMany({
@@ -99,4 +106,28 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   }
 
   return context.body(null, HttpStatusCodes.NO_CONTENT);
+};
+
+export const getMinMax: AppRouteHandler<GetMinMaxRoute> = async (context) => {
+  const result = await db
+    .select({
+      min: min(temperature_profiles.temperature),
+      max: max(temperature_profiles.temperature),
+    })
+    .from(temperature_profiles);
+
+  // Handle case where table might be empty
+  if (!result[0] || result[0].min === null || result[0].max === null) {
+    return context.json(
+      {
+        message: HttpStatusPhrases.NOT_FOUND,
+      },
+      HttpStatusCodes.NOT_FOUND,
+    );
+  }
+
+  return context.json({
+    min: result[0].min,
+    max: result[0].max,
+  });
 };
