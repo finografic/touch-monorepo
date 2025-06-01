@@ -33,7 +33,18 @@ export const useGetTemperatureProfile = ({ id, enabled }: UseGetTemperatureProfi
         throw new Error('Failed to fetch temperature profile');
       }
 
-      return response.data.data;
+      if (!response.data.data?.length) {
+        throw new Error('No temperature profile found');
+      }
+
+      if (response.data.data.length > 1) {
+        console.warn(
+          'Multiple temperature profiles found when expecting single profile. Using first profile.',
+        );
+      }
+
+      // Always return the first profile
+      return response.data.data[0];
     },
     enabled: enabled ?? Boolean(id),
   });

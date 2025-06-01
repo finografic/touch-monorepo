@@ -1,5 +1,5 @@
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 import { OrderFieldKeys } from 'constants/app.config';
@@ -22,6 +22,7 @@ import { reduceFilterProperty } from 'utils/filters.utils';
 import { findClosestTemperature, getTimeValue } from 'utils/temperature.utils';
 import { FilterKeys } from 'constants/filters.constants';
 import { useGetMinMaxTemperatures } from 'queries/temperature/useGetMinMaxTemperatures';
+import { useOrders } from 'providers/OrdersProvider';
 
 // ======================================================================== //
 // NOTE:  HOW TEMPERATURE WORKS:
@@ -47,8 +48,15 @@ const DEFAULT_TEMP: Temperature = {
 
 export const TemperaturePage = () => {
   const isInitializedRef = useRef(false);
+  const { orders } = useOrders();
   const { filters, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
+
+  // Convert from ref to state
+  const [temperatures, setTemperatures] = useState({
+    initial: INITIAL_TEMP_DEFAULT,
+    final: INITIAL_TEMP_DEFAULT,
+  });
 
   // Get element number from filters (defaulting to 1 for now)
   const elementNumber =
@@ -59,18 +67,22 @@ export const TemperaturePage = () => {
       }),
     ) || 1;
 
+  // Get min and max temperatures
+  const { data: minMaxTemperatures } = useGetMinMaxTemperatures();
+
   const temperatureProfileId = reduceFilterProperty<{ temperatureProfileId: string }>({
     propKey: 'temperatureProfileId' as const,
     filters,
   });
 
-  // Get min and max temperatures
-  const { data: minMaxTemperatures } = useGetMinMaxTemperatures();
-
-  log('__TEMP__MIN_MAX:', 'hotpink', minMaxTemperatures);
-
   // Get temperature profile data
-  const { data: temperatureProfile } = useGetTemperatureProfile({ id: temperatureProfileId });
+  const { data: temperatureProfile } = useGetTemperatureProfile({
+    id: temperatureProfileId,
+    enabled: !!temperatureProfileId,
+  });
+
+  // log('__TEMP__temperatureProfileId:', 'lime', typeof temperatureProfileId, temperatureProfileId);
+  log('__PROFILE: temperatureProfile', 'lime', { temperatureProfileId, temperatureProfile });
 
   // Get consumption and freeze temperatures from filters
   const defaultTempConsume =
@@ -81,6 +93,10 @@ export const TemperaturePage = () => {
       }),
     ) || FINAL_TEMP_DEFAULT;
 
+  // ======================================================================== //
+  // TODO:  REMOVE (TEMPORARILY??) -- depending, if needed
+
+  /*
   const defaultTempFreeze =
     Number(
       reduceFilterProperty<{ defaultTempFreeze: number }>({
@@ -88,53 +104,52 @@ export const TemperaturePage = () => {
         filters,
       }),
     ) || undefined;
-
-  // Track both temperatures for validation
-  const temperatureRef = useRef({
-    initial: INITIAL_TEMP_DEFAULT,
-    final: defaultTempConsume,
-  });
-
-  // Calculate duration when temperatures or profile changes
-  const duration = useMemo(() => {
-    if (!temperatureProfile?.length) return 0;
-
-    const initialTempRow = findClosestTemperature(temperatureProfile, temperatureRef.current.initial);
-    const finalTempRow = findClosestTemperature(temperatureProfile, temperatureRef.current.final);
-
-    const initialTime = getTimeValue(initialTempRow, elementNumber);
-    const finalTime = getTimeValue(finalTempRow, elementNumber);
-
-    return Math.abs(finalTime - initialTime);
-  }, [temperatureProfile, temperatureRef.current.initial, temperatureRef.current.final, elementNumber]);
+     */
 
   // ======================================================================== //
 
-  /*
+  // Calculate duration when temperatures or profile changes
+  const duration = useMemo(() => {
+    if (!temperatureProfile) return 0;
+
+    // With a single profile, we can directly calculate the times
+    const initialTime = getTimeValue(temperatureProfile, elementNumber);
+    const finalTime = getTimeValue(temperatureProfile, elementNumber);
+
+    return Math.abs(finalTime - initialTime);
+  }, [temperatureProfile, elementNumber]);
+
+  // Initialize final temperature from filters when component mounts
   useEffect(
-    function updateFinalTemp() {
-      // NOTE: reduce so DrinkSubtype.defaultTempConsume takes precedence over DrinkType.defaultTempConsume
+    function initializeFinalTemp() {
       if (!isInitializedRef.current) {
         setTimeout(() => {
-          const filtersTempConsumption = Object.values(filters).reduce(
-            (acc, value) => value?.defaultTempConsume ?? acc,
-            0,
-          );
+          const filtersTempConsumption =
+            Number(
+              reduceFilterProperty<{ defaultTempConsume: string }>({
+                propKey: 'defaultTempConsume' as const,
+                filters,
+              }),
+            ) || FINAL_TEMP_DEFAULT;
 
-          temperatureRef.current.final = filtersTempConsumption;
-          isInitializedRef.current = true;
+          log('filtersTempConsumption:', 'lime', typeof filtersTempConsumption, filtersTempConsumption);
+
+          if (filtersTempConsumption) {
+            setTemperatures((prev) => ({
+              ...prev,
+              final: filtersTempConsumption,
+            }));
+            isInitializedRef.current = true;
+          }
         }, 150);
       }
     },
     [filters],
   );
-  */
-
-  // ======================================================================== //
 
   // Update filters and validate when temperatures change
   const updateTemperatures = (initial: number, final: number) => {
-    temperatureRef.current = { initial, final };
+    setTemperatures({ initial, final });
 
     // Update the filter with both temperatures
     setFilter(OrderFieldKeys.temperature, {
@@ -150,7 +165,7 @@ export const TemperaturePage = () => {
 
   const handleInitialTempChange = (temp: Temperature) => {
     const initial = temp.value;
-    const final = temperatureRef.current.final;
+    const final = temperatures.final;
 
     // If initial temp is decreased below final temp, adjust final temp to match initial
     const adjustedFinal = initial <= final ? initial : final;
@@ -158,21 +173,13 @@ export const TemperaturePage = () => {
   };
 
   const handleFinalTempChange = (temp: Temperature) => {
-    const initial = temperatureRef.current.initial;
+    const initial = temperatures.initial;
     const final = temp.value;
     updateTemperatures(initial, final);
   };
 
-  // Initialize final temperature from filters when component mounts
-  useEffect(
-    function initializeFinalTemp() {
-      if (!isInitializedRef.current && defaultTempConsume) {
-        temperatureRef.current.final = defaultTempConsume;
-        isInitializedRef.current = true;
-      }
-    },
-    [defaultTempConsume],
-  );
+  log('__DEV: isInitializedRef.current', 'grey', typeof isInitializedRef.current, isInitializedRef.current);
+  log('__DEV: temperatures.final:', 'yellow', temperatures.final);
 
   return (
     <Flex css={styles} className="temperature-content" gap="3" direction="column">
@@ -184,30 +191,35 @@ export const TemperaturePage = () => {
           </p>
         </Box>
       </Flex>
-      <Flex gap="3" justify="center">
-        <Box>
-          <TemperatureInput
-            value={temperatureRef.current.initial}
-            onChange={handleInitialTempChange}
-            label="temperatura inicial"
-            description="por defecto, la temperatura ambiente suministrada"
-            min={INITIAL_TEMP_MIN}
-            max={INITIAL_TEMP_MAX}
-            step={0.5}
-          />
-        </Box>
-        <Box>
-          <TemperatureInput
-            value={temperatureRef.current.final}
-            onChange={handleFinalTempChange}
-            label="temperatura final"
-            description="por defecto, la temperatura de consumo recomendada"
-            min={defaultTempFreeze ?? -Infinity} // Use freeze temp as min if available
-            max={temperatureRef.current.initial} // Max should be current initial temp
-            step={0.5}
-          />
-        </Box>
-      </Flex>
+      {isInitializedRef.current && (
+        <Flex gap="3" justify="center">
+          <Box>
+            <TemperatureInput
+              value={temperatures.initial}
+              onChange={handleInitialTempChange}
+              label="temperatura inicial"
+              description="por defecto, la temperatura ambiente suministrada"
+              // min={INITIAL_TEMP_MIN}
+              // max={INITIAL_TEMP_MAX}
+              min={minMaxTemperatures?.min ?? INITIAL_TEMP_MIN}
+              max={minMaxTemperatures?.max ?? INITIAL_TEMP_MAX}
+              step={0.5}
+            />
+          </Box>
+          <Box>
+            <TemperatureInput
+              value={temperatures.final}
+              onChange={handleFinalTempChange}
+              label="temperatura final"
+              description="por defecto, la temperatura de consumo recomendada"
+              // min={defaultTempFreeze ?? -Infinity} // Use freeze temp as min if available
+              min={minMaxTemperatures?.min ?? FINAL_TEMP_MIN}
+              max={temperatures.initial ?? FINAL_TEMP_MAX} // Max should be current initial temp
+              step={0.5}
+            />
+          </Box>
+        </Flex>
+      )}
       {duration > 0 && (
         <Box>
           <p>Estimated duration: {Math.round(duration)} seconds</p>
