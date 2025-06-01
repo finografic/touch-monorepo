@@ -1,5 +1,5 @@
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 import { OrderFieldKeys } from 'constants/app.config';
@@ -15,8 +15,12 @@ import {
   INITIAL_TEMP_MAX,
   INITIAL_TEMP_MIN,
 } from 'constants/temperature.config';
-import { useGetTemperatureProfile } from 'queries/temperature/useGetTemperatureProfile';
+import {
+  type TemperatureProfile,
+  useGetTemperatureProfile,
+} from 'queries/temperature/useGetTemperatureProfile';
 import { reduceFilterProperty } from 'utils/filters.utils';
+import { findClosestTemperature, getTimeValue } from 'utils/temperature.utils';
 import { FilterKeys } from 'constants/filters.constants';
 
 // ======================================================================== //
@@ -47,7 +51,6 @@ export const TemperaturePage = () => {
   const { filters, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
 
-  // Get the temperature profile ID from filters
   const temperatureProfileId = reduceFilterProperty<{ temperatureProfileId: string }>({
     propKey: 'temperatureProfileId' as const,
     filters,
@@ -79,6 +82,20 @@ export const TemperaturePage = () => {
     final: defaultTempConsume,
   });
 
+  // Calculate duration when temperatures or profile changes
+  const duration = useMemo(() => {
+    if (!temperatureProfile?.length) return 0;
+
+    const initialTempRow = findClosestTemperature(temperatureProfile, temperatureRef.current.initial);
+    const finalTempRow = findClosestTemperature(temperatureProfile, temperatureRef.current.final);
+
+    // Example using element 1 (timeA) - this would need to be dynamic based on selected element
+    const initialTime = getTimeValue(initialTempRow, 1);
+    const finalTime = getTimeValue(finalTempRow, 1);
+
+    return Math.abs(finalTime - initialTime);
+  }, [temperatureProfile, temperatureRef.current.initial, temperatureRef.current.final]);
+
   // Update filters and validate when temperatures change
   const updateTemperatures = (initial: number, final: number) => {
     temperatureRef.current = { initial, final };
@@ -88,6 +105,7 @@ export const TemperaturePage = () => {
       initial,
       final,
       name: `${initial}°C → ${final}°C`, // For display purposes
+      duration, // Add calculated duration to the filter
     });
 
     // Enable Next button only if final temp is less than initial
