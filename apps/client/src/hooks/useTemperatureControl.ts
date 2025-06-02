@@ -24,32 +24,33 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
       }),
     ) || 1;
 
-  const temperatureProfileId = reduceFilterProperty<{ temperatureProfileId: string }>({
-    propKey: 'temperatureProfileId' as const,
-    filters,
+  // Get current temperature filter values
+  const currentFilter = filters[OrderFieldKeys.temperature] as TemperatureFilter | undefined;
+  const { initial, final } = currentFilter || {};
+
+  // Get temperature profile data for initial temperature
+  const initialTempProfileQuery = useGetTemperatureProfile({
+    temperature: initial,
+    enabled: Boolean(initial && currentFilter),
   });
 
-  // Get temperature profile data - only enabled when we have a valid temperature filter and profile ID
-  const { data: temperatureProfile } = useGetTemperatureProfile({
-    id: temperatureProfileId,
-    enabled: Boolean(temperatureProfileId && filters[OrderFieldKeys.temperature]),
+  // Get temperature profile data for final temperature
+  const finalTempProfileQuery = useGetTemperatureProfile({
+    temperature: final,
+    enabled: Boolean(final && currentFilter),
   });
 
   const startTemperatureControl = async () => {
-    if (!temperatureProfile?.length) return;
+    if (!initialTempProfileQuery.data || !finalTempProfileQuery.data || !currentFilter) {
+      console.error('Missing temperature profiles or filter data');
+      return;
+    }
 
     setIsCalculating(true);
     try {
-      const currentFilter = filters[OrderFieldKeys.temperature] as TemperatureFilter;
-      const { initial, final } = currentFilter;
-
-      // Find the closest temperature profiles
-      const initialTempRow = findClosestTemperature(temperatureProfile, initial);
-      const finalTempRow = findClosestTemperature(temperatureProfile, final);
-
       // Get time values based on element number
-      const initialTime = getTimeValue(initialTempRow, elementNumber);
-      const finalTime = getTimeValue(finalTempRow, elementNumber);
+      const initialTime = getTimeValue(initialTempProfileQuery.data, elementNumber);
+      const finalTime = getTimeValue(finalTempProfileQuery.data, elementNumber);
 
       // Calculate total duration
       const totalDuration = Math.abs(finalTime - initialTime);
@@ -79,5 +80,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   return {
     isCalculating,
     startTemperatureControl,
+    isReady: Boolean(initialTempProfileQuery.data && finalTempProfileQuery.data),
   };
 };

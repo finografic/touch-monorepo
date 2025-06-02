@@ -17,7 +17,7 @@ export const Footer = () => {
   const { selectAllOrders, orders, setOrders } = useOrders();
   const { pathnames } = useRoutePathnamesByFilters();
 
-  const { isCalculating, startTemperatureControl } = useTemperatureControl({
+  const { isCalculating, startTemperatureControl, isReady } = useTemperatureControl({
     onSuccess: (duration) => {
       startTransition(() => {
         // Update processStatus for selected orders
@@ -73,8 +73,6 @@ export const Footer = () => {
   }, [current, navigate, pathnames, setPageCurrent]);
 
   const handleStart = useCallback(() => {
-    log('__DEV: handleStart', 'lime', { isNextDisabled, isCalculating, isPending });
-
     startTemperatureControl();
   }, [startTemperatureControl]);
 
@@ -110,9 +108,9 @@ export const Footer = () => {
               <ButtonControl
                 className="btn-control btn-start"
                 onClick={handleStart}
-                disabled={isNextDisabled || isCalculating || isPending}
+                disabled={isNextDisabled || isCalculating || isPending || !isReady}
               >
-                {isCalculating ? 'Calculating...' : 'START'}
+                {isCalculating ? 'Calculating...' : !isReady ? 'Loading...' : 'START'}
               </ButtonControl>
             )}
           </div>

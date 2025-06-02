@@ -72,13 +72,21 @@ export const TemperaturePage = () => {
   // Initialize final temperature when default consumption temp is available
   useEffect(() => {
     if (!isInitializedRef.current && defaultTempConsume) {
-      setTemperatures((prev) => ({
-        ...prev,
+      const newTemperatures = {
+        initial: INITIAL_TEMP_DEFAULT,
         final: defaultTempConsume,
-      }));
+      };
+      setTemperatures(newTemperatures);
+
+      // Set initial filter
+      setFilter(OrderFieldKeys.temperature, {
+        ...newTemperatures,
+        name: `${newTemperatures.initial}°C → ${newTemperatures.final}°C`,
+      });
+
       isInitializedRef.current = true;
     }
-  }, [defaultTempConsume]);
+  }, [defaultTempConsume, setFilter]);
 
   // Update filters and validate when temperatures change
   const updateTemperatures = (initial: number, final: number) => {
