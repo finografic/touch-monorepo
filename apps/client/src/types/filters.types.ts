@@ -2,6 +2,7 @@ import type { FilterKeys } from 'constants/filters.constants';
 import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
 import type { ContainerType, Temperature, Volume } from 'types/orders.types';
 import type { OrderFieldKeys } from 'constants/app.config';
+import type { TemperatureFilter } from 'types/temperature.types';
 
 /**
  * Type representing valid filter keys derived from FilterKeys constant
@@ -33,13 +34,6 @@ interface VolumeFilter extends BaseFilter {
 interface ContainerTypeFilter extends BaseFilter {
   lookup?: { [FilterKeys.containerTypeName]: string };
 }
-
-interface TemperatureFilter extends BaseFilter {
-  value?: number;
-  unit?: string;
-  lookup?: { [FilterKeys.temperatureName]: string };
-}
-
 // Type for individual filter values
 export interface OrderFilter {
   value: DrinkType | DrinkSubtype | Volume | ContainerType | Temperature;
@@ -52,6 +46,7 @@ export interface OrderFilters extends Partial<Record<keyof typeof OrderFieldKeys
   drinkSubtype?: DrinkSubtypeFilter;
   drinkVolume?: VolumeFilter;
   containerType?: ContainerTypeFilter;
-  initialTemperature?: TemperatureFilter;
-  finalTemperature?: TemperatureFilter;
+  temperature?: TemperatureFilter;
+  // initialTemperature?: TemperatureFilter;
+  // finalTemperature?: TemperatureFilter;
 }

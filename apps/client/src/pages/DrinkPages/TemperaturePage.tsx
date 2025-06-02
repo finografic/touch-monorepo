@@ -1,5 +1,5 @@
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 import { OrderFieldKeys } from 'constants/app.config';
@@ -15,6 +15,10 @@ import {
   MIN_TEMP_DIFFERENCE,
 } from 'constants/temperature.config';
 import { useGetMinMaxTemperatures } from 'queries/temperature/useGetMinMaxTemperatures';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { useOrders } from 'providers/OrdersProvider/OrdersContext';
+import type { DataEntry } from 'types/data.types';
+import { TemperatureKey } from 'types/temperature.types';
 
 // ======================================================================== //
 // NOTE:  HOW TEMPERATURE WORKS:
@@ -52,13 +56,19 @@ const DESCRIPTIONS = {
 
 export const TemperaturePage = () => {
   const isInitializedRef = useRef(false);
+  const { orders, setOrdersFilter } = useOrders();
   const { dataFiltered, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
-    initial: INITIAL_TEMP_DEFAULT,
-    final: INITIAL_TEMP_DEFAULT,
+    [TemperatureKey.Initial]: INITIAL_TEMP_DEFAULT,
+    [TemperatureKey.Final]: INITIAL_TEMP_DEFAULT,
   });
+
+  const { route, fieldKey, filterKey, loaderData } = useRouteConfig();
+
+  log('__ROUTE_CONFIG: route + data', 'hotpink', { route, loaderData });
+  log('__ROUTE_CONFIG: keys', 'cyan', { fieldKey, filterKey });
 
   // Get min and max allowed temperatures
   const { data: minMaxTemperatures, isLoading: isLoadingTemperatures } = useGetMinMaxTemperatures();
@@ -72,50 +82,57 @@ export const TemperaturePage = () => {
   // Initialize final temperature when default consumption temp is available
   useEffect(() => {
     if (!isInitializedRef.current && defaultTempConsume) {
-      const newTemperatures = {
-        initial: INITIAL_TEMP_DEFAULT,
-        final: defaultTempConsume,
-      };
+      const initial = INITIAL_TEMP_DEFAULT;
+      const final = defaultTempConsume;
+      const newTemperatures = { initial, final };
       setTemperatures(newTemperatures);
 
-      // Set initial filter
-      setFilter(OrderFieldKeys.temperature, {
-        ...newTemperatures,
-        name: `${newTemperatures.initial}°C → ${newTemperatures.final}°C`,
-      });
+      for (const order of orders) {
+        const currentFilters = order.filters || {};
+        const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
+        setOrdersFilter({
+          itemNumber: order.itemNumber,
+          filter: { ...currentFilters, [fieldKey]: { lookup } },
+        });
+      }
 
       isInitializedRef.current = true;
     }
   }, [defaultTempConsume, setFilter]);
 
   // Update filters and validate when temperatures change
-  const updateTemperatures = (initial: number, final: number) => {
-    setTemperatures({ initial, final });
+  const updateTemperatures = useCallback(
+    (initial: number, final: number) => {
+      log('__TEMPS:', 'lime', { initial, final });
 
-    // Update the filter with both temperatures
-    setFilter(OrderFieldKeys.temperature, {
-      initial,
-      final,
-      name: `${initial}°C → ${final}°C`,
-    });
+      setTemperatures({ initial, final });
 
-    // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
-    setIsNextDisabled(final >= initial - MIN_TEMP_DIFFERENCE);
-  };
+      if (!orders?.length) return;
 
-  const handleInitialTempChange = (temp: Temperature) => {
-    const initial = temp.value;
-    const final = temperatures.final;
+      for (const order of orders) {
+        const currentFilters = order.filters || {};
+        const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
+        setOrdersFilter({
+          itemNumber: order.itemNumber,
+          filter: { ...currentFilters, [fieldKey]: { lookup } },
+        });
+      }
 
-    // If initial temp is decreased, ensure final temp maintains MIN_TEMP_DIFFERENCE
-    const adjustedFinal = Math.min(final, initial - MIN_TEMP_DIFFERENCE);
-    updateTemperatures(initial, adjustedFinal);
-  };
+      // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
+      setIsNextDisabled(final >= initial - MIN_TEMP_DIFFERENCE);
+    },
+    [setOrdersFilter, setIsNextDisabled],
+  );
 
-  const handleFinalTempChange = (temp: Temperature) => {
-    const initial = temperatures.initial;
-    const final = temp.value;
-    updateTemperatures(initial, final);
+  const handleChange = (name: TemperatureKey, temp: Temperature) => {
+    const update = { ...temperatures, [name]: temp.value };
+
+    if (name === TemperatureKey.Initial) {
+      const adjustedFinal = Math.min(update.final, update.initial - MIN_TEMP_DIFFERENCE);
+      Object.assign(update, { [TemperatureKey.Final]: adjustedFinal });
+    }
+
+    updateTemperatures(update.initial, update.final);
   };
 
   // Don't show inputs until we have the temperature constraints and default values
@@ -137,8 +154,9 @@ export const TemperaturePage = () => {
       <Flex gap="3" justify="center">
         <Box>
           <TemperatureInput
+            name={TemperatureKey.Initial}
             value={temperatures.initial}
-            onChange={handleInitialTempChange}
+            onChange={handleChange}
             label={DESCRIPTIONS.initial.label}
             description={DESCRIPTIONS.initial.description}
             min={minMaxTemperatures?.min ?? INITIAL_TEMP_MIN}
@@ -148,8 +166,9 @@ export const TemperaturePage = () => {
         </Box>
         <Box>
           <TemperatureInput
+            name={TemperatureKey.Final}
             value={temperatures.final}
-            onChange={handleFinalTempChange}
+            onChange={handleChange}
             label={DESCRIPTIONS.final.label}
             description={DESCRIPTIONS.final.description}
             min={minMaxTemperatures?.min ?? FINAL_TEMP_MIN}

@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import type { Temperature } from 'types/orders.types';
 import { styles } from './TemperatureInput.styles';
+import type { TemperatureKey } from 'types/temperature.types';
 
 interface TemperatureInputProps {
+  name: TemperatureKey;
   value: number;
-  onChange: (temp: Temperature) => void;
+  onChange: (name: TemperatureKey, temp: Temperature) => void;
   defaultValue?: number;
   label: string;
   description: string;
@@ -15,6 +17,7 @@ interface TemperatureInputProps {
 }
 
 export const TemperatureInput: FC<TemperatureInputProps> = ({
+  name,
   value,
   onChange,
   defaultValue = 20,
@@ -37,7 +40,7 @@ export const TemperatureInput: FC<TemperatureInputProps> = ({
   const handleTemperatureChange = (newTemp: number) => {
     if (newTemp >= min && newTemp <= max) {
       setTemperature(newTemp);
-      onChange({ value: newTemp, unit: '°C' });
+      onChange(name, { value: newTemp, unit: '°C' });
     }
   };
 

@@ -2,7 +2,6 @@ import type { UIMatch } from 'react-router-dom';
 import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
 import { OrderFieldKeys } from 'constants/app.config';
-import type { FilterKey } from 'constants/app.config';
 import { PADS_UI_CONFIG } from 'constants/ui.config';
 import type { OrderFieldKey } from 'types/orders.types';
 import { hasOptionalProperties } from 'types/utilities/object.utils.types';
@@ -10,6 +9,7 @@ import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
 import type { PadConfig } from 'types/ui.types';
+import type { FilterKey } from 'types/filters.types';
 
 // First define the required (non-undefined) version
 interface RequiredRouteConfig<T = DataEntry[]> {

@@ -28,22 +28,16 @@ export interface Volume {
 }
 export interface Temperature {
   value: number;
-  unit: string;
+  unit: '°C';
 }
+
+export type OrderStatus = 'pending' | 'in_progress' | 'completed' | 'error';
 
 // The fields that are managed by the selection process
 export interface OrderProcessStatus {
   isProcessing: boolean;
   timeRemaining?: number;
   estimatedCompletionTime?: string; // ISO date string for completion time
-}
-
-export interface TemperatureFilter {
-  initial: number;
-  final: number;
-  name: string;
-  duration?: number;
-  status?: 'pending' | 'in_progress' | 'completed' | 'error';
 }
 
 // The complete order type combining selection fields and base properties

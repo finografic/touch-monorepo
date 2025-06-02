@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useFilters } from './useFilters';
 import { OrderFieldKeys } from 'constants/app.config';
 import { useGetTemperatureProfile } from 'queries/temperature/useGetTemperatureProfile';
-import { findClosestTemperature, getTimeValue } from 'utils/temperature.utils';
-import type { TemperatureFilter } from 'types/orders.types';
+import { getTimeValue } from 'utils/temperature.utils';
+import type { TemperatureFilter } from 'types/temperature.types';
 import { reduceFilterProperty } from 'utils/filters.utils';
 
 interface UseTemperatureControlOptions {
