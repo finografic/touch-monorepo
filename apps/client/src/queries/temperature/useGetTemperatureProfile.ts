@@ -19,33 +19,28 @@ export interface TemperaturePhase {
 }
 
 interface UseGetTemperatureProfileOptions {
-  id?: string;
+  temperature?: number;
   enabled?: boolean;
 }
 
-export const useGetTemperatureProfile = ({ id, enabled }: UseGetTemperatureProfileOptions) => {
+export const useGetTemperatureProfile = ({ temperature, enabled }: UseGetTemperatureProfileOptions) => {
   return useQuery({
-    queryKey: [...GET_TEMPERATURE_PROFILE_QUERYKEY, id],
+    queryKey: [...GET_TEMPERATURE_PROFILE_QUERYKEY, temperature],
     queryFn: async () => {
-      const response = await api.get<ApiResponse<TemperatureProfile[]>>(`/temperature-profiles/${id}`);
+      const response = await api.get<ApiResponse<TemperatureProfile>>(
+        `/temperature-profiles/by-temperature/${temperature}`,
+      );
 
       if (response.status !== 200) {
         throw new Error('Failed to fetch temperature profile');
       }
 
-      if (!response.data.data?.length) {
+      if (!response.data.data) {
         throw new Error('No temperature profile found');
       }
 
-      if (response.data.data.length > 1) {
-        console.warn(
-          'Multiple temperature profiles found when expecting single profile. Using first profile.',
-        );
-      }
-
-      // Always return the first profile
-      return response.data.data[0];
+      return response.data.data;
     },
-    enabled: enabled ?? Boolean(id),
+    enabled: enabled ?? Boolean(temperature),
   });
 };

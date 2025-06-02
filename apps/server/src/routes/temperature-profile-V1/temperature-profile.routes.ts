@@ -90,31 +90,8 @@ export const remove = createRoute({
   },
 });
 
-export const getByTemperature = createRoute({
-  path: '/temperature-profiles/by-temperature/{temperature}',
-  method: 'get',
-  request: {
-    params: z.object({
-      temperature: z.number(),
-    }),
-  },
-  tags,
-  responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      temperatureProfileSchemas.select,
-      'Temperature profile matching the temperature',
-    ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'No matching temperature profile found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(z.object({ temperature: z.number() })),
-      'Invalid temperature value',
-    ),
-  },
-});
-
 export type ListRoute = typeof list;
 export type CreateRoute = typeof create;
 export type GetOneRoute = typeof getOne;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;
-export type GetByTemperatureRoute = typeof getByTemperature;

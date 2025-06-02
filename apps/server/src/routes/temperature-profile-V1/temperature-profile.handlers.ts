@@ -1,7 +1,6 @@
 import type { AppRouteHandler } from 'types/app.types';
 import type {
   CreateRoute,
-  GetByTemperatureRoute,
   GetOneRoute,
   ListRoute,
   PatchRoute,
@@ -12,7 +11,7 @@ import { db } from 'db';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
-import { and, eq, gte, lte } from 'drizzle-orm';
+import { eq } from 'drizzle-orm';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const temperatureProfiles = await db.query.temperature_profiles.findMany({
@@ -115,30 +114,4 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   }
 
   return context.body(null, HttpStatusCodes.NO_CONTENT);
-};
-
-export const getByTemperature: AppRouteHandler<GetByTemperatureRoute> = async (context) => {
-  const { temperature } = context.req.valid('param');
-
-  // Find the closest matching temperature profile
-  const temperatureProfile = await db.query.temperature_profiles.findFirst({
-    where: (fields, operators) => {
-      return operators.eq(fields.temperature, temperature);
-    },
-    orderBy: (fields, operators) => [operators.asc(fields.temperature)],
-    with: {
-      coolingProfile: true,
-    },
-  });
-
-  if (!temperatureProfile) {
-    return context.json(
-      {
-        message: HttpStatusPhrases.NOT_FOUND,
-      },
-      HttpStatusCodes.NOT_FOUND,
-    );
-  }
-
-  return context.json(temperatureProfile, HttpStatusCodes.OK);
 };

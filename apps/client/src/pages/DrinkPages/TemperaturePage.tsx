@@ -33,96 +33,52 @@ max: INITIAL TEMPERATURE VALUE
 
 // ======================================================================== //
 
+interface TemperatureState {
+  initial: number;
+  final: number;
+}
+
+const DESCRIPTIONS = {
+  initial: {
+    label: 'temperatura inicial',
+    description: 'por defecto, la temperatura ambiente suministrada',
+  },
+  final: {
+    label: 'temperatura final',
+    description: 'por defecto, la temperatura de consumo recomendada',
+  },
+  page: 'By default, it indicates the ambient temperature supplied by a probe. The user can modify it using the + and - buttons. Units are in degrees Celsius with one decimal place.',
+} as const;
+
 export const TemperaturePage = () => {
   const isInitializedRef = useRef(false);
   const { dataFiltered, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
 
-  // Convert from ref to state
-  const [temperatures, setTemperatures] = useState({
+  const [temperatures, setTemperatures] = useState<TemperatureState>({
     initial: INITIAL_TEMP_DEFAULT,
     final: INITIAL_TEMP_DEFAULT,
   });
 
-  // Get min and max temperatures
-  const { data: minMaxTemperatures } = useGetMinMaxTemperatures();
+  // Get min and max allowed temperatures
+  const { data: minMaxTemperatures, isLoading: isLoadingTemperatures } = useGetMinMaxTemperatures();
 
-  // Calculate duration when temperatures or profile changes
+  // Get default consumption temperature from filtered data
   const defaultTempConsume = useMemo(() => {
-    if (!dataFiltered || dataFiltered.length === 0) return;
-
+    if (!dataFiltered?.length) return undefined;
     return dataFiltered[0].defaultTempConsume;
   }, [dataFiltered]);
 
-  // Get temperature profile data
-  // const { data: temperatureProfile } = useGetTemperatureProfile({
-  //   id: temperatureProfileId,
-  //   enabled: !!temperatureProfileId,
-  // });
-
-  // Calculate duration when temperatures or profile changes
-  // const duration = useMemo(() => {
-  //   if (!temperatureProfile) return 0;
-
-  //   // With a single profile, we can directly calculate the times
-  //   const initialTime = getTimeValue(temperatureProfile, elementNumber);
-  //   const finalTime = getTimeValue(temperatureProfile, elementNumber);
-
-  //   return Math.abs(finalTime - initialTime);
-  // }, [temperatureProfile, elementNumber]);
-
-  // ======================================================================== //
-
-  useEffect(
-    function initializeFinalTemp() {
-      if (!isInitializedRef.current) {
-        setTimeout(() => {
-          if (defaultTempConsume) {
-            setTemperatures((prev) => ({
-              ...prev,
-              final: defaultTempConsume,
-            }));
-            isInitializedRef.current = true;
-          }
-        }, 150);
-      }
-    },
-    [defaultTempConsume],
-  );
-
-  // ======================================================================== //
-
-  /*
-  // Initialize final temperature from filters when component mounts
-  useEffect(
-    function initializeFinalTemp() {
-      if (!isInitializedRef.current) {
-        setTimeout(() => {
-          const filtersTempConsumption =
-            Number(
-              reduceFilterProperty<{ defaultTempConsume: string }>({
-                propKey: 'defaultTempConsume' as const,
-                filters,
-              }),
-            ) || FINAL_TEMP_DEFAULT;
-
-          log('filtersTempConsumption:', 'lime', typeof filtersTempConsumption, filtersTempConsumption);
-
-          if (filtersTempConsumption) {
-            setTemperatures((prev) => ({
-              ...prev,
-              final: filtersTempConsumption,
-            }));
-            isInitializedRef.current = true;
-          }
-        }, 150);
-      }
-    },
-    [filters],
-  );
-  */
-
-  // ======================================================================== //
+  // Initialize final temperature when default consumption temp is available
+  useEffect(() => {
+    if (!isInitializedRef.current && defaultTempConsume) {
+      setTemperatures((prev) => ({
+        ...prev,
+        final: defaultTempConsume,
+      }));
+      isInitializedRef.current = true;
+    }
+  }, [defaultTempConsume]);
 
   // Update filters and validate when temperatures change
   const updateTemperatures = (initial: number, final: number) => {
@@ -132,7 +88,7 @@ export const TemperaturePage = () => {
     setFilter(OrderFieldKeys.temperature, {
       initial,
       final,
-      name: `${initial}°C → ${final}°C`, // For display purposes
+      name: `${initial}°C → ${final}°C`,
     });
 
     // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
@@ -143,7 +99,7 @@ export const TemperaturePage = () => {
     const initial = temp.value;
     const final = temperatures.final;
 
-    // If initial temp is decreased below final temp, adjust final temp
+    // If initial temp is decreased, ensure final temp maintains MIN_TEMP_DIFFERENCE
     const adjustedFinal = Math.min(final, initial - MIN_TEMP_DIFFERENCE);
     updateTemperatures(initial, adjustedFinal);
   };
@@ -154,51 +110,46 @@ export const TemperaturePage = () => {
     updateTemperatures(initial, final);
   };
 
-  log('__DEV: isInitializedRef.current', 'grey', typeof isInitializedRef.current, isInitializedRef.current);
-  log('__DEV: temperatures.final:', 'yellow', temperatures.final);
+  // Don't show inputs until we have the temperature constraints and default values
+  if (isLoadingTemperatures || !isInitializedRef.current) {
+    return (
+      <Flex css={styles} className="temperature-content" gap="3" direction="column">
+        <Box>Loading temperature settings...</Box>
+      </Flex>
+    );
+  }
 
   return (
     <Flex css={styles} className="temperature-content" gap="3" direction="column">
       <Flex className="page-description" gap="3" justify="center">
         <Box>
-          <p>
-            By default, it indicates the ambient temperature supplied by a probe. The user can modify it using
-            the + and - buttons. Units are in degrees Celsius with one decimal place.
-          </p>
+          <p>{DESCRIPTIONS.page}</p>
         </Box>
       </Flex>
-      {isInitializedRef.current && (
-        <Flex gap="3" justify="center">
-          <Box>
-            <TemperatureInput
-              value={temperatures.initial}
-              onChange={handleInitialTempChange}
-              label="temperatura inicial"
-              description="por defecto, la temperatura ambiente suministrada"
-              min={minMaxTemperatures?.min ?? INITIAL_TEMP_MIN}
-              max={minMaxTemperatures?.max ?? INITIAL_TEMP_MAX}
-              step={0.5}
-            />
-          </Box>
-          <Box>
-            <TemperatureInput
-              value={temperatures.final}
-              onChange={handleFinalTempChange}
-              label="temperatura final"
-              description="por defecto, la temperatura de consumo recomendada"
-              // min={defaultTempFreeze ?? -Infinity} // Use freeze temp as min if available
-              min={minMaxTemperatures?.min ?? FINAL_TEMP_MIN}
-              max={temperatures.initial - MIN_TEMP_DIFFERENCE} // Max should be current initial temp
-              step={0.5}
-            />
-          </Box>
-        </Flex>
-      )}
-      {/* {duration > 0 && (
+      <Flex gap="3" justify="center">
         <Box>
-          <p>Estimated duration: {Math.round(duration)} seconds</p>
+          <TemperatureInput
+            value={temperatures.initial}
+            onChange={handleInitialTempChange}
+            label={DESCRIPTIONS.initial.label}
+            description={DESCRIPTIONS.initial.description}
+            min={minMaxTemperatures?.min ?? INITIAL_TEMP_MIN}
+            max={minMaxTemperatures?.max ?? INITIAL_TEMP_MAX}
+            step={0.5}
+          />
         </Box>
-      )} */}
+        <Box>
+          <TemperatureInput
+            value={temperatures.final}
+            onChange={handleFinalTempChange}
+            label={DESCRIPTIONS.final.label}
+            description={DESCRIPTIONS.final.description}
+            min={minMaxTemperatures?.min ?? FINAL_TEMP_MIN}
+            max={temperatures.initial - MIN_TEMP_DIFFERENCE}
+            step={0.5}
+          />
+        </Box>
+      </Flex>
     </Flex>
   );
 };

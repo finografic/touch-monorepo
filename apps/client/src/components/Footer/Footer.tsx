@@ -73,6 +73,8 @@ export const Footer = () => {
   }, [current, navigate, pathnames, setPageCurrent]);
 
   const handleStart = useCallback(() => {
+    log('__DEV: handleStart', 'lime', { isNextDisabled, isCalculating, isPending });
+
     startTemperatureControl();
   }, [startTemperatureControl]);
 
