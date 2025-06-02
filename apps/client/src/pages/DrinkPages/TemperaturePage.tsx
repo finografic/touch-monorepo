@@ -143,18 +143,15 @@ export const TemperaturePage = () => {
     const initial = temp.value;
     const final = temperatures.final;
 
-    // If initial temp is decreased, adjust final temp to maintain MIN_TEMP_DIFFERENCE
-    const adjustedFinal = initial - MIN_TEMP_DIFFERENCE <= final ? initial - MIN_TEMP_DIFFERENCE : final;
+    // If initial temp is decreased below final temp, adjust final temp
+    const adjustedFinal = Math.min(final, initial - MIN_TEMP_DIFFERENCE);
     updateTemperatures(initial, adjustedFinal);
   };
 
   const handleFinalTempChange = (temp: Temperature) => {
     const initial = temperatures.initial;
     const final = temp.value;
-
-    // Ensure final temp is at least MIN_TEMP_DIFFERENCE below initial
-    const adjustedFinal = Math.min(final, initial - MIN_TEMP_DIFFERENCE);
-    updateTemperatures(initial, adjustedFinal);
+    updateTemperatures(initial, final);
   };
 
   log('__DEV: isInitializedRef.current', 'grey', typeof isInitializedRef.current, isInitializedRef.current);
@@ -191,7 +188,7 @@ export const TemperaturePage = () => {
               description="por defecto, la temperatura de consumo recomendada"
               // min={defaultTempFreeze ?? -Infinity} // Use freeze temp as min if available
               min={minMaxTemperatures?.min ?? FINAL_TEMP_MIN}
-              max={temperatures.initial ?? FINAL_TEMP_MAX} // Max should be current initial temp
+              max={temperatures.initial - MIN_TEMP_DIFFERENCE} // Max should be current initial temp
               step={0.5}
             />
           </Box>
