@@ -8,6 +8,23 @@ import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
 
 const tags = ['TemperatureProfile'];
 
+// Static routes first
+export const getMinMax = createRoute({
+  path: '/temperature-profiles/min-max',
+  method: 'get',
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.object({
+        min: z.number(),
+        max: z.number(),
+      }),
+      'Min and max temperatures from all profiles',
+    ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'No temperature profiles found'),
+  },
+});
+
 export const list = createRoute({
   path: '/temperature-profiles',
   method: 'get',
@@ -95,7 +112,7 @@ export const getByTemperature = createRoute({
   method: 'get',
   request: {
     params: z.object({
-      temperature: z.number(),
+      temperature: z.coerce.number(),
     }),
   },
   tags,
@@ -117,4 +134,5 @@ export type CreateRoute = typeof create;
 export type GetOneRoute = typeof getOne;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;
+export type GetMinMaxRoute = typeof getMinMax;
 export type GetByTemperatureRoute = typeof getByTemperature;
