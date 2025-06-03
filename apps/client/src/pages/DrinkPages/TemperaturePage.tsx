@@ -92,7 +92,7 @@ export const TemperaturePage = () => {
         const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
         setOrdersFilter({
           itemNumber: order.itemNumber,
-          filter: { ...currentFilters, [fieldKey]: { lookup } },
+          filter: { ...currentFilters, [fieldKey]: { initial, final, lookup } },
         });
       }
 
@@ -114,7 +114,7 @@ export const TemperaturePage = () => {
         const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
         setOrdersFilter({
           itemNumber: order.itemNumber,
-          filter: { ...currentFilters, [fieldKey]: { lookup } },
+          filter: { ...currentFilters, [fieldKey]: { initial, final, lookup } },
         });
       }
 

@@ -28,6 +28,9 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   const currentFilter = filters[OrderFieldKeys.temperature] as TemperatureFilter | undefined;
   const { initial, final } = currentFilter || {};
 
+  log('__HOOK: currentFilter', 'yellow', { initial, final });
+  // log('__HOOK: currentFilter', 'grey', { currentFilter });
+
   // Get temperature profile data for initial temperature
   const initialTempProfileQuery = useGetTemperatureProfile({
     temperature: initial,
