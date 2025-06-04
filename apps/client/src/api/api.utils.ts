@@ -4,6 +4,115 @@ import type { AxiosError, AxiosResponse } from 'axios';
 import type { ErrorResponse } from '@workspace/shared/types';
 import { ERROR_CODE_MAP } from '@workspace/shared';
 import cloneDeep from 'lodash/cloneDeep';
+import type { ApiErrorResponse, ApplicationError } from '@workspace/shared/types/errors';
+import { ERROR_CODES, ERROR_MESSAGES } from '@workspace/shared/constants/errors';
+import { errorResponseSchema } from '@workspace/shared/types/errors';
+
+// ======================================================================== //
+
+// Custom HTTP Exception class for better error handling
+export class HttpException extends Error {
+  constructor(
+    message: string,
+    public cause: {
+      response?: {
+        data?: unknown;
+        status?: number;
+        headers?: Record<string, string>;
+      };
+    },
+  ) {
+    super(message);
+    this.name = 'HttpException';
+  }
+}
+
+// ======================================================================== //
+
+export const isRetryableError = (error: unknown): boolean => {
+  if (error instanceof AxiosError) {
+    const status = error.response?.status;
+    return (
+      error.code === 'ECONNABORTED' ||
+      error.code === 'ETIMEDOUT' ||
+      status === ERROR_CODES.REQUEST_TIMEOUT ||
+      status === ERROR_CODES.TOO_MANY_REQUESTS ||
+      status === ERROR_CODES.INTERNAL_SERVER_ERROR ||
+      status === ERROR_CODES.BAD_GATEWAY ||
+      status === ERROR_CODES.SERVICE_UNAVAILABLE ||
+      status === ERROR_CODES.GATEWAY_TIMEOUT
+    );
+  }
+  return false;
+};
+
+export const transformAxiosError__V2 = (error: unknown): ApplicationError => {
+  // Handle Axios errors
+  if (error instanceof AxiosError) {
+    if (error.response) {
+      const status = error.response.status;
+      const data = error.response.data;
+
+      // Try to parse as ApiErrorResponse
+      try {
+        const validatedError = errorResponseSchema.parse(data);
+        if (validatedError.error.issues) {
+          return {
+            code: 'VALIDATION_ERROR',
+            message: validatedError.error.message,
+            issues: validatedError.error.issues,
+          };
+        }
+      } catch {
+        // If not a valid ApiErrorResponse, continue with standard error handling
+      }
+
+      // Handle rate limiting
+      if (status === ERROR_CODES.TOO_MANY_REQUESTS) {
+        const retryAfter = Number(error.response.headers['retry-after']) || 60;
+        return {
+          code: 'RATE_LIMIT_ERROR',
+          message: ERROR_MESSAGES[ERROR_CODES.TOO_MANY_REQUESTS],
+          retryAfter,
+          isRetryable: true,
+        };
+      }
+
+      // Handle network errors
+      return {
+        code: 'NETWORK_ERROR',
+        message: ERROR_MESSAGES[status] || error.message,
+        status,
+        isRetryable: isRetryableError(error),
+      };
+    }
+
+    // Handle request errors (no response received)
+    return {
+      code: 'NETWORK_ERROR',
+      message: ERROR_MESSAGES.NETWORK_ERROR,
+      isRetryable: true,
+    };
+  }
+
+  // Handle non-Axios errors
+  if (error instanceof Error) {
+    return {
+      code: 'NETWORK_ERROR',
+      message: error.message,
+      isRetryable: false,
+    };
+  }
+
+  // Handle unknown errors
+  return {
+    code: 'NETWORK_ERROR',
+    message: ERROR_MESSAGES[ERROR_CODES.INTERNAL_SERVER_ERROR],
+    isRetryable: false,
+  };
+};
+
+// ======================================================================== //
 
 export const transformAxiosError = (error: unknown): ErrorResponse => {
   // ======================================================================== //
