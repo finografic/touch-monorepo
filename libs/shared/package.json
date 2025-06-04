@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/shared",
+  "name": "@workspace/lib-shared",
   "type": "module",
   "version": "0.0.2",
   "private": true,
@@ -53,6 +53,7 @@
     "zod": "^3.23.8"
   },
   "dependencies": {
-    "axios": "1.8.4"
+    "axios": "1.8.4",
+    "stoker": "^1.0.0"
   }
 }

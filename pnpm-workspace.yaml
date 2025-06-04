@@ -1,8 +1,10 @@
 packages:
   - config
-  - packages/*
-  - apps/*
   - scripts
+  - core/*
+  - libs/*
+  - internal/*
+  - apps/*
 
 onlyBuiltDependencies:
   - '@swc/core'

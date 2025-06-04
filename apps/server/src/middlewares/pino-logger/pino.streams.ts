@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { paths } from '@fino/config/paths';
+import { paths } from '@workspace/config/paths';
 import pretty from 'pino-pretty';
 
 // TODO: Log rotation (rotate every day into files)

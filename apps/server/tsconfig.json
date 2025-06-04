@@ -9,17 +9,23 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      "@fino/config": [
+      "@workspace/config": [
         "../../config"
       ],
-      "@fino/config/*": [
+      "@workspace/config/*": [
         "../../config/*"
       ],
-      "@workspace/shared/*": [
-        "../../packages/shared/src/*"
+      "@workspace/lib-shared/*": [
+        "../../libs/shared/src/*"
       ],
-      "@workspace/shared": [
-        "../../packages/shared/src"
+      "@workspace/lib-shared": [
+        "../../libs/shared/src"
+      ],
+      "@workspace/core-globals/*": [
+        "../../core/globals/src/*"
+      ],
+      "@workspace/core-globals": [
+        "../../core/globals/src"
       ],
       "config": [
         "./src/config"
@@ -96,7 +102,10 @@
   },
   "references": [
     {
-      "path": "../../packages/shared"
+      "path": "../../libs/shared"
+    },
+    {
+      "path": "../../core/globals"
     },
     {
       "path": "../../config"

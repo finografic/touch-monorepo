@@ -1,4 +1,4 @@
-import { envShared } from '@fino/config/envShared';
+import { envShared } from '@workspace/config/envShared';
 import { APIError } from 'better-auth/api';
 import { auth } from 'lib/auth';
 import { createRouter } from 'lib/create-app';

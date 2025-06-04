@@ -1,12 +1,12 @@
 // @ts-nocheck
 import axios, { HttpStatusCode } from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import type { ErrorResponse } from '@workspace/shared/types';
-import { ERROR_CODE_MAP } from '@workspace/shared';
+import type { ErrorResponse } from '@workspace/lib-shared/types';
+import { ERROR_CODE_MAP } from '@workspace/lib-shared';
 import cloneDeep from 'lodash/cloneDeep';
-import type { ApiErrorResponse, ApplicationError } from '@workspace/shared/types/errors';
-import { ERROR_CODES, ERROR_MESSAGES } from '@workspace/shared/constants/errors';
-import { errorResponseSchema } from '@workspace/shared/types/errors';
+import type { ApiErrorResponse, ApplicationError } from '@workspace/lib-shared/types/errors';
+import { ERROR_CODES, ERROR_MESSAGES } from '@workspace/lib-shared/constants/errors';
+import { errorResponseSchema } from '@workspace/lib-shared/types/errors';
 
 // ======================================================================== //
 

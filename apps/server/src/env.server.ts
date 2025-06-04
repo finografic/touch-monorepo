@@ -1,7 +1,7 @@
 import path from 'node:path';
 import { config } from '@dotenvx/dotenvx';
-import { envShared } from '@fino/config/envShared';
-import { paths } from '@fino/config/paths';
+import { envShared } from '@workspace/config/envShared';
+import { paths } from '@workspace/config/paths';
 import { z } from 'zod';
 
 config({ path: path.resolve(process.cwd(), `.env.${process.env.NODE_ENV || 'development'}`) });

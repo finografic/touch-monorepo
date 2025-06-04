@@ -1,4 +1,6 @@
-import { HttpStatusCodes, HttpStatusPhrases } from 'stoker';
+import * as HttpStatusCodes from 'stoker/http-status-codes';
+import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from './zod-errors';
 
 export const ERROR_CODES = {
   // HTTP Status based

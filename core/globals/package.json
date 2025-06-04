@@ -1,5 +1,5 @@
 {
-  "name": "@fino/globals",
+  "name": "@workspace/core-globals",
   "version": "0.0.2",
   "private": true,
   "type": "module",

@@ -1,11 +1,11 @@
 // @ts-nocheck
 import axios, { HttpStatusCode } from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import type { ErrorResponse } from '@workspace/shared/types';
-import { ERROR_CODE_MAP } from '@workspace/shared';
+import type { ErrorResponse } from '@workspace/lib-shared/types';
+import { ERROR_CODE_MAP } from '@workspace/lib-shared';
 import cloneDeep from 'lodash/cloneDeep';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { ApiResponse } from '@workspace/shared/types/api.types';
+import type { ApiResponse } from '@workspace/lib-shared/types/api.types';
 import type { DrinkType } from 'types/models/drink-type.model';
 import type { DrinkTypeEntity } from '@workspace/server/types/entities/drink-type.entity';
 import type { DrinkSubtype } from 'types/models/drink-subtype.model';
@@ -17,7 +17,8 @@ import type { ContainerTypeEntity } from '@workspace/server/types/entities/conta
 import { api } from 'api';
 import { isRetryableError, transformAxiosError__V2 } from 'src/api/api.utils';
 import type { TemperatureProfileEntity } from 'types/models/temperature.model';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
+import type { AnalyticsData } from 'types/analytics.types';
 
 // Utility type for endpoint functions
 type EndpointFunction = (...args: any[]) => Promise<any>;

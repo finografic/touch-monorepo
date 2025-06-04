@@ -1,4 +1,4 @@
-import { envShared } from '@fino/config/envShared';
+import { envShared } from '@workspace/config/envShared';
 import chalk from 'chalk';
 import type { UserConfig } from 'vite';
 

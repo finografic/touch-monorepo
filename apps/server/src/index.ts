@@ -1,4 +1,4 @@
-import '@fino/globals';
+import 'core/globals/dist';
 import { serve } from '@hono/node-server';
 import chalk from 'chalk';
 import app from './app';

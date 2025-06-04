@@ -4,7 +4,7 @@ import TurboConsole from 'unplugin-turbo-console/vite';
 import tailwindcss from '@tailwindcss/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { logApiURL } from './src/utils/vite.utils';
-import { envShared } from '@fino/config/envShared';
+import { envShared } from '@workspace/config/envShared';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
   const viteEnv = loadEnv(mode as string, process.cwd(), '');
@@ -85,7 +85,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       host: 'localhost',
     },
     optimizeDeps: {
-      include: ['react/jsx-runtime', '@fino/config', '@fino/globals'],
+      include: ['react/jsx-runtime', '@workspace/config', '@workspace/lib-shared'],
       esbuildOptions: {
         target: 'es2020',
       },

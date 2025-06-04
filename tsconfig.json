@@ -21,10 +21,7 @@
       "path": "./config"
     },
     {
-      "path": "./packages/globals"
-    },
-    {
-      "path": "./packages/shared"
+      "path": "./core/globals"
     },
     {
       "path": "./apps/client"

@@ -1,5 +1,5 @@
 {
-  "name": "@fino/config",
+  "name": "@workspace/config",
   "version": "0.0.2",
   "private": true,
   "type": "module",

@@ -11,8 +11,14 @@
       "config/*": [
         "config/*"
       ],
-      "@workspace/*": [
-        "packages/*/src"
+      "@workspace/core-*": [
+        "core/*/src"
+      ],
+      "@workspace/lib-*": [
+        "libs/*/src"
+      ],
+      "@workspace/internal-*": [
+        "internal/*/src"
       ]
     },
     "resolveJsonModule": true,
