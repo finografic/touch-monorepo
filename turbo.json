@@ -4,7 +4,10 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**"]
+      "outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+    },
+    "@workspace/globals#build": {
+      "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "dev": {
       "cache": false,

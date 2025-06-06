@@ -1,12 +1,15 @@
 // @ts-nocheck
 import axios, { HttpStatusCode } from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import type { ErrorResponse } from '@workspace/lib-shared/types';
-import { ERROR_CODE_MAP } from '@workspace/lib-shared';
+import type { ApplicationError, ErrorResponse } from '@workspace/common/api';
+import {
+  AXIOS_ERROR_CODE_MAP,
+  ERROR_CODES,
+  ERROR_MESSAGES,
+  errorResponseSchema,
+} from '@workspace/common/api';
 import cloneDeep from 'lodash/cloneDeep';
-import type { ApiErrorResponse, ApplicationError } from '@workspace/lib-shared/types/errors';
-import { ERROR_CODES, ERROR_MESSAGES } from '@workspace/lib-shared/constants/errors';
-import { errorResponseSchema } from '@workspace/lib-shared/types/errors';
+import type { ApiErrorResponse } from '@workspace/common/types/errors';
 
 // ======================================================================== //
 
@@ -114,61 +117,18 @@ export const transformAxiosError__V2 = (error: unknown): ApplicationError => {
 
 // ======================================================================== //
 
-export const transformAxiosError = (error: unknown): ErrorResponse => {
-  // ======================================================================== //
-  // TODO: TESTING AXIOS ERROR HANDLING...
-
-  if (error instanceof axios.AxiosError) {
-    // handle axios error
-    if (error.status === HttpStatusCode.Unauthorized) {
-      log('TEST_AXIOS_ERROR: unauthorized', 'magenta', error);
-    } else {
-      // throw new Error(error.message);
-    }
-    log('TEST_AXIOS_ERROR: code ?? data', 'magenta', error.response?.status ?? 400, error.response?.data);
-    log('TEST_AXIOS_ERROR: error.toJSON()', 'magenta', cloneDeep(error).toJSON());
-    log('TEST_AXIOS_ERROR: error.response?.data', 'magenta', error.response?.data);
-  }
-
-  if (error instanceof Error) {
-    log('TEST_NON_AXIOS_ERROR_INSTANCEOF_ERROR: instanceof Error', 'red', error.message);
-  }
-
-  if (
-    typeof error === 'object' &&
-    error !== null &&
-    'response' in error &&
-    typeof error.response === 'object' &&
-    error.response !== null &&
-    'status' in error.response &&
-    'data' in error.response
-  ) {
-    log(
-      'TEST_NON_AXIOS_UNKOWN_ERROR:',
-      'magenta',
-      (error.response.status as number) ?? 400,
-      error.response?.data,
-    );
-  }
-
-  if (
-    typeof error === 'object' &&
-    error !== null &&
-    'message' in error &&
-    typeof error.message === 'string'
-  ) {
-    log('TEST_NON_AXIOS_ERROR: unknown error', 'magenta', error.message);
-  }
-
-  // ======================================================================== //
-  // TODO: ORIGNAL INSTANCE.. REFACTOR / MAKE MORE ROBUST  / CAUTION: THROWING ERRORS when CAN RETRY !!!
-
+/**
+ * Transforms any error (Axios or otherwise) into our standardized ErrorResponse format
+ */
+export const transformError = (error: unknown): ErrorResponse => {
   const axiosError = error as AxiosError;
   return {
     message: axiosError.message || 'An unknown error occurred',
-    code: axiosError.code as keyof typeof ERROR_CODE_MAP,
+    code: axiosError.code as keyof typeof AXIOS_ERROR_CODE_MAP,
     status:
-      axiosError.response?.status || ERROR_CODE_MAP[axiosError.code as keyof typeof ERROR_CODE_MAP] || 500,
+      axiosError.response?.status ||
+      AXIOS_ERROR_CODE_MAP[axiosError.code as keyof typeof AXIOS_ERROR_CODE_MAP] ||
+      500,
   };
 };
 

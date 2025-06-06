@@ -92,6 +92,7 @@ CREATE TABLE `drink_subtypes` (
 	`name` text NOT NULL,
 	`display_name` text NOT NULL,
 	`default_temp_consume` integer NOT NULL,
+	`default_temp_freeze` integer NOT NULL,
 	`is_active` integer DEFAULT true NOT NULL,
 	`created_at` integer,
 	`updated_at` integer,
@@ -105,6 +106,7 @@ CREATE TABLE `drink_types` (
 	`display_name` text NOT NULL,
 	`has_subtypes` integer DEFAULT false NOT NULL,
 	`default_temp_consume` integer NOT NULL,
+	`default_temp_freeze` integer NOT NULL,
 	`is_active` integer DEFAULT true NOT NULL,
 	`created_at` integer,
 	`updated_at` integer
@@ -137,6 +139,7 @@ CREATE TABLE `orders` (
 	`volume_name` text NOT NULL,
 	`container_type_name` text NOT NULL,
 	`default_temp_consume` integer NOT NULL,
+	`default_temp_freeze` integer NOT NULL,
 	`temperature_profile_id` text NOT NULL,
 	`is_active` integer DEFAULT true NOT NULL,
 	`created_at` integer,

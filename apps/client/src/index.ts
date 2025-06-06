@@ -1,2 +1,2 @@
-// import '@workspace/lib-shared';
+// import '@workspace/common';
 import './main.tsx';

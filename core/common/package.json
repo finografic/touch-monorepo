@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/lib-shared",
+  "name": "@workspace/common",
   "type": "module",
   "version": "0.0.2",
   "private": true,
@@ -8,13 +8,29 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./api": {
+      "types": "./dist/api/index.d.ts",
+      "import": "./dist/api/index.js"
+    },
+    "./api/*": {
+      "types": "./dist/api/*.d.ts",
+      "import": "./dist/api/*.js"
+    },
     "./types": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/types/index.js"
     },
+    "./types/*": {
+      "types": "./dist/types/*.d.ts",
+      "import": "./dist/types/*.js"
+    },
     "./utils": {
       "types": "./dist/utils/index.d.ts",
       "import": "./dist/utils/index.js"
+    },
+    "./utils/*": {
+      "types": "./dist/utils/*.d.ts",
+      "import": "./dist/utils/*.js"
     }
   },
   "main": "./dist/index.js",
@@ -38,7 +54,7 @@
     "typecheck": "pnpm exec tsc --project tsconfig.json --noEmit"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "^0.3.2",
+    "@finografic/project-scripts": "^0.4.0",
     "@types/eslint": "9.6.1",
     "@types/node": "^20.11.5",
     "@workspace/scripts": "workspace:*",
@@ -46,10 +62,12 @@
     "shx": "0.3.4",
     "tsup": "8.4.0",
     "tsx": "4.19.2",
+    "typescript": "^5.8.3",
     "typescript-eslint": "8.18.2",
     "zod": "^3.23.8"
   },
   "peerDependencies": {
+    "typescript": "^5.8.3",
     "zod": "^3.23.8"
   },
   "dependencies": {

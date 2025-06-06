@@ -1,6 +1,6 @@
 import type { DrinkTypeEntity } from '@workspace/server/types/entities/drink-type.entity';
 import type { DrinkType } from 'types/models/drink-type.model';
-import type { ApiResponse } from '@workspace/shared/types/api.types';
+import type { ApiResponse } from '@workspace/common/api';
 
 export const DrinkTypeDTO = {
   fromApi(data: ApiResponse<DrinkTypeEntity[]>): DrinkType[] {
@@ -9,8 +9,8 @@ export const DrinkTypeDTO = {
       name: drinkType.name,
       displayName: drinkType.display_name,
       hasSubtypes: Boolean(drinkType.has_subtypes),
-      // defaultTempConsume: drinkType.default_temp_consume,
-      // defaultTempFreeze: drinkType.default_temp_freeze,
+      defaultTempConsume: drinkType.default_temp_consume,
+      defaultTempFreeze: drinkType.default_temp_freeze,
       isActive: Boolean(drinkType.is_active),
       createdAt: new Date(drinkType.created_at * 1000),
       updatedAt: new Date(drinkType.updated_at * 1000),
@@ -23,8 +23,8 @@ export const DrinkTypeDTO = {
       name: data.name,
       display_name: data.displayName,
       has_subtypes: Number(data.hasSubtypes),
-      // default_temp_consume: data.defaultTempConsume,
-      // default_temp_freeze: data.defaultTempFreeze,
+      default_temp_consume: data.defaultTempConsume,
+      default_temp_freeze: data.defaultTempFreeze,
       is_active: Number(data.isActive),
       created_at: Math.floor(data.createdAt.getTime() / 1000),
       updated_at: Math.floor(data.updatedAt.getTime() / 1000),

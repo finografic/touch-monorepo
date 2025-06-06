@@ -1,6 +1,6 @@
 import type { AxiosError } from 'axios';
-import type { ErrorResponse } from '../types/api.types';
-import { ERROR_CODE_MAP } from '../types/api.types';
+import type { ErrorResponse } from './error.types';
+import { AXIOS_ERROR_CODE_MAP } from './error.V1.constants';
 
 /**
  * Transforms any error (Axios or otherwise) into our standardized ErrorResponse format
@@ -9,9 +9,11 @@ export const transformError = (error: unknown): ErrorResponse => {
   const axiosError = error as AxiosError;
   return {
     message: axiosError.message || 'An unknown error occurred',
-    code: axiosError.code as keyof typeof ERROR_CODE_MAP,
+    code: axiosError.code as keyof typeof AXIOS_ERROR_CODE_MAP,
     status:
-      axiosError.response?.status || ERROR_CODE_MAP[axiosError.code as keyof typeof ERROR_CODE_MAP] || 500,
+      axiosError.response?.status ||
+      AXIOS_ERROR_CODE_MAP[axiosError.code as keyof typeof AXIOS_ERROR_CODE_MAP] ||
+      500,
   };
 };
 

@@ -5,17 +5,20 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "config": [
-        "config/index.ts"
+      "@workspace/config": [
+        "config/src"
       ],
-      "config/*": [
-        "config/*"
+      "@workspace/config/*": [
+        "config/src/*"
       ],
-      "@workspace/core-*": [
+      "@workspace/scripts": [
+        "scripts/src"
+      ],
+      "@workspace/scripts/*": [
+        "scripts/src/*"
+      ],
+      "@workspace/*": [
         "core/*/src"
-      ],
-      "@workspace/lib-*": [
-        "libs/*/src"
       ],
       "@workspace/internal-*": [
         "internal/*/src"

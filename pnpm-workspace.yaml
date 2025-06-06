@@ -2,7 +2,6 @@ packages:
   - config
   - scripts
   - core/*
-  - libs/*
   - internal/*
   - apps/*
 

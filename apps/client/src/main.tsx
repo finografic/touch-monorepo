@@ -1,4 +1,4 @@
-import '../../../core/globals/dist';
+import '@workspace/globals';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

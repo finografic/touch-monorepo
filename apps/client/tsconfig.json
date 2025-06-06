@@ -27,16 +27,16 @@
       "@workspace/config/*": [
         "../../config/*"
       ],
-      "@workspace/lib-shared/*": [
-        "../../libs/shared/src/*"
+      "@workspace/common/*": [
+        "../../core/common/src/*"
       ],
-      "@workspace/lib-shared": [
-        "../../libs/shared/src"
+      "@workspace/common": [
+        "../../core/common/src"
       ],
-      "@workspace/core-globals/*": [
+      "@workspace/globals/*": [
         "../../core/globals/src/*"
       ],
-      "@workspace/core-globals": [
+      "@workspace/globals": [
         "../../core/globals/src"
       ],
       "@workspace/server/*": [
@@ -127,7 +127,7 @@
   },
   "references": [
     {
-      "path": "../../libs/shared"
+      "path": "../../core/common"
     },
     {
       "path": "../../core/globals"

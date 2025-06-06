@@ -85,7 +85,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       host: 'localhost',
     },
     optimizeDeps: {
-      include: ['react/jsx-runtime', '@workspace/config', '@workspace/lib-shared'],
+      include: ['react/jsx-runtime', '@workspace/config', '@workspace/common'],
       esbuildOptions: {
         target: 'es2020',
       },

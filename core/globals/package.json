@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/core-globals",
+  "name": "@workspace/globals",
   "version": "0.0.2",
   "private": true,
   "type": "module",
@@ -13,7 +13,7 @@
   },
   "scripts": {
     "dev": "tsc --watch",
-    "build": "tsc",
+    "build": "rm -rf dist && tsc --build --force",
     "clean": "clean-all",
     "clean.dry": "clean-all --dry-run",
     "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
@@ -22,7 +22,7 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "^0.3.2",
+    "@finografic/project-scripts": "^0.4.0",
     "@workspace/scripts": "workspace:*",
     "tsx": "4.19.2"
   }

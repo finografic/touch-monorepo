@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup';
 import type { Options } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/types/index.ts', 'src/utils/index.ts'],
+  entry: ['src/index.ts', 'src/types/index.ts', 'src/utils/index.ts', 'src/api/index.ts'],
   format: ['esm'],
   // dts: true,
   // splitting: false,
@@ -15,5 +15,8 @@ export default defineConfig({
   outDir: './dist',
   clean: true,
   experimentalDts: true,
-  bundle: false,
+  bundle: true,
+  splitting: true,
+  sourcemap: true,
+  treeshake: true,
 } satisfies Options);

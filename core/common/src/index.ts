@@ -1,5 +1,3 @@
-// Types
+export * from './api';
 export * from './types';
-
-// Utils
 export * from './utils';
