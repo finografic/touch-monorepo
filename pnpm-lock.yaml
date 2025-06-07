@@ -61,8 +61,8 @@ importers:
         specifier: 9.0.8
         version: 9.0.8(@emotion/eslint-plugin@11.12.0(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3))(@eslint-react/eslint-plugin@1.49.0(eslint@9.16.0(jiti@2.4.2))(ts-api-utils@2.1.0(typescript@5.8.3))(typescript@5.8.3))(@types/node@20.15.0)(@unocss/eslint-plugin@66.1.3(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-format@0.1.3(eslint@9.16.0(jiti@2.4.2)))(eslint-plugin-react-hooks@5.2.0(eslint@9.16.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.20(eslint@9.16.0(jiti@2.4.2)))(eslint@9.16.0(jiti@2.4.2))(typescript@5.8.3)(vitest@2.1.6(@types/node@20.15.0)(jiti@2.4.2)(lightningcss@1.29.3)(tsx@4.19.2)(yaml@2.8.0))
       '@finografic/project-scripts':
-        specifier: 0.3.2
-        version: 0.3.2(@types/node@20.15.0)(jsonc-eslint-parser@2.4.0)
+        specifier: 0.5.0
+        version: 0.5.0(@types/node@20.15.0)(jsonc-eslint-parser@2.4.0)
       '@types/better-sqlite3':
         specifier: ^7.6.13
         version: 7.6.13
@@ -362,8 +362,8 @@ importers:
         specifier: 9.0.8
         version: 9.0.8(@emotion/eslint-plugin@11.12.0(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(@eslint-react/eslint-plugin@1.49.0(eslint@9.28.0(jiti@2.4.2))(ts-api-utils@2.1.0(typescript@5.8.3))(typescript@5.8.3))(@types/node@20.19.0)(@unocss/eslint-plugin@66.1.3(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-format@0.1.3(eslint@9.28.0(jiti@2.4.2)))(eslint-plugin-react-hooks@5.2.0(eslint@9.28.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.20(eslint@9.28.0(jiti@2.4.2)))(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)(vitest@2.1.6(@types/node@20.19.0)(jiti@2.4.2)(lightningcss@1.29.3)(tsx@4.19.4)(yaml@2.8.0))
       '@finografic/project-scripts':
-        specifier: ^0.4.0
-        version: 0.4.0(@types/node@20.19.0)(jsonc-eslint-parser@2.4.0)
+        specifier: ^0.5.0
+        version: 0.5.0(@types/node@20.19.0)(jsonc-eslint-parser@2.4.0)
       '@fullhuman/postcss-purgecss':
         specifier: 7.0.2
         version: 7.0.2(postcss@8.5.4)
@@ -543,8 +543,8 @@ importers:
         specifier: 9.0.8
         version: 9.0.8(@emotion/eslint-plugin@11.12.0(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(@eslint-react/eslint-plugin@1.49.0(eslint@9.28.0(jiti@2.4.2))(ts-api-utils@2.1.0(typescript@5.8.3))(typescript@5.8.3))(@types/node@22.13.14)(@unocss/eslint-plugin@66.1.3(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3))(eslint-import-resolver-node@0.3.9)(eslint-plugin-format@0.1.3(eslint@9.28.0(jiti@2.4.2)))(eslint-plugin-react-hooks@5.2.0(eslint@9.28.0(jiti@2.4.2)))(eslint-plugin-react-refresh@0.4.20(eslint@9.28.0(jiti@2.4.2)))(eslint@9.28.0(jiti@2.4.2))(typescript@5.8.3)(vitest@2.1.6(@types/node@22.13.14)(jiti@2.4.2)(lightningcss@1.29.3)(tsx@4.19.2)(yaml@2.8.0))
       '@finografic/project-scripts':
-        specifier: ^0.4.0
-        version: 0.4.0(@types/node@22.13.14)(jsonc-eslint-parser@2.4.0)
+        specifier: ^0.5.0
+        version: 0.5.0(@types/node@22.13.14)(jsonc-eslint-parser@2.4.0)
       '@fullhuman/postcss-purgecss':
         specifier: 7.0.2
         version: 7.0.2(postcss@8.5.4)
@@ -595,8 +595,8 @@ importers:
         version: 3.25.56
     devDependencies:
       '@finografic/project-scripts':
-        specifier: ^0.4.0
-        version: 0.4.0(@types/node@22.13.14)(jsonc-eslint-parser@2.4.0)
+        specifier: ^0.5.0
+        version: 0.5.0(@types/node@22.13.14)(jsonc-eslint-parser@2.4.0)
       '@microsoft/api-extractor':
         specifier: 7.49.1
         version: 7.49.1(@types/node@22.13.14)
@@ -626,8 +626,8 @@ importers:
         version: 1.4.2(@asteasolutions/zod-to-openapi@7.3.3(zod@3.25.56))(@hono/zod-openapi@0.18.4(hono@4.6.10)(zod@3.25.56))(hono@4.6.10)(openapi3-ts@4.4.0)
     devDependencies:
       '@finografic/project-scripts':
-        specifier: ^0.4.0
-        version: 0.4.0(@types/node@20.19.0)(jsonc-eslint-parser@2.4.0)
+        specifier: ^0.5.0
+        version: 0.5.0(@types/node@20.19.0)(jsonc-eslint-parser@2.4.0)
       '@types/eslint':
         specifier: 9.6.1
         version: 9.6.1
@@ -662,8 +662,8 @@ importers:
   core/globals:
     devDependencies:
       '@finografic/project-scripts':
-        specifier: ^0.4.0
-        version: 0.4.0(@types/node@22.13.14)(jsonc-eslint-parser@2.4.0)
+        specifier: ^0.5.0
+        version: 0.5.0(@types/node@22.13.14)(jsonc-eslint-parser@2.4.0)
       '@workspace/scripts':
         specifier: workspace:*
         version: link:../../scripts
@@ -2065,14 +2065,8 @@ packages:
       eslint-plugin-react-hooks: ^5.0.0
       eslint-plugin-react-refresh: ^0.4.4
 
-  '@finografic/project-scripts@0.3.2':
-    resolution: {integrity: sha512-RtF8HUZP9zh4kQc6OVHMg4O4zZ2CluKwXkQQQEJPirnJ9GlRnzOUiBJmUzkt0ltjmKPAfQ14ayTxzfEC7WTThg==, tarball: https://npm.pkg.github.com/download/@finografic/project-scripts/0.3.2/33aaa135c5275281ecf2dee6ca2d1a103c05913d}
-    hasBin: true
-    peerDependencies:
-      jsonc-eslint-parser: ^2.4.0
-
-  '@finografic/project-scripts@0.4.0':
-    resolution: {integrity: sha512-J5Q/26PqgScmGpcBXXDeZaLWkcbGz/OQUN1M4sM4fmKPGpyFc0KEajBtCGfj1QHM9Fo9+43b6b1NH5rqRhIxKw==, tarball: https://npm.pkg.github.com/download/@finografic/project-scripts/0.4.0/8d010c4e4f6951969ab8c5d2ef7adc38a9f25be5}
+  '@finografic/project-scripts@0.5.0':
+    resolution: {integrity: sha512-aIwNUKnHERVQMxQTyabzus/kYnHhb6e7FvutH2ZMeCDeMFbkUR1w0sSM8wHFRPFAcIL1nEg90bKKYtqxURVK7g==, tarball: https://npm.pkg.github.com/download/@finografic/project-scripts/0.5.0/c41ea3ec9f2bfd2d5f3847e53f54cdc60ad4c1c6}
     hasBin: true
     peerDependencies:
       jsonc-eslint-parser: ^2.4.0
@@ -2288,6 +2282,24 @@ packages:
       '@types/node':
         optional: true
 
+  '@inquirer/confirm@5.1.9':
+    resolution: {integrity: sha512-NgQCnHqFTjF7Ys2fsqK2WtnA8X1kHyInyG+nMIuHowVTIgIuS10T4AznI/PvbqSpJqjCUqNBlKGh1v3bwLFL4w==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
+  '@inquirer/core@10.1.10':
+    resolution: {integrity: sha512-roDaKeY1PYY0aCqhRmXihrHjoSW2A00pV3Ke5fTpMCkzcGF64R8e0lw3dK+eLEHwS4vB5RnW1wuQmvzoRul8Mw==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
   '@inquirer/core@10.1.13':
     resolution: {integrity: sha512-1viSxebkYN2nJULlzCxES6G9/stgHSepZ9LqqfdIGPHj5OHhiBUXVS0a6R0bEC2A+VL4D9w6QB66ebCr6HGllA==}
     engines: {node: '>=18'}
@@ -2346,6 +2358,15 @@ packages:
       '@types/node':
         optional: true
 
+  '@inquirer/input@4.1.9':
+    resolution: {integrity: sha512-mshNG24Ij5KqsQtOZMgj5TwEjIf+F2HOESk6bjMwGWgcH5UBe8UoljwzNFHqdMbGYbgAf6v2wU/X9CAdKJzgOA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+
   '@inquirer/number@3.0.15':
     resolution: {integrity: sha512-xWg+iYfqdhRiM55MvqiTCleHzszpoigUpN5+t1OMcRkJrUrw7va3AzXaxvS+Ak7Gny0j2mFSTv2JJj8sMtbV2g==}
     engines: {node: '>=18'}
@@ -2378,6 +2399,15 @@ packages:
     engines: {node: '>=18'}
     peerDependencies:
       '@types/node': '>=18'
+
+  '@inquirer/prompts@7.5.0':
+    resolution: {integrity: sha512-tk8Bx7l5AX/CR0sVfGj3Xg6v7cYlFBkEahH+EgBB+cZib6Fc83dwerTbzj7f2+qKckjIUGsviWRI1d7lx6nqQA==}
+    engines: {node: '>=18'}
+    peerDependencies:
+      '@types/node': '>=18'
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
 
   '@inquirer/rawlist@4.1.3':
     resolution: {integrity: sha512-7XrV//6kwYumNDSsvJIPeAqa8+p7GJh7H5kRuxirct2cgOcSWwwNGoXDRgpNFbY/MG2vQ4ccIWCi8+IXXyFMZA==}
@@ -11969,39 +11999,36 @@ snapshots:
       - typescript
       - vitest
 
-  '@finografic/project-scripts@0.3.2(@types/node@20.15.0)(jsonc-eslint-parser@2.4.0)':
+  '@finografic/project-scripts@0.5.0(@types/node@20.15.0)(jsonc-eslint-parser@2.4.0)':
     dependencies:
-      '@inquirer/confirm': 5.1.8(@types/node@20.15.0)
-      '@inquirer/core': 10.1.9(@types/node@20.15.0)
-      '@inquirer/input': 4.1.8(@types/node@20.15.0)
-      '@inquirer/prompts': 7.1.0(@types/node@20.15.0)
-      del: 8.0.0
+      '@inquirer/confirm': 5.1.9(@types/node@20.15.0)
+      '@inquirer/core': 10.1.10(@types/node@20.15.0)
+      '@inquirer/input': 4.1.9(@types/node@20.15.0)
+      '@inquirer/prompts': 7.5.0(@types/node@20.15.0)
       jsonc-eslint-parser: 2.4.0
       parse-gitignore: 2.0.0
       yargs: 17.7.2
     transitivePeerDependencies:
       - '@types/node'
 
-  '@finografic/project-scripts@0.4.0(@types/node@20.19.0)(jsonc-eslint-parser@2.4.0)':
+  '@finografic/project-scripts@0.5.0(@types/node@20.19.0)(jsonc-eslint-parser@2.4.0)':
     dependencies:
-      '@inquirer/confirm': 5.1.8(@types/node@20.19.0)
-      '@inquirer/core': 10.1.9(@types/node@20.19.0)
-      '@inquirer/input': 4.1.8(@types/node@20.19.0)
-      '@inquirer/prompts': 7.1.0(@types/node@20.19.0)
-      del: 8.0.0
+      '@inquirer/confirm': 5.1.9(@types/node@20.19.0)
+      '@inquirer/core': 10.1.10(@types/node@20.19.0)
+      '@inquirer/input': 4.1.9(@types/node@20.19.0)
+      '@inquirer/prompts': 7.5.0(@types/node@20.19.0)
       jsonc-eslint-parser: 2.4.0
       parse-gitignore: 2.0.0
       yargs: 17.7.2
     transitivePeerDependencies:
       - '@types/node'
 
-  '@finografic/project-scripts@0.4.0(@types/node@22.13.14)(jsonc-eslint-parser@2.4.0)':
+  '@finografic/project-scripts@0.5.0(@types/node@22.13.14)(jsonc-eslint-parser@2.4.0)':
     dependencies:
-      '@inquirer/confirm': 5.1.8(@types/node@22.13.14)
-      '@inquirer/core': 10.1.9(@types/node@22.13.14)
-      '@inquirer/input': 4.1.8(@types/node@22.13.14)
-      '@inquirer/prompts': 7.1.0(@types/node@22.13.14)
-      del: 8.0.0
+      '@inquirer/confirm': 5.1.9(@types/node@22.13.14)
+      '@inquirer/core': 10.1.10(@types/node@22.13.14)
+      '@inquirer/input': 4.1.9(@types/node@22.13.14)
+      '@inquirer/prompts': 7.5.0(@types/node@22.13.14)
       jsonc-eslint-parser: 2.4.0
       parse-gitignore: 2.0.0
       yargs: 17.7.2
@@ -12238,6 +12265,66 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.13.14
 
+  '@inquirer/confirm@5.1.9(@types/node@20.15.0)':
+    dependencies:
+      '@inquirer/core': 10.1.10(@types/node@20.15.0)
+      '@inquirer/type': 3.0.7(@types/node@20.15.0)
+    optionalDependencies:
+      '@types/node': 20.15.0
+
+  '@inquirer/confirm@5.1.9(@types/node@20.19.0)':
+    dependencies:
+      '@inquirer/core': 10.1.10(@types/node@20.19.0)
+      '@inquirer/type': 3.0.7(@types/node@20.19.0)
+    optionalDependencies:
+      '@types/node': 20.19.0
+
+  '@inquirer/confirm@5.1.9(@types/node@22.13.14)':
+    dependencies:
+      '@inquirer/core': 10.1.10(@types/node@22.13.14)
+      '@inquirer/type': 3.0.7(@types/node@22.13.14)
+    optionalDependencies:
+      '@types/node': 22.13.14
+
+  '@inquirer/core@10.1.10(@types/node@20.15.0)':
+    dependencies:
+      '@inquirer/figures': 1.0.12
+      '@inquirer/type': 3.0.7(@types/node@20.15.0)
+      ansi-escapes: 4.3.2
+      cli-width: 4.1.0
+      mute-stream: 2.0.0
+      signal-exit: 4.1.0
+      wrap-ansi: 6.2.0
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 20.15.0
+
+  '@inquirer/core@10.1.10(@types/node@20.19.0)':
+    dependencies:
+      '@inquirer/figures': 1.0.12
+      '@inquirer/type': 3.0.7(@types/node@20.19.0)
+      ansi-escapes: 4.3.2
+      cli-width: 4.1.0
+      mute-stream: 2.0.0
+      signal-exit: 4.1.0
+      wrap-ansi: 6.2.0
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 20.19.0
+
+  '@inquirer/core@10.1.10(@types/node@22.13.14)':
+    dependencies:
+      '@inquirer/figures': 1.0.12
+      '@inquirer/type': 3.0.7(@types/node@22.13.14)
+      ansi-escapes: 4.3.2
+      cli-width: 4.1.0
+      mute-stream: 2.0.0
+      signal-exit: 4.1.0
+      wrap-ansi: 6.2.0
+      yoctocolors-cjs: 2.1.2
+    optionalDependencies:
+      '@types/node': 22.13.14
+
   '@inquirer/core@10.1.13(@types/node@20.15.0)':
     dependencies:
       '@inquirer/figures': 1.0.12
@@ -12411,6 +12498,27 @@ snapshots:
     optionalDependencies:
       '@types/node': 22.13.14
 
+  '@inquirer/input@4.1.9(@types/node@20.15.0)':
+    dependencies:
+      '@inquirer/core': 10.1.10(@types/node@20.15.0)
+      '@inquirer/type': 3.0.7(@types/node@20.15.0)
+    optionalDependencies:
+      '@types/node': 20.15.0
+
+  '@inquirer/input@4.1.9(@types/node@20.19.0)':
+    dependencies:
+      '@inquirer/core': 10.1.10(@types/node@20.19.0)
+      '@inquirer/type': 3.0.7(@types/node@20.19.0)
+    optionalDependencies:
+      '@types/node': 20.19.0
+
+  '@inquirer/input@4.1.9(@types/node@22.13.14)':
+    dependencies:
+      '@inquirer/core': 10.1.10(@types/node@22.13.14)
+      '@inquirer/type': 3.0.7(@types/node@22.13.14)
+    optionalDependencies:
+      '@types/node': 22.13.14
+
   '@inquirer/number@3.0.15(@types/node@20.15.0)':
     dependencies:
       '@inquirer/core': 10.1.13(@types/node@20.15.0)
@@ -12494,20 +12602,6 @@ snapshots:
       '@inquirer/select': 4.2.3(@types/node@20.15.0)
       '@types/node': 20.15.0
 
-  '@inquirer/prompts@7.1.0(@types/node@20.19.0)':
-    dependencies:
-      '@inquirer/checkbox': 4.1.8(@types/node@20.19.0)
-      '@inquirer/confirm': 5.1.8(@types/node@20.19.0)
-      '@inquirer/editor': 4.2.13(@types/node@20.19.0)
-      '@inquirer/expand': 4.0.15(@types/node@20.19.0)
-      '@inquirer/input': 4.1.8(@types/node@20.19.0)
-      '@inquirer/number': 3.0.15(@types/node@20.19.0)
-      '@inquirer/password': 4.0.15(@types/node@20.19.0)
-      '@inquirer/rawlist': 4.1.3(@types/node@20.19.0)
-      '@inquirer/search': 3.0.15(@types/node@20.19.0)
-      '@inquirer/select': 4.2.3(@types/node@20.19.0)
-      '@types/node': 20.19.0
-
   '@inquirer/prompts@7.1.0(@types/node@22.13.14)':
     dependencies:
       '@inquirer/checkbox': 4.1.8(@types/node@22.13.14)
@@ -12520,6 +12614,51 @@ snapshots:
       '@inquirer/rawlist': 4.1.3(@types/node@22.13.14)
       '@inquirer/search': 3.0.15(@types/node@22.13.14)
       '@inquirer/select': 4.2.3(@types/node@22.13.14)
+      '@types/node': 22.13.14
+
+  '@inquirer/prompts@7.5.0(@types/node@20.15.0)':
+    dependencies:
+      '@inquirer/checkbox': 4.1.8(@types/node@20.15.0)
+      '@inquirer/confirm': 5.1.9(@types/node@20.15.0)
+      '@inquirer/editor': 4.2.13(@types/node@20.15.0)
+      '@inquirer/expand': 4.0.15(@types/node@20.15.0)
+      '@inquirer/input': 4.1.9(@types/node@20.15.0)
+      '@inquirer/number': 3.0.15(@types/node@20.15.0)
+      '@inquirer/password': 4.0.15(@types/node@20.15.0)
+      '@inquirer/rawlist': 4.1.3(@types/node@20.15.0)
+      '@inquirer/search': 3.0.15(@types/node@20.15.0)
+      '@inquirer/select': 4.2.3(@types/node@20.15.0)
+    optionalDependencies:
+      '@types/node': 20.15.0
+
+  '@inquirer/prompts@7.5.0(@types/node@20.19.0)':
+    dependencies:
+      '@inquirer/checkbox': 4.1.8(@types/node@20.19.0)
+      '@inquirer/confirm': 5.1.9(@types/node@20.19.0)
+      '@inquirer/editor': 4.2.13(@types/node@20.19.0)
+      '@inquirer/expand': 4.0.15(@types/node@20.19.0)
+      '@inquirer/input': 4.1.9(@types/node@20.19.0)
+      '@inquirer/number': 3.0.15(@types/node@20.19.0)
+      '@inquirer/password': 4.0.15(@types/node@20.19.0)
+      '@inquirer/rawlist': 4.1.3(@types/node@20.19.0)
+      '@inquirer/search': 3.0.15(@types/node@20.19.0)
+      '@inquirer/select': 4.2.3(@types/node@20.19.0)
+    optionalDependencies:
+      '@types/node': 20.19.0
+
+  '@inquirer/prompts@7.5.0(@types/node@22.13.14)':
+    dependencies:
+      '@inquirer/checkbox': 4.1.8(@types/node@22.13.14)
+      '@inquirer/confirm': 5.1.9(@types/node@22.13.14)
+      '@inquirer/editor': 4.2.13(@types/node@22.13.14)
+      '@inquirer/expand': 4.0.15(@types/node@22.13.14)
+      '@inquirer/input': 4.1.9(@types/node@22.13.14)
+      '@inquirer/number': 3.0.15(@types/node@22.13.14)
+      '@inquirer/password': 4.0.15(@types/node@22.13.14)
+      '@inquirer/rawlist': 4.1.3(@types/node@22.13.14)
+      '@inquirer/search': 3.0.15(@types/node@22.13.14)
+      '@inquirer/select': 4.2.3(@types/node@22.13.14)
+    optionalDependencies:
       '@types/node': 22.13.14
 
   '@inquirer/rawlist@4.1.3(@types/node@20.15.0)':
