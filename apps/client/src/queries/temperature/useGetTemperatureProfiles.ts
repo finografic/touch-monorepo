@@ -22,7 +22,7 @@ export const useGetTemperatureProfiles = ({ initial, final, enabled }: UseGetTem
       const queryString = createTemperatureQuery(initial, final);
       const response = await api.get<TemperatureProfile[]>(`/temperature-profiles?${queryString}`);
 
-      log('__DEV: RES', 'red', response);
+      log('__DEV: RES', 'lime', response?.data);
 
       if (response.status !== 200) {
         throw new Error('Failed to fetch temperature profiles');

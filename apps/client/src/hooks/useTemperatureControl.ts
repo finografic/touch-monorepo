@@ -1,3 +1,4 @@
+import { useDeferredValue, useEffect, useState } from 'react';
 import { useFilters } from './useFilters';
 import { OrderFieldKeys } from 'constants/app.config';
 import { useGetTemperatureProfiles } from 'queries/temperature/useGetTemperatureProfiles';
@@ -13,6 +14,7 @@ interface UseTemperatureControlOptions {
 export const useTemperatureControl = (options: UseTemperatureControlOptions = {}) => {
   // log('__DEV: options', 'orange', options);
   const { filters, setFilter } = useFilters();
+  const [showLoading, setShowLoading] = useState(false);
 
   // Get element number from filters (defaulting to 1 for now)
   const elementNumber =
@@ -29,12 +31,37 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
   // log('__DEV: CURRENT', 'orange', { currentFilter, initial, final });
 
+  // Defer the query state to prevent UI flickering
+  const deferredInitial = useDeferredValue(initial);
+  const deferredFinal = useDeferredValue(final);
+
   // Get both temperature profiles in one query
   const temperatureProfilesQuery = useGetTemperatureProfiles({
-    initial,
-    final,
-    enabled: Boolean(initial && final && currentFilter),
+    initial: deferredInitial,
+    final: deferredFinal,
+    enabled: Boolean(deferredInitial && deferredFinal && currentFilter),
   });
+
+  // Compute loading state that includes both immediate and deferred states
+  const isLoading =
+    temperatureProfilesQuery.isFetching || initial !== deferredInitial || final !== deferredFinal;
+
+  // Add delay before showing loading state
+  useEffect(() => {
+    let timeoutId: number;
+
+    if (isLoading) {
+      timeoutId = window.setTimeout(() => {
+        setShowLoading(true);
+      }, 300); // Only show loading after 500ms of actual loading
+    } else {
+      setShowLoading(false);
+    }
+
+    return () => {
+      window.clearTimeout(timeoutId);
+    };
+  }, [isLoading]);
 
   const startTemperatureControl = async () => {
     if (!temperatureProfilesQuery.data || !currentFilter) {
@@ -68,5 +95,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   return {
     startTemperatureControl,
     temperatureProfilesQuery,
+    isLoading: showLoading, // Use the delayed loading state
   };
 };

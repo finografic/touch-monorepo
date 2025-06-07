@@ -1,14 +1,14 @@
 import type { RouteConfig } from 'routes/routes.types';
 import type { OrderFieldKey, OrderFieldKeyKebab } from 'types/orders.types';
-import type { ConstMapOf } from 'types/utility.types';
+import type { ConstMapOf } from '@workspace/types/utils';
 
 export const PATHS: ConstMapOf<OrderFieldKey, string> = {
   home: '/' as OrderFieldKeyKebab,
-  drinkType: 'drink-type',
-  drinkSubtype: 'drink-type/:drinkTypeId',
-  drinkVolume: 'drink-volume',
-  containerType: 'container-type',
-  temperature: 'temperature',
+  drinkType: '/drink-type',
+  drinkSubtype: '/drink-type/:drinkTypeId',
+  drinkVolume: '/drink-volume',
+  containerType: '/container-type',
+  temperature: '/temperature',
   // initialTemperature: 'initial-temperature',
   // finalTemperature: 'final-temperature',
 } as const;

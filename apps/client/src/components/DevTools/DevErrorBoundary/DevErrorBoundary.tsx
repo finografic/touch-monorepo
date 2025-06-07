@@ -23,7 +23,7 @@ export class DevErrorBoundary extends Component<Props, State> {
   }
 
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    log('__DEV - Error Boundary Caught', 'red', {
+    log('Error Boundary Caught', 'red', {
       error,
       errorInfo,
       componentStack: errorInfo.componentStack,

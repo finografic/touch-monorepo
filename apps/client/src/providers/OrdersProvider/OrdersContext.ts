@@ -54,6 +54,24 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           });
           set({ orders: updatedOrders });
         },
+        setOrderProcessing: ({ itemNumber, duration }: { itemNumber: number; duration: number }) => {
+          const { orders } = get();
+          const updatedOrders = orders.map((order) => {
+            if (order.itemNumber === itemNumber) {
+              const estimatedCompletionTime = new Date(Date.now() + duration * 1000).toISOString();
+              return {
+                ...order,
+                processStatus: {
+                  isProcessing: true,
+                  estimatedCompletionTime,
+                  timeRemaining: duration,
+                },
+              };
+            }
+            return order;
+          });
+          set({ orders: updatedOrders });
+        },
         toggleOrder: (itemNumber: number) => {
           const { orders } = get();
           const draftOrder = findOrderByNumber(orders, itemNumber);

@@ -14,21 +14,18 @@ export const Footer = () => {
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const { current, setPageCurrent, isNextDisabled } = usePagination();
-  const { selectAllOrders, orders, setOrders } = useOrders();
+  const { selectAllOrders, orders, setOrders, setOrderProcessing } = useOrders();
   const { pathnames } = useRoutePathnamesByFilters();
 
-  const { startTemperatureControl, temperatureProfilesQuery } = useTemperatureControl({
+  const { startTemperatureControl, temperatureProfilesQuery, isLoading } = useTemperatureControl({
     onSuccess: (duration) => {
-      console.log('%c __DEV: SUCCESS', 'color:lime', { duration });
       startTransition(() => {
         // Update processStatus for selected orders
-        const updatedOrders = orders.map((order) => ({
-          ...order,
-          processStatus: order.isSelected
-            ? { isProcessing: true, timeRemaining: duration }
-            : order.processStatus,
-        }));
-        setOrders(updatedOrders);
+        orders.forEach((order) => {
+          if (order.isSelected) {
+            setOrderProcessing({ itemNumber: order.itemNumber, duration });
+          }
+        });
 
         // Navigate back to first page
         setPageCurrent(0);
@@ -75,20 +72,12 @@ export const Footer = () => {
   }, [startTemperatureControl]);
 
   const isVisibleBackButton = current > 0;
-  const isVisibleNextButton = location.pathname === PATHS.temperature;
+  const isVisibleNextButton = location.pathname !== PATHS.temperature;
 
   return (
     <footer css={styles}>
       <Row>
         <Col xs={12}>
-          <div className="debug">
-            <pre>
-              <strong>isFetching:</strong> {JSON.stringify(temperatureProfilesQuery.isFetching, null, 2)}
-            </pre>
-            <pre>
-              <strong>isPending:</strong> {JSON.stringify(isPending, null, 2)}
-            </pre>
-          </div>
           <div className="controls">
             {/* {location.pathname === PATHS.home && <MockOrdersButton />} */}
             {location.pathname === PATHS.home && (
@@ -101,48 +90,27 @@ export const Footer = () => {
                 « Back
               </ButtonControl>
             )}
-            {/* {isVisibleNextButton && ( */}
-            <ButtonControl
-              className="btn-control"
-              onClick={handleNext}
-              disabled={isNextDisabled || isPending}
-            >
-              Next »
-            </ButtonControl>
-            {/* )} */}
-            {location.pathname === `/${PATHS.temperature}` && (
+            {isVisibleNextButton && (
+              <ButtonControl
+                className="btn-control"
+                onClick={handleNext}
+                disabled={isNextDisabled || isPending}
+              >
+                Next »
+              </ButtonControl>
+            )}
+            {location.pathname === PATHS.temperature && (
               <ButtonControl
                 className="btn-control btn-start"
                 onClick={handleStart}
-                disabled={temperatureProfilesQuery.isFetching || isPending || !temperatureProfilesQuery.data}
+                disabled={isLoading || isPending || !temperatureProfilesQuery.data}
               >
-                {temperatureProfilesQuery.isFetching
-                  ? 'Calculating...'
-                  : isPending
-                    ? 'Processing...'
-                    : 'START'}
+                {isLoading ? 'Calculating...' : isPending ? 'Processing...' : 'START'}
               </ButtonControl>
             )}
           </div>
         </Col>
       </Row>
-      <div className="debug-data">
-        <pre>
-          {JSON.stringify(
-            {
-              data: temperatureProfilesQuery?.data,
-              error: temperatureProfilesQuery?.error,
-              isError: temperatureProfilesQuery?.isError,
-              isSuccess: temperatureProfilesQuery?.isSuccess,
-              status: temperatureProfilesQuery?.status,
-              failureCount: temperatureProfilesQuery?.failureCount,
-              failureReason: temperatureProfilesQuery?.failureReason,
-            },
-            null,
-            2,
-          )}
-        </pre>
-      </div>
     </footer>
   );
 };

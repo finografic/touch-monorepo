@@ -15,6 +15,7 @@ type OrdersSetters = {
 
 type OrdersActions = OrdersSetters & {
   setOrdersFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => void;
+  setOrderProcessing: ({ itemNumber, duration }: { itemNumber: number; duration: number }) => void;
   toggleOrder: (itemNumber: number) => void;
   selectAllOrders: () => void;
 };
