@@ -96,7 +96,6 @@ export const useEndpointQuery = <TData>(
 // Example endpoints with type safety
 export const EndpointHelper = createEndpoints({
   getDrinkTypes: async () => await api.get<ApiResponse<DrinkType[]>>('/drink-types'),
-
   getDrinkType: async (id: string) => await api.get<ApiResponse<DrinkTypeEntity>>(`/drink-types/${id}`),
 
   getDrinkSubtypes: async ({ drinkTypeId }: { drinkTypeId: string }) =>
@@ -104,9 +103,11 @@ export const EndpointHelper = createEndpoints({
 
   getDrinkVolumes: async () => await api.get<ApiResponse<DrinkVolume[]>>('/drink-volumes'),
   getDrinkVolume: async (id: string) => await api.get<ApiResponse<DrinkVolumeEntity>>(`/drink-volumes/${id}`),
+
   getContainerTypes: async () => await api.get<ApiResponse<ContainerType[]>>('/container-types'),
   getContainerType: async (id: string) =>
     await api.get<ApiResponse<ContainerTypeEntity>>(`/container-types/${id}`),
+
   getTemperatureProfile: async (id: string) =>
     await api.get<ApiResponse<TemperatureProfileEntity>>(`/temperature-profiles/${id}`),
   getAnalytics: async (params: { from: Date; to: Date }) =>

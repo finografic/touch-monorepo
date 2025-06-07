@@ -17,17 +17,15 @@ export const Footer = () => {
   const { selectAllOrders, orders, setOrders } = useOrders();
   const { pathnames } = useRoutePathnamesByFilters();
 
-  const { isCalculating, startTemperatureControl, isReady } = useTemperatureControl({
+  const { startTemperatureControl, temperatureProfilesQuery } = useTemperatureControl({
     onSuccess: (duration) => {
+      console.log('%c __DEV: SUCCESS', 'color:lime', { duration });
       startTransition(() => {
         // Update processStatus for selected orders
         const updatedOrders = orders.map((order) => ({
           ...order,
           processStatus: order.isSelected
-            ? {
-                isProcessing: true,
-                timeRemaining: duration,
-              }
+            ? { isProcessing: true, timeRemaining: duration }
             : order.processStatus,
         }));
         setOrders(updatedOrders);
@@ -83,6 +81,14 @@ export const Footer = () => {
     <footer css={styles}>
       <Row>
         <Col xs={12}>
+          <div className="debug">
+            <pre>
+              <strong>isFetching:</strong> {JSON.stringify(temperatureProfilesQuery.isFetching, null, 2)}
+            </pre>
+            <pre>
+              <strong>isPending:</strong> {JSON.stringify(isPending, null, 2)}
+            </pre>
+          </div>
           <div className="controls">
             {/* {location.pathname === PATHS.home && <MockOrdersButton />} */}
             {location.pathname === PATHS.home && (
@@ -108,14 +114,35 @@ export const Footer = () => {
               <ButtonControl
                 className="btn-control btn-start"
                 onClick={handleStart}
-                disabled={isNextDisabled || isCalculating || isPending || !isReady}
+                disabled={temperatureProfilesQuery.isFetching || isPending || !temperatureProfilesQuery.data}
               >
-                {isCalculating ? 'Calculating...' : !isReady ? 'Loading...' : 'START'}
+                {temperatureProfilesQuery.isFetching
+                  ? 'Calculating...'
+                  : isPending
+                    ? 'Processing...'
+                    : 'START'}
               </ButtonControl>
             )}
           </div>
         </Col>
       </Row>
+      <div className="debug-data">
+        <pre>
+          {JSON.stringify(
+            {
+              data: temperatureProfilesQuery?.data,
+              error: temperatureProfilesQuery?.error,
+              isError: temperatureProfilesQuery?.isError,
+              isSuccess: temperatureProfilesQuery?.isSuccess,
+              status: temperatureProfilesQuery?.status,
+              failureCount: temperatureProfilesQuery?.failureCount,
+              failureReason: temperatureProfilesQuery?.failureReason,
+            },
+            null,
+            2,
+          )}
+        </pre>
+      </div>
     </footer>
   );
 };

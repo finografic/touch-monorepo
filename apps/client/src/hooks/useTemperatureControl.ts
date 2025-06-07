@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useFilters } from './useFilters';
 import { OrderFieldKeys } from 'constants/app.config';
 import { useGetTemperatureProfiles } from 'queries/temperature/useGetTemperatureProfiles';
@@ -12,7 +11,7 @@ interface UseTemperatureControlOptions {
 }
 
 export const useTemperatureControl = (options: UseTemperatureControlOptions = {}) => {
-  const [isCalculating, setIsCalculating] = useState(false);
+  // log('__DEV: options', 'orange', options);
   const { filters, setFilter } = useFilters();
 
   // Get element number from filters (defaulting to 1 for now)
@@ -28,6 +27,8 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   const currentFilter = filters[OrderFieldKeys.temperature] as TemperatureFilter | undefined;
   const { initial, final } = currentFilter || {};
 
+  // log('__DEV: CURRENT', 'orange', { currentFilter, initial, final });
+
   // Get both temperature profiles in one query
   const temperatureProfilesQuery = useGetTemperatureProfiles({
     initial,
@@ -41,7 +42,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
       return;
     }
 
-    setIsCalculating(true);
     try {
       // Get time values based on element number
       const [initialProfile, finalProfile] = temperatureProfilesQuery.data;
@@ -58,24 +58,15 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         status: 'in_progress',
       });
 
-      // TODO: Start countdown timer
-      // TODO: Send command to hardware
-
-      // For now, just simulate a delay
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       options.onSuccess?.(totalDuration);
     } catch (error) {
       console.error('Error starting temperature control:', error);
       options.onError?.(error as Error);
-    } finally {
-      setIsCalculating(false);
     }
   };
 
   return {
-    isCalculating,
     startTemperatureControl,
-    isReady: Boolean(temperatureProfilesQuery.data),
+    temperatureProfilesQuery,
   };
 };

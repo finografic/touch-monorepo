@@ -67,8 +67,8 @@ export const TemperaturePage = () => {
 
   const { route, fieldKey, filterKey, loaderData } = useRouteConfig();
 
-  log('__ROUTE_CONFIG: route + data', 'hotpink', { route, loaderData });
-  log('__ROUTE_CONFIG: keys', 'cyan', { fieldKey, filterKey });
+  // log('__ROUTE_CONFIG: route + data', 'hotpink', { route, loaderData });
+  // log('__ROUTE_CONFIG: keys', 'cyan', { fieldKey, filterKey });
 
   // Get min and max allowed temperatures
   const { data: minMaxTemperatures, isLoading: isLoadingTemperatures } = useGetMinMaxTemperatures();

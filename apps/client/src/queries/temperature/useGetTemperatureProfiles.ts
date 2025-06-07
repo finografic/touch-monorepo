@@ -1,8 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
-import type { ApiResponse } from '@workspace/common/api';
+import type { TemperatureProfile } from 'types/temperature.types';
 import { api } from 'api';
 import { createTemperatureQuery } from 'api/query';
-import type { TemperatureProfile } from 'types/temperature.types';
 
 export const GET_TEMPERATURE_PROFILES_QUERYKEY = ['temperature-profiles'] as const;
 
@@ -20,19 +19,21 @@ export const useGetTemperatureProfiles = ({ initial, final, enabled }: UseGetTem
         throw new Error('Both initial and final temperatures are required');
       }
 
-      const query = createTemperatureQuery(initial, final);
-      const response = await api.get<ApiResponse<TemperatureProfile[]>>(`/temperature-profiles?${query}`);
+      const queryString = createTemperatureQuery(initial, final);
+      const response = await api.get<TemperatureProfile[]>(`/temperature-profiles?${queryString}`);
+
+      log('__DEV: RES', 'red', response);
 
       if (response.status !== 200) {
         throw new Error('Failed to fetch temperature profiles');
       }
 
-      if (!response.data.data?.length) {
+      if (!response.data?.length) {
         throw new Error('No temperature profiles found');
       }
 
       // Return the profiles in order [initial, final]
-      return response.data.data.sort((a, b) => {
+      return response.data.sort((a, b) => {
         if (a.temperature === initial) return -1;
         if (b.temperature === initial) return 1;
         return 0;

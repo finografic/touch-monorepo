@@ -13,9 +13,16 @@ import { db } from 'db';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
-import { and, eq, gte, lte, max, min } from 'drizzle-orm';
+import { and, eq, gte, inArray, lte, max, min } from 'drizzle-orm';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
+  // Parse temperature filter from query params
+  const temperatureParam = context.req.query('temperature[$in]');
+  const temperatures = temperatureParam
+    ?.split(',')
+    .map(Number)
+    .filter((t) => !Number.isNaN(t));
+
   const temperatureProfiles = await db.query.temperature_profiles.findMany({
     columns: {
       id: true,
@@ -28,6 +35,9 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
     with: {
       coolingProfile: true,
     },
+    where: temperatures?.length
+      ? (fields, operators) => operators.inArray(fields.temperature, temperatures)
+      : undefined,
   });
   return context.json(temperatureProfiles);
 };
