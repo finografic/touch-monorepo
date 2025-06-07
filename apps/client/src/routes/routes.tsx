@@ -8,7 +8,7 @@ import { PATHS } from './routes.config';
 import { OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPage/AdminPage';
-import { TemperaturePage } from 'pages/DrinkPages/TemperaturePage';
+import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 
 export const routes: RouteObject[] = [
   {

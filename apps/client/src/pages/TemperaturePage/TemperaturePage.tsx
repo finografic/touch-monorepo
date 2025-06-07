@@ -5,7 +5,7 @@ import type { Temperature } from 'types/orders.types';
 import { OrderFieldKeys } from 'constants/app.config';
 import { useFilters } from 'hooks/useFilters';
 import { Box, Flex } from '@radix-ui/themes';
-import { styles } from './content.styles';
+import { styles } from '../content.styles';
 import {
   FINAL_TEMP_MAX,
   FINAL_TEMP_MIN,
