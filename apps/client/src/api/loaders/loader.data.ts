@@ -14,7 +14,7 @@ export const LoaderDataHelper: Partial<LoaderMap> = {
   [OrderFieldKeys.drinkType]: EndpointHelper.getDrinkTypes,
   [OrderFieldKeys.drinkSubtype]: async ({ params }) => {
     const { drinkTypeId } = params;
-    return EndpointHelper.getDrinkSubtype({ drinkTypeId: drinkTypeId as string });
+    return EndpointHelper.getDrinkSubtypes({ drinkTypeId: drinkTypeId as string });
   },
   [OrderFieldKeys.drinkVolume]: EndpointHelper.getDrinkVolumes,
   [OrderFieldKeys.containerType]: EndpointHelper.getContainerTypes,
