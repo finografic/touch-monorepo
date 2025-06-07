@@ -10,10 +10,25 @@ export interface Temperature {
   unit: string;
 }
 
+export interface TemperatureProfile {
+  id: string;
+  coolingProfileId: string;
+  temperature: number;
+  timeA: number;
+  timeB: number;
+  timeC: number;
+}
+
+export interface TemperatureProfileWithRelations extends TemperatureProfile {
+  coolingProfile?: {
+    id: string;
+    // Add other cooling profile fields if needed
+  };
+}
+
 export interface TemperatureFilter {
-  initial: number;
-  final: number;
-  name: string;
+  initial?: number;
+  final?: number;
   duration?: number;
-  status?: OrderStatus;
+  status?: 'pending' | 'in_progress' | 'completed' | 'error';
 }

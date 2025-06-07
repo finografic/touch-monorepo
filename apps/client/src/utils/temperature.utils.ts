@@ -1,4 +1,4 @@
-import type { TemperatureProfile } from 'queries/temperature/useGetTemperatureProfile';
+import type { TemperatureProfile } from 'types/temperature.types';
 
 /**
  * Finds the temperature profile row closest to the target temperature
@@ -14,8 +14,8 @@ export const findClosestTemperature = (
  * Gets the appropriate time value based on element number
  */
 export const getTimeValue = (profile: TemperatureProfile, elementNumber: number): number => {
-  if (elementNumber === 1) return profile.time_a;
-  if (elementNumber >= 2 && elementNumber <= 9) return profile.time_b;
-  if (elementNumber === 10) return profile.time_c;
+  if (elementNumber === 1) return profile.timeA;
+  if (elementNumber >= 2 && elementNumber <= 9) return profile.timeB;
+  if (elementNumber === 10) return profile.timeC;
   return 0;
 };
