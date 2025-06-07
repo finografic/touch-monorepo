@@ -2,7 +2,7 @@ import type {
   TemperatureTableEntity,
   TemperatureTableEntryEntity,
 } from '@workspace/server/types/entities/temperature.entity';
-import type { ConvertKeysToCamelCase, OverridePropTypes } from 'types/utility.types';
+import type { ConvertKeysToCamelCase, OverridePropTypes } from '@workspace/types/utils';
 import type { ModelBaseProps } from 'types/base.types';
 
 export type TemperatureTable = OverridePropTypes<

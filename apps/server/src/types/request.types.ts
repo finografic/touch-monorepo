@@ -1,4 +1,4 @@
-import type { ConstUpperEnumOf } from 'types/utility.types';
+import type { ConstUpperEnumOf } from '@workspace/types/utils';
 
 export type RequestMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'OPTIONS';
 

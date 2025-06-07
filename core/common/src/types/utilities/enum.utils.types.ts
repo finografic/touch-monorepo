@@ -15,6 +15,8 @@ const EnumFromType: ConstEnumOf<CarModel> = {
 
 export type ConstEnumOf<T extends string> = { readonly [K in Uppercase<T>]: Extract<T, string> };
 
+export type ConstUpperEnumOf<T extends string> = { readonly [K in Uppercase<T>]: Uppercase<K> };
+
 // -------------------------------------------------------------------------- //
 
 /**

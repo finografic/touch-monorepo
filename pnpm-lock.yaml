@@ -397,6 +397,9 @@ importers:
       '@workspace/scripts':
         specifier: workspace:*
         version: link:../../scripts
+      '@workspace/types':
+        specifier: workspace:*
+        version: link:../../core/types
       autoprefixer:
         specifier: 10.4.20
         version: 10.4.20(postcss@8.5.4)
@@ -481,6 +484,9 @@ importers:
       '@workspace/globals':
         specifier: workspace:*
         version: link:../../core/globals
+      '@workspace/types':
+        specifier: workspace:*
+        version: link:../../core/types
       ansis:
         specifier: ^1.5.5
         version: 1.5.6
@@ -606,6 +612,9 @@ importers:
       '@workspace/scripts':
         specifier: workspace:*
         version: link:../scripts
+      '@workspace/types':
+        specifier: workspace:*
+        version: link:../core/types
       tsup:
         specifier: ^8.3.5
         version: 8.4.0(@microsoft/api-extractor@7.49.1(@types/node@20.15.0))(@swc/core@1.11.31)(jiti@2.4.2)(postcss@8.5.4)(tsx@4.19.2)(typescript@5.8.3)(yaml@2.8.0)
@@ -670,6 +679,28 @@ importers:
       tsx:
         specifier: 4.19.2
         version: 4.19.2
+
+  core/types:
+    dependencies:
+      '@dotenvx/dotenvx':
+        specifier: 1.31.3
+        version: 1.31.3
+    devDependencies:
+      '@finografic/project-scripts':
+        specifier: ^0.5.0
+        version: 0.5.0(@types/node@20.15.0)(jsonc-eslint-parser@2.4.0)
+      '@types/node':
+        specifier: 20.15.0
+        version: 20.15.0
+      shx:
+        specifier: 0.3.4
+        version: 0.3.4
+      tsup:
+        specifier: 8.4.0
+        version: 8.4.0(@microsoft/api-extractor@7.49.1(@types/node@20.15.0))(@swc/core@1.11.31)(jiti@2.4.2)(postcss@8.5.4)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
+      typescript:
+        specifier: ^5.8.3
+        version: 5.8.3
 
   scripts:
     dependencies:

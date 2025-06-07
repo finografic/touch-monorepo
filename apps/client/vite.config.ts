@@ -5,10 +5,14 @@ import tailwindcss from '@tailwindcss/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { logApiURL } from './src/utils/vite.utils';
 import { envShared } from '@workspace/config/envShared';
+import { resolve } from 'path';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
   const viteEnv = loadEnv(mode as string, process.cwd(), '');
   if (mode) logApiURL({ mode });
+
+  // Resolve paths relative to workspace root
+  const workspaceRoot = resolve(__dirname, '../..');
 
   return {
     css: {
@@ -51,6 +55,10 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
+      alias: {
+        '@workspace/types': resolve(workspaceRoot, 'core/types/src'),
+        '@workspace/types/utils': resolve(workspaceRoot, 'core/types/src/utils'),
+      },
     },
     build: {
       outDir: 'dist',
@@ -85,7 +93,13 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       host: 'localhost',
     },
     optimizeDeps: {
-      include: ['react/jsx-runtime', '@workspace/config', '@workspace/common'],
+      include: [
+        'react/jsx-runtime',
+        '@workspace/config',
+        '@workspace/common',
+        '@workspace/types',
+        '@workspace/types/utils',
+      ],
       esbuildOptions: {
         target: 'es2020',
       },

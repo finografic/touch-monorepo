@@ -13,6 +13,11 @@ dist/
 
 # Workspace
 .turbo
+
+# Build caches
+**/.turbo
+**/.tsup
+
 # .env
 # .env.*
 # !.env.example
@@ -40,10 +45,6 @@ dist/
 cgi-bin
 fcgi-bin
 html/
-
-# Build caches
-**/.turbo
-**/.tsup
 
 # LOGS
 logs/**/*

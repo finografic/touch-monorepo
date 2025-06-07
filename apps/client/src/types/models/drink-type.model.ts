@@ -1,5 +1,5 @@
-import type { DrinkSubtypeEntity, DrinkTypeEntity } from '@workspace/server/types/entities/drink-type.entity';
-import type { ConvertKeysToCamelCase, OverridePropTypes } from 'types/utility.types';
+import type { DrinkSubtypeEntity, DrinkTypeEntity } from '@workspace/server/types';
+import type { ConvertKeysToCamelCase, OverridePropTypes } from '@workspace/types/utils';
 import type { ModelBaseProps } from 'types/base.types';
 
 export type DrinkType = OverridePropTypes<DrinkTypeCamelCase, ModelBaseProps & { hasSubtypes: boolean }>;

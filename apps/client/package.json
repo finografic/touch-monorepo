@@ -119,6 +119,7 @@
     "@vitejs/plugin-react": "4.3.4",
     "@vitejs/plugin-react-swc": "3.7.2",
     "@workspace/scripts": "workspace:*",
+    "@workspace/types": "workspace:*",
     "autoprefixer": "10.4.20",
     "better-sqlite3": "11.10.0",
     "eslint-plugin-import": "2.31.0",
