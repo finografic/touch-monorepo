@@ -8,8 +8,12 @@ import { DevFilterResults } from './DevFilterResults/DevFilterResults';
 import { DevPanels } from './DevPanels/DevPanels';
 import { styles } from './DevTools.styles';
 import { MockOrdersButton } from './MockOrdersButton/MockOrdersButton';
+import { MockTimersMin } from './MockTimersMin/MockTimersMin';
+import { hasProcessingTimers } from 'utils/timers.utils';
+import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 export const DevTools = () => {
+  const { orders } = useOrders();
   const {
     isDevToolsVisible,
     isDevDataVisible,
@@ -32,6 +36,12 @@ export const DevTools = () => {
       </>
       <div css={styles} className="devtools-container">
         <Flex gap="3" justify="end">
+          {hasProcessingTimers(orders) && (
+            <Box width="64px" height="64px">
+              <MockTimersMin />
+            </Box>
+          )}
+
           <Box width="64px" height="64px">
             <MockOrdersButton />
           </Box>
