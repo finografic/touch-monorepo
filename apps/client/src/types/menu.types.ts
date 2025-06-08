@@ -53,6 +53,7 @@ type ItemTypeCStartIndex<BCount extends ValidItemTypeBCount> = BCount extends 5
  * };
  * ```
  */
+// NOTE: used only in apps/client/src/pages/MenuPage/menu.types.ts
 export interface MenuItemLayout<BCount extends ValidItemTypeBCount> {
   typeA: {
     index: 0;
