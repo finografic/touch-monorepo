@@ -1,7 +1,4 @@
-/**
- * Menu item type identifiers
- */
-// export type MenuItemType = 'A' | 'B' | 'C';
+import { ItemType } from 'types/orders.types';
 
 /**
  * Valid counts for Type B pads (must be in increments of 3, from 5 to 15)
@@ -16,7 +13,7 @@ export type ValidItemTypeBCount = 5 | 8 | 11 | 14 | 15;
  * type EightPads = ItemTypeBIndices<8>;   // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
  * ```
  */
-export type ItemTypeBIndices<Count extends ValidItemTypeBCount> = Count extends 5
+type ItemTypeBIndices<Count extends ValidItemTypeBCount> = Count extends 5
   ? 1 | 2 | 3 | 4 | 5
   : Count extends 8
     ? 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
@@ -34,7 +31,7 @@ export type ItemTypeBIndices<Count extends ValidItemTypeBCount> = Count extends 
  * type WithEightB = ItemTypeCStartIndex<8>;   // 9
  * ```
  */
-export type ItemTypeCStartIndex<BCount extends ValidItemTypeBCount> = BCount extends 5
+type ItemTypeCStartIndex<BCount extends ValidItemTypeBCount> = BCount extends 5
   ? 6
   : BCount extends 8
     ? 9
@@ -79,12 +76,14 @@ export interface MenuItemLayout<BCount extends ValidItemTypeBCount> {
  * type Layout = ItemTypeAtIndex<8, 9>; // "C"
  * ```
  */
+
+// NOTE: used only in apps/client/src/pages/MenuPage/menu.types.ts
 export type ItemTypeAtIndex<BCount extends ValidItemTypeBCount, Index extends number> = Index extends 0
-  ? 'A'
+  ? ItemType.A
   : Index extends ItemTypeBIndices<BCount>
-    ? 'B'
+    ? ItemType.B
     : Index extends ItemTypeCStartIndex<BCount>
-      ? 'C'
+      ? ItemType.C
       : never;
 
 /**
