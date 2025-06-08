@@ -59,16 +59,6 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
     disabled: false,
     value: { id: 'button-repeat-selection', name: 'BUTTON_REPEAT_SELECTION' },
   },
-  {
-    id: 'button-reset',
-    label: 'Reset',
-    type: 'button',
-    name: 'home',
-    className: 'pad-rect',
-    isChecked: false,
-    disabled: false,
-    value: { id: 'button-reset', name: 'BUTTON_RESET' },
-  },
 ];
 
 // ======================================================================== //

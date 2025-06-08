@@ -10,6 +10,50 @@ import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
 
+export interface NavigationButtonUI {
+  id: string;
+  label: string;
+  type: 'reset' | 'all' | 'back' | 'next' | 'start';
+  className?: string;
+  disabled?: boolean;
+  icon?: 'chevron-left' | 'chevron-right';
+}
+
+export const NAVIGATION_BUTTONS_CONFIG: NavigationButtonUI[] = [
+  {
+    id: 'nav-reset',
+    label: 'Reset',
+    type: 'reset',
+    className: 'nav-button',
+  },
+  {
+    id: 'nav-all',
+    label: 'ALL',
+    type: 'all',
+    className: 'nav-button',
+  },
+  {
+    id: 'nav-back',
+    label: 'Back',
+    type: 'back',
+    className: 'nav-button',
+    icon: 'chevron-left',
+  },
+  {
+    id: 'nav-next',
+    label: 'Next',
+    type: 'next',
+    className: 'nav-button',
+    icon: 'chevron-right',
+  },
+  {
+    id: 'nav-start',
+    label: 'START',
+    type: 'start',
+    className: 'nav-button nav-button-start',
+  },
+];
+
 export const Navigation = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -38,6 +82,24 @@ export const Navigation = () => {
       console.error('Failed to control temperature:', error);
     },
   });
+
+  // Check if there are any completed timers
+  const hasCompletedTimers = orders.some((order) => order.process.status === 'completed');
+
+  // Replace handleReset with handleClearCompleted
+  const handleClearCompleted = useCallback(() => {
+    startTransition(() => {
+      // Clear all completed timers by resetting their process status to 'idle'
+      orders.forEach((order) => {
+        if (order.process.status === 'completed') {
+          setOrderProcessing({
+            itemNumber: order.itemNumber,
+            duration: 0,
+          });
+        }
+      });
+    });
+  }, [orders, setOrderProcessing]);
 
   useEffect(() => {
     if (orders.length === 0 && location.pathname !== PATHS.home) {
@@ -80,62 +142,71 @@ export const Navigation = () => {
       <div className="nav-wrapper">
         <NavigationMenu.Root className="nav-root">
           <NavigationMenu.List className="nav-list">
-            {location.pathname === PATHS.home && (
-              <NavigationMenu.Item className="nav-item">
-                <NavigationMenu.Link asChild>
-                  <button className="nav-button" onClick={selectAllOrders}>
-                    ALL
-                  </button>
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
-            )}
+            {NAVIGATION_BUTTONS_CONFIG.map((button) => {
+              // Update visibility conditions for reset button
+              if (button.type === 'reset' && (!hasCompletedTimers || location.pathname !== PATHS.home))
+                return null;
+              // Only show ALL on home page
+              if (button.type === 'all' && location.pathname !== PATHS.home) return null;
+              // Only show Back when not on home page
+              if (button.type === 'back' && !isVisibleBackButton) return null;
+              // Only show Next when not on temperature page
+              if (button.type === 'next' && !isVisibleNextButton) return null;
+              // Only show START on temperature page
+              if (button.type === 'start' && location.pathname !== PATHS.temperature) return null;
 
-            {isVisibleBackButton && (
-              <NavigationMenu.Item className="nav-item">
-                <NavigationMenu.Link asChild>
-                  <button
-                    className="nav-button"
-                    onClick={handleBack}
-                    disabled={isPending}
-                    data-disabled={isPending ? 'true' : undefined}
-                  >
-                    <ChevronLeftIcon /> Back
-                  </button>
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
-            )}
-
-            {isVisibleNextButton && (
-              <NavigationMenu.Item className="nav-item">
-                <NavigationMenu.Link asChild>
-                  <button
-                    className="nav-button"
-                    onClick={handleNext}
-                    disabled={isNextDisabled || isPending}
-                    data-disabled={isNextDisabled || isPending ? 'true' : undefined}
-                  >
-                    Next <ChevronRightIcon />
-                  </button>
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
-            )}
-
-            {location.pathname === PATHS.temperature && (
-              <NavigationMenu.Item className="nav-item">
-                <NavigationMenu.Link asChild>
-                  <button
-                    className={clsx('nav-button', 'nav-button-start')}
-                    onClick={handleStart}
-                    disabled={isLoading || isPending || !temperatureProfilesQuery.data}
-                    data-disabled={
-                      isLoading || isPending || !temperatureProfilesQuery.data ? 'true' : undefined
-                    }
-                  >
-                    {isLoading ? 'Calculating...' : isPending ? 'Processing...' : 'START'}
-                  </button>
-                </NavigationMenu.Link>
-              </NavigationMenu.Item>
-            )}
+              return (
+                <NavigationMenu.Item key={button.id} className="nav-item">
+                  <NavigationMenu.Link asChild>
+                    <button
+                      className={button.className}
+                      onClick={() => {
+                        switch (button.type) {
+                          case 'reset':
+                            return handleClearCompleted();
+                          case 'all':
+                            return selectAllOrders();
+                          case 'back':
+                            return handleBack();
+                          case 'next':
+                            return handleNext();
+                          case 'start':
+                            return handleStart();
+                        }
+                      }}
+                      disabled={
+                        button.type === 'next'
+                          ? isNextDisabled || isPending
+                          : button.type === 'start'
+                            ? isLoading || isPending || !temperatureProfilesQuery.data
+                            : isPending
+                      }
+                      data-disabled={
+                        button.type === 'next'
+                          ? isNextDisabled || isPending
+                            ? 'true'
+                            : undefined
+                          : button.type === 'start'
+                            ? isLoading || isPending || !temperatureProfilesQuery.data
+                              ? 'true'
+                              : undefined
+                            : isPending
+                              ? 'true'
+                              : undefined
+                      }
+                    >
+                      {button.icon === 'chevron-left' && <ChevronLeftIcon />}
+                      {button.type === 'start' && isLoading
+                        ? 'Calculating...'
+                        : isPending
+                          ? 'Processing...'
+                          : button.label}
+                      {button.icon === 'chevron-right' && <ChevronRightIcon />}
+                    </button>
+                  </NavigationMenu.Link>
+                </NavigationMenu.Item>
+              );
+            })}
           </NavigationMenu.List>
         </NavigationMenu.Root>
       </div>
