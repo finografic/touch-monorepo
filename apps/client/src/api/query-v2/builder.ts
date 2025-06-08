@@ -70,12 +70,12 @@ export class QueryBuilder<T extends Record<string, any>> {
     this.query[Filters.$skip] = value;
     return this;
   }
-
   sort(field: keyof T, direction: 1 | -1): this {
+    const currentSort = this.query[Filters.$sort] || {};
     this.query[Filters.$sort] = {
-      ...(this.query[Filters.$sort] || {}),
+      ...currentSort,
       [field]: direction,
-    };
+    } as Partial<Record<keyof T, 1 | -1>>;
     return this;
   }
 

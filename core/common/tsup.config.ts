@@ -16,7 +16,8 @@ export default defineConfig({
   clean: true,
   experimentalDts: true,
   bundle: true,
-  splitting: true,
+  splitting: false,
   sourcemap: true,
   treeshake: true,
+  minify: false,
 } satisfies Options);
