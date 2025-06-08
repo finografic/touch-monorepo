@@ -1,4 +1,4 @@
-import { ItemType } from 'types/orders.types';
+import type { ItemType } from './orders.types';
 
 /**
  * Valid counts for Type B pads (must be in increments of 3, from 5 to 15)
