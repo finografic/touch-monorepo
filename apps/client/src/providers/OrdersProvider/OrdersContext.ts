@@ -3,7 +3,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { OrderFieldKey, OrderItemType } from 'types/orders.types';
+import type { OrderFieldKey, OrderItemType, OrderStatus } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
 import { subscribeWithSelector } from 'zustand/middleware';
@@ -70,7 +70,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 return {
                   ...order,
                   processStatus: {
-                    isProcessing: true,
+                    status: 'processing' as OrderStatus,
                     estimatedCompletionTime,
                     timeRemaining: duration,
                   },

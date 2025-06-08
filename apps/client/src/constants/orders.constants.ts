@@ -1,13 +1,15 @@
 import type { OrderItem } from 'types/orders.types';
 
 export const INITIAL_ORDER_ITEM: OrderItem = {
-  itemType: 'B',
+  itemType: 'A',
   itemNumber: 0,
   // drinkSubtype: undefined,
   isSelected: false,
   isLocked: false,
   filters: {},
   processStatus: {
-    isProcessing: false,
+    status: 'idle',
+    timeRemaining: undefined,
+    estimatedCompletionTime: undefined,
   },
 };

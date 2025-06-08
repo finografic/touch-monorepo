@@ -31,7 +31,11 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
         lookup: { containerTypeName: 'metal' },
       },
     },
-    processStatus: { isProcessing: false },
+    processStatus: {
+      status: 'idle',
+      estimatedCompletionTime: undefined,
+      timeRemaining: undefined,
+    },
   },
   {
     itemType: 'B',
@@ -63,7 +67,11 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
         lookup: { containerTypeName: 'metal' },
       },
     },
-    processStatus: { isProcessing: false },
+    processStatus: {
+      status: 'idle',
+      estimatedCompletionTime: undefined,
+      timeRemaining: undefined,
+    },
   },
   {
     itemType: 'C',
@@ -95,6 +103,10 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
         lookup: { containerTypeName: 'metal' },
       },
     },
-    processStatus: { isProcessing: false },
+    processStatus: {
+      status: 'idle',
+      estimatedCompletionTime: undefined,
+      timeRemaining: undefined,
+    },
   },
 ];

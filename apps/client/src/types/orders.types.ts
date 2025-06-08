@@ -9,13 +9,13 @@ export type OrderFieldKeySnake = CamelToSnake<OrderFieldKey>;
 export type OrderItemType = 'A' | 'B' | 'C';
 
 // Base properties that every order has
-interface OrderBaseProps {
+export interface OrderBaseProps {
   itemType: OrderItemType;
   itemNumber: number;
   isSelected: boolean;
   isLocked: boolean;
   filters: OrderFilters;
-  processStatus: OrderProcessStatus;
+  processStatus?: ProcessStatus;
 }
 
 export interface ContainerType {
@@ -34,13 +34,19 @@ export interface Temperature {
   unit: '°C';
 }
 
-export type OrderStatus = 'pending' | 'in_progress' | 'completed' | 'error';
+export type OrderStatus = 'idle' | 'processing' | 'completed' | 'error';
 
 // The fields that are managed by the selection process
 export interface OrderProcessStatus {
   isProcessing: boolean;
   timeRemaining?: number;
   estimatedCompletionTime?: string; // ISO date string for completion time
+}
+
+export interface ProcessStatus {
+  status: OrderStatus;
+  estimatedCompletionTime?: string;
+  timeRemaining?: number;
 }
 
 // The complete order type combining selection fields and base properties

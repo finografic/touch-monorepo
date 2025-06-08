@@ -1,13 +1,16 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 import { styles } from './Timer.styles';
+import type { OrderItem, OrderStatus } from 'types/orders.types';
 
 interface TimerProps {
   estimatedCompletionTime?: string;
   className?: string;
+  order: OrderItem;
+  onComplete?: (order: OrderItem) => void;
 }
 
-export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className }) => {
+export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className, order, onComplete }) => {
   const [timeLeft, setTimeLeft] = useState<{ minutes: number; seconds: number }>({
     minutes: 0,
     seconds: 0,
@@ -53,6 +56,15 @@ export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className }) =>
       if (newTimeLeft.minutes === 0 && newTimeLeft.seconds === 0) {
         console.debug('Timer: Countdown complete');
         clearInterval(timer);
+        // Update order with completed status
+        const completedOrder = {
+          ...order,
+          processStatus: {
+            ...order.processStatus,
+            status: 'completed' as OrderStatus,
+          },
+        };
+        onComplete?.(completedOrder);
       }
     }, 1000);
 
@@ -60,7 +72,7 @@ export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className }) =>
       console.debug('Timer: Cleaning up interval');
       clearInterval(timer);
     };
-  }, [estimatedCompletionTime]);
+  }, [estimatedCompletionTime, order, onComplete]);
 
   return (
     <div css={styles} className={className}>

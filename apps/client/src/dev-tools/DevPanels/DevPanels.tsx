@@ -24,17 +24,19 @@ export const DevPanels = () => {
     pads: transformPadData(padsSource),
   };
 
-  // const devOrders = {
-  //   orders: flattenOrders(orders),
-  // };
+  // Filter out filters property from processing orders
+  const cleanOrdersForDisplay = orders.map((order) => {
+    if (order.processStatus?.status === 'processing') {
+      const { filters, ...orderWithoutFilters } = order;
+      return orderWithoutFilters;
+    }
+    return order;
+  });
 
   const devDataRight = {
     numItems,
     count: orders.length,
-    orders,
-    // orders: {
-    //   ...(orders?.[0] || {}),
-    // },
+    orders: cleanOrdersForDisplay,
     DATA_TOTAL: data?.length,
     DATA_FILTERED: dataFiltered?.length,
     PADS_ALL: loaderData?.map((padData) => padData.name),
@@ -47,7 +49,7 @@ export const DevPanels = () => {
         {/* <pre>{JSON.stringify(devDataLeft, null, 2)}</pre> */}
       </aside>
       <aside id="dev-data-right" css={stylesRight}>
-        <pre>{JSON.stringify(orders)}</pre>
+        <pre>{JSON.stringify(cleanOrdersForDisplay)}</pre>
         <div className="data-tree">
           <JSONTree data={devDataRight} />
         </div>

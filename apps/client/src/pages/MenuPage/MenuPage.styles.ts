@@ -24,7 +24,6 @@ const props = {
 export const styles = css`
   width: max-content !important;
   color: ${colors.white};
-  /* box-shadow: inset 0 0 0 4px rgba(150, 0, 0, 0.5); */
 
   .menu-grid-base {
     display: grid;

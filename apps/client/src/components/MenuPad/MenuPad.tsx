@@ -22,7 +22,7 @@ export const MenuPad = <T extends MenuItemType>({ itemType, number, metadata }: 
   const { orders, toggleOrder } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;
-  const isProcessing = !!order?.processStatus?.isProcessing;
+  const isProcessing = order?.processStatus?.status === 'processing';
   const isSelected = !!order?.isSelected;
 
   // NOTE: Only add menu-specific classes here,
@@ -54,8 +54,8 @@ export const MenuPad = <T extends MenuItemType>({ itemType, number, metadata }: 
   }
 
   return (
-    <OrderItemToggle css={styles} number={number} className={className}>
-      <Timer estimatedCompletionTime={order?.processStatus?.estimatedCompletionTime} />
+    <OrderItemToggle css={styles} itemType={itemType} number={number} className={className}>
+      <Timer estimatedCompletionTime={order?.processStatus?.estimatedCompletionTime} order={order} />
     </OrderItemToggle>
   );
 };
