@@ -1,10 +1,10 @@
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { OrderItemPadProps } from './MenuPad.types';
+import type { MenuPadProps } from './MenuPad.types';
 import clsx from 'clsx';
 
-export const OrderItemToggle = ({ itemType, number, className, children }: OrderItemPadProps) => {
+export const MenuPadToggle = ({ itemType, number, className, children }: MenuPadProps) => {
   const { toggleOrder, orders } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;

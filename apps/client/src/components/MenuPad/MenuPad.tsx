@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { useOrders } from 'providers/OrdersProvider';
 import type { ItemType, OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
-import { OrderItemToggle } from './OrderItemToggle';
+import { MenuPadToggle } from './MenuPadToggle';
 import { styles } from './MenuPad.styles';
 import type { ValidMenuPadNumber } from 'pages/MenuPage/MenuPage.types';
 import type { DataEntry } from 'types/data.types';
@@ -53,8 +53,8 @@ export const MenuPad = <T extends ItemType>({ itemType, number, metadata }: Menu
   }
 
   return (
-    <OrderItemToggle css={styles} itemType={itemType} number={number} className={className}>
+    <MenuPadToggle css={styles} itemType={itemType} number={number} className={className}>
       <Timer estimatedCompletionTime={order?.process?.estimatedCompletionTime} order={order} />
-    </OrderItemToggle>
+    </MenuPadToggle>
   );
 };

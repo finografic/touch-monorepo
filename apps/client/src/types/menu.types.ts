@@ -2,6 +2,8 @@ import type { ItemType } from './orders.types';
 
 /**
  * Valid counts for Type B pads (must be in increments of 3, from 5 to 15)
+ *
+ * NOTE: This type is used in app.config and other shared locations, so it remains here.
  */
 export type ValidItemTypeBCount = 5 | 8 | 11 | 14 | 15;
 

@@ -6,7 +6,7 @@ export interface MenuPadBaseProps {
   className?: string;
 }
 
-export interface OrderItemPadProps extends MenuPadBaseProps {
+export interface MenuPadProps extends MenuPadBaseProps {
   itemType: ItemType;
   number: number;
   children: ReactNode;
