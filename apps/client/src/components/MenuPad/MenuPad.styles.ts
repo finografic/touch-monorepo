@@ -58,15 +58,62 @@ export const styles = css`
       }
     }
 
-    &.status-completed {
+    &.is-processing {
       cursor: wait;
+      pointer-events: none;
+      color: ${colors.success};
+      border: ${layout.borderWidth} solid ${colors.success};
+      background-color: rgba(1, 250, 20, 0.1);
+
+      &:hover {
+        cursor: wait;
+        color: ${colors.success};
+        border-color: ${colors.successLight};
+        background-color: rgba(1, 250, 20, 0.1);
+        transform: none;
+      }
+
+      &:disabled {
+        cursor: wait;
+        &:hover {
+          border-color: ${colors.greyDark};
+          background-color: rgba(1, 250, 20, 0.1);
+        }
+      }
+    }
+
+    &.status-processing {
+      cursor: wait;
+      pointer-events: none;
+      color: ${colors.success};
+      border: ${layout.borderWidth} solid ${colors.success};
+      background-color: ${colors.success}22;
+
+      &:hover {
+        cursor: wait;
+        color: ${colors.success};
+        border-color: ${colors.successLight};
+        background-color: ${colors.success}22;
+        transform: none;
+      }
+
+      &:disabled {
+        cursor: wait;
+        &:hover {
+          border-color: ${colors.greyDark};
+          background-color: ${colors.success}22;
+        }
+      }
+    }
+
+    &.status-completed {
+      cursor: not-allowed;
+      pointer-events: none;
       color: ${colors.warning};
       border: ${layout.borderWidth} solid ${colors.warning};
       background-color: ${colors.warning}22;
 
       &:hover {
-        cursor: wait;
-        pointer-events: none;
         color: ${colors.warning};
         border-color: ${colors.warning};
         background-color: ${colors.warning}22;
@@ -74,11 +121,31 @@ export const styles = css`
       }
 
       &:disabled {
-        cursor: wait;
-        opacity: 0.5;
         &:hover {
           border-color: ${colors.greyDark};
           background-color: ${colors.warning}22;
+        }
+      }
+    }
+
+    &.status-error {
+      cursor: default;
+      pointer-events: none;
+      color: ${colors.danger};
+      border: ${layout.borderWidth} solid ${colors.danger};
+      background-color: ${colors.danger}22;
+
+      &:hover {
+        color: ${colors.danger};
+        border-color: ${colors.danger};
+        background-color: ${colors.danger}22;
+        transform: none;
+      }
+
+      &:disabled {
+        &:hover {
+          border-color: ${colors.greyDark};
+          background-color: ${colors.danger}22;
         }
       }
     }
