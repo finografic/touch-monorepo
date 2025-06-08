@@ -44,12 +44,6 @@ const cleanCalculationData = (calculation: Calculation | null) => {
   return cleanCalc;
 };
 
-const labelStyles = {
-  color: 'var(--accent-9)',
-  fontWeight: 600,
-  fontSize: '1rem',
-} as const;
-
 const OrderDataList = ({ data }: { data: any }) => {
   if (!data) return null;
   return (
