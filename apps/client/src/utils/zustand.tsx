@@ -43,8 +43,8 @@ export const createZustandContext = <TInitial extends object, TStore extends Sto
 type SetState<T> = (partial: Partial<T> | ((state: T) => Partial<T>), replace?: boolean) => void;
 
 export const createSetters = <
-  TValues extends Record<string, any>,
   TStore extends { [K in keyof TValues]: TValues[K] },
+  TValues extends Record<string, any>,
   TPrefix extends string = '',
 >({
   set,

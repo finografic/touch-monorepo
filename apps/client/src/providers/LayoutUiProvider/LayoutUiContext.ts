@@ -6,6 +6,7 @@ import { NUM_ITEMS_TYPE_B } from 'constants/app.config';
 import { parsePadConfig } from 'utils/ui.utils';
 import type { Dataset } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
+import { subscribeWithSelector } from 'zustand/middleware';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
@@ -27,56 +28,54 @@ export const defaultValue: LayoutUiValues = {
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {
-  return createStore<LayoutUiStore>(
-    (set, get): LayoutUiStore => ({
-      ...defaultValue,
-      ...initialValue,
-      actions: {
-        ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
-        initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, fieldKey: OrderFieldKey) => {
-          const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
-          const { pads, numPads } = parsePadConfig({ data, config: padsConfig, fieldKey });
-          set({ pads });
-          set({ numPads });
-        },
-        updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadUI[]) => PadUI[]) => {
-          const currentPads = get().pads;
-          if (!currentPads?.length) return;
+  return createStore<LayoutUiStore>()(
+    subscribeWithSelector(
+      (set, get): LayoutUiStore => ({
+        ...defaultValue,
+        ...initialValue,
+        actions: {
+          ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
+          initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, fieldKey: OrderFieldKey) => {
+            const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
+            const { pads, numPads } = parsePadConfig({ data, config: padsConfig, fieldKey });
+            set({ pads });
+            set({ numPads });
+          },
+          updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadUI[]) => PadUI[]) => {
+            const currentPads = get().pads;
+            if (!currentPads?.length) return;
 
-          // Split pads into current field and other fields
-          const currentFieldPads = currentPads.filter((pad) => pad.name === fieldKey);
-          const updatedFieldPads = updater(currentFieldPads);
+            // Split pads into current field and other fields
+            const currentFieldPads = currentPads.filter((pad) => pad.name === fieldKey);
+            const updatedFieldPads = updater(currentFieldPads);
 
-          // Reconstruct the full pad array maintaining original order
-          const updatedPads = currentPads.map((pad) => {
-            if (pad.name !== fieldKey) return pad;
-            const updatedPad = updatedFieldPads.find((p) => p.id === pad.id);
-            return updatedPad || pad;
-          });
-
-          set({ pads: updatedPads });
-        },
-        togglePad: (fieldKey: OrderFieldKey, clickedId: string, type: PadType) => {
-          set((state) => {
-            const pads = state.pads.map((pad) => {
+            // Reconstruct the full pad array maintaining original order
+            const updatedPads = currentPads.map((pad) => {
               if (pad.name !== fieldKey) return pad;
-              if (type === 'radio') {
-                return { ...pad, isChecked: pad.id === clickedId };
-              }
-              if (pad.id === clickedId) {
-                return { ...pad, isChecked: !pad.isChecked };
-              }
-              return pad;
+              const updatedPad = updatedFieldPads.find((p) => p.id === pad.id);
+              return updatedPad || pad;
             });
-            return { pads };
-          });
+
+            set({ pads: updatedPads });
+          },
+          togglePad: (fieldKey: OrderFieldKey, clickedId: string, type: PadType) => {
+            set((state) => {
+              const pads = state.pads.map((pad) => {
+                if (pad.name !== fieldKey) return pad;
+                if (type === 'radio') {
+                  return { ...pad, isChecked: pad.id === clickedId };
+                }
+                if (pad.id === clickedId) {
+                  return { ...pad, isChecked: !pad.isChecked };
+                }
+                return pad;
+              });
+              return { pads };
+            });
+          },
         },
-      },
-      // subscribe: (listener: (state: LayoutUiStore, prevState: LayoutUiStore) => void) => {
-      //   const state = get();
-      //   listener(state, state);
-      // },
-    }),
+      }),
+    ),
   );
 });
 
@@ -85,7 +84,7 @@ type LayoutUiReturn = Omit<LayoutUiStore, 'actions'> & LayoutUiStore['actions'];
 export const useLayoutUi = (): LayoutUiReturn => {
   const store = LayoutUiContext.useContext();
   if (!store) {
-    throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
+    throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
   return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(store, ({ actions, ...state }) => ({

@@ -27,7 +27,7 @@ export const PaginationContext = createZustandContext(({ initialValue }) => {
         ...defaultValue,
         ...initialValue,
         actions: {
-          ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
+          ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
           setIsPrevDisabled: (isPrevDisabled: boolean) => {
             if (get().isPrevDisabled !== isPrevDisabled) {
               set({ isPrevDisabled });
@@ -38,9 +38,6 @@ export const PaginationContext = createZustandContext(({ initialValue }) => {
               set({ isNextDisabled });
             }
           },
-          // onBeforeNavigateNext: (fn?: () => void) => {
-          //   fn?.();
-          // },
         },
       }),
     ),
@@ -52,7 +49,7 @@ type PaginationReturn = Omit<PaginationStore, 'actions'> & PaginationStore['acti
 export const usePagination = (): PaginationReturn => {
   const store = PaginationContext.useContext();
   if (!store) {
-    throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
+    throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
   store.subscribe((_state, _prev) => {

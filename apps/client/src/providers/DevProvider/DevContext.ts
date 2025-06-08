@@ -1,6 +1,7 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { DevStore, DevValues } from './DevContext.types';
+import { subscribeWithSelector } from 'zustand/middleware';
 
 export const DISPLAY_NAME = 'Dev';
 export const SETTER_PREFIX = '';
@@ -20,14 +21,16 @@ export const defaultValue: DevValues = {
 };
 
 export const DevContext = createZustandContext(({ initialValue }) => {
-  return createStore<DevStore>(
-    (set, _get): DevStore => ({
-      ...defaultValue,
-      ...initialValue,
-      actions: {
-        ...createSetters({ set, prefix: SETTER_PREFIX, defaultValue }),
-      },
-    }),
+  return createStore<DevStore>()(
+    subscribeWithSelector(
+      (set, _get): DevStore => ({
+        ...defaultValue,
+        ...initialValue,
+        actions: {
+          ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
+        },
+      }),
+    ),
   );
 });
 
@@ -36,7 +39,7 @@ type DevReturn = Omit<DevStore, 'actions'> & DevStore['actions'];
 export const useDev = (): DevReturn => {
   const store = DevContext.useContext();
   if (!store) {
-    throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
+    throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
   store.subscribe((_state, _prev) => {
