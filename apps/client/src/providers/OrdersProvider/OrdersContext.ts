@@ -117,6 +117,10 @@ export const useOrders = (): OrdersReturn => {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
+  store.subscribe((_state, _prev) => {
+    // store change
+  });
+
   return useStore<StoreApi<OrdersStore>, OrdersReturn>(store, ({ actions, ...state }) => ({
     ...state,
     ...actions,

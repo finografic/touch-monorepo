@@ -87,6 +87,10 @@ export const useLayoutUi = (): LayoutUiReturn => {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
+  store.subscribe((_state, _prev) => {
+    // store change
+  });
+
   return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(store, ({ actions, ...state }) => ({
     ...state,
     ...actions,
