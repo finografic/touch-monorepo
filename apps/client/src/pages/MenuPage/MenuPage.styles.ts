@@ -72,12 +72,24 @@ export const styles = css`
     }
 
     &.power {
+      pointer-events: none;
       border-radius: 10px;
-      border-color: ${colors.success};
-      color: ${colors.success};
+      grid-row: span 2;
       width: ${props.special.width};
       height: ${props.special.height};
-      grid-row: span 2;
+
+      color: ${colors.success}BB;
+      border-color: ${colors.success}BB;
+      &:hover {
+        color: ${colors.success};
+        border-color: ${colors.success};
+        background-color: ${colors.success}11;
+      }
+      &.checked {
+        color: ${colors.success};
+        border-color: ${colors.success};
+        background-color: ${colors.successDark}22;
+      }
     }
   }
 `;

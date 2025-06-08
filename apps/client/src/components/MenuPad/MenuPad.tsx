@@ -32,7 +32,7 @@ export const MenuPad = <T extends MenuItemType>({ itemType, number, metadata }: 
   });
 
   const handleSelect = React.useCallback(() => {
-    toggleOrder(number);
+    toggleOrder({ itemType, itemNumber: number });
   }, [number, toggleOrder]);
 
   if (!isProcessing) {
@@ -42,7 +42,7 @@ export const MenuPad = <T extends MenuItemType>({ itemType, number, metadata }: 
         id={String(number)}
         name="home"
         type="checkbox"
-        value={{ id: String(number), name: itemType }}
+        value={{ id: String(number), itemType }}
         fieldKey={OrderFieldKeys.home}
         isChecked={isSelected}
         className={className}

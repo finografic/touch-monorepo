@@ -31,9 +31,10 @@ export const DevPanels = () => {
   const devDataRight = {
     numItems,
     count: orders.length,
-    orders: {
-      ...(orders?.[0] || {}),
-    },
+    orders,
+    // orders: {
+    //   ...(orders?.[0] || {}),
+    // },
     DATA_TOTAL: data?.length,
     DATA_FILTERED: dataFiltered?.length,
     PADS_ALL: loaderData?.map((padData) => padData.name),

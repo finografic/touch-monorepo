@@ -72,7 +72,7 @@ export const Navigation = () => {
     startTemperatureControl();
   }, [startTemperatureControl]);
 
-  const isVisibleBackButton = current > 0;
+  const isVisibleBackButton = location.pathname !== PATHS.home;
   const isVisibleNextButton = location.pathname !== PATHS.temperature;
 
   return (

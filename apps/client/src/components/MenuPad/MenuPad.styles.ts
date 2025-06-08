@@ -11,11 +11,17 @@ export const styles = css`
     border-radius: 50%;
 
     &.item-type-A {
-      pointer-events: none;
-      border-color: ${colors.grey};
-      background-color: rgba(150, 150, 150, 0.15);
+      color: ${colors.greyXLight}BB;
+      border-color: ${colors.greyLight}BB;
       &:hover {
-        transform: none; /* Ensure no transform */
+        color: ${colors.greyLight};
+        border-color: ${colors.greyXLight}BB;
+        background-color: ${colors.grey}11;
+      }
+      &.checked {
+        color: ${colors.greyLight};
+        border-color: ${colors.greyXLight};
+        background-color: ${colors.greyLight}22;
       }
     }
 
@@ -27,41 +33,52 @@ export const styles = css`
     }
 
     &.item-type-C {
-      pointer-events: none;
-      border-color: ${colors.danger};
-      color: ${colors.danger};
       width: ${padProps.padLG.width};
       height: ${padProps.padLG.height};
+      color: ${colors.danger}BB;
+      border-color: ${colors.danger}BB;
+      &:hover {
+        color: ${colors.danger};
+        border-color: ${colors.danger};
+        background-color: ${colors.danger}11;
+      }
+      &.checked {
+        color: ${colors.danger};
+        border-color: ${colors.danger};
+        background-color: ${colors.dangerDark}22;
+      }
     }
 
-    &.special {
-      border-radius: 10px;
-      border-color: ${colors.success};
-      color: ${colors.success};
-      width: ${padProps.special.width};
-      height: ${padProps.special.height};
-      grid-row: span 2;
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      &:hover {
+        border-color: inherit;
+        transform: none; /* Ensure no transform */
+      }
     }
 
     &.is-processing {
-      border: ${layout.borderWidth} solid ${colors.success};
-      background-color: rgba(1, 250, 20, 0.1);
-      color: ${colors.success};
-      cursor: not-allowed;
       cursor: wait;
+      color: ${colors.warning};
+      border: ${layout.borderWidth} solid ${colors.warning};
+      background-color: ${colors.warning}22;
 
       &:hover {
-        border-color: ${colors.successLight};
-        background-color: rgba(1, 250, 20, 0.1);
+        cursor: wait;
+        pointer-events: none;
+        color: ${colors.warning};
+        border-color: ${colors.warning};
+        background-color: ${colors.warning}22;
         transform: none;
       }
 
       &:disabled {
+        cursor: wait;
         opacity: 0.5;
-        cursor: not-allowed;
         &:hover {
           border-color: ${colors.greyDark};
-          background-color: rgba(1, 250, 20, 0.1);
+          background-color: ${colors.warning}22;
         }
       }
     }

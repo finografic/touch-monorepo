@@ -30,36 +30,47 @@ export interface PadTestProps extends PadUITest {
 
 export const PADS_TOUCH_CONFIG: PadUI[] = [
   {
-    id: 'labelC',
+    id: 'button-program-time',
     label: 'Programar Tiempo',
     type: 'button',
     name: 'home',
     className: 'pad-rect',
     isChecked: false,
     disabled: false,
-    value: { id: 'labelC', name: 'LABEL C' },
+    value: { id: 'button-program-time', name: 'BUTTON_PROGRAM_TIME' },
   },
   {
-    id: 'labelA',
+    id: 'button-program-product',
     label: 'Programar Producto',
     type: 'button',
     name: 'home',
     className: 'pad-rect',
     isChecked: false,
     disabled: false,
-    value: { id: 'labelA', name: 'LABEL A' },
+    value: { id: 'button-program-product', name: 'BUTTON_PROGRAM_PRODUCT' },
   },
   {
-    id: 'labelB',
+    id: 'button-repeat-selection',
     label: 'Repetir Selección',
     type: 'button',
     name: 'home',
     className: 'pad-rect',
     isChecked: false,
     disabled: false,
-    value: { id: 'labelB', name: 'LABEL B' },
+    value: { id: 'button-repeat-selection', name: 'BUTTON_REPEAT_SELECTION' },
+  },
+  {
+    id: 'button-reset',
+    label: 'Reset',
+    type: 'button',
+    name: 'home',
+    className: 'pad-rect',
+    isChecked: false,
+    disabled: false,
+    value: { id: 'button-reset', name: 'BUTTON_RESET' },
   },
 ];
+
 // ======================================================================== //
 
 export function MenuPage() {

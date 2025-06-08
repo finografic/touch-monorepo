@@ -23,7 +23,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
       'name',
       'hasSubtypes',
       'defaultTempConsume',
-      'temperatureProfileId',
+      // 'temperatureProfileId',
       // 'tempFreeze',
     ],
     maxPads: 10,
@@ -37,7 +37,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
       'id',
       'name',
       'defaultTempConsume',
-      'temperatureProfileId',
+      // 'temperatureProfileId',
       //  'tempFreeze'
     ],
     maxPads: 10,

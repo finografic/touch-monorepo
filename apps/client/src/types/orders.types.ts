@@ -6,8 +6,11 @@ export type OrderFieldKey = (typeof ORDER_FIELD_KEYS)[number];
 export type OrderFieldKeyKebab = CamelToKebab<OrderFieldKey>;
 export type OrderFieldKeySnake = CamelToSnake<OrderFieldKey>;
 
+export type OrderItemType = 'A' | 'B' | 'C';
+
 // Base properties that every order has
 interface OrderBaseProps {
+  itemType: OrderItemType;
   itemNumber: number;
   isSelected: boolean;
   isLocked: boolean;

@@ -13,8 +13,6 @@ export const FilterKeys: { [K in string]: K } = {
   temperatureName: 'temperatureName',
   defaultTempConsume: 'defaultTempConsume',
   temperatureProfileId: 'temperatureProfileId',
-  // initialTemperatureName: 'initialTemperatureName',
-  // finalTemperatureName: 'finalTemperatureName',
 } as const;
 
 /**

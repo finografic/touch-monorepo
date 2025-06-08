@@ -1,36 +1,11 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
-import { css } from '@emotion/react';
-import { colors } from 'styles';
+import { styles } from './Timer.styles';
 
 interface TimerProps {
   estimatedCompletionTime?: string;
   className?: string;
 }
-
-const styles = css`
-  .timer-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    width: 100%;
-  }
-
-  .timer-digits {
-    font-size: 1.6rem;
-    font-weight: 600;
-    color: ${colors.success};
-    line-height: 1;
-    margin-bottom: 4px;
-  }
-
-  .timer-label {
-    font-size: 0.9rem;
-    color: ${colors.success};
-  }
-`;
 
 export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className }) => {
   const [timeLeft, setTimeLeft] = useState<{ minutes: number; seconds: number }>({
@@ -93,7 +68,7 @@ export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className }) =>
         <div className="timer-digits">
           {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
         </div>
-        <div className="timer-label">remaining</div>
+        {/* <div className="timer-label">remaining</div> */}
       </div>
     </div>
   );
