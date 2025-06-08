@@ -1,7 +1,7 @@
-import type { ValidTypeBCount } from 'types/menu.types';
+import type { ValidItemTypeBCount } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 
-export const NUM_ITEMS_TYPE_B: ValidTypeBCount = 8 as const;
+export const NUM_ITEMS_TYPE_B: ValidItemTypeBCount = 8 as const;
 
 /**
  * Base keys in camelCase - our source of truth for order field keys

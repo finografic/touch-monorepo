@@ -1,22 +1,22 @@
 /**
  * Menu item type identifiers
  */
-export type MenuItemType = 'A' | 'B' | 'C';
+// export type MenuItemType = 'A' | 'B' | 'C';
 
 /**
  * Valid counts for Type B pads (must be in increments of 3, from 5 to 15)
  */
-export type ValidTypeBCount = 5 | 8 | 11 | 14 | 15;
+export type ValidItemTypeBCount = 5 | 8 | 11 | 14 | 15;
 
 /**
  * Valid indices for Type B pads based on the total count
  * @example
  * ```typescript
- * type FivePads = TypeBIndices<5>;   // 1 | 2 | 3 | 4 | 5
- * type EightPads = TypeBIndices<8>;   // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+ * type FivePads = ItemTypeBIndices<5>;   // 1 | 2 | 3 | 4 | 5
+ * type EightPads = ItemTypeBIndices<8>;   // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
  * ```
  */
-export type TypeBIndices<Count extends ValidTypeBCount> = Count extends 5
+export type ItemTypeBIndices<Count extends ValidItemTypeBCount> = Count extends 5
   ? 1 | 2 | 3 | 4 | 5
   : Count extends 8
     ? 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
@@ -30,11 +30,11 @@ export type TypeBIndices<Count extends ValidTypeBCount> = Count extends 5
  * Calculates the starting index for Type C based on Type B count
  * @example
  * ```typescript
- * type WithFiveB = TypeCStartIndex<5>;   // 6
- * type WithEightB = TypeCStartIndex<8>;   // 9
+ * type WithFiveB = ItemTypeCStartIndex<5>;   // 6
+ * type WithEightB = ItemTypeCStartIndex<8>;   // 9
  * ```
  */
-export type TypeCStartIndex<BCount extends ValidTypeBCount> = BCount extends 5
+export type ItemTypeCStartIndex<BCount extends ValidItemTypeBCount> = BCount extends 5
   ? 6
   : BCount extends 8
     ? 9
@@ -56,17 +56,17 @@ export type TypeCStartIndex<BCount extends ValidTypeBCount> = BCount extends 5
  * };
  * ```
  */
-export interface MenuItemLayout<BCount extends ValidTypeBCount> {
+export interface MenuItemLayout<BCount extends ValidItemTypeBCount> {
   typeA: {
     index: 0;
   };
   typeB: {
     startIndex: 1;
     count: BCount;
-    indices: TypeBIndices<BCount>[];
+    indices: ItemTypeBIndices<BCount>[];
   };
   typeC: {
-    startIndex: TypeCStartIndex<BCount>;
+    startIndex: ItemTypeCStartIndex<BCount>;
   };
 }
 
@@ -79,11 +79,11 @@ export interface MenuItemLayout<BCount extends ValidTypeBCount> {
  * type Layout = ItemTypeAtIndex<8, 9>; // "C"
  * ```
  */
-export type ItemTypeAtIndex<BCount extends ValidTypeBCount, Index extends number> = Index extends 0
+export type ItemTypeAtIndex<BCount extends ValidItemTypeBCount, Index extends number> = Index extends 0
   ? 'A'
-  : Index extends TypeBIndices<BCount>
+  : Index extends ItemTypeBIndices<BCount>
     ? 'B'
-    : Index extends TypeCStartIndex<BCount>
+    : Index extends ItemTypeCStartIndex<BCount>
       ? 'C'
       : never;
 
@@ -98,6 +98,6 @@ export type ItemTypeAtIndex<BCount extends ValidTypeBCount, Index extends number
  * });
  * ```
  */
-export function createMenuLayout<BCount extends ValidTypeBCount>(config: MenuItemLayout<BCount>) {
+export function createMenuLayout<BCount extends ValidItemTypeBCount>(config: MenuItemLayout<BCount>) {
   return config;
 }

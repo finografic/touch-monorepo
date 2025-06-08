@@ -1,10 +1,10 @@
 import { OrderFieldKeys } from 'constants/app.config';
 import { FilterKeys } from 'constants/filters.constants';
-import type { ValidTypeBCount } from 'types/menu.types';
+import type { ValidItemTypeBCount } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { PadConfig, PadUI } from 'types/ui.types';
 
-export const NUM_ITEMS_TYPE_B: ValidTypeBCount = 8 as const;
+export const NUM_ITEMS_TYPE_B: ValidItemTypeBCount = 8 as const;
 
 export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
   [OrderFieldKeys.home]: {
