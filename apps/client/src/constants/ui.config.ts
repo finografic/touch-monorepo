@@ -1,10 +1,7 @@
 import { OrderFieldKeys } from 'constants/app.config';
 import { FilterKeys } from 'constants/filters.constants';
-import type { ValidItemTypeBCount } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { PadConfig, PadUI } from 'types/ui.types';
-
-export const NUM_ITEMS_TYPE_B: ValidItemTypeBCount = 8 as const;
 
 export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
   [OrderFieldKeys.home]: {
@@ -67,24 +64,6 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     maxPads: 10,
     minRequired: 1,
   },
-  /*
-  [OrderFieldKeys.initialTemperature]: {
-    filterKey: FilterKeys.initialTemperatureName,
-    type: 'radio',
-    labelKey: 'displayName',
-    valueKeys: ['id', 'name'],
-    maxPads: 10,
-    minRequired: 1,
-  },
-  [OrderFieldKeys.finalTemperature]: {
-    filterKey: FilterKeys.finalTemperatureName,
-    type: 'radio',
-    labelKey: 'displayName',
-    valueKeys: ['id', 'name'],
-    maxPads: 10,
-    minRequired: 1,
-  },
-  */
 };
 
 export const INITIAL_PAD_CHECKBOX: PadUI = {

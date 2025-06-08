@@ -3,6 +3,13 @@ import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
 import type { ItemType, OrderItem } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 
+export type TimerActionType = 'start' | 'complete' | 'reset' | 'clear_all';
+
+export interface TimerActionPayload {
+  itemNumber?: number;
+  duration?: number;
+}
+
 export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
 }
@@ -19,10 +26,7 @@ type OrdersActions = OrdersSetters & {
   toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => void;
   selectAllOrders: () => void;
   // Timer-specific actions
-  startTimer: (itemNumber: number, duration: number) => void;
-  completeTimer: (itemNumber: number) => void;
-  resetTimer: (itemNumber: number) => void;
-  clearAllTimers: () => void;
+  timerAction: (type: TimerActionType, payload?: TimerActionPayload) => void;
 };
 
 export interface OrdersProviderProps {

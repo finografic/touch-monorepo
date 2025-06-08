@@ -1,103 +1,79 @@
-import type { FC } from 'react';
-import { useEffect, useState } from 'react';
-import { styles } from './Timer.styles';
-import type { OrderItem, OrderStatus } from 'types/orders.types';
+import { useEffect, useRef, useState } from 'react';
+import { useOrders } from 'providers/OrdersProvider';
+import type { OrderItem } from 'types/orders.types';
 
 interface TimerProps {
   estimatedCompletionTime?: string;
-  className?: string;
   order: OrderItem;
-  onComplete?: (order: OrderItem) => void;
+  onComplete?: () => void;
 }
 
-export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className, order, onComplete }) => {
-  const [timeLeft, setTimeLeft] = useState<{ minutes: number; seconds: number }>({
-    minutes: 0,
-    seconds: 0,
-  });
+// Initialize the global timer registry if it doesn't exist
+if (typeof window !== 'undefined') {
+  window.__timerIntervals = window.__timerIntervals || {};
+}
+
+const formatTime = (seconds: number): string => {
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+  return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+};
+
+export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps) => {
+  const { timerAction } = useOrders();
+  const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+  const [remainingTime, setRemainingTime] = useState<number>(0);
 
   useEffect(() => {
-    // Ensure the global timer registry exists
-    if (!window.__timerIntervals) {
-      window.__timerIntervals = {};
-    }
-
     if (!estimatedCompletionTime) {
-      console.debug('Timer: No estimatedCompletionTime provided');
+      setRemainingTime(0);
       return;
     }
 
-    console.debug('Timer: Initializing with completion time:', estimatedCompletionTime);
+    const endTime = new Date(estimatedCompletionTime).getTime();
+    const startTime = Date.now();
+    const duration = Math.floor((endTime - startTime) / 1000);
 
-    const calculateTimeLeft = () => {
-      const now = new Date().getTime();
-      const completionTime = new Date(estimatedCompletionTime).getTime();
-      const difference = completionTime - now;
+    // Set initial remaining time
+    setRemainingTime(Math.max(0, duration));
 
-      console.debug('Timer: Difference in ms:', difference);
+    if (duration <= 0) {
+      timerAction('complete', { itemNumber: order.itemNumber });
+      onComplete?.();
+      return;
+    }
 
-      if (difference <= 0) {
-        return { minutes: 0, seconds: 0 };
-      }
+    // Store interval ID in global registry
+    const intervalId = setInterval(() => {
+      const now = Date.now();
+      const remaining = Math.floor((endTime - now) / 1000);
 
-      const minutes = Math.floor((difference / 1000 / 60) % 60);
-      const seconds = Math.floor((difference / 1000) % 60);
+      // Update remaining time state to trigger re-render
+      setRemainingTime(Math.max(0, remaining));
 
-      console.debug('Timer: Calculated time:', { minutes, seconds });
-      return { minutes, seconds };
-    };
-
-    // Initial calculation
-    const initialTime = calculateTimeLeft();
-    console.debug('Timer: Setting initial time:', initialTime);
-    setTimeLeft(initialTime);
-
-    // Update every second
-    const timer = setInterval(() => {
-      const newTimeLeft = calculateTimeLeft();
-      setTimeLeft(newTimeLeft);
-
-      // Clear interval when countdown reaches 0
-      if (newTimeLeft.minutes === 0 && newTimeLeft.seconds === 0) {
-        console.debug('Timer: Countdown complete');
-        clearInterval(timer);
-        // Remove from global registry
-        if (window.__timerIntervals?.[order.itemNumber] === timer) {
+      if (remaining <= 0) {
+        timerAction('complete', { itemNumber: order.itemNumber });
+        onComplete?.();
+        clearInterval(intervalId);
+        if (typeof window !== 'undefined' && window.__timerIntervals) {
           delete window.__timerIntervals[order.itemNumber];
         }
-        // Update order with completed status
-        const completedOrder = {
-          ...order,
-          process: {
-            ...order.process,
-            status: 'completed' as OrderStatus,
-          },
-        };
-        onComplete?.(completedOrder);
       }
     }, 1000);
 
-    // Store in global registry
-    window.__timerIntervals[order.itemNumber] = timer;
+    // Safely store in global registry
+    if (typeof window !== 'undefined' && window.__timerIntervals) {
+      window.__timerIntervals[order.itemNumber] = intervalId;
+    }
+    intervalRef.current = intervalId;
 
     return () => {
-      console.debug('Timer: Cleaning up interval');
-      clearInterval(timer);
-      // Remove from global registry on unmount
-      if (window.__timerIntervals?.[order.itemNumber] === timer) {
+      clearInterval(intervalId);
+      if (typeof window !== 'undefined' && window.__timerIntervals) {
         delete window.__timerIntervals[order.itemNumber];
       }
     };
-  }, [estimatedCompletionTime, order.itemNumber, onComplete]);
+  }, [estimatedCompletionTime, order.itemNumber, timerAction, onComplete]);
 
-  return (
-    <div css={styles} className={className}>
-      <div className="timer-container">
-        <div className="timer-digits">
-          {String(timeLeft.minutes).padStart(2, '0')}:{String(timeLeft.seconds).padStart(2, '0')}
-        </div>
-        {/* <div className="timer-label">remaining</div> */}
-      </div>
-    </div>
-  );
+  return <span>{formatTime(remainingTime)}</span>;
 };

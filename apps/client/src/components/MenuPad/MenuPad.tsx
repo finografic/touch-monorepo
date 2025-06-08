@@ -18,7 +18,7 @@ export interface MenuPadProps<T extends ItemType> {
 }
 
 export const MenuPad = <T extends ItemType>({ itemType, number, metadata }: MenuPadProps<T>) => {
-  const { orders, toggleOrder, setOrderProcessing } = useOrders();
+  const { orders, toggleOrder, timerAction } = useOrders();
   const order = findOrderByNumber(orders, number) as OrderItem;
   const isSelected = !!order?.isSelected;
 
@@ -31,13 +31,11 @@ export const MenuPad = <T extends ItemType>({ itemType, number, metadata }: Menu
   }, [number, toggleOrder]);
 
   const handleTimerComplete = React.useCallback(() => {
-    setOrderProcessing({
-      itemNumber: number,
-      duration: 0, // Setting duration to 0 will mark it as completed
-    });
-  }, [number, setOrderProcessing]);
+    timerAction('complete', { itemNumber: number });
+  }, [number, timerAction]);
 
-  if (order?.process.status === 'processing') {
+  // Show timer if order is selected and either processing or completed
+  if (isSelected && (order?.process.status === 'processing' || order?.process.status === 'completed')) {
     return (
       <MenuPadToggle css={styles} itemType={itemType} number={number} className={className}>
         <Timer
