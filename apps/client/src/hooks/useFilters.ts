@@ -1,10 +1,9 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { OrderModel } from 'types/models/order.model';
 import { api } from 'api';
-import type { ApiResponse } from '@workspace/shared/types/api.types';
+import type { ApiResponse } from '@workspace/common/api';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';

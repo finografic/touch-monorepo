@@ -1,6 +1,7 @@
 import { colors, layout } from 'styles';
 import { css } from '@emotion/react';
 
+// Common dimensions for different button types
 export const padProps = {
   pad: {
     width: '110px',
@@ -16,26 +17,68 @@ export const padProps = {
   },
 };
 
-export const stylesPad = css`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  padding: 1rem;
-  text-align: center;
-
+// Base styles shared across all interactive buttons
+export const stylesButtonBase = css`
   cursor: pointer;
   background: transparent;
   transition: all 0.2s;
   border: ${layout.borderWidth} solid ${colors.greyDark};
   color: ${colors.info};
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    border-color: ${colors.info};
+    background-color: rgba(0, 191, 255, 0.1);
+  }
+
+  &[data-disabled='true'],
+  &.disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    &:hover {
+      border-color: ${colors.greyDark};
+      background-color: transparent;
+    }
+  }
+`;
+
+// Styles specific to navigation buttons
+export const stylesNavButton = css`
+  ${stylesButtonBase}
+  min-width: 150px;
+  padding: 0.5rem 1.5rem;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  line-height: 1;
+  font-weight: 500;
+  height: 2.5rem;
+  gap: 0.5rem;
+
+  &.nav-button-start {
+    border-color: ${colors.success};
+    color: ${colors.success};
+
+    &:hover:not([data-disabled='true']) {
+      border-color: ${colors.successLight};
+      background-color: rgba(1, 250, 20, 0.1);
+    }
+  }
+`;
+
+// Styles specific to pads
+export const stylesPad = css`
+  ${stylesButtonBase}
+  font-size: 1.5rem;
+  padding: 1rem;
+  text-align: center;
 
   &.pad-menu {
     border-radius: 50%;
   }
 
   &:hover:not(.disabled) {
-    border-color: ${colors.info};
     transform: scale(1.05);
   }
 
@@ -45,8 +88,6 @@ export const stylesPad = css`
   }
 
   &.disabled {
-    cursor: not-allowed;
-    opacity: 0.5;
     border-color: ${colors.grey};
     color: ${colors.grey};
 

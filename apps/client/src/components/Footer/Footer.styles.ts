@@ -12,23 +12,4 @@ export const styles = css`
   justify-content: center;
   width: 100%;
   padding: 1rem;
-
-  .controls {
-    display: flex;
-    gap: 2rem;
-  }
-
-  & > div {
-    width: 100%;
-    justify-content: center;
-    display: flex;
-    flex-direction: row;
-
-    & > div {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-    }
-  }
 `;

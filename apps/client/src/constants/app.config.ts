@@ -14,8 +14,6 @@ export const ORDER_FIELD_KEYS = [
   'drinkVolume',
   'containerType',
   'temperature',
-  // 'initialTemperature',
-  // 'finalTemperature',
 ] as const;
 
 /**
@@ -29,6 +27,4 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
   drinkVolume: 'drinkVolume',
   containerType: 'containerType',
   temperature: 'temperature',
-  // initialTemperature: 'initialTemperature',
-  // finalTemperature: 'finalTemperature',
 } as const;

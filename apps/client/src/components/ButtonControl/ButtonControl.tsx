@@ -1,12 +1,12 @@
 import { styles } from './ButtonControl.styles';
-import { FC } from 'react';
+import type { FC, ReactNode } from 'react';
 
-type ButtonControlProps = {
+interface ButtonControlProps {
   className?: string;
   disabled?: boolean;
   onClick: () => void;
-  children: React.ReactNode;
-};
+  children: ReactNode;
+}
 
 export const ButtonControl: FC<ButtonControlProps> = ({ className, disabled = false, onClick, children }) => {
   // const classNames = [...new Set(['btn-control', className].filter(Boolean))].join(' ');

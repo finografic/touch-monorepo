@@ -1,16 +1,14 @@
 import type { RouteConfig } from 'routes/routes.types';
-import type { OrderFieldKey, OrderFieldKeyKebab } from 'types/orders.types';
+import type { OrderFieldKey } from 'types/orders.types';
 import type { ConstMapOf } from '@workspace/types/utils';
 
 export const PATHS: ConstMapOf<OrderFieldKey, string> = {
-  home: '/' as OrderFieldKeyKebab,
+  home: '/',
   drinkType: '/drink-type',
   drinkSubtype: '/drink-type/:drinkTypeId',
   drinkVolume: '/drink-volume',
   containerType: '/container-type',
   temperature: '/temperature',
-  // initialTemperature: 'initial-temperature',
-  // finalTemperature: 'final-temperature',
 } as const;
 
 export const ROUTES_CONFIG: RouteConfig[] = [
@@ -44,16 +42,6 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'temperature',
     title: 'Select initial and final temperatures:',
   },
-  // {
-  //   path: PATHS.initialTemperature,
-  //   id: 'initial-temperature',
-  //   title: 'Initial temperature:',
-  // },
-  // {
-  //   path: PATHS.finalTemperature,
-  //   id: 'final-temperature',
-  //   title: 'Final temperature:',
-  // },
 ];
 
 export const ROUTE_ACTION_SLUGS = ['new', 'view', 'edit', 'create', 'delete'];
