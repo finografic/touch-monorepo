@@ -58,7 +58,7 @@ export const styles = css`
       }
     }
 
-    &.is-processing {
+    &.status-completed {
       cursor: wait;
       color: ${colors.warning};
       border: ${layout.borderWidth} solid ${colors.warning};

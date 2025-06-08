@@ -18,8 +18,19 @@ export interface OrderBaseProps {
   itemNumber: number;
   isSelected: boolean;
   filters: OrderFilters;
-  process?: ProcessStatus;
+  process: OrderProcessingProps;
 }
+
+export type OrderStatus = 'idle' | 'processing' | 'completed' | 'error';
+
+export interface OrderProcessingProps {
+  status: OrderStatus;
+  estimatedCompletionTime?: string;
+  timeRemaining?: number;
+}
+
+// The complete order type combining selection fields and base properties
+export interface OrderItem extends OrderBaseProps {}
 
 export interface ContainerType {
   id: string;
@@ -36,21 +47,3 @@ export interface Temperature {
   value: number;
   unit: '°C';
 }
-
-export type OrderStatus = 'idle' | 'processing' | 'completed' | 'error';
-
-// The fields that are managed by the selection process
-export interface OrderProcessStatus {
-  isProcessing: boolean;
-  timeRemaining?: number;
-  estimatedCompletionTime?: string; // ISO date string for completion time
-}
-
-export interface ProcessStatus {
-  status: OrderStatus;
-  estimatedCompletionTime?: string;
-  timeRemaining?: number;
-}
-
-// The complete order type combining selection fields and base properties
-export interface OrderItem extends OrderBaseProps {}

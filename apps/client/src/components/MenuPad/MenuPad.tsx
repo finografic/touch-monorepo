@@ -19,42 +19,38 @@ export interface MenuPadProps<T extends ItemType> {
 
 export const MenuPad = <T extends ItemType>({ itemType, number, metadata }: MenuPadProps<T>) => {
   const { orders, toggleOrder } = useOrders();
-
   const order = findOrderByNumber(orders, number) as OrderItem;
-  const isProcessing = order?.process?.status === 'processing';
   const isSelected = !!order?.isSelected;
 
   // NOTE: Only add menu-specific classes here,
   // let PAD component handle its own state classes
-  const className = clsx('pad-menu', `item-type-${itemType}`, {
-    'is-processing': isProcessing,
-  });
+  const className = clsx('pad-menu', `item-type-${itemType}`, `status-${order?.process.status || 'idle'}`);
 
   const handleSelect = React.useCallback(() => {
     toggleOrder({ itemType, itemNumber: number });
   }, [number, toggleOrder]);
 
-  if (!isProcessing) {
+  if (order?.process.status === 'processing') {
     return (
-      <Pad
-        css={styles}
-        id={String(number)}
-        name="home"
-        type="checkbox"
-        value={{ id: String(number), itemType }}
-        fieldKey={OrderFieldKeys.home}
-        isChecked={isSelected}
-        className={className}
-        label={String(number)}
-        metadata={metadata}
-        onSelect={handleSelect}
-      />
+      <MenuPadToggle css={styles} itemType={itemType} number={number} className={className}>
+        <Timer estimatedCompletionTime={order?.process?.estimatedCompletionTime} order={order} />
+      </MenuPadToggle>
     );
   }
 
   return (
-    <MenuPadToggle css={styles} itemType={itemType} number={number} className={className}>
-      <Timer estimatedCompletionTime={order?.process?.estimatedCompletionTime} order={order} />
-    </MenuPadToggle>
+    <Pad
+      css={styles}
+      id={String(number)}
+      name="home"
+      type="checkbox"
+      value={{ id: String(number), itemType }}
+      fieldKey={OrderFieldKeys.home}
+      isChecked={isSelected}
+      className={className}
+      label={String(number)}
+      metadata={metadata}
+      onSelect={handleSelect}
+    />
   );
 };
