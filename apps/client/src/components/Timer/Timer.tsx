@@ -17,6 +17,11 @@ export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className, orde
   });
 
   useEffect(() => {
+    // Ensure the global timer registry exists
+    if (!window.__timerIntervals) {
+      window.__timerIntervals = {};
+    }
+
     if (!estimatedCompletionTime) {
       console.debug('Timer: No estimatedCompletionTime provided');
       return;
@@ -56,6 +61,10 @@ export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className, orde
       if (newTimeLeft.minutes === 0 && newTimeLeft.seconds === 0) {
         console.debug('Timer: Countdown complete');
         clearInterval(timer);
+        // Remove from global registry
+        if (window.__timerIntervals?.[order.itemNumber] === timer) {
+          delete window.__timerIntervals[order.itemNumber];
+        }
         // Update order with completed status
         const completedOrder = {
           ...order,
@@ -68,11 +77,18 @@ export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className, orde
       }
     }, 1000);
 
+    // Store in global registry
+    window.__timerIntervals[order.itemNumber] = timer;
+
     return () => {
       console.debug('Timer: Cleaning up interval');
       clearInterval(timer);
+      // Remove from global registry on unmount
+      if (window.__timerIntervals?.[order.itemNumber] === timer) {
+        delete window.__timerIntervals[order.itemNumber];
+      }
     };
-  }, [estimatedCompletionTime, order, onComplete]);
+  }, [estimatedCompletionTime, order.itemNumber, onComplete]);
 
   return (
     <div css={styles} className={className}>

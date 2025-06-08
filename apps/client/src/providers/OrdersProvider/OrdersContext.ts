@@ -70,9 +70,9 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 return {
                   ...order,
                   process: {
-                    status: 'processing' as OrderStatus,
-                    estimatedCompletionTime,
-                    timeRemaining: duration,
+                    status: duration > 0 ? ('processing' as OrderStatus) : ('completed' as OrderStatus),
+                    estimatedCompletionTime: duration > 0 ? estimatedCompletionTime : undefined,
+                    timeRemaining: duration > 0 ? duration : undefined,
                   },
                 };
               }
@@ -103,6 +103,71 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             }
             set({ orders: newOrders });
           },
+          // Timer-specific actions
+          startTimer: (itemNumber: number, duration: number) => {
+            const { orders } = get();
+            const updatedOrders = orders.map((order) => {
+              if (order.itemNumber === itemNumber) {
+                const estimatedCompletionTime = new Date(Date.now() + duration * 1000).toISOString();
+                return {
+                  ...order,
+                  process: {
+                    status: 'processing' as OrderStatus,
+                    estimatedCompletionTime,
+                    timeRemaining: duration,
+                  },
+                };
+              }
+              return order;
+            });
+            set({ orders: updatedOrders });
+          },
+          completeTimer: (itemNumber: number) => {
+            const { orders } = get();
+            const updatedOrders = orders.map((order) => {
+              if (order.itemNumber === itemNumber) {
+                return {
+                  ...order,
+                  process: {
+                    status: 'completed' as OrderStatus,
+                    estimatedCompletionTime: undefined,
+                    timeRemaining: undefined,
+                  },
+                };
+              }
+              return order;
+            });
+            set({ orders: updatedOrders });
+          },
+          resetTimer: (itemNumber: number) => {
+            const { orders } = get();
+            const updatedOrders = orders.map((order) => {
+              if (order.itemNumber === itemNumber) {
+                return {
+                  ...order,
+                  process: {
+                    status: 'idle' as OrderStatus,
+                    estimatedCompletionTime: undefined,
+                    timeRemaining: undefined,
+                  },
+                };
+              }
+              return order;
+            });
+            set({ orders: updatedOrders });
+          },
+          clearAllTimers: () => {
+            const { orders } = get();
+            const updatedOrders = orders.map((order) => ({
+              ...order,
+              process: {
+                status: 'idle' as OrderStatus,
+                estimatedCompletionTime: undefined,
+                timeRemaining: undefined,
+              },
+            }));
+            set({ orders: updatedOrders });
+          },
         },
       }),
     ),
@@ -117,9 +182,34 @@ export const useOrders = (): OrdersReturn => {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  store.subscribe((_state, _prev) => {
-    // store change
-  });
+  // Subscribe to order status changes
+  store.subscribe(
+    (state) =>
+      state.orders.map((order) => ({
+        number: order.itemNumber,
+        status: order.process.status,
+      })),
+    (current, prev) => {
+      // Find orders that have changed status
+      current.forEach((curr, idx) => {
+        const previous = prev[idx];
+        if (previous && curr.status !== previous.status) {
+          console.debug(`Order ${curr.number} status changed from ${previous.status} to ${curr.status}`);
+
+          // If status changed from 'processing' to something else, ensure timer is cleaned up
+          if (previous.status === 'processing') {
+            // Clear any existing intervals for this order
+            const timerId = window.__timerIntervals?.[curr.number];
+            if (timerId) {
+              console.debug(`Cleaning up interval for order ${curr.number}`);
+              clearInterval(timerId);
+              delete window.__timerIntervals[curr.number];
+            }
+          }
+        }
+      });
+    },
+  );
 
   return useStore<StoreApi<OrdersStore>, OrdersReturn>(store, ({ actions, ...state }) => ({
     ...state,

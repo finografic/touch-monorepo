@@ -18,6 +18,11 @@ type OrdersActions = OrdersSetters & {
   setOrderProcessing: ({ itemNumber, duration }: { itemNumber: number; duration: number }) => void;
   toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => void;
   selectAllOrders: () => void;
+  // Timer-specific actions
+  startTimer: (itemNumber: number, duration: number) => void;
+  completeTimer: (itemNumber: number) => void;
+  resetTimer: (itemNumber: number) => void;
+  clearAllTimers: () => void;
 };
 
 export interface OrdersProviderProps {
