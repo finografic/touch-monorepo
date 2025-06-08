@@ -26,7 +26,7 @@ export const DevPanels = () => {
 
   // Filter out filters property from processing orders
   const cleanOrdersForDisplay = orders.map((order) => {
-    if (order.processStatus?.status === 'processing') {
+    if (order.process?.status === 'processing') {
       const { filters, ...orderWithoutFilters } = order;
       return orderWithoutFilters;
     }

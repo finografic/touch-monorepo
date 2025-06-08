@@ -7,7 +7,7 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { styles } from './MenuPage.styles';
 import type { PadType, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
-import type { OrderFieldKey } from 'types/orders.types';
+import { ItemType, type OrderFieldKey } from 'types/orders.types';
 // import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 // <MenuPad type="A" number={0} className="first" />
@@ -91,25 +91,25 @@ export function MenuPage() {
         <Col>
           <div className="menu-grid-left">
             {/* First row */}
-            <MenuPad itemType="A" number={0} />
-            <MenuPad itemType="B" number={1} />
-            <MenuPad itemType="B" number={2} />
+            <MenuPad itemType={ItemType.A} number={0} />
+            <MenuPad itemType={ItemType.B} number={1} />
+            <MenuPad itemType={ItemType.B} number={2} />
 
             {/* Second row */}
-            <MenuPad itemType="B" number={3} />
-            <MenuPad itemType="B" number={4} />
-            <MenuPad itemType="B" number={5} />
+            <MenuPad itemType={ItemType.B} number={3} />
+            <MenuPad itemType={ItemType.B} number={4} />
+            <MenuPad itemType={ItemType.B} number={5} />
 
             {/* Third row */}
-            <MenuPad itemType="B" number={6} />
-            <MenuPad itemType="B" number={7} />
-            <MenuPad itemType="B" number={8} />
+            <MenuPad itemType={ItemType.B} number={6} />
+            <MenuPad itemType={ItemType.B} number={7} />
+            <MenuPad itemType={ItemType.B} number={8} />
           </div>
         </Col>
 
         <Col>
           <div className="menu-grid-right">
-            <MenuPad itemType="C" number={9} />
+            <MenuPad itemType={ItemType.C} number={9} />
             <div className="pad-special power" />
           </div>
         </Col>

@@ -47,6 +47,4 @@ export interface OrderFilters extends Partial<Record<keyof typeof OrderFieldKeys
   drinkVolume?: VolumeFilter;
   containerType?: ContainerTypeFilter;
   temperature?: TemperatureFilter;
-  // initialTemperature?: TemperatureFilter;
-  // finalTemperature?: TemperatureFilter;
 }

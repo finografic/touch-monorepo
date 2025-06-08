@@ -3,7 +3,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { OrderFieldKey, OrderItemType, OrderStatus } from 'types/orders.types';
+import type { ItemType, OrderFieldKey, OrderStatus } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
 import { subscribeWithSelector } from 'zustand/middleware';
@@ -69,7 +69,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 const estimatedCompletionTime = new Date(Date.now() + duration * 1000).toISOString();
                 return {
                   ...order,
-                  processStatus: {
+                  process: {
                     status: 'processing' as OrderStatus,
                     estimatedCompletionTime,
                     timeRemaining: duration,
@@ -80,7 +80,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             });
             set({ orders: updatedOrders });
           },
-          toggleOrder: ({ itemType, itemNumber }: { itemType: OrderItemType; itemNumber: number }) => {
+          toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => {
             const { orders } = get();
             const draftOrder = findOrderByNumber(orders, itemNumber);
             const newOrders = !draftOrder
@@ -93,7 +93,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           selectAllOrders: () => {
             const newOrders = [];
             for (let i = 0; i <= 9; i++) {
-              const itemType = (i === 0 ? 'A' : i < 9 ? 'B' : 'C') as OrderItemType;
+              const itemType = (i === 0 ? 'A' : i < 9 ? 'B' : 'C') as ItemType;
               newOrders.push({
                 ...INITIAL_ORDER_ITEM,
                 itemType,

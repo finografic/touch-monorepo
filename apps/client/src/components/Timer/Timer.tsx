@@ -59,8 +59,8 @@ export const Timer: FC<TimerProps> = ({ estimatedCompletionTime, className, orde
         // Update order with completed status
         const completedOrder = {
           ...order,
-          processStatus: {
-            ...order.processStatus,
+          process: {
+            ...order.process,
             status: 'completed' as OrderStatus,
           },
         };

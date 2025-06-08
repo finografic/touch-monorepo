@@ -6,16 +6,19 @@ export type OrderFieldKey = (typeof ORDER_FIELD_KEYS)[number];
 export type OrderFieldKeyKebab = CamelToKebab<OrderFieldKey>;
 export type OrderFieldKeySnake = CamelToSnake<OrderFieldKey>;
 
-export type OrderItemType = 'A' | 'B' | 'C';
+export enum ItemType {
+  A = 'A',
+  B = 'B',
+  C = 'C',
+}
 
 // Base properties that every order has
 export interface OrderBaseProps {
-  itemType: OrderItemType;
+  itemType: ItemType;
   itemNumber: number;
   isSelected: boolean;
-  isLocked: boolean;
   filters: OrderFilters;
-  processStatus?: ProcessStatus;
+  process?: ProcessStatus;
 }
 
 export interface ContainerType {

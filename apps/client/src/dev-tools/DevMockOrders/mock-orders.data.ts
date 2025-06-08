@@ -1,11 +1,11 @@
 import type { OrderItem } from 'types/orders.types';
+import { ItemType } from 'types/orders.types';
 
 export const MOCK_ORDERS_DATA: OrderItem[] = [
   {
-    itemType: 'A',
+    itemType: ItemType.A,
     itemNumber: 0,
     isSelected: true,
-    isLocked: false,
     filters: {
       drinkType: {
         id: 'cmbcrkatw0001k5lwfoklln89',
@@ -31,17 +31,16 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
         lookup: { containerTypeName: 'metal' },
       },
     },
-    processStatus: {
+    process: {
       status: 'idle',
       estimatedCompletionTime: undefined,
       timeRemaining: undefined,
     },
   },
   {
-    itemType: 'B',
+    itemType: ItemType.B,
     itemNumber: 1,
     isSelected: true,
-    isLocked: false,
     filters: {
       drinkType: {
         id: 'cmbcrkatw0001k5lwfoklln89',
@@ -67,17 +66,16 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
         lookup: { containerTypeName: 'metal' },
       },
     },
-    processStatus: {
+    process: {
       status: 'idle',
       estimatedCompletionTime: undefined,
       timeRemaining: undefined,
     },
   },
   {
-    itemType: 'C',
+    itemType: ItemType.C,
     itemNumber: 9,
     isSelected: true,
-    isLocked: false,
     filters: {
       drinkType: {
         id: 'cmbcrkatw0001k5lwfoklln89',
@@ -103,7 +101,7 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
         lookup: { containerTypeName: 'metal' },
       },
     },
-    processStatus: {
+    process: {
       status: 'idle',
       estimatedCompletionTime: undefined,
       timeRemaining: undefined,

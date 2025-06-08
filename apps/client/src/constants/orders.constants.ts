@@ -1,13 +1,11 @@
-import type { OrderItem } from 'types/orders.types';
+import { ItemType, type OrderItem } from 'types/orders.types';
 
 export const INITIAL_ORDER_ITEM: OrderItem = {
-  itemType: 'A',
+  itemType: ItemType.A,
   itemNumber: 0,
-  // drinkSubtype: undefined,
   isSelected: false,
-  isLocked: false,
   filters: {},
-  processStatus: {
+  process: {
     status: 'idle',
     timeRemaining: undefined,
     estimatedCompletionTime: undefined,

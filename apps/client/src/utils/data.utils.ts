@@ -1,6 +1,6 @@
 import type { PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
-import type { OrderItem, OrderItemType, OrderStatus } from 'types/orders.types';
+import type { ItemType, OrderItem, OrderStatus } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 
 interface TransformedPad {
@@ -32,9 +32,9 @@ export const transformPadData = (pads: PadUI[]): TransformedPad[] => {
       isChecked: pad.isChecked,
       disabled: pad.disabled,
       metadata: pad.metadata,
-      status: order?.processStatus?.status || 'idle',
-      timeRemaining: order?.processStatus?.timeRemaining,
-      estimatedCompletionTime: order?.processStatus?.estimatedCompletionTime,
+      status: order?.process?.status || 'idle',
+      timeRemaining: order?.process?.timeRemaining,
+      estimatedCompletionTime: order?.process?.estimatedCompletionTime,
     };
   });
 };
@@ -57,7 +57,6 @@ export const isValidPadData = (pad: unknown): pad is TransformedPad => {
 interface FlattenedOrder {
   id: number; // from itemNumber
   isSelected: boolean;
-  isLocked: boolean;
   status: OrderStatus;
   timeRemaining?: number;
   estimatedCompletion?: string; // ISO date string
@@ -92,10 +91,9 @@ export const flattenOrders = (orders: OrderItem[]): FlattenedOrder[] => {
     // Base properties
     id: order.itemNumber,
     isSelected: order.isSelected,
-    isLocked: order.isLocked,
-    status: order.processStatus?.status || 'idle',
-    timeRemaining: order.processStatus?.timeRemaining,
-    estimatedCompletion: order.processStatus?.estimatedCompletionTime,
+    status: order.process?.status || 'idle',
+    timeRemaining: order.process?.timeRemaining,
+    estimatedCompletion: order.process?.estimatedCompletionTime,
   }));
 };
 
@@ -107,47 +105,21 @@ export const isFlattenedOrder = (obj: unknown): obj is FlattenedOrder => {
 
   const order = obj as Partial<FlattenedOrder>;
   return (
-    typeof order.id === 'number' &&
-    typeof order.isSelected === 'boolean' &&
-    typeof order.isLocked === 'boolean' &&
-    typeof order.status === 'string'
+    typeof order.id === 'number' && typeof order.isSelected === 'boolean' && typeof order.status === 'string'
   );
 };
 
-export interface OrderData {
-  itemType: OrderItemType;
-  itemNumber: number;
-  isSelected: boolean;
-  isLocked: boolean;
-  status: OrderStatus;
-  filters: OrderFilters;
-}
-
-export const transformOrderData = (order: OrderItem): OrderData => ({
+export const transformOrderData = (order: OrderItem) => ({
   itemType: order.itemType,
   itemNumber: order.itemNumber,
   isSelected: order.isSelected,
-  isLocked: order.isLocked,
-  status: order.processStatus?.status || 'idle',
+  status: order.process?.status || 'idle',
   filters: order.filters,
 });
 
-export const isValidOrderData = (order: unknown): order is OrderData => {
-  return (
-    typeof order === 'object' &&
-    order !== null &&
-    'itemType' in order &&
-    'itemNumber' in order &&
-    'isSelected' in order &&
-    'isLocked' in order &&
-    'status' in order &&
-    'filters' in order
-  );
-};
-
 export const flattenOrder = (order: OrderItem) => ({
   ...order,
-  status: order.processStatus?.status || 'idle',
-  timeRemaining: order.processStatus?.timeRemaining,
-  estimatedCompletionTime: order.processStatus?.estimatedCompletionTime,
+  status: order.process?.status || 'idle',
+  timeRemaining: order.process?.timeRemaining,
+  estimatedCompletionTime: order.process?.estimatedCompletionTime,
 });

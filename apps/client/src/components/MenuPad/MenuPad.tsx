@@ -1,28 +1,27 @@
 import React from 'react';
 import clsx from 'clsx';
 import { useOrders } from 'providers/OrdersProvider';
-import type { OrderItem } from 'types/orders.types';
+import type { ItemType, OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
 import { OrderItemToggle } from './OrderItemToggle';
 import { styles } from './MenuPad.styles';
-import type { MenuItemType } from 'types/menu.types';
 import type { ValidMenuPadNumber } from 'pages/MenuPage/menu.types';
 import type { DataEntry } from 'types/data.types';
 import { Pad } from 'components/Pad';
 import { OrderFieldKeys } from 'constants/app.config';
 import { Timer } from 'components/Timer/Timer';
 
-export interface MenuPadProps<T extends MenuItemType> {
+export interface MenuPadProps<T extends ItemType> {
   itemType: T;
   number: ValidMenuPadNumber<T>;
   metadata?: DataEntry;
 }
 
-export const MenuPad = <T extends MenuItemType>({ itemType, number, metadata }: MenuPadProps<T>) => {
+export const MenuPad = <T extends ItemType>({ itemType, number, metadata }: MenuPadProps<T>) => {
   const { orders, toggleOrder } = useOrders();
 
   const order = findOrderByNumber(orders, number) as OrderItem;
-  const isProcessing = order?.processStatus?.status === 'processing';
+  const isProcessing = order?.process?.status === 'processing';
   const isSelected = !!order?.isSelected;
 
   // NOTE: Only add menu-specific classes here,
@@ -55,7 +54,7 @@ export const MenuPad = <T extends MenuItemType>({ itemType, number, metadata }: 
 
   return (
     <OrderItemToggle css={styles} itemType={itemType} number={number} className={className}>
-      <Timer estimatedCompletionTime={order?.processStatus?.estimatedCompletionTime} order={order} />
+      <Timer estimatedCompletionTime={order?.process?.estimatedCompletionTime} order={order} />
     </OrderItemToggle>
   );
 };

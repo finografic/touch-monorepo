@@ -33,7 +33,7 @@ interface Calculation {
 const cleanOrderData = (orders: OrderWithMetadata[]) => {
   if (!orders?.[0]) return null;
 
-  const { id, hasSubtypes, isActive, isSelected, isLocked, processStatus, ...cleanOrder } = orders[0];
+  const { id, hasSubtypes, isActive, isSelected, process, ...cleanOrder } = orders[0];
   return cleanOrder;
 };
 

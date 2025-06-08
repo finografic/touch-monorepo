@@ -21,7 +21,7 @@ export const Navigation = () => {
   const { startTemperatureControl, temperatureProfilesQuery, isLoading } = useTemperatureControl({
     onSuccess: (duration) => {
       startTransition(() => {
-        // Update processStatus for selected orders
+        // Update process for selected orders
         orders.forEach((order) => {
           if (order.isSelected) {
             setOrderProcessing({ itemNumber: order.itemNumber, duration });
