@@ -1,6 +1,6 @@
 import type { DevProviderProps } from './DevContext.types';
 import { DevContext as Dev, DISPLAY_NAME } from './DevContext';
-import { DevTools } from 'components/DevTools/DevTools';
+import { DevTools } from 'src/dev-tools/DevTools';
 
 export const DevProvider = ({ initialValue, children }: DevProviderProps) => {
   return (

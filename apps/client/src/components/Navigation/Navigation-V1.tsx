@@ -3,7 +3,7 @@ import { ButtonControl } from 'components/ButtonControl/ButtonControl';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { PATHS, type RoutePath, ROUTES_CONFIG } from 'routes/routes.config';
-import { MockOrdersButton } from '../DevTools/DevMockOrders/MockOrdersButton';
+import { MockOrdersButton } from '../../dev-tools/DevMockOrders/MockOrdersButton';
 import { styles } from '../Footer/Footer.styles';
 import { useTemperatureCalculation } from 'hooks/useTemperatureCalculation';
 // import { useContent } from 'providers/ContentProvider/ContentContext';
@@ -14,7 +14,7 @@ import { Col, Row } from 'react-grid-system';
 import { useDev } from 'providers/DevProvider/DevContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
-import { DevFilterResults } from 'components/DevTools/DevFilterResults/DevFilterResults';
+import { DevFilterResults } from 'src/dev-tools/DevFilterResults/DevFilterResults';
 
 export const Navigation = () => {
   const location = useLocation();

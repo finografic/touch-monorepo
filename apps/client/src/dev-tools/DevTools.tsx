@@ -5,9 +5,9 @@ import { QueryDevtoolsPanel } from './QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { DevScreenSize } from './DevScreenSize/DevScreenSize';
 import { useKeyPress } from './useKeyPress';
 import { DevFilterResults } from './DevFilterResults/DevFilterResults';
-import { DevPanels } from 'components/DevTools/DevPanels/DevPanels';
+import { DevPanels } from 'src/dev-tools/DevPanels/DevPanels';
 import { styles } from './DevTools.styles';
-import { MockOrdersButton } from 'components/DevTools/DevMockOrders/MockOrdersButton';
+import { MockOrdersButton } from 'src/dev-tools/DevMockOrders/MockOrdersButton';
 
 export const DevTools = () => {
   const {
