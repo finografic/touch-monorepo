@@ -5,7 +5,7 @@ import type { ItemType, OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
 import { OrderItemToggle } from './OrderItemToggle';
 import { styles } from './MenuPad.styles';
-import type { ValidMenuPadNumber } from 'pages/MenuPage/menu.types';
+import type { ValidMenuPadNumber } from 'pages/MenuPage/MenuPage.types';
 import type { DataEntry } from 'types/data.types';
 import { Pad } from 'components/Pad';
 import { OrderFieldKeys } from 'constants/app.config';

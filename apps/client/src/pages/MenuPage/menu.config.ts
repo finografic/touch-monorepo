@@ -1,6 +1,6 @@
 import { createMenuLayout } from 'types/menu.types';
 import { NUM_ITEMS_TYPE_B } from 'constants/app.config';
-import type { MenuBCount } from 'pages/MenuPage/menu.types';
+import type { MenuBCount } from 'pages/MenuPage/MenuPage.types';
 import type { PadTestProps } from 'pages/MenuPage/MenuPage';
 
 // Create and export the menu layout configuration
