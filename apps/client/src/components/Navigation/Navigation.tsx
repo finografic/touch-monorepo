@@ -70,6 +70,7 @@ export const Navigation = () => {
         // Update process for selected orders
         orders.forEach((order) => {
           if (order.isSelected) {
+            log('__DEV: CALC', 'yellow', order.itemNumber, calculatedDurations[order.itemNumber.toString()]);
             setOrderProcessing({
               itemNumber: order.itemNumber,
               duration: calculatedDurations[order.itemNumber.toString()],

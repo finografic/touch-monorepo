@@ -59,10 +59,35 @@ export const ACTION_BUTTONS_CONFIG: PadUI[] = [
 ];
 
 export function MainPage() {
-  const { orders } = useOrders();
+  const { orders, createConfigurationSession, assignOrdersToCurrentSession, currentConfigurationSessionId } =
+    useOrders();
   const { setIsNextDisabled } = usePagination();
 
-  const numSelected = Object.values(orders).filter((order) => order.isSelected).length;
+  // Get currently selected orders that are not processing or completed
+  const availableOrders = orders.filter(
+    (order) =>
+      order.isSelected && order.process.status !== 'processing' && order.process.status !== 'completed',
+  );
+  const numSelected = availableOrders.length;
+
+  // Create a configuration session when starting new selections
+  useEffect(() => {
+    const newlySelectedOrders = orders.filter(
+      (order) => order.isSelected && !order.configurationSessionId && order.process.status === 'idle',
+    );
+
+    if (newlySelectedOrders.length > 0) {
+      // Create new session if we don't have one or if current session has processing orders
+      let sessionId = currentConfigurationSessionId;
+
+      if (!sessionId) {
+        sessionId = createConfigurationSession();
+      }
+
+      // Assign newly selected orders to current session
+      assignOrdersToCurrentSession(newlySelectedOrders.map((order) => order.itemNumber));
+    }
+  }, [orders, currentConfigurationSessionId, createConfigurationSession, assignOrdersToCurrentSession]);
 
   useEffect(() => {
     setIsNextDisabled(numSelected === 0);

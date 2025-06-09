@@ -12,12 +12,17 @@ import type { DataEntry } from 'types/data.types';
 export const GenericSelectPage = () => {
   const { fieldKey, padsConfig } = useRouteConfig();
   const { pads } = useLayoutUi();
-  const { orders, setOrdersFilter } = useOrders();
+  const { orders, setOrdersFilter, currentConfigurationSessionId } = useOrders();
 
   const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
-    if (!orders?.length) return;
+    if (!orders?.length || !currentConfigurationSessionId) return;
 
-    for (const order of orders) {
+    // Only update orders that belong to the current configuration session
+    const sessionOrders = orders.filter(
+      (order) => order.configurationSessionId === currentConfigurationSessionId,
+    );
+
+    for (const order of sessionOrders) {
       const currentFilters = order.filters || {};
 
       if (pad.isChecked) {

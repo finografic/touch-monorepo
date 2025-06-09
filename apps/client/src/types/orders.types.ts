@@ -30,7 +30,18 @@ export interface OrderProcessingProps {
 }
 
 // The complete order type combining selection fields and base properties
-export interface OrderItem extends OrderBaseProps {}
+export interface OrderItem {
+  itemNumber: number;
+  itemType: ItemType;
+  isSelected: boolean;
+  filters?: OrderFilters;
+  configurationSessionId?: string;
+  process: {
+    status: OrderStatus;
+    estimatedCompletionTime?: string;
+    timeRemaining?: number;
+  };
+}
 
 export interface ContainerType {
   id: string;

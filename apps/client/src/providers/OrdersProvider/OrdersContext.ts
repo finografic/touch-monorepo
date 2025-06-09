@@ -17,6 +17,8 @@ export enum OrdersKeys {
 
 export const defaultValue: OrdersValues = {
   orders: [],
+  currentConfigurationSessionId: undefined,
+  configurationSessions: {},
 };
 
 export const OrdersContext = createZustandContext(({ initialValue }) => {
@@ -34,7 +36,42 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             itemNumber: number;
             filter: Partial<OrderFilters>;
           }) => {
-            const { orders } = get();
+            const { orders, currentConfigurationSessionId, configurationSessions } = get();
+
+            // If we have a current session, update the session filters
+            if (currentConfigurationSessionId && configurationSessions[currentConfigurationSessionId]) {
+              const session = configurationSessions[currentConfigurationSessionId];
+              const updatedFilters: OrderFilters = { ...session.filters };
+
+              (Object.entries(filter) as [OrderFieldKey, unknown][]).forEach(([key, value]) => {
+                if (value === undefined) {
+                  delete updatedFilters[key as OrderFieldKey];
+                } else {
+                  (updatedFilters as Partial<Record<OrderFieldKey, unknown>>)[key as OrderFieldKey] = value;
+                }
+              });
+
+              const orderedFilters: OrderFilters = {} as OrderFilters;
+              for (const key of ORDER_FIELD_KEYS) {
+                if (key in updatedFilters) {
+                  (orderedFilters as Partial<Record<OrderFieldKey, unknown>>)[key] = (
+                    updatedFilters as Partial<Record<OrderFieldKey, unknown>>
+                  )[key];
+                }
+              }
+
+              set({
+                configurationSessions: {
+                  ...configurationSessions,
+                  [currentConfigurationSessionId]: {
+                    ...session,
+                    filters: orderedFilters,
+                  },
+                },
+              });
+            }
+
+            // Update the specific order's filters (for backward compatibility)
             const updatedOrders = orders.map((order) => {
               if (order.itemNumber === itemNumber) {
                 const updatedFilters: OrderFilters = { ...order.filters };
@@ -81,10 +118,19 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             set({ orders: updatedOrders });
           },
           toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => {
-            const { orders } = get();
+            const { orders, currentConfigurationSessionId } = get();
             const draftOrder = findOrderByNumber(orders, itemNumber);
             const newOrders = !draftOrder
-              ? [...orders, { ...INITIAL_ORDER_ITEM, itemType, itemNumber, isSelected: true }]
+              ? [
+                  ...orders,
+                  {
+                    ...INITIAL_ORDER_ITEM,
+                    itemType,
+                    itemNumber,
+                    isSelected: true,
+                    configurationSessionId: currentConfigurationSessionId,
+                  },
+                ]
               : [...orders].filter((order) => order.itemNumber !== itemNumber);
 
             const sortedOrders = [...newOrders].sort((a, b) => a.itemNumber - b.itemNumber);
@@ -203,6 +249,57 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 break;
               }
             }
+          },
+          createConfigurationSession: () => {
+            const { configurationSessions } = get();
+            const sessionId = `config_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+            set({
+              configurationSessions: {
+                ...configurationSessions,
+                [sessionId]: {
+                  id: sessionId,
+                  createdAt: new Date().toISOString(),
+                  filters: {},
+                  orderNumbers: [],
+                },
+              },
+              currentConfigurationSessionId: sessionId,
+            });
+
+            return sessionId;
+          },
+          setActiveConfigurationSession: (sessionId: string) => {
+            set({ currentConfigurationSessionId: sessionId });
+          },
+          assignOrdersToCurrentSession: (orderNumbers: number[]) => {
+            const { currentConfigurationSessionId, configurationSessions, orders } = get();
+
+            if (!currentConfigurationSessionId) return;
+
+            // Update session with order numbers
+            const session = configurationSessions[currentConfigurationSessionId];
+            if (session) {
+              set({
+                configurationSessions: {
+                  ...configurationSessions,
+                  [currentConfigurationSessionId]: {
+                    ...session,
+                    orderNumbers: [...new Set([...session.orderNumbers, ...orderNumbers])],
+                  },
+                },
+              });
+            }
+
+            // Update orders with session ID
+            const updatedOrders = orders.map((order) => {
+              if (orderNumbers.includes(order.itemNumber)) {
+                return { ...order, configurationSessionId: currentConfigurationSessionId };
+              }
+              return order;
+            });
+
+            set({ orders: updatedOrders });
           },
         },
       }),

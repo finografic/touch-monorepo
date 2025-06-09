@@ -29,7 +29,7 @@ interface UseFiltersReturn {
 
 export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
-  const { orders } = useOrders();
+  const { orders, currentConfigurationSessionId, configurationSessions } = useOrders();
   const [data, setData] = useState<OrderModel[]>([]);
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
 
@@ -40,13 +40,21 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
     });
   }, []);
 
-  // Sync filters with orders
+  // Sync filters with current configuration session
   useEffect(() => {
-    const orderFilters = orders[0]?.filters;
-    if (orderFilters) {
-      setFilters(orderFilters);
+    if (currentConfigurationSessionId && configurationSessions[currentConfigurationSessionId]) {
+      const sessionFilters = configurationSessions[currentConfigurationSessionId].filters;
+      if (sessionFilters) {
+        setFilters(sessionFilters);
+      }
+    } else {
+      // Fallback to first order's filters for backward compatibility
+      const orderFilters = orders[0]?.filters;
+      if (orderFilters) {
+        setFilters(orderFilters);
+      }
     }
-  }, [orders]);
+  }, [orders, currentConfigurationSessionId, configurationSessions]);
 
   // Get unique values for each filter key
   const uniqueValues = useMemo(() => getUniqueFilterValues(data), [data]);

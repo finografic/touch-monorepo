@@ -33,14 +33,17 @@ export async function seed() {
       // Format temperature for ID with sign and one decimal
       const tempStr = (temp >= 0 ? '+' : '') + temp.toFixed(1);
 
-      // Add a single profile point for each temperature
+      // Add a single profile point for each temperature with different multipliers per type
+      // Type A: base rate (fastest)
+      // Type B: 25% longer than Type A
+      // Type C: 60% longer than Type A (slowest)
       rows.push({
         id: `temp_${tempStr}`,
         coolingProfileId: coolingProfile.id,
         temperature: temp,
-        timeA: baseTime,
-        timeB: baseTime + 1,
-        timeC: baseTime + 2,
+        timeA: Math.round(baseTime * 1.0), // Type A: base rate
+        timeB: Math.round(baseTime * 1.25), // Type B: 25% longer
+        timeC: Math.round(baseTime * 1.6), // Type C: 60% longer
       });
     });
 

@@ -56,7 +56,7 @@ const DESCRIPTIONS = {
 
 export const TemperaturePage = () => {
   const isInitializedRef = useRef(false);
-  const { orders, setOrdersFilter } = useOrders();
+  const { orders, setOrdersFilter, currentConfigurationSessionId } = useOrders();
   const { dataFiltered, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
 
@@ -71,7 +71,11 @@ export const TemperaturePage = () => {
   // log('__ROUTE_CONFIG: keys', 'cyan', { fieldKey, filterKey });
 
   // Get min and max allowed temperatures
-  const { data: minMaxTemperatures, isLoading: isLoadingTemperatures } = useGetMinMaxTemperatures();
+  const {
+    data: minMaxTemperatures,
+    isLoading: isLoadingTemperatures,
+    error: minMaxError,
+  } = useGetMinMaxTemperatures();
 
   // Get default consumption temperature from filtered data
   const defaultTempConsume = useMemo(() => {
@@ -79,15 +83,21 @@ export const TemperaturePage = () => {
     return dataFiltered[0].defaultTempConsume;
   }, [dataFiltered]);
 
-  // Initialize final temperature when default consumption temp is available
+  // Initialize temperatures with fallback values
   useEffect(() => {
-    if (!isInitializedRef.current && defaultTempConsume) {
+    if (!isInitializedRef.current) {
       const initial = INITIAL_TEMP_DEFAULT;
-      const final = defaultTempConsume;
+      // Use defaultTempConsume if available, otherwise fallback to 8°C
+      const final = defaultTempConsume ?? 8;
       const newTemperatures = { initial, final };
       setTemperatures(newTemperatures);
 
-      for (const order of orders) {
+      // Only update orders in the current session
+      const sessionOrders = orders.filter(
+        (order) => order.configurationSessionId === currentConfigurationSessionId,
+      );
+
+      for (const order of sessionOrders) {
         const currentFilters = order.filters || {};
         const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
         setOrdersFilter({
@@ -98,7 +108,7 @@ export const TemperaturePage = () => {
 
       isInitializedRef.current = true;
     }
-  }, [defaultTempConsume, setFilter]);
+  }, [defaultTempConsume, setFilter, orders, fieldKey, setOrdersFilter, currentConfigurationSessionId]);
 
   // Update filters and validate when temperatures change
   const updateTemperatures = useCallback(
@@ -107,9 +117,14 @@ export const TemperaturePage = () => {
 
       setTemperatures({ initial, final });
 
-      if (!orders?.length) return;
+      if (!orders?.length || !currentConfigurationSessionId) return;
 
-      for (const order of orders) {
+      // Only update orders in the current session
+      const sessionOrders = orders.filter(
+        (order) => order.configurationSessionId === currentConfigurationSessionId,
+      );
+
+      for (const order of sessionOrders) {
         const currentFilters = order.filters || {};
         const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
         setOrdersFilter({
@@ -121,7 +136,7 @@ export const TemperaturePage = () => {
       // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
       setIsNextDisabled(final >= initial - MIN_TEMP_DIFFERENCE);
     },
-    [setOrdersFilter, setIsNextDisabled],
+    [setOrdersFilter, setIsNextDisabled, currentConfigurationSessionId],
   );
 
   const handleChange = (name: TemperatureKey, temp: Temperature) => {
@@ -136,7 +151,8 @@ export const TemperaturePage = () => {
   };
 
   // Don't show inputs until we have the temperature constraints and default values
-  if (isLoadingTemperatures || !isInitializedRef.current) {
+  // Allow proceeding if minMax query failed (use fallback values) but still loading
+  if ((isLoadingTemperatures && !minMaxError) || !isInitializedRef.current) {
     return (
       <Flex css={styles} className="temperature-content" gap="3" direction="column">
         <Box>Loading temperature settings...</Box>

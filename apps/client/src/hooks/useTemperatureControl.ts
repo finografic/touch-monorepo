@@ -12,17 +12,37 @@ interface UseTemperatureControlOptions {
   onError?: (error: Error) => void;
 }
 
-const getTimeValueForItemType = (profile: TemperatureProfile, itemType: ItemType): number => {
+const getTimeValueForItemType = (
+  initialProfile: TemperatureProfile,
+  finalProfile: TemperatureProfile,
+  itemType: ItemType,
+): number => {
+  let initialTime: number;
+  let finalTime: number;
+
   switch (itemType) {
     case ItemType.A:
-      return profile.timeA;
+      initialTime = initialProfile.timeA;
+      finalTime = finalProfile.timeA;
+      break;
     case ItemType.B:
-      return profile.timeB;
+      initialTime = initialProfile.timeB;
+      finalTime = finalProfile.timeB;
+      break;
     case ItemType.C:
-      return profile.timeC;
+      initialTime = initialProfile.timeC;
+      finalTime = finalProfile.timeC;
+      break;
     default:
       return 0;
   }
+
+  // Calculate operating time: final_time - initial_time
+  const operatingTime = Math.abs(finalTime - initialTime);
+
+  console.log(`Item ${itemType}: ${finalTime} - ${initialTime} = ${operatingTime} seconds`);
+
+  return operatingTime;
 };
 
 export const useTemperatureControl = (options: UseTemperatureControlOptions = {}) => {
@@ -97,32 +117,35 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
       //   })),
       // });
 
-      // Find the profile for the temperature difference
-      // Note: We need the absolute difference between initial and final temperatures
-      const temperatureDiff = Math.abs(currentFilter.final - currentFilter.initial);
-      console.log('Looking for temperature difference:', temperatureDiff);
+      // Find profiles for initial and final temperatures
+      const initialProfile = profiles.find((p) => p.temperature === currentFilter.initial);
+      const finalProfile = profiles.find((p) => p.temperature === currentFilter.final);
 
-      // Find the closest matching profile
-      const profile = profiles.reduce(
-        (closest, current) => {
-          const currentDiff = Math.abs(current.temperature - temperatureDiff);
-          const closestDiff = closest ? Math.abs(closest.temperature - temperatureDiff) : Infinity;
-          return currentDiff < closestDiff ? current : closest;
-        },
-        null as TemperatureProfile | null,
-      );
-
-      if (!profile) {
+      if (!initialProfile) {
         throw new Error(
-          `No temperature profile found for difference of ${temperatureDiff}°C. Available profiles: ${profiles.map((p) => p.temperature).join(', ')}°C`,
+          `No temperature profile found for initial temperature ${currentFilter.initial}°C. Available profiles: ${profiles.map((p) => p.temperature).join(', ')}°C`,
         );
       }
 
-      console.log('Selected profile:', {
-        temperature: profile.temperature,
-        timeA: profile.timeA,
-        timeB: profile.timeB,
-        timeC: profile.timeC,
+      if (!finalProfile) {
+        throw new Error(
+          `No temperature profile found for final temperature ${currentFilter.final}°C. Available profiles: ${profiles.map((p) => p.temperature).join(', ')}°C`,
+        );
+      }
+
+      console.log('Selected profiles:', {
+        initial: {
+          temp: initialProfile.temperature,
+          timeA: initialProfile.timeA,
+          timeB: initialProfile.timeB,
+          timeC: initialProfile.timeC,
+        },
+        final: {
+          temp: finalProfile.temperature,
+          timeA: finalProfile.timeA,
+          timeB: finalProfile.timeB,
+          timeC: finalProfile.timeC,
+        },
       });
 
       // Get selected orders
@@ -133,7 +156,11 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
       // Calculate durations for each selected order based on their item type
       const calculatedDurations = selectedOrders.reduce<Record<string, number>>((acc, order) => {
-        acc[order.itemNumber.toString()] = getTimeValueForItemType(profile, order.itemType);
+        acc[order.itemNumber.toString()] = getTimeValueForItemType(
+          initialProfile,
+          finalProfile,
+          order.itemType,
+        );
         return acc;
       }, {});
 
