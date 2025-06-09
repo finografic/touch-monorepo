@@ -1,24 +1,15 @@
 import { Box, Flex } from '@radix-ui/themes';
-import { useState } from 'react';
 import { TimerIcon } from '@radix-ui/react-icons';
 import { ConfigTimer } from '../ConfigTimer/ConfigTimer';
 import { styles } from './AdminTools.styles';
-import type { AdminKeys } from 'providers/AdminProvider/AdminContext';
-import { AdminContext } from 'providers/AdminProvider/AdminContext';
-import { useToolsKeyPress } from 'hooks/useToolsKeyPress';
-
-interface AdminState {
-  [AdminKeys.isAdminToolsVisible]: boolean;
-  [AdminKeys.isTimerVisible]: boolean;
-}
+import { useAdmin } from 'providers/AdminProvider/AdminContext';
+// import { useToolsKeyPress } from 'hooks/useToolsKeyPress';
 
 export const AdminTools = () => {
-  const [isTimerVisible, setIsTimerVisible] = useState(true);
-  const store = AdminContext.useContext();
-  const isAdminToolsVisible = store?.getState() ? (store.getState() as AdminState).isAdminToolsVisible : true;
+  const { isAdminToolsVisible, isTimerVisible, setIsTimerVisible } = useAdmin();
 
   // Initialize keyboard shortcuts
-  useToolsKeyPress();
+  // useToolsKeyPress();
 
   if (!isAdminToolsVisible) return null;
 
