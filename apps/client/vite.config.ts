@@ -30,7 +30,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         },
       }),
       tailwindcss(),
-      TurboConsole(),
+      // TurboConsole(),
       // TurboConsole({
       //   specifiedEditor: 'cursor',
       // }),

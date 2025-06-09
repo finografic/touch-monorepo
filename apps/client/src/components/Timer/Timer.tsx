@@ -1,101 +1,42 @@
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect } from 'react';
+import { useTimer } from 'react-timer-hook';
 import { useOrders } from 'providers/OrdersProvider';
-import type { OrderItem } from 'types/orders.types';
+import { formatTime } from 'utils/timers.utils';
 
 interface TimerProps {
-  estimatedCompletionTime?: string;
-  order: OrderItem;
+  orderId: number;
+  duration: number;
   onComplete?: () => void;
 }
 
-// Initialize the global timer registry if it doesn't exist
-if (typeof window !== 'undefined') {
-  window.__timerIntervals = window.__timerIntervals || {};
-}
-
-const formatTime = (seconds: number): string => {
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
-};
-
-export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps) => {
+export const Timer = ({ orderId, duration, onComplete }: TimerProps) => {
   const { timerAction } = useOrders();
-  const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
-  const [remainingTime, setRemainingTime] = useState<number>(0);
 
-  // Function to handle timer completion
-  const handleTimerComplete = () => {
-    console.debug(`Timer completing for order ${order.itemNumber} (${order.itemType})`);
+  // Calculate expiry time (current time + duration in seconds)
+  const expiryTimestamp = new Date();
+  expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + duration);
 
-    // First clear the interval
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = undefined;
-    }
+  const { seconds, minutes, isRunning, pause, resume, restart } = useTimer({
+    expiryTimestamp,
+    onExpire: () => {
+      timerAction('complete', { itemNumber: orderId });
+      onComplete?.();
+    },
+    autoStart: true,
+  });
 
-    // Then remove from global registry
-    if (typeof window !== 'undefined' && window.__timerIntervals) {
-      delete window.__timerIntervals[order.itemNumber];
-    }
-
-    // Finally update the order status
-    timerAction('complete', { itemNumber: order.itemNumber });
-    onComplete?.();
-  };
-
+  // Handle component unmount
   useEffect(() => {
-    if (!estimatedCompletionTime) {
-      setRemainingTime(0);
-      return;
-    }
-
-    const endTime = new Date(estimatedCompletionTime).getTime();
-    const startTime = Date.now();
-    const duration = Math.floor((endTime - startTime) / 1000);
-
-    console.debug(
-      `Timer starting for order ${order.itemNumber} (${order.itemType}) with duration ${duration}s`,
-    );
-
-    // Set initial remaining time
-    setRemainingTime(Math.max(0, duration));
-
-    if (duration <= 0) {
-      handleTimerComplete();
-      return;
-    }
-
-    // Store interval ID in global registry
-    const intervalId = setInterval(() => {
-      const now = Date.now();
-      const remaining = Math.floor((endTime - now) / 1000);
-
-      // Update remaining time state to trigger re-render
-      setRemainingTime(Math.max(0, remaining));
-
-      if (remaining <= 0) {
-        handleTimerComplete();
-      }
-    }, 1000);
-
-    // Safely store in global registry
-    if (typeof window !== 'undefined' && window.__timerIntervals) {
-      window.__timerIntervals[order.itemNumber] = intervalId;
-    }
-    intervalRef.current = intervalId;
+    timerAction('start', { itemNumber: orderId, duration });
 
     return () => {
-      console.debug(`Timer cleanup for order ${order.itemNumber} (${order.itemType})`);
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = undefined;
-      }
-      if (typeof window !== 'undefined' && window.__timerIntervals) {
-        delete window.__timerIntervals[order.itemNumber];
-      }
+      pause(); // Stop the timer
+      timerAction('reset', { itemNumber: orderId });
     };
-  }, [estimatedCompletionTime, order.itemNumber, order.itemType, timerAction, onComplete]);
+  }, [orderId, duration, timerAction, pause]);
 
-  return <span>{formatTime(remainingTime)}</span>;
+  // Format time for display
+  const timeString = formatTime(minutes * 60 + seconds);
+
+  return <div>{timeString}</div>;
 };

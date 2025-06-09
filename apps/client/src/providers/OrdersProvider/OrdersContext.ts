@@ -107,6 +107,11 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               case 'start': {
                 if (!payload?.itemNumber || !payload?.duration) return;
                 const { itemNumber, duration } = payload;
+
+                // Ensure we're not already processing
+                const order = orders.find((o) => o.itemNumber === itemNumber);
+                if (order?.process.status === 'processing') return;
+
                 const updatedOrders = orders.map((order) => {
                   if (order.itemNumber === itemNumber) {
                     const estimatedCompletionTime = new Date(Date.now() + duration * 1000).toISOString();
@@ -128,6 +133,11 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               case 'complete': {
                 if (!payload?.itemNumber) return;
                 const { itemNumber } = payload;
+
+                // Ensure we're actually processing
+                const order = orders.find((o) => o.itemNumber === itemNumber);
+                if (order?.process.status !== 'processing') return;
+
                 const updatedOrders = orders.map((order) => {
                   if (order.itemNumber === itemNumber) {
                     return {
@@ -190,6 +200,7 @@ export const useOrders = (): OrdersReturn => {
   // Subscribe to order status changes
   store.subscribe(
     (state) =>
+      // Only track minimal necessary data
       state.orders.map((order) => ({
         number: order.itemNumber,
         status: order.process.status,
@@ -198,21 +209,35 @@ export const useOrders = (): OrdersReturn => {
       if (typeof window === 'undefined') return;
 
       // Find orders that have changed status
-      current.forEach((curr, idx) => {
-        const previous = prev[idx];
-        if (previous && curr.status !== previous.status) {
-          console.debug(`Order ${curr.number} status changed from ${previous.status} to ${curr.status}`);
+      current.forEach((curr) => {
+        const previous = prev.find((p) => p.number === curr.number);
 
-          // If status changed from 'processing' to something else, ensure timer is cleaned up
+        if (previous && curr.status !== previous.status) {
+          // Only log status changes
+          console.debug(`Order ${curr.number}: ${previous.status} -> ${curr.status}`);
+
+          // If changed from processing, handle cleanup
           if (previous.status === 'processing' && window.__timerIntervals) {
-            // Clear any existing intervals for this order
             const timerId = window.__timerIntervals[curr.number];
             if (timerId) {
-              console.debug(`Cleaning up interval for order ${curr.number}`);
               clearInterval(timerId);
               delete window.__timerIntervals[curr.number];
+              console.debug(`Cleaned up timer for order ${curr.number}`);
             }
           }
+        }
+      });
+
+      // Handle removed orders
+      prev.forEach((previous) => {
+        if (
+          !current.some((c) => c.number === previous.number) &&
+          previous.status === 'processing' &&
+          window.__timerIntervals?.[previous.number]
+        ) {
+          clearInterval(window.__timerIntervals[previous.number]);
+          delete window.__timerIntervals[previous.number];
+          console.debug(`Cleaned up timer for removed order ${previous.number}`);
         }
       });
     },

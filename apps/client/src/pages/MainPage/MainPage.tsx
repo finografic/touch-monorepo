@@ -33,7 +33,7 @@ export const ACTION_BUTTONS_CONFIG: PadUI[] = [
     name: 'main',
     className: 'pad-rect',
     isChecked: false,
-    disabled: false,
+    disabled: true,
     value: { id: 'button-program-time', name: 'BUTTON_PROGRAM_TIME' },
   },
   {
@@ -43,7 +43,7 @@ export const ACTION_BUTTONS_CONFIG: PadUI[] = [
     name: 'main',
     className: 'pad-rect',
     isChecked: false,
-    disabled: false,
+    disabled: true,
     value: { id: 'button-program-product', name: 'BUTTON_PROGRAM_PRODUCT' },
   },
   {

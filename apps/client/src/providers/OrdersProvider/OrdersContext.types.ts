@@ -6,7 +6,7 @@ import type { OrderFilters } from 'types/filters.types';
 export type TimerActionType = 'start' | 'complete' | 'reset' | 'clear_all';
 
 export interface TimerActionPayload {
-  itemNumber?: number;
+  itemNumber: number;
   duration?: number;
 }
 
@@ -26,7 +26,7 @@ type OrdersActions = OrdersSetters & {
   toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => void;
   selectAllOrders: () => void;
   // Timer-specific actions
-  timerAction: (type: TimerActionType, payload?: TimerActionPayload) => void;
+  timerAction: (type: TimerActionType, payload: TimerActionPayload) => void;
 };
 
 export interface OrdersProviderProps {

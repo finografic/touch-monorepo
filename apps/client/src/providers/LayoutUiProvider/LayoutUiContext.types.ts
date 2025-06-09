@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
 import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
-import type { ValidItemTypeBCount } from 'types/menu.types';
+import type { ValidGridSize } from 'types/menu.types';
 import type { PadConfig, PadType, PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
 
 export interface LayoutUiValues {
-  [LayoutUiKeys.numItems]: ValidItemTypeBCount;
+  [LayoutUiKeys.numItems]: ValidGridSize;
   [LayoutUiKeys.fieldKey]: OrderFieldKey | undefined;
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadUI[];
