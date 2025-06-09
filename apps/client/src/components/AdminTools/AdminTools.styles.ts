@@ -1,20 +1,17 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles';
-import { styles as stylesButton } from 'components/ButtonControl/ButtonControl.styles';
 
 export const styles = css`
-  .devtools-container {
+  .admin-tools-container {
     position: fixed;
     bottom: 20px;
-    right: 20px;
+    left: 20px;
     width: 50vw;
     z-index: 1000;
   }
 
-  .btn-dev,
-  .btn-query {
-    width: 64px;
-    height: 64px;
+  .btn-admin {
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     background: rgba(0, 0, 0, 0.8);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -30,17 +27,27 @@ export const styles = css`
       border-color: rgba(255, 255, 255, 0.2);
     }
 
+    &.active {
+      background: rgba(0, 120, 255, 0.8);
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    &.btn-placeholder {
+      opacity: 0.3;
+      cursor: not-allowed;
+    }
+
     svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
     }
   }
 
-  .btn-query {
-    background: rgba(255, 60, 0, 0.8);
-
-    &:hover {
-      background: rgba(255, 60, 0, 0.9);
-    }
+  .timer-container {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 20px;
   }
 `;

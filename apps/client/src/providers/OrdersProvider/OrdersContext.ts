@@ -103,6 +103,8 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           timerAction: (type: TimerActionType, payload?: TimerActionPayload) => {
             const { orders } = get();
 
+            log('MESSAGE', 'orange', type, payload);
+
             switch (type) {
               case 'start': {
                 if (!payload?.itemNumber || !payload?.duration) return;
@@ -131,12 +133,28 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               }
 
               case 'complete': {
-                if (!payload?.itemNumber) return;
+                log('__DEV: COMPLETE 1', 'red', payload);
+                if (payload?.itemNumber === undefined || payload?.itemNumber === null) {
+                  console.debug('Timer complete: Invalid itemNumber', payload);
+                  return;
+                }
                 const { itemNumber } = payload;
+
+                log('__DEV: COMPLETE 2', 'red', itemNumber);
 
                 // Ensure we're actually processing
                 const order = orders.find((o) => o.itemNumber === itemNumber);
-                if (order?.process.status !== 'processing') return;
+                if (!order) {
+                  console.debug('Timer complete: Order not found', itemNumber);
+                  return;
+                }
+                if (order.process.status !== 'processing') {
+                  console.debug('Timer complete: Order not in processing state', {
+                    itemNumber,
+                    status: order.process.status,
+                  });
+                  return;
+                }
 
                 const updatedOrders = orders.map((order) => {
                   if (order.itemNumber === itemNumber) {
@@ -177,8 +195,17 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               }
 
               case 'clear_all': {
-                // Clear all orders (both timers and selection)
-                set({ orders: [] });
+                // Reset all orders to initial state instead of clearing them
+                const updatedOrders = orders.map((order) => ({
+                  ...order,
+                  isSelected: false,
+                  process: {
+                    status: 'idle' as OrderStatus,
+                    estimatedCompletionTime: undefined,
+                    timeRemaining: undefined,
+                  },
+                }));
+                set({ orders: updatedOrders });
                 break;
               }
             }

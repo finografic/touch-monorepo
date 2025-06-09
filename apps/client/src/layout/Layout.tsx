@@ -11,6 +11,7 @@ import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { Loader } from '../components/Loader/Loader';
 import { DevProvider } from 'providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
+import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 
 export const Layout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
@@ -23,20 +24,22 @@ export const Layout: FC = () => {
       <PaginationProvider>
         <LayoutUiProvider>
           <ContentProvider>
-            <DevProvider>
-              <div id="layout" css={styles}>
-                <Header />
-                <main>
-                  <div className="main-content">
-                    <Suspense fallback={<Loader message="Loading..." />}>
-                      <Outlet />
-                    </Suspense>
-                    {/* <DataDialog /> */}
-                  </div>
-                </main>
-                <Footer />
-              </div>
-            </DevProvider>
+            <AdminProvider>
+              <DevProvider>
+                <div id="layout" css={styles}>
+                  <Header />
+                  <main>
+                    <div className="main-content">
+                      <Suspense fallback={<Loader message="Loading..." />}>
+                        <Outlet />
+                      </Suspense>
+                      {/* <DataDialog /> */}
+                    </div>
+                  </main>
+                  <Footer />
+                </div>
+              </DevProvider>
+            </AdminProvider>
           </ContentProvider>
         </LayoutUiProvider>
       </PaginationProvider>

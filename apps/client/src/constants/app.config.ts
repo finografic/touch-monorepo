@@ -14,6 +14,15 @@ import type { OrderFieldKey } from 'types/orders.types';
  */
 export const NUM_GRID_ITEMS: ValidGridSize = 9 as const;
 
+// Configuration expiry time (1 hour in milliseconds)
+export const CONFIG_EXPIRY_TIME_MS = 3_600_000;
+
+// Session storage keys
+export const STORAGE_KEYS = {
+  LAST_CONFIG: 'touch_last_config',
+  CONFIG_TIMESTAMP: 'touch_config_timestamp',
+} as const;
+
 /**
  * Base keys in camelCase - our source of truth for order field keys
  * These are used to derive other constants and types
