@@ -24,7 +24,8 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["@workspace/common#build"]
+      "dependsOn": ["@workspace/common#build"],
+      "env": ["NODE_ENV", "PORT"]
     },
     "lint": {
       "outputs": []

@@ -20,7 +20,6 @@
   "scripts": {
     "========== DEV": "=======================================================",
     "dev": "turbo run dev",
-    "dev.V1": "turbo run build --filter=@workspace/config && turbo run dev",
     "lint.fix.DEV": "eslint \"./apps/client/src/**/*.{ts,tsx}\"  --fix-dry-run --rule \"@typescript-eslint/consistent-type-imports: 2\"",
     "eslint-config.DEV": "dotenvx run -- pnpm update @finografic/eslint-config@9.0.8 --recursive",
     "dev.server": "pnpm --filter @workspace/server dev",
