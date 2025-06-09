@@ -9,7 +9,6 @@ export const SETTER_PREFIX = '';
 export enum DevKeys {
   isDevToolsVisible = 'isDevToolsVisible',
   isDevQueryPanelOpen = 'isDevQueryPanelOpen',
-  isDevDialogOpen = 'isDevDialogOpen',
   isDevDataVisible = 'isDevDataVisible',
 }
 
@@ -17,7 +16,6 @@ export const defaultValue: DevValues = {
   isDevToolsVisible: process.env.NODE_ENV === 'development',
   isDevQueryPanelOpen: false,
   isDevDataVisible: true,
-  isDevDialogOpen: false,
 };
 
 export const DevContext = createZustandContext(({ initialValue }) => {

@@ -103,11 +103,11 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           timerAction: (type: TimerActionType, payload?: TimerActionPayload) => {
             const { orders } = get();
 
-            log('MESSAGE', 'orange', type, payload);
-
             switch (type) {
               case 'start': {
-                if (!payload?.itemNumber || !payload?.duration) return;
+                if (payload?.itemNumber === undefined || payload?.itemNumber === null) return;
+                if (payload?.duration === undefined || payload?.duration === null) return;
+
                 const { itemNumber, duration } = payload;
 
                 // Ensure we're not already processing
@@ -133,14 +133,8 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               }
 
               case 'complete': {
-                log('__DEV: COMPLETE 1', 'red', payload);
-                if (payload?.itemNumber === undefined || payload?.itemNumber === null) {
-                  console.debug('Timer complete: Invalid itemNumber', payload);
-                  return;
-                }
+                if (payload?.itemNumber === undefined || payload?.itemNumber === null) return;
                 const { itemNumber } = payload;
-
-                log('__DEV: COMPLETE 2', 'red', itemNumber);
 
                 // Ensure we're actually processing
                 const order = orders.find((o) => o.itemNumber === itemNumber);
@@ -174,7 +168,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               }
 
               case 'reset': {
-                if (!payload?.itemNumber) return;
+                if (payload?.itemNumber === undefined || payload?.itemNumber === null) return;
                 const { itemNumber } = payload;
                 const updatedOrders = orders.map((order) => {
                   if (order.itemNumber === itemNumber) {

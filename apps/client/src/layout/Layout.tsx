@@ -12,6 +12,7 @@ import { Loader } from '../components/Loader/Loader';
 import { DevProvider } from 'providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
+import { DataDialog } from 'components/DataDialog/DataDialog';
 
 export const Layout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
@@ -33,7 +34,7 @@ export const Layout: FC = () => {
                       <Suspense fallback={<Loader message="Loading..." />}>
                         <Outlet />
                       </Suspense>
-                      {/* <DataDialog /> */}
+                      <DataDialog />
                     </div>
                   </main>
                   <Footer />

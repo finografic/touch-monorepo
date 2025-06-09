@@ -3,44 +3,40 @@ import { colors } from 'styles';
 import { styles as stylesButton } from 'components/ButtonControl/ButtonControl.styles';
 
 export const styles = css`
-  .devtools-container {
+  &.devtools-container {
     position: fixed;
-    bottom: 20px;
-    right: 20px;
     width: 50vw;
-    z-index: 1000;
-  }
-
-  .btn-dev,
-  .btn-query {
-    width: 64px;
     height: 64px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
+    bottom: 0;
+    right: 0;
+    z-index: 1500;
 
-    &:hover {
-      background: rgba(0, 0, 0, 0.9);
-      border-color: rgba(255, 255, 255, 0.2);
+    & > div {
+      padding-right: 2rem;
     }
 
-    svg {
-      width: 24px;
-      height: 24px;
+    button.btn-dev,
+    button.btn-query {
+      ${stylesButton}
+      min-width: 60px;
+      border-color: transparent;
+      svg {
+        color: ${colors.textDark};
+        width: 24px;
+        height: 24px;
+      }
+      &:hover {
+        border-color: transparent;
+        svg {
+          color: ${colors.info};
+        }
+      }
     }
-  }
 
-  .btn-query {
-    background: rgba(255, 60, 0, 0.8);
-
-    &:hover {
-      background: rgba(255, 60, 0, 0.9);
+    button.btn-query {
+      svg {
+        transform: translateY(3px);
+      }
     }
   }
 `;

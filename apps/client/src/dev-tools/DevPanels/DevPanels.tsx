@@ -50,9 +50,7 @@ export const DevPanels = () => {
       </aside>
       <aside id="dev-data-right" css={stylesRight}>
         <pre>{JSON.stringify(cleanOrdersForDisplay)}</pre>
-        <div className="data-tree">
-          <JSONTree data={devDataRight} />
-        </div>
+        <div className="data-tree">{/* <JSONTree data={devDataRight} /> */}</div>
       </aside>
     </>
   );

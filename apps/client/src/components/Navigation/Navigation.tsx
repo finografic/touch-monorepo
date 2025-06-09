@@ -7,8 +7,9 @@ import { useCallback, useEffect, useTransition } from 'react';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
 import { useTemperatureControl } from 'hooks/useTemperatureControl';
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
-import { ChevronLeftIcon, ChevronRightIcon } from '@radix-ui/react-icons';
+import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
+import { useConfigStorage } from 'hooks/useConfigStorage';
 
 export interface NavigationButtonUI {
   id: string;
@@ -61,6 +62,7 @@ export const Navigation = () => {
   const { current, setPageCurrent, isNextDisabled } = usePagination();
   const { selectAllOrders, orders, setOrderProcessing, timerAction } = useOrders();
   const { pathnames } = useRoutePathnamesByFilters();
+  const { saveConfig } = useConfigStorage();
 
   const { startTemperatureControl, temperatureProfilesQuery, isLoading } = useTemperatureControl({
     onSuccess: (duration) => {
@@ -95,8 +97,17 @@ export const Navigation = () => {
           timerAction('reset', { itemNumber: order.itemNumber });
         }
       });
+
+      // Save new configuration to reset timer
+      const selectedOrders = orders.filter((order) => order.isSelected);
+      saveConfig({
+        filters: {},
+        temperatures: { default: 25 },
+        durations: { default: 300 },
+        selectedOrders: selectedOrders.map((order) => order.itemNumber),
+      });
     });
-  }, [orders, setOrderProcessing]);
+  }, [orders, timerAction, saveConfig]);
 
   useEffect(() => {
     if (orders.length === 0 && location.pathname !== PATHS.main) {
@@ -156,7 +167,11 @@ export const Navigation = () => {
                 <NavigationMenu.Item key={button.id} className="nav-item">
                   <NavigationMenu.Link asChild>
                     <button
-                      className={button.className}
+                      className={clsx(
+                        button.className,
+                        button.icon === 'chevron-left' && 'has-chevron',
+                        button.icon === 'chevron-right' && 'has-chevron-right',
+                      )}
                       onClick={() => {
                         switch (button.type) {
                           case 'reset':
@@ -192,13 +207,13 @@ export const Navigation = () => {
                               : undefined
                       }
                     >
-                      {button.icon === 'chevron-left' && <ChevronLeftIcon />}
+                      {button.icon === 'chevron-left' && <DoubleArrowLeftIcon />}
                       {button.type === 'start' && isLoading
                         ? 'Calculating...'
                         : isPending
                           ? 'Processing...'
                           : button.label}
-                      {button.icon === 'chevron-right' && <ChevronRightIcon />}
+                      {button.icon === 'chevron-right' && <DoubleArrowRightIcon />}
                     </button>
                   </NavigationMenu.Link>
                 </NavigationMenu.Item>

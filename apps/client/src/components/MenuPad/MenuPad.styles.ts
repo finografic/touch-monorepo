@@ -18,10 +18,10 @@ export const styles = css`
 
     &.item-type-A {
       color: ${colors.greyXLight}BB;
-      border-color: ${colors.greyLight}BB;
+      border-color: ${colors.greyLight}99;
       &:hover {
         color: ${colors.greyLight};
-        border-color: ${colors.greyXLight}BB;
+        border-color: ${colors.greyXLight}bb;
         background-color: ${colors.grey}11;
         /* transform: scale(1.05); */
       }
@@ -34,7 +34,7 @@ export const styles = css`
 
     &.item-type-B {
       color: ${colors.info};
-      border-color: ${colors.greyDark};
+      border-color: ${colors.infoDark}bb;
       &:hover {
         color: ${colors.info};
         border-color: ${colors.info};

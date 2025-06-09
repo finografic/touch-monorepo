@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
 import { colors, layout } from 'styles';
-import { getRadixHex } from 'styles/radix-ui/radix.color';
 import { stylesNavButton } from 'styles/custom/buttons.styles';
 
 export const styles = css`
@@ -46,13 +45,14 @@ export const styles = css`
 
     &:hover {
       border-color: ${colors.successLight};
-      background-color: rgba(1, 250, 20, 0.1);
+      background-color: ${colors.successLight}11;
     }
 
     &[data-disabled] {
       opacity: 0.5;
       cursor: not-allowed;
       &:hover {
+        color: ${colors.greyDark};
         border-color: ${colors.greyDark};
         background-color: transparent;
       }

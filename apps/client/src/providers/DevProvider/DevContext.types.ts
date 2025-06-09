@@ -5,7 +5,6 @@ export interface DevValues {
   [DevKeys.isDevToolsVisible]: boolean;
   [DevKeys.isDevQueryPanelOpen]: boolean;
   [DevKeys.isDevDataVisible]: boolean;
-  [DevKeys.isDevDialogOpen]: boolean;
 }
 
 type DevSetters = {

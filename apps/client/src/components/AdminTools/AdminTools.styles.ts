@@ -1,53 +1,59 @@
 import { css } from '@emotion/react';
+import { styles as stylesButton } from 'components/ButtonControl/ButtonControl.styles';
+import { colors } from 'styles';
 
 export const styles = css`
-  .admin-tools-container {
+  &.admin-tools-container {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
     width: 50vw;
-    z-index: 1000;
-  }
-
-  .btn-admin {
-    width: 48px;
-    height: 48px;
-    border-radius: 50%;
-    background: rgba(0, 0, 0, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: #fff;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
-
-    &:hover {
-      background: rgba(0, 0, 0, 0.9);
-      border-color: rgba(255, 255, 255, 0.2);
-    }
-
-    &.active {
-      background: rgba(0, 120, 255, 0.8);
-      border-color: rgba(255, 255, 255, 0.3);
-    }
-
-    &.btn-placeholder {
-      opacity: 0.3;
-      cursor: not-allowed;
-    }
-
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-  }
-
-  .timer-container {
+    height: 64px;
+    bottom: 0;
+    left: 0;
+    z-index: 1500;
     flex: 1;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    padding-right: 20px;
+    justify-content: flex-start;
+
+    & > div {
+      padding-left: 2rem;
+    }
+
+    button.btn-admin,
+    button.btn-dialog,
+    button.btn-query {
+      ${stylesButton}
+      min-width: 60px;
+      border-color: transparent;
+      svg {
+        color: ${colors.textDark};
+        width: 24px;
+        height: 24px;
+      }
+      &:hover {
+        border-color: transparent;
+        svg {
+          color: ${colors.info};
+        }
+      }
+
+      &.active {
+        svg {
+          color: ${colors.warningDark};
+        }
+      }
+    }
+
+    .timer-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-right: 20px;
+      padding-bottom: 12px;
+      width: fit-content;
+      height: 64px;
+      color: ${colors.warningDark};
+    }
   }
 `;

@@ -1,10 +1,12 @@
-import { useDeferredValue, useEffect, useState } from 'react';
+import { useCallback, useDeferredValue, useEffect, useState } from 'react';
 import { useFilters } from './useFilters';
 import { OrderFieldKeys } from 'constants/app.config';
 import { useGetTemperatureProfiles } from 'queries/temperature/useGetTemperatureProfiles';
 import { getTimeValue } from 'utils/temperature.utils';
 import type { TemperatureFilter } from 'types/temperature.types';
 import { reduceFilterProperty } from 'utils/filters.utils';
+import { useConfigStorage } from './useConfigStorage';
+import { useOrders } from 'providers/OrdersProvider';
 
 interface UseTemperatureControlOptions {
   onSuccess?: (duration: number) => void;
@@ -15,6 +17,8 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   // log('__DEV: options', 'orange', options);
   const { filters, setFilter } = useFilters();
   const [showLoading, setShowLoading] = useState(false);
+  const { orders } = useOrders();
+  const { saveConfig } = useConfigStorage();
 
   // Get element number from filters (defaulting to 1 for now)
   const elementNumber =
@@ -63,34 +67,27 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
     };
   }, [isLoading]);
 
-  const startTemperatureControl = async () => {
-    if (!temperatureProfilesQuery.data || !currentFilter) {
-      console.error('Missing temperature profiles or filter data');
-      return;
-    }
+  const startTemperatureControl = useCallback(
+    async (duration: number = 300) => {
+      try {
+        // Save the current configuration
+        const selectedOrders = orders.filter((order) => order.isSelected);
+        saveConfig({
+          filters: {},
+          temperatures: { default: 25 },
+          durations: { default: duration },
+          selectedOrders: selectedOrders.map((order) => order.itemNumber),
+        });
 
-    try {
-      // Get time values based on element number
-      const [initialProfile, finalProfile] = temperatureProfilesQuery.data;
-      const initialTime = getTimeValue(initialProfile, elementNumber);
-      const finalTime = getTimeValue(finalProfile, elementNumber);
-
-      // Calculate total duration
-      const totalDuration = Math.abs(finalTime - initialTime);
-
-      // Update filter with calculated duration
-      setFilter(OrderFieldKeys.temperature, {
-        ...currentFilter,
-        duration: totalDuration,
-        status: 'in_progress',
-      });
-
-      options.onSuccess?.(totalDuration);
-    } catch (error) {
-      console.error('Error starting temperature control:', error);
-      options.onError?.(error as Error);
-    }
-  };
+        // Call onSuccess with the duration
+        options.onSuccess?.(duration);
+      } catch (error) {
+        console.error('Temperature control error:', error);
+        options.onError?.(error as Error);
+      }
+    },
+    [orders, saveConfig, options.onSuccess, options.onError],
+  );
 
   return {
     startTemperatureControl,

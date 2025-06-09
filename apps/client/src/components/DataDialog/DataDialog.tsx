@@ -1,10 +1,13 @@
-import { Button, Code, DataList, Dialog, Flex, ScrollArea, Tabs, Theme } from '@radix-ui/themes';
-import { useDev } from 'providers/DevProvider/DevContext';
+import { Button, Code, DataList, Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
 import { useOrderSelection } from 'hooks/useOrderSelection';
 import { useEffect, useState } from 'react';
 import type { OrderItem } from 'types/orders.types';
 import { styles } from './DataDialog.styles';
-import { OrderFieldKeys } from 'constants/app.config';
+import { OrderFieldKeys, STORAGE_KEYS } from 'constants/app.config';
+import { useAdmin } from 'providers/AdminProvider/AdminContext';
+import { ConfigTimer } from 'components/ConfigTimer/ConfigTimer';
+import { Cross2Icon } from '@radix-ui/react-icons';
+import { useConfigStorage } from 'hooks/useConfigStorage';
 
 interface OrderWithMetadata extends OrderItem {
   id?: string;
@@ -155,7 +158,7 @@ const MetadataDataList = ({ data }: { data: OrderWithMetadata['metadata'] }) => 
   );
 };
 
-const JsonView = ({ data, color }: { data: any; color: 'blue' | 'amber' | 'gray' }) => {
+const JsonView = ({ data, color }: { data: any; color: 'blue' | 'amber' | 'gray' | 'orange' }) => {
   if (!data) return null;
   return (
     <Code color={color} css={styles.jsonView}>
@@ -165,20 +168,20 @@ const JsonView = ({ data, color }: { data: any; color: 'blue' | 'amber' | 'gray'
 };
 
 export const DataDialog = () => {
-  const { isDevDialogOpen, setIsDevDialogOpen } = useDev();
+  const { isAdminDialogOpen, setIsAdminDialogOpen } = useAdmin();
   const { orders } = useOrderSelection<OrderWithMetadata>({
     field: OrderFieldKeys.drinkType,
   });
   const [activeTab, setActiveTab] = useState('order');
-  const [viewMode, setViewMode] = useState<'json' | 'list'>('list');
+  const [viewMode, setViewMode] = useState<'json' | 'list'>('json');
   const [calculation, setCalculation] = useState<Calculation | null>(null);
+  const { loadConfig } = useConfigStorage();
 
   // Load calculation data from localStorage when orders change
   useEffect(() => {
     if (orders?.[0]?.itemNumber) {
       const storedCalc = localStorage.getItem(`temperatureCalculation_${orders[0].itemNumber}`);
       if (storedCalc) {
-        log('__DATA_DIALOG', 'grey', storedCalc);
         try {
           const parsedCalc = JSON.parse(storedCalc || '{}');
           setCalculation({
@@ -206,15 +209,28 @@ export const DataDialog = () => {
   const cleanedOrderData = cleanOrderData(orders as OrderWithMetadata[]);
   const cleanedCalculationData = cleanCalculationData(calculation);
   const hasMetadata = (orders?.[0] as OrderWithMetadata)?.metadata;
+  const storedConfig = loadConfig();
 
   return (
     <Theme appearance="dark" grayColor="sand" accentColor="blue" scaling="110%">
-      <Dialog.Root open={isDevDialogOpen} onOpenChange={setIsDevDialogOpen}>
-        <Dialog.Content size="4" style={{ maxWidth: 720 }}>
-          <Dialog.Title size="5">Development Data View</Dialog.Title>
-          <Dialog.Description mb="4" size="3">
-            Current state of the order flow data
-          </Dialog.Description>
+      <Dialog.Root open={isAdminDialogOpen} onOpenChange={setIsAdminDialogOpen}>
+        <Dialog.Content
+          size="4"
+          style={{
+            maxWidth: 720,
+            height: '100%',
+            maxHeight: '66vh',
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
+          }}
+        >
+          <Flex justify="between" align="center" mb="4">
+            <Dialog.Title size="5">Data View</Dialog.Title>
+            <IconButton variant="ghost" onClick={() => setIsAdminDialogOpen(false)} css={styles.closeButton}>
+              <Cross2Icon width="20" height="20" />
+            </IconButton>
+          </Flex>
 
           <Flex justify="end" mb="2">
             <Button
@@ -227,32 +243,28 @@ export const DataDialog = () => {
             </Button>
           </Flex>
 
-          <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
-            <Tabs.List>
-              <Tabs.Trigger value="order" css={styles.tabTrigger}>
-                Order Selections
-              </Tabs.Trigger>
-              <Tabs.Trigger
-                value="calculation"
-                disabled={!cleanedCalculationData}
-                css={[
-                  styles.tabTrigger,
-                  cleanedCalculationData ? styles.activeTabTrigger : styles.disabledTabTrigger,
-                ]}
-              >
-                Calculations
-              </Tabs.Trigger>
-              <Tabs.Trigger
-                value="metadata"
-                disabled={!hasMetadata}
-                css={[styles.tabTrigger, hasMetadata ? styles.activeTabTrigger : styles.disabledTabTrigger]}
-              >
-                Metadata
-              </Tabs.Trigger>
-            </Tabs.List>
+          <div css={styles.dialogContent}>
+            <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
+              <Tabs.List>
+                <Tabs.Trigger value="order" css={styles.tabTrigger}>
+                  Order Selections
+                </Tabs.Trigger>
+                {cleanedCalculationData && (
+                  <Tabs.Trigger value="calculation" css={styles.tabTrigger}>
+                    Calculations
+                  </Tabs.Trigger>
+                )}
+                {hasMetadata && (
+                  <Tabs.Trigger value="metadata" css={styles.tabTrigger}>
+                    Metadata
+                  </Tabs.Trigger>
+                )}
+                <Tabs.Trigger value="config" css={styles.tabTrigger}>
+                  Stored Configuration
+                </Tabs.Trigger>
+              </Tabs.List>
 
-            <ScrollArea style={{ height: 400 }} scrollbars="vertical">
-              <div style={{ padding: '36px 1rem 1rem' }}>
+              <div css={styles.tabContent}>
                 <Tabs.Content value="order">
                   {viewMode === 'list' ? (
                     <div css={styles.dataList}>
@@ -282,15 +294,28 @@ export const DataDialog = () => {
                     <JsonView data={(orders?.[0] as OrderWithMetadata)?.metadata} color="gray" />
                   )}
                 </Tabs.Content>
-              </div>
-            </ScrollArea>
-          </Tabs.Root>
 
-          <Dialog.Close>
-            <Button variant="soft" color="gray" mt="4" size="2">
-              Close
+                <Tabs.Content value="config">
+                  <div css={styles.configContent}>
+                    <ConfigTimer />
+                    <JsonView data={storedConfig} color="orange" />
+                  </div>
+                </Tabs.Content>
+              </div>
+            </Tabs.Root>
+          </div>
+
+          <div css={styles.footer}>
+            <Button
+              variant="soft"
+              color="gray"
+              size="2"
+              onClick={() => setIsAdminDialogOpen(false)}
+              css={styles.okButton}
+            >
+              OK
             </Button>
-          </Dialog.Close>
+          </div>
         </Dialog.Content>
       </Dialog.Root>
     </Theme>

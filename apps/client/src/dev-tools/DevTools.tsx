@@ -3,8 +3,8 @@ import { useDev } from 'providers/DevProvider/DevContext';
 import { TextAlignLeftIcon, TextAlignTopIcon } from '@radix-ui/react-icons';
 import { QueryDevtoolsPanel } from './QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { DevScreenSize } from './DevScreenSize/DevScreenSize';
-import { useKeyPress } from './useKeyPress';
-import { DevFilterResults } from './DevFilterResults/DevFilterResults';
+import { useToolsKeyPress } from 'hooks/useToolsKeyPress';
+// import { DevFilterResults } from './DevFilterResults/DevFilterResults';
 import { DevPanels } from './DevPanels/DevPanels';
 import { styles } from './DevTools.styles';
 import { MockOrdersButton } from './MockOrdersButton/MockOrdersButton';
@@ -22,14 +22,14 @@ export const DevTools = () => {
     setIsDevQueryPanelOpen,
   } = useDev();
 
-  useKeyPress();
+  useToolsKeyPress();
 
   if (!isDevToolsVisible) return null;
 
   return (
     <>
       <>
-        {isDevDataVisible && <DevFilterResults />}
+        {/* {isDevDataVisible && <DevFilterResults />} */}
         {isDevDataVisible && <DevPanels />}
         {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
         <DevScreenSize />
@@ -44,12 +44,6 @@ export const DevTools = () => {
 
           <Box width="64px" height="64px">
             <MockOrdersButton />
-          </Box>
-
-          <Box width="64px" height="64px">
-            <button className="btn-dev" onClick={() => setIsDevDataVisible(!isDevDataVisible)}>
-              <TextAlignLeftIcon />
-            </button>
           </Box>
 
           <Box width="64px" height="64px">

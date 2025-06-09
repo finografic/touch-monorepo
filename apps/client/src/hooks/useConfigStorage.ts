@@ -5,6 +5,7 @@ interface ConfigData {
   filters: Record<string, unknown>;
   temperatures: Record<string, number>;
   durations: Record<string, number>;
+  selectedOrders?: number[];
 }
 
 export const useConfigStorage = () => {

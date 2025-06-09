@@ -1,33 +1,33 @@
 import { Box, Flex } from '@radix-ui/themes';
-import { TimerIcon } from '@radix-ui/react-icons';
+import { TextAlignLeftIcon, TimerIcon } from '@radix-ui/react-icons';
 import { ConfigTimer } from '../ConfigTimer/ConfigTimer';
 import { styles } from './AdminTools.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
-// import { useToolsKeyPress } from 'hooks/useToolsKeyPress';
+import { useConfigStorage } from 'hooks/useConfigStorage';
 
 export const AdminTools = () => {
-  const { isAdminToolsVisible, isTimerVisible, setIsTimerVisible } = useAdmin();
-
-  // Initialize keyboard shortcuts
-  // useToolsKeyPress();
+  const { isAdminToolsVisible, isTimerVisible, setIsTimerVisible, isAdminDialogOpen, setIsAdminDialogOpen } =
+    useAdmin();
+  const { saveConfig } = useConfigStorage();
 
   if (!isAdminToolsVisible) return null;
 
   return (
     <div css={styles} className="admin-tools-container">
-      <Flex gap="3" align="center">
+      <Flex gap="3" align="start">
         {/* Placeholder for future admin buttons */}
-        <Box width="48px" height="48px">
-          <button className="btn-admin btn-placeholder" disabled>
-            {/* Placeholder */}
+        <Box width="64px" height="64px">
+          <button className="btn-dialog" onClick={() => setIsAdminDialogOpen(!isAdminDialogOpen)}>
+            <TextAlignLeftIcon />
           </button>
         </Box>
 
         {/* Timer visibility toggle */}
-        <Box width="48px" height="48px">
+        <Box width="64px" height="64px">
           <button
             className={`btn-admin ${isTimerVisible ? 'active' : ''}`}
             onClick={() => setIsTimerVisible(!isTimerVisible)}
+            title="Toggle Timer"
           >
             <TimerIcon />
           </button>

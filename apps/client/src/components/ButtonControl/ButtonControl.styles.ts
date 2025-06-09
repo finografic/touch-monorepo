@@ -7,13 +7,16 @@ export const styles = css`
   padding: 0.5rem 1.5rem;
   border: ${layout.borderWidth} solid ${colors.greyDark};
   border-radius: 4px;
-  background: transparent;
-  color: ${colors.info};
   transition: all 0.2s;
 
+  color: ${colors.info};
+  border-color: ${colors.infoDark}bb;
+  background: transparent;
+
   &:hover {
+    color: ${colors.info};
     border-color: ${colors.info};
-    background-color: rgba(0, 191, 255, 0.1);
+    background-color: ${colors.info}11;
   }
 
   &:disabled {
@@ -33,7 +36,7 @@ export const styles = css`
 
     &:hover {
       border-color: ${colors.successLight};
-      background-color: rgba(1, 250, 20, 0.1);
+      background-color: ${colors.successLight}88;
     }
 
     &:disabled {

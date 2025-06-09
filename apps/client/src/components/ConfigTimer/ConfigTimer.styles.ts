@@ -2,15 +2,13 @@ import { css } from '@emotion/react';
 
 export const styles = css`
   .config-timer {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.8);
-    padding: 8px 16px;
-    border-radius: 20px;
-    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    height: 100%;
+    padding: 0 20px;
     font-size: 14px;
-    z-index: 1000;
+    color: inherit;
   }
 `;
