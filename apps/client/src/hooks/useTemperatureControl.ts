@@ -2,21 +2,14 @@ import { useCallback, useDeferredValue, useEffect, useState } from 'react';
 import { useFilters } from './useFilters';
 import { OrderFieldKeys } from 'constants/app.config';
 import { useGetTemperatureProfiles } from 'queries/temperature/useGetTemperatureProfiles';
-import { getTimeValue } from 'utils/temperature.utils';
 import type { TemperatureFilter, TemperatureProfile } from 'types/temperature.types';
-import { reduceFilterProperty } from 'utils/filters.utils';
 import { useConfigStorage } from './useConfigStorage';
 import { useOrders } from 'providers/OrdersProvider';
 import { ItemType } from 'types/orders.types';
 
 interface UseTemperatureControlOptions {
-  onSuccess?: (duration: number) => void;
+  onSuccess?: (durations: Record<string, number>) => void;
   onError?: (error: Error) => void;
-}
-
-interface OrderDuration {
-  itemNumber: number;
-  duration: number;
 }
 
 const getTimeValueForItemType = (profile: TemperatureProfile, itemType: ItemType): number => {
@@ -33,37 +26,32 @@ const getTimeValueForItemType = (profile: TemperatureProfile, itemType: ItemType
 };
 
 export const useTemperatureControl = (options: UseTemperatureControlOptions = {}) => {
-  // log('__DEV: options', 'orange', options);
-  const { filters, setFilter } = useFilters();
+  const { filters } = useFilters();
   const [showLoading, setShowLoading] = useState(false);
   const { orders } = useOrders();
   const { saveConfig } = useConfigStorage();
-
-  // Get element number from filters (defaulting to 1 for now)
-  const elementNumber =
-    Number(
-      reduceFilterProperty<{ elementNumber: number }>({
-        propKey: 'elementNumber' as const,
-        filters,
-      }),
-    ) || 1;
 
   // Get current temperature filter values
   const currentFilter = filters[OrderFieldKeys.temperature] as TemperatureFilter | undefined;
   const { initial, final } = currentFilter || {};
 
-  // log('__DEV: CURRENT', 'orange', { currentFilter, initial, final });
-
   // Defer the query state to prevent UI flickering
   const deferredInitial = useDeferredValue(initial);
   const deferredFinal = useDeferredValue(final);
 
-  // Get both temperature profiles in one query
+  // Get temperature profiles in one query
   const temperatureProfilesQuery = useGetTemperatureProfiles({
     initial: deferredInitial,
     final: deferredFinal,
     enabled: Boolean(deferredInitial && deferredFinal && currentFilter),
   });
+
+  // Log temperature profiles when they change
+  useEffect(() => {
+    if (temperatureProfilesQuery.data) {
+      console.log('Available temperature profiles:', temperatureProfilesQuery.data);
+    }
+  }, [temperatureProfilesQuery.data]);
 
   // Compute loading state that includes both immediate and deferred states
   const isLoading =
@@ -86,46 +74,97 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
     };
   }, [isLoading]);
 
-  const startTemperatureControl = useCallback(
-    async (duration: number = 300) => {
-      try {
-        // Save the current configuration
-        const selectedOrders = orders.filter((order) => order.isSelected);
-
-        // Get the temperature profiles data and find the profile for the temperature difference
-        const profiles = temperatureProfilesQuery.data;
-        if (!profiles) {
-          throw new Error('Temperature profiles not available');
-        }
-
-        const temperatureDiff = Math.abs(currentFilter?.final ?? 0 - (currentFilter?.initial ?? 0));
-        const profile = profiles.find((p) => p.temperature === temperatureDiff);
-        if (!profile) {
-          throw new Error(`No temperature profile found for difference of ${temperatureDiff}°C`);
-        }
-
-        // Calculate duration based on the item type
-        const calculatedDuration =
-          selectedOrders.length === 1
-            ? getTimeValueForItemType(profile, selectedOrders[0].itemType)
-            : Math.max(...selectedOrders.map((order) => getTimeValueForItemType(profile, order.itemType)));
-
-        saveConfig({
-          filters: {},
-          temperatures: { default: 25 },
-          durations: { default: calculatedDuration },
-          selectedOrders: selectedOrders.map((order) => order.itemNumber),
-        });
-
-        // Call onSuccess with the calculated duration
-        options.onSuccess?.(calculatedDuration);
-      } catch (error) {
-        console.error('Temperature control error:', error);
-        options.onError?.(error as Error);
+  const startTemperatureControl = useCallback(async () => {
+    try {
+      if (!currentFilter?.initial || !currentFilter?.final) {
+        throw new Error('Initial and final temperatures must be set');
       }
-    },
-    [orders, temperatureProfilesQuery.data, currentFilter, saveConfig, options.onSuccess, options.onError],
-  );
+
+      // Get the temperature profiles data
+      const profiles = temperatureProfilesQuery.data;
+      if (!profiles) {
+        throw new Error('Temperature profiles not available');
+      }
+
+      // log('__DEV: PROFILES', 'magenta', {
+      //   initial: currentFilter.initial,
+      //   final: currentFilter.final,
+      //   profiles: profiles.map((p) => ({
+      //     temp: p.temperature,
+      //     timeA: p.timeA,
+      //     timeB: p.timeB,
+      //     timeC: p.timeC,
+      //   })),
+      // });
+
+      // Find the profile for the temperature difference
+      // Note: We need the absolute difference between initial and final temperatures
+      const temperatureDiff = Math.abs(currentFilter.final - currentFilter.initial);
+      console.log('Looking for temperature difference:', temperatureDiff);
+
+      // Find the closest matching profile
+      const profile = profiles.reduce(
+        (closest, current) => {
+          const currentDiff = Math.abs(current.temperature - temperatureDiff);
+          const closestDiff = closest ? Math.abs(closest.temperature - temperatureDiff) : Infinity;
+          return currentDiff < closestDiff ? current : closest;
+        },
+        null as TemperatureProfile | null,
+      );
+
+      if (!profile) {
+        throw new Error(
+          `No temperature profile found for difference of ${temperatureDiff}°C. Available profiles: ${profiles.map((p) => p.temperature).join(', ')}°C`,
+        );
+      }
+
+      console.log('Selected profile:', {
+        temperature: profile.temperature,
+        timeA: profile.timeA,
+        timeB: profile.timeB,
+        timeC: profile.timeC,
+      });
+
+      // Get selected orders
+      const selectedOrders = orders.filter((order) => order.isSelected);
+      if (selectedOrders.length === 0) {
+        throw new Error('No orders selected');
+      }
+
+      // Calculate durations for each selected order based on their item type
+      const calculatedDurations = selectedOrders.reduce<Record<string, number>>((acc, order) => {
+        acc[order.itemNumber.toString()] = getTimeValueForItemType(profile, order.itemType);
+        return acc;
+      }, {});
+
+      console.log('Calculated durations:', calculatedDurations);
+
+      // Save configuration with calculated durations
+      await saveConfig({
+        filters: {
+          temperature: {
+            initial: currentFilter.initial,
+            final: currentFilter.final,
+            name: `${currentFilter.initial}°C → ${currentFilter.final}°C`,
+            duration: Math.max(...Object.values(calculatedDurations)),
+          },
+        },
+        temperatures: {
+          default: currentFilter.initial,
+          initial: currentFilter.initial,
+          final: currentFilter.final,
+        },
+        durations: calculatedDurations,
+        selectedOrders: selectedOrders.map((order) => order.itemNumber),
+      });
+
+      // Call onSuccess with the calculated durations map
+      options.onSuccess?.(calculatedDurations);
+    } catch (error) {
+      console.error('Temperature control error:', error);
+      options.onError?.(error as Error);
+    }
+  }, [currentFilter, temperatureProfilesQuery.data, orders, saveConfig, options.onSuccess, options.onError]);
 
   return {
     startTemperatureControl,

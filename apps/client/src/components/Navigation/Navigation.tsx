@@ -65,12 +65,15 @@ export const Navigation = () => {
   const { saveConfig } = useConfigStorage();
 
   const { startTemperatureControl, temperatureProfilesQuery, isLoading } = useTemperatureControl({
-    onSuccess: (duration) => {
+    onSuccess: (calculatedDurations) => {
       startTransition(() => {
         // Update process for selected orders
         orders.forEach((order) => {
           if (order.isSelected) {
-            setOrderProcessing({ itemNumber: order.itemNumber, duration });
+            setOrderProcessing({
+              itemNumber: order.itemNumber,
+              duration: calculatedDurations[order.itemNumber.toString()],
+            });
           }
         });
 
@@ -79,6 +82,7 @@ export const Navigation = () => {
         navigate(pathnames[0], { replace: true });
       });
     },
+
     onError: (error) => {
       // TODO: Show error message to user
       console.error('Failed to control temperature:', error);

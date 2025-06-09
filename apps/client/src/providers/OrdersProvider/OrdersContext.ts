@@ -235,7 +235,7 @@ export const useOrders = (): OrdersReturn => {
 
         if (previous && curr.status !== previous.status) {
           // Only log status changes
-          console.debug(`Order ${curr.number}: ${previous.status} -> ${curr.status}`);
+          // console.debug(`Order ${curr.number}: ${previous.status} -> ${curr.status}`);
 
           // If changed from processing, handle cleanup
           if (previous.status === 'processing' && window.__timerIntervals) {
