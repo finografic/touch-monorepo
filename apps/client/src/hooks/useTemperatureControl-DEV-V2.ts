@@ -89,42 +89,80 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   const startTemperatureControl = useCallback(
     async (duration: number = 300) => {
       try {
-        // Save the current configuration
-        const selectedOrders = orders.filter((order) => order.isSelected);
+        if (!currentFilter?.initial || !currentFilter?.final) {
+          throw new Error('Initial and final temperatures must be set');
+        }
 
-        // Get the temperature profiles data and find the profile for the temperature difference
+        // Get the temperature profiles data
         const profiles = temperatureProfilesQuery.data;
         if (!profiles) {
           throw new Error('Temperature profiles not available');
         }
 
-        const temperatureDiff = Math.abs(currentFilter?.final ?? 0 - (currentFilter?.initial ?? 0));
+        // Find the profile for the temperature difference
+        const temperatureDiff = Math.abs(currentFilter.final - currentFilter.initial);
         const profile = profiles.find((p) => p.temperature === temperatureDiff);
         if (!profile) {
           throw new Error(`No temperature profile found for difference of ${temperatureDiff}°C`);
         }
 
-        // Calculate duration based on the item type
-        const calculatedDuration =
-          selectedOrders.length === 1
-            ? getTimeValueForItemType(profile, selectedOrders[0].itemType)
-            : Math.max(...selectedOrders.map((order) => getTimeValueForItemType(profile, order.itemType)));
+        // Get selected orders and their configurations
+        const selectedOrders = orders.filter((order) => order.isSelected);
+        if (selectedOrders.length === 0) {
+          throw new Error('No orders selected');
+        }
 
-        saveConfig({
-          filters: {},
-          temperatures: { default: 25 },
-          durations: { default: calculatedDuration },
+        // Calculate durations for each selected order based on their item type
+        const orderDurations: OrderDuration[] = selectedOrders.map((order) => ({
+          itemNumber: order.itemNumber,
+          duration: getTimeValueForItemType(profile, order.itemType),
+        }));
+
+        // Create a map of durations by item number (as strings)
+        const calculatedDurations = orderDurations.reduce<Record<string, number>>((acc, od) => {
+          acc[od.itemNumber.toString()] = od.duration;
+          return acc;
+        }, {});
+
+        // Save the configuration with actual temperature values and calculated durations
+        await saveConfig({
+          filters: {
+            temperature: {
+              initial: currentFilter.initial,
+              final: currentFilter.final,
+              name: `${currentFilter.initial}°C → ${currentFilter.final}°C`,
+              duration: Math.max(...orderDurations.map((od) => od.duration)), // Use longest duration
+            },
+          },
+          temperatures: {
+            default: currentFilter.initial,
+            initial: currentFilter.initial,
+            final: currentFilter.final,
+          },
+          durations: {
+            default: duration,
+            ...calculatedDurations,
+          },
           selectedOrders: selectedOrders.map((order) => order.itemNumber),
         });
 
-        // Call onSuccess with the calculated duration
-        options.onSuccess?.(calculatedDuration);
+        // Call onSuccess with the maximum duration (worst case)
+        const maxDuration = Math.max(...orderDurations.map((od) => od.duration));
+        options.onSuccess?.(maxDuration);
       } catch (error) {
         console.error('Temperature control error:', error);
         options.onError?.(error as Error);
       }
     },
-    [orders, temperatureProfilesQuery.data, currentFilter, saveConfig, options.onSuccess, options.onError],
+    [
+      currentFilter,
+      elementNumber,
+      temperatureProfilesQuery.data,
+      orders,
+      saveConfig,
+      options.onSuccess,
+      options.onError,
+    ],
   );
 
   return {

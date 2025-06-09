@@ -3,34 +3,15 @@ import { useFilters } from './useFilters';
 import { OrderFieldKeys } from 'constants/app.config';
 import { useGetTemperatureProfiles } from 'queries/temperature/useGetTemperatureProfiles';
 import { getTimeValue } from 'utils/temperature.utils';
-import type { TemperatureFilter, TemperatureProfile } from 'types/temperature.types';
+import type { TemperatureFilter } from 'types/temperature.types';
 import { reduceFilterProperty } from 'utils/filters.utils';
 import { useConfigStorage } from './useConfigStorage';
 import { useOrders } from 'providers/OrdersProvider';
-import { ItemType } from 'types/orders.types';
 
 interface UseTemperatureControlOptions {
   onSuccess?: (duration: number) => void;
   onError?: (error: Error) => void;
 }
-
-interface OrderDuration {
-  itemNumber: number;
-  duration: number;
-}
-
-const getTimeValueForItemType = (profile: TemperatureProfile, itemType: ItemType): number => {
-  switch (itemType) {
-    case ItemType.A:
-      return profile.timeA;
-    case ItemType.B:
-      return profile.timeB;
-    case ItemType.C:
-      return profile.timeC;
-    default:
-      return 0;
-  }
-};
 
 export const useTemperatureControl = (options: UseTemperatureControlOptions = {}) => {
   // log('__DEV: options', 'orange', options);
@@ -89,31 +70,51 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   const startTemperatureControl = useCallback(
     async (duration: number = 300) => {
       try {
-        // Save the current configuration
-        const selectedOrders = orders.filter((order) => order.isSelected);
+        if (!currentFilter?.initial || !currentFilter?.final) {
+          throw new Error('Initial and final temperatures must be set');
+        }
 
-        // Get the temperature profiles data and find the profile for the temperature difference
+        // Get the temperature profiles data
         const profiles = temperatureProfilesQuery.data;
         if (!profiles) {
           throw new Error('Temperature profiles not available');
         }
 
-        const temperatureDiff = Math.abs(currentFilter?.final ?? 0 - (currentFilter?.initial ?? 0));
+        // Find the profile for the temperature difference
+        const temperatureDiff = Math.abs(currentFilter.final - currentFilter.initial);
         const profile = profiles.find((p) => p.temperature === temperatureDiff);
         if (!profile) {
           throw new Error(`No temperature profile found for difference of ${temperatureDiff}°C`);
         }
 
-        // Calculate duration based on the item type
-        const calculatedDuration =
-          selectedOrders.length === 1
-            ? getTimeValueForItemType(profile, selectedOrders[0].itemType)
-            : Math.max(...selectedOrders.map((order) => getTimeValueForItemType(profile, order.itemType)));
+        // Calculate actual duration based on temperature difference and element number
+        const calculatedDuration = getTimeValue(profile, elementNumber);
 
-        saveConfig({
-          filters: {},
-          temperatures: { default: 25 },
-          durations: { default: calculatedDuration },
+        // Get selected orders and their configurations
+        const selectedOrders = orders.filter((order) => order.isSelected);
+        if (selectedOrders.length === 0) {
+          throw new Error('No orders selected');
+        }
+
+        // Save the configuration with actual temperature values and calculated duration
+        await saveConfig({
+          filters: {
+            temperature: {
+              initial: currentFilter.initial,
+              final: currentFilter.final,
+              name: `${currentFilter.initial}°C → ${currentFilter.final}°C`,
+              duration: calculatedDuration,
+            },
+          },
+          temperatures: {
+            default: currentFilter.initial,
+            initial: currentFilter.initial,
+            final: currentFilter.final,
+          },
+          durations: {
+            default: calculatedDuration,
+            calculated: calculatedDuration,
+          },
           selectedOrders: selectedOrders.map((order) => order.itemNumber),
         });
 
@@ -124,7 +125,15 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         options.onError?.(error as Error);
       }
     },
-    [orders, temperatureProfilesQuery.data, currentFilter, saveConfig, options.onSuccess, options.onError],
+    [
+      currentFilter,
+      elementNumber,
+      temperatureProfilesQuery.data,
+      orders,
+      saveConfig,
+      options.onSuccess,
+      options.onError,
+    ],
   );
 
   return {
