@@ -7,12 +7,8 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { styles } from './MainPage.styles';
 import type { PadType, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
-import { ItemType, type OrderFieldKey } from 'types/orders.types';
+import type { OrderFieldKey } from 'types/orders.types';
 import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
-// import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-
-// <MenuPad type="A" number={0} className="first" />
-// {/* <div className="pad-special error" /> */}
 
 interface PadUITest {
   id: string;
@@ -29,7 +25,7 @@ export interface PadTestProps extends PadUITest {
   className?: string;
 }
 
-export const PADS_TOUCH_CONFIG: PadUI[] = [
+export const ACTION_BUTTONS_CONFIG: PadUI[] = [
   {
     id: 'button-program-time',
     label: 'Programar Tiempo',
@@ -61,8 +57,6 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
     value: { id: 'button-repeat-selection', name: 'BUTTON_REPEAT_SELECTION' },
   },
 ];
-
-// ======================================================================== //
 
 export function MainPage() {
   const { orders } = useOrders();
@@ -100,7 +94,7 @@ export function MainPage() {
 
         <Col>
           <div className="menu-grid-base">
-            {PADS_TOUCH_CONFIG.map((pad: any) => (
+            {ACTION_BUTTONS_CONFIG.map((pad: any) => (
               <Pad key={pad.id} {...pad} label={pad.label} className={pad.className} />
             ))}
           </div>

@@ -2,7 +2,7 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import type { PadConfig, PadType, PadUI } from 'types/ui.types';
-import { NUM_ITEMS_TYPE_B } from 'constants/app.config';
+import { NUM_GRID_ITEMS } from 'constants/app.config';
 import { parsePadConfig } from 'utils/ui.utils';
 import type { Dataset } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
@@ -20,7 +20,7 @@ export enum LayoutUiKeys {
 }
 
 export const defaultValue: LayoutUiValues = {
-  numItems: NUM_ITEMS_TYPE_B,
+  numItems: NUM_GRID_ITEMS,
   fieldKey: undefined,
   numPads: 0,
   pads: [],

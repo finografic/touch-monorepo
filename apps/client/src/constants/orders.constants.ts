@@ -13,7 +13,7 @@ export const ORDER_ITEMS_CONFIG: OrderItemConfig[] = [
 
   // Second row
   { itemType: ItemType.B, number: 3 },
-  { itemType: ItemType.A, number: 4 },
+  { itemType: ItemType.B, number: 4 },
   { itemType: ItemType.B, number: 5 },
 
   // Third row

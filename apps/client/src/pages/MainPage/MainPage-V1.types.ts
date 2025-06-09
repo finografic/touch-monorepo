@@ -1,9 +1,9 @@
 import type { ItemType } from 'types/orders.types';
 import type { ValidItemTypeBCount } from 'types/menu.types';
-import type { NUM_ITEMS_TYPE_B } from 'constants/app.config';
+import type { NUM_GRID_ITEMS } from 'constants/app.config';
 
 // Define the number of Type B pads we're using
-export type MenuBCount = typeof NUM_ITEMS_TYPE_B;
+export type MenuBCount = typeof NUM_GRID_ITEMS;
 
 // Export the layout type for use in other components
 export type MenuLayout = MenuItemLayout<MenuBCount>;
