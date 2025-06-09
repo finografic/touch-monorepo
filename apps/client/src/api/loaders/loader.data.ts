@@ -7,7 +7,7 @@ type LoaderMap = {
 };
 
 export const LoaderDataHelper: Partial<LoaderMap> = {
-  [OrderFieldKeys.home]: async () => {
+  [OrderFieldKeys.main]: async () => {
     // TODO: Implement when ready
     return [];
   },

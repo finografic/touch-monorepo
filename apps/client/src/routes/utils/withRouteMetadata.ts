@@ -18,7 +18,6 @@ export const withRouteMetadata = (routes: RouteObject[], routesConfig: RouteConf
   const buildMetadataMap = (configs: RouteConfig[], parentPath: string = '') => {
     configs.forEach((config) => {
       const pathname = generatePathname(config.path, parentPath);
-
       const { children, element, ...metadata } = config;
       metadataMap.set(pathname, metadata);
 
@@ -37,15 +36,19 @@ export const withRouteMetadata = (routes: RouteObject[], routesConfig: RouteConf
       const pathname = generatePathname(route.path, parentPath);
       const metadata = metadataMap.get(pathname);
 
-      if (metadata) {
-        route.handle = { ...route.handle, ...metadata };
+      // Create a new route object without deep cloning
+      const { element, children, ...routeProps } = route;
+      const newRoute: RouteObject = {
+        ...routeProps,
+        element,
+        handle: metadata ? { ...route.handle, ...metadata } : route.handle,
+      };
+
+      if (children?.length) {
+        newRoute.children = traverseRoutes(children, pathname);
       }
 
-      if (route.children?.length) {
-        route.children = traverseRoutes(route.children, pathname);
-      }
-
-      return route;
+      return newRoute;
     });
   };
 

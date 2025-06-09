@@ -5,11 +5,9 @@ import { useRouterLoader } from 'routes/hooks/useRouterLoader';
 import { withRouteMetadata } from 'routes/utils/withRouteMetadata';
 import { RouteMetadataContext } from './RouteMetadataContext';
 import NotFound from 'pages/NotFound';
-import cloneDeep from 'lodash/cloneDeep';
 import { ROUTES_CONFIG } from 'routes/routes.config';
 import { routes } from 'routes/routes';
 import { flatttenChildren } from 'routes/utils/routes.utils.flatten';
-import { cleanRoutesOfProps } from 'routes/utils/routes.utils';
 
 interface RouteMetadataProviderProps {
   children: ReactNode;
@@ -21,7 +19,7 @@ interface RoutesMetadataReturns {
 }
 
 /**
- * Provides enhanced route]outeMetadata hook.
+ * Provides enhanced route metadata hook.
  */
 export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ children }) => {
   const { routerLoader } = useRouterLoader();
@@ -37,14 +35,17 @@ export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ ch
       },
     ];
 
-    const routesWithMetadata = withRouteMetadata(cloneDeep(base), ROUTES_CONFIG);
-    const routesFlattened = flatttenChildren<RouteObject>(cloneDeep(routesWithMetadata));
-    const routesMetadata = cleanRoutesOfProps<RouteObject[]>({
-      routes: routesFlattened,
-      props: ['element', 'children'],
-    });
+    // Apply metadata to routes without deep cloning
+    const routesWithMetadata = withRouteMetadata(base, ROUTES_CONFIG);
 
-    return { isInitialized: true, routes: routesWithMetadata, routesMetadata };
+    // Create flattened version for lookup, excluding React elements
+    const routesMetadata = flatttenChildren<RouteObject>(routesWithMetadata);
+
+    return {
+      isInitialized: true,
+      routes: routesWithMetadata,
+      routesMetadata,
+    };
   }, [routes, routerLoader]);
 
   return <RouteMetadataContext.Provider value={stateValues}>{children}</RouteMetadataContext.Provider>;

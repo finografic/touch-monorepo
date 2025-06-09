@@ -8,7 +8,7 @@ export const NUM_ITEMS_TYPE_B: ValidItemTypeBCount = 8 as const;
  * These are used to derive other constants and types
  */
 export const ORDER_FIELD_KEYS = [
-  'home',
+  'main',
   'drinkType',
   'drinkSubtype',
   'drinkVolume',
@@ -21,7 +21,7 @@ export const ORDER_FIELD_KEYS = [
  * Useful for strongly-typed object access
  */
 export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
-  home: 'home',
+  main: 'main',
   drinkType: 'drinkType',
   drinkSubtype: 'drinkSubtype',
   drinkVolume: 'drinkVolume',

@@ -38,7 +38,7 @@ const ErrorFallback: React.FC = () => {
           <pre>{errorComponentStack}</pre>
         </details>
       )}
-      <Link to="/">Go back to homepage</Link>
+      <Link to="/">Go back to main page</Link>
     </div>
   );
 };

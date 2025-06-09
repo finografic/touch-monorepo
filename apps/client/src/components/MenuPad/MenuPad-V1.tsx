@@ -51,10 +51,10 @@ export const MenuPad = <T extends ItemType>({ itemType, number, metadata }: Menu
     <Pad
       css={styles}
       id={String(number)}
-      name="home"
+      name="main"
       type="checkbox"
       value={{ id: String(number), itemType }}
-      fieldKey={OrderFieldKeys.home}
+      fieldKey={OrderFieldKeys.main}
       isChecked={isSelected}
       className={className}
       label={String(number)}

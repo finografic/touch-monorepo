@@ -32,7 +32,7 @@ export const NotFoundCard = (): ReactElement => {
           <Button
             variant="outline"
             color="primaryLight"
-            label={t('t.errorPages.buttons.goto-home')}
+            label={t('t.errorPages.buttons.goto-main')}
             onClick={handleGoHome}
           /> */}
         </Col>

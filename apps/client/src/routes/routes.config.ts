@@ -3,7 +3,7 @@ import type { OrderFieldKey } from 'types/orders.types';
 import type { ConstMapOf } from '@workspace/types/utils';
 
 export const PATHS: ConstMapOf<OrderFieldKey, string> = {
-  home: '/',
+  main: '/',
   drinkType: '/drink-type',
   drinkSubtype: '/drink-type/:drinkTypeId',
   drinkVolume: '/drink-volume',
@@ -13,8 +13,8 @@ export const PATHS: ConstMapOf<OrderFieldKey, string> = {
 
 export const ROUTES_CONFIG: RouteConfig[] = [
   {
-    path: PATHS.home,
-    id: 'home',
+    path: PATHS.main,
+    id: 'main',
     title: 'ServiFresc',
   },
   {

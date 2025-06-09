@@ -99,8 +99,8 @@ export const Navigation = () => {
   }, [orders, setOrderProcessing]);
 
   useEffect(() => {
-    if (orders.length === 0 && location.pathname !== PATHS.home) {
-      navigate(PATHS.home);
+    if (orders.length === 0 && location.pathname !== PATHS.main) {
+      navigate(PATHS.main);
     }
   }, [orders, location.pathname, navigate]);
 
@@ -131,7 +131,7 @@ export const Navigation = () => {
     startTemperatureControl();
   }, [startTemperatureControl]);
 
-  const isVisibleBackButton = location.pathname !== PATHS.home;
+  const isVisibleBackButton = location.pathname !== PATHS.main;
   const isVisibleNextButton = location.pathname !== PATHS.temperature;
 
   return (
@@ -141,11 +141,11 @@ export const Navigation = () => {
           <NavigationMenu.List className="nav-list">
             {NAVIGATION_BUTTONS_CONFIG.map((button) => {
               // Update visibility conditions for reset button
-              if (button.type === 'reset' && (!hasCompletedTimers || location.pathname !== PATHS.home))
+              if (button.type === 'reset' && (!hasCompletedTimers || location.pathname !== PATHS.main))
                 return null;
-              // Only show ALL on home page
-              if (button.type === 'all' && location.pathname !== PATHS.home) return null;
-              // Only show Back when not on home page
+              // Only show ALL on main page
+              if (button.type === 'all' && location.pathname !== PATHS.main) return null;
+              // Only show Back when not on main page
               if (button.type === 'back' && !isVisibleBackButton) return null;
               // Only show Next when not on temperature page
               if (button.type === 'next' && !isVisibleNextButton) return null;

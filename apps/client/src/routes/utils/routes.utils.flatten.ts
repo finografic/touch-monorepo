@@ -6,14 +6,16 @@ export const flatttenChildren = <T extends RouteObject | RouteConfig>(routes: T[
 
   const flatten = (routes: T[]) => {
     for (const route of routes) {
-      flattened.push({ ...route, children: undefined });
-      if (route?.children && Array.isArray(route.children)) {
-        flatten(route.children as T[]);
+      // Only clone the properties we need, excluding React elements
+      const { element, children, ...routeProps } = route;
+      flattened.push({ ...routeProps } as T);
+
+      if (children && Array.isArray(children)) {
+        flatten(children as T[]);
       }
     }
   };
 
   flatten(routes);
-
   return flattened;
 };

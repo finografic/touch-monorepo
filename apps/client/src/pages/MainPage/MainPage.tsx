@@ -33,7 +33,7 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
     id: 'button-program-time',
     label: 'Programar Tiempo',
     type: 'button',
-    name: 'home',
+    name: 'main',
     className: 'pad-rect',
     isChecked: false,
     disabled: false,
@@ -43,7 +43,7 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
     id: 'button-program-product',
     label: 'Programar Producto',
     type: 'button',
-    name: 'home',
+    name: 'main',
     className: 'pad-rect',
     isChecked: false,
     disabled: false,
@@ -53,7 +53,7 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
     id: 'button-repeat-selection',
     label: 'Repetir Selección',
     type: 'button',
-    name: 'home',
+    name: 'main',
     className: 'pad-rect',
     isChecked: false,
     disabled: true,
@@ -63,7 +63,7 @@ export const PADS_TOUCH_CONFIG: PadUI[] = [
 
 // ======================================================================== //
 
-export function MenuPage() {
+export function MainPage() {
   const { orders } = useOrders();
   const { setIsNextDisabled } = usePagination();
 

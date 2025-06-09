@@ -32,7 +32,6 @@ export const stylesButtonBase = css`
     color: ${colors.info};
     border-color: ${colors.info};
     background-color: ${colors.info}11;
-    transform: scale(1.05);
   }
 
   &[data-disabled='true'],

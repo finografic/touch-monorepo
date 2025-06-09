@@ -4,7 +4,7 @@ import type { OrderFieldKey } from 'types/orders.types';
 import type { PadConfig, PadUI } from 'types/ui.types';
 
 export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
-  [OrderFieldKeys.home]: {
+  [OrderFieldKeys.main]: {
     type: 'checkbox',
     labelKey: 'name',
     valueKeys: ['id', 'name'],

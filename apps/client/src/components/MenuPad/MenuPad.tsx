@@ -50,10 +50,10 @@ export const MenuPad = ({ itemType, number, metadata }: MenuPadProps) => {
     <Pad
       css={styles}
       id={String(number)}
-      name="home"
+      name="main"
       type="checkbox"
       value={{ id: String(number), itemType }}
-      fieldKey={OrderFieldKeys.home}
+      fieldKey={OrderFieldKeys.main}
       isChecked={isSelected}
       className={className}
       label={String(number)}
