@@ -18,7 +18,6 @@ const props = {
     width: '150px',
     height: '239px',
   },
-  // menu,
 };
 
 export const styles = css`

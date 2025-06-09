@@ -5,18 +5,19 @@ import type { ItemType, OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
 import { MenuPadToggle } from './MenuPadToggle';
 import { styles } from './MenuPad.styles';
+import type { ValidMenuPadNumber } from 'pages/MainPage/MainPage.types';
 import type { DataEntry } from 'types/data.types';
 import { Pad } from 'components/Pad';
 import { OrderFieldKeys } from 'constants/app.config';
 import { Timer } from 'components/Timer/Timer';
 
-export interface MenuPadProps {
-  itemType: ItemType;
-  number: number;
+export interface MenuPadProps<T extends ItemType> {
+  itemType: T;
+  number: ValidMenuPadNumber<T>;
   metadata?: DataEntry;
 }
 
-export const MenuPad = ({ itemType, number, metadata }: MenuPadProps) => {
+export const MenuPad = <T extends ItemType>({ itemType, number, metadata }: MenuPadProps<T>) => {
   const { orders, toggleOrder, timerAction } = useOrders();
   const order = findOrderByNumber(orders, number) as OrderItem;
   const isSelected = !!order?.isSelected;

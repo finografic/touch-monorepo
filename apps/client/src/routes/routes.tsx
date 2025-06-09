@@ -2,7 +2,7 @@ import type { RouteObject } from 'react-router-dom';
 import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 import { Layout } from 'layout/Layout';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
-import { MenuPage } from '../pages/MenuPage/MenuPage';
+import { MenuPage } from '../pages/MainPage/MainPage';
 import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
 import { PATHS } from './routes.config';
 import { OrderFieldKeys } from 'constants/app.config';

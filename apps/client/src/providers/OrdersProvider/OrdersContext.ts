@@ -158,6 +158,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                   if (order.itemNumber === itemNumber) {
                     return {
                       ...order,
+                      isSelected: false,
                       process: {
                         status: 'idle' as OrderStatus,
                         estimatedCompletionTime: undefined,

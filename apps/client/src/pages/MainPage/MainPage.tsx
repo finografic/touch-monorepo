@@ -4,7 +4,7 @@ import { MenuPad } from 'components/MenuPad';
 import { Pad } from 'components/Pad';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { styles } from './MenuPage.styles';
+import { styles } from './MainPage.styles';
 import type { PadType, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
 import { ItemType, type OrderFieldKey } from 'types/orders.types';
@@ -87,7 +87,7 @@ export function MenuPage() {
 
             {/* Second row */}
             <MenuPad itemType={ItemType.B} number={3} />
-            <MenuPad itemType={ItemType.B} number={4} />
+            <MenuPad itemType={ItemType.A} number={4} />
             <MenuPad itemType={ItemType.B} number={5} />
 
             {/* Third row */}
