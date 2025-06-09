@@ -17,7 +17,7 @@ export const DevPanels = () => {
 
   const padsConfig = PADS_UI_CONFIG[fieldKey];
 
-  const devDataLeft = {
+  const _devDataLeft = {
     pathname: location.pathname,
     fieldKey,
     config: padsConfig,
@@ -50,7 +50,9 @@ export const DevPanels = () => {
       </aside>
       <aside id="dev-data-right" css={stylesRight}>
         <pre>{JSON.stringify(cleanOrdersForDisplay)}</pre>
-        <div className="data-tree">{/* <JSONTree data={devDataRight} /> */}</div>
+        <div className="data-tree">
+          <JSONTree data={devDataRight} />
+        </div>
       </aside>
     </>
   );

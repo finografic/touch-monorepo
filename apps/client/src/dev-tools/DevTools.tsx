@@ -4,7 +4,7 @@ import { TextAlignLeftIcon, TextAlignTopIcon } from '@radix-ui/react-icons';
 import { QueryDevtoolsPanel } from './QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { DevScreenSize } from './DevScreenSize/DevScreenSize';
 import { useToolsKeyPress } from 'hooks/useToolsKeyPress';
-// import { DevFilterResults } from './DevFilterResults/DevFilterResults';
+import { DevFilterResults } from './DevFilterResults/DevFilterResults';
 import { DevPanels } from './DevPanels/DevPanels';
 import { styles } from './DevTools.styles';
 import { MockOrdersButton } from './MockOrdersButton/MockOrdersButton';
@@ -29,7 +29,7 @@ export const DevTools = () => {
   return (
     <>
       <>
-        {/* {isDevDataVisible && <DevFilterResults />} */}
+        {isDevDataVisible && <DevFilterResults />}
         {isDevDataVisible && <DevPanels />}
         {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
         <DevScreenSize />

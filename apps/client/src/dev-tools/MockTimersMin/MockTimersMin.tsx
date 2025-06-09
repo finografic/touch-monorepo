@@ -1,15 +1,13 @@
 import { useOrders } from 'providers/OrdersProvider';
 import { ClockIcon } from '@radix-ui/react-icons';
 import { useCallback } from 'react';
-import { hasProcessingTimers /* getFiveSecondEstimate, */ } from 'utils/timers.utils';
+import { hasProcessingTimers } from 'utils/timers.utils';
 import { styles } from './MockTimersMin.styles';
 
 export const MockTimersMin = () => {
   const { orders, setOrderProcessing } = useOrders();
 
   const handleSetMinTimers = useCallback(() => {
-    // const estimatedCompletionTime = getFiveSecondEstimate();
-
     orders.forEach((order) => {
       if (order.process.status === 'processing') {
         setOrderProcessing({

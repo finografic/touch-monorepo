@@ -23,6 +23,13 @@ type LayoutUiActions = LayoutUiSetters & {
   initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadConfig, fieldKey: OrderFieldKey) => void;
   updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadUI[]) => PadUI[]) => void;
   togglePad: (fieldKey: OrderFieldKey, padId: string, type: PadType) => void;
+  handleRouteChange: (
+    fieldKey: OrderFieldKey | undefined,
+    loaderData: DataEntry[],
+    padsConfig: PadConfig,
+    dataPool: DataEntry[],
+    serverFieldMap: Record<string, string>,
+  ) => void;
 };
 
 export interface LayoutUiProviderProps {

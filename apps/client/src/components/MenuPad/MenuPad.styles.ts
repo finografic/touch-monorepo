@@ -76,13 +76,13 @@ export const styles = css`
     }
 
     &.status-processing {
-      cursor: wait;
-      pointer-events: none;
+      /* cursor: wait; */
+      /* pointer-events: none; */
       color: ${colors.success};
       border: ${layout.borderWidth} solid ${colors.success};
       background-color: ${colors.success}22;
       &:hover {
-        cursor: wait;
+        /* cursor: wait; */
         color: ${colors.success};
         border-color: ${colors.successLight};
         background-color: ${colors.success}22;

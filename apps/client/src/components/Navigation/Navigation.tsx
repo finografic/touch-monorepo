@@ -195,7 +195,9 @@ export const Navigation = () => {
                         button.type === 'next'
                           ? isNextDisabled || isPending
                           : button.type === 'start'
-                            ? isLoading || isPending || !temperatureProfilesQuery.data
+                            ? isLoading ||
+                              isPending ||
+                              (temperatureProfilesQuery.isError && !temperatureProfilesQuery.data)
                             : isPending
                       }
                       data-disabled={
@@ -204,7 +206,9 @@ export const Navigation = () => {
                             ? 'true'
                             : undefined
                           : button.type === 'start'
-                            ? isLoading || isPending || !temperatureProfilesQuery.data
+                            ? isLoading ||
+                              isPending ||
+                              (temperatureProfilesQuery.isError && !temperatureProfilesQuery.data)
                               ? 'true'
                               : undefined
                             : isPending

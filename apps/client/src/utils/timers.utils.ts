@@ -13,13 +13,6 @@ export const hasCompletedTimers = (orders: OrderItem[]): boolean => {
   return orders.some((order) => order.process.status === 'completed');
 };
 
-// Add 5 seconds to current time for estimatedCompletionTime
-export const getFiveSecondEstimate = (): string => {
-  const date = new Date();
-  date.setSeconds(date.getSeconds() + 5);
-  return date.toISOString();
-};
-
 export const formatTime = (seconds: number | undefined): string => {
   if (seconds === undefined) return '00:00';
   const minutes = Math.floor(seconds / 60);

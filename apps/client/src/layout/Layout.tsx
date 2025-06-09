@@ -13,6 +13,7 @@ import { DevProvider } from 'providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { DataDialog } from 'components/DataDialog/DataDialog';
+import { SessionProvider } from 'providers/SessionProvider';
 
 export const Layout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
@@ -21,29 +22,31 @@ export const Layout: FC = () => {
   }
 
   return (
-    <OrdersProvider>
-      <PaginationProvider>
-        <LayoutUiProvider>
-          <ContentProvider>
-            <AdminProvider>
-              <DevProvider>
-                <div id="layout" css={styles}>
-                  <Header />
-                  <main>
-                    <div className="main-content">
-                      <Suspense fallback={<Loader message="Loading..." />}>
-                        <Outlet />
-                      </Suspense>
-                      <DataDialog />
-                    </div>
-                  </main>
-                  <Footer />
-                </div>
-              </DevProvider>
-            </AdminProvider>
-          </ContentProvider>
-        </LayoutUiProvider>
-      </PaginationProvider>
-    </OrdersProvider>
+    <SessionProvider>
+      <OrdersProvider>
+        <PaginationProvider>
+          <LayoutUiProvider>
+            <ContentProvider>
+              <AdminProvider>
+                <DevProvider>
+                  <div id="layout" css={styles}>
+                    <Header />
+                    <main>
+                      <div className="main-content">
+                        <Suspense fallback={<Loader message="Loading..." />}>
+                          <Outlet />
+                        </Suspense>
+                        <DataDialog />
+                      </div>
+                    </main>
+                    <Footer />
+                  </div>
+                </DevProvider>
+              </AdminProvider>
+            </ContentProvider>
+          </LayoutUiProvider>
+        </PaginationProvider>
+      </OrdersProvider>
+    </SessionProvider>
   );
 };

@@ -8,20 +8,39 @@ import type { PadType, PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import PadGroup from 'components/PadGroup/PadGroup';
 import type { DataEntry } from 'types/data.types';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 
 export const GenericSelectPage = () => {
   const { fieldKey, padsConfig } = useRouteConfig();
   const { pads } = useLayoutUi();
-  const { orders, setOrdersFilter, currentConfigurationSessionId } = useOrders();
+  const { orders, setOrdersFilter } = useOrders();
+  const { currentSessionId, sessions, updateSessionFilters } = useSession();
 
   const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
-    if (!orders?.length || !currentConfigurationSessionId) return;
+    if (!orders?.length || !currentSessionId) return;
 
-    // Only update orders that belong to the current configuration session
-    const sessionOrders = orders.filter(
-      (order) => order.configurationSessionId === currentConfigurationSessionId,
+    // Get current session's orders
+    const sessionOrders = orders.filter((order) =>
+      sessions[currentSessionId]?.orderNumbers.includes(order.itemNumber),
     );
 
+    // Update session filters
+    const currentSessionFilters = sessions[currentSessionId]?.filters || {};
+
+    if (pad.isChecked) {
+      const lookup = { [padsConfig.filterKey as keyof DataEntry]: pad.value.name };
+      const { temperatureProfileId, ...filterValue } = pad.value;
+      const newFilters = {
+        ...currentSessionFilters,
+        [fieldKey]: { ...filterValue, lookup },
+      };
+      updateSessionFilters(currentSessionId, newFilters);
+    } else {
+      const { [fieldKey]: _removed, ...rest } = currentSessionFilters;
+      updateSessionFilters(currentSessionId, rest);
+    }
+
+    // Also update individual orders for backward compatibility
     for (const order of sessionOrders) {
       const currentFilters = order.filters || {};
 

@@ -2,12 +2,10 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
-import { OrderFieldKeys } from 'constants/app.config';
 import { useFilters } from 'hooks/useFilters';
 import { Box, Flex } from '@radix-ui/themes';
 import { styles } from '../content.styles';
 import {
-  FINAL_TEMP_MAX,
   FINAL_TEMP_MIN,
   INITIAL_TEMP_DEFAULT,
   INITIAL_TEMP_MAX,
@@ -17,25 +15,8 @@ import {
 import { useGetMinMaxTemperatures } from 'queries/temperature/useGetMinMaxTemperatures';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
-import type { DataEntry } from 'types/data.types';
+import { useSession } from 'providers/SessionProvider';
 import { TemperatureKey } from 'types/temperature.types';
-
-// ======================================================================== //
-// NOTE:  HOW TEMPERATURE WORKS:
-
-/*
-INITIAL:
-def: 25
-min 0
-max 40 (temp db)
-
-FINAL:
-def: (consume db)
-min: (freeze db)
-max: INITIAL TEMPERATURE VALUE
-*/
-
-// ======================================================================== //
 
 interface TemperatureState {
   initial: number;
@@ -56,7 +37,8 @@ const DESCRIPTIONS = {
 
 export const TemperaturePage = () => {
   const isInitializedRef = useRef(false);
-  const { orders, setOrdersFilter, currentConfigurationSessionId } = useOrders();
+  const { orders, setOrdersFilter } = useOrders();
+  const { currentSessionId, updateSessionFilters } = useSession();
   const { dataFiltered, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
 
@@ -66,9 +48,6 @@ export const TemperaturePage = () => {
   });
 
   const { route, fieldKey, filterKey, loaderData } = useRouteConfig();
-
-  // log('__ROUTE_CONFIG: route + data', 'hotpink', { route, loaderData });
-  // log('__ROUTE_CONFIG: keys', 'cyan', { fieldKey, filterKey });
 
   // Get min and max allowed temperatures
   const {
@@ -93,9 +72,7 @@ export const TemperaturePage = () => {
       setTemperatures(newTemperatures);
 
       // Only update orders in the current session
-      const sessionOrders = orders.filter(
-        (order) => order.configurationSessionId === currentConfigurationSessionId,
-      );
+      const sessionOrders = orders.filter((order) => order.configurationSessionId === currentSessionId);
 
       for (const order of sessionOrders) {
         const currentFilters = order.filters || {};
@@ -106,23 +83,35 @@ export const TemperaturePage = () => {
         });
       }
 
+      // Also update session filters so useTemperatureControl can access them
+      if (currentSessionId) {
+        const sessionFilters = {
+          [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
+        };
+        updateSessionFilters(currentSessionId, sessionFilters);
+      }
+
       isInitializedRef.current = true;
     }
-  }, [defaultTempConsume, setFilter, orders, fieldKey, setOrdersFilter, currentConfigurationSessionId]);
+  }, [
+    defaultTempConsume,
+    setFilter,
+    orders,
+    fieldKey,
+    setOrdersFilter,
+    currentSessionId,
+    updateSessionFilters,
+  ]);
 
   // Update filters and validate when temperatures change
   const updateTemperatures = useCallback(
     (initial: number, final: number) => {
-      log('__TEMPS:', 'lime', { initial, final });
-
       setTemperatures({ initial, final });
 
-      if (!orders?.length || !currentConfigurationSessionId) return;
+      if (!orders?.length || !currentSessionId) return;
 
       // Only update orders in the current session
-      const sessionOrders = orders.filter(
-        (order) => order.configurationSessionId === currentConfigurationSessionId,
-      );
+      const sessionOrders = orders.filter((order) => order.configurationSessionId === currentSessionId);
 
       for (const order of sessionOrders) {
         const currentFilters = order.filters || {};
@@ -131,12 +120,20 @@ export const TemperaturePage = () => {
           itemNumber: order.itemNumber,
           filter: { ...currentFilters, [fieldKey]: { initial, final, lookup } },
         });
+      }
+
+      // Also update session filters so useTemperatureControl can access them
+      if (currentSessionId) {
+        const sessionFilters = {
+          [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
+        };
+        updateSessionFilters(currentSessionId, sessionFilters);
       }
 
       // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
       setIsNextDisabled(final >= initial - MIN_TEMP_DIFFERENCE);
     },
-    [setOrdersFilter, setIsNextDisabled, currentConfigurationSessionId],
+    [setOrdersFilter, setIsNextDisabled, currentSessionId, updateSessionFilters, fieldKey],
   );
 
   const handleChange = (name: TemperatureKey, temp: Temperature) => {

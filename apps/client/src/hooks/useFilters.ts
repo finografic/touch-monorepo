@@ -7,6 +7,7 @@ import type { ApiResponse } from '@workspace/common/api';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';
+import { useSession } from 'providers/SessionProvider';
 
 interface UseFiltersReturn {
   // Data arrays - using the OrderModel type which extends DataEntry
@@ -29,7 +30,8 @@ interface UseFiltersReturn {
 
 export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
-  const { orders, currentConfigurationSessionId, configurationSessions } = useOrders();
+  const { orders } = useOrders();
+  const { currentSessionId, sessions } = useSession();
   const [data, setData] = useState<OrderModel[]>([]);
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
 
@@ -42,19 +44,19 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
 
   // Sync filters with current configuration session
   useEffect(() => {
-    if (currentConfigurationSessionId && configurationSessions[currentConfigurationSessionId]) {
-      const sessionFilters = configurationSessions[currentConfigurationSessionId].filters;
-      if (sessionFilters) {
-        setFilters(sessionFilters);
-      }
+    if (currentSessionId && sessions[currentSessionId]) {
+      const sessionFilters = sessions[currentSessionId].filters;
+      setFilters(sessionFilters || {});
     } else {
-      // Fallback to first order's filters for backward compatibility
+      // Only fall back to order filters if we don't have any current session
       const orderFilters = orders[0]?.filters;
       if (orderFilters) {
         setFilters(orderFilters);
+      } else {
+        setFilters({});
       }
     }
-  }, [orders, currentConfigurationSessionId, configurationSessions]);
+  }, [orders, currentSessionId, sessions]);
 
   // Get unique values for each filter key
   const uniqueValues = useMemo(() => getUniqueFilterValues(data), [data]);

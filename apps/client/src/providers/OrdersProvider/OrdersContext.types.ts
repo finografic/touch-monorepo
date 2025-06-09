@@ -12,16 +12,6 @@ export interface TimerActionPayload {
 
 export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
-  currentConfigurationSessionId?: string;
-  configurationSessions: Record<
-    string,
-    {
-      id: string;
-      createdAt: string;
-      filters: OrderFilters;
-      orderNumbers: number[];
-    }
-  >;
 }
 
 type OrdersSetters = {
@@ -35,10 +25,6 @@ type OrdersActions = OrdersSetters & {
   setOrderProcessing: ({ itemNumber, duration }: { itemNumber: number; duration: number }) => void;
   toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => void;
   selectAllOrders: () => void;
-  // Configuration session actions
-  createConfigurationSession: () => string;
-  setActiveConfigurationSession: (sessionId: string) => void;
-  assignOrdersToCurrentSession: (orderNumbers: number[]) => void;
   // Timer-specific actions
   timerAction: (type: TimerActionType, payload: TimerActionPayload) => void;
 };

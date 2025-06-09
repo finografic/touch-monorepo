@@ -4,6 +4,7 @@ import { MenuPad } from 'components/MenuPad';
 import { Pad } from 'components/Pad';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { useSession } from 'providers/SessionProvider';
 import { styles } from './MainPage.styles';
 import type { PadType, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
@@ -59,8 +60,8 @@ export const ACTION_BUTTONS_CONFIG: PadUI[] = [
 ];
 
 export function MainPage() {
-  const { orders, createConfigurationSession, assignOrdersToCurrentSession, currentConfigurationSessionId } =
-    useOrders();
+  const { orders } = useOrders();
+  const { createSession, assignOrdersToSession, currentSessionId } = useSession();
   const { setIsNextDisabled } = usePagination();
 
   // Get currently selected orders that are not processing or completed
@@ -72,22 +73,23 @@ export function MainPage() {
 
   // Create a configuration session when starting new selections
   useEffect(() => {
-    const newlySelectedOrders = orders.filter(
-      (order) => order.isSelected && !order.configurationSessionId && order.process.status === 'idle',
-    );
+    const newlySelectedOrders = orders.filter((order) => order.isSelected && order.process.status === 'idle');
 
     if (newlySelectedOrders.length > 0) {
-      // Create new session if we don't have one or if current session has processing orders
-      let sessionId = currentConfigurationSessionId;
+      // Create new session if we don't have one
+      let sessionId = currentSessionId;
 
       if (!sessionId) {
-        sessionId = createConfigurationSession();
+        sessionId = createSession();
       }
 
       // Assign newly selected orders to current session
-      assignOrdersToCurrentSession(newlySelectedOrders.map((order) => order.itemNumber));
+      assignOrdersToSession(
+        sessionId,
+        newlySelectedOrders.map((order) => order.itemNumber),
+      );
     }
-  }, [orders, currentConfigurationSessionId, createConfigurationSession, assignOrdersToCurrentSession]);
+  }, [orders, currentSessionId, createSession, assignOrdersToSession]);
 
   useEffect(() => {
     setIsNextDisabled(numSelected === 0);

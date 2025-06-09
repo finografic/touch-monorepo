@@ -4,7 +4,7 @@ import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import type { PadConfig, PadType, PadUI } from 'types/ui.types';
 import { NUM_GRID_ITEMS } from 'constants/app.config';
 import { parsePadConfig } from 'utils/ui.utils';
-import type { Dataset } from 'types/data.types';
+import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import { subscribeWithSelector } from 'zustand/middleware';
 
@@ -38,8 +38,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
           initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, fieldKey: OrderFieldKey) => {
             const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
             const { pads, numPads } = parsePadConfig({ data, config: padsConfig, fieldKey });
-            set({ pads });
-            set({ numPads });
+            set({ pads, numPads, fieldKey });
           },
           updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadUI[]) => PadUI[]) => {
             const currentPads = get().pads;
@@ -72,6 +71,42 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               });
               return { pads };
             });
+          },
+          handleRouteChange: (
+            fieldKey: OrderFieldKey | undefined,
+            loaderData: DataEntry[],
+            padsConfig: PadConfig,
+            dataPool: DataEntry[],
+            serverFieldMap: Record<string, string>,
+          ) => {
+            if (!fieldKey) {
+              set({ pads: [], numPads: 0, fieldKey: undefined });
+              return;
+            }
+
+            if (loaderData && padsConfig && dataPool) {
+              const filterKey = padsConfig.filterKey as keyof DataEntry;
+              const visiblePadNames = [
+                ...new Set(dataPool.map((entry) => entry?.[filterKey]).filter(Boolean)),
+              ];
+
+              const filteredLoaderData = (Array.isArray(loaderData) ? loaderData : [loaderData]).filter(
+                (padData) => visiblePadNames.includes(padData.name),
+              );
+
+              const { pads, numPads } = parsePadConfig({
+                data: filteredLoaderData,
+                config: {
+                  ...padsConfig,
+                  initChecked: (pad: PadUI) => serverFieldMap[pad.name] === pad.value.name,
+                },
+                fieldKey,
+              });
+
+              set({ pads, numPads, fieldKey });
+            } else {
+              set({ pads: [], numPads: 0, fieldKey });
+            }
           },
         },
       }),
