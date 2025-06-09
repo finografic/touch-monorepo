@@ -26,10 +26,10 @@ export const DevPanels = () => {
 
   // Filter out filters property from processing orders
   const cleanOrdersForDisplay = orders.map((order) => {
-    if (order.process?.status === 'processing') {
-      const { filters, ...orderWithoutFilters } = order;
-      return orderWithoutFilters;
-    }
+    // if (order.process?.status === 'processing') {
+    //   const { filters, ...orderWithoutFilters } = order;
+    //   return orderWithoutFilters;
+    // }
     return order;
   });
 

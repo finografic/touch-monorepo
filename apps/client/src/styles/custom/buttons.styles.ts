@@ -29,8 +29,10 @@ export const stylesButtonBase = css`
   justify-content: center;
 
   &:hover {
+    color: ${colors.info};
     border-color: ${colors.info};
-    background-color: rgba(0, 191, 255, 0.1);
+    background-color: ${colors.info}11;
+    transform: scale(1.05);
   }
 
   &[data-disabled='true'],

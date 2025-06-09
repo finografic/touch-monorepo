@@ -59,7 +59,7 @@ export const Navigation = () => {
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const { current, setPageCurrent, isNextDisabled } = usePagination();
-  const { selectAllOrders, orders, setOrderProcessing } = useOrders();
+  const { selectAllOrders, orders, setOrderProcessing, timerAction } = useOrders();
   const { pathnames } = useRoutePathnamesByFilters();
 
   const { startTemperatureControl, temperatureProfilesQuery, isLoading } = useTemperatureControl({
@@ -92,10 +92,7 @@ export const Navigation = () => {
       // Clear all completed timers by resetting their process status to 'idle'
       orders.forEach((order) => {
         if (order.process.status === 'completed') {
-          setOrderProcessing({
-            itemNumber: order.itemNumber,
-            duration: 0,
-          });
+          timerAction('reset', { itemNumber: order.itemNumber });
         }
       });
     });

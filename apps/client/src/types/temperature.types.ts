@@ -1,4 +1,4 @@
-import type { OrderStatus } from 'types/orders.types';
+import type { FilterKeys } from 'constants/filters.constants';
 
 export enum TemperatureKey {
   Initial = 'initial',
@@ -31,4 +31,5 @@ export interface TemperatureFilter {
   final?: number;
   duration?: number;
   status?: 'pending' | 'in_progress' | 'completed' | 'error';
+  lookup?: { [FilterKeys.temperatureName]: string | number };
 }

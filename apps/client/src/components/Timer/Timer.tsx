@@ -24,6 +24,26 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
   const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
+  // Function to handle timer completion
+  const handleTimerComplete = () => {
+    console.debug(`Timer completing for order ${order.itemNumber} (${order.itemType})`);
+
+    // First clear the interval
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = undefined;
+    }
+
+    // Then remove from global registry
+    if (typeof window !== 'undefined' && window.__timerIntervals) {
+      delete window.__timerIntervals[order.itemNumber];
+    }
+
+    // Finally update the order status
+    timerAction('complete', { itemNumber: order.itemNumber });
+    onComplete?.();
+  };
+
   useEffect(() => {
     if (!estimatedCompletionTime) {
       setRemainingTime(0);
@@ -34,12 +54,15 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
     const startTime = Date.now();
     const duration = Math.floor((endTime - startTime) / 1000);
 
+    console.debug(
+      `Timer starting for order ${order.itemNumber} (${order.itemType}) with duration ${duration}s`,
+    );
+
     // Set initial remaining time
     setRemainingTime(Math.max(0, duration));
 
     if (duration <= 0) {
-      timerAction('complete', { itemNumber: order.itemNumber });
-      onComplete?.();
+      handleTimerComplete();
       return;
     }
 
@@ -52,12 +75,7 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
       setRemainingTime(Math.max(0, remaining));
 
       if (remaining <= 0) {
-        timerAction('complete', { itemNumber: order.itemNumber });
-        onComplete?.();
-        clearInterval(intervalId);
-        if (typeof window !== 'undefined' && window.__timerIntervals) {
-          delete window.__timerIntervals[order.itemNumber];
-        }
+        handleTimerComplete();
       }
     }, 1000);
 
@@ -68,12 +86,16 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
     intervalRef.current = intervalId;
 
     return () => {
-      clearInterval(intervalId);
+      console.debug(`Timer cleanup for order ${order.itemNumber} (${order.itemType})`);
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+        intervalRef.current = undefined;
+      }
       if (typeof window !== 'undefined' && window.__timerIntervals) {
         delete window.__timerIntervals[order.itemNumber];
       }
     };
-  }, [estimatedCompletionTime, order.itemNumber, timerAction, onComplete]);
+  }, [estimatedCompletionTime, order.itemNumber, order.itemType, timerAction, onComplete]);
 
   return <span>{formatTime(remainingTime)}</span>;
 };

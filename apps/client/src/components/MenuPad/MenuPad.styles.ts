@@ -10,6 +10,12 @@ export const styles = css`
     height: ${padProps.pad.height};
     border-radius: 50%;
 
+    &:not(:disabled) {
+      &:hover {
+        transform: scale(1.05);
+      }
+    }
+
     &.item-type-A {
       color: ${colors.greyXLight}BB;
       border-color: ${colors.greyLight}BB;
@@ -17,6 +23,7 @@ export const styles = css`
         color: ${colors.greyLight};
         border-color: ${colors.greyXLight}BB;
         background-color: ${colors.grey}11;
+        /* transform: scale(1.05); */
       }
       &.checked {
         color: ${colors.greyLight};
@@ -26,9 +33,18 @@ export const styles = css`
     }
 
     &.item-type-B {
+      color: ${colors.info};
+      border-color: ${colors.greyDark};
       &:hover {
+        color: ${colors.info};
         border-color: ${colors.info};
-        transform: scale(1.05);
+        background-color: ${colors.info}11;
+        /* transform: scale(1.05); */
+      }
+      &.checked {
+        color: ${colors.info};
+        border-color: ${colors.info};
+        background-color: ${colors.info}22;
       }
     }
 
@@ -41,6 +57,7 @@ export const styles = css`
         color: ${colors.danger};
         border-color: ${colors.danger};
         background-color: ${colors.danger}11;
+        /* transform: scale(1.05); */
       }
       &.checked {
         color: ${colors.danger};
@@ -58,37 +75,12 @@ export const styles = css`
       }
     }
 
-    &.is-processing {
-      cursor: wait;
-      pointer-events: none;
-      color: ${colors.success};
-      border: ${layout.borderWidth} solid ${colors.success};
-      background-color: rgba(1, 250, 20, 0.1);
-
-      &:hover {
-        cursor: wait;
-        color: ${colors.success};
-        border-color: ${colors.successLight};
-        background-color: rgba(1, 250, 20, 0.1);
-        transform: none;
-      }
-
-      &:disabled {
-        cursor: wait;
-        &:hover {
-          border-color: ${colors.greyDark};
-          background-color: rgba(1, 250, 20, 0.1);
-        }
-      }
-    }
-
     &.status-processing {
       cursor: wait;
       pointer-events: none;
       color: ${colors.success};
       border: ${layout.borderWidth} solid ${colors.success};
       background-color: ${colors.success}22;
-
       &:hover {
         cursor: wait;
         color: ${colors.success};
@@ -96,7 +88,6 @@ export const styles = css`
         background-color: ${colors.success}22;
         transform: none;
       }
-
       &:disabled {
         cursor: wait;
         &:hover {
@@ -112,14 +103,12 @@ export const styles = css`
       color: ${colors.warning};
       border: ${layout.borderWidth} solid ${colors.warning};
       background-color: ${colors.warning}22;
-
       &:hover {
         color: ${colors.warning};
         border-color: ${colors.warning};
         background-color: ${colors.warning}22;
         transform: none;
       }
-
       &:disabled {
         &:hover {
           border-color: ${colors.greyDark};
@@ -134,14 +123,12 @@ export const styles = css`
       color: ${colors.danger};
       border: ${layout.borderWidth} solid ${colors.danger};
       background-color: ${colors.danger}22;
-
       &:hover {
         color: ${colors.danger};
         border-color: ${colors.danger};
         background-color: ${colors.danger}22;
         transform: none;
       }
-
       &:disabled {
         &:hover {
           border-color: ${colors.greyDark};

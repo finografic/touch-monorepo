@@ -52,6 +52,7 @@ export const stylesLeft = css`
 
 export const stylesRight = css`
   ${styles}
+  top: 0;
   & * {
     font-size: 0.8rem;
     font-family: monospace;
