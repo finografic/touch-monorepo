@@ -1,7 +1,5 @@
 import { ItemType, type OrderItem } from 'types/orders.types';
 
-export const NUM_ITEMS_TYPE_B = 8;
-
 export interface OrderItemConfig {
   itemType: ItemType;
   number: number;
