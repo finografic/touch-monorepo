@@ -24,7 +24,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "dependsOn": ["^build", "@workspace/common#build"]
+      "dependsOn": ["@workspace/common#build"]
     },
     "lint": {
       "outputs": []
