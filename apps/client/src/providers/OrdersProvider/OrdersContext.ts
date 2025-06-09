@@ -1,11 +1,11 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues, TimerActionPayload, TimerActionType } from './OrdersContext.types';
-import { INITIAL_ORDER_ITEM } from 'constants/orders.constants';
+import { INITIAL_ORDER_ITEM, ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
-import { ItemType, type OrderFieldKey, type OrderStatus } from 'types/orders.types';
+import type { ItemType, OrderFieldKey, OrderStatus } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
-import { NUM_ITEMS_TYPE_B, ORDER_FIELD_KEYS } from 'constants/app.config';
+import { ORDER_FIELD_KEYS } from 'constants/app.config';
 import { subscribeWithSelector } from 'zustand/middleware';
 
 export const DISPLAY_NAME = 'Orders';
@@ -91,18 +91,12 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             set({ orders: sortedOrders });
           },
           selectAllOrders: () => {
-            const newOrders = [];
-            for (let i = 0; i <= NUM_ITEMS_TYPE_B + 1; i++) {
-              const itemType = (
-                i === 0 ? ItemType.A : i > NUM_ITEMS_TYPE_B ? ItemType.C : ItemType.B
-              ) as ItemType;
-              newOrders.push({
-                ...INITIAL_ORDER_ITEM,
-                itemType,
-                itemNumber: i,
-                isSelected: true,
-              });
-            }
+            const newOrders = ORDER_ITEMS_CONFIG.map(({ itemType, number }) => ({
+              ...INITIAL_ORDER_ITEM,
+              itemType,
+              itemNumber: number,
+              isSelected: true,
+            }));
             set({ orders: newOrders });
           },
           // Timer-specific actions

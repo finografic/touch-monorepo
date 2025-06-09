@@ -8,6 +8,7 @@ import { styles } from './MainPage.styles';
 import type { PadType, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
 import { ItemType, type OrderFieldKey } from 'types/orders.types';
+import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 // import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 // <MenuPad type="A" number={0} className="first" />
@@ -80,26 +81,19 @@ export function MainPage() {
       <Row className="menu-main">
         <Col>
           <div className="menu-grid-left">
-            {/* First row */}
-            <MenuPad itemType={ItemType.A} number={0} />
-            <MenuPad itemType={ItemType.B} number={1} />
-            <MenuPad itemType={ItemType.B} number={2} />
-
-            {/* Second row */}
-            <MenuPad itemType={ItemType.B} number={3} />
-            <MenuPad itemType={ItemType.A} number={4} />
-            <MenuPad itemType={ItemType.B} number={5} />
-
-            {/* Third row */}
-            <MenuPad itemType={ItemType.B} number={6} />
-            <MenuPad itemType={ItemType.B} number={7} />
-            <MenuPad itemType={ItemType.B} number={8} />
+            {/* Menu grid based on configuration */}
+            {ORDER_ITEMS_CONFIG.slice(0, 9).map(({ itemType, number }) => (
+              <MenuPad key={number} itemType={itemType} number={number} />
+            ))}
           </div>
         </Col>
 
         <Col>
           <div className="menu-grid-right">
-            <MenuPad itemType={ItemType.C} number={9} />
+            {/* Special pad (type C) */}
+            {ORDER_ITEMS_CONFIG.slice(9).map(({ itemType, number }) => (
+              <MenuPad key={number} itemType={itemType} number={number} />
+            ))}
             <div className="pad-special power" />
           </div>
         </Col>
