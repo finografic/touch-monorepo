@@ -2,6 +2,7 @@ import { Button, Code, DataList, Dialog, Flex, IconButton, Tabs, Theme } from '@
 import { useOrderSelection } from 'hooks/useOrderSelection';
 import { useEffect, useState } from 'react';
 import type { OrderItem } from 'types/orders.types';
+import { moduleStyles } from './DataDialog.module.styles';
 import { styles } from './DataDialog.styles';
 import { OrderFieldKeys, STORAGE_KEYS } from 'constants/app.config';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
@@ -53,40 +54,40 @@ const OrderDataList = ({ data }: { data: any }) => {
     <DataList.Root>
       {data.drinkType && (
         <DataList.Item>
-          <DataList.Label css={styles.label}>Drink Type</DataList.Label>
-          <DataList.Value css={styles.value}>{data.drinkType.displayName}</DataList.Value>
+          <DataList.Label css={moduleStyles.label}>Drink Type</DataList.Label>
+          <DataList.Value css={moduleStyles.value}>{data.drinkType.displayName}</DataList.Value>
         </DataList.Item>
       )}
       {data.drinkSubtype && (
         <DataList.Item>
-          <DataList.Label css={styles.label}>Subtype</DataList.Label>
-          <DataList.Value css={styles.value}>{data.drinkSubtype.displayName}</DataList.Value>
+          <DataList.Label css={moduleStyles.label}>Subtype</DataList.Label>
+          <DataList.Value css={moduleStyles.value}>{data.drinkSubtype.displayName}</DataList.Value>
         </DataList.Item>
       )}
       {data.volume && (
         <DataList.Item>
-          <DataList.Label css={styles.label}>Volume</DataList.Label>
-          <DataList.Value css={styles.value}>{`${data.volume.valueInMl}ml`}</DataList.Value>
+          <DataList.Label css={moduleStyles.label}>Volume</DataList.Label>
+          <DataList.Value css={moduleStyles.value}>{`${data.volume.valueInMl}ml`}</DataList.Value>
         </DataList.Item>
       )}
       {data.containerType && (
         <DataList.Item>
-          <DataList.Label css={styles.label}>Container</DataList.Label>
-          <DataList.Value css={styles.value}>{data.containerType.displayName}</DataList.Value>
+          <DataList.Label css={moduleStyles.label}>Container</DataList.Label>
+          <DataList.Value css={moduleStyles.value}>{data.containerType.displayName}</DataList.Value>
         </DataList.Item>
       )}
       {data.initialTemperature && (
         <DataList.Item>
-          <DataList.Label css={styles.label}>Initial Temperature</DataList.Label>
-          <DataList.Value css={styles.value}>
+          <DataList.Label css={moduleStyles.label}>Initial Temperature</DataList.Label>
+          <DataList.Value css={moduleStyles.value}>
             {`${data.initialTemperature.value}${data.initialTemperature.unit}`}
           </DataList.Value>
         </DataList.Item>
       )}
       {data.finalTemperature && (
         <DataList.Item>
-          <DataList.Label css={styles.label}>Final Temperature</DataList.Label>
-          <DataList.Value css={styles.value}>
+          <DataList.Label css={moduleStyles.label}>Final Temperature</DataList.Label>
+          <DataList.Value css={moduleStyles.value}>
             {`${data.finalTemperature.value}${data.finalTemperature.unit}`}
           </DataList.Value>
         </DataList.Item>
@@ -100,26 +101,26 @@ const CalculationDataList = ({ data }: { data: Calculation | null }) => {
   return (
     <DataList.Root>
       <DataList.Item>
-        <DataList.Label css={styles.label}>Status</DataList.Label>
-        <DataList.Value css={styles.value}>{data.status}</DataList.Value>
+        <DataList.Label css={moduleStyles.label}>Status</DataList.Label>
+        <DataList.Value css={moduleStyles.value}>{data.status}</DataList.Value>
       </DataList.Item>
       <DataList.Item>
-        <DataList.Label css={styles.label}>Temperature Δ</DataList.Label>
-        <DataList.Value css={styles.value}>
+        <DataList.Label css={moduleStyles.label}>Temperature Δ</DataList.Label>
+        <DataList.Value css={moduleStyles.value}>
           {data.temperatureDelta}
           °C
         </DataList.Value>
       </DataList.Item>
       <DataList.Item>
-        <DataList.Label css={styles.label}>Duration</DataList.Label>
-        <DataList.Value css={styles.value}>
+        <DataList.Label css={moduleStyles.label}>Duration</DataList.Label>
+        <DataList.Value css={moduleStyles.value}>
           {`${data.estimatedDuration.minutes}m ${data.estimatedDuration.seconds}s`}
         </DataList.Value>
       </DataList.Item>
       {data.recommendations?.length > 0 && (
         <DataList.Item>
-          <DataList.Label css={styles.label}>Recommendations</DataList.Label>
-          <DataList.Value css={styles.value}>
+          <DataList.Label css={moduleStyles.label}>Recommendations</DataList.Label>
+          <DataList.Value css={moduleStyles.value}>
             {data.recommendations.map((rec, index) => (
               <div key={index}>{rec}</div>
             ))}
@@ -135,21 +136,21 @@ const MetadataDataList = ({ data }: { data: OrderWithMetadata['metadata'] }) => 
   return (
     <DataList.Root>
       <DataList.Item>
-        <DataList.Label css={styles.label}>Order ID</DataList.Label>
-        <DataList.Value css={styles.value}>{data.orderId}</DataList.Value>
+        <DataList.Label css={moduleStyles.label}>Order ID</DataList.Label>
+        <DataList.Value css={moduleStyles.value}>{data.orderId}</DataList.Value>
       </DataList.Item>
       <DataList.Item>
-        <DataList.Label css={styles.label}>Timestamp</DataList.Label>
-        <DataList.Value css={styles.value}>{new Date(data.timestamp).toLocaleString()}</DataList.Value>
+        <DataList.Label css={moduleStyles.label}>Timestamp</DataList.Label>
+        <DataList.Value css={moduleStyles.value}>{new Date(data.timestamp).toLocaleString()}</DataList.Value>
       </DataList.Item>
       <DataList.Item>
-        <DataList.Label css={styles.label}>Status</DataList.Label>
-        <DataList.Value css={styles.value}>{data.status}</DataList.Value>
+        <DataList.Label css={moduleStyles.label}>Status</DataList.Label>
+        <DataList.Value css={moduleStyles.value}>{data.status}</DataList.Value>
       </DataList.Item>
       {data.estimatedCompletionTime && (
         <DataList.Item>
-          <DataList.Label css={styles.label}>Estimated Completion</DataList.Label>
-          <DataList.Value css={styles.value}>
+          <DataList.Label css={moduleStyles.label}>Estimated Completion</DataList.Label>
+          <DataList.Value css={moduleStyles.value}>
             {new Date(data.estimatedCompletionTime).toLocaleString()}
           </DataList.Value>
         </DataList.Item>
@@ -161,7 +162,7 @@ const MetadataDataList = ({ data }: { data: OrderWithMetadata['metadata'] }) => 
 const JsonView = ({ data, color }: { data: any; color: 'blue' | 'amber' | 'gray' | 'orange' }) => {
   if (!data) return null;
   return (
-    <Code color={color} css={styles.jsonView}>
+    <Code color={color} css={moduleStyles.jsonView}>
       {JSON.stringify(data, null, 2)}
     </Code>
   );
@@ -216,18 +217,24 @@ export const DataDialog = () => {
       <Dialog.Root open={isAdminDialogOpen} onOpenChange={setIsAdminDialogOpen}>
         <Dialog.Content
           size="4"
-          style={{
-            maxWidth: 720,
-            height: '100%',
-            maxHeight: '66vh',
-            display: 'flex',
-            flexDirection: 'column',
-            overflow: 'hidden',
-          }}
+          css={styles}
+          // css={moduleStyles.dialogContent}
+          // style={{
+          //   maxWidth: 720,
+          //   height: '100%',
+          //   maxHeight: '66vh',
+          //   display: 'flex',
+          //   flexDirection: 'column',
+          //   overflow: 'hidden',
+          // }}
         >
           <Flex justify="between" align="center" mb="4">
             <Dialog.Title size="5">Data View</Dialog.Title>
-            <IconButton variant="ghost" onClick={() => setIsAdminDialogOpen(false)} css={styles.closeButton}>
+            <IconButton
+              variant="ghost"
+              onClick={() => setIsAdminDialogOpen(false)}
+              css={moduleStyles.closeButton}
+            >
               <Cross2Icon width="20" height="20" />
             </IconButton>
           </Flex>
@@ -243,31 +250,31 @@ export const DataDialog = () => {
             </Button>
           </Flex>
 
-          <div css={styles.dialogContent}>
+          <div css={moduleStyles.dialogContent}>
             <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
               <Tabs.List>
-                <Tabs.Trigger value="order" css={styles.tabTrigger}>
+                <Tabs.Trigger value="order" css={moduleStyles.tabTrigger}>
                   Order Selections
                 </Tabs.Trigger>
                 {cleanedCalculationData && (
-                  <Tabs.Trigger value="calculation" css={styles.tabTrigger}>
+                  <Tabs.Trigger value="calculation" css={moduleStyles.tabTrigger}>
                     Calculations
                   </Tabs.Trigger>
                 )}
                 {hasMetadata && (
-                  <Tabs.Trigger value="metadata" css={styles.tabTrigger}>
+                  <Tabs.Trigger value="metadata" css={moduleStyles.tabTrigger}>
                     Metadata
                   </Tabs.Trigger>
                 )}
-                <Tabs.Trigger value="config" css={styles.tabTrigger}>
+                <Tabs.Trigger value="config" css={moduleStyles.tabTrigger}>
                   Stored Configuration
                 </Tabs.Trigger>
               </Tabs.List>
 
-              <div css={styles.tabContent}>
+              <div css={moduleStyles.tabContent}>
                 <Tabs.Content value="order">
                   {viewMode === 'list' ? (
-                    <div css={styles.dataList}>
+                    <div css={moduleStyles.dataList}>
                       <OrderDataList data={cleanedOrderData} />
                     </div>
                   ) : (
@@ -277,7 +284,7 @@ export const DataDialog = () => {
 
                 <Tabs.Content value="calculation">
                   {viewMode === 'list' ? (
-                    <div css={styles.dataList}>
+                    <div css={moduleStyles.dataList}>
                       <CalculationDataList data={cleanedCalculationData} />
                     </div>
                   ) : (
@@ -287,7 +294,7 @@ export const DataDialog = () => {
 
                 <Tabs.Content value="metadata">
                   {viewMode === 'list' ? (
-                    <div css={styles.dataList}>
+                    <div css={moduleStyles.dataList}>
                       <MetadataDataList data={(orders?.[0] as OrderWithMetadata)?.metadata} />
                     </div>
                   ) : (
@@ -296,7 +303,7 @@ export const DataDialog = () => {
                 </Tabs.Content>
 
                 <Tabs.Content value="config">
-                  <div css={styles.configContent}>
+                  <div css={moduleStyles.configContent}>
                     <ConfigTimer />
                     <JsonView data={storedConfig} color="orange" />
                   </div>
@@ -305,13 +312,13 @@ export const DataDialog = () => {
             </Tabs.Root>
           </div>
 
-          <div css={styles.footer}>
+          <div css={moduleStyles.footer}>
             <Button
               variant="soft"
               color="gray"
               size="2"
               onClick={() => setIsAdminDialogOpen(false)}
-              css={styles.okButton}
+              css={moduleStyles.okButton}
             >
               OK
             </Button>
