@@ -63,8 +63,7 @@ export const stylesButtonBase = css`
       transform: translateX(-25%);
       width: 20px;
       height: 20px;
-      stroke-width: 0.125rem;
-      opacity: 0.66;
+      opacity: 0.8;
     }
   }
 
@@ -81,8 +80,7 @@ export const stylesButtonBase = css`
       transform: translateX(25%);
       width: 20px;
       height: 20px;
-      stroke-width: 0.125rem;
-      opacity: 0.66;
+      opacity: 0.8;
     }
   }
 `;
