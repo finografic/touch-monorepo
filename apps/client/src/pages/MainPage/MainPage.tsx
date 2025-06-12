@@ -1,37 +1,20 @@
 import { startTransition, useCallback, useEffect } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { MenuPad } from 'components/MenuPad';
-import { Pad } from 'components/Pad';
+import { ActionButton } from 'components/ActionButton/ActionButton';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider';
+import { useNavigationConfig } from 'hooks/useNavigationConfig';
 import { styles } from './MainPage.styles';
-import type { PadType, PadUI } from 'types/ui.types';
-import type { DataEntry } from 'types/data.types';
-import type { OrderFieldKey } from 'types/orders.types';
 import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 import { useNavigateState } from 'routes/hooks/useNavigateState';
-// import { ACTION_BUTTONS_CONFIG } from 'pages/MainPage/menu.config';
-
-interface PadUITest {
-  id: string;
-  key?: string;
-  label: string;
-  type: PadType;
-  isChecked: boolean;
-  disabled?: boolean;
-  metadata?: DataEntry;
-}
-
-export interface PadTestProps extends PadUITest {
-  fieldKey: OrderFieldKey;
-  className?: string;
-}
 
 export function MainPage() {
   const { navigate } = useNavigateState();
   const { orders } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId } = useSession();
+  const { contentButtons } = useNavigationConfig();
   const {
     setIsNextDisabled,
     // setIsNextVisible
@@ -79,39 +62,6 @@ export function MainPage() {
     });
   }, [navigate]);
 
-  const ACTION_BUTTONS_CONFIG: PadUI[] = [
-    {
-      id: 'button-program-time',
-      label: 'Programar Tiempo',
-      type: 'button',
-      name: 'main',
-      className: 'pad-rect',
-      isChecked: false,
-      disabled: true,
-      value: { id: 'button-program-time', name: 'BUTTON_PROGRAM_TIME' },
-    },
-    {
-      id: 'button-program-product',
-      label: 'Programar Producto',
-      type: 'button',
-      name: 'main',
-      className: 'pad-rect',
-      isChecked: false,
-      disabled: !numSelected,
-      value: { id: 'button-program-product', name: 'BUTTON_PROGRAM_PRODUCT' },
-    },
-    {
-      id: 'button-repeat-selection',
-      label: 'Repetir Selección',
-      type: 'button',
-      name: 'main',
-      className: 'pad-rect',
-      isChecked: false,
-      disabled: true,
-      value: { id: 'button-repeat-selection', name: 'BUTTON_REPEAT_SELECTION' },
-    },
-  ];
-
   // TODO: NEW - MODE BUTTON !! (SECRET PAGE for ADMIN)
 
   return (
@@ -138,8 +88,8 @@ export function MainPage() {
 
         <Col>
           <div className="menu-grid-base">
-            {ACTION_BUTTONS_CONFIG.map((pad: any) => (
-              <Pad key={pad.id} {...pad} label={pad.label} className={pad.className} />
+            {contentButtons.map((buttonProps) => (
+              <ActionButton key={buttonProps.id} {...buttonProps} />
             ))}
           </div>
         </Col>
