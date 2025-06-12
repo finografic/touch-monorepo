@@ -1,6 +1,6 @@
 import type { DrinkTypeEntity } from '@workspace/server/types/entities/drink-type.entity';
 import type { DrinkType } from 'types/models/drink-type.model';
-import type { ApiResponse } from '@workspace/common/api';
+import type { ApiResponse } from '@workspace/core/api';
 
 export const DrinkTypeDTO = {
   fromApi(data: ApiResponse<DrinkTypeEntity[]>): DrinkType[] {

@@ -1,7 +1,7 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import type { ContainerType } from 'types/models/container.model';
-import type { ApiResponse, ErrorResponse } from '@workspace/common/api';
+import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 import { api } from 'api';
 import { transformAxiosError__V2 as transformAxiosError } from 'src/api/api.utils';

@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { ApiResponse } from '@workspace/common/api';
+import type { ApiResponse } from '@workspace/core/api';
 import { api } from 'api';
 import { GET_TEMPERATURE_PROFILE_QUERYKEY } from 'queries/temperature';
 

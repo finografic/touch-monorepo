@@ -1,4 +1,5 @@
-import 'packages/globals/src';
+// import 'packages/globals/src';
+import '@workspace/globals';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

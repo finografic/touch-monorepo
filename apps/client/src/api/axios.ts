@@ -1,6 +1,6 @@
 import axios from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import type { ErrorResponse } from '@workspace/common/api';
+import type { ErrorResponse } from '@workspace/core/api';
 
 // TypeScript now knows API_URL exists and is a string
 const { API_URL } = process.env;

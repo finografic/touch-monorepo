@@ -1,2 +1,2 @@
-// import '@workspace/common';
+// import '@workspace/globals';
 import './main.tsx';

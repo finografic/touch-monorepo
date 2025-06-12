@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { ErrorResponse } from '@workspace/common/api';
+import type { ErrorResponse } from '@workspace/core/api';
 import { api } from 'api';
 import type { DrinkSubtype } from 'types/models/drink-type.model';
 import { GET_DRINK_SUBTYPES_QUERYKEY } from '.';

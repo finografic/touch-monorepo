@@ -1,15 +1,10 @@
 // @ts-nocheck
 import axios, { HttpStatusCode } from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import type { ApplicationError, ErrorResponse } from '@workspace/common/api';
-import {
-  AXIOS_ERROR_CODE_MAP,
-  ERROR_CODES,
-  ERROR_MESSAGES,
-  errorResponseSchema,
-} from '@workspace/common/api';
+import type { ApplicationError, ErrorResponse } from '@workspace/core/api';
+import { AXIOS_ERROR_CODE_MAP, ERROR_CODES, ERROR_MESSAGES, errorResponseSchema } from '@workspace/core/api';
 import cloneDeep from 'lodash/cloneDeep';
-import type { ApiErrorResponse } from '@workspace/common/types/errors';
+import type { ApiErrorResponse } from '@workspace/core/types/errors';
 
 // ======================================================================== //
 

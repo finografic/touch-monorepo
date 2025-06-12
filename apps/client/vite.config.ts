@@ -96,7 +96,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       include: [
         'react/jsx-runtime',
         '@workspace/config',
-        '@workspace/common',
+        '@workspace/core',
         '@workspace/types',
         '@workspace/types/utils',
       ],

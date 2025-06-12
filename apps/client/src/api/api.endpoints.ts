@@ -1,8 +1,8 @@
 // @ts-nocheck
 import axios, { HttpStatusCode } from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import type { ApiResponse, ErrorResponse } from '@workspace/common/api';
-import { AXIOS_ERROR_CODE_MAP } from '@workspace/common/api';
+import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
+import { AXIOS_ERROR_CODE_MAP } from '@workspace/core/api';
 import cloneDeep from 'lodash/cloneDeep';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { ContainerType, DrinkSubtype, DrinkType, DrinkVolume } from 'types/models/container-type.model';
