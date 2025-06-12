@@ -56,8 +56,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
       alias: {
-        '@workspace/types': resolve(workspaceRoot, 'core/types/src'),
-        '@workspace/types/utils': resolve(workspaceRoot, 'core/types/src/utils'),
+        '@workspace/types': resolve(workspaceRoot, 'packages/types/src'),
+        '@workspace/types/utils': resolve(workspaceRoot, 'packages/types/src/utils'),
       },
     },
     build: {

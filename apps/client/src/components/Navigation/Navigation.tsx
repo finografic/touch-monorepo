@@ -66,11 +66,9 @@ export const Navigation = () => {
 
   const { startTemperatureControl, temperatureProfilesQuery, isLoading } = useTemperatureControl({
     onSuccess: (calculatedDurations) => {
-      startTransition(() => {
-        // Update process for selected orders
+      startTransition(function updateProcessForSelectedOrders() {
         orders.forEach((order) => {
           if (order.isSelected) {
-            log('__DEV: CALC', 'yellow', order.itemNumber, calculatedDurations[order.itemNumber.toString()]);
             setOrderProcessing({
               itemNumber: order.itemNumber,
               duration: calculatedDurations[order.itemNumber.toString()],
