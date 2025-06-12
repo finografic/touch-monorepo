@@ -1,8 +1,7 @@
 packages:
   - config
   - scripts
-  - core/*
-  - internal/*
+  - packages/*
   - apps/*
 
 onlyBuiltDependencies:

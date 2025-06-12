@@ -1,4 +1,4 @@
-import '@workspace/globals';
+import 'packages/globals/src';
 import { serve } from '@hono/node-server';
 import chalk from 'chalk';
 import app from './app';

@@ -22,10 +22,10 @@
         "../../core/common/src"
       ],
       "@workspace/globals/*": [
-        "../../core/globals/src/*"
+        "../../packages/globals/src/*"
       ],
       "@workspace/globals": [
-        "../../core/globals/src"
+        "../../packages/globals/src"
       ],
       "config": [
         "./src/config"
