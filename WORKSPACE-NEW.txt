@@ -1,0 +1,9 @@
+touch-monorepo/
+├── config/                    (stays)
+├── scripts/                   (stays)
+├── packages/
+│   ├── core/                  (move from core/common)
+│   ├── globals/               (move from internal/globals)
+│   ├── internal/              (move from internal/internal)
+│   └── types/                 (move from internal/types)
+└── apps/                      (stays)
