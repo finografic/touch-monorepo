@@ -5,7 +5,10 @@ packages:
   - apps/*
 
 onlyBuiltDependencies:
+  - '@biomejs/biome'
   - '@swc/core'
   - better-sqlite3
   - esbuild
+  - sharp
+  - simple-git-hooks
   - unrs-resolver
