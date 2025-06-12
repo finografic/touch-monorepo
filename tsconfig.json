@@ -21,7 +21,7 @@
       "path": "./config"
     },
     {
-      "path": "./core/globals"
+      "path": "./packages/globals"
     },
     {
       "path": "./apps/client"

@@ -18,10 +18,7 @@
         "scripts/src/*"
       ],
       "@workspace/*": [
-        "core/*/src"
-      ],
-      "@workspace/internal-*": [
-        "internal/*/src"
+        "packages/*/src"
       ]
     },
     "resolveJsonModule": true,

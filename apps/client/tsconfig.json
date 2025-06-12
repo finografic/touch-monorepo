@@ -27,11 +27,11 @@
       "@workspace/config/*": [
         "../../config/*"
       ],
-      "@workspace/common/*": [
-        "../../core/common/src/*"
+      "@workspace/core/*": [
+        "../../packages/core/src/*"
       ],
-      "@workspace/common": [
-        "../../core/common/src"
+      "@workspace/core": [
+        "../../packages/core/src"
       ],
       "@workspace/globals/*": [
         "../../packages/globals/src/*"
@@ -133,10 +133,10 @@
   },
   "references": [
     {
-      "path": "../../core/common"
+      "path": "../../packages/core"
     },
     {
-      "path": "../../core/globals"
+      "path": "../../packages/globals"
     },
     {
       "path": "../../config"

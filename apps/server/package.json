@@ -57,7 +57,7 @@
     "@hono/zod-openapi": "^0.18.3",
     "@hono/zod-validator": "0.4.3",
     "@scalar/hono-api-reference": "0.5.162",
-    "@workspace/common": "workspace:*",
+    "@workspace/core": "workspace:*",
     "@workspace/config": "workspace:*",
     "@workspace/globals": "workspace:*",
     "@workspace/types": "workspace:*",
