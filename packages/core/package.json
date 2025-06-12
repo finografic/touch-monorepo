@@ -1,5 +1,5 @@
 {
-  "name": "@workspace/common",
+  "name": "@workspace/core",
   "type": "module",
   "version": "0.0.2",
   "private": true,
