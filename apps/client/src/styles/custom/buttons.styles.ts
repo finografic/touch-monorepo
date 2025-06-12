@@ -29,6 +29,7 @@ export const stylesButtonBase = css`
 
   color: ${colors.info};
   border-color: ${colors.infoDark}bb;
+  border-width: ${layout.borderWidth};
 
   &:hover {
     color: ${colors.info};
@@ -91,13 +92,13 @@ export const stylesNavButton = css`
   min-width: 180px;
   padding: 0.8rem 3rem;
   margin: 0 0.33rem;
-  border-radius: 4px;
   font-size: 1.1rem;
   line-height: 1;
   font-weight: 500;
   gap: 0.5rem;
   flex: 1;
   width: fit-content;
+  border-radius: 4px;
 
   &.nav-button-start {
     border-color: ${colors.success};

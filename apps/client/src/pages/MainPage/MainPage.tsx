@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { startTransition, useCallback, useEffect } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { MenuPad } from 'components/MenuPad';
 import { Pad } from 'components/Pad';
@@ -10,6 +10,8 @@ import type { PadType, PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
+import { useNavigateState } from 'routes/hooks/useNavigateState';
+// import { ACTION_BUTTONS_CONFIG } from 'pages/MainPage/menu.config';
 
 interface PadUITest {
   id: string;
@@ -26,43 +28,14 @@ export interface PadTestProps extends PadUITest {
   className?: string;
 }
 
-export const ACTION_BUTTONS_CONFIG: PadUI[] = [
-  {
-    id: 'button-program-time',
-    label: 'Programar Tiempo',
-    type: 'button',
-    name: 'main',
-    className: 'pad-rect',
-    isChecked: false,
-    disabled: true,
-    value: { id: 'button-program-time', name: 'BUTTON_PROGRAM_TIME' },
-  },
-  {
-    id: 'button-program-product',
-    label: 'Programar Producto',
-    type: 'button',
-    name: 'main',
-    className: 'pad-rect',
-    isChecked: false,
-    disabled: true,
-    value: { id: 'button-program-product', name: 'BUTTON_PROGRAM_PRODUCT' },
-  },
-  {
-    id: 'button-repeat-selection',
-    label: 'Repetir Selección',
-    type: 'button',
-    name: 'main',
-    className: 'pad-rect',
-    isChecked: false,
-    disabled: true,
-    value: { id: 'button-repeat-selection', name: 'BUTTON_REPEAT_SELECTION' },
-  },
-];
-
 export function MainPage() {
+  const { navigate } = useNavigateState();
   const { orders } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId } = useSession();
-  const { setIsNextDisabled } = usePagination();
+  const {
+    setIsNextDisabled,
+    // setIsNextVisible
+  } = usePagination();
 
   // Get currently selected orders that are not processing or completed
   const availableOrders = orders.filter(
@@ -71,29 +44,73 @@ export function MainPage() {
   );
   const numSelected = availableOrders.length;
 
-  // Create a configuration session when starting new selections
-  useEffect(() => {
-    const newlySelectedOrders = orders.filter((order) => order.isSelected && order.process.status === 'idle');
-
-    if (newlySelectedOrders.length > 0) {
-      // Create new session if we don't have one
-      let sessionId = currentSessionId;
-
-      if (!sessionId) {
-        sessionId = createSession();
-      }
-
-      // Assign newly selected orders to current session
-      assignOrdersToSession(
-        sessionId,
-        newlySelectedOrders.map((order) => order.itemNumber),
+  useEffect(
+    function createConfigurationSessionForNewlySelectedOrders() {
+      const newlySelectedOrders = orders.filter(
+        (order) => order.isSelected && order.process.status === 'idle',
       );
-    }
-  }, [orders, currentSessionId, createSession, assignOrdersToSession]);
+
+      if (newlySelectedOrders.length > 0) {
+        // Create new session if we don't have one
+        let sessionId = currentSessionId;
+
+        if (!sessionId) {
+          sessionId = createSession();
+        }
+
+        // Assign newly selected orders to current session
+        assignOrdersToSession(
+          sessionId,
+          newlySelectedOrders.map((order) => order.itemNumber),
+        );
+      }
+    },
+    [orders, currentSessionId, createSession, assignOrdersToSession],
+  );
 
   useEffect(() => {
     setIsNextDisabled(numSelected === 0);
+    // setIsNextVisible(false);
   }, [numSelected, setIsNextDisabled]);
+
+  const handleNext = useCallback(() => {
+    startTransition(() => {
+      navigate('/drink-type');
+    });
+  }, [navigate]);
+
+  const ACTION_BUTTONS_CONFIG: PadUI[] = [
+    {
+      id: 'button-program-time',
+      label: 'Programar Tiempo',
+      type: 'button',
+      name: 'main',
+      className: 'pad-rect',
+      isChecked: false,
+      disabled: true,
+      value: { id: 'button-program-time', name: 'BUTTON_PROGRAM_TIME' },
+    },
+    {
+      id: 'button-program-product',
+      label: 'Programar Producto',
+      type: 'button',
+      name: 'main',
+      className: 'pad-rect',
+      isChecked: false,
+      disabled: !numSelected,
+      value: { id: 'button-program-product', name: 'BUTTON_PROGRAM_PRODUCT' },
+    },
+    {
+      id: 'button-repeat-selection',
+      label: 'Repetir Selección',
+      type: 'button',
+      name: 'main',
+      className: 'pad-rect',
+      isChecked: false,
+      disabled: true,
+      value: { id: 'button-repeat-selection', name: 'BUTTON_REPEAT_SELECTION' },
+    },
+  ];
 
   // TODO: NEW - MODE BUTTON !! (SECRET PAGE for ADMIN)
 

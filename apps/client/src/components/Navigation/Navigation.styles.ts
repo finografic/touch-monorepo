@@ -34,7 +34,7 @@ export const styles = css`
   }
 
   .nav-button {
-    ${stylesNavButton}
+    ${stylesNavButton}/* border: ${layout.borderWidth} solid red; */
   }
 
   .nav-button-start {

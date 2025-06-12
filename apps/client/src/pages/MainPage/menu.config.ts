@@ -1,5 +1,9 @@
 import { NUM_GRID_ITEMS } from 'constants/app.config';
 import type { PadTestProps } from 'pages/MainPage/MainPage';
+import type { PadUI } from 'types/ui.types';
+
+// ======================================================================== //
+// TODO: REMOVE  - UNUSED CODE !!
 
 // Simple grid layout configuration
 export const menuLayout = {
