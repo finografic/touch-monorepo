@@ -7,7 +7,7 @@ import type { ApiResponse } from '@workspace/core/api';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';
-import { useSession } from 'providers/SessionProvider';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 
 interface UseFiltersReturn {
   // Data arrays - using the OrderModel type which extends DataEntry

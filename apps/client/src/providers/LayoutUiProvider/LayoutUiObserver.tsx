@@ -5,7 +5,7 @@ import type { DataEntry } from 'types/data.types';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useFilters } from 'hooks/useFilters';
-import { useSession } from 'providers/SessionProvider';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 
 export const LayoutUiObserver = () => {
   const { fieldKey, filterKey, padsConfig } = useRouteConfig();

@@ -15,7 +15,7 @@ import {
 import { useGetMinMaxTemperatures } from 'queries/temperature/useGetMinMaxTemperatures';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
-import { useSession } from 'providers/SessionProvider';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 import { TemperatureKey } from 'types/temperature.types';
 
 interface TemperatureState {

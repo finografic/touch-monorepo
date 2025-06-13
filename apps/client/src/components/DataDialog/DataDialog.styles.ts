@@ -37,7 +37,7 @@ export const styles = css`
     overflow-y: scroll;
   }
 
-  & > div:nth-child(4) {
+  & > div:nth-of-type(4) {
     position: absolute;
     bottom: 0;
     left: 0;

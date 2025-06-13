@@ -32,22 +32,22 @@ export function MainPage() {
 
       log('__DEV: SESSION - 2', 'grey', currentSessionId);
 
-      // if (newlySelectedOrders.length > 0) {
-      // Create new session if we don't have one
-      let sessionId = currentSessionId;
+      if (newlySelectedOrders.length > 0) {
+        // Create new session if we don't have one
+        let sessionId = currentSessionId;
 
-      if (!sessionId) {
-        sessionId = createSession();
+        if (!sessionId) {
+          sessionId = createSession();
+        }
+
+        log('__DEV: SESSION - 3', 'blue', sessionId);
+
+        // Assign newly selected orders to current session
+        assignOrdersToSession(
+          sessionId,
+          newlySelectedOrders.map((order) => order.itemNumber),
+        );
       }
-
-      log('__DEV: SESSION - 3', 'blue', sessionId);
-
-      // Assign newly selected orders to current session
-      assignOrdersToSession(
-        sessionId,
-        newlySelectedOrders.map((order) => order.itemNumber),
-      );
-      // }
     },
     [orders, currentSessionId, createSession, assignOrdersToSession],
   );

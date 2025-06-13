@@ -13,7 +13,7 @@ import { DevProvider } from 'providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { DataDialog } from 'components/DataDialog/DataDialog';
-import { SessionProvider } from 'providers/SessionProvider';
+import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 
 export const Layout: FC = () => {
   const isMounted: boolean = !!useIsMounted();

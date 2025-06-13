@@ -4,7 +4,7 @@ import { Box, Flex } from '@radix-ui/themes';
 import { styles } from '../content.styles';
 import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS, TIME_MIN_SECONDS } from 'constants/time.config';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
-import { useSession } from 'providers/SessionProvider';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 
 const DESCRIPTIONS = {
   page: 'Set the preparation time by specifying minutes and seconds. This time will be applied to all selected slots when you start.',
@@ -25,6 +25,8 @@ export const TimePage = () => {
   const handleTimeChange = useCallback((newTotalSeconds: number) => {
     setTotalSeconds(newTotalSeconds);
   }, []);
+
+  log('__DEV: ITEMS:', 'grey', selectedItems);
 
   return (
     <Flex css={styles} className="time-content" gap="3" direction="column">
