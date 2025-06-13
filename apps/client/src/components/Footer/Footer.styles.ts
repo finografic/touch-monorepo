@@ -1,16 +1,13 @@
 import { css } from '@emotion/react';
 
 export const styles = css`
-  z-index: 9999999;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  /* Footer content styling - layout handled by Layout.styles.ts */
   width: 100%;
-  padding: 1rem;
-  background-color: pink;
+
+  /* Navigation wrapper - takes full width for now */
+  .nav-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
 `;

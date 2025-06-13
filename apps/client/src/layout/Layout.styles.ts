@@ -1,79 +1,117 @@
 import { css } from '@emotion/react';
-import { colors, spacing, typography } from 'styles';
+import { colors, layout, spacing, typography } from 'styles';
 
 export const styles = css`
+  /* Layout Root Container */
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-around;
-  justify-content: space-evenly;
   width: 100vw;
   height: 100vh;
   background-color: ${colors.background};
-  flex: 1;
+  overflow: hidden; /* Prevent horizontal scrollbars */
 
-  main,
-  header,
-  footer {
-    width: 100vw;
-  }
-
-  /* <<< DEVELOPMENT **************************/
-
-  main {
-    /* box-shadow: inset 0 0 0 2px red; */
-  }
-  div.main-content {
-    /* border: 1px solid yellow; */
-  }
-  header {
-    /* box-shadow: inset 0 0 0 2px blue; */
-  }
-  footer {
-    /* box-shadow: inset 0 0 0 2px blue; */
-  }
-  section {
-    /* box-shadow: inset 0 0 0 2px green; */
-  }
-
-  /*********************** DEVELOPMENT >>> */
-
-  main {
+  /* ========================================
+     APP HEADER - 80px height, 3:6:3 columns
+     ======================================== */
+  > header {
+    width: 100%;
+    height: 80px;
+    min-height: 80px;
+    max-height: 80px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    background-color: transparent;
+  }
+
+  /* ========================================
+     MAIN - fills remaining space
+     ======================================== */
+  > main {
+    width: 100%;
+    flex: 1; /* Grows to fill remaining space */
+    position: relative; /* For positioning dialogs */
+    overflow-y: auto; /* Only vertical scrollbar if needed */
+    overflow-x: hidden; /* Never horizontal scrollbar */
+
+    /* Main content container - centers the page content */
+    .main-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      border: ${layout.borderWidth} solid yellow;
+
+      /* Section - wrapper for entire page content area */
+      section {
+        display: flex;
+        flex-direction: column;
+        border: ${layout.borderWidth} solid magenta;
+
+        /* Flexible sizing with constraints */
+        width: 100%;
+        height: 100%;
+        min-width: 1100px; /* Never smaller than mobile width */
+        max-width: 66vw; /* Never larger than 66% viewport */
+        min-height: 600px; /* Never smaller than reasonable content height */
+        max-height: 66vh; /* Never larger than 66% viewport */
+
+        /* Flex alignment */
+        justify-content: space-between; /* Vertical: header top, nav bottom, content fills middle */
+        align-items: center; /* Horizontal: center all children */
+
+        /* Page header - content header (not app header) */
+        header.page-header {
+          width: 100%;
+          height: auto;
+          min-height: auto;
+          max-height: none;
+          padding: 1rem 2rem;
+          flex-shrink: 0; /* Don't shrink when space is tight */
+          /* Add any page header specific styles here */
+        }
+
+        /* Page content - the actual route content */
+        .page-content {
+          flex: 1; /* Grows to fill available space */
+          width: 100%; /* Override align-items: center for full width */
+          padding: 2rem;
+
+          /* Center the route content */
+          display: flex;
+          align-items: center; /* Vertical centering */
+          justify-content: center; /* Horizontal centering */
+
+          /* Route content goes here */
+        }
+
+        /* Page navigation - content navigation (not app footer) */
+        nav.page-navigation {
+          width: 100%;
+          padding: 1rem 2rem;
+          flex-shrink: 0; /* Don't shrink when space is tight */
+          /* Navigation styles handled by Navigation component */
+        }
+      }
+    }
+  }
+
+  /* ========================================
+     APP FOOTER - 80px height, 1:1 columns
+     ======================================== */
+  > footer {
+    width: 100%;
+    height: 80px;
+    min-height: 80px;
+    max-height: 80px;
+    display: flex;
     align-items: center;
   }
 
-  div.main-content {
-    width: 66vw;
-    height: 66vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  section {
-    width: 66%;
-    padding: 2rem;
-  }
-
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  div.app-logo {
-    font-size: 1.25rem;
-    font-weight: 600;
-  }
-
-  div.user-menu {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-  }
-
+  /* ========================================
+     TYPOGRAPHY STYLES
+     ======================================== */
   .title {
     ${typography.h1};
     color: ${colors.text};
@@ -85,6 +123,18 @@ export const styles = css`
     color: ${colors.textLight};
   }
 
+  p {
+    color: ${colors.text};
+    font-size: 1.2rem;
+    text-align: center;
+    max-width: 400px;
+    line-height: 1.6;
+    padding-bottom: 2rem;
+  }
+
+  /* ========================================
+     BUTTON STYLES
+     ======================================== */
   button.btn-logout {
     padding: 0.5rem 1rem;
     background-color: transparent;
@@ -98,13 +148,40 @@ export const styles = css`
     }
   }
 
-  p {
-    color: ${colors.text};
-    font-size: 1.2rem;
-    text-align: center;
-    max-width: 400px;
-    line-height: 1.6;
-    /* margin-top: -60%; */
-    padding-bottom: 2rem;
+  /* ========================================
+     DEVELOPMENT HELPERS (commented out)
+     ======================================== */
+  /*
+  > header {
+    box-shadow: inset 0 0 0 2px blue;
   }
+
+  > main {
+    box-shadow: inset 0 0 0 2px red;
+
+    .main-content {
+      border: 1px solid yellow;
+
+      section {
+        box-shadow: inset 0 0 0 2px purple;
+
+        header.page-header {
+          box-shadow: inset 0 0 0 2px orange;
+        }
+
+        .page-content {
+          box-shadow: inset 0 0 0 2px cyan;
+        }
+
+        nav.page-navigation {
+          box-shadow: inset 0 0 0 2px pink;
+        }
+      }
+    }
+  }
+
+  > footer {
+    box-shadow: inset 0 0 0 2px green;
+  }
+  */
 `;

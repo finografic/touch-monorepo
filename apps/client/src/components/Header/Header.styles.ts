@@ -2,18 +2,12 @@ import { css } from '@emotion/react';
 import { colors, min, spacing } from 'styles';
 
 export const styles = css`
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: ${spacing[4]} 0;
-  background-color: transparent;
-
-  ${min.md} {
-    padding: ${spacing[2]} 0;
-  }
+  /* Header content styling - layout handled by Layout.styles.ts */
+  width: 100%;
 
   h1 {
     color: ${colors.info};
+    margin: 0;
   }
 
   .language-selector {
@@ -27,7 +21,7 @@ export const styles = css`
       }
     }
 
-    /* Trigger button styling (closed state) */
+    /* Trigger button styling (open state) */
     button[data-state='open'] {
       background: transparent;
       color: ${colors.grey}; /* or colors.slate[8] for dimmed grey */

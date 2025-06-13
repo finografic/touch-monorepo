@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import type { FC } from 'react';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
+import { Navigation } from 'components/Navigation/Navigation';
 import { ContentProvider } from 'providers/ContentProvider';
 import { styles } from './Layout.styles';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
@@ -33,11 +34,19 @@ export const Layout: FC = () => {
                     <Header />
                     <main>
                       <div className="main-content">
-                        <Suspense fallback={<Loader message="Loading..." />}>
-                          <Outlet />
-                        </Suspense>
-                        <DataDialog />
+                        <section>
+                          <header className="page-header">{/* Page header content will go here */}</header>
+                          <div className="page-content" role="main">
+                            <Suspense fallback={<Loader message="Loading..." />}>
+                              <Outlet />
+                            </Suspense>
+                          </div>
+                          <nav className="page-navigation">
+                            <Navigation />
+                          </nav>
+                        </section>
                       </div>
+                      <DataDialog />
                     </main>
                     <Footer />
                   </div>

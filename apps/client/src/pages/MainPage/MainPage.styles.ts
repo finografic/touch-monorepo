@@ -21,15 +21,27 @@ const props = {
 };
 
 export const styles = css`
-  width: max-content !important;
+  /* width: max-content !important; */
   color: ${colors.white};
+  border: ${layout.borderWidth} solid red;
+
+  /* Main grid container for the three columns */
+  .menu-main {
+    display: grid;
+    grid-template-columns: auto 1.5rem auto 3rem 1fr; /* Left pads | small gap | middle | double gap | grey buttons */
+    gap: 2.5rem 0; /* Only row gap, column gaps handled by template */
+    align-items: start;
+    width: max-content; /* Prevent shrinking below content width */
+    min-width: 100%; /* But still try to fill available space */
+    overflow: visible; /* Allow content to extend if needed */
+  }
 
   .menu-grid-base {
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     gap: 2.5rem;
     height: 100%;
-    transform: translateX(4rem);
+    /* transform: translateX(4rem); */
   }
 
   .menu-grid-left {
@@ -46,6 +58,7 @@ export const styles = css`
     align-items: space-between;
     justify-content: space-between;
     height: 100%;
+    padding: 0 2.5rem 0 1rem;
   }
 
   .pad-special {

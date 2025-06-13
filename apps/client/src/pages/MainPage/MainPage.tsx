@@ -8,6 +8,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useButtonConfig } from 'hooks/useButtonConfig';
 import { styles } from './MainPage.styles';
 import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
+import { Flex } from '@radix-ui/themes';
 // import { useNavigateState } from 'routes/hooks/useNavigateState';
 
 export function MainPage() {
@@ -60,7 +61,7 @@ export function MainPage() {
   // TODO: NEW - MODE BUTTON !! (SECRET PAGE for ADMIN)
 
   return (
-    <section css={styles}>
+    <Flex css={styles} gap="3" direction="column">
       <Row className="menu-main">
         <Col>
           <div className="menu-grid-left">
@@ -89,6 +90,6 @@ export function MainPage() {
           </div>
         </Col>
       </Row>
-    </section>
+    </Flex>
   );
 }
