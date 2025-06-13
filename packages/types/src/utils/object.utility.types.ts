@@ -1,4 +1,4 @@
-import type { SnakeToCamel } from './casing.utils.types';
+import type { SnakeToCamel } from './casing.utility.types';
 /**
 Converts all keys of an object from `snake_case` to `camelCase`.
 @category Type
