@@ -6,6 +6,7 @@ export const styles = css`
   flex-direction: column;
   align-items: center;
   justify-content: space-around;
+  justify-content: space-evenly;
   width: 100vw;
   height: 100vh;
   background-color: ${colors.background};
