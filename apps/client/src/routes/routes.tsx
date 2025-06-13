@@ -4,11 +4,12 @@ import { Layout } from 'layout/Layout';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MainPage } from '../pages/MainPage/MainPage';
 import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
-import { PATHS } from './routes.config';
+import { ALTERNATIVE_PATHS, PATHS } from './routes.config';
 import { OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPage/AdminPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
+import { TimePage } from 'pages/TimePage/TimePage';
 
 export const routes: RouteObject[] = [
   {
@@ -61,6 +62,14 @@ export const routes: RouteObject[] = [
         id: OrderFieldKeys.temperature,
         loader: LoaderDataHelper[OrderFieldKeys.temperature],
         element: <TemperaturePage />,
+      },
+      // ============================================== //
+      // Alternative flows
+      // ============================================== //
+      {
+        path: ALTERNATIVE_PATHS.time,
+        id: 'time',
+        element: <TimePage />,
       },
       // ============================================== //
       {

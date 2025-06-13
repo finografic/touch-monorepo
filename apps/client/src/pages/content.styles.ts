@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 
 export const styles = css`
-  &.temperature-content {
+  &.temperature-content,
+  &.time-content {
     min-width: 800px;
     min-height: 600px;
     display: flex;

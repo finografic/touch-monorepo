@@ -5,7 +5,8 @@ import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilt
 import { useTemperatureControl } from 'hooks/useTemperatureControl';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { PATHS } from 'routes/routes.config';
+import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
+import { TIME_DEFAULT_SECONDS } from 'constants/time.config';
 
 type OperationActionType =
   | 'clear-completed'
@@ -65,6 +66,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   // Check if there are any completed timers
   const hasCompletedTimers = orders.some((order) => order.process.status === 'completed');
 
+  // Check if there are any selected items
+  const hasSelectedItems = orders.some((order) => order.isSelected);
+
   const handleClearCompleted = useCallback(() => {
     startTransition(() => {
       // Clear all completed timers by resetting their process status to 'idle'
@@ -90,13 +94,36 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   }, [selectAllOrders]);
 
   const handleStartProcess = useCallback(() => {
-    startTemperatureControl();
-  }, [startTemperatureControl]);
+    // If we're on the TimePage, handle simple timer start
+    if (location.pathname === ALTERNATIVE_PATHS.time) {
+      startTransition(() => {
+        // Set timers for all selected orders with the configured time
+        // TODO: Get the actual time from TimePage state - for now use default
+        const duration = TIME_DEFAULT_SECONDS;
+
+        orders.forEach((order) => {
+          if (order.isSelected) {
+            setOrderProcessing({
+              itemNumber: order.itemNumber,
+              duration,
+            });
+          }
+        });
+
+        // Navigate back to main page
+        navigate(PATHS.main, { replace: true });
+      });
+    } else {
+      // Default temperature control process
+      startTemperatureControl();
+    }
+  }, [location.pathname, startTemperatureControl, orders, setOrderProcessing, navigate]);
 
   const handleProgramTime = useCallback(() => {
-    // TODO: Implement program time functionality
-    console.log('Program time action not yet implemented');
-  }, []);
+    startTransition(() => {
+      navigate(ALTERNATIVE_PATHS.time);
+    });
+  }, [navigate]);
 
   const handleRepeatSelection = useCallback(() => {
     // TODO: Implement repeat selection functionality
@@ -113,6 +140,11 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         case 'select-all':
           return location.pathname !== PATHS.main || isPending;
         case 'start-process':
+          // On TimePage: check if we have selected items
+          if (location.pathname === ALTERNATIVE_PATHS.time) {
+            return !hasSelectedItems || isPending;
+          }
+          // On temperature page: original logic
           return (
             isTemperatureLoading ||
             isPending ||
@@ -120,7 +152,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
             location.pathname !== PATHS.temperature
           );
         case 'program-time':
-          return true; // Disabled until implemented
+          return !hasSelectedItems || location.pathname !== PATHS.main || isPending;
         case 'repeat-selection':
           return true; // Disabled until implemented
         default:
@@ -129,6 +161,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     },
     [
       hasCompletedTimers,
+      hasSelectedItems,
       location.pathname,
       isPending,
       isTemperatureLoading,
@@ -142,12 +175,17 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     (actionType: OperationActionType): boolean => {
       switch (actionType) {
         case 'start-process':
+          // On TimePage, use basic pending state
+          if (location.pathname === ALTERNATIVE_PATHS.time) {
+            return isPending;
+          }
+          // On temperature page, use temperature loading
           return isTemperatureLoading;
         default:
           return isPending;
       }
     },
-    [isTemperatureLoading, isPending],
+    [location.pathname, isTemperatureLoading, isPending],
   );
 
   return {

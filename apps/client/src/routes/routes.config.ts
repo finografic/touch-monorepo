@@ -11,6 +11,11 @@ export const PATHS: ConstMapOf<OrderFieldKey, string> = {
   temperature: '/temperature',
 } as const;
 
+// Additional paths for alternative flows
+export const ALTERNATIVE_PATHS = {
+  time: '/time',
+} as const;
+
 export const ROUTES_CONFIG: RouteConfig[] = [
   {
     path: PATHS.main,

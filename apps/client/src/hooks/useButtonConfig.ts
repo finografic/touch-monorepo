@@ -1,6 +1,11 @@
 import { useCallback, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { BUTTON_CONFIGS, ROUTE_BUTTON_CONFIG } from 'constants/button.config';
+import {
+  ALTERNATIVE_ROUTE_BUTTON_CONFIG,
+  BUTTON_CONFIGS,
+  ROUTE_BUTTON_CONFIG,
+} from 'constants/button.config';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useButtonOperations } from 'hooks/useButtonOperations';
 import {
@@ -9,6 +14,7 @@ import {
   BUTTON_ACTIONS,
   BUTTON_TYPES,
 } from 'types/button.types';
+import { ALTERNATIVE_PATHS } from 'routes/routes.config';
 
 interface UseButtonConfigReturn {
   footerButtons: ActionButtonProps[];
@@ -17,6 +23,7 @@ interface UseButtonConfigReturn {
 }
 
 export const useButtonConfig = (): UseButtonConfigReturn => {
+  const location = useLocation();
   const { fieldKey } = useRouteConfig();
 
   // Get actions from both specialized hooks
@@ -35,11 +42,17 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   } = useButtonOperations();
 
   const routeConfig = useMemo(() => {
+    // Check if we're on an alternative route (like TimePage)
+    if (location.pathname === ALTERNATIVE_PATHS.time) {
+      return ALTERNATIVE_ROUTE_BUTTON_CONFIG.time;
+    }
+
+    // Default to main route config
     if (!fieldKey || !ROUTE_BUTTON_CONFIG[fieldKey]) {
       return { footer: [], content: [] };
     }
     return ROUTE_BUTTON_CONFIG[fieldKey];
-  }, [fieldKey]);
+  }, [fieldKey, location.pathname]);
 
   const executeAction = useCallback(
     (actionType: string) => {

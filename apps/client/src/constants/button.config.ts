@@ -91,3 +91,11 @@ export const ROUTE_BUTTON_CONFIG: Record<OrderFieldKey, RouteButtonConfig> = {
     content: [],
   },
 };
+
+// Alternative route configurations (not part of main OrderFieldKey flow)
+export const ALTERNATIVE_ROUTE_BUTTON_CONFIG = {
+  time: {
+    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.START],
+    content: [],
+  },
+} as const;
