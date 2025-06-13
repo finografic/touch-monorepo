@@ -8,9 +8,9 @@ type ButtonType =
   | 'back'
   | 'next'
   | 'start'
-  | 'programTime'
-  | 'programProduct'
-  | 'repeatSelection';
+  | 'program-time'
+  | 'program-product'
+  | 'repeat-selection';
 
 // 2. Derive the const object from the union using your enhanced utility
 export const BUTTON_TYPES: ConstEnumOf<ButtonType> = {
@@ -36,6 +36,17 @@ export type ButtonActionType =
   | 'start-process'
   | 'program-time'
   | 'repeat-selection';
+
+// 2. Derive the const object from the union using your enhanced utility
+export const BUTTON_ACTIONS: ConstEnumOf<ButtonActionType> = {
+  CLEAR_COMPLETED: 'clear-completed',
+  SELECT_ALL: 'select-all',
+  NAVIGATE_BACK: 'navigate-back',
+  NAVIGATE_NEXT: 'navigate-next',
+  START_PROCESS: 'start-process',
+  PROGRAM_TIME: 'program-time',
+  REPEAT_SELECTION: 'repeat-selection',
+} as const;
 
 export interface ActionButtonConfig {
   id: string;

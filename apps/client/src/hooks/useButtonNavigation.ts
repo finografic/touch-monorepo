@@ -4,6 +4,13 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
 import { PATHS } from 'routes/routes.config';
 
+const NAVIGATION_ACTIONS = {
+  NAVIGATE_BACK: 'navigate-back',
+  NAVIGATE_NEXT: 'navigate-next',
+} as const;
+
+type NavigationActionType = (typeof NAVIGATION_ACTIONS)[keyof typeof NAVIGATION_ACTIONS];
+
 interface UseButtonNavigationReturn {
   handleNavigateBack: () => void;
   handleNavigateNext: () => void;
@@ -42,11 +49,11 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   }, [current, navigate, pathnames, setPageCurrent]);
 
   const getNavigationDisabled = useCallback(
-    (actionType: 'navigate-back' | 'navigate-next'): boolean => {
+    (actionType: NavigationActionType): boolean => {
       switch (actionType) {
-        case 'navigate-back':
+        case NAVIGATION_ACTIONS.NAVIGATE_BACK:
           return location.pathname === PATHS.main || current <= 0 || isPending;
-        case 'navigate-next':
+        case NAVIGATION_ACTIONS.NAVIGATE_NEXT:
           return isNextDisabled || isPending;
         default:
           return false;

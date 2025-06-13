@@ -1,19 +1,24 @@
+import type { KebabToScreamingSnake } from './casing.utils.types';
+
 /**
-Creates a map type for enum-style constants, here keys are UPPERCASE versions of union members.
+Creates a map type for enum-style constants with automatic casing conversion.
+Keys are SCREAMING_SNAKE_CASE versions of kebab-case union members, values remain kebab-case.
 @category Type
 @example
 ```
-type CarModel = "Ferrari" | "Mercedes" | "bmw";
+type ButtonType = "reset" | "program-time" | "repeat-selection";
 
-const EnumFromType: ConstEnumOf<CarModel> = {
-  FERRARI: "Ferrari",
-  MERCEDES: "Mercedes",
-  BMW: "bmw",
-} as const; // <-- `as const` already applied via `readonly`
+const BUTTON_TYPES: ConstEnumOf<ButtonType> = {
+  RESET: "reset",
+  PROGRAM_TIME: "program-time",
+  REPEAT_SELECTION: "repeat-selection",
+} as const;
 ```
 */
 
-export type ConstEnumOf<T extends string> = { readonly [K in Uppercase<T>]: Extract<T, string> };
+export type ConstEnumOf<T extends string> = {
+  readonly [K in T as KebabToScreamingSnake<K>]: K;
+};
 
 export type ConstUpperEnumOf<T extends string> = { readonly [K in Uppercase<T>]: Uppercase<K> };
 

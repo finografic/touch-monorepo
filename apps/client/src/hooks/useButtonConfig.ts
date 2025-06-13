@@ -1,9 +1,14 @@
 import { useCallback, useMemo } from 'react';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { NAVIGATION_BUTTONS_CONFIG, ROUTE_NAVIGATION_CONFIG } from 'constants/navigation.config';
+import { BUTTON_CONFIGS, ROUTE_BUTTON_CONFIG } from 'constants/button.config';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useButtonOperations } from 'hooks/useButtonOperations';
-import type { ActionButtonProps, ActionButtonType } from 'types/navigation.types';
+import {
+  type ActionButtonProps,
+  type ActionButtonType,
+  BUTTON_ACTIONS,
+  BUTTON_TYPES,
+} from 'types/button.types';
 
 interface UseButtonConfigReturn {
   footerButtons: ActionButtonProps[];
@@ -30,28 +35,28 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   } = useButtonOperations();
 
   const routeConfig = useMemo(() => {
-    if (!fieldKey || !ROUTE_NAVIGATION_CONFIG[fieldKey]) {
+    if (!fieldKey || !ROUTE_BUTTON_CONFIG[fieldKey]) {
       return { footer: [], content: [] };
     }
-    return ROUTE_NAVIGATION_CONFIG[fieldKey];
+    return ROUTE_BUTTON_CONFIG[fieldKey];
   }, [fieldKey]);
 
   const executeAction = useCallback(
     (actionType: string) => {
       switch (actionType) {
-        case 'navigate-back':
+        case BUTTON_ACTIONS.NAVIGATE_BACK:
           return handleNavigateBack();
-        case 'navigate-next':
+        case BUTTON_ACTIONS.NAVIGATE_NEXT:
           return handleNavigateNext();
-        case 'clear-completed':
+        case BUTTON_ACTIONS.CLEAR_COMPLETED:
           return handleClearCompleted();
-        case 'select-all':
+        case BUTTON_ACTIONS.SELECT_ALL:
           return handleSelectAll();
-        case 'start-process':
+        case BUTTON_ACTIONS.START_PROCESS:
           return handleStartProcess();
-        case 'program-time':
+        case BUTTON_ACTIONS.PROGRAM_TIME:
           return handleProgramTime();
-        case 'repeat-selection':
+        case BUTTON_ACTIONS.REPEAT_SELECTION:
           return handleRepeatSelection();
         default:
           console.warn(`Unknown action type: ${actionType}`);
@@ -96,7 +101,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
 
   const getButtonProps = useMemo(() => {
     return (buttonType: ActionButtonType): ActionButtonProps => {
-      const config = NAVIGATION_BUTTONS_CONFIG[buttonType];
+      const config = BUTTON_CONFIGS[buttonType];
       if (!config) {
         console.warn(`No configuration found for button type: ${buttonType}`);
         return {
