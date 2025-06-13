@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from 'styles';
+import { stylesNavButton, stylesPad } from 'styles/custom/buttons.styles';
 
 export const styles = css`
   /* width: 90vw; */
@@ -7,26 +8,81 @@ export const styles = css`
   /* min-height: 880px; */
 
   &[role='dialog'] {
-    width: 66vw;
+    width: 50vw !important;
     height: 100%;
     min-height: 960px;
     max-height: 66vh;
     padding-bottom: 0;
+    max-width: unset;
+    overflow: hidden;
+
     /* display: flex;
     flex-direction: column; */
-  }
 
-  [role='tablist'] + div {
-    height: 100%;
-    /* min-height: 960px;
+    .close-button {
+      /* position: absolute;
+    top: 0;
+    right: 0;
+    padding: 1rem;
+    color: ${colors.greyLight}; */
+
+      transform: translateY(-33%);
+      color: ${colors.greyLight};
+      &:hover {
+        color: ${colors.warning};
+        background-color: transparent;
+        cursor: pointer;
+      }
+    }
+
+    [role='tablist'] {
+      [role='tab'] {
+        height: 52px;
+        /* height: 48vh; */
+        /* min-height: 960px;
     max-height: 66vh; */
-    /* padding-bottom: 0;
+        /* padding-bottom: 0;
     display: flex;
     flex-direction: column;
     display: flex;
     justify-content: center;
     align-items: center;
     border-top: 1px solid red; */
+      }
+
+      + div {
+        height: 100%;
+        height: 48vh;
+        /* min-height: 960px;
+    max-height: 66vh; */
+        /* padding-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top: 1px solid red; */
+      }
+    }
+
+    .footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 1rem 0;
+      padding: 1.5rem 0 1rem;
+      background: transparent;
+
+      button {
+        ${stylesNavButton}
+        border: 2px solid ${colors.greyDark};
+        padding: 1.5rem 1rem;
+        /* font-size: 1rem; */
+        font-weight: 500;
+        /* color: ${colors.greyLight}; */
+        background-color: transparent;
+      }
+    }
   }
 
   code {

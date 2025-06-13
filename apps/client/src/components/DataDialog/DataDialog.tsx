@@ -215,31 +215,15 @@ export const DataDialog = () => {
   return (
     <Theme appearance="dark" grayColor="sand" accentColor="blue" scaling="110%">
       <Dialog.Root open={isAdminDialogOpen} onOpenChange={setIsAdminDialogOpen}>
-        <Dialog.Content
-          size="4"
-          css={styles}
-          // css={moduleStyles.dialogContent}
-          // style={{
-          //   maxWidth: 720,
-          //   height: '100%',
-          //   maxHeight: '66vh',
-          //   display: 'flex',
-          //   flexDirection: 'column',
-          //   overflow: 'hidden',
-          // }}
-        >
+        <Dialog.Content size="4" css={styles}>
           <Flex justify="between" align="center" mb="4">
-            <Dialog.Title size="5">Data View</Dialog.Title>
-            <IconButton
-              variant="ghost"
-              onClick={() => setIsAdminDialogOpen(false)}
-              css={moduleStyles.closeButton}
-            >
+            <Dialog.Title size="5">Admin Tools</Dialog.Title>
+            <IconButton className="close-button" variant="ghost" onClick={() => setIsAdminDialogOpen(false)}>
               <Cross2Icon width="20" height="20" />
             </IconButton>
           </Flex>
 
-          <Flex justify="end" mb="2">
+          {/* <Flex justify="end" mb="2">
             <Button
               variant="soft"
               color="gray"
@@ -248,27 +232,15 @@ export const DataDialog = () => {
             >
               Toggle {viewMode === 'json' ? 'List' : 'JSON'} View
             </Button>
-          </Flex>
+          </Flex> */}
 
           <div css={moduleStyles.dialogContent}>
             <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
               <Tabs.List>
-                <Tabs.Trigger value="order" css={moduleStyles.tabTrigger}>
-                  Order Selections
-                </Tabs.Trigger>
-                {cleanedCalculationData && (
-                  <Tabs.Trigger value="calculation" css={moduleStyles.tabTrigger}>
-                    Calculations
-                  </Tabs.Trigger>
-                )}
-                {hasMetadata && (
-                  <Tabs.Trigger value="metadata" css={moduleStyles.tabTrigger}>
-                    Metadata
-                  </Tabs.Trigger>
-                )}
-                <Tabs.Trigger value="config" css={moduleStyles.tabTrigger}>
-                  Stored Configuration
-                </Tabs.Trigger>
+                <Tabs.Trigger value="order">Order Selections</Tabs.Trigger>
+                {cleanedCalculationData && <Tabs.Trigger value="calculation">Calculations</Tabs.Trigger>}
+                {hasMetadata && <Tabs.Trigger value="metadata">Metadata</Tabs.Trigger>}
+                <Tabs.Trigger value="config">Stored Configuration</Tabs.Trigger>
               </Tabs.List>
 
               <div css={moduleStyles.tabContent}>
@@ -312,17 +284,35 @@ export const DataDialog = () => {
             </Tabs.Root>
           </div>
 
-          <div css={moduleStyles.footer}>
+          {/* ====================================================================== */}
+
+          <Flex className="footer" justify="end" mb="2" gap="4">
+            <Button variant="soft" color="gray" size="2" onClick={() => setIsAdminDialogOpen(false)}>
+              OK
+            </Button>
+
             <Button
               variant="soft"
               color="gray"
               size="2"
-              onClick={() => setIsAdminDialogOpen(false)}
-              css={moduleStyles.okButton}
+              onClick={() => setViewMode(viewMode === 'json' ? 'list' : 'json')}
             >
-              OK
+              Toggle {viewMode === 'json' ? 'List' : 'JSON'} View
             </Button>
-          </div>
+          </Flex>
+
+          {/*
+            <Button
+              variant="soft"
+              color="gray"
+              size="2"
+              onClick={() => setViewMode(viewMode === 'json' ? 'list' : 'json')}
+            >
+              Toggle {viewMode === 'json' ? 'List' : 'JSON'} View
+            </Button>
+          </Flex> */}
+
+          {/* ====================================================================== */}
         </Dialog.Content>
       </Dialog.Root>
     </Theme>

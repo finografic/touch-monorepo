@@ -45,9 +45,6 @@ export const moduleStyles = {
     overflow-y: auto;
     height: 100%;
   `,
-  tabTrigger: css`
-    font-size: 1rem;
-  `,
   activeTabTrigger: css`
     opacity: 1;
   `,
@@ -85,27 +82,5 @@ export const moduleStyles = {
       background: rgba(0, 0, 0, 0.2);
       z-index: 1;
     }
-  `,
-  closeButton: css`
-    /* transform: translateY(-33%);
-    color: ${colors.greyLight};
-    &:hover {
-      color: ${colors.warning};
-      background-color: transparent;
-      cursor: pointer;
-    } */
-  `,
-  okButton: css`
-    /* transform: translateY(60%);
-    min-width: 200px;
-    padding: 0 2rem; */
-  `,
-  footer: css`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 1rem;
-    background: transparent;
-    margin-top: auto;
   `,
 } as const;
