@@ -18,6 +18,7 @@ export const DevTools = () => {
     isDevToolsVisible,
     isDevDataVisible,
     setIsDevDataVisible,
+    isDevScreenSizeVisible,
     isDevQueryPanelOpen,
     setIsDevQueryPanelOpen,
   } = useDev();

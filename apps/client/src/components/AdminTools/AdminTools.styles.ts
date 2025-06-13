@@ -1,22 +1,29 @@
 import { css } from '@emotion/react';
 import { styles as stylesButton } from 'components/ButtonControl/ButtonControl.styles';
-import { colors } from 'styles';
+import { colors, layout } from 'styles';
 
 export const styles = css`
   &.admin-tools-container {
     position: fixed;
-    width: 50vw;
-    height: 64px;
     bottom: 0;
     left: 0;
-    z-index: 1500;
-    flex: 1;
+
+    width: 50vw;
+    height: ${layout.footer.height};
+    min-height: ${layout.footer.height};
+    max-height: ${layout.footer.height};
+
     display: flex;
     align-items: center;
     justify-content: flex-start;
+    box-sizing: border-box;
+    z-index: 1500;
 
-    & > div {
+    > div {
       padding-left: 2rem;
+      height: 100%;
+      display: flex;
+      align-items: center;
     }
 
     button.btn-admin,
@@ -45,14 +52,12 @@ export const styles = css`
     }
 
     .timer-container {
-      flex: 1;
       display: flex;
       align-items: center;
       justify-content: flex-start;
       padding-right: 20px;
-      padding-bottom: 12px;
       width: fit-content;
-      height: 64px;
+      height: auto;
       color: ${colors.warningDark};
     }
   }

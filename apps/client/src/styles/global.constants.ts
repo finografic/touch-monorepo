@@ -16,6 +16,12 @@ export const layout = {
   borderRadius: twLayout.borderRadius,
   pageColor: colors.white,
   bgColor: colors.white,
+  header: {
+    height: '120px',
+  },
+  footer: {
+    height: '80px',
+  },
 } as const;
 
 export const spacing = {

@@ -15,9 +15,9 @@ export const styles = css`
      ======================================== */
   > header {
     width: 100%;
-    height: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    height: ${layout.header.height};
+    min-height: ${layout.header.height};
+    max-height: ${layout.header.height};
     display: flex;
     align-items: center;
     background-color: transparent;
@@ -41,13 +41,10 @@ export const styles = css`
       align-items: center;
       justify-content: center;
 
-      border: ${layout.borderWidth} solid yellow;
-
       /* Section - wrapper for entire page content area */
       section {
         display: flex;
         flex-direction: column;
-        border: ${layout.borderWidth} solid magenta;
 
         /* Flexible sizing with constraints */
         width: 100%;
@@ -102,9 +99,9 @@ export const styles = css`
      ======================================== */
   > footer {
     width: 100%;
-    height: 80px;
-    min-height: 80px;
-    max-height: 80px;
+    height: ${layout.footer.height};
+    min-height: ${layout.footer.height};
+    max-height: ${layout.footer.height};
     display: flex;
     align-items: center;
   }

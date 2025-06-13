@@ -10,12 +10,14 @@ export enum DevKeys {
   isDevToolsVisible = 'isDevToolsVisible',
   isDevQueryPanelOpen = 'isDevQueryPanelOpen',
   isDevDataVisible = 'isDevDataVisible',
+  isDevScreenSizeVisible = 'isDevScreenSizeVisible',
 }
 
 export const defaultValue: DevValues = {
   isDevToolsVisible: process.env.NODE_ENV === 'development',
   isDevQueryPanelOpen: false,
-  isDevDataVisible: true,
+  isDevDataVisible: false,
+  isDevScreenSizeVisible: false,
 };
 
 export const DevContext = createZustandContext(({ initialValue }) => {

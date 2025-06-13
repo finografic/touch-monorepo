@@ -16,14 +16,14 @@ export const AdminTools = () => {
     <div css={styles} className="admin-tools-container">
       <Flex gap="3" align="start">
         {/* Placeholder for future admin buttons */}
-        <Box width="64px" height="64px">
+        <Box width="64px">
           <button className="btn-dialog" onClick={() => setIsAdminDialogOpen(!isAdminDialogOpen)}>
             <TextAlignLeftIcon />
           </button>
         </Box>
 
         {/* Timer visibility toggle */}
-        <Box width="64px" height="64px">
+        <Box width="64px">
           <button
             className={`btn-admin ${isTimerVisible ? 'active' : ''}`}
             onClick={() => setIsTimerVisible(!isTimerVisible)}

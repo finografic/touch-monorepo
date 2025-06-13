@@ -3,7 +3,14 @@ import { useDev } from 'providers/DevProvider/DevContext';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 
 export const useToolsKeyPress = () => {
-  const { isDevToolsVisible, setIsDevToolsVisible } = useDev();
+  const {
+    isDevToolsVisible,
+    setIsDevToolsVisible,
+    isDevScreenSizeVisible,
+    setIsDevScreenSizeVisible,
+    isDevDataVisible,
+    setIsDevDataVisible,
+  } = useDev();
   const { isAdminToolsVisible, setIsAdminToolsVisible } = useAdmin();
 
   const handleKeyDown = (event: KeyboardEvent) => {
@@ -23,6 +30,8 @@ export const useToolsKeyPress = () => {
     if (event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey) {
       console.debug('DEV TOOLS:', isDevToolsVisible);
       setIsDevToolsVisible(!isDevToolsVisible);
+      setIsDevDataVisible(!isDevDataVisible);
+      setIsDevScreenSizeVisible(!isDevScreenSizeVisible);
     }
 
     // Admin tools: Shift + / (question mark)
@@ -39,5 +48,5 @@ export const useToolsKeyPress = () => {
     // Use document instead of window for better keyboard event handling
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isDevToolsVisible, isAdminToolsVisible]);
+  }, [isDevToolsVisible, isAdminToolsVisible, isDevScreenSizeVisible]);
 };
