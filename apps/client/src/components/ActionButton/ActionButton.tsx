@@ -1,7 +1,7 @@
 import clsx from 'clsx';
 import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons';
 import type { ActionButtonProps } from 'types/navigation.types';
-import { ActionButtonStyles } from './ActionButton.styles';
+import { actionButtonStyles } from './ActionButton.styles';
 
 export const ActionButton = ({
   id,
@@ -19,7 +19,7 @@ export const ActionButton = ({
     <button
       id={id}
       type="button"
-      css={ActionButtonStyles}
+      css={actionButtonStyles}
       className={clsx(
         className,
         icon === 'chevron-left' && 'has-chevron',

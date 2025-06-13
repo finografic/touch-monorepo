@@ -1,10 +1,10 @@
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
-import { useNavigationConfig } from 'hooks/useNavigationConfig';
+import { useButtonConfig } from 'hooks/useButtonConfig';
 import { ActionButton } from 'components/ActionButton/ActionButton';
 import { styles } from './Navigation.styles';
 
 export const Navigation = () => {
-  const { footerButtons } = useNavigationConfig();
+  const { footerButtons } = useButtonConfig();
 
   if (footerButtons.length === 0) {
     return null;

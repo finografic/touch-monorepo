@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { stylesNavButton, stylesPad } from 'styles/custom/buttons.styles';
 
-export const ActionButtonStyles = css`
+export const actionButtonStyles = css`
   /* Navigation button styles (for footer buttons) */
   &.nav-button {
     ${stylesNavButton}

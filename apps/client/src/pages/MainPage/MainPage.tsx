@@ -5,7 +5,7 @@ import { ActionButton } from 'components/ActionButton/ActionButton';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider';
-import { useNavigationConfig } from 'hooks/useNavigationConfig';
+import { useButtonConfig } from 'hooks/useButtonConfig';
 import { styles } from './MainPage.styles';
 import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 import { useNavigateState } from 'routes/hooks/useNavigateState';
@@ -14,7 +14,7 @@ export function MainPage() {
   const { navigate } = useNavigateState();
   const { orders } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId } = useSession();
-  const { contentButtons } = useNavigationConfig();
+  const { contentButtons } = useButtonConfig();
   const {
     setIsNextDisabled,
     // setIsNextVisible

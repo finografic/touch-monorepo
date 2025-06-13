@@ -1,25 +1,35 @@
 import { useCallback, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrders } from 'providers/OrdersProvider';
-import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
 import { useTemperatureControl } from 'hooks/useTemperatureControl';
 import { useConfigStorage } from 'hooks/useConfigStorage';
+import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { PATHS } from 'routes/routes.config';
-import type { NavigationActionType } from 'types/navigation.types';
 
-interface UseNavigationActionsReturn {
-  executeAction: (actionType: NavigationActionType) => void;
-  getActionDisabled: (actionType: NavigationActionType) => boolean;
-  getActionLoading: (actionType: NavigationActionType) => boolean;
-  isPending: boolean;
+type OperationActionType =
+  | 'clear-completed'
+  | 'select-all'
+  | 'start-process'
+  | 'program-time'
+  | 'repeat-selection';
+
+interface UseButtonOperationsReturn {
+  handleClearCompleted: () => void;
+  handleSelectAll: () => void;
+  handleStartProcess: () => void;
+  handleProgramTime: () => void;
+  handleRepeatSelection: () => void;
+  getOperationDisabled: (actionType: OperationActionType) => boolean;
+  getOperationLoading: (actionType: OperationActionType) => boolean;
+  isOperationPending: boolean;
 }
 
-export const useNavigationActions = (): UseNavigationActionsReturn => {
+export const useButtonOperations = (): UseButtonOperationsReturn => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
-  const { current, setPageCurrent, isNextDisabled } = usePagination();
+  const { setPageCurrent } = usePagination();
   const { selectAllOrders, orders, setOrderProcessing, timerAction } = useOrders();
   const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
@@ -79,29 +89,6 @@ export const useNavigationActions = (): UseNavigationActionsReturn => {
     selectAllOrders();
   }, [selectAllOrders]);
 
-  const handleNavigateBack = useCallback(() => {
-    if (current > 0) {
-      startTransition(() => {
-        const newIndex = current - 1;
-        const nextPathname = pathnames[newIndex];
-        setPageCurrent(newIndex);
-        navigate(nextPathname, { replace: true });
-      });
-    }
-  }, [current, navigate, pathnames, setPageCurrent]);
-
-  const handleNavigateNext = useCallback(() => {
-    const newIndex = current + 1;
-    const nextPathname = pathnames[newIndex];
-
-    startTransition(() => {
-      setPageCurrent(newIndex);
-      if (nextPathname) {
-        navigate(nextPathname, { replace: true });
-      }
-    });
-  }, [current, navigate, pathnames, setPageCurrent]);
-
   const handleStartProcess = useCallback(() => {
     startTemperatureControl();
   }, [startTemperatureControl]);
@@ -116,40 +103,8 @@ export const useNavigationActions = (): UseNavigationActionsReturn => {
     console.log('Repeat selection action not yet implemented');
   }, []);
 
-  const executeAction = useCallback(
-    (actionType: NavigationActionType) => {
-      switch (actionType) {
-        case 'clear-completed':
-          return handleClearCompleted();
-        case 'select-all':
-          return handleSelectAll();
-        case 'navigate-back':
-          return handleNavigateBack();
-        case 'navigate-next':
-          return handleNavigateNext();
-        case 'start-process':
-          return handleStartProcess();
-        case 'program-time':
-          return handleProgramTime();
-        case 'repeat-selection':
-          return handleRepeatSelection();
-        default:
-          console.warn(`Unknown navigation action: ${actionType}`);
-      }
-    },
-    [
-      handleClearCompleted,
-      handleSelectAll,
-      handleNavigateBack,
-      handleNavigateNext,
-      handleStartProcess,
-      handleProgramTime,
-      handleRepeatSelection,
-    ],
-  );
-
-  const getActionDisabled = useCallback(
-    (actionType: NavigationActionType): boolean => {
+  const getOperationDisabled = useCallback(
+    (actionType: OperationActionType): boolean => {
       const numSelected = orders.filter((order) => order.isSelected).length;
 
       switch (actionType) {
@@ -157,10 +112,6 @@ export const useNavigationActions = (): UseNavigationActionsReturn => {
           return !hasCompletedTimers || location.pathname !== PATHS.main || isPending;
         case 'select-all':
           return location.pathname !== PATHS.main || isPending;
-        case 'navigate-back':
-          return location.pathname === PATHS.main || current <= 0 || isPending;
-        case 'navigate-next':
-          return isNextDisabled || isPending;
         case 'start-process':
           return (
             isTemperatureLoading ||
@@ -180,8 +131,6 @@ export const useNavigationActions = (): UseNavigationActionsReturn => {
       hasCompletedTimers,
       location.pathname,
       isPending,
-      current,
-      isNextDisabled,
       isTemperatureLoading,
       temperatureProfilesQuery.isError,
       temperatureProfilesQuery.data,
@@ -189,8 +138,8 @@ export const useNavigationActions = (): UseNavigationActionsReturn => {
     ],
   );
 
-  const getActionLoading = useCallback(
-    (actionType: NavigationActionType): boolean => {
+  const getOperationLoading = useCallback(
+    (actionType: OperationActionType): boolean => {
       switch (actionType) {
         case 'start-process':
           return isTemperatureLoading;
@@ -202,9 +151,13 @@ export const useNavigationActions = (): UseNavigationActionsReturn => {
   );
 
   return {
-    executeAction,
-    getActionDisabled,
-    getActionLoading,
-    isPending,
+    handleClearCompleted,
+    handleSelectAll,
+    handleStartProcess,
+    handleProgramTime,
+    handleRepeatSelection,
+    getOperationDisabled,
+    getOperationLoading,
+    isOperationPending: isPending,
   };
 };
