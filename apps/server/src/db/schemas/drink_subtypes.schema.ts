@@ -28,9 +28,9 @@ export const drink_subtypes = sqliteTable('drink_subtypes', {
 // Zod schema for validation
 const insertDrinkSubtypeSchema = createInsertSchema(drink_subtypes, {
   name: (schema) => schema.name.min(1).max(50),
-  nameEn: (schema) => schema.name_en.min(1).max(100),
-  nameEs: (schema) => schema.name_es.min(1).max(100),
-  nameCat: (schema) => schema.name_cat.min(1).max(100),
+  nameEn: (schema) => schema.nameEn.min(1).max(100),
+  nameEs: (schema) => schema.nameEs.min(1).max(100),
+  nameCat: (schema) => schema.nameCat.min(1).max(100),
   defaultTempConsume: (schema) => schema.defaultTempConsume.min(-10).max(30),
   defaultTempFreeze: (schema) => schema.defaultTempFreeze.min(-20).max(10),
 })

@@ -24,9 +24,9 @@ export const volumes = sqliteTable('volumes', {
 // Zod schema for validation
 const insertVolumeSchema = createInsertSchema(volumes, {
   name: (schema) => schema.name.min(1).max(20),
-  nameEn: (schema) => schema.name_en.min(1).max(20),
-  nameEs: (schema) => schema.name_es.min(1).max(20),
-  nameCat: (schema) => schema.name_cat.min(1).max(20),
+  nameEn: (schema) => schema.nameEn.min(1).max(20),
+  nameEs: (schema) => schema.nameEs.min(1).max(20),
+  nameCat: (schema) => schema.nameCat.min(1).max(20),
   valueInMl: (schema) => schema.valueInMl.min(1).max(5000), // Up to 5L
   sortOrder: (schema) => schema.sortOrder.min(0),
   coolingFactor: (schema) => schema.coolingFactor.min(0.1).max(5), // Reasonable range for multiplier

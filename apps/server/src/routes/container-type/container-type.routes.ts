@@ -18,7 +18,9 @@ export const list = createRoute({
         containerTypeSchemas.select.pick({
           id: true,
           name: true,
-          displayName: true,
+          nameEn: true,
+          nameEs: true,
+          nameCat: true,
           thermalConductivity: true,
           isActive: true,
         }),

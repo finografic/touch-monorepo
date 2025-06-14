@@ -22,9 +22,9 @@ export const container_types = sqliteTable('container_types', {
 // Zod schema for validation
 const insertContainerTypeSchema = createInsertSchema(container_types, {
   name: (schema) => schema.name.min(1).max(50),
-  nameEn: (schema) => schema.name_en.min(1).max(100),
-  nameEs: (schema) => schema.name_es.min(1).max(100),
-  nameCat: (schema) => schema.name_cat.min(1).max(100),
+  nameEn: (schema) => schema.nameEn.min(1).max(100),
+  nameEs: (schema) => schema.nameEs.min(1).max(100),
+  nameCat: (schema) => schema.nameCat.min(1).max(100),
   thermalConductivity: (schema) => schema.thermalConductivity.min(1).max(100), // Scale of 1-100
 })
   .required({
