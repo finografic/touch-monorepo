@@ -1,0 +1,47 @@
+{
+  "name": "@workspace/i18n",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./translations": {
+      "types": "./dist/translations/index.d.ts",
+      "import": "./dist/translations/index.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    }
+  },
+  "scripts": {
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "clean": "shx rm -rf dist",
+    "clean.dry": "shx rm -rf --dry-run dist",
+    "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
+    "lint": "eslint .",
+    "lint.fix": "eslint . --fix",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "1.31.3",
+    "date-fns": "4.1.0",
+    "i18next": "24.2.0",
+    "i18next-browser-languagedetector": "8.0.2",
+    "react-i18next": "15.4.0"
+  },
+  "devDependencies": {
+    "@finografic/project-scripts": "^0.5.0",
+    "@types/node": "20.15.0",
+    "shx": "0.3.4",
+    "tsup": "8.4.0",
+    "typescript": "^5.8.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.3"
+  }
+}

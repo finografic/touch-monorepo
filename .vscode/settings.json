@@ -10,8 +10,13 @@
   },
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "preferences.includePackageJsonAutoImports": "off",
+    "suggest.autoImports": false
   },
   "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "files.trimTrailingWhitespace": true,
@@ -21,12 +26,7 @@
       "mode": "auto"
     }
   ],
-  "eslint.validate": [
-    "javascript",
-    "javascriptreact",
-    "typescript",
-    "typescriptreact"
-  ],
+  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
   // "eslint.nodePath": ".pnpm",
   "eslint.nodePath": null,
   "eslint.runtime": "node",
@@ -40,10 +40,7 @@
   "json.schemas": [
     {
       "url": "https://cdn.jsdelivr.net/npm/tsup/schema.json",
-      "fileMatch": [
-        "package.json",
-        "tsup.config.json"
-      ]
+      "fileMatch": ["package.json", "tsup.config.json"]
     }
   ],
   "debug.saveBeforeStart": "allEditorsInActiveGroup",
@@ -53,5 +50,34 @@
       "!**/node_modules/**",
       "**/node_modules/.vite-temp/**"
     ]
-  }
+  },
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true,
+    "**/.hg/store/**": true,
+    "**/dist/**": true,
+    "**/.turbo/**": true,
+    "**/.next/**": true,
+    "**/build/**": true,
+    "**/out/**": true,
+    "**/.vite/**": true,
+    "**/node_modules/.vite/**": true,
+    "**/node_modules/.vite-temp/**": true
+  },
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": "on"
+  },
+  "tailwindCSS.includeLanguages": {
+    "typescript": "javascript",
+    "typescriptreact": "javascript"
+  },
+  "i18n-ally.localesPaths": ["packages/i18n/src/translations"],
+  "tailwindCSS.experimental.classRegex": [
+    ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+    ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+  ]
 }

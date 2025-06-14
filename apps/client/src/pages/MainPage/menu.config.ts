@@ -1,6 +1,6 @@
 import { NUM_GRID_ITEMS } from 'constants/app.config';
-import type { PadTestProps } from 'pages/MainPage/MainPage';
-import type { PadUI } from 'types/ui.types';
+// import type { PadTestProps } from 'pages/MainPage/MainPage';
+// import type { PadUI } from 'types/ui.types';
 
 // ======================================================================== //
 // TODO: REMOVE  - UNUSED CODE !!
@@ -19,7 +19,8 @@ export const FLOW_TYPE = {
   TIME: 'time',
 } as const;
 
-export const FLOW_CONFIG: Record<FlowType, PadTestProps> = {
+// export const FLOW_CONFIG: Record<FlowType, PadTestProps> = {
+export const FLOW_CONFIG: Record<FlowType, any> = {
   [FLOW_TYPE.PRODUCT]: {
     id: '1',
     label: 'Programar Producto',

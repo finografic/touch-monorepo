@@ -83,4 +83,30 @@ export const moduleStyles = {
       z-index: 1;
     }
   `,
+  languageSelector: css`
+    height: 100%;
+    overflow-y: auto;
+    padding: 1rem 0;
+
+    /* Radio Cards styling for vertical layout */
+    [data-radix-radio-cards-root] {
+      gap: 0.75rem;
+    }
+
+    [data-radix-radio-cards-item] {
+      padding: 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.05);
+      }
+
+      &[data-state='checked'] {
+        background-color: rgba(59, 130, 246, 0.1);
+        border-color: rgba(59, 130, 246, 0.5);
+      }
+    }
+  `,
 } as const;

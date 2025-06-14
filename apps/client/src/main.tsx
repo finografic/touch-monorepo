@@ -1,10 +1,10 @@
 // import 'packages/globals/src';
 import '@workspace/globals';
+import './i18n.config';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import i18n from 'i18n/i18n-init';
-import 'i18n/locale';
+import i18n from 'src/i18n.config';
 import { HelmetProvider } from 'react-helmet-async';
 import { I18nextProvider } from 'react-i18next';
 import App from './App';

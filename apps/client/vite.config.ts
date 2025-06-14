@@ -58,6 +58,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       alias: {
         '@workspace/types': resolve(workspaceRoot, 'packages/types/src'),
         '@workspace/types/utils': resolve(workspaceRoot, 'packages/types/src/utils'),
+        '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src'),
       },
     },
     build: {
@@ -99,6 +100,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/core',
         '@workspace/types',
         '@workspace/types/utils',
+        '@workspace/i18n',
       ],
       esbuildOptions: {
         target: 'es2020',

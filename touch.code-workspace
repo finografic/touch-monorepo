@@ -1,8 +1,10 @@
 {
   "folders": [
     {
-      "path": "."
-    }
+      "path": ".",
+    },
   ],
-  "settings": {}
+  "settings": {
+    "i18n-ally.localesPaths": ["packages/i18n/src/translations"],
+  },
 }

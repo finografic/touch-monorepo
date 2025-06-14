@@ -1,14 +1,7 @@
 // -------------------------------------------------------------------------- //
 // DATE (ONLY) FORMAT SKELETONS
 
-export type DATE_FORMATS =
-  | 'DEFAULT'
-  | 'REVERSE'
-  | 'MONTH'
-  | 'MONTH_SHORT'
-  | 'MEDIUM'
-  | 'LONG'
-  | 'FULL';
+export type DATE_FORMATS = 'DEFAULT' | 'REVERSE' | 'MONTH' | 'MONTH_SHORT' | 'MEDIUM' | 'LONG' | 'FULL';
 
 export const DATE_FORMAT: { [key in DATE_FORMATS]: string } = {
   DEFAULT: 'yyyy-MM-dd',

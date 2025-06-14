@@ -64,6 +64,7 @@
     "@workspace/core": "workspace:*",
     "@workspace/config": "workspace:*",
     "@workspace/globals": "workspace:*",
+    "@workspace/i18n": "workspace:*",
     "@workspace/server": "workspace:*",
     "axios": "1.8.4",
     "class-variance-authority": "0.7.1",

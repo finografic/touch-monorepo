@@ -3,12 +3,7 @@
   "compilerOptions": {
     "composite": true,
     "target": "ES2020",
-    "lib": [
-      "ES2020",
-      "DOM",
-      "DOM.Iterable",
-      "WebWorker"
-    ],
+    "lib": ["ES2020", "DOM", "DOM.Iterable", "WebWorker"],
     "verbatimModuleSyntax": true,
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -21,99 +16,39 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@workspace/config": [
-        "../../config"
-      ],
-      "@workspace/config/*": [
-        "../../config/*"
-      ],
-      "@workspace/core/*": [
-        "../../packages/core/src/*"
-      ],
-      "@workspace/core": [
-        "../../packages/core/src"
-      ],
-      "@workspace/globals/*": [
-        "../../packages/globals/src/*"
-      ],
-      "@workspace/globals": [
-        "../../packages/globals/src"
-      ],
-      "@workspace/server/*": [
-        "../server/src/*"
-      ],
-      "@workspace/server/types/entities": [
-        "../server/src/types/entities/index.ts"
-      ],
-      "api": [
-        "./src/api"
-      ],
-      "api/*": [
-        "./src/api/*"
-      ],
-      "auth/*": [
-        "./src/auth/*"
-      ],
-      "components/*": [
-        "./src/components/*"
-      ],
-      "constants/*": [
-        "src/constants/*"
-      ],
-      "dev-tools/*": [
-        "./src/dev-tools/*"
-      ],
-      "dev-tools": [
-        "./src/dev-tools"
-      ],
-      "env.client": [
-        "./src/env.client"
-      ],
-      "i18n/*": [
-        "./src/i18n/*"
-      ],
-      "hooks/*": [
-        "./src/hooks/*"
-      ],
-      "layout/*": [
-        "./src/layout/*"
-      ],
-      "lib/*": [
-        "./src/lib/*"
-      ],
-      "pages": [
-        "./src/pages"
-      ],
-      "pages/*": [
-        "./src/pages/*"
-      ],
-      "providers/*": [
-        "./src/providers/*"
-      ],
-      "routes/*": [
-        "./src/routes/*"
-      ],
-      "queries": [
-        "./src/queries"
-      ],
-      "queries/*": [
-        "./src/queries/*"
-      ],
-      "styles": [
-        "./src/styles"
-      ],
-      "styles/*": [
-        "./src/styles/*"
-      ],
-      "types": [
-        "./src/types"
-      ],
-      "types/*": [
-        "./src/types/*"
-      ],
-      "utils/*": [
-        "./src/utils/*"
-      ]
+      "@workspace/config": ["../../config"],
+      "@workspace/config/*": ["../../config/*"],
+      "@workspace/core/*": ["../../packages/core/src/*"],
+      "@workspace/core": ["../../packages/core/src"],
+      "@workspace/globals/*": ["../../packages/globals/src/*"],
+      "@workspace/globals": ["../../packages/globals/src"],
+      "@workspace/i18n/flags/images": ["src/components/LanguageSelector/flags/images"],
+      "@workspace/i18n/flags/images/*": ["src/components/LanguageSelector/flags/images/*"],
+      "@workspace/server/*": ["../server/src/*"],
+      "@workspace/server/types/entities": ["../server/src/types/entities/index.ts"],
+      "api": ["./src/api"],
+      "api/*": ["./src/api/*"],
+      "auth/*": ["./src/auth/*"],
+      "components/*": ["./src/components/*"],
+      "constants/*": ["src/constants/*"],
+      "dev-tools/*": ["./src/dev-tools/*"],
+      "dev-tools": ["./src/dev-tools"],
+      "env.client": ["./src/env.client"],
+      "i18n/*": ["./src/i18n/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "layout/*": ["./src/layout/*"],
+      "lib/*": ["./src/lib/*"],
+      "pages": ["./src/pages"],
+      "pages/*": ["./src/pages/*"],
+      "providers/*": ["./src/providers/*"],
+      "routes/*": ["./src/routes/*"],
+      "queries": ["./src/queries"],
+      "queries/*": ["./src/queries/*"],
+      "styles": ["./src/styles"],
+      "styles/*": ["./src/styles/*"],
+      "types": ["./src/types"],
+      "types/*": ["./src/types/*"],
+      "utils/*": ["./src/utils/*"]
     },
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
@@ -127,9 +62,7 @@
     "declaration": true,
     "declarationMap": true,
     "isolatedModules": true,
-    "types": [
-      "@emotion/react/types/css-prop"
-    ]
+    "types": ["@emotion/react/types/css-prop"]
   },
   "references": [
     {
@@ -145,14 +78,6 @@
       "path": "../server"
     }
   ],
-  "include": [
-    "src/**/*",
-    "src/**/*.json",
-    "../server/src/types/**/*"
-  ],
-  "exclude": [
-    "dist",
-    "node_modules",
-    "eslint.config.mjs"
-  ]
+  "include": ["src/**/*", "src/**/*.json", "../server/src/types/**/*"],
+  "exclude": ["dist", "node_modules", "eslint.config.mjs"]
 }

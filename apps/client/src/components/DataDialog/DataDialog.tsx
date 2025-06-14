@@ -1,4 +1,16 @@
-import { Button, Code, DataList, Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
+import {
+  Badge,
+  Button,
+  Code,
+  DataList,
+  Dialog,
+  Flex,
+  IconButton,
+  RadioCards,
+  Tabs,
+  Text,
+  Theme,
+} from '@radix-ui/themes';
 import { useOrderSelection } from 'hooks/useOrderSelection';
 import { useEffect, useState } from 'react';
 import type { OrderItem } from 'types/orders.types';
@@ -9,6 +21,7 @@ import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { ConfigTimer } from 'components/ConfigTimer/ConfigTimer';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { useConfigStorage } from 'hooks/useConfigStorage';
+import { LanguageSelector } from 'components/LanguageSelector';
 
 interface OrderWithMetadata extends OrderItem {
   id?: string;
@@ -223,17 +236,6 @@ export const DataDialog = () => {
             </IconButton>
           </Flex>
 
-          {/* <Flex justify="end" mb="2">
-            <Button
-              variant="soft"
-              color="gray"
-              size="2"
-              onClick={() => setViewMode(viewMode === 'json' ? 'list' : 'json')}
-            >
-              Toggle {viewMode === 'json' ? 'List' : 'JSON'} View
-            </Button>
-          </Flex> */}
-
           <div css={moduleStyles.dialogContent}>
             <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
               <Tabs.List>
@@ -241,6 +243,7 @@ export const DataDialog = () => {
                 {cleanedCalculationData && <Tabs.Trigger value="calculation">Calculations</Tabs.Trigger>}
                 {hasMetadata && <Tabs.Trigger value="metadata">Metadata</Tabs.Trigger>}
                 <Tabs.Trigger value="config">Stored Configuration</Tabs.Trigger>
+                <Tabs.Trigger value="languages">Languages</Tabs.Trigger>
               </Tabs.List>
 
               <div css={moduleStyles.tabContent}>
@@ -280,11 +283,13 @@ export const DataDialog = () => {
                     <JsonView data={storedConfig} color="orange" />
                   </div>
                 </Tabs.Content>
+
+                <Tabs.Content value="languages">
+                  <LanguageSelector />
+                </Tabs.Content>
               </div>
             </Tabs.Root>
           </div>
-
-          {/* ====================================================================== */}
 
           <Flex className="footer" justify="end" mb="2" gap="4">
             <Button variant="soft" color="gray" size="2" onClick={() => setIsAdminDialogOpen(false)}>
@@ -300,19 +305,6 @@ export const DataDialog = () => {
               Toggle {viewMode === 'json' ? 'List' : 'JSON'} View
             </Button>
           </Flex>
-
-          {/*
-            <Button
-              variant="soft"
-              color="gray"
-              size="2"
-              onClick={() => setViewMode(viewMode === 'json' ? 'list' : 'json')}
-            >
-              Toggle {viewMode === 'json' ? 'List' : 'JSON'} View
-            </Button>
-          </Flex> */}
-
-          {/* ====================================================================== */}
         </Dialog.Content>
       </Dialog.Root>
     </Theme>
