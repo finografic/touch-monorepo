@@ -46,7 +46,7 @@ export interface OrderItem {
 export interface ContainerType {
   id: string;
   name: string;
-  displayName: string;
+  nameEn: string;
 }
 
 // Types for the values of each field

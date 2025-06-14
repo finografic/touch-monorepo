@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from 'styles';
-import { stylesNavButton, stylesPad } from 'styles/custom/buttons.styles';
+import { stylesNavButton } from 'styles/custom/buttons.styles';
 
 export const styles = css`
   &[role='dialog'] {
@@ -11,6 +11,12 @@ export const styles = css`
     padding-bottom: 0;
     max-width: unset;
     overflow: hidden;
+
+    h1 {
+      font-size: 2.25rem;
+      font-weight: 500;
+      margin-bottom: 1.5rem;
+    }
 
     .close-button {
       transform: scale(1.5) translate(-25%);
@@ -24,16 +30,6 @@ export const styles = css`
 
     [role='tablist'] {
       [role='tab'] {
-        /* height: 48vh; */
-        /* min-height: 960px; */
-        /* max-height: 66vh; */
-
-        /* display: flex;
-        flex-direction: column;
-        display: flex;
-        justify-content: center;
-        align-items: center; */
-
         height: 64px;
         font-size: 1.2rem;
         font-weight: 500;
@@ -41,19 +37,9 @@ export const styles = css`
         line-height: 1.2;
         padding: 1.5rem 1rem;
       }
-
       + div {
         height: 100%;
-        height: 54vh;
-        /* min-height: 960px;
-    max-height: 66vh; */
-        /* padding-bottom: 0;
-    display: flex;
-    flex-direction: column;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-top: 1px solid red; */
+        height: 48vh;
       }
     }
 
@@ -69,9 +55,7 @@ export const styles = css`
         ${stylesNavButton}
         border: 2px solid ${colors.greyDark};
         padding: 1.5rem 1rem;
-        /* font-size: 1rem; */
         font-weight: 500;
-        /* color: ${colors.greyLight}; */
         background-color: transparent;
       }
     }
@@ -153,7 +137,7 @@ export const styles = css`
     .tabContent {
       flex: 1;
       min-height: 0;
-      padding: 1.5rem 1rem 0;
+      padding: 2rem 0 0;
       position: relative;
 
       [data-state='active'] {

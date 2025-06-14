@@ -7,7 +7,9 @@ export const DrinkTypeDTO = {
     return data.data.map((drinkType) => ({
       id: drinkType.id,
       name: drinkType.name,
-      displayName: drinkType.display_name,
+      nameEn: drinkType.name_en,
+      nameEs: drinkType.name_es,
+      nameCat: drinkType.name_cat,
       hasSubtypes: Boolean(drinkType.has_subtypes),
       defaultTempConsume: drinkType.default_temp_consume,
       defaultTempFreeze: drinkType.default_temp_freeze,
@@ -21,7 +23,9 @@ export const DrinkTypeDTO = {
     return {
       id: data.id,
       name: data.name,
-      display_name: data.displayName,
+      name_en: data.nameEn,
+      name_es: data.nameEs,
+      name_cat: data.nameCat,
       has_subtypes: Number(data.hasSubtypes),
       default_temp_consume: data.defaultTempConsume,
       default_temp_freeze: data.defaultTempFreeze,
