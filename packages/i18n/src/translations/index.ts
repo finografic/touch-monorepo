@@ -3,9 +3,13 @@ import commonEn from './common/en.json';
 import appEn from './app/en.json';
 import dynamicEn from './dynamic/en.json';
 
-// Legacy files - will be gradually moved to organized structure
-import legacyEn from './en.json';
-import legacyEs from './es.json';
+import commonEs from './common/es.json';
+import appEs from './app/es.json';
+import dynamicEs from './dynamic/es.json';
+
+import commonCat from './common/cat.json';
+import appCat from './app/cat.json';
+import dynamicCat from './dynamic/cat.json';
 
 // Merge function to combine translation objects
 const mergeTranslations = (...sources: any[]) => {
@@ -17,9 +21,8 @@ const mergeTranslations = (...sources: any[]) => {
 // Organized translations (new structure)
 export const translations = {
   en: mergeTranslations(commonEn, appEn, dynamicEn),
-  // TODO: Create common/app/dynamic for es and cat
-  es: legacyEs, // Temporary - will be split
-  cat: legacyEs, // Temporary - will be replaced with Catalan
+  es: mergeTranslations(commonEs, appEs, dynamicEs),
+  cat: mergeTranslations(commonCat, appCat, dynamicCat),
 } as const;
 
 // Legacy exports for backward compatibility
@@ -34,4 +37,4 @@ export default resources;
 export type SupportedLanguage = keyof typeof translations;
 
 // Re-export individual translations for backward compatibility
-export { legacyEn as enTranslations, legacyEs as esTranslations };
+export { commonEn, appEn, dynamicEn, commonEs, appEs, dynamicEs, commonCat, appCat, dynamicCat };

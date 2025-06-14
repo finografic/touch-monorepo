@@ -43,19 +43,5 @@
     "75cl": "75cl",
     "1l": "1 Liter",
     "1.5l": "1.5 Liters"
-  },
-  "temperatures": {
-    "units": {
-      "celsius": "°C",
-      "fahrenheit": "°F"
-    },
-    "ranges": {
-      "frozen": "Frozen",
-      "cold": "Cold",
-      "cool": "Cool",
-      "room": "Room Temperature",
-      "warm": "Warm",
-      "hot": "Hot"
-    }
   }
 }
