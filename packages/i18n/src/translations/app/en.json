@@ -1,0 +1,57 @@
+{
+  "app": {
+    "title": "SERVI_FRESC",
+    "tagline": "Perfect Temperature Service",
+    "description": "Temperature control system for beverages"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Dashboard",
+      "subtitle": "System Overview"
+    },
+    "orders": {
+      "title": "Orders",
+      "subtitle": "Manage beverage orders",
+      "new": "New Order",
+      "active": "Active Orders",
+      "completed": "Completed Orders"
+    },
+    "admin": {
+      "title": "Admin Tools",
+      "tabs": {
+        "orderSelections": "Order Selections",
+        "storedConfiguration": "Stored Configuration",
+        "languages": "Languages"
+      }
+    }
+  },
+  "components": {
+    "languageSelector": {
+      "title": "Select Language",
+      "change": "Change Language"
+    },
+    "temperatureControl": {
+      "initial": "Initial Temperature",
+      "target": "Target Temperature",
+      "current": "Current Temperature",
+      "cooling": "Cooling",
+      "heating": "Heating",
+      "maintaining": "Maintaining"
+    },
+    "orderStatus": {
+      "pending": "Pending",
+      "processing": "Processing",
+      "cooling": "Cooling",
+      "heating": "Heating",
+      "ready": "Ready",
+      "completed": "Completed",
+      "cancelled": "Cancelled"
+    }
+  },
+  "notifications": {
+    "orderReady": "Your order is ready!",
+    "temperatureReached": "Target temperature reached",
+    "systemError": "System error occurred",
+    "orderCancelled": "Order cancelled"
+  }
+}

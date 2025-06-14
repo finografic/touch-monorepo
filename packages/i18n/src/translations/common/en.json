@@ -1,0 +1,82 @@
+{
+  "ui": {
+    "buttons": {
+      "save": "Save",
+      "cancel": "Cancel",
+      "edit": "Edit",
+      "delete": "Delete",
+      "view": "View",
+      "back": "Back",
+      "next": "Next",
+      "previous": "Previous",
+      "ok": "OK",
+      "close": "Close",
+      "submit": "Submit",
+      "reset": "Reset",
+      "update": "Update",
+      "add": "Add",
+      "remove": "Remove",
+      "select": "Select",
+      "clear": "Clear"
+    },
+    "forms": {
+      "labels": {
+        "name": "Name",
+        "displayName": "Display Name",
+        "description": "Description",
+        "isActive": "Active",
+        "createdAt": "Created At",
+        "updatedAt": "Updated At",
+        "email": "Email",
+        "password": "Password",
+        "confirmPassword": "Confirm Password"
+      },
+      "placeholders": {
+        "selectOption": "Select an option...",
+        "enterText": "Enter text...",
+        "searchPlaceholder": "Search..."
+      },
+      "validation": {
+        "required": "This field is required",
+        "invalid": "Invalid value",
+        "tooShort": "Too short",
+        "tooLong": "Too long"
+      }
+    },
+    "navigation": {
+      "home": "Home",
+      "settings": "Settings",
+      "profile": "Profile",
+      "logout": "Logout",
+      "login": "Login"
+    },
+    "states": {
+      "loading": "Loading...",
+      "saving": "Saving...",
+      "saved": "Saved",
+      "error": "Error",
+      "success": "Success",
+      "empty": "No data available",
+      "notFound": "Not found"
+    },
+    "actions": {
+      "confirm": "Are you sure?",
+      "confirmDelete": "Are you sure you want to delete this item?",
+      "unsavedChanges": "You have unsaved changes"
+    }
+  },
+  "time": {
+    "units": {
+      "seconds": "seconds",
+      "minutes": "minutes",
+      "hours": "hours",
+      "days": "days"
+    },
+    "relative": {
+      "now": "now",
+      "justNow": "just now",
+      "minutesAgo": "{{count}} minutes ago",
+      "hoursAgo": "{{count}} hours ago"
+    }
+  }
+}
