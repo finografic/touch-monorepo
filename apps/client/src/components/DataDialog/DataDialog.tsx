@@ -1,27 +1,20 @@
-import {
-  Badge,
-  Button,
-  Code,
-  DataList,
-  Dialog,
-  Flex,
-  IconButton,
-  RadioCards,
-  Tabs,
-  Text,
-  Theme,
-} from '@radix-ui/themes';
+import { Button, DataList, Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
 import { useOrderSelection } from 'hooks/useOrderSelection';
 import { useEffect, useState } from 'react';
 import type { OrderItem } from 'types/orders.types';
-import { moduleStyles } from './DataDialog.module.styles';
 import { styles } from './DataDialog.styles';
-import { OrderFieldKeys, STORAGE_KEYS } from 'constants/app.config';
+import { OrderFieldKeys } from 'constants/app.config';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { ConfigTimer } from 'components/ConfigTimer/ConfigTimer';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { LanguageSelector } from 'components/LanguageSelector';
+
+// Import the separate components
+import { OrderDataList } from './components/OrderDataList';
+import { CalculationDataList } from './components/CalculationDataList';
+import { MetadataDataList } from './components/MetadataDataList';
+import { JsonView } from './components/JsonView';
 
 interface OrderWithMetadata extends OrderItem {
   id?: string;
@@ -61,123 +54,26 @@ const cleanCalculationData = (calculation: Calculation | null) => {
   return cleanCalc;
 };
 
-const OrderDataList = ({ data }: { data: any }) => {
+// Configuration data list component
+const ConfigDataList = ({ data }: { data: any }) => {
   if (!data) return null;
+
+  const renderValue = (value: any): string => {
+    if (typeof value === 'object') {
+      return JSON.stringify(value, null, 2);
+    }
+    return String(value);
+  };
+
   return (
     <DataList.Root>
-      {data.drinkType && (
-        <DataList.Item>
-          <DataList.Label css={moduleStyles.label}>Drink Type</DataList.Label>
-          <DataList.Value css={moduleStyles.value}>{data.drinkType.displayName}</DataList.Value>
+      {Object.entries(data).map(([key, value]) => (
+        <DataList.Item key={key}>
+          <DataList.Label className="label">{key}</DataList.Label>
+          <DataList.Value className="value">{renderValue(value)}</DataList.Value>
         </DataList.Item>
-      )}
-      {data.drinkSubtype && (
-        <DataList.Item>
-          <DataList.Label css={moduleStyles.label}>Subtype</DataList.Label>
-          <DataList.Value css={moduleStyles.value}>{data.drinkSubtype.displayName}</DataList.Value>
-        </DataList.Item>
-      )}
-      {data.volume && (
-        <DataList.Item>
-          <DataList.Label css={moduleStyles.label}>Volume</DataList.Label>
-          <DataList.Value css={moduleStyles.value}>{`${data.volume.valueInMl}ml`}</DataList.Value>
-        </DataList.Item>
-      )}
-      {data.containerType && (
-        <DataList.Item>
-          <DataList.Label css={moduleStyles.label}>Container</DataList.Label>
-          <DataList.Value css={moduleStyles.value}>{data.containerType.displayName}</DataList.Value>
-        </DataList.Item>
-      )}
-      {data.initialTemperature && (
-        <DataList.Item>
-          <DataList.Label css={moduleStyles.label}>Initial Temperature</DataList.Label>
-          <DataList.Value css={moduleStyles.value}>
-            {`${data.initialTemperature.value}${data.initialTemperature.unit}`}
-          </DataList.Value>
-        </DataList.Item>
-      )}
-      {data.finalTemperature && (
-        <DataList.Item>
-          <DataList.Label css={moduleStyles.label}>Final Temperature</DataList.Label>
-          <DataList.Value css={moduleStyles.value}>
-            {`${data.finalTemperature.value}${data.finalTemperature.unit}`}
-          </DataList.Value>
-        </DataList.Item>
-      )}
+      ))}
     </DataList.Root>
-  );
-};
-
-const CalculationDataList = ({ data }: { data: Calculation | null }) => {
-  if (!data) return null;
-  return (
-    <DataList.Root>
-      <DataList.Item>
-        <DataList.Label css={moduleStyles.label}>Status</DataList.Label>
-        <DataList.Value css={moduleStyles.value}>{data.status}</DataList.Value>
-      </DataList.Item>
-      <DataList.Item>
-        <DataList.Label css={moduleStyles.label}>Temperature Δ</DataList.Label>
-        <DataList.Value css={moduleStyles.value}>
-          {data.temperatureDelta}
-          °C
-        </DataList.Value>
-      </DataList.Item>
-      <DataList.Item>
-        <DataList.Label css={moduleStyles.label}>Duration</DataList.Label>
-        <DataList.Value css={moduleStyles.value}>
-          {`${data.estimatedDuration.minutes}m ${data.estimatedDuration.seconds}s`}
-        </DataList.Value>
-      </DataList.Item>
-      {data.recommendations?.length > 0 && (
-        <DataList.Item>
-          <DataList.Label css={moduleStyles.label}>Recommendations</DataList.Label>
-          <DataList.Value css={moduleStyles.value}>
-            {data.recommendations.map((rec, index) => (
-              <div key={index}>{rec}</div>
-            ))}
-          </DataList.Value>
-        </DataList.Item>
-      )}
-    </DataList.Root>
-  );
-};
-
-const MetadataDataList = ({ data }: { data: OrderWithMetadata['metadata'] }) => {
-  if (!data) return null;
-  return (
-    <DataList.Root>
-      <DataList.Item>
-        <DataList.Label css={moduleStyles.label}>Order ID</DataList.Label>
-        <DataList.Value css={moduleStyles.value}>{data.orderId}</DataList.Value>
-      </DataList.Item>
-      <DataList.Item>
-        <DataList.Label css={moduleStyles.label}>Timestamp</DataList.Label>
-        <DataList.Value css={moduleStyles.value}>{new Date(data.timestamp).toLocaleString()}</DataList.Value>
-      </DataList.Item>
-      <DataList.Item>
-        <DataList.Label css={moduleStyles.label}>Status</DataList.Label>
-        <DataList.Value css={moduleStyles.value}>{data.status}</DataList.Value>
-      </DataList.Item>
-      {data.estimatedCompletionTime && (
-        <DataList.Item>
-          <DataList.Label css={moduleStyles.label}>Estimated Completion</DataList.Label>
-          <DataList.Value css={moduleStyles.value}>
-            {new Date(data.estimatedCompletionTime).toLocaleString()}
-          </DataList.Value>
-        </DataList.Item>
-      )}
-    </DataList.Root>
-  );
-};
-
-const JsonView = ({ data, color }: { data: any; color: 'blue' | 'amber' | 'gray' | 'orange' }) => {
-  if (!data) return null;
-  return (
-    <Code color={color} css={moduleStyles.jsonView}>
-      {JSON.stringify(data, null, 2)}
-    </Code>
   );
 };
 
@@ -236,7 +132,7 @@ export const DataDialog = () => {
             </IconButton>
           </Flex>
 
-          <div css={moduleStyles.dialogContent}>
+          <div className="dialogContent">
             <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
               <Tabs.List>
                 <Tabs.Trigger value="order">Order Selections</Tabs.Trigger>
@@ -246,10 +142,10 @@ export const DataDialog = () => {
                 <Tabs.Trigger value="languages">Languages</Tabs.Trigger>
               </Tabs.List>
 
-              <div css={moduleStyles.tabContent}>
+              <div className="tabContent">
                 <Tabs.Content value="order">
                   {viewMode === 'list' ? (
-                    <div css={moduleStyles.dataList}>
+                    <div className="dataList">
                       <OrderDataList data={cleanedOrderData} />
                     </div>
                   ) : (
@@ -259,7 +155,7 @@ export const DataDialog = () => {
 
                 <Tabs.Content value="calculation">
                   {viewMode === 'list' ? (
-                    <div css={moduleStyles.dataList}>
+                    <div className="dataList">
                       <CalculationDataList data={cleanedCalculationData} />
                     </div>
                   ) : (
@@ -269,7 +165,7 @@ export const DataDialog = () => {
 
                 <Tabs.Content value="metadata">
                   {viewMode === 'list' ? (
-                    <div css={moduleStyles.dataList}>
+                    <div className="dataList">
                       <MetadataDataList data={(orders?.[0] as OrderWithMetadata)?.metadata} />
                     </div>
                   ) : (
@@ -278,9 +174,15 @@ export const DataDialog = () => {
                 </Tabs.Content>
 
                 <Tabs.Content value="config">
-                  <div css={moduleStyles.configContent}>
+                  <div className="configContent">
                     <ConfigTimer />
-                    <JsonView data={storedConfig} color="orange" />
+                    {viewMode === 'list' ? (
+                      <div className="dataList">
+                        <ConfigDataList data={storedConfig} />
+                      </div>
+                    ) : (
+                      <JsonView data={storedConfig} color="orange" />
+                    )}
                   </div>
                 </Tabs.Content>
 

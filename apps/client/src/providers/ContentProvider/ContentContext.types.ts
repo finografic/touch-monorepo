@@ -3,7 +3,7 @@ import type { ContentKeys, SETTER_PREFIX } from './ContentContext';
 
 export interface ContentValues {
   [ContentKeys.title]: string;
-  currentLanguage: string;
+  [ContentKeys.currentLanguage]: string;
 }
 
 type ContentSetters = {
@@ -11,7 +11,7 @@ type ContentSetters = {
     ? `set${Capitalize<string & K>}`
     : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: ContentValues[K]) => void;
 } & {
-  changeLanguage: (languageCode: string) => void;
+  setCurrentLanguage: (languageCode: string) => void;
 };
 
 type ContentActions = ContentSetters & {};

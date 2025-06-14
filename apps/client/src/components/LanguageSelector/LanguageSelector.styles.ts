@@ -16,6 +16,7 @@ export const styles = css`
   button[data-state='open'] {
     background: transparent;
     color: ${colors.grey}; /* or colors.slate[8] for dimmed grey */
+    cursor: pointer;
 
     svg {
       color: currentColor; /* Icons inherit the dimmed color */
@@ -39,5 +40,11 @@ export const styles = css`
         color: ${colors.info};
       }
     }
+  }
+
+  /* Trigger button styling (open state) */
+  button {
+    cursor: pointer;
+    padding: 1.5rem 2rem;
   }
 `;

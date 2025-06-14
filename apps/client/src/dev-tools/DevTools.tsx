@@ -17,9 +17,9 @@ export const DevTools = () => {
   const { orders } = useOrders();
   const {
     isDevToolsVisible,
-    isDevDataVisible,
-    setIsDevDataVisible,
-    isDevScreenSizeVisible,
+    // isDevDataVisible,
+    // setIsDevDataVisible,
+    // isDevScreenSizeVisible,
     isDevQueryPanelOpen,
     setIsDevQueryPanelOpen,
   } = useDev();
@@ -32,9 +32,9 @@ export const DevTools = () => {
     <>
       <>
         <DevScreenSize />
-        {isDevDataVisible && <DevFilterResults />}
-        {isDevDataVisible && <DevPanelLeft />}
-        {isDevDataVisible && <DevPanelRight />}
+        {isDevToolsVisible && <DevFilterResults />}
+        {/* {isDevToolsVisible && <DevPanelLeft />} */}
+        {isDevToolsVisible && <DevPanelRight />}
         {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
       </>
       <div css={styles} className="devtools-container">

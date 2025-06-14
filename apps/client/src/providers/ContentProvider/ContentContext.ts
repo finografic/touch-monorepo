@@ -20,12 +20,12 @@ export const defaultValue: ContentValues = {
 export const ContentContext = createZustandContext(({ initialValue }) => {
   return createStore<ContentStore>()(
     subscribeWithSelector(
-      (set, get): ContentStore => ({
+      (set, _get): ContentStore => ({
         ...defaultValue,
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
-          changeLanguage: (languageCode: string) => {
+          setCurrentLanguage: (languageCode: string) => {
             // Map flag codes to i18n language codes if needed
             const i18nCode = languageCode.includes('-') ? languageCode.split('-')[0] : languageCode;
 

@@ -9,12 +9,13 @@ import { useTranslation } from 'react-i18next';
 export const Header = () => {
   const location = useLocation();
   const { t } = useTranslation();
-  const pageContent = useContent();
+  const { currentLanguage, title } = useContent();
   const { route } = useRouteConfig();
 
   useEffect(() => {
     // pageContent.setContentTitle('');
-  }, [location.pathname, pageContent]);
+    console.log('__DEV: currentLanguage', currentLanguage);
+  }, [location.pathname, title, currentLanguage]);
 
   return (
     <header css={styles}>
@@ -33,6 +34,7 @@ export const Header = () => {
 
           <Flex justify="end" style={{ flex: '3' }}>
             {/* <LanguageSelector onLanguageChange={handleLanguageChange} /> */}
+            <pre className="current-language">{String(currentLanguage)}</pre>
           </Flex>
           {/* ====================================================================== */}
         </Flex>

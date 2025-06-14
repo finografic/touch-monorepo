@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { flagAssets } from './flags/images';
 import flagsData from './flags/flags.data.json';
+import { styles } from './LanguageSelector.styles';
 
 interface Language {
   code: string;
@@ -29,7 +30,7 @@ const LANGUAGE_CONFIG = {
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {
   const { i18n } = useTranslation();
-  const { currentLanguage, changeLanguage } = useContent();
+  const { currentLanguage, setCurrentLanguage } = useContent();
 
   // Generate languages from configuration
   const languages: Language[] = Object.entries(LANGUAGE_CONFIG).map(([langCode, config]) => {
@@ -48,7 +49,7 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
     const i18nCode = languageCode.includes('-') ? languageCode.split('-')[0] : languageCode;
 
     // Update both context and i18n
-    changeLanguage(languageCode);
+    setCurrentLanguage(languageCode);
     i18n.changeLanguage(i18nCode);
 
     // Call optional callback
@@ -62,7 +63,7 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
   };
 
   return (
-    <div className="language-selector">
+    <div className="language-selector" css={styles}>
       <RadioCards.Root
         value={getCurrentLanguageCode()}
         onValueChange={handleLanguageChange}
@@ -82,12 +83,12 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
                   style={{ borderRadius: '2px' }}
                 />
                 <Text weight="bold" size="3">
-                  {language.code} - {language.label}
+                  {language.code} <span style={{ opacity: 0.33 }}>- {language.nativeLabel}</span>
                 </Text>
               </Flex>
-              <Text size="2" color="gray">
+              {/* <Text size="2" color="gray">
                 {language.nativeLabel}
-              </Text>
+              </Text> */}
             </Flex>
           </RadioCards.Item>
         ))}

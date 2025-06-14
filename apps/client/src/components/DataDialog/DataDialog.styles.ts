@@ -8,7 +8,7 @@ export const styles = css`
   /* min-height: 880px; */
 
   &[role='dialog'] {
-    width: 50vw !important;
+    width: 66vw !important;
     height: 100%;
     min-height: 960px;
     max-height: 66vh;
@@ -52,7 +52,7 @@ export const styles = css`
 
       + div {
         height: 100%;
-        height: 48vh;
+        height: 54vh;
         /* min-height: 960px;
     max-height: 66vh; */
         /* padding-bottom: 0;
@@ -81,6 +81,93 @@ export const styles = css`
         font-weight: 500;
         /* color: ${colors.greyLight}; */
         background-color: transparent;
+      }
+    }
+
+    /* Data List View Styles */
+    .dataList {
+      [data-accent-color] {
+        --accent-9: ${colors.info};
+      }
+
+      [data-radix-data-list-item] {
+        display: flex;
+        gap: 1.5rem;
+        align-items: baseline;
+      }
+      height: 100%;
+      overflow-y: auto;
+      padding: 0.5rem 0;
+
+      .label {
+        color: ${colors.info} !important;
+        font-weight: 600;
+        font-size: 1rem;
+      }
+
+      .value {
+        font-size: 1rem;
+      }
+    }
+
+    /* JSON View Styles */
+    .jsonView {
+      display: block;
+      padding: 1rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-word;
+      background-color: rgba(0, 0, 0, 0.2);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      letter-spacing: 0.02em;
+      overflow-y: auto;
+      height: 100%;
+    }
+
+    /* Config Content Styles */
+    .configContent {
+      height: 100%;
+      overflow-y: auto;
+      padding-bottom: 1rem;
+
+      .config-timer {
+        color: ${colors.warningDark};
+        margin-bottom: 1rem;
+        padding: 0.2rem 0;
+        font-size: 1rem;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: sticky;
+        top: 0;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 1;
+      }
+    }
+
+    /* Dialog Content Styles */
+    .dialogContent {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* Tab Content Styles */
+    .tabContent {
+      flex: 1;
+      min-height: 0;
+      padding: 1.5rem 1rem 0;
+      position: relative;
+
+      [data-state='active'] {
+        height: 100%;
+        overflow-y: auto;
+        padding-bottom: 1rem;
       }
     }
   }

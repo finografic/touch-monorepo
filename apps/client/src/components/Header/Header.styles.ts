@@ -14,4 +14,13 @@ export const styles = css`
     color: ${colors.white} !important;
     background-color: transparent !important;
   }
+
+  .current-language {
+    color: ${colors.grey};
+    font-size: 1.1rem;
+    font-weight: 400;
+
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
 `;
