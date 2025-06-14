@@ -26,10 +26,11 @@ export function MainPage() {
 
   useEffect(
     function createConfigurationSessionForNewlySelectedOrders() {
-      log('__DEV: SESSION - 1', 'grey', currentSessionId);
       const newlySelectedOrders = orders.filter(
         (order) => order.isSelected && order.process.status === 'idle',
       );
+
+      log('__DEV: SESSION - 1', 'grey', newlySelectedOrders);
 
       log('__DEV: SESSION - 2', 'grey', currentSessionId);
 

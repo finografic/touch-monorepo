@@ -5,12 +5,13 @@ import { QueryDevtoolsPanel } from './QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { DevScreenSize } from './DevScreenSize/DevScreenSize';
 import { useToolsKeyPress } from 'hooks/useToolsKeyPress';
 import { DevFilterResults } from './DevFilterResults/DevFilterResults';
-import { DevPanels } from './DevPanels/DevPanels';
 import { styles } from './DevTools.styles';
 import { MockOrdersButton } from './MockOrdersButton/MockOrdersButton';
 import { MockTimersMin } from './MockTimersMin/MockTimersMin';
 import { hasProcessingTimers } from 'utils/timers.utils';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
+import { DevPanelLeft } from 'dev-tools/DevPanels/DevPanelLeft';
+import { DevPanelRight } from 'dev-tools/DevPanels/DevPanelRight';
 
 export const DevTools = () => {
   const { orders } = useOrders();
@@ -30,10 +31,11 @@ export const DevTools = () => {
   return (
     <>
       <>
-        {isDevDataVisible && <DevFilterResults />}
-        {isDevDataVisible && <DevPanels />}
-        {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
         <DevScreenSize />
+        {isDevDataVisible && <DevFilterResults />}
+        {isDevDataVisible && <DevPanelLeft />}
+        {isDevDataVisible && <DevPanelRight />}
+        {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
       </>
       <div css={styles} className="devtools-container">
         <Flex gap="3" justify="end">
