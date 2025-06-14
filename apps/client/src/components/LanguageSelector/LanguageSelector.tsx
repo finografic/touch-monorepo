@@ -78,8 +78,8 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
                 <img
                   src={language.flag}
                   alt={language.label}
-                  width="24"
-                  height="16"
+                  width="32"
+                  height="24"
                   style={{ borderRadius: '2px' }}
                 />
                 <Text weight="bold" size="3">

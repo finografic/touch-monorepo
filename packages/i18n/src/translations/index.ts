@@ -12,6 +12,7 @@ import appCat from './app/cat.json';
 import dynamicCat from './dynamic/cat.json';
 
 // Merge function to combine translation objects
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
 const mergeTranslations = (...sources: any[]) => {
   return sources.reduce((acc, source) => {
     return Object.assign(acc, source);

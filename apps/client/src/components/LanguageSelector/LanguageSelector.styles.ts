@@ -5,8 +5,7 @@ export const styles = css`
   /* Trigger button styling (closed state) */
   button[data-state='closed'] {
     background: transparent;
-    color: ${colors.grey}; /* or colors.slate[8] for dimmed grey */
-
+    color: ${colors.grey};
     svg {
       color: currentColor; /* Icons inherit the dimmed color */
     }
@@ -15,9 +14,8 @@ export const styles = css`
   /* Trigger button styling (open state) */
   button[data-state='open'] {
     background: transparent;
-    color: ${colors.grey}; /* or colors.slate[8] for dimmed grey */
+    color: ${colors.grey};
     cursor: pointer;
-
     svg {
       color: currentColor; /* Icons inherit the dimmed color */
     }
@@ -25,7 +23,7 @@ export const styles = css`
 
   /* Dropdown content (open state) */
   [data-radix-dropdown-menu-content] {
-    background-color: ${colors.background}; /* Same as app background */
+    background-color: ${colors.background};
 
     [data-radix-dropdown-menu-item] {
       color: ${colors.white};
@@ -45,6 +43,14 @@ export const styles = css`
   /* Trigger button styling (open state) */
   button {
     cursor: pointer;
-    padding: 1.5rem 2rem;
+    padding: 2rem 2rem;
+    margin-top: 0.5rem;
+    svg,
+    img {
+      margin-right: 0.5rem;
+    }
+    * {
+      letter-spacing: 0.05em;
+    }
   }
 `;

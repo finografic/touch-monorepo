@@ -33,7 +33,7 @@
     "build.types.rebuild": "run-s clean.types build.types",
     "·········· CLEAN": "·····················································",
     "clean": "turbo run clean",
-    "clean.all": "clean-all --recursive",
+    "clean.all": "tsx scripts/src/clean-all/clean-all.ts --recursive",
     "clean.all.dry": "clean-all --recursive --dry-run",
     "clean.types": "turbo run clean --filter=@workspace/types --filter=@workspace/core",
     "·········· PACKAGES": "··················································",

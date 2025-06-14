@@ -7,7 +7,9 @@ export const container_types = sqliteTable('container_types', {
     .primaryKey()
     .$defaultFn(() => createCuid()),
   name: text('name').notNull().unique(), // Internal name: 'plastic', 'glass', 'metal'
-  displayName: text('display_name').notNull(), // Localized: 'Plástico', 'Vidrio', 'Metal'
+  nameEn: text('name_en').notNull(), // English display name
+  nameEs: text('name_es'), // Spanish display name (optional)
+  nameCat: text('name_cat'), // Catalan display name (optional)
   thermalConductivity: integer('thermal_conductivity').notNull(), // Affects cooling time
 
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
@@ -20,12 +22,14 @@ export const container_types = sqliteTable('container_types', {
 // Zod schema for validation
 const insertContainerTypeSchema = createInsertSchema(container_types, {
   name: (schema) => schema.name.min(1).max(50),
-  displayName: (schema) => schema.displayName.min(1).max(100),
+  nameEn: (schema) => schema.name_en.min(1).max(100),
+  nameEs: (schema) => schema.name_es.min(1).max(100),
+  nameCat: (schema) => schema.name_cat.min(1).max(100),
   thermalConductivity: (schema) => schema.thermalConductivity.min(1).max(100), // Scale of 1-100
 })
   .required({
     name: true,
-    displayName: true,
+    nameEn: true,
     thermalConductivity: true,
   })
   .omit({ id: true, createdAt: true, updatedAt: true });

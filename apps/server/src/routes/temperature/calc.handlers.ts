@@ -183,8 +183,8 @@ export const calculate: AppRouteHandler<CalculateRoute> = async (context) => {
         ],
         timeTableId,
         recommendations: [
-          `Optimal serving temperature for ${drinkType.displayName}${drinkSubtype ? ` (${drinkSubtype.displayName})` : ''} is ${defaultTempConsume}°C`,
-          `Using ${containerType.displayName} with ${volume.valueInMl}ml capacity`,
+          `Optimal serving temperature for ${drinkType.nameEn}${drinkSubtype ? ` (${drinkSubtype.nameEn})` : ''} is ${defaultTempConsume}°C`,
+          `Using ${containerType.nameEn} with ${volume.valueInMl}ml capacity`,
         ],
       },
       HttpStatusCodes.OK,

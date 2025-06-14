@@ -16,17 +16,23 @@ export async function seed() {
     const insertedTypes = await db.insert(container_types).values([
       {
         name: 'plastico',
-        displayName: 'Plástico',
+        nameEn: 'Plastic',
+        nameEs: 'Plástico',
+        nameCat: 'Plàstic',
         thermalConductivity: 20, // Lower conductivity
       },
       {
         name: 'vidrio',
-        displayName: 'Vidrio',
+        nameEn: 'Glass',
+        nameEs: 'Vidrio',
+        nameCat: 'Vidre',
         thermalConductivity: 50, // Medium conductivity
       },
       {
         name: 'metal',
-        displayName: 'Metal',
+        nameEn: 'Metal',
+        nameEs: 'Metal',
+        nameCat: 'Metall',
         thermalConductivity: 90, // High conductivity
       },
     ]);
