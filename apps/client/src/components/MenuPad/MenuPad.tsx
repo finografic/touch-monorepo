@@ -23,7 +23,10 @@ export const MenuPad = ({ itemType, number, metadata }: MenuPadProps) => {
 
   // NOTE: Only add menu-specific classes here,
   // let PAD component handle its own state classes
-  const className = clsx('pad-menu', `item-type-${itemType}`, `status-${order?.process.status || 'idle'}`);
+  const className = clsx('pad-menu', `item-type-${itemType}`, `status-${order?.process.status || 'idle'}`, {
+    // Add selected class for running timers that are selected
+    selected: isSelected && (order?.process.status === 'processing' || order?.process.status === 'completed'),
+  });
 
   const handleSelect = React.useCallback(() => {
     toggleOrder({ itemType, itemNumber: number });
@@ -39,8 +42,8 @@ export const MenuPad = ({ itemType, number, metadata }: MenuPadProps) => {
     return Math.max(0, order.process.timeRemaining);
   }, [order?.process?.timeRemaining]);
 
-  // Show timer if order is selected and either processing or completed
-  if (isSelected && (order?.process.status === 'processing' || order?.process.status === 'completed')) {
+  // Show timer if order has processing or completed status (regardless of selection)
+  if (order?.process.status === 'processing' || order?.process.status === 'completed') {
     return (
       <MenuPadToggle css={styles} itemType={itemType} number={number} className={className}>
         <Timer

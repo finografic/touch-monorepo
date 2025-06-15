@@ -71,6 +71,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 const estimatedCompletionTime = new Date(Date.now() + duration * 1000).toISOString();
                 return {
                   ...order,
+                  isSelected: false,
                   process: {
                     status: duration > 0 ? ('processing' as OrderStatus) : ('completed' as OrderStatus),
                     estimatedCompletionTime: duration > 0 ? estimatedCompletionTime : undefined,
@@ -84,21 +85,31 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           },
           toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => {
             const { orders } = get();
-            const draftOrder = findOrderByNumber(orders, itemNumber);
-            const newOrders = !draftOrder
-              ? [
-                  ...orders,
-                  {
-                    ...INITIAL_ORDER_ITEM,
-                    itemType,
-                    itemNumber,
-                    isSelected: true,
-                  },
-                ]
-              : [...orders].filter((order) => order.itemNumber !== itemNumber);
+            const existingOrder = findOrderByNumber(orders, itemNumber);
 
-            const sortedOrders = [...newOrders].sort((a, b) => a.itemNumber - b.itemNumber);
-            set({ orders: sortedOrders });
+            if (!existingOrder) {
+              // Create new order if it doesn't exist
+              const newOrders = [
+                ...orders,
+                {
+                  ...INITIAL_ORDER_ITEM,
+                  itemType,
+                  itemNumber,
+                  isSelected: true,
+                },
+              ];
+              const sortedOrders = [...newOrders].sort((a, b) => a.itemNumber - b.itemNumber);
+              set({ orders: sortedOrders });
+            } else {
+              // Toggle isSelected for existing order instead of removing it
+              const updatedOrders = orders.map((order) => {
+                if (order.itemNumber === itemNumber) {
+                  return { ...order, isSelected: !order.isSelected };
+                }
+                return order;
+              });
+              set({ orders: updatedOrders });
+            }
           },
           selectAllOrders: () => {
             const newOrders = ORDER_ITEMS_CONFIG.map(({ itemType, number }) => ({
@@ -129,6 +140,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                     const estimatedCompletionTime = new Date(Date.now() + duration * 1000).toISOString();
                     return {
                       ...order,
+                      isSelected: false,
                       process: {
                         status: 'processing' as OrderStatus,
                         estimatedCompletionTime,
@@ -164,6 +176,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                   if (order.itemNumber === itemNumber) {
                     return {
                       ...order,
+                      isSelected: false,
                       process: {
                         status: 'completed' as OrderStatus,
                         estimatedCompletionTime: undefined,

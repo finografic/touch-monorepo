@@ -95,11 +95,23 @@ export const styles = css`
           background-color: ${colors.success}22;
         }
       }
+
+      /* Selected running timer - blue styling */
+      &.selected {
+        color: ${colors.info};
+        border-color: ${colors.info};
+        background-color: ${colors.info}22;
+        &:hover {
+          color: ${colors.info};
+          border-color: ${colors.infoLight};
+          background-color: ${colors.info}22;
+        }
+      }
     }
 
     &.status-completed {
-      cursor: not-allowed;
-      pointer-events: none;
+      /* cursor: not-allowed; */
+      /* pointer-events: none; */
       color: ${colors.warning};
       border: ${layout.borderWidth} solid ${colors.warning};
       background-color: ${colors.warning}22;
@@ -107,12 +119,24 @@ export const styles = css`
         color: ${colors.warning};
         border-color: ${colors.warning};
         background-color: ${colors.warning}22;
-        transform: none;
+        /* transform: none; */
       }
       &:disabled {
         &:hover {
           border-color: ${colors.greyDark};
           background-color: ${colors.warning}22;
+        }
+      }
+
+      /* Selected completed timer - blue styling */
+      &.selected {
+        color: ${colors.info};
+        border-color: ${colors.info};
+        background-color: ${colors.info}22;
+        &:hover {
+          color: ${colors.info};
+          border-color: ${colors.infoLight};
+          background-color: ${colors.info}22;
         }
       }
     }

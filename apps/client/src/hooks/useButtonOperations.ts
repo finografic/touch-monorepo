@@ -132,10 +132,14 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   const getOperationDisabled = useCallback(
     (actionType: OperationActionType): boolean => {
-      const numSelected = orders.filter(
+      // Count available orders (idle selected) for operations that need idle orders
+      const numAvailableSelected = orders.filter(
         (order) =>
           order.isSelected && order.process.status !== 'processing' && order.process.status !== 'completed',
       ).length;
+
+      // Count any selected orders (including running/completed) for UI state
+      const numAnySelected = orders.filter((order) => order.isSelected).length;
 
       switch (actionType) {
         case 'clear-completed':
@@ -155,7 +159,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
             location.pathname !== PATHS.temperature
           );
         case 'program-time':
-          return numSelected === 0 || location.pathname !== PATHS.main || isPending;
+          // Enable if ANY orders are selected (including running timers)
+          return numAnySelected === 0 || location.pathname !== PATHS.main || isPending;
         case 'repeat-selection':
           return true; // Disabled until implemented
         default:
