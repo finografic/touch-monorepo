@@ -14,7 +14,7 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
         css={actionButtonStyles}
         className={clsx(
           className,
-          icon === 'chevron-left' && 'has-chevron',
+          icon === 'chevron-left' && 'has-chevron-left',
           icon === 'chevron-right' && 'has-chevron-right',
         )}
         onClick={onClick}

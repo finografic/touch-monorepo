@@ -110,8 +110,8 @@ export const styles = css`
     }
 
     &.status-completed {
-      /* cursor: not-allowed; */
-      /* pointer-events: none; */
+      cursor: not-allowed;
+      pointer-events: none;
       color: ${colors.warning};
       border: ${layout.borderWidth} solid ${colors.warning};
       background-color: ${colors.warning}22;
@@ -119,7 +119,7 @@ export const styles = css`
         color: ${colors.warning};
         border-color: ${colors.warning};
         background-color: ${colors.warning}22;
-        /* transform: none; */
+        transform: none;
       }
       &:disabled {
         &:hover {

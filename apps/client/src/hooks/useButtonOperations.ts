@@ -10,6 +10,7 @@ import { TIME_DEFAULT_SECONDS } from 'constants/time.config';
 
 type OperationActionType =
   | 'clear-completed'
+  | 'cancel-completed'
   | 'select-all'
   | 'start-process'
   | 'program-time'
@@ -17,6 +18,7 @@ type OperationActionType =
 
 interface UseButtonOperationsReturn {
   handleClearCompleted: () => void;
+  handleCancelCompleted: () => void;
   handleSelectAll: () => void;
   handleStartProcess: () => void;
   handleProgramTime: () => void;
@@ -89,6 +91,26 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     });
   }, [orders, timerAction, saveConfig]);
 
+  const handleCancelCompleted = useCallback(() => {
+    startTransition(() => {
+      // Clear only PROCESSING timers that are SELECTED/checked
+      orders.forEach((order) => {
+        if (order.process.status === 'processing' && order.isSelected) {
+          timerAction('reset', { itemNumber: order.itemNumber });
+        }
+      });
+
+      // Save new configuration to reset timer
+      const selectedOrders = orders.filter((order) => order.isSelected);
+      saveConfig({
+        filters: {},
+        temperatures: { default: 25 },
+        durations: { default: 300 },
+        selectedOrders: selectedOrders.map((order) => order.itemNumber),
+      });
+    });
+  }, [orders, timerAction, saveConfig]);
+
   const handleSelectAll = useCallback(() => {
     selectAllOrders();
   }, [selectAllOrders]);
@@ -141,9 +163,16 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       // Count any selected orders (including running/completed) for UI state
       const numAnySelected = orders.filter((order) => order.isSelected).length;
 
+      // Count selected processing timers for cancel button
+      const numSelectedProcessing = orders.filter(
+        (order) => order.isSelected && order.process.status === 'processing',
+      ).length;
+
       switch (actionType) {
         case 'clear-completed':
           return !hasCompletedTimers || location.pathname !== PATHS.main || isPending;
+        case 'cancel-completed':
+          return numSelectedProcessing === 0 || location.pathname !== PATHS.main || isPending;
         case 'select-all':
           return location.pathname !== PATHS.main || isPending;
         case 'start-process':
@@ -159,8 +188,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
             location.pathname !== PATHS.temperature
           );
         case 'program-time':
-          // Enable if ANY orders are selected (including running timers)
-          return numAnySelected === 0 || location.pathname !== PATHS.main || isPending;
+          // Enable only if there are selected IDLE orders (can't program time for running/completed timers)
+          return numAvailableSelected === 0 || location.pathname !== PATHS.main || isPending;
         case 'repeat-selection':
           return true; // Disabled until implemented
         default:
@@ -198,6 +227,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   return {
     handleClearCompleted,
+    handleCancelCompleted,
     handleSelectAll,
     handleStartProcess,
     handleProgramTime,

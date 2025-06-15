@@ -8,21 +8,21 @@ export const BUTTON_CONFIGS: Record<ActionButtonType, ActionButtonConfig> = {
     id: 'btn-reset',
     type: 'reset',
     label: 'Reset',
-    className: 'nav-button',
+    className: 'small-button button-reset',
     actionType: 'clear-completed',
   },
   [BUTTON_TYPES.ALL]: {
     id: 'btn-all',
     type: 'all',
     label: 'ALL',
-    className: 'nav-button',
+    className: 'small-button',
     actionType: 'select-all',
   },
   [BUTTON_TYPES.BACK]: {
     id: 'btn-back',
     type: 'back',
     label: 'Back',
-    className: 'nav-button',
+    className: 'small-button',
     icon: 'chevron-left',
     actionType: 'navigate-back',
   },
@@ -30,7 +30,7 @@ export const BUTTON_CONFIGS: Record<ActionButtonType, ActionButtonConfig> = {
     id: 'btn-next',
     type: 'next',
     label: 'Next',
-    className: 'nav-button',
+    className: 'small-button',
     icon: 'chevron-right',
     actionType: 'navigate-next',
   },
@@ -38,8 +38,15 @@ export const BUTTON_CONFIGS: Record<ActionButtonType, ActionButtonConfig> = {
     id: 'btn-start',
     type: 'start',
     label: 'START',
-    className: 'nav-button nav-button-start',
+    className: 'small-button button-start',
     actionType: 'start-process',
+  },
+  [BUTTON_TYPES.CANCEL]: {
+    id: 'btn-cancel',
+    type: 'cancel',
+    label: 'Cancel',
+    className: 'small-button button-cancel',
+    actionType: 'cancel-completed',
   },
   [BUTTON_TYPES.PROGRAM_TIME]: {
     id: 'btn-program-time',
@@ -67,7 +74,7 @@ export const BUTTON_CONFIGS: Record<ActionButtonType, ActionButtonConfig> = {
 // Route-specific button configurations
 export const ROUTE_BUTTON_CONFIG: Record<OrderFieldKey, RouteButtonConfig> = {
   main: {
-    footer: [BUTTON_TYPES.RESET, BUTTON_TYPES.ALL],
+    footer: [BUTTON_TYPES.CANCEL, BUTTON_TYPES.RESET, BUTTON_TYPES.ALL],
     content: [BUTTON_TYPES.PROGRAM_TIME, BUTTON_TYPES.PROGRAM_PRODUCT, BUTTON_TYPES.REPEAT_SELECTION],
   },
   drinkType: {

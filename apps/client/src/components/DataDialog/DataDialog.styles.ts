@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from 'styles';
-import { stylesNavButton } from 'styles/custom/buttons.styles';
+import { stylesSmallButton } from 'styles/custom/buttons.styles';
 
 export const styles = css`
   &[role='dialog'] {
@@ -29,13 +29,26 @@ export const styles = css`
     }
 
     [role='tablist'] {
-      [role='tab'] {
+      box-shadow: inset 0 -2px 0 0 ${colors.greyXXDark};
+      button[role='tab'] {
         height: 64px;
-        font-size: 1.2rem;
-        font-weight: 500;
         padding-bottom: 0;
-        line-height: 1.2;
-        padding: 1.5rem 1rem;
+        span {
+          padding: 1.1rem 1rem;
+          font-size: 1.2rem;
+          font-weight: 500;
+          line-height: 1.2;
+          color: ${colors.grey};
+        }
+        &[data-state='active'] {
+          &:before {
+            background-color: ${colors.info};
+            height: 2px;
+          }
+          span {
+            color: ${colors.info};
+          }
+        }
       }
       + div {
         height: 100%;
@@ -52,7 +65,7 @@ export const styles = css`
       background: transparent;
 
       button {
-        ${stylesNavButton}
+        ${stylesSmallButton}
         border: 2px solid ${colors.greyDark};
         padding: 1.5rem 1rem;
         font-weight: 500;

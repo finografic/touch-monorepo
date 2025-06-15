@@ -36,18 +36,22 @@ export const stylesButtonBase = css`
     border: ${layout.borderWidth} solid ${colors.infoDark};
     border-color: ${colors.info};
     background-color: ${colors.info}11;
+    transform: scale(1.05);
   }
 
-  &[data-disabled='true'],
-  &.disabled {
+  &:disabled,
+  &.disabled,
+  &[data-disabled='true'] {
     opacity: 0.5;
     cursor: not-allowed;
     color: ${colors.grey};
     border-color: ${colors.greyDark};
     background-color: transparent;
     &:hover {
+      color: ${colors.grey};
       border-color: ${colors.greyDark};
       background-color: transparent;
+      transform: none;
     }
   }
 
@@ -69,16 +73,33 @@ export const stylesButtonBase = css`
   }
 
   /* For right-pointing chevrons */
+  &.has-chevron-left {
+    /* Add padding to compensate for the chevron */
+    padding-left: 3rem;
+    padding-right: 2.5rem;
+
+    /* Position the chevron absolutely */
+    svg {
+      position: absolute;
+      left: 1.25rem;
+      transform: translateX(25%);
+      width: 20px;
+      height: 20px;
+      opacity: 0.8;
+    }
+  }
+
+  /* For right-pointing chevrons */
   &.has-chevron-right {
     /* Add padding to compensate for the chevron */
-    padding-left: 2rem;
+    padding-left: 2.5rem;
     padding-right: 3rem;
 
     /* Position the chevron absolutely */
     svg {
       position: absolute;
       right: 1.25rem;
-      transform: translateX(25%);
+      transform: translateX(0);
       width: 20px;
       height: 20px;
       opacity: 0.8;
@@ -87,7 +108,7 @@ export const stylesButtonBase = css`
 `;
 
 // Styles specific to navigation buttons
-export const stylesNavButton = css`
+export const stylesSmallButton = css`
   ${stylesButtonBase}
   min-width: 180px;
   padding: 0.8rem 3rem;
@@ -99,16 +120,6 @@ export const stylesNavButton = css`
   flex: 1;
   width: fit-content;
   border-radius: 4px;
-
-  &.nav-button-start {
-    border-color: ${colors.success};
-    color: ${colors.success};
-
-    &:hover:not([data-disabled='true']) {
-      border-color: ${colors.successLight};
-      background-color: ${colors.successLight}11;
-    }
-  }
 `;
 
 // Styles specific to pads
@@ -122,16 +133,14 @@ export const stylesPad = css`
     border-radius: 50%;
   }
 
-  &:hover:not(.disabled) {
-    transform: scale(1.05);
-  }
-
   &.checked {
     border-color: ${colors.info};
     background-color: ${colors.info}11;
   }
 
-  &.disabled {
+  &:disabled,
+  &.disabled,
+  &[data-disabled='true'] {
     border-color: ${colors.grey};
     color: ${colors.grey};
 

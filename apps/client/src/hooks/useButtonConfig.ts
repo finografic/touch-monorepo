@@ -32,6 +32,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
 
   const {
     handleClearCompleted,
+    handleCancelCompleted,
     handleSelectAll,
     handleStartProcess,
     handleProgramTime,
@@ -63,6 +64,8 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
           return handleNavigateNext();
         case BUTTON_ACTIONS.CLEAR_COMPLETED:
           return handleClearCompleted();
+        case BUTTON_ACTIONS.CANCEL_COMPLETED:
+          return handleCancelCompleted();
         case BUTTON_ACTIONS.SELECT_ALL:
           return handleSelectAll();
         case BUTTON_ACTIONS.START_PROCESS:
@@ -79,6 +82,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
       handleNavigateBack,
       handleNavigateNext,
       handleClearCompleted,
+      handleCancelCompleted,
       handleSelectAll,
       handleStartProcess,
       handleProgramTime,

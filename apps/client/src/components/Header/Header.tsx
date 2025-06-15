@@ -3,12 +3,13 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { styles } from './Header.styles';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 
 export const Header = () => {
   const location = useLocation();
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const { currentLanguage, title } = useContent();
   const { route } = useRouteConfig();
 
@@ -29,7 +30,7 @@ export const Header = () => {
           {/* Center column - 6 parts */}
           <Flex justify="center" style={{ flex: '6' }}>
             {/* <h1>{pageContent?.title || route?.title}</h1> */}
-            <h1>{t('app.title')}</h1>
+            <h1 onClick={() => navigate('/')}>{t('app.title')}</h1>
           </Flex>
 
           <Flex justify="end" style={{ flex: '3' }}>

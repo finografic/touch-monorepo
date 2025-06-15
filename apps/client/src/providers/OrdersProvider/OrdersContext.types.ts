@@ -22,7 +22,15 @@ type OrdersSetters = {
 
 type OrdersActions = OrdersSetters & {
   setOrdersFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => void;
-  setOrderProcessing: ({ itemNumber, duration }: { itemNumber: number; duration: number }) => void;
+  setOrderProcessing: ({
+    itemNumber,
+    duration,
+    preserveSelection,
+  }: {
+    itemNumber: number;
+    duration: number;
+    preserveSelection?: boolean;
+  }) => void;
   toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => void;
   selectAllOrders: () => void;
   // Timer-specific actions

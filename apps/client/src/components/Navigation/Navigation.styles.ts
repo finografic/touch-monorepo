@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colors, layout } from 'styles';
-import { stylesNavButton } from 'styles/custom/buttons.styles';
+import { stylesSmallButton } from 'styles/custom/buttons.styles';
 
 export const styles = css`
   width: 100%;
@@ -33,24 +33,52 @@ export const styles = css`
     justify-content: center;
   }
 
-  .nav-button {
-    ${stylesNavButton}/* border: ${layout.borderWidth} solid red; */
+  .small-button,
+  .small-button {
+    ${stylesSmallButton}/* border: ${layout.borderWidth} solid red; */
   }
 
-  .nav-button-start {
-    border: ${layout.borderWidth} solid ${colors.success};
+  .button-start {
+    color: ${colors.successDark};
+    border: ${layout.borderWidth} solid ${colors.successDark};
     border-radius: 4px;
     background: transparent;
-    color: ${colors.success};
 
     &:hover {
-      border-color: ${colors.successLight};
-      background-color: ${colors.successLight}11;
+      color: ${colors.successDark};
+      border-color: ${colors.success};
+      background-color: ${colors.success}11;
     }
 
     &[data-disabled] {
       opacity: 0.5;
       cursor: not-allowed;
+      color: ${colors.greyDark};
+      &:hover {
+        color: ${colors.greyDark};
+        border-color: ${colors.greyDark};
+        background-color: transparent;
+      }
+    }
+  }
+
+  .button-reset,
+  .button-cancel {
+    border: ${layout.borderWidth} solid ${colors.warningDark};
+    border-radius: 4px;
+    background: transparent;
+    color: ${colors.warningDark};
+
+    &:hover {
+      color: ${colors.warningDark};
+      border-color: ${colors.warning};
+      background-color: ${colors.warning}11;
+    }
+
+    &[data-disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      color: ${colors.greyDark};
       &:hover {
         color: ${colors.greyDark};
         border-color: ${colors.greyDark};

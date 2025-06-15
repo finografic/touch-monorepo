@@ -1,10 +1,10 @@
 import { css } from '@emotion/react';
-import { stylesNavButton, stylesPad } from 'styles/custom/buttons.styles';
+import { stylesPad, stylesSmallButton } from 'styles/custom/buttons.styles';
 
 export const actionButtonStyles = css`
   /* Navigation button styles (for footer buttons) */
-  &.nav-button {
-    ${stylesNavButton}
+  &.small-button {
+    ${stylesSmallButton}
   }
 
   /* Pad styles (for content area buttons like pad-rect) */

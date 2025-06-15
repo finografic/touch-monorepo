@@ -8,6 +8,7 @@ import { DevFilterResults } from './DevFilterResults/DevFilterResults';
 import { styles } from './DevTools.styles';
 import { MockOrdersButton } from './MockOrdersButton/MockOrdersButton';
 import { MockTimersMin } from './MockTimersMin/MockTimersMin';
+import { MockSessionTimer } from './MockSessionTimer/MockSessionTimer';
 import { hasProcessingTimers } from 'utils/timers.utils';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { DevPanelLeft } from 'dev-tools/DevPanels/DevPanelLeft';
@@ -44,6 +45,10 @@ export const DevTools = () => {
               <MockTimersMin />
             </Box>
           )}
+
+          <Box width="64px" height="64px">
+            <MockSessionTimer />
+          </Box>
 
           <Box width="64px" height="64px">
             <MockOrdersButton />
