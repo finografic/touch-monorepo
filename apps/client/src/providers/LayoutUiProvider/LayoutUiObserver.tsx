@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLayoutUi } from './LayoutUiContext';
 import { useRouteLoaderData } from 'react-router-dom';
 import type { DataEntry } from 'types/data.types';
@@ -8,64 +8,80 @@ import { useFilters } from 'hooks/useFilters';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
 export const LayoutUiObserver = () => {
-  const { fieldKey, filterKey, padsConfig } = useRouteConfig();
+  const store = useLayoutUi();
+  const { fieldKey, padsConfig } = useRouteConfig();
   const { setIsNextDisabled } = usePagination();
-  const { pads, handleRouteChange: updatePadsForRoute } = useLayoutUi();
   const { currentSessionId, sessions } = useSession();
-  const isInitializedRef = useRef<Record<string, boolean>>({});
-
-  const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
   const { dataPool } = useFilters();
+  const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
 
-  // Memoize session-specific serverFieldMap to prevent infinite loops
-  const sessionServerFieldMap = useMemo(() => {
-    const sessionFilters =
-      currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
+  const isInitializedRef = useRef<Record<string, boolean>>({});
+  const lastRouteDataRef = useRef<{
+    fieldKey?: string;
+    loaderDataLength?: number;
+    dataPoolLength?: number;
+    sessionId?: string;
+  }>({});
 
-    return Object.entries(sessionFilters).reduce(
-      (acc, [_filterKey, filterValue]) => {
-        if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
-          return { ...acc, [_filterKey as string]: filterValue.name };
-        }
-        return acc;
-      },
-      {} as Record<string, string>,
-    );
-  }, [currentSessionId, sessions]);
+  // Subscription 1: Handle route changes
+  useEffect(() => {
+    const currentRouteData = {
+      fieldKey: fieldKey || '',
+      loaderDataLength: loaderData?.length || 0,
+      dataPoolLength: dataPool?.length || 0,
+      sessionId: currentSessionId || '',
+    };
 
-  // Handle route changes with subscription-based approach
-  useEffect(
-    function handleRouteChange() {
+    // Only trigger if route data actually changed
+    const hasRouteChanged =
+      lastRouteDataRef.current.fieldKey !== currentRouteData.fieldKey ||
+      lastRouteDataRef.current.loaderDataLength !== currentRouteData.loaderDataLength ||
+      lastRouteDataRef.current.dataPoolLength !== currentRouteData.dataPoolLength ||
+      lastRouteDataRef.current.sessionId !== currentRouteData.sessionId;
+
+    if (hasRouteChanged) {
+      lastRouteDataRef.current = currentRouteData;
+
+      // Build session server field map
+      const sessionFilters =
+        currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
+
+      const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
+        (acc, [_filterKey, filterValue]) => {
+          if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
+            return { ...acc, [_filterKey as string]: filterValue.name };
+          }
+          return acc;
+        },
+        {} as Record<string, string>,
+      );
+
+      // Handle route change
       if (!fieldKey) {
-        updatePadsForRoute(undefined, [], {} as any, [], {});
+        store.handleRouteChange(undefined, [], {} as any, [], {});
         return;
       }
 
       if (loaderData && padsConfig && dataPool) {
         isInitializedRef.current[fieldKey] = false;
-        updatePadsForRoute(fieldKey, loaderData, padsConfig, dataPool, sessionServerFieldMap);
+        store.handleRouteChange(fieldKey, loaderData, padsConfig, dataPool, sessionServerFieldMap);
         isInitializedRef.current[fieldKey] = true;
-        return;
+      } else {
+        store.handleRouteChange(fieldKey, [], {} as any, [], {});
       }
+    }
+  }); // No dependency array - runs on every render but only acts on actual changes
 
-      updatePadsForRoute(fieldKey, [], {} as any, [], {});
-    },
-    [fieldKey, loaderData, dataPool, sessionServerFieldMap, padsConfig, updatePadsForRoute],
-  );
+  // Subscription 2: Handle pad changes for pagination
+  useEffect(() => {
+    if (!store.pads?.length || !fieldKey) return;
+    if (!isInitializedRef.current[fieldKey]) return;
 
-  // Handle pagination validation
-  useEffect(
-    function handlePadChange() {
-      if (!pads?.length || !fieldKey) return;
-      if (!isInitializedRef.current[fieldKey]) return;
-
-      if (padsConfig?.minRequired !== undefined) {
-        const checkedCount = pads.filter((pad) => pad.isChecked).length;
-        setIsNextDisabled(checkedCount < padsConfig.minRequired);
-      }
-    },
-    [pads, fieldKey, padsConfig, setIsNextDisabled],
-  );
+    if (padsConfig?.minRequired !== undefined) {
+      const checkedCount = store.pads.filter((pad) => pad.isChecked).length;
+      setIsNextDisabled(checkedCount < padsConfig.minRequired);
+    }
+  }); // No dependency array - runs on every render but has built-in guards
 
   return null;
 };
