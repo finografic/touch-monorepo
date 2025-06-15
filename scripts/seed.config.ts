@@ -32,18 +32,18 @@ export const seedOrder: SeedConfig[] = [
     description: 'Example orders',
     dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types', 'temperature_profiles'],
   },
-  {
-    name: 'drink_configs',
-    description: 'drink configurations',
-    dependencies: ['drink_types', 'container_types', 'volumes'],
-  },
-  {
-    name: 'elements',
-    description: 'Cooling elements',
-  },
-  {
-    name: 'running_orders',
-    description: 'Example running orders',
-    dependencies: ['elements', 'drink_configs'],
-  },
+  // {
+  //   name: 'drink_configs',
+  //   description: 'drink configurations',
+  //   dependencies: ['drink_types', 'container_types', 'volumes'],
+  // },
+  // {
+  //   name: 'elements',
+  //   description: 'Cooling elements',
+  // },
+  // {
+  //   name: 'running_orders',
+  //   description: 'Example running orders',
+  //   dependencies: ['elements', 'drink_configs'],
+  // },
 ];

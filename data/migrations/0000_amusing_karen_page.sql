@@ -67,27 +67,6 @@ CREATE TABLE `cooling_profiles` (
 	`description` text
 );
 --> statement-breakpoint
-CREATE TABLE `drink_configs` (
-	`id` text PRIMARY KEY NOT NULL,
-	`drink_type_id` text NOT NULL,
-	`drink_subtype_id` text,
-	`container_type_id` text NOT NULL,
-	`volume_id` text NOT NULL,
-	`default_temp_consume` integer NOT NULL,
-	`min_temp_consume` integer NOT NULL,
-	`max_temp_consume` integer NOT NULL,
-	`time_table_id_1` text NOT NULL,
-	`time_table_id_2` text NOT NULL,
-	`time_table_id_3` text NOT NULL,
-	`is_active` integer DEFAULT true NOT NULL,
-	`created_at` integer,
-	`updated_at` integer,
-	FOREIGN KEY (`drink_type_id`) REFERENCES `drink_types`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`drink_subtype_id`) REFERENCES `drink_subtypes`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`container_type_id`) REFERENCES `container_types`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`volume_id`) REFERENCES `volumes`(`id`) ON UPDATE no action ON DELETE no action
-);
---> statement-breakpoint
 CREATE TABLE `drink_subtypes` (
 	`id` text PRIMARY KEY NOT NULL,
 	`drink_type_id` text NOT NULL,
@@ -119,25 +98,6 @@ CREATE TABLE `drink_types` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `drink_types_name_unique` ON `drink_types` (`name`);--> statement-breakpoint
-CREATE TABLE `elements` (
-	`id` text PRIMARY KEY NOT NULL,
-	`element_number` integer NOT NULL,
-	`display_name` text NOT NULL,
-	`element_type` integer NOT NULL,
-	`position` text NOT NULL,
-	`voltage` integer NOT NULL,
-	`probe_id` text,
-	`last_probe_reading` integer,
-	`last_probe_reading_at` integer,
-	`is_in_use` integer DEFAULT false NOT NULL,
-	`current_order_id` text,
-	`remaining_seconds` integer,
-	`is_active` integer DEFAULT true NOT NULL,
-	`created_at` integer,
-	`updated_at` integer
-);
---> statement-breakpoint
-CREATE UNIQUE INDEX `elements_element_number_unique` ON `elements` (`element_number`);--> statement-breakpoint
 CREATE TABLE `orders` (
 	`id` text PRIMARY KEY NOT NULL,
 	`drink_type_name` text NOT NULL,
@@ -155,26 +115,6 @@ CREATE TABLE `orders` (
 	FOREIGN KEY (`volume_name`) REFERENCES `volumes`(`name`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`container_type_name`) REFERENCES `container_types`(`name`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`temperature_profile_id`) REFERENCES `temperature_profiles`(`id`) ON UPDATE no action ON DELETE cascade
-);
---> statement-breakpoint
-CREATE TABLE `running_orders` (
-	`id` text PRIMARY KEY NOT NULL,
-	`element_id` text NOT NULL,
-	`drink_config_id` text NOT NULL,
-	`start_temp` integer NOT NULL,
-	`target_temp` integer NOT NULL,
-	`last_temp` integer,
-	`started_at` integer NOT NULL,
-	`estimated_minutes` integer NOT NULL,
-	`actual_minutes` integer,
-	`completed_at` integer,
-	`status` text DEFAULT 'pending' NOT NULL,
-	`error_message` text,
-	`is_active` integer DEFAULT true NOT NULL,
-	`created_at` integer,
-	`updated_at` integer,
-	FOREIGN KEY (`element_id`) REFERENCES `elements`(`id`) ON UPDATE no action ON DELETE no action,
-	FOREIGN KEY (`drink_config_id`) REFERENCES `drink_configs`(`id`) ON UPDATE no action ON DELETE no action
 );
 --> statement-breakpoint
 CREATE TABLE `temperature_profiles` (

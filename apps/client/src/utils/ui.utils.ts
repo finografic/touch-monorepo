@@ -15,7 +15,7 @@ export const parsePadConfig = <T extends DataEntry>({
   config: PadConfig<T>;
   fieldKey: OrderFieldKey;
 }): { pads: PadUI[]; numPads: number } => {
-  const labelKey = (config.labelKey as keyof T) || ('displayName' as keyof T); // NOTE: which key to use for label
+  const labelKey = (config.labelKey as keyof T) || ('nameEn' as keyof T); // NOTE: which key to use for label
   const numPads = Math.min(data.length, config.maxPads);
   const slicedData = data.slice(0, numPads);
 
