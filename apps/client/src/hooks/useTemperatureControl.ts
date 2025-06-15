@@ -164,9 +164,17 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         return acc;
       }, {});
 
-      console.log('Calculated durations:', calculatedDurations);
+      // Also calculate durations for all item types (A, B, C) for future use
+      const itemTypeDurations = {
+        [ItemType.A]: getTimeValueForItemType(initialProfile, finalProfile, ItemType.A),
+        [ItemType.B]: getTimeValueForItemType(initialProfile, finalProfile, ItemType.B),
+        [ItemType.C]: getTimeValueForItemType(initialProfile, finalProfile, ItemType.C),
+      };
 
-      // Save configuration with calculated durations
+      console.log('Calculated durations:', calculatedDurations);
+      console.log('Item type durations for future use:', itemTypeDurations);
+
+      // Save configuration with calculated durations for both selected orders and all item types
       await saveConfig({
         filters: {
           temperature: {
@@ -181,7 +189,11 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
           initial: currentFilter.initial,
           final: currentFilter.final,
         },
-        durations: calculatedDurations,
+        durations: {
+          ...calculatedDurations, // Individual order durations
+          ...itemTypeDurations, // Item type durations (A, B, C)
+          default: Math.max(...Object.values(calculatedDurations)),
+        },
         selectedOrders: selectedOrders.map((order) => order.itemNumber),
       });
 
