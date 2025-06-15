@@ -19,7 +19,7 @@ i18n
       },
     },
     supportedLngs: ['en', 'es', 'cat'],
-    fallbackLng: 'en',
+    fallbackLng: 'es',
     debug: process.env.NODE_ENV === 'development',
     detection: {
       order: ['querystring', 'localStorage', 'sessionStorage', 'navigator', 'htmlTag'],
