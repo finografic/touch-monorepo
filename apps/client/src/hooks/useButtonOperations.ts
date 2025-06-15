@@ -132,7 +132,10 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   const getOperationDisabled = useCallback(
     (actionType: OperationActionType): boolean => {
-      const numSelected = orders.filter((order) => order.isSelected).length;
+      const numSelected = orders.filter(
+        (order) =>
+          order.isSelected && order.process.status !== 'processing' && order.process.status !== 'completed',
+      ).length;
 
       switch (actionType) {
         case 'clear-completed':
@@ -152,7 +155,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
             location.pathname !== PATHS.temperature
           );
         case 'program-time':
-          return !hasSelectedItems || location.pathname !== PATHS.main || isPending;
+          return numSelected === 0 || location.pathname !== PATHS.main || isPending;
         case 'repeat-selection':
           return true; // Disabled until implemented
         default:

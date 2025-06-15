@@ -52,7 +52,8 @@ export const styles = css`
         min-width: 1100px; /* Never smaller than mobile width */
         max-width: 66vw; /* Never larger than 66% viewport */
         min-height: 600px; /* Never smaller than reasonable content height */
-        max-height: 66vh; /* Never larger than 66% viewport */
+        /* max-height: 66vh; Never larger than 66% viewport */
+        max-height: 800px;
 
         /* Flex alignment */
         justify-content: space-between; /* Vertical: header top, nav bottom, content fills middle */
