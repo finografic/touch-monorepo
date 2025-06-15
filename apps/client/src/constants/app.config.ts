@@ -1,6 +1,8 @@
 import type { ValidGridSize } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 
+export const DEFAULT_LANGUAGE = 'es' as const;
+
 /**
  * Size of the main grid (3x3 = 9 positions)
  * Used as a reference point for grid-based calculations

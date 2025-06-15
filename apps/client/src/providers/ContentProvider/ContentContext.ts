@@ -2,7 +2,7 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { ContentStore, ContentValues } from './ContentContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
-import { useTranslation } from 'react-i18next';
+import { DEFAULT_LANGUAGE } from 'constants/app.config';
 
 export const DISPLAY_NAME = 'Content';
 export const SETTER_PREFIX = DISPLAY_NAME;
@@ -14,7 +14,7 @@ export enum ContentKeys {
 
 export const defaultValue: ContentValues = {
   title: '',
-  currentLanguage: 'en',
+  currentLanguage: DEFAULT_LANGUAGE,
 };
 
 export const ContentContext = createZustandContext(({ initialValue }) => {

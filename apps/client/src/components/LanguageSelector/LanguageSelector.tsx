@@ -23,8 +23,8 @@ const getFlagDataByIso = (isoCode: string) => {
 
 // Language configuration mapping
 const LANGUAGE_CONFIG = {
-  'en-GB': { iso: 'gb', nativeKey: 'eng' },
   'es-ES': { iso: 'es', nativeKey: 'spa' },
+  'en-GB': { iso: 'gb', nativeKey: 'eng' },
   'cat-ES': { iso: 'cat', nativeKey: 'cat' },
 } as const;
 
