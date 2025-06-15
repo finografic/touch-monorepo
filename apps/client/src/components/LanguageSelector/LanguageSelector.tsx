@@ -2,58 +2,39 @@ import { Flex, RadioCards, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { flagAssets } from './flags/images';
-import flagsData from './flags/flags.data.json';
 import { styles } from './LanguageSelector.styles';
-
-interface Language {
-  code: string;
-  label: string;
-  nativeLabel: string;
-  flag: string;
-}
-
-interface LanguageSelectorProps {
-  onLanguageChange?: (languageCode: string) => void;
-}
-
-// Helper function to get flag data by ISO code
-const getFlagDataByIso = (isoCode: string) => {
-  return flagsData.find((flag) => flag.flags.png.includes(`/${isoCode.toLowerCase()}.png`));
-};
-
-// Language configuration mapping
-const LANGUAGE_CONFIG = {
-  'es-ES': { iso: 'es', nativeKey: 'spa' },
-  'en-GB': { iso: 'gb', nativeKey: 'eng' },
-  'cat-ES': { iso: 'cat', nativeKey: 'cat' },
-} as const;
+import { getFlagDataByIso } from './language-selector.utils';
+import { LANGUAGE_CONFIG } from 'constants/language.constants';
+import type { LanguageInfo, LanguageSelectorProps, RegionLocale } from '@workspace/types';
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {
   const { i18n } = useTranslation();
   const { currentLanguage, setCurrentLanguage } = useContent();
 
   // Generate languages from configuration
-  const languages: Language[] = Object.entries(LANGUAGE_CONFIG).map(([langCode, config]) => {
+  const languages: LanguageInfo[] = Object.entries(LANGUAGE_CONFIG).map(([langCode, config]) => {
+    const regionLocale = langCode as RegionLocale;
     const flagData = getFlagDataByIso(config.iso);
 
     return {
-      code: langCode,
+      code: regionLocale,
       label: flagData?.name.common || langCode,
       nativeLabel: flagData?.name.nativeName?.[config.nativeKey]?.common || langCode,
-      flag: flagAssets[langCode as keyof typeof flagAssets],
+      flag: flagAssets[regionLocale as keyof typeof flagAssets],
     };
   });
 
   const handleLanguageChange = (languageCode: string) => {
+    const regionLocale = languageCode as RegionLocale;
     // Map flag codes to i18n language codes
-    const i18nCode = languageCode.includes('-') ? languageCode.split('-')[0] : languageCode;
+    const i18nCode = regionLocale.includes('-') ? regionLocale.split('-')[0] : regionLocale;
 
     // Update both context and i18n
-    setCurrentLanguage(languageCode);
+    setCurrentLanguage(regionLocale);
     i18n.changeLanguage(i18nCode);
 
     // Call optional callback
-    onLanguageChange?.(languageCode);
+    onLanguageChange?.(regionLocale);
   };
 
   // Find current language or default to first

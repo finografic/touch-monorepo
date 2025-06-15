@@ -2,22 +2,37 @@ import { defineConfig } from 'tsup';
 import type { Options } from 'tsup';
 
 export default defineConfig({
-  entry: ['src/index.ts', 'src/types/index.ts', 'src/utils/index.ts', 'src/api/index.ts'],
-  format: ['esm'],
-  // dts: true,
-  // splitting: false,
-  // sourcemap: true,
-  // clean: true,
-  // treeshake: true,
-  // outDir: 'dist',
-  // platform: 'node',
-  // target: 'node20',
+  entry: [
+    // NOTE: should match package.json exports
+    'src/index.ts',
+    // API files
+    'src/api/index.ts',
+    'src/api/error.types.ts',
+    'src/api/error.constants.ts',
+    'src/api/error.schema.ts',
+    'src/api/error.V1.constants.ts',
+    'src/api/api.utils.ts',
+    'src/api/api.types.ts',
+    // Constants files
+    'src/constants/index.ts',
+    'src/constants/zod-errors.ts',
+    'src/constants/misc.constants.ts',
+    // Types files
+    'src/types/index.ts',
+    'src/types/utility.types.ts',
+    'src/types/utilities/casing.utils.types.ts',
+    'src/types/utilities/enum.utils.types.ts',
+    'src/types/utilities/object.utils.types.ts',
+    'src/types/utilities/props.utils.types.ts',
+    // Utils files
+    'src/utils/index.ts',
+    'src/utils/string.utils.ts',
+  ],
   outDir: './dist',
   clean: true,
   experimentalDts: true,
-  bundle: true,
+  format: ['esm'],
+  bundle: false,
   splitting: false,
-  sourcemap: true,
   treeshake: true,
-  minify: false,
 } satisfies Options);

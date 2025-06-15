@@ -7,7 +7,11 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useFilters } from 'hooks/useFilters';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
-export const LayoutUiObserver = () => {
+/**
+ * Hook that handles LayoutUI subscriptions and state management
+ * Previously was a logical component, now extracted as a reusable hook
+ */
+export const useLayoutUiObserver = () => {
   const store = useLayoutUi();
   const { fieldKey, padsConfig } = useRouteConfig();
   const { setIsNextDisabled } = usePagination();
@@ -82,6 +86,10 @@ export const LayoutUiObserver = () => {
       setIsNextDisabled(checkedCount < padsConfig.minRequired);
     }
   }); // No dependency array - runs on every render but has built-in guards
+};
 
+// Keep the old component for backward compatibility during transition
+export const LayoutUiObserver = () => {
+  useLayoutUiObserver();
   return null;
 };

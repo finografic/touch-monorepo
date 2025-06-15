@@ -2,10 +2,13 @@ import type { Options } from 'tsup';
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: {
-    'index': 'src/index.ts',
-    'translations/index': 'src/translations/index.ts',
-  },
+  entry: [
+    // NOTE: should match package.json exports
+    'src/index.ts',
+    'src/constants.ts',
+    'src/utils/index.ts',
+    'src/translations/index.ts',
+  ],
   outDir: './dist',
   clean: true,
   experimentalDts: true,

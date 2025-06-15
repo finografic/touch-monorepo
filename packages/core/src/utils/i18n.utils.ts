@@ -1,12 +1,14 @@
-export * from '../constants/i18n.constants';
-// export * from './locales';
+// Re-export from @workspace/i18n for backward compatibility
+export {
+  SUPPORTED_LANG_CODES,
+  SUPPORTED_LOCALES,
+  DEFAULT_LANG_CODE,
+  DEFAULT_LOCALE,
+  isValidLangCode,
+  isValidLocale,
+  dateFormats,
+  numberFormats,
+} from '@workspace/i18n';
 
-// You might also want to export some helper functions
-export const SUPPORTED_LOCALES = ['en', 'es'] as const;
-export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
-
-export const DEFAULT_LOCALE: SupportedLocale = 'en';
-
-export function isValidLocale(locale: string): locale is SupportedLocale {
-  return SUPPORTED_LOCALES.includes(locale as SupportedLocale);
-}
+// Type aliases for backward compatibility
+export type { LangCode, RegionLocale, SupportedLocale } from '@workspace/types';

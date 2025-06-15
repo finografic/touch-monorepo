@@ -1,10 +1,8 @@
 {
   "name": "@workspace/core",
   "type": "module",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -18,14 +16,6 @@
       "types": "./dist/api/*.d.ts",
       "import": "./dist/api/*.js"
     },
-    "./constants": {
-      "types": "./dist/constants/index.d.ts",
-      "import": "./dist/constants/index.js"
-    },
-    "./constants/*": {
-      "types": "./dist/constants/*.d.ts",
-      "import": "./dist/constants/*.js"
-    },
     "./types": {
       "types": "./dist/types/index.d.ts",
       "import": "./dist/types/index.js"
@@ -33,10 +23,6 @@
     "./types/*": {
       "types": "./dist/types/*.d.ts",
       "import": "./dist/types/*.js"
-    },
-    "./types/utilities/*": {
-      "types": "./dist/types/utilities/*.d.ts",
-      "import": "./dist/types/utilities/*.js"
     },
     "./utils": {
       "types": "./dist/utils/index.d.ts",
@@ -47,6 +33,8 @@
       "import": "./dist/utils/*.js"
     }
   },
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "scripts": {
     "========== DEV": "=======================================================",
     "dev": "tsup --watch",
@@ -65,13 +53,8 @@
     "tsc.debug": "pnpm exec tsc --pretty --project tsconfig.json",
     "typecheck": "pnpm exec tsc --project tsconfig.json --noEmit"
   },
-  "dependencies": {
-    "@workspace/i18n": "workspace:*",
-    "@workspace/types": "workspace:*",
-    "axios": "1.8.4",
-    "stoker": "^1.0.0"
-  },
   "devDependencies": {
+    "@finografic/project-scripts": "^0.5.0",
     "@types/eslint": "9.6.1",
     "@types/node": "20.15.0",
     "@workspace/scripts": "workspace:*",
@@ -86,5 +69,11 @@
   "peerDependencies": {
     "typescript": "^5.8.3",
     "zod": "^3.23.8"
+  },
+  "dependencies": {
+    "@workspace/i18n": "workspace:*",
+    "@workspace/types": "workspace:*",
+    "axios": "1.8.4",
+    "stoker": "^1.0.0"
   }
 }
