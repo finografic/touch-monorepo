@@ -18,25 +18,31 @@ i18n
         translation: translations.es,
       },
     },
-    supportedLngs: ['en', 'es', 'cat'], // ← Added from package config
-    lng: navigator.language, // ← Added from package config
+    supportedLngs: ['en', 'es', 'cat'],
     fallbackLng: 'en',
     debug: process.env.NODE_ENV === 'development',
     detection: {
-      order: ['querystring', 'localStorage', 'sessionStorage', 'navigator', 'htmlTag'], // ← Enhanced
+      order: ['querystring', 'localStorage', 'sessionStorage', 'navigator', 'htmlTag'],
       lookupQuerystring: 'lng',
-      lookupCookie: 'i18next', // ← Added from package config
+      lookupCookie: 'i18next',
       lookupLocalStorage: 'i18nextLng',
-      lookupSessionStorage: 'i18nextLng', // ← Added from package config
+      lookupSessionStorage: 'i18nextLng',
 
       caches: ['localStorage'],
-      excludeCacheFor: ['cimode'], // ← Added from package config
+      excludeCacheFor: ['cimode'],
+
+      convertDetectedLanguage: (lng: string) => {
+        if (lng.startsWith('en')) return 'en';
+        if (lng.startsWith('es')) return 'es';
+        if (lng.startsWith('ca')) return 'cat';
+        return lng;
+      },
     },
     interpolation: {
-      escapeValue: false, // React already escapes values
+      escapeValue: false,
     },
     react: {
-      useSuspense: false, // Set to true if you want to use Suspense
+      useSuspense: false,
     },
   });
 

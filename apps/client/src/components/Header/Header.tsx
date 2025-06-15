@@ -29,7 +29,7 @@ export const Header = () => {
           {/* Center column - 6 parts */}
           <Flex justify="center" style={{ flex: '6' }}>
             {/* <h1>{pageContent?.title || route?.title}</h1> */}
-            <h1>{t('titles.app')}</h1>
+            <h1>{t('app.title')}</h1>
           </Flex>
 
           <Flex justify="end" style={{ flex: '3' }}>

@@ -131,6 +131,17 @@ export const DataDialog = () => {
               <Cross2Icon width="20" height="20" />
             </IconButton>
           </Flex>
+          <Dialog.Description
+            style={{
+              position: 'absolute',
+              left: '-10000px',
+              width: '1px',
+              height: '1px',
+              overflow: 'hidden',
+            }}
+          >
+            View and manage order data, calculations, and system configuration
+          </Dialog.Description>
 
           <div className="dialogContent">
             <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
