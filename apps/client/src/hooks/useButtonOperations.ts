@@ -7,6 +7,9 @@ import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
 import { TIME_DEFAULT_SECONDS } from 'constants/time.config';
+import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
+import { ItemType } from 'types/orders.types';
+import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 
 type OperationActionType =
   | 'clear-completed'
@@ -33,7 +36,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
-  const { selectAllOrders, orders, setOrderProcessing, timerAction } = useOrders();
+  const { selectAllOrders, orders, setOrderProcessing, timerAction, toggleOrder } = useOrders();
   const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
 
@@ -112,8 +115,24 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   }, [orders, timerAction, saveConfig]);
 
   const handleSelectAll = useCallback(() => {
-    selectAllOrders();
-  }, [selectAllOrders]);
+    startTransition(() => {
+      // Get all ItemType.B slots from config
+      const itemTypeBSlots = ORDER_ITEMS_CONFIG.filter((config) => config.itemType === ItemType.B);
+
+      // For each ItemType.B slot, check if it should be selected
+      itemTypeBSlots.forEach(({ itemType, number }) => {
+        const existingOrder = orders.find((order) => order.itemNumber === number);
+
+        // Select if: no existing order (unchecked) OR existing order is unchecked and idle
+        const shouldSelect =
+          !existingOrder || (!existingOrder.isSelected && existingOrder.process.status === 'idle');
+
+        if (shouldSelect) {
+          toggleOrder({ itemType, itemNumber: number });
+        }
+      });
+    });
+  }, [orders, toggleOrder]);
 
   const handleStartProcess = useCallback(() => {
     // If we're on the TimePage, handle simple timer start
@@ -148,9 +167,71 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   }, [navigate]);
 
   const handleRepeatSelection = useCallback(() => {
-    // TODO: Implement repeat selection functionality
-    console.log('Repeat selection action not yet implemented');
-  }, []);
+    // Check if session storage timer is active
+    const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
+    if (!timestamp) {
+      console.error('No session timer found');
+      return;
+    }
+
+    const startTime = Number.parseInt(timestamp, 10);
+    const now = Date.now();
+    const elapsed = now - startTime;
+    const remaining = Math.max(0, CONFIG_EXPIRY_TIME_MS - elapsed);
+
+    if (remaining <= 0) {
+      console.error('Session timer expired');
+      return;
+    }
+
+    // Load saved configuration
+    const configString = sessionStorage.getItem(STORAGE_KEYS.LAST_CONFIG);
+    if (!configString) {
+      console.error('No saved configuration found');
+      return;
+    }
+
+    let config;
+    try {
+      config = JSON.parse(configString);
+    } catch (e) {
+      console.error('Failed to parse saved configuration:', e);
+      return;
+    }
+
+    console.log('Applying saved configuration to selected orders:', config);
+    console.log('Available durations in config:', config.durations);
+
+    startTransition(() => {
+      // Apply configuration to all selected orders
+      orders.forEach((order) => {
+        if (order.isSelected) {
+          // Get duration for this specific item type from saved config
+          // Try item type first, then fall back to default
+          const itemTypeDuration = config.durations?.[order.itemType];
+          const defaultDuration = config.durations?.default;
+          const duration = itemTypeDuration || defaultDuration || 300;
+
+          console.log(`Order ${order.itemNumber} (type ${order.itemType}):`, {
+            itemTypeDuration,
+            defaultDuration,
+            finalDuration: duration,
+            availableKeys: Object.keys(config.durations || {}),
+            orderItemType: order.itemType,
+            orderItemTypeType: typeof order.itemType,
+            configDurations: config.durations,
+            lookupResult: config.durations?.[order.itemType],
+          });
+
+          setOrderProcessing({
+            itemNumber: order.itemNumber,
+            duration,
+            preserveSelection: false, // Clear selection after starting
+          });
+        }
+      });
+    });
+  }, [orders, setOrderProcessing]);
 
   const getOperationDisabled = useCallback(
     (actionType: OperationActionType): boolean => {
@@ -190,8 +271,28 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         case 'program-time':
           // Enable only if there are selected IDLE orders (can't program time for running/completed timers)
           return numAvailableSelected === 0 || location.pathname !== PATHS.main || isPending;
-        case 'repeat-selection':
-          return true; // Disabled until implemented
+        case 'repeat-selection': {
+          // Check if session storage timer is active
+          const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
+          if (!timestamp) return true;
+
+          const startTime = Number.parseInt(timestamp, 10);
+          const now = Date.now();
+          const elapsed = now - startTime;
+          const remaining = Math.max(0, CONFIG_EXPIRY_TIME_MS - elapsed);
+
+          // Check if we have saved configuration
+          const configString = sessionStorage.getItem(STORAGE_KEYS.LAST_CONFIG);
+
+          // Enable only if: session timer active + saved config exists + orders selected + on main page
+          return (
+            remaining <= 0 ||
+            !configString ||
+            numAnySelected === 0 ||
+            location.pathname !== PATHS.main ||
+            isPending
+          );
+        }
         default:
           return false;
       }
