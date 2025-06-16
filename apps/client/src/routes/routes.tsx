@@ -1,6 +1,7 @@
 import type { RouteObject } from 'react-router-dom';
 import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 import { Layout } from 'layout/Layout';
+import { AdminLayout } from 'layout/AdminLayout';
 import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MainPage } from '../pages/MainPage/MainPage';
 import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
@@ -24,10 +25,6 @@ export const routes: RouteObject[] = [
       {
         path: '/docs',
         element: <DocsPage />,
-      },
-      {
-        path: '/admin/:table',
-        element: <AdminPage />,
       },
       // ============================================== //
       // Drink Configuration Flow
@@ -83,6 +80,29 @@ export const routes: RouteObject[] = [
       // {
       //   path: '/login',
       //   element: <LoginPage />,
+      // },
+    ],
+  },
+  // ============================================== //
+  // Admin Routes with simplified layout
+  // ============================================== //
+  {
+    path: '/admin',
+    element: <AdminLayout />,
+    children: [
+      {
+        index: true,
+        id: 'admin',
+        element: <AdminPage />,
+      },
+      // Future admin routes can be added here
+      // {
+      //   path: 'users',
+      //   element: <AdminUsersPage />,
+      // },
+      // {
+      //   path: 'settings',
+      //   element: <AdminSettingsPage />,
       // },
     ],
   },

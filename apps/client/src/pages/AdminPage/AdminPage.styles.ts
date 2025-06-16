@@ -76,3 +76,64 @@ export const stylesItemsGrid = css`
     }
   }
 `;
+
+export const styles = css`
+  /* Admin page content - layout handles background and viewport sizing */
+  color: ${colors.white};
+
+  .admin-page {
+    width: 100%;
+    height: 100%;
+  }
+
+  .translation-section {
+    background-color: ${colors.backgroundLight};
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid ${colors.greyDark};
+  }
+
+  .translation-item {
+    background-color: ${colors.background};
+    border-radius: 6px;
+    padding: 1rem;
+    border: 1px solid ${colors.grey};
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .form-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: ${colors.greyLight};
+  }
+
+  .form-input {
+    background-color: ${colors.backgroundDark};
+    border: 1px solid ${colors.greyDark};
+    border-radius: 4px;
+    padding: 0.5rem;
+    color: ${colors.white};
+    font-size: 0.875rem;
+
+    &:focus {
+      outline: none;
+      border-color: ${colors.info};
+      box-shadow: 0 0 0 2px ${colors.info}22;
+    }
+
+    &::placeholder {
+      color: ${colors.grey};
+    }
+  }
+
+  .error-message {
+    color: ${colors.danger};
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+  }
+`;

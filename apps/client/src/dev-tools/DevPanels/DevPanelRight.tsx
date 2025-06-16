@@ -1,5 +1,5 @@
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { useOrders } from 'providers/OrdersProvider';
+import { useOrdersOptional } from 'providers/OrdersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { JSONTree } from '../JSONTree/JSONTree';
 import { stylesRight } from './DevPanels.styles';
@@ -9,7 +9,8 @@ export const DevPanelRight = () => {
   const { data, dataFiltered } = useFilters();
   const { loaderData } = useRouteConfig();
   const { numItems } = useLayoutUi();
-  const { orders } = useOrders();
+  const ordersContext = useOrdersOptional();
+  const orders = ordersContext?.orders || [];
 
   // Filter out filters property from processing orders
   const cleanOrdersForDisplay = orders.map((order) => {

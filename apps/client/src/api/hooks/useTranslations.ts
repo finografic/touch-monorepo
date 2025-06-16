@@ -1,0 +1,198 @@
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { translationEndpoints } from '../endpoints/translations.endpoints';
+import type {
+  ContainerTypeTranslation,
+  ContainerTypeUpdate,
+  DrinkSubtypeTranslation,
+  DrinkSubtypeUpdate,
+  DrinkTypeTranslation,
+  DrinkTypeUpdate,
+  VolumeTranslation,
+  VolumeUpdate,
+} from '../endpoints/translations.endpoints';
+
+// Query keys for caching
+export const TRANSLATION_QUERY_KEYS = {
+  drinkTypes: ['translations', 'drinkTypes'] as const,
+  drinkSubtypes: ['translations', 'drinkSubtypes'] as const,
+  volumes: ['translations', 'volumes'] as const,
+  containerTypes: ['translations', 'containerTypes'] as const,
+  all: ['translations'] as const,
+} as const;
+
+/**
+ * Hook to fetch all drink types for translation
+ */
+export const useGetDrinkTypes = () => {
+  return useQuery({
+    queryKey: TRANSLATION_QUERY_KEYS.drinkTypes,
+    queryFn: translationEndpoints.getDrinkTypes,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+/**
+ * Hook to fetch all drink subtypes for translation
+ */
+export const useGetDrinkSubtypes = () => {
+  return useQuery({
+    queryKey: TRANSLATION_QUERY_KEYS.drinkSubtypes,
+    queryFn: translationEndpoints.getDrinkSubtypes,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+/**
+ * Hook to fetch all volumes for translation
+ */
+export const useGetVolumes = () => {
+  return useQuery({
+    queryKey: TRANSLATION_QUERY_KEYS.volumes,
+    queryFn: translationEndpoints.getVolumes,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+/**
+ * Hook to fetch all container types for translation
+ */
+export const useGetContainerTypes = () => {
+  return useQuery({
+    queryKey: TRANSLATION_QUERY_KEYS.containerTypes,
+    queryFn: translationEndpoints.getContainerTypes,
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+/**
+ * Hook to fetch all translation data at once
+ */
+export const useGetAllTranslations = () => {
+  const drinkTypesQuery = useGetDrinkTypes();
+  const drinkSubtypesQuery = useGetDrinkSubtypes();
+  const volumesQuery = useGetVolumes();
+  const containerTypesQuery = useGetContainerTypes();
+
+  return {
+    data: {
+      drinkTypes: drinkTypesQuery.data || [],
+      drinkSubtypes: drinkSubtypesQuery.data || [],
+      volumes: volumesQuery.data || [],
+      containerTypes: containerTypesQuery.data || [],
+    },
+    isLoading:
+      drinkTypesQuery.isLoading ||
+      drinkSubtypesQuery.isLoading ||
+      volumesQuery.isLoading ||
+      containerTypesQuery.isLoading,
+    isError:
+      drinkTypesQuery.isError ||
+      drinkSubtypesQuery.isError ||
+      volumesQuery.isError ||
+      containerTypesQuery.isError,
+    error:
+      drinkTypesQuery.error || drinkSubtypesQuery.error || volumesQuery.error || containerTypesQuery.error,
+    refetch: () => {
+      drinkTypesQuery.refetch();
+      drinkSubtypesQuery.refetch();
+      volumesQuery.refetch();
+      containerTypesQuery.refetch();
+    },
+  };
+};
+
+/**
+ * Hook to update drink type translations
+ */
+export const useUpdateDrinkType = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, updates }: { id: string; updates: DrinkTypeUpdate }) =>
+      translationEndpoints.updateDrinkType(id, updates),
+    onSuccess: (updatedDrinkType) => {
+      // Update the cache with the new data
+      queryClient.setQueryData<DrinkTypeTranslation[]>(TRANSLATION_QUERY_KEYS.drinkTypes, (oldData) => {
+        if (!oldData) return [updatedDrinkType];
+        return oldData.map((item) => (item.id === updatedDrinkType.id ? updatedDrinkType : item));
+      });
+    },
+  });
+};
+
+/**
+ * Hook to update drink subtype translations
+ */
+export const useUpdateDrinkSubtype = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, updates }: { id: string; updates: DrinkSubtypeUpdate }) =>
+      translationEndpoints.updateDrinkSubtype(id, updates),
+    onSuccess: (updatedSubtype) => {
+      // Update the cache with the new data
+      queryClient.setQueryData<DrinkSubtypeTranslation[]>(TRANSLATION_QUERY_KEYS.drinkSubtypes, (oldData) => {
+        if (!oldData) return [updatedSubtype];
+        return oldData.map((item) => (item.id === updatedSubtype.id ? updatedSubtype : item));
+      });
+    },
+  });
+};
+
+/**
+ * Hook to update volume translations
+ */
+export const useUpdateVolume = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, updates }: { id: string; updates: VolumeUpdate }) =>
+      translationEndpoints.updateVolume(id, updates),
+    onSuccess: (updatedVolume) => {
+      // Update the cache with the new data
+      queryClient.setQueryData<VolumeTranslation[]>(TRANSLATION_QUERY_KEYS.volumes, (oldData) => {
+        if (!oldData) return [updatedVolume];
+        return oldData.map((item) => (item.id === updatedVolume.id ? updatedVolume : item));
+      });
+    },
+  });
+};
+
+/**
+ * Hook to update container type translations
+ */
+export const useUpdateContainerType = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, updates }: { id: string; updates: ContainerTypeUpdate }) =>
+      translationEndpoints.updateContainerType(id, updates),
+    onSuccess: (updatedContainerType) => {
+      // Update the cache with the new data
+      queryClient.setQueryData<ContainerTypeTranslation[]>(
+        TRANSLATION_QUERY_KEYS.containerTypes,
+        (oldData) => {
+          if (!oldData) return [updatedContainerType];
+          return oldData.map((item) => (item.id === updatedContainerType.id ? updatedContainerType : item));
+        },
+      );
+    },
+  });
+};
+
+/**
+ * Hook to batch update all translations
+ */
+export const useBatchUpdateTranslations = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: translationEndpoints.batchUpdateTranslations,
+    onSuccess: () => {
+      // Invalidate all translation queries to refetch fresh data
+      queryClient.invalidateQueries({
+        queryKey: TRANSLATION_QUERY_KEYS.all,
+      });
+    },
+  });
+};

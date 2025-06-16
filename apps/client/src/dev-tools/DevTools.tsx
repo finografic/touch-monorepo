@@ -10,12 +10,13 @@ import { MockOrdersButton } from './MockOrdersButton/MockOrdersButton';
 import { MockTimersMin } from './MockTimersMin/MockTimersMin';
 import { MockSessionTimer } from './MockSessionTimer/MockSessionTimer';
 import { hasProcessingTimers } from 'utils/timers.utils';
-import { useOrders } from 'providers/OrdersProvider/OrdersContext';
+import { useOrdersOptional } from 'providers/OrdersProvider/OrdersContext';
 import { DevPanelLeft } from 'dev-tools/DevPanels/DevPanelLeft';
 import { DevPanelRight } from 'dev-tools/DevPanels/DevPanelRight';
 
 export const DevTools = () => {
-  const { orders } = useOrders();
+  const ordersContext = useOrdersOptional();
+  const orders = ordersContext?.orders || [];
   const {
     isDevToolsVisible,
     // isDevDataVisible,
