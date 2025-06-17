@@ -1,5 +1,5 @@
 import { AdminContext as Admin, DISPLAY_NAME } from './AdminContext';
-import { AdminTools } from 'components/AdminTools/AdminTools';
+import { AdminTools } from 'src/admin-tools/AdminTools';
 import type { AdminProviderProps } from 'providers/AdminProvider/AdminContext.types';
 
 export const AdminProvider = ({ initialValue, children }: AdminProviderProps) => {

@@ -26,6 +26,8 @@
       "@workspace/i18n/flags/images/*": ["src/components/LanguageSelector/flags/images/*"],
       "@workspace/server/*": ["../server/src/*"],
       "@workspace/server/types/entities": ["../server/src/types/entities/index.ts"],
+      "admin-tools/*": ["./src/admin-tools/*"],
+      "admin-tools": ["./src/admin-tools"],
       "api": ["./src/api"],
       "api/*": ["./src/api/*"],
       "auth/*": ["./src/auth/*"],

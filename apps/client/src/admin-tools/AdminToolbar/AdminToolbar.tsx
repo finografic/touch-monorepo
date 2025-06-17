@@ -1,18 +1,21 @@
 import { Box, Flex } from '@radix-ui/themes';
 import { TextAlignLeftIcon, TimerIcon } from '@radix-ui/react-icons';
-import { ConfigTimer } from '../ConfigTimer/ConfigTimer';
-import { styles } from './AdminTools.styles';
+import { ConfigTimer } from '../../components/ConfigTimer/ConfigTimer';
+import { styles } from './AdminToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
+import { LanguageIcon } from 'styles/icons';
+import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
+import { useNavigate } from 'react-router-dom';
 
-export const AdminTools = () => {
+export const AdminToolbar = () => {
   const { isAdminToolsVisible, isTimerVisible, setIsTimerVisible, isAdminDialogOpen, setIsAdminDialogOpen } =
     useAdmin();
   const { saveConfig } = useConfigStorage();
   const [hasActiveTimer, setHasActiveTimer] = useState(false);
-
+  const navigate = useNavigate();
   // Check if there's an active config timer
   useEffect(() => {
     const checkActiveTimer = () => {
@@ -44,10 +47,15 @@ export const AdminTools = () => {
   return (
     <div css={styles} className="admin-tools-container">
       <Flex gap="3" align="start">
-        {/* Placeholder for future admin buttons */}
         <Box width="64px">
           <button className="btn-dialog" onClick={() => setIsAdminDialogOpen(!isAdminDialogOpen)}>
             <TextAlignLeftIcon />
+          </button>
+        </Box>
+
+        <Box width="64px">
+          <button className="btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>
+            <LanguageIcon />
           </button>
         </Box>
 
