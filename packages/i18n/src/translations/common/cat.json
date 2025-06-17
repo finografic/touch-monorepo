@@ -1,1 +1,28 @@
-{}
+{
+  "ui": {
+    "buttons": {
+      "save": "Desar",
+      "cancel": "Cancel·lar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "view": "Veure",
+      "back": "Enrere",
+      "next": "Següent",
+      "previous": "Anterior",
+      "ok": "Acceptar",
+      "close": "Tancar",
+      "submit": "Enviar",
+      "reset": "Restablir",
+      "update": "Actualitzar",
+      "add": "Afegir",
+      "remove": "Eliminar",
+      "select": "Seleccionar",
+      "clear": "Netejar",
+      "all": "TOTS",
+      "start": "INICIAR",
+      "programTime": "Programar Temps",
+      "programProduct": "Programar Producte",
+      "repeatSelection": "Repetir Selecció"
+    }
+  }
+}

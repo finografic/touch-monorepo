@@ -15,6 +15,7 @@
   "scripts": {
     "========== DEV": "=======================================================",
     "dev": "turbo run dev",
+    "dev.i18n.update": "pnpm i18n.force",
     "lint.fix.DEV": "eslint \"./apps/client/src/**/*.{ts,tsx}\"  --fix-dry-run --rule \"@typescript-eslint/consistent-type-imports: 2\"",
     "eslint-config.DEV": "dotenvx run -- pnpm update @finografic/eslint-config@9.0.8 --recursive",
     "dev.server": "pnpm --filter @workspace/server dev",
@@ -22,6 +23,10 @@
     "start": "turbo run start",
     "start.server": "pnpm --filter @workspace/server start",
     "start.client": "pnpm --filter @workspace/client start",
+    "·········· I18N": "·····················································",
+    "i18n.update": "pnpm --filter @workspace/i18n update",
+    "i18n.force": "pnpm --filter @workspace/i18n update.force",
+    "i18n.reset": "pnpm --filter @workspace/i18n clean && pnpm i18n.update",
     "·········· RESET": "·····················································",
     "reset": "run-s clean.all reset.install reset.build",
     "reset.install": "pnpm install",

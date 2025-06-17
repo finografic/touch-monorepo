@@ -3,10 +3,11 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import type { PadConfig, PadType, PadUI } from 'types/ui.types';
 import { NUM_GRID_ITEMS } from 'constants/app.config';
-import { parsePadConfig } from 'utils/ui.utils';
+import { parsePadConfig } from 'utils/ui-V2.utils';
 import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import { subscribeWithSelector } from 'zustand/middleware';
+import { useContent } from 'providers/ContentProvider/ContentContext';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
@@ -37,7 +38,13 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
           initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, fieldKey: OrderFieldKey) => {
             const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
-            const { pads, numPads } = parsePadConfig({ data, config: padsConfig, fieldKey });
+            // Note: We'll need to get currentLanguage from context in the component that calls this
+            const { pads, numPads } = parsePadConfig({
+              data,
+              config: padsConfig,
+              fieldKey,
+              currentLanguage: 'es',
+            });
             set({ pads, numPads, fieldKey });
           },
           updatePadState: (fieldKey: OrderFieldKey, updater: (pads: PadUI[]) => PadUI[]) => {
@@ -78,6 +85,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             padsConfig: PadConfig,
             dataPool: DataEntry[],
             serverFieldMap: Record<string, string>,
+            currentLanguage: 'en' | 'es' | 'cat' = 'es',
           ) => {
             if (!fieldKey) {
               set({ pads: [], numPads: 0, fieldKey: undefined });
@@ -101,6 +109,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
                   initChecked: (pad: PadUI) => serverFieldMap[pad.name] === pad.value.name,
                 },
                 fieldKey,
+                currentLanguage,
               });
 
               set({ pads, numPads, fieldKey });

@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import {
   ALTERNATIVE_ROUTE_BUTTON_CONFIG,
@@ -25,6 +26,7 @@ interface UseButtonConfigReturn {
 export const useButtonConfig = (): UseButtonConfigReturn => {
   const location = useLocation();
   const { fieldKey } = useRouteConfig();
+  const { t } = useTranslation();
 
   // Get actions from both specialized hooks
   const { handleNavigateBack, handleNavigateNext, getNavigationDisabled, isNavigationPending } =
@@ -132,15 +134,20 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
 
       const isDisabled = getActionDisabled(config.actionType);
       const isLoading = getActionLoading(config.actionType);
+      const translatedLabel = t(config.labelKey);
+
+      // Destructure to exclude labelKey from spreading
+      const { labelKey, ...configWithoutLabelKey } = config;
 
       return {
-        ...config,
+        ...configWithoutLabelKey,
+        label: translatedLabel,
         disabled: isDisabled,
         onClick: () => executeAction(config.actionType),
-        children: isLoading ? 'Processing...' : config.label,
+        children: isLoading ? t('ui.states.loading') : translatedLabel,
       };
     };
-  }, [executeAction, getActionDisabled, getActionLoading]);
+  }, [executeAction, getActionDisabled, getActionLoading, t]);
 
   const footerButtons = useMemo(() => {
     return routeConfig.footer.map(getButtonProps);

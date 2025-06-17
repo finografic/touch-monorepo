@@ -2,28 +2,35 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { translations } from '@workspace/i18n';
-import { DEFAULT_LANGUAGE } from 'constants/app.config';
+import {
+  DEFAULT_LANGUAGE,
+  ENABLE_BROWSER_LANGUAGE_DETECTION,
+  FORCE_DEFAULT_LANGUAGE,
+} from 'constants/app.config';
 
 i18n
   .use(LanguageDetector)
   .use(initReactI18next)
   .init({
     resources: {
-      en: {
-        translation: translations.en,
-      },
       es: {
         translation: translations.es,
       },
+      en: {
+        translation: translations.en,
+      },
       cat: {
-        translation: translations.es,
+        translation: translations.cat,
       },
     },
+    lng: ENABLE_BROWSER_LANGUAGE_DETECTION ? undefined : FORCE_DEFAULT_LANGUAGE,
     supportedLngs: ['es', 'en', 'cat'],
     fallbackLng: DEFAULT_LANGUAGE,
     debug: process.env.NODE_ENV === 'development',
     detection: {
-      order: ['querystring', 'localStorage', 'sessionStorage', 'navigator', 'htmlTag'],
+      order: ENABLE_BROWSER_LANGUAGE_DETECTION
+        ? ['querystring', 'localStorage', 'sessionStorage', 'navigator', 'htmlTag']
+        : ['querystring', 'localStorage', 'sessionStorage'],
       lookupQuerystring: 'lng',
       lookupCookie: 'i18next',
       lookupLocalStorage: 'i18nextLng',
@@ -36,7 +43,7 @@ i18n
         if (lng.startsWith('es')) return 'es';
         if (lng.startsWith('en')) return 'en';
         if (lng.startsWith('ca')) return 'cat';
-        return lng;
+        return FORCE_DEFAULT_LANGUAGE;
       },
     },
     interpolation: {

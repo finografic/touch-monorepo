@@ -79,6 +79,7 @@ export const AdminPage: React.FC = () => {
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; message: string } | null>(
     null,
   );
+  const [isDataReady, setIsDataReady] = useState(false);
 
   // Track if form has been initialized to prevent re-initialization
   const isInitialized = useRef(false);
@@ -95,13 +96,27 @@ export const AdminPage: React.FC = () => {
     mode: 'onSubmit',
   });
 
+  // Add delay to ensure data is fully loaded before showing the form
+  useEffect(() => {
+    if (translationsData && !isLoading) {
+      // Small delay to ensure all data is properly loaded
+      const timer = setTimeout(() => {
+        setIsDataReady(true);
+      }, 100);
+
+      return () => clearTimeout(timer);
+    } else {
+      setIsDataReady(false);
+    }
+  }, [translationsData, isLoading]);
+
   // Update form when data is loaded from API - prevent infinite loop
   useEffect(() => {
-    if (translationsData && !isInitialized.current) {
+    if (translationsData && isDataReady && !isInitialized.current) {
       methods.reset(translationsData);
       isInitialized.current = true;
     }
-  }, [translationsData]);
+  }, [translationsData, isDataReady, methods]);
 
   // Memoized reset function to prevent re-renders
   const handleReset = useCallback(() => {
@@ -264,7 +279,7 @@ export const AdminPage: React.FC = () => {
     ],
   );
 
-  if (isLoading) {
+  if (isLoading || !isDataReady) {
     return (
       <Box css={styles} className="admin-page">
         <Flex direction="column" gap="4" align="center" justify="center" p="6">

@@ -17,7 +17,12 @@
       "add": "Add",
       "remove": "Remove",
       "select": "Select",
-      "clear": "Clear"
+      "clear": "Clear",
+      "all": "ALL",
+      "start": "START",
+      "programTime": "Program Time",
+      "programProduct": "Program Product",
+      "repeatSelection": "Repeat Selection"
     },
     "forms": {
       "labels": {

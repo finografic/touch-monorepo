@@ -29,6 +29,7 @@ type LayoutUiActions = LayoutUiSetters & {
     padsConfig: PadConfig,
     dataPool: DataEntry[],
     serverFieldMap: Record<string, string>,
+    currentLanguage?: 'en' | 'es' | 'cat',
   ) => void;
 };
 

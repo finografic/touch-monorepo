@@ -6,6 +6,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useFilters } from 'hooks/useFilters';
 import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useTranslation } from 'react-i18next';
 
 /**
  * Hook that handles LayoutUI subscriptions and state management
@@ -17,6 +18,11 @@ export const useLayoutUiObserver = () => {
   const { setIsNextDisabled } = usePagination();
   const { currentSessionId, sessions } = useSession();
   const { dataPool } = useFilters();
+  const { i18n } = useTranslation();
+
+  // Use i18n language directly as the source of truth
+  const currentLanguage = i18n.language || 'es';
+
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
 
   const isInitializedRef = useRef<Record<string, boolean>>({});
@@ -25,6 +31,7 @@ export const useLayoutUiObserver = () => {
     loaderDataLength?: number;
     dataPoolLength?: number;
     sessionId?: string;
+    language?: string;
   }>({});
 
   // Subscription 1: Handle route changes
@@ -34,6 +41,7 @@ export const useLayoutUiObserver = () => {
       loaderDataLength: loaderData?.length || 0,
       dataPoolLength: dataPool?.length || 0,
       sessionId: currentSessionId || '',
+      language: currentLanguage,
     };
 
     // Only trigger if route data actually changed
@@ -41,7 +49,8 @@ export const useLayoutUiObserver = () => {
       lastRouteDataRef.current.fieldKey !== currentRouteData.fieldKey ||
       lastRouteDataRef.current.loaderDataLength !== currentRouteData.loaderDataLength ||
       lastRouteDataRef.current.dataPoolLength !== currentRouteData.dataPoolLength ||
-      lastRouteDataRef.current.sessionId !== currentRouteData.sessionId;
+      lastRouteDataRef.current.sessionId !== currentRouteData.sessionId ||
+      lastRouteDataRef.current.language !== currentRouteData.language;
 
     if (hasRouteChanged) {
       lastRouteDataRef.current = currentRouteData;
@@ -68,7 +77,22 @@ export const useLayoutUiObserver = () => {
 
       if (loaderData && padsConfig && dataPool) {
         isInitializedRef.current[fieldKey] = false;
-        store.handleRouteChange(fieldKey, loaderData, padsConfig, dataPool, sessionServerFieldMap);
+
+        // Map current language to the format expected by the utility
+        const languageCode = currentLanguage.startsWith('es')
+          ? 'es'
+          : currentLanguage.startsWith('cat')
+            ? 'cat'
+            : 'en';
+
+        store.handleRouteChange(
+          fieldKey,
+          loaderData,
+          padsConfig,
+          dataPool,
+          sessionServerFieldMap,
+          languageCode,
+        );
         isInitializedRef.current[fieldKey] = true;
       } else {
         store.handleRouteChange(fieldKey, [], {} as any, [], {});

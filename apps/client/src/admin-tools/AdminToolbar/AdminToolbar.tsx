@@ -48,13 +48,13 @@ export const AdminToolbar = () => {
     <div css={styles} className="admin-tools-container">
       <Flex gap="3" align="start">
         <Box width="64px">
-          <button className="btn-dialog" onClick={() => setIsAdminDialogOpen(!isAdminDialogOpen)}>
+          <button className="btn btn-dialog" onClick={() => setIsAdminDialogOpen(!isAdminDialogOpen)}>
             <TextAlignLeftIcon />
           </button>
         </Box>
 
         <Box width="64px">
-          <button className="btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>
+          <button className="btn btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>
             <LanguageIcon />
           </button>
         </Box>
@@ -63,7 +63,7 @@ export const AdminToolbar = () => {
         {hasActiveTimer && (
           <Box width="64px">
             <button
-              className={`btn-admin ${isTimerVisible ? 'active' : ''}`}
+              className={`btn btn-admin ${isTimerVisible ? 'active' : ''}`}
               onClick={() => setIsTimerVisible(!isTimerVisible)}
               title="Toggle Timer"
             >

@@ -11,6 +11,13 @@ export const PadButton: React.FC<PadProps> = ({
   id,
   label,
   disabled,
+  name,
+  value,
+  index,
+  type,
+  isChecked,
+  filterKey,
+  metadata,
   ...rest
 }) => {
   return (
@@ -22,7 +29,22 @@ export const PadButton: React.FC<PadProps> = ({
       disabled={disabled}
       onClick={() => {
         if (!disabled) {
-          onSelect?.({ fieldKey, pad: { ...rest, id, label, disabled } });
+          onSelect?.({
+            fieldKey,
+            pad: {
+              id,
+              label,
+              name,
+              value,
+              index,
+              type,
+              isChecked,
+              disabled,
+              filterKey,
+              metadata,
+              ...rest,
+            },
+          });
         }
       }}
     >

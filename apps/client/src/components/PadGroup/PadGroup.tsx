@@ -25,10 +25,13 @@ const PadGroup: React.FC<PadGroupProps> = ({
   children,
   ...rest
 }) => {
+  // Filter out non-DOM props that shouldn't be passed to DOM elements
+  const { labelKey, valueKeys, filterKey, maxPads, minRequired, initChecked, ...domProps } = rest;
+
   switch (type) {
     case PAD_TYPE.RADIO:
       return (
-        <RadioGroup.Root className={className} {...rest}>
+        <RadioGroup.Root className={className} {...domProps}>
           {pads.map((pad) => (
             <PadRadio key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
           ))}
@@ -38,7 +41,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
 
     case PAD_TYPE.CHECKBOX:
       return (
-        <CheckboxGroup.Root className={className} {...rest}>
+        <CheckboxGroup.Root className={className} {...domProps}>
           {pads.map((pad) => (
             <PadCheckbox key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
           ))}
@@ -49,7 +52,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
     case PAD_TYPE.BUTTON:
     default:
       return (
-        <div className={className}>
+        <div className={className} {...domProps}>
           {pads.map((pad) =>
             pad.type === 'button' ? (
               <PadButton key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />

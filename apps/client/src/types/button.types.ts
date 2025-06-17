@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react';
 import type { ConstEnumOf } from '@workspace/types/utils';
 
+// Button translation key type - for now using string literal pattern
+type ButtonTranslationKey = `ui.buttons.${string}`;
+
 // 1. Define the button type union as source of truth (what the buttons represent)
 type ButtonType =
   | 'reset'
@@ -55,7 +58,7 @@ export const BUTTON_ACTIONS: ConstEnumOf<ButtonActionType> = {
 export interface ActionButtonConfig {
   id: string;
   type: ActionButtonType;
-  label: string;
+  labelKey: ButtonTranslationKey;
   className?: string;
   icon?: 'chevron-left' | 'chevron-right';
   actionType: ButtonActionType;
@@ -66,7 +69,8 @@ export interface RouteButtonConfig {
   content: ActionButtonType[];
 }
 
-export interface ActionButtonProps extends ActionButtonConfig {
+export interface ActionButtonProps extends Omit<ActionButtonConfig, 'labelKey'> {
+  label: string; // Translated label for actual display
   disabled?: boolean;
   onClick?: () => void;
   children?: ReactNode;

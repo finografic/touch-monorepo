@@ -2,37 +2,32 @@ import type { UIMatch } from 'react-router-dom';
 import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
 import { OrderFieldKeys } from 'constants/app.config';
-import { PADS_UI_CONFIG } from 'constants/ui.config';
+import { getPadsUIConfig } from 'constants/ui-V2.config';
 import type { OrderFieldKey } from 'types/orders.types';
-import { hasOptionalProperties } from '@workspace/types/utils';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
 import type { PadConfig } from 'types/ui.types';
 import type { FilterKey } from 'types/filters.types';
+import { useTranslation } from 'react-i18next';
 
-// First define the required (non-undefined) version
+// Required route config interface
 interface RequiredRouteConfig<T = DataEntry[]> {
   route: RouteConfig;
   fieldKey: OrderFieldKey;
   filterKey: FilterKey;
   loaderData: T;
-  padsConfig: PadConfig;
-}
-
-// Then define the partial version separately (not derived from RequiredRouteConfig)
-interface PartialRouteConfig<T = DataEntry[]> {
-  route: RouteConfig | undefined;
-  fieldKey: OrderFieldKey | undefined;
-  filterKey: FilterKey | undefined;
-  loaderData: T | undefined;
-  padsConfig: PadConfig | undefined;
+  padsConfig: PadConfig<DataEntry>;
 }
 
 export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   const { routesMetadata } = useRouteLoaderData('routes') as { routesMetadata: RouteConfig[] };
   const location = useLocation();
   const matches = useMatches();
+  const { i18n } = useTranslation();
+
+  // Use i18n language directly as the source of truth
+  const currentLanguage = i18n.language || 'es';
 
   const routeConfig = useMemo(() => {
     let matchedConfig: RouteConfig | undefined;
@@ -71,23 +66,30 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     return { route: routeConfig, fieldKey };
   }, [matches, routesMetadata, location.pathname]);
 
-  const fieldKey = routeConfig.fieldKey as OrderFieldKey;
-  const padsConfig = PADS_UI_CONFIG[fieldKey];
-  const loaderData = useRouteLoaderData(fieldKey || 'root') as T | undefined;
-  const result = { ...routeConfig, loaderData, fieldKey, padsConfig } as PartialRouteConfig<T>;
-  // Check if we have all required fields
-  if (!hasOptionalProperties(result as unknown as Record<keyof PartialRouteConfig<T>, unknown>)) {
-    // Only return RequiredRouteConfig if we also have loaderData
-    if (result.loaderData !== undefined) {
-      return {
-        route: result.route,
-        fieldKey: result.fieldKey,
-        filterKey: result.padsConfig?.filterKey,
-        loaderData: result.loaderData,
-        padsConfig: result.padsConfig,
-      } as RequiredRouteConfig<T>;
-    }
-  }
+  // Get language-aware pads configuration
+  const padsConfig = useMemo(() => {
+    if (!routeConfig.fieldKey) return undefined;
 
-  return result as RequiredRouteConfig<T>;
+    const languageCode = currentLanguage.startsWith('es')
+      ? 'es'
+      : currentLanguage.startsWith('cat')
+        ? 'cat'
+        : 'en';
+
+    const allPadsConfig = getPadsUIConfig(languageCode);
+    return allPadsConfig[routeConfig.fieldKey];
+  }, [routeConfig.fieldKey, currentLanguage]);
+
+  const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T;
+
+  // Build the result with all required properties
+  const result: RequiredRouteConfig<T> = {
+    route: routeConfig.route || ({} as RouteConfig),
+    fieldKey: routeConfig.fieldKey || ('' as OrderFieldKey),
+    filterKey: padsConfig?.filterKey || ('' as FilterKey),
+    loaderData: loaderData || ([] as unknown as T),
+    padsConfig: padsConfig || ({} as PadConfig<DataEntry>),
+  };
+
+  return result;
 }

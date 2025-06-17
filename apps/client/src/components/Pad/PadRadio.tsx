@@ -15,6 +15,12 @@ export const PadRadio: React.FC<PadProps> = ({
   label,
   isChecked,
   disabled,
+  name,
+  value,
+  index,
+  type,
+  filterKey,
+  metadata,
   ...rest
 }) => {
   const { togglePad } = useLayoutUi();
@@ -29,7 +35,22 @@ export const PadRadio: React.FC<PadProps> = ({
       onClick={() => {
         if (!disabled && !isChecked) {
           togglePad(fieldKey, id, PAD_TYPE.RADIO);
-          onSelect?.({ fieldKey, pad: { ...rest, id, label, isChecked: true, disabled } });
+          onSelect?.({
+            fieldKey,
+            pad: {
+              id,
+              label,
+              name,
+              value,
+              index,
+              type,
+              isChecked: true,
+              disabled,
+              filterKey,
+              metadata,
+              ...rest,
+            },
+          });
         }
       }}
     >

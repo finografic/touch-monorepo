@@ -2,20 +2,14 @@ import type { ValidGridSize } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { LangCode } from '@workspace/types';
 
+// Core application configuration
+export const NUM_GRID_ITEMS: ValidGridSize = 9 as const;
 export const DEFAULT_LANGUAGE: LangCode = 'es' as const;
 
-/**
- * Size of the main grid (3x3 = 9 positions)
- * Used as a reference point for grid-based calculations
- * - Main grid indices: 0 to 8
- * - Special pad at index: 9
- *
- * Matches ValidGridSize type which enforces grid sizes in multiples of 3:
- * - 9: 3x3 grid
- * - 12: 3x4 grid
- * - 15: 3x5 grid
- */
-export const NUM_GRID_ITEMS: ValidGridSize = 9 as const;
+// Language configuration for this project
+// Set to override browser language detection and force Spanish as default
+export const FORCE_DEFAULT_LANGUAGE: LangCode = 'es' as const;
+export const ENABLE_BROWSER_LANGUAGE_DETECTION = false as const;
 
 // Configuration expiry time (1 hour in milliseconds)
 export const CONFIG_EXPIRY_TIME_MS = 3_600_000;

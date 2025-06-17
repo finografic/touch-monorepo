@@ -1,1 +1,28 @@
-{}
+{
+  "ui": {
+    "buttons": {
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "view": "Ver",
+      "back": "Atrás",
+      "next": "Siguiente",
+      "previous": "Anterior",
+      "ok": "Aceptar",
+      "close": "Cerrar",
+      "submit": "Enviar",
+      "reset": "Restablecer",
+      "update": "Actualizar",
+      "add": "Añadir",
+      "remove": "Eliminar",
+      "select": "Seleccionar",
+      "clear": "Limpiar",
+      "all": "TODOS",
+      "start": "INICIAR",
+      "programTime": "Programar Tiempo",
+      "programProduct": "Programar Producto",
+      "repeatSelection": "Repetir Selección"
+    }
+  }
+}

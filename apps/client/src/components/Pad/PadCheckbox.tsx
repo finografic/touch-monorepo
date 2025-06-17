@@ -15,6 +15,12 @@ export const PadCheckbox: React.FC<PadProps> = ({
   label,
   isChecked,
   disabled,
+  name,
+  value,
+  index,
+  type,
+  filterKey,
+  metadata,
   ...rest
 }) => {
   const { togglePad } = useLayoutUi();
@@ -30,7 +36,22 @@ export const PadCheckbox: React.FC<PadProps> = ({
       onCheckedChange={() => {
         if (!disabled) {
           togglePad(fieldKey, id, PAD_TYPE.CHECKBOX);
-          onSelect?.({ fieldKey, pad: { ...rest, id, label, isChecked: !isChecked, disabled } });
+          onSelect?.({
+            fieldKey,
+            pad: {
+              id,
+              label,
+              name,
+              value,
+              index,
+              type,
+              isChecked: !isChecked,
+              disabled,
+              filterKey,
+              metadata,
+              ...rest,
+            },
+          });
         }
       }}
     >

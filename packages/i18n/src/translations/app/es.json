@@ -1,1 +1,7 @@
-{}
+{
+  "app": {
+    "title": "SERVI_FRESC_ES",
+    "tagline": "Servicio de temperatura perfecto",
+    "description": "Sistema de control de temperatura para bebidas"
+  }
+}
