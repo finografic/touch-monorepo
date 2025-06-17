@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import type { FieldError } from 'react-hook-form';
 import { Box, Flex, Grid, Heading, Text } from '@radix-ui/themes';
+import { useTranslation } from 'react-i18next';
 
 interface TranslationSectionProps {
   title: string;
@@ -12,6 +13,7 @@ interface TranslationSectionProps {
 
 export const TranslationSection: React.FC<TranslationSectionProps> = memo(
   ({ title, description, fieldName, errors }) => {
+    const { t } = useTranslation();
     const { register, control } = useFormContext();
     const { fields } = useFieldArray({
       control,
@@ -37,7 +39,7 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
                   {/* Base name (readonly) */}
                   <Box>
                     <Text size="1" weight="medium" color="gray">
-                      Base Name
+                      {t('ui.forms.labels.name')}
                     </Text>
                     <input {...register(`${fieldName}.${index}.name`)} readOnly className="form-input" />
                   </Box>
@@ -49,7 +51,7 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
                     </Text>
                     <input
                       {...register(`${fieldName}.${index}.nameEn`)}
-                      placeholder="English name"
+                      placeholder={t('ui.forms.placeholders.enterText')}
                       className="form-input"
                     />
                     {errors?.[index]?.nameEn && (
@@ -66,7 +68,7 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
                     </Text>
                     <input
                       {...register(`${fieldName}.${index}.nameEs`)}
-                      placeholder="Nombre en español"
+                      placeholder={t('ui.forms.placeholders.enterText')}
                       className="form-input"
                     />
                     {errors?.[index]?.nameEs && (
@@ -83,7 +85,7 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
                     </Text>
                     <input
                       {...register(`${fieldName}.${index}.nameCat`)}
-                      placeholder="Nom en català"
+                      placeholder={t('ui.forms.placeholders.enterText')}
                       className="form-input"
                     />
                     {errors?.[index]?.nameCat && (

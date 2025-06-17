@@ -64,45 +64,29 @@ export const stylesButtonBase = css`
     /* Position the chevron absolutely */
     svg {
       position: absolute;
-      left: 1.25rem;
-      transform: translateX(-25%);
-      width: 20px;
-      height: 20px;
+      width: 30px;
+      height: 30px;
       opacity: 0.8;
     }
   }
 
   /* For right-pointing chevrons */
   &.has-chevron-left {
-    /* Add padding to compensate for the chevron */
-    padding-left: 3rem;
+    padding-left: 3.5rem;
     padding-right: 2.5rem;
-
-    /* Position the chevron absolutely */
     svg {
-      position: absolute;
       left: 1.25rem;
       transform: translateX(25%);
-      width: 20px;
-      height: 20px;
-      opacity: 0.8;
     }
   }
 
   /* For right-pointing chevrons */
   &.has-chevron-right {
-    /* Add padding to compensate for the chevron */
     padding-left: 2.5rem;
-    padding-right: 3rem;
-
-    /* Position the chevron absolutely */
+    padding-right: 3.5rem;
     svg {
-      position: absolute;
       right: 1.25rem;
       transform: translateX(0);
-      width: 20px;
-      height: 20px;
-      opacity: 0.8;
     }
   }
 `;
@@ -110,10 +94,10 @@ export const stylesButtonBase = css`
 // Styles specific to navigation buttons
 export const stylesSmallButton = css`
   ${stylesButtonBase}
-  min-width: 180px;
-  padding: 0.8rem 3rem;
+  min-width: 200px;
+  padding: 1.1rem 4rem;
   margin: 0 0.33rem;
-  font-size: 1.1rem;
+  font-size: 1.4rem;
   line-height: 1;
   font-weight: 500;
   gap: 0.5rem;

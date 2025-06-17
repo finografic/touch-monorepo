@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { TimeInputGroup } from 'components/TimeInput/TimeInputGroup';
 import { Box, Flex } from '@radix-ui/themes';
 import { styles } from '../content.styles';
@@ -6,11 +7,8 @@ import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS, TIME_MIN_SECONDS } from 'consta
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
-const DESCRIPTIONS = {
-  page: 'Set the preparation time by specifying minutes and seconds. This time will be applied to all selected slots when you start.',
-} as const;
-
 export const TimePage = () => {
+  const { t } = useTranslation();
   const { orders } = useOrders();
   const { currentSessionId } = useSession();
 
@@ -26,13 +24,16 @@ export const TimePage = () => {
     setTotalSeconds(newTotalSeconds);
   }, []);
 
-  log('__DEV: ITEMS:', 'grey', selectedItems);
+  // TODO: temporal debugging
+  // log('__DEV: ITEMS:', 'grey', selectedItems);
 
   return (
     <Flex css={styles} className="time-content" gap="3" direction="column">
       <Flex className="page-description" gap="3" justify="center">
         <Box>
-          <p>Selected items: {selectedItems.length}</p>
+          <p>
+            {t('pages.orders.active')}: {selectedItems.length}
+          </p>
         </Box>
       </Flex>
 
@@ -41,7 +42,7 @@ export const TimePage = () => {
           <TimeInputGroup
             value={totalSeconds}
             onChange={handleTimeChange}
-            description={DESCRIPTIONS.page}
+            description={t('components.temperatureControl.initial')}
             min={TIME_MIN_SECONDS}
             max={TIME_MAX_SECONDS}
           />

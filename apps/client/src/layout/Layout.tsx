@@ -1,5 +1,6 @@
 import { Suspense, useEffect } from 'react';
 import type { FC } from 'react';
+import { useTranslation } from 'react-i18next';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
 import { Navigation } from 'components/Navigation/Navigation';
@@ -17,6 +18,7 @@ import { DataDialog } from 'components/DataDialog/DataDialog';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 
 export const Layout: FC = () => {
+  const { t } = useTranslation();
   const isMounted: boolean = !!useIsMounted();
   const location = useLocation();
   const navigate = useNavigate();
@@ -27,7 +29,7 @@ export const Layout: FC = () => {
   // }, [location.pathname, navigate]);
 
   if (!isMounted) {
-    return <Loader message="Loading..." />;
+    return <Loader message={t('ui.states.loading')} />;
   }
 
   return (
@@ -45,7 +47,7 @@ export const Layout: FC = () => {
                         <section>
                           <header className="page-header">{/* Page header content will go here */}</header>
                           <div className="page-content" role="main">
-                            <Suspense fallback={<Loader message="Loading..." />}>
+                            <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
                               <Outlet />
                             </Suspense>
                           </div>

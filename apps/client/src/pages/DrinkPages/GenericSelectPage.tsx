@@ -1,6 +1,7 @@
 import { stylesItemsGrid } from './grid.styles';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
 import { NoItems } from 'components/NoItems/NoItems';
+import { useTranslation } from 'react-i18next';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
@@ -11,6 +12,7 @@ import type { DataEntry } from 'types/data.types';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
 export const GenericSelectPage = () => {
+  const { t } = useTranslation();
   const { fieldKey, padsConfig } = useRouteConfig();
   const { pads } = useLayoutUi();
   const { orders, setOrdersFilter } = useOrders();
@@ -66,7 +68,7 @@ export const GenericSelectPage = () => {
   };
 
   if (!pads?.length) {
-    return <NoItems message="No entries found" />;
+    return <NoItems message={t('ui.states.empty')} />;
   }
 
   const padType: PadType = pads[0].type;

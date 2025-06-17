@@ -31,25 +31,47 @@
       "change": "Change Language"
     },
     "temperatureControl": {
-      "initial": "Initial Temperature",
+      "initial": "Set preparation time by specifying minutes and seconds",
       "target": "Target Temperature",
       "current": "Current Temperature",
       "cooling": "Cooling",
       "heating": "Heating",
-      "maintaining": "Maintaining"
+      "maintaining": "Volumes"
     },
     "orderStatus": {
-      "pending": "Pending",
-      "processing": "Processing",
+      "pending": "Drink Subtypes",
+      "processing": "Drink Types",
       "cooling": "Cooling",
       "heating": "Heating",
       "ready": "Ready",
-      "completed": "Completed",
+      "completed": "Container Types",
       "cancelled": "Cancelled"
+    },
+    "admin": {
+      "translation": {
+        "management": "Translation Management",
+        "editTables": "Edit translations for database tables",
+        "drinkSubtypes": {
+          "title": "Drink Subtypes",
+          "description": "Wine and beer subtypes (rubia, negra, tinto, blanco)"
+        },
+        "volumes": {
+          "title": "Volumes",
+          "description": "Container volumes (2L, 1.5L, 50cl, 33cl, etc.)"
+        },
+        "drinkTypes": {
+          "title": "Drink Types",
+          "description": "Main drink categories (cerveza, vino, cava, licor, etc.)"
+        },
+        "containerTypes": {
+          "title": "Container Types",
+          "description": "Container materials (plastico, vidrio, metal)"
+        }
+      }
     }
   },
   "notifications": {
-    "orderReady": "Your order is ready!",
+    "orderReady": "Translations updated successfully!",
     "temperatureReached": "Target temperature reached",
     "systemError": "System error occurred",
     "orderCancelled": "Order cancelled"

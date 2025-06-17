@@ -3,6 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Box, Button, Callout, Flex, Heading, Spinner, Text } from '@radix-ui/themes';
+import { useTranslation } from 'react-i18next';
 import { TranslationForm } from './components/TranslationForm';
 import { styles } from './AdminPage.styles';
 import { useBatchUpdateTranslations, useGetAllTranslations } from 'api/hooks/useTranslations';
@@ -13,54 +14,55 @@ import type {
   VolumeUpdate,
 } from 'api/endpoints/translations.endpoints';
 
-// Zod schema for translation validation - matching API response structure
-const translationSchema = z.object({
-  drinkSubtypes: z.array(
-    z.object({
-      id: z.string(),
-      name: z.string().min(1, 'Name is required'),
-      nameEn: z.string().min(1, 'English name is required'),
-      nameEs: z.string().min(1, 'Spanish name is required'),
-      nameCat: z.string().min(1, 'Catalan name is required'),
-      drinkTypeId: z.string(),
-      isActive: z.boolean().optional(),
-    }),
-  ),
-  volumes: z.array(
-    z.object({
-      id: z.string(),
-      name: z.string().min(1, 'Name is required'),
-      nameEn: z.string().min(1, 'English name is required'),
-      nameEs: z.string().min(1, 'Spanish name is required'),
-      nameCat: z.string().min(1, 'Catalan name is required'),
-      isActive: z.boolean().optional(),
-    }),
-  ),
-  drinkTypes: z.array(
-    z.object({
-      id: z.string(),
-      name: z.string().min(1, 'Name is required'),
-      nameEn: z.string().min(1, 'English name is required'),
-      nameEs: z.string().min(1, 'Spanish name is required'),
-      nameCat: z.string().min(1, 'Catalan name is required'),
-      hasSubtypes: z.boolean().optional(),
-      isActive: z.boolean().optional(),
-    }),
-  ),
-  containerTypes: z.array(
-    z.object({
-      id: z.string(),
-      name: z.string().min(1, 'Name is required'),
-      nameEn: z.string().min(1, 'English name is required'),
-      nameEs: z.string().min(1, 'Spanish name is required'),
-      nameCat: z.string().min(1, 'Catalan name is required'),
-      thermalConductivity: z.number().optional(),
-      isActive: z.boolean().optional(),
-    }),
-  ),
-});
+// Create schema inside component to use translation function
+const createTranslationSchema = (t: (key: string) => string) =>
+  z.object({
+    drinkSubtypes: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1, t('ui.forms.validation.required')),
+        nameEn: z.string().min(1, t('ui.forms.validation.required')),
+        nameEs: z.string().min(1, t('ui.forms.validation.required')),
+        nameCat: z.string().min(1, t('ui.forms.validation.required')),
+        drinkTypeId: z.string(),
+        isActive: z.boolean().optional(),
+      }),
+    ),
+    volumes: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1, t('ui.forms.validation.required')),
+        nameEn: z.string().min(1, t('ui.forms.validation.required')),
+        nameEs: z.string().min(1, t('ui.forms.validation.required')),
+        nameCat: z.string().min(1, t('ui.forms.validation.required')),
+        isActive: z.boolean().optional(),
+      }),
+    ),
+    drinkTypes: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1, t('ui.forms.validation.required')),
+        nameEn: z.string().min(1, t('ui.forms.validation.required')),
+        nameEs: z.string().min(1, t('ui.forms.validation.required')),
+        nameCat: z.string().min(1, t('ui.forms.validation.required')),
+        hasSubtypes: z.boolean().optional(),
+        isActive: z.boolean().optional(),
+      }),
+    ),
+    containerTypes: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string().min(1, t('ui.forms.validation.required')),
+        nameEn: z.string().min(1, t('ui.forms.validation.required')),
+        nameEs: z.string().min(1, t('ui.forms.validation.required')),
+        nameCat: z.string().min(1, t('ui.forms.validation.required')),
+        thermalConductivity: z.number().optional(),
+        isActive: z.boolean().optional(),
+      }),
+    ),
+  });
 
-type TranslationFormData = z.infer<typeof translationSchema>;
+type TranslationFormData = z.infer<ReturnType<typeof createTranslationSchema>>;
 
 // Default empty data structure - will be populated from API
 const getEmptyFormData = (): TranslationFormData => ({
@@ -71,6 +73,7 @@ const getEmptyFormData = (): TranslationFormData => ({
 });
 
 export const AdminPage: React.FC = () => {
+  const { t } = useTranslation();
   const { data: translationsData, isLoading, isError, error } = useGetAllTranslations();
   const batchUpdateMutation = useBatchUpdateTranslations();
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; message: string } | null>(
@@ -82,6 +85,9 @@ export const AdminPage: React.FC = () => {
 
   // Memoize default values to prevent unnecessary re-renders
   const defaultValues = useMemo(() => getEmptyFormData(), []);
+
+  // Create schema with translations
+  const translationSchema = useMemo(() => createTranslationSchema(t), [t]);
 
   const methods = useForm<TranslationFormData>({
     resolver: zodResolver(translationSchema),
@@ -206,22 +212,22 @@ export const AdminPage: React.FC = () => {
         // Only submit if there are actual changes
         if (Object.keys(updates).length > 0) {
           await batchUpdateMutation.mutateAsync(updates);
-          setSubmitMessage({ type: 'success', message: 'Translations updated successfully!' });
+          setSubmitMessage({ type: 'success', message: t('notifications.orderReady') });
           console.log('Translations updated successfully');
         } else {
-          setSubmitMessage({ type: 'success', message: 'No changes to save.' });
+          setSubmitMessage({ type: 'success', message: t('ui.states.saved') });
           console.log('No changes to save');
         }
       } catch (error) {
-        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
-        setSubmitMessage({ type: 'error', message: `Failed to update translations: ${errorMessage}` });
+        const errorMessage = error instanceof Error ? error.message : t('ui.states.error');
+        setSubmitMessage({ type: 'error', message: `${t('ui.states.error')}: ${errorMessage}` });
         console.error('Failed to update translations:', error);
       }
 
       // Clear message after 5 seconds
       setTimeout(() => setSubmitMessage(null), 5000);
     },
-    [translationsData, batchUpdateMutation.mutateAsync],
+    [translationsData, batchUpdateMutation.mutateAsync, t],
   );
 
   // Memoize the form content to prevent unnecessary re-renders - MOVED BEFORE EARLY RETURNS
@@ -233,14 +239,16 @@ export const AdminPage: React.FC = () => {
 
           <Flex justify="center" gap="4">
             <Button type="button" variant="soft" color="gray" onClick={handleReset}>
-              Reset
+              {t('ui.buttons.reset')}
             </Button>
             <Button
               type="submit"
               variant="solid"
               disabled={methods.formState.isSubmitting || batchUpdateMutation.isPending}
             >
-              {methods.formState.isSubmitting || batchUpdateMutation.isPending ? 'Saving...' : 'Save Changes'}
+              {methods.formState.isSubmitting || batchUpdateMutation.isPending
+                ? t('ui.states.saving')
+                : t('ui.buttons.save')}
             </Button>
           </Flex>
         </Flex>
@@ -252,6 +260,7 @@ export const AdminPage: React.FC = () => {
       handleReset,
       methods.formState.isSubmitting,
       batchUpdateMutation.isPending,
+      t,
     ],
   );
 
@@ -260,7 +269,7 @@ export const AdminPage: React.FC = () => {
       <Box css={styles} className="admin-page">
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
-          <Text>Loading translations...</Text>
+          <Text>{t('ui.states.loading')}</Text>
         </Flex>
       </Box>
     );
@@ -271,7 +280,7 @@ export const AdminPage: React.FC = () => {
       <Box css={styles} className="admin-page">
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Text color="red" size="4">
-            Error loading translations: {error?.message || 'Unknown error'}
+            {t('ui.states.error')}: {error?.message || t('ui.states.error')}
           </Text>
         </Flex>
       </Box>
@@ -283,11 +292,11 @@ export const AdminPage: React.FC = () => {
       <Box css={styles} className="admin-page">
         <Flex direction="column" gap="6" p="6">
           <Heading size="8" align="center">
-            Translation Management
+            {t('pages.admin.title')}
           </Heading>
 
           <Text size="3" align="center" color="gray">
-            Edit translations for database tables
+            {t('components.admin.translation.editTables')}
           </Text>
 
           {submitMessage && (
