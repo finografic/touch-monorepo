@@ -17,8 +17,7 @@ export const styles = css`
     border-color: transparent;
     svg {
       color: ${colors.textDark};
-      width: 24px;
-      height: 24px;
+      /* width and height now handled by .icon class */
     }
     &:hover {
       border-color: transparent;

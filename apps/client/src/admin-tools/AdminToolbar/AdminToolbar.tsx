@@ -1,12 +1,11 @@
 import { Box, Flex } from '@radix-ui/themes';
-import { TextAlignLeftIcon, TimerIcon } from '@radix-ui/react-icons';
 import { ConfigTimer } from '../../components/ConfigTimer/ConfigTimer';
 import { styles } from './AdminToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
-import { LanguageIcon } from 'styles/icons';
+import { LanguageIcon, ShieldCheckIcon, TimerIcon, WindowIcon } from 'styles/icons';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
 import { useNavigate } from 'react-router-dom';
 
@@ -47,21 +46,27 @@ export const AdminToolbar = () => {
   return (
     <div css={styles} className="admin-tools-container">
       <Flex gap="3" align="start">
-        <Box width="64px">
-          <button className="btn btn-dialog" onClick={() => setIsAdminDialogOpen(!isAdminDialogOpen)}>
-            <TextAlignLeftIcon />
+        <Box className="button-box">
+          <button className="btn" onClick={() => setIsAdminDialogOpen(!isAdminDialogOpen)}>
+            <ShieldCheckIcon />
           </button>
         </Box>
 
-        <Box width="64px">
+        <Box className="button-box">
           <button className="btn btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>
             <LanguageIcon />
           </button>
         </Box>
 
+        <Box className="button-box">
+          <button className="btn" onClick={() => setIsAdminDialogOpen(!isAdminDialogOpen)}>
+            <WindowIcon />
+          </button>
+        </Box>
+
         {/* Timer visibility toggle - only show if there's an active timer */}
         {hasActiveTimer && (
-          <Box width="64px">
+          <Box className="button-box">
             <button
               className={`btn btn-admin ${isTimerVisible ? 'active' : ''}`}
               onClick={() => setIsTimerVisible(!isTimerVisible)}

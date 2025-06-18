@@ -1,0 +1,102 @@
+/* Universal Icon Styles - Attribute-Based Targeting */
+/* More effective approach: target Radix icons by their width/height attributes */
+
+/* NOTE: Primary targeting: All SVG icons with width/height attributes */
+svg[width][height].icon {
+  /* NORMALIZED sizing - forces all icon libraries to same visual size */
+  /* 20px - sweet spot between 15px and 24px */
+  /* width: 1.25rem;
+  height: 1.25rem; */
+  width: 2rem;
+  height: 2rem;
+  display: inline-block;
+  flex-shrink: 0;
+
+  /* Smooth transitions for interactive states */
+  transition: all 0.2s ease-in-out;
+
+  /* Inherit text color by default */
+  color: currentColor;
+}
+
+/* Fallback: Generic icon class targeting */
+svg.icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  display: inline-block;
+  flex-shrink: 0;
+  transition: all 0.2s ease-in-out;
+  color: currentColor;
+}
+
+/* Contextual sizing - scales with text when needed */
+svg[width][height].icon.icon-contextual,
+svg.icon.icon-contextual {
+  width: 1em;
+  height: 1em;
+}
+
+/* Interactive states for buttons */
+.button svg[width][height].icon,
+.icon-button svg[width][height].icon,
+.button .icon,
+.icon-button .icon {
+  cursor: pointer;
+}
+
+.button:hover svg[width][height].icon,
+.icon-button:hover svg[width][height].icon,
+.button:hover .icon,
+.icon-button:hover .icon {
+  /* Subtle hover effect */
+  transform: scale(1.05);
+}
+
+.button:disabled svg[width][height].icon,
+.icon-button:disabled svg[width][height].icon,
+.button:disabled .icon,
+.icon-button:disabled .icon {
+  /* Disabled state */
+  opacity: 0.5;
+  transform: none;
+}
+
+/* Size variants */
+svg[width][height].icon.icon-sm,
+svg.icon.icon-sm {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+svg[width][height].icon.icon-md,
+svg.icon.icon-md {
+  width: 1rem;
+  height: 1rem;
+}
+
+svg[width][height].icon.icon-lg,
+svg.icon.icon-lg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+svg[width][height].icon.icon-xl,
+svg.icon.icon-xl {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Loading state */
+svg[width][height].icon.icon-loading,
+svg.icon.icon-loading {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -19,33 +19,37 @@ export const styles = css`
     box-sizing: border-box;
     z-index: 1500;
 
-    > div {
-      padding-left: 2rem;
+    .button-box {
+      width: auto;
       height: 100%;
       display: flex;
+      justify-content: center;
       align-items: center;
+      box-sizing: border-box;
+      margin-left: 0.25rem;
+      &:first-child {
+        margin-left: 2rem;
+      }
     }
 
-    button.btn-admin,
-    button.btn-dialog,
-    button.btn-query {
+    button {
       ${stylesButton}
-      min-width: 60px;
-      border-color: transparent;
-      svg {
-        color: ${colors.textDark};
-        width: 24px;
-        height: 24px;
+      padding: 0.75rem 1rem;
+      min-width: auto;
+      width: auto;
+      border-width: 0;
+      svg.icon {
+        color: ${colors.text};
       }
       &:hover {
         border-color: transparent;
-        svg {
+        svg.icon {
           color: ${colors.info};
         }
       }
 
       &.active {
-        svg {
+        svg.icon {
           color: ${colors.warningDark};
         }
       }

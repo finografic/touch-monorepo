@@ -1,30 +1,68 @@
-// NOTE: LUCIDE ICONS - G
+// NOTE: LUCIDE ICONS - Enhanced with auto-className
 // ref + search: https://lucide.dev/icons/languages
 
-export {
-  CountdownTimerIcon,
-  Cross2Icon,
-  ExclamationTriangleIcon,
-  ReloadIcon,
-  StarIcon,
-  TextAlignLeftIcon,
-  TextAlignTopIcon,
-  TimerIcon,
+import {
+  ChevronDownIcon as _ChevronDownIcon,
+  CountdownTimerIcon as _CountdownTimerIcon,
+  Cross2Icon as _Cross2Icon,
+  DoubleArrowLeftIcon as _DoubleArrowLeftIcon,
+  DoubleArrowRightIcon as _DoubleArrowRightIcon,
+  ExclamationTriangleIcon as _ExclamationTriangleIcon,
+  HamburgerMenuIcon as _HamburgerMenuIcon,
+  ReloadIcon as _ReloadIcon,
+  StarIcon as _StarIcon,
+  TextAlignLeftIcon as _TextAlignLeftIcon,
+  TextAlignTopIcon as _TextAlignTopIcon,
+  TimerIcon as _TimerIcon,
 } from '@radix-ui/react-icons';
+
+import {
+  Coffee as _CoffeeIcon,
+  Languages as _LanguagesIcon,
+  ShieldCheck as _ShieldCheckIcon,
+  Thermometer as _TempIcon,
+  AppWindowMac as _WindowIcon,
+  Wine as _WineIcon,
+} from 'lucide-react';
+
+import React, { forwardRef } from 'react';
+import clsx from 'clsx';
+
+// Helper function to create icon wrapper with auto-className (.icon)
+const createIconWrapper = (IconComponent: React.ComponentType<any>) => {
+  return forwardRef<any, any>(({ className, ...props }, ref) =>
+    React.createElement(IconComponent, {
+      ref,
+      className: clsx('icon', className),
+      ...props,
+    }),
+  );
+};
+
+// Enhanced exports with auto-className
+export const CountdownTimerIcon = createIconWrapper(_CountdownTimerIcon);
+export const Cross2Icon = createIconWrapper(_Cross2Icon);
+export const ExclamationTriangleIcon = createIconWrapper(_ExclamationTriangleIcon);
+export const ReloadIcon = createIconWrapper(_ReloadIcon);
+export const ShieldCheckIcon = createIconWrapper(_ShieldCheckIcon);
+export const StarIcon = createIconWrapper(_StarIcon);
+export const TextAlignLeftIcon = createIconWrapper(_TextAlignLeftIcon);
+export const TextAlignTopIcon = createIconWrapper(_TextAlignTopIcon);
+export const TimerIcon = createIconWrapper(_TimerIcon);
 
 // buttons / chevrons
-export { DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons';
+export const DoubleArrowLeftIcon = createIconWrapper(_DoubleArrowLeftIcon);
+export const DoubleArrowRightIcon = createIconWrapper(_DoubleArrowRightIcon);
 
-export {
-  Cross2Icon as CloseIcon,
-  ChevronDownIcon as DropdownIcon,
-  HamburgerMenuIcon as MenuIcon,
-} from '@radix-ui/react-icons';
+// Aliases with auto-className
+export const CloseIcon = createIconWrapper(_Cross2Icon);
+export const DropdownIcon = createIconWrapper(_ChevronDownIcon);
+export const MenuIcon = createIconWrapper(_HamburgerMenuIcon);
 
-export {
-  Coffee as CoffeeIcon,
-  LanguagesIcon as LanguageIcon,
-  Thermometer as TempIcon,
-  // Timer as TimerIcon,
-  Wine as WineIcon,
-} from 'lucide-react';
+// Lucide icons with auto-className
+
+export const CoffeeIcon = createIconWrapper(_CoffeeIcon);
+export const LanguageIcon = createIconWrapper(_LanguagesIcon);
+export const TempIcon = createIconWrapper(_TempIcon);
+export const WindowIcon = createIconWrapper(_WindowIcon);
+export const WineIcon = createIconWrapper(_WineIcon);

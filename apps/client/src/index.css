@@ -1,4 +1,5 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+@import './styles/icons/icons.css';
 
 @plugin "tailwindcss-animate";
 

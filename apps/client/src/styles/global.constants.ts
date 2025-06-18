@@ -20,7 +20,7 @@ export const layout = {
     height: '120px',
   },
   footer: {
-    height: '80px',
+    height: '100px',
   },
 } as const;
 
