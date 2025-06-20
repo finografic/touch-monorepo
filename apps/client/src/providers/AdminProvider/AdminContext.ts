@@ -8,13 +8,15 @@ export const SETTER_PREFIX = '';
 
 export enum AdminKeys {
   isAdminToolsVisible = 'isAdminToolsVisible',
-  isAdminDialogOpen = 'isAdminDialogOpen',
+  isAdminToolsDialogOpen = 'isAdminToolsDialogOpen',
+  isLanguageDialogOpen = 'isLanguageDialogOpen',
   isTimerVisible = 'isTimerVisible',
 }
 
 export const defaultValue = {
   isAdminToolsVisible: true,
-  isAdminDialogOpen: false,
+  isAdminToolsDialogOpen: false,
+  isLanguageDialogOpen: false,
   isTimerVisible: true,
 };
 

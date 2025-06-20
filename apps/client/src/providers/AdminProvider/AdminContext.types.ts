@@ -3,7 +3,8 @@ import type { AdminKeys, SETTER_PREFIX } from './AdminContext';
 
 export interface AdminValues {
   [AdminKeys.isAdminToolsVisible]: boolean;
-  [AdminKeys.isAdminDialogOpen]: boolean;
+  [AdminKeys.isAdminToolsDialogOpen]: boolean;
+  [AdminKeys.isLanguageDialogOpen]: boolean;
   [AdminKeys.isTimerVisible]: boolean;
 }
 

@@ -1,11 +1,16 @@
 import { DataList } from '@radix-ui/themes';
+import { styles } from './OrderDataList.styles';
 
 export const OrderDataList = ({ data }: { data: any }) => {
   console.log('OrderDataList received data:', data);
 
   if (!data) {
     console.log('OrderDataList: No data provided');
-    return null;
+    return (
+      <div css={styles} className="data-list-empty">
+        No order data available
+      </div>
+    );
   }
 
   // Helper function to format field names for display
@@ -41,30 +46,32 @@ export const OrderDataList = ({ data }: { data: any }) => {
   };
 
   return (
-    <DataList.Root>
-      {/* Show basic item info */}
-      {data.itemType && (
-        <DataList.Item>
-          <DataList.Label className="label">Item Type</DataList.Label>
-          <DataList.Value className="value">{data.itemType}</DataList.Value>
-        </DataList.Item>
-      )}
-
-      {data.itemNumber !== undefined && (
-        <DataList.Item>
-          <DataList.Label className="label">Item Number</DataList.Label>
-          <DataList.Value className="value">{data.itemNumber}</DataList.Value>
-        </DataList.Item>
-      )}
-
-      {/* Dynamically iterate over filters */}
-      {data.filters &&
-        Object.entries(data.filters).map(([fieldKey, filterData]: [string, any]) => (
-          <DataList.Item key={fieldKey}>
-            <DataList.Label className="label">{formatFieldName(fieldKey)}</DataList.Label>
-            <DataList.Value className="value">{extractLookupValue(fieldKey, filterData)}</DataList.Value>
+    <div css={styles} className="data-list-wrapper">
+      <DataList.Root className="data-list">
+        {/* Show basic item info */}
+        {data.itemType && (
+          <DataList.Item>
+            <DataList.Label className="label">Item Type</DataList.Label>
+            <DataList.Value className="value">{data.itemType}</DataList.Value>
           </DataList.Item>
-        ))}
-    </DataList.Root>
+        )}
+
+        {data.itemNumber !== undefined && (
+          <DataList.Item>
+            <DataList.Label className="label">Item Number</DataList.Label>
+            <DataList.Value className="value">{data.itemNumber}</DataList.Value>
+          </DataList.Item>
+        )}
+
+        {/* Dynamically iterate over filters */}
+        {data.filters &&
+          Object.entries(data.filters).map(([fieldKey, filterData]: [string, any]) => (
+            <DataList.Item key={fieldKey}>
+              <DataList.Label className="label">{formatFieldName(fieldKey)}</DataList.Label>
+              <DataList.Value className="value">{extractLookupValue(fieldKey, filterData)}</DataList.Value>
+            </DataList.Item>
+          ))}
+      </DataList.Root>
+    </div>
   );
 };

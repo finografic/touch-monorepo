@@ -1,0 +1,129 @@
+import React, { useState } from 'react';
+import { Button, Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
+import { Cross2Icon } from '@radix-ui/react-icons';
+import { styles } from './GenericDialog.styles';
+import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
+
+interface GenericDialogProps {
+  isOpen: boolean;
+  onClose: () => void;
+  config: DialogConfig;
+  defaultTab?: string;
+}
+
+export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, config, defaultTab }) => {
+  const [activeTab, setActiveTab] = useState(defaultTab || config.tabs[0]?.id || '');
+
+  const hasTabs = config.tabs.length > 1;
+  const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
+
+  const defaultTheme = {
+    appearance: 'dark' as const,
+    grayColor: 'sand' as const,
+    accentColor: 'blue' as const,
+    scaling: '110%' as const,
+  };
+
+  const theme = { ...defaultTheme, ...config.theme };
+
+  // Create dynamic styles for max width/height constraints
+  const dynamicStyles = {
+    ...(config.maxWidth && { maxWidth: config.maxWidth }),
+    ...(config.maxHeight && { maxHeight: config.maxHeight }),
+    ...(config.minWidth && { minWidth: config.minWidth }),
+    ...(config.minHeight && { minHeight: config.minHeight }),
+  };
+
+  return (
+    <Theme
+      appearance={theme.appearance}
+      grayColor={theme.grayColor}
+      accentColor={theme.accentColor}
+      scaling={theme.scaling}
+    >
+      <Dialog.Root open={isOpen} onOpenChange={onClose}>
+        <Dialog.Content size={config.size || '4'} css={styles} style={dynamicStyles}>
+          {/* Header - Fixed at top */}
+          <div className="dialog-header">
+            <Flex justify="between" align="center" mb="4">
+              <Dialog.Title size="5">{config.title}</Dialog.Title>
+              <IconButton className="close-button" variant="ghost" onClick={onClose}>
+                <Cross2Icon width="20" height="20" />
+              </IconButton>
+            </Flex>
+
+            {/* Accessible description for screen readers */}
+            <Dialog.Description
+              style={{
+                position: 'absolute',
+                left: '-10000px',
+                width: '1px',
+                height: '1px',
+                overflow: 'hidden',
+              }}
+            >
+              {config.title} -{' '}
+              {hasTabs ? 'Navigate between tabs to access different sections' : 'Dialog content'}
+            </Dialog.Description>
+          </div>
+
+          {/* Content Area - Flexible height */}
+          <div className="dialogContent">
+            {hasTabs ? (
+              /* Multi-tab layout */
+              <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
+                <Tabs.List>
+                  {config.tabs.map((tab) => (
+                    <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
+                      {tab.label}
+                    </Tabs.Trigger>
+                  ))}
+                </Tabs.List>
+
+                <div className="tabContent">
+                  {config.tabs.map((tab) => (
+                    <Tabs.Content key={tab.id} value={tab.id}>
+                      {tab.content}
+                    </Tabs.Content>
+                  ))}
+                </div>
+              </Tabs.Root>
+            ) : (
+              /* Single content layout (no tabs) */
+              <div className="singleContent">{currentTab?.content}</div>
+            )}
+          </div>
+
+          {/* Footer - Fixed at bottom */}
+          {config.footer && (
+            <div className="footer">
+              <Flex justify="end" gap="4" width="100%">
+                {config.footer.secondaryButton && (
+                  <Button
+                    variant={config.footer.secondaryButton.variant || 'soft'}
+                    color={config.footer.secondaryButton.color || 'gray'}
+                    size="2"
+                    onClick={config.footer.secondaryButton.onClick}
+                  >
+                    {config.footer.secondaryButton.label}
+                  </Button>
+                )}
+
+                {config.footer.primaryButton && (
+                  <Button
+                    variant={config.footer.primaryButton.variant || 'soft'}
+                    color={config.footer.primaryButton.color || 'blue'}
+                    size="2"
+                    onClick={config.footer.primaryButton.onClick}
+                  >
+                    {config.footer.primaryButton.label}
+                  </Button>
+                )}
+              </Flex>
+            </div>
+          )}
+        </Dialog.Content>
+      </Dialog.Root>
+    </Theme>
+  );
+};

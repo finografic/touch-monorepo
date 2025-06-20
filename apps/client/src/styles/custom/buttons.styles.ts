@@ -36,7 +36,7 @@ export const stylesButtonBase = css`
     border: ${layout.borderWidth} solid ${colors.infoDark};
     border-color: ${colors.info};
     background-color: ${colors.info}11;
-    transform: scale(1.05);
+    transform: scale(1.025);
   }
 
   &:disabled,

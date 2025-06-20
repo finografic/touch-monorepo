@@ -14,7 +14,6 @@ import { Loader } from '../components/Loader/Loader';
 import { DevProvider } from 'providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
-import { DataDialog } from 'components/DataDialog/DataDialog';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 
 export const Layout: FC = () => {
@@ -56,7 +55,6 @@ export const Layout: FC = () => {
                           </nav>
                         </section>
                       </div>
-                      <DataDialog />
                     </main>
                     <Footer />
                   </div>

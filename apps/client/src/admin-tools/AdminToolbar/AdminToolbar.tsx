@@ -8,13 +8,23 @@ import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
 import { LanguageIcon, ShieldCheckIcon, TimerIcon, WindowIcon } from 'styles/icons';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
 import { useNavigate } from 'react-router-dom';
+import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
+import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
 
 export const AdminToolbar = () => {
-  const { isAdminToolsVisible, isTimerVisible, setIsTimerVisible, isAdminDialogOpen, setIsAdminDialogOpen } =
-    useAdmin();
+  const {
+    isAdminToolsVisible,
+    isTimerVisible,
+    setIsTimerVisible,
+    isAdminToolsDialogOpen,
+    setIsAdminToolsDialogOpen,
+    isLanguageDialogOpen,
+    setIsLanguageDialogOpen,
+  } = useAdmin();
   const { saveConfig } = useConfigStorage();
   const [hasActiveTimer, setHasActiveTimer] = useState(false);
   const navigate = useNavigate();
+
   // Check if there's an active config timer
   useEffect(() => {
     const checkActiveTimer = () => {
@@ -44,46 +54,53 @@ export const AdminToolbar = () => {
   if (!isAdminToolsVisible) return null;
 
   return (
-    <div css={styles} className="admin-tools-container">
-      <Flex gap="3" align="start">
-        <Box className="button-box">
-          <button className="btn" onClick={() => setIsAdminDialogOpen(!isAdminDialogOpen)}>
-            <ShieldCheckIcon />
-          </button>
-        </Box>
-
-        <Box className="button-box">
-          <button className="btn btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>
-            <LanguageIcon />
-          </button>
-        </Box>
-
-        <Box className="button-box">
-          <button className="btn" onClick={() => setIsAdminDialogOpen(!isAdminDialogOpen)}>
-            <WindowIcon />
-          </button>
-        </Box>
-
-        {/* Timer visibility toggle - only show if there's an active timer */}
-        {hasActiveTimer && (
+    <>
+      <div css={styles} className="admin-tools-container">
+        <Flex gap="3" align="start">
           <Box className="button-box">
-            <button
-              className={`btn btn-admin ${isTimerVisible ? 'active' : ''}`}
-              onClick={() => setIsTimerVisible(!isTimerVisible)}
-              title="Toggle Timer"
-            >
-              <TimerIcon />
+            <button className="btn btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>
+              <ShieldCheckIcon />
             </button>
           </Box>
-        )}
 
-        {/* Config expiry timer */}
-        {isTimerVisible && hasActiveTimer && (
-          <Box className="timer-container">
-            <ConfigTimer />
+          <Box className="button-box">
+            <button className="btn" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
+              <LanguageIcon />
+            </button>
           </Box>
-        )}
-      </Flex>
-    </div>
+
+          <Box className="button-box">
+            <button className="btn" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
+              <WindowIcon />
+            </button>
+          </Box>
+
+          {/* Timer visibility toggle - only show if there's an active timer */}
+          {hasActiveTimer && (
+            <Box className="button-box">
+              <button
+                className={`btn btn-admin ${isTimerVisible ? 'active' : ''}`}
+                onClick={() => setIsTimerVisible(!isTimerVisible)}
+                title="Toggle Timer"
+              >
+                <TimerIcon />
+              </button>
+            </Box>
+          )}
+
+          {/* Config expiry timer */}
+          {isTimerVisible && hasActiveTimer && (
+            <Box className="timer-container">
+              <ConfigTimer />
+            </Box>
+          )}
+        </Flex>
+      </div>
+
+      {/* Dialogs */}
+      <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
+
+      <AdminToolsDialog isOpen={isAdminToolsDialogOpen} onClose={() => setIsAdminToolsDialogOpen(false)} />
+    </>
   );
 };
