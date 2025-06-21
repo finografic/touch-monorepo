@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
-import { Box, Button, Callout, Card, Flex, IconButton, Text, TextField } from '@radix-ui/themes';
+import { Box, Callout, Flex, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
-import { InfoCircledIcon, PlusIcon, TrashIcon } from '@radix-ui/react-icons';
-import { AdminContentLayout, AdminSection } from '../shared';
-import { flagAssets } from 'components/LanguageSelector/flags/images';
+import { InfoCircledIcon } from '@radix-ui/react-icons';
+import { AdminContentLayout, AdminSection, SectionHeader } from '../shared';
+import { flagAssets } from 'components/LanguageSelector/languages/images';
 import { getFlagDataByIso } from 'components/LanguageSelector/language-selector.utils';
 import { LANGUAGE_CONFIG } from 'constants/language.constants';
 import type { LanguageInfo, RegionLocale } from '@workspace/types';
 import { styles } from './AdminLanguagesPage.styles';
+import { SearchableLanguageInput } from 'components/SearchableLanguageInput';
+import languagesData from 'components/LanguageSelector/languages/languages.data.min.json';
+import type { Country } from 'components/LanguageSelector/languages/country.types';
+import { ConfiguredLanguagesList, SelectedLanguagesList } from './components';
+
+interface SelectedLanguage {
+  languageCode: string;
+  languageName: string;
+  countryName: string;
+  countryCode: string;
+  flagUrl: string;
+  nativeName?: string;
+  emoji?: string;
+}
 
 export const AdminLanguagesPage: React.FC = () => {
   const { t } = useTranslation();
@@ -30,6 +44,7 @@ export const AdminLanguagesPage: React.FC = () => {
   const [newLanguageLabel, setNewLanguageLabel] = useState('');
   const [newLanguageNative, setNewLanguageNative] = useState('');
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
+  const [selectedLanguages, setSelectedLanguages] = useState<SelectedLanguage[]>([]);
 
   const handleAddLanguage = () => {
     if (!newLanguageCode || !newLanguageLabel || !newLanguageNative) return;
@@ -74,6 +89,29 @@ export const AdminLanguagesPage: React.FC = () => {
     setTimeout(() => setMessage(null), 3000);
   };
 
+  const handleLanguageSelect = (language: SelectedLanguage) => {
+    // Check if language is already selected
+    const isAlreadySelected = selectedLanguages.some(
+      (selected) =>
+        selected.languageCode === language.languageCode && selected.countryCode === language.countryCode,
+    );
+
+    if (!isAlreadySelected) {
+      setSelectedLanguages((prev) => [...prev, language]);
+    }
+  };
+
+  const handleRemoveLanguage = (languageCode: string, countryCode: string) => {
+    setSelectedLanguages((prev) =>
+      prev.filter((lang) => !(lang.languageCode === languageCode && lang.countryCode === countryCode)),
+    );
+  };
+
+  const handleSaveLanguages = () => {
+    // TODO: Implement save functionality
+    console.log('Saving languages:', selectedLanguages);
+  };
+
   return (
     <div css={styles}>
       <AdminContentLayout
@@ -91,98 +129,61 @@ export const AdminLanguagesPage: React.FC = () => {
             </Callout.Root>
           )}
 
-          {/* Add New Language Form */}
-          <Card className="add-language-form">
-            <Flex direction="column" gap="4">
-              <Text size="4" weight="bold">
-                Add New Language
-              </Text>
-
-              <Flex gap="3" align="end">
-                <Box style={{ flex: 1 }}>
-                  <Text as="label" size="2" weight="medium">
-                    Language Code
-                  </Text>
-                  <TextField.Root
-                    placeholder="e.g., fr-FR, de-DE"
-                    value={newLanguageCode}
-                    onChange={(e) => setNewLanguageCode(e.target.value)}
-                  />
-                </Box>
-
-                <Box style={{ flex: 1 }}>
-                  <Text as="label" size="2" weight="medium">
-                    English Label
-                  </Text>
-                  <TextField.Root
-                    placeholder="e.g., French, German"
-                    value={newLanguageLabel}
-                    onChange={(e) => setNewLanguageLabel(e.target.value)}
-                  />
-                </Box>
-
-                <Box style={{ flex: 1 }}>
-                  <Text as="label" size="2" weight="medium">
-                    Native Label
-                  </Text>
-                  <TextField.Root
-                    placeholder="e.g., Français, Deutsch"
-                    value={newLanguageNative}
-                    onChange={(e) => setNewLanguageNative(e.target.value)}
-                  />
-                </Box>
-
-                <Button
-                  onClick={handleAddLanguage}
-                  disabled={!newLanguageCode || !newLanguageLabel || !newLanguageNative}
-                >
-                  <PlusIcon /> Add
-                </Button>
-              </Flex>
-            </Flex>
-          </Card>
-
           {/* Languages List */}
-          <Flex direction="column" gap="3" className="languages-list">
-            <Text size="4" weight="bold">
-              Configured Languages ({languages.length})
+          <Box className="languages-section" mb="6">
+            <SectionHeader title={`Configured Languages (${languages.length})`} />
+            <ConfiguredLanguagesList
+              languages={languages}
+              onDeleteLanguage={handleDeleteLanguage}
+              canDelete={languages.length > 1}
+            />
+          </Box>
+
+          {/* Search Section */}
+          <Box className="search-section" mb="6">
+            <SectionHeader
+              title="Add New Language"
+              description='Search by language name, country, or language code (e.g., "French", "Germany", "es-ES")'
+            />
+            <SearchableLanguageInput
+              countriesData={languagesData as Country[]}
+              onLanguageSelect={handleLanguageSelect}
+              placeholder="Search languages, countries, or codes..."
+            />
+          </Box>
+
+          {/* Selected Languages Section */}
+          <Box className="selected-section" mb="6">
+            <SelectedLanguagesList
+              selectedLanguages={selectedLanguages}
+              onRemoveLanguage={handleRemoveLanguage}
+              onSaveLanguages={handleSaveLanguages}
+            />
+          </Box>
+
+          {/* Statistics Section */}
+          <Box className="stats-section" style={{ marginTop: '3rem' }}>
+            <SectionHeader title="Dataset Statistics" />
+            <Text size="3" style={{ lineHeight: '1.6' }}>
+              <Text weight="bold" style={{ color: 'var(--gray-12)' }}>
+                {languagesData.length}
+              </Text>{' '}
+              <Text color="gray">Countries</Text>
+              <Text style={{ margin: '0 2rem', color: 'var(--gray-6)' }}>•</Text>
+              <Text weight="bold" style={{ color: 'var(--gray-12)' }}>
+                {languagesData.reduce(
+                  (acc, country) => acc + (country.languages ? Object.keys(country.languages).length : 0),
+                  0,
+                )}
+              </Text>{' '}
+              <Text color="gray">Total Languages</Text>
+              <Text style={{ margin: '0 2rem', color: 'var(--gray-6)' }}>•</Text>
+              <Text weight="bold" style={{ color: 'var(--gray-12)' }}>
+                {selectedLanguages.length}
+              </Text>{' '}
+              <Text color="gray">Selected</Text>
             </Text>
-
-            {languages.map((language) => (
-              <Card key={language.code} className="language-item">
-                <Flex justify="between" align="center" p="3">
-                  <Flex align="center" gap="3">
-                    <img
-                      src={language.flag}
-                      alt={language.label}
-                      width="32"
-                      height="24"
-                      style={{ borderRadius: '2px' }}
-                    />
-                    <Flex direction="column">
-                      <Text weight="bold" size="3">
-                        {language.code}
-                      </Text>
-                      <Text size="2" color="gray">
-                        {language.label} - {language.nativeLabel}
-                      </Text>
-                    </Flex>
-                  </Flex>
-
-                  <Flex align="center" gap="2">
-                    <IconButton
-                      variant="soft"
-                      color="red"
-                      onClick={() => handleDeleteLanguage(language.code)}
-                      disabled={languages.length <= 1}
-                    >
-                      <TrashIcon />
-                    </IconButton>
-                  </Flex>
-                </Flex>
-              </Card>
-            ))}
-          </Flex>
+          </Box>
         </AdminSection>
       </AdminContentLayout>
     </div>

@@ -1,6 +1,9 @@
 import { css } from '@emotion/react';
 import { colors, layout, spacing, typography } from 'styles';
+
+// NOTE: CUSTOM STYLES REMOVED
 import { stylesContent } from 'styles/custom/content.styles';
+/* ${stylesContent} */
 
 export const styles = css`
   ${stylesContent}
@@ -45,6 +48,10 @@ export const styles = css`
       justify-content: space-between;
       align-items: center;
 
+      height: ${layout.header.height};
+      min-height: ${layout.header.height};
+      max-height: ${layout.header.height};
+
       h1 {
         font-size: 1.5rem;
         font-weight: 600;
@@ -56,6 +63,23 @@ export const styles = css`
         display: flex;
         align-items: center;
         gap: ${spacing[4]};
+
+        ul {
+          height: ${layout.header.height};
+          min-height: ${layout.header.height};
+          max-height: ${layout.header.height};
+          align-items: end;
+          a {
+            height: ${layout.header.height};
+            min-height: ${layout.header.height};
+            max-height: ${layout.header.height};
+            font-size: 1.1rem;
+            &:before {
+              background-color: var(--accent-indicator);
+              height: 5px;
+            }
+          }
+        }
       }
     }
 

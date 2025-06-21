@@ -9,11 +9,14 @@ import {
   DoubleArrowRightIcon as _DoubleArrowRightIcon,
   ExclamationTriangleIcon as _ExclamationTriangleIcon,
   HamburgerMenuIcon as _HamburgerMenuIcon,
+  InfoCircledIcon as _InfoCircledIcon,
+  PlusIcon as _PlusIcon,
   ReloadIcon as _ReloadIcon,
   StarIcon as _StarIcon,
   TextAlignLeftIcon as _TextAlignLeftIcon,
   TextAlignTopIcon as _TextAlignTopIcon,
   TimerIcon as _TimerIcon,
+  TrashIcon as _TrashIcon,
 } from '@radix-ui/react-icons';
 
 import {
@@ -22,6 +25,7 @@ import {
   Languages as _LanguagesIcon,
   ShieldCheck as _ShieldCheckIcon,
   Thermometer as _TempIcon,
+  Trash2 as _Trash2Icon,
   AppWindowMac as _WindowIcon,
   Wine as _WineIcon,
 } from 'lucide-react';
@@ -69,3 +73,6 @@ export const WineIcon = createIconWrapper(_WineIcon);
 
 // Admin section icons
 export const HomeIcon = createIconWrapper(_HomeIcon);
+export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);
+export const PlusIcon = createIconWrapper(_PlusIcon);
+export const TrashIcon = createIconWrapper(_Trash2Icon);

@@ -8,7 +8,8 @@ import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
 import { ALTERNATIVE_PATHS, PATHS } from './routes.config';
 import { OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
-import { AdminPage } from 'pages/AdminPages/AdminTrasnlationsPage/AdminPage';
+import { AdminPage } from 'pages/AdminPages/AdminPage';
+import { AdminTrasnlationsPage } from 'pages/AdminPages/AdminTrasnlationsPage/AdminTrasnlationsPage';
 import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
@@ -99,7 +100,7 @@ export const routes: RouteObject[] = [
       {
         path: 'translations',
         id: 'admin-translations',
-        element: <AdminPage />,
+        element: <AdminTrasnlationsPage />,
       },
       {
         path: 'languages',

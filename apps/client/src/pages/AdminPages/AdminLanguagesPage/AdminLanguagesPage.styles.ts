@@ -5,15 +5,10 @@ export const styles = css`
   width: 100%;
   min-height: 100%;
 
-  .add-language-form {
-    margin-bottom: ${spacing[6]};
-    padding: ${spacing[6]};
-    background-color: ${colors.white};
-    border: 1px solid ${colors.greyLight};
-  }
-
-  .languages-list {
+  .languages-list,
+  .selected-languages-list {
     .language-item {
+      margin-top: 0.5rem;
       background-color: ${colors.white};
       border: 1px solid ${colors.greyLight};
       transition: all 0.2s ease;
@@ -22,6 +17,39 @@ export const styles = css`
         border-color: ${colors.grey};
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
+
+      .delete-button {
+        padding: 1.25rem;
+        svg {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  .languages-section,
+  .search-section,
+  .selected-section,
+  .stats-section {
+    margin-bottom: ${spacing[8]};
+  }
+
+  .stats-section {
+    margin-top: 2rem !important;
+  }
+
+  .language-flag {
+    margin: 0 1rem 0 1rem;
+  }
+
+  .alert.no-selection {
+    p.rt-CalloutText {
+      padding: 0 1rem;
+      max-width: unset;
     }
   }
 `;

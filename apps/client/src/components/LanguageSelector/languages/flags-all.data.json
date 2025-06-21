@@ -9,7 +9,8 @@
       "common": "Togo",
       "official": "Togolese Republic",
       "nativeName": { "fra": { "official": "République togolaise", "common": "Togo" } }
-    }
+    },
+    "cca2": "TG"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/yt.png", "svg": "https://flagcdn.com/yt.svg", "alt": "" },
@@ -17,7 +18,8 @@
       "common": "Mayotte",
       "official": "Department of Mayotte",
       "nativeName": { "fra": { "official": "Département de Mayotte", "common": "Mayotte" } }
-    }
+    },
+    "cca2": "YT"
   },
   {
     "flags": {
@@ -29,7 +31,8 @@
       "common": "Georgia",
       "official": "Georgia",
       "nativeName": { "kat": { "official": "საქართველო", "common": "საქართველო" } }
-    }
+    },
+    "cca2": "GE"
   },
   {
     "flags": {
@@ -45,7 +48,8 @@
         "eng": { "official": "Republic of Vanuatu", "common": "Vanuatu" },
         "fra": { "official": "République de Vanuatu", "common": "Vanuatu" }
       }
-    }
+    },
+    "cca2": "VU"
   },
   {
     "flags": {
@@ -60,7 +64,8 @@
         "kir": { "official": "Кыргыз Республикасы", "common": "Кыргызстан" },
         "rus": { "official": "Кыргызская Республика", "common": "Киргизия" }
       }
-    }
+    },
+    "cca2": "KG"
   },
   {
     "flags": {
@@ -72,7 +77,8 @@
       "common": "Niger",
       "official": "Republic of Niger",
       "nativeName": { "fra": { "official": "République du Niger", "common": "Niger" } }
-    }
+    },
+    "cca2": "NE"
   },
   {
     "flags": {
@@ -84,7 +90,8 @@
       "common": "China",
       "official": "People's Republic of China",
       "nativeName": { "zho": { "official": "中华人民共和国", "common": "中国" } }
-    }
+    },
+    "cca2": "CN"
   },
   {
     "flags": {
@@ -99,7 +106,8 @@
         "eng": { "official": "Tuvalu", "common": "Tuvalu" },
         "tvl": { "official": "Tuvalu", "common": "Tuvalu" }
       }
-    }
+    },
+    "cca2": "TV"
   },
   {
     "flags": {
@@ -115,7 +123,8 @@
         "fra": { "official": "Union des Comores", "common": "Comores" },
         "zdj": { "official": "Udzima wa Komori", "common": "Komori" }
       }
-    }
+    },
+    "cca2": "KM"
   },
   {
     "flags": {
@@ -131,7 +140,8 @@
         "hrv": { "official": "Bosna i Hercegovina", "common": "Bosna i Hercegovina" },
         "srp": { "official": "Босна и Херцеговина", "common": "Босна и Херцеговина" }
       }
-    }
+    },
+    "cca2": "BA"
   },
   {
     "flags": {
@@ -143,7 +153,8 @@
       "common": "Bahrain",
       "official": "Kingdom of Bahrain",
       "nativeName": { "ara": { "official": "مملكة البحرين", "common": "‏البحرين" } }
-    }
+    },
+    "cca2": "BH"
   },
   {
     "flags": {
@@ -158,7 +169,8 @@
         "ara": { "official": "جمهورية الصومال‎‎", "common": "الصومال‎‎" },
         "som": { "official": "Jamhuuriyadda Federaalka Soomaaliya", "common": "Soomaaliya" }
       }
-    }
+    },
+    "cca2": "SO"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/bl.png", "svg": "https://flagcdn.com/bl.svg", "alt": "" },
@@ -168,7 +180,8 @@
       "nativeName": {
         "fra": { "official": "Collectivité de Saint-Barthélemy", "common": "Saint-Barthélemy" }
       }
-    }
+    },
+    "cca2": "BL"
   },
   {
     "flags": {
@@ -180,7 +193,8 @@
       "common": "Latvia",
       "official": "Republic of Latvia",
       "nativeName": { "lav": { "official": "Latvijas Republikas", "common": "Latvija" } }
-    }
+    },
+    "cca2": "LV"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/ky.png", "svg": "https://flagcdn.com/ky.svg", "alt": "" },
@@ -188,7 +202,8 @@
       "common": "Cayman Islands",
       "official": "Cayman Islands",
       "nativeName": { "eng": { "official": "Cayman Islands", "common": "Cayman Islands" } }
-    }
+    },
+    "cca2": "KY"
   },
   {
     "flags": {
@@ -200,7 +215,8 @@
       "common": "Netherlands",
       "official": "Kingdom of the Netherlands",
       "nativeName": { "nld": { "official": "Koninkrijk der Nederlanden", "common": "Nederland" } }
-    }
+    },
+    "cca2": "NL"
   },
   {
     "flags": {
@@ -215,7 +231,8 @@
         "eng": { "official": "Kingdom of Lesotho", "common": "Lesotho" },
         "sot": { "official": "Kingdom of Lesotho", "common": "Lesotho" }
       }
-    }
+    },
+    "cca2": "LS"
   },
   {
     "flags": {
@@ -227,7 +244,8 @@
       "common": "Venezuela",
       "official": "Bolivarian Republic of Venezuela",
       "nativeName": { "spa": { "official": "República Bolivariana de Venezuela", "common": "Venezuela" } }
-    }
+    },
+    "cca2": "VE"
   },
   {
     "flags": {
@@ -242,7 +260,8 @@
         "eng": { "official": "Republic of Kenya", "common": "Kenya" },
         "swa": { "official": "Republic of Kenya", "common": "Kenya" }
       }
-    }
+    },
+    "cca2": "KE"
   },
   {
     "flags": {
@@ -254,7 +273,8 @@
       "common": "Turkey",
       "official": "Republic of Turkey",
       "nativeName": { "tur": { "official": "Türkiye Cumhuriyeti", "common": "Türkiye" } }
-    }
+    },
+    "cca2": "TR"
   },
   {
     "flags": {
@@ -270,7 +290,8 @@
         "fij": { "official": "Matanitu Tugalala o Viti", "common": "Viti" },
         "hif": { "official": "रिपब्लिक ऑफ फीजी", "common": "फिजी" }
       }
-    }
+    },
+    "cca2": "FJ"
   },
   {
     "flags": {
@@ -284,7 +305,8 @@
       "nativeName": {
         "eng": { "official": "Republic of Trinidad and Tobago", "common": "Trinidad and Tobago" }
       }
-    }
+    },
+    "cca2": "TT"
   },
   {
     "flags": {
@@ -296,7 +318,8 @@
       "common": "Honduras",
       "official": "Republic of Honduras",
       "nativeName": { "spa": { "official": "República de Honduras", "common": "Honduras" } }
-    }
+    },
+    "cca2": "HN"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/je.png", "svg": "https://flagcdn.com/je.svg", "alt": "" },
@@ -308,7 +331,8 @@
         "fra": { "official": "Bailliage de Jersey", "common": "Jersey" },
         "nrf": { "official": "Bailliage dé Jèrri", "common": "Jèrri" }
       }
-    }
+    },
+    "cca2": "JE"
   },
   {
     "flags": {
@@ -323,7 +347,8 @@
         "ara": { "official": "جمهورية جيبوتي", "common": "جيبوتي‎" },
         "fra": { "official": "République de Djibouti", "common": "Djibouti" }
       }
-    }
+    },
+    "cca2": "DJ"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/re.png", "svg": "https://flagcdn.com/re.svg", "alt": "" },
@@ -331,7 +356,8 @@
       "common": "Réunion",
       "official": "Réunion Island",
       "nativeName": { "fra": { "official": "Ile de la Réunion", "common": "La Réunion" } }
-    }
+    },
+    "cca2": "RE"
   },
   {
     "flags": {
@@ -346,7 +372,8 @@
         "eng": { "official": "Kingdom of Eswatini", "common": "Eswatini" },
         "ssw": { "official": "Umbuso weSwatini", "common": "eSwatini" }
       }
-    }
+    },
+    "cca2": "SZ"
   },
   {
     "flags": {
@@ -361,7 +388,8 @@
         "rus": { "official": "Республика Таджикистан", "common": "Таджикистан" },
         "tgk": { "official": "Ҷумҳурии Тоҷикистон", "common": "Тоҷикистон" }
       }
-    }
+    },
+    "cca2": "TJ"
   },
   {
     "flags": {
@@ -373,7 +401,8 @@
       "common": "Saudi Arabia",
       "official": "Kingdom of Saudi Arabia",
       "nativeName": { "ara": { "official": "المملكة العربية السعودية", "common": "العربية السعودية" } }
-    }
+    },
+    "cca2": "SA"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/bm.png", "svg": "https://flagcdn.com/bm.svg", "alt": "" },
@@ -381,7 +410,8 @@
       "common": "Bermuda",
       "official": "Bermuda",
       "nativeName": { "eng": { "official": "Bermuda", "common": "Bermuda" } }
-    }
+    },
+    "cca2": "BM"
   },
   {
     "flags": {
@@ -397,7 +427,8 @@
         "mri": { "official": "Aotearoa", "common": "Aotearoa" },
         "nzs": { "official": "New Zealand", "common": "New Zealand" }
       }
-    }
+    },
+    "cca2": "NZ"
   },
   {
     "flags": {
@@ -412,7 +443,8 @@
         "bel": { "official": "Рэспубліка Беларусь", "common": "Белару́сь" },
         "rus": { "official": "Республика Беларусь", "common": "Беларусь" }
       }
-    }
+    },
+    "cca2": "BY"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/cx.png", "svg": "https://flagcdn.com/cx.svg", "alt": "" },
@@ -420,7 +452,8 @@
       "common": "Christmas Island",
       "official": "Territory of Christmas Island",
       "nativeName": { "eng": { "official": "Territory of Christmas Island", "common": "Christmas Island" } }
-    }
+    },
+    "cca2": "CX"
   },
   {
     "flags": {
@@ -432,7 +465,8 @@
       "common": "Gambia",
       "official": "Republic of the Gambia",
       "nativeName": { "eng": { "official": "Republic of the Gambia", "common": "Gambia" } }
-    }
+    },
+    "cca2": "GM"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/pf.png", "svg": "https://flagcdn.com/pf.svg", "alt": "" },
@@ -440,7 +474,8 @@
       "common": "French Polynesia",
       "official": "French Polynesia",
       "nativeName": { "fra": { "official": "Polynésie française", "common": "Polynésie française" } }
-    }
+    },
+    "cca2": "PF"
   },
   {
     "flags": {
@@ -461,7 +496,8 @@
           "common": "Jamhuri ya Kidemokrasia ya Kongo"
         }
       }
-    }
+    },
+    "cca2": "CD"
   },
   {
     "flags": {
@@ -473,7 +509,8 @@
       "common": "Costa Rica",
       "official": "Republic of Costa Rica",
       "nativeName": { "spa": { "official": "República de Costa Rica", "common": "Costa Rica" } }
-    }
+    },
+    "cca2": "CR"
   },
   {
     "flags": {
@@ -488,7 +525,8 @@
         "eng": { "official": "Republic of Malawi", "common": "Malawi" },
         "nya": { "official": "Chalo cha Malawi, Dziko la Malaŵi", "common": "Malaŵi" }
       }
-    }
+    },
+    "cca2": "MW"
   },
   {
     "flags": {
@@ -504,7 +542,8 @@
         "kon": { "official": "Repubilika ya Kongo", "common": "Repubilika ya Kongo" },
         "lin": { "official": "Republíki ya Kongó", "common": "Republíki ya Kongó" }
       }
-    }
+    },
+    "cca2": "CG"
   },
   {
     "flags": {
@@ -516,7 +555,8 @@
       "common": "Oman",
       "official": "Sultanate of Oman",
       "nativeName": { "ara": { "official": "سلطنة عمان", "common": "عمان" } }
-    }
+    },
+    "cca2": "OM"
   },
   {
     "flags": {
@@ -532,7 +572,8 @@
         "arc": { "official": "ܩܘܼܛܢܵܐ ܐܝܼܪܲܩ", "common": "ܩܘܼܛܢܵܐ" },
         "ckb": { "official": "کۆماری عێراق", "common": "کۆماری" }
       }
-    }
+    },
+    "cca2": "IQ"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/nu.png", "svg": "https://flagcdn.com/nu.svg", "alt": "" },
@@ -543,7 +584,8 @@
         "eng": { "official": "Niue", "common": "Niue" },
         "niu": { "official": "Niuē", "common": "Niuē" }
       }
-    }
+    },
+    "cca2": "NU"
   },
   {
     "flags": {
@@ -555,7 +597,8 @@
       "common": "Senegal",
       "official": "Republic of Senegal",
       "nativeName": { "fra": { "official": "République du Sénégal", "common": "Sénégal" } }
-    }
+    },
+    "cca2": "SN"
   },
   {
     "flags": {
@@ -570,7 +613,8 @@
         "ara": { "official": "الجمهورية اللبنانية", "common": "لبنان" },
         "fra": { "official": "République libanaise", "common": "Liban" }
       }
-    }
+    },
+    "cca2": "LB"
   },
   {
     "flags": {
@@ -582,7 +626,8 @@
       "common": "Angola",
       "official": "Republic of Angola",
       "nativeName": { "por": { "official": "República de Angola", "common": "Angola" } }
-    }
+    },
+    "cca2": "AO"
   },
   {
     "flags": {
@@ -594,7 +639,8 @@
       "common": "Iran",
       "official": "Islamic Republic of Iran",
       "nativeName": { "fas": { "official": "جمهوری اسلامی ایران", "common": "ایران" } }
-    }
+    },
+    "cca2": "IR"
   },
   {
     "flags": {
@@ -606,7 +652,8 @@
       "common": "Ecuador",
       "official": "Republic of Ecuador",
       "nativeName": { "spa": { "official": "República del Ecuador", "common": "Ecuador" } }
-    }
+    },
+    "cca2": "EC"
   },
   {
     "flags": {
@@ -618,7 +665,8 @@
       "common": "Laos",
       "official": "Lao People's Democratic Republic",
       "nativeName": { "lao": { "official": "ສາທາລະນະ ຊາທິປະໄຕ ຄົນລາວ ຂອງ", "common": "ສປປລາວ" } }
-    }
+    },
+    "cca2": "LA"
   },
   {
     "flags": {
@@ -633,7 +681,8 @@
         "sin": { "official": "ශ්‍රී ලංකා ප්‍රජාතාන්ත්‍රික සමාජවාදී ජනරජය", "common": "ශ්‍රී ලංකාව" },
         "tam": { "official": "இலங்கை சனநாயக சோசலிசக் குடியரசு", "common": "இலங்கை" }
       }
-    }
+    },
+    "cca2": "LK"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/aw.png", "svg": "https://flagcdn.com/aw.svg", "alt": "" },
@@ -644,7 +693,8 @@
         "nld": { "official": "Aruba", "common": "Aruba" },
         "pap": { "official": "Aruba", "common": "Aruba" }
       }
-    }
+    },
+    "cca2": "AW"
   },
   {
     "flags": {
@@ -658,7 +708,8 @@
       "nativeName": {
         "por": { "official": "República Democrática do São Tomé e Príncipe", "common": "São Tomé e Príncipe" }
       }
-    }
+    },
+    "cca2": "ST"
   },
   {
     "flags": {
@@ -670,7 +721,8 @@
       "common": "Grenada",
       "official": "Grenada",
       "nativeName": { "eng": { "official": "Grenada", "common": "Grenada" } }
-    }
+    },
+    "cca2": "GD"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/ms.png", "svg": "https://flagcdn.com/ms.svg", "alt": "" },
@@ -678,7 +730,8 @@
       "common": "Montserrat",
       "official": "Montserrat",
       "nativeName": { "eng": { "official": "Montserrat", "common": "Montserrat" } }
-    }
+    },
+    "cca2": "MS"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/eh.png", "svg": "https://flagcdn.com/eh.svg", "alt": "" },
@@ -690,7 +743,8 @@
         "mey": { "official": "الجمهورية العربية الصحراوية الديمقراطية", "common": "الصحراء الغربية" },
         "spa": { "official": "República Árabe Saharaui Democrática", "common": "Sahara Occidental" }
       }
-    }
+    },
+    "cca2": "EH"
   },
   {
     "flags": {
@@ -702,7 +756,8 @@
       "common": "Guinea",
       "official": "Republic of Guinea",
       "nativeName": { "fra": { "official": "République de Guinée", "common": "Guinée" } }
-    }
+    },
+    "cca2": "GN"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/vg.png", "svg": "https://flagcdn.com/vg.svg", "alt": "" },
@@ -710,7 +765,8 @@
       "common": "British Virgin Islands",
       "official": "Virgin Islands",
       "nativeName": { "eng": { "official": "Virgin Islands", "common": "British Virgin Islands" } }
-    }
+    },
+    "cca2": "VG"
   },
   {
     "flags": {
@@ -722,7 +778,8 @@
       "common": "Panama",
       "official": "Republic of Panama",
       "nativeName": { "spa": { "official": "República de Panamá", "common": "Panamá" } }
-    }
+    },
+    "cca2": "PA"
   },
   {
     "flags": {
@@ -734,7 +791,8 @@
       "common": "Yemen",
       "official": "Republic of Yemen",
       "nativeName": { "ara": { "official": "الجمهورية اليمنية", "common": "اليَمَن" } }
-    }
+    },
+    "cca2": "YE"
   },
   {
     "flags": {
@@ -746,7 +804,8 @@
       "common": "Estonia",
       "official": "Republic of Estonia",
       "nativeName": { "est": { "official": "Eesti Vabariik", "common": "Eesti" } }
-    }
+    },
+    "cca2": "EE"
   },
   {
     "flags": {
@@ -758,7 +817,8 @@
       "common": "Guyana",
       "official": "Co-operative Republic of Guyana",
       "nativeName": { "eng": { "official": "Co-operative Republic of Guyana", "common": "Guyana" } }
-    }
+    },
+    "cca2": "GY"
   },
   {
     "flags": {
@@ -774,7 +834,8 @@
         "fra": { "official": "Grand-Duché de Luxembourg", "common": "Luxembourg" },
         "ltz": { "official": "Groussherzogtum Lëtzebuerg", "common": "Lëtzebuerg" }
       }
-    }
+    },
+    "cca2": "LU"
   },
   {
     "flags": {
@@ -796,7 +857,8 @@
         "ndo": { "official": "Republic of Namibia", "common": "Namibia" },
         "tsn": { "official": "Lefatshe la Namibia", "common": "Namibia" }
       }
-    }
+    },
+    "cca2": "NA"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/xk.png", "svg": "https://flagcdn.com/xk.svg", "alt": "" },
@@ -807,7 +869,8 @@
         "sqi": { "official": "Republika e Kosovës", "common": "Kosova" },
         "srp": { "official": "Република Косово", "common": "Косово" }
       }
-    }
+    },
+    "cca2": "XK"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/nc.png", "svg": "https://flagcdn.com/nc.svg", "alt": "" },
@@ -815,7 +878,8 @@
       "common": "New Caledonia",
       "official": "New Caledonia",
       "nativeName": { "fra": { "official": "Nouvelle-Calédonie", "common": "Nouvelle-Calédonie" } }
-    }
+    },
+    "cca2": "NC"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/pm.png", "svg": "https://flagcdn.com/pm.svg", "alt": "" },
@@ -828,7 +892,8 @@
           "common": "Saint-Pierre-et-Miquelon"
         }
       }
-    }
+    },
+    "cca2": "PM"
   },
   {
     "flags": {
@@ -840,7 +905,8 @@
       "common": "Libya",
       "official": "State of Libya",
       "nativeName": { "ara": { "official": "الدولة ليبيا", "common": "‏ليبيا" } }
-    }
+    },
+    "cca2": "LY"
   },
   {
     "flags": {
@@ -852,7 +918,8 @@
       "common": "Myanmar",
       "official": "Republic of the Union of Myanmar",
       "nativeName": { "mya": { "official": "ပြည်ထောင်စု သမ္မတ မြန်မာနိုင်ငံတော်", "common": "မြန်မာ" } }
-    }
+    },
+    "cca2": "MM"
   },
   {
     "flags": {
@@ -867,7 +934,8 @@
         "ara": { "official": "دولة إسرائيل", "common": "إسرائيل" },
         "heb": { "official": "מדינת ישראל", "common": "ישראל" }
       }
-    }
+    },
+    "cca2": "IL"
   },
   {
     "flags": {
@@ -879,7 +947,8 @@
       "common": "Mali",
       "official": "Republic of Mali",
       "nativeName": { "fra": { "official": "République du Mali", "common": "Mali" } }
-    }
+    },
+    "cca2": "ML"
   },
   {
     "flags": {
@@ -894,7 +963,8 @@
         "grn": { "official": "Argentine Republic", "common": "Argentina" },
         "spa": { "official": "República Argentina", "common": "Argentina" }
       }
-    }
+    },
+    "cca2": "AR"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/gf.png", "svg": "https://flagcdn.com/gf.svg", "alt": "" },
@@ -902,7 +972,8 @@
       "common": "French Guiana",
       "official": "Guiana",
       "nativeName": { "fra": { "official": "Guyane", "common": "Guyane française" } }
-    }
+    },
+    "cca2": "GF"
   },
   {
     "flags": {
@@ -917,7 +988,8 @@
         "eng": { "official": "Republic of Uganda", "common": "Uganda" },
         "swa": { "official": "Republic of Uganda", "common": "Uganda" }
       }
-    }
+    },
+    "cca2": "UG"
   },
   {
     "flags": {
@@ -932,7 +1004,8 @@
         "eng": { "official": "Malaysia", "common": "Malaysia" },
         "msa": { "official": "مليسيا", "common": "مليسيا" }
       }
-    }
+    },
+    "cca2": "MY"
   },
   {
     "flags": {
@@ -944,7 +1017,8 @@
       "common": "Zambia",
       "official": "Republic of Zambia",
       "nativeName": { "eng": { "official": "Republic of Zambia", "common": "Zambia" } }
-    }
+    },
+    "cca2": "ZM"
   },
   {
     "flags": {
@@ -956,7 +1030,8 @@
       "common": "Micronesia",
       "official": "Federated States of Micronesia",
       "nativeName": { "eng": { "official": "Federated States of Micronesia", "common": "Micronesia" } }
-    }
+    },
+    "cca2": "FM"
   },
   {
     "flags": {
@@ -968,7 +1043,8 @@
       "common": "Slovakia",
       "official": "Slovak Republic",
       "nativeName": { "slk": { "official": "Slovenská republika", "common": "Slovensko" } }
-    }
+    },
+    "cca2": "SK"
   },
   {
     "flags": {
@@ -983,7 +1059,8 @@
         "fra": { "official": "République du Burundi", "common": "Burundi" },
         "run": { "official": "Republika y'Uburundi ", "common": "Uburundi" }
       }
-    }
+    },
+    "cca2": "BI"
   },
   {
     "flags": {
@@ -995,7 +1072,8 @@
       "common": "Serbia",
       "official": "Republic of Serbia",
       "nativeName": { "srp": { "official": "Република Србија", "common": "Србија" } }
-    }
+    },
+    "cca2": "RS"
   },
   {
     "flags": {
@@ -1010,7 +1088,8 @@
         "rus": { "official": "Туркменистан", "common": "Туркмения" },
         "tuk": { "official": "Türkmenistan", "common": "Türkmenistan" }
       }
-    }
+    },
+    "cca2": "TM"
   },
   {
     "flags": {
@@ -1034,7 +1113,8 @@
         "xho": { "official": "IRiphabliki yaseMzantsi Afrika", "common": "Mzantsi Afrika" },
         "zul": { "official": "IRiphabliki yaseNingizimu Afrika", "common": "Ningizimu Afrika" }
       }
-    }
+    },
+    "cca2": "ZA"
   },
   {
     "flags": {
@@ -1049,7 +1129,8 @@
         "kaz": { "official": "Қазақстан Республикасы", "common": "Қазақстан" },
         "rus": { "official": "Республика Казахстан", "common": "Казахстан" }
       }
-    }
+    },
+    "cca2": "KZ"
   },
   {
     "flags": {
@@ -1064,7 +1145,8 @@
         "eng": { "official": "Canada", "common": "Canada" },
         "fra": { "official": "Canada", "common": "Canada" }
       }
-    }
+    },
+    "cca2": "CA"
   },
   {
     "flags": {
@@ -1076,7 +1158,8 @@
       "common": "Poland",
       "official": "Republic of Poland",
       "nativeName": { "pol": { "official": "Rzeczpospolita Polska", "common": "Polska" } }
-    }
+    },
+    "cca2": "PL"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/pr.png", "svg": "https://flagcdn.com/pr.svg", "alt": "" },
@@ -1087,7 +1170,8 @@
         "eng": { "official": "Commonwealth of Puerto Rico", "common": "Puerto Rico" },
         "spa": { "official": "Estado Libre Asociado de Puerto Rico", "common": "Puerto Rico" }
       }
-    }
+    },
+    "cca2": "PR"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/cc.png", "svg": "https://flagcdn.com/cc.svg", "alt": "" },
@@ -1097,7 +1181,8 @@
       "nativeName": {
         "eng": { "official": "Territory of the Cocos (Keeling) Islands", "common": "Cocos (Keeling) Islands" }
       }
-    }
+    },
+    "cca2": "CC"
   },
   {
     "flags": {
@@ -1109,7 +1194,8 @@
       "common": "San Marino",
       "official": "Republic of San Marino",
       "nativeName": { "ita": { "official": "Repubblica di San Marino", "common": "San Marino" } }
-    }
+    },
+    "cca2": "SM"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/as.png", "svg": "https://flagcdn.com/as.svg", "alt": "" },
@@ -1120,7 +1206,8 @@
         "eng": { "official": "American Samoa", "common": "American Samoa" },
         "smo": { "official": "Sāmoa Amelika", "common": "Sāmoa Amelika" }
       }
-    }
+    },
+    "cca2": "AS"
   },
   {
     "flags": {
@@ -1132,7 +1219,8 @@
       "common": "Qatar",
       "official": "State of Qatar",
       "nativeName": { "ara": { "official": "دولة قطر", "common": "قطر" } }
-    }
+    },
+    "cca2": "QA"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/gi.png", "svg": "https://flagcdn.com/gi.svg", "alt": "" },
@@ -1140,7 +1228,8 @@
       "common": "Gibraltar",
       "official": "Gibraltar",
       "nativeName": { "eng": { "official": "Gibraltar", "common": "Gibraltar" } }
-    }
+    },
+    "cca2": "GI"
   },
   {
     "flags": {
@@ -1152,7 +1241,8 @@
       "common": "Croatia",
       "official": "Republic of Croatia",
       "nativeName": { "hrv": { "official": "Republika Hrvatska", "common": "Hrvatska" } }
-    }
+    },
+    "cca2": "HR"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/sj.png", "svg": "https://flagcdn.com/sj.svg", "alt": "" },
@@ -1160,7 +1250,8 @@
       "common": "Svalbard and Jan Mayen",
       "official": "Svalbard og Jan Mayen",
       "nativeName": { "nor": { "official": "Svalbard og Jan Mayen", "common": "Svalbard og Jan Mayen" } }
-    }
+    },
+    "cca2": "SJ"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/im.png", "svg": "https://flagcdn.com/im.svg", "alt": "" },
@@ -1171,7 +1262,8 @@
         "eng": { "official": "Isle of Man", "common": "Isle of Man" },
         "glv": { "official": "Ellan Vannin or Mannin", "common": "Mannin" }
       }
-    }
+    },
+    "cca2": "IM"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/ps.png", "svg": "https://flagcdn.com/ps.svg", "alt": "" },
@@ -1179,7 +1271,8 @@
       "common": "Palestine",
       "official": "State of Palestine",
       "nativeName": { "ara": { "official": "دولة فلسطين", "common": "فلسطين" } }
-    }
+    },
+    "cca2": "PS"
   },
   {
     "flags": {
@@ -1195,7 +1288,8 @@
         "fra": { "official": "République de Maurice", "common": "Maurice" },
         "mfe": { "official": "Republik Moris", "common": "Moris" }
       }
-    }
+    },
+    "cca2": "MU"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/mf.png", "svg": "https://flagcdn.com/mf.svg", "alt": "" },
@@ -1203,7 +1297,8 @@
       "common": "Saint Martin",
       "official": "Saint Martin",
       "nativeName": { "fra": { "official": "Saint-Martin", "common": "Saint-Martin" } }
-    }
+    },
+    "cca2": "MF"
   },
   {
     "flags": {
@@ -1215,7 +1310,8 @@
       "common": "Sierra Leone",
       "official": "Republic of Sierra Leone",
       "nativeName": { "eng": { "official": "Republic of Sierra Leone", "common": "Sierra Leone" } }
-    }
+    },
+    "cca2": "SL"
   },
   {
     "flags": {
@@ -1229,7 +1325,8 @@
       "nativeName": {
         "eng": { "official": "Federation of Saint Christopher and Nevis", "common": "Saint Kitts and Nevis" }
       }
-    }
+    },
+    "cca2": "KN"
   },
   {
     "flags": {
@@ -1241,7 +1338,8 @@
       "common": "Iceland",
       "official": "Iceland",
       "nativeName": { "isl": { "official": "Ísland", "common": "Ísland" } }
-    }
+    },
+    "cca2": "IS"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/hm.png", "svg": "https://flagcdn.com/hm.svg", "alt": "" },
@@ -1254,7 +1352,8 @@
           "common": "Heard Island and McDonald Islands"
         }
       }
-    }
+    },
+    "cca2": "HM"
   },
   {
     "flags": {
@@ -1266,7 +1365,8 @@
       "common": "Kuwait",
       "official": "State of Kuwait",
       "nativeName": { "ara": { "official": "دولة الكويت", "common": "الكويت" } }
-    }
+    },
+    "cca2": "KW"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/tw.png", "svg": "https://flagcdn.com/tw.svg", "alt": "" },
@@ -1274,7 +1374,8 @@
       "common": "Taiwan",
       "official": "Republic of China (Taiwan)",
       "nativeName": { "zho": { "official": "中華民國", "common": "台灣" } }
-    }
+    },
+    "cca2": "TW"
   },
   {
     "flags": {
@@ -1289,7 +1390,8 @@
         "eng": { "official": "Republic of Cameroon", "common": "Cameroon" },
         "fra": { "official": "République du Cameroun", "common": "Cameroun" }
       }
-    }
+    },
+    "cca2": "CM"
   },
   {
     "flags": {
@@ -1301,7 +1403,8 @@
       "common": "El Salvador",
       "official": "Republic of El Salvador",
       "nativeName": { "spa": { "official": "República de El Salvador", "common": "El Salvador" } }
-    }
+    },
+    "cca2": "SV"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/mo.png", "svg": "https://flagcdn.com/mo.svg", "alt": "" },
@@ -1315,7 +1418,8 @@
         },
         "zho": { "official": "中华人民共和国澳门特别行政区", "common": "澳门" }
       }
-    }
+    },
+    "cca2": "MO"
   },
   {
     "flags": {
@@ -1327,7 +1431,8 @@
       "common": "Cuba",
       "official": "Republic of Cuba",
       "nativeName": { "spa": { "official": "República de Cuba", "common": "Cuba" } }
-    }
+    },
+    "cca2": "CU"
   },
   {
     "flags": {
@@ -1339,7 +1444,8 @@
       "common": "Brazil",
       "official": "Federative Republic of Brazil",
       "nativeName": { "por": { "official": "República Federativa do Brasil", "common": "Brasil" } }
-    }
+    },
+    "cca2": "BR"
   },
   {
     "flags": {
@@ -1351,7 +1457,8 @@
       "common": "Solomon Islands",
       "official": "Solomon Islands",
       "nativeName": { "eng": { "official": "Solomon Islands", "common": "Solomon Islands" } }
-    }
+    },
+    "cca2": "SB"
   },
   {
     "flags": {
@@ -1363,7 +1470,8 @@
       "common": "Greece",
       "official": "Hellenic Republic",
       "nativeName": { "ell": { "official": "Ελληνική Δημοκρατία", "common": "Ελλάδα" } }
-    }
+    },
+    "cca2": "GR"
   },
   {
     "flags": {
@@ -1379,7 +1487,8 @@
         "nob": { "official": "Kongeriket Norge", "common": "Norge" },
         "smi": { "official": "Norgga gonagasriika", "common": "Norgga" }
       }
-    }
+    },
+    "cca2": "NO"
   },
   {
     "flags": {
@@ -1394,7 +1503,8 @@
         "eng": { "official": "Jamaica", "common": "Jamaica" },
         "jam": { "official": "Jamaica", "common": "Jamaica" }
       }
-    }
+    },
+    "cca2": "JM"
   },
   {
     "flags": {
@@ -1409,7 +1519,8 @@
         "eng": { "official": "United Republic of Tanzania", "common": "Tanzania" },
         "swa": { "official": "Jamhuri ya Muungano wa Tanzania", "common": "Tanzania" }
       }
-    }
+    },
+    "cca2": "TZ"
   },
   {
     "flags": {
@@ -1426,7 +1537,8 @@
         "que": { "official": "Buliwya Mamallaqta", "common": "Buliwya" },
         "spa": { "official": "Estado Plurinacional de Bolivia", "common": "Bolivia" }
       }
-    }
+    },
+    "cca2": "BO"
   },
   {
     "flags": {
@@ -1441,7 +1553,8 @@
         "ell": { "official": "Δημοκρατία της Κύπρος", "common": "Κύπρος" },
         "tur": { "official": "Kıbrıs Cumhuriyeti", "common": "Kıbrıs" }
       }
-    }
+    },
+    "cca2": "CY"
   },
   {
     "flags": {
@@ -1453,7 +1566,8 @@
       "common": "Mongolia",
       "official": "Mongolia",
       "nativeName": { "mon": { "official": "Монгол улс", "common": "Монгол улс" } }
-    }
+    },
+    "cca2": "MN"
   },
   {
     "flags": {
@@ -1465,7 +1579,8 @@
       "common": "Monaco",
       "official": "Principality of Monaco",
       "nativeName": { "fra": { "official": "Principauté de Monaco", "common": "Monaco" } }
-    }
+    },
+    "cca2": "MC"
   },
   {
     "flags": {
@@ -1477,7 +1592,8 @@
       "common": "Tunisia",
       "official": "Tunisian Republic",
       "nativeName": { "ara": { "official": "الجمهورية التونسية", "common": "تونس" } }
-    }
+    },
+    "cca2": "TN"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/tf.png", "svg": "https://flagcdn.com/tf.svg", "alt": "" },
@@ -1490,7 +1606,8 @@
           "common": "Terres australes et antarctiques françaises"
         }
       }
-    }
+    },
+    "cca2": "TF"
   },
   {
     "flags": {
@@ -1502,7 +1619,8 @@
       "common": "Syria",
       "official": "Syrian Arab Republic",
       "nativeName": { "ara": { "official": "الجمهورية العربية السورية", "common": "سوريا" } }
-    }
+    },
+    "cca2": "SY"
   },
   {
     "flags": {
@@ -1514,7 +1632,8 @@
       "common": "Chile",
       "official": "Republic of Chile",
       "nativeName": { "spa": { "official": "República de Chile", "common": "Chile" } }
-    }
+    },
+    "cca2": "CL"
   },
   {
     "flags": {
@@ -1526,7 +1645,8 @@
       "common": "Azerbaijan",
       "official": "Republic of Azerbaijan",
       "nativeName": { "aze": { "official": "Azərbaycan Respublikası", "common": "Azərbaycan" } }
-    }
+    },
+    "cca2": "AZ"
   },
   {
     "flags": {
@@ -1538,7 +1658,8 @@
       "common": "France",
       "official": "French Republic",
       "nativeName": { "fra": { "official": "République française", "common": "France" } }
-    }
+    },
+    "cca2": "FR"
   },
   {
     "flags": {
@@ -1550,7 +1671,8 @@
       "common": "South Korea",
       "official": "Republic of Korea",
       "nativeName": { "kor": { "official": "대한민국", "common": "한국" } }
-    }
+    },
+    "cca2": "KR"
   },
   {
     "flags": {
@@ -1562,7 +1684,8 @@
       "common": "Ghana",
       "official": "Republic of Ghana",
       "nativeName": { "eng": { "official": "Republic of Ghana", "common": "Ghana" } }
-    }
+    },
+    "cca2": "GH"
   },
   {
     "flags": {
@@ -1574,7 +1697,8 @@
       "common": "Denmark",
       "official": "Kingdom of Denmark",
       "nativeName": { "dan": { "official": "Kongeriget Danmark", "common": "Danmark" } }
-    }
+    },
+    "cca2": "DK"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/sx.png", "svg": "https://flagcdn.com/sx.svg", "alt": "" },
@@ -1586,7 +1710,8 @@
         "fra": { "official": "Saint-Martin", "common": "Saint-Martin" },
         "nld": { "official": "Sint Maarten", "common": "Sint Maarten" }
       }
-    }
+    },
+    "cca2": "SX"
   },
   {
     "flags": {
@@ -1598,7 +1723,8 @@
       "common": "Andorra",
       "official": "Principality of Andorra",
       "nativeName": { "cat": { "official": "Principat d'Andorra", "common": "Andorra" } }
-    }
+    },
+    "cca2": "AD"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/cw.png", "svg": "https://flagcdn.com/cw.svg", "alt": "" },
@@ -1610,7 +1736,8 @@
         "nld": { "official": "Land Curaçao", "common": "Curaçao" },
         "pap": { "official": "Pais Kòrsou", "common": "Pais Kòrsou" }
       }
-    }
+    },
+    "cca2": "CW"
   },
   {
     "flags": {
@@ -1627,7 +1754,8 @@
         "ita": { "official": "Confederazione Svizzera", "common": "Svizzera" },
         "roh": { "official": "Confederaziun svizra", "common": "Svizra" }
       }
-    }
+    },
+    "cca2": "CH"
   },
   {
     "flags": {
@@ -1639,7 +1767,8 @@
       "common": "North Macedonia",
       "official": "Republic of North Macedonia",
       "nativeName": { "mkd": { "official": "Република Северна Македонија", "common": "Македонија" } }
-    }
+    },
+    "cca2": "MK"
   },
   {
     "flags": {
@@ -1651,7 +1780,8 @@
       "common": "South Sudan",
       "official": "Republic of South Sudan",
       "nativeName": { "eng": { "official": "Republic of South Sudan", "common": "South Sudan" } }
-    }
+    },
+    "cca2": "SS"
   },
   {
     "flags": {
@@ -1666,7 +1796,8 @@
         "fra": { "official": "République d'Haïti", "common": "Haïti" },
         "hat": { "official": "Repiblik Ayiti", "common": "Ayiti" }
       }
-    }
+    },
+    "cca2": "HT"
   },
   {
     "flags": {
@@ -1682,7 +1813,8 @@
         "que": { "official": "Piruw Ripuwlika", "common": "Piruw" },
         "spa": { "official": "República del Perú", "common": "Perú" }
       }
-    }
+    },
+    "cca2": "PE"
   },
   {
     "flags": {
@@ -1697,7 +1829,8 @@
         "por": { "official": "República da Guiné-Bissau", "common": "Guiné-Bissau" },
         "pov": { "official": "República da Guiné-Bissau", "common": "Guiné-Bissau" }
       }
-    }
+    },
+    "cca2": "GW"
   },
   {
     "flags": {
@@ -1712,7 +1845,8 @@
         "ces": { "official": "Česká republika", "common": "Česko" },
         "slk": { "official": "Česká republika", "common": "Česko" }
       }
-    }
+    },
+    "cca2": "CZ"
   },
   {
     "flags": {
@@ -1724,7 +1858,8 @@
       "common": "Portugal",
       "official": "Portuguese Republic",
       "nativeName": { "por": { "official": "República Portuguesa", "common": "Portugal" } }
-    }
+    },
+    "cca2": "PT"
   },
   {
     "flags": {
@@ -1736,7 +1871,8 @@
       "common": "Gabon",
       "official": "Gabonese Republic",
       "nativeName": { "fra": { "official": "République gabonaise", "common": "Gabon" } }
-    }
+    },
+    "cca2": "GA"
   },
   {
     "flags": {
@@ -1748,7 +1884,8 @@
       "common": "Mexico",
       "official": "United Mexican States",
       "nativeName": { "spa": { "official": "Estados Unidos Mexicanos", "common": "México" } }
-    }
+    },
+    "cca2": "MX"
   },
   {
     "flags": {
@@ -1760,7 +1897,8 @@
       "common": "Italy",
       "official": "Italian Republic",
       "nativeName": { "ita": { "official": "Repubblica italiana", "common": "Italia" } }
-    }
+    },
+    "cca2": "IT"
   },
   {
     "flags": {
@@ -1775,7 +1913,8 @@
         "fin": { "official": "Suomen tasavalta", "common": "Suomi" },
         "swe": { "official": "Republiken Finland", "common": "Finland" }
       }
-    }
+    },
+    "cca2": "FI"
   },
   {
     "flags": {
@@ -1803,7 +1942,8 @@
         "xho": { "official": "Republic of Zimbabwe", "common": "Zimbabwe" },
         "zib": { "official": "Republic of Zimbabwe", "common": "Zimbabwe" }
       }
-    }
+    },
+    "cca2": "ZW"
   },
   {
     "flags": {
@@ -1815,7 +1955,8 @@
       "common": "Spain",
       "official": "Kingdom of Spain",
       "nativeName": { "spa": { "official": "Reino de España", "common": "España" } }
-    }
+    },
+    "cca2": "ES"
   },
   {
     "flags": {
@@ -1827,7 +1968,8 @@
       "common": "Japan",
       "official": "Japan",
       "nativeName": { "jpn": { "official": "日本", "common": "日本" } }
-    }
+    },
+    "cca2": "JP"
   },
   {
     "flags": {
@@ -1843,7 +1985,8 @@
         "eng": { "official": "Republic of Seychelles", "common": "Seychelles" },
         "fra": { "official": "République des Seychelles", "common": "Seychelles" }
       }
-    }
+    },
+    "cca2": "SC"
   },
   {
     "flags": {
@@ -1855,7 +1998,8 @@
       "common": "Albania",
       "official": "Republic of Albania",
       "nativeName": { "sqi": { "official": "Republika e Shqipërisë", "common": "Shqipëria" } }
-    }
+    },
+    "cca2": "AL"
   },
   {
     "flags": {
@@ -1867,7 +2011,8 @@
       "common": "Moldova",
       "official": "Republic of Moldova",
       "nativeName": { "ron": { "official": "Republica Moldova", "common": "Moldova" } }
-    }
+    },
+    "cca2": "MD"
   },
   {
     "flags": {
@@ -1879,7 +2024,8 @@
       "common": "Guatemala",
       "official": "Republic of Guatemala",
       "nativeName": { "spa": { "official": "República de Guatemala", "common": "Guatemala" } }
-    }
+    },
+    "cca2": "GT"
   },
   {
     "flags": {
@@ -1891,7 +2037,8 @@
       "common": "Germany",
       "official": "Federal Republic of Germany",
       "nativeName": { "deu": { "official": "Bundesrepublik Deutschland", "common": "Deutschland" } }
-    }
+    },
+    "cca2": "DE"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/gp.png", "svg": "https://flagcdn.com/gp.svg", "alt": "" },
@@ -1899,7 +2046,8 @@
       "common": "Guadeloupe",
       "official": "Guadeloupe",
       "nativeName": { "fra": { "official": "Guadeloupe", "common": "Guadeloupe" } }
-    }
+    },
+    "cca2": "GP"
   },
   {
     "flags": {
@@ -1911,7 +2059,8 @@
       "common": "Bulgaria",
       "official": "Republic of Bulgaria",
       "nativeName": { "bul": { "official": "Република България", "common": "България" } }
-    }
+    },
+    "cca2": "BG"
   },
   {
     "flags": {
@@ -1926,7 +2075,8 @@
         "grn": { "official": "Tetã Paraguái", "common": "Paraguái" },
         "spa": { "official": "República de Paraguay", "common": "Paraguay" }
       }
-    }
+    },
+    "cca2": "PY"
   },
   {
     "flags": {
@@ -1942,7 +2092,8 @@
         "eng": { "official": "State of Eritrea", "common": "Eritrea" },
         "tir": { "official": "ሃገረ ኤርትራ", "common": "ኤርትራ" }
       }
-    }
+    },
+    "cca2": "ER"
   },
   {
     "flags": {
@@ -1957,7 +2108,8 @@
         "ara": { "official": "جمهورية السودان", "common": "السودان" },
         "eng": { "official": "Republic of the Sudan", "common": "Sudan" }
       }
-    }
+    },
+    "cca2": "SD"
   },
   {
     "flags": {
@@ -1973,7 +2125,8 @@
         "por": { "official": "República da Guiné Equatorial", "common": "Guiné Equatorial" },
         "spa": { "official": "República de Guinea Ecuatorial", "common": "Guinea Ecuatorial" }
       }
-    }
+    },
+    "cca2": "GQ"
   },
   {
     "flags": {
@@ -1985,7 +2138,8 @@
       "common": "Colombia",
       "official": "Republic of Colombia",
       "nativeName": { "spa": { "official": "República de Colombia", "common": "Colombia" } }
-    }
+    },
+    "cca2": "CO"
   },
   {
     "flags": {
@@ -1997,7 +2151,8 @@
       "common": "Nigeria",
       "official": "Federal Republic of Nigeria",
       "nativeName": { "eng": { "official": "Federal Republic of Nigeria", "common": "Nigeria" } }
-    }
+    },
+    "cca2": "NG"
   },
   {
     "flags": {
@@ -2009,7 +2164,8 @@
       "common": "Montenegro",
       "official": "Montenegro",
       "nativeName": { "cnr": { "official": "Црна Гора", "common": "Црна Гора" } }
-    }
+    },
+    "cca2": "ME"
   },
   {
     "flags": {
@@ -2021,7 +2177,8 @@
       "common": "Nepal",
       "official": "Federal Democratic Republic of Nepal",
       "nativeName": { "nep": { "official": "नेपाल संघीय लोकतान्त्रिक गणतन्त्र", "common": "नेपाल" } }
-    }
+    },
+    "cca2": "NP"
   },
   {
     "flags": {
@@ -2035,7 +2192,8 @@
       "nativeName": {
         "msa": { "official": "Nation of Brunei, Abode Damai", "common": "Negara Brunei Darussalam" }
       }
-    }
+    },
+    "cca2": "BN"
   },
   {
     "flags": {
@@ -2047,7 +2205,8 @@
       "common": "Austria",
       "official": "Republic of Austria",
       "nativeName": { "bar": { "official": "Republik Österreich", "common": "Österreich" } }
-    }
+    },
+    "cca2": "AT"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/tc.png", "svg": "https://flagcdn.com/tc.svg", "alt": "" },
@@ -2057,7 +2216,8 @@
       "nativeName": {
         "eng": { "official": "Turks and Caicos Islands", "common": "Turks and Caicos Islands" }
       }
-    }
+    },
+    "cca2": "TC"
   },
   {
     "flags": {
@@ -2069,7 +2229,8 @@
       "common": "Bahamas",
       "official": "Commonwealth of the Bahamas",
       "nativeName": { "eng": { "official": "Commonwealth of the Bahamas", "common": "Bahamas" } }
-    }
+    },
+    "cca2": "BS"
   },
   {
     "flags": {
@@ -2086,7 +2247,8 @@
           "common": "United Kingdom"
         }
       }
-    }
+    },
+    "cca2": "GB"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/io.png", "svg": "https://flagcdn.com/io.svg", "alt": "" },
@@ -2096,7 +2258,8 @@
       "nativeName": {
         "eng": { "official": "British Indian Ocean Territory", "common": "British Indian Ocean Territory" }
       }
-    }
+    },
+    "cca2": "IO"
   },
   {
     "flags": {
@@ -2108,7 +2271,8 @@
       "common": "Liberia",
       "official": "Republic of Liberia",
       "nativeName": { "eng": { "official": "Republic of Liberia", "common": "Liberia" } }
-    }
+    },
+    "cca2": "LR"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/ai.png", "svg": "https://flagcdn.com/ai.svg", "alt": "" },
@@ -2116,7 +2280,8 @@
       "common": "Anguilla",
       "official": "Anguilla",
       "nativeName": { "eng": { "official": "Anguilla", "common": "Anguilla" } }
-    }
+    },
+    "cca2": "AI"
   },
   {
     "flags": {
@@ -2131,7 +2296,8 @@
         "fra": { "official": "République centrafricaine", "common": "République centrafricaine" },
         "sag": { "official": "Ködörösêse tî Bêafrîka", "common": "Bêafrîka" }
       }
-    }
+    },
+    "cca2": "CF"
   },
   {
     "flags": {
@@ -2143,7 +2309,8 @@
       "common": "Algeria",
       "official": "People's Democratic Republic of Algeria",
       "nativeName": { "ara": { "official": "الجمهورية الديمقراطية الشعبية الجزائرية", "common": "الجزائر" } }
-    }
+    },
+    "cca2": "DZ"
   },
   {
     "flags": {
@@ -2155,7 +2322,8 @@
       "common": "Saint Lucia",
       "official": "Saint Lucia",
       "nativeName": { "eng": { "official": "Saint Lucia", "common": "Saint Lucia" } }
-    }
+    },
+    "cca2": "LC"
   },
   {
     "flags": {
@@ -2167,7 +2335,8 @@
       "common": "Romania",
       "official": "Romania",
       "nativeName": { "ron": { "official": "România", "common": "România" } }
-    }
+    },
+    "cca2": "RO"
   },
   {
     "flags": {
@@ -2181,7 +2350,8 @@
       "nativeName": {
         "ara": { "official": "الإمارات العربية المتحدة", "common": "دولة الإمارات العربية المتحدة" }
       }
-    }
+    },
+    "cca2": "AE"
   },
   {
     "flags": {
@@ -2196,7 +2366,8 @@
         "ara": { "official": "المملكة المغربية", "common": "المغرب" },
         "ber": { "official": "ⵜⴰⴳⵍⴷⵉⵜ ⵏ ⵍⵎⵖⵔⵉⴱ", "common": "ⵍⵎⴰⵖⵔⵉⴱ" }
       }
-    }
+    },
+    "cca2": "MA"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/mp.png", "svg": "https://flagcdn.com/mp.svg", "alt": "" },
@@ -2214,7 +2385,8 @@
           "common": "Northern Mariana Islands"
         }
       }
-    }
+    },
+    "cca2": "MP"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/um.png", "svg": "https://flagcdn.com/um.svg", "alt": "" },
@@ -2227,7 +2399,8 @@
           "common": "United States Minor Outlying Islands"
         }
       }
-    }
+    },
+    "cca2": "UM"
   },
   {
     "flags": {
@@ -2242,7 +2415,8 @@
         "eng": { "official": "Republic of Botswana", "common": "Botswana" },
         "tsn": { "official": "Lefatshe la Botswana", "common": "Botswana" }
       }
-    }
+    },
+    "cca2": "BW"
   },
   {
     "flags": {
@@ -2254,7 +2428,8 @@
       "common": "Lithuania",
       "official": "Republic of Lithuania",
       "nativeName": { "lit": { "official": "Lietuvos Respublikos", "common": "Lietuva" } }
-    }
+    },
+    "cca2": "LT"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/bq.png", "svg": "https://flagcdn.com/bq.svg", "alt": "" },
@@ -2265,7 +2440,8 @@
         "nld": { "official": "Bonaire, Sint Eustatius en Saba", "common": "Caribisch Nederland" },
         "pap": { "official": "Boneiru, Sint Eustatius y Saba", "common": "Boneiru, Sint Eustatius y Saba" }
       }
-    }
+    },
+    "cca2": "BQ"
   },
   {
     "flags": {
@@ -2277,7 +2453,8 @@
       "common": "Cape Verde",
       "official": "Republic of Cabo Verde",
       "nativeName": { "por": { "official": "República de Cabo Verde", "common": "Cabo Verde" } }
-    }
+    },
+    "cca2": "CV"
   },
   {
     "flags": {
@@ -2289,7 +2466,8 @@
       "common": "United States",
       "official": "United States of America",
       "nativeName": { "eng": { "official": "United States of America", "common": "United States" } }
-    }
+    },
+    "cca2": "US"
   },
   {
     "flags": {
@@ -2301,7 +2479,8 @@
       "common": "Australia",
       "official": "Commonwealth of Australia",
       "nativeName": { "eng": { "official": "Commonwealth of Australia", "common": "Australia" } }
-    }
+    },
+    "cca2": "AU"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/gu.png", "svg": "https://flagcdn.com/gu.svg", "alt": "" },
@@ -2313,7 +2492,8 @@
         "eng": { "official": "Guam", "common": "Guam" },
         "spa": { "official": "Guam", "common": "Guam" }
       }
-    }
+    },
+    "cca2": "GU"
   },
   {
     "flags": {
@@ -2328,7 +2508,8 @@
         "eng": { "official": "Kingdom of Tonga", "common": "Tonga" },
         "ton": { "official": "Kingdom of Tonga", "common": "Tonga" }
       }
-    }
+    },
+    "cca2": "TO"
   },
   {
     "flags": {
@@ -2344,7 +2525,8 @@
         "pus": { "official": "د افغانستان اسلامي جمهوریت", "common": "افغانستان" },
         "tuk": { "official": "Owganystan Yslam Respublikasy", "common": "Owganystan" }
       }
-    }
+    },
+    "cca2": "AF"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/fk.png", "svg": "https://flagcdn.com/fk.svg", "alt": "" },
@@ -2352,7 +2534,8 @@
       "common": "Falkland Islands",
       "official": "Falkland Islands",
       "nativeName": { "eng": { "official": "Falkland Islands", "common": "Falkland Islands" } }
-    }
+    },
+    "cca2": "FK"
   },
   {
     "flags": {
@@ -2367,7 +2550,8 @@
         "eng": { "official": "Republic of Nauru", "common": "Nauru" },
         "nau": { "official": "Republic of Nauru", "common": "Nauru" }
       }
-    }
+    },
+    "cca2": "NR"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/ck.png", "svg": "https://flagcdn.com/ck.svg", "alt": "" },
@@ -2378,7 +2562,8 @@
         "eng": { "official": "Cook Islands", "common": "Cook Islands" },
         "rar": { "official": "Kūki 'Āirani", "common": "Kūki 'Āirani" }
       }
-    }
+    },
+    "cca2": "CK"
   },
   {
     "flags": {
@@ -2390,7 +2575,8 @@
       "common": "Hungary",
       "official": "Hungary",
       "nativeName": { "hun": { "official": "Magyarország", "common": "Magyarország" } }
-    }
+    },
+    "cca2": "HU"
   },
   {
     "flags": {
@@ -2402,7 +2588,8 @@
       "common": "Mauritania",
       "official": "Islamic Republic of Mauritania",
       "nativeName": { "ara": { "official": "الجمهورية الإسلامية الموريتانية", "common": "موريتانيا" } }
-    }
+    },
+    "cca2": "MR"
   },
   {
     "flags": {
@@ -2414,7 +2601,8 @@
       "common": "Slovenia",
       "official": "Republic of Slovenia",
       "nativeName": { "slv": { "official": "Republika Slovenija", "common": "Slovenija" } }
-    }
+    },
+    "cca2": "SI"
   },
   {
     "flags": {
@@ -2429,7 +2617,8 @@
         "ara": { "official": "جمهورية تشاد", "common": "تشاد‎" },
         "fra": { "official": "République du Tchad", "common": "Tchad" }
       }
-    }
+    },
+    "cca2": "TD"
   },
   {
     "flags": {
@@ -2444,7 +2633,8 @@
         "ita": { "official": "Stato della Città del Vaticano", "common": "Vaticano" },
         "lat": { "official": "Status Civitatis Vaticanæ", "common": "Vaticanæ" }
       }
-    }
+    },
+    "cca2": "VA"
   },
   {
     "flags": {
@@ -2456,7 +2646,8 @@
       "common": "Benin",
       "official": "Republic of Benin",
       "nativeName": { "fra": { "official": "République du Bénin", "common": "Bénin" } }
-    }
+    },
+    "cca2": "BJ"
   },
   {
     "flags": {
@@ -2473,7 +2664,8 @@
         "msa": { "official": "Republik Singapura", "common": "Singapura" },
         "tam": { "official": "சிங்கப்பூர் குடியரசு", "common": "சிங்கப்பூர்" }
       }
-    }
+    },
+    "cca2": "SG"
   },
   {
     "flags": {
@@ -2488,7 +2680,8 @@
         "eng": { "official": "Republic of Malta", "common": "Malta" },
         "mlt": { "official": "Repubblika ta ' Malta", "common": "Malta" }
       }
-    }
+    },
+    "cca2": "MT"
   },
   {
     "flags": {
@@ -2505,7 +2698,8 @@
           "common": "Saint Vincent and the Grenadines"
         }
       }
-    }
+    },
+    "cca2": "VC"
   },
   {
     "flags": {
@@ -2520,7 +2714,8 @@
         "eng": { "official": "Republic of the Marshall Islands", "common": "Marshall Islands" },
         "mah": { "official": "Republic of the Marshall Islands", "common": "M̧ajeļ" }
       }
-    }
+    },
+    "cca2": "MH"
   },
   {
     "flags": {
@@ -2532,7 +2727,8 @@
       "common": "Thailand",
       "official": "Kingdom of Thailand",
       "nativeName": { "tha": { "official": "ราชอาณาจักรไทย", "common": "ประเทศไทย" } }
-    }
+    },
+    "cca2": "TH"
   },
   {
     "flags": {
@@ -2544,7 +2740,8 @@
       "common": "Liechtenstein",
       "official": "Principality of Liechtenstein",
       "nativeName": { "deu": { "official": "Fürstentum Liechtenstein", "common": "Liechtenstein" } }
-    }
+    },
+    "cca2": "LI"
   },
   {
     "flags": {
@@ -2559,7 +2756,8 @@
         "eng": { "official": "Republic of Ireland", "common": "Ireland" },
         "gle": { "official": "Poblacht na hÉireann", "common": "Éire" }
       }
-    }
+    },
+    "cca2": "IE"
   },
   {
     "flags": {
@@ -2571,7 +2769,8 @@
       "common": "Maldives",
       "official": "Republic of the Maldives",
       "nativeName": { "div": { "official": "ދިވެހިރާއްޖޭގެ ޖުމްހޫރިއްޔާ", "common": "ދިވެހިރާއްޖޭގެ" } }
-    }
+    },
+    "cca2": "MV"
   },
   {
     "flags": {
@@ -2583,7 +2782,8 @@
       "common": "Vietnam",
       "official": "Socialist Republic of Vietnam",
       "nativeName": { "vie": { "official": "Cộng hòa xã hội chủ nghĩa Việt Nam", "common": "Việt Nam" } }
-    }
+    },
+    "cca2": "VN"
   },
   {
     "flags": {
@@ -2595,7 +2795,8 @@
       "common": "Armenia",
       "official": "Republic of Armenia",
       "nativeName": { "hye": { "official": "Հայաստանի Հանրապետություն", "common": "Հայաստան" } }
-    }
+    },
+    "cca2": "AM"
   },
   {
     "flags": {
@@ -2610,7 +2811,8 @@
         "eng": { "official": "Islamic Republic of Pakistan", "common": "Pakistan" },
         "urd": { "official": "اسلامی جمہوریۂ پاكستان", "common": "پاكستان" }
       }
-    }
+    },
+    "cca2": "PK"
   },
   {
     "flags": {
@@ -2622,7 +2824,8 @@
       "common": "Ivory Coast",
       "official": "Republic of Côte d'Ivoire",
       "nativeName": { "fra": { "official": "République de Côte d'Ivoire", "common": "Côte d'Ivoire" } }
-    }
+    },
+    "cca2": "CI"
   },
   {
     "flags": {
@@ -2634,7 +2837,8 @@
       "common": "Russia",
       "official": "Russian Federation",
       "nativeName": { "rus": { "official": "Российская Федерация", "common": "Россия" } }
-    }
+    },
+    "cca2": "RU"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/mq.png", "svg": "https://flagcdn.com/mq.svg", "alt": "" },
@@ -2642,7 +2846,8 @@
       "common": "Martinique",
       "official": "Martinique",
       "nativeName": { "fra": { "official": "Martinique", "common": "Martinique" } }
-    }
+    },
+    "cca2": "MQ"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/bv.png", "svg": "https://flagcdn.com/bv.svg", "alt": "" },
@@ -2650,7 +2855,8 @@
       "common": "Bouvet Island",
       "official": "Bouvet Island",
       "nativeName": { "nor": { "official": "Bouvetøya", "common": "Bouvetøya" } }
-    }
+    },
+    "cca2": "BV"
   },
   {
     "flags": {
@@ -2665,7 +2871,8 @@
         "por": { "official": "República Democrática de Timor-Leste", "common": "Timor-Leste" },
         "tet": { "official": "Repúblika Demokrátika Timór-Leste", "common": "Timór-Leste" }
       }
-    }
+    },
+    "cca2": "TL"
   },
   {
     "flags": {
@@ -2677,7 +2884,8 @@
       "common": "Nicaragua",
       "official": "Republic of Nicaragua",
       "nativeName": { "spa": { "official": "República de Nicaragua", "common": "Nicaragua" } }
-    }
+    },
+    "cca2": "NI"
   },
   {
     "flags": {
@@ -2693,7 +2901,8 @@
         "hmo": { "official": "Independen Stet bilong Papua Niugini", "common": "Papua Niu Gini" },
         "tpi": { "official": "Independen Stet bilong Papua Niugini", "common": "Papua Niugini" }
       }
-    }
+    },
+    "cca2": "PG"
   },
   {
     "flags": {
@@ -2705,7 +2914,8 @@
       "common": "Egypt",
       "official": "Arab Republic of Egypt",
       "nativeName": { "ara": { "official": "جمهورية مصر العربية", "common": "مصر" } }
-    }
+    },
+    "cca2": "EG"
   },
   {
     "flags": {
@@ -2717,7 +2927,8 @@
       "common": "Jordan",
       "official": "Hashemite Kingdom of Jordan",
       "nativeName": { "ara": { "official": "المملكة الأردنية الهاشمية", "common": "الأردن" } }
-    }
+    },
+    "cca2": "JO"
   },
   {
     "flags": {
@@ -2729,7 +2940,8 @@
       "common": "Uruguay",
       "official": "Oriental Republic of Uruguay",
       "nativeName": { "spa": { "official": "República Oriental del Uruguay", "common": "Uruguay" } }
-    }
+    },
+    "cca2": "UY"
   },
   {
     "flags": {
@@ -2741,7 +2953,8 @@
       "common": "Burkina Faso",
       "official": "Burkina Faso",
       "nativeName": { "fra": { "official": "République du Burkina", "common": "Burkina Faso" } }
-    }
+    },
+    "cca2": "BF"
   },
   {
     "flags": {
@@ -2753,7 +2966,8 @@
       "common": "Cambodia",
       "official": "Kingdom of Cambodia",
       "nativeName": { "khm": { "official": "ព្រះរាជាណាចក្រកម្ពុជា", "common": "Kâmpŭchéa" } }
-    }
+    },
+    "cca2": "KH"
   },
   {
     "flags": {
@@ -2765,7 +2979,8 @@
       "common": "Ethiopia",
       "official": "Federal Democratic Republic of Ethiopia",
       "nativeName": { "amh": { "official": "የኢትዮጵያ ፌዴራላዊ ዲሞክራሲያዊ ሪፐብሊክ", "common": "ኢትዮጵያ" } }
-    }
+    },
+    "cca2": "ET"
   },
   {
     "flags": {
@@ -2780,7 +2995,8 @@
         "eng": { "official": "Independent and Sovereign Republic of Kiribati", "common": "Kiribati" },
         "gil": { "official": "Ribaberiki Kiribati", "common": "Kiribati" }
       }
-    }
+    },
+    "cca2": "KI"
   },
   {
     "flags": {
@@ -2792,7 +3008,8 @@
       "common": "Bhutan",
       "official": "Kingdom of Bhutan",
       "nativeName": { "dzo": { "official": "འབྲུག་རྒྱལ་ཁབ་", "common": "འབྲུག་ཡུལ་" } }
-    }
+    },
+    "cca2": "BT"
   },
   {
     "flags": {
@@ -2804,7 +3021,8 @@
       "common": "Dominican Republic",
       "official": "Dominican Republic",
       "nativeName": { "spa": { "official": "República Dominicana", "common": "República Dominicana" } }
-    }
+    },
+    "cca2": "DO"
   },
   {
     "flags": {
@@ -2816,7 +3034,8 @@
       "common": "Suriname",
       "official": "Republic of Suriname",
       "nativeName": { "nld": { "official": "Republiek Suriname", "common": "Suriname" } }
-    }
+    },
+    "cca2": "SR"
   },
   {
     "flags": {
@@ -2828,7 +3047,8 @@
       "common": "Bangladesh",
       "official": "People's Republic of Bangladesh",
       "nativeName": { "ben": { "official": "বাংলাদেশ গণপ্রজাতন্ত্রী", "common": "বাংলাদেশ" } }
-    }
+    },
+    "cca2": "BD"
   },
   {
     "flags": {
@@ -2840,7 +3060,8 @@
       "common": "Barbados",
       "official": "Barbados",
       "nativeName": { "eng": { "official": "Barbados", "common": "Barbados" } }
-    }
+    },
+    "cca2": "BB"
   },
   {
     "flags": {
@@ -2852,7 +3073,8 @@
       "common": "North Korea",
       "official": "Democratic People's Republic of Korea",
       "nativeName": { "kor": { "official": "조선민주주의인민공화국", "common": "조선" } }
-    }
+    },
+    "cca2": "KP"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/gl.png", "svg": "https://flagcdn.com/gl.svg", "alt": "" },
@@ -2860,7 +3082,8 @@
       "common": "Greenland",
       "official": "Greenland",
       "nativeName": { "kal": { "official": "Kalaallit Nunaat", "common": "Kalaallit Nunaat" } }
-    }
+    },
+    "cca2": "GL"
   },
   {
     "flags": {
@@ -2876,7 +3099,8 @@
         "fra": { "official": "Royaume de Belgique", "common": "Belgique" },
         "nld": { "official": "Koninkrijk België", "common": "België" }
       }
-    }
+    },
+    "cca2": "BE"
   },
   {
     "flags": {
@@ -2891,7 +3115,8 @@
         "eng": { "official": "Republic of Palau", "common": "Palau" },
         "pau": { "official": "Beluu er a Belau", "common": "Belau" }
       }
-    }
+    },
+    "cca2": "PW"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/nf.png", "svg": "https://flagcdn.com/nf.svg", "alt": "" },
@@ -2902,7 +3127,8 @@
         "eng": { "official": "Territory of Norfolk Island", "common": "Norfolk Island" },
         "pih": { "official": "Teratri of Norf'k Ailen", "common": "Norf'k Ailen" }
       }
-    }
+    },
+    "cca2": "NF"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/gs.png", "svg": "https://flagcdn.com/gs.svg", "alt": "" },
@@ -2912,7 +3138,8 @@
       "nativeName": {
         "eng": { "official": "South Georgia and the South Sandwich Islands", "common": "South Georgia" }
       }
-    }
+    },
+    "cca2": "GS"
   },
   {
     "flags": {
@@ -2927,7 +3154,8 @@
         "eng": { "official": "Republic of the Philippines", "common": "Philippines" },
         "fil": { "official": "Republic of the Philippines", "common": "Pilipinas" }
       }
-    }
+    },
+    "cca2": "PH"
   },
   {
     "flags": {
@@ -2943,7 +3171,8 @@
         "hin": { "official": "भारत गणराज्य", "common": "भारत" },
         "tam": { "official": "இந்தியக் குடியரசு", "common": "இந்தியா" }
       }
-    }
+    },
+    "cca2": "IN"
   },
   {
     "flags": {
@@ -2955,7 +3184,8 @@
       "common": "Indonesia",
       "official": "Republic of Indonesia",
       "nativeName": { "ind": { "official": "Republik Indonesia", "common": "Indonesia" } }
-    }
+    },
+    "cca2": "ID"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/vi.png", "svg": "https://flagcdn.com/vi.svg", "alt": "" },
@@ -2965,7 +3195,8 @@
       "nativeName": {
         "eng": { "official": "Virgin Islands of the United States", "common": "United States Virgin Islands" }
       }
-    }
+    },
+    "cca2": "VI"
   },
   {
     "flags": {
@@ -2977,7 +3208,8 @@
       "common": "Dominica",
       "official": "Commonwealth of Dominica",
       "nativeName": { "eng": { "official": "Commonwealth of Dominica", "common": "Dominica" } }
-    }
+    },
+    "cca2": "DM"
   },
   {
     "flags": {
@@ -2993,7 +3225,8 @@
         "fra": { "official": "République rwandaise", "common": "Rwanda" },
         "kin": { "official": "Repubulika y'u Rwanda", "common": "Rwanda" }
       }
-    }
+    },
+    "cca2": "RW"
   },
   {
     "flags": {
@@ -3008,7 +3241,8 @@
         "fra": { "official": "République de Madagascar", "common": "Madagascar" },
         "mlg": { "official": "Repoblikan'i Madagasikara", "common": "Madagasikara" }
       }
-    }
+    },
+    "cca2": "MG"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/hk.png", "svg": "https://flagcdn.com/hk.svg", "alt": "" },
@@ -3022,7 +3256,8 @@
         },
         "zho": { "official": "中华人民共和国香港特别行政区", "common": "香港" }
       }
-    }
+    },
+    "cca2": "HK"
   },
   {
     "flags": {
@@ -3037,7 +3272,8 @@
         "eng": { "official": "Independent State of Samoa", "common": "Samoa" },
         "smo": { "official": "Malo Saʻoloto Tutoʻatasi o Sāmoa", "common": "Sāmoa" }
       }
-    }
+    },
+    "cca2": "WS"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/fo.png", "svg": "https://flagcdn.com/fo.svg", "alt": "" },
@@ -3048,7 +3284,8 @@
         "dan": { "official": "Færøerne", "common": "Færøerne" },
         "fao": { "official": "Føroyar", "common": "Føroyar" }
       }
-    }
+    },
+    "cca2": "FO"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/pn.png", "svg": "https://flagcdn.com/pn.svg", "alt": "" },
@@ -3056,7 +3293,8 @@
       "common": "Pitcairn Islands",
       "official": "Pitcairn Group of Islands",
       "nativeName": { "eng": { "official": "Pitcairn Group of Islands", "common": "Pitcairn Islands" } }
-    }
+    },
+    "cca2": "PN"
   },
   {
     "flags": {
@@ -3068,7 +3306,8 @@
       "common": "Antigua and Barbuda",
       "official": "Antigua and Barbuda",
       "nativeName": { "eng": { "official": "Antigua and Barbuda", "common": "Antigua and Barbuda" } }
-    }
+    },
+    "cca2": "AG"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/ax.png", "svg": "https://flagcdn.com/ax.svg", "alt": "" },
@@ -3076,7 +3315,8 @@
       "common": "Åland Islands",
       "official": "Åland Islands",
       "nativeName": { "swe": { "official": "Landskapet Åland", "common": "Åland" } }
-    }
+    },
+    "cca2": "AX"
   },
   {
     "flags": {
@@ -3088,7 +3328,8 @@
       "common": "Sweden",
       "official": "Kingdom of Sweden",
       "nativeName": { "swe": { "official": "Konungariket Sverige", "common": "Sverige" } }
-    }
+    },
+    "cca2": "SE"
   },
   {
     "flags": {
@@ -3100,7 +3341,8 @@
       "common": "Mozambique",
       "official": "Republic of Mozambique",
       "nativeName": { "por": { "official": "República de Moçambique", "common": "Moçambique" } }
-    }
+    },
+    "cca2": "MZ"
   },
   {
     "flags": {
@@ -3115,11 +3357,13 @@
         "rus": { "official": "Республика Узбекистан", "common": "Узбекистан" },
         "uzb": { "official": "O'zbekiston Respublikasi", "common": "O‘zbekiston" }
       }
-    }
+    },
+    "cca2": "UZ"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/aq.png", "svg": "https://flagcdn.com/aq.svg", "alt": "" },
-    "name": { "common": "Antarctica", "official": "Antarctica", "nativeName": {} }
+    "name": { "common": "Antarctica", "official": "Antarctica", "nativeName": {} },
+    "cca2": "AQ"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/wf.png", "svg": "https://flagcdn.com/wf.svg", "alt": "" },
@@ -3129,7 +3373,8 @@
       "nativeName": {
         "fra": { "official": "Territoire des îles Wallis et Futuna", "common": "Wallis et Futuna" }
       }
-    }
+    },
+    "cca2": "WF"
   },
   {
     "flags": {
@@ -3141,7 +3386,8 @@
       "common": "Ukraine",
       "official": "Ukraine",
       "nativeName": { "ukr": { "official": "Україна", "common": "Україна" } }
-    }
+    },
+    "cca2": "UA"
   },
   {
     "flags": {
@@ -3157,7 +3403,8 @@
         "eng": { "official": "Belize", "common": "Belize" },
         "spa": { "official": "Belice", "common": "Belice" }
       }
-    }
+    },
+    "cca2": "BZ"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/sh.png", "svg": "https://flagcdn.com/sh.svg", "alt": "" },
@@ -3170,7 +3417,8 @@
           "common": "Saint Helena, Ascension and Tristan da Cunha"
         }
       }
-    }
+    },
+    "cca2": "SH"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/gg.png", "svg": "https://flagcdn.com/gg.svg", "alt": "" },
@@ -3182,7 +3430,8 @@
         "fra": { "official": "Bailliage de Guernesey", "common": "Guernesey" },
         "nfr": { "official": "Dgèrnésiais", "common": "Dgèrnésiais" }
       }
-    }
+    },
+    "cca2": "GG"
   },
   {
     "flags": { "png": "https://flagcdn.com/w320/tk.png", "svg": "https://flagcdn.com/tk.svg", "alt": "" },
@@ -3194,6 +3443,7 @@
         "smo": { "official": "Tokelau", "common": "Tokelau" },
         "tkl": { "official": "Tokelau", "common": "Tokelau" }
       }
-    }
+    },
+    "cca2": "TK"
   }
 ]

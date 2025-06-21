@@ -1,24 +1,28 @@
 import { colors, layout, min } from 'styles';
 import { css } from '@emotion/react';
-import { cssFontMono } from '../fonts.styles';
-import { cssInputBox, cssInputText, forms } from '../forms.styles';
+import { cssFontDefaults, cssFontMono } from '../fonts.styles';
+import { cssForms, cssInputBox, cssInputText, stylesFormsReset } from '../forms.styles';
 
 // Base styles shared across all interactive buttons
 export const stylesContent = css`
-  color: ${colors.textDark};
+  ${stylesFormsReset}
+  ${cssFontDefaults}
+  ${cssForms}
+
+  color: ${colors.info};
 
   h1 {
     font-size: 2.5rem;
+    color: var(--color-default);
     font-weight: 600;
-    color: ${colors.textXDark};
-    margin: 1em 0 0.5em 0;
+    color: ${colors.textDark};
   }
   h2 {
-    font-size: 1.75rem;
-    color: ${colors.secondaryDark};
+    font-size: 1.5rem;
+    color: var(--color-primary);
     color: ${colors.text};
     font-weight: 600;
-    margin: 1.5em 0 0.5em 0;
+    margin: 1.5em 0 1em 0;
   }
   h3 {
     color: var(--color-text-light);
@@ -42,19 +46,6 @@ export const stylesContent = css`
   }
 
   h1 + span {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: ${colors.text};
-    padding: 0em 0 1em 0;
-    display: inline-block;
-  }
-
-  h2 + span {
-    font-size: 1rem;
-    font-weight: 500;
-    color: ${colors.text};
-    padding: 0.25em 0 1em 0;
-    display: inline-block;
   }
 
   p {
@@ -86,13 +77,6 @@ export const stylesContent = css`
     opacity: 0.5;
   }
 
-  div.rt-TextFieldRoot {
-    min-height: ${forms.inputs.height};
-    box-shadow: inset 0px 0px 0px 2px ${colors.greyXLight};
-    /* ${cssInputText} */
-    /* ${cssInputBox} */
-  }
-
   /* header.page-header,
   section {
     padding: calc(${layout.padding} * 1) calc(${layout.padding} * 0.75) calc(${layout.padding} * 2);
@@ -122,6 +106,85 @@ export const stylesContent = css`
       margin-bottom: 2.5em;
     }
   } */
+
+  article {
+    padding: ${layout.padding};
+  }
+
+  span.default {
+    color: var(--color-default) !important;
+  }
+  span.primary {
+    color: var(--color-primary) !important;
+  }
+  span.secondary {
+    color: var(--color-secondary) !important;
+  }
+  span.info {
+    color: var(--color-info) !important;
+  }
+  span.success {
+    color: var(--color-success) !important;
+  }
+  span.warning {
+    color: var(--color-warning) !important;
+  }
+  span.danger {
+    color: var(--color-danger) !important;
+  }
+
+  button {
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0.5em;
+  }
+  fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+  form fieldset:disabled {
+    pointer-events: none;
+  }
+
+  pre,
+  code {
+    ${cssFontMono}/* font family default */
+  }
+
+  /******************** FORMS **************************/
+
+  input[type='text'],
+  input[type='number'],
+  input[type='password'],
+  input[type='date'],
+  input[type='datetime-local'],
+  input[type='time'],
+  input[type='email'],
+  input[type='tel'],
+  input[type='url'],
+  input[type='image'],
+  input[type='file'],
+  input[type='search'],
+  div[role='textbox'],
+  textarea,
+  select,
+  div > .select__control {
+    ${cssInputText}
+    ${cssInputBox}
+    border: 1px solid #d1d5db !important;
+
+    &:focus {
+      border-color: #3b82f6 !important;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    }
+
+    &:hover:not(:focus) {
+      border-color: #9ca3af !important;
+    }
+  }
 
   /******************** RESPONSIVE *********************/
 

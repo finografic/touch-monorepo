@@ -6,7 +6,7 @@ import { Box, Button, Callout, Flex, Heading, Spinner, Text } from '@radix-ui/th
 import { useTranslation } from 'react-i18next';
 import { TranslationForm } from './components/TranslationForm';
 import { AdminContentLayout, AdminSection } from '../shared';
-import { styles } from './AdminPage.styles';
+import { styles } from './AdminTrasnlationsPage.styles';
 import { useBatchUpdateTranslations, useGetAllTranslations } from 'api/hooks/useTranslations';
 import type {
   ContainerTypeUpdate,
@@ -73,7 +73,7 @@ const getEmptyFormData = (): TranslationFormData => ({
   containerTypes: [],
 });
 
-export const AdminPage: React.FC = () => {
+export const AdminTrasnlationsPage: React.FC = () => {
   const { t } = useTranslation();
   const { data: translationsData, isLoading, isError, error } = useGetAllTranslations();
   const batchUpdateMutation = useBatchUpdateTranslations();

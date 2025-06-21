@@ -9,7 +9,9 @@ import { generateRadixColorPalette } from './radix-ui/radix.palette';
 
 export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black'> = {
   // main colors
-  primary: { color: 'cyan', shade: 8 },
+  // primary: { color: 'cyan', shade: 8 },
+  // primary: { color: 'teal', shade: 4 },
+  primary: { color: 'blue', shade: 9 },
   secondary: { color: 'teal', shade: 8 },
   default: { color: 'gray', shade: 4 },
   // text + greys

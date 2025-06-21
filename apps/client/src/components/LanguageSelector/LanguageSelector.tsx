@@ -1,7 +1,7 @@
 import { Flex, RadioCards, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { useContent } from 'providers/ContentProvider/ContentContext';
-import { flagAssets } from './flags/images';
+import { flagAssets } from './languages/images';
 import { styles } from './LanguageSelector.styles';
 import { getFlagDataByIso } from './language-selector.utils';
 import { LANGUAGE_CONFIG } from 'constants/language.constants';

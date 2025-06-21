@@ -13,6 +13,7 @@ interface AdminContentLayoutProps {
   };
   isLoading?: boolean;
   error?: string;
+  centerTitle?: boolean;
 }
 
 export const AdminContentLayout: React.FC<AdminContentLayoutProps> = ({
@@ -22,6 +23,7 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = ({
   message,
   isLoading = false,
   error,
+  centerTitle = false,
 }) => {
   return (
     <section
@@ -29,12 +31,20 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = ({
       className="admin-page"
     >
       <div className="admin-page-container">
-        <div className="admin-page-header">
-          <Heading size="8" className="admin-page-title">
+        <div
+          className={`admin-page-header ${centerTitle ? 'centered' : ''}`}
+          style={centerTitle ? { textAlign: 'center' } : {}}
+        >
+          <Heading size="8" className="admin-page-title" align={centerTitle ? 'center' : 'left'}>
             {title}
           </Heading>
           {subtitle && (
-            <Text size="3" className="admin-page-subtitle">
+            <Text
+              size="3"
+              className="admin-page-subtitle"
+              align={centerTitle ? 'center' : 'left'}
+              style={centerTitle ? { textAlign: 'center' } : {}}
+            >
               {subtitle}
             </Text>
           )}

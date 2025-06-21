@@ -8,7 +8,9 @@
       "common": "Catalonia",
       "official": "Catalonia",
       "nativeName": { "cat": { "official": "Catalunya", "common": "Catalunya" } }
-    }
+    },
+    "cca2": "ES",
+    "languages": { "cat": "Catalan" }
   },
   {
     "flags": {
@@ -19,7 +21,10 @@
       "common": "Spain",
       "official": "Kingdom of Spain",
       "nativeName": { "spa": { "official": "Reino de España", "common": "España" } }
-    }
+    },
+    "cca2": "ES",
+    "languages": { "spa": "Spanish", "cat": "Catalan", "eus": "Basque", "glc": "Galician" },
+    "flag": "🇪🇸"
   },
   {
     "flags": {
@@ -35,7 +40,10 @@
           "common": "United Kingdom"
         }
       }
-    }
+    },
+    "cca2": "GB",
+    "languages": { "eng": "English" },
+    "flag": "🇬🇧"
   },
   {
     "flags": {
@@ -46,6 +54,9 @@
       "common": "United States",
       "official": "United States of America",
       "nativeName": { "eng": { "official": "United States of America", "common": "United States" } }
-    }
+    },
+    "cca2": "US",
+    "languages": { "eng": "English" },
+    "flag": "🇺🇸"
   }
 ]

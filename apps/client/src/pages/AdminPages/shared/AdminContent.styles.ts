@@ -265,7 +265,7 @@ export const adminTableStyles = css`
     border-collapse: collapse;
     background-color: ${colors.white};
     border-radius: 8px;
-    overflow: hidden;
+    /* overflow: hidden; */
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
     thead {

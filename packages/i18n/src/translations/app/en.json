@@ -18,6 +18,10 @@
     },
     "admin": {
       "title": "Admin Tools",
+      "translations": {
+        "title": "Translation Management",
+        "subtitle": "Edit translations for database content"
+      },
       "languages": {
         "title": "Language Management",
         "subtitle": "Configure system languages and localization"
