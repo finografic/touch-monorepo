@@ -34,7 +34,7 @@ export const stylesItemsGrid = css`
       margin: 0 auto;
 
       /* Ensure consistent item sizing */
-      .item-button {
+      .btn-item {
         width: 100%;
       }
 
@@ -44,7 +44,7 @@ export const stylesItemsGrid = css`
     }
   }
 
-  .item-button {
+  .btn-item {
     display: flex;
     align-items: center;
     justify-content: center;

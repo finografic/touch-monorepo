@@ -3,5 +3,77 @@
     "title": "SERVI_FRESC_ES",
     "tagline": "Servicio de temperatura perfecto",
     "description": "Sistema de control de temperatura para bebidas"
+  },
+  "pages": {
+    "dashboard": {
+      "title": "Panel de control",
+      "subtitle": "Resumen del sistema"
+    },
+    "orders": {
+      "title": "Pedidos",
+      "subtitle": "Gestionar pedidos de bebidas",
+      "new": "Nuevo pedido",
+      "active": "Pedidos activos",
+      "completed": "Pedidos completados"
+    },
+    "admin": {
+      "title": "Herramientas de administración",
+      "tabs": {
+        "orderSelections": "Selecciones de pedidos",
+        "storedConfiguration": "Configuración almacenada",
+        "languages": "Idiomas"
+      }
+    }
+  },
+  "components": {
+    "languageSelector": {
+      "title": "Seleccionar idioma",
+      "change": "Cambiar idioma"
+    },
+    "temperatureControl": {
+      "initial": "Establece el tiempo de preparación especificando minutos y segundos",
+      "target": "Temperatura objetivo",
+      "current": "Temperatura actual",
+      "cooling": "Enfriando",
+      "heating": "Calentando",
+      "maintaining": "Volúmenes"
+    },
+    "orderStatus": {
+      "pending": "Subtipos de bebidas",
+      "processing": "Tipos de bebidas",
+      "cooling": "Enfriando",
+      "heating": "Calentando",
+      "ready": "Listo",
+      "completed": "Tipos de contenedores",
+      "cancelled": "Cancelado"
+    },
+    "admin": {
+      "translation": {
+        "management": "Gestión de traducciones",
+        "editTables": "Editar traducciones para tablas de base de datos",
+        "drinkSubtypes": {
+          "title": "Subtipos de bebidas",
+          "description": "Subtipos de vino y cerveza (rubia, negra, tinto, blanco)"
+        },
+        "volumes": {
+          "title": "Volúmenes",
+          "description": "Volúmenes de contenedores (2L, 1.5L, 50cl, 33cl, etc.)"
+        },
+        "drinkTypes": {
+          "title": "Tipos de bebidas",
+          "description": "Categorías principales de bebidas (cerveza, vino, cava, licor, etc.)"
+        },
+        "containerTypes": {
+          "title": "Tipos de contenedores",
+          "description": "Materiales de contenedores (plástico, vidrio, metal)"
+        }
+      }
+    }
+  },
+  "notifications": {
+    "orderReady": "¡Traducciones actualizadas correctamente!",
+    "temperatureReached": "Temperatura objetivo alcanzada",
+    "systemError": "Ocurrió un error del sistema",
+    "orderCancelled": "Pedido cancelado"
   }
 }

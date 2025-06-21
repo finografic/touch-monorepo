@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { Box, Button, Callout, Flex, Heading, Spinner, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { TranslationForm } from './components/TranslationForm';
-import { AdminPageLayout, AdminSection } from '../shared';
+import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminPage.styles';
 import { useBatchUpdateTranslations, useGetAllTranslations } from 'api/hooks/useTranslations';
 import type {
@@ -282,7 +282,7 @@ export const AdminPage: React.FC = () => {
 
   if (isLoading || !isDataReady) {
     return (
-      <AdminPageLayout
+      <AdminContentLayout
         title={t('pages.admin.title')}
         subtitle={t('components.admin.translation.editTables')}
         isLoading={true}
@@ -291,13 +291,13 @@ export const AdminPage: React.FC = () => {
           <Spinner size="3" />
           <Text>{t('ui.states.loading')}</Text>
         </Flex>
-      </AdminPageLayout>
+      </AdminContentLayout>
     );
   }
 
   if (isError) {
     return (
-      <AdminPageLayout
+      <AdminContentLayout
         title={t('pages.admin.title')}
         subtitle={t('components.admin.translation.editTables')}
         error={error?.message || t('ui.states.error')}
@@ -307,13 +307,13 @@ export const AdminPage: React.FC = () => {
             {t('ui.states.error')}: {error?.message || t('ui.states.error')}
           </Text>
         </Flex>
-      </AdminPageLayout>
+      </AdminContentLayout>
     );
   }
 
   return (
     <FormProvider {...methods}>
-      <AdminPageLayout
+      <AdminContentLayout
         title={t('pages.admin.title')}
         subtitle={t('components.admin.translation.editTables')}
         message={
@@ -326,7 +326,7 @@ export const AdminPage: React.FC = () => {
         }
       >
         <AdminSection>{formContent}</AdminSection>
-      </AdminPageLayout>
+      </AdminContentLayout>
     </FormProvider>
   );
 };

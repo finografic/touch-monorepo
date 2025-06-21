@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 import { Box, Callout, Flex, Heading, Text } from '@radix-ui/themes';
-import { adminStyles } from './AdminPageStyles';
+import { styles } from './AdminContent.styles';
 
-interface AdminPageLayoutProps {
+interface AdminContentLayoutProps {
   title: string;
   subtitle?: string;
   children: ReactNode;
@@ -15,7 +15,7 @@ interface AdminPageLayoutProps {
   error?: string;
 }
 
-export const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
+export const AdminContentLayout: React.FC<AdminContentLayoutProps> = ({
   title,
   subtitle,
   children,
@@ -24,7 +24,10 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
   error,
 }) => {
   return (
-    <Box css={adminStyles} className="admin-page">
+    <section
+      //  css={styles}
+      className="admin-page"
+    >
       <div className="admin-page-container">
         <div className="admin-page-header">
           <Heading size="8" className="admin-page-title">
@@ -64,7 +67,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = ({
         {/* Page Content */}
         <div className="admin-page-content">{children}</div>
       </div>
-    </Box>
+    </section>
   );
 };
 

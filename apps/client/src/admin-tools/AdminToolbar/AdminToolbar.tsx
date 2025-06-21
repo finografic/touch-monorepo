@@ -2,10 +2,10 @@ import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../components/ConfigTimer/ConfigTimer';
 import { styles } from './AdminToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
-import { useConfigStorage } from 'hooks/useConfigStorage';
+// import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
-import { HomeIcon, LanguageIcon, TimerIcon, WindowIcon } from 'styles/icons';
+import { HomeIcon, LanguageIcon, TimerIcon } from 'styles/icons';
 import { PATHS } from 'routes/routes.config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
@@ -15,17 +15,16 @@ export const AdminToolbar = () => {
     isAdminToolsVisible,
     isTimerVisible,
     setIsTimerVisible,
-    isAdminToolsDialogOpen,
-    setIsAdminToolsDialogOpen,
+    // isAdminToolsDialogOpen,
+    // setIsAdminToolsDialogOpen,
     isLanguageDialogOpen,
     setIsLanguageDialogOpen,
   } = useAdmin();
-  const { saveConfig } = useConfigStorage();
+  // const { saveConfig } = useConfigStorage();
   const [hasActiveTimer, setHasActiveTimer] = useState(false);
   const navigate = useNavigate();
 
-  // Check if there's an active config timer
-  useEffect(() => {
+  useEffect(function checkActiveTimer() {
     const checkActiveTimer = () => {
       const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
       if (!timestamp) {
@@ -54,7 +53,7 @@ export const AdminToolbar = () => {
 
   return (
     <>
-      <div css={styles} className="admin-access-tools-container">
+      <div css={styles}>
         <Flex gap="3" align="start">
           <Box className="button-box">
             <button className="btn btn-dialog" onClick={() => navigate(PATHS.main)}>
@@ -67,12 +66,6 @@ export const AdminToolbar = () => {
               <LanguageIcon />
             </button>
           </Box>
-
-          {/* <Box className="button-box">
-            <button className="btn" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
-              <WindowIcon />
-            </button>
-          </Box> */}
 
           {/* Timer visibility toggle - only show if there's an active timer */}
           {hasActiveTimer && (
@@ -96,7 +89,6 @@ export const AdminToolbar = () => {
         </Flex>
       </div>
 
-      {/* Dialogs */}
       <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
     </>
   );

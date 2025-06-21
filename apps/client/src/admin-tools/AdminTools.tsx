@@ -35,9 +35,5 @@ export const AdminTools = () => {
 
   if (!isAdminToolsVisible) return null;
 
-  return (
-    <>
-      <AdminToolbar />
-    </>
-  );
+  return <AdminToolbar />;
 };

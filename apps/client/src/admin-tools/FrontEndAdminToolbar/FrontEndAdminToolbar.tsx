@@ -1,6 +1,6 @@
 import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../components/ConfigTimer/ConfigTimer';
-import { styles } from '../AdminToolbar/AdminToolbar.styles';
+import { styles } from './FrontEndAdminToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useEffect, useState } from 'react';
@@ -25,8 +25,7 @@ export const FrontEndAdminToolbar = () => {
   const [hasActiveTimer, setHasActiveTimer] = useState(false);
   const navigate = useNavigate();
 
-  // Check if there's an active config timer
-  useEffect(() => {
+  useEffect(function checkActiveTimer() {
     const checkActiveTimer = () => {
       const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
       if (!timestamp) {
@@ -55,7 +54,7 @@ export const FrontEndAdminToolbar = () => {
 
   return (
     <>
-      <div css={styles} className="admin-access-tools-container">
+      <div css={styles}>
         <Flex gap="3" align="start">
           <Box className="button-box">
             <button className="btn btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>

@@ -13,6 +13,7 @@ export const styles = css`
   /* ========================================
      APP HEADER - 80px height, 3:6:3 columns
      ======================================== */
+
   > header {
     width: 100%;
     height: ${layout.header.height};
@@ -26,6 +27,7 @@ export const styles = css`
   /* ========================================
      MAIN - fills remaining space
      ======================================== */
+
   > main {
     width: 100%;
     flex: 1; /* Grows to fill remaining space */
@@ -96,20 +98,9 @@ export const styles = css`
   }
 
   /* ========================================
-     APP FOOTER - 80px height, 1:1 columns
-     ======================================== */
-  > footer {
-    width: 100%;
-    height: ${layout.footer.height};
-    min-height: ${layout.footer.height};
-    max-height: ${layout.footer.height};
-    display: flex;
-    align-items: center;
-  }
-
-  /* ========================================
      TYPOGRAPHY STYLES
      ======================================== */
+
   .title {
     ${typography.h1};
     color: ${colors.text};
@@ -133,6 +124,7 @@ export const styles = css`
   /* ========================================
      BUTTON STYLES
      ======================================== */
+
   button.btn-logout {
     padding: 0.5rem 1rem;
     background-color: transparent;
@@ -145,41 +137,4 @@ export const styles = css`
       background-color: #f3f4f6;
     }
   }
-
-  /* ========================================
-     DEVELOPMENT HELPERS (commented out)
-     ======================================== */
-  /*
-  > header {
-    box-shadow: inset 0 0 0 2px blue;
-  }
-
-  > main {
-    box-shadow: inset 0 0 0 2px red;
-
-    .main-content {
-      border: 1px solid yellow;
-
-      section {
-        box-shadow: inset 0 0 0 2px purple;
-
-        header.page-header {
-          box-shadow: inset 0 0 0 2px orange;
-        }
-
-        .page-content {
-          box-shadow: inset 0 0 0 2px cyan;
-        }
-
-        nav.page-navigation {
-          box-shadow: inset 0 0 0 2px pink;
-        }
-      }
-    }
-  }
-
-  > footer {
-    box-shadow: inset 0 0 0 2px green;
-  }
-  */
 `;

@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors, layout } from 'styles';
+import { colors, layout, spacing } from 'styles';
 
 export const stylesItemsGrid = css`
   .items-grid {
@@ -34,7 +34,7 @@ export const stylesItemsGrid = css`
       margin: 0 auto;
 
       /* Ensure consistent item sizing */
-      .item-button {
+      .btn-item {
         width: 100%;
       }
 
@@ -44,7 +44,7 @@ export const stylesItemsGrid = css`
     }
   }
 
-  .item-button {
+  .btn-item {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -78,62 +78,233 @@ export const stylesItemsGrid = css`
 `;
 
 export const styles = css`
-  /* Admin page content - layout handles background and viewport sizing */
-  color: ${colors.white};
+  width: 100%;
+  min-height: 100vh;
+  background-color: ${colors.white};
+  color: ${colors.text};
 
-  .admin-page {
-    width: 100%;
-    height: 100%;
+  .admin-page-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: ${spacing[8]};
   }
 
-  .translation-section {
-    background-color: ${colors.backgroundLight};
-    border-radius: 8px;
-    padding: 1.5rem;
-    border: 1px solid ${colors.greyDark};
+  .admin-page-header {
+    text-align: center;
+    margin-bottom: ${spacing[8]};
+
+    .admin-page-title {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: ${colors.text};
+      margin-bottom: ${spacing[2]};
+      line-height: 1.2;
+    }
+
+    .admin-page-subtitle {
+      font-size: 1.125rem;
+      color: ${colors.greyDark};
+      line-height: 1.5;
+      margin-bottom: ${spacing[6]};
+    }
+
+    .admin-page-message {
+      padding: ${spacing[4]} ${spacing[6]};
+      border-radius: 8px;
+      margin-bottom: ${spacing[6]};
+      font-weight: 500;
+
+      &.success {
+        background-color: ${colors.successLight};
+        color: ${colors.successDark};
+        border: 1px solid ${colors.success};
+      }
+
+      &.error {
+        background-color: ${colors.dangerLight};
+        color: ${colors.dangerDark};
+        border: 1px solid ${colors.danger};
+      }
+
+      &.warning {
+        background-color: ${colors.warningLight};
+        color: ${colors.warningDark};
+        border: 1px solid ${colors.warning};
+      }
+
+      &.info {
+        background-color: ${colors.infoLight};
+        color: ${colors.infoDark};
+        border: 1px solid ${colors.info};
+      }
+    }
   }
 
-  .translation-item {
-    background-color: ${colors.background};
-    border-radius: 6px;
-    padding: 1rem;
-    border: 1px solid ${colors.grey};
-  }
-
-  .form-field {
+  .admin-page-content {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: ${spacing[8]};
   }
 
-  .form-label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: ${colors.greyLight};
-  }
+  /* Admin section styling */
+  .admin-section {
+    background-color: ${colors.white};
+    border: 1px solid ${colors.greyLight};
+    border-radius: 12px;
+    padding: ${spacing[8]};
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
-  .form-input {
-    background-color: ${colors.backgroundDark};
-    border: 1px solid ${colors.greyDark};
-    border-radius: 4px;
-    padding: 0.5rem;
-    color: ${colors.white};
-    font-size: 0.875rem;
+    .section-header {
+      margin-bottom: ${spacing[6]};
+      padding-bottom: ${spacing[3]};
+      border-bottom: 1px solid ${colors.greyLight};
 
-    &:focus {
-      outline: none;
-      border-color: ${colors.info};
-      box-shadow: 0 0 0 2px ${colors.info}22;
+      .section-title {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: ${colors.text};
+        margin-bottom: ${spacing[2]};
+      }
+
+      .section-description {
+        font-size: 0.875rem;
+        color: ${colors.greyDark};
+        line-height: 1.5;
+      }
     }
 
-    &::placeholder {
-      color: ${colors.grey};
+    .section-content {
+      display: flex;
+      flex-direction: column;
+      gap: ${spacing[6]};
     }
   }
 
-  .error-message {
+  /* Translation form grid */
+  .translation-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: ${spacing[4]};
+    align-items: start;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+    }
+
+    .translation-item {
+      display: flex;
+      flex-direction: column;
+      gap: ${spacing[2]};
+
+      .translation-label {
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: ${colors.greyDark};
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: ${spacing[1]};
+      }
+
+      .translation-input {
+        width: 100%;
+        padding: ${spacing[3]};
+        border: 1px solid ${colors.greyLight};
+        border-radius: 6px;
+        background-color: ${colors.white};
+        color: ${colors.text};
+        font-size: 0.875rem;
+        transition: border-color 0.2s ease;
+
+        &:focus {
+          outline: none;
+          border-color: ${colors.info};
+          box-shadow: 0 0 0 3px ${colors.infoLight};
+        }
+
+        &::placeholder {
+          color: ${colors.grey};
+        }
+
+        &:disabled {
+          background-color: ${colors.greyXLight};
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+      }
+
+      .translation-error {
+        color: ${colors.danger};
+        font-size: 0.75rem;
+        margin-top: ${spacing[1]};
+      }
+    }
+  }
+
+  /* Form actions */
+  .form-actions {
+    display: flex;
+    justify-content: center;
+    gap: ${spacing[4]};
+    margin-top: ${spacing[8]};
+    padding-top: ${spacing[6]};
+    border-top: 1px solid ${colors.greyLight};
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+  }
+
+  /* Loading state */
+  .loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
+    color: ${colors.greyDark};
+
+    .loading-spinner {
+      margin-bottom: ${spacing[4]};
+    }
+
+    .loading-text {
+      font-size: 1.125rem;
+      color: ${colors.greyDark};
+    }
+  }
+
+  /* Error state */
+  .error-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 400px;
     color: ${colors.danger};
-    font-size: 0.75rem;
-    margin-top: 0.25rem;
+
+    .error-text {
+      font-size: 1.125rem;
+      text-align: center;
+    }
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .admin-page-container {
+      padding: ${spacing[6]};
+    }
+
+    .admin-page-header .admin-page-title {
+      font-size: 2rem;
+    }
+
+    .admin-section {
+      padding: ${spacing[6]};
+      border-radius: 8px;
+    }
   }
 `;

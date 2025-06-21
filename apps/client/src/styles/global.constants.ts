@@ -17,10 +17,10 @@ export const layout = {
   pageColor: colors.white,
   bgColor: colors.white,
   header: {
-    height: '120px',
+    height: '80px',
   },
   footer: {
-    height: '100px',
+    height: '80px',
   },
 } as const;
 

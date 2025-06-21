@@ -35,9 +35,5 @@ export const FrontEndAdminTools = () => {
 
   if (!isAdminToolsVisible) return null;
 
-  return (
-    <>
-      <FrontEndAdminToolbar />
-    </>
-  );
+  return <FrontEndAdminToolbar />;
 };

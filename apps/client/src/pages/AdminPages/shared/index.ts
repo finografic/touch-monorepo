@@ -1,6 +1,3 @@
-// Shared admin page components
-export { AdminPageLayout, AdminSection } from './AdminPageLayout';
-
 // Shared admin page styles
 export {
   adminButtonStyles,
@@ -8,6 +5,9 @@ export {
   adminGridStyles,
   adminPageBaseStyles,
   adminSectionStyles,
-  adminStyles,
   adminTableStyles,
-} from './AdminPageStyles';
+  styles,
+} from './AdminContent.styles';
+
+// Shared admin page components
+export { AdminContentLayout, AdminSection } from './AdminContentLayout';
