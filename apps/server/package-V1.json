@@ -6,14 +6,6 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    },
-    "./db": {
-      "types": "./dist/db/index.d.ts",
-      "import": "./dist/db/index.js"
-    },
-    "./db/schemas": {
-      "types": "./dist/db/schemas/index.d.ts",
-      "import": "./dist/db/schemas/index.js"
     }
   },
   "main": "./dist/index.js",
@@ -21,13 +13,12 @@
   "scripts": {
     "========== DEV": "=======================================================",
     "dev": "tsx watch --tsconfig tsconfig.json src/index.ts",
-    "dev.v2": "tsup --watch --onSuccess 'node dist/index.js'",
-    "dev.v1": "tsup src/index.ts --format cjs --watch --onSuccess 'node dist/index.js'",
+    "dev.v2": "tsup src/index.ts --format cjs --watch --onSuccess 'node dist/index.js'",
     "start": "node dist/index.js",
     "·········· BUILD": "·····················································",
-    "build": "tsup src/index.ts src/db/index.ts src/db/schemas/index.ts",
-    "build.production": "cross-env NODE_ENV=production tsup",
-    "build.development": "cross-env NODE_ENV=development tsup",
+    "build": "tsup src/index.ts",
+    "build.production": "cross-env NODE_ENV=production tsup src/index.ts",
+    "build.development": "cross-env NODE_ENV=development tsup src/index.ts",
     "·········· CLEAN": "·····················································",
     "clean": "clean-all",
     "clean.dry": "clean-all --dry-run",

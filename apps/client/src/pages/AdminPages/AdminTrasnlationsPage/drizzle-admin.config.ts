@@ -1,5 +1,5 @@
-import { orders } from '../../../../../server/src/db/schemas/orders.schema';
-import { db } from '../../../../../server/src/db';
+import { orders } from '@workspace/server/db/schemas';
+import { db } from '@workspace/server/db';
 import type { DrizzleAdminConfig } from 'drizzle-admin/types';
 
 export const config: DrizzleAdminConfig = {

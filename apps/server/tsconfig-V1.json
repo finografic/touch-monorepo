@@ -1,10 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    // "composite": true,
-    // "target": "ES2020",
-    // "jsx": "react-jsx",
-    // "module": "ESNext",
+    "composite": true,
+    "target": "ES2020",
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "module": "ESNext",
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
@@ -32,6 +33,7 @@
       "types/*": ["./src/types/*"],
       "utils/*": ["./src/utils/*"]
     },
+    "resolveJsonModule": true,
     "allowJs": true,
     /* Linting */
     "strict": true,
@@ -44,11 +46,7 @@
     "noUnusedParameters": false,
     // ------------------------------------------------------------------------ //
     "declaration": true,
-    "baseUrl": ".",
     "outDir": "./dist",
-    "rootDir": "./src",
-    "emitDeclarationOnly": true,
-    "resolveJsonModule": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "skipLibCheck": true,
@@ -65,7 +63,5 @@
       "path": "../../config"
     }
   ],
-  // "include": ["src/**/*", "src/**/*.json", "package.json"],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json"],
-  "exclude": ["node_modules", "dist"]
+  "include": ["src/**/*", "src/**/*.json", "package.json"]
 }

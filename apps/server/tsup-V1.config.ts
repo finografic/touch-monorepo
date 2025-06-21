@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup';
 import type { Options } from 'tsup';
 
 export default defineConfig({
-  // entry: ['src/index.ts'],
+  entry: ['src/index.ts'],
   format: ['cjs'], // CommonJS for Node.js
   dts: false, // Since we're using tsc for types
   clean: true, // Clean output directory
