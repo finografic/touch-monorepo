@@ -97,6 +97,16 @@ export const styles = css`
     }
   }
 
+  > footer {
+    width: 100%;
+    height: ${layout.header.height};
+    min-height: ${layout.header.height};
+    max-height: ${layout.header.height};
+    display: flex;
+    align-items: center;
+    background-color: transparent;
+  }
+
   /* ========================================
      TYPOGRAPHY STYLES
      ======================================== */

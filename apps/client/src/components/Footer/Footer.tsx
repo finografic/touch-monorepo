@@ -1,13 +1,17 @@
 import { Flex } from '@radix-ui/themes';
 import { styles } from './Footer.styles';
+import { useLocation } from 'react-router-dom';
 import { AdminToolbar } from 'admin-tools/AdminToolbar/AdminToolbar';
+import { FrontEndAdminToolbar } from 'admin-tools/FrontEndAdminToolbar/FrontEndAdminToolbar';
 
 export const Footer = () => {
+  const location = useLocation();
+
   return (
     <footer css={styles}>
       <Flex width="100%" justify="between" align="center">
         <Flex justify="start" style={{ flex: '1' }}>
-          <AdminToolbar />
+          {location.pathname.startsWith('/admin') ? <AdminToolbar /> : <FrontEndAdminToolbar />}
         </Flex>
         <Flex justify="end" style={{ flex: '1' }}>
           {/* Navigation moved to Layout - space for other footer content */}

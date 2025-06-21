@@ -18,6 +18,10 @@
     },
     "admin": {
       "title": "Admin Tools",
+      "languages": {
+        "title": "Language Management",
+        "subtitle": "Configure system languages and localization"
+      },
       "tabs": {
         "orderSelections": "Order Selections",
         "storedConfiguration": "Stored Configuration",

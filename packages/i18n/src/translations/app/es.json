@@ -18,6 +18,10 @@
     },
     "admin": {
       "title": "Herramientas de administración",
+      "languages": {
+        "title": "Gestión de idiomas",
+        "subtitle": "Configurar idiomas del sistema y localización"
+      },
       "tabs": {
         "orderSelections": "Selecciones de pedidos",
         "storedConfiguration": "Configuración almacenada",

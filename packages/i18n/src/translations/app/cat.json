@@ -18,6 +18,10 @@
     },
     "admin": {
       "title": "Eines d'administració",
+      "languages": {
+        "title": "Gestió d'idiomes",
+        "subtitle": "Configurar idiomes del sistema i localització"
+      },
       "tabs": {
         "orderSelections": "Seleccions de comandes",
         "storedConfiguration": "Configuració emmagatzemada",

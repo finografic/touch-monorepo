@@ -9,6 +9,7 @@ import { ALTERNATIVE_PATHS, PATHS } from './routes.config';
 import { OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPages/AdminTrasnlationsPage/AdminPage';
+import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 
@@ -94,6 +95,16 @@ export const routes: RouteObject[] = [
         index: true,
         id: 'admin',
         element: <AdminPage />,
+      },
+      {
+        path: 'translations',
+        id: 'admin-translations',
+        element: <AdminPage />,
+      },
+      {
+        path: 'languages',
+        id: 'admin-languages',
+        element: <AdminLanguagesPage />,
       },
       // Future admin routes can be added here
       // {
