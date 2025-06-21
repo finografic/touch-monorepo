@@ -1,7 +1,7 @@
 import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../components/ConfigTimer/ConfigTimer';
-import { styles } from './AdminToolbar.styles';
-import { useAdmin } from 'providers/AdminProvider/AdminContext';
+import { styles } from './AdminAccessToolbar.styles';
+import { useAdminAccess } from 'providers/AdminAccessProvider/AdminAccessContext';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
 
-export const AdminToolbar = () => {
+export const AdminAccessToolbar = () => {
   const {
     isAdminToolsVisible,
     isTimerVisible,
@@ -20,7 +20,7 @@ export const AdminToolbar = () => {
     setIsAdminToolsDialogOpen,
     isLanguageDialogOpen,
     setIsLanguageDialogOpen,
-  } = useAdmin();
+  } = useAdminAccess();
   const { saveConfig } = useConfigStorage();
   const [hasActiveTimer, setHasActiveTimer] = useState(false);
   const navigate = useNavigate();
@@ -55,7 +55,7 @@ export const AdminToolbar = () => {
 
   return (
     <>
-      <div css={styles} className="admin-tools-container">
+      <div css={styles} className="admin-access-tools-container">
         <Flex gap="3" align="start">
           <Box className="button-box">
             <button className="btn btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>

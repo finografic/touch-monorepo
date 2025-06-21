@@ -3,7 +3,7 @@ import { styles as stylesButton } from 'components/ButtonControl/ButtonControl.s
 import { colors, layout } from 'styles';
 
 export const styles = css`
-  &.admin-tools-container {
+  &.admin-access-tools-container {
     position: fixed;
     bottom: 0;
     left: 0;

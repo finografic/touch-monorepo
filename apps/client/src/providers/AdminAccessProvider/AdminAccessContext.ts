@@ -1,12 +1,12 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
-import type { AdminStore } from 'providers/AdminProvider/AdminContext.types';
+import type { AdminAccessStore } from 'providers/AdminAccessProvider/AdminAccessContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
 
-export const DISPLAY_NAME = 'Admin';
+export const DISPLAY_NAME = 'AdminAccess';
 export const SETTER_PREFIX = '';
 
-export enum AdminKeys {
+export enum AdminAccessKeys {
   isAdminToolsVisible = 'isAdminToolsVisible',
   isAdminToolsDialogOpen = 'isAdminToolsDialogOpen',
   isLanguageDialogOpen = 'isLanguageDialogOpen',
@@ -20,10 +20,10 @@ export const defaultValue = {
   isTimerVisible: true,
 };
 
-export const AdminContext = createZustandContext(({ initialValue }) => {
-  return createStore<AdminStore>()(
+export const AdminAccessContext = createZustandContext(({ initialValue }) => {
+  return createStore<AdminAccessStore>()(
     subscribeWithSelector(
-      (set, _get): AdminStore => ({
+      (set, _get): AdminAccessStore => ({
         ...defaultValue,
         ...initialValue,
         actions: {
@@ -34,10 +34,10 @@ export const AdminContext = createZustandContext(({ initialValue }) => {
   );
 });
 
-type AdminReturn = Omit<AdminStore, 'actions'> & AdminStore['actions'];
+type AdminAccessReturn = Omit<AdminAccessStore, 'actions'> & AdminAccessStore['actions'];
 
-export const useAdmin = (): AdminReturn => {
-  const store = AdminContext.useContext();
+export const useAdminAccess = (): AdminAccessReturn => {
+  const store = AdminAccessContext.useContext();
   if (!store) {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
@@ -46,7 +46,7 @@ export const useAdmin = (): AdminReturn => {
     // store change
   });
 
-  return useStore<StoreApi<AdminStore>, AdminReturn>(store, ({ actions, ...state }) => ({
+  return useStore<StoreApi<AdminAccessStore>, AdminAccessReturn>(store, ({ actions, ...state }) => ({
     ...state,
     ...actions,
   }));

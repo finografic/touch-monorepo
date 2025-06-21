@@ -1,10 +1,10 @@
-import { useAdmin } from 'providers/AdminProvider/AdminContext';
+import { useAdminAccess } from 'providers/AdminAccessProvider/AdminAccessContext';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
-import { AdminToolbar } from 'admin-tools/AdminToolbar/AdminToolbar';
+import { AdminAccessToolbar } from './AdminAccessToolbar/AdminAccessToolbar';
 
-export const AdminTools = () => {
-  const { isAdminToolsVisible } = useAdmin();
+export const AdminAccessTools = () => {
+  const { isAdminToolsVisible } = useAdminAccess();
   const [_hasActiveTimer, setHasActiveTimer] = useState(false);
 
   // Check if there's an active config timer
@@ -37,7 +37,7 @@ export const AdminTools = () => {
 
   return (
     <>
-      <AdminToolbar />
+      <AdminAccessToolbar />
     </>
   );
 };

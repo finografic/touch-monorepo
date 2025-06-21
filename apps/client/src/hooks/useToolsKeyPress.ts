@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDev } from 'providers/DevProvider/DevContext';
-import { useAdmin } from 'providers/AdminProvider/AdminContext';
+import { useAdminAccess } from 'providers/AdminAccessProvider/AdminAccessContext';
 
 export const useToolsKeyPress = () => {
   const {
@@ -11,7 +11,7 @@ export const useToolsKeyPress = () => {
     isDevDataVisible,
     setIsDevDataVisible,
   } = useDev();
-  const { isAdminToolsVisible, setIsAdminToolsVisible } = useAdmin();
+  const { isAdminToolsVisible, setIsAdminToolsVisible } = useAdminAccess();
 
   const handleKeyDown = (event: KeyboardEvent) => {
     // Debug logging
