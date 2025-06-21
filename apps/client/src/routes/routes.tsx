@@ -8,7 +8,7 @@ import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
 import { ALTERNATIVE_PATHS, PATHS } from './routes.config';
 import { OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
-import { AdminPage } from 'pages/AdminPage/AdminPage';
+import { AdminPage } from 'pages/AdminPages/AdminTrasnlationsPage/AdminPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 

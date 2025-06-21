@@ -23,6 +23,65 @@
       "programTime": "Programar Tiempo",
       "programProduct": "Programar Producto",
       "repeatSelection": "Repetir Selección"
+    },
+    "forms": {
+      "labels": {
+        "name": "Nombre",
+        "displayName": "Nombre de visualización",
+        "description": "Descripción",
+        "isActive": "Activo",
+        "createdAt": "Creado en",
+        "updatedAt": "Actualizado en",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "confirmPassword": "Confirmar contraseña"
+      },
+      "placeholders": {
+        "selectOption": "Seleccione una opción...",
+        "enterText": "Ingrese texto...",
+        "searchPlaceholder": "Buscar..."
+      },
+      "validation": {
+        "required": "Este campo es obligatorio",
+        "invalid": "Valor no válido",
+        "tooShort": "Demasiado corto",
+        "tooLong": "Demasiado largo"
+      }
+    },
+    "navigation": {
+      "home": "Inicio",
+      "settings": "Configuración",
+      "profile": "Perfil",
+      "logout": "Cerrar sesión",
+      "login": "Iniciar sesión"
+    },
+    "states": {
+      "loading": "Cargando...",
+      "saving": "Guardando...",
+      "saved": "Guardado",
+      "error": "Error",
+      "success": "Éxito",
+      "empty": "No hay datos disponibles",
+      "notFound": "No encontrado"
+    },
+    "actions": {
+      "confirm": "¿Está seguro?",
+      "confirmDelete": "¿Está seguro de que desea eliminar este elemento?",
+      "unsavedChanges": "Tiene cambios sin guardar"
+    }
+  },
+  "time": {
+    "units": {
+      "seconds": "segundos",
+      "minutes": "minutos",
+      "hours": "horas",
+      "days": "días"
+    },
+    "relative": {
+      "now": "ahora",
+      "justNow": "hace un momento",
+      "minutesAgo": "hace {{count}} minutos",
+      "hoursAgo": "hace {{count}} horas"
     }
   }
 }

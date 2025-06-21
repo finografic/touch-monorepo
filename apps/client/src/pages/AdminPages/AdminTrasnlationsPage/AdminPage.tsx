@@ -5,6 +5,7 @@ import { z } from 'zod';
 import { Box, Button, Callout, Flex, Heading, Spinner, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { TranslationForm } from './components/TranslationForm';
+import { AdminPageLayout, AdminSection } from '../shared';
 import { styles } from './AdminPage.styles';
 import { useBatchUpdateTranslations, useGetAllTranslations } from 'api/hooks/useTranslations';
 import type {
@@ -281,48 +282,51 @@ export const AdminPage: React.FC = () => {
 
   if (isLoading || !isDataReady) {
     return (
-      <Box css={styles} className="admin-page">
+      <AdminPageLayout
+        title={t('pages.admin.title')}
+        subtitle={t('components.admin.translation.editTables')}
+        isLoading={true}
+      >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
           <Text>{t('ui.states.loading')}</Text>
         </Flex>
-      </Box>
+      </AdminPageLayout>
     );
   }
 
   if (isError) {
     return (
-      <Box css={styles} className="admin-page">
+      <AdminPageLayout
+        title={t('pages.admin.title')}
+        subtitle={t('components.admin.translation.editTables')}
+        error={error?.message || t('ui.states.error')}
+      >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Text color="red" size="4">
             {t('ui.states.error')}: {error?.message || t('ui.states.error')}
           </Text>
         </Flex>
-      </Box>
+      </AdminPageLayout>
     );
   }
 
   return (
     <FormProvider {...methods}>
-      <Box css={styles} className="admin-page">
-        <Flex direction="column" gap="6" p="6">
-          <Heading size="8" align="center">
-            {t('pages.admin.title')}
-          </Heading>
-
-          <Text size="3" align="center" color="gray">
-            {t('components.admin.translation.editTables')}
-          </Text>
-
-          {submitMessage && (
-            <Callout.Root color={submitMessage.type === 'success' ? 'green' : 'red'}>
-              <Callout.Text>{submitMessage.message}</Callout.Text>
-            </Callout.Root>
-          )}
-
-          {formContent}
-        </Flex>
-      </Box>
+      <AdminPageLayout
+        title={t('pages.admin.title')}
+        subtitle={t('components.admin.translation.editTables')}
+        message={
+          submitMessage
+            ? {
+                type: submitMessage.type,
+                content: submitMessage.message,
+              }
+            : undefined
+        }
+      >
+        <AdminSection>{formContent}</AdminSection>
+      </AdminPageLayout>
     </FormProvider>
   );
 };
