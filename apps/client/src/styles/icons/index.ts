@@ -18,6 +18,7 @@ import {
 
 import {
   Coffee as _CoffeeIcon,
+  House as _HomeIcon,
   Languages as _LanguagesIcon,
   ShieldCheck as _ShieldCheckIcon,
   Thermometer as _TempIcon,
@@ -60,9 +61,11 @@ export const DropdownIcon = createIconWrapper(_ChevronDownIcon);
 export const MenuIcon = createIconWrapper(_HamburgerMenuIcon);
 
 // Lucide icons with auto-className
-
 export const CoffeeIcon = createIconWrapper(_CoffeeIcon);
 export const LanguageIcon = createIconWrapper(_LanguagesIcon);
 export const TempIcon = createIconWrapper(_TempIcon);
 export const WindowIcon = createIconWrapper(_WindowIcon);
 export const WineIcon = createIconWrapper(_WineIcon);
+
+// Admin section icons
+export const HomeIcon = createIconWrapper(_HomeIcon);

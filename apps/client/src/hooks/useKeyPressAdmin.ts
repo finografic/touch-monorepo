@@ -1,8 +1,7 @@
 import { useEffect } from 'react';
 import { useDev } from 'providers/DevProvider/DevContext';
-import { useAdminAccess } from 'providers/AdminAccessProvider/AdminAccessContext';
 
-export const useToolsKeyPress = () => {
+export const useKeyPressAdmin = () => {
   const {
     isDevToolsVisible,
     setIsDevToolsVisible,
@@ -11,7 +10,6 @@ export const useToolsKeyPress = () => {
     isDevDataVisible,
     setIsDevDataVisible,
   } = useDev();
-  const { isAdminToolsVisible, setIsAdminToolsVisible } = useAdminAccess();
 
   const handleKeyDown = (event: KeyboardEvent) => {
     // Debug logging
@@ -37,8 +35,8 @@ export const useToolsKeyPress = () => {
     // Admin tools: Shift + / (question mark)
     // Using Shift + / as it's a common shortcut for help/tools interfaces
     if (event.key === '?' && !event.ctrlKey && !event.altKey && event.shiftKey && !event.metaKey) {
-      console.debug('ADMIN TOOLS:', isAdminToolsVisible);
-      setIsAdminToolsVisible(!isAdminToolsVisible);
+      // console.debug('ADMIN TOOLS:', isAdminToolsVisible);
+      // setIsAdminToolsVisible(!isAdminToolsVisible);
       // Prevent the question mark from being typed
       event.preventDefault();
     }
@@ -48,5 +46,5 @@ export const useToolsKeyPress = () => {
     // Use document instead of window for better keyboard event handling
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isDevToolsVisible, isAdminToolsVisible, isDevScreenSizeVisible]);
+  }, [isDevToolsVisible, isDevScreenSizeVisible]);
 };

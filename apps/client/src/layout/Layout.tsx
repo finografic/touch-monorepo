@@ -13,7 +13,7 @@ import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { Loader } from '../components/Loader/Loader';
 import { DevProvider } from 'providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
-import { AdminAccessProvider } from 'providers/AdminAccessProvider/AdminAccessProvider';
+import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 
 export const Layout: FC = () => {
@@ -37,7 +37,7 @@ export const Layout: FC = () => {
         <PaginationProvider>
           <LayoutUiProvider>
             <ContentProvider>
-              <AdminAccessProvider>
+              <AdminProvider>
                 <DevProvider>
                   <div id="layout" css={styles}>
                     <Header />
@@ -59,7 +59,7 @@ export const Layout: FC = () => {
                     <Footer />
                   </div>
                 </DevProvider>
-              </AdminAccessProvider>
+              </AdminProvider>
             </ContentProvider>
           </LayoutUiProvider>
         </PaginationProvider>
