@@ -2,25 +2,30 @@ import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../components/ConfigTimer/ConfigTimer';
 import { styles } from './AdminToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
-// import { useConfigStorage } from 'hooks/useConfigStorage';
+import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
-import { HomeIcon, LanguageIcon, TimerIcon } from 'styles/icons';
-import { PATHS } from 'routes/routes.config';
-import { useNavigate } from 'react-router-dom';
+import { HomeIcon, LanguageIcon, ShieldCheckIcon, TimerIcon, WindowIcon } from 'styles/icons';
+import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
+import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
 
 export const AdminToolbar = () => {
+  const location = useLocation();
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
   const {
     isAdminToolsVisible,
     isTimerVisible,
     setIsTimerVisible,
-    // isAdminToolsDialogOpen,
-    // setIsAdminToolsDialogOpen,
+    isAdminToolsDialogOpen,
+    setIsAdminToolsDialogOpen,
     isLanguageDialogOpen,
     setIsLanguageDialogOpen,
   } = useAdmin();
-  // const { saveConfig } = useConfigStorage();
+
+  const { saveConfig } = useConfigStorage();
   const [hasActiveTimer, setHasActiveTimer] = useState(false);
   const navigate = useNavigate();
 
@@ -55,17 +60,34 @@ export const AdminToolbar = () => {
     <>
       <div css={styles}>
         <Flex gap="3" align="start">
+          {/* Route-specific navigation button */}
           <Box className="button-box">
-            <button className="btn btn-dialog" onClick={() => navigate(PATHS.main)}>
-              <HomeIcon />
-            </button>
+            {isAdminRoute ? (
+              <button className="btn btn-dialog" onClick={() => navigate(PATHS.main)}>
+                <HomeIcon />
+              </button>
+            ) : (
+              <button className="btn btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>
+                <ShieldCheckIcon />
+              </button>
+            )}
           </Box>
 
+          {/* Language selector - available on both routes */}
           <Box className="button-box">
             <button className="btn" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
               <LanguageIcon />
             </button>
           </Box>
+
+          {/* Admin Tools Dialog - only on frontend */}
+          {!isAdminRoute && (
+            <Box className="button-box">
+              <button className="btn" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
+                <WindowIcon />
+              </button>
+            </Box>
+          )}
 
           {/* Timer visibility toggle - only show if there's an active timer */}
           {hasActiveTimer && (
@@ -89,7 +111,13 @@ export const AdminToolbar = () => {
         </Flex>
       </div>
 
+      {/* Dialogs */}
       <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
+
+      {/* Admin Tools Dialog - only on frontend */}
+      {!isAdminRoute && (
+        <AdminToolsDialog isOpen={isAdminToolsDialogOpen} onClose={() => setIsAdminToolsDialogOpen(false)} />
+      )}
     </>
   );
 };
