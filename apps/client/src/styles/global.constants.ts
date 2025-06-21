@@ -22,6 +22,15 @@ export const layout = {
   footer: {
     height: '80px',
   },
+  sidebar: {
+    width: '300px',
+  },
+  navbar: {
+    height: '41px',
+  },
+  imagePreview: {
+    height: '300px',
+  },
 } as const;
 
 export const spacing = {

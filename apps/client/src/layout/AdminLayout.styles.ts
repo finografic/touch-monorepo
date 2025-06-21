@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import { colors, layout, spacing, typography } from 'styles';
+import { stylesContent } from 'styles/custom/content.styles';
 
 export const styles = css`
+  ${stylesContent}
   /* ========================================
      SHARED LAYOUT STRUCTURE (from Layout.styles.ts)
      ======================================== */
@@ -119,11 +121,19 @@ export const styles = css`
         /* Page content - the actual route content */
         .page-content {
           flex: 1; /* Grows to fill available space */
-          width: 100%; /* Full width */
+          width: 100%; /* Full width for container */
           padding: 0rem 2rem 2rem 2rem; /* Reduced from 2rem to 1rem top/bottom */
 
-          /* Admin-specific: No centering, natural flow */
-          display: block;
+          /* Admin-specific: Center the content with fit-content width */
+          display: flex;
+          justify-content: center; /* Center horizontally */
+          align-items: flex-start; /* Align to top */
+
+          /* The actual content inside will be fit-content */
+          > * {
+            width: fit-content;
+            max-width: 100%; /* Don't exceed container width */
+          }
 
           /* Route content goes here */
         }

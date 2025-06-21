@@ -1,10 +1,10 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    // "composite": true,
-    // "target": "ES2020",
-    // "jsx": "react-jsx",
-    // "module": "ESNext",
+    "composite": true, // Enables project references for better incremental builds
+    "target": "ES2020", // Explicit target (though probably inherited from base)
+    "module": "ESNext", // Explicit module format
+    // "jsx": "react-jsx", // NOTE: if a public page is created
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {

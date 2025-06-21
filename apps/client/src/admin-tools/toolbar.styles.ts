@@ -27,7 +27,7 @@ export const baseToolbarStyles = css`
     align-items: center;
     box-sizing: border-box;
     margin-left: 0.25rem;
-    &:first-child {
+    &:first-of-type {
       margin-left: 2rem;
     }
   }
