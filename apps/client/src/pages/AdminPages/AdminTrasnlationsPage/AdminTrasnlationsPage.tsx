@@ -312,21 +312,23 @@ export const AdminTrasnlationsPage: React.FC = () => {
   }
 
   return (
-    <FormProvider {...methods}>
-      <AdminContentLayout
-        title={t('pages.admin.title')}
-        subtitle={t('components.admin.translation.editTables')}
-        message={
-          submitMessage
-            ? {
-                type: submitMessage.type,
-                content: submitMessage.message,
-              }
-            : undefined
-        }
-      >
-        <AdminSection>{formContent}</AdminSection>
-      </AdminContentLayout>
-    </FormProvider>
+    <section id="admin-translations" className="admin-content-page">
+      <FormProvider {...methods}>
+        <AdminContentLayout
+          title={t('pages.admin.title')}
+          subtitle={t('components.admin.translation.editTables')}
+          message={
+            submitMessage
+              ? {
+                  type: submitMessage.type,
+                  content: submitMessage.message,
+                }
+              : undefined
+          }
+        >
+          <AdminSection>{formContent}</AdminSection>
+        </AdminContentLayout>
+      </FormProvider>
+    </section>
   );
 };

@@ -51,7 +51,7 @@ export const AdminPage: React.FC = () => {
   };
 
   return (
-    <div css={styles}>
+    <section css={styles} id="admin-dashboard">
       <AdminContentLayout
         title="Admin Dashboard"
         subtitle="Manage system settings, translations, and configurations"
@@ -109,6 +109,6 @@ export const AdminPage: React.FC = () => {
           </Flex>
         </Box>
       </AdminContentLayout>
-    </div>
+    </section>
   );
 };

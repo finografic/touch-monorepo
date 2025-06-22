@@ -5,92 +5,97 @@ import { cssInputBox, cssInputText, forms } from '../forms.styles';
 
 // Base styles shared across all interactive buttons
 export const stylesContent = css`
-  color: ${colors.textDark};
+  section.admin-content-page {
+    color: ${colors.textDark};
 
-  h1 {
-    font-size: 2.5rem;
-    font-weight: 600;
-    color: ${colors.textXDark};
-    margin: 1em 0 0.5em 0;
-  }
-  h2 {
-    font-size: 1.75rem;
-    color: ${colors.secondaryDark};
-    color: ${colors.text};
-    font-weight: 600;
-    margin: 1.5em 0 0.5em 0;
-  }
-  h3 {
-    color: var(--color-text-light);
-    font-weight: 500;
-  }
-  h4 {
-    color: white;
-    margin: 1.33em 0 0.33em;
-    font-weight: 500;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4 {
-    letter-spacing: -0.025em;
-    font-weight: 700;
-    span {
-      opacity: 0.66;
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 600;
+      color: ${colors.textXDark};
+      margin: 1em 0 0.5em 0;
     }
-  }
 
-  h1 + span {
-    font-size: 1.2rem;
-    font-weight: 600;
-    color: ${colors.text};
-    padding: 0em 0 1em 0;
-    display: inline-block;
-  }
-
-  h2 + span {
-    font-size: 1rem;
-    font-weight: 500;
-    color: ${colors.text};
-    padding: 0.25em 0 1em 0;
-    display: inline-block;
-  }
-
-  p {
-    color: var(--color-text);
-    font-weight: 500;
-    line-height: 1.75;
-  }
-  a {
-    color: var(--color-primary);
-    color: var(--color-secondary-xdark);
-    text-decoration: none;
-    &:hover {
-      color: var(--color-primary-x-dark);
+    h2 {
+      font-size: 1.75rem;
+      color: ${colors.secondaryDark};
+      color: ${colors.text};
+      font-weight: 600;
+      margin: 1.5em 0 0.5em 0;
     }
-  }
-  code {
-    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-    color: var(--color-text-light);
-  }
-  pre {
-    font-size: 0.8em;
-    line-height: 1.5;
-    color: var(--color-text-light);
-  }
-  hr {
-    border: none;
-    border-bottom: ${layout.borderWidth} dashed var(--color-grey-light);
-    margin: calc(${layout.padding} * 1.2) 0;
-    opacity: 0.5;
-  }
 
-  div.rt-TextFieldRoot {
-    min-height: ${forms.inputs.height};
-    box-shadow: inset 0px 0px 0px 2px ${colors.greyXLight};
-    /* ${cssInputText} */
-    /* ${cssInputBox} */
+    h3 {
+      color: var(--color-text-light);
+      font-weight: 500;
+    }
+
+    h4 {
+      color: white;
+      margin: 1.33em 0 0.33em;
+      font-weight: 500;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      letter-spacing: -0.025em;
+      font-weight: 700;
+      span {
+        opacity: 0.66;
+      }
+    }
+
+    h1 + span {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: ${colors.text};
+      padding: 0em 0 1em 0;
+      display: inline-block;
+    }
+
+    h2 + span {
+      font-size: 1rem;
+      font-weight: 500;
+      color: ${colors.text};
+      padding: 0.25em 0 1em 0;
+      display: inline-block;
+    }
+
+    p {
+      color: var(--color-text);
+      font-weight: 500;
+      line-height: 1.75;
+    }
+    a {
+      color: var(--color-primary);
+      color: var(--color-secondary-xdark);
+      text-decoration: none;
+      &:hover {
+        color: var(--color-primary-x-dark);
+      }
+    }
+    code {
+      font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+      color: var(--color-text-light);
+    }
+    pre {
+      font-size: 0.8em;
+      line-height: 1.5;
+      color: var(--color-text-light);
+    }
+    hr {
+      border: none;
+      border-bottom: ${layout.borderWidth} dashed var(--color-grey-light);
+      margin: calc(${layout.padding} * 1.2) 0;
+      opacity: 0.5;
+    }
+
+    div.rt-TextFieldRoot {
+      min-height: ${forms.inputs.height};
+      box-shadow: inset 0px 0px 0px 2px ${colors.greyXLight};
+      /* ${cssInputText} */
+      /* ${cssInputBox} */
+    }
   }
 
   /* header.page-header,

@@ -31,7 +31,9 @@ export const SelectedLanguagesList: React.FC<SelectedLanguagesListProps> = ({
       {/* Header with Save Button */}
       <Flex justify="between" align="center" mb="4">
         <Heading as="h2" size="5" weight="bold">
-          Selected Languages ({selectedLanguages.length})
+          <span style={{ color: selectedLanguages.length > 0 ? 'var(--green-11)' : 'var(--gray-12)' }}>
+            Selected Languages ({selectedLanguages.length})
+          </span>
         </Heading>
         {showSaveButton && selectedLanguages.length > 0 && (
           <Button onClick={onSaveLanguages} size="3" color="green">

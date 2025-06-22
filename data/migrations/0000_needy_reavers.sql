@@ -117,6 +117,19 @@ CREATE TABLE `orders` (
 	FOREIGN KEY (`temperature_profile_id`) REFERENCES `temperature_profiles`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE TABLE `supported_languages` (
+	`id` text PRIMARY KEY NOT NULL,
+	`iso_code` text NOT NULL,
+	`native_name` text NOT NULL,
+	`display_name` text NOT NULL,
+	`flag_code` text,
+	`is_active` integer DEFAULT true NOT NULL,
+	`sort_order` integer DEFAULT 0 NOT NULL,
+	`created_at` integer,
+	`updated_at` integer
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `supported_languages_iso_code_unique` ON `supported_languages` (`iso_code`);--> statement-breakpoint
 CREATE TABLE `temperature_profiles` (
 	`id` text PRIMARY KEY NOT NULL,
 	`cooling_profile_id` text NOT NULL,
@@ -127,6 +140,18 @@ CREATE TABLE `temperature_profiles` (
 	FOREIGN KEY (`cooling_profile_id`) REFERENCES `cooling_profiles`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE TABLE `translatable_entities` (
+	`id` text PRIMARY KEY NOT NULL,
+	`table_name` text NOT NULL,
+	`entity_name` text NOT NULL,
+	`description` text,
+	`is_active` integer DEFAULT true NOT NULL,
+	`sort_order` integer DEFAULT 0 NOT NULL,
+	`created_at` integer,
+	`updated_at` integer
+);
+--> statement-breakpoint
+CREATE UNIQUE INDEX `translatable_entities_table_name_unique` ON `translatable_entities` (`table_name`);--> statement-breakpoint
 CREATE TABLE `volumes` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,

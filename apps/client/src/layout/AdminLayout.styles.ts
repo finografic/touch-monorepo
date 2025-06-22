@@ -1,9 +1,6 @@
 import { css } from '@emotion/react';
 import { colors, layout, spacing, typography } from 'styles';
-
-// NOTE: CUSTOM STYLES REMOVED
 import { stylesContent } from 'styles/custom/content.styles';
-/* ${stylesContent} */
 
 export const styles = css`
   ${stylesContent}

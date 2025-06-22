@@ -113,7 +113,7 @@ export const AdminLanguagesPage: React.FC = () => {
   };
 
   return (
-    <div css={styles}>
+    <section css={styles} id="admin-languages" className="admin-content-page">
       <AdminContentLayout
         title={t('pages.admin.languages.title')}
         subtitle={t('pages.admin.languages.subtitle')}
@@ -186,6 +186,6 @@ export const AdminLanguagesPage: React.FC = () => {
           </Box>
         </AdminSection>
       </AdminContentLayout>
-    </div>
+    </section>
   );
 };

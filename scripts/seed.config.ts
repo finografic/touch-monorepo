@@ -3,20 +3,33 @@ import type { SeedConfig } from './src/db-setup';
 
 export const seedOrder: SeedConfig[] = [
   {
+    name: 'supported_languages',
+    description: 'Supported languages',
+  },
+  {
+    name: 'translatable_entities',
+    description: 'Translatable entities',
+    dependencies: ['supported_languages'],
+  },
+  {
     name: 'drink_types',
     description: 'Base drink types and subtypes',
+    dependencies: ['translatable_entities'],
   },
   {
     name: 'drink_subtypes',
     description: 'Drink subtypes',
+    dependencies: ['translatable_entities'],
   },
   {
     name: 'container_types',
     description: 'Container types (plastic, glass, metal)',
+    dependencies: ['translatable_entities'],
   },
   {
     name: 'volumes',
     description: 'Available volumes (33cl, 50cl, etc)',
+    dependencies: ['translatable_entities'],
   },
   {
     name: 'cooling_profiles',
