@@ -16,6 +16,7 @@ import drinkVolume from './routes/drink-volume';
 import containerType from 'routes/container-type';
 import temperatureProfile from './routes/temperature-profile';
 import orders from './routes/orders';
+import supportedLanguage from './routes/supported-language';
 
 const app = createApp();
 
@@ -39,7 +40,7 @@ app.use('*', async (context, next) => {
 configureOpenAPI(app);
 
 const routesDrinkFlow = [drinkType, drinkVolume, containerType, temperatureProfile] as const;
-const routes = [index, health, auth, users, ...routesDrinkFlow, orders] as const;
+const routes = [index, health, auth, users, ...routesDrinkFlow, orders, supportedLanguage] as const;
 
 routes.forEach((route) => {
   app.route(envShared.API_BASE_PATH, route);

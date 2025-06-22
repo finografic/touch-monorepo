@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import { colors, layout, spacing, typography } from 'styles';
-import { stylesContent } from 'styles/custom/content.styles';
+import { stylesAdminContent } from 'styles/custom/content.admin.styles';
 
 export const styles = css`
-  ${stylesContent}
+  ${stylesAdminContent}
   /* ========================================
      SHARED LAYOUT STRUCTURE (from Layout.styles.ts)
      ======================================== */

@@ -22,6 +22,26 @@ export default function ({ children }: Props) {
 
   const persister = createSyncStoragePersister({
     storage: window.localStorage,
+    // Don't persist admin queries - they should always refetch for fresh data
+    serialize: (data) => {
+      const filteredData = {
+        ...data,
+        clientState: {
+          ...data.clientState,
+          queries: data.clientState.queries.filter((query: any) => {
+            const queryKey = query.queryKey;
+            // Exclude admin-related queries from persistence
+            const isAdminQuery = queryKey.some(
+              (key: string) =>
+                typeof key === 'string' &&
+                (key.includes('admin') || key.includes('supportedLanguages') || key.includes('Admin')),
+            );
+            return !isAdminQuery;
+          }),
+        },
+      };
+      return JSON.stringify(filteredData);
+    },
   });
 
   return (

@@ -6,10 +6,10 @@ import { DocsPage } from '../pages/DocsPage/DocsPage';
 import { MainPage } from '../pages/MainPage/MainPage';
 import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
 import { ALTERNATIVE_PATHS, PATHS } from './routes.config';
-import { OrderFieldKeys } from 'constants/app.config';
+import { AdminFieldKeys, OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPages/AdminPage';
-import { AdminTrasnlationsPage } from 'pages/AdminPages/AdminTrasnlationsPage/AdminTrasnlationsPage';
+import { AdminTranslationsPage } from 'pages/AdminPages/AdminTranslationsPage/AdminTranslationsPage';
 import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
@@ -100,11 +100,12 @@ export const routes: RouteObject[] = [
       {
         path: 'translations',
         id: 'admin-translations',
-        element: <AdminTrasnlationsPage />,
+        element: <AdminTranslationsPage />,
       },
       {
         path: 'languages',
         id: 'admin-languages',
+        // loader: LoaderDataHelper[AdminFieldKeys.languages],
         element: <AdminLanguagesPage />,
       },
       // Future admin routes can be added here

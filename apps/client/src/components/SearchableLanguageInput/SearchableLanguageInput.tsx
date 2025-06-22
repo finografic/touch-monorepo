@@ -143,15 +143,16 @@ export const SearchableLanguageInput: React.FC<SearchableLanguageInputProps> = (
           size="3"
         >
           <TextField.Slot>
-            <MagnifyingGlassIcon height="16" width="16" />
+            <MagnifyingGlassIcon height="24" width="24" style={{ marginLeft: '6px' }} />
           </TextField.Slot>
           <TextField.Slot>
             <ChevronDownIcon
-              height="16"
-              width="16"
+              height="24"
+              width="24"
               style={{
                 transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                 transition: 'transform 0.2s ease',
+                marginRight: '8px',
               }}
             />
           </TextField.Slot>

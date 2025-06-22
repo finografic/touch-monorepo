@@ -3,22 +3,33 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import type { FieldError } from 'react-hook-form';
 import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
+import { getLanguageFieldName } from '../utils/translation-helpers';
+
+interface SupportedLanguage {
+  isoCode: string;
+  displayName: string;
+  nativeName: string;
+}
 
 interface TranslationSectionProps {
   title: string;
   description: string;
   fieldName: string;
   errors?: any;
+  supportedLanguages: SupportedLanguage[];
 }
 
 export const TranslationSection: React.FC<TranslationSectionProps> = memo(
-  ({ title, description, fieldName, errors }) => {
+  ({ title, description, fieldName, errors, supportedLanguages }) => {
     const { t } = useTranslation();
     const { register, control } = useFormContext();
     const { fields } = useFieldArray({
       control,
       name: fieldName,
     });
+
+    // Calculate grid columns based on number of languages (name + languages)
+    const gridColumns = String(1 + supportedLanguages.length);
 
     return (
       <Box className="translation-section">
@@ -33,7 +44,7 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
           <Flex direction="column" gap="4">
             {fields.map((field, index) => (
               <Box key={field.id} className="translation-item">
-                <Grid columns="4" gap="3" align="center">
+                <Grid columns={gridColumns} gap="3" align="center">
                   {/* Base name (readonly) */}
                   <Box>
                     <Text size="1" weight="medium" color="gray" mb="1">
@@ -48,56 +59,29 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
                     />
                   </Box>
 
-                  {/* English translation */}
-                  <Box>
-                    <Text size="1" weight="medium" mb="1">
-                      English
-                    </Text>
-                    <TextField.Root
-                      {...register(`${fieldName}.${index}.nameEn`)}
-                      placeholder={t('ui.forms.placeholders.enterText')}
-                      size="3"
-                    />
-                    {errors?.[index]?.nameEn && (
-                      <Text size="1" color="red" mt="1">
-                        {errors[index].nameEn.message}
-                      </Text>
-                    )}
-                  </Box>
+                  {/* Dynamic language fields */}
+                  {supportedLanguages.map((language) => {
+                    const fieldKey = getLanguageFieldName(language.isoCode);
+                    const fieldPath = `${fieldName}.${index}.${fieldKey}`;
 
-                  {/* Spanish translation */}
-                  <Box>
-                    <Text size="1" weight="medium" mb="1">
-                      Español
-                    </Text>
-                    <TextField.Root
-                      {...register(`${fieldName}.${index}.nameEs`)}
-                      placeholder={t('ui.forms.placeholders.enterText')}
-                      size="3"
-                    />
-                    {errors?.[index]?.nameEs && (
-                      <Text size="1" color="red" mt="1">
-                        {errors[index].nameEs.message}
-                      </Text>
-                    )}
-                  </Box>
-
-                  {/* Catalan translation */}
-                  <Box>
-                    <Text size="1" weight="medium" mb="1">
-                      Català
-                    </Text>
-                    <TextField.Root
-                      {...register(`${fieldName}.${index}.nameCat`)}
-                      placeholder={t('ui.forms.placeholders.enterText')}
-                      size="3"
-                    />
-                    {errors?.[index]?.nameCat && (
-                      <Text size="1" color="red" mt="1">
-                        {errors[index].nameCat.message}
-                      </Text>
-                    )}
-                  </Box>
+                    return (
+                      <Box key={language.isoCode}>
+                        <Text size="1" weight="medium" mb="1">
+                          {language.displayName}
+                        </Text>
+                        <TextField.Root
+                          {...register(fieldPath)}
+                          placeholder={t('ui.forms.placeholders.enterText')}
+                          size="3"
+                        />
+                        {errors?.[index]?.[fieldKey] && (
+                          <Text size="1" color="red" mt="1">
+                            {errors[index][fieldKey].message}
+                          </Text>
+                        )}
+                      </Box>
+                    );
+                  })}
 
                   {/* Hidden fields */}
                   <input type="hidden" {...register(`${fieldName}.${index}.id`)} />

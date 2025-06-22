@@ -7,8 +7,8 @@ export const container_types = sqliteTable('container_types', {
     .primaryKey()
     .$defaultFn(() => createCuid()),
   name: text('name').notNull().unique(), // Internal name: 'plastic', 'glass', 'metal'
-  nameEn: text('name_en').notNull(), // English display name
-  nameEs: text('name_es'), // Spanish display name (optional)
+  nameEs: text('name_es').notNull(), // Spanish display name (now first)
+  nameEn: text('name_en'), // English display name (optional)
   nameCat: text('name_cat'), // Catalan display name (optional)
   thermalConductivity: integer('thermal_conductivity').notNull(), // Affects cooling time
 

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { TimeInputGroup } from 'components/TimeInput/TimeInputGroup';
 import { Box, Flex } from '@radix-ui/themes';
-import { styles } from '../content.styles';
+import { stylesAppContent } from '../../styles/custom/content.app.styles';
 import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS, TIME_MIN_SECONDS } from 'constants/time.config';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
@@ -28,7 +28,7 @@ export const TimePage = () => {
   // log('__DEV: ITEMS:', 'grey', selectedItems);
 
   return (
-    <Flex css={styles} className="time-content" gap="3" direction="column">
+    <Flex css={stylesAppContent} className="time-content" gap="3" direction="column">
       <Flex className="page-description" gap="3" justify="center">
         <Box>
           <p>

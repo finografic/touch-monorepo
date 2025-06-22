@@ -1,5 +1,4 @@
 import type { DataEntry, DataType } from 'types/data.types';
-import type { ModelBaseProps } from 'types/base.types';
 
 // Response data type for orders
 export interface OrderModel extends DataEntry {

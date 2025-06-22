@@ -12,6 +12,7 @@ export const supported_languages = sqliteTable('supported_languages', {
   displayName: text('display_name').notNull(), // For admin interface display
   flagCode: text('flag_code'), // 'US', 'ES', 'CAT', 'DE' (for flag icons)
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
+  isDefault: integer('is_default', { mode: 'boolean' }).notNull().default(false),
   sortOrder: integer('sort_order').notNull().default(0),
   createdAt: integer('created_at', { mode: 'timestamp' }).$defaultFn(() => new Date()),
   updatedAt: integer('updated_at', { mode: 'timestamp' })

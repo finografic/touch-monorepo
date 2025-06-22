@@ -1,12 +1,13 @@
 import { colors, layout, min } from 'styles';
 import { css } from '@emotion/react';
-import { cssFontMono } from '../fonts.styles';
-import { cssInputBox, cssInputText, forms } from '../forms.styles';
+import { cssFontMono } from 'styles/fonts.styles';
+import { cssForms, cssInputBox, cssInputText, forms } from '../forms.styles';
 
 // Base styles shared across all interactive buttons
-export const stylesContent = css`
+export const stylesAdminContent = css`
   section.admin-content-page {
     color: ${colors.textDark};
+    ${cssForms}
 
     h1 {
       font-size: 2.5rem;
@@ -19,8 +20,9 @@ export const stylesContent = css`
       font-size: 1.75rem;
       color: ${colors.secondaryDark};
       color: ${colors.text};
+      line-height: 1.6;
       font-weight: 600;
-      margin: 1.5em 0 0.5em 0;
+      margin: 1em 0 0em 0;
     }
 
     h3 {

@@ -1,28 +1,39 @@
 import { Flex, RadioCards, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { useContent } from 'providers/ContentProvider/ContentContext';
-import { flagAssets } from './languages/images';
 import { styles } from './LanguageSelector.styles';
 import { getFlagDataByIso } from './language-selector.utils';
 import { LANGUAGE_CONFIG } from 'constants/language.constants';
 import type { LanguageInfo, LanguageSelectorProps, RegionLocale } from '@workspace/types';
+import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
+import { LanguagesDto } from 'queries/supported-languages';
+import { getFlagUrl } from 'utils/flag.utils';
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {
   const { i18n } = useTranslation();
   const { currentLanguage, setCurrentLanguage } = useContent();
 
+  // ======================================================================== //
   // Generate languages from configuration
-  const languages: LanguageInfo[] = Object.entries(LANGUAGE_CONFIG).map(([langCode, config]) => {
-    const regionLocale = langCode as RegionLocale;
-    const flagData = getFlagDataByIso(config.iso);
+  // const languages: LanguageInfo[] = Object.entries(LANGUAGE_CONFIG).map(([langCode, config]) => {
+  //   const regionLocale = langCode as RegionLocale;
+  //   const flagData = getFlagDataByIso(config.iso);
 
-    return {
-      code: regionLocale,
-      label: flagData?.name.common || langCode,
-      nativeLabel: flagData?.name.nativeName?.[config.nativeKey]?.common || langCode,
-      flag: flagAssets[regionLocale as keyof typeof flagAssets],
-    };
-  });
+  //   return {
+  //     code: regionLocale,
+  //     label: flagData?.name.common || langCode,
+  //     nativeLabel: flagData?.name.nativeName?.[config.nativeKey]?.common || langCode,
+  //     flag: flagData?.flags.png || '', // Use URL from JSON data
+  //   };
+  // });
+
+  // ======================================================================== //
+
+  // Fetch supported languages from database
+  const { data: supportedLanguagesData, isLoading, error } = useGetSupportedLanguages();
+  const languages = supportedLanguagesData
+    ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium'))
+    : [];
 
   const handleLanguageChange = (languageCode: string) => {
     const regionLocale = languageCode as RegionLocale;

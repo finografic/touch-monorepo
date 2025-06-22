@@ -17,27 +17,30 @@ export async function seed() {
       .insert(supported_languages)
       .values([
         {
-          isoCode: 'en',
-          nativeName: 'English',
-          displayName: 'English',
-          flagCode: 'GB', // Using GB for United Kingdom
-          isActive: true,
-          sortOrder: 1,
-        },
-        {
           isoCode: 'es',
           nativeName: 'Español',
           displayName: 'Spanish',
           flagCode: 'ES',
           isActive: true,
+          isDefault: true, // Spanish is the default language
+          sortOrder: 1,
+        },
+        {
+          isoCode: 'en',
+          nativeName: 'English',
+          displayName: 'English',
+          flagCode: 'GB', // Using GB for United Kingdom
+          isActive: true,
+          isDefault: false,
           sortOrder: 2,
         },
         {
-          isoCode: 'cat',
+          isoCode: 'ca', // Fixed: Use standard ISO 639-1 code
           nativeName: 'Català',
           displayName: 'Catalan',
-          flagCode: 'CAT', // Custom flag code for Catalonia
+          flagCode: 'CAT', // Custom flag code for Catalonia (maps to ES in flag utils)
           isActive: true,
+          isDefault: false,
           sortOrder: 3,
         },
       ])

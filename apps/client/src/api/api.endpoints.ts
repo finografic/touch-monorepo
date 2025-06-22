@@ -15,6 +15,11 @@ import type {
 import { api } from 'api';
 import { isRetryableError, transformAxiosError__V2 } from './api.utils';
 import type { TemperatureProfileEntity } from 'types/models/temperature.model';
+import type { SupportedLanguage } from 'types/models/supported-language.model';
+import type {
+  SupportedLanguageInput,
+  SupportedLanguageUpdate,
+} from 'queries/supported-languages/supported-languages.types';
 import { useQuery } from '@tanstack/react-query';
 import type { AnalyticsData } from 'types/analytics.types';
 
@@ -119,6 +124,14 @@ export const EndpointHelper = createEndpoints({
         'Cache-Control': 'no-cache',
       },
     }),
+  getSupportedLanguages: async () => await api.get<ApiResponse<SupportedLanguage[]>>('/supported-languages'),
+  getSupportedLanguage: async (id: string) =>
+    await api.get<ApiResponse<SupportedLanguage>>(`/supported-languages/${id}`),
+  createSupportedLanguage: async (data: SupportedLanguageInput) =>
+    await api.post<ApiResponse<SupportedLanguage>>('/supported-languages', data),
+  updateSupportedLanguage: async (id: string, data: SupportedLanguageUpdate) =>
+    await api.patch<ApiResponse<SupportedLanguage>>(`/supported-languages/${id}`, data),
+  deleteSupportedLanguage: async (id: string) => await api.delete<void>(`/supported-languages/${id}`),
 }) as const;
 
 // Example usage in a hook with the new utility

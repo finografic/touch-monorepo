@@ -8,6 +8,8 @@ import { colors } from './colors.styles';
 import { cssFontDefaults } from './fonts.styles';
 import { generateColorVariables } from './utils/custom.variables';
 
+log('__COLORS', 'orange', colors);
+
 export const cssGlobal = css`
   *,
   *::before,

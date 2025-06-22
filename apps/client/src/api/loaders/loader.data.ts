@@ -1,5 +1,5 @@
 import { EndpointHelper } from 'api/api.endpoints';
-import { OrderFieldKeys } from 'constants/app.config';
+import { AdminFieldKeys, OrderFieldKeys } from 'constants/app.config';
 import type { LoaderFunction } from 'react-router-dom';
 
 type LoaderMap = {
@@ -24,14 +24,5 @@ export const LoaderDataHelper: Partial<LoaderMap> = {
     return [];
     // return EndpointHelper.getTemperatureProfile(params.temperatureProfileId as string);
   },
-  /*
-  [OrderFieldKeys.initialTemperature]: async () => {
-    // TODO: Implement when ready
-    return [];
-  },
-  [OrderFieldKeys.finalTemperature]: async () => {
-    // TODO: Implement when ready
-    return [];
-  },
-  */
+  [AdminFieldKeys.languages]: async () => EndpointHelper.getSupportedLanguages,
 };

@@ -1,4 +1,4 @@
-import flagsData from './languages/flags.data.json';
+import flagsData from './languages/languages.data.min.json';
 import type { IsoCode } from '@workspace/types';
 
 /**

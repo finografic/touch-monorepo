@@ -431,10 +431,9 @@ export const cssInputBox = css`
 
 export const cssPlaceholder = css`
   font-weight: ${forms.inputs.fontWeight};
-  color: ${colors.greyLight};
-  -webkit-text-fill-color: ${colors.greyLight};
-  letter-spacing: 0 !important;
-  opacity: 0.66;
+  color: ${colors.grey};
+  -webkit-text-fill-color: ${colors.grey};
+  opacity: 0.5;
 `;
 
 export const cssInputSpecialUI = css`

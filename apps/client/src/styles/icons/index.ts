@@ -23,6 +23,7 @@ import {
   Coffee as _CoffeeIcon,
   House as _HomeIcon,
   Languages as _LanguagesIcon,
+  Lock as _LockIcon,
   ShieldCheck as _ShieldCheckIcon,
   Thermometer as _TempIcon,
   Trash2 as _Trash2Icon,
@@ -73,6 +74,7 @@ export const WineIcon = createIconWrapper(_WineIcon);
 
 // Admin section icons
 export const HomeIcon = createIconWrapper(_HomeIcon);
+export const LockIcon = createIconWrapper(_LockIcon);
 export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);
 export const PlusIcon = createIconWrapper(_PlusIcon);
 export const TrashIcon = createIconWrapper(_Trash2Icon);

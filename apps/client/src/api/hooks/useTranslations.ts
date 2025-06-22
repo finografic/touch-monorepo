@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { translationEndpoints } from '../endpoints/translations.endpoints';
+import { ADMIN_DATA_QUERY_CONFIG } from 'constants/query.config';
 import type {
   ContainerTypeTranslation,
   ContainerTypeUpdate,
@@ -27,7 +28,7 @@ export const useGetDrinkTypes = () => {
   return useQuery({
     queryKey: TRANSLATION_QUERY_KEYS.drinkTypes,
     queryFn: translationEndpoints.getDrinkTypes,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
 };
 
@@ -38,7 +39,7 @@ export const useGetDrinkSubtypes = () => {
   return useQuery({
     queryKey: TRANSLATION_QUERY_KEYS.drinkSubtypes,
     queryFn: translationEndpoints.getDrinkSubtypes,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
 };
 
@@ -49,7 +50,7 @@ export const useGetVolumes = () => {
   return useQuery({
     queryKey: TRANSLATION_QUERY_KEYS.volumes,
     queryFn: translationEndpoints.getVolumes,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
 };
 
@@ -60,7 +61,7 @@ export const useGetContainerTypes = () => {
   return useQuery({
     queryKey: TRANSLATION_QUERY_KEYS.containerTypes,
     queryFn: translationEndpoints.getContainerTypes,
-    staleTime: 5 * 60 * 1000, // 5 minutes
+    ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
 };
 

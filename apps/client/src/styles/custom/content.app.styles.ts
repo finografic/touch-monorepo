@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-export const styles = css`
+export const stylesAppContent = css`
   &.temperature-content,
   &.time-content {
     min-width: 800px;

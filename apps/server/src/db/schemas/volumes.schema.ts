@@ -7,8 +7,8 @@ export const volumes = sqliteTable('volumes', {
     .primaryKey()
     .$defaultFn(() => createCuid()),
   name: text('name').notNull().unique(), // Internal key: '25cl', '1l', etc.
-  nameEn: text('name_en').notNull(), // Display format: '25cl', '1 Liter', etc.
-  nameEs: text('name_es'), // Spanish display name (optional)
+  nameEs: text('name_es').notNull(), // Spanish display name (now first)
+  nameEn: text('name_en'), // English display name (optional)
   nameCat: text('name_cat'), // Catalan display name (optional)
   valueInMl: integer('value_in_ml').notNull(), // Normalized to milliliters
   sortOrder: integer('sort_order').notNull(), // For display ordering
@@ -24,8 +24,8 @@ export const volumes = sqliteTable('volumes', {
 // Zod schema for validation
 const insertVolumeSchema = createInsertSchema(volumes, {
   name: (schema) => schema.name.min(1).max(20),
-  nameEn: (schema) => schema.nameEn.min(1).max(20),
   nameEs: (schema) => schema.nameEs.min(1).max(20),
+  nameEn: (schema) => schema.nameEn.min(1).max(20),
   nameCat: (schema) => schema.nameCat.min(1).max(20),
   valueInMl: (schema) => schema.valueInMl.min(1).max(5000), // Up to 5L
   sortOrder: (schema) => schema.sortOrder.min(0),
@@ -33,7 +33,7 @@ const insertVolumeSchema = createInsertSchema(volumes, {
 })
   .required({
     name: true,
-    nameEn: true,
+    nameEs: true,
     valueInMl: true,
     sortOrder: true,
   })

@@ -4,7 +4,7 @@ import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 import { useFilters } from 'hooks/useFilters';
 import { Box, Flex } from '@radix-ui/themes';
-import { styles } from '../content.styles';
+import { stylesAppContent } from '../../styles/custom/content.app.styles';
 import {
   FINAL_TEMP_MIN,
   INITIAL_TEMP_DEFAULT,
@@ -151,14 +151,14 @@ export const TemperaturePage = () => {
   // Allow proceeding if minMax query failed (use fallback values) but still loading
   if ((isLoadingTemperatures && !minMaxError) || !isInitializedRef.current) {
     return (
-      <Flex css={styles} className="temperature-content" gap="3" direction="column">
+      <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
         <Box>Loading temperature settings...</Box>
       </Flex>
     );
   }
 
   return (
-    <Flex css={styles} className="temperature-content" gap="3" direction="column">
+    <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
       <Flex className="page-description" gap="3" justify="center">
         <Box>
           <p>{DESCRIPTIONS.page}</p>

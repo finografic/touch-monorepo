@@ -1,0 +1,187 @@
+import type { AppRouteHandler } from 'types/app.types';
+import type {
+  CreateRoute,
+  GetOneRoute,
+  ListRoute,
+  PatchRoute,
+  RemoveRoute,
+} from './supported-language.routes';
+import { db } from 'db';
+import { supported_languages } from 'db/schemas/supported_languages.schema';
+import { eq } from 'drizzle-orm';
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
+import * as HttpStatusCodes from 'stoker/http-status-codes';
+import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { createTranslationColumns, validateLanguageCode } from 'utils/translation-columns.utils';
+
+export const list: AppRouteHandler<ListRoute> = async (context) => {
+  const supportedLanguages = await db.query.supported_languages.findMany({
+    columns: {
+      id: true,
+      isoCode: true,
+      nativeName: true,
+      displayName: true,
+      flagCode: true,
+      isActive: true,
+      isDefault: true,
+      sortOrder: true,
+    },
+    orderBy: (fields, operators) => [
+      operators.desc(fields.isDefault), // Default language first
+      operators.asc(fields.sortOrder), // Then by sort order
+      operators.asc(fields.displayName), // Finally by display name
+    ],
+  });
+  return context.json(supportedLanguages);
+};
+
+export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
+  const { id } = context.req.valid('param');
+  const supportedLanguage = await db.query.supported_languages.findFirst({
+    where(fields, operators) {
+      return operators.eq(fields.id, id);
+    },
+  });
+
+  if (!supportedLanguage) {
+    return context.json(
+      {
+        message: HttpStatusPhrases.NOT_FOUND,
+      },
+      HttpStatusCodes.NOT_FOUND,
+    );
+  }
+
+  return context.json(supportedLanguage, HttpStatusCodes.OK);
+};
+
+export const create: AppRouteHandler<CreateRoute> = async (context) => {
+  const supportedLanguage = context.req.valid('json');
+
+  try {
+    // Get the highest sort_order and increment by 1
+    const maxSortOrder = await db.query.supported_languages.findFirst({
+      columns: { sortOrder: true },
+      orderBy: (fields, operators) => [operators.desc(fields.sortOrder)],
+    });
+
+    const nextSortOrder = (maxSortOrder?.sortOrder || 0) + 1;
+
+    // Insert the new language with auto-incremented sort_order
+    const [inserted] = await db
+      .insert(supported_languages)
+      .values({
+        ...supportedLanguage,
+        sortOrder: nextSortOrder,
+      })
+      .returning();
+
+    // Create translation columns for all translatable entities
+    await createTranslationColumns(supportedLanguage.isoCode);
+
+    console.log(
+      `✅ Successfully created language ${supportedLanguage.isoCode} with translation columns (sort_order: ${nextSortOrder})`,
+    );
+
+    return context.json(inserted, HttpStatusCodes.OK);
+  } catch (error) {
+    console.error('Error creating supported language:', error);
+    throw error; // Let the framework handle the error response
+  }
+};
+
+export const patch: AppRouteHandler<PatchRoute> = async (context) => {
+  const { id } = context.req.valid('param');
+  const updates = context.req.valid('json');
+
+  if (Object.keys(updates).length === 0) {
+    return context.json(
+      {
+        success: false,
+        error: {
+          issues: [
+            {
+              code: ZOD_ERROR_CODES.INVALID_UPDATES,
+              path: [],
+              message: ZOD_ERROR_MESSAGES.NO_UPDATES,
+            },
+          ],
+          name: 'ZodError',
+        },
+      },
+      HttpStatusCodes.UNPROCESSABLE_ENTITY,
+    );
+  }
+
+  const [supportedLanguage] = await db
+    .update(supported_languages)
+    .set(updates)
+    .where(eq(supported_languages.id, id))
+    .returning();
+
+  if (!supportedLanguage) {
+    return context.json(
+      {
+        message: HttpStatusPhrases.NOT_FOUND,
+      },
+      HttpStatusCodes.NOT_FOUND,
+    );
+  }
+
+  return context.json(supportedLanguage, HttpStatusCodes.OK);
+};
+
+export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
+  const { id } = context.req.valid('param');
+
+  // First, check if the language exists and if it's the default language
+  const languageToDelete = await db.query.supported_languages.findFirst({
+    where(fields, operators) {
+      return operators.eq(fields.id, id);
+    },
+    columns: {
+      id: true,
+      isDefault: true,
+      displayName: true,
+      isoCode: true,
+    },
+  });
+
+  if (!languageToDelete) {
+    return context.json(
+      {
+        message: HttpStatusPhrases.NOT_FOUND,
+      },
+      HttpStatusCodes.NOT_FOUND,
+    );
+  }
+
+  // Prevent deletion of the default language
+  if (languageToDelete.isDefault) {
+    return context.json(
+      {
+        message: 'Cannot delete the default language. Please set another language as default first.',
+        details: {
+          languageCode: languageToDelete.isoCode,
+          displayName: languageToDelete.displayName,
+          reason: 'DEFAULT_LANGUAGE_PROTECTION',
+        },
+      },
+      HttpStatusCodes.FORBIDDEN,
+    );
+  }
+
+  // Proceed with deletion if not default language
+  const result = await db.delete(supported_languages).where(eq(supported_languages.id, id));
+
+  if (result.changes === 0) {
+    return context.json(
+      {
+        message: HttpStatusPhrases.NOT_FOUND,
+      },
+      HttpStatusCodes.NOT_FOUND,
+    );
+  }
+
+  return context.body(null, HttpStatusCodes.NO_CONTENT);
+};

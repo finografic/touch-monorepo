@@ -1,19 +1,26 @@
 import React, { useState } from 'react';
-import { Box, Callout, Flex, Text } from '@radix-ui/themes';
+import { Box, Button, Callout, Flex, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { AdminContentLayout, AdminSection, SectionHeader } from '../shared';
-import { flagAssets } from 'components/LanguageSelector/languages/images';
-import { getFlagDataByIso } from 'components/LanguageSelector/language-selector.utils';
-import { LANGUAGE_CONFIG } from 'constants/language.constants';
-import type { LanguageInfo, RegionLocale } from '@workspace/types';
 import { styles } from './AdminLanguagesPage.styles';
 import { SearchableLanguageInput } from 'components/SearchableLanguageInput';
 import languagesData from 'components/LanguageSelector/languages/languages.data.min.json';
 import type { Country } from 'components/LanguageSelector/languages/country.types';
-import { ConfiguredLanguagesList, SelectedLanguagesList } from './components';
+import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';
+import type { LanguageInfo } from 'types/language.types';
+import { useQueryClient } from '@tanstack/react-query';
+import { getFlagUrl } from 'utils/flag.utils';
+import {
+  LanguagesDto,
+  supportedLanguagesKeys,
+  useCreateSupportedLanguage,
+  useDeleteSupportedLanguage,
+  useGetSupportedLanguages,
+} from 'queries/supported-languages';
 
-interface SelectedLanguage {
+// Interface for the search component results (matches LanguageOption from SearchableLanguageInput)
+interface LanguageOption {
   languageCode: string;
   languageName: string;
   countryName: string;
@@ -23,94 +30,165 @@ interface SelectedLanguage {
   emoji?: string;
 }
 
+// Utility function to convert search results to LanguageInfo
+const convertSearchResultToLanguageInfo = (searchResult: LanguageOption): LanguageInfo => ({
+  code: searchResult.languageCode,
+  label: searchResult.languageName,
+  nativeLabel: searchResult.nativeName || searchResult.languageName,
+  flag: searchResult.flagUrl,
+  countryName: searchResult.countryName,
+  countryCode: searchResult.countryCode,
+  isActive: true, // New languages are active by default
+  isDefault: false,
+  sortOrder: 0,
+});
+
 export const AdminLanguagesPage: React.FC = () => {
   const { t } = useTranslation();
+  const queryClient = useQueryClient();
 
-  // Generate initial languages from configuration
-  const initialLanguages: LanguageInfo[] = Object.entries(LANGUAGE_CONFIG).map(([langCode, config]) => {
-    const regionLocale = langCode as RegionLocale;
-    const flagData = getFlagDataByIso(config.iso);
+  // Fetch supported languages from database
+  const { data: supportedLanguagesData, isLoading, error } = useGetSupportedLanguages();
+  const createLanguageMutation = useCreateSupportedLanguage();
+  const deleteLanguageMutation = useDeleteSupportedLanguage();
 
-    return {
-      code: regionLocale,
-      label: flagData?.name.common || langCode,
-      nativeLabel: flagData?.name.nativeName?.[config.nativeKey]?.common || langCode,
-      flag: flagAssets[regionLocale as keyof typeof flagAssets],
-    };
-  });
+  // Convert database data to the unified LanguageInfo format using DTO
+  const languages: LanguageInfo[] = supportedLanguagesData
+    ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium'))
+    : [];
 
-  const [languages, setLanguages] = useState<LanguageInfo[]>(initialLanguages);
-  const [newLanguageCode, setNewLanguageCode] = useState('');
-  const [newLanguageLabel, setNewLanguageLabel] = useState('');
-  const [newLanguageNative, setNewLanguageNative] = useState('');
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
-  const [selectedLanguages, setSelectedLanguages] = useState<SelectedLanguage[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<LanguageInfo[]>([]);
 
-  const handleAddLanguage = () => {
-    if (!newLanguageCode || !newLanguageLabel || !newLanguageNative) return;
+  const handleDeleteLanguage = async (languageCode: string) => {
+    // Find the language by code to get its ID
+    const languageToDelete = languages.find((lang) => lang.code === languageCode);
 
-    // Check if language already exists
-    if (languages.some((lang) => lang.code === newLanguageCode)) {
-      setMessage({ type: 'error', text: 'Language code already exists!' });
-      return;
-    }
-
-    const newLanguage: LanguageInfo = {
-      code: newLanguageCode as RegionLocale,
-      label: newLanguageLabel,
-      nativeLabel: newLanguageNative,
-      flag: flagAssets['en-US'], // Default flag for now
-    };
-
-    setLanguages((prev) => [...prev, newLanguage]);
-    setMessage({ type: 'success', text: `Language "${newLanguageLabel}" added successfully!` });
-
-    // Clear form
-    setNewLanguageCode('');
-    setNewLanguageLabel('');
-    setNewLanguageNative('');
-
-    // Clear message after 3 seconds
-    setTimeout(() => setMessage(null), 3000);
-  };
-
-  const handleDeleteLanguage = (languageCode: string) => {
-    if (languages.length <= 1) {
-      setMessage({ type: 'error', text: 'Cannot delete the last language!' });
+    if (!languageToDelete || !languageToDelete.id) {
+      setMessage({ type: 'error', text: 'Unable to find language to delete.' });
       setTimeout(() => setMessage(null), 3000);
       return;
     }
 
-    const languageToDelete = languages.find((lang) => lang.code === languageCode);
-    setLanguages((prev) => prev.filter((lang) => lang.code !== languageCode));
-    setMessage({ type: 'success', text: `Language "${languageToDelete?.label}" deleted successfully!` });
+    try {
+      setMessage({ type: 'success', text: 'Deleting language...' });
+      await deleteLanguageMutation.mutateAsync(languageToDelete.id);
 
-    // Clear message after 3 seconds
-    setTimeout(() => setMessage(null), 3000);
-  };
-
-  const handleLanguageSelect = (language: SelectedLanguage) => {
-    // Check if language is already selected
-    const isAlreadySelected = selectedLanguages.some(
-      (selected) =>
-        selected.languageCode === language.languageCode && selected.countryCode === language.countryCode,
-    );
-
-    if (!isAlreadySelected) {
-      setSelectedLanguages((prev) => [...prev, language]);
+      queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
+      setMessage({ type: 'success', text: 'Language deleted successfully!' });
+      setTimeout(() => setMessage(null), 3000);
+    } catch (error) {
+      console.error('Error deleting language:', error);
+      setMessage({
+        type: 'error',
+        text: `Failed to delete language: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      });
+      setTimeout(() => setMessage(null), 5000);
     }
   };
 
-  const handleRemoveLanguage = (languageCode: string, countryCode: string) => {
+  const handleLanguageSelect = (searchResult: LanguageOption) => {
+    // Convert search result to LanguageInfo
+    const languageInfo = convertSearchResultToLanguageInfo(searchResult);
+
+    // Check if language is already selected
+    const isAlreadySelected = selectedLanguages.some(
+      (selected) => selected.code === languageInfo.code && selected.countryCode === languageInfo.countryCode,
+    );
+
+    if (!isAlreadySelected) {
+      setSelectedLanguages((prev) => [...prev, languageInfo]);
+    }
+  };
+
+  const handleRemoveLanguage = (languageCode: string, countryCode?: string) => {
     setSelectedLanguages((prev) =>
-      prev.filter((lang) => !(lang.languageCode === languageCode && lang.countryCode === countryCode)),
+      prev.filter((lang) => !(lang.code === languageCode && lang.countryCode === countryCode)),
     );
   };
 
-  const handleSaveLanguages = () => {
-    // TODO: Implement save functionality
-    console.log('Saving languages:', selectedLanguages);
+  const handleSaveLanguages = async () => {
+    if (selectedLanguages.length === 0) {
+      setMessage({ type: 'error', text: 'No languages selected to save.' });
+      setTimeout(() => setMessage(null), 3000);
+      return;
+    }
+
+    try {
+      setMessage({ type: 'success', text: 'Saving languages...' });
+
+      // Save each selected language
+      for (const language of selectedLanguages) {
+        const languageData = {
+          isoCode: language.code,
+          nativeName: language.nativeLabel,
+          displayName: language.label,
+          flagCode: language.countryCode?.toUpperCase() || null,
+          isActive: true,
+          sortOrder: 0,
+        };
+
+        console.log('Creating language:', languageData);
+        await createLanguageMutation.mutateAsync(languageData);
+      }
+
+      // Clear selected languages and refresh data
+      setSelectedLanguages([]);
+      queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
+
+      setMessage({
+        type: 'success',
+        text: `Successfully added ${selectedLanguages.length} language(s) with translation columns!`,
+      });
+      setTimeout(() => setMessage(null), 5000);
+    } catch (error) {
+      console.error('Error saving languages:', error);
+      setMessage({
+        type: 'error',
+        text: `Failed to save languages: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      });
+      setTimeout(() => setMessage(null), 5000);
+    }
   };
+
+  const handleRefreshCache = () => {
+    queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
+    setMessage({ type: 'success', text: 'Cache refreshed! Data reloaded from database.' });
+    setTimeout(() => setMessage(null), 3000);
+  };
+
+  // Handle loading and error states
+  if (isLoading) {
+    return (
+      <section css={styles} id="admin-languages" className="admin-content-page">
+        <AdminContentLayout
+          title={t('pages.admin.languages.title')}
+          subtitle={t('pages.admin.languages.subtitle')}
+          isLoading={true}
+        >
+          <AdminSection>
+            <Text>Loading supported languages...</Text>
+          </AdminSection>
+        </AdminContentLayout>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section css={styles} id="admin-languages" className="admin-content-page">
+        <AdminContentLayout
+          title={t('pages.admin.languages.title')}
+          subtitle={t('pages.admin.languages.subtitle')}
+          error={error.message}
+        >
+          <AdminSection>
+            <Text color="red">Error loading supported languages: {error.message}</Text>
+          </AdminSection>
+        </AdminContentLayout>
+      </section>
+    );
+  }
 
   return (
     <section css={styles} id="admin-languages" className="admin-content-page">
@@ -131,8 +209,20 @@ export const AdminLanguagesPage: React.FC = () => {
 
           {/* Languages List */}
           <Box className="languages-section" mb="6">
-            <SectionHeader title={`Configured Languages (${languages.length})`} />
-            <ConfiguredLanguagesList
+            <Flex justify="between" align="center">
+              <SectionHeader title={`Configured Languages (${languages.length})`} />
+              {/* <Flex gap="2">
+                {import.meta.env.MODE === 'development' && (
+                  <Text size="1" color="gray" style={{ alignSelf: 'center' }}>
+                    Dev Mode: Auto-refresh on mount/focus
+                  </Text>
+                )}
+                <Button variant="soft" onClick={handleRefreshCache}>
+                  🔄 Refresh Data
+                </Button>
+              </Flex> */}
+            </Flex>
+            <LanguagesList
               languages={languages}
               onDeleteLanguage={handleDeleteLanguage}
               canDelete={languages.length > 1}
@@ -150,39 +240,34 @@ export const AdminLanguagesPage: React.FC = () => {
               onLanguageSelect={handleLanguageSelect}
               placeholder="Search languages, countries, or codes..."
             />
+            <LaungaugeDataStats selectedLanguages={selectedLanguages} />
           </Box>
 
           {/* Selected Languages Section */}
           <Box className="selected-section" mb="6">
-            <SelectedLanguagesList
+            <LanguagesListSelected
               selectedLanguages={selectedLanguages}
               onRemoveLanguage={handleRemoveLanguage}
-              onSaveLanguages={handleSaveLanguages}
+              isLoading={createLanguageMutation.isPending}
             />
           </Box>
 
-          {/* Statistics Section */}
+          {/* Statistics Section with Save Button */}
           <Box className="stats-section" style={{ marginTop: '3rem' }}>
-            <SectionHeader title="Dataset Statistics" />
-            <Text size="3" style={{ lineHeight: '1.6' }}>
-              <Text weight="bold" style={{ color: 'var(--gray-12)' }}>
-                {languagesData.length}
-              </Text>{' '}
-              <Text color="gray">Countries</Text>
-              <Text style={{ margin: '0 2rem', color: 'var(--gray-6)' }}>•</Text>
-              <Text weight="bold" style={{ color: 'var(--gray-12)' }}>
-                {languagesData.reduce(
-                  (acc, country) => acc + (country.languages ? Object.keys(country.languages).length : 0),
-                  0,
-                )}
-              </Text>{' '}
-              <Text color="gray">Total Languages</Text>
-              <Text style={{ margin: '0 2rem', color: 'var(--gray-6)' }}>•</Text>
-              <Text weight="bold" style={{ color: 'var(--gray-12)' }}>
-                {selectedLanguages.length}
-              </Text>{' '}
-              <Text color="gray">Selected</Text>
-            </Text>
+            <Flex justify="end" align="center" mb="3">
+              {selectedLanguages.length > 0 && (
+                <Button
+                  onClick={handleSaveLanguages}
+                  size="4"
+                  color="green"
+                  variant="solid"
+                  loading={createLanguageMutation.isPending}
+                  disabled={createLanguageMutation.isPending}
+                >
+                  {createLanguageMutation.isPending ? 'Adding languages...' : 'Confirm: Add new languages'}
+                </Button>
+              )}
+            </Flex>
           </Box>
         </AdminSection>
       </AdminContentLayout>
