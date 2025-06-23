@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
+import { PageHeader } from 'components/PageHeader';
 import { Navigation } from 'components/Navigation/Navigation';
 import { ContentProvider } from 'providers/ContentProvider';
 import { styles } from './Layout.styles';
@@ -44,7 +45,7 @@ export const Layout: FC = () => {
                     <main>
                       <div className="main-content">
                         <section>
-                          <header className="page-header">{/* Page header content will go here */}</header>
+                          <PageHeader />
                           <div className="page-content" role="main">
                             <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
                               <Outlet />

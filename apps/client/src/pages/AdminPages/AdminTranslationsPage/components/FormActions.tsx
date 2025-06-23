@@ -17,7 +17,7 @@ export const FormActions: React.FC<FormActionsProps> = memo(({ isSubmitting, onC
       </Button>
 
       <Button type="submit" variant="solid" color="blue" disabled={isSubmitting} loading={isSubmitting}>
-        {isSubmitting ? t('ui.buttons.saving') : t('ui.buttons.save')}
+        {isSubmitting ? t('ui.states.saving') : t('ui.buttons.save')}
       </Button>
     </Flex>
   );

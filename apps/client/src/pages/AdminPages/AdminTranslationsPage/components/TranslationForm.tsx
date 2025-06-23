@@ -23,32 +23,32 @@ export const TranslationForm: React.FC<TranslationFormProps> = memo(({ supported
   return (
     <Flex direction="column" gap="6">
       <TranslationSection
-        title={t('components.admin.translation.drinkSubtypes.title')}
-        description={t('components.admin.translation.drinkSubtypes.description')}
+        title={t('admin.pages.translations.content.drinkSubtypes.title')}
+        description={t('admin.pages.translations.content.drinkSubtypes.description')}
         fieldName="drinkSubtypes"
         errors={errors.drinkSubtypes}
         supportedLanguages={supportedLanguages}
       />
 
       <TranslationSection
-        title={t('components.admin.translation.volumes.title')}
-        description={t('components.admin.translation.volumes.description')}
+        title={t('admin.pages.translations.content.volumes.title')}
+        description={t('admin.pages.translations.content.volumes.description')}
         fieldName="volumes"
         errors={errors.volumes}
         supportedLanguages={supportedLanguages}
       />
 
       <TranslationSection
-        title={t('components.admin.translation.drinkTypes.title')}
-        description={t('components.admin.translation.drinkTypes.description')}
+        title={t('admin.pages.translations.content.drinkTypes.title')}
+        description={t('admin.pages.translations.content.drinkTypes.description')}
         fieldName="drinkTypes"
         errors={errors.drinkTypes}
         supportedLanguages={supportedLanguages}
       />
 
       <TranslationSection
-        title={t('components.admin.translation.containerTypes.title')}
-        description={t('components.admin.translation.containerTypes.description')}
+        title={t('admin.pages.translations.content.containerTypes.title')}
+        description={t('admin.pages.translations.content.containerTypes.description')}
         fieldName="containerTypes"
         errors={errors.containerTypes}
         supportedLanguages={supportedLanguages}

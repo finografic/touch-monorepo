@@ -32,7 +32,7 @@ export const TimePage = () => {
       <Flex className="page-description" gap="3" justify="center">
         <Box>
           <p>
-            {t('pages.orders.active')}: {selectedItems.length}
+            {t('app.orders.active')}: {selectedItems.length}
           </p>
         </Box>
       </Flex>
@@ -42,7 +42,7 @@ export const TimePage = () => {
           <TimeInputGroup
             value={totalSeconds}
             onChange={handleTimeChange}
-            description={t('components.temperatureControl.initial')}
+            description={t('app.components.temperatureControl.initial')}
             min={TIME_MIN_SECONDS}
             max={TIME_MAX_SECONDS}
           />

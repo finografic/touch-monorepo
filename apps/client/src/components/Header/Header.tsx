@@ -1,5 +1,4 @@
 import { Container, Flex } from '@radix-ui/themes';
-import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { styles } from './Header.styles';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useEffect } from 'react';
@@ -10,13 +9,11 @@ export const Header = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { currentLanguage, title } = useContent();
-  const { route } = useRouteConfig();
+  const { currentLanguage } = useContent();
 
   useEffect(() => {
-    // pageContent.setContentTitle('');
     console.log('__DEV: currentLanguage', currentLanguage);
-  }, [location.pathname, title, currentLanguage]);
+  }, [location.pathname, currentLanguage]);
 
   return (
     <header css={styles}>
@@ -29,7 +26,6 @@ export const Header = () => {
 
           {/* Center column - 6 parts */}
           <Flex justify="center" style={{ flex: '6' }}>
-            {/* <h1>{pageContent?.title || route?.title}</h1> */}
             <h1 onClick={() => navigate('/')}>{t('app.title')}</h1>
           </Flex>
 

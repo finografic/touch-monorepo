@@ -14,16 +14,16 @@ export const AdminPage: React.FC = () => {
   const adminCards = [
     {
       id: 'translations',
-      title: t('pages.admin.translations.title'),
-      description: t('pages.admin.translations.subtitle'),
+      title: t('admin.pages.translations.title'),
+      description: t('admin.pages.translations.subtitle'),
       icon: <ChatBubbleIcon width="32" height="32" />,
       path: '/admin/translations',
       color: 'blue' as const,
     },
     {
       id: 'languages',
-      title: t('pages.admin.languages.title'),
-      description: t('pages.admin.languages.subtitle'),
+      title: t('admin.pages.languages.title'),
+      description: t('admin.pages.languages.subtitle'),
       icon: <LanguageIcon width="32" height="32" />,
       path: '/admin/languages',
       color: 'green' as const,

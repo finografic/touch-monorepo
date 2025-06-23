@@ -21,18 +21,18 @@ export const NotFoundCard = (): ReactElement => {
     <div css={styles}>
       <Row>
         <Col>
-          <h3>{t('t.errorPages.404.title')}</h3>
+          <h3>Page Not Found</h3>
           <p>¯\_(ツ)_/¯</p>
           {/* <Button
             variant="outline"
             color="warningLight"
-            label={t('t.errorPages.buttons.back')}
+            label="Go Back"
             onClick={handleGoBack}
           />
           <Button
             variant="outline"
             color="primaryLight"
-            label={t('t.errorPages.buttons.goto-main')}
+            label="Go to Main"
             onClick={handleGoHome}
           /> */}
         </Col>

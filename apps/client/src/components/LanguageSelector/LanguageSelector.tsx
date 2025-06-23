@@ -4,6 +4,7 @@ import { useContent } from 'providers/ContentProvider/ContentContext';
 import { styles } from './LanguageSelector.styles';
 import { getFlagDataByIso } from './language-selector.utils';
 import { LANGUAGE_CONFIG } from 'constants/language.constants';
+import { DEFAULT_LANGUAGE } from 'constants/app.config';
 import type { LanguageInfo, LanguageSelectorProps, RegionLocale } from '@workspace/types';
 import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
 import { LanguagesDto } from 'queries/supported-languages';
@@ -35,6 +36,15 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
     ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium'))
     : [];
 
+  // Debug logging
+  console.log('LanguageSelector - Debug Info:', {
+    isLoading,
+    error: error?.message,
+    supportedLanguagesData,
+    languages,
+    currentLanguage,
+  });
+
   const handleLanguageChange = (languageCode: string) => {
     const regionLocale = languageCode as RegionLocale;
     // Map flag codes to i18n language codes
@@ -50,9 +60,35 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
 
   // Find current language or default to first
   const getCurrentLanguageCode = () => {
+    if (languages.length === 0) return DEFAULT_LANGUAGE;
     const found = languages.find((lang) => lang.code.startsWith(currentLanguage));
     return found ? found.code : languages[0].code;
   };
+
+  // Handle loading and error states
+  if (isLoading) {
+    return (
+      <div className="language-selector" css={styles}>
+        <Text>Loading languages...</Text>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="language-selector" css={styles}>
+        <Text color="red">Error loading languages: {error.message}</Text>
+      </div>
+    );
+  }
+
+  if (languages.length === 0) {
+    return (
+      <div className="language-selector" css={styles}>
+        <Text color="gray">No languages available</Text>
+      </div>
+    );
+  }
 
   return (
     <div className="language-selector" css={styles}>
@@ -63,27 +99,30 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
         size="2"
         color="blue"
       >
-        {languages.map((language) => (
-          <RadioCards.Item key={language.code} value={language.code}>
-            <Flex direction="column" width="100%">
-              <Flex align="center" gap="2" mb="1">
-                <img
-                  src={language.flag}
-                  alt={language.label}
-                  width="32"
-                  height="24"
-                  style={{ borderRadius: '2px' }}
-                />
-                <Text weight="bold" size="3">
-                  {language.code} <span style={{ opacity: 0.33 }}>- {language.nativeLabel}</span>
-                </Text>
+        {languages
+          .filter((language) => language && language.code) // Filter out any malformed language objects
+          .map((language) => (
+            <RadioCards.Item key={language.code} value={language.code}>
+              <Flex direction="column" width="100%">
+                <Flex align="center" gap="2" mb="1">
+                  <img
+                    src={language.flag || ''}
+                    alt={language.label || 'Language'}
+                    width="32"
+                    height="24"
+                    style={{ borderRadius: '2px' }}
+                  />
+                  <Text weight="bold" size="3">
+                    {language.code}{' '}
+                    <span style={{ opacity: 0.33 }}>- {language.nativeLabel || 'Unknown'}</span>
+                  </Text>
+                </Flex>
+                {/* <Text size="2" color="gray">
+                  {language.nativeLabel}
+                </Text> */}
               </Flex>
-              {/* <Text size="2" color="gray">
-                {language.nativeLabel}
-              </Text> */}
-            </Flex>
-          </RadioCards.Item>
-        ))}
+            </RadioCards.Item>
+          ))}
       </RadioCards.Root>
     </div>
   );

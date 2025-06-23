@@ -27,6 +27,26 @@
       "temperatureControl": {
         "title": "Control de temperatura",
         "subtitle": "Seleccionar control de temperatura"
+      },
+      "drink-type": {
+        "title": "Seleccionar tipo de bebida",
+        "subtitle": "Elige tu tipo de bebida"
+      },
+      "drink-subtype": {
+        "title": "Seleccionar subtipo de bebida",
+        "subtitle": "Elige tu subtipo de bebida"
+      },
+      "drink-volume": {
+        "title": "Seleccionar volumen",
+        "subtitle": "Elige tu volumen"
+      },
+      "container-type": {
+        "title": "Seleccionar tipo de contenedor",
+        "subtitle": "Elige tu tipo de contenedor"
+      },
+      "temperature": {
+        "title": "Control de temperatura",
+        "subtitle": "Configura tus preferencias de temperatura"
       }
     },
     "orders": {

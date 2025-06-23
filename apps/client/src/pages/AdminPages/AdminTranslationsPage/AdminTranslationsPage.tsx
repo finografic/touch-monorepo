@@ -272,7 +272,7 @@ export const AdminTranslationsPage: React.FC = () => {
         // Only submit if there are actual changes
         if (Object.keys(updates).length > 0) {
           await batchUpdateMutation.mutateAsync(updates);
-          setSubmitMessage({ type: 'success', message: t('notifications.orderReady') });
+          setSubmitMessage({ type: 'success', message: t('shared.notifications.orderReady') });
           console.log('Translations updated successfully');
         } else {
           setSubmitMessage({ type: 'success', message: t('ui.states.saved') });
@@ -328,8 +328,8 @@ export const AdminTranslationsPage: React.FC = () => {
   if (isLoading || languagesLoading || !isDataReady) {
     return (
       <AdminContentLayout
-        title={t('pages.admin.title')}
-        subtitle={t('components.admin.translation.editTables')}
+        title={t('admin.title')}
+        subtitle={t('admin.pages.translations.content.editTables')}
         isLoading={true}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
@@ -343,8 +343,8 @@ export const AdminTranslationsPage: React.FC = () => {
   if (isError) {
     return (
       <AdminContentLayout
-        title={t('pages.admin.title')}
-        subtitle={t('components.admin.translation.editTables')}
+        title={t('admin.title')}
+        subtitle={t('admin.pages.translations.content.editTables')}
         error={error?.message || t('ui.states.error')}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
@@ -360,8 +360,8 @@ export const AdminTranslationsPage: React.FC = () => {
     <section id="admin-translations" className="admin-content-page">
       <FormProvider {...methods}>
         <AdminContentLayout
-          title={t('pages.admin.title')}
-          subtitle={t('components.admin.translation.editTables')}
+          title={t('admin.title')}
+          subtitle={t('admin.pages.translations.content.editTables')}
           message={
             submitMessage
               ? {

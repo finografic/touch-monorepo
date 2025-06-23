@@ -162,8 +162,8 @@ export const AdminLanguagesPage: React.FC = () => {
     return (
       <section css={styles} id="admin-languages" className="admin-content-page">
         <AdminContentLayout
-          title={t('pages.admin.languages.title')}
-          subtitle={t('pages.admin.languages.subtitle')}
+          title={t('admin.pages.languages.title')}
+          subtitle={t('admin.pages.languages.subtitle')}
           isLoading={true}
         >
           <AdminSection>
@@ -178,8 +178,8 @@ export const AdminLanguagesPage: React.FC = () => {
     return (
       <section css={styles} id="admin-languages" className="admin-content-page">
         <AdminContentLayout
-          title={t('pages.admin.languages.title')}
-          subtitle={t('pages.admin.languages.subtitle')}
+          title={t('admin.pages.languages.title')}
+          subtitle={t('admin.pages.languages.subtitle')}
           error={error.message}
         >
           <AdminSection>
@@ -193,8 +193,8 @@ export const AdminLanguagesPage: React.FC = () => {
   return (
     <section css={styles} id="admin-languages" className="admin-content-page">
       <AdminContentLayout
-        title={t('pages.admin.languages.title')}
-        subtitle={t('pages.admin.languages.subtitle')}
+        title={t('admin.pages.languages.title')}
+        subtitle={t('admin.pages.languages.subtitle')}
       >
         <AdminSection>
           {/* Message Display */}
