@@ -61,11 +61,10 @@ export const PageHeader = () => {
           <Heading size="6" align="center" className="page-title">
             {pageTitle}
           </Heading>
-          {pageSubtitle && (
-            <Text size="3" align="center" className="page-subtitle" color="gray">
-              {pageSubtitle}
-            </Text>
-          )}
+
+          <Text size="3" align="center" className="page-subtitle" color="gray">
+            {pageSubtitle && <>{pageSubtitle}</>}
+          </Text>
         </Flex>
       </Container>
     </header>

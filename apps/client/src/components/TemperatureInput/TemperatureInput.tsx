@@ -10,7 +10,7 @@ interface TemperatureInputProps {
   onChange: (name: TemperatureKey, temp: Temperature) => void;
   defaultValue?: number;
   label: string;
-  description: string;
+  description?: string;
   step?: number;
   min?: number;
   max?: number;

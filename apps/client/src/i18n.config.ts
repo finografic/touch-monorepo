@@ -2,11 +2,7 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
 import { translations } from '@workspace/i18n';
-import {
-  DEFAULT_LANGUAGE,
-  ENABLE_BROWSER_LANGUAGE_DETECTION,
-  FORCE_DEFAULT_LANGUAGE,
-} from 'constants/app.config';
+import { ENABLE_BROWSER_LANGUAGE_DETECTION } from 'constants/app.config';
 
 i18n
   .use(LanguageDetector)
@@ -23,9 +19,9 @@ i18n
         translation: translations.ca,
       },
     },
-    lng: ENABLE_BROWSER_LANGUAGE_DETECTION ? undefined : FORCE_DEFAULT_LANGUAGE,
-    supportedLngs: ['es', 'en', 'ca'],
-    fallbackLng: DEFAULT_LANGUAGE,
+    lng: ENABLE_BROWSER_LANGUAGE_DETECTION ? undefined : 'es', // Use simple language code for i18n
+    supportedLngs: ['es', 'en', 'ca'], // i18n only understands simple language codes
+    fallbackLng: 'es', // Use simple language code for fallback
     debug: process.env.NODE_ENV === 'development',
     detection: {
       order: ENABLE_BROWSER_LANGUAGE_DETECTION
@@ -43,7 +39,7 @@ i18n
         if (lng.startsWith('es')) return 'es';
         if (lng.startsWith('en')) return 'en';
         if (lng.startsWith('ca')) return 'ca';
-        return FORCE_DEFAULT_LANGUAGE;
+        return 'es'; // Fallback to simple language code
       },
     },
     interpolation: {

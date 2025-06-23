@@ -4,6 +4,7 @@ import { baseInputStyles } from 'styles/custom/inputs.styles';
 export const styles = css`
   .temperature-container {
     ${baseInputStyles.container}
+    gap: 1rem;
   }
 
   .input-container {

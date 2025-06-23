@@ -1,14 +1,14 @@
 import type { ValidGridSize } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { LangCode } from '@workspace/types';
+import type { RegionLocale } from '@workspace/types';
 
 // Core application configuration
 export const NUM_GRID_ITEMS: ValidGridSize = 9 as const;
-export const DEFAULT_LANGUAGE: LangCode = 'es' as const;
+export const DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format
 
 // Language configuration for this project
 // Set to override browser language detection and force Spanish as default
-export const FORCE_DEFAULT_LANGUAGE: LangCode = 'es' as const;
+export const FORCE_DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format
 export const ENABLE_BROWSER_LANGUAGE_DETECTION = false as const;
 
 // Configuration expiry time (1 hour in milliseconds)

@@ -84,6 +84,10 @@ export const styles = css`
           justify-content: center; /* Horizontal centering */
 
           /* Route content goes here */
+
+          > section {
+            justify-content: center;
+          }
         }
 
         /* Page navigation - content navigation (not app footer) */

@@ -4,7 +4,6 @@ import { useContent } from 'providers/ContentProvider/ContentContext';
 import { styles } from './LanguageSelector.styles';
 import { getFlagDataByIso } from './language-selector.utils';
 import { LANGUAGE_CONFIG } from 'constants/language.constants';
-import { DEFAULT_LANGUAGE } from 'constants/app.config';
 import type { LanguageInfo, LanguageSelectorProps, RegionLocale } from '@workspace/types';
 import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
 import { LanguagesDto } from 'queries/supported-languages';
@@ -14,36 +13,11 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
   const { i18n } = useTranslation();
   const { currentLanguage, setCurrentLanguage } = useContent();
 
-  // ======================================================================== //
-  // Generate languages from configuration
-  // const languages: LanguageInfo[] = Object.entries(LANGUAGE_CONFIG).map(([langCode, config]) => {
-  //   const regionLocale = langCode as RegionLocale;
-  //   const flagData = getFlagDataByIso(config.iso);
-
-  //   return {
-  //     code: regionLocale,
-  //     label: flagData?.name.common || langCode,
-  //     nativeLabel: flagData?.name.nativeName?.[config.nativeKey]?.common || langCode,
-  //     flag: flagData?.flags.png || '', // Use URL from JSON data
-  //   };
-  // });
-
-  // ======================================================================== //
-
   // Fetch supported languages from database
   const { data: supportedLanguagesData, isLoading, error } = useGetSupportedLanguages();
   const languages = supportedLanguagesData
     ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium'))
     : [];
-
-  // Debug logging
-  console.log('LanguageSelector - Debug Info:', {
-    isLoading,
-    error: error?.message,
-    supportedLanguagesData,
-    languages,
-    currentLanguage,
-  });
 
   const handleLanguageChange = (languageCode: string) => {
     const regionLocale = languageCode as RegionLocale;
@@ -60,7 +34,7 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
 
   // Find current language or default to first
   const getCurrentLanguageCode = () => {
-    if (languages.length === 0) return DEFAULT_LANGUAGE;
+    if (languages.length === 0) return 'es'; // Simple fallback
     const found = languages.find((lang) => lang.code.startsWith(currentLanguage));
     return found ? found.code : languages[0].code;
   };

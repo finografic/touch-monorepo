@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 import { useFilters } from 'hooks/useFilters';
-import { Box, Flex } from '@radix-ui/themes';
+import { Box, Container, Flex } from '@radix-ui/themes';
 import { stylesAppContent } from '../../styles/custom/content.app.styles';
 import {
   FINAL_TEMP_MIN,
@@ -17,6 +17,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { TemperatureKey } from 'types/temperature.types';
+import { styles } from './TemperaturePage.styles';
 
 interface TemperatureState {
   initial: number;
@@ -159,36 +160,38 @@ export const TemperaturePage = () => {
 
   return (
     <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
-      <Flex className="page-description" gap="3" justify="center">
-        <Box>
-          <p>{DESCRIPTIONS.page}</p>
-        </Box>
-      </Flex>
-      <Flex gap="3" justify="center">
-        <Box>
-          <TemperatureInput
-            name={TemperatureKey.Initial}
-            value={temperatures.initial}
-            onChange={handleChange}
-            label={DESCRIPTIONS.initial.label}
-            description={DESCRIPTIONS.initial.description}
-            min={minMaxTemperatures?.min ?? INITIAL_TEMP_MIN}
-            max={minMaxTemperatures?.max ?? INITIAL_TEMP_MAX}
-            step={0.5}
-          />
-        </Box>
-        <Box>
-          <TemperatureInput
-            name={TemperatureKey.Final}
-            value={temperatures.final}
-            onChange={handleChange}
-            label={DESCRIPTIONS.final.label}
-            description={DESCRIPTIONS.final.description}
-            min={minMaxTemperatures?.min ?? FINAL_TEMP_MIN}
-            max={temperatures.initial - MIN_TEMP_DIFFERENCE}
-            step={0.5}
-          />
-        </Box>
+      <Flex direction="column" gap="3" justify="center" css={styles}>
+        <Flex gap="3" justify="center" className="page-description">
+          <Box>
+            <p>{DESCRIPTIONS.page}</p>
+          </Box>
+        </Flex>
+        <Flex gap="3" justify="center" className="temperature-content">
+          <Box>
+            <TemperatureInput
+              name={TemperatureKey.Initial}
+              value={temperatures.initial}
+              onChange={handleChange}
+              label={DESCRIPTIONS.initial.label}
+              // description={DESCRIPTIONS.initial.description}
+              min={minMaxTemperatures?.min ?? INITIAL_TEMP_MIN}
+              max={minMaxTemperatures?.max ?? INITIAL_TEMP_MAX}
+              step={0.5}
+            />
+          </Box>
+          <Box>
+            <TemperatureInput
+              name={TemperatureKey.Final}
+              value={temperatures.final}
+              onChange={handleChange}
+              label={DESCRIPTIONS.final.label}
+              // description={DESCRIPTIONS.final.description}
+              min={minMaxTemperatures?.min ?? FINAL_TEMP_MIN}
+              max={temperatures.initial - MIN_TEMP_DIFFERENCE}
+              step={0.5}
+            />
+          </Box>
+        </Flex>
       </Flex>
     </Flex>
   );
