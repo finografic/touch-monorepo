@@ -2,17 +2,17 @@
  * Language and Internationalization Types
  */
 
-// Core language codes (ISO 639-1)
-export type LangCode = 'en' | 'es' | 'ca';
+// Core language codes (ISO 639-1) - 2-3 letter codes
+export type LangCode = string;
 
-// ISO country/region codes
-export type IsoCode = 'es' | 'gb' | 'ca';
+// ISO country/region codes (ISO 3166-1 alpha-2/3)
+export type IsoCode = string;
 
-// Native language keys for flag data lookup
-export type NativeLangKey = 'spa' | 'eng' | 'cat';
+// Native language keys for flag data lookup (ISO 639-3 or custom)
+export type NativeLangKey = string;
 
-// Region locale format (language-REGION)
-export type RegionLocale = 'es-ES' | 'en-GB' | 'ca-ES';
+// Region locale format (language-REGION) - Template literal for any valid locale
+export type RegionLocale = `${string}-${Uppercase<string>}`;
 
 // Language configuration mapping interface
 export interface LanguageConfig {
@@ -20,8 +20,8 @@ export interface LanguageConfig {
   nativeKey: NativeLangKey;
 }
 
-// Complete language configuration map
-export type LanguageConfigMap = Record<RegionLocale, LanguageConfig>;
+// Complete language configuration map - dynamic record
+export type LanguageConfigMap = Record<string, LanguageConfig>;
 
 // Language display information
 export interface LanguageInfo {

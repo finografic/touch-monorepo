@@ -2,13 +2,13 @@ import { css } from '@emotion/react';
 import { colors } from 'styles';
 
 export const styles = css`
-  padding: 1.5rem 0;
-  border-bottom: 1px solid ${colors.greyLight};
   margin-bottom: 1.5rem;
 
   .page-title {
-    color: ${colors.textDark};
-    font-weight: 600;
+    font-size: 2rem;
+    font-weight: 500;
+    line-height: 1.6;
+    color: ${colors.textLight};
     margin: 0;
   }
 

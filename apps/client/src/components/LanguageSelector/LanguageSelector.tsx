@@ -104,22 +104,19 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
           .map((language) => (
             <RadioCards.Item key={language.code} value={language.code}>
               <Flex direction="column" width="100%">
-                <Flex align="center" gap="2" mb="1">
+                <Flex align="center" gap="4" mb="1">
                   <img
                     src={language.flag || ''}
                     alt={language.label || 'Language'}
-                    width="32"
-                    height="24"
+                    width="40"
+                    height="30"
                     style={{ borderRadius: '2px' }}
                   />
-                  <Text weight="bold" size="3">
-                    {language.code}{' '}
-                    <span style={{ opacity: 0.33 }}>- {language.nativeLabel || 'Unknown'}</span>
+                  <Text weight="bold" size="4">
+                    {language.code}
+                    <span className="label-language"> - {language.nativeLabel || ''}</span>
                   </Text>
                 </Flex>
-                {/* <Text size="2" color="gray">
-                  {language.nativeLabel}
-                </Text> */}
               </Flex>
             </RadioCards.Item>
           ))}

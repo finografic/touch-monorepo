@@ -41,16 +41,26 @@ export const styles = css`
   }
 
   /* Trigger button styling (open state) */
-  button {
+  button[role='radio'] {
     cursor: pointer;
+    /* color: red; */
     padding: 2rem 2rem;
     margin-top: 0.5rem;
+    /***** flag *****/
     svg,
     img {
       margin-right: 0.5rem;
     }
     * {
       letter-spacing: 0.05em;
+    }
+    span.separator {
+      margin: 0 0.75rem;
+    }
+    span.label-language {
+      color: ${colors.grey}dd;
+      font-weight: 500;
+      /* margin: 0 0.75rem; */
     }
   }
 `;
