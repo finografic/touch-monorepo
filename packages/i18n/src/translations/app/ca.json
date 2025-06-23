@@ -1,0 +1,119 @@
+{
+  "app": {
+    "title": "SERVI_FRESC_CAT",
+    "tagline": "Servei de temperatura perfecte",
+    "description": "Sistema de control de temperatura per begudes",
+    "pages": {
+      "main": {
+        "title": "Principal",
+        "subtitle": "Pàgina principal"
+      },
+      "drinkTypes": {
+        "title": "Tipus de begudes",
+        "subtitle": "Seleccionar tipus de beguda"
+      },
+      "drinkSubtypes": {
+        "title": "Subtipus de begudes",
+        "subtitle": "Seleccionar subtipus de beguda"
+      },
+      "volumes": {
+        "title": "Volums",
+        "subtitle": "Seleccionar volum"
+      },
+      "containerTypes": {
+        "title": "Tipus de contenidors",
+        "subtitle": "Seleccionar tipus de contenidor"
+      },
+      "temperatureControl": {
+        "title": "Control de temperatura",
+        "subtitle": "Seleccionar control de temperatura"
+      }
+    },
+    "orders": {
+      "title": "Comandes",
+      "subtitle": "Gestionar comandes de begudes",
+      "new": "Nova comanda",
+      "active": "Comandes actives",
+      "completed": "Comandes completades"
+    },
+    "components": {
+      "temperatureControl": {
+        "initial": "Estableix el temps de preparació especificant minuts i segons",
+        "target": "Temperatura objectiu",
+        "current": "Temperatura actual",
+        "cooling": "Refredant",
+        "heating": "Escalfant",
+        "maintaining": "Volums"
+      },
+      "orderStatus": {
+        "pending": "Subtipus de begudes",
+        "processing": "Tipus de begudes",
+        "cooling": "Refredant",
+        "heating": "Escalfant",
+        "ready": "Llest",
+        "completed": "Tipus de contenidors",
+        "cancelled": "Cancel·lat"
+      }
+    }
+  },
+  "admin": {
+    "title": "Panel d'administració",
+    "description": "Gestionar configuracions del sistema, traduccions i configuracions",
+    "pages": {
+      "dashboard": {
+        "title": "Tauler",
+        "subtitle": "Resum del sistema"
+      },
+      "translations": {
+        "title": "Gestió de traduccions",
+        "subtitle": "Editar traduccions per contingut de base de dades",
+        "content": {
+          "management": "Gestió de traduccions",
+          "editTables": "Editar traduccions per taules de base de dades",
+          "drinkSubtypes": {
+            "title": "Subtipus de begudes",
+            "description": "Subtipus de vi i cervesa (rubia, negra, tinto, blanco)"
+          },
+          "volumes": {
+            "title": "Volums",
+            "description": "Volums de contenidors (2L, 1.5L, 50cl, 33cl, etc.)"
+          },
+          "drinkTypes": {
+            "title": "Tipus de begudes",
+            "description": "Categories principals de begudes (cervesa, vi, cava, licor, etc.)"
+          },
+          "containerTypes": {
+            "title": "Tipus de contenidors",
+            "description": "Materials de contenidors (plàstic, vidre, metall)"
+          }
+        }
+      },
+      "languages": {
+        "title": "Gestió d'idiomes",
+        "subtitle": "Configurar idiomes del sistema i localització"
+      }
+    }
+  },
+  "shared": {
+    "languageSelector": {
+      "title": "Seleccionar idioma",
+      "change": "Canviar idioma"
+    },
+    "dialogs": {
+      "admin": {
+        "title": "Eines d'administració",
+        "tabs": {
+          "orderSelections": "Seleccions de comandes",
+          "storedConfiguration": "Configuració emmagatzemada",
+          "languages": "Idiomes"
+        }
+      }
+    },
+    "notifications": {
+      "orderReady": "Traduccions actualitzades correctament!",
+      "temperatureReached": "Temperatura objectiu assolida",
+      "systemError": "S'ha produït un error del sistema",
+      "orderCancelled": "Comanda cancel·lada"
+    }
+  }
+}

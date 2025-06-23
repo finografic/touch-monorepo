@@ -18,21 +18,21 @@ export async function seed() {
         name: 'plastico',
         nameEn: 'Plastic',
         nameEs: 'Plástico',
-        nameCat: 'Plàstic',
+        nameCa: 'Plàstic',
         thermalConductivity: 20, // Lower conductivity
       },
       {
         name: 'vidrio',
         nameEn: 'Glass',
         nameEs: 'Vidrio',
-        nameCat: 'Vidre',
+        nameCa: 'Vidre',
         thermalConductivity: 50, // Medium conductivity
       },
       {
         name: 'metal',
         nameEn: 'Metal',
         nameEs: 'Metal',
-        nameCat: 'Metall',
+        nameCa: 'Metall',
         thermalConductivity: 90, // High conductivity
       },
     ]);

@@ -1,10 +1,10 @@
 import type { LangCode, RegionLocale, LanguageConfigMap } from '@workspace/types';
 
 // Supported language codes (ISO 639-1)
-export const SUPPORTED_LANG_CODES: readonly LangCode[] = ['en', 'es', 'cat'] as const;
+export const SUPPORTED_LANG_CODES: readonly LangCode[] = ['en', 'es', 'ca'] as const;
 
 // Supported region locales
-export const SUPPORTED_LOCALES: readonly RegionLocale[] = ['en-GB', 'es-ES', 'cat-ES'] as const;
+export const SUPPORTED_LOCALES: readonly RegionLocale[] = ['en-GB', 'es-ES', 'ca-ES'] as const;
 
 // Default settings
 export const DEFAULT_LANG_CODE: LangCode = 'es';
@@ -72,7 +72,7 @@ export const numberFormats = {
     },
     cat: {
       style: 'currency',
-      currency: 'EUR', // Euros for cat-ES
+      currency: 'EUR', // Euros for ca-ES
     },
   },
   decimal: {
@@ -95,5 +95,5 @@ export const numberFormats = {
 export const LANGUAGE_CONFIG: LanguageConfigMap = {
   'es-ES': { iso: 'es', nativeKey: 'spa' },
   'en-GB': { iso: 'gb', nativeKey: 'eng' },
-  'cat-ES': { iso: 'cat', nativeKey: 'cat' },
+  'ca-ES': { iso: 'ca', nativeKey: 'cat' },
 } as const;

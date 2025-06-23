@@ -20,7 +20,7 @@ export const list = createRoute({
           name: true,
           nameEn: true,
           nameEs: true,
-          nameCat: true,
+          nameCa: true,
           valueInMl: true,
           sortOrder: true,
           coolingFactor: true,

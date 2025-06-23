@@ -31,7 +31,7 @@ const createTranslationSchema = (t: (key: string) => string) =>
         name: z.string().min(1, t('ui.forms.validation.required')),
         nameEn: z.string().min(1, t('ui.forms.validation.required')),
         nameEs: z.string().min(1, t('ui.forms.validation.required')),
-        nameCat: z.string().min(1, t('ui.forms.validation.required')),
+        nameCa: z.string().min(1, t('ui.forms.validation.required')),
         drinkTypeId: z.string(),
         isActive: z.boolean().optional(),
       }),
@@ -42,7 +42,7 @@ const createTranslationSchema = (t: (key: string) => string) =>
         name: z.string().min(1, t('ui.forms.validation.required')),
         nameEn: z.string().min(1, t('ui.forms.validation.required')),
         nameEs: z.string().min(1, t('ui.forms.validation.required')),
-        nameCat: z.string().min(1, t('ui.forms.validation.required')),
+        nameCa: z.string().min(1, t('ui.forms.validation.required')),
         isActive: z.boolean().optional(),
       }),
     ),
@@ -52,7 +52,7 @@ const createTranslationSchema = (t: (key: string) => string) =>
         name: z.string().min(1, t('ui.forms.validation.required')),
         nameEn: z.string().min(1, t('ui.forms.validation.required')),
         nameEs: z.string().min(1, t('ui.forms.validation.required')),
-        nameCat: z.string().min(1, t('ui.forms.validation.required')),
+        nameCa: z.string().min(1, t('ui.forms.validation.required')),
         hasSubtypes: z.boolean().optional(),
         isActive: z.boolean().optional(),
       }),
@@ -63,7 +63,7 @@ const createTranslationSchema = (t: (key: string) => string) =>
         name: z.string().min(1, t('ui.forms.validation.required')),
         nameEn: z.string().min(1, t('ui.forms.validation.required')),
         nameEs: z.string().min(1, t('ui.forms.validation.required')),
-        nameCat: z.string().min(1, t('ui.forms.validation.required')),
+        nameCa: z.string().min(1, t('ui.forms.validation.required')),
         thermalConductivity: z.number().optional(),
         isActive: z.boolean().optional(),
       }),
@@ -188,7 +188,7 @@ export const AdminTranslationsPage: React.FC = () => {
               if (item.name !== original.name) changes.name = item.name;
               if (item.nameEn !== original.nameEn) changes.nameEn = item.nameEn;
               if (item.nameEs !== original.nameEs) changes.nameEs = item.nameEs;
-              if (item.nameCat !== original.nameCat) changes.nameCat = item.nameCat;
+              if (item.nameCa !== original.nameCa) changes.nameCa = item.nameCa;
 
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
@@ -211,7 +211,7 @@ export const AdminTranslationsPage: React.FC = () => {
               if (item.name !== original.name) changes.name = item.name;
               if (item.nameEn !== original.nameEn) changes.nameEn = item.nameEn;
               if (item.nameEs !== original.nameEs) changes.nameEs = item.nameEs;
-              if (item.nameCat !== original.nameCat) changes.nameCat = item.nameCat;
+              if (item.nameCa !== original.nameCa) changes.nameCa = item.nameCa;
 
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
@@ -236,7 +236,7 @@ export const AdminTranslationsPage: React.FC = () => {
               if (item.name !== original.name) changes.name = item.name;
               if (item.nameEn !== original.nameEn) changes.nameEn = item.nameEn;
               if (item.nameEs !== original.nameEs) changes.nameEs = item.nameEs;
-              if (item.nameCat !== original.nameCat) changes.nameCat = item.nameCat;
+              if (item.nameCa !== original.nameCa) changes.nameCa = item.nameCa;
 
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
@@ -258,7 +258,7 @@ export const AdminTranslationsPage: React.FC = () => {
               if (item.name !== original.name) changes.name = item.name;
               if (item.nameEn !== original.nameEn) changes.nameEn = item.nameEn;
               if (item.nameEs !== original.nameEs) changes.nameEs = item.nameEs;
-              if (item.nameCat !== original.nameCat) changes.nameCat = item.nameCat;
+              if (item.nameCa !== original.nameCa) changes.nameCa = item.nameCa;
 
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })

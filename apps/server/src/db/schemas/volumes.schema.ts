@@ -9,7 +9,7 @@ export const volumes = sqliteTable('volumes', {
   name: text('name').notNull().unique(), // Internal key: '25cl', '1l', etc.
   nameEs: text('name_es').notNull(), // Spanish display name (now first)
   nameEn: text('name_en'), // English display name (optional)
-  nameCat: text('name_cat'), // Catalan display name (optional)
+  nameCa: text('name_ca'), // Catalan display name (optional)
   valueInMl: integer('value_in_ml').notNull(), // Normalized to milliliters
   sortOrder: integer('sort_order').notNull(), // For display ordering
   coolingFactor: real('cooling_factor').notNull().default(1), // Multiplier for cooling time
@@ -26,7 +26,7 @@ const insertVolumeSchema = createInsertSchema(volumes, {
   name: (schema) => schema.name.min(1).max(20),
   nameEs: (schema) => schema.nameEs.min(1).max(20),
   nameEn: (schema) => schema.nameEn.min(1).max(20),
-  nameCat: (schema) => schema.nameCat.min(1).max(20),
+  nameCa: (schema) => schema.nameCa.min(1).max(20),
   valueInMl: (schema) => schema.valueInMl.min(1).max(5000), // Up to 5L
   sortOrder: (schema) => schema.sortOrder.min(0),
   coolingFactor: (schema) => schema.coolingFactor.min(0.1).max(5), // Reasonable range for multiplier

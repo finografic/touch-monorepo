@@ -47,11 +47,12 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
 } as const;
 
 // ======================================================================== //
-// NOTE: NEW !! ADMIN FIELD KEYS
+
 /**
  * Type-safe mapping of field keys to themselves
  * Useful for strongly-typed object access
  */
 export const AdminFieldKeys: { [K in string]: K } = {
   languages: 'languages',
+  translations: 'translations',
 } as const;

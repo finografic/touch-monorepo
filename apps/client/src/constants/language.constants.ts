@@ -7,5 +7,5 @@ import type { LanguageConfigMap } from '@workspace/types';
 export const LANGUAGE_CONFIG: LanguageConfigMap = {
   'es-ES': { iso: 'es', nativeKey: 'spa' },
   'en-GB': { iso: 'gb', nativeKey: 'eng' },
-  'cat-ES': { iso: 'cat', nativeKey: 'cat' },
+  'ca-ES': { iso: 'cat', nativeKey: 'cat' },
 } as const;

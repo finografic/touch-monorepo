@@ -8,7 +8,7 @@ export interface DrinkTypeTranslation {
   name: string;
   nameEn: string;
   nameEs: string;
-  nameCat: string;
+  nameCa: string;
   hasSubtypes?: boolean;
   isActive?: boolean;
 }
@@ -18,7 +18,7 @@ export interface DrinkSubtypeTranslation {
   name: string;
   nameEn: string;
   nameEs: string;
-  nameCat: string;
+  nameCa: string;
   drinkTypeId: string;
   isActive?: boolean;
 }
@@ -28,7 +28,7 @@ export interface VolumeTranslation {
   name: string;
   nameEn: string;
   nameEs: string;
-  nameCat: string;
+  nameCa: string;
   isActive?: boolean;
 }
 
@@ -37,7 +37,7 @@ export interface ContainerTypeTranslation {
   name: string;
   nameEn: string;
   nameEs: string;
-  nameCat: string;
+  nameCa: string;
   thermalConductivity?: number;
   isActive?: boolean;
 }
@@ -68,7 +68,7 @@ const transformDrinkType = (serverData: any): DrinkTypeTranslation => ({
   name: serverData.name,
   nameEn: serverData.nameEn || serverData.name_en || serverData.name,
   nameEs: serverData.nameEs || serverData.name_es || serverData.name,
-  nameCat: serverData.nameCat || serverData.name_cat || serverData.name,
+  nameCa: serverData.nameCa || serverData.name_ca || serverData.name,
   hasSubtypes: serverData.hasSubtypes ?? serverData.has_subtypes ?? false,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });
@@ -78,7 +78,7 @@ const transformDrinkSubtype = (serverData: any): DrinkSubtypeTranslation => ({
   name: serverData.name,
   nameEn: serverData.nameEn || serverData.name_en || serverData.name,
   nameEs: serverData.nameEs || serverData.name_es || serverData.name,
-  nameCat: serverData.nameCat || serverData.name_cat || serverData.name,
+  nameCa: serverData.nameCa || serverData.name_ca || serverData.name,
   drinkTypeId: serverData.drinkTypeId || serverData.drink_type_id,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });
@@ -88,7 +88,7 @@ const transformVolume = (serverData: any): VolumeTranslation => ({
   name: serverData.name,
   nameEn: serverData.nameEn || serverData.name_en || serverData.name,
   nameEs: serverData.nameEs || serverData.name_es || serverData.name,
-  nameCat: serverData.nameCat || serverData.name_cat || serverData.name,
+  nameCa: serverData.nameCa || serverData.name_ca || serverData.name,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });
 
@@ -97,7 +97,7 @@ const transformContainerType = (serverData: any): ContainerTypeTranslation => ({
   name: serverData.name,
   nameEn: serverData.nameEn || serverData.name_en || serverData.name,
   nameEs: serverData.nameEs || serverData.name_es || serverData.name,
-  nameCat: serverData.nameCat || serverData.name_cat || serverData.name,
+  nameCa: serverData.nameCa || serverData.name_ca || serverData.name,
   thermalConductivity: serverData.thermalConductivity || serverData.thermal_conductivity,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });

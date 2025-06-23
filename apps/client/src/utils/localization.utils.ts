@@ -4,7 +4,7 @@ interface LocalizedEntity {
   name?: string;
   nameEn?: string;
   nameEs?: string;
-  nameCat?: string;
+  nameCa?: string;
 }
 
 /**
@@ -19,7 +19,7 @@ export const getLocalizedName = (entity: LocalizedEntity, currentLanguage: LangC
     case 'es':
       return entity.nameEs || entity.name || '';
     case 'cat':
-      return entity.nameCat || entity.name || '';
+      return entity.nameCa || entity.name || '';
     default:
       return entity.name || '';
   }
@@ -35,7 +35,7 @@ export const getLabelKey = (currentLanguage: LangCode): keyof LocalizedEntity =>
     case 'es':
       return 'nameEs';
     case 'cat':
-      return 'nameCat';
+      return 'nameCa';
     default:
       return 'name';
   }

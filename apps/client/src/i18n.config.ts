@@ -19,12 +19,12 @@ i18n
       en: {
         translation: translations.en,
       },
-      cat: {
-        translation: translations.cat,
+      ca: {
+        translation: translations.ca,
       },
     },
     lng: ENABLE_BROWSER_LANGUAGE_DETECTION ? undefined : FORCE_DEFAULT_LANGUAGE,
-    supportedLngs: ['es', 'en', 'cat'],
+    supportedLngs: ['es', 'en', 'ca'],
     fallbackLng: DEFAULT_LANGUAGE,
     debug: process.env.NODE_ENV === 'development',
     detection: {
@@ -42,7 +42,7 @@ i18n
       convertDetectedLanguage: (lng: string) => {
         if (lng.startsWith('es')) return 'es';
         if (lng.startsWith('en')) return 'en';
-        if (lng.startsWith('ca')) return 'cat';
+        if (lng.startsWith('ca')) return 'ca';
         return FORCE_DEFAULT_LANGUAGE;
       },
     },

@@ -3,16 +3,16 @@
  */
 
 // Core language codes (ISO 639-1)
-export type LangCode = 'en' | 'es' | 'cat';
+export type LangCode = 'en' | 'es' | 'ca';
 
 // ISO country/region codes
-export type IsoCode = 'es' | 'gb' | 'cat';
+export type IsoCode = 'es' | 'gb' | 'ca';
 
 // Native language keys for flag data lookup
 export type NativeLangKey = 'spa' | 'eng' | 'cat';
 
 // Region locale format (language-REGION)
-export type RegionLocale = 'es-ES' | 'en-GB' | 'cat-ES';
+export type RegionLocale = 'es-ES' | 'en-GB' | 'ca-ES';
 
 // Language configuration mapping interface
 export interface LanguageConfig {

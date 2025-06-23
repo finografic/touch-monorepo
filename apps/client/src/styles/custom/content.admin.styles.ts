@@ -5,6 +5,14 @@ import { cssForms, cssInputBox, cssInputText, forms } from '../forms.styles';
 
 // Base styles shared across all interactive buttons
 export const stylesAdminContent = css`
+  > header {
+    nav .admin-nav {
+      a[data-active] span {
+        color: ${colors.info};
+      }
+    }
+  }
+
   section.admin-content-page {
     color: ${colors.textDark};
     ${cssForms}

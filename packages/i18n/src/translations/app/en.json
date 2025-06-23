@@ -2,12 +2,32 @@
   "app": {
     "title": "SERVI_FRESC_UK",
     "tagline": "Perfect Temperature Service",
-    "description": "Temperature control system for beverages"
-  },
-  "pages": {
-    "dashboard": {
-      "title": "Dashboard",
-      "subtitle": "System Overview"
+    "description": "Temperature control system for beverages",
+    "pages": {
+      "main": {
+        "title": "Main",
+        "subtitle": "Main page"
+      },
+      "drinkTypes": {
+        "title": "Drink Types",
+        "subtitle": "Select drink type"
+      },
+      "drinkSubtypes": {
+        "title": "Drink Subtypes",
+        "subtitle": "Select drink subtype"
+      },
+      "volumes": {
+        "title": "Volumes",
+        "subtitle": "Select volume"
+      },
+      "containerTypes": {
+        "title": "Container Types",
+        "subtitle": "Select container type"
+      },
+      "temperatureControl": {
+        "title": "Temperature Control",
+        "subtitle": "Select temperature control"
+      }
     },
     "orders": {
       "title": "Orders",
@@ -16,72 +36,84 @@
       "active": "Active Orders",
       "completed": "Completed Orders"
     },
-    "admin": {
-      "title": "Admin Tools",
+    "components": {
+      "temperatureControl": {
+        "initial": "Set preparation time by specifying minutes and seconds",
+        "target": "Target Temperature",
+        "current": "Current Temperature",
+        "cooling": "Cooling",
+        "heating": "Heating",
+        "maintaining": "Volumes"
+      },
+      "orderStatus": {
+        "pending": "Drink Subtypes",
+        "processing": "Drink Types",
+        "cooling": "Cooling",
+        "heating": "Heating",
+        "ready": "Ready",
+        "completed": "Container Types",
+        "cancelled": "Cancelled"
+      }
+    }
+  },
+  "admin": {
+    "title": "Administration Panel",
+    "description": "Manage system settings, translations, and configurations",
+    "pages": {
+      "dashboard": {
+        "title": "Dashboard",
+        "subtitle": "System Overview"
+      },
       "translations": {
         "title": "Translation Management",
-        "subtitle": "Edit translations for database content"
+        "subtitle": "Edit translations for database content",
+        "content": {
+          "management": "Translation Management",
+          "editTables": "Edit translations for database tables",
+          "drinkSubtypes": {
+            "title": "Drink Subtypes",
+            "description": "Wine and beer subtypes (rubia, negra, tinto, blanco)"
+          },
+          "volumes": {
+            "title": "Volumes",
+            "description": "Container volumes (2L, 1.5L, 50cl, 33cl, etc.)"
+          },
+          "drinkTypes": {
+            "title": "Drink Types",
+            "description": "Main drink categories (cerveza, vino, cava, licor, etc.)"
+          },
+          "containerTypes": {
+            "title": "Container Types",
+            "description": "Container materials (plastico, vidrio, metal)"
+          }
+        }
       },
       "languages": {
         "title": "Language Management",
         "subtitle": "Configure system languages and localization"
-      },
-      "tabs": {
-        "orderSelections": "Order Selections",
-        "storedConfiguration": "Stored Configuration",
-        "languages": "Languages"
       }
     }
   },
-  "components": {
+  "shared": {
     "languageSelector": {
       "title": "Select Language",
       "change": "Change Language"
     },
-    "temperatureControl": {
-      "initial": "Set preparation time by specifying minutes and seconds",
-      "target": "Target Temperature",
-      "current": "Current Temperature",
-      "cooling": "Cooling",
-      "heating": "Heating",
-      "maintaining": "Volumes"
-    },
-    "orderStatus": {
-      "pending": "Drink Subtypes",
-      "processing": "Drink Types",
-      "cooling": "Cooling",
-      "heating": "Heating",
-      "ready": "Ready",
-      "completed": "Container Types",
-      "cancelled": "Cancelled"
-    },
-    "admin": {
-      "translation": {
-        "management": "Translation Management",
-        "editTables": "Edit translations for database tables",
-        "drinkSubtypes": {
-          "title": "Drink Subtypes",
-          "description": "Wine and beer subtypes (rubia, negra, tinto, blanco)"
-        },
-        "volumes": {
-          "title": "Volumes",
-          "description": "Container volumes (2L, 1.5L, 50cl, 33cl, etc.)"
-        },
-        "drinkTypes": {
-          "title": "Drink Types",
-          "description": "Main drink categories (cerveza, vino, cava, licor, etc.)"
-        },
-        "containerTypes": {
-          "title": "Container Types",
-          "description": "Container materials (plastico, vidrio, metal)"
+    "dialogs": {
+      "admin": {
+        "title": "Admin Tools",
+        "tabs": {
+          "orderSelections": "Order Selections",
+          "storedConfiguration": "Stored Configuration",
+          "languages": "Languages"
         }
       }
+    },
+    "notifications": {
+      "orderReady": "Translations updated successfully!",
+      "temperatureReached": "Target temperature reached",
+      "systemError": "System error occurred",
+      "orderCancelled": "Order cancelled"
     }
-  },
-  "notifications": {
-    "orderReady": "Translations updated successfully!",
-    "temperatureReached": "Target temperature reached",
-    "systemError": "System error occurred",
-    "orderCancelled": "Order cancelled"
   }
 }

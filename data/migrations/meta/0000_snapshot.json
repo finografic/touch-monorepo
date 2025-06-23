@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "b96a3206-1467-428c-9d56-111ba23ff86c",
+  "id": "cfb26bcc-e2bb-4b0b-9c1d-bcad15ff5062",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -357,8 +357,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "name_cat": {
-          "name": "name_cat",
+        "name_ca": {
+          "name": "name_ca",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -477,8 +477,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "name_cat": {
-          "name": "name_cat",
+        "name_ca": {
+          "name": "name_ca",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -580,8 +580,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "name_cat": {
-          "name": "name_cat",
+        "name_ca": {
+          "name": "name_ca",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -1064,8 +1064,8 @@
           "notNull": false,
           "autoincrement": false
         },
-        "name_cat": {
-          "name": "name_cat",
+        "name_ca": {
+          "name": "name_ca",
           "type": "text",
           "primaryKey": false,
           "notNull": false,

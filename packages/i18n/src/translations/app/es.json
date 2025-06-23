@@ -2,12 +2,32 @@
   "app": {
     "title": "SERVI_FRESC_ES",
     "tagline": "Servicio de temperatura perfecto",
-    "description": "Sistema de control de temperatura para bebidas"
-  },
-  "pages": {
-    "dashboard": {
-      "title": "Panel de control",
-      "subtitle": "Resumen del sistema"
+    "description": "Sistema de control de temperatura para bebidas",
+    "pages": {
+      "main": {
+        "title": "Principal",
+        "subtitle": "Página principal"
+      },
+      "drinkTypes": {
+        "title": "Tipos de bebidas",
+        "subtitle": "Seleccionar tipo de bebida"
+      },
+      "drinkSubtypes": {
+        "title": "Subtipos de bebidas",
+        "subtitle": "Seleccionar subtipo de bebida"
+      },
+      "volumes": {
+        "title": "Volúmenes",
+        "subtitle": "Seleccionar volumen"
+      },
+      "containerTypes": {
+        "title": "Tipos de contenedores",
+        "subtitle": "Seleccionar tipo de contenedor"
+      },
+      "temperatureControl": {
+        "title": "Control de temperatura",
+        "subtitle": "Seleccionar control de temperatura"
+      }
     },
     "orders": {
       "title": "Pedidos",
@@ -16,68 +36,84 @@
       "active": "Pedidos activos",
       "completed": "Pedidos completados"
     },
-    "admin": {
-      "title": "Herramientas de administración",
-      "languages": {
-        "title": "Gestión de idiomas",
-        "subtitle": "Configurar idiomas del sistema y localización"
+    "components": {
+      "temperatureControl": {
+        "initial": "Establece el tiempo de preparación especificando minutos y segundos",
+        "target": "Temperatura objetivo",
+        "current": "Temperatura actual",
+        "cooling": "Enfriando",
+        "heating": "Calentando",
+        "maintaining": "Volúmenes"
       },
-      "tabs": {
-        "orderSelections": "Selecciones de pedidos",
-        "storedConfiguration": "Configuración almacenada",
-        "languages": "Idiomas"
+      "orderStatus": {
+        "pending": "Subtipos de bebidas",
+        "processing": "Tipos de bebidas",
+        "cooling": "Enfriando",
+        "heating": "Calentando",
+        "ready": "Listo",
+        "completed": "Tipos de contenedores",
+        "cancelled": "Cancelado"
       }
     }
   },
-  "components": {
+  "admin": {
+    "title": "Panel de administración",
+    "description": "Gestionar configuraciones del sistema, traducciones y configuraciones",
+    "pages": {
+      "dashboard": {
+        "title": "Panel de control",
+        "subtitle": "Resumen del sistema"
+      },
+      "translations": {
+        "title": "Gestión de traducciones",
+        "subtitle": "Editar traducciones para contenido de base de datos",
+        "content": {
+          "management": "Gestión de traducciones",
+          "editTables": "Editar traducciones para tablas de base de datos",
+          "drinkSubtypes": {
+            "title": "Subtipos de bebidas",
+            "description": "Subtipos de vino y cerveza (rubia, negra, tinto, blanco)"
+          },
+          "volumes": {
+            "title": "Volúmenes",
+            "description": "Volúmenes de contenedores (2L, 1.5L, 50cl, 33cl, etc.)"
+          },
+          "drinkTypes": {
+            "title": "Tipos de bebidas",
+            "description": "Categorías principales de bebidas (cerveza, vino, cava, licor, etc.)"
+          },
+          "containerTypes": {
+            "title": "Tipos de contenedores",
+            "description": "Materiales de contenedores (plástico, vidrio, metal)"
+          }
+        }
+      },
+      "languages": {
+        "title": "Gestión de idiomas",
+        "subtitle": "Configurar idiomas del sistema y localización"
+      }
+    }
+  },
+  "shared": {
     "languageSelector": {
       "title": "Seleccionar idioma",
       "change": "Cambiar idioma"
     },
-    "temperatureControl": {
-      "initial": "Establece el tiempo de preparación especificando minutos y segundos",
-      "target": "Temperatura objetivo",
-      "current": "Temperatura actual",
-      "cooling": "Enfriando",
-      "heating": "Calentando",
-      "maintaining": "Volúmenes"
-    },
-    "orderStatus": {
-      "pending": "Subtipos de bebidas",
-      "processing": "Tipos de bebidas",
-      "cooling": "Enfriando",
-      "heating": "Calentando",
-      "ready": "Listo",
-      "completed": "Tipos de contenedores",
-      "cancelled": "Cancelado"
-    },
-    "admin": {
-      "translation": {
-        "management": "Gestión de traducciones",
-        "editTables": "Editar traducciones para tablas de base de datos",
-        "drinkSubtypes": {
-          "title": "Subtipos de bebidas",
-          "description": "Subtipos de vino y cerveza (rubia, negra, tinto, blanco)"
-        },
-        "volumes": {
-          "title": "Volúmenes",
-          "description": "Volúmenes de contenedores (2L, 1.5L, 50cl, 33cl, etc.)"
-        },
-        "drinkTypes": {
-          "title": "Tipos de bebidas",
-          "description": "Categorías principales de bebidas (cerveza, vino, cava, licor, etc.)"
-        },
-        "containerTypes": {
-          "title": "Tipos de contenedores",
-          "description": "Materiales de contenedores (plástico, vidrio, metal)"
+    "dialogs": {
+      "admin": {
+        "title": "Herramientas de administración",
+        "tabs": {
+          "orderSelections": "Selecciones de pedidos",
+          "storedConfiguration": "Configuración almacenada",
+          "languages": "Idiomas"
         }
       }
+    },
+    "notifications": {
+      "orderReady": "¡Traducciones actualizadas correctamente!",
+      "temperatureReached": "Temperatura objetivo alcanzada",
+      "systemError": "Ocurrió un error del sistema",
+      "orderCancelled": "Pedido cancelado"
     }
-  },
-  "notifications": {
-    "orderReady": "¡Traducciones actualizadas correctamente!",
-    "temperatureReached": "Temperatura objetivo alcanzada",
-    "systemError": "Ocurrió un error del sistema",
-    "orderCancelled": "Pedido cancelado"
   }
 }

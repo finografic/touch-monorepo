@@ -3,7 +3,7 @@ export interface DrinkTypeEntity {
   name: string;
   name_en: string;
   name_es: string;
-  name_cat: string;
+  name_ca: string;
   has_subtypes: number; // Stored as integer in DB
   default_temp_consume: number;
   default_temp_freeze: number;
@@ -18,7 +18,7 @@ export interface DrinkSubtypeEntity {
   name: string;
   name_en: string;
   name_es: string;
-  name_cat: string;
+  name_ca: string;
   default_temp_consume: number;
   default_temp_freeze: number;
   is_active: number; // Stored as integer in DB

@@ -15,7 +15,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
       name: true,
       nameEn: true,
       nameEs: true,
-      nameCat: true,
+      nameCa: true,
       thermalConductivity: true,
       isActive: true,
     },

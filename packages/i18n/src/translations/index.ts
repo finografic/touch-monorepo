@@ -7,9 +7,9 @@ import commonEn from './common/en.json';
 import appEn from './app/en.json';
 import dynamicEn from './dynamic/en.json';
 
-import commonCat from './common/cat.json';
-import appCat from './app/cat.json';
-import dynamicCat from './dynamic/cat.json';
+import commonCa from './common/ca.json';
+import appCa from './app/ca.json';
+import dynamicCa from './dynamic/ca.json';
 
 // Merge function to combine translation objects
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -23,14 +23,14 @@ const mergeTranslations = (...sources: any[]) => {
 export const translations = {
   es: mergeTranslations(commonEs, appEs, dynamicEs),
   en: mergeTranslations(commonEn, appEn, dynamicEn),
-  cat: mergeTranslations(commonCat, appCat, dynamicCat),
+  ca: mergeTranslations(commonCa, appCa, dynamicCa),
 } as const;
 
 // Legacy exports for backward compatibility
 export const resources = {
   es: { translation: translations.es },
   en: { translation: translations.en },
-  cat: { translation: translations.cat },
+  ca: { translation: translations.ca },
 } as const;
 
 export default resources;
@@ -38,4 +38,4 @@ export default resources;
 export type SupportedLanguage = keyof typeof translations;
 
 // Re-export individual translations for backward compatibility
-export { commonEn, appEn, dynamicEn, commonEs, appEs, dynamicEs, commonCat, appCat, dynamicCat };
+export { commonEn, appEn, dynamicEn, commonEs, appEs, dynamicEs, commonCa, appCa, dynamicCa };

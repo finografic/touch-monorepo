@@ -9,7 +9,7 @@ export const container_types = sqliteTable('container_types', {
   name: text('name').notNull().unique(), // Internal name: 'plastic', 'glass', 'metal'
   nameEs: text('name_es').notNull(), // Spanish display name (now first)
   nameEn: text('name_en'), // English display name (optional)
-  nameCat: text('name_cat'), // Catalan display name (optional)
+  nameCa: text('name_ca'), // Catalan display name (optional)
   thermalConductivity: integer('thermal_conductivity').notNull(), // Affects cooling time
 
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
@@ -24,7 +24,7 @@ const insertContainerTypeSchema = createInsertSchema(container_types, {
   name: (schema) => schema.name.min(1).max(50),
   nameEn: (schema) => schema.nameEn.min(1).max(100),
   nameEs: (schema) => schema.nameEs.min(1).max(100),
-  nameCat: (schema) => schema.nameCat.min(1).max(100),
+  nameCa: (schema) => schema.nameCa.min(1).max(100),
   thermalConductivity: (schema) => schema.thermalConductivity.min(1).max(100), // Scale of 1-100
 })
   .required({

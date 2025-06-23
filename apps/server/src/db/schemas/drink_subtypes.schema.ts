@@ -14,7 +14,7 @@ export const drink_subtypes = sqliteTable('drink_subtypes', {
   name: text('name').notNull().unique(), // e.g., 'Rubia', 'Negra'
   nameEs: text('name_es').notNull(), // Spanish display name (now first)
   nameEn: text('name_en'), // English display name (optional)
-  nameCat: text('name_cat'), // Catalan display name (optional)
+  nameCa: text('name_ca'), // Catalan display name (optional)
   defaultTempConsume: integer('default_temp_consume').notNull(), // Can override parent's default
   defaultTempFreeze: integer('default_temp_freeze').notNull(), // Can override parent's default
 
@@ -30,7 +30,7 @@ const insertDrinkSubtypeSchema = createInsertSchema(drink_subtypes, {
   name: (schema) => schema.name.min(1).max(50),
   nameEn: (schema) => schema.nameEn.min(1).max(100),
   nameEs: (schema) => schema.nameEs.min(1).max(100),
-  nameCat: (schema) => schema.nameCat.min(1).max(100),
+  nameCa: (schema) => schema.nameCa.min(1).max(100),
   defaultTempConsume: (schema) => schema.defaultTempConsume.min(-10).max(30),
   defaultTempFreeze: (schema) => schema.defaultTempFreeze.min(-20).max(10),
 })
