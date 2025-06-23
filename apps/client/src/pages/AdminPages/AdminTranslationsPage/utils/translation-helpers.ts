@@ -4,7 +4,19 @@
 
 // Helper function to get field name for a language
 export const getLanguageFieldName = (isoCode: string) => {
-  return `name${isoCode.charAt(0).toUpperCase()}${isoCode.slice(1)}`;
+  // Extract language part from locale code (e.g., 'es-ES' -> 'es', 'en-GB' -> 'en')
+  const languageCode = isoCode.split('-')[0];
+
+  // Map language codes to database column names
+  const languageMap: Record<string, string> = {
+    es: 'Es',
+    en: 'En',
+    ca: 'Ca',
+    cat: 'Ca', // Handle both 'ca' and 'cat' for Catalan
+  };
+
+  const suffix = languageMap[languageCode] || languageCode.charAt(0).toUpperCase() + languageCode.slice(1);
+  return `name${suffix}`;
 };
 
 // Helper function to compare translation items and detect changes
