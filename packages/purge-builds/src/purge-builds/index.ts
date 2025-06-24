@@ -1,13 +1,7 @@
 #!/usr/bin/env node
 
 // CLI entry point
-import { purge } from './purge-builds';
-
-// Library exports (for programmatic use)
-export { purge } from './purge-builds';
-export { purge as default } from './purge-builds';
-export { GLOB_DELETE_EXCLUDE, GLOB_DELETE_INCLUDE } from './purge-builds.config';
-export type { PurgeOptions } from './purge-builds.types';
+import { purge } from './purge';
 
 // Display help information
 function showHelp() {
@@ -20,25 +14,31 @@ USAGE:
 OPTIONS:
   -d, --dry-run     Show what would be deleted without actually deleting
   -v, --verbose     Show detailed progress and file lists
-  -r, --recursive   Deep recursive cleaning (when run from workspace root)
+  -r, --recursive   Deep recursive cleaning throughout the entire tree
   -h, --help        Show this help message
 
 EXAMPLES:
-  purge-builds                    # Clean current scope
+  purge-builds                    # Clean current directory level only
   purge-builds --dry-run          # Preview what would be deleted
   purge-builds -dv                # Dry run with verbose output
-  purge-builds --recursive        # Deep clean from workspace root
+  purge-builds --recursive        # Deep clean entire monorepo tree
 
 WHAT IT DELETES:
-  • Build artifacts (.turbo, .tsup, dist/, *.tsbuildinfo)
-  • Node modules (node_modules/, .pnpm/)
-  • Lock files (pnpm-lock.yaml)
+  • Build directories (.turbo, .tsup, dist, node_modules, .pnpm)
+  • Build files (*.tsbuildinfo, pnpm-lock.yaml)
 
-WHAT IT PRESERVES:
+WHAT IT PROTECTS:
   • Source code (src/, apps/, packages/)
   • Configuration files (package.json, .env)
   • Git repository (.git/)
   • This CLI tool itself
+
+FEATURES:
+  • Native Node.js APIs (no glob dependencies)
+  • Better recursive directory walking
+  • Accurate size reporting
+  • Clearer dry-run output
+  • More reliable deletion
 `);
 }
 

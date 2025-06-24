@@ -25,6 +25,11 @@
       "dependsOn": ["@workspace/types#build", "@workspace/config#build", "@workspace/i18n#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
+    "@workspace/core#dev": {
+      "dependsOn": ["@workspace/types#build", "@workspace/config#build", "@workspace/i18n#build"],
+      "cache": false,
+      "persistent": true
+    },
     "dev": {
       "cache": false,
       "persistent": true,

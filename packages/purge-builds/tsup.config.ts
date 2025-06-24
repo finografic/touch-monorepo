@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entry: {
-    index: 'src/purge-builds/index-v2.ts',
+    index: 'src/purge-builds/index.ts',
   },
   outDir: 'dist',
   format: ['esm'],

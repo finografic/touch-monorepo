@@ -3,7 +3,7 @@ import fs from 'node:fs/promises';
 import path from 'node:path';
 import chalk from 'chalk';
 
-export interface PurgeV2Options {
+export interface PurgeOptions {
   dryRun?: boolean;
   verbose?: boolean;
   recursive?: boolean;
@@ -94,10 +94,13 @@ async function getDirectorySize(dirPath: string): Promise<number> {
 /**
  * Find all items to delete in a directory
  */
+
 async function findItemsToDelete(
   dirPath: string,
+  // biome-ignore lint/style/noInferrableTypes: is's fine
   recursive: boolean = false,
   results: FindResult[] = [],
+  // biome-ignore lint/style/noInferrableTypes: is's fine
   currentDepth: number = 0,
 ): Promise<FindResult[]> {
   try {
@@ -126,7 +129,7 @@ async function findItemsToDelete(
         await findItemsToDelete(itemPath, recursive, results, currentDepth + 1);
       }
     }
-  } catch (error) {
+  } catch {
     // Skip directories we can't read (permissions, etc.)
   }
 
@@ -157,13 +160,13 @@ function formatBytes(bytes: number): string {
   const k = 1024;
   const sizes = ['B', 'KB', 'MB', 'GB'];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
+  return `${Number.parseFloat((bytes / k ** i).toFixed(1))} ${sizes[i]}`;
 }
 
 /**
  * Main purge function - V2 approach
  */
-export async function purgeV2({ dryRun = false, verbose = false, recursive = false }: PurgeV2Options = {}) {
+export async function purge({ dryRun = false, verbose = false, recursive = false }: PurgeOptions = {}) {
   const startTime = Date.now();
   const workingDir = process.cwd();
 
@@ -274,4 +277,4 @@ export async function purgeV2({ dryRun = false, verbose = false, recursive = fal
   console.log();
 }
 
-export default purgeV2;
+export default purge;
