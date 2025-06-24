@@ -143,6 +143,7 @@ export const styles = css`
         .page-content {
           flex: 1; /* Grows to fill available space */
           width: 100%; /* Full width for container */
+
           padding: 0rem 2rem 2rem 2rem; /* Reduced from 2rem to 1rem top/bottom */
 
           /* Admin-specific: Center the content with fit-content width */
@@ -224,6 +225,13 @@ export const styles = css`
     max-width: 400px;
     line-height: 1.6;
     padding-bottom: 2rem;
+  }
+
+  .admin-page-container {
+    /* border: 1px solid red;
+    max-width: 90vw !important;
+    min-width: 100%;
+    width: 100% !important; */
   }
 
   /* ========================================

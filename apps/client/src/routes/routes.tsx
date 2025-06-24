@@ -11,6 +11,7 @@ import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPages/AdminPage';
 import { AdminTranslationsPage } from 'pages/AdminPages/AdminTranslationsPage/AdminTranslationsPage';
 import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesPage';
+import { AdminUiLabelsPage } from 'pages/AdminPages/AdminUiLabelsPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 
@@ -107,6 +108,11 @@ export const routes: RouteObject[] = [
         id: 'admin-languages',
         // loader: LoaderDataHelper[AdminFieldKeys.languages],
         element: <AdminLanguagesPage />,
+      },
+      {
+        path: 'ui-labels',
+        id: 'admin-ui-labels',
+        element: <AdminUiLabelsPage />,
       },
       // Future admin routes can be added here
       // {

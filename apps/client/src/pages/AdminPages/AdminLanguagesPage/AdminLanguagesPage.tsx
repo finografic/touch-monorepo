@@ -5,6 +5,7 @@ import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { AdminContentLayout, AdminSection, SectionHeader } from '../shared';
 import { styles } from './AdminLanguagesPage.styles';
 import { SearchableLanguageInput } from 'components/SearchableLanguageInput';
+import { SearchableLanguageInputSliding } from 'components/SearchableLanguageInput/SearchableLanguageInputSliding';
 import languagesData from 'components/LanguageSelector/languages/languages.data.min.json';
 import type { Country } from 'components/LanguageSelector/languages/country.types';
 import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';
@@ -32,7 +33,7 @@ interface LanguageOption {
 
 // Utility function to convert search results to LanguageInfo
 const convertSearchResultToLanguageInfo = (searchResult: LanguageOption): LanguageInfo => ({
-  code: searchResult.languageCode,
+  code: searchResult.languageCode as any, // Type assertion for flexible language codes
   label: searchResult.languageName,
   nativeLabel: searchResult.nativeName || searchResult.languageName,
   flag: searchResult.flagUrl,
@@ -241,6 +242,20 @@ export const AdminLanguagesPage: React.FC = () => {
               placeholder="Search languages, countries, or codes..."
             />
             <LaungaugeDataStats selectedLanguages={selectedLanguages} />
+          </Box>
+
+          {/* Sliding Window Test Section */}
+          <Box className="search-section-sliding" mb="6">
+            <SectionHeader
+              title="🎭 Sliding Window Test (Simple Version)"
+              description="Simplified sliding window - only renders 40 items at a time, loads more on scroll!"
+            />
+            <SearchableLanguageInputSliding
+              countriesData={languagesData as Country[]}
+              onLanguageSelect={handleLanguageSelect}
+              placeholder="Search languages with simple sliding window..."
+              windowSize={40}
+            />
           </Box>
 
           {/* Selected Languages Section */}

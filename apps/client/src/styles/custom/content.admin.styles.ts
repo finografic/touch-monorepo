@@ -17,6 +17,10 @@ export const stylesAdminContent = css`
     color: ${colors.textDark};
     ${cssForms}
 
+    max-width: 85vw !important;
+    min-width: 100%;
+    width: 100% !important;
+
     h1 {
       font-size: 2.5rem;
       font-weight: 600;

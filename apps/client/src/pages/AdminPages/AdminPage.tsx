@@ -21,6 +21,14 @@ export const AdminPage: React.FC = () => {
       color: 'blue' as const,
     },
     {
+      id: 'ui-labels',
+      title: 'UI Labels / Translations',
+      description: 'Edit user interface labels and translations from local files',
+      icon: <ChatBubbleIcon width="32" height="32" />,
+      path: '/admin/ui-labels',
+      color: 'cyan' as const,
+    },
+    {
       id: 'languages',
       title: t('admin.pages.languages.title'),
       description: t('admin.pages.languages.subtitle'),
@@ -36,14 +44,14 @@ export const AdminPage: React.FC = () => {
       path: '/admin/system',
       color: 'orange' as const,
     },
-    {
-      id: 'database',
-      title: 'Database Management',
-      description: 'Manage database connections and data integrity',
-      icon: <TableIcon width="32" height="32" />,
-      path: '/admin/database',
-      color: 'purple' as const,
-    },
+    // {
+    //   id: 'database',
+    //   title: 'Database Management',
+    //   description: 'Manage database connections and data integrity',
+    //   icon: <TableIcon width="32" height="32" />,
+    //   path: '/admin/database',
+    //   color: 'purple' as const,
+    // },
   ];
 
   const handleCardClick = (path: string) => {

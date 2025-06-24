@@ -20,6 +20,11 @@ export const AdminNavigation: React.FC = () => {
       path: '/admin/translations',
     },
     {
+      id: 'ui-labels',
+      label: 'UI Labels / Translations',
+      path: '/admin/ui-labels',
+    },
+    {
       id: 'languages',
       label: t('admin.pages.languages.title'),
       path: '/admin/languages',
