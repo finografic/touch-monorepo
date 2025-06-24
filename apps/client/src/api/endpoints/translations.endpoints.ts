@@ -6,9 +6,9 @@ import { transformAxiosError__V2 } from '../api.utils';
 export interface DrinkTypeTranslation {
   id: string;
   name: string;
-  nameEn: string;
-  nameEs: string;
-  nameCa: string;
+  name_es_es: string;
+  name_en_gb: string;
+  name_ca_es: string;
   hasSubtypes?: boolean;
   isActive?: boolean;
 }
@@ -16,9 +16,9 @@ export interface DrinkTypeTranslation {
 export interface DrinkSubtypeTranslation {
   id: string;
   name: string;
-  nameEn: string;
-  nameEs: string;
-  nameCa: string;
+  name_es_es: string;
+  name_en_gb: string;
+  name_ca_es: string;
   drinkTypeId: string;
   isActive?: boolean;
 }
@@ -26,18 +26,18 @@ export interface DrinkSubtypeTranslation {
 export interface VolumeTranslation {
   id: string;
   name: string;
-  nameEn: string;
-  nameEs: string;
-  nameCa: string;
+  name_es_es: string;
+  name_en_gb: string;
+  name_ca_es: string;
   isActive?: boolean;
 }
 
 export interface ContainerTypeTranslation {
   id: string;
   name: string;
-  nameEn: string;
-  nameEs: string;
-  nameCa: string;
+  name_es_es: string;
+  name_en_gb: string;
+  name_ca_es: string;
   thermalConductivity?: number;
   isActive?: boolean;
 }
@@ -61,14 +61,14 @@ const handleApiCall = async <T>(apiCall: () => Promise<any>): Promise<T> => {
 };
 
 /**
- * Helper to transform server response (snake_case) to frontend format (camelCase)
+ * Helper to transform server response to frontend format (using snake_case for translation fields)
  */
 const transformDrinkType = (serverData: any): DrinkTypeTranslation => ({
   id: serverData.id,
   name: serverData.name,
-  nameEn: serverData.nameEn || serverData.name_en || serverData.name,
-  nameEs: serverData.nameEs || serverData.name_es || serverData.name,
-  nameCa: serverData.nameCa || serverData.name_ca || serverData.name,
+  name_es_es: serverData.name_es_es || serverData.name,
+  name_en_gb: serverData.name_en_gb || serverData.name,
+  name_ca_es: serverData.name_ca_es || serverData.name,
   hasSubtypes: serverData.hasSubtypes ?? serverData.has_subtypes ?? false,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });
@@ -76,9 +76,9 @@ const transformDrinkType = (serverData: any): DrinkTypeTranslation => ({
 const transformDrinkSubtype = (serverData: any): DrinkSubtypeTranslation => ({
   id: serverData.id,
   name: serverData.name,
-  nameEn: serverData.nameEn || serverData.name_en || serverData.name,
-  nameEs: serverData.nameEs || serverData.name_es || serverData.name,
-  nameCa: serverData.nameCa || serverData.name_ca || serverData.name,
+  name_es_es: serverData.name_es_es || serverData.name,
+  name_en_gb: serverData.name_en_gb || serverData.name,
+  name_ca_es: serverData.name_ca_es || serverData.name,
   drinkTypeId: serverData.drinkTypeId || serverData.drink_type_id,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });
@@ -86,18 +86,18 @@ const transformDrinkSubtype = (serverData: any): DrinkSubtypeTranslation => ({
 const transformVolume = (serverData: any): VolumeTranslation => ({
   id: serverData.id,
   name: serverData.name,
-  nameEn: serverData.nameEn || serverData.name_en || serverData.name,
-  nameEs: serverData.nameEs || serverData.name_es || serverData.name,
-  nameCa: serverData.nameCa || serverData.name_ca || serverData.name,
+  name_es_es: serverData.name_es_es || serverData.name,
+  name_en_gb: serverData.name_en_gb || serverData.name,
+  name_ca_es: serverData.name_ca_es || serverData.name,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });
 
 const transformContainerType = (serverData: any): ContainerTypeTranslation => ({
   id: serverData.id,
   name: serverData.name,
-  nameEn: serverData.nameEn || serverData.name_en || serverData.name,
-  nameEs: serverData.nameEs || serverData.name_es || serverData.name,
-  nameCa: serverData.nameCa || serverData.name_ca || serverData.name,
+  name_es_es: serverData.name_es_es || serverData.name,
+  name_en_gb: serverData.name_en_gb || serverData.name,
+  name_ca_es: serverData.name_ca_es || serverData.name,
   thermalConductivity: serverData.thermalConductivity || serverData.thermal_conductivity,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });

@@ -8,6 +8,7 @@ import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useContent } from 'providers/ContentProvider/ContentContext';
+import type { RegionLocale } from '@workspace/types';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
@@ -43,7 +44,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               data,
               config: padsConfig,
               fieldKey,
-              currentLanguage: 'es',
+              currentLanguage: 'es-ES',
             });
             set({ pads, numPads, fieldKey });
           },
@@ -85,7 +86,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             padsConfig: PadConfig,
             dataPool: DataEntry[],
             serverFieldMap: Record<string, string>,
-            currentLanguage: 'en' | 'es' | 'cat' = 'es',
+            currentLanguage: RegionLocale = 'es-ES',
           ) => {
             if (!fieldKey) {
               set({ pads: [], numPads: 0, fieldKey: undefined });

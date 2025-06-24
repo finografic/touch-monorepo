@@ -3,6 +3,7 @@ import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import { OrderFieldKeys } from 'constants/app.config';
 import { getLocalizedName } from './localization.utils';
+import type { RegionLocale } from '@workspace/types';
 
 // -------------------------------------------------------------------------- //
 // NOTE: Parse loader data and config to initialize pad items
@@ -11,14 +12,15 @@ export const parsePadConfig = <T extends DataEntry>({
   data = [],
   config,
   fieldKey,
-  currentLanguage = 'es',
+  currentLanguage = 'es-ES',
 }: {
   data: T[];
   config: PadConfig<T>;
   fieldKey: OrderFieldKey;
-  currentLanguage?: 'en' | 'es' | 'cat';
+  currentLanguage?: RegionLocale;
 }): { pads: PadUI[]; numPads: number } => {
-  const labelKey = (config.labelKey as keyof T) || ('nameEn' as keyof T); // NOTE: which key to use for label
+  log('__DEV: i18n', 'yellow', { currentLanguage }, data);
+  const labelKey = (config.labelKey as keyof T) || ('nameEs' as keyof T); // NOTE: which key to use for label
   const numPads = Math.min(data.length, config.maxPads);
   const slicedData = data.slice(0, numPads);
 

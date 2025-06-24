@@ -10,17 +10,6 @@ import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const drinkVolumes = await db.query.volumes.findMany({
     where: (fields, operators) => operators.eq(fields.isActive, true),
-    columns: {
-      id: true,
-      name: true,
-      nameEn: true,
-      nameEs: true,
-      nameCa: true,
-      valueInMl: true,
-      sortOrder: true,
-      coolingFactor: true,
-      isActive: true,
-    },
   });
   return context.json(drinkVolumes);
 };

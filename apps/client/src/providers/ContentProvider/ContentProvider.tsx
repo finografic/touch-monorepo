@@ -1,7 +1,24 @@
+import React, { useEffect } from 'react';
 import type { ContentProviderProps } from './ContentContext.types';
 import { ContentContext as Content, DISPLAY_NAME, useContent } from './ContentContext';
-import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+
+// Mapping from simple i18n codes to full locale codes
+const LOCALE_MAPPING = {
+  es: 'es-ES',
+  en: 'en-GB',
+  ca: 'ca-ES',
+} as const;
+
+// Helper function to convert simple code to full locale
+const getFullLocaleFromSimpleCode = (simpleCode: string): string => {
+  return LOCALE_MAPPING[simpleCode as keyof typeof LOCALE_MAPPING] || simpleCode;
+};
+
+// Helper function to convert full locale to simple code
+const getSimpleCodeFromLocale = (locale: string): string => {
+  return locale.includes('-') ? locale.split('-')[0] : locale;
+};
 
 // Component to sync ContentProvider language with i18n on startup
 const LanguageSync = () => {
@@ -9,13 +26,15 @@ const LanguageSync = () => {
   const { setCurrentLanguage } = useContent();
 
   useEffect(() => {
-    // Sync ContentProvider with i18n's current language on startup
-    const currentI18nLanguage = i18n.language;
-    setCurrentLanguage(currentI18nLanguage);
+    // On startup: Convert i18n's simple code to full locale for ContentProvider
+    const currentI18nLanguage = i18n.language; // e.g., 'es'
+    const fullLocale = getFullLocaleFromSimpleCode(currentI18nLanguage); // e.g., 'es-ES'
+    setCurrentLanguage(fullLocale);
 
     // Listen for i18n language changes and sync ContentProvider
     const handleLanguageChanged = (lng: string) => {
-      setCurrentLanguage(lng);
+      const fullLocale = getFullLocaleFromSimpleCode(lng);
+      setCurrentLanguage(fullLocale);
     };
 
     i18n.on('languageChanged', handleLanguageChanged);
@@ -38,3 +57,6 @@ export const ContentProvider = ({ initialValue, children }: ContentProviderProps
 };
 
 ContentProvider.displayName = `${DISPLAY_NAME}Provider`;
+
+// Export helper functions for use in components
+export { getFullLocaleFromSimpleCode, getSimpleCodeFromLocale };

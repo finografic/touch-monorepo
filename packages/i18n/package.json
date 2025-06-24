@@ -8,9 +8,21 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "import": "./dist/constants/index.js"
+    },
+    "./iso-codes": {
+      "types": "./dist/iso-codes/index.d.ts",
+      "import": "./dist/iso-codes/index.js"
+    },
     "./translations": {
       "types": "./dist/translations/index.d.ts",
       "import": "./dist/translations/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
     },
     "./utils": {
       "types": "./dist/utils/index.d.ts",

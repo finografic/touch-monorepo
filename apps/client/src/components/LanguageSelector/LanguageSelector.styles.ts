@@ -43,8 +43,7 @@ export const styles = css`
   /* Trigger button styling (open state) */
   button[role='radio'] {
     cursor: pointer;
-    /* color: red; */
-    padding: 2rem 2rem;
+    padding: 2.1rem 2rem 1.9rem 2rem;
     margin-top: 0.5rem;
     /***** flag *****/
     svg,
@@ -60,7 +59,6 @@ export const styles = css`
     span.label-language {
       color: ${colors.grey}dd;
       font-weight: 500;
-      /* margin: 0 0.75rem; */
     }
   }
 `;

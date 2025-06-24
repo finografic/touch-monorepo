@@ -7,6 +7,7 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useFilters } from 'hooks/useFilters';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTranslation } from 'react-i18next';
+import type { RegionLocale } from '@workspace/types';
 
 /**
  * Hook that handles LayoutUI subscriptions and state management
@@ -21,7 +22,7 @@ export const useLayoutUiObserver = () => {
   const { i18n } = useTranslation();
 
   // Use i18n language directly as the source of truth
-  const currentLanguage = i18n.language || 'es';
+  const currentLanguage: RegionLocale = (i18n.language as RegionLocale) || 'es-ES';
 
   const loaderData = useRouteLoaderData(fieldKey || 'root') as DataEntry[];
 
@@ -78,20 +79,14 @@ export const useLayoutUiObserver = () => {
       if (loaderData && padsConfig && dataPool) {
         isInitializedRef.current[fieldKey] = false;
 
-        // Map current language to the format expected by the utility
-        const languageCode = currentLanguage.startsWith('es')
-          ? 'es'
-          : currentLanguage.startsWith('cat')
-            ? 'cat'
-            : 'en';
-
+        // Pass the full locale to maintain regional information
         store.handleRouteChange(
           fieldKey,
           loaderData,
           padsConfig,
           dataPool,
           sessionServerFieldMap,
-          languageCode,
+          currentLanguage, // ✅ Pass full locale (e.g., 'es-ES', 'en-GB', 'ca-ES')
         );
         isInitializedRef.current[fieldKey] = true;
       } else {

@@ -7,13 +7,14 @@
     "email": "justin.blair.rankin@gmail.com",
     "url": "http://finografic.github.com/cv-justin-rankin"
   },
-  "packageManager": "pnpm@10.12.1+sha512.f0dda8580f0ee9481c5c79a1d927b9164f2c478e90992ad268bbb2465a736984391d6333d2c327913578b2804af33474ca554ba29c04a8b13060a717675ae3ac",
+  "packageManager": "pnpm@10.12.2",
   "engines": {
     "node": ">=20.15.0",
     "pnpm": ">=10.8.0"
   },
   "scripts": {
     "========== DEV": "=======================================================",
+    "gen.types": "tsx scripts/src/generate-types/generate-language-types.ts",
     "dev": "turbo run dev",
     "dev.i18n.update": "pnpm i18n.force",
     "lint.fix.DEV": "eslint \"./apps/client/src/**/*.{ts,tsx}\"  --fix-dry-run --rule \"@typescript-eslint/consistent-type-imports: 2\"",

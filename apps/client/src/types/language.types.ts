@@ -1,3 +1,4 @@
+import type { LetterLower, LetterUpper } from '@workspace/types/utils';
 /**
  * Unified language interface that combines API data with country data
  * This should replace all other language interfaces throughout the app
@@ -5,7 +6,8 @@
 export interface LanguageInfo {
   // Core identification
   id?: string;
-  code: string; // ISO language code (e.g., 'es', 'en', 'cat')
+  // code: string; // ISO language code (e.g., 'es', 'en', 'ca')
+  code: `${LetterLower}${LetterLower}` | `${LetterLower}${LetterLower}${LetterLower}`;
 
   // Display names
   label: string; // Display name in current locale

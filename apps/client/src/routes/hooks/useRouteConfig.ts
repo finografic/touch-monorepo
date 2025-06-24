@@ -27,7 +27,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   const { i18n } = useTranslation();
 
   // Use i18n language directly as the source of truth
-  const currentLanguage = i18n.language || 'es';
+  const currentLanguage = i18n.language || 'es-ES';
 
   const routeConfig = useMemo(() => {
     let matchedConfig: RouteConfig | undefined;
@@ -70,15 +70,16 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   const padsConfig = useMemo(() => {
     if (!routeConfig.fieldKey) return undefined;
 
+    const currentRoute = routeConfig.route;
     const languageCode = currentLanguage.startsWith('es')
       ? 'es'
-      : currentLanguage.startsWith('cat')
-        ? 'cat'
+      : currentLanguage.startsWith('ca')
+        ? 'ca'
         : 'en';
 
     const allPadsConfig = getPadsUIConfig(languageCode);
     return allPadsConfig[routeConfig.fieldKey];
-  }, [routeConfig.fieldKey, currentLanguage]);
+  }, [routeConfig.fieldKey, currentLanguage, routeConfig.route]);
 
   const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T;
 

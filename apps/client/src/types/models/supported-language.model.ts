@@ -12,4 +12,4 @@ type SupportedLanguageCamelCase = ConvertKeysToCamelCase<SupportedLanguageEntity
 /**
  * Common language code type - replaces hardcoded unions
  */
-export type LanguageCode = 'es' | 'en' | 'cat' | string;
+export type LanguageCode = 'es' | 'en' | 'ca' | string;

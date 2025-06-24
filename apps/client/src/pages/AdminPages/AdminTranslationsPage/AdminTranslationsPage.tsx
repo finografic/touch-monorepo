@@ -13,6 +13,7 @@ import {
   compareTranslationItems,
   ensureLanguageFields,
   getLanguageCodesFromData,
+  getLanguageFieldName,
 } from './utils/translation-helpers';
 import type {
   ContainerTypeUpdate,
@@ -22,60 +23,56 @@ import type {
 } from 'api/endpoints/translations.endpoints';
 import { useGetSupportedLanguages } from 'queries/supported-languages';
 
-// Keep the original schema for now - we'll handle dynamic fields in the UI
-const createTranslationSchema = (t: (key: string) => string) =>
-  z.object({
+// Create dynamic schema based on supported languages
+const createTranslationSchema = (
+  t: (key: string) => string,
+  supportedLanguages: Array<{ isoCode: string }>,
+) => {
+  // Create dynamic fields object for language translations
+  const languageFields: Record<string, z.ZodString> = {};
+  supportedLanguages.forEach((lang) => {
+    const fieldName = getLanguageFieldName(lang.isoCode);
+    languageFields[fieldName] = z.string().min(1, t('ui.forms.validation.required'));
+  });
+
+  const baseFields = {
+    id: z.string(),
+    name: z.string().min(1, t('ui.forms.validation.required')),
+    ...languageFields,
+  };
+
+  return z.object({
     drinkSubtypes: z.array(
       z.object({
-        id: z.string(),
-        name: z.string().min(1, t('ui.forms.validation.required')),
-        nameEn: z.string().min(1, t('ui.forms.validation.required')),
-        nameEs: z.string().min(1, t('ui.forms.validation.required')),
-        nameCa: z.string().min(1, t('ui.forms.validation.required')),
+        ...baseFields,
         drinkTypeId: z.string(),
         isActive: z.boolean().optional(),
       }),
     ),
     volumes: z.array(
       z.object({
-        id: z.string(),
-        name: z.string().min(1, t('ui.forms.validation.required')),
-        nameEn: z.string().min(1, t('ui.forms.validation.required')),
-        nameEs: z.string().min(1, t('ui.forms.validation.required')),
-        nameCa: z.string().min(1, t('ui.forms.validation.required')),
+        ...baseFields,
         isActive: z.boolean().optional(),
       }),
     ),
     drinkTypes: z.array(
       z.object({
-        id: z.string(),
-        name: z.string().min(1, t('ui.forms.validation.required')),
-        nameEn: z.string().min(1, t('ui.forms.validation.required')),
-        nameEs: z.string().min(1, t('ui.forms.validation.required')),
-        nameCa: z.string().min(1, t('ui.forms.validation.required')),
+        ...baseFields,
         hasSubtypes: z.boolean().optional(),
         isActive: z.boolean().optional(),
       }),
     ),
     containerTypes: z.array(
       z.object({
-        id: z.string(),
-        name: z.string().min(1, t('ui.forms.validation.required')),
-        nameEn: z.string().min(1, t('ui.forms.validation.required')),
-        nameEs: z.string().min(1, t('ui.forms.validation.required')),
-        nameCa: z.string().min(1, t('ui.forms.validation.required')),
+        ...baseFields,
         thermalConductivity: z.number().optional(),
         isActive: z.boolean().optional(),
       }),
     ),
   });
+};
 
 type TranslationFormData = z.infer<ReturnType<typeof createTranslationSchema>>;
-
-// Helper function to get field name for a language
-const getLanguageFieldName = (isoCode: string) => {
-  return `name${isoCode.charAt(0).toUpperCase()}${isoCode.slice(1)}`;
-};
 
 // Helper function to create empty translation object with all language fields
 const createEmptyTranslationItem = (
@@ -122,9 +119,9 @@ export const AdminTranslationsPage: React.FC = () => {
   const supportedLanguages = useMemo(() => {
     return (
       supportedLanguagesData || [
-        { isoCode: 'en', displayName: 'English', nativeName: 'English' },
-        { isoCode: 'es', displayName: 'Spanish', nativeName: 'Español' },
-        { isoCode: 'cat', displayName: 'Catalan', nativeName: 'Català' },
+        { isoCode: 'es-ES', displayName: 'Spanish', nativeName: 'Español' },
+        { isoCode: 'en-GB', displayName: 'English', nativeName: 'English' },
+        { isoCode: 'ca-ES', displayName: 'Catalan', nativeName: 'Català' },
       ]
     );
   }, [supportedLanguagesData]);
@@ -132,8 +129,11 @@ export const AdminTranslationsPage: React.FC = () => {
   // Memoize default values to prevent unnecessary re-renders
   const defaultValues = useMemo(() => getEmptyFormData(), []);
 
-  // Create schema with translations
-  const translationSchema = useMemo(() => createTranslationSchema(t), [t]);
+  // Create schema with translations - now dynamic based on supported languages
+  const translationSchema = useMemo(
+    () => createTranslationSchema(t, supportedLanguages),
+    [t, supportedLanguages],
+  );
 
   const methods = useForm<TranslationFormData>({
     resolver: zodResolver(translationSchema),
@@ -184,12 +184,7 @@ export const AdminTranslationsPage: React.FC = () => {
               const original = translationsData.drinkTypes.find((orig) => orig.id === item.id);
               if (!original) return null;
 
-              const changes: DrinkTypeUpdate = {};
-              if (item.name !== original.name) changes.name = item.name;
-              if (item.nameEn !== original.nameEn) changes.nameEn = item.nameEn;
-              if (item.nameEs !== original.nameEs) changes.nameEs = item.nameEs;
-              if (item.nameCa !== original.nameCa) changes.nameCa = item.nameCa;
-
+              const changes = compareTranslationItems(item, original, supportedLanguages);
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
             .filter(Boolean) as Array<{ id: string; updates: DrinkTypeUpdate }>;
@@ -207,12 +202,7 @@ export const AdminTranslationsPage: React.FC = () => {
               const original = translationsData.drinkSubtypes.find((orig) => orig.id === item.id);
               if (!original) return null;
 
-              const changes: DrinkSubtypeUpdate = {};
-              if (item.name !== original.name) changes.name = item.name;
-              if (item.nameEn !== original.nameEn) changes.nameEn = item.nameEn;
-              if (item.nameEs !== original.nameEs) changes.nameEs = item.nameEs;
-              if (item.nameCa !== original.nameCa) changes.nameCa = item.nameCa;
-
+              const changes = compareTranslationItems(item, original, supportedLanguages);
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
             .filter(Boolean) as Array<{ id: string; updates: DrinkSubtypeUpdate }>;
@@ -232,12 +222,7 @@ export const AdminTranslationsPage: React.FC = () => {
               const original = translationsData.volumes.find((orig) => orig.id === item.id);
               if (!original) return null;
 
-              const changes: VolumeUpdate = {};
-              if (item.name !== original.name) changes.name = item.name;
-              if (item.nameEn !== original.nameEn) changes.nameEn = item.nameEn;
-              if (item.nameEs !== original.nameEs) changes.nameEs = item.nameEs;
-              if (item.nameCa !== original.nameCa) changes.nameCa = item.nameCa;
-
+              const changes = compareTranslationItems(item, original, supportedLanguages);
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
             .filter(Boolean) as Array<{ id: string; updates: VolumeUpdate }>;
@@ -254,12 +239,7 @@ export const AdminTranslationsPage: React.FC = () => {
               const original = translationsData.containerTypes.find((orig) => orig.id === item.id);
               if (!original) return null;
 
-              const changes: ContainerTypeUpdate = {};
-              if (item.name !== original.name) changes.name = item.name;
-              if (item.nameEn !== original.nameEn) changes.nameEn = item.nameEn;
-              if (item.nameEs !== original.nameEs) changes.nameEs = item.nameEs;
-              if (item.nameCa !== original.nameCa) changes.nameCa = item.nameCa;
-
+              const changes = compareTranslationItems(item, original, supportedLanguages);
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
             .filter(Boolean) as Array<{ id: string; updates: ContainerTypeUpdate }>;
@@ -287,7 +267,7 @@ export const AdminTranslationsPage: React.FC = () => {
       // Clear message after 5 seconds
       setTimeout(() => setSubmitMessage(null), 5000);
     },
-    [translationsData, batchUpdateMutation.mutateAsync, t],
+    [translationsData, batchUpdateMutation.mutateAsync, t, supportedLanguages],
   );
 
   // Memoize the form content to prevent unnecessary re-renders - MOVED BEFORE EARLY RETURNS

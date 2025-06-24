@@ -8,9 +8,9 @@ export const drink_types = sqliteTable('drink_types', {
     .primaryKey()
     .$defaultFn(() => createCuid()),
   name: text('name').notNull().unique(), // e.g., 'Cerveza', 'Vino', 'Licor', etc.
-  nameEs: text('name_es').notNull(), // Spanish display name (now first)
-  nameEn: text('name_en'), // English display name (optional)
-  nameCa: text('name_ca'), // Catalan display name (optional)
+  name_es_es: text('name_es_es').notNull(), // Spanish display name
+  name_en_gb: text('name_en_gb'), // English display name (optional)
+  name_ca_es: text('name_ca_es'), // Catalan display name (optional)
   hasSubtypes: integer('has_subtypes', { mode: 'boolean' }).notNull().default(false),
   defaultTempConsume: integer('default_temp_consume').notNull(), // in Celsius
   defaultTempFreeze: integer('default_temp_freeze').notNull(), // in Celsius
@@ -24,15 +24,15 @@ export const drink_types = sqliteTable('drink_types', {
 // Zod schemas for validation
 const insertDrinkTypeSchema = createInsertSchema(drink_types, {
   name: (schema) => schema.name.min(1).max(50),
-  nameEs: (schema) => schema.nameEs.min(1).max(100),
-  nameEn: (schema) => schema.nameEn.min(1).max(100),
-  nameCa: (schema) => schema.nameCa.min(1).max(100),
+  name_es_es: (schema) => schema.name_es_es.min(1).max(100),
+  name_en_gb: (schema) => schema.name_en_gb.min(1).max(100),
+  name_ca_es: (schema) => schema.name_ca_es.min(1).max(100),
   defaultTempConsume: (schema) => schema.defaultTempConsume.min(-10).max(30),
   defaultTempFreeze: (schema) => schema.defaultTempFreeze.min(-20).max(10),
 })
   .required({
     name: true,
-    nameEs: true,
+    name_es_es: true,
     defaultTempConsume: true,
     defaultTempFreeze: true,
   })

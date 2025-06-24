@@ -4,19 +4,9 @@
 
 // Helper function to get field name for a language
 export const getLanguageFieldName = (isoCode: string) => {
-  // Extract language part from locale code (e.g., 'es-ES' -> 'es', 'en-GB' -> 'en')
-  const languageCode = isoCode.split('-')[0];
-
-  // Map language codes to database column names
-  const languageMap: Record<string, string> = {
-    es: 'Es',
-    en: 'En',
-    ca: 'Ca',
-    cat: 'Ca', // Handle both 'ca' and 'cat' for Catalan
-  };
-
-  const suffix = languageMap[languageCode] || languageCode.charAt(0).toUpperCase() + languageCode.slice(1);
-  return `name${suffix}`;
+  // Convert locale code to snake_case column name
+  // e.g., 'es-ES' -> 'name_es_es', 'en-GB' -> 'name_en_gb', 'ca-ES' -> 'name_ca_es'
+  return `name_${isoCode.toLowerCase().replace('-', '_')}`;
 };
 
 // Helper function to compare translation items and detect changes
@@ -73,11 +63,15 @@ export const getLanguageCodesFromData = (data: any[]): string[] => {
   const firstItem = data[0];
   const languageCodes: string[] = [];
 
-  // Extract language codes from field names (e.g., nameEn -> en, nameEs -> es)
+  // Extract language codes from field names (e.g., name_es_es -> es-ES, name_en_gb -> en-GB)
   Object.keys(firstItem).forEach((key) => {
-    if (key.startsWith('name') && key !== 'name' && key.length > 4) {
-      const langCode = key.slice(4).toLowerCase(); // Remove 'name' prefix and lowercase
-      languageCodes.push(langCode);
+    if (key.startsWith('name_') && key !== 'name') {
+      // Convert from name_es_es to es-ES format
+      const parts = key.slice(5).split('_'); // Remove 'name_' prefix and split
+      if (parts.length === 2) {
+        const langCode = `${parts[0]}-${parts[1].toUpperCase()}`;
+        languageCodes.push(langCode);
+      }
     }
   });
 

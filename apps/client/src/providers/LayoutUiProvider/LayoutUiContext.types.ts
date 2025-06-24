@@ -4,6 +4,7 @@ import type { ValidGridSize } from 'types/menu.types';
 import type { PadConfig, PadType, PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
+import type { RegionLocale } from '@workspace/types';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numItems]: ValidGridSize;
@@ -29,7 +30,7 @@ type LayoutUiActions = LayoutUiSetters & {
     padsConfig: PadConfig,
     dataPool: DataEntry[],
     serverFieldMap: Record<string, string>,
-    currentLanguage?: 'en' | 'es' | 'cat',
+    currentLanguage?: RegionLocale,
   ) => void;
 };
 

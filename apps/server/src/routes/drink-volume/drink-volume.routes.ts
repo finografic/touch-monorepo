@@ -18,9 +18,9 @@ export const list = createRoute({
         volumeSchemas.select.pick({
           id: true,
           name: true,
-          nameEn: true,
-          nameEs: true,
-          nameCa: true,
+          name_es_es: true,
+          name_en_gb: true,
+          name_ca_es: true,
           valueInMl: true,
           sortOrder: true,
           coolingFactor: true,

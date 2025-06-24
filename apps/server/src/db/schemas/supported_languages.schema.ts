@@ -7,7 +7,7 @@ export const supported_languages = sqliteTable('supported_languages', {
   id: text('id')
     .primaryKey()
     .$defaultFn(() => createCuid()),
-  isoCode: text('iso_code').notNull().unique(), // 'en', 'es', 'cat', 'de'
+  isoCode: text('iso_code').notNull().unique(), // 'en', 'es', 'ca', 'de'
   nativeName: text('native_name').notNull(), // 'English', 'Español', 'Català'
   displayName: text('display_name').notNull(), // For admin interface display
   flagCode: text('flag_code'), // 'US', 'ES', 'CAT', 'DE' (for flag icons)

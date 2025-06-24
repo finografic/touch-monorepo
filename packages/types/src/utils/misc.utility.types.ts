@@ -1,6 +1,9 @@
-export type LetterChars = Lowercase<Letters> | Uppercase<Letters>;
+export type LetterLower = Letter;
+export type LetterUpper = Uppercase<Letter>;
 
-type Letters =
+export type LetterChar = LetterLower | LetterUpper;
+
+type Letter =
   | 'a'
   | 'b'
   | 'c'

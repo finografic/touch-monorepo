@@ -1,15 +1,15 @@
-// Import translations from organized structure
-import commonEs from './common/es.json';
-import appEs from './app/es.json';
-import dynamicEs from './dynamic/es.json';
+// Import translations from organized structure using full locale codes
+import commonEsES from './common/es-ES.json';
+import appEsES from './app/es-ES.json';
+import dynamicEsES from './dynamic/es-ES.json';
 
-import commonEn from './common/en.json';
-import appEn from './app/en.json';
-import dynamicEn from './dynamic/en.json';
+import commonEnGB from './common/en-GB.json';
+import appEnGB from './app/en-GB.json';
+import dynamicEnGB from './dynamic/en-GB.json';
 
-import commonCa from './common/ca.json';
-import appCa from './app/ca.json';
-import dynamicCa from './dynamic/ca.json';
+import commonCaES from './common/ca-ES.json';
+import appCaES from './app/ca-ES.json';
+import dynamicCaES from './dynamic/ca-ES.json';
 
 // Merge function to combine translation objects
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -19,23 +19,54 @@ const mergeTranslations = (...sources: any[]) => {
   }, {});
 };
 
-// Organized translations (new structure)
+// Organized translations with full locale support
 export const translations = {
-  es: mergeTranslations(commonEs, appEs, dynamicEs),
-  en: mergeTranslations(commonEn, appEn, dynamicEn),
-  ca: mergeTranslations(commonCa, appCa, dynamicCa),
+  // Full locale codes for better regional support
+  'es-ES': mergeTranslations(commonEsES, appEsES, dynamicEsES),
+  'en-GB': mergeTranslations(commonEnGB, appEnGB, dynamicEnGB),
+  'ca-ES': mergeTranslations(commonCaES, appCaES, dynamicCaES),
+
+  // Backward compatibility with simple codes (fallback to full locales)
+  'es': mergeTranslations(commonEsES, appEsES, dynamicEsES),
+  'en': mergeTranslations(commonEnGB, appEnGB, dynamicEnGB),
+  'ca': mergeTranslations(commonCaES, appCaES, dynamicCaES),
 } as const;
 
-// Legacy exports for backward compatibility
-export const resources = {
-  es: { translation: translations.es },
-  en: { translation: translations.en },
-  ca: { translation: translations.ca },
+// i18next compatible resources format
+const resources = {
+  'es-ES': { translation: translations['es-ES'] },
+  'en-GB': { translation: translations['en-GB'] },
+  'ca-ES': { translation: translations['ca-ES'] },
+  // Fallback resources for simple codes
+  'es': { translation: translations['es-ES'] },
+  'en': { translation: translations['en-GB'] },
+  'ca': { translation: translations['ca-ES'] },
 } as const;
 
 export default resources;
 
-export type SupportedLanguage = keyof typeof translations;
+// Re-export individual translations with new naming for backward compatibility
+export {
+  commonEnGB as commonEn,
+  appEnGB as appEn,
+  dynamicEnGB as dynamicEn,
+  commonEsES as commonEs,
+  appEsES as appEs,
+  dynamicEsES as dynamicEs,
+  commonCaES as commonCa,
+  appCaES as appCa,
+  dynamicCaES as dynamicCa,
+};
 
-// Re-export individual translations for backward compatibility
-export { commonEn, appEn, dynamicEn, commonEs, appEs, dynamicEs, commonCa, appCa, dynamicCa };
+// Export with new locale-based naming
+export {
+  commonEsES,
+  appEsES,
+  dynamicEsES,
+  commonEnGB,
+  appEnGB,
+  dynamicEnGB,
+  commonCaES,
+  appCaES,
+  dynamicCaES,
+};

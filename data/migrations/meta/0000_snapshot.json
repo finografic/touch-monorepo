@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "38180e60-0074-4a7b-88cc-63721836e672",
+  "id": "34c456ad-a28e-4018-bac1-4fac329a31f5",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -343,22 +343,22 @@
           "notNull": true,
           "autoincrement": false
         },
-        "name_es": {
-          "name": "name_es",
+        "name_es_es": {
+          "name": "name_es_es",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "name_en": {
-          "name": "name_en",
+        "name_en_gb": {
+          "name": "name_en_gb",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "name_ca": {
-          "name": "name_ca",
+        "name_ca_es": {
+          "name": "name_ca_es",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -463,22 +463,22 @@
           "notNull": true,
           "autoincrement": false
         },
-        "name_es": {
-          "name": "name_es",
+        "name_es_es": {
+          "name": "name_es_es",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "name_en": {
-          "name": "name_en",
+        "name_en_gb": {
+          "name": "name_en_gb",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "name_ca": {
-          "name": "name_ca",
+        "name_ca_es": {
+          "name": "name_ca_es",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -566,22 +566,22 @@
           "notNull": true,
           "autoincrement": false
         },
-        "name_es": {
-          "name": "name_es",
+        "name_es_es": {
+          "name": "name_es_es",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "name_en": {
-          "name": "name_en",
+        "name_en_gb": {
+          "name": "name_en_gb",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "name_ca": {
-          "name": "name_ca",
+        "name_ca_es": {
+          "name": "name_ca_es",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
@@ -1050,22 +1050,22 @@
           "notNull": true,
           "autoincrement": false
         },
-        "name_es": {
-          "name": "name_es",
+        "name_es_es": {
+          "name": "name_es_es",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "name_en": {
-          "name": "name_en",
+        "name_en_gb": {
+          "name": "name_en_gb",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "name_ca": {
-          "name": "name_ca",
+        "name_ca_es": {
+          "name": "name_ca_es",
           "type": "text",
           "primaryKey": false,
           "notNull": false,

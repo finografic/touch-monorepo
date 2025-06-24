@@ -13,7 +13,7 @@ export enum ContentKeys {
 
 export const defaultValue: ContentValues = {
   title: '',
-  currentLanguage: 'es', // Use simple language code for i18n compatibility
+  currentLanguage: 'es-ES', // ✅ Use full locale code as the default
 };
 
 export const ContentContext = createZustandContext(({ initialValue }) => {
@@ -25,14 +25,12 @@ export const ContentContext = createZustandContext(({ initialValue }) => {
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
           setCurrentLanguage: (languageCode: string) => {
-            // Map flag codes to i18n language codes if needed
-            const i18nCode = languageCode.includes('-') ? languageCode.split('-')[0] : languageCode;
+            // Store the full locale code in ContentProvider (e.g., 'es-ES', 'en-GB')
+            // This preserves regional information for currency, formatting, flags, etc.
+            set({ currentLanguage: languageCode });
 
-            // Update the store
-            set({ currentLanguage: i18nCode });
-
-            // Update i18n - we'll need to access i18n instance
-            // This will be handled by the component that calls changeLanguage
+            // Note: i18n.changeLanguage() should be called separately by the component
+            // to update i18next with the simple code (e.g., 'es', 'en')
           },
         },
       }),

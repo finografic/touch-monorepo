@@ -9,19 +9,39 @@ i18n
   .use(initReactI18next)
   .init({
     resources: {
-      es: {
-        translation: translations.es,
+      // Full locale support with regional variations
+      'es-ES': {
+        translation: translations['es-ES'],
       },
-      en: {
-        translation: translations.en,
+      'en-GB': {
+        translation: translations['en-GB'],
       },
-      ca: {
-        translation: translations.ca,
+      'ca-ES': {
+        translation: translations['ca-ES'],
+      },
+      // Backward compatibility with simple codes (fallback to full locales)
+      'es': {
+        translation: translations['es-ES'],
+      },
+      'en': {
+        translation: translations['en-GB'],
+      },
+      'ca': {
+        translation: translations['ca-ES'],
       },
     },
-    lng: ENABLE_BROWSER_LANGUAGE_DETECTION ? undefined : 'es', // Use simple language code for i18n
-    supportedLngs: ['es', 'en', 'ca'], // i18n only understands simple language codes
-    fallbackLng: 'es', // Use simple language code for fallback
+    lng: ENABLE_BROWSER_LANGUAGE_DETECTION ? undefined : 'es-ES', // Default to full locale
+    supportedLngs: [
+      // Full locale codes (preferred)
+      'es-ES',
+      'en-GB',
+      'ca-ES',
+      // Simple codes for backward compatibility
+      'es',
+      'en',
+      'ca',
+    ],
+    fallbackLng: 'es-ES', // Use full locale for fallback
     debug: process.env.NODE_ENV === 'development',
     detection: {
       order: ENABLE_BROWSER_LANGUAGE_DETECTION
@@ -36,10 +56,17 @@ i18n
       excludeCacheFor: ['cimode'],
 
       convertDetectedLanguage: (lng: string) => {
-        if (lng.startsWith('es')) return 'es';
-        if (lng.startsWith('en')) return 'en';
-        if (lng.startsWith('ca')) return 'ca';
-        return 'es'; // Fallback to simple language code
+        // Enhanced detection for regional variations
+        if (lng.startsWith('es-ES') || lng.startsWith('es_ES')) return 'es-ES';
+        if (lng.startsWith('en-GB') || lng.startsWith('en_GB')) return 'en-GB';
+        if (lng.startsWith('ca-ES') || lng.startsWith('ca_ES')) return 'ca-ES';
+
+        // Fallback to simple detection for other regions
+        if (lng.startsWith('es')) return 'es-ES'; // Default Spanish to Spain
+        if (lng.startsWith('en')) return 'en-GB'; // Default English to UK
+        if (lng.startsWith('ca')) return 'ca-ES'; // Default Catalan to Spain
+
+        return 'es-ES'; // Ultimate fallback
       },
     },
     interpolation: {

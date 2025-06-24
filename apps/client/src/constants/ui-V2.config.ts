@@ -8,7 +8,7 @@ import { getLabelKey } from 'utils/localization.utils';
  * Gets the UI configuration for pads with dynamic language support
  * @param currentLanguage - Current language to determine label keys
  */
-export const getPadsUIConfig = (currentLanguage: 'en' | 'es' | 'cat'): Record<OrderFieldKey, PadConfig> => {
+export const getPadsUIConfig = (currentLanguage: 'en' | 'es' | 'ca'): Record<OrderFieldKey, PadConfig> => {
   const labelKey = getLabelKey(currentLanguage);
 
   return {

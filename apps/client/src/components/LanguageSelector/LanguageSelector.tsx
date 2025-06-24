@@ -34,7 +34,7 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
 
   // Find current language or default to first
   const getCurrentLanguageCode = () => {
-    if (languages.length === 0) return 'es'; // Simple fallback
+    if (languages.length === 0) return 'es-ES'; // Full locale fallback
     const found = languages.find((lang) => lang.code.startsWith(currentLanguage));
     return found ? found.code : languages[0].code;
   };
