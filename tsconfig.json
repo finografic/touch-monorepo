@@ -3,25 +3,17 @@
   "compilerOptions": {
     "baseUrl": "."
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    ".next",
-    "build",
-    "coverage",
-    "**/*.spec.ts",
-    "**/*.test.ts"
-  ],
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules", "dist", ".next", "build", "coverage", "**/*.spec.ts", "**/*.test.ts"],
   "references": [
     {
       "path": "./config"
     },
     {
       "path": "./packages/globals"
+    },
+    {
+      "path": "./packages/purge-builds"
     },
     {
       "path": "./apps/client"

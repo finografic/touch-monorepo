@@ -17,8 +17,12 @@
       "dependsOn": ["@workspace/globals#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
+    "@workspace/i18n#build": {
+      "dependsOn": ["@workspace/types#build", "@workspace/config#build"],
+      "outputs": ["dist/**", "*.tsbuildinfo"]
+    },
     "@workspace/core#build": {
-      "dependsOn": ["@workspace/config#build"],
+      "dependsOn": ["@workspace/types#build", "@workspace/config#build", "@workspace/i18n#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "dev": {
