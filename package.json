@@ -105,7 +105,6 @@
     "zx": "8.5.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.9.4",
     "@changesets/cli": "2.27.10",
     "@emotion/babel-plugin": "11.13.5",
     "@finografic/eslint-config": "9.0.8",
