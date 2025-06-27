@@ -1,0 +1,90 @@
+{
+  "name": "@workspace/core",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./api": {
+      "types": "./dist/api/index.d.ts",
+      "import": "./dist/api/index.js"
+    },
+    "./api/*": {
+      "types": "./dist/api/*.d.ts",
+      "import": "./dist/api/*.js"
+    },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "import": "./dist/constants/index.js"
+    },
+    "./constants/*": {
+      "types": "./dist/constants/*.d.ts",
+      "import": "./dist/constants/*.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    },
+    "./types/*": {
+      "types": "./dist/types/*.d.ts",
+      "import": "./dist/types/*.js"
+    },
+    "./types/utilities/*": {
+      "types": "./dist/types/utilities/*.d.ts",
+      "import": "./dist/types/utilities/*.js"
+    },
+    "./utils": {
+      "types": "./dist/utils/index.d.ts",
+      "import": "./dist/utils/index.js"
+    },
+    "./utils/*": {
+      "types": "./dist/utils/*.d.ts",
+      "import": "./dist/utils/*.js"
+    }
+  },
+  "scripts": {
+    "========== DEV": "=======================================================",
+    "dev": "tsup --watch",
+    "·········· BUILD": "·····················································",
+    "build": "tsup",
+    "·········· CLEAN": "·····················································",
+    "clean": "clean-all",
+    "clean.dry": "clean-all --dry-run",
+    "·········· PACKAGES": "···················································",
+    "eslint-config": "dotenvx run -- pnpm update @finografic/eslint-config --latest",
+    "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
+    "·········· LINTING": "···················································",
+    "lint": "eslint .",
+    "lint.fix": "eslint . --fix",
+    "·········· UTILS": "·····················································",
+    "tsc.debug": "pnpm exec tsc --pretty --project tsconfig.json",
+    "typecheck": "pnpm exec tsc --project tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@workspace/i18n": "workspace:*",
+    "@workspace/types": "workspace:*",
+    "axios": "1.8.4",
+    "stoker": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/eslint": "9.6.1",
+    "@types/node": "20.15.0",
+    "@workspace/scripts": "workspace:*",
+    "eslint": "9.16.0",
+    "shx": "0.3.4",
+    "tsup": "8.4.0",
+    "tsx": "4.19.2",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "8.18.2",
+    "zod": "^3.23.8"
+  },
+  "peerDependencies": {
+    "typescript": "^5.8.3",
+    "zod": "^3.23.8"
+  }
+}
