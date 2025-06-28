@@ -2,7 +2,7 @@ import { db } from 'db';
 import { drink_types } from 'db/schemas/drink_types.schema';
 import { drink_subtypes } from 'db/schemas/drink_subtypes.schema';
 import { volumes } from 'db/schemas/volumes.schema';
-import { container_types, containerTypeSchemas } from 'db/schemas/container_types.schema';
+import { container_types } from 'db/schemas/container_types.schema';
 import { eq, sql } from 'drizzle-orm';
 import { checkColumnExists } from './translation-columns.utils';
 
@@ -52,12 +52,12 @@ export async function autoTranslateExistingContent(targetLanguageCode: string): 
         case 'drink_types':
           await translateDrinkTypes(sourceColumn, targetColumn, targetLanguageCode);
           break;
-        // case 'drink_subtypes':
-        //   await translateDrinkSubtypes(sourceColumn, targetColumn, targetLanguageCode);
-        //   break;
-        // case 'volumes':
-        //   await translateVolumes(sourceColumn, targetColumn, targetLanguageCode);
-        //   break;
+        case 'drink_subtypes':
+          await translateDrinkSubtypes(sourceColumn, targetColumn, targetLanguageCode);
+          break;
+        case 'volumes':
+          await translateVolumes(sourceColumn, targetColumn, targetLanguageCode);
+          break;
         case 'container_types':
           await translateContainerTypes(sourceColumn, targetColumn, targetLanguageCode);
           break;
@@ -90,24 +90,12 @@ async function translateDrinkTypes(sourceColumn: string, targetColumn: string, t
       console.log(`✅ ✅ ✅ "${translatedText}"`);
 
       try {
-        // Create the update object dynamically
-        const updates = { [targetColumn]: translatedText };
-        console.log('🔍 Update object:', updates);
-
-        // Update the record with the translated text
-        const [updatedRecord] = await db
-          .update(drink_types)
-          .set(updates)
-          .where(eq(drink_types.id, record.id))
-          .returning();
-
-        console.log('🚧 drink_types - UPDATES:', JSON.stringify(updates));
-        console.log('🚧 drink_types - drink_types.id:', drink_types.id);
-        console.log('🚧 drink_types - record.id:', record.id);
-        console.log('🟢 drink_types - updatedRecord:', updatedRecord);
+        // Use raw SQL for dynamic columns that may not be in the schema
+        const updateSQL = `UPDATE drink_types SET "${targetColumn}" = '${translatedText.replace(/'/g, "''")}' WHERE id = '${record.id}'`;
+        await db.run(sql.raw(updateSQL));
 
         console.log(
-          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated: ${updatedRecord ? 'SUCCESS' : 'FAILED'})`,
+          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated with raw SQL)`,
         );
       } catch (updateError) {
         console.error(`  ❌ Failed to update ${record.name}:`, updateError);
@@ -175,18 +163,9 @@ async function translateContainerTypes(sourceColumn: string, targetColumn: strin
     if (sourceText) {
       const translatedText = await translateText(sourceText, targetLang);
 
-      const updates = { [targetColumn]: translatedText };
-      const [updatedRecord] = await db
-        .update(container_types)
-        .set(updates)
-        .where(eq(container_types.id, record.id))
-        .returning();
-
-      console.log('🚀 container_types - TABLE_NAME:', container_types);
-      console.log('🚧 container_types - UPDATES:', JSON.stringify(updates));
-      console.log('🚧 container_types - container_types.id:', container_types.id);
-      console.log('🚧 container_types - record.id:', record.id);
-      console.log('🟢 container_types - updatedRecord:', updatedRecord);
+      // Use raw SQL for dynamic columns that may not be in the schema
+      const updateSQL = `UPDATE container_types SET "${targetColumn}" = '${translatedText.replace(/'/g, "''")}' WHERE id = '${record.id}'`;
+      await db.run(sql.raw(updateSQL));
 
       console.log(`  ✓ ${record.name}: "${sourceText}" → "${translatedText}"`);
 
