@@ -35,8 +35,7 @@ export const styles = css`
   }
 
   .laungauge-data-stats {
-    display: block;
-    margin-top: 1.5rem;
+    /* display: block; */
   }
 
   .language-item {

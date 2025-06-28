@@ -18,6 +18,7 @@ import {
   useDeleteSupportedLanguage,
   useGetSupportedLanguages,
 } from 'queries/supported-languages';
+import { Col, Row } from 'react-grid-system';
 
 // Interface for the search component results (matches LanguageOption from SearchableLanguageInput)
 interface LanguageOption {
@@ -318,11 +319,6 @@ export const AdminLanguagesPage: React.FC = () => {
               placeholder="Search curated languages (40 options)..."
               windowSize={40}
             />
-            <LaungaugeDataStats
-              selectedLanguages={selectedLanguages}
-              totalCountries={40}
-              totalLanguages={40}
-            />
           </Box>
 
           {/* Selected Languages Section */}
@@ -336,20 +332,29 @@ export const AdminLanguagesPage: React.FC = () => {
 
           {/* Statistics Section with Save Button */}
           <Box className="stats-section" style={{ marginTop: '3rem' }}>
-            <Flex justify="end" align="center" mb="3">
-              {selectedLanguages.length > 0 && (
-                <Button
-                  onClick={handleSaveLanguages}
-                  size="4"
-                  color="green"
-                  variant="solid"
-                  loading={createLanguageMutation.isPending}
-                  disabled={createLanguageMutation.isPending}
-                >
-                  {createLanguageMutation.isPending ? 'Adding languages...' : 'Confirm: Add new languages'}
-                </Button>
-              )}
-            </Flex>
+            <Row id="___ROW___" align="center">
+              <Col xs={12} md={8}>
+                <LaungaugeDataStats
+                  selectedLanguages={selectedLanguages}
+                  totalCountries={40}
+                  totalLanguages={40}
+                />
+              </Col>
+              <Col xs={12} md={4} style={{ textAlign: 'right' }}>
+                {selectedLanguages.length > 0 && (
+                  <Button
+                    onClick={handleSaveLanguages}
+                    size="4"
+                    color="green"
+                    variant="solid"
+                    loading={createLanguageMutation.isPending}
+                    disabled={createLanguageMutation.isPending}
+                  >
+                    {createLanguageMutation.isPending ? 'Adding languages...' : 'Confirm: Add new languages'}
+                  </Button>
+                )}
+              </Col>
+            </Row>
           </Box>
         </AdminSection>
 

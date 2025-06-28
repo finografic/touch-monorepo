@@ -1,26 +1,26 @@
 import '@radix-ui/themes/styles.css';
 // import 'styles/radix-ui/radix.css';
 
+import { Suspense } from 'react';
 import { ScreenClassProvider } from 'react-grid-system';
 import { Theme as RadixTheme, Spinner } from '@radix-ui/themes';
 // import { Global } from '@emotion/react';
 // import { cssGlobal } from 'styles/global.styles';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
-import { Suspense } from 'react';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
-    <ScreenClassProvider>
-      {/* <Global styles={cssGlobal} /> */}
-      <RadixTheme>
+    {/* <Global styles={cssGlobal} /> */}
+    <RadixTheme>
+      <ScreenClassProvider>
         <Suspense fallback={<Spinner size="3" />}>
           <Outlet />
         </Suspense>
-      </RadixTheme>
-    </ScreenClassProvider>
+      </ScreenClassProvider>
+    </RadixTheme>
   </ErrorBoundary>
 );
 
