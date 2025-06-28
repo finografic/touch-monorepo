@@ -12,7 +12,11 @@ import { eq } from 'drizzle-orm';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
-import { createTranslationColumns, validateLanguageCode } from 'utils/translation-columns.utils';
+import {
+  createTranslationColumns,
+  removeTranslationColumns,
+  validateLanguageCode,
+} from 'utils/translation-columns.utils';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const supportedLanguages = await db.query.supported_languages.findMany({
@@ -171,17 +175,29 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
     );
   }
 
-  // Proceed with deletion if not default language
-  const result = await db.delete(supported_languages).where(eq(supported_languages.id, id));
+  try {
+    // Delete the language from database
+    const result = await db.delete(supported_languages).where(eq(supported_languages.id, id));
 
-  if (result.changes === 0) {
-    return context.json(
-      {
-        message: HttpStatusPhrases.NOT_FOUND,
-      },
-      HttpStatusCodes.NOT_FOUND,
+    if (result.changes === 0) {
+      return context.json(
+        {
+          message: HttpStatusPhrases.NOT_FOUND,
+        },
+        HttpStatusCodes.NOT_FOUND,
+      );
+    }
+
+    // Remove translation columns for this language from all translatable tables
+    await removeTranslationColumns(languageToDelete.isoCode);
+
+    console.log(
+      `✅ Successfully deleted language ${languageToDelete.isoCode} and removed translation columns`,
     );
-  }
 
-  return context.body(null, HttpStatusCodes.NO_CONTENT);
+    return context.body(null, HttpStatusCodes.NO_CONTENT);
+  } catch (error) {
+    console.error('Error deleting supported language and translation columns:', error);
+    throw error; // Let the framework handle the error response
+  }
 };

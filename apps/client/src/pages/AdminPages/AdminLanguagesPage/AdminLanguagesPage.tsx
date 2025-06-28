@@ -8,6 +8,7 @@ import { SearchableLanguageInput } from 'components/SearchableLanguageInput';
 import languagesData from 'components/LanguageSelector/languages/languages.data.min.json';
 import type { Country } from 'components/LanguageSelector/languages/country.types';
 import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';
+import { LanguageDeleteDialog } from './components/LanguageDeleteDialog';
 import type { LanguageInfo } from 'types/language.types';
 import { useQueryClient } from '@tanstack/react-query';
 import { getFlagUrl } from 'utils/flag.utils';
@@ -60,8 +61,17 @@ export const AdminLanguagesPage: React.FC = () => {
   const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
   const [selectedLanguages, setSelectedLanguages] = useState<LanguageInfo[]>([]);
 
+  // Delete confirmation dialog state
+  const [deleteDialog, setDeleteDialog] = useState<{
+    isOpen: boolean;
+    language: LanguageInfo | null;
+  }>({
+    isOpen: false,
+    language: null,
+  });
+
   const handleDeleteLanguage = async (languageCode: string) => {
-    // Find the language by code to get its ID
+    // Find the language by code to get its details
     const languageToDelete = languages.find((lang) => lang.code === languageCode);
 
     if (!languageToDelete || !languageToDelete.id) {
@@ -70,13 +80,33 @@ export const AdminLanguagesPage: React.FC = () => {
       return;
     }
 
+    // Show confirmation dialog instead of immediately deleting
+    setDeleteDialog({
+      isOpen: true,
+      language: languageToDelete,
+    });
+  };
+
+  const handleConfirmDelete = async () => {
+    const { language } = deleteDialog;
+
+    if (!language || !language.id) {
+      setMessage({ type: 'error', text: 'Unable to find language to delete.' });
+      setDeleteDialog({ isOpen: false, language: null });
+      setTimeout(() => setMessage(null), 3000);
+      return;
+    }
+
     try {
-      setMessage({ type: 'success', text: 'Deleting language...' });
-      await deleteLanguageMutation.mutateAsync(languageToDelete.id);
+      setMessage({ type: 'success', text: 'Deleting language and removing translation columns...' });
+      await deleteLanguageMutation.mutateAsync(language.id);
 
       queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
-      setMessage({ type: 'success', text: 'Language deleted successfully!' });
-      setTimeout(() => setMessage(null), 3000);
+      setMessage({
+        type: 'success',
+        text: `Language "${language.label}" deleted successfully! Translation columns have been removed from all tables.`,
+      });
+      setTimeout(() => setMessage(null), 5000);
     } catch (error) {
       console.error('Error deleting language:', error);
       setMessage({
@@ -84,7 +114,13 @@ export const AdminLanguagesPage: React.FC = () => {
         text: `Failed to delete language: ${error instanceof Error ? error.message : 'Unknown error'}`,
       });
       setTimeout(() => setMessage(null), 5000);
+    } finally {
+      setDeleteDialog({ isOpen: false, language: null });
     }
+  };
+
+  const handleCancelDelete = () => {
+    setDeleteDialog({ isOpen: false, language: null });
   };
 
   const handleLanguageSelect = (searchResult: LanguageOption) => {
@@ -271,6 +307,15 @@ export const AdminLanguagesPage: React.FC = () => {
             </Flex>
           </Box>
         </AdminSection>
+
+        {/* Delete Confirmation Dialog */}
+        <LanguageDeleteDialog
+          language={deleteDialog.language}
+          isOpen={deleteDialog.isOpen}
+          onClose={handleCancelDelete}
+          onConfirm={handleConfirmDelete}
+          isLoading={deleteLanguageMutation.isPending}
+        />
       </AdminContentLayout>
     </section>
   );
