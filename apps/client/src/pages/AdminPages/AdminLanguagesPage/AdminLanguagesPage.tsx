@@ -19,6 +19,7 @@ import {
   useGetSupportedLanguages,
 } from 'queries/supported-languages';
 import { Col, Row } from 'react-grid-system';
+import { convertSearchResultToLanguageInfo } from './languages.utils';
 
 // Interface for the search component results (matches LanguageOption from SearchableLanguageInput)
 interface LanguageOption {
@@ -31,59 +32,18 @@ interface LanguageOption {
   emoji?: string;
 }
 
-// Utility function to convert search results to LanguageInfo
-const convertSearchResultToLanguageInfo = (searchResult: LanguageOption): LanguageInfo => {
-  // Convert 3-letter ISO codes to proper locale format (fra -> fr-FR)
-  const convertLanguageCode = (langCode: string, countryCode: string): string => {
-    const iso3to2Map: Record<string, string> = {
-      fra: 'fr', // French
-      eng: 'en', // English
-      spa: 'es', // Spanish
-      deu: 'de', // German
-      ita: 'it', // Italian
-      por: 'pt', // Portuguese
-      nld: 'nl', // Dutch
-      rus: 'ru', // Russian
-      jpn: 'ja', // Japanese
-      kor: 'ko', // Korean
-      chi: 'zh', // Chinese
-      ara: 'ar', // Arabic
-      cat: 'ca', // Catalan
-    };
-
-    // If it's a 3-letter code, convert to 2-letter and add country
-    if (iso3to2Map[langCode.toLowerCase()]) {
-      const twoLetterCode = iso3to2Map[langCode.toLowerCase()];
-      return `${twoLetterCode}-${countryCode.toUpperCase()}`;
-    }
-
-    // If it's already a 2-letter code, add country
-    if (langCode.length === 2) {
-      return `${langCode.toLowerCase()}-${countryCode.toUpperCase()}`;
-    }
-
-    // Fallback to original code
-    return langCode;
-  };
-
-  const properLanguageCode = convertLanguageCode(searchResult.languageCode, searchResult.countryCode);
-
-  return {
-    code: properLanguageCode as any,
-    label: searchResult.languageName,
-    nativeLabel: searchResult.nativeName || searchResult.languageName,
-    flag: searchResult.flagUrl,
-    countryName: searchResult.countryName,
-    countryCode: searchResult.countryCode,
-    isActive: true, // New languages are active by default
-    isDefault: false,
-    sortOrder: 0,
-  };
-};
-
 export const AdminLanguagesPage: React.FC = () => {
   const { t } = useTranslation();
+
   const queryClient = useQueryClient();
+  const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
+  const [selectedLanguages, setSelectedLanguages] = useState<LanguageInfo[]>([]);
+
+  // Delete confirmation dialog state
+  const [deleteDialog, setDeleteDialog] = useState<{ isOpen: boolean; language: LanguageInfo | null }>({
+    isOpen: false,
+    language: null,
+  });
 
   // Fetch supported languages from database
   const { data: supportedLanguagesData, isLoading, error } = useGetSupportedLanguages();
@@ -95,21 +55,16 @@ export const AdminLanguagesPage: React.FC = () => {
     ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium'))
     : [];
 
-  const [message, setMessage] = useState<{ type: 'error' | 'success'; text: string } | null>(null);
-  const [selectedLanguages, setSelectedLanguages] = useState<LanguageInfo[]>([]);
-
-  // Delete confirmation dialog state
-  const [deleteDialog, setDeleteDialog] = useState<{
-    isOpen: boolean;
-    language: LanguageInfo | null;
-  }>({
-    isOpen: false,
-    language: null,
-  });
-
   // Convert curated languages to the format expected by SearchableLanguageInput
-  const curatedLanguageOptions = useMemo(() => {
-    return convertToLanguageOptions((countryCode) => getFlagUrl(countryCode, 'medium'));
+  const { countries, curatedLanguageOptions } = useMemo(() => {
+    const curatedLanguageOptions = convertToLanguageOptions((countryCode) =>
+      getFlagUrl(countryCode, 'medium'),
+    );
+    const countries = [
+      ...new Set(curatedLanguageOptions.map((option: LanguageOption) => option.countryCode)),
+    ];
+
+    return { countries, curatedLanguageOptions };
   }, []);
 
   const handleDeleteLanguage = async (languageCode: string) => {
@@ -123,10 +78,7 @@ export const AdminLanguagesPage: React.FC = () => {
     }
 
     // Show confirmation dialog instead of immediately deleting
-    setDeleteDialog({
-      isOpen: true,
-      language: languageToDelete,
-    });
+    setDeleteDialog({ isOpen: true, language: languageToDelete });
   };
 
   const handleConfirmDelete = async () => {
@@ -229,11 +181,11 @@ export const AdminLanguagesPage: React.FC = () => {
     }
   };
 
-  const handleRefreshCache = () => {
-    queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
-    setMessage({ type: 'success', text: 'Cache refreshed! Data reloaded from database.' });
-    setTimeout(() => setMessage(null), 3000);
-  };
+  // const handleRefreshCache = () => {
+  //   queryClient.invalidateQueries({ queryKey: supportedLanguagesKeys.lists() });
+  //   setMessage({ type: 'success', text: 'Cache refreshed! Data reloaded from database.' });
+  //   setTimeout(() => setMessage(null), 3000);
+  // };
 
   // Handle loading and error states
   if (isLoading) {
@@ -289,16 +241,6 @@ export const AdminLanguagesPage: React.FC = () => {
           <Box className="languages-section" mb="6">
             <Flex justify="between" align="center">
               <SectionHeader title={`Configured Languages (${languages.length})`} />
-              {/* <Flex gap="2">
-                {import.meta.env.MODE === 'development' && (
-                  <Text size="1" color="gray" style={{ alignSelf: 'center' }}>
-                    Dev Mode: Auto-refresh on mount/focus
-                  </Text>
-                )}
-                <Button variant="soft" onClick={handleRefreshCache}>
-                  🔄 Refresh Data
-                </Button>
-              </Flex> */}
             </Flex>
             <LanguagesList
               languages={languages}
@@ -332,27 +274,25 @@ export const AdminLanguagesPage: React.FC = () => {
 
           {/* Statistics Section with Save Button */}
           <Box className="stats-section" style={{ marginTop: '3rem' }}>
-            <Row id="___ROW___" align="center">
+            <Row align="center">
               <Col xs={12} md={8}>
                 <LaungaugeDataStats
                   selectedLanguages={selectedLanguages}
-                  totalCountries={40}
-                  totalLanguages={40}
+                  totalCountries={countries.length}
+                  totalLanguages={curatedLanguageOptions.length}
                 />
               </Col>
               <Col xs={12} md={4} style={{ textAlign: 'right' }}>
-                {selectedLanguages.length > 0 && (
-                  <Button
-                    onClick={handleSaveLanguages}
-                    size="4"
-                    color="green"
-                    variant="solid"
-                    loading={createLanguageMutation.isPending}
-                    disabled={createLanguageMutation.isPending}
-                  >
-                    {createLanguageMutation.isPending ? 'Adding languages...' : 'Confirm: Add new languages'}
-                  </Button>
-                )}
+                <Button
+                  onClick={handleSaveLanguages}
+                  size="4"
+                  color="green"
+                  variant="solid"
+                  loading={createLanguageMutation.isPending}
+                  disabled={createLanguageMutation.isPending || selectedLanguages.length === 0}
+                >
+                  {createLanguageMutation.isPending ? 'Adding languages...' : 'Confirm: Add new languages'}
+                </Button>
               </Col>
             </Row>
           </Box>
