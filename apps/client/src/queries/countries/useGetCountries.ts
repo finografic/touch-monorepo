@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import type { CountryModel } from '../../components/SearchableLanguageInput/types/country';
+import type { CountryModel } from '@workspace/types';
 import { CountryDto } from './country.dto';
 
 /**
@@ -109,11 +109,6 @@ async function fetchCountries(): Promise<CountryModel[]> {
 
 /**
  * React Query hook to fetch countries from REST Countries API
- *
- * @example
- * ```tsx
- * const { data: countries, isLoading, error } = useGetCountries();
- * ```
  */
 export function useGetCountries() {
   return useQuery({
@@ -121,8 +116,6 @@ export function useGetCountries() {
     queryFn: fetchCountries,
     staleTime: 1000 * 60 * 60 * 24, // 24 hours - country data doesn't change often
     gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days - keep in cache for a week
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
   });
 }
 
@@ -138,7 +131,5 @@ export function useGetFilteredCountries() {
       countries.filter((country) => CountryDto.shouldIncludeInLanguageList(country)),
     staleTime: 1000 * 60 * 60 * 24, // 24 hours - country data doesn't change often
     gcTime: 1000 * 60 * 60 * 24 * 7, // 7 days - keep in cache for a week
-    retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
   });
 }

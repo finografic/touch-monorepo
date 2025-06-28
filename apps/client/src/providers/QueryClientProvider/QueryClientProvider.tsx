@@ -11,9 +11,12 @@ export default function ({ children }: { children: React.ReactNode }) {
       new QueryClient({
         defaultOptions: {
           queries: {
-            retry: false, // Disable retries for local development
+            retry: 3, // Enable retries for production reliability
+            retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
             refetchOnMount: true,
             refetchOnWindowFocus: false,
+            staleTime: 1000 * 60 * 5, // 5 minutes default
+            gcTime: 1000 * 60 * 30, // 30 minutes default
           },
         },
       }),

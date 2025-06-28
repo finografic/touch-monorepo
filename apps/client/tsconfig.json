@@ -80,6 +80,11 @@
       "path": "../server"
     }
   ],
-  "include": ["src/**/*", "src/**/*.json", "../server/src/types/**/*"],
+  "include": [
+    "src/**/*",
+    "src/**/*.json",
+    "../server/src/types/**/*",
+    "../../packages/types/src/countries.types.ts"
+  ],
   "exclude": ["dist", "node_modules", "eslint.config.mjs"]
 }

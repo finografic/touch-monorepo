@@ -1,22 +1,22 @@
-import type { CountryBasic, CountryModel } from '../../components/SearchableLanguageInput/types/country';
+import type { CountryBasic, CountryModel } from '@workspace/types';
 
 /**
  * Data Transfer Object utilities for country data transformation
  * Handles conversion between different country data formats
  */
-export class CountryDto {
+export const CountryDto = {
   /**
    * Check if country data has RestCountries API fields needed for filtering
    */
-  static hasFilteringFields(country: CountryBasic | CountryModel): country is CountryModel {
+  hasFilteringFields(country: CountryBasic | CountryModel): country is CountryModel {
     return 'population' in country && 'region' in country && 'unMember' in country;
-  }
+  },
 
   /**
    * Transform basic country data to full model with safe defaults
    * Used when working with limited country data that needs filtering
    */
-  static toFilterableModel(country: CountryBasic): CountryModel {
+  toFilterableModel(country: CountryBasic): CountryModel {
     if (CountryDto.hasFilteringFields(country)) {
       return country;
     }
@@ -36,19 +36,19 @@ export class CountryDto {
       capital: [],
       altSpellings: [],
     };
-  }
+  },
 
   /**
    * Batch transform array of countries to filterable models
    */
-  static toFilterableModels(countries: (CountryBasic | CountryModel)[]): CountryModel[] {
+  toFilterableModels(countries: (CountryBasic | CountryModel)[]): CountryModel[] {
     return countries.map((country) => CountryDto.toFilterableModel(country));
-  }
+  },
 
   /**
    * Extract language information from country for language selection
    */
-  static extractLanguageInfo(country: CountryModel) {
+  extractLanguageInfo(country: CountryModel) {
     return {
       countryCode: country.cca2,
       countryName: country.name.common,
@@ -58,13 +58,13 @@ export class CountryDto {
       flag: country.flag,
       flagUrl: country.flags.svg || country.flags.png,
     };
-  }
+  },
 
   /**
    * Check if country should be included in curated language list
    * Encapsulates the filtering business logic
    */
-  static shouldIncludeInLanguageList(country: CountryModel): boolean {
+  shouldIncludeInLanguageList(country: CountryModel): boolean {
     // Population filter
     if (country.population < 500_000) {
       const linguisticallyImportant = ['IS', 'MT', 'LU', 'CY', 'ME', 'MK', 'SI', 'EE', 'LV', 'LT'];
@@ -88,5 +88,5 @@ export class CountryDto {
     }
 
     return true;
-  }
-}
+  },
+} as const;

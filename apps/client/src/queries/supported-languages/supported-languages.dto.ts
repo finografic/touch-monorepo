@@ -7,12 +7,9 @@ import type { SupportedLanguageInput } from './supported-languages.types';
  * DTO for transforming between API and UI language data
  */
 export const LanguageDto = {
-  /**
-   * Transform SupportedLanguage (API) to LanguageInfo (UI)
-   */
   fromApi: (supportedLang: SupportedLanguage, flagUrl?: string): LanguageInfo => ({
     id: supportedLang.id,
-    code: supportedLang.isoCode,
+    code: supportedLang.isoCode as LanguageInfo['code'],
     label: supportedLang.displayName,
     nativeLabel: supportedLang.nativeName,
     flag: flagUrl || '', // Will be populated by flag utility
@@ -24,9 +21,6 @@ export const LanguageDto = {
     updatedAt: supportedLang.updatedAt,
   }),
 
-  /**
-   * Transform LanguageInfo (UI) to SupportedLanguageInput (API)
-   */
   toApi: (languageInfo: LanguageInfo): SupportedLanguageInput => ({
     isoCode: languageInfo.code,
     nativeName: languageInfo.nativeLabel,
@@ -42,17 +36,11 @@ export const LanguageDto = {
  * DTO for transforming arrays of language data
  */
 export const LanguagesDto = {
-  /**
-   * Transform SupportedLanguage[] (API) to LanguageInfo[] (UI)
-   */
   fromApi: (
     supportedLangs: SupportedLanguage[],
     getFlagUrl?: (flagCode: string | null) => string,
   ): LanguageInfo[] => supportedLangs.map((lang) => LanguageDto.fromApi(lang, getFlagUrl?.(lang.flagCode))),
 
-  /**
-   * Transform LanguageInfo[] (UI) to SupportedLanguageInput[] (API)
-   */
   toApi: (languageInfos: LanguageInfo[]): SupportedLanguageInput[] =>
     languageInfos.map((lang) => LanguageDto.toApi(lang)),
 };
@@ -66,7 +54,7 @@ export const LanguageInfoFactory = {
    * Create LanguageInfo from Country data + language selection
    */
   fromCountryData: (country: Country, languageCode: string, languageName: string): LanguageInfo => ({
-    code: languageCode,
+    code: languageCode as LanguageInfo['code'],
     label: languageName,
     nativeLabel: country.name.nativeName?.[languageCode]?.common || languageName,
     flag: country.flags.png,

@@ -13,9 +13,12 @@ export default function ({ children }: Props) {
   const queryClient = new QueryClient({
     defaultOptions: {
       queries: {
-        retry: false, // Disable retries for local development
+        retry: 3, // Enable retries for production reliability
+        retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000), // Exponential backoff
         refetchOnMount: true,
         refetchOnWindowFocus: false,
+        staleTime: 1000 * 60 * 5, // 5 minutes default
+        gcTime: 1000 * 60 * 30, // 30 minutes default
       },
     },
   });
@@ -30,11 +33,14 @@ export default function ({ children }: Props) {
           ...data.clientState,
           queries: data.clientState.queries.filter((query: any) => {
             const queryKey = query.queryKey;
-            // Exclude admin-related queries from persistence
+            // Exclude admin-related and external API queries from persistence
             const isAdminQuery = queryKey.some(
               (key: string) =>
                 typeof key === 'string' &&
-                (key.includes('admin') || key.includes('supportedLanguages') || key.includes('Admin')),
+                (key.includes('admin') ||
+                  key.includes('supportedLanguages') ||
+                  key.includes('Admin') ||
+                  key.includes('countries')), // Exclude REST Countries API data
             );
             return !isAdminQuery;
           }),
@@ -50,7 +56,7 @@ export default function ({ children }: Props) {
       persistOptions={{ persister }}
       onSuccess={() => {
         // Optional: Handle successful hydration
-        log('Query cache hydrated!', 'grey');
+        console.log('%cQuery cache hydrated!', 'color:grey');
       }}
     >
       {children}

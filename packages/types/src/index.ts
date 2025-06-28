@@ -1,2 +1,2 @@
 export * from './language.types';
-// export * from './utils/index';
+export * from './countries.types';
