@@ -60,12 +60,15 @@ export const AdminLanguagesPage: React.FC = () => {
     const curatedLanguageOptions = convertToLanguageOptions((countryCode) =>
       getFlagUrl(countryCode, 'medium'),
     );
-    const countries = [
-      ...new Set(curatedLanguageOptions.map((option: LanguageOption) => option.countryCode)),
-    ];
 
-    return { countries, curatedLanguageOptions };
-  }, []);
+    const availableOptions = curatedLanguageOptions.filter(
+      (option: LanguageOption) =>
+        !(languages.map((lang) => lang.code) as string[]).includes(option.languageCode),
+    );
+
+    const countries = [...new Set(availableOptions.map((option: LanguageOption) => option.countryCode))];
+    return { countries, curatedLanguageOptions: availableOptions };
+  }, [languages]);
 
   const handleDeleteLanguage = async (languageCode: string) => {
     // Find the language by code to get its details

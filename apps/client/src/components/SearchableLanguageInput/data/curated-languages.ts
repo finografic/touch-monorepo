@@ -470,13 +470,15 @@ export function convertToLanguageOptions(
   getFlagUrl: (countryCode: string) => string,
   getEmoji: (countryCode: string) => string = () => '',
 ): LanguageOption[] {
-  return getCuratedLanguagesSorted().map((lang) => ({
-    languageCode: lang.code,
-    languageName: lang.name,
-    countryName: lang.region,
-    countryCode: lang.countryCode,
-    flagUrl: getFlagUrl(lang.countryCode),
-    nativeName: lang.nativeName,
-    emoji: getEmoji(lang.countryCode),
-  }));
+  return getCuratedLanguagesSorted()
+    .map((lang) => ({
+      languageCode: lang.code,
+      languageName: lang.name,
+      countryName: lang.region,
+      countryCode: lang.countryCode,
+      flagUrl: getFlagUrl(lang.countryCode),
+      nativeName: lang.nativeName,
+      emoji: getEmoji(lang.countryCode),
+    }))
+    .sort((a, b) => a.languageName.localeCompare(b.languageName));
 }
