@@ -75,4 +75,4 @@ const handleAutoTranslate = async (newLanguageCode: string) => {
     setIsTranslating(false);
   }
 };
-*//
+*/

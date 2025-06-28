@@ -11,6 +11,11 @@ export const drink_types = sqliteTable('drink_types', {
   name_es_es: text('name_es_es').notNull(), // Spanish display name
   name_en_gb: text('name_en_gb'), // English display name (optional)
   name_ca_es: text('name_ca_es'), // Catalan display name (optional)
+  // JSON translations column for dynamic language support
+  translations: text('translations', { mode: 'json' })
+    .$type<Record<string, string>>()
+    .$defaultFn(() => ({}))
+    .notNull(),
   hasSubtypes: integer('has_subtypes', { mode: 'boolean' }).notNull().default(false),
   defaultTempConsume: integer('default_temp_consume').notNull(), // in Celsius
   defaultTempFreeze: integer('default_temp_freeze').notNull(), // in Celsius
@@ -36,7 +41,7 @@ const insertDrinkTypeSchema = createInsertSchema(drink_types, {
     defaultTempConsume: true,
     defaultTempFreeze: true,
   })
-  .omit({ id: true, createdAt: true, updatedAt: true });
+  .omit({ id: true, createdAt: true, updatedAt: true, translations: true });
 
 export const drinkTypeSchemas = {
   select: createSelectSchema(drink_types),

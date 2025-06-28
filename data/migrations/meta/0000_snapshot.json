@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "6801410c-869e-48ff-9843-f171c3d02be3",
+  "id": "bf3393d3-e641-46f1-80ab-3a056532133d",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -364,6 +364,13 @@
           "notNull": false,
           "autoincrement": false
         },
+        "translations": {
+          "name": "translations",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "thermal_conductivity": {
           "name": "thermal_conductivity",
           "type": "integer",
@@ -585,6 +592,13 @@
           "type": "text",
           "primaryKey": false,
           "notNull": false,
+          "autoincrement": false
+        },
+        "translations": {
+          "name": "translations",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
           "autoincrement": false
         },
         "has_subtypes": {

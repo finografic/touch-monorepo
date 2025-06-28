@@ -90,16 +90,30 @@ async function translateDrinkTypes(sourceColumn: string, targetColumn: string, t
       console.log(`✅ ✅ ✅ "${translatedText}"`);
 
       try {
-        // Use raw SQL for dynamic columns that may not be in the schema
-        const updateSQL = `UPDATE drink_types SET "${targetColumn}" = '${translatedText.replace(/'/g, "''")}' WHERE id = '${record.id}'`;
-        await db.run(sql.raw(updateSQL));
+        // Get current translations JSON
+        const currentRecord = await db.query.drink_types.findFirst({
+          where: eq(drink_types.id, record.id),
+          columns: { translations: true },
+        });
+
+        const currentTranslations = currentRecord?.translations || {};
+        const updatedTranslations = {
+          ...currentTranslations,
+          [targetLang]: translatedText,
+        };
+
+        // Update using proper Drizzle ORM with JSON
+        await db
+          .update(drink_types)
+          .set({ translations: updatedTranslations })
+          .where(eq(drink_types.id, record.id));
 
         console.log(
-          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated with raw SQL)`,
+          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated JSON translations)`,
         );
       } catch (updateError) {
         console.error(`  ❌ Failed to update ${record.name}:`, updateError);
-        console.error(`  🔍 Attempted to set column "${targetColumn}" = "${translatedText}"`);
+        console.error(`  🔍 Attempted to set translations[${targetLang}] = "${translatedText}"`);
       }
 
       // Rate limiting to avoid API limits
@@ -163,9 +177,23 @@ async function translateContainerTypes(sourceColumn: string, targetColumn: strin
     if (sourceText) {
       const translatedText = await translateText(sourceText, targetLang);
 
-      // Use raw SQL for dynamic columns that may not be in the schema
-      const updateSQL = `UPDATE container_types SET "${targetColumn}" = '${translatedText.replace(/'/g, "''")}' WHERE id = '${record.id}'`;
-      await db.run(sql.raw(updateSQL));
+      // Get current translations JSON
+      const currentRecord = await db.query.container_types.findFirst({
+        where: eq(container_types.id, record.id),
+        columns: { translations: true },
+      });
+
+      const currentTranslations = currentRecord?.translations || {};
+      const updatedTranslations = {
+        ...currentTranslations,
+        [targetLang]: translatedText,
+      };
+
+      // Update using proper Drizzle ORM with JSON
+      await db
+        .update(container_types)
+        .set({ translations: updatedTranslations })
+        .where(eq(container_types.id, record.id));
 
       console.log(`  ✓ ${record.name}: "${sourceText}" → "${translatedText}"`);
 
