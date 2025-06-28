@@ -174,9 +174,9 @@ export const AdminLanguagesPage: React.FC = () => {
 
       setMessage({
         type: 'success',
-        text: `Successfully added ${selectedLanguages.length} language(s) with translation columns!`,
+        text: `Successfully added ${selectedLanguages.length} language(s)! Translation columns created instantly. 🌐 Auto-translation is now running in the background - check the AdminTranslationsPage in a few minutes to see the results.`,
       });
-      setTimeout(() => setMessage(null), 5000);
+      setTimeout(() => setMessage(null), 8000); // Longer timeout for longer message
     } catch (error) {
       console.error('Error saving languages:', error);
       setMessage({

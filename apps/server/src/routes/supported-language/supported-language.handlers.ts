@@ -15,8 +15,10 @@ import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import {
   createTranslationColumns,
   removeTranslationColumns,
-  validateLanguageCode,
+  translateLanguageInBackground,
+  // validateLanguageCode,
 } from 'utils/translation-columns.utils';
+import { autoTranslateExistingContent } from 'utils/auto-translate.utils';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const supportedLanguages = await db.query.supported_languages.findMany({
@@ -80,13 +82,30 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
       })
       .returning();
 
-    // Create translation columns for all translatable entities
+    // Create translation columns for all translatable entities (FAST)
     await createTranslationColumns(supportedLanguage.isoCode);
 
     console.log(
       `✅ Successfully created language ${supportedLanguage.isoCode} with translation columns (sort_order: ${nextSortOrder})`,
     );
 
+    // Start background translation (non-blocking)
+    // This runs in the background and doesn't block the response
+    setImmediate(async () => {
+      try {
+        console.log(`🔄 Starting background translation for ${supportedLanguage.isoCode}...`);
+        await translateLanguageInBackground(supportedLanguage.isoCode);
+        console.log(`🎉 Background translation completed for ${supportedLanguage.isoCode}`);
+      } catch (error) {
+        console.error(`❌ Background translation failed for ${supportedLanguage.isoCode}:`, error);
+        // In a real app, you might want to:
+        // - Update a status field in the database
+        // - Send a notification to admins
+        // - Emit a WebSocket event to update the UI
+      }
+    });
+
+    // Return immediately while translation happens in background
     return context.json(inserted, HttpStatusCodes.OK);
   } catch (error) {
     console.error('Error creating supported language:', error);

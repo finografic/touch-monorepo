@@ -2,6 +2,7 @@ import { colors, layout, min } from 'styles';
 import { css } from '@emotion/react';
 import { cssFontMono } from 'styles/fonts.styles';
 import { cssForms, cssInputBox, cssInputText, forms } from '../forms.styles';
+import { Layout } from 'lucide-react';
 
 // Base styles shared across all interactive buttons
 export const stylesAdminContent = css`
@@ -111,6 +112,74 @@ export const stylesAdminContent = css`
       /* ${cssInputBox} */
     }
   }
+
+  /* ======================================================================== */
+
+  .field-label {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: ${colors.textLight};
+    line-height: 2;
+  }
+
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
+  input[type='number'],
+  input[type='date'],
+  input[type='time'],
+  input[type='datetime-local'],
+  input[type='url'],
+  input[type='search'],
+  input:read-only {
+    /* border: 1px solid red; */
+    font-weight: 700;
+    /* background-color: ${colors.greyXLight}; */
+    /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
+    color: ${colors.primary};
+    padding: 0.5em 0.5em;
+    opacity: 0.66;
+    ::selection {
+      background-color: transparent;
+      /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
+      color: ${colors.text};
+    }
+    :focus {
+      outline: none;
+      /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
+    }
+    :before,
+    :after {
+      border: none;
+      inset: unset;
+    }
+
+    cursor: not-allowed;
+  }
+
+  select:focus,
+  textarea:focus,
+  input[type='date']:focus,
+  input[type='datetime-local']:focus,
+  input[type='email']:focus,
+  input[type='month']:focus,
+  input[type='number']:focus,
+  input[type='password']:focus,
+  input[type='search']:focus,
+  input[type='tel']:focus,
+  input[type='text']:focus,
+  input[type='time']:focus,
+  input[type='url']:focus,
+  input[type='week']:focus,
+  button:focus,
+  input[type='reset']:focus,
+  input[type='submit']:focus,
+  input[type='button']:focus,
+  input::file-selector-button:focus {
+    outline: 0;
+    border: ${layout.borderWidth} solid transparent;
+  }
+  /* ======================================================================== */
 
   /* header.page-header,
   section {

@@ -47,7 +47,7 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
                 <Grid columns={gridColumns} gap="3" align="center">
                   {/* Base name (readonly) */}
                   <Box>
-                    <Text size="1" weight="medium" color="gray" mb="1">
+                    <Text size="1" weight="medium" color="gray" mb="1" className="field-label">
                       {t('ui.forms.labels.name')}
                     </Text>
                     <TextField.Root

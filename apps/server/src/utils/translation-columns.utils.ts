@@ -1,6 +1,7 @@
 import { db } from 'db';
 import { translatable_entities } from 'db/schemas/translatable_entities.schema';
 import { sql } from 'drizzle-orm';
+import { autoTranslateExistingContent } from './auto-translate.utils';
 
 /**
  * Check if a column exists in a table (SQLite specific)
@@ -124,7 +125,7 @@ async function recreateIndexes(tableName: string): Promise<void> {
 
 /**
  * Create translation columns for a new language across all translatable entities
- * Actually executes DDL operations to modify database schema
+ * FAST operation - only creates columns, no translation
  */
 export async function createTranslationColumns(languageCode: string): Promise<void> {
   // Get all active translatable entities
@@ -166,6 +167,24 @@ export async function createTranslationColumns(languageCode: string): Promise<vo
   }
 
   console.log(`🎉 Translation column creation completed for ${languageCode}`);
+}
+
+/**
+ * Background translation process - runs separately after language is added
+ * This can take several minutes and should not block the UI
+ */
+export async function translateLanguageInBackground(languageCode: string): Promise<void> {
+  console.log(`🌐 Starting background auto-translation for language: ${languageCode}`);
+
+  try {
+    const { autoTranslateExistingContent } = await import('./auto-translate.utils');
+    await autoTranslateExistingContent(languageCode);
+    console.log(`✅ Background auto-translation completed for ${languageCode}`);
+  } catch (error) {
+    console.error(`❌ Background auto-translation failed for ${languageCode}:`, error);
+    // Could emit event or update status in database here
+    throw error;
+  }
 }
 
 /**
