@@ -10,6 +10,11 @@ export const volumes = sqliteTable('volumes', {
   name_es_es: text('name_es_es').notNull(), // Spanish display name
   name_en_gb: text('name_en_gb'), // English display name (optional)
   name_ca_es: text('name_ca_es'), // Catalan display name (optional)
+  // JSON translations column for dynamic language support
+  translations: text('translations', { mode: 'json' })
+    .$type<Record<string, string>>()
+    .$defaultFn(() => ({}))
+    .notNull(),
   valueInMl: integer('value_in_ml').notNull(), // Normalized to milliliters
   sortOrder: integer('sort_order').notNull(), // For display ordering
   coolingFactor: real('cooling_factor').notNull().default(1), // Multiplier for cooling time
@@ -37,7 +42,7 @@ const insertVolumeSchema = createInsertSchema(volumes, {
     valueInMl: true,
     sortOrder: true,
   })
-  .omit({ id: true, createdAt: true, updatedAt: true });
+  .omit({ id: true, createdAt: true, updatedAt: true, translations: true });
 
 export const volumeSchemas = {
   select: createSelectSchema(volumes),

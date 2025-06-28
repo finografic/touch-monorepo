@@ -126,17 +126,42 @@ async function translateDrinkTypes(sourceColumn: string, targetColumn: string, t
  * Translate drink subtypes
  */
 async function translateDrinkSubtypes(sourceColumn: string, targetColumn: string, targetLang: string) {
+  console.log('🍺 Translating drink_subtypes table (JSON mode)');
+
   const records = await db.query.drink_subtypes.findMany();
+  console.log(`📊 Found ${records.length} drink subtype records to translate`);
 
   for (const record of records) {
-    const sourceText = (record as any)[sourceColumn] || record.name;
+    const sourceText = record.name; // Use base name as source
     if (sourceText) {
       const translatedText = await translateText(sourceText, targetLang);
 
-      const updates = { [targetColumn]: translatedText };
-      await db.update(drink_subtypes).set(updates).where(eq(drink_subtypes.id, record.id));
+      try {
+        // Get current translations JSON
+        const currentRecord = await db.query.drink_subtypes.findFirst({
+          where: eq(drink_subtypes.id, record.id),
+          columns: { translations: true },
+        });
 
-      console.log(`  ✓ ${record.name}: "${sourceText}" → "${translatedText}"`);
+        const currentTranslations = currentRecord?.translations || {};
+        const updatedTranslations = {
+          ...currentTranslations,
+          [targetLang]: translatedText,
+        };
+
+        // Update using proper Drizzle ORM with JSON
+        await db
+          .update(drink_subtypes)
+          .set({ translations: updatedTranslations })
+          .where(eq(drink_subtypes.id, record.id));
+
+        console.log(
+          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated JSON translations)`,
+        );
+      } catch (updateError) {
+        console.error(`  ❌ Failed to update ${record.name}:`, updateError);
+        console.error(`  🔍 Attempted to set translations[${targetLang}] = "${translatedText}"`);
+      }
 
       // Rate limiting to avoid API limits
       await new Promise((resolve) => setTimeout(resolve, TRANSLATION_DELAY_MS));
@@ -148,17 +173,39 @@ async function translateDrinkSubtypes(sourceColumn: string, targetColumn: string
  * Translate volumes
  */
 async function translateVolumes(sourceColumn: string, targetColumn: string, targetLang: string) {
+  console.log('📏 Translating volumes table (JSON mode)');
+
   const records = await db.query.volumes.findMany();
+  console.log(`📊 Found ${records.length} volume records to translate`);
 
   for (const record of records) {
-    const sourceText = (record as any)[sourceColumn] || record.name;
+    const sourceText = record.name; // Use base name as source
     if (sourceText) {
       const translatedText = await translateText(sourceText, targetLang);
 
-      const updates = { [targetColumn]: translatedText };
-      await db.update(volumes).set(updates).where(eq(volumes.id, record.id));
+      try {
+        // Get current translations JSON
+        const currentRecord = await db.query.volumes.findFirst({
+          where: eq(volumes.id, record.id),
+          columns: { translations: true },
+        });
 
-      console.log(`  ✓ ${record.name}: "${sourceText}" → "${translatedText}"`);
+        const currentTranslations = currentRecord?.translations || {};
+        const updatedTranslations = {
+          ...currentTranslations,
+          [targetLang]: translatedText,
+        };
+
+        // Update using proper Drizzle ORM with JSON
+        await db.update(volumes).set({ translations: updatedTranslations }).where(eq(volumes.id, record.id));
+
+        console.log(
+          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated JSON translations)`,
+        );
+      } catch (updateError) {
+        console.error(`  ❌ Failed to update ${record.name}:`, updateError);
+        console.error(`  🔍 Attempted to set translations[${targetLang}] = "${translatedText}"`);
+      }
 
       // Rate limiting to avoid API limits
       await new Promise((resolve) => setTimeout(resolve, TRANSLATION_DELAY_MS));

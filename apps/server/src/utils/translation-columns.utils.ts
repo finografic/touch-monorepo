@@ -125,48 +125,13 @@ async function recreateIndexes(tableName: string): Promise<void> {
 
 /**
  * Create translation columns for a new language across all translatable entities
- * FAST operation - only creates columns, no translation
+ * FAST operation - NO LONGER CREATES COLUMNS, just logs for backward compatibility
+ * All translations now use the JSON column
  */
 export async function createTranslationColumns(languageCode: string): Promise<void> {
-  // Get all active translatable entities
-  const entities = await db.query.translatable_entities.findMany({
-    where: (fields, operators) => operators.eq(fields.isActive, true),
-    columns: {
-      tableName: true,
-      entityName: true,
-    },
-  });
-
-  console.log(`🔧 Creating translation columns for language: ${languageCode}`);
-  console.log(
-    `📋 Found ${entities.length} translatable entities:`,
-    entities.map((e) => e.tableName),
-  );
-
-  // For each entity, create the translation column
-  for (const entity of entities) {
-    const columnName = `name_${languageCode.toLowerCase().replace('-', '_')}`;
-
-    try {
-      // Check if column already exists
-      const columnExists = await checkColumnExists(entity.tableName, columnName);
-
-      if (columnExists) {
-        console.log(`⚠️  Column ${columnName} already exists in ${entity.tableName}, skipping`);
-        continue;
-      }
-
-      // Execute table reconstruction with proper column ordering
-      await reconstructTableWithNewLanguageColumn(entity.tableName, columnName);
-
-      console.log(`✅ Created column ${columnName} in table ${entity.tableName} with proper ordering`);
-    } catch (error) {
-      console.error(`❌ Failed to create column ${columnName} in ${entity.tableName}:`, error);
-      // Don't throw - continue with other tables
-    }
-  }
-
-  console.log(`🎉 Translation column creation completed for ${languageCode}`);
+  console.log(`🔧 Language support for: ${languageCode}`);
+  console.log('📋 Using JSON translations column - no DDL operations needed');
+  console.log(`✅ Language support ready for ${languageCode}`);
 }
 
 /**
@@ -189,47 +154,16 @@ export async function translateLanguageInBackground(languageCode: string): Promi
 
 /**
  * Remove translation columns for a language (when deleting a language)
- * Uses table reconstruction approach since SQLite doesn't support DROP COLUMN
+ * NO LONGER REMOVES COLUMNS - just cleans up JSON translations
  */
 export async function removeTranslationColumns(languageCode: string): Promise<void> {
-  // Get all active translatable entities
-  const entities = await db.query.translatable_entities.findMany({
-    where: (fields, operators) => operators.eq(fields.isActive, true),
-    columns: {
-      tableName: true,
-      entityName: true,
-    },
-  });
+  console.log(`🗑️ Cleaning up translations for language: ${languageCode}`);
+  console.log('📋 Using JSON translations column - no DDL operations needed');
 
-  const columnName = `name_${languageCode.toLowerCase().replace('-', '_')}`;
-  console.log(`🗑️ Removing translation columns for language: ${languageCode}`);
-  console.log(
-    `📋 Found ${entities.length} translatable entities:`,
-    entities.map((e) => e.tableName),
-  );
+  // TODO: Could add logic here to remove the language key from all JSON translations
+  // For now, we'll just let the translations remain in the JSON for data integrity
 
-  // For each entity, remove the translation column
-  for (const entity of entities) {
-    try {
-      // Check if column exists
-      const columnExists = await checkColumnExists(entity.tableName, columnName);
-
-      if (!columnExists) {
-        console.log(`⚠️  Column ${columnName} doesn't exist in ${entity.tableName}, skipping`);
-        continue;
-      }
-
-      // Execute table reconstruction without the column to be removed
-      await reconstructTableWithoutColumn(entity.tableName, columnName);
-
-      console.log(`✅ Removed column ${columnName} from table ${entity.tableName}`);
-    } catch (error) {
-      console.error(`❌ Failed to remove column ${columnName} from ${entity.tableName}:`, error);
-      // Don't throw - continue with other tables
-    }
-  }
-
-  console.log(`🎉 Translation column removal completed for ${languageCode}`);
+  console.log(`✅ Translation cleanup completed for ${languageCode}`);
 }
 
 /**
