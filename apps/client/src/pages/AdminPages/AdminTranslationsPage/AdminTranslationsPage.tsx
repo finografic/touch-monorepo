@@ -11,6 +11,8 @@ import { useBatchUpdateTranslations, useGetAllTranslations } from 'api/hooks/use
 
 import {
   compareTranslationItems,
+  convertLegacyFieldsToTranslations,
+  convertTranslationsToLegacyFields,
   ensureLanguageFields,
   getLanguageCodesFromData,
   getLanguageFieldName,
@@ -21,7 +23,7 @@ import type {
   DrinkTypeUpdate,
   VolumeUpdate,
 } from 'api/endpoints/translations.endpoints';
-import { useGetSupportedLanguages } from 'queries/supported-languages';
+import { LanguagesDto, useGetSupportedLanguages } from 'queries/supported-languages';
 
 // Create dynamic schema based on supported languages
 const createTranslationSchema = (
@@ -115,15 +117,17 @@ export const AdminTranslationsPage: React.FC = () => {
   // Track if form has been initialized to prevent re-initialization
   const isInitialized = useRef(false);
 
-  // Use supported languages or fallback to default
+  // Use supported languages from database - don't render until loaded
+  // Convert to format expected by AdminTranslationsPage (needs isoCode field)
   const supportedLanguages = useMemo(() => {
-    return (
-      supportedLanguagesData || [
-        { isoCode: 'es-ES', displayName: 'Spanish', nativeName: 'Español' },
-        { isoCode: 'en-GB', displayName: 'English', nativeName: 'English' },
-        { isoCode: 'ca-ES', displayName: 'Catalan', nativeName: 'Català' },
-      ]
-    );
+    if (!supportedLanguagesData) return [];
+
+    // Map the database format to what AdminTranslationsPage expects
+    return supportedLanguagesData.map((lang) => ({
+      isoCode: lang.isoCode,
+      displayName: lang.displayName,
+      nativeName: lang.nativeName,
+    }));
   }, [supportedLanguagesData]);
 
   // Memoize default values to prevent unnecessary re-renders
@@ -143,7 +147,13 @@ export const AdminTranslationsPage: React.FC = () => {
 
   // Add delay to ensure data is fully loaded before showing the form
   useEffect(() => {
-    if (translationsData && !isLoading && supportedLanguagesData && !languagesLoading) {
+    if (
+      translationsData &&
+      !isLoading &&
+      supportedLanguagesData &&
+      supportedLanguagesData.length > 0 &&
+      !languagesLoading
+    ) {
       // Small delay to ensure all data is properly loaded
       const timer = setTimeout(() => {
         setIsDataReady(true);
@@ -155,21 +165,41 @@ export const AdminTranslationsPage: React.FC = () => {
     }
   }, [translationsData, isLoading, supportedLanguagesData, languagesLoading]);
 
+  // Convert JSON translations to legacy field format for form compatibility
+  const convertedTranslationsData = useMemo(() => {
+    if (!translationsData || supportedLanguages.length === 0) return translationsData;
+
+    return {
+      drinkTypes: translationsData.drinkTypes.map((item) =>
+        convertTranslationsToLegacyFields(item, supportedLanguages),
+      ),
+      drinkSubtypes: translationsData.drinkSubtypes.map((item) =>
+        convertTranslationsToLegacyFields(item, supportedLanguages),
+      ),
+      volumes: translationsData.volumes.map((item) =>
+        convertTranslationsToLegacyFields(item, supportedLanguages),
+      ),
+      containerTypes: translationsData.containerTypes.map((item) =>
+        convertTranslationsToLegacyFields(item, supportedLanguages),
+      ),
+    };
+  }, [translationsData, supportedLanguages]);
+
   // Update form when data is loaded from API - prevent infinite loop
   useEffect(() => {
-    if (translationsData && isDataReady && !isInitialized.current) {
-      methods.reset(translationsData);
+    if (convertedTranslationsData && isDataReady && !isInitialized.current) {
+      methods.reset(convertedTranslationsData);
       isInitialized.current = true;
     }
-  }, [translationsData, isDataReady, methods]);
+  }, [convertedTranslationsData, isDataReady, methods]);
 
   // Memoized reset function to prevent re-renders
   const handleReset = useCallback(() => {
-    if (translationsData) {
-      methods.reset(translationsData);
+    if (convertedTranslationsData) {
+      methods.reset(convertedTranslationsData);
       isInitialized.current = true; // Mark as initialized after manual reset
     }
-  }, [translationsData, methods.reset]);
+  }, [convertedTranslationsData, methods.reset]);
 
   const onSubmit = useCallback(
     async (data: TranslationFormData) => {
@@ -184,7 +214,10 @@ export const AdminTranslationsPage: React.FC = () => {
               const original = translationsData.drinkTypes.find((orig) => orig.id === item.id);
               if (!original) return null;
 
-              const changes = compareTranslationItems(item, original, supportedLanguages);
+              // Convert form data (legacy fields) back to JSON format for comparison
+              const convertedItem = convertLegacyFieldsToTranslations(item, supportedLanguages);
+
+              const changes = compareTranslationItems(convertedItem, original, supportedLanguages);
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
             .filter(Boolean) as Array<{ id: string; updates: DrinkTypeUpdate }>;
@@ -202,7 +235,10 @@ export const AdminTranslationsPage: React.FC = () => {
               const original = translationsData.drinkSubtypes.find((orig) => orig.id === item.id);
               if (!original) return null;
 
-              const changes = compareTranslationItems(item, original, supportedLanguages);
+              // Convert form data (legacy fields) back to JSON format for comparison
+              const convertedItem = convertLegacyFieldsToTranslations(item, supportedLanguages);
+
+              const changes = compareTranslationItems(convertedItem, original, supportedLanguages);
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
             .filter(Boolean) as Array<{ id: string; updates: DrinkSubtypeUpdate }>;
@@ -222,7 +258,10 @@ export const AdminTranslationsPage: React.FC = () => {
               const original = translationsData.volumes.find((orig) => orig.id === item.id);
               if (!original) return null;
 
-              const changes = compareTranslationItems(item, original, supportedLanguages);
+              // Convert form data (legacy fields) back to JSON format for comparison
+              const convertedItem = convertLegacyFieldsToTranslations(item, supportedLanguages);
+
+              const changes = compareTranslationItems(convertedItem, original, supportedLanguages);
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
             .filter(Boolean) as Array<{ id: string; updates: VolumeUpdate }>;
@@ -239,7 +278,10 @@ export const AdminTranslationsPage: React.FC = () => {
               const original = translationsData.containerTypes.find((orig) => orig.id === item.id);
               if (!original) return null;
 
-              const changes = compareTranslationItems(item, original, supportedLanguages);
+              // Convert form data (legacy fields) back to JSON format for comparison
+              const convertedItem = convertLegacyFieldsToTranslations(item, supportedLanguages);
+
+              const changes = compareTranslationItems(convertedItem, original, supportedLanguages);
               return Object.keys(changes).length > 0 ? { id: item.id, updates: changes } : null;
             })
             .filter(Boolean) as Array<{ id: string; updates: ContainerTypeUpdate }>;
@@ -305,7 +347,7 @@ export const AdminTranslationsPage: React.FC = () => {
     ],
   );
 
-  if (isLoading || languagesLoading || !isDataReady) {
+  if (isLoading || languagesLoading || !isDataReady || supportedLanguages.length === 0) {
     return (
       <AdminContentLayout
         title={t('admin.title')}
@@ -314,7 +356,13 @@ export const AdminTranslationsPage: React.FC = () => {
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
-          <Text>{isLoading ? t('ui.states.loading') : 'Loading supported languages...'}</Text>
+          <Text>
+            {isLoading
+              ? t('ui.states.loading')
+              : languagesLoading
+                ? 'Loading supported languages...'
+                : 'Preparing translation form...'}
+          </Text>
         </Flex>
       </AdminContentLayout>
     );

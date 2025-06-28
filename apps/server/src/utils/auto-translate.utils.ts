@@ -3,31 +3,18 @@ import { drink_types } from 'db/schemas/drink_types.schema';
 import { drink_subtypes } from 'db/schemas/drink_subtypes.schema';
 import { volumes } from 'db/schemas/volumes.schema';
 import { container_types } from 'db/schemas/container_types.schema';
-import { eq, sql } from 'drizzle-orm';
-import { checkColumnExists } from './translation-columns.utils';
+import { eq } from 'drizzle-orm';
 
 // Rate limiting configuration to avoid API limits
 const TRANSLATION_DELAY_MS = 1000; // 1 second between translations
+const BATCH_SIZE = 3; // Process records in small batches to manage memory
 
 /**
- * Auto-translate existing content when a new language is added
- * Uses English as the source language and translates to the target language
+ * Initialize new language key in all existing translations JSON
+ * This should be called when a new language is added, before auto-translation
  */
-export async function autoTranslateExistingContent(targetLanguageCode: string): Promise<void> {
-  console.log(`🌐 Starting auto-translation for language: ${targetLanguageCode}`);
-
-  const sourceLanguage = 'en-GB'; // Use English as source
-
-  // Convert language code to column name format
-  // Handle both formats: 'fra' -> 'name_fra', 'fr-FR' -> 'name_fr_fr'
-  const normalizeColumnName = (langCode: string): string => {
-    return `name_${langCode.toLowerCase().replace('-', '_')}`;
-  };
-
-  const targetColumn = normalizeColumnName(targetLanguageCode);
-  const sourceColumn = normalizeColumnName(sourceLanguage);
-
-  console.log(`📋 Column mapping: ${sourceColumn} → ${targetColumn}`);
+export async function initializeNewLanguageInTranslations(languageCode: string): Promise<void> {
+  console.log(`🔧 Initializing language key "${languageCode}" in all existing translations...`);
 
   try {
     // Get all translatable entities
@@ -36,30 +23,154 @@ export async function autoTranslateExistingContent(targetLanguageCode: string): 
     });
 
     for (const entity of entities) {
-      console.log(`📝 Processing ${entity.tableName}...`);
-
-      // Check if target column exists before attempting translation
-      const columnExists = await checkColumnExists(entity.tableName, targetColumn);
-      if (!columnExists) {
-        console.warn(
-          `⚠️  Column "${targetColumn}" does not exist in table "${entity.tableName}". Skipping translation.`,
-        );
-        continue;
-      }
-      console.log(`✅ Column "${targetColumn}" exists in table "${entity.tableName}"`);
+      console.log(`📝 Initializing ${entity.tableName}...`);
 
       switch (entity.tableName) {
         case 'drink_types':
-          await translateDrinkTypes(sourceColumn, targetColumn, targetLanguageCode);
+          await initializeDrinkTypes(languageCode);
           break;
         case 'drink_subtypes':
-          await translateDrinkSubtypes(sourceColumn, targetColumn, targetLanguageCode);
+          await initializeDrinkSubtypes(languageCode);
           break;
         case 'volumes':
-          await translateVolumes(sourceColumn, targetColumn, targetLanguageCode);
+          await initializeVolumes(languageCode);
           break;
         case 'container_types':
-          await translateContainerTypes(sourceColumn, targetColumn, targetLanguageCode);
+          await initializeContainerTypes(languageCode);
+          break;
+        default:
+          console.warn(`⚠️ Unknown table: ${entity.tableName}`);
+      }
+    }
+
+    console.log(`✅ Language key "${languageCode}" initialized in all translations`);
+  } catch (error) {
+    console.error(`❌ Failed to initialize language key "${languageCode}":`, error);
+    throw error;
+  }
+}
+
+/**
+ * Initialize language key in drink_types translations
+ */
+async function initializeDrinkTypes(languageCode: string) {
+  const records = await db.query.drink_types.findMany();
+
+  for (const record of records) {
+    if (!record.translations?.[languageCode]) {
+      const updatedTranslations = {
+        ...(record.translations || {}),
+        [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
+      };
+
+      await db
+        .update(drink_types)
+        .set({ translations: updatedTranslations })
+        .where(eq(drink_types.id, record.id));
+    }
+  }
+  console.log(`✅ Initialized ${records.length} drink_types records`);
+}
+
+/**
+ * Initialize language key in drink_subtypes translations
+ */
+async function initializeDrinkSubtypes(languageCode: string) {
+  const records = await db.query.drink_subtypes.findMany();
+
+  for (const record of records) {
+    if (!record.translations?.[languageCode]) {
+      const updatedTranslations = {
+        ...(record.translations || {}),
+        [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
+      };
+
+      await db
+        .update(drink_subtypes)
+        .set({ translations: updatedTranslations })
+        .where(eq(drink_subtypes.id, record.id));
+    }
+  }
+  console.log(`✅ Initialized ${records.length} drink_subtypes records`);
+}
+
+/**
+ * Initialize language key in volumes translations
+ */
+async function initializeVolumes(languageCode: string) {
+  const records = await db.query.volumes.findMany();
+
+  for (const record of records) {
+    if (!record.translations?.[languageCode]) {
+      const updatedTranslations = {
+        ...(record.translations || {}),
+        [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
+      };
+
+      await db.update(volumes).set({ translations: updatedTranslations }).where(eq(volumes.id, record.id));
+    }
+  }
+  console.log(`✅ Initialized ${records.length} volumes records`);
+}
+
+/**
+ * Initialize language key in container_types translations
+ */
+async function initializeContainerTypes(languageCode: string) {
+  const records = await db.query.container_types.findMany();
+
+  for (const record of records) {
+    if (!record.translations?.[languageCode]) {
+      const updatedTranslations = {
+        ...(record.translations || {}),
+        [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
+      };
+
+      await db
+        .update(container_types)
+        .set({ translations: updatedTranslations })
+        .where(eq(container_types.id, record.id));
+    }
+  }
+  console.log(`✅ Initialized ${records.length} container_types records`);
+}
+
+/**
+ * Auto-translate existing content when a new language is added
+ * Uses English (en-GB) as the source language and translates to the target language
+ * Now works with JSON translations column
+ */
+export async function autoTranslateExistingContent(targetLanguageCode: string): Promise<void> {
+  console.log(`🌐 Starting auto-translation for language: ${targetLanguageCode}`);
+
+  const sourceLanguage = 'en-GB'; // Use English as source
+
+  try {
+    // First, initialize the language key in all existing translations
+    await initializeNewLanguageInTranslations(targetLanguageCode);
+
+    // Get all translatable entities
+    const entities = await db.query.translatable_entities.findMany({
+      where: (fields, operators) => operators.eq(fields.isActive, true),
+    });
+
+    console.log(`📋 Found ${entities.length} translatable entities to process`);
+
+    for (const entity of entities) {
+      console.log(`📝 Processing ${entity.tableName} with JSON translations...`);
+
+      switch (entity.tableName) {
+        case 'drink_types':
+          await translateDrinkTypes(sourceLanguage, targetLanguageCode);
+          break;
+        case 'drink_subtypes':
+          await translateDrinkSubtypes(sourceLanguage, targetLanguageCode);
+          break;
+        case 'volumes':
+          await translateVolumes(sourceLanguage, targetLanguageCode);
+          break;
+        case 'container_types':
+          await translateContainerTypes(sourceLanguage, targetLanguageCode);
           break;
         default:
           console.warn(`⚠️ Unknown table: ${entity.tableName}`);
@@ -74,46 +185,44 @@ export async function autoTranslateExistingContent(targetLanguageCode: string): 
 }
 
 /**
- * Translate drink types
+ * Translate drink types using JSON translations column
  */
-async function translateDrinkTypes(sourceColumn: string, targetColumn: string, targetLang: string) {
-  console.log(`🍺 Translating drink_types table: ${sourceColumn} → ${targetColumn}`);
+async function translateDrinkTypes(sourceLang: string, targetLang: string) {
+  console.log(`🍺 Translating drink_types table: ${sourceLang} → ${targetLang}`);
 
   const records = await db.query.drink_types.findMany();
   console.log(`📊 Found ${records.length} drink type records to translate`);
 
   for (const record of records) {
-    const sourceText = (record as any)[sourceColumn] || record.name;
+    // Skip if translation already exists and is not null/empty
+    if (record.translations?.[targetLang]) {
+      console.log(`⏭️ Skipping ${record.name} - translation already exists`);
+      continue;
+    }
+
+    // Get source text - prefer existing translation, fallback to name
+    const sourceText = record.translations?.[sourceLang] || record.name;
+
     if (sourceText) {
+      console.log(`🔤 Translating "${sourceText}" to ${targetLang}...`);
       const translatedText = await translateText(sourceText, targetLang);
 
-      console.log(`✅ ✅ ✅ "${translatedText}"`);
-
       try {
-        // Get current translations JSON
-        const currentRecord = await db.query.drink_types.findFirst({
-          where: eq(drink_types.id, record.id),
-          columns: { translations: true },
-        });
-
-        const currentTranslations = currentRecord?.translations || {};
+        // Update JSON translations
+        const currentTranslations = record.translations || {};
         const updatedTranslations = {
           ...currentTranslations,
           [targetLang]: translatedText,
         };
 
-        // Update using proper Drizzle ORM with JSON
         await db
           .update(drink_types)
           .set({ translations: updatedTranslations })
           .where(eq(drink_types.id, record.id));
 
-        console.log(
-          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated JSON translations)`,
-        );
+        console.log(`✅ ${record.name}: "${sourceText}" → "${translatedText}"`);
       } catch (updateError) {
-        console.error(`  ❌ Failed to update ${record.name}:`, updateError);
-        console.error(`  🔍 Attempted to set translations[${targetLang}] = "${translatedText}"`);
+        console.error(`❌ Failed to update ${record.name}:`, updateError);
       }
 
       // Rate limiting to avoid API limits
@@ -123,44 +232,44 @@ async function translateDrinkTypes(sourceColumn: string, targetColumn: string, t
 }
 
 /**
- * Translate drink subtypes
+ * Translate drink subtypes using JSON translations column
  */
-async function translateDrinkSubtypes(sourceColumn: string, targetColumn: string, targetLang: string) {
-  console.log('🍺 Translating drink_subtypes table (JSON mode)');
+async function translateDrinkSubtypes(sourceLang: string, targetLang: string) {
+  console.log(`🍺 Translating drink_subtypes table: ${sourceLang} → ${targetLang}`);
 
   const records = await db.query.drink_subtypes.findMany();
   console.log(`📊 Found ${records.length} drink subtype records to translate`);
 
   for (const record of records) {
-    const sourceText = record.name; // Use base name as source
+    // Skip if translation already exists and is not null/empty
+    if (record.translations?.[targetLang]) {
+      console.log(`⏭️ Skipping ${record.name} - translation already exists`);
+      continue;
+    }
+
+    // Get source text - prefer existing translation, fallback to name
+    const sourceText = record.translations?.[sourceLang] || record.name;
+
     if (sourceText) {
+      console.log(`🔤 Translating "${sourceText}" to ${targetLang}...`);
       const translatedText = await translateText(sourceText, targetLang);
 
       try {
-        // Get current translations JSON
-        const currentRecord = await db.query.drink_subtypes.findFirst({
-          where: eq(drink_subtypes.id, record.id),
-          columns: { translations: true },
-        });
-
-        const currentTranslations = currentRecord?.translations || {};
+        // Update JSON translations
+        const currentTranslations = record.translations || {};
         const updatedTranslations = {
           ...currentTranslations,
           [targetLang]: translatedText,
         };
 
-        // Update using proper Drizzle ORM with JSON
         await db
           .update(drink_subtypes)
           .set({ translations: updatedTranslations })
           .where(eq(drink_subtypes.id, record.id));
 
-        console.log(
-          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated JSON translations)`,
-        );
+        console.log(`✅ ${record.name}: "${sourceText}" → "${translatedText}"`);
       } catch (updateError) {
-        console.error(`  ❌ Failed to update ${record.name}:`, updateError);
-        console.error(`  🔍 Attempted to set translations[${targetLang}] = "${translatedText}"`);
+        console.error(`❌ Failed to update ${record.name}:`, updateError);
       }
 
       // Rate limiting to avoid API limits
@@ -170,41 +279,41 @@ async function translateDrinkSubtypes(sourceColumn: string, targetColumn: string
 }
 
 /**
- * Translate volumes
+ * Translate volumes using JSON translations column
  */
-async function translateVolumes(sourceColumn: string, targetColumn: string, targetLang: string) {
-  console.log('📏 Translating volumes table (JSON mode)');
+async function translateVolumes(sourceLang: string, targetLang: string) {
+  console.log(`📏 Translating volumes table: ${sourceLang} → ${targetLang}`);
 
   const records = await db.query.volumes.findMany();
   console.log(`📊 Found ${records.length} volume records to translate`);
 
   for (const record of records) {
-    const sourceText = record.name; // Use base name as source
+    // Skip if translation already exists and is not null/empty
+    if (record.translations?.[targetLang]) {
+      console.log(`⏭️ Skipping ${record.name} - translation already exists`);
+      continue;
+    }
+
+    // Get source text - prefer existing translation, fallback to name
+    const sourceText = record.translations?.[sourceLang] || record.name;
+
     if (sourceText) {
+      console.log(`🔤 Translating "${sourceText}" to ${targetLang}...`);
       const translatedText = await translateText(sourceText, targetLang);
 
       try {
-        // Get current translations JSON
-        const currentRecord = await db.query.volumes.findFirst({
-          where: eq(volumes.id, record.id),
-          columns: { translations: true },
-        });
-
-        const currentTranslations = currentRecord?.translations || {};
+        // Update JSON translations
+        const currentTranslations = record.translations || {};
         const updatedTranslations = {
           ...currentTranslations,
           [targetLang]: translatedText,
         };
 
-        // Update using proper Drizzle ORM with JSON
         await db.update(volumes).set({ translations: updatedTranslations }).where(eq(volumes.id, record.id));
 
-        console.log(
-          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated JSON translations)`,
-        );
+        console.log(`✅ ${record.name}: "${sourceText}" → "${translatedText}"`);
       } catch (updateError) {
-        console.error(`  ❌ Failed to update ${record.name}:`, updateError);
-        console.error(`  🔍 Attempted to set translations[${targetLang}] = "${translatedText}"`);
+        console.error(`❌ Failed to update ${record.name}:`, updateError);
       }
 
       // Rate limiting to avoid API limits
@@ -214,35 +323,45 @@ async function translateVolumes(sourceColumn: string, targetColumn: string, targ
 }
 
 /**
- * Translate container types
+ * Translate container types using JSON translations column
  */
-async function translateContainerTypes(sourceColumn: string, targetColumn: string, targetLang: string) {
+async function translateContainerTypes(sourceLang: string, targetLang: string) {
+  console.log(`📦 Translating container_types table: ${sourceLang} → ${targetLang}`);
+
   const records = await db.query.container_types.findMany();
+  console.log(`📊 Found ${records.length} container type records to translate`);
 
   for (const record of records) {
-    const sourceText = (record as any)[sourceColumn] || record.name;
+    // Skip if translation already exists and is not null/empty
+    if (record.translations?.[targetLang]) {
+      console.log(`⏭️ Skipping ${record.name} - translation already exists`);
+      continue;
+    }
+
+    // Get source text - prefer existing translation, fallback to name
+    const sourceText = record.translations?.[sourceLang] || record.name;
+
     if (sourceText) {
+      console.log(`🔤 Translating "${sourceText}" to ${targetLang}...`);
       const translatedText = await translateText(sourceText, targetLang);
 
-      // Get current translations JSON
-      const currentRecord = await db.query.container_types.findFirst({
-        where: eq(container_types.id, record.id),
-        columns: { translations: true },
-      });
+      try {
+        // Update JSON translations
+        const currentTranslations = record.translations || {};
+        const updatedTranslations = {
+          ...currentTranslations,
+          [targetLang]: translatedText,
+        };
 
-      const currentTranslations = currentRecord?.translations || {};
-      const updatedTranslations = {
-        ...currentTranslations,
-        [targetLang]: translatedText,
-      };
+        await db
+          .update(container_types)
+          .set({ translations: updatedTranslations })
+          .where(eq(container_types.id, record.id));
 
-      // Update using proper Drizzle ORM with JSON
-      await db
-        .update(container_types)
-        .set({ translations: updatedTranslations })
-        .where(eq(container_types.id, record.id));
-
-      console.log(`  ✓ ${record.name}: "${sourceText}" → "${translatedText}"`);
+        console.log(`✅ ${record.name}: "${sourceText}" → "${translatedText}"`);
+      } catch (updateError) {
+        console.error(`❌ Failed to update ${record.name}:`, updateError);
+      }
 
       // Rate limiting to avoid API limits
       await new Promise((resolve) => setTimeout(resolve, TRANSLATION_DELAY_MS));

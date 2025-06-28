@@ -2,13 +2,11 @@ import { api } from 'api';
 import type { ApiResponse } from '@workspace/core/api';
 import { transformAxiosError__V2 } from '../api.utils';
 
-// Types for translation entities based on server schemas
+// Types for translation entities - now using dynamic Record for translations
 export interface DrinkTypeTranslation {
   id: string;
   name: string;
-  name_es_es: string;
-  name_en_gb: string;
-  name_ca_es: string;
+  translations: Record<string, string>; // Dynamic translations from JSON
   hasSubtypes?: boolean;
   isActive?: boolean;
 }
@@ -16,9 +14,7 @@ export interface DrinkTypeTranslation {
 export interface DrinkSubtypeTranslation {
   id: string;
   name: string;
-  name_es_es: string;
-  name_en_gb: string;
-  name_ca_es: string;
+  translations: Record<string, string>; // Dynamic translations from JSON
   drinkTypeId: string;
   isActive?: boolean;
 }
@@ -26,27 +22,64 @@ export interface DrinkSubtypeTranslation {
 export interface VolumeTranslation {
   id: string;
   name: string;
-  name_es_es: string;
-  name_en_gb: string;
-  name_ca_es: string;
+  translations: Record<string, string>; // Dynamic translations from JSON
   isActive?: boolean;
 }
 
 export interface ContainerTypeTranslation {
   id: string;
   name: string;
-  name_es_es: string;
-  name_en_gb: string;
-  name_ca_es: string;
+  translations: Record<string, string>; // Dynamic translations from JSON
   thermalConductivity?: number;
   isActive?: boolean;
 }
 
-// Translation update types (for PATCH requests)
+// Update types - now work with translations object
 export type DrinkTypeUpdate = Partial<Omit<DrinkTypeTranslation, 'id'>>;
 export type DrinkSubtypeUpdate = Partial<Omit<DrinkSubtypeTranslation, 'id'>>;
 export type VolumeUpdate = Partial<Omit<VolumeTranslation, 'id'>>;
 export type ContainerTypeUpdate = Partial<Omit<ContainerTypeTranslation, 'id'>>;
+
+// Cache for supported languages to avoid repeated API calls
+let supportedLanguagesCache: Array<{ isoCode: string; sortOrder: number }> | null = null;
+let cacheExpiry = 0;
+
+// Helper function to get supported languages with caching
+const getSupportedLanguages = async (): Promise<Array<{ isoCode: string; sortOrder: number }>> => {
+  const now = Date.now();
+
+  // Return cached data if still valid (5 minutes cache)
+  if (supportedLanguagesCache && now < cacheExpiry) {
+    return supportedLanguagesCache;
+  }
+
+  try {
+    const response = await api.get('/supported-languages');
+    const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
+
+    // Sort by sort_order to ensure proper ordering
+    const languageData = data
+      .filter((lang: any) => lang.isActive)
+      .map((lang: any) => ({
+        isoCode: lang.isoCode,
+        sortOrder: lang.sortOrder || 0,
+      }))
+      .sort((a: { sortOrder: number }, b: { sortOrder: number }) => a.sortOrder - b.sortOrder);
+
+    supportedLanguagesCache = languageData;
+
+    cacheExpiry = now + 5 * 60 * 1000; // 5 minutes
+    return languageData;
+  } catch (error) {
+    console.warn('Failed to fetch supported languages, using fallback:', error);
+    // Fallback to original languages if API fails
+    return [
+      { isoCode: 'es-ES', sortOrder: 1 },
+      { isoCode: 'en-GB', sortOrder: 2 },
+      { isoCode: 'ca-ES', sortOrder: 3 },
+    ];
+  }
+};
 
 /**
  * Helper function to handle API responses with error transformation
@@ -61,14 +94,12 @@ const handleApiCall = async <T>(apiCall: () => Promise<any>): Promise<T> => {
 };
 
 /**
- * Helper to transform server response to frontend format (using snake_case for translation fields)
+ * Helper to transform server response to frontend format using JSON translations
  */
 const transformDrinkType = (serverData: any): DrinkTypeTranslation => ({
   id: serverData.id,
   name: serverData.name,
-  name_es_es: serverData.name_es_es || serverData.name,
-  name_en_gb: serverData.name_en_gb || serverData.name,
-  name_ca_es: serverData.name_ca_es || serverData.name,
+  translations: serverData.translations || {}, // Use JSON translations directly
   hasSubtypes: serverData.hasSubtypes ?? serverData.has_subtypes ?? false,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });
@@ -76,9 +107,7 @@ const transformDrinkType = (serverData: any): DrinkTypeTranslation => ({
 const transformDrinkSubtype = (serverData: any): DrinkSubtypeTranslation => ({
   id: serverData.id,
   name: serverData.name,
-  name_es_es: serverData.name_es_es || serverData.name,
-  name_en_gb: serverData.name_en_gb || serverData.name,
-  name_ca_es: serverData.name_ca_es || serverData.name,
+  translations: serverData.translations || {}, // Use JSON translations directly
   drinkTypeId: serverData.drinkTypeId || serverData.drink_type_id,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });
@@ -86,18 +115,14 @@ const transformDrinkSubtype = (serverData: any): DrinkSubtypeTranslation => ({
 const transformVolume = (serverData: any): VolumeTranslation => ({
   id: serverData.id,
   name: serverData.name,
-  name_es_es: serverData.name_es_es || serverData.name,
-  name_en_gb: serverData.name_en_gb || serverData.name,
-  name_ca_es: serverData.name_ca_es || serverData.name,
+  translations: serverData.translations || {}, // Use JSON translations directly
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });
 
 const transformContainerType = (serverData: any): ContainerTypeTranslation => ({
   id: serverData.id,
   name: serverData.name,
-  name_es_es: serverData.name_es_es || serverData.name,
-  name_en_gb: serverData.name_en_gb || serverData.name,
-  name_ca_es: serverData.name_ca_es || serverData.name,
+  translations: serverData.translations || {}, // Use JSON translations directly
   thermalConductivity: serverData.thermalConductivity || serverData.thermal_conductivity,
   isActive: serverData.isActive ?? serverData.is_active ?? true,
 });

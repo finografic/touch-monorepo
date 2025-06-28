@@ -57,7 +57,10 @@ export const getAllSchemas = ({ seedOrder }: { seedOrder: SeedConfig[] }) =>
 export const validateDependencies = ({
   seedOrder,
   selectedSchemas,
-}: { seedOrder: SeedConfig[]; selectedSchemas: string[] }) => {
+}: {
+  seedOrder: SeedConfig[];
+  selectedSchemas: string[];
+}) => {
   const missing: { schema: string; dependencies: string[] }[] = [];
 
   selectedSchemas.forEach((schema) => {
@@ -77,7 +80,10 @@ export const validateDependencies = ({
 export const getSortedSchemas = ({
   seedOrder,
   selectedSchemas,
-}: { seedOrder: SeedConfig[]; selectedSchemas: string[] }) => {
+}: {
+  seedOrder: SeedConfig[];
+  selectedSchemas: string[];
+}) => {
   const result: string[] = [];
   const visited = new Set<string>();
 
@@ -122,7 +128,7 @@ export const getSchemaSelection = async ({ seedOrder }: { seedOrder: SeedConfig[
     choices: schemas.map((schema) => ({
       name: schema,
       value: schema,
-      checked: false,
+      checked: true,
     })),
   });
 
