@@ -34,10 +34,6 @@ export const styles = css`
     }
   }
 
-  .laungauge-data-stats {
-    /* display: block; */
-  }
-
   .language-item {
     &:before,
     &:after {
