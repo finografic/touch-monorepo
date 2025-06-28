@@ -5,6 +5,7 @@ import type { LanguageInfo } from 'types/language.types';
 import { canDeleteLanguage } from 'utils/language.utils';
 import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
 import clsx from 'clsx';
+import { LanguageItem } from './LanguageItem';
 
 interface LanguagesListProps {
   languages: LanguageInfo[];
@@ -35,30 +36,7 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
         return (
           <Card key={language.id || language.code} className="language-item">
             <Flex className="language-item-row">
-              <Flex align="stretch" gap="3">
-                <Flex className="col col-flag">
-                  {/* Flag Column */}
-                  <img
-                    className="language-flag"
-                    src={language.flag}
-                    alt={`${language.label} flag`}
-                    width="40"
-                    height="30"
-                    style={{ borderRadius: '3px' }}
-                  />
-                </Flex>
-
-                {/* Language Info Columns */}
-                <Flex direction="column" gap="1" className="col col-names">
-                  <Text weight="bold" size="3">
-                    {language.label} - {language.code}
-                  </Text>
-
-                  <Text size="2" color="gray">
-                    {language.label} - {language.nativeLabel}
-                  </Text>
-                </Flex>
-              </Flex>
+              <LanguageItem language={language} />
 
               <Flex align="stretch" gap="3">
                 {language.isDefault && (

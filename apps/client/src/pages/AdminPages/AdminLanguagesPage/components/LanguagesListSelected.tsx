@@ -1,9 +1,10 @@
 import React from 'react';
-import { Box, Callout, Card, Flex, Heading, IconButton, Text } from '@radix-ui/themes';
+import { Box, Callout, Card, Flex, Heading, IconButton } from '@radix-ui/themes';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { TrashIcon } from 'styles/icons';
 import type { LanguageInfo } from 'types/language.types';
 import clsx from 'clsx';
+import { LanguageItem } from './LanguageItem';
 
 interface LanguagesListSelectedProps {
   selectedLanguages: LanguageInfo[];
@@ -53,37 +54,7 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
           {selectedLanguages.map((language) => (
             <Card key={language.id || `${language.code}-${language.countryCode}`} className="language-item">
               <Flex className="language-item-row">
-                {/* ========================================================== */}
-
-                <Flex align="stretch" gap="3">
-                  <Flex className="col col-flag">
-                    {/* Flag Column */}
-                    <img
-                      className="language-flag"
-                      src={language.flag}
-                      alt={`${language.label} flag`}
-                      width="40"
-                      height="30"
-                      style={{ borderRadius: '3px' }}
-                    />
-                  </Flex>
-
-                  {/* Language Info Columns */}
-                  <Flex direction="column" gap="1" className="col col-names">
-                    <Text weight="bold" size="3">
-                      {language.label} - {language.code}
-                    </Text>
-
-                    <Text size="2" color="gray">
-                      {language.countryName || 'Unknown Country'}
-                      {language.nativeLabel && language.nativeLabel !== language.label && (
-                        <> • {language.nativeLabel}</>
-                      )}
-                    </Text>
-                  </Flex>
-                </Flex>
-
-                {/* ========================================================== */}
+                <LanguageItem language={language} />
 
                 <Flex align="stretch" gap="3">
                   {/* Delete Button */}
