@@ -1,12 +1,11 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Box, Button, Callout, Flex, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { AdminContentLayout, AdminSection, SectionHeader } from '../shared';
 import { styles } from './AdminLanguagesPage.styles';
-import { SearchableLanguageInput } from 'components/SearchableLanguageInput';
-import languagesData from 'components/LanguageSelector/languages/languages.data.min.json';
-import type { Country } from 'components/LanguageSelector/languages/country.types';
+import { SearchableLanguageInputCurated } from 'components/SearchableLanguageInput/SearchableLanguageInputCurated';
+import { convertToLanguageOptions } from 'components/SearchableLanguageInput/data/curated-languages';
 import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';
 import { LanguageDeleteDialog } from './components/LanguageDeleteDialog';
 import type { LanguageInfo } from 'types/language.types';
@@ -32,17 +31,54 @@ interface LanguageOption {
 }
 
 // Utility function to convert search results to LanguageInfo
-const convertSearchResultToLanguageInfo = (searchResult: LanguageOption): LanguageInfo => ({
-  code: searchResult.languageCode as any, // Type assertion for flexible language codes
-  label: searchResult.languageName,
-  nativeLabel: searchResult.nativeName || searchResult.languageName,
-  flag: searchResult.flagUrl,
-  countryName: searchResult.countryName,
-  countryCode: searchResult.countryCode,
-  isActive: true, // New languages are active by default
-  isDefault: false,
-  sortOrder: 0,
-});
+const convertSearchResultToLanguageInfo = (searchResult: LanguageOption): LanguageInfo => {
+  // Convert 3-letter ISO codes to proper locale format (fra -> fr-FR)
+  const convertLanguageCode = (langCode: string, countryCode: string): string => {
+    const iso3to2Map: Record<string, string> = {
+      fra: 'fr', // French
+      eng: 'en', // English
+      spa: 'es', // Spanish
+      deu: 'de', // German
+      ita: 'it', // Italian
+      por: 'pt', // Portuguese
+      nld: 'nl', // Dutch
+      rus: 'ru', // Russian
+      jpn: 'ja', // Japanese
+      kor: 'ko', // Korean
+      chi: 'zh', // Chinese
+      ara: 'ar', // Arabic
+      cat: 'ca', // Catalan
+    };
+
+    // If it's a 3-letter code, convert to 2-letter and add country
+    if (iso3to2Map[langCode.toLowerCase()]) {
+      const twoLetterCode = iso3to2Map[langCode.toLowerCase()];
+      return `${twoLetterCode}-${countryCode.toUpperCase()}`;
+    }
+
+    // If it's already a 2-letter code, add country
+    if (langCode.length === 2) {
+      return `${langCode.toLowerCase()}-${countryCode.toUpperCase()}`;
+    }
+
+    // Fallback to original code
+    return langCode;
+  };
+
+  const properLanguageCode = convertLanguageCode(searchResult.languageCode, searchResult.countryCode);
+
+  return {
+    code: properLanguageCode as any,
+    label: searchResult.languageName,
+    nativeLabel: searchResult.nativeName || searchResult.languageName,
+    flag: searchResult.flagUrl,
+    countryName: searchResult.countryName,
+    countryCode: searchResult.countryCode,
+    isActive: true, // New languages are active by default
+    isDefault: false,
+    sortOrder: 0,
+  };
+};
 
 export const AdminLanguagesPage: React.FC = () => {
   const { t } = useTranslation();
@@ -69,6 +105,11 @@ export const AdminLanguagesPage: React.FC = () => {
     isOpen: false,
     language: null,
   });
+
+  // Convert curated languages to the format expected by SearchableLanguageInput
+  const curatedLanguageOptions = useMemo(() => {
+    return convertToLanguageOptions((countryCode) => getFlagUrl(countryCode, 'medium'));
+  }, []);
 
   const handleDeleteLanguage = async (languageCode: string) => {
     // Find the language by code to get its details
@@ -271,13 +312,17 @@ export const AdminLanguagesPage: React.FC = () => {
               title="Add New Language"
               description='Search by language name, country, or language code (e.g., "French", "Germany", "es-ES")'
             />
-            <SearchableLanguageInput
-              countriesData={languagesData as Country[]}
+            <SearchableLanguageInputCurated
+              languageOptions={curatedLanguageOptions}
               onLanguageSelect={handleLanguageSelect}
-              placeholder="Search languages with simple sliding window..."
+              placeholder="Search curated languages (40 options)..."
               windowSize={40}
             />
-            <LaungaugeDataStats selectedLanguages={selectedLanguages} />
+            <LaungaugeDataStats
+              selectedLanguages={selectedLanguages}
+              totalCountries={40}
+              totalLanguages={40}
+            />
           </Box>
 
           {/* Selected Languages Section */}

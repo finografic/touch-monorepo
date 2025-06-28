@@ -52,7 +52,7 @@
     "db.setup": "tsx scripts/src/db-setup/db-setup.ts",
     "db.setup.v2": "NODE_OPTIONS='--import tsx' db-setup",
     "·········· DB.UTILS": "··················································",
-    "db.drop": "shx rm -rf data/*.sqlite.db",
+    "db.drop": "shx rm -rf data/*.sqlite.db data/migrations",
     "db.create": "pnpm --filter @workspace/server db.create",
     "db.studio": "pnpm --filter @workspace/server db.studio",
     "·········· DB.DATA": "·················································",

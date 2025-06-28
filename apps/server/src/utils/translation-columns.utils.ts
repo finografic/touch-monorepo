@@ -6,7 +6,7 @@ import { autoTranslateExistingContent } from './auto-translate.utils';
 /**
  * Check if a column exists in a table (SQLite specific)
  */
-async function checkColumnExists(tableName: string, columnName: string): Promise<boolean> {
+export async function checkColumnExists(tableName: string, columnName: string): Promise<boolean> {
   try {
     const result = await db.all(sql.raw(`PRAGMA table_info(${tableName})`));
     return result.some((row: any) => row.name === columnName);

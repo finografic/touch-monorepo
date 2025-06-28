@@ -4,6 +4,7 @@ import { drink_subtypes } from 'db/schemas/drink_subtypes.schema';
 import { volumes } from 'db/schemas/volumes.schema';
 import { container_types } from 'db/schemas/container_types.schema';
 import { eq } from 'drizzle-orm';
+import { checkColumnExists } from './translation-columns.utils';
 
 // Rate limiting configuration to avoid API limits
 const TRANSLATION_DELAY_MS = 1000; // 1 second between translations
@@ -16,8 +17,17 @@ export async function autoTranslateExistingContent(targetLanguageCode: string): 
   console.log(`🌐 Starting auto-translation for language: ${targetLanguageCode}`);
 
   const sourceLanguage = 'en-GB'; // Use English as source
-  const targetColumn = `name_${targetLanguageCode.toLowerCase().replace('-', '_')}`;
-  const sourceColumn = `name_${sourceLanguage.toLowerCase().replace('-', '_')}`;
+
+  // Convert language code to column name format
+  // Handle both formats: 'fra' -> 'name_fra', 'fr-FR' -> 'name_fr_fr'
+  const normalizeColumnName = (langCode: string): string => {
+    return `name_${langCode.toLowerCase().replace('-', '_')}`;
+  };
+
+  const targetColumn = normalizeColumnName(targetLanguageCode);
+  const sourceColumn = normalizeColumnName(sourceLanguage);
+
+  console.log(`📋 Column mapping: ${sourceColumn} → ${targetColumn}`);
 
   try {
     // Get all translatable entities
@@ -27,6 +37,16 @@ export async function autoTranslateExistingContent(targetLanguageCode: string): 
 
     for (const entity of entities) {
       console.log(`📝 Processing ${entity.tableName}...`);
+
+      // Check if target column exists before attempting translation
+      const columnExists = await checkColumnExists(entity.tableName, targetColumn);
+      if (!columnExists) {
+        console.warn(
+          `⚠️  Column "${targetColumn}" does not exist in table "${entity.tableName}". Skipping translation.`,
+        );
+        continue;
+      }
+      console.log(`✅ Column "${targetColumn}" exists in table "${entity.tableName}"`);
 
       switch (entity.tableName) {
         case 'drink_types':
@@ -57,20 +77,30 @@ export async function autoTranslateExistingContent(targetLanguageCode: string): 
  * Translate drink types
  */
 async function translateDrinkTypes(sourceColumn: string, targetColumn: string, targetLang: string) {
+  console.log(`🍺 Translating drink_types table: ${sourceColumn} → ${targetColumn}`);
+
   const records = await db.query.drink_types.findMany();
+  console.log(`📊 Found ${records.length} drink type records to translate`);
 
   for (const record of records) {
     const sourceText = (record as any)[sourceColumn] || record.name;
     if (sourceText) {
       const translatedText = await translateText(sourceText, targetLang);
 
-      // Update the record with the translated text
-      await db
-        .update(drink_types)
-        .set({ [targetColumn]: translatedText } as any)
-        .where(eq(drink_types.id, record.id));
+      try {
+        // Update the record with the translated text
+        const updateResult = await db
+          .update(drink_types)
+          .set({ [targetColumn]: translatedText } as any)
+          .where(eq(drink_types.id, record.id));
 
-      console.log(`  ✓ ${record.name}: "${sourceText}" → "${translatedText}"`);
+        console.log(
+          `  ✅ ${record.name}: "${sourceText}" → "${translatedText}" (Updated: ${JSON.stringify(updateResult)})`,
+        );
+      } catch (updateError) {
+        console.error(`  ❌ Failed to update ${record.name}:`, updateError);
+        console.error(`  🔍 Attempted to set column "${targetColumn}" = "${translatedText}"`);
+      }
 
       // Rate limiting to avoid API limits
       await new Promise((resolve) => setTimeout(resolve, TRANSLATION_DELAY_MS));
@@ -158,8 +188,34 @@ async function translateContainerTypes(sourceColumn: string, targetColumn: strin
  * 4. Fallback to marked text
  */
 async function translateText(text: string, targetLanguage: string): Promise<string> {
-  // Get the base language code (fr-FR -> fr)
-  const baseLang = targetLanguage.split('-')[0];
+  // Get the base language code (fr-FR -> fr, en-GB -> en)
+  let baseLang = targetLanguage.split('-')[0].toLowerCase();
+
+  // Convert 3-letter ISO codes to 2-letter codes for Google Translate
+  const iso3to2Map: Record<string, string> = {
+    fra: 'fr', // French
+    eng: 'en', // English
+    spa: 'es', // Spanish
+    deu: 'de', // German
+    ita: 'it', // Italian
+    por: 'pt', // Portuguese
+    nld: 'nl', // Dutch
+    rus: 'ru', // Russian
+    jpn: 'ja', // Japanese
+    kor: 'ko', // Korean
+    chi: 'zh', // Chinese
+    ara: 'ar', // Arabic
+    cat: 'ca', // Catalan
+  };
+
+  // Convert 3-letter to 2-letter if needed
+  if (iso3to2Map[baseLang]) {
+    const originalLang = baseLang;
+    baseLang = iso3to2Map[baseLang];
+    console.log(`🔄 Converted ISO 639-2 to ISO 639-1: "${originalLang}" → "${baseLang}"`);
+  }
+
+  console.log(`🔤 Final language code for translation APIs: "${baseLang}"`);
 
   // Simple mapping for common terms as fallback
   const simpleTranslations: Record<string, Record<string, string>> = {
