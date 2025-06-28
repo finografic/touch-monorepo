@@ -14,13 +14,6 @@ import type { RegionLocale, LanguageConfigMap, LangCode } from '@workspace/types
 export const DEFAULT_LANG_CODE: LangCode = 'es';
 export const DEFAULT_LOCALE: RegionLocale = 'es-ES';
 
-// Language configuration mapping (keep this here as it's app-specific config)
-export const LANGUAGE_CONFIG = {
-  'es-ES': { iso: 'ES', nativeKey: 'spa' },
-  'en-GB': { iso: 'GB', nativeKey: 'eng' },
-  'ca-ES': { iso: 'ES', nativeKey: 'cat' },
-} as const satisfies Partial<LanguageConfigMap>;
-
 // Supported locales for the application (~80 entries)
 export const SUPPORTED_LOCALES = [
   // Spanish (Español)
