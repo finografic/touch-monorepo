@@ -1,6 +1,6 @@
 import { useCalculateTemperature } from 'queries/temperature';
 import type { DrinkVolume } from 'types/models/volume.model';
-import type { ErrorResponse } from '@workspace/shared/types';
+import type { ErrorResponse } from '@workspace/types';
 import type { OrderItem } from 'types/orders.types';
 
 export const useTemperatureCalculation = (
