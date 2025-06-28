@@ -2,8 +2,8 @@ import { db } from 'db';
 import { drink_types } from 'db/schemas/drink_types.schema';
 import { drink_subtypes } from 'db/schemas/drink_subtypes.schema';
 import { volumes } from 'db/schemas/volumes.schema';
-import { container_types } from 'db/schemas/container_types.schema';
-import { eq } from 'drizzle-orm';
+import { container_types, containerTypeSchemas } from 'db/schemas/container_types.schema';
+import { eq, sql } from 'drizzle-orm';
 import { checkColumnExists } from './translation-columns.utils';
 
 // Rate limiting configuration to avoid API limits
@@ -50,17 +50,16 @@ export async function autoTranslateExistingContent(targetLanguageCode: string): 
 
       switch (entity.tableName) {
         case 'drink_types':
-          console.log('🚧 drink_types - ');
           await translateDrinkTypes(sourceColumn, targetColumn, targetLanguageCode);
           break;
-        case 'drink_subtypes':
-          // await translateDrinkSubtypes(sourceColumn, targetColumn, targetLanguageCode);
-          break;
-        case 'volumes':
-          // await translateVolumes(sourceColumn, targetColumn, targetLanguageCode);
-          break;
+        // case 'drink_subtypes':
+        //   await translateDrinkSubtypes(sourceColumn, targetColumn, targetLanguageCode);
+        //   break;
+        // case 'volumes':
+        //   await translateVolumes(sourceColumn, targetColumn, targetLanguageCode);
+        //   break;
         case 'container_types':
-          // await translateContainerTypes(sourceColumn, targetColumn, targetLanguageCode);
+          await translateContainerTypes(sourceColumn, targetColumn, targetLanguageCode);
           break;
         default:
           console.warn(`⚠️ Unknown table: ${entity.tableName}`);
@@ -91,14 +90,24 @@ async function translateDrinkTypes(sourceColumn: string, targetColumn: string, t
       console.log(`✅ ✅ ✅ "${translatedText}"`);
 
       try {
+        // Create the update object dynamically
+        const updates = { [targetColumn]: translatedText };
+        console.log('🔍 Update object:', updates);
+
         // Update the record with the translated text
-        const updateResult = await db
+        const [updatedRecord] = await db
           .update(drink_types)
-          .set({ [targetColumn]: translatedText } as any)
-          .where(eq(drink_types.id, record.id));
+          .set(updates)
+          .where(eq(drink_types.id, record.id))
+          .returning();
+
+        console.log('🚧 drink_types - UPDATES:', JSON.stringify(updates));
+        console.log('🚧 drink_types - drink_types.id:', drink_types.id);
+        console.log('🚧 drink_types - record.id:', record.id);
+        console.log('🟢 drink_types - updatedRecord:', updatedRecord);
 
         console.log(
-          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated: ${JSON.stringify(updateResult)})`,
+          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated: ${updatedRecord ? 'SUCCESS' : 'FAILED'})`,
         );
       } catch (updateError) {
         console.error(`  ❌ Failed to update ${record.name}:`, updateError);
@@ -122,10 +131,8 @@ async function translateDrinkSubtypes(sourceColumn: string, targetColumn: string
     if (sourceText) {
       const translatedText = await translateText(sourceText, targetLang);
 
-      await db
-        .update(drink_subtypes)
-        .set({ [targetColumn]: translatedText } as any)
-        .where(eq(drink_subtypes.id, record.id));
+      const updates = { [targetColumn]: translatedText };
+      await db.update(drink_subtypes).set(updates).where(eq(drink_subtypes.id, record.id));
 
       console.log(`  ✓ ${record.name}: "${sourceText}" → "${translatedText}"`);
 
@@ -146,10 +153,8 @@ async function translateVolumes(sourceColumn: string, targetColumn: string, targ
     if (sourceText) {
       const translatedText = await translateText(sourceText, targetLang);
 
-      await db
-        .update(volumes)
-        .set({ [targetColumn]: translatedText } as any)
-        .where(eq(volumes.id, record.id));
+      const updates = { [targetColumn]: translatedText };
+      await db.update(volumes).set(updates).where(eq(volumes.id, record.id));
 
       console.log(`  ✓ ${record.name}: "${sourceText}" → "${translatedText}"`);
 
@@ -170,10 +175,18 @@ async function translateContainerTypes(sourceColumn: string, targetColumn: strin
     if (sourceText) {
       const translatedText = await translateText(sourceText, targetLang);
 
-      await db
+      const updates = { [targetColumn]: translatedText };
+      const [updatedRecord] = await db
         .update(container_types)
-        .set({ [targetColumn]: translatedText } as any)
-        .where(eq(container_types.id, record.id));
+        .set(updates)
+        .where(eq(container_types.id, record.id))
+        .returning();
+
+      console.log('🚀 container_types - TABLE_NAME:', container_types);
+      console.log('🚧 container_types - UPDATES:', JSON.stringify(updates));
+      console.log('🚧 container_types - container_types.id:', container_types.id);
+      console.log('🚧 container_types - record.id:', record.id);
+      console.log('🟢 container_types - updatedRecord:', updatedRecord);
 
       console.log(`  ✓ ${record.name}: "${sourceText}" → "${translatedText}"`);
 
@@ -392,12 +405,12 @@ async function translateWithUnofficialGoogle(text: string, targetLang: string): 
         const apiX = await import('google-translate-api-x');
         translate = apiX.translate;
 
-        log('🌐 api-x ==========>', 'yellow', translate);
+        // log('🌐 api-x ==========>', 'yellow', translate);
       } catch {
         // Fallback to @vitalets/google-translate-api if google-translate-api-x is not available
         const vitalets = await import('@vitalets/google-translate-api');
         translate = vitalets.translate;
-        log('🌐 @vitalets ==========>', 'yellow', translate);
+        // log('🌐 @vitalets ==========>', 'yellow', translate);
       }
 
       const result = await translate(text, {
