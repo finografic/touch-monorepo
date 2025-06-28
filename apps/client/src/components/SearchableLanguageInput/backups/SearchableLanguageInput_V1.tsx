@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { matchSorter } from 'match-sorter';
 import { Box, Card, Flex, Text, TextField } from '@radix-ui/themes';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { styles } from './SearchableLanguageInput.styles';
-import type { Country } from '../LanguageSelector/languages/country.types';
+import { styles } from '../SearchableLanguageInput.styles';
+import type { Country } from '../../LanguageSelector/languages/country.types';
 
 interface LanguageOption {
   languageCode: string;
@@ -15,26 +15,23 @@ interface LanguageOption {
   emoji?: string;
 }
 
-interface SearchableLanguageInputSlidingProps {
+interface SearchableLanguageInputProps {
   countriesData: Country[];
   onLanguageSelect: (option: LanguageOption) => void;
   placeholder?: string;
   disabled?: boolean;
-  windowSize?: number; // Size of the sliding window
 }
 
-export const SearchableLanguageInputSliding: React.FC<SearchableLanguageInputSlidingProps> = ({
+export const SearchableLanguageInput: React.FC<SearchableLanguageInputProps> = ({
   countriesData,
   onLanguageSelect,
-  placeholder = 'Search languages, countries, or codes... (Sliding Window)',
+  placeholder = 'Search languages, countries, or codes...',
   disabled = false,
-  windowSize = 40,
 }) => {
   const [searchValue, setSearchValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
-  const [displayStart, setDisplayStart] = useState(0);
-  const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [displayCount, setDisplayCount] = useState(25);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -73,87 +70,42 @@ export const SearchableLanguageInputSliding: React.FC<SearchableLanguageInputSli
     }
 
     return matchSorter(languageOptions, searchValue, {
-      keys: ['languageCode', 'languageName', 'nativeName', 'countryCode', 'countryName'],
+      // keys: ['languageCode', 'languageName', 'countryName', 'countryCode', 'nativeName'], // NOTE: V1
+      keys: ['languageCode', 'languageName', 'nativeName', 'countryCode', 'countryName'], // NOTE: V2
       threshold: matchSorter.rankings.CONTAINS,
     });
   }, [languageOptions, searchValue]);
 
-  // Simple sliding window - just slice the array
-  const slidingWindow = useMemo(() => {
-    const totalItems = allFilteredOptions.length;
-    if (totalItems === 0) return { items: [], startIndex: 0, endIndex: 0, totalItems: 0 };
-
-    const endIndex = Math.min(totalItems, displayStart + windowSize);
-
-    return {
-      items: allFilteredOptions.slice(displayStart, endIndex),
-      startIndex: displayStart,
-      endIndex,
-      totalItems,
-    };
-  }, [allFilteredOptions, displayStart, windowSize]);
+  // Apply display limit for performance
+  const filteredOptions = useMemo(() => {
+    return allFilteredOptions.slice(0, displayCount);
+  }, [allFilteredOptions, displayCount]);
 
   const handleSelectOption = (option: LanguageOption) => {
     onLanguageSelect(option);
     setSearchValue('');
     setIsOpen(false);
     setFocusedIndex(-1);
-    setDisplayStart(0); // Reset to beginning
-    setLastScrollTop(0); // Reset scroll tracking
+    setDisplayCount(25); // Reset display count
     inputRef.current?.blur();
   };
 
   // Handle clicking on the input field to open dropdown
   const handleInputClick = () => {
     setIsOpen(true);
-    setDisplayStart(0); // Reset to beginning
-    setLastScrollTop(0); // Reset scroll tracking
-    if (slidingWindow.items.length > 0) {
+    setDisplayCount(25); // Reset to initial count
+    if (filteredOptions.length > 0) {
       setFocusedIndex(0);
     }
   };
 
-  // TODO: SLIDING WINDOW SCROLL ISSUE
-  // Current Issue: Upward scrolling still has buggy behavior where users get "stuck"
-  // at window boundaries and need to scroll back-and-forth to make progress upward.
-  //
-  // Problem Analysis:
-  // 1. When sliding window moves backward (up), the scroll container's content shrinks
-  // 2. This causes the scroll position to "reset" and user loses momentum
-  // 3. User must scroll down slightly to build up scroll distance before triggering upward slide again
-  // 4. Creates frustrating back-and-forth motion to reach earlier items
-  //
-  // Potential Solutions to Explore:
-  // 1. Implement proper virtual scrolling with fixed container height (like original attempt)
-  // 2. Use scroll velocity/momentum detection instead of position-based triggers
-  // 3. Implement smooth scrolling with programmatic scroll position management
-  // 4. Consider pagination-style approach with prev/next buttons
-  // 5. Use intersection observer API to detect when to slide window
-  //
-  // Current State: Basic bidirectional sliding that works but has UX issues going upward
-  // This version is stable and doesn't crash, good baseline for future improvements
-
-  // Bidirectional scroll handler - slide window in both directions
+  // Handle scroll to load more options
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
-    const isNearBottom = scrollTop + clientHeight >= scrollHeight - 10;
-    const isNearTop = scrollTop <= 10;
+    const isNearBottom = scrollTop + clientHeight >= scrollHeight - 5;
 
-    // Determine scroll direction
-    const isScrollingDown = scrollTop > lastScrollTop;
-    const isScrollingUp = scrollTop < lastScrollTop;
-
-    // Update last scroll position
-    setLastScrollTop(scrollTop);
-
-    // Slide window forward when scrolling down and near bottom
-    if (isScrollingDown && isNearBottom && slidingWindow.endIndex < allFilteredOptions.length) {
-      setDisplayStart((prev) => Math.min(prev + 10, Math.max(0, allFilteredOptions.length - windowSize)));
-    }
-
-    // Slide window backward when scrolling up and near top
-    if (isScrollingUp && isNearTop && slidingWindow.startIndex > 0) {
-      setDisplayStart((prev) => Math.max(0, prev - 10));
+    if (isNearBottom && displayCount < allFilteredOptions.length) {
+      setDisplayCount((prev) => Math.min(prev + 25, allFilteredOptions.length));
     }
   };
 
@@ -170,7 +122,7 @@ export const SearchableLanguageInputSliding: React.FC<SearchableLanguageInputSli
 
     switch (e.key) {
       case 'ArrowDown':
-        setFocusedIndex((prev) => (prev < slidingWindow.items.length - 1 ? prev + 1 : prev));
+        setFocusedIndex((prev) => (prev < filteredOptions.length - 1 ? prev + 1 : prev));
         e.preventDefault();
         break;
       case 'ArrowUp':
@@ -178,16 +130,15 @@ export const SearchableLanguageInputSliding: React.FC<SearchableLanguageInputSli
         e.preventDefault();
         break;
       case 'Enter':
-        if (focusedIndex >= 0 && slidingWindow.items[focusedIndex]) {
-          handleSelectOption(slidingWindow.items[focusedIndex]);
+        if (focusedIndex >= 0 && filteredOptions[focusedIndex]) {
+          handleSelectOption(filteredOptions[focusedIndex]);
         }
         e.preventDefault();
         break;
       case 'Escape':
         setIsOpen(false);
         setFocusedIndex(-1);
-        setDisplayStart(0);
-        setLastScrollTop(0);
+        setDisplayCount(25); // Reset display count
         inputRef.current?.blur();
         break;
     }
@@ -203,8 +154,7 @@ export const SearchableLanguageInputSliding: React.FC<SearchableLanguageInputSli
       ) {
         setIsOpen(false);
         setFocusedIndex(-1);
-        setDisplayStart(0);
-        setLastScrollTop(0);
+        setDisplayCount(25); // Reset display count
       }
     };
 
@@ -260,10 +210,10 @@ export const SearchableLanguageInputSliding: React.FC<SearchableLanguageInputSli
               border: '1px solid #a3a3a3',
             }}
           >
-            {slidingWindow.items.length > 0 ? (
-              slidingWindow.items.map((option, index) => (
+            {filteredOptions.length > 0 ? (
+              filteredOptions.map((option, index) => (
                 <div
-                  key={`${option.languageCode}-${option.countryCode}-${slidingWindow.startIndex + index}`}
+                  key={`${option.languageCode}-${option.countryCode}`}
                   className={`option ${index === focusedIndex ? 'focused' : ''}`}
                   onClick={() => handleSelectOption(option)}
                   onMouseEnter={() => setFocusedIndex(index)}
@@ -313,19 +263,11 @@ export const SearchableLanguageInputSliding: React.FC<SearchableLanguageInputSli
               </Box>
             )}
 
-            {/* Simple Debug Info */}
-            {slidingWindow.totalItems > windowSize && (
-              <Box
-                p="2"
-                style={{
-                  textAlign: 'center',
-                  borderTop: '1px solid var(--gray-6)',
-                  background: 'var(--gray-2)',
-                }}
-              >
-                <Text size="1" color="blue">
-                  🎭 Simple Window: Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
-                  {slidingWindow.totalItems} • Window Size: {windowSize} • Scroll for more
+            {/* Load More Indicator */}
+            {filteredOptions.length < allFilteredOptions.length && (
+              <Box p="3" style={{ textAlign: 'center', borderTop: '1px solid var(--gray-6)' }}>
+                <Text size="1" color="gray">
+                  Showing {filteredOptions.length} of {allFilteredOptions.length} • Scroll for more
                 </Text>
               </Box>
             )}
