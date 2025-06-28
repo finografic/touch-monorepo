@@ -50,16 +50,17 @@ export async function autoTranslateExistingContent(targetLanguageCode: string): 
 
       switch (entity.tableName) {
         case 'drink_types':
+          console.log('🚧 drink_types - ');
           await translateDrinkTypes(sourceColumn, targetColumn, targetLanguageCode);
           break;
         case 'drink_subtypes':
-          await translateDrinkSubtypes(sourceColumn, targetColumn, targetLanguageCode);
+          // await translateDrinkSubtypes(sourceColumn, targetColumn, targetLanguageCode);
           break;
         case 'volumes':
-          await translateVolumes(sourceColumn, targetColumn, targetLanguageCode);
+          // await translateVolumes(sourceColumn, targetColumn, targetLanguageCode);
           break;
         case 'container_types':
-          await translateContainerTypes(sourceColumn, targetColumn, targetLanguageCode);
+          // await translateContainerTypes(sourceColumn, targetColumn, targetLanguageCode);
           break;
         default:
           console.warn(`⚠️ Unknown table: ${entity.tableName}`);
@@ -87,6 +88,8 @@ async function translateDrinkTypes(sourceColumn: string, targetColumn: string, t
     if (sourceText) {
       const translatedText = await translateText(sourceText, targetLang);
 
+      console.log(`✅ ✅ ✅ "${translatedText}"`);
+
       try {
         // Update the record with the translated text
         const updateResult = await db
@@ -95,7 +98,7 @@ async function translateDrinkTypes(sourceColumn: string, targetColumn: string, t
           .where(eq(drink_types.id, record.id));
 
         console.log(
-          `  ✅ ${record.name}: "${sourceText}" → "${translatedText}" (Updated: ${JSON.stringify(updateResult)})`,
+          ` ========== ✅ ========== ${record.name}: "${sourceText}" → "${translatedText}" (Updated: ${JSON.stringify(updateResult)})`,
         );
       } catch (updateError) {
         console.error(`  ❌ Failed to update ${record.name}:`, updateError);
@@ -302,23 +305,23 @@ async function translateText(text: string, targetLanguage: string): Promise<stri
   };
 
   // Try simple translation first (most reliable)
-  if (simpleTranslations[baseLang] && simpleTranslations[baseLang][text]) {
-    console.log(`  📚 Simple translation: "${text}" → "${simpleTranslations[baseLang][text]}" (${baseLang})`);
-    return simpleTranslations[baseLang][text];
-  }
+  // if (simpleTranslations[baseLang] && simpleTranslations[baseLang][text]) {
+  //   console.log(`  📚 Simple translation: "${text}" → "${simpleTranslations[baseLang][text]}" (${baseLang})`);
+  //   return simpleTranslations[baseLang][text];
+  // }
 
   // Try Google Cloud Translate (official API with key)
-  if (process.env.GOOGLE_TRANSLATE_API_KEY) {
-    try {
-      const result = await translateWithGoogleCloud(text, baseLang);
-      if (result) {
-        console.log(`  ☁️ Google Cloud: "${text}" → "${result}" (${baseLang})`);
-        return result;
-      }
-    } catch (error: any) {
-      console.warn(`  ⚠️ Google Cloud Translate failed: ${error.message}`);
-    }
-  }
+  // if (process.env.GOOGLE_TRANSLATE_API_KEY) {
+  //   try {
+  //     const result = await translateWithGoogleCloud(text, baseLang);
+  //     if (result) {
+  //       console.log(`  ☁️ Google Cloud: "${text}" → "${result}" (${baseLang})`);
+  //       return result;
+  //     }
+  //   } catch (error: any) {
+  //     console.warn(`  ⚠️ Google Cloud Translate failed: ${error.message}`);
+  //   }
+  // }
 
   // Try unofficial Google Translate (backup)
   try {
@@ -379,6 +382,8 @@ async function translateWithGoogleCloud(text: string, targetLang: string): Promi
 async function translateWithUnofficialGoogle(text: string, targetLang: string): Promise<string | null> {
   let retries = 2; // Reduced retries since it's unreliable
 
+  log('🌐 ==========>', 'yellow', targetLang);
+
   while (retries > 0) {
     try {
       // Try google-translate-api-x first (if available)
@@ -386,10 +391,13 @@ async function translateWithUnofficialGoogle(text: string, targetLang: string): 
       try {
         const apiX = await import('google-translate-api-x');
         translate = apiX.translate;
+
+        log('🌐 api-x ==========>', 'yellow', translate);
       } catch {
         // Fallback to @vitalets/google-translate-api if google-translate-api-x is not available
         const vitalets = await import('@vitalets/google-translate-api');
         translate = vitalets.translate;
+        log('🌐 @vitalets ==========>', 'yellow', translate);
       }
 
       const result = await translate(text, {
@@ -399,6 +407,10 @@ async function translateWithUnofficialGoogle(text: string, targetLang: string): 
 
       // Handle different response structures
       const translatedText = result.text || result;
+
+      log('👉🏻 result', 'lime', result);
+      log('👉🏻 translatedText', 'lime', translatedText);
+
       return typeof translatedText === 'string' ? translatedText : null;
     } catch (error: any) {
       retries--;
