@@ -111,6 +111,10 @@
       "languages": {
         "title": "Language Management",
         "subtitle": "Configure system languages and localization"
+      },
+      "orders": {
+        "title": "Gestió de configuracion",
+        "subtitle": "Configurar idiomes del sistema i localització"
       }
     }
   },

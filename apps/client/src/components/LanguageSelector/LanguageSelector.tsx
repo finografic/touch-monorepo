@@ -14,7 +14,9 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
   // Fetch supported languages from database
   const { data: supportedLanguagesData, isLoading, error } = useGetSupportedLanguages();
   const languages = supportedLanguagesData
-    ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium'))
+    ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium')).filter(
+        (language) => language.isActive,
+      )
     : [];
 
   const handleLanguageChange = (languageCode: string) => {

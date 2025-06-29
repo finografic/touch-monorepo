@@ -1,1 +1,1 @@
-export * from './AdminUiLabelsPage';
+export * from './AdminOrdersPage';

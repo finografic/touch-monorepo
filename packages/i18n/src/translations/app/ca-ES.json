@@ -111,6 +111,10 @@
       "languages": {
         "title": "Gestió d'idiomes",
         "subtitle": "Configurar idiomes del sistema i localització"
+      },
+      "orders": {
+        "title": "Gestió de configuracion",
+        "subtitle": "Configurar idiomes del sistema i localització"
       }
     }
   },
