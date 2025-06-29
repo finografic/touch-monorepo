@@ -14,6 +14,7 @@ import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLan
 import { AdminUiLabelsPage } from 'pages/AdminPages/AdminUiLabelsPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
+import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
 
 export const routes: RouteObject[] = [
   {
@@ -113,6 +114,11 @@ export const routes: RouteObject[] = [
         path: 'ui-labels',
         id: 'admin-ui-labels',
         element: <AdminUiLabelsPage />,
+      },
+      {
+        path: 'orders',
+        id: 'admin-orders',
+        element: <AdminOrdersPage />,
       },
       // Future admin routes can be added here
       // {

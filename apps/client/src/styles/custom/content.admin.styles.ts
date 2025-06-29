@@ -115,11 +115,18 @@ export const stylesAdminContent = css`
 
   /* ======================================================================== */
 
-  .field-label {
-    font-size: 0.9rem;
-    font-weight: 700;
-    color: ${colors.textLight};
-    line-height: 2;
+  .item-label {
+    .value-key {
+      opacity: 0.66;
+      pointer-events: none;
+      user-select: none;
+      box-shadow: inset 0px 0px 0px 2px red;
+      outline: none;
+      &:focus-visible {
+        pointer-events: none;
+        box-shadow: inset 0px 0px 0px 2px #dcdcdc;
+      }
+    }
   }
 
   input[type='text'],

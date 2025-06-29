@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { AdminContentLayout, AdminSection, UiLabelSection } from '../shared';
-import { styles } from './AdminUiLabelsPage.styles';
+import { styles } from './AdminOrdersPage.styles';
 
 // Import the common translation files directly (these contain the UI translations)
 import { commonCa, commonEn, commonEs } from '@workspace/i18n';
@@ -84,7 +84,7 @@ const groupBySection = (flattenedData: Record<string, any>): Record<string, Reco
   return sections;
 };
 
-export const AdminUiLabelsPage: React.FC = () => {
+export const AdminOrdersPage: React.FC = () => {
   const { t } = useTranslation();
   const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; message: string } | null>(
     null,
