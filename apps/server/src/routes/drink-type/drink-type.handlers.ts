@@ -17,11 +17,12 @@ function formatDrinkType(drinkType: any) {
   };
 }
 
-export const list: AppRouteHandler<ListRoute> = async (context) => {
-  // Schema and Zod issues resolved, but complex Hono OpenAPI type inference still problematic
-  // Return functional implementation - the actual DB query works fine
-  return context.json([]);
-};
+export async function list(context: any) {
+  const drinkTypes = await db.query.drink_types.findMany({
+    where: (fields: any, operators: any) => operators.eq(fields.isActive, true),
+  });
+  return context.json(drinkTypes);
+}
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   const { id } = context.req.valid('param');
