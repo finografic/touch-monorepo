@@ -355,9 +355,9 @@ export const AdminUiLabelsPage: React.FC = () => {
             description={section.description}
             items={section.items}
             supportedLanguages={supportedLanguages}
-            onItemChange={(itemKey, languageCode, value) =>
-              handleItemChange(section.key, itemKey, languageCode, value)
-            }
+            onItemChange={(itemKey, languageCode, value) => {
+              handleItemChange(section.key, itemKey, languageCode, value);
+            }}
           />
         ))}
 
