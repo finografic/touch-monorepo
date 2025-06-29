@@ -13,8 +13,8 @@ export const container_types = sqliteTable('container_types', {
   // JSON translations column for dynamic language support
   translations: text('translations', { mode: 'json' })
     .$type<Record<string, string>>()
-    .$defaultFn(() => ({}))
-    .notNull(),
+    .notNull()
+    .default({ 'en-GB': '' }),
   thermalConductivity: integer('thermal_conductivity').notNull(), // Affects cooling time
 
   isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true),
@@ -40,7 +40,9 @@ const insertContainerTypeSchema = createInsertSchema(container_types, {
   .omit({ id: true, createdAt: true, updatedAt: true, translations: true });
 
 export const containerTypeSchemas = {
-  select: createSelectSchema(container_types),
+  select: createSelectSchema(container_types, {
+    translations: (schema) => schema.translations.optional(), // Simplified schema for translations
+  }),
   insert: insertContainerTypeSchema,
   patch: insertContainerTypeSchema.partial(),
 } as const;

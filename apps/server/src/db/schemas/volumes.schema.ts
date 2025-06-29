@@ -13,8 +13,8 @@ export const volumes = sqliteTable('volumes', {
   // JSON translations column for dynamic language support
   translations: text('translations', { mode: 'json' })
     .$type<Record<string, string>>()
-    .$defaultFn(() => ({}))
-    .notNull(),
+    .notNull()
+    .default({ 'en-GB': '' }),
   valueInMl: integer('value_in_ml').notNull(), // Normalized to milliliters
   sortOrder: integer('sort_order').notNull(), // For display ordering
   coolingFactor: real('cooling_factor').notNull().default(1), // Multiplier for cooling time
@@ -45,7 +45,9 @@ const insertVolumeSchema = createInsertSchema(volumes, {
   .omit({ id: true, createdAt: true, updatedAt: true, translations: true });
 
 export const volumeSchemas = {
-  select: createSelectSchema(volumes),
+  select: createSelectSchema(volumes, {
+    translations: (schema) => schema.translations.optional(), // Simplified schema for translations
+  }),
   insert: insertVolumeSchema,
   patch: insertVolumeSchema.partial(),
 } as const;

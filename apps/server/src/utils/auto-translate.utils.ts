@@ -57,15 +57,16 @@ async function initializeDrinkTypes(languageCode: string) {
   const records = await db.query.drink_types.findMany();
 
   for (const record of records) {
-    if (!record.translations?.[languageCode]) {
+    const currentTranslations = (record.translations as any) || {};
+    if (!currentTranslations[languageCode]) {
       const updatedTranslations = {
-        ...(record.translations || {}),
+        ...currentTranslations,
         [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
       };
 
       await db
         .update(drink_types)
-        .set({ translations: updatedTranslations })
+        .set({ translations: updatedTranslations as any })
         .where(eq(drink_types.id, record.id));
     }
   }
@@ -79,15 +80,16 @@ async function initializeDrinkSubtypes(languageCode: string) {
   const records = await db.query.drink_subtypes.findMany();
 
   for (const record of records) {
-    if (!record.translations?.[languageCode]) {
+    const currentTranslations = (record.translations as any) || {};
+    if (!currentTranslations[languageCode]) {
       const updatedTranslations = {
-        ...(record.translations || {}),
+        ...currentTranslations,
         [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
       };
 
       await db
         .update(drink_subtypes)
-        .set({ translations: updatedTranslations })
+        .set({ translations: updatedTranslations as any })
         .where(eq(drink_subtypes.id, record.id));
     }
   }
@@ -101,13 +103,17 @@ async function initializeVolumes(languageCode: string) {
   const records = await db.query.volumes.findMany();
 
   for (const record of records) {
-    if (!record.translations?.[languageCode]) {
+    const currentTranslations = (record.translations as any) || {};
+    if (!currentTranslations[languageCode]) {
       const updatedTranslations = {
-        ...(record.translations || {}),
+        ...currentTranslations,
         [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
       };
 
-      await db.update(volumes).set({ translations: updatedTranslations }).where(eq(volumes.id, record.id));
+      await db
+        .update(volumes)
+        .set({ translations: updatedTranslations as any })
+        .where(eq(volumes.id, record.id));
     }
   }
   console.log(`✅ Initialized ${records.length} volumes records`);
@@ -120,15 +126,16 @@ async function initializeContainerTypes(languageCode: string) {
   const records = await db.query.container_types.findMany();
 
   for (const record of records) {
-    if (!record.translations?.[languageCode]) {
+    const currentTranslations = (record.translations as any) || {};
+    if (!currentTranslations[languageCode]) {
       const updatedTranslations = {
-        ...(record.translations || {}),
+        ...currentTranslations,
         [languageCode]: '', // Initialize with empty string, will be populated by auto-translation
       };
 
       await db
         .update(container_types)
-        .set({ translations: updatedTranslations })
+        .set({ translations: updatedTranslations as any })
         .where(eq(container_types.id, record.id));
     }
   }

@@ -18,8 +18,8 @@ export const drink_subtypes = sqliteTable('drink_subtypes', {
   // JSON translations column for dynamic language support
   translations: text('translations', { mode: 'json' })
     .$type<Record<string, string>>()
-    .$defaultFn(() => ({}))
-    .notNull(),
+    .notNull()
+    .default({ 'en-GB': '' }),
   defaultTempConsume: integer('default_temp_consume').notNull(), // Can override parent's default
   defaultTempFreeze: integer('default_temp_freeze').notNull(), // Can override parent's default
 
@@ -49,7 +49,9 @@ const insertDrinkSubtypeSchema = createInsertSchema(drink_subtypes, {
   .omit({ id: true, createdAt: true, updatedAt: true, translations: true });
 
 export const drinkSubtypeSchemas = {
-  select: createSelectSchema(drink_subtypes),
+  select: createSelectSchema(drink_subtypes, {
+    translations: (schema) => schema.translations.optional(), // Simplified schema for translations
+  }),
   insert: insertDrinkSubtypeSchema,
   patch: insertDrinkSubtypeSchema.partial(),
 } as const;
