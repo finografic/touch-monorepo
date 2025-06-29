@@ -2,7 +2,7 @@ import '@radix-ui/themes/styles.css';
 // import 'styles/radix-ui/radix.css';
 
 import { Suspense } from 'react';
-import { ScreenClassProvider } from 'react-grid-system';
+import { ScreenClassProvider, setConfiguration } from 'react-grid-system';
 import { Theme as RadixTheme, Spinner } from '@radix-ui/themes';
 // import { Global } from '@emotion/react';
 // import { cssGlobal } from 'styles/global.styles';
@@ -26,6 +26,7 @@ const AppBaseLayout = () => (
 
 const App = () => {
   const { isInitialized, ...routesData } = useRouteMetadata();
+  setConfiguration();
 
   const router = createBrowserRouter([
     {

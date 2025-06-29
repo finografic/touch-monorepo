@@ -1,6 +1,6 @@
 import React, { memo } from 'react';
 import { useFormContext } from 'react-hook-form';
-import { Box, Flex, Heading, Text, TextField } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { TranslationSection } from './TranslationSection';
 

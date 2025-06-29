@@ -1,8 +1,7 @@
 import { setConfiguration } from 'react-grid-system';
-import type { ScreenClass } from 'styles/viewport/viewport.types';
+import type { BreakpointMap, MediaQueryMap, ScreenClass } from 'styles/viewport/viewport.types';
 import { BREAKPOINTS } from './viewport.breakpoints';
-import type { MediaQueryMap, BreakpointMap } from 'styles/viewport/viewport.types';
-import { mapNewBreakpointRules, toMediaMinWidth, toMediaMaxWidth } from 'utils/viewport.utils';
+import { mapNewBreakpointRules, toMediaMaxWidth, toMediaMinWidth } from 'utils/viewport.utils';
 
 // ======================================================================== //
 // NOTE: V1 - FOR USE in TSX FILES..
@@ -35,9 +34,9 @@ export const QUERIES_MAX: Required<Omit<BreakpointMap<string>, 'xs'>> = {
 export const sizes = Object.keys(BREAKPOINTS) as ScreenClass[];
 
 // TODO: enforce keys as breakpoint sizes
-type MediaQueries = {
+interface MediaQueries {
   [key: string]: string | number;
-};
+}
 
 // MEDIAQUERIES (VERSION v2) - for use in css-in-js style files
 export const min: MediaQueries = {};
@@ -50,7 +49,7 @@ for (const [key, value] of Object.entries(BREAKPOINTS)) {
 }
 
 const containerBreakpoints = Object.values(BREAKPOINTS).slice(1);
-const containerWidths = containerBreakpoints.map((value, index) => {
+const containerWidths = containerBreakpoints.map((value, _index) => {
   // return index === 0 ? containerBreakpoints[1] * 0.95 : value * 0.95;
   return value * 0.95;
 });

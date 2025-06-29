@@ -27,7 +27,7 @@ export const BREAKPOINTS_TW: BreakpointMap<number> = {
 export const BREAKPOINTS = BREAKPOINTS_RADIX;
 
 // Type to access either xxl or 2xl
-export type TailwindBreakpoints = {
+export interface TailwindBreakpoints {
   'xs'?: number;
   'sm': number;
   'md': number;
@@ -35,7 +35,7 @@ export type TailwindBreakpoints = {
   'xl': number;
   'xxl': number;
   '2xl': number;
-};
+}
 
 /**
  * NOTE: xs:320 as a breakpoint is redundant, as the smallest range

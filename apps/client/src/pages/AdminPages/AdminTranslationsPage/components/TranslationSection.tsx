@@ -52,9 +52,9 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
                     </Text>
                     <TextField.Root
                       {...register(`${fieldName}.${index}.name`)}
+                      className="value-key"
                       readOnly
                       variant="soft"
-                      color="gray"
                       size="3"
                     />
                   </Box>
