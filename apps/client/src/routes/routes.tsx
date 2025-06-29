@@ -116,8 +116,8 @@ export const routes: RouteObject[] = [
         element: <AdminUiLabelsPage />,
       },
       {
-        path: 'orders',
-        id: 'admin-orders',
+        path: 'orders-dev',
+        id: 'admin-orders-dev',
         element: <AdminOrdersPage />,
       },
       // Future admin routes can be added here

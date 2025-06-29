@@ -127,7 +127,7 @@ var getSchemaSelection = async ({ seedOrder }) => {
     choices: schemas.map((schema) => ({
       name: schema,
       value: schema,
-      checked: false
+      checked: true
     }))
   });
   const missingDeps = validateDependencies({ seedOrder, selectedSchemas });

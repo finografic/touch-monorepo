@@ -8,25 +8,37 @@ import type {
   RemoveRoute,
 } from './drink-type.routes';
 import { db } from 'db';
-import { drink_types } from 'db/schemas';
+import { drink_subtypes, drink_types } from 'db/schemas';
 import { eq } from 'drizzle-orm';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
-function formatDrinkType(drinkType: any) {
-  return {
-    ...drinkType,
-    createdAt: drinkType.createdAt?.toISOString() ?? null,
-    updatedAt: drinkType.updatedAt?.toISOString() ?? null,
-  };
-}
-
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const drinkTypes = await db.query.drink_types.findMany({
     where: (fields, operators) => operators.eq(fields.isActive, true),
   });
-  return context.json(drinkTypes.map(formatDrinkType));
+
+  // Manual transformation to avoid infinite type recursion
+  const formattedDrinkTypes = [];
+  for (const drinkType of drinkTypes) {
+    formattedDrinkTypes.push({
+      id: drinkType.id,
+      name: drinkType.name,
+      name_es_es: drinkType.name_es_es,
+      name_en_gb: drinkType.name_en_gb,
+      name_ca_es: drinkType.name_ca_es,
+      translations: drinkType.translations,
+      hasSubtypes: drinkType.hasSubtypes,
+      defaultTempConsume: drinkType.defaultTempConsume,
+      defaultTempFreeze: drinkType.defaultTempFreeze,
+      isActive: drinkType.isActive,
+      createdAt: drinkType.createdAt?.toISOString() ?? null,
+      updatedAt: drinkType.updatedAt?.toISOString() ?? null,
+    });
+  }
+
+  return context.json(formattedDrinkTypes);
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
@@ -39,7 +51,23 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
     return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
   }
 
-  return context.json(formatDrinkType(drinkType), HttpStatusCodes.OK);
+  return context.json(
+    {
+      id: drinkType.id,
+      name: drinkType.name,
+      name_es_es: drinkType.name_es_es,
+      name_en_gb: drinkType.name_en_gb,
+      name_ca_es: drinkType.name_ca_es,
+      translations: drinkType.translations,
+      hasSubtypes: drinkType.hasSubtypes,
+      defaultTempConsume: drinkType.defaultTempConsume,
+      defaultTempFreeze: drinkType.defaultTempFreeze,
+      isActive: drinkType.isActive,
+      createdAt: drinkType.createdAt?.toISOString() ?? null,
+      updatedAt: drinkType.updatedAt?.toISOString() ?? null,
+    },
+    HttpStatusCodes.OK,
+  );
 };
 
 export const getSubtypes: AppRouteHandler<GetSubtypesRoute> = async (context) => {
@@ -80,13 +108,49 @@ export const getSubtypes: AppRouteHandler<GetSubtypesRoute> = async (context) =>
       operators.and(operators.eq(fields.drinkTypeId, id), operators.eq(fields.isActive, true)),
   });
 
-  return context.json(subtypes.map(formatDrinkType), HttpStatusCodes.OK);
+  // Manual transformation for subtypes
+  const formattedSubtypes = [];
+  for (const subtype of subtypes) {
+    formattedSubtypes.push({
+      id: subtype.id,
+      name: subtype.name,
+      name_es_es: subtype.name_es_es,
+      name_en_gb: subtype.name_en_gb,
+      name_ca_es: subtype.name_ca_es,
+      translations: subtype.translations,
+      drinkTypeId: subtype.drinkTypeId,
+      defaultTempConsume: subtype.defaultTempConsume,
+      defaultTempFreeze: subtype.defaultTempFreeze,
+      isActive: subtype.isActive,
+      createdAt: subtype.createdAt?.toISOString() ?? null,
+      updatedAt: subtype.updatedAt?.toISOString() ?? null,
+    });
+  }
+
+  return context.json(formattedSubtypes, HttpStatusCodes.OK);
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (context) => {
   const drinkType = context.req.valid('json');
   const [inserted] = await db.insert(drink_types).values(drinkType).returning();
-  return context.json(formatDrinkType(inserted), HttpStatusCodes.OK);
+
+  return context.json(
+    {
+      id: inserted.id,
+      name: inserted.name,
+      name_es_es: inserted.name_es_es,
+      name_en_gb: inserted.name_en_gb,
+      name_ca_es: inserted.name_ca_es,
+      translations: inserted.translations,
+      hasSubtypes: inserted.hasSubtypes,
+      defaultTempConsume: inserted.defaultTempConsume,
+      defaultTempFreeze: inserted.defaultTempFreeze,
+      isActive: inserted.isActive,
+      createdAt: inserted.createdAt?.toISOString() ?? null,
+      updatedAt: inserted.updatedAt?.toISOString() ?? null,
+    },
+    HttpStatusCodes.OK,
+  );
 };
 
 export const patch: AppRouteHandler<PatchRoute> = async (context) => {
@@ -118,7 +182,23 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
   }
 
-  return context.json(formatDrinkType(drinkType), HttpStatusCodes.OK);
+  return context.json(
+    {
+      id: drinkType.id,
+      name: drinkType.name,
+      name_es_es: drinkType.name_es_es,
+      name_en_gb: drinkType.name_en_gb,
+      name_ca_es: drinkType.name_ca_es,
+      translations: drinkType.translations,
+      hasSubtypes: drinkType.hasSubtypes,
+      defaultTempConsume: drinkType.defaultTempConsume,
+      defaultTempFreeze: drinkType.defaultTempFreeze,
+      isActive: drinkType.isActive,
+      createdAt: drinkType.createdAt?.toISOString() ?? null,
+      updatedAt: drinkType.updatedAt?.toISOString() ?? null,
+    },
+    HttpStatusCodes.OK,
+  );
 };
 
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {

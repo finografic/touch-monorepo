@@ -1,400 +1,483 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AdminContentLayout, AdminSection, UiLabelSection } from '../shared';
-import { styles } from './AdminOrdersPage.styles';
+import {
+  Badge,
+  Button,
+  Callout,
+  Dialog,
+  Flex,
+  IconButton,
+  Select,
+  Spinner,
+  Table,
+  Text,
+  TextField,
+} from '@radix-ui/themes';
+import {
+  type ColumnDef,
+  createColumnHelper,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from '@tanstack/react-table';
+import { AdminContentLayout, AdminSection } from '../shared';
+import {
+  type OrderDev,
+  type OrderDevUpdate,
+  useCreateOrderDev,
+  useDeleteOrderDev,
+  useGetOrdersDev,
+  useUpdateOrderDev,
+} from 'api/hooks/useOrdersDev';
+import { PlusIcon, TrashIcon } from '@radix-ui/react-icons';
 
-// Import the common translation files directly (these contain the UI translations)
-import { commonCa, commonEn, commonEs } from '@workspace/i18n';
-
-interface SupportedLanguage {
-  isoCode: string;
-  displayName: string;
-  nativeName: string;
-}
-
-interface UiLabelItem {
-  key: string;
-  values: Record<string, string>;
-}
-
-interface UiLabelSectionData {
-  key: string;
-  title: string;
-  description: string;
-  items: UiLabelItem[];
-}
-
-// Create schema for form validation
-const createUiLabelsSchema = (t: any) => {
-  return z.object({
-    sections: z.array(
-      z.object({
-        key: z.string(),
-        items: z.array(
-          z.object({
-            key: z.string(),
-            values: z.record(z.string()),
-          }),
-        ),
-      }),
-    ),
-  });
-};
-
-type UiLabelsFormData = z.infer<ReturnType<typeof createUiLabelsSchema>>;
-
-// Helper function to flatten nested objects with dot notation
-const flattenObject = (obj: any, prefix = ''): Record<string, any> => {
-  const flattened: Record<string, any> = {};
-
-  for (const [key, value] of Object.entries(obj)) {
-    const newKey = prefix ? `${prefix}.${key}` : key;
-
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      Object.assign(flattened, flattenObject(value, newKey));
-    } else {
-      flattened[newKey] = value;
-    }
-  }
-
-  return flattened;
-};
-
-// Helper function to group flattened keys by their first level (since we already extracted 'ui')
-const groupBySection = (flattenedData: Record<string, any>): Record<string, Record<string, any>> => {
-  const sections: Record<string, Record<string, any>> = {};
-
-  for (const [key, value] of Object.entries(flattenedData)) {
-    const pathParts = key.split('.');
-    if (pathParts.length >= 2) {
-      const sectionKey = pathParts[0]; // buttons, forms, navigation, etc.
-      const itemKey = pathParts.slice(1).join('.'); // The rest of the path
-
-      if (!sections[sectionKey]) {
-        sections[sectionKey] = {};
-      }
-      sections[sectionKey][itemKey] = value;
-    }
-  }
-
-  return sections;
-};
+const columnHelper = createColumnHelper<OrderDev>();
 
 export const AdminOrdersPage: React.FC = () => {
   const { t } = useTranslation();
-  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; message: string } | null>(
-    null,
-  );
-  const [uiLabelData, setUiLabelData] = useState<UiLabelSectionData[]>([]);
-  const [isDataReady, setIsDataReady] = useState(false);
-
-  // Verify translations are loaded (handle _default suffix from bundling)
-  const enGBData = (commonEn as any)?.default || commonEn;
-  const esESData = (commonEs as any)?.default || commonEs;
-  const caESData = (commonCa as any)?.default || commonCa;
-
-  if (!enGBData?.ui || !esESData?.ui || !caESData?.ui) {
-    console.error('Missing UI translations in common files');
-    console.error('enGBData:', enGBData);
-    console.error('esESData:', esESData);
-    console.error('caESData:', caESData);
-  }
-
-  // Supported languages - these match the actual translation files
-  // Reordered to put English as second column
-  const supportedLanguages: SupportedLanguage[] = useMemo(
-    () => [
-      { isoCode: 'es-ES', displayName: 'Spanish', nativeName: 'Español' },
-      { isoCode: 'en-GB', displayName: 'English', nativeName: 'English' },
-      { isoCode: 'ca-ES', displayName: 'Catalan', nativeName: 'Català' },
-    ],
-    [],
-  );
-
-  // Process translation files into sections
-  const processedSections = useMemo(() => {
-    console.log('Starting processing...');
-    console.log('commonEn:', commonEn);
-    console.log('commonEs:', commonEs);
-    console.log('commonCa:', commonCa);
-
-    // Handle the _default suffix that gets added during bundling
-    const translationData = {
-      'en-GB': (commonEn as any)?.default || commonEn,
-      'es-ES': (commonEs as any)?.default || commonEs,
-      'ca-ES': (commonCa as any)?.default || commonCa,
-    };
-
-    console.log('translationData:', translationData);
-
-    // Check if any translation data is missing
-    if (!translationData['en-GB'] || !translationData['es-ES'] || !translationData['ca-ES']) {
-      console.error('Some translation data is missing:', translationData);
-      return [];
-    }
-
-    // Check specifically for UI sections
-    console.log('en-GB ui:', translationData['en-GB']?.ui);
-    console.log('es-ES ui:', translationData['es-ES']?.ui);
-    console.log('ca-ES ui:', translationData['ca-ES']?.ui);
-
-    // Flatten each language's UI translations
-    const flattenedTranslations: Record<string, Record<string, any>> = {};
-    for (const [langCode, translation] of Object.entries(translationData)) {
-      if (translation?.ui) {
-        console.log(`Flattening UI for ${langCode}:`, translation.ui);
-        flattenedTranslations[langCode] = flattenObject(translation.ui);
-        console.log(`Flattened result for ${langCode}:`, flattenedTranslations[langCode]);
-      } else {
-        console.warn(`No UI property found for ${langCode}`, translation);
-        flattenedTranslations[langCode] = {};
-      }
-    }
-
-    console.log('All flattened translations:', flattenedTranslations);
-
-    // Group by sections using English as the base
-    const sections = groupBySection(flattenedTranslations['en-GB']);
-    console.log('sections after grouping:', sections);
-    console.log('sections keys:', Object.keys(sections));
-    console.log('sections length:', Object.keys(sections).length);
-
-    const processedSections: UiLabelSectionData[] = [];
-
-    for (const [sectionKey, sectionItems] of Object.entries(sections)) {
-      const items: UiLabelItem[] = [];
-
-      for (const [itemKey, _] of Object.entries(sectionItems)) {
-        const values: Record<string, string> = {};
-
-        // Get the value for each language
-        for (const langCode of supportedLanguages.map((l) => l.isoCode)) {
-          const flattenedForLang = flattenedTranslations[langCode];
-          // The flattened key should be the full path: sectionKey.itemKey
-          const fullItemKey = `${sectionKey}.${itemKey}`;
-          values[langCode] = flattenedForLang[fullItemKey] || '';
-
-          // Debug: log the key lookup
-          if (sectionKey === 'buttons' && itemKey === 'save') {
-            console.log(`Looking for key "${fullItemKey}" in ${langCode}:`, flattenedForLang[fullItemKey]);
-            console.log(`Available keys in ${langCode}:`, Object.keys(flattenedForLang).slice(0, 10));
-            console.log(`Full flattened object for ${langCode}:`, flattenedForLang);
-          }
-        }
-
-        items.push({
-          key: itemKey,
-          values,
-        });
-
-        // Debug: log the first few items to see if values are correct
-        if (items.length <= 3) {
-          console.log(`Item ${itemKey} values:`, values);
-        }
-      }
-
-      // Create section with human-readable title and description
-      const sectionTitles: Record<string, { title: string; description: string }> = {
-        buttons: {
-          title: 'UI Buttons',
-          description: 'Labels for buttons throughout the application',
-        },
-        forms: {
-          title: 'Form Elements',
-          description: 'Labels, placeholders, and validation messages for forms',
-        },
-        navigation: {
-          title: 'Navigation',
-          description: 'Navigation menu items and links',
-        },
-        states: {
-          title: 'Application States',
-          description: 'Loading, error, success, and other state messages',
-        },
-        actions: {
-          title: 'User Actions',
-          description: 'Confirmation dialogs and action-related messages',
-        },
-      };
-
-      const sectionInfo = sectionTitles[sectionKey] || {
-        title: sectionKey.charAt(0).toUpperCase() + sectionKey.slice(1),
-        description: `${sectionKey} related translations`,
-      };
-
-      processedSections.push({
-        key: sectionKey,
-        title: sectionInfo.title,
-        description: sectionInfo.description,
-        items: items.sort((a, b) => a.key.localeCompare(b.key)), // Sort items alphabetically
-      });
-    }
-
-    const result = processedSections.sort((a, b) => a.key.localeCompare(b.key)); // Sort sections alphabetically
-    console.log('Final result:', result);
-    console.log('Result length:', result.length);
-    return result;
-  }, [supportedLanguages]);
-
-  // Create form schema
-  const uiLabelsSchema = useMemo(() => createUiLabelsSchema(t), [t]);
-
-  const methods = useForm<UiLabelsFormData>({
-    resolver: zodResolver(uiLabelsSchema),
-    defaultValues: {
-      sections: processedSections.map((section) => ({
-        key: section.key,
-        items: section.items,
-      })),
-    },
-    mode: 'onSubmit',
+  const [editingCells, setEditingCells] = useState<Record<string, string>>({});
+  const [globalFilter, setGlobalFilter] = useState('');
+  const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
+  const [deleteDialog, setDeleteDialog] = useState<{ isOpen: boolean; order: OrderDev | null }>({
+    isOpen: false,
+    order: null,
   });
 
-  // Update form data when processed sections change
-  useEffect(() => {
-    console.log('useEffect called with processedSections:', processedSections);
-    console.log('processedSections.length:', processedSections.length);
+  // API hooks
+  const { data: orders = [], isLoading, error } = useGetOrdersDev();
+  const updateOrderMutation = useUpdateOrderDev();
+  const deleteOrderMutation = useDeleteOrderDev();
+  const createOrderMutation = useCreateOrderDev();
 
-    if (processedSections.length > 0) {
-      console.log('Setting data ready to true');
-      setUiLabelData(processedSections);
-      methods.reset({
-        sections: processedSections.map((section) => ({
-          key: section.key,
-          items: section.items,
-        })),
-      });
-      setIsDataReady(true);
-    } else {
-      console.log('processedSections is empty, staying in loading state');
+  // Handle cell edit
+  const handleCellEdit = (rowId: string, columnId: string, value: string) => {
+    const cellKey = `${rowId}-${columnId}`;
+    setEditingCells((prev) => ({ ...prev, [cellKey]: value }));
+  };
+
+  // Handle cell commit (save)
+  const handleCellCommit = async (rowId: string, columnId: string) => {
+    const cellKey = `${rowId}-${columnId}`;
+    const newValue = editingCells[cellKey];
+
+    if (newValue !== undefined) {
+      try {
+        const updates: OrderDevUpdate = {};
+
+        // Handle different field types
+        if (columnId === 'defaultTempConsume' || columnId === 'defaultTempFreeze') {
+          const numValue = Number.parseInt(newValue);
+          if (!Number.isNaN(numValue)) {
+            updates[columnId] = numValue;
+          }
+        } else if (columnId === 'isActive') {
+          updates[columnId] = newValue === 'true';
+        } else {
+          // String fields
+          updates[columnId as keyof OrderDevUpdate] = newValue as any;
+        }
+
+        await updateOrderMutation.mutateAsync({ id: rowId, updates });
+        setMessage({ type: 'success', text: 'Order updated successfully!' });
+
+        // Remove from editing state
+        setEditingCells((prev) => {
+          const { [cellKey]: _, ...rest } = prev;
+          return rest;
+        });
+      } catch (error) {
+        setMessage({
+          type: 'error',
+          text: `Failed to update order: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        });
+      }
     }
-  }, [processedSections, methods]);
+  };
 
-  // Handle item changes
-  const handleItemChange = useCallback(
-    (sectionKey: string, itemKey: string, languageCode: string, value: string) => {
-      setUiLabelData((prev) =>
-        prev.map((section) =>
-          section.key === sectionKey
-            ? {
-                ...section,
-                items: section.items.map((item) =>
-                  item.key === itemKey
-                    ? {
-                        ...item,
-                        values: {
-                          ...item.values,
-                          [languageCode]: value,
-                        },
-                      }
-                    : item,
-                ),
-              }
-            : section,
-        ),
-      );
-    },
-    [],
+  // Define table columns
+  const columns = useMemo(
+    () =>
+      [
+        columnHelper.accessor('drinkTypeName', {
+          header: 'Drink Type',
+          cell: ({ row, getValue }) => {
+            const cellKey = `${row.original.id}-drinkTypeName`;
+            const isEditing = cellKey in editingCells;
+            const value = isEditing ? editingCells[cellKey] : getValue();
+
+            return isEditing ? (
+              <TextField.Root
+                value={value}
+                onChange={(e) => handleCellEdit(row.original.id, 'drinkTypeName', e.target.value)}
+                onBlur={() => handleCellCommit(row.original.id, 'drinkTypeName')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleCellCommit(row.original.id, 'drinkTypeName');
+                  }
+                }}
+                size="1"
+                autoFocus
+              />
+            ) : (
+              <Text
+                className="cursor-pointer hover:bg-gray-100 px-2 py-1 rounded"
+                onClick={() => setEditingCells((prev) => ({ ...prev, [cellKey]: getValue() }))}
+              >
+                {value}
+              </Text>
+            );
+          },
+        }),
+        columnHelper.accessor('drinkSubtypeName', {
+          header: 'Subtype',
+          cell: ({ row, getValue }) => {
+            const cellKey = `${row.original.id}-drinkSubtypeName`;
+            const isEditing = cellKey in editingCells;
+            const value = isEditing ? editingCells[cellKey] : getValue() || '';
+
+            return isEditing ? (
+              <TextField.Root
+                value={value}
+                onChange={(e) => handleCellEdit(row.original.id, 'drinkSubtypeName', e.target.value)}
+                onBlur={() => handleCellCommit(row.original.id, 'drinkSubtypeName')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleCellCommit(row.original.id, 'drinkSubtypeName');
+                  }
+                }}
+                size="1"
+                autoFocus
+              />
+            ) : (
+              <Text
+                className="cursor-pointer hover:bg-gray-100 px-2 py-1 rounded"
+                onClick={() => setEditingCells((prev) => ({ ...prev, [cellKey]: getValue() || '' }))}
+              >
+                {value || '-'}
+              </Text>
+            );
+          },
+        }),
+        columnHelper.accessor('volumeName', {
+          header: 'Volume',
+          cell: ({ row, getValue }) => {
+            const cellKey = `${row.original.id}-volumeName`;
+            const isEditing = cellKey in editingCells;
+            const value = isEditing ? editingCells[cellKey] : getValue();
+
+            return isEditing ? (
+              <TextField.Root
+                value={value}
+                onChange={(e) => handleCellEdit(row.original.id, 'volumeName', e.target.value)}
+                onBlur={() => handleCellCommit(row.original.id, 'volumeName')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleCellCommit(row.original.id, 'volumeName');
+                  }
+                }}
+                size="1"
+                autoFocus
+              />
+            ) : (
+              <Text
+                className="cursor-pointer hover:bg-gray-100 px-2 py-1 rounded"
+                onClick={() => setEditingCells((prev) => ({ ...prev, [cellKey]: getValue() }))}
+              >
+                {value}
+              </Text>
+            );
+          },
+        }),
+        columnHelper.accessor('containerTypeName', {
+          header: 'Container',
+          cell: ({ row, getValue }) => {
+            const cellKey = `${row.original.id}-containerTypeName`;
+            const isEditing = cellKey in editingCells;
+            const value = isEditing ? editingCells[cellKey] : getValue();
+
+            return isEditing ? (
+              <TextField.Root
+                value={value}
+                onChange={(e) => handleCellEdit(row.original.id, 'containerTypeName', e.target.value)}
+                onBlur={() => handleCellCommit(row.original.id, 'containerTypeName')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleCellCommit(row.original.id, 'containerTypeName');
+                  }
+                }}
+                size="1"
+                autoFocus
+              />
+            ) : (
+              <Text
+                className="cursor-pointer hover:bg-gray-100 px-2 py-1 rounded"
+                onClick={() => setEditingCells((prev) => ({ ...prev, [cellKey]: getValue() }))}
+              >
+                {value}
+              </Text>
+            );
+          },
+        }),
+        columnHelper.accessor('defaultTempConsume', {
+          header: 'Temp Consume (°C)',
+          cell: ({ row, getValue }) => {
+            const cellKey = `${row.original.id}-defaultTempConsume`;
+            const isEditing = cellKey in editingCells;
+            const value = isEditing ? editingCells[cellKey] : getValue().toString();
+
+            return isEditing ? (
+              <TextField.Root
+                type="number"
+                value={value}
+                onChange={(e) => handleCellEdit(row.original.id, 'defaultTempConsume', e.target.value)}
+                onBlur={() => handleCellCommit(row.original.id, 'defaultTempConsume')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleCellCommit(row.original.id, 'defaultTempConsume');
+                  }
+                }}
+                size="1"
+                autoFocus
+              />
+            ) : (
+              <Text
+                className="cursor-pointer hover:bg-gray-100 px-2 py-1 rounded"
+                onClick={() => setEditingCells((prev) => ({ ...prev, [cellKey]: getValue().toString() }))}
+              >
+                {value}°C
+              </Text>
+            );
+          },
+        }),
+        columnHelper.accessor('defaultTempFreeze', {
+          header: 'Temp Freeze (°C)',
+          cell: ({ row, getValue }) => {
+            const cellKey = `${row.original.id}-defaultTempFreeze`;
+            const isEditing = cellKey in editingCells;
+            const value = isEditing ? editingCells[cellKey] : getValue().toString();
+
+            return isEditing ? (
+              <TextField.Root
+                type="number"
+                value={value}
+                onChange={(e) => handleCellEdit(row.original.id, 'defaultTempFreeze', e.target.value)}
+                onBlur={() => handleCellCommit(row.original.id, 'defaultTempFreeze')}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') {
+                    handleCellCommit(row.original.id, 'defaultTempFreeze');
+                  }
+                }}
+                size="1"
+                autoFocus
+              />
+            ) : (
+              <Text
+                className="cursor-pointer hover:bg-gray-100 px-2 py-1 rounded"
+                onClick={() => setEditingCells((prev) => ({ ...prev, [cellKey]: getValue().toString() }))}
+              >
+                {value}°C
+              </Text>
+            );
+          },
+        }),
+        columnHelper.accessor('isActive', {
+          header: 'Status',
+          cell: ({ row, getValue }) => {
+            const isActive = getValue();
+            return <Badge color={isActive ? 'green' : 'red'}>{isActive ? 'Active' : 'Inactive'}</Badge>;
+          },
+        }),
+        columnHelper.display({
+          id: 'actions',
+          header: 'Actions',
+          cell: ({ row }) => (
+            <IconButton
+              variant="soft"
+              color="red"
+              size="1"
+              onClick={() => setDeleteDialog({ isOpen: true, order: row.original })}
+            >
+              <TrashIcon />
+            </IconButton>
+          ),
+        }),
+      ] as ColumnDef<OrderDev>[],
+    [editingCells],
   );
 
-  // Handle form submission (placeholder - no business logic yet)
-  const onSubmit = useCallback(async (data: UiLabelsFormData) => {
+  // React Table instance
+  const table = useReactTable({
+    data: orders,
+    columns,
+    getCoreRowModel: getCoreRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    globalFilterFn: 'includesString',
+    state: {
+      globalFilter,
+    },
+    onGlobalFilterChange: setGlobalFilter,
+  });
+
+  // Handle delete
+  const handleDelete = async () => {
+    const { order } = deleteDialog;
+    if (!order) return;
+
     try {
-      // TODO: Implement save logic
-      console.log('UI Labels data to save:', data);
-
-      setSubmitMessage({
-        type: 'success',
-        message:
-          'UI Labels saved successfully! (Note: This is just a preview - save functionality not yet implemented)',
-      });
-
-      // Clear message after 5 seconds
-      setTimeout(() => setSubmitMessage(null), 5000);
+      await deleteOrderMutation.mutateAsync(order.id);
+      setMessage({ type: 'success', text: 'Order deleted successfully!' });
+      setDeleteDialog({ isOpen: false, order: null });
     } catch (error) {
-      setSubmitMessage({
+      setMessage({
         type: 'error',
-        message: `Failed to save UI Labels: ${error instanceof Error ? error.message : 'Unknown error'}`,
+        text: `Failed to delete order: ${error instanceof Error ? error.message : 'Unknown error'}`,
       });
     }
-  }, []);
+  };
 
-  const handleReset = useCallback(() => {
-    methods.reset({
-      sections: processedSections.map((section) => ({
-        key: section.key,
-        items: section.items,
-      })),
-    });
-    setUiLabelData(processedSections);
-    setSubmitMessage(null);
-  }, [methods, processedSections]);
+  // Clear message after 5 seconds
+  React.useEffect(() => {
+    if (message) {
+      const timer = setTimeout(() => setMessage(null), 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
-  if (!isDataReady) {
+  if (isLoading) {
     return (
-      <AdminContentLayout title={t('admin.title')} subtitle="UI Labels / Translations" isLoading={true}>
+      <AdminContentLayout
+        title="Orders Management"
+        subtitle="Development orders for testing"
+        isLoading={true}
+      >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
-          <Text>Loading UI translation files...</Text>
+          <Text>Loading orders...</Text>
         </Flex>
       </AdminContentLayout>
     );
   }
 
-  const formContent = (
-    <form onSubmit={methods.handleSubmit(onSubmit)}>
-      <Flex direction="column" gap="6">
-        {uiLabelData.map((section) => (
-          <UiLabelSection
-            key={section.key}
-            title={section.title}
-            description={section.description}
-            items={section.items}
-            supportedLanguages={supportedLanguages}
-            onItemChange={(itemKey, languageCode, value) => {
-              handleItemChange(section.key, itemKey, languageCode, value);
-            }}
-          />
-        ))}
-
-        <Flex justify="center" gap="4" pt="4">
-          <Button type="button" variant="soft" color="gray" onClick={handleReset}>
-            {t('ui.buttons.reset')}
-          </Button>
-          <Button type="submit" variant="solid" disabled={methods.formState.isSubmitting}>
-            {methods.formState.isSubmitting ? t('ui.states.saving') : t('ui.buttons.save')}
-          </Button>
-        </Flex>
-      </Flex>
-    </form>
-  );
+  if (error) {
+    return (
+      <AdminContentLayout
+        title="Orders Management"
+        subtitle="Development orders for testing"
+        error={error.message}
+      >
+        <AdminSection>
+          <Text color="red">Error loading orders: {error.message}</Text>
+        </AdminSection>
+      </AdminContentLayout>
+    );
+  }
 
   return (
-    <section
-      id="admin-ui-labels"
-      className="admin-content-page"
-      //  css={styles}
-    >
-      <FormProvider {...methods}>
-        <AdminContentLayout
-          title={t('admin.title')}
-          subtitle="UI Labels / Translations"
-          message={
-            submitMessage
-              ? {
-                  type: submitMessage.type,
-                  content: submitMessage.message,
-                }
-              : undefined
-          }
+    <AdminContentLayout title="Orders Management" subtitle="Development orders for testing">
+      <AdminSection>
+        {/* Message Display */}
+        {message && (
+          <Callout.Root color={message.type === 'error' ? 'red' : 'green'} mb="4">
+            <Callout.Text>{message.text}</Callout.Text>
+          </Callout.Root>
+        )}
+
+        {/* Controls */}
+        <Flex justify="between" align="center" mb="4">
+          <Flex align="center" gap="3">
+            <TextField.Root
+              placeholder="Search orders..."
+              value={globalFilter}
+              onChange={(e) => setGlobalFilter(e.target.value)}
+              size="2"
+            />
+            <Text size="2" color="gray">
+              {table.getFilteredRowModel().rows.length} of {orders.length} orders
+            </Text>
+          </Flex>
+
+          <Button variant="solid" size="2">
+            <PlusIcon /> Add Order
+          </Button>
+        </Flex>
+
+        {/* Table */}
+        <Table.Root>
+          <Table.Header>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <Table.Row key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <Table.ColumnHeaderCell key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(header.column.columnDef.header, header.getContext())}
+                  </Table.ColumnHeaderCell>
+                ))}
+              </Table.Row>
+            ))}
+          </Table.Header>
+          <Table.Body>
+            {table.getRowModel().rows.map((row) => (
+              <Table.Row key={row.id}>
+                {row.getVisibleCells().map((cell) => (
+                  <Table.Cell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </Table.Cell>
+                ))}
+              </Table.Row>
+            ))}
+          </Table.Body>
+        </Table.Root>
+
+        {/* Empty state */}
+        {table.getFilteredRowModel().rows.length === 0 && (
+          <Flex direction="column" align="center" justify="center" py="8">
+            <Text size="3" color="gray">
+              No orders found
+            </Text>
+            <Text size="2" color="gray">
+              Try adjusting your search or add a new order
+            </Text>
+          </Flex>
+        )}
+
+        {/* Delete Dialog */}
+        <Dialog.Root
+          open={deleteDialog.isOpen}
+          onOpenChange={(open) => setDeleteDialog({ isOpen: open, order: null })}
         >
-          <AdminSection>{formContent}</AdminSection>
-        </AdminContentLayout>
-      </FormProvider>
-    </section>
+          <Dialog.Content maxWidth="450px">
+            <Dialog.Title>Delete Order</Dialog.Title>
+            <Dialog.Description size="2">
+              Are you sure you want to delete this order? This action cannot be undone.
+              {deleteDialog.order && (
+                <Text as="div" mt="2" weight="bold">
+                  {deleteDialog.order.drinkTypeName} - {deleteDialog.order.volumeName}
+                </Text>
+              )}
+            </Dialog.Description>
+
+            <Flex gap="3" mt="4" justify="end">
+              <Dialog.Close>
+                <Button variant="soft" color="gray">
+                  Cancel
+                </Button>
+              </Dialog.Close>
+              <Button
+                variant="solid"
+                color="red"
+                onClick={handleDelete}
+                loading={deleteOrderMutation.isPending}
+              >
+                Delete
+              </Button>
+            </Flex>
+          </Dialog.Content>
+        </Dialog.Root>
+      </AdminSection>
+    </AdminContentLayout>
   );
 };
