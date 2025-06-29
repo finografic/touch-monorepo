@@ -41,13 +41,17 @@ const insertDrinkTypeSchema = createInsertSchema(drink_types, {
     defaultTempConsume: true,
     defaultTempFreeze: true,
   })
-  .omit({ id: true, createdAt: true, updatedAt: true, translations: true });
+  .omit({ id: true, createdAt: true, updatedAt: true });
+
+// Create patch schema that includes translations
+const patchDrinkTypeSchema = insertDrinkTypeSchema.partial().extend({
+  translations: createSelectSchema(drink_types).shape.translations.optional(),
+});
 
 export const drinkTypeSchemas = {
   select: createSelectSchema(drink_types, {
     translations: (schema) => schema.translations.optional(), // Simplified schema for translations
   }),
   insert: insertDrinkTypeSchema,
-
-  patch: insertDrinkTypeSchema.partial(),
+  patch: patchDrinkTypeSchema,
 } as const;

@@ -42,12 +42,17 @@ const insertVolumeSchema = createInsertSchema(volumes, {
     valueInMl: true,
     sortOrder: true,
   })
-  .omit({ id: true, createdAt: true, updatedAt: true, translations: true });
+  .omit({ id: true, createdAt: true, updatedAt: true });
+
+// Create patch schema that includes translations
+const patchVolumeSchema = insertVolumeSchema.partial().extend({
+  translations: createSelectSchema(volumes).shape.translations.optional(),
+});
 
 export const volumeSchemas = {
   select: createSelectSchema(volumes, {
     translations: (schema) => schema.translations.optional(), // Simplified schema for translations
   }),
   insert: insertVolumeSchema,
-  patch: insertVolumeSchema.partial(),
+  patch: patchVolumeSchema,
 } as const;

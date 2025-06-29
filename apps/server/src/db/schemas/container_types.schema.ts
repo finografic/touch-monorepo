@@ -37,12 +37,17 @@ const insertContainerTypeSchema = createInsertSchema(container_types, {
     name_es_es: true,
     thermalConductivity: true,
   })
-  .omit({ id: true, createdAt: true, updatedAt: true, translations: true });
+  .omit({ id: true, createdAt: true, updatedAt: true });
+
+// Create patch schema that includes translations
+const patchContainerTypeSchema = insertContainerTypeSchema.partial().extend({
+  translations: createSelectSchema(container_types).shape.translations.optional(),
+});
 
 export const containerTypeSchemas = {
   select: createSelectSchema(container_types, {
     translations: (schema) => schema.translations.optional(), // Simplified schema for translations
   }),
   insert: insertContainerTypeSchema,
-  patch: insertContainerTypeSchema.partial(),
+  patch: patchContainerTypeSchema,
 } as const;
