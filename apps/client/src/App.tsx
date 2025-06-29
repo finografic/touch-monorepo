@@ -2,7 +2,7 @@ import '@radix-ui/themes/styles.css';
 // import 'styles/radix-ui/radix.css';
 
 import { Suspense } from 'react';
-import { ScreenClassProvider, setConfiguration } from 'react-grid-system';
+import { ScreenClassProvider } from 'react-grid-system';
 import { Theme as RadixTheme, Spinner } from '@radix-ui/themes';
 // import { Global } from '@emotion/react';
 // import { cssGlobal } from 'styles/global.styles';
@@ -10,7 +10,6 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
-import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
