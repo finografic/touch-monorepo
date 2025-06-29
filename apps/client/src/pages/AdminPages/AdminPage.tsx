@@ -1,15 +1,15 @@
 import React from 'react';
 import { Box, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
 import { ChatBubbleIcon, GearIcon, GlobeIcon, TableIcon } from '@radix-ui/react-icons';
+import { usePageTransition } from 'hooks/usePageTransition';
 import { AdminContentLayout } from './shared';
 import { styles } from './AdminPage.styles';
 import { LanguageIcon } from 'styles/icons';
 
 export const AdminPage: React.FC = () => {
   const { t } = useTranslation();
-  const navigate = useNavigate();
+  const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
 
   const adminCards = [
     {
@@ -55,7 +55,7 @@ export const AdminPage: React.FC = () => {
   ];
 
   const handleCardClick = (path: string) => {
-    navigate(path);
+    navigateWithTransition(path);
   };
 
   return (
@@ -84,7 +84,13 @@ export const AdminPage: React.FC = () => {
                   size="3"
                   variant="surface"
                   onClick={() => handleCardClick(card.path)}
-                  style={{ cursor: 'pointer', minWidth: '280px', maxWidth: '320px' }}
+                  style={{
+                    cursor: isTransitioning ? 'wait' : 'pointer',
+                    minWidth: '280px',
+                    maxWidth: '320px',
+                    opacity: isTransitioning ? 0.7 : 1,
+                    transition: 'opacity 0.2s ease',
+                  }}
                 >
                   <Flex direction="column" gap="4" align="center" p="4">
                     <Box

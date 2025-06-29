@@ -1,6 +1,6 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import type { FC } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
 import { ContentProvider } from 'providers/ContentProvider';
 import { DevProvider } from 'providers/DevProvider/DevProvider';
@@ -13,10 +13,26 @@ import { Footer } from 'components/Footer/Footer';
 import { AdminNavigation } from 'components/AdminNavigation';
 import { setConfiguration } from 'react-grid-system';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
+import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
 
 export const AdminLayout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
+  const location = useLocation();
+  const [isNavigating, setIsNavigating] = useState(false);
+
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
+
+  // Handle navigation loading state
+  useEffect(() => {
+    setIsNavigating(true);
+
+    // Small delay to prevent flashing and ensure smooth navigation
+    const timer = setTimeout(() => {
+      setIsNavigating(false);
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [location.pathname]);
 
   if (!isMounted) {
     return <Loader message="Loading Admin..." />;
@@ -56,9 +72,11 @@ export const AdminLayout: FC = () => {
                     <section>
                       <header className="page-header">{/* Page header content will go here */}</header>
                       <div className="page-content" role="main">
-                        <Suspense fallback={<Loader message="Loading..." />}>
-                          <Outlet />
-                        </Suspense>
+                        <AdminErrorBoundary>
+                          <Suspense fallback={<Loader message="Loading..." />}>
+                            {isNavigating ? <Loader message="Navigating..." /> : <Outlet />}
+                          </Suspense>
+                        </AdminErrorBoundary>
                       </div>
                       <nav className="page-navigation">{/* Page navigation can go here if needed */}</nav>
                     </section>
