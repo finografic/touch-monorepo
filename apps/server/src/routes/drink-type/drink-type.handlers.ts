@@ -20,27 +20,27 @@ function formatDrinkType(drinkType: DrinkType) {
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const drinkTypes = await db.select().from(drink_types).where(eq(drink_types.isActive, true));
-  return context.json((drinkTypes as any).map(formatDrinkType));
+  return context.json(drinkTypes.map(formatDrinkType));
 };
 
-export async function getOne(context: any) {
+export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   const { id } = context.req.valid('param');
   const result = await db.select().from(drink_types).where(eq(drink_types.id, id)).limit(1);
 
-  if ((result as any[]).length === 0) {
-    return context.json({ message: HttpStatusPhrases.NOT_FOUND } as any, HttpStatusCodes.NOT_FOUND);
+  if (result.length === 0) {
+    return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
   }
 
-  return context.json(formatDrinkType((result as any[])[0]), HttpStatusCodes.OK);
-}
+  return context.json(formatDrinkType(result[0]), HttpStatusCodes.OK);
+};
 
-export async function create(context: any) {
+export const create: AppRouteHandler<CreateRoute> = async (context) => {
   const drinkType = context.req.valid('json');
   const result = await db.insert(drink_types).values(drinkType).returning();
   return context.json(formatDrinkType(result[0]), HttpStatusCodes.OK);
-}
+};
 
-export async function patch(context: any) {
+export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   const { id } = context.req.valid('param');
   const updates = context.req.valid('json');
 
@@ -58,7 +58,7 @@ export async function patch(context: any) {
           ],
           name: 'ZodError',
         },
-      } as any,
+      },
       HttpStatusCodes.UNPROCESSABLE_ENTITY,
     );
   }
@@ -66,11 +66,11 @@ export async function patch(context: any) {
   const result = await db.update(drink_types).set(updates).where(eq(drink_types.id, id)).returning();
 
   if (result.length === 0) {
-    return context.json({ message: HttpStatusPhrases.NOT_FOUND } as any, HttpStatusCodes.NOT_FOUND);
+    return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
   }
 
   return context.json(formatDrinkType(result[0]), HttpStatusCodes.OK);
-}
+};
 
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   const { id } = context.req.valid('param');

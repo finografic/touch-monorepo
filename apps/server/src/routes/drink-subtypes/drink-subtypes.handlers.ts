@@ -3,12 +3,14 @@ import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } fro
 import { db } from 'db';
 import { drink_subtypes, drink_types } from 'db/schemas';
 import { and, eq } from 'drizzle-orm';
+import type { InferSelectModel } from 'drizzle-orm';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
-// Simple subtype formatter using object spreading
-function formatSubtype(subtype: any) {
+// Simple subtype formatter using proper typing
+type DrinkSubtype = InferSelectModel<typeof drink_subtypes>;
+function formatSubtype(subtype: DrinkSubtype) {
   return {
     ...subtype,
     createdAt: subtype.createdAt?.toISOString() ?? null,
@@ -16,7 +18,6 @@ function formatSubtype(subtype: any) {
   };
 }
 
-// @ts-expect-error - Temporary workaround for Drizzle type recursion issue
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const { drinkTypeId } = context.req.valid('param');
 
@@ -61,7 +62,6 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
   return context.json(subtypes.map(formatSubtype));
 };
 
-// @ts-expect-error - Temporary workaround for Drizzle type recursion issue
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   const { drinkTypeId, id } = context.req.valid('param');
 
@@ -84,7 +84,6 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   return context.json(formatSubtype(result[0]), HttpStatusCodes.OK);
 };
 
-// @ts-expect-error - Temporary workaround for Drizzle type recursion issue
 export const create: AppRouteHandler<CreateRoute> = async (context) => {
   const { drinkTypeId } = context.req.valid('param');
   const subtypeData = context.req.valid('json');
@@ -129,7 +128,6 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
   return context.json(formatSubtype(result[0]), HttpStatusCodes.OK);
 };
 
-// @ts-expect-error - Temporary workaround for Drizzle type recursion issue
 export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   const { drinkTypeId, id } = context.req.valid('param');
   const updates = context.req.valid('json');
@@ -166,7 +164,6 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   return context.json(formatSubtype(result[0]), HttpStatusCodes.OK);
 };
 
-// @ts-expect-error - Temporary workaround for Drizzle type recursion issue
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   const { drinkTypeId, id } = context.req.valid('param');
 

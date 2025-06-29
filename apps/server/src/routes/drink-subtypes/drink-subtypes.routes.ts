@@ -27,12 +27,7 @@ export const list = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(
-        drinkSubtypeSchemas.select.extend({
-          createdAt: z.string().nullable(),
-          updatedAt: z.string().nullable(),
-        }),
-      ),
+      z.array(drinkSubtypeSchemas.select),
       'List of drink subtypes for the specified drink type',
     ),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
@@ -51,13 +46,7 @@ export const getOne = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      drinkSubtypeSchemas.select.extend({
-        createdAt: z.string().nullable(),
-        updatedAt: z.string().nullable(),
-      }),
-      'The requested drink subtype',
-    ),
+    [HttpStatusCodes.OK]: jsonContent(drinkSubtypeSchemas.select, 'The requested drink subtype'),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink subtype not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(DrinkTypeSubtypeParamsSchema),
@@ -78,13 +67,7 @@ export const create = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      drinkSubtypeSchemas.select.extend({
-        createdAt: z.string().nullable(),
-        updatedAt: z.string().nullable(),
-      }),
-      'The created drink subtype',
-    ),
+    [HttpStatusCodes.OK]: jsonContent(drinkSubtypeSchemas.select, 'The created drink subtype'),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(drinkSubtypeSchemas.insert).or(createErrorSchema(DrinkTypeParamsSchema)),
@@ -102,13 +85,7 @@ export const patch = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      drinkSubtypeSchemas.select.extend({
-        createdAt: z.string().nullable(),
-        updatedAt: z.string().nullable(),
-      }),
-      'The updated drink subtype',
-    ),
+    [HttpStatusCodes.OK]: jsonContent(drinkSubtypeSchemas.select, 'The updated drink subtype'),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink subtype not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(drinkSubtypeSchemas.patch).or(createErrorSchema(DrinkTypeSubtypeParamsSchema)),

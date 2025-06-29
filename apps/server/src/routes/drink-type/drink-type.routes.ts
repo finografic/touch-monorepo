@@ -13,15 +13,7 @@ export const list = createRoute({
   method: 'get',
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(
-        drinkTypeSchemas.select.extend({
-          createdAt: z.string().nullable(),
-          updatedAt: z.string().nullable(),
-        }),
-      ),
-      'The list of drink types',
-    ),
+    [HttpStatusCodes.OK]: jsonContent(z.array(drinkTypeSchemas.select), 'The list of drink types'),
   },
 });
 
@@ -33,13 +25,7 @@ export const getOne = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      drinkTypeSchemas.select.extend({
-        createdAt: z.string().nullable(),
-        updatedAt: z.string().nullable(),
-      }),
-      'The requested drink type',
-    ),
+    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The requested drink type'),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(IdCuidParamsSchema), 'Invalid id'),
   },
@@ -53,13 +39,7 @@ export const create = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      drinkTypeSchemas.select.extend({
-        createdAt: z.string().nullable(),
-        updatedAt: z.string().nullable(),
-      }),
-      'The created drink type',
-    ),
+    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The created drink type'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(drinkTypeSchemas.insert),
       'The validation error(s)',
@@ -76,13 +56,7 @@ export const patch = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      drinkTypeSchemas.select.extend({
-        createdAt: z.string().nullable(),
-        updatedAt: z.string().nullable(),
-      }),
-      'The updated drink type',
-    ),
+    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The updated drink type'),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(drinkTypeSchemas.patch).or(createErrorSchema(IdCuidParamsSchema)),
