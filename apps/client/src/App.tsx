@@ -10,6 +10,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
+import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
@@ -26,7 +27,6 @@ const AppBaseLayout = () => (
 
 const App = () => {
   const { isInitialized, ...routesData } = useRouteMetadata();
-  setConfiguration();
 
   const router = createBrowserRouter([
     {

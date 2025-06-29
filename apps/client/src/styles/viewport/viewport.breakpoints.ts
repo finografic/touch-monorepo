@@ -1,5 +1,10 @@
 import type { BreakpointMap } from 'styles/viewport/viewport.types';
-import { mapNewBreakpointRules, toEmNumeric, toPixelString, toRemNumeric } from 'utils/viewport.utils';
+import {
+  mapNewBreakpointRules,
+  toEmNumeric,
+  toPixelString,
+  toRemNumeric,
+} from 'styles/viewport/viewport.utils';
 
 // BREAKPOINT DEFAULT pixel values (from Carbon) best defined NUMERICALLY,
 // allowing for calculations etc..
@@ -25,6 +30,7 @@ export const BREAKPOINTS_TW: BreakpointMap<number> = {
 } as const;
 
 export const BREAKPOINTS = BREAKPOINTS_RADIX;
+export const BREAKPOINT_VALUES = Object.values(BREAKPOINTS).slice(1);
 
 // Type to access either xxl or 2xl
 export interface TailwindBreakpoints {

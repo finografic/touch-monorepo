@@ -11,9 +11,12 @@ import { styles } from './AdminLayout.styles';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { Footer } from 'components/Footer/Footer';
 import { AdminNavigation } from 'components/AdminNavigation';
+import { setConfiguration } from 'react-grid-system';
+import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 
 export const AdminLayout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
+  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
   if (!isMounted) {
     return <Loader message="Loading Admin..." />;

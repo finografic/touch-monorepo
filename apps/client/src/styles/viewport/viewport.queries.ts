@@ -1,14 +1,16 @@
 import { setConfiguration } from 'react-grid-system';
-import type { BreakpointMap, MediaQueryMap, ScreenClass } from 'styles/viewport/viewport.types';
+import type { BreakpointMap, ScreenClass } from './viewport.types';
 import { BREAKPOINTS } from './viewport.breakpoints';
-import { mapNewBreakpointRules, toMediaMaxWidth, toMediaMinWidth } from 'utils/viewport.utils';
+import { mapNewBreakpointRules, toMediaMaxWidth, toMediaMinWidth } from './viewport.utils';
 
 // ======================================================================== //
 // NOTE: V1 - FOR USE in TSX FILES..
 
 export const MEDIA_QUERIES = {
-  min: mapNewBreakpointRules(toMediaMinWidth) as MediaQueryMap,
-  max: mapNewBreakpointRules(toMediaMaxWidth) as MediaQueryMap,
+  // min: mapNewBreakpointRules(toMediaMinWidth) as MediaQueryMap,
+  // max: mapNewBreakpointRules(toMediaMaxWidth) as MediaQueryMap,
+  min: mapNewBreakpointRules(toMediaMinWidth),
+  max: mapNewBreakpointRules(toMediaMaxWidth),
 };
 
 export const QUERIES_MIN: Required<BreakpointMap<string>> = {

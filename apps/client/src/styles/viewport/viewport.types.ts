@@ -5,7 +5,10 @@ export type BreakpointMap<T> = { [key in ScreenClass]?: T };
 export type ScreenSizePropsMinScope<T> = [ScreenClass, BreakpointMap<T>];
 export type ScreenSizePropsMaxScope<T> = [Exclude<ScreenClass, 'xs'>, BreakpointMap<T>];
 
-export type MediaQueryProps = { query: string; props: unknown };
+export interface MediaQueryProps {
+  query: string;
+  props: unknown;
+}
 
 export interface BreakpointDefaults extends BreakpointMap<number> {
   xs?: number;
@@ -17,7 +20,7 @@ export interface BreakpointDefaults extends BreakpointMap<number> {
   // xxxl?: number;
 }
 
-export type MediaQueryMap = {
+export interface MediaQueryMap {
   xs?: string;
   sm: string;
   md: string;
@@ -25,6 +28,6 @@ export type MediaQueryMap = {
   xl: string;
   xxl?: string;
   // xxxl?: string;
-};
+}
 
 export interface ColumnSizes extends BreakpointMap<number> {}
