@@ -1,6 +1,6 @@
 import { createRouter } from 'lib/create-app';
-import * as handlers from './drink-type.handlers';
-import * as routes from './drink-type.routes';
+import * as handlers from './drink-subtypes.handlers';
+import * as routes from './drink-subtypes.routes';
 
 const router = createRouter()
   .openapi(routes.list, handlers.list)

@@ -32,7 +32,7 @@ export async function getOne(context: any) {
   }
 
   return context.json(formatDrinkType((result as any[])[0]), HttpStatusCodes.OK);
-}
+};
 
 export async function create(context: any) {
   const drinkType = context.req.valid('json');

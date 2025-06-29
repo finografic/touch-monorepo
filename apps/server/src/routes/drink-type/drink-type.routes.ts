@@ -1,11 +1,10 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import { drinkTypeSchemas } from 'db/schemas/drink_types.schema';
-import { drinkSubtypeSchemas } from 'db/schemas/drink_subtypes.schema';
 import { notFoundSchema } from 'lib/constants';
 import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import { createErrorSchema } from 'stoker/openapi/schemas';
 
 const tags = ['DrinkTypes'];
 
@@ -14,7 +13,15 @@ export const list = createRoute({
   method: 'get',
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(z.array(drinkTypeSchemas.select), 'List of available drink types'),
+    [HttpStatusCodes.OK]: jsonContent(
+      z.array(
+        drinkTypeSchemas.select.extend({
+          createdAt: z.string().nullable(),
+          updatedAt: z.string().nullable(),
+        }),
+      ),
+      'The list of drink types',
+    ),
   },
 });
 
@@ -26,12 +33,15 @@ export const getOne = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The requested drink type'),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
+    [HttpStatusCodes.OK]: jsonContent(
+      drinkTypeSchemas.select.extend({
+        createdAt: z.string().nullable(),
+        updatedAt: z.string().nullable(),
+      }),
+      'The requested drink type',
     ),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(IdCuidParamsSchema), 'Invalid id'),
   },
 });
 
@@ -43,7 +53,13 @@ export const create = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The created drink type'),
+    [HttpStatusCodes.OK]: jsonContent(
+      drinkTypeSchemas.select.extend({
+        createdAt: z.string().nullable(),
+        updatedAt: z.string().nullable(),
+      }),
+      'The created drink type',
+    ),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(drinkTypeSchemas.insert),
       'The validation error(s)',
@@ -60,10 +76,16 @@ export const patch = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(drinkTypeSchemas.select, 'The updated drink type'),
+    [HttpStatusCodes.OK]: jsonContent(
+      drinkTypeSchemas.select.extend({
+        createdAt: z.string().nullable(),
+        updatedAt: z.string().nullable(),
+      }),
+      'The updated drink type',
+    ),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(drinkTypeSchemas.patch).or(createErrorSchema(IdParamsSchema)),
+      createErrorSchema(drinkTypeSchemas.patch).or(createErrorSchema(IdCuidParamsSchema)),
       'The validation error(s)',
     ),
   },
@@ -81,30 +103,7 @@ export const remove = createRoute({
       description: 'Drink type deleted',
     },
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
-  },
-});
-
-export const getSubtypes = createRoute({
-  path: '/drink-types/{id}/subtypes',
-  method: 'get',
-  request: {
-    params: IdCuidParamsSchema,
-  },
-  tags,
-  responses: {
-    [HttpStatusCodes.OK]: jsonContent(
-      z.array(drinkSubtypeSchemas.select),
-      'List of subtypes for the drink type',
-    ),
-    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink type not found'),
-    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(IdParamsSchema),
-      'Invalid id error',
-    ),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(createErrorSchema(IdCuidParamsSchema), 'Invalid id'),
   },
 });
 
@@ -113,4 +112,3 @@ export type CreateRoute = typeof create;
 export type GetOneRoute = typeof getOne;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;
-export type GetSubtypesRoute = typeof getSubtypes;
