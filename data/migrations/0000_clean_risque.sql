@@ -171,4 +171,5 @@ CREATE TABLE `volumes` (
 	`updated_at` integer
 );
 --> statement-breakpoint
-CREATE UNIQUE INDEX `volumes_name_unique` ON `volumes` (`name`);
+CREATE UNIQUE INDEX `volumes_name_unique` ON `volumes` (`name`);--> statement-breakpoint
+CREATE VIEW `orders_readable` AS SELECT * FROM "orders";

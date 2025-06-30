@@ -13,12 +13,12 @@ export * from './drink_types.schema';
 
 export * from './orders.schema';
 
+// Views
+export * from './orders_readable_view.schema';
 export * from './supported_languages.schema';
 export * from './temperature_profiles.schema';
-export * from './translatable_entities.schema';
 
-// Views
-export * from './views/orders_readable.view';
+export * from './translatable_entities.schema';
 
 // NOTE: DRINK CONTROL SYSTEM SCHEMAS
 // Core schemas
