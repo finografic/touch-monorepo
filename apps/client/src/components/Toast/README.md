@@ -26,7 +26,6 @@ src/components/Toast/
 ├── ToastIcons.tsx                     # Default SVG icons
 ├── ToastContext.tsx                   # React context & provider
 ├── Toast.tsx                          # Main toast component
-├── ToastContainer.tsx                 # Container & system components
 ├── Toast.integration.examples.tsx     # Integration examples
 └── README.md                          # This documentation
 ```

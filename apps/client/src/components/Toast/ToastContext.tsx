@@ -22,6 +22,14 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const generateId = useCallback(() => `toast-${Date.now()}-${Math.random()}`, []);
 
+  const dismiss = useCallback((id: string) => {
+    setToasts((prev) => prev.map((toast) => (toast.id === id ? { ...toast, open: false } : toast)));
+
+    setTimeout(() => {
+      setToasts((prev) => prev.filter((toast) => toast.id !== id));
+    }, 200);
+  }, []);
+
   const toast = useCallback(
     (config: ToastConfig) => {
       const id = generateId();
@@ -45,16 +53,8 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         dismiss(id);
       }, duration);
     },
-    [generateId],
+    [generateId, dismiss],
   );
-
-  const dismiss = useCallback((id: string) => {
-    setToasts((prev) => prev.map((toast) => (toast.id === id ? { ...toast, open: false } : toast)));
-
-    setTimeout(() => {
-      setToasts((prev) => prev.filter((toast) => toast.id !== id));
-    }, 200);
-  }, []);
 
   const dismissAll = useCallback(() => {
     setToasts((prev) => prev.map((toast) => ({ ...toast, open: false })));

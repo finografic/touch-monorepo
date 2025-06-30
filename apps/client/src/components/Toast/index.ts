@@ -6,7 +6,7 @@ export { getToastRootStyles, getVariantIconColor, toastViewportStyles } from './
 // Types
 export type { ToastConfig, ToastContextValue, Toast as ToastType, ToastVariant } from './Toast.types';
 
-export { ToastContainer, ToastSystem } from './ToastContainer';
+export { ToastSystem } from './ToastContainer';
 
 // Context and hook
 export { ToastProvider, useToast } from './ToastContext';
