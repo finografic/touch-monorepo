@@ -8,6 +8,7 @@ import { TranslationForm } from './components/TranslationForm';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminTranslationsPage.styles';
 import { useBatchUpdateTranslations, useGetAllTranslations } from 'api/hooks/useTranslations';
+import { useToast } from 'components/Toast';
 
 import {
   compareTranslationItems,
@@ -106,12 +107,10 @@ const getEmptyFormData = (): TranslationFormData => ({
 
 export const AdminTranslationsPage: React.FC = () => {
   const { t } = useTranslation();
+  const { toast } = useToast();
   const { data: translationsData, isLoading, isError, error } = useGetAllTranslations();
   const { data: supportedLanguagesData, isLoading: languagesLoading } = useGetSupportedLanguages();
   const batchUpdateMutation = useBatchUpdateTranslations();
-  const [submitMessage, setSubmitMessage] = useState<{ type: 'success' | 'error'; message: string } | null>(
-    null,
-  );
   const [isDataReady, setIsDataReady] = useState(false);
 
   // Track if form has been initialized to prevent re-initialization
@@ -294,22 +293,35 @@ export const AdminTranslationsPage: React.FC = () => {
         // Only submit if there are actual changes
         if (Object.keys(updates).length > 0) {
           await batchUpdateMutation.mutateAsync(updates);
-          setSubmitMessage({ type: 'success', message: t('shared.notifications.orderReady') });
+          toast({
+            variant: 'success',
+            message: 'Translations updated successfully',
+            subText: `Updated ${Object.keys(updates).length} section(s)`,
+          });
           console.log('Translations updated successfully');
         } else {
-          setSubmitMessage({ type: 'success', message: t('ui.states.saved') });
+          toast({
+            variant: 'info',
+            message: 'No changes to save',
+            subText: 'All translations are already up to date',
+          });
           console.log('No changes to save');
         }
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : t('ui.states.error');
-        setSubmitMessage({ type: 'error', message: `${t('ui.states.error')}: ${errorMessage}` });
+        toast({
+          variant: 'error',
+          message: 'Failed to update translations',
+          subText: errorMessage,
+          action: {
+            label: 'Retry',
+            onClick: () => methods.handleSubmit(onSubmit)(),
+          },
+        });
         console.error('Failed to update translations:', error);
       }
-
-      // Clear message after 5 seconds
-      setTimeout(() => setSubmitMessage(null), 5000);
     },
-    [translationsData, batchUpdateMutation.mutateAsync, t, supportedLanguages],
+    [translationsData, batchUpdateMutation.mutateAsync, t, supportedLanguages, toast, methods.handleSubmit],
   );
 
   // Memoize the form content to prevent unnecessary re-renders - MOVED BEFORE EARLY RETURNS
@@ -390,14 +402,6 @@ export const AdminTranslationsPage: React.FC = () => {
         <AdminContentLayout
           title={t('admin.title')}
           subtitle={t('admin.pages.translations.content.editTables')}
-          message={
-            submitMessage
-              ? {
-                  type: submitMessage.type,
-                  content: submitMessage.message,
-                }
-              : undefined
-          }
         >
           <AdminSection>{formContent}</AdminSection>
         </AdminContentLayout>

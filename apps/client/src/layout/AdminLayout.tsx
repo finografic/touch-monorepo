@@ -14,6 +14,7 @@ import { AdminNavigation } from 'components/AdminNavigation';
 import { setConfiguration } from 'react-grid-system';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
+import { ToastProvider, ToastSystem } from 'components/Toast';
 
 export const AdminLayout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
@@ -51,41 +52,46 @@ export const AdminLayout: FC = () => {
       <ContentProvider>
         <AdminProvider>
           <DevProvider>
-            <Theme
-              appearance={adminTheme.appearance}
-              grayColor={adminTheme.grayColor}
-              accentColor={adminTheme.accentColor}
-              scaling={adminTheme.scaling}
-            >
-              <div id="admin-layout" css={styles}>
-                <header>
-                  <div className="header-content">
-                    <h1>Administration Panel</h1>
-                    <div className="header-actions">
-                      <AdminNavigation />
-                    </div>
-                  </div>
-                </header>
-
-                <main>
-                  <div className="main-content">
-                    <section>
-                      <header className="page-header">{/* Page header content will go here */}</header>
-                      <div className="page-content" role="main">
-                        <AdminErrorBoundary>
-                          <Suspense fallback={<Loader message="Loading..." />}>
-                            {isNavigating ? <Loader message="Navigating..." /> : <Outlet />}
-                          </Suspense>
-                        </AdminErrorBoundary>
+            <ToastProvider>
+              <Theme
+                appearance={adminTheme.appearance}
+                grayColor={adminTheme.grayColor}
+                accentColor={adminTheme.accentColor}
+                scaling={adminTheme.scaling}
+              >
+                <div id="admin-layout" css={styles}>
+                  <header>
+                    <div className="header-content">
+                      <h1>Administration Panel</h1>
+                      <div className="header-actions">
+                        <AdminNavigation />
                       </div>
-                      <nav className="page-navigation">{/* Page navigation can go here if needed */}</nav>
-                    </section>
-                  </div>
-                </main>
+                    </div>
+                  </header>
 
-                <Footer />
-              </div>
-            </Theme>
+                  <main>
+                    <div className="main-content">
+                      <section>
+                        <header className="page-header">{/* Page header content will go here */}</header>
+                        <div className="page-content" role="main">
+                          <AdminErrorBoundary>
+                            <Suspense fallback={<Loader message="Loading..." />}>
+                              {isNavigating ? <Loader message="Navigating..." /> : <Outlet />}
+                            </Suspense>
+                          </AdminErrorBoundary>
+                        </div>
+                        <nav className="page-navigation">{/* Page navigation can go here if needed */}</nav>
+                      </section>
+                    </div>
+                  </main>
+
+                  <Footer />
+                </div>
+
+                {/* Toast System for notifications */}
+                <ToastSystem />
+              </Theme>
+            </ToastProvider>
           </DevProvider>
         </AdminProvider>
       </ContentProvider>
