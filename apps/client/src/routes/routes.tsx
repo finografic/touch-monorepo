@@ -2,9 +2,9 @@ import type { RouteObject } from 'react-router-dom';
 import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 import { Layout } from 'layout/Layout';
 import { AdminLayout } from 'layout/AdminLayout';
-import { DocsPage } from '../pages/DocsPage/DocsPage';
-import { MainPage } from '../pages/MainPage/MainPage';
-import { GenericSelectPage } from '../pages/DrinkPages/GenericSelectPage';
+import { DocsPage } from 'pages/DocsPage/DocsPage';
+import { MainPage } from 'pages/MainPage/MainPage';
+import { GenericSelectPage } from 'pages/DrinkPages/GenericSelectPage';
 import { ALTERNATIVE_PATHS, PATHS } from './routes.config';
 import { AdminFieldKeys, OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
@@ -107,7 +107,6 @@ export const routes: RouteObject[] = [
       {
         path: 'languages',
         id: 'admin-languages',
-        // loader: LoaderDataHelper[AdminFieldKeys.languages],
         element: <AdminLanguagesPage />,
       },
       {
@@ -120,15 +119,6 @@ export const routes: RouteObject[] = [
         id: 'admin-orders-dev',
         element: <AdminOrdersPage />,
       },
-      // Future admin routes can be added here
-      // {
-      //   path: 'users',
-      //   element: <AdminUsersPage />,
-      // },
-      // {
-      //   path: 'settings',
-      //   element: <AdminSettingsPage />,
-      // },
     ],
   },
 ];
