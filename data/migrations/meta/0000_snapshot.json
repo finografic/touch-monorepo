@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "dd6d39bc-54a1-4769-8e08-3b30938ab26f",
+  "id": "a334df66-93cf-448c-a8a6-fb07557fdf3b",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -369,7 +369,8 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'{\"en-GB\":\"\"}'"
         },
         "thermal_conductivity": {
           "name": "thermal_conductivity",
@@ -496,7 +497,8 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'{\"en-GB\":\"\"}'"
         },
         "default_temp_consume": {
           "name": "default_temp_consume",
@@ -606,7 +608,8 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'{\"en-GB\":\"\"}'"
         },
         "has_subtypes": {
           "name": "has_subtypes",
@@ -677,29 +680,36 @@
           "notNull": true,
           "autoincrement": false
         },
-        "drink_type_name": {
-          "name": "drink_type_name",
+        "drink_type_id": {
+          "name": "drink_type_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "drink_subtype_name": {
-          "name": "drink_subtype_name",
+        "drink_subtype_id": {
+          "name": "drink_subtype_id",
           "type": "text",
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
         },
-        "volume_name": {
-          "name": "volume_name",
+        "volume_id": {
+          "name": "volume_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
-        "container_type_name": {
-          "name": "container_type_name",
+        "container_type_id": {
+          "name": "container_type_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "temperature_profile_id": {
+          "name": "temperature_profile_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -715,13 +725,6 @@
         "default_temp_freeze": {
           "name": "default_temp_freeze",
           "type": "integer",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "temperature_profile_id": {
-          "name": "temperature_profile_id",
-          "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -751,54 +754,54 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "orders_drink_type_name_drink_types_name_fk": {
-          "name": "orders_drink_type_name_drink_types_name_fk",
+        "orders_drink_type_id_drink_types_id_fk": {
+          "name": "orders_drink_type_id_drink_types_id_fk",
           "tableFrom": "orders",
           "tableTo": "drink_types",
           "columnsFrom": [
-            "drink_type_name"
+            "drink_type_id"
           ],
           "columnsTo": [
-            "name"
+            "id"
           ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "orders_drink_subtype_name_drink_subtypes_name_fk": {
-          "name": "orders_drink_subtype_name_drink_subtypes_name_fk",
+        "orders_drink_subtype_id_drink_subtypes_id_fk": {
+          "name": "orders_drink_subtype_id_drink_subtypes_id_fk",
           "tableFrom": "orders",
           "tableTo": "drink_subtypes",
           "columnsFrom": [
-            "drink_subtype_name"
+            "drink_subtype_id"
           ],
           "columnsTo": [
-            "name"
+            "id"
           ],
           "onDelete": "set null",
           "onUpdate": "no action"
         },
-        "orders_volume_name_volumes_name_fk": {
-          "name": "orders_volume_name_volumes_name_fk",
+        "orders_volume_id_volumes_id_fk": {
+          "name": "orders_volume_id_volumes_id_fk",
           "tableFrom": "orders",
           "tableTo": "volumes",
           "columnsFrom": [
-            "volume_name"
+            "volume_id"
           ],
           "columnsTo": [
-            "name"
+            "id"
           ],
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "orders_container_type_name_container_types_name_fk": {
-          "name": "orders_container_type_name_container_types_name_fk",
+        "orders_container_type_id_container_types_id_fk": {
+          "name": "orders_container_type_id_container_types_id_fk",
           "tableFrom": "orders",
           "tableTo": "container_types",
           "columnsFrom": [
-            "container_type_name"
+            "container_type_id"
           ],
           "columnsTo": [
-            "name"
+            "id"
           ],
           "onDelete": "cascade",
           "onUpdate": "no action"
@@ -1097,7 +1100,8 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false
+          "autoincrement": false,
+          "default": "'{\"en-GB\":\"\"}'"
         },
         "value_in_ml": {
           "name": "value_in_ml",

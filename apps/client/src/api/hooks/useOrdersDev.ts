@@ -2,36 +2,44 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 import { transformAxiosError__V2 } from '../api.utils';
 
-// Types for orders-dev based on server schema
+// Types for orders-dev based on server schema with both IDs and names for development
 export interface OrderDev {
   id: string;
+  // Foreign key IDs (for relationships)
+  drinkTypeId: string;
+  drinkSubtypeId?: string;
+  volumeId: string;
+  containerTypeId: string;
+  temperatureProfileId: string;
+  // Human-readable names (for display and translation keys)
   drinkTypeName: string;
   drinkSubtypeName?: string;
   volumeName: string;
   containerTypeName: string;
+  temperatureProfileName: string;
+  // Other fields
   defaultTempConsume: number;
   defaultTempFreeze: number;
-  temperatureProfileId: string;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
 
 export interface OrderDevInput {
-  drinkTypeName: string;
-  drinkSubtypeName?: string;
-  volumeName: string;
-  containerTypeName: string;
+  drinkTypeId: string;
+  drinkSubtypeId?: string;
+  volumeId: string;
+  containerTypeId: string;
   defaultTempConsume: number;
   defaultTempFreeze: number;
   temperatureProfileId: string;
 }
 
 export interface OrderDevUpdate {
-  drinkTypeName?: string;
-  drinkSubtypeName?: string;
-  volumeName?: string;
-  containerTypeName?: string;
+  drinkTypeId?: string;
+  drinkSubtypeId?: string;
+  volumeId?: string;
+  containerTypeId?: string;
   defaultTempConsume?: number;
   defaultTempFreeze?: number;
   temperatureProfileId?: string;

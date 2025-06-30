@@ -1,10 +1,33 @@
 import { createRoute, z } from '@hono/zod-openapi';
-import { orderDevSchemas } from 'db/schemas/orders_dev.schema';
+import { orderSchemas } from 'db/schemas/orders.schema';
 import { notFoundSchema } from 'lib/constants';
 import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+
+// Schema for the readable view response (includes both IDs and names)
+const orderReadableSchema = z.object({
+  id: z.string(),
+  // Foreign key IDs
+  drinkTypeId: z.string(),
+  drinkSubtypeId: z.string().optional(),
+  volumeId: z.string(),
+  containerTypeId: z.string(),
+  temperatureProfileId: z.string(),
+  // Human-readable names
+  drinkTypeName: z.string(),
+  drinkSubtypeName: z.string().optional(),
+  volumeName: z.string(),
+  containerTypeName: z.string(),
+  temperatureProfileName: z.string(),
+  // Other fields
+  defaultTempConsume: z.number(),
+  defaultTempFreeze: z.number(),
+  isActive: z.boolean(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
 
 const tags = ['DrinkOrders'];
 
@@ -14,19 +37,8 @@ export const list = createRoute({
   tags,
   responses: {
     [HttpStatusCodes.OK]: jsonContent(
-      z.array(
-        orderDevSchemas.select.pick({
-          id: true,
-          drinkTypeName: true,
-          drinkSubtypeName: true,
-          containerTypeName: true,
-          volumeName: true,
-          defaultTempConsume: true,
-          defaultTempFreeze: true,
-          temperatureProfileId: true,
-        }),
-      ),
-      'List of available drink orders',
+      z.array(orderReadableSchema),
+      'List of available drink orders with both IDs and human-readable names',
     ),
   },
 });
@@ -39,7 +51,7 @@ export const getOne = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(orderDevSchemas.select, 'The requested drink order'),
+    [HttpStatusCodes.OK]: jsonContent(orderSchemas.select, 'The requested drink order'),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink order not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(IdParamsSchema),
@@ -52,13 +64,13 @@ export const create = createRoute({
   path: '/orders',
   method: 'post',
   request: {
-    body: jsonContentRequired(orderDevSchemas.insert, 'The drink order to create'),
+    body: jsonContentRequired(orderSchemas.insert, 'The drink order to create'),
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(orderDevSchemas.select, 'The created drink order'),
+    [HttpStatusCodes.OK]: jsonContent(orderSchemas.select, 'The created drink order'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(orderDevSchemas.insert),
+      createErrorSchema(orderSchemas.insert),
       'The validation error(s)',
     ),
   },
@@ -69,14 +81,14 @@ export const patch = createRoute({
   method: 'patch',
   request: {
     params: IdCuidParamsSchema,
-    body: jsonContentRequired(orderDevSchemas.patch, 'The drink order updates'),
+    body: jsonContentRequired(orderSchemas.patch, 'The drink order updates'),
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(orderDevSchemas.select, 'The updated drink order'),
+    [HttpStatusCodes.OK]: jsonContent(orderSchemas.select, 'The updated drink order'),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Drink order not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
-      createErrorSchema(orderDevSchemas.patch).or(createErrorSchema(IdParamsSchema)),
+      createErrorSchema(orderSchemas.patch).or(createErrorSchema(IdParamsSchema)),
       'The validation error(s)',
     ),
   },

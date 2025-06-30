@@ -145,24 +145,27 @@ export const AdminTranslationsPage: React.FC = () => {
   });
 
   // Add delay to ensure data is fully loaded before showing the form
-  useEffect(() => {
-    if (
-      translationsData &&
-      !isLoading &&
-      supportedLanguagesData &&
-      supportedLanguagesData.length > 0 &&
-      !languagesLoading
-    ) {
-      // Small delay to ensure all data is properly loaded
-      const timer = setTimeout(() => {
-        setIsDataReady(true);
-      }, 100);
+  useEffect(
+    function initializePageOnDataReady() {
+      if (
+        translationsData &&
+        !isLoading &&
+        supportedLanguagesData &&
+        supportedLanguagesData.length > 0 &&
+        !languagesLoading
+      ) {
+        // Small delay to ensure all data is properly loaded
+        const timer = setTimeout(() => {
+          setIsDataReady(true);
+        }, 100);
 
-      return () => clearTimeout(timer);
-    } else {
-      setIsDataReady(false);
-    }
-  }, [translationsData, isLoading, supportedLanguagesData, languagesLoading]);
+        return () => clearTimeout(timer);
+      } else {
+        setIsDataReady(false);
+      }
+    },
+    [translationsData, isLoading, supportedLanguagesData, languagesLoading],
+  );
 
   // Convert JSON translations to legacy field format for form compatibility
   const convertedTranslationsData = useMemo(() => {
@@ -185,12 +188,15 @@ export const AdminTranslationsPage: React.FC = () => {
   }, [translationsData, supportedLanguages]);
 
   // Update form when data is loaded from API - prevent infinite loop
-  useEffect(() => {
-    if (convertedTranslationsData && isDataReady && !isInitialized.current) {
-      methods.reset(convertedTranslationsData);
-      isInitialized.current = true;
-    }
-  }, [convertedTranslationsData, isDataReady, methods]);
+  useEffect(
+    function updateFormOnDataReady() {
+      if (convertedTranslationsData && isDataReady && !isInitialized.current) {
+        methods.reset(convertedTranslationsData);
+        isInitialized.current = true;
+      }
+    },
+    [convertedTranslationsData, isDataReady, methods],
+  );
 
   // Memoized reset function to prevent re-renders
   const handleReset = useCallback(() => {

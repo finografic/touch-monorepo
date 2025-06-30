@@ -125,10 +125,10 @@ export async function seed() {
           for (const volume of volumes) {
             for (const container of containers) {
               orderRows.push({
-                drinkTypeName: type.name,
-                drinkSubtypeName: null,
-                volumeName: volume.name,
-                containerTypeName: container.name,
+                drinkTypeId: type.id,
+                drinkSubtypeId: null,
+                volumeId: volume.id,
+                containerTypeId: container.id,
                 defaultTempConsume: getRandomInt(
                   TEMPERATURE_RANGES.CONSUMPTION.MIN,
                   TEMPERATURE_RANGES.CONSUMPTION.MAX,
@@ -153,10 +153,10 @@ export async function seed() {
             for (const volume of volumes) {
               for (const container of containers) {
                 orderRows.push({
-                  drinkTypeName: type.name,
-                  drinkSubtypeName: subtype.name,
-                  volumeName: volume.name,
-                  containerTypeName: container.name,
+                  drinkTypeId: type.id,
+                  drinkSubtypeId: subtype.id,
+                  volumeId: volume.id,
+                  containerTypeId: container.id,
                   defaultTempConsume: getRandomInt(
                     TEMPERATURE_RANGES.CONSUMPTION.MIN,
                     TEMPERATURE_RANGES.CONSUMPTION.MAX,
