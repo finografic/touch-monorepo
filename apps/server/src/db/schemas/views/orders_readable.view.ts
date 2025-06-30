@@ -37,5 +37,5 @@ export const orders_readable = sqliteView('orders_readable').as((qb) =>
     .leftJoin(sql`temperature_profiles`, sql`orders.temperature_profile_id = temperature_profiles.id`),
 );
 
-// Export type for the view
-export type OrdersReadable = typeof orders_readable.$inferSelect;
+// Note: Type inference not available with raw SQL views
+// If needed, create manual type definition matching the select fields above
