@@ -1,40 +1,46 @@
-import { sql } from 'drizzle-orm';
-import { integer, sqliteView, text } from 'drizzle-orm/sqlite-core';
+import { eq, sql } from 'drizzle-orm';
+import { sqliteView } from 'drizzle-orm/sqlite-core';
+import { orders } from '../orders.schema';
+import { drink_types } from '../drink_types.schema';
+import { drink_subtypes } from '../drink_subtypes.schema';
+import { volumes } from '../volumes.schema';
+import { container_types } from '../container_types.schema';
+import { temperature_profiles } from '../temperature_profiles.schema';
 
 // Orders readable view - JOINs orders with reference tables to show both IDs and names
 export const orders_readable = sqliteView('orders_readable').as((qb) =>
   qb
     .select({
       // Order fields
-      id: sql`orders.id`.as('id'),
-      isActive: sql`orders.is_active`.as('is_active'),
-      createdAt: sql`orders.created_at`.as('created_at'),
-      updatedAt: sql`orders.updated_at`.as('updated_at'),
+      id: orders.id,
+      isActive: orders.isActive,
+      createdAt: orders.createdAt,
+      updatedAt: orders.updatedAt,
 
       // Temperature fields
-      defaultTempConsume: sql`orders.default_temp_consume`.as('default_temp_consume'),
-      defaultTempFreeze: sql`orders.default_temp_freeze`.as('default_temp_freeze'),
+      defaultTempConsume: orders.defaultTempConsume,
+      defaultTempFreeze: orders.defaultTempFreeze,
 
       // Foreign key IDs (for proper relationships)
-      drinkTypeId: sql`orders.drink_type_id`.as('drink_type_id'),
-      drinkSubtypeId: sql`orders.drink_subtype_id`.as('drink_subtype_id'),
-      volumeId: sql`orders.volume_id`.as('volume_id'),
-      containerTypeId: sql`orders.container_type_id`.as('container_type_id'),
-      temperatureProfileId: sql`orders.temperature_profile_id`.as('temperature_profile_id'),
+      drinkTypeId: orders.drinkTypeId,
+      drinkSubtypeId: orders.drinkSubtypeId,
+      volumeId: orders.volumeId,
+      containerTypeId: orders.containerTypeId,
+      temperatureProfileId: orders.temperatureProfileId,
 
       // Human-readable names (for display and debugging)
-      drinkTypeName: sql`drink_types.name`.as('drink_type_name'),
-      drinkSubtypeName: sql`drink_subtypes.name`.as('drink_subtype_name'),
-      volumeName: sql`volumes.name`.as('volume_name'),
-      containerTypeName: sql`container_types.name`.as('container_type_name'),
-      temperatureProfileName: sql`temperature_profiles.id`.as('temperature_profile_name'), // Using ID since profiles don't have name
+      drinkTypeName: drink_types.name,
+      drinkSubtypeName: drink_subtypes.name,
+      volumeName: volumes.name,
+      containerTypeName: container_types.name,
+      temperatureProfileName: temperature_profiles.id, // Using ID since profiles don't have name
     })
-    .from(sql`orders`)
-    .leftJoin(sql`drink_types`, sql`orders.drink_type_id = drink_types.id`)
-    .leftJoin(sql`drink_subtypes`, sql`orders.drink_subtype_id = drink_subtypes.id`)
-    .leftJoin(sql`volumes`, sql`orders.volume_id = volumes.id`)
-    .leftJoin(sql`container_types`, sql`orders.container_type_id = container_types.id`)
-    .leftJoin(sql`temperature_profiles`, sql`orders.temperature_profile_id = temperature_profiles.id`),
+    .from(orders)
+    .leftJoin(drink_types, eq(orders.drinkTypeId, drink_types.id))
+    .leftJoin(drink_subtypes, eq(orders.drinkSubtypeId, drink_subtypes.id))
+    .leftJoin(volumes, eq(orders.volumeId, volumes.id))
+    .leftJoin(container_types, eq(orders.containerTypeId, container_types.id))
+    .leftJoin(temperature_profiles, eq(orders.temperatureProfileId, temperature_profiles.id)),
 );
 
 // Note: Type inference not available with raw SQL views

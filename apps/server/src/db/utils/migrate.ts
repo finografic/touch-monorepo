@@ -21,16 +21,18 @@ async function main() {
   // Get project root path (3 levels up from this file)
   // const projectRoot = path.resolve(__dirname, '../../../..');
 
-  // Check if tables exist
-  const result = db.$client
+  // Check if tables or views exist
+  const tables = db.$client
     .prepare(
       `SELECT name FROM sqlite_master WHERE type = 'table' AND name NOT LIKE 'sqlite_%' AND name NOT LIKE '_drizzle_%'`,
     )
     .all() as TableInfo[];
 
-  if (result.length > 0) {
+  const views = db.$client.prepare(`SELECT name FROM sqlite_master WHERE type = 'view'`).all() as TableInfo[];
+
+  if (tables.length > 0 || views.length > 0) {
     const shouldDrop = await confirm({
-      message: chalk.yellow('⚠️  Warning: This will drop existing tables. Are you sure?'),
+      message: chalk.yellow('⚠️  Warning: This will drop existing tables and views. Are you sure?'),
       default: false,
     });
 
@@ -39,18 +41,39 @@ async function main() {
       process.exit(0);
     }
 
-    console.log('Dropping existing tables...');
-    // for (const { name } of result) {
-    //   db.$client.prepare(`DROP TABLE IF EXISTS "${name}"`).run();
-    // }
-    for (const { name } of result) {
-      try {
-        db.$client.prepare(`DROP TABLE IF EXISTS "${name}"`).run();
-      } catch (err) {
-        console.warn(`Warning: Could not drop table "${name}". Skipping.`, err);
-        // Continue to next table
+    // Disable foreign key constraints temporarily
+    console.log('Disabling foreign key constraints...');
+    db.$client.prepare('PRAGMA foreign_keys = OFF').run();
+
+    // Drop views first
+    if (views.length > 0) {
+      console.log('Dropping existing views...');
+      for (const { name } of views) {
+        try {
+          db.$client.prepare(`DROP VIEW IF EXISTS "${name}"`).run();
+          console.log(`✅ Dropped view: ${name}`);
+        } catch (err) {
+          console.warn(`Warning: Could not drop view "${name}". Skipping.`, err);
+        }
       }
     }
+
+    // Then drop tables
+    if (tables.length > 0) {
+      console.log('Dropping existing tables...');
+      for (const { name } of tables) {
+        try {
+          db.$client.prepare(`DROP TABLE IF EXISTS "${name}"`).run();
+          console.log(`✅ Dropped table: ${name}`);
+        } catch (err) {
+          console.warn(`Warning: Could not drop table "${name}". Skipping.`, err);
+        }
+      }
+    }
+
+    // Re-enable foreign key constraints
+    console.log('Re-enabling foreign key constraints...');
+    db.$client.prepare('PRAGMA foreign_keys = ON').run();
   }
 
   // Run migrations
