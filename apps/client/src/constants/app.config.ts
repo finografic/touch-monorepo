@@ -53,6 +53,9 @@ export const OrderFieldKeys: { [K in OrderFieldKey]: K } = {
  * Useful for strongly-typed object access
  */
 export const AdminFieldKeys: { [K in string]: K } = {
+  dashboard: 'dashboard',
   languages: 'languages',
   translations: 'translations',
+  translationsUi: 'translationsUi',
+  itemsList: 'itemsList',
 } as const;

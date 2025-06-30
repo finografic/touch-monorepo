@@ -96,28 +96,28 @@ export const routes: RouteObject[] = [
     children: [
       {
         index: true,
-        id: 'admin',
+        id: AdminFieldKeys.dashboard,
         element: <AdminPage />,
       },
       {
+        path: 'orders-dev',
+        id: AdminFieldKeys.itemsList,
+        element: <AdminOrdersPage />,
+      },
+      {
         path: 'translations',
-        id: 'admin-translations',
+        id: AdminFieldKeys.translations,
         element: <AdminTranslationsPage />,
       },
       {
-        path: 'languages',
-        id: 'admin-languages',
-        element: <AdminLanguagesPage />,
-      },
-      {
         path: 'ui-labels',
-        id: 'admin-ui-labels',
+        id: AdminFieldKeys.translationsUi,
         element: <AdminUiLabelsPage />,
       },
       {
-        path: 'orders-dev',
-        id: 'admin-orders-dev',
-        element: <AdminOrdersPage />,
+        path: 'languages',
+        id: AdminFieldKeys.languages,
+        element: <AdminLanguagesPage />,
       },
     ],
   },
