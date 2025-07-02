@@ -13,11 +13,11 @@ export * from './drink_types.schema';
 
 export * from './orders.schema';
 
-// Views
+// Views - TypeScript types only (actual views created via seeding system)
 export * from './orders_readable_view.schema';
+
 export * from './supported_languages.schema';
 export * from './temperature_profiles.schema';
-
 export * from './translatable_entities.schema';
 
 // NOTE: DRINK CONTROL SYSTEM SCHEMAS

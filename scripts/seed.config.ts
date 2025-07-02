@@ -45,6 +45,12 @@ export const seedOrder: SeedConfig[] = [
     description: 'Example orders',
     dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types', 'temperature_profiles'],
   },
+  // NOTE: 'views' removed - now handled as separate step via db.views.create
+  // {
+  //   name: 'views',
+  //   description: 'Database views (orders_readable, etc.) - created after all data is seeded',
+  //   dependencies: ['orders'], // Ensures all tables have data before creating views
+  // },
   // {
   //   name: 'drink_configs',
   //   description: 'drink configurations',

@@ -45,6 +45,8 @@
     "lint.strict": "cross-env STRICT_LINT=true eslint .",
     "·········· DB.BATCH": "··················································",
     "db.reset": "pnpm db.drop && pnpm db.create && pnpm db.migrations.run",
+    "db.reset.full": "pnpm db.drop && pnpm db.create && pnpm db.migrations.run && pnpm db.setup && pnpm db.views.create",
+    "db.reset.with-data": "pnpm db.drop && pnpm db.create && pnpm db.migrations.run && pnpm db.setup",
     "db.setup": "NODE_OPTIONS='--import tsx' db-setup",
     "·········· DB.UTILS": "··················································",
     "db.drop": "shx rm -rf ../data/*.sqlite.db",

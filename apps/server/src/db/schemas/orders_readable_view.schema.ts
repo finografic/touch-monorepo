@@ -1,18 +1,35 @@
-import { sql } from 'drizzle-orm';
 import { integer, sqliteView, text } from 'drizzle-orm/sqlite-core';
-import { orders } from './orders.schema';
 
-// Orders readable view using raw SQL - following Drizzle docs "Declaring views with raw SQL"
-export const orders_readable = sqliteView('orders_readable', {
-  id: text('id').notNull(),
-  drinkTypeId: text('drink_type_id').notNull(),
-  drinkSubtypeId: text('drink_subtype_id'),
-  volumeId: text('volume_id').notNull(),
-  containerTypeId: text('container_type_id').notNull(),
-  temperatureProfileId: text('temperature_profile_id').notNull(),
-  defaultTempConsume: integer('default_temp_consume').notNull(),
-  defaultTempFreeze: integer('default_temp_freeze').notNull(),
-  isActive: integer('is_active').notNull(),
-  createdAt: integer('created_at'),
-  updatedAt: integer('updated_at'),
-}).as(sql`SELECT * FROM ${orders}`);
+// ======================================================================== //
+// TYPESCRIPT TYPES FOR orders_readable VIEW
+//
+// This file provides TypeScript types for the orders_readable view
+// WITHOUT actually creating the view (which is handled by the seeding system).
+//
+// The actual view is created by:
+// - apps/server/src/db/utils/create-view.ts
+// - apps/server/src/db/seeds/views.seed.ts
+// ======================================================================== //
+
+// Define the shape of the orders_readable view for TypeScript
+export interface OrdersReadableView {
+  id: string;
+  drinkType: string;
+  drinkSubtype: string | null;
+  volume: string;
+  containerType: string;
+  temperatureProfile: string;
+  defaultTempConsume: number;
+  defaultTempFreeze: number;
+  isActive: number; // SQLite boolean as integer
+  createdAt: number | null; // SQLite timestamp as integer
+  updatedAt: number | null; // SQLite timestamp as integer
+}
+
+// Export a query helper for type-safe access to the view
+export const orders_readable = {
+  // This provides the table name for raw SQL queries
+  _: {
+    name: 'orders_readable' as const,
+  },
+} as const;
