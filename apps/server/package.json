@@ -56,6 +56,7 @@
     "db.migrations.seed": "tsx src/db/utils/seed.ts",
     "db.migrations.run": "tsx src/db/utils/migrate.ts",
     "db.views.create": "tsx src/db/utils/create-view.ts",
+    "db.views.test": "tsx src/db/utils/test-view.ts",
     "·········· DB.STUDIO": "·················································",
     "db.studio": "drizzle-kit studio",
     "·········· UTILS": "·····················································",
