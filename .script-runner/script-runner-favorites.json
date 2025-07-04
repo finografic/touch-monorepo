@@ -1,0 +1,15 @@
+{
+  "lastUsed": [
+    "dev"
+  ],
+  "hardcoded": [
+    "dev",
+    "dev.server",
+    "dev.client",
+    "db.reset.v3-RECOMMENDED",
+    "db.studio",
+    "build",
+    "lint.fix"
+  ],
+  "timestamp": 1751706697218
+}

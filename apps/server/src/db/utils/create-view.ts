@@ -11,7 +11,7 @@ export async function createOrdersReadableView(): Promise<void> {
 
   try {
     // Drop existing view if it exists
-    await db.run(sql`DROP VIEW IF EXISTS orders_readable`);
+    await db.run(sql` `);
     console.log('  ✓ Dropped existing orders_readable view (if it existed)');
 
     // Create the view with proper JOIN syntax

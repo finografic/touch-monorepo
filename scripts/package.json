@@ -21,11 +21,16 @@
     "./db-setup": {
       "types": "./dist/db-setup/index.d.ts",
       "import": "./dist/db-setup/index.js"
+    },
+    "./script-runner": {
+      "types": "./dist/script-runner/index.d.ts",
+      "import": "./dist/script-runner/index.js"
     }
   },
   "bin": {
     "clean-all": "bin/clean-all.js",
-    "db-setup": "bin/db-setup.js"
+    "db-setup": "bin/db-setup.js",
+    "script-runner": "bin/script-runner.js"
   },
   "files": [
     "bin",
@@ -82,6 +87,7 @@
     "@inquirer/core": "10.1.9",
     "@inquirer/input": "4.1.8",
     "@inquirer/prompts": "7.1.0",
+    "@inquirer/search": "3.0.16",
     "del": "8.0.0",
     "parse-gitignore": "^2.0.0",
     "yargs": "^17.7.2"
