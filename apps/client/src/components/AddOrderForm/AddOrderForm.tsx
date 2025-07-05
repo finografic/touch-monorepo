@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
-import { Box, Button, Card, Flex, Text } from '@radix-ui/themes';
-import { ComboboxField } from 'components/ComboboxField';
+import { Box, Button, Flex, Text } from '@radix-ui/themes';
+import { SearchableSelect } from 'pages/AdminPages/AdminOrdersPage/SearchableSelect/SearchableSelect';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { useGetContainerTypes } from 'queries/container-types';
@@ -45,20 +45,36 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
   const { data: containerTypes = [] } = useGetContainerTypes();
   const { data: ordersData = [] } = useGetOrdersReadable();
 
-  // Transform data into ComboboxOption format
+  // Transform data into SelectOption format
   const drinkTypeOptions = useMemo(
     () =>
       [
-        ...drinkTypes.map((dt: any) => ({ value: dt.name || '', label: dt.name || '' })),
-        ...tempItems.drinkTypes.map((name) => ({ value: name, label: name })),
+        ...drinkTypes.map((dt: any) => ({
+          value: dt.name || '',
+          label: dt.name || '',
+          category: 'Database',
+        })),
+        ...tempItems.drinkTypes.map((name) => ({
+          value: name,
+          label: name,
+          category: 'Custom',
+        })),
       ].filter((option) => option.value),
     [drinkTypes, tempItems.drinkTypes],
   );
 
   const volumeOptions = useMemo(() => {
     let baseOptions = [
-      ...volumes.map((v: any) => ({ value: v.name || '', label: v.name || '' })),
-      ...tempItems.volumes.map((name) => ({ value: name, label: name })),
+      ...volumes.map((v: any) => ({
+        value: v.name || '',
+        label: v.name || '',
+        category: 'Database',
+      })),
+      ...tempItems.volumes.map((name) => ({
+        value: name,
+        label: name,
+        category: 'Custom',
+      })),
     ].filter((option) => option.value);
 
     // Progressive filtering: if drink type is selected, also include volumes used with that drink type
@@ -67,7 +83,11 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
         .filter((order) => order.drinkType === formState.drinkType)
         .map((order) => order.volume)
         .filter(Boolean)
-        .map((volume) => ({ value: volume, label: volume }));
+        .map((volume) => ({
+          value: volume,
+          label: volume,
+          category: 'From existing orders',
+        }));
 
       baseOptions = [...baseOptions, ...usedVolumes];
       // Remove duplicates
@@ -79,8 +99,16 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
 
   const containerTypeOptions = useMemo(() => {
     let baseOptions = [
-      ...containerTypes.map((ct: any) => ({ value: ct.name || '', label: ct.name || '' })),
-      ...tempItems.containerTypes.map((name) => ({ value: name, label: name })),
+      ...containerTypes.map((ct: any) => ({
+        value: ct.name || '',
+        label: ct.name || '',
+        category: 'Database',
+      })),
+      ...tempItems.containerTypes.map((name) => ({
+        value: name,
+        label: name,
+        category: 'Custom',
+      })),
     ].filter((option) => option.value);
 
     // Progressive filtering: if drink type and volume are selected, include containers used with that combination
@@ -89,7 +117,11 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
         .filter((order) => order.drinkType === formState.drinkType && order.volume === formState.volume)
         .map((order) => order.containerType)
         .filter(Boolean)
-        .map((container) => ({ value: container, label: container }));
+        .map((container) => ({
+          value: container,
+          label: container,
+          category: 'From existing orders',
+        }));
 
       baseOptions = [...baseOptions, ...usedContainers];
       // Remove duplicates
@@ -137,6 +169,12 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
         volume: '',
         containerType: '',
       });
+      // Reset temp items too
+      setTempItems({
+        drinkTypes: [],
+        volumes: [],
+        containerTypes: [],
+      });
     }
   };
 
@@ -148,48 +186,52 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
       <Col xs={12} md={12} className="col">
         <Flex gap="4" justify="between" className="b">
           {/* Drink Type */}
-          <ComboboxField
+          <SearchableSelect
             label="Drink Type"
             value={formState.drinkType}
-            onChange={(value) => handleFieldChange('drinkType', value)}
+            onSelect={(value) => handleFieldChange('drinkType', value)}
+            onAddNew={(value) => handleAddNew('drinkTypes', value)}
             options={drinkTypeOptions}
             placeholder="e.g., Coffee, Tea, Juice"
             required
-            onAddNew={(value) => handleAddNew('drinkTypes', value)}
+            windowSize={15}
           />
 
           {/* Subtype */}
-          <ComboboxField
+          <SearchableSelect
             label="Subtype"
             value={formState.drinkSubtype}
-            onChange={(value) => handleFieldChange('drinkSubtype', value)}
+            onSelect={(value) => handleFieldChange('drinkSubtype', value)}
             options={[]}
             placeholder="Optional"
             allowAddNew={false}
+            windowSize={10}
           />
 
           {/* Volume */}
-          <ComboboxField
+          <SearchableSelect
             label="Volume"
             value={formState.volume}
-            onChange={(value) => handleFieldChange('volume', value)}
+            onSelect={(value) => handleFieldChange('volume', value)}
+            onAddNew={(value) => handleAddNew('volumes', value)}
             options={volumeOptions}
             placeholder="e.g., 250ml, 500ml, 1L"
             required
             disabled={!formState.drinkType}
-            onAddNew={(value) => handleAddNew('volumes', value)}
+            windowSize={15}
           />
 
           {/* Container Type */}
-          <ComboboxField
+          <SearchableSelect
             label="Container"
             value={formState.containerType}
-            onChange={(value) => handleFieldChange('containerType', value)}
+            onSelect={(value) => handleFieldChange('containerType', value)}
+            onAddNew={(value) => handleAddNew('containerTypes', value)}
             options={containerTypeOptions}
             placeholder="e.g., Cup, Bottle, Can"
             required
             disabled={!formState.volume}
-            onAddNew={(value) => handleAddNew('containerTypes', value)}
+            windowSize={15}
           />
         </Flex>
 

@@ -1,36 +1,42 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { matchSorter } from 'match-sorter';
-import { Box, Card, Flex, Text, TextField } from '@radix-ui/themes';
-import { ChevronDownIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { Box, Button, Card, Flex, Text, TextField } from '@radix-ui/themes';
+import { ChevronDownIcon, MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 import { styles } from './SearchableSelect.styles';
-import type { CountryBasic as Country } from '@workspace/types';
 
-interface LanguageOption {
-  languageCode: string;
-  languageName: string;
-  countryName: string;
-  countryCode: string;
-  flagUrl: string;
-  nativeName?: string;
-  emoji?: string;
+interface SelectOption {
+  value: string;
+  label: string;
+  description?: string;
+  category?: string;
 }
 
-interface SearchableLanguageInputSlidingProps {
-  countriesData: Country[];
-  onLanguageSelect: (option: LanguageOption) => void;
+interface SearchableSelectProps {
+  options: SelectOption[];
+  onSelect: (value: string) => void;
+  onAddNew?: (value: string) => void;
   placeholder?: string;
   disabled?: boolean;
-  windowSize?: number; // Size of the sliding window
+  windowSize?: number;
+  allowAddNew?: boolean;
+  label?: string;
+  required?: boolean;
+  value?: string;
 }
 
-export const SearchableSelect: React.FC<SearchableLanguageInputSlidingProps> = ({
-  countriesData,
-  onLanguageSelect,
-  placeholder = 'Search languages, countries, or codes... (Sliding Window)',
+export const SearchableSelect: React.FC<SearchableSelectProps> = ({
+  options,
+  onSelect,
+  onAddNew,
+  placeholder = 'Type to search or add new...',
   disabled = false,
-  windowSize = 40,
+  windowSize = 20,
+  allowAddNew = true,
+  label,
+  required = false,
+  value = '',
 }) => {
-  const [searchValue, setSearchValue] = useState('');
+  const [searchValue, setSearchValue] = useState(value);
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [displayStart, setDisplayStart] = useState(0);
@@ -38,47 +44,33 @@ export const SearchableSelect: React.FC<SearchableLanguageInputSlidingProps> = (
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Flatten countries data into searchable language options
-  const languageOptions = useMemo(() => {
-    const options: LanguageOption[] = [];
-
-    countriesData.forEach((country) => {
-      if (country.languages) {
-        Object.entries(country.languages).forEach(([langCode, langName]) => {
-          // Get native name for this language if available
-          const nativeName = country.name.nativeName?.[langCode]?.common;
-
-          options.push({
-            languageCode: langCode,
-            languageName: langName,
-            countryName: country.name.common,
-            countryCode: country.cca2,
-            flagUrl: country.flags.png,
-            nativeName,
-            emoji: country.flag || '',
-          });
-        });
-      }
-    });
-
-    // Sort alphabetically by language name for better UX
-    return options.sort((a, b) => a.languageName.localeCompare(b.languageName));
-  }, [countriesData]);
+  // Sync with external value changes
+  useEffect(() => {
+    setSearchValue(value);
+  }, [value]);
 
   // Use match-sorter for intelligent search
   const allFilteredOptions = useMemo(() => {
     if (!searchValue.trim()) {
-      // When no search value, return all options (alphabetically sorted)
-      return languageOptions;
+      return options;
     }
 
-    return matchSorter(languageOptions, searchValue, {
-      keys: ['languageCode', 'languageName', 'nativeName', 'countryCode', 'countryName'],
+    return matchSorter(options, searchValue, {
+      keys: ['value', 'label', 'description', 'category'],
       threshold: matchSorter.rankings.CONTAINS,
     });
-  }, [languageOptions, searchValue]);
+  }, [options, searchValue]);
 
-  // Simple sliding window - just slice the array
+  // Check if current input matches any existing option
+  const exactMatch = useMemo(() => {
+    return options.find(
+      (option) =>
+        option.value.toLowerCase() === searchValue.toLowerCase() ||
+        option.label.toLowerCase() === searchValue.toLowerCase(),
+    );
+  }, [options, searchValue]);
+
+  // Simple sliding window
   const slidingWindow = useMemo(() => {
     const totalItems = allFilteredOptions.length;
     if (totalItems === 0) return { items: [], startIndex: 0, endIndex: 0, totalItems: 0 };
@@ -93,65 +85,58 @@ export const SearchableSelect: React.FC<SearchableLanguageInputSlidingProps> = (
     };
   }, [allFilteredOptions, displayStart, windowSize]);
 
-  const handleSelectOption = (option: LanguageOption) => {
-    onLanguageSelect(option);
-    setSearchValue('');
+  const handleSelectOption = (option: SelectOption) => {
+    onSelect(option.value);
+    setSearchValue(option.value);
     setIsOpen(false);
     setFocusedIndex(-1);
-    setDisplayStart(0); // Reset to beginning
-    setLastScrollTop(0); // Reset scroll tracking
+    setDisplayStart(0);
+    setLastScrollTop(0);
     inputRef.current?.blur();
   };
 
-  // Handle clicking on the input field to open dropdown
+  const handleAddNew = () => {
+    if (searchValue.trim() && onAddNew && !exactMatch) {
+      onAddNew(searchValue.trim());
+      onSelect(searchValue.trim());
+      setIsOpen(false);
+      setFocusedIndex(-1);
+      setDisplayStart(0);
+      setLastScrollTop(0);
+      inputRef.current?.blur();
+    }
+  };
+
   const handleInputClick = () => {
     setIsOpen(true);
-    setDisplayStart(0); // Reset to beginning
-    setLastScrollTop(0); // Reset scroll tracking
+    setDisplayStart(0);
+    setLastScrollTop(0);
     if (slidingWindow.items.length > 0) {
       setFocusedIndex(0);
     }
   };
 
-  // TODO: SLIDING WINDOW SCROLL ISSUE
-  // Current Issue: Upward scrolling still has buggy behavior where users get "stuck"
-  // at window boundaries and need to scroll back-and-forth to make progress upward.
-  //
-  // Problem Analysis:
-  // 1. When sliding window moves backward (up), the scroll container's content shrinks
-  // 2. This causes the scroll position to "reset" and user loses momentum
-  // 3. User must scroll down slightly to build up scroll distance before triggering upward slide again
-  // 4. Creates frustrating back-and-forth motion to reach earlier items
-  //
-  // Potential Solutions to Explore:
-  // 1. Implement proper virtual scrolling with fixed container height (like original attempt)
-  // 2. Use scroll velocity/momentum detection instead of position-based triggers
-  // 3. Implement smooth scrolling with programmatic scroll position management
-  // 4. Consider pagination-style approach with prev/next buttons
-  // 5. Use intersection observer API to detect when to slide window
-  //
-  // Current State: Basic bidirectional sliding that works but has UX issues going upward
-  // This version is stable and doesn't crash, good baseline for future improvements
+  const handleInputChange = (newValue: string) => {
+    setSearchValue(newValue);
+    onSelect(newValue);
+    setIsOpen(newValue.length > 0 || options.length > 0);
+  };
 
-  // Bidirectional scroll handler - slide window in both directions
+  // Bidirectional scroll handler
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     const { scrollTop, scrollHeight, clientHeight } = e.currentTarget;
     const isNearBottom = scrollTop + clientHeight >= scrollHeight - 10;
     const isNearTop = scrollTop <= 10;
 
-    // Determine scroll direction
     const isScrollingDown = scrollTop > lastScrollTop;
     const isScrollingUp = scrollTop < lastScrollTop;
 
-    // Update last scroll position
     setLastScrollTop(scrollTop);
 
-    // Slide window forward when scrolling down and near bottom
     if (isScrollingDown && isNearBottom && slidingWindow.endIndex < allFilteredOptions.length) {
       setDisplayStart((prev) => Math.min(prev + 10, Math.max(0, allFilteredOptions.length - windowSize)));
     }
 
-    // Slide window backward when scrolling up and near top
     if (isScrollingUp && isNearTop && slidingWindow.startIndex > 0) {
       setDisplayStart((prev) => Math.max(0, prev - 10));
     }
@@ -168,9 +153,13 @@ export const SearchableSelect: React.FC<SearchableLanguageInputSlidingProps> = (
       return;
     }
 
+    // Calculate total items including "Add New" option
+    const totalItems =
+      slidingWindow.items.length + (allowAddNew && searchValue.trim() && !exactMatch ? 1 : 0);
+
     switch (e.key) {
       case 'ArrowDown':
-        setFocusedIndex((prev) => (prev < slidingWindow.items.length - 1 ? prev + 1 : prev));
+        setFocusedIndex((prev) => (prev < totalItems - 1 ? prev + 1 : prev));
         e.preventDefault();
         break;
       case 'ArrowUp':
@@ -178,8 +167,12 @@ export const SearchableSelect: React.FC<SearchableLanguageInputSlidingProps> = (
         e.preventDefault();
         break;
       case 'Enter':
-        if (focusedIndex >= 0 && slidingWindow.items[focusedIndex]) {
-          handleSelectOption(slidingWindow.items[focusedIndex]);
+        if (focusedIndex >= 0) {
+          if (focusedIndex < slidingWindow.items.length) {
+            handleSelectOption(slidingWindow.items[focusedIndex]);
+          } else if (allowAddNew && searchValue.trim() && !exactMatch) {
+            handleAddNew();
+          }
         }
         e.preventDefault();
         break;
@@ -213,125 +206,132 @@ export const SearchableSelect: React.FC<SearchableLanguageInputSlidingProps> = (
   }, []);
 
   return (
-    <div css={styles} className="searchable-language-input">
-      <Box className="search-container" style={{ position: 'relative' }}>
-        <TextField.Root
-          ref={inputRef}
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
-          onFocus={handleInputClick}
-          onClick={handleInputClick}
-          onKeyDown={handleKeyDown}
-          placeholder={placeholder}
-          disabled={disabled}
-          size="3"
-        >
-          <TextField.Slot>
-            <MagnifyingGlassIcon height="24" width="24" style={{ marginLeft: '6px' }} />
-          </TextField.Slot>
-          <TextField.Slot>
-            <ChevronDownIcon
-              height="24"
-              width="24"
-              style={{
-                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                transition: 'transform 0.2s ease',
-                marginRight: '8px',
-              }}
-            />
-          </TextField.Slot>
-        </TextField.Root>
+    <Box style={{ position: 'relative', minWidth: '180px' }}>
+      {label && (
+        <Text size="2" mb="2" weight="medium">
+          {label} {required && '*'}
+        </Text>
+      )}
 
-        {isOpen && (
-          <Card
-            ref={dropdownRef}
-            className="dropdown"
-            onScroll={handleScroll}
-            style={{
-              position: 'absolute',
-              top: '100%',
-              left: 0,
-              right: 0,
-              zIndex: 9999,
-              marginTop: '4px',
-              maxHeight: '300px',
-              overflowY: 'auto',
-              background: 'var(--color-background)',
-              border: '1px solid #a3a3a3',
-            }}
+      <div css={styles} className="searchable-select">
+        <Box className="search-container" style={{ position: 'relative' }}>
+          <TextField.Root
+            ref={inputRef}
+            value={searchValue}
+            onChange={(e) => handleInputChange(e.target.value)}
+            onFocus={handleInputClick}
+            onClick={handleInputClick}
+            onKeyDown={handleKeyDown}
+            placeholder={placeholder}
+            disabled={disabled}
+            size="3"
           >
-            {slidingWindow.items.length > 0 ? (
-              slidingWindow.items.map((option, index) => (
-                <div
-                  key={`${option.languageCode}-${option.countryCode}-${slidingWindow.startIndex + index}`}
-                  className={`option ${index === focusedIndex ? 'focused' : ''}`}
-                  onClick={() => handleSelectOption(option)}
-                  onMouseEnter={() => setFocusedIndex(index)}
-                >
-                  <Flex align="center" gap="3" p="3">
-                    <img
-                      src={option.flagUrl}
-                      alt={`${option.countryName} flag`}
-                      width="24"
-                      height="18"
-                      style={{ borderRadius: '2px' }}
-                    />
-                    <Flex direction="column" style={{ flex: 1 }}>
-                      <Flex align="center" gap="2">
+            <TextField.Slot>
+              <MagnifyingGlassIcon height="16" width="16" style={{ marginLeft: '6px' }} />
+            </TextField.Slot>
+            <TextField.Slot>
+              <ChevronDownIcon
+                height="16"
+                width="16"
+                style={{
+                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                  transition: 'transform 0.2s ease',
+                  marginRight: '8px',
+                }}
+              />
+            </TextField.Slot>
+          </TextField.Root>
+
+          {isOpen && (
+            <Card
+              ref={dropdownRef}
+              className="dropdown"
+              onScroll={handleScroll}
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                zIndex: 9999,
+                marginTop: '4px',
+                maxHeight: '300px',
+                overflowY: 'auto',
+                background: 'var(--color-background)',
+                border: '1px solid #a3a3a3',
+              }}
+            >
+              {slidingWindow.items.length > 0 ? (
+                slidingWindow.items.map((option, index) => (
+                  <div
+                    key={`${option.value}-${slidingWindow.startIndex + index}`}
+                    className={`option ${index === focusedIndex ? 'focused' : ''}`}
+                    onClick={() => handleSelectOption(option)}
+                    onMouseEnter={() => setFocusedIndex(index)}
+                  >
+                    <Flex align="center" gap="3" p="3">
+                      <Flex direction="column" style={{ flex: 1 }}>
                         <Text weight="bold" size="2">
-                          {option.languageName}
+                          {option.label}
                         </Text>
-                        <Text size="1" color="gray">
-                          ({option.languageCode})
-                        </Text>
-                      </Flex>
-                      <Flex align="center" gap="2">
-                        <Text size="1" color="gray">
-                          {option.countryName}
-                        </Text>
-                        {option.nativeName && option.nativeName !== option.languageName && (
-                          <>
-                            <Text size="1" color="gray">
-                              •
-                            </Text>
-                            <Text size="1" color="gray">
-                              {option.nativeName}
-                            </Text>
-                          </>
+                        {option.description && (
+                          <Text size="1" color="gray">
+                            {option.description}
+                          </Text>
+                        )}
+                        {option.category && (
+                          <Text size="1" color="blue">
+                            {option.category}
+                          </Text>
                         )}
                       </Flex>
                     </Flex>
-                    {option.emoji && <Text size="3">{option.emoji}</Text>}
+                  </div>
+                ))
+              ) : (
+                <Box p="4" style={{ textAlign: 'center' }}>
+                  <Text size="2" color="gray">
+                    {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
+                  </Text>
+                </Box>
+              )}
+
+              {/* Add New Option */}
+              {allowAddNew && searchValue.trim() && !exactMatch && (
+                <div
+                  className={`option ${slidingWindow.items.length === focusedIndex ? 'focused' : ''}`}
+                  onClick={handleAddNew}
+                  onMouseEnter={() => setFocusedIndex(slidingWindow.items.length)}
+                  style={{ borderTop: '1px solid var(--gray-6)' }}
+                >
+                  <Flex align="center" gap="3" p="3">
+                    <PlusIcon style={{ color: 'var(--blue-11)' }} />
+                    <Text size="2" style={{ color: 'var(--blue-11)' }}>
+                      Add "{searchValue}"
+                    </Text>
                   </Flex>
                 </div>
-              ))
-            ) : (
-              <Box p="4" style={{ textAlign: 'center' }}>
-                <Text size="2" color="gray">
-                  {searchValue ? `No languages found for "${searchValue}"` : 'No languages available'}
-                </Text>
-              </Box>
-            )}
+              )}
 
-            {/* Simple Debug Info */}
-            {slidingWindow.totalItems > windowSize && (
-              <Box
-                p="2"
-                style={{
-                  textAlign: 'center',
-                  borderTop: '1px solid var(--gray-6)',
-                  background: 'var(--gray-2)',
-                }}
-              >
-                <Text size="1" color="blue">
-                  🎭 Simple Window: Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
-                  {slidingWindow.totalItems} • Window Size: {windowSize} • Scroll for more
-                </Text>
-              </Box>
-            )}
-          </Card>
-        )}
-      </Box>
-    </div>
+              {/* Window info */}
+              {slidingWindow.totalItems > windowSize && (
+                <Box
+                  p="2"
+                  style={{
+                    textAlign: 'center',
+                    borderTop: '1px solid var(--gray-6)',
+                    background: 'var(--gray-2)',
+                  }}
+                >
+                  <Text size="1" color="blue">
+                    Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
+                    {slidingWindow.totalItems} • Scroll for more
+                  </Text>
+                </Box>
+              )}
+            </Card>
+          )}
+        </Box>
+      </div>
+    </Box>
   );
 };
