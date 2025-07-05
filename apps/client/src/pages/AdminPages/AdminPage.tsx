@@ -44,6 +44,14 @@ export const AdminPage: React.FC = () => {
       path: '/admin/system',
       color: 'orange' as const,
     },
+    {
+      id: 'filter-analysis',
+      title: 'Filter Analysis',
+      description: 'Analyze orders data and filtering behavior',
+      icon: <TableIcon width="32" height="32" />,
+      path: '/admin/filter-analysis',
+      color: 'purple' as const,
+    },
     // {
     //   id: 'database',
     //   title: 'Database Management',

@@ -15,6 +15,7 @@ import { AdminUiLabelsPage } from 'pages/AdminPages/AdminUiLabelsPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
+import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPage';
 
 export const routes: RouteObject[] = [
   {
@@ -118,6 +119,11 @@ export const routes: RouteObject[] = [
         path: 'languages',
         id: AdminFieldKeys.languages,
         element: <AdminLanguagesPage />,
+      },
+      {
+        path: 'filter-analysis',
+        id: 'filter-analysis',
+        element: <AdminFilterAnalysisPage />,
       },
     ],
   },
