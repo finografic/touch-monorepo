@@ -56,7 +56,7 @@ export const FrontEndAdminToolbar = () => {
   return (
     <>
       <div css={styles}>
-        <Flex gap="3" align="start">
+        <Flex gap="3" align="center">
           {/* Admin button - navigate to admin */}
           <Box className="button-box">
             <button className="btn btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>

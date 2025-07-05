@@ -31,16 +31,16 @@ export const reduceFilterProperty = <T>({
 export const getUniqueFilterValues = (data: DataEntry[]): Record<string, string[]> => {
   const values: Record<string, string[]> = {};
   values[OrderFieldKeys.drinkType] = Array.from(
-    new Set(data.map((d) => d.drinkTypeName).filter((v): v is string => typeof v === 'string')),
+    new Set(data.map((d) => d.drinkType).filter((v): v is string => typeof v === 'string')),
   );
   values[OrderFieldKeys.drinkSubtype] = Array.from(
-    new Set(data.map((d) => d.drinkSubtypeName).filter((v): v is string => typeof v === 'string')),
+    new Set(data.map((d) => d.drinkSubtype).filter((v): v is string => typeof v === 'string')),
   );
   values[OrderFieldKeys.drinkVolume] = Array.from(
-    new Set(data.map((d) => d.volumeName).filter((v): v is string => typeof v === 'string')),
+    new Set(data.map((d) => d.volume).filter((v): v is string => typeof v === 'string')),
   );
   values[OrderFieldKeys.containerType] = Array.from(
-    new Set(data.map((d) => d.containerTypeName).filter((v): v is string => typeof v === 'string')),
+    new Set(data.map((d) => d.containerType).filter((v): v is string => typeof v === 'string')),
   );
   return values;
 };
@@ -54,15 +54,24 @@ export const getUniqueFilterValues = (data: DataEntry[]): Record<string, string[
 export const matchesFilters = (entry: DataEntry, activeFilters: [string, any][]): boolean => {
   return activeFilters.every(([key, value]) => {
     if (!value) return true;
+
+    // Use lookup object for comparisons if available
+    if (value.lookup) {
+      return Object.entries(value.lookup).every(([lookupKey, lookupValue]) => {
+        return entry[lookupKey as keyof DataEntry] === lookupValue;
+      });
+    }
+
+    // Fallback to direct field comparisons for backward compatibility
     switch (key as OrderFieldKey) {
       case OrderFieldKeys.drinkType:
-        return entry.drinkTypeName === value.name;
+        return entry.drinkType === value.name;
       case OrderFieldKeys.drinkSubtype:
-        return entry.drinkSubtypeName === value.name;
+        return entry.drinkSubtype === value.name;
       case OrderFieldKeys.drinkVolume:
-        return entry.volumeName === value.name;
+        return entry.volume === value.name;
       case OrderFieldKeys.containerType:
-        return entry.containerTypeName === value.name;
+        return entry.containerType === value.name;
       case OrderFieldKeys.temperature:
         if (value.initial !== undefined && value.final !== undefined) {
           return (

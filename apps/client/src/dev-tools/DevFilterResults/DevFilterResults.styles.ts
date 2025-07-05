@@ -51,11 +51,14 @@ export const styles = css`
       overflow: visible; /* Allow content to overflow for visibility */
 
       /* Style the grid rows inside pre */
-      .result-row {
+      &.result-row {
         line-height: 0.66;
+
         width: 100%;
         min-width: fit-content;
         white-space: nowrap; /* Prevent text wrapping */
+
+        max-height: 20px;
 
         /* Force columns to respect content width */
         [class^='col-'] {
