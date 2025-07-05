@@ -115,6 +115,13 @@ export const stylesAdminContent = css`
 
   /* ======================================================================== */
 
+  .field-label {
+    width: 100%;
+    padding: 1rem 0rem 0.5rem 0rem;
+    pointer-events: none;
+    user-select: none;
+  }
+
   .item-label {
     .value-key {
       opacity: 0.66;

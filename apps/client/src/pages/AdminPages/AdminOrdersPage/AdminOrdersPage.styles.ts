@@ -68,6 +68,13 @@ export const styles = css`
 
     .combobox-field {
       border: 1px solid hotpink;
+      flex: 1;
+      position: relative;
+      min-width: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
     }
 
     .col-form-buttons {
@@ -82,6 +89,8 @@ export const styles = css`
     margin-top: ${spacing[2]};
     min-height: 400px;
     margin-bottom: 100px;
+    display: block;
+    width: 100%;
   }
 
   /* Form styling */

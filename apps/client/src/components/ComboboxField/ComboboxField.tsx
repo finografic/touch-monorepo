@@ -89,8 +89,11 @@ export const ComboboxField: React.FC<ComboboxFieldProps> = ({
   };
 
   return (
-    <Box style={{ position: 'relative', minWidth: '180px' }} className="combobox-field">
-      <Text size="2" mb="2" weight="medium">
+    <Box
+      //  style={{ position: 'relative', minWidth: '180px' }}
+      className="combobox-field"
+    >
+      <Text size="2" mb="2" weight="medium" className="field-label">
         {label} {required && '*'}
       </Text>
 

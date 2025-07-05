@@ -146,16 +146,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
   return (
     <Row className="row">
       <Col xs={12} md={12} className="col">
-        <Flex
-          // gap="4"
-          // display="flex"
-          // align="end"
-          // align="center"
-          justify="between"
-          // wrap="wrap"
-
-          className="b"
-        >
+        <Flex gap="4" justify="between" className="b">
           {/* Drink Type */}
           <ComboboxField
             label="Drink Type"
