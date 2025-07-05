@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
 import { transformAxiosError__V2 } from '../api.utils';
-import type { OrderModel } from 'types/models/order.model';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 
 // Query keys for caching
 export const ORDERS_READABLE_QUERY_KEYS = {
@@ -17,7 +17,7 @@ export const ORDERS_READABLE_QUERY_KEYS = {
 export const useGetOrdersReadable = () => {
   return useQuery({
     queryKey: ORDERS_READABLE_QUERY_KEYS.lists(),
-    queryFn: async (): Promise<OrderModel[]> => {
+    queryFn: async (): Promise<OrderReadableModel[]> => {
       try {
         const response = await api.get('/orders-readable');
         return response.data.data || response.data;

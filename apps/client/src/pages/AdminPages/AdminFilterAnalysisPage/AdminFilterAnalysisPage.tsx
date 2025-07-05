@@ -1,172 +1,47 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  Badge,
-  Box,
-  Button,
-  Card,
-  Flex,
-  Heading,
-  Select,
-  Spinner,
-  Table,
-  Text,
-  TextField,
-} from '@radix-ui/themes';
+import { Card, Flex, Spinner, Table, Text, TextField } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';
-import { ORDER_FIELD_KEYS } from 'constants/app.config';
-import type { OrderFieldKey } from 'types/orders.types';
-import type { OrderFilters } from 'types/filters.types';
-import { MagnifyingGlassIcon, ResetIcon } from '@radix-ui/react-icons';
-
-interface FilterStep {
-  key: OrderFieldKey;
-  label: string;
-  selectedValue: string | null;
-  availableOptions: Array<{ value: string; count: number }>;
-  resultCount: number;
-}
+import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 
 export const AdminFilterAnalysisPage: React.FC = () => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedFilters, setSelectedFilters] = useState<OrderFilters>({});
 
   // Fetch orders-readable data
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
 
-  // Get unique values for filter options
-  const uniqueValues = useMemo(() => getUniqueFilterValues(ordersData), [ordersData]);
-
-  // Calculate filter steps and their data
-  const filterSteps = useMemo((): FilterStep[] => {
-    const steps: FilterStep[] = [];
-
-    ORDER_FIELD_KEYS.forEach((fieldKey, index) => {
-      // Get filters up to (but not including) current step
-      const filtersBeforeStep = getFiltersByStep(selectedFilters, fieldKey, false);
-
-      // Get data pool after applying previous filters
-      const dataPool = ordersData.filter((order) => matchesFilters(order, filtersBeforeStep));
-
-      // Get available options for current field from filtered data pool
-      const fieldValues = dataPool
-        .map((order) => {
-          // Handle both direct fields and lookup objects
-          const fieldValue = order[fieldKey];
-          if (typeof fieldValue === 'object' && fieldValue?.name) {
-            return fieldValue.name;
-          }
-          return fieldValue as string;
-        })
-        .filter(Boolean);
-
-      const valueCounts = fieldValues.reduce(
-        (acc, value) => {
-          acc[value] = (acc[value] || 0) + 1;
-          return acc;
-        },
-        {} as Record<string, number>,
-      );
-
-      const availableOptions = Object.entries(valueCounts)
-        .map(([value, count]) => ({ value, count }))
-        .sort((a, b) => b.count - a.count);
-
-      // Get filters up to and including current step
-      const filtersUpToStep = getFiltersByStep(selectedFilters, fieldKey, true);
-      const filteredResults = ordersData.filter((order) => matchesFilters(order, filtersUpToStep));
-
-      steps.push({
-        key: fieldKey,
-        label: getFieldLabel(fieldKey),
-        selectedValue: selectedFilters[fieldKey]?.name || null,
-        availableOptions,
-        resultCount: filteredResults.length,
-      });
-    });
-
-    return steps;
-  }, [ordersData, selectedFilters]);
-
-  // Final filtered data for display
+  // Simple search filtering
   const filteredOrders = useMemo(() => {
     let results = ordersData;
-
-    // Apply filters
-    if (Object.keys(selectedFilters).length > 0) {
-      results = results.filter((order) => matchesFilters(order, selectedFilters));
-    }
 
     // Apply search
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
-      results = results.filter((order) =>
-        Object.values(order).some((value) => {
-          if (typeof value === 'string') {
-            return value.toLowerCase().includes(searchLower);
-          }
-          if (typeof value === 'object' && value?.name) {
-            return value.name.toLowerCase().includes(searchLower);
-          }
-          return false;
-        }),
+      results = results.filter(
+        (order) =>
+          order.drinkType?.toLowerCase().includes(searchLower) ||
+          order.drinkSubtype?.toLowerCase().includes(searchLower) ||
+          order.volume?.toLowerCase().includes(searchLower) ||
+          order.containerType?.toLowerCase().includes(searchLower) ||
+          order.temperatureProfile?.toLowerCase().includes(searchLower) ||
+          order.id?.toLowerCase().includes(searchLower),
       );
     }
 
     return results.slice(0, 200); // Limit to 200 for performance
-  }, [ordersData, selectedFilters, searchTerm]);
+  }, [ordersData, searchTerm]);
 
-  // Handle filter selection
-  const handleFilterChange = (fieldKey: OrderFieldKey, value: string) => {
-    if (value === 'all') {
-      // Remove this filter
-      const { [fieldKey]: removed, ...rest } = selectedFilters;
-      setSelectedFilters(rest);
-    } else {
-      // Find the option to get full data
-      const option = filterSteps
-        .find((step) => step.key === fieldKey)
-        ?.availableOptions.find((opt) => opt.value === value);
+  // Get summary statistics
+  const summaryStats = useMemo(() => {
+    const drinkTypes = new Set(ordersData.map((o) => o.drinkType)).size;
+    const volumes = new Set(ordersData.map((o) => o.volume)).size;
+    const containers = new Set(ordersData.map((o) => o.containerType)).size;
 
-      if (option) {
-        setSelectedFilters((prev) => ({
-          ...prev,
-          [fieldKey]: {
-            name: value,
-            lookup: { [fieldKey]: value },
-          },
-        }));
-      }
-    }
-  };
-
-  // Reset all filters
-  const handleResetFilters = () => {
-    setSelectedFilters({});
-    setSearchTerm('');
-  };
-
-  // Helper function to get field labels
-  function getFieldLabel(fieldKey: OrderFieldKey): string {
-    switch (fieldKey) {
-      case 'drinkType':
-        return 'Drink Type';
-      case 'drinkSubtype':
-        return 'Drink Subtype';
-      case 'drinkVolume':
-        return 'Volume';
-      case 'containerType':
-        return 'Container Type';
-      case 'temperature':
-        return 'Temperature';
-      default:
-        return fieldKey;
-    }
-  }
+    return { drinkTypes, volumes, containers };
+  }, [ordersData]);
 
   if (isLoading) {
     return (
@@ -225,65 +100,34 @@ export const AdminFilterAnalysisPage: React.FC = () => {
           <Card>
             <Flex direction="column" align="center" p="4">
               <Text size="6" weight="bold" color="orange">
-                {Object.keys(selectedFilters).length}
+                {summaryStats.drinkTypes}
               </Text>
               <Text size="2" color="gray">
-                Active Filters
+                Drink Types
+              </Text>
+            </Flex>
+          </Card>
+          <Card>
+            <Flex direction="column" align="center" p="4">
+              <Text size="6" weight="bold" color="purple">
+                {summaryStats.volumes}
+              </Text>
+              <Text size="2" color="gray">
+                Volume Options
+              </Text>
+            </Flex>
+          </Card>
+          <Card>
+            <Flex direction="column" align="center" p="4">
+              <Text size="6" weight="bold" color="cyan">
+                {summaryStats.containers}
+              </Text>
+              <Text size="2" color="gray">
+                Container Types
               </Text>
             </Flex>
           </Card>
         </Flex>
-      </AdminSection>
-
-      {/* Filter Flow */}
-      <AdminSection title="Cascading Filters">
-        <Box mb="4">
-          <Flex align="center" gap="3" mb="4">
-            <Button variant="soft" color="gray" size="2" onClick={handleResetFilters}>
-              <ResetIcon /> Reset All
-            </Button>
-            <Text size="2" color="gray">
-              Select filters to see how data cascades through each step
-            </Text>
-          </Flex>
-
-          <Flex direction="column" gap="4">
-            {filterSteps.map((step, index) => (
-              <Card key={step.key}>
-                <Flex align="center" justify="between" p="4">
-                  <Flex align="center" gap="4">
-                    <Badge color="blue" size="2">
-                      Step {index + 1}
-                    </Badge>
-                    <Text weight="bold" size="3">
-                      {step.label}
-                    </Text>
-                    <Badge color={step.resultCount > 0 ? 'green' : 'red'} variant="soft">
-                      {step.resultCount} results
-                    </Badge>
-                  </Flex>
-
-                  <Box style={{ minWidth: '200px' }}>
-                    <Select.Root
-                      value={step.selectedValue || 'all'}
-                      onValueChange={(value) => handleFilterChange(step.key, value)}
-                    >
-                      <Select.Trigger />
-                      <Select.Content>
-                        <Select.Item value="all">All Options</Select.Item>
-                        {step.availableOptions.map((option) => (
-                          <Select.Item key={option.value} value={option.value}>
-                            {option.value} ({option.count})
-                          </Select.Item>
-                        ))}
-                      </Select.Content>
-                    </Select.Root>
-                  </Box>
-                </Flex>
-              </Card>
-            ))}
-          </Flex>
-        </Box>
       </AdminSection>
 
       {/* Search and Results */}
@@ -324,14 +168,12 @@ export const AdminFilterAnalysisPage: React.FC = () => {
             {filteredOrders.map((order) => (
               <Table.Row key={order.id}>
                 <Table.Cell>
-                  <Text size="1" family="mono">
-                    {order.id.slice(0, 8)}...
-                  </Text>
+                  <Text size="1">{order.id.slice(0, 8)}...</Text>
                 </Table.Cell>
                 <Table.Cell>{order.drinkType || '-'}</Table.Cell>
                 <Table.Cell>{order.drinkSubtype || '-'}</Table.Cell>
-                <Table.Cell>{order.volumeName || '-'}</Table.Cell>
-                <Table.Cell>{order.containerTypeName || '-'}</Table.Cell>
+                <Table.Cell>{order.volume || '-'}</Table.Cell>
+                <Table.Cell>{order.containerType || '-'}</Table.Cell>
                 <Table.Cell>{order.defaultTempConsume ? `${order.defaultTempConsume}°C` : '-'}</Table.Cell>
                 <Table.Cell>
                   <Text size="1">
@@ -350,7 +192,7 @@ export const AdminFilterAnalysisPage: React.FC = () => {
               No orders found
             </Text>
             <Text size="2" color="gray">
-              Try adjusting your filters or search term
+              Try adjusting your search term
             </Text>
           </Flex>
         )}
