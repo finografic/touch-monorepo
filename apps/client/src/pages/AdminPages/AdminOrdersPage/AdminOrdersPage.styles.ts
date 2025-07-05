@@ -60,14 +60,14 @@ export const styles = css`
       /* border: 1px solid lime; */
     }
     .a {
-      border: 1px solid red;
+      /* border: 1px solid red; */
     }
     .b {
-      border: 1px solid blue;
+      /* border: 1px solid blue; */
     }
 
     .combobox-field {
-      border: 1px solid hotpink;
+      /* border: 1px solid hotpink; */
       flex: 1;
       position: relative;
       min-width: 180px;
@@ -83,6 +83,10 @@ export const styles = css`
       justify-content: flex-end;
       align-items: center;
     }
+
+    .field-label + div {
+      width: 100%;
+    }
   }
 
   .form-section {
@@ -90,7 +94,6 @@ export const styles = css`
     min-height: 400px;
     margin-bottom: 100px;
     display: block;
-    width: 100%;
   }
 
   /* Form styling */
