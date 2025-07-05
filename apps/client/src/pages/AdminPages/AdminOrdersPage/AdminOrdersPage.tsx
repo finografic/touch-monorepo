@@ -6,10 +6,13 @@ import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
 import { OrdersTable } from 'components/OrdersTable';
+import { AddOrderForm } from 'components/AddOrderForm';
+import { useToast } from 'components/Toast';
 
 export const AdminOrdersPage: React.FC = () => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
+  const { toast } = useToast();
 
   // Fetch orders-readable data
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
@@ -43,6 +46,23 @@ export const AdminOrdersPage: React.FC = () => {
 
     return { drinkTypes, volumes, containers };
   }, [ordersData]);
+
+  // Handle form submission (temporary - just show toast for now)
+  const handleAddOrder = (formData: {
+    drinkType: string;
+    drinkSubtype: string;
+    volume: string;
+    containerType: string;
+  }) => {
+    console.log('New order data:', formData);
+    // TODO: Implement actual API call to create order
+    // For now, just show success toast
+    toast({
+      variant: 'success',
+      message: 'Order added successfully!',
+      subText: `${formData.drinkType} ${formData.volume} in ${formData.containerType}`,
+    });
+  };
 
   if (isLoading) {
     return (
@@ -84,6 +104,11 @@ export const AdminOrdersPage: React.FC = () => {
           volumeOptions={summaryStats.volumes}
           containerTypes={summaryStats.containers}
         />
+      </AdminSection>
+
+      {/* Add New Order Form */}
+      <AdminSection title="Add New Order">
+        <AddOrderForm onSubmit={handleAddOrder} />
       </AdminSection>
 
       {/* Orders Data */}
