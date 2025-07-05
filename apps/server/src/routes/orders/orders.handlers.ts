@@ -1,5 +1,12 @@
 import type { AppRouteHandler } from 'types/app.types';
-import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './orders.routes';
+import type {
+  CreateRoute,
+  GetOneRoute,
+  ListReadableRoute,
+  ListRoute,
+  PatchRoute,
+  RemoveRoute,
+} from './orders.routes';
 import { db } from 'db';
 import { orders } from 'db/schemas/orders.schema';
 import { eq } from 'drizzle-orm';
@@ -12,16 +19,38 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
     where: (fields, operators) => operators.eq(fields.isActive, true),
     columns: {
       id: true,
-      drinkTypeName: true,
-      drinkSubtypeName: true,
-      containerTypeName: true,
-      volumeName: true,
+      drinkTypeId: true,
+      drinkSubtypeId: true,
+      containerTypeId: true,
+      volumeId: true,
       defaultTempConsume: true,
       defaultTempFreeze: true,
       temperatureProfileId: true,
     },
   });
   return context.json(drinkOrders);
+};
+
+export const listReadable: AppRouteHandler<ListReadableRoute> = async (context) => {
+  // Query the orders_readable view directly with raw SQL
+  const readableOrders = await db.all(`
+    SELECT
+      id,
+      drink_type AS drinkType,
+      drink_subtype AS drinkSubtype,
+      volume,
+      container_type AS containerType,
+      temperature_profile AS temperatureProfile,
+      default_temp_consume AS defaultTempConsume,
+      default_temp_freeze AS defaultTempFreeze,
+      is_active AS isActive,
+      created_at AS createdAt,
+      updated_at AS updatedAt
+    FROM orders_readable
+    WHERE is_active = 1
+  `);
+
+  return context.json(readableOrders);
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {

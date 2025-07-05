@@ -5,6 +5,7 @@ import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
+import type { OrdersReadableView } from 'db/schemas/orders_readable_view.schema';
 
 const tags = ['DrinkOrders'];
 
@@ -27,6 +28,33 @@ export const list = createRoute({
         }),
       ),
       'List of available drink orders',
+    ),
+  },
+});
+
+// Create Zod schema for orders_readable view
+const ordersReadableSchema = z.object({
+  id: z.string(),
+  drinkType: z.string(),
+  drinkSubtype: z.string().nullable(),
+  volume: z.string(),
+  containerType: z.string(),
+  temperatureProfile: z.string(),
+  defaultTempConsume: z.number(),
+  defaultTempFreeze: z.number(),
+  isActive: z.number(),
+  createdAt: z.number().nullable(),
+  updatedAt: z.number().nullable(),
+});
+
+export const listReadable = createRoute({
+  path: '/orders-readable',
+  method: 'get',
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.array(ordersReadableSchema),
+      'List of orders with readable names from view',
     ),
   },
 });
@@ -102,6 +130,7 @@ export const remove = createRoute({
 });
 
 export type ListRoute = typeof list;
+export type ListReadableRoute = typeof listReadable;
 export type CreateRoute = typeof create;
 export type GetOneRoute = typeof getOne;
 export type PatchRoute = typeof patch;

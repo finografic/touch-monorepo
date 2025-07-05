@@ -6,11 +6,11 @@ import { OrderFieldKeys } from './app.config';
  * These keys represent the actual field names in the database schema
  */
 export const FilterKeys: { [K in string]: K } = {
-  drinkTypeName: 'drinkTypeName',
-  drinkSubtypeName: 'drinkSubtypeName',
-  volumeName: 'volumeName',
-  containerTypeName: 'containerTypeName',
-  temperatureName: 'temperatureName',
+  drinkTypeName: 'drinkType',
+  drinkSubtypeName: 'drinkSubtype',
+  volumeName: 'volume',
+  containerTypeName: 'containerType',
+  temperatureName: 'temperatureProfile',
   defaultTempConsume: 'defaultTempConsume',
   temperatureProfileId: 'temperatureProfileId',
 } as const;

@@ -4,6 +4,7 @@ import * as routes from './orders.routes';
 
 export default createRouter()
   .openapi(routes.list, handlers.list)
+  .openapi(routes.listReadable, handlers.listReadable)
   .openapi(routes.getOne, handlers.getOne)
   .openapi(routes.create, handlers.create)
   .openapi(routes.patch, handlers.patch)

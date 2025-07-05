@@ -35,9 +35,9 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
   const [data, setData] = useState<OrderModel[]>([]);
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
 
-  // Fetch orders data
+  // Fetch orders data from readable view
   useEffect(() => {
-    api.get<ApiResponse<OrderModel[]>>('/orders').then((results) => {
+    api.get<ApiResponse<OrderModel[]>>('/orders-readable').then((results) => {
       setData(results.data.data ?? results.data);
     });
   }, []);
