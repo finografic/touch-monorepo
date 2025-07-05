@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { UseMutationResult } from '@tanstack/react-query';
 import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
 import { api } from 'api';
-import { transformAxiosError__V2 as transformAxiosError } from 'src/api/api.utils';
+import { transformAxiosError } from 'src/api/api.utils';
 import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '.';
 
 export interface CalculateTemperatureRequest {

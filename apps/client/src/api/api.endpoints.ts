@@ -13,7 +13,7 @@ import type {
   DrinkVolumeEntity,
 } from '@workspace/server/types/entities';
 import { api } from 'api';
-import { isRetryableError, transformAxiosError__V2 } from './api.utils';
+import { isRetryableError, transformAxiosError } from './api.utils';
 import type { TemperatureProfileEntity } from 'types/models/temperature.model';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import type {
@@ -50,7 +50,7 @@ const createEndpoints = <T extends Record<string, EndpointFunction>>(endpoints: 
 
           return response.data;
         } catch (error) {
-          const transformedError = transformAxiosError__V2(error);
+          const transformedError = transformAxiosError(error);
 
           // Add endpoint-specific context to the error
           transformedError.endpoint = key;
@@ -82,7 +82,7 @@ export const useEndpointQuery = <TData>(
       try {
         return await endpointFn();
       } catch (error) {
-        const transformedError = transformAxiosError__V2(error);
+        const transformedError = transformAxiosError(error);
         throw transformedError;
       }
     },

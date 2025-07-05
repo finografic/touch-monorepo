@@ -8,6 +8,8 @@ import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
 import { OrdersTable } from 'components/OrdersTable';
 import { AddOrderForm } from 'components/AddOrderForm';
 import { useToast } from 'components/Toast';
+import { Col, Row } from 'react-grid-system';
+import { styles } from './AdminOrdersPage.styles';
 
 export const AdminOrdersPage: React.FC = () => {
   const { t } = useTranslation();
@@ -94,34 +96,48 @@ export const AdminOrdersPage: React.FC = () => {
   }
 
   return (
-    <AdminContentLayout title="Orders Management" subtitle="Development orders for testing">
-      {/* Summary Stats */}
-      <AdminSection title="Data Summary">
-        <OrdersSummaryCards
-          totalOrders={ordersData.length}
-          filteredResults={filteredOrders.length}
-          drinkTypes={summaryStats.drinkTypes}
-          volumeOptions={summaryStats.volumes}
-          containerTypes={summaryStats.containers}
-        />
-      </AdminSection>
+    <section css={styles}>
+      <AdminContentLayout title="Orders Management" subtitle="Development orders for testing">
+        <Row>
+          <Col>
+            {/* Summary Stats */}
+            <AdminSection title="Data Summary">
+              <OrdersSummaryCards
+                totalOrders={ordersData.length}
+                filteredResults={filteredOrders.length}
+                drinkTypes={summaryStats.drinkTypes}
+                volumeOptions={summaryStats.volumes}
+                containerTypes={summaryStats.containers}
+              />
+            </AdminSection>
+          </Col>
+        </Row>
 
-      {/* Add New Order Form */}
-      <AdminSection title="Add New Order">
-        <AddOrderForm onSubmit={handleAddOrder} />
-      </AdminSection>
+        <Row className="form-section">
+          <Col>
+            {/* Add New Order Form */}
+            <AdminSection title="Add New Order">
+              <AddOrderForm onSubmit={handleAddOrder} />
+            </AdminSection>
+          </Col>
+        </Row>
 
-      {/* Orders Data */}
-      <AdminSection title="Orders Data">
-        <OrdersTable
-          orders={filteredOrders}
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          totalCount={ordersData.length}
-          emptyMessage="No orders found"
-          emptySubMessage="Try adjusting your search term or add new orders"
-        />
-      </AdminSection>
-    </AdminContentLayout>
+        <Row>
+          <Col>
+            {/* Orders Data */}
+            <AdminSection title="Orders Data">
+              <OrdersTable
+                orders={filteredOrders}
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                totalCount={ordersData.length}
+                emptyMessage="No orders found"
+                emptySubMessage="Try adjusting your search term or add new orders"
+              />
+            </AdminSection>
+          </Col>
+        </Row>
+      </AdminContentLayout>
+    </section>
   );
 };

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-import { transformAxiosError__V2 } from '../api.utils';
+import { transformAxiosError } from '../api.utils';
 
 // Types for orders-dev based on server schema with both IDs and names for development
 export interface OrderDev {
@@ -66,7 +66,7 @@ export const useGetOrdersDev = () => {
         const response = await api.get('/orders');
         return response.data;
       } catch (error) {
-        throw transformAxiosError__V2(error);
+        throw transformAxiosError(error);
       }
     },
     staleTime: 5 * 60 * 1000, // 5 minutes
@@ -84,7 +84,7 @@ export const useGetOrderDev = (id: string) => {
         const response = await api.get(`/orders/${id}`);
         return response.data;
       } catch (error) {
-        throw transformAxiosError__V2(error);
+        throw transformAxiosError(error);
       }
     },
     enabled: !!id,
@@ -104,7 +104,7 @@ export const useCreateOrderDev = () => {
         const response = await api.post('/orders', orderData);
         return response.data;
       } catch (error) {
-        throw transformAxiosError__V2(error);
+        throw transformAxiosError(error);
       }
     },
     onSuccess: () => {
@@ -125,7 +125,7 @@ export const useUpdateOrderDev = () => {
         const response = await api.patch(`/orders/${id}`, updates);
         return response.data;
       } catch (error) {
-        throw transformAxiosError__V2(error);
+        throw transformAxiosError(error);
       }
     },
     onSuccess: (updatedOrder) => {
@@ -152,7 +152,7 @@ export const useDeleteOrderDev = () => {
       try {
         await api.delete(`/orders/${id}`);
       } catch (error) {
-        throw transformAxiosError__V2(error);
+        throw transformAxiosError(error);
       }
     },
     onSuccess: (_, deletedId) => {

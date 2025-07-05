@@ -1,11 +1,23 @@
-import React, { useState } from 'react';
-import { Box, Button, Card, Flex, Text, TextField } from '@radix-ui/themes';
+import React, { useMemo, useState } from 'react';
+import { Box, Button, Card, Flex, Text } from '@radix-ui/themes';
+import { ComboboxField } from 'components/ComboboxField';
+import { useGetDrinkTypes } from 'queries/drink-types';
+import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
+import { useGetContainerTypes } from 'queries/container-types';
+import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
+import { Col, Row } from 'react-grid-system';
 
 interface FormState {
   drinkType: string;
   drinkSubtype: string;
   volume: string;
   containerType: string;
+}
+
+interface TempItems {
+  drinkTypes: string[];
+  volumes: string[];
+  containerTypes: string[];
 }
 
 interface AddOrderFormProps {
@@ -21,12 +33,97 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
     containerType: '',
   });
 
+  const [tempItems, setTempItems] = useState<TempItems>({
+    drinkTypes: [],
+    volumes: [],
+    containerTypes: [],
+  });
+
+  // Data hooks
+  const { data: drinkTypes = [] } = useGetDrinkTypes();
+  const { data: volumes = [] } = useGetDrinkVolumes();
+  const { data: containerTypes = [] } = useGetContainerTypes();
+  const { data: ordersData = [] } = useGetOrdersReadable();
+
+  // Transform data into ComboboxOption format
+  const drinkTypeOptions = useMemo(
+    () =>
+      [
+        ...drinkTypes.map((dt: any) => ({ value: dt.name || '', label: dt.name || '' })),
+        ...tempItems.drinkTypes.map((name) => ({ value: name, label: name })),
+      ].filter((option) => option.value),
+    [drinkTypes, tempItems.drinkTypes],
+  );
+
+  const volumeOptions = useMemo(() => {
+    let baseOptions = [
+      ...volumes.map((v: any) => ({ value: v.name || '', label: v.name || '' })),
+      ...tempItems.volumes.map((name) => ({ value: name, label: name })),
+    ].filter((option) => option.value);
+
+    // Progressive filtering: if drink type is selected, also include volumes used with that drink type
+    if (formState.drinkType) {
+      const usedVolumes = ordersData
+        .filter((order) => order.drinkType === formState.drinkType)
+        .map((order) => order.volume)
+        .filter(Boolean)
+        .map((volume) => ({ value: volume, label: volume }));
+
+      baseOptions = [...baseOptions, ...usedVolumes];
+      // Remove duplicates
+      baseOptions = Array.from(new Map(baseOptions.map((opt) => [opt.value, opt])).values());
+    }
+
+    return baseOptions;
+  }, [volumes, tempItems.volumes, formState.drinkType, ordersData]);
+
+  const containerTypeOptions = useMemo(() => {
+    let baseOptions = [
+      ...containerTypes.map((ct: any) => ({ value: ct.name || '', label: ct.name || '' })),
+      ...tempItems.containerTypes.map((name) => ({ value: name, label: name })),
+    ].filter((option) => option.value);
+
+    // Progressive filtering: if drink type and volume are selected, include containers used with that combination
+    if (formState.drinkType && formState.volume) {
+      const usedContainers = ordersData
+        .filter((order) => order.drinkType === formState.drinkType && order.volume === formState.volume)
+        .map((order) => order.containerType)
+        .filter(Boolean)
+        .map((container) => ({ value: container, label: container }));
+
+      baseOptions = [...baseOptions, ...usedContainers];
+      // Remove duplicates
+      baseOptions = Array.from(new Map(baseOptions.map((opt) => [opt.value, opt])).values());
+    }
+
+    return baseOptions;
+  }, [containerTypes, tempItems.containerTypes, formState.drinkType, formState.volume, ordersData]);
+
   // Handle field changes
   const handleFieldChange = (field: keyof FormState, value: string) => {
-    setFormState((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
+    setFormState((prev) => {
+      const newState = { ...prev, [field]: value };
+
+      // Reset dependent fields when parent changes
+      if (field === 'drinkType') {
+        newState.volume = '';
+        newState.containerType = '';
+      } else if (field === 'volume') {
+        newState.containerType = '';
+      }
+
+      return newState;
+    });
+  };
+
+  // Handle adding new temp items
+  const handleAddNew = (field: keyof TempItems, value: string) => {
+    if (value.trim()) {
+      setTempItems((prev) => ({
+        ...prev,
+        [field]: [...prev[field], value.trim()],
+      }));
+    }
   };
 
   // Handle form submission
@@ -47,69 +144,62 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
   const isFormValid = formState.drinkType && formState.volume && formState.containerType;
 
   return (
-    <Card>
-      <Box p="4">
-        <Text size="3" weight="bold" mb="4">
-          Add New Order Entry
-        </Text>
+    <Row className="row">
+      <Col xs={12} md={12} className="col">
+        <Flex
+          // gap="4"
+          // display="flex"
+          // align="end"
+          // align="center"
+          justify="between"
+          // wrap="wrap"
 
-        <Flex gap="4" align="end" wrap="wrap">
+          className="b"
+        >
           {/* Drink Type */}
-          <Box style={{ minWidth: '180px' }}>
-            <Text size="2" mb="2" weight="medium">
-              Drink Type *
-            </Text>
-            <TextField.Root
-              value={formState.drinkType}
-              onChange={(e) => handleFieldChange('drinkType', e.target.value)}
-              placeholder="e.g., Coffee, Tea, Juice"
-              style={{ width: '160px' }}
-            />
-          </Box>
+          <ComboboxField
+            label="Drink Type"
+            value={formState.drinkType}
+            onChange={(value) => handleFieldChange('drinkType', value)}
+            options={drinkTypeOptions}
+            placeholder="e.g., Coffee, Tea, Juice"
+            required
+            onAddNew={(value) => handleAddNew('drinkTypes', value)}
+          />
 
           {/* Subtype */}
-          <Box style={{ minWidth: '180px' }}>
-            <Text size="2" mb="2" weight="medium">
-              Subtype
-            </Text>
-            <TextField.Root
-              value={formState.drinkSubtype}
-              onChange={(e) => handleFieldChange('drinkSubtype', e.target.value)}
-              placeholder="Optional"
-              style={{ width: '160px' }}
-            />
-          </Box>
+          <ComboboxField
+            label="Subtype"
+            value={formState.drinkSubtype}
+            onChange={(value) => handleFieldChange('drinkSubtype', value)}
+            options={[]}
+            placeholder="Optional"
+            allowAddNew={false}
+          />
 
           {/* Volume */}
-          <Box style={{ minWidth: '180px' }}>
-            <Text size="2" mb="2" weight="medium">
-              Volume *
-            </Text>
-            <TextField.Root
-              value={formState.volume}
-              onChange={(e) => handleFieldChange('volume', e.target.value)}
-              placeholder="e.g., 250ml, 500ml, 1L"
-              style={{ width: '160px' }}
-            />
-          </Box>
+          <ComboboxField
+            label="Volume"
+            value={formState.volume}
+            onChange={(value) => handleFieldChange('volume', value)}
+            options={volumeOptions}
+            placeholder="e.g., 250ml, 500ml, 1L"
+            required
+            disabled={!formState.drinkType}
+            onAddNew={(value) => handleAddNew('volumes', value)}
+          />
 
           {/* Container Type */}
-          <Box style={{ minWidth: '180px' }}>
-            <Text size="2" mb="2" weight="medium">
-              Container *
-            </Text>
-            <TextField.Root
-              value={formState.containerType}
-              onChange={(e) => handleFieldChange('containerType', e.target.value)}
-              placeholder="e.g., Cup, Bottle, Can"
-              style={{ width: '160px' }}
-            />
-          </Box>
-
-          {/* Submit Button */}
-          <Button onClick={handleSubmit} disabled={!isFormValid || isLoading} loading={isLoading} size="2">
-            Add Order
-          </Button>
+          <ComboboxField
+            label="Container"
+            value={formState.containerType}
+            onChange={(value) => handleFieldChange('containerType', value)}
+            options={containerTypeOptions}
+            placeholder="e.g., Cup, Bottle, Can"
+            required
+            disabled={!formState.volume}
+            onAddNew={(value) => handleAddNew('containerTypes', value)}
+          />
         </Flex>
 
         {/* Form validation feedback */}
@@ -118,7 +208,14 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
             Please fill in Drink Type, Volume, and Container fields
           </Text>
         )}
-      </Box>
-    </Card>
+      </Col>
+      {/* ======================================================================== */}
+      <Col xs={12} md={12} className="col col-form-buttons">
+        {/* Submit Button */}
+        <Button onClick={handleSubmit} disabled={!isFormValid || isLoading} loading={isLoading} size="2">
+          Add Order
+        </Button>
+      </Col>
+    </Row>
   );
 };

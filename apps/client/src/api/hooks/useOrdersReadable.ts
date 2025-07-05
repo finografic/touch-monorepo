@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
-import { transformAxiosError__V2 } from '../api.utils';
+import { transformAxiosError } from '../api.utils';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 
 // Query keys for caching
@@ -22,7 +22,7 @@ export const useGetOrdersReadable = () => {
         const response = await api.get('/orders-readable');
         return response.data.data || response.data;
       } catch (error) {
-        throw transformAxiosError__V2(error);
+        throw transformAxiosError(error);
       }
     },
     staleTime: 5 * 60 * 1000, // 5 minutes

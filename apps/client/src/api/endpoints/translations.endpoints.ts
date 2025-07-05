@@ -1,6 +1,6 @@
 import { api } from 'api';
 import type { ApiResponse } from '@workspace/core/api';
-import { transformAxiosError__V2 } from '../api.utils';
+import { transformAxiosError } from '../api.utils';
 
 // Types for translation entities - now using dynamic Record for translations
 export interface DrinkTypeTranslation {
@@ -89,7 +89,7 @@ const handleApiCall = async <T>(apiCall: () => Promise<any>): Promise<T> => {
     const response = await apiCall();
     return response.data;
   } catch (error) {
-    throw transformAxiosError__V2(error);
+    throw transformAxiosError(error);
   }
 };
 
@@ -138,7 +138,7 @@ export const translationEndpoints = {
       const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
       return data.map(transformDrinkType);
     } catch (error) {
-      throw transformAxiosError__V2(error);
+      throw transformAxiosError(error);
     }
   },
 
@@ -148,7 +148,7 @@ export const translationEndpoints = {
       const data = response.data?.data || response.data;
       return transformDrinkType(data);
     } catch (error) {
-      throw transformAxiosError__V2(error);
+      throw transformAxiosError(error);
     }
   },
 
@@ -173,7 +173,7 @@ export const translationEndpoints = {
       const subtypesResponses = await Promise.all(subtypesPromises);
       return subtypesResponses.flat();
     } catch (error) {
-      throw transformAxiosError__V2(error);
+      throw transformAxiosError(error);
     }
   },
 
@@ -190,7 +190,7 @@ export const translationEndpoints = {
       const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
       return data.map(transformVolume);
     } catch (error) {
-      throw transformAxiosError__V2(error);
+      throw transformAxiosError(error);
     }
   },
 
@@ -200,7 +200,7 @@ export const translationEndpoints = {
       const data = response.data?.data || response.data;
       return transformVolume(data);
     } catch (error) {
-      throw transformAxiosError__V2(error);
+      throw transformAxiosError(error);
     }
   },
 
@@ -211,7 +211,7 @@ export const translationEndpoints = {
       const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
       return data.map(transformContainerType);
     } catch (error) {
-      throw transformAxiosError__V2(error);
+      throw transformAxiosError(error);
     }
   },
 
@@ -224,7 +224,7 @@ export const translationEndpoints = {
       const data = response.data?.data || response.data;
       return transformContainerType(data);
     } catch (error) {
-      throw transformAxiosError__V2(error);
+      throw transformAxiosError(error);
     }
   },
 

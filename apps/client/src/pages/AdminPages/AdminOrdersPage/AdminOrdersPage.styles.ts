@@ -8,6 +8,7 @@ export const styles = css`
   color: ${colors.text};
 
   .admin-page-container {
+    min-width: 1400px; /* Never smaller than mobile width */
     max-width: 1600px; /* Wider to accommodate the translation fields */
     margin: 0 auto;
     padding: ${spacing[8]};
@@ -45,7 +46,42 @@ export const styles = css`
     border: 1px solid ${colors.greyLight};
     border-radius: 12px;
     padding: ${spacing[6]};
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
+    /* :before,
+    :after {
+      border: none;
+      inset: unset;
+    } */
+
+    .row {
+      /* border: 1px solid yellow; */
+    }
+    .col {
+      /* border: 1px solid lime; */
+    }
+    .a {
+      border: 1px solid red;
+    }
+    .b {
+      border: 1px solid blue;
+    }
+
+    .combobox-field {
+      border: 1px solid hotpink;
+    }
+
+    .col-form-buttons {
+      padding: ${spacing[4]};
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+    }
+  }
+
+  .form-section {
+    margin-top: ${spacing[2]};
+    min-height: 400px;
+    margin-bottom: 100px;
   }
 
   /* Form styling */

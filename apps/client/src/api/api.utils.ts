@@ -44,7 +44,7 @@ export const isRetryableError = (error: unknown): boolean => {
   return false;
 };
 
-export const transformAxiosError__V2 = (error: unknown): ApplicationError => {
+export const transformAxiosError = (error: unknown): ApplicationError => {
   // Handle Axios errors
   if (axios.isAxiosError(error)) {
     if (error.response) {
