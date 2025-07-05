@@ -16,9 +16,6 @@ export async function seed() {
     const insertedTypes = await db.insert(container_types).values([
       {
         name: 'plastico',
-        name_en_gb: 'Plastic',
-        name_es_es: 'Plástico',
-        name_ca_es: 'Plàstic',
         translations: {
           'en-GB': 'Plastic',
           'es-ES': 'Plástico',
@@ -28,9 +25,6 @@ export async function seed() {
       },
       {
         name: 'vidrio',
-        name_en_gb: 'Glass',
-        name_es_es: 'Vidrio',
-        name_ca_es: 'Vidre',
         translations: {
           'en-GB': 'Glass',
           'es-ES': 'Vidrio',
@@ -40,9 +34,6 @@ export async function seed() {
       },
       {
         name: 'metal',
-        name_en_gb: 'Metal',
-        name_es_es: 'Metal',
-        name_ca_es: 'Metall',
         translations: {
           'en-GB': 'Metal',
           'es-ES': 'Metal',

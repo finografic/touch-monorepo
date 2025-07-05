@@ -18,9 +18,6 @@ export async function seed() {
       .values([
         {
           name: 'cerveza',
-          name_en_gb: 'Beer',
-          name_es_es: 'Cerveza',
-          name_ca_es: 'Cervesa',
           translations: {
             'en-GB': 'Beer',
             'es-ES': 'Cerveza',
@@ -32,9 +29,6 @@ export async function seed() {
         },
         {
           name: 'vino',
-          name_en_gb: 'Wine',
-          name_es_es: 'Vino',
-          name_ca_es: 'Vi',
           translations: {
             'en-GB': 'Wine',
             'es-ES': 'Vino',
@@ -46,9 +40,6 @@ export async function seed() {
         },
         {
           name: 'cava',
-          name_en_gb: 'Cava',
-          name_es_es: 'Cava',
-          name_ca_es: 'Cava',
           translations: {
             'en-GB': 'Cava',
             'es-ES': 'Cava',
@@ -60,9 +51,6 @@ export async function seed() {
         },
         {
           name: 'licor',
-          name_en_gb: 'Liquor',
-          name_es_es: 'Licor',
-          name_ca_es: 'Licor',
           translations: {
             'en-GB': 'Liquor',
             'es-ES': 'Licor',
@@ -74,9 +62,6 @@ export async function seed() {
         },
         {
           name: 'zumo',
-          name_en_gb: 'Juice',
-          name_es_es: 'Zumo',
-          name_ca_es: 'Suc',
           translations: {
             'en-GB': 'Juice',
             'es-ES': 'Zumo',
@@ -88,9 +73,6 @@ export async function seed() {
         },
         {
           name: 'refresco',
-          name_en_gb: 'Soda',
-          name_es_es: 'Refresco',
-          name_ca_es: 'Refresc',
           translations: {
             'en-GB': 'Soda',
             'es-ES': 'Refresco',
@@ -102,9 +84,6 @@ export async function seed() {
         },
         {
           name: 'agua',
-          name_en_gb: 'Water',
-          name_es_es: 'Agua',
-          name_ca_es: 'Aigua',
           translations: {
             'en-GB': 'Water',
             'es-ES': 'Agua',
@@ -129,9 +108,6 @@ export async function seed() {
     await db.insert(drink_subtypes).values([
       {
         name: 'rubia',
-        name_en_gb: 'Blonde',
-        name_es_es: 'Rubia',
-        name_ca_es: 'Rossa',
         translations: {
           'en-GB': 'Blonde',
           'es-ES': 'Rubia',
@@ -143,9 +119,6 @@ export async function seed() {
       },
       {
         name: 'negra',
-        name_en_gb: 'Dark',
-        name_es_es: 'Negra',
-        name_ca_es: 'Negra',
         translations: {
           'en-GB': 'Dark',
           'es-ES': 'Negra',
@@ -157,9 +130,6 @@ export async function seed() {
       },
       {
         name: 'tinto',
-        name_en_gb: 'Red',
-        name_es_es: 'Tinto',
-        name_ca_es: 'Negre',
         translations: {
           'en-GB': 'Red',
           'es-ES': 'Tinto',
@@ -171,9 +141,6 @@ export async function seed() {
       },
       {
         name: 'blanco',
-        name_en_gb: 'White',
-        name_es_es: 'Blanco',
-        name_ca_es: 'Blanc',
         translations: {
           'en-GB': 'White',
           'es-ES': 'Blanco',

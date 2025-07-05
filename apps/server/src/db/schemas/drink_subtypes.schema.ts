@@ -12,9 +12,6 @@ export const drink_subtypes = sqliteTable('drink_subtypes', {
     .notNull()
     .references(() => drink_types.id, { onDelete: 'cascade' }),
   name: text('name').notNull().unique(), // e.g., 'Rubia', 'Negra'
-  name_es_es: text('name_es_es').notNull(), // Spanish display name
-  name_en_gb: text('name_en_gb'), // English display name (optional)
-  name_ca_es: text('name_ca_es'), // Catalan display name (optional)
   // JSON translations column for dynamic language support
   translations: text('translations', { mode: 'json' })
     .$type<Record<string, string>>()
@@ -33,16 +30,12 @@ export const drink_subtypes = sqliteTable('drink_subtypes', {
 // Zod schema for validation
 const insertDrinkSubtypeSchema = createInsertSchema(drink_subtypes, {
   name: (schema) => schema.name.min(1).max(50),
-  name_es_es: (schema) => schema.name_es_es.min(1).max(100),
-  name_en_gb: (schema) => schema.name_en_gb.min(1).max(100),
-  name_ca_es: (schema) => schema.name_ca_es.min(1).max(100),
   defaultTempConsume: (schema) => schema.defaultTempConsume.min(-10).max(30),
   defaultTempFreeze: (schema) => schema.defaultTempFreeze.min(-20).max(10),
 })
   .required({
     drinkTypeId: true,
     name: true,
-    name_es_es: true,
     defaultTempConsume: true,
     defaultTempFreeze: true,
   })

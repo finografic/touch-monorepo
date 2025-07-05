@@ -16,9 +16,6 @@ export async function seed() {
     const insertedVolumes = await db.insert(volumes).values([
       {
         name: '2L',
-        name_en_gb: '2 Liters',
-        name_es_es: '2 Litros',
-        name_ca_es: '2 Litres',
         translations: {
           'en-GB': '2 Liters',
           'es-ES': '2 Litros',
@@ -30,9 +27,6 @@ export async function seed() {
       },
       {
         name: '1.5L',
-        name_en_gb: '1.5 Liters',
-        name_es_es: '1.5 Litros',
-        name_ca_es: '1.5 Litres',
         translations: {
           'en-GB': '1.5 Liters',
           'es-ES': '1.5 Litros',
@@ -44,9 +38,6 @@ export async function seed() {
       },
       {
         name: '1.25L',
-        name_en_gb: '1.25 Liters',
-        name_es_es: '1.25 Litros',
-        name_ca_es: '1.25 Litres',
         translations: {
           'en-GB': '1.25 Liters',
           'es-ES': '1.25 Litros',
@@ -58,9 +49,6 @@ export async function seed() {
       },
       {
         name: '1L',
-        name_en_gb: '1 Liter',
-        name_es_es: '1 Litro',
-        name_ca_es: '1 Litre',
         translations: {
           'en-GB': '1 Liter',
           'es-ES': '1 Litro',
@@ -72,9 +60,6 @@ export async function seed() {
       },
       {
         name: '75cl',
-        name_en_gb: '75cl',
-        name_es_es: '75cl',
-        name_ca_es: '75cl',
         translations: {
           'en-GB': '75cl',
           'es-ES': '75cl',
@@ -86,9 +71,6 @@ export async function seed() {
       },
       {
         name: '50cl',
-        name_en_gb: '50cl',
-        name_es_es: '50cl',
-        name_ca_es: '50cl',
         translations: {
           'en-GB': '50cl',
           'es-ES': '50cl',
@@ -100,9 +82,6 @@ export async function seed() {
       },
       {
         name: '33cl',
-        name_en_gb: '33cl',
-        name_es_es: '33cl',
-        name_ca_es: '33cl',
         translations: {
           'en-GB': '33cl',
           'es-ES': '33cl',
@@ -114,9 +93,6 @@ export async function seed() {
       },
       {
         name: '25cl',
-        name_en_gb: '25cl',
-        name_es_es: '25cl',
-        name_ca_es: '25cl',
         translations: {
           'en-GB': '25cl',
           'es-ES': '25cl',
