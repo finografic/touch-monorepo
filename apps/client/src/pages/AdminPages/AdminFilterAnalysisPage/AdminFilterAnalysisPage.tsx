@@ -1,10 +1,11 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Flex, Spinner, Table, Text, TextField } from '@radix-ui/themes';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
+import { OrdersTable } from 'components/OrdersTable';
 
 export const AdminFilterAnalysisPage: React.FC = () => {
   const { t } = useTranslation();
@@ -76,126 +77,23 @@ export const AdminFilterAnalysisPage: React.FC = () => {
     <AdminContentLayout title="Filter Analysis" subtitle="Analyze orders data and filtering behavior">
       {/* Summary Stats */}
       <AdminSection title="Data Summary">
-        <Flex gap="4" wrap="wrap">
-          <Card>
-            <Flex direction="column" align="center" p="4">
-              <Text size="6" weight="bold" color="blue">
-                {ordersData.length}
-              </Text>
-              <Text size="2" color="gray">
-                Total Orders
-              </Text>
-            </Flex>
-          </Card>
-          <Card>
-            <Flex direction="column" align="center" p="4">
-              <Text size="6" weight="bold" color="green">
-                {filteredOrders.length}
-              </Text>
-              <Text size="2" color="gray">
-                Filtered Results
-              </Text>
-            </Flex>
-          </Card>
-          <Card>
-            <Flex direction="column" align="center" p="4">
-              <Text size="6" weight="bold" color="orange">
-                {summaryStats.drinkTypes}
-              </Text>
-              <Text size="2" color="gray">
-                Drink Types
-              </Text>
-            </Flex>
-          </Card>
-          <Card>
-            <Flex direction="column" align="center" p="4">
-              <Text size="6" weight="bold" color="purple">
-                {summaryStats.volumes}
-              </Text>
-              <Text size="2" color="gray">
-                Volume Options
-              </Text>
-            </Flex>
-          </Card>
-          <Card>
-            <Flex direction="column" align="center" p="4">
-              <Text size="6" weight="bold" color="cyan">
-                {summaryStats.containers}
-              </Text>
-              <Text size="2" color="gray">
-                Container Types
-              </Text>
-            </Flex>
-          </Card>
-        </Flex>
+        <OrdersSummaryCards
+          totalOrders={ordersData.length}
+          filteredResults={filteredOrders.length}
+          drinkTypes={summaryStats.drinkTypes}
+          volumeOptions={summaryStats.volumes}
+          containerTypes={summaryStats.containers}
+        />
       </AdminSection>
 
       {/* Search and Results */}
       <AdminSection title="Orders Data">
-        <Flex justify="between" align="center" mb="4">
-          <Flex align="center" gap="3">
-            <TextField.Root
-              placeholder="Search orders..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              size="2"
-            >
-              <TextField.Slot>
-                <MagnifyingGlassIcon height="16" width="16" />
-              </TextField.Slot>
-            </TextField.Root>
-          </Flex>
-
-          <Text size="2" color="gray">
-            Showing {filteredOrders.length} of {ordersData.length} orders
-          </Text>
-        </Flex>
-
-        {/* Results Table */}
-        <Table.Root>
-          <Table.Header>
-            <Table.Row>
-              <Table.ColumnHeaderCell>Order ID</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Drink Type</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Subtype</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Volume</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Container</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Temperature</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Created</Table.ColumnHeaderCell>
-            </Table.Row>
-          </Table.Header>
-          <Table.Body>
-            {filteredOrders.map((order) => (
-              <Table.Row key={order.id}>
-                <Table.Cell>
-                  <Text size="1">{order.id.slice(0, 8)}...</Text>
-                </Table.Cell>
-                <Table.Cell>{order.drinkType || '-'}</Table.Cell>
-                <Table.Cell>{order.drinkSubtype || '-'}</Table.Cell>
-                <Table.Cell>{order.volume || '-'}</Table.Cell>
-                <Table.Cell>{order.containerType || '-'}</Table.Cell>
-                <Table.Cell>{order.defaultTempConsume ? `${order.defaultTempConsume}°C` : '-'}</Table.Cell>
-                <Table.Cell>
-                  <Text size="1">
-                    {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : '-'}
-                  </Text>
-                </Table.Cell>
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
-
-        {/* Empty State */}
-        {filteredOrders.length === 0 && (
-          <Flex direction="column" align="center" justify="center" py="8">
-            <Text size="3" color="gray">
-              No orders found
-            </Text>
-            <Text size="2" color="gray">
-              Try adjusting your search term
-            </Text>
-          </Flex>
-        )}
+        <OrdersTable
+          orders={filteredOrders}
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          totalCount={ordersData.length}
+        />
       </AdminSection>
     </AdminContentLayout>
   );
