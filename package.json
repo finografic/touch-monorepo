@@ -68,7 +68,6 @@
     "db.migrations.run": "pnpm --filter @workspace/server db.migrations.run",
     "db.views.create": "pnpm --filter @workspace/server db.views.create",
     "db.views.test": "pnpm --filter @workspace/server db.views.test",
-    "db.cleanup.legacy-columns": "tsx scripts/src/cleanup-legacy-columns/cleanup-legacy-columns.ts",
     "·········· LINTING": "···················································",
     "lint": "turbo run lint",
     "lint.fix": "turbo run lint.fix",
