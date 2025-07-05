@@ -13,7 +13,7 @@ export const DevFilterResults = () => {
       <div className="results-list">
         <h4>Results: {dataFiltered.length}</h4>
         {dataFiltered.map((item: any) => (
-          <pre
+          <div
             key={item.id}
             className="result-row"
             style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}
@@ -33,7 +33,7 @@ export const DevFilterResults = () => {
             <div style={{ flex: '3' }}>
               <p style={{ margin: 0 }}>{item.temperatureProfile}</p>
             </div>
-          </pre>
+          </div>
         ))}
       </div>
     </div>
