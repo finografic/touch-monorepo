@@ -1,9 +1,7 @@
 export interface VolumeEntity {
   id: string;
   name: string;
-  name_en: string;
-  name_es: string;
-  name_ca: string;
+  translations: string;
   value_in_ml: number;
   sort_order: number;
   cooling_factor: number;

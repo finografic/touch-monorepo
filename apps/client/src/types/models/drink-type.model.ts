@@ -2,8 +2,19 @@ import type { DrinkSubtypeEntity, DrinkTypeEntity } from '@workspace/server/type
 import type { ConvertKeysToCamelCase, OverridePropTypes } from '@workspace/types/utils';
 import type { ModelBaseProps } from 'types/base.types';
 
-export type DrinkType = OverridePropTypes<DrinkTypeCamelCase, ModelBaseProps & { hasSubtypes: boolean }>;
-export type DrinkSubtype = OverridePropTypes<DrinkSubtypeCamelCase, ModelBaseProps>;
+export type DrinkType = OverridePropTypes<
+  DrinkTypeCamelCase,
+  ModelBaseProps & {
+    hasSubtypes: boolean;
+    translations: Record<string, string>; // Override: API returns parsed JSON object
+  }
+>;
+export type DrinkSubtype = OverridePropTypes<
+  DrinkSubtypeCamelCase,
+  ModelBaseProps & {
+    translations: Record<string, string>; // Override: API returns parsed JSON object
+  }
+>;
 
 type DrinkTypeCamelCase = ConvertKeysToCamelCase<DrinkTypeEntity>;
 type DrinkSubtypeCamelCase = ConvertKeysToCamelCase<DrinkSubtypeEntity>;

@@ -15,7 +15,7 @@ import {
 } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
-import type { OrderModel } from 'types/models/order.model';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
 import type { OrderFieldKey } from 'types/orders.types';
@@ -328,11 +328,11 @@ export const AdminFilterAnalysisPage: React.FC = () => {
                     {order.id.slice(0, 8)}...
                   </Text>
                 </Table.Cell>
-                <Table.Cell>{order.drinkType?.name || '-'}</Table.Cell>
-                <Table.Cell>{order.drinkSubtype?.name || '-'}</Table.Cell>
-                <Table.Cell>{order.drinkVolume?.name || '-'}</Table.Cell>
-                <Table.Cell>{order.containerType?.name || '-'}</Table.Cell>
-                <Table.Cell>{order.temperature?.name || '-'}</Table.Cell>
+                <Table.Cell>{order.drinkType || '-'}</Table.Cell>
+                <Table.Cell>{order.drinkSubtype || '-'}</Table.Cell>
+                <Table.Cell>{order.volumeName || '-'}</Table.Cell>
+                <Table.Cell>{order.containerTypeName || '-'}</Table.Cell>
+                <Table.Cell>{order.defaultTempConsume ? `${order.defaultTempConsume}°C` : '-'}</Table.Cell>
                 <Table.Cell>
                   <Text size="1">
                     {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : '-'}

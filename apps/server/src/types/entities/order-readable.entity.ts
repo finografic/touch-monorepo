@@ -1,10 +1,10 @@
-export interface OrderEntity {
+export interface OrderReadableEntity {
   id: string;
-  drink_type_id: string;
-  drink_subtype_id: string | null;
-  volume_id: string;
-  container_type_id: string;
-  temperature_profile_id: string;
+  drink_type: string;
+  drink_subtype: string | null;
+  volume: string;
+  container_type: string;
+  temperature_profile: string;
   default_temp_consume: number;
   default_temp_freeze: number;
   is_active: number; // Stored as integer in DB

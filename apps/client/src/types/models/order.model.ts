@@ -1,17 +1,7 @@
-import type { DataEntry, DataType } from 'types/data.types';
+import type { ConvertKeysToCamelCase, OverridePropTypes } from '@workspace/types/utils';
+import type { ModelBaseProps } from 'types/base.types';
+import type { OrderEntity } from '@workspace/server/types/entities/order.entity';
 
-// Response data type for orders
-export interface OrderModel extends DataEntry {
-  id: string;
-  drinkTypeName: string;
-  drinkSubtypeName: string | null;
-  volumeName: string;
-  containerTypeName: string;
-  defaultTempConsume: number;
-  defaultTempFreeze: number;
-  temperatureProfileId: string;
-  isActive: boolean;
-  createdAt: number; // Unix timestamp from server
-  updatedAt: number; // Unix timestamp from server
-  [key: string]: DataType | DataType[] | Record<string, DataType> | DataEntry;
-}
+export type OrderModel = OverridePropTypes<OrderCamelCase, ModelBaseProps>;
+
+type OrderCamelCase = ConvertKeysToCamelCase<OrderEntity>;
