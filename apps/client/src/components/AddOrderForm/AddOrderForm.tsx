@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { SearchableSelect } from 'pages/AdminPages/AdminOrdersPage/SearchableSelect/SearchableSelect';
+import { SimpleSelect } from 'components/SimpleSelect';
 import { FieldWrapper } from 'components/FieldWrapper';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
@@ -63,6 +64,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
     handleSubmit,
     setValue,
     watch,
+    register,
     formState: { isValid, errors },
   } = methods;
 
@@ -97,7 +99,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
   }, [containerTypes, tempItems.containerTypes, ordersData, language]);
 
   // Handle field changes
-  const handleFieldChange = (field: keyof AddOrderFormValues, value: string) => {
+  const handleFieldChange = (field: keyof AddOrderFormValues, value: string | number) => {
     setValue(field, value, { shouldValidate: true });
   };
 
@@ -131,24 +133,18 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
           <Col xs={12} md={12} className="col">
             <Flex gap="4" justify="between" className="b">
               {/* Mode */}
-              <FieldWrapper label="Mode" required>
-                <SearchableSelect
-                  value={formValues.drinkType}
-                  onSelect={(value) => handleFieldChange('drinkType', value)}
-                  onAddNew={(value) => handleAddNew('drinkTypes', value)}
-                  options={drinkTypeOptions}
-                  placeholder="e.g., Coffee, Tea, Juice"
-                  windowSize={15}
+              <FieldWrapper label="Mode" required error={errors.mode}>
+                <SimpleSelect
+                  {...register('mode', { valueAsNumber: true })}
+                  options={[1, 2, 3, 4, 5]}
+                  placeholder="Select mode"
+                  defaultValue={formValues.mode}
+                  onSelect={(value) => handleFieldChange('mode', Number(value))}
                 />
-                {errors.drinkType && (
-                  <Text size="1" color="red" mt="1">
-                    {errors.drinkType.message}
-                  </Text>
-                )}
               </FieldWrapper>
 
               {/* Drink Type */}
-              <FieldWrapper label="Drink Type" required>
+              <FieldWrapper label="Drink Type" required error={errors.drinkType}>
                 <SearchableSelect
                   value={formValues.drinkType}
                   onSelect={(value) => handleFieldChange('drinkType', value)}
@@ -157,11 +153,6 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                   placeholder="e.g., Coffee, Tea, Juice"
                   windowSize={15}
                 />
-                {errors.drinkType && (
-                  <Text size="1" color="red" mt="1">
-                    {errors.drinkType.message}
-                  </Text>
-                )}
               </FieldWrapper>
 
               {/* Subtype */}
@@ -177,7 +168,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
               </FieldWrapper>
 
               {/* Volume */}
-              <FieldWrapper label="Volume" required>
+              <FieldWrapper label="Volume" required error={errors.volume}>
                 <SearchableSelect
                   value={formValues.volume}
                   onSelect={(value) => handleFieldChange('volume', value)}
@@ -186,15 +177,10 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                   placeholder="e.g., 250ml, 500ml, 1L"
                   windowSize={15}
                 />
-                {errors.volume && (
-                  <Text size="1" color="red" mt="1">
-                    {errors.volume.message}
-                  </Text>
-                )}
               </FieldWrapper>
 
               {/* Container Type */}
-              <FieldWrapper label="Container" required>
+              <FieldWrapper label="Container" required error={errors.containerType}>
                 <SearchableSelect
                   value={formValues.containerType}
                   onSelect={(value) => handleFieldChange('containerType', value)}
@@ -203,11 +189,6 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                   placeholder="e.g., Cup, Bottle, Can"
                   windowSize={15}
                 />
-                {errors.containerType && (
-                  <Text size="1" color="red" mt="1">
-                    {errors.containerType.message}
-                  </Text>
-                )}
               </FieldWrapper>
             </Flex>
           </Col>

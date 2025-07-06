@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Text } from '@radix-ui/themes';
+import type { FieldError } from 'react-hook-form';
 
 interface FieldWrapperProps {
   label?: string;
@@ -7,6 +8,7 @@ interface FieldWrapperProps {
   children: React.ReactNode;
   className?: string;
   style?: React.CSSProperties;
+  error?: FieldError;
 }
 
 export const FieldWrapper: React.FC<FieldWrapperProps> = ({
@@ -15,6 +17,7 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
   children,
   className,
   style,
+  error,
 }) => {
   return (
     <Box style={{ position: 'relative', minWidth: '180px', ...style }} className={className}>
@@ -24,6 +27,11 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
         </Text>
       )}
       {children}
+      {error && (
+        <Text size="1" color="red" mt="1">
+          {error.message}
+        </Text>
+      )}
     </Box>
   );
 };
