@@ -48,7 +48,7 @@ JOIN cooling_profiles cp ON tp.cooling_profile_id = cp.id;
 CREATE VIEW orders_readable AS
 SELECT
   o.id,
-    o.mode,
+  o.mode,
   dt.name AS drink_type,
   dst.name AS drink_subtype,
   v.name AS volume,
