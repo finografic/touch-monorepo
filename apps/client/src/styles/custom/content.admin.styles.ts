@@ -144,31 +144,32 @@ export const stylesAdminContent = css`
   input[type='time'],
   input[type='datetime-local'],
   input[type='url'],
-  input[type='search'],
-  input:read-only {
-    /* border: 1px solid red; */
-    font-weight: 700;
-    /* background-color: ${colors.greyXLight}; */
-    /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
-    color: ${colors.primary};
-    padding: 0.5em 0.5em;
-    opacity: 0.66;
-    ::selection {
-      background-color: transparent;
+  input[type='search'] {
+    &:read-only {
+      /* border: 1px solid red; */
+      font-weight: 700;
+      /* background-color: ${colors.greyXLight}; */
       /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
-      color: ${colors.text};
-    }
-    :focus {
-      outline: none;
-      /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
-    }
-    :before,
-    :after {
-      border: none;
-      inset: unset;
-    }
+      color: ${colors.primary};
+      padding: 0.5em 0.5em;
+      opacity: 0.66;
+      ::selection {
+        background-color: transparent;
+        /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
+        color: ${colors.text};
+      }
+      :focus {
+        outline: none;
+        /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
+      }
+      :before,
+      :after {
+        border: none;
+        inset: unset;
+      }
 
-    cursor: not-allowed;
+      cursor: not-allowed;
+    }
   }
 
   select:focus,

@@ -1,11 +1,13 @@
 import React, { forwardRef, useMemo } from 'react';
 import { Select } from '@radix-ui/themes';
 import type { SelectOption } from 'types/models/select-option.model';
+import clsx from 'clsx';
 import { styles } from './SimpleSelect.styles';
 
 interface SimpleSelectProps {
   options: string[] | number[] | SelectOption[];
   value?: string | number;
+  className?: string;
   defaultValue?: string | number;
   onSelect?: (value: string | number) => void;
   placeholder?: string;
@@ -16,7 +18,18 @@ interface SimpleSelectProps {
 
 export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(
   (
-    { options, value, defaultValue, onSelect, placeholder, disabled = false, name, onChange, ...props },
+    {
+      options,
+      value,
+      className,
+      defaultValue,
+      onSelect,
+      placeholder = '',
+      disabled = false,
+      name,
+      onChange,
+      ...props
+    },
     ref,
   ) => {
     // Convert simple arrays to SelectOption format
@@ -60,24 +73,26 @@ export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(
     };
 
     return (
-      <Select.Root
-        css={styles}
-        value={value !== undefined ? String(value) : undefined}
-        defaultValue={defaultValue !== undefined ? String(defaultValue) : undefined}
-        onValueChange={handleValueChange}
-        disabled={disabled}
-        name={name}
-        {...props}
-      >
-        <Select.Trigger placeholder={placeholder} />
-        <Select.Content>
-          {selectOptions.map((option) => (
-            <Select.Item key={option.value} value={option.value}>
-              {option.label}
-            </Select.Item>
-          ))}
-        </Select.Content>
-      </Select.Root>
+      <div css={styles} className={clsx('simple-select', className)}>
+        <Select.Root
+          size="3"
+          value={value !== undefined ? String(value) : undefined}
+          defaultValue={defaultValue !== undefined ? String(defaultValue) : undefined}
+          onValueChange={handleValueChange}
+          disabled={disabled}
+          name={name}
+          {...props}
+        >
+          <Select.Trigger placeholder={placeholder} />
+          <Select.Content>
+            {selectOptions.map((option) => (
+              <Select.Item key={option.value} value={option.value}>
+                {option.label}
+              </Select.Item>
+            ))}
+          </Select.Content>
+        </Select.Root>
+      </div>
     );
   },
 );

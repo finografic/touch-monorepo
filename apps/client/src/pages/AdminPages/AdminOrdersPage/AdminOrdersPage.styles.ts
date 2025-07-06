@@ -77,10 +77,20 @@ export const styles = css`
       align-items: flex-start;
     }
 
+    .col-form-fields {
+      /* padding: ${spacing[4]}; */
+      /* display: flex;
+      justify-content: flex-end;
+      align-items: center; */
+      /* flex: 1; */
+      margin-bottom: ${spacing[8]};
+    }
+
     .col-form-buttons {
       padding: ${spacing[4]};
       display: flex;
       justify-content: flex-end;
+      justify-content: center;
       align-items: center;
     }
 
@@ -90,6 +100,11 @@ export const styles = css`
       & + div {
         width: 100%;
       }
+    }
+
+    .simple-select > button {
+      flex: 1;
+      width: 100%;
     }
   }
 

@@ -5,6 +5,8 @@ import { z } from 'zod';
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { SearchableSelect } from 'pages/AdminPages/AdminOrdersPage/SearchableSelect/SearchableSelect';
 import { SimpleSelect } from 'components/SimpleSelect';
+import { TemperatureInput } from 'components/TemperatureInput';
+import { TimeInput } from 'components/TimeInput';
 import { FieldWrapper } from 'components/FieldWrapper';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
@@ -15,11 +17,14 @@ import { Col, Row } from 'react-grid-system';
 
 // Form validation schema
 const addOrderSchema = z.object({
-  mode: z.number().int().min(1).max(5),
+  mode: z.coerce.number().int().min(1).max(5),
   drinkType: z.string().min(1, 'Drink type is required'),
   drinkSubtype: z.string().optional(),
   volume: z.string().min(1, 'Volume is required'),
   containerType: z.string().min(1, 'Container type is required'),
+  defaultTempConsume: z.coerce.number().min(-10).max(30),
+  defaultTempFreeze: z.coerce.number().min(-20).max(10),
+  preparationTime: z.coerce.number().int().min(0).max(3600), // 0 to 60 minutes in seconds
 });
 
 type AddOrderFormValues = z.infer<typeof addOrderSchema>;
@@ -49,6 +54,8 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
 
   // RHF setup
   const methods = useForm<AddOrderFormValues>({
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
     resolver: zodResolver(addOrderSchema),
     defaultValues: {
       mode: 4,
@@ -56,8 +63,10 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
       drinkSubtype: '',
       volume: '',
       containerType: '',
+      defaultTempConsume: 5,
+      defaultTempFreeze: -2,
+      preparationTime: 90, // 1:30 in seconds
     },
-    mode: 'onChange',
   });
 
   const {
@@ -130,73 +139,145 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <Row className="row">
-          <Col xs={12} md={12} className="col">
-            <Flex gap="4" justify="between" className="b">
-              {/* Mode */}
-              <FieldWrapper label="Mode" required error={errors.mode}>
-                <SimpleSelect
-                  {...register('mode', { valueAsNumber: true })}
-                  options={[1, 2, 3, 4, 5]}
-                  placeholder="Select mode"
-                  defaultValue={formValues.mode}
-                  onSelect={(value) => handleFieldChange('mode', Number(value))}
-                />
-              </FieldWrapper>
+          <Col xs={10} md={10} className="col col-form-fields">
+            <Row className="row">
+              <Col xs={12} md={12} className="col col-form-fields">
+                <Flex gap="4" justify="between" className="b">
+                  {/* Drink Type */}
+                  <FieldWrapper label="Drink Type" required error={errors.drinkType}>
+                    <SearchableSelect
+                      value={formValues.drinkType}
+                      onSelect={(value) => handleFieldChange('drinkType', value)}
+                      onAddNew={(value) => handleAddNew('drinkTypes', value)}
+                      options={drinkTypeOptions}
+                      placeholder="e.g., Coffee, Tea, Juice"
+                      windowSize={15}
+                    />
+                  </FieldWrapper>
 
-              {/* Drink Type */}
-              <FieldWrapper label="Drink Type" required error={errors.drinkType}>
-                <SearchableSelect
-                  value={formValues.drinkType}
-                  onSelect={(value) => handleFieldChange('drinkType', value)}
-                  onAddNew={(value) => handleAddNew('drinkTypes', value)}
-                  options={drinkTypeOptions}
-                  placeholder="e.g., Coffee, Tea, Juice"
-                  windowSize={15}
-                />
-              </FieldWrapper>
+                  {/* Subtype */}
+                  <FieldWrapper label="Subtype">
+                    <SearchableSelect
+                      value={formValues.drinkSubtype || ''}
+                      onSelect={(value) => handleFieldChange('drinkSubtype', value)}
+                      options={[]}
+                      placeholder="Optional"
+                      allowAddNew={false}
+                      windowSize={10}
+                    />
+                  </FieldWrapper>
 
-              {/* Subtype */}
-              <FieldWrapper label="Subtype">
-                <SearchableSelect
-                  value={formValues.drinkSubtype || ''}
-                  onSelect={(value) => handleFieldChange('drinkSubtype', value)}
-                  options={[]}
-                  placeholder="Optional"
-                  allowAddNew={false}
-                  windowSize={10}
-                />
-              </FieldWrapper>
+                  {/* Volume */}
+                  <FieldWrapper label="Volume" required error={errors.volume}>
+                    <SearchableSelect
+                      value={formValues.volume}
+                      onSelect={(value) => handleFieldChange('volume', value)}
+                      onAddNew={(value) => handleAddNew('volumes', value)}
+                      options={volumeOptions}
+                      placeholder="e.g., 250ml, 500ml, 1L"
+                      windowSize={15}
+                    />
+                  </FieldWrapper>
 
-              {/* Volume */}
-              <FieldWrapper label="Volume" required error={errors.volume}>
-                <SearchableSelect
-                  value={formValues.volume}
-                  onSelect={(value) => handleFieldChange('volume', value)}
-                  onAddNew={(value) => handleAddNew('volumes', value)}
-                  options={volumeOptions}
-                  placeholder="e.g., 250ml, 500ml, 1L"
-                  windowSize={15}
-                />
-              </FieldWrapper>
+                  {/* Container Type */}
+                  <FieldWrapper label="Container" required error={errors.containerType}>
+                    <SearchableSelect
+                      value={formValues.containerType}
+                      onSelect={(value) => handleFieldChange('containerType', value)}
+                      onAddNew={(value) => handleAddNew('containerTypes', value)}
+                      options={containerTypeOptions}
+                      placeholder="e.g., Cup, Bottle, Can"
+                      windowSize={15}
+                    />
+                  </FieldWrapper>
+                </Flex>
+              </Col>
 
-              {/* Container Type */}
-              <FieldWrapper label="Container" required error={errors.containerType}>
-                <SearchableSelect
-                  value={formValues.containerType}
-                  onSelect={(value) => handleFieldChange('containerType', value)}
-                  onAddNew={(value) => handleAddNew('containerTypes', value)}
-                  options={containerTypeOptions}
-                  placeholder="e.g., Cup, Bottle, Can"
-                  windowSize={15}
-                />
-              </FieldWrapper>
-            </Flex>
+              <Col xs={12} md={12} className="col col-form-fields">
+                <Flex gap="4" className="b">
+                  {/* Mode */}
+                  <FieldWrapper label="Mode" required error={errors.mode} style={{ flex: 1 }}>
+                    <SimpleSelect
+                      {...register('mode')}
+                      className="mode-select"
+                      options={[1, 2, 3, 4, 5]}
+                      placeholder="Select mode"
+                      defaultValue={formValues.mode}
+                      onSelect={(value) => handleFieldChange('mode', Number(value))}
+                    />
+                  </FieldWrapper>
+
+                  <FieldWrapper
+                    label="Temperatura consumo"
+                    required
+                    error={errors.defaultTempConsume}
+                    style={{ flex: 1 }}
+                  >
+                    <TemperatureInput
+                      {...register('defaultTempConsume')}
+                      min={-40}
+                      max={40}
+                      step={0.5}
+                      defaultValue={formValues.defaultTempConsume}
+                    />
+                  </FieldWrapper>
+
+                  <FieldWrapper
+                    label="Temperatura congelación"
+                    required
+                    error={errors.defaultTempFreeze}
+                    style={{ flex: 1 }}
+                  >
+                    <TemperatureInput
+                      {...register('defaultTempFreeze')}
+                      min={-50}
+                      max={40}
+                      step={0.5}
+                      defaultValue={formValues.defaultTempFreeze}
+                    />
+                  </FieldWrapper>
+
+                  <FieldWrapper
+                    label="Tiempo de preparación"
+                    required
+                    error={errors.preparationTime}
+                    style={{ flex: 1 }}
+                  >
+                    {/* <input
+                      {...register('preparationTime')}
+                      type="number"
+                      // ref={ref}
+                      // name={name}
+                      // defaultValue={defaultValue}
+                      // value={value}
+                      // onChange={onChange}
+                      // onBlur={onBlur}
+                      // onInput={onInput}
+                      // style={{ display: 'none' }}
+                      // {...props}
+                    /> */}
+                    <TimeInput
+                      {...register('preparationTime')}
+                      min={0}
+                      max={3600}
+                      step={30}
+                      defaultValue={formValues.preparationTime}
+                    />
+                  </FieldWrapper>
+                </Flex>
+              </Col>
+            </Row>
           </Col>
 
-          {/* Form Actions */}
-          <Col xs={12} md={12} className="col col-form-buttons">
-            <Button type="submit" disabled={!isValid || isLoading} loading={isLoading} size="2">
-              Add Order
+          <Col xs={2} md={2} className="col col-form-buttons">
+            <Button
+              type="submit"
+              style={{ padding: '1rem 3rem' }}
+              // disabled={!isValid || isLoading}
+              loading={isLoading}
+              size="3"
+            >
+              Añadir
             </Button>
           </Col>
         </Row>
