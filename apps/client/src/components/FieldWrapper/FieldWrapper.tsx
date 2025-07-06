@@ -28,9 +28,11 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
       )}
       {children}
       {error && (
-        <Text size="1" color="red" mt="1">
-          {error.message}
-        </Text>
+        <Box style={{ position: 'relative', minWidth: '180px', ...style }}>
+          <Text size="1" color="red" mt="1">
+            {error.message}
+          </Text>
+        </Box>
       )}
     </Box>
   );

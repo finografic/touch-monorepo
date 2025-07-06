@@ -1,6 +1,7 @@
 import React, { forwardRef, useMemo } from 'react';
 import { Select } from '@radix-ui/themes';
 import type { SelectOption } from 'types/models/select-option.model';
+import { styles } from './SimpleSelect.styles';
 
 interface SimpleSelectProps {
   options: string[] | number[] | SelectOption[];
@@ -60,6 +61,7 @@ export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(
 
     return (
       <Select.Root
+        css={styles}
         value={value !== undefined ? String(value) : undefined}
         defaultValue={defaultValue !== undefined ? String(defaultValue) : undefined}
         onValueChange={handleValueChange}
