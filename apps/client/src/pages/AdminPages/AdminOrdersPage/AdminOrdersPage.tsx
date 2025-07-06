@@ -113,31 +113,6 @@ export const AdminOrdersPage: React.FC = () => {
           </Col>
         </Row>
 
-        <Row>
-          <Col>
-            <Card
-              // ref={dropdownRef}
-              className="dropdown"
-              // onScroll={handleScroll}
-              style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                right: 0,
-                zIndex: 9999,
-                marginTop: '4px',
-                maxHeight: '300px',
-                overflowY: 'auto',
-                background: 'var(--color-background)',
-                // border: '1px solid #a3a3a3',
-                borderWidth: '0',
-              }}
-            >
-              <Text>Hello</Text>
-            </Card>
-          </Col>
-        </Row>
-
         <Row className="form-section">
           <Col>
             {/* Add New Order Form */}

@@ -3,13 +3,7 @@ import { matchSorter } from 'match-sorter';
 import { Box, Button, Card, Flex, Text, TextField } from '@radix-ui/themes';
 import { ChevronDownIcon, MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 import { styles } from './SearchableSelect.styles';
-
-interface SelectOption {
-  value: string;
-  label: string;
-  description?: string;
-  category?: string;
-}
+import type { SelectOption } from 'types/models/select-option.model';
 
 interface SearchableSelectProps {
   options: SelectOption[];
@@ -243,25 +237,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
           </TextField.Root>
 
           {isOpen && (
-            <div
-              ref={dropdownRef}
-              className="dropdown"
-              onScroll={handleScroll}
-              style={
-                {
-                  // position: 'absolute',
-                  // top: '100%',
-                  // left: 0,
-                  // right: 0,
-                  // zIndex: 9999,
-                  // marginTop: '4px',
-                  // maxHeight: '300px',
-                  // overflowY: 'auto',
-                  // background: 'var(--color-background)',
-                  // border: '1px solid #a3a3a3',
-                }
-              }
-            >
+            <div ref={dropdownRef} className="dropdown" onScroll={handleScroll}>
               {slidingWindow.items.length > 0 ? (
                 slidingWindow.items.map((option, index) => (
                   <div
@@ -271,21 +247,14 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                     onMouseEnter={() => setFocusedIndex(index)}
                   >
                     <Flex align="center" gap="3" p="3">
-                      <Flex direction="column" style={{ flex: 1 }}>
-                        <Text weight="bold" size="2">
+                      <Text weight="bold" size="2">
+                        {option.value}
+                      </Text>
+                      {option.label && (
+                        <Text size="1" color="gray">
                           {option.label}
                         </Text>
-                        {option.description && (
-                          <Text size="1" color="gray">
-                            {option.description}
-                          </Text>
-                        )}
-                        {option.category && (
-                          <Text size="1" color="blue">
-                            {option.category}
-                          </Text>
-                        )}
-                      </Flex>
+                      )}
                     </Flex>
                   </div>
                 ))

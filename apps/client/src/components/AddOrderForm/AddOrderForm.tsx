@@ -5,6 +5,7 @@ import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { useGetContainerTypes } from 'queries/container-types';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
+import { SelectOptionDto } from 'types/models/select-option.model';
 import { Col, Row } from 'react-grid-system';
 
 interface FormState {
@@ -23,9 +24,14 @@ interface TempItems {
 interface AddOrderFormProps {
   onSubmit: (formData: FormState) => void;
   isLoading?: boolean;
+  language?: string;
 }
 
-export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading = false }) => {
+export const AddOrderForm: React.FC<AddOrderFormProps> = ({
+  onSubmit,
+  isLoading = false,
+  language = 'es-ES',
+}) => {
   const [formState, setFormState] = useState<FormState>({
     drinkType: '',
     drinkSubtype: '',
@@ -45,91 +51,47 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({ onSubmit, isLoading 
   const { data: containerTypes = [] } = useGetContainerTypes();
   const { data: ordersData = [] } = useGetOrdersReadable();
 
-  // Transform data into SelectOption format
-  const drinkTypeOptions = useMemo(
-    () =>
-      [
-        ...drinkTypes.map((dt: any) => ({
-          value: dt.name || '',
-          label: dt.name || '',
-          category: 'Database',
-        })),
-        ...tempItems.drinkTypes.map((name) => ({
-          value: name,
-          label: name,
-          category: 'Custom',
-        })),
-      ].filter((option) => option.value),
-    [drinkTypes, tempItems.drinkTypes],
-  );
+  // Transform data using DTO with language translations
+  const drinkTypeOptions = useMemo(() => {
+    const databaseOptions = SelectOptionDto.fromDrinkTypes(drinkTypes, language);
+    const customOptions = SelectOptionDto.fromCustomItems(tempItems.drinkTypes, 'Custom');
+    return SelectOptionDto.mergeOptions(databaseOptions, customOptions);
+  }, [drinkTypes, tempItems.drinkTypes, language]);
 
   const volumeOptions = useMemo(() => {
-    let baseOptions = [
-      ...volumes.map((v: any) => ({
-        value: v.name || '',
-        label: v.name || '',
-        category: 'Database',
-      })),
-      ...tempItems.volumes.map((name) => ({
-        value: name,
-        label: name,
-        category: 'Custom',
-      })),
-    ].filter((option) => option.value);
+    const databaseOptions = SelectOptionDto.fromVolumes(volumes, language);
+    const customOptions = SelectOptionDto.fromCustomItems(tempItems.volumes, 'Custom');
+
+    let allOptions = SelectOptionDto.mergeOptions(databaseOptions, customOptions);
 
     // Progressive filtering: if drink type is selected, also include volumes used with that drink type
     if (formState.drinkType) {
-      const usedVolumes = ordersData
-        .filter((order) => order.drinkType === formState.drinkType)
-        .map((order) => order.volume)
-        .filter(Boolean)
-        .map((volume) => ({
-          value: volume,
-          label: volume,
-          category: 'From existing orders',
-        }));
-
-      baseOptions = [...baseOptions, ...usedVolumes];
-      // Remove duplicates
-      baseOptions = Array.from(new Map(baseOptions.map((opt) => [opt.value, opt])).values());
+      const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, 'volume', {
+        drinkType: formState.drinkType,
+      });
+      allOptions = SelectOptionDto.mergeOptions(allOptions, ordersOptions);
     }
 
-    return baseOptions;
-  }, [volumes, tempItems.volumes, formState.drinkType, ordersData]);
+    return allOptions;
+  }, [volumes, tempItems.volumes, formState.drinkType, ordersData, language]);
 
   const containerTypeOptions = useMemo(() => {
-    let baseOptions = [
-      ...containerTypes.map((ct: any) => ({
-        value: ct.name || '',
-        label: ct.name || '',
-        category: 'Database',
-      })),
-      ...tempItems.containerTypes.map((name) => ({
-        value: name,
-        label: name,
-        category: 'Custom',
-      })),
-    ].filter((option) => option.value);
+    const databaseOptions = SelectOptionDto.fromContainerTypes(containerTypes, language);
+    const customOptions = SelectOptionDto.fromCustomItems(tempItems.containerTypes, 'Custom');
+
+    let allOptions = SelectOptionDto.mergeOptions(databaseOptions, customOptions);
 
     // Progressive filtering: if drink type and volume are selected, include containers used with that combination
     if (formState.drinkType && formState.volume) {
-      const usedContainers = ordersData
-        .filter((order) => order.drinkType === formState.drinkType && order.volume === formState.volume)
-        .map((order) => order.containerType)
-        .filter(Boolean)
-        .map((container) => ({
-          value: container,
-          label: container,
-          category: 'From existing orders',
-        }));
-
-      baseOptions = [...baseOptions, ...usedContainers];
-      // Remove duplicates
-      baseOptions = Array.from(new Map(baseOptions.map((opt) => [opt.value, opt])).values());
+      const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, 'containerType', {
+        drinkType: formState.drinkType,
+        volume: formState.volume,
+      });
+      allOptions = SelectOptionDto.mergeOptions(allOptions, ordersOptions);
     }
 
-    return baseOptions;
-  }, [containerTypes, tempItems.containerTypes, formState.drinkType, formState.volume, ordersData]);
+    return allOptions;
+  }, [containerTypes, tempItems.containerTypes, formState.drinkType, formState.volume, ordersData, language]);
 
   // Handle field changes
   const handleFieldChange = (field: keyof FormState, value: string) => {
