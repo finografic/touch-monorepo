@@ -116,7 +116,10 @@ export const AdminOrdersPage: React.FC = () => {
         <Row className="form-section">
           <Col>
             {/* Add New Order Form */}
-            <AdminSection title="Add New Order">
+            <AdminSection
+              // title="Add New Order"
+              title=""
+            >
               <AddOrderForm onSubmit={handleAddOrder} />
             </AdminSection>
           </Col>

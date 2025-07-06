@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { matchSorter } from 'match-sorter';
 import { Box, Button, Card, Flex, Text, TextField } from '@radix-ui/themes';
-import { ChevronDownIcon, MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
+import { CheckIcon, ChevronDownIcon, MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 import { styles } from './SearchableSelect.styles';
 import type { SelectOption } from 'types/models/select-option.model';
 
@@ -35,6 +35,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [displayStart, setDisplayStart] = useState(0);
   const [lastScrollTop, setLastScrollTop] = useState(0);
+  const [justAdded, setJustAdded] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -63,6 +64,10 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
         option.label.toLowerCase() === searchValue.toLowerCase(),
     );
   }, [options, searchValue]);
+
+  // Determine which icon to show
+  const shouldShowAddIcon = allowAddNew && searchValue.trim().length > 3 && !exactMatch && !justAdded;
+  const iconToShow = justAdded ? CheckIcon : shouldShowAddIcon ? PlusIcon : MagnifyingGlassIcon;
 
   // Simple sliding window
   const slidingWindow = useMemo(() => {
@@ -97,6 +102,11 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
       setFocusedIndex(-1);
       setDisplayStart(0);
       setLastScrollTop(0);
+
+      // Show check icon briefly
+      setJustAdded(true);
+      setTimeout(() => setJustAdded(false), 1500);
+
       inputRef.current?.blur();
     }
   };
@@ -202,7 +212,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
   return (
     <Box style={{ position: 'relative', minWidth: '180px' }}>
       {label && (
-        <Text size="2" mb="2" weight="medium">
+        <Text size="2" mb="2" weight="medium" className="field-label">
           {label} {required && '*'}
         </Text>
       )}
@@ -221,7 +231,16 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
             size="3"
           >
             <TextField.Slot>
-              <MagnifyingGlassIcon height="16" width="16" style={{ marginLeft: '6px' }} />
+              {React.createElement(iconToShow, {
+                height: 16,
+                width: 16,
+                style: {
+                  marginLeft: '6px',
+                  cursor: shouldShowAddIcon ? 'pointer' : 'default',
+                  color: shouldShowAddIcon ? 'var(--blue-11)' : justAdded ? 'var(--green-11)' : 'inherit',
+                },
+                onClick: shouldShowAddIcon ? handleAddNew : undefined,
+              })}
             </TextField.Slot>
             <TextField.Slot>
               <ChevronDownIcon

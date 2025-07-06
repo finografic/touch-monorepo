@@ -84,8 +84,12 @@ export const styles = css`
       align-items: center;
     }
 
-    .field-label + div {
-      width: 100%;
+    .field-label {
+      padding: 0.5rem 0 0.25rem;
+      display: block;
+      & + div {
+        width: 100%;
+      }
     }
   }
 
