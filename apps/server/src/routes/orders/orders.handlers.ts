@@ -19,13 +19,14 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
     where: (fields, operators) => operators.eq(fields.isActive, true),
     columns: {
       id: true,
+      mode: true,
       drinkTypeId: true,
       drinkSubtypeId: true,
-      containerTypeId: true,
       volumeId: true,
+      containerTypeId: true,
+      temperatureProfileId: true,
       defaultTempConsume: true,
       defaultTempFreeze: true,
-      temperatureProfileId: true,
     },
   });
   return context.json(drinkOrders);

@@ -18,13 +18,14 @@ export const list = createRoute({
       z.array(
         orderSchemas.select.pick({
           id: true,
-          drinkTypeName: true,
-          drinkSubtypeName: true,
-          containerTypeName: true,
-          volumeName: true,
+          mode: true,
+          drinkTypeId: true,
+          drinkSubtypeId: true,
+          volumeId: true,
+          containerTypeId: true,
+          temperatureProfileId: true,
           defaultTempConsume: true,
           defaultTempFreeze: true,
-          temperatureProfileId: true,
         }),
       ),
       'List of available drink orders',
@@ -35,6 +36,7 @@ export const list = createRoute({
 // Create Zod schema for orders_readable view
 const ordersReadableSchema = z.object({
   id: z.string(),
+  mode: z.string(),
   drinkType: z.string(),
   drinkSubtype: z.string().nullable(),
   volume: z.string(),
