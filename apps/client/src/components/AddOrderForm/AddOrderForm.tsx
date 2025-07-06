@@ -139,12 +139,14 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <Row className="row">
-          <Col xs={10} md={10} className="col col-form-fields">
+          <Col xs={9} md={9} className="col col-form-fields">
             <Row className="row">
+              {/* ======================================================================== */}
+
               <Col xs={12} md={12} className="col col-form-fields">
                 <Flex gap="4" justify="between" className="b">
                   {/* Drink Type */}
-                  <FieldWrapper label="Drink Type" required error={errors.drinkType}>
+                  <FieldWrapper label="Drink Type" required error={errors.drinkType} style={{ flex: 1 }}>
                     <SearchableSelect
                       value={formValues.drinkType}
                       onSelect={(value) => handleFieldChange('drinkType', value)}
@@ -156,7 +158,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                   </FieldWrapper>
 
                   {/* Subtype */}
-                  <FieldWrapper label="Subtype">
+                  <FieldWrapper label="Subtype" style={{ flex: 1 }}>
                     <SearchableSelect
                       value={formValues.drinkSubtype || ''}
                       onSelect={(value) => handleFieldChange('drinkSubtype', value)}
@@ -166,9 +168,15 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                       windowSize={10}
                     />
                   </FieldWrapper>
+                </Flex>
+              </Col>
 
+              {/* ======================================================================== */}
+
+              <Col xs={12} md={12} className="col col-form-fields">
+                <Flex gap="4" justify="between" className="b">
                   {/* Volume */}
-                  <FieldWrapper label="Volume" required error={errors.volume}>
+                  <FieldWrapper label="Volume" required error={errors.volume} style={{ flex: 1 }}>
                     <SearchableSelect
                       value={formValues.volume}
                       onSelect={(value) => handleFieldChange('volume', value)}
@@ -180,7 +188,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                   </FieldWrapper>
 
                   {/* Container Type */}
-                  <FieldWrapper label="Container" required error={errors.containerType}>
+                  <FieldWrapper label="Container" required error={errors.containerType} style={{ flex: 1 }}>
                     <SearchableSelect
                       value={formValues.containerType}
                       onSelect={(value) => handleFieldChange('containerType', value)}
@@ -192,6 +200,8 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                   </FieldWrapper>
                 </Flex>
               </Col>
+
+              {/* ======================================================================== */}
 
               <Col xs={12} md={12} className="col col-form-fields">
                 <Flex gap="4" className="b">
@@ -269,7 +279,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
             </Row>
           </Col>
 
-          <Col xs={2} md={2} className="col col-form-buttons">
+          <Col xs={3} md={3} className="col col-form-buttons">
             <Button
               type="submit"
               style={{ padding: '1rem 3rem' }}
