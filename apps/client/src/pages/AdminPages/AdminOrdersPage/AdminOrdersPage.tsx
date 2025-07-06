@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Flex, Spinner, Text } from '@radix-ui/themes';
+import { Card, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
@@ -110,6 +110,31 @@ export const AdminOrdersPage: React.FC = () => {
                 containerTypes={summaryStats.containers}
               />
             </AdminSection>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col>
+            <Card
+              // ref={dropdownRef}
+              className="dropdown"
+              // onScroll={handleScroll}
+              style={{
+                position: 'absolute',
+                top: '100%',
+                left: 0,
+                right: 0,
+                zIndex: 9999,
+                marginTop: '4px',
+                maxHeight: '300px',
+                overflowY: 'auto',
+                background: 'var(--color-background)',
+                // border: '1px solid #a3a3a3',
+                borderWidth: '0',
+              }}
+            >
+              <Text>Hello</Text>
+            </Card>
           </Col>
         </Row>
 

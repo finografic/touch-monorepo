@@ -243,22 +243,24 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
           </TextField.Root>
 
           {isOpen && (
-            <Card
+            <div
               ref={dropdownRef}
               className="dropdown"
               onScroll={handleScroll}
-              style={{
-                position: 'absolute',
-                top: '100%',
-                left: 0,
-                right: 0,
-                zIndex: 9999,
-                marginTop: '4px',
-                maxHeight: '300px',
-                overflowY: 'auto',
-                background: 'var(--color-background)',
-                border: '1px solid #a3a3a3',
-              }}
+              style={
+                {
+                  // position: 'absolute',
+                  // top: '100%',
+                  // left: 0,
+                  // right: 0,
+                  // zIndex: 9999,
+                  // marginTop: '4px',
+                  // maxHeight: '300px',
+                  // overflowY: 'auto',
+                  // background: 'var(--color-background)',
+                  // border: '1px solid #a3a3a3',
+                }
+              }
             >
               {slidingWindow.items.length > 0 ? (
                 slidingWindow.items.map((option, index) => (
@@ -328,7 +330,7 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
                   </Text>
                 </Box>
               )}
-            </Card>
+            </div>
           )}
         </Box>
       </div>

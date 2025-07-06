@@ -8,13 +8,33 @@ export const styles = css`
   }
 
   .dropdown {
-    border: 1px solid #a3a3a3; /* 20% darker gray to match other inputs */
     background: var(--color-background);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
     border-radius: var(--radius-3);
     overflow: hidden;
-    z-index: 9999; /* Very high z-index to appear above everything */
-    position: absolute !important; /* Force absolute positioning */
+    z-index: 9999;
+    position: absolute !important;
+
+    /* ================================================================== */
+
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    margin-top: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+    background: var(--color-background);
+    /* border: 1px solid red; */
+
+    &:before {
+      /* border: 1px solid blue; */
+      /* inset: 0 !important; */
+      /* box-shadow: none !important; */
+      /* border: 0 !important; */
+      /* border-width: 0 !important; */
+    }
   }
 
   .option {
