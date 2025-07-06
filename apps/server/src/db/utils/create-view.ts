@@ -20,6 +20,7 @@ export async function createOrdersReadableView(): Promise<void> {
       CREATE VIEW orders_readable AS
       SELECT
         o.id,
+        o.mode,
         dt.name AS drink_type,
         dst.name AS drink_subtype,
         v.name AS volume,

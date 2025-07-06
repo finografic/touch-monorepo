@@ -26,6 +26,14 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+// Generate random mode with specified distribution: 50% A, 25% B, 25% C
+function getRandomMode(): 'A' | 'B' | 'C' {
+  const rand = Math.random();
+  if (rand < 0.5) return 'A'; // 50% chance
+  if (rand < 0.75) return 'B'; // 25% chance (0.5 to 0.75)
+  return 'C'; // 25% chance (0.75 to 1.0)
+}
+
 // Helper function to determine appropriate temperature profile based on drink characteristics
 function determineTemperatureProfile(
   drinkType: string,
@@ -125,6 +133,7 @@ export async function seed() {
           for (const volume of volumes) {
             for (const container of containers) {
               orderRows.push({
+                mode: getRandomMode(),
                 drinkTypeId: type.id,
                 drinkSubtypeId: null,
                 volumeId: volume.id,
@@ -153,6 +162,7 @@ export async function seed() {
             for (const volume of volumes) {
               for (const container of containers) {
                 orderRows.push({
+                  mode: getRandomMode(),
                   drinkTypeId: type.id,
                   drinkSubtypeId: subtype.id,
                   volumeId: volume.id,

@@ -15,6 +15,11 @@ export const orders = sqliteTable('orders', {
     .primaryKey()
     .$defaultFn(() => createCuid()),
 
+  // Mode enum column
+  mode: text('mode', { enum: ['A', 'B', 'C'] })
+    .notNull()
+    .default('A'),
+
   // Proper ID-based foreign keys
   drinkTypeId: text('drink_type_id')
     .notNull()
@@ -76,6 +81,7 @@ export const ordersRelations = relations(orders, ({ one }) => ({
 
 // Zod schema for validation with ID-based fields
 const insertOrderSchema = createInsertSchema(orders, {
+  mode: (schema) => schema.mode,
   drinkTypeId: (schema) => schema.drinkTypeId.min(1).max(50),
   drinkSubtypeId: (schema) => schema.drinkSubtypeId.max(50),
   volumeId: (schema) => schema.volumeId.min(1).max(50),
