@@ -253,25 +253,17 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                     error={errors.preparationTime}
                     style={{ flex: 1 }}
                   >
-                    {/* <input
+                    <input
                       {...register('preparationTime')}
-                      type="number"
-                      // ref={ref}
-                      // name={name}
-                      // defaultValue={defaultValue}
-                      // value={value}
-                      // onChange={onChange}
-                      // onBlur={onBlur}
-                      // onInput={onInput}
-                      // style={{ display: 'none' }}
-                      // {...props}
-                    /> */}
+                      type="hidden"
+                      value={formValues.preparationTime}
+                    />
                     <TimeInput
-                      {...register('preparationTime')}
+                      value={formValues.preparationTime}
                       min={0}
                       max={3600}
                       step={30}
-                      defaultValue={formValues.preparationTime}
+                      onTimeChange={(seconds) => handleFieldChange('preparationTime', seconds)}
                     />
                   </FieldWrapper>
                 </Flex>
