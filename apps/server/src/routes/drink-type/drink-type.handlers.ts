@@ -34,7 +34,7 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
     return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
   }
 
-  return context.json(formatDrinkType(result[0]), HttpStatusCodes.OK);
+  return context.json(result[0], HttpStatusCodes.OK); // No formatter needed!
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (context) => {
