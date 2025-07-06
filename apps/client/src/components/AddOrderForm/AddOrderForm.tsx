@@ -13,19 +13,25 @@ import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { useGetContainerTypes } from 'queries/container-types';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import { SelectOptionDto } from 'types/models/select-option.model';
+import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { Col, Row } from 'react-grid-system';
 
 // Form validation schema
-const addOrderSchema = z.object({
-  mode: z.coerce.number().int().min(1).max(5),
-  drinkType: z.string().min(1, 'Drink type is required'),
-  drinkSubtype: z.string().optional(),
-  volume: z.string().min(1, 'Volume is required'),
-  containerType: z.string().min(1, 'Container type is required'),
-  defaultTempConsume: z.coerce.number().min(-10).max(30),
-  defaultTempFreeze: z.coerce.number().min(-20).max(10),
-  preparationTime: z.coerce.number().int().min(0).max(3600), // 0 to 60 minutes in seconds
-});
+const addOrderSchema = z
+  .object({
+    mode: z.coerce.number().int().min(1).max(5),
+    drinkType: z.string().min(1, 'Drink type is required'),
+    drinkSubtype: z.string().optional(),
+    volume: z.string().min(1, 'Volume is required'),
+    containerType: z.string().min(1, 'Container type is required'),
+    defaultTempConsume: z.coerce.number().min(-40).max(40),
+    defaultTempFreeze: z.coerce.number().min(-50).max(40),
+    preparationTime: z.coerce.number().int().min(0).max(3600), // 0 to 60 minutes in seconds
+  })
+  .refine((data) => data.defaultTempFreeze <= data.defaultTempConsume - MIN_TEMP_DIFFERENCE, {
+    message: `Freezing temperature must be at least ${MIN_TEMP_DIFFERENCE}°C below consumption temperature`,
+    path: ['defaultTempFreeze'],
+  });
 
 type AddOrderFormValues = z.infer<typeof addOrderSchema>;
 
@@ -110,6 +116,18 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
   // Handle field changes
   const handleFieldChange = (field: keyof AddOrderFormValues, value: string | number) => {
     setValue(field, value, { shouldValidate: true });
+
+    // Handle temperature constraints: consumption temp controls max freezing temp
+    if (field === 'defaultTempConsume') {
+      const consumeTemp = Number(value);
+      const currentFreezeTemp = formValues.defaultTempFreeze;
+      const maxFreezeTemp = consumeTemp - MIN_TEMP_DIFFERENCE;
+
+      // Adjust freezing temp if it violates the constraint
+      if (currentFreezeTemp > maxFreezeTemp) {
+        setValue('defaultTempFreeze', maxFreezeTemp, { shouldValidate: true });
+      }
+    }
   };
 
   // Handle adding new temp items
@@ -241,7 +259,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                     <TemperatureInput
                       {...register('defaultTempFreeze')}
                       min={-50}
-                      max={40}
+                      max={formValues.defaultTempConsume - MIN_TEMP_DIFFERENCE}
                       step={0.5}
                       defaultValue={formValues.defaultTempFreeze}
                     />
