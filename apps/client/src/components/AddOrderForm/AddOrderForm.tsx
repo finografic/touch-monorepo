@@ -61,53 +61,20 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
   const volumeOptions = useMemo(() => {
     const databaseOptions = SelectOptionDto.fromVolumes(volumes, language);
     const customOptions = SelectOptionDto.fromCustomItems(tempItems.volumes, 'Custom');
-
-    let allOptions = SelectOptionDto.mergeOptions(databaseOptions, customOptions);
-
-    // Progressive filtering: if drink type is selected, also include volumes used with that drink type
-    if (formState.drinkType) {
-      const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, 'volume', {
-        drinkType: formState.drinkType,
-      });
-      allOptions = SelectOptionDto.mergeOptions(allOptions, ordersOptions);
-    }
-
-    return allOptions;
-  }, [volumes, tempItems.volumes, formState.drinkType, ordersData, language]);
+    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, 'volume');
+    return SelectOptionDto.mergeOptions(databaseOptions, customOptions, ordersOptions);
+  }, [volumes, tempItems.volumes, ordersData, language]);
 
   const containerTypeOptions = useMemo(() => {
     const databaseOptions = SelectOptionDto.fromContainerTypes(containerTypes, language);
     const customOptions = SelectOptionDto.fromCustomItems(tempItems.containerTypes, 'Custom');
-
-    let allOptions = SelectOptionDto.mergeOptions(databaseOptions, customOptions);
-
-    // Progressive filtering: if drink type and volume are selected, include containers used with that combination
-    if (formState.drinkType && formState.volume) {
-      const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, 'containerType', {
-        drinkType: formState.drinkType,
-        volume: formState.volume,
-      });
-      allOptions = SelectOptionDto.mergeOptions(allOptions, ordersOptions);
-    }
-
-    return allOptions;
-  }, [containerTypes, tempItems.containerTypes, formState.drinkType, formState.volume, ordersData, language]);
+    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, 'containerType');
+    return SelectOptionDto.mergeOptions(databaseOptions, customOptions, ordersOptions);
+  }, [containerTypes, tempItems.containerTypes, ordersData, language]);
 
   // Handle field changes
   const handleFieldChange = (field: keyof FormState, value: string) => {
-    setFormState((prev) => {
-      const newState = { ...prev, [field]: value };
-
-      // Reset dependent fields when parent changes
-      if (field === 'drinkType') {
-        newState.volume = '';
-        newState.containerType = '';
-      } else if (field === 'volume') {
-        newState.containerType = '';
-      }
-
-      return newState;
-    });
+    setFormState((prev) => ({ ...prev, [field]: value }));
   };
 
   // Handle adding new temp items
@@ -179,7 +146,6 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
             options={volumeOptions}
             placeholder="e.g., 250ml, 500ml, 1L"
             required
-            disabled={!formState.drinkType}
             windowSize={15}
           />
 
@@ -192,17 +158,9 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
             options={containerTypeOptions}
             placeholder="e.g., Cup, Bottle, Can"
             required
-            disabled={!formState.volume}
             windowSize={15}
           />
         </Flex>
-
-        {/* Form validation feedback */}
-        {!isFormValid && (
-          <Text size="1" color="gray" mt="2">
-            Please fill in Drink Type, Volume, and Container fields
-          </Text>
-        )}
       </Col>
       {/* ======================================================================== */}
       <Col xs={12} md={12} className="col col-form-buttons">
