@@ -69,10 +69,12 @@
     "@workspace/i18n": "workspace:*",
     "@workspace/types": "workspace:*",
     "axios": "1.8.4",
+    "lodash": "4.17.21",
     "stoker": "^1.0.0"
   },
   "devDependencies": {
     "@types/eslint": "9.6.1",
+    "@types/lodash": "4.17.13",
     "@types/node": "20.15.0",
     "@workspace/scripts": "workspace:*",
     "eslint": "9.16.0",
