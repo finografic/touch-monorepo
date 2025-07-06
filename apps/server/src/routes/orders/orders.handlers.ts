@@ -37,6 +37,7 @@ export const listReadable: AppRouteHandler<ListReadableRoute> = async (context) 
   const readableOrders = await db.all(`
     SELECT
       id,
+      mode,
       drink_type AS drinkType,
       drink_subtype AS drinkSubtype,
       volume,

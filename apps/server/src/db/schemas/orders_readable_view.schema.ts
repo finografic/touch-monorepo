@@ -14,7 +14,7 @@ import { integer, sqliteView, text } from 'drizzle-orm/sqlite-core';
 // Define the shape of the orders_readable view for TypeScript
 export interface OrdersReadableView {
   id: string;
-  mode: string;
+  mode: number;
   drinkType: string;
   drinkSubtype: string | null;
   volume: string;

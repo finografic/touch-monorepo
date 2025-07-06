@@ -51,18 +51,20 @@ export const AdminOrdersPage: React.FC = () => {
 
   // Handle form submission (temporary - just show toast for now)
   const handleAddOrder = (formData: {
+    mode: number;
     drinkType: string;
-    drinkSubtype: string;
+    drinkSubtype?: string;
     volume: string;
     containerType: string;
   }) => {
     console.log('New order data:', formData);
     // TODO: Implement actual API call to create order
     // For now, just show success toast
+    const subtypeText = formData.drinkSubtype ? ` (${formData.drinkSubtype})` : '';
     toast({
       variant: 'success',
       message: 'Order added successfully!',
-      subText: `${formData.drinkType} ${formData.volume} in ${formData.containerType}`,
+      subText: `${formData.drinkType}${subtypeText} ${formData.volume} in ${formData.containerType}`,
     });
   };
 

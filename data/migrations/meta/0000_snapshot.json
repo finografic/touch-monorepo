@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "c2957334-ae86-481e-8411-734247d4e798",
+  "id": "3b105b19-5aa6-4941-96fd-1a1877078fb1",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -619,11 +619,11 @@
         },
         "mode": {
           "name": "mode",
-          "type": "text",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
-          "default": "'A'"
+          "default": 4
         },
         "drink_type_id": {
           "name": "drink_type_id",

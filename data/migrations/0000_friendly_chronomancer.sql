@@ -94,7 +94,7 @@ CREATE TABLE `drink_types` (
 CREATE UNIQUE INDEX `drink_types_name_unique` ON `drink_types` (`name`);--> statement-breakpoint
 CREATE TABLE `orders` (
 	`id` text PRIMARY KEY NOT NULL,
-	`mode` text DEFAULT 'A' NOT NULL,
+	`mode` integer DEFAULT 4 NOT NULL,
 	`drink_type_id` text NOT NULL,
 	`drink_subtype_id` text,
 	`volume_id` text NOT NULL,

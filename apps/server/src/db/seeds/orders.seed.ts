@@ -27,11 +27,13 @@ function getRandomInt(min: number, max: number): number {
 }
 
 // Generate random mode with specified distribution: 50% A, 25% B, 25% C
-function getRandomMode(): 'A' | 'B' | 'C' {
+function getRandomMode(): number {
   const rand = Math.random();
-  if (rand < 0.5) return 'A'; // 50% chance
-  if (rand < 0.75) return 'B'; // 25% chance (0.5 to 0.75)
-  return 'C'; // 25% chance (0.75 to 1.0)
+  if (rand < 0.5) return 4; // 50% chance
+  if (rand < 0.6) return 1; // 25% chance (0.5 to 0.75)
+  if (rand < 0.8) return 2; // 25% chance (0.75 to 0.9)
+  if (rand < 0.9) return 3; // 25% chance (0.9 to 0.95)
+  return 5; // 5% chance (0.95 to 1.0)
 }
 
 // Helper function to determine appropriate temperature profile based on drink characteristics

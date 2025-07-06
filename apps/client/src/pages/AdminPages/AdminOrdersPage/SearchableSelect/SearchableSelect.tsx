@@ -13,8 +13,6 @@ interface SearchableSelectProps {
   disabled?: boolean;
   windowSize?: number;
   allowAddNew?: boolean;
-  label?: string;
-  required?: boolean;
   value?: string;
 }
 
@@ -26,8 +24,6 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
   disabled = false,
   windowSize = 20,
   allowAddNew = true,
-  label,
-  required = false,
   value = '',
 }) => {
   const [searchValue, setSearchValue] = useState(value);
@@ -210,118 +206,110 @@ export const SearchableSelect: React.FC<SearchableSelectProps> = ({
   }, []);
 
   return (
-    <Box style={{ position: 'relative', minWidth: '180px' }}>
-      {label && (
-        <Text size="2" mb="2" weight="medium" className="field-label">
-          {label} {required && '*'}
-        </Text>
-      )}
+    <div css={styles} className="searchable-select">
+      <Box className="search-container" style={{ position: 'relative' }}>
+        <TextField.Root
+          ref={inputRef}
+          value={searchValue}
+          onChange={(e) => handleInputChange(e.target.value)}
+          onFocus={handleInputClick}
+          onClick={handleInputClick}
+          onKeyDown={handleKeyDown}
+          placeholder={placeholder}
+          disabled={disabled}
+          size="3"
+        >
+          <TextField.Slot>
+            {React.createElement(iconToShow, {
+              height: 16,
+              width: 16,
+              style: {
+                marginLeft: '6px',
+                cursor: shouldShowAddIcon ? 'pointer' : 'default',
+                color: shouldShowAddIcon ? 'var(--blue-11)' : justAdded ? 'var(--green-11)' : 'inherit',
+              },
+              onClick: shouldShowAddIcon ? handleAddNew : undefined,
+            })}
+          </TextField.Slot>
+          <TextField.Slot>
+            <ChevronDownIcon
+              height="16"
+              width="16"
+              style={{
+                transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
+                transition: 'transform 0.2s ease',
+                marginRight: '8px',
+              }}
+            />
+          </TextField.Slot>
+        </TextField.Root>
 
-      <div css={styles} className="searchable-select">
-        <Box className="search-container" style={{ position: 'relative' }}>
-          <TextField.Root
-            ref={inputRef}
-            value={searchValue}
-            onChange={(e) => handleInputChange(e.target.value)}
-            onFocus={handleInputClick}
-            onClick={handleInputClick}
-            onKeyDown={handleKeyDown}
-            placeholder={placeholder}
-            disabled={disabled}
-            size="3"
-          >
-            <TextField.Slot>
-              {React.createElement(iconToShow, {
-                height: 16,
-                width: 16,
-                style: {
-                  marginLeft: '6px',
-                  cursor: shouldShowAddIcon ? 'pointer' : 'default',
-                  color: shouldShowAddIcon ? 'var(--blue-11)' : justAdded ? 'var(--green-11)' : 'inherit',
-                },
-                onClick: shouldShowAddIcon ? handleAddNew : undefined,
-              })}
-            </TextField.Slot>
-            <TextField.Slot>
-              <ChevronDownIcon
-                height="16"
-                width="16"
-                style={{
-                  transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
-                  transition: 'transform 0.2s ease',
-                  marginRight: '8px',
-                }}
-              />
-            </TextField.Slot>
-          </TextField.Root>
-
-          {isOpen && (
-            <div ref={dropdownRef} className="dropdown" onScroll={handleScroll}>
-              {slidingWindow.items.length > 0 ? (
-                slidingWindow.items.map((option, index) => (
-                  <div
-                    key={`${option.value}-${slidingWindow.startIndex + index}`}
-                    className={`option ${index === focusedIndex ? 'focused' : ''}`}
-                    onClick={() => handleSelectOption(option)}
-                    onMouseEnter={() => setFocusedIndex(index)}
-                  >
-                    <Flex align="center" gap="3" p="3">
-                      <Text weight="bold" size="2">
-                        {option.value}
-                      </Text>
-                      {option.label && (
-                        <Text size="1" color="gray">
-                          {option.label}
-                        </Text>
-                      )}
-                    </Flex>
-                  </div>
-                ))
-              ) : (
-                <Box p="4" style={{ textAlign: 'center' }}>
-                  <Text size="2" color="gray">
-                    {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
-                  </Text>
-                </Box>
-              )}
-
-              {/* Add New Option */}
-              {allowAddNew && searchValue.trim() && !exactMatch && (
+        {isOpen && (
+          <div ref={dropdownRef} className="dropdown" onScroll={handleScroll}>
+            {slidingWindow.items.length > 0 ? (
+              slidingWindow.items.map((option, index) => (
                 <div
-                  className={`option ${slidingWindow.items.length === focusedIndex ? 'focused' : ''}`}
-                  onClick={handleAddNew}
-                  onMouseEnter={() => setFocusedIndex(slidingWindow.items.length)}
-                  style={{ borderTop: '1px solid var(--gray-6)' }}
+                  key={`${option.value}-${slidingWindow.startIndex + index}`}
+                  className={`option ${index === focusedIndex ? 'focused' : ''}`}
+                  onClick={() => handleSelectOption(option)}
+                  onMouseEnter={() => setFocusedIndex(index)}
                 >
                   <Flex align="center" gap="3" p="3">
-                    <PlusIcon style={{ color: 'var(--blue-11)' }} />
-                    <Text size="2" style={{ color: 'var(--blue-11)' }}>
-                      Add "{searchValue}"
+                    <Text weight="bold" size="2">
+                      {option.value}
                     </Text>
+                    {option.label && (
+                      <Text size="1" color="gray">
+                        {option.label}
+                      </Text>
+                    )}
                   </Flex>
                 </div>
-              )}
+              ))
+            ) : (
+              <Box p="4" style={{ textAlign: 'center' }}>
+                <Text size="2" color="gray">
+                  {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
+                </Text>
+              </Box>
+            )}
 
-              {/* Window info */}
-              {slidingWindow.totalItems > windowSize && (
-                <Box
-                  p="2"
-                  style={{
-                    textAlign: 'center',
-                    borderTop: '1px solid var(--gray-6)',
-                    background: 'var(--gray-2)',
-                  }}
-                >
-                  <Text size="1" color="blue">
-                    Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
-                    {slidingWindow.totalItems} • Scroll for more
+            {/* Add New Option */}
+            {allowAddNew && searchValue.trim() && !exactMatch && (
+              <div
+                className={`option ${slidingWindow.items.length === focusedIndex ? 'focused' : ''}`}
+                onClick={handleAddNew}
+                onMouseEnter={() => setFocusedIndex(slidingWindow.items.length)}
+                style={{ borderTop: '1px solid var(--gray-6)' }}
+              >
+                <Flex align="center" gap="3" p="3">
+                  <PlusIcon style={{ color: 'var(--blue-11)' }} />
+                  <Text size="2" style={{ color: 'var(--blue-11)' }}>
+                    Add "{searchValue}"
                   </Text>
-                </Box>
-              )}
-            </div>
-          )}
-        </Box>
-      </div>
-    </Box>
+                </Flex>
+              </div>
+            )}
+
+            {/* Window info */}
+            {slidingWindow.totalItems > windowSize && (
+              <Box
+                p="2"
+                style={{
+                  textAlign: 'center',
+                  borderTop: '1px solid var(--gray-6)',
+                  background: 'var(--gray-2)',
+                }}
+              >
+                <Text size="1" color="blue">
+                  Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
+                  {slidingWindow.totalItems} • Scroll for more
+                </Text>
+              </Box>
+            )}
+          </div>
+        )}
+      </Box>
+    </div>
   );
 };

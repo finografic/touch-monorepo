@@ -1,6 +1,10 @@
 import React, { useMemo, useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { SearchableSelect } from 'pages/AdminPages/AdminOrdersPage/SearchableSelect/SearchableSelect';
+import { FieldWrapper } from 'components/FieldWrapper';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { useGetContainerTypes } from 'queries/container-types';
@@ -8,12 +12,16 @@ import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import { SelectOptionDto } from 'types/models/select-option.model';
 import { Col, Row } from 'react-grid-system';
 
-interface FormState {
-  drinkType: string;
-  drinkSubtype: string;
-  volume: string;
-  containerType: string;
-}
+// Form validation schema
+const addOrderSchema = z.object({
+  mode: z.number().int().min(1).max(5),
+  drinkType: z.string().min(1, 'Drink type is required'),
+  drinkSubtype: z.string().optional(),
+  volume: z.string().min(1, 'Volume is required'),
+  containerType: z.string().min(1, 'Container type is required'),
+});
+
+type AddOrderFormValues = z.infer<typeof addOrderSchema>;
 
 interface TempItems {
   drinkTypes: string[];
@@ -22,7 +30,7 @@ interface TempItems {
 }
 
 interface AddOrderFormProps {
-  onSubmit: (formData: FormState) => void;
+  onSubmit: (formData: AddOrderFormValues) => void;
   isLoading?: boolean;
   language?: string;
 }
@@ -32,18 +40,34 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
   isLoading = false,
   language = 'es-ES',
 }) => {
-  const [formState, setFormState] = useState<FormState>({
-    drinkType: '',
-    drinkSubtype: '',
-    volume: '',
-    containerType: '',
-  });
-
   const [tempItems, setTempItems] = useState<TempItems>({
     drinkTypes: [],
     volumes: [],
     containerTypes: [],
   });
+
+  // RHF setup
+  const methods = useForm<AddOrderFormValues>({
+    resolver: zodResolver(addOrderSchema),
+    defaultValues: {
+      mode: 4,
+      drinkType: '',
+      drinkSubtype: '',
+      volume: '',
+      containerType: '',
+    },
+    mode: 'onChange',
+  });
+
+  const {
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { isValid, errors },
+  } = methods;
+
+  // Watch form values
+  const formValues = watch();
 
   // Data hooks
   const { data: drinkTypes = [] } = useGetDrinkTypes();
@@ -73,8 +97,8 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
   }, [containerTypes, tempItems.containerTypes, ordersData, language]);
 
   // Handle field changes
-  const handleFieldChange = (field: keyof FormState, value: string) => {
-    setFormState((prev) => ({ ...prev, [field]: value }));
+  const handleFieldChange = (field: keyof AddOrderFormValues, value: string) => {
+    setValue(field, value, { shouldValidate: true });
   };
 
   // Handle adding new temp items
@@ -88,87 +112,114 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
   };
 
   // Handle form submission
-  const handleSubmit = () => {
-    if (formState.drinkType && formState.volume && formState.containerType) {
-      onSubmit(formState);
-      // Reset form
-      setFormState({
-        drinkType: '',
-        drinkSubtype: '',
-        volume: '',
-        containerType: '',
-      });
-      // Reset temp items too
-      setTempItems({
-        drinkTypes: [],
-        volumes: [],
-        containerTypes: [],
-      });
-    }
+  const onFormSubmit = (data: AddOrderFormValues) => {
+    onSubmit(data);
+    // Reset form
+    methods.reset();
+    // Reset temp items too
+    setTempItems({
+      drinkTypes: [],
+      volumes: [],
+      containerTypes: [],
+    });
   };
 
-  // Check if form is valid
-  const isFormValid = formState.drinkType && formState.volume && formState.containerType;
-
   return (
-    <Row className="row">
-      <Col xs={12} md={12} className="col">
-        <Flex gap="4" justify="between" className="b">
-          {/* Drink Type */}
-          <SearchableSelect
-            label="Drink Type"
-            value={formState.drinkType}
-            onSelect={(value) => handleFieldChange('drinkType', value)}
-            onAddNew={(value) => handleAddNew('drinkTypes', value)}
-            options={drinkTypeOptions}
-            placeholder="e.g., Coffee, Tea, Juice"
-            required
-            windowSize={15}
-          />
+    <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onFormSubmit)}>
+        <Row className="row">
+          <Col xs={12} md={12} className="col">
+            <Flex gap="4" justify="between" className="b">
+              {/* Mode */}
+              <FieldWrapper label="Mode" required>
+                <SearchableSelect
+                  value={formValues.drinkType}
+                  onSelect={(value) => handleFieldChange('drinkType', value)}
+                  onAddNew={(value) => handleAddNew('drinkTypes', value)}
+                  options={drinkTypeOptions}
+                  placeholder="e.g., Coffee, Tea, Juice"
+                  windowSize={15}
+                />
+                {errors.drinkType && (
+                  <Text size="1" color="red" mt="1">
+                    {errors.drinkType.message}
+                  </Text>
+                )}
+              </FieldWrapper>
 
-          {/* Subtype */}
-          <SearchableSelect
-            label="Subtype"
-            value={formState.drinkSubtype}
-            onSelect={(value) => handleFieldChange('drinkSubtype', value)}
-            options={[]}
-            placeholder="Optional"
-            allowAddNew={false}
-            windowSize={10}
-          />
+              {/* Drink Type */}
+              <FieldWrapper label="Drink Type" required>
+                <SearchableSelect
+                  value={formValues.drinkType}
+                  onSelect={(value) => handleFieldChange('drinkType', value)}
+                  onAddNew={(value) => handleAddNew('drinkTypes', value)}
+                  options={drinkTypeOptions}
+                  placeholder="e.g., Coffee, Tea, Juice"
+                  windowSize={15}
+                />
+                {errors.drinkType && (
+                  <Text size="1" color="red" mt="1">
+                    {errors.drinkType.message}
+                  </Text>
+                )}
+              </FieldWrapper>
 
-          {/* Volume */}
-          <SearchableSelect
-            label="Volume"
-            value={formState.volume}
-            onSelect={(value) => handleFieldChange('volume', value)}
-            onAddNew={(value) => handleAddNew('volumes', value)}
-            options={volumeOptions}
-            placeholder="e.g., 250ml, 500ml, 1L"
-            required
-            windowSize={15}
-          />
+              {/* Subtype */}
+              <FieldWrapper label="Subtype">
+                <SearchableSelect
+                  value={formValues.drinkSubtype || ''}
+                  onSelect={(value) => handleFieldChange('drinkSubtype', value)}
+                  options={[]}
+                  placeholder="Optional"
+                  allowAddNew={false}
+                  windowSize={10}
+                />
+              </FieldWrapper>
 
-          {/* Container Type */}
-          <SearchableSelect
-            label="Container"
-            value={formState.containerType}
-            onSelect={(value) => handleFieldChange('containerType', value)}
-            onAddNew={(value) => handleAddNew('containerTypes', value)}
-            options={containerTypeOptions}
-            placeholder="e.g., Cup, Bottle, Can"
-            required
-            windowSize={15}
-          />
-        </Flex>
-      </Col>
-      {/* ======================================================================== */}
-      <Col xs={12} md={12} className="col col-form-buttons">
-        {/* Submit Button */}
-        <Button onClick={handleSubmit} disabled={!isFormValid || isLoading} loading={isLoading} size="2">
-          Add Order
-        </Button>
-      </Col>
-    </Row>
+              {/* Volume */}
+              <FieldWrapper label="Volume" required>
+                <SearchableSelect
+                  value={formValues.volume}
+                  onSelect={(value) => handleFieldChange('volume', value)}
+                  onAddNew={(value) => handleAddNew('volumes', value)}
+                  options={volumeOptions}
+                  placeholder="e.g., 250ml, 500ml, 1L"
+                  windowSize={15}
+                />
+                {errors.volume && (
+                  <Text size="1" color="red" mt="1">
+                    {errors.volume.message}
+                  </Text>
+                )}
+              </FieldWrapper>
+
+              {/* Container Type */}
+              <FieldWrapper label="Container" required>
+                <SearchableSelect
+                  value={formValues.containerType}
+                  onSelect={(value) => handleFieldChange('containerType', value)}
+                  onAddNew={(value) => handleAddNew('containerTypes', value)}
+                  options={containerTypeOptions}
+                  placeholder="e.g., Cup, Bottle, Can"
+                  windowSize={15}
+                />
+                {errors.containerType && (
+                  <Text size="1" color="red" mt="1">
+                    {errors.containerType.message}
+                  </Text>
+                )}
+              </FieldWrapper>
+            </Flex>
+          </Col>
+
+          {/* Form Actions */}
+          <Col xs={12} md={12} className="col col-form-buttons">
+            <Button type="submit" disabled={!isValid || isLoading} loading={isLoading} size="2">
+              Add Order
+            </Button>
+          </Col>
+        </Row>
+      </form>
+    </FormProvider>
   );
 };

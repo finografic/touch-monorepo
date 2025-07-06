@@ -36,7 +36,7 @@ export const list = createRoute({
 // Create Zod schema for orders_readable view
 const ordersReadableSchema = z.object({
   id: z.string(),
-  mode: z.string(),
+  mode: z.number(),
   drinkType: z.string(),
   drinkSubtype: z.string().nullable(),
   volume: z.string(),
