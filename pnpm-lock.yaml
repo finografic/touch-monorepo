@@ -298,7 +298,7 @@ importers:
         specifier: 1.1.0
         version: 1.1.0
       react:
-        specifier: ^18.2.0
+        specifier: ^18.3.1
         version: 18.3.1
       react-dnd:
         specifier: 16.0.1
@@ -307,7 +307,7 @@ importers:
         specifier: 16.0.1
         version: 16.0.1
       react-dom:
-        specifier: ^18.2.0
+        specifier: ^18.3.1
         version: 18.3.1(react@18.3.1)
       react-error-boundary:
         specifier: 5.0.0
