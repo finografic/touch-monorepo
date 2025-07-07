@@ -262,11 +262,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               <Col xs={12} md={12} className="col col-form-fields">
                 <Flex gap="4" className="b">
                   <FieldWrapper label="Tiempo A" required error={errors.preparationTime}>
-                    {/* <input
-                      {...register('preparationTime')}
-                      type="hidden"
-                      value={formValues.preparationTime}
-                    /> */}
                     <TimeInput
                       value={formValues.preparationTime}
                       min={0}
@@ -277,11 +272,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   </FieldWrapper>
 
                   <FieldWrapper label="Tiempo B" required error={errors.preparationTime}>
-                    {/* <input
-                      {...register('preparationTime')}
-                      type="hidden"
-                      value={formValues.preparationTime}
-                    /> */}
                     <TimeInput
                       value={formValues.preparationTime}
                       min={0}
@@ -292,11 +282,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   </FieldWrapper>
 
                   <FieldWrapper label="Tiempo C" required error={errors.preparationTime}>
-                    {/* <input
-                      {...register('preparationTime')}
-                      type="hidden"
-                      value={formValues.preparationTime}
-                    /> */}
                     <TimeInput
                       value={formValues.preparationTime}
                       min={0}
