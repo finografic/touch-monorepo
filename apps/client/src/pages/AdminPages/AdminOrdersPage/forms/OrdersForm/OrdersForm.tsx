@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, Flex } from '@radix-ui/themes';
@@ -17,6 +17,12 @@ import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { Col, Row } from 'react-grid-system';
 
 // Form validation schema
+const timeRowSchema = z.object({
+  tiempoA: z.coerce.number().int().min(0).max(3600).optional(), // 0 to 60 minutes in seconds
+  tiempoB: z.coerce.number().int().min(0).max(3600).optional(),
+  tiempoC: z.coerce.number().int().min(0).max(3600).optional(),
+});
+
 const addOrderSchema = z
   .object({
     mode: z.coerce.number().int().min(1).max(5),
@@ -26,7 +32,7 @@ const addOrderSchema = z
     containerType: z.string().min(1, 'Container type is required'),
     defaultTempConsume: z.coerce.number().min(-40).max(40),
     defaultTempFreeze: z.coerce.number().min(-50).max(40),
-    preparationTime: z.coerce.number().int().min(0).max(3600), // 0 to 60 minutes in seconds
+    timeRows: z.array(timeRowSchema).min(1),
   })
   .refine((data) => data.defaultTempFreeze <= data.defaultTempConsume - MIN_TEMP_DIFFERENCE, {
     message: `Freezing temperature must be at least ${MIN_TEMP_DIFFERENCE}°C below consumption temperature`,
@@ -71,7 +77,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       containerType: '',
       defaultTempConsume: 5,
       defaultTempFreeze: -2,
-      preparationTime: 90, // 1:30 in seconds
+      timeRows: [
+        { tiempoA: undefined, tiempoB: undefined, tiempoC: undefined },
+        { tiempoA: undefined, tiempoB: undefined, tiempoC: undefined },
+        { tiempoA: undefined, tiempoB: undefined, tiempoC: undefined },
+        { tiempoA: undefined, tiempoB: undefined, tiempoC: undefined },
+      ],
     },
   });
 
@@ -151,6 +162,179 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       volumes: [],
       containerTypes: [],
     });
+  };
+
+  // Field array for time rows
+  const { fields, append, remove } = useFieldArray({
+    control: methods.control,
+    name: 'timeRows',
+  });
+
+  // TimeTable component
+  const TimeTable = () => {
+    const isRowComplete = (index: number) => {
+      const row = formValues.timeRows[index];
+      return row?.tiempoA !== undefined && row?.tiempoB !== undefined && row?.tiempoC !== undefined;
+    };
+
+    const getEditableRowIndex = () => {
+      // Find first incomplete row
+      for (let i = 0; i < fields.length; i++) {
+        if (!isRowComplete(i)) {
+          return i;
+        }
+      }
+      return -1; // All rows complete
+    };
+
+    const editableRowIndex = getEditableRowIndex();
+    const canAddRow = editableRowIndex === -1; // All rows are complete
+    const canDeleteRow = fields.length > 4;
+
+    return (
+      <div style={{ width: '100%' }}>
+        {/* Table Header */}
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr 1fr auto',
+            gap: '8px',
+            padding: '12px 16px',
+            backgroundColor: 'var(--gray-4)',
+            borderRadius: '6px 6px 0 0',
+            border: '1px solid var(--gray-6)',
+            borderBottom: 'none',
+            fontWeight: '500',
+            fontSize: '14px',
+            color: 'var(--gray-11)',
+          }}
+        >
+          <div>Tiempo A</div>
+          <div>Tiempo B</div>
+          <div>Tiempo C</div>
+          <div style={{ width: '40px' }}></div>
+        </div>
+
+        {/* Table Rows */}
+        {fields.map((field, index) => {
+          const isEditable = index === editableRowIndex || isRowComplete(index);
+          const isEven = index % 2 === 0;
+
+          return (
+            <div
+              key={field.id}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr 1fr auto',
+                gap: '8px',
+                padding: '8px 16px',
+                backgroundColor: isEven ? 'var(--gray-1)' : 'var(--gray-2)',
+                border: '1px solid var(--gray-6)',
+                borderTop: index === 0 ? '1px solid var(--gray-6)' : 'none',
+                ...(index === fields.length - 1 && {
+                  borderRadius: '0 0 6px 6px',
+                }),
+              }}
+            >
+              <div
+                style={{
+                  border: 'none',
+                  background: 'transparent',
+                  outline: 'none',
+                  fontSize: '14px',
+                  padding: '6px 8px',
+                  borderRadius: '4px',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <TimeInput
+                  value={formValues.timeRows[index]?.tiempoA}
+                  min={0}
+                  max={3600}
+                  step={30}
+                  onTimeChange={(seconds) => {
+                    setValue(`timeRows.${index}.tiempoA`, seconds, { shouldValidate: true });
+                  }}
+                  disabled={!isEditable}
+                />
+              </div>
+              <div
+                style={{
+                  border: 'none',
+                  background: 'transparent',
+                  outline: 'none',
+                  fontSize: '14px',
+                  padding: '6px 8px',
+                  borderRadius: '4px',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <TimeInput
+                  value={formValues.timeRows[index]?.tiempoB}
+                  min={0}
+                  max={3600}
+                  step={30}
+                  onTimeChange={(seconds) => {
+                    setValue(`timeRows.${index}.tiempoB`, seconds, { shouldValidate: true });
+                  }}
+                  disabled={!isEditable}
+                />
+              </div>
+              <div
+                style={{
+                  border: 'none',
+                  background: 'transparent',
+                  outline: 'none',
+                  fontSize: '14px',
+                  padding: '6px 8px',
+                  borderRadius: '4px',
+                  transition: 'all 0.2s ease',
+                }}
+              >
+                <TimeInput
+                  value={formValues.timeRows[index]?.tiempoC}
+                  min={0}
+                  max={3600}
+                  step={30}
+                  onTimeChange={(seconds) => {
+                    setValue(`timeRows.${index}.tiempoC`, seconds, { shouldValidate: true });
+                  }}
+                  disabled={!isEditable}
+                />
+              </div>
+              <div style={{ width: '40px', display: 'flex', justifyContent: 'center' }}>
+                {canDeleteRow && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="1"
+                    color="red"
+                    onClick={() => remove(index)}
+                    style={{ opacity: 0.7, padding: '4px' }}
+                  >
+                    ×
+                  </Button>
+                )}
+              </div>
+            </div>
+          );
+        })}
+
+        {/* Add Row Button */}
+        {canAddRow && (
+          <div style={{ padding: '12px 16px', textAlign: 'center' }}>
+            <Button
+              type="button"
+              variant="soft"
+              size="2"
+              onClick={() => append({ tiempoA: undefined, tiempoB: undefined, tiempoC: undefined })}
+            >
+              + Add Row
+            </Button>
+          </div>
+        )}
+      </div>
+    );
   };
 
   return (
@@ -260,37 +444,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               {/* ======================================================================== */}
 
               <Col xs={12} md={12} className="col col-form-fields">
-                <Flex gap="4" className="b">
-                  <FieldWrapper label="Tiempo A" required error={errors.preparationTime}>
-                    <TimeInput
-                      value={formValues.preparationTime}
-                      min={0}
-                      max={3600}
-                      step={30}
-                      onTimeChange={(seconds) => handleFieldChange('preparationTime', seconds)}
-                    />
-                  </FieldWrapper>
-
-                  <FieldWrapper label="Tiempo B" required error={errors.preparationTime}>
-                    <TimeInput
-                      value={formValues.preparationTime}
-                      min={0}
-                      max={3600}
-                      step={30}
-                      onTimeChange={(seconds) => handleFieldChange('preparationTime', seconds)}
-                    />
-                  </FieldWrapper>
-
-                  <FieldWrapper label="Tiempo C" required error={errors.preparationTime}>
-                    <TimeInput
-                      value={formValues.preparationTime}
-                      min={0}
-                      max={3600}
-                      step={30}
-                      onTimeChange={(seconds) => handleFieldChange('preparationTime', seconds)}
-                    />
-                  </FieldWrapper>
-                </Flex>
+                <TimeTable />
               </Col>
             </Row>
           </Col>
