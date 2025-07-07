@@ -1,12 +1,9 @@
 import { css } from '@emotion/react';
-import { colors, layout } from 'styles';
+import { colors } from 'styles';
 
 export const styles = css`
-  & {
-    transform: translateY(100px);
-  }
-
   .page-description {
+    transform: translateY(24px);
     position: relative;
     font-size: 1.5rem;
     color: ${colors.info};
@@ -18,10 +15,11 @@ export const styles = css`
     }
     p {
       max-width: 800px;
-      padding-bottom: 4rem;
+      padding: 1rem;
     }
   }
   .temperature-content {
+    transform: translateY(80px);
     position: relative;
     font-size: 1.5rem;
     color: ${colors.info};
