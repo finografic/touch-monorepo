@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, Flex } from '@radix-ui/themes';
-import { SearchableSelect } from 'pages/AdminPages/AdminOrdersPage/SearchableSelect/SearchableSelect';
+import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { SelectSimple } from 'forms/SelectSimple';
 import { TemperatureInput } from 'forms/TemperatureInput';
 import { TimeInput } from 'forms/TimeInput';
@@ -33,7 +33,7 @@ const addOrderSchema = z
     path: ['defaultTempFreeze'],
   });
 
-type AddOrderFormValues = z.infer<typeof addOrderSchema>;
+type OrdersFormValues = z.infer<typeof addOrderSchema>;
 
 interface TempItems {
   drinkTypes: string[];
@@ -41,13 +41,13 @@ interface TempItems {
   containerTypes: string[];
 }
 
-interface AddOrderFormProps {
-  onSubmit: (formData: AddOrderFormValues) => void;
+interface OrdersFormProps {
+  onSubmit: (formData: OrdersFormValues) => void;
   isLoading?: boolean;
   language?: string;
 }
 
-export const AddOrderForm: React.FC<AddOrderFormProps> = ({
+export const OrdersForm: React.FC<OrdersFormProps> = ({
   onSubmit,
   isLoading = false,
   language = 'es-ES',
@@ -59,7 +59,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
   });
 
   // RHF setup
-  const methods = useForm<AddOrderFormValues>({
+  const methods = useForm<OrdersFormValues>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
     resolver: zodResolver(addOrderSchema),
@@ -114,7 +114,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
   }, [containerTypes, tempItems.containerTypes, ordersData, language]);
 
   // Handle field changes
-  const handleFieldChange = (field: keyof AddOrderFormValues, value: string | number) => {
+  const handleFieldChange = (field: keyof OrdersFormValues, value: string | number) => {
     setValue(field, value, { shouldValidate: true });
 
     // Handle temperature constraints: consumption temp controls max freezing temp
@@ -141,7 +141,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
   };
 
   // Handle form submission
-  const onFormSubmit = (data: AddOrderFormValues) => {
+  const onFormSubmit = (data: OrdersFormValues) => {
     onSubmit(data);
     // Reset form
     methods.reset();
@@ -157,7 +157,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)}>
         <Row className="row">
-          <Col xs={9} md={9} className="col col-form-fields">
+          <Col xs={8} md={8} className="col col-form-fields">
             <Row className="row">
               {/* ======================================================================== */}
 
@@ -165,7 +165,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                 <Flex gap="4" justify="between" className="b">
                   {/* Drink Type */}
                   <FieldWrapper label="Drink Type" required error={errors.drinkType} style={{ flex: 1 }}>
-                    <SearchableSelect
+                    <SelectSearchable
                       value={formValues.drinkType}
                       onSelect={(value) => handleFieldChange('drinkType', value)}
                       onAddNew={(value) => handleAddNew('drinkTypes', value)}
@@ -177,7 +177,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
 
                   {/* Subtype */}
                   <FieldWrapper label="Subtype" style={{ flex: 1 }}>
-                    <SearchableSelect
+                    <SelectSearchable
                       value={formValues.drinkSubtype || ''}
                       onSelect={(value) => handleFieldChange('drinkSubtype', value)}
                       options={[]}
@@ -195,7 +195,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                 <Flex gap="4" justify="between" className="b">
                   {/* Volume */}
                   <FieldWrapper label="Volume" required error={errors.volume} style={{ flex: 1 }}>
-                    <SearchableSelect
+                    <SelectSearchable
                       value={formValues.volume}
                       onSelect={(value) => handleFieldChange('volume', value)}
                       onAddNew={(value) => handleAddNew('volumes', value)}
@@ -207,7 +207,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
 
                   {/* Container Type */}
                   <FieldWrapper label="Container" required error={errors.containerType} style={{ flex: 1 }}>
-                    <SearchableSelect
+                    <SelectSearchable
                       value={formValues.containerType}
                       onSelect={(value) => handleFieldChange('containerType', value)}
                       onAddNew={(value) => handleAddNew('containerTypes', value)}
@@ -264,13 +264,44 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                       defaultValue={formValues.defaultTempFreeze}
                     />
                   </FieldWrapper>
+                </Flex>
+              </Col>
 
-                  <FieldWrapper
-                    label="Tiempo de preparación"
-                    required
-                    error={errors.preparationTime}
-                    style={{ flex: 1 }}
-                  >
+              {/* ======================================================================== */}
+
+              <Col xs={12} md={12} className="col col-form-fields">
+                <Flex gap="4" className="b">
+                  <FieldWrapper label="Tiempo A" required error={errors.preparationTime} style={{ flex: 1 }}>
+                    <input
+                      {...register('preparationTime')}
+                      type="hidden"
+                      value={formValues.preparationTime}
+                    />
+                    <TimeInput
+                      value={formValues.preparationTime}
+                      min={0}
+                      max={3600}
+                      step={30}
+                      onTimeChange={(seconds) => handleFieldChange('preparationTime', seconds)}
+                    />
+                  </FieldWrapper>
+
+                  <FieldWrapper label="Tiempo B" required error={errors.preparationTime} style={{ flex: 1 }}>
+                    <input
+                      {...register('preparationTime')}
+                      type="hidden"
+                      value={formValues.preparationTime}
+                    />
+                    <TimeInput
+                      value={formValues.preparationTime}
+                      min={0}
+                      max={3600}
+                      step={30}
+                      onTimeChange={(seconds) => handleFieldChange('preparationTime', seconds)}
+                    />
+                  </FieldWrapper>
+
+                  <FieldWrapper label="Tiempo C" required error={errors.preparationTime} style={{ flex: 1 }}>
                     <input
                       {...register('preparationTime')}
                       type="hidden"
@@ -289,7 +320,8 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
             </Row>
           </Col>
 
-          <Col xs={3} md={3} className="col col-form-buttons">
+          <Col xs={4} md={4} className="col col-form-buttons">
+            <pre>{JSON.stringify(formValues, null, 2)}</pre>
             <Button
               type="submit"
               style={{ padding: '1rem 3rem' }}

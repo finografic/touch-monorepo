@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { matchSorter } from 'match-sorter';
 import { Box, Button, Card, Flex, Text, TextField } from '@radix-ui/themes';
 import { CheckIcon, ChevronDownIcon, MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
-import { styles } from './SearchableSelect.styles';
+import { styles } from './SelectSearchable.styles';
 import type { SelectOption } from 'types/models/select-option.model';
 
 interface SearchableSelectProps {
@@ -16,7 +16,7 @@ interface SearchableSelectProps {
   value?: string;
 }
 
-export const SearchableSelect: React.FC<SearchableSelectProps> = ({
+export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   options,
   onSelect,
   onAddNew,

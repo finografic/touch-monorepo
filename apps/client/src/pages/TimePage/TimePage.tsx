@@ -1,6 +1,6 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { TimeInputGroup } from 'src/forms/TimeInput/TimeInputGroup';
+import { PadTimeGroup } from 'forms/PadTimeGroup';
 import { Box, Flex } from '@radix-ui/themes';
 import { stylesAppContent } from '../../styles/custom/content.app.styles';
 import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS, TIME_MIN_SECONDS } from 'constants/time.config';
@@ -39,7 +39,7 @@ export const TimePage = () => {
 
       <Flex gap="3" justify="center">
         <Box>
-          <TimeInputGroup
+          <PadTimeGroup
             value={totalSeconds}
             onChange={handleTimeChange}
             description={t('app.components.temperatureControl.initial')}

@@ -6,7 +6,7 @@ import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
 import { OrdersTable } from 'components/OrdersTable';
-import { AddOrderForm } from 'components/AddOrderForm';
+import { OrdersForm } from 'pages/AdminPages/AdminOrdersPage/forms/OrdersForm';
 import { useToast } from 'components/Toast';
 import { Col, Row } from 'react-grid-system';
 import { styles } from './AdminOrdersPage.styles';
@@ -118,11 +118,8 @@ export const AdminOrdersPage: React.FC = () => {
         <Row className="form-section">
           <Col>
             {/* Add New Order Form */}
-            <AdminSection
-              // title="Add New Order"
-              title=""
-            >
-              <AddOrderForm onSubmit={handleAddOrder} />
+            <AdminSection title="">
+              <OrdersForm onSubmit={handleAddOrder} />
             </AdminSection>
           </Col>
         </Row>

@@ -87,11 +87,19 @@ export const styles = css`
     }
 
     .col-form-buttons {
-      padding: ${spacing[4]};
       display: flex;
-      justify-content: flex-end;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      padding: ${spacing[4]};
+
+      pre {
+        width: 70%;
+        font-size: 0.8rem;
+        color: ${colors.greyXDark};
+        padding: ${spacing[6]};
+        margin: 0 auto ${spacing[4]};
+      }
     }
 
     .field-label {

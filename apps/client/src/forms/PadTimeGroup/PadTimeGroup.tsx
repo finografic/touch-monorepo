@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 import type { FC } from 'react';
 import { formatTimeDisplay, isValidTimeInSeconds } from 'constants/time.config';
-import { styles } from './TimeInputGroup.styles';
+import { styles } from './PadTimeGroup.styles';
 
 interface TimeInputGroupProps {
   value: number; // Total seconds
@@ -11,7 +11,7 @@ interface TimeInputGroupProps {
   max?: number;
 }
 
-export const TimeInputGroup: FC<TimeInputGroupProps> = ({
+export const PadTimeGroup: FC<TimeInputGroupProps> = ({
   value: totalSeconds,
   onChange,
   description,
