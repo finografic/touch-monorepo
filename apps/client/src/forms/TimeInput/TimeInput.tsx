@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { IconButton, TextField } from '@radix-ui/themes';
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
+import { styles } from './TimeInput.styles';
 
 interface TimeInputProps {
   value?: number; // in seconds
@@ -8,7 +9,6 @@ interface TimeInputProps {
   min?: number; // in seconds
   max?: number; // in seconds
   step?: number; // in seconds, default 30 seconds
-  placeholder?: string;
   disabled?: boolean;
   onTimeChange: (seconds: number) => void;
 }
@@ -19,7 +19,6 @@ export const TimeInput: React.FC<TimeInputProps> = ({
   min = 0,
   max = 3600, // 60 minutes default
   step = 30, // 30 seconds default
-  placeholder = '00:00',
   disabled = false,
   onTimeChange,
 }) => {
@@ -79,61 +78,58 @@ export const TimeInput: React.FC<TimeInputProps> = ({
   );
 
   return (
-    <TextField.Root
-      type="text"
-      placeholder={placeholder}
-      disabled={disabled}
-      value={displayValue}
-      onChange={handleDisplayChange}
-      size="3"
-      variant="surface"
-      color="gray"
-      style={
-        {
-          '--text-field-color': 'var(--gray-12)',
-          'color': 'var(--gray-12)',
-        } as React.CSSProperties
-      }
-    >
-      <TextField.Slot side="left">
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginRight: '4px' }}>
-          <IconButton
-            type="button"
-            variant="soft"
-            size="1"
-            onClick={handleStepUp}
-            disabled={disabled}
-            style={{ height: '16px', width: '20px', minWidth: '20px' }}
+    <div css={styles} className="time-input">
+      <TextField.Root
+        className="time-input-root"
+        type="text"
+        placeholder="00:00"
+        disabled={disabled}
+        value={displayValue}
+        onChange={handleDisplayChange}
+        color="gray"
+        size="3"
+        variant="surface"
+      >
+        <TextField.Slot side="left">
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginRight: '4px' }}>
+            <IconButton
+              type="button"
+              variant="soft"
+              size="1"
+              onClick={handleStepUp}
+              disabled={disabled}
+              style={{ height: '16px', width: '20px', minWidth: '20px' }}
+            >
+              <ChevronUpIcon style={{ height: '12px', width: '12px' }} />
+            </IconButton>
+            <IconButton
+              type="button"
+              variant="soft"
+              size="1"
+              onClick={handleStepDown}
+              disabled={disabled}
+              style={{ height: '16px', width: '20px', minWidth: '20px' }}
+            >
+              <ChevronDownIcon style={{ height: '12px', width: '12px' }} />
+            </IconButton>
+          </div>
+        </TextField.Slot>
+        {/* <TextField.Slot side="right">
+          <span
+            style={{
+              color: 'var(--gray-11)',
+              fontSize: '14px',
+              fontWeight: '500',
+              pointerEvents: 'none',
+              userSelect: 'none',
+              marginLeft: '4px',
+            }}
           >
-            <ChevronUpIcon style={{ height: '12px', width: '12px' }} />
-          </IconButton>
-          <IconButton
-            type="button"
-            variant="soft"
-            size="1"
-            onClick={handleStepDown}
-            disabled={disabled}
-            style={{ height: '16px', width: '20px', minWidth: '20px' }}
-          >
-            <ChevronDownIcon style={{ height: '12px', width: '12px' }} />
-          </IconButton>
-        </div>
-      </TextField.Slot>
-      <TextField.Slot side="right">
-        <span
-          style={{
-            color: 'var(--gray-11)',
-            fontSize: '14px',
-            fontWeight: '500',
-            pointerEvents: 'none',
-            userSelect: 'none',
-            marginLeft: '4px',
-          }}
-        >
-          mm:ss
-        </span>
-      </TextField.Slot>
-    </TextField.Root>
+            mm:ss
+          </span>
+        </TextField.Slot> */}
+      </TextField.Root>
+    </div>
   );
 };
 

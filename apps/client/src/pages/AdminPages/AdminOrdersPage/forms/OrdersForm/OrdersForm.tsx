@@ -164,7 +164,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               <Col xs={12} md={12} className="col col-form-fields">
                 <Flex gap="4" justify="between" className="b">
                   {/* Drink Type */}
-                  <FieldWrapper label="Drink Type" required error={errors.drinkType} style={{ flex: 1 }}>
+                  <FieldWrapper label="Drink Type" required error={errors.drinkType}>
                     <SelectSearchable
                       value={formValues.drinkType}
                       onSelect={(value) => handleFieldChange('drinkType', value)}
@@ -176,7 +176,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   </FieldWrapper>
 
                   {/* Subtype */}
-                  <FieldWrapper label="Subtype" style={{ flex: 1 }}>
+                  <FieldWrapper label="Subtype">
                     <SelectSearchable
                       value={formValues.drinkSubtype || ''}
                       onSelect={(value) => handleFieldChange('drinkSubtype', value)}
@@ -194,7 +194,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               <Col xs={12} md={12} className="col col-form-fields">
                 <Flex gap="4" justify="between" className="b">
                   {/* Volume */}
-                  <FieldWrapper label="Volume" required error={errors.volume} style={{ flex: 1 }}>
+                  <FieldWrapper label="Volume" required error={errors.volume}>
                     <SelectSearchable
                       value={formValues.volume}
                       onSelect={(value) => handleFieldChange('volume', value)}
@@ -206,7 +206,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   </FieldWrapper>
 
                   {/* Container Type */}
-                  <FieldWrapper label="Container" required error={errors.containerType} style={{ flex: 1 }}>
+                  <FieldWrapper label="Container" required error={errors.containerType}>
                     <SelectSearchable
                       value={formValues.containerType}
                       onSelect={(value) => handleFieldChange('containerType', value)}
@@ -224,7 +224,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               <Col xs={12} md={12} className="col col-form-fields">
                 <Flex gap="4" className="b">
                   {/* Mode */}
-                  <FieldWrapper label="Mode" required error={errors.mode} style={{ flex: 1 }}>
+                  <FieldWrapper label="Mode" required error={errors.mode}>
                     <SelectSimple
                       {...register('mode')}
                       className="mode-select"
@@ -235,12 +235,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     />
                   </FieldWrapper>
 
-                  <FieldWrapper
-                    label="Temperatura consumo"
-                    required
-                    error={errors.defaultTempConsume}
-                    style={{ flex: 1 }}
-                  >
+                  <FieldWrapper label="Temperatura consumo" required error={errors.defaultTempConsume}>
                     <TemperatureInput
                       {...register('defaultTempConsume')}
                       min={-40}
@@ -250,12 +245,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     />
                   </FieldWrapper>
 
-                  <FieldWrapper
-                    label="Temperatura congelación"
-                    required
-                    error={errors.defaultTempFreeze}
-                    style={{ flex: 1 }}
-                  >
+                  <FieldWrapper label="Temperatura congelación" required error={errors.defaultTempFreeze}>
                     <TemperatureInput
                       {...register('defaultTempFreeze')}
                       min={-50}
@@ -272,11 +262,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               <Col xs={12} md={12} className="col col-form-fields">
                 <Flex gap="4" className="b">
                   <FieldWrapper label="Tiempo A" required error={errors.preparationTime}>
-                    <input
+                    {/* <input
                       {...register('preparationTime')}
                       type="hidden"
                       value={formValues.preparationTime}
-                    />
+                    /> */}
                     <TimeInput
                       value={formValues.preparationTime}
                       min={0}
@@ -287,11 +277,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   </FieldWrapper>
 
                   <FieldWrapper label="Tiempo B" required error={errors.preparationTime}>
-                    <input
+                    {/* <input
                       {...register('preparationTime')}
                       type="hidden"
                       value={formValues.preparationTime}
-                    />
+                    /> */}
                     <TimeInput
                       value={formValues.preparationTime}
                       min={0}
@@ -302,11 +292,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   </FieldWrapper>
 
                   <FieldWrapper label="Tiempo C" required error={errors.preparationTime}>
-                    <input
+                    {/* <input
                       {...register('preparationTime')}
                       type="hidden"
                       value={formValues.preparationTime}
-                    />
+                    /> */}
                     <TimeInput
                       value={formValues.preparationTime}
                       min={0}
