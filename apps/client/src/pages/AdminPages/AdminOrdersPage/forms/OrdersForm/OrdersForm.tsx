@@ -7,7 +7,7 @@ import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { SelectSimple } from 'forms/SelectSimple';
 import { TemperatureInput } from 'forms/TemperatureInput';
 import { TimeInput } from 'forms/TimeInput';
-import { FieldWrapper } from 'components/FieldWrapper';
+import { FieldWrapper } from 'forms/FieldWrapper';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { useGetContainerTypes } from 'queries/container-types';
@@ -271,7 +271,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
               <Col xs={12} md={12} className="col col-form-fields">
                 <Flex gap="4" className="b">
-                  <FieldWrapper label="Tiempo A" required error={errors.preparationTime} style={{ flex: 1 }}>
+                  <FieldWrapper label="Tiempo A" required error={errors.preparationTime}>
                     <input
                       {...register('preparationTime')}
                       type="hidden"
@@ -286,7 +286,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     />
                   </FieldWrapper>
 
-                  <FieldWrapper label="Tiempo B" required error={errors.preparationTime} style={{ flex: 1 }}>
+                  <FieldWrapper label="Tiempo B" required error={errors.preparationTime}>
                     <input
                       {...register('preparationTime')}
                       type="hidden"
@@ -301,7 +301,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     />
                   </FieldWrapper>
 
-                  <FieldWrapper label="Tiempo C" required error={errors.preparationTime} style={{ flex: 1 }}>
+                  <FieldWrapper label="Tiempo C" required error={errors.preparationTime}>
                     <input
                       {...register('preparationTime')}
                       type="hidden"

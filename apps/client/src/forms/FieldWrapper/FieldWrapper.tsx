@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Text } from '@radix-ui/themes';
 import type { FieldError } from 'react-hook-form';
+import { styles } from './FieldWrapper.styles';
 import clsx from 'clsx';
 
 interface FieldWrapperProps {
@@ -21,10 +22,7 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
   error,
 }) => {
   return (
-    <Box
-      style={{ position: 'relative', minWidth: '180px', ...style }}
-      className={clsx('field-wrapper', className)}
-    >
+    <Box css={styles} style={{ ...style }} className={clsx('field-wrapper', className)}>
       {label && (
         <Text size="2" mb="2" weight="medium" className="field-label">
           {label} {required && '*'}
