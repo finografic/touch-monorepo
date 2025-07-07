@@ -2,9 +2,9 @@ import React, { forwardRef, useMemo } from 'react';
 import { Select } from '@radix-ui/themes';
 import type { SelectOption } from 'types/models/select-option.model';
 import clsx from 'clsx';
-import { styles } from './SimpleSelect.styles';
+import { styles } from './SelectSimple.styles';
 
-interface SimpleSelectProps {
+interface SelectSimpleProps {
   options: string[] | number[] | SelectOption[];
   value?: string | number;
   className?: string;
@@ -16,7 +16,7 @@ interface SimpleSelectProps {
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(
+export const SelectSimple = forwardRef<HTMLSelectElement, SelectSimpleProps>(
   (
     {
       options,
@@ -97,4 +97,4 @@ export const SimpleSelect = forwardRef<HTMLSelectElement, SimpleSelectProps>(
   },
 );
 
-SimpleSelect.displayName = 'SimpleSelect';
+SelectSimple.displayName = 'SelectSimple';

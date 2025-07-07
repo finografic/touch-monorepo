@@ -4,7 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, Flex } from '@radix-ui/themes';
 import { SearchableSelect } from 'pages/AdminPages/AdminOrdersPage/SearchableSelect/SearchableSelect';
-import { SimpleSelect } from 'forms/SimpleSelect';
+import { SelectSimple } from 'forms/SelectSimple';
 import { TemperatureInput } from 'forms/TemperatureInput';
 import { TimeInput } from 'forms/TimeInput';
 import { FieldWrapper } from 'components/FieldWrapper';
@@ -225,7 +225,7 @@ export const AddOrderForm: React.FC<AddOrderFormProps> = ({
                 <Flex gap="4" className="b">
                   {/* Mode */}
                   <FieldWrapper label="Mode" required error={errors.mode} style={{ flex: 1 }}>
-                    <SimpleSelect
+                    <SelectSimple
                       {...register('mode')}
                       className="mode-select"
                       options={[1, 2, 3, 4, 5]}
