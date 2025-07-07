@@ -3,8 +3,8 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
 import type { Temperature } from 'types/orders.types';
 import { useFilters } from 'hooks/useFilters';
-import { Box, Container, Flex } from '@radix-ui/themes';
-import { stylesAppContent } from '../../styles/custom/content.app.styles';
+import { Box, Flex } from '@radix-ui/themes';
+import { stylesAppContent } from 'styles/custom/content.app.styles';
 import {
   FINAL_TEMP_MIN,
   INITIAL_TEMP_DEFAULT,
