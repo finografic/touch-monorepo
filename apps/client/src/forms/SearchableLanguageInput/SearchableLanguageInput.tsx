@@ -3,7 +3,7 @@ import { matchSorter } from 'match-sorter';
 import { Box, Card, Flex, Text, TextField } from '@radix-ui/themes';
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { styles } from './SearchableLanguageInput.styles';
-import type { Country } from '../LanguageSelector/languages/country.types';
+import type { Country } from '../../components/LanguageSelector/languages/country.types';
 
 interface LanguageOption {
   languageCode: string;
