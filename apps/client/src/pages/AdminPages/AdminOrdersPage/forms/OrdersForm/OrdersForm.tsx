@@ -15,6 +15,7 @@ import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import { SelectOptionDto } from 'types/models/select-option.model';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { Col, Row } from 'react-grid-system';
+import { styles } from './OrdersForm.styles';
 
 // Form validation schema
 const timeRowSchema = z.object({
@@ -192,7 +193,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     const canDeleteRow = fields.length > 4;
 
     return (
-      <div style={{ width: '100%' }}>
+      <div css={styles}>
         {/* Table Header */}
         <div
           style={{
