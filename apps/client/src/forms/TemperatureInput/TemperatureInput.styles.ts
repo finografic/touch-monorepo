@@ -2,24 +2,14 @@ import { css } from '@emotion/react';
 import { baseInputStyles } from 'styles/custom/inputs.styles';
 
 export const styles = css`
-  .temperature-container {
-    ${baseInputStyles.container}
-    gap: 1rem;
-  }
+  ${baseInputStyles}
 
-  .input-container {
-    ${baseInputStyles.inputContainer}
-  }
+  max-width: 160px;
+  /* overflow: visible;
+  overflow-x: visible;
+  overflow-y: visible; */
 
-  .value-container {
-    ${baseInputStyles.valueContainer}
-  }
-
-  .control-button {
-    ${baseInputStyles.controlButton}
-  }
-
-  .unit {
-    ${baseInputStyles.unit}
+  .temperature-input-root {
+    text-align: right;
   }
 `;
