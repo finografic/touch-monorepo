@@ -1,6 +1,6 @@
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { TemperatureInput } from 'components/TemperatureInput/TemperatureInput';
+import { PadTemperature } from 'forms/PadTemperature/PadTemperature';
 import type { Temperature } from 'types/orders.types';
 import { useFilters } from 'hooks/useFilters';
 import { Box, Flex } from '@radix-ui/themes';
@@ -168,7 +168,7 @@ export const TemperaturePage = () => {
         </Flex>
         <Flex gap="3" justify="center" className="temperature-content">
           <Box>
-            <TemperatureInput
+            <PadTemperature
               name={TemperatureKey.Initial}
               value={temperatures.initial}
               onChange={handleChange}
@@ -180,7 +180,7 @@ export const TemperaturePage = () => {
             />
           </Box>
           <Box>
-            <TemperatureInput
+            <PadTemperature
               name={TemperatureKey.Final}
               value={temperatures.final}
               onChange={handleChange}

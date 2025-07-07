@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { FC } from 'react';
 import type { Temperature } from 'types/orders.types';
-import { styles } from './TemperatureInput.styles';
+import { styles } from './PadTemperature.styles';
 import type { TemperatureKey } from 'types/temperature.types';
 
 interface TemperatureInputProps {
@@ -16,7 +16,7 @@ interface TemperatureInputProps {
   max?: number;
 }
 
-export const TemperatureInput: FC<TemperatureInputProps> = ({
+export const PadTemperature: FC<TemperatureInputProps> = ({
   name,
   value,
   onChange,
