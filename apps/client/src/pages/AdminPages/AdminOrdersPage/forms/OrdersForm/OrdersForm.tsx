@@ -193,61 +193,28 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     const canDeleteRow = fields.length > 4;
 
     return (
-      <div css={styles}>
+      <div css={styles} className="time-table">
         {/* Table Header */}
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: '1fr 1fr 1fr auto',
-            gap: '8px',
-            padding: '12px 16px',
-            backgroundColor: 'var(--gray-4)',
-            borderRadius: '6px 6px 0 0',
-            border: '1px solid var(--gray-6)',
-            borderBottom: 'none',
-            fontWeight: '500',
-            fontSize: '14px',
-            color: 'var(--gray-11)',
-          }}
-        >
-          <div>Tiempo A</div>
-          <div>Tiempo B</div>
-          <div>Tiempo C</div>
-          <div style={{ width: '40px' }}></div>
+        <div className="time-table-header">
+          <div className="time-table-header-column">Tiempo A</div>
+          <div className="time-table-header-column">Tiempo B</div>
+          <div className="time-table-header-column">Tiempo C</div>
+          <div className="time-table-header-actions"></div>
         </div>
 
         {/* Table Rows */}
         {fields.map((field, index) => {
           const isEditable = index === editableRowIndex || isRowComplete(index);
           const isEven = index % 2 === 0;
+          const isFirst = index === 0;
+          const isLast = index === fields.length - 1;
 
           return (
             <div
               key={field.id}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr 1fr auto',
-                gap: '8px',
-                padding: '8px 16px',
-                backgroundColor: isEven ? 'var(--gray-1)' : 'var(--gray-2)',
-                border: '1px solid var(--gray-6)',
-                borderTop: index === 0 ? '1px solid var(--gray-6)' : 'none',
-                ...(index === fields.length - 1 && {
-                  borderRadius: '0 0 6px 6px',
-                }),
-              }}
+              className={`time-table-row ${isEven ? 'even' : 'odd'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
             >
-              <div
-                style={{
-                  border: 'none',
-                  background: 'transparent',
-                  outline: 'none',
-                  fontSize: '14px',
-                  padding: '6px 8px',
-                  borderRadius: '4px',
-                  transition: 'all 0.2s ease',
-                }}
-              >
+              <div className="time-input-wrapper">
                 <TimeInput
                   value={formValues.timeRows[index]?.tiempoA}
                   min={0}
@@ -259,17 +226,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   disabled={!isEditable}
                 />
               </div>
-              <div
-                style={{
-                  border: 'none',
-                  background: 'transparent',
-                  outline: 'none',
-                  fontSize: '14px',
-                  padding: '6px 8px',
-                  borderRadius: '4px',
-                  transition: 'all 0.2s ease',
-                }}
-              >
+              <div className="time-input-wrapper">
                 <TimeInput
                   value={formValues.timeRows[index]?.tiempoB}
                   min={0}
@@ -281,17 +238,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   disabled={!isEditable}
                 />
               </div>
-              <div
-                style={{
-                  border: 'none',
-                  background: 'transparent',
-                  outline: 'none',
-                  fontSize: '14px',
-                  padding: '6px 8px',
-                  borderRadius: '4px',
-                  transition: 'all 0.2s ease',
-                }}
-              >
+              <div className="time-input-wrapper">
                 <TimeInput
                   value={formValues.timeRows[index]?.tiempoC}
                   min={0}
@@ -303,7 +250,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   disabled={!isEditable}
                 />
               </div>
-              <div style={{ width: '40px', display: 'flex', justifyContent: 'center' }}>
+              <div className="delete-button-container">
                 {canDeleteRow && (
                   <Button
                     type="button"
@@ -311,7 +258,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     size="1"
                     color="red"
                     onClick={() => remove(index)}
-                    style={{ opacity: 0.7, padding: '4px' }}
+                    className="delete-button"
                   >
                     ×
                   </Button>
@@ -323,7 +270,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
         {/* Add Row Button */}
         {canAddRow && (
-          <div style={{ padding: '12px 16px', textAlign: 'center' }}>
+          <div className="add-row-container">
             <Button
               type="button"
               variant="soft"
