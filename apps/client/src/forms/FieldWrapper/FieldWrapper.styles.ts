@@ -5,7 +5,7 @@ export const styles = css`
   flex: 1;
   display: block;
   position: relative;
-  min-width: 180px;
+  /* min-width: 180px; */
   padding: 0.5rem 0 0.25rem;
 
   .field-label {

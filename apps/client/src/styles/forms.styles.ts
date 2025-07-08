@@ -299,6 +299,36 @@ export const formsCustom = css`
         box-shadow: 0 0 0 3px ${colors.primaryLight}20;
       }
     }
+
+    /* Dropdown content z-index fix */
+    .select-content,
+    .select-viewport,
+    [role='listbox'],
+    [data-radix-popper-content-wrapper] {
+      z-index: 9999 !important;
+    }
+  }
+
+  /* Radix Select specific z-index fixes */
+  .rt-SelectContent,
+  .rt-PopoverContent,
+  [data-radix-select-content],
+  [data-radix-popover-content] {
+    z-index: 9999 !important;
+  }
+
+  /* Portal dropdown global styles */
+  #portal-root .dropdown-portal {
+    /* Ensure portal dropdowns are properly styled */
+    z-index: 999999 !important;
+
+    /* Override any global styles that might interfere */
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+
+    /* Ensure proper stacking */
+    position: absolute !important;
   }
 
   /* Temperature and Time inputs */

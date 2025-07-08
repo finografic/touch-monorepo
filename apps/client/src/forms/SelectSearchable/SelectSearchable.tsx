@@ -1,8 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { matchSorter } from 'match-sorter';
-import { Box, Button, Card, Flex, Text, TextField } from '@radix-ui/themes';
+import { TextField } from '@radix-ui/themes';
 import { CheckIcon, ChevronDownIcon, MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
-import { styles } from './SelectSearchable.styles';
+import { styles, stylesDropdown } from './SelectSearchable.styles';
+import { DropdownPortal } from './DropdownPortal';
 import type { SelectOption } from 'types/models/select-option.model';
 
 interface SearchableSelectProps {
@@ -33,7 +34,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null); // Changed from dropdownRef to containerRef
 
   // Sync with external value changes
   useEffect(() => {
@@ -186,28 +187,16 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
     }
   };
 
-  // Close dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(event.target as Node) &&
-        !inputRef.current?.contains(event.target as Node)
-      ) {
-        setIsOpen(false);
-        setFocusedIndex(-1);
-        setDisplayStart(0);
-        setLastScrollTop(0);
-      }
-    };
-
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  const handleCloseDropdown = () => {
+    setIsOpen(false);
+    setFocusedIndex(-1);
+    setDisplayStart(0);
+    setLastScrollTop(0);
+  };
 
   return (
     <div css={styles} className="searchable-select">
-      <Box className="search-container" style={{ position: 'relative' }}>
+      <div ref={containerRef} className="search-container" style={{ position: 'relative' }}>
         <TextField.Root
           ref={inputRef}
           value={searchValue}
@@ -243,73 +232,65 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
             />
           </TextField.Slot>
         </TextField.Root>
+      </div>
 
-        {isOpen && (
-          <div ref={dropdownRef} className="dropdown" onScroll={handleScroll}>
-            {slidingWindow.items.length > 0 ? (
-              slidingWindow.items.map((option, index) => (
-                <div
-                  key={`${option.value}-${slidingWindow.startIndex + index}`}
-                  className={`option ${index === focusedIndex ? 'focused' : ''}`}
-                  onClick={() => handleSelectOption(option)}
-                  onMouseEnter={() => setFocusedIndex(index)}
-                >
-                  <Flex align="center" gap="3" p="3">
-                    <Text weight="bold" size="2">
-                      {option.value}
-                    </Text>
-                    {option.label && (
-                      <Text size="1" color="gray">
-                        {option.label}
-                      </Text>
-                    )}
-                  </Flex>
-                </div>
-              ))
-            ) : (
-              <Box p="4" style={{ textAlign: 'center' }}>
-                <Text size="2" color="gray">
-                  {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
-                </Text>
-              </Box>
-            )}
-
-            {/* Add New Option */}
-            {allowAddNew && searchValue.trim() && !exactMatch && (
+      <DropdownPortal
+        triggerRef={containerRef}
+        isOpen={isOpen}
+        onClose={handleCloseDropdown}
+        className="dropdown"
+        css={stylesDropdown}
+      >
+        <div onScroll={handleScroll}>
+          {slidingWindow.items.length > 0 ? (
+            slidingWindow.items.map((option, index) => (
               <div
-                className={`option ${slidingWindow.items.length === focusedIndex ? 'focused' : ''}`}
-                onClick={handleAddNew}
-                onMouseEnter={() => setFocusedIndex(slidingWindow.items.length)}
-                style={{ borderTop: '1px solid var(--gray-6)' }}
+                key={`${option.value}-${slidingWindow.startIndex + index}`}
+                className={`option ${index === focusedIndex ? 'focused' : ''}`}
+                onClick={() => handleSelectOption(option)}
+                onMouseEnter={() => setFocusedIndex(index)}
               >
-                <Flex align="center" gap="3" p="3">
-                  <PlusIcon style={{ color: 'var(--blue-11)' }} />
-                  <Text size="2" style={{ color: 'var(--blue-11)' }}>
-                    Add "{searchValue}"
-                  </Text>
-                </Flex>
+                <div className="option-content">
+                  <span className="option-value">{option.value}</span>
+                  {option.label && <span className="option-label">{option.label}</span>}
+                </div>
               </div>
-            )}
+            ))
+          ) : (
+            /* No options message */
+            <div className="option" style={{ textAlign: 'center', fontStyle: 'italic' }}>
+              <span className="option-label">
+                {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
+              </span>
+            </div>
+          )}
 
-            {/* Window info */}
-            {slidingWindow.totalItems > windowSize && (
-              <Box
-                p="2"
-                style={{
-                  textAlign: 'center',
-                  borderTop: '1px solid var(--gray-6)',
-                  background: 'var(--gray-2)',
-                }}
-              >
-                <Text size="1" color="blue">
-                  Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of{' '}
-                  {slidingWindow.totalItems} • Scroll for more
-                </Text>
-              </Box>
-            )}
-          </div>
-        )}
-      </Box>
+          {/* Add New Option */}
+          {allowAddNew && searchValue.trim() && !exactMatch && (
+            <div
+              className={`option ${slidingWindow.items.length === focusedIndex ? 'focused' : ''}`}
+              onClick={handleAddNew}
+              onMouseEnter={() => setFocusedIndex(slidingWindow.items.length)}
+              style={{ borderTop: '1px solid var(--gray-6)' }}
+            >
+              <div className="option-content">
+                <PlusIcon style={{ color: 'var(--blue-11)', width: '14px', height: '14px' }} />
+                <span className="option-value" style={{ color: 'var(--blue-11)' }}>
+                  Add "{searchValue}"
+                </span>
+              </div>
+            </div>
+          )}
+
+          {/* Window info */}
+          {slidingWindow.totalItems > windowSize && (
+            <div className="window-info">
+              Showing {slidingWindow.startIndex + 1}-{slidingWindow.endIndex} of {slidingWindow.totalItems} •
+              Scroll for more
+            </div>
+          )}
+        </div>
+      </DropdownPortal>
     </div>
   );
 };

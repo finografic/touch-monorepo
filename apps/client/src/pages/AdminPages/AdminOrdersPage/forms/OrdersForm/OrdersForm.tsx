@@ -178,114 +178,123 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
         <Row className="row">
           <Col xs={9} md={9} className="col col-form-fields">
+            {/* <Row className="row"> */}
+            {/* ======================================================================== */}
+
             <Row className="row">
-              {/* ======================================================================== */}
-
-              <Col xs={12} md={12} className="col col-form-fields">
-                <Flex gap="4" justify="between" className="b">
-                  {/* Mode */}
-                  <FieldWrapper name="mode" label="Mode" required>
-                    <SelectSimple
-                      {...register('mode')}
-                      className="mode-select"
-                      options={[1, 2, 3, 4, 5]}
-                      placeholder="Select mode"
-                      defaultValue={formValues.mode}
-                      onSelect={(value) => handleFieldChange('mode', Number(value))}
-                    />
-                  </FieldWrapper>
-
-                  {/* Drink Type */}
-                  <FieldWrapper name="drinkType" label="Drink Type" required>
-                    <SelectSearchable
-                      value={formValues.drinkType}
-                      onSelect={(value) => handleFieldChange('drinkType', value)}
-                      onAddNew={(value) => handleAddNew('drinkTypes', value)}
-                      options={drinkTypeOptions}
-                      placeholder="e.g., Coffee, Tea, Juice"
-                      windowSize={15}
-                    />
-                  </FieldWrapper>
-
-                  {/* Subtype */}
-                  <FieldWrapper name="drinkSubtype" label="Subtype">
-                    <SelectSearchable
-                      value={formValues.drinkSubtype || ''}
-                      onSelect={(value) => handleFieldChange('drinkSubtype', value)}
-                      options={[]}
-                      placeholder="Optional"
-                      allowAddNew={false}
-                      windowSize={10}
-                    />
-                  </FieldWrapper>
-                </Flex>
+              {/* <Flex gap="4" justify="between" className="b"> */}
+              <Col xs={2} md={2} className="col col-form-fields">
+                {/* <Col xs={12} md={12} className="col col-form-fields">
+                <Flex gap="4" justify="between" className="b"> */}
+                {/* Mode */}
+                <FieldWrapper name="mode" label="Mode" required>
+                  <SelectSimple
+                    {...register('mode')}
+                    className="mode-select"
+                    options={[1, 2, 3, 4, 5]}
+                    placeholder="Select mode"
+                    defaultValue={formValues.mode}
+                    onSelect={(value) => handleFieldChange('mode', Number(value))}
+                  />
+                </FieldWrapper>
               </Col>
 
-              {/* ======================================================================== */}
+              <Col xs={5} md={5} className="col col-form-fields">
+                {/* Drink Type */}
+                <FieldWrapper name="drinkType" label="Drink Type" required>
+                  <SelectSearchable
+                    value={formValues.drinkType}
+                    onSelect={(value) => handleFieldChange('drinkType', value)}
+                    onAddNew={(value) => handleAddNew('drinkTypes', value)}
+                    options={drinkTypeOptions}
+                    placeholder="e.g., Coffee, Tea, Juice"
+                    windowSize={15}
+                  />
+                </FieldWrapper>
+              </Col>
 
-              <Row className="row">
-                {/* <Flex gap="4" justify="between" className="b"> */}
-                <Col xs={4} md={4} className="col col-form-fields">
-                  {/* Volume */}
-                  <FieldWrapper name="volume" label="Volume" required>
-                    <SelectSearchable
-                      value={formValues.volume}
-                      onSelect={(value) => handleFieldChange('volume', value)}
-                      onAddNew={(value) => handleAddNew('volumes', value)}
-                      options={volumeOptions}
-                      placeholder="e.g., 250ml, 500ml, 1L"
-                      windowSize={15}
-                    />
-                  </FieldWrapper>
-                </Col>
-
-                <Col xs={4} md={4} className="col col-form-fields">
-                  {/* Container Type */}
-                  <FieldWrapper name="containerType" label="Container" required>
-                    <SelectSearchable
-                      value={formValues.containerType}
-                      onSelect={(value) => handleFieldChange('containerType', value)}
-                      onAddNew={(value) => handleAddNew('containerTypes', value)}
-                      options={containerTypeOptions}
-                      placeholder="e.g., Cup, Bottle, Can"
-                      windowSize={15}
-                    />
-                  </FieldWrapper>
-                </Col>
-
-                <Col xs={2} md={2} className="col col-form-fields">
-                  {/* Temperatura consumo */}
-                  <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
-                    <InputTemperature
-                      {...register('defaultTempConsume')}
-                      min={-40}
-                      max={40}
-                      step={0.5}
-                      defaultValue={formValues.defaultTempConsume}
-                    />
-                  </FieldWrapper>
-                </Col>
-
-                <Col xs={2} md={2} className="col col-form-fields">
-                  {/* Temperatura congelación */}
-                  <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
-                    <InputTemperature
-                      {...register('defaultTempFreeze')}
-                      min={-50}
-                      max={formValues.defaultTempConsume - MIN_TEMP_DIFFERENCE}
-                      step={0.5}
-                      defaultValue={formValues.defaultTempFreeze}
-                    />
-                  </FieldWrapper>
-                </Col>
-              </Row>
-
-              {/* ======================================================================== */}
-
-              <Col xs={12} md={12} className="col col-form-fields">
-                <TimesTableRepeater name="timeRows" emptyRowValues={PROFILE_ITEM_VALUES_EMPTY} minRows={4} />
+              <Col xs={5} md={5} className="col col-form-fields">
+                {/* Subtype */}
+                <FieldWrapper name="drinkSubtype" label="Subtype">
+                  <SelectSearchable
+                    value={formValues.drinkSubtype || ''}
+                    onSelect={(value) => handleFieldChange('drinkSubtype', value)}
+                    options={[]}
+                    placeholder="Optional"
+                    allowAddNew={false}
+                    windowSize={10}
+                  />
+                </FieldWrapper>
+                {/* </Flex> */}
               </Col>
             </Row>
+
+            {/* ======================================================================== */}
+
+            <Row className="row">
+              {/* <Flex gap="4" justify="between" className="b"> */}
+              <Col xs={4} md={4} className="col col-form-fields">
+                {/* Volume */}
+                <FieldWrapper name="volume" label="Volume" required>
+                  <SelectSearchable
+                    value={formValues.volume}
+                    onSelect={(value) => handleFieldChange('volume', value)}
+                    onAddNew={(value) => handleAddNew('volumes', value)}
+                    options={volumeOptions}
+                    placeholder="e.g., 250ml, 500ml, 1L"
+                    windowSize={15}
+                  />
+                </FieldWrapper>
+              </Col>
+
+              <Col xs={4} md={4} className="col col-form-fields">
+                {/* Container Type */}
+                <FieldWrapper name="containerType" label="Container" required>
+                  <SelectSearchable
+                    value={formValues.containerType}
+                    onSelect={(value) => handleFieldChange('containerType', value)}
+                    onAddNew={(value) => handleAddNew('containerTypes', value)}
+                    options={containerTypeOptions}
+                    placeholder="e.g., Cup, Bottle, Can"
+                    windowSize={15}
+                  />
+                </FieldWrapper>
+              </Col>
+
+              <Col xs={2} md={2} className="col col-form-fields">
+                {/* Temperatura consumo */}
+                <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
+                  <InputTemperature
+                    {...register('defaultTempConsume')}
+                    min={-40}
+                    max={40}
+                    step={0.5}
+                    defaultValue={formValues.defaultTempConsume}
+                  />
+                </FieldWrapper>
+              </Col>
+
+              <Col xs={2} md={2} className="col col-form-fields">
+                {/* Temperatura congelación */}
+                <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
+                  <InputTemperature
+                    {...register('defaultTempFreeze')}
+                    min={-50}
+                    max={formValues.defaultTempConsume - MIN_TEMP_DIFFERENCE}
+                    step={0.5}
+                    defaultValue={formValues.defaultTempFreeze}
+                  />
+                </FieldWrapper>
+              </Col>
+            </Row>
+
+            {/* ======================================================================== */}
+
+            {/* <Row className="row"> */}
+            <Col xs={12} md={12} className="col col-form-fields">
+              <TimesTableRepeater name="timeRows" emptyRowValues={PROFILE_ITEM_VALUES_EMPTY} minRows={4} />
+            </Col>
+            {/* </Row> */}
           </Col>
 
           <Col xs={3} md={3} className="col col-form-buttons">
