@@ -237,12 +237,13 @@ export const formsValidation = css`
 // ======================================================================== //
 
 export const formsCustom = css`
+  /* INPUT SLOTS */
   input + .rt-TextFieldSlot,
   input + .rt-TextFieldSlot + .rt-TextFieldSlot {
-    border-color: ${colors.success} !important;
+    border-color: red !important;
 
     &:focus {
-      box-shadow: 0 0 0 3px ${colors.success}20 !important;
+      box-shadow: 0 0 0 3px red !important;
     }
   }
 
