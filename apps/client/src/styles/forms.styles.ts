@@ -7,22 +7,52 @@ import { colors } from './colors.styles';
 
 export const forms = {
   inputs: {
-    fontSize: '1rem',
-    fontWeight: 500,
     height: '2.5rem', // 40px - consistent with Radix default
     padding: '0.5rem 0.75rem',
-    borderRadius: '6px',
-    borderWidth: '1px',
     transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
-    // Using your color system
-    colors: {
-      border: colors.grey,
-      borderHover: colors.greyDark,
-      borderFocus: colors.primary,
-      background: colors.white,
-      text: colors.text,
-      // placeholder: colors.greyLight,
-      placeholder: colors.info,
+    background: colors.white,
+
+    border: {
+      color: colors.grey,
+      width: '1px',
+      radius: '6px',
+    },
+
+    text: {
+      color: colors.text,
+      fontSize: '1rem',
+      fontWeight: 500,
+    },
+
+    placeholder: {
+      color: colors.info,
+      opacity: 0.7,
+    },
+
+    hover: {
+      border: {
+        color: colors.greyDark,
+        width: '1px',
+        radius: '6px',
+      },
+      text: {
+        color: colors.text,
+        fontSize: '1rem',
+        fontWeight: 500,
+      },
+    },
+
+    focus: {
+      border: {
+        color: colors.primary,
+        width: '1px',
+        radius: '6px',
+      },
+      text: {
+        color: colors.text,
+        fontSize: '1rem',
+        fontWeight: 500,
+      },
     },
   },
   validation: {
@@ -85,24 +115,25 @@ export const formsBase = css`
   input[type='url'],
   input[type='number'],
   textarea {
-    font-size: ${forms.inputs.fontSize};
-    font-weight: ${forms.inputs.fontWeight};
-    border: ${forms.inputs.borderWidth} solid ${forms.inputs.colors.border};
-    background-color: ${forms.inputs.colors.background};
-    color: ${forms.inputs.colors.text};
+    font-size: ${forms.inputs.text.fontSize};
+    font-weight: ${forms.inputs.text.fontWeight};
+    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
+    background-color: ${forms.inputs.background};
+    color: ${forms.inputs.text.color};
     transition: ${forms.inputs.transition};
 
     &::placeholder {
-      color: ${forms.inputs.colors.placeholder};
+      color: ${forms.inputs.placeholder.color};
+      opacity: ${forms.inputs.placeholder.opacity};
       font-weight: 400;
     }
 
     &:hover:not(:disabled):not(:focus) {
-      border-color: ${forms.inputs.colors.borderHover};
+      border-color: ${forms.inputs.hover.border.color};
     }
 
     &:focus {
-      border-color: ${forms.inputs.colors.borderFocus};
+      border-color: ${forms.inputs.focus.border.color};
       box-shadow: 0 0 0 3px ${colors.primaryLight}20;
     }
 
@@ -117,36 +148,36 @@ export const formsBase = css`
   /* Radix TextField with slots (icons) */
   .rt-TextFieldRoot {
     &:hover:not(:has(:disabled)) .rt-TextFieldSlot {
-      border-color: ${forms.inputs.colors.borderHover};
+      border-color: ${forms.inputs.hover.border.color};
     }
 
     &:focus-within .rt-TextFieldSlot {
-      border-color: ${forms.inputs.colors.borderFocus};
+      border-color: ${forms.inputs.focus.border.color};
     }
   }
 
   .rt-TextFieldSlot {
-    border: ${forms.inputs.borderWidth} solid ${forms.inputs.colors.border};
-    background-color: ${forms.inputs.colors.background};
+    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
+    background-color: ${forms.inputs.background};
     transition: ${forms.inputs.transition};
   }
 
   /* Select elements */
   .rt-SelectTrigger,
   select {
-    font-size: ${forms.inputs.fontSize};
-    font-weight: ${forms.inputs.fontWeight};
-    border: ${forms.inputs.borderWidth} solid ${forms.inputs.colors.border};
-    background-color: ${forms.inputs.colors.background};
-    color: ${forms.inputs.colors.text};
+    font-size: ${forms.inputs.text.fontSize};
+    font-weight: ${forms.inputs.text.fontWeight};
+    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
+    background-color: ${forms.inputs.background};
+    color: ${forms.inputs.text.color};
     transition: ${forms.inputs.transition};
 
     &:hover:not(:disabled) {
-      border-color: ${forms.inputs.colors.borderHover};
+      border-color: ${forms.inputs.hover.border.color};
     }
 
     &:focus {
-      border-color: ${forms.inputs.colors.borderFocus};
+      border-color: ${forms.inputs.focus.border.color};
       box-shadow: 0 0 0 3px ${colors.primaryLight}20;
     }
   }
@@ -154,7 +185,7 @@ export const formsBase = css`
   /* Labels */
   .rt-Text,
   label {
-    font-weight: ${forms.inputs.fontWeight};
+    font-weight: ${forms.inputs.text.fontWeight};
     color: ${colors.text};
     cursor: pointer;
   }
@@ -252,19 +283,19 @@ export const formsCustom = css`
   .select-searchable {
     .select-trigger {
       min-height: ${forms.inputs.height};
-      border: ${forms.inputs.borderWidth} solid ${forms.inputs.colors.border};
-      border-radius: ${forms.inputs.borderRadius};
-      font-size: ${forms.inputs.fontSize};
-      font-weight: ${forms.inputs.fontWeight};
+      border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
+      border-radius: ${forms.inputs.border.radius};
+      font-size: ${forms.inputs.text.fontSize};
+      font-weight: ${forms.inputs.text.fontWeight};
       transition: ${forms.inputs.transition};
 
       &:hover {
-        border-color: ${forms.inputs.colors.borderHover};
+        border-color: ${forms.inputs.hover.border.color};
       }
 
       &:focus,
       &[data-state='open'] {
-        border-color: ${forms.inputs.colors.borderFocus};
+        border-color: ${forms.inputs.focus.border.color};
         box-shadow: 0 0 0 3px ${colors.primaryLight}20;
       }
     }
@@ -276,17 +307,17 @@ export const formsCustom = css`
     .input-wrapper {
       display: flex;
       align-items: center;
-      border: ${forms.inputs.borderWidth} solid ${forms.inputs.colors.border};
-      border-radius: ${forms.inputs.borderRadius};
-      background-color: ${forms.inputs.colors.background};
+      border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
+      border-radius: ${forms.inputs.border.radius};
+      background-color: ${forms.inputs.background};
       transition: ${forms.inputs.transition};
 
       &:hover {
-        border-color: ${forms.inputs.colors.borderHover};
+        border-color: ${forms.inputs.hover.border.color};
       }
 
       &:focus-within {
-        border-color: ${forms.inputs.colors.borderFocus};
+        border-color: ${forms.inputs.focus.border.color};
         box-shadow: 0 0 0 3px ${colors.primaryLight}20;
       }
 
