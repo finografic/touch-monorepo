@@ -1,10 +1,7 @@
 import { colors, layout, min } from 'styles';
 import { css } from '@emotion/react';
-import { cssFontMono } from 'styles/fonts.styles';
-import { cssForms, cssInputBox, cssInputText, forms } from '../forms.styles';
-import { Layout } from 'lucide-react';
+import { cssInputBox, cssInputText, forms } from '../forms.styles';
 
-// Base styles shared across all interactive buttons
 export const stylesAdminContent = css`
   > header {
     nav .admin-nav {
@@ -16,7 +13,6 @@ export const stylesAdminContent = css`
 
   section.admin-content-page {
     color: ${colors.textDark};
-    ${cssForms}
 
     max-width: 85vw !important;
     min-width: 100%;
