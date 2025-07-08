@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { baseInputStyles } from 'styles/custom/inputs.styles';
+import { colors } from 'styles';
 
 export const styles = css`
   width: 100%;
@@ -10,10 +10,10 @@ export const styles = css`
 
   .time-table-header {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr auto;
     gap: 8px;
     padding: 12px 16px;
-    background-color: var(--gray-4);
+    background-color: ${colors.greyXXLight}AA;
     border-radius: 6px 6px 0 0;
     border: 1px solid var(--gray-6);
     border-bottom: none;
@@ -32,9 +32,9 @@ export const styles = css`
 
   .time-table-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr auto;
+    grid-template-columns: 1fr 1fr 1fr 1fr auto;
     gap: 8px;
-    padding: 8px 16px;
+    padding: 0.5rem 0;
     border: 1px solid var(--gray-6);
     border-top: none;
 
@@ -60,7 +60,7 @@ export const styles = css`
     background: transparent;
     outline: none;
     font-size: 14px;
-    padding: 6px 8px;
+    padding: 0.5rem 3rem 0.5rem 0rem;
     border-radius: 4px;
     transition: all 0.2s ease;
 

@@ -19,9 +19,10 @@ import { styles } from './OrdersForm.styles';
 
 // Form validation schema
 const timeRowSchema = z.object({
-  tiempoA: z.coerce.number().int().min(0).max(3600).optional(), // 0 to 60 minutes in seconds
-  tiempoB: z.coerce.number().int().min(0).max(3600).optional(),
-  tiempoC: z.coerce.number().int().min(0).max(3600).optional(),
+  temperature: z.coerce.number().min(-50).max(50).optional(), // Temperature in Celsius
+  time_a: z.coerce.number().int().min(0).max(3600).optional(), // 0 to 60 minutes in seconds
+  time_b: z.coerce.number().int().min(0).max(3600).optional(),
+  time_c: z.coerce.number().int().min(0).max(3600).optional(),
 });
 
 const addOrderSchema = z
@@ -79,10 +80,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       defaultTempConsume: 5,
       defaultTempFreeze: -2,
       timeRows: [
-        { tiempoA: undefined, tiempoB: undefined, tiempoC: undefined },
-        { tiempoA: undefined, tiempoB: undefined, tiempoC: undefined },
-        { tiempoA: undefined, tiempoB: undefined, tiempoC: undefined },
-        { tiempoA: undefined, tiempoB: undefined, tiempoC: undefined },
+        { temperature: undefined, time_a: undefined, time_b: undefined, time_c: undefined },
+        { temperature: undefined, time_a: undefined, time_b: undefined, time_c: undefined },
+        { temperature: undefined, time_a: undefined, time_b: undefined, time_c: undefined },
+        { temperature: undefined, time_a: undefined, time_b: undefined, time_c: undefined },
       ],
     },
   });
@@ -175,7 +176,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const TimeTable = () => {
     const isRowComplete = (index: number) => {
       const row = formValues.timeRows[index];
-      return row?.tiempoA !== undefined && row?.tiempoB !== undefined && row?.tiempoC !== undefined;
+      return (
+        row?.temperature !== undefined &&
+        row?.time_a !== undefined &&
+        row?.time_b !== undefined &&
+        row?.time_c !== undefined
+      );
     };
 
     const getEditableRowIndex = () => {
@@ -196,9 +202,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       <div css={styles} className="time-table">
         {/* Table Header */}
         <div className="time-table-header">
-          <div className="time-table-header-column">Tiempo A</div>
-          <div className="time-table-header-column">Tiempo B</div>
-          <div className="time-table-header-column">Tiempo C</div>
+          <div className="time-table-header-column">Temperature</div>
+          <div className="time-table-header-column">Time A</div>
+          <div className="time-table-header-column">Time B</div>
+          <div className="time-table-header-column">Time C</div>
           <div className="time-table-header-actions"></div>
         </div>
 
@@ -215,37 +222,47 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               className={`time-table-row ${isEven ? 'even' : 'odd'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
             >
               <div className="time-input-wrapper">
+                <TemperatureInput
+                  {...register(`timeRows.${index}.temperature`)}
+                  min={-50}
+                  max={50}
+                  step={0.5}
+                  defaultValue={formValues.timeRows[index]?.temperature}
+                  disabled={!isEditable}
+                />
+              </div>
+              <div className="time-input-wrapper">
                 <TimeInput
-                  value={formValues.timeRows[index]?.tiempoA}
+                  value={formValues.timeRows[index]?.time_a}
                   min={0}
                   max={3600}
                   step={30}
                   onTimeChange={(seconds) => {
-                    setValue(`timeRows.${index}.tiempoA`, seconds, { shouldValidate: true });
+                    setValue(`timeRows.${index}.time_a`, seconds, { shouldValidate: true });
                   }}
                   disabled={!isEditable}
                 />
               </div>
               <div className="time-input-wrapper">
                 <TimeInput
-                  value={formValues.timeRows[index]?.tiempoB}
+                  value={formValues.timeRows[index]?.time_b}
                   min={0}
                   max={3600}
                   step={30}
                   onTimeChange={(seconds) => {
-                    setValue(`timeRows.${index}.tiempoB`, seconds, { shouldValidate: true });
+                    setValue(`timeRows.${index}.time_b`, seconds, { shouldValidate: true });
                   }}
                   disabled={!isEditable}
                 />
               </div>
               <div className="time-input-wrapper">
                 <TimeInput
-                  value={formValues.timeRows[index]?.tiempoC}
+                  value={formValues.timeRows[index]?.time_c}
                   min={0}
                   max={3600}
                   step={30}
                   onTimeChange={(seconds) => {
-                    setValue(`timeRows.${index}.tiempoC`, seconds, { shouldValidate: true });
+                    setValue(`timeRows.${index}.time_c`, seconds, { shouldValidate: true });
                   }}
                   disabled={!isEditable}
                 />
@@ -275,7 +292,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               type="button"
               variant="soft"
               size="2"
-              onClick={() => append({ tiempoA: undefined, tiempoB: undefined, tiempoC: undefined })}
+              onClick={() =>
+                append({ temperature: undefined, time_a: undefined, time_b: undefined, time_c: undefined })
+              }
             >
               + Add Row
             </Button>
