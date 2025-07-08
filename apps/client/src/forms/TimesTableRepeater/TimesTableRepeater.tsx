@@ -23,7 +23,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   emptyRowValues,
   minRows = 4,
 }) => {
-  const { control, register, setValue, watch } = useFormContext();
+  const { control, register, setValue, watch, formState } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name,
@@ -31,6 +31,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
 
   const formValues = watch();
   const timeRows = formValues[name] || [];
+  const { isSubmitted } = formState;
 
   const isRowComplete = (index: number) => {
     const row = timeRows[index];
@@ -50,6 +51,11 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
       }
     }
     return -1; // All rows complete
+  };
+
+  // Check if first row field is empty and should show validation error
+  const isFirstRowFieldRequired = (fieldName: string) => {
+    return isSubmitted && (timeRows[0]?.[fieldName] === undefined || timeRows[0]?.[fieldName] === '');
   };
 
   const editableRowIndex = getEditableRowIndex();
@@ -80,12 +86,18 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
         const isFirst = index === 0;
         const isLast = index === fields.length - 1;
 
+        // Validation classes for first row
+        const tempValidationClass = isFirst && isFirstRowFieldRequired('temperature') ? 'field-error' : '';
+        const timeAValidationClass = isFirst && isFirstRowFieldRequired('time_a') ? 'field-error' : '';
+        const timeBValidationClass = isFirst && isFirstRowFieldRequired('time_b') ? 'field-error' : '';
+        const timeCValidationClass = isFirst && isFirstRowFieldRequired('time_c') ? 'field-error' : '';
+
         return (
           <div
             key={field.id}
             className={`table-row ${isEven ? 'even' : 'odd'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
           >
-            <div className="input-wrapper">
+            <div className={`input-wrapper ${tempValidationClass}`}>
               <InputTemperature
                 {...register(`${name}.${index}.temperature`)}
                 min={-50}
@@ -95,7 +107,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
                 disabled={!isEditable}
               />
             </div>
-            <div className="input-wrapper">
+            <div className={`input-wrapper ${timeAValidationClass}`}>
               <InputTime
                 value={timeRows[index]?.time_a}
                 min={0}
@@ -107,7 +119,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
                 disabled={!isEditable}
               />
             </div>
-            <div className="input-wrapper">
+            <div className={`input-wrapper ${timeBValidationClass}`}>
               <InputTime
                 value={timeRows[index]?.time_b}
                 min={0}
@@ -119,7 +131,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
                 disabled={!isEditable}
               />
             </div>
-            <div className="input-wrapper">
+            <div className={`input-wrapper ${timeCValidationClass}`}>
               <InputTime
                 value={timeRows[index]?.time_c}
                 min={0}

@@ -125,7 +125,7 @@ export const stylesAdminContent = css`
       opacity: 0.66;
       pointer-events: none;
       user-select: none;
-      box-shadow: inset 0px 0px 0px 2px red;
+      /* box-shadow: inset 0px 0px 0px 2px red; */
       outline: none;
       &:focus-visible {
         pointer-events: none;

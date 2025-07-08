@@ -47,10 +47,10 @@ export const styles = css`
     padding: 0;
 
     &.even {
-      background-color: var(--gray-1);
+      background-color: ${colors.white}; /* Pure white for even rows */
     }
     &.odd {
-      background-color: var(--gray-2);
+      background-color: ${colors.greyXXLight}; /* Light grey for odd rows */
     }
 
     .input-wrapper {

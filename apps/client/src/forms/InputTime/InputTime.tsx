@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { IconButton, TextField } from '@radix-ui/themes';
-import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
+import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { colors } from 'styles';
 import { styles } from './InputTime.styles';
 
 interface InputTimeProps {
@@ -41,17 +42,20 @@ export const InputTime: React.FC<InputTimeProps> = ({
   const shouldShowPlaceholder = value === undefined;
   const currentSeconds = shouldShowPlaceholder ? 0 : (value ?? defaultValue);
 
-  // Local state for display value
+  // Local state for display value and validation
   const [displayValue, setDisplayValue] = useState(() => {
     return shouldShowPlaceholder ? '' : formatTime(currentSeconds);
   });
+  const [isInvalid, setIsInvalid] = useState(false);
 
   // Sync display when external value changes
   useEffect(() => {
     if (shouldShowPlaceholder) {
       setDisplayValue(''); // Empty string shows placeholder
+      setIsInvalid(false);
     } else {
       setDisplayValue(formatTime(currentSeconds));
+      setIsInvalid(false);
     }
   }, [value, currentSeconds, formatTime, shouldShowPlaceholder]);
 
@@ -59,6 +63,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
     const baseValue = value ?? 0; // Start from 0 if undefined
     const newValue = Math.min(baseValue + step, max);
     setDisplayValue(formatTime(newValue));
+    setIsInvalid(false);
     onTimeChange(newValue);
   }, [value, step, max, formatTime, onTimeChange]);
 
@@ -66,6 +71,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
     const baseValue = value ?? 0; // Start from 0 if undefined
     const newValue = Math.max(baseValue - step, min);
     setDisplayValue(formatTime(newValue));
+    setIsInvalid(false);
     onTimeChange(newValue);
   }, [value, step, min, formatTime, onTimeChange]);
 
@@ -74,6 +80,9 @@ export const InputTime: React.FC<InputTimeProps> = ({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const inputValue = e.target.value;
       setDisplayValue(inputValue);
+
+      // Reset invalid state while typing
+      setIsInvalid(false);
 
       // If it's a valid mm:ss format, convert to seconds
       if (inputValue.match(/^\d{1,2}:\d{2}$/)) {
@@ -86,6 +95,14 @@ export const InputTime: React.FC<InputTimeProps> = ({
     [parseTime, min, max, onTimeChange],
   );
 
+  // Prevent ENTER from submitting form
+  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      e.currentTarget.blur(); // Trigger blur to format the input
+    }
+  }, []);
+
   // Handle formatting on blur (transform digits to mm:ss)
   const handleBlur = useCallback(
     (e: React.FocusEvent<HTMLInputElement>) => {
@@ -94,6 +111,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
       // If empty, keep it empty to show placeholder
       if (!inputValue) {
         setDisplayValue('');
+        setIsInvalid(false);
         return;
       }
 
@@ -128,6 +146,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
         const seconds = parseTime(formattedValue);
         if (seconds >= min && seconds <= max) {
           setDisplayValue(formattedValue);
+          setIsInvalid(false);
           onTimeChange(seconds);
         } else {
           // Invalid time, revert to previous valid value or empty
@@ -136,14 +155,18 @@ export const InputTime: React.FC<InputTimeProps> = ({
           } else {
             setDisplayValue('');
           }
+          setIsInvalid(false);
         }
+      } else {
+        // No valid digits found (like "zzzz"), mark as invalid
+        setIsInvalid(true);
       }
     },
     [value, formatTime, parseTime, min, max, onTimeChange],
   );
 
   return (
-    <div css={styles} className="input-time">
+    <div css={styles} className={`input-time ${isInvalid ? 'field-warning' : ''}`}>
       <TextField.Root
         className="time-input-root"
         type="text"
@@ -152,48 +175,47 @@ export const InputTime: React.FC<InputTimeProps> = ({
         value={displayValue}
         onChange={handleDisplayChange}
         onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
         color="gray"
         size="3"
         variant="surface"
       >
         <TextField.Slot side="left">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginRight: '4px' }}>
-            <IconButton
-              type="button"
-              variant="soft"
-              size="1"
-              onClick={handleStepUp}
-              disabled={disabled}
-              style={{ height: '16px', width: '20px', minWidth: '20px' }}
-            >
-              <ChevronUpIcon style={{ height: '12px', width: '12px' }} />
-            </IconButton>
-            <IconButton
-              type="button"
-              variant="soft"
-              size="1"
-              onClick={handleStepDown}
-              disabled={disabled}
-              style={{ height: '16px', width: '20px', minWidth: '20px' }}
-            >
-              <ChevronDownIcon style={{ height: '12px', width: '12px' }} />
-            </IconButton>
-          </div>
+          {!isInvalid && (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginRight: '4px' }}>
+              <IconButton
+                type="button"
+                variant="soft"
+                size="1"
+                onClick={handleStepUp}
+                disabled={disabled}
+                style={{ height: '16px', width: '20px', minWidth: '20px' }}
+              >
+                <ChevronUpIcon style={{ height: '12px', width: '12px' }} />
+              </IconButton>
+              <IconButton
+                type="button"
+                variant="soft"
+                size="1"
+                onClick={handleStepDown}
+                disabled={disabled}
+                style={{ height: '16px', width: '20px', minWidth: '20px' }}
+              >
+                <ChevronDownIcon style={{ height: '12px', width: '12px' }} />
+              </IconButton>
+            </div>
+          )}
+          {isInvalid && (
+            <ExclamationTriangleIcon
+              style={{
+                color: colors.warningDark,
+                marginLeft: '4px',
+                height: '16px',
+                width: '16px',
+              }}
+            />
+          )}
         </TextField.Slot>
-        {/* <TextField.Slot side="right">
-          <span
-            style={{
-              color: 'var(--gray-11)',
-              fontSize: '14px',
-              fontWeight: '500',
-              pointerEvents: 'none',
-              userSelect: 'none',
-              marginLeft: '4px',
-            }}
-          >
-            mm:ss
-          </span>
-        </TextField.Slot> */}
       </TextField.Root>
     </div>
   );

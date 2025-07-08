@@ -14,7 +14,7 @@ export const forms = {
 
     border: {
       color: colors.grey,
-      width: '1px',
+      width: '2px',
       radius: '6px',
     },
 
@@ -315,10 +315,10 @@ export const formsCustom = css`
   /* INPUT SLOTS */
   input + .rt-TextFieldSlot,
   input + .rt-TextFieldSlot + .rt-TextFieldSlot {
-    border-color: red !important;
+    /* border-color: red !important; */
 
     &:focus {
-      box-shadow: 0 0 0 3px red !important;
+      /* box-shadow: 0 0 0 3px red !important; */
     }
   }
 
