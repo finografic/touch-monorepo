@@ -72,7 +72,7 @@ export const InputTemperature = forwardRef<HTMLInputElement, InputTemperaturePro
     }, [ref, step, min, onChange]);
 
     return (
-      <div css={styles} className="temperature-input">
+      <div css={styles} className="input-temperature">
         <TextField.Root
           className="temperature-input-root"
           type="number"

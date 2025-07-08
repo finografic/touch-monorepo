@@ -57,7 +57,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   const canDeleteRow = fields.length > minRows;
 
   return (
-    <div css={styles} className="times-table-repeater">
+    <div css={styles} className="times-table">
       {/* Table Header */}
       <div className="table-header">
         <div className="header-column">Temperature</div>

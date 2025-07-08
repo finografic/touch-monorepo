@@ -78,7 +78,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
   );
 
   return (
-    <div css={styles} className="time-input">
+    <div css={styles} className="input-time">
       <TextField.Root
         className="time-input-root"
         type="text"

@@ -67,7 +67,18 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
   const fieldId = name || `field-${Math.random().toString(36).substr(2, 9)}`;
 
   return (
-    <Box css={styles} className={clsx('field-wrapper', className)} onBlur={handleBlur}>
+    <Box
+      css={styles}
+      className={clsx(
+        'field-wrapper',
+        {
+          'field-error': showError,
+          'field-warning': showDebouncedWarning && !showError,
+        },
+        className,
+      )}
+      onBlur={handleBlur}
+    >
       {label && (
         <label className="field-label" htmlFor={fieldId}>
           <Text size="2" mb="2" weight="medium">
