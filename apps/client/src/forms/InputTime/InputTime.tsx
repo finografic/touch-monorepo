@@ -37,28 +37,37 @@ export const InputTime: React.FC<InputTimeProps> = ({
     return mins * 60 + secs;
   }, []);
 
-  // Current value in seconds
-  const currentSeconds = value ?? defaultValue;
+  // Check if we should show placeholder (when value is undefined)
+  const shouldShowPlaceholder = value === undefined;
+  const currentSeconds = shouldShowPlaceholder ? 0 : (value ?? defaultValue);
 
   // Local state for display value
-  const [displayValue, setDisplayValue] = useState(() => formatTime(currentSeconds));
+  const [displayValue, setDisplayValue] = useState(() => {
+    return shouldShowPlaceholder ? '' : formatTime(currentSeconds);
+  });
 
   // Sync display when external value changes
   useEffect(() => {
-    setDisplayValue(formatTime(currentSeconds));
-  }, [currentSeconds, formatTime]);
+    if (shouldShowPlaceholder) {
+      setDisplayValue(''); // Empty string shows placeholder
+    } else {
+      setDisplayValue(formatTime(currentSeconds));
+    }
+  }, [value, currentSeconds, formatTime, shouldShowPlaceholder]);
 
   const handleStepUp = useCallback(() => {
-    const newValue = Math.min(currentSeconds + step, max);
+    const baseValue = value ?? 0; // Start from 0 if undefined
+    const newValue = Math.min(baseValue + step, max);
     setDisplayValue(formatTime(newValue));
     onTimeChange(newValue);
-  }, [currentSeconds, step, max, formatTime, onTimeChange]);
+  }, [value, step, max, formatTime, onTimeChange]);
 
   const handleStepDown = useCallback(() => {
-    const newValue = Math.max(currentSeconds - step, min);
+    const baseValue = value ?? 0; // Start from 0 if undefined
+    const newValue = Math.max(baseValue - step, min);
     setDisplayValue(formatTime(newValue));
     onTimeChange(newValue);
-  }, [currentSeconds, step, min, formatTime, onTimeChange]);
+  }, [value, step, min, formatTime, onTimeChange]);
 
   // Handle user typing mm:ss format
   const handleDisplayChange = useCallback(
@@ -77,6 +86,62 @@ export const InputTime: React.FC<InputTimeProps> = ({
     [parseTime, min, max, onTimeChange],
   );
 
+  // Handle formatting on blur (transform digits to mm:ss)
+  const handleBlur = useCallback(
+    (e: React.FocusEvent<HTMLInputElement>) => {
+      const inputValue = e.target.value.trim();
+
+      // If empty, keep it empty to show placeholder
+      if (!inputValue) {
+        setDisplayValue('');
+        return;
+      }
+
+      // If it's already in mm:ss format, leave it
+      if (inputValue.match(/^\d{1,2}:\d{2}$/)) {
+        return;
+      }
+
+      // If it's just digits, try to format as mm:ss
+      const digitsOnly = inputValue.replace(/\D/g, '');
+      if (digitsOnly.length > 0) {
+        let formattedValue = '';
+
+        if (digitsOnly.length === 1) {
+          // "5" → "00:05"
+          formattedValue = `00:0${digitsOnly}`;
+        } else if (digitsOnly.length === 2) {
+          // "30" → "00:30"
+          formattedValue = `00:${digitsOnly}`;
+        } else if (digitsOnly.length === 3) {
+          // "130" → "01:30"
+          formattedValue = `0${digitsOnly[0]}:${digitsOnly.slice(1)}`;
+        } else if (digitsOnly.length === 4) {
+          // "1234" → "12:34"
+          formattedValue = `${digitsOnly.slice(0, 2)}:${digitsOnly.slice(2, 4)}`;
+        } else {
+          // Too many digits, take first 4
+          formattedValue = `${digitsOnly.slice(0, 2)}:${digitsOnly.slice(2, 4)}`;
+        }
+
+        // Validate the formatted time
+        const seconds = parseTime(formattedValue);
+        if (seconds >= min && seconds <= max) {
+          setDisplayValue(formattedValue);
+          onTimeChange(seconds);
+        } else {
+          // Invalid time, revert to previous valid value or empty
+          if (value !== undefined) {
+            setDisplayValue(formatTime(value));
+          } else {
+            setDisplayValue('');
+          }
+        }
+      }
+    },
+    [value, formatTime, parseTime, min, max, onTimeChange],
+  );
+
   return (
     <div css={styles} className="input-time">
       <TextField.Root
@@ -86,6 +151,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
         disabled={disabled}
         value={displayValue}
         onChange={handleDisplayChange}
+        onBlur={handleBlur}
         color="gray"
         size="3"
         variant="surface"

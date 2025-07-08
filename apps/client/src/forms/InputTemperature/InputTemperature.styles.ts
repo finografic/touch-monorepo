@@ -1,12 +1,26 @@
 import { css } from '@emotion/react';
-import { formsReset } from 'styles/forms.styles';
+import { forms } from 'styles/forms.styles';
 
 export const styles = css`
-  /* ${formsReset} */
-
-  max-width: 160px;
-
   .temperature-input-root {
-    text-align: right;
+    .rt-TextFieldInput {
+      text-align: right;
+      padding: ${forms.inputs.padding};
+
+      &:disabled {
+        background-color: ${forms.inputs.disabled.background};
+        border-color: ${forms.inputs.disabled.border.color};
+        color: ${forms.inputs.disabled.text.color};
+        font-weight: ${forms.inputs.disabled.text.fontWeight};
+        opacity: ${forms.inputs.disabled.opacity};
+      }
+
+      &::placeholder {
+        text-align: right;
+        color: ${forms.inputs.placeholder.color};
+        opacity: ${forms.inputs.placeholder.opacity};
+        font-weight: ${forms.inputs.placeholder.fontWeight};
+      }
+    }
   }
 `;

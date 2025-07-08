@@ -1,10 +1,18 @@
 import { css } from '@emotion/react';
-import { formsReset } from 'styles/forms.styles';
+import { forms } from 'styles/forms.styles';
 
 export const styles = css`
-  /* ${formsReset} */
-
   .time-input-root {
-    text-align: right;
+    .rt-TextFieldInput {
+      text-align: right; /* Right align like temperature inputs */
+
+      &:disabled {
+        background-color: ${forms.inputs.disabled.background};
+        border-color: ${forms.inputs.disabled.border.color};
+        color: ${forms.inputs.disabled.text.color};
+        font-weight: ${forms.inputs.disabled.text.fontWeight};
+        opacity: ${forms.inputs.disabled.opacity};
+      }
+    }
   }
 `;

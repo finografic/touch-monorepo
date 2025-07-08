@@ -8,7 +8,7 @@ import { colors } from './colors.styles';
 export const forms = {
   inputs: {
     height: '2.5rem', // 40px - consistent with Radix default
-    padding: '0.5rem 0.75rem',
+    padding: '0.5rem 0.5rem 0.5rem 0.75rem',
     transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
     background: colors.white,
 
@@ -26,7 +26,7 @@ export const forms = {
 
     placeholder: {
       color: colors.grey,
-      opacity: 0.6,
+      opacity: 0.66,
       fontWeight: 500,
     },
 
@@ -54,6 +54,36 @@ export const forms = {
         fontSize: '1rem',
         fontWeight: 500,
       },
+    },
+
+    disabled: {
+      background: colors.greyXXLight,
+      border: {
+        color: colors.greyLight,
+        width: '1px',
+        radius: '6px',
+      },
+      text: {
+        color: colors.greyDark,
+        fontSize: '1rem',
+        fontWeight: 400, // Lighter weight for disabled text
+      },
+      opacity: 0.6,
+    },
+
+    readOnly: {
+      background: colors.greyXXLight,
+      border: {
+        color: colors.greyLight,
+        width: '1px',
+        radius: '6px',
+      },
+      text: {
+        color: colors.greyDark,
+        fontSize: '1rem',
+        fontWeight: 400, // Lighter weight for readonly text
+      },
+      opacity: 0.8,
     },
   },
   validation: {
@@ -122,12 +152,13 @@ export const formsBase = css`
     background-color: ${forms.inputs.background};
     color: ${forms.inputs.text.color};
     transition: ${forms.inputs.transition};
+    padding: ${forms.inputs.padding};
 
     &::placeholder {
       color: ${forms.inputs.placeholder.color};
       opacity: ${forms.inputs.placeholder.opacity};
       font-weight: ${forms.inputs.placeholder.fontWeight};
-      padding: ${forms.inputs.padding};
+      /* padding: ${forms.inputs.padding}; */
     }
 
     &:hover:not(:disabled):not(:focus) {
@@ -140,10 +171,21 @@ export const formsBase = css`
     }
 
     &:disabled {
-      background-color: ${colors.greyXLight};
-      color: ${colors.greyDark};
+      background-color: ${forms.inputs.disabled.background};
+      border-color: ${forms.inputs.disabled.border.color};
+      color: ${forms.inputs.disabled.text.color};
+      font-weight: ${forms.inputs.disabled.text.fontWeight};
+      opacity: ${forms.inputs.disabled.opacity};
       cursor: not-allowed;
-      opacity: 0.7;
+    }
+
+    &:read-only {
+      background-color: ${forms.inputs.readOnly.background};
+      border-color: ${forms.inputs.readOnly.border.color};
+      color: ${forms.inputs.readOnly.text.color};
+      font-weight: ${forms.inputs.readOnly.text.fontWeight};
+      opacity: ${forms.inputs.readOnly.opacity};
+      cursor: default;
     }
   }
 
@@ -358,6 +400,23 @@ export const formsCustom = css`
         background: transparent;
         outline: none;
         flex: 1;
+        padding: ${forms.inputs.padding};
+        font-size: ${forms.inputs.text.fontSize};
+        font-weight: ${forms.inputs.text.fontWeight};
+        color: ${forms.inputs.text.color};
+
+        &::placeholder {
+          color: ${forms.inputs.placeholder.color};
+          opacity: ${forms.inputs.placeholder.opacity};
+          font-weight: ${forms.inputs.placeholder.fontWeight};
+        }
+
+        &:disabled {
+          background-color: ${forms.inputs.disabled.background};
+          color: ${forms.inputs.disabled.text.color};
+          font-weight: ${forms.inputs.disabled.text.fontWeight};
+          opacity: ${forms.inputs.disabled.opacity};
+        }
       }
 
       .input-controls,
@@ -365,6 +424,16 @@ export const formsCustom = css`
         border-left: 1px solid ${colors.greyLight};
         padding: 0 0.5rem;
         color: ${colors.greyDark};
+      }
+    }
+
+    /* Specific styling for disabled temperature/time inputs */
+    &.disabled,
+    &[disabled] {
+      .input-wrapper {
+        background-color: ${forms.inputs.disabled.background};
+        border-color: ${forms.inputs.disabled.border.color};
+        opacity: ${forms.inputs.disabled.opacity};
       }
     }
   }

@@ -23,7 +23,7 @@ export const InputTemperature = forwardRef<HTMLInputElement, InputTemperaturePro
       min,
       max,
       step = 0.5,
-      placeholder = '',
+      placeholder = '0',
       disabled = false,
       name,
       defaultValue,
@@ -71,6 +71,10 @@ export const InputTemperature = forwardRef<HTMLInputElement, InputTemperaturePro
       }
     }, [ref, step, min, onChange]);
 
+    // Show placeholder when value is undefined or empty
+    const shouldShowPlaceholder = value === undefined || value === null || Number.isNaN(value);
+    const displayValue = shouldShowPlaceholder ? undefined : value;
+
     return (
       <div css={styles} className="input-temperature">
         <TextField.Root
@@ -83,7 +87,7 @@ export const InputTemperature = forwardRef<HTMLInputElement, InputTemperaturePro
           disabled={disabled}
           name={name}
           defaultValue={defaultValue}
-          value={value}
+          value={displayValue}
           onChange={onChange}
           onBlur={onBlur}
           onInput={onInput}
@@ -95,6 +99,7 @@ export const InputTemperature = forwardRef<HTMLInputElement, InputTemperaturePro
             {
               '--text-field-color': 'var(--gray-12)',
               'color': 'var(--gray-12)',
+              'textAlign': 'right',
             } as React.CSSProperties
           }
           {...props}
