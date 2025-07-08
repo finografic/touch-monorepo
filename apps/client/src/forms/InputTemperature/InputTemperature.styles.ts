@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
-import { stylesFormsReset } from 'styles/forms.styles';
+import { formsReset } from 'styles/forms.styles';
 
 export const styles = css`
-  ${stylesFormsReset}
+  /* ${formsReset} */
 
   max-width: 160px;
 

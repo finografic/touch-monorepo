@@ -61,9 +61,15 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
       {/* Table Header */}
       <div className="table-header">
         <div className="header-column">Temperature</div>
-        <div className="header-column">Time A</div>
-        <div className="header-column">Time B</div>
-        <div className="header-column">Time C</div>
+        <div className="header-column">
+          Time A <span>mm:ss</span>
+        </div>
+        <div className="header-column">
+          Time B <span>mm:ss</span>
+        </div>
+        <div className="header-column">
+          Time C <span>mm:ss</span>
+        </div>
         <div className="header-actions"></div>
       </div>
 

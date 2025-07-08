@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from 'styles';
+import { cssFontMono } from 'styles/fonts.styles';
 
 export const styles = css`
   width: 100%;
@@ -21,7 +22,18 @@ export const styles = css`
     color: var(--gray-11);
 
     .header-column {
-      padding: 0.5rem;
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 1rem 0.5rem 0.75rem;
+      letter-spacing: 0.025em;
+      span,
+      code {
+        font-size: 0.9rem;
+        opacity: 0.66;
+      }
+      code {
+        ${cssFontMono}
+      }
     }
     .header-actions {
       width: 40px;

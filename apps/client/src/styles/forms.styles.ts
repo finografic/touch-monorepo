@@ -21,7 +21,8 @@ export const forms = {
       borderFocus: colors.primary,
       background: colors.white,
       text: colors.text,
-      placeholder: colors.greyLight,
+      // placeholder: colors.greyLight,
+      placeholder: colors.info,
     },
   },
   validation: {

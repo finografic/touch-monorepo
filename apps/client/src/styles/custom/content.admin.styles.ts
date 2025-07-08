@@ -1,6 +1,10 @@
 import { colors, layout, min } from 'styles';
 import { css } from '@emotion/react';
-import { cssInputBox, cssInputText, forms } from '../forms.styles';
+import {
+  // cssInputBox,
+  // cssInputText,
+  forms,
+} from '../forms.styles';
 
 export const stylesAdminContent = css`
   > header {
@@ -104,8 +108,6 @@ export const stylesAdminContent = css`
     div.rt-TextFieldRoot {
       min-height: ${forms.inputs.height};
       box-shadow: inset 0px 0px 0px 2px ${colors.greyXLight};
-      /* ${cssInputText} */
-      /* ${cssInputBox} */
     }
   }
 
