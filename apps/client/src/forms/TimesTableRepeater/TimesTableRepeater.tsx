@@ -1,9 +1,11 @@
 import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Button } from '@radix-ui/themes';
+import { ShuffleIcon } from '@radix-ui/react-icons';
 import { InputTemperature } from '../InputTemperature';
 import { InputTime } from '../InputTime';
 import { styles } from './TimesTableRepeater.styles';
+import { useDev } from 'providers/DevProvider';
 
 interface TimeRowData {
   temperature?: number;
@@ -33,6 +35,15 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   const timeRows = formValues[name] || [];
   const { isSubmitted } = formState;
 
+  // ======================================================================== //
+  // TODO: DEV-ONLY - REMOVE
+  const { isDevToolsVisible } = useDev();
+
+  // ======================================================================== //
+
+  // Get defaultTempFreeze for minimum temperature constraint
+  const defaultTempFreeze = formValues.defaultTempFreeze || -50;
+
   const isRowComplete = (index: number) => {
     const row = timeRows[index];
     return (
@@ -43,14 +54,63 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
     );
   };
 
+  const isRowValid = (index: number) => {
+    const row = timeRows[index];
+    if (!row) return false;
+
+    // Check if all fields are present and within valid ranges
+    const tempValid =
+      typeof row.temperature === 'number' && row.temperature >= defaultTempFreeze && row.temperature <= 50;
+
+    const timeAValid = typeof row.time_a === 'number' && row.time_a >= 0 && row.time_a <= 3600;
+
+    const timeBValid = typeof row.time_b === 'number' && row.time_b >= 0 && row.time_b <= 3600;
+
+    const timeCValid = typeof row.time_c === 'number' && row.time_c >= 0 && row.time_c <= 3600;
+
+    return tempValid && timeAValid && timeBValid && timeCValid;
+  };
+
+  const isRowCompleteAndValid = (index: number) => {
+    return isRowComplete(index) && isRowValid(index);
+  };
+
   const getEditableRowIndex = () => {
-    // Find first incomplete row
+    // First row is always editable
+    if (fields.length === 0) return 0;
+
+    // Check each row sequentially
     for (let i = 0; i < fields.length; i++) {
-      if (!isRowComplete(i)) {
-        return i;
+      if (!isRowCompleteAndValid(i)) {
+        return i; // This is the first incomplete/invalid row, so it's editable
       }
     }
-    return -1; // All rows complete
+    return -1; // All rows complete and valid
+  };
+
+  // Generate reasonable random values
+  const generateRandomValues = (rowIndex: number) => {
+    // Random temperature between defaultTempFreeze and 50°C
+    const randomTemp = Math.round((Math.random() * (50 - defaultTempFreeze) + defaultTempFreeze) * 2) / 2; // Round to 0.5
+
+    // Random times between 30 seconds and 30 minutes (1800 seconds)
+    const generateRandomTime = () => {
+      const minTime = 30; // 30 seconds minimum
+      const maxTime = 1800; // 30 minutes maximum
+      const randomSeconds = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
+      // Round to nearest 30 seconds
+      return Math.round(randomSeconds / 30) * 30;
+    };
+
+    const randomTimeA = generateRandomTime();
+    const randomTimeB = generateRandomTime();
+    const randomTimeC = generateRandomTime();
+
+    // Set all values for this row
+    setValue(`${name}.${rowIndex}.temperature`, randomTemp, { shouldValidate: true });
+    setValue(`${name}.${rowIndex}.time_a`, randomTimeA, { shouldValidate: true });
+    setValue(`${name}.${rowIndex}.time_b`, randomTimeB, { shouldValidate: true });
+    setValue(`${name}.${rowIndex}.time_c`, randomTimeC, { shouldValidate: true });
   };
 
   // Check if first row field is empty and should show validation error
@@ -59,7 +119,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   };
 
   const editableRowIndex = getEditableRowIndex();
-  const canAddRow = editableRowIndex === -1; // All rows are complete
+  const canAddRow = editableRowIndex === -1; // All rows are complete and valid
   const canDeleteRow = fields.length > minRows;
 
   return (
@@ -81,8 +141,11 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
 
       {/* Table Rows */}
       {fields.map((field, index) => {
-        const isEditable = index === editableRowIndex || isRowComplete(index);
-        const isEven = index % 2 === 0;
+        // A row is editable if:
+        // 1. It's the current editable row (first incomplete/invalid), OR
+        // 2. It's already complete and valid (for corrections)
+        const isEditable = index === editableRowIndex || isRowCompleteAndValid(index);
+
         const isFirst = index === 0;
         const isLast = index === fields.length - 1;
 
@@ -95,12 +158,12 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
         return (
           <div
             key={field.id}
-            className={`table-row ${isEven ? 'even' : 'odd'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
+            className={`table-row ${isEditable ? 'row-editable' : 'row-disabled'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
           >
             <div className={`input-wrapper ${tempValidationClass}`}>
               <InputTemperature
                 {...register(`${name}.${index}.temperature`)}
-                min={-50}
+                min={defaultTempFreeze}
                 max={50}
                 step={0.5}
                 defaultValue={timeRows[index]?.temperature}
@@ -143,7 +206,23 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
                 disabled={!isEditable}
               />
             </div>
-            <div className="delete-button-container">
+            <div className="action-button-container">
+              {/* Random values button - only show on editable rows */}
+              {isDevToolsVisible && isEditable && (
+                <Button
+                  type="button"
+                  variant="soft"
+                  size="1"
+                  color="gray"
+                  onClick={() => generateRandomValues(index)}
+                  className="random-button"
+                  title="Generate random values"
+                >
+                  <ShuffleIcon style={{ height: '14px', width: '14px' }} />
+                </Button>
+              )}
+
+              {/* Delete button */}
               {canDeleteRow && (
                 <Button
                   type="button"
@@ -161,7 +240,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
         );
       })}
 
-      {/* Add Row Button */}
+      {/* Add Row Button - only show when all existing rows are complete */}
       {canAddRow && (
         <div className="add-row-container">
           <Button type="button" variant="soft" size="2" onClick={() => append(emptyRowValues)}>

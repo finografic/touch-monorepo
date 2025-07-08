@@ -14,7 +14,7 @@ export const forms = {
 
     border: {
       color: colors.grey,
-      width: '2px',
+      width: '1px',
       radius: '6px',
     },
 
@@ -439,7 +439,7 @@ export const formsCustom = css`
   }
 
   /* Times table specific styling */
-  .times-table {
+  /* .times-table {
     .table-header {
       background-color: ${colors.greyXLight};
       border: 1px solid ${colors.greyLight};
@@ -465,7 +465,7 @@ export const formsCustom = css`
         opacity: 1;
       }
     }
-  }
+  } */
 `;
 
 // ======================================================================== //

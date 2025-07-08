@@ -14,7 +14,7 @@ export const styles = css`
     grid-template-columns: 1fr 1fr 1fr 1fr auto;
     gap: 8px;
     padding: 0;
-    background-color: ${colors.greyXXLight}AA;
+    /* background-color: ${colors.greyXXLight}AA; */
     border-radius: 6px 6px 0 0;
     border-bottom: none;
     font-weight: 500;
@@ -45,12 +45,14 @@ export const styles = css`
     grid-template-columns: 1fr 1fr 1fr 1fr auto;
     gap: 8px;
     padding: 0;
+    /* background-color: ${colors.greyXLight}!important; */
 
-    &.even {
-      background-color: ${colors.white}; /* Pure white for even rows */
+    &.row-editable {
+      background-color: ${colors.white}; /* White background for editable rows */
     }
-    &.odd {
-      background-color: ${colors.greyXXLight}; /* Light grey for odd rows */
+
+    &.row-disabled {
+      background-color: ${colors.greyXXLight}; /* Light grey for disabled rows */
     }
 
     .input-wrapper {
@@ -69,7 +71,7 @@ export const styles = css`
     }
 
     &.first {
-      border-top: 1px solid var(--gray-6);
+      border-top: 2px solid ${colors.greyXLight};
       .input-wrapper {
         padding: 0.5rem;
         padding-top: 1rem;
@@ -80,10 +82,24 @@ export const styles = css`
       border-radius: 0 0 6px 6px;
     }
 
-    .delete-button-container {
+    .action-button-container {
       width: 40px;
       display: flex;
+      flex-direction: column;
       justify-content: center;
+      align-items: center;
+      gap: 4px;
+
+      .random-button {
+        opacity: 0.8;
+        padding: 4px;
+        transition: opacity 0.2s ease;
+
+        &:hover {
+          opacity: 1;
+        }
+      }
+
       .delete-button {
         opacity: 0.7;
         padding: 4px;
