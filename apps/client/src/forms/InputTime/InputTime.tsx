@@ -82,7 +82,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
       <TextField.Root
         className="time-input-root"
         type="text"
-        placeholder="00:00"
+        placeholder="mm:ss"
         disabled={disabled}
         value={displayValue}
         onChange={handleDisplayChange}

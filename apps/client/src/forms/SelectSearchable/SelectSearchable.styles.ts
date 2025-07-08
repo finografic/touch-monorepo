@@ -6,6 +6,17 @@ export const styles = css`
     position: relative;
     width: 100%;
   }
+
+  /* SearchableSelect input styling */
+  .searchable-select {
+    .rt-TextFieldInput {
+      &::placeholder {
+        color: var(--gray-8); /* greyLight equivalent */
+        opacity: 0.7;
+        font-weight: 500;
+      }
+    }
+  }
 `;
 
 // Dropdown portal styles (for the dropdown content rendered in portal)

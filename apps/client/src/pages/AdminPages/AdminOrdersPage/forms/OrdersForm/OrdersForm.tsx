@@ -177,7 +177,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
         <Row className="row">
-          <Col xs={9} md={9} className="col col-form-fields">
+          <Col xs={10} md={10} className="col col-form-fields">
             {/* <Row className="row"> */}
             {/* ======================================================================== */}
 
@@ -283,6 +283,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     max={formValues.defaultTempConsume - MIN_TEMP_DIFFERENCE}
                     step={0.5}
                     defaultValue={formValues.defaultTempFreeze}
+                    placeholder="0"
                   />
                 </FieldWrapper>
               </Col>
@@ -297,8 +298,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
             {/* </Row> */}
           </Col>
 
-          <Col xs={3} md={3} className="col col-form-buttons">
-            <pre>{JSON.stringify(formValues, null, 2)}</pre>
+          <Col xs={2} md={2} className="col col-form-buttons">
+            <pre style={{ overflow: 'visible', transform: 'translateX(-30%)' }}>
+              {JSON.stringify(formValues, null, 2)}
+            </pre>
             <Button
               type="submit"
               style={{ padding: '1rem 3rem' }}

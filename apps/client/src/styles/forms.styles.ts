@@ -25,8 +25,9 @@ export const forms = {
     },
 
     placeholder: {
-      color: colors.info,
-      opacity: 0.7,
+      color: colors.grey,
+      opacity: 0.6,
+      fontWeight: 500,
     },
 
     hover: {
@@ -125,7 +126,8 @@ export const formsBase = css`
     &::placeholder {
       color: ${forms.inputs.placeholder.color};
       opacity: ${forms.inputs.placeholder.opacity};
-      font-weight: 400;
+      font-weight: ${forms.inputs.placeholder.fontWeight};
+      padding: ${forms.inputs.padding};
     }
 
     &:hover:not(:disabled):not(:focus) {
