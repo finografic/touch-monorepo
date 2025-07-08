@@ -237,6 +237,15 @@ export const formsValidation = css`
 // ======================================================================== //
 
 export const formsCustom = css`
+  input + .rt-TextFieldSlot,
+  input + .rt-TextFieldSlot + .rt-TextFieldSlot {
+    border-color: ${colors.success} !important;
+
+    &:focus {
+      box-shadow: 0 0 0 3px ${colors.success}20 !important;
+    }
+  }
+
   /* Custom select components */
   .select-simple,
   .select-searchable {
