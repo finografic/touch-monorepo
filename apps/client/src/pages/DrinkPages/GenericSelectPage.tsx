@@ -7,7 +7,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import type { PadType, PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import PadGroup from 'components/PadGroup/PadGroup';
+import PadGroup from 'components/Pads/PadGroup/PadGroup';
 import type { DataEntry } from 'types/data.types';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 

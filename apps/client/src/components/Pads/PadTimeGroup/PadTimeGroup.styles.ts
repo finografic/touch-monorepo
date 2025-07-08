@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { baseInputStyles } from 'styles/custom/inputs.styles';
+import { stylesPadBasic } from 'components/Pads/Pad/PadBasic.styles';
 import { colors } from 'styles';
 
 export const styles = css`
@@ -54,16 +54,16 @@ export const styles = css`
   }
 
   .input-container {
-    ${baseInputStyles.inputContainer}
+    ${stylesPadBasic.inputContainer}
     margin-bottom: 0; /* Remove bottom margin */
   }
 
   .control-button {
-    ${baseInputStyles.controlButton}
+    ${stylesPadBasic.controlButton}
   }
 
   .value-container {
-    ${baseInputStyles.valueContainer}
+    ${stylesPadBasic.valueContainer}
     flex-direction: row; /* Horizontal layout for value and unit */
     gap: 0.5rem;
   }
@@ -80,7 +80,7 @@ export const styles = css`
   }
 
   .total-display {
-    ${baseInputStyles.totalDisplay}
+    ${stylesPadBasic.totalDisplay}
     margin-top: 1.5rem;
   }
 `;

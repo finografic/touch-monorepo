@@ -9,18 +9,13 @@ import {
 } from 'constants/button.config';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useButtonOperations } from 'hooks/useButtonOperations';
-import {
-  type ActionButtonProps,
-  type ActionButtonType,
-  BUTTON_ACTIONS,
-  BUTTON_TYPES,
-} from 'types/button.types';
+import { type PadActionProps, type PadActionType, BUTTON_ACTIONS, BUTTON_TYPES } from 'types/button.types';
 import { ALTERNATIVE_PATHS } from 'routes/routes.config';
 
 interface UseButtonConfigReturn {
-  footerButtons: ActionButtonProps[];
-  contentButtons: ActionButtonProps[];
-  getButtonProps: (buttonType: ActionButtonType) => ActionButtonProps;
+  footerButtons: PadActionProps[];
+  contentButtons: PadActionProps[];
+  getButtonProps: (buttonType: PadActionType) => PadActionProps;
 }
 
 export const useButtonConfig = (): UseButtonConfigReturn => {
@@ -119,7 +114,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   );
 
   const getButtonProps = useMemo(() => {
-    return (buttonType: ActionButtonType): ActionButtonProps => {
+    return (buttonType: PadActionType): PadActionProps => {
       const config = BUTTON_CONFIGS[buttonType];
       if (!config) {
         console.warn(`No configuration found for button type: ${buttonType}`);

@@ -159,7 +159,7 @@ export const toastCloseButtonStyles = css`
   }
 `;
 
-export const toastActionButtonStyles = css`
+export const toaststylesPadAction = css`
   all: unset;
   display: inline-flex;
   align-items: center;

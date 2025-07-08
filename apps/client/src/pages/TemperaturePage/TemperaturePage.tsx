@@ -1,6 +1,6 @@
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { PadTemperature } from 'forms/PadTemperature/PadTemperature';
+import { PadTemperature } from 'components/Pads/PadTemperature/PadTemperature';
 import type { Temperature } from 'types/orders.types';
 import { useFilters } from 'hooks/useFilters';
 import { Box, Flex } from '@radix-ui/themes';

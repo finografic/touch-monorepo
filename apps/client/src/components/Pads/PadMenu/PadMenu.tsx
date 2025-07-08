@@ -3,20 +3,20 @@ import clsx from 'clsx';
 import { useOrders } from 'providers/OrdersProvider';
 import type { ItemType, OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
-import { MenuPadToggle } from './MenuPadToggle';
-import { styles } from './MenuPad.styles';
+import { PadMenuToggle } from './PadMenuToggle';
+import { styles } from './PadMenu.styles';
 import type { DataEntry } from 'types/data.types';
-import { Pad } from 'components/Pad';
+import { Pad } from 'components/Pads/Pad';
 import { OrderFieldKeys } from 'constants/app.config';
 import { Timer } from 'components/Timer/Timer';
 
-export interface MenuPadProps {
+export interface PadMenuProps {
   itemType: ItemType;
   number: number;
   metadata?: DataEntry;
 }
 
-export const MenuPad = ({ itemType, number, metadata }: MenuPadProps) => {
+export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
   const { orders, toggleOrder, timerAction } = useOrders();
   const order = findOrderByNumber(orders, number) as OrderItem;
   const isSelected = !!order?.isSelected;
@@ -45,13 +45,13 @@ export const MenuPad = ({ itemType, number, metadata }: MenuPadProps) => {
   // Show timer if order has processing or completed status (regardless of selection)
   if (order?.process.status === 'processing' || order?.process.status === 'completed') {
     return (
-      <MenuPadToggle css={styles} itemType={itemType} number={number} className={className}>
+      <PadMenuToggle css={styles} itemType={itemType} number={number} className={className}>
         <Timer
           estimatedCompletionTime={order.process.estimatedCompletionTime}
           order={order}
           onComplete={handleTimerComplete}
         />
-      </MenuPadToggle>
+      </PadMenuToggle>
     );
   }
 

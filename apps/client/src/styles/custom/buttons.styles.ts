@@ -1,22 +1,6 @@
 import { colors, layout } from 'styles';
 import { css } from '@emotion/react';
 
-// Common dimensions for different button types
-export const padProps = {
-  pad: {
-    width: '110px',
-    height: '110px',
-  },
-  padLG: {
-    width: '150px',
-    height: '150px',
-  },
-  special: {
-    width: '150px',
-    height: '239px',
-  },
-};
-
 // Base styles shared across all interactive buttons
 export const stylesButtonBase = css`
   cursor: pointer;
@@ -104,32 +88,4 @@ export const stylesSmallButton = css`
   flex: 1;
   width: fit-content;
   border-radius: 4px;
-`;
-
-// Styles specific to pads
-export const stylesPad = css`
-  ${stylesButtonBase}
-  font-size: 1.5rem;
-  padding: 1rem;
-  text-align: center;
-
-  &.pad-menu {
-    border-radius: 50%;
-  }
-
-  &.checked {
-    border-color: ${colors.info};
-    background-color: ${colors.info}11;
-  }
-
-  &:disabled,
-  &.disabled,
-  &[data-disabled='true'] {
-    border-color: ${colors.grey};
-    color: ${colors.grey};
-
-    &:hover {
-      transform: none;
-    }
-  }
 `;

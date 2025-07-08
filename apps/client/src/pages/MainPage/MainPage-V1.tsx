@@ -1,7 +1,7 @@
 import { /* startTransition, useCallback, */ useEffect } from 'react';
 import { Col, Row } from 'react-grid-system';
-import { MenuPad } from 'components/MenuPad';
-import { ActionButton } from 'components/ActionButton/ActionButton';
+import { PadMenu } from 'components/Pads/PadMenu';
+import { PadAction } from 'components/Pads/PadAction/PadAction';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
@@ -66,7 +66,7 @@ export function MainPage() {
           <div className="menu-grid-left">
             {/* Menu grid based on configuration */}
             {ORDER_ITEMS_CONFIG.slice(0, 9).map(({ itemType, number }) => (
-              <MenuPad key={number} itemType={itemType} number={number} />
+              <PadMenu key={number} itemType={itemType} number={number} />
             ))}
           </div>
         </Col>
@@ -75,7 +75,7 @@ export function MainPage() {
           <div className="menu-grid-right">
             {/* Special pad (type C) */}
             {ORDER_ITEMS_CONFIG.slice(9).map(({ itemType, number }) => (
-              <MenuPad key={number} itemType={itemType} number={number} />
+              <PadMenu key={number} itemType={itemType} number={number} />
             ))}
             <div className="pad-special power" />
           </div>
@@ -84,7 +84,7 @@ export function MainPage() {
         <Col>
           <div className="menu-grid-base">
             {contentButtons.map((buttonProps) => (
-              <ActionButton key={buttonProps.id} {...buttonProps} />
+              <PadAction key={buttonProps.id} {...buttonProps} />
             ))}
           </div>
         </Col>

@@ -1,9 +1,9 @@
 import React, { forwardRef, useCallback } from 'react';
 import { IconButton, TextField } from '@radix-ui/themes';
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
-import { styles } from './TemperatureInput.styles';
+import { styles } from './InputTemperature.styles';
 
-interface TemperatureInputProps {
+interface InputTemperatureProps {
   min?: number;
   max?: number;
   step?: number;
@@ -17,7 +17,7 @@ interface TemperatureInputProps {
   onInput?: (e: React.FormEvent<HTMLInputElement>) => void;
 }
 
-export const TemperatureInput = forwardRef<HTMLInputElement, TemperatureInputProps>(
+export const InputTemperature = forwardRef<HTMLInputElement, InputTemperatureProps>(
   (
     {
       min,
@@ -142,4 +142,4 @@ export const TemperatureInput = forwardRef<HTMLInputElement, TemperatureInputPro
   },
 );
 
-TemperatureInput.displayName = 'TemperatureInput';
+InputTemperature.displayName = 'InputTemperature';

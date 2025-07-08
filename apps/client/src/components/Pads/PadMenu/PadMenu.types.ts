@@ -1,12 +1,12 @@
 import type { ReactNode } from 'react';
 import type { ItemType } from 'types/orders.types';
 
-export interface MenuPadBaseProps {
+export interface PadMenuBaseProps {
   number?: number;
   className?: string;
 }
 
-export interface MenuPadProps extends MenuPadBaseProps {
+export interface PadMenuProps extends PadMenuBaseProps {
   itemType: ItemType;
   number: number;
   children: ReactNode;

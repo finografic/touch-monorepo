@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
-import { baseInputStyles } from 'styles/custom/inputs.styles';
+import { stylesFormsReset } from 'styles/forms.styles';
 
 export const styles = css`
-  ${baseInputStyles}
+  ${stylesFormsReset}
 
   .time-input-root {
     text-align: right;

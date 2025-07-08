@@ -1,1 +1,0 @@
-export { TemperatureInput } from './TemperatureInput';

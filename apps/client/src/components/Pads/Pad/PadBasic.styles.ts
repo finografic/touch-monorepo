@@ -1,11 +1,56 @@
 import { css } from '@emotion/react';
 import { colors, layout } from 'styles';
+import { stylesButtonBase } from 'styles/custom/buttons.styles';
+
+// Common dimensions for different button types
+export const padProps = {
+  pad: {
+    width: '110px',
+    height: '110px',
+  },
+  padLG: {
+    width: '150px',
+    height: '150px',
+  },
+  special: {
+    width: '150px',
+    height: '239px',
+  },
+};
+
+// Styles specific to pads
+export const stylesPad = css`
+  ${stylesButtonBase}
+  font-size: 1.5rem;
+  padding: 1rem;
+  text-align: center;
+
+  &.pad-menu {
+    border-radius: 50%;
+  }
+
+  &.checked {
+    border-color: ${colors.info};
+    background-color: ${colors.info}11;
+  }
+
+  &:disabled,
+  &.disabled,
+  &[data-disabled='true'] {
+    border-color: ${colors.grey};
+    color: ${colors.grey};
+
+    &:hover {
+      transform: none;
+    }
+  }
+`;
 
 /**
  * Shared input component styles for temperature, time, and other numeric inputs
  * Provides consistent styling patterns across input components
  */
-export const baseInputStyles = {
+export const stylesPadBasic = {
   container: css`
     display: flex;
     flex-direction: column;

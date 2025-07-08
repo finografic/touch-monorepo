@@ -1,9 +1,9 @@
 import type { OrderFieldKey } from 'types/orders.types';
-import type { ActionButtonConfig, ActionButtonType, RouteButtonConfig } from 'types/button.types';
+import type { PadActionConfig, PadActionType, RouteButtonConfig } from 'types/button.types';
 import { BUTTON_TYPES } from 'types/button.types';
 
 // Base button configurations (UI + behavior definitions)
-export const BUTTON_CONFIGS: Record<ActionButtonType, ActionButtonConfig> = {
+export const BUTTON_CONFIGS: Record<PadActionType, PadActionConfig> = {
   [BUTTON_TYPES.RESET]: {
     id: 'btn-reset',
     type: 'reset',

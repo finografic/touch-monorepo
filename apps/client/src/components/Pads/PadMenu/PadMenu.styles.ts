@@ -1,6 +1,6 @@
 import { colors, layout } from 'styles';
 import { css } from '@emotion/react';
-import { padProps, stylesPad } from 'styles/custom/buttons.styles';
+import { padProps, stylesPad } from 'components/Pads/Pad/PadBasic.styles';
 
 export const styles = css`
   &.pad-menu {

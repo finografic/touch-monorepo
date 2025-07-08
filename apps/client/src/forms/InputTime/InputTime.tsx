@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { IconButton, TextField } from '@radix-ui/themes';
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
-import { styles } from './TimeInput.styles';
+import { styles } from './InputTime.styles';
 
-interface TimeInputProps {
+interface InputTimeProps {
   value?: number; // in seconds
   defaultValue?: number; // in seconds
   min?: number; // in seconds
@@ -13,7 +13,7 @@ interface TimeInputProps {
   onTimeChange: (seconds: number) => void;
 }
 
-export const TimeInput: React.FC<TimeInputProps> = ({
+export const InputTime: React.FC<InputTimeProps> = ({
   value,
   defaultValue = 0,
   min = 0,
@@ -133,4 +133,4 @@ export const TimeInput: React.FC<TimeInputProps> = ({
   );
 };
 
-TimeInput.displayName = 'TimeInput';
+InputTime.displayName = 'InputTime';

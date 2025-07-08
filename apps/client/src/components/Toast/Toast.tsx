@@ -5,7 +5,7 @@ import { ToastIcon } from './ToastIcons';
 import {
   getToastRootStyles,
   getVariantIconColor,
-  toastActionButtonStyles,
+  toaststylesPadAction,
   toastCloseButtonStyles,
   toastContentStyles,
   toastDescriptionStyles,
@@ -47,7 +47,7 @@ export const Toast: React.FC<ToastProps> = ({ toast, onDismiss }) => {
 
       {toast.action && (
         <ToastPrimitive.Action
-          css={toastActionButtonStyles}
+          css={toaststylesPadAction}
           altText={`${toast.action.label} action`}
           onClick={toast.action.onClick}
         >

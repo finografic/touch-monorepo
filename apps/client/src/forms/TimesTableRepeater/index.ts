@@ -1,0 +1,1 @@
+export { TimesTableRepeater } from './TimesTableRepeater';

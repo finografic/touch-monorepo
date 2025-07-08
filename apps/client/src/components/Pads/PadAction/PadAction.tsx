@@ -1,17 +1,17 @@
 import clsx from 'clsx';
 import { forwardRef } from 'react';
 import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons';
-import type { ActionButtonProps } from 'types/button.types';
-import { actionButtonStyles } from './ActionButton.styles';
+import type { PadActionProps } from 'types/button.types';
+import { stylesPadAction } from './PadAction.styles';
 
-export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
+export const PadAction = forwardRef<HTMLButtonElement, PadActionProps>(
   ({ id, label, className, icon, disabled, onClick, children, type, actionType, ...htmlProps }, ref) => {
     return (
       <button
         ref={ref}
         id={id}
         type="button"
-        css={actionButtonStyles}
+        css={stylesPadAction}
         className={clsx(
           className,
           icon === 'chevron-left' && 'has-chevron has-chevron-left',
@@ -30,4 +30,4 @@ export const ActionButton = forwardRef<HTMLButtonElement, ActionButtonProps>(
   },
 );
 
-ActionButton.displayName = 'ActionButton';
+PadAction.displayName = 'PadAction';

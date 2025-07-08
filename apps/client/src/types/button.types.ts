@@ -30,7 +30,7 @@ export const BUTTON_TYPES: ConstEnumOf<ButtonType> = {
 } as const;
 
 // 3. Export the derived type
-export type ActionButtonType = ButtonType;
+export type PadActionType = ButtonType;
 
 // Action types that buttons can trigger (what they do when clicked)
 export type ButtonActionType =
@@ -55,9 +55,9 @@ export const BUTTON_ACTIONS: ConstEnumOf<ButtonActionType> = {
   REPEAT_SELECTION: 'repeat-selection',
 } as const;
 
-export interface ActionButtonConfig {
+export interface PadActionConfig {
   id: string;
-  type: ActionButtonType;
+  type: PadActionType;
   labelKey: ButtonTranslationKey;
   className?: string;
   icon?: 'chevron-left' | 'chevron-right';
@@ -65,11 +65,11 @@ export interface ActionButtonConfig {
 }
 
 export interface RouteButtonConfig {
-  footer: ActionButtonType[];
-  content: ActionButtonType[];
+  footer: PadActionType[];
+  content: PadActionType[];
 }
 
-export interface ActionButtonProps extends Omit<ActionButtonConfig, 'labelKey'> {
+export interface PadActionProps extends Omit<PadActionConfig, 'labelKey'> {
   label: string; // Translated label for actual display
   disabled?: boolean;
   onClick?: () => void;

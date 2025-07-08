@@ -70,7 +70,7 @@ export const styles = css`
       /* border: 1px solid hotpink; */
       flex: 1;
       position: relative;
-      min-width: 180px;
+      /* min-width: 180px; */
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -99,14 +99,6 @@ export const styles = css`
         color: ${colors.greyXDark};
         padding: ${spacing[6]};
         margin: 0 auto ${spacing[4]};
-      }
-    }
-
-    .field-label {
-      padding: 0.5rem 0 0.25rem;
-      display: block;
-      & + div {
-        width: 100%;
       }
     }
 

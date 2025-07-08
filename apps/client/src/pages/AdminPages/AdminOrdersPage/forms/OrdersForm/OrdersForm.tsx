@@ -1,13 +1,13 @@
 import React, { useMemo, useState } from 'react';
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, Flex } from '@radix-ui/themes';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { SelectSimple } from 'forms/SelectSimple';
-import { TemperatureInput } from 'forms/TemperatureInput';
-import { TimeInput } from 'forms/TimeInput';
+import { InputTemperature } from 'forms/InputTemperature';
 import { FieldWrapper } from 'forms/FieldWrapper';
+import { TimesTableRepeater } from 'forms/TimesTableRepeater';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { useGetContainerTypes } from 'queries/container-types';
@@ -15,7 +15,14 @@ import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import { SelectOptionDto } from 'types/models/select-option.model';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { Col, Row } from 'react-grid-system';
-import { styles } from './OrdersForm.styles';
+import { OrderFieldKeys } from 'constants/app.config';
+
+const PROFILE_ITEM_VALUES_EMPTY = {
+  temperature: undefined,
+  time_a: undefined,
+  time_b: undefined,
+  time_c: undefined,
+};
 
 // Form validation schema
 const timeRowSchema = z.object({
@@ -80,10 +87,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       defaultTempConsume: 5,
       defaultTempFreeze: -2,
       timeRows: [
-        { temperature: undefined, time_a: undefined, time_b: undefined, time_c: undefined },
-        { temperature: undefined, time_a: undefined, time_b: undefined, time_c: undefined },
-        { temperature: undefined, time_a: undefined, time_b: undefined, time_c: undefined },
-        { temperature: undefined, time_a: undefined, time_b: undefined, time_c: undefined },
+        PROFILE_ITEM_VALUES_EMPTY,
+        PROFILE_ITEM_VALUES_EMPTY,
+        PROFILE_ITEM_VALUES_EMPTY,
+        PROFILE_ITEM_VALUES_EMPTY,
       ],
     },
   });
@@ -93,7 +100,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     setValue,
     watch,
     register,
-    formState: { isValid, errors },
+    formState: { isValid },
   } = methods;
 
   // Watch form values
@@ -115,14 +122,14 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const volumeOptions = useMemo(() => {
     const databaseOptions = SelectOptionDto.fromVolumes(volumes, language);
     const customOptions = SelectOptionDto.fromCustomItems(tempItems.volumes, 'Custom');
-    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, 'volume');
+    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, OrderFieldKeys.drinkVolume);
     return SelectOptionDto.mergeOptions(databaseOptions, customOptions, ordersOptions);
   }, [volumes, tempItems.volumes, ordersData, language]);
 
   const containerTypeOptions = useMemo(() => {
     const databaseOptions = SelectOptionDto.fromContainerTypes(containerTypes, language);
     const customOptions = SelectOptionDto.fromCustomItems(tempItems.containerTypes, 'Custom');
-    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, 'containerType');
+    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, OrderFieldKeys.containerType);
     return SelectOptionDto.mergeOptions(databaseOptions, customOptions, ordersOptions);
   }, [containerTypes, tempItems.containerTypes, ordersData, language]);
 
@@ -166,156 +173,30 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     });
   };
 
-  // Field array for time rows
-  const { fields, append, remove } = useFieldArray({
-    control: methods.control,
-    name: 'timeRows',
-  });
-
-  // TimeTable component
-  const TimeTable = () => {
-    const isRowComplete = (index: number) => {
-      const row = formValues.timeRows[index];
-      return (
-        row?.temperature !== undefined &&
-        row?.time_a !== undefined &&
-        row?.time_b !== undefined &&
-        row?.time_c !== undefined
-      );
-    };
-
-    const getEditableRowIndex = () => {
-      // Find first incomplete row
-      for (let i = 0; i < fields.length; i++) {
-        if (!isRowComplete(i)) {
-          return i;
-        }
-      }
-      return -1; // All rows complete
-    };
-
-    const editableRowIndex = getEditableRowIndex();
-    const canAddRow = editableRowIndex === -1; // All rows are complete
-    const canDeleteRow = fields.length > 4;
-
-    return (
-      <div css={styles} className="time-table">
-        {/* Table Header */}
-        <div className="time-table-header">
-          <div className="time-table-header-column">Temperature</div>
-          <div className="time-table-header-column">Time A</div>
-          <div className="time-table-header-column">Time B</div>
-          <div className="time-table-header-column">Time C</div>
-          <div className="time-table-header-actions"></div>
-        </div>
-
-        {/* Table Rows */}
-        {fields.map((field, index) => {
-          const isEditable = index === editableRowIndex || isRowComplete(index);
-          const isEven = index % 2 === 0;
-          const isFirst = index === 0;
-          const isLast = index === fields.length - 1;
-
-          return (
-            <div
-              key={field.id}
-              className={`time-table-row ${isEven ? 'even' : 'odd'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
-            >
-              <div className="time-input-wrapper">
-                <TemperatureInput
-                  {...register(`timeRows.${index}.temperature`)}
-                  min={-50}
-                  max={50}
-                  step={0.5}
-                  defaultValue={formValues.timeRows[index]?.temperature}
-                  disabled={!isEditable}
-                />
-              </div>
-              <div className="time-input-wrapper">
-                <TimeInput
-                  value={formValues.timeRows[index]?.time_a}
-                  min={0}
-                  max={3600}
-                  step={30}
-                  onTimeChange={(seconds) => {
-                    setValue(`timeRows.${index}.time_a`, seconds, { shouldValidate: true });
-                  }}
-                  disabled={!isEditable}
-                />
-              </div>
-              <div className="time-input-wrapper">
-                <TimeInput
-                  value={formValues.timeRows[index]?.time_b}
-                  min={0}
-                  max={3600}
-                  step={30}
-                  onTimeChange={(seconds) => {
-                    setValue(`timeRows.${index}.time_b`, seconds, { shouldValidate: true });
-                  }}
-                  disabled={!isEditable}
-                />
-              </div>
-              <div className="time-input-wrapper">
-                <TimeInput
-                  value={formValues.timeRows[index]?.time_c}
-                  min={0}
-                  max={3600}
-                  step={30}
-                  onTimeChange={(seconds) => {
-                    setValue(`timeRows.${index}.time_c`, seconds, { shouldValidate: true });
-                  }}
-                  disabled={!isEditable}
-                />
-              </div>
-              <div className="delete-button-container">
-                {canDeleteRow && (
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="1"
-                    color="red"
-                    onClick={() => remove(index)}
-                    className="delete-button"
-                  >
-                    ×
-                  </Button>
-                )}
-              </div>
-            </div>
-          );
-        })}
-
-        {/* Add Row Button */}
-        {canAddRow && (
-          <div className="add-row-container">
-            <Button
-              type="button"
-              variant="soft"
-              size="2"
-              onClick={() =>
-                append({ temperature: undefined, time_a: undefined, time_b: undefined, time_c: undefined })
-              }
-            >
-              + Add Row
-            </Button>
-          </div>
-        )}
-      </div>
-    );
-  };
-
   return (
     <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(onFormSubmit)}>
+      <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
         <Row className="row">
-          <Col xs={8} md={8} className="col col-form-fields">
+          <Col xs={9} md={9} className="col col-form-fields">
             <Row className="row">
               {/* ======================================================================== */}
 
               <Col xs={12} md={12} className="col col-form-fields">
                 <Flex gap="4" justify="between" className="b">
+                  {/* Mode */}
+                  <FieldWrapper name="mode" label="Mode" required>
+                    <SelectSimple
+                      {...register('mode')}
+                      className="mode-select"
+                      options={[1, 2, 3, 4, 5]}
+                      placeholder="Select mode"
+                      defaultValue={formValues.mode}
+                      onSelect={(value) => handleFieldChange('mode', Number(value))}
+                    />
+                  </FieldWrapper>
+
                   {/* Drink Type */}
-                  <FieldWrapper label="Drink Type" required error={errors.drinkType}>
+                  <FieldWrapper name="drinkType" label="Drink Type" required>
                     <SelectSearchable
                       value={formValues.drinkType}
                       onSelect={(value) => handleFieldChange('drinkType', value)}
@@ -327,7 +208,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   </FieldWrapper>
 
                   {/* Subtype */}
-                  <FieldWrapper label="Subtype">
+                  <FieldWrapper name="drinkSubtype" label="Subtype">
                     <SelectSearchable
                       value={formValues.drinkSubtype || ''}
                       onSelect={(value) => handleFieldChange('drinkSubtype', value)}
@@ -342,10 +223,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
               {/* ======================================================================== */}
 
-              <Col xs={12} md={12} className="col col-form-fields">
-                <Flex gap="4" justify="between" className="b">
+              <Row className="row">
+                {/* <Flex gap="4" justify="between" className="b"> */}
+                <Col xs={4} md={4} className="col col-form-fields">
                   {/* Volume */}
-                  <FieldWrapper label="Volume" required error={errors.volume}>
+                  <FieldWrapper name="volume" label="Volume" required>
                     <SelectSearchable
                       value={formValues.volume}
                       onSelect={(value) => handleFieldChange('volume', value)}
@@ -355,9 +237,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       windowSize={15}
                     />
                   </FieldWrapper>
+                </Col>
 
+                <Col xs={4} md={4} className="col col-form-fields">
                   {/* Container Type */}
-                  <FieldWrapper label="Container" required error={errors.containerType}>
+                  <FieldWrapper name="containerType" label="Container" required>
                     <SelectSearchable
                       value={formValues.containerType}
                       onSelect={(value) => handleFieldChange('containerType', value)}
@@ -367,27 +251,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       windowSize={15}
                     />
                   </FieldWrapper>
-                </Flex>
-              </Col>
+                </Col>
 
-              {/* ======================================================================== */}
-
-              <Col xs={12} md={12} className="col col-form-fields">
-                <Flex gap="4" className="b">
-                  {/* Mode */}
-                  <FieldWrapper label="Mode" required error={errors.mode}>
-                    <SelectSimple
-                      {...register('mode')}
-                      className="mode-select"
-                      options={[1, 2, 3, 4, 5]}
-                      placeholder="Select mode"
-                      defaultValue={formValues.mode}
-                      onSelect={(value) => handleFieldChange('mode', Number(value))}
-                    />
-                  </FieldWrapper>
-
-                  <FieldWrapper label="Temperatura consumo" required error={errors.defaultTempConsume}>
-                    <TemperatureInput
+                <Col xs={2} md={2} className="col col-form-fields">
+                  {/* Temperatura consumo */}
+                  <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
+                    <InputTemperature
                       {...register('defaultTempConsume')}
                       min={-40}
                       max={40}
@@ -395,9 +264,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       defaultValue={formValues.defaultTempConsume}
                     />
                   </FieldWrapper>
+                </Col>
 
-                  <FieldWrapper label="Temperatura congelación" required error={errors.defaultTempFreeze}>
-                    <TemperatureInput
+                <Col xs={2} md={2} className="col col-form-fields">
+                  {/* Temperatura congelación */}
+                  <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
+                    <InputTemperature
                       {...register('defaultTempFreeze')}
                       min={-50}
                       max={formValues.defaultTempConsume - MIN_TEMP_DIFFERENCE}
@@ -405,18 +277,18 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       defaultValue={formValues.defaultTempFreeze}
                     />
                   </FieldWrapper>
-                </Flex>
-              </Col>
+                </Col>
+              </Row>
 
               {/* ======================================================================== */}
 
               <Col xs={12} md={12} className="col col-form-fields">
-                <TimeTable />
+                <TimesTableRepeater name="timeRows" emptyRowValues={PROFILE_ITEM_VALUES_EMPTY} minRows={4} />
               </Col>
             </Row>
           </Col>
 
-          <Col xs={4} md={4} className="col col-form-buttons">
+          <Col xs={3} md={3} className="col col-form-buttons">
             <pre>{JSON.stringify(formValues, null, 2)}</pre>
             <Button
               type="submit"
@@ -425,7 +297,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               loading={isLoading}
               size="3"
             >
-              Añadir
+              SAVE
             </Button>
           </Col>
         </Row>
