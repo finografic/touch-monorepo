@@ -3,14 +3,6 @@ import { colors } from './colors.styles';
 import { layout } from './global.constants';
 import { cssLabels } from './fonts.styles';
 
-export const inputBox = {
-  border: {
-    width: '2px',
-    color: colors.greyXXDark,
-  },
-  padding: '1rem 0.75rem',
-};
-
 // ======================================================================== //
 // ======================================================================== //
 // NOTE: FORMS RESET
@@ -382,18 +374,34 @@ export const stylesFormsReset = css`
 // NOTE: GREAT 2023 FULL-GUIDE TO CSS FORMS:
 // ref: https://blog.logrocket.com/style-forms-css
 
-// LAYOUT VARIABLES
+// FORM STYLES
 export const forms = {
   inputs: {
     fontSize: '1.15em',
-    fontWeight: '600',
+    fontWeight: 600,
     width: '100%',
     height: '60px',
+    border: {
+      width: '2px',
+      color: colors.greyXXDark,
+    },
+    padding: '1rem 0.75rem',
+    placeholder: {
+      fontWeight: 600,
+      color: colors.grey,
+      opacity: 0.5,
+    },
   },
-  errors: {
-    height: '30px',
+  validation: {
+    fontWeight: 600,
+    warning: {
+      color: colors.warningDark,
+    },
+    error: {
+      color: colors.dangerXDark,
+    },
   },
-};
+} as const;
 
 export const cssInputText = css`
   font-size: ${forms.inputs.fontSize};
