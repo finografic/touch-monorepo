@@ -251,6 +251,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 </Col>
               </Row>
 
+              {/* ======================================================================== */}
+
               <Row className="row">
                 <Col xs={5} md={5} className="col col-form-fields">
                   {/* Volume */}
@@ -305,8 +307,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   language={language}
                 />
               </Col>
-            </Col>
 
+              {/* ======================================================================== */}
+            </Col>
             <Col xs={2} md={2} className="col col-form-buttons">
               <pre style={{ overflow: 'visible', transform: 'translateX(-30%)' }}>
                 {JSON.stringify(formValues, null, 2)}
