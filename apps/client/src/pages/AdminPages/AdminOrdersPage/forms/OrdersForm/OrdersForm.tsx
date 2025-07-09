@@ -254,7 +254,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               {/* ======================================================================== */}
 
               <Row className="row">
-                <Col xs={5} md={5} className="col col-form-fields">
+                <Col xs={4} md={4} className="col col-form-fields">
                   {/* Volume */}
                   <FieldWrapper name="volume" label="Volume" required>
                     <SelectSearchable
@@ -268,7 +268,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   </FieldWrapper>
                 </Col>
 
-                <Col xs={3} md={3} className="col col-form-fields">
+                <Col xs={4} md={4} className="col col-form-fields">
                   {/* Container Type */}
                   <FieldWrapper name="containerType" label="Container" required>
                     <SelectSearchable
