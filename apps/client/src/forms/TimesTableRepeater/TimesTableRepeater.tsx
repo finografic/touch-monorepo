@@ -2,7 +2,7 @@ import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Button } from '@radix-ui/themes';
 import { ShuffleIcon } from '@radix-ui/react-icons';
-import { InputTemperature } from '../InputTemperature';
+import { InputTemperatureMiddleware } from '../InputTemperatureMiddleware';
 import { InputTime } from '../InputTime';
 import { styles } from './TimesTableRepeater.styles';
 import { useDev } from 'providers/DevProvider';
@@ -163,20 +163,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
             className={`table-row ${isEditable ? 'row-editable' : 'row-disabled'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
           >
             <div className={`input-wrapper ${tempValidationClass}`}>
-              <InputTemperature
-                name={`${name}.${index}.temperature`}
-                min={defaultTempFreeze}
-                max={50}
-                step={0.5}
-                value={timeRows[index]?.temperature}
-                onChange={(e) =>
-                  setValue(`${name}.${index}.temperature`, Number.parseFloat(e.target.value) || undefined, {
-                    shouldValidate: true,
-                  })
-                }
-                disabled={!isEditable}
-                language={language}
-              />
+              <InputTemperatureMiddleware name={`${name}.${index}.temperature`} disabled={!isEditable} />
             </div>
             <div className={`input-wrapper ${timeAValidationClass}`}>
               <InputTime

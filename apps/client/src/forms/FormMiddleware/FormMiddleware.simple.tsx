@@ -53,10 +53,33 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
     [setValue, formValues, onFieldChange],
   );
 
+  // Helper to find field config by pattern matching
+  const findFieldConfig = useCallback(
+    (name: FieldPath<T>): FieldConfig<T> | undefined => {
+      // First try exact match
+      const exactMatch = fieldConfigsMap.get(name);
+      if (exactMatch) return exactMatch;
+
+      // Try pattern matching for dynamic field names (e.g., "timeRows.*.temperature")
+      for (const [configName, config] of fieldConfigsMap.entries()) {
+        const pattern = String(configName);
+        if (pattern.includes('*')) {
+          const regex = new RegExp(pattern.replace(/\*/g, '\\d+'));
+          if (regex.test(String(name))) {
+            return config;
+          }
+        }
+      }
+
+      return undefined;
+    },
+    [fieldConfigsMap],
+  );
+
   // Get field constraints (dynamic or static)
   const getFieldConstraints = useCallback(
     (name: FieldPath<T>) => {
-      const fieldConfig = fieldConfigsMap.get(name);
+      const fieldConfig = findFieldConfig(name);
       const constraints: { min?: number; max?: number } = {};
 
       if (fieldConfig?.constraints?.dynamicMin) {
@@ -73,13 +96,13 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
 
       return constraints;
     },
-    [fieldConfigsMap, formValues],
+    [findFieldConfig, formValues],
   );
 
   // Format value for display (localization)
   const formatValue = useCallback(
     (name: FieldPath<T>, value: any): string => {
-      const fieldConfig = fieldConfigsMap.get(name);
+      const fieldConfig = findFieldConfig(name);
 
       if (!fieldConfig?.localization?.formatOnDisplay || typeof value !== 'number') {
         return String(value);
@@ -96,13 +119,13 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
 
       return String(value);
     },
-    [fieldConfigsMap, defaultLocale],
+    [findFieldConfig, defaultLocale],
   );
 
   // Parse input value (localization)
   const parseValue = useCallback(
     (name: FieldPath<T>, displayValue: string): any => {
-      const fieldConfig = fieldConfigsMap.get(name);
+      const fieldConfig = findFieldConfig(name);
 
       if (!fieldConfig?.localization?.parseOnInput) {
         return displayValue;
@@ -116,19 +139,19 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
 
       return displayValue;
     },
-    [fieldConfigsMap],
+    [findFieldConfig],
   );
 
   // Simple field state queries
   const isFieldEnabled = useCallback(
     (name: FieldPath<T>): boolean => {
-      const fieldConfig = fieldConfigsMap.get(name);
+      const fieldConfig = findFieldConfig(name);
       if (fieldConfig?.constraints?.enableWhen) {
         return fieldConfig.constraints.enableWhen(formValues);
       }
       return true;
     },
-    [fieldConfigsMap, formValues],
+    [findFieldConfig, formValues],
   );
 
   const isFieldValid = useCallback(

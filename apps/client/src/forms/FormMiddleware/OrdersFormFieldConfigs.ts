@@ -110,6 +110,29 @@ export const ordersFormFieldConfigs: FieldConfig<OrdersFormValues>[] = [
       },
     },
   },
+
+  // TimeRows temperature fields (pattern-based configuration)
+  // This will match any field like "timeRows.0.temperature", "timeRows.1.temperature", etc.
+  {
+    name: 'timeRows.*.temperature' as any, // Pattern matching for dynamic field names
+    type: 'temperature',
+    validation: {
+      required: false, // Individual table rows are optional
+      min: DEFAULT_TEMP_MIN,
+      max: DEFAULT_TEMP_MAX,
+    },
+    localization: {
+      locale: DEFAULT_SPANISH_LOCALE,
+      formatOnDisplay: true,
+      parseOnInput: true,
+    },
+    constraints: {
+      // Dynamic min based on freeze temperature
+      dynamicMin: (formValues) => {
+        return formValues.defaultTempFreeze ?? DEFAULT_TEMP_MIN;
+      },
+    },
+  },
 ];
 
 // Legacy field configs for POC (keeping for backward compatibility)

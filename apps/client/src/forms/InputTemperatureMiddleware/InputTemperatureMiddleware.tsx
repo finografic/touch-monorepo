@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { IconButton, TextField } from '@radix-ui/themes';
+import { IconButton } from '@radix-ui/themes';
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
 import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
 import { styles } from './InputTemperatureMiddleware.styles';
@@ -181,7 +181,7 @@ export const InputTemperatureMiddleware = forwardRef<HTMLInputElement, InputTemp
 
     return (
       <div css={styles} className="temperature-input-middleware">
-        <TextField.Root>
+        <div className="input-wrapper">
           <input
             ref={ref}
             value={displayValue}
@@ -191,32 +191,33 @@ export const InputTemperatureMiddleware = forwardRef<HTMLInputElement, InputTemp
             placeholder={placeholder}
             disabled={!isEnabled}
             className="temperature-input"
+            type="text"
             {...props}
           />
-        </TextField.Root>
 
-        {/* Step buttons */}
-        <div className="step-buttons">
-          <IconButton
-            type="button"
-            size={STEP_BUTTON_SIZE}
-            variant={STEP_BUTTON_VARIANT}
-            onClick={handleStepUp}
-            disabled={!isEnabled || (currentValue || 0) >= (constraints.max || DEFAULT_TEMP_MAX)}
-            className="step-up"
-          >
-            <ChevronUpIcon />
-          </IconButton>
-          <IconButton
-            type="button"
-            size={STEP_BUTTON_SIZE}
-            variant={STEP_BUTTON_VARIANT}
-            onClick={handleStepDown}
-            disabled={!isEnabled || (currentValue || 0) <= (constraints.min || DEFAULT_TEMP_MIN)}
-            className="step-down"
-          >
-            <ChevronDownIcon />
-          </IconButton>
+          {/* Step buttons container */}
+          <div className="input-controls">
+            <IconButton
+              type="button"
+              size={STEP_BUTTON_SIZE}
+              variant={STEP_BUTTON_VARIANT}
+              onClick={handleStepUp}
+              disabled={!isEnabled || (currentValue || 0) >= (constraints.max || DEFAULT_TEMP_MAX)}
+              className="step-up"
+            >
+              <ChevronUpIcon />
+            </IconButton>
+            <IconButton
+              type="button"
+              size={STEP_BUTTON_SIZE}
+              variant={STEP_BUTTON_VARIANT}
+              onClick={handleStepDown}
+              disabled={!isEnabled || (currentValue || 0) <= (constraints.min || DEFAULT_TEMP_MIN)}
+              className="step-down"
+            >
+              <ChevronDownIcon />
+            </IconButton>
+          </div>
         </div>
       </div>
     );
