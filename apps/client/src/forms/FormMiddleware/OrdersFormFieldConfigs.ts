@@ -2,13 +2,17 @@ import type { FieldConfig } from './FormMiddleware.types';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import {
   DEFAULT_SPANISH_LOCALE,
+  DEFAULT_TEMP_MAX,
   DEFAULT_TEMP_MIN,
+  MAX_TIME_SECONDS,
   MODE_MAX,
   MODE_MIN,
   TEMP_CONSUME_MAX,
+  TEMP_STEP,
+  TIME_STEP,
 } from './FormMiddleware.constants';
 
-// Type for the OrdersForm values (simplified for POC)
+// Complete type for the production OrdersForm values
 export interface OrdersFormValues {
   mode: number;
   drinkType: string;
@@ -25,8 +29,49 @@ export interface OrdersFormValues {
   }>;
 }
 
-// Field configurations for POC
-export const ordersFieldConfigs: FieldConfig<OrdersFormValues>[] = [
+// Complete field configurations for production OrdersForm
+export const ordersFormFieldConfigs: FieldConfig<OrdersFormValues>[] = [
+  // Mode field
+  {
+    name: 'mode',
+    type: 'number',
+    validation: {
+      required: true,
+      min: MODE_MIN,
+      max: MODE_MAX,
+    },
+  },
+
+  // Text fields
+  {
+    name: 'drinkType',
+    type: 'text',
+    validation: {
+      required: true,
+    },
+  },
+  {
+    name: 'drinkSubtype',
+    type: 'text',
+    validation: {
+      required: false,
+    },
+  },
+  {
+    name: 'volume',
+    type: 'text',
+    validation: {
+      required: true,
+    },
+  },
+  {
+    name: 'containerType',
+    type: 'text',
+    validation: {
+      required: true,
+    },
+  },
+
   // Temperature consume field
   {
     name: 'defaultTempConsume',
@@ -65,45 +110,7 @@ export const ordersFieldConfigs: FieldConfig<OrdersFormValues>[] = [
       },
     },
   },
-
-  // Mode field
-  {
-    name: 'mode',
-    type: 'number',
-    validation: {
-      required: true,
-      min: MODE_MIN,
-      max: MODE_MAX,
-    },
-  },
-
-  // Text fields
-  {
-    name: 'drinkType',
-    type: 'text',
-    validation: {
-      required: true,
-    },
-  },
-  {
-    name: 'volume',
-    type: 'text',
-    validation: {
-      required: true,
-    },
-  },
-  {
-    name: 'containerType',
-    type: 'text',
-    validation: {
-      required: true,
-    },
-  },
-  {
-    name: 'drinkSubtype',
-    type: 'text',
-    validation: {
-      required: false,
-    },
-  },
 ];
+
+// Legacy field configs for POC (keeping for backward compatibility)
+export const ordersFieldConfigs = ordersFormFieldConfigs;

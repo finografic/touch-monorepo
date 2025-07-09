@@ -8,7 +8,7 @@ import { InputTemperatureMiddleware } from 'forms/InputTemperatureMiddleware';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { SelectSimple } from 'forms/SelectSimple';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
-import { ordersFieldConfigs, type OrdersFormValues } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
+import { ordersFormFieldConfigs, type OrdersFormValues } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { Col, Row } from 'react-grid-system';
 
@@ -91,7 +91,7 @@ export const OrdersFormPOC: React.FC<OrdersFormPOCProps> = ({ onSubmit, isLoadin
     <FormProvider {...methods}>
       <FormMiddlewareProvider
         formMethods={methods}
-        fieldConfigs={ordersFieldConfigs}
+        fieldConfigs={ordersFormFieldConfigs}
         defaultLocale="es-ES"
         onFieldChange={handleFieldChange}
       >
