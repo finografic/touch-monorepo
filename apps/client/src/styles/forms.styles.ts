@@ -7,7 +7,7 @@ import { colors } from './colors.styles';
 
 export const forms = {
   inputs: {
-    height: '2.5rem', // 40px - consistent with Radix default
+    height: '2.5rem', // (orig: 2.5rem) 40px - consistent with Radix default
     padding: '0.5rem 0.5rem 0.5rem 0.75rem',
     transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
     background: colors.white,
