@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button, Flex } from '@radix-ui/themes';
+import { Button } from '@radix-ui/themes';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { SelectSimple } from 'forms/SelectSimple';
 import { InputTemperature } from 'forms/InputTemperature';
@@ -188,14 +188,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
         <Row className="row">
           <Col xs={10} md={10} className="col col-form-fields">
-            {/* <Row className="row"> */}
             {/* ======================================================================== */}
 
             <Row className="row">
-              {/* <Flex gap="4" justify="between" className="b"> */}
               <Col xs={2} md={2} className="col col-form-fields">
-                {/* <Col xs={12} md={12} className="col col-form-fields">
-                <Flex gap="4" justify="between" className="b"> */}
                 {/* Mode */}
                 <FieldWrapper name="mode" label="Mode" required>
                   <SelectSimple
@@ -235,14 +231,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     windowSize={10}
                   />
                 </FieldWrapper>
-                {/* </Flex> */}
               </Col>
             </Row>
 
             {/* ======================================================================== */}
 
             <Row className="row">
-              {/* <Flex gap="4" justify="between" className="b"> */}
               <Col xs={4} md={4} className="col col-form-fields">
                 {/* Volume */}
                 <FieldWrapper name="volume" label="Volume" required>
@@ -309,7 +303,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
             {/* ======================================================================== */}
 
-            {/* <Row className="row"> */}
             <Col xs={12} md={12} className="col col-form-fields">
               <TimesTableRepeater
                 name="timeRows"
@@ -318,7 +311,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 language={language}
               />
             </Col>
-            {/* </Row> */}
           </Col>
 
           <Col xs={2} md={2} className="col col-form-buttons">
