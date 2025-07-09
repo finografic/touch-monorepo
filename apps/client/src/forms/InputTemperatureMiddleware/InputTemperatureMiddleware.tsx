@@ -1,5 +1,5 @@
 import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'react';
-import { IconButton } from '@radix-ui/themes';
+import { IconButton, TextField } from '@radix-ui/themes';
 import { ChevronDownIcon, ChevronUpIcon } from '@radix-ui/react-icons';
 import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
 import { styles } from './InputTemperatureMiddleware.styles';
@@ -181,44 +181,45 @@ export const InputTemperatureMiddleware = forwardRef<HTMLInputElement, InputTemp
 
     return (
       <div css={styles} className="temperature-input-middleware">
-        <div className="input-wrapper">
-          <input
-            ref={ref}
-            value={displayValue}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            onKeyDown={handleKeyDown}
-            placeholder={placeholder}
-            disabled={!isEnabled}
-            className="temperature-input"
-            type="text"
-            {...props}
-          />
-
-          {/* Step buttons container */}
-          <div className="input-controls">
-            <IconButton
-              type="button"
-              size={STEP_BUTTON_SIZE}
-              variant={STEP_BUTTON_VARIANT}
-              onClick={handleStepUp}
-              disabled={!isEnabled || (currentValue || 0) >= (constraints.max || DEFAULT_TEMP_MAX)}
-              className="step-up"
-            >
-              <ChevronUpIcon />
-            </IconButton>
-            <IconButton
-              type="button"
-              size={STEP_BUTTON_SIZE}
-              variant={STEP_BUTTON_VARIANT}
-              onClick={handleStepDown}
-              disabled={!isEnabled || (currentValue || 0) <= (constraints.min || DEFAULT_TEMP_MIN)}
-              className="step-down"
-            >
-              <ChevronDownIcon />
-            </IconButton>
-          </div>
-        </div>
+        <TextField.Root
+          className="temperature-input-root"
+          type="text"
+          placeholder={placeholder}
+          disabled={!isEnabled}
+          value={displayValue}
+          onChange={handleChange}
+          onBlur={handleBlur}
+          onKeyDown={handleKeyDown}
+          color="gray"
+          size="3"
+          variant="surface"
+          {...props}
+        >
+          <TextField.Slot side="left">
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginRight: '4px' }}>
+              <IconButton
+                type="button"
+                variant={STEP_BUTTON_VARIANT}
+                size={STEP_BUTTON_SIZE}
+                onClick={handleStepUp}
+                disabled={!isEnabled || (currentValue || 0) >= (constraints.max || DEFAULT_TEMP_MAX)}
+                style={{ height: '16px', width: '20px', minWidth: '20px' }}
+              >
+                <ChevronUpIcon style={{ height: '12px', width: '12px' }} />
+              </IconButton>
+              <IconButton
+                type="button"
+                variant={STEP_BUTTON_VARIANT}
+                size={STEP_BUTTON_SIZE}
+                onClick={handleStepDown}
+                disabled={!isEnabled || (currentValue || 0) <= (constraints.min || DEFAULT_TEMP_MIN)}
+                style={{ height: '16px', width: '20px', minWidth: '20px' }}
+              >
+                <ChevronDownIcon style={{ height: '12px', width: '12px' }} />
+              </IconButton>
+            </div>
+          </TextField.Slot>
+        </TextField.Root>
       </div>
     );
   },
