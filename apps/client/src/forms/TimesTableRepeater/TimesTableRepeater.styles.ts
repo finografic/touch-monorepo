@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles';
+import { colors, spacing } from 'styles';
 import { cssFontMono } from 'styles/fonts.styles';
 
 export const styles = css`
@@ -13,22 +13,27 @@ export const styles = css`
 
   .table-header {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr auto;
+    grid-template-columns: 2.8rem 1fr 1fr 1fr 1fr auto;
     gap: 8px;
     padding: 0;
     /* background-color: ${colors.greyXXLight}AA; */
     border-radius: 6px 6px 0 0;
-    border-bottom: none;
-    font-weight: 500;
-    font-size: 14px;
-    color: var(--gray-11);
-    flex-shrink: 0; /* Keep header fixed when scrolling */
+    position: sticky;
+    top: 0;
+    z-index: 1;
 
     .header-column {
       display: flex;
       justify-content: space-between;
       padding: 0.5rem 1rem 0.5rem 0.75rem;
+      display: flex;
+      align-items: center;
+      font-weight: 500;
+      font-size: 14px;
+      color: var(--gray-11);
+
       letter-spacing: 0.025em;
+
       span,
       code {
         font-size: 0.9rem;
@@ -37,10 +42,18 @@ export const styles = css`
       code {
         ${cssFontMono}
       }
+
+      &.header-number {
+      }
+      &.header-actions {
+        width: 64px;
+      }
     }
-    .header-actions {
-      width: 40px;
-    }
+  }
+
+  .line-number-header {
+    width: 2.5rem; /* Fixed width instead of min-width */
+    /* Empty header for line numbers column */
   }
 
   .table-rows-container {
@@ -53,19 +66,20 @@ export const styles = css`
 
   .table-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr auto;
-    gap: 8px;
-    padding: 0;
-    /* background-color: ${colors.greyXLight}!important; */
-
-    &.row-editable {
-      background-color: ${colors.white};
-    }
+    grid-template-columns: 2.5rem 1fr 1fr 1fr 1fr auto; /* Fixed width for line numbers, temp, time A, time B, time C, actions */
+    gap: ${spacing[4]};
+    align-items: center;
+    padding: ${spacing[2]} 0; /* Remove horizontal padding to match header */
+    border-bottom: 1px solid ${colors.greyXXLight};
+    transition: background-color 0.15s ease;
 
     &.row-disabled {
-      /* background-color: ${colors.greyXXLight}66; */
-      background-color: ${colors.white};
       opacity: 0.7;
+      /* background-color: ${colors.greyXXLight}40; */
+    }
+
+    &.row-editable:hover {
+      background-color: ${colors.greyXXLight}60;
     }
 
     .input-wrapper {
@@ -75,7 +89,7 @@ export const styles = css`
       font-size: 14px;
       border-radius: 4px;
       transition: all 0.2s ease;
-      padding: 0.5rem;
+      padding: 0 0.5rem;
 
       &:focus-within {
         /* outline: 2px solid var(--blue-8);
@@ -84,10 +98,10 @@ export const styles = css`
     }
 
     &.first {
-      .input-wrapper {
+      /* .input-wrapper {
         padding: 0.5rem;
         padding-top: 1rem;
-      }
+      } */
     }
 
     &.last {
@@ -116,6 +130,19 @@ export const styles = css`
         opacity: 0.7;
         padding: 4px;
       }
+    }
+  }
+
+  .line-number-cell {
+    width: 2.5rem; /* Fixed width to match header */
+    display: flex;
+    justify-content: flex-end; /* Right align */
+    align-items: center;
+    padding-right: ${spacing[2]};
+
+    span {
+      font-weight: 700;
+      color: ${colors.greyLight}; /* Changed from greyXLight to greyLight */
     }
   }
 

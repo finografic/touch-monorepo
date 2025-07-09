@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { Button } from '@radix-ui/themes';
+import { Button, Text } from '@radix-ui/themes';
 import { ShuffleIcon } from '@radix-ui/react-icons';
 import { InputTemperature } from '../InputTemperature';
 import { InputTime } from '../InputTime';
 import { styles } from './TimesTableRepeater.styles';
 import { useDev } from 'providers/DevProvider';
+import { useTranslation } from 'react-i18next';
 
 interface TimeRowData {
   temperature?: number;
@@ -111,7 +112,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
 
   // Calculate row height for scrolling (approximate height per row including gaps)
   const rowHeight = 60; // Estimated height per row in pixels
-  const containerHeight = minVisibleRows * rowHeight;
+  const containerHeight = minVisibleRows * rowHeight + 12;
 
   // Calculate if internal add button should be hidden (when external callback is provided)
   const hideInternalAddButton = Boolean(onCanAddRowChange);
@@ -120,6 +121,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
     <div css={styles} className="times-table">
       {/* Table Header */}
       <div className="table-header">
+        <div className="header-column header-number"></div>
         <div className="header-column">Temperature</div>
         <div className="header-column">
           Time A <span>mm:ss</span>
@@ -130,7 +132,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
         <div className="header-column">
           Time C <span>mm:ss</span>
         </div>
-        <div className="header-actions"></div>
+        <div className="header-column header-actions"></div>
       </div>
 
       {/* Scrollable Table Rows Container */}
@@ -155,6 +157,13 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
               key={field.id}
               className={`table-row ${isEditable ? 'row-editable' : 'row-disabled'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
             >
+              {/* Line number */}
+              <div className="line-number-cell">
+                <Text size="2" weight="bold" color="gray">
+                  {index + 1}
+                </Text>
+              </div>
+
               <div className={`input-wrapper ${tempValidationClass}`}>
                 <InputTemperature name={`${name}.${index}.temperature`} disabled={!isEditable} />
               </div>
