@@ -46,31 +46,20 @@ export const styles = css`
     border: 1px solid ${colors.greyLight};
     border-radius: 12px;
     padding: ${spacing[6]};
-    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
-    /* :before,
-    :after {
-      border: none;
-      inset: unset;
-    } */
 
-    .row {
-      /* border: 1px solid yellow; */
-    }
-    .col {
-      /* border: 1px solid lime; */
-    }
-    .a {
-      /* border: 1px solid red; */
-    }
-    .b {
-      /* border: 1px solid blue; */
+    .section-header {
+      h3 {
+        color: ${colors.text};
+        font-size: 1.66rem;
+        font-weight: 700;
+        margin-bottom: ${spacing[2]};
+        padding-bottom: ${spacing[2]};
+      }
     }
 
     .combobox-field {
-      /* border: 1px solid hotpink; */
       flex: 1;
       position: relative;
-      /* min-width: 180px; */
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
@@ -78,11 +67,6 @@ export const styles = css`
     }
 
     .col-form-fields {
-      /* padding: ${spacing[4]}; */
-      /* display: flex;
-      justify-content: flex-end;
-      align-items: center; */
-      /* flex: 1; */
       margin-bottom: ${spacing[6]};
     }
 

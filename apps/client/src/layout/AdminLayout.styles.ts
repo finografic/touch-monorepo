@@ -233,20 +233,6 @@ export const styles = css`
     padding-bottom: 2rem;
   }
 
-  .admin-page-container {
-    .admin-section {
-      .section-header {
-        h3 {
-          color: ${colors.text};
-          font-size: 2rem;
-          font-weight: 700;
-          margin-bottom: ${spacing[2]};
-          padding-bottom: ${spacing[2]};
-        }
-      }
-    }
-  }
-
   /* ========================================
      SHARED BUTTON STYLES (from Layout.styles.ts)
      ======================================== */
