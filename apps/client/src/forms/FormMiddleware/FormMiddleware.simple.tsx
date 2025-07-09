@@ -1,6 +1,7 @@
 import React, { createContext, useCallback, useContext, useMemo } from 'react';
 import type { FieldError, FieldPath, FieldValues } from 'react-hook-form';
 import type { FieldConfig, FormMiddlewareContext, FormMiddlewareProviderProps } from './FormMiddleware.types';
+import { DEFAULT_LOCALE, MAX_FRACTION_DIGITS, MIN_FRACTION_DIGITS } from './FormMiddleware.constants';
 
 // Create the context
 const FormMiddlewareContextValue = createContext<FormMiddlewareContext<any> | null>(null);
@@ -19,7 +20,7 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
   children,
   formMethods,
   fieldConfigs = [],
-  defaultLocale = 'es-ES',
+  defaultLocale = DEFAULT_LOCALE,
   onFieldChange,
 }: FormMiddlewareProviderProps<T>) => {
   const { setValue, setError, clearErrors, watch, getFieldState, formState } = formMethods;
@@ -88,8 +89,8 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
 
       if (fieldConfig.type === 'temperature') {
         return new Intl.NumberFormat(locale, {
-          minimumFractionDigits: 1,
-          maximumFractionDigits: 1,
+          minimumFractionDigits: MIN_FRACTION_DIGITS,
+          maximumFractionDigits: MAX_FRACTION_DIGITS,
         }).format(value);
       }
 

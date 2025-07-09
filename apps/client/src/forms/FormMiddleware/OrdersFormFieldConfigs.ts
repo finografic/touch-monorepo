@@ -1,5 +1,12 @@
 import type { FieldConfig } from './FormMiddleware.types';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
+import {
+  DEFAULT_SPANISH_LOCALE,
+  DEFAULT_TEMP_MIN,
+  MODE_MAX,
+  MODE_MIN,
+  TEMP_CONSUME_MAX,
+} from './FormMiddleware.constants';
 
 // Type for the OrdersForm values (simplified for POC)
 export interface OrdersFormValues {
@@ -27,10 +34,10 @@ export const ordersFieldConfigs: FieldConfig<OrdersFormValues>[] = [
     validation: {
       required: true,
       min: -40,
-      max: 40,
+      max: TEMP_CONSUME_MAX,
     },
     localization: {
-      locale: 'es-ES',
+      locale: DEFAULT_SPANISH_LOCALE,
       formatOnDisplay: true,
       parseOnInput: true,
     },
@@ -42,11 +49,11 @@ export const ordersFieldConfigs: FieldConfig<OrdersFormValues>[] = [
     type: 'temperature',
     validation: {
       required: true,
-      min: -50,
-      max: 40,
+      min: DEFAULT_TEMP_MIN,
+      max: TEMP_CONSUME_MAX,
     },
     localization: {
-      locale: 'es-ES',
+      locale: DEFAULT_SPANISH_LOCALE,
       formatOnDisplay: true,
       parseOnInput: true,
     },
@@ -54,7 +61,7 @@ export const ordersFieldConfigs: FieldConfig<OrdersFormValues>[] = [
       // Dynamic max based on consume temperature
       dynamicMax: (formValues) => {
         const consumeTemp = formValues.defaultTempConsume;
-        return consumeTemp ? consumeTemp - MIN_TEMP_DIFFERENCE : 40;
+        return consumeTemp ? consumeTemp - MIN_TEMP_DIFFERENCE : TEMP_CONSUME_MAX;
       },
     },
   },
@@ -65,8 +72,8 @@ export const ordersFieldConfigs: FieldConfig<OrdersFormValues>[] = [
     type: 'number',
     validation: {
       required: true,
-      min: 1,
-      max: 5,
+      min: MODE_MIN,
+      max: MODE_MAX,
     },
   },
 
