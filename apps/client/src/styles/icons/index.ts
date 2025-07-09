@@ -21,6 +21,7 @@ import {
 
 import {
   Coffee as _CoffeeIcon,
+  X as _DeleteIcon,
   House as _HomeIcon,
   Languages as _LanguagesIcon,
   Lock as _LockIcon,
@@ -73,6 +74,7 @@ export const WindowIcon = createIconWrapper(_WindowIcon);
 export const WineIcon = createIconWrapper(_WineIcon);
 
 // Admin section icons
+export const DeleteIcon = createIconWrapper(_DeleteIcon);
 export const HomeIcon = createIconWrapper(_HomeIcon);
 export const LockIcon = createIconWrapper(_LockIcon);
 export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);

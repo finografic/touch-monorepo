@@ -6,7 +6,7 @@ import { InputTemperature } from '../InputTemperature';
 import { InputTime } from '../InputTime';
 import { styles } from './TimesTableRepeater.styles';
 import { useDev } from 'providers/DevProvider';
-import { useTranslation } from 'react-i18next';
+import { DeleteIcon } from 'styles/icons';
 
 interface TimeRowData {
   temperature?: number;
@@ -34,7 +34,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   onCanAddRowChange,
   onGenerateRandomValues,
 }) => {
-  const { control, register, setValue, watch, formState } = useFormContext();
+  const { control, watch, formState } = useFormContext();
   const { fields, append, remove } = useFieldArray({
     control,
     name,
@@ -67,11 +67,8 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
     // Check if all fields are present and within valid ranges
     const tempValid =
       typeof row.temperature === 'number' && row.temperature >= defaultTempFreeze && row.temperature <= 50;
-
     const timeAValid = typeof row.time_a === 'number' && row.time_a >= 0 && row.time_a <= 3600;
-
     const timeBValid = typeof row.time_b === 'number' && row.time_b >= 0 && row.time_b <= 3600;
-
     const timeCValid = typeof row.time_c === 'number' && row.time_c >= 0 && row.time_c <= 3600;
 
     return tempValid && timeAValid && timeBValid && timeCValid;
@@ -91,6 +88,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
         return i; // This is the first incomplete/invalid row, so it's editable
       }
     }
+
     return -1; // All rows complete and valid
   };
 
@@ -142,7 +140,6 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
           // 1. It's the current editable row (first incomplete/invalid), OR
           // 2. It's already complete and valid (for corrections)
           const isEditable = index === editableRowIndex || isRowCompleteAndValid(index);
-
           const isFirst = index === 0;
           const isLast = index === fields.length - 1;
 
@@ -211,16 +208,16 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
                 )}
 
                 {/* Delete button */}
-                {canDeleteRow && (
+                {fields.length > 1 && isRowCompleteAndValid(index) && (
                   <Button
                     type="button"
-                    variant="ghost"
+                    variant="solid"
                     size="1"
                     color="red"
                     onClick={() => remove(index)}
                     className="delete-button"
                   >
-                    ×
+                    <DeleteIcon />
                   </Button>
                 )}
               </div>

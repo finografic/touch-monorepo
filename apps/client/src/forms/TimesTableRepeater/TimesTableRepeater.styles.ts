@@ -103,6 +103,9 @@ export const styles = css`
         /* padding: 0.5rem; */
         padding-top: 0.5rem;
       }
+      .action-button-container {
+        padding-top: 0.5rem;
+      }
     }
 
     &.last {
@@ -116,6 +119,7 @@ export const styles = css`
       justify-content: center;
       align-items: center;
       gap: 4px;
+      padding-right: 1rem;
 
       .random-button {
         opacity: 0.8;
@@ -128,8 +132,12 @@ export const styles = css`
       }
 
       .delete-button {
+        padding: 0.5rem 0.2rem 0.5rem 0.2rem;
         opacity: 0.7;
-        padding: 4px;
+        svg.icon {
+          width: 18px;
+          height: 18px;
+        }
       }
     }
   }

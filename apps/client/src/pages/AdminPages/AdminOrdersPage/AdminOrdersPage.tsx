@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Card, Flex, Spinner, Text } from '@radix-ui/themes';
+import { Button, Card, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
@@ -14,6 +14,7 @@ import { styles } from './AdminOrdersPage.styles';
 export const AdminOrdersPage: React.FC = () => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
+  const [isTableVisible, setIsTableVisible] = useState(false);
   const { toast } = useToast();
 
   // Fetch orders-readable data
@@ -125,21 +126,37 @@ export const AdminOrdersPage: React.FC = () => {
           </Col>
         </Row>
 
+        {/* Toggle Button */}
         <Row>
           <Col>
-            {/* Orders Data */}
-            <AdminSection title="Registro de entradas">
-              <OrdersTable
-                orders={filteredOrders}
-                searchTerm={searchTerm}
-                onSearchChange={setSearchTerm}
-                totalCount={ordersData.length}
-                emptyMessage="No orders found"
-                emptySubMessage="Try adjusting your search term or add new orders"
-              />
-            </AdminSection>
+            <Button
+              onClick={() => setIsTableVisible(!isTableVisible)}
+              size="3"
+              variant="soft"
+              style={{ width: '100%', marginBottom: '1rem' }}
+            >
+              {isTableVisible ? '▼ Ocultar registro' : '▲ Mostrar registro'}
+            </Button>
           </Col>
         </Row>
+
+        {/* Orders Data - Now Toggleable */}
+        {isTableVisible && (
+          <Row>
+            <Col>
+              <AdminSection title="Registro de entradas" className="orders-table-section">
+                <OrdersTable
+                  orders={filteredOrders}
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                  totalCount={ordersData.length}
+                  emptyMessage="No orders found"
+                  emptySubMessage="Try adjusting your search term or add new orders"
+                />
+              </AdminSection>
+            </Col>
+          </Row>
+        )}
       </AdminContentLayout>
     </section>
   );

@@ -47,6 +47,12 @@ export const styles = css`
     border-radius: 12px;
     padding: ${spacing[6]};
 
+    &.orders-table-section {
+      height: 66vh;
+      overflow-y: auto;
+      padding-top: ${spacing[4]};
+    }
+
     .section-header {
       h3 {
         color: ${colors.text};
