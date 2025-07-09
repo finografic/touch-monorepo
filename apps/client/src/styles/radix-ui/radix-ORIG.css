@@ -1,0 +1,243 @@
+/* This file contains base Radix UI styles */
+/* Color variables are now generated at build time by postcss-radix-colors plugin */
+
+@layer theme, base, radix-themes, components, utilities;
+
+/* Tailwind Preset for Radix Themes */
+/* NOTE: https://github.com/viktorbonino/radix-themes-tw */
+
+@import 'radix-themes-tw';
+
+/* Radix UI Colors - Light Mode */
+
+@import '@radix-ui/colors/gray.css';
+@import '@radix-ui/colors/slate.css';
+@import '@radix-ui/colors/sand.css';
+@import '@radix-ui/colors/red.css';
+@import '@radix-ui/colors/crimson.css';
+@import '@radix-ui/colors/purple.css';
+@import '@radix-ui/colors/indigo.css';
+@import '@radix-ui/colors/blue.css';
+@import '@radix-ui/colors/sky.css';
+@import '@radix-ui/colors/cyan.css';
+@import '@radix-ui/colors/teal.css';
+@import '@radix-ui/colors/grass.css';
+@import '@radix-ui/colors/lime.css';
+@import '@radix-ui/colors/amber.css';
+@import '@radix-ui/colors/yellow.css';
+@import '@radix-ui/colors/gold.css';
+@import '@radix-ui/colors/orange.css';
+
+/* Radix UI Colors - Dark Mode */
+
+/* @import '@radix-ui/colors/gray-dark.css';
+@import '@radix-ui/colors/slate-dark.css';
+@import '@radix-ui/colors/sand-dark.css';
+@import '@radix-ui/colors/red-dark.css';
+@import '@radix-ui/colors/crimson-dark.css';
+@import '@radix-ui/colors/purple-dark.css';
+@import '@radix-ui/colors/indigo-dark.css';
+@import '@radix-ui/colors/blue-dark.css';
+@import '@radix-ui/colors/sky-dark.css';
+@import '@radix-ui/colors/cyan-dark.css';
+@import '@radix-ui/colors/teal-dark.css';
+@import '@radix-ui/colors/grass-dark.css';
+@import '@radix-ui/colors/lime-dark.css';
+@import '@radix-ui/colors/amber-dark.css';
+@import '@radix-ui/colors/yellow-dark.css';
+@import '@radix-ui/colors/gold-dark.css';
+@import '@radix-ui/colors/orange-dark.css'; */
+
+:root {
+  color-scheme: light;
+}
+
+/* Override Radix UI TextField borders - comprehensive approach */
+
+/* Try all possible Radix TextField class combinations */
+.rt-TextFieldInput,
+.rt-TextFieldRoot .rt-TextFieldInput,
+.rt-TextFieldRoot input,
+input.rt-TextFieldInput,
+[class*='rt-TextFieldInput'],
+[class*='TextField'] input,
+.rt-TextField input {
+  border: 1px solid #a3a3a3 !important;
+  transition: border-color 0.15s ease !important;
+}
+
+/* Hover states */
+.rt-TextFieldInput:hover,
+.rt-TextFieldRoot:hover .rt-TextFieldInput,
+.rt-TextFieldRoot:hover input,
+input.rt-TextFieldInput:hover,
+[class*='rt-TextFieldInput']:hover,
+[class*='TextField'] input:hover,
+.rt-TextField input:hover {
+  border-color: #737373 !important;
+}
+
+/* Focus states */
+.rt-TextFieldInput:focus,
+.rt-TextFieldRoot:focus-within .rt-TextFieldInput,
+.rt-TextFieldRoot:focus-within input,
+input.rt-TextFieldInput:focus,
+[class*='rt-TextFieldInput']:focus,
+[class*='TextField'] input:focus,
+.rt-TextField input:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+  outline: none !important;
+}
+
+/* Nuclear option - target all inputs inside Radix components */
+[class*='rt-'] input,
+[data-radix-collection-item] input,
+[data-accent-color] input {
+  border: 1px solid #a3a3a3 !important;
+}
+
+[class*='rt-']:hover input,
+[data-radix-collection-item]:hover input,
+[data-accent-color]:hover input {
+  border-color: #737373 !important;
+}
+
+[class*='rt-']:focus-within input,
+[data-radix-collection-item]:focus-within input,
+[data-accent-color]:focus-within input {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}
+
+/* TextField Slot styling (icons on left/right) - More specific targeting */
+.rt-TextFieldSlot,
+[class*='rt-TextFieldSlot'],
+div.rt-TextFieldSlot,
+.rt-TextFieldRoot .rt-TextFieldSlot,
+.rt-TextFieldRoot > .rt-TextFieldSlot,
+.rt-TextFieldRoot > div[class*='rt-TextFieldSlot'] {
+  border: 1px solid #a3a3a3 !important;
+  border-color: #a3a3a3 !important;
+}
+
+/* Remove double borders between slots and input */
+.rt-TextFieldSlot:not([data-side='right']):not(:last-child),
+.rt-TextFieldSlot[data-side='left'],
+.rt-TextFieldRoot > .rt-TextFieldSlot:first-child {
+  border-right: 1px solid transparent !important;
+}
+
+.rt-TextFieldSlot:not([data-side='left']):not(:first-child),
+.rt-TextFieldSlot[data-side='right'],
+.rt-TextFieldRoot > .rt-TextFieldSlot:last-child {
+  border-left: 1px solid transparent !important;
+}
+
+.rt-TextFieldRoot:hover .rt-TextFieldSlot,
+.rt-TextFieldRoot:hover [class*='rt-TextFieldSlot'],
+.rt-TextFieldRoot:hover div.rt-TextFieldSlot,
+.rt-TextFieldRoot:hover > .rt-TextFieldSlot,
+.rt-TextFieldRoot:hover > div[class*='rt-TextFieldSlot'] {
+  border-color: #737373 !important;
+}
+
+.rt-TextFieldRoot:focus-within .rt-TextFieldSlot,
+.rt-TextFieldRoot:focus-within [class*='rt-TextFieldSlot'],
+.rt-TextFieldRoot:focus-within div.rt-TextFieldSlot,
+.rt-TextFieldRoot:focus-within > .rt-TextFieldSlot,
+.rt-TextFieldRoot:focus-within > div[class*='rt-TextFieldSlot'] {
+  border-color: #3b82f6 !important;
+}
+
+/* More aggressive slot targeting */
+[class*='rt-TextField'] > [class*='Slot'],
+[class*='rt-TextField'] > div:not(input) {
+  border-color: #a3a3a3 !important;
+}
+
+[class*='rt-TextField']:hover > [class*='Slot'],
+[class*='rt-TextField']:hover > div:not(input) {
+  border-color: #737373 !important;
+}
+
+[class*='rt-TextField']:focus-within > [class*='Slot'],
+[class*='rt-TextField']:focus-within > div:not(input) {
+  border-color: #3b82f6 !important;
+}
+
+/* Ultra-specific targeting based on DOM structure from screenshots */
+.rt-Box.rt-r-size-3.rt-variant-surface > .rt-TextFieldRoot .rt-TextFieldSlot,
+.rt-Box > .rt-TextFieldRoot .rt-TextFieldSlot,
+.rt-TextFieldRoot.rt-r-size-3 .rt-TextFieldSlot,
+.rt-TextFieldRoot[class*='rt-variant'] .rt-TextFieldSlot {
+  border: 1px solid #a3a3a3 !important;
+}
+
+.rt-Box.rt-r-size-3.rt-variant-surface > .rt-TextFieldRoot:hover .rt-TextFieldSlot,
+.rt-Box > .rt-TextFieldRoot:hover .rt-TextFieldSlot,
+.rt-TextFieldRoot.rt-r-size-3:hover .rt-TextFieldSlot,
+.rt-TextFieldRoot[class*='rt-variant']:hover .rt-TextFieldSlot {
+  border-color: #737373 !important;
+}
+
+.rt-Box.rt-r-size-3.rt-variant-surface > .rt-TextFieldRoot:focus-within .rt-TextFieldSlot,
+.rt-Box > .rt-TextFieldRoot:focus-within .rt-TextFieldSlot,
+.rt-TextFieldRoot.rt-r-size-3:focus-within .rt-TextFieldSlot,
+.rt-TextFieldRoot[class*='rt-variant']:focus-within .rt-TextFieldSlot {
+  border-color: #3b82f6 !important;
+}
+
+/* Custom SearchableLanguageInput styling */
+.searchable-language-input .dropdown {
+  border: 1px solid #a3a3a3 !important;
+}
+
+.searchable-language-input .dropdown:hover {
+  border-color: #737373 !important;
+}
+
+/* Add padding for TextField with left slot (search icon) */
+.searchable-language-input .rt-TextFieldInput,
+.rt-TextFieldRoot .rt-TextFieldInput {
+  padding-left: 1rem !important;
+}
+
+/* Placeholder styling for TextField with left slot */
+.searchable-language-input .rt-TextFieldInput::placeholder,
+.rt-TextFieldRoot .rt-TextFieldInput::placeholder {
+  padding-left: 0.5rem !important;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+/* Alternative approach - target by data attributes and higher specificity */
+.rt-Theme input[type='text'],
+.rt-Theme input[type='search'],
+.rt-Theme input[type='email'],
+.rt-Theme input[type='password'],
+.rt-Theme input[type='url'],
+.rt-Theme input[type='tel'] {
+  border: 1px solid #a3a3a3 !important;
+}
+
+.rt-Theme input[type='text']:hover,
+.rt-Theme input[type='search']:hover,
+.rt-Theme input[type='email']:hover,
+.rt-Theme input[type='password']:hover,
+.rt-Theme input[type='url']:hover,
+.rt-Theme input[type='tel']:hover {
+  border-color: #737373 !important;
+}
+
+.rt-Theme input[type='text']:focus,
+.rt-Theme input[type='search']:focus,
+.rt-Theme input[type='email']:focus,
+.rt-Theme input[type='password']:focus,
+.rt-Theme input[type='url']:focus,
+.rt-Theme input[type='tel']:focus {
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+}

@@ -193,19 +193,22 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
               </div>
               <div className="action-button-container">
                 {/* Random values button - only show on editable rows */}
-                {isDevToolsVisible && isEditable && onGenerateRandomValues && (
-                  <Button
-                    type="button"
-                    variant="soft"
-                    size="1"
-                    color="gray"
-                    onClick={() => onGenerateRandomValues?.(index)}
-                    className="random-button"
-                    title="Generate random values"
-                  >
-                    <ShuffleIcon style={{ height: '14px', width: '14px' }} />
-                  </Button>
-                )}
+                {isDevToolsVisible &&
+                  isEditable &&
+                  !isRowCompleteAndValid(index) &&
+                  onGenerateRandomValues && (
+                    <Button
+                      type="button"
+                      variant="soft"
+                      size="1"
+                      color="gray"
+                      onClick={() => onGenerateRandomValues?.(index)}
+                      className="random-button"
+                      title="Generate random values"
+                    >
+                      <ShuffleIcon style={{ height: '14px', width: '14px' }} />
+                    </Button>
+                  )}
 
                 {/* Delete button */}
                 {fields.length > 1 && isRowCompleteAndValid(index) && (

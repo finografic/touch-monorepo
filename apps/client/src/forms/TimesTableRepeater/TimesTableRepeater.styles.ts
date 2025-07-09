@@ -52,17 +52,13 @@ export const styles = css`
   }
 
   .line-number-header {
-    width: 2.5rem; /* Fixed width instead of min-width */
-    /* Empty header for line numbers column */
+    width: 2.5rem;
   }
 
   .table-rows-container {
     overflow-y: auto;
-    /* Height will be set dynamically based on minVisibleRows */
     border: 1px solid ${colors.greyLight};
     border-radius: 0 0 6px 6px;
-
-    /* Scrollbar styling inherited from global styles */
   }
 
   .table-row {
@@ -76,11 +72,6 @@ export const styles = css`
 
     &.row-disabled {
       opacity: 0.7;
-      /* background-color: ${colors.greyXXLight}40; */
-    }
-
-    &.row-editable:hover {
-      background-color: ${colors.greyXXLight}60;
     }
 
     .input-wrapper {
@@ -143,9 +134,9 @@ export const styles = css`
   }
 
   .line-number-cell {
-    width: 2.5rem; /* Fixed width to match header */
+    width: 2.5rem;
     display: flex;
-    justify-content: flex-end; /* Right align */
+    justify-content: flex-end;
     align-items: center;
     padding-right: ${spacing[2]};
 

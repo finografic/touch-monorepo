@@ -190,6 +190,7 @@ export const styles = css`
     /* Admin-specific: Dark grey footer background */
     background-color: ${colors.background};
     border-top: 1px solid ${colors.greyDark};
+    z-index: 2000;
 
     .footer-content {
       width: 100%;

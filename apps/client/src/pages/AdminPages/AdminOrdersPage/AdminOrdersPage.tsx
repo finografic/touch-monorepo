@@ -1,15 +1,16 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Card, Flex, Spinner, Text } from '@radix-ui/themes';
+import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
 import { OrdersTable } from 'components/OrdersTable';
-import { OrdersForm } from 'pages/AdminPages/AdminOrdersPage/forms/OrdersForm';
+import { OrdersForm } from 'pages/AdminPages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
 import { Col, Row } from 'react-grid-system';
 import { styles } from './AdminOrdersPage.styles';
+import { ListDrawer } from './ListDrawer/ListDrawer';
 
 export const AdminOrdersPage: React.FC = () => {
   const { t } = useTranslation();
@@ -126,37 +127,31 @@ export const AdminOrdersPage: React.FC = () => {
           </Col>
         </Row>
 
-        {/* Toggle Button */}
-        <Row>
+        <Row className="row">
           <Col>
             <Button
+              type="button"
+              style={{ padding: '1rem 3rem', fontWeight: 'bold' }}
+              // disabled={!isValid || isLoading}
               onClick={() => setIsTableVisible(!isTableVisible)}
+              loading={isLoading}
+              color={isTableVisible ? 'orange' : 'green'}
               size="3"
-              variant="soft"
-              style={{ width: '100%', marginBottom: '1rem' }}
             >
-              {isTableVisible ? '▼ Ocultar registro' : '▲ Mostrar registro'}
+              {isTableVisible ? 'close drawer' : 'open drawer'}
             </Button>
           </Col>
         </Row>
 
-        {/* Orders Data - Now Toggleable */}
-        {isTableVisible && (
-          <Row>
-            <Col>
-              <AdminSection title="Registro de entradas" className="orders-table-section">
-                <OrdersTable
-                  orders={filteredOrders}
-                  searchTerm={searchTerm}
-                  onSearchChange={setSearchTerm}
-                  totalCount={ordersData.length}
-                  emptyMessage="No orders found"
-                  emptySubMessage="Try adjusting your search term or add new orders"
-                />
-              </AdminSection>
-            </Col>
-          </Row>
-        )}
+        {/* Testing Radix version instead of Vaul */}
+        <ListDrawer
+          isOpen={isTableVisible}
+          onOpenChange={setIsTableVisible}
+          orders={filteredOrders}
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          totalCount={ordersData.length}
+        />
       </AdminContentLayout>
     </section>
   );

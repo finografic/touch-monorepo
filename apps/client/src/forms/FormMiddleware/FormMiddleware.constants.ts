@@ -134,7 +134,7 @@ export const TOAST_WARNING_DURATION = 5000;
 // ============================================================================
 
 /** Minimum rows for times table repeater (total form data) */
-export const MIN_TABLE_ROWS = 50;
+export const MIN_TABLE_ROWS = 4; // TODO: 50
 
 /** Minimum visible rows for times table repeater (with scroll) */
 export const MIN_TABLE_VISIBLE_ROWS = 4;
