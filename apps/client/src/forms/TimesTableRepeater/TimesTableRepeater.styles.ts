@@ -48,11 +48,13 @@ export const styles = css`
     /* background-color: ${colors.greyXLight}!important; */
 
     &.row-editable {
-      background-color: ${colors.white}; /* White background for editable rows */
+      background-color: ${colors.white};
     }
 
     &.row-disabled {
-      background-color: ${colors.greyXXLight}; /* Light grey for disabled rows */
+      /* background-color: ${colors.greyXXLight}66; */
+      background-color: ${colors.white};
+      opacity: 0.7;
     }
 
     .input-wrapper {

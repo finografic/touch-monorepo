@@ -1,15 +1,21 @@
-import React, { createContext, useCallback, useContext, useEffect, useMemo } from 'react';
-import type { FieldPath, FieldValues } from 'react-hook-form';
+import React, { createContext, useCallback, useContext, useMemo } from 'react';
+import type { FieldError, FieldPath, FieldValues } from 'react-hook-form';
 import type {
   FieldConfig,
-  FieldDependencyEffect,
   FormMiddlewareContext,
   FormMiddlewareProviderProps,
   ProgressiveFieldConfig,
 } from './FormMiddleware.types';
+import {
+  formatTemperatureValue,
+  formatTimeValue,
+  generateRandomValue,
+  parseNumericValue,
+  parseTimeValue,
+} from './FormMiddlewareUtils';
 
 // Create the context
-const FormMiddlewareContextValue = createContext<FormMiddlewareContext | null>(null);
+const FormMiddlewareContextValue = createContext<FormMiddlewareContext<any> | null>(null);
 
 // Custom hook to use the middleware context
 export const useFormMiddleware = <T extends FieldValues = FieldValues>(): FormMiddlewareContext<T> => {
@@ -73,8 +79,18 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
       if (triggerDependencies) {
         const fieldConfig = fieldConfigsMap.get(name);
         if (fieldConfig?.dependencies?.affects) {
-          fieldConfig.dependencies.affects.forEach((effect: FieldDependencyEffect<T>) => {
-            handleFieldDependency(effect, value, formValues);
+          fieldConfig.dependencies.affects.forEach((effect) => {
+            const newValue = effect.calculate(value, formValues);
+
+            switch (effect.effect) {
+              case 'setValue':
+                setValue(effect.targetField, newValue, { shouldValidate: true });
+                break;
+              case 'validate':
+                trigger(effect.targetField);
+                break;
+              // constrainMax, constrainMin, enable, disable are handled in other methods
+            }
           });
         }
       }
@@ -82,32 +98,7 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
       // Call external change handler
       onFieldChange?.(name, value, formValues);
     },
-    [setValue, fieldConfigsMap, formValues, onFieldChange, handleFieldDependency],
-  );
-
-  // Handle individual field dependencies
-  const handleFieldDependency = useCallback(
-    (effect: FieldDependencyEffect<T>, sourceValue: any, currentFormValues: T) => {
-      const newValue = effect.calculate(sourceValue, currentFormValues);
-
-      switch (effect.effect) {
-        case 'setValue':
-          setValue(effect.targetField, newValue, { shouldValidate: true });
-          break;
-        case 'constrainMax':
-        case 'constrainMin':
-          // These are handled in getFieldConstraints
-          break;
-        case 'validate':
-          trigger(effect.targetField);
-          break;
-        case 'enable':
-        case 'disable':
-          // These are handled in isFieldEnabled
-          break;
-      }
-    },
-    [setValue, trigger],
+    [setValue, trigger, fieldConfigsMap, formValues, onFieldChange],
   );
 
   // Enhanced field state queries
@@ -234,10 +225,7 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
       switch (fieldConfig.type) {
         case 'temperature':
           if (typeof value === 'number') {
-            return new Intl.NumberFormat(locale, {
-              minimumFractionDigits: 1,
-              maximumFractionDigits: 1,
-            }).format(value);
+            return formatTemperatureValue(value, locale);
           }
           break;
         case 'number':
@@ -247,9 +235,7 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
           break;
         case 'time':
           if (typeof value === 'number') {
-            const mins = Math.floor(value / 60);
-            const secs = value % 60;
-            return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+            return formatTimeValue(value);
           }
           break;
       }
@@ -270,19 +256,9 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
       switch (fieldConfig.type) {
         case 'temperature':
         case 'number':
-          // Convert comma to dot for Spanish locales
-          const normalizedValue = displayValue.replace(',', '.');
-          const parsed = Number.parseFloat(normalizedValue);
-          return isNaN(parsed) ? undefined : parsed;
-
+          return parseNumericValue(displayValue);
         case 'time':
-          if (displayValue.includes(':')) {
-            const [mins, secs] = displayValue.split(':').map(Number);
-            if (!isNaN(mins) && !isNaN(secs)) {
-              return mins * 60 + secs;
-            }
-          }
-          return undefined;
+          return parseTimeValue(displayValue);
       }
 
       return displayValue;
@@ -292,7 +268,7 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
 
   // Enhanced error handling
   const setFieldError = useCallback(
-    (name: FieldPath<T>, error: string | import('react-hook-form').FieldError) => {
+    (name: FieldPath<T>, error: string | FieldError) => {
       const errorObj = typeof error === 'string' ? { type: 'validation', message: error } : error;
       setError(name, errorObj);
     },
@@ -320,22 +296,8 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
       const min = constraints.min ?? fieldConfig.validation?.min ?? 0;
       const max = constraints.max ?? fieldConfig.validation?.max ?? 100;
 
-      let randomValue: any;
-
-      switch (fieldConfig.type) {
-        case 'temperature':
-          randomValue = Math.round((Math.random() * (max - min) + min) * 2) / 2; // Round to 0.5
-          break;
-        case 'time':
-          randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
-          randomValue = Math.round(randomValue / 30) * 30; // Round to 30 seconds
-          break;
-        case 'number':
-          randomValue = Math.floor(Math.random() * (max - min + 1)) + min;
-          break;
-        default:
-          return;
-      }
+      const randomValue = generateRandomValue(fieldConfig, min, max);
+      if (randomValue === undefined) return;
 
       const targetFieldName = index !== undefined ? (`${fieldName}.${index}` as FieldPath<T>) : fieldName;
       setFieldValue(targetFieldName, randomValue);
