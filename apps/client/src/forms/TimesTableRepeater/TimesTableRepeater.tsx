@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Button } from '@radix-ui/themes';
 import { ShuffleIcon } from '@radix-ui/react-icons';
@@ -20,6 +20,8 @@ interface TimesTableRepeaterProps {
   minRows?: number;
   minVisibleRows?: number;
   language?: string;
+  onCanAddRowChange?: (canAdd: boolean) => void; // Callback to notify parent when add state changes
+  onGenerateRandomValues?: (rowIndex: number) => void; // External function to generate random values
 }
 
 export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
@@ -28,6 +30,8 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   minRows = 50,
   minVisibleRows = 4,
   language = 'es-ES',
+  onCanAddRowChange,
+  onGenerateRandomValues,
 }) => {
   const { control, register, setValue, watch, formState } = useFormContext();
   const { fields, append, remove } = useFieldArray({
@@ -39,11 +43,8 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   const timeRows = formValues[name] || [];
   const { isSubmitted } = formState;
 
-  // ======================================================================== //
-  // TODO: DEV-ONLY - REMOVE
+  // Use dev tools visibility for random buttons
   const { isDevToolsVisible } = useDev();
-
-  // ======================================================================== //
 
   // Get defaultTempFreeze for minimum temperature constraint
   const defaultTempFreeze = formValues.defaultTempFreeze || -50;
@@ -92,31 +93,6 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
     return -1; // All rows complete and valid
   };
 
-  // Generate reasonable random values
-  const generateRandomValues = (rowIndex: number) => {
-    // Random temperature between defaultTempFreeze and 50°C
-    const randomTemp = Math.round((Math.random() * (50 - defaultTempFreeze) + defaultTempFreeze) * 2) / 2; // Round to 0.5
-
-    // Random times between 30 seconds and 30 minutes (1800 seconds)
-    const generateRandomTime = () => {
-      const minTime = 30; // 30 seconds minimum
-      const maxTime = 1800; // 30 minutes maximum
-      const randomSeconds = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
-      // Round to nearest 30 seconds
-      return Math.round(randomSeconds / 30) * 30;
-    };
-
-    const randomTimeA = generateRandomTime();
-    const randomTimeB = generateRandomTime();
-    const randomTimeC = generateRandomTime();
-
-    // Set all values for this row
-    setValue(`${name}.${rowIndex}.temperature`, randomTemp, { shouldValidate: true });
-    setValue(`${name}.${rowIndex}.time_a`, randomTimeA, { shouldValidate: true });
-    setValue(`${name}.${rowIndex}.time_b`, randomTimeB, { shouldValidate: true });
-    setValue(`${name}.${rowIndex}.time_c`, randomTimeC, { shouldValidate: true });
-  };
-
   // Check if first row field is empty and should show validation error
   const isFirstRowFieldRequired = (fieldName: string) => {
     return isSubmitted && (timeRows[0]?.[fieldName] === undefined || timeRows[0]?.[fieldName] === '');
@@ -126,9 +102,19 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   const canAddRow = editableRowIndex === -1; // All rows are complete and valid
   const canDeleteRow = fields.length > minRows;
 
+  // Notify parent when canAddRow state changes
+  useEffect(() => {
+    if (onCanAddRowChange) {
+      onCanAddRowChange(canAddRow);
+    }
+  }, [canAddRow, onCanAddRowChange]);
+
   // Calculate row height for scrolling (approximate height per row including gaps)
   const rowHeight = 60; // Estimated height per row in pixels
   const containerHeight = minVisibleRows * rowHeight;
+
+  // Calculate if internal add button should be hidden (when external callback is provided)
+  const hideInternalAddButton = Boolean(onCanAddRowChange);
 
   return (
     <div css={styles} className="times-table">
@@ -201,13 +187,13 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
               </div>
               <div className="action-button-container">
                 {/* Random values button - only show on editable rows */}
-                {isDevToolsVisible && isEditable && (
+                {isDevToolsVisible && isEditable && onGenerateRandomValues && (
                   <Button
                     type="button"
                     variant="soft"
                     size="1"
                     color="gray"
-                    onClick={() => generateRandomValues(index)}
+                    onClick={() => onGenerateRandomValues?.(index)}
                     className="random-button"
                     title="Generate random values"
                   >
@@ -234,8 +220,8 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
         })}
       </div>
 
-      {/* Add Row Button - only show when all existing rows are complete */}
-      {canAddRow && (
+      {/* Add Row Button - only show when all existing rows are complete AND no external callback is provided */}
+      {canAddRow && !hideInternalAddButton && (
         <div className="add-row-container">
           <Button type="button" variant="soft" size="2" onClick={() => append(emptyRowValues)}>
             + Add Row

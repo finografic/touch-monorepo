@@ -1,5 +1,5 @@
-import React, { useMemo, useState } from 'react';
-import { FormProvider, useForm } from 'react-hook-form';
+import React, { useCallback, useMemo, useState } from 'react';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button } from '@radix-ui/themes';
@@ -22,12 +22,27 @@ import {
 } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
 import { Col, Row } from 'react-grid-system';
 import { OrderFieldKeys } from 'constants/app.config';
+import { useDev } from 'providers/DevProvider';
 
 const PROFILE_ITEM_VALUES_EMPTY = {
   temperature: undefined,
   time_a: undefined,
   time_b: undefined,
   time_c: undefined,
+};
+
+// Utility functions for generating random values
+const generateRandomTime = () => {
+  const minTime = 30; // 30 seconds minimum
+  const maxTime = 1800; // 30 minutes maximum
+  const randomSeconds = Math.floor(Math.random() * (maxTime - minTime + 1)) + minTime;
+  // Round to nearest 30 seconds
+  return Math.round(randomSeconds / 30) * 30;
+};
+
+const generateRandomTemperature = (defaultTempFreeze: number) => {
+  // Random temperature between defaultTempFreeze and 50°C
+  return Math.round((Math.random() * (50 - defaultTempFreeze) + defaultTempFreeze) * 2) / 2; // Round to 0.5
 };
 
 // Form validation schema
@@ -89,6 +104,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     containerTypes: [],
   });
 
+  // State to track if we can add new rows
+  const [canAddRow, setCanAddRow] = useState(false);
+
+  // Dev tools visibility
+  const { isDevToolsVisible } = useDev();
+
   // RHF setup
   const methods = useForm<OrdersFormValues>({
     mode: 'onSubmit',
@@ -112,8 +133,15 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     setValue,
     watch,
     register,
+    control,
     formState: { isValid },
   } = methods;
+
+  // Field array for adding rows externally
+  const { append } = useFieldArray({
+    control,
+    name: 'timeRows',
+  });
 
   // Watch form values
   const formValues = watch();
@@ -187,6 +215,41 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       }));
     }
   };
+
+  // Callback to track when rows can be added
+  const handleCanAddRowChange = useCallback((canAdd: boolean) => {
+    setCanAddRow(canAdd);
+  }, []);
+
+  // Handle adding a new row
+  const handleAddRow = useCallback(() => {
+    append(PROFILE_ITEM_VALUES_EMPTY);
+  }, [append]);
+
+  // Generate random values for a specific row
+  const generateRandomValuesForRow = useCallback(
+    (rowIndex: number) => {
+      const defaultTempFreeze = formValues.defaultTempFreeze || -2;
+      const randomTemp = generateRandomTemperature(defaultTempFreeze);
+      const randomTimeA = generateRandomTime();
+      const randomTimeB = generateRandomTime();
+      const randomTimeC = generateRandomTime();
+
+      setValue(`timeRows.${rowIndex}.temperature`, randomTemp, { shouldValidate: true });
+      setValue(`timeRows.${rowIndex}.time_a`, randomTimeA, { shouldValidate: true });
+      setValue(`timeRows.${rowIndex}.time_b`, randomTimeB, { shouldValidate: true });
+      setValue(`timeRows.${rowIndex}.time_c`, randomTimeC, { shouldValidate: true });
+    },
+    [setValue, formValues.defaultTempFreeze],
+  );
+
+  // Generate random values for all rows
+  const handleMockAllRows = useCallback(() => {
+    const currentRows = formValues.timeRows || [];
+    currentRows.forEach((_, index) => {
+      generateRandomValuesForRow(index);
+    });
+  }, [formValues.timeRows, generateRandomValuesForRow]);
 
   return (
     <FormProvider {...methods}>
@@ -300,6 +363,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   minRows={MIN_TABLE_ROWS}
                   minVisibleRows={MIN_TABLE_VISIBLE_ROWS}
                   language={language}
+                  onCanAddRowChange={handleCanAddRowChange}
+                  onGenerateRandomValues={generateRandomValuesForRow}
                 />
               </Col>
 
@@ -311,15 +376,30 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               {/* <pre style={{ overflow: 'visible', transform: 'translateX(-30%)' }}>
                 {JSON.stringify(formValues, null, 2)}
               </pre> */}
-              <Button
-                type="submit"
-                style={{ padding: '1rem 3rem' }}
-                // disabled={!isValid || isLoading}
-                loading={isLoading}
-                size="3"
-              >
-                GUARDAR
-              </Button>
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                {/* Dev Tools: Mock All Rows Button */}
+                {isDevToolsVisible && (
+                  <Button type="button" variant="soft" size="3" onClick={handleMockAllRows} color="gray">
+                    🎲 Mock All Rows
+                  </Button>
+                )}
+
+                {/* Add Row Button */}
+                <Button type="button" variant="soft" size="3" onClick={handleAddRow} disabled={!canAddRow}>
+                  + Add Row
+                </Button>
+
+                <Button
+                  type="submit"
+                  style={{ padding: '1rem 3rem' }}
+                  // disabled={!isValid || isLoading}
+                  loading={isLoading}
+                  size="3"
+                >
+                  GUARDAR
+                </Button>
+              </div>
             </Col>
           </Row>
         </form>

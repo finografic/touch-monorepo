@@ -243,7 +243,7 @@ export const formsBase = css`
     cursor: pointer;
 
     &:disabled {
-      opacity: 0.5;
+      opacity: 1;
       cursor: not-allowed;
     }
   }
