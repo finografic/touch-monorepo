@@ -99,9 +99,8 @@ export const AdminOrdersPage: React.FC = () => {
   return (
     <section css={styles}>
       <AdminContentLayout title="Orders Management" subtitle="Development orders for testing">
-        <Row>
+        {/* <Row>
           <Col>
-            {/* Summary Stats */}
             <AdminSection title="Data Summary">
               <OrdersSummaryCards
                 totalOrders={ordersData.length}
@@ -112,7 +111,7 @@ export const AdminOrdersPage: React.FC = () => {
               />
             </AdminSection>
           </Col>
-        </Row>
+        </Row> */}
 
         <Row className="form-section">
           <Col>

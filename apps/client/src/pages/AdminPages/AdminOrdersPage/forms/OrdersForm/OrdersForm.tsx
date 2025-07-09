@@ -201,7 +201,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       >
         <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
           <Row className="row">
-            <Col xs={10} md={10} className="col col-form-fields">
+            <Col xs={12} md={12} className="col col-form-fields">
               {/* ======================================================================== */}
 
               <Row className="row">
@@ -307,7 +307,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
               {/* ======================================================================== */}
             </Col>
-            <Col xs={2} md={2} className="col col-form-buttons">
+            {/* <Col xs={2} md={2} className="col col-form-buttons">
               <pre style={{ overflow: 'visible', transform: 'translateX(-30%)' }}>
                 {JSON.stringify(formValues, null, 2)}
               </pre>
@@ -319,6 +319,22 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 size="3"
               >
                 SAVE
+              </Button>
+            </Col> */}
+          </Row>
+          <Row className="row">
+            <Col xs={12} md={12} className="col col-form-buttons">
+              {/* <pre style={{ overflow: 'visible', transform: 'translateX(-30%)' }}>
+                {JSON.stringify(formValues, null, 2)}
+              </pre> */}
+              <Button
+                type="submit"
+                style={{ padding: '1rem 3rem' }}
+                // disabled={!isValid || isLoading}
+                loading={isLoading}
+                size="3"
+              >
+                AÑADIR
               </Button>
             </Col>
           </Row>

@@ -83,15 +83,15 @@ export const styles = css`
       justify-content: flex-end;
       align-items: center; */
       /* flex: 1; */
-      margin-bottom: ${spacing[8]};
+      margin-bottom: ${spacing[6]};
     }
 
     .col-form-buttons {
       display: flex;
       flex-direction: column;
       justify-content: center;
-      align-items: center;
-      padding: ${spacing[4]};
+      align-items: flex-end;
+      padding: ${spacing[0]} ${spacing[8]};
 
       pre {
         width: 70%;
@@ -111,7 +111,7 @@ export const styles = css`
   .form-section {
     margin-top: ${spacing[2]};
     min-height: 400px;
-    margin-bottom: 100px;
+    /* margin-bottom: 100px; */
     display: block;
   }
 
