@@ -18,12 +18,14 @@ interface TimesTableRepeaterProps {
   name: string;
   emptyRowValues: TimeRowData;
   minRows?: number;
+  language?: string;
 }
 
 export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   name,
   emptyRowValues,
   minRows = 4,
+  language = 'es-ES',
 }) => {
   const { control, register, setValue, watch, formState } = useFormContext();
   const { fields, append, remove } = useFieldArray({
@@ -162,12 +164,18 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
           >
             <div className={`input-wrapper ${tempValidationClass}`}>
               <InputTemperature
-                {...register(`${name}.${index}.temperature`)}
+                name={`${name}.${index}.temperature`}
                 min={defaultTempFreeze}
                 max={50}
                 step={0.5}
-                defaultValue={timeRows[index]?.temperature}
+                value={timeRows[index]?.temperature}
+                onChange={(e) =>
+                  setValue(`${name}.${index}.temperature`, Number.parseFloat(e.target.value) || undefined, {
+                    shouldValidate: true,
+                  })
+                }
                 disabled={!isEditable}
+                language={language}
               />
             </div>
             <div className={`input-wrapper ${timeAValidationClass}`}>

@@ -43,10 +43,20 @@ const addOrderSchema = z
     defaultTempFreeze: z.coerce.number().min(-50).max(40),
     timeRows: z.array(timeRowSchema).min(1),
   })
-  .refine((data) => data.defaultTempFreeze <= data.defaultTempConsume - MIN_TEMP_DIFFERENCE, {
-    message: `Freezing temperature must be at least ${MIN_TEMP_DIFFERENCE}°C below consumption temperature`,
-    path: ['defaultTempFreeze'],
-  });
+  .refine(
+    (data) => data.defaultTempFreeze <= data.defaultTempConsume - MIN_TEMP_DIFFERENCE,
+    (data) => {
+      const maxValue = data.defaultTempConsume - MIN_TEMP_DIFFERENCE;
+      const formattedMax = new Intl.NumberFormat('es-ES', {
+        minimumFractionDigits: 1,
+        maximumFractionDigits: 1,
+      }).format(maxValue);
+      return {
+        message: `Max value is ${formattedMax}`,
+        path: ['defaultTempFreeze'],
+      };
+    },
+  );
 
 type OrdersFormValues = z.infer<typeof addOrderSchema>;
 
@@ -265,11 +275,15 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 {/* Temperatura consumo */}
                 <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
                   <InputTemperature
-                    {...register('defaultTempConsume')}
+                    name="defaultTempConsume"
                     min={-40}
                     max={40}
                     step={0.5}
-                    defaultValue={formValues.defaultTempConsume}
+                    value={formValues.defaultTempConsume ?? 5}
+                    onChange={(e) => {
+                      handleFieldChange('defaultTempConsume', Number.parseFloat(e.target.value) || 0);
+                    }}
+                    language={language}
                   />
                 </FieldWrapper>
               </Col>
@@ -278,12 +292,16 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 {/* Temperatura congelación */}
                 <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
                   <InputTemperature
-                    {...register('defaultTempFreeze')}
+                    name="defaultTempFreeze"
                     min={-50}
                     max={formValues.defaultTempConsume - MIN_TEMP_DIFFERENCE}
                     step={0.5}
-                    defaultValue={formValues.defaultTempFreeze}
+                    value={formValues.defaultTempFreeze ?? -2}
+                    onChange={(e) => {
+                      handleFieldChange('defaultTempFreeze', Number.parseFloat(e.target.value) || 0);
+                    }}
                     placeholder="0"
+                    language={language}
                   />
                 </FieldWrapper>
               </Col>
@@ -293,7 +311,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
             {/* <Row className="row"> */}
             <Col xs={12} md={12} className="col col-form-fields">
-              <TimesTableRepeater name="timeRows" emptyRowValues={PROFILE_ITEM_VALUES_EMPTY} minRows={4} />
+              <TimesTableRepeater
+                name="timeRows"
+                emptyRowValues={PROFILE_ITEM_VALUES_EMPTY}
+                minRows={4}
+                language={language}
+              />
             </Col>
             {/* </Row> */}
           </Col>

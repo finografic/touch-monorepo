@@ -4,6 +4,11 @@ import type { FieldError } from 'react-hook-form';
 export const transformValidationMessage = (message: string): string => {
   if (!message) return '';
 
+  // Preserve our custom temperature validation messages
+  if (message.includes('Min value is') || message.includes('Max value is')) {
+    return message;
+  }
+
   // Required field patterns
   if (
     message.includes('required') ||
@@ -51,7 +56,7 @@ export const transformValidationMessage = (message: string): string => {
     return 'Invalid email';
   }
 
-  // Temperature constraint (custom message)
+  // Temperature constraint (custom message) - keep this as fallback for schema validation
   if (message.includes('must be at least') && message.includes('below')) {
     return 'Too close to consumption temp';
   }
