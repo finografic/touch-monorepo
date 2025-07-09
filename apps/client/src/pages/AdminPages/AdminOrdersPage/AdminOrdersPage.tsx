@@ -71,7 +71,7 @@ export const AdminOrdersPage: React.FC = () => {
     return (
       <AdminContentLayout
         title="Orders Management"
-        subtitle="Development orders for testing"
+        // subtitle="Development orders for testing"
         isLoading={true}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
@@ -86,7 +86,7 @@ export const AdminOrdersPage: React.FC = () => {
     return (
       <AdminContentLayout
         title="Orders Management"
-        subtitle="Development orders for testing"
+        // subtitle="Development orders for testing"
         error={error.message}
       >
         <AdminSection>
@@ -98,7 +98,10 @@ export const AdminOrdersPage: React.FC = () => {
 
   return (
     <section css={styles}>
-      <AdminContentLayout title="Orders Management" subtitle="Development orders for testing">
+      <AdminContentLayout
+        title="Orders Management"
+        //  subtitle="Development orders for testing"
+      >
         {/* <Row>
           <Col>
             <AdminSection title="Data Summary">
