@@ -48,25 +48,7 @@ export const styles = css`
     /* Height will be set dynamically based on minVisibleRows */
     border: 1px solid ${colors.greyLight};
     border-radius: 0 0 6px 6px;
-
-    /* Custom scrollbar styling */
-    &::-webkit-scrollbar {
-      width: 8px;
-    }
-
-    &::-webkit-scrollbar-track {
-      background: ${colors.greyXXLight};
-      border-radius: 4px;
-    }
-
-    &::-webkit-scrollbar-thumb {
-      background: ${colors.greyLight};
-      border-radius: 4px;
-
-      &:hover {
-        background: ${colors.grey};
-      }
-    }
+    /* Scrollbar styling inherited from global styles */
   }
 
   .table-row {
@@ -102,7 +84,6 @@ export const styles = css`
     }
 
     &.first {
-      border-top: 2px solid ${colors.greyXLight};
       .input-wrapper {
         padding: 0.5rem;
         padding-top: 1rem;

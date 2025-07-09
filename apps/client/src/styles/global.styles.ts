@@ -8,8 +8,6 @@ import { colors } from './colors.styles';
 import { cssFontDefaults } from './fonts.styles';
 import { generateColorVariables } from './utils/custom.variables';
 
-log('__COLORS', 'orange', colors);
-
 export const cssGlobal = css`
   *,
   *::before,
@@ -48,5 +46,36 @@ export const cssGlobal = css`
 
     height: 100vh;
     overflow: hidden;
+  }
+
+  /** CUSTOM SCROLLBARS FOR ELEMENTS (NOT BODY) **/
+  /* Target all elements with scrollbars except body and html */
+  :not(body):not(html)::-webkit-scrollbar {
+    width: 15px;
+    height: 15px;
+  }
+
+  :not(body):not(html)::-webkit-scrollbar-track {
+    background: ${colors.greyXXLight};
+    border-radius: 6px;
+  }
+
+  :not(body):not(html)::-webkit-scrollbar-thumb {
+    background: ${colors.greyLight};
+    border-radius: 6px;
+    border: 2px solid ${colors.greyXXLight}; /* Creates inset effect */
+
+    &:hover {
+      background: ${colors.grey};
+    }
+
+    &:active {
+      background: ${colors.greyDark};
+    }
+  }
+
+  /* Corner styling when both scrollbars are present */
+  :not(body):not(html)::-webkit-scrollbar-corner {
+    background: ${colors.greyXXLight};
   }
 `;

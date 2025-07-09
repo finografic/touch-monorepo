@@ -99,6 +99,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       drinkType: '',
       drinkSubtype: '',
       volume: '',
+
       containerType: '',
       defaultTempConsume: 5,
       defaultTempFreeze: -2,
