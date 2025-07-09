@@ -1,1 +1,0 @@
-export { OrdersFormPOC } from './OrdersFormPOC';

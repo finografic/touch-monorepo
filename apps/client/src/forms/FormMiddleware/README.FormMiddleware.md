@@ -125,7 +125,7 @@ const InputTemperature = ({ name }) => {
 ### Localization
 
 - Spanish comma formatting for temperature inputs
-- Time formatting (mm:ss)
+- Time formatting (mm:ss) - kept local for reusability
 - Automatic parsing on input
 
 ### Progressive Forms
@@ -146,6 +146,49 @@ const InputTemperature = ({ name }) => {
 - Form-wide validation
 - Field state queries
 
+## Architectural Decision Framework
+
+When deciding what logic to centralize vs. keep local, we use this framework:
+
+### Centralize to Middleware When
+
+✅ **Cross-field dependencies** exist (temp freeze depends on temp consume)
+✅ **Form-specific business rules** apply (validation, constraints)
+✅ **Complex state management** needed (debouncing, typing interruption)
+✅ **Internationalization** complexity (Spanish comma/dot conversion)
+✅ **Progressive behavior** required (enable next row when current complete)
+
+### Keep Local When
+
+✅ **Domain-specific logic** that's reusable (mm:ss ↔ seconds conversion)
+✅ **UI/UX formatting** behavior (input parsing, display formatting)
+✅ **Component-specific** interaction (keyboard shortcuts, focus handling)
+✅ **Simple, self-contained** operations (format validation)
+✅ **High reusability** across different contexts (charts, timers, standalone forms)
+
+### Create Hybrid When
+
+✅ **Component needs to work** both with and without middleware
+✅ **Local logic exists** but form integration is beneficial
+✅ **Maximum flexibility** required for different use cases
+
+### Real-World Examples
+
+```typescript
+// Temperature: Complex cross-cutting concerns → Full Middleware
+// - Spanish i18n, debouncing, cross-field constraints
+<InputTemperature name="defaultTempConsume" />
+
+// Time: Simple domain logic + form integration → Hybrid
+// - Local mm:ss conversion, middleware for form state
+<InputTime name="time_a" />          // Middleware mode
+<InputTime value={seconds} onChange={handler} />  // Standalone mode
+
+// Text: Simple input → Minimal middleware
+// - Just form state, validation stays in form schema
+<InputText name="drinkName" />
+```
+
 ## Migration Path
 
 1. **Phase 1**: Create middleware infrastructure (types, provider, hooks)
@@ -153,6 +196,58 @@ const InputTemperature = ({ name }) => {
 3. **Phase 3**: Migrate input components to use middleware
 4. **Phase 4**: Remove complex logic from form components
 5. **Phase 5**: Extend to other forms in the application
+
+## Component Architecture Decisions
+
+### InputTemperature: Full Middleware Integration
+
+**Complex Cross-Cutting Concerns → Centralized**
+
+```typescript
+// MOVED TO MIDDLEWARE:
+// - Spanish localization (comma/dot conversion)
+// - 1000ms debouncing (typing interruption prevention)
+// - Cross-field constraints (freeze temp max = consume temp - 2°C)
+// - Dynamic validation with i18n messages
+
+// KEPT LOCAL: UI interaction only
+<TextField.Root>
+  <TextField.Slot side="left">Step buttons</TextField.Slot>
+  <TextField.Slot side="right">C° unit</TextField.Slot>
+</TextField.Root>
+```
+
+### InputTime: Hybrid Approach
+
+**Domain Logic Local + Form Logic Middleware**
+
+```typescript
+// KEPT LOCAL (Reusable Domain Logic):
+const formatTime = (seconds) => "mm:ss"; // Time-specific conversion
+const parseTime = (timeString) => seconds; // Format parsing
+// Input formatting: "5" → "00:05", "130" → "01:30"
+
+// MOVED TO MIDDLEWARE (Form Integration):
+middleware.watch(name); // Form state
+middleware.getFieldConstraints(name); // Dynamic constraints
+middleware.isFieldEnabled(name); // Progressive enabling
+
+// HYBRID (Context-Aware):
+const notifyChange = (seconds) => {
+  if (isMiddlewareMode) middleware.setFieldValue(name, seconds);
+  else if (onTimeChange) onTimeChange(seconds);
+};
+```
+
+**Why Different Approaches?**
+
+| Complexity Type | InputTemperature | InputTime |
+|-----------------|------------------|-----------|
+| **Cross-field dependencies** | ✅ High (freeze max from consume) | ❌ Low (independent) |
+| **Internationalization** | ✅ Complex (Spanish comma/dot) | ❌ None (universal mm:ss) |
+| **Typing behavior** | ✅ Complex (debounce interruption) | ❌ Simple (immediate) |
+| **Reusability need** | ❌ Form-specific constraints | ✅ High (charts, timers, etc.) |
+| **Domain logic** | ❌ Simple (number) | ✅ Rich (time formatting) |
 
 ## Impact on Code Quality
 
@@ -175,4 +270,11 @@ const InputTemperature = ({ name }) => {
 - **Before**: 335 lines with complex field dependencies
 - **After**: ~50 lines of pure UI composition
 
-This approach transforms scattered, complex form logic into a clean, declarative, and maintainable system.
+### Hybrid Components (InputTime)
+
+- **Dual Mode**: Works with or without FormMiddleware
+- **Local Domain Logic**: mm:ss conversion stays in component
+- **Middleware Integration**: Form state and constraints when available
+- **Maximum Reusability**: Can be used in charts, timers, standalone forms
+
+This approach transforms scattered, complex form logic into a clean, declarative, and maintainable system while preserving reusability where it matters most.

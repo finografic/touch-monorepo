@@ -64,7 +64,7 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
     }
   };
 
-  const fieldId = name || `field-${Math.random().toString(36).substr(2, 9)}`;
+  const fieldId = name || `field-${Math.random().toString(36).substring(2, 9)}`;
 
   return (
     <Box

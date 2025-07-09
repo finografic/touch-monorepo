@@ -16,7 +16,6 @@ import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
 import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPage';
-import { FormMiddlewareDemo } from 'pages/AdminPages/FormMiddlewareDemo';
 
 export const routes: RouteObject[] = [
   {
@@ -125,11 +124,6 @@ export const routes: RouteObject[] = [
         path: 'filter-analysis',
         id: 'filter-analysis',
         element: <AdminFilterAnalysisPage />,
-      },
-      {
-        path: 'form-middleware-demo',
-        id: 'form-middleware-demo',
-        element: <FormMiddlewareDemo />,
       },
     ],
   },

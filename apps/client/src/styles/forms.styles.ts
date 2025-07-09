@@ -312,13 +312,73 @@ export const formsValidation = css`
 // ======================================================================== //
 
 export const formsCustom = css`
-  /* INPUT SLOTS */
-  input + .rt-TextFieldSlot,
-  input + .rt-TextFieldSlot + .rt-TextFieldSlot {
-    /* border-color: red !important; */
+  /* INPUT SLOTS - Standardized classes for consistent styling */
+  .input-slot-left,
+  .input-slot-right {
+    /* Base slot styling */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 2rem;
+    padding: 0 0.5rem;
+    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
+    background-color: ${forms.inputs.background};
+    transition: ${forms.inputs.transition};
 
-    &:focus {
-      /* box-shadow: 0 0 0 3px red !important; */
+    /* Icon styling */
+    svg {
+      flex-shrink: 0;
+    }
+
+    /* Hover state for interactive slots */
+    &.interactive {
+      cursor: pointer;
+
+      &:hover {
+        background-color: ${colors.greyXLight};
+      }
+    }
+  }
+
+  .input-slot-left {
+    border-right: none;
+    border-top-left-radius: ${forms.inputs.border.radius};
+    border-bottom-left-radius: ${forms.inputs.border.radius};
+  }
+
+  .input-slot-right {
+    border-left: none;
+    border-top-right-radius: ${forms.inputs.border.radius};
+    border-bottom-right-radius: ${forms.inputs.border.radius};
+  }
+
+  /* Component-specific slot styling */
+  .temperature-controls-slot,
+  .time-controls-slot {
+    /* Step buttons container */
+    padding: 0.25rem 0.5rem;
+  }
+
+  .temperature-unit-slot {
+    /* Temperature unit display */
+    font-weight: 500;
+    color: ${colors.greyDark};
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .search-icon-slot,
+  .action-icon-slot {
+    /* Search and action icons */
+    color: ${colors.greyDark};
+  }
+
+  .dropdown-chevron-slot {
+    /* Dropdown chevron indicators */
+    color: ${colors.greyDark};
+
+    svg {
+      transition: transform 0.2s ease;
     }
   }
 

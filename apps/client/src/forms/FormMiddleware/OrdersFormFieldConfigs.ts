@@ -135,5 +135,5 @@ export const ordersFormFieldConfigs: FieldConfig<OrdersFormValues>[] = [
   },
 ];
 
-// Legacy field configs for POC (keeping for backward compatibility)
+// Legacy export name for backward compatibility
 export const ordersFieldConfigs = ordersFormFieldConfigs;

@@ -17,6 +17,9 @@ export const TIMER_POLLING_INTERVAL = 5000;
 /** Demo form submission delay (ms) */
 export const DEMO_FORM_SUBMISSION_DELAY = 1000;
 
+/** Constraint warning auto-correction timeout (ms) */
+export const CONSTRAINT_WARNING_TIMEOUT = 2000;
+
 // ============================================================================
 // TEMPERATURE CONSTANTS
 // ============================================================================

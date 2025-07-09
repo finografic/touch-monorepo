@@ -2,7 +2,7 @@ import React from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Button } from '@radix-ui/themes';
 import { ShuffleIcon } from '@radix-ui/react-icons';
-import { InputTemperatureMiddleware } from '../InputTemperatureMiddleware';
+import { InputTemperature } from '../InputTemperature';
 import { InputTime } from '../InputTime';
 import { styles } from './TimesTableRepeater.styles';
 import { useDev } from 'providers/DevProvider';
@@ -163,41 +163,32 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
             className={`table-row ${isEditable ? 'row-editable' : 'row-disabled'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
           >
             <div className={`input-wrapper ${tempValidationClass}`}>
-              <InputTemperatureMiddleware name={`${name}.${index}.temperature`} disabled={!isEditable} />
+              <InputTemperature name={`${name}.${index}.temperature`} disabled={!isEditable} />
             </div>
             <div className={`input-wrapper ${timeAValidationClass}`}>
               <InputTime
-                value={timeRows[index]?.time_a}
+                name={`${name}.${index}.time_a`}
                 min={0}
                 max={3600}
                 step={30}
-                onTimeChange={(seconds) => {
-                  setValue(`${name}.${index}.time_a`, seconds, { shouldValidate: true });
-                }}
                 disabled={!isEditable}
               />
             </div>
             <div className={`input-wrapper ${timeBValidationClass}`}>
               <InputTime
-                value={timeRows[index]?.time_b}
+                name={`${name}.${index}.time_b`}
                 min={0}
                 max={3600}
                 step={30}
-                onTimeChange={(seconds) => {
-                  setValue(`${name}.${index}.time_b`, seconds, { shouldValidate: true });
-                }}
                 disabled={!isEditable}
               />
             </div>
             <div className={`input-wrapper ${timeCValidationClass}`}>
               <InputTime
-                value={timeRows[index]?.time_c}
+                name={`${name}.${index}.time_c`}
                 min={0}
                 max={3600}
                 step={30}
-                onTimeChange={(seconds) => {
-                  setValue(`${name}.${index}.time_c`, seconds, { shouldValidate: true });
-                }}
                 disabled={!isEditable}
               />
             </div>

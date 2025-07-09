@@ -16,19 +16,25 @@ export const styles = css`
       }
     }
 
-    /* Style disabled slots (left side with buttons) */
+    /* Style disabled slots */
     &:has(.rt-TextFieldInput:disabled) .rt-TextFieldSlot {
       background-color: ${colors.greyXXLight}60; /* Lighter background for slot */
       border-color: ${colors.greyXLight}; /* Dimmed border */
       opacity: 0.7; /* Additional dimming */
 
-      /* Disabled buttons in slot */
-      .rt-IconButton:disabled {
+      /* Disabled buttons in left slot */
+      &.time-controls-slot .rt-IconButton:disabled {
         background-color: transparent;
         border-color: ${colors.greyXLight};
         color: ${colors.greyLight};
         opacity: 0.5;
       }
+    }
+
+    /* Specific slot styling */
+    .time-controls-slot {
+      /* Left slot with step buttons */
+      border-right: 1px solid ${colors.greyLight};
     }
   }
 `;

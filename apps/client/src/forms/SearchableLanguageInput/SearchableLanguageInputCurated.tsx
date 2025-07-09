@@ -178,10 +178,10 @@ export const SearchableLanguageInputCurated: React.FC<SearchableLanguageInputCur
           disabled={disabled}
           size="3"
         >
-          <TextField.Slot>
+          <TextField.Slot side="left" className="input-slot-left search-icon-slot">
             <MagnifyingGlassIcon height="24" width="24" style={{ marginLeft: '6px' }} />
           </TextField.Slot>
-          <TextField.Slot>
+          <TextField.Slot side="right" className="input-slot-right dropdown-chevron-slot">
             <ChevronDownIcon
               height="24"
               width="24"

@@ -3,18 +3,25 @@ import { IconButton, TextField } from '@radix-ui/themes';
 import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { colors } from 'styles';
 import { styles } from './InputTime.styles';
+import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
+import { STEP_BUTTON_SIZE, STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
 
 interface InputTimeProps {
+  // FormMiddleware integration (when used in FormMiddleware forms)
+  name?: string; // Field name for middleware integration
+
+  // Standalone props (when used without FormMiddleware)
   value?: number; // in seconds
   defaultValue?: number; // in seconds
   min?: number; // in seconds
   max?: number; // in seconds
   step?: number; // in seconds, default 30 seconds
   disabled?: boolean;
-  onTimeChange: (seconds: number) => void;
+  onTimeChange?: (seconds: number) => void; // Optional when using middleware
 }
 
 export const InputTime: React.FC<InputTimeProps> = ({
+  name,
   value,
   defaultValue = 0,
   min = 0,
@@ -23,6 +30,37 @@ export const InputTime: React.FC<InputTimeProps> = ({
   disabled = false,
   onTimeChange,
 }) => {
+  // Try to get FormMiddleware context (will be null if not in a FormMiddleware form)
+  let middleware = null;
+  try {
+    middleware = useFormMiddleware();
+  } catch {
+    // Not in a FormMiddleware context, use standalone mode
+  }
+
+  // Determine if we're using middleware or standalone mode
+  const isMiddlewareMode = middleware && name;
+
+  // Get middleware values when available
+  const middlewareValue = isMiddlewareMode && middleware ? middleware.watch(name!) : undefined;
+  const constraints = isMiddlewareMode && middleware ? middleware.getFieldConstraints(name!) : { min, max };
+  const isEnabled =
+    isMiddlewareMode && middleware ? middleware.isFieldEnabled(name!) && !disabled : !disabled;
+
+  // Determine current value source
+  const currentValue = isMiddlewareMode ? middlewareValue : value;
+
+  // Helper function to notify value changes
+  const notifyChange = useCallback(
+    (seconds: number) => {
+      if (isMiddlewareMode) {
+        middleware!.setFieldValue(name!, seconds);
+      } else if (onTimeChange) {
+        onTimeChange(seconds);
+      }
+    },
+    [isMiddlewareMode, middleware, name, onTimeChange],
+  );
   // Convert seconds to mm:ss format
   const formatTime = useCallback((seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -38,9 +76,9 @@ export const InputTime: React.FC<InputTimeProps> = ({
     return mins * 60 + secs;
   }, []);
 
-  // Check if we should show placeholder (when value is undefined)
-  const shouldShowPlaceholder = value === undefined;
-  const currentSeconds = shouldShowPlaceholder ? 0 : (value ?? defaultValue);
+  // Check if we should show placeholder (when currentValue is undefined)
+  const shouldShowPlaceholder = currentValue === undefined;
+  const currentSeconds = shouldShowPlaceholder ? 0 : (currentValue ?? defaultValue);
 
   // Local state for display value and validation
   const [displayValue, setDisplayValue] = useState(() => {
@@ -57,23 +95,23 @@ export const InputTime: React.FC<InputTimeProps> = ({
       setDisplayValue(formatTime(currentSeconds));
       setIsInvalid(false);
     }
-  }, [value, currentSeconds, formatTime, shouldShowPlaceholder]);
+  }, [currentValue, currentSeconds, formatTime, shouldShowPlaceholder]);
 
   const handleStepUp = useCallback(() => {
-    const baseValue = value ?? 0; // Start from 0 if undefined
-    const newValue = Math.min(baseValue + step, max);
+    const baseValue = currentValue ?? 0; // Start from 0 if undefined
+    const newValue = Math.min(baseValue + step, constraints.max ?? max);
     setDisplayValue(formatTime(newValue));
     setIsInvalid(false);
-    onTimeChange(newValue);
-  }, [value, step, max, formatTime, onTimeChange]);
+    notifyChange(newValue);
+  }, [currentValue, step, constraints.max, max, formatTime, notifyChange]);
 
   const handleStepDown = useCallback(() => {
-    const baseValue = value ?? 0; // Start from 0 if undefined
-    const newValue = Math.max(baseValue - step, min);
+    const baseValue = currentValue ?? 0; // Start from 0 if undefined
+    const newValue = Math.max(baseValue - step, constraints.min ?? min);
     setDisplayValue(formatTime(newValue));
     setIsInvalid(false);
-    onTimeChange(newValue);
-  }, [value, step, min, formatTime, onTimeChange]);
+    notifyChange(newValue);
+  }, [currentValue, step, constraints.min, min, formatTime, notifyChange]);
 
   // Handle user typing mm:ss format
   const handleDisplayChange = useCallback(
@@ -87,12 +125,14 @@ export const InputTime: React.FC<InputTimeProps> = ({
       // If it's a valid mm:ss format, convert to seconds
       if (inputValue.match(/^\d{1,2}:\d{2}$/)) {
         const seconds = parseTime(inputValue);
-        if (seconds >= min && seconds <= max) {
-          onTimeChange(seconds);
+        const minConstraint = constraints.min ?? min;
+        const maxConstraint = constraints.max ?? max;
+        if (seconds >= minConstraint && seconds <= maxConstraint) {
+          notifyChange(seconds);
         }
       }
     },
-    [parseTime, min, max, onTimeChange],
+    [parseTime, constraints.min, constraints.max, min, max, notifyChange],
   );
 
   // Prevent ENTER from submitting form
@@ -144,14 +184,16 @@ export const InputTime: React.FC<InputTimeProps> = ({
 
         // Validate the formatted time
         const seconds = parseTime(formattedValue);
-        if (seconds >= min && seconds <= max) {
+        const minConstraint = constraints.min ?? min;
+        const maxConstraint = constraints.max ?? max;
+        if (seconds >= minConstraint && seconds <= maxConstraint) {
           setDisplayValue(formattedValue);
           setIsInvalid(false);
-          onTimeChange(seconds);
+          notifyChange(seconds);
         } else {
           // Invalid time, revert to previous valid value or empty
-          if (value !== undefined) {
-            setDisplayValue(formatTime(value));
+          if (currentValue !== undefined) {
+            setDisplayValue(formatTime(currentValue));
           } else {
             setDisplayValue('');
           }
@@ -162,7 +204,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
         setIsInvalid(true);
       }
     },
-    [value, formatTime, parseTime, min, max, onTimeChange],
+    [currentValue, formatTime, parseTime, constraints.min, constraints.max, min, max, notifyChange],
   );
 
   return (
@@ -171,7 +213,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
         className="time-input-root"
         type="text"
         placeholder="mm:ss"
-        disabled={disabled}
+        disabled={!isEnabled}
         value={displayValue}
         onChange={handleDisplayChange}
         onBlur={handleBlur}
@@ -180,25 +222,25 @@ export const InputTime: React.FC<InputTimeProps> = ({
         size="3"
         variant="surface"
       >
-        <TextField.Slot side="left">
+        <TextField.Slot side="left" className="input-slot-left time-controls-slot">
           {!isInvalid && (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginRight: '4px' }}>
               <IconButton
                 type="button"
-                variant="soft"
-                size="1"
+                variant={STEP_BUTTON_VARIANT}
+                size={STEP_BUTTON_SIZE}
                 onClick={handleStepUp}
-                disabled={disabled}
+                disabled={!isEnabled}
                 style={{ height: '16px', width: '20px', minWidth: '20px' }}
               >
                 <ChevronUpIcon style={{ height: '12px', width: '12px' }} />
               </IconButton>
               <IconButton
                 type="button"
-                variant="soft"
-                size="1"
+                variant={STEP_BUTTON_VARIANT}
+                size={STEP_BUTTON_SIZE}
                 onClick={handleStepDown}
-                disabled={disabled}
+                disabled={!isEnabled}
                 style={{ height: '16px', width: '20px', minWidth: '20px' }}
               >
                 <ChevronDownIcon style={{ height: '12px', width: '12px' }} />

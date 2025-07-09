@@ -208,7 +208,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
           disabled={disabled}
           size="3"
         >
-          <TextField.Slot>
+          <TextField.Slot side="left" className="input-slot-left action-icon-slot">
             {React.createElement(iconToShow, {
               height: 16,
               width: 16,
@@ -220,7 +220,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
               onClick: shouldShowAddIcon ? handleAddNew : undefined,
             })}
           </TextField.Slot>
-          <TextField.Slot>
+          <TextField.Slot side="right" className="input-slot-right dropdown-chevron-slot">
             <ChevronDownIcon
               height="16"
               width="16"

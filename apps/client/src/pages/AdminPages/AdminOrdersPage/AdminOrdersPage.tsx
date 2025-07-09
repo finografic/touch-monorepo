@@ -57,7 +57,6 @@ export const AdminOrdersPage: React.FC = () => {
     volume: string;
     containerType: string;
   }) => {
-    console.log('New order data:', formData);
     // TODO: Implement actual API call to create order
     // For now, just show success toast
     const subtypeText = formData.drinkSubtype ? ` (${formData.drinkSubtype})` : '';

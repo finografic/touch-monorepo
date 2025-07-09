@@ -1,1 +1,0 @@
-export { InputTemperatureMiddleware } from './InputTemperatureMiddleware';

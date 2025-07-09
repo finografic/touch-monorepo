@@ -6,7 +6,6 @@ import { Button } from '@radix-ui/themes';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { SelectSimple } from 'forms/SelectSimple';
 import { InputTemperature } from 'forms/InputTemperature';
-import { InputTemperatureMiddleware } from 'forms/InputTemperatureMiddleware';
 import { FormMiddlewareProvider } from 'forms/FormMiddleware/FormMiddleware.simple';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { TimesTableRepeater } from 'forms/TimesTableRepeater';
@@ -164,8 +163,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
   // Handle field changes for dependency management (middleware will also handle this)
   const handleFieldChange = (fieldName: string, value: any, allFormValues: MiddlewareOrdersFormValues) => {
-    console.log(`Field ${fieldName} changed to:`, value);
-
     // Example of centralized dependency logic (middleware will do this, but keeping for backward compatibility)
     if (fieldName === 'defaultTempConsume') {
       const currentFreezeTemp = allFormValues.defaultTempFreeze;
@@ -285,14 +282,14 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 <Col xs={2} md={2} className="col col-form-fields">
                   {/* Temperatura consumo - MIDDLEWARE MAGIC! */}
                   <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
-                    <InputTemperatureMiddleware name="defaultTempConsume" />
+                    <InputTemperature name="defaultTempConsume" />
                   </FieldWrapper>
                 </Col>
 
                 <Col xs={2} md={2} className="col col-form-fields">
                   {/* Temperatura congelación - MIDDLEWARE MAGIC WITH DYNAMIC CONSTRAINTS! */}
                   <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
-                    <InputTemperatureMiddleware name="defaultTempFreeze" />
+                    <InputTemperature name="defaultTempFreeze" />
                   </FieldWrapper>
                 </Col>
               </Row>
