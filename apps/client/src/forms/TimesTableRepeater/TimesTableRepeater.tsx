@@ -18,13 +18,15 @@ interface TimesTableRepeaterProps {
   name: string;
   emptyRowValues: TimeRowData;
   minRows?: number;
+  minVisibleRows?: number;
   language?: string;
 }
 
 export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   name,
   emptyRowValues,
-  minRows = 4,
+  minRows = 50,
+  minVisibleRows = 4,
   language = 'es-ES',
 }) => {
   const { control, register, setValue, watch, formState } = useFormContext();
@@ -124,6 +126,10 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
   const canAddRow = editableRowIndex === -1; // All rows are complete and valid
   const canDeleteRow = fields.length > minRows;
 
+  // Calculate row height for scrolling (approximate height per row including gaps)
+  const rowHeight = 60; // Estimated height per row in pixels
+  const containerHeight = minVisibleRows * rowHeight;
+
   return (
     <div css={styles} className="times-table">
       {/* Table Header */}
@@ -141,90 +147,92 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
         <div className="header-actions"></div>
       </div>
 
-      {/* Table Rows */}
-      {fields.map((field, index) => {
-        // A row is editable if:
-        // 1. It's the current editable row (first incomplete/invalid), OR
-        // 2. It's already complete and valid (for corrections)
-        const isEditable = index === editableRowIndex || isRowCompleteAndValid(index);
+      {/* Scrollable Table Rows Container */}
+      <div className="table-rows-container" style={{ height: `${containerHeight}px` }}>
+        {fields.map((field, index) => {
+          // A row is editable if:
+          // 1. It's the current editable row (first incomplete/invalid), OR
+          // 2. It's already complete and valid (for corrections)
+          const isEditable = index === editableRowIndex || isRowCompleteAndValid(index);
 
-        const isFirst = index === 0;
-        const isLast = index === fields.length - 1;
+          const isFirst = index === 0;
+          const isLast = index === fields.length - 1;
 
-        // Validation classes for first row
-        const tempValidationClass = isFirst && isFirstRowFieldRequired('temperature') ? 'field-error' : '';
-        const timeAValidationClass = isFirst && isFirstRowFieldRequired('time_a') ? 'field-error' : '';
-        const timeBValidationClass = isFirst && isFirstRowFieldRequired('time_b') ? 'field-error' : '';
-        const timeCValidationClass = isFirst && isFirstRowFieldRequired('time_c') ? 'field-error' : '';
+          // Validation classes for first row
+          const tempValidationClass = isFirst && isFirstRowFieldRequired('temperature') ? 'field-error' : '';
+          const timeAValidationClass = isFirst && isFirstRowFieldRequired('time_a') ? 'field-error' : '';
+          const timeBValidationClass = isFirst && isFirstRowFieldRequired('time_b') ? 'field-error' : '';
+          const timeCValidationClass = isFirst && isFirstRowFieldRequired('time_c') ? 'field-error' : '';
 
-        return (
-          <div
-            key={field.id}
-            className={`table-row ${isEditable ? 'row-editable' : 'row-disabled'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
-          >
-            <div className={`input-wrapper ${tempValidationClass}`}>
-              <InputTemperature name={`${name}.${index}.temperature`} disabled={!isEditable} />
-            </div>
-            <div className={`input-wrapper ${timeAValidationClass}`}>
-              <InputTime
-                name={`${name}.${index}.time_a`}
-                min={0}
-                max={3600}
-                step={30}
-                disabled={!isEditable}
-              />
-            </div>
-            <div className={`input-wrapper ${timeBValidationClass}`}>
-              <InputTime
-                name={`${name}.${index}.time_b`}
-                min={0}
-                max={3600}
-                step={30}
-                disabled={!isEditable}
-              />
-            </div>
-            <div className={`input-wrapper ${timeCValidationClass}`}>
-              <InputTime
-                name={`${name}.${index}.time_c`}
-                min={0}
-                max={3600}
-                step={30}
-                disabled={!isEditable}
-              />
-            </div>
-            <div className="action-button-container">
-              {/* Random values button - only show on editable rows */}
-              {isDevToolsVisible && isEditable && (
-                <Button
-                  type="button"
-                  variant="soft"
-                  size="1"
-                  color="gray"
-                  onClick={() => generateRandomValues(index)}
-                  className="random-button"
-                  title="Generate random values"
-                >
-                  <ShuffleIcon style={{ height: '14px', width: '14px' }} />
-                </Button>
-              )}
+          return (
+            <div
+              key={field.id}
+              className={`table-row ${isEditable ? 'row-editable' : 'row-disabled'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
+            >
+              <div className={`input-wrapper ${tempValidationClass}`}>
+                <InputTemperature name={`${name}.${index}.temperature`} disabled={!isEditable} />
+              </div>
+              <div className={`input-wrapper ${timeAValidationClass}`}>
+                <InputTime
+                  name={`${name}.${index}.time_a`}
+                  min={0}
+                  max={3600}
+                  step={30}
+                  disabled={!isEditable}
+                />
+              </div>
+              <div className={`input-wrapper ${timeBValidationClass}`}>
+                <InputTime
+                  name={`${name}.${index}.time_b`}
+                  min={0}
+                  max={3600}
+                  step={30}
+                  disabled={!isEditable}
+                />
+              </div>
+              <div className={`input-wrapper ${timeCValidationClass}`}>
+                <InputTime
+                  name={`${name}.${index}.time_c`}
+                  min={0}
+                  max={3600}
+                  step={30}
+                  disabled={!isEditable}
+                />
+              </div>
+              <div className="action-button-container">
+                {/* Random values button - only show on editable rows */}
+                {isDevToolsVisible && isEditable && (
+                  <Button
+                    type="button"
+                    variant="soft"
+                    size="1"
+                    color="gray"
+                    onClick={() => generateRandomValues(index)}
+                    className="random-button"
+                    title="Generate random values"
+                  >
+                    <ShuffleIcon style={{ height: '14px', width: '14px' }} />
+                  </Button>
+                )}
 
-              {/* Delete button */}
-              {canDeleteRow && (
-                <Button
-                  type="button"
-                  variant="ghost"
-                  size="1"
-                  color="red"
-                  onClick={() => remove(index)}
-                  className="delete-button"
-                >
-                  ×
-                </Button>
-              )}
+                {/* Delete button */}
+                {canDeleteRow && (
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="1"
+                    color="red"
+                    onClick={() => remove(index)}
+                    className="delete-button"
+                  >
+                    ×
+                  </Button>
+                )}
+              </div>
             </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
 
       {/* Add Row Button - only show when all existing rows are complete */}
       {canAddRow && (

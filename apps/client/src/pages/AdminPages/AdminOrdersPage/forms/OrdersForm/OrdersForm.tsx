@@ -9,6 +9,7 @@ import { InputTemperature } from 'forms/InputTemperature';
 import { FormMiddlewareProvider } from 'forms/FormMiddleware/FormMiddleware.simple';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { TimesTableRepeater } from 'forms/TimesTableRepeater';
+import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { useGetContainerTypes } from 'queries/container-types';
@@ -101,12 +102,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       containerType: '',
       defaultTempConsume: 5,
       defaultTempFreeze: -2,
-      timeRows: [
-        PROFILE_ITEM_VALUES_EMPTY,
-        PROFILE_ITEM_VALUES_EMPTY,
-        PROFILE_ITEM_VALUES_EMPTY,
-        PROFILE_ITEM_VALUES_EMPTY,
-      ],
+      timeRows: Array.from({ length: MIN_TABLE_ROWS }, () => PROFILE_ITEM_VALUES_EMPTY),
     },
   });
 
@@ -300,27 +296,14 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 <TimesTableRepeater
                   name="timeRows"
                   emptyRowValues={PROFILE_ITEM_VALUES_EMPTY}
-                  minRows={4}
+                  minRows={MIN_TABLE_ROWS}
+                  minVisibleRows={MIN_TABLE_VISIBLE_ROWS}
                   language={language}
                 />
               </Col>
 
               {/* ======================================================================== */}
             </Col>
-            {/* <Col xs={2} md={2} className="col col-form-buttons">
-              <pre style={{ overflow: 'visible', transform: 'translateX(-30%)' }}>
-                {JSON.stringify(formValues, null, 2)}
-              </pre>
-              <Button
-                type="submit"
-                style={{ padding: '1rem 3rem' }}
-                // disabled={!isValid || isLoading}
-                loading={isLoading}
-                size="3"
-              >
-                SAVE
-              </Button>
-            </Col> */}
           </Row>
           <Row className="row">
             <Col xs={12} md={12} className="col col-form-buttons">

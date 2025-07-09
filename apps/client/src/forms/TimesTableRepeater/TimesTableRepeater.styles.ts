@@ -4,6 +4,8 @@ import { cssFontMono } from 'styles/fonts.styles';
 
 export const styles = css`
   width: 100%;
+  display: flex;
+  flex-direction: column;
 
   &.times-table-repeater {
     width: 100%;
@@ -20,6 +22,7 @@ export const styles = css`
     font-weight: 500;
     font-size: 14px;
     color: var(--gray-11);
+    flex-shrink: 0; /* Keep header fixed when scrolling */
 
     .header-column {
       display: flex;
@@ -37,6 +40,32 @@ export const styles = css`
     }
     .header-actions {
       width: 40px;
+    }
+  }
+
+  .table-rows-container {
+    overflow-y: auto;
+    /* Height will be set dynamically based on minVisibleRows */
+    border: 1px solid ${colors.greyLight};
+    border-radius: 0 0 6px 6px;
+
+    /* Custom scrollbar styling */
+    &::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: ${colors.greyXXLight};
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: ${colors.greyLight};
+      border-radius: 4px;
+
+      &:hover {
+        background: ${colors.grey};
+      }
     }
   }
 
