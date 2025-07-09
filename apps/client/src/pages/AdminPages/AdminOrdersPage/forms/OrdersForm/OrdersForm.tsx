@@ -334,7 +334,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 loading={isLoading}
                 size="3"
               >
-                AÑADIR
+                GUARDAR
               </Button>
             </Col>
           </Row>

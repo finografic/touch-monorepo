@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 import React, { memo } from 'react';
-import { Box, Callout, Flex, Heading, Text } from '@radix-ui/themes';
-import { styles } from './AdminContent.styles';
+import { Callout, Heading, Text } from '@radix-ui/themes';
 
 interface AdminContentLayoutProps {
   title: string;
@@ -19,10 +18,7 @@ interface AdminContentLayoutProps {
 export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
   ({ title, subtitle, children, message, isLoading = false, error, centerTitle = false }) => {
     return (
-      <section
-        //  css={styles}
-        className="admin-page"
-      >
+      <section className="admin-page">
         <div className="admin-page-container">
           <div
             className={`admin-page-header ${centerTitle ? 'centered' : ''}`}

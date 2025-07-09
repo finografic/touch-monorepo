@@ -116,7 +116,7 @@ export const AdminOrdersPage: React.FC = () => {
         <Row className="form-section">
           <Col>
             {/* Add New Order Form */}
-            <AdminSection title="">
+            <AdminSection title="Formulario de datos">
               <OrdersForm onSubmit={handleAddOrder} />
             </AdminSection>
           </Col>
@@ -125,7 +125,7 @@ export const AdminOrdersPage: React.FC = () => {
         <Row>
           <Col>
             {/* Orders Data */}
-            <AdminSection title="Orders Data">
+            <AdminSection title="Registro de entradas">
               <OrdersTable
                 orders={filteredOrders}
                 searchTerm={searchTerm}

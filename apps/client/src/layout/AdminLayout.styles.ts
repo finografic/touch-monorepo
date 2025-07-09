@@ -234,10 +234,17 @@ export const styles = css`
   }
 
   .admin-page-container {
-    /* border: 1px solid red;
-    max-width: 90vw !important;
-    min-width: 100%;
-    width: 100% !important; */
+    .admin-section {
+      .section-header {
+        h3 {
+          color: ${colors.text};
+          font-size: 2rem;
+          font-weight: 700;
+          margin-bottom: ${spacing[2]};
+          padding-bottom: ${spacing[2]};
+        }
+      }
+    }
   }
 
   /* ========================================
