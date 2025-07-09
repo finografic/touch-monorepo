@@ -61,6 +61,7 @@ export const styles = css`
     /* Height will be set dynamically based on minVisibleRows */
     border: 1px solid ${colors.greyLight};
     border-radius: 0 0 6px 6px;
+
     /* Scrollbar styling inherited from global styles */
   }
 
@@ -98,10 +99,10 @@ export const styles = css`
     }
 
     &.first {
-      /* .input-wrapper {
-        padding: 0.5rem;
-        padding-top: 1rem;
-      } */
+      .input-wrapper {
+        /* padding: 0.5rem; */
+        padding-top: 0.5rem;
+      }
     }
 
     &.last {
@@ -147,7 +148,24 @@ export const styles = css`
   }
 
   .add-row-container {
-    padding: 12px 16px;
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding: ${spacing[4]} 0;
+    border-top: 1px solid ${colors.greyXXLight};
+  }
+
+  .table-footer {
+    padding: 0.5rem;
+    border-top: 1px solid ${colors.greyXXLight};
+  }
+
+  .total-rows-counter {
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    font-size: 14px;
+    color: var(--gray-11);
+    letter-spacing: 0.025em;
+    padding: 0.25rem 0;
   }
 `;

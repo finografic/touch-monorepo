@@ -86,6 +86,11 @@ export const styles = css`
       }
     }
 
+    .col-form-table {
+      padding: 0 !important;
+      margin-bottom: 0;
+    }
+
     .simple-select > button {
       flex: 1;
       width: 100%;

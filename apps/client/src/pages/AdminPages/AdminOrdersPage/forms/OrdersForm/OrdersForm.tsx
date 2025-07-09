@@ -261,7 +261,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       >
         <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
           <Row className="row">
-            <Col xs={12} md={12} className="col col-form-fields">
+            <Col xs={12} md={12} className="col">
               {/* ======================================================================== */}
 
               <Row className="row">
@@ -356,7 +356,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
               {/* ======================================================================== */}
 
-              <Col xs={12} md={12} className="col col-form-fields">
+              <Col xs={12} md={12} className="col col-form-fields col-form-table">
                 <TimesTableRepeater
                   name="timeRows"
                   emptyRowValues={PROFILE_ITEM_VALUES_EMPTY}

@@ -112,7 +112,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
 
   // Calculate row height for scrolling (approximate height per row including gaps)
   const rowHeight = 60; // Estimated height per row in pixels
-  const containerHeight = minVisibleRows * rowHeight + 12;
+  const containerHeight = minVisibleRows * rowHeight + 16;
 
   // Calculate if internal add button should be hidden (when external callback is provided)
   const hideInternalAddButton = Boolean(onCanAddRowChange);
@@ -237,6 +237,15 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
           </Button>
         </div>
       )}
+
+      {/* Total rows counter */}
+      <div className="table-footer">
+        <div className="total-rows-counter">
+          <Text size="2" weight="medium" color="gray">
+            filas: {fields.length}
+          </Text>
+        </div>
+      </div>
     </div>
   );
 };
