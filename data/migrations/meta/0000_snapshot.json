@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "3b105b19-5aa6-4941-96fd-1a1877078fb1",
+  "id": "5bf4da7f-f632-4070-be48-c32ad9af7c4c",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -653,13 +653,6 @@
           "notNull": true,
           "autoincrement": false
         },
-        "temperature_profile_id": {
-          "name": "temperature_profile_id",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
         "default_temp_consume": {
           "name": "default_temp_consume",
           "type": "integer",
@@ -744,19 +737,6 @@
           "tableTo": "container_types",
           "columnsFrom": [
             "container_type_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "cascade",
-          "onUpdate": "no action"
-        },
-        "orders_temperature_profile_id_temperature_profiles_id_fk": {
-          "name": "orders_temperature_profile_id_temperature_profiles_id_fk",
-          "tableFrom": "orders",
-          "tableTo": "temperature_profiles",
-          "columnsFrom": [
-            "temperature_profile_id"
           ],
           "columnsTo": [
             "id"
@@ -870,6 +850,13 @@
           "notNull": true,
           "autoincrement": false
         },
+        "order_id": {
+          "name": "order_id",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "cooling_profile_id": {
           "name": "cooling_profile_id",
           "type": "text",
@@ -908,6 +895,19 @@
       },
       "indexes": {},
       "foreignKeys": {
+        "temperature_profiles_order_id_orders_id_fk": {
+          "name": "temperature_profiles_order_id_orders_id_fk",
+          "tableFrom": "temperature_profiles",
+          "tableTo": "orders",
+          "columnsFrom": [
+            "order_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
         "temperature_profiles_cooling_profile_id_cooling_profiles_id_fk": {
           "name": "temperature_profiles_cooling_profile_id_cooling_profiles_id_fk",
           "tableFrom": "temperature_profiles",

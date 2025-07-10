@@ -99,7 +99,6 @@ CREATE TABLE `orders` (
 	`drink_subtype_id` text,
 	`volume_id` text NOT NULL,
 	`container_type_id` text NOT NULL,
-	`temperature_profile_id` text NOT NULL,
 	`default_temp_consume` integer NOT NULL,
 	`default_temp_freeze` integer NOT NULL,
 	`is_active` integer DEFAULT true NOT NULL,
@@ -108,8 +107,7 @@ CREATE TABLE `orders` (
 	FOREIGN KEY (`drink_type_id`) REFERENCES `drink_types`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`drink_subtype_id`) REFERENCES `drink_subtypes`(`id`) ON UPDATE no action ON DELETE set null,
 	FOREIGN KEY (`volume_id`) REFERENCES `volumes`(`id`) ON UPDATE no action ON DELETE cascade,
-	FOREIGN KEY (`container_type_id`) REFERENCES `container_types`(`id`) ON UPDATE no action ON DELETE cascade,
-	FOREIGN KEY (`temperature_profile_id`) REFERENCES `temperature_profiles`(`id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`container_type_id`) REFERENCES `container_types`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `supported_languages` (
@@ -128,11 +126,13 @@ CREATE TABLE `supported_languages` (
 CREATE UNIQUE INDEX `supported_languages_iso_code_unique` ON `supported_languages` (`iso_code`);--> statement-breakpoint
 CREATE TABLE `temperature_profiles` (
 	`id` text PRIMARY KEY NOT NULL,
+	`order_id` text NOT NULL,
 	`cooling_profile_id` text NOT NULL,
 	`temperature` real NOT NULL,
 	`time_a` real NOT NULL,
 	`time_b` real NOT NULL,
 	`time_c` real NOT NULL,
+	FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`cooling_profile_id`) REFERENCES `cooling_profiles`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
