@@ -23,6 +23,7 @@ import {
 import { Col, Row } from 'react-grid-system';
 import { OrderFieldKeys } from 'constants/app.config';
 import { useDev } from 'providers/DevProvider';
+import type { OrderDev } from 'api/hooks/useOrdersDev';
 
 const PROFILE_ITEM_VALUES_EMPTY = {
   temperature: undefined,
@@ -91,12 +92,18 @@ interface OrdersFormProps {
   onSubmit: (formData: OrdersFormValues) => void;
   isLoading?: boolean;
   language?: string;
+  orderData?: OrderDev;
+  isEditMode?: boolean;
+  onNavigateBack?: () => void;
 }
 
 export const OrdersForm: React.FC<OrdersFormProps> = ({
   onSubmit,
   isLoading = false,
   language = 'es-ES',
+  orderData,
+  isEditMode = false,
+  onNavigateBack,
 }) => {
   const [tempItems, setTempItems] = useState<TempItems>({
     drinkTypes: [],
@@ -116,14 +123,13 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     reValidateMode: 'onChange',
     resolver: zodResolver(addOrderSchema),
     defaultValues: {
-      mode: 4,
-      drinkType: '',
-      drinkSubtype: '',
-      volume: '',
-
-      containerType: '',
-      defaultTempConsume: 5,
-      defaultTempFreeze: -2,
+      mode: orderData?.mode || 4,
+      drinkType: orderData?.drinkTypeName || '',
+      drinkSubtype: orderData?.drinkSubtypeName || '',
+      volume: orderData?.volumeName || '',
+      containerType: orderData?.containerTypeName || '',
+      defaultTempConsume: orderData?.defaultTempConsume || 5,
+      defaultTempFreeze: orderData?.defaultTempFreeze || -2,
       timeRows: Array.from({ length: MIN_TABLE_ROWS }, () => PROFILE_ITEM_VALUES_EMPTY),
     },
   });
@@ -377,28 +383,46 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 {JSON.stringify(formValues, null, 2)}
               </pre> */}
 
-              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                {/* Dev Tools: Mock All Rows Button */}
-                {isDevToolsVisible && (
-                  <Button type="button" variant="soft" size="3" onClick={handleMockAllRows} color="gray">
-                    🎲 Mock All Rows
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between',
+                  width: '100%',
+                }}
+              >
+                {/* Back button for edit mode - far left */}
+                {isEditMode && (
+                  <Button type="button" variant="soft" size="3" onClick={onNavigateBack}>
+                    ← Back to Orders
                   </Button>
                 )}
 
-                {/* Add Row Button */}
-                <Button type="button" variant="soft" size="3" onClick={handleAddRow} disabled={!canAddRow}>
-                  + Add Row
-                </Button>
+                {/* Right side buttons */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
+                  {/* Dev Tools: Mock All Rows Button */}
+                  {isDevToolsVisible && (
+                    <Button type="button" variant="soft" size="3" onClick={handleMockAllRows} color="gray">
+                      🎲 Mock All Rows
+                    </Button>
+                  )}
 
-                <Button
-                  type="submit"
-                  style={{ padding: '1rem 3rem' }}
-                  // disabled={!isValid || isLoading}
-                  loading={isLoading}
-                  size="3"
-                >
-                  GUARDAR
-                </Button>
+                  {/* Add Row Button */}
+                  <Button type="button" variant="soft" size="3" onClick={handleAddRow} disabled={!canAddRow}>
+                    + Add Row
+                  </Button>
+
+                  <Button
+                    type="submit"
+                    style={{ padding: '1rem 3rem' }}
+                    // disabled={!isValid || isLoading}
+                    loading={isLoading}
+                    size="3"
+                    color={isEditMode ? 'orange' : undefined}
+                  >
+                    {isEditMode ? 'CONFIRM CHANGES' : 'GUARDAR'}
+                  </Button>
+                </div>
               </div>
             </Col>
           </Row>

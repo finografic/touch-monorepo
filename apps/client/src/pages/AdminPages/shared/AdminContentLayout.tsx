@@ -4,6 +4,7 @@ import { Callout, Heading, Text } from '@radix-ui/themes';
 
 interface AdminContentLayoutProps {
   title: string;
+  detail?: string;
   subtitle?: string;
   children: ReactNode;
   message?: {
@@ -16,7 +17,7 @@ interface AdminContentLayoutProps {
 }
 
 export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
-  ({ title, subtitle, children, message, isLoading = false, error, centerTitle = false }) => {
+  ({ title, detail, subtitle, children, message, isLoading = false, error, centerTitle = false }) => {
     return (
       <section className="admin-page">
         <div className="admin-page-container">
@@ -26,6 +27,7 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
           >
             <Heading size="8" className="admin-page-title" align={centerTitle ? 'center' : 'left'}>
               {title}
+              {detail && <span style={{ opacity: 0.5 }}> : {detail}</span>}
             </Heading>
             {subtitle && (
               <Text

@@ -8,6 +8,8 @@ export const ORDERS_READABLE_QUERY_KEYS = {
   all: ['orders-readable'] as const,
   lists: () => [...ORDERS_READABLE_QUERY_KEYS.all, 'list'] as const,
   list: (filters?: string) => [...ORDERS_READABLE_QUERY_KEYS.lists(), { filters }] as const,
+  details: () => [...ORDERS_READABLE_QUERY_KEYS.all, 'detail'] as const,
+  detail: (id: string) => [...ORDERS_READABLE_QUERY_KEYS.details(), id] as const,
 };
 
 /**
@@ -25,6 +27,26 @@ export const useGetOrdersReadable = () => {
         throw transformAxiosError(error);
       }
     },
+    staleTime: 5 * 60 * 1000, // 5 minutes
+  });
+};
+
+/**
+ * Hook to fetch a single order by ID with readable names
+ */
+export const useGetOrderReadableById = (orderId: string | undefined) => {
+  return useQuery({
+    queryKey: ORDERS_READABLE_QUERY_KEYS.detail(orderId || ''),
+    queryFn: async (): Promise<OrderReadableModel> => {
+      try {
+        // For now, use the dev endpoint which includes both IDs and readable names
+        const response = await api.get(`/orders/${orderId}`);
+        return response.data;
+      } catch (error) {
+        throw transformAxiosError(error);
+      }
+    },
+    enabled: !!orderId,
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };

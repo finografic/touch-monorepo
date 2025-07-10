@@ -81,7 +81,7 @@ export const styles = css`
       flex-direction: column;
       justify-content: center;
       align-items: flex-end;
-      padding: ${spacing[0]} ${spacing[8]};
+      padding: ${spacing[4]} ${spacing[8]} ${spacing[0]};
 
       pre {
         width: 70%;

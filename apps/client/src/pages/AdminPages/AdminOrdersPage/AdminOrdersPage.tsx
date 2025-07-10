@@ -1,5 +1,5 @@
 import React, { useMemo, useState } from 'react';
-import { Flex, Spinner, Text } from '@radix-ui/themes';
+import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import { OrdersTable } from 'pages/AdminPages/AdminOrdersPage/OrdersTable';
@@ -9,16 +9,24 @@ import { Col, Row } from 'react-grid-system';
 import { styles } from './AdminOrdersPage.styles';
 import { Drawer } from 'components/Drawer';
 import { SearchBar } from 'components/SearchBar';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useGetOrderDev } from 'api/hooks/useOrdersDev';
 
 export const AdminOrdersPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { orderId } = useParams<{ orderId?: string }>();
 
-  // Fetch orders-readable data
+  // Determine if we're in edit mode
+  const isEditMode = Boolean(orderId);
+
+  // Fetch orders-readable data for the table
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
+
+  // Fetch individual order data when in edit mode
+  const { data: orderData, isLoading: isOrderLoading, error: orderError } = useGetOrderDev(orderId || '');
 
   // Simple search filtering
   const filteredOrders = useMemo(() => {
@@ -41,7 +49,7 @@ export const AdminOrdersPage: React.FC = () => {
     return results.slice(0, 200); // Limit to 200 for performance
   }, [ordersData, searchTerm]);
 
-  // Handle form submission (temporary - just show toast for now)
+  // Handle form submission for both create and update modes
   const handleAddOrder = (formData: {
     mode: number;
     drinkType: string;
@@ -49,14 +57,27 @@ export const AdminOrdersPage: React.FC = () => {
     volume: string;
     containerType: string;
   }) => {
-    // TODO: Implement actual API call to create order
-    // For now, just show success toast
-    const subtypeText = formData.drinkSubtype ? ` (${formData.drinkSubtype})` : '';
-    toast({
-      variant: 'success',
-      message: 'Order added successfully!',
-      subText: `${formData.drinkType}${subtypeText} ${formData.volume} in ${formData.containerType}`,
-    });
+    if (isEditMode) {
+      // TODO: Implement actual API call to update order
+      // For now, just show success toast
+      const subtypeText = formData.drinkSubtype ? ` (${formData.drinkSubtype})` : '';
+      toast({
+        variant: 'success',
+        message: 'Order updated successfully!',
+        subText: `${formData.drinkType}${subtypeText} ${formData.volume} in ${formData.containerType}`,
+      });
+      // Navigate back to orders list
+      navigate('/admin/orders');
+    } else {
+      // TODO: Implement actual API call to create order
+      // For now, just show success toast
+      const subtypeText = formData.drinkSubtype ? ` (${formData.drinkSubtype})` : '';
+      toast({
+        variant: 'success',
+        message: 'Order added successfully!',
+        subText: `${formData.drinkType}${subtypeText} ${formData.volume} in ${formData.containerType}`,
+      });
+    }
   };
 
   const handleEditOrder = (orderId: string) => {
@@ -64,7 +85,7 @@ export const AdminOrdersPage: React.FC = () => {
     navigate(`/admin/orders/${orderId}`);
   };
 
-  if (isLoading) {
+  if (isLoading || (isEditMode && isOrderLoading)) {
     return (
       <AdminContentLayout
         title="Orders Management"
@@ -73,21 +94,24 @@ export const AdminOrdersPage: React.FC = () => {
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
-          <Text>Loading orders data...</Text>
+          <Text>Loading {isEditMode ? 'order' : 'orders'} data...</Text>
         </Flex>
       </AdminContentLayout>
     );
   }
 
-  if (error) {
+  if (error || (isEditMode && orderError)) {
+    const errorMessage = error?.message || orderError?.message || 'Unknown error';
     return (
       <AdminContentLayout
         title="Orders Management"
         // subtitle="Development orders for testing"
-        error={error.message}
+        error={errorMessage}
       >
         <AdminSection>
-          <Text color="red">Error loading orders: {error.message}</Text>
+          <Text color="red">
+            Error loading {isEditMode ? 'order' : 'orders'}: {errorMessage}
+          </Text>
         </AdminSection>
       </AdminContentLayout>
     );
@@ -96,18 +120,25 @@ export const AdminOrdersPage: React.FC = () => {
   return (
     <section css={styles} className="admin-content-page">
       <AdminContentLayout
-        title="Orders Management"
+        title={isEditMode ? 'Edit Order' : 'Orders Management'}
+        detail={isEditMode ? orderId : undefined}
         //  subtitle="Development orders for testing"
       >
         <Row className="form-section">
           <Col>
             {/* Add New Order Form */}
-            <AdminSection title="Formulario de datos">
-              <OrdersForm onSubmit={handleAddOrder} />
+            <AdminSection title={isEditMode ? 'Edit Order Data' : 'Formulario de datos'}>
+              <OrdersForm
+                onSubmit={handleAddOrder}
+                orderData={isEditMode ? orderData : undefined}
+                isEditMode={isEditMode}
+                onNavigateBack={() => navigate('/admin/orders')}
+              />
             </AdminSection>
           </Col>
         </Row>
 
+        {/* Show the drawer and table in both list and edit modes */}
         <Drawer
           onOpenChange={setIsDrawerOpen}
           drawerBarLeft={

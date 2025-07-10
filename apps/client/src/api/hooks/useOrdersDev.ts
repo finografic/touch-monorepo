@@ -5,6 +5,7 @@ import { transformAxiosError } from '../api.utils';
 // Types for orders-dev based on server schema with both IDs and names for development
 export interface OrderDev {
   id: string;
+  mode: number;
   // Foreign key IDs (for relationships)
   drinkTypeId: string;
   drinkSubtypeId?: string;
