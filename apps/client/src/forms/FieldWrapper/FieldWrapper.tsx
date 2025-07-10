@@ -11,6 +11,7 @@ import clsx from 'clsx';
 interface FieldWrapperProps {
   name?: string; // Field name for RHF integration
   label?: string;
+  hint?: string;
   required?: boolean;
   children: React.ReactNode;
   className?: string;
@@ -20,6 +21,7 @@ interface FieldWrapperProps {
 export const FieldWrapper: React.FC<FieldWrapperProps> = ({
   name,
   label,
+  hint,
   required = false,
   children,
   className,
@@ -84,6 +86,11 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
           <Text size="2" mb="2" weight="medium">
             {label} {required && '*'}
           </Text>
+          {hint && (
+            <Text size="2" mb="2" weight="medium">
+              <span className="label-hint">{hint}</span>
+            </Text>
+          )}
         </label>
       )}
 

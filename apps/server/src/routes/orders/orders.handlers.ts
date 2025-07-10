@@ -1,6 +1,7 @@
 import type { AppRouteHandler } from 'types/app.types';
 import type {
   CreateRoute,
+  GetOneReadableRoute,
   GetOneRoute,
   ListReadableRoute,
   ListRoute,
@@ -9,7 +10,7 @@ import type {
 } from './orders.routes';
 import { db } from 'db';
 import { orders } from 'db/schemas/orders.schema';
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
@@ -73,6 +74,38 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   }
 
   return context.json(drinkOrder, HttpStatusCodes.OK);
+};
+
+export const getOneReadable: AppRouteHandler<GetOneReadableRoute> = async (context) => {
+  const { id } = context.req.valid('param');
+  const result = await db.all(sql`
+    SELECT
+      id,
+      mode,
+      drink_type AS drinkType,
+      drink_subtype AS drinkSubtype,
+      volume,
+      container_type AS containerType,
+      temperature_profile AS temperatureProfile,
+      default_temp_consume AS defaultTempConsume,
+      default_temp_freeze AS defaultTempFreeze,
+      is_active AS isActive,
+      created_at AS createdAt,
+      updated_at AS updatedAt
+    FROM orders_readable
+    WHERE id = ${id}
+  `);
+
+  if (!result || result.length === 0) {
+    return context.json(
+      {
+        message: HttpStatusPhrases.NOT_FOUND,
+      },
+      HttpStatusCodes.NOT_FOUND,
+    );
+  }
+
+  return context.json(result[0] as any, HttpStatusCodes.OK);
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (context) => {

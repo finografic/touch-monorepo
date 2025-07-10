@@ -287,7 +287,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
                 <Col xs={5} md={5} className="col col-form-fields">
                   {/* Drink Type */}
-                  <FieldWrapper name="drinkType" label="Drink Type" required>
+                  <FieldWrapper
+                    name="drinkType"
+                    label="Drink Type"
+                    hint={`${drinkTypeOptions.length} disponibles`}
+                    required
+                  >
                     <SelectSearchable
                       value={formValues.drinkType}
                       onSelect={(value) => handleSimpleFieldChange('drinkType', value)}
@@ -301,7 +306,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
                 <Col xs={5} md={5} className="col col-form-fields">
                   {/* Drink Subtype */}
-                  <FieldWrapper name="drinkSubtype" label="Drink Subtype">
+                  <FieldWrapper
+                    name="drinkSubtype"
+                    label="Drink Subtype"
+                    hint={`${drinkTypeOptions.length} disponibles`}
+                  >
                     <SelectSearchable
                       value={formValues.drinkSubtype}
                       onSelect={(value) => handleSimpleFieldChange('drinkSubtype', value)}
@@ -319,7 +328,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               <Row className="row">
                 <Col xs={4} md={4} className="col col-form-fields">
                   {/* Volume */}
-                  <FieldWrapper name="volume" label="Volume" required>
+                  <FieldWrapper
+                    name="volume"
+                    label="Volume"
+                    hint={`${volumeOptions.length} disponibles`}
+                    required
+                  >
                     <SelectSearchable
                       value={formValues.volume}
                       onSelect={(value) => handleSimpleFieldChange('volume', value)}
@@ -333,7 +347,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
                 <Col xs={4} md={4} className="col col-form-fields">
                   {/* Container Type */}
-                  <FieldWrapper name="containerType" label="Container" required>
+                  <FieldWrapper
+                    name="containerType"
+                    label="Container"
+                    hint={`${containerTypeOptions.length} disponibles`}
+                    required
+                  >
                     <SelectSearchable
                       value={formValues.containerType}
                       onSelect={(value) => handleSimpleFieldChange('containerType', value)}

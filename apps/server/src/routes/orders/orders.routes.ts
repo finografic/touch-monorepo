@@ -78,6 +78,23 @@ export const getOne = createRoute({
   },
 });
 
+export const getOneReadable = createRoute({
+  path: '/orders-readable/{id}',
+  method: 'get',
+  request: {
+    params: IdCuidParamsSchema,
+  },
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(ordersReadableSchema, 'The requested order with readable names'),
+    [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Order not found'),
+    [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
+      createErrorSchema(IdParamsSchema),
+      'Invalid id error',
+    ),
+  },
+});
+
 export const create = createRoute({
   path: '/orders',
   method: 'post',
@@ -133,7 +150,8 @@ export const remove = createRoute({
 
 export type ListRoute = typeof list;
 export type ListReadableRoute = typeof listReadable;
-export type CreateRoute = typeof create;
 export type GetOneRoute = typeof getOne;
+export type GetOneReadableRoute = typeof getOneReadable;
+export type CreateRoute = typeof create;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;

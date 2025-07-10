@@ -27,18 +27,19 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   allowAddNew = true,
   value = '',
 }) => {
-  const [searchValue, setSearchValue] = useState(value);
+  const [displayValue, setDisplayValue] = useState(value);
+  const [searchValue, setSearchValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [focusedIndex, setFocusedIndex] = useState(-1);
   const [displayStart, setDisplayStart] = useState(0);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null); // Changed from dropdownRef to containerRef
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Sync with external value changes
   useEffect(() => {
-    setSearchValue(value);
+    setDisplayValue(value);
   }, [value]);
 
   // Use match-sorter for intelligent search
@@ -83,7 +84,8 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
 
   const handleSelectOption = (option: SelectOption) => {
     onSelect(option.value);
-    setSearchValue(option.value);
+    setDisplayValue(option.value);
+    setSearchValue('');
     setIsOpen(false);
     setFocusedIndex(-1);
     setDisplayStart(0);
@@ -110,17 +112,17 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
 
   const handleInputClick = () => {
     setIsOpen(true);
+    setSearchValue(''); // Clear search when opening
     setDisplayStart(0);
     setLastScrollTop(0);
-    if (slidingWindow.items.length > 0) {
+    if (allFilteredOptions.length > 0) {
       setFocusedIndex(0);
     }
   };
 
   const handleInputChange = (newValue: string) => {
     setSearchValue(newValue);
-    onSelect(newValue);
-    setIsOpen(newValue.length > 0 || options.length > 0);
+    setIsOpen(true);
   };
 
   // Bidirectional scroll handler
@@ -194,15 +196,23 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
     setLastScrollTop(0);
   };
 
+  const handleBlur = () => {
+    // If the input loses focus and the search value is empty, revert to display value
+    if (searchValue === '') {
+      setDisplayValue(value);
+    }
+  };
+
   return (
     <div css={styles} className="searchable-select">
       <div ref={containerRef} className="search-container" style={{ position: 'relative' }}>
         <TextField.Root
           ref={inputRef}
-          value={searchValue}
+          value={isOpen ? searchValue : displayValue} // Show searchValue when open, displayValue when closed
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={handleInputClick}
           onClick={handleInputClick}
+          onBlur={handleBlur}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
           disabled={disabled}

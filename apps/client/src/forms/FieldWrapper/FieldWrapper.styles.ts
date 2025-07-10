@@ -9,8 +9,15 @@ export const styles = css`
   padding: 0.5rem 0 0.25rem;
 
   .field-label {
-    padding: 0.5rem 0 0.25rem;
+    padding: 0.5rem 0 0rem;
     display: block;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    span.label-hint {
+      opacity: 0.66;
+    }
+
     & + div {
       width: 100%;
     }

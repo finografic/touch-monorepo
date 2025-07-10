@@ -19,15 +19,15 @@ export const forms = {
     },
 
     text: {
-      color: colors.text,
+      color: colors.textXDark,
       fontSize: '1rem',
-      fontWeight: 500,
+      fontWeight: 600,
     },
 
     placeholder: {
       color: colors.grey,
       opacity: 0.66,
-      fontWeight: 500,
+      fontWeight: 600,
     },
 
     hover: {
@@ -39,7 +39,7 @@ export const forms = {
       text: {
         color: colors.text,
         fontSize: '1rem',
-        fontWeight: 500,
+        fontWeight: 600,
       },
     },
 
@@ -52,7 +52,7 @@ export const forms = {
       text: {
         color: colors.text,
         fontSize: '1rem',
-        fontWeight: 500,
+        fontWeight: 600,
       },
     },
 
