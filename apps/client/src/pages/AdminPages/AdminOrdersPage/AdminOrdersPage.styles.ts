@@ -115,6 +115,9 @@ export const styles = css`
     width: 100%;
   }
 
+  .search-container {
+  }
+
   /* Responsive adjustments */
   @media (max-width: 1200px) {
     .admin-page-container {

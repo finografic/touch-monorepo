@@ -23,9 +23,11 @@ export const ListDrawer: React.FC<ListDrawerProps> = ({ onOpenChange, drawerBarL
       <div className="drawer-content">
         <div className="drawer-body">
           <DrawerBar
-            // theme="dark"
             isActionActive={isDrawerOpen}
-            onClickAction={() => setIsDrawerOpen(!isDrawerOpen)}
+            onClickAction={() => {
+              onOpenChange?.(!isDrawerOpen);
+              setIsDrawerOpen(!isDrawerOpen);
+            }}
           >
             {drawerBarLeft}
           </DrawerBar>

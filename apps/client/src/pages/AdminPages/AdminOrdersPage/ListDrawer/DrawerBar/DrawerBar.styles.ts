@@ -5,7 +5,7 @@ export const styles = css`
   .drawer-bar {
     width: 100%;
     height: ${layout.drawer.bar.height};
-    padding: 0.6rem 2rem 0.4rem 2rem;
+    padding: 0.5rem 2rem 0.5rem 2rem;
 
     .col-children {
       &:not(:empty) {
