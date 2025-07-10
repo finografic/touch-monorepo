@@ -8,8 +8,27 @@
    - Soporte de virtualización habilitado en la BIOS
 
 2. **Docker Desktop para Windows**
-   - Descargar de: <https://docs.docker.com/desktop/install/windows-install/>
-   - Incluye WSL 2 (Subsistema de Windows para Linux)
+   Para Windows 10/11 más reciente:
+   - Descargar última versión de: <https://docs.docker.com/desktop/install/windows-install/>
+
+   Para Windows 10 antiguo (anterior a build 19041):
+   - Descargar Docker Desktop 4.15.0: [Docker Desktop 4.15.0](https://desktop.docker.com/win/main/amd64/82459/Docker%20Desktop%20Installer.exe)
+   - Windows 10 64-bit: Pro, Enterprise o Education (Build 16299 o posterior)
+   - Características Hyper-V y Containers de Windows deben estar habilitadas
+
+   Para verificar tu versión de Windows:
+   1. Presiona tecla Windows + R
+   2. Escribe 'winver' y presiona Enter
+   3. Busca el número de build en la información de Versión
+
+3. **Características de Windows Requeridas**
+   Para habilitar las características requeridas:
+   1. Abre Panel de Control > Programas > Activar o desactivar las características de Windows
+   2. Marca estas opciones:
+      - Hyper-V
+      - Subsistema de Windows para Linux
+      - Plataforma de Máquina Virtual
+   3. Reinicia tu computadora
 
 ### Pasos de Instalación
 
@@ -31,12 +50,24 @@
    - Anotar la letra asignada (ej., E:, F:, etc.)
    - Asegurarse de tener al menos 1GB de espacio libre para la base de datos e imágenes Docker
 
-2. **Iniciar la Aplicación**
+2. **Cargar Imagen Docker**
    - Abrir PowerShell o Símbolo del Sistema
    - Navegar a la unidad USB:
 
      ```powershell
      cd /d X:  # Reemplazar X con la letra de tu unidad USB
+     ```
+
+   - Cargar la imagen Docker:
+
+     ```powershell
+     docker load -i touch-client.tar
+     ```
+
+3. **Iniciar la Aplicación**
+   - Navegar al directorio de la aplicación:
+
+     ```powershell
      cd touch-monorepo
      ```
 
@@ -46,7 +77,7 @@
      docker-compose up
      ```
 
-3. **Acceder a la Aplicación**
+4. **Acceder a la Aplicación**
    - Abrir el navegador web
    - Navegar a: `http://localhost:3000`
    - La aplicación debería estar funcionando

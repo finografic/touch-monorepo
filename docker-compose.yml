@@ -1,22 +1,29 @@
-version: '3.8'
+name: touch-monorepo
 
 services:
   touch-client:
     build:
       context: .
-      dockerfile: Dockerfile
+      args:
+        - GITHUB_TOKEN=${GITHUB_TOKEN}
+    env_file:
+      - .env
     ports:
-      - '3000:3000' # Client port
-      - '3001:3001' # Server port
+      - "3000:3000"
+      - "4040:4040"
     environment:
       - NODE_ENV=production
-      - DATABASE_URL=file:./data/dev.db # SQLite database path
+      - DATABASE_URL=file:./data/production.sqlite.db
+      - API_PORT=4040
+      - CLIENT_PORT=3000
     volumes:
       - .:/app
       - /app/node_modules
       - /app/apps/client/node_modules
       - /app/apps/server/node_modules
-      - sqlite_data:/app/data # Persist SQLite database
-
-volumes:
-  sqlite_data: # Volume for SQLite database persistence
+      - /app/packages/core/node_modules
+      - /app/packages/globals/node_modules
+      - /app/packages/i18n/node_modules
+      - /app/packages/purge-builds/node_modules
+      - /app/packages/types/node_modules
+      - /app/config/node_modules

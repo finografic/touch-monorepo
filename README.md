@@ -38,8 +38,33 @@ load-dot-env=true
 @finografic:registry=https://npm.pkg.github.com
 ```
 
+## Docker Setup
 
-## get started
+1. Ensure you have Docker and Docker Compose installed
+2. Create a `.env` file with your GitHub token:
+
+```sh
+GITHUB_TOKEN=your_github_token_here
+```
+
+3. Build and run with Docker Compose:
+
+```sh
+# Build the containers
+docker-compose build
+
+# Start the services
+docker-compose up
+
+# Or run in detached mode
+docker-compose up -d
+```
+
+The application will be available at:
+- Client: <http://localhost:3000>
+- API: <http://localhost:4040>
+
+## Local Development Setup
 
 ```sh
 # If starting fresh:

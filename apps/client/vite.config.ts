@@ -61,10 +61,11 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       emptyOutDir: false,
       copyPublicDir: true,
       reportCompressedSize: true,
-      minify: true,
-      sourcemap: true,
+      minify: 'esbuild', // Use esbuild for faster minification
+      sourcemap: false, // Disable sourcemaps in production to save memory
       manifest: true,
       target: 'modules',
+      chunkSizeWarningLimit: 1000, // Increase chunk size warning limit
       rollupOptions: {
         output: {
           format: 'es',

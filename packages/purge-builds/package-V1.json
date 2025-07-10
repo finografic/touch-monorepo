@@ -19,6 +19,8 @@
     }
   },
   "scripts": {
+    "preinstall": "node -v | grep -q 'v20.15.0' || (echo 'ERROR: Node v20.15.0 required' && exit 1)",
+    "prebuild": "node -v | grep -q 'v20.15.0' || (echo 'ERROR: Node v20.15.0 required for build' && exit 1)",
     "dev": "tsc --watch",
     "build": "rm -rf dist && tsup",
     "lint": "eslint .",

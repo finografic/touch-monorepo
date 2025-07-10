@@ -8,8 +8,27 @@
    - BIOS-level hardware virtualization support must be enabled
 
 2. **Docker Desktop for Windows**
-   - Download from: <https://docs.docker.com/desktop/install/windows-install/>
-   - This includes WSL 2 (Windows Subsystem for Linux)
+   For newer Windows 10/11:
+   - Download latest version from: <https://docs.docker.com/desktop/install/windows-install/>
+
+   For older Windows 10 (pre-build 19041):
+   - Download Docker Desktop 4.15.0: [Docker Desktop 4.15.0](https://desktop.docker.com/win/main/amd64/82459/Docker%20Desktop%20Installer.exe)
+   - Windows 10 64-bit: Pro, Enterprise, or Education (Build 16299 or later)
+   - Hyper-V and Containers Windows features must be enabled
+
+   To check your Windows version:
+   1. Press Windows key + R
+   2. Type 'winver' and press Enter
+   3. Look for the build number in the Version info
+
+3. **Required Windows Features**
+   To enable required features:
+   1. Open Control Panel > Programs > Turn Windows Features on or off
+   2. Check these options:
+      - Hyper-V
+      - Windows Subsystem for Linux
+      - Virtual Machine Platform
+   3. Restart your computer
 
 ### Installation Steps
 
@@ -31,12 +50,24 @@
    - Note the drive letter assigned (e.g., E:, F:, etc.)
    - Ensure you have at least 1GB of free space for the database and Docker images
 
-2. **Start the Application**
+2. **Load Docker Image**
    - Open PowerShell or Command Prompt
    - Navigate to the USB drive:
 
      ```powershell
      cd /d X:  # Replace X with your USB drive letter
+     ```
+
+   - Load the Docker image:
+
+     ```powershell
+     docker load -i touch-client.tar
+     ```
+
+3. **Start the Application**
+   - Navigate to the application directory:
+
+     ```powershell
      cd touch-monorepo
      ```
 
@@ -46,7 +77,7 @@
      docker-compose up
      ```
 
-3. **Access the Application**
+4. **Access the Application**
    - Open your web browser
    - Navigate to: `http://localhost:3000`
    - The application should now be running

@@ -26,6 +26,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
   const temperatureProfiles = await db.query.temperature_profiles.findMany({
     columns: {
       id: true,
+      orderId: true,
       coolingProfileId: true,
       temperature: true,
       timeA: true,
