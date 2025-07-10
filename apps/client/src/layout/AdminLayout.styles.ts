@@ -189,7 +189,7 @@ export const styles = css`
     align-items: center;
     /* Admin-specific: Dark grey footer background */
     background-color: ${colors.background};
-    border-top: 1px solid ${colors.greyDark};
+    /* border-top: 1px solid ${colors.greyDark}; */
     z-index: 2000;
 
     .footer-content {

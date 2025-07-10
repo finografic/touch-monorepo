@@ -8,12 +8,18 @@ interface DrawerBarProps {
   isActionActive: boolean;
   onClickAction: () => void;
   children?: ReactNode;
+  theme?: 'light' | 'dark';
 }
 
-export const DrawerBar: FC<DrawerBarProps> = ({ isActionActive, onClickAction, children }) => {
+export const DrawerBar: FC<DrawerBarProps> = ({
+  isActionActive,
+  onClickAction,
+  children,
+  theme = 'light',
+}) => {
   return (
     <div css={styles} role={isActionActive ? 'search' : 'search'}>
-      <Flex width="100%" justify="between">
+      <Flex width="100%" justify="between" className={clsx('drawer-bar', theme)}>
         <Flex
           justify="start"
           align="center"
