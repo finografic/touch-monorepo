@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
-import { OrdersTable } from 'components/OrdersTable';
+import { OrdersTable } from 'pages/AdminPages/AdminOrdersPage/OrdersTable';
 import { OrdersForm } from 'pages/AdminPages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
 import { Col, Row } from 'react-grid-system';

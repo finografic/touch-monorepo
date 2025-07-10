@@ -5,7 +5,7 @@ import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
-import { OrdersTable } from 'components/OrdersTable';
+import { OrdersTable } from 'pages/AdminPages/AdminOrdersPage/OrdersTable';
 
 export const AdminFilterAnalysisPage: React.FC = () => {
   const { t } = useTranslation();

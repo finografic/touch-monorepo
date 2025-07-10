@@ -120,7 +120,6 @@ export const styles = css`
 
   .drawer-body {
     section.admin-content-page {
-      border: 1px solid red;
       margin: 0 2.75rem 0 2.75rem;
       max-width: 96.33vw !important;
       height: unset;

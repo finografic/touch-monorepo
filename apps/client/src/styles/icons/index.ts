@@ -22,6 +22,7 @@ import {
 import {
   Coffee as _CoffeeIcon,
   X as _DeleteIcon,
+  PencilLine as _EditIcon,
   House as _HomeIcon,
   Languages as _LanguagesIcon,
   Lock as _LockIcon,
@@ -80,6 +81,7 @@ export const WineIcon = createIconWrapper(_WineIcon);
 export const DeleteIcon = createIconWrapper(_DeleteIcon);
 export const HomeIcon = createIconWrapper(_HomeIcon);
 export const LockIcon = createIconWrapper(_LockIcon);
+export const EditIcon = createIconWrapper(_EditIcon);
 export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);
 export const MagnifyingGlassIcon = createIconWrapper(_MagnifyingGlassIcon);
 export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);

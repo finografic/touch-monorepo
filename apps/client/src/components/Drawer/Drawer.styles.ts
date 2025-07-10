@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors, layout } from 'styles';
+import { layout } from 'styles';
 
 export const styles = css`
   .list-drawer {

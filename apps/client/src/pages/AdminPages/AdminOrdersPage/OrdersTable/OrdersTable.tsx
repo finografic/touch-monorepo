@@ -1,6 +1,9 @@
 import React from 'react';
-import { Flex, Table, Text } from '@radix-ui/themes';
+import { Button, Flex, Table, Text } from '@radix-ui/themes';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
+import { EditIcon } from 'styles/icons';
+import { styles } from './OrdersTable.styles';
+import clsx from 'clsx';
 
 interface OrdersTableProps {
   orders: OrderReadableModel[];
@@ -14,7 +17,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   emptySubMessage = 'Try adjusting your search term',
 }) => {
   return (
-    <section className="admin-content-page">
+    <section css={styles} className="admin-content-page">
       <>
         {/* Results Table */}
         <Table.Root>
@@ -27,6 +30,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
               <Table.ColumnHeaderCell>Container</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>Temperature</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell>Created</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th-action"></Table.ColumnHeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
@@ -44,6 +48,11 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                   <Text size="1">
                     {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : '-'}
                   </Text>
+                </Table.Cell>
+                <Table.Cell className="td-action">
+                  <Button className="icon-edit" onClick={() => ({})} variant="ghost">
+                    <EditIcon />
+                  </Button>
                 </Table.Cell>
               </Table.Row>
             ))}
