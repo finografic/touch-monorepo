@@ -3,6 +3,7 @@ import { styles } from './SearchBar.styles';
 import type { FC } from 'react';
 import clsx from 'clsx';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
+import { useDebouncedCallback } from 'use-debounce';
 
 interface SearchBarProps {
   searchTerm: string;
@@ -23,11 +24,12 @@ export const SearchBar: FC<SearchBarProps> = ({
         <TextField.Root
           placeholder={placeholder}
           value={searchTerm}
-          onChange={(evt) => onSearchChange(evt.target.value)}
+          // onChange={(evt) => onSearchChange(evt.target.value)}
+          onChange={useDebouncedCallback((evt) => onSearchChange(evt.target.value), 100)}
           size="3"
         >
           <TextField.Slot>
-            <MagnifyingGlassIcon height="16" width="16" />
+            <MagnifyingGlassIcon height="16" width="24" />
           </TextField.Slot>
         </TextField.Root>
       </Flex>

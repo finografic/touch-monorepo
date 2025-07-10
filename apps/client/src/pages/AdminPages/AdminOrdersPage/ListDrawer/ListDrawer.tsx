@@ -39,6 +39,7 @@ export const ListDrawer: React.FC<ListDrawerProps> = ({
               searchTerm={searchTerm}
               onSearchChange={onSearchChange}
               status={isDrawerOpen ? 'active' : 'inactive'}
+              isActive={isDrawerOpen}
             />
           </DrawerBar>
           <OrdersTable

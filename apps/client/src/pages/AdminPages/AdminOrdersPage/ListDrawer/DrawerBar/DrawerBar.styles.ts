@@ -4,10 +4,17 @@ import { colors, layout } from 'styles';
 export const styles = css`
   width: 100%;
   height: ${layout.drawer.bar.height};
-  padding: 0.6rem 2.5rem 0.4rem 2.5rem;
+  padding: 0.6rem 2rem 0.4rem 2rem;
 
   .col-children {
-    flex: 1;
+    &:not(:empty) {
+      &:not(.active) {
+        cursor: pointer;
+        .drawer-children {
+          pointer-events: none;
+        }
+      }
+    }
   }
 
   .col-button {

@@ -14,8 +14,13 @@ export const DrawerBar: FC<DrawerBarProps> = ({ isActionActive, onClickAction, c
   return (
     <div css={styles} role={isActionActive ? 'search' : 'search'}>
       <Flex width="100%" justify="between">
-        <Flex justify="start" align="center" className="col col-children">
-          {children ?? <></>}
+        <Flex
+          justify="start"
+          align="center"
+          className={clsx('col col-children', isActionActive && 'active')}
+          onClick={!isActionActive ? onClickAction : undefined}
+        >
+          <div className="drawer-children">{children ?? <></>}</div>
         </Flex>
         <Flex justify="end" align="center" className="col col-button">
           <Box className="button-box">

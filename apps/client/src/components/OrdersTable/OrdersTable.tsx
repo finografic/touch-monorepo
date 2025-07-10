@@ -25,8 +25,8 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     <>
       {/* Search and Results Info */}
       <Flex justify="between" align="center" mb="4">
-        <SearchBar />
-        <Flex align="center" gap="3">
+        {/* <SearchBar isActionActive={false} onClickAction={() => {}}   /> */}
+        {/* <Flex align="center" gap="3">
           <TextField.Root
             placeholder="Search orders..."
             value={searchTerm}
@@ -37,7 +37,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
               <MagnifyingGlassIcon height="16" width="16" />
             </TextField.Slot>
           </TextField.Root>
-        </Flex>
+        </Flex> */}
 
         <Text size="2" color="gray">
           Showing {orders.length} of {totalCount} orders

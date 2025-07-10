@@ -146,11 +146,11 @@ export const AdminOrdersPage: React.FC = () => {
 
         {/* Testing Radix version instead of Vaul */}
         <ListDrawer
-          isOpen={isTableVisible}
-          onOpenChange={setIsTableVisible}
+          // isOpen={isTableVisible}
+          // onOpenChange={setIsTableVisible}
           orders={filteredOrders}
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
+          // searchTerm={searchTerm}
+          // onSearchChange={setSearchTerm}
           totalCount={ordersData.length}
         />
       </AdminContentLayout>

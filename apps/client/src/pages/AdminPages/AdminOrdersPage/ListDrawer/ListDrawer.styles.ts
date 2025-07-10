@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { colors, layout } from 'styles';
 
 export const styles = css`
   .list-drawer {
@@ -22,8 +23,10 @@ export const styles = css`
     height: 66vh;
     z-index: 1400;
     background-color: white;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
+    /* border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem; */
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
     box-shadow:
       0 -4px 6px -1px rgb(0 0 0 / 0.1),
       0 -2px 4px -2px rgb(0 0 0 / 0.1);
@@ -47,8 +50,10 @@ export const styles = css`
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
+    /* border-top-left-radius: 1rem;
+    border-top-right-radius: 1rem; */
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
     flex-shrink: 0;
 
     h2 {
@@ -75,7 +80,7 @@ export const styles = css`
 
   /* Panel States */
   &.closed .drawer-content {
-    top: calc(100vh - 80px - 60px);
+    top: calc(100vh - ${layout.footer.height} - ${layout.drawer.bar.height});
   }
 
   &.closed .drawer-overlay {
