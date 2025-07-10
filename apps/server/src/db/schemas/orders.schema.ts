@@ -33,10 +33,6 @@ export const orders = sqliteTable('orders', {
     .notNull()
     .references(() => container_types.id, { onDelete: 'cascade' }),
 
-  temperatureProfileId: text('temperature_profile_id')
-    .notNull()
-    .references(() => temperature_profiles.id, { onDelete: 'cascade' }),
-
   // Temperature defaults
   defaultTempConsume: integer('default_temp_consume')
     .notNull()
@@ -54,7 +50,7 @@ export const orders = sqliteTable('orders', {
 });
 
 // Define relations with proper ID-based joins
-export const ordersRelations = relations(orders, ({ one }) => ({
+export const ordersRelations = relations(orders, ({ one, many }) => ({
   drinkType: one(drink_types, {
     fields: [orders.drinkTypeId],
     references: [drink_types.id],
@@ -71,10 +67,7 @@ export const ordersRelations = relations(orders, ({ one }) => ({
     fields: [orders.containerTypeId],
     references: [container_types.id],
   }),
-  temperatureProfile: one(temperature_profiles, {
-    fields: [orders.temperatureProfileId],
-    references: [temperature_profiles.id],
-  }),
+  temperatureProfiles: many(temperature_profiles),
 }));
 
 // Zod schema for validation with ID-based fields
@@ -84,7 +77,6 @@ const insertOrderSchema = createInsertSchema(orders, {
   drinkSubtypeId: (schema) => schema.drinkSubtypeId.max(50),
   volumeId: (schema) => schema.volumeId.min(1).max(50),
   containerTypeId: (schema) => schema.containerTypeId.min(1).max(50),
-  temperatureProfileId: (schema) => schema.temperatureProfileId.min(1).max(50),
   defaultTempConsume: (schema) =>
     schema.defaultTempConsume
       .min(TEMPERATURE_RANGES.CONSUMPTION.MIN, ZOD_ERROR_MESSAGES.TEMPERATURE_CONSUMPTION_RANGE)
@@ -99,7 +91,6 @@ const insertOrderSchema = createInsertSchema(orders, {
     volumeId: true,
     containerTypeId: true,
     defaultTempConsume: true,
-    temperatureProfileId: true,
     defaultTempFreeze: true,
   })
   .omit({ id: true, createdAt: true, updatedAt: true });

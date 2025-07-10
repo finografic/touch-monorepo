@@ -6,6 +6,9 @@ import { orders } from './orders.schema';
 
 export const temperature_profiles = sqliteTable('temperature_profiles', {
   id: text('id').primaryKey(),
+  orderId: text('order_id')
+    .notNull()
+    .references(() => orders.id, { onDelete: 'cascade' }),
   coolingProfileId: text('cooling_profile_id')
     .notNull()
     .references(() => cooling_profiles.id, { onDelete: 'cascade' }),
@@ -16,12 +19,15 @@ export const temperature_profiles = sqliteTable('temperature_profiles', {
 });
 
 // Define relations
-export const temperatureProfilesRelations = relations(temperature_profiles, ({ one, many }) => ({
+export const temperatureProfilesRelations = relations(temperature_profiles, ({ one }) => ({
+  order: one(orders, {
+    fields: [temperature_profiles.orderId],
+    references: [orders.id],
+  }),
   coolingProfile: one(cooling_profiles, {
     fields: [temperature_profiles.coolingProfileId],
     references: [cooling_profiles.id],
   }),
-  orders: many(orders),
 }));
 
 export const temperatureProfileSchemas = {

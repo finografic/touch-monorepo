@@ -1,8 +1,34 @@
 import { db } from '../db.adapter';
-import { cooling_profiles, temperature_profiles } from '../schemas';
+import { cooling_profiles, orders, temperature_profiles } from '../schemas';
+import createCuid from '@bugsnag/cuid';
 
 // Define the type for our temperature profile rows
 type TemperatureProfileRow = typeof temperature_profiles.$inferInsert;
+
+// Helper function to generate temperature profile rows for an order
+function generateProfilesForOrder(orderId: string, coolingProfileId: string): TemperatureProfileRow[] {
+  const rows: TemperatureProfileRow[] = [];
+
+  // Generate 4 temperature points by default
+  const temperatures = [30, 20, 10, 0];
+
+  temperatures.forEach((temp, i) => {
+    // Calculate base time value (increases by 3 for each temperature point)
+    const baseTime = i * 3;
+
+    rows.push({
+      id: createCuid(),
+      orderId,
+      coolingProfileId,
+      temperature: temp,
+      timeA: Math.round(baseTime * 1.0), // Type A: base rate
+      timeB: Math.round(baseTime * 1.25), // Type B: 25% longer
+      timeC: Math.round(baseTime * 1.6), // Type C: 60% longer
+    });
+  });
+
+  return rows;
+}
 
 export async function seed() {
   console.log('Seeding temperature_profiles...');
@@ -19,37 +45,23 @@ export async function seed() {
       throw new Error('No cooling profile found. Please seed cooling_profiles first.');
     }
 
-    // Generate temperatures from 30.0 to -10.0 in 0.5 degree increments
-    const temperatures: number[] = [];
-    for (let temp = 30.0; temp >= -10.0; temp -= 0.5) {
-      temperatures.push(Number(temp.toFixed(1))); // Ensure we have exactly one decimal place
+    // Get all orders
+    const allOrders = await db.select().from(orders);
+    if (allOrders.length === 0) {
+      throw new Error('No orders found. Please seed orders first.');
     }
 
-    const rows: TemperatureProfileRow[] = [];
-    temperatures.forEach((temp, i) => {
-      // Calculate base time value (increases by 3 for each temperature point)
-      const baseTime = i * 3;
+    // Generate profiles for each order
+    const allProfiles: TemperatureProfileRow[] = [];
+    for (const order of allOrders) {
+      const orderProfiles = generateProfilesForOrder(order.id, coolingProfile.id);
+      allProfiles.push(...orderProfiles);
+    }
 
-      // Format temperature for ID with sign and one decimal
-      const tempStr = (temp >= 0 ? '+' : '') + temp.toFixed(1);
-
-      // Add a single profile point for each temperature with different multipliers per type
-      // Type A: base rate (fastest)
-      // Type B: 25% longer than Type A
-      // Type C: 60% longer than Type A (slowest)
-      rows.push({
-        id: `temp_${tempStr}`,
-        coolingProfileId: coolingProfile.id,
-        temperature: temp,
-        timeA: Math.round(baseTime * 1.0), // Type A: base rate
-        timeB: Math.round(baseTime * 1.25), // Type B: 25% longer
-        timeC: Math.round(baseTime * 1.6), // Type C: 60% longer
-      });
-    });
-
-    await db.insert(temperature_profiles).values(rows);
-    console.log('✅ Inserted temperature profiles!');
-    return rows;
+    // Insert all profiles
+    await db.insert(temperature_profiles).values(allProfiles);
+    console.log(`✅ Inserted ${allProfiles.length} temperature profiles for ${allOrders.length} orders!`);
+    return allProfiles;
   } catch (error) {
     console.error('❌ Error seeding temperature profiles:', error);
     throw error;

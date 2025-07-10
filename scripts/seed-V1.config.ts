@@ -36,14 +36,14 @@ export const seedOrder: SeedConfig[] = [
     description: 'Cooling profile definitions (slow, medium, fast)',
   },
   {
-    name: 'orders',
-    description: 'Example orders',
-    dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types', 'cooling_profiles'],
-  },
-  {
     name: 'temperature_profiles',
     description: 'Temperature-time points for cooling profiles',
-    dependencies: ['cooling_profiles', 'orders'],
+    dependencies: ['cooling_profiles'],
+  },
+  {
+    name: 'orders',
+    description: 'Example orders',
+    dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types', 'temperature_profiles'],
   },
   // NOTE: 'views' removed - now handled as separate step via db.views.create
   // {

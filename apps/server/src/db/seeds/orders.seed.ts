@@ -1,12 +1,5 @@
 import { db } from '../db.adapter';
-import {
-  container_types,
-  drink_subtypes,
-  drink_types,
-  orders,
-  temperature_profiles,
-  volumes,
-} from '../schemas';
+import { container_types, drink_subtypes, drink_types, orders, volumes } from '../schemas';
 import { TEMPERATURE_RANGES } from '../../lib/constants';
 
 function getRandomSample<T>(arr: T[], n: number): T[] {
@@ -36,75 +29,6 @@ function getRandomMode(): number {
   return 5; // 5% chance (0.95 to 1.0)
 }
 
-// Helper function to determine appropriate temperature profile based on drink characteristics
-function determineTemperatureProfile(
-  drinkType: string,
-  drinkSubtype: string | null,
-  volume: string,
-  container: string,
-  profiles: Array<{ id: string; coolingProfileId: string }>,
-): string {
-  // Extract numeric temperature from profile ID (e.g., "temp_+30.0" -> 30)
-  const getTemp = (profileId: string): number => {
-    const match = profileId.match(/temp_([+-]\d+\.\d+)/);
-    return match ? Number.parseFloat(match[1]) : 0;
-  };
-
-  // Sort profiles by temperature
-  const sortedProfiles = [...profiles].sort((a, b) => getTemp(a.id) - getTemp(b.id));
-
-  // Base temperature ranges for different drink types
-  const tempRanges = {
-    cerveza: {
-      rubia: { min: 2, max: 8 }, // Light beer: cool to cold
-      negra: { min: 6, max: 12 }, // Dark beer: slightly warmer
-    },
-  };
-
-  // Container temperature adjustments
-  const containerAdjustments = {
-    vidrio: 0, // Glass: neutral
-    plastico: +1, // Plastic: slightly warmer
-    metal: -1, // Metal: slightly colder
-  };
-
-  // Volume temperature adjustments (larger volumes stay cold longer)
-  const volumeAdjustments = {
-    '33cl': 0,
-    '50cl': -0.5,
-    '75cl': -1,
-    '1L': -1.5,
-    '1.25L': -2,
-    '2L': -2.5,
-  };
-
-  // Get base temperature range
-  let baseTemp = 4; // Default temperature
-  if (drinkType === 'cerveza') {
-    baseTemp = tempRanges.cerveza[drinkSubtype as 'rubia' | 'negra']?.min ?? 4;
-  }
-
-  // Apply adjustments
-  const containerAdj = containerAdjustments[container as keyof typeof containerAdjustments] || 0;
-  const volumeAdj = volumeAdjustments[volume as keyof typeof volumeAdjustments] || 0;
-
-  const targetTemp = baseTemp + containerAdj + volumeAdj;
-
-  // Find the closest matching temperature profile
-  let closestProfile = sortedProfiles[0];
-  let minDiff = Math.abs(getTemp(sortedProfiles[0].id) - targetTemp);
-
-  for (const profile of sortedProfiles) {
-    const diff = Math.abs(getTemp(profile.id) - targetTemp);
-    if (diff < minDiff) {
-      minDiff = diff;
-      closestProfile = profile;
-    }
-  }
-
-  return closestProfile.id;
-}
-
 export async function seed() {
   console.log('Seeding orders...');
 
@@ -121,7 +45,6 @@ export async function seed() {
     const subtypes = await db.select().from(drink_subtypes);
     const allVolumes = await db.select().from(volumes);
     const allContainers = await db.select().from(container_types);
-    const profiles = await db.select().from(temperature_profiles);
 
     const orderRows = [];
 
@@ -144,12 +67,9 @@ export async function seed() {
                   TEMPERATURE_RANGES.CONSUMPTION.MIN,
                   TEMPERATURE_RANGES.CONSUMPTION.MAX,
                 ),
-                temperatureProfileId: determineTemperatureProfile(
-                  type.name,
-                  null,
-                  volume.name,
-                  container.name,
-                  profiles,
+                defaultTempFreeze: getRandomInt(
+                  TEMPERATURE_RANGES.FREEZING.MIN,
+                  TEMPERATURE_RANGES.FREEZING.MAX,
                 ),
               });
             }
@@ -173,12 +93,9 @@ export async function seed() {
                     TEMPERATURE_RANGES.CONSUMPTION.MIN,
                     TEMPERATURE_RANGES.CONSUMPTION.MAX,
                   ),
-                  temperatureProfileId: determineTemperatureProfile(
-                    type.name,
-                    subtype.name,
-                    volume.name,
-                    container.name,
-                    profiles,
+                  defaultTempFreeze: getRandomInt(
+                    TEMPERATURE_RANGES.FREEZING.MIN,
+                    TEMPERATURE_RANGES.FREEZING.MAX,
                   ),
                 });
               }
