@@ -7,13 +7,15 @@ import { OrdersForm } from 'pages/AdminPages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
 import { Col, Row } from 'react-grid-system';
 import { styles } from './AdminOrdersPage.styles';
-import { Drawer } from '../../../components/Drawer/Drawer';
+import { Drawer } from 'components/Drawer';
 import { SearchBar } from 'components/SearchBar';
+import { useNavigate } from 'react-router-dom';
 
 export const AdminOrdersPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   // Fetch orders-readable data
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
@@ -55,6 +57,11 @@ export const AdminOrdersPage: React.FC = () => {
       message: 'Order added successfully!',
       subText: `${formData.drinkType}${subtypeText} ${formData.volume} in ${formData.containerType}`,
     });
+  };
+
+  const handleEditOrder = (orderId: string) => {
+    console.log('Editing order:', orderId);
+    navigate(`/admin/orders/${orderId}`);
   };
 
   if (isLoading) {
@@ -118,7 +125,15 @@ export const AdminOrdersPage: React.FC = () => {
                   {isDrawerOpen ? (
                     <>
                       Showing {filteredOrders.length}
-                      <span style={{ opacity: 0.66 }}> of {ordersData.length} total</span>
+                      <span
+                        style={{
+                          opacity: 0.5,
+                          display: 'inline-block',
+                          paddingLeft: '0.33rem',
+                        }}
+                      >
+                        / {ordersData.length} total
+                      </span>
                     </>
                   ) : (
                     <>{ordersData.length} total</>
@@ -132,6 +147,7 @@ export const AdminOrdersPage: React.FC = () => {
             orders={filteredOrders}
             emptyMessage="No orders found"
             emptySubMessage="Try adjusting your search term or add new orders"
+            onClickEdit={handleEditOrder}
           />
         </Drawer>
       </AdminContentLayout>

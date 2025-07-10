@@ -32,9 +32,9 @@ export const AdminNavigation: React.FC = () => {
       path: '/admin/languages',
     },
     {
-      id: 'orders-dev',
+      id: 'orders',
       label: t('admin.pages.orders.title'),
-      path: '/admin/orders-dev',
+      path: '/admin/orders',
     },
   ];
 

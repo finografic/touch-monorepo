@@ -7,15 +7,28 @@ export const styles = css`
   background-color: ${colors.white};
   color: ${colors.text};
 
+  .td {
+    height: 60px;
+    display: table-cell;
+    vertical-align: middle;
+  }
+
   .th-action,
   .td-action {
-    width: 90px;
+    width: 100px;
+    display: table-cell;
+    text-align: center;
   }
 
   .td-action button {
     opacity: 0.5;
     color: ${colors.infoXDark};
     background-color: transparent;
+    svg.icon {
+      width: 24px;
+      height: 24px;
+    }
+
     &:hover {
       cursor: pointer;
       opacity: 1;

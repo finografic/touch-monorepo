@@ -3,18 +3,19 @@ import { Button, Flex, Table, Text } from '@radix-ui/themes';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { EditIcon } from 'styles/icons';
 import { styles } from './OrdersTable.styles';
-import clsx from 'clsx';
 
 interface OrdersTableProps {
   orders: OrderReadableModel[];
   emptyMessage?: string;
   emptySubMessage?: string;
+  onClickEdit: (orderId: string) => void;
 }
 
 export const OrdersTable: React.FC<OrdersTableProps> = ({
   orders,
   emptyMessage = 'No orders found',
   emptySubMessage = 'Try adjusting your search term',
+  onClickEdit,
 }) => {
   return (
     <section css={styles} className="admin-content-page">
@@ -23,35 +24,42 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         <Table.Root>
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeaderCell>Order ID</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Drink Type</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Subtype</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Volume</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Container</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Temperature</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell>Created</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th-action"></Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th">Order ID</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th">Drink Type</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th">Subtype</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th">Volume</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th">Container</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th">Temperature</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th">Created</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th th-action"></Table.ColumnHeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {orders.map((order) => (
               <Table.Row key={order.id}>
-                <Table.Cell>
+                <Table.Cell className="td">
                   <Text size="1">{order.id.slice(0, 8)}...</Text>
                 </Table.Cell>
-                <Table.Cell>{order.drinkType || '-'}</Table.Cell>
-                <Table.Cell>{order.drinkSubtype || '-'}</Table.Cell>
-                <Table.Cell>{order.volume || '-'}</Table.Cell>
-                <Table.Cell>{order.containerType || '-'}</Table.Cell>
-                <Table.Cell>{order.defaultTempConsume ? `${order.defaultTempConsume}°C` : '-'}</Table.Cell>
-                <Table.Cell>
+                <Table.Cell className="td">{order.drinkType || '-'}</Table.Cell>
+                <Table.Cell className="td">{order.drinkSubtype || '-'}</Table.Cell>
+                <Table.Cell className="td">{order.volume || '-'}</Table.Cell>
+                <Table.Cell className="td">{order.containerType || '-'}</Table.Cell>
+                <Table.Cell className="td">
+                  {order.defaultTempConsume ? `${order.defaultTempConsume}°C` : '-'}
+                </Table.Cell>
+                <Table.Cell className="td">
                   <Text size="1">
                     {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : '-'}
                   </Text>
                 </Table.Cell>
-                <Table.Cell className="td-action">
-                  <Button className="icon-edit" onClick={() => ({})} variant="ghost">
-                    <EditIcon />
+                <Table.Cell className="td td-action">
+                  <Button
+                    className="btn btn-edit"
+                    onClick={() => onClickEdit(order.id)}
+                    variant="ghost"
+                    size="2"
+                  >
+                    <EditIcon className="icon-edit" />
                   </Button>
                 </Table.Cell>
               </Table.Row>

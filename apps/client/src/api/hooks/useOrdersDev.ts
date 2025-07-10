@@ -48,7 +48,7 @@ export interface OrderDevUpdate {
 
 // Query keys for caching
 export const ORDERS_DEV_QUERY_KEYS = {
-  all: ['orders-dev'] as const,
+  all: ['orders'] as const,
   lists: () => [...ORDERS_DEV_QUERY_KEYS.all, 'list'] as const,
   list: (filters?: string) => [...ORDERS_DEV_QUERY_KEYS.lists(), { filters }] as const,
   details: () => [...ORDERS_DEV_QUERY_KEYS.all, 'detail'] as const,
@@ -56,7 +56,7 @@ export const ORDERS_DEV_QUERY_KEYS = {
 };
 
 /**
- * Hook to fetch all orders-dev
+ * Hook to fetch all orders
  */
 export const useGetOrdersDev = () => {
   return useQuery({
