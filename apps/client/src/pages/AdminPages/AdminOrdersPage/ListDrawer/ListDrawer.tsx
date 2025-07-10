@@ -1,31 +1,19 @@
 import React, { useState } from 'react';
 import { styles } from './ListDrawer.styles';
-import { OrdersTable } from 'components/OrdersTable';
-import { SearchBar } from 'components/SearchBar';
 import { DrawerBar } from './DrawerBar';
 
 interface ListDrawerProps {
-  isOpen: boolean;
-  onOpenChange: (open: boolean) => void;
-  orders: any[];
-  searchTerm: string;
-  onSearchChange: (term: string) => void;
-  totalCount: number;
+  onOpenChange?: (open: boolean) => void;
+  drawerBarLeft?: React.ReactNode;
+  children: React.ReactNode;
 }
 
-export const ListDrawer: React.FC<ListDrawerProps> = ({
-  isOpen,
-  onOpenChange,
-  orders,
-  searchTerm,
-  onSearchChange,
-  totalCount,
-}) => {
+export const ListDrawer: React.FC<ListDrawerProps> = ({ onOpenChange, drawerBarLeft, children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
-      onOpenChange(false);
+      onOpenChange?.(false);
     }
   };
 
@@ -35,20 +23,9 @@ export const ListDrawer: React.FC<ListDrawerProps> = ({
       <div className="drawer-content">
         <div className="drawer-body">
           <DrawerBar isActionActive={isDrawerOpen} onClickAction={() => setIsDrawerOpen(!isDrawerOpen)}>
-            <SearchBar
-              searchTerm={searchTerm}
-              onSearchChange={onSearchChange}
-              status={isDrawerOpen ? 'active' : 'inactive'}
-            />
+            {drawerBarLeft}
           </DrawerBar>
-          <OrdersTable
-            orders={orders}
-            searchTerm={searchTerm}
-            onSearchChange={onSearchChange}
-            totalCount={totalCount}
-            emptyMessage="No orders found"
-            emptySubMessage="Try adjusting your search term or add new orders"
-          />
+          {children}
         </div>
       </div>
     </div>

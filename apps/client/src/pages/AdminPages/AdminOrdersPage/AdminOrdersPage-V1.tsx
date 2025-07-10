@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
@@ -71,11 +71,7 @@ export const AdminOrdersPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <AdminContentLayout
-        title="Orders Management"
-        // subtitle="Development orders for testing"
-        isLoading={true}
-      >
+      <AdminContentLayout title="Orders Management" isLoading={true}>
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
           <Text>Loading orders data...</Text>
@@ -86,11 +82,7 @@ export const AdminOrdersPage: React.FC = () => {
 
   if (error) {
     return (
-      <AdminContentLayout
-        title="Orders Management"
-        // subtitle="Development orders for testing"
-        error={error.message}
-      >
+      <AdminContentLayout title="Orders Management" error={error.message}>
         <AdminSection>
           <Text color="red">Error loading orders: {error.message}</Text>
         </AdminSection>
@@ -100,69 +92,23 @@ export const AdminOrdersPage: React.FC = () => {
 
   return (
     <section css={styles}>
-      <AdminContentLayout
-        title="Orders Management"
-        //  subtitle="Development orders for testing"
-      >
-        {/* <Row>
-          <Col>
-            <AdminSection title="Data Summary">
-              <OrdersSummaryCards
-                totalOrders={ordersData.length}
-                filteredResults={filteredOrders.length}
-                drinkTypes={summaryStats.drinkTypes}
-                volumeOptions={summaryStats.volumes}
-                containerTypes={summaryStats.containers}
-              />
-            </AdminSection>
-          </Col>
-        </Row> */}
-
+      <AdminContentLayout title="Orders Management">
         <Row className="form-section">
           <Col>
-            {/* Add New Order Form */}
             <AdminSection title="Formulario de datos">
-              <></>
-              {/* <OrdersForm onSubmit={handleAddOrder} /> */}
+              <OrdersForm onSubmit={handleAddOrder} />
             </AdminSection>
           </Col>
         </Row>
 
-        <Row className="row">
-          <Col>
-            <Button
-              type="button"
-              style={{ padding: '1rem 3rem', fontWeight: 'bold' }}
-              // disabled={!isValid || isLoading}
-              onClick={() => setIsTableVisible(!isTableVisible)}
-              loading={isLoading}
-              color={isTableVisible ? 'orange' : 'green'}
-              size="3"
-            >
-              {isTableVisible ? 'close drawer' : 'open drawer'}
-            </Button>
-          </Col>
-        </Row>
-
-        {/* Testing Radix version instead of Vaul */}
         <ListDrawer
-          drawerBarLeft={
-            <SearchBar
-              searchTerm={searchTerm}
-              onSearchChange={onSearchChange}
-              status={isDrawerOpen ? 'active' : 'inactive'}
-            />
-          }
-        >
-          <OrdersTable
-            orders={orders}
-            searchTerm={searchTerm}
-            onSearchChange={onSearchChange}
-            totalCount={totalCount}
-            emptyMessage="No orders found"
-            emptySubMessage="Try adjusting your search term or add new orders"
-          />
-        </ListDrawer>
+          isOpen={isTableVisible}
+          onOpenChange={setIsTableVisible}
+          orders={filteredOrders}
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          totalCount={ordersData.length}
+        />
       </AdminContentLayout>
     </section>
   );
