@@ -1,7 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
-import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
+import { useGetOrderReadableById, useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
 import { OrdersTable } from 'pages/AdminPages/AdminOrdersPage/OrdersTable';
 import { OrdersForm } from 'pages/AdminPages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
@@ -10,7 +10,6 @@ import { styles } from './AdminOrdersPage.styles';
 import { Drawer } from 'components/Drawer';
 import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
-import { useGetOrderDev } from 'api/hooks/useOrdersDev';
 
 export const AdminOrdersPage: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -26,7 +25,11 @@ export const AdminOrdersPage: React.FC = () => {
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
 
   // Fetch individual order data when in edit mode
-  const { data: orderData, isLoading: isOrderLoading, error: orderError } = useGetOrderDev(orderId || '');
+  const {
+    data: orderData,
+    isLoading: isOrderLoading,
+    error: orderError,
+  } = useGetOrderReadableById(orderId || '');
 
   // Simple search filtering
   const filteredOrders = useMemo(() => {

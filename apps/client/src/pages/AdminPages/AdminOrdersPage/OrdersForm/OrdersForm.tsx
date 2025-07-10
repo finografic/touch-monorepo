@@ -23,7 +23,7 @@ import {
 import { Col, Row } from 'react-grid-system';
 import { OrderFieldKeys } from 'constants/app.config';
 import { useDev } from 'providers/DevProvider';
-import type { OrderDev } from 'api/hooks/useOrdersDev';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 
 const PROFILE_ITEM_VALUES_EMPTY = {
   temperature: undefined,
@@ -92,7 +92,7 @@ interface OrdersFormProps {
   onSubmit: (formData: OrdersFormValues) => void;
   isLoading?: boolean;
   language?: string;
-  orderData?: OrderDev;
+  orderData?: OrderReadableModel;
   isEditMode?: boolean;
   onNavigateBack?: () => void;
 }
@@ -123,11 +123,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     reValidateMode: 'onChange',
     resolver: zodResolver(addOrderSchema),
     defaultValues: {
-      mode: orderData?.mode || 4,
-      drinkType: orderData?.drinkTypeName || '',
-      drinkSubtype: orderData?.drinkSubtypeName || '',
-      volume: orderData?.volumeName || '',
-      containerType: orderData?.containerTypeName || '',
+      mode: orderData?.mode ? Number(orderData.mode) : 4,
+      drinkType: orderData?.drinkType || '',
+      drinkSubtype: orderData?.drinkSubtype || '',
+      volume: orderData?.volume || '',
+      containerType: orderData?.containerType || '',
       defaultTempConsume: orderData?.defaultTempConsume || 5,
       defaultTempFreeze: orderData?.defaultTempFreeze || -2,
       timeRows: Array.from({ length: MIN_TABLE_ROWS }, () => PROFILE_ITEM_VALUES_EMPTY),

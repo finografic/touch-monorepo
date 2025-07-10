@@ -39,8 +39,7 @@ export const useGetOrderReadableById = (orderId: string | undefined) => {
     queryKey: ORDERS_READABLE_QUERY_KEYS.detail(orderId || ''),
     queryFn: async (): Promise<OrderReadableModel> => {
       try {
-        // For now, use the dev endpoint which includes both IDs and readable names
-        const response = await api.get(`/orders/${orderId}`);
+        const response = await api.get(`/orders-readable/${orderId}`);
         return response.data;
       } catch (error) {
         throw transformAxiosError(error);
