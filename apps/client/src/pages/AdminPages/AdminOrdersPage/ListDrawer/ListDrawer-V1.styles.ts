@@ -32,12 +32,6 @@ export const styles = css`
     pointer-events: auto; /* Re-enable clicks for drawer content */
     transition: top 300ms cubic-bezier(0.16, 1, 0.3, 1);
     will-change: top;
-    .drawer-body {
-      flex: 1;
-      /* overflow-x: auto; */
-      /* overflow-y: auto; */
-      min-height: 0;
-    }
   }
 
   .header-bar {
@@ -71,6 +65,12 @@ export const styles = css`
     &:hover {
       color: var(--gray-8);
     }
+  }
+
+  .drawer-body {
+    flex: 1;
+    overflow-y: auto;
+    min-height: 0;
   }
 
   /* Panel States */

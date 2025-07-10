@@ -25,6 +25,8 @@ import {
   House as _HomeIcon,
   Languages as _LanguagesIcon,
   Lock as _LockIcon,
+  PanelBottomClose as _PanelBottomCloseIcon,
+  PanelBottomOpen as _PanelBottomOpenIcon,
   ShieldCheck as _ShieldCheckIcon,
   Thermometer as _TempIcon,
   Trash2 as _Trash2Icon,
@@ -78,5 +80,7 @@ export const DeleteIcon = createIconWrapper(_DeleteIcon);
 export const HomeIcon = createIconWrapper(_HomeIcon);
 export const LockIcon = createIconWrapper(_LockIcon);
 export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);
+export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);
+export const PanelBottomOpenIcon = createIconWrapper(_PanelBottomOpenIcon);
 export const PlusIcon = createIconWrapper(_PlusIcon);
 export const TrashIcon = createIconWrapper(_Trash2Icon);

@@ -2,6 +2,7 @@ import React from 'react';
 import { Flex, Table, Text, TextField } from '@radix-ui/themes';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
+import { SearchBar } from 'components/SearchBar';
 
 interface OrdersTableProps {
   orders: OrderReadableModel[];
@@ -24,6 +25,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     <>
       {/* Search and Results Info */}
       <Flex justify="between" align="center" mb="4">
+        <SearchBar />
         <Flex align="center" gap="3">
           <TextField.Root
             placeholder="Search orders..."

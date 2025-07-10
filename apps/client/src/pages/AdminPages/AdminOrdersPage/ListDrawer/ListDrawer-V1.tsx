@@ -1,8 +1,6 @@
-import React, { useState } from 'react';
-import { styles } from './ListDrawer.styles';
+import React from 'react';
+import { styles } from './ListDrawer-V1.styles';
 import { OrdersTable } from 'components/OrdersTable';
-import { SearchBar } from 'components/SearchBar';
-import { DrawerBar } from './DrawerBar';
 
 interface ListDrawerProps {
   isOpen: boolean;
@@ -21,8 +19,6 @@ export const ListDrawer: React.FC<ListDrawerProps> = ({
   onSearchChange,
   totalCount,
 }) => {
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onOpenChange(false);
@@ -30,13 +26,16 @@ export const ListDrawer: React.FC<ListDrawerProps> = ({
   };
 
   return (
-    <div css={styles} className={`list-drawer ${isDrawerOpen ? 'open' : 'closed'}`}>
+    <div css={styles} className={`list-drawer ${isOpen ? 'open' : 'closed'}`}>
       <div className="drawer-overlay" onClick={handleOverlayClick} />
       <div className="drawer-content">
+        <div className="header-bar">
+          <h2>Registro de entradas</h2>
+          <button className="toggle-button" onClick={() => onOpenChange(!isOpen)}>
+            {isOpen ? '▼' : '▲'}
+          </button>
+        </div>
         <div className="drawer-body">
-          <DrawerBar isActionActive={isDrawerOpen} onClickAction={() => setIsDrawerOpen(!isDrawerOpen)}>
-            <SearchBar isActionActive={isDrawerOpen} onClickAction={() => setIsDrawerOpen(!isDrawerOpen)} />
-          </DrawerBar>
           <OrdersTable
             orders={orders}
             searchTerm={searchTerm}
