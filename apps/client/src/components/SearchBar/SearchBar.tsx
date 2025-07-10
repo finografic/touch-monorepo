@@ -18,14 +18,19 @@ export const SearchBar: FC<SearchBarProps> = ({
   status,
   placeholder = 'Search..',
 }) => {
+  const debouncedOnSearchChange = useDebouncedCallback((value: string) => {
+    onSearchChange(value);
+  }, 100);
+
   return (
     <div css={styles} role="searchbox" className={clsx('search-bar', status)}>
       <Flex align="center" gap="3">
         <TextField.Root
           placeholder={placeholder}
           value={searchTerm}
+          onChange={(evt) => debouncedOnSearchChange(evt.target.value)}
           // onChange={(evt) => onSearchChange(evt.target.value)}
-          onChange={useDebouncedCallback((evt) => onSearchChange(evt.target.value), 100)}
+          // onChange={useDebouncedCallback((evt) => onSearchChange(evt.target.value), 100)}
           size="3"
         >
           <TextField.Slot>

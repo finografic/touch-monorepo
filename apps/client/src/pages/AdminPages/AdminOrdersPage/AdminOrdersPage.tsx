@@ -11,6 +11,7 @@ import { useToast } from 'components/Toast';
 import { Col, Row } from 'react-grid-system';
 import { styles } from './AdminOrdersPage.styles';
 import { ListDrawer } from './ListDrawer/ListDrawer';
+import { SearchBar } from 'components/SearchBar';
 
 export const AdminOrdersPage: React.FC = () => {
   const { t } = useTranslation();
@@ -117,7 +118,6 @@ export const AdminOrdersPage: React.FC = () => {
             </AdminSection>
           </Col>
         </Row> */}
-
         <Row className="form-section">
           <Col>
             {/* Add New Order Form */}
@@ -127,7 +127,6 @@ export const AdminOrdersPage: React.FC = () => {
             </AdminSection>
           </Col>
         </Row>
-
         <Row className="row">
           <Col>
             <Button
@@ -143,22 +142,23 @@ export const AdminOrdersPage: React.FC = () => {
             </Button>
           </Col>
         </Row>
-
         {/* Testing Radix version instead of Vaul */}
+        {}
         <ListDrawer
           drawerBarLeft={
+            // eslint-disable-next-line style/jsx-wrap-multilines
             <SearchBar
               searchTerm={searchTerm}
-              onSearchChange={onSearchChange}
-              status={isDrawerOpen ? 'active' : 'inactive'}
+              onSearchChange={setSearchTerm}
+              status={isTableVisible ? 'active' : 'inactive'}
             />
           }
         >
           <OrdersTable
-            orders={orders}
+            orders={filteredOrders}
             searchTerm={searchTerm}
-            onSearchChange={onSearchChange}
-            totalCount={totalCount}
+            onSearchChange={setSearchTerm}
+            totalCount={ordersData.length}
             emptyMessage="No orders found"
             emptySubMessage="Try adjusting your search term or add new orders"
           />

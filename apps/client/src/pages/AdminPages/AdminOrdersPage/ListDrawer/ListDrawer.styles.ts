@@ -23,8 +23,6 @@ export const styles = css`
     height: 66vh;
     z-index: 1400;
     background-color: white;
-    /* border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem; */
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     box-shadow:
@@ -37,6 +35,7 @@ export const styles = css`
     will-change: top;
     .drawer-body {
       flex: 1;
+      /* TODO: PUT BACK FOR CONTENT */
       /* overflow-x: auto; */
       /* overflow-y: auto; */
       min-height: 0;
@@ -50,8 +49,6 @@ export const styles = css`
     align-items: center;
     justify-content: space-between;
     padding: 0 24px;
-    /* border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem; */
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     flex-shrink: 0;
@@ -61,20 +58,6 @@ export const styles = css`
       font-size: 1.25rem;
       font-weight: 600;
       margin: 0;
-    }
-  }
-
-  .toggle-button {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 8px;
-    margin-left: 16px;
-
-    &:hover {
-      color: var(--gray-8);
     }
   }
 
