@@ -19,8 +19,15 @@ export const ListDrawer: React.FC<ListDrawerProps> = ({
   onSearchChange,
   totalCount,
 }) => {
+  const handleOverlayClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget) {
+      onOpenChange(false);
+    }
+  };
+
   return (
     <div css={styles} className={`list-drawer ${isOpen ? 'open' : 'closed'}`}>
+      <div className="drawer-overlay" onClick={handleOverlayClick} />
       <div className="drawer-content">
         <div className="header-bar">
           <h2>Registro de entradas</h2>
