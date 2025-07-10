@@ -31,7 +31,7 @@ export const DrawerBar: FC<DrawerBarProps> = ({
         <Flex justify="end" align="center" className="col col-button">
           <Box className="button-box">
             <Button
-              className={clsx('btn', isActionActive ? 'btn-close' : 'btn-open')}
+              className={clsx('btn', isActionActive && 'active')}
               onClick={onClickAction}
               variant="ghost"
             >

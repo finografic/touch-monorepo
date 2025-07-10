@@ -35,9 +35,21 @@ export const styles = css`
       background-color: white;
       .col-button {
         button {
-          color: ${colors.infoXDark};
+          color: ${colors.grey};
+          background-color: transparent;
           &:hover {
-            color: ${colors.infoDark};
+            color: ${colors.successXDark};
+            background-color: ${colors.success}33;
+          }
+          &.active {
+            opacity: 0.8;
+            color: ${colors.warningDark};
+            background-color: transparent;
+            &:hover {
+              opacity: 1;
+              color: ${colors.warningDark};
+              background-color: ${colors.warning}33;
+            }
           }
         }
       }
