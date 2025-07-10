@@ -75,7 +75,7 @@ export const styles = css`
 
   /* Panel States */
   &.closed .drawer-content {
-    top: calc(100vh - 80px - 80px);
+    top: calc(100vh - 80px - 60px);
   }
 
   &.closed .drawer-overlay {

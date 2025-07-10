@@ -1,20 +1,25 @@
 import { css } from '@emotion/react';
-import { layout } from 'styles';
+import { colors, layout } from 'styles';
 
 export const styles = css`
-  /* Footer content styling - layout handled by Layout.styles.ts */
-
   width: 100%;
-  height: ${layout.footer.height};
-  min-height: ${layout.footer.height};
-  max-height: ${layout.footer.height};
-  display: flex;
-  align-items: center;
+  height: ${layout.drawer.bar.height};
+  padding: 0.6rem 2.5rem 0.4rem 2.5rem;
 
-  /* Navigation wrapper - takes full width for now */
-  .nav-wrapper {
-    width: 100%;
-    display: flex;
-    justify-content: center;
+  .col-children {
+    flex: 1;
+  }
+
+  .col-button {
+    flex: 1;
+    button {
+      color: ${colors.infoXDark};
+      opacity: 0.66;
+      &:hover {
+        cursor: pointer;
+        color: ${colors.infoDark};
+        opacity: 1;
+      }
+    }
   }
 `;

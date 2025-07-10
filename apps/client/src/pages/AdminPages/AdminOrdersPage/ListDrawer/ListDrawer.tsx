@@ -35,7 +35,11 @@ export const ListDrawer: React.FC<ListDrawerProps> = ({
       <div className="drawer-content">
         <div className="drawer-body">
           <DrawerBar isActionActive={isDrawerOpen} onClickAction={() => setIsDrawerOpen(!isDrawerOpen)}>
-            <SearchBar isActionActive={isDrawerOpen} onClickAction={() => setIsDrawerOpen(!isDrawerOpen)} />
+            <SearchBar
+              searchTerm={searchTerm}
+              onSearchChange={onSearchChange}
+              status={isDrawerOpen ? 'active' : 'inactive'}
+            />
           </DrawerBar>
           <OrdersTable
             orders={orders}

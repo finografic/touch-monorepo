@@ -28,6 +28,11 @@ export const layout = {
   navbar: {
     height: '41px',
   },
+  drawer: {
+    bar: {
+      height: '60px',
+    },
+  },
   imagePreview: {
     height: '300px',
   },
