@@ -1,5 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import { orderSchemas } from 'db/schemas/orders.schema';
+import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
 import { notFoundSchema } from 'lib/constants';
 import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
@@ -23,7 +24,6 @@ export const list = createRoute({
           drinkSubtypeId: true,
           volumeId: true,
           containerTypeId: true,
-          temperatureProfileId: true,
           defaultTempConsume: true,
           defaultTempFreeze: true,
         }),
@@ -41,12 +41,27 @@ const ordersReadableSchema = z.object({
   drinkSubtype: z.string().nullable(),
   volume: z.string(),
   containerType: z.string(),
-  temperatureProfile: z.string(),
   defaultTempConsume: z.number(),
   defaultTempFreeze: z.number(),
-  isActive: z.number(),
-  createdAt: z.number().nullable(),
-  updatedAt: z.number().nullable(),
+  isActive: z.boolean(),
+  createdAt: z.string().nullable(),
+  updatedAt: z.string().nullable(),
+});
+
+// Create schema for temperature profiles
+const temperatureProfileSchema = z.object({
+  id: z.string(),
+  orderId: z.string(),
+  coolingProfileId: z.string(),
+  temperature: z.number(),
+  timeA: z.number(),
+  timeB: z.number(),
+  timeC: z.number(),
+});
+
+// Create schema for response with temperature profiles
+const ordersReadableResponseSchema = ordersReadableSchema.extend({
+  temperatureProfiles: z.array(temperatureProfileSchema),
 });
 
 export const listReadable = createRoute({
@@ -86,7 +101,10 @@ export const getOneReadable = createRoute({
   },
   tags,
   responses: {
-    [HttpStatusCodes.OK]: jsonContent(ordersReadableSchema, 'The requested order with readable names'),
+    [HttpStatusCodes.OK]: jsonContent(
+      ordersReadableResponseSchema,
+      'The requested order with readable names and temperature profiles',
+    ),
     [HttpStatusCodes.NOT_FOUND]: jsonContent(notFoundSchema, 'Order not found'),
     [HttpStatusCodes.UNPROCESSABLE_ENTITY]: jsonContent(
       createErrorSchema(IdParamsSchema),
@@ -148,6 +166,33 @@ export const remove = createRoute({
   },
 });
 
+export const getTemperatureProfiles = createRoute({
+  method: 'get',
+  path: '/orders/:id/temperature-profiles',
+  tags: ['Orders'],
+  request: {
+    params: IdCuidParamsSchema,
+  },
+  responses: {
+    200: {
+      content: {
+        'application/json': {
+          schema: z.array(temperatureProfileSchemas.select),
+        },
+      },
+      description: 'Temperature profiles for the order',
+    },
+    404: {
+      content: {
+        'application/json': {
+          schema: notFoundSchema,
+        },
+      },
+      description: 'Order not found',
+    },
+  },
+});
+
 export type ListRoute = typeof list;
 export type ListReadableRoute = typeof listReadable;
 export type GetOneRoute = typeof getOne;
@@ -155,3 +200,5 @@ export type GetOneReadableRoute = typeof getOneReadable;
 export type CreateRoute = typeof create;
 export type PatchRoute = typeof patch;
 export type RemoveRoute = typeof remove;
+
+export type GetTemperatureProfilesRoute = typeof getTemperatureProfiles;

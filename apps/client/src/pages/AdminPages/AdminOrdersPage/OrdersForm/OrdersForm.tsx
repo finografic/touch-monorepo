@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
@@ -14,6 +14,7 @@ import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { useGetContainerTypes } from 'queries/container-types';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
+import { useGetTemperatureProfilesByOrderId } from 'api/hooks/useTemperatureProfiles';
 import { SelectOptionDto } from 'types/models/select-option.model';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import {
@@ -117,7 +118,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   // Dev tools visibility
   const { isDevToolsVisible } = useDev();
 
-  // RHF setup
+  // RHF setup with temperature profiles
   const methods = useForm<OrdersFormValues>({
     mode: 'onSubmit',
     reValidateMode: 'onChange',
@@ -130,7 +131,15 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       containerType: orderData?.containerType || '',
       defaultTempConsume: orderData?.defaultTempConsume || 5,
       defaultTempFreeze: orderData?.defaultTempFreeze || -2,
-      timeRows: Array.from({ length: MIN_TABLE_ROWS }, () => PROFILE_ITEM_VALUES_EMPTY),
+      timeRows:
+        isEditMode && orderData?.temperatureProfiles?.length
+          ? orderData.temperatureProfiles.map((profile) => ({
+              temperature: profile.temperature,
+              time_a: profile.timeA,
+              time_b: profile.timeB,
+              time_c: profile.timeC,
+            }))
+          : Array.from({ length: MIN_TABLE_ROWS }, () => PROFILE_ITEM_VALUES_EMPTY),
     },
   });
 

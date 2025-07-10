@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  touch-client:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '3000:3000' # Client port
+      - '3001:3001' # Server port
+    environment:
+      - NODE_ENV=production
+      - DATABASE_URL=file:./data/dev.db # SQLite database path
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/apps/client/node_modules
+      - /app/apps/server/node_modules
+      - sqlite_data:/app/data # Persist SQLite database
+
+volumes:
+  sqlite_data: # Volume for SQLite database persistence
