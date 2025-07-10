@@ -37,21 +37,14 @@ export const styles = css`
       flex: 1;
       /* TODO: PUT BACK FOR CONTENT */
       /* overflow-x: auto; */
-      /* overflow-y: auto; */
+      overflow-y: auto;
       min-height: 0;
     }
   }
 
-  .header-bar {
-    height: 80px;
-    background-color: var(--gray-12);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 24px;
+  .drawer-bar {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    flex-shrink: 0;
 
     h2 {
       color: white;

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { styles } from './ListDrawer.styles';
+import { styles } from './Drawer.styles';
 import { DrawerBar } from './DrawerBar';
 
-interface ListDrawerProps {
+interface DrawerProps {
   onOpenChange?: (open: boolean) => void;
   drawerBarLeft?: React.ReactNode;
   children: React.ReactNode;
 }
 
-export const ListDrawer: React.FC<ListDrawerProps> = ({ onOpenChange, drawerBarLeft, children }) => {
+export const Drawer: React.FC<DrawerProps> = ({ onOpenChange, drawerBarLeft, children }) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   const handleOverlayClick = (e: React.MouseEvent) => {
@@ -21,18 +21,16 @@ export const ListDrawer: React.FC<ListDrawerProps> = ({ onOpenChange, drawerBarL
     <div css={styles} className={`list-drawer ${isDrawerOpen ? 'open' : 'closed'}`}>
       <div className="drawer-overlay" onClick={handleOverlayClick} />
       <div className="drawer-content">
-        <div className="drawer-body">
-          <DrawerBar
-            isActionActive={isDrawerOpen}
-            onClickAction={() => {
-              onOpenChange?.(!isDrawerOpen);
-              setIsDrawerOpen(!isDrawerOpen);
-            }}
-          >
-            {drawerBarLeft}
-          </DrawerBar>
-          {children}
-        </div>
+        <DrawerBar
+          isActionActive={isDrawerOpen}
+          onClickAction={() => {
+            onOpenChange?.(!isDrawerOpen);
+            setIsDrawerOpen(!isDrawerOpen);
+          }}
+        >
+          {drawerBarLeft}
+        </DrawerBar>
+        <div className="drawer-body">{children}</div>
       </div>
     </div>
   );

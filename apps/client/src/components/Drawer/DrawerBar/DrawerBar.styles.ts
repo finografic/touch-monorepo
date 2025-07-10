@@ -6,6 +6,7 @@ export const styles = css`
     width: 100%;
     height: ${layout.drawer.bar.height};
     padding: 0.5rem 2rem 0.5rem 2rem;
+    margin-bottom: 1.5rem;
 
     .col-children {
       &:not(:empty) {

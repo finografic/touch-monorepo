@@ -118,6 +118,15 @@ export const styles = css`
   .search-container {
   }
 
+  .drawer-body {
+    section.admin-content-page {
+      border: 1px solid red;
+      margin: 0 2.75rem 0 2.75rem;
+      max-width: 96.33vw !important;
+      height: unset;
+    }
+  }
+
   /* Responsive adjustments */
   @media (max-width: 1200px) {
     .admin-page-container {

@@ -1,18 +1,21 @@
 import React, { useMemo, useState } from 'react';
-import { Flex, Spinner, Text } from '@radix-ui/themes';
+import { useTranslation } from 'react-i18next';
+import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
+import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
 import { OrdersTable } from 'components/OrdersTable';
 import { OrdersForm } from 'pages/AdminPages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
 import { Col, Row } from 'react-grid-system';
 import { styles } from './AdminOrdersPage.styles';
 import { Drawer } from '../../../components/Drawer/Drawer';
-import { SearchBar } from 'components/SearchBar';
 
 export const AdminOrdersPage: React.FC = () => {
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [isTableVisible, setIsTableVisible] = useState(false);
   const { toast } = useToast();
 
   // Fetch orders-readable data
@@ -38,6 +41,15 @@ export const AdminOrdersPage: React.FC = () => {
 
     return results.slice(0, 200); // Limit to 200 for performance
   }, [ordersData, searchTerm]);
+
+  // Get summary statistics
+  const summaryStats = useMemo(() => {
+    const drinkTypes = new Set(ordersData.map((o) => o.drinkType)).size;
+    const volumes = new Set(ordersData.map((o) => o.volume)).size;
+    const containers = new Set(ordersData.map((o) => o.containerType)).size;
+
+    return { drinkTypes, volumes, containers };
+  }, [ordersData]);
 
   // Handle form submission (temporary - just show toast for now)
   const handleAddOrder = (formData: {
@@ -87,49 +99,66 @@ export const AdminOrdersPage: React.FC = () => {
   }
 
   return (
-    <section css={styles} className="admin-content-page">
+    <section css={styles}>
       <AdminContentLayout
         title="Orders Management"
         //  subtitle="Development orders for testing"
       >
+        {/* <Row>
+          <Col>
+            <AdminSection title="Data Summary">
+              <OrdersSummaryCards
+                totalOrders={ordersData.length}
+                filteredResults={filteredOrders.length}
+                drinkTypes={summaryStats.drinkTypes}
+                volumeOptions={summaryStats.volumes}
+                containerTypes={summaryStats.containers}
+              />
+            </AdminSection>
+          </Col>
+        </Row> */}
+
         <Row className="form-section">
           <Col>
             {/* Add New Order Form */}
             <AdminSection title="Formulario de datos">
-              <OrdersForm onSubmit={handleAddOrder} />
+              <></>
+              {/* <OrdersForm onSubmit={handleAddOrder} /> */}
             </AdminSection>
           </Col>
         </Row>
 
+        <Row className="row">
+          <Col>
+            <Button
+              type="button"
+              style={{ padding: '1rem 3rem', fontWeight: 'bold' }}
+              // disabled={!isValid || isLoading}
+              onClick={() => setIsTableVisible(!isTableVisible)}
+              loading={isLoading}
+              color={isTableVisible ? 'orange' : 'green'}
+              size="3"
+            >
+              {isTableVisible ? 'close drawer' : 'open drawer'}
+            </Button>
+          </Col>
+        </Row>
+
+        {/* Testing Radix version instead of Vaul */}
         <Drawer
-          onOpenChange={setIsDrawerOpen}
           drawerBarLeft={
-            // eslint-disable-next-line style/jsx-wrap-multilines
-            <Flex justify="start" align="center" className="search-container">
-              <Flex px="4">
-                <SearchBar
-                  searchTerm={searchTerm}
-                  onSearchChange={setSearchTerm}
-                  status={isDrawerOpen ? 'active' : 'inactive'}
-                />
-              </Flex>
-              <Flex px="4" pl="2">
-                <Text size="2" color="gray" weight="bold" style={{ opacity: isDrawerOpen ? 1 : 0.66 }}>
-                  {isDrawerOpen ? (
-                    <>
-                      Showing {filteredOrders.length}
-                      <span style={{ opacity: 0.66 }}> of {ordersData.length} total</span>
-                    </>
-                  ) : (
-                    <>{ordersData.length} total</>
-                  )}
-                </Text>
-              </Flex>
-            </Flex>
+            <SearchBar
+              searchTerm={searchTerm}
+              onSearchChange={onSearchChange}
+              status={isDrawerOpen ? 'active' : 'inactive'}
+            />
           }
         >
           <OrdersTable
-            orders={filteredOrders}
+            orders={orders}
+            searchTerm={searchTerm}
+            onSearchChange={onSearchChange}
+            totalCount={totalCount}
             emptyMessage="No orders found"
             emptySubMessage="Try adjusting your search term or add new orders"
           />

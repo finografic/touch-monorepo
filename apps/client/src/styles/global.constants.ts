@@ -30,7 +30,7 @@ export const layout = {
   },
   drawer: {
     bar: {
-      height: '60px',
+      height: '66px',
     },
   },
   imagePreview: {
