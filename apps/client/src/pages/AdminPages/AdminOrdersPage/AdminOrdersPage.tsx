@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrderReadableById, useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
@@ -87,6 +87,15 @@ export const AdminOrdersPage: React.FC = () => {
     console.log('Editing order:', orderId);
     navigate(`/admin/orders/${orderId}`);
   };
+
+  useEffect(
+    function initSearchBox() {
+      if (!isDrawerOpen) {
+        setSearchTerm('');
+      }
+    },
+    [isDrawerOpen],
+  );
 
   if (isLoading || (isEditMode && isOrderLoading)) {
     return (

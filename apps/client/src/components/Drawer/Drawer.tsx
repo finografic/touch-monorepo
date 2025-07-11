@@ -14,6 +14,7 @@ export const Drawer: React.FC<DrawerProps> = ({ onOpenChange, drawerBarLeft, chi
   const handleOverlayClick = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) {
       onOpenChange?.(false);
+      setIsDrawerOpen(false);
     }
   };
 
