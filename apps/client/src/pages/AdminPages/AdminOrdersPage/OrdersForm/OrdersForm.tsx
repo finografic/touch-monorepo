@@ -160,9 +160,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
           isEditMode && orderData?.temperatureProfiles?.length
             ? orderData.temperatureProfiles.map((profile) => ({
                 temperature: profile.temperature,
-                time_a: profile.timeA,
-                time_b: profile.timeB,
-                time_c: profile.timeC,
+                timeA: profile.timeA,
+                timeB: profile.timeB,
+                timeC: profile.timeC,
               }))
             : [];
 
@@ -426,7 +426,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
         console.log('Creating order with:', orderData);
 
-        // Prepare temperature profiles
+        // Prepare temperature profiles with correct field names
         const validTimeRows = data.timeRows.filter(
           (row) =>
             row.temperature !== undefined &&
@@ -440,15 +440,18 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
           timeA: row.time_a!,
           timeB: row.time_b!,
           timeC: row.time_c!,
+          coolingProfileId: 'default',
         }));
 
-        console.log('Temperature profiles:', temperatureProfiles);
+        console.log('Creating order with temperature profiles:', temperatureProfiles);
 
         // Create the order with temperature profiles
-        await createOrderMutation.mutateAsync({
+        const orderResponse = await createOrderMutation.mutateAsync({
           orderData,
           temperatureProfiles,
         });
+
+        console.log('Order created:', orderResponse);
 
         // Call the parent onSubmit to handle success message
         onSubmit(data);
