@@ -108,14 +108,16 @@ const wordLists = {
  * @returns A number derived from the ID
  */
 const idToNumber = (id: string): number => {
-  // Take the first 8 chars of the ID and convert to a number
-  const numStr = id
-    .slice(0, 8)
-    .split('')
-    .map((c) => c.charCodeAt(0))
-    .join('');
+  // Use the entire ID string to generate a more unique number
+  let hash = 0;
+  for (let i = 0; i < id.length; i++) {
+    const char = id.charCodeAt(i);
+    hash = (hash << 5) - hash + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
 
-  return Number.parseInt(numStr.slice(0, 8), 10);
+  // Make sure it's positive and use modulo to keep it within a reasonable range
+  return Math.abs(hash) % 100000;
 };
 
 /**
