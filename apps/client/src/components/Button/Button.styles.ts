@@ -21,7 +21,7 @@ export const opacities = {
   ghost: {
     hover: 0.1,
   },
-  disabled: 0.7,
+  disabled: 0.75,
 } as const;
 
 // Types for button variants and states
@@ -74,7 +74,7 @@ const success: ButtonColorVariant = {
       label: colors.successXDark,
     },
     disabled: {
-      background: withOpacity(colors.successDark, opacities.soft.default),
+      background: withOpacity(colors.successXDark, opacities.soft.default),
       border: colors.transparent,
       label: colors.successXDark,
     },
@@ -360,7 +360,7 @@ const defaultVariant: ButtonColorVariant = {
     disabled: {
       background: withOpacity(colors.defaultDark, opacities.soft.default),
       border: colors.transparent,
-      label: colors.defaultXDark,
+      label: colors.defaultDark,
     },
   },
   outline: {

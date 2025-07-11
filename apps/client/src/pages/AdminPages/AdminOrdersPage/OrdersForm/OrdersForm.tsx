@@ -141,15 +141,28 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       containerType: orderData?.containerType || '',
       defaultTempConsume: orderData?.defaultTempConsume || 5,
       defaultTempFreeze: orderData?.defaultTempFreeze || -2,
-      timeRows:
-        isEditMode && orderData?.temperatureProfiles?.length
-          ? orderData.temperatureProfiles.map((profile) => ({
-              temperature: profile.temperature,
-              time_a: profile.timeA,
-              time_b: profile.timeB,
-              time_c: profile.timeC,
-            }))
-          : Array.from({ length: MIN_TABLE_ROWS }, () => PROFILE_ITEM_VALUES_EMPTY),
+      timeRows: (() => {
+        // Start with existing profiles if in edit mode
+        const existingProfiles =
+          isEditMode && orderData?.temperatureProfiles?.length
+            ? orderData.temperatureProfiles.map((profile) => ({
+                temperature: profile.temperature,
+                time_a: profile.timeA,
+                time_b: profile.timeB,
+                time_c: profile.timeC,
+              }))
+            : [];
+
+        // Calculate how many empty rows we need to add
+        const emptyRowsNeeded = MIN_TABLE_ROWS - existingProfiles.length;
+        const emptyRows = Array.from(
+          { length: Math.max(0, emptyRowsNeeded) },
+          () => PROFILE_ITEM_VALUES_EMPTY,
+        );
+
+        // Combine existing profiles with empty rows
+        return [...existingProfiles, ...emptyRows];
+      })(),
     },
   });
 
@@ -633,7 +646,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   {/* Add Row Button */}
                   <Button
                     type="button"
-                    variant="outline"
+                    variant="soft"
                     size="3"
                     onClick={handleAddRow}
                     disabled={!canAddRow}
