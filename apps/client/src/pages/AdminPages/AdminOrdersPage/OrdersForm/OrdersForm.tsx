@@ -6,13 +6,13 @@ import { Button } from 'components/Button';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { SelectSimple } from 'forms/SelectSimple';
 import { InputTemperature } from 'forms/InputTemperature';
-import { FormMiddlewareProvider } from 'forms/FormMiddleware/FormMiddleware.simple';
+import { FormMiddlewareProvider, useFormMiddleware } from 'forms/FormMiddleware';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { TimesRepeaterTable } from 'pages/AdminPages/AdminOrdersPage/TimesRepeaterTable';
 import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
-import { useGetDrinkTypes } from 'queries/drink-types';
-import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
-import { useGetContainerTypes } from 'queries/container-types';
+import { useCreateDrinkSubtype, useCreateDrinkType, useGetDrinkTypes } from 'queries/drink-types';
+import { useCreateVolume, useGetDrinkVolumes } from 'queries/drink-volumes';
+import { useCreateContainerType, useGetContainerTypes } from 'queries/container-types';
 import {
   useCreateOrder,
   useGetOrdersReadable,
@@ -30,6 +30,8 @@ import { Col, Row } from 'react-grid-system';
 import { OrderFieldKeys } from 'constants/app.config';
 import { useDev } from 'providers/DevProvider';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
+import { slugify } from 'utils/string.utils';
+import { useContent } from 'providers/ContentProvider/ContentContext';
 
 const PROFILE_ITEM_VALUES_EMPTY = {
   temperature: undefined,
@@ -88,10 +90,15 @@ const addOrderSchema = z
 
 type OrdersFormValues = z.infer<typeof addOrderSchema>;
 
+interface TempItem {
+  value: string;
+  displayValue: string;
+}
+
 interface TempItems {
-  drinkTypes: string[];
-  volumes: string[];
-  containerTypes: string[];
+  drinkTypes: TempItem[];
+  volumes: TempItem[];
+  containerTypes: TempItem[];
 }
 
 interface OrdersFormProps {
@@ -127,6 +134,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const updateOrderMutation = useUpdateOrder();
   const updateTemperatureProfilesMutation = useUpdateTemperatureProfiles();
   const createOrderMutation = useCreateOrder();
+
+  // Creation hooks
+  const createDrinkType = useCreateDrinkType();
+  const createDrinkSubtype = useCreateDrinkSubtype();
+  const createVolume = useCreateVolume();
+  const createContainerType = useCreateContainerType();
 
   // RHF setup with temperature profiles
   const methods = useForm<OrdersFormValues>({
@@ -190,6 +203,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const { data: containerTypes = [] } = useGetContainerTypes();
   const { data: ordersData = [] } = useGetOrdersReadable();
   const { data: drinkSubtypes = [] } = useGetDrinkSubtypes(); // Get all subtypes
+  const { currentLanguage } = useContent();
 
   // Helper function to find ID by name with support for subtypes
   const findIdByName = useCallback(
@@ -214,22 +228,34 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   // Transform data using DTO with language translations
   const drinkTypeOptions = useMemo(() => {
     const databaseOptions = SelectOptionDto.fromDrinkTypes(drinkTypes, language);
-    const customOptions = SelectOptionDto.fromCustomItems(tempItems.drinkTypes, 'Custom');
-    return SelectOptionDto.mergeOptions(databaseOptions, customOptions);
+    const customOptions = tempItems.drinkTypes.map((item) => ({
+      value: item.value,
+      label: item.displayValue,
+      category: 'Custom',
+    }));
+    return [...databaseOptions, ...customOptions];
   }, [drinkTypes, tempItems.drinkTypes, language]);
 
   const volumeOptions = useMemo(() => {
     const databaseOptions = SelectOptionDto.fromVolumes(volumes, language);
-    const customOptions = SelectOptionDto.fromCustomItems(tempItems.volumes, 'Custom');
+    const customOptions = tempItems.volumes.map((item) => ({
+      value: item.value,
+      label: item.displayValue,
+      category: 'Custom',
+    }));
     const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, OrderFieldKeys.drinkVolume);
-    return SelectOptionDto.mergeOptions(databaseOptions, customOptions, ordersOptions);
+    return [...databaseOptions, ...customOptions, ...ordersOptions];
   }, [volumes, tempItems.volumes, ordersData, language]);
 
   const containerTypeOptions = useMemo(() => {
     const databaseOptions = SelectOptionDto.fromContainerTypes(containerTypes, language);
-    const customOptions = SelectOptionDto.fromCustomItems(tempItems.containerTypes, 'Custom');
+    const customOptions = tempItems.containerTypes.map((item) => ({
+      value: item.value,
+      label: item.displayValue,
+      category: 'Custom',
+    }));
     const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, OrderFieldKeys.containerType);
-    return SelectOptionDto.mergeOptions(databaseOptions, customOptions, ordersOptions);
+    return [...databaseOptions, ...customOptions, ...ordersOptions];
   }, [containerTypes, tempItems.containerTypes, ordersData, language]);
 
   // Handle form submission with actual API calls
@@ -301,27 +327,99 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         // You might want to show an error toast here
       }
     } else {
-      // For create mode, use the create order API
       try {
-        // Convert form values to IDs for API
-        const drinkTypeId = findIdByName(drinkTypes, data.drinkType, 'drinkType');
-        const volumeId = findIdByName(volumes, data.volume, 'volume');
-        const containerTypeId = findIdByName(containerTypes, data.containerType, 'containerType');
-        const drinkSubtypeId = data.drinkSubtype
-          ? findIdByName([], data.drinkSubtype, 'drinkSubtype')
+        // Create any new entities first
+        const createdIds: Record<string, string> = {};
+
+        // Create new drink type if needed
+        const drinkTypeTemp = tempItems.drinkTypes.find((item) => item.value === data.drinkType);
+        if (drinkTypeTemp) {
+          const drinkTypeResponse = await createDrinkType.mutateAsync({
+            name: drinkTypeTemp.value,
+            hasSubtypes: Boolean(data.drinkSubtype), // Set hasSubtypes based on whether a subtype is selected
+            defaultTempConsume: data.defaultTempConsume,
+            defaultTempFreeze: data.defaultTempFreeze,
+            translations: {
+              [currentLanguage]: drinkTypeTemp.displayValue,
+            },
+          });
+          createdIds.drinkTypeId = drinkTypeResponse.id;
+        }
+
+        // Create new subtype if needed
+        const drinkSubtypeTemp = tempItems.drinkTypes.find((item) => item.value === data.drinkSubtype);
+        if (drinkSubtypeTemp && (createdIds.drinkTypeId || data.drinkType)) {
+          const drinkSubtypeResponse = await createDrinkSubtype.mutateAsync({
+            name: drinkSubtypeTemp.value,
+            drinkTypeId: createdIds.drinkTypeId || data.drinkType,
+            defaultTempConsume: data.defaultTempConsume,
+            defaultTempFreeze: data.defaultTempFreeze,
+            translations: {
+              [currentLanguage]: drinkSubtypeTemp.displayValue,
+            },
+          });
+          createdIds.drinkSubtypeId = drinkSubtypeResponse.id;
+        }
+
+        // Create new volume if needed
+        const volumeTemp = tempItems.volumes.find((item) => item.value === data.volume);
+        if (volumeTemp) {
+          const volumeResponse = await createVolume.mutateAsync({
+            name: volumeTemp.value,
+            valueInMl: 500, // Default to 500ml
+            sortOrder: volumeOptions.length + 1,
+            translations: {
+              [currentLanguage]: volumeTemp.displayValue,
+            },
+          });
+          createdIds.volumeId = volumeResponse.id;
+        }
+
+        // Create new container type if needed
+        const containerTypeTemp = tempItems.containerTypes.find((item) => item.value === data.containerType);
+        if (containerTypeTemp) {
+          const containerTypeResponse = await createContainerType.mutateAsync({
+            name: containerTypeTemp.value,
+            thermalConductivity: 50, // Default to middle value
+            translations: {
+              [currentLanguage]: containerTypeTemp.displayValue,
+            },
+          });
+          createdIds.containerTypeId = containerTypeResponse.id;
+        }
+
+        // Get existing IDs for non-temp items
+        const existingDrinkTypeId = !createdIds.drinkTypeId
+          ? findIdByName(drinkTypes, data.drinkType, 'drinkType')
+          : undefined;
+        const existingDrinkSubtypeId =
+          !createdIds.drinkSubtypeId && data.drinkSubtype
+            ? findIdByName([], data.drinkSubtype, 'drinkSubtype')
+            : undefined;
+        const existingVolumeId = !createdIds.volumeId
+          ? findIdByName(volumes, data.volume, 'volume')
+          : undefined;
+        const existingContainerTypeId = !createdIds.containerTypeId
+          ? findIdByName(containerTypes, data.containerType, 'containerType')
           : undefined;
 
+        // Get final IDs, ensuring required fields are not undefined
+        const finalDrinkTypeId = createdIds.drinkTypeId || existingDrinkTypeId;
+        const finalVolumeId = createdIds.volumeId || existingVolumeId;
+        const finalContainerTypeId = createdIds.containerTypeId || existingContainerTypeId;
+
         // Validate required fields
-        if (!drinkTypeId || !volumeId || !containerTypeId) {
+        if (!finalDrinkTypeId || !finalVolumeId || !finalContainerTypeId) {
           throw new Error('Missing required field IDs. Cannot create order.');
         }
 
+        // Now create the order using either new IDs or existing ones
         const orderData = {
           mode: data.mode,
-          drinkTypeId,
-          drinkSubtypeId,
-          volumeId,
-          containerTypeId,
+          drinkTypeId: finalDrinkTypeId,
+          drinkSubtypeId: createdIds.drinkSubtypeId || existingDrinkSubtypeId,
+          volumeId: finalVolumeId,
+          containerTypeId: finalContainerTypeId,
           defaultTempConsume: data.defaultTempConsume,
           defaultTempFreeze: data.defaultTempFreeze,
         };
@@ -355,9 +453,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         // Call the parent onSubmit to handle success message
         onSubmit(data);
 
-        // Reset form
+        // Reset form and temp items
         methods.reset();
-        // Reset temp items too
         setTempItems({
           drinkTypes: [],
           volumes: [],
@@ -391,13 +488,37 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   };
 
   // Handle adding new temp items
-  const handleAddNew = (field: keyof TempItems, value: string) => {
-    if (value.trim()) {
-      setTempItems((prev) => ({
-        ...prev,
-        [field]: [...prev[field], value.trim()],
-      }));
-    }
+  const handleAddNew = async (field: keyof TempItems, value: string) => {
+    if (!value.trim()) return;
+
+    // Store the new value temporarily
+    const displayValue = value.trim();
+    const kebabValue = slugify(displayValue);
+
+    setTempItems((prev) => ({
+      ...prev,
+      [field]: [...prev[field], { value: kebabValue, displayValue }],
+    }));
+
+    // Return the kebab value to be used in the form
+    return kebabValue;
+  };
+
+  // Handle adding new subtype
+  const handleAddSubtype = async (value: string) => {
+    if (!value.trim() || !formValues.drinkType) return;
+
+    // Store the new value temporarily
+    const displayValue = value.trim();
+    const kebabValue = slugify(displayValue);
+
+    setTempItems((prev) => ({
+      ...prev,
+      drinkTypes: [...prev.drinkTypes, { value: kebabValue, displayValue }],
+    }));
+
+    // Return the kebab value to be used in the form
+    return kebabValue;
   };
 
   // Callback to track when rows can be added
@@ -419,10 +540,17 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       const randomTimeB = generateRandomTime();
       const randomTimeC = generateRandomTime();
 
-      setValue(`timeRows.${rowIndex}.temperature`, randomTemp, { shouldValidate: true });
-      setValue(`timeRows.${rowIndex}.time_a`, randomTimeA, { shouldValidate: true });
-      setValue(`timeRows.${rowIndex}.time_b`, randomTimeB, { shouldValidate: true });
-      setValue(`timeRows.${rowIndex}.time_c`, randomTimeC, { shouldValidate: true });
+      // Ensure all values are numbers
+      setValue(
+        `timeRows.${rowIndex}`,
+        {
+          temperature: randomTemp,
+          time_a: randomTimeA,
+          time_b: randomTimeB,
+          time_c: randomTimeC,
+        },
+        { shouldValidate: true },
+      );
     },
     [setValue, formValues.defaultTempFreeze],
   );
@@ -437,34 +565,42 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
   // Fill form with valid test values for development
   const handleMockValues = useCallback(() => {
+    console.log('handleMockValues called');
+
     // Set basic form values with realistic data
     setValue('mode', 2, { shouldValidate: true, shouldDirty: true });
+    console.log('Set mode value');
+
+    // Set temperatures
+    setValue('defaultTempConsume', 4, { shouldValidate: true, shouldDirty: true });
+    setValue('defaultTempFreeze', -1, { shouldValidate: true, shouldDirty: true });
+    console.log('Set temperatures');
 
     // Use available options from the form data
     if (drinkTypeOptions.length > 0) {
       const sampleDrinkType = drinkTypeOptions.find((opt) => opt.value === 'cerveza') || drinkTypeOptions[0];
+      console.log('Setting drink type to:', sampleDrinkType.value);
       setValue('drinkType', sampleDrinkType.value, { shouldValidate: true, shouldDirty: true });
     }
 
     if (drinkTypeOptions.length > 1) {
       const sampleSubtype = drinkTypeOptions.find((opt) => opt.value === 'rubia') || drinkTypeOptions[1];
+      console.log('Setting drink subtype to:', sampleSubtype.value);
       setValue('drinkSubtype', sampleSubtype.value, { shouldValidate: true, shouldDirty: true });
     }
 
     if (volumeOptions.length > 0) {
       const sampleVolume = volumeOptions.find((opt) => opt.value === '50cl') || volumeOptions[0];
+      console.log('Setting volume to:', sampleVolume.value);
       setValue('volume', sampleVolume.value, { shouldValidate: true, shouldDirty: true });
     }
 
     if (containerTypeOptions.length > 0) {
       const sampleContainer =
         containerTypeOptions.find((opt) => opt.value === 'vidrio') || containerTypeOptions[0];
+      console.log('Setting container type to:', sampleContainer.value);
       setValue('containerType', sampleContainer.value, { shouldValidate: true, shouldDirty: true });
     }
-
-    // Set reasonable temperatures
-    setValue('defaultTempConsume', 4, { shouldValidate: true, shouldDirty: true });
-    setValue('defaultTempFreeze', -1, { shouldValidate: true, shouldDirty: true });
 
     // Fill temperature profile rows with sample data
     const sampleRows = [
@@ -474,15 +610,19 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       { temperature: 2, time_a: 720, time_b: 960, time_c: 1200 },
     ];
 
-    sampleRows.forEach((row, index) => {
-      setValue(`timeRows.${index}.temperature`, row.temperature, { shouldValidate: true, shouldDirty: true });
-      setValue(`timeRows.${index}.time_a`, row.time_a, { shouldValidate: true, shouldDirty: true });
-      setValue(`timeRows.${index}.time_b`, row.time_b, { shouldValidate: true, shouldDirty: true });
-      setValue(`timeRows.${index}.time_c`, row.time_c, { shouldValidate: true, shouldDirty: true });
-    });
+    console.log('Setting time rows:', sampleRows);
+    setValue('timeRows', sampleRows, { shouldValidate: true, shouldDirty: true });
 
-    console.log('Form filled with test values');
-  }, [setValue, drinkTypeOptions, volumeOptions, containerTypeOptions]);
+    // Log the current form state
+    console.log('Form values after mock:', methods.getValues());
+    console.log('Form state:', methods.formState);
+  }, [setValue, drinkTypeOptions, volumeOptions, containerTypeOptions, methods]);
+
+  // Also add a console log to the button click handler
+  const handleMockClick = useCallback(() => {
+    console.log('Mock button clicked');
+    handleMockValues();
+  }, [handleMockValues]);
 
   const isSubmitLoading =
     updateOrderMutation.isPending ||
@@ -548,10 +688,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       value={formValues.drinkSubtype}
                       onSelect={(value) => handleSimpleFieldChange('drinkSubtype', value)}
                       onClear={() => handleSimpleFieldChange('drinkSubtype', '')}
-                      onAddNew={(value) => handleAddNew('drinkTypes', value)}
+                      onAddNew={handleAddSubtype}
                       options={drinkTypeOptions}
                       placeholder="Optional variant"
                       windowSize={15}
+                      disabled={!formValues.drinkType} // Disable if no drink type selected
                     />
                   </FieldWrapper>
                 </Col>
@@ -657,7 +798,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
                   {/* Dev Tools: Mock Values Button */}
                   {isDevToolsVisible && (
-                    <Button type="button" variant="soft" size="3" onClick={handleMockValues} color="info">
+                    <Button type="button" variant="soft" size="3" onClick={handleMockClick} color="info">
                       📝 Mock Values
                     </Button>
                   )}

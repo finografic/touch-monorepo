@@ -6,6 +6,7 @@ import { styles, stylesDropdown } from './SelectSearchable.styles';
 import { DropdownPortal } from './DropdownPortal';
 import type { SelectOption } from 'types/models/select-option.model';
 import { colors } from 'styles';
+import { slugify } from 'utils/string.utils';
 
 interface SearchableSelectProps {
   options: SelectOption[];
@@ -99,8 +100,10 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
 
   const handleAddNew = () => {
     if (searchValue.trim() && onAddNew && !exactMatch) {
-      onAddNew(searchValue.trim());
-      onSelect(searchValue.trim());
+      const displayValue = searchValue.trim();
+      const kebabValue = slugify(displayValue); // Convert to kebab-case for storage
+      onAddNew(kebabValue);
+      onSelect(kebabValue);
       setIsOpen(false);
       setFocusedIndex(-1);
       setDisplayStart(0);
