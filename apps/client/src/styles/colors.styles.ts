@@ -7,10 +7,8 @@ import { generateRadixColorPalette } from './radix-ui/radix.palette';
  * Format: { colorKey: { color: RadixColorName, shade: RadixShade } }
  */
 
-export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black'> = {
+export const COLOR_MAPPING: ColorMapping = {
   // main colors
-  // primary: { color: 'cyan', shade: 8 },
-  // primary: { color: 'teal', shade: 4 },
   primary: { color: 'blue', shade: 9 },
   secondary: { color: 'teal', shade: 8 },
   default: { color: 'gray', shade: 4 },
@@ -24,6 +22,10 @@ export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black'> = {
   warning: { color: 'amber', shade: 8 },
   danger: { color: 'red', shade: 8 },
   info: { color: 'blue', shade: 9 },
+  // base colors
+  white: { value: '#FFFFFF' as HexColor },
+  black: { value: '#000000' as HexColor },
+  transparent: { value: 'transparent' as HexColor },
 } as const;
 
 // TODO: radix or custom ??

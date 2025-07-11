@@ -15,6 +15,7 @@ export const BASE_COLORS: Record<ColorBaseName, ColorBaseName> = {
   black: 'black',
   grey: 'grey',
   gray: 'gray',
+  transparent: 'transparent',
 } as const;
 
 /**

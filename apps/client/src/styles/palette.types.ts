@@ -17,7 +17,8 @@ export type ColorBaseName =
   | 'grey'
   | 'gray'
   | 'white'
-  | 'black';
+  | 'black'
+  | 'transparent';
 
 /**
  * Complete color palette type that includes:
