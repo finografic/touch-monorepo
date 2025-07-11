@@ -3,14 +3,14 @@ import * as ToastPrimitive from '@radix-ui/react-toast';
 import type { Toast as ToastType } from './Toast.types';
 import { ToastIcon } from './ToastIcons';
 import {
+  getToastDescriptionStyles,
   getToastRootStyles,
+  getToastTitleStyles,
   getVariantIconColor,
-  toaststylesPadAction,
   toastCloseButtonStyles,
   toastContentStyles,
-  toastDescriptionStyles,
   toastIconStyles,
-  toastTitleStyles,
+  toaststylesPadAction,
 } from './Toast.styles';
 
 interface ToastProps {
@@ -37,9 +37,9 @@ export const Toast: React.FC<ToastProps> = ({ toast, onDismiss }) => {
       </div>
 
       <div css={toastContentStyles}>
-        <ToastPrimitive.Title css={toastTitleStyles}>{toast.message}</ToastPrimitive.Title>
+        <ToastPrimitive.Title css={getToastTitleStyles(toast.variant)}>{toast.message}</ToastPrimitive.Title>
         {toast.subText && (
-          <ToastPrimitive.Description css={toastDescriptionStyles}>
+          <ToastPrimitive.Description css={getToastDescriptionStyles(toast.variant)}>
             {toast.subText}
           </ToastPrimitive.Description>
         )}

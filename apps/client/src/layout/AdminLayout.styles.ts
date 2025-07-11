@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors, layout, spacing, typography } from 'styles';
+import { colors, layout, max, min, spacing, typography } from 'styles';
 import { stylesAdminContent } from 'styles/custom/content.admin.styles';
 import { cssForms } from 'styles/forms.styles';
 
@@ -254,7 +254,23 @@ export const styles = css`
   /* ========================================
      RESPONSIVE ADJUSTMENTS
      ======================================== */
-  @media (max-width: 768px) {
+
+  ${min.xl} {
+    /* section.admin-content-page {
+      max-width: 85vw !important;
+    } */
+  }
+
+  ${max.xl} {
+    /* section.admin-content-page {
+      max-width: 90vw !important;
+    } */
+  }
+
+  ${max.md} {
+    /* section.admin-content-page {
+      max-width: 95vw !important;
+    } */
     > header .header-content {
       padding: 0 ${spacing[4]};
 

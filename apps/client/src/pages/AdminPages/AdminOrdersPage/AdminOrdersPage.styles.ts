@@ -8,9 +8,11 @@ export const styles = css`
   color: ${colors.text};
 
   .admin-page-container {
-    min-width: 1400px; /* Never smaller than mobile width */
-    max-width: 1600px; /* Wider to accommodate the translation fields */
+    /* min-width: 1400px; */
+    width: 100%;
+    max-width: 1600px;
     margin: 0 auto;
+    /* margin: auto auto 20vh auto; */
     padding: ${spacing[8]};
   }
 

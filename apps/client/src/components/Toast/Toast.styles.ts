@@ -20,7 +20,7 @@ const getVariantColor = (variant: ToastVariant): string => {
 export const toastViewportStyles = css`
   --viewport-padding: 24px;
   position: fixed;
-  bottom: 0;
+  bottom: 125px; /* Moved up by 125px from bottom: 0 */
   right: 0;
   display: flex;
   flex-direction: column;
@@ -34,69 +34,74 @@ export const toastViewportStyles = css`
   outline: none;
 `;
 
-export const getToastRootStyles = (variant: ToastVariant) => css`
-  background-color: white;
-  border-radius: 8px;
-  border-left: 4px solid ${getVariantColor(variant)};
-  box-shadow:
-    0 10px 38px -10px rgba(22, 23, 24, 0.35),
-    0 10px 20px -15px rgba(22, 23, 24, 0.2);
-  padding: 16px 20px;
-  display: grid;
-  grid-template-areas: 'icon content action';
-  grid-template-columns: auto 1fr auto;
-  gap: 12px;
-  align-items: flex-start;
-  min-height: 56px;
+export const getToastRootStyles = (variant: ToastVariant) => {
+  const isSuccess = variant === 'success';
 
-  &[data-state='open'] {
-    animation: slideIn 200ms cubic-bezier(0.16, 1, 0.3, 1);
-  }
+  return css`
+    background-color: ${isSuccess ? colors.successXDark : 'white'};
+    border-radius: 8px;
+    border-left: 4px solid ${getVariantColor(variant)};
+    border-left: none;
+    box-shadow:
+      0 10px 38px -10px rgba(22, 23, 24, 0.35),
+      0 10px 20px -15px rgba(22, 23, 24, 0.2);
+    padding: 16px 20px;
+    display: grid;
+    grid-template-areas: 'icon content action';
+    grid-template-columns: auto 1fr auto;
+    gap: 12px;
+    align-items: flex-start;
+    min-height: 56px;
 
-  &[data-state='closed'] {
-    animation: hide 150ms ease-in;
-  }
-
-  &[data-swipe='move'] {
-    transform: translateX(var(--radix-toast-swipe-move-x));
-  }
-
-  &[data-swipe='cancel'] {
-    transform: translateX(0);
-    transition: transform 200ms ease-out;
-  }
-
-  &[data-swipe='end'] {
-    animation: swipeOut 150ms ease-out;
-  }
-
-  @keyframes hide {
-    from {
-      opacity: 1;
+    &[data-state='open'] {
+      animation: slideIn 200ms cubic-bezier(0.16, 1, 0.3, 1);
     }
-    to {
-      opacity: 0;
-    }
-  }
 
-  @keyframes slideIn {
-    from {
-      transform: translateX(calc(100% + var(--viewport-padding)));
+    &[data-state='closed'] {
+      animation: hide 150ms ease-in;
     }
-    to {
+
+    &[data-swipe='move'] {
+      transform: translateX(var(--radix-toast-swipe-move-x));
+    }
+
+    &[data-swipe='cancel'] {
       transform: translateX(0);
+      transition: transform 200ms ease-out;
     }
-  }
 
-  @keyframes swipeOut {
-    from {
-      transform: translateX(var(--radix-toast-swipe-end-x));
+    &[data-swipe='end'] {
+      animation: swipeOut 150ms ease-out;
     }
-    to {
-      transform: translateX(calc(100% + var(--viewport-padding)));
+
+    @keyframes hide {
+      from {
+        opacity: 1;
+      }
+      to {
+        opacity: 0;
+      }
     }
-  }
-`;
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(calc(100% + var(--viewport-padding)));
+      }
+      to {
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes swipeOut {
+      from {
+        transform: translateX(var(--radix-toast-swipe-end-x));
+      }
+      to {
+        transform: translateX(calc(100% + var(--viewport-padding)));
+      }
+    }
+  `;
+};
 
 export const toastIconStyles = css`
   grid-area: icon;
@@ -115,20 +120,28 @@ export const toastContentStyles = css`
   gap: 4px;
 `;
 
-export const toastTitleStyles = css`
-  margin: 0;
-  font-weight: 600;
-  font-size: 14px;
-  line-height: 1.4;
-  color: ${colors.text};
-`;
+export const getToastTitleStyles = (variant: ToastVariant) => {
+  const isSuccess = variant === 'success';
 
-export const toastDescriptionStyles = css`
-  margin: 0;
-  font-size: 13px;
-  line-height: 1.4;
-  color: ${colors.grey};
-`;
+  return css`
+    margin: 0;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1.4;
+    color: ${isSuccess ? 'white' : colors.text};
+  `;
+};
+
+export const getToastDescriptionStyles = (variant: ToastVariant) => {
+  const isSuccess = variant === 'success';
+
+  return css`
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: ${isSuccess ? 'rgba(255, 255, 255, 0.9)' : colors.grey};
+  `;
+};
 
 export const toastActionStyles = css`
   grid-area: action;

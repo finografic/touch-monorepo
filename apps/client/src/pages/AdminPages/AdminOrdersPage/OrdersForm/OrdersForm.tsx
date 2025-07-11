@@ -13,8 +13,13 @@ import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/For
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
 import { useGetContainerTypes } from 'queries/container-types';
-import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
-import { useGetTemperatureProfilesByOrderId } from 'api/hooks/useTemperatureProfiles';
+import {
+  useCreateOrder,
+  useGetOrdersReadable,
+  useUpdateOrder,
+  useUpdateTemperatureProfiles,
+} from 'queries/orders';
+import { useGetDrinkSubtypes } from 'api/hooks/useTranslations'; // For getting all subtypes
 import { SelectOptionDto } from 'types/models/select-option.model';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import {
@@ -118,9 +123,14 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   // Dev tools visibility
   const { isDevToolsVisible } = useDev();
 
+  // Mutation hooks for saving
+  const updateOrderMutation = useUpdateOrder();
+  const updateTemperatureProfilesMutation = useUpdateTemperatureProfiles();
+  const createOrderMutation = useCreateOrder();
+
   // RHF setup with temperature profiles
   const methods = useForm<OrdersFormValues>({
-    mode: 'onSubmit',
+    mode: 'onChange', // Change to track form changes in real-time
     reValidateMode: 'onChange',
     resolver: zodResolver(addOrderSchema),
     defaultValues: {
@@ -149,7 +159,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     watch,
     register,
     control,
-    formState: { isValid },
+    formState: { isValid, isDirty },
   } = methods;
 
   // Field array for adding rows externally
@@ -166,6 +176,27 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const { data: volumes = [] } = useGetDrinkVolumes();
   const { data: containerTypes = [] } = useGetContainerTypes();
   const { data: ordersData = [] } = useGetOrdersReadable();
+  const { data: drinkSubtypes = [] } = useGetDrinkSubtypes(); // Get all subtypes
+
+  // Helper function to find ID by name with support for subtypes
+  const findIdByName = useCallback(
+    (
+      items: any[],
+      name: string,
+      itemType: 'drinkType' | 'drinkSubtype' | 'volume' | 'containerType',
+    ): string | undefined => {
+      if (itemType === 'drinkSubtype') {
+        // For subtypes, search in the drinkSubtypes array
+        const item = drinkSubtypes.find((subtype) => subtype.name === name);
+        return item?.id;
+      }
+
+      // For other types, search in the provided items array
+      const item = items.find((item) => item.name === name);
+      return item?.id;
+    },
+    [drinkSubtypes],
+  );
 
   // Transform data using DTO with language translations
   const drinkTypeOptions = useMemo(() => {
@@ -188,17 +219,142 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     return SelectOptionDto.mergeOptions(databaseOptions, customOptions, ordersOptions);
   }, [containerTypes, tempItems.containerTypes, ordersData, language]);
 
-  // Handle form submission
-  const onFormSubmit = (data: OrdersFormValues) => {
-    onSubmit(data);
-    // Reset form
-    methods.reset();
-    // Reset temp items too
-    setTempItems({
-      drinkTypes: [],
-      volumes: [],
-      containerTypes: [],
-    });
+  // Handle form submission with actual API calls
+  const onFormSubmit = async (data: OrdersFormValues) => {
+    if (isEditMode && orderData?.id) {
+      try {
+        // Convert form values to IDs for API
+        const orderUpdates = {
+          mode: data.mode,
+          drinkTypeId: findIdByName(drinkTypes, data.drinkType, 'drinkType'),
+          drinkSubtypeId: data.drinkSubtype ? findIdByName([], data.drinkSubtype, 'drinkSubtype') : undefined,
+          volumeId: findIdByName(volumes, data.volume, 'volume'),
+          containerTypeId: findIdByName(containerTypes, data.containerType, 'containerType'),
+          defaultTempConsume: data.defaultTempConsume,
+          defaultTempFreeze: data.defaultTempFreeze,
+        };
+
+        // Filter out undefined values
+        const cleanedUpdates = Object.fromEntries(
+          Object.entries(orderUpdates).filter(([_, value]) => value !== undefined),
+        );
+
+        console.log('Updating order with:', cleanedUpdates);
+
+        // Update the order
+        await updateOrderMutation.mutateAsync({
+          id: orderData.id,
+          updates: cleanedUpdates,
+        });
+
+        // Update temperature profiles if they exist and have valid data
+        const validTimeRows = data.timeRows.filter(
+          (row) =>
+            row.temperature !== undefined &&
+            row.time_a !== undefined &&
+            row.time_b !== undefined &&
+            row.time_c !== undefined,
+        );
+
+        if (validTimeRows.length > 0 || (orderData?.temperatureProfiles?.length ?? 0) > 0) {
+          // Map form rows to profile updates, preserving order and handling creates/updates properly
+          const profileUpdates = validTimeRows.map((row, index) => {
+            // Try to find existing profile that matches this row's data or use index-based mapping as fallback
+            const existingProfile = orderData.temperatureProfiles?.[index];
+
+            return {
+              id: existingProfile?.id, // Use existing ID if available, undefined for new profiles
+              temperature: row.temperature!,
+              timeA: row.time_a!,
+              timeB: row.time_b!,
+              timeC: row.time_c!,
+            };
+          });
+
+          console.log('Updating temperature profiles with:', profileUpdates);
+          console.log('Existing profiles:', orderData.temperatureProfiles);
+
+          await updateTemperatureProfilesMutation.mutateAsync({
+            orderId: orderData.id,
+            profiles: profileUpdates,
+            existingProfiles: orderData.temperatureProfiles || [],
+          });
+        }
+
+        // Call the parent onSubmit to handle success message and navigation
+        onSubmit(data);
+      } catch (error) {
+        console.error('Failed to update order:', error);
+        // You might want to show an error toast here
+      }
+    } else {
+      // For create mode, use the create order API
+      try {
+        // Convert form values to IDs for API
+        const drinkTypeId = findIdByName(drinkTypes, data.drinkType, 'drinkType');
+        const volumeId = findIdByName(volumes, data.volume, 'volume');
+        const containerTypeId = findIdByName(containerTypes, data.containerType, 'containerType');
+        const drinkSubtypeId = data.drinkSubtype
+          ? findIdByName([], data.drinkSubtype, 'drinkSubtype')
+          : undefined;
+
+        // Validate required fields
+        if (!drinkTypeId || !volumeId || !containerTypeId) {
+          throw new Error('Missing required field IDs. Cannot create order.');
+        }
+
+        const orderData = {
+          mode: data.mode,
+          drinkTypeId,
+          drinkSubtypeId,
+          volumeId,
+          containerTypeId,
+          defaultTempConsume: data.defaultTempConsume,
+          defaultTempFreeze: data.defaultTempFreeze,
+        };
+
+        console.log('Creating order with:', orderData);
+
+        // Prepare temperature profiles
+        const validTimeRows = data.timeRows.filter(
+          (row) =>
+            row.temperature !== undefined &&
+            row.time_a !== undefined &&
+            row.time_b !== undefined &&
+            row.time_c !== undefined,
+        );
+
+        const temperatureProfiles = validTimeRows.map((row) => ({
+          temperature: row.temperature!,
+          timeA: row.time_a!,
+          timeB: row.time_b!,
+          timeC: row.time_c!,
+        }));
+
+        console.log('Temperature profiles:', temperatureProfiles);
+
+        // Create the order with temperature profiles
+        await createOrderMutation.mutateAsync({
+          orderData,
+          temperatureProfiles,
+        });
+
+        // Call the parent onSubmit to handle success message
+        onSubmit(data);
+
+        // Reset form
+        methods.reset();
+        // Reset temp items too
+        setTempItems({
+          drinkTypes: [],
+          volumes: [],
+          containerTypes: [],
+        });
+      } catch (error) {
+        console.error('Failed to create order:', error);
+        // You might want to show an error toast here
+      }
+    }
   };
 
   // Handle field changes for dependency management (middleware will also handle this)
@@ -216,7 +372,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
   // Simple field change for form components (adapts to new signature)
   const handleSimpleFieldChange = (field: keyof OrdersFormValues, value: string | number) => {
-    setValue(field, value, { shouldValidate: true });
+    setValue(field, value, { shouldValidate: true, shouldDirty: true });
     // Call the middleware-compatible version
     handleFieldChange(field, value, formValues as MiddlewareOrdersFormValues);
   };
@@ -265,6 +421,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       generateRandomValuesForRow(index);
     });
   }, [formValues.timeRows, generateRandomValuesForRow]);
+
+  const isSubmitLoading =
+    updateOrderMutation.isPending ||
+    updateTemperatureProfilesMutation.isPending ||
+    createOrderMutation.isPending;
 
   return (
     <FormProvider {...methods}>
@@ -407,10 +568,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
           </Row>
           <Row className="row">
             <Col xs={12} md={12} className="col col-form-buttons">
-              {/* <pre style={{ overflow: 'visible', transform: 'translateX(-30%)' }}>
-                {JSON.stringify(formValues, null, 2)}
-              </pre> */}
-
               <div
                 style={{
                   display: 'flex',
@@ -421,7 +578,13 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               >
                 {/* Back button for edit mode - far left */}
                 {isEditMode && (
-                  <Button type="button" variant="soft" size="3" onClick={onNavigateBack}>
+                  <Button
+                    type="button"
+                    variant="soft"
+                    size="3"
+                    onClick={onNavigateBack}
+                    style={{ color: 'var(--gray-11)', backgroundColor: 'var(--gray-3)' }}
+                  >
                     ← Back to Orders
                   </Button>
                 )}
@@ -430,21 +593,37 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
                   {/* Dev Tools: Mock All Rows Button */}
                   {isDevToolsVisible && (
-                    <Button type="button" variant="soft" size="3" onClick={handleMockAllRows} color="gray">
+                    <Button
+                      type="button"
+                      variant="soft"
+                      size="3"
+                      onClick={handleMockAllRows}
+                      style={{ color: 'var(--gray-11)', backgroundColor: 'var(--gray-3)' }}
+                    >
                       🎲 Mock All Rows
                     </Button>
                   )}
 
                   {/* Add Row Button */}
-                  <Button type="button" variant="soft" size="3" onClick={handleAddRow} disabled={!canAddRow}>
+                  <Button
+                    type="button"
+                    variant="soft"
+                    size="3"
+                    onClick={handleAddRow}
+                    disabled={!canAddRow}
+                    style={{
+                      color: canAddRow ? 'var(--gray-11)' : 'var(--gray-8)',
+                      backgroundColor: canAddRow ? 'var(--gray-3)' : 'var(--gray-2)',
+                    }}
+                  >
                     + Add Row
                   </Button>
 
                   <Button
                     type="submit"
                     style={{ padding: '1rem 3rem' }}
-                    // disabled={!isValid || isLoading}
-                    loading={isLoading}
+                    disabled={!isValid || (!isDirty && isEditMode) || isSubmitLoading}
+                    loading={isSubmitLoading}
                     size="3"
                     color={isEditMode ? 'orange' : undefined}
                   >

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
-import { useGetOrderReadableById, useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
+import { useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 import { OrdersTable } from 'pages/AdminPages/AdminOrdersPage/OrdersTable';
 import { OrdersForm } from 'pages/AdminPages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
@@ -59,10 +59,17 @@ export const AdminOrdersPage: React.FC = () => {
     drinkSubtype?: string;
     volume: string;
     containerType: string;
+    defaultTempConsume: number;
+    defaultTempFreeze: number;
+    timeRows: Array<{
+      temperature?: number;
+      time_a?: number;
+      time_b?: number;
+      time_c?: number;
+    }>;
   }) => {
     if (isEditMode) {
-      // TODO: Implement actual API call to update order
-      // For now, just show success toast
+      // Success message for edit mode - API call is now handled in OrdersForm
       const subtypeText = formData.drinkSubtype ? ` (${formData.drinkSubtype})` : '';
       toast({
         variant: 'success',

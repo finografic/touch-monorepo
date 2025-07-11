@@ -18,7 +18,6 @@ export const stylesAdminContent = css`
   section.admin-content-page {
     color: ${colors.textDark};
 
-    max-width: 85vw !important;
     min-width: 100%;
     width: 100% !important;
 

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
-import { useGetOrdersReadable } from 'api/hooks/useOrdersReadable';
+import { useGetOrdersReadable } from 'queries/orders/useGetOrdersReadable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
 import { OrdersTable } from 'pages/AdminPages/AdminOrdersPage/OrdersTable';
