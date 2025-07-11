@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from '@radix-ui/themes';
+import { Button } from 'components/ui/Button';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { SelectSimple } from 'forms/SelectSimple';
 import { InputTemperature } from 'forms/InputTemperature';
@@ -422,6 +422,55 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     });
   }, [formValues.timeRows, generateRandomValuesForRow]);
 
+  // Fill form with valid test values for development
+  const handleMockValues = useCallback(() => {
+    // Set basic form values with realistic data
+    setValue('mode', 2, { shouldValidate: true, shouldDirty: true });
+
+    // Use available options from the form data
+    if (drinkTypeOptions.length > 0) {
+      const sampleDrinkType = drinkTypeOptions.find((opt) => opt.value === 'cerveza') || drinkTypeOptions[0];
+      setValue('drinkType', sampleDrinkType.value, { shouldValidate: true, shouldDirty: true });
+    }
+
+    if (drinkTypeOptions.length > 1) {
+      const sampleSubtype = drinkTypeOptions.find((opt) => opt.value === 'rubia') || drinkTypeOptions[1];
+      setValue('drinkSubtype', sampleSubtype.value, { shouldValidate: true, shouldDirty: true });
+    }
+
+    if (volumeOptions.length > 0) {
+      const sampleVolume = volumeOptions.find((opt) => opt.value === '50cl') || volumeOptions[0];
+      setValue('volume', sampleVolume.value, { shouldValidate: true, shouldDirty: true });
+    }
+
+    if (containerTypeOptions.length > 0) {
+      const sampleContainer =
+        containerTypeOptions.find((opt) => opt.value === 'vidrio') || containerTypeOptions[0];
+      setValue('containerType', sampleContainer.value, { shouldValidate: true, shouldDirty: true });
+    }
+
+    // Set reasonable temperatures
+    setValue('defaultTempConsume', 4, { shouldValidate: true, shouldDirty: true });
+    setValue('defaultTempFreeze', -1, { shouldValidate: true, shouldDirty: true });
+
+    // Fill temperature profile rows with sample data
+    const sampleRows = [
+      { temperature: 25, time_a: 180, time_b: 240, time_c: 300 },
+      { temperature: 15, time_a: 360, time_b: 480, time_c: 600 },
+      { temperature: 8, time_a: 540, time_b: 720, time_c: 900 },
+      { temperature: 2, time_a: 720, time_b: 960, time_c: 1200 },
+    ];
+
+    sampleRows.forEach((row, index) => {
+      setValue(`timeRows.${index}.temperature`, row.temperature, { shouldValidate: true, shouldDirty: true });
+      setValue(`timeRows.${index}.time_a`, row.time_a, { shouldValidate: true, shouldDirty: true });
+      setValue(`timeRows.${index}.time_b`, row.time_b, { shouldValidate: true, shouldDirty: true });
+      setValue(`timeRows.${index}.time_c`, row.time_c, { shouldValidate: true, shouldDirty: true });
+    });
+
+    console.log('Form filled with test values');
+  }, [setValue, drinkTypeOptions, volumeOptions, containerTypeOptions]);
+
   const isSubmitLoading =
     updateOrderMutation.isPending ||
     updateTemperatureProfilesMutation.isPending ||
@@ -572,60 +621,54 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 style={{
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
                   width: '100%',
                 }}
               >
-                {/* Back button for edit mode - far left */}
-                {isEditMode && (
-                  <Button
-                    type="button"
-                    variant="soft"
-                    size="3"
-                    onClick={onNavigateBack}
-                    style={{ color: 'var(--gray-11)', backgroundColor: 'var(--gray-3)' }}
-                  >
-                    ← Back to Orders
-                  </Button>
-                )}
-
-                {/* Right side buttons */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
-                  {/* Dev Tools: Mock All Rows Button */}
-                  {isDevToolsVisible && (
-                    <Button
-                      type="button"
-                      variant="soft"
-                      size="3"
-                      onClick={handleMockAllRows}
-                      style={{ color: 'var(--gray-11)', backgroundColor: 'var(--gray-3)' }}
-                    >
-                      🎲 Mock All Rows
-                    </Button>
-                  )}
-
+                {/* Left side buttons */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   {/* Add Row Button */}
                   <Button
                     type="button"
-                    variant="soft"
+                    variant="outline"
                     size="3"
                     onClick={handleAddRow}
                     disabled={!canAddRow}
-                    style={{
-                      color: canAddRow ? 'var(--gray-11)' : 'var(--gray-8)',
-                      backgroundColor: canAddRow ? 'var(--gray-3)' : 'var(--gray-2)',
-                    }}
+                    color="success"
                   >
                     + Add Row
                   </Button>
 
+                  {/* Dev Tools: Mock Values Button */}
+                  {isDevToolsVisible && (
+                    <Button type="button" variant="soft" size="3" onClick={handleMockValues} color="info">
+                      📝 Mock Values
+                    </Button>
+                  )}
+
+                  {/* Dev Tools: Mock All Rows Button */}
+                  {isDevToolsVisible && (
+                    <Button type="button" variant="soft" size="3" onClick={handleMockAllRows} color="default">
+                      🎲 Mock All Rows
+                    </Button>
+                  )}
+                </div>
+
+                {/* Right side buttons */}
+                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
+                  {/* Cancel button */}
+                  {isEditMode && (
+                    <Button type="button" variant="soft" size="3" onClick={onNavigateBack} color="default">
+                      Cancelar
+                    </Button>
+                  )}
+
                   <Button
                     type="submit"
-                    style={{ padding: '1rem 3rem' }}
+                    css={{ padding: '1rem 3rem' }}
                     disabled={!isValid || (!isDirty && isEditMode) || isSubmitLoading}
                     loading={isSubmitLoading}
                     size="3"
-                    color={isEditMode ? 'orange' : undefined}
+                    color={isEditMode ? 'warning' : 'success'}
                   >
                     {isEditMode ? 'CONFIRM CHANGES' : 'GUARDAR'}
                   </Button>

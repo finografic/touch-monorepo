@@ -214,7 +214,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
                 {fields.length > 1 && isRowCompleteAndValid(index) && (
                   <Button
                     type="button"
-                    variant="solid"
+                    variant="soft"
                     size="1"
                     color="red"
                     onClick={() => remove(index)}
@@ -242,7 +242,7 @@ export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
       <div className="table-footer">
         <div className="total-rows-counter">
           <Text size="2" weight="medium" color="gray">
-            filas: {fields.length}
+            filas completas: {fields.length}
           </Text>
         </div>
       </div>

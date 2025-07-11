@@ -125,8 +125,8 @@ export const getToastTitleStyles = (variant: ToastVariant) => {
 
   return css`
     margin: 0;
-    font-weight: 600;
-    font-size: 14px;
+    font-weight: 700;
+    font-size: 1.1rem;
     line-height: 1.4;
     color: ${isSuccess ? 'white' : colors.text};
   `;
@@ -137,7 +137,8 @@ export const getToastDescriptionStyles = (variant: ToastVariant) => {
 
   return css`
     margin: 0;
-    font-size: 13px;
+    font-weight: 600;
+    font-size: 0.8rem;
     line-height: 1.4;
     color: ${isSuccess ? 'rgba(255, 255, 255, 0.9)' : colors.grey};
   `;
@@ -178,8 +179,8 @@ export const toaststylesPadAction = css`
   align-items: center;
   justify-content: center;
   border-radius: 4px;
-  font-weight: 500;
-  font-size: 12px;
+  font-weight: 700;
+  font-size: 1.1rem;
   padding: 6px 12px;
   height: 28px;
   cursor: pointer;

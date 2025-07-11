@@ -124,7 +124,7 @@ export const styles = css`
 
       .delete-button {
         padding: 0.5rem 0.2rem 0.5rem 0.2rem;
-        opacity: 0.7;
+        opacity: 1;
         svg.icon {
           width: 18px;
           height: 18px;

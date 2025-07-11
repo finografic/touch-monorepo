@@ -243,8 +243,13 @@ export const formsBase = css`
     cursor: pointer;
 
     &:disabled {
-      opacity: 1;
+      opacity: 0.5;
       cursor: not-allowed;
+
+      /* Preserve color but make it faded */
+      &[data-color] {
+        opacity: 0.5;
+      }
     }
   }
 `;
