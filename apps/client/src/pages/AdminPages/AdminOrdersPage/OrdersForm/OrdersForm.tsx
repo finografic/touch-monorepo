@@ -426,7 +426,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
         console.log('Creating order with:', orderData);
 
-        // Prepare temperature profiles with correct field names
+        // Prepare temperature profiles
         const validTimeRows = data.timeRows.filter(
           (row) =>
             row.temperature !== undefined &&
@@ -440,13 +440,12 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
           timeA: row.time_a!,
           timeB: row.time_b!,
           timeC: row.time_c!,
-          coolingProfileId: 'default',
         }));
 
         console.log('Creating order with temperature profiles:', temperatureProfiles);
 
         // Create the order with temperature profiles
-        const orderResponse = await createOrderMutation.mutateAsync({
+        await createOrderMutation.mutateAsync({
           orderData,
           temperatureProfiles,
         });
