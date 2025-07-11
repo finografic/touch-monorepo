@@ -429,7 +429,7 @@ export const getButtonStyles = (variant: ButtonVariant, color: ButtonStatusColor
       border-color: ${styles.disabled.border};
       color: ${styles.disabled.label};
       opacity: ${opacities.disabled};
-      filter: saturate(65%);
+      filter: saturate(80%);
       cursor: not-allowed;
     }
   `;

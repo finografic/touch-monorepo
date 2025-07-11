@@ -364,14 +364,6 @@ export const formsCustom = css`
     padding: 0.25rem 0.5rem;
   }
 
-  .temperature-unit-slot {
-    /* Temperature unit display */
-    font-weight: 500;
-    color: ${colors.greyDark};
-    pointer-events: none;
-    user-select: none;
-  }
-
   .search-icon-slot,
   .action-icon-slot {
     /* Search and action icons */

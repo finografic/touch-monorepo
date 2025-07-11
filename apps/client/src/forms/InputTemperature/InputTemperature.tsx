@@ -303,6 +303,8 @@ export const InputTemperature = forwardRef<HTMLInputElement, InputTemperaturePro
                   fontWeight: '500',
                   pointerEvents: 'none',
                   userSelect: 'none',
+                  marginLeft: '4px',
+                  marginRight: '4px',
                 }}
               >
                 C°

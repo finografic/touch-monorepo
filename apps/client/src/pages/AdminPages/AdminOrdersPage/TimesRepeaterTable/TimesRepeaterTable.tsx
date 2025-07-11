@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { Button, Text } from '@radix-ui/themes';
 import { ShuffleIcon } from '@radix-ui/react-icons';
-import { InputTemperature } from '../InputTemperature';
-import { InputTime } from '../InputTime';
-import { styles } from './TimesTableRepeater.styles';
+import { InputTemperature } from '../../../../forms/InputTemperature';
+import { InputTime } from '../../../../forms/InputTime';
+import { styles } from './TimesRepeaterTable.styles';
 import { useDev } from 'providers/DevProvider';
 import { DeleteIcon } from 'styles/icons';
 
@@ -15,7 +15,7 @@ interface TimeRowData {
   time_c?: number;
 }
 
-interface TimesTableRepeaterProps {
+interface TimesRepeaterTableProps {
   name: string;
   emptyRowValues: TimeRowData;
   minRows?: number;
@@ -25,7 +25,7 @@ interface TimesTableRepeaterProps {
   onGenerateRandomValues?: (rowIndex: number) => void; // External function to generate random values
 }
 
-export const TimesTableRepeater: React.FC<TimesTableRepeaterProps> = ({
+export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
   name,
   emptyRowValues,
   minRows = 50,

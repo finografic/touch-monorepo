@@ -2,13 +2,13 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { Button } from 'components/ui/Button';
+import { Button } from 'components/Button';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { SelectSimple } from 'forms/SelectSimple';
 import { InputTemperature } from 'forms/InputTemperature';
 import { FormMiddlewareProvider } from 'forms/FormMiddleware/FormMiddleware.simple';
 import { FieldWrapper } from 'forms/FieldWrapper';
-import { TimesTableRepeater } from 'forms/TimesTableRepeater';
+import { TimesRepeaterTable } from 'pages/AdminPages/AdminOrdersPage/TimesRepeaterTable';
 import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
 import { useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes/useGetDrinkVolumes';
@@ -515,6 +515,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     <SelectSearchable
                       value={formValues.drinkType}
                       onSelect={(value) => handleSimpleFieldChange('drinkType', value)}
+                      onClear={() => handleSimpleFieldChange('drinkType', '')}
                       onAddNew={(value) => handleAddNew('drinkTypes', value)}
                       options={drinkTypeOptions}
                       placeholder="e.g., Coffee, Tea, Juice"
@@ -533,6 +534,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     <SelectSearchable
                       value={formValues.drinkSubtype}
                       onSelect={(value) => handleSimpleFieldChange('drinkSubtype', value)}
+                      onClear={() => handleSimpleFieldChange('drinkSubtype', '')}
                       onAddNew={(value) => handleAddNew('drinkTypes', value)}
                       options={drinkTypeOptions}
                       placeholder="Optional variant"
@@ -556,6 +558,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     <SelectSearchable
                       value={formValues.volume}
                       onSelect={(value) => handleSimpleFieldChange('volume', value)}
+                      onClear={() => handleSimpleFieldChange('volume', '')}
                       onAddNew={(value) => handleAddNew('volumes', value)}
                       options={volumeOptions}
                       placeholder="e.g., 250ml, 500ml, 1L"
@@ -575,6 +578,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     <SelectSearchable
                       value={formValues.containerType}
                       onSelect={(value) => handleSimpleFieldChange('containerType', value)}
+                      onClear={() => handleSimpleFieldChange('containerType', '')}
                       onAddNew={(value) => handleAddNew('containerTypes', value)}
                       options={containerTypeOptions}
                       placeholder="e.g., Cup, Bottle, Can"
@@ -601,7 +605,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               {/* ======================================================================== */}
 
               <Col xs={12} md={12} className="col col-form-fields col-form-table">
-                <TimesTableRepeater
+                <TimesRepeaterTable
                   name="timeRows"
                   emptyRowValues={PROFILE_ITEM_VALUES_EMPTY}
                   minRows={MIN_TABLE_ROWS}
@@ -665,7 +669,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   <Button
                     type="submit"
                     css={{ padding: '1rem 3rem' }}
-                    disabled={!isValid || (!isDirty && isEditMode) || isSubmitLoading}
+                    disabled={!isValid || (isEditMode && !isDirty) || isSubmitLoading}
                     loading={isSubmitLoading}
                     size="3"
                     color={isEditMode ? 'warning' : 'success'}

@@ -42,13 +42,15 @@ export const styles = css`
     /* Specific slot styling */
     .temperature-controls-slot {
       /* Left slot with step buttons */
-      border-right: 1px solid ${colors.greyLight};
     }
 
     .temperature-unit-slot {
       /* Right slot with unit display */
-      border-left: 1px solid ${colors.greyLight};
       padding: 0 0.5rem;
+      font-weight: 500;
+      color: ${colors.greyDark};
+      pointer-events: none;
+      user-select: none;
     }
   }
 

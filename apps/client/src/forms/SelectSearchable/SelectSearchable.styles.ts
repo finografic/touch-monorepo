@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { colors } from 'styles';
 
 // Main component styles (for the input and container)
 export const styles = css`
@@ -11,7 +12,7 @@ export const styles = css`
   .searchable-select {
     .rt-TextFieldInput {
       &::placeholder {
-        color: var(--gray-8); /* greyLight equivalent */
+        color: ${colors.grey};
         opacity: 0.7;
         font-weight: 500;
       }

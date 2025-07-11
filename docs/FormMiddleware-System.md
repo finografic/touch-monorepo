@@ -64,7 +64,7 @@ FormMiddleware provides a declarative layer that sits between React Hook Form an
 │                  UI Components                             │
 ├─────────────────────────────────────────────────────────────┤
 │ • InputTemperature      • InputTime                        │
-│ • TimesTableRepeater    • SelectSearchable                 │
+│ • TimesRepeaterTable    • SelectSearchable                 │
 │ • Clean, focused on UI only                                │
 └─────────────────────────────────────────────────────────────┘
 ```
@@ -227,7 +227,7 @@ interface InputTemperatureProps {
 - **Structure**: `TextField.Root` with left slot for controls
 - **Format**: Accepts various inputs ("5" → "00:05", "130" → "01:30")
 
-### **TimesTableRepeater**
+### **TimesRepeaterTable**
 
 - **Purpose**: Progressive table with temperature + time inputs
 - **Features**: Auto-enable next row, consistent styling, unified middleware integration

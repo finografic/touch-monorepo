@@ -34,7 +34,6 @@ export const styles = css`
     /* Specific slot styling */
     .time-controls-slot {
       /* Left slot with step buttons */
-      border-right: 1px solid ${colors.greyLight};
     }
   }
 `;

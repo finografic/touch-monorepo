@@ -1,14 +1,16 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { matchSorter } from 'match-sorter';
 import { TextField } from '@radix-ui/themes';
-import { CheckIcon, ChevronDownIcon, MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
+import { CheckIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
 import { styles, stylesDropdown } from './SelectSearchable.styles';
 import { DropdownPortal } from './DropdownPortal';
 import type { SelectOption } from 'types/models/select-option.model';
+import { colors } from 'styles';
 
 interface SearchableSelectProps {
   options: SelectOption[];
   onSelect: (value: string) => void;
+  onClear?: () => void;
   onAddNew?: (value: string) => void;
   placeholder?: string;
   disabled?: boolean;
@@ -20,6 +22,7 @@ interface SearchableSelectProps {
 export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   options,
   onSelect,
+  onClear,
   onAddNew,
   placeholder = 'Type to search or add new...',
   disabled = false,
@@ -34,6 +37,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   const [displayStart, setDisplayStart] = useState(0);
   const [lastScrollTop, setLastScrollTop] = useState(0);
   const [justAdded, setJustAdded] = useState(false);
+  const [isClearHovered, setIsClearHovered] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -203,12 +207,71 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
     }
   };
 
+  // Add clear handler
+  const handleClear = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Prevent dropdown from opening
+    if (onClear) {
+      onClear();
+      setDisplayValue('');
+      setSearchValue('');
+    }
+  };
+
+  const CLEAR_BUTTON_COLORS = {
+    GREY: {
+      background: '#F1F1F1',
+      color: '#959595',
+    },
+    RED: {
+      background: '#FEEBEC',
+      color: '#D02D32',
+    },
+  };
+
   return (
     <div css={styles} className="searchable-select">
       <div ref={containerRef} className="search-container" style={{ position: 'relative' }}>
+        {/* Clear button outside TextField */}
+        {!isOpen && displayValue && onClear && (
+          <div
+            className="btn-clear"
+            onClick={handleClear}
+            onMouseEnter={() => setIsClearHovered(true)}
+            onMouseLeave={() => setIsClearHovered(false)}
+            style={{
+              position: 'absolute',
+              right: '50px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              zIndex: 2,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              cursor: 'pointer',
+              padding: '3px',
+              borderRadius: '4px',
+              backgroundColor: isClearHovered
+                ? CLEAR_BUTTON_COLORS.RED.background
+                : CLEAR_BUTTON_COLORS.GREY.background,
+              transition: 'all 0.2s ease',
+            }}
+          >
+            <Cross2Icon
+              height="18"
+              width="18"
+              className="clear-icon"
+              style={{
+                opacity: 1,
+                color: isClearHovered ? CLEAR_BUTTON_COLORS.RED.color : CLEAR_BUTTON_COLORS.GREY.color,
+                transition: 'all 0.2s ease',
+              }}
+            />
+          </div>
+        )}
+
         <TextField.Root
           ref={inputRef}
-          value={isOpen ? searchValue : displayValue} // Show searchValue when open, displayValue when closed
+          value={isOpen ? searchValue : displayValue}
           onChange={(e) => handleInputChange(e.target.value)}
           onFocus={handleInputClick}
           onClick={handleInputClick}
@@ -220,24 +283,26 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
         >
           <TextField.Slot side="left" className="input-slot-left action-icon-slot">
             {React.createElement(iconToShow, {
-              height: 16,
-              width: 16,
+              height: 18,
+              width: 18,
               style: {
-                marginLeft: '6px',
+                marginLeft: '4px',
+                marginRight: '2px',
                 cursor: shouldShowAddIcon ? 'pointer' : 'default',
-                color: shouldShowAddIcon ? 'var(--blue-11)' : justAdded ? 'var(--green-11)' : 'inherit',
+                color: shouldShowAddIcon ? colors.info : justAdded ? colors.success : 'inherit',
               },
               onClick: shouldShowAddIcon ? handleAddNew : undefined,
             })}
           </TextField.Slot>
-          <TextField.Slot side="right" className="input-slot-right dropdown-chevron-slot">
+          <TextField.Slot side="right" className="input-slot-right">
             <ChevronDownIcon
-              height="16"
-              width="16"
+              height="18"
+              width="18"
               style={{
                 transform: isOpen ? 'rotate(180deg)' : 'rotate(0deg)',
                 transition: 'transform 0.2s ease',
-                marginRight: '8px',
+                marginLeft: '2px',
+                marginRight: '4px',
               }}
             />
           </TextField.Slot>
