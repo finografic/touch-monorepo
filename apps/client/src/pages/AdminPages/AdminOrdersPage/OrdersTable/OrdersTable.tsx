@@ -47,7 +47,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                     {getHumanReadableId<ReadableSalt>(order.id, currentLanguage, ReadableSalt.Order)}
                   </Text>
                   <Text size="1" color="gray">
-                    {order.id.slice(0, 8)}...
+                    {order.id}
                   </Text>
                 </Table.Cell>
                 <Table.Cell className="td">{order.drinkType || '-'}</Table.Cell>
