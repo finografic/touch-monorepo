@@ -79,6 +79,7 @@
     "dnd-core": "16.0.1",
     "drizzle-admin": "0.0.7",
     "google-translate-api-x": "10.7.2",
+    "hashids": "^2.3.0",
     "http-status-codes": "2.3.0",
     "i18next": "24.2.0",
     "i18next-browser-languagedetector": "8.0.2",

@@ -10,8 +10,13 @@ import { styles } from './AdminOrdersPage.styles';
 import { Drawer } from 'components/Drawer';
 import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getHumanReadableId } from 'utils/readable.utils';
+import { useContent } from 'providers/ContentProvider/ContentContext';
+import { ReadableSalt } from 'constants/readable-salt.constants';
+import clsx from 'clsx';
 
 export const AdminOrdersPage: React.FC = () => {
+  const { currentLanguage } = useContent();
   const [searchTerm, setSearchTerm] = useState('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { toast } = useToast();
@@ -136,17 +141,25 @@ export const AdminOrdersPage: React.FC = () => {
     );
   }
 
+  const HUMAN_READABLE_ORDER_ID: string =
+    isEditMode && orderId
+      ? getHumanReadableId<ReadableSalt>(orderId, currentLanguage, ReadableSalt.Order)
+      : `${ReadableSalt.Order} data`;
+
   return (
     <section css={styles} className="admin-content-page">
       <AdminContentLayout
         title={isEditMode ? 'Edit Order' : 'Orders Management'}
-        detail={isEditMode ? orderId : undefined}
+        detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
         //  subtitle="Development orders for testing"
       >
         <Row className="form-section">
           <Col>
             {/* Add New Order Form */}
-            <AdminSection title={isEditMode ? 'Edit Order Data' : 'Formulario de datos'}>
+            <AdminSection
+              className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
+              title={isEditMode ? HUMAN_READABLE_ORDER_ID : 'Formulario de datos'}
+            >
               <OrdersForm
                 onSubmit={handleAddOrder}
                 orderData={isEditMode ? orderData : undefined}

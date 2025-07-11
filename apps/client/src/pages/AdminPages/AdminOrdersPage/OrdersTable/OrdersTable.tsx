@@ -3,6 +3,9 @@ import { Button, Flex, Table, Text } from '@radix-ui/themes';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { EditIcon } from 'styles/icons';
 import { styles } from './OrdersTable.styles';
+import { getHumanReadableId } from 'utils/readable.utils';
+import { useContent } from 'providers/ContentProvider';
+import { ReadableSalt } from 'constants/readable-salt.constants';
 
 interface OrdersTableProps {
   orders: OrderReadableModel[];
@@ -17,6 +20,8 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   emptySubMessage = 'Try adjusting your search term',
   onClickEdit,
 }) => {
+  const { currentLanguage } = useContent();
+
   return (
     <section css={styles} className="admin-content-page">
       <>
@@ -37,8 +42,13 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           <Table.Body>
             {orders.map((order) => (
               <Table.Row key={order.id}>
-                <Table.Cell className="td">
-                  <Text size="1">{order.id.slice(0, 8)}...</Text>
+                <Table.Cell className="td td-order-id">
+                  <Text size="2" weight="medium">
+                    {getHumanReadableId<ReadableSalt>(order.id, currentLanguage, ReadableSalt.Order)}
+                  </Text>
+                  <Text size="1" color="gray">
+                    {order.id.slice(0, 8)}...
+                  </Text>
                 </Table.Cell>
                 <Table.Cell className="td">{order.drinkType || '-'}</Table.Cell>
                 <Table.Cell className="td">{order.drinkSubtype || '-'}</Table.Cell>

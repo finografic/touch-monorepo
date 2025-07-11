@@ -1,5 +1,5 @@
-import { type DialogConfig, GenericDialog } from '../../GenericDialog';
-import { LanguageSelector } from '../../../LanguageSelector';
+import { type DialogConfig, GenericDialog } from 'components/Dialog';
+import { LanguageSelector } from 'components/LanguageSelector';
 
 interface LanguageDialogProps {
   isOpen: boolean;

@@ -108,8 +108,13 @@ export const styles = css`
   .form-section {
     margin-top: ${spacing[2]};
     min-height: 400px;
-    /* margin-bottom: 100px; */
     display: block;
+
+    .admin-section.mode-edit {
+      h3 {
+        opacity: 0.5;
+      }
+    }
   }
 
   /* Form styling */

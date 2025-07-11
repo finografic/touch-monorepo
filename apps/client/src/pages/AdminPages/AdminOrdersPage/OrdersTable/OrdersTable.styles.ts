@@ -13,6 +13,13 @@ export const styles = css`
     vertical-align: middle;
   }
 
+  .td-order-id {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding-right: 1rem;
+  }
+
   .th-action,
   .td-action {
     width: 100px;
