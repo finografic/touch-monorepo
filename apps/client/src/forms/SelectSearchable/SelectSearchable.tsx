@@ -1,13 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { matchSorter } from 'match-sorter';
 import { TextField } from '@radix-ui/themes';
+import { Button } from 'components/Button';
 import { CheckIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { styles, stylesDropdown } from './SelectSearchable.styles';
 import { DropdownPortal } from './DropdownPortal';
 import type { SelectOption } from 'types/models/select-option.model';
 import { colors } from 'styles';
-import { PlusIcon } from 'styles/icons';
+import { AddIcon, PlusIcon } from 'styles/icons';
 import { slugify } from 'utils/string.utils';
+import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
 
 interface SearchableSelectProps {
   options: SelectOption[];
@@ -338,31 +340,22 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
                 </div>
               </div>
             ))
-          ) : (
+          ) : options.length > 0 ? (
             /* No options message */
             <div className="option" style={{ textAlign: 'center', fontStyle: 'italic' }}>
               <span className="option-label">
+                {options.length}
                 {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
               </span>
             </div>
+          ) : (
+            !searchValue && <AddNewButton handleAddNew={handleAddNew} searchValue={searchValue} />
           )}
 
-          {/* Add New Option */}
-          {allowAddNew && searchValue.trim() && !exactMatch && (
-            <div
-              className={`option ${slidingWindow.items.length === focusedIndex ? 'focused' : ''}`}
-              onClick={handleAddNew}
-              onMouseEnter={() => setFocusedIndex(slidingWindow.items.length)}
-              style={{ borderTop: '1px solid var(--gray-6)' }}
-            >
-              <div className="option-content add-new-option">
-                <PlusIcon />
-                <span className="option-value" style={{ color: 'var(--blue-11)' }}>
-                  Add "{searchValue}"
-                </span>
-              </div>
-            </div>
-          )}
+          {options.length > 0 ||
+            (!!(allowAddNew && searchValue.trim() && !exactMatch) && (
+              <AddNewButton handleAddNew={handleAddNew} searchValue={searchValue} />
+            ))}
 
           {/* Window info */}
           {slidingWindow.totalItems > windowSize && (

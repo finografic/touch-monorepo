@@ -70,20 +70,39 @@ export const stylesDropdown = css`
       font-weight: 400;
       line-height: 1.4;
     }
+  }
 
-    .add-new-option {
-      svg.icon {
-        width: 22px;
-        height: 22px;
-        color: ${colors.infoDark};
-      }
-      .option-value {
-        font-size: 1rem; /* size="2" equivalent */
-        font-weight: 700; /* Remove bold */
-        color: ${colors.infoDark}!important;
-        line-height: 1.4;
+  .add-new-option {
+    padding: 0.5rem;
+    display: flex;
+    align-items: center;
+
+    .new-option-label {
+      margin-left: 0.75rem;
+      font-size: 1rem;
+      font-weight: 700;
+      color: ${colors.successXDark};
+      line-height: 1.4;
+      .new-option-value {
+        color: ${colors.successDark};
       }
     }
+
+    button {
+      cursor: pointer;
+      padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+      font-weight: 700;
+      svg.icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+    /* .option-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: ${colors.infoDark}!important;
+      line-height: 1.4;
+    } */
   }
 
   /* Window info styling */

@@ -78,6 +78,7 @@ export const WindowIcon = createIconWrapper(_WindowIcon);
 export const WineIcon = createIconWrapper(_WineIcon);
 
 // Admin section icons
+export const AddIcon = createIconWrapper(_PlusIcon);
 export const DeleteIcon = createIconWrapper(_DeleteIcon);
 export const HomeIcon = createIconWrapper(_HomeIcon);
 export const LockIcon = createIconWrapper(_LockIcon);
