@@ -18,7 +18,9 @@ import {
   translateLanguageInBackground,
   // validateLanguageCode,
 } from 'utils/translation-columns.utils';
-import { autoTranslateExistingContent } from 'utils/auto-translate.utils';
+import { convertBooleansToIntegers } from 'lib/zod-utils';
+import type { InferInsertModel } from 'drizzle-orm';
+// import { autoTranslateExistingContent } from 'utils/auto-translate.utils';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const supportedLanguages = await db.query.supported_languages.findMany({
@@ -38,7 +40,13 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
       operators.asc(fields.displayName), // Finally by display name
     ],
   });
-  return context.json(supportedLanguages);
+  // Convert isActive and isDefault to booleans for the API response
+  const mapped = supportedLanguages.map((lang) => ({
+    ...lang,
+    isActive: Boolean(lang.isActive),
+    isDefault: Boolean(lang.isDefault),
+  }));
+  return context.json(mapped);
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
@@ -73,14 +81,15 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
 
     const nextSortOrder = (maxSortOrder?.sortOrder || 0) + 1;
 
+    // Convert booleans to integers for DB
+    const { isoCode, nativeName, displayName, flagCode, isActive, isDefault } = supportedLanguage;
+    const dbValues = convertBooleansToIntegers(
+      { isoCode, nativeName, displayName, flagCode, isActive, isDefault, sortOrder: nextSortOrder },
+      ['isActive', 'isDefault'],
+    ) as InferInsertModel<typeof supported_languages>;
+
     // Insert the new language with auto-incremented sort_order
-    const [inserted] = await db
-      .insert(supported_languages)
-      .values({
-        ...supportedLanguage,
-        sortOrder: nextSortOrder,
-      })
-      .returning();
+    const [inserted] = await db.insert(supported_languages).values(dbValues).returning();
 
     // Create translation columns for all translatable entities (FAST)
     await createTranslationColumns(supportedLanguage.isoCode);
@@ -106,7 +115,14 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
     });
 
     // Return immediately while translation happens in background
-    return context.json(inserted, HttpStatusCodes.OK);
+    return context.json(
+      {
+        ...inserted,
+        isActive: Boolean(inserted.isActive),
+        isDefault: Boolean(inserted.isDefault),
+      },
+      HttpStatusCodes.OK,
+    );
   } catch (error) {
     console.error('Error creating supported language:', error);
     throw error; // Let the framework handle the error response
@@ -136,9 +152,12 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
+  // Convert to integers for DB if present
+  const dbUpdates = convertBooleansToIntegers(updates, ['isActive', 'isDefault']);
+
   const [supportedLanguage] = await db
     .update(supported_languages)
-    .set(updates)
+    .set(dbUpdates)
     .where(eq(supported_languages.id, id))
     .returning();
 
@@ -151,7 +170,14 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
-  return context.json(supportedLanguage, HttpStatusCodes.OK);
+  // Convert isActive and isDefault to booleans for the API response
+  const mapped = {
+    ...supportedLanguage,
+    isActive: Boolean(supportedLanguage.isActive),
+    isDefault: Boolean(supportedLanguage.isDefault),
+  };
+
+  return context.json(mapped, HttpStatusCodes.OK);
 };
 
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {

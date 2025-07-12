@@ -19,7 +19,7 @@ export const list = createRoute({
       z.array(
         orderSchemas.select.pick({
           id: true,
-          mode: true,
+          modeId: true,
           drinkTypeId: true,
           drinkSubtypeId: true,
           volumeId: true,

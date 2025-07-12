@@ -18,7 +18,6 @@ import containerType from 'routes/container-type';
 import modes from './routes/modes';
 import temperatureProfile from './routes/temperature-profile';
 import orders from './routes/orders';
-import ordersDev from './routes/orders-dev';
 import supportedLanguage from './routes/supported-language';
 
 const app = createApp();
@@ -50,16 +49,7 @@ const routesDrinkFlow = [
   modes,
   temperatureProfile,
 ] as const;
-const routes = [
-  index,
-  health,
-  auth,
-  users,
-  ...routesDrinkFlow,
-  orders,
-  ordersDev,
-  supportedLanguage,
-] as const;
+const routes = [index, health, auth, users, ...routesDrinkFlow, orders, supportedLanguage] as const;
 
 routes.forEach((route) => {
   app.route(envShared.API_BASE_PATH, route);
