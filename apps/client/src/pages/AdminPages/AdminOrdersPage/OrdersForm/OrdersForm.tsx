@@ -19,7 +19,7 @@ import {
   useUpdateOrder,
   useUpdateTemperatureProfiles,
 } from 'queries/orders';
-import { useGetDrinkSubtypes } from 'api/hooks/useTranslations'; // For getting all subtypes
+import { useGetDrinkSubtypes } from 'queries/drink-types/useGetDrinkSubtypes'; // Updated import
 import { SelectOptionDto } from 'types/models/select-option.model';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import {
@@ -33,7 +33,15 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { slugify } from 'utils/string.utils';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 
-const PROFILE_ITEM_VALUES_EMPTY = {
+// Define the type for a row to match the schema
+interface TimeRow {
+  temperature?: number;
+  time_a?: number;
+  time_b?: number;
+  time_c?: number;
+}
+
+const PROFILE_ITEM_VALUES_EMPTY: TimeRow = {
   temperature: undefined,
   time_a: undefined,
   time_b: undefined,
@@ -54,6 +62,16 @@ const generateRandomTemperature = (defaultTempFreeze: number) => {
   return Math.round((Math.random() * (50 - defaultTempFreeze) + defaultTempFreeze) * 2) / 2; // Round to 0.5
 };
 
+// Helper to check if a row is complete
+const isRowComplete = (row: TimeRow) => {
+  return (
+    typeof row.temperature === 'number' &&
+    typeof row.time_a === 'number' &&
+    typeof row.time_b === 'number' &&
+    typeof row.time_c === 'number'
+  );
+};
+
 // Form validation schema
 const timeRowSchema = z.object({
   temperature: z.coerce.number().min(-50).max(50).optional(), // Temperature in Celsius
@@ -71,7 +89,13 @@ const addOrderSchema = z
     containerType: z.string().min(1, 'Container type is required'),
     defaultTempConsume: z.coerce.number().min(-40).max(40),
     defaultTempFreeze: z.coerce.number().min(-50).max(40),
-    timeRows: z.array(timeRowSchema).min(1),
+    timeRows: z
+      .array(timeRowSchema)
+      .min(1)
+      .refine((rows) => rows.some(isRowComplete), {
+        message: 'At least one complete row with all values is required',
+        path: ['timeRows'], // Add path to ensure error shows up on timeRows
+      }),
   })
   .refine(
     (data) => data.defaultTempFreeze <= data.defaultTempConsume - MIN_TEMP_DIFFERENCE,
@@ -196,14 +220,58 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
   // Watch form values
   const formValues = watch();
+  
+  // Create filtered version of form values for display
+  const filteredFormValues = useMemo(() => ({
+    ...formValues,
+    timeRows: formValues.timeRows?.filter(
+      (row) =>
+        row.temperature !== undefined ||
+        row.time_a !== undefined ||
+        row.time_b !== undefined ||
+        row.time_c !== undefined
+    ),
+  }), [formValues]);
 
   // Data hooks
   const { data: drinkTypes = [] } = useGetDrinkTypes();
   const { data: volumes = [] } = useGetDrinkVolumes();
   const { data: containerTypes = [] } = useGetContainerTypes();
   const { data: ordersData = [] } = useGetOrdersReadable();
-  const { data: drinkSubtypes = [] } = useGetDrinkSubtypes(); // Get all subtypes
+  // const { data: drinkSubtypes = [] } = useGetDrinkSubtypes(); // Get all subtypes
   const { currentLanguage } = useContent();
+
+  // Watch form values for drinkType to fetch subtypes
+  const selectedDrinkType = useMemo(() => {
+    return drinkTypes.find((dt) => dt.name === formValues.drinkType);
+  }, [drinkTypes, formValues.drinkType]);
+
+  // Fetch subtypes for selected drink type
+  const { data: subtypesData = [] } = useGetDrinkSubtypes({
+    drinkTypeId: selectedDrinkType?.id || '',
+    enabled: Boolean(selectedDrinkType?.id && selectedDrinkType.hasSubtypes),
+  });
+
+  // Transform subtype data for the dropdown
+  const drinkSubtypeOptions = useMemo(() => {
+    if (!selectedDrinkType?.hasSubtypes) return [];
+
+    const databaseOptions = subtypesData.map((subtype) => ({
+      value: subtype.name,
+      label: subtype.translations[language] || subtype.name,
+      category: 'Database',
+    }));
+
+    const customOptions = tempItems.drinkTypes
+      .filter((item) => item.value !== formValues.drinkType) // Don't show the drink type itself
+      .map((item) => ({
+        value: item.value,
+        label: item.displayValue,
+        category: 'Custom',
+      }));
+
+    return [...databaseOptions, ...customOptions];
+  }, [subtypesData, selectedDrinkType, tempItems.drinkTypes, formValues.drinkType, language]);
 
   // Helper function to find ID by name with support for subtypes
   const findIdByName = useCallback(
@@ -213,8 +281,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       itemType: 'drinkType' | 'drinkSubtype' | 'volume' | 'containerType',
     ): string | undefined => {
       if (itemType === 'drinkSubtype') {
-        // For subtypes, search in the drinkSubtypes array
-        const item = drinkSubtypes.find((subtype) => subtype.name === name);
+        // For subtypes, search in the subtypesData array
+        const item = subtypesData.find((subtype) => subtype.name === name);
         return item?.id;
       }
 
@@ -222,7 +290,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       const item = items.find((item) => item.name === name);
       return item?.id;
     },
-    [drinkSubtypes],
+    [subtypesData],
   );
 
   // Transform data using DTO with language translations
@@ -266,25 +334,37 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         const orderUpdates = {
           mode: data.mode,
           drinkTypeId: findIdByName(drinkTypes, data.drinkType, 'drinkType'),
-          drinkSubtypeId: data.drinkSubtype ? findIdByName([], data.drinkSubtype, 'drinkSubtype') : undefined,
+          drinkSubtypeId: data.drinkSubtype ? findIdByName([], data.drinkSubtype, 'drinkSubtype') : null,
           volumeId: findIdByName(volumes, data.volume, 'volume'),
           containerTypeId: findIdByName(containerTypes, data.containerType, 'containerType'),
           defaultTempConsume: data.defaultTempConsume,
           defaultTempFreeze: data.defaultTempFreeze,
         };
 
-        // Filter out undefined values
-        const cleanedUpdates = Object.fromEntries(
-          Object.entries(orderUpdates).filter(([_, value]) => value !== undefined),
+        // Only include fields that have actually changed
+        const changedUpdates = Object.entries(orderUpdates).reduce(
+          (acc, [key, value]) => {
+            // Include the field if it's different from the current value
+            // Note: undefined means "don't change", null means "explicitly set to null"
+            const currentValue = orderData[key as keyof typeof orderData];
+            if (currentValue !== value) {
+              acc[key] = value;
+            }
+            return acc;
+          },
+          {} as Record<string, any>,
         );
 
-        console.log('Updating order with:', cleanedUpdates);
+        console.log('Current order data:', orderData);
+        console.log('Updating order with:', changedUpdates);
 
-        // Update the order
-        await updateOrderMutation.mutateAsync({
-          id: orderData.id,
-          updates: cleanedUpdates,
-        });
+        // Update the order if we have changes
+        if (Object.keys(changedUpdates).length > 0) {
+          await updateOrderMutation.mutateAsync({
+            id: orderData.id,
+            updates: changedUpdates,
+          });
+        }
 
         // Update temperature profiles if they exist and have valid data
         const validTimeRows = data.timeRows.filter(
@@ -307,6 +387,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               timeA: row.time_a!,
               timeB: row.time_b!,
               timeC: row.time_c!,
+              coolingProfileId: 'ebbe533a-a892-4079-afff-84085bc8048b', // Use the correct slow cooling profile ID
             };
           });
 
@@ -417,7 +498,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         const orderData = {
           mode: data.mode,
           drinkTypeId: finalDrinkTypeId,
-          drinkSubtypeId: createdIds.drinkSubtypeId || existingDrinkSubtypeId,
+          drinkSubtypeId: createdIds.drinkSubtypeId || existingDrinkSubtypeId || undefined, // Use undefined for new orders
           volumeId: finalVolumeId,
           containerTypeId: finalContainerTypeId,
           defaultTempConsume: data.defaultTempConsume,
@@ -440,6 +521,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
           timeA: row.time_a!,
           timeB: row.time_b!,
           timeC: row.time_c!,
+          coolingProfileId: 'ebbe533a-a892-4079-afff-84085bc8048b', // Use the correct slow cooling profile ID
         }));
 
         console.log('Creating order with temperature profiles:', temperatureProfiles);
@@ -449,8 +531,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
           orderData,
           temperatureProfiles,
         });
-
-        console.log('Order created:', orderResponse);
 
         // Call the parent onSubmit to handle success message
         onSubmit(data);
@@ -626,6 +706,101 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     handleMockValues();
   }, [handleMockValues]);
 
+  // Mock functions
+  const handleMockPartial = useCallback(() => {
+    console.log('Mocking partial form data');
+
+    // Set all values at once to trigger a single validation
+    const formValues = {
+      mode: 2,
+      defaultTempConsume: 4,
+      defaultTempFreeze: -1,
+      drinkType: '',
+      volume: '',
+      containerType: '',
+      timeRows: Array.from({ length: MIN_TABLE_ROWS }, () => PROFILE_ITEM_VALUES_EMPTY),
+    };
+
+    // Add available options
+    if (drinkTypeOptions.length > 0) {
+      formValues.drinkType = (
+        drinkTypeOptions.find((opt) => opt.value === 'cerveza') || drinkTypeOptions[0]
+      ).value;
+    }
+
+    if (volumeOptions.length > 0) {
+      formValues.volume = (volumeOptions.find((opt) => opt.value === '50cl') || volumeOptions[0]).value;
+    }
+
+    if (containerTypeOptions.length > 0) {
+      formValues.containerType = (
+        containerTypeOptions.find((opt) => opt.value === 'vidrio') || containerTypeOptions[0]
+      ).value;
+    }
+
+    // Reset form with all values at once
+    methods.reset(formValues, {
+      keepDirty: true,
+      keepErrors: false,
+      keepTouched: false,
+      keepIsSubmitted: false,
+      keepSubmitCount: false,
+    });
+
+    // Trigger validation
+    methods.trigger();
+  }, [setValue, drinkTypeOptions, volumeOptions, containerTypeOptions]);
+
+  const handleMockTwoRows = useCallback(() => {
+    console.log('Mocking two rows');
+
+    // Prepare all form data at once including the two rows
+    const twoRows = Array.from({ length: MIN_TABLE_ROWS }, () => ({ ...PROFILE_ITEM_VALUES_EMPTY }));
+
+    // Add two complete rows with proper types
+    const completeRow1: TimeRow = {
+      temperature: 25,
+      time_a: 180,
+      time_b: 240,
+      time_c: 300,
+    };
+
+    const completeRow2: TimeRow = {
+      temperature: 15,
+      time_a: 360,
+      time_b: 480,
+      time_c: 600,
+    };
+
+    twoRows[0] = completeRow1;
+    twoRows[1] = completeRow2;
+
+    // Prepare complete form data
+    const formValues = {
+      mode: 2,
+      defaultTempConsume: 4,
+      defaultTempFreeze: -1,
+      drinkType:
+        (drinkTypeOptions.find((opt) => opt.value === 'cerveza') || drinkTypeOptions[0])?.value || '',
+      volume: (volumeOptions.find((opt) => opt.value === '50cl') || volumeOptions[0])?.value || '',
+      containerType:
+        (containerTypeOptions.find((opt) => opt.value === 'vidrio') || containerTypeOptions[0])?.value || '',
+      timeRows: twoRows,
+    };
+
+    // Reset form with all values at once
+    methods.reset(formValues, {
+      keepDirty: true,
+      keepErrors: false,
+      keepTouched: false,
+      keepIsSubmitted: false,
+      keepSubmitCount: false,
+    });
+
+    // Trigger validation
+    methods.trigger();
+  }, [setValue, handleMockPartial]);
+
   const isSubmitLoading =
     updateOrderMutation.isPending ||
     updateTemperatureProfilesMutation.isPending ||
@@ -641,7 +816,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       >
         <form onSubmit={handleSubmit(onFormSubmit)} noValidate>
           <Row className="row">
-            <Col xs={12} md={12} className="col">
+            <Col xs={9} md={9} className="col">
               {/* ======================================================================== */}
 
               <Row className="row">
@@ -669,8 +844,15 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   >
                     <SelectSearchable
                       value={formValues.drinkType}
-                      onSelect={(value) => handleSimpleFieldChange('drinkType', value)}
-                      onClear={() => handleSimpleFieldChange('drinkType', '')}
+                      onSelect={(value) => {
+                        handleSimpleFieldChange('drinkType', value);
+                        // Clear subtype when drink type changes
+                        handleSimpleFieldChange('drinkSubtype', '');
+                      }}
+                      onClear={() => {
+                        handleSimpleFieldChange('drinkType', '');
+                        handleSimpleFieldChange('drinkSubtype', '');
+                      }}
                       onAddNew={(value) => handleAddNew('drinkTypes', value)}
                       options={drinkTypeOptions}
                       placeholder="e.g., Coffee, Tea, Juice"
@@ -684,17 +866,23 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   <FieldWrapper
                     name="drinkSubtype"
                     label="Drink Subtype"
-                    hint={`${drinkTypeOptions.length} disponibles`}
+                    hint={
+                      selectedDrinkType?.hasSubtypes
+                        ? `${drinkSubtypeOptions.length} disponibles`
+                        : 'No subtypes available'
+                    }
                   >
                     <SelectSearchable
                       value={formValues.drinkSubtype}
                       onSelect={(value) => handleSimpleFieldChange('drinkSubtype', value)}
                       onClear={() => handleSimpleFieldChange('drinkSubtype', '')}
                       onAddNew={handleAddSubtype}
-                      options={drinkTypeOptions}
-                      placeholder="Optional variant"
+                      options={drinkSubtypeOptions}
+                      placeholder={
+                        selectedDrinkType?.hasSubtypes ? 'Select subtype' : 'No subtypes available'
+                      }
                       windowSize={15}
-                      disabled={!formValues.drinkType} // Disable if no drink type selected
+                      disabled={!selectedDrinkType?.hasSubtypes || !formValues.drinkType}
                     />
                   </FieldWrapper>
                 </Col>
@@ -774,16 +962,18 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
               {/* ======================================================================== */}
             </Col>
+
+            {/* ======================================================================== */}
+
+            <Col xs={3} md={3} className="col">
+              <pre>{JSON.stringify(filteredFormValues, null, 2)}</pre>
+            </Col>
+
+            {/* ======================================================================== */}
           </Row>
           <Row className="row">
             <Col xs={12} md={12} className="col col-form-buttons">
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  width: '100%',
-                }}
-              >
+              <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
                 {/* Left side buttons */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
                   {/* Add Row Button */}
@@ -798,18 +988,34 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     + Add Row
                   </Button>
 
-                  {/* Dev Tools: Mock Values Button */}
+                  {/* Dev Tools Buttons */}
                   {isDevToolsVisible && (
-                    <Button type="button" variant="soft" size="3" onClick={handleMockClick} color="info">
-                      📝 Mock Values
-                    </Button>
-                  )}
-
-                  {/* Dev Tools: Mock All Rows Button */}
-                  {isDevToolsVisible && (
-                    <Button type="button" variant="soft" size="3" onClick={handleMockAllRows} color="default">
-                      🎲 Mock All Rows
-                    </Button>
+                    <>
+                      <Button type="button" variant="soft" size="3" onClick={handleMockPartial} color="info">
+                        📝 Mock Partial
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="soft"
+                        size="3"
+                        onClick={handleMockTwoRows}
+                        color="default"
+                      >
+                        🎲 Mock 2 Rows
+                      </Button>
+                      <Button type="button" variant="soft" size="3" onClick={handleMockClick} color="info">
+                        📝 Mock All
+                      </Button>
+                      <Button
+                        type="button"
+                        variant="soft"
+                        size="3"
+                        onClick={handleMockAllRows}
+                        color="default"
+                      >
+                        🎲 Mock All Rows
+                      </Button>
+                    </>
                   )}
                 </div>
 

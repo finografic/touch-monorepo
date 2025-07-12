@@ -1,11 +1,15 @@
 import { real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import createCuid from '@bugsnag/cuid';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { relations } from 'drizzle-orm';
 import { cooling_profiles } from './cooling_profiles.schema';
 import { orders } from './orders.schema';
+// import { z } from 'zod';
 
 export const temperature_profiles = sqliteTable('temperature_profiles', {
-  id: text('id').primaryKey(),
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => createCuid()),
   orderId: text('order_id')
     .notNull()
     .references(() => orders.id, { onDelete: 'cascade' }),
@@ -32,6 +36,10 @@ export const temperatureProfilesRelations = relations(temperature_profiles, ({ o
 
 export const temperatureProfileSchemas = {
   select: createSelectSchema(temperature_profiles),
+  // insert: createInsertSchema(insertTemperatureProfile),
   insert: createInsertSchema(temperature_profiles),
+  // insert: createInsertSchema(temperature_profiles, {
+  //   coolingProfileId: z.string().default('ebbe633a-a892-4079-aff1-84085bc8048b'),
+  // }),
   patch: createInsertSchema(temperature_profiles).partial(),
 } as const;

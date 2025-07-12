@@ -20,8 +20,8 @@ const getVariantColor = (variant: ToastVariant): string => {
 export const toastViewportStyles = css`
   --viewport-padding: 24px;
   position: fixed;
-  bottom: 125px; /* Moved up by 125px from bottom: 0 */
-  right: 0;
+  bottom: 150px; /* Moved up by 150px from bottom: 0 */
+  right: 10px;
   display: flex;
   flex-direction: column;
   padding: var(--viewport-padding);

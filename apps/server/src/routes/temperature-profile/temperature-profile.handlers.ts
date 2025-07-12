@@ -14,6 +14,7 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import { and, eq, gte, inArray, lte, max, min } from 'drizzle-orm';
+import chalk from 'chalk';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   // Parse temperature filter from query params
@@ -67,9 +68,129 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (context) => {
-  const temperatureProfile = context.req.valid('json');
-  const [inserted] = await db.insert(temperature_profiles).values(temperatureProfile).returning();
-  return context.json(inserted, HttpStatusCodes.OK);
+  try {
+    // Validate the request body - this will parse the JSON and validate it
+    const temperatureProfile = context.req.valid('json');
+    console.log('Validated profile data:', temperatureProfile);
+    console.log('Validated profile data:', temperatureProfile);
+
+    // Verify the cooling profile exists
+    // const coolingProfile = await db.query.cooling_profiles.findFirst({
+    //   where: (fields, operators) =>
+    //     operators.eq(
+    //       fields.id,
+    //       temperatureProfile.coolingProfileId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
+    //     ),
+    // });
+
+    // Verify the cooling profile exists
+    const coolingProfileId = temperatureProfile.coolingProfileId || 'ebbe633a-a892-4079-aff1-84085bc8048b';
+    console.log('=== DEBUG COOLING PROFILE ===');
+    console.log('Checking cooling profile ID:', coolingProfileId);
+    console.log('Type of ID:', typeof coolingProfileId);
+    console.log('ID length:', coolingProfileId.length);
+
+    // const coolingProfile = await db.query.cooling_profiles.findFirst({
+    //   where: (fields, operators) => operators.eq(fields.id, coolingProfileId),
+    // });
+
+    console.log(chalk.magenta('==================== DEBUG SQL QUERY ===================='));
+
+    // First, let's try to get ALL cooling profiles to verify table access
+    const allProfiles = await db.query.cooling_profiles.findMany();
+    console.log('All cooling profiles:', allProfiles);
+
+    // Now try our specific query
+    const coolingProfile = await db.query.cooling_profiles.findFirst({
+      where: (fields, operators) => {
+        console.log(chalk.magenta('-------------------- field --------------------'));
+        console.log('Fields available:', Object.keys(fields));
+        const condition = operators.eq(fields.id, coolingProfileId);
+        console.log('SQL Condition:', condition);
+        console.log('Cooling Profile ID being queried:', coolingProfileId);
+        return condition;
+      },
+    });
+
+    console.log('Query result:', coolingProfile);
+    console.log(chalk.magenta('==================== END DEBUG ===================='));
+
+    if (!coolingProfile) {
+      return context.json(
+        {
+          success: false,
+          error: {
+            issues: [
+              {
+                code: 'INVALID_REFERENCE',
+                path: ['coolingProfileId'],
+                message: 'Invalid cooling profile ID',
+              },
+            ],
+            name: 'ValidationError',
+          },
+        },
+        HttpStatusCodes.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    // Verify the order exists
+    const order = await db.query.orders.findFirst({
+      where: (fields, operators) => operators.eq(fields.id, temperatureProfile.orderId),
+    });
+
+    if (!order) {
+      return context.json(
+        {
+          success: false,
+          error: {
+            issues: [
+              {
+                code: 'INVALID_REFERENCE',
+                path: ['orderId'],
+                message: 'Invalid order ID',
+              },
+            ],
+            name: 'ValidationError',
+          },
+        },
+        HttpStatusCodes.UNPROCESSABLE_ENTITY,
+      );
+    }
+
+    // Prepare the data with default cooling profile if needed
+    const profileData = {
+      ...temperatureProfile,
+      coolingProfileId: temperatureProfile.coolingProfileId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
+    };
+
+    // Insert the record
+    const [inserted] = await db.insert(temperature_profiles).values(profileData).returning();
+
+    // ======================================================================== //
+
+    // Set default cooling profile if not provided
+    // const profileData = {
+    //   ...temperatureProfile,
+    //   coolingProfileId: temperatureProfile.coolingProfileId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
+    // };
+
+    /*
+    console.log('Final profile data to insert:', temperatureProfile);
+
+    const [inserted] = await db.insert(temperature_profiles).values(temperatureProfile).returning();
+    */
+
+    // ======================================================================== //
+
+    console.log('Successfully inserted temperature profile:', inserted);
+
+    return context.json(inserted, HttpStatusCodes.OK);
+  } catch (error) {
+    console.error('Failed to create temperature profile:', error);
+    // Re-throw to let the error handler deal with it
+    throw error;
+  }
 };
 
 export const patch: AppRouteHandler<PatchRoute> = async (context) => {
