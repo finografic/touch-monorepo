@@ -121,7 +121,8 @@ export const ordersProgressiveConfigs: ProgressiveFieldConfig<OrdersFormValues>[
       const tempValid =
         typeof item.temperature === 'number' &&
         item.temperature >= defaultTempFreeze &&
-        item.temperature <= 50;      const timeAValid = typeof item.timeA === 'number' && item.timeA >= 0 && item.timeA <= 3600;
+        item.temperature <= 50;
+      const timeAValid = typeof item.timeA === 'number' && item.timeA >= 0 && item.timeA <= 3600;
       const timeBValid = typeof item.timeB === 'number' && item.timeB >= 0 && item.timeB <= 3600;
       const timeCValid = typeof item.timeC === 'number' && item.timeC >= 0 && item.timeC <= 3600;
 

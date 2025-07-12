@@ -220,18 +220,21 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
   // Watch form values
   const formValues = watch();
-  
+
   // Create filtered version of form values for display
-  const filteredFormValues = useMemo(() => ({
-    ...formValues,
-    timeRows: formValues.timeRows?.filter(
-      (row) =>
-        row.temperature !== undefined ||
-        row.timeA !== undefined ||
-        row.timeB !== undefined ||
-        row.timeC !== undefined
-    ),
-  }), [formValues]);
+  const filteredFormValues = useMemo(
+    () => ({
+      ...formValues,
+      timeRows: formValues.timeRows?.filter(
+        (row) =>
+          row.temperature !== undefined ||
+          row.timeA !== undefined ||
+          row.timeB !== undefined ||
+          row.timeC !== undefined,
+      ),
+    }),
+    [formValues],
+  );
 
   // Data hooks
   const { data: drinkTypes = [] } = useGetDrinkTypes();
