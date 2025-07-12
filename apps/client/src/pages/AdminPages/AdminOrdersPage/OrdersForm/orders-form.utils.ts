@@ -83,12 +83,7 @@ interface UseDropdownDataProps {
   formDrinkType?: string;
 }
 
-export const useDropdownData = ({
-  language,
-  tempItems,
-  selectedDrinkTypeId,
-  formDrinkType,
-}: UseDropdownDataProps) => {
+export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropdownDataProps) => {
   // Data hooks
   const { data: drinkTypes = [] } = useGetDrinkTypes();
   const { data: volumes = [] } = useGetDrinkVolumes();
@@ -246,6 +241,13 @@ interface MockDataOptions {
   containerTypeOptions: any[];
   setValue: any;
   defaultTempFreeze?: number;
+}
+
+export interface MockDataHandlers {
+  generateRandomValuesForRow: (rowIndex: number) => void;
+  handleMockValues: () => void;
+  handleMockPartial: () => any;
+  handleMockTwoRows: () => any;
 }
 
 export const createMockDataHandlers = ({

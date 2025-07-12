@@ -192,7 +192,6 @@ export const AdminOrdersPage: React.FC = () => {
                 onSubmit={handleAddOrder}
                 orderData={isEditMode ? orderData : undefined}
                 isEditMode={isEditMode}
-                onNavigateBack={() => navigate('/admin/orders')}
               />
             </AdminSection>
           </Col>

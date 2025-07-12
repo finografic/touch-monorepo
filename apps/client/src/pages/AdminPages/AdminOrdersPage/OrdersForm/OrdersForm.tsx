@@ -1,22 +1,21 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
 import { Button } from 'components/Button';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { SelectSimple } from 'forms/SelectSimple';
 import { InputTemperature } from 'forms/InputTemperature';
-import { FormMiddlewareProvider, useFormMiddleware } from 'forms/FormMiddleware';
+import { FormMiddlewareProvider } from 'forms/FormMiddleware';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { TimesRepeaterTable } from 'pages/AdminPages/AdminOrdersPage/TimesRepeaterTable';
 import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
 import {
   type OrdersFormValues as MiddlewareOrdersFormValues,
   ordersFormFieldConfigs,
+  type OrdersFormValues,
 } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
 import { Col, Row } from 'react-grid-system';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
-import { useDev } from 'providers/DevProvider';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 
@@ -24,10 +23,8 @@ import { useContent } from 'providers/ContentProvider/ContentContext';
 import {
   createMockDataHandlers,
   createTempItemHandlers,
-  isRowComplete,
   PROFILE_ITEM_VALUES_EMPTY,
   type TempItems,
-  type TimeRow,
   useDropdownData,
 } from './orders-form.utils';
 import {
@@ -35,54 +32,12 @@ import {
   getSubmissionLoadingState,
   useFormSubmissionMutations,
 } from './orders-form.submission';
+import { OrdersFormDevTools } from './OrderFormDevTools/OrdersFormDevTools';
+import { ORDER_FORM_SCHEMA } from 'pages/AdminPages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
+import { useNavigate } from 'react-router-dom';
 
 // ============================================================================
 // Form Schema & Types
-// ============================================================================
-
-const timeRowSchema = z.object({
-  temperature: z.coerce.number().min(-50).max(50).optional(),
-  timeA: z.coerce.number().int().min(0).max(3600).optional(),
-  timeB: z.coerce.number().int().min(0).max(3600).optional(),
-  timeC: z.coerce.number().int().min(0).max(3600).optional(),
-});
-
-const addOrderSchema = z
-  .object({
-    mode: z.coerce.number().int().min(1).max(5),
-    drinkType: z.string().min(1, 'Drink type is required'),
-    drinkSubtype: z.string().optional(),
-    volume: z.string().min(1, 'Volume is required'),
-    containerType: z.string().min(1, 'Container type is required'),
-    defaultTempConsume: z.coerce.number().min(-40).max(40),
-    defaultTempFreeze: z.coerce.number().min(-50).max(40),
-    timeRows: z
-      .array(timeRowSchema)
-      .min(1)
-      .refine((rows) => rows.some(isRowComplete), {
-        message: 'At least one complete row with all values is required',
-        path: ['timeRows'],
-      }),
-  })
-  .refine(
-    (data) => data.defaultTempFreeze <= data.defaultTempConsume - MIN_TEMP_DIFFERENCE,
-    (data) => {
-      const maxValue = data.defaultTempConsume - MIN_TEMP_DIFFERENCE;
-      const formattedMax = new Intl.NumberFormat('es-ES', {
-        minimumFractionDigits: 1,
-        maximumFractionDigits: 1,
-      }).format(maxValue);
-      return {
-        message: `Max value is ${formattedMax}`,
-        path: ['defaultTempFreeze'],
-      };
-    },
-  );
-
-type OrdersFormValues = z.infer<typeof addOrderSchema>;
-
-// ============================================================================
-// Component Props
 // ============================================================================
 
 interface OrdersFormProps {
@@ -91,7 +46,6 @@ interface OrdersFormProps {
   language?: string;
   orderData?: OrderReadableModel;
   isEditMode?: boolean;
-  onNavigateBack?: () => void;
 }
 
 // ============================================================================
@@ -104,8 +58,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   language = 'es-ES',
   orderData,
   isEditMode = false,
-  onNavigateBack,
 }) => {
+  const navigate = useNavigate();
+
   // ========================================================================
   // State & Context
   // ========================================================================
@@ -118,7 +73,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   });
   const [canAddRow, setCanAddRow] = useState(false);
 
-  const { isDevToolsVisible } = useDev();
   const { currentLanguage } = useContent();
 
   // ========================================================================
@@ -128,7 +82,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const methods = useForm<OrdersFormValues>({
     mode: 'onChange',
     reValidateMode: 'onChange',
-    resolver: zodResolver(addOrderSchema),
+    resolver: zodResolver(ORDER_FORM_SCHEMA),
     defaultValues: {
       mode: orderData?.mode ? Number(orderData.mode) : 4,
       drinkType: orderData?.drinkType || '',
@@ -258,63 +212,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const handleAddRow = useCallback(() => {
     append(PROFILE_ITEM_VALUES_EMPTY);
   }, [append]);
-
-  const handleMockAllRows = useCallback(() => {
-    const currentRows = formValues.timeRows || [];
-    currentRows.forEach((_, index) => {
-      mockDataHandlers.generateRandomValuesForRow(index);
-    });
-  }, [formValues.timeRows, mockDataHandlers]);
-
-  // ========================================================================
-  // Dev Tools Handlers
-  // ========================================================================
-
-  const handleMockPartial = useCallback(() => {
-    const formValues = mockDataHandlers.handleMockPartial();
-    methods.reset(formValues, {
-      keepDirty: true,
-      keepErrors: false,
-      keepTouched: false,
-      keepIsSubmitted: false,
-      keepSubmitCount: false,
-    });
-    methods.trigger();
-  }, [mockDataHandlers, methods]);
-
-  const handleMockTwoRows = useCallback(() => {
-    const formValues = mockDataHandlers.handleMockTwoRows();
-    methods.reset(formValues, {
-      keepDirty: true,
-      keepErrors: false,
-      keepTouched: false,
-      keepIsSubmitted: false,
-      keepSubmitCount: false,
-    });
-    methods.trigger();
-  }, [mockDataHandlers, methods]);
-
-  const handleMockClick = useCallback(() => {
-    mockDataHandlers.handleMockValues();
-  }, [mockDataHandlers]);
-
-  // ========================================================================
-  // Filtered Form Values for Display
-  // ========================================================================
-
-  const filteredFormValues = useMemo(
-    () => ({
-      ...formValues,
-      timeRows: formValues.timeRows?.filter(
-        (row) =>
-          row.temperature !== undefined ||
-          row.timeA !== undefined ||
-          row.timeB !== undefined ||
-          row.timeC !== undefined,
-      ),
-    }),
-    [formValues],
-  );
 
   // ========================================================================
   // Render
@@ -476,8 +373,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
           <Row className="row">
             <Col xs={12} md={12} className="col col-form-buttons">
               <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                {/* Left side buttons */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                  {/* Add Row Button */}
                   <Button
                     type="button"
                     variant="soft"
@@ -488,45 +385,28 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   >
                     + Add Row
                   </Button>
-
-                  {/* Dev Tools Buttons */}
-                  {isDevToolsVisible && (
-                    <>
-                      <Button type="button" variant="soft" size="3" onClick={handleMockPartial} color="info">
-                        📝 Mock Partial
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="soft"
-                        size="3"
-                        onClick={handleMockTwoRows}
-                        color="default"
-                      >
-                        🎲 Mock 2 Rows
-                      </Button>
-                      <Button type="button" variant="soft" size="3" onClick={handleMockClick} color="info">
-                        📝 Mock All
-                      </Button>
-                      <Button
-                        type="button"
-                        variant="soft"
-                        size="3"
-                        onClick={handleMockAllRows}
-                        color="default"
-                      >
-                        🎲 Mock All Rows
-                      </Button>
-                    </>
-                  )}
                 </div>
+
+                {/* Left side buttons */}
+                <OrdersFormDevTools
+                  formValues={formValues}
+                  methods={methods}
+                  mockDataHandlers={mockDataHandlers}
+                  canAddRow={canAddRow}
+                  onAddRow={handleAddRow}
+                />
 
                 {/* Right side buttons */}
                 <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
-                  {isEditMode && (
-                    <Button type="button" variant="soft" size="3" onClick={onNavigateBack} color="default">
-                      Cancelar
-                    </Button>
-                  )}
+                  <Button
+                    type="button"
+                    variant="soft"
+                    size="3"
+                    onClick={() => navigate('/admin/orders')}
+                    color="default"
+                  >
+                    {isEditMode ? 'Cancelar' : 'Cancelar'}
+                  </Button>
 
                   <Button
                     type="submit"
