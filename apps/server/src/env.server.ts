@@ -3,8 +3,20 @@ import { config } from '@dotenvx/dotenvx';
 import { envShared } from '@workspace/config/envShared';
 import { paths } from '@workspace/config/paths';
 import { z } from 'zod';
+import { fileURLToPath } from 'node:url';
 
-config({ path: path.resolve(process.cwd(), `.env.${process.env.NODE_ENV || 'development'}`) });
+// config({ path: path.resolve(process.cwd(), `.env.${process.env.NODE_ENV || 'development'}`) });
+
+// ======================================================================== //
+
+// config({ path: path.resolve(__dirname, `./.env.${process.env.NODE_ENV || 'development'}`) });
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+config({ path: path.resolve(__dirname, `../.env.${process.env.NODE_ENV || 'development'}`) });
+
+// ======================================================================== //
 
 const envServerSchema = z
   .object({

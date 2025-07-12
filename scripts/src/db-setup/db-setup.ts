@@ -101,7 +101,7 @@ export async function main() {
     // INITIAL CHOICES..
     let operations: string[];
     if (autoConfirm) {
-      operations = ['seed']; // Default: only seed data, adjust as needed
+      operations = ['seed', 'views']; // Default: only seed data, adjust as needed
       console.log('[db-setup] Auto-confirm enabled: defaulting to operations:', operations);
     } else {
       operations = await checkbox({
