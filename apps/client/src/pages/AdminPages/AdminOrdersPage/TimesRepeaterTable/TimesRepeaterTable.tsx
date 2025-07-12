@@ -10,9 +10,9 @@ import { DeleteIcon } from 'styles/icons';
 
 interface TimeRowData {
   temperature?: number;
-  time_a?: number;
-  time_b?: number;
-  time_c?: number;
+  timeA?: number;
+  timeB?: number;
+  timeC?: number;
 }
 
 interface TimesRepeaterTableProps {

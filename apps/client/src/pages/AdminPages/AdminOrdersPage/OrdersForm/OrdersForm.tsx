@@ -36,16 +36,16 @@ import { useContent } from 'providers/ContentProvider/ContentContext';
 // Define the type for a row to match the schema
 interface TimeRow {
   temperature?: number;
-  time_a?: number;
-  time_b?: number;
-  time_c?: number;
+  timeA?: number;
+  timeB?: number;
+  timeC?: number;
 }
 
 const PROFILE_ITEM_VALUES_EMPTY: TimeRow = {
   temperature: undefined,
-  time_a: undefined,
-  time_b: undefined,
-  time_c: undefined,
+  timeA: undefined,
+  timeB: undefined,
+  timeC: undefined,
 };
 
 // Utility functions for generating random values
@@ -66,18 +66,18 @@ const generateRandomTemperature = (defaultTempFreeze: number) => {
 const isRowComplete = (row: TimeRow) => {
   return (
     typeof row.temperature === 'number' &&
-    typeof row.time_a === 'number' &&
-    typeof row.time_b === 'number' &&
-    typeof row.time_c === 'number'
+    typeof row.timeA === 'number' &&
+    typeof row.timeB === 'number' &&
+    typeof row.timeC === 'number'
   );
 };
 
 // Form validation schema
 const timeRowSchema = z.object({
   temperature: z.coerce.number().min(-50).max(50).optional(), // Temperature in Celsius
-  time_a: z.coerce.number().int().min(0).max(3600).optional(), // 0 to 60 minutes in seconds
-  time_b: z.coerce.number().int().min(0).max(3600).optional(),
-  time_c: z.coerce.number().int().min(0).max(3600).optional(),
+  timeA: z.coerce.number().int().min(0).max(3600).optional(), // 0 to 60 minutes in seconds
+  timeB: z.coerce.number().int().min(0).max(3600).optional(),
+  timeC: z.coerce.number().int().min(0).max(3600).optional(),
 });
 
 const addOrderSchema = z
@@ -227,9 +227,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     timeRows: formValues.timeRows?.filter(
       (row) =>
         row.temperature !== undefined ||
-        row.time_a !== undefined ||
-        row.time_b !== undefined ||
-        row.time_c !== undefined
+        row.timeA !== undefined ||
+        row.timeB !== undefined ||
+        row.timeC !== undefined
     ),
   }), [formValues]);
 
@@ -370,9 +370,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         const validTimeRows = data.timeRows.filter(
           (row) =>
             row.temperature !== undefined &&
-            row.time_a !== undefined &&
-            row.time_b !== undefined &&
-            row.time_c !== undefined,
+            row.timeA !== undefined &&
+            row.timeB !== undefined &&
+            row.timeC !== undefined,
         );
 
         if (validTimeRows.length > 0 || (orderData?.temperatureProfiles?.length ?? 0) > 0) {
@@ -384,9 +384,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
             return {
               id: existingProfile?.id, // Use existing ID if available, undefined for new profiles
               temperature: row.temperature!,
-              timeA: row.time_a!,
-              timeB: row.time_b!,
-              timeC: row.time_c!,
+              timeA: row.timeA!,
+              timeB: row.timeB!,
+              timeC: row.timeC!,
               coolingProfileId: 'ebbe533a-a892-4079-afff-84085bc8048b', // Use the correct slow cooling profile ID
             };
           });
@@ -511,16 +511,16 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         const validTimeRows = data.timeRows.filter(
           (row) =>
             row.temperature !== undefined &&
-            row.time_a !== undefined &&
-            row.time_b !== undefined &&
-            row.time_c !== undefined,
+            row.timeA !== undefined &&
+            row.timeB !== undefined &&
+            row.timeC !== undefined,
         );
 
         const temperatureProfiles = validTimeRows.map((row) => ({
           temperature: row.temperature!,
-          timeA: row.time_a!,
-          timeB: row.time_b!,
-          timeC: row.time_c!,
+          timeA: row.timeA!,
+          timeB: row.timeB!,
+          timeC: row.timeC!,
           coolingProfileId: 'ebbe533a-a892-4079-afff-84085bc8048b', // Use the correct slow cooling profile ID
         }));
 
@@ -627,9 +627,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         `timeRows.${rowIndex}`,
         {
           temperature: randomTemp,
-          time_a: randomTimeA,
-          time_b: randomTimeB,
-          time_c: randomTimeC,
+          timeA: randomTimeA,
+          timeB: randomTimeB,
+          timeC: randomTimeC,
         },
         { shouldValidate: true },
       );
@@ -686,10 +686,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
     // Fill temperature profile rows with sample data
     const sampleRows = [
-      { temperature: 25, time_a: 180, time_b: 240, time_c: 300 },
-      { temperature: 15, time_a: 360, time_b: 480, time_c: 600 },
-      { temperature: 8, time_a: 540, time_b: 720, time_c: 900 },
-      { temperature: 2, time_a: 720, time_b: 960, time_c: 1200 },
+      { temperature: 25, timeA: 180, timeB: 240, timeC: 300 },
+      { temperature: 15, timeA: 360, timeB: 480, timeC: 600 },
+      { temperature: 8, timeA: 540, timeB: 720, timeC: 900 },
+      { temperature: 2, timeA: 720, timeB: 960, timeC: 1200 },
     ];
 
     console.log('Setting time rows:', sampleRows);
@@ -760,16 +760,16 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     // Add two complete rows with proper types
     const completeRow1: TimeRow = {
       temperature: 25,
-      time_a: 180,
-      time_b: 240,
-      time_c: 300,
+      timeA: 180,
+      timeB: 240,
+      timeC: 300,
     };
 
     const completeRow2: TimeRow = {
       temperature: 15,
-      time_a: 360,
-      time_b: 480,
-      time_c: 600,
+      timeA: 360,
+      timeB: 480,
+      timeC: 600,
     };
 
     twoRows[0] = completeRow1;
