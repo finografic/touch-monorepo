@@ -29,17 +29,17 @@ export const useCreateDrinkSubtype = () => {
 
         // Create translations object with current language
         const translations = {
-          [currentLanguage]: data.name, // Use original name for current language
           'en-GB': '', // Empty string for other languages
           'es-ES': '',
           'ca-ES': '',
           ...data.translations, // Allow overriding with provided translations
+          [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
         };
 
         const response = await api.post(`/drink-types/${data.drinkTypeId}/subtypes`, {
           name: kebabName, // Use kebab-case name for storage
-          default_temp_consume: data.defaultTempConsume || 5,
-          default_temp_freeze: data.defaultTempFreeze || -2,
+          defaultTempConsume: data.defaultTempConsume || 5,
+          defaultTempFreeze: data.defaultTempFreeze || -2,
           translations,
         });
         const entity = response.data.data;

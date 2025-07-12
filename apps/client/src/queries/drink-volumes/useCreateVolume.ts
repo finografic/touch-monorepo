@@ -29,18 +29,18 @@ export const useCreateVolume = () => {
 
         // Create translations object with current language
         const translations = {
-          [currentLanguage]: data.name, // Use original name for current language
           'en-GB': '', // Empty string for other languages
           'es-ES': '',
           'ca-ES': '',
           ...data.translations, // Allow overriding with provided translations
+          [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
         };
 
         const response = await api.post('/drink-volumes', {
           name: kebabName, // Use kebab-case name for storage
-          value_in_ml: data.valueInMl,
-          sort_order: data.sortOrder,
-          cooling_factor: data.coolingFactor || 1,
+          valueInMl: data.valueInMl,
+          sortOrder: data.sortOrder,
+          coolingFactor: data.coolingFactor || 1,
           translations,
         });
         const entity = response.data.data;

@@ -1,11 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { matchSorter } from 'match-sorter';
 import { TextField } from '@radix-ui/themes';
-import { CheckIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon, PlusIcon } from '@radix-ui/react-icons';
+import { CheckIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { styles, stylesDropdown } from './SelectSearchable.styles';
 import { DropdownPortal } from './DropdownPortal';
 import type { SelectOption } from 'types/models/select-option.model';
 import { colors } from 'styles';
+import { PlusIcon } from 'styles/icons';
 import { slugify } from 'utils/string.utils';
 
 interface SearchableSelectProps {
@@ -102,8 +103,8 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
     if (searchValue.trim() && onAddNew && !exactMatch) {
       const displayValue = searchValue.trim();
       const kebabValue = slugify(displayValue); // Convert to kebab-case for storage
-      onAddNew(kebabValue);
-      onSelect(kebabValue);
+      onAddNew(displayValue); // Pass the original display value, let the handler do the conversion
+      onSelect(kebabValue); // But select the kebab-case value for the form
       setIsOpen(false);
       setFocusedIndex(-1);
       setDisplayStart(0);
@@ -286,13 +287,16 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
         >
           <TextField.Slot side="left" className="input-slot-left action-icon-slot">
             {React.createElement(iconToShow, {
-              height: 18,
-              width: 18,
+              height: 14,
+              width: 14,
               style: {
+                width: '22px',
+                height: '22px',
                 marginLeft: '4px',
                 marginRight: '2px',
+                marginBottom: '2px',
                 cursor: shouldShowAddIcon ? 'pointer' : 'default',
-                color: shouldShowAddIcon ? colors.info : justAdded ? colors.success : 'inherit',
+                color: shouldShowAddIcon ? colors.infoDark : justAdded ? colors.successDark : 'inherit',
               },
               onClick: shouldShowAddIcon ? handleAddNew : undefined,
             })}
@@ -351,8 +355,8 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
               onMouseEnter={() => setFocusedIndex(slidingWindow.items.length)}
               style={{ borderTop: '1px solid var(--gray-6)' }}
             >
-              <div className="option-content">
-                <PlusIcon style={{ color: 'var(--blue-11)', width: '14px', height: '14px' }} />
+              <div className="option-content add-new-option">
+                <PlusIcon />
                 <span className="option-value" style={{ color: 'var(--blue-11)' }}>
                   Add "{searchValue}"
                 </span>

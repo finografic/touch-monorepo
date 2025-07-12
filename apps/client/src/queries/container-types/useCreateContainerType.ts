@@ -27,16 +27,16 @@ export const useCreateContainerType = () => {
 
         // Create translations object with current language
         const translations = {
-          [currentLanguage]: data.name, // Use original name for current language
           'en-GB': '', // Empty string for other languages
           'es-ES': '',
           'ca-ES': '',
           ...data.translations, // Allow overriding with provided translations
+          [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
         };
 
         const response = await api.post('/container-types', {
           name: kebabName, // Use kebab-case name for storage
-          thermal_conductivity: data.thermalConductivity,
+          thermalConductivity: data.thermalConductivity,
           translations,
         });
         const entity = response.data.data;

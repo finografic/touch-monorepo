@@ -10,7 +10,12 @@ import { FormMiddlewareProvider, useFormMiddleware } from 'forms/FormMiddleware'
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { TimesRepeaterTable } from 'pages/AdminPages/AdminOrdersPage/TimesRepeaterTable';
 import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
-import { useCreateDrinkSubtype, useCreateDrinkType, useGetDrinkTypes } from 'queries/drink-types';
+import {
+  useCreateDrinkSubtype,
+  useCreateDrinkType,
+  useGetDrinkTypes,
+  useUpdateDrinkType,
+} from 'queries/drink-types';
 import { useCreateVolume, useGetDrinkVolumes } from 'queries/drink-volumes';
 import { useCreateContainerType, useGetContainerTypes } from 'queries/container-types';
 import {
@@ -121,6 +126,7 @@ interface TempItem {
 
 interface TempItems {
   drinkTypes: TempItem[];
+  drinkSubtypes: TempItem[]; // Add separate array for subtypes
   volumes: TempItem[];
   containerTypes: TempItem[];
 }
@@ -144,6 +150,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 }) => {
   const [tempItems, setTempItems] = useState<TempItems>({
     drinkTypes: [],
+    drinkSubtypes: [], // Initialize separate array for subtypes
     volumes: [],
     containerTypes: [],
   });
@@ -164,6 +171,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const createDrinkSubtype = useCreateDrinkSubtype();
   const createVolume = useCreateVolume();
   const createContainerType = useCreateContainerType();
+
+  // Update hooks
+  const updateDrinkType = useUpdateDrinkType();
 
   // RHF setup with temperature profiles
   const methods = useForm<OrdersFormValues>({
@@ -265,8 +275,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       category: 'Database',
     }));
 
-    const customOptions = tempItems.drinkTypes
-      .filter((item) => item.value !== formValues.drinkType) // Don't show the drink type itself
+    const customOptions = tempItems.drinkSubtypes // Use drinkSubtypes array instead of drinkTypes
       .map((item) => ({
         value: item.value,
         label: item.displayValue,
@@ -274,7 +283,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       }));
 
     return [...databaseOptions, ...customOptions];
-  }, [subtypesData, selectedDrinkType, tempItems.drinkTypes, formValues.drinkType, language]);
+  }, [subtypesData, selectedDrinkType, tempItems.drinkSubtypes, language]); // Update dependency
 
   // Helper function to find ID by name with support for subtypes
   const findIdByName = useCallback(
@@ -419,28 +428,44 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         const drinkTypeTemp = tempItems.drinkTypes.find((item) => item.value === data.drinkType);
         if (drinkTypeTemp) {
           const drinkTypeResponse = await createDrinkType.mutateAsync({
-            name: drinkTypeTemp.value,
+            name: drinkTypeTemp.displayValue, // Use displayValue (original user input) for the name
             hasSubtypes: Boolean(data.drinkSubtype), // Set hasSubtypes based on whether a subtype is selected
             defaultTempConsume: data.defaultTempConsume,
             defaultTempFreeze: data.defaultTempFreeze,
-            translations: {
-              [currentLanguage]: drinkTypeTemp.displayValue,
-            },
+            // Let the mutation handle translations automatically
           });
           createdIds.drinkTypeId = drinkTypeResponse.id;
         }
 
         // Create new subtype if needed
-        const drinkSubtypeTemp = tempItems.drinkTypes.find((item) => item.value === data.drinkSubtype);
-        if (drinkSubtypeTemp && (createdIds.drinkTypeId || data.drinkType)) {
+        const drinkSubtypeTemp = tempItems.drinkSubtypes.find((item) => item.value === data.drinkSubtype); // Use drinkSubtypes array
+        if (drinkSubtypeTemp && data.drinkSubtype) {
+          // Get the drinkTypeId - either from newly created or existing
+          const drinkTypeId = createdIds.drinkTypeId || findIdByName(drinkTypes, data.drinkType, 'drinkType');
+
+          if (!drinkTypeId) {
+            throw new Error('Cannot create subtype: missing drinkTypeId');
+          }
+
+          // Check if the parent drink type has hasSubtypes set to true
+          const existingDrinkType = drinkTypes.find((dt) => dt.id === drinkTypeId);
+          if (existingDrinkType && !existingDrinkType.hasSubtypes) {
+            // Update the parent drink type to allow subtypes
+            console.log('Updating parent drink type to allow subtypes:', drinkTypeId);
+            await updateDrinkType.mutateAsync({
+              id: drinkTypeId,
+              updates: {
+                hasSubtypes: true,
+              },
+            });
+          }
+
           const drinkSubtypeResponse = await createDrinkSubtype.mutateAsync({
-            name: drinkSubtypeTemp.value,
-            drinkTypeId: createdIds.drinkTypeId || data.drinkType,
+            name: drinkSubtypeTemp.displayValue, // Use displayValue (original user input) for the name
+            drinkTypeId, // Use the actual drinkTypeId
             defaultTempConsume: data.defaultTempConsume,
             defaultTempFreeze: data.defaultTempFreeze,
-            translations: {
-              [currentLanguage]: drinkSubtypeTemp.displayValue,
-            },
+            // Let the mutation handle translations automatically
           });
           createdIds.drinkSubtypeId = drinkSubtypeResponse.id;
         }
@@ -449,12 +474,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         const volumeTemp = tempItems.volumes.find((item) => item.value === data.volume);
         if (volumeTemp) {
           const volumeResponse = await createVolume.mutateAsync({
-            name: volumeTemp.value,
+            name: volumeTemp.displayValue, // Use displayValue for the name
             valueInMl: 500, // Default to 500ml
             sortOrder: volumeOptions.length + 1,
-            translations: {
-              [currentLanguage]: volumeTemp.displayValue,
-            },
+            // Let the mutation handle translations automatically
           });
           createdIds.volumeId = volumeResponse.id;
         }
@@ -463,11 +486,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         const containerTypeTemp = tempItems.containerTypes.find((item) => item.value === data.containerType);
         if (containerTypeTemp) {
           const containerTypeResponse = await createContainerType.mutateAsync({
-            name: containerTypeTemp.value,
+            name: containerTypeTemp.displayValue, // Use displayValue for the name
             thermalConductivity: 50, // Default to middle value
-            translations: {
-              [currentLanguage]: containerTypeTemp.displayValue,
-            },
+            // Let the mutation handle translations automatically
           });
           createdIds.containerTypeId = containerTypeResponse.id;
         }
@@ -542,6 +563,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         methods.reset();
         setTempItems({
           drinkTypes: [],
+          drinkSubtypes: [], // Reset subtypes array
           volumes: [],
           containerTypes: [],
         });
@@ -593,13 +615,13 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const handleAddSubtype = async (value: string) => {
     if (!value.trim() || !formValues.drinkType) return;
 
-    // Store the new value temporarily
+    // Store the new value temporarily in drinkSubtypes array
     const displayValue = value.trim();
     const kebabValue = slugify(displayValue);
 
     setTempItems((prev) => ({
       ...prev,
-      drinkTypes: [...prev.drinkTypes, { value: kebabValue, displayValue }],
+      drinkSubtypes: [...prev.drinkSubtypes, { value: kebabValue, displayValue }], // Use drinkSubtypes array
     }));
 
     // Return the kebab value to be used in the form
@@ -807,7 +829,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   const isSubmitLoading =
     updateOrderMutation.isPending ||
     updateTemperatureProfilesMutation.isPending ||
-    createOrderMutation.isPending;
+    createOrderMutation.isPending ||
+    updateDrinkType.isPending;
 
   return (
     <FormProvider {...methods}>

@@ -70,6 +70,20 @@ export const stylesDropdown = css`
       font-weight: 400;
       line-height: 1.4;
     }
+
+    .add-new-option {
+      svg.icon {
+        width: 22px;
+        height: 22px;
+        color: ${colors.infoDark};
+      }
+      .option-value {
+        font-size: 1rem; /* size="2" equivalent */
+        font-weight: 700; /* Remove bold */
+        color: ${colors.infoDark}!important;
+        line-height: 1.4;
+      }
+    }
   }
 
   /* Window info styling */

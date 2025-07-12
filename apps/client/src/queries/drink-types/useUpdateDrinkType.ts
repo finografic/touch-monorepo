@@ -3,12 +3,8 @@ import { api } from 'api';
 import { transformAxiosError } from 'api/api.utils';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 import type { DrinkType } from 'types/models/drink-type.model';
-import { DrinkTypeDTO } from './DrinkTypes.dto';
-import { useContent } from 'providers/ContentProvider/ContentContext';
-import { slugify } from 'utils/string.utils';
 
-export interface CreateDrinkTypeInput {
-  name: string;
+export interface UpdateDrinkTypeInput {
   hasSubtypes?: boolean;
   defaultTempConsume?: number;
   defaultTempFreeze?: number;
@@ -16,33 +12,25 @@ export interface CreateDrinkTypeInput {
 }
 
 /**
- * Hook to create a new drink type
+ * Hook to update a drink type
  */
-export const useCreateDrinkType = () => {
+export const useUpdateDrinkType = () => {
   const queryClient = useQueryClient();
-  const { currentLanguage } = useContent();
 
   return useMutation({
-    mutationFn: async (data: CreateDrinkTypeInput): Promise<DrinkType> => {
+    mutationFn: async ({
+      id,
+      updates,
+    }: {
+      id: string;
+      updates: UpdateDrinkTypeInput;
+    }): Promise<DrinkType> => {
       try {
-        // Convert display name to kebab-case for storage
-        const kebabName = slugify(data.name);
-
-        // Create translations object with current language
-        const translations = {
-          'en-GB': '', // Empty string for other languages
-          'es-ES': '',
-          'ca-ES': '',
-          ...data.translations, // Allow overriding with provided translations
-          [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
-        };
-
-        const response = await api.post('/drink-types', {
-          name: kebabName, // Use kebab-case name for storage
-          hasSubtypes: data.hasSubtypes ? 1 : 0,
-          defaultTempConsume: data.defaultTempConsume || 5,
-          defaultTempFreeze: data.defaultTempFreeze || -2,
-          translations,
+        const response = await api.patch(`/drink-types/${id}`, {
+          hasSubtypes: updates.hasSubtypes ? 1 : 0,
+          defaultTempConsume: updates.defaultTempConsume,
+          defaultTempFreeze: updates.defaultTempFreeze,
+          translations: updates.translations,
         });
         const entity = response.data.data;
         return {
