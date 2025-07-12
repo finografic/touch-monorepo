@@ -28,20 +28,26 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
     columns: {
       id: true,
       orderId: true,
-      coolingProfileId: true,
+      modeId: true,
       temperature: true,
       timeA: true,
       timeB: true,
       timeC: true,
     },
     with: {
-      coolingProfile: true,
+      mode: true,
     },
     where: temperatures?.length
       ? (fields, operators) => operators.inArray(fields.temperature, temperatures)
       : undefined,
   });
-  return context.json(temperatureProfiles);
+
+  const mapped = temperatureProfiles.map((tp) => ({
+    ...tp,
+    mode: tp.mode,
+  }));
+
+  return context.json(mapped);
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
@@ -51,7 +57,7 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
       return operators.eq(fields.id, id);
     },
     with: {
-      coolingProfile: true,
+      mode: true,
     },
   });
 
@@ -75,47 +81,47 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
     console.log('Validated profile data:', temperatureProfile);
 
     // Verify the cooling profile exists
-    // const coolingProfile = await db.query.cooling_profiles.findFirst({
+    // const mode = await db.query.modes.findFirst({
     //   where: (fields, operators) =>
     //     operators.eq(
     //       fields.id,
-    //       temperatureProfile.coolingProfileId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
+    //       temperatureProfile.modeId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
     //     ),
     // });
 
     // Verify the cooling profile exists
-    const coolingProfileId = temperatureProfile.coolingProfileId || 'ebbe633a-a892-4079-aff1-84085bc8048b';
+    const modeId = temperatureProfile.modeId || 'ebbe633a-a892-4079-aff1-84085bc8048b';
     console.log('=== DEBUG COOLING PROFILE ===');
-    console.log('Checking cooling profile ID:', coolingProfileId);
-    console.log('Type of ID:', typeof coolingProfileId);
-    console.log('ID length:', coolingProfileId.length);
+    console.log('Checking cooling profile ID:', modeId);
+    console.log('Type of ID:', typeof modeId);
+    console.log('ID length:', modeId.length);
 
-    // const coolingProfile = await db.query.cooling_profiles.findFirst({
-    //   where: (fields, operators) => operators.eq(fields.id, coolingProfileId),
+    // const mode = await db.query.modes.findFirst({
+    //   where: (fields, operators) => operators.eq(fields.id, modeId),
     // });
 
     console.log(chalk.magenta('==================== DEBUG SQL QUERY ===================='));
 
     // First, let's try to get ALL cooling profiles to verify table access
-    const allProfiles = await db.query.cooling_profiles.findMany();
+    const allProfiles = await db.query.modes.findMany();
     console.log('All cooling profiles:', allProfiles);
 
     // Now try our specific query
-    const coolingProfile = await db.query.cooling_profiles.findFirst({
+    const mode = await db.query.modes.findFirst({
       where: (fields, operators) => {
         console.log(chalk.magenta('-------------------- field --------------------'));
         console.log('Fields available:', Object.keys(fields));
-        const condition = operators.eq(fields.id, coolingProfileId);
+        const condition = operators.eq(fields.id, modeId);
         console.log('SQL Condition:', condition);
-        console.log('Cooling Profile ID being queried:', coolingProfileId);
+        console.log('Cooling Profile ID being queried:', modeId);
         return condition;
       },
     });
 
-    console.log('Query result:', coolingProfile);
+    console.log('Query result:', mode);
     console.log(chalk.magenta('==================== END DEBUG ===================='));
 
-    if (!coolingProfile) {
+    if (!mode) {
       return context.json(
         {
           success: false,
@@ -123,7 +129,7 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
             issues: [
               {
                 code: 'INVALID_REFERENCE',
-                path: ['coolingProfileId'],
+                path: ['modeId'],
                 message: 'Invalid cooling profile ID',
               },
             ],
@@ -161,7 +167,7 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
     // Prepare the data with default cooling profile if needed
     const profileData = {
       ...temperatureProfile,
-      coolingProfileId: temperatureProfile.coolingProfileId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
+      modeId: temperatureProfile.modeId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
     };
 
     // Insert the record
@@ -172,7 +178,7 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
     // Set default cooling profile if not provided
     // const profileData = {
     //   ...temperatureProfile,
-    //   coolingProfileId: temperatureProfile.coolingProfileId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
+    //   modeId: temperatureProfile.modeId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
     // };
 
     /*
@@ -260,7 +266,7 @@ export const getByTemperature: AppRouteHandler<GetByTemperatureRoute> = async (c
     },
     orderBy: (fields, operators) => [operators.asc(fields.temperature)],
     with: {
-      coolingProfile: true,
+      mode: true,
     },
   });
 

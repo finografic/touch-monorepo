@@ -10,28 +10,13 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "constants/*": [
-        "./src/constants/*"
-      ],
-      "hooks/*": [
-        "./src/hooks/*"
-      ],
-      "lib/*": [
-        "./src/lib/*"
-      ],
-      "types": [
-        "./src/types"
-      ],
-      "types/*": [
-        "./src/types/*"
-      ],
-      "utils/*": [
-        "./src/utils/*"
-      ]
-    },
+      "constants/*": ["./src/constants/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "lib/*": ["./src/lib/*"],
+      "types": ["./src/types"],
+      "types/*": ["./src/types/*"],
+      "utils/*": ["./src/utils/*"]
+    }
   },
-  "include": [
-    "src",
-    "./seed.config.ts"
-  ]
+  "include": ["src", "./db-setup.config.ts"]
 }

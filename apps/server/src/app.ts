@@ -15,6 +15,7 @@ import drinkType from 'routes/drink-type';
 import drinkSubtypes from 'routes/drink-subtypes';
 import drinkVolume from './routes/drink-volume';
 import containerType from 'routes/container-type';
+import modes from './routes/modes';
 import temperatureProfile from './routes/temperature-profile';
 import orders from './routes/orders';
 import ordersDev from './routes/orders-dev';
@@ -41,7 +42,14 @@ app.use('*', async (context, next) => {
 
 configureOpenAPI(app);
 
-const routesDrinkFlow = [drinkType, drinkSubtypes, drinkVolume, containerType, temperatureProfile] as const;
+const routesDrinkFlow = [
+  drinkType,
+  drinkSubtypes,
+  drinkVolume,
+  containerType,
+  modes,
+  temperatureProfile,
+] as const;
 const routes = [
   index,
   health,

@@ -1,12 +1,12 @@
 import { db } from '../db.adapter';
-import { cooling_profiles, orders, temperature_profiles } from '../schemas';
-import createCuid from '@bugsnag/cuid';
+import { modes, orders, temperature_profiles } from '../schemas';
+import { randomUUID } from 'node:crypto';
 
 // Define the type for our temperature profile rows
 type TemperatureProfileRow = typeof temperature_profiles.$inferInsert;
 
 // Helper function to generate temperature profile rows for an order
-function generateProfilesForOrder(orderId: string, coolingProfileId: string): TemperatureProfileRow[] {
+function generateProfilesForOrder(orderId: string, modeId: string): TemperatureProfileRow[] {
   const rows: TemperatureProfileRow[] = [];
 
   // Generate 4 temperature points by default
@@ -17,9 +17,9 @@ function generateProfilesForOrder(orderId: string, coolingProfileId: string): Te
     const baseTime = i * 3;
 
     rows.push({
-      id: createCuid(),
+      id: randomUUID(),
       orderId,
-      coolingProfileId,
+      modeId,
       temperature: temp,
       timeA: Math.round(baseTime * 1.0), // Type A: base rate
       timeB: Math.round(baseTime * 1.25), // Type B: 25% longer
@@ -39,10 +39,10 @@ export async function seed() {
     await db.delete(temperature_profiles);
     console.log('✓ Cleaned existing temperature profiles');
 
-    // Get a cooling profile
-    const [coolingProfile] = await db.select().from(cooling_profiles).limit(1);
-    if (!coolingProfile) {
-      throw new Error('No cooling profile found. Please seed cooling_profiles first.');
+    // Get a mode
+    const [mode] = await db.select().from(modes).limit(1);
+    if (!mode) {
+      throw new Error('No mode found. Please seed modes first.');
     }
 
     // Get all orders
@@ -54,7 +54,7 @@ export async function seed() {
     // Generate profiles for each order
     const allProfiles: TemperatureProfileRow[] = [];
     for (const order of allOrders) {
-      const orderProfiles = generateProfilesForOrder(order.id, coolingProfile.id);
+      const orderProfiles = generateProfilesForOrder(order.id, mode.id);
       allProfiles.push(...orderProfiles);
     }
 

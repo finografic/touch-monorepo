@@ -5,8 +5,6 @@ import {
   DEFAULT_TEMP_MAX,
   DEFAULT_TEMP_MIN,
   MAX_TIME_SECONDS,
-  MODE_MAX,
-  MODE_MIN,
   TEMP_CONSUME_MAX,
   TEMP_STEP,
   TIME_STEP,
@@ -14,7 +12,7 @@ import {
 
 // Complete type for the production OrdersForm values
 export interface OrdersFormValues {
-  mode: number;
+  coolingProfileId: string;
   drinkType: string;
   drinkSubtype?: string;
   volume: string;
@@ -31,14 +29,12 @@ export interface OrdersFormValues {
 
 // Complete field configurations for production OrdersForm
 export const ordersFormFieldConfigs: FieldConfig<OrdersFormValues>[] = [
-  // Mode field
+  // Cooling Profile field
   {
-    name: 'mode',
-    type: 'number',
+    name: 'coolingProfileId',
+    type: 'text',
     validation: {
       required: true,
-      min: MODE_MIN,
-      max: MODE_MAX,
     },
   },
 

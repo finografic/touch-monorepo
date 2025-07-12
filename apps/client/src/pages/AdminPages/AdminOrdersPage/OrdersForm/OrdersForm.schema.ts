@@ -11,7 +11,7 @@ export const TIME_ROW_SCHEMA = z.object({
 
 export const ORDER_FORM_SCHEMA = z
   .object({
-    mode: z.coerce.number().int().min(1).max(5),
+    coolingProfileId: z.string().min(1, 'Cooling profile is required'),
     drinkType: z.string().min(1, 'Drink type is required'),
     drinkSubtype: z.string().optional(),
     volume: z.string().min(1, 'Volume is required'),

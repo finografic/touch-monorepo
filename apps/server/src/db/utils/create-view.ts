@@ -15,29 +15,28 @@ export async function createOrdersReadableView(): Promise<void> {
     console.log('  ✓ Dropped existing orders_readable view (if it existed)');
 
     // Create the view with proper JOIN syntax
-    // Note: temperature_profiles doesn't have a name column, so we join with cooling_profiles
+    // Note: temperature_profiles doesn't have a name column, so we join with `modes`
     await db.run(sql`
-      CREATE VIEW orders_readable AS
-      SELECT
-        o.id,
-        o.mode,
-        dt.name AS drink_type,
-        dst.name AS drink_subtype,
-        v.name AS volume,
-        ct.name AS container_type,
-        cp.name AS temperature_profile,
-        o.default_temp_consume,
-        o.default_temp_freeze,
-        o.is_active,
-        o.created_at,
-        o.updated_at
-      FROM orders o
-      JOIN drink_types dt ON o.drink_type_id = dt.id
-      LEFT JOIN drink_subtypes dst ON o.drink_subtype_id = dst.id
-      JOIN volumes v ON o.volume_id = v.id
-      JOIN container_types ct ON o.container_type_id = ct.id
-      JOIN temperature_profiles tp ON o.temperature_profile_id = tp.id
-      JOIN cooling_profiles cp ON tp.cooling_profile_id = cp.id
+      CREATE VIEW orders_readable
+      AS
+        SELECT
+          o.id,
+          md.name AS mode,
+          dt.name AS drink_type,
+          dst.name AS drink_subtype,
+          v.name AS volume,
+          ct.name AS container_type,
+          o.default_temp_consume,
+          o.default_temp_freeze,
+          o.is_active,
+          o.created_at,
+          o.updated_at
+        FROM orders o
+          JOIN modes md ON o.mode_id = md.id
+          JOIN drink_types dt ON o.drink_type_id = dt.id
+          LEFT JOIN drink_subtypes dst ON o.drink_subtype_id = dst.id
+          JOIN volumes v ON o.volume_id = v.id
+          JOIN container_types ct ON o.container_type_id = ct.id
     `);
 
     console.log('  ✅ Created orders_readable view successfully');

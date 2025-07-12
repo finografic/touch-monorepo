@@ -13,3 +13,5 @@ if (sqlite.open) {
 }
 
 export const db = drizzle(sqlite, { schema });
+// Suppress type-only export warning for script usage
+export const sqliteAny = sqlite as any;

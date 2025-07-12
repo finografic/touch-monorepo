@@ -59,12 +59,6 @@ CREATE TABLE `container_types` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `container_types_name_unique` ON `container_types` (`name`);--> statement-breakpoint
-CREATE TABLE `cooling_profiles` (
-	`id` text PRIMARY KEY NOT NULL,
-	`name` text NOT NULL,
-	`description` text
-);
---> statement-breakpoint
 CREATE TABLE `drink_subtypes` (
 	`id` text PRIMARY KEY NOT NULL,
 	`drink_type_id` text NOT NULL,
@@ -92,9 +86,15 @@ CREATE TABLE `drink_types` (
 );
 --> statement-breakpoint
 CREATE UNIQUE INDEX `drink_types_name_unique` ON `drink_types` (`name`);--> statement-breakpoint
+CREATE TABLE `modes` (
+	`id` text PRIMARY KEY NOT NULL,
+	`name` text NOT NULL,
+	`description` text
+);
+--> statement-breakpoint
 CREATE TABLE `orders` (
 	`id` text PRIMARY KEY NOT NULL,
-	`mode` integer DEFAULT 4 NOT NULL,
+	`mode_id` text NOT NULL,
 	`drink_type_id` text NOT NULL,
 	`drink_subtype_id` text,
 	`volume_id` text NOT NULL,
@@ -104,6 +104,7 @@ CREATE TABLE `orders` (
 	`is_active` integer DEFAULT true NOT NULL,
 	`created_at` integer,
 	`updated_at` integer,
+	FOREIGN KEY (`mode_id`) REFERENCES `modes`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`drink_type_id`) REFERENCES `drink_types`(`id`) ON UPDATE no action ON DELETE cascade,
 	FOREIGN KEY (`drink_subtype_id`) REFERENCES `drink_subtypes`(`id`) ON UPDATE no action ON DELETE set null,
 	FOREIGN KEY (`volume_id`) REFERENCES `volumes`(`id`) ON UPDATE no action ON DELETE cascade,
@@ -127,13 +128,13 @@ CREATE UNIQUE INDEX `supported_languages_iso_code_unique` ON `supported_language
 CREATE TABLE `temperature_profiles` (
 	`id` text PRIMARY KEY NOT NULL,
 	`order_id` text NOT NULL,
-	`cooling_profile_id` text NOT NULL,
-	`temperature` real NOT NULL,
-	`time_a` real NOT NULL,
-	`time_b` real NOT NULL,
-	`time_c` real NOT NULL,
+	`mode_id` text NOT NULL,
+	`temperature` integer NOT NULL,
+	`time_a` integer NOT NULL,
+	`time_b` integer NOT NULL,
+	`time_c` integer NOT NULL,
 	FOREIGN KEY (`order_id`) REFERENCES `orders`(`id`) ON UPDATE no action ON DELETE cascade,
-	FOREIGN KEY (`cooling_profile_id`) REFERENCES `cooling_profiles`(`id`) ON UPDATE no action ON DELETE cascade
+	FOREIGN KEY (`mode_id`) REFERENCES `modes`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
 CREATE TABLE `translatable_entities` (

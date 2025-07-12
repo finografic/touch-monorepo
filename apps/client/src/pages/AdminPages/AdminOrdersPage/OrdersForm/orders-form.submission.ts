@@ -1,24 +1,19 @@
-import { useCreateOrder, useUpdateOrder, useUpdateTemperatureProfiles } from 'queries/orders';
-import { useCreateDrinkSubtype, useCreateDrinkType, useUpdateDrinkType } from 'queries/drink-types';
-import { useCreateVolume } from 'queries/drink-volumes';
-import { useCreateContainerType } from 'queries/container-types';
+import type { UseMutationResult } from '@tanstack/react-query';
+import { useCreateOrder } from 'queries/orders/useCreateOrder';
+import { useUpdateOrder } from 'queries/orders/useUpdateOrder';
+import { useCreateDrinkType } from 'queries/drink-types/useCreateDrinkType';
+import { useCreateDrinkSubtype } from 'queries/drink-types/useCreateDrinkSubtype';
+import { useCreateVolume } from 'queries/drink-volumes/useCreateVolume';
+import { useCreateContainerType } from 'queries/container-types/useCreateContainerType';
+import { useUpdateDrinkType } from 'queries/drink-types/useUpdateDrinkType';
+import { useUpdateTemperatureProfiles } from 'queries/orders/useUpdateTemperatureProfiles';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { OrdersFormValues } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
 import type { TempItems, TimeRow } from './orders-form.utils';
 
 // ============================================================================
 // Types
 // ============================================================================
-
-interface OrdersFormValues {
-  mode: number;
-  drinkType: string;
-  drinkSubtype?: string;
-  volume: string;
-  containerType: string;
-  defaultTempConsume: number;
-  defaultTempFreeze: number;
-  timeRows: TimeRow[];
-}
 
 interface SubmissionDependencies {
   // Data arrays for ID lookups
@@ -104,7 +99,7 @@ const handleUpdateOrder = async (
   try {
     // Convert form values to IDs for API
     const orderUpdates = {
-      mode: data.mode,
+      coolingProfileId: data.coolingProfileId,
       drinkTypeId: findIdByName(drinkTypes, data.drinkType, 'drinkType'),
       drinkSubtypeId: data.drinkSubtype ? findIdByName([], data.drinkSubtype, 'drinkSubtype') : null,
       volumeId: findIdByName(volumes, data.volume, 'volume'),
@@ -155,7 +150,7 @@ const handleUpdateOrder = async (
           timeA: row.timeA!,
           timeB: row.timeB!,
           timeC: row.timeC!,
-          coolingProfileId: 'ebbe533a-a892-4079-afff-84085bc8048b',
+          coolingProfileId: data.coolingProfileId,
         };
       });
 
@@ -309,7 +304,7 @@ const handleCreateOrder = async (data: OrdersFormValues, deps: CreateOrderDepend
 
     // Create the order
     const orderData = {
-      mode: data.mode,
+      coolingProfileId: data.coolingProfileId,
       drinkTypeId: finalDrinkTypeId,
       drinkSubtypeId: createdIds.drinkSubtypeId || existingDrinkSubtypeId || undefined,
       volumeId: finalVolumeId,
@@ -334,7 +329,7 @@ const handleCreateOrder = async (data: OrdersFormValues, deps: CreateOrderDepend
       timeA: row.timeA!,
       timeB: row.timeB!,
       timeC: row.timeC!,
-      coolingProfileId: 'ebbe533a-a892-4079-afff-84085bc8048b',
+      coolingProfileId: data.coolingProfileId,
     }));
 
     console.log('Creating order with temperature profiles:', temperatureProfiles);

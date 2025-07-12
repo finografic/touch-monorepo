@@ -51,7 +51,7 @@
     "db.sqlite3.rebuild": "pnpm add -D node-gyp && npm_config_build_from_source=true pnpm rebuild better-sqlite3",
     "·········· DB.BATCH": "··················································",
     "db.reset": "pnpm db.drop && pnpm db.migrations.generate && pnpm db.migrations.run && pnpm db.migrations.auth && pnpm db.setup && pnpm db.studio",
-    "db.setup": "tsx scripts/src/db-setup/db-setup.ts",
+    "db.setup": "tsx scripts/src/db-setup/db-setup.ts -y",
     "·········· DB.UTILS": "··················································",
     "db.drop": "shx rm -rf data/*.sqlite.db data/migrations",
     "db.create": "pnpm --filter @workspace/server db.create",

@@ -1,45 +1,36 @@
-import { real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
-import createCuid from '@bugsnag/cuid';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { relations } from 'drizzle-orm';
-import { cooling_profiles } from './cooling_profiles.schema';
 import { orders } from './orders.schema';
-// import { z } from 'zod';
+import { modes } from './modes.schema';
 
 export const temperature_profiles = sqliteTable('temperature_profiles', {
-  id: text('id')
-    .primaryKey()
-    .$defaultFn(() => createCuid()),
+  id: text('id').primaryKey(),
   orderId: text('order_id')
     .notNull()
     .references(() => orders.id, { onDelete: 'cascade' }),
-  coolingProfileId: text('cooling_profile_id')
+  modeId: text('mode_id')
     .notNull()
-    .references(() => cooling_profiles.id, { onDelete: 'cascade' }),
-  temperature: real('temperature').notNull(),
-  timeA: real('time_a').notNull(),
-  timeB: real('time_b').notNull(),
-  timeC: real('time_c').notNull(),
+    .references(() => modes.id, { onDelete: 'cascade' }),
+  temperature: integer('temperature').notNull(),
+  timeA: integer('time_a').notNull(),
+  timeB: integer('time_b').notNull(),
+  timeC: integer('time_c').notNull(),
 });
 
-// Define relations
 export const temperatureProfilesRelations = relations(temperature_profiles, ({ one }) => ({
   order: one(orders, {
     fields: [temperature_profiles.orderId],
     references: [orders.id],
   }),
-  coolingProfile: one(cooling_profiles, {
-    fields: [temperature_profiles.coolingProfileId],
-    references: [cooling_profiles.id],
+  mode: one(modes, {
+    fields: [temperature_profiles.modeId],
+    references: [modes.id],
   }),
 }));
 
 export const temperatureProfileSchemas = {
   select: createSelectSchema(temperature_profiles),
-  // insert: createInsertSchema(insertTemperatureProfile),
   insert: createInsertSchema(temperature_profiles),
-  // insert: createInsertSchema(temperature_profiles, {
-  //   coolingProfileId: z.string().default('ebbe633a-a892-4079-aff1-84085bc8048b'),
-  // }),
   patch: createInsertSchema(temperature_profiles).partial(),
 } as const;

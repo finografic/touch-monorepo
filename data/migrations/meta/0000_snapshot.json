@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "a36cba22-41f2-4e90-808d-8f03c0c60ce3",
+  "id": "5fdd477b-8bd3-4ddf-87ce-55bfa9901279",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -395,37 +395,6 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
-    "cooling_profiles": {
-      "name": "cooling_profiles",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "text",
-          "primaryKey": true,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "name": {
-          "name": "name",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "description": {
-          "name": "description",
-          "type": "text",
-          "primaryKey": false,
-          "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {},
-      "uniqueConstraints": {},
-      "checkConstraints": {}
-    },
     "drink_subtypes": {
       "name": "drink_subtypes",
       "columns": {
@@ -607,6 +576,37 @@
       "uniqueConstraints": {},
       "checkConstraints": {}
     },
+    "modes": {
+      "name": "modes",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "text",
+          "primaryKey": true,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "name": {
+          "name": "name",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {},
+      "uniqueConstraints": {},
+      "checkConstraints": {}
+    },
     "orders": {
       "name": "orders",
       "columns": {
@@ -617,13 +617,12 @@
           "notNull": true,
           "autoincrement": false
         },
-        "mode": {
-          "name": "mode",
-          "type": "integer",
+        "mode_id": {
+          "name": "mode_id",
+          "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "autoincrement": false,
-          "default": 4
+          "autoincrement": false
         },
         "drink_type_id": {
           "name": "drink_type_id",
@@ -692,6 +691,19 @@
       },
       "indexes": {},
       "foreignKeys": {
+        "orders_mode_id_modes_id_fk": {
+          "name": "orders_mode_id_modes_id_fk",
+          "tableFrom": "orders",
+          "tableTo": "modes",
+          "columnsFrom": [
+            "mode_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "cascade",
+          "onUpdate": "no action"
+        },
         "orders_drink_type_id_drink_types_id_fk": {
           "name": "orders_drink_type_id_drink_types_id_fk",
           "tableFrom": "orders",
@@ -857,8 +869,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "cooling_profile_id": {
-          "name": "cooling_profile_id",
+        "mode_id": {
+          "name": "mode_id",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
@@ -866,28 +878,28 @@
         },
         "temperature": {
           "name": "temperature",
-          "type": "real",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "time_a": {
           "name": "time_a",
-          "type": "real",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "time_b": {
           "name": "time_b",
-          "type": "real",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
         },
         "time_c": {
           "name": "time_c",
-          "type": "real",
+          "type": "integer",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -908,12 +920,12 @@
           "onDelete": "cascade",
           "onUpdate": "no action"
         },
-        "temperature_profiles_cooling_profile_id_cooling_profiles_id_fk": {
-          "name": "temperature_profiles_cooling_profile_id_cooling_profiles_id_fk",
+        "temperature_profiles_mode_id_modes_id_fk": {
+          "name": "temperature_profiles_mode_id_modes_id_fk",
           "tableFrom": "temperature_profiles",
-          "tableTo": "cooling_profiles",
+          "tableTo": "modes",
           "columnsFrom": [
-            "cooling_profile_id"
+            "mode_id"
           ],
           "columnsTo": [
             "id"

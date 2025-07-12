@@ -5,7 +5,7 @@ import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { notFoundSchema } from 'lib/constants';
 import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
-import { coolingProfileSchemas } from 'db/schemas/cooling_profiles.schema';
+import { modeSchemas } from 'db/schemas/modes.schema';
 
 const tags = ['TemperatureProfile'];
 
@@ -28,7 +28,7 @@ export const getMinMax = createRoute({
 
 // Create a schema that includes the cooling profile
 const temperatureProfileWithCooling = temperatureProfileSchemas.select.extend({
-  coolingProfile: coolingProfileSchemas.select,
+  mode: modeSchemas.select,
 });
 
 export const list = createRoute({

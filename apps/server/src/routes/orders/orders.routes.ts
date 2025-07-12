@@ -52,7 +52,7 @@ const ordersReadableSchema = z.object({
 const temperatureProfileSchema = z.object({
   id: z.string(),
   orderId: z.string(),
-  coolingProfileId: z.string(),
+  modeId: z.string(),
   temperature: z.number(),
   timeA: z.number(),
   timeB: z.number(),

@@ -35,6 +35,7 @@ import {
 import { OrdersFormDevTools } from '../OrderFormDevTools/OrdersFormDevTools';
 import { ORDER_FORM_SCHEMA } from 'pages/AdminPages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
 import { useNavigate } from 'react-router-dom';
+import { useToast } from 'components/Toast';
 
 // ============================================================================
 // Form Schema & Types
@@ -60,6 +61,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   isEditMode = false,
 }) => {
   const navigate = useNavigate();
+  const { toast } = useToast();
 
   // ========================================================================
   // State & Context
@@ -84,7 +86,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     reValidateMode: 'onChange',
     resolver: zodResolver(ORDER_FORM_SCHEMA),
     defaultValues: {
-      mode: orderData?.mode ? Number(orderData.mode) : 4,
+      coolingProfileId: orderData?.coolingProfileId || '',
       drinkType: orderData?.drinkType || '',
       drinkSubtype: orderData?.drinkSubtype || '',
       volume: orderData?.volume || '',
@@ -154,28 +156,44 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     containerTypeOptions: dropdownData.containerTypeOptions,
     setValue,
     defaultTempFreeze: formValues.defaultTempFreeze,
+    coolingProfileOptions: dropdownData.coolingProfileOptions,
   });
 
-  const formSubmissionHandler = createFormSubmissionHandler(mutations, {
-    drinkTypes: dropdownData.drinkTypes,
-    volumes: dropdownData.volumes,
-    containerTypes: dropdownData.containerTypes,
-    tempItems,
-    findIdByName: dropdownData.findIdByName,
-    orderData,
-    isEditMode,
-    onSubmit,
-    resetForm: () => {
-      methods.reset();
-      setTempItems({
-        drinkTypes: [],
-        drinkSubtypes: [],
-        volumes: [],
-        containerTypes: [],
+  const formSubmissionHandler = async (data: OrdersFormValues) => {
+    try {
+      await createFormSubmissionHandler(mutations, {
+        drinkTypes: dropdownData.drinkTypes,
+        volumes: dropdownData.volumes,
+        containerTypes: dropdownData.containerTypes,
+        tempItems,
+        findIdByName: dropdownData.findIdByName,
+        orderData,
+        isEditMode,
+        onSubmit,
+        resetForm: () => {
+          methods.reset();
+          setTempItems({
+            drinkTypes: [],
+            drinkSubtypes: [],
+            volumes: [],
+            containerTypes: [],
+          });
+        },
+        setTempItems,
+      })(data);
+      toast({
+        variant: 'success',
+        message: isEditMode ? 'Order updated successfully!' : 'Order added successfully!',
       });
-    },
-    setTempItems,
-  });
+    } catch (error) {
+      toast({
+        variant: 'error',
+        message: 'Failed to submit order',
+        subText: error?.message || 'An error occurred while submitting the order.',
+      });
+      throw error;
+    }
+  };
 
   // ========================================================================
   // Form Field Handlers
@@ -231,14 +249,14 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               <Row className="row">
                 <Col xs={2} md={2} className="col col-form-fields">
                   {/* Mode */}
-                  <FieldWrapper name="mode" label="Mode" required>
+                  <FieldWrapper name="coolingProfileId" label="Mode" required>
                     <SelectSimple
-                      {...register('mode')}
+                      {...register('coolingProfileId')}
                       className="mode-select"
-                      options={[1, 2, 3, 4, 5]}
+                      options={dropdownData.coolingProfileOptions}
                       placeholder="Select mode"
-                      defaultValue={formValues.mode}
-                      onSelect={(value) => handleSimpleFieldChange('mode', Number(value))}
+                      defaultValue={formValues.coolingProfileId}
+                      onSelect={(value) => handleSimpleFieldChange('coolingProfileId', value)}
                     />
                   </FieldWrapper>
                 </Col>
@@ -364,10 +382,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 />
               </Col>
             </Col>
-
-            {/* <Col xs={3} md={3} className="col">
-              <pre>{JSON.stringify(filteredFormValues, null, 2)}</pre>
-            </Col> */}
           </Row>
 
           <Row className="row">

@@ -129,7 +129,7 @@ export const getOneReadable: AppRouteHandler<GetOneReadableRoute> = async (conte
     temperatureProfiles: temperatureProfiles.map((profile) => ({
       id: String(profile.id),
       orderId: String(profile.orderId),
-      coolingProfileId: String(profile.coolingProfileId),
+      modeId: String(profile.modeId),
       temperature: Number(profile.temperature),
       timeA: Number(profile.timeA),
       timeB: Number(profile.timeB),

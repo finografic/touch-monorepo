@@ -1,6 +1,6 @@
 export interface OrderReadableEntity {
   id: string;
-  mode: string;
+  mode_id: string;
   drink_type: string;
   drink_subtype: string | null;
   volume: string;

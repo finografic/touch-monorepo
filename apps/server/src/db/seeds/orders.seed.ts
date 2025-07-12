@@ -1,6 +1,6 @@
 import { db } from '../db.adapter';
-import { container_types, drink_subtypes, drink_types, orders, volumes } from '../schemas';
-import { TEMPERATURE_RANGES } from '../../lib/constants';
+import { container_types, drink_subtypes, drink_types, modes, orders, volumes } from '../schemas';
+import { TEMPERATURE_RANGES } from 'lib/constants';
 
 function getRandomSample<T>(arr: T[], n: number): T[] {
   const result = [];
@@ -19,16 +19,6 @@ function getRandomInt(min: number, max: number): number {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Generate random mode with specified distribution: 50% A, 25% B, 25% C
-function getRandomMode(): number {
-  const rand = Math.random();
-  if (rand < 0.5) return 4; // 50% chance
-  if (rand < 0.6) return 1; // 25% chance (0.5 to 0.75)
-  if (rand < 0.8) return 2; // 25% chance (0.75 to 0.9)
-  if (rand < 0.9) return 3; // 25% chance (0.9 to 0.95)
-  return 5; // 5% chance (0.95 to 1.0)
-}
-
 export async function seed() {
   console.log('Seeding orders...');
 
@@ -45,6 +35,16 @@ export async function seed() {
     const subtypes = await db.select().from(drink_subtypes);
     const allVolumes = await db.select().from(volumes);
     const allContainers = await db.select().from(container_types);
+    const allModes = await db.select().from(modes);
+
+    if (allModes.length === 0) {
+      throw new Error('No modes found. Please seed modes first.');
+    }
+
+    function getRandomModeId(): string {
+      const idx = Math.floor(Math.random() * allModes.length);
+      return allModes[idx].id;
+    }
 
     const orderRows = [];
 
@@ -58,7 +58,7 @@ export async function seed() {
           for (const volume of volumes) {
             for (const container of containers) {
               orderRows.push({
-                mode: getRandomMode(),
+                modeId: getRandomModeId(),
                 drinkTypeId: type.id,
                 drinkSubtypeId: null,
                 volumeId: volume.id,
@@ -84,7 +84,7 @@ export async function seed() {
             for (const volume of volumes) {
               for (const container of containers) {
                 orderRows.push({
-                  mode: getRandomMode(),
+                  modeId: getRandomModeId(),
                   drinkTypeId: type.id,
                   drinkSubtypeId: subtype.id,
                   volumeId: volume.id,

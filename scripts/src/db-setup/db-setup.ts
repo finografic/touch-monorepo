@@ -7,6 +7,11 @@ import chalk from 'chalk';
 import { execSync } from 'node:child_process';
 import { getSchemaSelection, loadSeedConfig } from './schemas.utils';
 import { PATH_FOLDER_ENV } from './schemas.config';
+import { viewConfigs } from '../../db-setup.config';
+import { sqliteAny as sqlite } from '../../../apps/server/src/db/db.adapter';
+
+// Add autoConfirm flag for -y/--yes
+const autoConfirm = process.argv.includes('-y') || process.argv.includes('--yes');
 
 console.log('--- [db-setup] Script started ---');
 
@@ -65,20 +70,50 @@ async function seedData(schemas: string[]) {
 }
 
 // ======================================================================== //
+// NOTE: CREATE VIEWS FUNCTION
+
+async function createViews() {
+  for (const view of viewConfigs) {
+    const sqlPath = path.resolve(process.cwd(), 'apps/server/src/db/views', `${view.name}.sql`);
+    if (!fs.existsSync(sqlPath)) {
+      console.warn(chalk.yellow(`View SQL file not found: ${sqlPath}`));
+      continue;
+    }
+    const sql = fs.readFileSync(sqlPath, 'utf-8');
+    try {
+      console.log(chalk.blue(`Dropping view if exists: ${view.name}`));
+      sqlite.exec(`DROP VIEW IF EXISTS ${view.name};`);
+      console.log(chalk.blue(`Creating view: ${view.name}`));
+      sqlite.exec(sql);
+      console.log(chalk.green(`✅ Created view: ${view.name}`));
+    } catch (err) {
+      console.error(chalk.red(`❌ Error creating view ${view.name}:`), err);
+    }
+  }
+}
+
+// ======================================================================== //
 // NOTE: MAIN FUNCTION
 
 export async function main() {
   try {
     console.log('[db-setup] About to show operations prompt...');
     // INITIAL CHOICES..
-    const operations = await checkbox({
-      message: 'Select operations to perform',
-      choices: [
-        { name: 'Seed data', value: 'seed', checked: true },
-        { name: 'Run migrations', value: 'migrate', checked: false },
-        { name: 'Generate migrations', value: 'generate', checked: false },
-      ],
-    });
+    let operations: string[];
+    if (autoConfirm) {
+      operations = ['seed']; // Default: only seed data, adjust as needed
+      console.log('[db-setup] Auto-confirm enabled: defaulting to operations:', operations);
+    } else {
+      operations = await checkbox({
+        message: 'Select operations to perform',
+        choices: [
+          { name: 'Seed data', value: 'seed', checked: true },
+          { name: 'Create views', value: 'views', checked: true },
+          { name: 'Run migrations', value: 'migrate', checked: false },
+          { name: 'Generate migrations', value: 'generate', checked: false },
+        ],
+      });
+    }
     console.log('[db-setup] Operations selected:', operations);
 
     if (operations.length === 0) {
@@ -87,9 +122,17 @@ export async function main() {
     }
 
     console.log('[db-setup] Loading seed config...');
-    const { seedOrder } = await loadSeedConfig();
-    console.log('[db-setup] Loaded seedOrder:', seedOrder);
-    const schemas = operations.includes('seed') ? await getSchemaSelection({ seedOrder }) : [];
+    let schemas: string[] = [];
+    if (operations.includes('seed')) {
+      if (autoConfirm) {
+        const { seedConfigs } = await loadSeedConfig();
+        schemas = seedConfigs.map((s) => s.name);
+        console.log('[db-setup] Auto-confirm enabled: seeding all schemas:', schemas);
+      } else {
+        const { seedConfigs } = await loadSeedConfig();
+        schemas = await getSchemaSelection({ seedConfigs });
+      }
+    }
     console.log('[db-setup] Schemas selected:', schemas);
 
     // Execute selected operations
@@ -107,6 +150,12 @@ export async function main() {
       console.log(chalk.blue('\n3. Seeding data...'));
       await seedData(schemas);
     }
+
+    if (operations.includes('views')) {
+      console.log(chalk.blue('\n4. Creating views...'));
+      await createViews();
+    }
+
     console.log('--- [db-setup] Script finished ---');
   } catch (error) {
     console.error(chalk.red('\n❌ Unexpected error:'));

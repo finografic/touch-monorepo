@@ -7,8 +7,9 @@ import { drink_subtypes } from './drink_subtypes.schema';
 import { container_types } from './container_types.schema';
 import { volumes } from './volumes.schema';
 import { temperature_profiles } from './temperature_profiles.schema';
+import { modes } from './modes.schema';
 import { TEMPERATURE_RANGES, ZOD_ERROR_MESSAGES } from '../../lib/constants';
-import { sqliteBooleanField } from 'lib/zod-utils';
+import { sqliteBooleanField } from '../../lib/zod-utils';
 
 // Orders table with proper ID-based foreign keys
 export const orders = sqliteTable('orders', {
@@ -16,8 +17,10 @@ export const orders = sqliteTable('orders', {
     .primaryKey()
     .$defaultFn(() => createCuid()),
 
-  // Mode enum column
-  mode: integer('mode').notNull().default(4),
+  // Cooling profile reference
+  modeId: text('mode_id')
+    .notNull()
+    .references(() => modes.id, { onDelete: 'cascade' }),
 
   // Proper ID-based foreign keys
   drinkTypeId: text('drink_type_id')
@@ -52,6 +55,10 @@ export const orders = sqliteTable('orders', {
 
 // Define relations with proper ID-based joins
 export const ordersRelations = relations(orders, ({ one, many }) => ({
+  mode: one(modes, {
+    fields: [orders.modeId],
+    references: [modes.id],
+  }),
   drinkType: one(drink_types, {
     fields: [orders.drinkTypeId],
     references: [drink_types.id],
@@ -73,7 +80,7 @@ export const ordersRelations = relations(orders, ({ one, many }) => ({
 
 // Zod schema for validation with ID-based fields
 const insertOrderSchema = createInsertSchema(orders, {
-  mode: (schema) => schema.mode.min(1).max(5).int('Mode must be an integer between 1 and 5'),
+  modeId: (schema) => schema.modeId.min(1, 'Mode is required'),
   drinkTypeId: (schema) => schema.drinkTypeId.min(1).max(50),
   drinkSubtypeId: (schema) => schema.drinkSubtypeId.max(50),
   volumeId: (schema) => schema.volumeId.min(1).max(50),
@@ -89,6 +96,7 @@ const insertOrderSchema = createInsertSchema(orders, {
   isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
 })
   .required({
+    modeId: true,
     drinkTypeId: true,
     volumeId: true,
     containerTypeId: true,

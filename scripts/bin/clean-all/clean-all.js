@@ -3,69 +3,12 @@ import { deleteAsync } from 'del';
 import chalk from 'chalk';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import fs from 'node:fs';
+import { GLOB_DELETE_INCLUDE, GLOB_DELETE_EXCLUDE } from './clean.config';
+import { isFile } from '../utils/fs.utils';
+import { findProjectRoot, getPackageScope } from '../utils/project.utils';
 
-// src/clean-all/clean.config.ts
-var GLOB_DELETE_EXCLUDE = [
-  ".git",
-  ".env",
-  ".env.*",
-  "pnpm-workspace.yaml",
-  "package.json",
-  "apps",
-  "packages",
-  "config",
-  "scripts"
-];
-var GLOB_DELETE_INCLUDE = [
-  // Build artifacts first
-  ".turbo",
-  ".tsup",
-  "**/dist",
-  "**/*.tsbuildinfo",
-  // PNPM specific - most problematic parts first
-  "**/node_modules/.pnpm/**/.*",
-  "**/node_modules/.pnpm/**/*",
-  "**/node_modules/.pnpm",
-  "**/node_modules",
-  // Root specific files
-  "pnpm-lock.yaml"
-];
-var isFile = (path3) => {
-  try {
-    return fs.statSync(path3).isFile();
-  } catch (_error) {
-    return false;
-  }
-};
-var ROOT_MARKERS = ["pnpm-workspace.yaml", "package.json", ".git"];
-var findProjectRoot = (startDir = process.cwd()) => {
-  let dir = startDir;
-  while (true) {
-    if (ROOT_MARKERS.some((marker) => fs.existsSync(path.join(dir, marker)))) {
-      return dir;
-    }
-    const parent = path.dirname(dir);
-    if (parent === dir) break;
-    dir = parent;
-  }
-  return process.cwd();
-};
-var getPackageScope = () => {
-  const cwd = process.cwd();
-  const WORKSPACE_ROOT2 = findProjectRoot();
-  if (cwd === WORKSPACE_ROOT2) return null;
-  const relativePath = path.relative(WORKSPACE_ROOT2, cwd);
-  const parts = relativePath.split(path.sep);
-  if ((parts[0] === "apps" || parts[0] === "packages") && parts[1]) {
-    return path.join(parts[0], parts[1]);
-  }
-  return null;
-};
-
-// src/clean-all/clean-all.ts
-var WORKSPACE_ROOT = findProjectRoot();
-var matchesIncludePattern = (filePath) => {
+const WORKSPACE_ROOT = findProjectRoot();
+const matchesIncludePattern = (filePath) => {
   return GLOB_DELETE_INCLUDE.some((pattern) => {
     const regexPattern = pattern.replace(/\./g, "\\.").replace(/\*\*/g, ".*").replace(/\*/g, "[^/]*");
     return new RegExp(`^${regexPattern}$`).test(filePath);
