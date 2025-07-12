@@ -185,6 +185,11 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
 
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   const { id } = context.req.valid('param');
+
+  // First, delete related temperature profiles
+  await db.delete(temperature_profiles).where(eq(temperature_profiles.orderId, id));
+
+  // Then delete the order
   const result = await db.delete(orders).where(eq(orders.id, id));
 
   if (result.changes === 0) {

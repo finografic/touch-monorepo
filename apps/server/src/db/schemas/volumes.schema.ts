@@ -1,6 +1,7 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, real, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { sqliteBooleanField } from 'lib/zod-utils';
 
 export const volumes = sqliteTable('volumes', {
   id: text('id')
@@ -29,6 +30,7 @@ const insertVolumeSchema = createInsertSchema(volumes, {
   valueInMl: (schema) => schema.valueInMl.min(1).max(5000), // Up to 5L
   sortOrder: (schema) => schema.sortOrder.min(0),
   coolingFactor: (schema) => schema.coolingFactor.min(0.1).max(5), // Reasonable range for multiplier
+  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
 })
   .required({
     name: true,
@@ -37,9 +39,10 @@ const insertVolumeSchema = createInsertSchema(volumes, {
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 
-// Create patch schema that includes translations
+// Create patch schema that includes translations and handles boolean fields
 const patchVolumeSchema = insertVolumeSchema.partial().extend({
   translations: createSelectSchema(volumes).shape.translations.optional(),
+  isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
 });
 
 export const volumeSchemas = {

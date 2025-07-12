@@ -2,6 +2,7 @@ import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { drink_types } from './drink_types.schema';
+import { sqliteBooleanField } from 'lib/zod-utils';
 
 // Drink subtypes table (for beers: Rubia, Negra, etc.)
 export const drink_subtypes = sqliteTable('drink_subtypes', {
@@ -32,6 +33,7 @@ const insertDrinkSubtypeSchema = createInsertSchema(drink_subtypes, {
   name: (schema) => schema.name.min(1).max(50),
   defaultTempConsume: (schema) => schema.defaultTempConsume.min(-10).max(30),
   defaultTempFreeze: (schema) => schema.defaultTempFreeze.min(-20).max(10),
+  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
 })
   .required({
     drinkTypeId: true,
@@ -41,9 +43,10 @@ const insertDrinkSubtypeSchema = createInsertSchema(drink_subtypes, {
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 
-// Create patch schema that includes translations
+// Create patch schema that includes translations and handles boolean fields
 const patchDrinkSubtypeSchema = insertDrinkSubtypeSchema.partial().extend({
   translations: createSelectSchema(drink_subtypes).shape.translations.optional(),
+  isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
 });
 
 export const drinkSubtypeSchemas = {

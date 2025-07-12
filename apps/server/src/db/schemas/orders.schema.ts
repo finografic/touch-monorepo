@@ -8,6 +8,7 @@ import { container_types } from './container_types.schema';
 import { volumes } from './volumes.schema';
 import { temperature_profiles } from './temperature_profiles.schema';
 import { TEMPERATURE_RANGES, ZOD_ERROR_MESSAGES } from '../../lib/constants';
+import { sqliteBooleanField } from 'lib/zod-utils';
 
 // Orders table with proper ID-based foreign keys
 export const orders = sqliteTable('orders', {
@@ -85,6 +86,7 @@ const insertOrderSchema = createInsertSchema(orders, {
     schema.defaultTempFreeze
       .min(TEMPERATURE_RANGES.FREEZING.MIN, ZOD_ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE)
       .max(TEMPERATURE_RANGES.FREEZING.MAX, ZOD_ERROR_MESSAGES.TEMPERATURE_FREEZING_RANGE),
+  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
 })
   .required({
     drinkTypeId: true,
@@ -98,5 +100,7 @@ const insertOrderSchema = createInsertSchema(orders, {
 export const orderSchemas = {
   select: createSelectSchema(orders),
   insert: insertOrderSchema,
-  patch: insertOrderSchema.partial(),
+  patch: insertOrderSchema.partial().extend({
+    isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
+  }),
 } as const;

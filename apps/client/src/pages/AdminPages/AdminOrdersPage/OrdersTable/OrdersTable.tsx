@@ -6,6 +6,7 @@ import { styles } from './OrdersTable.styles';
 import { getHumanReadableId } from 'utils/readable.utils';
 import { useContent } from 'providers/ContentProvider';
 import { ReadableSalt } from 'constants/readable-salt.constants';
+import { formatUnixTimestamp } from 'utils/date.utils';
 
 interface OrdersTableProps {
   orders: OrderReadableModel[];
@@ -61,9 +62,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                   {order.defaultTempConsume ? `${order.defaultTempConsume}°C` : '-'}
                 </Table.Cell>
                 <Table.Cell className="td">
-                  <Text size="1">
-                    {order.createdAt ? new Date(order.createdAt).toLocaleDateString() : '-'}
-                  </Text>
+                  <Text size="1">{formatUnixTimestamp(order.createdAt, currentLanguage)}</Text>
                 </Table.Cell>
                 <Table.Cell className="td td-action">
                   <Button

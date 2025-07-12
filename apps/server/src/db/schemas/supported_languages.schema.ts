@@ -1,6 +1,7 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { sqliteBooleanField } from 'lib/zod-utils';
 
 // Supported languages table - single source of truth for language configuration
 export const supported_languages = sqliteTable('supported_languages', {
@@ -31,6 +32,8 @@ const insertSupportedLanguageSchema = createInsertSchema(supported_languages, {
   displayName: (schema) => schema.displayName.min(1).max(50),
   flagCode: (schema) => schema.flagCode.min(2).max(5),
   sortOrder: (schema) => schema.sortOrder.min(0).max(999),
+  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
+  isDefault: () => sqliteBooleanField(), // Handle boolean/integer conversion
 })
   .required({
     isoCode: true,
@@ -42,5 +45,8 @@ const insertSupportedLanguageSchema = createInsertSchema(supported_languages, {
 export const supportedLanguageSchemas = {
   select: createSelectSchema(supported_languages),
   insert: insertSupportedLanguageSchema,
-  patch: insertSupportedLanguageSchema.partial(),
+  patch: insertSupportedLanguageSchema.partial().extend({
+    isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
+    isDefault: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
+  }),
 } as const;

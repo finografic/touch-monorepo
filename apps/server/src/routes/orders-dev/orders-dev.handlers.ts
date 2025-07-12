@@ -2,6 +2,7 @@ import type { AppRouteHandler } from 'types/app.types';
 import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './orders-dev.routes';
 import { db } from 'db';
 import { orders, orders_readable } from 'db/schemas';
+import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
 import { eq } from 'drizzle-orm';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
@@ -117,6 +118,11 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
 
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   const { id } = context.req.valid('param');
+
+  // First, delete related temperature profiles
+  await db.delete(temperature_profiles).where(eq(temperature_profiles.orderId, id));
+
+  // Then delete the order
   const result = await db.delete(orders).where(eq(orders.id, id));
 
   if (result.changes === 0) {

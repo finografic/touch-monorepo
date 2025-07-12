@@ -92,7 +92,7 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
   const { drinkTypeId } = context.req.valid('param');
   const subtypeData = context.req.valid('json');
 
-  // Verify drink type exists and has subtypes
+  // Verify drink type exists
   const drinkTypeResult = await db
     .select({ id: drink_types.id, hasSubtypes: drink_types.hasSubtypes, isActive: drink_types.isActive })
     .from(drink_types)
@@ -105,23 +105,14 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
 
   const drinkType = drinkTypeResult[0];
 
+  // If hasSubtypes is false, check if this is the first subtype being added
   if (!drinkType.hasSubtypes) {
-    return context.json(
-      {
-        success: false,
-        error: {
-          issues: [
-            {
-              code: ZOD_ERROR_CODES.INVALID_UPDATES,
-              path: ['hasSubtypes'],
-              message: 'This drink type does not allow subtypes',
-            },
-          ],
-          name: 'ZodError',
-        },
-      },
-      HttpStatusCodes.UNPROCESSABLE_ENTITY,
-    );
+    console.log(`🔄 Enabling hasSubtypes for drink type ${drinkTypeId} as first subtype is being added`);
+
+    // Update hasSubtypes to true (1 for SQLite)
+    await db.update(drink_types).set({ hasSubtypes: 1 }).where(eq(drink_types.id, drinkTypeId));
+
+    console.log(`✅ Successfully enabled hasSubtypes for drink type ${drinkTypeId}`);
   }
 
   const result = await db

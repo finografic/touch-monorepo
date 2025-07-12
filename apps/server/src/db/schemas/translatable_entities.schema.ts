@@ -1,6 +1,7 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { sqliteBooleanField } from '../../lib/zod-utils';
 
 // Configuration table for entities that need translation columns
 export const translatable_entities = sqliteTable('translatable_entities', {
@@ -28,6 +29,7 @@ const insertTranslatableEntitySchema = createInsertSchema(translatable_entities,
   entityName: (schema) => schema.entityName.min(1).max(100),
   description: (schema) => schema.description.max(255),
   sortOrder: (schema) => schema.sortOrder.min(0).max(999),
+  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
 })
   .required({
     tableName: true,
@@ -38,5 +40,7 @@ const insertTranslatableEntitySchema = createInsertSchema(translatable_entities,
 export const translatableEntitySchemas = {
   select: createSelectSchema(translatable_entities),
   insert: insertTranslatableEntitySchema,
-  patch: insertTranslatableEntitySchema.partial(),
+  patch: insertTranslatableEntitySchema.partial().extend({
+    isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
+  }),
 } as const;

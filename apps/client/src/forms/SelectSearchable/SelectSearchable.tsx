@@ -342,20 +342,18 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
             ))
           ) : options.length > 0 ? (
             /* No options message */
-            <div className="option" style={{ textAlign: 'center', fontStyle: 'italic' }}>
-              <span className="option-label">
-                {options.length}
-                {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
-              </span>
-            </div>
-          ) : (
-            !searchValue && <AddNewButton handleAddNew={handleAddNew} searchValue={searchValue} />
-          )}
-
-          {options.length > 0 ||
-            (!!(allowAddNew && searchValue.trim() && !exactMatch) && (
+            <>
+              <div className="option" style={{ textAlign: 'center', fontStyle: 'italic' }}>
+                <span className="option-label">
+                  {options.length}
+                  {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
+                </span>
+              </div>
               <AddNewButton handleAddNew={handleAddNew} searchValue={searchValue} />
-            ))}
+            </>
+          ) : (
+            <AddNewButton handleAddNew={handleAddNew} searchValue={searchValue} />
+          )}
 
           {/* Window info */}
           {slidingWindow.totalItems > windowSize && (

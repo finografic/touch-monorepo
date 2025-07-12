@@ -1,6 +1,7 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { sqliteBooleanField } from 'lib/zod-utils';
 
 export const container_types = sqliteTable('container_types', {
   id: text('id')
@@ -25,6 +26,7 @@ export const container_types = sqliteTable('container_types', {
 const insertContainerTypeSchema = createInsertSchema(container_types, {
   name: (schema) => schema.name.min(1).max(50),
   thermalConductivity: (schema) => schema.thermalConductivity.min(1).max(100), // Scale of 1-100
+  isActive: () => sqliteBooleanField(), // Handle boolean/integer conversion
 })
   .required({
     name: true,
@@ -32,9 +34,10 @@ const insertContainerTypeSchema = createInsertSchema(container_types, {
   })
   .omit({ id: true, createdAt: true, updatedAt: true });
 
-// Create patch schema that includes translations
+// Create patch schema that includes translations and handles boolean fields
 const patchContainerTypeSchema = insertContainerTypeSchema.partial().extend({
   translations: createSelectSchema(container_types).shape.translations.optional(),
+  isActive: sqliteBooleanField().optional(), // Handle boolean/integer conversion for PATCH
 });
 
 export const containerTypeSchemas = {
