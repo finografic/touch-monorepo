@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Flex, Table, Text } from '@radix-ui/themes';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import { EditIcon } from 'styles/icons';
+import { EditIcon, TrashIcon } from 'styles/icons';
 import { styles } from './OrdersTable.styles';
 import { getHumanReadableId } from 'utils/readable.utils';
 import { useContent } from 'providers/ContentProvider';
@@ -12,6 +12,7 @@ interface OrdersTableProps {
   emptyMessage?: string;
   emptySubMessage?: string;
   onClickEdit: (orderId: string) => void;
+  onClickDelete: (orderId: string) => void;
 }
 
 export const OrdersTable: React.FC<OrdersTableProps> = ({
@@ -19,6 +20,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   emptyMessage = 'No orders found',
   emptySubMessage = 'Try adjusting your search term',
   onClickEdit,
+  onClickDelete,
 }) => {
   const { currentLanguage } = useContent();
 
@@ -36,6 +38,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
               <Table.ColumnHeaderCell className="th">Container</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th">Temperature</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th">Created</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th th-action"></Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th th-action"></Table.ColumnHeaderCell>
             </Table.Row>
           </Table.Header>
@@ -70,6 +73,17 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                     size="2"
                   >
                     <EditIcon className="icon-edit" />
+                  </Button>
+                </Table.Cell>
+                <Table.Cell className="td td-action">
+                  <Button
+                    className="btn btn-delete"
+                    onClick={() => onClickDelete(order.id)}
+                    variant="ghost"
+                    size="2"
+                    color="red"
+                  >
+                    <TrashIcon className="icon-delete" />
                   </Button>
                 </Table.Cell>
               </Table.Row>

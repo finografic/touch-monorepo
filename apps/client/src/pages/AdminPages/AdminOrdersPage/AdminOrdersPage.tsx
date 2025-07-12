@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
-import { useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
+import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 import { OrdersTable } from 'pages/AdminPages/AdminOrdersPage/OrdersTable';
 import { OrdersForm } from 'pages/AdminPages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
@@ -35,6 +35,9 @@ export const AdminOrdersPage: React.FC = () => {
     isLoading: isOrderLoading,
     error: orderError,
   } = useGetOrderReadableById(orderId || '');
+
+  // Delete order mutation
+  const deleteOrderMutation = useDeleteOrder();
 
   // Simple search filtering
   const filteredOrders = useMemo(() => {
@@ -98,6 +101,31 @@ export const AdminOrdersPage: React.FC = () => {
   const handleEditOrder = (orderId: string) => {
     console.log('Editing order:', orderId);
     navigate(`/admin/orders/${orderId}`);
+  };
+
+  const handleDeleteOrder = async (orderId: string) => {
+    // eslint-disable-next-line no-alert
+    const confirmDelete = window.confirm(
+      'Are you sure you want to delete this order? This action cannot be undone.',
+    );
+
+    if (confirmDelete) {
+      try {
+        await deleteOrderMutation.mutateAsync(orderId);
+        toast({
+          variant: 'success',
+          message: 'Order deleted successfully!',
+          subText: `Order ${orderId} has been removed`,
+        });
+      } catch (error) {
+        console.error('Failed to delete order:', error);
+        toast({
+          variant: 'error',
+          message: 'Failed to delete order',
+          subText: 'Please try again or contact support',
+        });
+      }
+    }
   };
 
   useEffect(
@@ -211,6 +239,7 @@ export const AdminOrdersPage: React.FC = () => {
             emptyMessage="No orders found"
             emptySubMessage="Try adjusting your search term or add new orders"
             onClickEdit={handleEditOrder}
+            onClickDelete={handleDeleteOrder}
           />
         </Drawer>
       </AdminContentLayout>

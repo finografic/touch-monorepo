@@ -7,6 +7,7 @@ export const ORDERS_READABLE_QUERY_KEYS = {
 };
 
 export * from './useCreateOrder';
+export * from './useDeleteOrder';
 export * from './useGetOrderReadableById';
 export * from './useGetOrdersReadable';
 export * from './useUpdateOrder';
