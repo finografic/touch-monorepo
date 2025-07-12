@@ -6,9 +6,9 @@ import { GET_TEMPERATURE_PROFILE_QUERYKEY } from 'queries/temperature';
 export interface TemperatureProfile {
   id: string;
   temperature: number;
-  time_a: number;
-  time_b: number;
-  time_c: number;
+  timeA: number;
+  timeB: number;
+  timeC: number;
 }
 
 export interface TemperaturePhase {

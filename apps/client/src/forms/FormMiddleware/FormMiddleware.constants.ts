@@ -142,9 +142,9 @@ export const MIN_TABLE_VISIBLE_ROWS = 4;
 /** Default table row values */
 export const DEFAULT_EMPTY_ROW = {
   temperature: undefined,
-  time_a: undefined,
-  time_b: undefined,
-  time_c: undefined,
+  timeA: undefined,
+  timeB: undefined,
+  timeC: undefined,
 };
 
 // ============================================================================

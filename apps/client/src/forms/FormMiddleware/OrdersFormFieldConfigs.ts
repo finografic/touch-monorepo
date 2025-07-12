@@ -23,9 +23,9 @@ export interface OrdersFormValues {
   defaultTempFreeze: number;
   timeRows: Array<{
     temperature?: number;
-    time_a?: number;
-    time_b?: number;
-    time_c?: number;
+    timeA?: number;
+    timeB?: number;
+    timeC?: number;
   }>;
 }
 

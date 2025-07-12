@@ -12,9 +12,9 @@ export interface OrdersFormValues {
   defaultTempFreeze: number;
   timeRows: Array<{
     temperature?: number;
-    time_a?: number;
-    time_b?: number;
-    time_c?: number;
+    timeA?: number;
+    timeB?: number;
+    timeC?: number;
   }>;
 }
 
@@ -121,22 +121,18 @@ export const ordersProgressiveConfigs: ProgressiveFieldConfig<OrdersFormValues>[
       const tempValid =
         typeof item.temperature === 'number' &&
         item.temperature >= defaultTempFreeze &&
-        item.temperature <= 50;
-
-      const timeAValid = typeof item.time_a === 'number' && item.time_a >= 0 && item.time_a <= 3600;
-
-      const timeBValid = typeof item.time_b === 'number' && item.time_b >= 0 && item.time_b <= 3600;
-
-      const timeCValid = typeof item.time_c === 'number' && item.time_c >= 0 && item.time_c <= 3600;
+        item.temperature <= 50;      const timeAValid = typeof item.timeA === 'number' && item.timeA >= 0 && item.timeA <= 3600;
+      const timeBValid = typeof item.timeB === 'number' && item.timeB >= 0 && item.timeB <= 3600;
+      const timeCValid = typeof item.timeC === 'number' && item.timeC >= 0 && item.timeC <= 3600;
 
       return tempValid && timeAValid && timeBValid && timeCValid;
     },
     itemCompletion: (item) => {
       return (
         item?.temperature !== undefined &&
-        item?.time_a !== undefined &&
-        item?.time_b !== undefined &&
-        item?.time_c !== undefined
+        item?.timeA !== undefined &&
+        item?.timeB !== undefined &&
+        item?.timeC !== undefined
       );
     },
     enableNextWhen: 'completeAndValid',

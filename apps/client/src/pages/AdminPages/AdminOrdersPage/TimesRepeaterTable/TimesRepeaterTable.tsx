@@ -54,9 +54,9 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
     const row = timeRows[index];
     return (
       row?.temperature !== undefined &&
-      row?.time_a !== undefined &&
-      row?.time_b !== undefined &&
-      row?.time_c !== undefined
+      row?.timeA !== undefined &&
+      row?.timeB !== undefined &&
+      row?.timeC !== undefined
     );
   };
 
@@ -67,9 +67,9 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
     // Check if all fields are present and within valid ranges
     const tempValid =
       typeof row.temperature === 'number' && row.temperature >= defaultTempFreeze && row.temperature <= 50;
-    const timeAValid = typeof row.time_a === 'number' && row.time_a >= 0 && row.time_a <= 3600;
-    const timeBValid = typeof row.time_b === 'number' && row.time_b >= 0 && row.time_b <= 3600;
-    const timeCValid = typeof row.time_c === 'number' && row.time_c >= 0 && row.time_c <= 3600;
+    const timeAValid = typeof row.timeA === 'number' && row.timeA >= 0 && row.timeA <= 3600;
+    const timeBValid = typeof row.timeB === 'number' && row.timeB >= 0 && row.timeB <= 3600;
+    const timeCValid = typeof row.timeC === 'number' && row.timeC >= 0 && row.timeC <= 3600;
 
     return tempValid && timeAValid && timeBValid && timeCValid;
   };
@@ -145,9 +145,9 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
 
           // Validation classes for first row
           const tempValidationClass = isFirst && isFirstRowFieldRequired('temperature') ? 'field-error' : '';
-          const timeAValidationClass = isFirst && isFirstRowFieldRequired('time_a') ? 'field-error' : '';
-          const timeBValidationClass = isFirst && isFirstRowFieldRequired('time_b') ? 'field-error' : '';
-          const timeCValidationClass = isFirst && isFirstRowFieldRequired('time_c') ? 'field-error' : '';
+          const timeAValidationClass = isFirst && isFirstRowFieldRequired('timeA') ? 'field-error' : '';
+          const timeBValidationClass = isFirst && isFirstRowFieldRequired('timeB') ? 'field-error' : '';
+          const timeCValidationClass = isFirst && isFirstRowFieldRequired('timeC') ? 'field-error' : '';
 
           return (
             <div
@@ -166,7 +166,7 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
               </div>
               <div className={`input-wrapper ${timeAValidationClass}`}>
                 <InputTime
-                  name={`${name}.${index}.time_a`}
+                  name={`${name}.${index}.timeA`}
                   min={0}
                   max={3600}
                   step={30}
@@ -175,7 +175,7 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
               </div>
               <div className={`input-wrapper ${timeBValidationClass}`}>
                 <InputTime
-                  name={`${name}.${index}.time_b`}
+                  name={`${name}.${index}.timeB`}
                   min={0}
                   max={3600}
                   step={30}
@@ -184,7 +184,7 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
               </div>
               <div className={`input-wrapper ${timeCValidationClass}`}>
                 <InputTime
-                  name={`${name}.${index}.time_c`}
+                  name={`${name}.${index}.timeC`}
                   min={0}
                   max={3600}
                   step={30}
