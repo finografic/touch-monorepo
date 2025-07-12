@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import type { UseFormReturn } from 'react-hook-form';
-import type { MockDataHandlers } from '../orders-form.utils';
+import type { MockDataHandlers } from '../OrdersForm/orders-form.utils';
 
 interface UseOrdersFormDevToolsProps {
   methods: UseFormReturn<any>;

@@ -10,4 +10,4 @@ export { OrdersForm } from './OrdersForm';
 export * from './useAutoTranslation';
 
 // Hooks
-export { useOrdersFormDevTools } from './OrderFormDevTools/useOrdersFormDevTools';
+export { useOrdersFormDevTools } from '../OrderFormDevTools/useOrdersFormDevTools';

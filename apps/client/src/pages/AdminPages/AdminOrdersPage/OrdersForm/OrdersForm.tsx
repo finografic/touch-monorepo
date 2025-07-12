@@ -32,7 +32,7 @@ import {
   getSubmissionLoadingState,
   useFormSubmissionMutations,
 } from './orders-form.submission';
-import { OrdersFormDevTools } from './OrderFormDevTools/OrdersFormDevTools';
+import { OrdersFormDevTools } from '../OrderFormDevTools/OrdersFormDevTools';
 import { ORDER_FORM_SCHEMA } from 'pages/AdminPages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
 import { useNavigate } from 'react-router-dom';
 

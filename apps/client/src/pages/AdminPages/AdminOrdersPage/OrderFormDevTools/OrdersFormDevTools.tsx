@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 import { Button } from 'components/Button';
 import { useDev } from 'providers/DevProvider';
-import type { OrdersFormValues } from '../OrdersForm.schema';
+import type { OrdersFormValues } from '../OrdersForm/OrdersForm.schema';
 import { stylesFormValues } from './OrdersFormDevTools.styles';
-import { useOrdersFormDevTools } from 'pages/AdminPages/AdminOrdersPage/OrdersForm/OrderFormDevTools/useOrdersFormDevTools';
+import { useOrdersFormDevTools } from 'pages/AdminPages/AdminOrdersPage/OrderFormDevTools/useOrdersFormDevTools';
 import type { MockDataHandlers } from 'pages/AdminPages/AdminOrdersPage/OrdersForm/orders-form.utils';
 import type { UseFormReturn } from 'react-hook-form';
 
