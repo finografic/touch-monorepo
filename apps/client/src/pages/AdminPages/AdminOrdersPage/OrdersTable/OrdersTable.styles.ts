@@ -29,8 +29,6 @@ export const styles = css`
 
   .td-action button {
     opacity: 0.5;
-    color: ${colors.infoXDark};
-    background-color: transparent;
     svg.icon {
       width: 24px;
       height: 24px;
@@ -39,15 +37,46 @@ export const styles = css`
     &:hover {
       cursor: pointer;
       opacity: 1;
+    }
+    &.active {
+      opacity: 0.8;
+      &:hover {
+        opacity: 1;
+      }
+    }
+  }
+
+  .td-action.action-edit button {
+    color: ${colors.infoXDark};
+    background-color: transparent;
+
+    &:hover {
       color: ${colors.successXDark};
       background-color: ${colors.success}33;
     }
     &.active {
-      opacity: 0.8;
       color: ${colors.warningDark};
       background-color: transparent;
       &:hover {
-        opacity: 1;
+        color: ${colors.warningDark};
+        background-color: ${colors.warning}33;
+      }
+    }
+  }
+
+  .td-action.action-delete button {
+    opacity: 0.75;
+    color: ${colors.infoXDark};
+    background-color: transparent;
+
+    &:hover {
+      color: ${colors.successXDark};
+      background-color: ${colors.success}33;
+    }
+    &.active {
+      color: ${colors.warningDark};
+      background-color: transparent;
+      &:hover {
         color: ${colors.warningDark};
         background-color: ${colors.warning}33;
       }

@@ -38,8 +38,8 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
               <Table.ColumnHeaderCell className="th">Container</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th">Temperature</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th">Created</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th th-action"></Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th th-action"></Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th th-action action-edit"></Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th th-action action-delete"></Table.ColumnHeaderCell>
             </Table.Row>
           </Table.Header>
           <Table.Body>

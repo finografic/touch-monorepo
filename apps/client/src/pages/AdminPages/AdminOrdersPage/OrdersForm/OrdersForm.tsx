@@ -330,7 +330,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       >
         <form onSubmit={handleSubmit(formSubmissionHandler)} noValidate>
           <Row className="row">
-            <Col xs={9} md={9} className="col">
+            <Col xs={12} md={12} className="col">
               <Row className="row">
                 <Col xs={2} md={2} className="col col-form-fields">
                   {/* Mode */}
@@ -468,9 +468,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               </Col>
             </Col>
 
-            <Col xs={3} md={3} className="col">
+            {/* <Col xs={3} md={3} className="col">
               <pre>{JSON.stringify(filteredFormValues, null, 2)}</pre>
-            </Col>
+            </Col> */}
           </Row>
 
           <Row className="row">
