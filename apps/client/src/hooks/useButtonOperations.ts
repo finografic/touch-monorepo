@@ -50,10 +50,10 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         orders.forEach((order) => {
           if (order.isSelected) {
             log('__DEV: calculatedDurations', 'grey', calculatedDurations);
-            // setOrderProcessing({
-            //   itemNumber: order.itemNumber,
-            //   duration: calculatedDurations[order.itemNumber.toString()],
-            // });
+            setOrderProcessing({
+              itemNumber: order.itemNumber,
+              duration: calculatedDurations[order.itemNumber.toString()],
+            });
           }
         });
 
@@ -157,15 +157,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       });
     } else {
       // Default temperature control process
-      // startTemperatureControl();
+      startTemperatureControl();
     }
-  }, [
-    location.pathname,
-    //  startTemperatureControl,
-    orders,
-    setOrderProcessing,
-    navigate,
-  ]);
+  }, [location.pathname, startTemperatureControl, orders, setOrderProcessing, navigate]);
 
   const handleProgramTime = useCallback(() => {
     startTransition(() => {

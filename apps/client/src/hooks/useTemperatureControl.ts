@@ -63,18 +63,15 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   const deferredInitial = useDeferredValue(initial);
   const deferredFinal = useDeferredValue(final);
 
-  /*
   // Get temperature profiles in one query
   const temperatureProfilesQuery = useGetTemperatureProfiles({
     initial: deferredInitial,
     final: deferredFinal,
     enabled: Boolean(deferredInitial && deferredFinal && currentFilter),
   });
-  */
 
   // ======================================================================== //
 
-  /*
   // Log temperature profiles when they change
   useEffect(() => {
     if (temperatureProfilesQuery?.data) {
@@ -86,11 +83,8 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   const isLoading =
     temperatureProfilesQuery.isFetching || initial !== deferredInitial || final !== deferredFinal;
 
-    */
-
   // ======================================================================== //
 
-  /*
   // Add delay before showing loading state
   useEffect(() => {
     let timeoutId: number;
@@ -107,7 +101,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
       window.clearTimeout(timeoutId);
     };
   }, [isLoading]);
-  */
 
   // ======================================================================== //
 
@@ -117,7 +110,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         throw new Error('Initial and final temperatures must be set, and filters must be available');
       }
 
-      /*
       // Get the temperature profiles data
       const profiles = temperatureProfilesQuery.data;
       if (!profiles) {
@@ -139,9 +131,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
           `No temperature profile found for final temperature ${currentFilter.final}°C. Available profiles: ${profiles.map((p) => p.temperature).join(', ')}°C`,
         );
       }
-      */
 
-      /*
       console.log('Selected profiles:', {
         initial: {
           temp: initialProfile.temperature,
@@ -156,9 +146,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
           timeC: finalProfile.timeC,
         },
       });
-      */
 
-      /*
       // Get selected orders
       const selectedOrders = orders.filter((order) => order.isSelected);
       if (selectedOrders.length === 0) {
@@ -184,9 +172,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
       console.log('Calculated durations:', calculatedDurations);
       console.log('Item type durations for future use:', itemTypeDurations);
-      */
 
-      /*
       // Save configuration with calculated durations for both selected orders and all item types
       await saveConfig({
         filters: {
@@ -209,7 +195,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         },
         selectedOrders: selectedOrders.map((order) => order.itemNumber),
       });
-      */
 
       // Call onSuccess with the calculated durations map
       // options.onSuccess?.(calculatedDurations);
@@ -220,7 +205,8 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   }, [
     filters,
     currentFilter,
-    /* temperatureProfilesQuery.data, */ orders,
+    temperatureProfilesQuery.data,
+    orders,
     saveConfig,
     options.onSuccess,
     options.onError,
@@ -228,7 +214,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
   return {
     startTemperatureControl,
-    temperatureProfilesQuery: {},
+    temperatureProfilesQuery,
     isLoading: showLoading,
   };
 };
