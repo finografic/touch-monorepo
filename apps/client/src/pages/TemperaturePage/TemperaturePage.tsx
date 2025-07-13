@@ -96,11 +96,6 @@ export const TemperaturePage = () => {
     return findClosestProfile(profiles, temperatures.initial, temperatures.final);
   }, [profiles, temperatures.initial, temperatures.final]);
 
-  const isExactMatch =
-    !!closestProfile &&
-    closestProfile.temperature === temperatures.initial &&
-    closestProfile.temperature === temperatures.final;
-
   // Get default consumption temperature from filtered data
   const defaultTempConsume = useMemo(() => {
     if (!dataFiltered?.length) return undefined;
@@ -138,7 +133,7 @@ export const TemperaturePage = () => {
           ...prevSessionFilters,
           [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
         };
-        // updateSessionFilters(currentSessionId, sessionFilters);
+        updateSessionFilters(currentSessionId, sessionFilters);
       }
 
       isInitializedRef.current = true;
@@ -181,7 +176,7 @@ export const TemperaturePage = () => {
           ...prevSessionFilters,
           [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
         };
-        // updateSessionFilters(currentSessionId, sessionFilters);
+        updateSessionFilters(currentSessionId, sessionFilters);
       }
 
       // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
