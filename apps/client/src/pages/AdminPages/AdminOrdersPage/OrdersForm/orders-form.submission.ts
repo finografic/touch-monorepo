@@ -99,7 +99,7 @@ const handleUpdateOrder = async (
   try {
     // Convert form values to IDs for API
     const orderUpdates = {
-      coolingProfileId: data.coolingProfileId,
+      modeId: data.modeId,
       drinkTypeId: findIdByName(drinkTypes, data.drinkType, 'drinkType'),
       drinkSubtypeId: data.drinkSubtype ? findIdByName([], data.drinkSubtype, 'drinkSubtype') : null,
       volumeId: findIdByName(volumes, data.volume, 'volume'),
@@ -150,7 +150,7 @@ const handleUpdateOrder = async (
           timeA: row.timeA!,
           timeB: row.timeB!,
           timeC: row.timeC!,
-          coolingProfileId: data.coolingProfileId,
+          modeId: data.modeId,
         };
       });
 
@@ -304,7 +304,7 @@ const handleCreateOrder = async (data: OrdersFormValues, deps: CreateOrderDepend
 
     // Create the order
     const orderData = {
-      coolingProfileId: data.coolingProfileId,
+      modeId: data.modeId,
       drinkTypeId: finalDrinkTypeId,
       drinkSubtypeId: createdIds.drinkSubtypeId || existingDrinkSubtypeId || undefined,
       volumeId: finalVolumeId,
@@ -329,7 +329,7 @@ const handleCreateOrder = async (data: OrdersFormValues, deps: CreateOrderDepend
       timeA: row.timeA!,
       timeB: row.timeB!,
       timeC: row.timeC!,
-      coolingProfileId: data.coolingProfileId,
+      modeId: data.modeId,
     }));
 
     console.log('Creating order with temperature profiles:', temperatureProfiles);

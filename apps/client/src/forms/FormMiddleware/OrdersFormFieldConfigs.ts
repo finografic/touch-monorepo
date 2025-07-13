@@ -12,7 +12,7 @@ import {
 
 // Complete type for the production OrdersForm values
 export interface OrdersFormValues {
-  coolingProfileId: string;
+  modeId: string;
   drinkType: string;
   drinkSubtype?: string;
   volume: string;
@@ -29,9 +29,9 @@ export interface OrdersFormValues {
 
 // Complete field configurations for production OrdersForm
 export const ordersFormFieldConfigs: FieldConfig<OrdersFormValues>[] = [
-  // Cooling Profile field
+  // Mode field
   {
-    name: 'coolingProfileId',
+    name: 'modeId',
     type: 'text',
     validation: {
       required: true,

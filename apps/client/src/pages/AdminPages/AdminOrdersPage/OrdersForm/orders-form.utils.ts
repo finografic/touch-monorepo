@@ -7,8 +7,8 @@ import { useGetOrdersReadable } from 'queries/orders';
 import { SelectOptionDto } from 'types/models/select-option.model';
 import { OrderFieldKeys } from 'constants/app.config';
 import { slugify } from 'utils/string.utils';
-import { useGetCoolingProfiles } from 'queries/cooling-profiles';
-import type { CoolingProfile } from 'types/models/cooling-profile.model';
+import { useGetModes } from 'queries/modes';
+import type { Mode } from 'types/models/mode.model';
 
 // ============================================================================
 // Types
@@ -87,15 +87,15 @@ interface UseDropdownDataProps {
 
 export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropdownDataProps) => {
   // Data hooks
-  const { data: coolingProfiles = [] } = useGetCoolingProfiles();
+  const { data: modes = [] } = useGetModes();
   const { data: drinkTypes = [] } = useGetDrinkTypes();
   const { data: volumes = [] } = useGetDrinkVolumes();
   const { data: containerTypes = [] } = useGetContainerTypes();
   const { data: ordersData = [] } = useGetOrdersReadable();
 
-  const coolingProfileOptions = coolingProfiles.map((profile: CoolingProfile) => ({
-    value: profile.id,
-    label: profile.name,
+  const modeOptions = modes.map((mode: Mode) => ({
+    value: mode.id,
+    label: mode.name,
   }));
 
   // Get selected drink type
@@ -182,7 +182,7 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
 
   return {
     // Raw data
-    coolingProfiles,
+    modes,
     drinkTypes,
     volumes,
     containerTypes,
@@ -191,7 +191,7 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
     selectedDrinkType,
 
     // Options for dropdowns
-    coolingProfileOptions,
+    modeOptions,
     drinkTypeOptions,
     drinkSubtypeOptions,
     volumeOptions,
@@ -251,7 +251,7 @@ interface MockDataOptions {
   containerTypeOptions: any[];
   setValue: any;
   defaultTempFreeze?: number;
-  coolingProfileOptions: any[];
+  modeOptions: any[];
 }
 
 export interface MockDataHandlers {
@@ -267,7 +267,7 @@ export const createMockDataHandlers = ({
   containerTypeOptions,
   setValue,
   defaultTempFreeze = -2,
-  coolingProfileOptions,
+  modeOptions,
 }: MockDataOptions) => {
   const generateRandomValuesForRow = useCallback(
     (rowIndex: number) => {
@@ -291,7 +291,7 @@ export const createMockDataHandlers = ({
   );
 
   const handleMockValues = useCallback(() => {
-    setValue('coolingProfileId', coolingProfileOptions[0]?.value || '', {
+    setValue('modeId', modeOptions[0]?.value || '', {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -326,7 +326,7 @@ export const createMockDataHandlers = ({
 
   const handleMockPartial = useCallback(() => {
     const formValues = {
-      coolingProfileId: coolingProfileOptions[0]?.value || '',
+      modeId: modeOptions[0]?.value || '',
       defaultTempConsume: 4,
       defaultTempFreeze: -1,
       drinkType: '',
@@ -335,8 +335,8 @@ export const createMockDataHandlers = ({
       timeRows: Array.from({ length: 4 }, () => PROFILE_ITEM_VALUES_EMPTY),
     };
 
-    if (coolingProfileOptions.length > 0) {
-      formValues.coolingProfileId = coolingProfileOptions[0]?.value || '';
+    if (modeOptions.length > 0) {
+      formValues.modeId = modeOptions[0]?.value || '';
     }
 
     if (drinkTypeOptions.length > 0) {
@@ -368,7 +368,7 @@ export const createMockDataHandlers = ({
     twoRows[1] = completeRow2;
 
     const formValues = {
-      coolingProfileId: coolingProfileOptions[0]?.value || '',
+      modeId: modeOptions[0]?.value || '',
       defaultTempConsume: 4,
       defaultTempFreeze: -1,
       drinkType:

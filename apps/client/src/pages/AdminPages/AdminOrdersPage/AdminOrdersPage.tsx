@@ -62,7 +62,7 @@ export const AdminOrdersPage: React.FC = () => {
 
   // Handle form submission for both create and update modes
   const handleAddOrder = (formData: {
-    coolingProfileId: string;
+    modeId: string;
     drinkType: string;
     drinkSubtype?: string;
     volume: string;

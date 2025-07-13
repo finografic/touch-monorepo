@@ -28,7 +28,7 @@ export const useCreateOrder = () => {
         timeA: number;
         timeB: number;
         timeC: number;
-        coolingProfileId?: string;
+        modeId?: string;
       }>;
     }): Promise<any> => {
       try {
@@ -45,7 +45,7 @@ export const useCreateOrder = () => {
             console.log('Creating temperature profile for new order:', newOrder.id, profile);
             return await api.post('/temperature-profiles', {
               orderId: newOrder.id,
-              coolingProfileId: profile.coolingProfileId || 'default', // Fallback to default
+              modeId: profile.modeId || 'default', // Fallback to default
               temperature: profile.temperature,
               timeA: profile.timeA,
               timeB: profile.timeB,

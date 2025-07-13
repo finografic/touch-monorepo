@@ -90,7 +90,8 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
     // });
 
     // Verify the cooling profile exists
-    const modeId = temperatureProfile.modeId || 'ebbe633a-a892-4079-aff1-84085bc8048b';
+    // const modeId = temperatureProfile.modeId || 'ebbe633a-a892-4079-aff1-84085bc8048b';
+    const modeId = temperatureProfile.modeId;
     console.log('=== DEBUG COOLING PROFILE ===');
     console.log('Checking cooling profile ID:', modeId);
     console.log('Type of ID:', typeof modeId);
@@ -167,7 +168,8 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
     // Prepare the data with default cooling profile if needed
     const profileData = {
       ...temperatureProfile,
-      modeId: temperatureProfile.modeId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
+      // modeId: temperatureProfile.modeId || 'ebbe633a-a892-4079-aff1-84085bc8048b',
+      modeId: temperatureProfile.modeId,
     };
 
     // Insert the record

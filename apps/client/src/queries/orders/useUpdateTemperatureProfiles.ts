@@ -30,7 +30,7 @@ export const useUpdateTemperatureProfiles = () => {
         timeA: number;
         timeB: number;
         timeC: number;
-        coolingProfileId: string;
+        modeId: string;
       }>;
     }): Promise<any> => {
       try {
@@ -59,13 +59,12 @@ export const useUpdateTemperatureProfiles = () => {
             // Create new profile
             console.log('Creating new temperature profile for order:', orderId, profile);
 
-            // Get coolingProfileId from existing profiles or use a fallback
-            const coolingProfileId =
-              existingProfiles.length > 0 ? existingProfiles[0].coolingProfileId : 'default'; // This should be replaced with actual coolingProfileId lookup
+            // Get modeId from existing profiles or use a fallback
+            const modeId = existingProfiles.length > 0 ? existingProfiles[0].modeId : 'default'; // This should be replaced with actual modeId lookup
 
             return await api.post('/temperature-profiles', {
               orderId,
-              coolingProfileId,
+              modeId,
               temperature: profile.temperature,
               timeA: profile.timeA,
               timeB: profile.timeB,

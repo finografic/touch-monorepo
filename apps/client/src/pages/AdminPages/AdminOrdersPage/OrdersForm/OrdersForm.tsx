@@ -86,7 +86,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     reValidateMode: 'onChange',
     resolver: zodResolver(ORDER_FORM_SCHEMA),
     defaultValues: {
-      coolingProfileId: orderData?.coolingProfileId || '',
+      modeId: orderData?.modeId || '',
       drinkType: orderData?.drinkType || '',
       drinkSubtype: orderData?.drinkSubtype || '',
       volume: orderData?.volume || '',
@@ -156,7 +156,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     containerTypeOptions: dropdownData.containerTypeOptions,
     setValue,
     defaultTempFreeze: formValues.defaultTempFreeze,
-    coolingProfileOptions: dropdownData.coolingProfileOptions,
+    modeOptions: dropdownData.modeOptions,
   });
 
   const formSubmissionHandler = async (data: OrdersFormValues) => {
@@ -189,7 +189,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
       toast({
         variant: 'error',
         message: 'Failed to submit order',
-        subText: error?.message || 'An error occurred while submitting the order.',
+        subText: error instanceof Error ? error.message : 'An error occurred while submitting the order.',
       });
       throw error;
     }
@@ -249,14 +249,14 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               <Row className="row">
                 <Col xs={2} md={2} className="col col-form-fields">
                   {/* Mode */}
-                  <FieldWrapper name="coolingProfileId" label="Mode" required>
+                  <FieldWrapper name="modeId" label="Mode" required>
                     <SelectSimple
-                      {...register('coolingProfileId')}
+                      {...register('modeId')}
                       className="mode-select"
-                      options={dropdownData.coolingProfileOptions}
+                      options={dropdownData.modeOptions}
                       placeholder="Select mode"
-                      defaultValue={formValues.coolingProfileId}
-                      onSelect={(value) => handleSimpleFieldChange('coolingProfileId', value)}
+                      defaultValue={formValues.modeId}
+                      onSelect={(value) => handleSimpleFieldChange('modeId', value)}
                     />
                   </FieldWrapper>
                 </Col>

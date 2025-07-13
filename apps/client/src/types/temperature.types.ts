@@ -12,7 +12,7 @@ export interface Temperature {
 
 export interface TemperatureProfile {
   id: string;
-  coolingProfileId: string;
+  modeId: string;
   temperature: number;
   timeA: number;
   timeB: number;
@@ -20,9 +20,9 @@ export interface TemperatureProfile {
 }
 
 export interface TemperatureProfileWithRelations extends TemperatureProfile {
-  coolingProfile?: {
+  mode?: {
     id: string;
-    // Add other cooling profile fields if needed
+    // Add other mode fields if needed
   };
 }
 
