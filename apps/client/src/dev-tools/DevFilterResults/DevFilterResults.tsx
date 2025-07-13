@@ -13,7 +13,7 @@ export const DevFilterResults = () => {
       <div className="results-list">
         <h4>Results: {dataFiltered.length}</h4>
         {dataFiltered.map((item: any) => (
-          <pre key={item.id} className="result-row">
+          <div key={item.id} className="result-row">
             <div className="result-col">
               <strong>{item.drinkType}</strong>
             </div>
@@ -26,13 +26,13 @@ export const DevFilterResults = () => {
             <div className="result-col">
               <p style={{ margin: 0 }}>{item.containerType}</p>
             </div>
-            <div className="result-col">
+            {/* <div className="result-col">
               <p style={{ margin: 0 }}>{item.temperatureProfile}</p>
-            </div>
+            </div> */}
             <div className="result-col">
               <strong style={{ opacity: 0.33 }}>{item.id}</strong>
             </div>
-          </pre>
+          </div>
         ))}
       </div>
     </div>

@@ -7,7 +7,7 @@ export const styles = css`
   position: absolute;
   top: 0;
   left: 0;
-  min-width: 33vw;
+  min-width: 24vw;
   height: 100vh; /* Use viewport height for the wrapper */
   padding: 1.5rem;
   overflow: visible; /* Allow content to overflow for visibility */
@@ -42,7 +42,7 @@ export const styles = css`
     width: 100%;
     min-width: fit-content;
 
-    pre.result-row {
+    .result-row {
       display: flex;
       align-items: center;
       line-height: 1.2;
@@ -66,7 +66,9 @@ export const styles = css`
       font-family: monospace;
       display: flex;
       align-items: center;
-      overflow: hidden;
+      overflow: visible;
+      white-space: nowrap;
+      color: ${colors.textXLight}AA;
     }
     .result-col:last-child {
       margin-right: 0;

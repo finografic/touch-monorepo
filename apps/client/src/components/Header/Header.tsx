@@ -26,7 +26,14 @@ export const Header = () => {
 
           {/* Center column - 6 parts */}
           <Flex justify="center" style={{ flex: '6' }}>
-            <h1 onClick={() => navigate('/')}>{t('app.title')}</h1>
+            <h1
+              onClick={() => {
+                navigate('/');
+                window.location.reload();
+              }}
+            >
+              {t('app.title')}
+            </h1>
           </Flex>
 
           <Flex justify="end" style={{ flex: '3' }}>
