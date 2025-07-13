@@ -92,7 +92,10 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
     //   id: allIds[0] || order.id, // id is always the first filtered id
     // }));
 
-    updateOrderIds();
+    if (Object.keys(filters).length > 0) {
+      log('__DEV: filters', 'yellow', filters);
+      updateOrderIds({ ids: allIds });
+    }
     // ======================================================================== //
     return {
       dataPool: safeDataForFilter.filter((entry) =>

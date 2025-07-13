@@ -135,23 +135,14 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             }));
             set({ orders: newOrders });
           },
-          updateOrderIds: () => {
+          updateOrderIds: ({ ids }: { ids: string[] }) => {
             const { orders } = get();
-            const updatedOrders = orders.map((order) => {
-              // if (order.itemNumber === itemNumber) {
-              //   const estimatedCompletionTime = new Date(Date.now() + duration * 1000).toISOString();
-              //   return {
-              //     ...order,
-              //     isSelected: preserveSelection ? order.isSelected : false,
-              //     process: {
-              //       status: duration > 0 ? ('processing' as OrderStatus) : ('completed' as OrderStatus),
-              //       estimatedCompletionTime: duration > 0 ? estimatedCompletionTime : undefined,
-              //       timeRemaining: duration > 0 ? duration : undefined,
-              //     },
-              //   };
-              // }
-              return order;
-            });
+
+            const updatedOrders =
+              ids.length > 0
+                ? orders.map((order) => ({ ...order, ids, id: ids[0] }))
+                : orders.map((order) => ({ ...order, ids }));
+
             set({ orders: updatedOrders });
           },
           // Timer-specific actions
