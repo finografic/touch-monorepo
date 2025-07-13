@@ -19,18 +19,14 @@ export const useGetTemperatureProfiles = ({
   enabled,
 }: UseGetTemperatureProfilesOptions) => {
   return useQuery({
-    queryKey: [...GET_TEMPERATURE_PROFILES_QUERYKEY, orderId, initial, final],
+    queryKey: [...GET_TEMPERATURE_PROFILES_QUERYKEY, orderId],
     queryFn: async () => {
       if (!orderId) {
         throw new Error('orderId is required');
       }
-      if (!initial || !final) {
-        throw new Error('Both initial and final temperatures are required');
-      }
 
-      const queryString = createTemperatureQuery(initial, final);
-      // Always include orderId as required by backend
-      const url = `/temperature-profiles?orderId=${encodeURIComponent(orderId)}&${queryString}`;
+      // Only filter by orderId, not by temperature
+      const url = `/temperature-profiles?orderId=${encodeURIComponent(orderId)}`;
 
       log('__DEV: useGetTemperatureProfiles - url', 'magenta', url);
       const response = await api.get<TemperatureProfile[]>(url);
@@ -43,13 +39,9 @@ export const useGetTemperatureProfiles = ({
         throw new Error('No temperature profiles found');
       }
 
-      // Return the profiles in order [initial, final]
-      return response.data.sort((a, b) => {
-        if (a.temperature === initial) return -1;
-        if (b.temperature === initial) return 1;
-        return 0;
-      });
+      // Return the profiles sorted by temperature descending
+      return response.data.sort((a, b) => b.temperature - a.temperature);
     },
-    enabled: enabled ?? Boolean(orderId && initial && final),
+    enabled: enabled ?? Boolean(orderId),
   });
 };

@@ -86,6 +86,11 @@ export const TemperaturePage = () => {
 
   // Find the closest temperature profile for the current selection
   const profiles = TEST.data ?? [];
+  // Find the minimum available profile temperature
+  const minProfileTemp = useMemo(() => {
+    if (!profiles.length) return INITIAL_TEMP_MIN;
+    return Math.min(...profiles.map((p) => p.temperature));
+  }, [profiles]);
   const closestProfile = useMemo(() => {
     if (!profiles.length) return null;
     return findClosestProfile(profiles, temperatures.initial, temperatures.final);
@@ -212,7 +217,7 @@ export const TemperaturePage = () => {
         <Flex gap="3" justify="center" className="page-description">
           <Box>
             <p style={{ textAlign: 'center' }}>{DESCRIPTIONS.page}</p>
-            {!isExactMatch && closestProfile && (
+            {closestProfile !== null && (
               <>
                 <div style={{ color: 'orange', marginTop: 8, textAlign: 'center' }}>
                   Closest available profile: {closestProfile.temperature}°C
@@ -246,8 +251,7 @@ export const TemperaturePage = () => {
               value={temperatures.initial}
               onChange={handleChange}
               label={DESCRIPTIONS.initial.label}
-              // description={DESCRIPTIONS.initial.description}
-              min={minMaxTemperatures?.min ?? INITIAL_TEMP_MIN}
+              min={minProfileTemp}
               max={minMaxTemperatures?.max ?? INITIAL_TEMP_MAX}
               step={0.5}
             />
@@ -258,7 +262,6 @@ export const TemperaturePage = () => {
               value={temperatures.final}
               onChange={handleChange}
               label={DESCRIPTIONS.final.label}
-              // description={DESCRIPTIONS.final.description}
               min={minMaxTemperatures?.min ?? FINAL_TEMP_MIN}
               max={temperatures.initial - MIN_TEMP_DIFFERENCE}
               step={0.5}
