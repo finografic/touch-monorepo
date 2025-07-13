@@ -48,6 +48,12 @@ export const PROFILE_ITEM_VALUES_EMPTY: TimeRow = {
 // Random Value Generation
 // ============================================================================
 
+const getRandomOptionValue = (options: { value: string }[]): string => {
+  if (!options || options.length === 0) return '';
+  const idx = Math.floor(Math.random() * options.length);
+  return options[idx].value;
+};
+
 export const generateRandomTime = (): number => {
   const minTime = 30; // 30 seconds minimum
   const maxTime = 1800; // 30 minutes maximum
@@ -291,7 +297,7 @@ export const createMockDataHandlers = ({
   );
 
   const handleMockValues = useCallback(() => {
-    setValue('modeId', modeOptions[0]?.value || '', {
+    setValue('modeId', getRandomOptionValue(modeOptions), {
       shouldValidate: true,
       shouldDirty: true,
     });
@@ -326,7 +332,7 @@ export const createMockDataHandlers = ({
 
   const handleMockPartial = useCallback(() => {
     const formValues = {
-      modeId: modeOptions[0]?.value || '',
+      modeId: getRandomOptionValue(modeOptions),
       defaultTempConsume: 4,
       defaultTempFreeze: -1,
       drinkType: '',
@@ -334,10 +340,6 @@ export const createMockDataHandlers = ({
       containerType: '',
       timeRows: Array.from({ length: 4 }, () => PROFILE_ITEM_VALUES_EMPTY),
     };
-
-    if (modeOptions.length > 0) {
-      formValues.modeId = modeOptions[0]?.value || '';
-    }
 
     if (drinkTypeOptions.length > 0) {
       formValues.drinkType = (
@@ -368,7 +370,7 @@ export const createMockDataHandlers = ({
     twoRows[1] = completeRow2;
 
     const formValues = {
-      modeId: modeOptions[0]?.value || '',
+      modeId: getRandomOptionValue(modeOptions),
       defaultTempConsume: 4,
       defaultTempFreeze: -1,
       drinkType:

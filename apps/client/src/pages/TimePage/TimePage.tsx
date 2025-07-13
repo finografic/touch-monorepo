@@ -24,9 +24,6 @@ export const TimePage = () => {
     setTotalSeconds(newTotalSeconds);
   }, []);
 
-  // TODO: temporal debugging
-  // log('__DEV: ITEMS:', 'grey', selectedItems);
-
   return (
     <Flex css={stylesAppContent} className="time-content" gap="3" direction="column">
       <Flex className="page-description" gap="3" justify="center">

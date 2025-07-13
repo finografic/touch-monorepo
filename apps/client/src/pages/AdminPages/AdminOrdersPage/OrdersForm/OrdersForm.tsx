@@ -255,7 +255,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       className="mode-select"
                       options={dropdownData.modeOptions}
                       placeholder="Select mode"
-                      defaultValue={formValues.modeId}
+                      // defaultValue={formValues.modeId}
+                      value={formValues.modeId}
                       onSelect={(value) => handleSimpleFieldChange('modeId', value)}
                     />
                   </FieldWrapper>

@@ -106,17 +106,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         throw new Error('Temperature profiles not available');
       }
 
-      // log('__DEV: PROFILES', 'magenta', {
-      //   initial: currentFilter.initial,
-      //   final: currentFilter.final,
-      //   profiles: profiles.map((p) => ({
-      //     temp: p.temperature,
-      //     timeA: p.timeA,
-      //     timeB: p.timeB,
-      //     timeC: p.timeC,
-      //   })),
-      // });
-
       // Find profiles for initial and final temperatures
       const initialProfile = profiles.find((p) => p.temperature === currentFilter.initial);
       const finalProfile = profiles.find((p) => p.temperature === currentFilter.final);
