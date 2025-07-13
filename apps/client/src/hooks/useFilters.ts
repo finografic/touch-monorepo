@@ -31,7 +31,7 @@ interface UseFiltersReturn {
 
 export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
-  const { orders } = useOrders();
+  const { orders, updateOrderIds } = useOrders();
   const { currentSessionId, sessions } = useSession();
   const [data, setData] = useState<OrderModel[]>([]);
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
@@ -83,6 +83,17 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
     if (filters.containerType) {
       filtered = filtered.length > 0 ? [filtered[0]] : [];
     }
+    // ======================================================================== //
+    const allIds = filtered.map((o) => o.id);
+
+    // filtered = filtered.map((order, idx) => ({
+    //   ...order,
+    //   ids: allIds,
+    //   id: allIds[0] || order.id, // id is always the first filtered id
+    // }));
+
+    updateOrderIds();
+    // ======================================================================== //
     return {
       dataPool: safeDataForFilter.filter((entry) =>
         matchesFilters(entry, filtersBeforeCurrent),
