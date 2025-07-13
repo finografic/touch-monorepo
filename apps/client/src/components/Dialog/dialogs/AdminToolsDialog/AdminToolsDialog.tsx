@@ -23,10 +23,29 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
   const [viewMode, setViewMode] = useState<'json' | 'list'>('json');
   const { loadConfig } = useConfigStorage();
 
+  // Safe storage access helper
+  function safeLoadCalculationFromStorage(itemNumber: string): Calculation | null {
+    try {
+      return loadCalculationFromStorage(itemNumber) ?? null;
+    } catch (err) {
+      console.warn('[AdminToolsDialog] Failed to load calculation from storage:', err);
+      return null;
+    }
+  }
+
+  function safeLoadConfig() {
+    try {
+      return loadConfig() ?? {};
+    } catch (err) {
+      console.warn('[AdminToolsDialog] Failed to load config from storage:', err);
+      return {};
+    }
+  }
+
   useEffect(
     function handleOrdersChangeAndCalculateData() {
       if (orders?.[0]?.itemNumber) {
-        const loadedCalculation = loadCalculationFromStorage(String(orders[0].itemNumber));
+        const loadedCalculation = safeLoadCalculationFromStorage(String(orders[0].itemNumber));
         setCalculation(loadedCalculation);
       } else {
         setCalculation(null);
@@ -35,10 +54,10 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
     [orders],
   );
 
-  const cleanedOrderData = cleanOrderData(orders as OrderWithMetadata[]);
+  const cleanedOrderData = cleanOrderData((orders ?? []) as OrderWithMetadata[]);
   const cleanedCalculationData = cleanCalculationData(calculation);
-  const hasMetadata = (orders?.[0] as OrderWithMetadata)?.metadata;
-  const storedConfig = loadConfig();
+  const hasMetadata = (orders?.[0] as OrderWithMetadata)?.metadata ?? null;
+  const storedConfig = safeLoadConfig();
 
   // Build tabs dynamically based on available data
   const tabs = [
@@ -64,7 +83,7 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
       content:
         viewMode === 'list' ? (
           <div className="data-list">
-            <CalculationDataList data={cleanedCalculationData} />
+            <CalculationDataList data={cleanedCalculationData} />{' '}
           </div>
         ) : (
           <DataDump data={cleanedCalculationData} color="amber" />

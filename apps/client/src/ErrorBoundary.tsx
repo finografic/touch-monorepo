@@ -6,7 +6,7 @@ export default function ({ children }: { children: ReactNode }) {
     <ErrorBoundary
       fallbackRender={({ error }) => (
         <div>
-          There was an error! <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
+          There was an error! (ROOT)<pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
         </div>
       )}
     >
