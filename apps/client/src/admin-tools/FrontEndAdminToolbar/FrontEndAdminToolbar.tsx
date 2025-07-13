@@ -16,8 +16,8 @@ export const FrontEndAdminToolbar = () => {
     isAdminToolsVisible,
     isTimerVisible,
     setIsTimerVisible,
-    isAdminToolsDialogOpen,
-    setIsAdminToolsDialogOpen,
+    // isAdminToolsDialogOpen,
+    // setIsAdminToolsDialogOpen,
     isLanguageDialogOpen,
     setIsLanguageDialogOpen,
   } = useAdmin();
@@ -72,11 +72,11 @@ export const FrontEndAdminToolbar = () => {
           </Box>
 
           {/* Admin Tools Dialog */}
-          <Box className="button-box">
+          {/* <Box className="button-box">
             <button className="btn" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
               <WindowIcon />
             </button>
-          </Box>
+          </Box> */}
 
           {/* Timer visibility toggle - only show if there's an active timer */}
           {hasActiveTimer && (
@@ -102,7 +102,7 @@ export const FrontEndAdminToolbar = () => {
 
       {/* Dialogs */}
       <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
-      <AdminToolsDialog isOpen={isAdminToolsDialogOpen} onClose={() => setIsAdminToolsDialogOpen(false)} />
+      {/* <AdminToolsDialog isOpen={isAdminToolsDialogOpen} onClose={() => setIsAdminToolsDialogOpen(false)} /> */}
     </>
   );
 };

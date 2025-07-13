@@ -84,19 +84,6 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
       filtered = filtered.length > 0 ? [filtered[0]] : [];
     }
     // ======================================================================== //
-    const allIds = filtered.map((o) => o.id);
-
-    // filtered = filtered.map((order, idx) => ({
-    //   ...order,
-    //   ids: allIds,
-    //   id: allIds[0] || order.id, // id is always the first filtered id
-    // }));
-
-    if (Object.keys(filters).length > 0) {
-      log('__DEV: filters', 'yellow', filters);
-      updateOrderIds({ ids: allIds });
-    }
-    // ======================================================================== //
     return {
       dataPool: safeDataForFilter.filter((entry) =>
         matchesFilters(entry, filtersBeforeCurrent),
@@ -104,6 +91,18 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
       dataFiltered: filtered,
     };
   }, [data, filters, fieldKey]);
+
+  // Update order IDs when filtered data changes - separate from filtering logic
+  useEffect(() => {
+    if (Object.keys(filters).length > 0 && dataFiltered.length > 0) {
+      const allIds = dataFiltered.map((o) => o.id);
+      log('__DEV: updating order ids', 'yellow', {
+        filterCount: Object.keys(filters).length,
+        idsCount: allIds.length,
+      });
+      updateOrderIds({ ids: allIds });
+    }
+  }, [dataFiltered, filters, updateOrderIds]);
 
   // Handle filter change
   const setFilter = useCallback((key: OrderFieldKey, value: unknown) => {
