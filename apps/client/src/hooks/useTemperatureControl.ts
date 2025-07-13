@@ -68,6 +68,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
     initial: deferredInitial,
     final: deferredFinal,
     enabled: Boolean(deferredInitial && deferredFinal && currentFilter),
+    orderId: orders[0]?.id,
   });
 
   // ======================================================================== //

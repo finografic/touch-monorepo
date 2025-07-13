@@ -13,25 +13,24 @@ export const DevFilterResults = () => {
       <div className="results-list">
         <h4>Results: {dataFiltered.length}</h4>
         {dataFiltered.map((item: any) => (
-          <pre
-            key={item.id}
-            className="result-row"
-            style={{ display: 'flex', alignItems: 'center', marginBottom: '8px' }}
-          >
-            <div style={{ flex: '3', marginRight: '8px' }}>
+          <pre key={item.id} className="result-row">
+            <div className="result-col">
               <strong>{item.drinkType}</strong>
             </div>
-            <div style={{ flex: '2', marginRight: '8px' }}>
+            <div className="result-col">
               <p style={{ margin: 0 }}>{item.drinkSubtype}</p>
             </div>
-            <div style={{ flex: '2', marginRight: '8px' }}>
+            <div className="result-col">
               <p style={{ margin: 0 }}>{item.volume}</p>
             </div>
-            <div style={{ flex: '2', marginRight: '8px' }}>
+            <div className="result-col">
               <p style={{ margin: 0 }}>{item.containerType}</p>
             </div>
-            <div style={{ flex: '3' }}>
+            <div className="result-col">
               <p style={{ margin: 0 }}>{item.temperatureProfile}</p>
+            </div>
+            <div className="result-col">
+              <strong style={{ opacity: 0.33 }}>{item.id}</strong>
             </div>
           </pre>
         ))}

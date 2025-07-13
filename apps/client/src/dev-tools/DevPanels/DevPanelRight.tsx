@@ -32,7 +32,7 @@ export const DevPanelRight = () => {
 
   return (
     <aside id="dev-data-right" css={stylesRight}>
-      <pre style={{ border: '1px solid red', padding: '1rem' }}>{JSON.stringify(orders)}</pre>
+      <pre id="___DATA-DUMP-ALL___">{JSON.stringify(orders)}</pre>
       <pre>{JSON.stringify(cleanOrdersForDisplay)}</pre>
       <div className="data-tree">
         <JSONTree data={devDataRight} />

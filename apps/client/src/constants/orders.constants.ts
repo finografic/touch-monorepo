@@ -26,6 +26,7 @@ export const ORDER_ITEMS_CONFIG: OrderItemConfig[] = [
 ];
 
 export const INITIAL_ORDER_ITEM: OrderItem = {
+  id: '', // Default empty, will be set when creating new orders
   itemType: ItemType.A,
   itemNumber: 0,
   isSelected: false,

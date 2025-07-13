@@ -13,10 +13,58 @@ import { db } from 'db';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
-import { and, eq, gte, inArray, lte, max, min } from 'drizzle-orm';
+import { and, eq, inArray, max, min } from 'drizzle-orm';
 import chalk from 'chalk';
 
+// ======================================================================== //
+
 export const list: AppRouteHandler<ListRoute> = async (context) => {
+  // Get orderId from query params
+  const orderId = context.req.query('orderId');
+  if (!orderId) {
+    // Return empty array for missing orderId (to match OpenAPI spec)
+    return context.json([], HttpStatusCodes.OK);
+  }
+
+  // === Temperature filtering temporarily disabled: only filtering by orderId ===
+  // const temperatureParam = context.req.query('temperature[$in]');
+  // const temperatures = temperatureParam
+  //   ?.split(',')
+  //   .map(Number)
+  //   .filter((t) => !Number.isNaN(t));
+  //
+  // const whereClause = (fields, operators) => {
+  //   let clause = operators.eq(fields.orderId, orderId);
+  //   if (temperatures?.length) {
+  //     clause = operators.and(clause, operators.inArray(fields.temperature, temperatures));
+  //   }
+  //   return clause;
+  // };
+
+  // Only filter by orderId
+  const temperatureProfiles = await db.query.temperature_profiles.findMany({
+    columns: {
+      id: true,
+      orderId: true,
+      modeId: true,
+      temperature: true,
+      timeA: true,
+      timeB: true,
+      timeC: true,
+    },
+    with: {
+      mode: true,
+    },
+    where: (fields, operators) => operators.eq(fields.orderId, orderId),
+    // where: whereClause, // <-- Use this to re-enable temperature filtering
+  });
+
+  return context.json(temperatureProfiles, HttpStatusCodes.OK);
+};
+
+// ======================================================================== //
+
+export const list__V1: AppRouteHandler<ListRoute> = async (context) => {
   // Parse temperature filter from query params
   const temperatureParam = context.req.query('temperature[$in]');
   const temperatures = temperatureParam

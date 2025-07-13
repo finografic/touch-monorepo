@@ -31,6 +31,7 @@ export interface OrderProcessingProps {
 
 // The complete order type combining selection fields and base properties
 export interface OrderItem {
+  id: string; // Unique order ID from backend
   itemNumber: number;
   itemType: ItemType;
   isSelected: boolean;

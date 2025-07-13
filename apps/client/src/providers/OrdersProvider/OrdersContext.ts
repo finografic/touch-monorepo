@@ -20,6 +20,7 @@ export const defaultValue: OrdersValues = {
 };
 
 export const OrdersContext = createZustandContext(({ initialValue }) => {
+  log('__DEV: OrdersContext', 'cyan', initialValue);
   return createStore<OrdersStore>()(
     subscribeWithSelector(
       (set, get): OrdersStore => ({
@@ -101,6 +102,10 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 ...orders,
                 {
                   ...INITIAL_ORDER_ITEM,
+                  id:
+                    typeof crypto !== 'undefined' && crypto.randomUUID
+                      ? crypto.randomUUID()
+                      : `order-${itemNumber}`,
                   itemType,
                   itemNumber,
                   isSelected: true,
@@ -122,6 +127,8 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           selectAllOrders: () => {
             const newOrders = ORDER_ITEMS_CONFIG.map(({ itemType, number }) => ({
               ...INITIAL_ORDER_ITEM,
+              id:
+                typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `order-${number}`,
               itemType,
               itemNumber: number,
               isSelected: true,
