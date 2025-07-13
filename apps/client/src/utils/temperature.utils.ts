@@ -42,8 +42,8 @@ export function findClosestProfile(
     if (options?.curveFn) {
       score = options.curveFn(profile, userInitial, userFinal);
     } else {
-      // Default: sum of differences (can be adjusted)
-      score = Math.abs(profile.temperature - userInitial) + Math.abs(profile.temperature - userFinal);
+      // Match only on initial temperature
+      score = Math.abs(profile.temperature - userInitial);
     }
     if (!best || score < best.score) {
       best = { profile, score };
