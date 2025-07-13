@@ -2,6 +2,7 @@ import React, { createContext, useCallback, useContext, useMemo } from 'react';
 import type { FieldError, FieldPath, FieldValues } from 'react-hook-form';
 import type { FieldConfig, FormMiddlewareContext, FormMiddlewareProviderProps } from './FormMiddleware.types';
 import { DEFAULT_LOCALE, MAX_FRACTION_DIGITS, MIN_FRACTION_DIGITS } from './FormMiddleware.constants';
+import { useWatch } from 'react-hook-form';
 
 // Create the context
 const FormMiddlewareContextValue = createContext<FormMiddlewareContext<any> | null>(null);
@@ -23,7 +24,7 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
   defaultLocale = DEFAULT_LOCALE,
   onFieldChange,
 }: FormMiddlewareProviderProps<T>) => {
-  const { setValue, setError, clearErrors, watch, getFieldState, formState } = formMethods;
+  const { setValue, setError, clearErrors, watch, getFieldState, formState, control } = formMethods;
 
   // Convert field configs to a map
   const fieldConfigsMap = useMemo(() => {
@@ -32,7 +33,31 @@ export const FormMiddlewareProvider = <T extends FieldValues = FieldValues>({
     return map;
   }, [fieldConfigs]);
 
-  const formValues = watch();
+  // PERFORMANCE: Only subscribe to fields that are needed for dependency calculations
+  // If you need all values, use useWatch({ control }) but warn if too many fields
+  const fieldNames = useMemo(() => fieldConfigs.map((c) => c.name), [fieldConfigs]);
+  // useWatch returns an array if name is an array, so reconstruct as an object
+  const watchedValues = useWatch({ control, name: fieldNames });
+  const formValues = useMemo(() => {
+    if (Array.isArray(watchedValues)) {
+      // Map fieldNames to watchedValues
+      const obj: Record<string, any> = {};
+      fieldNames.forEach((name, idx) => {
+        obj[name as string] = watchedValues[idx];
+      });
+      return obj as T;
+    }
+    return watchedValues as T;
+  }, [watchedValues, fieldNames]);
+
+  // DEV WARNING for large forms
+  if (process.env.NODE_ENV === 'development' && fieldNames.length > 20) {
+    console.warn(
+      '[FormMiddleware] Large form detected (',
+      fieldNames.length,
+      'fields). Consider optimizing field subscriptions with useWatch for better performance.',
+    );
+  }
 
   // Enhanced setValue with dependency handling
   const setFieldValue = useCallback(
