@@ -60,32 +60,19 @@ export const TemperaturePage = () => {
   } = useGetMinMaxTemperatures();
 
   // ======================================================================== //
-  // TODO: make initial call to fetch temperature profiles by order id
-  // const {
-  //   data: temperatureProfiles,
-  //   isLoading: isLoadingTemperatureProfiles,
-  //   error: temperatureProfilesError,
-  // } = useGetTemperatureProfiles({
-  const TEST = useGetTemperatureProfiles({
+  // Fetch all temperature profiles for the current orderId
+  const temperatureProfilesQuery = useGetTemperatureProfiles({
     orderId: orders[0]?.id,
-    initial: temperatures.initial,
-    final: temperatures.final,
-    enabled: Boolean(orders[0]?.id && temperatures.initial && temperatures.final),
+    enabled: Boolean(orders[0]?.id),
   });
 
-  log(
-    '__DEV: TEST',
-    'hotpink',
-    { ENABLED: Boolean(orders[0]?.id && temperatures.initial && temperatures.final) },
-    TEST.data,
-    TEST.isLoading,
-    TEST.error,
-  );
-
+  const profiles = temperatureProfilesQuery.data ?? [];
+  const isLoadingProfiles = temperatureProfilesQuery.isLoading;
+  const isPendingProfiles = temperatureProfilesQuery.isPending;
+  const profilesError = temperatureProfilesQuery.error;
   // ======================================================================== //
 
   // Find the closest temperature profile for the current selection
-  const profiles = TEST.data ?? [];
   // Find the minimum available profile temperature
   const minProfileTemp = useMemo(() => {
     if (!profiles.length) return INITIAL_TEMP_MIN;
@@ -198,10 +185,18 @@ export const TemperaturePage = () => {
 
   // Don't show inputs until we have the temperature constraints and default values
   // Allow proceeding if minMax query failed (use fallback values) but still loading
-  if ((isLoadingTemperatures && !minMaxError) || !isInitializedRef.current) {
+  if ((isLoadingTemperatures && !minMaxError) || isLoadingProfiles || !isInitializedRef.current) {
     return (
       <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
         <Box>Loading temperature settings...</Box>
+      </Flex>
+    );
+  }
+
+  if (profilesError) {
+    return (
+      <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
+        <Box>Error loading temperature profiles.</Box>
       </Flex>
     );
   }
