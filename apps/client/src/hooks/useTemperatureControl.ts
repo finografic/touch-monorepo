@@ -6,6 +6,7 @@ import type { TemperatureFilter, TemperatureProfile } from 'types/temperature.ty
 import { useConfigStorage } from './useConfigStorage';
 import { useOrders } from 'providers/OrdersProvider';
 import { ItemType } from 'types/orders.types';
+import { findClosestProfile } from 'utils/temperature.utils';
 
 interface UseTemperatureControlOptions {
   onSuccess?: (durations: Record<string, number>) => void;
@@ -117,9 +118,17 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         throw new Error('Temperature profiles not available');
       }
 
-      // Find profiles for initial and final temperatures
-      const initialProfile = profiles.find((p) => p.temperature === currentFilter.initial);
-      const finalProfile = profiles.find((p) => p.temperature === currentFilter.final);
+      // Find closest available profiles for initial and final temperatures
+      const initialProfile = findClosestProfile(
+        profiles as TemperatureProfile[],
+        currentFilter.initial,
+        currentFilter.final,
+      ) as TemperatureProfile;
+      const finalProfile = findClosestProfile(
+        profiles as TemperatureProfile[],
+        currentFilter.final,
+        currentFilter.final,
+      ) as TemperatureProfile;
 
       if (!initialProfile) {
         throw new Error(
@@ -133,7 +142,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         );
       }
 
-      console.log('Selected profiles:', {
+      console.log('Selected profiles (using closest if needed):', {
         initial: {
           temp: initialProfile.temperature,
           timeA: initialProfile.timeA,
@@ -178,16 +187,16 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
       await saveConfig({
         filters: {
           temperature: {
-            initial: currentFilter.initial,
-            final: currentFilter.final,
-            name: `${currentFilter.initial}°C → ${currentFilter.final}°C`,
+            initial: initialProfile.temperature,
+            final: finalProfile.temperature,
+            name: `${initialProfile.temperature}°C → ${finalProfile.temperature}°C`,
             duration: Math.max(...Object.values(calculatedDurations)),
           },
         },
         temperatures: {
-          default: currentFilter.initial,
-          initial: currentFilter.initial,
-          final: currentFilter.final,
+          default: initialProfile.temperature,
+          initial: initialProfile.temperature,
+          final: finalProfile.temperature,
         },
         durations: {
           ...calculatedDurations, // Individual order durations

@@ -59,7 +59,9 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                   }
                 }
 
-                return { ...order, filters: orderedFilters };
+                // Add/update ids property: all current order ids
+                const allIds = orders.map((o) => o.id);
+                return { ...order, filters: orderedFilters, ids: allIds };
               }
               return order;
             });
@@ -112,7 +114,9 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 },
               ];
               const sortedOrders = [...newOrders].sort((a, b) => a.itemNumber - b.itemNumber);
-              set({ orders: sortedOrders });
+              // Set ids property for all orders
+              const allIds = sortedOrders.map((o) => o.id);
+              set({ orders: sortedOrders.map((o) => ({ ...o, ids: allIds })) });
             } else {
               // Toggle isSelected for existing order instead of removing it
               const updatedOrders = orders.map((order) => {
@@ -121,7 +125,9 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 }
                 return order;
               });
-              set({ orders: updatedOrders });
+              // Set ids property for all orders
+              const allIds = updatedOrders.map((o) => o.id);
+              set({ orders: updatedOrders.map((o) => ({ ...o, ids: allIds })) });
             }
           },
           selectAllOrders: () => {
@@ -133,7 +139,9 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               itemNumber: number,
               isSelected: true,
             }));
-            set({ orders: newOrders });
+            // Set ids property for all orders
+            const allIds = newOrders.map((o) => o.id);
+            set({ orders: newOrders.map((o) => ({ ...o, ids: allIds })) });
           },
           updateOrderIds: ({ ids }: { ids: string[] }) => {
             const { orders } = get();

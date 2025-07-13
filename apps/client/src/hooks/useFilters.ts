@@ -66,29 +66,32 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
 
   // Client-side filtering with both datasets
   const { dataPool, dataFiltered } = useMemo(() => {
-    if (!fieldKey) return { dataPool: data, dataFiltered: data };
-
-    const filtersBeforeCurrent = getFiltersByStep(filters, fieldKey, false);
-    const filtersUpToCurrent = getFiltersByStep(filters, fieldKey, true);
-
     // SAFEGUARD: ensure data is assignable to DataEntry[] for matchesFilters
     const safeDataForFilter: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
 
-    // After filtering, cast back to OrderModel[] for return type
-    // TypeScript: cast to unknown first, then to OrderModel[]
+    // For dataFiltered, use ALL filters
+    const allFilters = Object.entries(filters);
     let filtered = safeDataForFilter.filter((entry) =>
-      matchesFilters(entry, filtersUpToCurrent),
+      matchesFilters(entry, allFilters),
     ) as unknown as OrderModel[];
+
+    // For dataPool (for filter options), use only filters up to the current step
+    let pool = safeDataForFilter;
+    if (fieldKey) {
+      const filtersBeforeCurrent = getFiltersByStep(filters, fieldKey, false);
+      pool = safeDataForFilter.filter((entry) =>
+        matchesFilters(entry, filtersBeforeCurrent),
+      ) as unknown as OrderModel[];
+    }
+
     // TEMP FIX: If containerType filter is present, only return the first entry
     if (filters.containerType) {
       filtered = filtered.length > 0 ? [filtered[0]] : [];
     }
-    // ======================================================================== //
+
     return {
-      dataPool: safeDataForFilter.filter((entry) =>
-        matchesFilters(entry, filtersBeforeCurrent),
-      ) as unknown as OrderModel[],
-      dataFiltered: filtered,
+      dataPool: pool as unknown as OrderModel[],
+      dataFiltered: filtered as unknown as OrderModel[],
     };
   }, [data, filters, fieldKey]);
 

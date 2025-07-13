@@ -136,8 +136,18 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   }, [orders, toggleOrder]);
 
   const handleStartProcess = useCallback(() => {
+    log('__DEV: INICIAR - 1', 'yellow', {
+      location: location.pathname,
+      TIME_DEFAULT_SECONDS,
+    });
+
     // If we're on the TimePage, handle simple timer start
-    if (location.pathname === ALTERNATIVE_PATHS.time) {
+    if (location.pathname === PATHS.temperature || location.pathname === ALTERNATIVE_PATHS.time) {
+      log('__DEV: INICIAR - 2', 'yellow', {
+        location: location.pathname,
+        TIME_DEFAULT_SECONDS,
+      });
+
       startTransition(() => {
         // Set timers for all selected orders with the configured time
         // TODO: Get the actual time from TimePage state - for now use default
@@ -150,6 +160,11 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
               duration,
             });
           }
+        });
+
+        log('__DEV: INICIAR - 3', 'yellow', {
+          location: location.pathname,
+          TIME_DEFAULT_SECONDS,
         });
 
         // Navigate back to main page

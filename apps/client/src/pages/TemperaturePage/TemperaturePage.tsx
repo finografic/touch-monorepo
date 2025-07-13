@@ -142,16 +142,23 @@ export const TemperaturePage = () => {
 
       if (!orders?.length || !currentSessionId) return;
 
+      // Find closest available profiles for initial and final temperatures
+      const profiles = temperatureProfilesQuery?.data ?? [];
+      const closestInitialProfile = findClosestProfile(profiles, initial, final);
+      const closestFinalProfile = findClosestProfile(profiles, final, final);
+      const usedInitial = closestInitialProfile ? closestInitialProfile.temperature : initial;
+      const usedFinal = closestFinalProfile ? closestFinalProfile.temperature : final;
+
       // Only update orders in the current session
       const sessionOrders = orders.filter((order) => order.configurationSessionId === currentSessionId);
 
       for (const order of sessionOrders) {
         const currentFilters = order.filters || {};
         // Only update the temperature field, preserve all other filters
-        const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
+        const lookup = { initial: usedInitial, final: usedFinal, name: `${usedInitial}°C → ${usedFinal}°C` };
         setOrdersFilter({
           itemNumber: order.itemNumber,
-          filter: { ...currentFilters, [fieldKey]: { initial, final, lookup } },
+          filter: { ...currentFilters, [fieldKey]: { initial: usedInitial, final: usedFinal, lookup } },
         });
       }
 
@@ -161,16 +168,38 @@ export const TemperaturePage = () => {
           orders.find((o) => o.configurationSessionId === currentSessionId)?.filters || {};
         const sessionFilters = {
           ...prevSessionFilters,
-          [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
+          [fieldKey]: {
+            initial: usedInitial,
+            final: usedFinal,
+            lookup: { initial: usedInitial, final: usedFinal, name: `${usedInitial}°C → ${usedFinal}°C` },
+          },
         };
         updateSessionFilters(currentSessionId, sessionFilters);
       }
 
       // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
-      setIsNextDisabled(final >= initial - MIN_TEMP_DIFFERENCE);
+      setIsNextDisabled(usedFinal >= usedInitial - MIN_TEMP_DIFFERENCE);
     },
-    [setOrdersFilter, setIsNextDisabled, currentSessionId, updateSessionFilters, fieldKey, orders],
+    [
+      setOrdersFilter,
+      setIsNextDisabled,
+      currentSessionId,
+      updateSessionFilters,
+      fieldKey,
+      orders,
+      temperatureProfilesQuery,
+    ],
   );
+
+  // Log session filters after every temperature change for debugging
+  useEffect(() => {
+    if (currentSessionId) {
+      console.log(
+        'Session filters after temperature change:',
+        orders.find((o) => o.configurationSessionId === currentSessionId)?.filters,
+      );
+    }
+  }, [temperatures, currentSessionId, orders]);
 
   const handleChange = (name: TemperatureKey, temp: Temperature) => {
     const update = { ...temperatures, [name]: temp.value };
