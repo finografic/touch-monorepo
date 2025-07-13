@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderItem } from 'types/orders.types';
+import { getElapsedAndEventNumber, makeDefaultSound, makeUserSound, tickAction } from './timers.utils';
 
 interface TimerProps {
   estimatedCompletionTime?: string;
@@ -23,6 +24,7 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
   const { timerAction } = useOrders();
   const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const [remainingTime, setRemainingTime] = useState<number>(0);
+  const lastEventFiredRef = useRef<number>(-1);
 
   // Function to handle timer completion
   const handleTimerComplete = () => {
@@ -65,6 +67,7 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
 
     // Set initial remaining time
     setRemainingTime(Math.max(0, duration));
+    lastEventFiredRef.current = -1;
 
     if (duration <= 0) {
       handleTimerComplete();
@@ -78,6 +81,13 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
 
       // Update remaining time state to trigger re-render
       setRemainingTime(Math.max(0, remaining));
+
+      // Calculate elapsed time and event number using utility
+      const { elapsed, eventNumber } = getElapsedAndEventNumber(duration, remaining);
+      if (eventNumber > lastEventFiredRef.current) {
+        lastEventFiredRef.current = eventNumber;
+        tickAction({ elapsed, remaining, orderId: order.itemNumber });
+      }
 
       if (remaining <= 0) {
         handleTimerComplete();
@@ -102,6 +112,13 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
       }
     };
   }, [estimatedCompletionTime, order, timerAction, onComplete]);
+
+  return (
+    <>
+      <button onClick={() => makeDefaultSound()}>Test Ding</button>
+      <button onClick={() => makeUserSound('ring')}>Test Ring</button>
+    </>
+  );
 
   return <span>{formatTime(remainingTime)}</span>;
 };

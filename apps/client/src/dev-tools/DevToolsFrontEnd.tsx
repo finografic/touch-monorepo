@@ -9,7 +9,7 @@ import { styles } from './DevTools.styles';
 import { MockOrdersButton } from './MockOrdersButton/MockOrdersButton';
 import { MockTimersMin } from './MockTimersMin/MockTimersMin';
 import { MockSessionTimer } from './MockSessionTimer/MockSessionTimer';
-import { hasProcessingTimers } from 'utils/timers.utils';
+import { hasProcessingTimers } from 'components/Timer/timers.utils';
 import { useOrdersOptional } from 'providers/OrdersProvider/OrdersContext';
 // import { DevPanelLeft } from 'dev-tools/DevPanels/DevPanelLeft';
 import { DevPanelRight } from 'dev-tools/DevPanels/DevPanelRight';

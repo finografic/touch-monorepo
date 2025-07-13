@@ -6,6 +6,8 @@ import { PATHS } from 'routes/routes.config';
 import { useCallback } from 'react';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export const MockOrdersButton = () => {
   const navigate = useNavigate();
   const ordersContext = useOrdersOptional();
@@ -15,10 +17,12 @@ export const MockOrdersButton = () => {
     if (!ordersContext?.setOrders) return; // No orders context available
 
     // Use a microtask to ensure state is set before navigation
-    queueMicrotask(() => {
+    queueMicrotask(async () => {
       ordersContext.setOrders(MOCK_ORDERS_DATA);
+      await sleep(500);
       setPageCurrent(Object.keys(MOCK_ORDERS_DATA[0].filters || {}).length);
       // Use RAF to ensure state update has propagated
+      await sleep(500);
       requestAnimationFrame(() => {
         navigate(PATHS.temperature);
       });

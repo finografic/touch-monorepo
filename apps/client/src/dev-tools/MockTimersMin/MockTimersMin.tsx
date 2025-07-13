@@ -1,7 +1,7 @@
 import { useOrders } from 'providers/OrdersProvider';
 import { ClockIcon } from '@radix-ui/react-icons';
 import { useCallback } from 'react';
-import { hasProcessingTimers } from 'utils/timers.utils';
+import { hasProcessingTimers } from 'components/Timer/timers.utils';
 import { styles } from './MockTimersMin.styles';
 
 export const MockTimersMin = () => {
