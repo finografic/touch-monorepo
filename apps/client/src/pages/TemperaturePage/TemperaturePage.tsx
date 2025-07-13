@@ -77,6 +77,7 @@ export const TemperaturePage = () => {
 
       for (const order of sessionOrders) {
         const currentFilters = order.filters || {};
+        // Only update the temperature field, preserve all other filters
         const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
         setOrdersFilter({
           itemNumber: order.itemNumber,
@@ -84,9 +85,13 @@ export const TemperaturePage = () => {
         });
       }
 
-      // Also update session filters so useTemperatureControl can access them
+      // Also update session filters, but preserve all other filters
       if (currentSessionId) {
+        // Get the current session filters (if any)
+        const prevSessionFilters =
+          orders.find((o) => o.configurationSessionId === currentSessionId)?.filters || {};
         const sessionFilters = {
+          ...prevSessionFilters,
           [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
         };
         updateSessionFilters(currentSessionId, sessionFilters);
@@ -116,6 +121,7 @@ export const TemperaturePage = () => {
 
       for (const order of sessionOrders) {
         const currentFilters = order.filters || {};
+        // Only update the temperature field, preserve all other filters
         const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
         setOrdersFilter({
           itemNumber: order.itemNumber,
@@ -123,9 +129,12 @@ export const TemperaturePage = () => {
         });
       }
 
-      // Also update session filters so useTemperatureControl can access them
+      // Also update session filters, but preserve all other filters
       if (currentSessionId) {
+        const prevSessionFilters =
+          orders.find((o) => o.configurationSessionId === currentSessionId)?.filters || {};
         const sessionFilters = {
+          ...prevSessionFilters,
           [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
         };
         updateSessionFilters(currentSessionId, sessionFilters);
@@ -134,7 +143,7 @@ export const TemperaturePage = () => {
       // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
       setIsNextDisabled(final >= initial - MIN_TEMP_DIFFERENCE);
     },
-    [setOrdersFilter, setIsNextDisabled, currentSessionId, updateSessionFilters, fieldKey],
+    [setOrdersFilter, setIsNextDisabled, currentSessionId, updateSessionFilters, fieldKey, orders],
   );
 
   const handleChange = (name: TemperatureKey, temp: Temperature) => {

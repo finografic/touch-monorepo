@@ -76,13 +76,18 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
 
     // After filtering, cast back to OrderModel[] for return type
     // TypeScript: cast to unknown first, then to OrderModel[]
+    let filtered = safeDataForFilter.filter((entry) =>
+      matchesFilters(entry, filtersUpToCurrent),
+    ) as unknown as OrderModel[];
+    // TEMP FIX: If containerType filter is present, only return the first entry
+    if (filters.containerType) {
+      filtered = filtered.length > 0 ? [filtered[0]] : [];
+    }
     return {
       dataPool: safeDataForFilter.filter((entry) =>
         matchesFilters(entry, filtersBeforeCurrent),
       ) as unknown as OrderModel[],
-      dataFiltered: safeDataForFilter.filter((entry) =>
-        matchesFilters(entry, filtersUpToCurrent),
-      ) as unknown as OrderModel[],
+      dataFiltered: filtered,
     };
   }, [data, filters, fieldKey]);
 
