@@ -20,6 +20,8 @@ export const useGetTemperatureProfiles = ({ initial, final, enabled }: UseGetTem
       }
 
       const queryString = createTemperatureQuery(initial, final);
+
+      log('__DEV: queryString', 'hotpink', queryString);
       const response = await api.get<TemperatureProfile[]>(`/temperature-profiles?${queryString}`);
 
       if (response.status !== 200) {

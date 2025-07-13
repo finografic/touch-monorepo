@@ -2,6 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { OrderModel } from 'types/models/order.model';
+import type { DataEntry } from 'types/data.types';
 import { api } from 'api';
 import type { ApiResponse } from '@workspace/core/api';
 import { useOrders } from 'providers/OrdersProvider';
@@ -59,7 +60,9 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
   }, [orders, currentSessionId, sessions]);
 
   // Get unique values for each filter key
-  const uniqueValues = useMemo(() => getUniqueFilterValues(data), [data]);
+  // SAFEGUARD: ensure data is assignable to DataEntry[]
+  const safeData: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
+  const uniqueValues = useMemo(() => getUniqueFilterValues(safeData), [safeData]);
 
   // Client-side filtering with both datasets
   const { dataPool, dataFiltered } = useMemo(() => {
@@ -68,9 +71,18 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
     const filtersBeforeCurrent = getFiltersByStep(filters, fieldKey, false);
     const filtersUpToCurrent = getFiltersByStep(filters, fieldKey, true);
 
+    // SAFEGUARD: ensure data is assignable to DataEntry[] for matchesFilters
+    const safeDataForFilter: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
+
+    // After filtering, cast back to OrderModel[] for return type
+    // TypeScript: cast to unknown first, then to OrderModel[]
     return {
-      dataPool: data.filter((entry) => matchesFilters(entry, filtersBeforeCurrent)),
-      dataFiltered: data.filter((entry) => matchesFilters(entry, filtersUpToCurrent)),
+      dataPool: safeDataForFilter.filter((entry) =>
+        matchesFilters(entry, filtersBeforeCurrent),
+      ) as unknown as OrderModel[],
+      dataFiltered: safeDataForFilter.filter((entry) =>
+        matchesFilters(entry, filtersUpToCurrent),
+      ) as unknown as OrderModel[],
     };
   }, [data, filters, fieldKey]);
 
