@@ -94,7 +94,7 @@ export const TemperaturePage = () => {
           ...prevSessionFilters,
           [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
         };
-        updateSessionFilters(currentSessionId, sessionFilters);
+        // updateSessionFilters(currentSessionId, sessionFilters);
       }
 
       isInitializedRef.current = true;

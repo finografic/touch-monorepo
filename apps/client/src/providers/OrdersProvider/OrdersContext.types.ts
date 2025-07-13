@@ -33,6 +33,7 @@ type OrdersActions = OrdersSetters & {
   }) => void;
   toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => void;
   selectAllOrders: () => void;
+  updateOrderIds: () => void;
   // Timer-specific actions
   timerAction: (type: TimerActionType, payload: TimerActionPayload) => void;
 };
