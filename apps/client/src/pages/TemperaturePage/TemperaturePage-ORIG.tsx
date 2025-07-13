@@ -19,7 +19,6 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { TemperatureKey } from 'types/temperature.types';
 import { styles } from './TemperaturePage.styles';
 import { useGetTemperatureProfiles } from 'queries/temperature/useGetTemperatureProfiles';
-import { findClosestProfile } from 'utils/temperature.utils';
 
 interface TemperatureState {
   initial: number;
@@ -83,18 +82,6 @@ export const TemperaturePage = () => {
   );
 
   // ======================================================================== //
-
-  // Find the closest temperature profile for the current selection
-  const profiles = TEST.data ?? [];
-  const closestProfile = useMemo(() => {
-    if (!profiles.length) return null;
-    return findClosestProfile(profiles, temperatures.initial, temperatures.final);
-  }, [profiles, temperatures.initial, temperatures.final]);
-
-  const isExactMatch =
-    !!closestProfile &&
-    closestProfile.temperature === temperatures.initial &&
-    closestProfile.temperature === temperatures.final;
 
   // Get default consumption temperature from filtered data
   const defaultTempConsume = useMemo(() => {
@@ -211,32 +198,7 @@ export const TemperaturePage = () => {
       <Flex direction="column" gap="3" justify="center" css={styles}>
         <Flex gap="3" justify="center" className="page-description">
           <Box>
-            <p style={{ textAlign: 'center' }}>{DESCRIPTIONS.page}</p>
-            {!isExactMatch && closestProfile && (
-              <>
-                <div style={{ color: 'orange', marginTop: 8, textAlign: 'center' }}>
-                  Closest available profile: {closestProfile.temperature}°C
-                </div>
-                <div
-                  style={{
-                    color: 'orange',
-                    opacity: 0.6,
-                    marginTop: 4,
-                    textAlign: 'center',
-                    fontSize: '0.7em',
-                  }}
-                >
-                  Available profiles: [
-                  {profiles.map((p, i) => (
-                    <span key={p.id}>
-                      {p.temperature}
-                      {i < profiles.length - 1 ? ', ' : ''}
-                    </span>
-                  ))}
-                  ]
-                </div>
-              </>
-            )}
+            <p>{DESCRIPTIONS.page}</p>
           </Box>
         </Flex>
         <Flex gap="3" justify="center" className="temperature-content">
