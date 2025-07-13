@@ -27,6 +27,11 @@ export const useGetTemperatureProfile = ({ temperature, enabled }: UseGetTempera
   return useQuery({
     queryKey: [...GET_TEMPERATURE_PROFILE_QUERYKEY, temperature],
     queryFn: async () => {
+      log(
+        '__DEV: useGetTemperatureProfile - by-tempterature',
+        'hotpink',
+        `/temperature-profiles/by-temperature/${temperature}`,
+      );
       const response = await api.get<ApiResponse<TemperatureProfile>>(
         `/temperature-profiles/by-temperature/${temperature}`,
       );

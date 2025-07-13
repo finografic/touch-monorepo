@@ -32,6 +32,7 @@ const calculateTemperature = async (
   request: CalculateTemperatureRequest,
 ): Promise<CalculateTemperatureResponse> => {
   try {
+    log('__DEV: useCalculateTemperature - /temperature/calculate/{request}', 'cyan', request);
     const response = await api.post<ApiResponse<CalculateTemperatureResponse>>(
       '/temperature/calculate',
       request,

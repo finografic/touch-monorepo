@@ -10,6 +10,7 @@ export const useGetMinMaxTemperatures = () => {
   return useQuery({
     queryKey: ['temperature-profiles', 'min-max'],
     queryFn: async () => {
+      log('__DEV: useGetMinMaxTemperatures - min-max', 'blue');
       const response = await api.get<MinMaxTemperatures>('/temperature-profiles/min-max');
       return response.data;
     },
