@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
 import type { OrderItem } from 'types/orders.types';
-import { getElapsedAndEventNumber, makeDefaultSound, makeUserSound, tickAction } from './timers.utils';
+import { finishAction, getElapsedAndEventNumber, tickAction } from './timers.utils';
 
 interface TimerProps {
   estimatedCompletionTime?: string;
@@ -90,6 +90,7 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
       }
 
       if (remaining <= 0) {
+        finishAction({ elapsed, remaining, orderId: order.itemNumber });
         handleTimerComplete();
       }
     }, 1000);
@@ -113,12 +114,12 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
     };
   }, [estimatedCompletionTime, order, timerAction, onComplete]);
 
-  return (
-    <>
-      <button onClick={() => makeDefaultSound()}>Test Ding</button>
-      <button onClick={() => makeUserSound('ring')}>Test Ring</button>
-    </>
-  );
+  // return (
+  //   <>
+  //     <button onClick={() => makeDefaultSound()}>Test Ding</button>
+  //     <button onClick={() => makeUserSound('ring')}>Test Ring</button>
+  //   </>
+  // );
 
   return <span>{formatTime(remainingTime)}</span>;
 };

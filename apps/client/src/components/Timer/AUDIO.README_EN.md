@@ -1,5 +1,5 @@
 
-Great, that confirms the issue is the browser’s **autoplay policy**—not your code or sound files.
+Great, that confirms the issue is the browser's **autoplay policy**—not your code or sound files.
 
 ---
 
@@ -15,22 +15,29 @@ Modern browsers (including Chrome, Edge, Safari, Firefox) block audio playback u
 ## Can You Work Around This?
 
 ### 1. **No Reliable Programmatic Bypass**
+
 - There is **no official way** to programmatically bypass this policy for background sounds.
 - There are **no Chrome flags or settings** that will globally allow autoplay with sound for all sites, including local apps.
 
 ### 2. **User Gesture "Priming"**
+
 - If the user interacts with your app (clicks a button, etc.), you can "prime" the AudioContext or play a silent sound. After that, some browsers will allow subsequent programmatic sounds for a while.
 - This is not 100% reliable and may reset after inactivity or tab switch.
 
-### 3. **Site-Specific Permissions**
+### 3. **Site-Specific Permissions** ✅
+
 - In Chrome, you can allow sound for a specific site (click the lock icon in the address bar → Site settings → Sound: Allow).
-- This does **not** override the autoplay policy for background events, only for auto-playing media elements.
+- **IMPORTANT**: This setting DOES allow programmatic sounds (like timers) without user gestures.
+- The setting persists after page reload.
+- This is the most reliable solution for local apps and development.
 
 ### 4. **Electron or Native Wrappers**
+
 - If you package your app with Electron or a similar framework, you can disable autoplay restrictions via command-line flags or configuration.
 - For example, Electron allows you to launch with `--autoplay-policy=no-user-gesture-required`.
 
 ### 5. **User Education**
+
 - The most reliable approach is to **require a user gesture** to start timers or "prime" the sound system, and inform users that background sounds may be blocked by browser policy.
 
 ---
@@ -40,19 +47,20 @@ Modern browsers (including Chrome, Edge, Safari, Firefox) block audio playback u
 | Approach                | Works in Browser? | Works in Electron? | Notes                                 |
 |-------------------------|:-----------------:|:------------------:|---------------------------------------|
 | User gesture (click)    |        ✅         |        ✅          | Always works                          |
-| Timer/interval sound    |        ❌         |        ✅*         | Blocked in browser, can allow in Electron |
-| Chrome site settings    |        ❌         |        N/A         | Does not override autoplay policy     |
+| Timer/interval sound    |        ✅*        |        ✅*         | Works with site permissions in browser |
+| Chrome site settings    |        ✅         |        N/A         | Allows programmatic sounds            |
 | Chrome flags            |        ❌         |        ✅*         | Only in custom wrappers               |
 
 ---
 
 ## **What Should You Do?**
 
-- For browser-based apps:  
-  - Always require a user gesture to start timers or prime the sound system.
-  - Optionally, show a message if sound is blocked and prompt the user to interact.
+- For browser-based apps:
+  - Configure site-specific sound permissions for your domain.
+  - Optionally, show instructions for users on how to enable sound permissions.
+  - Fall back to user gesture priming if needed.
 
-- For Electron/native:  
+- For Electron/native:
   - You can disable the autoplay policy and allow programmatic sound.
 
 ---

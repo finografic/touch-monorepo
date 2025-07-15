@@ -24,10 +24,12 @@ Los navegadores modernos (incluyendo Chrome, Edge, Safari, Firefox) bloquean la 
 - Si el usuario interactúa con tu app (hace clic en un botón, etc.), puedes "preparar" el sistema de audio o reproducir un sonido silencioso. Después de eso, algunos navegadores permitirán sonidos programáticos por un tiempo.
 - Esto **no es 100% confiable** y puede reiniciarse tras inactividad o cambiar de pestaña.
 
-### 3. **Permisos específicos del sitio**
+### 3. **Permisos específicos del sitio** ✅
 
 - En Chrome, puedes permitir sonido para un sitio específico (haz clic en el candado en la barra de direcciones → Configuración del sitio → Sonido: Permitir).
-- Esto **no** anula la política de reproducción automática para eventos en segundo plano, solo para elementos multimedia que se reproducen automáticamente.
+- **IMPORTANTE**: Esta configuración SÍ permite sonidos programáticos (como timers) sin gestos del usuario.
+- La configuración persiste después de recargar la página.
+- Es la solución más confiable para apps locales y de desarrollo.
 
 ### 4. **Electron u otros wrappers nativos**
 
@@ -45,8 +47,8 @@ Los navegadores modernos (incluyendo Chrome, Edge, Safari, Firefox) bloquean la 
 | Enfoque                    | ¿Funciona en navegador? | ¿Funciona en Electron? | Notas                                      |
 |---------------------------|:----------------------:|:---------------------:|--------------------------------------------|
 | Gesto del usuario (clic)  |          ✅            |         ✅            | Siempre funciona                           |
-| Sonido por temporizador   |          ❌            |         ✅*           | Bloqueado en navegador, permitido en Electron |
-| Permiso en Chrome         |          ❌            |        N/A            | No anula la política de reproducción auto. |
+| Sonido por temporizador   |          ✅*           |         ✅*           | Funciona con permisos del sitio en navegador |
+| Permiso en Chrome         |          ✅            |        N/A            | Permite sonidos programáticos              |
 | Flags de Chrome           |          ❌            |         ✅*           | Solo en wrappers personalizados            |
 
 ---
@@ -54,8 +56,9 @@ Los navegadores modernos (incluyendo Chrome, Edge, Safari, Firefox) bloquean la 
 ## **¿Qué deberías hacer?**
 
 - Para apps en navegador:
-  - Siempre requiere un gesto del usuario para iniciar temporizadores o preparar el sistema de sonido.
-  - Opcionalmente, muestra un mensaje si el sonido está bloqueado y pide al usuario que interactúe.
+  - Configura permisos de sonido específicos del sitio para tu dominio.
+  - Opcionalmente, muestra instrucciones para que los usuarios habiliten los permisos de sonido.
+  - Usa "preparación" con gesto del usuario como respaldo si es necesario.
 
 - Para Electron/nativo:
   - Puedes desactivar la política de reproducción automática y permitir sonido programático.

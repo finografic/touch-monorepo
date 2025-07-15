@@ -1,9 +1,6 @@
 import type { OrderItem } from 'types/orders.types';
-
-// Timer utilities for Timer component
-
-import fxDingMp3 from './sounds/fx-ding.mp3';
-import fxRingMp3 from './sounds/fx-ring.mp3';
+import soundTickFile from './sounds/fx-ding.mp3';
+import soundFinishFile from './sounds/fx-ring.mp3';
 
 export const EVENT_INTERVAL = 5; // seconds
 
@@ -27,6 +24,32 @@ export const formatTime = (seconds: number | undefined): string => {
   return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
+// Play the default sound (fx-ding.mp3 in local sounds/ folder)
+export function makeDefaultSound() {
+  try {
+    const audio = new window.Audio(soundTickFile);
+    audio.volume = 0.2;
+    audio.play();
+  } catch (e) {
+    // Fallback: do nothing
+  }
+}
+
+// Play a user sound by key ('ding' or 'ring')
+export function makeUserSound(key: 'tick' | 'finish') {
+  try {
+    let url = '';
+    if (key === 'tick') url = soundTickFile;
+    if (key === 'finish') url = soundFinishFile;
+    if (!url) return;
+    const audio = new window.Audio(url);
+    audio.volume = 0.2;
+    audio.play();
+  } catch (e) {
+    // Fallback: do nothing
+  }
+}
+
 // Example tick action (can be customized)
 export function tickAction({
   elapsed,
@@ -40,32 +63,21 @@ export function tickAction({
   console.log(`EVENT: ${elapsed}s elapsed, ${remaining}s remaining (order ${orderId})`);
   // Example: play sound every interval
   // makeDefaultSound();
+  makeUserSound('tick');
 }
 
-// Play the default sound (fx-ding.mp3 in local sounds/ folder)
-export function makeDefaultSound() {
-  try {
-    const audio = new window.Audio(fxDingMp3);
-    audio.volume = 0.2;
-    audio.play();
-  } catch (e) {
-    // Fallback: do nothing
-  }
-}
-
-// Play a user sound by key ('ding' or 'ring')
-export function makeUserSound(key: 'ding' | 'ring') {
-  try {
-    let url = '';
-    if (key === 'ding') url = fxDingMp3;
-    if (key === 'ring') url = fxRingMp3;
-    if (!url) return;
-    const audio = new window.Audio(url);
-    audio.volume = 0.2;
-    audio.play();
-  } catch (e) {
-    // Fallback: do nothing
-  }
+// Example tick action (can be customized)
+export function finishAction({
+  elapsed,
+  remaining,
+  orderId,
+}: {
+  elapsed: number;
+  remaining: number;
+  orderId: number;
+}) {
+  console.log('EVENT: TIMER FINISHED', { elapsed, remaining, orderId });
+  makeUserSound('finish');
 }
 
 export function getElapsedAndEventNumber(duration: number, remaining: number) {
