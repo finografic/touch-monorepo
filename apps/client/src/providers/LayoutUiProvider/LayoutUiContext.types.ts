@@ -5,6 +5,7 @@ import type { PadConfig, PadType, PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
 import type { RegionLocale } from '@workspace/types';
+import type { OrderModel } from 'types/models/order.model';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numItems]: ValidGridSize;
@@ -28,7 +29,7 @@ type LayoutUiActions = LayoutUiSetters & {
     fieldKey: OrderFieldKey | undefined,
     loaderData: DataEntry[],
     padsConfig: PadConfig,
-    dataPool: DataEntry[],
+    dataPool: DataEntry[] | OrderModel[],
     serverFieldMap: Record<string, string>,
     currentLanguage?: RegionLocale,
   ) => void;

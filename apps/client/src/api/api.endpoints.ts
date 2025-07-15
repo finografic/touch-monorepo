@@ -22,6 +22,8 @@ import type {
 } from 'queries/supported-languages/supported-languages.types';
 import { useQuery } from '@tanstack/react-query';
 import type { AnalyticsData } from 'types/analytics.types';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { OrderModel } from 'types/models/order.model';
 
 // Utility type for endpoint functions
 type EndpointFunction = (...args: any[]) => Promise<any>;
@@ -115,6 +117,7 @@ export const EndpointHelper = createEndpoints({
 
   getTemperatureProfile: async (id: string) =>
     await api.get<ApiResponse<TemperatureProfileEntity>>(`/temperature-profiles/${id}`),
+  getOrdersReadable: async () => await api.get<ApiResponse<OrderReadableModel[]>>('/orders-readable'),
   getAnalytics: async (params: { from: Date; to: Date }) =>
     await api.get<ApiResponse<AnalyticsData>>('/analytics', {
       params,

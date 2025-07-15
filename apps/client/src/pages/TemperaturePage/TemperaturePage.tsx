@@ -90,50 +90,57 @@ export const TemperaturePage = () => {
   }, [dataFiltered]);
 
   // Initialize temperatures with fallback values
-  useEffect(() => {
-    if (!isInitializedRef.current) {
-      const initial = INITIAL_TEMP_DEFAULT;
-      // Use defaultTempConsume if available, otherwise fallback to 8°C
-      const final = defaultTempConsume ?? 8;
-      const newTemperatures = { initial, final };
-      setTemperatures(newTemperatures);
+  useEffect(
+    function initTemperatures() {
+      log('__DEV: isInitializedRef.current', 'grey', { currentSessionId }, isInitializedRef.current);
+      if (!isInitializedRef.current) {
+        const initial = INITIAL_TEMP_DEFAULT;
+        // Use defaultTempConsume if available, otherwise fallback to 8°C
+        const final = defaultTempConsume ?? 8;
+        const newTemperatures = { initial, final };
+        setTemperatures(newTemperatures);
 
-      // Only update orders in the current session
-      const sessionOrders = orders.filter((order) => order.configurationSessionId === currentSessionId);
+        // Only update orders in the current session
+        const sessionOrders = orders.filter((order) => order.configurationSessionId === currentSessionId);
 
-      for (const order of sessionOrders) {
-        const currentFilters = order.filters || {};
-        // Only update the temperature field, preserve all other filters
-        const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
-        setOrdersFilter({
-          itemNumber: order.itemNumber,
-          filter: { ...currentFilters, [fieldKey]: { initial, final, lookup } },
-        });
+        log('__DEV: ORDERS - orders', 'cyan', { currentSessionId }, orders);
+        log('__DEV: ORDERS - sessionOrders', 'lime', { currentSessionId }, sessionOrders);
+
+        for (const order of sessionOrders) {
+          const currentFilters = order.filters || {};
+          // Only update the temperature field, preserve all other filters
+          const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
+          setOrdersFilter({
+            itemNumber: order.itemNumber,
+            filter: { ...currentFilters, [fieldKey]: { initial, final, lookup } },
+          });
+        }
+
+        // Also update session filters, but preserve all other filters
+        if (currentSessionId) {
+          // Get the current session filters (if any)
+          const prevSessionFilters =
+            orders.find((o) => o.configurationSessionId === currentSessionId)?.filters || {};
+          const sessionFilters = {
+            ...prevSessionFilters,
+            [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
+          };
+          updateSessionFilters(currentSessionId, sessionFilters);
+        }
+
+        isInitializedRef.current = true;
       }
-
-      // Also update session filters, but preserve all other filters
-      if (currentSessionId) {
-        // Get the current session filters (if any)
-        const prevSessionFilters =
-          orders.find((o) => o.configurationSessionId === currentSessionId)?.filters || {};
-        const sessionFilters = {
-          ...prevSessionFilters,
-          [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
-        };
-        updateSessionFilters(currentSessionId, sessionFilters);
-      }
-
-      isInitializedRef.current = true;
-    }
-  }, [
-    defaultTempConsume,
-    setFilter,
-    orders,
-    fieldKey,
-    setOrdersFilter,
-    currentSessionId,
-    updateSessionFilters,
-  ]);
+    },
+    [
+      defaultTempConsume,
+      setFilter,
+      orders,
+      fieldKey,
+      setOrdersFilter,
+      currentSessionId,
+      updateSessionFilters,
+    ],
+  );
 
   // Update filters and validate when temperatures change
   const updateTemperatures = useCallback(
@@ -151,6 +158,9 @@ export const TemperaturePage = () => {
 
       // Only update orders in the current session
       const sessionOrders = orders.filter((order) => order.configurationSessionId === currentSessionId);
+
+      // log('__DEV: ORDERS - orders', 'cyan', { currentSessionId }, orders);
+      // log('__DEV: ORDERS - sessionOrders', 'lime', { currentSessionId }, sessionOrders);
 
       for (const order of sessionOrders) {
         const currentFilters = order.filters || {};

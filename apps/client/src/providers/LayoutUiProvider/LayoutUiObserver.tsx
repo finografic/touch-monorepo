@@ -54,6 +54,7 @@ export const useLayoutUiObserver = () => {
       lastRouteDataRef.current.language !== currentRouteData.language;
 
     if (hasRouteChanged) {
+      log('__DEV: hasRouteChanged', 'red', hasRouteChanged);
       lastRouteDataRef.current = currentRouteData;
 
       // Build session server field map
@@ -72,11 +73,14 @@ export const useLayoutUiObserver = () => {
 
       // Handle route change
       if (!fieldKey) {
+        log('__DEV: dataPool', 'red', dataPool);
         store.handleRouteChange(undefined, [], {} as any, [], {});
         return;
       }
 
       if (loaderData && padsConfig && dataPool) {
+        log('__DEV: dataPool', 'magenta', dataPool);
+
         isInitializedRef.current[fieldKey] = false;
 
         // Pass the full locale to maintain regional information
