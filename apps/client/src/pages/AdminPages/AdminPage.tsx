@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
-import { ChatBubbleIcon, GearIcon, GlobeIcon, TableIcon } from '@radix-ui/react-icons';
+import { ChatBubbleIcon, GearIcon, GlobeIcon, SpeakerLoudIcon, TableIcon } from '@radix-ui/react-icons';
 import { usePageTransition } from 'hooks/usePageTransition';
 import { AdminContentLayout } from './shared';
 import { styles } from './AdminPage.styles';
@@ -51,6 +51,14 @@ export const AdminPage: React.FC = () => {
       icon: <TableIcon width="32" height="32" />,
       path: '/admin/filter-analysis',
       color: 'purple' as const,
+    },
+    {
+      id: 'sounds',
+      title: 'Sound Management',
+      description: 'Upload and configure sound files for timer events',
+      icon: <SpeakerLoudIcon width="32" height="32" />,
+      path: '/admin/sounds',
+      color: 'indigo' as const,
     },
     // {
     //   id: 'database',

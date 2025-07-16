@@ -36,6 +36,11 @@ export const AdminNavigation: React.FC = () => {
       label: t('admin.pages.orders.title'),
       path: '/admin/orders',
     },
+    {
+      id: 'sounds',
+      label: 'Sounds',
+      path: '/admin/sounds',
+    },
   ];
 
   const handleNavigation = (path: string) => {

@@ -16,6 +16,7 @@ import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
 import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPage';
+import { AdminSoundPage } from 'pages/AdminPages/AdminSoundPage/AdminSoundPage';
 
 export const routes: RouteObject[] = [
   {
@@ -131,6 +132,11 @@ export const routes: RouteObject[] = [
         path: 'filter-analysis',
         id: 'filter-analysis',
         element: <AdminFilterAnalysisPage />,
+      },
+      {
+        path: 'sounds',
+        id: 'sounds',
+        element: <AdminSoundPage />,
       },
     ],
   },
