@@ -79,7 +79,7 @@ async function main() {
     console.log("[db-setup] About to show operations prompt...");
     let operations;
     if (autoConfirm) {
-      operations = ["seed"];
+      operations = ["seed", "views"];
       console.log("[db-setup] Auto-confirm enabled: defaulting to operations:", operations);
     } else {
       operations = await checkbox({
