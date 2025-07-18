@@ -55,10 +55,8 @@ async function ensureUploadsDir() {
 
 // Initialize sound files on module load
 (async () => {
-  console.log('🚀 Initializing sound files...');
   await scanFilesFromDisk();
   await validateSettings();
-  console.log('✅ Sound files initialized');
 })();
 
 // Load settings from file
@@ -90,12 +88,10 @@ async function validateSettings() {
     );
 
     if (!tickFile) {
-      console.log(`Tick sound file not found: ${soundSettings.tick}, clearing setting`);
       soundSettings.tick = null;
       settingsChanged = true;
     } else if (soundSettings.tick !== tickFile.id) {
       // Update to use the correct ID (with extension)
-      console.log(`Updating tick sound from ${soundSettings.tick} to ${tickFile.id}`);
       soundSettings.tick = tickFile.id;
       settingsChanged = true;
     }
@@ -108,12 +104,10 @@ async function validateSettings() {
     );
 
     if (!finishFile) {
-      console.log(`Finish sound file not found: ${soundSettings.finish}, clearing setting`);
       soundSettings.finish = null;
       settingsChanged = true;
     } else if (soundSettings.finish !== finishFile.id) {
       // Update to use the correct ID (with extension)
-      console.log(`Updating finish sound from ${soundSettings.finish} to ${finishFile.id}`);
       soundSettings.finish = finishFile.id;
       settingsChanged = true;
     }
@@ -138,10 +132,6 @@ async function saveSettings() {
 // Scan and restore files from disk
 async function scanFilesFromDisk() {
   try {
-    console.log('🔍 Scanning for sound files...');
-    console.log('📁 Uploads directory:', uploadsDir);
-    console.log('📁 Directory exists:', existsSync(uploadsDir));
-
     await ensureUploadsDir();
 
     // Clear existing in-memory files
@@ -149,12 +139,10 @@ async function scanFilesFromDisk() {
 
     // Read all files in the uploads directory
     const files = await readdir(uploadsDir);
-    console.log('📄 All files in directory:', files);
 
     for (const fileName of files) {
       // Skip directories, non-sound files, and files starting with underscore
       if (fileName === '.gitignore' || !fileName.startsWith('sound-') || fileName.startsWith('_')) {
-        console.log('⏭️  Skipping file:', fileName);
         continue;
       }
 
@@ -197,10 +185,12 @@ async function scanFilesFromDisk() {
       };
 
       soundFiles.push(fileInfo);
-      console.log('✅ Added sound file:', fileInfo.name);
     }
 
-    console.log(`🎵 Scanned ${soundFiles.length} sound files from disk`);
+    // Minimal output: path with existence status and file count
+    const dirExists = existsSync(uploadsDir);
+    console.log(`${dirExists ? '🔈' : '❌'} ${uploadsDir}`);
+    console.log(`${dirExists ? '🔈' : '❌'} ${soundFiles.length} sound files`);
   } catch (error) {
     console.error('❌ Error scanning files from disk:', error);
   }
