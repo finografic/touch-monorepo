@@ -39,4 +39,17 @@ export interface RateLimitError {
   isRetryable: true;
 }
 
-export type ApplicationError = ValidationError | NetworkError | RateLimitError;
+export interface HttpError {
+  code: 'HTTP_ERROR';
+  message: string;
+  status: number;
+  isRetryable: boolean;
+}
+
+export interface TimeoutError {
+  code: 'TIMEOUT_ERROR';
+  message: string;
+  isRetryable: true;
+}
+
+export type ApplicationError = ValidationError | NetworkError | RateLimitError | HttpError | TimeoutError;

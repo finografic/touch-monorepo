@@ -1,11 +1,11 @@
 // @ts-nocheck
-import axios, { HttpStatusCode } from 'axios';
+import axios from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
 import type { ApplicationError, ErrorResponse } from './error.types';
 import { ERROR_CODES, ERROR_MESSAGES } from './error.constants';
-import { AXIOS_ERROR_CODE_MAP } from './error.V1.constants';
+
 import { errorResponseSchema } from './error.schema';
-import cloneDeep from 'lodash/cloneDeep';
+
 import type { ZodErrorResponse } from './error.schema';
 
 // ======================================================================== //
@@ -78,6 +78,16 @@ export const transformAxiosError = (error: unknown): ApplicationError => {
         };
       }
 
+      // Handle HTTP errors with specific status codes
+      if (status >= 400 && status < 600) {
+        return {
+          code: 'HTTP_ERROR',
+          message: ERROR_MESSAGES[status] || error.message,
+          status,
+          isRetryable: isRetryableError(error),
+        };
+      }
+
       // Handle network errors
       return {
         code: 'NETWORK_ERROR',
@@ -87,10 +97,19 @@ export const transformAxiosError = (error: unknown): ApplicationError => {
       };
     }
 
+    // Handle timeout errors
+    if (error.code === 'ECONNABORTED' || error.code === 'ETIMEDOUT') {
+      return {
+        code: 'TIMEOUT_ERROR',
+        message: ERROR_MESSAGES[ERROR_CODES.REQUEST_TIMEOUT],
+        isRetryable: true,
+      };
+    }
+
     // Handle request errors (no response received)
     return {
       code: 'NETWORK_ERROR',
-      message: ERROR_MESSAGES.NETWORK_ERROR,
+      message: ERROR_MESSAGES[ERROR_CODES.NETWORK_ERROR],
       isRetryable: true,
     };
   }
@@ -113,18 +132,3 @@ export const transformAxiosError = (error: unknown): ApplicationError => {
 };
 
 // ======================================================================== //
-
-/**
- * Transforms any error (Axios or otherwise) into our standardized ErrorResponse format
- */
-export const transformError = (error: unknown): ErrorResponse => {
-  const axiosError = error as AxiosError;
-  return {
-    message: axiosError.message || 'An unknown error occurred',
-    code: axiosError.code as keyof typeof AXIOS_ERROR_CODE_MAP,
-    status:
-      axiosError.response?.status ||
-      AXIOS_ERROR_CODE_MAP[axiosError.code as keyof typeof AXIOS_ERROR_CODE_MAP] ||
-      500,
-  };
-};
