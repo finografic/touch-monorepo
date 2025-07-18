@@ -43,7 +43,7 @@ let soundSettings: {
 const generateId = () => `sound-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
 // Use the paths utility for reliable path resolution
-const uploadsDir = paths.data.file('uploads', 'sounds');
+const uploadsDir = paths.uploads.file('sounds');
 const settingsFile = join(uploadsDir, '_settings.json');
 
 // Create directory if it doesn't exist

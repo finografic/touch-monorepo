@@ -16,9 +16,7 @@ const findRootDir = (startDir: string) => {
 
   while (currentDir !== path.parse(currentDir).root) {
     const hasNpmrc = fs.existsSync(path.join(currentDir, '.npmrc'));
-    const hasWorkspaceFile = fs.existsSync(
-      path.join(currentDir, 'pnpm-workspace.yaml'),
-    );
+    const hasWorkspaceFile = fs.existsSync(path.join(currentDir, 'pnpm-workspace.yaml'));
 
     if (hasNpmrc && hasWorkspaceFile) {
       return currentDir;
@@ -44,6 +42,10 @@ export const paths = {
   data: {
     dir: path.join(rootDir, 'data'),
     file: (...segments: string[]) => path.join(rootDir, 'data', ...segments),
+  },
+  uploads: {
+    dir: path.join(rootDir, 'data', 'uploads'),
+    file: (...segments: string[]) => path.join(rootDir, 'data', 'uploads', ...segments),
   },
   logs: {
     dir: path.join(rootDir, 'logs'),
