@@ -1,4 +1,4 @@
-import type { CamelToKebab, CamelToSnake } from '@workspace/types/utils';
+import type { CamelToKebab, CamelToSnake } from '@workspace/core/types/utils';
 
 // Base keys in camelCase - our source of truth
 export const ORDER_FIELD_KEYS = [

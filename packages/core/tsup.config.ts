@@ -26,6 +26,7 @@ export default defineConfig({
     'src/types/utils/enum.utils.types.ts',
     'src/types/utils/object.utils.types.ts',
     'src/types/utils/props.utils.types.ts',
+    'src/types/utils/index.ts',
     // Utils files
     'src/utils/index.ts',
     'src/utils/string.utils.ts',

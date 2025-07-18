@@ -6,11 +6,7 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
-    "@workspace/types#build": {
-      "outputs": ["dist/**", "*.tsbuildinfo"]
-    },
     "@workspace/globals#build": {
-      "dependsOn": ["@workspace/types#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/config#build": {
@@ -21,16 +17,16 @@
       "dependsOn": ["@workspace/config#build"],
       "outputs": ["dist/**", "bin/**", "*.tsbuildinfo"]
     },
-    "@workspace/i18n#build": {
-      "dependsOn": ["@workspace/types#build", "@workspace/config#build"],
+    "@workspace/core#build": {
+      "dependsOn": ["@workspace/config#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
-    "@workspace/core#build": {
-      "dependsOn": ["@workspace/types#build", "@workspace/config#build", "@workspace/i18n#build"],
+    "@workspace/i18n#build": {
+      "dependsOn": ["@workspace/core#build", "@workspace/config#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/core#dev": {
-      "dependsOn": ["@workspace/types#build", "@workspace/config#build", "@workspace/i18n#build"],
+      "dependsOn": ["@workspace/config#build"],
       "cache": false,
       "persistent": true
     },

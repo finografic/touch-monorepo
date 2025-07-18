@@ -7,7 +7,7 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useFilters } from 'hooks/useFilters';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTranslation } from 'react-i18next';
-import type { RegionLocale } from '@workspace/types';
+import type { RegionLocale } from '@workspace/core/types';
 
 /**
  * Hook that handles LayoutUI subscriptions and state management

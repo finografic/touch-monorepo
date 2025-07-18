@@ -51,8 +51,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
       alias: {
-        '@workspace/types': resolve(workspaceRoot, 'packages/types/src'),
-        '@workspace/types/utils': resolve(workspaceRoot, 'packages/types/src/utils'),
+        '@workspace/core/types': resolve(workspaceRoot, 'packages/core/src/types'),
+        '@workspace/core/types/utils': resolve(workspaceRoot, 'packages/core/src/types/utils'),
         '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src'),
       },
     },
@@ -94,8 +94,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         'react/jsx-runtime',
         '@workspace/config',
         '@workspace/core',
-        '@workspace/types',
-        '@workspace/types/utils',
+        '@workspace/core/types',
+        '@workspace/core/types/utils',
         '@workspace/i18n',
       ],
       esbuildOptions: {

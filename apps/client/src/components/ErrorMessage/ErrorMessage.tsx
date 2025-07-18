@@ -1,5 +1,5 @@
 import { ExclamationTriangleIcon } from '@radix-ui/react-icons';
-import type { ErrorResponse } from '@workspace/types';
+import type { ErrorResponse } from '@workspace/core/types';
 import { getErrorMessage } from '@workspace/shared/utils/api.utils';
 
 interface ErrorMessageProps {

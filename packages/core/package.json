@@ -34,6 +34,10 @@
       "types": "./dist/types/*.d.ts",
       "import": "./dist/types/*.js"
     },
+    "./types/utils": {
+      "types": "./dist/types/utils/index.d.ts",
+      "import": "./dist/types/utils/index.js"
+    },
     "./types/utils/*": {
       "types": "./dist/types/utils/*.d.ts",
       "import": "./dist/types/utils/*.js"

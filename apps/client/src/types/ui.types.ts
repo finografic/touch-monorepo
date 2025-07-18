@@ -1,6 +1,6 @@
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { ConstEnumOf } from '@workspace/types/utils';
+import type { ConstEnumOf } from '@workspace/core/types/utils';
 import type { FilterKey } from 'types/filters.types';
 
 export type PadType = 'radio' | 'checkbox' | 'button';

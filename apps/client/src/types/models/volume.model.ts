@@ -1,5 +1,5 @@
 import type { VolumeEntity } from '@workspace/server/types/entities/volume.entity';
-import type { ConvertKeysToCamelCase, OverridePropTypes } from '@workspace/types/utils';
+import type { ConvertKeysToCamelCase, OverridePropTypes } from '@workspace/core/types/utils';
 import type { ModelBaseProps } from 'types/base.types';
 
 export type DrinkVolume = OverridePropTypes<

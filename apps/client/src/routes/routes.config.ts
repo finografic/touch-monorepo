@@ -1,6 +1,6 @@
 import type { RouteConfig } from 'routes/routes.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { ConstMapOf } from '@workspace/types/utils';
+import type { ConstMapOf } from '@workspace/core/types/utils';
 
 export const PATHS: ConstMapOf<OrderFieldKey, string> = {
   main: '/',

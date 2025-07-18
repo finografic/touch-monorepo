@@ -1,4 +1,4 @@
-import type { LetterLower, LetterUpper } from '@workspace/types/utils';
+import type { LetterLower, LetterUpper } from '@workspace/core/types/utils';
 /**
  * Unified language interface that combines API data with country data
  * This should replace all other language interfaces throughout the app
