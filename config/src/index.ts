@@ -1,2 +1,2 @@
-export * from './env.shared';
+// Only export paths to avoid circular dependency with env.shared
 export * from './paths';

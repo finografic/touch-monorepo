@@ -17,6 +17,8 @@ import { Buffer } from 'buffer';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import { slugify } from 'utils/string.utils';
 
+import { paths } from '@workspace/config/paths';
+
 // In-memory storage for demo purposes
 // In production, this would be replaced with database storage
 const soundFiles: Array<{
@@ -40,8 +42,8 @@ let soundSettings: {
 // Simple ID generator
 const generateId = () => `sound-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-// Use the data directory - relative path from server root
-const uploadsDir = join(process.cwd(), '..', '..', 'data', 'uploads', 'sounds');
+// Use the paths utility for reliable path resolution
+const uploadsDir = paths.data.file('uploads', 'sounds');
 const settingsFile = join(uploadsDir, '_settings.json');
 
 // Create directory if it doesn't exist
