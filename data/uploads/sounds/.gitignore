@@ -1,0 +1,8 @@
+# Ignore uploaded audio files but keep settings
+*.mp3
+*.wav
+*.aif
+*.aiff
+*.m4a
+*.ogg
+.DS_Store

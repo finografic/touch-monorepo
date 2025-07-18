@@ -1,6 +1,5 @@
 import type { OrderItem } from 'types/orders.types';
-import soundTickFile from './sounds/fx-ding.mp3';
-import soundFinishFile from './sounds/fx-ring.mp3';
+import { playCachedSound, playSoundFromUrl, getCachedSettings } from 'utils/soundCache.utils';
 
 export const EVENT_INTERVAL = 5; // seconds
 
@@ -24,29 +23,58 @@ export const formatTime = (seconds: number | undefined): string => {
   return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
-// Play the default sound (fx-ding.mp3 in local sounds/ folder)
-export function makeDefaultSound() {
+// Play the configured tick sound from API with fallback
+export async function makeTickSound() {
   try {
-    const audio = new window.Audio(soundTickFile);
-    audio.volume = 0.2;
-    audio.play();
+    const settings = await getCachedSettings();
+    if (settings.tick) {
+      try {
+        await playCachedSound(settings.tick, 0.2);
+      } catch (cachedError) {
+        console.warn('Cached tick sound failed, trying URL fallback:', cachedError);
+        await playSoundFromUrl(settings.tick, 0.2);
+      }
+    }
   } catch (e) {
+    console.warn('Could not play tick sound:', e);
     // Fallback: do nothing
   }
 }
 
-// Play a user sound by key ('ding' or 'ring')
-export function makeUserSound(key: 'tick' | 'finish') {
+// Play the configured finish sound from API with fallback
+export async function makeFinishSound() {
   try {
-    let url = '';
-    if (key === 'tick') url = soundTickFile;
-    if (key === 'finish') url = soundFinishFile;
-    if (!url) return;
-    const audio = new window.Audio(url);
-    audio.volume = 0.2;
-    audio.play();
+    const settings = await getCachedSettings();
+    if (settings.finish) {
+      try {
+        await playCachedSound(settings.finish, 0.2);
+      } catch (cachedError) {
+        console.warn('Cached finish sound failed, trying URL fallback:', cachedError);
+        await playSoundFromUrl(settings.finish, 0.2);
+      }
+    }
   } catch (e) {
+    console.warn('Could not play finish sound:', e);
     // Fallback: do nothing
+  }
+}
+
+// Legacy functions for backward compatibility
+export function makeDefaultSound() {
+  makeTickSound().catch(() => {
+    // Silent fallback
+  });
+}
+
+export function makeUserSound(key: 'tick' | 'finish') {
+  if (key === 'tick') {
+    makeTickSound().catch(() => {
+      // Silent fallback
+    });
+  } else if (key === 'finish') {
+    makeFinishSound().catch(() => {
+      // Silent fallback
+    });
   }
 }
 
@@ -61,12 +89,13 @@ export function tickAction({
   orderId: number;
 }) {
   console.log(`EVENT: ${elapsed}s elapsed, ${remaining}s remaining (order ${orderId})`);
-  // Example: play sound every interval
-  // makeDefaultSound();
-  makeUserSound('tick');
+  // Play configured tick sound
+  makeTickSound().catch(() => {
+    // Silent fallback
+  });
 }
 
-// Example tick action (can be customized)
+// Example finish action (can be customized)
 export function finishAction({
   elapsed,
   remaining,
@@ -77,7 +106,9 @@ export function finishAction({
   orderId: number;
 }) {
   console.log('EVENT: TIMER FINISHED', { elapsed, remaining, orderId });
-  makeUserSound('finish');
+  makeFinishSound().catch(() => {
+    // Silent fallback
+  });
 }
 
 export function getElapsedAndEventNumber(duration: number, remaining: number) {

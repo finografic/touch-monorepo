@@ -154,25 +154,6 @@ export const styles = css`
     padding: ${spacing[8]};
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
-    .section-header {
-      margin-bottom: ${spacing[6]};
-      padding-bottom: ${spacing[3]};
-      border-bottom: 1px solid ${colors.greyLight};
-
-      .section-title {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: ${colors.text};
-        margin-bottom: ${spacing[2]};
-      }
-
-      .section-description {
-        font-size: 0.875rem;
-        color: ${colors.greyDark};
-        line-height: 1.5;
-      }
-    }
-
     .section-content {
       display: flex;
       flex-direction: column;

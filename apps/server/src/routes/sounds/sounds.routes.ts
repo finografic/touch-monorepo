@@ -11,6 +11,7 @@ const tags = ['Sounds'];
 const soundFileSchema = z.object({
   id: z.string(),
   name: z.string(),
+  originalName: z.string().optional(), // Optional: original filename for new uploads
   url: z.string(),
   type: z.string(),
   size: z.number(),
@@ -61,7 +62,12 @@ export const remove = createRoute({
   path: '/sounds/{id}',
   method: 'delete',
   request: {
-    params: IdCuidParamsSchema,
+    params: z.object({
+      id: z.string().openapi({
+        description: 'Sound file identifier (filename without extension)',
+        example: 'sound-fx-ring-1752861588617-omee',
+      }),
+    }),
   },
   tags,
   responses: {

@@ -1,0 +1,23 @@
+# Cursor AI Assistant Rules for Touch Monorepo
+
+## Server Management
+
+- DO NOT start development servers - user manages their own instances
+- Server runs on localhost:4040 (already running)
+- Client runs on localhost:3000 (Vite dev server)
+- Always test APIs with curl before making changes
+- Never run `npm run dev`, `pnpm dev`, or similar commands unless explicitly requested
+
+## Development Workflow
+
+- Use `curl -s http://localhost:4040/api/endpoint` to test server endpoints
+- Check server status with `lsof -i :4040` if needed
+- The user handles server restarts and process management
+- Focus on code changes, not server operations
+
+## Project Structure
+
+- Monorepo with apps/client and apps/server
+- Shared packages in packages/
+- Use TypeScript throughout
+- Follow existing patterns and conventions

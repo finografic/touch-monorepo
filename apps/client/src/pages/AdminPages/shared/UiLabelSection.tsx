@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { styles } from './UiLabelSection.styles';
+import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 interface SupportedLanguage {
   isoCode: string;
@@ -41,12 +42,7 @@ export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
       <Box className={`ui-label-section ${className}`} css={styles}>
         <Flex direction="column" gap="4">
           <Box className="section-header">
-            <Heading as="h2" size="5" className="section-title">
-              {title}
-            </Heading>
-            <Text size="2" color="gray" className="section-description">
-              {description}
-            </Text>
+            <SectionHeader title={title} description={description} />
           </Box>
 
           <Box className="section-content">

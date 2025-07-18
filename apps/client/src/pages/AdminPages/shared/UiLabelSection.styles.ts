@@ -5,20 +5,6 @@ export const styles = css`
   .ui-label-section {
     margin-bottom: ${spacing[6]};
 
-    .section-header {
-      margin-bottom: ${spacing[4]};
-
-      .section-title {
-        color: ${colors.text};
-        margin-bottom: ${spacing[2]};
-      }
-
-      .section-description {
-        color: ${colors.greyDark};
-        line-height: 1.5;
-      }
-    }
-
     .section-content {
       .labels-grid-content {
         .translation-item {

@@ -6,6 +6,7 @@ import { usePageTransition } from 'hooks/usePageTransition';
 import { AdminContentLayout } from './shared';
 import { styles } from './AdminPage.styles';
 import { LanguageIcon } from 'styles/icons';
+import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 export const AdminPage: React.FC = () => {
   const { t } = useTranslation();
@@ -83,14 +84,11 @@ export const AdminPage: React.FC = () => {
       >
         <Box className="admin-dashboard">
           <Flex direction="column" gap="6" align="center">
-            <Box mb="4" style={{ textAlign: 'center' }}>
-              <Heading size="6" align="center" mb="2">
-                Welcome to the Admin Panel
-              </Heading>
-              <Text size="3" color="gray" align="center">
-                Select a section below to get started
-              </Text>
-            </Box>
+            <SectionHeader
+              title="Welcome to the Admin Panel"
+              description="Select a section below to get started"
+              align="center"
+            />
 
             <Flex gap="6" wrap="wrap" justify="center" className="admin-cards">
               {adminCards.map((card) => (
@@ -123,15 +121,12 @@ export const AdminPage: React.FC = () => {
                     >
                       {card.icon}
                     </Box>
-
-                    <Box style={{ textAlign: 'center' }}>
-                      <Heading size="4" mb="2" color={card.color}>
-                        {card.title}
-                      </Heading>
-                      <Text size="2" color="gray" style={{ lineHeight: '1.5' }}>
-                        {card.description}
-                      </Text>
-                    </Box>
+                    <SectionHeader
+                      className="card-header"
+                      title={card.title}
+                      description={card.description}
+                      align="center"
+                    />
                   </Flex>
                 </Card>
               ))}

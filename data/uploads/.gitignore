@@ -1,0 +1,7 @@
+# Ignore uploaded files but keep the directory structure
+*
+!.gitignore
+!sounds/
+sounds/*
+!sounds/.gitignore
+!sounds/_settings.json

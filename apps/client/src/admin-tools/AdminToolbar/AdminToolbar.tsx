@@ -4,10 +4,11 @@ import { styles } from './AdminToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
-import { HomeIcon, LanguageIcon, TimerIcon } from 'styles/icons';
+import { HomeIcon, LanguageIcon, StopIcon, TimerIcon } from 'styles/icons';
 import { PATHS } from 'routes/routes.config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
+import { stopAllAudio } from 'utils/soundCache.utils';
 
 export const AdminToolbar = () => {
   const {
@@ -85,6 +86,13 @@ export const AdminToolbar = () => {
               <ConfigTimer />
             </Box>
           )}
+
+          {/* Panic button - stop all audio */}
+          <Box className="button-box">
+            <button className="btn btn-panic" onClick={stopAllAudio} title="Stop All Audio (Panic)">
+              <StopIcon color="orange" />
+            </button>
+          </Box>
         </Flex>
       </div>
 

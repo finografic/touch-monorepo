@@ -72,30 +72,3 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
     );
   },
 );
-
-/**
- * Admin Section Component
- * Use for grouped content within admin pages
- */
-interface AdminSectionProps {
-  title?: string;
-  description?: string;
-  children: ReactNode;
-  className?: string;
-}
-
-export const AdminSection: React.FC<AdminSectionProps> = memo(
-  ({ title, description, children, className = '' }) => {
-    return (
-      <div className={`admin-section ${className}`}>
-        {(title || description) && (
-          <div className="section-header">
-            {title && <h3 className="section-title">{title}</h3>}
-            {description && <p className="section-description">{description}</p>}
-          </div>
-        )}
-        <div className="section-content">{children}</div>
-      </div>
-    );
-  },
-);

@@ -35,6 +35,7 @@ export default fino({
     'ts/no-unused-vars': OFF,
     'ts/no-undef': OFF,
     'no-unused-vars': OFF,
+    'fino/top-level-function': OFF,
     // 'simple-import-sort/imports': [
     //   ERROR,
     //   {

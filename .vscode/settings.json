@@ -27,7 +27,6 @@
     }
   ],
   "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
-  // "eslint.nodePath": ".pnpm",
   "eslint.nodePath": null,
   "eslint.runtime": "node",
   "npm.packageManager": "pnpm",
@@ -79,5 +78,7 @@
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
-  ]
+  ],
+  "cursor.ai.customInstructions": "DO NOT start development servers. User manages their own server instances. Server runs on localhost:4040, client on localhost:3000. Test APIs with curl before making changes. Never run npm run dev unless explicitly requested.",
+  "cursor.ai.systemPrompt": "You are working in a monorepo with separate client and server apps. The user manages their own development servers. Focus on code changes and API testing, not server management."
 }

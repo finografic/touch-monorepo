@@ -1,5 +1,5 @@
 // Shared admin page components
-export { AdminContentLayout, AdminSection } from './AdminContentLayout';
+export { AdminContentLayout } from './AdminContentLayout';
+export { AdminSection } from './AdminSection/AdminSection';
 export { FormSection } from './FormSection';
-export { SectionHeader } from './SectionHeader';
 export { UiLabelSection } from './UiLabelSection';

@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { Box, Button, Callout, Flex, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { AdminContentLayout, AdminSection, SectionHeader } from '../shared';
+import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminLanguagesPage.styles';
 import { SearchableLanguageInputCurated } from 'forms/SearchableLanguageInput/SearchableLanguageInputCurated';
 import { convertToLanguageOptions } from 'forms/SearchableLanguageInput/data/curated-languages';
@@ -20,6 +20,7 @@ import {
 } from 'queries/supported-languages';
 import { Col, Row } from 'react-grid-system';
 import { convertSearchResultToLanguageInfo } from './languages.utils';
+import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 // Interface for the search component results (matches LanguageOption from SearchableLanguageInput)
 interface LanguageOption {
