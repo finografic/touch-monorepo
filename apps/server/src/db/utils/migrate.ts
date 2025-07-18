@@ -79,7 +79,7 @@ async function main() {
   // Run migrations
   console.log('Running migrations...');
   await migrate(db, {
-    migrationsFolder: path.join(paths.data.dir, 'migrations'),
+    migrationsFolder: path.join(paths.data.path, 'migrations'),
   });
 
   console.log('✅ Migrations completed successfully!');

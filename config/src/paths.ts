@@ -31,24 +31,24 @@ const rootDir = findRootDir(currentDir);
 /**
  * Project path utilities
  * @property {string} dir - Base directory for this path category
- * @property {Function} file - Function to get path to specific file(s) in this category
+ * @property {Function} path - Function to get path to specific file(s) in this category
  */
 export const paths = {
   root: rootDir,
   config: {
     dir: path.join(rootDir, 'config'),
-    file: (...segments: string[]) => path.join(rootDir, 'config', ...segments),
+    path: (...segments: string[]) => path.join(rootDir, 'config', ...segments),
   },
   data: {
     dir: path.join(rootDir, 'data'),
-    file: (...segments: string[]) => path.join(rootDir, 'data', ...segments),
+    path: (...segments: string[]) => path.join(rootDir, 'data', ...segments),
   },
   uploads: {
     dir: path.join(rootDir, 'data', 'uploads'),
-    file: (...segments: string[]) => path.join(rootDir, 'data', 'uploads', ...segments),
+    path: (...segments: string[]) => path.join(rootDir, 'data', 'uploads', ...segments),
   },
   logs: {
     dir: path.join(rootDir, 'logs'),
-    file: (...segments: string[]) => path.join(rootDir, 'logs', ...segments),
+    path: (...segments: string[]) => path.join(rootDir, 'logs', ...segments),
   },
 } as const;
