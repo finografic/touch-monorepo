@@ -34,9 +34,9 @@
       "types": "./dist/types/*.d.ts",
       "import": "./dist/types/*.js"
     },
-    "./types/utilities/*": {
-      "types": "./dist/types/utilities/*.d.ts",
-      "import": "./dist/types/utilities/*.js"
+    "./types/utils/*": {
+      "types": "./dist/types/utils/*.d.ts",
+      "import": "./dist/types/utils/*.js"
     },
     "./utils": {
       "types": "./dist/utils/index.d.ts",
@@ -67,7 +67,6 @@
   },
   "dependencies": {
     "@workspace/i18n": "workspace:*",
-    "@workspace/types": "workspace:*",
     "axios": "1.8.4",
     "lodash": "4.17.21",
     "stoker": "^1.0.0"

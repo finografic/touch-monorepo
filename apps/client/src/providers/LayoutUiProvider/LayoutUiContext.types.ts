@@ -4,7 +4,7 @@ import type { ValidGridSize } from 'types/menu.types';
 import type { PadConfig, PadType, PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
-import type { RegionLocale } from '@workspace/types';
+import type { RegionLocale } from '@workspace/core/types';
 import type { OrderModel } from 'types/models/order.model';
 
 export interface LayoutUiValues {

@@ -20,10 +20,12 @@ export default defineConfig({
     // Types files
     'src/types/index.ts',
     'src/types/utility.types.ts',
-    'src/types/utilities/casing.utils.types.ts',
-    'src/types/utilities/enum.utils.types.ts',
-    'src/types/utilities/object.utils.types.ts',
-    'src/types/utilities/props.utils.types.ts',
+    'src/types/language.types.ts',
+    'src/types/countries.types.ts',
+    'src/types/utils/casing.utils.types.ts',
+    'src/types/utils/enum.utils.types.ts',
+    'src/types/utils/object.utils.types.ts',
+    'src/types/utils/props.utils.types.ts',
     // Utils files
     'src/utils/index.ts',
     'src/utils/string.utils.ts',

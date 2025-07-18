@@ -36,7 +36,6 @@
     "@microsoft/api-extractor": "7.49.1",
     "@types/node": "20.15.0",
     "@workspace/scripts": "workspace:*",
-    "@workspace/types": "workspace:*",
     "tsup": "^8.5.0",
     "tsx": "4.19.2",
     "typescript": "^5.8.3"

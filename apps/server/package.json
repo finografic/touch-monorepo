@@ -76,7 +76,6 @@
     "@workspace/config": "workspace:*",
     "@workspace/core": "workspace:*",
     "@workspace/globals": "workspace:*",
-    "@workspace/types": "workspace:*",
     "ansis": "^1.5.6",
     "better-auth": "1.0.22",
     "better-call": "0.3.3-beta.4",

@@ -1,4 +1,4 @@
-import type { CountryBasic, CountryModel } from '@workspace/types';
+import type { CountryBasic, CountryModel } from '@workspace/core/types';
 
 /**
  * Data Transfer Object utilities for country data transformation

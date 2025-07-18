@@ -3,7 +3,7 @@ import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import { OrderFieldKeys } from 'constants/app.config';
 import { getLocalizedName } from './localization.utils';
-import type { RegionLocale } from '@workspace/types';
+import type { RegionLocale } from '@workspace/core/types';
 
 // -------------------------------------------------------------------------- //
 // NOTE: Parse loader data and config to initialize pad items

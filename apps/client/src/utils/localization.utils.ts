@@ -1,4 +1,4 @@
-import type { LangCode, RegionLocale } from '@workspace/types';
+import type { LangCode, RegionLocale } from '@workspace/core/types';
 
 interface LocalizedEntity {
   name?: string;

@@ -8,7 +8,7 @@ import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useContent } from 'providers/ContentProvider/ContentContext';
-import type { RegionLocale } from '@workspace/types';
+import type { RegionLocale } from '@workspace/core/types';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';

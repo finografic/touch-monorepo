@@ -1,6 +1,6 @@
 import type { ValidGridSize } from 'types/menu.types';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { RegionLocale } from '@workspace/types';
+import type { RegionLocale } from '@workspace/core/types';
 
 // Core application configuration
 export const NUM_GRID_ITEMS: ValidGridSize = 9 as const;

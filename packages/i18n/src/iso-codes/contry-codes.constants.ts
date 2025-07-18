@@ -1,4 +1,4 @@
-import type { CountryCode } from '@workspace/types';
+import type { CountryCode } from '@workspace/core/types';
 
 /**
  * COMPREHENSIVE LANGUAGE MAPPING
