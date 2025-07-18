@@ -4,7 +4,7 @@ import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminSoundPage.styles';
 import { useGetSoundFiles, useGetSoundSettings } from 'api/hooks/useSounds';
 import { FileUploadSection, SoundConfigurationSection, SoundLibrarySection } from './components';
-import { preloadSounds, updateCachedSoundFiles, testAudioPlayback } from 'utils/soundCache.utils';
+import { preloadSounds, testAudioPlayback, updateCachedSoundFiles } from 'utils/soundCache.utils';
 import { useToast } from 'components/Toast';
 
 export const AdminSoundPage: React.FC = () => {

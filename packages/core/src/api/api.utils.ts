@@ -1,10 +1,12 @@
 // @ts-nocheck
 import axios, { HttpStatusCode } from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
-import type { ApplicationError, ErrorResponse } from '@workspace/core/api';
-import { AXIOS_ERROR_CODE_MAP, ERROR_CODES, ERROR_MESSAGES, errorResponseSchema } from '@workspace/core/api';
+import type { ApplicationError, ErrorResponse } from './error.types';
+import { ERROR_CODES, ERROR_MESSAGES } from './error.constants';
+import { AXIOS_ERROR_CODE_MAP } from './error.V1.constants';
+import { errorResponseSchema } from './error.schema';
 import cloneDeep from 'lodash/cloneDeep';
-import type { ApiErrorResponse } from '@workspace/core/types/errors';
+import type { ZodErrorResponse } from './error.schema';
 
 // ======================================================================== //
 
@@ -51,7 +53,7 @@ export const transformAxiosError = (error: unknown): ApplicationError => {
       const status = error.response.status;
       const data = error.response.data;
 
-      // Try to parse as ApiErrorResponse
+      // Try to parse as ZodErrorResponse
       try {
         const validatedError = errorResponseSchema.parse(data);
         if (validatedError.error.issues) {
@@ -62,7 +64,7 @@ export const transformAxiosError = (error: unknown): ApplicationError => {
           };
         }
       } catch {
-        // If not a valid ApiErrorResponse, continue with standard error handling
+        // If not a valid ZodErrorResponse, continue with standard error handling
       }
 
       // Handle rate limiting
