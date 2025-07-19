@@ -26,4 +26,10 @@ export const styles = css`
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
+
+  .dev-session {
+    color: ${colors.greyXLight};
+    font-size: 0.9rem;
+    font-weight: 400;
+  }
 `;

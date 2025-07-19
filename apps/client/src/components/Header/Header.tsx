@@ -1,4 +1,4 @@
-import { Container, Flex } from '@radix-ui/themes';
+import { Container, Flex, Text } from '@radix-ui/themes';
 import { styles } from './Header.styles';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useEffect } from 'react';
@@ -26,14 +26,18 @@ export const Header = () => {
 
           {/* Center column - 6 parts */}
           <Flex justify="center" style={{ flex: '6' }}>
-            <h1
-              onClick={() => {
-                navigate('/');
-                window.location.reload();
-              }}
-            >
-              {t('app.title')}
-            </h1>
+            <Flex direction="column" justify="end" align="center" style={{ flex: '6' }}>
+              <h1
+                onClick={() => {
+                  navigate('/');
+                  window.location.reload();
+                }}
+              >
+                {t('app.title')}
+              </h1>
+
+              <pre className="dev-session">sdfsdfadsffdsfsd</pre>
+            </Flex>
           </Flex>
 
           <Flex justify="end" style={{ flex: '3' }}>
