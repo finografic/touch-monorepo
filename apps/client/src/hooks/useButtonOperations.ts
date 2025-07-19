@@ -17,6 +17,7 @@ type OperationActionType =
   | 'select-all'
   | 'start-process'
   | 'program-time'
+  | 'program-product'
   | 'repeat-selection';
 
 interface UseButtonOperationsReturn {
@@ -286,6 +287,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           );
         case 'program-time':
           // Enable only if there are selected IDLE orders (can't program time for running/completed timers)
+          return numAvailableSelected === 0 || location.pathname !== PATHS.main || isPending;
+        case 'program-product':
+          // Enable only if there are selected IDLE orders (can't program product for running/completed timers)
           return numAvailableSelected === 0 || location.pathname !== PATHS.main || isPending;
         case 'repeat-selection': {
           // Check if session storage timer is active

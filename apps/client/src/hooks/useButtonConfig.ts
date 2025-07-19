@@ -20,8 +20,13 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const { t } = useTranslation();
 
   // Get actions from both specialized hooks
-  const { handleNavigateBack, handleNavigateNext, getNavigationDisabled, isNavigationPending } =
-    useButtonNavigation();
+  const {
+    handleNavigateBack,
+    handleNavigateNext,
+    handleProgramProduct,
+    getNavigationDisabled,
+    isNavigationPending,
+  } = useButtonNavigation();
 
   const {
     handleClearCompleted,
@@ -66,7 +71,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
         case BUTTON_ACTIONS.PROGRAM_TIME:
           return handleProgramTime();
         case BUTTON_ACTIONS.PROGRAM_PRODUCT:
-          return handleNavigateNext();
+          return handleProgramProduct();
         case BUTTON_ACTIONS.REPEAT_SELECTION:
           return handleRepeatSelection();
         default:
@@ -88,11 +93,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const getActionDisabled = useCallback(
     (actionType: string): boolean => {
       // Check navigation actions first
-      if (
-        actionType === 'navigate-back' ||
-        actionType === 'navigate-next' ||
-        actionType === 'program-product'
-      ) {
+      if (actionType === 'navigate-back' || actionType === 'navigate-next') {
         return getNavigationDisabled(actionType as 'navigate-back' | 'navigate-next');
       }
 
@@ -105,11 +106,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const getActionLoading = useCallback(
     (actionType: string): boolean => {
       // Navigation actions use their own pending state
-      if (
-        actionType === 'navigate-back' ||
-        actionType === 'navigate-next' ||
-        actionType === 'program-product'
-      ) {
+      if (actionType === 'navigate-back' || actionType === 'navigate-next') {
         return isNavigationPending;
       }
 
