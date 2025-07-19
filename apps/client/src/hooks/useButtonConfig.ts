@@ -36,7 +36,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     handleRepeatSelection,
     getOperationDisabled,
     getOperationLoading,
-    isOperationPending,
+    // isOperationPending,
   } = useButtonOperations();
 
   const routeConfig = useMemo(() => {
