@@ -1,5 +1,5 @@
 import type { OrderItem } from 'types/orders.types';
-import { playCachedSound, playSoundFromUrl, getCachedSettings } from 'utils/soundCache.utils';
+import { getCachedSettings, playCachedSound, playSoundFromUrl } from 'utils/soundCache.utils';
 
 export const EVENT_INTERVAL = 5; // seconds
 

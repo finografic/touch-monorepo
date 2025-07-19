@@ -27,6 +27,7 @@ interface UseButtonOperationsReturn {
   handleCancelCompleted: () => void;
   handleSelectAll: () => void;
   handleStartProcess: () => void;
+  handleStartTimeProcess: (duration: number) => void;
   handleProgramTime: () => void;
   handleProgramProduct: () => void;
   handleRepeatSelection: () => void;
@@ -142,23 +143,22 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   }, [orders, toggleOrder]);
 
   const handleStartProcess = useCallback(() => {
-    log('__DEV: INICIAR - 1', 'yellow', {
+    log('__DEV: INICIAR - Temperature Process', 'yellow', {
       location: location.pathname,
-      TIME_DEFAULT_SECONDS,
     });
 
-    // If we're on the TimePage, handle simple timer start
-    if (location.pathname === PATHS.temperature || location.pathname === ALTERNATIVE_PATHS.time) {
-      log('__DEV: INICIAR - 2', 'yellow', {
+    // Default temperature control process (for product flow)
+    startTemperatureControl();
+  }, [startTemperatureControl]);
+
+  const handleStartTimeProcess = useCallback(
+    (duration: number) => {
+      log('__DEV: INICIAR - Time Process', 'yellow', {
         location: location.pathname,
-        TIME_DEFAULT_SECONDS,
+        duration,
       });
 
       startTransition(() => {
-        // Set timers for all selected orders with the configured time
-        // TODO: Get the actual time from TimePage state - for now use default
-        const duration = TIME_DEFAULT_SECONDS;
-
         orders.forEach((order) => {
           if (order.isSelected) {
             setOrderProcessing({
@@ -168,19 +168,17 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           }
         });
 
-        log('__DEV: INICIAR - 3', 'yellow', {
+        log('__DEV: INICIAR - Time Process Complete', 'yellow', {
           location: location.pathname,
-          TIME_DEFAULT_SECONDS,
+          duration,
         });
 
         // Navigate back to main page
         navigate(PATHS.main, { replace: true });
       });
-    } else {
-      // Default temperature control process
-      startTemperatureControl();
-    }
-  }, [location.pathname, startTemperatureControl, orders, setOrderProcessing, navigate]);
+    },
+    [orders, setOrderProcessing, navigate],
+  );
 
   const handleProgramTime = useCallback(() => {
     startTransition(() => {
@@ -426,6 +424,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     handleCancelCompleted,
     handleSelectAll,
     handleStartProcess,
+    handleStartTimeProcess,
     handleProgramTime,
     handleProgramProduct,
     handleRepeatSelection,

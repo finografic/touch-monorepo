@@ -28,6 +28,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     handleCancelCompleted,
     handleSelectAll,
     handleStartProcess,
+    handleStartTimeProcess,
     handleProgramTime,
     handleProgramProduct,
     handleRepeatSelection,
