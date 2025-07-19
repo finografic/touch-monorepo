@@ -99,7 +99,7 @@ export const TemperaturePage = () => {
       setTemperatures(newTemperatures);
 
       // Only update orders in the current session
-      const sessionOrders = orders.filter((order) => order.configurationSessionId === currentSessionId);
+      const sessionOrders = orders.filter((order) => order.sessionId === currentSessionId);
 
       for (const order of sessionOrders) {
         const currentFilters = order.filters || {};
@@ -114,8 +114,7 @@ export const TemperaturePage = () => {
       // Also update session filters, but preserve all other filters
       if (currentSessionId) {
         // Get the current session filters (if any)
-        const prevSessionFilters =
-          orders.find((o) => o.configurationSessionId === currentSessionId)?.filters || {};
+        const prevSessionFilters = orders.find((o) => o.sessionId === currentSessionId)?.filters || {};
         const sessionFilters = {
           ...prevSessionFilters,
           [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
@@ -143,7 +142,7 @@ export const TemperaturePage = () => {
       if (!orders?.length || !currentSessionId) return;
 
       // Only update orders in the current session
-      const sessionOrders = orders.filter((order) => order.configurationSessionId === currentSessionId);
+      const sessionOrders = orders.filter((order) => order.sessionId === currentSessionId);
 
       for (const order of sessionOrders) {
         const currentFilters = order.filters || {};
@@ -157,8 +156,7 @@ export const TemperaturePage = () => {
 
       // Also update session filters, but preserve all other filters
       if (currentSessionId) {
-        const prevSessionFilters =
-          orders.find((o) => o.configurationSessionId === currentSessionId)?.filters || {};
+        const prevSessionFilters = orders.find((o) => o.sessionId === currentSessionId)?.filters || {};
         const sessionFilters = {
           ...prevSessionFilters,
           [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },

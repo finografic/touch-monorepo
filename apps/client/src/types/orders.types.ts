@@ -37,7 +37,7 @@ export interface OrderItem {
   itemType: ItemType;
   isSelected: boolean;
   filters?: OrderFilters;
-  configurationSessionId?: string;
+  sessionId?: string;
   process: {
     status: OrderStatus;
     estimatedCompletionTime?: string;
