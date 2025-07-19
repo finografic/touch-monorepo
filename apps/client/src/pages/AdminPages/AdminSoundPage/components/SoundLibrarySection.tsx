@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Button, Callout, Flex, Text } from '@radix-ui/themes';
-import { CheckIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
+// import { CheckIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
+import { BadgeCheckIcon, SpeakerLoudIcon } from 'styles/icons';
 import { useToast } from 'components/Toast';
 import { type SoundFile, type SoundSettings, useRemoveSoundFile } from 'api/hooks/useSounds';
 import { playSoundByPath } from 'utils/soundCache.utils';
@@ -77,9 +78,10 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({ soundF
           <Callout.Text>No sound files uploaded yet. Upload some files to get started!</Callout.Text>
         </Callout.Root>
       ) : (
-        <Flex direction="column" gap="2">
+        <Flex direction="column" gap="2" className="sound-library-list">
           {soundFiles.map((file) => (
             <div
+              className="sound-library-item"
               key={file.id}
               style={{
                 padding: '0.75rem',
@@ -88,14 +90,17 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({ soundF
                 backgroundColor: 'white',
               }}
             >
-              <Flex justify="between" align="center">
+              <Flex justify="between" align="center" gap="3">
+                {/* Checkmark Column - Fixed Width */}
+                <div style={{ width: '24px', display: 'flex', justifyContent: 'center' }}>
+                  {(soundSettings.tick === file.id || soundSettings.finish === file.id) && (
+                    <BadgeCheckIcon className="icon-check" />
+                  )}
+                </div>
+
+                {/* Content Column - Takes remaining space */}
                 <Flex direction="column" gap="1" style={{ flex: 1 }}>
-                  <Flex align="center" gap="2">
-                    <Text weight="bold">{file.name}</Text>
-                    {(soundSettings.tick === file.id || soundSettings.finish === file.id) && (
-                      <CheckIcon color="green" />
-                    )}
-                  </Flex>
+                  <Text weight="bold">{file.name}</Text>
                   <Text size="1" color="gray">
                     {formatFileSize(file.size)} • {file.type} •{' '}
                     {new Date(file.uploadedAt).toLocaleDateString()}
@@ -104,7 +109,7 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({ soundF
 
                 <Flex gap="2">
                   <Button size="1" variant="soft" onClick={() => testSound(file.id)}>
-                    <SpeakerLoudIcon />
+                    <SpeakerLoudIcon className="icon-speaker" />
                     Test
                   </Button>
                   <Button

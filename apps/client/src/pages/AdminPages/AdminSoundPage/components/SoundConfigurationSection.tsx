@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import { Box, Button, Flex, Heading, Select, Text } from '@radix-ui/themes';
-import { SpeakerLoudIcon } from '@radix-ui/react-icons';
+import { SpeakerLoudIcon } from 'styles/icons';
+
 import { useToast } from 'components/Toast';
 import { type SoundFile, type SoundSettings, useUpdateSoundSettings } from 'api/hooks/useSounds';
 import { playSoundByPath } from 'utils/soundCache.utils';
@@ -108,7 +109,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
               onClick={() => testSound(soundSettings.tick!)}
               className="test-button"
             >
-              <SpeakerLoudIcon />
+              <SpeakerLoudIcon className="icon-speaker" />
               Test
             </Button>
           )}
@@ -142,7 +143,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
               onClick={() => testSound(soundSettings.finish!)}
               className="test-button"
             >
-              <SpeakerLoudIcon />
+              <SpeakerLoudIcon className="icon-speaker" />
               Test
             </Button>
           )}

@@ -12,6 +12,7 @@ import {
   InfoCircledIcon as _InfoCircledIcon,
   PlusIcon as _PlusIcon,
   ReloadIcon as _ReloadIcon,
+  SpeakerLoudIcon as _SpeakerLoudIcon,
   StarIcon as _StarIcon,
   TextAlignLeftIcon as _TextAlignLeftIcon,
   TextAlignTopIcon as _TextAlignTopIcon,
@@ -20,21 +21,22 @@ import {
 } from '@radix-ui/react-icons';
 
 import {
-  AppWindowMac as _WindowIcon,
-  CircleStop as _StopIcon,
+  BadgeCheck as _BadgeCheckIcon,
   Coffee as _CoffeeIcon,
+  X as _DeleteIcon,
+  PencilLine as _EditIcon,
   House as _HomeIcon,
   Languages as _LanguagesIcon,
   Lock as _LockIcon,
+  Search as _MagnifyingGlassIcon,
   PanelBottomClose as _PanelBottomCloseIcon,
   PanelBottomOpen as _PanelBottomOpenIcon,
-  PencilLine as _EditIcon,
-  Search as _MagnifyingGlassIcon,
   ShieldCheck as _ShieldCheckIcon,
+  CircleStop as _StopIcon,
   Thermometer as _TempIcon,
   Trash2 as _Trash2Icon,
+  AppWindowMac as _WindowIcon,
   Wine as _WineIcon,
-  X as _DeleteIcon,
 } from 'lucide-react';
 
 import React, { forwardRef } from 'react';
@@ -80,6 +82,7 @@ export const WineIcon = createIconWrapper(_WineIcon);
 
 // Admin section icons
 export const AddIcon = createIconWrapper(_PlusIcon);
+export const BadgeCheckIcon = createIconWrapper(_BadgeCheckIcon);
 export const DeleteIcon = createIconWrapper(_DeleteIcon);
 export const HomeIcon = createIconWrapper(_HomeIcon);
 export const LockIcon = createIconWrapper(_LockIcon);
@@ -89,5 +92,6 @@ export const MagnifyingGlassIcon = createIconWrapper(_MagnifyingGlassIcon);
 export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);
 export const PanelBottomOpenIcon = createIconWrapper(_PanelBottomOpenIcon);
 export const PlusIcon = createIconWrapper(_PlusIcon);
+export const SpeakerLoudIcon = createIconWrapper(_SpeakerLoudIcon);
 export const StopIcon = createIconWrapper(_StopIcon);
 export const TrashIcon = createIconWrapper(_Trash2Icon);

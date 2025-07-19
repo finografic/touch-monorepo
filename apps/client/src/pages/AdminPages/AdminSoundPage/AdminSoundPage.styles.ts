@@ -57,4 +57,28 @@ export const styles = css`
       }
     }
   }
+
+  .sound-library-list {
+    .sound-library-item {
+      padding: 0.75rem;
+      border: 1px solid ${colors.greyLight};
+      border-radius: 8px;
+      background-color: ${colors.white};
+      svg.icon.icon-check {
+        width: 1.5rem;
+        height: 1.5rem;
+        color: white;
+        color: ${colors.successDark};
+        background-color: ${colors.success}22;
+        border: 2px solid ${colors.success}22;
+        border-radius: 50%;
+      }
+    }
+  }
+
+  svg.icon.icon-speaker {
+    width: 1.2rem;
+    height: 1.2rem;
+    color: ${colors.infoDark};
+  }
 `;
