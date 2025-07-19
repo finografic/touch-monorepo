@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
 import type { ItemType, OrderItem } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
+import type { FlowTypeValue } from 'types/flow.types';
 
 export type TimerActionType = 'start' | 'complete' | 'reset' | 'clear_all';
 
@@ -34,6 +35,13 @@ type OrdersActions = OrdersSetters & {
   toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => void;
   selectAllOrders: () => void;
   updateOrderIds: ({ ids }: { ids: string[] }) => void;
+  setOrdersSession: ({
+    orderNumbers,
+    session,
+  }: {
+    orderNumbers: number[];
+    session: { id: string; flowType: FlowTypeValue };
+  }) => void;
   // Timer-specific actions
   timerAction: (type: TimerActionType, payload: TimerActionPayload) => void;
 };

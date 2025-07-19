@@ -17,7 +17,7 @@ export const TimePage = () => {
   // Get selected items from current session
   const selectedItems = useMemo(() => {
     if (!currentSessionId) return [];
-    return orders.filter((order) => order.sessionId === currentSessionId && order.isSelected);
+    return orders.filter((order) => order.session?.id === currentSessionId && order.isSelected);
   }, [orders, currentSessionId]);
 
   const handleTimeChange = useCallback((newTotalSeconds: number) => {

@@ -1,6 +1,7 @@
 import type { ORDER_FIELD_KEYS } from 'constants/app.config';
 import type { OrderFilters } from 'types/filters.types';
 import type { CamelToKebab, CamelToSnake } from '@workspace/core/types/utils';
+import type { FlowTypeValue } from 'types/flow.types';
 
 export type OrderFieldKey = (typeof ORDER_FIELD_KEYS)[number];
 export type OrderFieldKeyKebab = CamelToKebab<OrderFieldKey>;
@@ -37,7 +38,10 @@ export interface OrderItem {
   itemType: ItemType;
   isSelected: boolean;
   filters?: OrderFilters;
-  sessionId?: string;
+  session?: {
+    id: string;
+    flowType: FlowTypeValue;
+  };
   process: {
     status: OrderStatus;
     estimatedCompletionTime?: string;

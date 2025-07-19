@@ -32,7 +32,7 @@ export const INITIAL_ORDER_ITEM: OrderItem = {
   itemNumber: 0,
   isSelected: false,
   filters: {},
-  sessionId: undefined,
+  session: undefined,
   process: {
     status: 'idle',
     timeRemaining: undefined,

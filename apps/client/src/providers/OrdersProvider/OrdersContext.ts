@@ -5,6 +5,7 @@ import { INITIAL_ORDER_ITEM, ORDER_ITEMS_CONFIG } from 'constants/orders.constan
 import { findOrderByNumber } from 'utils/context.utils';
 import type { ItemType, OrderFieldKey, OrderStatus } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
+import type { FlowTypeValue } from 'types/flow.types';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
 import { subscribeWithSelector } from 'zustand/middleware';
 
@@ -150,6 +151,24 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               ids.length > 0
                 ? orders.map((order) => ({ ...order, ids, id: ids[0] }))
                 : orders.map((order) => ({ ...order, ids }));
+
+            set({ orders: updatedOrders });
+          },
+          setOrdersSession: ({
+            orderNumbers,
+            session,
+          }: {
+            orderNumbers: number[];
+            session: { id: string; flowType: FlowTypeValue };
+          }) => {
+            const { orders } = get();
+
+            const updatedOrders = orders.map((order) => {
+              if (orderNumbers.includes(order.itemNumber)) {
+                return { ...order, session };
+              }
+              return order;
+            });
 
             set({ orders: updatedOrders });
           },

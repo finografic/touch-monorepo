@@ -40,7 +40,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
-  const { selectAllOrders, orders, setOrderProcessing, timerAction, toggleOrder } = useOrders();
+  const { selectAllOrders, orders, setOrderProcessing, timerAction, toggleOrder, setOrdersSession } =
+    useOrders();
   const { createSession, assignOrdersToSession } = useSession();
   const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
@@ -195,15 +196,18 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       // Create new session and assign selected orders
       const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
-      assignOrdersToSession(
-        sessionId,
-        selectedIdleOrders.map((order) => order.itemNumber),
-      );
+      const orderNumbers = selectedIdleOrders.map((order) => order.itemNumber);
+
+      assignOrdersToSession(sessionId, orderNumbers);
+      setOrdersSession({
+        orderNumbers,
+        session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_TIME },
+      });
 
       log('__DEV: PROGRAM TIME - Created session', 'blue', {
         sessionId,
         flowType: FLOW_TYPES.PROGRAM_TIME,
-        selectedOrders: selectedIdleOrders.map((o) => o.itemNumber),
+        selectedOrders: orderNumbers,
       });
 
       // Navigate to time page
@@ -225,15 +229,18 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       // Create new session and assign selected orders
       const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
-      assignOrdersToSession(
-        sessionId,
-        selectedIdleOrders.map((order) => order.itemNumber),
-      );
+      const orderNumbers = selectedIdleOrders.map((order) => order.itemNumber);
+
+      assignOrdersToSession(sessionId, orderNumbers);
+      setOrdersSession({
+        orderNumbers,
+        session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
+      });
 
       log('__DEV: PROGRAM PRODUCT - Created session', 'lime', {
         sessionId,
         flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-        selectedOrders: selectedIdleOrders.map((o) => o.itemNumber),
+        selectedOrders: orderNumbers,
       });
 
       // Navigate to first step of product configuration flow (drink type selection)
