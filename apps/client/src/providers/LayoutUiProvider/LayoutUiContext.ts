@@ -6,8 +6,8 @@ import { NUM_GRID_ITEMS } from 'constants/app.config';
 import { parsePadConfig } from 'utils/ui-V2.utils';
 import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
+import type { OrderModel } from 'types/models/order.model';
 import { subscribeWithSelector } from 'zustand/middleware';
-import { useContent } from 'providers/ContentProvider/ContentContext';
 import type { RegionLocale } from '@workspace/core/types';
 
 export const DISPLAY_NAME = 'LayoutUi';
@@ -84,7 +84,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             fieldKey: OrderFieldKey | undefined,
             loaderData: DataEntry[],
             padsConfig: PadConfig,
-            dataPool: DataEntry[],
+            dataPool: DataEntry[] | OrderModel[],
             serverFieldMap: Record<string, string>,
             currentLanguage: RegionLocale = 'es-ES',
           ) => {
@@ -94,9 +94,19 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             }
 
             if (loaderData && padsConfig && dataPool) {
-              const filterKey = padsConfig.filterKey as keyof DataEntry;
+              const filterKey = padsConfig.filterKey as keyof (DataEntry | OrderModel);
               const visiblePadNames = [
-                ...new Set(dataPool.map((entry) => entry?.[filterKey]).filter(Boolean)),
+                ...new Set(
+                  dataPool
+                    .map((entry) => {
+                      // Handle both DataEntry and OrderModel types
+                      if (entry && typeof entry === 'object' && filterKey in entry) {
+                        return (entry as any)[filterKey];
+                      }
+                      return undefined;
+                    })
+                    .filter(Boolean),
+                ),
               ];
 
               const filteredLoaderData = (Array.isArray(loaderData) ? loaderData : [loaderData]).filter(
