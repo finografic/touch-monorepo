@@ -29,9 +29,13 @@ export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
 
   // NOTE: Only add menu-specific classes here,
   // let PAD component handle its own state classes
-  const className = clsx('pad-menu', `item-type-${itemType}`, `status-${order?.process.status || 'idle'}`, {
+  const className = clsx('pad-menu', `item-type-${itemType}`, {
+    // Apply timer status classes based on TimersContext
+    'status-processing': timer?.status === 'processing',
+    'status-completed': timer?.status === 'completed',
+    'status-idle': !timer,
     // Add selected class for running timers that are selected
-    selected: isSelected && (order?.process.status === 'processing' || order?.process.status === 'completed'),
+    'selected': isSelected && (timer?.status === 'processing' || timer?.status === 'completed'),
   });
 
   const handleSelect = React.useCallback(() => {

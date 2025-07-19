@@ -86,7 +86,7 @@ export const styles = css`
   }
 
   pre {
-    color: ${colors.textXLight}AA;
+    color: ${colors.textXLight};
     font-size: 0.7rem;
     line-height: 1.5;
     width: 100%;
