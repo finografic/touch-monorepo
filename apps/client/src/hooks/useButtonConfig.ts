@@ -9,7 +9,7 @@ import {
 } from 'constants/button.config';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useButtonOperations } from 'hooks/useButtonOperations';
-import { type PadActionProps, type PadActionType, BUTTON_ACTIONS, BUTTON_TYPES } from 'types/button.types';
+import { BUTTON_ACTIONS, BUTTON_TYPES, type PadActionProps, type PadActionType } from 'types/button.types';
 import { ALTERNATIVE_PATHS } from 'routes/routes.config';
 
 interface UseButtonConfigReturn {
