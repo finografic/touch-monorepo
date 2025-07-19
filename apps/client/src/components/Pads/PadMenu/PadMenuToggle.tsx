@@ -1,20 +1,20 @@
-import { useOrders } from 'providers/OrdersProvider';
-import type { OrderItem } from 'types/orders.types';
-import { findOrderByNumber } from 'utils/context.utils';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
 import type { PadMenuProps } from './PadMenu.types';
 import clsx from 'clsx';
 
 export const PadMenuToggle = ({ itemType, number, className, children }: PadMenuProps) => {
-  const { toggleOrder, orders } = useOrders();
+  const { mainPageSelectedSlots, toggleMainPageSlot } = useLayoutUi();
 
-  const order = findOrderByNumber(orders, number) as OrderItem;
+  // Use LayoutUIContext for selection state
+  const isSelected = mainPageSelectedSlots.includes(number);
 
   const handleClick = () => {
-    toggleOrder({ itemType, itemNumber: number });
+    // Toggle selection using LayoutUIContext (doesn't create orders)
+    toggleMainPageSlot(number);
   };
 
   return (
-    <div className={clsx(className, { active: order?.isSelected })} onClick={handleClick}>
+    <div className={clsx(className, { active: isSelected })} onClick={handleClick}>
       {children}
     </div>
   );

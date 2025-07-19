@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrders } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
 import { useTemperatureControl } from 'hooks/useTemperatureControl';
 import { useConfigStorage } from 'hooks/useConfigStorage';
@@ -44,7 +45,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const { setPageCurrent } = usePagination();
   const { selectAllOrders, orders, setOrderProcessing, toggleOrder, setOrdersSession } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId } = useSession();
-  const { addTimer, clearCompletedTimers } = useTimers();
+  const { addTimer, clearCompletedTimers, timers, removeTimer } = useTimers();
+  const { selectAllMainPageSlots, clearMainPageSelection, toggleMainPageSlot } = useLayoutUi();
   const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
 
@@ -82,8 +84,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const completedTimers = getCompletedTimers();
   const hasCompletedTimers = completedTimers.length > 0;
 
-  // Check if there are any selected items
-  const hasSelectedItems = orders.some((order) => order.isSelected);
+  // Check if there are any selected items using LayoutUIContext
+  const { mainPageSelectedSlots } = useLayoutUi();
+  const hasSelectedItems = mainPageSelectedSlots.length > 0;
 
   const handleClearCompleted = useCallback(() => {
     startTransition(() => {
@@ -103,9 +106,28 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   const handleCancelCompleted = useCallback(() => {
     startTransition(() => {
-      // Clear only PROCESSING timers that are SELECTED/checked
-      // TODO: Implement this with TimerContext when we have timer selection logic
-      console.log('handleCancelCompleted: Not yet implemented with TimerContext');
+      // Clear only timers that are SELECTED/checked
+      const selectedSlotsWithTimers = mainPageSelectedSlots.filter((slotNumber) => {
+        const timer = timers.find((t) => t.orderId === slotNumber);
+        return timer && (timer.status === 'processing' || timer.status === 'completed');
+      });
+
+      console.log('handleCancelCompleted: Clearing timers for selected slots', selectedSlotsWithTimers);
+
+      // Remove timers for selected slots
+      selectedSlotsWithTimers.forEach((slotNumber) => {
+        const timer = timers.find((t) => t.orderId === slotNumber);
+        if (timer) {
+          removeTimer(timer.id);
+        }
+      });
+
+      // Clear selection for slots that had timers
+      selectedSlotsWithTimers.forEach((slotNumber) => {
+        if (mainPageSelectedSlots.includes(slotNumber)) {
+          toggleMainPageSlot(slotNumber);
+        }
+      });
 
       // Save new configuration to reset timer
       const selectedOrders = orders.filter((order) => order.isSelected);
@@ -116,27 +138,14 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         selectedOrders: selectedOrders.map((order) => order.itemNumber),
       });
     });
-  }, [orders, saveConfig]);
+  }, [mainPageSelectedSlots, timers, removeTimer, toggleMainPageSlot, orders, saveConfig]);
 
   const handleSelectAll = useCallback(() => {
     startTransition(() => {
-      // Get all ItemType.B slots from config
-      const itemTypeBSlots = ORDER_ITEMS_CONFIG.filter((config) => config.itemType === ItemType.B);
-
-      // For each ItemType.B slot, check if it should be selected
-      itemTypeBSlots.forEach(({ itemType, number }) => {
-        const existingOrder = orders.find((order) => order.itemNumber === number);
-
-        // Select if: no existing order (unchecked) OR existing order is unchecked and idle
-        const shouldSelect =
-          !existingOrder || (!existingOrder.isSelected && existingOrder.process.status === 'idle');
-
-        if (shouldSelect) {
-          toggleOrder({ itemType, itemNumber: number });
-        }
-      });
+      // Use LayoutUIContext for MainPage selection
+      selectAllMainPageSlots();
     });
-  }, [orders, toggleOrder]);
+  }, [selectAllMainPageSlots]);
 
   const handleStartProductProcess = useCallback(() => {
     log('__DEV: INICIAR - Temperature Process', 'yellow', {
@@ -162,32 +171,31 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       startTransition(() => {
         console.log('🚀 handleStartTimeProcess: Setting processing for selected orders');
-        const selectedOrders = orders.filter((order) => order.isSelected);
-        console.log('🚀 handleStartTimeProcess: Selected orders =', selectedOrders);
+        console.log('🚀 handleStartTimeProcess: Selected slots =', mainPageSelectedSlots);
 
-        // Add timers to TimerContext for each selected order
-        selectedOrders.forEach((order) => {
+        // Add timers to TimerContext for each selected slot
+        mainPageSelectedSlots.forEach((slotNumber) => {
           console.log(
-            '🚀 handleStartTimeProcess: Adding timer for order',
-            order.itemNumber,
+            '🚀 handleStartTimeProcess: Adding timer for slot',
+            slotNumber,
             'with duration',
             duration,
           );
 
           addTimer({
             sessionId: currentSessionId!,
-            orderId: order.itemNumber,
+            orderId: slotNumber,
             flowType: FLOW_TYPES.PROGRAM_TIME,
             duration,
             remaining: duration,
             status: 'processing',
             estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
           });
-
-          // 🎯 FIX: Uncheck the pad when timer starts
-          // This ensures green color shows (no .selected override) and buttons are disabled
-          toggleOrder({ itemType: order.itemType, itemNumber: order.itemNumber });
         });
+
+        // 🎯 FIX: Clear selection when timers start
+        // This ensures green color shows (no .selected override) and buttons are disabled
+        clearMainPageSelection();
 
         log('__DEV: INICIAR - Time Process Complete', 'yellow', {
           location: location.pathname,
@@ -203,63 +211,63 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   const handleProgramTime = useCallback(() => {
     startTransition(() => {
-      // Get selected orders that are idle
-      const selectedIdleOrders = orders.filter(
-        (order) => order.isSelected && order.process.status === 'idle',
-      );
+      // Get selected slots that are idle (not running timers)
+      const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
+        const timer = timers.find((t: any) => t.orderId === slotNumber);
+        return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
+      });
 
-      if (selectedIdleOrders.length === 0) {
-        console.warn('No selected idle orders to program time for');
+      if (selectedIdleSlots.length === 0) {
+        console.warn('No selected idle slots to program time for');
         return;
       }
 
-      // Create new session and assign selected orders
+      // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
-      const orderNumbers = selectedIdleOrders.map((order) => order.itemNumber);
 
-      assignOrdersToSession(sessionId, orderNumbers);
+      assignOrdersToSession(sessionId, selectedIdleSlots);
       setOrdersSession({
-        orderNumbers,
+        orderNumbers: selectedIdleSlots,
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_TIME },
       });
 
       log('__DEV: PROGRAM TIME - Created session', 'blue', {
         sessionId,
         flowType: FLOW_TYPES.PROGRAM_TIME,
-        selectedOrders: orderNumbers,
+        selectedSlots: selectedIdleSlots,
       });
 
       // Navigate to time page
       navigate(ALTERNATIVE_PATHS.time);
     });
-  }, [navigate, orders, createSession, assignOrdersToSession]);
+  }, [navigate, mainPageSelectedSlots, timers, createSession, assignOrdersToSession, setOrdersSession]);
 
   const handleProgramProduct = useCallback(() => {
     startTransition(() => {
-      // Get selected orders that are idle
-      const selectedIdleOrders = orders.filter(
-        (order) => order.isSelected && order.process.status === 'idle',
-      );
+      // Get selected slots that are idle (not running timers)
+      const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
+        const timer = timers.find((t: any) => t.orderId === slotNumber);
+        return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
+      });
 
-      if (selectedIdleOrders.length === 0) {
-        console.warn('No selected idle orders to program product for');
+      if (selectedIdleSlots.length === 0) {
+        console.warn('No selected idle slots to program product for');
         return;
       }
 
-      // Create new session and assign selected orders
+      // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
-      const orderNumbers = selectedIdleOrders.map((order) => order.itemNumber);
 
-      assignOrdersToSession(sessionId, orderNumbers);
+      assignOrdersToSession(sessionId, selectedIdleSlots);
       setOrdersSession({
-        orderNumbers,
+        orderNumbers: selectedIdleSlots,
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
       });
 
       log('__DEV: PROGRAM PRODUCT - Created session', 'lime', {
         sessionId,
         flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-        selectedOrders: orderNumbers,
+        selectedSlots: selectedIdleSlots,
       });
 
       // Navigate to first step of product configuration flow (drink type selection)
@@ -275,7 +283,16 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       setPageCurrent(1);
       navigate(drinkTypePath); // Navigate directly to drink type page
     });
-  }, [orders, createSession, assignOrdersToSession, pathnames, setPageCurrent, navigate]);
+  }, [
+    mainPageSelectedSlots,
+    timers,
+    createSession,
+    assignOrdersToSession,
+    setOrdersSession,
+    pathnames,
+    setPageCurrent,
+    navigate,
+  ]);
 
   const handleRepeatSelection = useCallback(() => {
     // Check if session storage timer is active
@@ -346,19 +363,22 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   const getOperationDisabled = useCallback(
     (actionType: OperationActionType): boolean => {
-      // Count available orders (idle selected) for operations that need idle orders
-      const numAvailableSelected = orders.filter(
-        (order) =>
-          order.isSelected && order.process.status !== 'processing' && order.process.status !== 'completed',
-      ).length;
+      // Use mainPageSelectedSlots from top level (already available)
 
-      // Count any selected orders (including running/completed) for UI state
-      const numAnySelected = orders.filter((order) => order.isSelected).length;
+      // Count available slots (not running timers) for operations that need idle slots
+      const numAvailableSelected = mainPageSelectedSlots.filter((slotNumber) => {
+        const timer = timers.find((t: any) => t.orderId === slotNumber);
+        return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
+      }).length;
+
+      // Count any selected slots for UI state
+      const numAnySelected = mainPageSelectedSlots.length;
 
       // Count selected processing timers for cancel button
-      const numSelectedProcessing = orders.filter(
-        (order) => order.isSelected && order.process.status === 'processing',
-      ).length;
+      const numSelectedProcessing = mainPageSelectedSlots.filter((slotNumber) => {
+        const timer = timers.find((t: any) => t.orderId === slotNumber);
+        return timer && timer.status === 'processing';
+      }).length;
 
       switch (actionType) {
         case 'clear-completed':
@@ -420,6 +440,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       temperatureProfilesQuery.isError,
       temperatureProfilesQuery.data,
       orders,
+      mainPageSelectedSlots,
+      timers,
     ],
   );
 

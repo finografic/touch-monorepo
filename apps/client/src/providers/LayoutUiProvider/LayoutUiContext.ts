@@ -19,6 +19,9 @@ export enum LayoutUiKeys {
   numPads = 'numPads',
   pads = 'pads',
   padsFiltered = 'padsFiltered',
+  // MainPage selection state
+  mainPageSelectedSlots = 'mainPageSelectedSlots',
+  mainPageIsSelectMode = 'mainPageIsSelectMode',
 }
 
 export const defaultValue: LayoutUiValues = {
@@ -27,6 +30,9 @@ export const defaultValue: LayoutUiValues = {
   numPads: 0,
   pads: [],
   padsFiltered: [],
+  // MainPage selection state
+  mainPageSelectedSlots: [],
+  mainPageIsSelectMode: false,
 };
 
 export const LayoutUiContext = createZustandContext(({ initialValue }) => {
@@ -127,6 +133,29 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             } else {
               set({ pads: [], numPads: 0, fieldKey });
             }
+          },
+          // MainPage selection actions
+          toggleMainPageSlot: (slotNumber: number) => {
+            set((state) => {
+              const currentSelected = state.mainPageSelectedSlots;
+              const isSelected = currentSelected.includes(slotNumber);
+
+              if (isSelected) {
+                return {
+                  mainPageSelectedSlots: currentSelected.filter((num) => num !== slotNumber),
+                };
+              } else {
+                return {
+                  mainPageSelectedSlots: [...currentSelected, slotNumber],
+                };
+              }
+            });
+          },
+          selectAllMainPageSlots: () => {
+            set({ mainPageSelectedSlots: [1, 2, 3, 4, 5, 6, 7, 8, 9] });
+          },
+          clearMainPageSelection: () => {
+            set({ mainPageSelectedSlots: [] });
           },
         },
       }),

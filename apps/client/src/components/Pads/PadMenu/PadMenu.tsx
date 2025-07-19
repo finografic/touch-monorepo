@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
 import type { ItemType, OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
 import { PadMenuToggle } from './PadMenuToggle';
@@ -18,10 +19,13 @@ export interface PadMenuProps {
 }
 
 export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
-  const { orders, toggleOrder } = useOrders();
+  const { orders } = useOrders();
   const { timers } = useTimers();
+  const { mainPageSelectedSlots, toggleMainPageSlot } = useLayoutUi();
   const order = findOrderByNumber(orders, number) as OrderItem;
-  const isSelected = !!order?.isSelected;
+
+  // Use LayoutUIContext for selection state instead of OrdersContext
+  const isSelected = mainPageSelectedSlots.includes(number);
 
   // Check if there's a timer for this order
   const timer = timers.find((t) => t.orderId === number);
@@ -39,8 +43,8 @@ export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
   });
 
   const handleSelect = React.useCallback(() => {
-    toggleOrder({ itemType, itemNumber: number });
-  }, [number, itemType, toggleOrder]);
+    toggleMainPageSlot(number);
+  }, [number, toggleMainPageSlot]);
 
   const handleTimerComplete = React.useCallback(() => {
     // Timer completion is now handled by TimerV2 component
