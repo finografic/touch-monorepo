@@ -88,7 +88,7 @@ export function tickAction({
   remaining: number;
   orderId: number;
 }) {
-  console.log(`EVENT: ${elapsed}s elapsed, ${remaining}s remaining (order ${orderId})`);
+  log(`EVENT: ${elapsed}s elapsed, ${remaining}s remaining (order ${orderId})`, 'grey');
   // Play configured tick sound
   makeTickSound().catch(() => {
     // Silent fallback
@@ -105,7 +105,7 @@ export function finishAction({
   remaining: number;
   orderId: number;
 }) {
-  console.log('EVENT: TIMER FINISHED', { elapsed, remaining, orderId });
+  log('EVENT: TIMER FINISHED', 'grey', { elapsed, remaining, orderId });
   makeFinishSound().catch(() => {
     // Silent fallback
   });
