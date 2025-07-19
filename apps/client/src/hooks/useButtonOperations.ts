@@ -183,6 +183,10 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
             status: 'processing',
             estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
           });
+
+          // 🎯 FIX: Uncheck the pad when timer starts
+          // This ensures green color shows (no .selected override) and buttons are disabled
+          toggleOrder({ itemType: order.itemType, itemNumber: order.itemNumber });
         });
 
         log('__DEV: INICIAR - Time Process Complete', 'yellow', {
