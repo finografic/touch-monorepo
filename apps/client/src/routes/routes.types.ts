@@ -3,6 +3,7 @@ import type { RouteObject } from 'react-router-dom';
 import type { PATHS } from 'routes/routes.config';
 import type { User } from 'src/api/auth';
 import type { OrderFieldKey } from 'types/orders.types';
+import type { RouteButtonConfig } from 'types/button.types';
 
 export type RoutePath = (typeof PATHS)[keyof typeof PATHS];
 
@@ -18,6 +19,7 @@ export interface RouteConfig extends Omit<RouteObject, 'element' | 'children'> {
   fieldKey?: OrderFieldKey;
   title?: string;
   description?: string;
+  buttons?: RouteButtonConfig;
   parent?: RouteConfig | null;
   children?: RouteConfig[];
   element?: ReactElement;

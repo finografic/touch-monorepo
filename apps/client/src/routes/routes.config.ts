@@ -25,58 +25,54 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     path: PATHS.main,
     id: 'main',
     title: 'ServiFresc',
+    buttons: {
+      footer: [BUTTON_TYPES.CANCEL, BUTTON_TYPES.RESET, BUTTON_TYPES.ALL],
+      content: [BUTTON_TYPES.PROGRAM_TIME, BUTTON_TYPES.PROGRAM_PRODUCT, BUTTON_TYPES.REPEAT_SELECTION],
+    },
   },
   {
     path: PATHS.drinkType,
-    id: 'drink-type',
+    id: 'drinkType',
     title: 'Select drink type:',
+    buttons: {
+      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
+      content: [],
+    },
   },
   {
     path: PATHS.drinkSubtype,
-    id: 'drink-subtype',
+    id: 'drinkSubtype',
     title: 'Select drink subtype:',
+    buttons: {
+      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
+      content: [],
+    },
   },
   {
     path: PATHS.drinkVolume,
-    id: 'drink-volume',
+    id: 'drinkVolume',
     title: 'Select volume:',
+    buttons: {
+      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
+      content: [],
+    },
   },
   {
     path: PATHS.containerType,
-    id: 'container-type',
+    id: 'containerType',
     title: 'Select container type:',
+    buttons: {
+      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
+      content: [],
+    },
   },
   {
     path: PATHS.temperature,
     id: 'temperature',
     title: 'Select initial and final temperatures:',
+    buttons: {
+      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.START],
+      content: [],
+    },
   },
 ];
-
-// Route-specific button configurations
-export const ROUTE_BUTTON_CONFIG: Record<OrderFieldKey, RouteButtonConfig> = {
-  main: {
-    footer: [BUTTON_TYPES.CANCEL, BUTTON_TYPES.RESET, BUTTON_TYPES.ALL],
-    content: [BUTTON_TYPES.PROGRAM_TIME, BUTTON_TYPES.PROGRAM_PRODUCT, BUTTON_TYPES.REPEAT_SELECTION],
-  },
-  drinkType: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
-    content: [],
-  },
-  drinkSubtype: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
-    content: [],
-  },
-  drinkVolume: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
-    content: [],
-  },
-  containerType: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
-    content: [],
-  },
-  temperature: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.START],
-    content: [],
-  },
-};
