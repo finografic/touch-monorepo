@@ -22,9 +22,7 @@ export const GenericSelectPage = () => {
     if (!orders?.length || !currentSessionId) return;
 
     // Get current session's orders
-    const sessionOrders = orders.filter((order) =>
-      sessions[currentSessionId]?.orderNumbers.includes(order.itemNumber),
-    );
+    const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
 
     // Update session filters
     const currentSessionFilters = sessions[currentSessionId]?.filters || {};

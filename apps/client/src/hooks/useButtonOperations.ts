@@ -147,20 +147,36 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       location: location.pathname,
     });
 
-    // Default temperature control process (for product flow)
-    startTemperatureControl();
-  }, [startTemperatureControl]);
+    // Only use temperature control if NOT on TimePage
+    if (location.pathname !== ALTERNATIVE_PATHS.time) {
+      startTemperatureControl();
+    } else {
+      console.warn('handleStartProcess: Called on TimePage but should use handleStartTimeProcess');
+    }
+  }, [startTemperatureControl, location.pathname]);
 
   const handleStartTimeProcess = useCallback(
     (duration: number) => {
+      console.log('🚀 handleStartTimeProcess: Called with duration =', duration, 'seconds');
+      console.log('🚀 handleStartTimeProcess: Current orders =', orders);
       log('__DEV: INICIAR - Time Process', 'yellow', {
         location: location.pathname,
         duration,
       });
 
       startTransition(() => {
+        console.log('🚀 handleStartTimeProcess: Setting processing for selected orders');
+        const selectedOrders = orders.filter((order) => order.isSelected);
+        console.log('🚀 handleStartTimeProcess: Selected orders =', selectedOrders);
+
         orders.forEach((order) => {
           if (order.isSelected) {
+            console.log(
+              '🚀 handleStartTimeProcess: Setting order',
+              order.itemNumber,
+              'to duration',
+              duration,
+            );
             setOrderProcessing({
               itemNumber: order.itemNumber,
               duration,

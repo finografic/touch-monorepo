@@ -101,7 +101,7 @@ export const TemperaturePage = () => {
         setTemperatures(newTemperatures);
 
         // Only update orders in the current session
-        const sessionOrders = orders.filter((order) => order.sessionId === currentSessionId);
+        const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
 
         log('__DEV: ORDERS - orders', 'cyan', { currentSessionId }, orders);
         log('__DEV: ORDERS - sessionOrders', 'lime', { currentSessionId }, sessionOrders);
@@ -119,7 +119,7 @@ export const TemperaturePage = () => {
         // Also update session filters, but preserve all other filters
         if (currentSessionId) {
           // Get the current session filters (if any)
-          const prevSessionFilters = orders.find((o) => o.sessionId === currentSessionId)?.filters || {};
+          const prevSessionFilters = orders.find((o) => o.session?.id === currentSessionId)?.filters || {};
           const sessionFilters = {
             ...prevSessionFilters,
             [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
@@ -156,7 +156,7 @@ export const TemperaturePage = () => {
       const usedFinal = closestFinalProfile ? closestFinalProfile.temperature : final;
 
       // Only update orders in the current session
-      const sessionOrders = orders.filter((order) => order.sessionId === currentSessionId);
+      const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
 
       // log('__DEV: ORDERS - orders', 'cyan', { currentSessionId }, orders);
       // log('__DEV: ORDERS - sessionOrders', 'lime', { currentSessionId }, sessionOrders);
@@ -173,7 +173,7 @@ export const TemperaturePage = () => {
 
       // Also update session filters, but preserve all other filters
       if (currentSessionId) {
-        const prevSessionFilters = orders.find((o) => o.sessionId === currentSessionId)?.filters || {};
+        const prevSessionFilters = orders.find((o) => o.session?.id === currentSessionId)?.filters || {};
         const sessionFilters = {
           ...prevSessionFilters,
           [fieldKey]: {
@@ -204,7 +204,7 @@ export const TemperaturePage = () => {
     if (currentSessionId) {
       console.log(
         'Session filters after temperature change:',
-        orders.find((o) => o.sessionId === currentSessionId)?.filters,
+        orders.find((o) => o.session?.id === currentSessionId)?.filters,
       );
     }
   }, [temperatures, currentSessionId, orders]);

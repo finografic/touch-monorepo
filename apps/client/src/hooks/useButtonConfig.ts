@@ -6,6 +6,7 @@ import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'constants/butto
 import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'routes/routes.config';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useButtonOperations } from 'hooks/useButtonOperations';
+import { useRouteHandler } from 'hooks/useRouteHandler';
 import { BUTTON_ACTIONS, BUTTON_TYPES, type PadActionProps, type PadActionType } from 'types/button.types';
 
 interface UseButtonConfigReturn {
@@ -27,8 +28,6 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     handleClearCompleted,
     handleCancelCompleted,
     handleSelectAll,
-    handleStartProcess,
-    handleStartTimeProcess,
     handleProgramTime,
     handleProgramProduct,
     handleRepeatSelection,
@@ -36,6 +35,9 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     getOperationLoading,
     // isOperationPending,
   } = useButtonOperations();
+
+  // Use route-specific handler
+  const { getStartHandler } = useRouteHandler();
 
   const routeConfig = useMemo(() => {
     // Check if we're on an alternative route (like TimePage)
@@ -66,7 +68,8 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
         case BUTTON_ACTIONS.SELECT_ALL:
           return handleSelectAll();
         case BUTTON_ACTIONS.START_PROCESS:
-          return handleStartProcess();
+          // Use route-specific handler
+          return getStartHandler()();
         case BUTTON_ACTIONS.PROGRAM_TIME:
           return handleProgramTime();
         case BUTTON_ACTIONS.PROGRAM_PRODUCT:
@@ -83,7 +86,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
       handleClearCompleted,
       handleCancelCompleted,
       handleSelectAll,
-      handleStartProcess,
+      getStartHandler,
       handleProgramTime,
       handleRepeatSelection,
     ],
