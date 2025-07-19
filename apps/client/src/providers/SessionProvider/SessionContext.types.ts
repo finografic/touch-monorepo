@@ -8,6 +8,8 @@ export interface ConfigurationSession {
   filters: OrderFilters;
   orderNumbers: number[];
   isActive: boolean;
+  isCurrent: boolean;
+  isComplete: boolean;
 }
 
 export interface SessionValues {

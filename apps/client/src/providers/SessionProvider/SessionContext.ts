@@ -35,13 +35,17 @@ export const SessionContext = createZustandContext(({ initialValue }) => {
               filters: {},
               orderNumbers: [],
               isActive: true,
+              isCurrent: true,
+              isComplete: false,
             };
+
+            log('__DEV: NEW_SESSION', 'lime', newSession);
 
             // Deactivate all other sessions
             const updatedSessions = Object.entries(sessions).reduce(
               (acc, [id, session]) => ({
                 ...acc,
-                [id]: { ...session, isActive: false },
+                [id]: { ...session, isActive: false, isCurrent: false },
               }),
               {} as Record<string, ConfigurationSession>,
             );

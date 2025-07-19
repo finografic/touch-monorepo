@@ -27,7 +27,9 @@ export const DevPanelRight = () => {
     orders: cleanOrdersForDisplay,
     DATA_TOTAL: data?.length,
     DATA_FILTERED: dataFiltered?.length,
-    PADS_ALL: loaderData?.map((padData) => padData.name),
+    PADS_ALL: ['', '/', '/temperature'].includes(location.pathname)
+      ? []
+      : loaderData?.map((padData) => padData.name),
   };
 
   return (

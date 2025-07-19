@@ -1,15 +1,17 @@
-import { Container, Flex, Text } from '@radix-ui/themes';
+import { Container, Flex } from '@radix-ui/themes';
 import { styles } from './Header.styles';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 
 export const Header = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { currentLanguage } = useContent();
+  const { currentSessionId, sessions } = useSession();
 
   useEffect(() => {
     console.log('__DEV: currentLanguage', currentLanguage);
@@ -36,7 +38,8 @@ export const Header = () => {
                 {t('app.title')}
               </h1>
 
-              <pre className="dev-session">sdfsdfadsffdsfsd</pre>
+              <pre className="dev-session-a">{String(currentSessionId)}</pre>
+              <pre className="dev-session-b">{JSON.stringify(sessions ?? {}, null, 2)}</pre>
             </Flex>
           </Flex>
 

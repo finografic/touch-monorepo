@@ -22,14 +22,24 @@ export const styles = css`
     color: ${colors.grey};
     font-size: 1.1rem;
     font-weight: 400;
-
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
 
-  .dev-session {
+  .dev-session-a,
+  .dev-session-b {
     color: ${colors.greyXLight};
     font-size: 0.9rem;
     font-weight: 400;
+    position: absolute;
+    top: 3vw;
+    /* right: 3vw; */
+    text-align: center;
+  }
+
+  .dev-session-b {
+    text-align: left;
+    top: 5vw;
+    font-size: 0.8rem;
   }
 `;

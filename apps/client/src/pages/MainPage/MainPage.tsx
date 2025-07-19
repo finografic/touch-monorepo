@@ -1,4 +1,4 @@
-import { /* startTransition, useCallback, */ useEffect } from 'react';
+import { /* startTransition, useCallback, */ useEffect, useRef } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { PadMenu } from 'components/Pads/PadMenu';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
@@ -12,6 +12,7 @@ import { Flex } from '@radix-ui/themes';
 // import { useNavigateState } from 'routes/hooks/useNavigateState';
 
 export function MainPage() {
+  const isInSession = useRef<boolean>(false);
   const { orders } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId } = useSession();
   const { contentButtons } = useButtonConfig();
@@ -26,6 +27,8 @@ export function MainPage() {
 
   useEffect(
     function createConfigurationSessionForNewlySelectedOrders() {
+      if (isInSession.current) return;
+
       const newlySelectedOrders = orders.filter(
         (order) => order.isSelected && order.process.status === 'idle',
       );
@@ -49,6 +52,8 @@ export function MainPage() {
         sessionId,
         newlySelectedOrders.map((order) => order.itemNumber),
       );
+
+      isInSession.current = true;
       // }
     },
     [orders, currentSessionId, createSession, assignOrdersToSession],
