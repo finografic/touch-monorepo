@@ -7,7 +7,8 @@ export type TimerStatus = 'idle' | 'processing' | 'completed';
 export interface TimerItem {
   id: string;
   sessionId: string;
-  orderId: number;
+  slotNumber: number; // Position 0-9
+  orderId: string; // Persistent CUID that gets remembered
   flowType: FlowTypeValue;
   duration: number;
   remaining: number;
@@ -36,6 +37,9 @@ type TimersActions = TimersSetters & {
   getTimersBySession: (sessionId: string) => TimerItem[];
   getRunningTimers: () => TimerItem[];
   getCompletedTimers: () => TimerItem[];
+  getTimerByOrderId: (orderId: string) => TimerItem | undefined;
+  getTimerBySlotNumber: (slotNumber: number) => TimerItem | undefined;
+  updateTimerByOrderId: (orderId: string, updates: Partial<TimerItem>) => void;
 };
 
 export interface TimersProviderProps {

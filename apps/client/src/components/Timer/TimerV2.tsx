@@ -4,7 +4,7 @@ import type { TimerItem } from 'providers/TimersProvider';
 import { finishAction, getElapsedAndEventNumber, tickAction } from './timers.utils';
 
 interface TimerV2Props {
-  orderId: number;
+  slotNumber: number; // Use slotNumber to find the timer
   onComplete?: () => void;
 }
 
@@ -19,18 +19,18 @@ const formatTime = (seconds: number): string => {
   return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 };
 
-export const TimerV2 = ({ orderId, onComplete }: TimerV2Props) => {
+export const TimerV2 = ({ slotNumber, onComplete }: TimerV2Props) => {
   const { timers, updateTimer } = useTimers();
   const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const lastEventFiredRef = useRef<number>(-1);
 
-  // Find the timer for this order
-  const timer = timers.find((t) => t.orderId === orderId);
+  // Find the timer for this slot
+  const timer = timers.find((t) => t.slotNumber === slotNumber);
 
   // Function to handle timer completion
   const handleTimerComplete = () => {
-    console.debug('TimerV2: completing', { orderId });
+    console.debug('TimerV2: completing', { slotNumber });
 
     // First clear the interval
     if (intervalRef.current) {
@@ -40,7 +40,7 @@ export const TimerV2 = ({ orderId, onComplete }: TimerV2Props) => {
 
     // Then remove from global registry
     if (typeof window !== 'undefined' && window.__timerIntervals) {
-      delete window.__timerIntervals[orderId];
+      delete window.__timerIntervals[slotNumber];
     }
 
     // Finally update the timer status in TimersContext
@@ -55,8 +55,13 @@ export const TimerV2 = ({ orderId, onComplete }: TimerV2Props) => {
   };
 
   useEffect(() => {
+    console.debug('TimerV2: useEffect triggered', {
+      slotNumber,
+      timerId: timer?.id,
+      timerStatus: timer?.status,
+    });
     if (!timer || timer.status !== 'processing') {
-      console.debug('TimerV2: no active timer, skipping', { orderId });
+      console.debug('TimerV2: no active timer, skipping', { slotNumber });
       setRemainingTime(0);
       return;
     }
@@ -66,7 +71,8 @@ export const TimerV2 = ({ orderId, onComplete }: TimerV2Props) => {
     const duration = Math.floor((endTime - startTime) / 1000);
 
     console.debug('TimerV2: starting', {
-      orderId,
+      slotNumber,
+      orderId: timer.orderId,
       duration: `${duration}s`,
       endTime: new Date(endTime).toISOString(),
     });
@@ -97,11 +103,11 @@ export const TimerV2 = ({ orderId, onComplete }: TimerV2Props) => {
       const { elapsed, eventNumber } = getElapsedAndEventNumber(timer.duration, remaining);
       if (eventNumber > lastEventFiredRef.current) {
         lastEventFiredRef.current = eventNumber;
-        tickAction({ elapsed, remaining, orderId });
+        tickAction({ elapsed, remaining, orderId: timer.orderId });
       }
 
       if (remaining <= 0) {
-        finishAction({ elapsed, remaining, orderId });
+        finishAction({ elapsed, remaining, orderId: timer.orderId });
         handleTimerComplete();
       }
     }, 1000);
@@ -109,21 +115,21 @@ export const TimerV2 = ({ orderId, onComplete }: TimerV2Props) => {
     // Safely store in global registry
     if (typeof window !== 'undefined') {
       window.__timerIntervals = window.__timerIntervals || {};
-      window.__timerIntervals[orderId] = intervalId;
+      window.__timerIntervals[slotNumber] = intervalId;
     }
     intervalRef.current = intervalId;
 
     return () => {
-      console.debug('TimerV2: cleanup', { orderId });
+      console.debug('TimerV2: cleanup', { slotNumber });
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = undefined;
       }
       if (typeof window !== 'undefined' && window.__timerIntervals) {
-        delete window.__timerIntervals[orderId];
+        delete window.__timerIntervals[slotNumber];
       }
     };
-  }, [timer, orderId, updateTimer, onComplete]);
+  }, [timer, slotNumber, updateTimer, onComplete]);
 
   // If no timer or timer is not processing, show empty
   if (!timer || timer.status !== 'processing') {

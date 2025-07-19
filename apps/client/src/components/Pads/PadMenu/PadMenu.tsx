@@ -25,22 +25,26 @@ export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
   const order = findOrderByNumber(orders, number) as OrderItem;
 
   // Use LayoutUIContext for selection state instead of OrdersContext
-  const isSelected = mainPageSelectedSlots.includes(number);
+  const isChecked = mainPageSelectedSlots.includes(number);
 
-  // Check if there's a timer for this order
-  const timer = timers.find((t) => t.orderId === number);
+  // Check if there's a timer for this slot
+  const timer = timers.find((t) => t.slotNumber === number);
   const hasTimer = timer && (timer.status === 'processing' || timer.status === 'completed');
 
   // NOTE: Only add menu-specific classes here,
   // let PAD component handle its own state classes
-  const className = clsx('pad-menu', `item-type-${itemType}`, {
-    // Apply timer status classes based on TimersContext
-    'status-processing': timer?.status === 'processing',
-    'status-completed': timer?.status === 'completed',
-    'status-idle': !timer,
-    // Add selected class for running timers that are selected
-    'selected': isSelected && (timer?.status === 'processing' || timer?.status === 'completed'),
-  });
+  const className = useMemo(
+    () =>
+      clsx('pad-menu', `item-type-${itemType}`, {
+        // Apply timer status classes based on TimersContext
+        'status-processing': timer?.status === 'processing',
+        'status-completed': timer?.status === 'completed',
+        'status-idle': !timer,
+        // Add selected class for running timers that are selected
+        'selected': isChecked && (timer?.status === 'processing' || timer?.status === 'completed'),
+      }),
+    [itemType, timer?.status, isChecked],
+  );
 
   const handleSelect = React.useCallback(() => {
     toggleMainPageSlot(number);
@@ -55,7 +59,7 @@ export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
   if (hasTimer) {
     return (
       <PadMenuToggle css={styles} itemType={itemType} number={number} className={className}>
-        <TimerV2 orderId={number} onComplete={handleTimerComplete} />
+        <TimerV2 key={`timer-${number}`} slotNumber={number} onComplete={handleTimerComplete} />
       </PadMenuToggle>
     );
   }
@@ -68,7 +72,7 @@ export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
       type="checkbox"
       value={{ id: String(number), itemType }}
       fieldKey={OrderFieldKeys.main}
-      isChecked={isSelected}
+      isChecked={isChecked}
       className={className}
       label={String(number)}
       metadata={metadata}

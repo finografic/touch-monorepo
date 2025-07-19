@@ -1,7 +1,7 @@
 import type { OrderItem } from 'types/orders.types';
 import { getCachedSettings, playCachedSound, playSoundFromUrl } from 'utils/soundCache.utils';
 
-export const EVENT_INTERVAL = 10; // seconds
+export const EVENT_INTERVAL = 15; // seconds
 
 // Initialize the global timer registry if it doesn't exist
 if (typeof window !== 'undefined') {
@@ -86,7 +86,7 @@ export function tickAction({
 }: {
   elapsed: number;
   remaining: number;
-  orderId: number;
+  orderId: string | number;
 }) {
   log(`EVENT: ${elapsed}s elapsed, ${remaining}s remaining (order ${orderId})`, 'grey');
   // Play configured tick sound
@@ -103,7 +103,7 @@ export function finishAction({
 }: {
   elapsed: number;
   remaining: number;
-  orderId: number;
+  orderId: string | number;
 }) {
   log('EVENT: TIMER FINISHED', 'grey', { elapsed, remaining, orderId });
   makeFinishSound().catch(() => {

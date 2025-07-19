@@ -19,7 +19,6 @@ export enum LayoutUiKeys {
   numPads = 'numPads',
   pads = 'pads',
   padsFiltered = 'padsFiltered',
-  // MainPage selection state
   mainPageSelectedSlots = 'mainPageSelectedSlots',
   mainPageIsSelectMode = 'mainPageIsSelectMode',
 }
@@ -30,7 +29,6 @@ export const defaultValue: LayoutUiValues = {
   numPads: 0,
   pads: [],
   padsFiltered: [],
-  // MainPage selection state
   mainPageSelectedSlots: [],
   mainPageIsSelectMode: false,
 };

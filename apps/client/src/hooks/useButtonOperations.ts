@@ -14,6 +14,7 @@ import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
 import { ItemType } from 'types/orders.types';
 import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 import { FLOW_TYPES } from 'types/flow.types';
+import createCuid from '@bugsnag/cuid';
 
 type OperationActionType =
   | 'clear-completed'
@@ -108,7 +109,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     startTransition(() => {
       // Clear only timers that are SELECTED/checked
       const selectedSlotsWithTimers = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t) => t.orderId === slotNumber);
+        const timer = timers.find((t) => t.slotNumber === slotNumber);
         return timer && (timer.status === 'processing' || timer.status === 'completed');
       });
 
@@ -116,7 +117,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       // Remove timers for selected slots
       selectedSlotsWithTimers.forEach((slotNumber) => {
-        const timer = timers.find((t) => t.orderId === slotNumber);
+        const timer = timers.find((t) => t.slotNumber === slotNumber);
         if (timer) {
           removeTimer(timer.id);
         }
@@ -182,9 +183,21 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
             duration,
           );
 
+          // Check if there's already a timer for this slot
+          const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
+          const orderId = existingTimer?.orderId || createCuid();
+
+          console.log('🚀 handleStartTimeProcess: Timer details', {
+            slotNumber,
+            existingTimerId: existingTimer?.id,
+            newOrderId: orderId,
+            reusingOrderId: !!existingTimer?.orderId,
+          });
+
           addTimer({
             sessionId: currentSessionId!,
-            orderId: slotNumber,
+            slotNumber,
+            orderId,
             flowType: FLOW_TYPES.PROGRAM_TIME,
             duration,
             remaining: duration,
@@ -213,7 +226,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     startTransition(() => {
       // Get selected slots that are idle (not running timers)
       const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t: any) => t.orderId === slotNumber);
+        const timer = timers.find((t: any) => t.slotNumber === slotNumber);
         return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
       });
 
@@ -246,7 +259,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     startTransition(() => {
       // Get selected slots that are idle (not running timers)
       const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t: any) => t.orderId === slotNumber);
+        const timer = timers.find((t: any) => t.slotNumber === slotNumber);
         return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
       });
 
@@ -367,7 +380,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       // Count available slots (not running timers) for operations that need idle slots
       const numAvailableSelected = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t: any) => t.orderId === slotNumber);
+        const timer = timers.find((t: any) => t.slotNumber === slotNumber);
         return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
       }).length;
 
@@ -376,7 +389,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       // Count selected processing timers for cancel button
       const numSelectedProcessing = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t: any) => t.orderId === slotNumber);
+        const timer = timers.find((t: any) => t.slotNumber === slotNumber);
         return timer && timer.status === 'processing';
       }).length;
 

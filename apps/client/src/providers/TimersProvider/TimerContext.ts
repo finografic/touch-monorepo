@@ -2,6 +2,7 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { TimerItem, TimersStore, TimersValues } from './TimerContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
+import createCuid from '@bugsnag/cuid';
 
 export const DISPLAY_NAME = 'Timers';
 export const SETTER_PREFIX = '';
@@ -25,6 +26,17 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
           addTimer: (timerData: Omit<TimerItem, 'id' | 'createdAt'>) => {
             const { timers } = get();
+
+            // Check if there's already a timer for this slot
+            const existingTimerIndex = timers.findIndex((t) => t.slotNumber === timerData.slotNumber);
+
+            console.log('🔧 addTimer called:', {
+              slotNumber: timerData.slotNumber,
+              existingTimerIndex,
+              existingTimerId: existingTimerIndex >= 0 ? timers[existingTimerIndex]?.id : null,
+              totalTimers: timers.length,
+            });
+
             const newTimer: TimerItem = {
               ...timerData,
               id:
@@ -33,7 +45,21 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
                   : `timer-${Date.now()}-${Math.random()}`,
               createdAt: new Date().toISOString(),
             };
-            set({ timers: [...timers, newTimer] });
+
+            if (existingTimerIndex >= 0) {
+              // Replace existing timer
+              const updatedTimers = [...timers];
+              updatedTimers[existingTimerIndex] = newTimer;
+              console.log('🔧 Replacing existing timer:', {
+                oldId: timers[existingTimerIndex]?.id,
+                newId: newTimer.id,
+              });
+              set({ timers: updatedTimers });
+            } else {
+              // Add new timer
+              console.log('🔧 Adding new timer:', { newId: newTimer.id });
+              set({ timers: [...timers, newTimer] });
+            }
           },
           updateTimer: (id: string, updates: Partial<TimerItem>) => {
             const { timers } = get();
@@ -69,6 +95,24 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
           getCompletedTimers: () => {
             const { timers } = get();
             return timers.filter((timer) => timer.status === 'completed');
+          },
+          getTimerByOrderId: (orderId: string) => {
+            const { timers } = get();
+            return timers.find((timer) => timer.orderId === orderId);
+          },
+          getTimerBySlotNumber: (slotNumber: number) => {
+            const { timers } = get();
+            return timers.find((timer) => timer.slotNumber === slotNumber);
+          },
+          updateTimerByOrderId: (orderId: string, updates: Partial<TimerItem>) => {
+            const { timers } = get();
+            const updatedTimers = timers.map((timer) => {
+              if (timer.orderId === orderId) {
+                return { ...timer, ...updates };
+              }
+              return timer;
+            });
+            set({ timers: updatedTimers });
           },
         },
       }),

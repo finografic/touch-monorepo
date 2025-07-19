@@ -13,15 +13,14 @@ export interface LayoutUiValues {
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadUI[];
   [LayoutUiKeys.padsFiltered]: PadUI[];
-  // MainPage selection state
   [LayoutUiKeys.mainPageSelectedSlots]: number[];
   [LayoutUiKeys.mainPageIsSelectMode]: boolean;
 }
 
 type LayoutUiSetters = {
-  [K in keyof LayoutUiValues as LayoutUiValues[K] extends boolean
-    ? `set${Capitalize<string & K>}`
-    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: LayoutUiValues[K]) => void;
+  [K in keyof LayoutUiValues as `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (
+    val: LayoutUiValues[K],
+  ) => void;
 };
 
 type LayoutUiActions = LayoutUiSetters & {
