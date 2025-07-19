@@ -3,8 +3,8 @@ import axios from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
 import type { ApplicationError, ErrorResponse } from '@workspace/core/api';
 import {
-  transformAxiosError as coreTransformAxiosError,
   isRetryableError as coreIsRetryableError,
+  transformAxiosError as coreTransformAxiosError,
 } from '@workspace/core/api';
 
 // ======================================================================== //
