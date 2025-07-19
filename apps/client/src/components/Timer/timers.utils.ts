@@ -1,7 +1,7 @@
 import type { OrderItem } from 'types/orders.types';
 import { getCachedSettings, playCachedSound, playSoundFromUrl } from 'utils/soundCache.utils';
 
-export const EVENT_INTERVAL = 5; // seconds
+export const EVENT_INTERVAL = 10; // seconds
 
 // Initialize the global timer registry if it doesn't exist
 if (typeof window !== 'undefined') {
