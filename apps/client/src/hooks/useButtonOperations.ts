@@ -1,6 +1,7 @@
 import { useCallback, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrders } from 'providers/OrdersProvider';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
 import { useTemperatureControl } from 'hooks/useTemperatureControl';
 import { useConfigStorage } from 'hooks/useConfigStorage';
@@ -10,6 +11,7 @@ import { TIME_DEFAULT_SECONDS } from 'constants/time.config';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
 import { ItemType } from 'types/orders.types';
 import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
+import { FLOW_TYPES } from 'types/flow.types';
 
 type OperationActionType =
   | 'clear-completed'
@@ -26,6 +28,7 @@ interface UseButtonOperationsReturn {
   handleSelectAll: () => void;
   handleStartProcess: () => void;
   handleProgramTime: () => void;
+  handleProgramProduct: () => void;
   handleRepeatSelection: () => void;
   getOperationDisabled: (actionType: OperationActionType) => boolean;
   getOperationLoading: (actionType: OperationActionType) => boolean;
@@ -38,6 +41,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
   const { selectAllOrders, orders, setOrderProcessing, timerAction, toggleOrder } = useOrders();
+  const { createSession, assignOrdersToSession } = useSession();
   const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
 
@@ -179,9 +183,73 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   const handleProgramTime = useCallback(() => {
     startTransition(() => {
+      // Get selected orders that are idle
+      const selectedIdleOrders = orders.filter(
+        (order) => order.isSelected && order.process.status === 'idle',
+      );
+
+      if (selectedIdleOrders.length === 0) {
+        console.warn('No selected idle orders to program time for');
+        return;
+      }
+
+      // Create new session and assign selected orders
+      const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
+      assignOrdersToSession(
+        sessionId,
+        selectedIdleOrders.map((order) => order.itemNumber),
+      );
+
+      log('__DEV: PROGRAM TIME - Created session', 'blue', {
+        sessionId,
+        flowType: FLOW_TYPES.PROGRAM_TIME,
+        selectedOrders: selectedIdleOrders.map((o) => o.itemNumber),
+      });
+
+      // Navigate to time page
       navigate(ALTERNATIVE_PATHS.time);
     });
-  }, [navigate]);
+  }, [navigate, orders, createSession, assignOrdersToSession]);
+
+  const handleProgramProduct = useCallback(() => {
+    startTransition(() => {
+      // Get selected orders that are idle
+      const selectedIdleOrders = orders.filter(
+        (order) => order.isSelected && order.process.status === 'idle',
+      );
+
+      if (selectedIdleOrders.length === 0) {
+        console.warn('No selected idle orders to program product for');
+        return;
+      }
+
+      // Create new session and assign selected orders
+      const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
+      assignOrdersToSession(
+        sessionId,
+        selectedIdleOrders.map((order) => order.itemNumber),
+      );
+
+      log('__DEV: PROGRAM PRODUCT - Created session', 'lime', {
+        sessionId,
+        flowType: FLOW_TYPES.PROGRAM_PRODUCT,
+        selectedOrders: selectedIdleOrders.map((o) => o.itemNumber),
+      });
+
+      // Navigate to first step of product configuration flow (drink type selection)
+      const drinkTypePath = PATHS.drinkType;
+
+      log('__DEV: PROGRAM PRODUCT - Navigation', 'yellow', {
+        pathnames,
+        drinkTypePath,
+        currentPath: location.pathname,
+      });
+
+      // Set pagination to first step (index 1, since index 0 is main page)
+      setPageCurrent(1);
+      navigate(drinkTypePath); // Navigate directly to drink type page
+    });
+  }, [orders, createSession, assignOrdersToSession, pathnames, setPageCurrent, navigate]);
 
   const handleRepeatSelection = useCallback(() => {
     // Check if session storage timer is active
@@ -352,6 +420,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     handleSelectAll,
     handleStartProcess,
     handleProgramTime,
+    handleProgramProduct,
     handleRepeatSelection,
     getOperationDisabled,
     getOperationLoading,

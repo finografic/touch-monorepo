@@ -12,9 +12,7 @@ import { Flex } from '@radix-ui/themes';
 // import { useNavigateState } from 'routes/hooks/useNavigateState';
 
 export function MainPage() {
-  const isInSession = useRef<boolean>(false);
   const { orders } = useOrders();
-  const { createSession, assignOrdersToSession, currentSessionId } = useSession();
   const { contentButtons } = useButtonConfig();
   const { setIsNextDisabled } = usePagination();
 
@@ -24,40 +22,6 @@ export function MainPage() {
       order.isSelected && order.process.status !== 'processing' && order.process.status !== 'completed',
   );
   const numSelected = availableOrders.length;
-
-  useEffect(
-    function createConfigurationSessionForNewlySelectedOrders() {
-      if (isInSession.current) return;
-
-      const newlySelectedOrders = orders.filter(
-        (order) => order.isSelected && order.process.status === 'idle',
-      );
-
-      log('__DEV: SESSION - 1', 'grey', newlySelectedOrders);
-
-      log('__DEV: SESSION - 2', 'grey', currentSessionId);
-
-      // if (newlySelectedOrders.length > 0) {
-      // Create new session if we don't have one
-      let sessionId = currentSessionId;
-
-      if (!sessionId) {
-        sessionId = createSession();
-      }
-
-      log('__DEV: SESSION - 3', 'blue', sessionId);
-
-      // Assign newly selected orders to current session
-      assignOrdersToSession(
-        sessionId,
-        newlySelectedOrders.map((order) => order.itemNumber),
-      );
-
-      isInSession.current = true;
-      // }
-    },
-    [orders, currentSessionId, createSession, assignOrdersToSession],
-  );
 
   useEffect(() => {
     setIsNextDisabled(numSelected === 0);

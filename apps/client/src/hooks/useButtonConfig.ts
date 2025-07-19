@@ -20,13 +20,8 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const { t } = useTranslation();
 
   // Get actions from both specialized hooks
-  const {
-    handleNavigateBack,
-    handleNavigateNext,
-    handleProgramProduct,
-    getNavigationDisabled,
-    isNavigationPending,
-  } = useButtonNavigation();
+  const { handleNavigateBack, handleNavigateNext, getNavigationDisabled, isNavigationPending } =
+    useButtonNavigation();
 
   const {
     handleClearCompleted,
@@ -34,6 +29,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     handleSelectAll,
     handleStartProcess,
     handleProgramTime,
+    handleProgramProduct,
     handleRepeatSelection,
     getOperationDisabled,
     getOperationLoading,

@@ -1,9 +1,11 @@
 import type { ReactNode } from 'react';
 import type { SessionKeys, SETTER_PREFIX } from './SessionContext';
 import type { OrderFilters } from 'types/filters.types';
+import type { FlowTypeValue } from 'types/flow.types';
 
 export interface ConfigurationSession {
   id: string;
+  flowType: FlowTypeValue;
   createdAt: string;
   filters: OrderFilters;
   orderNumbers: number[];
@@ -24,7 +26,7 @@ type SessionSetters = {
 };
 
 type SessionActions = SessionSetters & {
-  createSession: () => string;
+  createSession: (flowType: FlowTypeValue) => string;
   setActiveSession: (sessionId: string) => void;
   updateSessionFilters: (sessionId: string, filters: OrderFilters) => void;
   assignOrdersToSession: (sessionId: string, orderNumbers: number[]) => void;
