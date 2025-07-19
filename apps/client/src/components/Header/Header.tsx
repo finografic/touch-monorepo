@@ -39,7 +39,7 @@ export const Header = () => {
               </h1>
 
               <pre className="dev-session-a">{String(currentSessionId)}</pre>
-              {/* <pre className="dev-session-b">{JSON.stringify(sessions ?? {}, null, 2)}</pre> */}
+              <pre className="dev-session-b">{JSON.stringify(sessions ?? {}, null, 2)}</pre>
             </Flex>
           </Flex>
 
