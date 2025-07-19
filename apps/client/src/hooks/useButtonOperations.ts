@@ -2,6 +2,7 @@ import { useCallback, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrders } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useTimers } from 'providers/TimersProvider';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
 import { useTemperatureControl } from 'hooks/useTemperatureControl';
 import { useConfigStorage } from 'hooks/useConfigStorage';
@@ -41,9 +42,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
-  const { selectAllOrders, orders, setOrderProcessing, timerAction, toggleOrder, setOrdersSession } =
-    useOrders();
-  const { createSession, assignOrdersToSession } = useSession();
+  const { selectAllOrders, orders, setOrderProcessing, toggleOrder, setOrdersSession } = useOrders();
+  const { createSession, assignOrdersToSession, currentSessionId } = useSession();
+  const { addTimer, clearCompletedTimers } = useTimers();
   const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
 
@@ -76,20 +77,18 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     },
   });
 
-  // Check if there are any completed timers
-  const hasCompletedTimers = orders.some((order) => order.process.status === 'completed');
+  // Check if there are any completed timers using TimersContext
+  const { getCompletedTimers } = useTimers();
+  const completedTimers = getCompletedTimers();
+  const hasCompletedTimers = completedTimers.length > 0;
 
   // Check if there are any selected items
   const hasSelectedItems = orders.some((order) => order.isSelected);
 
   const handleClearCompleted = useCallback(() => {
     startTransition(() => {
-      // Clear all completed timers by resetting their process status to 'idle'
-      orders.forEach((order) => {
-        if (order.process.status === 'completed') {
-          timerAction('reset', { itemNumber: order.itemNumber });
-        }
-      });
+      // Clear all completed timers using the new TimerContext
+      clearCompletedTimers();
 
       // Save new configuration to reset timer
       const selectedOrders = orders.filter((order) => order.isSelected);
@@ -100,16 +99,13 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         selectedOrders: selectedOrders.map((order) => order.itemNumber),
       });
     });
-  }, [orders, timerAction, saveConfig]);
+  }, [clearCompletedTimers, orders, saveConfig]);
 
   const handleCancelCompleted = useCallback(() => {
     startTransition(() => {
       // Clear only PROCESSING timers that are SELECTED/checked
-      orders.forEach((order) => {
-        if (order.process.status === 'processing' && order.isSelected) {
-          timerAction('reset', { itemNumber: order.itemNumber });
-        }
-      });
+      // TODO: Implement this with TimerContext when we have timer selection logic
+      console.log('handleCancelCompleted: Not yet implemented with TimerContext');
 
       // Save new configuration to reset timer
       const selectedOrders = orders.filter((order) => order.isSelected);
@@ -120,7 +116,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         selectedOrders: selectedOrders.map((order) => order.itemNumber),
       });
     });
-  }, [orders, timerAction, saveConfig]);
+  }, [orders, saveConfig]);
 
   const handleSelectAll = useCallback(() => {
     startTransition(() => {
@@ -169,19 +165,24 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         const selectedOrders = orders.filter((order) => order.isSelected);
         console.log('🚀 handleStartTimeProcess: Selected orders =', selectedOrders);
 
-        orders.forEach((order) => {
-          if (order.isSelected) {
-            console.log(
-              '🚀 handleStartTimeProcess: Setting order',
-              order.itemNumber,
-              'to duration',
-              duration,
-            );
-            setOrderProcessing({
-              itemNumber: order.itemNumber,
-              duration,
-            });
-          }
+        // Add timers to TimerContext for each selected order
+        selectedOrders.forEach((order) => {
+          console.log(
+            '🚀 handleStartTimeProcess: Adding timer for order',
+            order.itemNumber,
+            'with duration',
+            duration,
+          );
+
+          addTimer({
+            sessionId: currentSessionId!,
+            orderId: order.itemNumber,
+            flowType: FLOW_TYPES.PROGRAM_TIME,
+            duration,
+            remaining: duration,
+            status: 'processing',
+            estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
+          });
         });
 
         log('__DEV: INICIAR - Time Process Complete', 'yellow', {
@@ -193,7 +194,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         navigate(PATHS.main, { replace: true });
       });
     },
-    [orders, setOrderProcessing, navigate],
+    [orders, addTimer, currentSessionId, navigate],
   );
 
   const handleProgramTime = useCallback(() => {

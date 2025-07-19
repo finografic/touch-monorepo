@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { useOrders } from 'providers/OrdersProvider';
+import { useTimers } from 'providers/TimersProvider';
 import type { ItemType, OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
 import { PadMenuToggle } from './PadMenuToggle';
@@ -8,7 +9,7 @@ import { styles } from './PadMenu.styles';
 import type { DataEntry } from 'types/data.types';
 import { Pad } from 'components/Pads/Pad';
 import { OrderFieldKeys } from 'constants/app.config';
-import { Timer } from 'components/Timer/Timer';
+import { TimerV2 } from 'components/Timer/TimerV2';
 
 export interface PadMenuProps {
   itemType: ItemType;
@@ -17,9 +18,14 @@ export interface PadMenuProps {
 }
 
 export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
-  const { orders, toggleOrder, timerAction } = useOrders();
+  const { orders, toggleOrder } = useOrders();
+  const { timers } = useTimers();
   const order = findOrderByNumber(orders, number) as OrderItem;
   const isSelected = !!order?.isSelected;
+
+  // Check if there's a timer for this order
+  const timer = timers.find((t) => t.orderId === number);
+  const hasTimer = timer && (timer.status === 'processing' || timer.status === 'completed');
 
   // NOTE: Only add menu-specific classes here,
   // let PAD component handle its own state classes
@@ -33,24 +39,15 @@ export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
   }, [number, itemType, toggleOrder]);
 
   const handleTimerComplete = React.useCallback(() => {
-    timerAction('complete', { itemNumber: number });
-  }, [number, timerAction]);
+    // Timer completion is now handled by TimerV2 component
+    console.log('PadMenu: Timer completed for order', number);
+  }, [number]);
 
-  // Calculate duration from timeRemaining
-  const duration = useMemo(() => {
-    if (!order?.process?.timeRemaining) return 0;
-    return Math.max(0, order.process.timeRemaining);
-  }, [order?.process?.timeRemaining]);
-
-  // Show timer if order has processing or completed status (regardless of selection)
-  if (order?.process.status === 'processing' || order?.process.status === 'completed') {
+  // Show timer if there's a timer for this order (regardless of selection)
+  if (hasTimer) {
     return (
       <PadMenuToggle css={styles} itemType={itemType} number={number} className={className}>
-        <Timer
-          estimatedCompletionTime={order.process.estimatedCompletionTime}
-          order={order}
-          onComplete={handleTimerComplete}
-        />
+        <TimerV2 orderId={number} onComplete={handleTimerComplete} />
       </PadMenuToggle>
     );
   }

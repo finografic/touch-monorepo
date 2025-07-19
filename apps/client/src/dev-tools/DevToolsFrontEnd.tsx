@@ -13,8 +13,13 @@ import { hasProcessingTimers } from 'components/Timer/timers.utils';
 import { useOrdersOptional } from 'providers/OrdersProvider/OrdersContext';
 // import { DevPanelLeft } from 'dev-tools/DevPanels/DevPanelLeft';
 import { DevPanelRight } from 'dev-tools/DevPanels/DevPanelRight';
+import { useLocation } from 'react-router-dom';
+import { SessionAndTimers } from './SessionAndTimers/SessionAndTimers';
 
 export const DevToolsFrontEnd = () => {
+  const location = useLocation();
+  const showFilterResults = !['/', '/time'].includes(location.pathname);
+
   const ordersContext = useOrdersOptional();
   const orders = ordersContext?.orders || [];
   const {
@@ -34,7 +39,7 @@ export const DevToolsFrontEnd = () => {
     <>
       <>
         <DevScreenSize />
-        {isDevToolsVisible && <DevFilterResults />}
+        {isDevToolsVisible && (showFilterResults ? <DevFilterResults /> : <SessionAndTimers />)}
         {/* {isDevToolsVisible && <DevPanelLeft />} */}
         {isDevToolsVisible && <DevPanelRight />}
         {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
