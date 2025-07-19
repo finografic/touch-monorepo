@@ -26,7 +26,7 @@ interface UseButtonOperationsReturn {
   handleClearCompleted: () => void;
   handleCancelCompleted: () => void;
   handleSelectAll: () => void;
-  handleStartProcess: () => void;
+  handleStartProductProcess: () => void;
   handleStartTimeProcess: (duration: number) => void;
   handleProgramTime: () => void;
   handleProgramProduct: () => void;
@@ -142,7 +142,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     });
   }, [orders, toggleOrder]);
 
-  const handleStartProcess = useCallback(() => {
+  const handleStartProductProcess = useCallback(() => {
     log('__DEV: INICIAR - Temperature Process', 'yellow', {
       location: location.pathname,
     });
@@ -151,7 +151,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     if (location.pathname !== ALTERNATIVE_PATHS.time) {
       startTemperatureControl();
     } else {
-      console.warn('handleStartProcess: Called on TimePage but should use handleStartTimeProcess');
+      console.warn('handleStartProductProcess: Called on TimePage but should use handleStartTimeProcess');
     }
   }, [startTemperatureControl, location.pathname]);
 
@@ -439,7 +439,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     handleClearCompleted,
     handleCancelCompleted,
     handleSelectAll,
-    handleStartProcess,
+    handleStartProductProcess,
     handleStartTimeProcess,
     handleProgramTime,
     handleProgramProduct,

@@ -5,7 +5,7 @@ import { timePageState } from 'utils/timePageState';
 
 export const useRouteHandler = () => {
   const location = useLocation();
-  const { handleStartProcess, handleStartTimeProcess } = useButtonOperations();
+  const { handleStartProductProcess, handleStartTimeProcess } = useButtonOperations();
 
   const getStartHandler = () => {
     // On TimePage, use time-specific handler with current time from global state
@@ -17,7 +17,7 @@ export const useRouteHandler = () => {
 
     // On other routes, use regular temperature handler
     console.log('useRouteHandler: Using regular temperature handler for', location.pathname);
-    return handleStartProcess;
+    return handleStartProductProcess;
   };
 
   return {

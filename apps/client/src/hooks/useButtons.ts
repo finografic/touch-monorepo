@@ -16,7 +16,7 @@ export const useButtons = () => {
     handleClearCompleted,
     handleCancelCompleted,
     handleSelectAll,
-    handleStartProcess,
+    handleStartProductProcess,
     handleProgramTime,
     handleRepeatSelection,
   } = useButtonOperations();
@@ -37,7 +37,7 @@ export const useButtons = () => {
       case 'select-all':
         return handleSelectAll();
       case 'start-process':
-        return handleStartProcess();
+        return handleStartProductProcess();
       case 'program-time':
         return handleProgramTime();
       case 'repeat-selection':
@@ -65,7 +65,7 @@ export const useButtons = () => {
     handleClearCompleted,
     handleCancelCompleted,
     handleSelectAll,
-    handleStartProcess,
+    handleStartProductProcess,
     handleProgramTime,
     handleRepeatSelection,
   };
