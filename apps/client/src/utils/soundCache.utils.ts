@@ -167,7 +167,7 @@ export const fetchAndCacheSound = async (fileId: string): Promise<string> => {
       throw new Error(`Invalid sound file URL: ${soundFile.url}`);
     }
 
-    console.log(`Fetching sound: ${fileId} -> ${filename}`);
+    // console.log(`Fetching sound: ${fileId} -> ${filename}`);
 
     // Fetch the sound file as a blob with proper headers - use full server URL
     const response = await fetch(`http://localhost:4040/api/sounds/files/${filename}`, {
@@ -185,14 +185,14 @@ export const fetchAndCacheSound = async (fileId: string): Promise<string> => {
 
     // Check content type
     const contentType = response.headers.get('content-type');
-    console.log(`Response content-type: ${contentType}`);
+    // console.log(`Response content-type: ${contentType}`);
 
     if (!contentType || !contentType.startsWith('audio/')) {
       throw new Error(`Invalid content type: ${contentType}. Expected audio/*`);
     }
 
     const blob = await response.blob();
-    console.log(`Blob received: ${blob.size} bytes, type: ${blob.type}`);
+    // console.log(`Blob received: ${blob.size} bytes, type: ${blob.type}`);
 
     // Verify blob type
     if (!blob.type.startsWith('audio/')) {
@@ -201,12 +201,12 @@ export const fetchAndCacheSound = async (fileId: string): Promise<string> => {
 
     // Convert blob to Base64
     const base64 = await blobToBase64(blob);
-    console.log(`Base64 conversion successful, length: ${base64.length}`);
+    // console.log(`Base64 conversion successful, length: ${base64.length}`);
 
     // Cache the result
     soundCache.set(fileId, base64);
 
-    console.log(`Cached sound: ${fileId} (${filename})`);
+    // console.log(`Cached sound: ${fileId} (${filename})`);
     return base64;
   } catch (error) {
     console.error(`Error caching sound ${fileId}:`, error);
@@ -219,18 +219,13 @@ export const fetchAndCacheSound = async (fileId: string): Promise<string> => {
  */
 export const playCachedSound = async (fileId: string, volume: number = 0.3): Promise<void> => {
   try {
-    console.log(`Attempting to play cached sound: ${fileId}`);
-
     // Get or fetch the cached sound
     const base64 = await fetchAndCacheSound(fileId);
-
-    console.log(`Creating Audio object with base64 data (length: ${base64.length})`);
-
     // Create audio object
     const audio = new Audio(base64);
     audio.volume = volume;
 
-    console.log('Audio object created, attempting to play...');
+    // console.log('Audio object created, attempting to play...');
     await audioManager.playAudio(audio, fileId);
   } catch (error) {
     console.error(`Error playing cached sound ${fileId}:`, error);
@@ -243,7 +238,7 @@ export const playCachedSound = async (fileId: string, volume: number = 0.3): Pro
  */
 export const playSoundFromUrl = async (fileId: string, volume: number = 0.3): Promise<void> => {
   try {
-    console.log(`Attempting to play sound from URL: ${fileId}`);
+    // console.log(`Attempting to play sound from URL: ${fileId}`);
 
     // Get the sound files list to find the actual filename
     const soundFiles = await getCachedSoundFiles();
@@ -260,14 +255,14 @@ export const playSoundFromUrl = async (fileId: string, volume: number = 0.3): Pr
     }
 
     const url = `/api/sounds/files/${filename}`;
-    console.log(`Playing from URL: ${url}`);
+    // console.log(`Playing from URL: ${url}`);
 
     // Create and play audio directly from URL
     const audio = new Audio(url);
     audio.volume = volume;
 
     await audioManager.playAudio(audio, fileId);
-    console.log(`Sound played successfully from URL: ${fileId}`);
+    // console.log(`Sound played successfully from URL: ${fileId}`);
   } catch (error) {
     console.error(`Error playing sound from URL ${fileId}:`, error);
     throw error;
