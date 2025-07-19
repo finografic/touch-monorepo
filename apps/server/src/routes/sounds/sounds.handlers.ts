@@ -56,6 +56,7 @@ async function ensureUploadsDir() {
 // Initialize sound files on module load
 (async () => {
   await scanFilesFromDisk();
+  await loadSettings();
   await validateSettings();
 })();
 

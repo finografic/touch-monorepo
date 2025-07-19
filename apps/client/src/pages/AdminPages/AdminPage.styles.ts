@@ -9,7 +9,10 @@ export const styles = css`
   }
 
   .admin-cards {
-    max-width: 800px;
+    max-width: 1000px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
   }
 
   .admin-card {

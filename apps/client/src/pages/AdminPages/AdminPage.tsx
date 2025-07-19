@@ -90,7 +90,7 @@ export const AdminPage: React.FC = () => {
               align="center"
             />
 
-            <Flex gap="6" wrap="wrap" justify="center" className="admin-cards">
+            <div className="admin-cards">
               {adminCards.map((card) => (
                 <Card
                   key={card.id}
@@ -100,8 +100,6 @@ export const AdminPage: React.FC = () => {
                   onClick={() => handleCardClick(card.path)}
                   style={{
                     cursor: isTransitioning ? 'wait' : 'pointer',
-                    minWidth: '280px',
-                    maxWidth: '320px',
                     opacity: isTransitioning ? 0.7 : 1,
                     transition: 'opacity 0.2s ease',
                   }}
@@ -130,7 +128,7 @@ export const AdminPage: React.FC = () => {
                   </Flex>
                 </Card>
               ))}
-            </Flex>
+            </div>
           </Flex>
         </Box>
       </AdminContentLayout>

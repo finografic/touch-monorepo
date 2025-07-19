@@ -1,6 +1,88 @@
 import { api } from 'api';
 import type { SoundFile, SoundSettings } from 'api/hooks/useSounds';
 
+// Audio instance manager to prevent overlapping sounds
+class AudioManager {
+  #currentAudio: HTMLAudioElement | null = null;
+  #isPlaying = false;
+  #debounceTimers = new Map<string, ReturnType<typeof setTimeout>>();
+
+  // Stop current audio and reset state
+  stopCurrent = (): void => {
+    if (this.#currentAudio) {
+      this.#currentAudio.pause();
+      this.#currentAudio.currentTime = 0;
+      this.#currentAudio.src = '';
+      this.#currentAudio = null;
+    }
+    this.#isPlaying = false;
+  };
+
+  // Play audio with debouncing and stopping current audio
+  playAudio = async (audio: HTMLAudioElement, fileId: string, debounceMs: number = 300): Promise<void> => {
+    // Clear any existing debounce timer for this file
+    const existingTimer = this.#debounceTimers.get(fileId);
+    if (existingTimer) {
+      clearTimeout(existingTimer);
+    }
+
+    // Set up debounce timer
+    const timer = setTimeout(async () => {
+      try {
+        // Stop any currently playing audio
+        this.stopCurrent();
+
+        // Set up the new audio
+        this.#currentAudio = audio;
+        this.#isPlaying = true;
+
+        // Add event listeners to track when audio finishes
+        const onEnded = (): void => {
+          this.#isPlaying = false;
+          this.#currentAudio = null;
+        };
+
+        const onError = (): void => {
+          this.#isPlaying = false;
+          this.#currentAudio = null;
+        };
+
+        audio.addEventListener('ended', onEnded, { once: true });
+        audio.addEventListener('error', onError, { once: true });
+
+        // Play the audio
+        await audio.play();
+        console.log(`Sound played successfully: ${fileId}`);
+      } catch (error) {
+        this.#isPlaying = false;
+        this.#currentAudio = null;
+        throw error;
+      } finally {
+        // Clean up the timer
+        this.#debounceTimers.delete(fileId);
+      }
+    }, debounceMs);
+
+    // Store the timer for potential cancellation
+    this.#debounceTimers.set(fileId, timer);
+  };
+
+  // Check if audio is currently playing
+  getPlaying = (): boolean => {
+    return this.#isPlaying;
+  };
+
+  // Stop all audio and clear all timers
+  stopAll = (): void => {
+    this.stopCurrent();
+    this.#debounceTimers.forEach((timer) => clearTimeout(timer));
+    this.#debounceTimers.clear();
+  };
+}
+
+// Global audio manager instance
+const audioManager = new AudioManager();
+
 // Cache for Base64 encoded sounds
 const soundCache = new Map<string, string>();
 
@@ -144,13 +226,12 @@ export const playCachedSound = async (fileId: string, volume: number = 0.3): Pro
 
     console.log(`Creating Audio object with base64 data (length: ${base64.length})`);
 
-    // Create and play audio
+    // Create audio object
     const audio = new Audio(base64);
     audio.volume = volume;
 
-    console.log(`Audio object created, attempting to play...`);
-    await audio.play();
-    console.log(`Sound played successfully: ${fileId}`);
+    console.log('Audio object created, attempting to play...');
+    await audioManager.playAudio(audio, fileId);
   } catch (error) {
     console.error(`Error playing cached sound ${fileId}:`, error);
     throw error;
@@ -185,7 +266,7 @@ export const playSoundFromUrl = async (fileId: string, volume: number = 0.3): Pr
     const audio = new Audio(url);
     audio.volume = volume;
 
-    await audio.play();
+    await audioManager.playAudio(audio, fileId);
     console.log(`Sound played successfully from URL: ${fileId}`);
   } catch (error) {
     console.error(`Error playing sound from URL ${fileId}:`, error);
@@ -237,11 +318,11 @@ export const playSoundByPath = async (filePath: string, volume: number = 0.3): P
         networkState: audio.networkState,
         readyState: audio.readyState,
         src: audio.src,
-        contentType: contentType,
+        contentType,
       });
     });
 
-    await audio.play();
+    await audioManager.playAudio(audio, filePath);
     console.log(`Sound played successfully by path: ${filePath}`);
   } catch (error) {
     console.error(`Error playing sound by path ${filePath}:`, error);
@@ -250,7 +331,7 @@ export const playSoundByPath = async (filePath: string, volume: number = 0.3): P
 };
 
 /**
- * Get cached sound settings
+ * Get cached settings
  */
 export const getCachedSettings = async (): Promise<SoundSettings> => {
   if (cachedSettings) {
@@ -331,7 +412,7 @@ export const testAudioPlayback = async (): Promise<void> => {
     audio.addEventListener('canplaythrough', () => console.log('Audio: canplaythrough'));
     audio.addEventListener('error', (e) => console.error('Audio error:', e));
 
-    await audio.play();
+    await audioManager.playAudio(audio, 'test-audio');
     console.log('Basic audio test successful!');
   } catch (error) {
     console.error('Basic audio test failed:', error);
@@ -346,13 +427,8 @@ export const stopAllAudio = (): void => {
   try {
     console.log('🛑 PANIC: Stopping all audio playback');
 
-    // Stop all HTML5 Audio elements
-    const audioElements = document.querySelectorAll('audio');
-    audioElements.forEach((audio) => {
-      audio.pause();
-      audio.currentTime = 0;
-      audio.src = '';
-    });
+    // Use the audio manager to stop all audio
+    audioManager.stopAll();
 
     // Also try to stop any Web Audio API contexts
     if (window.AudioContext || (window as any).webkitAudioContext) {
