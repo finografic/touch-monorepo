@@ -12,7 +12,12 @@ export const getPathSlug = (pathname: string, customSlug?: string): string | und
   const actionSegments = customSlug ? [...ROUTE_ACTION_SLUGS, customSlug] : ROUTE_ACTION_SLUGS;
   const segments = pathname
     .split('/')
-    .filter((segment) => segment && !segment.startsWith(':') && !actionSegments.includes(segment));
+    .filter(
+      (segment) =>
+        segment &&
+        !segment.startsWith(':') &&
+        !actionSegments.includes(segment as (typeof ROUTE_ACTION_SLUGS)[number]),
+    );
 
   return segments.length > 0 ? segments[segments.length - 1] : undefined;
 };

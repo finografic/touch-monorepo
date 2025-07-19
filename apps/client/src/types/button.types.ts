@@ -12,8 +12,8 @@ type ButtonType =
   | 'next'
   | 'start'
   | 'cancel'
-  | 'program-time'
   | 'program-product'
+  | 'program-time'
   | 'repeat-selection';
 
 // 2. Derive the const object from the union using your enhanced utility
@@ -24,8 +24,8 @@ export const BUTTON_TYPES: ConstEnumOf<ButtonType> = {
   NEXT: 'next',
   START: 'start',
   CANCEL: 'cancel',
-  PROGRAM_TIME: 'program-time',
   PROGRAM_PRODUCT: 'program-product',
+  PROGRAM_TIME: 'program-time',
   REPEAT_SELECTION: 'repeat-selection',
 } as const;
 
@@ -40,6 +40,7 @@ export type ButtonActionType =
   | 'navigate-back'
   | 'navigate-next'
   | 'start-process'
+  | 'program-product'
   | 'program-time'
   | 'repeat-selection';
 
@@ -51,6 +52,7 @@ export const BUTTON_ACTIONS: ConstEnumOf<ButtonActionType> = {
   NAVIGATE_BACK: 'navigate-back',
   NAVIGATE_NEXT: 'navigate-next',
   START_PROCESS: 'start-process',
+  PROGRAM_PRODUCT: 'program-product',
   PROGRAM_TIME: 'program-time',
   REPEAT_SELECTION: 'repeat-selection',
 } as const;

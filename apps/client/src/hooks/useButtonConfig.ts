@@ -2,15 +2,11 @@ import { useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import {
-  ALTERNATIVE_ROUTE_BUTTON_CONFIG,
-  BUTTON_CONFIGS,
-  ROUTE_BUTTON_CONFIG,
-} from 'constants/button.config';
+import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'constants/button.config';
+import { ALTERNATIVE_PATHS, ROUTE_BUTTON_CONFIG } from 'routes/routes.config';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useButtonOperations } from 'hooks/useButtonOperations';
 import { BUTTON_ACTIONS, BUTTON_TYPES, type PadActionProps, type PadActionType } from 'types/button.types';
-import { ALTERNATIVE_PATHS } from 'routes/routes.config';
 
 interface UseButtonConfigReturn {
   footerButtons: PadActionProps[];
@@ -69,6 +65,8 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
           return handleStartProcess();
         case BUTTON_ACTIONS.PROGRAM_TIME:
           return handleProgramTime();
+        case BUTTON_ACTIONS.PROGRAM_PRODUCT:
+          return handleNavigateNext();
         case BUTTON_ACTIONS.REPEAT_SELECTION:
           return handleRepeatSelection();
         default:
@@ -90,7 +88,11 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const getActionDisabled = useCallback(
     (actionType: string): boolean => {
       // Check navigation actions first
-      if (actionType === 'navigate-back' || actionType === 'navigate-next') {
+      if (
+        actionType === 'navigate-back' ||
+        actionType === 'navigate-next' ||
+        actionType === 'program-product'
+      ) {
         return getNavigationDisabled(actionType as 'navigate-back' | 'navigate-next');
       }
 
@@ -103,7 +105,11 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const getActionLoading = useCallback(
     (actionType: string): boolean => {
       // Navigation actions use their own pending state
-      if (actionType === 'navigate-back' || actionType === 'navigate-next') {
+      if (
+        actionType === 'navigate-back' ||
+        actionType === 'navigate-next' ||
+        actionType === 'program-product'
+      ) {
         return isNavigationPending;
       }
 

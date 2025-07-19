@@ -60,7 +60,7 @@ export const BUTTON_CONFIGS: Record<PadActionType, PadActionConfig> = {
     type: 'program-product',
     labelKey: 'ui.buttons.programProduct',
     className: 'pad-rect',
-    actionType: 'navigate-next', // Reuses next navigation logic
+    actionType: 'program-product',
   },
   [BUTTON_TYPES.REPEAT_SELECTION]: {
     id: 'btn-repeat-selection',
@@ -68,34 +68,6 @@ export const BUTTON_CONFIGS: Record<PadActionType, PadActionConfig> = {
     labelKey: 'ui.buttons.repeatSelection',
     className: 'pad-rect',
     actionType: 'repeat-selection',
-  },
-};
-
-// Route-specific button configurations
-export const ROUTE_BUTTON_CONFIG: Record<OrderFieldKey, RouteButtonConfig> = {
-  main: {
-    footer: [BUTTON_TYPES.CANCEL, BUTTON_TYPES.RESET, BUTTON_TYPES.ALL],
-    content: [BUTTON_TYPES.PROGRAM_TIME, BUTTON_TYPES.PROGRAM_PRODUCT, BUTTON_TYPES.REPEAT_SELECTION],
-  },
-  drinkType: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
-    content: [],
-  },
-  drinkSubtype: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
-    content: [],
-  },
-  drinkVolume: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
-    content: [],
-  },
-  containerType: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
-    content: [],
-  },
-  temperature: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.START],
-    content: [],
   },
 };
 
