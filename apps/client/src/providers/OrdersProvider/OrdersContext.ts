@@ -344,3 +344,55 @@ export const useOrders = (): OrdersReturn => {
     ...actions,
   }));
 };
+
+// Optional version that returns null when OrdersProvider is not available
+export const useOrdersOptional = (): OrdersReturn | null => {
+  const store = OrdersContext.useContext();
+  if (!store) {
+    return null;
+  }
+
+  // Subscribe to order status changes (same as useOrders)
+  store.subscribe(
+    (state) =>
+      state.orders.map((order) => ({
+        number: order.itemNumber,
+        status: order.process.status,
+      })),
+    (current, prev) => {
+      if (typeof window === 'undefined') return;
+
+      current.forEach((curr) => {
+        const previous = prev.find((p) => p.number === curr.number);
+
+        if (previous && curr.status !== previous.status) {
+          if (previous.status === 'processing' && window.__timerIntervals) {
+            const timerId = window.__timerIntervals[curr.number];
+            if (timerId) {
+              clearInterval(timerId);
+              delete window.__timerIntervals[curr.number];
+              console.debug(`Cleaned up timer for order ${curr.number}`);
+            }
+          }
+        }
+      });
+
+      prev.forEach((previous) => {
+        if (
+          !current.some((c) => c.number === previous.number) &&
+          previous.status === 'processing' &&
+          window.__timerIntervals?.[previous.number]
+        ) {
+          clearInterval(window.__timerIntervals[previous.number]);
+          delete window.__timerIntervals[previous.number];
+          console.debug(`Cleaned up timer for removed order ${previous.number}`);
+        }
+      });
+    },
+  );
+
+  return useStore<StoreApi<OrdersStore>, OrdersReturn>(store, ({ actions, ...state }) => ({
+    ...state,
+    ...actions,
+  }));
+};
