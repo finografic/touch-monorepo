@@ -41,4 +41,15 @@ export const styles = css`
       transform: translate(0, -1px) scale(0.9);
     }
   }
+  button.btn.btn-toggle-simple-login {
+    svg.icon {
+      transform: translate(0, -1px) scale(0.8);
+      opacity: 0.7;
+    }
+    &:hover {
+      svg.icon {
+        opacity: 1;
+      }
+    }
+  }
 `;

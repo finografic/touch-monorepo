@@ -12,6 +12,7 @@ export enum DevKeys {
   isDevDataVisible = 'isDevDataVisible',
   isDevScreenSizeVisible = 'isDevScreenSizeVisible',
   isDevAuthVisible = 'isDevAuthVisible',
+  isDevSimpleLoginVisible = 'isDevSimpleLoginVisible',
 }
 
 export const defaultValue: DevValues = {
@@ -21,6 +22,7 @@ export const defaultValue: DevValues = {
   isDevDataVisible: false,
   isDevScreenSizeVisible: false,
   isDevAuthVisible: false,
+  isDevSimpleLoginVisible: false,
 };
 
 export const DevContext = createZustandContext(({ initialValue }) => {

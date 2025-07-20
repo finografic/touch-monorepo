@@ -14,6 +14,7 @@ import { useOrdersOptional } from 'providers/OrdersProvider/OrdersContext';
 import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { useLocation } from 'react-router-dom';
 import { AuthStatusDialog } from 'components/Dialog/dialogs/AuthStatusDialog';
+import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
 
 export const FrontEndDevToolbar = () => {
   const location = useLocation();
@@ -24,8 +25,10 @@ export const FrontEndDevToolbar = () => {
   const {
     isDevToolsVisible,
     isDevAuthVisible,
+    isDevSimpleLoginVisible,
     isDevQueryPanelOpen,
     setIsDevAuthVisible,
+    setIsDevSimpleLoginVisible,
     setIsDevQueryPanelOpen,
   } = useDev();
 
@@ -71,9 +74,22 @@ export const FrontEndDevToolbar = () => {
               <LockIcon />
             </button>
           </Box>
+
+          <Box className="button-box">
+            <button
+              className="btn btn-toggle-simple-login"
+              onClick={() => setIsDevSimpleLoginVisible(!isDevSimpleLoginVisible)}
+            >
+              <LockIcon />
+            </button>
+          </Box>
         </Flex>
       </div>
       <AuthStatusDialog isOpen={isDevAuthVisible} onClose={() => setIsDevAuthVisible(false)} />
+      <AuthLoginSimpleDialog
+        isOpen={isDevSimpleLoginVisible}
+        onClose={() => setIsDevSimpleLoginVisible(false)}
+      />
     </>
   );
 };
