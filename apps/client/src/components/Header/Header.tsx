@@ -4,14 +4,12 @@ import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useSession } from 'providers/SessionProvider/SessionContext';
 
 export const Header = () => {
   const location = useLocation();
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { currentLanguage } = useContent();
-  const { currentSessionId, sessions } = useSession();
 
   useEffect(() => {
     console.log('__DEV: currentLanguage', currentLanguage);
@@ -37,15 +35,12 @@ export const Header = () => {
               >
                 {t('app.title')}
               </h1>
-
-              <pre className="dev-session-a">{String(currentSessionId)}</pre>
-              {/* <pre className="dev-session-b">{JSON.stringify(sessions ?? {}, null, 2)}</pre> */}
             </Flex>
           </Flex>
 
           <Flex justify="end" style={{ flex: '3' }}>
             {/* <LanguageSelector onLanguageChange={handleLanguageChange} /> */}
-            <pre className="current-language">{String(currentLanguage)}</pre>
+            {/* <pre className="current-language">{String(currentLanguage)}</pre> */}
           </Flex>
           {/* ====================================================================== */}
         </Flex>
