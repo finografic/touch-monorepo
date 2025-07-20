@@ -1,7 +1,7 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "f2e25f51-1e57-4eff-9db1-bd069b7a3790",
+  "id": "77bad20a-f2ae-49de-a29e-92654a170eee",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "auth_account": {
@@ -244,6 +244,14 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
+        },
+        "role": {
+          "name": "role",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false,
+          "default": "'user'"
         },
         "createdAt": {
           "name": "createdAt",

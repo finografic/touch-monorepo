@@ -7,9 +7,9 @@ import * as schema from './schemas';
 const sqlite = new Database(env.DB_PATH);
 
 if (sqlite.open) {
-  console.log('\n ✅  Connected to database:', chalk.green(env.DB_NAME));
+  console.log('\n✅ Connected to database:', chalk.green(env.DB_NAME));
 } else {
-  console.error('\n ❌  Failed to open database');
+  console.error('\n❌ Failed to open database');
 }
 
 export const db = drizzle(sqlite, { schema });

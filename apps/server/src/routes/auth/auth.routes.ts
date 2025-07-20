@@ -52,11 +52,33 @@ router.post('/auth/signup', async (context) => {
   }
 });
 
-// Other auth routes
-router.on(['GET', 'POST'], '/auth/*', async (context) => {
-  if (context.req.path === `${envShared.API_BASE_PATH}/auth/login`) return;
-  console.log('Other auth route hit:', context.req.path);
+// Session route
+router.get('/auth/session', async (context) => {
+  console.log('Session route hit:', context.req.path);
+  return auth.handler(context.req.raw);
+});
 
+// Signout route
+router.post('/auth/signout', async (context) => {
+  console.log('Signout route hit:', context.req.path);
+  return auth.handler(context.req.raw);
+});
+
+// Signin route (BetterAuth internal)
+router.post('/auth/signin', async (context) => {
+  console.log('Signin route hit:', context.req.path);
+  return auth.handler(context.req.raw);
+});
+
+// Verify route
+router.post('/auth/verify', async (context) => {
+  console.log('Verify route hit:', context.req.path);
+  return auth.handler(context.req.raw);
+});
+
+// Reset password route
+router.post('/auth/reset-password', async (context) => {
+  console.log('Reset password route hit:', context.req.path);
   return auth.handler(context.req.raw);
 });
 

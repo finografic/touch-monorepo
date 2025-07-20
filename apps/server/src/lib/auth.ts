@@ -23,6 +23,7 @@ export const auth = betterAuth({
     },
   },
   emailVerification: {
+    enabled: false, // Disable email verification for development
     sendVerificationEmail: async ({ user, url, token }, request) => {
       console.log('Verification email requested for:', user.email);
       console.log('Verification URL:', url, token, request);
@@ -73,7 +74,7 @@ export const auth = betterAuth({
       return {
         user: {
           ...user,
-          role: user.role || 'user', // Include role in session
+          role: (user as any).role || 'user', // Include role in session
         },
         session,
       };

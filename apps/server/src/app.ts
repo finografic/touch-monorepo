@@ -17,9 +17,9 @@ import drinkVolume from './routes/drink-volume';
 import containerType from 'routes/container-type';
 import modes from './routes/modes';
 import temperatureProfile from './routes/temperature-profile';
-import orders from './routes/orders';
-import supportedLanguage from './routes/supported-language';
-import sounds from './routes/sounds';
+import orders from 'routes/orders';
+import supportedLanguage from 'routes/supported-language';
+import sounds from 'routes/sounds';
 
 const app = createApp();
 

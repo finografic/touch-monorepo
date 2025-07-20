@@ -1,7 +1,7 @@
 import { Box, Flex } from '@radix-ui/themes';
 import { styles } from './FrontEndDevToolbar.styles';
 import { useDev } from 'providers/DevProvider/DevContext';
-import { TextAlignTopIcon } from 'styles/icons';
+import { LockIcon, TextAlignTopIcon } from 'styles/icons';
 import { QueryDevtoolsPanel } from '../QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { DevScreenSize } from '../DevScreenSize/DevScreenSize';
 import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
@@ -13,6 +13,7 @@ import { hasProcessingTimers } from 'components/Timer/timers.utils';
 import { useOrdersOptional } from 'providers/OrdersProvider/OrdersContext';
 import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { useLocation } from 'react-router-dom';
+import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 
 export const FrontEndDevToolbar = () => {
   const location = useLocation();
@@ -20,7 +21,13 @@ export const FrontEndDevToolbar = () => {
 
   const ordersContext = useOrdersOptional();
   const orders = ordersContext?.orders || [];
-  const { isDevToolsVisible, isDevQueryPanelOpen, setIsDevQueryPanelOpen } = useDev();
+  const {
+    isDevToolsVisible,
+    isDevAuthVisible,
+    isDevQueryPanelOpen,
+    setIsDevAuthVisible,
+    setIsDevQueryPanelOpen,
+  } = useDev();
 
   useKeyPressFrontEnd();
 
@@ -58,8 +65,15 @@ export const FrontEndDevToolbar = () => {
               <TextAlignTopIcon />
             </button>
           </Box>
+
+          <Box className="button-box">
+            <button className="btn btn-toggle-auth" onClick={() => setIsDevAuthVisible(!isDevAuthVisible)}>
+              <LockIcon />
+            </button>
+          </Box>
         </Flex>
       </div>
+      <LanguageDialog isOpen={isDevAuthVisible} onClose={() => setIsDevAuthVisible(false)} />
     </>
   );
 };

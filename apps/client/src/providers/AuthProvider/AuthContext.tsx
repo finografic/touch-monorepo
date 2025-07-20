@@ -81,15 +81,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const result = await response.json();
 
-      if (response.ok && result.success) {
-        // Refresh session after successful login
-        const sessionResponse = await fetch('http://localhost:4040/api/auth/session', {
-          credentials: 'include',
-        });
-        if (sessionResponse.ok) {
-          const newSession = await sessionResponse.json();
-          setSession(newSession);
-        }
+      if (response.ok && result.user) {
+        // BetterAuth returns user data directly on successful login
+        setSession(result);
         return { success: true };
       } else {
         return { success: false, error: result.error || 'Sign in failed' };
@@ -113,7 +107,9 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       const result = await response.json();
 
-      if (response.ok && result.success) {
+      if (response.ok && result.user) {
+        // BetterAuth returns user data directly on successful signup
+        setSession(result);
         return { success: true };
       } else {
         return { success: false, error: result.error || 'Sign up failed' };

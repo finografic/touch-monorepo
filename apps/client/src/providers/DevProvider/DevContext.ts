@@ -11,6 +11,7 @@ export enum DevKeys {
   isDevQueryPanelOpen = 'isDevQueryPanelOpen',
   isDevDataVisible = 'isDevDataVisible',
   isDevScreenSizeVisible = 'isDevScreenSizeVisible',
+  isDevAuthVisible = 'isDevAuthVisible',
 }
 
 export const defaultValue: DevValues = {
@@ -19,6 +20,7 @@ export const defaultValue: DevValues = {
   isDevQueryPanelOpen: false,
   isDevDataVisible: false,
   isDevScreenSizeVisible: false,
+  isDevAuthVisible: false,
 };
 
 export const DevContext = createZustandContext(({ initialValue }) => {

@@ -34,6 +34,7 @@ CREATE TABLE `auth_user` (
 	`email` text NOT NULL,
 	`emailVerified` integer NOT NULL,
 	`image` text,
+	`role` text DEFAULT 'user' NOT NULL,
 	`createdAt` integer NOT NULL,
 	`updatedAt` integer NOT NULL
 );

@@ -2,7 +2,6 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { TimerItem, TimersStore, TimersValues } from './TimerContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
-import createCuid from '@bugsnag/cuid';
 
 export const DISPLAY_NAME = 'Timers';
 export const SETTER_PREFIX = '';

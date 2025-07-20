@@ -7,6 +7,7 @@ export interface DevValues {
   [DevKeys.isDevQueryPanelOpen]: boolean;
   [DevKeys.isDevDataVisible]: boolean;
   [DevKeys.isDevScreenSizeVisible]: boolean;
+  [DevKeys.isDevAuthVisible]: boolean;
 }
 
 type DevSetters = CreateSettersType<DevValues, typeof SETTER_PREFIX>;

@@ -17,6 +17,11 @@ import { TimePage } from 'pages/TimePage/TimePage';
 import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
 import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPage';
 import { AdminSoundPage } from 'pages/AdminPages/AdminSoundPage/AdminSoundPage';
+import { LoginPage } from 'pages/LoginPage/LoginPage';
+import { AdminLoginPage } from 'pages/AdminLoginPage/AdminLoginPage';
+import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
+import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
+import { AuthTestPage } from 'pages/AuthTestPage/AuthTestPage';
 
 export const routes: RouteObject[] = [
   {
@@ -78,65 +83,86 @@ export const routes: RouteObject[] = [
       {
         path: '/dashboard',
         element: (
-          // <RequireAuth>
-          <DashboardPage />
-          // </RequireAuth>
+          <ProtectedRoute>
+            <DashboardPage />
+          </ProtectedRoute>
         ),
       },
-      // {
-      //   path: '/login',
-      //   element: <LoginPage />,
-      // },
+      {
+        path: '/login',
+        element: <LoginPage />,
+      },
+      {
+        path: '/unauthorized',
+        element: <UnauthorizedPage />,
+      },
+      {
+        path: '/auth-test',
+        element: <AuthTestPage />,
+      },
     ],
   },
   // ============================================== //
-  // Admin Routes with simplified layout
+  // Admin Routes with authentication
   // ============================================== //
   {
     path: '/admin',
-    element: <AdminLayout />,
     children: [
       {
-        index: true,
-        id: AdminFieldKeys.dashboard,
-        element: <AdminPage />,
+        path: 'login',
+        element: <AdminLoginPage />,
       },
       {
-        path: 'orders',
-        id: AdminFieldKeys.itemsList,
-        element: <AdminOrdersPage />,
+        path: '',
+        element: (
+          <ProtectedRoute requireAdmin={true} redirectTo="/admin/login">
+            <AdminLayout />
+          </ProtectedRoute>
+        ),
         children: [
           {
-            path: ':orderId',
-            id: 'order-edit',
+            index: true,
+            id: AdminFieldKeys.dashboard,
+            element: <AdminPage />,
+          },
+          {
+            path: 'orders',
+            id: AdminFieldKeys.itemsList,
             element: <AdminOrdersPage />,
+            children: [
+              {
+                path: ':orderId',
+                id: 'order-edit',
+                element: <AdminOrdersPage />,
+              },
+            ],
+          },
+          {
+            path: 'translations',
+            id: AdminFieldKeys.translations,
+            element: <AdminTranslationsPage />,
+          },
+          {
+            path: 'ui-labels',
+            id: AdminFieldKeys.translationsUi,
+            element: <AdminUiLabelsPage />,
+          },
+          {
+            path: 'languages',
+            id: AdminFieldKeys.languages,
+            element: <AdminLanguagesPage />,
+          },
+          {
+            path: 'filter-analysis',
+            id: 'filter-analysis',
+            element: <AdminFilterAnalysisPage />,
+          },
+          {
+            path: 'sounds',
+            id: 'sounds',
+            element: <AdminSoundPage />,
           },
         ],
-      },
-      {
-        path: 'translations',
-        id: AdminFieldKeys.translations,
-        element: <AdminTranslationsPage />,
-      },
-      {
-        path: 'ui-labels',
-        id: AdminFieldKeys.translationsUi,
-        element: <AdminUiLabelsPage />,
-      },
-      {
-        path: 'languages',
-        id: AdminFieldKeys.languages,
-        element: <AdminLanguagesPage />,
-      },
-      {
-        path: 'filter-analysis',
-        id: 'filter-analysis',
-        element: <AdminFilterAnalysisPage />,
-      },
-      {
-        path: 'sounds',
-        id: 'sounds',
-        element: <AdminSoundPage />,
       },
     ],
   },
