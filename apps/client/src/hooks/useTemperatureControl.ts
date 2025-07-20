@@ -207,7 +207,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
       });
 
       // Call onSuccess with the calculated durations map
-      // options.onSuccess?.(calculatedDurations);
+      options.onSuccess?.(calculatedDurations);
     } catch (error) {
       console.error('Temperature control error:', error);
       options.onError?.(error as Error);
