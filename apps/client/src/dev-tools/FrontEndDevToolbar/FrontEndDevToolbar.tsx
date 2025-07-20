@@ -13,7 +13,7 @@ import { hasProcessingTimers } from 'components/Timer/timers.utils';
 import { useOrdersOptional } from 'providers/OrdersProvider/OrdersContext';
 import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { useLocation } from 'react-router-dom';
-import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
+import { AuthStatusDialog } from 'components/Dialog/dialogs/AuthStatusDialog';
 
 export const FrontEndDevToolbar = () => {
   const location = useLocation();
@@ -73,7 +73,7 @@ export const FrontEndDevToolbar = () => {
           </Box>
         </Flex>
       </div>
-      <LanguageDialog isOpen={isDevAuthVisible} onClose={() => setIsDevAuthVisible(false)} />
+      <AuthStatusDialog isOpen={isDevAuthVisible} onClose={() => setIsDevAuthVisible(false)} />
     </>
   );
 };
