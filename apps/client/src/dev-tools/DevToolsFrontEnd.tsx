@@ -39,7 +39,8 @@ export const DevToolsFrontEnd = () => {
     <>
       <>
         <DevScreenSize />
-        {isDevToolsVisible && (showFilterResults ? <DevFilterResults /> : <SessionAndTimers />)}
+        {/* {isDevToolsVisible && (showFilterResults ? <DevFilterResults /> : <SessionAndTimers />)} */}
+        {isDevToolsVisible && (showFilterResults ? <DevFilterResults /> : <DevFilterResults />)}
         {/* {isDevToolsVisible && <DevPanelLeft />} */}
         {isDevToolsVisible && <DevPanelRight />}
         {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}

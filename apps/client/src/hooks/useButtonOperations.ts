@@ -59,16 +59,61 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   } = useTemperatureControl({
     onSuccess: (calculatedDurations) => {
       startTransition(function updateProcessForSelectedOrders() {
-        // Use selected slots from LayoutUiContext instead of order.isSelected
+        console.log('🚀 Temperature Control Success: Creating timers for selected orders');
+        console.log('🚀 Temperature Control: Selected slots =', mainPageSelectedSlots);
+        console.log('🚀 Temperature Control: Calculated durations =', calculatedDurations);
+
+        // First, set orders to processing state and create timers
         mainPageSelectedSlots.forEach((slotNumber) => {
           const order = orders.find((o) => o.itemNumber === slotNumber);
           if (order) {
+            const duration = calculatedDurations[order.itemNumber.toString()];
             log('__DEV: calculatedDurations', 'grey', calculatedDurations);
+
+            // Set order to processing
             setOrderProcessing({
               itemNumber: order.itemNumber,
-              duration: calculatedDurations[order.itemNumber.toString()],
+              duration,
+            });
+
+            // Create timer for this slot
+            console.log(
+              '🚀 Temperature Control: Adding timer for slot',
+              slotNumber,
+              'with duration',
+              duration,
+            );
+
+            // Check if there's already a timer for this slot
+            const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
+            const orderId = existingTimer?.orderId || createCuid();
+
+            console.log('🚀 Temperature Control: Timer details', {
+              slotNumber,
+              existingTimerId: existingTimer?.id,
+              newOrderId: orderId,
+              reusingOrderId: !!existingTimer?.orderId,
+            });
+
+            addTimer({
+              sessionId: currentSessionId!,
+              slotNumber,
+              orderId,
+              flowType: FLOW_TYPES.PROGRAM_PRODUCT,
+              duration,
+              remaining: duration,
+              status: 'processing',
+              estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
             });
           }
+        });
+
+        // Clear selection when timers start
+        clearMainPageSelection();
+
+        log('__DEV: Temperature Control Complete', 'yellow', {
+          location: location.pathname,
+          calculatedDurations,
         });
 
         // Navigate back to first page
