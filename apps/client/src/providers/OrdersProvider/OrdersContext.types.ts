@@ -3,6 +3,7 @@ import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
 import type { ItemType, OrderItem } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
+import type { CreateSettersType } from 'utils/zustand';
 
 export type TimerActionType = 'start' | 'complete' | 'reset' | 'clear_all';
 
@@ -15,11 +16,7 @@ export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
 }
 
-type OrdersSetters = {
-  [K in keyof OrdersValues as OrdersValues[K] extends boolean
-    ? `set${Capitalize<string & K>}`
-    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: OrdersValues[K]) => void;
-};
+type OrdersSetters = CreateSettersType<OrdersValues, typeof SETTER_PREFIX>;
 
 type OrdersActions = OrdersSetters & {
   setOrdersFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => void;

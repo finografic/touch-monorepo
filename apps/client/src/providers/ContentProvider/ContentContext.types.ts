@@ -1,16 +1,13 @@
 import type { ReactNode } from 'react';
 import type { ContentKeys, SETTER_PREFIX } from './ContentContext';
+import type { CreateSettersType } from 'utils/zustand';
 
 export interface ContentValues {
   [ContentKeys.title]: string;
   [ContentKeys.currentLanguage]: string;
 }
 
-type ContentSetters = {
-  [K in keyof ContentValues as ContentValues[K] extends boolean
-    ? `set${Capitalize<string & K>}`
-    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: ContentValues[K]) => void;
-} & {
+type ContentSetters = CreateSettersType<ContentValues, typeof SETTER_PREFIX> & {
   setCurrentLanguage: (languageCode: string) => void;
 };
 

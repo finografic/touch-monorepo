@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { SETTER_PREFIX, TimersKeys } from './TimerContext';
 import type { FlowTypeValue } from 'types/flow.types';
+import type { CreateSettersType } from 'utils/zustand';
 
 export type TimerStatus = 'idle' | 'processing' | 'completed';
 
@@ -22,11 +23,7 @@ export interface TimersValues {
   [TimersKeys.timers]: TimerItem[];
 }
 
-type TimersSetters = {
-  [K in keyof TimersValues as TimersValues[K] extends boolean
-    ? `set${Capitalize<string & K>}`
-    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: TimersValues[K]) => void;
-};
+type TimersSetters = CreateSettersType<TimersValues, typeof SETTER_PREFIX>;
 
 type TimersActions = TimersSetters & {
   addTimer: (timer: Omit<TimerItem, 'id' | 'createdAt'>) => void;

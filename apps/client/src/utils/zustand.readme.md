@@ -95,6 +95,33 @@ export const TodoList = () => {
 };
 ```
 
+## Auto-generated Setter Types
+
+You can auto-generate setter types for your store values using the `CreateSettersType` utility. This ensures your context types always match the setters created by `createSetters`.
+
+### Usage
+
+#### Without Prefix
+
+```typescript
+import type { CreateSettersType } from '@finografic/zustand-context-creator';
+
+type TodoSetters = CreateSettersType<TodoValues>;
+// Generates: setItems, setFilter
+```
+
+#### With Prefix
+
+```typescript
+import type { CreateSettersType } from '@finografic/zustand-context-creator';
+
+const SETTER_PREFIX = 'Ui';
+type UiSetters = CreateSettersType<TodoValues, typeof SETTER_PREFIX>;
+// Generates: setUiItems, setUiFilter
+```
+
+You can use this utility in your context types for full type safety and maintainability.
+
 ## Advanced Usage
 
 ### Custom Setters
@@ -116,6 +143,25 @@ export const TodoContext = createStore({
     })
   }
 });
+```
+
+### Using CreateSettersType in Context Types
+
+```typescript
+import type { CreateSettersType } from '@finografic/zustand-context-creator';
+
+export interface TodoValues {
+  items: TodoItem[];
+  filter: 'all' | 'active' | 'completed';
+}
+
+const SETTER_PREFIX = '';
+type TodoSetters = CreateSettersType<TodoValues, typeof SETTER_PREFIX>;
+
+export type TodoActions = TodoSetters & {
+  addTodo: (todo: TodoItem) => void;
+  // ...other actions
+};
 ```
 
 ### Persistence Configuration

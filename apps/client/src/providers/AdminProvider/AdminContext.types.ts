@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { AdminKeys, SETTER_PREFIX } from './AdminContext';
+import type { CreateSettersType } from 'utils/zustand';
 
 export interface AdminValues {
   [AdminKeys.isAdminToolsVisible]: boolean;
@@ -8,11 +9,7 @@ export interface AdminValues {
   [AdminKeys.isTimerVisible]: boolean;
 }
 
-type AdminSetters = {
-  [K in keyof AdminValues as AdminValues[K] extends boolean
-    ? `set${Capitalize<string & K>}`
-    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: AdminValues[K]) => void;
-};
+type AdminSetters = CreateSettersType<AdminValues, typeof SETTER_PREFIX>;
 
 type AdminActions = AdminSetters & {};
 

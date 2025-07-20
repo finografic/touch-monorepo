@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { SessionKeys, SETTER_PREFIX } from './SessionContext';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
+import type { CreateSettersType } from 'utils/zustand';
 
 export interface ConfigurationSession {
   id: string;
@@ -19,11 +20,7 @@ export interface SessionValues {
   [SessionKeys.sessions]: Record<string, ConfigurationSession>;
 }
 
-type SessionSetters = {
-  [K in keyof SessionValues as SessionValues[K] extends boolean
-    ? `set${Capitalize<string & K>}`
-    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: SessionValues[K]) => void;
-};
+type SessionSetters = CreateSettersType<SessionValues, typeof SETTER_PREFIX>;
 
 type SessionActions = SessionSetters & {
   createSession: (flowType: FlowTypeValue) => string;

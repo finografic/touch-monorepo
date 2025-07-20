@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { DevKeys, SETTER_PREFIX } from './DevContext';
+import type { CreateSettersType } from 'utils/zustand';
 
 export interface DevValues {
   [DevKeys.isDevToolsVisible]: boolean;
@@ -8,11 +9,7 @@ export interface DevValues {
   [DevKeys.isDevScreenSizeVisible]: boolean;
 }
 
-type DevSetters = {
-  [K in keyof DevValues as DevValues[K] extends boolean
-    ? `set${Capitalize<string & K>}`
-    : `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (val: DevValues[K]) => void;
-};
+type DevSetters = CreateSettersType<DevValues, typeof SETTER_PREFIX>;
 
 type DevActions = DevSetters & {};
 
