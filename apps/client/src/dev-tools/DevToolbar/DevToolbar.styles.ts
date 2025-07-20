@@ -8,8 +8,11 @@ import { colors } from 'styles';
 export const styles = css`
   ${baseToolbarStyles}
 
-  /* Override button colors to grey for DevTools */
-  button {
+  /* Override positioning to right-align icons */
+  justify-content: flex-end !important;
+
+  /* Override button colors to grey for DevTools - very specific selectors */
+  .button-box button.btn {
     svg.icon {
       color: ${colors.grey} !important;
     }

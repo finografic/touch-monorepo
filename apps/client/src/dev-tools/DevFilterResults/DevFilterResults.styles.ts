@@ -22,7 +22,7 @@ export const styles = css`
 
   .filters {
     color: ${colors.textXLight}AA;
-    font-size: 0.85rem;
+    font-size: 0.85rem !important;
     font-family: monospace;
     line-height: 1.5;
     margin: 0;
@@ -33,7 +33,7 @@ export const styles = css`
   }
 
   .results-list {
-    font-size: 0.85rem;
+    font-size: 0.85rem !important;
     flex: 1; /* Fill remaining space */
     min-height: 0; /* Allow flex container to shrink below content size */
     margin-top: 1rem;
@@ -64,11 +64,27 @@ export const styles = css`
       margin-right: 8px;
       padding: 0;
       font-family: monospace;
+      font-size: 0.85rem !important;
       display: flex;
       align-items: center;
       overflow: visible;
       white-space: nowrap;
       color: ${colors.textXLight}AA;
+
+      /* Ensure p elements inside result-col also have correct font size */
+      p {
+        font-size: 0.85rem !important;
+        font-family: monospace;
+        margin: 0;
+        color: ${colors.textXLight}AA;
+      }
+
+      /* Ensure strong elements inside result-col also have correct font size */
+      strong {
+        font-size: 0.85rem !important;
+        font-family: monospace;
+        color: ${colors.textXLight}AA;
+      }
     }
     .result-col:last-child {
       margin-right: 0;
@@ -78,7 +94,7 @@ export const styles = css`
   h2,
   h4 {
     font-family: monospace;
-    font-size: 1rem;
+    font-size: 1rem !important;
     color: ${colors.info};
     opacity: 0.8;
     margin: 0 0 0.5rem 0;
@@ -87,7 +103,7 @@ export const styles = css`
 
   pre {
     color: ${colors.textXLight}AA;
-    font-size: 0.7rem;
+    font-size: 0.7rem !important;
     line-height: 1.5;
     width: 100%;
     min-width: fit-content;
@@ -97,7 +113,7 @@ export const styles = css`
 export const stylesLeft = css`
   ${styles}
   & * {
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
     font-family: monospace;
   }
   display: flex;
@@ -113,7 +129,7 @@ export const stylesLeft = css`
 export const stylesRight = css`
   ${styles}
   & * {
-    font-size: 0.8rem;
+    font-size: 0.8rem !important;
     font-family: monospace;
   }
   display: flex;
