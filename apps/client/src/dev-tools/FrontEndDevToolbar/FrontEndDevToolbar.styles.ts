@@ -30,4 +30,11 @@ export const styles = css`
       }
     }
   }
+
+  button.btn.btn-toggle-query-panel {
+    svg.icon {
+      transform: translate(-2px, 4px);
+      color: ${colors.grey} !important;
+    }
+  }
 `;

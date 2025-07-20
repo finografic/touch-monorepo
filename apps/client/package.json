@@ -71,6 +71,7 @@
     "@workspace/i18n": "workspace:*",
     "@workspace/server": "workspace:*",
     "axios": "1.8.4",
+    "better-auth": "1.0.22",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "color": "5.0.0",

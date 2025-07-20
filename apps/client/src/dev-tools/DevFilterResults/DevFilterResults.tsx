@@ -17,20 +17,14 @@ export const DevFilterResults = () => {
             <div className="result-col">
               <strong>{item.drinkType}</strong>
             </div>
-            <div className="result-col">
-              <p style={{ margin: 0 }}>{item.drinkSubtype}</p>
-            </div>
-            <div className="result-col">
-              <p style={{ margin: 0 }}>{item.volume}</p>
-            </div>
-            <div className="result-col">
-              <p style={{ margin: 0 }}>{item.containerType}</p>
-            </div>
+            <div className="result-col">{item.drinkSubtype}</div>
+            <div className="result-col">{item.volume}</div>
+            <div className="result-col">{item.containerType}</div>
             {/* <div className="result-col">
               <p style={{ margin: 0 }}>{item.temperatureProfile}</p>
             </div> */}
             <div className="result-col">
-              <strong style={{ opacity: 0.33 }}>{item.id}</strong>
+              <span style={{ opacity: 0.33 }}>{item.id}</span>
             </div>
           </div>
         ))}

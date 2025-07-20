@@ -10,16 +10,19 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
+import { AuthProvider } from 'providers/AuthProvider/AuthContext';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
     {/* <Global styles={cssGlobal} /> */}
     <RadixTheme>
-      <ScreenClassProvider>
-        <Suspense fallback={<Spinner size="3" />}>
-          <Outlet />
-        </Suspense>
-      </ScreenClassProvider>
+      <AuthProvider>
+        <ScreenClassProvider>
+          <Suspense fallback={<Spinner size="3" />}>
+            <Outlet />
+          </Suspense>
+        </ScreenClassProvider>
+      </AuthProvider>
     </RadixTheme>
   </ErrorBoundary>
 );

@@ -67,6 +67,18 @@ export const styles = css`
         align-items: center;
         gap: ${spacing[4]};
 
+        .user-info {
+          display: flex;
+          align-items: center;
+          gap: ${spacing[3]};
+          color: ${colors.white};
+          font-size: 0.875rem;
+
+          span {
+            color: ${colors.white};
+          }
+        }
+
         ul {
           height: ${layout.header.height};
           min-height: ${layout.header.height};
@@ -128,7 +140,7 @@ export const styles = css`
         /* max-width: none;  */
         max-width: 98vw; /* Never larger than 90% viewport */
         min-height: 600px; /* Never smaller than reasonable content height */
-        max-height: none; /* Admin: No max-height constraint */
+        /* max-height: none; Admin: No max-height constraint */
 
         /* Flex alignment */
         justify-content: flex-start; /* Admin: Top-aligned instead of space-between */
@@ -252,6 +264,26 @@ export const styles = css`
   }
 
   /* ========================================
+     LOGOUT BUTTON STYLES
+     ======================================== */
+
+  .logoutButton {
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    border: 1px solid ${colors.white};
+    border-radius: 4px;
+    color: ${colors.white};
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.875rem;
+
+    &:hover {
+      background-color: ${colors.white};
+      color: ${colors.background};
+    }
+  }
+
+  /* ========================================
      RESPONSIVE ADJUSTMENTS
      ======================================== */
 
@@ -264,12 +296,6 @@ export const styles = css`
   ${max.xl} {
     /* section.admin-content-page {
       max-width: 90vw !important;
-    } */
-  }
-
-  ${max.md} {
-    /* section.admin-content-page {
-      max-width: 95vw !important;
     } */
     > header .header-content {
       padding: 0 ${spacing[4]};
