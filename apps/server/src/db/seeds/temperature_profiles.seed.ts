@@ -10,7 +10,7 @@ type TemperatureProfileRow = typeof temperature_profiles.$inferInsert;
 // ======================================================================== //
 
 const TEMPERATURE_RANGE = [25, 15, 8, 2];
-const TIME_FACTORS = [1.0, 1.25, 1.6];
+const TIME_FACTORS = [1.0, 1.5, 2];
 const MIN_TIME = 30;
 const MAX_TIME = 240;
 const TIME_INCREMENT = 30; // Seconds to add between temperature points

@@ -6,10 +6,10 @@ import { TEMPERATURE_RANGES } from 'lib/constants';
 // CONFIGURABLE CONSTANTS
 // ======================================================================== //
 
-const DRINK_TYPE_NUM_ENTRIES = 2; // Base number of entries for drink types without subtypes
-const DRINK_TYPE_VARIATION = 1; // Random variation range for drink types
-const DRINK_SUBTYPE_NUM_ENTRIES = 4; // Base number of entries for each subtype
-const DRINK_SUBTYPE_VARIATION = 2; // Random variation range for subtypes
+const DRINK_TYPE_NUM_ENTRIES = 4; // Base number of entries for drink types without subtypes
+const DRINK_TYPE_VARIATION = 2; // Random variation range for drink types
+const DRINK_SUBTYPE_NUM_ENTRIES = 8; // Base number of entries for each subtype
+const DRINK_SUBTYPE_VARIATION = 4; // Random variation range for subtypes
 
 // ======================================================================== //
 // HELPER FUNCTIONS
