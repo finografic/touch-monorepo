@@ -18,6 +18,8 @@ export const GenericSelectPage = () => {
   const { orders, setOrdersFilter } = useOrders();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
 
+  log('__ORDERS:', 'hotpink', orders);
+
   const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
     if (!orders?.length || !currentSessionId) return;
 

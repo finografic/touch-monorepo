@@ -88,6 +88,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
       handleSelectAll,
       getStartHandler,
       handleProgramTime,
+      handleProgramProduct,
       handleRepeatSelection,
     ],
   );

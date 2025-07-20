@@ -47,7 +47,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const { selectAllOrders, orders, setOrderProcessing, toggleOrder, setOrdersSession } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId } = useSession();
   const { addTimer, clearCompletedTimers, timers, removeTimer } = useTimers();
-  const { selectAllMainPageSlots, clearMainPageSelection, toggleMainPageSlot } = useLayoutUi();
+  const { selectAllMainPageSlots, clearMainPageSelection, toggleMainPageSlot, mainPageSelectedSlots } =
+    useLayoutUi();
   const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
 
@@ -58,8 +59,10 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   } = useTemperatureControl({
     onSuccess: (calculatedDurations) => {
       startTransition(function updateProcessForSelectedOrders() {
-        orders.forEach((order) => {
-          if (order.isSelected) {
+        // Use selected slots from LayoutUiContext instead of order.isSelected
+        mainPageSelectedSlots.forEach((slotNumber) => {
+          const order = orders.find((o) => o.itemNumber === slotNumber);
+          if (order) {
             log('__DEV: calculatedDurations', 'grey', calculatedDurations);
             setOrderProcessing({
               itemNumber: order.itemNumber,
@@ -86,7 +89,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const hasCompletedTimers = completedTimers.length > 0;
 
   // Check if there are any selected items using LayoutUIContext
-  const { mainPageSelectedSlots } = useLayoutUi();
   const hasSelectedItems = mainPageSelectedSlots.length > 0;
 
   const handleClearCompleted = useCallback(() => {
@@ -95,15 +97,18 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       clearCompletedTimers();
 
       // Save new configuration to reset timer
-      const selectedOrders = orders.filter((order) => order.isSelected);
+      // Use selected slots from LayoutUiContext instead of order.isSelected
+      const selectedOrders = mainPageSelectedSlots
+        .map((slotNumber) => orders.find((order) => order.itemNumber === slotNumber))
+        .filter(Boolean);
       saveConfig({
         filters: {},
         temperatures: { default: 25 },
         durations: { default: 300 },
-        selectedOrders: selectedOrders.map((order) => order.itemNumber),
+        selectedOrders: selectedOrders.map((order) => order!.itemNumber),
       });
     });
-  }, [clearCompletedTimers, orders, saveConfig]);
+  }, [clearCompletedTimers, orders, saveConfig, mainPageSelectedSlots]);
 
   const handleCancelCompleted = useCallback(() => {
     startTransition(() => {
@@ -131,12 +136,15 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       });
 
       // Save new configuration to reset timer
-      const selectedOrders = orders.filter((order) => order.isSelected);
+      // Use selected slots from LayoutUiContext instead of order.isSelected
+      const selectedOrders = mainPageSelectedSlots
+        .map((slotNumber) => orders.find((order) => order.itemNumber === slotNumber))
+        .filter(Boolean);
       saveConfig({
         filters: {},
         temperatures: { default: 25 },
         durations: { default: 300 },
-        selectedOrders: selectedOrders.map((order) => order.itemNumber),
+        selectedOrders: selectedOrders.map((order) => order!.itemNumber),
       });
     });
   }, [mainPageSelectedSlots, timers, removeTimer, toggleMainPageSlot, orders, saveConfig]);
@@ -255,6 +263,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     });
   }, [navigate, mainPageSelectedSlots, timers, createSession, assignOrdersToSession, setOrdersSession]);
 
+  // ======================================================================== //
+
   const handleProgramProduct = useCallback(() => {
     startTransition(() => {
       // Get selected slots that are idle (not running timers)
@@ -307,6 +317,60 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     navigate,
   ]);
 
+  const handleProgramProduct__V1 = useCallback(() => {
+    startTransition(() => {
+      // Get selected slots that are idle (not running timers)
+      const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
+        const timer = timers.find((t: any) => t.slotNumber === slotNumber);
+        return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
+      });
+
+      if (selectedIdleSlots.length === 0) {
+        console.warn('No selected idle slots to program product for');
+        return;
+      }
+
+      // Create new session and assign selected slots
+      const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
+
+      assignOrdersToSession(sessionId, selectedIdleSlots);
+      setOrdersSession({
+        orderNumbers: selectedIdleSlots,
+        session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
+      });
+
+      log('__DEV: PROGRAM PRODUCT - Created session', 'lime', {
+        sessionId,
+        flowType: FLOW_TYPES.PROGRAM_PRODUCT,
+        selectedSlots: selectedIdleSlots,
+      });
+
+      // Navigate to first step of product configuration flow (drink type selection)
+      const drinkTypePath = PATHS.drinkType;
+
+      log('__DEV: PROGRAM PRODUCT - Navigation', 'yellow', {
+        pathnames,
+        drinkTypePath,
+        currentPath: location.pathname,
+      });
+
+      // Set pagination to first step (index 1, since index 0 is main page)
+      setPageCurrent(1);
+      navigate(drinkTypePath); // Navigate directly to drink type page
+    });
+  }, [
+    mainPageSelectedSlots,
+    timers,
+    createSession,
+    assignOrdersToSession,
+    setOrdersSession,
+    pathnames,
+    setPageCurrent,
+    navigate,
+  ]);
+
+  // ======================================================================== //
+
   const handleRepeatSelection = useCallback(() => {
     // Check if session storage timer is active
     const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
@@ -345,8 +409,10 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
     startTransition(() => {
       // Apply configuration to all selected orders
-      orders.forEach((order) => {
-        if (order.isSelected) {
+      // Use selected slots from LayoutUiContext instead of order.isSelected
+      mainPageSelectedSlots.forEach((slotNumber) => {
+        const order = orders.find((o) => o.itemNumber === slotNumber);
+        if (order) {
           // Get duration for this specific item type from saved config
           // Try item type first, then fall back to default
           const itemTypeDuration = config.durations?.[order.itemType];
@@ -372,7 +438,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         }
       });
     });
-  }, [orders, setOrderProcessing]);
+  }, [orders, setOrderProcessing, mainPageSelectedSlots]);
 
   const getOperationDisabled = useCallback(
     (actionType: OperationActionType): boolean => {
