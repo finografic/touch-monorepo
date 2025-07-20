@@ -97,7 +97,8 @@
     },
     "user": {
       "userId": "User ID",
-      "userRole": "User Role"
+      "userStatus": "User Status",
+      "userType": "User Type"
     },
     "headerUser": {
       "registerUserNew": "Register",

@@ -48,9 +48,6 @@ export const AuthTestPage: React.FC = () => {
             <strong>Email:</strong> {user.email}
           </p>
           <p>
-            <strong>Role:</strong> {user.role}
-          </p>
-          <p>
             <strong>Email Verified:</strong> {user.emailVerified ? '✅ Yes' : '❌ No'}
           </p>
           {user.image && (

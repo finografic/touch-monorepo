@@ -1,60 +1,53 @@
 # Authentication System Documentation
 
-## Overview
+The Touch Monorepo now includes a comprehensive authentication system built with BetterAuth, providing secure authentication for both frontend and admin sections. The system features dual-themed login pages, protected routes, and seamless session management.
 
-The Touch Monorepo now includes a comprehensive authentication system built with BetterAuth, providing role-based access control for both frontend and admin sections. The system features dual-themed login pages, protected routes, and seamless session management.
+## 🚀 Features
 
-## 🏗️ Architecture
+- **BetterAuth Integration**: Modern authentication with email/password
+- **Dual Login Pages**: Frontend and admin-specific login interfaces
+- **Protected Routes**: Role-based access control (to be implemented with BetterAuth plugins)
+- **Session Management**: HTTP-only cookies with secure session handling
+- **Database**: SQLite with user schema
+- **TypeScript**: Full type safety throughout the system
 
-### Technology Stack
-
-- **Backend**: BetterAuth with Drizzle ORM
-- **Frontend**: React with TypeScript, Emotion CSS
-- **Database**: SQLite with role-based user schema
-- **Session Management**: HTTP-only cookies with secure defaults
-
-### Key Components
+## 📁 File Structure
 
 ```
 apps/
-├── client/
-│   ├── src/
-│   │   ├── providers/AuthProvider/     # Authentication context
-│   │   ├── components/
-│   │   │   ├── LoginForm/             # Reusable login component
-│   │   │   ├── ProtectedRoute/        # Route protection
-│   │   │   └── Input/                 # Styled input component
-│   │   ├── pages/
-│   │   │   ├── LoginPage/             # Dark theme login
-│   │   │   ├── AdminLoginPage/        # Light theme login
-│   │   │   ├── UnauthorizedPage/      # Access denied page
-│   │   │   └── AuthTestPage/          # Debug/testing page
-│   │   └── lib/auth-client.ts         # BetterAuth client
-└── server/
-    └── src/
-        ├── lib/auth.ts                # BetterAuth configuration
-        ├── db/schemas/auth_user.schema.ts  # User schema with roles
-        └── routes/auth/               # Authentication endpoints
+├── client/src/
+│   ├── auth/
+│   │   ├── AuthContext.tsx          # Authentication context
+│   │   └── AuthContext.types.ts     # Auth type definitions
+│   ├── components/
+│   │   ├── LoginForm/               # Reusable login component
+│   │   └── ProtectedRoute/          # Route protection component
+│   ├── pages/
+│   │   ├── LoginPage/               # Frontend login page
+│   │   └── AdminPages/
+│   │       └── AdminLoginPage/      # Admin login page
+│   ├── routes/
+│   │   └── routes.tsx               # Route definitions with protection
+│   └── lib/
+│       └── auth-client.ts           # BetterAuth client configuration
+└── server/src/
+    ├── lib/
+    │   └── auth.ts                  # BetterAuth server configuration
+    ├── routes/
+    │   └── auth/
+    │       └── auth.routes.ts       # Authentication API routes
+    └── db/
+        └── schemas/
+            └── auth_user.schema.ts  # User schema
 ```
 
-## 🔐 Authentication Features
+## 🔐 Route Protection
 
-### User Roles
-
-- **`user`**: Standard user access
-- **`admin`**: Administrative access to admin panel
-
-### Session Management
-
-- **Duration**: 30 days with 24-hour update age
-- **Security**: HTTP-only cookies with secure defaults
-- **Persistence**: Automatic session restoration on page reload
-
-### Route Protection
+### Route Categories
 
 - **Public Routes**: Main app, login pages
 - **Protected Routes**: Dashboard (requires authentication)
-- **Admin Routes**: All `/admin/*` routes (requires admin role)
+- **Admin Routes**: All `/admin/*` routes (requires admin role - to be implemented)
 
 ## 🎨 User Interface
 
@@ -107,17 +100,7 @@ export const auth = betterAuth({
     provider: 'sqlite',
     schema: { user, account, session, verification },
   }),
-  plugins: [
-    customSession(async ({ user, session }) => {
-      return {
-        user: {
-          ...user,
-          role: user.role || 'user', // Include role in session
-        },
-        session,
-      };
-    }),
-  ],
+  // Role functionality will be implemented using BetterAuth plugins
   // ... other configuration
 });
 ```
@@ -131,10 +114,10 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   requireAdmin = false,
   redirectTo = '/login',
 }) => {
-  const { isAuthenticated, isAdmin, isLoading } = useAuth();
+  const { isAuthenticated, isAdmin } = useAuth();
 
   if (!isAuthenticated) {
-    return <Navigate to={`${redirectTo}?returnUrl=${encodeURIComponent(location.pathname)}`} replace />;
+    return <Navigate to={redirectTo} replace />;
   }
 
   if (requireAdmin && !isAdmin) {
@@ -145,276 +128,83 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 };
 ```
 
-## 🚀 Getting Started
+## 🔧 API Endpoints
 
-### Prerequisites
+### Authentication Routes
 
-- Node.js 18+ and pnpm
-- SQLite database (automatically created)
-- BetterAuth packages installed
+- `POST /api/auth/login` - User login
+- `POST /api/auth/signup` - User registration
+- `GET /api/auth/session` - Get current session
+- `POST /api/auth/signout` - User logout
 
-### Installation
-
-The authentication system is already integrated into the monorepo. No additional installation required.
-
-### Database Setup
+### Example Usage
 
 ```bash
-# Run migrations (already done)
-cd apps/server
-pnpm drizzle-kit migrate
-
-# Create admin user (if needed)
-npx tsx src/scripts/create-new-admin.ts
-```
-
-### Default Admin Credentials
-
-- **Email**: `newadmin@example.com`
-- **Password**: `admin123`
-- **Role**: `admin`
-
-## 📱 Usage Examples
-
-### Basic Authentication Check
-
-```typescript
-import { useAuth } from 'providers/AuthProvider/AuthContext';
-
-const MyComponent = () => {
-  const { user, isAuthenticated, isAdmin, signOut } = useAuth();
-
-  if (!isAuthenticated) {
-    return <div>Please log in</div>;
-  }
-
-  return (
-    <div>
-      <h1>Welcome, {user?.name}!</h1>
-      {isAdmin && <p>You have admin privileges</p>}
-      <button onClick={signOut}>Logout</button>
-    </div>
-  );
-};
-```
-
-### Protected Route Usage
-
-```typescript
-// Regular protected route
-<ProtectedRoute>
-  <DashboardPage />
-</ProtectedRoute>
-
-// Admin-only route
-<ProtectedRoute requireAdmin={true} redirectTo="/admin/login">
-  <AdminLayout />
-</ProtectedRoute>
-```
-
-### Custom Login Form
-
-```typescript
-import { LoginForm } from 'components/LoginForm/LoginForm';
-
-const CustomLogin = () => (
-  <LoginForm
-    variant="dark" // or "light"
-    title="Custom Login"
-    subtitle="Enter your credentials"
-    showSignUp={true}
-    onSuccess={() => console.log('Login successful!')}
-  />
-);
-```
-
-## 🔧 Configuration
-
-### Environment Variables
-
-```bash
-# apps/server/.env.development
-NODE_ENV=development
-AUTH_SECRET=your-secret-key-here
-```
-
-### Customization Options
-
-#### Session Duration
-
-```typescript
-// apps/server/src/lib/auth.ts
-session: {
-  expiresIn: 30 * 24 * 60 * 60, // 30 days
-  updateAge: 24 * 60 * 60,       // 24 hours
-}
-```
-
-#### Password Requirements
-
-```typescript
-emailAndPassword: {
-  minPasswordLength: 8,
-  maxPasswordLength: 32,
-}
-```
-
-#### Cookie Settings
-
-```typescript
-advanced: {
-  useSecureCookies: env.NODE_ENV === 'production',
-  cookies: {
-    session_token: {
-      attributes: {
-        httpOnly: true,
-        sameSite: 'lax',
-        path: '/',
-      },
-    },
-  },
-}
-```
-
-## 🧪 Testing
-
-### Test Routes
-
-- **`/auth-test`**: Authentication state debug page
-- **`/login`**: Frontend login page
-- **`/admin/login`**: Admin login page
-- **`/unauthorized`**: Access denied page
-
-### API Testing
-
-```bash
-# Test login
+# Login
 curl -X POST http://localhost:4040/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"newadmin@example.com","password":"admin123"}'
+  -d '{"email": "user@example.com", "password": "password123"}'
 
-# Test session
-curl http://localhost:4040/api/auth/session \
-  -b cookies.txt
-
-# Test logout
-curl -X POST http://localhost:4040/api/auth/signout \
-  -b cookies.txt
+# Signup
+curl -X POST http://localhost:4040/api/auth/signup \
+  -H "Content-Type: application/json" \
+  -d '{"email": "new@example.com", "password": "password123", "name": "New User"}'
 ```
 
-### Database Queries
+## 🎯 User Management
 
-```bash
-# Check admin user
-cd apps/server
-npx tsx src/scripts/check-new-admin.ts
+### Default Users
 
-# Create new admin
-npx tsx src/scripts/create-new-admin.ts
-```
+The system includes several default users for testing:
+
+- **Admin User**: `admin@example.com` / `admin123`
+- **New Admin**: `newadmin@example.com` / `admin123`
+- **Regular User**: `user@example.com` / `user123`
+- **Test User**: `test@example.com` / `test123`
+
+### User Creation
+
+Users can be created through:
+- **Signup API**: `POST /api/auth/signup`
+- **BetterAuth Admin Interface**: Future implementation
+- **Database Seeding**: For development/testing
 
 ## 🔒 Security Features
 
-### Session Security
+- **HTTP-Only Cookies**: Secure session storage
+- **CSRF Protection**: Built into BetterAuth
+- **Password Hashing**: Automatic password security
+- **Session Expiration**: Configurable session timeouts
+- **Email Verification**: Configurable (currently disabled for development)
 
-- **HTTP-only Cookies**: Prevents XSS attacks
-- **Secure Cookies**: HTTPS-only in production
-- **SameSite**: Lax policy for CSRF protection
-- **Automatic Expiration**: Sessions expire after 30 days
-
-### Password Security
-
-- **Hashing**: BetterAuth handles secure password hashing
-- **Length Requirements**: 8-32 character minimum/maximum
-- **No Plain Text**: Passwords never stored in plain text
-
-### Route Protection
-
-- **Server-side Validation**: All protected routes validated server-side
-- **Client-side Guards**: Additional client-side protection
-- **Role-based Access**: Fine-grained permission control
-
-## 🐛 Troubleshooting
+## 🚨 Troubleshooting
 
 ### Common Issues
 
+#### Login Not Working
+
+- Verify server is running on port 4040
+- Check browser console for errors
+- Ensure cookies are enabled
+- Verify email/password combination
+
 #### Session Not Persisting
 
-- Check cookie settings in browser dev tools
-- Verify `AUTH_SECRET` environment variable
+- Check cookie settings in browser
+- Verify CORS configuration
 - Ensure HTTPS in production
 
-#### Admin Role Not Working
+#### Admin Access Issues
 
-- Verify user has `role: 'admin'` in database
-- Check session includes role field
-- Restart server after schema changes
+- Role functionality will be implemented with BetterAuth plugins
+- Currently all authenticated users have basic access
+- Admin routes will be protected when role system is implemented
 
-#### Login Fails
+## 🔮 Future Enhancements
 
-- Verify user exists in database
-- Check password requirements
-- Review server logs for errors
-
-### Debug Commands
-
-```bash
-# Check user in database
-cd apps/server
-npx tsx src/scripts/check-new-admin.ts
-
-# Test API endpoints
-curl -v http://localhost:4040/api/auth/session
-
-# Check browser cookies
-# Open DevTools > Application > Cookies
-```
-
-## 🔄 Future Enhancements
-
-### Potential Improvements
-
-1. **BetterAuth Admin Plugin**: Integrate official admin plugin
-2. **OAuth Providers**: Add Google, GitHub, etc.
-3. **Two-Factor Authentication**: Implement 2FA
-4. **Password Reset**: Email-based password recovery
-5. **User Management**: Admin interface for user management
-6. **Audit Logging**: Track authentication events
-7. **Rate Limiting**: Prevent brute force attacks
-
-### BetterAuth Admin Plugin Integration
-
-```typescript
-// Future implementation
-import { adminPlugin } from 'better-auth/plugins/admin';
-
-export const auth = betterAuth({
-  plugins: [
-    adminPlugin({
-      // Admin plugin configuration
-    }),
-    // ... other plugins
-  ],
-});
-```
-
-## 📚 Additional Resources
-
-### Documentation
-
-- [BetterAuth Documentation](https://www.better-auth.com/docs)
-- [BetterAuth Admin Plugin](https://www.better-auth.com/docs/plugins/admin)
-- [BetterAuth Plugins](https://www.better-auth.com/docs/concepts/plugins)
-
-### Related Files
-
-- `apps/client/src/providers/AuthProvider/AuthContext.tsx` - Main auth context
-- `apps/server/src/lib/auth.ts` - BetterAuth configuration
-- `apps/server/src/db/schemas/auth_user.schema.ts` - User schema
-- `apps/client/src/components/ProtectedRoute/ProtectedRoute.tsx` - Route protection
-
----
-
-**Last Updated**: July 20, 2025
-**Version**: 1.0.0
-**Maintainer**: Touch Monorepo Team
+- **Role-Based Access**: Implementation using BetterAuth organization plugin
+- **Email Verification**: Enable email verification for production
+- **Password Reset**: Implement password reset functionality
+- **OAuth Integration**: Add social login options
+- **Admin Dashboard**: Enhanced user management interface
+- **Audit Logging**: Track authentication events

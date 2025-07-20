@@ -1,13 +1,14 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { authClient } from 'lib/auth-client';
 
-interface User {
+export interface User {
   id: string;
-  name: string;
   email: string;
-  role: 'user' | 'admin';
+  name: string;
+  image?: string | null;
   emailVerified: boolean;
-  image?: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Session {
@@ -137,7 +138,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     session,
     isLoading,
     isAuthenticated: !!session?.user,
-    isAdmin: session?.user?.role === 'admin',
+    isAdmin: false, // Remove role-based admin check for now
     signIn,
     signUp,
     signOut,

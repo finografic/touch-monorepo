@@ -97,7 +97,8 @@
     },
     "user": {
       "userId": "ID de usuario",
-      "userRole": "Estado del registro"
+      "userStatus": "Estado del usuario",
+      "userType": "Tipo de usuario"
     },
     "headerUser": {
       "registerUserNew": "Registrarse",

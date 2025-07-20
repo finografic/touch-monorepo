@@ -70,15 +70,7 @@ export const auth = betterAuth({
     },
   },
   plugins: [
-    customSession(async ({ user, session }) => {
-      return {
-        user: {
-          ...user,
-          role: (user as any).role || 'user', // Include role in session
-        },
-        session,
-      };
-    }),
+    // Removed customSession plugin - BetterAuth will handle session data
   ],
 });
 
