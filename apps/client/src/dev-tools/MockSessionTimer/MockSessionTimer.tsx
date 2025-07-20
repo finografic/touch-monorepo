@@ -1,7 +1,6 @@
 import { useCallback } from 'react';
-import { CountdownTimerIcon } from '@radix-ui/react-icons';
+import { CountdownTimerIcon } from 'styles/icons';
 import { STORAGE_KEYS } from 'constants/app.config';
-import { styles } from './MockSessionTimer.styles';
 
 export const MockSessionTimer = () => {
   const handleSetSessionTimer = useCallback(() => {
@@ -39,7 +38,7 @@ export const MockSessionTimer = () => {
   }, []);
 
   return (
-    <button className="btn-dev" css={styles} onClick={handleSetSessionTimer} title="Set Session Timer to 10s">
+    <button className="btn" onClick={handleSetSessionTimer} title="Set Session Timer to 10s">
       <CountdownTimerIcon />
     </button>
   );

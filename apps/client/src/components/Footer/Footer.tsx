@@ -4,6 +4,8 @@ import { styles } from './Footer.styles';
 import { useLocation } from 'react-router-dom';
 import { AdminToolbar } from 'admin-tools/AdminToolbar/AdminToolbar';
 import { FrontEndAdminToolbar } from 'admin-tools/FrontEndAdminToolbar/FrontEndAdminToolbar';
+import { DevToolbar } from 'dev-tools/DevToolbar/DevToolbar';
+import { FrontEndDevToolbar } from 'dev-tools/FrontEndDevToolbar/FrontEndDevToolbar';
 
 export const Footer: FC = () => {
   const location = useLocation();
@@ -15,7 +17,7 @@ export const Footer: FC = () => {
           {location.pathname.startsWith('/admin') ? <AdminToolbar /> : <FrontEndAdminToolbar />}
         </Flex>
         <Flex justify="end" style={{ flex: '1' }}>
-          {/* Navigation moved to Layout - space for other footer content */}
+          {location.pathname.startsWith('/admin') ? <DevToolbar /> : <FrontEndDevToolbar />}
         </Flex>
       </Flex>
     </footer>

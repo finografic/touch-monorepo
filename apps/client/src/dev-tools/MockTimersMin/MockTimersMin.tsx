@@ -1,8 +1,7 @@
 import { useOrders } from 'providers/OrdersProvider';
-import { ClockIcon } from '@radix-ui/react-icons';
+import { TimerIcon } from 'styles/icons';
 import { useCallback } from 'react';
 import { hasProcessingTimers } from 'components/Timer/timers.utils';
-import { styles } from './MockTimersMin.styles';
 
 export const MockTimersMin = () => {
   const { orders, setOrderProcessing } = useOrders();
@@ -38,8 +37,8 @@ export const MockTimersMin = () => {
   if (!hasProcessingTimers(orders)) return null;
 
   return (
-    <button className="btn-dev" css={styles} onClick={handleSetMinTimers}>
-      <ClockIcon />
+    <button className="btn" onClick={handleSetMinTimers}>
+      <TimerIcon />
     </button>
   );
 };

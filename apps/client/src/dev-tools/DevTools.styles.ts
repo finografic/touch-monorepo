@@ -1,41 +1,10 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles';
-import { styles as stylesButton } from 'components/ButtonControl/ButtonControl.styles';
 
+/**
+ * Legacy DevTools styles - now using toolbar structure
+ * This file is kept for backward compatibility but the main styling
+ * is now handled by the toolbar components using baseToolbarStyles
+ */
 export const styles = css`
-  &.devtools-container {
-    position: fixed;
-    width: 50vw;
-    height: 64px;
-    bottom: 0;
-    right: 0;
-    z-index: 1500;
-
-    & > div {
-      padding-right: 2rem;
-    }
-
-    button.btn-dev,
-    button.btn-query {
-      ${stylesButton}
-      min-width: 60px;
-      border-color: transparent;
-      svg {
-        color: ${colors.textDark};
-        /* width and height now handled by .icon class */
-      }
-      &:hover {
-        border-color: transparent;
-        svg {
-          color: ${colors.info};
-        }
-      }
-    }
-
-    button.btn-query {
-      svg {
-        transform: translateY(3px);
-      }
-    }
-  }
+  /* Legacy styles - toolbar components now handle positioning and styling */
 `;

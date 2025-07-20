@@ -10,6 +10,15 @@ export const styles = css`
   max-height: ${layout.footer.height};
   display: flex;
   align-items: center;
+  justify-content: space-between; /* Ensure proper spacing between left and right toolbars */
+
+  /* Ensure right side takes full width for proper alignment */
+  > div:last-child {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    padding-right: 2rem;
+  }
 
   /* Navigation wrapper - takes full width for now */
   .nav-wrapper {
