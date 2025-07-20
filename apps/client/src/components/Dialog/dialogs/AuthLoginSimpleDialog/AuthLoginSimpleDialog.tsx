@@ -40,7 +40,7 @@ export const AuthLoginSimpleDialog = ({ isOpen, onClose }: AuthLoginSimpleDialog
   };
 
   const config: DialogConfig = {
-    title: 'Quick Admin Login',
+    title: '',
     size: '3',
     maxWidth: '400px',
     maxHeight: '60vh',
@@ -57,13 +57,8 @@ export const AuthLoginSimpleDialog = ({ isOpen, onClose }: AuthLoginSimpleDialog
         id: 'login',
         label: 'Sign In',
         content: (
-          <div css={styles.container}>
+          <div css={styles.container} id="simple-login-dialog">
             <div css={styles.formWrapper}>
-              <div css={styles.header}>
-                <h1 css={styles.title}>Admin Login</h1>
-                <p css={styles.subtitle}>Enter admin password</p>
-              </div>
-
               <form css={styles.form} onSubmit={handleSubmit}>
                 <div css={styles.inputGroup}>
                   <label css={styles.label} htmlFor="password">
@@ -92,14 +87,6 @@ export const AuthLoginSimpleDialog = ({ isOpen, onClose }: AuthLoginSimpleDialog
         ),
       },
     ],
-    footer: {
-      primaryButton: {
-        label: 'Close',
-        onClick: onClose,
-        variant: 'soft',
-        color: 'blue',
-      },
-    },
   };
 
   return <GenericDialog isOpen={isOpen} onClose={onClose} config={config} />;

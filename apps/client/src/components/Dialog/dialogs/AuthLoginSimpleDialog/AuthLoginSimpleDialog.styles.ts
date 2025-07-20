@@ -6,31 +6,12 @@ export const styles = {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 200px;
-    padding: 1rem;
+    /* min-height: 200px; */
   `,
 
   formWrapper: css`
     width: 100%;
     max-width: 350px;
-  `,
-
-  header: css`
-    text-align: center;
-    margin-bottom: 2rem;
-  `,
-
-  title: css`
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: ${colors.white};
-    margin: 0 0 0.5rem 0;
-  `,
-
-  subtitle: css`
-    font-size: 0.875rem;
-    color: ${colors.greyLight};
-    margin: 0;
   `,
 
   form: css`

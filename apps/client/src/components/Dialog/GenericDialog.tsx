@@ -45,7 +45,11 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
         <Dialog.Content size={config.size || '4'} css={styles} style={dynamicStyles}>
           {/* Header - Fixed at top */}
           <div className="dialog-header">
-            <Flex justify="between" align="center" mb="4">
+            <Flex
+              justify="between"
+              align="center"
+              //  mb="4"
+            >
               <Dialog.Title size="5">{config.title}</Dialog.Title>
               <IconButton className="close-button" variant="ghost" onClick={onClose}>
                 <Cross2Icon width="20" height="20" />
@@ -68,7 +72,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
           </div>
 
           {/* Content Area - Flexible height */}
-          <div className="dialogContent">
+          <div className="dialog-content">
             {hasTabs ? (
               /* Multi-tab layout */
               <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
@@ -80,7 +84,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
                   ))}
                 </Tabs.List>
 
-                <div className="tabContent">
+                <div className="tab-content">
                   {config.tabs.map((tab) => (
                     <Tabs.Content key={tab.id} value={tab.id}>
                       {tab.content}
@@ -90,14 +94,14 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
               </Tabs.Root>
             ) : (
               /* Single content layout (no tabs) */
-              <div className="singleContent">{currentTab?.content}</div>
+              <div className="single-content">{currentTab?.content}</div>
             )}
           </div>
 
           {/* Footer - Fixed at bottom */}
           {config.footer && (
             <div className="footer">
-              <Flex justify="end" gap="4" width="100%">
+              <Flex justify="end" gap="4" width="100%" id="__ABC__">
                 {config.footer.secondaryButton && (
                   <Button
                     variant={config.footer.secondaryButton.variant || 'soft'}

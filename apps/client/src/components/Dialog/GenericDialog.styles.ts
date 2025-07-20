@@ -10,6 +10,7 @@ export const styles = css`
     /* Flexbox layout: header -> content -> footer */
     display: flex;
     flex-direction: column;
+    min-height: 260px !important;
 
     h1 {
       font-size: 2rem;
@@ -34,7 +35,7 @@ export const styles = css`
     }
 
     /* Dialog Content - Flexible height */
-    .dialogContent {
+    .dialog-content {
       flex: 1;
       min-height: 0;
       display: flex;
@@ -48,7 +49,7 @@ export const styles = css`
     }
 
     /* Tab Content Styles */
-    .tabContent {
+    .tab-content {
       flex: 1;
       min-height: 0;
       position: relative;
@@ -105,10 +106,11 @@ export const styles = css`
     }
 
     /* Single Content Styles (when no tabs) */
-    .singleContent {
+    .single-content {
       flex: 1;
       min-height: 0;
-      padding: 1rem 0;
+      /* padding: 1rem 0; */
+      padding: 0 0 1rem 0;
       overflow-y: auto; /* Enable vertical scrolling */
       overflow-x: hidden; /* Prevent horizontal scrolling */
       height: 100%;
