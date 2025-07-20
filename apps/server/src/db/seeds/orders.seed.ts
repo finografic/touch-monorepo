@@ -2,6 +2,32 @@ import { db } from '../db.adapter';
 import { container_types, drink_subtypes, drink_types, modes, orders, volumes } from '../schemas';
 import { TEMPERATURE_RANGES } from 'lib/constants';
 
+// ======================================================================== //
+// CONFIGURABLE CONSTANTS
+// ======================================================================== //
+
+const DRINK_TYPE_NUM_ENTRIES = 2; // Base number of entries for drink types without subtypes
+const DRINK_TYPE_VARIATION = 1; // Random variation range for drink types
+const DRINK_SUBTYPE_NUM_ENTRIES = 4; // Base number of entries for each subtype
+const DRINK_SUBTYPE_VARIATION = 2; // Random variation range for subtypes
+
+// ======================================================================== //
+// HELPER FUNCTIONS
+// ======================================================================== //
+
+/**
+ * Generate a random number with variation around a base value
+ * @param baseValue - The base number of entries
+ * @param variation - The maximum variation range
+ * @returns A random integer with positive or negative variation
+ */
+function getRandomVariation(baseValue: number, variation: number): number {
+  const randomVariation = Math.floor(Math.random() * (variation + 1)); // 0 to variation
+  const multiplier = Math.random() < 0.5 ? 1 : -1; // Randomly positive or negative
+  const result = baseValue + randomVariation * multiplier;
+  return Math.max(1, result); // Ensure minimum of 1 entry
+}
+
 function getRandomSample<T>(arr: T[], n: number): T[] {
   const result = [];
   const used = new Set<number>();
@@ -50,9 +76,15 @@ export async function seed() {
 
     for (const type of drinkTypes) {
       const typeSubtypes = subtypes.filter((s) => s.drinkTypeId === type.id);
+
       if (typeSubtypes.length === 0) {
-        // No subtypes: create 2 entries
-        for (let i = 0; i < 2; i++) {
+        // No subtypes: create entries with random variation
+        const numEntries = getRandomVariation(DRINK_TYPE_NUM_ENTRIES, DRINK_TYPE_VARIATION);
+        console.log(
+          `🍺 ${type.name}: No subtypes, creating ${numEntries} entries (base: ${DRINK_TYPE_NUM_ENTRIES} ± ${DRINK_TYPE_VARIATION})`,
+        );
+
+        for (let i = 0; i < numEntries; i++) {
           const volumes = getRandomSample(allVolumes, 3);
           const containers = getRandomSample(allContainers, 2);
           for (const volume of volumes) {
@@ -76,9 +108,16 @@ export async function seed() {
           }
         }
       } else {
-        // Has subtypes: for each subtype, create 4 entries
+        // Has subtypes: for each subtype, create entries with random variation
+        console.log(`🍷 ${type.name}: Has ${typeSubtypes.length} subtypes`);
+
         for (const subtype of typeSubtypes) {
-          for (let i = 0; i < 4; i++) {
+          const numEntries = getRandomVariation(DRINK_SUBTYPE_NUM_ENTRIES, DRINK_SUBTYPE_VARIATION);
+          console.log(
+            `  └─ ${subtype.name}: Creating ${numEntries} entries (base: ${DRINK_SUBTYPE_NUM_ENTRIES} ± ${DRINK_SUBTYPE_VARIATION})`,
+          );
+
+          for (let i = 0; i < numEntries; i++) {
             const volumes = getRandomSample(allVolumes, 3);
             const containers = getRandomSample(allContainers, 2);
             for (const volume of volumes) {
@@ -110,6 +149,15 @@ export async function seed() {
     }
 
     await db.insert(orders).values(orderRows);
+    console.log('\n📊 Order Generation Summary:');
+    console.log(`   Total orders created: ${orderRows.length}`);
+    console.log(
+      `   Drink types without subtypes: ${drinkTypes.filter((t) => !subtypes.some((s) => s.drinkTypeId === t.id)).length}`,
+    );
+    console.log(
+      `   Drink types with subtypes: ${drinkTypes.filter((t) => subtypes.some((s) => s.drinkTypeId === t.id)).length}`,
+    );
+    console.log(`   Total subtypes: ${subtypes.length}`);
     console.log(`✅ Inserted ${orderRows.length} orders!`);
     return orderRows;
   } catch (error) {
