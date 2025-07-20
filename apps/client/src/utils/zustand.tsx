@@ -42,6 +42,16 @@ export const createZustandContext = <TInitial extends object, TStore extends Sto
 
 type SetState<T> = (partial: Partial<T> | ((state: T) => Partial<T>), replace?: boolean) => void;
 
+/**
+ * Utility type that generates setter function types based on a values object type
+ * @template TValues - The values object type
+ * @template TPrefix - The prefix to use for setter names (defaults to empty string)
+ * @returns Object type with setter functions for each property in TValues
+ */
+export type CreateSettersType<TValues extends Record<string, any>, TPrefix extends string = ''> = {
+  [K in keyof TValues as `set${TPrefix}${Capitalize<string & K>}`]: (val: TValues[K]) => void;
+};
+
 export const createSetters = <
   TStore extends { [K in keyof TValues]: TValues[K] },
   TValues extends Record<string, any>,
@@ -54,7 +64,7 @@ export const createSetters = <
   defaultValue: TValues;
   set: SetState<TStore>;
   prefix?: TPrefix;
-}) => {
+}): CreateSettersType<TValues, TPrefix> => {
   return Object.keys(defaultValues).reduce(
     (acc, key) => ({
       ...acc,
@@ -62,7 +72,5 @@ export const createSetters = <
         set((state) => ({ ...state, [key]: val })),
     }),
     {},
-  ) as {
-    [K in keyof TValues as `set${TPrefix}${Capitalize<string & K>}`]: (val: TValues[K]) => void;
-  };
+  ) as CreateSettersType<TValues, TPrefix>;
 };

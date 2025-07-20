@@ -6,6 +6,7 @@ import type { OrderFieldKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
 import type { RegionLocale } from '@workspace/core/types';
 import type { OrderModel } from 'types/models/order.model';
+import type { CreateSettersType } from 'utils/zustand';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numItems]: ValidGridSize;
@@ -17,11 +18,7 @@ export interface LayoutUiValues {
   [LayoutUiKeys.mainPageIsSelectMode]: boolean;
 }
 
-type LayoutUiSetters = {
-  [K in keyof LayoutUiValues as `set${typeof SETTER_PREFIX}${Capitalize<string & K>}`]: (
-    val: LayoutUiValues[K],
-  ) => void;
-};
+type LayoutUiSetters = CreateSettersType<LayoutUiValues, typeof SETTER_PREFIX>;
 
 type LayoutUiActions = LayoutUiSetters & {
   initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadConfig, fieldKey: OrderFieldKey) => void;
