@@ -243,6 +243,17 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         return;
       }
 
+      // Create orders for selected slots first
+      selectedIdleSlots.forEach((slotNumber) => {
+        const orderConfig = ORDER_ITEMS_CONFIG.find((config) => config.number === slotNumber);
+        if (orderConfig) {
+          toggleOrder({
+            itemType: orderConfig.itemType,
+            itemNumber: slotNumber,
+          });
+        }
+      });
+
       // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
 
@@ -261,7 +272,15 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       // Navigate to time page
       navigate(ALTERNATIVE_PATHS.time);
     });
-  }, [navigate, mainPageSelectedSlots, timers, createSession, assignOrdersToSession, setOrdersSession]);
+  }, [
+    navigate,
+    mainPageSelectedSlots,
+    timers,
+    createSession,
+    assignOrdersToSession,
+    setOrdersSession,
+    toggleOrder,
+  ]);
 
   // ======================================================================== //
 
@@ -277,6 +296,17 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         console.warn('No selected idle slots to program product for');
         return;
       }
+
+      // Create orders for selected slots first
+      selectedIdleSlots.forEach((slotNumber) => {
+        const orderConfig = ORDER_ITEMS_CONFIG.find((config) => config.number === slotNumber);
+        if (orderConfig) {
+          toggleOrder({
+            itemType: orderConfig.itemType,
+            itemNumber: slotNumber,
+          });
+        }
+      });
 
       // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
@@ -315,6 +345,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     pathnames,
     setPageCurrent,
     navigate,
+    toggleOrder,
   ]);
 
   const handleProgramProduct__V1 = useCallback(() => {
