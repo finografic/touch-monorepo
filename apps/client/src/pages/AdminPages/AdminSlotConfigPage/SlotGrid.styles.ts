@@ -12,7 +12,6 @@ export const styles = css`
     display: grid;
     gap: 1rem;
     padding: 1rem;
-    background: var(--gray-2);
     border-radius: var(--radius-3);
     min-width: 400px;
   }
@@ -22,7 +21,6 @@ export const styles = css`
     flex-direction: column;
     gap: 1rem;
     padding: 1rem;
-    background: var(--gray-2);
     border-radius: var(--radius-3);
     min-width: 120px;
   }
@@ -80,7 +78,6 @@ export const styles = css`
   .slot-legend {
     margin-top: 2rem;
     padding: 1rem;
-    background: var(--gray-1);
     border-radius: var(--radius-2);
   }
 
@@ -97,18 +94,18 @@ export const styles = css`
   }
 
   .legend-type-a {
-    background: var(--gray-8);
+    background: var(--gray-9);
   }
 
   .legend-type-b {
-    background: var(--blue-8);
+    background: var(--blue-9);
   }
 
   .legend-type-c {
-    background: var(--green-8);
+    background: var(--green-9);
   }
 
   .legend-special {
-    background: var(--red-8);
+    background: var(--red-9);
   }
 `;

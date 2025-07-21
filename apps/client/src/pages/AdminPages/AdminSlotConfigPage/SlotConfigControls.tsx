@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Button, Flex, Heading, Table, Text } from '@radix-ui/themes';
 import type { ItemType } from 'types/orders.types';
+import { SelectSimple } from 'forms/SelectSimple';
 import { styles } from './SlotConfigControls.styles';
 
 interface SlotConfig {
@@ -13,12 +14,14 @@ interface SlotConfigControlsProps {
   configurations: SlotConfig[];
   onSave: () => void;
   isSaving: boolean;
+  onTypeChange?: (slotNumber: number, newType: ItemType) => void;
 }
 
 export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
   configurations,
   onSave,
   isSaving,
+  onTypeChange,
 }) => {
   const regularSlots = configurations.filter((config) => !config.isSpecialPad);
   const specialPad = configurations.find((config) => config.isSpecialPad);
@@ -78,16 +81,30 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
             </Table.Header>
             <Table.Body>
               {regularSlots.map((config) => (
-                <Table.Row key={config.slotNumber}>
+                <Table.Row key={config.slotNumber} className="slot-table-row">
                   <Table.Cell>{config.slotNumber}</Table.Cell>
-                  <Table.Cell>Type {config.itemType}</Table.Cell>
+                  <Table.Cell>
+                    <SelectSimple
+                      className="slot-select"
+                      options={['A', 'B', 'C']}
+                      value={config.itemType}
+                      onSelect={(val) => onTypeChange?.(config.slotNumber, val as ItemType)}
+                    />
+                  </Table.Cell>
                   <Table.Cell>No</Table.Cell>
                 </Table.Row>
               ))}
               {specialPad && (
-                <Table.Row>
+                <Table.Row className="slot-table-row">
                   <Table.Cell>{specialPad.slotNumber}</Table.Cell>
-                  <Table.Cell>Type {specialPad.itemType}</Table.Cell>
+                  <Table.Cell>
+                    <SelectSimple
+                      className="slot-select slot-select-special"
+                      options={['A', 'B', 'C']}
+                      value={specialPad.itemType}
+                      onSelect={(val) => onTypeChange?.(specialPad.slotNumber, val as ItemType)}
+                    />
+                  </Table.Cell>
                   <Table.Cell>Yes</Table.Cell>
                 </Table.Row>
               )}

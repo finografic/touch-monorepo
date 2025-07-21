@@ -14,7 +14,7 @@ export const styles = css`
   /* Override button colors to grey for DevTools - very specific selectors */
   .button-box button.btn {
     svg.icon {
-      color: ${colors.grey} !important;
+      color: ${colors.greyDark} !important;
     }
     &:hover {
       border-color: transparent;
@@ -28,6 +28,12 @@ export const styles = css`
       svg.icon {
         color: ${colors.warningDark} !important;
       }
+    }
+  }
+
+  button.btn.btn-toggle-query-panel {
+    svg.icon {
+      transform: translate(-2px, 4px);
     }
   }
 `;

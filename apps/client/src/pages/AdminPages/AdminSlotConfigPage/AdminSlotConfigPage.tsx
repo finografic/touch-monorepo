@@ -174,6 +174,7 @@ export const AdminSlotConfigPage: React.FC = () => {
                     slotNumber: number,
                     newConfig: Partial<{ slotNumber: number; itemType: ItemType; isSpecialPad: boolean }>,
                   ) => {
+                    log('__DEV: SLOT', 'magenta', slotNumber, newConfig);
                     // Update the local state
                     const updatedConfigs = generateSlotConfigs.map((config) =>
                       config.slotNumber === slotNumber ? { ...config, ...newConfig } : config,

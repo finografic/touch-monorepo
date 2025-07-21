@@ -108,10 +108,10 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
 
       {/* Legend */}
       <div className="slot-legend">
-        <Text size="2" weight="bold" mb="2">
+        <Text size="2" weight="bold">
           Slot Types:
         </Text>
-        <Flex gap="3" wrap="wrap">
+        <Flex gap="5" wrap="wrap" mt="3">
           <Flex align="center" gap="2">
             <div className="legend-item legend-type-a">A</div>
             <Text size="2">Type A</Text>

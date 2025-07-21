@@ -27,7 +27,10 @@ export const DevToolbar = () => {
           </Box>
 
           <Box className="button-box">
-            <button className="btn" onClick={() => setIsDevQueryPanelOpen(!isDevQueryPanelOpen)}>
+            <button
+              className="btn btn-toggle-query-panel"
+              onClick={() => setIsDevQueryPanelOpen(!isDevQueryPanelOpen)}
+            >
               <TextAlignTopIcon />
             </button>
           </Box>
