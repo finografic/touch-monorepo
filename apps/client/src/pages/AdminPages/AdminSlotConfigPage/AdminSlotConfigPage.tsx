@@ -37,6 +37,8 @@ export const AdminSlotConfigPage: React.FC = () => {
   const defaultGridConfig = GRID_CONFIGS[initialColumns];
   const slotConfigs = slotConfigsResponse?.data || [];
 
+  log('__DEV: slotConfigs', 'cyan', slotConfigs);
+
   // Helper to generate slots for a given column count
   const generateSlots = (columns: number, fromConfigs?: SlotConfigFormValue[]): SlotConfigFormValue[] => {
     const gridConfig = GRID_CONFIGS[columns];
