@@ -101,7 +101,7 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
                     <SelectSimple
                       className="slot-select slot-select-special"
                       options={['A', 'B', 'C']}
-                      value={specialPad.itemType}
+                      defaultValue={specialPad.itemType}
                       onSelect={(val) => onTypeChange?.(specialPad.slotNumber, val as ItemType)}
                     />
                   </Table.Cell>
