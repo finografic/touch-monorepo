@@ -1,0 +1,1 @@
+export { AdminSlotConfigPage } from './AdminSlotConfigPage';

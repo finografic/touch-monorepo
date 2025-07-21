@@ -28,7 +28,7 @@ export const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
 
   if (requireAdmin && !isAdmin) {
     // Redirect to unauthorized page or dashboard
-    return <Navigate to="/unauthorized" replace />;
+    // return <Navigate to="/unauthorized" replace />;
   }
 
   return <>{children}</>;

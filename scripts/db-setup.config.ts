@@ -35,6 +35,11 @@ export const seedConfigs: SeedConfig[] = [
     description: 'Modes - cooling profile definitions (slow, medium, fast, etc..)',
   },
   {
+    name: 'slot_configurations',
+    description: 'Slot configurations',
+    // dependencies: ['translatable_entities'],
+  },
+  {
     name: 'orders',
     description: 'Example orders',
     dependencies: ['drink_types', 'drink_subtypes', 'volumes', 'container_types', 'modes'],

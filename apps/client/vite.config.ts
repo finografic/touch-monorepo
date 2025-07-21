@@ -38,6 +38,9 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         usePolling: true,
         interval: 1000,
       },
+      proxy: {
+        '/api': 'http://localhost:4040',
+      },
     },
     clearScreen: false,
     define: {

@@ -10,11 +10,12 @@ export * from './container_types.schema';
 export * from './drink_subtypes.schema';
 export * from './drink_types.schema';
 export * from './modes.schema';
-
 export * from './orders.schema';
 
 // Views - TypeScript types only (actual views created via seeding system)
 export * from './orders_readable_view.schema';
+
+export * from './slot_configurations.schema';
 
 export * from './supported_languages.schema';
 export * from './temperature_profiles.schema';

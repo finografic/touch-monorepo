@@ -61,6 +61,14 @@ export const AdminPage: React.FC = () => {
       path: '/admin/sounds',
       color: 'indigo' as const,
     },
+    {
+      id: 'slot-config',
+      title: 'Slot Configuration',
+      description: 'Configure MainPage grid layout and slot types',
+      icon: <GearIcon width="32" height="32" />,
+      path: '/admin/slot-config',
+      color: 'amber' as const,
+    },
     // {
     //   id: 'database',
     //   title: 'Database Management',

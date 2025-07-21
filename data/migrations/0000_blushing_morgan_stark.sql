@@ -112,6 +112,15 @@ CREATE TABLE `orders` (
 	FOREIGN KEY (`container_type_id`) REFERENCES `container_types`(`id`) ON UPDATE no action ON DELETE cascade
 );
 --> statement-breakpoint
+CREATE TABLE `slot_configurations` (
+	`id` text PRIMARY KEY NOT NULL,
+	`slot_number` integer NOT NULL,
+	`item_type` text NOT NULL,
+	`is_special_pad` integer DEFAULT false NOT NULL,
+	`created_at` text DEFAULT CURRENT_TIMESTAMP,
+	`updated_at` text DEFAULT CURRENT_TIMESTAMP
+);
+--> statement-breakpoint
 CREATE TABLE `supported_languages` (
 	`id` text PRIMARY KEY NOT NULL,
 	`iso_code` text NOT NULL,
