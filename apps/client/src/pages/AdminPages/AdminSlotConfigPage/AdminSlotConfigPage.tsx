@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { MinusIcon, PlusIcon, ResetIcon } from '@radix-ui/react-icons';
@@ -53,18 +53,24 @@ export const AdminSlotConfigPage: React.FC = () => {
     return slots;
   };
 
-  // Memoize initial form values
-  const defaultValues = useMemo<SlotConfigForm>(
-    () => ({
-      columns: initialColumns,
-      slots: generateSlots(initialColumns, slotConfigs),
-    }),
-    [slotConfigs],
-  );
+  // Helper to determine columns from slot configs
+  const getColumnsFromConfigs = (configs: SlotConfigFormValue[]): number => {
+    const totalSlots = configs.length;
+    // Find the grid config that matches this total slots
+    for (let cols = minColumns; cols <= maxColumns; cols++) {
+      if (GRID_CONFIGS[cols].totalSlots === totalSlots) {
+        return cols;
+      }
+    }
+    return initialColumns; // fallback
+  };
 
   // Setup RHF
   const methods = useForm<SlotConfigForm>({
-    defaultValues,
+    defaultValues: {
+      columns: initialColumns,
+      slots: generateSlots(initialColumns),
+    },
     mode: 'onChange',
   });
   const { control, handleSubmit, reset, watch, setValue } = methods;
@@ -77,18 +83,38 @@ export const AdminSlotConfigPage: React.FC = () => {
 
   // Keep slots in sync with columns
   const prevColumns = useRef(columns);
-  React.useEffect(() => {
+  useEffect(() => {
     if (columns !== prevColumns.current) {
       replace(generateSlots(columns, slots));
       prevColumns.current = columns;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [columns]);
+  }, [columns, replace, slots]);
+
+  // Update form when API data changes (e.g., after save/reset or page refresh)
+  const prevSlotConfigs = useRef(slotConfigs);
+  useEffect(() => {
+    // Only update if slotConfigs actually changed and we have data
+    if (slotConfigs.length > 0 && JSON.stringify(slotConfigs) !== JSON.stringify(prevSlotConfigs.current)) {
+      const columns = getColumnsFromConfigs(slotConfigs);
+      const newSlots = generateSlots(columns, slotConfigs);
+
+      console.log('Updating form with new slot configs:', slotConfigs);
+      console.log('New form values:', { columns, slots: newSlots });
+
+      reset({
+        columns,
+        slots: newSlots,
+      });
+      prevSlotConfigs.current = slotConfigs;
+    }
+  }, [slotConfigs, reset]);
 
   // Save handler
   const onSave = async (data: SlotConfigForm) => {
     try {
       await bulkUpdateMutation.mutateAsync({ configurations: data.slots });
+      // After successful save, the API will refetch and update slotConfigs
+      // which will trigger the useEffect above to reset the form
     } catch (error) {
       console.error('Failed to save configurations:', error);
     }
@@ -98,7 +124,8 @@ export const AdminSlotConfigPage: React.FC = () => {
   const onReset = async () => {
     try {
       await resetMutation.mutateAsync();
-      reset({ columns: initialColumns, slots: generateSlots(initialColumns) });
+      // After successful reset, the API will refetch and update slotConfigs
+      // which will trigger the useEffect above to reset the form
     } catch (error) {
       console.error('Failed to reset configurations:', error);
     }
