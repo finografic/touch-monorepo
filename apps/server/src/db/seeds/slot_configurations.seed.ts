@@ -5,54 +5,43 @@ import { randomUUID } from 'node:crypto';
 // Default configuration matching current ORDER_ITEMS_CONFIG
 const DEFAULT_SLOT_CONFIG = [
   // First row (0-2)
-  { slotNumber: 0, itemType: 'A' as const, isSpecialPad: false },
-  { slotNumber: 1, itemType: 'B' as const, isSpecialPad: false },
-  { slotNumber: 2, itemType: 'B' as const, isSpecialPad: false },
+  { slotNumber: 0, itemType: 'A' as const },
+  { slotNumber: 1, itemType: 'B' as const },
+  { slotNumber: 2, itemType: 'B' as const },
 
   // Second row (3-5)
-  { slotNumber: 3, itemType: 'B' as const, isSpecialPad: false },
-  { slotNumber: 4, itemType: 'B' as const, isSpecialPad: false },
-  { slotNumber: 5, itemType: 'B' as const, isSpecialPad: false },
+  { slotNumber: 3, itemType: 'B' as const },
+  { slotNumber: 4, itemType: 'B' as const },
+  { slotNumber: 5, itemType: 'B' as const },
 
   // Third row (6-8)
-  { slotNumber: 6, itemType: 'B' as const, isSpecialPad: false },
-  { slotNumber: 7, itemType: 'B' as const, isSpecialPad: false },
-  { slotNumber: 8, itemType: 'B' as const, isSpecialPad: false },
+  { slotNumber: 6, itemType: 'B' as const },
+  { slotNumber: 7, itemType: 'B' as const },
+  { slotNumber: 8, itemType: 'B' as const },
 
-  // Special pad
-  { slotNumber: 9, itemType: 'C' as const, isSpecialPad: true },
+  // Last slot (positioned separately)
+  { slotNumber: 9, itemType: 'C' as const },
 ];
 
-export async function seed() {
-  console.log('Seeding slot_configurations...');
+export const seedSlotConfigurations = async () => {
+  console.log('🌱 Seeding slot configurations...');
 
   try {
-    // Check if configurations already exist
-    const existing = await db.select().from(slot_configurations).limit(1);
-    if (existing.length > 0) {
-      console.log('✓ Slot configurations already seeded, skipping...');
-      return;
-    }
+    // Clear existing data
+    await db.delete(slot_configurations);
 
     // Insert default configurations
-    const configurations = DEFAULT_SLOT_CONFIG.map((config) => ({
+    const configsToInsert = DEFAULT_SLOT_CONFIG.map((config) => ({
       id: randomUUID(),
-      ...config,
+      slotNumber: config.slotNumber,
+      itemType: config.itemType,
     }));
 
-    await db.insert(slot_configurations).values(configurations);
-    console.log(`✅ Inserted ${configurations.length} slot configurations!`);
+    await db.insert(slot_configurations).values(configsToInsert);
 
-    // Log summary
-    console.log('📊 Default slot configuration:');
-    configurations.forEach((config) => {
-      const typeLabel = config.isSpecialPad ? 'Special' : `Type ${config.itemType}`;
-      console.log(`   Slot ${config.slotNumber}: ${typeLabel}`);
-    });
-
-    return configurations;
+    console.log('✅ Slot configurations seeded successfully');
   } catch (error) {
     console.error('❌ Error seeding slot configurations:', error);
     throw error;
   }
-}
+};

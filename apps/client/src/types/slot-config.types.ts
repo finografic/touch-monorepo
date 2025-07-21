@@ -4,7 +4,6 @@ export interface SlotConfiguration {
   id: string;
   slotNumber: number;
   itemType: ItemType;
-  isSpecialPad: boolean;
   createdAt: string;
   updatedAt: string;
 }
@@ -12,19 +11,16 @@ export interface SlotConfiguration {
 export interface CreateSlotConfigRequest {
   slotNumber: number;
   itemType: ItemType;
-  isSpecialPad?: boolean;
 }
 
 export interface UpdateSlotConfigRequest {
-  itemType: ItemType;
-  isSpecialPad?: boolean;
+  itemType?: ItemType;
 }
 
 export interface BulkUpdateSlotConfigRequest {
   configurations: Array<{
     slotNumber: number;
     itemType: ItemType;
-    isSpecialPad?: boolean;
   }>;
 }
 

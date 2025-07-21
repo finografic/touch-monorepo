@@ -19,7 +19,6 @@ import { styles } from './AdminSlotConfigPage.styles';
 interface SlotConfigFormValue {
   slotNumber: number;
   itemType: ItemType;
-  isSpecialPad: boolean;
 }
 interface SlotConfigForm {
   columns: number;
@@ -46,12 +45,10 @@ export const AdminSlotConfigPage: React.FC = () => {
 
     for (let i = 0; i < totalSlots; i++) {
       const existing = fromConfigs?.find((c) => c.slotNumber === i);
-      const isLastSlot = i === totalSlots - 1; // Last slot is positioned separately
 
       slots.push({
         slotNumber: i,
         itemType: existing?.itemType || ItemType.B, // All slots can be any type
-        isSpecialPad: isLastSlot, // Keep this for positioning logic
       });
     }
     return slots;

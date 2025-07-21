@@ -7,7 +7,6 @@ import { styles } from './SlotGrid.styles';
 interface SlotConfig {
   slotNumber: number;
   itemType: ItemType;
-  isSpecialPad: boolean;
 }
 
 interface SlotGridProps {
@@ -18,8 +17,9 @@ interface SlotGridProps {
 
 export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, onConfigurationChange }) => {
   const { columns, rows } = gridConfig;
-  const regularSlots = configurations.filter((config) => !config.isSpecialPad);
-  const lastSlot = configurations.find((config) => config.isSpecialPad);
+  const totalSlots = gridConfig.totalSlots;
+  const regularSlots = configurations.filter((config) => config.slotNumber < totalSlots - 1);
+  const lastSlot = configurations.find((config) => config.slotNumber === totalSlots - 1);
 
   const getSlotColor = (itemType: ItemType) => {
     switch (itemType) {

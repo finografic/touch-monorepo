@@ -12,18 +12,15 @@ export const slotConfigSchemas = {
     id: z.string().cuid(),
     slotNumber: z.number().int().min(0).max(15),
     itemType: z.enum(['A', 'B', 'C']),
-    isSpecialPad: z.boolean(),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
   }),
   insert: z.object({
     slotNumber: z.number().int().min(0).max(15),
     itemType: z.enum(['A', 'B', 'C']),
-    isSpecialPad: z.boolean().default(false),
   }),
   patch: z.object({
     itemType: z.enum(['A', 'B', 'C']).optional(),
-    isSpecialPad: z.boolean().optional(),
   }),
 };
 

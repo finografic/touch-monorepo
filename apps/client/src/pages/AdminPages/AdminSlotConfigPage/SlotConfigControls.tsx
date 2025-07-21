@@ -7,7 +7,6 @@ import { styles } from './SlotConfigControls.styles';
 interface SlotConfig {
   slotNumber: number;
   itemType: ItemType;
-  isSpecialPad: boolean;
 }
 
 interface SlotConfigControlsProps {

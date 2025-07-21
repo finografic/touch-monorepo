@@ -8,11 +8,11 @@ import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilt
 import { useTemperatureControl } from 'hooks/useTemperatureControl';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
 import { TIME_DEFAULT_SECONDS } from 'constants/time.config';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
 import { ItemType } from 'types/orders.types';
-import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 import { FLOW_TYPES } from 'types/flow.types';
 import createCuid from '@bugsnag/cuid';
 
@@ -51,6 +51,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     useLayoutUi();
   const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
+  const orderItemsConfig = useOrderItemsConfig();
 
   const {
     startTemperatureControl,
@@ -290,7 +291,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       // Create orders for selected slots first
       selectedIdleSlots.forEach((slotNumber) => {
-        const orderConfig = ORDER_ITEMS_CONFIG.find((config) => config.number === slotNumber);
+        const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
         if (orderConfig) {
           toggleOrder({
             itemType: orderConfig.itemType,
@@ -325,6 +326,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     assignOrdersToSession,
     setOrdersSession,
     toggleOrder,
+    orderItemsConfig,
   ]);
 
   // ======================================================================== //
@@ -344,7 +346,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       // Create orders for selected slots first
       selectedIdleSlots.forEach((slotNumber) => {
-        const orderConfig = ORDER_ITEMS_CONFIG.find((config) => config.number === slotNumber);
+        const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
         if (orderConfig) {
           toggleOrder({
             itemType: orderConfig.itemType,
@@ -391,6 +393,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     setPageCurrent,
     navigate,
     toggleOrder,
+    orderItemsConfig,
   ]);
 
   const handleProgramProduct__V1 = useCallback(() => {

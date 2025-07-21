@@ -23,7 +23,7 @@ const FALLBACK_CONFIG: OrderItemConfig[] = [
   { itemType: ItemType.B, number: 7 },
   { itemType: ItemType.B, number: 8 },
 
-  // Special pad
+  // Last slot (positioned separately)
   { itemType: ItemType.C, number: 9 },
 ];
 

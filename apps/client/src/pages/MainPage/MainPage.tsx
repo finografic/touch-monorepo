@@ -6,8 +6,8 @@ import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useButtonConfig } from 'hooks/useButtonConfig';
+import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
 import { styles } from './MainPage.styles';
-import { ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 import { Flex } from '@radix-ui/themes';
 // import { useNavigateState } from 'routes/hooks/useNavigateState';
 
@@ -15,6 +15,7 @@ export function MainPage() {
   const { orders } = useOrders();
   const { contentButtons } = useButtonConfig();
   const { setIsNextDisabled } = usePagination();
+  const orderItemsConfig = useOrderItemsConfig();
 
   // Get currently selected orders that are not processing or completed
   const availableOrders = orders.filter(
@@ -30,13 +31,18 @@ export function MainPage() {
 
   // TODO: NEW - MODE BUTTON !! (SECRET PAGE for ADMIN)
 
+  // Determine which slots go in the main grid vs separate position
+  const totalSlots = orderItemsConfig.length;
+  const mainGridSlots = orderItemsConfig.slice(0, totalSlots - 1); // All except the last
+  const lastSlot = orderItemsConfig[totalSlots - 1]; // The last slot
+
   return (
     <Flex css={styles} gap="3" direction="column">
       <Row className="menu-main">
         <Col>
           <div className="menu-grid-left">
             {/* Menu grid based on configuration */}
-            {ORDER_ITEMS_CONFIG.slice(0, 9).map(({ itemType, number }) => (
+            {mainGridSlots.map(({ itemType, number }) => (
               <PadMenu key={number} itemType={itemType} number={number} />
             ))}
           </div>
@@ -44,10 +50,10 @@ export function MainPage() {
 
         <Col>
           <div className="menu-grid-right">
-            {/* Special pad (type C) */}
-            {ORDER_ITEMS_CONFIG.slice(9).map(({ itemType, number }) => (
-              <PadMenu key={number} itemType={itemType} number={number} />
-            ))}
+            {/* Last slot positioned separately */}
+            {lastSlot && (
+              <PadMenu key={lastSlot.number} itemType={lastSlot.itemType} number={lastSlot.number} />
+            )}
             <div className="pad-special power" />
           </div>
         </Col>
