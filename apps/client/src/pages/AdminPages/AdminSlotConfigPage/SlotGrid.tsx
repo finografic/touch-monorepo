@@ -19,10 +19,9 @@ interface SlotGridProps {
 export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, onConfigurationChange }) => {
   const { columns, rows } = gridConfig;
   const regularSlots = configurations.filter((config) => !config.isSpecialPad);
-  const specialPad = configurations.find((config) => config.isSpecialPad);
+  const lastSlot = configurations.find((config) => config.isSpecialPad);
 
-  const getSlotColor = (itemType: ItemType, isSpecialPad: boolean) => {
-    if (isSpecialPad) return 'danger';
+  const getSlotColor = (itemType: ItemType) => {
     switch (itemType) {
       case ItemType.A:
         return 'default';
@@ -35,17 +34,13 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
     }
   };
 
-  const getSlotLabel = (itemType: ItemType, isSpecialPad: boolean) => {
-    if (isSpecialPad) return 'Special'; // Keep "Special" label for special pad
+  const getSlotLabel = (itemType: ItemType) => {
     return `Type ${itemType}`;
   };
 
   const handleSlotClick = (slotNumber: number) => {
     const currentConfig = configurations.find((config) => config.slotNumber === slotNumber);
     if (!currentConfig) return;
-
-    // For special pad, don't allow type changes (it's always Type C)
-    if (currentConfig.isSpecialPad) return;
 
     // Cycle through item types: A -> B -> C -> A
     const typeOrder = [ItemType.A, ItemType.B, ItemType.C];
@@ -70,7 +65,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
           {regularSlots.map((config) => (
             <Button
               key={config.slotNumber}
-              className={`slot-button slot-${getSlotColor(config.itemType, config.isSpecialPad)}`}
+              className={`slot-button slot-${getSlotColor(config.itemType)}`}
               onClick={() => handleSlotClick(config.slotNumber)}
               variant="outline"
               size="3"
@@ -80,27 +75,27 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
                 <Text size="4" weight="bold">
                   {config.slotNumber}
                 </Text>
-                <Text size="2">{getSlotLabel(config.itemType, config.isSpecialPad)}</Text>
+                <Text size="2">{getSlotLabel(config.itemType)}</Text>
               </Flex>
             </Button>
           ))}
         </div>
 
-        {/* Special pad */}
-        {specialPad && (
+        {/* Last slot positioned separately */}
+        {lastSlot && (
           <div className="special-pad-container">
             <Button
-              className={`slot-button slot-${getSlotColor(specialPad.itemType, specialPad.isSpecialPad)}`}
-              onClick={() => handleSlotClick(specialPad.slotNumber)}
+              className={`slot-button slot-${getSlotColor(lastSlot.itemType)}`}
+              onClick={() => handleSlotClick(lastSlot.slotNumber)}
               variant="outline"
               size="3"
               style={{ pointerEvents: 'auto' }}
             >
               <Flex direction="column" align="center" gap="1">
                 <Text size="4" weight="bold">
-                  {specialPad.slotNumber}
+                  {lastSlot.slotNumber}
                 </Text>
-                <Text size="2">{getSlotLabel(specialPad.itemType, specialPad.isSpecialPad)}</Text>
+                <Text size="2">{getSlotLabel(lastSlot.itemType)}</Text>
               </Flex>
             </Button>
           </div>

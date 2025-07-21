@@ -46,12 +46,12 @@ export const AdminSlotConfigPage: React.FC = () => {
 
     for (let i = 0; i < totalSlots; i++) {
       const existing = fromConfigs?.find((c) => c.slotNumber === i);
-      const isSpecialPad = i === totalSlots - 1; // Last slot is always special
+      const isLastSlot = i === totalSlots - 1; // Last slot is positioned separately
 
       slots.push({
         slotNumber: i,
-        itemType: existing?.itemType || (isSpecialPad ? ItemType.C : ItemType.B), // Special pad is Type C
-        isSpecialPad,
+        itemType: existing?.itemType || ItemType.B, // All slots can be any type
+        isSpecialPad: isLastSlot, // Keep this for positioning logic
       });
     }
     return slots;
@@ -201,7 +201,7 @@ export const AdminSlotConfigPage: React.FC = () => {
                 <Flex direction="column" gap="4">
                   <Heading size="4">Slot Grid Preview</Heading>
                   <Text size="2" color="gray">
-                    Click on slots to change their type. The last slot is always the special pad (Type C).
+                    Click on slots to change their type. The last slot is positioned separately.
                   </Text>
                   <SlotGrid
                     configurations={slots}
@@ -212,8 +212,8 @@ export const AdminSlotConfigPage: React.FC = () => {
                 <Flex direction="column" gap="4">
                   <Flex gap="4" align="center" pt="4" pb="2">
                     <Badge variant="soft" color="blue">
-                      {columns} columns × 3 rows = {GRID_CONFIGS[columns].totalSlots - 1} slots + 1 special
-                      pad
+                      {columns} columns × 3 rows = {GRID_CONFIGS[columns].totalSlots - 1} slots + 1 separate
+                      slot
                     </Badge>
                   </Flex>
                   <Flex justify="between" gap="2">

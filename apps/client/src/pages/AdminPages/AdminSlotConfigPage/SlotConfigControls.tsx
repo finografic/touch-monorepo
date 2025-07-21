@@ -23,13 +23,9 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
   isSaving,
   onTypeChange,
 }) => {
-  const regularSlots = configurations.filter((config) => !config.isSpecialPad);
-  const specialPad = configurations.find((config) => config.isSpecialPad);
-
   const getTypeCounts = () => {
     const counts = { A: 0, B: 0, C: 0 };
     configurations.forEach((config) => {
-      // Special pad counts as Type C
       counts[config.itemType]++;
     });
     return counts;
@@ -55,7 +51,7 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
               Type B: <strong>{typeCounts.B}</strong>
             </Text>
             <Text size="2">
-              Type C: <strong>{typeCounts.C}</strong> (includes Special Pad)
+              Type C: <strong>{typeCounts.C}</strong>
             </Text>
           </Flex>
         </Box>
@@ -70,11 +66,10 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
               <Table.Row>
                 <Table.ColumnHeaderCell>Slot #</Table.ColumnHeaderCell>
                 <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Special Pad</Table.ColumnHeaderCell>
               </Table.Row>
             </Table.Header>
             <Table.Body>
-              {regularSlots.map((config) => (
+              {configurations.map((config) => (
                 <Table.Row key={config.slotNumber} className="slot-table-row">
                   <Table.Cell>{config.slotNumber}</Table.Cell>
                   <Table.Cell>
@@ -85,23 +80,8 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
                       onSelect={(val) => onTypeChange?.(config.slotNumber, val as ItemType)}
                     />
                   </Table.Cell>
-                  <Table.Cell>No</Table.Cell>
                 </Table.Row>
               ))}
-              {specialPad && (
-                <Table.Row className="slot-table-row">
-                  <Table.Cell>{specialPad.slotNumber}</Table.Cell>
-                  <Table.Cell>
-                    <SelectSimple
-                      className="slot-select slot-select-special"
-                      options={['A', 'B', 'C']}
-                      disabled={true}
-                      onSelect={() => {}} // No-op since it's disabled
-                    />
-                  </Table.Cell>
-                  <Table.Cell>Yes</Table.Cell>
-                </Table.Row>
-              )}
             </Table.Body>
           </Table.Root>
         </Box>

@@ -36,46 +36,22 @@ export const styles = css`
     pointer-events: none;
     box-shadow: 0 0 1px 2px;
     background-color: transparent;
+    pointer-events: none;
   }
 
-  .slot-gray {
-    border-color: ${colors.defaultLight};
-    color: ${colors.defaultLight};
-
-    &:hover {
-      border-color: ${colors.default};
-      background: ${colors.defaultLight};
-    }
+  .slot-default {
+    border-color: ${colors.default};
+    color: ${colors.default};
   }
 
-  .slot-blue {
+  .slot-info {
     border-color: ${colors.info};
     color: ${colors.info};
-
-    &:hover {
-      border-color: ${colors.infoDark};
-      background: ${colors.infoLight};
-    }
   }
 
-  .slot-green {
+  .slot-danger {
     border-color: ${colors.danger};
     color: ${colors.danger};
-
-    &:hover {
-      border-color: ${colors.dangerDark};
-      background: ${colors.dangerLight};
-    }
-  }
-
-  .slot-red {
-    border-color: ${colors.danger};
-    color: ${colors.danger};
-
-    &:hover {
-      border-color: ${colors.dangerDark};
-      background: ${colors.dangerLight};
-    }
   }
 
   .slot-legend {
@@ -97,18 +73,14 @@ export const styles = css`
   }
 
   .legend-type-a {
-    background: var(--gray-9);
+    background: ${colors.defaultLight};
   }
 
   .legend-type-b {
-    background: var(--blue-9);
+    background: ${colors.info};
   }
 
   .legend-type-c {
-    background: var(--green-9);
-  }
-
-  .legend-special {
-    background: var(--red-9);
+    background: ${colors.danger};
   }
 `;
