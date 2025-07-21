@@ -130,6 +130,8 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
           </Flex>
         </Flex>
       </div>
+
+      <hr />
     </Box>
   );
 };

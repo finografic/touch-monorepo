@@ -100,69 +100,11 @@ export const AdminSlotConfigPage: React.FC = () => {
       >
         <Box className="admin-slot-config">
           <Flex direction="column" gap="6">
-            {/* Header with controls */}
-            <Card size="3" variant="surface">
-              <Flex direction="column" gap="4">
-                <Flex justify="between" align="center">
-                  <Heading size="4">Grid Configuration</Heading>
-                  <Flex gap="2">
-                    <Button
-                      variant="outline"
-                      size="2"
-                      onClick={handleRemoveColumn}
-                      disabled={selectedColumns <= 2}
-                    >
-                      <MinusIcon />
-                      Remove Column
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="2"
-                      onClick={handleAddColumn}
-                      disabled={selectedColumns >= 5}
-                    >
-                      <PlusIcon />
-                      Add Column
-                    </Button>
-                  </Flex>
-                </Flex>
-
-                <Flex gap="4" align="center">
-                  <Text size="2">Current Layout:</Text>
-                  <Badge variant="soft" color="blue">
-                    {selectedColumns} columns × 3 rows = {currentGridConfig.totalSlots - 1} slots + 1 special
-                    pad
-                  </Badge>
-                  <Text size="2" color="gray">
-                    (Total: {currentGridConfig.totalSlots} slots)
-                  </Text>
-                </Flex>
-
-                <Flex gap="2">
-                  <Button
-                    onClick={handleSaveConfigurations}
-                    disabled={bulkUpdateMutation.isPending}
-                    loading={bulkUpdateMutation.isPending}
-                  >
-                    Save Configuration
-                  </Button>
-                  <Button
-                    variant="outline"
-                    onClick={handleResetToDefault}
-                    disabled={resetMutation.isPending}
-                    loading={resetMutation.isPending}
-                  >
-                    <ResetIcon />
-                    Reset to Default
-                  </Button>
-                </Flex>
-              </Flex>
-            </Card>
-
             {/* Visual grid */}
             <Card size="3" variant="surface">
               <Flex direction="column" gap="4">
                 <Heading size="4">Slot Grid Preview</Heading>
+                {/* ====================================================================== */}
                 <Text size="2" color="gray">
                   Click on slots to change their type. The last slot is always the special pad.
                 </Text>
@@ -183,6 +125,57 @@ export const AdminSlotConfigPage: React.FC = () => {
                     // For now, we'll rely on the save button to persist changes
                   }}
                 />
+              </Flex>
+
+              {/* ====================================================================== */}
+
+              <Flex direction="column" gap="4">
+                <Flex gap="4" align="center" pt="4" pb="2">
+                  <Badge variant="soft" color="blue">
+                    {selectedColumns} columns × 3 rows = {currentGridConfig.totalSlots - 1} slots + 1 special
+                    pad
+                  </Badge>
+                </Flex>
+                <Flex justify="between" gap="2">
+                  <Flex gap="2">
+                    <Button
+                      variant="outline"
+                      size="2"
+                      onClick={handleRemoveColumn}
+                      disabled={selectedColumns <= 2}
+                    >
+                      <MinusIcon />
+                      Remove Column
+                    </Button>
+                    <Button
+                      variant="outline"
+                      size="2"
+                      onClick={handleAddColumn}
+                      disabled={selectedColumns >= 5}
+                    >
+                      <PlusIcon />
+                      Add Column
+                    </Button>
+                  </Flex>
+                  <Flex gap="2">
+                    <Button
+                      onClick={handleSaveConfigurations}
+                      disabled={bulkUpdateMutation.isPending}
+                      loading={bulkUpdateMutation.isPending}
+                    >
+                      Save Configuration
+                    </Button>
+                    <Button
+                      variant="outline"
+                      onClick={handleResetToDefault}
+                      disabled={resetMutation.isPending}
+                      loading={resetMutation.isPending}
+                    >
+                      <ResetIcon />
+                      Reset to Default
+                    </Button>
+                  </Flex>
+                </Flex>
               </Flex>
             </Card>
 

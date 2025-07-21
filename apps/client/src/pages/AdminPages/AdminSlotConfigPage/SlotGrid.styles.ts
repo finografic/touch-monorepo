@@ -1,6 +1,10 @@
 import { css } from '@emotion/react';
 
 export const styles = css`
+  hr {
+    margin: 0.5rem 0;
+  }
+
   .slot-grid-container {
     display: flex;
     gap: 2rem;
@@ -11,7 +15,7 @@ export const styles = css`
   .slot-grid {
     display: grid;
     gap: 1rem;
-    padding: 1rem;
+    padding: 1rem 0;
     border-radius: var(--radius-3);
     min-width: 400px;
   }
@@ -20,7 +24,7 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    padding: 1rem;
+    padding: 1rem 0;
     border-radius: var(--radius-3);
     min-width: 120px;
   }
@@ -76,8 +80,8 @@ export const styles = css`
   }
 
   .slot-legend {
-    margin-top: 2rem;
-    padding: 1rem;
+    margin-top: 1rem;
+    padding: 0 0 1rem 0;
     border-radius: var(--radius-2);
   }
 
