@@ -29,14 +29,11 @@ export const styles = css`
     min-width: 120px;
   }
 
-  .slot-button {
+  button.slot-button {
     aspect-ratio: 1;
     min-height: 80px;
-    transition: all 0.2s ease;
-
-    &:hover {
-      transform: scale(1.05);
-    }
+    pointer-events: none;
+    box-shadow: 0 0 1px 2px;
   }
 
   .slot-gray {

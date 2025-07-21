@@ -44,6 +44,9 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
     const currentConfig = configurations.find((config) => config.slotNumber === slotNumber);
     if (!currentConfig) return;
 
+    // For special pad, don't allow type changes
+    if (currentConfig.isSpecialPad) return;
+
     // Cycle through item types: A -> B -> C -> A
     const typeOrder = [ItemType.A, ItemType.B, ItemType.C];
     const currentIndex = typeOrder.indexOf(currentConfig.itemType);
@@ -71,14 +74,16 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
               onClick={() => handleSlotClick(config.slotNumber)}
               variant="outline"
               size="3"
+              color={getSlotColor(config.itemType, config.isSpecialPad)}
+              style={{
+                borderColor: getSlotColor(config.itemType, config.isSpecialPad),
+              }}
             >
               <Flex direction="column" align="center" gap="1">
                 <Text size="4" weight="bold">
                   {config.slotNumber}
                 </Text>
-                <Text size="1" color="gray">
-                  {getSlotLabel(config.itemType, config.isSpecialPad)}
-                </Text>
+                <Text size="2">{getSlotLabel(config.itemType, config.isSpecialPad)}</Text>
               </Flex>
             </Button>
           ))}
@@ -92,14 +97,16 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
               onClick={() => handleSlotClick(specialPad.slotNumber)}
               variant="outline"
               size="3"
+              color="red"
+              style={{
+                borderColor: 'red',
+              }}
             >
               <Flex direction="column" align="center" gap="1">
                 <Text size="4" weight="bold">
                   {specialPad.slotNumber}
                 </Text>
-                <Text size="1" color="gray">
-                  {getSlotLabel(specialPad.itemType, specialPad.isSpecialPad)}
-                </Text>
+                <Text size="2">{getSlotLabel(specialPad.itemType, specialPad.isSpecialPad)}</Text>
               </Flex>
             </Button>
           </div>

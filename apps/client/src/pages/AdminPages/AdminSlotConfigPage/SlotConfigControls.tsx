@@ -100,9 +100,10 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
                   <Table.Cell>
                     <SelectSimple
                       className="slot-select slot-select-special"
-                      options={['A', 'B', 'C']}
-                      defaultValue={specialPad.itemType}
-                      onSelect={(val) => onTypeChange?.(specialPad.slotNumber, val as ItemType)}
+                      options={['Special']}
+                      value="Special"
+                      disabled={true}
+                      onSelect={() => {}} // No-op since it's disabled
                     />
                   </Table.Cell>
                   <Table.Cell>Yes</Table.Cell>

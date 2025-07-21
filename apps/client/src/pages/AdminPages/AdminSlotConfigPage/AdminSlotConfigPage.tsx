@@ -1,5 +1,6 @@
-import React, { useMemo, useState } from 'react';
-import { Badge, Box, Button, Card, Flex, Heading, Select, Text } from '@radix-ui/themes';
+import React, { useMemo, useRef } from 'react';
+import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { MinusIcon, PlusIcon, ResetIcon } from '@radix-ui/react-icons';
 import { useTranslation } from 'react-i18next';
 import { AdminContentLayout } from '../shared';
@@ -10,68 +11,127 @@ import {
   useResetSlotConfigurations,
   useSlotConfigurations,
 } from 'api/hooks/useSlotConfigurations';
-import { GRID_CONFIGS, type GridConfig } from 'types/slot-config.types';
+import { GRID_CONFIGS } from 'types/slot-config.types';
 import { ItemType } from 'types/orders.types';
 import { styles } from './AdminSlotConfigPage.styles';
 
+// Types for form values
+interface SlotConfigFormValue {
+  slotNumber: number;
+  itemType: ItemType;
+  isSpecialPad: boolean;
+}
+interface SlotConfigForm {
+  columns: number;
+  slots: SlotConfigFormValue[];
+}
+
 export const AdminSlotConfigPage: React.FC = () => {
   const { t } = useTranslation();
-  const [selectedColumns, setSelectedColumns] = useState(3); // Default to 3 columns
-
-  // API hooks
   const { data: slotConfigsResponse, isLoading, error } = useSlotConfigurations();
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
   const resetMutation = useResetSlotConfigurations();
-
+  const initialColumns = 3;
+  const minColumns = 2;
+  const maxColumns = 5;
+  const defaultGridConfig = GRID_CONFIGS[initialColumns];
   const slotConfigs = slotConfigsResponse?.data || [];
-  const currentGridConfig = GRID_CONFIGS[selectedColumns];
 
-  // Generate slot configurations for the current grid
-  const generateSlotConfigs = useMemo(() => {
-    const configs = [];
-    const totalSlots = currentGridConfig.totalSlots;
-
+  // Helper to generate slots for a given column count
+  const generateSlots = (columns: number, fromConfigs?: SlotConfigFormValue[]): SlotConfigFormValue[] => {
+    const gridConfig = GRID_CONFIGS[columns];
+    const totalSlots = gridConfig.totalSlots;
+    const slots: SlotConfigFormValue[] = [];
     for (let i = 0; i < totalSlots; i++) {
-      const existingConfig = slotConfigs.find((config) => config.slotNumber === i);
-      configs.push({
+      const existing = fromConfigs?.find((c) => c.slotNumber === i);
+      slots.push({
         slotNumber: i,
-        itemType: existingConfig?.itemType || ItemType.B,
-        isSpecialPad: existingConfig?.isSpecialPad || i === totalSlots - 1,
+        itemType: existing?.itemType || ItemType.B,
+        isSpecialPad: existing?.isSpecialPad ?? i === totalSlots - 1,
       });
     }
+    return slots;
+  };
 
-    return configs;
-  }, [slotConfigs, currentGridConfig]);
+  // Memoize initial form values
+  const defaultValues = useMemo<SlotConfigForm>(
+    () => ({
+      columns: initialColumns,
+      slots: generateSlots(initialColumns, slotConfigs),
+    }),
+    [slotConfigs],
+  );
 
-  const handleSaveConfigurations = async () => {
+  // Setup RHF
+  const methods = useForm<SlotConfigForm>({
+    defaultValues,
+    mode: 'onChange',
+  });
+  const { control, handleSubmit, reset, watch, setValue } = methods;
+  const { fields, replace } = useFieldArray({
+    control,
+    name: 'slots',
+  });
+  const columns = watch('columns');
+  const slots = watch('slots');
+
+  // Keep slots in sync with columns
+  const prevColumns = useRef(columns);
+  React.useEffect(() => {
+    if (columns !== prevColumns.current) {
+      replace(generateSlots(columns, slots));
+      prevColumns.current = columns;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [columns]);
+
+  // Save handler
+  const onSave = async (data: SlotConfigForm) => {
     try {
-      await bulkUpdateMutation.mutateAsync({
-        configurations: generateSlotConfigs,
-      });
+      await bulkUpdateMutation.mutateAsync({ configurations: data.slots });
     } catch (error) {
       console.error('Failed to save configurations:', error);
     }
   };
 
-  const handleResetToDefault = async () => {
+  // Reset handler
+  const onReset = async () => {
     try {
       await resetMutation.mutateAsync();
-      setSelectedColumns(3); // Reset to default 3 columns
+      reset({ columns: initialColumns, slots: generateSlots(initialColumns) });
     } catch (error) {
       console.error('Failed to reset configurations:', error);
     }
   };
 
+  // Add/Remove column handlers
   const handleAddColumn = () => {
-    if (selectedColumns < 5) {
-      setSelectedColumns(selectedColumns + 1);
+    if (columns < maxColumns) {
+      setValue('columns', columns + 1);
+    }
+  };
+  const handleRemoveColumn = () => {
+    if (columns > minColumns) {
+      setValue('columns', columns - 1);
     }
   };
 
-  const handleRemoveColumn = () => {
-    if (selectedColumns > 2) {
-      setSelectedColumns(selectedColumns - 1);
-    }
+  // SlotGrid change handler
+  const handleGridConfigChange = (slotNumber: number, newConfig: Partial<SlotConfigFormValue>) => {
+    setValue(
+      'slots',
+      slots.map((slot) => (slot.slotNumber === slotNumber ? { ...slot, ...newConfig } : slot)),
+      { shouldDirty: true },
+    );
+  };
+
+  // Table dropdown change handler
+  const handleTypeChange = (slotNumber: number, newType: ItemType) => {
+    setValue(
+      'slots',
+      slots.map((slot) => (slot.slotNumber === slotNumber ? { ...slot, itemType: newType } : slot)),
+      { shouldDirty: true },
+    );
   };
 
   if (isLoading) {
@@ -81,7 +141,6 @@ export const AdminSlotConfigPage: React.FC = () => {
       </AdminContentLayout>
     );
   }
-
   if (error) {
     return (
       <AdminContentLayout title="Slot Configuration" subtitle="Error">
@@ -94,102 +153,88 @@ export const AdminSlotConfigPage: React.FC = () => {
 
   return (
     <section css={styles} id="admin-slot-config">
-      <AdminContentLayout
-        title="Slot Configuration"
-        subtitle="Configure the MainPage grid layout and slot types"
-      >
-        <Box className="admin-slot-config">
-          <Flex direction="column" gap="6">
-            {/* Visual grid */}
-            <Card size="3" variant="surface">
-              <Flex direction="column" gap="4">
-                <Heading size="4">Slot Grid Preview</Heading>
-                {/* ====================================================================== */}
-                <Text size="2" color="gray">
-                  Click on slots to change their type. The last slot is always the special pad.
-                </Text>
-
-                <SlotGrid
-                  configurations={generateSlotConfigs}
-                  gridConfig={currentGridConfig}
-                  onConfigurationChange={(
-                    slotNumber: number,
-                    newConfig: Partial<{ slotNumber: number; itemType: ItemType; isSpecialPad: boolean }>,
-                  ) => {
-                    log('__DEV: SLOT', 'magenta', slotNumber, newConfig);
-                    // Update the local state
-                    const updatedConfigs = generateSlotConfigs.map((config) =>
-                      config.slotNumber === slotNumber ? { ...config, ...newConfig } : config,
-                    );
-                    // This would need to be handled by a state management solution
-                    // For now, we'll rely on the save button to persist changes
-                  }}
+      <FormProvider {...methods}>
+        <AdminContentLayout
+          title="Slot Configuration"
+          subtitle="Configure the MainPage grid layout and slot types"
+        >
+          <Box className="admin-slot-config">
+            <Flex direction="column" gap="6">
+              {/* Visual grid */}
+              <Card size="3" variant="surface">
+                <Flex direction="column" gap="4">
+                  <Heading size="4">Slot Grid Preview</Heading>
+                  <Text size="2" color="gray">
+                    Click on slots to change their type. The last slot is always the special pad.
+                  </Text>
+                  <SlotGrid
+                    configurations={slots}
+                    gridConfig={GRID_CONFIGS[columns]}
+                    onConfigurationChange={handleGridConfigChange}
+                  />
+                </Flex>
+                <Flex direction="column" gap="4">
+                  <Flex gap="4" align="center" pt="4" pb="2">
+                    <Badge variant="soft" color="blue">
+                      {columns} columns × 3 rows = {GRID_CONFIGS[columns].totalSlots - 1} slots + 1 special
+                      pad
+                    </Badge>
+                  </Flex>
+                  <Flex justify="between" gap="2">
+                    <Flex gap="2">
+                      <Button
+                        variant="outline"
+                        size="2"
+                        onClick={handleRemoveColumn}
+                        disabled={columns <= minColumns}
+                      >
+                        <MinusIcon />
+                        Remove Column
+                      </Button>
+                      <Button
+                        variant="outline"
+                        size="2"
+                        onClick={handleAddColumn}
+                        disabled={columns >= maxColumns}
+                      >
+                        <PlusIcon />
+                        Add Column
+                      </Button>
+                    </Flex>
+                    <Flex gap="2">
+                      <Button
+                        onClick={handleSubmit(onSave)}
+                        disabled={bulkUpdateMutation.isPending}
+                        loading={bulkUpdateMutation.isPending}
+                      >
+                        Save Configuration
+                      </Button>
+                      <Button
+                        variant="outline"
+                        onClick={onReset}
+                        disabled={resetMutation.isPending}
+                        loading={resetMutation.isPending}
+                      >
+                        <ResetIcon />
+                        Reset to Default
+                      </Button>
+                    </Flex>
+                  </Flex>
+                </Flex>
+              </Card>
+              {/* Configuration controls */}
+              <Card size="3" variant="surface">
+                <SlotConfigControls
+                  configurations={slots}
+                  onSave={handleSubmit(onSave)}
+                  isSaving={bulkUpdateMutation.isPending}
+                  onTypeChange={handleTypeChange}
                 />
-              </Flex>
-
-              {/* ====================================================================== */}
-
-              <Flex direction="column" gap="4">
-                <Flex gap="4" align="center" pt="4" pb="2">
-                  <Badge variant="soft" color="blue">
-                    {selectedColumns} columns × 3 rows = {currentGridConfig.totalSlots - 1} slots + 1 special
-                    pad
-                  </Badge>
-                </Flex>
-                <Flex justify="between" gap="2">
-                  <Flex gap="2">
-                    <Button
-                      variant="outline"
-                      size="2"
-                      onClick={handleRemoveColumn}
-                      disabled={selectedColumns <= 2}
-                    >
-                      <MinusIcon />
-                      Remove Column
-                    </Button>
-                    <Button
-                      variant="outline"
-                      size="2"
-                      onClick={handleAddColumn}
-                      disabled={selectedColumns >= 5}
-                    >
-                      <PlusIcon />
-                      Add Column
-                    </Button>
-                  </Flex>
-                  <Flex gap="2">
-                    <Button
-                      onClick={handleSaveConfigurations}
-                      disabled={bulkUpdateMutation.isPending}
-                      loading={bulkUpdateMutation.isPending}
-                    >
-                      Save Configuration
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={handleResetToDefault}
-                      disabled={resetMutation.isPending}
-                      loading={resetMutation.isPending}
-                    >
-                      <ResetIcon />
-                      Reset to Default
-                    </Button>
-                  </Flex>
-                </Flex>
-              </Flex>
-            </Card>
-
-            {/* Configuration controls */}
-            <Card size="3" variant="surface">
-              <SlotConfigControls
-                configurations={generateSlotConfigs}
-                onSave={handleSaveConfigurations}
-                isSaving={bulkUpdateMutation.isPending}
-              />
-            </Card>
-          </Flex>
-        </Box>
-      </AdminContentLayout>
+              </Card>
+            </Flex>
+          </Box>
+        </AdminContentLayout>
+      </FormProvider>
     </section>
   );
 };
