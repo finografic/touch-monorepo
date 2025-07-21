@@ -27,13 +27,10 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
   const specialPad = configurations.find((config) => config.isSpecialPad);
 
   const getTypeCounts = () => {
-    const counts = { A: 0, B: 0, C: 0, Special: 0 };
+    const counts = { A: 0, B: 0, C: 0 };
     configurations.forEach((config) => {
-      if (config.isSpecialPad) {
-        counts.Special++;
-      } else {
-        counts[config.itemType]++;
-      }
+      // Special pad counts as Type C
+      counts[config.itemType]++;
     });
     return counts;
   };
@@ -58,10 +55,7 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
               Type B: <strong>{typeCounts.B}</strong>
             </Text>
             <Text size="2">
-              Type C: <strong>{typeCounts.C}</strong>
-            </Text>
-            <Text size="2">
-              Special: <strong>{typeCounts.Special}</strong>
+              Type C: <strong>{typeCounts.C}</strong> (includes Special Pad)
             </Text>
           </Flex>
         </Box>
@@ -100,8 +94,7 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
                   <Table.Cell>
                     <SelectSimple
                       className="slot-select slot-select-special"
-                      options={['Special']}
-                      value="Special"
+                      options={['A', 'B', 'C']}
                       disabled={true}
                       onSelect={() => {}} // No-op since it's disabled
                     />

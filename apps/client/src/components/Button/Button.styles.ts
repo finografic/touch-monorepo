@@ -366,18 +366,18 @@ const defaultVariant: ButtonColorVariant = {
   outline: {
     default: {
       background: colors.transparent,
-      border: colors.defaultDark,
-      label: colors.defaultDark,
+      border: colors.defaultLight,
+      label: colors.defaultLight,
     },
     hover: {
-      background: withOpacity(colors.defaultDark, opacities.outline.hover),
-      border: colors.defaultXDark,
-      label: colors.defaultXDark,
+      background: withOpacity(colors.default, opacities.outline.hover),
+      border: colors.defaultDark,
+      label: colors.defaultDark,
     },
     disabled: {
       background: colors.transparent,
-      border: colors.defaultDark,
-      label: colors.defaultDark,
+      border: colors.defaultXDark,
+      label: colors.defaultXDark,
     },
   },
   ghost: {

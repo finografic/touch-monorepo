@@ -22,21 +22,21 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
   const specialPad = configurations.find((config) => config.isSpecialPad);
 
   const getSlotColor = (itemType: ItemType, isSpecialPad: boolean) => {
-    if (isSpecialPad) return 'red';
+    if (isSpecialPad) return 'danger';
     switch (itemType) {
       case ItemType.A:
-        return 'gray';
+        return 'default';
       case ItemType.B:
-        return 'blue';
+        return 'info';
       case ItemType.C:
-        return 'green';
+        return 'danger';
       default:
-        return 'gray';
+        return 'default';
     }
   };
 
   const getSlotLabel = (itemType: ItemType, isSpecialPad: boolean) => {
-    if (isSpecialPad) return 'Special';
+    if (isSpecialPad) return 'Special'; // Keep "Special" label for special pad
     return `Type ${itemType}`;
   };
 
@@ -44,7 +44,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
     const currentConfig = configurations.find((config) => config.slotNumber === slotNumber);
     if (!currentConfig) return;
 
-    // For special pad, don't allow type changes
+    // For special pad, don't allow type changes (it's always Type C)
     if (currentConfig.isSpecialPad) return;
 
     // Cycle through item types: A -> B -> C -> A
@@ -74,10 +74,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
               onClick={() => handleSlotClick(config.slotNumber)}
               variant="outline"
               size="3"
-              color={getSlotColor(config.itemType, config.isSpecialPad)}
-              style={{
-                borderColor: getSlotColor(config.itemType, config.isSpecialPad),
-              }}
+              style={{ pointerEvents: 'auto' }}
             >
               <Flex direction="column" align="center" gap="1">
                 <Text size="4" weight="bold">
@@ -97,10 +94,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
               onClick={() => handleSlotClick(specialPad.slotNumber)}
               variant="outline"
               size="3"
-              color="red"
-              style={{
-                borderColor: 'red',
-              }}
+              style={{ pointerEvents: 'auto' }}
             >
               <Flex direction="column" align="center" gap="1">
                 <Text size="4" weight="bold">
@@ -130,10 +124,6 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
           <Flex align="center" gap="2">
             <div className="legend-item legend-type-c">C</div>
             <Text size="2">Type C</Text>
-          </Flex>
-          <Flex align="center" gap="2">
-            <div className="legend-item legend-special">S</div>
-            <Text size="2">Special Pad</Text>
           </Flex>
         </Flex>
       </div>

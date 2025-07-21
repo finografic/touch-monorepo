@@ -8,9 +8,9 @@ import { SlotGrid } from './SlotGrid';
 import { SlotConfigControls } from './SlotConfigControls';
 import {
   useBulkUpdateSlotConfigurations,
+  useGetSlotConfigurations,
   useResetSlotConfigurations,
-  useSlotConfigurations,
-} from 'api/hooks/useSlotConfigurations';
+} from 'queries/slot-configurations';
 import { GRID_CONFIGS } from 'types/slot-config.types';
 import { ItemType } from 'types/orders.types';
 import { styles } from './AdminSlotConfigPage.styles';
@@ -28,14 +28,13 @@ interface SlotConfigForm {
 
 export const AdminSlotConfigPage: React.FC = () => {
   const { t } = useTranslation();
-  const { data: slotConfigsResponse, isLoading, error } = useSlotConfigurations();
+  const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
   const resetMutation = useResetSlotConfigurations();
   const initialColumns = 3;
   const minColumns = 2;
   const maxColumns = 5;
   const defaultGridConfig = GRID_CONFIGS[initialColumns];
-  const slotConfigs = slotConfigsResponse?.data || [];
 
   log('__DEV: slotConfigs', 'cyan', slotConfigs);
 
@@ -44,12 +43,15 @@ export const AdminSlotConfigPage: React.FC = () => {
     const gridConfig = GRID_CONFIGS[columns];
     const totalSlots = gridConfig.totalSlots;
     const slots: SlotConfigFormValue[] = [];
+
     for (let i = 0; i < totalSlots; i++) {
       const existing = fromConfigs?.find((c) => c.slotNumber === i);
+      const isSpecialPad = i === totalSlots - 1; // Last slot is always special
+
       slots.push({
         slotNumber: i,
-        itemType: existing?.itemType || ItemType.B,
-        isSpecialPad: existing?.isSpecialPad ?? i === totalSlots - 1,
+        itemType: existing?.itemType || (isSpecialPad ? ItemType.C : ItemType.B), // Special pad is Type C
+        isSpecialPad,
       });
     }
     return slots;
@@ -93,21 +95,26 @@ export const AdminSlotConfigPage: React.FC = () => {
   }, [columns, replace, slots]);
 
   // Update form when API data changes (e.g., after save/reset or page refresh)
-  const prevSlotConfigs = useRef(slotConfigs);
+  const prevSlotConfigs = useRef<SlotConfigFormValue[] | undefined>(undefined);
   useEffect(() => {
     // Only update if slotConfigs actually changed and we have data
-    if (slotConfigs.length > 0 && JSON.stringify(slotConfigs) !== JSON.stringify(prevSlotConfigs.current)) {
-      const columns = getColumnsFromConfigs(slotConfigs);
-      const newSlots = generateSlots(columns, slotConfigs);
+    if (slotConfigs && slotConfigs.length > 0) {
+      const configsString = JSON.stringify(slotConfigs);
+      const prevConfigsString = JSON.stringify(prevSlotConfigs.current);
 
-      console.log('Updating form with new slot configs:', slotConfigs);
-      console.log('New form values:', { columns, slots: newSlots });
+      if (configsString !== prevConfigsString) {
+        const columns = getColumnsFromConfigs(slotConfigs);
+        const newSlots = generateSlots(columns, slotConfigs);
 
-      reset({
-        columns,
-        slots: newSlots,
-      });
-      prevSlotConfigs.current = slotConfigs;
+        console.log('Updating form with new slot configs:', slotConfigs);
+        console.log('New form values:', { columns, slots: newSlots });
+
+        reset({
+          columns,
+          slots: newSlots,
+        });
+        prevSlotConfigs.current = slotConfigs;
+      }
     }
   }, [slotConfigs, reset]);
 
@@ -194,7 +201,7 @@ export const AdminSlotConfigPage: React.FC = () => {
                 <Flex direction="column" gap="4">
                   <Heading size="4">Slot Grid Preview</Heading>
                   <Text size="2" color="gray">
-                    Click on slots to change their type. The last slot is always the special pad.
+                    Click on slots to change their type. The last slot is always the special pad (Type C).
                   </Text>
                   <SlotGrid
                     configurations={slots}

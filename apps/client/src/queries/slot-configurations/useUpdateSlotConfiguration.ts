@@ -1,0 +1,36 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from 'api';
+import { transformAxiosError } from 'api/api.utils';
+import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
+import type { SlotConfiguration, UpdateSlotConfigRequest } from 'types/slot-config.types';
+
+/**
+ * Hook to update a slot configuration
+ */
+export const useUpdateSlotConfiguration = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async ({
+      slotNumber,
+      data,
+    }: {
+      slotNumber: number;
+      data: UpdateSlotConfigRequest;
+    }): Promise<SlotConfiguration> => {
+      try {
+        const response = await api.put(`/slot-configurations/${slotNumber}`, data);
+        return response.data;
+      } catch (error) {
+        throw transformAxiosError(error);
+      }
+    },
+    onSuccess: (updatedConfig) => {
+      // Invalidate queries to refetch fresh data
+      queryClient.invalidateQueries({ queryKey: SLOT_CONFIGURATIONS_QUERY_KEYS.lists() });
+      queryClient.invalidateQueries({
+        queryKey: SLOT_CONFIGURATIONS_QUERY_KEYS.detail(updatedConfig.slotNumber),
+      });
+    },
+  });
+};

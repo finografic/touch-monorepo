@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { colors } from 'styles';
 
 export const styles = css`
   hr {
@@ -34,45 +35,46 @@ export const styles = css`
     min-height: 80px;
     pointer-events: none;
     box-shadow: 0 0 1px 2px;
+    background-color: transparent;
   }
 
   .slot-gray {
-    border-color: var(--gray-8);
-    color: var(--gray-11);
+    border-color: ${colors.defaultLight};
+    color: ${colors.defaultLight};
 
     &:hover {
-      border-color: var(--gray-9);
-      background: var(--gray-3);
+      border-color: ${colors.default};
+      background: ${colors.defaultLight};
     }
   }
 
   .slot-blue {
-    border-color: var(--blue-8);
-    color: var(--blue-11);
+    border-color: ${colors.info};
+    color: ${colors.info};
 
     &:hover {
-      border-color: var(--blue-9);
-      background: var(--blue-3);
+      border-color: ${colors.infoDark};
+      background: ${colors.infoLight};
     }
   }
 
   .slot-green {
-    border-color: var(--green-8);
-    color: var(--green-11);
+    border-color: ${colors.danger};
+    color: ${colors.danger};
 
     &:hover {
-      border-color: var(--green-9);
-      background: var(--green-3);
+      border-color: ${colors.dangerDark};
+      background: ${colors.dangerLight};
     }
   }
 
   .slot-red {
-    border-color: var(--red-8);
-    color: var(--red-11);
+    border-color: ${colors.danger};
+    color: ${colors.danger};
 
     &:hover {
-      border-color: var(--red-9);
-      background: var(--red-3);
+      border-color: ${colors.dangerDark};
+      background: ${colors.dangerLight};
     }
   }
 

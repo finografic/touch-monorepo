@@ -1,0 +1,28 @@
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from 'api';
+import { transformAxiosError } from 'api/api.utils';
+import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
+import type { SlotConfiguration } from 'types/slot-config.types';
+
+/**
+ * Hook to delete a slot configuration
+ */
+export const useDeleteSlotConfiguration = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: async (slotNumber: number): Promise<SlotConfiguration> => {
+      try {
+        const response = await api.delete(`/slot-configurations/${slotNumber}`);
+        return response.data;
+      } catch (error) {
+        throw transformAxiosError(error);
+      }
+    },
+    onSuccess: (_, slotNumber) => {
+      // Invalidate queries to refetch fresh data
+      queryClient.invalidateQueries({ queryKey: SLOT_CONFIGURATIONS_QUERY_KEYS.lists() });
+      queryClient.invalidateQueries({ queryKey: SLOT_CONFIGURATIONS_QUERY_KEYS.detail(slotNumber) });
+    },
+  });
+};
