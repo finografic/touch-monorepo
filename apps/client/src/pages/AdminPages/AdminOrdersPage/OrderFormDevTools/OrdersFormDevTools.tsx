@@ -69,9 +69,9 @@ export const OrdersFormDevTools: React.FC<OrdersFormDevToolsProps> = ({
         </>
       )}
 
-      <div css={stylesFormValues} className="dev-form-values">
+      {/* <div css={stylesFormValues} className="dev-form-values">
         <pre>{JSON.stringify(filteredFormValues, null, 2)}</pre>
-      </div>
+      </div> */}
     </div>
   );
 };
