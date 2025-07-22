@@ -1,11 +1,10 @@
 import { Box, Flex } from '@radix-ui/themes';
-import { styles } from './FrontEndDevToolbar.styles';
+import { styles } from './DevToolbarFrontEnd.styles';
 import { useDev } from 'providers/DevProvider/DevContext';
 import { LockIcon, TextAlignTopIcon } from 'styles/icons';
 import { QueryDevtoolsPanel } from '../QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { DevScreenSize } from '../DevScreenSize/DevScreenSize';
 import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
-import { DevFilterResults } from '../DevFilterResults/DevFilterResults';
 import { MockOrdersButton } from '../MockOrdersButton/MockOrdersButton';
 import { MockTimersMin } from '../MockTimersMin/MockTimersMin';
 import { MockSessionTimer } from '../MockSessionTimer/MockSessionTimer';
@@ -15,10 +14,10 @@ import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { useLocation } from 'react-router-dom';
 import { AuthStatusDialog } from 'components/Dialog/dialogs/AuthStatusDialog';
 import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
+import { DevPanelLeft } from 'dev-tools/DevPanels/DevPanelLeft';
 
-export const FrontEndDevToolbar = () => {
+export const DevToolbarFrontEnd = () => {
   const location = useLocation();
-  const showFilterResults = !['/', '/time'].includes(location.pathname);
 
   const ordersContext = useOrdersOptional();
   const orders = ordersContext?.orders || [];
@@ -40,9 +39,8 @@ export const FrontEndDevToolbar = () => {
     <>
       <>
         <DevScreenSize />
-        {isDevToolsVisible && (showFilterResults ? <DevFilterResults /> : <DevFilterResults />)}
+        {isDevToolsVisible && <DevPanelLeft />}
         {isDevToolsVisible && <DevPanelRight />}
-        {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
       </>
       <div css={styles}>
         <Flex gap="3" align="center">
@@ -85,11 +83,13 @@ export const FrontEndDevToolbar = () => {
           </Box>
         </Flex>
       </div>
+
       <AuthStatusDialog isOpen={isDevAuthVisible} onClose={() => setIsDevAuthVisible(false)} />
       <AuthLoginSimpleDialog
         isOpen={isDevSimpleLoginVisible}
         onClose={() => setIsDevSimpleLoginVisible(false)}
       />
+      {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
     </>
   );
 };

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
 import type { ItemType, OrderItem } from 'types/orders.types';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { CreateSettersType } from 'utils/zustand';
@@ -8,7 +9,7 @@ import type { OrderItemConfig } from 'utils/slot-config.utils';
 
 export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
-  [OrdersKeys.profile]: OrderItem | null;
+  [OrdersKeys.profile]: OrderReadableModel | null;
 }
 
 // Auto-generated setters for OrdersValues
