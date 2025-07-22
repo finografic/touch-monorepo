@@ -6,16 +6,9 @@ import type { FlowTypeValue } from 'types/flow.types';
 import type { CreateSettersType } from 'utils/zustand';
 import type { OrderItemConfig } from 'utils/slot-config.utils';
 
-export type TimerActionType = 'start' | 'complete' | 'cancel' | 'pause' | 'resume';
-
-export interface TimerActionPayload {
-  itemNumber?: number;
-  duration?: number;
-  timeRemaining?: number;
-}
-
 export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
+  [OrdersKeys.profile]: OrderItem | null;
 }
 
 // Auto-generated setters for OrdersValues

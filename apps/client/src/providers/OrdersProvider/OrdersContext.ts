@@ -1,6 +1,6 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { createSetters, createZustandContext } from 'utils/zustand';
-import type { OrdersStore, OrdersValues, TimerActionPayload, TimerActionType } from './OrdersContext.types';
+import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM, ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
 import type { ItemType, OrderFieldKey, OrderStatus } from 'types/orders.types';
@@ -15,12 +15,12 @@ export const SETTER_PREFIX = '';
 
 export enum OrdersKeys {
   orders = 'orders',
-  // profile = 'profile',  // TODO: add after cleanup
+  profile = 'profile', // TODO: add after cleanup
 }
 
 export const defaultValue: OrdersValues = {
   orders: [],
-  // profile: null, // TODO: add after cleanup
+  profile: null, // TODO: add after cleanup
 };
 
 export const OrdersContext = createZustandContext(({ initialValue }) => {
