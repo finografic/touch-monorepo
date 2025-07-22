@@ -29,18 +29,11 @@ interface UseFiltersReturn {
 
 export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
-  const { orders, updateOrderIds, ordersReadable, fetchOrdersReadable } = useOrders();
+  const { orders, updateOrderIds, ordersReadable } = useOrders();
   const { currentSessionId, sessions } = useSession();
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
 
-  // Fetch orders readable data once when component mounts
-  useEffect(() => {
-    if (ordersReadable.length === 0) {
-      fetchOrdersReadable();
-    }
-  }, [ordersReadable.length, fetchOrdersReadable]);
-
-  // Use the ordersReadable data from OrdersContext - no more API calls!
+  // Use the ordersReadable data from OrdersContext - fetched once at provider level
   const data: OrderReadableModel[] = ordersReadable;
 
   // Sync filters with current configuration session
