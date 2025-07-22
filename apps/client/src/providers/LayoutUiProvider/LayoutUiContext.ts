@@ -7,6 +7,7 @@ import { parsePadConfig } from 'utils/ui-V2.utils';
 import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { OrderModel } from 'types/models/order.model';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { subscribeWithSelector } from 'zustand/middleware';
 import type { RegionLocale } from '@workspace/core/types';
 
