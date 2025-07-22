@@ -83,10 +83,14 @@ export const TemperaturePage = () => {
     return findClosestProfile(profiles, temperatures.initial, temperatures.final);
   }, [profiles, temperatures.initial, temperatures.final]);
 
-  // Get default consumption temperature from filtered data
+  // Get default consumption and freeze temperature from filtered data
   const defaultTempConsume = useMemo(() => {
     if (!dataFiltered?.length) return undefined;
     return dataFiltered[0].defaultTempConsume;
+  }, [dataFiltered]);
+  const defaultTempFreeze = useMemo(() => {
+    if (!dataFiltered?.length) return undefined;
+    return dataFiltered[0].defaultTempFreeze;
   }, [dataFiltered]);
 
   // Initialize temperatures with fallback values
@@ -94,9 +98,9 @@ export const TemperaturePage = () => {
     function initTemperatures() {
       log('__DEV: isInitializedRef.current', 'grey', { currentSessionId }, isInitializedRef.current);
       if (!isInitializedRef.current) {
-        const initial = INITIAL_TEMP_DEFAULT;
-        // Use defaultTempConsume if available, otherwise fallback to 8°C
-        const final = defaultTempConsume ?? 8;
+        // Use DB values if available, otherwise fallback
+        const initial = defaultTempConsume ?? INITIAL_TEMP_DEFAULT;
+        const final = defaultTempFreeze ?? 8;
         const newTemperatures = { initial, final };
         setTemperatures(newTemperatures);
 
@@ -132,6 +136,7 @@ export const TemperaturePage = () => {
     },
     [
       defaultTempConsume,
+      defaultTempFreeze,
       setFilter,
       orders,
       fieldKey,

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useOrders } from 'providers/OrdersProvider';
+import { useTimers } from 'providers/TimersProvider';
 import type { OrderItem } from 'types/orders.types';
 import { finishAction, getElapsedAndEventNumber, tickAction } from './timers.utils';
 
@@ -21,14 +21,14 @@ const formatTime = (seconds: number): string => {
 };
 
 export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps) => {
-  const { timerAction } = useOrders();
+  const { updateTimerByOrderId } = useTimers();
   const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const lastEventFiredRef = useRef<number>(-1);
 
   // Function to handle timer completion
   const handleTimerComplete = () => {
-    const { itemNumber, itemType } = order;
+    const { itemNumber, itemType, id } = order;
     console.debug('Timer: completing', { itemNumber, itemType });
 
     // First clear the interval
@@ -42,8 +42,8 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
       delete window.__timerIntervals[itemNumber];
     }
 
-    // Finally update the order status
-    timerAction('complete', { itemNumber });
+    // Mark the timer as completed in TimersContext
+    updateTimerByOrderId(id, { status: 'completed' });
     onComplete?.();
   };
 
@@ -112,14 +112,7 @@ export const Timer = ({ estimatedCompletionTime, order, onComplete }: TimerProps
         delete window.__timerIntervals[order.itemNumber];
       }
     };
-  }, [estimatedCompletionTime, order, timerAction, onComplete]);
-
-  // return (
-  //   <>
-  //     <button onClick={() => makeDefaultSound()}>Test Ding</button>
-  //     <button onClick={() => makeUserSound('ring')}>Test Ring</button>
-  //   </>
-  // );
+  }, [estimatedCompletionTime, order, updateTimerByOrderId, onComplete]);
 
   return <span>{formatTime(remainingTime)}</span>;
 };

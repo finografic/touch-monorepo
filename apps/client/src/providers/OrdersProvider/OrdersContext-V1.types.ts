@@ -18,13 +18,9 @@ export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
 }
 
-// Auto-generated setters for OrdersValues
 type OrdersSetters = CreateSettersType<OrdersValues, typeof SETTER_PREFIX>;
 
-// The single source of truth for Orders actions
-// This type must match the actions implemented in OrdersContext.ts
-// If you add/remove actions in the context, update this type accordingly
-export type OrdersActions = OrdersSetters & {
+type OrdersActions = OrdersSetters & {
   setOrdersFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => void;
   setOrderProcessing: ({
     itemNumber,
@@ -45,13 +41,43 @@ export type OrdersActions = OrdersSetters & {
     orderNumbers: number[];
     session: { id: string; flowType: FlowTypeValue };
   }) => void;
+  // Timer-specific actions
+  timerAction: (type: TimerActionType, payload?: TimerActionPayload) => void;
 };
-
-export interface OrdersStore extends OrdersValues {
-  actions: OrdersActions;
-}
 
 export interface OrdersProviderProps {
   initialValue?: OrdersStore;
   children: ReactNode;
+}
+
+export interface OrdersStore extends OrdersValues {
+  actions: {
+    // Order management
+    addOrder: (order: OrderItem) => void;
+    removeOrder: (orderId: string) => void;
+    updateOrder: (orderId: string, updates: Partial<OrderItem>) => void;
+    toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => void;
+    clearOrders: () => void;
+    setOrderProcessing: ({
+      itemNumber,
+      duration,
+      preserveSelection,
+    }: {
+      itemNumber: number;
+      duration: number;
+      preserveSelection?: boolean;
+    }) => void;
+    selectAllOrders: (config?: OrderItemConfig[]) => void;
+    updateOrderIds: ({ ids }: { ids: string[] }) => void;
+    setOrdersSession: ({
+      orderNumbers,
+      session,
+    }: {
+      orderNumbers: number[];
+      session: { id: string; flowType: FlowTypeValue };
+    }) => void;
+
+    // Timer actions
+    timerAction: (type: TimerActionType, payload?: TimerActionPayload) => void;
+  };
 }

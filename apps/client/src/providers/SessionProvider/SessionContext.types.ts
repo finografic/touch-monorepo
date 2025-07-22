@@ -31,11 +31,11 @@ type SessionActions = SessionSetters & {
   clearAllSessions: () => void;
 };
 
+export interface SessionStore extends SessionValues {
+  actions: SessionActions;
+}
+
 export interface SessionProviderProps {
   initialValue?: Partial<SessionValues>;
   children: ReactNode;
-}
-
-export interface SessionStore extends SessionValues {
-  actions: SessionActions;
 }
