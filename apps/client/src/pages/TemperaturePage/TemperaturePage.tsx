@@ -40,7 +40,7 @@ const DESCRIPTIONS = {
 
 export const TemperaturePage = () => {
   const isInitializedRef = useRef(false);
-  const { orders, setOrdersFilter, profile } = useOrders();
+  const { orders, setOrdersFilter, profile, setProfile } = useOrders();
   const { currentSessionId, updateSessionFilters } = useSession();
   const { dataFiltered, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
@@ -70,6 +70,23 @@ export const TemperaturePage = () => {
   const isLoadingProfiles = temperatureProfilesQuery.isLoading;
   const isPendingProfiles = temperatureProfilesQuery.isPending;
   const profilesError = temperatureProfilesQuery.error;
+
+  // Update profile with temperature profiles when they're loaded
+  useEffect(() => {
+    if (profile && profiles.length > 0) {
+      // Add timeRows to the profile
+      const updatedProfile = {
+        ...profile,
+        timeRows: profiles.map((profile) => ({
+          temperature: profile.temperature,
+          timeA: profile.timeA,
+          timeB: profile.timeB,
+          timeC: profile.timeC,
+        })),
+      };
+      setProfile(updatedProfile);
+    }
+  }, [profiles, setProfile]); // Removed 'profile' from dependencies to prevent infinite loop
   // ======================================================================== //
 
   // Find the closest temperature profile for the current selection

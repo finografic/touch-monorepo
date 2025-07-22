@@ -26,6 +26,8 @@ export const DevOrderProfile = () => {
   const { profile } = useOrders();
   const { filters } = useFilters({});
 
+  log('TEMP_PROFILE', 'lime', profile);
+
   return (
     <div id="dev-filter-results" css={styles}>
       <div className="filters">
@@ -38,22 +40,38 @@ export const DevOrderProfile = () => {
             <h4>PROFILE:</h4>
             <div className="result-header">
               <div className="result-col">DRINK_TYPE</div>
-              <div className="result-col">CONSUME</div>
-              <div className="result-col">FREEZE</div>
-              <div className="result-col">CONTAINER</div>
+              <div className="result-col">CONSUME °C</div>
+              <div className="result-col">FREEZE °C</div>
               <div className="result-col">ID</div>
             </div>
             <div className="result-row">
-              <div className="result-col">
-                <strong>{profile.drinkType}</strong>
-              </div>
+              <div className="result-col">{profile.drinkType}</div>
               <div className="result-col">{profile.defaultTempConsume}</div>
               <div className="result-col">{profile.defaultTempFreeze}</div>
-              <div className="result-col">{profile.containerType}</div>
-              <div className="result-col">
-                <span style={{ opacity: 0.33 }}>{profile.id}</span>
-              </div>
+              <div className="result-col">{profile.id}</div>
             </div>
+          </>
+        )}
+
+        {profile?.timeRows && profile.timeRows.length > 0 && (
+          <>
+            <h4>TEMPERATURE PROFILES:</h4>
+            <div className="result-header">
+              <div className="result-col">TEMPERATURE</div>
+              <div className="result-col">TIME A</div>
+              <div className="result-col">TIME B</div>
+              <div className="result-col">TIME C</div>
+            </div>
+            {profile.timeRows.map(
+              (row: { temperature: number; timeA: number; timeB: number; timeC: number }, index: number) => (
+                <div key={index} className="result-row">
+                  <div className="result-col">{row.temperature}°C</div>
+                  <div className="result-col">{row.timeA}s</div>
+                  <div className="result-col">{row.timeB}s</div>
+                  <div className="result-col">{row.timeC}s</div>
+                </div>
+              ),
+            )}
           </>
         )}
       </div>

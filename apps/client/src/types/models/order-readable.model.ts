@@ -7,6 +7,12 @@ export type OrderReadableModel = OverridePropTypes<
   OrderReadableCamelCase,
   ModelBaseProps & {
     temperatureProfiles?: TemperatureProfile[];
+    timeRows?: Array<{
+      temperature: number;
+      timeA: number;
+      timeB: number;
+      timeC: number;
+    }>;
   }
 >;
 
