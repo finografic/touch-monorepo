@@ -49,14 +49,13 @@ export function MainPage() {
             {/* Render grid in true column-major order: outer loop rows, inner loop columns */}
             <div
               style={{
+                gap: '2.5rem',
                 display: 'grid',
                 gridTemplateColumns: `repeat(${columns}, 1fr)`,
                 gridTemplateRows: `repeat(${rows}, 1fr)`,
-                gap: '2.5rem',
                 minWidth: columns <= 3 ? '360px' : columns === 4 ? '560px' : '600px',
                 transform:
-                  columns <= 3 ? 'translateX(4rem)' : columns === 4 ? 'translateX(0)' : 'translateX(2rem)',
-                border: '1px solid red',
+                  columns <= 3 ? 'translateX(4rem)' : columns === 4 ? 'translateX(1rem)' : 'translateX(2rem)',
               }}
             >
               {Array.from({ length: rows }).map((_, rowIdx) =>
@@ -76,15 +75,13 @@ export function MainPage() {
           <div
             className="menu-grid-right"
             style={{
-              // minWidth: columns <= 3 ? '360px' : columns === 4 ? '1200px' : '600px',
-              border: '1px solid cyan',
               maxWidth: '360px',
               alignItems: columns <= 3 ? 'center' : columns === 4 ? 'center' : 'flex-end',
               transform:
                 columns <= 3
                   ? 'translateX(4rem)'
                   : columns === 4
-                    ? 'translateX(0.5rem)'
+                    ? 'translateX(1.5rem)'
                     : 'translateX(2.5rem)',
             }}
           >
@@ -105,9 +102,6 @@ export function MainPage() {
           <div
             className="menu-grid-base"
             style={{
-              // minWidth: columns <= 3 ? '360px' : columns === 4 ? '1200px' : '600px',
-              border: '1px solid lime',
-              // maxWidth: '360px',
               transform:
                 columns <= 3 ? 'translateX(4rem)' : columns === 4 ? 'translateX(0)' : 'translateX(2.5rem)',
             }}
