@@ -60,6 +60,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
           style={{
             gridTemplateColumns: `repeat(${columns}, 1fr)`,
             gridTemplateRows: `repeat(${rows}, 1fr)`,
+            minWidth: columns <= 3 ? '360px' : columns === 4 ? '480px' : '600px',
           }}
         >
           {regularSlots.map((config) => (
@@ -70,7 +71,6 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
                 onClick={() => handleSlotClick(config.slotNumber)}
                 variant="outline"
                 size="3"
-                style={{ pointerEvents: 'auto' }}
               >
                 <Flex direction="column" align="center" gap="1">
                   <Text size="4" weight="bold">
@@ -91,7 +91,6 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
               onClick={() => handleSlotClick(lastSlot.slotNumber)}
               variant="outline"
               size="3"
-              style={{ pointerEvents: 'auto' }}
             >
               <Flex direction="column" align="center" gap="1">
                 <Text size="4" weight="bold">

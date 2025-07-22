@@ -18,11 +18,13 @@ export const styles = css`
     row-gap: 1rem;
     padding: 1rem 0;
     border-radius: var(--radius-3);
-    min-width: 360px;
   }
 
   .slot-grid-item {
     max-width: 100px;
+    button {
+      cursor: pointer;
+    }
   }
 
   .slot-item-special {
@@ -36,11 +38,11 @@ export const styles = css`
 
   button.slot-button {
     aspect-ratio: 1;
-    min-height: 80px;
-    pointer-events: none;
+    min-width: 90px;
+    min-height: 90px;
     box-shadow: 0 0 1px 2px;
     background-color: transparent;
-    pointer-events: none;
+    cursor: pointer;
   }
 
   .slot-default {
