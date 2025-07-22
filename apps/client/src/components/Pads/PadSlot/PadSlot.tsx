@@ -16,9 +16,11 @@ export interface PadMenuProps {
   itemType: ItemType;
   number: number;
   metadata?: DataEntry;
+  className?: string;
+  variant?: 'large' | 'default';
 }
 
-export const PadSlot = ({ itemType, number, metadata }: PadMenuProps) => {
+export const PadSlot = ({ itemType, number, metadata, className, variant = 'default' }: PadMenuProps) => {
   const { orders } = useOrders();
   const { timers } = useTimers();
   const { mainPageSelectedSlots, toggleMainPageSlot } = useLayoutUi();
@@ -31,19 +33,17 @@ export const PadSlot = ({ itemType, number, metadata }: PadMenuProps) => {
   const timer = timers.find((t) => t.slotNumber === number);
   const hasTimer = timer && (timer.status === 'processing' || timer.status === 'completed');
 
-  // NOTE: Only add menu-specific classes here,
-  // let PAD component handle its own state classes
-  const className = useMemo(
+  // Always include both 'pad' and 'pad-menu' in the className
+  const mergedClassName = useMemo(
     () =>
-      clsx('pad-menu', `item-type-${itemType}`, {
-        // Apply timer status classes based on TimersContext
+      clsx('pad', 'pad-menu', `item-type-${itemType}`, className, {
+        'pad-large': variant === 'large',
         'status-processing': timer?.status === 'processing',
         'status-completed': timer?.status === 'completed',
         'status-idle': !timer,
-        // Add selected class for running timers that are selected
         'selected': isChecked && (timer?.status === 'processing' || timer?.status === 'completed'),
       }),
-    [itemType, timer?.status, isChecked],
+    [itemType, timer?.status, isChecked, className],
   );
 
   const handleSelect = React.useCallback(() => {
@@ -58,7 +58,7 @@ export const PadSlot = ({ itemType, number, metadata }: PadMenuProps) => {
   // Show timer if there's a timer for this order (regardless of selection)
   if (hasTimer) {
     return (
-      <PadSlotToggle css={styles} itemType={itemType} number={number} className={className}>
+      <PadSlotToggle css={styles} itemType={itemType} number={number} className={mergedClassName}>
         <TimerV2 key={`timer-${number}`} slotNumber={number} onComplete={handleTimerComplete} />
       </PadSlotToggle>
     );
@@ -73,7 +73,7 @@ export const PadSlot = ({ itemType, number, metadata }: PadMenuProps) => {
       value={{ id: String(number), itemType }}
       fieldKey={OrderFieldKeys.main}
       isChecked={isChecked}
-      className={className}
+      className={mergedClassName}
       label={String(number)}
       metadata={metadata}
       onSelect={handleSelect}

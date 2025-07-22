@@ -3,7 +3,8 @@ import { css } from '@emotion/react';
 import { padProps, stylesPad } from 'components/Pads/Pad/PadBasic.styles';
 
 export const styles = css`
-  &.pad-menu {
+  &.pad-menu,
+  &.pad {
     ${stylesPad}
 
     width: ${padProps.pad.width};
@@ -23,7 +24,6 @@ export const styles = css`
         color: ${colors.greyLight};
         border-color: ${colors.greyXLight}bb;
         background-color: ${colors.grey}11;
-        /* transform: scale(1.05); */
       }
       &.checked {
         color: ${colors.greyLight};
@@ -39,7 +39,6 @@ export const styles = css`
         color: ${colors.info};
         border-color: ${colors.info};
         background-color: ${colors.info}11;
-        /* transform: scale(1.05); */
       }
       &.checked {
         color: ${colors.info};
@@ -49,21 +48,23 @@ export const styles = css`
     }
 
     &.item-type-C {
-      width: ${padProps.padLG.width};
-      height: ${padProps.padLG.height};
       color: ${colors.danger}BB;
       border-color: ${colors.danger}BB;
       &:hover {
         color: ${colors.danger};
         border-color: ${colors.danger};
         background-color: ${colors.danger}11;
-        /* transform: scale(1.05); */
       }
       &.checked {
         color: ${colors.danger};
         border-color: ${colors.danger};
         background-color: ${colors.dangerDark}22;
       }
+    }
+
+    &.pad-large {
+      width: ${padProps.padLG.width} !important;
+      height: ${padProps.padLG.height} !important;
     }
 
     &:disabled {
@@ -76,13 +77,10 @@ export const styles = css`
     }
 
     &.status-processing {
-      /* cursor: wait; */
-      /* pointer-events: none; */
       color: ${colors.success};
       border: ${layout.borderWidth} solid ${colors.success};
       background-color: ${colors.success}22;
       &:hover {
-        /* cursor: wait; */
         color: ${colors.success};
         border-color: ${colors.successLight};
         background-color: ${colors.success}22;
@@ -95,8 +93,6 @@ export const styles = css`
           background-color: ${colors.success}22;
         }
       }
-
-      /* Selected running timer - blue styling */
       &.selected {
         color: ${colors.info};
         border-color: ${colors.info};
@@ -127,8 +123,6 @@ export const styles = css`
           background-color: ${colors.warning}22;
         }
       }
-
-      /* Selected completed timer - blue styling */
       &.selected {
         color: ${colors.info};
         border-color: ${colors.info};

@@ -50,7 +50,12 @@ export function MainPage() {
           <div className="menu-grid-right">
             {/* Last slot positioned separately */}
             {lastSlot && (
-              <PadSlot key={lastSlot.number} itemType={lastSlot.itemType} number={lastSlot.number} />
+              <PadSlot
+                key={lastSlot.number}
+                variant="large"
+                itemType={lastSlot.itemType}
+                number={lastSlot.number}
+              />
             )}
             <div className="pad-special power" />
           </div>
