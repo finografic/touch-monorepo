@@ -6,6 +6,7 @@ import type { OrderFieldKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
 import type { RegionLocale } from '@workspace/core/types';
 import type { OrderModel } from 'types/models/order.model';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { CreateSettersType } from 'utils/zustand';
 
 export interface LayoutUiValues {
@@ -28,7 +29,7 @@ type LayoutUiActions = LayoutUiSetters & {
     fieldKey: OrderFieldKey | undefined,
     loaderData: DataEntry[],
     padsConfig: PadConfig,
-    dataPool: DataEntry[] | OrderModel[],
+    dataPool: DataEntry[] | OrderModel[] | OrderReadableModel[],
     serverFieldMap: Record<string, string>,
     currentLanguage?: RegionLocale,
   ) => void;

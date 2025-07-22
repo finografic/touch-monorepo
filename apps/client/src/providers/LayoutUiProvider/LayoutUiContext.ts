@@ -88,7 +88,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             fieldKey: OrderFieldKey | undefined,
             loaderData: DataEntry[],
             padsConfig: PadConfig,
-            dataPool: DataEntry[] | OrderModel[],
+            dataPool: DataEntry[] | OrderModel[] | OrderReadableModel[],
             serverFieldMap: Record<string, string>,
             currentLanguage: RegionLocale = 'es-ES',
           ) => {
