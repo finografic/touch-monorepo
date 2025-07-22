@@ -32,6 +32,7 @@ router.post('/auth/login', async (context) => {
 router.post('/auth/signup', async (context) => {
   try {
     const body = await context.req.json();
+    // @ts-expect-error - BetterAuth API signature issue
     const result = await auth.api.signUpEmail({
       body: {
         email: body.email,
