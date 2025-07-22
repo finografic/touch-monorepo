@@ -52,9 +52,9 @@ export function MainPage() {
             {lastSlot && (
               <PadSlot
                 key={lastSlot.number}
-                variant="large"
                 itemType={lastSlot.itemType}
                 number={lastSlot.number}
+                variant="large"
               />
             )}
             <div className="pad-special power" />
