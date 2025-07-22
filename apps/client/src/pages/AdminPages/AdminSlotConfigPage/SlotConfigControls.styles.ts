@@ -10,7 +10,7 @@ export const styles = css`
       vertical-align: middle;
       padding: 0.5rem 1.5rem;
     }
-    td:nth-child(2) {
+    td:nth-of-type(2) {
       vertical-align: middle;
       padding: 0.5rem 1.5rem 0.5rem 0;
     }
