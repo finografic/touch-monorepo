@@ -52,7 +52,7 @@ export function MainPage() {
                 display: 'grid',
                 gridTemplateColumns: `repeat(${columns}, 1fr)`,
                 gridTemplateRows: `repeat(${rows}, 1fr)`,
-                minWidth: columns <= 3 ? '360px' : columns === 4 ? '560px' : '600px',
+                minWidth: columns <= 3 ? '420px' : columns === 4 ? '560px' : '600px',
                 transform:
                   columns <= 3 ? 'translateX(4rem)' : columns === 4 ? 'translateX(1rem)' : 'translateX(2rem)',
               }}
@@ -78,7 +78,7 @@ export function MainPage() {
               alignItems: columns <= 3 ? 'center' : columns === 4 ? 'center' : 'flex-end',
               transform:
                 columns <= 3
-                  ? 'translateX(4rem)'
+                  ? 'translateX(3rem)'
                   : columns === 4
                     ? 'translateX(1.5rem)'
                     : 'translateX(2.5rem)',

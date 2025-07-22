@@ -12,7 +12,7 @@ export const PadCheckbox: React.FC<PadProps> = ({
   children,
   onSelect,
   id,
-  label,
+  label = null,
   isChecked,
   disabled,
   name,

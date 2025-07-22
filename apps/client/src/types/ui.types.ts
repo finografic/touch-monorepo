@@ -13,7 +13,7 @@ export const PAD_TYPE: ConstEnumOf<PadType> = {
 
 export interface PadUI {
   id: string;
-  label: string;
+  label?: string | null;
   name: OrderFieldKey;
   value: { [K in 'id' | 'name' | string]: string | number | boolean };
   index?: number;

@@ -74,7 +74,7 @@ export const PadSlot = ({ itemType, number, metadata, className, variant = 'defa
       fieldKey={OrderFieldKeys.main}
       isChecked={isChecked}
       className={mergedClassName}
-      label={String(number)}
+      // label={String(number)}
       metadata={metadata}
       onSelect={handleSelect}
     />
