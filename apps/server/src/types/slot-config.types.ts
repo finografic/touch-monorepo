@@ -1,4 +1,10 @@
-import type { ItemType } from './orders.types';
+// import type { ItemType } from './orders.types';
+
+export enum ItemType {
+  A = 'A',
+  B = 'B',
+  C = 'C',
+}
 
 export interface SlotConfiguration {
   id: string;

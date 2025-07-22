@@ -4,6 +4,7 @@ import { ItemType } from 'types/orders.types';
 export const MOCK_ORDERS_DATA: OrderItem[] = [
   {
     id: 'mock-order-v1-0',
+    ids: ['mock-order-v1-0'],
     itemType: ItemType.A,
     itemNumber: 0,
     isSelected: true,
@@ -32,6 +33,7 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
   },
   {
     id: 'mock-order-v1-1',
+    ids: ['mock-order-v1-1'],
     itemType: ItemType.B,
     itemNumber: 1,
     isSelected: true,
@@ -60,6 +62,7 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
   },
   {
     id: 'mock-order-v1-2',
+    ids: ['mock-order-v1-2'],
     itemType: ItemType.C,
     itemNumber: 9,
     isSelected: true,

@@ -4,6 +4,7 @@ import { ItemType } from 'types/orders.types';
 export const MOCK_ORDERS_DATA: OrderItem[] = [
   {
     id: 'cmd0wgv4n001frxlwenfiglb4',
+    ids: ['cmd0wgv4n001frxlwenfiglb4'],
     itemType: ItemType.A,
     itemNumber: 0,
     isSelected: true,
@@ -29,10 +30,10 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
       },
     },
     process: { status: 'idle' },
-    ids: ['cmd0wgv4n001frxlwenfiglb4'],
   },
   {
     id: 'cmd0wgv4n001frxlwenfiglb4',
+    ids: ['cmd0wgv4n001frxlwenfiglb4'],
     itemType: ItemType.B,
     itemNumber: 1,
     isSelected: false,
@@ -58,10 +59,10 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
       },
     },
     process: { status: 'idle' },
-    ids: ['cmd0wgv4n001frxlwenfiglb4'],
   },
   {
     id: 'cmd0wgv4n001frxlwenfiglb4',
+    ids: ['cmd0wgv4n001frxlwenfiglb4'],
     itemType: ItemType.B,
     itemNumber: 2,
     isSelected: true,
@@ -87,10 +88,10 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
       },
     },
     process: { status: 'idle' },
-    ids: ['cmd0wgv4n001frxlwenfiglb4'],
   },
   {
     id: 'cmd0wgv4n001frxlwenfiglb4',
+    ids: ['cmd0wgv4n001frxlwenfiglb4'],
     itemType: ItemType.B,
     itemNumber: 5,
     isSelected: true,
@@ -116,10 +117,10 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
       },
     },
     process: { status: 'idle' },
-    ids: ['cmd0wgv4n001frxlwenfiglb4'],
   },
   {
     id: 'cmd0wgv4n001frxlwenfiglb4',
+    ids: ['cmd0wgv4n001frxlwenfiglb4'],
     itemType: ItemType.C,
     itemNumber: 9,
     isSelected: true,
@@ -145,6 +146,5 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
       },
     },
     process: { status: 'idle' },
-    ids: ['cmd0wgv4n001frxlwenfiglb4'],
   },
 ];
