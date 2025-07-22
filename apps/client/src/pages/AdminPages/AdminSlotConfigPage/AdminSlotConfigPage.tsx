@@ -43,9 +43,9 @@ export const AdminSlotConfigPage: React.FC = () => {
     const totalSlots = gridConfig.totalSlots;
     const slots: SlotConfigFormValue[] = [];
 
-    for (let i = 0; i < totalSlots; i++) {
+    // 1-based slot numbers: 1 to totalSlots
+    for (let i = 1; i <= totalSlots; i++) {
       const existing = fromConfigs?.find((c) => c.slotNumber === i);
-
       slots.push({
         slotNumber: i,
         itemType: existing?.itemType || ItemType.B, // All slots can be any type

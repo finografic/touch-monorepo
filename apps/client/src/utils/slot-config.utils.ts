@@ -6,31 +6,45 @@ export interface OrderItemConfig {
   number: number;
 }
 
-// Fallback configuration if API fails
-const FALLBACK_CONFIG: OrderItemConfig[] = [
-  // First row
-  { itemType: ItemType.A, number: 0 },
-  { itemType: ItemType.B, number: 1 },
-  { itemType: ItemType.B, number: 2 },
+// Utility to generate column-major order slot configs, starting at 1
+export function generateColumnMajorConfig({
+  columns = 3,
+  rows = 3,
+  lastType = ItemType.C,
+}: {
+  columns?: number;
+  rows?: number;
+  lastType?: ItemType;
+}): OrderItemConfig[] {
+  const total = columns * rows;
+  const config: OrderItemConfig[] = [];
+  let n = 1;
+  for (let col = 0; col < columns; col++) {
+    for (let row = 0; row < rows; row++) {
+      // Always use B for all except first (A) and last (special)
+      let type: ItemType = ItemType.B;
+      if (n === 1) type = ItemType.A;
+      config.push({ itemType: type, number: n });
+      n++;
+    }
+  }
+  // Add the special/large slot as the last one (number = total + 1)
+  config.push({ itemType: lastType, number: total + 1 });
+  return config;
+}
 
-  // Second row
-  { itemType: ItemType.B, number: 3 },
-  { itemType: ItemType.B, number: 4 },
-  { itemType: ItemType.B, number: 5 },
-
-  // Third row
-  { itemType: ItemType.B, number: 6 },
-  { itemType: ItemType.B, number: 7 },
-  { itemType: ItemType.B, number: 8 },
-
-  // Last slot (positioned separately)
-  { itemType: ItemType.C, number: 9 },
-];
+// Fallback configuration if API fails (3x3 grid, column-major, starting at 1, special slot is 10)
+const FALLBACK_CONFIG: OrderItemConfig[] = generateColumnMajorConfig({
+  columns: 3,
+  rows: 3,
+  lastType: ItemType.C,
+});
 
 /**
  * Convert slot configurations from API to OrderItemConfig format
  */
 export const convertSlotConfigsToOrderConfig = (slotConfigs: SlotConfiguration[]): OrderItemConfig[] => {
+  // If slotNumbers are 1-based, sort by slotNumber
   return slotConfigs
     .sort((a, b) => a.slotNumber - b.slotNumber)
     .map((config) => ({

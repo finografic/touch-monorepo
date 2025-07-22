@@ -116,7 +116,6 @@ CREATE TABLE `slot_configurations` (
 	`id` text PRIMARY KEY NOT NULL,
 	`slot_number` integer NOT NULL,
 	`item_type` text NOT NULL,
-	`is_special_pad` integer DEFAULT false NOT NULL,
 	`created_at` text DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` text DEFAULT CURRENT_TIMESTAMP
 );

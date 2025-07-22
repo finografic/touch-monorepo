@@ -3,7 +3,7 @@ import type { OrderFieldKey } from 'types/orders.types';
 import type { RegionLocale } from '@workspace/core/types';
 
 // Core application configuration
-export const NUM_GRID_ITEMS: ValidGridSize = 9 as const;
+export const NUM_GRID_ITEMS: ValidGridSize = 10 as const; // Now 1-based: 1-9
 export const DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format
 
 // Language configuration for this project

@@ -8,15 +8,15 @@ export type ValidGridSize = 9 | 12 | 15;
  * Valid indices for menu items based on grid size
  * @example
  * ```typescript
- * type NineGrid = ValidGridIndices<9>;   // 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
- * type TwelveGrid = ValidGridIndices<12>; // 0 | 1 | 2 | ... | 11
+ * type NineGrid = ValidGridIndices<9>;   // 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
+ * type TwelveGrid = ValidGridIndices<12>; // 1 | 2 | ... | 12
  * ```
  */
 type ValidGridIndices<Count extends ValidGridSize> = Count extends 9
-  ? 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8
+  ? 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9
   : Count extends 12
-    ? 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11
-    : 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14;
+    ? 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
+    : 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12 | 13 | 14 | 15;
 
 /**
  * Configuration for a menu grid layout
@@ -25,7 +25,7 @@ type ValidGridIndices<Count extends ValidGridSize> = Count extends 9
  * type Layout = MenuGridLayout<9>; // 3x3 grid
  * const config: Layout = {
  *   size: 9,
- *   indices: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+ *   indices: [1, 2, 3, 4, 5, 6, 7, 8, 9]
  * };
  * ```
  */
@@ -40,7 +40,7 @@ export interface MenuGridLayout<Size extends ValidGridSize> {
  * ```typescript
  * const layout = createMenuLayout<9>({
  *   size: 9,
- *   indices: [0, 1, 2, 3, 4, 5, 6, 7, 8]
+ *   indices: [1, 2, 3, 4, 5, 6, 7, 8, 9]
  * });
  * ```
  */

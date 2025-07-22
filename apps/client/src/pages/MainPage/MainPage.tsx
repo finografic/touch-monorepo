@@ -27,9 +27,9 @@ export function MainPage() {
     setIsNextDisabled(numSelected === 0);
   }, [numSelected, setIsNextDisabled]);
 
-  // TODO: NEW - MODE BUTTON !! (SECRET PAGE for ADMIN)
-
-  // Determine which slots go in the main grid vs separate position
+  // Determine grid dimensions (assume 3x3 for now)
+  const columns = 3;
+  const rows = 3;
   const totalSlots = orderItemsConfig.length;
   const mainGridSlots = orderItemsConfig.slice(0, totalSlots - 1); // All except the last
   const lastSlot = orderItemsConfig[totalSlots - 1]; // The last slot
@@ -39,10 +39,25 @@ export function MainPage() {
       <Row className="menu-main">
         <Col>
           <div className="menu-grid-left">
-            {/* Menu grid based on configuration */}
-            {mainGridSlots.map(({ itemType, number }) => (
-              <PadSlot key={number} itemType={itemType} number={number} />
-            ))}
+            {/* Render grid in true column-major order: outer loop rows, inner loop columns */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: `repeat(${columns}, 1fr)`,
+                gridTemplateRows: `repeat(${rows}, 1fr)`,
+                gap: '2.5rem',
+              }}
+            >
+              {Array.from({ length: rows }).map((_, rowIdx) =>
+                Array.from({ length: columns }).map((_, colIdx) => {
+                  const slotNumber = rowIdx + colIdx * rows + 1;
+                  const slot = mainGridSlots.find((s) => s.number === slotNumber);
+                  return slot ? (
+                    <PadSlot key={slot.number} itemType={slot.itemType} number={slot.number} />
+                  ) : null;
+                }),
+              )}
+            </div>
           </div>
         </Col>
 

@@ -1,5 +1,5 @@
 import { db } from '../db.adapter';
-import { slot_configurations, volumes } from '../schemas';
+import { slot_configurations } from '../schemas';
 import { randomUUID } from 'node:crypto';
 
 // Default configuration matching current ORDER_ITEMS_CONFIG
@@ -23,16 +23,10 @@ const DEFAULT_SLOT_CONFIG = [
   { slotNumber: 10, itemType: 'C' as const },
 ];
 
-export async function seed() {
-  console.log('Seeding slot configurations...');
-
+export const seedSlotConfigurations = async () => {
   try {
-    // Check if slot configurations already exist
-    const existing = await db.select().from(slot_configurations).limit(1);
-    if (existing.length > 0) {
-      console.log('✓ Slot configurations already seeded, skipping...');
-      return;
-    }
+    // Clear existing data
+    await db.delete(slot_configurations);
 
     // Insert default configurations
     const configsToInsert = DEFAULT_SLOT_CONFIG.map((config) => ({
@@ -48,4 +42,6 @@ export async function seed() {
     console.error('❌ Error seeding slot configurations:', error);
     throw error;
   }
-}
+};
+
+export default seedSlotConfigurations;

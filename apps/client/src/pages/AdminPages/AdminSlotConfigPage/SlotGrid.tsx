@@ -18,8 +18,8 @@ interface SlotGridProps {
 export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, onConfigurationChange }) => {
   const { columns, rows } = gridConfig;
   const totalSlots = gridConfig.totalSlots;
-  const regularSlots = configurations.filter((config) => config.slotNumber < totalSlots - 1);
-  const lastSlot = configurations.find((config) => config.slotNumber === totalSlots - 1);
+  const regularSlots = configurations.filter((config) => config.slotNumber < totalSlots);
+  const lastSlot = configurations.find((config) => config.slotNumber === totalSlots);
 
   const getSlotColor = (itemType: ItemType) => {
     switch (itemType) {

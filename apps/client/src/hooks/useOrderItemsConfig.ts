@@ -19,10 +19,9 @@ export const useOrderItemsConfig = (): OrderItemConfig[] => {
         error,
         slotConfigsLength: slotConfigs?.length,
       });
-      // Return the same fallback config that's in utils/slot-config.utils.ts
+      // Return fallback config: slots 1-9, special slot 10
       return [
-        { itemType: ItemType.A, number: 0 },
-        { itemType: ItemType.B, number: 1 },
+        { itemType: ItemType.A, number: 1 },
         { itemType: ItemType.B, number: 2 },
         { itemType: ItemType.B, number: 3 },
         { itemType: ItemType.B, number: 4 },
@@ -30,7 +29,8 @@ export const useOrderItemsConfig = (): OrderItemConfig[] => {
         { itemType: ItemType.B, number: 6 },
         { itemType: ItemType.B, number: 7 },
         { itemType: ItemType.B, number: 8 },
-        { itemType: ItemType.C, number: 9 },
+        { itemType: ItemType.B, number: 9 },
+        { itemType: ItemType.C, number: 10 },
       ];
     }
 
@@ -42,8 +42,7 @@ export const useOrderItemsConfig = (): OrderItemConfig[] => {
     } catch (error) {
       console.error('Error converting slot configs to order config:', error);
       return [
-        { itemType: ItemType.A, number: 0 },
-        { itemType: ItemType.B, number: 1 },
+        { itemType: ItemType.A, number: 1 },
         { itemType: ItemType.B, number: 2 },
         { itemType: ItemType.B, number: 3 },
         { itemType: ItemType.B, number: 4 },
@@ -51,7 +50,8 @@ export const useOrderItemsConfig = (): OrderItemConfig[] => {
         { itemType: ItemType.B, number: 6 },
         { itemType: ItemType.B, number: 7 },
         { itemType: ItemType.B, number: 8 },
-        { itemType: ItemType.C, number: 9 },
+        { itemType: ItemType.B, number: 9 },
+        { itemType: ItemType.C, number: 10 },
       ];
     }
   }, [slotConfigs, isLoading, error]);

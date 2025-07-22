@@ -1,1 +1,0 @@
-ALTER TABLE `slot_configurations` DROP COLUMN `is_special_pad`;
