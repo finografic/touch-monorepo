@@ -26,8 +26,6 @@ export const DevOrderProfile = () => {
   const { profile } = useOrders();
   const { filters } = useFilters({});
 
-  log('TEMP_PROFILE', 'lime', profile);
-
   return (
     <div id="dev-filter-results" css={styles}>
       <div className="filters">
