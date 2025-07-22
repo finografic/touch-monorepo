@@ -26,12 +26,15 @@ export const styles = css`
 
   /* Main grid container for the three columns */
   .menu-main {
+    width: 100%;
+    max-width: 1150px;
+    margin: 0 auto;
     display: grid;
     grid-template-columns: auto 1.5rem auto 3rem 1fr; /* Left pads | small gap | middle | double gap | grey buttons */
     gap: 2.5rem 0; /* Only row gap, column gaps handled by template */
     align-items: start;
-    width: max-content; /* Prevent shrinking below content width */
-    min-width: 100%; /* But still try to fill available space */
+    /* width: max-content;
+    min-width: 100%; */
     overflow: visible; /* Allow content to extend if needed */
   }
 
@@ -46,8 +49,9 @@ export const styles = css`
   .menu-grid-left {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 2.5rem;
+    gap: 1rem;
     height: 100%;
+    max-width: 500px;
   }
 
   .menu-grid-right {
@@ -57,7 +61,7 @@ export const styles = css`
     align-items: space-between;
     justify-content: space-between;
     height: 100%;
-    padding: 0 2.5rem 0 1rem;
+    padding: 0 0rem 0 0rem;
   }
 
   .pad-special {
