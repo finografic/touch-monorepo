@@ -53,13 +53,18 @@ This guide explains how to prepare the Touch Client application for USB deployme
 
    ```
    TOUCH_CLIENT/
+   ├── USB_README_EN.md      # Quick start guide (English)
+   ├── USB_README_ES.md      # Quick start guide (Spanish)
    ├── touch-client.tar      # Saved Docker image
    ├── touch-monorepo/
    │   ├── docker-compose.yml
+   │   ├── scripts/
+   │   │   ├── setup-windows.bat
+   │   │   └── setup-windows.ps1
    │   ├── data/            # Contains SQLite database
    │   └── docs/
-   │       ├── DOCKER_CLIENT_SETUP_EN.md
-   │       └── DOCKER_CLIENT_SETUP_ES.md
+   │       ├── DOCKER_WIN10_SETUP_EN.md
+   │       └── DOCKER_WIN10_SETUP_ES.md
    ```
 
 6. **Test USB Deployment**

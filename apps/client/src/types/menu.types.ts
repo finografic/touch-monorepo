@@ -2,7 +2,7 @@
  * Valid counts for menu grid items (must be in multiples of 3)
  * Each row has 3 items, and we can have 3, 4, or 5 rows
  */
-export type ValidGridSize = 9 | 12 | 15;
+export type ValidGridSize = 10 | 12 | 15;
 
 /**
  * Valid indices for menu items based on grid size

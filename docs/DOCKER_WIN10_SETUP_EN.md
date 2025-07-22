@@ -45,6 +45,41 @@
 
 ### Running Touch Client from USB Drive
 
+**Option A: Using Setup Scripts (Recommended)**
+
+1. **Prepare USB Drive**
+   - Insert the USB drive containing the Touch Client files
+   - Note the drive letter assigned (e.g., E:, F:, etc.)
+   - Ensure you have at least 1GB of free space for the database and Docker images
+
+2. **Run Setup Script**
+   - Navigate to the USB drive:
+
+     ```powershell
+     cd /d X:  # Replace X with your USB drive letter
+     cd touch-monorepo
+     ```
+
+   - **For Command Prompt users:**
+
+     ```cmd
+     setup-windows.bat
+     ```
+
+   - **For PowerShell users:**
+
+     ```powershell
+     .\setup-windows.ps1
+     ```
+
+   The script will automatically:
+   - Check if Docker is installed and running
+   - Load the Docker image
+   - Start the application
+   - Provide helpful error messages if something goes wrong
+
+**Option B: Manual Setup**
+
 1. **Prepare USB Drive**
    - Insert the USB drive containing the Touch Client files
    - Note the drive letter assigned (e.g., E:, F:, etc.)
@@ -56,6 +91,7 @@
 
      ```powershell
      cd /d X:  # Replace X with your USB drive letter
+     cd touch-monorepo
      ```
 
    - Load the Docker image:
@@ -65,12 +101,6 @@
      ```
 
 3. **Start the Application**
-   - Navigate to the application directory:
-
-     ```powershell
-     cd touch-monorepo
-     ```
-
    - Start the containers:
 
      ```powershell
