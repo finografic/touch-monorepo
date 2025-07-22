@@ -27,16 +27,23 @@ export function MainPage() {
     setIsNextDisabled(numSelected === 0);
   }, [numSelected, setIsNextDisabled]);
 
-  // Determine grid dimensions (assume 3x3 for now)
-  const columns = 3;
-  const rows = 3;
+  // Dynamically determine grid dimensions
   const totalSlots = orderItemsConfig.length;
   const mainGridSlots = orderItemsConfig.slice(0, totalSlots - 1); // All except the last
   const lastSlot = orderItemsConfig[totalSlots - 1]; // The last slot
 
+  const rows = 3; // Always 3 rows
+  const columns = Math.floor((totalSlots - 1) / rows); // Dynamic columns
+
   return (
     <Flex css={styles} gap="3" direction="column">
-      <Row className="menu-main">
+      <Row
+        className="menu-main"
+        style={{
+          minWidth: columns <= 3 ? '360px' : columns === 4 ? '1200px' : '600px',
+          border: '1px solid yellow',
+        }}
+      >
         <Col>
           <div className="menu-grid-left">
             {/* Render grid in true column-major order: outer loop rows, inner loop columns */}
@@ -46,6 +53,8 @@ export function MainPage() {
                 gridTemplateColumns: `repeat(${columns}, 1fr)`,
                 gridTemplateRows: `repeat(${rows}, 1fr)`,
                 gap: '2.5rem',
+                minWidth: columns <= 3 ? '360px' : columns === 4 ? '560px' : '600px',
+                border: '1px solid red',
               }}
             >
               {Array.from({ length: rows }).map((_, rowIdx) =>
@@ -62,7 +71,16 @@ export function MainPage() {
         </Col>
 
         <Col>
-          <div className="menu-grid-right">
+          <div
+            className="menu-grid-right"
+            style={{
+              // minWidth: columns <= 3 ? '360px' : columns === 4 ? '1200px' : '600px',
+              border: '1px solid cyan',
+              maxWidth: '360px',
+
+              alignItems: columns <= 3 ? 'center' : columns === 4 ? 'center' : 'flex-end;',
+            }}
+          >
             {/* Last slot positioned separately */}
             {lastSlot && (
               <PadSlot

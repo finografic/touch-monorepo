@@ -60,8 +60,8 @@ export const styles = css`
     flex-direction: column;
     align-items: space-between;
     justify-content: space-between;
+    align-items: center;
     height: 100%;
-    padding: 0 0rem 0 0rem;
   }
 
   .pad-special {
