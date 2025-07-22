@@ -5,6 +5,26 @@ import { useOrders } from 'providers/OrdersProvider';
 import type { OrderModel } from 'types/models';
 import type { OrderItem } from 'types/orders.types';
 
+/*
+onst { dataFiltered, filters } = useFilters({});
+point
+const profile: {
+    id: string;
+    volume: string;
+    modeId: string;
+    drinkType: string;
+    drinkSubtype: string | null;
+    containerType: string;
+    temperatureProfile: string;
+    defaultTempConsume: number;
+    defaultTempFreeze: number;
+    isActive: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    temperatureProfiles?: TemperatureProfile[];
+} | null
+ */
+
 export const DevFilterResults = () => {
   const location = useLocation();
   const { profile } = useOrders();
@@ -27,9 +47,9 @@ export const DevFilterResults = () => {
               <h4>PROFILE:</h4>
               <div key={profile?.id} className="result-row">
                 <div className="result-col">
-                  <strong>{profile?.drinkType}</strong>
+                  <strong>{profile.drinkType}</strong>
                 </div>
-                <div className="result-col">{profile?.drinkSubtype}</div>
+                <div className="result-col">{profile.drinkSubtype}</div>
                 <div className="result-col">{profile.volume}</div>
                 <div className="result-col">{profile.containerType}</div>
                 {/* <div className="result-col">
