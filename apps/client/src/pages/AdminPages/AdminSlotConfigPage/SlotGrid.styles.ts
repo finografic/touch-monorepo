@@ -8,26 +8,30 @@ export const styles = css`
 
   .slot-grid-container {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
     align-items: flex-start;
     margin-bottom: 2rem;
   }
 
   .slot-grid {
     display: grid;
-    gap: 1rem;
+    row-gap: 1rem;
     padding: 1rem 0;
     border-radius: var(--radius-3);
-    min-width: 400px;
+    min-width: 360px;
   }
 
-  .special-pad-container {
+  .slot-grid-item {
+    max-width: 100px;
+  }
+
+  .slot-item-special {
     display: flex;
     flex-direction: column;
     gap: 1rem;
     padding: 1rem 0;
     border-radius: var(--radius-3);
-    min-width: 120px;
+    min-width: 100px;
   }
 
   button.slot-button {
