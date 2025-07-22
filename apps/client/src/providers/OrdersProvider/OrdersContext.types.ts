@@ -10,6 +10,7 @@ import type { OrderItemConfig } from 'utils/slot-config.utils';
 export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
   [OrdersKeys.profile]: OrderReadableModel | null;
+  [OrdersKeys.ordersReadable]: OrderReadableModel[];
 }
 
 // Auto-generated setters for OrdersValues
@@ -39,6 +40,7 @@ export type OrdersActions = OrdersSetters & {
     orderNumbers: number[];
     session: { id: string; flowType: FlowTypeValue };
   }) => void;
+  fetchOrdersReadable: () => Promise<void>;
 };
 
 export interface OrdersStore extends OrdersValues {

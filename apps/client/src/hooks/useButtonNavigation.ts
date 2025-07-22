@@ -4,8 +4,6 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
 import { useFilters } from 'hooks/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
-import { api } from 'api';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
 
 const NAVIGATION_ACTIONS = {
@@ -30,7 +28,7 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   const { current, setPageCurrent, isNextDisabled } = usePagination();
   const { pathnames } = useRoutePathnamesByFilters();
   const { dataFiltered } = useFilters();
-  const { setProfile } = useOrders();
+  const { setProfile, ordersReadable } = useOrders();
 
   const handleNavigateBack = useCallback(() => {
     startTransition(() => {
@@ -57,18 +55,13 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
     startTransition(() => {
       // Set profile when navigating from ContainerType page to Temperature page
       if (location.pathname === PATHS.containerType && dataFiltered.length > 0) {
-        // Get the order ID from the filtered data and fetch the readable model
+        // Get the order ID from the filtered data and find the readable model from context
         const orderId = dataFiltered[0].id;
+        const profileOrder = ordersReadable.find((order) => order.id === orderId);
 
-        // Fetch the OrderReadableModel for the profile
-        api
-          .get<OrderReadableModel>(`/orders-readable/${orderId}`)
-          .then((response) => {
-            setProfile(response.data);
-          })
-          .catch((error) => {
-            console.error('Failed to fetch order readable data for profile:', error);
-          });
+        if (profileOrder) {
+          setProfile(profileOrder);
+        }
       }
 
       setPageCurrent(newIndex);
@@ -76,7 +69,16 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
         navigate(nextPathname, { replace: true });
       }
     });
-  }, [current, navigate, pathnames, setPageCurrent, location.pathname, dataFiltered, setProfile]);
+  }, [
+    current,
+    navigate,
+    pathnames,
+    setPageCurrent,
+    location.pathname,
+    dataFiltered,
+    setProfile,
+    ordersReadable,
+  ]);
 
   const handleProgramProduct = useCallback(() => {
     const newIndex = current + 1;

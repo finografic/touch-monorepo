@@ -9,18 +9,22 @@ import type { FlowTypeValue } from 'types/flow.types';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
 import { subscribeWithSelector } from 'zustand/middleware';
 import type { OrderItemConfig } from 'utils/slot-config.utils';
+import { api } from 'api';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 
 export const DISPLAY_NAME = 'Orders';
 export const SETTER_PREFIX = '';
 
 export enum OrdersKeys {
   orders = 'orders',
-  profile = 'profile', // TODO: add after cleanup
+  profile = 'profile',
+  ordersReadable = 'ordersReadable',
 }
 
 export const defaultValue: OrdersValues = {
   orders: [],
-  profile: null, // TODO: add after cleanup
+  profile: null,
+  ordersReadable: [],
 };
 
 export const OrdersContext = createZustandContext(({ initialValue }) => {
@@ -174,6 +178,16 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             });
 
             set({ orders: updatedOrders });
+          },
+          fetchOrdersReadable: async () => {
+            try {
+              const response = await api.get<{ data: OrderReadableModel[] }>('/orders-readable');
+              const readableOrders = response.data.data || response.data;
+              set({ ordersReadable: readableOrders });
+            } catch (error) {
+              console.error('Failed to fetch orders readable data:', error);
+              set({ ordersReadable: [] });
+            }
           },
         },
       }),

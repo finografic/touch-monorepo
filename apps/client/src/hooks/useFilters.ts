@@ -1,20 +1,18 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
-import type { OrderModel } from 'types/models/order.model';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { DataEntry } from 'types/data.types';
-import { api } from 'api';
-import type { ApiResponse } from '@workspace/core/api';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
 interface UseFiltersReturn {
-  // Data arrays - using the OrderModel type which extends DataEntry
-  data: OrderModel[];
-  dataPool: OrderModel[];
-  dataFiltered: OrderModel[];
+  // Data arrays - using the OrderReadableModel type for human-readable data
+  data: OrderReadableModel[];
+  dataPool: OrderReadableModel[];
+  dataFiltered: OrderReadableModel[];
 
   // Filters state
   filters: OrderFilters;
@@ -31,17 +29,19 @@ interface UseFiltersReturn {
 
 export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
-  const { orders, updateOrderIds } = useOrders();
+  const { orders, updateOrderIds, ordersReadable, fetchOrdersReadable } = useOrders();
   const { currentSessionId, sessions } = useSession();
-  const [data, setData] = useState<OrderModel[]>([]);
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
 
-  // Fetch orders data from readable view
+  // Fetch orders readable data once when component mounts
   useEffect(() => {
-    api.get<ApiResponse<OrderModel[]>>('/orders-readable').then((results) => {
-      setData(results.data.data ?? results.data);
-    });
-  }, []);
+    if (ordersReadable.length === 0) {
+      fetchOrdersReadable();
+    }
+  }, [ordersReadable.length, fetchOrdersReadable]);
+
+  // Use the ordersReadable data from OrdersContext - no more API calls!
+  const data: OrderReadableModel[] = ordersReadable;
 
   // Sync filters with current configuration session
   useEffect(() => {
@@ -73,15 +73,13 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
     const allFilters = Object.entries(filters);
     let filtered = safeDataForFilter.filter((entry) =>
       matchesFilters(entry, allFilters),
-    ) as unknown as OrderModel[];
+    ) as unknown as OrderReadableModel[];
 
     // For dataPool (for filter options), use only filters up to the current step
     let pool = safeDataForFilter;
     if (fieldKey) {
       const filtersBeforeCurrent = getFiltersByStep(filters, fieldKey, false);
-      pool = safeDataForFilter.filter((entry) =>
-        matchesFilters(entry, filtersBeforeCurrent),
-      ) as unknown as OrderModel[];
+      pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
     }
 
     // TEMP FIX: If containerType filter is present, only return the first entry
@@ -90,8 +88,8 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
     }
 
     return {
-      dataPool: pool as unknown as OrderModel[],
-      dataFiltered: filtered as unknown as OrderModel[],
+      dataPool: pool as unknown as OrderReadableModel[],
+      dataFiltered: filtered as unknown as OrderReadableModel[],
     };
   }, [data, filters, fieldKey]);
 
