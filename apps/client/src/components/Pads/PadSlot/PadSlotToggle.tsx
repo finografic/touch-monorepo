@@ -1,8 +1,8 @@
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import type { PadMenuProps } from './PadMenu.types';
+import type { PadMenuProps } from './PadSlot.types';
 import clsx from 'clsx';
 
-export const PadMenuToggle = ({ itemType, number, className, children }: PadMenuProps) => {
+export const PadSlotToggle = ({ itemType, number, className, children }: PadMenuProps) => {
   const { mainPageSelectedSlots, toggleMainPageSlot } = useLayoutUi();
 
   // Use LayoutUIContext for selection state

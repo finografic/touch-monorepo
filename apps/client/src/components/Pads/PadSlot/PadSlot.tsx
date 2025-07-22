@@ -5,8 +5,8 @@ import { useTimers } from 'providers/TimersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import type { ItemType, OrderItem } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
-import { PadMenuToggle } from './PadMenuToggle';
-import { styles } from './PadMenu.styles';
+import { PadSlotToggle } from './PadSlotToggle';
+import { styles } from './PadSlot.styles';
 import type { DataEntry } from 'types/data.types';
 import { Pad } from 'components/Pads/Pad';
 import { OrderFieldKeys } from 'constants/app.config';
@@ -18,7 +18,7 @@ export interface PadMenuProps {
   metadata?: DataEntry;
 }
 
-export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
+export const PadSlot = ({ itemType, number, metadata }: PadMenuProps) => {
   const { orders } = useOrders();
   const { timers } = useTimers();
   const { mainPageSelectedSlots, toggleMainPageSlot } = useLayoutUi();
@@ -58,9 +58,9 @@ export const PadMenu = ({ itemType, number, metadata }: PadMenuProps) => {
   // Show timer if there's a timer for this order (regardless of selection)
   if (hasTimer) {
     return (
-      <PadMenuToggle css={styles} itemType={itemType} number={number} className={className}>
+      <PadSlotToggle css={styles} itemType={itemType} number={number} className={className}>
         <TimerV2 key={`timer-${number}`} slotNumber={number} onComplete={handleTimerComplete} />
-      </PadMenuToggle>
+      </PadSlotToggle>
     );
   }
 

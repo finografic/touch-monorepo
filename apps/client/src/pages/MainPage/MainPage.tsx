@@ -1,6 +1,6 @@
-import { /* startTransition, useCallback, */ useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { Col, Row } from 'react-grid-system';
-import { PadMenu } from 'components/Pads/PadMenu';
+import { PadSlot } from 'components/Pads/PadSlot';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
@@ -9,7 +9,6 @@ import { useButtonConfig } from 'hooks/useButtonConfig';
 import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
 import { styles } from './MainPage.styles';
 import { Flex } from '@radix-ui/themes';
-// import { useNavigateState } from 'routes/hooks/useNavigateState';
 
 export function MainPage() {
   const { orders } = useOrders();
@@ -26,7 +25,6 @@ export function MainPage() {
 
   useEffect(() => {
     setIsNextDisabled(numSelected === 0);
-    // setIsNextVisible(false);
   }, [numSelected, setIsNextDisabled]);
 
   // TODO: NEW - MODE BUTTON !! (SECRET PAGE for ADMIN)
@@ -43,7 +41,7 @@ export function MainPage() {
           <div className="menu-grid-left">
             {/* Menu grid based on configuration */}
             {mainGridSlots.map(({ itemType, number }) => (
-              <PadMenu key={number} itemType={itemType} number={number} />
+              <PadSlot key={number} itemType={itemType} number={number} />
             ))}
           </div>
         </Col>
@@ -52,7 +50,7 @@ export function MainPage() {
           <div className="menu-grid-right">
             {/* Last slot positioned separately */}
             {lastSlot && (
-              <PadMenu key={lastSlot.number} itemType={lastSlot.itemType} number={lastSlot.number} />
+              <PadSlot key={lastSlot.number} itemType={lastSlot.itemType} number={lastSlot.number} />
             )}
             <div className="pad-special power" />
           </div>
