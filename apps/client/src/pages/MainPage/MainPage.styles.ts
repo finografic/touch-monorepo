@@ -43,7 +43,6 @@ export const styles = css`
     grid-template-columns: repeat(1, 1fr);
     gap: 2.5rem;
     height: 100%;
-    /* transform: translateX(4rem); */
   }
 
   .menu-grid-left {
@@ -61,6 +60,7 @@ export const styles = css`
     align-items: space-between;
     justify-content: space-between;
     align-items: center;
+    max-width: 360px;
     height: 100%;
   }
 

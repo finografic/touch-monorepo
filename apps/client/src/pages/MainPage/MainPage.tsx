@@ -40,7 +40,7 @@ export function MainPage() {
       <Row
         className="menu-main"
         style={{
-          minWidth: columns <= 3 ? '360px' : columns === 4 ? '1200px' : '600px',
+          minWidth: columns <= 3 ? '360px' : columns === 4 ? '1200px' : '1350px',
           border: '1px solid yellow',
         }}
       >
@@ -77,8 +77,9 @@ export function MainPage() {
               // minWidth: columns <= 3 ? '360px' : columns === 4 ? '1200px' : '600px',
               border: '1px solid cyan',
               maxWidth: '360px',
-
-              alignItems: columns <= 3 ? 'center' : columns === 4 ? 'center' : 'flex-end;',
+              alignItems: columns <= 3 ? 'center' : columns === 4 ? 'center' : 'flex-end',
+              transform:
+                columns <= 3 ? 'translateX(4rem)' : columns === 4 ? 'translateX(4rem)' : 'translateX(2rem)',
             }}
           >
             {/* Last slot positioned separately */}
@@ -95,7 +96,16 @@ export function MainPage() {
         </Col>
 
         <Col>
-          <div className="menu-grid-base">
+          <div
+            className="menu-grid-base"
+            style={{
+              // minWidth: columns <= 3 ? '360px' : columns === 4 ? '1200px' : '600px',
+              border: '1px solid lime',
+              // maxWidth: '360px',
+              transform:
+                columns <= 3 ? 'translateX(4rem)' : columns === 4 ? 'translateX(4rem)' : 'translateX(2rem)',
+            }}
+          >
             {contentButtons.map((buttonProps) => (
               <PadAction key={buttonProps.id} {...buttonProps} />
             ))}
