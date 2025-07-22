@@ -40,8 +40,7 @@ export function MainPage() {
       <Row
         className="menu-main"
         style={{
-          minWidth: columns <= 3 ? '360px' : columns === 4 ? '1200px' : '1350px',
-          border: '1px solid yellow',
+          minWidth: columns <= 3 ? '1000px' : columns === 4 ? '1200px' : '1350px',
         }}
       >
         <Col>
