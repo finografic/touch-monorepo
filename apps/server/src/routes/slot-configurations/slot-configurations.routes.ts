@@ -10,13 +10,13 @@ const tags = ['SlotConfigurations'];
 export const slotConfigSchemas = {
   select: z.object({
     id: z.string().cuid(),
-    slotNumber: z.number().int().min(0).max(15),
+    slotNumber: z.number().int().min(0).max(16),
     itemType: z.enum(['A', 'B', 'C']),
     createdAt: z.string().optional(),
     updatedAt: z.string().optional(),
   }),
   insert: z.object({
-    slotNumber: z.number().int().min(0).max(15),
+    slotNumber: z.number().int().min(0).max(16),
     itemType: z.enum(['A', 'B', 'C']),
   }),
   patch: z.object({
