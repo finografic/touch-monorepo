@@ -4,11 +4,16 @@ import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { transformPadData } from 'utils/data.utils';
 import { DevFilterResults } from 'dev-tools/DevFilterResults/DevFilterResults';
 import { stylesLeft } from './DevPanels.styles';
+import { DevOrderProfile } from 'dev-tools/DevOrderProfile/DevOrderProfile';
 
 export const DevPanelLeft = () => {
   const location = useLocation();
   const { fieldKey, padsConfig } = useRouteConfig();
   const { pads: padsSource } = useLayoutUi();
+
+  if (['/temperature'].includes(location.pathname)) {
+    return <DevOrderProfile />;
+  }
 
   if (!['/', '/time'].includes(location.pathname)) {
     return <DevFilterResults />;

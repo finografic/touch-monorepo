@@ -40,7 +40,7 @@ const DESCRIPTIONS = {
 
 export const TemperaturePage = () => {
   const isInitializedRef = useRef(false);
-  const { orders, setOrdersFilter } = useOrders();
+  const { orders, setOrdersFilter, profile } = useOrders();
   const { currentSessionId, updateSessionFilters } = useSession();
   const { dataFiltered, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
@@ -83,15 +83,13 @@ export const TemperaturePage = () => {
     return findClosestProfile(profiles, temperatures.initial, temperatures.final);
   }, [profiles, temperatures.initial, temperatures.final]);
 
-  // Get default consumption and freeze temperature from filtered data
+  // Get default consumption and freeze temperature from profile
   const defaultTempConsume = useMemo(() => {
-    if (!dataFiltered?.length) return undefined;
-    return dataFiltered[0].defaultTempConsume;
-  }, [dataFiltered]);
+    return profile?.defaultTempConsume;
+  }, [profile]);
   const defaultTempFreeze = useMemo(() => {
-    if (!dataFiltered?.length) return undefined;
-    return dataFiltered[0].defaultTempFreeze;
-  }, [dataFiltered]);
+    return profile?.defaultTempFreeze;
+  }, [profile]);
 
   // Initialize temperatures with fallback values
   useEffect(

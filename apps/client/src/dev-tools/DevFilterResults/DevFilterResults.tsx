@@ -1,34 +1,7 @@
 import { useFilters } from 'hooks/useFilters';
 import { styles } from './DevFilterResults.styles';
-import { useLocation } from 'react-router-dom';
-import { useOrders } from 'providers/OrdersProvider';
-import type { OrderModel } from 'types/models';
-import type { OrderItem } from 'types/orders.types';
-
-/*
-onst { dataFiltered, filters } = useFilters({});
-point
-const profile: {
-    id: string;
-    volume: string;
-    modeId: string;
-    drinkType: string;
-    drinkSubtype: string | null;
-    containerType: string;
-    temperatureProfile: string;
-    defaultTempConsume: number;
-    defaultTempFreeze: number;
-    isActive: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    temperatureProfiles?: TemperatureProfile[];
-} | null
- */
 
 export const DevFilterResults = () => {
-  const location = useLocation();
-  const { profile } = useOrders();
-
   const { dataFiltered, filters } = useFilters({});
 
   return (
@@ -37,53 +10,25 @@ export const DevFilterResults = () => {
         <h4>Filters ({Object.keys(filters).length}):</h4>
         <pre>{JSON.stringify(filters, null, 2)}</pre>
       </div>
-
-      {['temperature'].includes(location.pathname) ? (
-        // NOTE: temperature page: profile + temperatures ----------------------
-
-        <div className="results-list">
-          {profile && (
-            <>
-              <h4>PROFILE:</h4>
-              <div key={profile?.id} className="result-row">
-                <div className="result-col">
-                  <strong>{profile.drinkType}</strong>
-                </div>
-                <div className="result-col">{profile.drinkSubtype}</div>
-                <div className="result-col">{profile.volume}</div>
-                <div className="result-col">{profile.containerType}</div>
-                {/* <div className="result-col">
-              <p style={{ margin: 0 }}>{item.temperatureProfile}</p>
-            </div> */}
-                <div className="result-col">
-                  <span style={{ opacity: 0.33 }}>{profile.id}</span>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      ) : (
-        // NOTE: product-flow: filters -----------------------------------------
-        <div className="results-list">
-          <h4>Results: {dataFiltered.length}</h4>
-          {dataFiltered.map((item: any) => (
-            <div key={item.id} className="result-row">
-              <div className="result-col">
-                <strong>{item.drinkType}</strong>
-              </div>
-              <div className="result-col">{item.drinkSubtype}</div>
-              <div className="result-col">{item.volume}</div>
-              <div className="result-col">{item.containerType}</div>
-              {/* <div className="result-col">
+      <div className="results-list">
+        <h4>Results: {dataFiltered.length}</h4>
+        {dataFiltered.map((item: any) => (
+          <div key={item.id} className="result-row">
+            <div className="result-col">
+              <strong>{item.drinkType}</strong>
+            </div>
+            <div className="result-col">{item.drinkSubtype}</div>
+            <div className="result-col">{item.volume}</div>
+            <div className="result-col">{item.containerType}</div>
+            {/* <div className="result-col">
                   <p style={{ margin: 0 }}>{item.temperatureProfile}</p>
                 </div> */}
-              <div className="result-col">
-                <span style={{ opacity: 0.33 }}>{item.id}</span>
-              </div>
+            <div className="result-col">
+              <span style={{ opacity: 0.33 }}>{item.id}</span>
             </div>
-          ))}
-        </div>
-      )}
+          </div>
+        ))}
+      </div>
     </div>
   );
 };
