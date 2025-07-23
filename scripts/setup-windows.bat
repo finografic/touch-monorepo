@@ -3,6 +3,9 @@ echo ========================================
 echo Touch Client Setup for Windows
 echo ========================================
 echo.
+echo Starting setup process...
+echo Current directory: %CD%
+echo.
 
 REM Check if Docker is installed
 docker --version >nul 2>&1
@@ -71,8 +74,18 @@ echo The application will be available at: http://localhost:3000
 echo Press Ctrl+C to stop the application
 echo.
 
+echo Running: docker-compose up
 docker-compose up
+if %errorlevel% neq 0 (
+    echo.
+    echo ERROR: docker-compose failed to start
+    echo Please check that Docker Desktop is running
+    pause
+    exit /b 1
+)
 
 echo.
 echo Touch Client stopped.
-pause
+echo.
+echo Press any key to close this window...
+pause >nul

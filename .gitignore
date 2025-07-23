@@ -28,6 +28,7 @@ dist/
 
 # NPMRC - ** ONLY DUE TO VARIABLE IN .npmrc **
 /.env
+*.tar
 
 # DATABASE + MIGRATIONS
 # Keep data structure, ignore contents
