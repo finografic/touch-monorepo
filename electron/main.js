@@ -1,4 +1,4 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, session } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 const isDev = process.env.NODE_ENV === 'development';
@@ -46,13 +46,28 @@ function createWindow() {
       nodeIntegration: false,
       contextIsolation: true,
       enableRemoteModule: false,
+      webSecurity: true,
+      allowRunningInsecureContent: false,
       preload: path.join(__dirname, 'preload.js'),
+      sandbox: false, // We need this false for our preload script
     },
     title: 'Touch Client',
   });
 
+  // Set Content Security Policy
+  session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+    callback({
+      responseHeaders: {
+        ...details.responseHeaders,
+        'Content-Security-Policy': [
+          "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self' http://localhost:4040 https://localhost:4040;",
+        ],
+      },
+    });
+  });
+
   // Load the app
-  const startUrl = 'http://localhost:3000';
+  const startUrl = 'http://localhost:4040';
   mainWindow.loadURL(startUrl);
 
   // Open DevTools in development
@@ -95,11 +110,19 @@ app.on('before-quit', () => {
   }
 });
 
-// Handle IPC messages from renderer
-ipcMain.handle('get-app-version', () => {
-  return app.getVersion();
+// Handle IPC messages from renderer with sender validation
+ipcMain.handle('get-app-version', (event) => {
+  // Validate sender - only allow from our own app
+  if (event.senderFrame && event.senderFrame.url.startsWith('http://localhost:4040')) {
+    return app.getVersion();
+  }
+  return null;
 });
 
-ipcMain.handle('get-app-name', () => {
-  return app.getName();
+ipcMain.handle('get-app-name', (event) => {
+  // Validate sender - only allow from our own app
+  if (event.senderFrame && event.senderFrame.url.startsWith('http://localhost:4040')) {
+    return app.getName();
+  }
+  return null;
 });

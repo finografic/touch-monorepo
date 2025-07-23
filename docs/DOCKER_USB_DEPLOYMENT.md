@@ -16,9 +16,11 @@ This guide explains how to prepare the Touch Client application for USB deployme
 1. **Setup Environment**
 
    ```bash
-   # Create .env file with GitHub token
-   echo "GITHUB_TOKEN=your_github_token" > .env
    ```
+
+   # Create .env file with GitHub token
+
+   echo "GITHUB_TOKEN=your_github_token" > .env
 
 2. **Clone and Build Project**
 

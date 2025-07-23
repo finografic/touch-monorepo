@@ -575,7 +575,7 @@ async function translateWithGoogleCloud(text: string, targetLang: string): Promi
 async function translateWithUnofficialGoogle(text: string, targetLang: string): Promise<string | null> {
   let retries = 2; // Reduced retries since it's unreliable
 
-  log('🌐 ==========>', 'yellow', targetLang);
+  console.log('🌐 ==========>', targetLang);
 
   while (retries > 0) {
     try {
@@ -601,8 +601,8 @@ async function translateWithUnofficialGoogle(text: string, targetLang: string): 
       // Handle different response structures
       const translatedText = result.text || result;
 
-      log('👉🏻 result', 'lime', result);
-      log('👉🏻 translatedText', 'lime', translatedText);
+      console.log('👉🏻 result', result);
+      console.log('👉🏻 translatedText', translatedText);
 
       return typeof translatedText === 'string' ? translatedText : null;
     } catch (error: any) {

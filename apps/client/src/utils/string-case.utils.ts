@@ -1,7 +1,31 @@
 import type { CamelCasedPropertiesDeep as CamelCaseKeys } from 'type-fest';
-import camelCase from 'lodash/camelCase';
-import mapKeys from 'lodash/mapKeys';
-import mapValues from 'lodash/mapValues';
+// Simple mapKeys implementation
+function mapKeys(obj: any, iteratee: (value: any, key: string) => string): any {
+  const result: any = {};
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      result[iteratee(obj[key], key)] = obj[key];
+    }
+  }
+  return result;
+}
+
+// Simple mapValues implementation
+function mapValues(obj: any, iteratee: (value: any, key: string) => any): any {
+  const result: any = {};
+  for (const key in obj) {
+    if (Object.prototype.hasOwnProperty.call(obj, key)) {
+      result[key] = iteratee(obj[key], key);
+    }
+  }
+  return result;
+}
+// Simple camelCase implementation to avoid lodash dependency
+function camelCase(str: string): string {
+  return str
+    .replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
+    .replace(/^(.)/, (c) => c.toLowerCase());
+}
 
 export const toCamelCaseKeys = <T>(obj: T): CamelCaseKeys<T> | CamelCaseKeys<T>[] => {
   if (obj === null || obj === undefined) {

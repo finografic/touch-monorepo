@@ -1,5 +1,10 @@
 import type { CamelCasedPropertiesDeep } from 'type-fest';
-import camelCase from 'lodash/camelCase';
+// Simple camelCase implementation to avoid lodash dependency
+function camelCase(str: string): string {
+  return str
+    .replace(/[-_\s]+(.)?/g, (_, c) => (c ? c.toUpperCase() : ''))
+    .replace(/^(.)/, (c) => c.toLowerCase());
+}
 
 export const toCamelCaseKeys = <T extends object>(input: T): CamelCasedPropertiesDeep<T> => {
   if (input === null || input === undefined) {
