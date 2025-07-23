@@ -8,6 +8,8 @@ onlyBuiltDependencies:
   - '@biomejs/biome'
   - '@swc/core'
   - better-sqlite3
+  - electron
+  - electron-winstaller
   - esbuild
   - sharp
   - simple-git-hooks

@@ -1,0 +1,56 @@
+{
+  "name": "touch-client-electron",
+  "version": "1.0.0",
+  "description": "Touch Client Desktop Application",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "NODE_ENV=development electron .",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win --x64",
+    "build:mac": "electron-builder --mac --x64",
+    "dist": "pnpm run build:win && pnpm run build:mac"
+  },
+  "build": {
+    "appId": "com.touch.client",
+    "productName": "Touch Client",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "../apps/server/dist/**/*",
+      "../apps/client/dist/**/*",
+      "../data/**/*",
+      "../node_modules/**/*",
+      "!../node_modules/.cache/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "../data",
+        "to": "data"
+      }
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "assets/icon.ico",
+      "publish": null
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns",
+      "publish": null
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  },
+  "author": "Touch Client Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/finografic/touch-monorepo.git"
+  }
+}

@@ -80,6 +80,12 @@ node_modules/
 # packages/server/data/*.db
 # **/drizzle/migrations
 
+# Electron
+electron/dist/
+electron/node_modules/
+electron/out/
+electron/release/
+
 # logs
 logs/
 *.log
