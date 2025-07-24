@@ -18,6 +18,7 @@ function startServer() {
     env: {
       ...process.env,
       NODE_ENV: 'production',
+      API_PROTOCOL: 'http',
       DATABASE_URL: 'file:./data/production.sqlite.db',
       API_PORT: '4040',
       CLIENT_PORT: '3000',

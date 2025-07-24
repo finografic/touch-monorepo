@@ -9,7 +9,11 @@
     "build": "electron-builder",
     "build:win": "electron-builder --win --x64",
     "build:mac": "electron-builder --mac --x64",
-    "dist": "pnpm run build:win && pnpm run build:mac"
+    "build:mac-arm": "electron-builder --mac --arm64",
+    "build:mac-universal": "electron-builder --mac --universal",
+    "build:mac-app": "electron-builder --mac --dir",
+    "build:mac-dmg": "electron-builder --mac --dmg",
+    "dist": "pnpm run build:win && pnpm run build:mac-universal"
   },
   "build": {
     "appId": "com.touch.client",
@@ -38,9 +42,25 @@
       "publish": null
     },
     "mac": {
-      "target": "dmg",
+      "target": [
+        {
+          "target": "dmg",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        },
+        {
+          "target": "dir",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
       "icon": "assets/icon.icns",
-      "publish": null
+      "publish": null,
+      "category": "public.app-category.productivity"
     },
     "nsis": {
       "oneClick": false,
@@ -52,5 +72,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/finografic/touch-monorepo.git"
+  },
+  "devDependencies": {
+    "electron": "^37.2.4",
+    "electron-builder": "^25.1.0"
   }
 }
