@@ -10,6 +10,7 @@ if (!API_URL) {
 }
 
 export const api = axios.create({
+  // baseURL: API_URL.replace('https://', 'http://'),
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -103,7 +104,7 @@ api.interceptors.response.use(
 
     log('(AXIOS) TEST_NEW_ERROR_REJECT', 'red', TEST_NEW_ERROR_REJECT);
 
-    return Promise.reject({ ...error });
+    return Promise.reject(new Error(JSON.stringify(error)));
   },
 );
 

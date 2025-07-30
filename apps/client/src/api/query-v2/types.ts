@@ -1,4 +1,3 @@
-// @ts-nocheck
 import { z } from 'zod';
 
 // Base value types
@@ -29,7 +28,7 @@ export enum Operators {
 }
 
 // Type-safe operator mapping
-export type OperatorMap<T> = {
+export interface OperatorMap<T> {
   [Operators.$eq]: T;
   [Operators.$ne]: T;
   [Operators.$in]: T extends Array<any> ? T : T[];
@@ -40,14 +39,14 @@ export type OperatorMap<T> = {
   [Operators.$lte]: T extends number | Date ? T : never;
   [Operators.$like]: T extends string ? QueryLikeValue : never;
   [Operators.$notlike]: T extends string ? QueryLikeValue : never;
-};
+}
 
 // Generic query types
 export type QueryOperator<T> = Partial<OperatorMap<T>>;
 
-export interface QueryStandard<T extends Record<string, any>> {
+export type QueryStandard<T extends Record<string, any>> = {
   [K in keyof T]?: T[K] | QueryOperator<T[K]>;
-}
+};
 
 export interface QueryFilters<T extends Record<string, any>> {
   [Filters.$limit]?: number;
@@ -56,13 +55,12 @@ export interface QueryFilters<T extends Record<string, any>> {
   [Filters.$select]?: Array<keyof T>;
 }
 
-export type QueryMulti<T extends Record<string, any>> = {
+export interface QueryMulti<T extends Record<string, any>> {
   [Filters.$or]?: Array<QueryStandard<T>>;
   [Filters.$and]?: Array<QueryStandard<T>>;
-};
+}
 
-export type QueryParams<T extends Record<string, any>> =
-  QueryStandard<T> &
+export type QueryParams<T extends Record<string, any>> = QueryStandard<T> &
   QueryFilters<T> &
   Partial<QueryMulti<T>>;
 
@@ -71,7 +69,7 @@ export class QueryError extends Error {
   constructor(
     public code: string,
     public details: unknown[],
-    public status: number
+    public status: number,
   ) {
     super(`Query Error: ${code}`);
     this.name = 'QueryError';
@@ -83,19 +81,20 @@ export class QueryError extends Error {
 }
 
 // Zod validation schema
-export const createQuerySchema = <T extends Record<string, any>>() => z.object({
-  ...Object.values(Filters).reduce(
-    (acc, filter) => ({
-      ...acc,
-      [filter]: z.any().optional(),
-    }),
-    {}
-  ),
-  ...Object.values(Operators).reduce(
-    (acc, operator) => ({
-      ...acc,
-      [operator]: z.any().optional(),
-    }),
-    {}
-  ),
-});
+export const createQuerySchema = () =>
+  z.object({
+    ...Object.values(Filters).reduce(
+      (acc, filter) => ({
+        ...acc,
+        [filter]: z.any().optional(),
+      }),
+      {},
+    ),
+    ...Object.values(Operators).reduce(
+      (acc, operator) => ({
+        ...acc,
+        [operator]: z.any().optional(),
+      }),
+      {},
+    ),
+  });

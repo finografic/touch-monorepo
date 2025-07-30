@@ -4,6 +4,7 @@ import { ERROR, fino, OFF } from '@finografic/eslint-config';
 import globals from 'globals';
 
 export default fino({
+  ignores: [],
   languageOptions: {
     ecmaVersion: 'latest',
     globals: {

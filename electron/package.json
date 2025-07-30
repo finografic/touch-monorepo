@@ -1,6 +1,6 @@
 {
   "name": "touch-client-electron",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Touch Client Desktop Application",
   "main": "main.js",
   "scripts": {
@@ -12,8 +12,10 @@
     "build:mac-arm": "electron-builder --mac --arm64",
     "build:mac-universal": "electron-builder --mac --universal",
     "build:mac-app": "electron-builder --mac --dir",
-    "build:mac-dmg": "electron-builder --mac --dmg",
-    "dist": "pnpm run build:win && pnpm run build:mac-universal"
+    "build:mac-dmg": "electron-builder --mac dmg",
+    "dist": "pnpm run build:win && pnpm run build:mac-universal",
+    "test:app": "xattr -cr \"dist/Touch Client.app\" && open \"dist/Touch Client.app\"",
+    "test:dmg": "open \"dist/Touch Client-1.0.1-arm64.dmg\""
   },
   "build": {
     "appId": "com.touch.client",
@@ -24,22 +26,38 @@
     "files": [
       "main.js",
       "preload.js",
-      "../apps/server/dist/**/*",
+      "assets/**/*",
       "../apps/client/dist/**/*",
-      "../data/**/*",
-      "../node_modules/**/*",
-      "!../node_modules/.cache/**/*"
+      "!../apps/server/dist/**/*"
     ],
     "extraResources": [
       {
+        "from": "../apps/server/dist",
+        "to": "apps/server/dist"
+      },
+      {
         "from": "../data",
-        "to": "data"
+        "to": "data",
+        "filter": [
+          "**/*",
+          "!migrations/**/*"
+        ]
       }
     ],
+    "asarUnpack": [
+      "apps/server/dist/**/*",
+      "data/**/*"
+    ],
     "win": {
-      "target": "nsis",
-      "icon": "assets/icon.ico",
-      "publish": null
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
     },
     "mac": {
       "target": [
@@ -64,7 +82,9 @@
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
     }
   },
   "author": "Touch Client Team",
@@ -74,7 +94,6 @@
     "url": "https://github.com/finografic/touch-monorepo.git"
   },
   "devDependencies": {
-    "electron": "^37.2.4",
     "electron-builder": "^25.1.0"
   }
 }

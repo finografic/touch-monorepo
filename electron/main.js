@@ -1,19 +1,79 @@
 const { app, BrowserWindow, ipcMain, session } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
+const fs = require('fs');
 const isDev = process.env.NODE_ENV === 'development';
+
+// Ensure single instance
+const gotTheLock = app.requestSingleInstanceLock();
+
+if (!gotTheLock) {
+  console.log('Another instance is already running. Quitting.');
+  app.quit();
+  return;
+}
 
 let mainWindow;
 let serverProcess;
+let serverStartAttempts = 0;
+const MAX_SERVER_ATTEMPTS = 3;
 
 // Start the server process
 function startServer() {
-  console.log('Starting server...');
+  if (serverStartAttempts >= MAX_SERVER_ATTEMPTS) {
+    console.error('Max server start attempts reached. Starting app without server.');
+    createWindow();
+    return;
+  }
+
+  serverStartAttempts++;
+  console.log(`Starting server (attempt ${serverStartAttempts}/${MAX_SERVER_ATTEMPTS})...`);
 
   // Path to the server entry point
-  const serverPath = path.join(__dirname, '../apps/server/dist/index.js');
+  let serverPath;
+  if (isDev) {
+    serverPath = path.join(__dirname, '../apps/server/dist/index.js');
+  } else {
+    // In production, the server files are bundled with the app
+    // Try multiple possible locations
+    const possiblePaths = [
+      path.join(process.resourcesPath, 'app.asar.unpacked/apps/server/dist/index.js'),
+      path.join(__dirname, 'apps/server/dist/index.js'),
+      path.join(process.resourcesPath, 'app.asar/apps/server/dist/index.js'),
+    ];
 
-  serverProcess = spawn('node', [serverPath], {
+    for (const testPath of possiblePaths) {
+      if (fs.existsSync(testPath)) {
+        serverPath = testPath;
+        break;
+      }
+    }
+
+    if (!serverPath) {
+      console.error('Server file not found in any expected location:', possiblePaths);
+      serverPath = possiblePaths[1]; // Use the most likely path for error reporting
+    }
+  }
+
+  console.log('Server path:', serverPath);
+
+  // Check if server file exists
+  if (!fs.existsSync(serverPath)) {
+    console.error('Server file not found:', serverPath);
+    if (serverStartAttempts < MAX_SERVER_ATTEMPTS) {
+      setTimeout(startServer, 2000);
+    } else {
+      console.error('Server file not found after all attempts. Starting app without server.');
+      createWindow();
+    }
+    return;
+  }
+
+  // In production (packaged app), we need to use the bundled Node.js
+  // In development, we can use the system Node.js
+  const nodeExecutable = isDev ? 'node' : process.execPath;
+
+  serverProcess = spawn(nodeExecutable, [serverPath], {
     stdio: 'pipe',
     env: {
       ...process.env,
@@ -29,12 +89,41 @@ function startServer() {
     console.log('Server stdout:', data.toString());
   });
 
+  serverProcess.stdout.on('error', (error) => {
+    if (error.code !== 'EPIPE') {
+      console.error('Server stdout error:', error);
+    }
+  });
+
   serverProcess.stderr.on('data', (data) => {
     console.log('Server stderr:', data.toString());
   });
 
+  serverProcess.stderr.on('error', (error) => {
+    if (error.code !== 'EPIPE') {
+      console.error('Server stderr error:', error);
+    }
+  });
+
   serverProcess.on('close', (code) => {
     console.log('Server process exited with code:', code);
+    if (code !== 0 && serverStartAttempts < MAX_SERVER_ATTEMPTS) {
+      console.log('Server failed, retrying...');
+      setTimeout(startServer, 2000);
+    } else if (serverStartAttempts >= MAX_SERVER_ATTEMPTS) {
+      console.error('Server failed after all attempts. Starting app without server.');
+      createWindow();
+    }
+  });
+
+  serverProcess.on('error', (error) => {
+    console.error('Failed to start server:', error);
+    if (serverStartAttempts < MAX_SERVER_ATTEMPTS) {
+      setTimeout(startServer, 2000);
+    } else {
+      console.error('Server failed after all attempts. Starting app without server.');
+      createWindow();
+    }
   });
 }
 
@@ -67,9 +156,18 @@ function createWindow() {
     });
   });
 
-  // Load the app
+  // Try to load the app, with fallback
   const startUrl = 'http://localhost:4040';
-  mainWindow.loadURL(startUrl);
+
+  mainWindow.loadURL(startUrl).catch((error) => {
+    console.error('Failed to load app from server:', error);
+    // Load fallback content
+    mainWindow.loadURL(
+      'data:text/html,<html><body><h1>Touch Client</h1><p>Server is not available. Please check if the server is running.</p><p>Error: ' +
+        error.message +
+        '</p></body></html>',
+    );
+  });
 
   // Open DevTools in development
   if (isDev) {
@@ -86,10 +184,51 @@ function createWindow() {
 app.whenReady().then(() => {
   startServer();
 
-  // Wait a bit for server to start
-  setTimeout(() => {
-    createWindow();
-  }, 2000);
+  // Wait for server to start, with better error handling
+  let attempts = 0;
+  const maxAttempts = 15;
+
+  const checkServer = () => {
+    attempts++;
+
+    // Try to connect to the server
+    const http = require('http');
+    const req = http.get('http://localhost:4040', (res) => {
+      if (res.statusCode === 200) {
+        console.log('Server is ready!');
+        createWindow();
+      } else {
+        if (attempts < maxAttempts) {
+          setTimeout(checkServer, 1000);
+        } else {
+          console.error('Server failed to start after', maxAttempts, 'attempts');
+          createWindow(); // Create window anyway, user can see error
+        }
+      }
+    });
+
+    req.on('error', () => {
+      if (attempts < maxAttempts) {
+        setTimeout(checkServer, 1000);
+      } else {
+        console.error('Server failed to start after', maxAttempts, 'attempts');
+        createWindow(); // Create window anyway, user can see error
+      }
+    });
+
+    req.setTimeout(2000, () => {
+      req.destroy();
+      if (attempts < maxAttempts) {
+        setTimeout(checkServer, 1000);
+      } else {
+        console.error('Server failed to start after', maxAttempts, 'attempts');
+        createWindow(); // Create window anyway, user can see error
+      }
+    });
+  };
+
+  // Start checking after a short delay
+  setTimeout(checkServer, 1000);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
