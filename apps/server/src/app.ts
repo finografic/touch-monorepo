@@ -22,6 +22,7 @@ import orders from 'routes/orders';
 import supportedLanguage from 'routes/supported-language';
 import sounds from 'routes/sounds';
 import slotConfigurations from 'routes/slot-configurations';
+import uiLabels from 'routes/ui-labels';
 
 const app = createApp();
 
@@ -62,6 +63,7 @@ const routes = [
   supportedLanguage,
   sounds,
   slotConfigurations,
+  uiLabels,
 ] as const;
 
 routes.forEach((route) => {

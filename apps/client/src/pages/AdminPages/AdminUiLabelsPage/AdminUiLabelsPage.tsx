@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
+import { EndpointHelper } from 'api/api.endpoints';
 import { AdminContentLayout, AdminSection, UiLabelSection } from '../shared';
 import { styles } from './AdminUiLabelsPage.styles';
 
@@ -301,25 +302,32 @@ export const AdminUiLabelsPage: React.FC = () => {
     [],
   );
 
-  // Handle form submission (placeholder - no business logic yet)
+  // Handle form submission
   const onSubmit = useCallback(async (data: UiLabelsFormData) => {
     try {
-      // TODO: Implement save logic
-      console.log('UI Labels data to save:', data);
+      log('UI Labels data to save:', 'blue', data);
+
+      // Call the save endpoint
+      const response = await EndpointHelper.saveUiLabels(data);
+
+      log('Save response:', 'green', response);
 
       setSubmitMessage({
         type: 'success',
-        message:
-          'UI Labels saved successfully! (Note: This is just a preview - save functionality not yet implemented)',
+        message: `UI Labels saved successfully! Updated ${response.filesUpdated?.length || 0} files: ${response.filesUpdated?.join(', ') || 'unknown'}`,
       });
 
-      // Clear message after 5 seconds
-      setTimeout(() => setSubmitMessage(null), 5000);
+      // Clear message after 8 seconds
+      setTimeout(() => setSubmitMessage(null), 8000);
     } catch (error) {
+      log('Save error:', 'red', error);
       setSubmitMessage({
         type: 'error',
         message: `Failed to save UI Labels: ${error instanceof Error ? error.message : 'Unknown error'}`,
       });
+
+      // Clear error message after 10 seconds
+      setTimeout(() => setSubmitMessage(null), 10000);
     }
   }, []);
 
