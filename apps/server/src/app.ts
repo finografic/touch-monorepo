@@ -6,7 +6,7 @@ import { cors } from 'hono/cors';
 
 import configureOpenAPI from 'lib/configure-open-api';
 import createApp from 'lib/create-app';
-import auth from 'routes/auth/auth.routes';
+import auth from 'routes/auth/auth-V2.routes';
 
 import health from 'routes/health-check/health-check.index';
 // Import routes
