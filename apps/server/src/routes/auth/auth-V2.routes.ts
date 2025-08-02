@@ -15,8 +15,8 @@ router.get('/auth/session', async (context) => {
   }
 });
 
-// Let BetterAuth handle all other auth routes
-router.all('/*', async (context) => {
+// Let BetterAuth handle specific auth routes only
+router.all('/auth/*', async (context) => {
   console.log('Auth route hit:', context.req.path);
   return auth.handler(context.req.raw);
 });
