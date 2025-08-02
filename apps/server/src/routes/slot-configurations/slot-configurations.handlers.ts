@@ -28,10 +28,7 @@ function cleanTimestamps<T extends { createdAt?: string | null; updatedAt?: stri
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const configs = await db.query.slot_configurations.findMany();
-  return context.json({
-    success: true,
-    data: configs.map(cleanTimestamps),
-  });
+  return context.json(configs.map(cleanTimestamps));
 };
 
 export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
@@ -44,13 +41,7 @@ export const getOne: AppRouteHandler<GetOneRoute> = async (context) => {
   if (!config) {
     return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
   }
-  return context.json(
-    {
-      success: true,
-      data: cleanTimestamps(config),
-    },
-    HttpStatusCodes.OK,
-  );
+  return context.json(cleanTimestamps(config), HttpStatusCodes.OK);
 };
 
 export const create: AppRouteHandler<CreateRoute> = async (context) => {
@@ -59,13 +50,7 @@ export const create: AppRouteHandler<CreateRoute> = async (context) => {
     .insert(slot_configurations)
     .values({ ...data, id: createCuid() })
     .returning();
-  return context.json(
-    {
-      success: true,
-      data: cleanTimestamps(inserted),
-    },
-    HttpStatusCodes.OK,
-  );
+  return context.json(cleanTimestamps(inserted), HttpStatusCodes.OK);
 };
 
 export const patch: AppRouteHandler<PatchRoute> = async (context) => {
@@ -79,13 +64,7 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
   if (!updated) {
     return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);
   }
-  return context.json(
-    {
-      success: true,
-      data: cleanTimestamps(updated),
-    },
-    HttpStatusCodes.OK,
-  );
+  return context.json(cleanTimestamps(updated), HttpStatusCodes.OK);
 };
 
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
@@ -104,13 +83,7 @@ export const bulkUpdate: AppRouteHandler<BulkUpdateRoute> = async (context) => {
     .insert(slot_configurations)
     .values(configurations.map((c: any) => ({ ...c, id: createCuid() })))
     .returning();
-  return context.json(
-    {
-      success: true,
-      data: inserted.map(cleanTimestamps),
-    },
-    HttpStatusCodes.OK,
-  );
+  return context.json(inserted.map(cleanTimestamps), HttpStatusCodes.OK);
 };
 
 export const reset: AppRouteHandler<ResetRoute> = async (context) => {
