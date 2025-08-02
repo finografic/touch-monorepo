@@ -244,51 +244,72 @@ function createWindow() {
 app.whenReady().then(() => {
   startServer();
 
-  // Wait for server to start, with better error handling
+  // Wait for server to start, using server process status instead of HTTP checks
   let attempts = 0;
-  const maxAttempts = 15;
+  const maxAttempts = 30; // Increased attempts
+  let windowCreated = false;
 
   const checkServer = () => {
     attempts++;
 
-    // Try to connect to the server
-    const http = require('http');
-    const req = http.get('http://localhost:4040', (res) => {
-      if (res.statusCode === 200) {
-        console.log('Server is ready!');
-        createWindow();
-      } else {
-        if (attempts < maxAttempts) {
+    // Check if server process is running and responsive
+    if (serverProcess && !serverProcess.killed) {
+      // Try a simple API endpoint that should return JSON
+      const http = require('http');
+      const req = http.get('http://localhost:4040/api/drink-volumes', (res) => {
+        let data = '';
+        res.on('data', (chunk) => (data += chunk));
+        res.on('end', () => {
+          if (res.statusCode === 200 && !windowCreated) {
+            console.log('Server is ready and responsive!');
+            windowCreated = true;
+            createWindow();
+          } else if (!windowCreated && attempts < maxAttempts) {
+            setTimeout(checkServer, 1000);
+          } else if (!windowCreated) {
+            console.log('Server process running but API not ready, creating window anyway');
+            windowCreated = true;
+            createWindow();
+          }
+        });
+      });
+
+      req.on('error', (error) => {
+        console.log(`Server check attempt ${attempts}: ${error.message}`);
+        if (!windowCreated && attempts < maxAttempts) {
           setTimeout(checkServer, 1000);
-        } else {
-          console.error('Server failed to start after', maxAttempts, 'attempts');
-          createWindow(); // Create window anyway, user can see error
+        } else if (!windowCreated) {
+          console.log('Server process running, creating window anyway');
+          windowCreated = true;
+          createWindow();
         }
-      }
-    });
+      });
 
-    req.on('error', () => {
-      if (attempts < maxAttempts) {
+      req.setTimeout(3000, () => {
+        req.destroy();
+        if (!windowCreated && attempts < maxAttempts) {
+          setTimeout(checkServer, 1000);
+        } else if (!windowCreated) {
+          console.log('Server check timeout, creating window anyway');
+          windowCreated = true;
+          createWindow();
+        }
+      });
+    } else {
+      // Server process not running
+      if (!windowCreated && attempts < maxAttempts) {
+        console.log(`Server process not ready, attempt ${attempts}/${maxAttempts}`);
         setTimeout(checkServer, 1000);
-      } else {
-        console.error('Server failed to start after', maxAttempts, 'attempts');
-        createWindow(); // Create window anyway, user can see error
+      } else if (!windowCreated) {
+        console.log('Server process failed to start, creating window anyway');
+        windowCreated = true;
+        createWindow();
       }
-    });
-
-    req.setTimeout(2000, () => {
-      req.destroy();
-      if (attempts < maxAttempts) {
-        setTimeout(checkServer, 1000);
-      } else {
-        console.error('Server failed to start after', maxAttempts, 'attempts');
-        createWindow(); // Create window anyway, user can see error
-      }
-    });
+    }
   };
 
   // Start checking after a short delay
-  setTimeout(checkServer, 1000);
+  setTimeout(checkServer, 2000);
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
