@@ -17,12 +17,16 @@ let mainWindow;
 let serverProcess;
 let serverStartAttempts = 0;
 const MAX_SERVER_ATTEMPTS = 3;
+let isQuitting = false; // Track if app is actually quitting
 
 // Start the server process
 function startServer() {
   if (serverStartAttempts >= MAX_SERVER_ATTEMPTS) {
     console.error('Max server start attempts reached. Starting app without server.');
-    createWindow();
+    // Only create window if none exists
+    if (!mainWindow || mainWindow.isDestroyed()) {
+      createWindow();
+    }
     return;
   }
 
@@ -60,11 +64,14 @@ function startServer() {
   // Check if server file exists
   if (!fs.existsSync(serverPath)) {
     console.error('Server file not found:', serverPath);
-    if (serverStartAttempts < MAX_SERVER_ATTEMPTS) {
-      setTimeout(startServer, 2000);
+    if (serverStartAttempts < MAX_SERVER_ATTEMPTS && !isQuitting) {
+      setTimeout(startServer, 5000);
     } else {
       console.error('Server file not found after all attempts. Starting app without server.');
-      createWindow();
+      // Only create window if none exists
+      if (!mainWindow || mainWindow.isDestroyed()) {
+        createWindow();
+      }
     }
     return;
   }
@@ -77,9 +84,16 @@ function startServer() {
     stdio: 'pipe',
     env: {
       ...process.env,
-      NODE_ENV: 'production',
+      NODE_ENV: 'development',
+      DB_HOST: 'localhost',
+      DB_USER: 'user',
+      DB_PASS: '',
+      DB_NAME: 'development.sqlite.db',
+      DB_DIALECT: 'sqlite',
+      DB_PORT: '3306',
+      BETTER_AUTH_SECRET: 'your-32-character-secret-key-here-123456',
+      BETTER_AUTH_URL: 'http://localhost:4040',
       API_PROTOCOL: 'http',
-      DATABASE_URL: 'file:./data/production.sqlite.db',
       API_PORT: '4040',
       CLIENT_PORT: '3000',
     },
@@ -107,28 +121,74 @@ function startServer() {
 
   serverProcess.on('close', (code) => {
     console.log('Server process exited with code:', code);
+
+    // Don't retry if we're quitting the app
+    if (isQuitting) {
+      console.log('App is quitting, not restarting server');
+      return;
+    }
+
     if (code !== 0 && serverStartAttempts < MAX_SERVER_ATTEMPTS) {
-      console.log('Server failed, retrying...');
-      setTimeout(startServer, 2000);
+      console.log(
+        `Server failed, retrying in 5 seconds... (attempt ${serverStartAttempts}/${MAX_SERVER_ATTEMPTS})`,
+      );
+      // Only restart server, don't create new windows
+      setTimeout(() => {
+        if (!isQuitting) {
+          startServer();
+        }
+      }, 5000);
     } else if (serverStartAttempts >= MAX_SERVER_ATTEMPTS) {
       console.error('Server failed after all attempts. Starting app without server.');
-      createWindow();
+      // Only create window if none exists
+      if (!mainWindow) {
+        createWindow();
+      }
+    } else {
+      // Server closed normally (code 0) - only log, don't create new windows
+      console.log('Server closed normally');
     }
   });
 
   serverProcess.on('error', (error) => {
     console.error('Failed to start server:', error);
+
+    // Don't retry if we're quitting the app
+    if (isQuitting) {
+      console.log('App is quitting, not restarting server');
+      return;
+    }
+
     if (serverStartAttempts < MAX_SERVER_ATTEMPTS) {
-      setTimeout(startServer, 2000);
+      console.log(
+        `Server error, retrying in 5 seconds... (attempt ${serverStartAttempts}/${MAX_SERVER_ATTEMPTS})`,
+      );
+      // Only restart server, don't create new windows
+      setTimeout(() => {
+        if (!isQuitting) {
+          startServer();
+        }
+      }, 5000);
     } else {
       console.error('Server failed after all attempts. Starting app without server.');
-      createWindow();
+      // Only create window if none exists
+      if (!mainWindow) {
+        createWindow();
+      }
     }
   });
 }
 
 // Create the main window
 function createWindow() {
+  // Prevent creating multiple windows
+  if (mainWindow && !mainWindow.isDestroyed()) {
+    console.log('Window already exists, bringing to front');
+    mainWindow.focus();
+    return;
+  }
+
+  console.log('Creating new electron window...');
   mainWindow = new BrowserWindow({
     width: 1200,
     height: 800,
@@ -239,14 +299,34 @@ app.whenReady().then(() => {
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
+    isQuitting = true;
     app.quit();
   }
 });
 
-app.on('before-quit', () => {
-  if (serverProcess) {
+app.on('before-quit', (event) => {
+  console.log('Before quit event triggered');
+
+  // Only kill server if we're actually quitting (not on GPU crashes etc)
+  if (!isQuitting) {
+    console.log('Not actually quitting, ignoring before-quit event');
+    return;
+  }
+
+  if (serverProcess && !serverProcess.killed) {
     console.log('Stopping server...');
     serverProcess.kill();
+    serverProcess = null;
+  }
+});
+
+// Explicitly handle app quit
+app.on('will-quit', () => {
+  isQuitting = true;
+  console.log('App will quit - cleaning up...');
+  if (serverProcess && !serverProcess.killed) {
+    serverProcess.kill();
+    serverProcess = null;
   }
 });
 
