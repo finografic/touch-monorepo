@@ -41,6 +41,7 @@ function startServer() {
     // In production, the server files are bundled with the app
     // Try multiple possible locations
     const possiblePaths = [
+      path.join(process.resourcesPath, 'apps/server/dist/index.js'),
       path.join(process.resourcesPath, 'app.asar.unpacked/apps/server/dist/index.js'),
       path.join(__dirname, 'apps/server/dist/index.js'),
       path.join(process.resourcesPath, 'app.asar/apps/server/dist/index.js'),
@@ -55,7 +56,7 @@ function startServer() {
 
     if (!serverPath) {
       console.error('Server file not found in any expected location:', possiblePaths);
-      serverPath = possiblePaths[1]; // Use the most likely path for error reporting
+      serverPath = possiblePaths[0]; // Use the most likely path for error reporting
     }
   }
 

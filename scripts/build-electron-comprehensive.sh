@@ -82,8 +82,8 @@ case "$1" in
         pnpm run build:mac
         ;;
     "mac-arm")
-        echo "Building for macOS ARM64..."
-        pnpm run build:mac-arm
+        echo "Building for macOS ARM64 (app only)..."
+        pnpm run build:mac-arm-app
         ;;
     "mac-universal")
         echo "Building for macOS Universal..."
