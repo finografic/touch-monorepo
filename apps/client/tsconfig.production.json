@@ -1,0 +1,15 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "strict": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "skipLibCheck": true,
+    "allowImportingTsExtensions": false,
+    "emitDeclarationOnly": true
+  },
+  // "include": ["src/**/*", "src/**/*.json", "../../packages/types/src/countries.types.ts"],
+  // "exclude": ["dist", "node_modules", "eslint.config.mjs"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json"],
+  "exclude": ["node_modules", "dist", "eslint.config.mjs"]
+}

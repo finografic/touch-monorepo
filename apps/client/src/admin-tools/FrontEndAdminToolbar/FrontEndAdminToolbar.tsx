@@ -5,11 +5,10 @@ import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
-import { LanguageIcon, ShieldCheckIcon, TimerIcon, WindowIcon } from 'styles/icons';
+import { LanguageIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
 import { ALTERNATIVE_PATHS } from 'routes/routes.config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
-import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
 
 export const FrontEndAdminToolbar = () => {
   const {
@@ -22,7 +21,7 @@ export const FrontEndAdminToolbar = () => {
     setIsLanguageDialogOpen,
   } = useAdmin();
 
-  const { saveConfig } = useConfigStorage();
+  // const { saveConfig } = useConfigStorage();
   const [hasActiveTimer, setHasActiveTimer] = useState(false);
   const navigate = useNavigate();
 
@@ -98,11 +97,10 @@ export const FrontEndAdminToolbar = () => {
             </Box>
           )}
         </Flex>
-      </div>
 
-      {/* Dialogs */}
-      <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
-      {/* <AdminToolsDialog isOpen={isAdminToolsDialogOpen} onClose={() => setIsAdminToolsDialogOpen(false)} /> */}
+        {/* Language Dialog */}
+        {isLanguageDialogOpen && <LanguageDialog />}
+      </div>
     </>
   );
 };

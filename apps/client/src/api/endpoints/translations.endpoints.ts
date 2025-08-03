@@ -1,5 +1,4 @@
 import { api } from 'api';
-import type { ApiResponse } from '@workspace/core/api';
 import { transformAxiosError } from '../api.utils';
 
 // Types for translation entities - now using dynamic Record for translations
@@ -45,41 +44,41 @@ let supportedLanguagesCache: Array<{ isoCode: string; sortOrder: number }> | nul
 let cacheExpiry = 0;
 
 // Helper function to get supported languages with caching
-const getSupportedLanguages = async (): Promise<Array<{ isoCode: string; sortOrder: number }>> => {
-  const now = Date.now();
+// const getSupportedLanguages = async (): Promise<Array<{ isoCode: string; sortOrder: number }>> => {
+//   const now = Date.now();
 
-  // Return cached data if still valid (5 minutes cache)
-  if (supportedLanguagesCache && now < cacheExpiry) {
-    return supportedLanguagesCache;
-  }
+//   // Return cached data if still valid (5 minutes cache)
+//   if (supportedLanguagesCache && now < cacheExpiry) {
+//     return supportedLanguagesCache;
+//   }
 
-  try {
-    const response = await api.get('/supported-languages');
-    const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
+//   try {
+//     const response = await api.get('/supported-languages');
+//     const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
 
-    // Sort by sort_order to ensure proper ordering
-    const languageData = data
-      .filter((lang: any) => lang.isActive)
-      .map((lang: any) => ({
-        isoCode: lang.isoCode,
-        sortOrder: lang.sortOrder || 0,
-      }))
-      .sort((a: { sortOrder: number }, b: { sortOrder: number }) => a.sortOrder - b.sortOrder);
+//     // Sort by sort_order to ensure proper ordering
+//     const languageData = data
+//       .filter((lang: any) => lang.isActive)
+//       .map((lang: any) => ({
+//         isoCode: lang.isoCode,
+//         sortOrder: lang.sortOrder || 0,
+//       }))
+//       .sort((a: { sortOrder: number }, b: { sortOrder: number }) => a.sortOrder - b.sortOrder);
 
-    supportedLanguagesCache = languageData;
+//     supportedLanguagesCache = languageData;
 
-    cacheExpiry = now + 5 * 60 * 1000; // 5 minutes
-    return languageData;
-  } catch (error) {
-    console.warn('Failed to fetch supported languages, using fallback:', error);
-    // Fallback to original languages if API fails
-    return [
-      { isoCode: 'es-ES', sortOrder: 1 },
-      { isoCode: 'en-GB', sortOrder: 2 },
-      { isoCode: 'ca-ES', sortOrder: 3 },
-    ];
-  }
-};
+//     cacheExpiry = now + 5 * 60 * 1000; // 5 minutes
+//     return languageData;
+//   } catch (error) {
+//     console.warn('Failed to fetch supported languages, using fallback:', error);
+//     // Fallback to original languages if API fails
+//     return [
+//       { isoCode: 'es-ES', sortOrder: 1 },
+//       { isoCode: 'en-GB', sortOrder: 2 },
+//       { isoCode: 'ca-ES', sortOrder: 3 },
+//     ];
+//   }
+// };
 
 /**
  * Helper function to handle API responses with error transformation

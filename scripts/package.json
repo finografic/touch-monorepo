@@ -113,12 +113,6 @@
     "tsx": "^4.20.3",
     "typescript": "^5.8.3"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "simple-git-hooks"
-    ]
-  },
   "simple-git-hooks": {
     "pre-commit": "npx lint-staged"
   },

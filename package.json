@@ -44,7 +44,8 @@
     "build.types.rebuild": "run-s clean.types build.types",
     "·········· CLEAN": "·····················································",
     "clean": "turbo run clean",
-    "clean.all": "./packages/purge-builds/dist/index.js --recursive",
+    "clean.all": "rm -rf dist node_modules",
+    "clean.all.V1": "./packages/purge-builds/dist/index.js --recursive",
     "clean.all.dry": "./packages/purge-builds/dist/index.js --recursive --dry-run",
     "clean.types": "turbo run clean --filter=@workspace/types --filter=@workspace/core",
     "·········· PACKAGES": "··················································",
@@ -159,5 +160,11 @@
     "eslint": "9.16.0",
     "prettier": "3.4.2",
     "typescript": "^5.8.3"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "simple-git-hooks"
+    ]
   }
 }

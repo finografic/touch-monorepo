@@ -1,6 +1,7 @@
 import axios from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
 import type { ErrorResponse } from '@workspace/core/api';
+import '@workspace/globals'; // Import to make log function available
 
 // TypeScript now knows API_URL exists and is a string
 const { API_URL } = process.env;
@@ -10,7 +11,6 @@ if (!API_URL) {
 }
 
 export const api = axios.create({
-  // baseURL: API_URL.replace('https://', 'http://'),
   baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
@@ -38,21 +38,21 @@ axiosRetry(api, { retries: 3, maxRequests: 10, perMilliseconds: 1000 });
 
 const testErrorHandler = (error: unknown) => {
   if (axios.isAxiosError(error)) {
-    log('TEST_ERROR_HANDLER: axios error', 'blue');
+    // log('TEST_ERROR_HANDLER: axios error', 'blue');
     const axiosError = error as AxiosError;
     if (axiosError.response) {
-      log('TEST_ERROR_HANDLER: axiosError.response', 'blue', {
-        status: axiosError.response.status,
-        statusText: axiosError.response.statusText,
-        data: axiosError.response.data,
-      });
+      // log('TEST_ERROR_HANDLER: axiosError.response', 'blue', {
+      //   status: axiosError.response.status,
+      //   statusText: axiosError.response.statusText,
+      //   data: axiosError.response.data,
+      // });
       throw new Error(`A Error (${axiosError.response.status}): ${JSON.stringify(axiosError.response.data)}`);
     } else if (axiosError.request) {
-      log('TEST_ERROR_HANDLER: axiosError.request', 'blue', axiosError.message);
+      // log('TEST_ERROR_HANDLER: axiosError.request', 'blue', axiosError.message);
       throw new Error(`RPC Request Failed: ${axiosError.message}`);
     }
   }
-  log('TEST_ERROR_HANDLER: not axios error', 'blue', error);
+  // log('TEST_ERROR_HANDLER: not axios error', 'blue', error);
   // throw error;
 };
 
@@ -64,17 +64,17 @@ api.interceptors.response.use(
     // TODO: TESTING (NON-ERROR RESPONSE ERRORS)
 
     if (response.data.error) {
-      log('(AXIOS) TEST_SUCCESS_ERROR: response.data.error', 'yellow', response.data.error);
+      // log('(AXIOS) TEST_SUCCESS_ERROR: response.data.error', 'yellow', response.data.error);
       // return { ...response.data.errors }
     }
 
     if (response.data.errors) {
-      log('(AXIOS) TEST_SUCCESS_ERROR: response.data.errors', 'yellow', response.data.errors);
+      // log('(AXIOS) TEST_SUCCESS_ERROR: response.data.errors', 'yellow', response.data.errors);
       // return { ...response.data.errors }
     }
 
     if (response.data.message) {
-      log('(AXIOS) TEST_SUCCESS_ERROR: response.data.message', 'yellow', response.data.message);
+      // log('(AXIOS) TEST_SUCCESS_ERROR: response.data.message', 'yellow', response.data.message);
       // return { error: response.data.message }
     }
 
@@ -88,12 +88,12 @@ api.interceptors.response.use(
 
     // TODO: TESTING (NON-ERROR RESPONSE ERRORS)
     if (error.response?.data) {
-      log('(AXIOS) TEST_ERROR: error.response.data', 'orange', error.response.data);
+      // log('(AXIOS) TEST_ERROR: error.response.data', 'orange', error.response.data);
       // return error.response.data
     }
 
     if (error.response?.data?.message) {
-      log('(AXIOS) TEST_ERROR: error.response.data.message', 'orange', error.response.data.message);
+      // log('(AXIOS) TEST_ERROR: error.response.data.message', 'orange', error.response.data.message);
       // return { error: rerror.response.data.message }
     }
 
@@ -102,7 +102,7 @@ api.interceptors.response.use(
         ? new Error(error.response?.data ? JSON.stringify(error.response?.data) : error.message)
         : error;
 
-    log('(AXIOS) TEST_NEW_ERROR_REJECT', 'red', TEST_NEW_ERROR_REJECT);
+    // log('(AXIOS) TEST_NEW_ERROR_REJECT', 'red', TEST_NEW_ERROR_REJECT);
 
     return Promise.reject(new Error(JSON.stringify(error)));
   },

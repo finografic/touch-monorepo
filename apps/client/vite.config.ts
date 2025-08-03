@@ -3,7 +3,6 @@ import { defineConfig, loadEnv, type UserConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { logApiURL } from './src/utils/vite.utils';
-import { envShared } from '@workspace/config/envShared';
 import { resolve } from 'path';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
@@ -12,6 +11,20 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
 
   // Resolve paths relative to workspace root
   const workspaceRoot = resolve(__dirname, '../..');
+
+  // Set environment variables directly for Electron compatibility
+  const envVars = {
+    NODE_ENV: mode,
+    API_PROTOCOL: 'http',
+    API_HOST: 'localhost',
+    API_PORT: '4040',
+    API_BASE_PATH: '/api',
+    API_URL: 'http://localhost:4040/api',
+    CLIENT_PROTOCOL: 'http',
+    CLIENT_HOST: 'localhost',
+    CLIENT_PORT: '3000',
+    VITE_APP_NAME: viteEnv.VITE_APP_NAME,
+  };
 
   return {
     css: {
@@ -32,8 +45,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     ],
     base: './',
     server: {
-      port: envShared.CLIENT_PORT,
-      host: envShared.CLIENT_HOST,
+      port: 3000,
+      host: 'localhost',
       watch: {
         usePolling: true,
         interval: 1000,
@@ -45,11 +58,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     clearScreen: false,
     define: {
       'global': 'window',
-      'process.env': {
-        ...envShared,
-        NODE_ENV: mode,
-        VITE_APP_NAME: viteEnv.VITE_APP_NAME,
-      },
+      'process.env': envVars,
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
@@ -95,7 +104,6 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     optimizeDeps: {
       include: [
         'react/jsx-runtime',
-        '@workspace/config',
         '@workspace/core',
         '@workspace/core/types',
         '@workspace/core/types/utils',

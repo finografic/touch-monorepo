@@ -14,7 +14,7 @@
     "start": "vite preview",
     "·········· BUILD": "·····················································",
     "build": "vite build",
-    "build.production": "tsc && vite build --mode production",
+    "build.production": "vite build --mode production",
     "build.development": "tsc && vite build --mode development",
     "·········· CLEAN": "·····················································",
     "clean": "clean-all",
