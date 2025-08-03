@@ -42,6 +42,7 @@
     "build.exclude": "turbo run build --filter=!@workspace/server",
     "build.types": "turbo run build --filter=@workspace/types --filter=@workspace/core",
     "build.types.rebuild": "run-s clean.types build.types",
+    "build.production": "tsx scripts/src/production-build/build-production.ts",
     "·········· CLEAN": "·····················································",
     "clean": "turbo run clean",
     "clean.all": "rm -rf dist node_modules",

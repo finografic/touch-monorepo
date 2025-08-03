@@ -7,6 +7,9 @@ dist/
 # /dist/ # Only ignore dist in root
 # /**/dist/ # Ignore dist folders anywhere (if you want)
 
+# Production build directory
+dist-production/
+
 # If you have other build folders to ignore
 /build/
 /.next/
