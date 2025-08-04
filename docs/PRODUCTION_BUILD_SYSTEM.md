@@ -49,7 +49,7 @@ From the monorepo root:
 pnpm build.production
 ```
 
-This command executes the build script located at `scripts/src/production-build/build-production.ts`.
+This command executes the build script located at `scripts/src/build-production/build-production.ts`.
 
 ### 2. Build Steps Explained
 
@@ -361,7 +361,7 @@ Edit `dist-production/package.json` to add custom scripts:
 
 ### Environment Customization
 
-Modify the build script at `scripts/src/production-build/build-production.ts` to:
+Modify the build script at `scripts/src/build-production/build-production.ts` to:
 - Add additional environment variables
 - Include custom configuration files
 - Modify the directory structure
@@ -432,7 +432,7 @@ sudo journalctl -f -u touch-server
 
 For issues with the production build system:
 1. Check this documentation
-2. Review the build script: `scripts/src/production-build/build-production.ts`
+2. Review the build script: `scripts/src/build-production/build-production.ts`
 3. Examine server bundle config: `apps/server/tsup.config.production.ts`
 4. Test with a fresh build: `pnpm build.production`
 

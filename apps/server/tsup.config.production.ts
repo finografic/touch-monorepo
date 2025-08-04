@@ -3,7 +3,7 @@ import type { Options } from 'tsup';
 
 export default defineConfig({
   entry: ['src/index.ts'],
-  format: ['cjs'], // CommonJS for compatibility with the startup script
+  format: ['esm'], // ESM for better compatibility with modern modules
   dts: false, // No types needed for production bundle
   clean: true, // Clean output directory
   target: 'ES2020', // Modern Node.js target
@@ -35,6 +35,7 @@ export default defineConfig({
     'zod',
     'dotenv',
     '@dotenvx/*',
+    '@scalar/*', // Bundle scalar modules
     '@workspace/config',
     '@workspace/globals',
     '@workspace/core',

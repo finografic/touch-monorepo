@@ -198,20 +198,25 @@ async function createStartupScript(): Promise<void> {
  * Auto-generated production launcher
  */
 
-const { spawn } = require('child_process');
-const path = require('path');
-const { existsSync } = require('fs');
+import { spawn } from 'child_process';
+import path from 'path';
+import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// Get __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname_resolved = dirname(__filename);
 
 // Load environment variables
-require('dotenv').config({ path: path.join(__dirname, '.env') });
-
-const __dirname_resolved = path.resolve(__dirname);
+import dotenv from 'dotenv';
+dotenv.config({ path: path.join(__dirname_resolved, '.env') });
 
 console.log('🚀 Starting Touch Monorepo Production Server...');
 console.log('📍 Working directory:', __dirname_resolved);
 
 // Verify required files exist
-const serverPath = path.join(__dirname_resolved, 'server/index.cjs');
+const serverPath = path.join(__dirname_resolved, 'server/index.js');
 const clientPath = path.join(__dirname_resolved, 'client/index.html');
 const dbPath = path.join(__dirname_resolved, 'data/db/production.sqlite.db');
 
@@ -242,8 +247,8 @@ const serverEnv = {
 
 console.log('🏗️  Starting server process...');
 
-// Start server (using .cjs extension for CommonJS bundle)
-const server = spawn('node', ['server/index.cjs'], {
+// Start server (using .js extension for ESM bundle)
+const server = spawn('node', ['server/index.js'], {
   cwd: __dirname_resolved,
   stdio: 'inherit',
   env: serverEnv,
@@ -400,9 +405,10 @@ async function createPackageJson(): Promise<void> {
     version: '1.0.0',
     description: 'Touch Monorepo Production Distribution',
     private: true,
-    type: 'commonjs',
+    type: 'module',
     scripts: {
-      'start': 'node start.js',
+      'start': 'run-p start:server start:client',
+      'start:v1': 'node start.js',
       'start:server': 'node start.js',
       'start:client': 'node start-client.js',
       'start:both': 'npm-run-all --parallel start:server start:client',
