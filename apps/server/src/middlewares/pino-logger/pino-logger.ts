@@ -5,11 +5,13 @@ import { pinoLoggerModuleOptions } from './pino-http.options';
 import { streams } from './pino.streams';
 
 export function pinoLogger() {
+  const isProduction = process.env.NODE_ENV === 'production';
+  
   return logger({
     pino: pino(
       {
-        level: 'debug',
-        transport: {
+        level: isProduction ? 'info' : 'debug',
+        transport: isProduction ? undefined : {
           target: 'pino-pretty',
           options: {
             colorize: true,

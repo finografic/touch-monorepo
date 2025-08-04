@@ -182,6 +182,8 @@ async function consolidateEnvironmentFiles(): Promise<void> {
     envContent.push('');
 
     await writeFile(join(config.distDir, '.env'), envContent.join('\n'));
+    // Also create .env.production for the server
+    await writeFile(join(config.distDir, '.env.production'), envContent.join('\n'));
     console.log('✅ Environment files consolidated');
   } catch (error) {
     console.error('❌ Failed to consolidate environment files:', error);
@@ -243,6 +245,9 @@ const serverEnv = {
   DATABASE_URL: path.join(__dirname_resolved, 'data/db/production.sqlite.db'),
   DB_NAME: 'production.sqlite.db',
   UPLOAD_DIR: path.join(__dirname_resolved, 'data/uploads'),
+  // Disable pino worker threads to prevent crashes
+  PINO_DISABLE_WORKER_THREADS: 'true',
+  PINO_LOG_LEVEL: 'info',
 };
 
 console.log('🏗️  Starting server process...');
@@ -299,59 +304,60 @@ async function createClientServer(): Promise<void> {
 
   const clientServerScript = `#!/usr/bin/env node
 /**
- * Touch Monorepo Client Static Server
- * Simple static file server for the client
+ * Touch Monorepo Production Client Server
+ * Serves the client application on port 3000
  */
 
-const http = require('http');
-const fs = require('fs');
-const path = require('path');
-const url = require('url');
+import http from 'http';
+import fs from 'fs';
+import path from 'path';
+import url from 'url';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// Get __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const PORT = process.env.CLIENT_PORT || 3000;
 const CLIENT_DIR = path.join(__dirname, 'client');
 
-const mimeTypes = {
-  '.html': 'text/html',
-  '.js': 'text/javascript',
-  '.css': 'text/css',
-  '.json': 'application/json',
-  '.png': 'image/png',
-  '.jpg': 'image/jpg',
-  '.gif': 'image/gif',
-  '.ico': 'image/x-icon',
-  '.svg': 'image/svg+xml',
-  '.woff': 'font/woff',
-  '.woff2': 'font/woff2',
-  '.ttf': 'font/ttf',
-  '.eot': 'application/vnd.ms-fontobject'
-};
+console.log('🌐 Starting Touch Monorepo Client Server...');
+console.log('📍 Client directory:', CLIENT_DIR);
+console.log('🌐 Server will run on: http://localhost:' + PORT);
 
+// Create HTTP server
 const server = http.createServer((req, res) => {
-  const parsedUrl = url.parse(req.url);
-  let pathname = parsedUrl.pathname;
+  const parsedUrl = url.parse(req.url || '/', true);
+  let pathname = parsedUrl.pathname || '/';
 
-  // Default to index.html for SPA routing
+  // Default to index.html
   if (pathname === '/') {
     pathname = '/index.html';
   }
 
+  // Remove leading slash for file system
   const filePath = path.join(CLIENT_DIR, pathname);
 
-  // Security check - prevent directory traversal
-  if (!filePath.startsWith(CLIENT_DIR)) {
-    res.writeHead(403);
+  // Security check - ensure file is within client directory
+  const resolvedPath = path.resolve(filePath);
+  const clientDirResolved = path.resolve(CLIENT_DIR);
+
+  if (!resolvedPath.startsWith(clientDirResolved)) {
+    res.writeHead(403, { 'Content-Type': 'text/plain' });
     res.end('Forbidden');
     return;
   }
 
+  // Read and serve file
   fs.readFile(filePath, (err, data) => {
     if (err) {
-      // For SPA routing, return index.html for unknown routes
-      if (err.code === 'ENOENT' && !path.extname(pathname)) {
-        fs.readFile(path.join(CLIENT_DIR, 'index.html'), (indexErr, indexData) => {
+      // File not found, try index.html for SPA routing
+      if (err.code === 'ENOENT') {
+        const indexPath = path.join(CLIENT_DIR, 'index.html');
+        fs.readFile(indexPath, (indexErr, indexData) => {
           if (indexErr) {
-            res.writeHead(404);
+            res.writeHead(404, { 'Content-Type': 'text/plain' });
             res.end('Not Found');
           } else {
             res.writeHead(200, { 'Content-Type': 'text/html' });
@@ -359,33 +365,88 @@ const server = http.createServer((req, res) => {
           }
         });
       } else {
-        res.writeHead(404);
-        res.end('Not Found');
+        res.writeHead(500, { 'Content-Type': 'text/plain' });
+        res.end('Internal Server Error');
       }
-    } else {
-      const ext = path.extname(filePath);
-      const contentType = mimeTypes[ext] || 'application/octet-stream';
-
-      res.writeHead(200, { 'Content-Type': contentType });
-      res.end(data);
+      return;
     }
+
+    // Determine content type based on file extension
+    const ext = path.extname(filePath).toLowerCase();
+    let contentType = 'text/plain';
+
+    switch (ext) {
+      case '.html':
+        contentType = 'text/html';
+        break;
+      case '.css':
+        contentType = 'text/css';
+        break;
+      case '.js':
+        contentType = 'application/javascript';
+        break;
+      case '.json':
+        contentType = 'application/json';
+        break;
+      case '.png':
+        contentType = 'image/png';
+        break;
+      case '.jpg':
+      case '.jpeg':
+        contentType = 'image/jpeg';
+        break;
+      case '.gif':
+        contentType = 'image/gif';
+        break;
+      case '.svg':
+        contentType = 'image/svg+xml';
+        break;
+      case '.ico':
+        contentType = 'image/x-icon';
+        break;
+      case '.woff':
+        contentType = 'font/woff';
+        break;
+      case '.woff2':
+        contentType = 'font/woff2';
+        break;
+      case '.ttf':
+        contentType = 'font/ttf';
+        break;
+      case '.eot':
+        contentType = 'application/vnd.ms-fontobject';
+        break;
+    }
+
+    res.writeHead(200, { 'Content-Type': contentType });
+    res.end(data);
   });
 });
 
+// Start server
 server.listen(PORT, () => {
-  console.log(\`🎨 Client server running on http://localhost:\${PORT}\`);
-  console.log(\`📁 Serving files from: \${CLIENT_DIR}\`);
+  console.log('✅ Client server started successfully!');
+  console.log('🌐 Client: http://localhost:' + PORT);
+  console.log('🎨 Touch Monorepo Client is now available');
+  console.log('');
+  console.log('Press Ctrl+C to stop');
 });
 
 // Graceful shutdown
 process.on('SIGTERM', () => {
-  console.log('🛑 Shutting down client server...');
-  server.close();
+  console.log('🛑 Received SIGTERM, shutting down gracefully...');
+  server.close(() => {
+    console.log('✅ Client server closed');
+    process.exit(0);
+  });
 });
 
 process.on('SIGINT', () => {
-  console.log('🛑 Shutting down client server...');
-  server.close();
+  console.log('🛑 Received SIGINT, shutting down gracefully...');
+  server.close(() => {
+    console.log('✅ Client server closed');
+    process.exit(0);
+  });
 });
 `;
 
@@ -399,6 +460,21 @@ process.on('SIGINT', () => {
 
 async function createPackageJson(): Promise<void> {
   console.log('📦 Creating production package.json...');
+
+  // Read server package.json to get dependencies
+  const serverPackagePath = join(config.serverDir, 'package.json');
+  const serverPackageContent = await readFile(serverPackagePath, 'utf-8');
+  const serverPackage = JSON.parse(serverPackageContent);
+
+  // Get all server dependencies (excluding workspace packages)
+  const serverDependencies = { ...serverPackage.dependencies };
+
+  // Remove workspace packages as they're bundled
+  Object.keys(serverDependencies).forEach((key) => {
+    if (key.startsWith('@workspace/')) {
+      delete serverDependencies[key];
+    }
+  });
 
   const packageJson = {
     name: 'touch-monorepo-production',
@@ -414,6 +490,7 @@ async function createPackageJson(): Promise<void> {
       'start:both': 'npm-run-all --parallel start:server start:client',
     },
     dependencies: {
+      ...serverDependencies,
       dotenv: '^16.0.0',
     },
     optionalDependencies: {
@@ -531,6 +608,115 @@ Generated on: ${new Date().toISOString()}
   console.log('✅ README created');
 }
 
+async function createTestScript(): Promise<void> {
+  console.log('🧪 Creating test script...');
+
+  const testScript = `#!/usr/bin/env node
+/**
+ * Touch Monorepo Production Build Test Script
+ * Tests the production build to ensure everything is working
+ */
+
+import path from 'path';
+import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// Get __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+console.log('🧪 Testing Touch Monorepo Production Build...');
+console.log('='.repeat(50));
+
+// Test 1: Check required files exist
+console.log('\\n📁 Checking required files...');
+const requiredFiles = [
+  'server/index.js',
+  'client/index.html',
+  'data/db/production.sqlite.db',
+  '.env',
+  'start.js',
+  'start-client.js',
+  'package.json'
+];
+
+let allFilesExist = true;
+for (const file of requiredFiles) {
+  const filePath = path.join(__dirname, file);
+  const exists = existsSync(filePath);
+  console.log(\`\${exists ? '✅' : '❌'} \${file}\`);
+  if (!exists) allFilesExist = false;
+}
+
+if (!allFilesExist) {
+  console.error('\\n❌ Some required files are missing!');
+  process.exit(1);
+}
+
+console.log('\\n✅ All required files found');
+
+// Test 2: Check if servers are running
+console.log('\\n🌐 Testing server connectivity...');
+
+try {
+  // Test server API
+  const serverResponse = await fetch('http://localhost:4040/api');
+  if (serverResponse.ok) {
+    console.log('✅ Server API is responding');
+  } else {
+    console.log('❌ Server API is not responding correctly');
+  }
+} catch (error) {
+  console.log('❌ Server API is not accessible:', error.message);
+}
+
+try {
+  // Test client
+  const clientResponse = await fetch('http://localhost:3000');
+  if (clientResponse.ok) {
+    console.log('✅ Client is responding');
+  } else {
+    console.log('❌ Client is not responding correctly');
+  }
+} catch (error) {
+  console.log('❌ Client is not accessible:', error.message);
+}
+
+console.log('\\n🎉 Production build test completed!');
+console.log('\\n📋 Summary:');
+console.log('- Server: http://localhost:4040');
+console.log('- Client: http://localhost:3000');
+console.log('- Database: ./data/db/production.sqlite.db');
+console.log('\\n🚀 To start the servers:');
+console.log('  node start.js & node start-client.js');
+`;
+
+  await writeFile(join(config.distDir, 'test-production.js'), testScript);
+
+  // Make it executable
+  execSync(`chmod +x ${join(config.distDir, 'test-production.js')}`, { stdio: 'inherit' });
+
+  console.log('✅ Test script created');
+}
+
+async function installDependencies(): Promise<void> {
+  console.log('📦 Installing production dependencies...');
+
+  try {
+    // Install dependencies in the dist directory
+    execSync('npm install --production', {
+      cwd: config.distDir,
+      stdio: 'inherit',
+    });
+
+    console.log('✅ Production dependencies installed');
+  } catch (error) {
+    console.error('❌ Failed to install dependencies:', error);
+    throw error;
+  }
+}
+
 async function main(): Promise<void> {
   console.log('🏗️  Building Touch Monorepo Production Distribution');
   console.log('='.repeat(60));
@@ -546,6 +732,8 @@ async function main(): Promise<void> {
     await createClientServer();
     await createPackageJson();
     await createReadme();
+    await createTestScript();
+    await installDependencies();
 
     console.log('');
     console.log('🎉 Production build completed successfully!');
