@@ -1,54 +1,42 @@
 #!/usr/bin/env node
 /**
- * Touch Monorepo Production Startup Script
+ * Touch Monorepo Production Server Startup Script
  * Auto-generated production launcher
  */
 
-import { spawn, execSync } from 'child_process';
+import { spawn } from 'child_process';
 import path from 'path';
 import { existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { killPortIfOccupied } from './ports.utils.js';
 
 // Get __dirname equivalent for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname_resolved = dirname(__filename);
 
-// Load environment variables
+// Load environment variables from dist directory
 import dotenv from 'dotenv';
-dotenv.config({ path: path.join(__dirname_resolved, '.env') });
+const envPath = path.join(__dirname_resolved, 'dist/.env.production');
+if (existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+  console.log('✅ Loaded environment from:', envPath);
+} else {
+  console.log('⚠️  Environment file not found:', envPath);
+}
 
 console.log('🚀 Starting Touch Monorepo Production Server...');
 console.log('📍 Working directory:', __dirname_resolved);
 
-// Function to kill processes on specific ports
-function killPortIfOccupied(port) {
-  try {
-    const result = execSync('lsof -ti:' + port, { stdio: 'pipe' })
-      .toString()
-      .trim();
-    if (result) {
-      console.log('⚠️  Port ' + port + ' is occupied, killing process...');
-      execSync('lsof -ti:' + port + ' | xargs kill -9', { stdio: 'inherit' });
-      console.log('✅ Killed process on port ' + port);
-    } else {
-      console.log('✅ Port ' + port + ' is available');
-    }
-  } catch (error) {
-    // Port is not in use
-    console.log('✅ Port ' + port + ' is available');
-  }
-}
-
 // Ensure ports are available
 console.log('🔧 Checking for occupied ports...');
-killPortIfOccupied('{{SERVER_PORT}}');
-killPortIfOccupied('{{CLIENT_PORT}}');
+killPortIfOccupied('4040');
+// killPortIfOccupied('3000');
 
 // Verify required files exist
-const serverPath = path.join(__dirname_resolved, 'server/index.js');
-const clientPath = path.join(__dirname_resolved, 'client/index.html');
-const dbPath = path.join(__dirname_resolved, 'data/db/production.sqlite.db');
+const serverPath = path.join(__dirname_resolved, 'dist/server/index.js');
+const clientPath = path.join(__dirname_resolved, 'dist/client/index.html');
+const dbPath = path.join(__dirname_resolved, 'dist/data/db/production.sqlite.db');
 
 console.log('🔍 Checking required files...');
 if (!existsSync(serverPath)) {
@@ -70,9 +58,9 @@ console.log('✅ All required files found');
 const serverEnv = {
   ...process.env,
   NODE_ENV: 'production',
-  DATABASE_URL: path.join(__dirname_resolved, 'data/db/production.sqlite.db'),
+  DATABASE_URL: path.join(__dirname_resolved, 'dist/data/db/production.sqlite.db'),
   DB_NAME: 'production.sqlite.db',
-  UPLOAD_DIR: path.join(__dirname_resolved, 'data/uploads'),
+  UPLOAD_DIR: path.join(__dirname_resolved, 'dist/data/uploads'),
   // Disable pino worker threads to prevent crashes
   PINO_DISABLE_WORKER_THREADS: 'true',
   PINO_LOG_LEVEL: 'info',
@@ -81,7 +69,7 @@ const serverEnv = {
 console.log('🏗️  Starting server process...');
 
 // Start server (using .js extension for ESM bundle)
-const server = spawn('node', ['server/index.js'], {
+const server = spawn('node', ['dist/server/index.js'], {
   cwd: __dirname_resolved,
   stdio: 'inherit',
   env: serverEnv,
@@ -109,11 +97,8 @@ process.on('SIGINT', () => {
 });
 
 console.log('');
-console.log('🌟 Touch Monorepo is running!');
-console.log('🌐 Server: http://localhost:{{SERVER_PORT}}');
-console.log('🎨 To serve the client, run a static file server:');
-console.log('   npx serve -s client -p {{CLIENT_PORT}}');
-console.log('   or');
-console.log('   python3 -m http.server {{CLIENT_PORT}} --directory client');
+console.log('🌟 Touch Monorepo Server is running!');
+console.log('🌐 Server: http://localhost:4040');
+console.log('🎨 To serve the client, run: node start-client.js');
 console.log('');
 console.log('Press Ctrl+C to stop');

@@ -13,6 +13,7 @@ export default defineConfig({
   splitting: false, // Single file output
   treeshake: true, // Remove unused code
   platform: 'node', // Specify Node.js platform
+  outDir: 'dist', // Ensure output goes to dist directory
   env: {
     NODE_ENV: 'production',
   },

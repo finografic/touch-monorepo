@@ -70,7 +70,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     },
     build: {
       outDir: 'dist',
-      emptyOutDir: false,
+      emptyOutDir: true, // Changed from false to true to clean the directory
       copyPublicDir: true,
       reportCompressedSize: true,
       minify: 'esbuild', // Use esbuild for faster minification

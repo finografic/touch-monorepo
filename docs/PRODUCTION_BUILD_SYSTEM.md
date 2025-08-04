@@ -16,7 +16,7 @@ The Touch Monorepo Production Build System creates a self-contained, portable di
 ## 📁 Build Output Structure
 
 ```
-dist-production/
+deployment/
 ├── client/                 # Static client application files
 │   ├── index.html         # Main HTML entry point
 │   ├── assets/            # CSS, JS, and other assets
@@ -55,14 +55,14 @@ This command executes the build script located at `scripts/src/build-production/
 
 #### **Step 1: Clean and Setup**
 
-- Removes any existing `dist-production` directory
+- Removes any existing `deployment` directory
 - Creates the required directory structure
 
 #### **Step 2: Client Build**
 
 - Runs `pnpm --filter @workspace/client build.production`
 - Uses Vite to create optimized static files
-- Outputs to `dist-production/client/`
+- Outputs to `deployment/client/`
 
 #### **Step 3: Server Build**
 
@@ -132,7 +132,7 @@ apps/server/.env.development
 .env.development
 
 # Output:
-dist-production/.env
+deployment/.env
 ```
 
 Production overrides include:
@@ -152,7 +152,7 @@ Production overrides include:
 1. **Navigate to distribution:**
 
    ```bash
-   cd dist-production
+   cd deployment
    ```
 
 2. **Install minimal dependencies:**
@@ -230,7 +230,7 @@ The production database is automatically created from your development database 
 
 #### "Cannot find module 'dotenv'"
 
-**Solution**: Run `npm install` in the `dist-production` directory.
+**Solution**: Run `npm install` in the `deployment` directory.
 
 #### "Server failed to start"
 
@@ -309,7 +309,7 @@ The build process sets proper permissions:
 ### Single Server Deployment
 
 1. Build distribution on development machine
-2. Copy `dist-production` directory to server
+2. Copy `deployment` directory to server
 3. Run `npm install && node start.js`
 
 ### Container Deployment
@@ -317,7 +317,7 @@ The build process sets proper permissions:
 ```dockerfile
 FROM node:20-alpine
 WORKDIR /app
-COPY dist-production/ .
+COPY deployment/ .
 RUN npm install --production
 EXPOSE 4040 3000
 CMD ["node", "start.js"]
@@ -347,7 +347,7 @@ location / {
 
 ### Adding Custom Scripts
 
-Edit `dist-production/package.json` to add custom scripts:
+Edit `deployment/package.json` to add custom scripts:
 
 ```json
 {
@@ -380,7 +380,7 @@ Modify `apps/server/tsup.config.production.ts` to:
 When you make changes to the monorepo:
 
 1. **Rebuild**: `pnpm build.production`
-2. **Deploy**: Copy new `dist-production` to server
+2. **Deploy**: Copy new `deployment` to server
 3. **Restart**: Stop and start the production services
 
 ### Backup Strategy

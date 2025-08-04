@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Touch Monorepo Production Client Server
- * Serves the client application on port 3000
+ * Serves the client application on port 3000 with API proxy
  */
 
 import http from 'http';
@@ -10,24 +10,62 @@ import path from 'path';
 import url from 'url';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { killPortIfOccupied } from './ports.utils.js';
 
 // Get __dirname equivalent for ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const PORT = process.env.CLIENT_PORT || '{{CLIENT_PORT}}';
-const CLIENT_DIR = path.join(__dirname, 'client');
+const PORT = process.env.CLIENT_PORT || '3000';
+const API_PORT = process.env.API_PORT || '4040';
+const CLIENT_DIR = path.join(__dirname, 'dist/client');
 
 console.log('🌐 Starting Touch Monorepo Client Server...');
 console.log('📍 Client directory:', CLIENT_DIR);
 console.log('🌐 Server will run on: http://localhost:' + PORT);
+console.log('🔗 API proxy will forward to: http://localhost:' + API_PORT);
+
+// Check for occupied ports
+console.log('🔧 Checking for occupied ports...');
+// killPortIfOccupied(PORT);
 
 // Create HTTP server
 const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url || '/', true);
   let pathname = parsedUrl.pathname || '/';
 
-  // Default to index.html
+  // Check if this is an API request
+  if (pathname.startsWith('/api/') || pathname === '/api') {
+    // Proxy API requests to the backend server
+    const apiUrl = `http://localhost:${API_PORT}${pathname}`;
+    console.log('🔗 Proxying API request:', pathname, '->', apiUrl);
+
+    const apiReq = http.request(
+      apiUrl,
+      {
+        method: req.method,
+        headers: {
+          ...req.headers,
+          host: `localhost:${API_PORT}`,
+        },
+      },
+      (apiRes) => {
+        res.writeHead(apiRes.statusCode || 200, apiRes.headers);
+        apiRes.pipe(res);
+      },
+    );
+
+    apiReq.on('error', (err) => {
+      console.error('❌ API proxy error:', err.message);
+      res.writeHead(502, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'API server unavailable' }));
+    });
+
+    req.pipe(apiReq);
+    return;
+  }
+
+  // Default to index.html for root
   if (pathname === '/') {
     pathname = '/index.html';
   }
@@ -123,6 +161,7 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, () => {
   console.log('✅ Client server started successfully!');
   console.log('🌐 Client: http://localhost:' + PORT);
+  console.log('🔗 API: http://localhost:' + API_PORT);
   console.log('🎨 Touch Monorepo Client is now available');
   console.log('');
   console.log('Press Ctrl+C to stop');

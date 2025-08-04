@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const DIST_DIR = resolve(__dirname, '../../../dist-production');
+const DIST_DIR = resolve(__dirname, '../../../deployment');
 const WORKSPACE_ROOT = resolve(__dirname, '../../..');
 
 interface BuildConfig {
@@ -18,6 +18,7 @@ interface BuildConfig {
   serverDir: string;
   dataDir: string;
   configDir: string;
+  buildDir: string; // New: dist subdirectory for build artifacts
 }
 
 const config: BuildConfig = {
@@ -27,24 +28,27 @@ const config: BuildConfig = {
   serverDir: join(WORKSPACE_ROOT, 'apps/server'),
   dataDir: join(WORKSPACE_ROOT, 'data'),
   configDir: join(WORKSPACE_ROOT, 'config'),
+  buildDir: join(DIST_DIR, 'dist'), // Build artifacts go here
 };
 
 async function cleanDistDirectory(): Promise<void> {
   console.log('🧹 Cleaning distribution directory...');
-  execSync(`rm -rf ${config.distDir}`, { stdio: 'inherit' });
+  // Only clean the dist subdirectory, preserve other files like ports.utils.js
+  execSync(`rm -rf ${config.buildDir}`, { stdio: 'inherit' });
 }
 
 async function createDistStructure(): Promise<void> {
-  console.log('📁 Creating distribution directory structure...');
+  console.log('📁 Creating deployment directory structure...');
 
   const directories = [
     config.distDir,
-    join(config.distDir, 'client'),
-    join(config.distDir, 'server'),
-    join(config.distDir, 'data'),
-    join(config.distDir, 'data/db'),
-    join(config.distDir, 'data/uploads'),
-    join(config.distDir, 'data/migrations'),
+    config.buildDir,
+    join(config.buildDir, 'client'),
+    join(config.buildDir, 'server'),
+    join(config.buildDir, 'data'),
+    join(config.buildDir, 'data/db'),
+    join(config.buildDir, 'data/uploads'),
+    join(config.buildDir, 'data/migrations'),
   ];
 
   for (const dir of directories) {
@@ -61,11 +65,11 @@ async function buildClient(): Promise<void> {
       stdio: 'inherit',
     });
 
-    // Copy client build output
+    // Copy client build output to dist/client
     const clientBuildDir = join(config.clientDir, 'dist');
     if (existsSync(clientBuildDir)) {
-      await cp(clientBuildDir, join(config.distDir, 'client'), { recursive: true });
-      console.log('✅ Client build copied to distribution');
+      await cp(clientBuildDir, join(config.buildDir, 'client'), { recursive: true });
+      console.log('✅ Client build copied to deployment');
     } else {
       throw new Error('Client build directory not found');
     }
@@ -85,11 +89,11 @@ async function buildServer(): Promise<void> {
       stdio: 'inherit',
     });
 
-    // Copy server build output
+    // Copy server build output to dist/server
     const serverBuildDir = join(config.serverDir, 'dist');
     if (existsSync(serverBuildDir)) {
-      await cp(serverBuildDir, join(config.distDir, 'server'), { recursive: true });
-      console.log('✅ Server build copied to distribution');
+      await cp(serverBuildDir, join(config.buildDir, 'server'), { recursive: true });
+      console.log('✅ Server build copied to deployment');
     } else {
       throw new Error('Server build directory not found');
     }
@@ -103,28 +107,28 @@ async function copyDataFiles(): Promise<void> {
   console.log('📊 Copying data files...');
 
   try {
-    // Copy database files
+    // Copy database files to dist/data/db
     const dbFiles = ['development.sqlite.db'];
     for (const dbFile of dbFiles) {
       const srcPath = join(config.dataDir, dbFile);
       if (existsSync(srcPath)) {
-        const destPath = join(config.distDir, 'data/db', 'production.sqlite.db');
+        const destPath = join(config.buildDir, 'data/db', 'production.sqlite.db');
         await copyFile(srcPath, destPath);
         console.log(`✅ Database ${dbFile} copied as production.sqlite.db`);
       }
     }
 
-    // Copy migrations
+    // Copy migrations to dist/data/migrations
     const migrationsDir = join(config.dataDir, 'migrations');
     if (existsSync(migrationsDir)) {
-      await cp(migrationsDir, join(config.distDir, 'data/migrations'), { recursive: true });
+      await cp(migrationsDir, join(config.buildDir, 'data/migrations'), { recursive: true });
       console.log('✅ Database migrations copied');
     }
 
-    // Copy uploads directory (if it has content)
+    // Copy uploads directory to dist/data/uploads
     const uploadsDir = join(config.dataDir, 'uploads');
     if (existsSync(uploadsDir)) {
-      await cp(uploadsDir, join(config.distDir, 'data/uploads'), { recursive: true });
+      await cp(uploadsDir, join(config.buildDir, 'data/uploads'), { recursive: true });
       console.log('✅ Uploads directory copied');
     }
   } catch (error) {
@@ -137,12 +141,7 @@ async function consolidateEnvironmentFiles(): Promise<void> {
   console.log('⚙️  Consolidating environment files...');
 
   try {
-    const envFiles = [
-      join(config.configDir, '.env.development'),
-      join(config.serverDir, '.env.development'),
-      join(config.workspaceRoot, '.env.development'),
-    ];
-
+    // Only include essential production variables
     const envContent: string[] = [
       '# PRODUCTION ENVIRONMENT - AUTO-GENERATED',
       '# DO NOT EDIT MANUALLY',
@@ -150,40 +149,44 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       '# Application Environment',
       'NODE_ENV=production',
       '',
+      '# API Server Configuration',
+      'API_PROTOCOL=http',
+      'API_HOST=localhost',
+      'API_PORT=4040',
+      'API_BASE_PATH=/api',
+      'API_URL=http://localhost:4040/api',
+      '',
+      '# Client Configuration',
+      'CLIENT_PROTOCOL=http',
+      'CLIENT_HOST=localhost',
+      'CLIENT_PORT=3000',
+      'CLIENT_ORIGIN=http://localhost:3000',
+      'VITE_APP_NAME=Touch Monorepo',
+      '',
+      '# Database Configuration',
+      'DB_DIALECT=sqlite',
+      'DB_HOST=localhost',
+      'DB_USER=admin',
+      'DB_PORT=0',
+      'DATABASE_URL=./data/db/production.sqlite.db',
+      'DB_NAME=production.sqlite.db',
+      '',
+      '# Authentication',
+      'BETTER_AUTH_SECRET=your-super-secret-auth-key-minimum-32-characters-long',
+      'BETTER_AUTH_URL=http://localhost:4040',
+      '',
+      '# File Uploads',
+      'UPLOAD_DIR=./data/uploads',
+      '',
+      '# Logging Configuration',
+      'PINO_DISABLE_WORKER_THREADS=true',
+      'PINO_LOG_LEVEL=info',
+      '',
     ];
 
-    // Read and merge environment files
-    for (const envFile of envFiles) {
-      if (existsSync(envFile)) {
-        const content = await readFile(envFile, 'utf-8');
-        const lines = content
-          .split('\n')
-          .filter((line) => line.trim() && !line.startsWith('#'))
-          .filter((line) => !line.startsWith('NODE_ENV=')); // Skip NODE_ENV as we set it to production
+    // Create .env.production in dist directory (for server)
+    await writeFile(join(config.buildDir, '.env.production'), envContent.join('\n'));
 
-        if (lines.length > 0) {
-          envContent.push(`# From ${envFile.replace(config.workspaceRoot, '.')}`);
-          envContent.push(...lines);
-          envContent.push('');
-        }
-      }
-    }
-
-    // Override specific production values
-    envContent.push('# Production Overrides');
-    envContent.push('DATABASE_URL=./data/db/production.sqlite.db');
-    envContent.push('DB_NAME=production.sqlite.db');
-    envContent.push('API_PROTOCOL=http');
-    envContent.push('API_HOST=localhost');
-    envContent.push('API_PORT=4040');
-    envContent.push('CLIENT_PROTOCOL=http');
-    envContent.push('CLIENT_HOST=localhost');
-    envContent.push('CLIENT_PORT=3000');
-    envContent.push('');
-
-    await writeFile(join(config.distDir, '.env'), envContent.join('\n'));
-    // Also create .env.production for the server
-    await writeFile(join(config.distDir, '.env.production'), envContent.join('\n'));
     console.log('✅ Environment files consolidated');
   } catch (error) {
     console.error('❌ Failed to consolidate environment files:', error);
@@ -191,22 +194,51 @@ async function consolidateEnvironmentFiles(): Promise<void> {
   }
 }
 
+async function createPortsUtility(): Promise<void> {
+  console.log('🔧 Creating ports utility...');
+
+  const portsUtility = `import { execSync } from 'child_process';
+
+// Function to kill processes on specific ports
+export function killPortIfOccupied(port) {
+  try {
+    const result = execSync('lsof -ti:' + port, { stdio: 'pipe' })
+      .toString()
+      .trim();
+    if (result) {
+      console.log('⚠️  Port ' + port + ' is occupied, killing process...');
+      execSync('lsof -ti:' + port + ' | xargs kill -9', { stdio: 'inherit' });
+      console.log('✅ Killed process on port ' + port);
+    } else {
+      console.log('✅ Port ' + port + ' is available');
+    }
+  } catch (error) {
+    // Port is not in use
+    console.log('✅ Port ' + port + ' is available');
+  }
+}
+`;
+
+  await writeFile(join(config.distDir, 'ports.utils.js'), portsUtility);
+  console.log('✅ Ports utility created');
+}
+
 async function createStartupScript(): Promise<void> {
   console.log('🚀 Creating startup script...');
 
   // Read template file
-  const templatePath = join(__dirname, 'templates/start.js.template');
+  const templatePath = join(__dirname, 'templates/start-server.js.template');
   const templateContent = await readFile(templatePath, 'utf-8');
 
   // Replace template variables
   const startScript = templateContent.replace(/{{SERVER_PORT}}/g, '4040').replace(/{{CLIENT_PORT}}/g, '3000');
 
-  await writeFile(join(config.distDir, 'start.js'), startScript);
+  await writeFile(join(config.distDir, 'start-server.js'), startScript);
 
   // Make it executable
-  execSync(`chmod +x ${join(config.distDir, 'start.js')}`, { stdio: 'inherit' });
+  execSync(`chmod +x ${join(config.distDir, 'start-server.js')}`, { stdio: 'inherit' });
 
-  console.log('✅ Startup script created');
+  console.log('✅ Startup script created as start-server.js');
 }
 
 async function createClientServer(): Promise<void> {
@@ -253,8 +285,8 @@ async function createPackageJson(): Promise<void> {
     type: 'module',
     scripts: {
       'start': 'run-p start:server start:client',
-      'start:v1': 'node start.js',
-      'start:server': 'node start.js',
+      'start:v1': 'node start-server.js',
+      'start:server': 'node start-server.js',
       'start:client': 'node start-client.js',
       'start:both': 'npm-run-all --parallel start:server start:client',
     },
@@ -279,77 +311,62 @@ async function createPackageJson(): Promise<void> {
 async function createReadme(): Promise<void> {
   console.log('📖 Creating README...');
 
-  const readme = `# Touch Monorepo - Production Distribution
+  const readme = `# Touch Monorepo - Deployment
 
-This is a self-contained production build of the Touch Monorepo application.
-
-## Contents
-
-- \`client/\` - Static client application files
-- \`server/\` - Bundled server application
-- \`data/\` - Database and uploads
-- \`.env\` - Production environment configuration
-- \`start.js\` - Main startup script
-- \`start-client.js\` - Client static server
-- \`package.json\` - Production dependencies
+This is a self-contained deployment build of the Touch Monorepo application.
 
 ## Quick Start
 
-### Option 1: Server Only (API)
 \`\`\`bash
-node start.js
-\`\`\`
-Server will be available at http://localhost:4040
-
-### Option 2: Full Application (Server + Client)
-\`\`\`bash
-# Terminal 1 - Start server
-node start.js
-
-# Terminal 2 - Start client
-node start-client.js
-\`\`\`
-
-- Server: http://localhost:4040
-- Client: http://localhost:3000
-
-### Option 3: Using npm scripts (requires npm install)
-\`\`\`bash
-# Install optional dependencies
-npm install
-
 # Start both server and client
-npm run start:both
+npm start
+
+# Or start them separately
+npm run start:server  # Backend server on port 4040
+npm run start:client  # Frontend with API proxy on port 3000
+
+# Or run directly
+node start-server.js & node start-client.js
 \`\`\`
 
-## Alternative Client Servers
+## Structure
 
-You can use any static file server for the client:
-
-\`\`\`bash
-# Using serve (install: npm install -g serve)
-serve -s client -p 3000
-
-# Using Python
-python3 -m http.server 3000 --directory client
-
-# Using Node.js http-server (install: npm install -g http-server)
-http-server client -p 3000
+\`\`\`
+deployment/
+├── dist/                    # Build artifacts (regenerated each time)
+│   ├── client/             # Client build output
+│   ├── server/             # Server build output
+│   └── data/               # Database, migrations, uploads
+├── node_modules/           # Dependencies (preserved)
+├── .env                    # Environment configuration
+├── .env.production         # Production environment
+├── package.json            # Dependencies and scripts
+├── ports.utils.js          # Port management utility
+├── start-server.js         # Backend server startup
+├── start-client.js         # Frontend server with API proxy
+├── test-production.js      # Test script
+└── README.md               # This file
 \`\`\`
 
-## Environment Configuration
+## Scripts
 
-The \`.env\` file contains all necessary configuration. Key settings:
+- \`start-server.js\` - Starts the backend API server on port 4040
+- \`start-client.js\` - Starts the frontend server on port 3000 with API proxy
+- \`ports.utils.js\` - Utility for managing port conflicts
+- \`test-production.js\` - Tests the deployment build
 
-- \`NODE_ENV=production\`
-- \`API_PORT=4040\` - Server port
-- \`CLIENT_PORT=3000\` - Client port
-- \`DATABASE_URL=./data/db/production.sqlite.db\` - Database location
+## Configuration
 
-## Database
+Edit \`.env\` to customize:
+- \`API_PORT\` - Backend server port (default: 4040)
+- \`CLIENT_PORT\` - Frontend server port (default: 3000)
+- Database settings
+- Other environment variables
 
-The SQLite database is located at \`data/db/production.sqlite.db\`.
-Uploads are stored in \`data/uploads/\`.
+## Data
+
+The SQLite database is located at \`dist/data/db/production.sqlite.db\`.
+Uploads are stored in \`dist/data/uploads/\`.
 
 ## Requirements
 
@@ -358,17 +375,16 @@ Uploads are stored in \`data/uploads/\`.
 
 ## Troubleshooting
 
-1. **Port conflicts**: Edit \`.env\` to change ports
-2. **Database issues**: Check that \`data/db/production.sqlite.db\` exists
-3. **Permission issues**: Ensure scripts are executable (\`chmod +x start.js start-client.js\`)
+1. **Port conflicts**: The scripts automatically kill processes on occupied ports
+2. **Database issues**: Check that \`dist/data/db/production.sqlite.db\` exists
+3. **Permission issues**: Ensure scripts are executable (\`chmod +x start-server.js start-client.js\`)
 
 ## Architecture
 
-This distribution eliminates the need for:
-- \`node_modules\` (server is bundled)
-- Development dependencies
-- Build tools
-- Complex environment setup
+This deployment structure separates:
+- **Build artifacts** (\`dist/\`) - Regenerated on each build
+- **Runtime files** (scripts, configs) - Preserved between builds
+- **Dependencies** (\`node_modules/\`) - Installed once and preserved
 
 Generated on: ${new Date().toISOString()}
 `;
@@ -390,6 +406,7 @@ import path from 'path';
 import { existsSync } from 'fs';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
+import { killPortIfOccupied } from './ports.utils.js';
 
 // Get __dirname equivalent for ES modules
 const __filename = fileURLToPath(import.meta.url);
@@ -399,14 +416,15 @@ console.log('🧪 Testing Touch Monorepo Production Build...');
 console.log('='.repeat(50));
 
 // Test 1: Check required files exist
-console.log('\n📁 Checking required files...');
+console.log('\\n📁 Checking required files...');
 const requiredFiles = [
-  'server/index.js',
-  'client/index.html',
-  'data/db/production.sqlite.db',
+  'dist/server/index.js',
+  'dist/client/index.html',
+  'dist/data/db/production.sqlite.db',
   '.env',
-  'start.js',
+  'start-server.js',
   'start-client.js',
+  'ports.utils.js',
   'package.json'
 ];
 
@@ -419,14 +437,23 @@ for (const file of requiredFiles) {
 }
 
 if (!allFilesExist) {
-  console.error('\n❌ Some required files are missing!');
+  console.error('\\n❌ Some required files are missing!');
   process.exit(1);
 }
 
-console.log('\n✅ All required files found');
+console.log('\\n✅ All required files found');
 
-// Test 2: Check if servers are running
-console.log('\n🌐 Testing server connectivity...');
+// Test 2: Check ports utility
+console.log('\\n🔧 Testing ports utility...');
+try {
+  killPortIfOccupied('9999'); // Test with a port that shouldn't be in use
+  console.log('✅ Ports utility is working');
+} catch (error) {
+  console.log('❌ Ports utility error:', error.message);
+}
+
+// Test 3: Check if servers are running
+console.log('\\n🌐 Testing server connectivity...');
 
 try {
   // Test server API
@@ -452,13 +479,13 @@ try {
   console.log('❌ Client is not accessible:', error.message);
 }
 
-console.log('\n🎉 Production build test completed!');
-console.log('\n📋 Summary:');
+console.log('\\n🎉 Production build test completed!');
+console.log('\\n📋 Summary:');
 console.log('- Server: http://localhost:4040');
 console.log('- Client: http://localhost:3000');
-console.log('- Database: ./data/db/production.sqlite.db');
-console.log('\n🚀 To start the servers:');
-console.log('  node start.js & node start-client.js');
+console.log('- Database: ./dist/data/db/production.sqlite.db');
+console.log('\\n🚀 To start the servers:');
+console.log('  node start-server.js & node start-client.js');
 `;
 
   await writeFile(join(config.distDir, 'test-production.js'), testScript);
@@ -473,7 +500,7 @@ async function installDependencies(): Promise<void> {
   console.log('📦 Installing production dependencies...');
 
   try {
-    // Install dependencies in the dist directory
+    // Install dependencies in the deployment directory
     execSync('npm install --production', {
       cwd: config.distDir,
       stdio: 'inherit',
@@ -509,8 +536,25 @@ async function killPortsIfOccupied(): Promise<void> {
   }
 }
 
+async function copyEnvExample(): Promise<void> {
+  console.log('📋 Copying .env.example...');
+
+  try {
+    const examplePath = join(config.workspaceRoot, '.env.example');
+    if (existsSync(examplePath)) {
+      await copyFile(examplePath, join(config.distDir, '.env.example'));
+      console.log('✅ .env.example copied to deployment');
+    } else {
+      console.log('⚠️  .env.example not found, skipping');
+    }
+  } catch (error) {
+    console.error('❌ Failed to copy .env.example:', error);
+    // Don't throw error, this is not critical
+  }
+}
+
 async function main(): Promise<void> {
-  console.log('🏗️  Building Touch Monorepo Production Distribution');
+  console.log('🏗️  Building Touch Monorepo Deployment');
   console.log('='.repeat(60));
 
   try {
@@ -521,18 +565,20 @@ async function main(): Promise<void> {
     await buildServer();
     await copyDataFiles();
     await consolidateEnvironmentFiles();
+    await createPortsUtility();
     await createStartupScript();
     await createClientServer();
     await createPackageJson();
     await createReadme();
     await createTestScript();
     await installDependencies();
+    await copyEnvExample();
 
     console.log('');
-    console.log('🎉 Production build completed successfully!');
-    console.log('📦 Distribution created at:', config.distDir);
+    console.log('🎉 Deployment build completed successfully!');
+    console.log('📦 Deployment created at:', config.distDir);
     console.log('');
-    console.log('To run the production build:');
+    console.log('To run the deployment:');
     console.log(`  cd ${config.distDir}`);
     console.log('  node start.js');
     console.log('');
@@ -541,7 +587,7 @@ async function main(): Promise<void> {
     console.log('  node start.js & node start-client.js');
     console.log('');
   } catch (error) {
-    console.error('❌ Production build failed:', error);
+    console.error('❌ Deployment build failed:', error);
     process.exit(1);
   }
 }
