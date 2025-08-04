@@ -14,7 +14,10 @@ import { fileURLToPath } from 'node:url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-config({ path: path.resolve(__dirname, `../.env.${process.env.NODE_ENV || 'development'}`) });
+// Only load environment file if not in production or if DB_PATH is not set
+if (process.env.NODE_ENV !== 'production' || !process.env.DB_PATH) {
+  config({ path: path.resolve(__dirname, `../.env.${process.env.NODE_ENV || 'development'}`) });
+}
 
 // ======================================================================== //
 
@@ -31,7 +34,7 @@ const envServerSchema = z
   })
   .transform((env) => ({
     ...env,
-    DB_PATH: path.resolve(paths.data.dir, env.DB_NAME),
+    DB_PATH: process.env.DB_PATH || path.resolve(paths.data.dir, env.DB_NAME),
   }));
 
 const envServerValidated = envServerSchema.parse({

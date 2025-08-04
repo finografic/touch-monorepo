@@ -65,10 +65,14 @@
     "**/node_modules/.vite-temp/**": true
   },
   "files.associations": {
-    "*.css": "tailwindcss"
+    "*.css": "tailwindcss",
+    "*.ejs": "javascript",
+    "*.template": "javascript"
   },
   "editor.quickSuggestions": {
-    "strings": "on"
+    "other": true,
+    "comments": false,
+    "strings": true
   },
   "tailwindCSS.includeLanguages": {
     "typescript": "javascript",
@@ -88,5 +92,10 @@
   },
   "search.exclude": {
     "**/apps/client/src/api/query-v2": true
-  }
+  },
+  "emmet.includeLanguages": {
+    "javascript": "html"
+  },
+  "javascript.validate.enable": true,
+  "typescript.validate.enable": true
 }

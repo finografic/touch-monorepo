@@ -29,6 +29,14 @@ const config: BuildConfig = {
   configDir: join(WORKSPACE_ROOT, 'config'),
 };
 
+// Simple template engine (EJS-like)
+function renderTemplate(template: string, variables: Record<string, any>): string {
+  return template.replace(/\<\%\=?\s*([^%>]+)\s*%\>/g, (match, variable) => {
+    const value = variable.trim();
+    return variables[value] || '';
+  });
+}
+
 async function cleanDistDirectory(): Promise<void> {
   console.log('🧹 Cleaning distribution directory...');
   execSync(`rm -rf ${config.distDir}`, { stdio: 'inherit' });
@@ -192,39 +200,52 @@ async function consolidateEnvironmentFiles(): Promise<void> {
 }
 
 async function createStartupScript(): Promise<void> {
-  console.log('🚀 Creating startup script...');
+  console.log('🚀 Creating startup script from template...');
 
-  // Read template file
-  const templatePath = join(__dirname, 'templates/start.js.template');
-  const templateContent = await readFile(templatePath, 'utf-8');
+  // Read the template file
+  const templatePath = join(__dirname, 'templates/start.js.ejs');
+  const template = await readFile(templatePath, 'utf-8');
 
-  // Replace template variables
-  const startScript = templateContent.replace(/{{SERVER_PORT}}/g, '4040').replace(/{{CLIENT_PORT}}/g, '3000');
+  // Render template with variables
+  const renderedScript = renderTemplate(template, {
+    envPath: '.env',
+    serverPort: 4040,
+    clientPort: 3000,
+    serverPath: 'server/index.js',
+    clientPath: 'client/index.html',
+    dbPath: 'data/db/production.sqlite.db',
+    databaseUrl: './data/db/production.sqlite.db',
+    dbName: 'production.sqlite.db',
+    uploadDir: './data/uploads',
+  });
 
-  await writeFile(join(config.distDir, 'start.js'), startScript);
+  await writeFile(join(config.distDir, 'start.js'), renderedScript);
 
   // Make it executable
   execSync(`chmod +x ${join(config.distDir, 'start.js')}`, { stdio: 'inherit' });
 
-  console.log('✅ Startup script created');
+  console.log('✅ Startup script created from template');
 }
 
 async function createClientServer(): Promise<void> {
-  console.log('🌐 Creating client server script...');
+  console.log('🌐 Creating client server script from template...');
 
-  // Read template file
-  const templatePath = join(__dirname, 'templates/start-client.js.template');
-  const templateContent = await readFile(templatePath, 'utf-8');
+  // Read the template file
+  const templatePath = join(__dirname, 'templates/start-client.js.ejs');
+  const template = await readFile(templatePath, 'utf-8');
 
-  // Replace template variables
-  const clientServerScript = templateContent.replace(/{{CLIENT_PORT}}/g, '3000');
+  // Render template with variables
+  const renderedScript = renderTemplate(template, {
+    clientPort: 3000,
+    clientDir: 'client',
+  });
 
-  await writeFile(join(config.distDir, 'start-client.js'), clientServerScript);
+  await writeFile(join(config.distDir, 'start-client.js'), renderedScript);
 
   // Make it executable
   execSync(`chmod +x ${join(config.distDir, 'start-client.js')}`, { stdio: 'inherit' });
 
-  console.log('✅ Client server script created');
+  console.log('✅ Client server script created from template');
 }
 
 async function createPackageJson(): Promise<void> {
@@ -510,8 +531,8 @@ async function killPortsIfOccupied(): Promise<void> {
 }
 
 async function main(): Promise<void> {
-  console.log('🏗️  Building Touch Monorepo Production Distribution');
-  console.log('='.repeat(60));
+  console.log('🏗️  Building Touch Monorepo Production Distribution (EJS Template Version)');
+  console.log('='.repeat(70));
 
   try {
     await killPortsIfOccupied();
@@ -551,4 +572,4 @@ if (import.meta.url === `file://${process.argv[1]}`) {
   main();
 }
 
-export { main as buildProduction };
+export { main as buildProductionEjs };

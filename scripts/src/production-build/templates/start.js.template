@@ -1,0 +1,119 @@
+#!/usr/bin/env node
+/**
+ * Touch Monorepo Production Startup Script
+ * Auto-generated production launcher
+ */
+
+import { spawn, execSync } from 'child_process';
+import path from 'path';
+import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+// Get __dirname equivalent for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname_resolved = dirname(__filename);
+
+// Load environment variables
+import dotenv from 'dotenv';
+dotenv.config({ path: path.join(__dirname_resolved, '.env') });
+
+console.log('🚀 Starting Touch Monorepo Production Server...');
+console.log('📍 Working directory:', __dirname_resolved);
+
+// Function to kill processes on specific ports
+function killPortIfOccupied(port) {
+  try {
+    const result = execSync('lsof -ti:' + port, { stdio: 'pipe' })
+      .toString()
+      .trim();
+    if (result) {
+      console.log('⚠️  Port ' + port + ' is occupied, killing process...');
+      execSync('lsof -ti:' + port + ' | xargs kill -9', { stdio: 'inherit' });
+      console.log('✅ Killed process on port ' + port);
+    } else {
+      console.log('✅ Port ' + port + ' is available');
+    }
+  } catch (error) {
+    // Port is not in use
+    console.log('✅ Port ' + port + ' is available');
+  }
+}
+
+// Ensure ports are available
+console.log('🔧 Checking for occupied ports...');
+killPortIfOccupied('{{SERVER_PORT}}');
+killPortIfOccupied('{{CLIENT_PORT}}');
+
+// Verify required files exist
+const serverPath = path.join(__dirname_resolved, 'server/index.js');
+const clientPath = path.join(__dirname_resolved, 'client/index.html');
+const dbPath = path.join(__dirname_resolved, 'data/db/production.sqlite.db');
+
+console.log('🔍 Checking required files...');
+if (!existsSync(serverPath)) {
+  console.error('❌ Server file not found:', serverPath);
+  process.exit(1);
+}
+if (!existsSync(clientPath)) {
+  console.error('❌ Client files not found:', clientPath);
+  process.exit(1);
+}
+if (!existsSync(dbPath)) {
+  console.error('❌ Database file not found:', dbPath);
+  process.exit(1);
+}
+
+console.log('✅ All required files found');
+
+// Set up environment for server
+const serverEnv = {
+  ...process.env,
+  NODE_ENV: 'production',
+  DATABASE_URL: path.join(__dirname_resolved, 'data/db/production.sqlite.db'),
+  DB_NAME: 'production.sqlite.db',
+  UPLOAD_DIR: path.join(__dirname_resolved, 'data/uploads'),
+  // Disable pino worker threads to prevent crashes
+  PINO_DISABLE_WORKER_THREADS: 'true',
+  PINO_LOG_LEVEL: 'info',
+};
+
+console.log('🏗️  Starting server process...');
+
+// Start server (using .js extension for ESM bundle)
+const server = spawn('node', ['server/index.js'], {
+  cwd: __dirname_resolved,
+  stdio: 'inherit',
+  env: serverEnv,
+});
+
+server.on('error', (error) => {
+  console.error('❌ Server failed to start:', error);
+  process.exit(1);
+});
+
+server.on('close', (code) => {
+  console.log('🛑 Server process exited with code ' + code);
+  process.exit(code || 0);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('🛑 Received SIGTERM, shutting down gracefully...');
+  server.kill('SIGTERM');
+});
+
+process.on('SIGINT', () => {
+  console.log('🛑 Received SIGINT, shutting down gracefully...');
+  server.kill('SIGINT');
+});
+
+console.log('');
+console.log('🌟 Touch Monorepo is running!');
+console.log('🌐 Server: http://localhost:{{SERVER_PORT}}');
+console.log('🎨 To serve the client, run a static file server:');
+console.log('   npx serve -s client -p {{CLIENT_PORT}}');
+console.log('   or');
+console.log('   python3 -m http.server {{CLIENT_PORT}} --directory client');
+console.log('');
+console.log('Press Ctrl+C to stop');
