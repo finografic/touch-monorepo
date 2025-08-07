@@ -6,14 +6,37 @@ const ROOT_MARKERS = ['pnpm-workspace.yaml', 'package.json', '.git'];
 // Helper to determine if we're in a PROJECT / WORKSPACE ROOT directory
 export const findProjectRoot = (startDir = process.cwd()): string => {
   let dir = startDir;
+
+  // First, walk up the directory tree looking for workspace markers
   while (true) {
-    if (ROOT_MARKERS.some((marker) => fs.existsSync(path.join(dir, marker)))) {
+    // Check for workspace root markers (highest priority)
+    if (fs.existsSync(path.join(dir, 'pnpm-workspace.yaml'))) {
       return dir;
     }
+    if (fs.existsSync(path.join(dir, 'lerna.json'))) {
+      return dir;
+    }
+    if (fs.existsSync(path.join(dir, 'rush.json'))) {
+      return dir;
+    }
+
     const parent = path.dirname(dir);
     if (parent === dir) break;
     dir = parent;
   }
+
+  // If no workspace markers found, walk up again looking for other root markers
+  dir = startDir;
+  while (true) {
+    if (fs.existsSync(path.join(dir, 'package.json')) || fs.existsSync(path.join(dir, '.git'))) {
+      return dir;
+    }
+
+    const parent = path.dirname(dir);
+    if (parent === dir) break;
+    dir = parent;
+  }
+
   return process.cwd();
 };
 

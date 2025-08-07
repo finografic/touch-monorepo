@@ -4,7 +4,7 @@ import { defineConfig } from 'tsup';
 export default defineConfig([
   // Build CLI scripts to bin/
   {
-    entry: ['src/clean-all/clean-all.ts', 'src/db-setup/db-setup.ts'],
+    entry: ['src/db-setup/db-setup.ts'],
     outDir: './bin',
     format: ['esm'],
     target: 'node18',
@@ -12,17 +12,17 @@ export default defineConfig([
     clean: true,
     // experimentalDts: true,
     dts: false,
-    bundle: false,
+    bundle: true,
     splitting: false,
     treeshake: true,
     banner: {
       js: '#!/usr/bin/env node',
     },
-    external: ['fs', 'path', 'child_process', 'chalk', '@inquirer/prompts', '@dotenvx/dotenvx'],
+    external: ['fs', 'path', 'child_process'],
   },
   // Build library entry points to dist/
   {
-    entry: ['src/clean-all/index.ts', 'src/db-setup/index.ts', 'src/db-setup/config.template.ts'],
+    entry: ['src/db-setup/index.ts', 'src/db-setup/config.template.ts'],
     outDir: './dist',
     format: ['esm'],
     target: 'node18',

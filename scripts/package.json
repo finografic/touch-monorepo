@@ -14,10 +14,6 @@
     "project-scripts"
   ],
   "exports": {
-    "./clean-all": {
-      "types": "./dist/clean-all/index.d.ts",
-      "import": "./dist/clean-all/index.js"
-    },
     "./db-setup": {
       "types": "./dist/db-setup/index.d.ts",
       "import": "./dist/db-setup/index.js"
@@ -28,9 +24,7 @@
     }
   },
   "bin": {
-    "clean-all": "bin/clean-all.js",
-    "db-setup": "bin/db-setup.js",
-    "script-runner": "bin/script-runner.js"
+    "db-setup": "bin/db-setup/db-setup.js"
   },
   "files": [
     "bin",
@@ -52,6 +46,9 @@
     "build.v2": "tsup src/index.ts",
     "build.v2.production": "cross-env NODE_ENV=production tsup src/index.ts",
     "build.v2.development": "cross-env NODE_ENV=development tsup src/index.ts",
+    "·········· CLEAN": "·····················································",
+    "clean": "../../packages/purge-builds/dist/index.js",
+    "clean.dry": "../../packages/purge-builds/dist/index.js --dry-run",
     "·········· PUBLISH.GITHUB": "············································",
     "prepublish.github": "pnpm build && git add dist/** && git commit -m \"chore: update generated files\" || true",
     "publish.github.patch": "pnpm prepublish.github && dotenvx run -- pnpm version patch && pnpm publish --registry https://npm.pkg.github.com",

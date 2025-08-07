@@ -16,8 +16,8 @@
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
-    "clean": "shx rm -rf dist",
-    "clean.dry": "shx rm -rf --dry-run dist",
+    "clean": "../../packages/purge-builds/dist/index.js",
+    "clean.dry": "../../packages/purge-builds/dist/index.js --dry-run",
     "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",

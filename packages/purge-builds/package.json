@@ -21,6 +21,8 @@
   "scripts": {
     "dev": "tsc --watch",
     "build": "rm -rf dist && tsup",
+    "clean": "../../packages/purge-builds/dist/index.js",
+    "clean.dry": "../../packages/purge-builds/dist/index.js --dry-run",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",
     "typecheck": "tsc --noEmit"
