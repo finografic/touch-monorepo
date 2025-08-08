@@ -36,49 +36,9 @@ Esta guía te ayudará a configurar y ejecutar la aplicación Touch Monorepo en 
 - Ejecuta el instalador y sigue las instrucciones
 - Luego intenta ejecutar `setup.bat` nuevamente
 
-#### Para Usuarios de Linux
 
-1. **Abre Terminal** (presiona Ctrl+Alt+T)
-2. **Navega a la carpeta extraída**:
-   ```bash
-   cd /ruta/a/tu/carpeta/extraída
-   ```
-3. **Haz ejecutable el script de configuración**:
-   ```bash
-   chmod +x setup.sh
-   ```
-4. **Ejecuta la configuración**:
-   ```bash
-   ./setup.sh
-   ```
-5. **Espera a que se complete la configuración**
 
-**Si ves un error sobre Node.js:**
-- Ejecuta: `sudo apt update && sudo apt install nodejs npm`
-- Luego intenta ejecutar `./setup.sh` nuevamente
 
-#### Para Usuarios de macOS
-
-1. **Abre Terminal** (presiona Cmd+Espacio, escribe "Terminal", presiona Enter)
-2. **Navega a la carpeta extraída**:
-   ```bash
-   cd /ruta/a/tu/carpeta/extraída
-   ```
-3. **Haz ejecutable el script de configuración**:
-   ```bash
-   chmod +x setup-macos.sh
-   ```
-4. **Ejecuta la configuración**:
-   ```bash
-   ./setup-macos.sh
-   ```
-5. **Espera a que se complete la configuración**
-
-**Si ves un error sobre Node.js:**
-- Ve a https://nodejs.org/
-- Haz clic en el botón verde grande "LTS" para descargar
-- Ejecuta el instalador y sigue las instrucciones
-- Luego intenta ejecutar `./setup-macos.sh` nuevamente
 
 ### Paso 3: Iniciar la Aplicación
 
@@ -93,33 +53,9 @@ Esta guía te ayudará a configurar y ejecutar la aplicación Touch Monorepo en 
 
 **Alternativa**: Haz doble clic en `start-both.bat` para iniciar ambos a la vez
 
-#### Para Usuarios de Linux
 
-1. **En Terminal**, ejecuta el servidor:
-   ```bash
-   ./start-server.sh
-   ```
-2. **Abre una nueva ventana de Terminal** y ejecuta el cliente:
-   ```bash
-   ./start-client.sh
-   ```
-3. **Tu navegador web debería abrirse automáticamente** a la aplicación
 
-**Alternativa**: Ejecuta `npm start` para iniciar ambos a la vez
 
-#### Para Usuarios de macOS
-
-1. **En Terminal**, ejecuta el servidor:
-   ```bash
-   ./start-server-macos.sh
-   ```
-2. **Abre una nueva ventana de Terminal** y ejecuta el cliente:
-   ```bash
-   ./start-client-macos.sh
-   ```
-3. **Tu navegador web debería abrirse automáticamente** a la aplicación
-
-**Alternativa**: Ejecuta `npm start` para iniciar ambos a la vez
 
 ## 🌐 Usando la Aplicación
 
@@ -175,4 +111,4 @@ Una vez que la aplicación esté ejecutándose, puedes:
 
 ---
 
-*Generado el: 8 de agosto de 2025, 09:23*
+*Generado el: 9 de agosto de 2025, 00:07*

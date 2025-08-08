@@ -36,49 +36,9 @@ This guide will help you set up and run the Touch Monorepo application on your c
 - Run the installer and follow the instructions
 - Then try running `setup.bat` again
 
-#### For Linux Users
 
-1. **Open Terminal** (press Ctrl+Alt+T)
-2. **Navigate to the extracted folder**:
-   ```bash
-   cd /path/to/your/extracted/folder
-   ```
-3. **Make the setup script executable**:
-   ```bash
-   chmod +x setup.sh
-   ```
-4. **Run the setup**:
-   ```bash
-   ./setup.sh
-   ```
-5. **Wait for the setup to complete**
 
-**If you see an error about Node.js:**
-- Run: `sudo apt update && sudo apt install nodejs npm`
-- Then try running `./setup.sh` again
 
-#### For macOS Users
-
-1. **Open Terminal** (press Cmd+Space, type "Terminal", press Enter)
-2. **Navigate to the extracted folder**:
-   ```bash
-   cd /path/to/your/extracted/folder
-   ```
-3. **Make the setup script executable**:
-   ```bash
-   chmod +x setup-macos.sh
-   ```
-4. **Run the setup**:
-   ```bash
-   ./setup-macos.sh
-   ```
-5. **Wait for the setup to complete**
-
-**If you see an error about Node.js:**
-- Go to https://nodejs.org/
-- Click the big green "LTS" button to download
-- Run the installer and follow the instructions
-- Then try running `./setup-macos.sh` again
 
 ### Step 3: Start the Application
 
@@ -93,33 +53,9 @@ This guide will help you set up and run the Touch Monorepo application on your c
 
 **Alternative**: Double-click `start-both.bat` to start both at once
 
-#### For Linux Users
 
-1. **In Terminal**, run the server:
-   ```bash
-   ./start-server.sh
-   ```
-2. **Open a new Terminal window** and run the client:
-   ```bash
-   ./start-client.sh
-   ```
-3. **Your web browser should open automatically** to the application
 
-**Alternative**: Run `npm start` to start both at once
 
-#### For macOS Users
-
-1. **In Terminal**, run the server:
-   ```bash
-   ./start-server-macos.sh
-   ```
-2. **Open a new Terminal window** and run the client:
-   ```bash
-   ./start-client-macos.sh
-   ```
-3. **Your web browser should open automatically** to the application
-
-**Alternative**: Run `npm start` to start both at once
 
 ## 🌐 Using the Application
 
@@ -175,4 +111,4 @@ Once the application is running, you can:
 
 ---
 
-*Generated on: August 8, 2025 at 09:23 AM*
+*Generated on: August 9, 2025 at 12:07 AM*

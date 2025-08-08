@@ -566,6 +566,22 @@ async function copyEnvExample(): Promise<void> {
   }
 }
 
+async function cleanPlatformArtifacts(): Promise<void> {
+  console.log('🧽 Cleaning platform-specific artifacts in deployment root...');
+  try {
+    const cmd = [
+      `cd "${config.distDir}"`,
+      // remove any previously generated platform-specific scripts/docs
+      'rm -f setup.bat setup.sh setup-macos.sh',
+      'rm -f start-*.bat start-*.sh',
+      'rm -f USER_GUIDE*.md GUIA_USUARIO*.md',
+    ].join(' && ');
+    execSync(cmd, { stdio: 'inherit' });
+  } catch (error) {
+    console.warn('⚠️  Failed to clean some platform artifacts (safe to ignore if not present).');
+  }
+}
+
 async function createSetupScripts(options: BuildOptions): Promise<void> {
   console.log('🔧 Creating platform-specific setup scripts...');
 
@@ -723,18 +739,18 @@ echo
   };
 
   // Create platform-specific setup scripts
-  if (options.platform === 'windows' || options.platform === 'universal') {
+  if (options.platform === 'windows') {
     await writeFile(join(config.distDir, 'setup.bat'), setupScripts.windows);
     console.log('✅ Windows setup script created (setup.bat)');
   }
 
-  if (options.platform === 'linux' || options.platform === 'universal') {
+  if (options.platform === 'linux') {
     await writeFile(join(config.distDir, 'setup.sh'), setupScripts.linux);
     execSync(`chmod +x ${join(config.distDir, 'setup.sh')}`, { stdio: 'inherit' });
     console.log('✅ Linux setup script created (setup.sh)');
   }
 
-  if (options.platform === 'macos' || options.platform === 'universal') {
+  if (options.platform === 'macos') {
     await writeFile(join(config.distDir, 'setup-macos.sh'), setupScripts.macos);
     execSync(`chmod +x ${join(config.distDir, 'setup-macos.sh')}`, { stdio: 'inherit' });
     console.log('✅ macOS setup script created (setup-macos.sh)');
@@ -786,13 +802,13 @@ node dist/client/server.js
   };
 
   // Create platform-specific scripts
-  if (options.platform === 'windows' || options.platform === 'universal') {
+  if (options.platform === 'windows') {
     await writeFile(join(config.distDir, 'start-server.bat'), scripts.windows.server);
     await writeFile(join(config.distDir, 'start-client.bat'), scripts.windows.client);
     console.log('✅ Windows startup scripts created');
   }
 
-  if (options.platform === 'linux' || options.platform === 'universal') {
+  if (options.platform === 'linux') {
     await writeFile(join(config.distDir, 'start-server.sh'), scripts.linux.server);
     await writeFile(join(config.distDir, 'start-client.sh'), scripts.linux.client);
     execSync(
@@ -802,7 +818,7 @@ node dist/client/server.js
     console.log('✅ Linux startup scripts created');
   }
 
-  if (options.platform === 'macos' || options.platform === 'universal') {
+  if (options.platform === 'macos') {
     await writeFile(join(config.distDir, 'start-server-macos.sh'), scripts.macos.server);
     await writeFile(join(config.distDir, 'start-client-macos.sh'), scripts.macos.client);
     execSync(
@@ -1296,10 +1312,13 @@ Una vez que la aplicación esté ejecutándose, puedes:
 `;
 
   // Write the documentation files
-  await writeFile(join(config.distDir, 'USER_GUIDE_EN.md'), englishGuide);
-  await writeFile(join(config.distDir, 'GUIA_USUARIO_ES.md'), spanishGuide);
+  const platformSuffix = platform === 'universal' ? 'UNIVERSAL' : platform.toUpperCase();
+  await writeFile(join(config.distDir, `USER_GUIDE_${platformSuffix}_EN.md`), englishGuide);
+  await writeFile(join(config.distDir, `GUIA_USUARIO_${platformSuffix}_ES.md`), spanishGuide);
 
-  console.log('✅ User documentation created (USER_GUIDE_EN.md, GUIA_USUARIO_ES.md)');
+  console.log(
+    `✅ User documentation created (USER_GUIDE_${platformSuffix}_EN.md, GUIA_USUARIO_${platformSuffix}_ES.md)`,
+  );
 }
 
 function parseArguments(): BuildOptions {
@@ -1396,6 +1415,7 @@ async function main(): Promise<void> {
     }
 
     await copyEnvExample();
+    await cleanPlatformArtifacts();
     await createSetupScripts(options);
     await createPlatformSpecificScripts(options);
     await createUserDocumentation(options);
