@@ -127,7 +127,7 @@
     "@workspace/scripts": "workspace:*",
     "@workspace/types": "workspace:*",
     "autoprefixer": "10.4.20",
-    "better-sqlite3": "11.10.0",
+    "better-sqlite3": "11.9.0",
     "eslint-plugin-import": "2.31.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^5.2.0",

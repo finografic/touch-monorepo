@@ -54,7 +54,7 @@
     "·········· PACKAGES": "··················································",
     "eslint-config": "dotenvx run -- pnpm update @finografic/eslint-config --latest --recursive",
     "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
-    "db.sqlite3.rebuild": "pnpm add -D node-gyp && npm_config_build_from_source=true pnpm rebuild better-sqlite3",
+    "sqlite-rebuild": "node scripts/bin/sqlite-rebuild.js",
     "·········· DB.BATCH": "··················································",
     "db.reset": "pnpm db.drop && pnpm db.migrations.generate && pnpm db.migrations.run && pnpm db.migrations.auth && pnpm db.setup && pnpm db.studio",
     "db.setup": "tsx scripts/src/db-setup/db-setup.ts -y",
@@ -62,6 +62,7 @@
     "db.drop": "shx rm -rf data/*.sqlite.db data/migrations",
     "db.create": "pnpm --filter @workspace/server db.create",
     "db.studio": "pnpm --filter @workspace/server db.studio",
+    "db.sqlite3.rebuild": "node scripts/bin/sqlite-rebuild.js",
     "·········· DB.DATA": "·················································",
     "db.migrations.generate": "pnpm --filter @workspace/server db.migrations.generate",
     "db.migrations.auth": "pnpm --filter @workspace/server db.migrations.seed user",
@@ -131,7 +132,7 @@
     "@typescript-eslint/eslint-plugin": "8.33.1",
     "@typescript-eslint/parser": "8.33.1",
     "@workspace/scripts": "workspace:*",
-    "better-sqlite3": "11.10.0",
+    "better-sqlite3": "11.9.0",
     "concurrently": "9.2.0",
     "cross-env": "7.0.3",
     "drizzle-kit": "^0.30.6",
@@ -166,8 +167,15 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@biomejs/biome",
+      "@swc/core",
+      "better-sqlite3",
+      "electron",
+      "electron-winstaller",
       "esbuild",
-      "simple-git-hooks"
+      "sharp",
+      "simple-git-hooks",
+      "unrs-resolver"
     ]
   }
 }

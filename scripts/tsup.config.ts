@@ -20,6 +20,23 @@ export default defineConfig([
     },
     external: ['fs', 'path', 'child_process'],
   },
+  // Build sqlite-rebuild CLI script
+  {
+    entry: ['src/sqlite-rebuild/sqlite-rebuild.ts'],
+    outDir: './bin',
+    format: ['esm'],
+    target: 'node18',
+    platform: 'node',
+    clean: false,
+    dts: false,
+    bundle: true,
+    splitting: false,
+    treeshake: true,
+    banner: {
+      js: '#!/usr/bin/env node',
+    },
+    external: ['fs', 'path', 'child_process'],
+  },
   // Build library entry points to dist/
   {
     entry: ['src/db-setup/index.ts', 'src/db-setup/config.template.ts'],

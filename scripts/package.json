@@ -24,7 +24,8 @@
     }
   },
   "bin": {
-    "db-setup": "bin/db-setup/db-setup.js"
+    "db-setup": "bin/db-setup/db-setup.js",
+    "sqlite-rebuild": "bin/sqlite-rebuild/sqlite-rebuild.js"
   },
   "files": [
     "bin",
@@ -72,6 +73,7 @@
     "tsc.debug": "pnpm exec tsc --pretty --project tsconfig.json",
     "typecheck": "pnpm exec tsc --project tsconfig.json --noEmit",
     "upgrade.all.deps": "pnpm update --latest",
+    "sqlite-rebuild": "tsx src/sqlite-rebuild/sqlite-rebuild.ts",
     "·········· HOOKS": "·····················································",
     "prepack": "pnpm build",
     "prepare": "simple-git-hooks"
