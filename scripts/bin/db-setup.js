@@ -2962,7 +2962,7 @@ var require_main = __commonJS({
         return { parsed: parsedAll };
       }
     }
-    function config4(options) {
+    function config3(options) {
       if (_dotenvKey(options).length === 0) {
         return DotenvModule.configDotenv(options);
       }
@@ -3029,7 +3029,7 @@ var require_main = __commonJS({
       configDotenv,
       _configVault,
       _parseVault,
-      config: config4,
+      config: config3,
       decrypt,
       parse: parse2,
       populate
@@ -10968,7 +10968,7 @@ var require_main2 = __commonJS({
     var Parse = require_parse2();
     var fsx = require_fsx();
     var isIgnoringDotenvKeys = require_isIgnoringDotenvKeys();
-    var config4 = function(options = {}) {
+    var config3 = function(options = {}) {
       let processEnv = process.env;
       if (options && options.processEnv != null) {
         processEnv = options.processEnv;
@@ -11181,7 +11181,7 @@ var require_main2 = __commonJS({
     };
     module.exports = {
       // dotenv proxies
-      config: config4,
+      config: config3,
       parse: parse2,
       // actions related
       set,
@@ -13857,7 +13857,7 @@ var require_main3 = __commonJS({
     var Genexample = require_genexample2();
     var buildEnvs = require_buildEnvs2();
     var Parse = require_parse3();
-    var config4 = function(options = {}) {
+    var config3 = function(options = {}) {
       let processEnv = process.env;
       if (options && options.processEnv != null) {
         processEnv = options.processEnv;
@@ -13982,7 +13982,7 @@ var require_main3 = __commonJS({
     };
     module.exports = {
       // dotenv proxies
-      config: config4,
+      config: config3,
       parse: parse2,
       // actions related
       set,
@@ -14074,7 +14074,7 @@ var require_cuid = __commonJS({
 });
 
 // src/db-setup/db-setup.ts
-var import_dotenvx3 = __toESM(require_main2());
+var import_dotenvx2 = __toESM(require_main2());
 
 // ../node_modules/.pnpm/chalk@5.4.1/node_modules/chalk/source/vendor/ansi-styles/index.js
 var ANSI_BACKGROUND_OFFSET = 10;
@@ -14638,16 +14638,16 @@ var loadSeedConfig = async ({
     process.exit(1);
   }
 };
-var getAllSchemas = ({ seedConfigs }) => seedConfigs.map((config4) => config4.name);
+var getAllSchemas = ({ seedConfigs }) => seedConfigs.map((config3) => config3.name);
 var validateDependencies = ({
   seedConfigs,
   selectedSchemas
 }) => {
   const missing = [];
   selectedSchemas.forEach((schema) => {
-    const config4 = seedConfigs.find((c2) => c2.name === schema);
-    if (config4?.dependencies) {
-      const missingDeps = config4.dependencies.filter((dep) => !selectedSchemas.includes(dep));
+    const config3 = seedConfigs.find((c2) => c2.name === schema);
+    if (config3?.dependencies) {
+      const missingDeps = config3.dependencies.filter((dep) => !selectedSchemas.includes(dep));
       if (missingDeps.length > 0) {
         missing.push({ schema, dependencies: missingDeps });
       }
@@ -14663,9 +14663,9 @@ var getSortedSchemas = ({
   const visited = /* @__PURE__ */ new Set();
   function visit(schema) {
     if (visited.has(schema)) return;
-    const config4 = seedConfigs.find((c2) => c2.name === schema);
-    if (config4?.dependencies) {
-      config4.dependencies.forEach((dep) => {
+    const config3 = seedConfigs.find((c2) => c2.name === schema);
+    if (config3?.dependencies) {
+      config3.dependencies.forEach((dep) => {
         if (selectedSchemas.includes(dep)) {
           visit(dep);
         }
@@ -14758,8 +14758,8 @@ var ConsoleLogWriter = class {
 var DefaultLogger = class {
   static [entityKind] = "DefaultLogger";
   writer;
-  constructor(config4) {
-    this.writer = config4?.writer ?? new ConsoleLogWriter();
+  constructor(config3) {
+    this.writer = config3?.writer ?? new ConsoleLogWriter();
   }
   logQuery(query, params) {
     const stringifiedParams = params.map((p2) => {
@@ -14846,24 +14846,24 @@ function getTableUniqueName(table) {
 
 // ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/column.js
 var Column = class {
-  constructor(table, config4) {
+  constructor(table, config3) {
     this.table = table;
-    this.config = config4;
-    this.name = config4.name;
-    this.keyAsName = config4.keyAsName;
-    this.notNull = config4.notNull;
-    this.default = config4.default;
-    this.defaultFn = config4.defaultFn;
-    this.onUpdateFn = config4.onUpdateFn;
-    this.hasDefault = config4.hasDefault;
-    this.primary = config4.primaryKey;
-    this.isUnique = config4.isUnique;
-    this.uniqueName = config4.uniqueName;
-    this.uniqueType = config4.uniqueType;
-    this.dataType = config4.dataType;
-    this.columnType = config4.columnType;
-    this.generated = config4.generated;
-    this.generatedIdentity = config4.generatedIdentity;
+    this.config = config3;
+    this.name = config3.name;
+    this.keyAsName = config3.keyAsName;
+    this.notNull = config3.notNull;
+    this.default = config3.default;
+    this.defaultFn = config3.defaultFn;
+    this.onUpdateFn = config3.onUpdateFn;
+    this.hasDefault = config3.hasDefault;
+    this.primary = config3.primaryKey;
+    this.isUnique = config3.isUnique;
+    this.uniqueName = config3.uniqueName;
+    this.uniqueType = config3.uniqueType;
+    this.dataType = config3.dataType;
+    this.columnType = config3.columnType;
+    this.generated = config3.generated;
+    this.generatedIdentity = config3.generatedIdentity;
   }
   static [entityKind] = "Column";
   name;
@@ -15004,11 +15004,11 @@ function uniqueKeyName(table, columns) {
   return `${table[TableName]}_${columns.join("_")}_unique`;
 }
 var PgColumn = class extends Column {
-  constructor(table, config4) {
-    if (!config4.uniqueName) {
-      config4.uniqueName = uniqueKeyName(table, [config4.name]);
+  constructor(table, config3) {
+    if (!config3.uniqueName) {
+      config3.uniqueName = uniqueKeyName(table, [config3.name]);
     }
-    super(table, config4);
+    super(table, config3);
     this.table = table;
   }
   static [entityKind] = "PgColumn";
@@ -15088,9 +15088,9 @@ var SQL = class _SQL {
     this.queryChunks.push(...query.queryChunks);
     return this;
   }
-  toQuery(config4) {
+  toQuery(config3) {
     return tracer.startActiveSpan("drizzle.buildSQL", (span) => {
-      const query = this.buildQueryFromSourceParams(this.queryChunks, config4);
+      const query = this.buildQueryFromSourceParams(this.queryChunks, config3);
       span?.setAttributes({
         "drizzle.query.text": query.sql,
         "drizzle.query.params": JSON.stringify(query.params)
@@ -15099,7 +15099,7 @@ var SQL = class _SQL {
     });
   }
   buildQueryFromSourceParams(chunks, _config) {
-    const config4 = Object.assign({}, _config, {
+    const config3 = Object.assign({}, _config, {
       inlineParams: _config.inlineParams || this.shouldInlineParams,
       paramStartIndex: _config.paramStartIndex || { value: 0 }
     });
@@ -15110,7 +15110,7 @@ var SQL = class _SQL {
       prepareTyping,
       inlineParams,
       paramStartIndex
-    } = config4;
+    } = config3;
     return mergeQueries(chunks.map((chunk) => {
       if (is(chunk, StringChunk)) {
         return { sql: chunk.value.join(""), params: [] };
@@ -15130,11 +15130,11 @@ var SQL = class _SQL {
           }
         }
         result.push(new StringChunk(")"));
-        return this.buildQueryFromSourceParams(result, config4);
+        return this.buildQueryFromSourceParams(result, config3);
       }
       if (is(chunk, _SQL)) {
         return this.buildQueryFromSourceParams(chunk.queryChunks, {
-          ...config4,
+          ...config3,
           inlineParams: inlineParams || chunk.shouldInlineParams
         });
       }
@@ -15171,10 +15171,10 @@ var SQL = class _SQL {
         }
         const mappedValue = chunk.value === null ? null : chunk.encoder.mapToDriverValue(chunk.value);
         if (is(mappedValue, _SQL)) {
-          return this.buildQueryFromSourceParams([mappedValue], config4);
+          return this.buildQueryFromSourceParams([mappedValue], config3);
         }
         if (inlineParams) {
-          return { sql: this.mapInlineParam(mappedValue, config4), params: [] };
+          return { sql: this.mapInlineParam(mappedValue, config3), params: [] };
         }
         let typings = ["none"];
         if (prepareTyping) {
@@ -15197,7 +15197,7 @@ var SQL = class _SQL {
           chunk._.sql,
           new StringChunk(") "),
           new Name(chunk._.alias)
-        ], config4);
+        ], config3);
       }
       if (isPgEnum(chunk)) {
         if (chunk.schema) {
@@ -15207,16 +15207,16 @@ var SQL = class _SQL {
       }
       if (isSQLWrapper(chunk)) {
         if (chunk.shouldOmitSQLParens?.()) {
-          return this.buildQueryFromSourceParams([chunk.getSQL()], config4);
+          return this.buildQueryFromSourceParams([chunk.getSQL()], config3);
         }
         return this.buildQueryFromSourceParams([
           new StringChunk("("),
           chunk.getSQL(),
           new StringChunk(")")
-        ], config4);
+        ], config3);
       }
       if (inlineParams) {
-        return { sql: this.mapInlineParam(chunk, config4), params: [] };
+        return { sql: this.mapInlineParam(chunk, config3), params: [] };
       }
       return { sql: escapeParam(paramStartIndex.value++, chunk), params: [chunk], typings: ["none"] };
     }));
@@ -15790,16 +15790,16 @@ var Relation = class {
   fieldName;
 };
 var Relations = class {
-  constructor(table, config4) {
+  constructor(table, config3) {
     this.table = table;
-    this.config = config4;
+    this.config = config3;
   }
   static [entityKind] = "Relations";
 };
 var One = class _One extends Relation {
-  constructor(sourceTable, referencedTable, config4, isNullable) {
-    super(sourceTable, referencedTable, config4?.relationName);
-    this.config = config4;
+  constructor(sourceTable, referencedTable, config3, isNullable) {
+    super(sourceTable, referencedTable, config3?.relationName);
+    this.config = config3;
     this.isNullable = isNullable;
   }
   static [entityKind] = "One";
@@ -15815,9 +15815,9 @@ var One = class _One extends Relation {
   }
 };
 var Many = class _Many extends Relation {
-  constructor(sourceTable, referencedTable, config4) {
-    super(sourceTable, referencedTable, config4?.relationName);
-    this.config = config4;
+  constructor(sourceTable, referencedTable, config3) {
+    super(sourceTable, referencedTable, config3?.relationName);
+    this.config = config3;
   }
   static [entityKind] = "Many";
   withFieldName(fieldName) {
@@ -15935,18 +15935,18 @@ function relations(table, relations2) {
   );
 }
 function createOne(sourceTable) {
-  return function one(table, config4) {
+  return function one(table, config3) {
     return new One(
       sourceTable,
       table,
-      config4,
-      config4?.fields.reduce((res, f2) => res && f2.notNull, true) ?? false
+      config3,
+      config3?.fields.reduce((res, f2) => res && f2.notNull, true) ?? false
     );
   };
 }
 function createMany(sourceTable) {
-  return function many(referencedTable, config4) {
-    return new Many(sourceTable, referencedTable, config4);
+  return function many(referencedTable, config3) {
+    return new Many(sourceTable, referencedTable, config3);
   };
 }
 function normalizeRelation(schema, tableNamesMap, relation) {
@@ -16134,8 +16134,8 @@ function mapColumnsInSQLToAlias(query, alias) {
 var SelectionProxyHandler = class _SelectionProxyHandler {
   static [entityKind] = "SelectionProxyHandler";
   config;
-  constructor(config4) {
-    this.config = { ...config4 };
+  constructor(config3) {
+    this.config = { ...config3 };
   }
   get(subquery, prop) {
     if (prop === "_") {
@@ -16231,9 +16231,9 @@ var ForeignKeyBuilder2 = class {
   _onUpdate;
   /** @internal */
   _onDelete;
-  constructor(config4, actions) {
+  constructor(config3, actions) {
     this.reference = () => {
-      const { name, columns, foreignColumns } = config4();
+      const { name, columns, foreignColumns } = config3();
       return { name, columns, foreignTable: foreignColumns[0].table, foreignColumns };
     };
     if (actions) {
@@ -16297,11 +16297,11 @@ var SQLiteColumnBuilder = class extends ColumnBuilder {
     this.config.uniqueName = name;
     return this;
   }
-  generatedAlwaysAs(as, config4) {
+  generatedAlwaysAs(as, config3) {
     this.config.generated = {
       as,
       type: "always",
-      mode: config4?.mode ?? "virtual"
+      mode: config3?.mode ?? "virtual"
     };
     return this;
   }
@@ -16325,11 +16325,11 @@ var SQLiteColumnBuilder = class extends ColumnBuilder {
   }
 };
 var SQLiteColumn = class extends Column {
-  constructor(table, config4) {
-    if (!config4.uniqueName) {
-      config4.uniqueName = uniqueKeyName2(table, [config4.name]);
+  constructor(table, config3) {
+    if (!config3.uniqueName) {
+      config3.uniqueName = uniqueKeyName2(table, [config3.name]);
     }
-    super(table, config4);
+    super(table, config3);
     this.table = table;
   }
   static [entityKind] = "SQLiteColumn";
@@ -16400,11 +16400,11 @@ var SQLiteBlobBuffer = class extends SQLiteColumn {
   }
 };
 function blob(a, b2) {
-  const { name, config: config4 } = getColumnNameAndConfig(a, b2);
-  if (config4?.mode === "json") {
+  const { name, config: config3 } = getColumnNameAndConfig(a, b2);
+  if (config3?.mode === "json") {
     return new SQLiteBlobJsonBuilder(name);
   }
-  if (config4?.mode === "bigint") {
+  if (config3?.mode === "bigint") {
     return new SQLiteBigIntBuilder(name);
   }
   return new SQLiteBlobBufferBuilder(name);
@@ -16431,11 +16431,11 @@ var SQLiteCustomColumn = class extends SQLiteColumn {
   sqlName;
   mapTo;
   mapFrom;
-  constructor(table, config4) {
-    super(table, config4);
-    this.sqlName = config4.customTypeParams.dataType(config4.fieldConfig);
-    this.mapTo = config4.customTypeParams.toDriver;
-    this.mapFrom = config4.customTypeParams.fromDriver;
+  constructor(table, config3) {
+    super(table, config3);
+    this.sqlName = config3.customTypeParams.dataType(config3.fieldConfig);
+    this.mapTo = config3.customTypeParams.toDriver;
+    this.mapFrom = config3.customTypeParams.fromDriver;
   }
   getSQLType() {
     return this.sqlName;
@@ -16449,10 +16449,10 @@ var SQLiteCustomColumn = class extends SQLiteColumn {
 };
 function customType(customTypeParams) {
   return (a, b2) => {
-    const { name, config: config4 } = getColumnNameAndConfig(a, b2);
+    const { name, config: config3 } = getColumnNameAndConfig(a, b2);
     return new SQLiteCustomColumnBuilder(
       name,
-      config4,
+      config3,
       customTypeParams
     );
   };
@@ -16465,8 +16465,8 @@ var SQLiteBaseIntegerBuilder = class extends SQLiteColumnBuilder {
     super(name, dataType, columnType);
     this.config.autoIncrement = false;
   }
-  primaryKey(config4) {
-    if (config4?.autoIncrement) {
+  primaryKey(config3) {
+    if (config3?.autoIncrement) {
       this.config.autoIncrement = true;
     }
     this.config.hasDefault = true;
@@ -16557,12 +16557,12 @@ var SQLiteBoolean = class extends SQLiteBaseInteger {
   }
 };
 function integer(a, b2) {
-  const { name, config: config4 } = getColumnNameAndConfig(a, b2);
-  if (config4?.mode === "timestamp" || config4?.mode === "timestamp_ms") {
-    return new SQLiteTimestampBuilder(name, config4.mode);
+  const { name, config: config3 } = getColumnNameAndConfig(a, b2);
+  if (config3?.mode === "timestamp" || config3?.mode === "timestamp_ms") {
+    return new SQLiteTimestampBuilder(name, config3.mode);
   }
-  if (config4?.mode === "boolean") {
-    return new SQLiteBooleanBuilder(name, config4.mode);
+  if (config3?.mode === "boolean") {
+    return new SQLiteBooleanBuilder(name, config3.mode);
   }
   return new SQLiteIntegerBuilder(name);
 }
@@ -16615,10 +16615,10 @@ function real(name) {
 // ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/text.js
 var SQLiteTextBuilder = class extends SQLiteColumnBuilder {
   static [entityKind] = "SQLiteTextBuilder";
-  constructor(name, config4) {
+  constructor(name, config3) {
     super(name, "string", "SQLiteText");
-    this.config.enumValues = config4.enum;
-    this.config.length = config4.length;
+    this.config.enumValues = config3.enum;
+    this.config.length = config3.length;
   }
   /** @internal */
   build(table) {
@@ -16629,8 +16629,8 @@ var SQLiteText = class extends SQLiteColumn {
   static [entityKind] = "SQLiteText";
   enumValues = this.config.enumValues;
   length = this.config.length;
-  constructor(table, config4) {
-    super(table, config4);
+  constructor(table, config3) {
+    super(table, config3);
   }
   getSQLType() {
     return `text${this.config.length ? `(${this.config.length})` : ""}`;
@@ -16662,11 +16662,11 @@ var SQLiteTextJson = class extends SQLiteColumn {
   }
 };
 function text(a, b2 = {}) {
-  const { name, config: config4 } = getColumnNameAndConfig(a, b2);
-  if (config4.mode === "json") {
+  const { name, config: config3 } = getColumnNameAndConfig(a, b2);
+  if (config3.mode === "json") {
     return new SQLiteTextJsonBuilder(name);
   }
-  return new SQLiteTextBuilder(name, config4);
+  return new SQLiteTextBuilder(name, config3);
 }
 
 // ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/all.js
@@ -16905,8 +16905,8 @@ var SQLiteDialect = class {
   static [entityKind] = "SQLiteDialect";
   /** @internal */
   casing;
-  constructor(config4) {
-    this.casing = new CasingCache(config4?.casing);
+  constructor(config3) {
+    this.casing = new CasingCache(config3?.casing);
   }
   escapeName(name) {
     return `"${name}"`;
@@ -17231,7 +17231,7 @@ var SQLiteDialect = class {
     tableNamesMap,
     table,
     tableConfig,
-    queryConfig: config4,
+    queryConfig: config3,
     tableAlias,
     nestedQueryRelation,
     joinOn
@@ -17239,7 +17239,7 @@ var SQLiteDialect = class {
     let selection = [];
     let limit, offset, orderBy = [], where;
     const joins = [];
-    if (config4 === true) {
+    if (config3 === true) {
       const selectionEntries = Object.entries(tableConfig.columns);
       selection = selectionEntries.map(([key, value]) => ({
         dbKey: value.name,
@@ -17253,15 +17253,15 @@ var SQLiteDialect = class {
       const aliasedColumns = Object.fromEntries(
         Object.entries(tableConfig.columns).map(([key, value]) => [key, aliasedTableColumn(value, tableAlias)])
       );
-      if (config4.where) {
-        const whereSql = typeof config4.where === "function" ? config4.where(aliasedColumns, getOperators()) : config4.where;
+      if (config3.where) {
+        const whereSql = typeof config3.where === "function" ? config3.where(aliasedColumns, getOperators()) : config3.where;
         where = whereSql && mapColumnsInSQLToAlias(whereSql, tableAlias);
       }
       const fieldsSelection = [];
       let selectedColumns = [];
-      if (config4.columns) {
+      if (config3.columns) {
         let isIncludeMode = false;
-        for (const [field, value] of Object.entries(config4.columns)) {
+        for (const [field, value] of Object.entries(config3.columns)) {
           if (value === void 0) {
             continue;
           }
@@ -17273,7 +17273,7 @@ var SQLiteDialect = class {
           }
         }
         if (selectedColumns.length > 0) {
-          selectedColumns = isIncludeMode ? selectedColumns.filter((c2) => config4.columns?.[c2] === true) : Object.keys(tableConfig.columns).filter((key) => !selectedColumns.includes(key));
+          selectedColumns = isIncludeMode ? selectedColumns.filter((c2) => config3.columns?.[c2] === true) : Object.keys(tableConfig.columns).filter((key) => !selectedColumns.includes(key));
         }
       } else {
         selectedColumns = Object.keys(tableConfig.columns);
@@ -17283,12 +17283,12 @@ var SQLiteDialect = class {
         fieldsSelection.push({ tsKey: field, value: column });
       }
       let selectedRelations = [];
-      if (config4.with) {
-        selectedRelations = Object.entries(config4.with).filter((entry) => !!entry[1]).map(([tsKey, queryConfig]) => ({ tsKey, queryConfig, relation: tableConfig.relations[tsKey] }));
+      if (config3.with) {
+        selectedRelations = Object.entries(config3.with).filter((entry) => !!entry[1]).map(([tsKey, queryConfig]) => ({ tsKey, queryConfig, relation: tableConfig.relations[tsKey] }));
       }
       let extras;
-      if (config4.extras) {
-        extras = typeof config4.extras === "function" ? config4.extras(aliasedColumns, { sql }) : config4.extras;
+      if (config3.extras) {
+        extras = typeof config3.extras === "function" ? config3.extras(aliasedColumns, { sql }) : config3.extras;
         for (const [tsKey, value] of Object.entries(extras)) {
           fieldsSelection.push({
             tsKey,
@@ -17306,7 +17306,7 @@ var SQLiteDialect = class {
           selection: []
         });
       }
-      let orderByOrig = typeof config4.orderBy === "function" ? config4.orderBy(aliasedColumns, getOrderByOperators()) : config4.orderBy ?? [];
+      let orderByOrig = typeof config3.orderBy === "function" ? config3.orderBy(aliasedColumns, getOrderByOperators()) : config3.orderBy ?? [];
       if (!Array.isArray(orderByOrig)) {
         orderByOrig = [orderByOrig];
       }
@@ -17316,8 +17316,8 @@ var SQLiteDialect = class {
         }
         return mapColumnsInSQLToAlias(orderByValue, tableAlias);
       });
-      limit = config4.limit;
-      offset = config4.offset;
+      limit = config3.limit;
+      offset = config3.offset;
       for (const {
         tsKey: selectedRelationTsKey,
         queryConfig: selectedRelationConfigValue,
@@ -17445,8 +17445,8 @@ var SQLiteDialect = class {
 };
 var SQLiteSyncDialect = class extends SQLiteDialect {
   static [entityKind] = "SQLiteSyncDialect";
-  migrate(migrations, session2, config4) {
-    const migrationsTable = config4 === void 0 ? "__drizzle_migrations" : typeof config4 === "string" ? "__drizzle_migrations" : config4.migrationsTable ?? "__drizzle_migrations";
+  migrate(migrations, session2, config3) {
+    const migrationsTable = config3 === void 0 ? "__drizzle_migrations" : typeof config3 === "string" ? "__drizzle_migrations" : config3.migrationsTable ?? "__drizzle_migrations";
     const migrationTableCreate = sql`
 			CREATE TABLE IF NOT EXISTS ${sql.identifier(migrationsTable)} (
 				id SERIAL PRIMARY KEY,
@@ -17496,12 +17496,12 @@ var SQLiteSelectBuilder = class {
   dialect;
   withList;
   distinct;
-  constructor(config4) {
-    this.fields = config4.fields;
-    this.session = config4.session;
-    this.dialect = config4.dialect;
-    this.withList = config4.withList;
-    this.distinct = config4.distinct;
+  constructor(config3) {
+    this.fields = config3.fields;
+    this.session = config3.session;
+    this.dialect = config3.dialect;
+    this.withList = config3.withList;
+    this.distinct = config3.distinct;
   }
   from(source) {
     const isPartialSelect = !!this.fields;
@@ -18236,12 +18236,12 @@ var SQLiteInsertBase = class extends QueryPromise {
    *   .onConflictDoNothing({ target: cars.id });
    * ```
    */
-  onConflictDoNothing(config4 = {}) {
-    if (config4.target === void 0) {
+  onConflictDoNothing(config3 = {}) {
+    if (config3.target === void 0) {
       this.config.onConflict = sql`do nothing`;
     } else {
-      const targetSql = Array.isArray(config4.target) ? sql`${config4.target}` : sql`${[config4.target]}`;
-      const whereSql = config4.where ? sql` where ${config4.where}` : sql``;
+      const targetSql = Array.isArray(config3.target) ? sql`${config3.target}` : sql`${[config3.target]}`;
+      const whereSql = config3.where ? sql` where ${config3.where}` : sql``;
       this.config.onConflict = sql`${targetSql} do nothing${whereSql}`;
     }
     return this;
@@ -18275,17 +18275,17 @@ var SQLiteInsertBase = class extends QueryPromise {
    *   });
    * ```
    */
-  onConflictDoUpdate(config4) {
-    if (config4.where && (config4.targetWhere || config4.setWhere)) {
+  onConflictDoUpdate(config3) {
+    if (config3.where && (config3.targetWhere || config3.setWhere)) {
       throw new Error(
         'You cannot use both "where" and "targetWhere"/"setWhere" at the same time - "where" is deprecated, use "targetWhere" or "setWhere" instead.'
       );
     }
-    const whereSql = config4.where ? sql` where ${config4.where}` : void 0;
-    const targetWhereSql = config4.targetWhere ? sql` where ${config4.targetWhere}` : void 0;
-    const setWhereSql = config4.setWhere ? sql` where ${config4.setWhere}` : void 0;
-    const targetSql = Array.isArray(config4.target) ? sql`${config4.target}` : sql`${[config4.target]}`;
-    const setSql = this.dialect.buildUpdateSet(this.config.table, mapUpdateSet(this.config.table, config4.set));
+    const whereSql = config3.where ? sql` where ${config3.where}` : void 0;
+    const targetWhereSql = config3.targetWhere ? sql` where ${config3.targetWhere}` : void 0;
+    const setWhereSql = config3.setWhere ? sql` where ${config3.setWhere}` : void 0;
+    const targetSql = Array.isArray(config3.target) ? sql`${config3.target}` : sql`${[config3.target]}`;
+    const setSql = this.dialect.buildUpdateSet(this.config.table, mapUpdateSet(this.config.table, config3.set));
     this.config.onConflict = sql`${targetSql}${targetWhereSql} do update set ${setSql}${whereSql}${setWhereSql}`;
     return this;
   }
@@ -18547,7 +18547,7 @@ var RelationalQueryBuilder = class {
     this.session = session2;
   }
   static [entityKind] = "SQLiteAsyncRelationalQueryBuilder";
-  findMany(config4) {
+  findMany(config3) {
     return this.mode === "sync" ? new SQLiteSyncRelationalQuery(
       this.fullSchema,
       this.schema,
@@ -18556,7 +18556,7 @@ var RelationalQueryBuilder = class {
       this.tableConfig,
       this.dialect,
       this.session,
-      config4 ? config4 : {},
+      config3 ? config3 : {},
       "many"
     ) : new SQLiteRelationalQuery(
       this.fullSchema,
@@ -18566,11 +18566,11 @@ var RelationalQueryBuilder = class {
       this.tableConfig,
       this.dialect,
       this.session,
-      config4 ? config4 : {},
+      config3 ? config3 : {},
       "many"
     );
   }
-  findFirst(config4) {
+  findFirst(config3) {
     return this.mode === "sync" ? new SQLiteSyncRelationalQuery(
       this.fullSchema,
       this.schema,
@@ -18579,7 +18579,7 @@ var RelationalQueryBuilder = class {
       this.tableConfig,
       this.dialect,
       this.session,
-      config4 ? { ...config4, limit: 1 } : { limit: 1 },
+      config3 ? { ...config3, limit: 1 } : { limit: 1 },
       "first"
     ) : new SQLiteRelationalQuery(
       this.fullSchema,
@@ -18589,13 +18589,13 @@ var RelationalQueryBuilder = class {
       this.tableConfig,
       this.dialect,
       this.session,
-      config4 ? { ...config4, limit: 1 } : { limit: 1 },
+      config3 ? { ...config3, limit: 1 } : { limit: 1 },
       "first"
     );
   }
 };
 var SQLiteRelationalQuery = class extends QueryPromise {
-  constructor(fullSchema, schema, tableNamesMap, table, tableConfig, dialect, session2, config4, mode) {
+  constructor(fullSchema, schema, tableNamesMap, table, tableConfig, dialect, session2, config3, mode) {
     super();
     this.fullSchema = fullSchema;
     this.schema = schema;
@@ -18604,7 +18604,7 @@ var SQLiteRelationalQuery = class extends QueryPromise {
     this.tableConfig = tableConfig;
     this.dialect = dialect;
     this.session = session2;
-    this.config = config4;
+    this.config = config3;
     this.mode = mode;
   }
   static [entityKind] = "SQLiteAsyncRelationalQuery";
@@ -18985,8 +18985,8 @@ var BaseSQLiteDatabase = class {
     }
     return this.session.values(sequel);
   }
-  transaction(transaction, config4) {
-    return this.session.transaction(transaction, config4);
+  transaction(transaction, config3) {
+    return this.session.transaction(transaction, config3);
   }
 };
 
@@ -19125,10 +19125,10 @@ var BetterSQLiteSession = class extends SQLiteSession {
       customResultMapper
     );
   }
-  transaction(transaction, config4 = {}) {
+  transaction(transaction, config3 = {}) {
     const tx = new BetterSQLiteTransaction("sync", this.dialect, this, this.schema);
     const nativeTx = this.client.transaction(transaction);
-    return nativeTx[config4.behavior ?? "deferred"](tx);
+    return nativeTx[config3.behavior ?? "deferred"](tx);
   }
 };
 var BetterSQLiteTransaction = class _BetterSQLiteTransaction extends SQLiteTransaction {
@@ -19206,22 +19206,22 @@ var PreparedQuery = class extends SQLitePreparedQuery {
 var BetterSQLite3Database = class extends BaseSQLiteDatabase {
   static [entityKind] = "BetterSQLite3Database";
 };
-function construct(client, config4 = {}) {
-  const dialect = new SQLiteSyncDialect({ casing: config4.casing });
+function construct(client, config3 = {}) {
+  const dialect = new SQLiteSyncDialect({ casing: config3.casing });
   let logger;
-  if (config4.logger === true) {
+  if (config3.logger === true) {
     logger = new DefaultLogger();
-  } else if (config4.logger !== false) {
-    logger = config4.logger;
+  } else if (config3.logger !== false) {
+    logger = config3.logger;
   }
   let schema;
-  if (config4.schema) {
+  if (config3.schema) {
     const tablesConfig = extractTablesRelationalConfig(
-      config4.schema,
+      config3.schema,
       createTableRelationsHelpers
     );
     schema = {
-      fullSchema: config4.schema,
+      fullSchema: config3.schema,
       schema: tablesConfig.tables,
       tableNamesMap: tablesConfig.tableNamesMap
     };
@@ -19251,14 +19251,11 @@ function drizzle(...params) {
   return construct(params[0], params[1]);
 }
 ((drizzle2) => {
-  function mock(config4) {
-    return construct({}, config4);
+  function mock(config3) {
+    return construct({}, config3);
   }
   drizzle2.mock = mock;
 })(drizzle || (drizzle = {}));
-
-// ../apps/server/src/env.server.ts
-var import_dotenvx2 = __toESM(require_main3());
 
 // ../node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/external.js
 var external_exports = {};
@@ -23362,10 +23359,7 @@ var envShared = envSharedSchema.parse({
   CLIENT_PORT: Number(process.env.CLIENT_PORT)
 });
 var __filename2 = fileURLToPath(import.meta.url);
-var __dirname = path4.dirname(__filename2);
-if (process.env.NODE_ENV !== "production" || !process.env.DB_PATH) {
-  (0, import_dotenvx2.config)({ path: path4.resolve(__dirname, `../.env.${process.env.NODE_ENV || "development"}`) });
-}
+path4.dirname(__filename2);
 var envServerSchema = external_exports.object({
   DB_HOST: external_exports.string(),
   DB_USER: external_exports.string(),
@@ -23432,11 +23426,11 @@ function uniqueKeyName3(table, columns) {
   return `${table[TableName]}_${columns.join("_")}_unique`;
 }
 var MySqlColumn = class extends Column {
-  constructor(table, config4) {
-    if (!config4.uniqueName) {
-      config4.uniqueName = uniqueKeyName3(table, [config4.name]);
+  constructor(table, config3) {
+    if (!config3.uniqueName) {
+      config3.uniqueName = uniqueKeyName3(table, [config3.name]);
     }
-    super(table, config4);
+    super(table, config3);
     this.table = table;
   }
   static [entityKind] = "MySqlColumn";
@@ -24118,7 +24112,7 @@ if (!fs2.existsSync(envPath)) {
   console.error(source_default.red(`\u274C Environment file not found: ${envPath}`));
   process.exit(1);
 }
-(0, import_dotenvx3.config)({ path: envPath });
+(0, import_dotenvx2.config)({ path: envPath });
 console.log("[db-setup] Loaded env config");
 async function generateMigrations() {
   console.log("[db-setup] Running generateMigrations...");

@@ -5,13 +5,19 @@ import { paths } from '@workspace/config/paths';
 import { z } from 'zod';
 import { fileURLToPath } from 'node:url';
 
+// config({ path: path.resolve(process.cwd(), `.env.${process.env.NODE_ENV || 'development'}`) });
+
 // ======================================================================== //
+
+// config({ path: path.resolve(__dirname, `./.env.${process.env.NODE_ENV || 'development'}`) });
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// dotenvx automatically loads .env files from current directory and parent directories
-// No need for manual path resolution
+// Only load environment file if not in production or if DB_PATH is not set
+if (process.env.NODE_ENV !== 'production' || !process.env.DB_PATH) {
+  config({ path: path.resolve(__dirname, `../.env.${process.env.NODE_ENV || 'development'}`) });
+}
 
 // ======================================================================== //
 
