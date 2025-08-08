@@ -18,7 +18,20 @@ interface BuildConfig {
   serverDir: string;
   dataDir: string;
   configDir: string;
-  buildDir: string; // New: dist subdirectory for build artifacts
+  buildDir: string;
+  targetPlatform?: 'windows' | 'linux' | 'macos' | 'universal';
+  targetArch?: 'x64' | 'arm64' | 'universal';
+  includeNode?: boolean;
+  standalone?: boolean;
+}
+
+interface BuildOptions {
+  platform?: 'windows' | 'linux' | 'macos' | 'universal';
+  arch?: 'x64' | 'arm64' | 'universal';
+  includeNode?: boolean;
+  standalone?: boolean;
+  zip?: boolean;
+  outputDir?: string;
 }
 
 const config: BuildConfig = {
@@ -28,7 +41,7 @@ const config: BuildConfig = {
   serverDir: join(WORKSPACE_ROOT, 'apps/server'),
   dataDir: join(WORKSPACE_ROOT, 'data'),
   configDir: join(WORKSPACE_ROOT, 'config'),
-  buildDir: join(DIST_DIR, 'dist'), // Build artifacts go here
+  buildDir: join(DIST_DIR, 'dist'),
 };
 
 async function cleanDistDirectory(): Promise<void> {
@@ -553,8 +566,812 @@ async function copyEnvExample(): Promise<void> {
   }
 }
 
+async function createSetupScripts(options: BuildOptions): Promise<void> {
+  console.log('🔧 Creating platform-specific setup scripts...');
+
+  const setupScripts = {
+    windows: `@echo off
+echo ========================================
+echo Touch Monorepo - Windows Setup
+echo ========================================
+echo.
+
+REM Check if Node.js is installed
+node --version >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ❌ Node.js is not installed or not in PATH
+    echo.
+    echo Please install Node.js from: https://nodejs.org/
+    echo Choose the LTS version (recommended)
+    echo.
+    pause
+    exit /b 1
+)
+
+echo ✅ Node.js found:
+node --version
+
+REM Check if npm is available
+npm --version >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ❌ npm is not available
+    pause
+    exit /b 1
+)
+
+echo ✅ npm found:
+npm --version
+
+REM Install dependencies
+echo.
+echo 📦 Installing dependencies...
+npm install --production
+if %errorlevel% neq 0 (
+    echo ❌ Failed to install dependencies
+    pause
+    exit /b 1
+)
+
+echo.
+echo 🎉 Setup completed successfully!
+echo.
+echo 🚀 To start the application:
+echo   1. Double-click start-server.bat (for backend)
+echo   2. Double-click start-client.bat (for frontend)
+echo   3. Or run: npm start (for both)
+echo.
+pause
+`,
+    linux: `#!/bin/bash
+
+echo "========================================"
+echo "Touch Monorepo - Linux Setup"
+echo "========================================"
+echo
+
+# Check if Node.js is installed
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js is not installed"
+    echo
+    echo "Please install Node.js:"
+    echo "  Ubuntu/Debian: sudo apt update && sudo apt install nodejs npm"
+    echo "  Or download from: https://nodejs.org/"
+    echo
+    exit 1
+fi
+
+echo "✅ Node.js found: $(node --version)"
+
+# Check if npm is available
+if ! command -v npm &> /dev/null; then
+    echo "❌ npm is not available"
+    exit 1
+fi
+
+echo "✅ npm found: $(npm --version)"
+
+# Install dependencies
+echo
+echo "📦 Installing dependencies..."
+npm install --production
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to install dependencies"
+    exit 1
+fi
+
+# Make scripts executable
+chmod +x start-server.sh start-client.sh
+
+echo
+echo "🎉 Setup completed successfully!"
+echo
+echo "🚀 To start the application:"
+echo "  1. ./start-server.sh (for backend)"
+echo "  2. ./start-client.sh (for frontend)"
+echo "  3. Or run: npm start (for both)"
+echo
+`,
+    macos: `#!/bin/bash
+
+echo "========================================"
+echo "Touch Monorepo - macOS Setup"
+echo "========================================"
+echo
+
+# Check if Node.js is installed
+if ! command -v node &> /dev/null; then
+    echo "❌ Node.js is not installed"
+    echo
+    echo "Please install Node.js:"
+    echo "  Option 1: Download from https://nodejs.org/"
+    echo "  Option 2: Install via Homebrew: brew install node"
+    echo
+    exit 1
+fi
+
+echo "✅ Node.js found: $(node --version)"
+
+# Check if npm is available
+if ! command -v npm &> /dev/null; then
+    echo "❌ npm is not available"
+    exit 1
+fi
+
+echo "✅ npm found: $(npm --version)"
+
+# Install dependencies
+echo
+echo "📦 Installing dependencies..."
+npm install --production
+if [ $? -ne 0 ]; then
+    echo "❌ Failed to install dependencies"
+    exit 1
+fi
+
+# Make scripts executable
+chmod +x start-server.sh start-client.sh
+
+echo
+echo "🎉 Setup completed successfully!"
+echo
+echo "🚀 To start the application:"
+echo "  1. ./start-server.sh (for backend)"
+echo "  2. ./start-client.sh (for frontend)"
+echo "  3. Or run: npm start (for both)"
+echo
+`,
+  };
+
+  // Create platform-specific setup scripts
+  if (options.platform === 'windows' || options.platform === 'universal') {
+    await writeFile(join(config.distDir, 'setup.bat'), setupScripts.windows);
+    console.log('✅ Windows setup script created (setup.bat)');
+  }
+
+  if (options.platform === 'linux' || options.platform === 'universal') {
+    await writeFile(join(config.distDir, 'setup.sh'), setupScripts.linux);
+    execSync(`chmod +x ${join(config.distDir, 'setup.sh')}`, { stdio: 'inherit' });
+    console.log('✅ Linux setup script created (setup.sh)');
+  }
+
+  if (options.platform === 'macos' || options.platform === 'universal') {
+    await writeFile(join(config.distDir, 'setup-macos.sh'), setupScripts.macos);
+    execSync(`chmod +x ${join(config.distDir, 'setup-macos.sh')}`, { stdio: 'inherit' });
+    console.log('✅ macOS setup script created (setup-macos.sh)');
+  }
+}
+
+async function createPlatformSpecificScripts(options: BuildOptions): Promise<void> {
+  console.log('🔧 Creating platform-specific startup scripts...');
+
+  const scripts = {
+    windows: {
+      server: `@echo off
+echo Starting Touch Monorepo Server...
+cd /d "%~dp0"
+node dist/server/index.js
+pause
+`,
+      client: `@echo off
+echo Starting Touch Monorepo Client...
+cd /d "%~dp0"
+node dist/client/server.js
+pause
+`,
+    },
+    linux: {
+      server: `#!/bin/bash
+echo "Starting Touch Monorepo Server..."
+cd "$(dirname "$0")"
+node dist/server/index.js
+`,
+      client: `#!/bin/bash
+echo "Starting Touch Monorepo Client..."
+cd "$(dirname "$0")"
+node dist/client/server.js
+`,
+    },
+    macos: {
+      server: `#!/bin/bash
+echo "Starting Touch Monorepo Server..."
+cd "$(dirname "$0")"
+node dist/server/index.js
+`,
+      client: `#!/bin/bash
+echo "Starting Touch Monorepo Client..."
+cd "$(dirname "$0")"
+node dist/client/server.js
+`,
+    },
+  };
+
+  // Create platform-specific scripts
+  if (options.platform === 'windows' || options.platform === 'universal') {
+    await writeFile(join(config.distDir, 'start-server.bat'), scripts.windows.server);
+    await writeFile(join(config.distDir, 'start-client.bat'), scripts.windows.client);
+    console.log('✅ Windows startup scripts created');
+  }
+
+  if (options.platform === 'linux' || options.platform === 'universal') {
+    await writeFile(join(config.distDir, 'start-server.sh'), scripts.linux.server);
+    await writeFile(join(config.distDir, 'start-client.sh'), scripts.linux.client);
+    execSync(
+      `chmod +x ${join(config.distDir, 'start-server.sh')} ${join(config.distDir, 'start-client.sh')}`,
+      { stdio: 'inherit' },
+    );
+    console.log('✅ Linux startup scripts created');
+  }
+
+  if (options.platform === 'macos' || options.platform === 'universal') {
+    await writeFile(join(config.distDir, 'start-server-macos.sh'), scripts.macos.server);
+    await writeFile(join(config.distDir, 'start-client-macos.sh'), scripts.macos.client);
+    execSync(
+      `chmod +x ${join(config.distDir, 'start-server-macos.sh')} ${join(config.distDir, 'start-client-macos.sh')}`,
+      { stdio: 'inherit' },
+    );
+    console.log('✅ macOS startup scripts created');
+  }
+}
+
+async function createZipArchive(options: BuildOptions): Promise<void> {
+  console.log('📦 Creating deployment archive...');
+
+  const platform = options.platform || 'universal';
+  const arch = options.arch || 'universal';
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
+  const zipName = `touch-monorepo-${platform}-${arch}-${timestamp}.zip`;
+  const zipPath = join(options.outputDir || config.workspaceRoot, zipName);
+
+  try {
+    // Use system zip command
+    const zipCommand = `cd "${config.distDir}" && zip -r "${zipPath}" . -x "node_modules/*" "*.log" ".DS_Store"`;
+    execSync(zipCommand, { stdio: 'inherit' });
+
+    console.log(`✅ Deployment archive created: ${zipName}`);
+    console.log(`📁 Location: ${zipPath}`);
+  } catch (error) {
+    console.error('❌ Failed to create zip archive:', error);
+    throw error;
+  }
+}
+
+async function createStandalonePackage(options: BuildOptions): Promise<void> {
+  console.log('📦 Creating standalone package...');
+
+  // Create a minimal package.json for standalone deployment
+  const standalonePackageJson = {
+    name: 'touch-monorepo-standalone',
+    version: '1.0.0',
+    description: 'Touch Monorepo Standalone Deployment',
+    private: true,
+    type: 'module',
+    scripts: {
+      'start': 'node dist/server/index.js',
+      'start:client': 'node dist/client/server.js',
+      'start:both': 'concurrently "npm run start" "npm run start:client"',
+      'setup': options.platform === 'windows' ? 'setup.bat' : './setup.sh',
+    },
+    dependencies: {
+      'better-sqlite3': '11.9.0',
+      'dotenv': '^16.0.0',
+      'concurrently': '^4.1.5',
+    },
+    engines: {
+      node: '>=20.0.0',
+    },
+  };
+
+  await writeFile(join(config.distDir, 'package.json'), JSON.stringify(standalonePackageJson, null, 2));
+  console.log('✅ Standalone package.json created');
+}
+
+async function createUserDocumentation(options: BuildOptions): Promise<void> {
+  console.log('📝 Creating user documentation...');
+
+  const platform = options.platform || 'universal';
+  const isWindows = platform === 'windows' || platform === 'universal';
+  const isLinux = platform === 'linux' || platform === 'universal';
+  const isMacOS = platform === 'macos' || platform === 'universal';
+
+  // English User Guide
+  const englishGuide = `# Touch Monorepo - User Guide
+
+## 🎯 Welcome!
+
+This guide will help you set up and run the Touch Monorepo application on your computer. No technical knowledge required!
+
+## 📋 What You Need
+
+- **Windows 10/11**: Any recent Windows computer
+- **Linux (Ubuntu/Debian)**: Any Linux computer
+- **macOS**: Any Mac computer (Intel or Apple Silicon)
+- **Internet connection**: For initial setup (one-time only)
+
+## 🚀 Quick Start Guide
+
+### Step 1: Extract the Files
+
+1. **Find the downloaded file**: Look for a file ending in \`.zip\` (e.g., \`touch-monorepo-windows-x64-2024-01-15.zip\`)
+2. **Right-click the file** and select "Extract All" or "Extract Here"
+3. **Choose a location** (like your Desktop or Documents folder)
+4. **Click "Extract"**
+
+### Step 2: Run the Setup
+
+${
+  isWindows
+    ? `#### For Windows Users
+
+1. **Open the extracted folder** (double-click the folder)
+2. **Find the file called \`setup.bat\`** (it has a gear icon)
+3. **Double-click \`setup.bat\`**
+4. **Wait for the setup to complete** (this may take a few minutes)
+5. **Click "OK" when it says "Setup completed successfully!"**
+
+**If you see an error about Node.js:**
+- Go to https://nodejs.org/
+- Click the big green "LTS" button to download
+- Run the installer and follow the instructions
+- Then try running \`setup.bat\` again`
+    : ''
+}
+
+${
+  isLinux
+    ? `#### For Linux Users
+
+1. **Open Terminal** (press Ctrl+Alt+T)
+2. **Navigate to the extracted folder**:
+   \`\`\`bash
+   cd /path/to/your/extracted/folder
+   \`\`\`
+3. **Make the setup script executable**:
+   \`\`\`bash
+   chmod +x setup.sh
+   \`\`\`
+4. **Run the setup**:
+   \`\`\`bash
+   ./setup.sh
+   \`\`\`
+5. **Wait for the setup to complete**
+
+**If you see an error about Node.js:**
+- Run: \`sudo apt update && sudo apt install nodejs npm\`
+- Then try running \`./setup.sh\` again`
+    : ''
+}
+
+${
+  isMacOS
+    ? `#### For macOS Users
+
+1. **Open Terminal** (press Cmd+Space, type "Terminal", press Enter)
+2. **Navigate to the extracted folder**:
+   \`\`\`bash
+   cd /path/to/your/extracted/folder
+   \`\`\`
+3. **Make the setup script executable**:
+   \`\`\`bash
+   chmod +x setup-macos.sh
+   \`\`\`
+4. **Run the setup**:
+   \`\`\`bash
+   ./setup-macos.sh
+   \`\`\`
+5. **Wait for the setup to complete**
+
+**If you see an error about Node.js:**
+- Go to https://nodejs.org/
+- Click the big green "LTS" button to download
+- Run the installer and follow the instructions
+- Then try running \`./setup-macos.sh\` again`
+    : ''
+}
+
+### Step 3: Start the Application
+
+${
+  isWindows
+    ? `#### For Windows Users
+
+1. **In the same folder**, find \`start-server.bat\`
+2. **Double-click \`start-server.bat\`** (this starts the backend)
+3. **Wait for it to say "Server is running"**
+4. **In the same folder**, find \`start-client.bat\`
+5. **Double-click \`start-client.bat\`** (this starts the frontend)
+6. **Your web browser should open automatically** to the application
+
+**Alternative**: Double-click \`start-both.bat\` to start both at once`
+    : ''
+}
+
+${
+  isLinux
+    ? `#### For Linux Users
+
+1. **In Terminal**, run the server:
+   \`\`\`bash
+   ./start-server.sh
+   \`\`\`
+2. **Open a new Terminal window** and run the client:
+   \`\`\`bash
+   ./start-client.sh
+   \`\`\`
+3. **Your web browser should open automatically** to the application
+
+**Alternative**: Run \`npm start\` to start both at once`
+    : ''
+}
+
+${
+  isMacOS
+    ? `#### For macOS Users
+
+1. **In Terminal**, run the server:
+   \`\`\`bash
+   ./start-server-macos.sh
+   \`\`\`
+2. **Open a new Terminal window** and run the client:
+   \`\`\`bash
+   ./start-client-macos.sh
+   \`\`\`
+3. **Your web browser should open automatically** to the application
+
+**Alternative**: Run \`npm start\` to start both at once`
+    : ''
+}
+
+## 🌐 Using the Application
+
+1. **Open your web browser** (Chrome, Firefox, Safari, Edge)
+2. **Go to**: http://localhost:3000
+3. **The application should load** and be ready to use!
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**"Node.js is not installed"**
+- Follow the installation instructions above
+- Make sure to restart your computer after installing Node.js
+
+**"Port is already in use"**
+- Close any other applications that might be using ports 3000 or 4040
+- Restart your computer and try again
+
+**"Permission denied" (Linux/macOS)**
+- Make sure you ran the setup script first
+- Try running: \`chmod +x *.sh\`
+
+**"Application won't start"**
+- Make sure you ran the setup script first
+- Check that you're in the correct folder
+- Try restarting your computer
+
+### Getting Help
+
+If you're still having trouble:
+
+1. **Check the README.md file** in this folder for technical details
+2. **Look for error messages** in the terminal/command prompt
+3. **Make sure your computer meets the requirements** listed above
+4. **Try running the setup script again**
+
+## 📞 Support
+
+For technical support, please provide:
+- Your operating system (Windows/Linux/macOS)
+- Any error messages you see
+- Steps you've already tried
+
+## 🎉 You're Ready!
+
+Once the application is running, you can:
+- Access it at http://localhost:3000
+- Use all the features of the Touch Monorepo application
+- Close the terminal/command prompt windows when you're done
+
+**Note**: Keep the terminal/command prompt windows open while using the application. Close them when you're finished.
+
+---
+
+*Generated on: ${new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })}*
+`;
+
+  // Spanish User Guide
+  const spanishGuide = `# Touch Monorepo - Guía de Usuario
+
+## 🎯 ¡Bienvenido!
+
+Esta guía te ayudará a configurar y ejecutar la aplicación Touch Monorepo en tu computadora. ¡No se requieren conocimientos técnicos!
+
+## 📋 Lo Que Necesitas
+
+- **Windows 10/11**: Cualquier computadora Windows reciente
+- **Linux (Ubuntu/Debian)**: Cualquier computadora Linux
+- **macOS**: Cualquier Mac (Intel o Apple Silicon)
+- **Conexión a internet**: Para la configuración inicial (solo una vez)
+
+## 🚀 Guía de Inicio Rápido
+
+### Paso 1: Extraer los Archivos
+
+1. **Encuentra el archivo descargado**: Busca un archivo que termine en \`.zip\` (ej., \`touch-monorepo-windows-x64-2024-01-15.zip\`)
+2. **Haz clic derecho en el archivo** y selecciona "Extraer Todo" o "Extraer Aquí"
+3. **Elige una ubicación** (como tu Escritorio o carpeta Documentos)
+4. **Haz clic en "Extraer"**
+
+### Paso 2: Ejecutar la Configuración
+
+${
+  isWindows
+    ? `#### Para Usuarios de Windows
+
+1. **Abre la carpeta extraída** (haz doble clic en la carpeta)
+2. **Encuentra el archivo llamado \`setup.bat\`** (tiene un ícono de engranaje)
+3. **Haz doble clic en \`setup.bat\`**
+4. **Espera a que se complete la configuración** (esto puede tomar unos minutos)
+5. **Haz clic en "OK" cuando diga "Setup completed successfully!"**
+
+**Si ves un error sobre Node.js:**
+- Ve a https://nodejs.org/
+- Haz clic en el botón verde grande "LTS" para descargar
+- Ejecuta el instalador y sigue las instrucciones
+- Luego intenta ejecutar \`setup.bat\` nuevamente`
+    : ''
+}
+
+${
+  isLinux
+    ? `#### Para Usuarios de Linux
+
+1. **Abre Terminal** (presiona Ctrl+Alt+T)
+2. **Navega a la carpeta extraída**:
+   \`\`\`bash
+   cd /ruta/a/tu/carpeta/extraída
+   \`\`\`
+3. **Haz ejecutable el script de configuración**:
+   \`\`\`bash
+   chmod +x setup.sh
+   \`\`\`
+4. **Ejecuta la configuración**:
+   \`\`\`bash
+   ./setup.sh
+   \`\`\`
+5. **Espera a que se complete la configuración**
+
+**Si ves un error sobre Node.js:**
+- Ejecuta: \`sudo apt update && sudo apt install nodejs npm\`
+- Luego intenta ejecutar \`./setup.sh\` nuevamente`
+    : ''
+}
+
+${
+  isMacOS
+    ? `#### Para Usuarios de macOS
+
+1. **Abre Terminal** (presiona Cmd+Espacio, escribe "Terminal", presiona Enter)
+2. **Navega a la carpeta extraída**:
+   \`\`\`bash
+   cd /ruta/a/tu/carpeta/extraída
+   \`\`\`
+3. **Haz ejecutable el script de configuración**:
+   \`\`\`bash
+   chmod +x setup-macos.sh
+   \`\`\`
+4. **Ejecuta la configuración**:
+   \`\`\`bash
+   ./setup-macos.sh
+   \`\`\`
+5. **Espera a que se complete la configuración**
+
+**Si ves un error sobre Node.js:**
+- Ve a https://nodejs.org/
+- Haz clic en el botón verde grande "LTS" para descargar
+- Ejecuta el instalador y sigue las instrucciones
+- Luego intenta ejecutar \`./setup-macos.sh\` nuevamente`
+    : ''
+}
+
+### Paso 3: Iniciar la Aplicación
+
+${
+  isWindows
+    ? `#### Para Usuarios de Windows
+
+1. **En la misma carpeta**, encuentra \`start-server.bat\`
+2. **Haz doble clic en \`start-server.bat\`** (esto inicia el backend)
+3. **Espera a que diga "Server is running"**
+4. **En la misma carpeta**, encuentra \`start-client.bat\`
+5. **Haz doble clic en \`start-client.bat\`** (esto inicia el frontend)
+6. **Tu navegador web debería abrirse automáticamente** a la aplicación
+
+**Alternativa**: Haz doble clic en \`start-both.bat\` para iniciar ambos a la vez`
+    : ''
+}
+
+${
+  isLinux
+    ? `#### Para Usuarios de Linux
+
+1. **En Terminal**, ejecuta el servidor:
+   \`\`\`bash
+   ./start-server.sh
+   \`\`\`
+2. **Abre una nueva ventana de Terminal** y ejecuta el cliente:
+   \`\`\`bash
+   ./start-client.sh
+   \`\`\`
+3. **Tu navegador web debería abrirse automáticamente** a la aplicación
+
+**Alternativa**: Ejecuta \`npm start\` para iniciar ambos a la vez`
+    : ''
+}
+
+${
+  isMacOS
+    ? `#### Para Usuarios de macOS
+
+1. **En Terminal**, ejecuta el servidor:
+   \`\`\`bash
+   ./start-server-macos.sh
+   \`\`\`
+2. **Abre una nueva ventana de Terminal** y ejecuta el cliente:
+   \`\`\`bash
+   ./start-client-macos.sh
+   \`\`\`
+3. **Tu navegador web debería abrirse automáticamente** a la aplicación
+
+**Alternativa**: Ejecuta \`npm start\` para iniciar ambos a la vez`
+    : ''
+}
+
+## 🌐 Usando la Aplicación
+
+1. **Abre tu navegador web** (Chrome, Firefox, Safari, Edge)
+2. **Ve a**: http://localhost:3000
+3. **La aplicación debería cargar** y estar lista para usar!
+
+## 🔧 Solución de Problemas
+
+### Problemas Comunes
+
+**"Node.js no está instalado"**
+- Sigue las instrucciones de instalación arriba
+- Asegúrate de reiniciar tu computadora después de instalar Node.js
+
+**"Puerto ya está en uso"**
+- Cierra cualquier otra aplicación que pueda estar usando los puertos 3000 o 4040
+- Reinicia tu computadora e intenta nuevamente
+
+**"Permiso denegado" (Linux/macOS)**
+- Asegúrate de haber ejecutado el script de configuración primero
+- Intenta ejecutar: \`chmod +x *.sh\`
+
+**"La aplicación no inicia"**
+- Asegúrate de haber ejecutado el script de configuración primero
+- Verifica que estés en la carpeta correcta
+- Intenta reiniciar tu computadora
+
+### Obtener Ayuda
+
+Si aún tienes problemas:
+
+1. **Revisa el archivo README.md** en esta carpeta para detalles técnicos
+2. **Busca mensajes de error** en la terminal/línea de comandos
+3. **Asegúrate de que tu computadora cumpla con los requisitos** listados arriba
+4. **Intenta ejecutar el script de configuración nuevamente**
+
+## 📞 Soporte
+
+Para soporte técnico, por favor proporciona:
+- Tu sistema operativo (Windows/Linux/macOS)
+- Cualquier mensaje de error que veas
+- Pasos que ya has intentado
+
+## 🎉 ¡Estás Listo!
+
+Una vez que la aplicación esté ejecutándose, puedes:
+- Acceder a ella en http://localhost:3000
+- Usar todas las funciones de la aplicación Touch Monorepo
+- Cerrar las ventanas de terminal/línea de comandos cuando hayas terminado
+
+**Nota**: Mantén las ventanas de terminal/línea de comandos abiertas mientras uses la aplicación. Ciérralas cuando hayas terminado.
+
+---
+
+*Generado el: ${new Date().toLocaleDateString('es-ES', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })}*
+`;
+
+  // Write the documentation files
+  await writeFile(join(config.distDir, 'USER_GUIDE_EN.md'), englishGuide);
+  await writeFile(join(config.distDir, 'GUIA_USUARIO_ES.md'), spanishGuide);
+
+  console.log('✅ User documentation created (USER_GUIDE_EN.md, GUIA_USUARIO_ES.md)');
+}
+
+function parseArguments(): BuildOptions {
+  const args = process.argv.slice(2);
+  const options: BuildOptions = {};
+
+  for (let i = 0; i < args.length; i++) {
+    const arg = args[i];
+
+    switch (arg) {
+      case '--platform':
+      case '-p':
+        options.platform = args[++i] as 'windows' | 'linux' | 'macos' | 'universal';
+        break;
+      case '--arch':
+      case '-a':
+        options.arch = args[++i] as 'x64' | 'arm64' | 'universal';
+        break;
+      case '--include-node':
+      case '-n':
+        options.includeNode = true;
+        break;
+      case '--standalone':
+      case '-s':
+        options.standalone = true;
+        break;
+      case '--zip':
+      case '-z':
+        options.zip = true;
+        break;
+      case '--output-dir':
+      case '-o':
+        options.outputDir = args[++i];
+        break;
+      case '--help':
+      case '-h':
+        console.log(`
+Touch Monorepo Deployment Builder
+
+Usage: pnpm build.deployment [options]
+
+Options:
+  --platform, -p <platform>    Target platform (windows|linux|macos|universal)
+  --arch, -a <arch>           Target architecture (x64|arm64|universal)
+  --include-node, -n          Include Node.js runtime
+  --standalone, -s            Create standalone package
+  --zip, -z                   Create zip archive
+  --output-dir, -o <dir>      Output directory for zip
+  --help, -h                  Show this help
+
+Examples:
+  pnpm build.deployment --platform windows --arch x64 --zip
+  pnpm build.deployment --platform linux --standalone
+  pnpm build.deployment --platform universal --zip --output-dir ./dist
+        `);
+        process.exit(0);
+    }
+  }
+
+  return options;
+}
+
 async function main(): Promise<void> {
+  const options = parseArguments();
+
   console.log('🏗️  Building Touch Monorepo Deployment');
+  console.log('='.repeat(60));
+  console.log(`Platform: ${options.platform || 'universal'}`);
+  console.log(`Architecture: ${options.arch || 'universal'}`);
+  console.log(`Standalone: ${options.standalone ? 'Yes' : 'No'}`);
+  console.log(`Include Node: ${options.includeNode ? 'Yes' : 'No'}`);
+  console.log(`Create Zip: ${options.zip ? 'Yes' : 'No'}`);
   console.log('='.repeat(60));
 
   try {
@@ -571,20 +1388,46 @@ async function main(): Promise<void> {
     await createPackageJson();
     await createReadme();
     await createTestScript();
-    await installDependencies();
+
+    if (options.standalone) {
+      await createStandalonePackage(options);
+    } else {
+      await installDependencies();
+    }
+
     await copyEnvExample();
+    await createSetupScripts(options);
+    await createPlatformSpecificScripts(options);
+    await createUserDocumentation(options);
+
+    if (options.zip) {
+      await createZipArchive(options);
+    }
 
     console.log('');
     console.log('🎉 Deployment build completed successfully!');
     console.log('📦 Deployment created at:', config.distDir);
     console.log('');
-    console.log('To run the deployment:');
-    console.log(`  cd ${config.distDir}`);
-    console.log('  node start.js');
+
+    if (options.zip) {
+      const zipName = `touch-monorepo-${options.platform || 'universal'}-${options.arch || 'universal'}-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}.zip`;
+      console.log('📦 Zip archive created:', zipName);
+    }
+
     console.log('');
-    console.log('For full application (server + client):');
-    console.log(`  cd ${config.distDir}`);
-    console.log('  node start.js & node start-client.js');
+    console.log('🚀 Next steps:');
+    console.log('  1. Extract the deployment folder');
+    console.log('  2. Run the setup script for your platform:');
+    if (options.platform === 'windows' || options.platform === 'universal') {
+      console.log('     Windows: Double-click setup.bat');
+    }
+    if (options.platform === 'linux' || options.platform === 'universal') {
+      console.log('     Linux: ./setup.sh');
+    }
+    if (options.platform === 'macos' || options.platform === 'universal') {
+      console.log('     macOS: ./setup-macos.sh');
+    }
+    console.log('  3. Start the application with the provided scripts');
     console.log('');
   } catch (error) {
     console.error('❌ Deployment build failed:', error);
