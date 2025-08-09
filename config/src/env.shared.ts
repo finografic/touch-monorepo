@@ -1,20 +1,43 @@
 import { z } from 'zod';
 import { config } from '@dotenvx/dotenvx';
 import path from 'node:path';
+import fs from 'node:fs';
 import { paths } from './paths.js';
 
-config({
-  path: path.resolve(
-    paths.config.dir,
-    `.env.${process.env.NODE_ENV || 'development'}`,
-  ),
-});
+// Prefer deployment env files when running from a built deployment.
+// Falls back to repo config env files only if they exist.
+const NODE_ENV_VALUE = process.env.NODE_ENV || 'development';
+const deploymentEnvProductionPath = path.resolve(paths.root, 'dist', '.env.production');
+const deploymentEnvByNodeEnvPath = path.resolve(paths.root, 'dist', `.env.${NODE_ENV_VALUE}`);
+const repoConfigEnvPath = path.resolve(paths.config.dir, `.env.${NODE_ENV_VALUE}`);
+
+const debug = process.env.DEBUG_DEPLOYMENT === '1';
+if (debug) {
+  // eslint-disable-next-line no-console
+  console.log('[env.shared] resolving env file', {
+    NODE_ENV_VALUE,
+    deploymentEnvProductionPath,
+    deploymentEnvByNodeEnvPath,
+    repoConfigEnvPath,
+  });
+}
+
+if (fs.existsSync(deploymentEnvProductionPath)) {
+  if (debug) console.log('[env.shared] using deployment .env.production:', deploymentEnvProductionPath);
+  config({ path: deploymentEnvProductionPath });
+} else if (fs.existsSync(deploymentEnvByNodeEnvPath)) {
+  if (debug) console.log('[env.shared] using deployment env by NODE_ENV:', deploymentEnvByNodeEnvPath);
+  config({ path: deploymentEnvByNodeEnvPath });
+} else if (fs.existsSync(repoConfigEnvPath)) {
+  if (debug) console.log('[env.shared] using repo config env:', repoConfigEnvPath);
+  config({ path: repoConfigEnvPath });
+} else if (debug) {
+  console.log('[env.shared] no env file found at expected locations (proceeding with process.env)');
+}
 
 const envSharedSchema = z
   .object({
-    NODE_ENV: z
-      .enum(['development', 'production', 'test'])
-      .default('development'),
+    NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
     API_PROTOCOL: z.enum(['http', 'https']).default('http'),
     API_HOST: z.string().default('localhost'),
     API_PORT: z.number().default(4040),
