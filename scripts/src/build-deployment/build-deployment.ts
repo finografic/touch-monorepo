@@ -587,19 +587,51 @@ async function createSetupScripts(options: BuildOptions): Promise<void> {
 
   const setupScripts = {
     windows: `@echo off
+setlocal ENABLEDELAYEDEXPANSION
 echo ========================================
 echo Touch Monorepo - Windows Setup
 echo ========================================
 echo.
 
-REM Check if Node.js is installed
+REM 1) Ensure Node.js is installed
 node --version >nul 2>&1
 if %errorlevel% neq 0 (
-    echo ❌ Node.js is not installed or not in PATH
-    echo.
-    echo Please install Node.js from: https://nodejs.org/
-    echo Choose the LTS version (recommended)
-    echo.
+    echo ❌ Node.js is not installed. Attempting to install Node.js LTS via winget...
+    winget --version >nul 2>&1
+    if %errorlevel% EQU 0 (
+        winget install OpenJS.NodeJS.LTS -e --silent --accept-source-agreements --accept-package-agreements
+        if %errorlevel% NEQ 0 (
+            echo ⚠️  winget install failed. Checking for Chocolatey...
+            choco -v >nul 2>&1
+            if %errorlevel% EQU 0 (
+                choco install nodejs-lts -y
+            ) else (
+                echo ⚠️  Chocolatey not found. Opening Node.js download page...
+                start https://nodejs.org/
+                echo Please install Node.js LTS manually, then press any key to continue.
+                pause >nul
+            )
+        )
+    ) else (
+        echo ⚠️  winget not available. Checking for Chocolatey...
+        choco -v >nul 2>&1
+        if %errorlevel% EQU 0 (
+            choco install nodejs-lts -y
+        ) else (
+            echo ⚠️  Chocolatey not found. Opening Node.js download page...
+            start https://nodejs.org/
+            echo Please install Node.js LTS manually, then press any key to continue.
+            pause >nul
+        )
+    )
+)
+
+REM Refresh PATH for current session (common install location)
+set PATH=%PATH%;C:\\Program Files\\nodejs
+
+node --version >nul 2>&1
+if %errorlevel% neq 0 (
+    echo ❌ Node.js still not detected. Please close this window, install Node.js, then run setup.bat again.
     pause
     exit /b 1
 )
@@ -607,134 +639,95 @@ if %errorlevel% neq 0 (
 echo ✅ Node.js found:
 node --version
 
-REM Check if npm is available
-npm --version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo ❌ npm is not available
-    pause
-    exit /b 1
-)
-
 echo ✅ npm found:
 npm --version
 
-REM Install dependencies
 echo.
-echo 📦 Installing dependencies...
+echo 📦 Installing dependencies (production)...
 npm install --production
-if %errorlevel% neq 0 (
+if %errorlevel% NEQ 0 (
     echo ❌ Failed to install dependencies
     pause
     exit /b 1
 )
 
 echo.
-echo 🎉 Setup completed successfully!
+echo 🚀 Starting application (server + client)...
+start "server" cmd /c start-server.bat
+start "client" cmd /c start-client.bat
+
 echo.
-echo 🚀 To start the application:
-echo   1. Double-click start-server.bat (for backend)
-echo   2. Double-click start-client.bat (for frontend)
-echo   3. Or run: npm start (for both)
-echo.
+echo 🎉 Setup completed. Two windows should be running (server and client).
 pause
 `,
     linux: `#!/bin/bash
+set -e
 
 echo "========================================"
 echo "Touch Monorepo - Linux Setup"
 echo "========================================"
 echo
 
-# Check if Node.js is installed
-if ! command -v node &> /dev/null; then
-    echo "❌ Node.js is not installed"
-    echo
-    echo "Please install Node.js:"
-    echo "  Ubuntu/Debian: sudo apt update && sudo apt install nodejs npm"
-    echo "  Or download from: https://nodejs.org/"
-    echo
+if ! command -v node >/dev/null 2>&1; then
+  echo "❌ Node.js is not installed. Attempting to install..."
+  if command -v apt >/dev/null 2>&1; then
+    sudo apt update && sudo apt install -y nodejs npm
+  elif command -v dnf >/dev/null 2>&1; then
+    sudo dnf install -y nodejs npm
+  elif command -v pacman >/dev/null 2>&1; then
+    sudo pacman -Sy --noconfirm nodejs npm
+  else
+    echo "⚠️  Could not auto-install Node.js. Please install Node 20+ from https://nodejs.org/ then re-run ./setup.sh"
     exit 1
+  fi
 fi
 
-echo "✅ Node.js found: $(node --version)"
+echo "✅ Node.js: $(node -v)"
+echo "✅ npm: $(npm -v)"
 
-# Check if npm is available
-if ! command -v npm &> /dev/null; then
-    echo "❌ npm is not available"
-    exit 1
-fi
-
-echo "✅ npm found: $(npm --version)"
-
-# Install dependencies
-echo
-echo "📦 Installing dependencies..."
+echo "📦 Installing dependencies (production)..."
 npm install --production
-if [ $? -ne 0 ]; then
-    echo "❌ Failed to install dependencies"
-    exit 1
-fi
 
-# Make scripts executable
-chmod +x start-server.sh start-client.sh
+echo "🚀 Starting application (server + client)..."
+chmod +x start-server.sh start-client.sh || true
+(./start-server.sh &) >/dev/null 2>&1
+(./start-client.sh &) >/dev/null 2>&1
 
-echo
-echo "🎉 Setup completed successfully!"
-echo
-echo "🚀 To start the application:"
-echo "  1. ./start-server.sh (for backend)"
-echo "  2. ./start-client.sh (for frontend)"
-echo "  3. Or run: npm start (for both)"
-echo
+echo "🎉 Setup completed. Server and client started in background."
 `,
     macos: `#!/bin/bash
+set -e
 
 echo "========================================"
 echo "Touch Monorepo - macOS Setup"
 echo "========================================"
 echo
 
-# Check if Node.js is installed
-if ! command -v node &> /dev/null; then
-    echo "❌ Node.js is not installed"
-    echo
-    echo "Please install Node.js:"
-    echo "  Option 1: Download from https://nodejs.org/"
-    echo "  Option 2: Install via Homebrew: brew install node"
-    echo
-    exit 1
+if ! command -v node >/dev/null 2>&1; then
+  echo "❌ Node.js is not installed. Attempting Homebrew install..."
+  if command -v brew >/dev/null 2>&1; then
+    brew install node
+  else
+    echo "⚠️  Homebrew not found. Installing Homebrew (may prompt for password)..."
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+    brew install node
+  fi
 fi
 
-echo "✅ Node.js found: $(node --version)"
+echo "✅ Node.js: $(node -v)"
+echo "✅ npm: $(npm -v)"
 
-# Check if npm is available
-if ! command -v npm &> /dev/null; then
-    echo "❌ npm is not available"
-    exit 1
-fi
-
-echo "✅ npm found: $(npm --version)"
-
-# Install dependencies
-echo
-echo "📦 Installing dependencies..."
+echo "📦 Installing dependencies (production)..."
 npm install --production
-if [ $? -ne 0 ]; then
-    echo "❌ Failed to install dependencies"
-    exit 1
-fi
 
-# Make scripts executable
-chmod +x start-server.sh start-client.sh
+echo "🚀 Starting application (server + client)..."
+chmod +x start-server-macos.sh start-client-macos.sh || true
+(./start-server-macos.sh &) >/dev/null 2>&1
+(./start-client-macos.sh &) >/dev/null 2>&1
 
-echo
-echo "🎉 Setup completed successfully!"
-echo
-echo "🚀 To start the application:"
-echo "  1. ./start-server.sh (for backend)"
-echo "  2. ./start-client.sh (for frontend)"
-echo "  3. Or run: npm start (for both)"
-echo
+echo "🎉 Setup completed. Server and client started in background."
 `,
   };
 
@@ -766,13 +759,16 @@ async function createPlatformSpecificScripts(options: BuildOptions): Promise<voi
 echo Starting Touch Monorepo Server...
 cd /d "%~dp0"
 node dist/server/index.js
-pause
 `,
       client: `@echo off
 echo Starting Touch Monorepo Client...
 cd /d "%~dp0"
 node dist/client/server.js
-pause
+`,
+      both: `@echo off
+cd /d "%~dp0"
+start "server" cmd /c start-server.bat
+start "client" cmd /c start-client.bat
 `,
     },
     linux: {
@@ -786,6 +782,11 @@ echo "Starting Touch Monorepo Client..."
 cd "$(dirname "$0")"
 node dist/client/server.js
 `,
+      both: `#!/bin/bash
+cd "$(dirname "$0")"
+(./start-server.sh &) >/dev/null 2>&1
+(./start-client.sh &) >/dev/null 2>&1
+`,
     },
     macos: {
       server: `#!/bin/bash
@@ -798,21 +799,27 @@ echo "Starting Touch Monorepo Client..."
 cd "$(dirname "$0")"
 node dist/client/server.js
 `,
+      both: `#!/bin/bash
+cd "$(dirname "$0")"
+(./start-server-macos.sh &) >/dev/null 2>&1
+(./start-client-macos.sh &) >/dev/null 2>&1
+`,
     },
   };
 
-  // Create platform-specific scripts
   if (options.platform === 'windows') {
     await writeFile(join(config.distDir, 'start-server.bat'), scripts.windows.server);
     await writeFile(join(config.distDir, 'start-client.bat'), scripts.windows.client);
+    await writeFile(join(config.distDir, 'start-both.bat'), scripts.windows.both);
     console.log('✅ Windows startup scripts created');
   }
 
   if (options.platform === 'linux') {
     await writeFile(join(config.distDir, 'start-server.sh'), scripts.linux.server);
     await writeFile(join(config.distDir, 'start-client.sh'), scripts.linux.client);
+    await writeFile(join(config.distDir, 'start-both.sh'), scripts.linux.both);
     execSync(
-      `chmod +x ${join(config.distDir, 'start-server.sh')} ${join(config.distDir, 'start-client.sh')}`,
+      `chmod +x ${join(config.distDir, 'start-server.sh')} ${join(config.distDir, 'start-client.sh')} ${join(config.distDir, 'start-both.sh')}`,
       { stdio: 'inherit' },
     );
     console.log('✅ Linux startup scripts created');
@@ -821,8 +828,9 @@ node dist/client/server.js
   if (options.platform === 'macos') {
     await writeFile(join(config.distDir, 'start-server-macos.sh'), scripts.macos.server);
     await writeFile(join(config.distDir, 'start-client-macos.sh'), scripts.macos.client);
+    await writeFile(join(config.distDir, 'start-both-macos.sh'), scripts.macos.both);
     execSync(
-      `chmod +x ${join(config.distDir, 'start-server-macos.sh')} ${join(config.distDir, 'start-client-macos.sh')}`,
+      `chmod +x ${join(config.distDir, 'start-server-macos.sh')} ${join(config.distDir, 'start-client-macos.sh')} ${join(config.distDir, 'start-both-macos.sh')}`,
       { stdio: 'inherit' },
     );
     console.log('✅ macOS startup scripts created');

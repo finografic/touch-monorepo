@@ -22,40 +22,52 @@ This guide will help you set up and run the Touch Monorepo application on your c
 
 ### Step 2: Run the Setup
 
-#### For Windows Users
 
-1. **Open the extracted folder** (double-click the folder)
-2. **Find the file called `setup.bat`** (it has a gear icon)
-3. **Double-click `setup.bat`**
-4. **Wait for the setup to complete** (this may take a few minutes)
-5. **Click "OK" when it says "Setup completed successfully!"**
+
+
+
+#### For macOS Users
+
+1. **Open Terminal** (press Cmd+Space, type "Terminal", press Enter)
+2. **Navigate to the extracted folder**:
+   ```bash
+   cd /path/to/your/extracted/folder
+   ```
+3. **Make the setup script executable**:
+   ```bash
+   chmod +x setup-macos.sh
+   ```
+4. **Run the setup**:
+   ```bash
+   ./setup-macos.sh
+   ```
+5. **Wait for the setup to complete**
 
 **If you see an error about Node.js:**
 - Go to https://nodejs.org/
 - Click the big green "LTS" button to download
 - Run the installer and follow the instructions
-- Then try running `setup.bat` again
-
-
-
-
+- Then try running `./setup-macos.sh` again
 
 ### Step 3: Start the Application
 
-#### For Windows Users
-
-1. **In the same folder**, find `start-server.bat`
-2. **Double-click `start-server.bat`** (this starts the backend)
-3. **Wait for it to say "Server is running"**
-4. **In the same folder**, find `start-client.bat`
-5. **Double-click `start-client.bat`** (this starts the frontend)
-6. **Your web browser should open automatically** to the application
-
-**Alternative**: Double-click `start-both.bat` to start both at once
 
 
 
 
+#### For macOS Users
+
+1. **In Terminal**, run the server:
+   ```bash
+   ./start-server-macos.sh
+   ```
+2. **Open a new Terminal window** and run the client:
+   ```bash
+   ./start-client-macos.sh
+   ```
+3. **Your web browser should open automatically** to the application
+
+**Alternative**: Run `npm start` to start both at once
 
 ## 🌐 Using the Application
 
@@ -111,4 +123,4 @@ Once the application is running, you can:
 
 ---
 
-*Generated on: August 9, 2025 at 12:07 AM*
+*Generated on: August 9, 2025 at 04:58 AM*
