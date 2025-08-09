@@ -25,6 +25,9 @@ if (existsSync(envPath)) {
   console.log('⚠️  Environment file not found:', envPath);
 }
 
+// Ensure server can resolve project root in deployment
+process.env.PROJECT_ROOT = __dirname_resolved;
+
 console.log('🚀 Starting Touch Monorepo Production Server...');
 console.log('📍 Working directory:', __dirname_resolved);
 

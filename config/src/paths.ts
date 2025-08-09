@@ -7,11 +7,16 @@ const currentFilePath = fileURLToPath(currentFileUrl);
 const currentDir = path.dirname(currentFilePath);
 
 /**
- * Finds the root directory of the project by looking for package.json
- * @param startDir - Directory to start searching from
- * @returns Path to project root
+ * Finds the root directory of the project by looking for workspace markers.
+ * Supports deployment mode via PROJECT_ROOT / DEPLOYMENT_ROOT environment variables.
  */
 const findRootDir = (startDir: string) => {
+  // Deployment override
+  const deploymentRootFromEnv = process.env.PROJECT_ROOT || process.env.DEPLOYMENT_ROOT;
+  if (deploymentRootFromEnv && fs.existsSync(deploymentRootFromEnv)) {
+    return path.resolve(deploymentRootFromEnv);
+  }
+
   let currentDir = startDir;
 
   while (currentDir !== path.parse(currentDir).root) {
@@ -21,8 +26,25 @@ const findRootDir = (startDir: string) => {
     if (hasNpmrc && hasWorkspaceFile) {
       return currentDir;
     }
+
+    // Fallback: deployment artifact detection (folder that contains dist/)
+    const hasDist = fs.existsSync(path.join(currentDir, 'dist'));
+    const hasDeploymentMarkers =
+      fs.existsSync(path.join(currentDir, 'start-server.js')) ||
+      fs.existsSync(path.join(currentDir, 'ports.utils.js'));
+    if (hasDist && hasDeploymentMarkers) {
+      return currentDir;
+    }
+
     currentDir = path.dirname(currentDir);
   }
+
+  // Final fallback: two levels up from compiled files (common in bundled output)
+  const twoUp = path.resolve(startDir, '..', '..');
+  if (fs.existsSync(path.join(twoUp, 'dist'))) {
+    return twoUp;
+  }
+
   throw new Error('Could not find project root directory');
 };
 
