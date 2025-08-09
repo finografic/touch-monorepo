@@ -22,40 +22,52 @@ Esta guía te ayudará a configurar y ejecutar la aplicación Touch Monorepo en 
 
 ### Paso 2: Ejecutar la Configuración
 
-#### Para Usuarios de Windows
 
-1. **Abre la carpeta extraída** (haz doble clic en la carpeta)
-2. **Encuentra el archivo llamado `setup.bat`** (tiene un ícono de engranaje)
-3. **Haz doble clic en `setup.bat`**
-4. **Espera a que se complete la configuración** (esto puede tomar unos minutos)
-5. **Haz clic en "OK" cuando diga "Setup completed successfully!"**
+
+
+
+#### Para Usuarios de macOS
+
+1. **Abre Terminal** (presiona Cmd+Espacio, escribe "Terminal", presiona Enter)
+2. **Navega a la carpeta extraída**:
+   ```bash
+   cd /ruta/a/tu/carpeta/extraída
+   ```
+3. **Haz ejecutable el script de configuración**:
+   ```bash
+   chmod +x setup-macos.sh
+   ```
+4. **Ejecuta la configuración**:
+   ```bash
+   ./setup-macos.sh
+   ```
+5. **Espera a que se complete la configuración**
 
 **Si ves un error sobre Node.js:**
 - Ve a https://nodejs.org/
 - Haz clic en el botón verde grande "LTS" para descargar
 - Ejecuta el instalador y sigue las instrucciones
-- Luego intenta ejecutar `setup.bat` nuevamente
-
-
-
-
+- Luego intenta ejecutar `./setup-macos.sh` nuevamente
 
 ### Paso 3: Iniciar la Aplicación
 
-#### Para Usuarios de Windows
-
-1. **En la misma carpeta**, encuentra `start-server.bat`
-2. **Haz doble clic en `start-server.bat`** (esto inicia el backend)
-3. **Espera a que diga "Server is running"**
-4. **En la misma carpeta**, encuentra `start-client.bat`
-5. **Haz doble clic en `start-client.bat`** (esto inicia el frontend)
-6. **Tu navegador web debería abrirse automáticamente** a la aplicación
-
-**Alternativa**: Haz doble clic en `start-both.bat` para iniciar ambos a la vez
 
 
 
 
+#### Para Usuarios de macOS
+
+1. **En Terminal**, ejecuta el servidor:
+   ```bash
+   ./start-server-macos.sh
+   ```
+2. **Abre una nueva ventana de Terminal** y ejecuta el cliente:
+   ```bash
+   ./start-client-macos.sh
+   ```
+3. **Tu navegador web debería abrirse automáticamente** a la aplicación
+
+**Alternativa**: Ejecuta `npm start` para iniciar ambos a la vez
 
 ## 🌐 Usando la Aplicación
 
@@ -111,4 +123,4 @@ Una vez que la aplicación esté ejecutándose, puedes:
 
 ---
 
-*Generado el: 9 de agosto de 2025, 05:05*
+*Generado el: 9 de agosto de 2025, 05:10*

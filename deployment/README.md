@@ -73,4 +73,4 @@ This deployment structure separates:
 - **Runtime files** (scripts, configs) - Preserved between builds
 - **Dependencies** (`node_modules/`) - Installed once and preserved
 
-Generated on: 2025-08-09T03:05:29.764Z
+Generated on: 2025-08-09T03:10:25.495Z
