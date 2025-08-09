@@ -8,6 +8,11 @@
 
 # Production deployment build artifacts (regenerated each build)
 deployment/dist/
+deployment/*.sh
+deployment/*.bat
+deployment/USER_G*.md
+deployment/GUIA_U*.md
+
 
 # Build outputs (regenerated each build)
 dist/

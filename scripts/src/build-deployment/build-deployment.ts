@@ -4,6 +4,14 @@ import { join, resolve, dirname } from 'path';
 import { execSync } from 'child_process';
 import { existsSync } from 'fs';
 import { fileURLToPath } from 'url';
+import { select, checkbox, confirm } from '@inquirer/prompts';
+import chalk from 'chalk';
+import {
+  platformConfigs,
+  deploymentOptions,
+  getDefaultPlatform,
+  type PlatformConfig,
+} from './platforms.config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -61,6 +69,7 @@ async function createDistStructure(): Promise<void> {
     join(config.buildDir, 'data'),
     join(config.buildDir, 'data/db'),
     join(config.buildDir, 'data/uploads'),
+    join(config.buildDir, 'data/logs'),
     join(config.buildDir, 'data/migrations'),
   ];
 
@@ -181,7 +190,7 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       'DB_HOST=localhost',
       'DB_USER=admin',
       'DB_PORT=0',
-      'DATABASE_URL=./data/db/production.sqlite.db',
+      'DATABASE_URL=./dist/data/db/production.sqlite.db',
       'DB_NAME=production.sqlite.db',
       '',
       '# Authentication',
@@ -189,7 +198,12 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       'BETTER_AUTH_URL=http://localhost:4040',
       '',
       '# File Uploads',
-      'UPLOAD_DIR=./data/uploads',
+      'UPLOAD_DIR=./dist/data/uploads',
+      '',
+      '# Path Configuration',
+      'DATA_DIR=./dist/data',
+      'LOGS_DIR=./dist/data/logs',
+      'UPLOADS_DIR=./dist/data/uploads',
       '',
       '# Logging Configuration',
       'PINO_DISABLE_WORKER_THREADS=true',
@@ -197,20 +211,10 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       '',
     ];
 
-    // Create .env.production in dist/ and config/
-    const envLocations = [
-      join(config.buildDir, '.env.production'),
-      join(config.distDir, 'config', '.env.production'), // Root level config/
-    ];
-
-    // Create config directory if it doesn't exist
-    await mkdir(join(config.distDir, 'config'), { recursive: true });
-
-    // Write to all locations
-    for (const envPath of envLocations) {
-      await writeFile(envPath, envContent.join('\n'));
-      console.log('✅ Created environment file:', envPath);
-    }
+    // Create single .env.production in deployment root
+    const envPath = join(config.distDir, '.env.production');
+    await writeFile(envPath, envContent.join('\n'));
+    console.log('✅ Created environment file:', envPath);
 
     console.log('✅ Environment files consolidated');
   } catch (error) {
@@ -310,10 +314,8 @@ async function createPackageJson(): Promise<void> {
     type: 'module',
     scripts: {
       'start': 'run-p start:server start:client',
-      'start:v1': 'node start-server.js',
       'start:server': 'node start-server.js',
       'start:client': 'node start-client.js',
-      'start:both': 'npm-run-all --parallel start:server start:client',
     },
     dependencies: {
       ...serverDependencies,
@@ -882,15 +884,17 @@ async function createStandalonePackage(options: BuildOptions): Promise<void> {
     private: true,
     type: 'module',
     scripts: {
-      'start': 'node dist/server/index.js',
+      'start': 'run-p start:server start:client',
+      'start:server': 'node dist/server/index.js',
       'start:client': 'node dist/client/server.js',
-      'start:both': 'concurrently "npm run start" "npm run start:client"',
       'setup': options.platform === 'windows' ? 'setup.bat' : './setup.sh',
     },
     dependencies: {
       'better-sqlite3': '11.9.0',
       'dotenv': '^16.0.0',
-      'concurrently': '^4.1.5',
+    },
+    optionalDependencies: {
+      'npm-run-all': '^4.1.5',
     },
     engines: {
       node: '>=20.0.0',
@@ -1341,10 +1345,73 @@ Una vez que la aplicación esté ejecutándose, puedes:
   );
 }
 
+// Add auto-confirm flag for -y/--yes (similar to db-setup)
+const autoConfirm = process.argv.includes('-y') || process.argv.includes('--yes');
+
+async function getInteractiveOptions(): Promise<BuildOptions> {
+  console.log(chalk.cyan('\n🏗️  Touch Monorepo Deployment Builder'));
+  console.log(chalk.gray('═'.repeat(50)));
+
+  if (autoConfirm) {
+    const defaultPlatform = getDefaultPlatform();
+    const defaultConfig = platformConfigs.find((config) => config.value === defaultPlatform);
+    console.log(chalk.yellow(`📦 Auto-confirm mode: Using ${defaultConfig?.name || 'macOS'}`));
+
+    return {
+      platform: defaultConfig?.platform || 'macos',
+      arch: defaultConfig?.arch || 'x64',
+      standalone: defaultConfig?.standalone || false,
+      zip: true,
+    };
+  }
+
+  // Platform selection
+  const selectedPlatform = await select({
+    message: chalk.bold('🎯 Select deployment platform:'),
+    choices: platformConfigs.map((config) => ({
+      name: config.name,
+      value: config.value,
+      description: config.description,
+    })),
+    default: getDefaultPlatform(),
+  });
+
+  const platformConfig = platformConfigs.find((config) => config.value === selectedPlatform);
+  if (!platformConfig) {
+    throw new Error(`Invalid platform selection: ${selectedPlatform}`);
+  }
+
+  // Additional options
+  const additionalOptions = await checkbox({
+    message: chalk.bold('⚙️  Select additional options:'),
+    choices: deploymentOptions,
+  });
+
+  // Confirmation
+  const shouldProceed = await confirm({
+    message: chalk.bold(`🚀 Build ${platformConfig.name}?`),
+    default: true,
+  });
+
+  if (!shouldProceed) {
+    console.log(chalk.yellow('📦 Build cancelled by user'));
+    process.exit(0);
+  }
+
+  return {
+    platform: platformConfig.platform,
+    arch: platformConfig.arch,
+    standalone: platformConfig.standalone || false,
+    zip: platformConfig.zip || additionalOptions.includes('zip'),
+    includeNode: additionalOptions.includes('includeNode'),
+  };
+}
+
 function parseArguments(): BuildOptions {
   const args = process.argv.slice(2);
   const options: BuildOptions = {};
 
+  // Check for legacy CLI arguments (for backward compatibility)
   for (let i = 0; i < args.length; i++) {
     const arg = args[i];
 
@@ -1375,25 +1442,32 @@ function parseArguments(): BuildOptions {
         break;
       case '--help':
       case '-h':
-        console.log(`
-Touch Monorepo Deployment Builder
+        console.log(
+          chalk.cyan(`
+🏗️  Touch Monorepo Deployment Builder
 
 Usage: pnpm build.deployment [options]
 
-Options:
-  --platform, -p <platform>    Target platform (windows|linux|macos|universal)
-  --arch, -a <arch>           Target architecture (x64|arm64|universal)
-  --include-node, -n          Include Node.js runtime
-  --standalone, -s            Create standalone package
-  --zip, -z                   Create zip archive
-  --output-dir, -o <dir>      Output directory for zip
-  --help, -h                  Show this help
+Interactive Mode (Recommended):
+  pnpm build.deployment           Interactive platform selection
+  pnpm build.deployment -y        Auto-confirm with host platform
+
+Legacy CLI Mode:
+  --platform, -p <platform>      Target platform (windows|linux|macos|universal)
+  --arch, -a <arch>              Target architecture (x64|arm64|universal)
+  --include-node, -n             Include Node.js runtime
+  --standalone, -s               Create standalone package
+  --zip, -z                      Create zip archive
+  --output-dir, -o <dir>         Output directory for zip
+  --yes, -y                      Auto-confirm with defaults
+  --help, -h                     Show this help
 
 Examples:
-  pnpm build.deployment --platform windows --arch x64 --zip
-  pnpm build.deployment --platform linux --standalone
-  pnpm build.deployment --platform universal --zip --output-dir ./dist
-        `);
+  pnpm build.deployment                    # Interactive mode
+  pnpm build.deployment -y                 # Quick build with host platform
+  pnpm build.deployment -p macos -z        # Legacy: macOS with zip
+        `),
+        );
         process.exit(0);
     }
   }
@@ -1402,16 +1476,47 @@ Examples:
 }
 
 async function main(): Promise<void> {
-  const options = parseArguments();
+  let options = parseArguments();
 
-  console.log('🏗️  Building Touch Monorepo Deployment');
-  console.log('='.repeat(60));
-  console.log(`Platform: ${options.platform || 'universal'}`);
-  console.log(`Architecture: ${options.arch || 'universal'}`);
-  console.log(`Standalone: ${options.standalone ? 'Yes' : 'No'}`);
-  console.log(`Include Node: ${options.includeNode ? 'Yes' : 'No'}`);
-  console.log(`Create Zip: ${options.zip ? 'Yes' : 'No'}`);
-  console.log('='.repeat(60));
+  // If no CLI arguments provided (except possibly -y), use interactive mode
+  const hasCliArgs = process.argv
+    .slice(2)
+    .some(
+      (arg) =>
+        arg.startsWith('--platform') ||
+        arg.startsWith('-p') ||
+        arg.startsWith('--arch') ||
+        arg.startsWith('-a') ||
+        arg.startsWith('--standalone') ||
+        arg.startsWith('-s') ||
+        arg.startsWith('--zip') ||
+        arg.startsWith('-z') ||
+        arg.startsWith('--include-node') ||
+        arg.startsWith('-n'),
+    );
+
+  if (!hasCliArgs) {
+    options = await getInteractiveOptions();
+  } else {
+    // Apply platform config defaults for CLI mode
+    if (options.platform && !options.arch) {
+      const platformConfig = platformConfigs.find((config) => config.platform === options.platform);
+      if (platformConfig) {
+        options.arch = platformConfig.arch;
+        options.standalone = platformConfig.standalone || false;
+        options.zip = options.zip || platformConfig.zip || false;
+      }
+    }
+  }
+
+  console.log(chalk.cyan('\n🏗️  Building Touch Monorepo Deployment'));
+  console.log(chalk.gray('═'.repeat(60)));
+  console.log(`${chalk.bold('Platform:')} ${options.platform || 'universal'}`);
+  console.log(`${chalk.bold('Architecture:')} ${options.arch || 'universal'}`);
+  console.log(`${chalk.bold('Standalone:')} ${options.standalone ? 'Yes' : 'No'}`);
+  console.log(`${chalk.bold('Include Node:')} ${options.includeNode ? 'Yes' : 'No'}`);
+  console.log(`${chalk.bold('Create Zip:')} ${options.zip ? 'Yes' : 'No'}`);
+  console.log(chalk.gray('═'.repeat(60)));
 
   try {
     await killPortsIfOccupied();

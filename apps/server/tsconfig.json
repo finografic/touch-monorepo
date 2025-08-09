@@ -8,8 +8,6 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      "@workspace/config": ["../../config"],
-      "@workspace/config/*": ["../../config/*"],
       "@workspace/core/*": ["../../packages/core/src/*"],
       "@workspace/core": ["../../packages/core/src"],
       "@workspace/globals/*": ["../../packages/globals/src/*"],
@@ -60,9 +58,6 @@
     },
     {
       "path": "../../packages/globals"
-    },
-    {
-      "path": "../../config"
     }
   ],
   // "include": ["src/**/*", "src/**/*.json", "package.json"],

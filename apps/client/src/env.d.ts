@@ -1,7 +1,7 @@
 /// <reference types="vite/client" />
 /// <reference types="@emotion/react/types/css-prop" />
 
-import type { EnvShared } from '@workspace/config/envShared';
+import type { EnvShared } from '../../env.shared.js';
 
 interface ImportMetaEnv {
   readonly VITE_APP_TITLE: string;

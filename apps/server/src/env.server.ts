@@ -1,19 +1,6 @@
 import path from 'node:path';
-import { config } from '@dotenvx/dotenvx';
-import { envShared } from '@workspace/config/envShared';
-import { paths } from '@workspace/config/paths';
+import { envShared, paths } from './lib/env.js';
 import { z } from 'zod';
-import { fileURLToPath } from 'node:url';
-
-// ======================================================================== //
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-
-// dotenvx automatically loads .env files from current directory and parent directories
-// No need for manual path resolution
-
-// ======================================================================== //
 
 const envServerSchema = z
   .object({

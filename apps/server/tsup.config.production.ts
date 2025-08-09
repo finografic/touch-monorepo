@@ -82,7 +82,7 @@ export default defineConfig({
     'dotenv',
     '@dotenvx/*',
     '@scalar/*', // Bundle scalar modules
-    '@workspace/config',
+
     '@workspace/globals',
     '@workspace/core',
     '@workspace/types',

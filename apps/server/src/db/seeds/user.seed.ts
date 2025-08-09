@@ -31,8 +31,7 @@ export async function seed() {
         name: 'Guest User',
       },
     ]) {
-      // @ts-expect-error - TODO: fix better-auth
-      await auth.api.signUpEmail({ body: userData });
+      await (auth.api.signUpEmail as any)({ body: userData });
     }
 
     console.log('✅ User and auth accounts seeded successfully!');

@@ -5,8 +5,6 @@
     "moduleResolution": "bundler",
     "baseUrl": ".",
     "paths": {
-      "@workspace/config": ["config/src"],
-      "@workspace/config/*": ["config/src/*"],
       "@workspace/scripts": ["scripts/src"],
       "@workspace/scripts/*": ["scripts/src/*"],
       "@workspace/*": ["packages/*/dist"]

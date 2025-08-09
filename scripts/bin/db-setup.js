@@ -1,14 +1,14 @@
 #!/usr/bin/env node
-import fs4 from 'node:fs';
+import fs2 from 'node:fs';
 import path4 from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
+import { pathToFileURL } from 'node:url';
 import { checkbox } from '@inquirer/prompts';
 import process2 from 'node:process';
 import os from 'node:os';
 import tty from 'node:tty';
 import { execSync } from 'node:child_process';
-import path7, { dirname } from 'path';
-import { fileURLToPath as fileURLToPath$1 } from 'url';
+import path6, { dirname } from 'path';
+import { fileURLToPath } from 'url';
 
 var __create = Object.create;
 var __defProp = Object.defineProperty;
@@ -231,7 +231,7 @@ var require_logger = __commonJS({
     var successv = getColor("olive");
     var help = getColor("dodgerblue");
     var verbose = getColor("plum");
-    var debug = getColor("plum");
+    var debug2 = getColor("plum");
     var currentLevel = levels.info;
     function log(level, message) {
       if (levels[level] === void 0) {
@@ -271,7 +271,7 @@ var require_logger = __commonJS({
           return verbose(formattedMessage);
         // debug
         case "debug":
-          return debug(formattedMessage);
+          return debug2(formattedMessage);
         // blank
         case "blank":
           return formattedMessage;
@@ -329,34 +329,34 @@ var require_utils = __commonJS({
     Object.defineProperty(exports, "__esModule", { value: true });
     exports.normalizePath = exports.isRootDirectory = exports.convertSlashes = exports.cleanPath = void 0;
     var path_1 = __require("path");
-    function cleanPath(path9) {
-      let normalized = (0, path_1.normalize)(path9);
+    function cleanPath(path8) {
+      let normalized = (0, path_1.normalize)(path8);
       if (normalized.length > 1 && normalized[normalized.length - 1] === path_1.sep)
         normalized = normalized.substring(0, normalized.length - 1);
       return normalized;
     }
     exports.cleanPath = cleanPath;
     var SLASHES_REGEX = /[\\/]/g;
-    function convertSlashes(path9, separator) {
-      return path9.replace(SLASHES_REGEX, separator);
+    function convertSlashes(path8, separator) {
+      return path8.replace(SLASHES_REGEX, separator);
     }
     exports.convertSlashes = convertSlashes;
     var WINDOWS_ROOT_DIR_REGEX = /^[a-z]:[\\/]$/i;
-    function isRootDirectory(path9) {
-      return path9 === "/" || WINDOWS_ROOT_DIR_REGEX.test(path9);
+    function isRootDirectory(path8) {
+      return path8 === "/" || WINDOWS_ROOT_DIR_REGEX.test(path8);
     }
     exports.isRootDirectory = isRootDirectory;
-    function normalizePath(path9, options) {
+    function normalizePath(path8, options) {
       const { resolvePaths, normalizePath: normalizePath2, pathSeparator } = options;
-      const pathNeedsCleaning = process.platform === "win32" && path9.includes("/") || path9.startsWith(".");
+      const pathNeedsCleaning = process.platform === "win32" && path8.includes("/") || path8.startsWith(".");
       if (resolvePaths)
-        path9 = (0, path_1.resolve)(path9);
+        path8 = (0, path_1.resolve)(path8);
       if (normalizePath2 || pathNeedsCleaning)
-        path9 = cleanPath(path9);
-      if (path9 === ".")
+        path8 = cleanPath(path8);
+      if (path8 === ".")
         return "";
-      const needsSeperator = path9[path9.length - 1] !== pathSeparator;
-      return convertSlashes(needsSeperator ? path9 + pathSeparator : path9, pathSeparator);
+      const needsSeperator = path8[path8.length - 1] !== pathSeparator;
+      return convertSlashes(needsSeperator ? path8 + pathSeparator : path8, pathSeparator);
     }
     exports.normalizePath = normalizePath;
   }
@@ -419,9 +419,9 @@ var require_push_directory = __commonJS({
       paths2.push(directoryPath || ".");
     };
     var pushDirectoryFilter = (directoryPath, paths2, filters) => {
-      const path9 = directoryPath || ".";
-      if (filters.every((filter) => filter(path9, true))) {
-        paths2.push(path9);
+      const path8 = directoryPath || ".";
+      if (filters.every((filter) => filter(path8, true))) {
+        paths2.push(path8);
       }
     };
     var empty = () => {
@@ -520,29 +520,29 @@ var require_resolve_symlink = __commonJS({
     exports.build = void 0;
     var fs_1 = __importDefault(__require("fs"));
     var path_1 = __require("path");
-    var resolveSymlinksAsync = function(path9, state, callback) {
+    var resolveSymlinksAsync = function(path8, state, callback) {
       const { queue, options: { suppressErrors } } = state;
       queue.enqueue();
-      fs_1.default.realpath(path9, (error, resolvedPath) => {
+      fs_1.default.realpath(path8, (error, resolvedPath) => {
         if (error)
           return queue.dequeue(suppressErrors ? null : error, state);
         fs_1.default.stat(resolvedPath, (error2, stat) => {
           if (error2)
             return queue.dequeue(suppressErrors ? null : error2, state);
-          if (stat.isDirectory() && isRecursive(path9, resolvedPath, state))
+          if (stat.isDirectory() && isRecursive(path8, resolvedPath, state))
             return queue.dequeue(null, state);
           callback(stat, resolvedPath);
           queue.dequeue(null, state);
         });
       });
     };
-    var resolveSymlinks = function(path9, state, callback) {
+    var resolveSymlinks = function(path8, state, callback) {
       const { queue, options: { suppressErrors } } = state;
       queue.enqueue();
       try {
-        const resolvedPath = fs_1.default.realpathSync(path9);
+        const resolvedPath = fs_1.default.realpathSync(path8);
         const stat = fs_1.default.statSync(resolvedPath);
-        if (stat.isDirectory() && isRecursive(path9, resolvedPath, state))
+        if (stat.isDirectory() && isRecursive(path8, resolvedPath, state))
           return;
         callback(stat, resolvedPath);
       } catch (e) {
@@ -556,10 +556,10 @@ var require_resolve_symlink = __commonJS({
       return isSynchronous ? resolveSymlinks : resolveSymlinksAsync;
     }
     exports.build = build;
-    function isRecursive(path9, resolved, state) {
+    function isRecursive(path8, resolved, state) {
       if (state.options.useRealPaths)
         return isRecursiveUsingRealPaths(resolved, state);
-      let parent = (0, path_1.dirname)(path9);
+      let parent = (0, path_1.dirname)(path8);
       let depth = 1;
       while (parent !== state.root && depth < 2) {
         const resolvedPath = state.symlinks.get(parent);
@@ -569,7 +569,7 @@ var require_resolve_symlink = __commonJS({
         else
           parent = (0, path_1.dirname)(parent);
       }
-      state.symlinks.set(path9, resolved);
+      state.symlinks.set(path8, resolved);
       return depth > 1;
     }
     function isRecursiveUsingRealPaths(resolved, state) {
@@ -831,21 +831,21 @@ var require_walker = __commonJS({
             const filename = this.joinPath(entry.name, directoryPath);
             this.pushFile(filename, files, this.state.counts, filters);
           } else if (entry.isDirectory()) {
-            let path9 = joinPath.joinDirectoryPath(entry.name, directoryPath, this.state.options.pathSeparator);
-            if (exclude && exclude(entry.name, path9))
+            let path8 = joinPath.joinDirectoryPath(entry.name, directoryPath, this.state.options.pathSeparator);
+            if (exclude && exclude(entry.name, path8))
               continue;
-            this.pushDirectory(path9, paths2, filters);
-            this.walkDirectory(this.state, path9, path9, depth - 1, this.walk);
+            this.pushDirectory(path8, paths2, filters);
+            this.walkDirectory(this.state, path8, path8, depth - 1, this.walk);
           } else if (this.resolveSymlink && entry.isSymbolicLink()) {
-            let path9 = joinPath.joinPathWithBasePath(entry.name, directoryPath);
-            this.resolveSymlink(path9, this.state, (stat, resolvedPath) => {
+            let path8 = joinPath.joinPathWithBasePath(entry.name, directoryPath);
+            this.resolveSymlink(path8, this.state, (stat, resolvedPath) => {
               if (stat.isDirectory()) {
                 resolvedPath = (0, utils_1.normalizePath)(resolvedPath, this.state.options);
-                if (exclude && exclude(entry.name, useRealPaths ? resolvedPath : path9 + pathSeparator))
+                if (exclude && exclude(entry.name, useRealPaths ? resolvedPath : path8 + pathSeparator))
                   return;
-                this.walkDirectory(this.state, resolvedPath, useRealPaths ? resolvedPath : path9 + pathSeparator, depth - 1, this.walk);
+                this.walkDirectory(this.state, resolvedPath, useRealPaths ? resolvedPath : path8 + pathSeparator, depth - 1, this.walk);
               } else {
-                resolvedPath = useRealPaths ? resolvedPath : path9;
+                resolvedPath = useRealPaths ? resolvedPath : path8;
                 const filename = (0, path_1.basename)(resolvedPath);
                 const directoryPath2 = (0, utils_1.normalizePath)((0, path_1.dirname)(resolvedPath), this.state.options);
                 resolvedPath = this.joinPath(filename, directoryPath2);
@@ -1177,8 +1177,8 @@ var require_utils2 = __commonJS({
       }
       return output;
     };
-    exports.basename = (path9, { windows } = {}) => {
-      const segs = path9.split(windows ? /[\\/]/ : "/");
+    exports.basename = (path8, { windows } = {}) => {
+      const segs = path8.split(windows ? /[\\/]/ : "/");
       const last = segs[segs.length - 1];
       if (last === "") {
         return segs[segs.length - 2];
@@ -2567,7 +2567,7 @@ var require_builder = __commonJS({
           isMatch = globFn(patterns, ...options);
           this.globCache[patterns.join("\0")] = isMatch;
         }
-        this.options.filters.push((path9) => isMatch(path9));
+        this.options.filters.push((path8) => isMatch(path8));
         return this;
       }
     };
@@ -2615,12 +2615,12 @@ var require_dist = __commonJS({
 var require_ls = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/services/ls.js"(exports, module) {
     var { fdir: Fdir } = require_dist();
-    var path9 = __require("path");
+    var path8 = __require("path");
     var picomatch = require_picomatch2();
     var Ls = class {
       constructor(directory = "./", envFile = [".env*"], excludeEnvFile = []) {
         this.ignore = ["node_modules/**", ".git/**"];
-        this.cwd = path9.resolve(directory);
+        this.cwd = path8.resolve(directory);
         this.envFile = envFile;
         this.excludeEnvFile = excludeEnvFile;
       }
@@ -2632,7 +2632,7 @@ var require_ls = __commonJS({
         const include = picomatch(this._patterns(), {
           ignore: this._exclude()
         });
-        return new Fdir().withRelativePaths().exclude((dir, path10) => exclude(path10)).filter((path10) => include(path10)).crawl(this.cwd).sync();
+        return new Fdir().withRelativePaths().exclude((dir, path9) => exclude(path9)).filter((path9) => include(path9)).crawl(this.cwd).sync();
       }
       _patterns() {
         if (!Array.isArray(this.envFile)) {
@@ -2759,7 +2759,7 @@ var require_package2 = __commonJS({
 var require_main = __commonJS({
   "../node_modules/.pnpm/dotenv@16.6.1/node_modules/dotenv/lib/main.js"(exports, module) {
     var fs6 = __require("fs");
-    var path9 = __require("path");
+    var path8 = __require("path");
     var os2 = __require("os");
     var crypto2 = __require("crypto");
     var packageJson = require_package2();
@@ -2875,7 +2875,7 @@ var require_main = __commonJS({
           possibleVaultPath = options.path.endsWith(".vault") ? options.path : `${options.path}.vault`;
         }
       } else {
-        possibleVaultPath = path9.resolve(process.cwd(), ".env.vault");
+        possibleVaultPath = path8.resolve(process.cwd(), ".env.vault");
       }
       if (fs6.existsSync(possibleVaultPath)) {
         return possibleVaultPath;
@@ -2883,12 +2883,12 @@ var require_main = __commonJS({
       return null;
     }
     function _resolveHome(envPath2) {
-      return envPath2[0] === "~" ? path9.join(os2.homedir(), envPath2.slice(1)) : envPath2;
+      return envPath2[0] === "~" ? path8.join(os2.homedir(), envPath2.slice(1)) : envPath2;
     }
     function _configVault(options) {
-      const debug = Boolean(options && options.debug);
+      const debug2 = Boolean(options && options.debug);
       const quiet = options && "quiet" in options ? options.quiet : true;
-      if (debug || !quiet) {
+      if (debug2 || !quiet) {
         _log("Loading env from encrypted .env.vault");
       }
       const parsed = DotenvModule._parseVault(options);
@@ -2900,14 +2900,14 @@ var require_main = __commonJS({
       return { parsed };
     }
     function configDotenv(options) {
-      const dotenvPath = path9.resolve(process.cwd(), ".env");
+      const dotenvPath = path8.resolve(process.cwd(), ".env");
       let encoding = "utf8";
-      const debug = Boolean(options && options.debug);
+      const debug2 = Boolean(options && options.debug);
       const quiet = options && "quiet" in options ? options.quiet : true;
       if (options && options.encoding) {
         encoding = options.encoding;
       } else {
-        if (debug) {
+        if (debug2) {
           _debug("No encoding is specified. UTF-8 is used by default");
         }
       }
@@ -2924,13 +2924,13 @@ var require_main = __commonJS({
       }
       let lastError;
       const parsedAll = {};
-      for (const path10 of optionPaths) {
+      for (const path9 of optionPaths) {
         try {
-          const parsed = DotenvModule.parse(fs6.readFileSync(path10, { encoding }));
+          const parsed = DotenvModule.parse(fs6.readFileSync(path9, { encoding }));
           DotenvModule.populate(parsedAll, parsed, options);
         } catch (e) {
-          if (debug) {
-            _debug(`Failed to load ${path10} ${e.message}`);
+          if (debug2) {
+            _debug(`Failed to load ${path9} ${e.message}`);
           }
           lastError = e;
         }
@@ -2940,15 +2940,15 @@ var require_main = __commonJS({
         processEnv = options.processEnv;
       }
       DotenvModule.populate(processEnv, parsedAll, options);
-      if (debug || !quiet) {
+      if (debug2 || !quiet) {
         const keysCount = Object.keys(parsedAll).length;
         const shortPaths = [];
         for (const filePath of optionPaths) {
           try {
-            const relative = path9.relative(process.cwd(), filePath);
+            const relative = path8.relative(process.cwd(), filePath);
             shortPaths.push(relative);
           } catch (e) {
-            if (debug) {
+            if (debug2) {
               _debug(`Failed to load ${filePath} ${e.message}`);
             }
             lastError = e;
@@ -3001,7 +3001,7 @@ var require_main = __commonJS({
       }
     }
     function populate(processEnv, parsed, options = {}) {
-      const debug = Boolean(options && options.debug);
+      const debug2 = Boolean(options && options.debug);
       const override = Boolean(options && options.override);
       if (typeof parsed !== "object") {
         const err = new Error("OBJECT_REQUIRED: Please check the processEnv argument being passed to populate");
@@ -3013,7 +3013,7 @@ var require_main = __commonJS({
           if (override === true) {
             processEnv[key] = parsed[key];
           }
-          if (debug) {
+          if (debug2) {
             if (override === true) {
               _debug(`"${key}" is already defined and WAS overwritten`);
             } else {
@@ -9406,9 +9406,9 @@ var require_detectEncoding = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessEnvironment.js
 var require_guessEnvironment = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessEnvironment.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     function guessEnvironment(filepath) {
-      const filename = path9.basename(filepath);
+      const filename = path8.basename(filepath);
       const parts = filename.split(".");
       const possibleEnvironmentList = [...parts.slice(2)];
       if (possibleEnvironmentList.length === 0) {
@@ -9430,10 +9430,10 @@ var require_guessEnvironment = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessPrivateKeyName.js
 var require_guessPrivateKeyName = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessPrivateKeyName.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     var guessEnvironment = require_guessEnvironment();
     function guessPrivateKeyName(filepath) {
-      const filename = path9.basename(filepath).toLowerCase();
+      const filename = path8.basename(filepath).toLowerCase();
       if (filename === ".env") {
         return "DOTENV_PRIVATE_KEY";
       }
@@ -9447,10 +9447,10 @@ var require_guessPrivateKeyName = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessPublicKeyName.js
 var require_guessPublicKeyName = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessPublicKeyName.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     var guessEnvironment = require_guessEnvironment();
     function guessPublicKeyName(filepath) {
-      const filename = path9.basename(filepath).toLowerCase();
+      const filename = path8.basename(filepath).toLowerCase();
       if (filename === ".env") {
         return "DOTENV_PUBLIC_KEY";
       }
@@ -9464,7 +9464,7 @@ var require_guessPublicKeyName = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/proKeypair.js
 var require_proKeypair = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/proKeypair.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     var childProcess = __require("child_process");
     var guessPrivateKeyName = require_guessPrivateKeyName();
     var guessPublicKeyName = require_guessPublicKeyName();
@@ -9475,7 +9475,7 @@ var require_proKeypair = __commonJS({
       run() {
         let result = {};
         try {
-          const projectRoot = path9.resolve(process.cwd());
+          const projectRoot = path8.resolve(process.cwd());
           const dotenvxProPath = __require.resolve("@dotenvx/dotenvx-pro", { paths: [projectRoot] });
           const { keypair } = __require(dotenvxProPath);
           result = keypair(this.envFilepath);
@@ -9538,7 +9538,7 @@ var require_smartDotenvPublicKey = __commonJS({
 var require_smartDotenvPrivateKey = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/smartDotenvPrivateKey.js"(exports, module) {
     var fsx = require_fsx();
-    var path9 = __require("path");
+    var path8 = __require("path");
     var PUBLIC_KEY_SCHEMA = "DOTENV_PUBLIC_KEY";
     var PRIVATE_KEY_SCHEMA = "DOTENV_PRIVATE_KEY";
     var dotenvParse = require_dotenvParse();
@@ -9549,9 +9549,9 @@ var require_smartDotenvPrivateKey = __commonJS({
       }
     }
     function searchKeysFile(privateKeyName, envFilepath, envKeysFilepath = null) {
-      let keysFilepath = path9.resolve(path9.dirname(envFilepath), ".env.keys");
+      let keysFilepath = path8.resolve(path8.dirname(envFilepath), ".env.keys");
       if (envKeysFilepath) {
-        keysFilepath = path9.resolve(envKeysFilepath);
+        keysFilepath = path8.resolve(envKeysFilepath);
       }
       if (fsx.existsSync(keysFilepath)) {
         const keysSrc = fsx.readFileX(keysFilepath);
@@ -9740,7 +9740,7 @@ var require_determineEnvs = __commonJS({
 var require_run = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/services/run.js"(exports, module) {
     var fsx = require_fsx();
-    var path9 = __require("path");
+    var path8 = __require("path");
     var TYPE_ENV = "env";
     var TYPE_ENV_FILE = "envFile";
     var TYPE_ENV_VAULT_FILE = "envVaultFile";
@@ -9806,7 +9806,7 @@ var require_run = __commonJS({
         const row = {};
         row.type = TYPE_ENV_FILE;
         row.filepath = envFilepath;
-        const filepath = path9.resolve(envFilepath);
+        const filepath = path8.resolve(envFilepath);
         try {
           const encoding = detectEncoding(filepath);
           const src = fsx.readFileX(filepath, { encoding });
@@ -9835,7 +9835,7 @@ var require_run = __commonJS({
         const row = {};
         row.type = TYPE_ENV_VAULT_FILE;
         row.filepath = envVaultFilepath;
-        const filepath = path9.resolve(envVaultFilepath);
+        const filepath = path8.resolve(envVaultFilepath);
         this.readableFilepaths.add(envVaultFilepath);
         if (!fsx.existsSync(filepath)) {
           const code = "MISSING_ENV_VAULT_FILE";
@@ -10082,7 +10082,7 @@ var require_isEncrypted = __commonJS({
 var require_sets = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/services/sets.js"(exports, module) {
     var fsx = require_fsx();
-    var path9 = __require("path");
+    var path8 = __require("path");
     var TYPE_ENV_FILE = "envFile";
     var Errors = require_errors();
     var guessPrivateKeyName = require_guessPrivateKeyName();
@@ -10127,8 +10127,8 @@ var require_sets = __commonJS({
         row.key = this.key || null;
         row.value = this.value || null;
         row.type = TYPE_ENV_FILE;
-        const filename = path9.basename(envFilepath);
-        const filepath = path9.resolve(envFilepath);
+        const filename = path8.basename(envFilepath);
+        const filepath = path8.resolve(envFilepath);
         row.filepath = filepath;
         row.envFilepath = envFilepath;
         row.changed = false;
@@ -10146,11 +10146,11 @@ var require_sets = __commonJS({
             const privateKeyName = guessPrivateKeyName(envFilepath);
             const existingPrivateKey = findPrivateKey(envFilepath, this.envKeysFilepath);
             const existingPublicKey = findPublicKey(envFilepath);
-            let envKeysFilepath = path9.join(path9.dirname(filepath), ".env.keys");
+            let envKeysFilepath = path8.join(path8.dirname(filepath), ".env.keys");
             if (this.envKeysFilepath) {
-              envKeysFilepath = path9.resolve(this.envKeysFilepath);
+              envKeysFilepath = path8.resolve(this.envKeysFilepath);
             }
-            const relativeFilepath = path9.relative(path9.dirname(filepath), envKeysFilepath);
+            const relativeFilepath = path8.relative(path8.dirname(filepath), envKeysFilepath);
             if (existingPrivateKey) {
               const kp = keypair(existingPrivateKey);
               publicKey = kp.publicKey;
@@ -10205,7 +10205,7 @@ ${envSrc}`;
 ${appendPrivateKey}`;
               fsx.writeFileX(envKeysFilepath, keysSrc);
               row.privateKeyAdded = true;
-              row.envKeysFilepath = this.envKeysFilepath || path9.join(path9.dirname(envFilepath), path9.basename(envKeysFilepath));
+              row.envKeysFilepath = this.envKeysFilepath || path8.join(path8.dirname(envFilepath), path8.basename(envKeysFilepath));
             }
             row.publicKey = publicKey;
             row.privateKey = privateKey;
@@ -10345,7 +10345,7 @@ var require_findEnvFiles = __commonJS({
 var require_genexample = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/services/genexample.js"(exports, module) {
     var fsx = require_fsx();
-    var path9 = __require("path");
+    var path8 = __require("path");
     var Errors = require_errors();
     var findEnvFiles = require_findEnvFiles();
     var replace = require_replace();
@@ -10355,7 +10355,7 @@ var require_genexample = __commonJS({
         this.directory = directory;
         this.envFile = envFile || findEnvFiles(directory);
         this.exampleFilename = ".env.example";
-        this.exampleFilepath = path9.resolve(this.directory, this.exampleFilename);
+        this.exampleFilepath = path8.resolve(this.directory, this.exampleFilename);
       }
       run() {
         if (this.envFile.length < 1) {
@@ -10375,7 +10375,7 @@ var require_genexample = __commonJS({
         let exampleSrc = `# ${this.exampleFilename} - generated with dotenvx
 `;
         for (const envFilepath of envFilepaths) {
-          const filepath = path9.resolve(this.directory, envFilepath);
+          const filepath = path8.resolve(this.directory, envFilepath);
           if (!fsx.existsSync(filepath)) {
             const error = new Errors({ envFilepath, filepath }).missingEnvFile();
             error.help = `? add it with [echo "HELLO=World" > ${envFilepath}] and then run [dotenvx genexample]`;
@@ -10462,10 +10462,10 @@ var require_conventions = __commonJS({
 var require_resolveHome = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/resolveHome.js"(exports, module) {
     var os2 = __require("os");
-    var path9 = __require("path");
+    var path8 = __require("path");
     function resolveHome(filepath) {
       if (filepath[0] === "~") {
-        return path9.join(os2.homedir(), filepath.slice(1));
+        return path8.join(os2.homedir(), filepath.slice(1));
       }
       return filepath;
     }
@@ -10518,7 +10518,7 @@ var require_deprecationNotice = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/buildEnvs.js
 var require_buildEnvs = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/helpers/buildEnvs.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     var conventions = require_conventions();
     var dotenvOptionPaths = require_dotenvOptionPaths();
     var DeprecationNotice = require_deprecationNotice();
@@ -10533,7 +10533,7 @@ var require_buildEnvs = __commonJS({
         if (DOTENV_KEY) {
           envs.push({
             type: "envVaultFile",
-            value: path9.join(path9.dirname(optionPath), ".env.vault")
+            value: path8.join(path8.dirname(optionPath), ".env.vault")
           });
         } else {
           envs.push({ type: "envFile", value: optionPath });
@@ -10775,17 +10775,17 @@ var require_ignore = __commonJS({
     var throwError = (message, Ctor) => {
       throw new Ctor(message);
     };
-    var checkPath = (path9, originalPath, doThrow) => {
-      if (!isString(path9)) {
+    var checkPath = (path8, originalPath, doThrow) => {
+      if (!isString(path8)) {
         return doThrow(
           `path must be a string, but got \`${originalPath}\``,
           TypeError
         );
       }
-      if (!path9) {
+      if (!path8) {
         return doThrow(`path must not be empty`, TypeError);
       }
-      if (checkPath.isNotRelative(path9)) {
+      if (checkPath.isNotRelative(path8)) {
         const r = "`path.relative()`d";
         return doThrow(
           `path should be a ${r} string, but got "${originalPath}"`,
@@ -10794,7 +10794,7 @@ var require_ignore = __commonJS({
       }
       return true;
     };
-    var isNotRelative = (path9) => REGEX_TEST_INVALID_PATH.test(path9);
+    var isNotRelative = (path8) => REGEX_TEST_INVALID_PATH.test(path8);
     checkPath.isNotRelative = isNotRelative;
     checkPath.convert = (p2) => p2;
     var Ignore = class {
@@ -10853,7 +10853,7 @@ var require_ignore = __commonJS({
       //   setting `checkUnignored` to `false` could reduce additional
       //   path matching.
       // @returns {TestResult} true if a file is ignored
-      _testOne(path9, checkUnignored) {
+      _testOne(path8, checkUnignored) {
         let ignored = false;
         let unignored = false;
         this._rules.forEach((rule) => {
@@ -10861,7 +10861,7 @@ var require_ignore = __commonJS({
           if (unignored === negative && ignored !== unignored || negative && !ignored && !unignored && !checkUnignored) {
             return;
           }
-          const matched = rule.regex.test(path9);
+          const matched = rule.regex.test(path8);
           if (matched) {
             ignored = !negative;
             unignored = negative;
@@ -10874,24 +10874,24 @@ var require_ignore = __commonJS({
       }
       // @returns {TestResult}
       _test(originalPath, cache, checkUnignored, slices) {
-        const path9 = originalPath && checkPath.convert(originalPath);
+        const path8 = originalPath && checkPath.convert(originalPath);
         checkPath(
-          path9,
+          path8,
           originalPath,
           this._allowRelativePaths ? RETURN_FALSE : throwError
         );
-        return this._t(path9, cache, checkUnignored, slices);
+        return this._t(path8, cache, checkUnignored, slices);
       }
-      _t(path9, cache, checkUnignored, slices) {
-        if (path9 in cache) {
-          return cache[path9];
+      _t(path8, cache, checkUnignored, slices) {
+        if (path8 in cache) {
+          return cache[path8];
         }
         if (!slices) {
-          slices = path9.split(SLASH);
+          slices = path8.split(SLASH);
         }
         slices.pop();
         if (!slices.length) {
-          return cache[path9] = this._testOne(path9, checkUnignored);
+          return cache[path8] = this._testOne(path8, checkUnignored);
         }
         const parent = this._t(
           slices.join(SLASH) + SLASH,
@@ -10899,24 +10899,24 @@ var require_ignore = __commonJS({
           checkUnignored,
           slices
         );
-        return cache[path9] = parent.ignored ? parent : this._testOne(path9, checkUnignored);
+        return cache[path8] = parent.ignored ? parent : this._testOne(path8, checkUnignored);
       }
-      ignores(path9) {
-        return this._test(path9, this._ignoreCache, false).ignored;
+      ignores(path8) {
+        return this._test(path8, this._ignoreCache, false).ignored;
       }
       createFilter() {
-        return (path9) => !this.ignores(path9);
+        return (path8) => !this.ignores(path8);
       }
       filter(paths2) {
         return makeArray(paths2).filter(this.createFilter());
       }
       // @returns {TestResult}
-      test(path9) {
-        return this._test(path9, this._testCache, true);
+      test(path8) {
+        return this._test(path8, this._testCache, true);
       }
     };
     var factory = (options) => new Ignore(options);
-    var isPathValid = (path9) => checkPath(path9 && checkPath.convert(path9), path9, RETURN_FALSE);
+    var isPathValid = (path8) => checkPath(path8 && checkPath.convert(path8), path8, RETURN_FALSE);
     factory.isPathValid = isPathValid;
     factory.default = factory;
     module.exports = factory;
@@ -10927,7 +10927,7 @@ var require_ignore = __commonJS({
       const makePosix = (str) => /^\\\\\?\\/.test(str) || /["<>|\u0000-\u001F]+/u.test(str) ? str : str.replace(/\\/g, "/");
       checkPath.convert = makePosix;
       const REGIX_IS_WINDOWS_PATH_ABSOLUTE = /^[a-z]:\//i;
-      checkPath.isNotRelative = (path9) => REGIX_IS_WINDOWS_PATH_ABSOLUTE.test(path9) || isNotRelative(path9);
+      checkPath.isNotRelative = (path8) => REGIX_IS_WINDOWS_PATH_ABSOLUTE.test(path8) || isNotRelative(path8);
     }
   }
 });
@@ -10955,7 +10955,7 @@ var require_isIgnoringDotenvKeys = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/main.js
 var require_main2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.39.0/node_modules/@dotenvx/dotenvx/src/lib/main.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     var { setLogLevel, logger } = require_logger();
     var { getColor, bold } = require_colors();
     var Ls = require_ls();
@@ -10993,11 +10993,11 @@ var require_main2 = __commonJS({
         const parsedAll = {};
         for (const processedEnv of processedEnvs) {
           if (processedEnv.type === "envVaultFile") {
-            logger.verbose(`loading env from encrypted ${processedEnv.filepath} (${path9.resolve(processedEnv.filepath)})`);
-            logger.debug(`decrypting encrypted env from ${processedEnv.filepath} (${path9.resolve(processedEnv.filepath)})`);
+            logger.verbose(`loading env from encrypted ${processedEnv.filepath} (${path8.resolve(processedEnv.filepath)})`);
+            logger.debug(`decrypting encrypted env from ${processedEnv.filepath} (${path8.resolve(processedEnv.filepath)})`);
           }
           if (processedEnv.type === "envFile") {
-            logger.verbose(`loading env from ${processedEnv.filepath} (${path9.resolve(processedEnv.filepath)})`);
+            logger.verbose(`loading env from ${processedEnv.filepath} (${path8.resolve(processedEnv.filepath)})`);
           }
           for (const error of processedEnv.errors || []) {
             if (ignore.includes(error.code)) {
@@ -11249,19 +11249,19 @@ var require_file_uri_to_path = __commonJS({
       var rest = decodeURI(uri.substring(7));
       var firstSlash = rest.indexOf("/");
       var host = rest.substring(0, firstSlash);
-      var path9 = rest.substring(firstSlash + 1);
+      var path8 = rest.substring(firstSlash + 1);
       if ("localhost" == host) host = "";
       if (host) {
         host = sep + sep + host;
       }
-      path9 = path9.replace(/^(.+)\|/, "$1:");
+      path8 = path8.replace(/^(.+)\|/, "$1:");
       if (sep == "\\") {
-        path9 = path9.replace(/\//g, "\\");
+        path8 = path8.replace(/\//g, "\\");
       }
-      if (/^.+\:/.test(path9)) ; else {
-        path9 = sep + path9;
+      if (/^.+\:/.test(path8)) ; else {
+        path8 = sep + path8;
       }
-      return host + path9;
+      return host + path8;
     }
   }
 });
@@ -11270,18 +11270,18 @@ var require_file_uri_to_path = __commonJS({
 var require_bindings = __commonJS({
   "../node_modules/.pnpm/bindings@1.5.0/node_modules/bindings/bindings.js"(exports, module) {
     var fs6 = __require("fs");
-    var path9 = __require("path");
-    var fileURLToPath4 = require_file_uri_to_path();
-    var join = path9.join;
-    var dirname2 = path9.dirname;
-    var exists2 = fs6.accessSync && function(path10) {
+    var path8 = __require("path");
+    var fileURLToPath2 = require_file_uri_to_path();
+    var join = path8.join;
+    var dirname2 = path8.dirname;
+    var exists2 = fs6.accessSync && function(path9) {
       try {
-        fs6.accessSync(path10);
+        fs6.accessSync(path9);
       } catch (e) {
         return false;
       }
       return true;
-    } || fs6.existsSync || path9.existsSync;
+    } || fs6.existsSync || path8.existsSync;
     var defaults = {
       arrow: process.env.NODE_BINDINGS_ARROW || " \u2192 ",
       compiled: process.env.NODE_BINDINGS_COMPILED_DIR || "compiled",
@@ -11326,7 +11326,7 @@ var require_bindings = __commonJS({
       if (!opts.module_root) {
         opts.module_root = exports.getRoot(exports.getFileName());
       }
-      if (path9.extname(opts.bindings) != ".node") {
+      if (path8.extname(opts.bindings) != ".node") {
         opts.bindings += ".node";
       }
       var requireFunc = typeof __webpack_require__ === "function" ? __non_webpack_require__ : __require;
@@ -11383,7 +11383,7 @@ var require_bindings = __commonJS({
       Error.stackTraceLimit = origSTL;
       var fileSchema = "file://";
       if (fileName.indexOf(fileSchema) === 0) {
-        fileName = fileURLToPath4(fileName);
+        fileName = fileURLToPath2(fileName);
       }
       return fileName;
     };
@@ -11558,7 +11558,7 @@ var require_pragma = __commonJS({
 var require_backup = __commonJS({
   "../node_modules/.pnpm/better-sqlite3@11.9.0/node_modules/better-sqlite3/lib/methods/backup.js"(exports, module) {
     var fs6 = __require("fs");
-    var path9 = __require("path");
+    var path8 = __require("path");
     var { promisify } = __require("util");
     var { cppdb } = require_util();
     var fsAccess = promisify(fs6.access);
@@ -11574,7 +11574,7 @@ var require_backup = __commonJS({
       if (typeof attachedName !== "string") throw new TypeError('Expected the "attached" option to be a string');
       if (!attachedName) throw new TypeError('The "attached" option cannot be an empty string');
       if (handler != null && typeof handler !== "function") throw new TypeError('Expected the "progress" option to be a function');
-      await fsAccess(path9.dirname(filename)).catch(() => {
+      await fsAccess(path8.dirname(filename)).catch(() => {
         throw new TypeError("Cannot save backup because the directory does not exist");
       });
       const isNewFile = await fsAccess(filename).then(() => false, () => true);
@@ -11874,7 +11874,7 @@ var require_inspect = __commonJS({
 var require_database = __commonJS({
   "../node_modules/.pnpm/better-sqlite3@11.9.0/node_modules/better-sqlite3/lib/database.js"(exports, module) {
     var fs6 = __require("fs");
-    var path9 = __require("path");
+    var path8 = __require("path");
     var util2 = require_util();
     var SqliteError = require_sqlite_error();
     var DEFAULT_ADDON;
@@ -11910,7 +11910,7 @@ var require_database = __commonJS({
         addon = DEFAULT_ADDON || (DEFAULT_ADDON = require_bindings()("better_sqlite3.node"));
       } else if (typeof nativeBinding === "string") {
         const requireFunc = typeof __non_webpack_require__ === "function" ? __non_webpack_require__ : __require;
-        addon = requireFunc(path9.resolve(nativeBinding).replace(/(\.node)?$/, ".node"));
+        addon = requireFunc(path8.resolve(nativeBinding).replace(/(\.node)?$/, ".node"));
       } else {
         addon = nativeBinding;
       }
@@ -11918,7 +11918,7 @@ var require_database = __commonJS({
         addon.setErrorConstructor(SqliteError);
         addon.isInitialized = true;
       }
-      if (!anonymous && !fs6.existsSync(path9.dirname(filename))) {
+      if (!anonymous && !fs6.existsSync(path8.dirname(filename))) {
         throw new TypeError("Cannot open database because the directory does not exist");
       }
       Object.defineProperties(this, {
@@ -12137,7 +12137,7 @@ var require_logger2 = __commonJS({
     var help = getColor("dodgerblue");
     var help2 = getColor("gray");
     var verbose = getColor("plum");
-    var debug = getColor("plum");
+    var debug2 = getColor("plum");
     var currentLevel = levels.info;
     function log(level, message) {
       if (levels[level] === void 0) {
@@ -12193,7 +12193,7 @@ var require_logger2 = __commonJS({
           return verbose(formattedMessage);
         // debug
         case "debug":
-          return debug(formattedMessage);
+          return debug2(formattedMessage);
         // blank
         case "blank":
           return formattedMessage;
@@ -12257,12 +12257,12 @@ var require_logger2 = __commonJS({
 var require_ls2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/services/ls.js"(exports, module) {
     var { fdir: Fdir } = require_dist();
-    var path9 = __require("path");
+    var path8 = __require("path");
     var picomatch = require_picomatch2();
     var Ls = class {
       constructor(directory = "./", envFile = [".env*"], excludeEnvFile = []) {
         this.ignore = ["node_modules/**", ".git/**"];
-        this.cwd = path9.resolve(directory);
+        this.cwd = path8.resolve(directory);
         this.envFile = envFile;
         this.excludeEnvFile = excludeEnvFile;
       }
@@ -12274,7 +12274,7 @@ var require_ls2 = __commonJS({
         const include = picomatch(this._patterns(), {
           ignore: this._exclude()
         });
-        return new Fdir().withRelativePaths().exclude((dir, path10) => exclude(path10)).filter((path10) => include(path10)).crawl(this.cwd).sync();
+        return new Fdir().withRelativePaths().exclude((dir, path9) => exclude(path9)).filter((path9) => include(path9)).crawl(this.cwd).sync();
       }
       _patterns() {
         if (!Array.isArray(this.envFile)) {
@@ -12773,9 +12773,9 @@ var require_detectEncoding2 = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessEnvironment.js
 var require_guessEnvironment2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessEnvironment.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     function guessEnvironment(filepath) {
-      const filename = path9.basename(filepath);
+      const filename = path8.basename(filepath);
       const parts = filename.split(".");
       const possibleEnvironmentList = [...parts.slice(2)];
       if (possibleEnvironmentList.length === 0) {
@@ -12797,10 +12797,10 @@ var require_guessEnvironment2 = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessPrivateKeyName.js
 var require_guessPrivateKeyName2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessPrivateKeyName.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     var guessEnvironment = require_guessEnvironment2();
     function guessPrivateKeyName(filepath) {
-      const filename = path9.basename(filepath).toLowerCase();
+      const filename = path8.basename(filepath).toLowerCase();
       if (filename === ".env") {
         return "DOTENV_PRIVATE_KEY";
       }
@@ -12814,10 +12814,10 @@ var require_guessPrivateKeyName2 = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessPublicKeyName.js
 var require_guessPublicKeyName2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/guessPublicKeyName.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     var guessEnvironment = require_guessEnvironment2();
     function guessPublicKeyName(filepath) {
-      const filename = path9.basename(filepath).toLowerCase();
+      const filename = path8.basename(filepath).toLowerCase();
       if (filename === ".env") {
         return "DOTENV_PUBLIC_KEY";
       }
@@ -12831,7 +12831,7 @@ var require_guessPublicKeyName2 = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/proKeypair.js
 var require_proKeypair2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/proKeypair.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     var childProcess = __require("child_process");
     var guessPrivateKeyName = require_guessPrivateKeyName2();
     var guessPublicKeyName = require_guessPublicKeyName2();
@@ -12842,7 +12842,7 @@ var require_proKeypair2 = __commonJS({
       run() {
         let result = {};
         try {
-          const projectRoot = path9.resolve(process.cwd());
+          const projectRoot = path8.resolve(process.cwd());
           const dotenvxProPath = __require.resolve("@dotenvx/dotenvx-pro", { paths: [projectRoot] });
           const { keypair } = __require(dotenvxProPath);
           result = keypair(this.envFilepath);
@@ -12905,7 +12905,7 @@ var require_smartDotenvPublicKey2 = __commonJS({
 var require_smartDotenvPrivateKey2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/smartDotenvPrivateKey.js"(exports, module) {
     var fsx = require_fsx2();
-    var path9 = __require("path");
+    var path8 = __require("path");
     var PUBLIC_KEY_SCHEMA = "DOTENV_PUBLIC_KEY";
     var PRIVATE_KEY_SCHEMA = "DOTENV_PRIVATE_KEY";
     var dotenvParse = require_dotenvParse2();
@@ -12916,9 +12916,9 @@ var require_smartDotenvPrivateKey2 = __commonJS({
       }
     }
     function searchKeysFile(privateKeyName, envFilepath, envKeysFilepath = null) {
-      let keysFilepath = path9.resolve(path9.dirname(envFilepath), ".env.keys");
+      let keysFilepath = path8.resolve(path8.dirname(envFilepath), ".env.keys");
       if (envKeysFilepath) {
-        keysFilepath = path9.resolve(envKeysFilepath);
+        keysFilepath = path8.resolve(envKeysFilepath);
       }
       if (fsx.existsSync(keysFilepath)) {
         const keysSrc = fsx.readFileX(keysFilepath);
@@ -13107,7 +13107,7 @@ var require_determineEnvs2 = __commonJS({
 var require_run2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/services/run.js"(exports, module) {
     var fsx = require_fsx2();
-    var path9 = __require("path");
+    var path8 = __require("path");
     var TYPE_ENV = "env";
     var TYPE_ENV_FILE = "envFile";
     var TYPE_ENV_VAULT_FILE = "envVaultFile";
@@ -13173,7 +13173,7 @@ var require_run2 = __commonJS({
         const row = {};
         row.type = TYPE_ENV_FILE;
         row.filepath = envFilepath;
-        const filepath = path9.resolve(envFilepath);
+        const filepath = path8.resolve(envFilepath);
         try {
           const encoding = detectEncoding(filepath);
           const src = fsx.readFileX(filepath, { encoding });
@@ -13202,7 +13202,7 @@ var require_run2 = __commonJS({
         const row = {};
         row.type = TYPE_ENV_VAULT_FILE;
         row.filepath = envVaultFilepath;
-        const filepath = path9.resolve(envVaultFilepath);
+        const filepath = path8.resolve(envVaultFilepath);
         this.readableFilepaths.add(envVaultFilepath);
         if (!fsx.existsSync(filepath)) {
           const code = "MISSING_ENV_VAULT_FILE";
@@ -13440,7 +13440,7 @@ var require_isEncrypted2 = __commonJS({
 var require_sets2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/services/sets.js"(exports, module) {
     var fsx = require_fsx2();
-    var path9 = __require("path");
+    var path8 = __require("path");
     var TYPE_ENV_FILE = "envFile";
     var Errors = require_errors2();
     var guessPrivateKeyName = require_guessPrivateKeyName2();
@@ -13485,8 +13485,8 @@ var require_sets2 = __commonJS({
         row.key = this.key || null;
         row.value = this.value || null;
         row.type = TYPE_ENV_FILE;
-        const filename = path9.basename(envFilepath);
-        const filepath = path9.resolve(envFilepath);
+        const filename = path8.basename(envFilepath);
+        const filepath = path8.resolve(envFilepath);
         row.filepath = filepath;
         row.envFilepath = envFilepath;
         row.changed = false;
@@ -13504,11 +13504,11 @@ var require_sets2 = __commonJS({
             const privateKeyName = guessPrivateKeyName(envFilepath);
             const existingPrivateKey = findPrivateKey(envFilepath, this.envKeysFilepath);
             const existingPublicKey = findPublicKey(envFilepath);
-            let envKeysFilepath = path9.join(path9.dirname(filepath), ".env.keys");
+            let envKeysFilepath = path8.join(path8.dirname(filepath), ".env.keys");
             if (this.envKeysFilepath) {
-              envKeysFilepath = path9.resolve(this.envKeysFilepath);
+              envKeysFilepath = path8.resolve(this.envKeysFilepath);
             }
-            const relativeFilepath = path9.relative(path9.dirname(filepath), envKeysFilepath);
+            const relativeFilepath = path8.relative(path8.dirname(filepath), envKeysFilepath);
             if (existingPrivateKey) {
               const kp = keypair(existingPrivateKey);
               publicKey = kp.publicKey;
@@ -13563,7 +13563,7 @@ ${envSrc}`;
 ${appendPrivateKey}`;
               fsx.writeFileX(envKeysFilepath, keysSrc);
               row.privateKeyAdded = true;
-              row.envKeysFilepath = this.envKeysFilepath || path9.join(path9.dirname(envFilepath), path9.basename(envKeysFilepath));
+              row.envKeysFilepath = this.envKeysFilepath || path8.join(path8.dirname(envFilepath), path8.basename(envKeysFilepath));
             }
             row.publicKey = publicKey;
             row.privateKey = privateKey;
@@ -13652,7 +13652,7 @@ var require_findEnvFiles2 = __commonJS({
 var require_genexample2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/services/genexample.js"(exports, module) {
     var fsx = require_fsx2();
-    var path9 = __require("path");
+    var path8 = __require("path");
     var Errors = require_errors2();
     var findEnvFiles = require_findEnvFiles2();
     var replace = require_replace2();
@@ -13662,7 +13662,7 @@ var require_genexample2 = __commonJS({
         this.directory = directory;
         this.envFile = envFile || findEnvFiles(directory);
         this.exampleFilename = ".env.example";
-        this.exampleFilepath = path9.resolve(this.directory, this.exampleFilename);
+        this.exampleFilepath = path8.resolve(this.directory, this.exampleFilename);
       }
       run() {
         if (this.envFile.length < 1) {
@@ -13682,7 +13682,7 @@ var require_genexample2 = __commonJS({
         let exampleSrc = `# ${this.exampleFilename} - generated with dotenvx
 `;
         for (const envFilepath of envFilepaths) {
-          const filepath = path9.resolve(this.directory, envFilepath);
+          const filepath = path8.resolve(this.directory, envFilepath);
           if (!fsx.existsSync(filepath)) {
             const error = new Errors({ envFilepath, filepath }).missingEnvFile();
             error.help = `? add it with [echo "HELLO=World" > ${envFilepath}] and then run [dotenvx genexample]`;
@@ -13761,10 +13761,10 @@ var require_conventions2 = __commonJS({
 var require_resolveHome2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/resolveHome.js"(exports, module) {
     var os2 = __require("os");
-    var path9 = __require("path");
+    var path8 = __require("path");
     function resolveHome(filepath) {
       if (filepath[0] === "~") {
-        return path9.join(os2.homedir(), filepath.slice(1));
+        return path8.join(os2.homedir(), filepath.slice(1));
       }
       return filepath;
     }
@@ -13817,7 +13817,7 @@ var require_deprecationNotice2 = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/buildEnvs.js
 var require_buildEnvs2 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/helpers/buildEnvs.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     var conventions = require_conventions2();
     var dotenvOptionPaths = require_dotenvOptionPaths2();
     var DeprecationNotice = require_deprecationNotice2();
@@ -13832,7 +13832,7 @@ var require_buildEnvs2 = __commonJS({
         if (DOTENV_KEY) {
           envs.push({
             type: "envVaultFile",
-            value: path9.join(path9.dirname(optionPath), ".env.vault")
+            value: path8.join(path8.dirname(optionPath), ".env.vault")
           });
         } else {
           envs.push({ type: "envFile", value: optionPath });
@@ -13847,7 +13847,7 @@ var require_buildEnvs2 = __commonJS({
 // ../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/main.js
 var require_main3 = __commonJS({
   "../node_modules/.pnpm/@dotenvx+dotenvx@1.31.3/node_modules/@dotenvx/dotenvx/src/lib/main.js"(exports, module) {
-    var path9 = __require("path");
+    var path8 = __require("path");
     var { setLogLevel, logger } = require_logger2();
     var { getColor, bold } = require_colors2();
     var Ls = require_ls2();
@@ -13882,11 +13882,11 @@ var require_main3 = __commonJS({
         const parsedAll = {};
         for (const processedEnv of processedEnvs) {
           if (processedEnv.type === "envVaultFile") {
-            logger.verbose(`loading env from encrypted ${processedEnv.filepath} (${path9.resolve(processedEnv.filepath)})`);
-            logger.debug(`decrypting encrypted env from ${processedEnv.filepath} (${path9.resolve(processedEnv.filepath)})`);
+            logger.verbose(`loading env from encrypted ${processedEnv.filepath} (${path8.resolve(processedEnv.filepath)})`);
+            logger.debug(`decrypting encrypted env from ${processedEnv.filepath} (${path8.resolve(processedEnv.filepath)})`);
           }
           if (processedEnv.type === "envFile") {
-            logger.verbose(`loading env from ${processedEnv.filepath} (${path9.resolve(processedEnv.filepath)})`);
+            logger.verbose(`loading env from ${processedEnv.filepath} (${path8.resolve(processedEnv.filepath)})`);
           }
           for (const error of processedEnv.errors || []) {
             if (strict) throw error;
@@ -14564,7 +14564,7 @@ var findScriptConfigFile = (configNames, startDir = process.cwd()) => {
   while (true) {
     for (const name of configNames) {
       const candidate = path4.join(dir, name);
-      if (fs4.existsSync(candidate)) return candidate;
+      if (fs2.existsSync(candidate)) return candidate;
     }
     const parent = path4.dirname(dir);
     if (parent === dir) break;
@@ -14575,13 +14575,13 @@ var findScriptConfigFile = (configNames, startDir = process.cwd()) => {
 var findProjectRoot = (startDir = process.cwd()) => {
   let dir = startDir;
   while (true) {
-    if (fs4.existsSync(path4.join(dir, "pnpm-workspace.yaml"))) {
+    if (fs2.existsSync(path4.join(dir, "pnpm-workspace.yaml"))) {
       return dir;
     }
-    if (fs4.existsSync(path4.join(dir, "lerna.json"))) {
+    if (fs2.existsSync(path4.join(dir, "lerna.json"))) {
       return dir;
     }
-    if (fs4.existsSync(path4.join(dir, "rush.json"))) {
+    if (fs2.existsSync(path4.join(dir, "rush.json"))) {
       return dir;
     }
     const parent = path4.dirname(dir);
@@ -14590,7 +14590,7 @@ var findProjectRoot = (startDir = process.cwd()) => {
   }
   dir = startDir;
   while (true) {
-    if (fs4.existsSync(path4.join(dir, "package.json")) || fs4.existsSync(path4.join(dir, ".git"))) {
+    if (fs2.existsSync(path4.join(dir, "package.json")) || fs2.existsSync(path4.join(dir, ".git"))) {
       return dir;
     }
     const parent = path4.dirname(dir);
@@ -14601,7 +14601,7 @@ var findProjectRoot = (startDir = process.cwd()) => {
 };
 
 // src/db-setup/schemas.config.ts
-var PATH_FOLDER_ENV = "apps/server";
+var PATH_FOLDER_ENV = ".";
 var PATH_FOLDER_SCHEMAS = "apps/server/src/db/schemas";
 var PATH_FILES_CONFIG = ["scripts/db-setup.config.ts", "db-setup.config.ts"];
 var SCHEMAS_BETTER_AUTH = ["auth_account", "auth_session", "auth_verification"];
@@ -14679,7 +14679,7 @@ var getSortedSchemas = ({
 };
 var getSchemaSelection = async ({ seedConfigs }) => {
   const schemasDir = path4.join(process.cwd(), PATH_FOLDER_SCHEMAS);
-  if (!fs4.existsSync(schemasDir)) {
+  if (!fs2.existsSync(schemasDir)) {
     console.error(source_default.red(`\u274C Schemas directory not found: ${schemasDir}`));
     process.exit(1);
   }
@@ -14719,10 +14719,10 @@ var viewConfigs = [
 // ../apps/server/src/db/db.adapter.ts
 var import_better_sqlite32 = __toESM(require_lib());
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/better-sqlite3/driver.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/better-sqlite3/driver.js
 var import_better_sqlite3 = __toESM(require_lib());
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/entity.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/entity.js
 var entityKind = Symbol.for("drizzle:entityKind");
 function is(value, type) {
   if (!value || typeof value !== "object") {
@@ -14748,7 +14748,7 @@ function is(value, type) {
   return false;
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/logger.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/logger.js
 var ConsoleLogWriter = class {
   static [entityKind] = "ConsoleLogWriter";
   write(message) {
@@ -14779,10 +14779,10 @@ var NoopLogger = class {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/table.utils.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/table.utils.js
 var TableName = Symbol.for("drizzle:Name");
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/table.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/table.js
 var Schema = Symbol.for("drizzle:Schema");
 var Columns = Symbol.for("drizzle:Columns");
 var ExtraConfigColumns = Symbol.for("drizzle:ExtraConfigColumns");
@@ -14844,7 +14844,7 @@ function getTableUniqueName(table) {
   return `${table[Schema] ?? "public"}.${table[TableName]}`;
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/column.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/column.js
 var Column = class {
   constructor(table, config3) {
     this.table = table;
@@ -14895,7 +14895,7 @@ var Column = class {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/column-builder.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/column-builder.js
 var ColumnBuilder = class {
   static [entityKind] = "ColumnBuilder";
   config;
@@ -14999,7 +14999,7 @@ var ColumnBuilder = class {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/pg-core/unique-constraint.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/pg-core/unique-constraint.js
 function uniqueKeyName(table, columns) {
   return `${table[TableName]}_${columns.join("_")}_unique`;
 }
@@ -15014,13 +15014,13 @@ var PgColumn = class extends Column {
   static [entityKind] = "PgColumn";
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/pg-core/columns/enum.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/pg-core/columns/enum.js
 var isPgEnumSym = Symbol.for("drizzle:isPgEnum");
 function isPgEnum(obj) {
   return !!obj && typeof obj === "function" && isPgEnumSym in obj && obj[isPgEnumSym] === true;
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/subquery.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/subquery.js
 var Subquery = class {
   static [entityKind] = "Subquery";
   constructor(sql2, selection, alias, isWith = false) {
@@ -15047,7 +15047,7 @@ var tracer = {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/view-common.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/view-common.js
 var ViewBaseConfig = Symbol.for("drizzle:ViewBaseConfig");
 function isSQLWrapper(value) {
   return value !== null && value !== void 0 && typeof value.getSQL === "function";
@@ -15426,11 +15426,11 @@ Subquery.prototype.getSQL = function() {
   return new SQL([this]);
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/utils.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/utils.js
 function mapResultRow(columns, row, joinsNotNullableMap) {
   const nullifyMap = {};
   const result = columns.reduce(
-    (result2, { path: path9, field }, columnIndex) => {
+    (result2, { path: path8, field }, columnIndex) => {
       let decoder;
       if (is(field, Column)) {
         decoder = field;
@@ -15440,8 +15440,8 @@ function mapResultRow(columns, row, joinsNotNullableMap) {
         decoder = field.sql.decoder;
       }
       let node = result2;
-      for (const [pathChunkIndex, pathChunk] of path9.entries()) {
-        if (pathChunkIndex < path9.length - 1) {
+      for (const [pathChunkIndex, pathChunk] of path8.entries()) {
+        if (pathChunkIndex < path8.length - 1) {
           if (!(pathChunk in node)) {
             node[pathChunk] = {};
           }
@@ -15449,8 +15449,8 @@ function mapResultRow(columns, row, joinsNotNullableMap) {
         } else {
           const rawValue = row[columnIndex];
           const value = node[pathChunk] = rawValue === null ? null : decoder.mapFromDriverValue(rawValue);
-          if (joinsNotNullableMap && is(field, Column) && path9.length === 2) {
-            const objectName = path9[0];
+          if (joinsNotNullableMap && is(field, Column) && path8.length === 2) {
+            const objectName = path8[0];
             if (!(objectName in nullifyMap)) {
               nullifyMap[objectName] = value === null ? getTableName(field.table) : false;
             } else if (typeof nullifyMap[objectName] === "string" && nullifyMap[objectName] !== getTableName(field.table)) {
@@ -15606,7 +15606,7 @@ var PgVarchar = class extends PgColumn {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/pg-core/table.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/pg-core/table.js
 var InlineForeignKeys = Symbol.for("drizzle:PgInlineForeignKeys");
 var EnableRLS = Symbol.for("drizzle:EnableRLS");
 var PgTable = class extends Table {
@@ -15624,7 +15624,7 @@ var PgTable = class extends Table {
   [Table.Symbol.ExtraConfigBuilder] = void 0;
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/pg-core/primary-keys.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/pg-core/primary-keys.js
 var PrimaryKeyBuilder = class {
   static [entityKind] = "PgPrimaryKeyBuilder";
   /** @internal */
@@ -15654,7 +15654,7 @@ var PrimaryKey = class {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sql/expressions/conditions.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sql/expressions/conditions.js
 function bindIfParam(value, column) {
   if (isDriverValueEncoder(column) && !isSQLWrapper(value) && !is(value, Param) && !is(value, Placeholder) && !is(value, Column) && !is(value, Table) && !is(value, View)) {
     return new Param(value, column);
@@ -15769,7 +15769,7 @@ function notIlike(column, value) {
   return sql`${column} not ilike ${value}`;
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sql/expressions/select.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sql/expressions/select.js
 function asc(column) {
   return sql`${column} asc`;
 }
@@ -15777,7 +15777,7 @@ function desc(column) {
   return sql`${column} desc`;
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/relations.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/relations.js
 var Relation = class {
   constructor(sourceTable, referencedTable, relationName) {
     this.sourceTable = sourceTable;
@@ -16046,7 +16046,7 @@ function mapRelationalRow(tablesConfig, tableConfig, row, buildQueryResultSelect
   return result;
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/alias.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/alias.js
 var ColumnAliasProxyHandler = class {
   constructor(table) {
     this.table = table;
@@ -16130,7 +16130,7 @@ function mapColumnsInSQLToAlias(query, alias) {
   }));
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/selection-proxy.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/selection-proxy.js
 var SelectionProxyHandler = class _SelectionProxyHandler {
   static [entityKind] = "SelectionProxyHandler";
   config;
@@ -16198,7 +16198,7 @@ var SelectionProxyHandler = class _SelectionProxyHandler {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/query-promise.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/query-promise.js
 var QueryPromise = class {
   static [entityKind] = "QueryPromise";
   [Symbol.toStringTag] = "QueryPromise";
@@ -16222,7 +16222,7 @@ var QueryPromise = class {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/foreign-keys.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/foreign-keys.js
 var ForeignKeyBuilder2 = class {
   static [entityKind] = "SQLiteForeignKeyBuilder";
   /** @internal */
@@ -16279,12 +16279,12 @@ var ForeignKey2 = class {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/unique-constraint.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/unique-constraint.js
 function uniqueKeyName2(table, columns) {
   return `${table[TableName]}_${columns.join("_")}_unique`;
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/common.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/common.js
 var SQLiteColumnBuilder = class extends ColumnBuilder {
   static [entityKind] = "SQLiteColumnBuilder";
   foreignKeyConfigs = [];
@@ -16335,7 +16335,7 @@ var SQLiteColumn = class extends Column {
   static [entityKind] = "SQLiteColumn";
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/blob.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/blob.js
 var SQLiteBigIntBuilder = class extends SQLiteColumnBuilder {
   static [entityKind] = "SQLiteBigIntBuilder";
   constructor(name) {
@@ -16410,7 +16410,7 @@ function blob(a, b2) {
   return new SQLiteBlobBufferBuilder(name);
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/custom.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/custom.js
 var SQLiteCustomColumnBuilder = class extends SQLiteColumnBuilder {
   static [entityKind] = "SQLiteCustomColumnBuilder";
   constructor(name, fieldConfig, customTypeParams) {
@@ -16458,7 +16458,7 @@ function customType(customTypeParams) {
   };
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/integer.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/integer.js
 var SQLiteBaseIntegerBuilder = class extends SQLiteColumnBuilder {
   static [entityKind] = "SQLiteBaseIntegerBuilder";
   constructor(name, dataType, columnType) {
@@ -16567,7 +16567,7 @@ function integer(a, b2) {
   return new SQLiteIntegerBuilder(name);
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/numeric.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/numeric.js
 var SQLiteNumericBuilder = class extends SQLiteColumnBuilder {
   static [entityKind] = "SQLiteNumericBuilder";
   constructor(name) {
@@ -16591,7 +16591,7 @@ function numeric(name) {
   return new SQLiteNumericBuilder(name ?? "");
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/real.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/real.js
 var SQLiteRealBuilder = class extends SQLiteColumnBuilder {
   static [entityKind] = "SQLiteRealBuilder";
   constructor(name) {
@@ -16612,7 +16612,7 @@ function real(name) {
   return new SQLiteRealBuilder(name ?? "");
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/text.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/text.js
 var SQLiteTextBuilder = class extends SQLiteColumnBuilder {
   static [entityKind] = "SQLiteTextBuilder";
   constructor(name, config3) {
@@ -16669,7 +16669,7 @@ function text(a, b2 = {}) {
   return new SQLiteTextBuilder(name, config3);
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/all.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/columns/all.js
 function getSQLiteColumnBuilders() {
   return {
     blob,
@@ -16681,7 +16681,7 @@ function getSQLiteColumnBuilders() {
   };
 }
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/table.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/table.js
 var InlineForeignKeys2 = Symbol.for("drizzle:SQLiteInlineForeignKeys");
 var SQLiteTable = class extends Table {
   static [entityKind] = "SQLiteTable";
@@ -16717,7 +16717,7 @@ var sqliteTable = (name, columns, extraConfig) => {
   return sqliteTableBase(name, columns);
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/delete.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/delete.js
 var SQLiteDeleteBase = class extends QueryPromise {
   constructor(table, session2, dialect, withList) {
     super();
@@ -16826,7 +16826,7 @@ var SQLiteDeleteBase = class extends QueryPromise {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/casing.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/casing.js
 function toSnakeCase(input) {
   const words = input.replace(/['\u2019]/g, "").match(/[\da-z]+|[A-Z]+(?![a-z])|[A-Z][\da-z]+/g) ?? [];
   return words.map((word) => word.toLowerCase()).join("_");
@@ -16879,7 +16879,7 @@ var CasingCache = class {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/errors.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/errors.js
 var DrizzleError = class extends Error {
   static [entityKind] = "DrizzleError";
   constructor({ message, cause }) {
@@ -16895,12 +16895,12 @@ var TransactionRollbackError = class extends DrizzleError {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/view-base.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/view-base.js
 var SQLiteViewBase = class extends View {
   static [entityKind] = "SQLiteViewBase";
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/dialect.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/dialect.js
 var SQLiteDialect = class {
   static [entityKind] = "SQLiteDialect";
   /** @internal */
@@ -17479,7 +17479,7 @@ var SQLiteSyncDialect = class extends SQLiteDialect {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/query-builders/query-builder.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/query-builders/query-builder.js
 var TypedQueryBuilder = class {
   static [entityKind] = "TypedQueryBuilder";
   /** @internal */
@@ -17488,7 +17488,7 @@ var TypedQueryBuilder = class {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/select.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/select.js
 var SQLiteSelectBuilder = class {
   static [entityKind] = "SQLiteSelectBuilder";
   fields;
@@ -18101,7 +18101,7 @@ var unionAll = createSetOperator("union", true);
 var intersect = createSetOperator("intersect", false);
 var except = createSetOperator("except", false);
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/query-builder.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/query-builder.js
 var QueryBuilder = class {
   static [entityKind] = "SQLiteQueryBuilder";
   dialect;
@@ -18165,7 +18165,7 @@ var QueryBuilder = class {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/insert.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/insert.js
 var SQLiteInsertBuilder = class {
   constructor(table, session2, dialect, withList) {
     this.table = table;
@@ -18329,7 +18329,7 @@ var SQLiteInsertBase = class extends QueryPromise {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/update.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/update.js
 var SQLiteUpdateBuilder = class {
   constructor(table, session2, dialect, withList) {
     this.table = table;
@@ -18490,7 +18490,7 @@ var SQLiteUpdateBase = class extends QueryPromise {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/count.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/count.js
 var SQLiteCountBuilder = class _SQLiteCountBuilder extends SQL {
   constructor(params) {
     super(_SQLiteCountBuilder.buildEmbeddedCount(params.source, params.filters).queryChunks);
@@ -18534,7 +18534,7 @@ var SQLiteCountBuilder = class _SQLiteCountBuilder extends SQL {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/query.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/query.js
 var RelationalQueryBuilder = class {
   constructor(mode, fullSchema, schema, tableNamesMap, table, tableConfig, dialect, session2) {
     this.mode = mode;
@@ -18678,7 +18678,7 @@ var SQLiteSyncRelationalQuery = class extends SQLiteRelationalQuery {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/raw.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/query-builders/raw.js
 var SQLiteRaw = class extends QueryPromise {
   constructor(execute, getSQL, action, dialect, mapBatchResult) {
     super();
@@ -18706,7 +18706,7 @@ var SQLiteRaw = class extends QueryPromise {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/db.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/db.js
 var BaseSQLiteDatabase = class {
   constructor(resultKind, dialect, session2, schema) {
     this.resultKind = resultKind;
@@ -18990,7 +18990,7 @@ var BaseSQLiteDatabase = class {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/sqlite-core/session.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/sqlite-core/session.js
 var ExecuteResultSync = class extends QueryPromise {
   constructor(resultCb) {
     super();
@@ -19103,7 +19103,7 @@ var SQLiteTransaction = class extends BaseSQLiteDatabase {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/better-sqlite3/session.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/better-sqlite3/session.js
 var BetterSQLiteSession = class extends SQLiteSession {
   constructor(client, dialect, schema, options = {}) {
     super(dialect);
@@ -19202,7 +19202,7 @@ var PreparedQuery = class extends SQLitePreparedQuery {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/better-sqlite3/driver.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/better-sqlite3/driver.js
 var BetterSQLite3Database = class extends BaseSQLiteDatabase {
   static [entityKind] = "BetterSQLite3Database";
 };
@@ -19735,8 +19735,8 @@ function getErrorMap() {
 
 // ../node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/helpers/parseUtil.js
 var makeIssue = (params) => {
-  const { data, path: path9, errorMaps, issueData } = params;
-  const fullPath = [...path9, ...issueData.path || []];
+  const { data, path: path8, errorMaps, issueData } = params;
+  const fullPath = [...path8, ...issueData.path || []];
   const fullIssue = {
     ...issueData,
     path: fullPath
@@ -19852,11 +19852,11 @@ var errorUtil;
 
 // ../node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js
 var ParseInputLazyPath = class {
-  constructor(parent, value, path9, key) {
+  constructor(parent, value, path8, key) {
     this._cachedPath = [];
     this.parent = parent;
     this.data = value;
-    this._path = path9;
+    this._path = path8;
     this._key = key;
   }
   get path() {
@@ -23297,72 +23297,42 @@ var coerce = {
 };
 var NEVER = INVALID;
 
-// ../config/dist/env.shared.js
+// ../apps/server/src/env.shared.ts
 var import_dotenvx = __toESM(require_main3());
-var currentFileUrl = import.meta.url;
-var currentFilePath = fileURLToPath(currentFileUrl);
-var currentDir = path4.dirname(currentFilePath);
-function debugLog(message, ...args) {
-  if (process.env.DEBUG_DEPLOYMENT === "1") {
-    console.log(`[paths.ts] ${message}`, ...args);
+var findRootDir = () => {
+  let currentDir = process.cwd();
+  while (currentDir !== path4.parse(currentDir).root) {
+    if (fs2.existsSync(path4.join(currentDir, "pnpm-workspace.yaml"))) {
+      return currentDir;
+    }
+    if (fs2.existsSync(path4.join(currentDir, "package.json"))) {
+      const pkg = JSON.parse(fs2.readFileSync(path4.join(currentDir, "package.json"), "utf8"));
+      if (pkg.name === "touch-monorepo") {
+        return currentDir;
+      }
+    }
+    currentDir = path4.dirname(currentDir);
+  }
+  return process.cwd();
+};
+var rootDir = findRootDir();
+var NODE_ENV_VALUE = process.env.NODE_ENV || "development";
+var envPaths = [path4.resolve(rootDir, `.env.${NODE_ENV_VALUE}`), path4.resolve(rootDir, ".env")];
+var debug = process.env.DEBUG_DEPLOYMENT === "1";
+if (debug) {
+  console.log("[env.shared] resolving env file", {
+    NODE_ENV_VALUE,
+    rootDir,
+    envPaths
+  });
+}
+for (const envPath2 of envPaths) {
+  if (fs2.existsSync(envPath2)) {
+    if (debug) console.log("[env.shared] loading env file:", envPath2);
+    (0, import_dotenvx.config)({ path: envPath2 });
+    break;
   }
 }
-var findRootDir = (startDir) => {
-  debugLog("findRootDir:start", {
-    startDir,
-    projectRootEnv: process.env.PROJECT_ROOT,
-    deploymentRootEnv: process.env.DEPLOYMENT_ROOT
-  });
-  const deploymentRootFromEnv = process.env.PROJECT_ROOT || process.env.DEPLOYMENT_ROOT;
-  if (deploymentRootFromEnv && fs4.existsSync(deploymentRootFromEnv)) {
-    debugLog("findRootDir:using-env-root", deploymentRootFromEnv);
-    return path4.resolve(deploymentRootFromEnv);
-  }
-  let currentDir2 = startDir;
-  while (currentDir2 !== path4.parse(currentDir2).root) {
-    debugLog("findRootDir:checking-dir", currentDir2);
-    const hasNpmrc = fs4.existsSync(path4.join(currentDir2, ".npmrc"));
-    const hasWorkspaceFile = fs4.existsSync(path4.join(currentDir2, "pnpm-workspace.yaml"));
-    if (hasNpmrc && hasWorkspaceFile) {
-      debugLog("findRootDir:found-workspace-root", currentDir2);
-      return currentDir2;
-    }
-    const hasDist = fs4.existsSync(path4.join(currentDir2, "dist"));
-    const hasDeploymentMarkers = fs4.existsSync(path4.join(currentDir2, "start-server.js")) || fs4.existsSync(path4.join(currentDir2, "ports.utils.js"));
-    if (hasDist && hasDeploymentMarkers) {
-      debugLog("findRootDir:found-deployment-root", currentDir2);
-      return currentDir2;
-    }
-    currentDir2 = path4.dirname(currentDir2);
-  }
-  const twoUp = path4.resolve(startDir, "..", "..");
-  if (fs4.existsSync(path4.join(twoUp, "dist"))) {
-    debugLog("findRootDir:two-up-fallback", twoUp);
-    return twoUp;
-  }
-  debugLog("findRootDir:failed", { lastTried: startDir });
-  throw new Error("Could not find project root directory");
-};
-var rootDir = findRootDir(currentDir);
-debugLog("rootDir:resolved", rootDir);
-var paths = {
-  config: {
-    dir: path4.join(rootDir, "config")},
-  data: {
-    dir: path4.join(rootDir, "data")},
-  uploads: {
-    dir: path4.join(rootDir, "data", "uploads")},
-  logs: {
-    dir: path4.join(rootDir, "logs")}
-};
-
-// ../config/dist/env.shared.js
-(0, import_dotenvx.config)({
-  path: path4.resolve(
-    paths.config.dir,
-    `.env.${process.env.NODE_ENV || "development"}`
-  )
-});
 var envSharedSchema = external_exports.object({
   NODE_ENV: external_exports.enum(["development", "production", "test"]).default("development"),
   API_PROTOCOL: external_exports.enum(["http", "https"]).default("http"),
@@ -23388,8 +23358,19 @@ var envShared = envSharedSchema.parse({
   CLIENT_HOST: process.env.CLIENT_HOST,
   CLIENT_PORT: Number(process.env.CLIENT_PORT)
 });
-var __filename2 = fileURLToPath(import.meta.url);
-path4.dirname(__filename2);
+var dataDir = process.env.DATA_DIR || "data";
+var logsDir = process.env.LOGS_DIR || "logs";
+var uploadsDir = process.env.UPLOADS_DIR || path4.join(dataDir, "uploads");
+var paths = {
+  data: {
+    dir: path4.join(rootDir, dataDir)},
+  uploads: {
+    dir: path4.join(rootDir, uploadsDir)},
+  logs: {
+    dir: path4.join(rootDir, logsDir)}
+};
+
+// ../apps/server/src/env.server.ts
 var envServerSchema = external_exports.object({
   DB_HOST: external_exports.string(),
   DB_USER: external_exports.string(),
@@ -23451,7 +23432,7 @@ __export(schemas_exports, {
   volumes: () => volumes
 });
 
-// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.27.6_react@18.3.1/node_modules/drizzle-orm/mysql-core/unique-constraint.js
+// ../node_modules/.pnpm/drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23_better-sqlite3@11.9.0_kysely@0.28.4_react@18.3.1/node_modules/drizzle-orm/mysql-core/unique-constraint.js
 function uniqueKeyName3(table, columns) {
   return `${table[TableName]}_${columns.join("_")}_unique`;
 }
@@ -23489,7 +23470,7 @@ var MySqlVarChar = class extends MySqlColumn {
   }
 };
 
-// ../node_modules/.pnpm/drizzle-zod@0.5.1_drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23__7401619fc5aff63fb912f7456d3f052a/node_modules/drizzle-zod/index.mjs
+// ../node_modules/.pnpm/drizzle-zod@0.5.1_drizzle-orm@0.36.4_@types+better-sqlite3@7.6.13_@types+react@18.3.23__dc48b5b5fe0b97f22a3b0e282423fa03/node_modules/drizzle-zod/index.mjs
 var m = external_exports.union([external_exports.string(), external_exports.number(), external_exports.boolean(), external_exports.null()]);
 var f = external_exports.lazy(() => external_exports.union([m, external_exports.array(f), external_exports.record(f)]));
 function c(t, n) {
@@ -24118,7 +24099,7 @@ var translatableEntitySchemas = {
     // Handle boolean/integer conversion for PATCH
   })
 };
-var dbPath = process.env.NODE_ENV === "production" ? path7.resolve(dirname(fileURLToPath$1(import.meta.url)), "../data/db/production.sqlite.db") : env2.DB_PATH;
+var dbPath = process.env.NODE_ENV === "production" ? path6.resolve(dirname(fileURLToPath(import.meta.url)), "../data/db/production.sqlite.db") : env2.DB_PATH;
 var sqlite = new import_better_sqlite32.default(dbPath);
 if (sqlite.open) {
   console.log("\n\u2705 Connected to database:", source_default.green(env2.DB_NAME));
@@ -24138,7 +24119,7 @@ if (!["development", "test", "production"].includes(nodeEnv)) {
 }
 var envPath = path4.resolve(process.cwd(), `${PATH_FOLDER_ENV}/.env.${nodeEnv}`);
 console.log("[db-setup] Looking for env file at:", envPath);
-if (!fs4.existsSync(envPath)) {
+if (!fs2.existsSync(envPath)) {
   console.error(source_default.red(`\u274C Environment file not found: ${envPath}`));
   process.exit(1);
 }
@@ -24176,11 +24157,11 @@ Seeding ${schema}...`));
 async function createViews() {
   for (const view of viewConfigs) {
     const sqlPath = path4.resolve(process.cwd(), "apps/server/src/db/views", `${view.name}.sql`);
-    if (!fs4.existsSync(sqlPath)) {
+    if (!fs2.existsSync(sqlPath)) {
       console.warn(source_default.yellow(`View SQL file not found: ${sqlPath}`));
       continue;
     }
-    const sql2 = fs4.readFileSync(sqlPath, "utf-8");
+    const sql2 = fs2.readFileSync(sqlPath, "utf-8");
     try {
       console.log(source_default.blue(`Dropping view if exists: ${view.name}`));
       sqliteAny.exec(`DROP VIEW IF EXISTS ${view.name};`);

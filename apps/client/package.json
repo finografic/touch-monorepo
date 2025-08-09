@@ -66,13 +66,12 @@
     "@tanstack/react-query-devtools": "5.62.8",
     "@tanstack/react-query-persist-client": "5.74.4",
     "@uidotdev/usehooks": "2.4.1",
-    "@workspace/config": "workspace:*",
     "@workspace/core": "workspace:*",
     "@workspace/globals": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/server": "workspace:*",
     "axios": "1.8.4",
-    "better-auth": "1.0.22",
+    "better-auth": "1.2.10",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "color": "5.0.0",
@@ -146,7 +145,7 @@
     "postcss-nesting": "13.0.1",
     "shx": "0.3.4",
     "typescript-eslint": "8.18.2",
-    "vite": "6.0.7",
+    "vite": "6.1.6",
     "vite-plugin-checker": "0.8.0",
     "vite-tsconfig-paths": "^5.1.4"
   }

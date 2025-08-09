@@ -1,4 +1,4 @@
-import { envShared } from '@workspace/config/envShared';
+import { envShared } from '../../lib/env.js';
 import { APIError } from 'better-auth/api';
 import { auth } from 'lib/auth';
 import { createRouter } from 'lib/create-app';
@@ -9,12 +9,7 @@ const router = createRouter();
 router.post('/auth/login', async (context) => {
   try {
     const body = await context.req.json();
-    const result = await auth.api.signInEmail({
-      body: {
-        email: body.email,
-        password: body.password,
-      },
-    });
+    const result = await (auth.api.signInEmail as any)(body);
     return context.json(result);
   } catch (error) {
     console.error('Auth error:', error);
@@ -32,14 +27,7 @@ router.post('/auth/login', async (context) => {
 router.post('/auth/signup', async (context) => {
   try {
     const body = await context.req.json();
-    // @ts-expect-error - BetterAuth API signature issue
-    const result = await auth.api.signUpEmail({
-      body: {
-        email: body.email,
-        password: body.password,
-        name: body.name,
-      },
-    });
+    const result = await (auth.api.signUpEmail as any)(body);
     return context.json(result);
   } catch (error) {
     console.error('Signup error:', error);

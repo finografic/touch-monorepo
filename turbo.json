@@ -9,24 +9,20 @@
     "@workspace/globals#build": {
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
-    "@workspace/config#build": {
-      "dependsOn": ["@workspace/globals#build"],
-      "outputs": ["dist/**", "*.tsbuildinfo"]
-    },
     "@workspace/scripts#build": {
-      "dependsOn": ["@workspace/config#build"],
+      "dependsOn": ["@workspace/globals#build"],
       "outputs": ["dist/**", "bin/**", "*.tsbuildinfo"]
     },
     "@workspace/core#build": {
-      "dependsOn": ["@workspace/config#build"],
+      "dependsOn": ["@workspace/globals#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/i18n#build": {
-      "dependsOn": ["@workspace/core#build", "@workspace/config#build"],
+      "dependsOn": ["@workspace/core#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/core#dev": {
-      "dependsOn": ["@workspace/config#build"],
+      "dependsOn": ["@workspace/globals#build"],
       "cache": false,
       "persistent": true
     },

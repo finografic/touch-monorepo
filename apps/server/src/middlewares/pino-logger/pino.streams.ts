@@ -1,5 +1,5 @@
 import path from 'node:path';
-import { paths } from '@workspace/config/paths';
+import { LOG_PATHS } from '../../constants/paths.constants.js';
 import pretty from 'pino-pretty';
 
 // TODO: Log rotation (rotate every day into files)
@@ -32,7 +32,7 @@ const streamToFile = [
     level: 'info',
     stream: pretty({
       colorize: false,
-      destination: path.resolve(paths.logs.dir, 'info.log'),
+      destination: LOG_PATHS.INFO_LOG,
       customPrettifiers: {
         time: (timestamp) => `[${new Date().toISOString()} ${timestamp}]`,
       },
@@ -43,7 +43,7 @@ const streamToFile = [
     level: 'error',
     stream: pretty({
       colorize: false,
-      destination: path.resolve(paths.logs.dir, 'error.log'),
+      destination: LOG_PATHS.ERROR_LOG,
       customPrettifiers: {
         time: (timestamp) => `[${new Date().toISOString()} ${timestamp}]`,
       },

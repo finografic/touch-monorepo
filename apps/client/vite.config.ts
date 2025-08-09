@@ -4,6 +4,7 @@ import tailwindcss from '@tailwindcss/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import { logApiURL } from './src/utils/vite.utils';
 import { resolve } from 'path';
+import { envShared } from '../../env.shared.js';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
   const viteEnv = loadEnv(mode as string, process.cwd(), '');
@@ -12,17 +13,19 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
   // Resolve paths relative to workspace root
   const workspaceRoot = resolve(__dirname, '../..');
 
-  // Set environment variables directly for Electron compatibility
+  // Load environment variables from shared env configuration
   const envVars = {
-    NODE_ENV: mode,
-    API_PROTOCOL: 'http',
-    API_HOST: 'localhost',
-    API_PORT: '4040',
-    API_BASE_PATH: '/api',
-    API_URL: 'http://localhost:4040/api',
-    CLIENT_PROTOCOL: 'http',
-    CLIENT_HOST: 'localhost',
-    CLIENT_PORT: '3000',
+    NODE_ENV: envShared.NODE_ENV,
+    API_PROTOCOL: envShared.API_PROTOCOL,
+    API_HOST: envShared.API_HOST,
+    API_PORT: String(envShared.API_PORT),
+    API_BASE_PATH: envShared.API_BASE_PATH,
+    API_URL: envShared.API_URL,
+    API_BASE_URL: envShared.API_BASE_URL,
+    CLIENT_PROTOCOL: envShared.CLIENT_PROTOCOL,
+    CLIENT_HOST: envShared.CLIENT_HOST,
+    CLIENT_PORT: String(envShared.CLIENT_PORT),
+    CLIENT_ORIGIN: envShared.CLIENT_ORIGIN,
     VITE_APP_NAME: viteEnv.VITE_APP_NAME,
   };
 

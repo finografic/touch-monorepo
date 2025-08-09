@@ -2,20 +2,15 @@ import type { RouteConfig } from 'routes/routes.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { ConstMapOf } from '@workspace/core/types/utils';
 import { BUTTON_TYPES, type RouteButtonConfig } from 'types/button.types';
+import { ROUTE_PATHS, FLOW_PATHS, ADMIN_PATHS } from '../constants/paths.constants.js';
 
-export const PATHS: ConstMapOf<OrderFieldKey, string> = {
-  main: '/',
-  drinkType: '/drink-type',
-  drinkSubtype: '/drink-type/:drinkTypeId',
-  drinkVolume: '/drink-volume',
-  containerType: '/container-type',
-  temperature: '/temperature',
-} as const;
+// Re-export for backward compatibility
+export const PATHS = ROUTE_PATHS;
 
 // Additional paths for alternative flows
 export const ALTERNATIVE_PATHS = {
-  time: '/time',
-  admin: '/admin',
+  time: FLOW_PATHS.TIME,
+  admin: ADMIN_PATHS.ADMIN_HOME,
 } as const;
 
 export const ROUTE_ACTION_SLUGS = ['new', 'view', 'edit', 'create', 'delete'] as const;

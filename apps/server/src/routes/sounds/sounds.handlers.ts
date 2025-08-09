@@ -17,7 +17,7 @@ import { Buffer } from 'buffer';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import { slugify } from 'utils/string.utils';
 
-import { paths } from '@workspace/config/paths';
+import { UPLOAD_PATHS, CONFIG_PATHS } from '../../constants/paths.constants.js';
 
 // In-memory storage for demo purposes
 // In production, this would be replaced with database storage
@@ -42,9 +42,9 @@ let soundSettings: {
 // Simple ID generator
 const generateId = () => `sound-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-// Use the paths utility for reliable path resolution
-const uploadsDir = paths.uploads.path('sounds');
-const settingsFile = join(uploadsDir, '_settings.json');
+// Use path constants for reliable path resolution
+const uploadsDir = UPLOAD_PATHS.SOUNDS_DIR;
+const settingsFile = CONFIG_PATHS.SOUND_SETTINGS;
 
 // Create directory if it doesn't exist
 async function ensureUploadsDir() {

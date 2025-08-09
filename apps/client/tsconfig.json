@@ -16,8 +16,6 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@workspace/config": ["../../config"],
-      "@workspace/config/*": ["../../config/*"],
       "@workspace/core/*": ["../../packages/core/src/*"],
       "@workspace/core": ["../../packages/core/src"],
       "@workspace/globals/*": ["../../packages/globals/src/*"],
@@ -74,9 +72,6 @@
     },
     {
       "path": "../../packages/globals"
-    },
-    {
-      "path": "../../config"
     },
     {
       "path": "../server"
