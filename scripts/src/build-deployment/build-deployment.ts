@@ -197,8 +197,20 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       '',
     ];
 
-    // Create .env.production in dist directory (for server)
-    await writeFile(join(config.buildDir, '.env.production'), envContent.join('\n'));
+    // Create .env.production in dist/ and config/
+    const envLocations = [
+      join(config.buildDir, '.env.production'),
+      join(config.distDir, 'config', '.env.production'), // Root level config/
+    ];
+
+    // Create config directory if it doesn't exist
+    await mkdir(join(config.distDir, 'config'), { recursive: true });
+
+    // Write to all locations
+    for (const envPath of envLocations) {
+      await writeFile(envPath, envContent.join('\n'));
+      console.log('✅ Created environment file:', envPath);
+    }
 
     console.log('✅ Environment files consolidated');
   } catch (error) {

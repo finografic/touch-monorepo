@@ -15,14 +15,27 @@ import { killPortIfOccupied } from './ports.utils.js';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname_resolved = dirname(__filename);
 
-// Load environment variables from dist directory
+// Load environment variables from deployment
 import dotenv from 'dotenv';
-const envPath = path.join(__dirname_resolved, 'dist/.env.production');
-if (existsSync(envPath)) {
-  dotenv.config({ path: envPath });
-  console.log('✅ Loaded environment from:', envPath);
-} else {
-  console.log('⚠️  Environment file not found:', envPath);
+
+// Try loading from deployment root first, then dist/
+const envPaths = [
+  path.join(__dirname_resolved, '.env.production'),
+  path.join(__dirname_resolved, 'dist', '.env.production'),
+];
+
+let envLoaded = false;
+for (const envPath of envPaths) {
+  if (existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+    console.log('✅ Loaded environment from:', envPath);
+    envLoaded = true;
+    break;
+  }
+}
+
+if (!envLoaded) {
+  console.log('⚠️  No environment file found in:', envPaths);
 }
 
 // Ensure server can resolve project root in deployment
