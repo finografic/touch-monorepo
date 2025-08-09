@@ -27,6 +27,7 @@ if (existsSync(envPath)) {
 
 // Ensure server can resolve project root in deployment
 process.env.PROJECT_ROOT = __dirname_resolved;
+process.env.DEBUG_DEPLOYMENT = process.env.DEBUG_DEPLOYMENT || '1';
 
 console.log('🚀 Starting Touch Monorepo Production Server...');
 console.log('📍 Working directory:', __dirname_resolved);

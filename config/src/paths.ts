@@ -6,24 +6,41 @@ const currentFileUrl = import.meta.url;
 const currentFilePath = fileURLToPath(currentFileUrl);
 const currentDir = path.dirname(currentFilePath);
 
+function debugLog(message: string, ...args: unknown[]) {
+  if (process.env.DEBUG_DEPLOYMENT === '1') {
+    // eslint-disable-next-line no-console
+    console.log(`[paths.ts] ${message}`, ...args);
+  }
+}
+
 /**
  * Finds the root directory of the project by looking for workspace markers.
  * Supports deployment mode via PROJECT_ROOT / DEPLOYMENT_ROOT environment variables.
  */
 const findRootDir = (startDir: string) => {
+  debugLog('findRootDir:start', {
+    startDir,
+    projectRootEnv: process.env.PROJECT_ROOT,
+    deploymentRootEnv: process.env.DEPLOYMENT_ROOT,
+  });
+
   // Deployment override
   const deploymentRootFromEnv = process.env.PROJECT_ROOT || process.env.DEPLOYMENT_ROOT;
   if (deploymentRootFromEnv && fs.existsSync(deploymentRootFromEnv)) {
+    debugLog('findRootDir:using-env-root', deploymentRootFromEnv);
     return path.resolve(deploymentRootFromEnv);
   }
 
   let currentDir = startDir;
 
   while (currentDir !== path.parse(currentDir).root) {
+    debugLog('findRootDir:checking-dir', currentDir);
+
     const hasNpmrc = fs.existsSync(path.join(currentDir, '.npmrc'));
     const hasWorkspaceFile = fs.existsSync(path.join(currentDir, 'pnpm-workspace.yaml'));
 
     if (hasNpmrc && hasWorkspaceFile) {
+      debugLog('findRootDir:found-workspace-root', currentDir);
       return currentDir;
     }
 
@@ -33,6 +50,7 @@ const findRootDir = (startDir: string) => {
       fs.existsSync(path.join(currentDir, 'start-server.js')) ||
       fs.existsSync(path.join(currentDir, 'ports.utils.js'));
     if (hasDist && hasDeploymentMarkers) {
+      debugLog('findRootDir:found-deployment-root', currentDir);
       return currentDir;
     }
 
@@ -42,13 +60,17 @@ const findRootDir = (startDir: string) => {
   // Final fallback: two levels up from compiled files (common in bundled output)
   const twoUp = path.resolve(startDir, '..', '..');
   if (fs.existsSync(path.join(twoUp, 'dist'))) {
+    debugLog('findRootDir:two-up-fallback', twoUp);
     return twoUp;
   }
 
+  debugLog('findRootDir:failed', { lastTried: startDir });
   throw new Error('Could not find project root directory');
 };
 
 const rootDir = findRootDir(currentDir);
+
+debugLog('rootDir:resolved', rootDir);
 
 /**
  * Project path utilities
