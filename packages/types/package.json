@@ -16,8 +16,8 @@
   "scripts": {
     "dev": "tsup --watch",
     "build": "tsup",
-    "clean": "../../packages/purge-builds/dist/index.js",
-    "clean.dry": "../../packages/purge-builds/dist/index.js --dry-run",
+    "clean": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --detach",
+    "clean.dry": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --dry-run",
     "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",
@@ -27,7 +27,7 @@
     "@dotenvx/dotenvx": "1.31.3"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "^0.5.0",
+    "@finografic/project-scripts": "0.10.3",
     "@types/node": "20.15.0",
     "shx": "0.3.4",
     "tsup": "8.4.0",

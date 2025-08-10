@@ -46,8 +46,8 @@
     "install.client": "pnpm install --filter @workspace/client",
     "install.client.force": "pnpm install --filter @workspace/client --force",
     "·········· CLEAN": "·····················································",
-    "clean": "../../packages/purge-builds/dist/index.js",
-    "clean.dry": "../../packages/purge-builds/dist/index.js --dry-run",
+    "clean": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --detach",
+    "clean.dry": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --dry-run",
     "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
     "·········· LINTING": "···················································",
     "lint": "eslint .",
@@ -63,7 +63,7 @@
     "react-i18next": "15.4.0"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "^0.5.0",
+    "@finografic/project-scripts": "0.10.3",
     "@types/node": "20.15.0",
     "@microsoft/api-extractor": "^7.49.1",
     "shx": "0.3.4",

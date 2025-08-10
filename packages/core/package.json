@@ -57,8 +57,8 @@
     "·········· BUILD": "·····················································",
     "build": "tsup",
     "·········· CLEAN": "·····················································",
-    "clean": "../../packages/purge-builds/dist/index.js",
-    "clean.dry": "../../packages/purge-builds/dist/index.js --dry-run",
+    "clean": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --detach",
+    "clean.dry": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --dry-run",
     "·········· PACKAGES": "···················································",
     "eslint-config": "dotenvx run -- pnpm update @finografic/eslint-config --latest",
     "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
@@ -76,6 +76,7 @@
     "stoker": "^1.0.0"
   },
   "devDependencies": {
+    "@finografic/project-scripts": "0.10.3",
     "@types/eslint": "9.6.1",
     "@types/lodash": "4.17.13",
     "@types/node": "20.15.0",
