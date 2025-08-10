@@ -3,6 +3,9 @@
     {
       "path": ".",
     },
+    {
+      "path": "../@finografic-project-scripts",
+    },
   ],
   "settings": {
     "i18n-ally.localesPaths": ["packages/i18n/src/translations"],

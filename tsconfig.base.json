@@ -10,7 +10,7 @@
       "@workspace/*": ["packages/*/dist"]
     },
     "resolveJsonModule": true,
-    "typeRoots": ["./types", "./node_modules/@types"],
+    "typeRoots": ["./packages/core/src/types", "./node_modules/@types"],
     "types": ["node"],
     "strict": true,
     "esModuleInterop": true,
