@@ -7,9 +7,6 @@
   "exclude": ["node_modules", "dist", ".next", "build", "coverage", "**/*.spec.ts", "**/*.test.ts"],
   "references": [
     {
-      "path": "./packages/globals"
-    },
-    {
       "path": "./packages/core"
     },
     {

@@ -6,11 +6,7 @@ declare global {
 
 const _global = (typeof window !== 'undefined' ? window : global) as any;
 
-_global.log = function (
-  message: string,
-  color: LogColor = 'grey',
-  ...args: any[]
-): void {
+_global.log = function (message: string, color: LogColor = 'grey', ...args: any[]): void {
   const error = new Error();
   if ('captureStackTrace' in Error) {
     Error.captureStackTrace(error, _global.log);

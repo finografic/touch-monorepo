@@ -10,8 +10,6 @@
     "paths": {
       "@workspace/core/*": ["../../packages/core/src/*"],
       "@workspace/core": ["../../packages/core/src"],
-      "@workspace/globals/*": ["../../packages/globals/src/*"],
-      "@workspace/globals": ["../../packages/globals/src"],
       "config": ["./src/config"],
       "config/*": ["./src/config/*"],
       "constants/*": ["./src/constants/*"],
@@ -55,9 +53,6 @@
   "references": [
     {
       "path": "../../packages/core"
-    },
-    {
-      "path": "../../packages/globals"
     }
   ],
   // "include": ["src/**/*", "src/**/*.json", "package.json"],

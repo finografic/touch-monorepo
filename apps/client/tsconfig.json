@@ -16,14 +16,9 @@
     "rootDir": ".",
     "baseUrl": ".",
     "paths": {
-      "@workspace/core/*": ["../../packages/core/src/*"],
-      "@workspace/core": ["../../packages/core/src"],
-      "@workspace/globals/*": ["../../packages/globals/src/*"],
-      "@workspace/globals": ["../../packages/globals/src"],
       "@workspace/i18n/flags/images": ["src/components/LanguageSelector/languages/images"],
       "@workspace/i18n/flags/images/*": ["src/components/LanguageSelector/languages/images/*"],
       "@workspace/server/*": ["../server/src/*"],
-      "@workspace/server/types/entities": ["../server/src/types/entities/index.ts"],
       "admin-tools/*": ["./src/admin-tools/*"],
       "admin-tools": ["./src/admin-tools"],
       "api": ["./src/api"],
@@ -71,12 +66,9 @@
       "path": "../../packages/core"
     },
     {
-      "path": "../../packages/globals"
-    },
-    {
       "path": "../server"
     }
   ],
-  "include": ["src/**/*", "src/**/*.json", "../../packages/types/src/countries.types.ts"],
+  "include": ["src/**/*", "src/**/*.json", "../../packages/core/src/types/countries.types.ts"],
   "exclude": ["dist", "node_modules", "eslint.config.mjs"]
 }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { AxiosError, AxiosResponse } from 'axios';
 import type { ErrorResponse } from '@workspace/core/api';
-import '@workspace/globals'; // Import to make log function available
+import '@workspace/core'; // Import to make log function available
 
 // TypeScript now knows API_URL exists and is a string
 const { API_URL } = process.env;

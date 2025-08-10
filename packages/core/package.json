@@ -49,6 +49,14 @@
     "./utils/*": {
       "types": "./dist/utils/*.d.ts",
       "import": "./dist/utils/*.js"
+    },
+    "./globals": {
+      "types": "./dist/globals/index.d.ts",
+      "import": "./dist/globals/index.js"
+    },
+    "./globals/*": {
+      "types": "./dist/globals/*.d.ts",
+      "import": "./dist/globals/*.js"
     }
   },
   "scripts": {
@@ -76,7 +84,7 @@
     "stoker": "^1.0.0"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "0.10.3",
+    "@finografic/project-scripts": "0.12.1",
     "@types/eslint": "9.6.1",
     "@types/lodash": "4.17.13",
     "@types/node": "20.15.0",

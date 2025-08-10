@@ -27,6 +27,10 @@ export default defineConfig({
     'src/types/utils/object.utils.types.ts',
     'src/types/utils/props.utils.types.ts',
     'src/types/utils/index.ts',
+    // Globals files
+    'src/globals/index.ts',
+    'src/globals/log.ts',
+    'src/globals/types.ts',
     // Utils files
     'src/utils/index.ts',
     'src/utils/string.utils.ts',

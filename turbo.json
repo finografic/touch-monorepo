@@ -6,23 +6,19 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
-    "@workspace/globals#build": {
+    "@workspace/core#build": {
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/scripts#build": {
-      "dependsOn": ["@workspace/globals#build"],
+      "dependsOn": ["@workspace/core#build"],
       "outputs": ["dist/**", "bin/**", "*.tsbuildinfo"]
-    },
-    "@workspace/core#build": {
-      "dependsOn": ["@workspace/globals#build"],
-      "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/i18n#build": {
       "dependsOn": ["@workspace/core#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/core#dev": {
-      "dependsOn": ["@workspace/globals#build"],
+      "dependsOn": [],
       "cache": false,
       "persistent": true
     },

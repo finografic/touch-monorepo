@@ -1,5 +1,5 @@
 // import 'packages/globals/src';
-import '@workspace/globals';
+import '@workspace/core';
 import './i18n.config';
 import './index.css';
 import './styles/icons/icons.css';
