@@ -17,6 +17,8 @@ deployment/GUIA_U*.md
 # Build outputs (regenerated each build)
 dist/
 build/
+bin/
+!**/src/**/bin/
 .next/
 
 # TypeScript build info

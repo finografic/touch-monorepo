@@ -10,6 +10,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "../apps/client/eslint.config.mjs": ["../apps/client/eslint.config.mjs"],
       "constants/*": ["./src/constants/*"],
       "hooks/*": ["./src/hooks/*"],
       "lib/*": ["./src/lib/*"],
@@ -18,5 +19,5 @@
       "utils/*": ["./src/utils/*"]
     }
   },
-  "include": ["src", "./db-setup.config.ts"]
+  "include": ["src", "./db-setup.config.ts", "types", "declarations.d.ts"]
 }

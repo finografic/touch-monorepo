@@ -1,5 +1,5 @@
 import { ESLint } from 'eslint';
-// import type { Linter } from 'eslint';
+import type { FlatConfigItem } from './declarations';
 import chalk from 'chalk';
 
 const TEST_CONTENT = `// @ts-nocheck
@@ -39,7 +39,8 @@ async function runTest() {
   try {
     // Load and prepare the flat config
     const { default: clientConfig } = await import('../apps/client/eslint.config.mjs');
-    const flatConfig = Array.isArray(clientConfig) ? clientConfig : [clientConfig];
+    const typedConfig = clientConfig as FlatConfigItem | FlatConfigItem[];
+    const flatConfig = Array.isArray(typedConfig) ? typedConfig : [typedConfig];
 
     // Merge all configs into a single object
     const mergedConfig = flatConfig.reduce((acc, curr) => {
@@ -50,7 +51,6 @@ async function runTest() {
       );
 
       return {
-        // biome-ignore lint/performance/noAccumulatingSpread: <explanation>
         ...acc,
         ...filteredCurr,
         rules: { ...(acc.rules || {}), ...(curr.rules || {}) },
@@ -75,7 +75,7 @@ async function runTest() {
         plugins: {
           'react': (await import('eslint-plugin-react')).default,
           'react-hooks': (await import('eslint-plugin-react-hooks')).default,
-        },
+        } as unknown as Record<string, Plugin>,
         settings: {
           react: {
             version: 'detect',

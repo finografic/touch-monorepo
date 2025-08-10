@@ -10,9 +10,6 @@
       "path": "./packages/globals"
     },
     {
-      "path": "./packages/purge-builds"
-    },
-    {
       "path": "./packages/core"
     },
     {
