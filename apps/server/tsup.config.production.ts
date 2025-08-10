@@ -85,7 +85,6 @@ export default defineConfig({
 
     '@workspace/globals',
     '@workspace/core',
-    '@workspace/types',
     '@workspace/i18n',
   ],
 } satisfies Options);
