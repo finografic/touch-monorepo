@@ -84,7 +84,7 @@
     "stoker": "^1.0.0"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "0.12.1",
+    "@finografic/project-scripts": "1.0.0",
     "@types/eslint": "9.6.1",
     "@types/lodash": "4.17.13",
     "@types/node": "20.15.0",

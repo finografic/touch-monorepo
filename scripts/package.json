@@ -92,7 +92,7 @@
     "@dotenvx/dotenvx": "1.39.0",
     "@eslint/js": "9.23.0",
     "@finografic/eslint-config": "9.0.10",
-    "@finografic/project-scripts": "0.18.0",
+    "@finografic/project-scripts": "1.0.0",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "20.15.0",
     "@types/prompts": "^2.4.9",

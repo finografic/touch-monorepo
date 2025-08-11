@@ -1,51 +1,66 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { sql } from 'drizzle-orm';
 import { db } from '../db.adapter';
-import { pathToFileURL } from 'node:url';
+
+// Convert URL to file path for ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Helper to validate view name
+function isValidView(viewName: string): boolean {
+  const viewsDir = path.join(__dirname, '../views');
+  const sqlFile = path.join(viewsDir, `${viewName}.sql`);
+  return fs.existsSync(sqlFile);
+}
 
 /**
- * Creates the orders_readable view with joined table data
- * This view provides human-readable names instead of foreign key IDs
+ * Creates a specific view from SQL file
  */
-export async function createOrdersReadableView(): Promise<void> {
-  console.log('Creating orders_readable view...');
-
+async function createView(viewName: string): Promise<void> {
   try {
+    // Validate view name first
+    if (!isValidView(viewName)) {
+      console.error(`❌ Invalid view name: ${viewName}`);
+
+      // List available views
+      const viewsDir = path.join(__dirname, '../views');
+      if (fs.existsSync(viewsDir)) {
+        const availableViews = fs
+          .readdirSync(viewsDir)
+          .filter((file) => file.endsWith('.sql'))
+          .map((file) => file.replace('.sql', ''));
+        console.log(`Available views: ${availableViews.join(', ')}`);
+      }
+      process.exit(1);
+    }
+
+    const sqlFile = path.join(__dirname, '../views', `${viewName}.sql`);
+
+    if (!fs.existsSync(sqlFile)) {
+      console.warn(`⚠️ No SQL file found for view: ${viewName}`);
+      console.log(`Expected SQL file at: ${sqlFile}`);
+      return;
+    }
+
+    const sqlContent = fs.readFileSync(sqlFile, 'utf-8');
+
+    console.log(`🔧 Creating view: ${viewName}...`);
+
     // Drop existing view if it exists
-    await db.run(sql` `);
-    console.log('  ✓ Dropped existing orders_readable view (if it existed)');
+    await db.run(sql.raw(`DROP VIEW IF EXISTS ${viewName};`));
+    console.log(`  ✓ Dropped existing ${viewName} view (if it existed)`);
 
-    // Create the view with proper JOIN syntax
-    // Note: temperature_profiles doesn't have a name column, so we join with `modes`
-    await db.run(sql`
-      CREATE VIEW orders_readable
-      AS
-        SELECT
-          o.id,
-          md.name AS mode,
-          dt.name AS drink_type,
-          dst.name AS drink_subtype,
-          v.name AS volume,
-          ct.name AS container_type,
-          o.default_temp_consume,
-          o.default_temp_freeze,
-          o.is_active,
-          o.created_at,
-          o.updated_at
-        FROM orders o
-          JOIN modes md ON o.mode_id = md.id
-          JOIN drink_types dt ON o.drink_type_id = dt.id
-          LEFT JOIN drink_subtypes dst ON o.drink_subtype_id = dst.id
-          JOIN volumes v ON o.volume_id = v.id
-          JOIN container_types ct ON o.container_type_id = ct.id
-    `);
+    // Create the view
+    await db.run(sql.raw(sqlContent));
+    console.log(`  ✅ Created ${viewName} view successfully`);
 
-    console.log('  ✅ Created orders_readable view successfully');
-
-    // Verify the view was created and has data
-    const viewData = await db.run(sql`SELECT COUNT(*) as count FROM orders_readable`);
+    // Verify the view was created
+    const viewData = await db.run(sql.raw(`SELECT COUNT(*) as count FROM ${viewName}`));
     console.log(`  ✓ View contains ${JSON.stringify(viewData)} rows`);
   } catch (error) {
-    console.error('  ❌ Error creating orders_readable view:', error);
+    console.error(`❌ Error creating view ${viewName}:`, error);
     throw error;
   }
 }
@@ -58,9 +73,20 @@ export async function createAllViews(): Promise<void> {
   console.log('🔧 Creating all database views...');
 
   try {
-    await createOrdersReadableView();
-    // Add more view creation calls here in the future
-    // await createAnotherView();
+    const viewsDir = path.join(__dirname, '../views');
+    if (!fs.existsSync(viewsDir)) {
+      console.warn('⚠️ Views directory not found');
+      return;
+    }
+
+    const viewFiles = fs
+      .readdirSync(viewsDir)
+      .filter((file) => file.endsWith('.sql'))
+      .map((file) => file.replace('.sql', ''));
+
+    for (const viewName of viewFiles) {
+      await createView(viewName);
+    }
 
     console.log('✅ All database views created successfully');
   } catch (error) {
@@ -69,15 +95,33 @@ export async function createAllViews(): Promise<void> {
   }
 }
 
-// CLI support - run when called directly (ES module version)
-if (import.meta.url === pathToFileURL(process.argv[1]).href) {
+// Get view name from command line args
+const viewName = process.argv[2]?.toLowerCase(); // normalize to lowercase
+
+if (viewName === 'all') {
+  // Create all views
   createAllViews()
     .then(() => {
-      console.log('🎉 View creation completed successfully!');
+      console.log('🎉 All views created successfully!');
       process.exit(0);
     })
     .catch((error) => {
       console.error('💥 View creation failed:', error);
       process.exit(1);
     });
+} else if (viewName) {
+  // Create specific view
+  createView(viewName)
+    .then(() => {
+      console.log(`🎉 View ${viewName} created successfully!`);
+      process.exit(0);
+    })
+    .catch((error) => {
+      console.error(`💥 View ${viewName} creation failed:`, error);
+      process.exit(1);
+    });
+} else {
+  console.error('❌ No view specified');
+  console.log('Usage: node create-view.js <view-name> | all');
+  process.exit(1);
 }
