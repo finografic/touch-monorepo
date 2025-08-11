@@ -7,17 +7,7 @@
     "strict": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "../apps/client/eslint.config.mjs": ["../apps/client/eslint.config.mjs"],
-      "constants/*": ["./src/constants/*"],
-      "hooks/*": ["./src/hooks/*"],
-      "lib/*": ["./src/lib/*"],
-      "types": ["./src/types"],
-      "types/*": ["./src/types/*"],
-      "utils/*": ["./src/utils/*"]
-    }
+    "skipLibCheck": true
   },
-  "include": ["src", "./db-setup.config.ts", "types", "declarations.d.ts"]
+  "include": ["src", "./db-setup.config.ts", "declarations.d.ts"]
 }

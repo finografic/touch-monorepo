@@ -2,6 +2,7 @@ import type { Options } from 'tsup';
 import { defineConfig } from 'tsup';
 
 export default defineConfig([
+  /*
   // Build CLI scripts to bin/
   {
     entry: ['src/db-setup/db-setup.ts'],
@@ -37,4 +38,5 @@ export default defineConfig([
     external: ['fs', 'path'],
     treeshake: true,
   },
+  */
 ]);
