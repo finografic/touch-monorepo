@@ -3,9 +3,8 @@ import chalk from 'chalk';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { env } from '../env.server';
 import * as schema from './schemas';
-import path from 'path';
+import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 
 // In production, use a relative path to the database
 const dbPath =
