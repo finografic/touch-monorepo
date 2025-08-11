@@ -50,10 +50,11 @@
     "clean.types": "turbo run clean --filter=@workspace/core",
     "·········· PACKAGES": "··················································",
     "eslint-config": "dotenvx run -- pnpm update @finografic/eslint-config --latest --recursive",
-    "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest",
+    "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
     "·········· DB.BATCH": "··················································",
     "db.reset": "pnpm db.drop && pnpm db.migrations.generate && pnpm db.migrations.run && pnpm db.migrations.auth && pnpm db.setup && pnpm db.studio",
-    "db.setup": "tsx scripts/src/db-setup/db-setup.ts -y",
+    "db.setup": "pnpm --package=@finografic/project-scripts dlx db-setup",
+    "db.setup:v1": "tsx scripts/src/db-setup/db-setup.ts -y",
     "·········· DB.UTILS": "··················································",
     "db.drop": "shx rm -rf data/*.sqlite.db data/migrations",
     "db.create": "pnpm --filter @workspace/server db.create",
@@ -110,7 +111,7 @@
     "@changesets/cli": "2.27.10",
     "@emotion/babel-plugin": "11.13.5",
     "@finografic/eslint-config": "9.0.8",
-    "@finografic/project-scripts": "0.12.1",
+    "@finografic/project-scripts": "0.18.0",
     "@microsoft/api-extractor": "7.49.1",
     "@types/better-sqlite3": "^7.6.13",
     "@types/eslint": "9.6.1",
@@ -147,8 +148,8 @@
   "peerDependencies": {
     "eslint": "^9.16.0",
     "prettier": "3.4.2",
-    "typescript": "^5.8.3",
-    "react": "^18.3.1"
+    "react": "^18.3.1",
+    "typescript": "^5.8.3"
   },
   "pnpm": {
     "overrides": {

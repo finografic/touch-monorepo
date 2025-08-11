@@ -1,4 +1,4 @@
-import type { SeedConfig, ViewConfig } from './src/db-setup';
+import type { SeedConfig, ViewConfig } from '@finografic/project-scripts/db-setup';
 
 export const seedConfigs: SeedConfig[] = [
   {
