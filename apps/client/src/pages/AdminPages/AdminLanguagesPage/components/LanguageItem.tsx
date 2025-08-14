@@ -1,6 +1,6 @@
 import React from 'react';
 import { Flex, Text } from '@radix-ui/themes';
-import type { LanguageInfo } from 'types/language.types';
+import type { LanguageInfo } from '@workspace/i18n/config';
 
 interface LanguagesListSelectedProps {
   language: LanguageInfo;

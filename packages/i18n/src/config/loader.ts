@@ -8,13 +8,14 @@ import { DEFAULT_CONFIG } from './defaults';
  * @param configPath - Path to external config file
  * @returns Merged configuration
  */
-export function loadConfig(configPath?: string): I18nConfig {
+export async function loadConfig(configPath?: string): Promise<I18nConfig> {
   let externalConfig: Partial<I18nConfig> = {};
 
   if (configPath) {
     try {
-      const configFile = readFileSync(configPath, 'utf-8');
-      externalConfig = JSON.parse(configFile);
+      // Import the config file dynamically
+      const configModule = await import(configPath);
+      externalConfig = configModule.config;
     } catch (error) {
       console.warn(`Warning: Could not load config from ${configPath}:`, error);
       console.warn('Using default configuration');

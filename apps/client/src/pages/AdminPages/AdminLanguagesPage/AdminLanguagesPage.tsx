@@ -8,7 +8,7 @@ import { SearchableLanguageInputCurated } from 'forms/SearchableLanguageInput/Se
 import { convertToLanguageOptions } from 'forms/SearchableLanguageInput/data/curated-languages';
 import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';
 import { LanguageDeleteDialog } from './components/LanguageDeleteDialog';
-import type { LanguageInfo } from 'types/language.types';
+import type { LanguageInfo } from '@workspace/i18n/config';
 import { useQueryClient } from '@tanstack/react-query';
 import { getFlagUrl } from 'utils/flag.utils';
 import {

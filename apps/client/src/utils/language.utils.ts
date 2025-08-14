@@ -1,4 +1,4 @@
-import type { LanguageInfo } from 'types/language.types';
+import type { LanguageInfo } from '@workspace/i18n/config';
 
 /**
  * Utility to check if a language is the default

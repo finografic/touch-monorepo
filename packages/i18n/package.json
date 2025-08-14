@@ -8,46 +8,33 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./constants": {
-      "types": "./dist/constants/index.d.ts",
-      "import": "./dist/constants/index.js"
-    },
-    "./iso-codes": {
-      "types": "./dist/iso-codes/index.d.ts",
-      "import": "./dist/iso-codes/index.js"
-    },
-    "./translations": {
-      "types": "./dist/translations/index.d.ts",
-      "import": "./dist/translations/index.js"
-    },
-    "./types": {
-      "types": "./dist/types/index.d.ts",
-      "import": "./dist/types/index.js"
-    },
-    "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "import": "./dist/utils/index.js"
-    },
     "./config": {
-      "types": "./dist/config/index.d.ts",
+      "types": "./dist/config/types.d.ts",
       "import": "./dist/config/index.js"
+    },
+    "./config/*": {
+      "types": "./dist/config/*.d.ts",
+      "import": "./dist/config/*.js"
     },
     "./generators": {
       "types": "./dist/generators/index.d.ts",
       "import": "./dist/generators/index.js"
+    },
+    "./generators/*": {
+      "types": "./dist/generators/*.d.ts",
+      "import": "./dist/generators/*.js"
     }
   },
   "scripts": {
     "========== DEV": "=======================================================",
+    "generate.types": "tsx src/generators/cli.ts",
     "dev": "tsup --watch",
     "·········· BUILD": "·····················································",
+    "prebuild": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --detach && pnpm install",
     "build": "tsup",
-    "build.force": "tsup --clean",
     "·········· UPDATE": "····················································",
     "update": "run-s build refresh",
-    "update.force": "run-s build.force refresh.force",
     "refresh": "run-s clean.client install.client",
-    "refresh.force": "run-s clean.client.force install.client.force",
     "·········· CLIENT": "····················································",
     "clean.client": "pnpm --filter @workspace/client exec shx rm -rf node_modules/@workspace/i18n",
     "clean.client.force": "pnpm --filter @workspace/client exec shx rm -rf node_modules/@workspace/i18n && pnpm --filter @workspace/client exec shx rm -rf node_modules/.vite",

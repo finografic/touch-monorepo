@@ -16,7 +16,7 @@
   "scripts": {
     "========== DEV": "=======================================================",
     "scripts": "tsx scripts/src/script-runner/script-runner.ts",
-    "gen.types": "tsx scripts/src/generate-types/generate-language-types.ts",
+    "gen.types": "pnpm --filter @workspace/i18n exec tsx src/generators/cli.ts",
     "dev": "run-p dev:turbo db.studio",
     "dev.reset": "run-s reset",
     "dev.db.reset": "run-s db.reset",

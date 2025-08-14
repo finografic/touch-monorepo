@@ -1,6 +1,6 @@
 import type { Country } from 'components/LanguageSelector/languages/country.types';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
-import type { LanguageInfo } from 'types/language.types';
+import type { LanguageInfo } from '@workspace/i18n/config';
 import type { SupportedLanguageInput } from './supported-languages.types';
 
 /**

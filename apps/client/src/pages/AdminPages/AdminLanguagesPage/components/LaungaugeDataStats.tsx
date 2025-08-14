@@ -1,7 +1,7 @@
 import React from 'react';
 import { Text } from '@radix-ui/themes';
 import languagesData from 'components/LanguageSelector/languages/languages.data.min.json';
-import type { LanguageInfo } from 'types/language.types';
+import type { LanguageInfo } from '@workspace/i18n/config';
 
 interface LaungaugeDataStatsProps {
   selectedLanguages: LanguageInfo[];

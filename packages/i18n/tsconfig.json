@@ -8,22 +8,8 @@
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
     "types": ["node"],
-    "baseUrl": ".",
-    "paths": {
-      "constants": ["src/constants"],
-      "constants/*": ["src/constants/*"],
-      "data": ["src/data"],
-      "data/*": ["src/data/*"],
-      "iso-codes": ["src/iso-codes"],
-      "iso-codes/*": ["src/iso-codes/*"],
-      "translations": ["./src/translations"],
-      "translations/*": ["./src/translations/*"],
-      "types": ["./src/types"],
-      "types/*": ["./src/types/*"],
-      "utils": ["./src/utils"],
-      "utils/*": ["./src/utils/*"]
-    }
+    "baseUrl": "."
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "src/translations/**/*.json"],
   "exclude": ["node_modules", "dist"]
 }

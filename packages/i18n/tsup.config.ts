@@ -2,15 +2,17 @@ import type { Options } from 'tsup';
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: [
+  entry: {
     // NOTE: should match package.json exports
-    'src/index.ts',
-    'src/constants/index.ts',
-    'src/iso-codes/index.ts',
-    'src/translations/index.ts',
-    'src/types/index.ts',
-    'src/utils/index.ts',
-  ],
+    'index': 'src/index.ts',
+    'config/index': 'src/config/index.ts',
+    'config/types': 'src/config/types.ts',
+    'config/defaults': 'src/config/defaults.ts',
+    'config/loader': 'src/config/loader.ts',
+    'generators/index': 'src/generators/index.ts',
+    'generators/types': 'src/generators/types.ts',
+    'generators/cli': 'src/generators/cli.ts',
+  },
   outDir: './dist',
   clean: true,
   experimentalDts: true,
