@@ -3,8 +3,8 @@ import { defineConfig } from 'tsup';
 
 export default defineConfig({
   entry: {
-    // NOTE: should match package.json exports
     'index': 'src/index.ts',
+    'index.node': 'src/index.node.ts',
     'config/index': 'src/config/index.ts',
     'config/types': 'src/config/types.ts',
     'config/defaults': 'src/config/defaults.ts',
@@ -12,6 +12,7 @@ export default defineConfig({
     'generators/index': 'src/generators/index.ts',
     'generators/types': 'src/generators/types.ts',
     'generators/cli': 'src/generators/cli.ts',
+    'translations/index': 'src/translations/index.ts',
   },
   outDir: './dist',
   clean: true,
@@ -21,4 +22,8 @@ export default defineConfig({
   splitting: false,
   treeshake: true,
   publicDir: false,
-} satisfies Options);
+  // Copy JSON files to dist
+  loader: {
+    '.json': 'copy',
+  },
+});

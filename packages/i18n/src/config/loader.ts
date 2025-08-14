@@ -1,5 +1,3 @@
-import { readFileSync } from 'fs';
-import { join } from 'path';
 import type { I18nConfig } from './types';
 import { DEFAULT_CONFIG } from './defaults';
 

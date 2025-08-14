@@ -1,12 +1,11 @@
 // import 'packages/globals/src';
 import '@workspace/core';
-import './i18n.config';
 import './index.css';
 import './styles/icons/icons.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import i18n from 'src/i18n.config';
+import i18n from './i18n.config.ts';
 
 import { I18nextProvider } from 'react-i18next';
 import App from './App';

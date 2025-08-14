@@ -57,7 +57,6 @@
     "db.migrations.run": "tsx src/db/utils/migrate.ts",
     "db.views.create": "tsx src/db/utils/create-view.ts all",
     "db.views.create.single": "tsx src/db/utils/create-view.ts",
-    "db.views.test": "tsx src/db/utils/test-view.ts",
     "·········· DB.STUDIO": "·················································",
     "db.studio": "drizzle-kit studio",
     "·········· UTILS": "·····················································",
@@ -95,11 +94,11 @@
     "pino-pretty": "13.0.0",
     "stoker": "1.4.2",
     "uuid": "11.0.3",
-    "zod": "^3.21.4"
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@finografic/eslint-config": "9.0.8",
-    "@finografic/project-scripts": "4.4.1",
+    "@finografic/project-scripts": "4.5.0",
     "@fullhuman/postcss-purgecss": "7.0.2",
     "@tanstack/eslint-plugin-query": "5.73.3",
     "@types/better-sqlite3": "^7.6.13",

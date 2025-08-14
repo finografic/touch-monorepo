@@ -6,13 +6,14 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "@workspace/scripts#build": {
+      "cache": false,
+      "outputs": []
+    },
     "@workspace/core#build": {
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
-    "@workspace/scripts#build": {
-      "dependsOn": ["@workspace/core#build"],
-      "outputs": ["dist/**", "bin/**", "*.tsbuildinfo"]
-    },
+
     "@workspace/i18n#build": {
       "dependsOn": ["@workspace/core#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]

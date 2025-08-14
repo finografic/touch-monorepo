@@ -84,7 +84,7 @@
     "stoker": "^1.0.0"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "4.4.1",
+    "@finografic/project-scripts": "4.5.0",
     "@types/eslint": "9.6.1",
     "@types/lodash": "4.17.13",
     "@types/node": "20.15.0",
@@ -95,7 +95,7 @@
     "tsx": "4.19.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "8.18.2",
-    "zod": "^3.21.4"
+    "zod": "^3.25.76"
   },
   "peerDependencies": {
     "typescript": "^5.8.3",

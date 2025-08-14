@@ -5,6 +5,14 @@
   "private": true,
   "exports": {
     ".": {
+      "browser": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      },
+      "node": {
+        "types": "./dist/index.node.d.ts",
+        "import": "./dist/index.node.js"
+      },
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
@@ -12,17 +20,29 @@
       "types": "./dist/config/types.d.ts",
       "import": "./dist/config/index.js"
     },
-    "./config/*": {
-      "types": "./dist/config/*.d.ts",
-      "import": "./dist/config/*.js"
+    "./config/types": {
+      "types": "./dist/config/types.d.ts",
+      "import": "./dist/config/types.js"
+    },
+    "./config/defaults": {
+      "types": "./dist/config/defaults.d.ts",
+      "import": "./dist/config/defaults.js"
+    },
+    "./config/loader": {
+      "types": "./dist/config/loader.d.ts",
+      "import": "./dist/config/loader.js"
     },
     "./generators": {
       "types": "./dist/generators/index.d.ts",
       "import": "./dist/generators/index.js"
     },
-    "./generators/*": {
-      "types": "./dist/generators/*.d.ts",
-      "import": "./dist/generators/*.js"
+    "./generators/types": {
+      "types": "./dist/generators/types.d.ts",
+      "import": "./dist/generators/types.js"
+    },
+    "./generators/cli": {
+      "types": "./dist/generators/cli.d.ts",
+      "import": "./dist/generators/cli.js"
     }
   },
   "scripts": {
@@ -58,7 +78,7 @@
     "react-i18next": "15.4.0"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "4.4.1",
+    "@finografic/project-scripts": "4.5.0",
     "@microsoft/api-extractor": "^7.49.1",
     "@types/node": "22.17.1",
     "shx": "0.3.4",

@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Callout, Card, Flex, Heading, IconButton } from '@radix-ui/themes';
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { TrashIcon } from 'styles/icons';
-import type { LanguageInfo } from '@workspace/i18n/config';
+import type { LanguageInfo } from '@workspace/i18n/types';
 import clsx from 'clsx';
 import { LanguageItem } from './LanguageItem';
 

@@ -8,14 +8,12 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      "@workspace/core/*": ["../../packages/core/src/*"],
-      "@workspace/core": ["../../packages/core/src"],
+      // Local package absolute imports
       "config": ["./src/config"],
       "config/*": ["./src/config/*"],
       "constants/*": ["./src/constants/*"],
       "db": ["./src/db"],
       "db/*": ["./src/db/*"],
-      "drizzle.config": ["../../drizzle.config"],
       "env": ["./src/env"],
       "i18n/*": ["./src/i18n/*"],
       "lib/*": ["./src/lib/*"],
@@ -26,7 +24,9 @@
       "schemas/*": ["./src/schemas/*"],
       "types": ["./src/types"],
       "types/*": ["./src/types/*"],
-      "utils/*": ["./src/utils/*"]
+      "utils/*": ["./src/utils/*"],
+      // Monorepo root references
+      "drizzle.config": ["../../drizzle.config"]
     },
     "allowJs": true,
     /* Linting */

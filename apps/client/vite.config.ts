@@ -68,7 +68,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       alias: {
         '@workspace/core/types': resolve(workspaceRoot, 'packages/core/src/types'),
         '@workspace/core/types/utils': resolve(workspaceRoot, 'packages/core/src/types/utils'),
-        '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src'),
+        '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src/index.ts'),
+        '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators'),
       },
     },
     build: {
@@ -79,9 +80,18 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       minify: 'esbuild', // Use esbuild for faster minification
       sourcemap: false, // Disable sourcemaps in production to save memory
       manifest: true,
-      target: 'modules',
+      target: 'es2020',
       chunkSizeWarningLimit: 1000, // Increase chunk size warning limit
       rollupOptions: {
+        external: [
+          // Explicitly exclude Node.js modules from browser builds
+          'node:fs',
+          'node:path',
+          'fs',
+          'path',
+          'node:os',
+          'os',
+        ],
         output: {
           format: 'es',
           manualChunks(id) {
