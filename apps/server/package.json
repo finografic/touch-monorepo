@@ -99,7 +99,7 @@
   },
   "devDependencies": {
     "@finografic/eslint-config": "9.0.8",
-    "@finografic/project-scripts": "3.7.0",
+    "@finografic/project-scripts": "4.4.1",
     "@fullhuman/postcss-purgecss": "7.0.2",
     "@tanstack/eslint-plugin-query": "5.73.3",
     "@types/better-sqlite3": "^7.6.13",

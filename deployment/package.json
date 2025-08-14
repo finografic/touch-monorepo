@@ -1,7 +1,7 @@
 {
-  "name": "touch-monorepo-production",
+  "name": "my-monorepo-app",
   "version": "1.0.0",
-  "description": "Touch Monorepo Production Distribution",
+  "description": "Monorepo Application Production Distribution",
   "private": true,
   "type": "module",
   "scripts": {

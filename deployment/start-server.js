@@ -102,9 +102,4 @@ process.on('SIGINT', () => {
   server.kill('SIGINT');
 });
 
-console.log('');
-console.log('🌟 Touch Monorepo Server is running!');
-console.log('🌐 Server: http://localhost:4040');
-console.log('🎨 To serve the client, run: node start-client.js');
-console.log('');
-console.log('Press Ctrl+C to stop');
+// Server startup output removed to avoid duplication when running with client

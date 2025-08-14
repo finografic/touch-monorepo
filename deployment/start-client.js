@@ -159,12 +159,13 @@ const server = http.createServer((req, res) => {
 
 // Start server
 server.listen(PORT, () => {
-  console.log('✅ Client server started successfully!');
-  console.log('🌐 Client: http://localhost:' + PORT);
-  console.log('🔗 API: http://localhost:' + API_PORT);
-  console.log('🎨 Touch Monorepo Client is now available');
-  console.log('');
-  console.log('Press Ctrl+C to stop');
+  console.log('\n  🚀 Touch Monorepo Client ready!');
+  console.log('  ✨ Server started successfully\n');
+  console.log('  \x1b[33mTip:\x1b[0m Click the Local URL below to open in your browser');
+  console.log('      Press Ctrl+C to stop\n');
+  console.log('  \x1b[1mAvailable URLs:\x1b[0m');
+  console.log('  \x1b[37mclient:\x1b[0m \x1b[36mhttp://localhost:' + PORT + '\x1b[0m');
+  console.log('  \x1b[37mAPI:\x1b[0m \x1b[36mhttp://localhost:' + API_PORT + '\x1b[0m\n');
 });
 
 // Graceful shutdown
