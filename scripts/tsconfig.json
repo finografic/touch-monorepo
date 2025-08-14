@@ -9,5 +9,5 @@
     "esModuleInterop": true,
     "skipLibCheck": true
   },
-  "include": ["src", "./db-setup.config.ts", "declarations.d.ts"]
+  "include": ["src", "declarations.d.ts"]
 }
