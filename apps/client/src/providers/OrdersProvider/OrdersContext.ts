@@ -184,7 +184,13 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           fetchOrdersReadable: async () => {
             try {
               const response = await api.get<{ data: OrderReadableModel[] }>('/orders-readable');
-              const readableOrders = response.data.data || response.data;
+              // const readableOrders = response.data.data || response.data;
+              // NEW: Ensure we always get an array, handling both response formats
+              const readableOrders = Array.isArray(response.data.data)
+                ? response.data.data
+                : Array.isArray(response.data)
+                  ? response.data
+                  : [];
               set({ ordersReadable: readableOrders });
             } catch (error) {
               console.error('Failed to fetch orders readable data:', error);
