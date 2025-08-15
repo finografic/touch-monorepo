@@ -37,14 +37,14 @@ export const AdminPage: React.FC = () => {
       path: '/admin/languages',
       color: 'green' as const,
     },
-    {
-      id: 'system',
-      title: 'System Settings',
-      description: 'Configure system-wide settings and preferences',
-      icon: <GearIcon width="32" height="32" />,
-      path: '/admin/system',
-      color: 'orange' as const,
-    },
+    // {
+    //   id: 'system',
+    //   title: 'System Settings',
+    //   description: 'Configure system-wide settings and preferences',
+    //   icon: <GearIcon width="32" height="32" />,
+    //   path: '/admin/system',
+    //   color: 'orange' as const,
+    // },
     {
       id: 'filter-analysis',
       title: 'Filter Analysis',
@@ -67,7 +67,8 @@ export const AdminPage: React.FC = () => {
       description: 'Configure MainPage grid layout and slot types',
       icon: <GearIcon width="32" height="32" />,
       path: '/admin/slot-config',
-      color: 'amber' as const,
+      color: 'orange' as const,
+      // color: 'amber' as const,
     },
     // {
     //   id: 'database',
