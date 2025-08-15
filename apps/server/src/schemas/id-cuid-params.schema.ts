@@ -1,4 +1,4 @@
-import cuid from '@bugsnag/cuid';
+import { isCuid } from '@bugsnag/cuid';
 import { z } from '@hono/zod-openapi';
 
 export const IdCuidParamsSchema = z.object({
@@ -8,7 +8,7 @@ export const IdCuidParamsSchema = z.object({
       description: 'Resource identifier (CUID)',
       example: 'clh8k6w3f0003mp5hf1qdqn8q',
     })
-    .refine((val) => cuid.isCuid(val), {
+    .refine((val) => isCuid(val), {
       message: 'Invalid ID format - must be a valid CUID',
     }),
 });

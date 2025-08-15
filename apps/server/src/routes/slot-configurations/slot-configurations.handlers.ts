@@ -11,7 +11,7 @@ import type {
 import { db } from 'db';
 import { slot_configurations } from 'db/schemas';
 import { eq } from 'drizzle-orm';
-import createCuid from '@bugsnag/cuid';
+import { default as createCuid } from '@bugsnag/cuid';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 

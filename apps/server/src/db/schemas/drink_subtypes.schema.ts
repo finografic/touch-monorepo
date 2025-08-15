@@ -1,4 +1,4 @@
-import createCuid from '@bugsnag/cuid';
+import { default as createCuid } from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { drink_types } from './drink_types.schema';

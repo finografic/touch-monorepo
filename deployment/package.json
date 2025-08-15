@@ -10,7 +10,7 @@
     "start:client": "node start-client.js"
   },
   "dependencies": {
-    "@bugsnag/cuid": "3.1.1",
+    "@bugsnag/cuid": "3.2.1",
     "@dotenvx/dotenvx": "1.31.3",
     "@hono/node-server": "1.13.5",
     "@hono/zod-openapi": "^0.18.4",
