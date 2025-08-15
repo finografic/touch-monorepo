@@ -17,12 +17,11 @@ export default function configureOpenAPI(app: AppOpenAPI) {
       theme: 'kepler',
       layout: 'classic',
       defaultHttpClient: {
-        targetKey: 'javascript',
+        targetKey: 'js',
         clientKey: 'fetch',
       },
-      spec: {
-        url: '/doc',
-      },
+      // The spec property has been removed in newer versions
+      // The API reference will automatically use the OpenAPI spec from /doc
     }),
   );
 }
