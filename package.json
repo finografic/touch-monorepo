@@ -83,7 +83,7 @@
     "verify.deps": "pnpm -r exec pnpm install --no-frozen-lockfile"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "1.31.3",
+    "@dotenvx/dotenvx": "1.48.4",
     "@hono/zod-openapi": "^0.18.4",
     "@inquirer/prompts": "7.1.0",
     "@workspace/core": "workspace:*",

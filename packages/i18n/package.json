@@ -71,7 +71,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "1.31.3",
+    "@dotenvx/dotenvx": "1.48.4",
     "date-fns": "4.1.0",
     "i18next": "24.2.0",
     "i18next-browser-languagedetector": "8.0.2",
