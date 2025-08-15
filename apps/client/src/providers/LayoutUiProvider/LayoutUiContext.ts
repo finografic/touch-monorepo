@@ -1,4 +1,5 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
+import { useShallow } from 'zustand/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import type { PadConfig, PadType, PadUI } from 'types/ui.types';
@@ -170,12 +171,11 @@ export const useLayoutUi = (): LayoutUiReturn => {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  store.subscribe((_state, _prev) => {
-    // store change
-  });
-
-  return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(store, ({ actions, ...state }) => ({
-    ...state,
-    ...actions,
-  }));
+  return useStore<StoreApi<LayoutUiStore>, LayoutUiReturn>(
+    store,
+    useShallow(({ actions, ...state }) => ({
+      ...state,
+      ...actions,
+    })),
+  );
 };

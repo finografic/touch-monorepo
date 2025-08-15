@@ -1,4 +1,5 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
+import { useShallow } from 'zustand/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { DevStore, DevValues } from './DevContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
@@ -47,12 +48,11 @@ export const useDev = (): DevReturn => {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  store.subscribe((_state, _prev) => {
-    // store change
-  });
-
-  return useStore<StoreApi<DevStore>, DevReturn>(store, ({ actions, ...state }) => ({
-    ...state,
-    ...actions,
-  }));
+  return useStore<StoreApi<DevStore>, DevReturn>(
+    store,
+    useShallow(({ actions, ...state }) => ({
+      ...state,
+      ...actions,
+    })),
+  );
 };

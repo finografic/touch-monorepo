@@ -1,4 +1,5 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
+import { useShallow } from 'zustand/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { PaginationStore, PaginationValues } from './PaginationContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
@@ -52,12 +53,11 @@ export const usePagination = (): PaginationReturn => {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  store.subscribe((_state, _prev) => {
-    // log('__STORE_CHANGE Event', 'grey', 'grey', { _state, _prev });
-  });
-
-  return useStore<StoreApi<PaginationStore>, PaginationReturn>(store, ({ actions, ...state }) => ({
-    ...state,
-    ...actions,
-  }));
+  return useStore<StoreApi<PaginationStore>, PaginationReturn>(
+    store,
+    useShallow(({ actions, ...state }) => ({
+      ...state,
+      ...actions,
+    })),
+  );
 };

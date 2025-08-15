@@ -22,18 +22,6 @@ export const createZustandContext = <TInitial extends object, TStore extends Sto
     Context,
     Provider,
     useContext: () => React.useContext(Context),
-    subscribe: (listener: (state: any) => void) => {
-      const store = React.useContext(Context);
-      if (!store) {
-        throw new Error('Store cannot be null when subscribing to changes.');
-      }
-      useEffect(() => {
-        const unsubscribe = store.subscribe(listener);
-        return unsubscribe;
-      }, [store]);
-
-      return store;
-    },
   };
 };
 

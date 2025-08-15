@@ -1,4 +1,5 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
+import { useShallow } from 'zustand/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { TimerItem, TimersStore, TimersValues } from './TimerContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
@@ -127,14 +128,13 @@ export const useTimers = (): TimersReturn => {
     throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  store.subscribe((_state: any, _prev: any) => {
-    // store change
-  });
-
-  return useStore<StoreApi<TimersStore>, TimersReturn>(store, ({ actions, ...state }) => ({
-    ...state,
-    ...actions,
-  }));
+  return useStore<StoreApi<TimersStore>, TimersReturn>(
+    store,
+    useShallow(({ actions, ...state }) => ({
+      ...state,
+      ...actions,
+    })),
+  );
 };
 
 export const useTimersOptional = (): TimersReturn | null => {

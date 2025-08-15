@@ -1,4 +1,5 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
+import { useShallow } from 'zustand/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { ConfigurationSession, SessionStore, SessionValues } from './SessionContext.types';
 import type { OrderFilters } from 'types/filters.types';
@@ -139,8 +140,11 @@ export const useSession = (): SessionReturn => {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  return useStore<StoreApi<SessionStore>, SessionReturn>(store, ({ actions, ...state }) => ({
-    ...state,
-    ...actions,
-  }));
+  return useStore<StoreApi<SessionStore>, SessionReturn>(
+    store,
+    useShallow(({ actions, ...state }) => ({
+      ...state,
+      ...actions,
+    })),
+  );
 };

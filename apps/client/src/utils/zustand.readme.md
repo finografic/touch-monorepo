@@ -4,6 +4,8 @@ A lightweight, type-safe utility for creating Zustand stores with React Context 
 
 Inspired by patterns from Matt Pocock's TypeScript work, this utility abstracts and enhances the integration between Zustand and React Context, providing a clean, maintainable pattern for state management in React applications.
 
+> **⚠️ Zustand v5 Compatibility Notice**: This utility has been updated to work with Zustand v5. See the [Zustand v5 Migration](#zustand-v5-migration) section for important changes and best practices.
+
 ## Features
 
 - 🚀 **Quick Setup** - Create fully typed stores with minimal boilerplate
@@ -178,6 +180,102 @@ export const TodoContext = createStore({
   }
 });
 ```
+
+## Zustand v5 Migration
+
+This utility has been updated to work with Zustand v5. Here are the key changes and migration notes:
+
+### Breaking Changes in v5
+
+1. **Object Destructuring in Selectors**: Zustand v5 is more strict about object equality, which can cause infinite re-renders when using object destructuring in selectors.
+
+2. **Store Subscriptions**: Direct `store.subscribe()` calls in React hooks cause infinite loops in v5.
+
+### Required Changes
+
+#### 1. Use `useShallow` for Object Selectors
+
+**Before (v4 - causes infinite loops in v5):**
+
+```typescript
+return useStore(store, ({ actions, ...state }) => ({
+  ...state,
+  ...actions,
+}));
+```
+
+**After (v5 compatible):**
+
+```typescript
+import { useShallow } from 'zustand/shallow';
+
+return useStore(
+  store,
+  useShallow(({ actions, ...state }) => ({
+    ...state,
+    ...actions,
+  })),
+);
+```
+
+#### 2. Move Subscriptions to useEffect
+
+**Before (v4 - causes infinite loops in v5):**
+
+```typescript
+export const useMyStore = () => {
+  const store = MyContext.useContext();
+
+  store.subscribe((state) => {
+    // subscription logic
+  });
+
+  return useStore(store, selector);
+};
+```
+
+**After (v5 compatible):**
+
+```typescript
+import { useEffect } from 'react';
+
+export const useMyStore = () => {
+  const store = MyContext.useContext();
+
+  useEffect(() => {
+    const unsubscribe = store.subscribe((state) => {
+      // subscription logic
+    });
+    return unsubscribe;
+  }, [store]);
+
+  return useStore(store, selector);
+};
+```
+
+#### 3. Remove Unused Subscribe Methods
+
+The `subscribe` method in `createZustandContext` has been removed as it contained anti-patterns that cause issues in v5.
+
+### Best Practices for v5
+
+1. **Always use `useShallow`** when returning objects from selectors
+2. **Move all subscriptions** to `useEffect` hooks with proper cleanup
+3. **Avoid object destructuring** in selectors unless wrapped with `useShallow`
+4. **Test thoroughly** after upgrading to ensure no infinite loops occur
+
+### Error Debugging
+
+If you see errors like:
+
+```
+Uncaught Error: Maximum update depth exceeded. This can happen when a component repeatedly calls setState inside componentWillUpdate or componentDidUpdate.
+```
+
+This usually means:
+1. You need to add `useShallow` to a selector that returns an object
+2. You have a `store.subscribe()` call outside of `useEffect`
+3. You're creating new objects in selectors without proper memoization
 
 ## Contributing
 
