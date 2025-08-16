@@ -22,7 +22,7 @@ export interface OrderBaseProps {
   process: OrderProcessingProps;
 }
 
-export type OrderStatus = 'idle' | 'processing' | 'completed' | 'error';
+export type OrderStatus = 'idle' | 'processing' | 'completed' | 'error' | 'pending';
 
 export interface OrderProcessingProps {
   status: OrderStatus;

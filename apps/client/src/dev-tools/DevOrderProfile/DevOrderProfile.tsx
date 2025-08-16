@@ -26,6 +26,9 @@ export const DevOrderProfile = () => {
   const { profile } = useOrders();
   const { filters } = useFilters({});
 
+  log('===== profile =====', 'cyan', profile);
+  log('===== profile - timeRows =====', 'magenta', profile?.timeRows);
+
   return (
     <div id="dev-filter-results" css={styles}>
       <div className="filters">

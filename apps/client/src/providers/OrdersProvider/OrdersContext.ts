@@ -69,9 +69,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                   }
                 }
 
-                // Add/update ids property: all current order ids
-                const allIds = orders.map((o) => o.id);
-                return { ...order, filters: orderedFilters, ids: allIds };
+                return { ...order, filters: orderedFilters };
               }
               return order;
             });
@@ -124,9 +122,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 },
               ];
               const sortedOrders = [...newOrders].sort((a, b) => a.itemNumber - b.itemNumber);
-              // Set ids property for all orders
-              const allIds = sortedOrders.map((o) => o.id);
-              set({ orders: sortedOrders.map((o) => ({ ...o, ids: allIds })) });
+              set({ orders: sortedOrders });
             } else {
               // Toggle isSelected for existing order instead of removing it
               const updatedOrders = orders.map((order) => {
@@ -135,9 +131,8 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 }
                 return order;
               });
-              // Set ids property for all orders
-              const allIds = updatedOrders.map((o) => o.id);
-              set({ orders: updatedOrders.map((o) => ({ ...o, ids: allIds })) });
+
+              set({ orders: updatedOrders });
             }
           },
           selectAllOrders: (config: OrderItemConfig[] = ORDER_ITEMS_CONFIG) => {
@@ -149,17 +144,15 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               itemNumber: number,
               isSelected: true,
             }));
-            // Set ids property for all orders
-            const allIds = newOrders.map((o) => o.id);
-            set({ orders: newOrders.map((o) => ({ ...o, ids: allIds })) });
+            set({ orders: newOrders });
           },
           updateOrderIds: ({ ids }: { ids: string[] }) => {
             const { orders } = get();
 
             const updatedOrders =
               ids.length > 0
-                ? orders.map((order) => ({ ...order, ids, id: ids[0] }))
-                : orders.map((order) => ({ ...order, ids }));
+                ? orders.map((order) => ({ ...order, id: ids[0] })) // set "id" of order entry (first, if series)
+                : orders.map((order) => ({ ...order }));
 
             set({ orders: updatedOrders });
           },

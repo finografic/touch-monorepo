@@ -12,7 +12,6 @@ export const MockOrdersButton = () => {
   const navigate = useNavigate();
   const ordersContext = useOrdersOptional();
   const { createSession, assignOrdersToSession, updateSessionFilters } = useSession();
-  const { ordersReadable } = useOrdersOptional();
   const { setPageCurrent } = usePagination();
 
   const handleMockData = useCallback(() => {
@@ -20,36 +19,17 @@ export const MockOrdersButton = () => {
 
     // Create session and extract mock data
     const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
-
-    // 🎯 OPTION 2: Find REAL database entry that matches mock filters
-    const mockFilters = MOCK_ORDERS_DATA[0].filters;
-    const realDbEntry = ordersReadable.find(
-      (order) =>
-        order.drinkType === mockFilters.drinkType.name &&
-        order.drinkSubtype === mockFilters.drinkSubtype.name &&
-        order.volume === mockFilters.drinkVolume.name &&
-        order.containerType === mockFilters.containerType.name,
-    );
-
-    // �� This should ALWAYS find a match (300+ entries available)
-    if (!realDbEntry) {
-      // This should never happen, but if it does, it's a critical error
-      console.error('🔴 CRITICAL: No matching database entry found! This should never happen!');
-      console.log('🔍 Mock filters:', mockFilters);
-      console.log('🔍 Available entries count:', ordersReadable.length);
-      console.log('🔍 Sample entries:', ordersReadable.slice(0, 3));
-      throw new Error('Mock data cannot find matching database entry - check database seeding!');
-    }
-
-    console.log('🔧 MOCK: Found matching database entry:', realDbEntry.id);
-
-    // 🎯 Update mock data with REAL database ID and session
     const updatedMockData = MOCK_ORDERS_DATA.map((order) => ({
       ...order,
-      id: realDbEntry.id, // ← Use REAL database ID instead of hardcoded one
       session: {
         id: sessionId,
         flowType: FLOW_TYPES.PROGRAM_PRODUCT,
+      },
+      // 🎯 ADD process data so timers will appear after submit
+      process: {
+        status: 'pending' as const, // Use a valid OrderStatus value
+        estimatedCompletionTime: new Date(Date.now() + 60000).toISOString(),
+        timeRemaining: 60,
       },
     }));
 
@@ -68,6 +48,7 @@ export const MockOrdersButton = () => {
 
       // Update session filters after navigation
       setTimeout(async () => {
+        const mockFilters = MOCK_ORDERS_DATA[0].filters;
         const sessionFilters = {
           drinkType: mockFilters.drinkType,
           drinkSubtype: mockFilters.drinkSubtype,
@@ -78,15 +59,7 @@ export const MockOrdersButton = () => {
         updateSessionFilters(sessionId, sessionFilters);
       }, 500);
     });
-  }, [
-    navigate,
-    ordersContext,
-    setPageCurrent,
-    createSession,
-    assignOrdersToSession,
-    updateSessionFilters,
-    ordersReadable,
-  ]);
+  }, [navigate, ordersContext, setPageCurrent, createSession, assignOrdersToSession, updateSessionFilters]);
 
   if (!ordersContext) return null;
 

@@ -5,3 +5,5 @@
 sounds/*
 !sounds/.gitignore
 !sounds/_settings.json
+!sounds/sound--ding-1755329273694-tp6a.mp3
+!sounds/sound--dong-1755329273765-t0nv.mp3

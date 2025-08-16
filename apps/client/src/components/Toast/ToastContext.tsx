@@ -11,10 +11,10 @@ const DEFAULT_MESSAGES = {
 } as const;
 
 const DEFAULT_DURATIONS = {
-  success: 4000,
-  error: 6000,
-  warning: 5000,
-  info: 4000,
+  success: 1500,
+  error: 3000,
+  warning: 3000,
+  info: 1500,
 } as const;
 
 export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {

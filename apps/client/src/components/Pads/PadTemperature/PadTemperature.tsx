@@ -20,12 +20,12 @@ export const PadTemperature: FC<TemperatureInputProps> = ({
   name,
   value,
   onChange,
-  defaultValue = 20,
+  defaultValue = 25,
   label,
   description,
   step = 0.5,
   min = -10,
-  max = 40,
+  max = 30,
 }) => {
   // Initialize with either existing value or default
   const [temperature, setTemperature] = useState<number>(value ?? defaultValue);

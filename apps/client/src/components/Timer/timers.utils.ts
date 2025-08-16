@@ -24,7 +24,7 @@ export const formatTime = (seconds: number | undefined): string => {
 };
 
 // Play the configured tick sound from API with fallback
-export async function makeTickSound() {
+export async function playTickSound() {
   try {
     const settings = await getCachedSettings();
     if (settings.tick) {
@@ -42,7 +42,7 @@ export async function makeTickSound() {
 }
 
 // Play the configured finish sound from API with fallback
-export async function makeFinishSound() {
+export async function playFinishSound() {
   try {
     const settings = await getCachedSettings();
     if (settings.finish) {
@@ -61,18 +61,18 @@ export async function makeFinishSound() {
 
 // Legacy functions for backward compatibility
 export function makeDefaultSound() {
-  makeTickSound().catch(() => {
+  playTickSound().catch(() => {
     // Silent fallback
   });
 }
 
 export function makeUserSound(key: 'tick' | 'finish') {
   if (key === 'tick') {
-    makeTickSound().catch(() => {
+    playTickSound().catch(() => {
       // Silent fallback
     });
   } else if (key === 'finish') {
-    makeFinishSound().catch(() => {
+    playFinishSound().catch(() => {
       // Silent fallback
     });
   }
@@ -83,16 +83,23 @@ export function tickAction({
   elapsed,
   remaining,
   orderId,
+  eventNumber,
 }: {
   elapsed: number;
   remaining: number;
   orderId: string | number;
+  eventNumber: number;
 }) {
-  log(`EVENT: ${elapsed}s elapsed, ${remaining}s remaining (order ${orderId})`, 'grey');
-  // Play configured tick sound
-  makeTickSound().catch(() => {
-    // Silent fallback
-  });
+  // log(`EVENT: ${elapsed}s elapsed, ${remaining}s remaining (order ${orderId})`, 'grey');
+
+  // Only play sound every EVENT_INTERVAL (when eventNumber changes)
+  // This prevents playing sound every second while still logging every second
+  if (eventNumber > 0 && remaining % EVENT_INTERVAL === 0) {
+    // log('timer: ding!', 'hotpink', { elapsed, remaining, orderId });
+    playTickSound().catch(() => {
+      // Silent fallback
+    });
+  }
 }
 
 // Example finish action (can be customized)
@@ -105,8 +112,8 @@ export function finishAction({
   remaining: number;
   orderId: string | number;
 }) {
-  log('EVENT: TIMER FINISHED', 'grey', { elapsed, remaining, orderId });
-  makeFinishSound().catch(() => {
+  log('timer: FINISHED.', 'orange', { elapsed, remaining, orderId });
+  playFinishSound().catch(() => {
     // Silent fallback
   });
 }

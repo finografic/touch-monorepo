@@ -55,13 +55,13 @@ export const TimerV2 = ({ slotNumber, onComplete }: TimerV2Props) => {
   };
 
   useEffect(() => {
-    console.debug('TimerV2: useEffect triggered', {
-      slotNumber,
-      timerId: timer?.id,
-      timerStatus: timer?.status,
-    });
+    // console.debug('TimerV2: useEffect triggered', {
+    //   slotNumber,
+    //   timerId: timer?.id,
+    //   timerStatus: timer?.status,
+    // });
     if (!timer || timer.status !== 'processing') {
-      console.debug('TimerV2: no active timer, skipping', { slotNumber });
+      // console.debug('TimerV2: no active timer, skipping', { slotNumber });
       setRemainingTime(0);
       return;
     }
@@ -70,12 +70,12 @@ export const TimerV2 = ({ slotNumber, onComplete }: TimerV2Props) => {
     const startTime = Date.now();
     const duration = Math.floor((endTime - startTime) / 1000);
 
-    console.debug('TimerV2: starting', {
-      slotNumber,
-      orderId: timer.orderId,
-      duration: `${duration}s`,
-      endTime: new Date(endTime).toISOString(),
-    });
+    // console.debug('TimerV2: starting', {
+    //   slotNumber,
+    //   orderId: timer.orderId,
+    //   duration: `${duration}s`,
+    //   endTime: new Date(endTime).toISOString(),
+    // });
 
     // Set initial remaining time
     setRemainingTime(Math.max(0, duration));
@@ -103,7 +103,7 @@ export const TimerV2 = ({ slotNumber, onComplete }: TimerV2Props) => {
       const { elapsed, eventNumber } = getElapsedAndEventNumber(timer.duration, remaining);
       if (eventNumber > lastEventFiredRef.current) {
         lastEventFiredRef.current = eventNumber;
-        tickAction({ elapsed, remaining, orderId: timer.orderId });
+        tickAction({ elapsed, remaining, orderId: timer.orderId, eventNumber });
       }
 
       if (remaining <= 0) {
@@ -120,7 +120,7 @@ export const TimerV2 = ({ slotNumber, onComplete }: TimerV2Props) => {
     intervalRef.current = intervalId;
 
     return () => {
-      console.debug('TimerV2: cleanup', { slotNumber });
+      // console.debug('TimerV2: cleanup', { slotNumber });
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = undefined;

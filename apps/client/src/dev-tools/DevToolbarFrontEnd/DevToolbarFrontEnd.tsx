@@ -40,7 +40,7 @@ export const DevToolbarFrontEnd = () => {
       <>
         <DevScreenSize />
         {isDevToolsVisible && <DevPanelLeft />}
-        {isDevToolsVisible && <DevPanelRight />}
+        {/* {isDevToolsVisible && <DevPanelRight />} */}
       </>
       <div css={styles}>
         <Flex gap="3" align="center">

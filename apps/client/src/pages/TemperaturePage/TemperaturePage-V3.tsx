@@ -6,6 +6,7 @@ import { useFilters } from 'hooks/useFilters';
 import { Box, Flex } from '@radix-ui/themes';
 import { stylesAppContent } from 'styles/custom/content.app.styles';
 import {
+  FINAL_TEMP_DEFAULT,
   FINAL_TEMP_MIN,
   INITIAL_TEMP_DEFAULT,
   INITIAL_TEMP_MAX,
@@ -39,22 +40,18 @@ const DESCRIPTIONS = {
 } as const;
 
 export const TemperaturePage = () => {
-  // ======================================================================== //
-  const ORDERS_CONTEXT = useOrders();
-  const SESSION_CONTEXT = useSession();
-  // ======================================================================== //
   const isInitializedRef = useRef(false);
-  const { orders, setOrdersFilter } = useOrders();
+  const { orders, setOrdersFilter, profile, setProfile } = useOrders();
   const { currentSessionId, updateSessionFilters } = useSession();
   const { dataFiltered, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
     [TemperatureKey.Initial]: INITIAL_TEMP_DEFAULT,
-    [TemperatureKey.Final]: INITIAL_TEMP_DEFAULT,
+    [TemperatureKey.Final]: FINAL_TEMP_DEFAULT,
   });
 
-  const { fieldKey } = useRouteConfig();
+  const { route, fieldKey, filterKey, loaderData } = useRouteConfig();
 
   // Get min and max allowed temperatures
   const {
@@ -74,6 +71,23 @@ export const TemperaturePage = () => {
   const isLoadingProfiles = temperatureProfilesQuery.isLoading;
   const isPendingProfiles = temperatureProfilesQuery.isPending;
   const profilesError = temperatureProfilesQuery.error;
+
+  // Update profile with temperature profiles when they're loaded
+  useEffect(() => {
+    if (profile && profiles.length > 0) {
+      // Add timeRows to the profile
+      const updatedProfile = {
+        ...profile,
+        timeRows: profiles.map((profile) => ({
+          temperature: profile.temperature,
+          timeA: profile.timeA,
+          timeB: profile.timeB,
+          timeC: profile.timeC,
+        })),
+      };
+      setProfile(updatedProfile);
+    }
+  }, [profiles, setProfile]); // Removed 'profile' from dependencies to prevent infinite loop
   // ======================================================================== //
 
   // Find the closest temperature profile for the current selection
@@ -87,26 +101,101 @@ export const TemperaturePage = () => {
     return findClosestProfile(profiles, temperatures.initial, temperatures.final);
   }, [profiles, temperatures.initial, temperatures.final]);
 
-  // Get default consumption temperature from filtered data
+  // Get default consumption and freeze temperature from profile
   const defaultTempConsume = useMemo(() => {
-    if (!dataFiltered?.length) return undefined;
-    return dataFiltered[0].defaultTempConsume;
-  }, [dataFiltered]);
-
-  // Get default freeze temperature from filtered data
+    return profile?.defaultTempConsume;
+  }, [profile]);
   const defaultTempFreeze = useMemo(() => {
-    if (!dataFiltered?.length) return 0;
-    return dataFiltered[0].defaultTempFreeze ?? 0;
-  }, [dataFiltered]);
+    return profile?.defaultTempFreeze;
+  }, [profile]);
+
+  /*
+  // Initialize temperatures with fallback values
+  useEffect(
+    function initTemperatures() {
+      log('__DEV: isInitializedRef.current', 'grey', { currentSessionId }, isInitializedRef.current);
+      if (!isInitializedRef.current && profile) {
+        // Use DB values if available, otherwise fallback
+        const initial = defaultTempConsume ?? INITIAL_TEMP_DEFAULT;
+        const final = defaultTempFreeze ?? 8;
+        const newTemperatures = { initial, final };
+        // setTemperatures(newTemperatures);
+
+        // Only update orders in the current session
+        const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
+
+        log('__DEV: ORDERS - orders', 'cyan', { currentSessionId }, orders);
+        log('__DEV: ORDERS - sessionOrders', 'lime', { currentSessionId }, sessionOrders);
+
+        for (const order of sessionOrders) {
+          const currentFilters = order.filters || {};
+          // Only update the temperature field, preserve all other filters
+          const lookup = { initial, final, name: `${initial}°C → ${final}°C` };
+          setOrdersFilter({
+            itemNumber: order.itemNumber,
+            filter: { ...currentFilters, [fieldKey]: { initial, final, lookup } },
+          });
+        }
+
+        // Also update session filters, but preserve all other filters
+        if (currentSessionId) {
+          // Get the current session filters (if any)
+          const prevSessionFilters = orders.find((o) => o.session?.id === currentSessionId)?.filters || {};
+          const sessionFilters = {
+            ...prevSessionFilters,
+            [fieldKey]: { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } },
+          };
+          updateSessionFilters(currentSessionId, sessionFilters);
+        }
+
+        // TODO: MOCK_DATA_FIX - Also update global filters so useTemperatureControl can find them
+        setFilter(fieldKey, { initial, final, lookup: { initial, final, name: `${initial}°C → ${final}°C` } });
+
+        isInitializedRef.current = true;
+      }
+    },
+    [
+      defaultTempConsume,
+      defaultTempFreeze,
+      profile,
+      setFilter,
+      orders,
+      fieldKey,
+      setOrdersFilter,
+      currentSessionId,
+      updateSessionFilters,
+    ],
+  );
+  */
 
   // Initialize temperatures with fallback values
   useEffect(
     function initTemperatures() {
       log('__DEV: isInitializedRef.current', 'grey', { currentSessionId }, isInitializedRef.current);
-      if (!isInitializedRef.current) {
-        const initial = INITIAL_TEMP_DEFAULT;
-        // Use defaultTempConsume if available, otherwise fallback to 8°C
-        const final = defaultTempConsume ?? 8;
+      if (!isInitializedRef.current && profile) {
+        // TODO: MOCK_DATA_FIX - Read existing temperatures from session filters first
+        let initial = INITIAL_TEMP_DEFAULT;
+        let final = profile.defaultTempConsume ?? FINAL_TEMP_DEFAULT;
+
+        // Check if we have existing temperature filters in the current session
+        if (currentSessionId) {
+          const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
+          if (sessionOrders.length > 0) {
+            const existingTempFilter = sessionOrders[0].filters?.[fieldKey];
+            if (
+              existingTempFilter &&
+              typeof existingTempFilter === 'object' &&
+              'initial' in existingTempFilter &&
+              'final' in existingTempFilter
+            ) {
+              // Use existing temperature values from session filters
+              initial = (existingTempFilter as any).initial ?? INITIAL_TEMP_DEFAULT;
+              final = (existingTempFilter as any).final ?? profile.defaultTempConsume ?? FINAL_TEMP_DEFAULT;
+              console.log('Using existing temperature values from session filters:', { initial, final });
+            }
+          }
+        }
+
         const newTemperatures = { initial, final };
         setTemperatures(newTemperatures);
 
@@ -137,7 +226,7 @@ export const TemperaturePage = () => {
           updateSessionFilters(currentSessionId, sessionFilters);
         }
 
-        // 🎯 CRITICAL: Also update global filters so useTemperatureControl can find them
+        // TODO: MOCK_DATA_FIX - Also update global filters so useTemperatureControl can find them
         setFilter(fieldKey, {
           initial,
           final,
@@ -150,6 +239,7 @@ export const TemperaturePage = () => {
     [
       defaultTempConsume,
       defaultTempFreeze,
+      profile,
       setFilter,
       orders,
       fieldKey,
@@ -203,7 +293,7 @@ export const TemperaturePage = () => {
         updateSessionFilters(currentSessionId, sessionFilters);
       }
 
-      // 🎯 CRITICAL: Also update global filters so useTemperatureControl can find them
+      // TODO: MOCK_DATA_FIX - Also update global filters so useTemperatureControl can find them
       setFilter(fieldKey, {
         initial: usedInitial,
         final: usedFinal,
@@ -304,8 +394,10 @@ export const TemperaturePage = () => {
               value={temperatures.initial}
               onChange={handleChange}
               label={DESCRIPTIONS.initial.label}
-              min={minProfileTemp}
-              max={minMaxTemperatures?.max ?? INITIAL_TEMP_MAX}
+              // min={minProfileTemp}
+              // max={minMaxTemperatures?.max ?? INITIAL_TEMP_MAX}
+              min={temperatures.final}
+              max={INITIAL_TEMP_MAX}
               step={0.5}
             />
           </Box>
@@ -315,7 +407,7 @@ export const TemperaturePage = () => {
               value={temperatures.final}
               onChange={handleChange}
               label={DESCRIPTIONS.final.label}
-              min={minMaxTemperatures?.min ?? FINAL_TEMP_MIN}
+              min={defaultTempFreeze ?? FINAL_TEMP_MIN}
               max={temperatures.initial - MIN_TEMP_DIFFERENCE}
               step={0.5}
             />
