@@ -5,7 +5,7 @@ import { pinoLoggerModuleOptions } from './pino-http.options';
 export function pinoLogger() {
   const isProduction = process.env.NODE_ENV === 'production';
 
-  // Create a custom destination for pretty output in development
+  // Create a custom destination for pretty output + JSON in development
   const prettyDestination = isProduction
     ? undefined
     : {
@@ -31,7 +31,7 @@ export function pinoLogger() {
             const reset = '\x1B[0m';
             const color = colors[level as keyof typeof colors] || '';
 
-            // Format the output
+            // Format the pretty output
             if (data.req) {
               // Request log
               const req = data.req;
@@ -44,6 +44,13 @@ export function pinoLogger() {
               // Regular log
               console.log(`${time} ${color}${level.toUpperCase()}${reset} ${msg}`);
             }
+
+            // Add a blank line for separation
+            console.log('');
+
+            // Output the JSON data (formatted, but we'll enhance this in next steps)
+            console.log(JSON.stringify(data, null, 2));
+            console.log(''); // Add another blank line for readability
           } catch (e) {
             // Fallback to raw output if parsing fails
             process.stdout.write(chunk);
