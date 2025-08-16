@@ -1,4 +1,4 @@
-import { isCuid } from '@bugsnag/cuid';
+import { isCuid } from 'utils/cuid-validation';
 import { z } from '@hono/zod-openapi';
 
 export const IdCuidParamsSchema = z.object({

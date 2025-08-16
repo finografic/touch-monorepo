@@ -1,5 +1,5 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
-import { useShallow } from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { ConfigurationSession, SessionStore, SessionValues } from './SessionContext.types';
 import type { OrderFilters } from 'types/filters.types';

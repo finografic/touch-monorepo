@@ -1,12 +1,14 @@
 import { pinoLogger as logger } from 'hono-pino';
+import { TIME_FORMAT } from 'i18n/datetime';
 import pino from 'pino';
 import { pinoLoggerModuleOptions } from './pino-http.options';
+import { streams } from './pino.streams';
 
 export function pinoLogger() {
   const isProduction = process.env.NODE_ENV === 'production';
 
-  // Create a custom destination for pretty output + JSON in development
-  const prettyDestination = isProduction
+  // Create a custom destination for clean, focused output in development
+  const cleanDestination = isProduction
     ? undefined
     : {
         write: (chunk: any) => {
@@ -16,7 +18,7 @@ export function pinoLogger() {
             // Extract key information
             const level = data.level || 'info';
             const time = data.time
-              ? `[${new Date(Number.parseInt(data.time, 10)).toLocaleTimeString('en-US', { hour12: false })}]`
+              ? new Date(Number.parseInt(data.time, 10)).toLocaleTimeString('en-US', { hour12: false })
               : '';
             const msg = data.msg || '';
 
@@ -31,26 +33,17 @@ export function pinoLogger() {
             const reset = '\x1B[0m';
             const color = colors[level as keyof typeof colors] || '';
 
-            // Format the pretty output
+            // Format the output like your previous logger
             if (data.req) {
-              // Request log
-              const req = data.req;
-              console.log(`${time} ${color}${level.toUpperCase()}${reset} ${msg}`);
-              console.log(`  ${req.method} ${req.url}`);
-              if (data.responseTime) {
-                console.log(`  Response time: ${data.responseTime}ms`);
-              }
+              // Request log - clean format
+              console.log(`${color}${level.toUpperCase()}${reset} [${time}]: ${color}${msg}${reset}`);
+              console.log(`responseTime: ${color}${data.responseTime || 0}ms${reset}`);
+              console.log(`\nres: ${JSON.stringify(data.res || {})}`);
+              console.log('stdout.req:', data.req);
             } else {
               // Regular log
-              console.log(`${time} ${color}${level.toUpperCase()}${reset} ${msg}`);
+              console.log(`${color}${level.toUpperCase()}${reset} [${time}]: ${color}${msg}${reset}`);
             }
-
-            // Add a blank line for separation
-            console.log('');
-
-            // Output the JSON data (formatted, but we'll enhance this in next steps)
-            console.log(JSON.stringify(data, null, 2));
-            console.log(''); // Add another blank line for readability
           } catch (e) {
             // Fallback to raw output if parsing fails
             process.stdout.write(chunk);
@@ -81,8 +74,8 @@ export function pinoLogger() {
         },
         formatters: pinoLoggerModuleOptions.pinoHttp.formatters,
       },
-      // Use custom pretty destination for development
-      prettyDestination,
+      // Use custom clean destination for development
+      cleanDestination,
     ),
     http: {
       ...pinoLoggerModuleOptions.pinoHttp,

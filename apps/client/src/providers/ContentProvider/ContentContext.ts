@@ -1,5 +1,5 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
-import { useShallow } from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { ContentStore, ContentValues } from './ContentContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';

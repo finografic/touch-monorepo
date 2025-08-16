@@ -207,7 +207,7 @@ return useStore(store, ({ actions, ...state }) => ({
 **After (v5 compatible):**
 
 ```typescript
-import { useShallow } from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 
 return useStore(
   store,

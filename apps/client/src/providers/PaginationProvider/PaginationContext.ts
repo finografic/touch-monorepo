@@ -1,5 +1,5 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
-import { useShallow } from 'zustand/shallow';
+import { useShallow } from 'zustand/react/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { PaginationStore, PaginationValues } from './PaginationContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
