@@ -50,7 +50,8 @@ export const AdminPage: React.FC = () => {
       title: 'Filter Analysis',
       description: 'Analyze orders data and filtering behavior',
       icon: <TableIcon width="32" height="32" />,
-      path: '/admin/filter-analysis',
+      // path: '/admin/filter-analysis',
+      path: '/admin/orders',
       color: 'purple' as const,
     },
     {
