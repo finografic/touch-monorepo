@@ -37,7 +37,7 @@ export const useOrderItemsConfig = (): OrderItemConfig[] => {
     // Convert slot configurations to order items config
     try {
       const config = convertSlotConfigsToOrderConfig(slotConfigs);
-      console.log('Loaded order items config from API:', config);
+      // console.log('Loaded order items config from API:', config);
       return config;
     } catch (error) {
       console.error('Error converting slot configs to order config:', error);
