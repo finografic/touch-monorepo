@@ -1,8 +1,20 @@
 import type { StrictPinoOptions } from './pino-logger.types';
 import { randomUUID } from 'node:crypto';
-import { customMessages } from './pino.messages';
-// import PinoPretty from 'pino-pretty';
-// import { pinoPrettyOptions } from './pino-logger.pretty';
+
+export const customMessages: Pick<
+  StrictPinoOptions,
+  'customReceivedMessage' | 'customSuccessMessage' | 'customErrorMessage'
+> = {
+  customReceivedMessage(req, _) {
+    return `REQUEST: ${req.method} ${req.url}`;
+  },
+  customSuccessMessage(req, res) {
+    return `RESPONSE: ${req.method} ${req.url} -> ${res.statusCode} ${res.statusMessage}`;
+  },
+  customErrorMessage(req, res, error) {
+    return `ERROR: ${req.method} ${req.url} -> ${res.statusCode} ${res.statusMessage} ${error.message}`;
+  },
+};
 
 export const pinoLoggerModuleOptions: { pinoHttp: StrictPinoOptions } = {
   pinoHttp: {

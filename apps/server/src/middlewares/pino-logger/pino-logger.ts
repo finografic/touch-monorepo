@@ -1,8 +1,6 @@
 import { pinoLogger as logger } from 'hono-pino';
-import { TIME_FORMAT } from 'i18n/datetime';
 import pino from 'pino';
 import { pinoLoggerModuleOptions } from './pino-http.options';
-import { streams } from './pino.streams';
 
 export function pinoLogger() {
   const isProduction = process.env.NODE_ENV === 'production';
