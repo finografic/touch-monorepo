@@ -34,7 +34,7 @@
     "reset.build": "pnpm build",
     "·········· BUILD + DEPLOYMENT": "·····················································",
     "build": "turbo run build",
-    "deployment": "pnpm --package=@finografic/project-scripts dlx build-deployment",
+    "deployment": "cross-env NODE_ENV=production pnpm --package=@finografic/project-scripts dlx build-deployment",
     "·········· CLEAN": "·····················································",
     "clean": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --detach",
     "clean.turbo": "turbo run clean",
