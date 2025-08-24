@@ -1,7 +1,6 @@
 import { useCallback, useDeferredValue, useEffect, useState } from 'react';
 import { useFilters } from './useFilters';
 import { OrderFieldKeys } from 'constants/app.config';
-import { useGetTemperatureProfiles } from 'queries/temperature/useGetTemperatureProfiles';
 import type { TemperatureFilter, TemperatureProfile } from 'types/temperature.types';
 import { useConfigStorage } from './useConfigStorage';
 import { useOrders } from 'providers/OrdersProvider';
@@ -47,9 +46,8 @@ const getTimeValueForItemType = (
 };
 
 export const useTemperatureControl = (options: UseTemperatureControlOptions = {}) => {
-  const { filters } = useFilters();
   const [showLoading, setShowLoading] = useState(false);
-  const { orders } = useOrders();
+  const { orders, profile, filters } = useOrders(); // ✅ Get profile directly
   const { saveConfig } = useConfigStorage();
 
   // Get current temperature filter values
@@ -64,26 +62,20 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   const deferredInitial = useDeferredValue(initial);
   const deferredFinal = useDeferredValue(final);
 
-  // Get temperature profiles in one query
-  const temperatureProfilesQuery = useGetTemperatureProfiles({
-    initial: deferredInitial,
-    final: deferredFinal,
-    enabled: Boolean(deferredInitial && deferredFinal && currentFilter),
-    orderId: orders[0]?.id,
-  });
+  // ✅ NEW: Get temperature profiles directly from profile
+  const temperatureProfiles = profile?.temperatureProfiles || [];
 
   // ======================================================================== //
 
   // Log temperature profiles when they change
   useEffect(() => {
-    if (temperatureProfilesQuery?.data) {
-      console.log('Available temperature profiles:', temperatureProfilesQuery.data);
+    if (temperatureProfiles.length > 0) {
+      console.log('Available temperature profiles:', temperatureProfiles);
     }
-  }, [temperatureProfilesQuery.data]);
+  }, [temperatureProfiles]);
 
-  // Compute loading state that includes both immediate and deferred states
-  const isLoading =
-    temperatureProfilesQuery.isFetching || initial !== deferredInitial || final !== deferredFinal;
+  // ✅ SIMPLIFIED: No more complex query logic
+  const isLoading = !profile || temperatureProfiles.length === 0;
 
   // ======================================================================== //
 
@@ -112,33 +104,32 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         throw new Error('Initial and final temperatures must be set, and filters must be available');
       }
 
-      // Get the temperature profiles data
-      const profiles = temperatureProfilesQuery.data;
-      if (!profiles) {
+      // ✅ Get temperature profiles from profile object
+      if (temperatureProfiles.length === 0) {
         throw new Error('Temperature profiles not available');
       }
 
       // Find closest available profiles for initial and final temperatures
       const initialProfile = findClosestProfile(
-        profiles as TemperatureProfile[],
+        temperatureProfiles,
         currentFilter.initial,
         currentFilter.final,
       ) as TemperatureProfile;
       const finalProfile = findClosestProfile(
-        profiles as TemperatureProfile[],
+        temperatureProfiles,
         currentFilter.final,
         currentFilter.final,
       ) as TemperatureProfile;
 
       if (!initialProfile) {
         throw new Error(
-          `No temperature profile found for initial temperature ${currentFilter.initial}°C. Available profiles: ${profiles.map((p) => p.temperature).join(', ')}°C`,
+          `No temperature profile found for initial temperature ${currentFilter.initial}°C. Available profiles: ${temperatureProfiles.map((p) => p.temperature).join(', ')}°C`,
         );
       }
 
       if (!finalProfile) {
         throw new Error(
-          `No temperature profile found for final temperature ${currentFilter.final}°C. Available profiles: ${profiles.map((p) => p.temperature).join(', ')}°C`,
+          `No temperature profile found for final temperature ${currentFilter.final}°C. Available profiles: ${temperatureProfiles.map((p) => p.temperature).join(', ')}°C`,
         );
       }
 
@@ -215,7 +206,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   }, [
     filters,
     currentFilter,
-    temperatureProfilesQuery.data,
+    temperatureProfiles, // ✅ Use temperatureProfiles instead of query
     orders,
     saveConfig,
     options.onSuccess,
@@ -224,7 +215,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
   return {
     startTemperatureControl,
-    temperatureProfilesQuery,
+    // ✅ REMOVE: temperatureProfilesQuery - no longer needed
     isLoading: showLoading,
   };
 };

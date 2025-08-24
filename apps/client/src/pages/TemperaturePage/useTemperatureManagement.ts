@@ -1,7 +1,8 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useFilters } from 'hooks/useFilters';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { useOrders } from 'providers/OrdersProvider';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { findClosestProfile } from 'utils/temperature.utils';
 
@@ -16,10 +17,10 @@ interface UseTemperatureManagementProps {
 }
 
 export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperatureManagementProps) => {
-  const [isInitialized, setIsInitialized] = useState(false);
   const { setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
   const { fieldKey } = useRouteConfig();
+  const { setFilters: setOrdersFilters } = useOrders();
 
   // Get default consumption temperature from filtered data
   const defaultTempConsume = useMemo(() => {
@@ -55,11 +56,19 @@ export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperat
       const usedInitial = closestInitialProfile ? closestInitialProfile.temperature : initial;
       const usedFinal = closestFinalProfile ? closestFinalProfile.temperature : final;
 
-      // Update global filters (essential for navigation)
-      setFilter(fieldKey, {
+      // Create temperature filter object
+      const temperatureFilter = {
         initial: usedInitial,
         final: usedFinal,
         lookup: { initial: usedInitial, final: usedFinal, name: `${usedInitial}°C → ${usedFinal}°C` },
+      };
+
+      // Update global filters (essential for navigation)
+      setFilter(fieldKey, temperatureFilter);
+
+      // ✅ ALSO update OrdersContext filters so useTemperatureControl can find them
+      setOrdersFilters({
+        [fieldKey]: temperatureFilter,
       });
 
       // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
@@ -67,23 +76,20 @@ export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperat
 
       return { usedInitial, usedFinal };
     },
-    [profiles, setFilter, fieldKey, setIsNextDisabled],
+    [profiles, setFilter, fieldKey, setIsNextDisabled, setOrdersFilters],
   );
 
   // Initialize temperatures with fallback values
   const initializeTemperatures = useCallback(
     (setTemperatures: (temps: TemperatureState) => void) => {
-      if (!isInitialized) {
-        const initial = INITIAL_TEMP_DEFAULT;
-        const final = defaultTempConsume ?? 8;
-        const newTemperatures = { initial, final };
-        setTemperatures(newTemperatures);
+      const initial = INITIAL_TEMP_DEFAULT;
+      const final = defaultTempConsume ?? 8;
+      const newTemperatures = { initial, final };
+      setTemperatures(newTemperatures);
 
-        updateFilters(initial, final);
-        setIsInitialized(true);
-      }
+      updateFilters(initial, final);
     },
-    [defaultTempConsume, updateFilters, isInitialized],
+    [defaultTempConsume, updateFilters],
   );
 
   // Update temperatures and filters

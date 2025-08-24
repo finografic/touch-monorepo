@@ -10,9 +10,7 @@ import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
-import { TIME_DEFAULT_SECONDS } from 'constants/time.config';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
-import { ItemType } from 'types/orders.types';
 import { FLOW_TYPES } from 'types/flow.types';
 import createCuid from '@bugsnag/cuid';
 
@@ -44,7 +42,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
-  const { selectAllOrders, orders, setOrderProcessing, toggleOrder, setOrdersSession } = useOrders();
+  const { orders, setOrderProcessing, toggleOrder, setOrdersSession, profile } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId } = useSession();
   const { addTimer, clearCompletedTimers, timers, removeTimer } = useTimers();
   const { selectAllMainPageSlots, clearMainPageSelection, toggleMainPageSlot, mainPageSelectedSlots } =
@@ -53,11 +51,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const { saveConfig } = useConfigStorage();
   const orderItemsConfig = useOrderItemsConfig();
 
-  const {
-    startTemperatureControl,
-    temperatureProfilesQuery,
-    isLoading: isTemperatureLoading,
-  } = useTemperatureControl({
+  const { startTemperatureControl, isLoading: isTemperatureLoading } = useTemperatureControl({
     onSuccess: (calculatedDurations) => {
       startTransition(function updateProcessForSelectedOrders() {
         console.log('🚀 Temperature Control Success: Creating timers for selected orders');
@@ -396,58 +390,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     orderItemsConfig,
   ]);
 
-  const handleProgramProduct__V1 = useCallback(() => {
-    startTransition(() => {
-      // Get selected slots that are idle (not running timers)
-      const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t: any) => t.slotNumber === slotNumber);
-        return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
-      });
-
-      if (selectedIdleSlots.length === 0) {
-        console.warn('No selected idle slots to program product for');
-        return;
-      }
-
-      // Create new session and assign selected slots
-      const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
-
-      assignOrdersToSession(sessionId, selectedIdleSlots);
-      setOrdersSession({
-        orderNumbers: selectedIdleSlots,
-        session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
-      });
-
-      log('__DEV: PROGRAM PRODUCT - Created session', 'lime', {
-        sessionId,
-        flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-        selectedSlots: selectedIdleSlots,
-      });
-
-      // Navigate to first step of product configuration flow (drink type selection)
-      const drinkTypePath = PATHS.drinkType;
-
-      log('__DEV: PROGRAM PRODUCT - Navigation', 'yellow', {
-        pathnames,
-        drinkTypePath,
-        currentPath: location.pathname,
-      });
-
-      // Set pagination to first step (index 1, since index 0 is main page)
-      setPageCurrent(1);
-      navigate(drinkTypePath); // Navigate directly to drink type page
-    });
-  }, [
-    mainPageSelectedSlots,
-    timers,
-    createSession,
-    assignOrdersToSession,
-    setOrdersSession,
-    pathnames,
-    setPageCurrent,
-    navigate,
-  ]);
-
   // ======================================================================== //
 
   const handleRepeatSelection = useCallback(() => {
@@ -550,11 +492,10 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           if (location.pathname === ALTERNATIVE_PATHS.time) {
             return !hasSelectedItems || isPending;
           }
-          // On temperature page: original logic
           return (
             isTemperatureLoading ||
             isPending ||
-            (temperatureProfilesQuery.isError && !temperatureProfilesQuery.data) ||
+            !profile?.temperatureProfiles?.length || // ✅ Check if we have temperature profiles
             location.pathname !== PATHS.temperature
           );
         case 'program-time':
@@ -595,8 +536,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       location.pathname,
       isPending,
       isTemperatureLoading,
-      temperatureProfilesQuery.isError,
-      temperatureProfilesQuery.data,
       orders,
       mainPageSelectedSlots,
       timers,

@@ -53,54 +53,33 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
     const nextPathname = pathnames[newIndex];
 
     startTransition(() => {
-      // Debug the navigation logic
-      console.log('🔍 handleNavigateNext Debug:', {
-        locationPathname: location.pathname,
-        expectedPath: '/container-type',
-        isContainerTypePage: location.pathname === '/container-type',
-        dataFilteredLength: dataFiltered.length,
-        currentOrderId: dataFiltered[0]?.id,
-      });
-
       // Set profile when navigating from ContainerType page to Temperature page
       if (location.pathname === '/container-type' && dataFiltered.length > 0) {
-        console.log('🔍 ContainerType condition met - fetching order with profiles');
-
         // Get the order ID from the filtered data and find the readable model from context
         const orderId = dataFiltered[0].id;
         const profileOrder = ordersReadable.find((order) => order.id === orderId);
-
         if (profileOrder) {
-          console.log('🔍 Setting profile and fetching complete order:', orderId);
           setProfile(profileOrder); // Set basic profile first
 
-          // ADD THIS LINE to fetch complete order with temperature profiles:
+          // Fetch complete order with temperature profiles
           fetchOrderWithProfiles(orderId);
-        } else {
-          console.log('🔍 Profile order not found in ordersReadable');
         }
-      } else {
-        console.log('🔍 ContainerType condition NOT met:', {
-          pathnameMatch: location.pathname === '/container-type',
-          hasDataFiltered: dataFiltered.length > 0,
-        });
       }
 
       setPageCurrent(newIndex);
-      if (nextPathname) {
-        navigate(nextPathname, { replace: true });
-      }
+      navigate(nextPathname);
     });
   }, [
     current,
-    navigate,
     pathnames,
-    setPageCurrent,
+    startTransition,
     location.pathname,
     dataFiltered,
-    setProfile,
-    fetchOrderWithProfiles, // ADD THIS DEPENDENCY
     ordersReadable,
+    setProfile,
+    fetchOrderWithProfiles,
+    setPageCurrent,
+    navigate,
   ]);
 
   const handleProgramProduct = useCallback(() => {

@@ -6,6 +6,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useFilters } from 'hooks/useFilters';
 import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useOrders } from 'providers/OrdersProvider';
 import { useTranslation } from 'react-i18next';
 import type { RegionLocale } from '@workspace/core/types';
 
@@ -18,7 +19,8 @@ export const useLayoutUiObserver = () => {
   const { fieldKey, padsConfig } = useRouteConfig();
   const { setIsNextDisabled } = usePagination();
   const { currentSessionId, sessions } = useSession();
-  const { dataPool } = useFilters();
+  const { dataPool, filters } = useFilters();
+  const { setFilters: setOrdersFilters } = useOrders();
   const { i18n } = useTranslation();
 
   // Use i18n language directly as the source of truth
@@ -54,7 +56,6 @@ export const useLayoutUiObserver = () => {
       lastRouteDataRef.current.language !== currentRouteData.language;
 
     if (hasRouteChanged) {
-      log('__DEV: hasRouteChanged', 'red', hasRouteChanged);
       lastRouteDataRef.current = currentRouteData;
 
       // Build session server field map
@@ -109,6 +110,13 @@ export const useLayoutUiObserver = () => {
       setIsNextDisabled(checkedCount < padsConfig.minRequired);
     }
   }); // No dependency array - runs on every render but has built-in guards
+
+  // Subscription 3: Sync filters from useFilters to OrdersContext
+  useEffect(() => {
+    if (filters && Object.keys(filters).length > 0) {
+      setOrdersFilters(filters);
+    }
+  }, [filters, setOrdersFilters]);
 };
 
 // Keep the old component for backward compatibility during transition

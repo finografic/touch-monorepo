@@ -33,7 +33,7 @@ const getTemperatureSettings = async (
 
 export const useGetTemperatureSettings = (
   params: GetTemperatureSettingsRequest,
-): UseQueryResult<TemperatureSettings, ErrorResponse> => {
+): UseQueryResult<ApiResponse<TemperatureSettings>, ErrorResponse> => {
   return useQuery({
     queryKey: [...GET_TEMPERATURE_SETTINGS_QUERYKEY, params],
     queryFn: async () => await getTemperatureSettings(params),

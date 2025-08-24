@@ -1,47 +1,44 @@
 import { useQuery } from '@tanstack/react-query';
-import type { TemperatureProfile } from 'types/temperature.types';
 import { api } from 'api';
-import { createTemperatureQuery } from 'api/query';
+import { GET_TEMPERATURE_PROFILES_QUERYKEY } from 'queries/temperature';
+import type { TemperatureProfile } from 'types/temperature.types';
 
-export const GET_TEMPERATURE_PROFILES_QUERYKEY = ['temperature-profiles'] as const;
+interface UseGetTemperatureProfilesParams {
+  initial: number;
+  final: number;
+  enabled: boolean;
+  orderId: string;
+}
 
-interface UseGetTemperatureProfilesOptions {
-  orderId: string; // <-- Required orderId
-  initial?: number;
-  final?: number;
-  enabled?: boolean;
+interface UseGetTemperatureProfilesReturn {
+  data: TemperatureProfile[] | undefined;
+  isFetching: boolean;
+  isError: boolean;
+  isLoading: boolean;
+  error: Error | null;
 }
 
 export const useGetTemperatureProfiles = ({
-  orderId,
   initial,
   final,
   enabled,
-}: UseGetTemperatureProfilesOptions) => {
-  return useQuery({
-    queryKey: [...GET_TEMPERATURE_PROFILES_QUERYKEY, orderId],
-    queryFn: async () => {
-      if (!orderId) {
-        throw new Error('orderId is required');
-      }
-
-      // Only filter by orderId, not by temperature
-      const url = `/temperature-profiles?orderId=${encodeURIComponent(orderId)}`;
-
-      log('__DEV: useGetTemperatureProfiles - url', 'magenta', url);
-      const response = await api.get<TemperatureProfile[]>(url);
-
-      if (response.status !== 200) {
-        throw new Error('Failed to fetch temperature profiles');
-      }
-
-      if (!response.data?.length) {
-        throw new Error('No temperature profiles found');
-      }
-
-      // Return the profiles sorted by temperature descending
-      return response.data.sort((a, b) => b.temperature - a.temperature);
+  orderId,
+}: UseGetTemperatureProfilesParams): UseGetTemperatureProfilesReturn => {
+  const { data, isFetching, isError, isLoading, error } = useQuery({
+    queryKey: [...GET_TEMPERATURE_PROFILES_QUERYKEY, initial, final, orderId],
+    queryFn: async (): Promise<TemperatureProfile[]> => {
+      // For now, return empty array since we're moving to orders_readable
+      // This maintains the interface while we transition
+      return [];
     },
-    enabled: enabled ?? Boolean(orderId),
+    enabled: enabled && Boolean(orderId),
   });
+
+  return {
+    data,
+    isFetching,
+    isError,
+    isLoading,
+    error: error as Error | null,
+  };
 };

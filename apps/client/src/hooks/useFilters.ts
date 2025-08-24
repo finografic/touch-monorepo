@@ -90,10 +90,6 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
   useEffect(() => {
     if (Object.keys(filters).length > 0 && dataFiltered.length > 0) {
       const allIds = dataFiltered.map((o) => o.id);
-      log('__DEV: updating order ids', 'yellow', {
-        filterCount: Object.keys(filters).length,
-        idsCount: allIds.length,
-      });
       updateOrderIds({ ids: allIds });
     }
   }, [dataFiltered, filters, updateOrderIds]);

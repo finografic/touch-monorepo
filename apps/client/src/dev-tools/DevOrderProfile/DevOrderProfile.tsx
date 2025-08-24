@@ -2,33 +2,9 @@ import { useFilters } from 'hooks/useFilters';
 import { styles } from './DevOrderProfile.styles';
 import { useOrders } from 'providers/OrdersProvider';
 
-/*
-onst { dataFiltered, filters } = useFilters({});
-point
-const profile: {
-    id: string;
-    volume: string;
-    modeId: string;
-    drinkType: string;
-    drinkSubtype: string | null;
-    containerType: string;
-    temperatureProfile: string;
-    defaultTempConsume: number;
-    defaultTempFreeze: number;
-    isActive: boolean;
-    createdAt: Date;
-    updatedAt: Date;
-    temperatureProfiles?: TemperatureProfile[];
-} | null
- */
-
 export const DevOrderProfile = () => {
   const { profile } = useOrders();
   const { filters } = useFilters({});
-
-  log('===== profile =====', 'cyan', profile);
-  log('===== profile - timeRows =====', 'magenta', profile?.timeRows);
-  log('===== profile - temperatureProfiles =====', 'lime', profile?.temperatureProfiles);
 
   return (
     <div id="dev-filter-results" css={styles}>
@@ -55,7 +31,7 @@ export const DevOrderProfile = () => {
           </>
         )}
 
-        {/* {profile?.timeRows && profile.timeRows.length > 0 && (
+        {profile?.temperatureProfiles && profile.temperatureProfiles.length > 0 && (
           <>
             <h4>TEMPERATURE PROFILES:</h4>
             <div className="result-header">
@@ -64,7 +40,7 @@ export const DevOrderProfile = () => {
               <div className="result-col">TIME B</div>
               <div className="result-col">TIME C</div>
             </div>
-            {profile.timeRows.map(
+            {profile.temperatureProfiles.map(
               (row: { temperature: number; timeA: number; timeB: number; timeC: number }, index: number) => (
                 <div key={index} className="result-row">
                   <div className="result-col">{row.temperature}°C</div>
@@ -75,7 +51,7 @@ export const DevOrderProfile = () => {
               ),
             )}
           </>
-        )} */}
+        )}
         <pre style={{ color: '#bbb', fontSize: '0.85em', padding: '1.5em' }}>
           {JSON.stringify(profile, null, 2)}
         </pre>
