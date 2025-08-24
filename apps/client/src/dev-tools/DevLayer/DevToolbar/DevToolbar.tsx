@@ -1,5 +1,6 @@
-import { Row, Col } from 'react-grid-system';
-import React, { ReactElement, useState } from 'react';
+import type { ReactElement } from 'react';
+import React from 'react';
+import { Col, Row } from 'react-grid-system';
 import { ToolbarToggle } from '../ToolbarToggle';
 import { useDevLayer } from '../DevLayerContext';
 import { styles } from './DevToolbar.styles';

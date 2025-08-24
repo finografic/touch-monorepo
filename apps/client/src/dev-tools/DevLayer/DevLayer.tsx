@@ -1,5 +1,9 @@
-import { type ReactElement, useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import type { ReactElement } from 'react';
+import { useEffect } from 'react';
+import {
+  // Outlet,
+  useLocation,
+} from 'react-router-dom';
 import { DevLayerProvider } from './DevLayerContext';
 import { DevLayerTools } from './DevLayerTools';
 

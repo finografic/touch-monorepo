@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors, layout, forms, cssPlaceholder } from 'styles';
+import { colors, layout } from 'styles';
 
 const buttonSize = 48;
 const buttonRight = 40;

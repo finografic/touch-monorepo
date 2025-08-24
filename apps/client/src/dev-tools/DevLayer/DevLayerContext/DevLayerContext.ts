@@ -1,5 +1,6 @@
 import React from 'react';
-import { createStore, useStore, type StoreApi } from 'zustand';
+import { createStore, type StoreApi, useStore } from 'zustand';
+import { useShallow } from 'zustand/react/shallow';
 import { createZustandContext } from 'utils/zustand';
 import type { DevLayerStore, DevLayerValues } from './DevLayer.types';
 
@@ -8,7 +9,7 @@ export enum DevLayerKeys {
 }
 
 const defaultValue: DevLayerValues = {
-  isToolbarOpen: false,
+  isToolbarOpen: true,
 };
 
 export const DevLayer = createZustandContext(({ initialValue }) => {
@@ -43,8 +44,11 @@ export const useDevLayer = (): DevLayerReturn => {
     // log('__PAGE_CHANGE - DevLayer.hooks Event', 'grey', { state, prev });
   });
 
-  return useStore<StoreApi<DevLayerStore>, DevLayerReturn>(store, ({ actions, ...state }) => ({
-    ...state,
-    ...actions,
-  }));
+  return useStore<StoreApi<DevLayerStore>, DevLayerReturn>(
+    store,
+    useShallow(({ actions, ...state }) => ({
+      ...state,
+      ...actions,
+    })),
+  );
 };
