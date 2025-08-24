@@ -26,7 +26,6 @@ export const useKeyPressAdmin = () => {
 
     // Dev tools: Ctrl only
     if (event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey) {
-      console.debug('DEV TOOLS:', isDevToolsVisible);
       setIsDevToolsVisible(!isDevToolsVisible);
       setIsDevDataVisible(!isDevDataVisible);
       setIsDevScreenSizeVisible(!isDevScreenSizeVisible);

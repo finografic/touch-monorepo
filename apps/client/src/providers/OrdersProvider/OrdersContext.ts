@@ -32,7 +32,6 @@ export const defaultValue: OrdersValues = {
 };
 
 export const OrdersContext = createZustandContext(({ initialValue }) => {
-  log('__DEV: OrdersContext', 'cyan', initialValue);
   return createStore<OrdersStore>()(
     subscribeWithSelector(
       (set, get): OrdersStore => ({

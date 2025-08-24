@@ -19,7 +19,6 @@ export const parsePadConfig = <T extends DataEntry>({
   fieldKey: OrderFieldKey;
   currentLanguage?: RegionLocale;
 }): { pads: PadUI[]; numPads: number } => {
-  log('__DEV: i18n', 'yellow', { currentLanguage }, data);
   const labelKey = (config.labelKey as keyof T) || ('nameEs' as keyof T); // NOTE: which key to use for label
   const numPads = Math.min(data.length, config.maxPads);
   const slicedData = data.slice(0, numPads);

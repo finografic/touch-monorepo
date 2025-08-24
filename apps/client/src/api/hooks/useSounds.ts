@@ -21,7 +21,6 @@ export interface SoundSettings {
 // API functions
 export const getSoundFiles = async (): Promise<SoundFile[]> => {
   const response = await api.get('/sounds');
-  log('__DEV: response', 'lime', response);
   return response.data;
 };
 

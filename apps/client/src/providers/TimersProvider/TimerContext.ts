@@ -16,7 +16,6 @@ export const defaultValue: TimersValues = {
 };
 
 export const TimersContext = createZustandContext(({ initialValue }) => {
-  log('__DEV: TimersContext', 'cyan', initialValue);
   return createStore<TimersStore>()(
     subscribeWithSelector(
       (set, get): TimersStore => ({
@@ -29,13 +28,6 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
 
             // Check if there's already a timer for this slot
             const existingTimerIndex = timers.findIndex((t) => t.slotNumber === timerData.slotNumber);
-
-            console.log('🔧 addTimer called:', {
-              slotNumber: timerData.slotNumber,
-              existingTimerIndex,
-              existingTimerId: existingTimerIndex >= 0 ? timers[existingTimerIndex]?.id : null,
-              totalTimers: timers.length,
-            });
 
             const newTimer: TimerItem = {
               ...timerData,
@@ -50,14 +42,10 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
               // Replace existing timer
               const updatedTimers = [...timers];
               updatedTimers[existingTimerIndex] = newTimer;
-              console.log('🔧 Replacing existing timer:', {
-                oldId: timers[existingTimerIndex]?.id,
-                newId: newTimer.id,
-              });
+
               set({ timers: updatedTimers });
             } else {
               // Add new timer
-              console.log('🔧 Adding new timer:', { newId: newTimer.id });
               set({ timers: [...timers, newTimer] });
             }
           },

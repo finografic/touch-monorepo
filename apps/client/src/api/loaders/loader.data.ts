@@ -20,7 +20,6 @@ export const LoaderDataHelper: Partial<LoaderMap> = {
   [OrderFieldKeys.containerType]: EndpointHelper.getContainerTypes,
   [OrderFieldKeys.temperature]: async ({ params }) => {
     // TODO: Implement when ready
-    log('__DEV: LoaderDataHelper { params }', 'grey', params);
     return EndpointHelper.getOrdersReadable();
     return [];
     // return EndpointHelper.getTemperatureProfile(params.temperatureProfileId as string);

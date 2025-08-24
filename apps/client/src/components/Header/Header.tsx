@@ -29,7 +29,7 @@ export const Header = () => {
               >
                 {t('app.title')}
               </h1>
-              <pre className="current-language">{String(currentSessionId)}</pre>
+              {/* <pre className="current-language">{String(currentSessionId)}</pre> */}
             </Flex>
           </Flex>
 

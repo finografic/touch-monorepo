@@ -74,13 +74,12 @@ export const useLayoutUiObserver = () => {
 
       // Handle route change
       if (!fieldKey) {
-        log('__DEV: dataPool', 'red', dataPool);
         store.handleRouteChange(undefined, [], {} as any, [], {});
         return;
       }
 
       if (loaderData && padsConfig && dataPool) {
-        log('__DEV: dataPool', 'magenta', dataPool);
+        log('orders - dataPool', 'grey', dataPool);
 
         isInitializedRef.current[fieldKey] = false;
 

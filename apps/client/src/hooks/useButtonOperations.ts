@@ -54,16 +54,11 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const { startTemperatureControl, isLoading: isTemperatureLoading } = useTemperatureControl({
     onSuccess: (calculatedDurations) => {
       startTransition(function updateProcessForSelectedOrders() {
-        console.log('🚀 Temperature Control Success: Creating timers for selected orders');
-        console.log('🚀 Temperature Control: Selected slots =', mainPageSelectedSlots);
-        console.log('🚀 Temperature Control: Calculated durations =', calculatedDurations);
-
         // First, set orders to processing state and create timers
         mainPageSelectedSlots.forEach((slotNumber) => {
           const order = orders.find((o) => o.itemNumber === slotNumber);
           if (order) {
             const duration = calculatedDurations[order.itemNumber.toString()];
-            log('__DEV: calculatedDurations', 'grey', calculatedDurations);
 
             // Set order to processing
             setOrderProcessing({
@@ -71,24 +66,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
               duration,
             });
 
-            // Create timer for this slot
-            console.log(
-              '🚀 Temperature Control: Adding timer for slot',
-              slotNumber,
-              'with duration',
-              duration,
-            );
-
             // Check if there's already a timer for this slot
             const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
             const orderId = existingTimer?.orderId || createCuid();
-
-            console.log('🚀 Temperature Control: Timer details', {
-              slotNumber,
-              existingTimerId: existingTimer?.id,
-              newOrderId: orderId,
-              reusingOrderId: !!existingTimer?.orderId,
-            });
 
             addTimer({
               sessionId: currentSessionId!,
@@ -105,11 +85,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
         // Clear selection when timers start
         clearMainPageSelection();
-
-        log('__DEV: Temperature Control Complete', 'yellow', {
-          location: location.pathname,
-          calculatedDurations,
-        });
 
         // Navigate back to first page
         setPageCurrent(0);
@@ -158,8 +133,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         return timer && (timer.status === 'processing' || timer.status === 'completed');
       });
 
-      console.log('handleCancelCompleted: Clearing timers for selected slots', selectedSlotsWithTimers);
-
       // Remove timers for selected slots
       selectedSlotsWithTimers.forEach((slotNumber) => {
         const timer = timers.find((t) => t.slotNumber === slotNumber);
@@ -197,10 +170,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   }, [selectAllMainPageSlots]);
 
   const handleStartProductProcess = useCallback(() => {
-    log('__DEV: INICIAR - Temperature Process', 'yellow', {
-      location: location.pathname,
-    });
-
     // Only use temperature control if NOT on TimePage
     if (location.pathname !== ALTERNATIVE_PATHS.time) {
       startTemperatureControl();
@@ -211,36 +180,12 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   const handleStartTimeProcess = useCallback(
     (duration: number) => {
-      console.log('🚀 handleStartTimeProcess: Called with duration =', duration, 'seconds');
-      console.log('🚀 handleStartTimeProcess: Current orders =', orders);
-      log('__DEV: INICIAR - Time Process', 'yellow', {
-        location: location.pathname,
-        duration,
-      });
-
       startTransition(() => {
-        console.log('🚀 handleStartTimeProcess: Setting processing for selected orders');
-        console.log('🚀 handleStartTimeProcess: Selected slots =', mainPageSelectedSlots);
-
         // Add timers to TimerContext for each selected slot
         mainPageSelectedSlots.forEach((slotNumber) => {
-          console.log(
-            '🚀 handleStartTimeProcess: Adding timer for slot',
-            slotNumber,
-            'with duration',
-            duration,
-          );
-
           // Check if there's already a timer for this slot
           const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
           const orderId = existingTimer?.orderId || createCuid();
-
-          console.log('🚀 handleStartTimeProcess: Timer details', {
-            slotNumber,
-            existingTimerId: existingTimer?.id,
-            newOrderId: orderId,
-            reusingOrderId: !!existingTimer?.orderId,
-          });
 
           addTimer({
             sessionId: currentSessionId!,
@@ -257,11 +202,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         // 🎯 FIX: Clear selection when timers start
         // This ensures green color shows (no .selected override) and buttons are disabled
         clearMainPageSelection();
-
-        log('__DEV: INICIAR - Time Process Complete', 'yellow', {
-          location: location.pathname,
-          duration,
-        });
 
         // Navigate back to main page
         navigate(PATHS.main, { replace: true });
@@ -301,12 +241,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       setOrdersSession({
         orderNumbers: selectedIdleSlots,
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_TIME },
-      });
-
-      log('__DEV: PROGRAM TIME - Created session', 'blue', {
-        sessionId,
-        flowType: FLOW_TYPES.PROGRAM_TIME,
-        selectedSlots: selectedIdleSlots,
       });
 
       // Navigate to time page
@@ -358,20 +292,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
       });
 
-      log('__DEV: PROGRAM PRODUCT - Created session', 'lime', {
-        sessionId,
-        flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-        selectedSlots: selectedIdleSlots,
-      });
-
       // Navigate to first step of product configuration flow (drink type selection)
       const drinkTypePath = PATHS.drinkType;
-
-      log('__DEV: PROGRAM PRODUCT - Navigation', 'yellow', {
-        pathnames,
-        drinkTypePath,
-        currentPath: location.pathname,
-      });
 
       // Set pagination to first step (index 1, since index 0 is main page)
       setPageCurrent(1);

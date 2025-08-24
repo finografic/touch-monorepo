@@ -23,7 +23,6 @@ const getTemperatureSettings = async (
   params: GetTemperatureSettingsRequest,
 ): Promise<ApiResponse<TemperatureSettings>> => {
   try {
-    log('__DEV: useGetTemperatureSettings - params', 'orange', params);
     const response = await api.get<ApiResponse<TemperatureSettings>>('/temperature/settings', { params });
     return response.data;
   } catch (error) {

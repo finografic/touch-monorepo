@@ -40,8 +40,6 @@ const getTimeValueForItemType = (
   // Calculate operating time: final_time - initial_time
   const operatingTime = Math.abs(finalTime - initialTime);
 
-  console.log(`Item ${itemType}: ${finalTime} - ${initialTime} = ${operatingTime} seconds`);
-
   return operatingTime;
 };
 
@@ -66,13 +64,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   const temperatureProfiles = profile?.temperatureProfiles || [];
 
   // ======================================================================== //
-
-  // Log temperature profiles when they change
-  useEffect(() => {
-    if (temperatureProfiles.length > 0) {
-      console.log('Available temperature profiles:', temperatureProfiles);
-    }
-  }, [temperatureProfiles]);
 
   // ✅ SIMPLIFIED: No more complex query logic
   const isLoading = !profile || temperatureProfiles.length === 0;
@@ -133,21 +124,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         );
       }
 
-      console.log('Selected profiles (using closest if needed):', {
-        initial: {
-          temp: initialProfile.temperature,
-          timeA: initialProfile.timeA,
-          timeB: initialProfile.timeB,
-          timeC: initialProfile.timeC,
-        },
-        final: {
-          temp: finalProfile.temperature,
-          timeA: finalProfile.timeA,
-          timeB: finalProfile.timeB,
-          timeC: finalProfile.timeC,
-        },
-      });
-
       // Get selected orders
       const selectedOrders = orders.filter((order) => order.isSelected);
       if (selectedOrders.length === 0) {
@@ -170,9 +146,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         [ItemType.B]: getTimeValueForItemType(initialProfile, finalProfile, ItemType.B),
         [ItemType.C]: getTimeValueForItemType(initialProfile, finalProfile, ItemType.C),
       };
-
-      console.log('Calculated durations:', calculatedDurations);
-      console.log('Item type durations for future use:', itemTypeDurations);
 
       // Save configuration with calculated durations for both selected orders and all item types
       await saveConfig({
