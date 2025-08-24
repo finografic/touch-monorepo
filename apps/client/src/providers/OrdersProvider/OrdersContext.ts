@@ -38,6 +38,36 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
+
+          setProfile: (profile: OrderReadableModel | null) => {
+            set({ profile });
+          },
+
+          fetchOrderWithProfiles: async (orderId: string) => {
+            try {
+              console.log('🔍 fetchOrderWithProfiles called with orderId:', orderId);
+              const response = await api.get(`/orders-readable/${orderId}`);
+              console.log('🔍 fetchOrderWithProfiles response:', response);
+              console.log('🔍 fetchOrderWithProfiles response.data:', response.data);
+              console.log('🔍 fetchOrderWithProfiles response.data type:', typeof response.data);
+
+              // With Axios, the actual data is in response.data
+              const fullOrder = response.data as OrderReadableModel;
+
+              console.log('🔍 fetchOrderWithProfiles fullOrder:', fullOrder);
+              console.log('🔍 fetchOrderWithProfiles temperatureProfiles:', fullOrder?.temperatureProfiles);
+
+              if (fullOrder && fullOrder.temperatureProfiles) {
+                set({ profile: fullOrder }); // This will have temperatureProfiles + timeRows
+                console.log('🔍 fetchOrderWithProfiles profile updated successfully');
+              } else {
+                console.error('🔍 No temperature profiles found in response');
+              }
+            } catch (error) {
+              console.error('Failed to fetch order with profiles:', error);
+            }
+          },
+
           setOrdersFilter: ({
             itemNumber,
             filter,

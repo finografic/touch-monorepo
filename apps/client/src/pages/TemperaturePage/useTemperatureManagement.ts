@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useFilters } from 'hooks/useFilters';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
@@ -16,7 +16,7 @@ interface UseTemperatureManagementProps {
 }
 
 export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperatureManagementProps) => {
-  const isInitializedRef = useRef(false);
+  const [isInitialized, setIsInitialized] = useState(false);
   const { setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
   const { fieldKey } = useRouteConfig();
@@ -73,17 +73,17 @@ export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperat
   // Initialize temperatures with fallback values
   const initializeTemperatures = useCallback(
     (setTemperatures: (temps: TemperatureState) => void) => {
-      if (!isInitializedRef.current) {
+      if (!isInitialized) {
         const initial = INITIAL_TEMP_DEFAULT;
         const final = defaultTempConsume ?? 8;
         const newTemperatures = { initial, final };
         setTemperatures(newTemperatures);
 
         updateFilters(initial, final);
-        isInitializedRef.current = true;
+        setIsInitialized(true);
       }
     },
-    [defaultTempConsume, updateFilters],
+    [defaultTempConsume, updateFilters, isInitialized],
   );
 
   // Update temperatures and filters
@@ -100,6 +100,5 @@ export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperat
     minMaxTemperatures,
     initializeTemperatures,
     updateTemperatures,
-    isInitialized: isInitializedRef.current,
   };
 };

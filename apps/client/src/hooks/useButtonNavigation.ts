@@ -28,7 +28,7 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   const { current, setPageCurrent, isNextDisabled } = usePagination();
   const { pathnames } = useRoutePathnamesByFilters();
   const { dataFiltered } = useFilters();
-  const { setProfile, ordersReadable } = useOrders();
+  const { setProfile, fetchOrderWithProfiles, ordersReadable } = useOrders();
 
   const handleNavigateBack = useCallback(() => {
     startTransition(() => {
@@ -53,15 +53,37 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
     const nextPathname = pathnames[newIndex];
 
     startTransition(() => {
+      // Debug the navigation logic
+      console.log('🔍 handleNavigateNext Debug:', {
+        locationPathname: location.pathname,
+        expectedPath: '/container-type',
+        isContainerTypePage: location.pathname === '/container-type',
+        dataFilteredLength: dataFiltered.length,
+        currentOrderId: dataFiltered[0]?.id,
+      });
+
       // Set profile when navigating from ContainerType page to Temperature page
-      if (location.pathname === PATHS.containerType && dataFiltered.length > 0) {
+      if (location.pathname === '/container-type' && dataFiltered.length > 0) {
+        console.log('🔍 ContainerType condition met - fetching order with profiles');
+
         // Get the order ID from the filtered data and find the readable model from context
         const orderId = dataFiltered[0].id;
         const profileOrder = ordersReadable.find((order) => order.id === orderId);
 
         if (profileOrder) {
-          setProfile(profileOrder);
+          console.log('🔍 Setting profile and fetching complete order:', orderId);
+          setProfile(profileOrder); // Set basic profile first
+
+          // ADD THIS LINE to fetch complete order with temperature profiles:
+          fetchOrderWithProfiles(orderId);
+        } else {
+          console.log('🔍 Profile order not found in ordersReadable');
         }
+      } else {
+        console.log('🔍 ContainerType condition NOT met:', {
+          pathnameMatch: location.pathname === '/container-type',
+          hasDataFiltered: dataFiltered.length > 0,
+        });
       }
 
       setPageCurrent(newIndex);
@@ -77,6 +99,7 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
     location.pathname,
     dataFiltered,
     setProfile,
+    fetchOrderWithProfiles, // ADD THIS DEPENDENCY
     ordersReadable,
   ]);
 

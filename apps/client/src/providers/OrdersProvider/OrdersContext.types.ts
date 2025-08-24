@@ -20,6 +20,8 @@ type OrdersSetters = CreateSettersType<OrdersValues, typeof SETTER_PREFIX>;
 // This type must match the actions implemented in OrdersContext.ts
 // If you add/remove actions in the context, update this type accordingly
 export type OrdersActions = OrdersSetters & {
+  setProfile: (profile: OrderReadableModel | null) => void;
+  fetchOrderWithProfiles: (orderId: string) => Promise<void>;
   setOrdersFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => void;
   setOrderProcessing: ({
     itemNumber,

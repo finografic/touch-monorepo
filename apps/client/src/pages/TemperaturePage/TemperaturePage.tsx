@@ -49,6 +49,9 @@ export const TemperaturePage = () => {
     hasTemperatureProfiles: 'temperatureProfiles' in (currentOrder || {}),
     temperatureProfilesType: typeof currentOrder?.temperatureProfiles,
     timeRowsType: typeof currentOrder?.timeRows,
+    profileSource: profile ? 'PROFILE' : 'ORDERS_READABLE[0]',
+    profileId: profile?.id,
+    ordersReadableFirstId: ordersReadable[0]?.id,
   });
 
   // Debug all available data sources
@@ -60,7 +63,7 @@ export const TemperaturePage = () => {
   });
 
   // Use custom hook for temperature management
-  const { minProfileTemp, minMaxTemperatures, initializeTemperatures, updateTemperatures, isInitialized } =
+  const { minProfileTemp, minMaxTemperatures, initializeTemperatures, updateTemperatures } =
     useTemperatureManagement({
       profiles: temperatureProfiles,
       dataFiltered,
@@ -76,7 +79,7 @@ export const TemperaturePage = () => {
   useEffect(() => {
     console.log('🔍 useEffect - initializeTemperatures called');
     initializeTemperatures(setTemperatures);
-  }, [initializeTemperatures]);
+  }, []); // Remove initializeTemperatures dependency to prevent infinite loops
 
   // Handle temperature changes
   const handleChange = (name: TemperatureKey, temp: Temperature) => {
@@ -95,19 +98,17 @@ export const TemperaturePage = () => {
   console.log('🔍 Loading State Check:', {
     hasCurrentOrder: !!currentOrder,
     hasTemperatureProfiles: !!temperatureProfiles.length,
-    isInitialized,
-    shouldShowLoading: !currentOrder || !temperatureProfiles.length || !isInitialized,
+    shouldShowLoading: !currentOrder || !temperatureProfiles.length,
   });
 
   // Don't show inputs until we have the order data and temperature profiles
-  if (!currentOrder || !temperatureProfiles.length || !isInitialized) {
+  if (!currentOrder || !temperatureProfiles.length) {
     return (
       <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
-        <Box>
+        <Box style={{ background: 'white', padding: '15px' }}>
           <div>Loading temperature settings...</div>
           <div>Debug: currentOrder={currentOrder ? 'YES' : 'NO'}</div>
           <div>Debug: temperatureProfiles={temperatureProfiles.length}</div>
-          <div>Debug: isInitialized={isInitialized ? 'YES' : 'NO'}</div>
           <div>Debug: Current Order ID: {currentOrder?.id || 'NONE'}</div>
           <div>Debug: Order Keys: {currentOrder ? Object.keys(currentOrder).join(', ') : 'NONE'}</div>
           <div>
@@ -141,6 +142,15 @@ export const TemperaturePage = () => {
             final: TEMPERATURE_DESCRIPTIONS.final.label,
           }}
         />
+
+        {/* Debug TemperatureForm props */}
+        <Box style={{ fontSize: '12px', color: 'gray', textAlign: 'center', marginTop: '10px' }}>
+          <div>Debug TemperatureForm Props:</div>
+          <div>temperatures: {JSON.stringify(temperatures)}</div>
+          <div>minProfileTemp: {minProfileTemp}</div>
+          <div>maxInitialTemp: {minMaxTemperatures.max}</div>
+          <div>minFinalTemp: {minMaxTemperatures.min}</div>
+        </Box>
       </Flex>
     </Flex>
   );

@@ -55,7 +55,7 @@ export const DevOrderProfile = () => {
           </>
         )}
 
-        {profile?.timeRows && profile.timeRows.length > 0 && (
+        {/* {profile?.timeRows && profile.timeRows.length > 0 && (
           <>
             <h4>TEMPERATURE PROFILES:</h4>
             <div className="result-header">
@@ -75,7 +75,10 @@ export const DevOrderProfile = () => {
               ),
             )}
           </>
-        )}
+        )} */}
+        <pre style={{ color: '#bbb', fontSize: '0.85em', padding: '1.5em' }}>
+          {JSON.stringify(profile, null, 2)}
+        </pre>
       </div>
     </div>
   );
