@@ -26,7 +26,6 @@ export const TemperatureForm = ({
   minProfileTemp,
   maxInitialTemp,
   minFinalTemp,
-  maxFinalTemp,
   labels,
 }: TemperatureFormProps) => {
   return (

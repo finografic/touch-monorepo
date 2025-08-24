@@ -1,10 +1,7 @@
-import { useCallback, useEffect, useMemo, useRef } from 'react';
+import { useCallback, useMemo, useRef } from 'react';
 import { useFilters } from 'hooks/useFilters';
-import { useOrders } from 'providers/OrdersProvider/OrdersContext';
-import { useSession } from 'providers/SessionProvider/SessionContext';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { TemperatureKey } from 'types/temperature.types';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { findClosestProfile } from 'utils/temperature.utils';
 
@@ -14,19 +11,12 @@ interface TemperatureState {
 }
 
 interface UseTemperatureManagementProps {
-  orders: any[];
   profiles: any[];
   dataFiltered: any[];
 }
 
-export const useTemperatureManagement = ({
-  orders,
-  profiles,
-  dataFiltered,
-}: UseTemperatureManagementProps) => {
+export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperatureManagementProps) => {
   const isInitializedRef = useRef(false);
-  const { setOrdersFilter } = useOrders();
-  const { currentSessionId, updateSessionFilters } = useSession();
   const { setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
   const { fieldKey } = useRouteConfig();
@@ -37,50 +27,35 @@ export const useTemperatureManagement = ({
     return dataFiltered[0].defaultTempConsume;
   }, [dataFiltered]);
 
-  // Find the minimum available profile temperature
-  const minProfileTemp = useMemo(() => {
-    if (!profiles.length) return 0;
-    return Math.min(...profiles.map((p) => p.temperature));
+  // Find the minimum available profile temperature and calculate min/max range
+  const { minProfileTemp, minMaxTemperatures } = useMemo(() => {
+    if (!profiles.length) {
+      return {
+        minProfileTemp: 0,
+        minMaxTemperatures: { min: -10, max: 50 }, // Fallback values
+      };
+    }
+
+    const temps = profiles.map((p) => p.temperature);
+    return {
+      minProfileTemp: Math.min(...temps),
+      minMaxTemperatures: {
+        min: Math.min(...temps),
+        max: Math.max(...temps),
+      },
+    };
   }, [profiles]);
 
-  // Update filters for orders and session
+  // Simplified filter update - only update essential systems
   const updateFilters = useCallback(
     (initial: number, final: number) => {
-      if (!orders?.length || !currentSessionId) return;
-
       // Find closest available profiles for initial and final temperatures
       const closestInitialProfile = findClosestProfile(profiles, initial, final);
       const closestFinalProfile = findClosestProfile(profiles, final, final);
       const usedInitial = closestInitialProfile ? closestInitialProfile.temperature : initial;
       const usedFinal = closestFinalProfile ? closestFinalProfile.temperature : final;
 
-      // Only update orders in the current session
-      const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
-
-      for (const order of sessionOrders) {
-        const currentFilters = order.filters || {};
-        const lookup = { initial: usedInitial, final: usedFinal, name: `${usedInitial}°C → ${usedFinal}°C` };
-        setOrdersFilter({
-          itemNumber: order.itemNumber,
-          filter: { ...currentFilters, [fieldKey]: { initial: usedInitial, final: usedFinal, lookup } },
-        });
-      }
-
-      // Update session filters
-      if (currentSessionId) {
-        const prevSessionFilters = orders.find((o) => o.session?.id === currentSessionId)?.filters || {};
-        const sessionFilters = {
-          ...prevSessionFilters,
-          [fieldKey]: {
-            initial: usedInitial,
-            final: usedFinal,
-            lookup: { initial: usedInitial, final: usedFinal, name: `${usedInitial}°C → ${usedFinal}°C` },
-          },
-        };
-        updateSessionFilters(currentSessionId, sessionFilters);
-      }
-
-      // Update global filters
+      // Update global filters (essential for navigation)
       setFilter(fieldKey, {
         initial: usedInitial,
         final: usedFinal,
@@ -92,16 +67,7 @@ export const useTemperatureManagement = ({
 
       return { usedInitial, usedFinal };
     },
-    [
-      orders,
-      currentSessionId,
-      profiles,
-      setOrdersFilter,
-      updateSessionFilters,
-      fieldKey,
-      setFilter,
-      setIsNextDisabled,
-    ],
+    [profiles, setFilter, fieldKey, setIsNextDisabled],
   );
 
   // Initialize temperatures with fallback values
@@ -131,6 +97,7 @@ export const useTemperatureManagement = ({
 
   return {
     minProfileTemp,
+    minMaxTemperatures,
     initializeTemperatures,
     updateTemperatures,
     isInitialized: isInitializedRef.current,

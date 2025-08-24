@@ -2,18 +2,11 @@ import { useEffect, useMemo, useState } from 'react';
 import type { Temperature } from 'types/orders.types';
 import { Box, Flex } from '@radix-ui/themes';
 import { stylesAppContent } from 'styles/custom/content.app.styles';
-import {
-  FINAL_TEMP_MIN,
-  INITIAL_TEMP_DEFAULT,
-  INITIAL_TEMP_MAX,
-  MIN_TEMP_DIFFERENCE,
-} from 'constants/temperature.config';
-import { useGetMinMaxTemperatures } from 'queries/temperature/useGetMinMaxTemperatures';
+import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useFilters } from 'hooks/useFilters';
 import { TemperatureKey } from 'types/temperature.types';
 import { styles } from './TemperaturePage.styles';
-import { useGetTemperatureProfiles } from 'queries/temperature/useGetTemperatureProfiles';
 import { findClosestProfile } from 'utils/temperature.utils';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
 import { TemperatureForm } from './TemperatureForm';
@@ -26,7 +19,7 @@ interface TemperatureState {
 }
 
 export const TemperaturePage = () => {
-  const { orders } = useOrders();
+  const { ordersReadable, profile } = useOrders();
   const { dataFiltered } = useFilters();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
@@ -34,39 +27,54 @@ export const TemperaturePage = () => {
     [TemperatureKey.Final]: INITIAL_TEMP_DEFAULT,
   });
 
-  // Get min and max allowed temperatures
-  const {
-    data: minMaxTemperatures,
-    isLoading: isLoadingTemperatures,
-    error: minMaxError,
-  } = useGetMinMaxTemperatures();
+  // Extract temperature profiles from the profile data (filtered order)
+  const currentOrder = profile || ordersReadable[0];
+  const temperatureProfiles = currentOrder?.temperatureProfiles ?? [];
 
-  // Fetch all temperature profiles for the current orderId
-  const temperatureProfilesQuery = useGetTemperatureProfiles({
-    orderId: orders[0]?.id,
-    enabled: Boolean(orders[0]?.id),
+  // Debug logging
+  console.log('🔍 TemperaturePage Debug:', {
+    ordersReadableLength: ordersReadable?.length,
+    profileExists: !!profile,
+    profileId: profile?.id,
+    currentOrder: currentOrder?.id,
+    temperatureProfilesLength: temperatureProfiles?.length,
+    temperatureProfiles,
+    dataFilteredLength: dataFiltered?.length,
   });
 
-  const profiles = temperatureProfilesQuery.data ?? [];
-  const isLoadingProfiles = temperatureProfilesQuery.isLoading;
-  const profilesError = temperatureProfilesQuery.error;
+  // Debug the actual currentOrder structure
+  console.log('🔍 CurrentOrder Structure:', {
+    currentOrderKeys: currentOrder ? Object.keys(currentOrder) : 'NO_ORDER',
+    currentOrderFull: currentOrder,
+    hasTemperatureProfiles: 'temperatureProfiles' in (currentOrder || {}),
+    temperatureProfilesType: typeof currentOrder?.temperatureProfiles,
+    timeRowsType: typeof currentOrder?.timeRows,
+  });
+
+  // Debug all available data sources
+  console.log('🔍 All Available Data Sources:', {
+    ordersReadableSample: ordersReadable.slice(0, 2), // First 2 orders
+    dataFilteredSample: dataFiltered?.slice(0, 2), // First 2 filtered items
+    ordersReadableKeys: ordersReadable[0] ? Object.keys(ordersReadable[0]) : 'NO_ORDERS',
+    dataFilteredKeys: dataFiltered?.[0] ? Object.keys(dataFiltered[0]) : 'NO_FILTERED_DATA',
+  });
 
   // Use custom hook for temperature management
-  const { minProfileTemp, initializeTemperatures, updateTemperatures, isInitialized } =
+  const { minProfileTemp, minMaxTemperatures, initializeTemperatures, updateTemperatures, isInitialized } =
     useTemperatureManagement({
-      orders,
-      profiles,
+      profiles: temperatureProfiles,
       dataFiltered,
     });
 
   // Find the closest temperature profile for the current selection
   const closestProfile = useMemo(() => {
-    if (!profiles.length) return null;
-    return findClosestProfile(profiles, temperatures.initial, temperatures.final);
-  }, [profiles, temperatures.initial, temperatures.final]);
+    if (!temperatureProfiles.length) return null;
+    return findClosestProfile(temperatureProfiles, temperatures.initial, temperatures.final);
+  }, [temperatureProfiles, temperatures.initial, temperatures.final]);
 
   // Initialize temperatures
   useEffect(() => {
+    console.log('🔍 useEffect - initializeTemperatures called');
     initializeTemperatures(setTemperatures);
   }, [initializeTemperatures]);
 
@@ -83,19 +91,29 @@ export const TemperaturePage = () => {
     updateTemperatures(update.initial, update.final, setTemperatures);
   };
 
-  // Don't show inputs until we have the temperature constraints and default values
-  if ((isLoadingTemperatures && !minMaxError) || isLoadingProfiles || !isInitialized) {
-    return (
-      <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
-        <Box>Loading temperature settings...</Box>
-      </Flex>
-    );
-  }
+  // Debug loading state
+  console.log('🔍 Loading State Check:', {
+    hasCurrentOrder: !!currentOrder,
+    hasTemperatureProfiles: !!temperatureProfiles.length,
+    isInitialized,
+    shouldShowLoading: !currentOrder || !temperatureProfiles.length || !isInitialized,
+  });
 
-  if (profilesError) {
+  // Don't show inputs until we have the order data and temperature profiles
+  if (!currentOrder || !temperatureProfiles.length || !isInitialized) {
     return (
       <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
-        <Box>Error loading temperature profiles.</Box>
+        <Box>
+          <div>Loading temperature settings...</div>
+          <div>Debug: currentOrder={currentOrder ? 'YES' : 'NO'}</div>
+          <div>Debug: temperatureProfiles={temperatureProfiles.length}</div>
+          <div>Debug: isInitialized={isInitialized ? 'YES' : 'NO'}</div>
+          <div>Debug: Current Order ID: {currentOrder?.id || 'NONE'}</div>
+          <div>Debug: Order Keys: {currentOrder ? Object.keys(currentOrder).join(', ') : 'NONE'}</div>
+          <div>
+            Debug: Has temperatureProfiles: {'temperatureProfiles' in (currentOrder || {}) ? 'YES' : 'NO'}
+          </div>
+        </Box>
       </Flex>
     );
   }
@@ -107,7 +125,7 @@ export const TemperaturePage = () => {
           <Box>
             <p style={{ textAlign: 'center' }}>{TEMPERATURE_DESCRIPTIONS.page}</p>
             {closestProfile !== null && (
-              <ClosestTemperatures closestProfile={closestProfile} profiles={profiles} />
+              <ClosestTemperatures closestProfile={closestProfile} profiles={temperatureProfiles} />
             )}
           </Box>
         </Flex>
@@ -116,8 +134,8 @@ export const TemperaturePage = () => {
           temperatures={temperatures}
           onChange={handleChange}
           minProfileTemp={minProfileTemp}
-          maxInitialTemp={minMaxTemperatures?.max ?? INITIAL_TEMP_MAX}
-          minFinalTemp={minMaxTemperatures?.min ?? FINAL_TEMP_MIN}
+          maxInitialTemp={minMaxTemperatures.max}
+          minFinalTemp={minMaxTemperatures.min}
           labels={{
             initial: TEMPERATURE_DESCRIPTIONS.initial.label,
             final: TEMPERATURE_DESCRIPTIONS.final.label,
