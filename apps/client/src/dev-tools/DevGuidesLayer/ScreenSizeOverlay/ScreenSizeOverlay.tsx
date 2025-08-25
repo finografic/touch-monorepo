@@ -1,11 +1,10 @@
 import { Col, Row } from 'react-grid-system';
 import type { ReactElement } from 'react';
-import { useState } from 'react';
-import { styles } from './DevScreenSizes.styles';
+import { styles } from './ScreenSizeOverlay.styles';
+import { useKeyPressGuides } from '../useKeyPressGuides';
 
-export const DevScreenSizes = (): ReactElement | null => {
-  const [numCols, setNumCols] = useState(4);
-  const colSize = Math.floor(12 / numCols);
+export const ScreenSizeOverlay = (): ReactElement | null => {
+  useKeyPressGuides();
 
   return (
     <Row css={styles}>

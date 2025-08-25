@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { styles } from './ToolbarToggle.styles';
-import { useDevLayer } from '../DevLayerContext';
+import { useDevLayer } from '../DevGuidesContext';
 import { PanelBottomCloseIcon, PanelBottomOpenIcon } from 'styles/icons';
 
 export const ToolbarToggle = () => {

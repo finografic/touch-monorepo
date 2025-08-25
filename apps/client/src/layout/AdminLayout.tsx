@@ -15,7 +15,7 @@ import { setConfiguration } from 'react-grid-system';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
 import { ToastProvider, ToastSystem } from 'components/Toast';
-import { DevLayer } from 'dev-tools/DevLayer/DevLayer';
+import { DevGuidesLayer } from 'dev-tools/DevGuidesLayer/DevGuidesLayer';
 
 export const AdminLayout: FC = () => {
   const isMounted: boolean = !!useIsMounted();
@@ -53,7 +53,7 @@ export const AdminLayout: FC = () => {
       <ContentProvider>
         <AdminProvider>
           <DevProvider>
-            <DevLayer>
+            <DevGuidesLayer>
               <ToastProvider>
                 <Theme
                   appearance={adminTheme.appearance}
@@ -94,7 +94,7 @@ export const AdminLayout: FC = () => {
                   <ToastSystem />
                 </Theme>
               </ToastProvider>
-            </DevLayer>
+            </DevGuidesLayer>
           </DevProvider>
         </AdminProvider>
       </ContentProvider>

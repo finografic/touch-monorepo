@@ -1,1 +1,0 @@
-export { DevScreenSizes } from './DevScreenSizes';
