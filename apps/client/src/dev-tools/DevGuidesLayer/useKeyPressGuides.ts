@@ -1,12 +1,13 @@
 import { useEffect } from 'react';
-import { useDevGuides } from './DevGuidesContext';
-// import { useAdmin } from 'providers/AdminProvider/AdminContext';
 
-export const useKeyPressGuides = () => {
-  const { isDevGuidesVisibile, setIsDevGuidesVisibile } = useDevGuides();
+interface UseKeyPressGuidesProps {
+  isActive: boolean;
+  setIsActive: (isActive: boolean) => void;
+  keyCode: string;
+}
 
+export const useKeyPressGuides = ({ isActive, setIsActive, keyCode }: UseKeyPressGuidesProps) => {
   const handleKeyDown = (event: KeyboardEvent) => {
-    // Debug logging
     if (event.key === '?' || event.key === 'Control') {
       console.debug('Key Event:', {
         key: event.key,
@@ -18,24 +19,13 @@ export const useKeyPressGuides = () => {
       });
     }
 
-    // Dev tools: Ctrl only
     if (event.ctrlKey && !event.shiftKey && !event.altKey && !event.metaKey) {
-      setIsDevGuidesVisibile(!isDevGuidesVisibile);
-    }
-
-    // Admin tools: Shift + / (question mark)
-    // Using Shift + / as it's a common shortcut for help/tools interfaces
-    if (event.key === '?' && !event.ctrlKey && !event.altKey && event.shiftKey && !event.metaKey) {
-      console.debug('ADMIN TOOLS:', isDevGuidesVisibile);
-      setIsDevGuidesVisibile(!isDevGuidesVisibile);
-      // Prevent the question mark from being typed
-      event.preventDefault();
+      setIsActive(!isActive);
     }
   };
 
   useEffect(() => {
-    // Use document instead of window for better keyboard event handling
     document.addEventListener('keydown', handleKeyDown);
     return () => document.removeEventListener('keydown', handleKeyDown);
-  }, [isDevGuidesVisibile]);
+  }, [isActive]);
 };
