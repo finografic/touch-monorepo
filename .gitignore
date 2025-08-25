@@ -7,11 +7,7 @@
 # =============================================================================
 
 # Production deployment build artifacts (regenerated each build)
-deployment/dist/
-deployment/*.sh
-deployment/*.bat
-deployment/USER_G*.md
-deployment/GUIA_U*.md
+deployments/
 
 
 # Build outputs (regenerated each build)
@@ -75,6 +71,9 @@ data/uploads/
 # CACHE & TEMPORARY FILES
 # =============================================================================
 
+# Build isolation workspace
+.temp/
+
 # Turbo cache
 .turbo/
 **/.turbo
@@ -88,6 +87,9 @@ data/uploads/
 # =============================================================================
 # ZIP DEPLOYMENTS etc..
 # =============================================================================
+
+# Deployment artifacts folder (isolated build outputs)
+deployments/
 
 # Zip files
 **/*.zip
@@ -128,15 +130,6 @@ Desktop.ini
 
 # Linux
 *~
-
-# =============================================================================
-# ELECTRON BUILD
-# =============================================================================
-
-# Electron build artifacts
-electron/dist/
-electron/out/
-electron/release/
 
 # =============================================================================
 # WEB SERVER DEFAULT FOLDERS
