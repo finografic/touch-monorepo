@@ -527,16 +527,50 @@ async function installDependencies(): Promise<void> {
   console.log('📦 Installing production dependencies...');
 
   try {
-    // Install dependencies in the deployment directory
-    execSync('npm install --production', {
+    // First attempt: Standard install
+    console.log('  🔧 Attempting standard npm install...');
+    execSync('npm install --production --no-audit --no-fund', {
       cwd: config.distDir,
       stdio: 'inherit',
     });
-
     console.log('✅ Production dependencies installed');
   } catch (error) {
-    console.error('❌ Failed to install dependencies:', error);
-    throw error;
+    console.log('⚠️  Standard install failed, trying with --legacy-peer-deps...');
+
+    try {
+      // Second attempt: Use legacy peer deps to handle version conflicts
+      execSync('npm install --production --legacy-peer-deps --no-audit --no-fund', {
+        cwd: config.distDir,
+        stdio: 'inherit',
+      });
+      console.log('✅ Production dependencies installed with legacy peer deps');
+    } catch (legacyError) {
+      console.log('⚠️  Legacy peer deps failed, trying with --force...');
+
+      try {
+        // Third attempt: Force install to override conflicts
+        execSync('npm install --production --force --no-audit --no-fund', {
+          cwd: config.distDir,
+          stdio: 'inherit',
+        });
+        console.log('✅ Production dependencies installed with force flag');
+      } catch (forceError) {
+        console.log('⚠️  Force install failed, trying with both flags...');
+
+        try {
+          // Final attempt: Use both flags
+          execSync('npm install --production --legacy-peer-deps --force --no-audit --no-fund', {
+            cwd: config.distDir,
+            stdio: 'inherit',
+          });
+          console.log('✅ Production dependencies installed with both legacy and force flags');
+        } catch (finalError) {
+          console.error('❌ All installation attempts failed:', finalError);
+          console.error('💡 Try manually running: npm install --production --legacy-peer-deps --force');
+          throw finalError;
+        }
+      }
+    }
   }
 }
 
