@@ -16,8 +16,8 @@ import {
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 
-const DIST_DIR = resolve(__dirname, '../../../deployment');
 const WORKSPACE_ROOT = resolve(__dirname, '../../..');
+const DIST_DIR = resolve(WORKSPACE_ROOT, '.temp/deployment');
 
 interface BuildConfig {
   distDir: string;
@@ -892,18 +892,41 @@ async function createZipArchive(options: BuildOptions): Promise<void> {
   const arch = options.arch || 'universal';
   const timestamp = new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19);
   const zipName = `touch-monorepo-${platform}-${arch}-${timestamp}.zip`;
-  const zipPath = join(options.outputDir || config.workspaceRoot, zipName);
+
+  // Save zip to deployments folder
+  const deploymentsDir = join(config.workspaceRoot, 'deployments');
+  const zipPath = join(deploymentsDir, zipName);
 
   try {
+    // Ensure deployments directory exists
+    await mkdir(deploymentsDir, { recursive: true });
+
     // Use system zip command
     const zipCommand = `cd "${config.distDir}" && zip -r "${zipPath}" . -x "node_modules/*" "*.log" ".DS_Store"`;
     execSync(zipCommand, { stdio: 'inherit' });
 
     console.log(`✅ Deployment archive created: ${zipName}`);
     console.log(`📁 Location: ${zipPath}`);
+
+    return zipName;
   } catch (error) {
     console.error('❌ Failed to create zip archive:', error);
     throw error;
+  }
+}
+
+async function cleanupTempDirectory(): Promise<void> {
+  console.log('🧹 Cleaning up temporary build directory...');
+
+  try {
+    const tempDir = join(config.workspaceRoot, '.temp');
+    if (existsSync(tempDir)) {
+      execSync(`rm -rf "${tempDir}"`, { stdio: 'inherit' });
+      console.log('✅ Temporary directory cleaned up');
+    }
+  } catch (error) {
+    console.warn('⚠️  Failed to cleanup temp directory:', error);
+    // Don't throw - this is not critical
   }
 }
 
@@ -1579,18 +1602,22 @@ async function main(): Promise<void> {
     await createPlatformSpecificScripts(options);
     await createUserDocumentation(options);
 
+    let zipName = '';
     if (options.zip) {
-      await createZipArchive(options);
+      zipName = await createZipArchive(options);
     }
+
+    // Clean up temporary build directory
+    await cleanupTempDirectory();
 
     console.log('');
     console.log('🎉 Deployment build completed successfully!');
-    console.log('📦 Deployment created at:', config.distDir);
+    console.log('📦 Deployment built in: .temp/deployment (cleaned up)');
     console.log('');
 
-    if (options.zip) {
-      const zipName = `touch-monorepo-${options.platform || 'universal'}-${options.arch || 'universal'}-${new Date().toISOString().replace(/[:.]/g, '-').slice(0, 19)}.zip`;
+    if (options.zip && zipName) {
       console.log('📦 Zip archive created:', zipName);
+      console.log('📁 Saved to: deployments/ folder');
     }
 
     console.log('');
@@ -1610,6 +1637,14 @@ async function main(): Promise<void> {
     console.log('');
   } catch (error) {
     console.error('❌ Deployment build failed:', error);
+
+    // Clean up temporary directory even on failure
+    try {
+      await cleanupTempDirectory();
+    } catch (cleanupError) {
+      console.warn('⚠️  Failed to cleanup temp directory after error:', cleanupError);
+    }
+
     process.exit(1);
   }
 }

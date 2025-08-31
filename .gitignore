@@ -90,7 +90,6 @@ data/uploads/
 
 # Deployment artifacts folder (isolated build outputs)
 deployments/
-deployment/
 
 # Zip files
 **/*.zip
