@@ -7,10 +7,22 @@ export const styles = css`
   padding: 0 2.5rem;
 
   h1 {
+    display: flex;
+    align-items: center;
     font-size: 1.8rem;
     font-weight: 700;
     color: ${colors.info};
-    margin: 0;
+    margin: 0 0 0 0.8rem;
+
+    span.current-language {
+      font-size: 1.6rem;
+      font-weight: 600;
+      color: ${colors.info};
+      margin: 0 0 0 0.8rem;
+      opacity: 0.4;
+      transform: translateY(-4%);
+      text-transform: none;
+    }
   }
 
   div[role='menuitem'][data-highlighted] {

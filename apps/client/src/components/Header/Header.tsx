@@ -1,13 +1,16 @@
 import { Container, Flex } from '@radix-ui/themes';
 import { styles } from './Header.styles';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useContent } from 'providers/ContentProvider/ContentContext';
 
 export const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
   const { currentSessionId } = useSession();
+  const { currentLanguage } = useContent();
 
   return (
     <header css={styles}>
@@ -27,7 +30,7 @@ export const Header = () => {
                   window.location.reload();
                 }}
               >
-                {t('app.title')}
+                {t('app.title')} <span className="current-language">({currentLanguage})</span>
               </h1>
               {/* <pre className="current-language">{String(currentSessionId)}</pre> */}
             </Flex>
@@ -37,7 +40,6 @@ export const Header = () => {
             {/* <LanguageSelector onLanguageChange={handleLanguageChange} /> */}
             {/* <pre className="current-language">{String(currentSessionId)}</pre> */}
           </Flex>
-          {/* ====================================================================== */}
         </Flex>
       </Container>
     </header>

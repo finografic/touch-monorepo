@@ -35,7 +35,7 @@ export const DevToolbarFrontEnd = () => {
   return (
     <>
       <>
-        <DevScreenSize />
+        {/* <DevScreenSize /> */}
         {isDevToolsVisible && <DevPanelLeft />}
         {/* {isDevToolsVisible && <DevPanelRight />} */}
       </>
