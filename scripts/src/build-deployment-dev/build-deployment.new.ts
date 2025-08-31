@@ -24,9 +24,6 @@ import {
   createSetupScripts,
   createStartScript,
   createPlatformSpecificScripts,
-  createPortsUtility,
-  createTestScript,
-  createReadme,
 } from './utils/scripts.utils.js';
 import { createStandalonePackage } from './utils/package.utils.js';
 import { createUserDocumentation } from './docs/documentation.generator.js';
@@ -62,7 +59,7 @@ async function getInteractiveOptions(): Promise<BuildOptions> {
   const selectedPlatform = await select({
     message: chalk.bold('🎯 Select deployment platform:'),
     choices: platformConfigs.map((config) => ({
-      name: config.name,
+      name: `${config.icon} ${config.name}`,
       value: config.value,
       description: config.description,
     })),
@@ -78,9 +75,10 @@ async function getInteractiveOptions(): Promise<BuildOptions> {
   const selectedOptions = await checkbox({
     message: chalk.bold('⚙️  Select deployment options:'),
     choices: deploymentOptions.map((option) => ({
-      name: option.name,
+      name: `${option.icon} ${option.name}`,
       value: option.value,
-      checked: option.checked,
+      description: option.description,
+      checked: option.default,
     })),
   });
 
@@ -126,24 +124,22 @@ async function main(): Promise<void> {
     // Step 2: Copy build artifacts
     await copyBuildArtifacts(config);
 
-    // Step 3: Create standalone package.json and install dependencies
-    await createStandalonePackage(config, options);
-    if (!options.standalone) {
+    // Step 3: Handle dependencies
+    if (options.standalone) {
+      await createStandalonePackage(config, options);
+    } else {
       await installDependencies(config);
     }
 
     // Step 4: Copy environment files
-    await copyEnvExample(config);
+    await copyEnvExample();
 
-    // Step 5: Clean old artifacts (after dependency installation)
+    // Step 5: Clean old artifacts
     await cleanPlatformArtifacts(config);
 
-    // Step 6: Create scripts and utilities
+    // Step 6: Create scripts
     await createSetupScripts(config);
     await createStartScript(config);
-    await createPortsUtility(config);
-    await createTestScript(config);
-    await createReadme(config);
     await createPlatformSpecificScripts(config, options);
 
     // Step 7: Create documentation
