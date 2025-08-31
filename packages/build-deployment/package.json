@@ -1,0 +1,52 @@
+{
+  "name": "@workspace/build-deployment",
+  "type": "module",
+  "version": "1.0.0",
+  "packageManager": "pnpm@10.15.0",
+  "description": "Touch Monorepo Deployment Builder",
+  "author": {
+    "name": "Justin",
+    "email": "justin.blair.rankin@gmail.com",
+    "url": "http://finografic.github.com/cv-justin-rankin"
+  },
+  "license": "MIT",
+  "keywords": [
+    "deployment",
+    "build",
+    "monorepo",
+    "touch-monorepo"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/build-deployment.ts",
+      "import": "./src/build-deployment.ts"
+    }
+  },
+  "bin": {
+    "build-deployment": "./src/build-deployment.ts"
+  },
+  "files": [
+    "src",
+    "templates",
+    "README.md"
+  ],
+  "scripts": {
+    "========== DEPLOYMENT": "===============================================",
+    "build:deployment": "tsx src/build-deployment.ts",
+    "build:deployment:auto": "tsx src/build-deployment.ts -y",
+    "·········· DEV": "···················································",
+    "dev": "tsx watch src/build-deployment.ts",
+    "·········· UTILS": "·················································",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "chalk": "^5.5.0",
+    "inquirer": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "20.11.24",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
