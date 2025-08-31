@@ -6,10 +6,8 @@
   "type": "module",
   "scripts": {
     "start": "run-p start:server start:client",
-    "start:v1": "node start-server.js",
     "start:server": "node start-server.js",
-    "start:client": "node start-client.js",
-    "start:both": "npm-run-all --parallel start:server start:client"
+    "start:client": "node start-client.js"
   },
   "dependencies": {
     "@bugsnag/cuid": "3.2.1",
