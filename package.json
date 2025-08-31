@@ -17,7 +17,7 @@
     "========== DEV": "=======================================================",
     "scripts": "tsx scripts/src/script-runner/script-runner.ts",
     "dev": "run-p dev:turbo db.studio",
-    "dev.i18n.update": "pnpm i18n.force",
+    "dev.i18n.update": "pnpm i18n.force && pnpm dev",
     "dev.deploy": "pnpm build.deployment",
     "dev.reset": "run-s reset",
     "dev.db.reset": "run-s db.reset",
