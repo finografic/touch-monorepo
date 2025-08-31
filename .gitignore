@@ -94,10 +94,6 @@ deployment/
 
 # Zip files
 **/*.zip
-touch-monorepo-linux-*/
-touch-monorepo-macos-*/
-touch-monorepo-windows-*/
-touch-monorepo-universal-*/
 
 # =============================================================================
 # LOGS
