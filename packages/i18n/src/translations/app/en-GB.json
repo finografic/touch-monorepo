@@ -8,7 +8,7 @@
         "title": "Main",
         "subtitle": "Main page"
       },
-      "drinkTypes": {
+      "drinkType": {
         "title": "Drink Types",
         "subtitle": "Select drink type"
       },

@@ -8,41 +8,21 @@
         "title": "Principal",
         "subtitle": "Página principal"
       },
-      "drinkTypes": {
+      "drinkType": {
         "title": "Tipos de bebidas",
         "subtitle": "Seleccionar tipo de bebida"
       },
-      "drinkSubtypes": {
+      "drinkSubtype": {
         "title": "Subtipos de bebidas",
         "subtitle": "Seleccionar subtipo de bebida"
       },
-      "volumes": {
+      "drinkVolume": {
         "title": "Volúmenes",
         "subtitle": "Seleccionar volumen"
       },
-      "containerTypes": {
+      "containerType": {
         "title": "Tipos de contenedores",
         "subtitle": "Seleccionar tipo de contenedor"
-      },
-      "temperatureControl": {
-        "title": "Control de temperatura",
-        "subtitle": "Seleccionar control de temperatura"
-      },
-      "drink-type": {
-        "title": "Seleccionar tipo de bebida",
-        "subtitle": "Elige tu tipo de bebida"
-      },
-      "drink-subtype": {
-        "title": "Seleccionar subtipo de bebida",
-        "subtitle": "Elige tu subtipo de bebida"
-      },
-      "drink-volume": {
-        "title": "Seleccionar volumen",
-        "subtitle": "Elige tu volumen"
-      },
-      "container-type": {
-        "title": "Seleccionar tipo de contenedor",
-        "subtitle": "Elige tu tipo de contenedor"
       },
       "temperature": {
         "title": "Control de temperatura",
