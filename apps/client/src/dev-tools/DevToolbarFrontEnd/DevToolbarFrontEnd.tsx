@@ -10,15 +10,12 @@ import { MockTimersMin } from '../MockTimersMin/MockTimersMin';
 import { MockSessionTimer } from '../MockSessionTimer/MockSessionTimer';
 import { hasProcessingTimers } from 'components/Timer/timers.utils';
 import { useOrdersOptional } from 'providers/OrdersProvider/OrdersContext';
-import { DevPanelRight } from '../DevPanels/DevPanelRight';
-import { useLocation } from 'react-router-dom';
+// import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { AuthStatusDialog } from 'components/Dialog/dialogs/AuthStatusDialog';
 import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
 import { DevPanelLeft } from 'dev-tools/DevPanels/DevPanelLeft';
 
 export const DevToolbarFrontEnd = () => {
-  const location = useLocation();
-
   const ordersContext = useOrdersOptional();
   const orders = ordersContext?.orders || [];
   const {

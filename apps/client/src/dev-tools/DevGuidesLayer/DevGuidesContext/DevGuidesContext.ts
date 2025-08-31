@@ -13,7 +13,7 @@ export enum DevGuidesKeys {
 }
 
 const defaultValue: DevGuidesValues = {
-  isDevGuidesVisibile: true,
+  isDevGuidesVisibile: false,
 };
 
 export const DevGuidesContext = createZustandContext(({ initialValue }) => {
