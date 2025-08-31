@@ -620,7 +620,7 @@ async function cleanPlatformArtifacts(): Promise<void> {
     const cmd = [
       `cd "${config.distDir}"`,
       // remove any previously generated platform-specific scripts/docs
-      'rm -f setup.bat setup.sh setup-macos.sh',
+      'rm -f setup.bat setup-macos.sh',
       'rm -f start-*.bat start-*.sh',
       'rm -f USER_GUIDE*.md GUIA_USUARIO*.md',
     ].join(' && ');
@@ -631,171 +631,142 @@ async function cleanPlatformArtifacts(): Promise<void> {
 }
 
 async function createSetupScripts(options: BuildOptions): Promise<void> {
-  console.log('🔧 Creating platform-specific setup scripts...');
+  console.log('🔧 Creating universal setup script...');
 
-  const setupScripts = {
-    windows: `@echo off
-setlocal ENABLEDELAYEDEXPANSION
-echo ========================================
-echo Touch Monorepo - Windows Setup
-echo ========================================
-echo.
-
-REM 1) Ensure Node.js is installed
-node --version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo ❌ Node.js is not installed. Attempting to install Node.js LTS via winget...
-    winget --version >nul 2>&1
-    if %errorlevel% EQU 0 (
-        winget install OpenJS.NodeJS.LTS -e --silent --accept-source-agreements --accept-package-agreements
-        if %errorlevel% NEQ 0 (
-            echo ⚠️  winget install failed. Checking for Chocolatey...
-            choco -v >nul 2>&1
-            if %errorlevel% EQU 0 (
-                choco install nodejs-lts -y
-            ) else (
-                echo ⚠️  Chocolatey not found. Opening Node.js download page...
-                start https://nodejs.org/
-                echo Please install Node.js LTS manually, then press any key to continue.
-                pause >nul
-            )
-        )
-    ) else (
-        echo ⚠️  winget not available. Checking for Chocolatey...
-        choco -v >nul 2>&1
-        if %errorlevel% EQU 0 (
-            choco install nodejs-lts -y
-        ) else (
-            echo ⚠️  Chocolatey not found. Opening Node.js download page...
-            start https://nodejs.org/
-            echo Please install Node.js LTS manually, then press any key to continue.
-            pause >nul
-        )
-    )
-)
-
-REM Refresh PATH for current session (common install location)
-set PATH=%PATH%;C:\\Program Files\\nodejs
-
-node --version >nul 2>&1
-if %errorlevel% neq 0 (
-    echo ❌ Node.js still not detected. Please close this window, install Node.js, then run setup.bat again.
-    pause
-    exit /b 1
-)
-
-echo ✅ Node.js found:
-node --version
-
-echo ✅ npm found:
-npm --version
-
-echo.
-echo 📦 Installing dependencies (production)...
-npm install --production
-if %errorlevel% NEQ 0 (
-    echo ❌ Failed to install dependencies
-    pause
-    exit /b 1
-)
-
-echo.
-echo 🚀 Starting application (server + client)...
-start "server" cmd /c start-server.bat
-start "client" cmd /c start-client.bat
-
-echo.
-echo 🎉 Setup completed. Two windows should be running (server and client).
-pause
-`,
-    linux: `#!/bin/bash
+  // Universal setup script that detects platform and installs Node.js
+  const universalSetupScript = `#!/bin/bash
 set -e
 
 echo "========================================"
-echo "Touch Monorepo - Linux Setup"
+echo "Touch Monorepo - Universal Setup"
 echo "========================================"
+echo "Detecting platform and setting up..."
 echo
 
+# Detect operating system
+if [[ "$OSTYPE" == "msys" || "$OSTYPE" == "cygwin" || "$OSTYPE" == "win32" ]]; then
+    PLATFORM="windows"
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+    PLATFORM="macos"
+else
+    PLATFORM="linux"
+fi
+
+echo "🔍 Detected platform: $PLATFORM"
+echo
+
+# Check if Node.js is installed
 if ! command -v node >/dev/null 2>&1; then
-  echo "❌ Node.js is not installed. Attempting to install..."
-  if command -v apt >/dev/null 2>&1; then
-    sudo apt update && sudo apt install -y nodejs npm
-  elif command -v dnf >/dev/null 2>&1; then
-    sudo dnf install -y nodejs npm
-  elif command -v pacman >/dev/null 2>&1; then
-    sudo pacman -Sy --noconfirm nodejs npm
-  else
-    echo "⚠️  Could not auto-install Node.js. Please install Node 20+ from https://nodejs.org/ then re-run ./setup.sh"
+    echo "❌ Node.js is not installed. Installing..."
+
+    case $PLATFORM in
+        "windows")
+            echo "⚠️  Please install Node.js manually from https://nodejs.org/"
+            echo "   Then run this script again."
+            read -p "Press Enter after installing Node.js..."
+            ;;
+        "linux")
+            if command -v apt >/dev/null 2>&1; then
+                sudo apt update && sudo apt install -y nodejs npm
+            elif command -v dnf >/dev/null 2>&1; then
+                sudo dnf install -y nodejs npm
+            elif command -v pacman >/dev/null 2>&1; then
+                sudo pacman -Sy --noconfirm nodejs npm
+            else
+                echo "⚠️  Could not auto-install Node.js."
+                echo "   Please install Node.js 20+ from https://nodejs.org/"
+                echo "   Then run this script again."
+                exit 1
+            fi
+            ;;
+        "macos")
+            if command -v brew >/dev/null 2>&1; then
+                brew install node
+            else
+                echo "🍺 Installing Homebrew first..."
+                /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+                echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
+                eval "$(/opt/homebrew/bin/brew shellenv)"
+                brew install node
+            fi
+            ;;
+    esac
+fi
+
+# Verify Node.js installation
+if ! command -v node >/dev/null 2>&1; then
+    echo "❌ Node.js still not found. Please install manually and try again."
     exit 1
-  fi
 fi
 
 echo "✅ Node.js: $(node -v)"
 echo "✅ npm: $(npm -v)"
-
-echo "📦 Installing dependencies (production)..."
-npm install --production
-
-echo "🚀 Starting application (server + client)..."
-chmod +x start-server.sh start-client.sh || true
-(./start-server.sh &) >/dev/null 2>&1
-(./start-client.sh &) >/dev/null 2>&1
-
-echo "🎉 Setup completed. Server and client started in background."
-`,
-    macos: `#!/bin/bash
-set -e
-
-echo "========================================"
-echo "Touch Monorepo - macOS Setup"
-echo "========================================"
 echo
 
-if ! command -v node >/dev/null 2>&1; then
-  echo "❌ Node.js is not installed. Attempting Homebrew install..."
-  if command -v brew >/dev/null 2>&1; then
-    brew install node
-  else
-    echo "⚠️  Homebrew not found. Installing Homebrew (may prompt for password)..."
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-    echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
-    eval "$(/opt/homebrew/bin/brew shellenv)"
-    brew install node
-  fi
-fi
-
-echo "✅ Node.js: $(node -v)"
-echo "✅ npm: $(npm -v)"
-
-echo "📦 Installing dependencies (production)..."
+echo "📦 Installing application dependencies..."
 npm install --production
 
-echo "🚀 Starting application (server + client)..."
-chmod +x start-server-macos.sh start-client-macos.sh || true
-(./start-server-macos.sh &) >/dev/null 2>&1
-(./start-client-macos.sh &) >/dev/null 2>&1
+if [ $? -eq 0 ]; then
+    echo "✅ Dependencies installed successfully!"
+else
+    echo "❌ Failed to install dependencies"
+    exit 1
+fi
 
-echo "🎉 Setup completed. Server and client started in background."
-`,
-  };
+echo
+echo "🎉 Setup completed successfully!"
+echo
+echo "🚀 To start the application, run:"
+echo "   ./start"
+echo
+echo "   Or manually:"
+echo "   npm start"
+echo
+`;
 
-  // Create platform-specific setup scripts
-  if (options.platform === 'windows') {
-    await writeFile(join(config.distDir, 'setup.bat'), setupScripts.windows);
-    console.log('✅ Windows setup script created (setup.bat)');
-  }
+  // Always create universal setup.sh
+  await writeFile(join(config.distDir, 'setup.sh'), universalSetupScript);
+  execSync(`chmod +x ${join(config.distDir, 'setup.sh')}`, { stdio: 'inherit' });
+  console.log('✅ Universal setup script created (setup.sh)');
+}
 
-  if (options.platform === 'linux') {
-    await writeFile(join(config.distDir, 'setup.sh'), setupScripts.linux);
-    execSync(`chmod +x ${join(config.distDir, 'setup.sh')}`, { stdio: 'inherit' });
-    console.log('✅ Linux setup script created (setup.sh)');
-  }
+async function createStartScript(): Promise<void> {
+  console.log('🚀 Creating simple start script...');
 
-  if (options.platform === 'macos') {
-    await writeFile(join(config.distDir, 'setup-macos.sh'), setupScripts.macos);
-    execSync(`chmod +x ${join(config.distDir, 'setup-macos.sh')}`, { stdio: 'inherit' });
-    console.log('✅ macOS setup script created (setup-macos.sh)');
-  }
+  // Simple, cross-platform start script (no extension)
+  const startScript = `#!/bin/bash
+set -e
+
+echo "🚀 Starting Touch Monorepo..."
+echo
+
+# Check if Node.js is available
+if ! command -v node >/dev/null 2>&1; then
+    echo "❌ Node.js not found. Please run ./setup.sh first."
+    exit 1
+fi
+
+# Check if dependencies are installed
+if [ ! -d "node_modules" ]; then
+    echo "❌ Dependencies not installed. Please run ./setup.sh first."
+    exit 1
+fi
+
+echo "✅ Starting server and client..."
+echo "   Server: http://localhost:4040"
+echo "   Client: http://localhost:3000"
+echo
+echo "Press Ctrl+C to stop"
+echo
+
+# Start the application
+npm start
+`;
+
+  // Create the start script (no extension)
+  await writeFile(join(config.distDir, 'start'), startScript);
+  execSync(`chmod +x ${join(config.distDir, 'start')}`, { stdio: 'inherit' });
+  console.log('✅ Simple start script created (start)');
 }
 
 async function createPlatformSpecificScripts(options: BuildOptions): Promise<void> {
@@ -885,7 +856,7 @@ cd "$(dirname "$0")"
   }
 }
 
-async function createZipArchive(options: BuildOptions): Promise<void> {
+async function createZipArchive(options: BuildOptions): Promise<string> {
   console.log('📦 Creating deployment archive...');
 
   const platform = options.platform || 'universal';
@@ -944,7 +915,7 @@ async function createStandalonePackage(options: BuildOptions): Promise<void> {
       'start': 'run-p start:server start:client',
       'start:server': 'node dist/server/index.js',
       'start:client': 'node dist/client/server.js',
-      'setup': options.platform === 'windows' ? 'setup.bat' : './setup.sh',
+      'setup': './setup.sh',
     },
     dependencies: {
       'better-sqlite3': '11.9.0',
@@ -965,210 +936,91 @@ async function createStandalonePackage(options: BuildOptions): Promise<void> {
 async function createUserDocumentation(options: BuildOptions): Promise<void> {
   console.log('📝 Creating user documentation...');
 
-  const platform = options.platform || 'universal';
-  const isWindows = platform === 'windows' || platform === 'universal';
-  const isLinux = platform === 'linux' || platform === 'universal';
-  const isMacOS = platform === 'macos' || platform === 'universal';
-
-  // English User Guide
+  // English User Guide - Simplified Universal Version
   const englishGuide = `# Touch Monorepo - User Guide
 
 ## 🎯 Welcome!
 
-This guide will help you set up and run the Touch Monorepo application on your computer. No technical knowledge required!
+This guide will help you set up and run the Touch Monorepo application on your computer. **Super simple - just two steps!**
 
 ## 📋 What You Need
 
-- **Windows 10/11**: Any recent Windows computer
-- **Linux (Ubuntu/Debian)**: Any Linux computer
-- **macOS**: Any Mac computer (Intel or Apple Silicon)
+- **Any Computer**: Windows, Linux, or macOS
 - **Internet connection**: For initial setup (one-time only)
 
-## 🚀 Quick Start Guide
+## 🚀 Quick Start Guide (2 Steps!)
 
 ### Step 1: Extract the Files
 
-1. **Find the downloaded file**: Look for a file ending in \`.zip\` (e.g., \`touch-monorepo-windows-x64-2024-01-15.zip\`)
+1. **Find the downloaded file**: Look for a file ending in \`.zip\`
 2. **Right-click the file** and select "Extract All" or "Extract Here"
 3. **Choose a location** (like your Desktop or Documents folder)
-4. **Click "Extract"**
+4. **Open the extracted folder**
 
-### Step 2: Run the Setup
+### Step 2: Run Setup & Start
 
-${
-  isWindows
-    ? `#### For Windows Users
+**On Windows:**
+1. **Open PowerShell or Command Prompt** in the folder
+2. **Run setup**: \`bash setup.sh\` (installs Node.js if needed)
+3. **Start app**: \`bash start\`
 
-1. **Open the extracted folder** (double-click the folder)
-2. **Find the file called \`setup.bat\`** (it has a gear icon)
-3. **Double-click \`setup.bat\`**
-4. **Wait for the setup to complete** (this may take a few minutes)
-5. **Click "OK" when it says "Setup completed successfully!"**
+**On Mac/Linux:**
+1. **Open Terminal** in the folder
+2. **Run setup**: \`./setup.sh\` (installs Node.js if needed)
+3. **Start app**: \`./start\`
 
-**If you see an error about Node.js:**
-- Go to https://nodejs.org/
-- Click the big green "LTS" button to download
-- Run the installer and follow the instructions
-- Then try running \`setup.bat\` again`
-    : ''
-}
-
-${
-  isLinux
-    ? `#### For Linux Users
-
-1. **Open Terminal** (press Ctrl+Alt+T)
-2. **Navigate to the extracted folder**:
-   \`\`\`bash
-   cd /path/to/your/extracted/folder
-   \`\`\`
-3. **Make the setup script executable**:
-   \`\`\`bash
-   chmod +x setup.sh
-   \`\`\`
-4. **Run the setup**:
-   \`\`\`bash
-   ./setup.sh
-   \`\`\`
-5. **Wait for the setup to complete**
-
-**If you see an error about Node.js:**
-- Run: \`sudo apt update && sudo apt install nodejs npm\`
-- Then try running \`./setup.sh\` again`
-    : ''
-}
-
-${
-  isMacOS
-    ? `#### For macOS Users
-
-1. **Open Terminal** (press Cmd+Space, type "Terminal", press Enter)
-2. **Navigate to the extracted folder**:
-   \`\`\`bash
-   cd /path/to/your/extracted/folder
-   \`\`\`
-3. **Make the setup script executable**:
-   \`\`\`bash
-   chmod +x setup-macos.sh
-   \`\`\`
-4. **Run the setup**:
-   \`\`\`bash
-   ./setup-macos.sh
-   \`\`\`
-5. **Wait for the setup to complete**
-
-**If you see an error about Node.js:**
-- Go to https://nodejs.org/
-- Click the big green "LTS" button to download
-- Run the installer and follow the instructions
-- Then try running \`./setup-macos.sh\` again`
-    : ''
-}
-
-### Step 3: Start the Application
-
-${
-  isWindows
-    ? `#### For Windows Users
-
-1. **In the same folder**, find \`start-server.bat\`
-2. **Double-click \`start-server.bat\`** (this starts the backend)
-3. **Wait for it to say "Server is running"**
-4. **In the same folder**, find \`start-client.bat\`
-5. **Double-click \`start-client.bat\`** (this starts the frontend)
-6. **Your web browser should open automatically** to the application
-
-**Alternative**: Double-click \`start-both.bat\` to start both at once`
-    : ''
-}
-
-${
-  isLinux
-    ? `#### For Linux Users
-
-1. **In Terminal**, run the server:
-   \`\`\`bash
-   ./start-server.sh
-   \`\`\`
-2. **Open a new Terminal window** and run the client:
-   \`\`\`bash
-   ./start-client.sh
-   \`\`\`
-3. **Your web browser should open automatically** to the application
-
-**Alternative**: Run \`npm start\` to start both at once`
-    : ''
-}
-
-${
-  isMacOS
-    ? `#### For macOS Users
-
-1. **In Terminal**, run the server:
-   \`\`\`bash
-   ./start-server-macos.sh
-   \`\`\`
-2. **Open a new Terminal window** and run the client:
-   \`\`\`bash
-   ./start-client-macos.sh
-   \`\`\`
-3. **Your web browser should open automatically** to the application
-
-**Alternative**: Run \`npm start\` to start both at once`
-    : ''
-}
+**That's it!** 🎉
 
 ## 🌐 Using the Application
 
-1. **Open your web browser** (Chrome, Firefox, Safari, Edge)
-2. **Go to**: http://localhost:3000
-3. **The application should load** and be ready to use!
+1. **Your web browser should open automatically** to: http://localhost:3000
+2. **If it doesn't open**, manually go to: http://localhost:3000
+3. **The application is ready to use!**
 
 ## 🔧 Troubleshooting
 
 ### Common Issues
 
+**"Command not found" or "Permission denied"**
+- **Windows**: Make sure you're using PowerShell or Command Prompt, not File Explorer
+- **Mac/Linux**: Make sure you're using Terminal
+
 **"Node.js is not installed"**
-- Follow the installation instructions above
-- Make sure to restart your computer after installing Node.js
+- The setup script will try to install it automatically
+- If it fails, go to https://nodejs.org/ and install manually
+- Then run \`./setup.sh\` again
 
 **"Port is already in use"**
-- Close any other applications that might be using ports 3000 or 4040
+- Close any other applications using ports 3000 or 4040
 - Restart your computer and try again
 
-**"Permission denied" (Linux/macOS)**
-- Make sure you ran the setup script first
-- Try running: \`chmod +x *.sh\`
-
-**"Application won't start"**
-- Make sure you ran the setup script first
+**Application won't start**
+- Make sure you ran \`./setup.sh\` first
 - Check that you're in the correct folder
 - Try restarting your computer
 
-### Getting Help
+### Still Having Trouble?
 
-If you're still having trouble:
-
-1. **Check the README.md file** in this folder for technical details
-2. **Look for error messages** in the terminal/command prompt
-3. **Make sure your computer meets the requirements** listed above
-4. **Try running the setup script again**
+1. **Make sure you're in the right folder** (the extracted folder)
+2. **Try running setup again**: \`./setup.sh\`
+3. **Check for error messages** and note them down
+4. **Restart your computer** and try again
 
 ## 📞 Support
 
 For technical support, please provide:
-- Your operating system (Windows/Linux/macOS)
+- Your operating system (Windows/Mac/Linux)
 - Any error messages you see
-- Steps you've already tried
+- What step you're stuck on
 
 ## 🎉 You're Ready!
 
-Once the application is running, you can:
-- Access it at http://localhost:3000
-- Use all the features of the Touch Monorepo application
-- Close the terminal/command prompt windows when you're done
+Once the application is running:
+- **Access it**: http://localhost:3000
+- **To stop**: Press Ctrl+C in the terminal
+- **To start again**: Run \`./start\`
 
-**Note**: Keep the terminal/command prompt windows open while using the application. Close them when you're finished.
+**Note**: Keep the terminal window open while using the application.
 
 ---
 
@@ -1186,200 +1038,86 @@ Once the application is running, you can:
 
 ## 🎯 ¡Bienvenido!
 
-Esta guía te ayudará a configurar y ejecutar la aplicación Touch Monorepo en tu computadora. ¡No se requieren conocimientos técnicos!
+Esta guía te ayudará a configurar y ejecutar la aplicación Touch Monorepo en tu computadora. **¡Súper simple - solo dos pasos!**
 
 ## 📋 Lo Que Necesitas
 
-- **Windows 10/11**: Cualquier computadora Windows reciente
-- **Linux (Ubuntu/Debian)**: Cualquier computadora Linux
-- **macOS**: Cualquier Mac (Intel o Apple Silicon)
+- **Cualquier Computadora**: Windows, Linux, o macOS
 - **Conexión a internet**: Para la configuración inicial (solo una vez)
 
-## 🚀 Guía de Inicio Rápido
+## 🚀 Guía de Inicio Rápido (¡2 Pasos!)
 
 ### Paso 1: Extraer los Archivos
 
-1. **Encuentra el archivo descargado**: Busca un archivo que termine en \`.zip\` (ej., \`touch-monorepo-windows-x64-2024-01-15.zip\`)
-2. **Haz clic derecho en el archivo** y selecciona "Extraer Todo" o "Extraer Aquí"
+1. **Encuentra el archivo descargado**: Busca un archivo que termine en \`.zip\`
+2. **Haz clic derecho en el archivo** y selecciona "Extraer todo" o "Extraer aquí"
 3. **Elige una ubicación** (como tu Escritorio o carpeta Documentos)
-4. **Haz clic en "Extraer"**
+4. **Abre la carpeta extraída**
 
-### Paso 2: Ejecutar la Configuración
+### Paso 2: Ejecutar Configuración e Iniciar
 
-${
-  isWindows
-    ? `#### Para Usuarios de Windows
+**En Windows:**
+1. **Abre PowerShell o Símbolo del Sistema** en la carpeta
+2. **Ejecuta configuración**: \`bash setup.sh\` (instala Node.js si es necesario)
+3. **Inicia la app**: \`bash start\`
 
-1. **Abre la carpeta extraída** (haz doble clic en la carpeta)
-2. **Encuentra el archivo llamado \`setup.bat\`** (tiene un ícono de engranaje)
-3. **Haz doble clic en \`setup.bat\`**
-4. **Espera a que se complete la configuración** (esto puede tomar unos minutos)
-5. **Haz clic en "OK" cuando diga "Setup completed successfully!"**
+**En Mac/Linux:**
+1. **Abre Terminal** en la carpeta
+2. **Ejecuta configuración**: \`./setup.sh\` (instala Node.js si es necesario)
+3. **Inicia la app**: \`./start\`
 
-**Si ves un error sobre Node.js:**
-- Ve a https://nodejs.org/
-- Haz clic en el botón verde grande "LTS" para descargar
-- Ejecuta el instalador y sigue las instrucciones
-- Luego intenta ejecutar \`setup.bat\` nuevamente`
-    : ''
-}
-
-${
-  isLinux
-    ? `#### Para Usuarios de Linux
-
-1. **Abre Terminal** (presiona Ctrl+Alt+T)
-2. **Navega a la carpeta extraída**:
-   \`\`\`bash
-   cd /ruta/a/tu/carpeta/extraída
-   \`\`\`
-3. **Haz ejecutable el script de configuración**:
-   \`\`\`bash
-   chmod +x setup.sh
-   \`\`\`
-4. **Ejecuta la configuración**:
-   \`\`\`bash
-   ./setup.sh
-   \`\`\`
-5. **Espera a que se complete la configuración**
-
-**Si ves un error sobre Node.js:**
-- Ejecuta: \`sudo apt update && sudo apt install nodejs npm\`
-- Luego intenta ejecutar \`./setup.sh\` nuevamente`
-    : ''
-}
-
-${
-  isMacOS
-    ? `#### Para Usuarios de macOS
-
-1. **Abre Terminal** (presiona Cmd+Espacio, escribe "Terminal", presiona Enter)
-2. **Navega a la carpeta extraída**:
-   \`\`\`bash
-   cd /ruta/a/tu/carpeta/extraída
-   \`\`\`
-3. **Haz ejecutable el script de configuración**:
-   \`\`\`bash
-   chmod +x setup-macos.sh
-   \`\`\`
-4. **Ejecuta la configuración**:
-   \`\`\`bash
-   ./setup-macos.sh
-   \`\`\`
-5. **Espera a que se complete la configuración**
-
-**Si ves un error sobre Node.js:**
-- Ve a https://nodejs.org/
-- Haz clic en el botón verde grande "LTS" para descargar
-- Ejecuta el instalador y sigue las instrucciones
-- Luego intenta ejecutar \`./setup-macos.sh\` nuevamente`
-    : ''
-}
-
-### Paso 3: Iniciar la Aplicación
-
-${
-  isWindows
-    ? `#### Para Usuarios de Windows
-
-1. **En la misma carpeta**, encuentra \`start-server.bat\`
-2. **Haz doble clic en \`start-server.bat\`** (esto inicia el backend)
-3. **Espera a que diga "Server is running"**
-4. **En la misma carpeta**, encuentra \`start-client.bat\`
-5. **Haz doble clic en \`start-client.bat\`** (esto inicia el frontend)
-6. **Tu navegador web debería abrirse automáticamente** a la aplicación
-
-**Alternativa**: Haz doble clic en \`start-both.bat\` para iniciar ambos a la vez`
-    : ''
-}
-
-${
-  isLinux
-    ? `#### Para Usuarios de Linux
-
-1. **En Terminal**, ejecuta el servidor:
-   \`\`\`bash
-   ./start-server.sh
-   \`\`\`
-2. **Abre una nueva ventana de Terminal** y ejecuta el cliente:
-   \`\`\`bash
-   ./start-client.sh
-   \`\`\`
-3. **Tu navegador web debería abrirse automáticamente** a la aplicación
-
-**Alternativa**: Ejecuta \`npm start\` para iniciar ambos a la vez`
-    : ''
-}
-
-${
-  isMacOS
-    ? `#### Para Usuarios de macOS
-
-1. **En Terminal**, ejecuta el servidor:
-   \`\`\`bash
-   ./start-server-macos.sh
-   \`\`\`
-2. **Abre una nueva ventana de Terminal** y ejecuta el cliente:
-   \`\`\`bash
-   ./start-client-macos.sh
-   \`\`\`
-3. **Tu navegador web debería abrirse automáticamente** a la aplicación
-
-**Alternativa**: Ejecuta \`npm start\` para iniciar ambos a la vez`
-    : ''
-}
+**¡Eso es todo!** 🎉
 
 ## 🌐 Usando la Aplicación
 
-1. **Abre tu navegador web** (Chrome, Firefox, Safari, Edge)
-2. **Ve a**: http://localhost:3000
-3. **La aplicación debería cargar** y estar lista para usar!
+1. **Tu navegador web debería abrirse automáticamente** a: http://localhost:3000
+2. **Si no se abre**, ve manualmente a: http://localhost:3000
+3. **¡La aplicación está lista para usar!**
 
 ## 🔧 Solución de Problemas
 
 ### Problemas Comunes
 
+**"Comando no encontrado" o "Permiso denegado"**
+- **Windows**: Asegúrate de usar PowerShell o Símbolo del Sistema, no el Explorador de Archivos
+- **Mac/Linux**: Asegúrate de usar Terminal
+
 **"Node.js no está instalado"**
-- Sigue las instrucciones de instalación arriba
-- Asegúrate de reiniciar tu computadora después de instalar Node.js
+- El script de configuración intentará instalarlo automáticamente
+- Si falla, ve a https://nodejs.org/ e instala manualmente
+- Luego ejecuta \`./setup.sh\` nuevamente
 
-**"Puerto ya está en uso"**
-- Cierra cualquier otra aplicación que pueda estar usando los puertos 3000 o 4040
-- Reinicia tu computadora e intenta nuevamente
+**"El puerto ya está en uso"**
+- Cierra cualquier otra aplicación usando los puertos 3000 o 4040
+- Reinicia tu computadora e inténtalo de nuevo
 
-**"Permiso denegado" (Linux/macOS)**
-- Asegúrate de haber ejecutado el script de configuración primero
-- Intenta ejecutar: \`chmod +x *.sh\`
-
-**"La aplicación no inicia"**
-- Asegúrate de haber ejecutado el script de configuración primero
+**La aplicación no se inicia**
+- Asegúrate de haber ejecutado \`./setup.sh\` primero
 - Verifica que estés en la carpeta correcta
 - Intenta reiniciar tu computadora
 
-### Obtener Ayuda
+### ¿Sigues Teniendo Problemas?
 
-Si aún tienes problemas:
-
-1. **Revisa el archivo README.md** en esta carpeta para detalles técnicos
-2. **Busca mensajes de error** en la terminal/línea de comandos
-3. **Asegúrate de que tu computadora cumpla con los requisitos** listados arriba
-4. **Intenta ejecutar el script de configuración nuevamente**
+1. **Asegúrate de estar en la carpeta correcta** (la carpeta extraída)
+2. **Intenta ejecutar la configuración nuevamente**: \`./setup.sh\`
+3. **Revisa los mensajes de error** y anótalos
+4. **Reinicia tu computadora** e inténtalo de nuevo
 
 ## 📞 Soporte
 
 Para soporte técnico, por favor proporciona:
-- Tu sistema operativo (Windows/Linux/macOS)
+- Tu sistema operativo (Windows/Mac/Linux)
 - Cualquier mensaje de error que veas
-- Pasos que ya has intentado
+- En qué paso estás atascado
 
 ## 🎉 ¡Estás Listo!
 
-Una vez que la aplicación esté ejecutándose, puedes:
-- Acceder a ella en http://localhost:3000
-- Usar todas las funciones de la aplicación Touch Monorepo
-- Cerrar las ventanas de terminal/línea de comandos cuando hayas terminado
+Una vez que la aplicación esté ejecutándose:
+- **Accede a ella**: http://localhost:3000
+- **Para detener**: Presiona Ctrl+C en la terminal
+- **Para iniciar de nuevo**: Ejecuta \`./start\`
 
-**Nota**: Mantén las ventanas de terminal/línea de comandos abiertas mientras uses la aplicación. Ciérralas cuando hayas terminado.
+**Nota**: Mantén la ventana de terminal abierta mientras usas la aplicación.
 
 ---
 
@@ -1392,14 +1130,11 @@ Una vez que la aplicación esté ejecutándose, puedes:
   })}*
 `;
 
-  // Write the documentation files
-  const platformSuffix = platform === 'universal' ? 'UNIVERSAL' : platform.toUpperCase();
-  await writeFile(join(config.distDir, `USER_GUIDE_${platformSuffix}_EN.md`), englishGuide);
-  await writeFile(join(config.distDir, `GUIA_USUARIO_${platformSuffix}_ES.md`), spanishGuide);
+  // Write the documentation files with simple names
+  await writeFile(join(config.distDir, 'USER_GUIDE_EN.md'), englishGuide);
+  await writeFile(join(config.distDir, 'GUIA_USUARIO_ES.md'), spanishGuide);
 
-  console.log(
-    `✅ User documentation created (USER_GUIDE_${platformSuffix}_EN.md, GUIA_USUARIO_${platformSuffix}_ES.md)`,
-  );
+  console.log('✅ User documentation created (USER_GUIDE_EN.md, GUIA_USUARIO_ES.md)');
 }
 
 // Add auto-confirm flag for -y/--yes (similar to db-setup)
@@ -1599,6 +1334,7 @@ async function main(): Promise<void> {
     await copyEnvExample();
     await cleanPlatformArtifacts();
     await createSetupScripts(options);
+    await createStartScript();
     await createPlatformSpecificScripts(options);
     await createUserDocumentation(options);
 
@@ -1623,17 +1359,12 @@ async function main(): Promise<void> {
     console.log('');
     console.log('🚀 Next steps:');
     console.log('  1. Extract the deployment folder');
-    console.log('  2. Run the setup script for your platform:');
-    if (options.platform === 'windows' || options.platform === 'universal') {
-      console.log('     Windows: Double-click setup.bat');
-    }
-    if (options.platform === 'linux' || options.platform === 'universal') {
-      console.log('     Linux: ./setup.sh');
-    }
-    if (options.platform === 'macos' || options.platform === 'universal') {
-      console.log('     macOS: ./setup-macos.sh');
-    }
-    console.log('  3. Start the application with the provided scripts');
+    console.log('  2. Run setup: ./setup.sh');
+    console.log('  3. Start app: ./start');
+    console.log('');
+    console.log('📖 For detailed instructions, see:');
+    console.log('   - USER_GUIDE_EN.md (English)');
+    console.log('   - GUIA_USUARIO_ES.md (Spanish)');
     console.log('');
   } catch (error) {
     console.error('❌ Deployment build failed:', error);
