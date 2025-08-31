@@ -4,7 +4,7 @@ import { stylesPadBasic } from 'components/Pads/Pad/PadBasic.styles';
 export const styles = css`
   .temperature-container {
     ${stylesPadBasic.container}
-    gap: 1rem;
+    gap: 1.5rem;
   }
 
   .input-container {

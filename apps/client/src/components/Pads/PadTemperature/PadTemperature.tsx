@@ -47,8 +47,8 @@ export const PadTemperature: FC<TemperatureInputProps> = ({
   return (
     <div css={styles}>
       <div className="temperature-container">
-        <label>{label}</label>
-        <p>{description}</p>
+        {label && <label>{label}</label>}
+        {description && <p>{description}</p>}
         <div className="input-container">
           <button
             className="control-button"

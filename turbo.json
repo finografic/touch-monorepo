@@ -6,6 +6,11 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**"]
     },
+    "@workspace/build-deployment#build": {
+      "cache": false,
+      "dependsOn": [],
+      "outputs": []
+    },
     "@workspace/scripts#build": {
       "cache": false,
       "outputs": []
