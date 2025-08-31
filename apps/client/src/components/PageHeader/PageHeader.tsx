@@ -3,13 +3,17 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PageHeader.styles';
+import { OrderFieldKeys } from 'constants/app.config';
+
+// TODO: OVERRIDES..
+const isPageTitleVisible = true;
+const isPageSubtitleVisible = false;
 
 export const PageHeader = () => {
   const { t } = useTranslation();
   const { title } = useContent();
   const { route } = useRouteConfig();
 
-  // Determine what title to show
   const getPageTitle = () => {
     // If ContentProvider has a title set, use it (for admin pages, etc.)
     if (title) {
@@ -27,7 +31,6 @@ export const PageHeader = () => {
       }
     }
 
-    // Fallback to route title
     return route?.title || '';
   };
 
@@ -49,8 +52,7 @@ export const PageHeader = () => {
   const pageTitle = getPageTitle();
   const pageSubtitle = getPageSubtitle();
 
-  // Don't render if no title
-  if (!pageTitle) {
+  if (!isPageTitleVisible || !pageTitle) {
     return null;
   }
 
@@ -58,13 +60,18 @@ export const PageHeader = () => {
     <header className="page-header" css={styles}>
       <Container size="4">
         <Flex direction="column" align="center" gap="2">
-          <Heading size="6" align="center" className="page-title">
-            {pageTitle}
-          </Heading>
-
-          <Text size="3" align="center" className="page-subtitle" color="gray">
-            {pageSubtitle && <>{pageSubtitle}</>}
-          </Text>
+          {isPageTitleVisible && pageTitle && (
+            <Heading size="6" align="center" className="page-title">
+              {pageTitle}
+            </Heading>
+          )}
+          {(route?.id === OrderFieldKeys.drinkSubtype
+            ? pageSubtitle
+            : isPageSubtitleVisible && pageSubtitle) && (
+            <Text size="3" align="center" className="page-subtitle" color="gray">
+              {pageSubtitle}
+            </Text>
+          )}
         </Flex>
       </Container>
     </header>

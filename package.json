@@ -30,7 +30,6 @@
     "·········· BUILD.DEPLOYMENT": "··········································",
     "build.deployment": "tsx packages/build-deployment/src/build-deployment.ts",
     "build.deployment.quick": "tsx packages/build-deployment/src/build-deployment.ts -y",
-    "·········· BUILD + DEPLOYMENT": "·····················································",
     "build": "turbo run build",
     "·········· RESET": "·····················································",
     "reset": "run-s clean reset.install reset.build",

@@ -1,8 +1,6 @@
 import type { RouteConfig } from 'routes/routes.types';
-import type { OrderFieldKey } from 'types/orders.types';
-import type { ConstMapOf } from '@workspace/core/types/utils';
-import { BUTTON_TYPES, type RouteButtonConfig } from 'types/button.types';
-import { ROUTE_PATHS, FLOW_PATHS, ADMIN_PATHS } from '../constants/paths.constants.js';
+import { BUTTON_TYPES } from 'types/button.types';
+import { ADMIN_PATHS, FLOW_PATHS, ROUTE_PATHS } from '../constants/paths.constants.js';
 
 // Re-export for backward compatibility
 export const PATHS = ROUTE_PATHS;

@@ -45,7 +45,6 @@ export const styles = css`
     font-weight: 400;
     position: absolute;
     top: 3vw;
-    /* right: 3vw; */
     text-align: center;
   }
 
