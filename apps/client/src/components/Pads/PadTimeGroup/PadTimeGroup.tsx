@@ -126,7 +126,7 @@ export const PadTimeGroup: FC<TimeInputGroupProps> = ({
           </div>
         </div>
 
-        <div className="total-display">Total: {formatTimeDisplay(totalSeconds)}</div>
+        {/* <div className="total-display">Total: {formatTimeDisplay(totalSeconds)}</div> */}
       </div>
     </div>
   );

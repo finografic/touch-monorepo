@@ -7,8 +7,8 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
-    padding: 2rem;
+    gap: 1.5rem;
+    padding: 1rem;
     margin: 0 auto;
   }
 

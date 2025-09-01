@@ -2,7 +2,7 @@
 // Values are in seconds for easier calculation
 
 export const TIME_MIN_SECONDS = 1; // 1 second minimum
-export const TIME_MAX_SECONDS = 300; // 5 minutes maximum (5 * 60)
+export const TIME_MAX_SECONDS = 3599; // (segundos)
 export const TIME_DEFAULT_SECONDS = 60; // 1 minute default
 
 // Step increments for time controls
