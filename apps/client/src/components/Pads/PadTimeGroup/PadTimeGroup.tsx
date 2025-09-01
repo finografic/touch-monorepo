@@ -6,7 +6,7 @@ import { styles } from './PadTimeGroup.styles';
 interface TimeInputGroupProps {
   value: number; // Total seconds
   onChange: (newTotalSeconds: number) => void;
-  description: string;
+  description?: string;
   min?: number;
   max?: number;
 }
@@ -64,13 +64,12 @@ export const PadTimeGroup: FC<TimeInputGroupProps> = ({
   return (
     <div css={styles}>
       <div className="time-group-container">
-        <p className="description">{description}</p>
+        {description && <p className="description">{description}</p>}
 
         <div className="inputs-container">
           {/* Minutes Input */}
           <div className="time-input">
             <label>Minutos</label>
-            <p>Establecer minutos para el tiempo de preparación</p>
 
             <div className="input-container">
               <button
@@ -99,7 +98,6 @@ export const PadTimeGroup: FC<TimeInputGroupProps> = ({
           {/* Seconds Input */}
           <div className="time-input">
             <label>Segundos</label>
-            <p>Establecer segundos adicionales</p>
 
             <div className="input-container">
               <button
@@ -125,8 +123,6 @@ export const PadTimeGroup: FC<TimeInputGroupProps> = ({
             </div>
           </div>
         </div>
-
-        {/* <div className="total-display">Total: {formatTimeDisplay(totalSeconds)}</div> */}
       </div>
     </div>
   );

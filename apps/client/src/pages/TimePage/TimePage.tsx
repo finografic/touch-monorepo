@@ -37,20 +37,12 @@ export const TimePage = () => {
 
   return (
     <Flex css={stylesAppContent} className="time-content" gap="3" direction="column">
-      <Flex className="page-description" gap="3" justify="center">
-        <Box>
-          <p>
-            {t('app.orders.active')}: {selectedItems.length}
-          </p>
-        </Box>
-      </Flex>
-
       <Flex gap="3" justify="center">
         <Box>
           <PadTimeGroup
             value={totalSeconds}
             onChange={handleTimeChange}
-            description={t('app.components.temperatureControl.initial')}
+            // description={t('app.components.temperatureControl.initial')}
             min={TIME_MIN_SECONDS}
             max={TIME_MAX_SECONDS}
           />
