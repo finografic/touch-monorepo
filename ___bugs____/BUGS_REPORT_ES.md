@@ -1,14 +1,5 @@
 # Registro de Errores del Chat - 26 de Agosto, 2025
 
-## 15:00 - 15:10
-
-![Bug Screenshot](images/00000199-PHOTO-2025-08-26-15-00-51.jpg)
-- [ ] Lo de principal y página principal solo ocupa espacio, mejor oculto
-
-![Bug Screenshot](images/00000201-PHOTO-2025-08-26-15-04-50.jpg)
-- [ ] Oculta lo de establecer minutos y establecer segundos y también la etiqueta de total para que los botones de iniciar y atrás queden más arriba y se vean en la misma página sin tener que desplazarse
-
-![Bug Screenshot](images/00000203-PHOTO-2025-08-26-15-09-11.jpg)
 
 ## 15:10 - 15:20
 
