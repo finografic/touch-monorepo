@@ -15,14 +15,14 @@ export const Header = () => {
   return (
     <header css={styles}>
       <Container size="4">
-        <Flex justify="between" align="center" width="100%" style={{ display: 'flex' }}>
+        <Flex justify="between" align="center" width="100%" className="row-header">
           {/* ====================================================================== */}
-          <Flex justify="start" style={{ flex: '3' }}>
+          <Flex justify="start" style={{ flex: '3' }} className="col col-header-left">
             {/* Space for future content */}
           </Flex>
 
           {/* Center column - 6 parts */}
-          <Flex justify="center" style={{ flex: '6' }}>
+          <Flex justify="center" style={{ flex: '6' }} className="col col-header-center">
             <Flex direction="column" justify="end" align="center" style={{ flex: '6' }}>
               <h1
                 onClick={() => {
@@ -36,7 +36,7 @@ export const Header = () => {
             </Flex>
           </Flex>
 
-          <Flex justify="end" style={{ flex: '3' }}>
+          <Flex justify="end" style={{ flex: '3' }} className="col col-header-right">
             {/* <LanguageSelector onLanguageChange={handleLanguageChange} /> */}
             {/* <pre className="current-language">{String(currentSessionId)}</pre> */}
           </Flex>

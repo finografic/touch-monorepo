@@ -6,6 +6,16 @@ export const styles = css`
   width: 100%;
   padding: 0 2.5rem;
 
+  border: 1px solid ${colors.greyXDark};
+
+  .row-header {
+    border: 1px solid ${colors.greyDark};
+  }
+
+  .col {
+    border: 1px solid ${colors.greyDark};
+  }
+
   h1 {
     display: flex;
     align-items: center;
