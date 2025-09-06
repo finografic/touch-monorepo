@@ -29,17 +29,17 @@ function generateShadeVariants(baseHex: string, varianceFactor: number = 0.6): R
 
   // Generate shade variants with proper semantics and configurable variance
   const shades = [
-    { name: 'XXLight', lighten: 0.8 * varianceFactor },  // Much lighter
-    { name: 'XLight', lighten: 0.6 * varianceFactor },   // Lighter
-    { name: 'Light', lighten: 0.4 * varianceFactor },     // Slightly lighter
-    { name: 'Dark', lighten: -0.4 * varianceFactor },     // Slightly darker
-    { name: 'XDark', lighten: -0.6 * varianceFactor },    // Darker
-    { name: 'XXDark', lighten: -0.8 * varianceFactor },   // Much darker
+    { name: 'XXLight', lighten: 0.8 * varianceFactor }, // Much lighter
+    { name: 'XLight', lighten: 0.6 * varianceFactor }, // Lighter
+    { name: 'Light', lighten: 0.4 * varianceFactor }, // Slightly lighter
+    { name: 'Dark', lighten: -0.4 * varianceFactor }, // Slightly darker
+    { name: 'XDark', lighten: -0.6 * varianceFactor }, // Darker
+    { name: 'XXDark', lighten: -0.8 * varianceFactor }, // Much darker
   ];
 
   shades.forEach(({ name, lighten }) => {
     let newR, newG, newB;
-    
+
     if (lighten > 0) {
       // Lighten: move towards white
       newR = Math.round(r + (255 - r) * lighten);
@@ -51,7 +51,7 @@ function generateShadeVariants(baseHex: string, varianceFactor: number = 0.6): R
       newG = Math.round(g * (1 + lighten));
       newB = Math.round(b * (1 + lighten));
     }
-    
+
     // Clamp values to valid RGB range
     newR = Math.max(0, Math.min(255, newR));
     newG = Math.max(0, Math.min(255, newG));
@@ -123,7 +123,7 @@ export const ___COLORS___ = {\n`;
       const baseA = a.replace(/[A-Z][a-z]*|[0-9]+/g, '');
       const baseB = b.replace(/[A-Z][a-z]*|[0-9]+/g, '');
       if (baseA !== baseB) return baseA.localeCompare(baseB);
-      
+
       // Then sort by shade order: base, XXLight, XLight, Light, Dark, XDark, XXDark
       const shadeOrder = ['', 'XXLight', 'XLight', 'Light', 'Dark', 'XDark', 'XXDark'];
       const shadeA = a.replace(baseA, '');
