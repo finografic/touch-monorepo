@@ -5,7 +5,6 @@ import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
 import { PageHeader } from 'components/PageHeader';
 import { Navigation } from 'components/Navigation/Navigation';
-import { ContentProvider } from 'providers/ContentProvider';
 import { styles } from './Layout.styles';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
 import { useIsMounted } from 'hooks/useIsMounted';
@@ -44,33 +43,31 @@ export const Layout: FC = () => {
         <OrdersProvider>
           <PaginationProvider>
             <LayoutUiProvider>
-              <ContentProvider>
-                <AdminProvider>
-                  <DevProvider>
-                    <DevGuidesLayer>
-                      <div id="layout" css={styles}>
-                        <Header />
-                        <main>
-                          <div className="main-content">
-                            <section>
-                              <PageHeader />
-                              <div className="page-content" role="main">
-                                <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                  <Outlet />
-                                </Suspense>
-                              </div>
-                              <nav className="page-navigation">
-                                <Navigation />
-                              </nav>
-                            </section>
-                          </div>
-                        </main>
-                        <Footer />
-                      </div>
-                    </DevGuidesLayer>
-                  </DevProvider>
-                </AdminProvider>
-              </ContentProvider>
+              <AdminProvider>
+                <DevProvider>
+                  <DevGuidesLayer>
+                    <div id="layout" css={styles}>
+                      <Header />
+                      <main>
+                        <div className="main-content">
+                          <section>
+                            <PageHeader />
+                            <div className="page-content" role="main">
+                              <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                <Outlet />
+                              </Suspense>
+                            </div>
+                            <nav className="page-navigation">
+                              <Navigation />
+                            </nav>
+                          </section>
+                        </div>
+                      </main>
+                      <Footer />
+                    </div>
+                  </DevGuidesLayer>
+                </DevProvider>
+              </AdminProvider>
             </LayoutUiProvider>
           </PaginationProvider>
         </OrdersProvider>

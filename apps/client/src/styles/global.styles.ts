@@ -7,6 +7,7 @@ import { css } from '@emotion/react';
 import { colors } from './colors.styles';
 import { cssFontDefaults } from './fonts.styles';
 import { generateColorVariables } from './utils/custom.variables';
+import { darkColors, lightColors } from './themes';
 
 export const cssGlobal = css`
   *,
@@ -17,8 +18,18 @@ export const cssGlobal = css`
 
   :root {
     box-sizing: border-box;
-    /* Custom color palette */
-    ${generateColorVariables({ colors })}
+    /* Default dark theme color palette */
+    ${generateColorVariables({ colors: darkColors })}
+  }
+
+  /* Light theme color variables */
+  [data-theme='light'] {
+    ${generateColorVariables({ colors: lightColors })}
+  }
+
+  /* Dark theme color variables */
+  [data-theme='dark'] {
+    ${generateColorVariables({ colors: darkColors })}
   }
 
   #root {
@@ -42,7 +53,8 @@ export const cssGlobal = css`
     /** NEXT LINE ENSURES *NO* JUMP WHEN SCROLLBAR TOGGLES **/
     margin-right: calc(-1 * (100vw - 100%));
 
-    background-color: ${colors.background};
+    /* Dynamic background color based on theme */
+    background-color: var(--color-background);
 
     height: 100vh;
     overflow: hidden;
@@ -56,26 +68,26 @@ export const cssGlobal = css`
   }
 
   :not(body):not(html)::-webkit-scrollbar-track {
-    background: ${colors.greyXXLight};
+    background: var(--color-grey-xxlight);
     border-radius: 6px;
   }
 
   :not(body):not(html)::-webkit-scrollbar-thumb {
-    background: ${colors.greyLight};
+    background: var(--color-grey-light);
     border-radius: 6px;
-    border: 2px solid ${colors.greyXXLight}; /* Creates inset effect */
+    border: 2px solid var(--color-grey-xxlight); /* Creates inset effect */
 
     &:hover {
-      background: ${colors.grey};
+      background: var(--color-grey);
     }
 
     &:active {
-      background: ${colors.greyDark};
+      background: var(--color-grey-dark);
     }
   }
 
   /* Corner styling when both scrollbars are present */
   :not(body):not(html)::-webkit-scrollbar-corner {
-    background: ${colors.greyXXLight};
+    background: var(--color-grey-xxlight);
   }
 `;

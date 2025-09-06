@@ -6,28 +6,59 @@ export const styles = css`
   width: 100%;
   padding: 0 2.5rem;
 
-  border: 1px solid ${colors.greyXDark};
+  /* 3-column layout: 3:6:3 ratio */
+  .row-header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
 
+  .col-header-left {
+    flex: 3;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  .col-header-center {
+    flex: 6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .col-header-right {
+    flex: 3;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  /* ======================================= */
+  /* Debug borders - uncomment to see layout */
   .row-header {
     border: 1px solid ${colors.greyDark};
   }
-
-  .col {
+  .col-header-left,
+  .col-header-center,
+  .col-header-right {
     border: 1px solid ${colors.greyDark};
   }
+  /* ======================================= */
 
   h1 {
     display: flex;
     align-items: center;
     font-size: 1.8rem;
     font-weight: 700;
-    color: ${colors.info};
+    color: var(--color-info);
     margin: 0 0 0 0.8rem;
 
     span.current-language {
       font-size: 1.6rem;
       font-weight: 600;
-      color: ${colors.info};
+      color: var(--color-info);
       margin: 0 0 0 0.8rem;
       opacity: 0.4;
       transform: translateY(-4%);
@@ -36,12 +67,12 @@ export const styles = css`
   }
 
   div[role='menuitem'][data-highlighted] {
-    color: ${colors.white} !important;
+    color: var(--color-white) !important;
     background-color: transparent !important;
   }
 
   .current-language {
-    color: ${colors.grey};
+    color: var(--color-grey);
     font-size: 1.1rem;
     font-weight: 400;
     text-transform: uppercase;
@@ -50,7 +81,7 @@ export const styles = css`
 
   .dev-session-a,
   .dev-session-b {
-    color: ${colors.greyXLight};
+    color: var(--color-grey-xlight);
     font-size: 0.9rem;
     font-weight: 400;
     position: absolute;

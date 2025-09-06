@@ -20,16 +20,22 @@ const getSimpleCodeFromLocale = (locale: string): string => {
   return locale.includes('-') ? locale.split('-')[0] : locale;
 };
 
-// Component to sync ContentProvider language with i18n on startup
+// Component to sync ContentProvider language with i18n on startup and initialize theme
 const LanguageSync = () => {
   const { i18n } = useTranslation();
-  const { setCurrentLanguage } = useContent();
+  const { setCurrentLanguage, setTheme } = useContent();
 
   useEffect(() => {
     // On startup: Convert i18n's simple code to full locale for ContentProvider
     const currentI18nLanguage = i18n.language; // e.g., 'es'
     const fullLocale = getFullLocaleFromSimpleCode(currentI18nLanguage); // e.g., 'es-ES'
     setCurrentLanguage(fullLocale);
+
+    // Initialize theme from localStorage
+    const storedTheme = localStorage.getItem('touch-app-theme') as 'light' | 'dark';
+    if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark')) {
+      setTheme(storedTheme);
+    }
 
     // Listen for i18n language changes and sync ContentProvider
     const handleLanguageChanged = (lng: string) => {
@@ -42,7 +48,7 @@ const LanguageSync = () => {
     return () => {
       i18n.off('languageChanged', handleLanguageChanged);
     };
-  }, [i18n, setCurrentLanguage]);
+  }, [i18n, setCurrentLanguage, setTheme]);
 
   return null; // This component doesn't render anything
 };

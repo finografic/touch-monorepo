@@ -1,20 +1,18 @@
 import clsx from 'clsx';
 import { styles } from './ToolbarToggle.styles';
-import { useDevLayer } from '../DevGuidesContext';
 import { PanelBottomCloseIcon, PanelBottomOpenIcon } from 'styles/icons';
+import { useDevGuides } from '../DevGuidesContext';
 
 export const ToolbarToggle = () => {
-  const { isToolbarOpen, setIsToolbarOpen } = useDevLayer();
+  const { isDevGuidesVisibile, setIsDevGuidesVisibile } = useDevGuides();
 
   const handleClick = () => {
-    // setLayoutState({ isSidebarOpen: !isSidebarOpen });
-    // setLayoutState({ isScrollLocked: !isScrollLocked });
-    setIsToolbarOpen(!isToolbarOpen);
+    setIsDevGuidesVisibile(!isDevGuidesVisibile);
   };
 
   return (
-    <div css={styles} className={clsx('icon-toggle', { open: isToolbarOpen })} onClick={handleClick}>
-      {isToolbarOpen ? <PanelBottomCloseIcon /> : <PanelBottomOpenIcon />}
+    <div css={styles} className={clsx('icon-toggle', { open: isDevGuidesVisibile })} onClick={handleClick}>
+      {isDevGuidesVisibile ? <PanelBottomCloseIcon /> : <PanelBottomOpenIcon />}
     </div>
   );
 };

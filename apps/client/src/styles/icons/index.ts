@@ -29,10 +29,12 @@ import {
   Languages as _LanguagesIcon,
   Lock as _LockIcon,
   Search as _MagnifyingGlassIcon,
+  Moon as _MoonIcon,
   PanelBottomClose as _PanelBottomCloseIcon,
   PanelBottomOpen as _PanelBottomOpenIcon,
   ShieldCheck as _ShieldCheckIcon,
   CircleStop as _StopIcon,
+  Sun as _SunIcon,
   Thermometer as _TempIcon,
   Trash2 as _Trash2Icon,
   AppWindowMac as _WindowIcon,
@@ -76,6 +78,8 @@ export const MenuIcon = createIconWrapper(_HamburgerMenuIcon);
 // Lucide icons with auto-className
 export const CoffeeIcon = createIconWrapper(_CoffeeIcon);
 export const LanguageIcon = createIconWrapper(_LanguagesIcon);
+export const MoonIcon = createIconWrapper(_MoonIcon);
+export const SunIcon = createIconWrapper(_SunIcon);
 export const TempIcon = createIconWrapper(_TempIcon);
 export const WindowIcon = createIconWrapper(_WindowIcon);
 export const WineIcon = createIconWrapper(_WineIcon);

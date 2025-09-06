@@ -7,7 +7,7 @@ export const styles = css`
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  background-color: ${colors.background};
+  background-color: var(--color-background);
   overflow: hidden; /* Prevent horizontal scrollbars */
 
   /* ========================================
@@ -117,17 +117,17 @@ export const styles = css`
 
   .title {
     ${typography.h1};
-    color: ${colors.text};
+    color: var(--color-text);
     margin-bottom: ${spacing[4]};
   }
 
   .subtitle {
     ${typography.body};
-    color: ${colors.textLight};
+    color: var(--color-text-light);
   }
 
   p {
-    color: ${colors.text};
+    color: var(--color-text);
     font-size: 1.2rem;
     text-align: center;
     max-width: 400px;

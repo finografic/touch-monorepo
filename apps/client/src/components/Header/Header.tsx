@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useContent } from 'providers/ContentProvider/ContentContext';
+import { ThemeToggle } from 'components/ThemeToggle';
 
 export const Header = () => {
   const { t } = useTranslation();
@@ -37,6 +38,7 @@ export const Header = () => {
           </Flex>
 
           <Flex justify="end" style={{ flex: '3' }} className="col col-header-right">
+            <ThemeToggle />
             {/* <LanguageSelector onLanguageChange={handleLanguageChange} /> */}
             {/* <pre className="current-language">{String(currentSessionId)}</pre> */}
           </Flex>
