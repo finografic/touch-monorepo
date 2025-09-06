@@ -40,7 +40,7 @@ export const styles = css`
           background-color: transparent;
           &:hover {
             color: ${colors.successXDark};
-            background-color: ${colors.success}33;
+            background-color: ${colors.success33};
           }
           &.active {
             opacity: 0.8;
@@ -49,7 +49,7 @@ export const styles = css`
             &:hover {
               opacity: 1;
               color: ${colors.warningDark};
-              background-color: ${colors.warning}33;
+              background-color: ${colors.warning33};
             }
           }
         }
@@ -57,7 +57,7 @@ export const styles = css`
     }
 
     &.dark {
-      background-color: ${colors.background}cc;
+      background-color: ${colors.background95};
       .col-button {
         button {
           color: ${colors.greyXXLight};

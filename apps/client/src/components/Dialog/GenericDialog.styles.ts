@@ -183,14 +183,14 @@ export const styles = css`
         background-color: transparent;
 
         border-color: ${colors.infoXDark};
-        background-color: ${colors.infoDark}11;
+        background-color: ${colors.infoDark10};
 
         &:hover {
           color: ${colors.infoLight};
           border-color: ${colors.info};
           border-color: ${colors.infoLight};
-          background-color: ${colors.info}22;
-          /* background-color: ${colors.whiteXXDark}66; */
+          background-color: ${colors.info25};
+          /* background-color: ${colors.whiteXXDark66}; */
         }
       }
     }

@@ -22,7 +22,7 @@ const props = {
 
 export const styles = css`
   /* width: max-content !important; */
-  color: ${colors.white};
+  color: var(--color-white);
 
   /* Main grid container for the three columns */
   .menu-main {
@@ -68,19 +68,19 @@ export const styles = css`
     width: ${props.pad.width};
     height: ${props.pad.height};
     border-radius: 50%;
-    border: ${layout.borderWidth} solid ${colors.greyDark};
+    border: ${layout.borderWidth} solid var(--color-grey-dark);
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    color: ${colors.info};
+    color: var(--color-info);
     transition: all 0.3s;
     background-color: transparent;
     cursor: pointer;
 
     &.error {
-      border-color: ${colors.danger};
-      color: ${colors.danger};
+      border-color: var(--color-danger);
+      color: var(--color-danger);
       width: ${props.padLG.width};
       height: ${props.padLG.height};
     }
@@ -92,17 +92,17 @@ export const styles = css`
       width: ${props.special.width};
       height: ${props.special.height};
 
-      color: ${colors.success}BB;
-      border-color: ${colors.success}BB;
+      color: var(--color-success);
+      border-color: var(--color-success);
       &:hover {
-        color: ${colors.success};
-        border-color: ${colors.success};
-        background-color: ${colors.success}11;
+        color: var(--color-success);
+        border-color: var(--color-success);
+        background-color: var(--color-success-light);
       }
       &.checked {
-        color: ${colors.success};
-        border-color: ${colors.success};
-        background-color: ${colors.successDark}22;
+        color: var(--color-success);
+        border-color: var(--color-success);
+        background-color: var(--color-success-dark);
       }
     }
   }

@@ -18,7 +18,7 @@ export const styles = css`
     }
     &:hover {
       border-color: transparent;
-      background-color: ${colors.grey}11 !important;
+      background-color: ${colors.grey10} !important;
       svg.icon {
         color: ${colors.greyLight} !important;
       }

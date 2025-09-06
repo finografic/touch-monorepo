@@ -61,7 +61,7 @@ export const styles = css`
 
   .rt-SelectTrigger:focus {
     border-color: ${colors.primary};
-    box-shadow: 0 0 0 2px ${colors.primaryLight}20;
+    box-shadow: 0 0 0 2px ${colors.primaryLight20};
   }
 
   /* Responsive adjustments */

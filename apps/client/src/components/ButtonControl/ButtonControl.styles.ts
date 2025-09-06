@@ -10,13 +10,13 @@ export const styles = css`
   transition: all 0.2s;
 
   color: ${colors.info};
-  border-color: ${colors.infoDark}bb;
+  border-color: ${colors.infoDark95};
   background: transparent;
 
   &:hover {
     color: ${colors.info};
     border-color: ${colors.info};
-    background-color: ${colors.info}11;
+    background-color: ${colors.info10};
   }
 
   &:disabled {
@@ -36,7 +36,7 @@ export const styles = css`
 
     &:hover {
       border-color: ${colors.successLight};
-      background-color: ${colors.successLight}88;
+      background-color: ${colors.successLight80};
     }
 
     &:disabled {

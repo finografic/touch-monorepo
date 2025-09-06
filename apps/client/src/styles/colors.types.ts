@@ -5,7 +5,7 @@ import type { ColorBaseName, ColorPalette } from './palette.types';
 import type { RadixColorName, RadixColorVariable } from './radix-ui/radix.types';
 
 // Union type for possible color values
-export type ColorValue = RadixColorVariable | HexColor;
+export type ColorValue = RadixColorVariable | HexColor | `var(--color-${string})` | 'transparent';
 
 // Valid base shades (allowing +/- 3 for variants)
 export type RadixBaseShade = 4 | 5 | 6 | 7 | 8 | 9;
@@ -32,7 +32,7 @@ export type ColorName = keyof ColorPalette;
 /**
  * Basic color type definitions and hex color validation
  */
-export type HexColor = Lowercase<`#${HexChar}${string}`> | Uppercase<`#${HexChar}${string}`>;
+export type HexColor = Lowercase<`#${HexChar}${string}`> | Uppercase<`#${HexChar}${string}`> | 'transparent';
 type HexChar = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f';
 
 /**

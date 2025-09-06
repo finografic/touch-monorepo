@@ -21,7 +21,7 @@ export const styles = css`
   }
 
   .filters {
-    color: ${colors.textXLight}AA;
+    color: ${colors.textXLight90};
     font-size: 0.85rem !important;
     font-family: monospace;
     line-height: 1.5;
@@ -77,21 +77,21 @@ export const styles = css`
       align-items: center;
       overflow: visible;
       white-space: nowrap;
-      color: ${colors.textXLight}AA;
+      color: ${colors.textXLight90};
 
       /* Ensure p elements inside result-col also have correct font size */
       p {
         font-size: 0.85rem !important;
         font-family: monospace;
         margin: 0;
-        color: ${colors.textXLight}AA;
+        color: ${colors.textXLight90};
       }
 
       /* Ensure strong elements inside result-col also have correct font size */
       strong {
         font-size: 0.85rem !important;
         font-family: monospace;
-        color: ${colors.textXLight}AA;
+        color: ${colors.textXLight90};
       }
     }
     .result-col:last-child {
@@ -110,7 +110,7 @@ export const styles = css`
   }
 
   pre {
-    color: ${colors.textXLight}AA;
+    color: ${colors.textXLight90};
     font-size: 0.7rem !important;
     line-height: 1.5;
     width: 100%;

@@ -5,21 +5,24 @@ import { css } from '@emotion/react';
 export const stylesButtonBase = css`
   cursor: pointer;
   background: transparent;
-  transition: all 0.2s;
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative; /* For absolute positioning of icons */
 
-  color: ${colors.info};
-  border-color: ${colors.infoDark}bb;
+  color: var(--color-info);
+  border-color: var(--color-info-dark);
   border-width: ${layout.borderWidth};
 
   &:hover {
-    color: ${colors.info};
-    border: ${layout.borderWidth} solid ${colors.infoDark};
-    border-color: ${colors.info};
-    background-color: ${colors.info}11;
+    color: var(--color-info);
+    border: ${layout.borderWidth} solid var(--color-info-dark);
+    border-color: var(--color-info);
+    background-color: var(--color-info-25);
     transform: scale(1.025);
   }
 
@@ -28,12 +31,12 @@ export const stylesButtonBase = css`
   &[data-disabled='true'] {
     opacity: 0.5;
     cursor: not-allowed;
-    color: ${colors.grey};
-    border-color: ${colors.greyDark};
+    color: var(--color-grey);
+    border-color: var(--color-grey-dark);
     background-color: transparent;
     &:hover {
-      color: ${colors.grey};
-      border-color: ${colors.greyDark};
+      color: var(--color-grey);
+      border-color: var(--color-grey-dark);
       background-color: transparent;
       transform: none;
     }

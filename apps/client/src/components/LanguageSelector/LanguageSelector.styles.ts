@@ -57,7 +57,7 @@ export const styles = css`
       margin: 0 0.75rem;
     }
     span.label-language {
-      color: ${colors.grey}dd;
+      color: ${colors.grey95};
       font-weight: 500;
     }
   }

@@ -6,7 +6,7 @@ import { cssLabels } from './fonts.styles';
 export const inputBox = {
   border: {
     width: '2px',
-    color: colors.greyXXDark,
+    color: var(--color-grey-xxdark),
   },
   padding: '1rem 0.75rem',
 };

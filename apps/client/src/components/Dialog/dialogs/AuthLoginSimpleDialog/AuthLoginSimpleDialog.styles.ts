@@ -42,8 +42,8 @@ export const styles = {
     font-size: 0.875rem;
     text-align: center;
     padding: 0.5rem;
-    background-color: ${colors.danger}11;
+    background-color: ${colors.danger10};
     border-radius: 4px;
-    border: 1px solid ${colors.danger}33;
+    border: 1px solid ${colors.danger33};
   `,
 };

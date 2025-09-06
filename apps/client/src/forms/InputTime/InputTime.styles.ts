@@ -8,7 +8,7 @@ export const styles = css`
       text-align: right; /* Right align like temperature inputs */
 
       &:disabled {
-        background-color: ${colors.greyXXLight}80; /* Even lighter than forms default */
+        background-color: ${colors.greyXXLight80}; /* Even lighter than forms default */
         border-color: ${forms.inputs.disabled.border.color};
         color: ${forms.inputs.disabled.text.color};
         font-weight: ${forms.inputs.disabled.text.fontWeight};
@@ -18,7 +18,7 @@ export const styles = css`
 
     /* Style disabled slots */
     &:has(.rt-TextFieldInput:disabled) .rt-TextFieldSlot {
-      background-color: ${colors.greyXXLight}60; /* Lighter background for slot */
+      background-color: ${colors.greyXXLight60}; /* Lighter background for slot */
       border-color: ${colors.greyXLight}; /* Dimmed border */
       opacity: 0.7; /* Additional dimming */
 

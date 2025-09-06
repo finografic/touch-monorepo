@@ -69,8 +69,8 @@ export const styles = css`
         height: 1.5rem;
         color: white;
         color: ${colors.successDark};
-        background-color: ${colors.success}22;
-        border: 2px solid ${colors.success}22;
+        background-color: ${colors.success25};
+        border: 2px solid ${colors.success25};
         border-radius: 50%;
       }
     }

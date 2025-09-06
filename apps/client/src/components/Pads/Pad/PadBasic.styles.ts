@@ -2,6 +2,27 @@ import { css } from '@emotion/react';
 import { colors, layout } from 'styles';
 import { stylesButtonBase } from 'styles/custom/buttons.styles';
 
+/*
+TRANSPARENT COLOR EXAMPLES:
+You can now use these CSS variables for transparency:
+
+// Basic transparency levels
+background-color: var(--color-primary-10);   // 10% opacity
+background-color: var(--color-primary-25);   // 25% opacity
+background-color: var(--color-primary-50);   // 50% opacity
+background-color: var(--color-primary-75);   // 75% opacity
+
+// Available for all colors: primary, secondary, success, warning, danger, info, text, grey
+// Examples:
+border-color: var(--color-danger-25);
+background-color: var(--color-success-50);
+color: var(--color-text-75);
+
+// These automatically work with your theme toggle!
+// In light theme: --color-primary-50 will be 50% of the light theme primary color
+// In dark theme: --color-primary-50 will be 50% of the dark theme primary color
+*/
+
 // Common dimensions for different button types
 export const padProps = {
   pad: {
@@ -30,15 +51,15 @@ export const stylesPad = css`
   }
 
   &.checked {
-    border-color: ${colors.info};
-    background-color: ${colors.info}11;
+    border-color: var(--color-info);
+    background-color: var(--color-info-light);
   }
 
   &:disabled,
   &.disabled,
   &[data-disabled='true'] {
-    border-color: ${colors.grey};
-    color: ${colors.grey};
+    border-color: var(--color-grey);
+    color: var(--color-grey);
 
     &:hover {
       transform: none;
@@ -63,7 +84,7 @@ export const stylesPadBasic = {
     label {
       font-size: 1.5rem;
       font-weight: 500;
-      color: ${colors.textLight};
+      color: var(--color-text-light);
       text-align: center;
       max-width: 500px;
       margin: 0;
@@ -73,7 +94,7 @@ export const stylesPadBasic = {
     p {
       font-size: 1.2rem;
       font-weight: 400;
-      color: ${colors.text};
+      color: var(--color-text);
       text-align: center;
       max-width: 320px;
       margin: 0;
@@ -98,8 +119,8 @@ export const stylesPadBasic = {
     font-size: 2rem;
     background: transparent;
     width: 100%;
-    border: ${layout.borderWidth} solid ${colors.greyXXDark};
-    color: ${colors.info};
+    border: ${layout.borderWidth} solid var(--color-grey-xxdark);
+    color: var(--color-info);
   `,
 
   controlButton: css`
@@ -116,8 +137,8 @@ export const stylesPadBasic = {
     background: transparent;
     padding: 0;
     line-height: 1;
-    border: ${layout.borderWidth} solid ${colors.info};
-    color: ${colors.info};
+    border: ${layout.borderWidth} solid var(--color-info);
+    color: var(--color-info);
 
     span {
       padding-bottom: 0.15em;
@@ -125,34 +146,34 @@ export const stylesPadBasic = {
 
     &:hover:not(:disabled) {
       transform: scale(1.02);
-      border-color: ${colors.info};
-      color: ${colors.info};
-      background-color: ${colors.info}11;
+      border-color: var(--color-info);
+      color: var(--color-info);
+      background-color: var(--color-info-light);
     }
 
     &:disabled {
       cursor: not-allowed;
       background-color: transparent;
-      border-color: ${colors.greyXDark};
-      color: ${colors.greyXDark};
+      border-color: var(--color-grey-xdark);
+      color: var(--color-grey-xdark);
     }
   `,
 
   unit: css`
     font-size: 1.5rem;
-    color: ${colors.info};
+    color: var(--color-info);
     margin-left: 0.5rem;
   `,
 
   totalDisplay: css`
     font-size: 1.2rem;
     font-weight: 500;
-    color: ${colors.info};
+    color: var(--color-info);
     text-align: center;
     margin-top: 1rem;
     padding: 0.5rem 1rem;
-    background-color: ${colors.info}11;
+    background-color: var(--color-info-light);
     border-radius: 4px;
-    border: 1px solid ${colors.info}33;
+    border: 1px solid var(--color-info-dark);
   `,
 };

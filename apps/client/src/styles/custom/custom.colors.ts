@@ -1,6 +1,6 @@
-import type { ColorMapping } from '../colors.types';
+import type { ColorMapping, HexColor } from '../colors.types';
 import type { ColorPalette } from '../palette.types';
-import { generateColorPalette } from './custom.palette';
+import { generateColorPaletteWithCssVars } from './cssvar.palette';
 
 export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'> = {
   primary: { value: '#5E9DB0' },
@@ -13,11 +13,11 @@ export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'>
   text: { value: '#666666' },
   grey: { value: '#999999' },
   gray: { value: '#999999' },
+  transparent: { value: 'transparent' as HexColor },
 } as const;
 
 export const colors: ColorPalette = {
-  ...generateColorPalette({ colors: COLOR_MAPPING }),
-  white: '#ffffff',
-  black: '#000000',
-  background: '#1A1A1A',
+  ...generateColorPaletteWithCssVars({ colors: COLOR_MAPPING }),
+  // Background is set in themes, so we use CSS variable
+  background: 'var(--color-background)' as any,
 };

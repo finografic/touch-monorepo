@@ -13,6 +13,7 @@ export const DARK_COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'backgro
   text: { value: '#ffffff' }, // White - very light for dark theme
   grey: { value: '#d1d5db' }, // Gray-300 - lighter for dark theme
   gray: { value: '#d1d5db' }, // Gray-300 - lighter for dark theme
+  transparent: { value: 'transparent' }, // Transparent
 } as const;
 
 export const darkColors: ColorPalette = {

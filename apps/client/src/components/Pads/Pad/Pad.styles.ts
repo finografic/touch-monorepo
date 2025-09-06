@@ -18,10 +18,10 @@ export const padStyles = css`
 
     &.checkbox {
       &.checked {
-        border-color: ${colors.success};
-        background-color: rgba(1, 250, 20, 0.1);
-        border-color: ${colors.info};
-        background-color: rgba(0, 191, 255, 0.1);
+        border-color: var(--color-success);
+        background-color: var(--color-success-light);
+        border-color: var(--color-info);
+        background-color: var(--color-info-light);
       }
     }
 

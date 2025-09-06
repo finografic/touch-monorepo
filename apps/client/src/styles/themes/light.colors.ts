@@ -13,6 +13,7 @@ export const LIGHT_COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'backgr
   text: { value: '#000000' }, // Pure black for maximum readability
   grey: { value: '#1f2937' }, // Gray-800 - much darker gray
   gray: { value: '#1f2937' }, // Gray-800 - much darker gray
+  transparent: { value: 'transparent' }, // Transparent
 } as const;
 
 export const lightColors: ColorPalette = {

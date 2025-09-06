@@ -66,7 +66,7 @@ export const stylesItemsGrid = css`
 
     &.selected {
       border-color: ${colors.info};
-      background-color: ${colors.info}99;
+      background-color: ${colors.info90};
     }
 
     /* Only make specific items span full width when needed */

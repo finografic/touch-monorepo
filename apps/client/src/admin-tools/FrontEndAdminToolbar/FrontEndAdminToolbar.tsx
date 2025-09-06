@@ -99,7 +99,9 @@ export const FrontEndAdminToolbar = () => {
         </Flex>
 
         {/* Language Dialog */}
-        {isLanguageDialogOpen && <LanguageDialog />}
+        {isLanguageDialogOpen && (
+          <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
+        )}
       </div>
     </>
   );

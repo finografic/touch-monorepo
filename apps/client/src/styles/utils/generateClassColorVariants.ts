@@ -25,7 +25,7 @@ export const generateClassColorVariants = (
     .map((colorName) => {
       // Special handling for white and black
       if (colorName === 'white' || colorName === 'black') {
-        const color = colors[colorName];
+        const color = `var(--color-${colorName})`;
         const variant: Record<ShadeKey, string> = {
           xxlight: color,
           xlight: color,
@@ -41,13 +41,13 @@ export const generateClassColorVariants = (
       // For regular colors, create shade variants
       const effectiveColor = colorName === 'default' ? 'grey' : colorName;
       const variant: Record<ShadeKey, string> = {
-        xxlight: colors[`${effectiveColor}XXLight`],
-        xlight: colors[`${effectiveColor}XLight`],
-        light: colors[`${effectiveColor}Light`],
-        base: colors[effectiveColor],
-        dark: colors[`${effectiveColor}Dark`],
-        xdark: colors[`${effectiveColor}XDark`],
-        xxdark: colors[`${effectiveColor}XXDark`],
+        xxlight: `var(--color-${effectiveColor}-xxlight)`,
+        xlight: `var(--color-${effectiveColor}-xlight)`,
+        light: `var(--color-${effectiveColor}-light)`,
+        base: `var(--color-${effectiveColor})`,
+        dark: `var(--color-${effectiveColor}-dark)`,
+        xdark: `var(--color-${effectiveColor}-xdark)`,
+        xxdark: `var(--color-${effectiveColor}-xxdark)`,
       };
 
       return /* css */ `${template(colorName, variant)}`;

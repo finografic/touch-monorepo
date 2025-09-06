@@ -47,7 +47,7 @@ export const styles = css`
     &:hover {
       color: ${colors.successDark};
       border-color: ${colors.success};
-      background-color: ${colors.success}11;
+      background-color: ${colors.success10};
     }
 
     &[data-disabled] {
@@ -72,7 +72,7 @@ export const styles = css`
     &:hover {
       color: ${colors.warningDark};
       border-color: ${colors.warning};
-      background-color: ${colors.warning}11;
+      background-color: ${colors.warning10};
     }
 
     &[data-disabled] {

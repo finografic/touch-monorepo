@@ -6,7 +6,7 @@ import 'sanitize.css/forms.css';
 import { css } from '@emotion/react';
 import { colors } from './colors.styles';
 import { cssFontDefaults } from './fonts.styles';
-import { generateColorVariables } from './utils/custom.variables';
+import { generateColorVariables, generateTransparentColorVariables } from './utils/custom.variables';
 import { darkColors, lightColors } from './themes';
 
 export const cssGlobal = css`
@@ -36,6 +36,9 @@ export const cssGlobal = css`
     /* Default dark theme color palette */
     ${generateColorVariables({ colors: darkColors })}
 
+    /* Transparent color utilities */
+    ${generateTransparentColorVariables()}
+
     /* Debug: Show current theme */
     --debug-theme: 'default-dark';
   }
@@ -43,12 +46,20 @@ export const cssGlobal = css`
   /* Light theme color variables */
   [data-theme='light'] {
     ${generateColorVariables({ colors: lightColors })}
+
+    /* Transparent color utilities */
+    ${generateTransparentColorVariables()}
+
     --debug-theme: 'light';
   }
 
   /* Dark theme color variables */
   [data-theme='dark'] {
     ${generateColorVariables({ colors: darkColors })}
+
+    /* Transparent color utilities */
+    ${generateTransparentColorVariables()}
+
     --debug-theme: 'dark';
   }
 
@@ -134,11 +145,7 @@ export const cssGlobal = css`
 
   /* Test styles removed - theme system confirmed working! */
 
-  /* TEST: Make pad-rect button borders darker in light mode */
-  [data-theme='light'] .pad-rect {
-    border-color: #1f2937;
-    color: #1f2937;
-  }
+  /* Test styles removed - colors now use CSS variables automatically! */
 
   /* Global button-box styles for consistent icon button layout */
   .button-box {

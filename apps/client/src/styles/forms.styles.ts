@@ -167,7 +167,7 @@ export const formsBase = css`
 
     &:focus {
       border-color: ${forms.inputs.focus.border.color};
-      box-shadow: 0 0 0 3px ${colors.primaryLight}20;
+      box-shadow: 0 0 0 3px ${colors.primaryLight20};
     }
 
     &:disabled {
@@ -222,7 +222,7 @@ export const formsBase = css`
 
     &:focus {
       border-color: ${forms.inputs.focus.border.color};
-      box-shadow: 0 0 0 3px ${colors.primaryLight}20;
+      box-shadow: 0 0 0 3px ${colors.primaryLight20};
     }
   }
 
@@ -267,7 +267,7 @@ export const formsValidation = css`
     border-color: ${colors.dangerDark} !important;
 
     &:focus {
-      box-shadow: 0 0 0 3px ${colors.dangerDark}20 !important;
+      box-shadow: 0 0 0 3px ${colors.dangerDark20} !important;
     }
   }
 
@@ -278,7 +278,7 @@ export const formsValidation = css`
     border-color: ${colors.warningDark} !important;
 
     &:focus {
-      box-shadow: 0 0 0 3px ${colors.warningDark}20 !important;
+      box-shadow: 0 0 0 3px ${colors.warningDark20} !important;
     }
   }
 
@@ -289,7 +289,7 @@ export const formsValidation = css`
     border-color: ${colors.success} !important;
 
     &:focus {
-      box-shadow: 0 0 0 3px ${colors.success}20 !important;
+      box-shadow: 0 0 0 3px ${colors.success20} !important;
     }
   }
 
@@ -397,7 +397,7 @@ export const formsCustom = css`
       &:focus,
       &[data-state='open'] {
         border-color: ${forms.inputs.focus.border.color};
-        box-shadow: 0 0 0 3px ${colors.primaryLight}20;
+        box-shadow: 0 0 0 3px ${colors.primaryLight20};
       }
     }
 
@@ -449,7 +449,7 @@ export const formsCustom = css`
 
       &:focus-within {
         border-color: ${forms.inputs.focus.border.color};
-        box-shadow: 0 0 0 3px ${colors.primaryLight}20;
+        box-shadow: 0 0 0 3px ${colors.primaryLight20};
       }
 
       input {
@@ -506,7 +506,7 @@ export const formsCustom = css`
 
     .table-row {
       &:nth-of-type(even) {
-        background-color: ${colors.greyXLight}10;
+        background-color: ${colors.greyXLight10};
       }
 
       &.incomplete {
