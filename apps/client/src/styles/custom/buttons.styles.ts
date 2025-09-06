@@ -16,27 +16,27 @@ export const stylesButtonBase = css`
 
   color: var(--color-info);
   border-color: var(--color-info-dark);
-  border-width: 2px;
-  border-style: solid;
+  border-width: ${layout.borderWidth};
 
   &:hover {
     color: var(--color-info);
+    border: ${layout.borderWidth} solid var(--color-info-dark);
     border-color: var(--color-info);
-    background-color: var(--color-info-light);
+    background-color: var(--color-info-25);
     transform: scale(1.025);
   }
 
   &:disabled,
   &.disabled,
   &[data-disabled='true'] {
-    opacity: 0.6;
+    opacity: 0.5;
     cursor: not-allowed;
-    color: var(--color-grey-light);
-    border-color: var(--color-grey-light);
+    color: var(--color-grey);
+    border-color: var(--color-grey-dark);
     background-color: transparent;
     &:hover {
-      color: var(--color-grey-light);
-      border-color: var(--color-grey-light);
+      color: var(--color-grey);
+      border-color: var(--color-grey-dark);
       background-color: transparent;
       transform: none;
     }
