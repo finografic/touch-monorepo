@@ -45,21 +45,27 @@ export const stylesPad = css`
   font-size: 1.5rem;
   padding: 1rem;
   text-align: center;
+  
+  /* Touch-friendly borders */
+  border-width: 2px !important;
+  border-style: solid;
 
   &.pad-menu {
     border-radius: 50%;
   }
 
   &.checked {
-    border-color: var(--color-info);
+    border-color: var(--color-info-dark);
     background-color: var(--color-info-light);
+    color: var(--color-info-dark);
   }
 
   &:disabled,
   &.disabled,
   &[data-disabled='true'] {
-    border-color: var(--color-grey);
-    color: var(--color-grey);
+    border-color: var(--color-grey-light);
+    color: var(--color-grey-light);
+    background-color: transparent;
 
     &:hover {
       transform: none;
