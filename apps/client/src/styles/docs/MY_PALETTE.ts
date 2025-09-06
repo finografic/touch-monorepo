@@ -1,9 +1,9 @@
 /**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 
+ *
  * Run: pnpm generate:palette to update this file
- * 
+ *
  * This file shows the actual hex values for all color variants.
  * The main colors object uses CSS variables, but this provides
  * a visual reference of what those variables resolve to.

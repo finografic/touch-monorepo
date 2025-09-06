@@ -27,13 +27,13 @@ function getHexValue(key: string, cssVar: string): string {
       return `/* ${opacity}% opacity of base color */`;
     }
   }
-  
+
   // For fixed colors, return direct values
   if (key === 'white') return '#ffffff';
   if (key === 'black') return '#000000';
   if (key === 'transparent') return 'transparent';
   if (key === 'background') return lightColors.background as string;
-  
+
   // For base colors, try to get from light theme
   const baseColorMatch = key.match(/^([a-z]+)/);
   if (baseColorMatch) {
@@ -42,14 +42,14 @@ function getHexValue(key: string, cssVar: string): string {
     if (typeof themeValue === 'string' && themeValue.startsWith('#')) {
       return themeValue;
     }
-    
+
     // Fallback to base color if variant not found
     const baseValue = (lightColors as any)[baseColor];
     if (typeof baseValue === 'string' && baseValue.startsWith('#')) {
       return baseValue;
     }
   }
-  
+
   // Fallback to CSS variable reference
   return cssVar;
 }
@@ -59,13 +59,13 @@ function getHexValue(key: string, cssVar: string): string {
  */
 function generatePaletteContent(): string {
   const palette = generateColorPaletteWithCssVars({ colors: COLOR_MAPPING });
-  
+
   let content = `/**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 
+ *
  * Run: pnpm generate:palette to update this file
- * 
+ *
  * This file shows the actual hex values for all color variants.
  * The main colors object uses CSS variables, but this provides
  * a visual reference of what those variables resolve to.
@@ -86,17 +86,17 @@ export const ___COLORS___ = {\n`;
 
   for (const [key, cssVar] of sortedEntries) {
     const hexValue = getHexValue(key, cssVar as string);
-    
+
     // Skip transparency variants to keep file readable
     if (key.match(/\d+$/)) continue;
-    
+
     const comment = key === key.toLowerCase() ? ' // Base color' : ' // Shade variant';
-    
+
     content += `  ${key}: '${hexValue}',${comment}\n`;
   }
 
   content += `};\n\n`;
-  
+
   content += `/**
  * Color system statistics:
  * - Base colors: ${Object.keys(COLOR_MAPPING).length}
@@ -114,14 +114,13 @@ export const ___COLORS___ = {\n`;
 function main() {
   try {
     const content = generatePaletteContent();
-    const filePath = join(__dirname, '..', 'MY_PALETTE.ts');
-    
+    const filePath = join(__dirname, '..', 'docs', 'MY_PALETTE.ts');
+
     writeFileSync(filePath, content, 'utf-8');
-    
+
     console.log('✅ Generated MY_PALETTE.ts successfully!');
     console.log(`📄 File written to: ${filePath}`);
     console.log('🎨 Visual color reference updated with latest palette');
-    
   } catch (error) {
     console.error('❌ Error generating MY_PALETTE.ts:', error);
     process.exit(1);
