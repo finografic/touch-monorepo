@@ -5,11 +5,11 @@
 
 export const layout = {
   fontSize: {
-    xs: '0.75rem',
-    sm: '0.875rem', 
-    base: '1rem',
-    lg: '1.125rem',
-    xl: '1.25rem',
+    'xs': '0.75rem',
+    'sm': '0.875rem',
+    'base': '1rem',
+    'lg': '1.125rem',
+    'xl': '1.25rem',
     '2xl': '1.5rem',
     '3xl': '1.875rem',
     '4xl': '2.25rem',
@@ -19,7 +19,7 @@ export const layout = {
   padding: {
     0: '0',
     1: '0.25rem',
-    2: '0.5rem', 
+    2: '0.5rem',
     3: '0.75rem',
     4: '1rem',
     5: '1.25rem',
@@ -36,15 +36,15 @@ export const layout = {
     8: '8px',
   },
   borderRadius: {
-    none: '0',
-    sm: '0.125rem',
-    DEFAULT: '0.25rem',
-    md: '0.375rem',
-    lg: '0.5rem',
-    xl: '0.75rem',
+    'none': '0',
+    'sm': '0.125rem',
+    'DEFAULT': '0.25rem',
+    'md': '0.375rem',
+    'lg': '0.5rem',
+    'xl': '0.75rem',
     '2xl': '1rem',
     '3xl': '1.5rem',
-    full: '9999px',
+    'full': '9999px',
   },
 };
 
@@ -57,16 +57,9 @@ export const typography = {
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',
-      '"Noto Color Emoji"'
+      '"Noto Color Emoji"',
     ],
-    serif: [
-      'ui-serif',
-      'Georgia',
-      'Cambria',
-      '"Times New Roman"',
-      'Times',
-      'serif'
-    ],
+    serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
     mono: [
       'ui-monospace',
       'SFMono-Regular',
@@ -75,7 +68,7 @@ export const typography = {
       'Consolas',
       '"Liberation Mono"',
       '"Courier New"',
-      'monospace'
+      'monospace',
     ],
   },
   fontWeight: {
@@ -90,7 +83,7 @@ export const typography = {
     black: '900',
   },
   fontSmoothing: {
-    antialiased: {
+    'antialiased': {
       '-webkit-font-smoothing': 'antialiased',
       '-moz-osx-font-smoothing': 'grayscale',
     },

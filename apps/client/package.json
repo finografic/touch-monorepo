@@ -17,6 +17,7 @@
     "test.watch": "mv postcss.config.mjs postcss.config.mjs.bak 2>/dev/null || true && vitest --watch",
     "test.ui": "mv postcss.config.mjs postcss.config.mjs.bak 2>/dev/null || true && vitest --ui",
     "test.colors": "mv postcss.config.mjs postcss.config.mjs.bak 2>/dev/null || true && vitest run src/styles/__tests__/ && mv postcss.config.mjs.bak postcss.config.mjs 2>/dev/null || true",
+    "generate:palette": "npx tsx src/styles/utils/generateMyPalette.ts",
     "·········· BUILD": "·····················································",
     "build": "vite build",
     "build.production": "vite build --mode production",
