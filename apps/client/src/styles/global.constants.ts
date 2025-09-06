@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from './colors.styles';
-import { twLayout } from './tailwind/tailwind.constants';
+import { layout as twLayout } from './constants';
 
 export const border = css`
   border-color: ${colors.greyXLight};

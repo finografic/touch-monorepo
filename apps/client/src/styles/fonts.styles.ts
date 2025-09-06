@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
 import { colors } from './colors.styles';
-import { twFontFamily, twFontSmoothing, twFontWeight } from './tailwind/tailwind.constants';
+import { typography } from './constants';
+
+const { fontFamily: twFontFamily, fontSmoothing: twFontSmoothing, fontWeight: twFontWeight } = typography;
 
 export const cssFontDefaults = css`
   font-family: ${twFontFamily.sans};
