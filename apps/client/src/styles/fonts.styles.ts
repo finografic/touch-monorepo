@@ -5,14 +5,14 @@ import { typography } from './constants';
 const { fontFamily: twFontFamily, fontSmoothing: twFontSmoothing, fontWeight: twFontWeight } = typography;
 
 export const cssFontDefaults = css`
-  font-family: ${twFontFamily.sans};
+  font-family: ${twFontFamily.sans.join(', ')};
   ${css(twFontSmoothing.antialiased)}
   font-feature-settings: 'kern' 1;
   font-kerning: normal;
 `;
 
 export const cssFontMono = css`
-  font-family: ${twFontFamily.mono};
+  font-family: ${twFontFamily.mono.join(', ')};
   ${css(twFontSmoothing.antialiased)}
 `;
 

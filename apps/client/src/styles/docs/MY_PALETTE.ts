@@ -1,103 +1,101 @@
 /**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- *
+ * 
  * Run: pnpm generate:palette to update this file
- *
+ * 
  * This file shows the actual hex values for all color variants.
  * The main colors object uses CSS variables, but this provides
  * a visual reference of what those variables resolve to.
  */
 
 export const ___COLORS___ = {
+  background: '#fefefe', // Base color
   black: '#000000', // Base color
-  blackVar: '#000000', // Shade variant
-  danger: '#991b1b', // Base color
-  dangerDark: '#991b1b', // Shade variant
-  dangerLight: '#991b1b', // Shade variant
-  dangerXDark: '#991b1b', // Shade variant
-  dangerXLight: '#991b1b', // Shade variant
-  dangerXXDark: '#991b1b', // Shade variant
-  dangerXXLight: '#991b1b', // Shade variant
-  default: '#111827', // Base color
-  defaultDark: '#111827', // Shade variant
-  defaultLight: '#111827', // Shade variant
-  defaultXDark: '#111827', // Shade variant
-  defaultXLight: '#111827', // Shade variant
-  defaultXXDark: '#111827', // Shade variant
-  defaultXXLight: '#111827', // Shade variant
-  gray: '#1f2937', // Base color
-  grayDark: '#1f2937', // Shade variant
-  grayLight: '#1f2937', // Shade variant
-  grayXDark: '#1f2937', // Shade variant
-  grayXLight: '#1f2937', // Shade variant
-  grayXXDark: '#1f2937', // Shade variant
-  grayXXLight: '#1f2937', // Shade variant
-  grey: '#1f2937', // Base color
-  greyDark: '#1f2937', // Shade variant
-  greyLight: '#1f2937', // Shade variant
-  greyXDark: '#1f2937', // Shade variant
-  greyXLight: '#1f2937', // Shade variant
-  greyXXDark: '#1f2937', // Shade variant
-  greyXXLight: '#1f2937', // Shade variant
-  info: '#1e40af', // Base color
-  infoDark: '#1e40af', // Shade variant
-  infoLight: '#1e40af', // Shade variant
-  infoXDark: '#1e40af', // Shade variant
-  infoXLight: '#1e40af', // Shade variant
-  infoXXDark: '#1e40af', // Shade variant
-  infoXXLight: '#1e40af', // Shade variant
-  primary: '#1e3a8a', // Base color
-  primaryDark: '#1e3a8a', // Shade variant
-  primaryLight: '#1e3a8a', // Shade variant
-  primaryXDark: '#1e3a8a', // Shade variant
-  primaryXLight: '#1e3a8a', // Shade variant
-  primaryXXDark: '#1e3a8a', // Shade variant
-  primaryXXLight: '#1e3a8a', // Shade variant
-  secondary: '#047857', // Base color
-  secondaryDark: '#047857', // Shade variant
-  secondaryLight: '#047857', // Shade variant
-  secondaryXDark: '#047857', // Shade variant
-  secondaryXLight: '#047857', // Shade variant
-  secondaryXXDark: '#047857', // Shade variant
-  secondaryXXLight: '#047857', // Shade variant
-  success: '#065f46', // Base color
-  successDark: '#065f46', // Shade variant
-  successLight: '#065f46', // Shade variant
-  successXDark: '#065f46', // Shade variant
-  successXLight: '#065f46', // Shade variant
-  successXXDark: '#065f46', // Shade variant
-  successXXLight: '#065f46', // Shade variant
-  text: '#000000', // Base color
-  textDark: '#000000', // Shade variant
-  textLight: '#000000', // Shade variant
-  textXDark: '#000000', // Shade variant
-  textXLight: '#000000', // Shade variant
-  textXXDark: '#000000', // Shade variant
-  textXXLight: '#000000', // Shade variant
+  danger: '#ff4444', // Base color
+  dangerDark: '#ffc7c7', // Shade variant
+  dangerLight: '#ff7c7c', // Shade variant
+  dangerXDark: '#ffdada', // Shade variant
+  dangerXLight: '#ff6969', // Shade variant
+  dangerXXDark: '#ffecec', // Shade variant
+  dangerXXLight: '#ff5757', // Shade variant
+  default: '#595F5F', // Base color
+  defaultDark: '#cdcfcf', // Shade variant
+  defaultLight: '#8b8f8f', // Shade variant
+  defaultXDark: '#dedfdf', // Shade variant
+  defaultXLight: '#7a7f7f', // Shade variant
+  defaultXXDark: '#eeefef', // Shade variant
+  defaultXXLight: '#6a6f6f', // Shade variant
+  gray: '#999999', // Base color
+  grayDark: '#e0e0e0', // Shade variant
+  grayLight: '#b8b8b8', // Shade variant
+  grayXDark: '#ebebeb', // Shade variant
+  grayXLight: '#adadad', // Shade variant
+  grayXXDark: '#f5f5f5', // Shade variant
+  grayXXLight: '#a3a3a3', // Shade variant
+  grey: '#999999', // Base color
+  greyDark: '#e0e0e0', // Shade variant
+  greyLight: '#b8b8b8', // Shade variant
+  greyXDark: '#ebebeb', // Shade variant
+  greyXLight: '#adadad', // Shade variant
+  greyXXDark: '#f5f5f5', // Shade variant
+  greyXXLight: '#a3a3a3', // Shade variant
+  info: '#00bfff', // Base color
+  infoDark: '#b3ecff', // Shade variant
+  infoLight: '#4dd2ff', // Shade variant
+  infoXDark: '#ccf2ff', // Shade variant
+  infoXLight: '#33ccff', // Shade variant
+  infoXXDark: '#e6f9ff', // Shade variant
+  infoXXLight: '#19c5ff', // Shade variant
+  primary: '#5E9DB0', // Base color
+  primaryDark: '#cfe2e7', // Shade variant
+  primaryLight: '#8ebac8', // Shade variant
+  primaryXDark: '#dfebef', // Shade variant
+  primaryXLight: '#7eb1c0', // Shade variant
+  primaryXXDark: '#eff5f7', // Shade variant
+  primaryXXLight: '#6ea7b8', // Shade variant
+  secondary: '#74CABF', // Base color
+  secondaryDark: '#d5efec', // Shade variant
+  secondaryLight: '#9edad2', // Shade variant
+  secondaryXDark: '#e3f4f2', // Shade variant
+  secondaryXLight: '#90d5cc', // Shade variant
+  secondaryXXDark: '#f1faf9', // Shade variant
+  secondaryXXLight: '#82cfc5', // Shade variant
+  success: '#00ff00', // Base color
+  successDark: '#b3ffb3', // Shade variant
+  successLight: '#4dff4d', // Shade variant
+  successXDark: '#ccffcc', // Shade variant
+  successXLight: '#33ff33', // Shade variant
+  successXXDark: '#e6ffe6', // Shade variant
+  successXXLight: '#19ff19', // Shade variant
+  text: '#666666', // Base color
+  textDark: '#d1d1d1', // Shade variant
+  textLight: '#949494', // Shade variant
+  textXDark: '#e0e0e0', // Shade variant
+  textXLight: '#858585', // Shade variant
+  textXXDark: '#f0f0f0', // Shade variant
+  textXXLight: '#757575', // Shade variant
   transparent: 'transparent', // Base color
-  transparentDark: 'var(--color-transparent-dark)', // Shade variant
-  transparentLight: 'var(--color-transparent-light)', // Shade variant
-  transparentVar: 'var(--color-transparent)', // Shade variant
-  transparentXDark: 'var(--color-transparent-xdark)', // Shade variant
-  transparentXLight: 'var(--color-transparent-xlight)', // Shade variant
-  transparentXXDark: 'var(--color-transparent-xxdark)', // Shade variant
-  transparentXXLight: 'var(--color-transparent-xxlight)', // Shade variant
-  warning: '#92400e', // Base color
-  warningDark: '#92400e', // Shade variant
-  warningLight: '#92400e', // Shade variant
-  warningXDark: '#92400e', // Shade variant
-  warningXLight: '#92400e', // Shade variant
-  warningXXDark: '#92400e', // Shade variant
-  warningXXLight: '#92400e', // Shade variant
+  transparentDark: '#NaNb6NaN', // Shade variant
+  transparentLight: '#NaN54NaN', // Shade variant
+  transparentXDark: '#NaNceNaN', // Shade variant
+  transparentXLight: '#NaN3bNaN', // Shade variant
+  transparentXXDark: '#NaNe7NaN', // Shade variant
+  transparentXXLight: '#NaN22NaN', // Shade variant
+  warning: '#ffaa00', // Base color
+  warningDark: '#ffe6b3', // Shade variant
+  warningLight: '#ffc44d', // Shade variant
+  warningXDark: '#ffeecc', // Shade variant
+  warningXLight: '#ffbb33', // Shade variant
+  warningXXDark: '#fff7e6', // Shade variant
+  warningXXLight: '#ffb319', // Shade variant
   white: '#ffffff', // Base color
-  whiteVar: '#ffffff', // Shade variant
 };
 
 /**
  * Color system statistics:
  * - Base colors: 11
- * - Total variants: 1237
- * - Shade variants: 69
- * - Transparency variants: 1155
+ * - Total variants: 80
+ * - Shade variants: 66
+ * - Transparency variants: Generated mathematically (not shown here)
  */
