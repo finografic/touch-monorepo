@@ -8,14 +8,16 @@ export const ThemeToggle: FC = () => {
   const { theme, toggleTheme } = useContent();
 
   return (
-    <button
-      css={styles}
-      className={clsx('theme-toggle')}
-      onClick={toggleTheme}
-      aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-      title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
-    >
-      {theme === 'light' ? <MoonIcon /> : <SunIcon />}
-    </button>
+    <div className="button-box">
+      <button
+        css={styles}
+        className={clsx('btn theme-toggle')}
+        onClick={toggleTheme}
+        aria-label={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+        title={`Switch to ${theme === 'light' ? 'dark' : 'light'} mode`}
+      >
+        {theme === 'light' ? <MoonIcon /> : <SunIcon />}
+      </button>
+    </div>
   );
 };

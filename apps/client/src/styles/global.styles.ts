@@ -131,4 +131,26 @@ export const cssGlobal = css`
   :not(body):not(html)::-webkit-scrollbar-corner {
     background: var(--color-grey-xxlight);
   }
+
+  /* Test styles removed - theme system confirmed working! */
+
+  /* TEST: Make pad-rect button borders darker in light mode */
+  [data-theme='light'] .pad-rect {
+    border-color: #1f2937;
+    color: #1f2937;
+  }
+
+  /* Global button-box styles for consistent icon button layout */
+  .button-box {
+    width: auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    margin-left: 0.25rem;
+    &:first-of-type {
+      margin-left: 2rem;
+    }
+  }
 `;

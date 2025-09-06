@@ -3,21 +3,21 @@ import type { ColorPalette } from '../palette.types';
 import { generateColorPalette } from '../custom/custom.palette';
 
 export const LIGHT_COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'> = {
-  primary: { value: '#1d4ed8' }, // Blue-700 - darker for light theme
-  secondary: { value: '#047857' }, // Emerald-700 - darker for light theme
-  default: { value: '#374151' }, // Gray-700 - darker for light theme
-  success: { value: '#059669' }, // Emerald-600
-  warning: { value: '#d97706' }, // Amber-600 - darker for light theme
-  danger: { value: '#dc2626' }, // Red-600 - darker for light theme
-  info: { value: '#2563eb' }, // Blue-600 - darker for light theme
-  text: { value: '#111827' }, // Gray-900 - very dark for light theme
-  grey: { value: '#4b5563' }, // Gray-600 - darker for light theme
-  gray: { value: '#4b5563' }, // Gray-600 - darker for light theme
+  primary: { value: '#1e3a8a' }, // Blue-900 - much darker blue for high contrast
+  secondary: { value: '#047857' }, // Emerald-700 - deeper green for better contrast
+  default: { value: '#111827' }, // Gray-900 - very dark for maximum contrast
+  success: { value: '#065f46' }, // Emerald-800 - much deeper success green
+  warning: { value: '#92400e' }, // Amber-800 - darker warning for better visibility
+  danger: { value: '#991b1b' }, // Red-800 - deeper danger red
+  info: { value: '#1e40af' }, // Blue-800 - darker info blue
+  text: { value: '#000000' }, // Pure black for maximum readability
+  grey: { value: '#1f2937' }, // Gray-800 - much darker gray
+  gray: { value: '#1f2937' }, // Gray-800 - much darker gray
 } as const;
 
 export const lightColors: ColorPalette = {
   ...generateColorPalette({ colors: LIGHT_COLOR_MAPPING }),
   white: '#ffffff',
   black: '#000000',
-  background: '#f8fafc', // Light gray background for better contrast
+  background: '#fefefe', // Pure white with subtle warmth
 };

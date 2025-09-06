@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 
 export const styles = css`
-  /* Theme toggle button container */
-  .theme-toggle {
+  /* Theme toggle button - targets the button element directly */
+  &.btn.theme-toggle {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -10,39 +10,40 @@ export const styles = css`
     height: 3rem;
     border-radius: 50%;
     background-color: transparent;
-    border: 2px solid var(--color-grey-light);
+    border: none !important;
+    border-width: 0;
     cursor: pointer;
     transition: all 0.3s ease;
+    padding: 0.75rem 1rem;
+    min-width: auto;
+    width: auto;
+
+    /* Icon styling - matches toolbar pattern */
+    svg.icon {
+      color: var(--color-text);
+      transition: all 0.3s ease;
+    }
 
     &:hover {
-      background-color: var(--color-grey-xlight);
-      border-color: var(--color-info);
-      transform: scale(1.05);
+      border-color: transparent;
+      svg.icon {
+        color: var(--color-info);
+      }
     }
 
     &:active {
       transform: scale(0.95);
     }
-
-    /* Icon styling */
-    .icon {
-      color: var(--color-info);
-      transition: all 0.3s ease;
-    }
-
-    &:hover .icon {
-      color: var(--color-white);
-    }
   }
 
   /* Animation for icon transitions */
-  .theme-toggle .icon {
+  &.btn.theme-toggle svg.icon {
     transition:
       transform 0.3s ease,
       opacity 0.3s ease;
   }
 
-  .theme-toggle:hover .icon {
+  &.btn.theme-toggle:hover svg.icon {
     transform: rotate(15deg);
   }
 `;

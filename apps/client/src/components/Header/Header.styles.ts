@@ -20,6 +20,7 @@ export const styles = css`
     justify-content: flex-start;
     align-items: center;
     padding-left: 1rem; /* Add some padding for better visual balance */
+    height: -webkit-fill-available; /* Better cross-browser full height support */
   }
 
   .col-header-center {
@@ -37,17 +38,7 @@ export const styles = css`
     padding-right: 1rem; /* Add some padding for better visual balance */
   }
 
-  /* ======================================= */
-  /* Debug borders - uncomment to see layout */
-  .row-header {
-    border: 1px solid ${colors.greyDark};
-  }
-  .col-header-left,
-  .col-header-center,
-  .col-header-right {
-    border: 1px solid ${colors.greyDark};
-  }
-  /* ======================================= */
+  /* Debug borders removed for production */
 
   h1 {
     display: flex;

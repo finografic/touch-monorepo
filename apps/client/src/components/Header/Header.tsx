@@ -5,7 +5,6 @@ import { useTranslation } from 'react-i18next';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { ThemeToggle } from 'components/ThemeToggle';
-import { ThemeDebug } from 'components/ThemeToggle/ThemeDebug';
 
 export const Header = () => {
   const { t } = useTranslation();
@@ -16,7 +15,6 @@ export const Header = () => {
 
   return (
     <header css={styles}>
-      <ThemeDebug />
       <Container size="4">
         <Flex justify="between" align="center" width="100%" className="row-header">
           {/* ====================================================================== */}
