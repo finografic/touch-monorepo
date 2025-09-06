@@ -18,33 +18,49 @@ import { lightColors } from '../themes/light.colors';
  * Simple hex color manipulation for generating shade variants
  * This replicates the original palette generation logic
  */
-function generateShadeVariants(baseHex: string): Record<string, string> {
+function generateShadeVariants(baseHex: string, varianceFactor: number = 0.6): Record<string, string> {
   // Convert hex to RGB
   const hex = baseHex.replace('#', '');
   const r = parseInt(hex.substr(0, 2), 16);
   const g = parseInt(hex.substr(2, 2), 16);
   const b = parseInt(hex.substr(4, 2), 16);
-  
+
   const variants: Record<string, string> = {};
-  
-  // Generate shade variants (simplified algorithm)
+
+  // Generate shade variants with proper semantics and configurable variance
   const shades = [
-    { name: 'XXLight', factor: 0.9 },
-    { name: 'XLight', factor: 0.8 },
-    { name: 'Light', factor: 0.7 },
-    { name: 'Dark', factor: 0.3 },
-    { name: 'XDark', factor: 0.2 },
-    { name: 'XXDark', factor: 0.1 },
+    { name: 'XXLight', lighten: 0.8 * varianceFactor },  // Much lighter
+    { name: 'XLight', lighten: 0.6 * varianceFactor },   // Lighter
+    { name: 'Light', lighten: 0.4 * varianceFactor },     // Slightly lighter
+    { name: 'Dark', lighten: -0.4 * varianceFactor },     // Slightly darker
+    { name: 'XDark', lighten: -0.6 * varianceFactor },    // Darker
+    { name: 'XXDark', lighten: -0.8 * varianceFactor },   // Much darker
   ];
-  
-  shades.forEach(({ name, factor }) => {
-    const newR = Math.round(r + (255 - r) * (1 - factor));
-    const newG = Math.round(g + (255 - g) * (1 - factor));
-    const newB = Math.round(b + (255 - b) * (1 - factor));
+
+  shades.forEach(({ name, lighten }) => {
+    let newR, newG, newB;
     
-    variants[name] = `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
+    if (lighten > 0) {
+      // Lighten: move towards white
+      newR = Math.round(r + (255 - r) * lighten);
+      newG = Math.round(g + (255 - g) * lighten);
+      newB = Math.round(b + (255 - b) * lighten);
+    } else {
+      // Darken: move towards black
+      newR = Math.round(r * (1 + lighten));
+      newG = Math.round(g * (1 + lighten));
+      newB = Math.round(b * (1 + lighten));
+    }
+    
+    // Clamp values to valid RGB range
+    newR = Math.max(0, Math.min(255, newR));
+    newG = Math.max(0, Math.min(255, newG));
+    newB = Math.max(0, Math.min(255, newB));
+
+    variants[name] =
+      `#${newR.toString(16).padStart(2, '0')}${newG.toString(16).padStart(2, '0')}${newB.toString(16).padStart(2, '0')}`;
   });
-  
+
   return variants;
 }
 
@@ -54,15 +70,15 @@ function generateShadeVariants(baseHex: string): Record<string, string> {
  */
 function generateActualHexValues(): Record<string, string> {
   const hexValues: Record<string, string> = {};
-  
+
   // Generate actual shade variants using the original logic
   for (const [colorName, colorDef] of Object.entries(COLOR_MAPPING)) {
     if (typeof colorDef === 'object' && 'value' in colorDef) {
       const baseHex = colorDef.value;
-      
+
       // Add base color
       hexValues[colorName] = baseHex;
-      
+
       // Generate and add shade variants
       const variants = generateShadeVariants(baseHex);
       Object.entries(variants).forEach(([variantName, hexValue]) => {
@@ -70,13 +86,13 @@ function generateActualHexValues(): Record<string, string> {
       });
     }
   }
-  
+
   // Add fixed colors
   hexValues.white = '#ffffff';
   hexValues.black = '#000000';
   hexValues.transparent = 'transparent';
   hexValues.background = lightColors.background as string;
-  
+
   return hexValues;
 }
 
@@ -85,13 +101,13 @@ function generateActualHexValues(): Record<string, string> {
  */
 function generatePaletteContent(): string {
   const actualHexValues = generateActualHexValues();
-  
+
   let content = `/**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 
+ *
  * Run: pnpm generate:palette to update this file
- * 
+ *
  * This file shows the actual hex values for all color variants.
  * The main colors object uses CSS variables, but this provides
  * a visual reference of what those variables resolve to.
@@ -99,24 +115,30 @@ function generatePaletteContent(): string {
 
 export const ___COLORS___ = {\n`;
 
-  // Sort entries for consistent output
+  // Sort entries in logical shade order (base, then lightest to darkest)
   const sortedEntries = Object.entries(actualHexValues)
     .filter(([key, _]) => !key.match(/\d+$/)) // Skip transparency variants
     .sort(([a], [b]) => {
-      // Sort by base color name first, then by variant
+      // Sort by base color name first
       const baseA = a.replace(/[A-Z][a-z]*|[0-9]+/g, '');
       const baseB = b.replace(/[A-Z][a-z]*|[0-9]+/g, '');
       if (baseA !== baseB) return baseA.localeCompare(baseB);
-      return a.localeCompare(b);
+      
+      // Then sort by shade order: base, XXLight, XLight, Light, Dark, XDark, XXDark
+      const shadeOrder = ['', 'XXLight', 'XLight', 'Light', 'Dark', 'XDark', 'XXDark'];
+      const shadeA = a.replace(baseA, '');
+      const shadeB = b.replace(baseB, '');
+      const orderA = shadeOrder.indexOf(shadeA);
+      const orderB = shadeOrder.indexOf(shadeB);
+      return orderA - orderB;
     });
 
   for (const [key, hexValue] of sortedEntries) {
-    const comment = key === key.toLowerCase() ? ' // Base color' : ' // Shade variant';
-    content += `  ${key}: '${hexValue}',${comment}\n`;
+    content += `  ${key}: '${hexValue}',\n`;
   }
 
   content += `};\n\n`;
-  
+
   content += `/**
  * Color system statistics:
  * - Base colors: ${Object.keys(COLOR_MAPPING).length}

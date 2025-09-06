@@ -1,95 +1,95 @@
 /**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 
+ *
  * Run: pnpm generate:palette to update this file
- * 
+ *
  * This file shows the actual hex values for all color variants.
  * The main colors object uses CSS variables, but this provides
  * a visual reference of what those variables resolve to.
  */
 
 export const ___COLORS___ = {
-  background: '#fefefe', // Base color
-  black: '#000000', // Base color
-  danger: '#ff4444', // Base color
-  dangerDark: '#ffc7c7', // Shade variant
-  dangerLight: '#ff7c7c', // Shade variant
-  dangerXDark: '#ffdada', // Shade variant
-  dangerXLight: '#ff6969', // Shade variant
-  dangerXXDark: '#ffecec', // Shade variant
-  dangerXXLight: '#ff5757', // Shade variant
-  default: '#595F5F', // Base color
-  defaultDark: '#cdcfcf', // Shade variant
-  defaultLight: '#8b8f8f', // Shade variant
-  defaultXDark: '#dedfdf', // Shade variant
-  defaultXLight: '#7a7f7f', // Shade variant
-  defaultXXDark: '#eeefef', // Shade variant
-  defaultXXLight: '#6a6f6f', // Shade variant
-  gray: '#999999', // Base color
-  grayDark: '#e0e0e0', // Shade variant
-  grayLight: '#b8b8b8', // Shade variant
-  grayXDark: '#ebebeb', // Shade variant
-  grayXLight: '#adadad', // Shade variant
-  grayXXDark: '#f5f5f5', // Shade variant
-  grayXXLight: '#a3a3a3', // Shade variant
-  grey: '#999999', // Base color
-  greyDark: '#e0e0e0', // Shade variant
-  greyLight: '#b8b8b8', // Shade variant
-  greyXDark: '#ebebeb', // Shade variant
-  greyXLight: '#adadad', // Shade variant
-  greyXXDark: '#f5f5f5', // Shade variant
-  greyXXLight: '#a3a3a3', // Shade variant
-  info: '#00bfff', // Base color
-  infoDark: '#b3ecff', // Shade variant
-  infoLight: '#4dd2ff', // Shade variant
-  infoXDark: '#ccf2ff', // Shade variant
-  infoXLight: '#33ccff', // Shade variant
-  infoXXDark: '#e6f9ff', // Shade variant
-  infoXXLight: '#19c5ff', // Shade variant
-  primary: '#5E9DB0', // Base color
-  primaryDark: '#cfe2e7', // Shade variant
-  primaryLight: '#8ebac8', // Shade variant
-  primaryXDark: '#dfebef', // Shade variant
-  primaryXLight: '#7eb1c0', // Shade variant
-  primaryXXDark: '#eff5f7', // Shade variant
-  primaryXXLight: '#6ea7b8', // Shade variant
-  secondary: '#74CABF', // Base color
-  secondaryDark: '#d5efec', // Shade variant
-  secondaryLight: '#9edad2', // Shade variant
-  secondaryXDark: '#e3f4f2', // Shade variant
-  secondaryXLight: '#90d5cc', // Shade variant
-  secondaryXXDark: '#f1faf9', // Shade variant
-  secondaryXXLight: '#82cfc5', // Shade variant
-  success: '#00ff00', // Base color
-  successDark: '#b3ffb3', // Shade variant
-  successLight: '#4dff4d', // Shade variant
-  successXDark: '#ccffcc', // Shade variant
-  successXLight: '#33ff33', // Shade variant
-  successXXDark: '#e6ffe6', // Shade variant
-  successXXLight: '#19ff19', // Shade variant
-  text: '#666666', // Base color
-  textDark: '#d1d1d1', // Shade variant
-  textLight: '#949494', // Shade variant
-  textXDark: '#e0e0e0', // Shade variant
-  textXLight: '#858585', // Shade variant
-  textXXDark: '#f0f0f0', // Shade variant
-  textXXLight: '#757575', // Shade variant
-  transparent: 'transparent', // Base color
-  transparentDark: '#NaNb6NaN', // Shade variant
-  transparentLight: '#NaN54NaN', // Shade variant
-  transparentXDark: '#NaNceNaN', // Shade variant
-  transparentXLight: '#NaN3bNaN', // Shade variant
-  transparentXXDark: '#NaNe7NaN', // Shade variant
-  transparentXXLight: '#NaN22NaN', // Shade variant
-  warning: '#ffaa00', // Base color
-  warningDark: '#ffe6b3', // Shade variant
-  warningLight: '#ffc44d', // Shade variant
-  warningXDark: '#ffeecc', // Shade variant
-  warningXLight: '#ffbb33', // Shade variant
-  warningXXDark: '#fff7e6', // Shade variant
-  warningXXLight: '#ffb319', // Shade variant
-  white: '#ffffff', // Base color
+  background: '#fefefe',
+  black: '#000000',
+  danger: '#ff4444',
+  dangerXXLight: '#ff9e9e',
+  dangerXLight: '#ff8787',
+  dangerLight: '#ff7171',
+  dangerDark: '#c23434',
+  dangerXDark: '#a32c2c',
+  dangerXXDark: '#852323',
+  default: '#595F5F',
+  defaultXXLight: '#a9acac',
+  defaultXLight: '#959999',
+  defaultLight: '#818585',
+  defaultDark: '#444848',
+  defaultXDark: '#393d3d',
+  defaultXXDark: '#2e3131',
+  gray: '#999999',
+  grayXXLight: '#cacaca',
+  grayXLight: '#bebebe',
+  grayLight: '#b1b1b1',
+  grayDark: '#747474',
+  grayXDark: '#626262',
+  grayXXDark: '#505050',
+  grey: '#999999',
+  greyXXLight: '#cacaca',
+  greyXLight: '#bebebe',
+  greyLight: '#b1b1b1',
+  greyDark: '#747474',
+  greyXDark: '#626262',
+  greyXXDark: '#505050',
+  info: '#00bfff',
+  infoXXLight: '#7adeff',
+  infoXLight: '#5cd6ff',
+  infoLight: '#3dceff',
+  infoDark: '#0091c2',
+  infoXDark: '#007aa3',
+  infoXXDark: '#006385',
+  primary: '#5E9DB0',
+  primaryXXLight: '#abccd6',
+  primaryXLight: '#98c0cc',
+  primaryLight: '#85b5c3',
+  primaryDark: '#477786',
+  primaryXDark: '#3c6471',
+  primaryXXDark: '#31525c',
+  secondary: '#74CABF',
+  secondaryXXLight: '#b7e3de',
+  secondaryXLight: '#a6ddd6',
+  secondaryLight: '#95d7ce',
+  secondaryDark: '#589a91',
+  secondaryXDark: '#4a817a',
+  secondaryXXDark: '#3c6963',
+  success: '#00ff00',
+  successXXLight: '#7aff7a',
+  successXLight: '#5cff5c',
+  successLight: '#3dff3d',
+  successDark: '#00c200',
+  successXDark: '#00a300',
+  successXXDark: '#008500',
+  text: '#666666',
+  textXXLight: '#afafaf',
+  textXLight: '#9d9d9d',
+  textLight: '#8b8b8b',
+  textDark: '#4e4e4e',
+  textXDark: '#414141',
+  textXXDark: '#353535',
+  transparent: 'transparent',
+  transparentXXLight: '#NaN80NaN',
+  transparentXLight: '#NaN62NaN',
+  transparentLight: '#NaN45NaN',
+  transparentDark: '#NaN08NaN',
+  transparentXDark: '#NaN06NaN',
+  transparentXXDark: '#NaN05NaN',
+  warning: '#ffaa00',
+  warningXXLight: '#ffd37a',
+  warningXLight: '#ffc95c',
+  warningLight: '#ffbe3d',
+  warningDark: '#c28100',
+  warningXDark: '#a36d00',
+  warningXXDark: '#855800',
+  white: '#ffffff',
 };
 
 /**
