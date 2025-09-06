@@ -10,6 +10,21 @@ import { generateColorVariables } from './utils/custom.variables';
 import { darkColors, lightColors } from './themes';
 
 export const cssGlobal = css`
+  /* Use CSS layers to ensure our styles override Radix */
+  @layer theme-override {
+    html[data-theme],
+    body[data-theme],
+    #root[data-theme],
+    html[data-theme='light'],
+    body[data-theme='light'],
+    #root[data-theme='light'],
+    html[data-theme='dark'],
+    body[data-theme='dark'],
+    #root[data-theme='dark'] {
+      background-color: var(--color-background) !important;
+    }
+  }
+
   *,
   *::before,
   *::after {
@@ -20,16 +35,21 @@ export const cssGlobal = css`
     box-sizing: border-box;
     /* Default dark theme color palette */
     ${generateColorVariables({ colors: darkColors })}
+
+    /* Debug: Show current theme */
+    --debug-theme: 'default-dark';
   }
 
   /* Light theme color variables */
   [data-theme='light'] {
     ${generateColorVariables({ colors: lightColors })}
+    --debug-theme: 'light';
   }
 
   /* Dark theme color variables */
   [data-theme='dark'] {
     ${generateColorVariables({ colors: darkColors })}
+    --debug-theme: 'dark';
   }
 
   #root {
@@ -54,10 +74,31 @@ export const cssGlobal = css`
     margin-right: calc(-1 * (100vw - 100%));
 
     /* Dynamic background color based on theme */
-    background-color: var(--color-background);
+    background-color: var(--color-background) !important;
 
     height: 100vh;
     overflow: hidden;
+  }
+
+  /* Ensure html also uses theme background */
+  html {
+    background-color: var(--color-background) !important;
+  }
+
+  /* Override any Radix UI background colors with maximum specificity */
+  html,
+  body,
+  #root,
+  html[data-theme],
+  body[data-theme],
+  #root[data-theme],
+  html[data-theme='light'],
+  body[data-theme='light'],
+  #root[data-theme='light'],
+  html[data-theme='dark'],
+  body[data-theme='dark'],
+  #root[data-theme='dark'] {
+    background-color: var(--color-background) !important;
   }
 
   /** CUSTOM SCROLLBARS FOR ELEMENTS (NOT BODY) **/

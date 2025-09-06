@@ -1,7 +1,7 @@
 /* This file contains base Radix UI styles */
 /* Color variables are now generated at build time by postcss-radix-colors plugin */
 
-@layer theme, base, radix-themes, components, utilities;
+@layer theme, base, radix-themes, components, utilities, theme-override;
 
 /* Tailwind Preset for Radix Themes */
 /* NOTE: https://github.com/viktorbonino/radix-themes-tw */
@@ -50,6 +50,15 @@
 
 :root {
   color-scheme: light;
+}
+
+/* Dynamic color scheme based on theme */
+[data-theme='light'] {
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
 }
 
 /* Radix Dialog Overlay */

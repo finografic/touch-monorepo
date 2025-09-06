@@ -14,7 +14,7 @@ export const COLOR_MAPPING: ColorMapping = {
   default: { color: 'gray', shade: 4 },
   // text + greys
   text: { color: 'slate', shade: 9 },
-  background: { value: radix.slate.slate4 as HexColor },
+  // background: { value: radix.slate.slate4 as HexColor }, // Commented out - using theme variables instead
   grey: { color: 'slate', shade: 8 },
   gray: { color: 'slate', shade: 8 },
   // status colors

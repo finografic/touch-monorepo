@@ -1,5 +1,5 @@
 import '@radix-ui/themes/styles.css';
-// import 'styles/radix-ui/radix.css';
+import 'styles/radix-ui/radix.css';
 
 import { Suspense } from 'react';
 import { ScreenClassProvider } from 'react-grid-system';
@@ -16,17 +16,15 @@ import { ContentProvider } from 'providers/ContentProvider';
 const AppBaseLayout = () => (
   <ErrorBoundary>
     <Global styles={cssGlobal} />
-    <RadixTheme>
-      <ContentProvider>
-        <AuthProvider>
-          <ScreenClassProvider>
-            <Suspense fallback={<Spinner size="3" />}>
-              <Outlet />
-            </Suspense>
-          </ScreenClassProvider>
-        </AuthProvider>
-      </ContentProvider>
-    </RadixTheme>
+    <ContentProvider>
+      <AuthProvider>
+        <ScreenClassProvider>
+          <Suspense fallback={<Spinner size="3" />}>
+            <Outlet />
+          </Suspense>
+        </ScreenClassProvider>
+      </AuthProvider>
+    </ContentProvider>
   </ErrorBoundary>
 );
 

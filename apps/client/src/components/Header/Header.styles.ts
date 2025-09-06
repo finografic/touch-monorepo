@@ -19,6 +19,7 @@ export const styles = css`
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    padding-left: 1rem; /* Add some padding for better visual balance */
   }
 
   .col-header-center {
@@ -33,6 +34,7 @@ export const styles = css`
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    padding-right: 1rem; /* Add some padding for better visual balance */
   }
 
   /* ======================================= */
