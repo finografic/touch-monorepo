@@ -18,7 +18,7 @@ import { lightColors } from '../themes/light.colors';
  * Simple hex color manipulation for generating shade variants
  * This replicates the original palette generation logic
  */
-function generateShadeVariants(baseHex: string, varianceFactor: number = 0.6): Record<string, string> {
+function generateShadeVariants(baseHex: string, varianceFactor: number = 0.8): Record<string, string> {
   // Convert hex to RGB
   const hex = baseHex.replace('#', '');
   const r = parseInt(hex.substr(0, 2), 16);
@@ -75,10 +75,16 @@ function generateActualHexValues(): Record<string, string> {
   for (const [colorName, colorDef] of Object.entries(COLOR_MAPPING)) {
     if (typeof colorDef === 'object' && 'value' in colorDef) {
       const baseHex = colorDef.value;
-
+      
+      // Skip generating variants for fixed colors
+      if (colorName === 'white' || colorName === 'black' || colorName === 'transparent') {
+        hexValues[colorName] = baseHex;
+        continue;
+      }
+      
       // Add base color
       hexValues[colorName] = baseHex;
-
+      
       // Generate and add shade variants
       const variants = generateShadeVariants(baseHex);
       Object.entries(variants).forEach(([variantName, hexValue]) => {
