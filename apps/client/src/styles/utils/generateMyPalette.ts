@@ -75,16 +75,16 @@ function generateActualHexValues(): Record<string, string> {
   for (const [colorName, colorDef] of Object.entries(COLOR_MAPPING)) {
     if (typeof colorDef === 'object' && 'value' in colorDef) {
       const baseHex = colorDef.value;
-      
+
       // Skip generating variants for fixed colors
       if (colorName === 'white' || colorName === 'black' || colorName === 'transparent') {
         hexValues[colorName] = baseHex;
         continue;
       }
-      
+
       // Add base color
       hexValues[colorName] = baseHex;
-      
+
       // Generate and add shade variants
       const variants = generateShadeVariants(baseHex);
       Object.entries(variants).forEach(([variantName, hexValue]) => {
