@@ -16,11 +16,14 @@ Input Sources → CSS Variable Generator → CSS Variables → Component Usage
 
 ## 🎯 Core Components
 
-### 1. **Input Source** (`custom/custom.colors.ts`)
+### 1. **Input Source** (`project/project.colors.ts`)
 
-The flexible entry point for color definitions:
+The flexible entry point for color definitions supporting both HEX and Tailwind OKLCH colors:
 
 ```typescript
+/**
+ * @see https://tailwindcss.com/docs/colors - Tailwind color palette reference
+ */
 export const COLOR_MAPPING = {
   // Radix color system
   primary: { color: 'blue', shade: 9 },
@@ -28,12 +31,15 @@ export const COLOR_MAPPING = {
   // Custom hex values
   danger: { value: '#ff4444' },
 
+  // Tailwind OKLCH colors
+  secondary: { value: tailwindColors.emerald[600] },
+
   // Future: OKLCH support ready
   // accent: { value: 'oklch(0.7 0.15 250)' },
 };
 ```
 
-### 2. **CSS Variable Generator** (`custom/cssvar.palette.ts`)
+### 2. **CSS Variable Generator** (`utils/generate-project-palette.utils.ts`)
 
 The heart of the system - generates CSS variable references:
 
@@ -42,7 +48,7 @@ The heart of the system - generates CSS variable references:
 // Output: { primary: 'var(--color-primary)', primaryLight: 'var(--color-primary-light)', ... }
 ```
 
-### 3. **Theme CSS Variables** (`utils/css-color-variables.utils.ts`)
+### 3. **Theme CSS Variables** (`utils/generate-css-variables.utils.ts`)
 
 Generates the actual CSS variables for themes:
 
@@ -181,15 +187,16 @@ primary: { value: 'oklch(0.7 0.15 250)' }
 - Perceptually uniform
 - Better for programmatic manipulation
 
-### **4. Future: Tailwind Integration**
+### **4. Tailwind OKLCH Integration** ✅ **IMPLEMENTED**
 
 ```typescript
-primary: { value: 'blue.600' }  // Reference Tailwind colors
+primary: { value: tailwindColors.blue[600] }  // Tailwind OKLCH colors
 ```
 
-- Leverage Tailwind's excellent palette
-- OKLCH-based color science
-- Consistent with design systems
+- ✅ **Leverage Tailwind's excellent palette** - Expert-designed colors
+- ✅ **OKLCH-based color science** - Perceptually uniform colors
+- ✅ **Consistent with design systems** - Professional quality
+- ✅ **Flexible format support** - Mix HEX and OKLCH seamlessly
 
 ## 🔧 Maintenance & Development
 
@@ -211,7 +218,7 @@ Comprehensive test suite with 26 tests covering all variants.
 
 ### **Add New Colors**
 
-1. Update `COLOR_MAPPING` in `custom/custom.colors.ts`
+1. Update `COLOR_MAPPING` in `project/project.colors.ts`
 2. Add corresponding theme values in `themes/light.colors.ts` and `themes/dark.colors.ts`
 3. Run tests to ensure everything works
 4. Generate updated visual reference
@@ -273,17 +280,17 @@ The system is perfectly positioned for OKLCH migration:
 3. **Components**: No changes needed - same syntax
 4. **Themes**: Update theme files with OKLCH values
 
-### **Tailwind Integration**
+### **Tailwind Integration** ✅ **IMPLEMENTED**
 
-Easy to integrate Tailwind's excellent color science:
+Tailwind's excellent color science is now integrated:
 
 ```typescript
-// Future: Use Tailwind's OKLCH-based colors as inputs
-import { colors as tailwindColors } from 'tailwindcss/colors';
+// ✅ IMPLEMENTED: Use Tailwind's OKLCH-based colors as inputs
+import tailwindColors from 'tailwindcss/colors';
 
 export const COLOR_MAPPING = {
   primary: { value: tailwindColors.blue[600] },
-  danger: { value: tailwindColors.red[500] },
+  danger: { value: tailwindColors.red[600] },
 };
 ```
 

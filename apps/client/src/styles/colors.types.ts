@@ -18,7 +18,7 @@ export type ColorMapping = {
         shade: RadixBaseShade;
       }
     | {
-        value: HexColor;
+        value: HexColor | string; // Allow both HexColor and Tailwind OKLCH strings
       };
 };
 

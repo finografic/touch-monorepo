@@ -11,9 +11,9 @@
 *
 * * colors.styles.ts: Main export point for the colors object
 * * colors.types.ts: TypeScript type definitions for colors
-* * custom/custom.colors.ts: Base color mapping (COLOR_MAPPING)
-* * custom/cssvar.palette.ts: CSS variable palette generator
- */
+* * project/project.colors.ts: Base color mapping (COLOR_MAPPING)
+* * utils/generate-project-palette.utils.ts: CSS variable palette generator
+*/
 
 /**
 * 🎯 PALETTE.* FILES
@@ -49,11 +49,12 @@
 * 🛠️ UTILS.* FILES
 * Purpose: Utility functions and generators
 *
-* * utils/css-color-variables.utils.ts: CSS variable generation
-* * utils/generateMyPalette.util.ts: MY_PALETTE.ts generator
-* * utils/generateClassColorVariants.ts: CSS class variant generator
+* * utils/generate-css-variables.utils.ts: CSS variable generation
+* * utils/generate-project-palette.utils.ts: Colors object generator
+* * utils/generate-themes.utils.ts: Theme file generator
+* * utils/generateMyPalette.utils.ts: MY_PALETTE.ts generator
 * * utils/camelToKebab.ts: String conversion utility
- */
+*/
 
 /**
 * 📚 DOCS.* FILES
@@ -88,9 +89,9 @@
 /**
 * 🔄 GENERATION FLOW
 *
-* 1. COLOR_MAPPING (custom/custom.colors.ts) → Base color definitions
-* 2. CSS Variables (utils/css-color-variables.utils.ts) → CSS variable generation
+* 1. COLOR_MAPPING (project/project.colors.ts) → Base color definitions
+* 2. CSS Variables (utils/generate-css-variables.utils.ts) → CSS variable generation
 * 3. Theme Files (themes/*.colors.ts) → Theme-specific hex values
 * 4. MY_PALETTE.ts (docs/MY_PALETTE.ts) → Visual reference
 * 5. Colors Object (colors.styles.ts) → Main export for components
- */
+*/

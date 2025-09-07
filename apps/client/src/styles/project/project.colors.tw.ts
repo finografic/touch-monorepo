@@ -3,10 +3,6 @@ import type { ColorPalette } from '../palette.types';
 import { generateColorPaletteWithCssVars } from '../utils/generate-project-palette.utils';
 import tailwindColors from 'tailwindcss/colors';
 
-/**
- * Color mapping configuration supporting both HEX and Tailwind OKLCH colors
- * @see https://tailwindcss.com/docs/colors - Tailwind color palette reference
- */
 export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'> = {
   // 🎨 Tailwind OKLCH Colors - Beautiful, perceptually uniform colors!
   primary: { value: tailwindColors.blue[600] }, // oklch(0.6 0.15 250)
