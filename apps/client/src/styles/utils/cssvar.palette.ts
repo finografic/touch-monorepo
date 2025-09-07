@@ -1,7 +1,7 @@
 import type { ColorMapping, HexColor } from '../colors.types';
 import type { ColorBaseName, ColorPalette, CssVariableRef, TransparencyLevel } from '../palette.types';
 import { SHADE_PREFIX } from '../constants/palette.constants';
-import { colorToCssVarRef } from '../utils/camelToKebab';
+import { colorToCssVarRef } from './camelToKebab';
 
 /**
  * Generate color palette that returns CSS variable references instead of hex values
