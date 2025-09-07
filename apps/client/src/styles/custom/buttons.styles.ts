@@ -1,4 +1,4 @@
-import { colors, layout, button } from 'styles';
+import { button, colors, layout } from 'styles';
 import { css } from '@emotion/react';
 
 // Base styles shared across all interactive buttons

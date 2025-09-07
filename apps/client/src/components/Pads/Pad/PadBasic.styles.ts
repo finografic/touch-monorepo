@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors, layout, button } from 'styles';
+import { button, colors, layout } from 'styles';
 import { stylesButtonBase } from 'styles/custom/buttons.styles';
 
 /*
