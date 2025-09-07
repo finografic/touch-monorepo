@@ -22,6 +22,7 @@ export const padProps = {
 export const stylesPad = css`
   ${stylesButtonBase}
   font-size: ${button.fontSize.base};
+  font-weight: ${button.fontWeight.base};
   padding: ${button.padding.base};
   text-align: center;
 
@@ -30,10 +31,21 @@ export const stylesPad = css`
   }
 
   &.checked {
-    border-color: ${colors.infoLight};
-    background-color: ${colors.infoXLight33}; /* Much lighter + 33% opacity */
-    background-color: ${colors.danger}; /* Much lighter + 33% opacity */
-    color: ${colors.info}; /* Base color for better contrast */
+    color: ${colors.infoDark};
+    border-color: ${colors.infoDark};
+    background-color: ${colors.infoXLight33};
+  }
+
+  &:hover {
+    color: ${colors.infoDark};
+    border-color: ${colors.infoDark};
+    background-color: ${colors.infoLight50};
+    transform: scale(${button.transform.padHoverScale});
+    &.checked {
+      color: ${colors.infoDark};
+      border-color: ${colors.infoDark};
+      background-color: ${colors.infoLight50};
+    }
   }
 
   /* Disabled styles inherited from stylesButtonBase */

@@ -13,6 +13,8 @@ import { TemperatureForm } from './TemperatureForm';
 import { useTemperatureManagement } from './useTemperatureManagement';
 import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
 
+const isVisibleClosestProfile = false;
+
 interface TemperatureState {
   initial: number;
   final: number;
@@ -78,8 +80,10 @@ export const TemperaturePage = () => {
       <Flex direction="column" gap="3" justify="center" css={styles}>
         <Flex gap="3" justify="center" className="page-description">
           <Box>
-            <p style={{ textAlign: 'center' }}>{TEMPERATURE_DESCRIPTIONS.page}</p>
-            {closestProfile !== null && (
+            {TEMPERATURE_DESCRIPTIONS.page && (
+              <p style={{ textAlign: 'center' }}>{TEMPERATURE_DESCRIPTIONS.page}</p>
+            )}
+            {isVisibleClosestProfile && closestProfile !== null && (
               <ClosestTemperatures closestProfile={closestProfile} profiles={temperatureProfiles} />
             )}
           </Box>

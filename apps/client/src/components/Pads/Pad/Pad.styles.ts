@@ -9,19 +9,14 @@ export const padStyles = css`
     min-height: 80px;
     border-radius: 8px;
 
-    /* ======================================== */
-
-    /* Specific styles for radio/checkbox types */
     &.radio {
-      /* Add any radio-specific styles */
     }
 
     &.checkbox {
       &.checked {
-        border-color: ${colors.infoDark};
-        background-color: ${colors.infoLight};
-        background-color: ${colors.danger};
         color: ${colors.infoDark};
+        border-color: ${colors.infoDark};
+        background-color: ${colors.infoLight66};
       }
     }
 

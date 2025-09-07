@@ -123,4 +123,9 @@ export const button = {
     small: '1.2rem',
     large: '1.8rem',
   },
+  fontWeight: {
+    base: '600',
+    small: '600',
+    large: '600',
+  },
 };

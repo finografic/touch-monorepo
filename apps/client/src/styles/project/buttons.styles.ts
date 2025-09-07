@@ -11,15 +11,21 @@ export const stylesButtonBase = css`
   justify-content: center;
   position: relative; /* For absolute positioning of icons */
 
-  color: ${colors.infoDark};
-  border-color: ${colors.infoDark};
+  /* color: ${colors.infoDark};
+  border-color: ${colors.infoDark}; */
   border-width: ${button.border.width};
   border-style: ${button.border.style};
 
+  color: ${colors.infoLight};
+  border-color: ${colors.infoLight};
+
   &:hover {
-    color: ${colors.infoDark};
+    /* color: ${colors.infoDark};
     border-color: ${colors.info};
-    background-color: ${colors.infoLight};
+    background-color: ${colors.infoLight}; */
+    color: ${colors.infoDark};
+    border-color: ${colors.infoDark};
+    background-color: ${colors.infoLight20};
     transform: scale(${button.transform.hoverScale});
   }
 
@@ -82,12 +88,12 @@ export const stylesButtonBase = css`
 // Styles specific to navigation buttons
 export const stylesSmallButton = css`
   ${stylesButtonBase}
+  font-size: ${button.fontSize.base};
+  font-weight: ${button.fontWeight.base};
   min-width: 200px;
   padding: 1.1rem 4rem;
   margin: 0 0.33rem;
-  font-size: 1.4rem;
   line-height: 1;
-  font-weight: 500;
   gap: 0.5rem;
   flex: 1;
   width: fit-content;
