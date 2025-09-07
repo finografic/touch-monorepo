@@ -48,7 +48,7 @@ export const styles = css`
     ${stylesPadBasic.valueContainer}
     font-size: 2.5rem;
     font-weight: ${button.fontWeight.large};
-    color: ${colors.info};
+    color: ${colors.infoLight};
 
     &:focus-within {
       border-color: ${colors.infoLight};
@@ -64,6 +64,12 @@ export const styles = css`
     ${stylesPad}
 
     height: 56px;
+
+    &:disabled {
+      cursor: not-allowed;
+      color: ${colors.defaultXLight66}!important;
+      border-color: ${colors.defaultXLight66};
+    }
 
     &:hover:not(:disabled) {
       background-color: ${colors.infoLight33};
