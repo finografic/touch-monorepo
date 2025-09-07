@@ -1,9 +1,10 @@
 /**
- * Layout and typography constants
- * Extracted from Tailwind but defined directly for simplicity
+ * Core design system constants
+ * Base values derived from Tailwind, used as foundation for the design system
+ * These are pure values that can be shared across different apps
  */
 
-export const layout = {
+export const baseLayout = {
   fontSize: {
     'xs': '0.75rem',
     'sm': '0.875rem',

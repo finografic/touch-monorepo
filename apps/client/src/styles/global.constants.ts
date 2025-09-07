@@ -1,6 +1,12 @@
+/**
+ * Application-specific constants and styles
+ * Extends base constants with app-specific values and implementations
+ * Contains layout values specific to this application's needs
+ */
+
 import { css } from '@emotion/react';
 import { colors } from './colors.styles';
-import { layout as twLayout, button } from './constants';
+import { baseLayout, button } from './base.constants';
 
 // Base border styles using button constants
 export const border = css`
@@ -11,10 +17,10 @@ export const border = css`
 
 // LAYOUT VARIABLES
 export const layout = {
-  fontSize: twLayout.fontSize,
-  padding: twLayout.padding,
-  borderWidth: twLayout.borderWidth,
-  borderRadius: twLayout.borderRadius,
+  fontSize: baseLayout.fontSize,
+  padding: baseLayout.padding,
+  borderWidth: baseLayout.borderWidth,
+  borderRadius: baseLayout.borderRadius,
   pageColor: colors.white,
   bgColor: colors.white,
   header: {
