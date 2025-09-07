@@ -25,18 +25,18 @@ export const styles = css`
       &.checked {
         color: ${colors.defaultLight80};
         border-color: ${colors.defaultLight80};
-        background-color: ${colors.defaultXLight66};
+        background-color: ${colors.defaultXLight33};
       }
 
       &:hover {
-        color: ${colors.defaultLight};
-        border-color: ${colors.defaultLight};
-        background-color: ${colors.defaultXLight50};
+        color: ${colors.default66};
+        border-color: ${colors.default66};
+        background-color: ${colors.defaultXLight66};
         transform: scale(${button.transform.padHoverScale});
         &.checked {
-          color: ${colors.defaultLight};
-          border-color: ${colors.defaultLight};
-          background-color: ${colors.defaultXLight50};
+          color: ${colors.default66};
+          border-color: ${colors.default66};
+          background-color: ${colors.defaultLight50};
         }
       }
     }
@@ -66,25 +66,25 @@ export const styles = css`
     }
 
     &.item-type-C {
-      color: ${colors.danger};
-      border-color: ${colors.danger};
+      color: ${colors.dangerLight};
+      border-color: ${colors.dangerLight};
       transition: ${button.transition};
 
       &.checked {
-        color: ${colors.danger};
-        border-color: ${colors.danger};
-        background-color: ${colors.dangerLight};
+        color: ${colors.dangerLight};
+        border-color: ${colors.dangerLight};
+        background-color: ${colors.dangerXLight50};
       }
 
       &:hover {
-        color: ${colors.danger};
-        border-color: ${colors.danger};
-        background-color: ${colors.danger25};
+        color: ${colors.dangerDark};
+        border-color: ${colors.dangerDark};
+        background-color: ${colors.dangerXLight50};
         transform: scale(${button.transform.padHoverScale});
         &.checked {
-          color: ${colors.danger};
-          border-color: ${colors.danger};
-          background-color: ${colors.dangerLight};
+          color: ${colors.dangerDark};
+          border-color: ${colors.dangerDark};
+          background-color: ${colors.dangerXLight};
         }
       }
     }
