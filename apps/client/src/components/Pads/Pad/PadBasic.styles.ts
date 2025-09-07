@@ -2,27 +2,6 @@ import { css } from '@emotion/react';
 import { button, colors, layout } from 'styles';
 import { stylesButtonBase } from 'styles/custom/buttons.styles';
 
-/*
-TRANSPARENT COLOR EXAMPLES:
-You can now use these CSS variables for transparency:
-
-// Basic transparency levels
-background-color: var(--color-primary-10);   // 10% opacity
-background-color: var(--color-primary-25);   // 25% opacity
-background-color: var(--color-primary-50);   // 50% opacity
-background-color: var(--color-primary-75);   // 75% opacity
-
-// Available for all colors: primary, secondary, success, warning, danger, info, text, grey
-// Examples:
-border-color: var(--color-danger-25);
-background-color: var(--color-success-50);
-color: var(--color-text-75);
-
-// These automatically work with your theme toggle!
-// In light theme: --color-primary-50 will be 50% of the light theme primary color
-// In dark theme: --color-primary-50 will be 50% of the dark theme primary color
-*/
-
 // Common dimensions for different button types
 export const padProps = {
   pad: {
