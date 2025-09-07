@@ -3,15 +3,6 @@ import { colors } from './colors.styles';
 import { layout } from './constants/global.constants';
 import { cssLabels } from './fonts.styles';
 
-export const inputBox = {
-  border: {
-    width: '2px',
-    color: var(--color-grey-xxdark),
-  },
-  padding: '1rem 0.75rem',
-};
-
-// ======================================================================== //
 // ======================================================================== //
 // NOTE: FORMS RESET
 
