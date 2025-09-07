@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { colors } from 'styles';
 
 export const styles = css`
   /* Theme toggle button - targets the button element directly */
@@ -20,14 +21,14 @@ export const styles = css`
 
     /* Icon styling - matches toolbar pattern */
     svg.icon {
-      color: var(--color-text);
+      color: ${colors.greyLight};
       transition: all 0.3s ease;
     }
 
     &:hover {
       border-color: transparent;
       svg.icon {
-        color: var(--color-info);
+        color: ${colors.info};
       }
     }
 

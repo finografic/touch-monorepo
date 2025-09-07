@@ -45,13 +45,13 @@ export const styles = css`
     align-items: center;
     font-size: 1.8rem;
     font-weight: 700;
-    color: var(--color-info);
+    color: ${colors.info};
     margin: 0 0 0 0.8rem;
 
     span.current-language {
       font-size: 1.6rem;
       font-weight: 600;
-      color: var(--color-info);
+      color: ${colors.info};
       margin: 0 0 0 0.8rem;
       opacity: 0.4;
       transform: translateY(-4%);
@@ -60,12 +60,12 @@ export const styles = css`
   }
 
   div[role='menuitem'][data-highlighted] {
-    color: var(--color-white) !important;
+    color: ${colors.white} !important;
     background-color: transparent !important;
   }
 
   .current-language {
-    color: var(--color-grey);
+    color: ${colors.grey};
     font-size: 1.1rem;
     font-weight: 400;
     text-transform: uppercase;
@@ -74,7 +74,7 @@ export const styles = css`
 
   .dev-session-a,
   .dev-session-b {
-    color: var(--color-grey-xlight);
+    color: ${colors.greyXLight};
     font-size: 0.9rem;
     font-weight: 400;
     position: absolute;

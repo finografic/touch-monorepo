@@ -22,7 +22,7 @@ const props = {
 
 export const styles = css`
   /* width: max-content !important; */
-  color: var(--color-white);
+  color: ${colors.white};
 
   /* Main grid container for the three columns */
   .menu-main {
