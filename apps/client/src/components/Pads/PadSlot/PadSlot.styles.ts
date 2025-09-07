@@ -27,8 +27,6 @@ export const styles = css`
         border-color: var(--color-grey-xlight);
         background-color: var(--color-grey-25);
         transform: scale(${button.transform.padHoverScale});
-        /* Override transition to exclude background-color */
-        transition: ${button.transition};
       }
 
       &.checked {
@@ -48,8 +46,6 @@ export const styles = css`
         border-color: ${colors.info};
         background-color: ${colors.info25};
         transform: scale(${button.transform.padHoverScale});
-        /* Override transition to exclude background-color */
-        transition: ${button.transition};
       }
 
       &.checked {
@@ -69,8 +65,6 @@ export const styles = css`
         border-color: ${colors.danger};
         background-color: ${colors.danger25};
         transform: scale(${button.transform.padHoverScale});
-        /* Override transition to exclude background-color */
-        transition: ${button.transition};
       }
 
       &.checked {

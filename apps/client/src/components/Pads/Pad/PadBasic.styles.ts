@@ -135,7 +135,7 @@ export const stylesPadBasic = {
     font-size: 2.5rem;
     font-weight: 400;
     cursor: pointer;
-    transition: all 0.3s;
+    transition: ${button.transition};
     background: transparent;
     padding: 0;
     line-height: 1;
@@ -147,7 +147,7 @@ export const stylesPadBasic = {
     }
 
     &:hover:not(:disabled) {
-      transform: scale(1.02);
+      transform: scale(${button.transform.padBasicHoverScale});
       border-color: ${colors.info};
       color: ${colors.info};
       background-color: ${colors.infoLight};
