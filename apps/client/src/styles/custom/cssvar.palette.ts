@@ -1,6 +1,6 @@
 import type { ColorMapping, HexColor } from '../colors.types';
 import type { ColorBaseName, ColorPalette, CssVariableRef, TransparencyLevel } from '../palette.types';
-import { SHADE_PREFIX } from '../palette.contants';
+import { SHADE_PREFIX } from '../palette.constants';
 import { colorToCssVarRef } from '../utils/camelToKebab';
 
 /**

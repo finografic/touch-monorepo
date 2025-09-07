@@ -1,5 +1,6 @@
 import type { ColorBaseName, GeneratedPalette } from '../palette.types';
 import type { ShadeKey } from '../colors.types';
+import { CSS_BASE_COLORS, CSS_SHADE_VARIANTS, CSS_TRANSPARENCY_LEVELS } from '../css.constants';
 
 // NOTE: THIS is the VERSION of the METHOD USED to GENERATE COLOR VARIABLES
 
@@ -35,20 +36,9 @@ export const generateCssColorVariables = ({ colors }: { colors: GeneratedPalette
  * Uses color-mix() with granular transparency levels (10, 20, 30...90)
  */
 export const generateCssColorVariablesTransparency = () => {
-  const colorNames = [
-    'primary',
-    'secondary',
-    'success',
-    'warning',
-    'danger',
-    'info',
-    'text',
-    'grey',
-    'gray',
-    'default',
-  ];
-  const shadeVariants = ['xxlight', 'xlight', 'light', 'dark', 'xdark', 'xxdark'];
-  const transparencyLevels = [5, 10, 20, 25, 30, 33, 40, 50, 60, 66, 70, 75, 80, 90, 95];
+  const colorNames = CSS_BASE_COLORS;
+  const shadeVariants = CSS_SHADE_VARIANTS;
+  const transparencyLevels = CSS_TRANSPARENCY_LEVELS;
 
   let cssVars = '\n  /* Base color transparency utilities using color-mix() */\n';
 

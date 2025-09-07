@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url';
 import { generateColorPaletteWithCssVars } from '../custom/cssvar.palette';
 import { COLOR_MAPPING } from '../custom/custom.colors';
 import { lightColors } from '../themes/light.colors';
-import { JS_SHADE_ORDER, SHADE_VARIANCE_FACTOR } from '../js.constants';
+import { SHADE_VARIANCE_FACTOR, JS_SHADE_ORDER } from '../js.constants';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
