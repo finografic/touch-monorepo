@@ -425,11 +425,8 @@ export const getButtonStyles = (variant: ButtonVariant, color: ButtonStatusColor
     }
 
     &:disabled {
-      background-color: ${styles.disabled.background};
-      border-color: ${styles.disabled.border};
-      color: ${styles.disabled.label};
+      /* Inherit disabled styles from base button styles */
       opacity: ${opacities.disabled};
-      filter: saturate(80%);
       cursor: not-allowed;
     }
   `;

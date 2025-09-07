@@ -23,17 +23,21 @@ export const stylesButtonBase = css`
     transform: scale(${button.transform.hoverScale});
   }
 
+  /* Override Radix UI disabled styles */
   &:disabled,
   &.disabled,
   &[data-disabled='true'] {
     opacity: ${button.disabled.opacity};
     cursor: not-allowed;
-    color: ${colors.grey};
-    border-color: ${colors.grey};
+    color: ${colors.default66} !important;
+    border-color: ${colors.defaultLight66};
     background-color: transparent;
+    pointer-events: none;
+
+    /* Ensure hover states don't override */
     &:hover {
-      color: ${colors.grey};
-      border-color: ${colors.grey};
+      color: ${colors.default66} !important;
+      border-color: ${colors.defaultLight66};
       background-color: transparent;
       transform: none;
     }

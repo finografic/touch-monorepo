@@ -35,20 +35,7 @@ export const stylesPad = css`
     color: ${colors.info}; /* Base color for better contrast */
   }
 
-  &:disabled,
-  &.disabled,
-  &[data-disabled='true'] {
-    opacity: ${button.disabled.opacity};
-    border-color: ${colors.grey};
-    border-color: ${colors.defaultLight66};
-    color: ${colors.grey};
-    color: ${colors.default66};
-    background-color: transparent;
-
-    &:hover {
-      transform: none;
-    }
-  }
+  /* Disabled styles inherited from stylesButtonBase */
 `;
 
 /**

@@ -79,14 +79,7 @@ export const styles = css`
       height: ${padProps.padLG.height} !important;
     }
 
-    &:disabled {
-      opacity: ${button.disabled.opacity};
-      cursor: not-allowed;
-      &:hover {
-        border-color: inherit;
-        transform: none; /* Ensure no transform */
-      }
-    }
+    /* Disabled styles inherited from stylesButtonBase */
 
     &.status-processing {
       color: ${colors.success};
