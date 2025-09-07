@@ -18,21 +18,21 @@ export const styles = css`
     }
 
     &.item-type-A {
-      color: var(--color-grey-xlight);
-      border-color: var(--color-grey-light);
+      color: ${colors.greyXLight};
+      border-color: ${colors.greyLight};
       transition: ${button.transition};
 
       &:hover {
-        color: var(--color-grey-light);
-        border-color: var(--color-grey-xlight);
-        background-color: var(--color-grey-25);
+        color: ${colors.greyLight};
+        border-color: ${colors.greyXLight};
+        background-color: ${colors.grey25};
         transform: scale(${button.transform.padHoverScale});
       }
 
       &.checked {
-        color: var(--color-grey-light);
-        border-color: var(--color-grey-xlight);
-        background-color: var(--color-grey-light);
+        color: ${colors.greyLight};
+        border-color: ${colors.greyXLight};
+        background-color: ${colors.greyLight};
       }
     }
 
@@ -80,7 +80,7 @@ export const styles = css`
     }
 
     &:disabled {
-      opacity: 0.5;
+      opacity: ${button.disabled.opacity};
       cursor: not-allowed;
       &:hover {
         border-color: inherit;

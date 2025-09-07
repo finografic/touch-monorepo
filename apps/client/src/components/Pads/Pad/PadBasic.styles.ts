@@ -38,6 +38,7 @@ export const stylesPad = css`
   &:disabled,
   &.disabled,
   &[data-disabled='true'] {
+    opacity: ${button.disabled.opacity};
     border-color: ${colors.grey};
     color: ${colors.grey};
     background-color: transparent;
