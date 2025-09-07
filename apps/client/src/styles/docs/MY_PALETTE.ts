@@ -1,7 +1,7 @@
 /**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-09-07 -- 12:10:18
+ * 📅 Generated: 2025-09-07 -- 13:02:52
  *
  * Run: pnpm generate:palette to update this file
  *
@@ -16,12 +16,12 @@ export const ___COLORS___ = {
   black: '#000000',
 
   danger: '#991b1b',
-  dangerXXLight: '#d3b1b1',
-  dangerXLight: '#c28c8c',
-  dangerLight: '#b26868',
-  dangerDark: '#6d1010',
-  dangerXDark: '#570a0a',
-  dangerXXDark: '#3f0606',
+  dangerXXLight: '#e5a8a8',
+  dangerXLight: '#dd7e7e',
+  dangerLight: '#d85555',
+  dangerDark: '#9d0000',
+  dangerXDark: '#800000',
+  dangerXXDark: '#5c0000',
 
   default: '#111827',
   defaultXXLight: '#aaacb0',
@@ -48,12 +48,12 @@ export const ___COLORS___ = {
   greyXXDark: '#0a0f15',
 
   info: '#1e40af',
-  infoXXLight: '#b3bcdb',
-  infoXLight: '#909ecd',
-  infoLight: '#6c80c1',
-  infoDark: '#112b7c',
-  infoXDark: '#0b1f63',
-  infoXXDark: '#051547',
+  infoXXLight: '#a6b7ed',
+  infoXLight: '#7c96e8',
+  infoLight: '#5174e7',
+  infoDark: '#001cac',
+  infoXDark: '#00128b',
+  infoXXDark: '#000b65',
 
   primary: '#1e3a8a',
   primaryXXLight: '#b2b9d0',
@@ -72,12 +72,12 @@ export const ___COLORS___ = {
   secondaryXXDark: '#2d0452',
 
   success: '#065f46',
-  successXXLight: '#a9c2bb',
-  successXLight: '#83a89e',
-  successLight: '#5b8e80',
-  successDark: '#014331',
-  successXDark: '#003425',
-  successXXDark: '#00261a',
+  successXXLight: '#9ecabe',
+  successXLight: '#72b5a2',
+  successLight: '#449f86',
+  successDark: '#005938',
+  successXDark: '#00462b',
+  successXXDark: '#00331f',
 
   text: '#000000',
   textXXLight: '#a3a3a3',
@@ -90,12 +90,12 @@ export const ___COLORS___ = {
   transparent: 'transparent',
 
   warning: '#92400e',
-  warningXXLight: '#d2bbad',
-  warningXLight: '#bf9d88',
-  warningLight: '#ae7e61',
-  warningDark: '#672b07',
-  warningXDark: '#522002',
-  warningXXDark: '#3c1600',
+  warningXXLight: '#e1b9a0',
+  warningXLight: '#d69a74',
+  warningLight: '#ce7946',
+  warningDark: '#8f2600',
+  warningXDark: '#741b00',
+  warningXXDark: '#551200',
 
   white: '#ffffff',
 };

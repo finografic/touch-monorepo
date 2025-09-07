@@ -8,7 +8,11 @@
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { SATURATION_FACTOR, SHADE_VARIANCE_FACTOR } from '../constants/js.constants';
+import {
+  SATURATION_FACTOR,
+  STATUS_SATURATION_FACTOR,
+  SHADE_VARIANCE_FACTOR,
+} from '../constants/js.constants';
 import { COLOR_MAPPING } from '../project/project.colors';
 
 // ES module compatibility
@@ -21,8 +25,12 @@ const __dirname = dirname(__filename);
  */
 function generateShadeVariants(
   baseHex: string,
+  colorName: string,
   varianceFactor: number = SHADE_VARIANCE_FACTOR,
 ): Record<string, string> {
+  // Use STATUS_SATURATION_FACTOR for status colors
+  const isStatusColor = ['success', 'warning', 'danger', 'info'].includes(colorName);
+  const baseSaturation = isStatusColor ? STATUS_SATURATION_FACTOR : SATURATION_FACTOR;
   // Convert hex to RGB
   const hex = baseHex.replace('#', '');
   const r = Number.parseInt(hex.substring(0, 2), 16);
@@ -31,18 +39,16 @@ function generateShadeVariants(
 
   const variants: Record<string, string> = {};
 
-  // Use SATURATION_FACTOR from constants
-
   // Generate shade variants with proper semantics and configurable variance/saturation
   const shades = [
     // Lighter variants - maintain more chroma for OKLCH's clean variations
-    { name: 'XXLight', lighten: 0.8 * varianceFactor, saturate: SATURATION_FACTOR * 0.85 }, // Much lighter, preserve chroma
-    { name: 'XLight', lighten: 0.6 * varianceFactor, saturate: SATURATION_FACTOR * 0.9 }, // Lighter, clean saturation
-    { name: 'Light', lighten: 0.4 * varianceFactor, saturate: SATURATION_FACTOR * 0.95 }, // Slightly lighter, minimal desaturation
+    { name: 'XXLight', lighten: 0.8 * varianceFactor, saturate: baseSaturation * 0.85 }, // Much lighter, preserve chroma
+    { name: 'XLight', lighten: 0.6 * varianceFactor, saturate: baseSaturation * 0.9 }, // Lighter, clean saturation
+    { name: 'Light', lighten: 0.4 * varianceFactor, saturate: baseSaturation * 0.95 }, // Slightly lighter, minimal desaturation
     // Darker variants - leverage OKLCH's better saturation handling
-    { name: 'Dark', lighten: -0.4 * varianceFactor, saturate: SATURATION_FACTOR * 1.2 }, // Slightly darker, more vibrant
-    { name: 'XDark', lighten: -0.6 * varianceFactor, saturate: SATURATION_FACTOR * 1.3 }, // Darker, rich saturation
-    { name: 'XXDark', lighten: -0.8 * varianceFactor, saturate: SATURATION_FACTOR * 1.4 }, // Much darker, maximum vibrancy
+    { name: 'Dark', lighten: -0.4 * varianceFactor, saturate: baseSaturation * 1.2 }, // Slightly darker, more vibrant
+    { name: 'XDark', lighten: -0.6 * varianceFactor, saturate: baseSaturation * 1.3 }, // Darker, rich saturation
+    { name: 'XXDark', lighten: -0.8 * varianceFactor, saturate: baseSaturation * 1.4 }, // Much darker, maximum vibrancy
   ];
 
   shades.forEach(({ name, lighten, saturate }) => {
@@ -169,7 +175,7 @@ export const ${themeName}Colors: ColorPalette = {
     content += `  ${colorName}: '${baseHex}',\n`;
 
     // Generate and add shade variants
-    const variants = generateShadeVariants(baseHex);
+    const variants = generateShadeVariants(baseHex, colorName);
     Object.entries(variants).forEach(([variantName, hexValue]) => {
       content += `  ${colorName}${variantName}: '${hexValue}',\n`;
     });

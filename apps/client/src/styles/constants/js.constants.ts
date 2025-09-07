@@ -53,6 +53,17 @@ export const SHADE_VARIANCE_FACTOR = 0.8;
 export const SATURATION_FACTOR = 0.9; // Optimized for OKLCH
 
 /**
+ * Saturation factor specifically for status colors (success, warning, danger, info)
+ * Higher saturation for better visibility on touch screens
+ *
+ * - 1.0 = no saturation change
+ * - 1.2 = vibrant (good for status indicators)
+ * - 1.4 = high impact (maximum recommended)
+ * - 1.6 = ultra vibrant (use with caution)
+ */
+export const STATUS_SATURATION_FACTOR = 1.6; // Maximum vibrancy - will be balanced with transparency in components
+
+/**
  * Type definitions for JS constants
  */
 export type JsShadeVariant = (typeof JS_SHADE_VARIANTS)[number];

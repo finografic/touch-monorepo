@@ -30,9 +30,9 @@ export const stylesPad = css`
   }
 
   &.checked {
-    border-color: ${colors.infoDark};
-    background-color: ${colors.infoLight};
-    color: ${colors.infoDark};
+    border-color: ${colors.infoLight};
+    background-color: ${colors.infoXLight33}; /* Much lighter + 33% opacity */
+    color: ${colors.info}; /* Base color for better contrast */
   }
 
   &:disabled,
@@ -40,7 +40,9 @@ export const stylesPad = css`
   &[data-disabled='true'] {
     opacity: ${button.disabled.opacity};
     border-color: ${colors.grey};
+    border-color: ${colors.defaultLight66};
     color: ${colors.grey};
+    color: ${colors.default66};
     background-color: transparent;
 
     &:hover {

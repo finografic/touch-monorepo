@@ -105,13 +105,13 @@ export const button = {
     style: 'solid',
   },
   transform: {
-    hoverScale: '1.025',
-    padHoverScale: '1.05',
-    padBasicHoverScale: '1.02',
+    hoverScale: 1.025,
+    padHoverScale: 1.05,
+    padBasicHoverScale: 1.02,
   },
   transition: 'transform 0.2s ease, border-color 0.2s ease, color 0.2s ease',
   disabled: {
-    opacity: '0.6',
+    opacity: 0.6,
   },
   padding: {
     base: '1rem',

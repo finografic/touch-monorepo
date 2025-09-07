@@ -3,7 +3,7 @@ import type { ColorPalette } from '../palette.types';
 /**
  * Dark theme color palette - actual hex values for CSS variable generation
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-09-07 -- 12:10:18
+ * 📅 Generated: 2025-09-07 -- 13:02:51
  *
  * Run: pnpm generate:themes to update this file
  *
@@ -27,36 +27,36 @@ export const darkColors: ColorPalette = {
   secondaryXXDark: '#57255f',
 
   success: '#6ee7b7',
-  successXXLight: '#d0f1e4',
-  successXLight: '#baedd9',
-  successLight: '#a2e9cd',
-  successDark: '#48a07c',
-  successXDark: '#337d60',
-  successXXDark: '#225843',
+  successXXLight: '#c3fde6',
+  successXLight: '#a5ffdc',
+  successLight: '#85ffd1',
+  successDark: '#23c081',
+  successXDark: '#159864',
+  successXXDark: '#0b6c46',
 
   warning: '#fcd34d',
-  warningXXLight: '#f8ecc8',
-  warningXLight: '#f6e5ac',
-  warningLight: '#f6de90',
-  warningDark: '#af912e',
-  warningXDark: '#89711f',
-  warningXXDark: '#624f12',
+  warningXXLight: '#fff3b2',
+  warningXLight: '#ffef8a',
+  warningLight: '#ffec62',
+  warningDark: '#d8a200',
+  warningXDark: '#ab8000',
+  warningXXDark: '#7b5a00',
 
   danger: '#fca5a5',
-  dangerXXLight: '#f9e1e1',
-  dangerXLight: '#f7d3d3',
-  dangerLight: '#f7c5c5',
-  dangerDark: '#ae6e6e',
-  dangerXDark: '#885353',
-  dangerXXDark: '#613838',
+  dangerXXLight: '#ffdbdb',
+  dangerXLight: '#ffc9c9',
+  dangerLight: '#ffb8b8',
+  dangerDark: '#cf5e5e',
+  dangerXDark: '#a34646',
+  dangerXXDark: '#752e2e',
 
   info: '#93c5fd',
-  infoXXLight: '#dceaf9',
-  infoXLight: '#cce1f9',
-  infoLight: '#bbd8f9',
-  infoDark: '#6186af',
-  infoXDark: '#476689',
-  infoXXDark: '#304760',
+  infoXXLight: '#d1eaff',
+  infoXLight: '#bbe1ff',
+  infoLight: '#a4d7ff',
+  infoDark: '#4385ce',
+  infoXDark: '#2e65a3',
+  infoXXDark: '#1e4673',
 
   text: '#ffffff',
   textXXLight: '#ffffff',
