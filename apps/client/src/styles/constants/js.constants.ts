@@ -30,7 +30,27 @@ export const JS_SHADE_ORDER = [
  * - 0.8 = balanced variations (default)
  * - 1.0 = maximum variations
  */
+/**
+ * Variance factor for generating shade variants
+ * Controls the intensity of color variations
+ * - 0.5 = subtle variations
+ * - 0.8 = balanced variations (default)
+ * - 1.0 = maximum variations
+ */
 export const SHADE_VARIANCE_FACTOR = 0.8;
+
+/**
+ * Saturation factor for color variants
+ * Controls the saturation level of color variations
+ * Optimized for OKLCH color space to avoid muddy colors
+ *
+ * - 0.7 = very desaturated (minimal use)
+ * - 0.9 = professional look (clean, slightly desaturated)
+ * - 1.0 = no saturation change
+ * - 1.1 = enhanced saturation (vibrant but professional)
+ * - 1.2 = high saturation (for emphasis)
+ */
+export const SATURATION_FACTOR = 0.9; // Optimized for OKLCH
 
 /**
  * Type definitions for JS constants

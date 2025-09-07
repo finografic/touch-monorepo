@@ -8,7 +8,7 @@
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { SHADE_VARIANCE_FACTOR } from '../constants/js.constants';
+import { SATURATION_FACTOR, SHADE_VARIANCE_FACTOR } from '../constants/js.constants';
 import { COLOR_MAPPING } from '../project/project.colors';
 
 // ES module compatibility
@@ -31,30 +31,48 @@ function generateShadeVariants(
 
   const variants: Record<string, string> = {};
 
-  // Generate shade variants with proper semantics and configurable variance
+  // Use SATURATION_FACTOR from constants
+
+  // Generate shade variants with proper semantics and configurable variance/saturation
   const shades = [
-    { name: 'XXLight', lighten: 0.8 * varianceFactor }, // Much lighter
-    { name: 'XLight', lighten: 0.6 * varianceFactor }, // Lighter
-    { name: 'Light', lighten: 0.4 * varianceFactor }, // Slightly lighter
-    { name: 'Dark', lighten: -0.4 * varianceFactor }, // Slightly darker
-    { name: 'XDark', lighten: -0.6 * varianceFactor }, // Darker
-    { name: 'XXDark', lighten: -0.8 * varianceFactor }, // Much darker
+    // Lighter variants - maintain more chroma for OKLCH's clean variations
+    { name: 'XXLight', lighten: 0.8 * varianceFactor, saturate: SATURATION_FACTOR * 0.85 }, // Much lighter, preserve chroma
+    { name: 'XLight', lighten: 0.6 * varianceFactor, saturate: SATURATION_FACTOR * 0.9 }, // Lighter, clean saturation
+    { name: 'Light', lighten: 0.4 * varianceFactor, saturate: SATURATION_FACTOR * 0.95 }, // Slightly lighter, minimal desaturation
+    // Darker variants - leverage OKLCH's better saturation handling
+    { name: 'Dark', lighten: -0.4 * varianceFactor, saturate: SATURATION_FACTOR * 1.2 }, // Slightly darker, more vibrant
+    { name: 'XDark', lighten: -0.6 * varianceFactor, saturate: SATURATION_FACTOR * 1.3 }, // Darker, rich saturation
+    { name: 'XXDark', lighten: -0.8 * varianceFactor, saturate: SATURATION_FACTOR * 1.4 }, // Much darker, maximum vibrancy
   ];
 
-  shades.forEach(({ name, lighten }) => {
+  shades.forEach(({ name, lighten, saturate }) => {
     let newR, newG, newB;
 
+    // Calculate luminance (perceived brightness)
+    const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+
+    // Calculate color saturation
+    const maxColor = Math.max(r, g, b);
+    const minColor = Math.min(r, g, b);
+    const saturation = maxColor === 0 ? 0 : (maxColor - minColor) / maxColor;
+
     if (lighten > 0) {
-      // Lighten: move towards white
+      // Lighten: move towards white with saturation control
       newR = Math.round(r + (255 - r) * lighten);
       newG = Math.round(g + (255 - g) * lighten);
       newB = Math.round(b + (255 - b) * lighten);
     } else {
-      // Darken: move towards black
+      // Darken: move towards black with saturation control
       newR = Math.round(r * (1 + lighten));
       newG = Math.round(g * (1 + lighten));
       newB = Math.round(b * (1 + lighten));
     }
+
+    // Apply saturation adjustment
+    const avgColor = (newR + newG + newB) / 3;
+    newR = Math.round(avgColor + (newR - avgColor) * saturate);
+    newG = Math.round(avgColor + (newG - avgColor) * saturate);
+    newB = Math.round(avgColor + (newB - avgColor) * saturate);
 
     // Clamp values to valid RGB range
     newR = Math.max(0, Math.min(255, newR));
