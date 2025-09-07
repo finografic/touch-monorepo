@@ -63,8 +63,8 @@ export const stylesPad = css`
   &:disabled,
   &.disabled,
   &[data-disabled='true'] {
-    border-color: ${colors.greyLight};
-    color: ${colors.greyLight};
+    border-color: ${colors.grey};
+    color: ${colors.grey};
     background-color: transparent;
 
     &:hover {

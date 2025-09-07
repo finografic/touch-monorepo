@@ -31,12 +31,12 @@ export const stylesButtonBase = css`
   &[data-disabled='true'] {
     opacity: 0.6;
     cursor: not-allowed;
-    color: ${colors.greyLight};
-    border-color: ${colors.greyLight};
+    color: ${colors.grey};
+    border-color: ${colors.grey};
     background-color: transparent;
     &:hover {
-      color: ${colors.greyLight};
-      border-color: ${colors.greyLight};
+      color: ${colors.grey};
+      border-color: ${colors.grey};
       background-color: transparent;
       transform: none;
     }
