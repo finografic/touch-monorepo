@@ -18,8 +18,8 @@ export const styles = css`
     }
 
     &.item-type-A {
-      color: var(--color-grey-xlight);
-      border-color: var(--color-grey-light);
+      color: ${colors.greyXLight};
+      border-color: ${colors.greyLight};
       transition:
         transform 0.2s ease,
         border-color 0.2s ease,
@@ -27,8 +27,8 @@ export const styles = css`
 
       &:hover {
         color: ${colors.greyLight};
-        border-color: var(--color-grey-xlight);
-        background-color: var(--color-grey-25);
+        border-color: ${colors.greyXLight};
+        background-color: ${colors.grey25};
         transform: scale(1.05);
         /* Override transition to exclude background-color */
         transition:
@@ -38,24 +38,24 @@ export const styles = css`
       }
 
       &.checked {
-        color: var(--color-grey-light);
-        border-color: var(--color-grey-xlight);
-        background-color: var(--color-grey-light);
+        color: ${colors.greyLight};
+        border-color: ${colors.greyXLight};
+        background-color: ${colors.greyLight};
       }
     }
 
     &.item-type-B {
-      color: var(--color-info);
-      border-color: var(--color-info-dark);
+      color: ${colors.info};
+      border-color: ${colors.infoDark};
       transition:
         transform 0.2s ease,
         border-color 0.2s ease,
         color 0.2s ease;
 
       &:hover {
-        color: var(--color-info);
-        border-color: var(--color-info);
-        background-color: var(--color-info-25);
+        color: ${colors.info};
+        border-color: ${colors.info};
+        background-color: ${colors.info25};
         transform: scale(1.05);
         /* Override transition to exclude background-color */
         transition:
@@ -65,24 +65,24 @@ export const styles = css`
       }
 
       &.checked {
-        color: var(--color-info);
-        border-color: var(--color-info);
-        background-color: var(--color-info-light);
+        color: ${colors.info};
+        border-color: ${colors.info};
+        background-color: ${colors.infoLight};
       }
     }
 
     &.item-type-C {
-      color: var(--color-danger);
-      border-color: var(--color-danger);
+      color: ${colors.danger};
+      border-color: ${colors.danger};
       transition:
         transform 0.2s ease,
         border-color 0.2s ease,
         color 0.2s ease;
 
       &:hover {
-        color: var(--color-danger);
-        border-color: var(--color-danger);
-        background-color: var(--color-danger-25);
+        color: ${colors.danger};
+        border-color: ${colors.danger};
+        background-color: ${colors.danger25};
         transform: scale(1.05);
         /* Override transition to exclude background-color */
         transition:
@@ -92,9 +92,9 @@ export const styles = css`
       }
 
       &.checked {
-        color: var(--color-danger);
-        border-color: var(--color-danger);
-        background-color: var(--color-danger-light);
+        color: ${colors.danger};
+        border-color: ${colors.danger};
+        background-color: ${colors.dangerLight};
       }
     }
 

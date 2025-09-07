@@ -45,7 +45,7 @@ export const stylesPad = css`
   font-size: 1.5rem;
   padding: 1rem;
   text-align: center;
-  
+
   /* Touch-friendly borders */
   border-width: 2px;
   border-style: solid;
@@ -90,7 +90,7 @@ export const stylesPadBasic = {
     label {
       font-size: 1.5rem;
       font-weight: 500;
-      color: var(--color-text-light);
+      color: ${colors.textLight};
       text-align: center;
       max-width: 500px;
       margin: 0;
@@ -100,7 +100,7 @@ export const stylesPadBasic = {
     p {
       font-size: 1.2rem;
       font-weight: 400;
-      color: var(--color-text);
+      color: ${colors.text};
       text-align: center;
       max-width: 320px;
       margin: 0;
@@ -125,8 +125,8 @@ export const stylesPadBasic = {
     font-size: 2rem;
     background: transparent;
     width: 100%;
-    border: ${layout.borderWidth} solid var(--color-grey-xxdark);
-    color: var(--color-info);
+    border: ${layout.borderWidth} solid ${colors.greyXXDark};
+    color: ${colors.info};
   `,
 
   controlButton: css`
@@ -143,8 +143,8 @@ export const stylesPadBasic = {
     background: transparent;
     padding: 0;
     line-height: 1;
-    border: ${layout.borderWidth} solid var(--color-info);
-    color: var(--color-info);
+    border: ${layout.borderWidth} solid ${colors.info};
+    color: ${colors.info};
 
     span {
       padding-bottom: 0.15em;
@@ -152,34 +152,34 @@ export const stylesPadBasic = {
 
     &:hover:not(:disabled) {
       transform: scale(1.02);
-      border-color: var(--color-info);
-      color: var(--color-info);
-      background-color: var(--color-info-light);
+      border-color: ${colors.info};
+      color: ${colors.info};
+      background-color: ${colors.infoLight};
     }
 
     &:disabled {
       cursor: not-allowed;
       background-color: transparent;
-      border-color: var(--color-grey-xdark);
-      color: var(--color-grey-xdark);
+      border-color: ${colors.greyXDark};
+      color: ${colors.greyXDark};
     }
   `,
 
   unit: css`
     font-size: 1.5rem;
-    color: var(--color-info);
+    color: ${colors.info};
     margin-left: 0.5rem;
   `,
 
   totalDisplay: css`
     font-size: 1.2rem;
     font-weight: 500;
-    color: var(--color-info);
+    color: ${colors.info};
     text-align: center;
     margin-top: 1rem;
     padding: 0.5rem 1rem;
-    background-color: var(--color-info-light);
+    background-color: ${colors.infoLight};
     border-radius: 4px;
-    border: 1px solid var(--color-info-dark);
+    border: 1px solid ${colors.infoDark};
   `,
 };
