@@ -35,19 +35,18 @@ export const styles = css`
 
   .small-button,
   .small-button {
-    ${stylesSmallButton}/* border: ${layout.borderWidth} solid red; */
+    ${stylesSmallButton}
   }
 
   .button-start {
-    color: ${colors.successDark};
-    border: ${layout.borderWidth} solid ${colors.successDark};
-    border-radius: 4px;
+    color: ${colors.successLight};
+    border-color: ${colors.successLight};
     background: transparent;
 
     &:hover {
       color: ${colors.successDark};
-      border-color: ${colors.success};
-      background-color: ${colors.success10};
+      border-color: ${colors.successLight};
+      background-color: ${colors.successXLight50};
     }
 
     &[data-disabled] {

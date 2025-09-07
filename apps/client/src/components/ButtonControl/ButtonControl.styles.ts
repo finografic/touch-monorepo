@@ -1,7 +1,9 @@
 import { css } from '@emotion/react';
 import { colors, layout } from 'styles';
+import { stylesButtonBase } from 'styles/project/buttons.styles';
 
 export const styles = css`
+  ${stylesButtonBase}
   cursor: pointer;
   min-width: 150px;
   padding: 0.5rem 1.5rem;
@@ -27,12 +29,29 @@ export const styles = css`
       background-color: transparent;
     }
   }
+  /*
+  .small-button,
+  .button-start,
+  .btn-start {
+    display: none;
+  }
 
+  &.small-button,
+  &.button-start,
   &.btn-start {
-    border: ${layout.borderWidth} solid ${colors.success};
-    border-radius: 4px;
-    background: transparent;
+    display: none;
+  } */
+
+  &.button-start,
+  &.btn-start {
+    /* border-radius: 4px; */
+    /* background: transparent; */
     color: ${colors.success};
+
+    color: ${colors.defaultLight80};
+    border-color: ${colors.defaultLight80};
+
+    display: none;
 
     &:hover {
       border-color: ${colors.successLight};
