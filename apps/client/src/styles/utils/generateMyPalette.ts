@@ -4,26 +4,38 @@
  */
 
 import { writeFileSync } from 'fs';
-import { join, dirname } from 'path';
+import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+import { generateColorPaletteWithCssVars } from '../custom/cssvar.palette';
+import { COLOR_MAPPING } from '../custom/custom.colors';
+import { lightColors } from '../themes/light.colors';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
-import { generateColorPaletteWithCssVars } from '../custom/cssvar.palette';
-import { COLOR_MAPPING } from '../custom/custom.colors';
-import { lightColors } from '../themes/light.colors';
+
+/**
+ * Variance factor for generating shade variants
+ * Controls the intensity of color variations
+ * - 0.5 = subtle variations
+ * - 0.8 = balanced variations (default)
+ * - 1.0 = maximum variations
+ */
+export const SHADE_VARIANCE_FACTOR = 0.8;
 
 /**
  * Simple hex color manipulation for generating shade variants
  * This replicates the original palette generation logic
  */
-function generateShadeVariants(baseHex: string, varianceFactor: number = 0.8): Record<string, string> {
+function generateShadeVariants(
+  baseHex: string,
+  varianceFactor: number = SHADE_VARIANCE_FACTOR,
+): Record<string, string> {
   // Convert hex to RGB
   const hex = baseHex.replace('#', '');
-  const r = parseInt(hex.substr(0, 2), 16);
-  const g = parseInt(hex.substr(2, 2), 16);
-  const b = parseInt(hex.substr(4, 2), 16);
+  const r = Number.parseInt(hex.substr(0, 2), 16);
+  const g = Number.parseInt(hex.substr(2, 2), 16);
+  const b = Number.parseInt(hex.substr(4, 2), 16);
 
   const variants: Record<string, string> = {};
 
@@ -86,7 +98,7 @@ function generateActualHexValues(): Record<string, string> {
       hexValues[colorName] = baseHex;
 
       // Generate and add shade variants
-      const variants = generateShadeVariants(baseHex);
+      const variants = generateShadeVariants(baseHex, SHADE_VARIANCE_FACTOR);
       Object.entries(variants).forEach(([variantName, hexValue]) => {
         hexValues[`${colorName}${variantName}`] = hexValue;
       });
@@ -126,8 +138,8 @@ export const ___COLORS___ = {\n`;
     .filter(([key, _]) => !key.match(/\d+$/)) // Skip transparency variants
     .sort(([a], [b]) => {
       // Sort by base color name first
-      const baseA = a.replace(/[A-Z][a-z]*|[0-9]+/g, '');
-      const baseB = b.replace(/[A-Z][a-z]*|[0-9]+/g, '');
+      const baseA = a.replace(/[A-Z][a-z]*|\d+/g, '');
+      const baseB = b.replace(/[A-Z][a-z]*|\d+/g, '');
       if (baseA !== baseB) return baseA.localeCompare(baseB);
 
       // Then sort by shade order: base, XXLight, XLight, Light, Dark, XDark, XXDark
@@ -143,7 +155,7 @@ export const ___COLORS___ = {\n`;
     content += `  ${key}: '${hexValue}',\n`;
   }
 
-  content += `};\n\n`;
+  content += '};\n\n';
 
   content += `/**
  * Color system statistics:

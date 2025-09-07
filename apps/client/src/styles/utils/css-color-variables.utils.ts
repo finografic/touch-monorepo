@@ -14,7 +14,7 @@ export type ColorVariable =
   | `--color-${ColorBaseName}`
   | `--color-${ColorBaseName}-${Exclude<ShadeKey, 'base'>}`;
 
-export const generateColorVariables = ({ colors }: { colors: GeneratedPalette }) => {
+export const generateCssColorVariables = ({ colors }: { colors: GeneratedPalette }) => {
   let cssVars = '';
   const processColor = (name: string, value: string) => {
     const cssName = name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
@@ -34,7 +34,7 @@ export const generateColorVariables = ({ colors }: { colors: GeneratedPalette })
  * Generate transparent color variants using modern CSS properties
  * Uses color-mix() with granular transparency levels (10, 20, 30...90)
  */
-export const generateTransparentColorVariables = () => {
+export const generateCssColorVariablesTransparency = () => {
   const colorNames = [
     'primary',
     'secondary',

@@ -42,7 +42,7 @@ The heart of the system - generates CSS variable references:
 // Output: { primary: 'var(--color-primary)', primaryLight: 'var(--color-primary-light)', ... }
 ```
 
-### 3. **Theme CSS Variables** (`utils/custom.variables.ts`)
+### 3. **Theme CSS Variables** (`utils/css-color-variables.utils.ts`)
 
 Generates the actual CSS variables for themes:
 

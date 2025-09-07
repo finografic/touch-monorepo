@@ -4,9 +4,11 @@ import 'sanitize.css/typography.css';
 import 'sanitize.css/forms.css';
 
 import { css } from '@emotion/react';
-import { colors } from './colors.styles';
 import { cssFontDefaults } from './fonts.styles';
-import { generateColorVariables, generateTransparentColorVariables } from './utils/custom.variables';
+import {
+  generateCssColorVariables,
+  generateCssColorVariablesTransparency,
+} from './utils/css-color-variables.utils';
 import { darkColors, lightColors } from './themes';
 
 export const cssGlobal = css`
@@ -34,10 +36,10 @@ export const cssGlobal = css`
   :root {
     box-sizing: border-box;
     /* Default dark theme color palette */
-    ${generateColorVariables({ colors: darkColors })}
+    ${generateCssColorVariables({ colors: darkColors })}
 
     /* Transparent color utilities */
-    ${generateTransparentColorVariables()}
+    ${generateCssColorVariablesTransparency()}
 
     /* Debug: Show current theme */
     --debug-theme: 'default-dark';
@@ -45,20 +47,20 @@ export const cssGlobal = css`
 
   /* Light theme color variables */
   [data-theme='light'] {
-    ${generateColorVariables({ colors: lightColors })}
+    ${generateCssColorVariables({ colors: lightColors })}
 
     /* Transparent color utilities */
-    ${generateTransparentColorVariables()}
+    ${generateCssColorVariablesTransparency()}
 
     --debug-theme: 'light';
   }
 
   /* Dark theme color variables */
   [data-theme='dark'] {
-    ${generateColorVariables({ colors: darkColors })}
+    ${generateCssColorVariables({ colors: darkColors })}
 
     /* Transparent color utilities */
-    ${generateTransparentColorVariables()}
+    ${generateCssColorVariablesTransparency()}
 
     --debug-theme: 'dark';
   }
