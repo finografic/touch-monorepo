@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from './colors.styles';
-import { layout } from './global.constants';
+import { layout } from './constants/global.constants';
 import { cssLabels } from './fonts.styles';
 
 export const inputBox = {

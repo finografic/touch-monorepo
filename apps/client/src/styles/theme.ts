@@ -1,5 +1,5 @@
 import { colors } from './colors.styles';
-import { spacing } from './global.constants';
+import { spacing } from './constants/global.constants';
 import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
 import { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from './typography.styles';
 

@@ -8,7 +8,7 @@
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { SHADE_VARIANCE_FACTOR } from '../js.constants';
+import { SHADE_VARIANCE_FACTOR } from '../constants/js.constants';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);

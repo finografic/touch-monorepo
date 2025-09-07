@@ -1,5 +1,5 @@
-import type { ShadeKey, ShadeSuffix } from './colors.types';
-import type { ColorBaseName } from './palette.types';
+import type { ShadeKey, ShadeSuffix } from '../colors.types';
+import type { ColorBaseName } from '../palette.types';
 
 export const BASE_COLORS: Record<ColorBaseName, ColorBaseName> = {
   primary: 'primary',
