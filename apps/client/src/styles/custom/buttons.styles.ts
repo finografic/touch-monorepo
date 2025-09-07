@@ -1,14 +1,11 @@
-import { colors, layout } from 'styles';
+import { colors, layout, button } from 'styles';
 import { css } from '@emotion/react';
 
 // Base styles shared across all interactive buttons
 export const stylesButtonBase = css`
   cursor: pointer;
   background: transparent;
-  transition:
-    transform 0.2s ease,
-    border-color 0.2s ease,
-    color 0.2s ease;
+  transition: ${button.transition};
   display: flex;
   align-items: center;
   justify-content: center;
@@ -16,20 +13,20 @@ export const stylesButtonBase = css`
 
   color: ${colors.infoDark};
   border-color: ${colors.infoDark};
-  border-width: 2px;
-  border-style: solid;
+  border-width: ${button.border.width};
+  border-style: ${button.border.style};
 
   &:hover {
     color: ${colors.infoDark};
     border-color: ${colors.info};
     background-color: ${colors.infoLight};
-    transform: scale(1.025);
+    transform: scale(${button.transform.hoverScale});
   }
 
   &:disabled,
   &.disabled,
   &[data-disabled='true'] {
-    opacity: 0.6;
+    opacity: ${button.disabled.opacity};
     cursor: not-allowed;
     color: ${colors.grey};
     border-color: ${colors.grey};

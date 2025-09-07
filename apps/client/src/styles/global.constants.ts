@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
 import { colors } from './colors.styles';
-import { layout as twLayout } from './constants';
+import { layout as twLayout, button } from './constants';
 
+// Base border styles using button constants
 export const border = css`
   border-color: ${colors.greyXLight};
-  border-style: solid;
-  border-width: 2px;
+  border-style: ${button.border.style};
+  border-width: ${button.border.width};
 `;
 
 // LAYOUT VARIABLES
@@ -51,3 +52,6 @@ export const spacing = {
   8: '2rem', // 32px
   9: '2.25rem', // 36px
 } as const;
+
+// Export button constants for easy access
+export { button };

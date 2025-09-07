@@ -1,4 +1,4 @@
-import { colors, layout } from 'styles';
+import { colors, layout, button } from 'styles';
 import { css } from '@emotion/react';
 import { padProps, stylesPad } from 'components/Pads/Pad/PadBasic.styles';
 
@@ -13,28 +13,22 @@ export const styles = css`
 
     &:not(:disabled) {
       &:hover {
-        transform: scale(1.05);
+        transform: scale(${button.transform.padHoverScale});
       }
     }
 
     &.item-type-A {
       color: var(--color-grey-xlight);
       border-color: var(--color-grey-light);
-      transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease;
+      transition: ${button.transition};
 
       &:hover {
         color: var(--color-grey-light);
         border-color: var(--color-grey-xlight);
         background-color: var(--color-grey-25);
-        transform: scale(1.05);
+        transform: scale(${button.transform.padHoverScale});
         /* Override transition to exclude background-color */
-        transition:
-          transform 0.2s ease,
-          border-color 0.2s ease,
-          color 0.2s ease;
+        transition: ${button.transition};
       }
 
       &.checked {
@@ -47,21 +41,15 @@ export const styles = css`
     &.item-type-B {
       color: ${colors.info};
       border-color: ${colors.infoDark};
-      transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease;
+      transition: ${button.transition};
 
       &:hover {
         color: ${colors.info};
         border-color: ${colors.info};
         background-color: ${colors.info25};
-        transform: scale(1.05);
+        transform: scale(${button.transform.padHoverScale});
         /* Override transition to exclude background-color */
-        transition:
-          transform 0.2s ease,
-          border-color 0.2s ease,
-          color 0.2s ease;
+        transition: ${button.transition};
       }
 
       &.checked {
@@ -74,21 +62,15 @@ export const styles = css`
     &.item-type-C {
       color: ${colors.danger};
       border-color: ${colors.danger};
-      transition:
-        transform 0.2s ease,
-        border-color 0.2s ease,
-        color 0.2s ease;
+      transition: ${button.transition};
 
       &:hover {
         color: ${colors.danger};
         border-color: ${colors.danger};
         background-color: ${colors.danger25};
-        transform: scale(1.05);
+        transform: scale(${button.transform.padHoverScale});
         /* Override transition to exclude background-color */
-        transition:
-          transform 0.2s ease,
-          border-color 0.2s ease,
-          color 0.2s ease;
+        transition: ${button.transition};
       }
 
       &.checked {

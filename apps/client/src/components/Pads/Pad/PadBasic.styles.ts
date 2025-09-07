@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors, layout } from 'styles';
+import { colors, layout, button } from 'styles';
 import { stylesButtonBase } from 'styles/custom/buttons.styles';
 
 /*
@@ -42,13 +42,9 @@ export const padProps = {
 // Styles specific to pads
 export const stylesPad = css`
   ${stylesButtonBase}
-  font-size: 1.5rem;
-  padding: 1rem;
+  font-size: ${button.fontSize.base};
+  padding: ${button.padding.base};
   text-align: center;
-
-  /* Touch-friendly borders */
-  border-width: 2px;
-  border-style: solid;
 
   &.pad-menu {
     border-radius: 50%;

@@ -93,3 +93,33 @@ export const typography = {
     },
   },
 };
+
+/**
+ * Button and interactive element constants
+ * Single source of truth for all button styling
+ */
+export const button = {
+  border: {
+    width: '2px',
+    style: 'solid',
+  },
+  transform: {
+    hoverScale: '1.025',
+    padHoverScale: '1.05',
+    padBasicHoverScale: '1.02',
+  },
+  transition: 'transform 0.2s ease, border-color 0.2s ease, color 0.2s ease',
+  disabled: {
+    opacity: '0.6',
+  },
+  padding: {
+    base: '1rem',
+    small: '0.75rem',
+    large: '1.25rem',
+  },
+  fontSize: {
+    base: '1.5rem',
+    small: '1.2rem',
+    large: '1.8rem',
+  },
+};
