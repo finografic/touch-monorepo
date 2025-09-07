@@ -2,94 +2,105 @@ import type { ColorPalette } from '../palette.types';
 
 /**
  * Light theme color palette - actual hex values for CSS variable generation
+ * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
+ *
+ * Run: pnpm generate:themes to update this file
+ *
  * These colors are used to generate the CSS variables that the main colors object references
  */
 export const lightColors: ColorPalette = {
-  // Base colors - darker for high contrast on light backgrounds
-  primary: '#1e3a8a', // Blue-900 - much darker blue for high contrast
-  primaryXXLight: '#c5dce3',
-  primaryXLight: '#abccd6',
-  primaryLight: '#92bcc9',
-  primaryDark: '#406b78',
-  primaryXDark: '#31525c',
-  primaryXXDark: '#22393f',
+  primary: '#1e3a8a',
+  primaryXXLight: '#aeb8d5',
+  primaryXLight: '#8a99c2',
+  primaryLight: '#6679af',
+  primaryDark: '#14275e',
+  primaryXDark: '#101e48',
+  primaryXXDark: '#0b1532',
 
-  secondary: '#047857', // Emerald-700 - deeper green for better contrast
-  secondaryXXLight: '#cdece8',
-  secondaryXLight: '#b7e3de',
-  secondaryLight: '#a0dbd3',
-  secondaryDark: '#4f8982',
-  secondaryXDark: '#3c6963',
-  secondaryXXDark: '#2a4945',
+  secondary: '#047857',
+  secondaryXXLight: '#a5cec3',
+  secondaryXLight: '#7cb9a8',
+  secondaryLight: '#54a38d',
+  secondaryDark: '#03523b',
+  secondaryXDark: '#023e2d',
+  secondaryXXDark: '#012b1f',
 
-  default: '#111827', // Gray-900 - very dark for maximum contrast
-  defaultXXLight: '#c3c5c5',
-  defaultXLight: '#a9acac',
-  defaultLight: '#8e9292',
-  defaultDark: '#3d4141',
-  defaultXDark: '#2e3131',
-  defaultXXDark: '#202222',
+  success: '#065f46',
+  successXXLight: '#a5c5bc',
+  successXLight: '#7eac9f',
+  successLight: '#569281',
+  successDark: '#044130',
+  successXDark: '#033124',
+  successXXDark: '#022219',
 
-  success: '#065f46', // Emerald-800 - much deeper success green
-  successXXLight: '#a3ffa3',
-  successXLight: '#7aff7a',
-  successLight: '#52ff52',
-  successDark: '#00ad00',
-  successXDark: '#008500',
-  successXXDark: '#005c00',
+  warning: '#92400e',
+  warningXXLight: '#d8baa8',
+  warningXLight: '#c69c82',
+  warningLight: '#b57d5b',
+  warningDark: '#632c0a',
+  warningXDark: '#4c2107',
+  warningXXDark: '#351705',
 
-  warning: '#92400e', // Amber-800 - darker warning for better visibility
-  warningXXLight: '#ffe0a3',
-  warningXLight: '#ffd37a',
-  warningLight: '#ffc552',
-  warningDark: '#ad7400',
-  warningXDark: '#855800',
-  warningXXDark: '#5c3d00',
+  danger: '#991b1b',
+  dangerXXLight: '#daadad',
+  dangerXLight: '#ca8888',
+  dangerLight: '#ba6464',
+  dangerDark: '#681212',
+  dangerXDark: '#500e0e',
+  dangerXXDark: '#370a0a',
 
-  danger: '#991b1b', // Red-800 - deeper danger red
-  dangerXXLight: '#ffbcbc',
-  dangerXLight: '#ff9e9e',
-  dangerLight: '#ff8080',
-  dangerDark: '#ad2e2e',
-  dangerXDark: '#852323',
-  dangerXXDark: '#5c1818',
+  info: '#1e40af',
+  infoXXLight: '#aebae2',
+  infoXLight: '#8a9cd5',
+  infoLight: '#667dc9',
+  infoDark: '#142c77',
+  infoXDark: '#10215b',
+  infoXXDark: '#0b173f',
 
-  info: '#1e40af', // Blue-800 - darker info blue
-  infoXXLight: '#a3e8ff',
-  infoXLight: '#7adeff',
-  infoLight: '#52d3ff',
-  infoDark: '#0082ad',
-  infoXDark: '#006385',
-  infoXXDark: '#00455c',
+  text: '#000000',
+  textXXLight: '#a3a3a3',
+  textXLight: '#7a7a7a',
+  textLight: '#525252',
+  textDark: '#000000',
+  textXDark: '#000000',
+  textXXDark: '#000000',
 
-  text: '#000000', // Pure black for maximum readability
-  textXXLight: '#c8c8c8',
-  textXLight: '#afafaf',
-  textLight: '#979797',
-  textDark: '#454545',
-  textXDark: '#353535',
-  textXXDark: '#252525',
+  grey: '#1f2937',
+  greyXXLight: '#aeb2b7',
+  greyXLight: '#8b9097',
+  greyLight: '#676d77',
+  greyDark: '#151c25',
+  greyXDark: '#10151d',
+  greyXXDark: '#0b0f14',
 
-  grey: '#1f2937', // Gray-800 - much darker gray
-  greyXXLight: '#dadada',
-  greyXLight: '#cacaca',
-  greyLight: '#bababa',
-  greyDark: '#686868',
-  greyXDark: '#505050',
-  greyXXDark: '#373737',
+  gray: '#1f2937',
+  grayXXLight: '#aeb2b7',
+  grayXLight: '#8b9097',
+  grayLight: '#676d77',
+  grayDark: '#151c25',
+  grayXDark: '#10151d',
+  grayXXDark: '#0b0f14',
 
-  gray: '#1f2937', // Gray-800 - much darker gray
-  grayXXLight: '#dadada',
-  grayXLight: '#cacaca',
-  grayLight: '#bababa',
-  grayDark: '#686868',
-  grayXDark: '#505050',
-  grayXXDark: '#373737',
+  default: '#111827',
+  defaultXXLight: '#a9acb1',
+  defaultXLight: '#83878f',
+  defaultLight: '#5d626c',
+  defaultDark: '#0c101b',
+  defaultXDark: '#090c14',
+  defaultXXDark: '#06090e',
+
+  background: '#fefefe',
+  backgroundXXLight: '#ffffff',
+  backgroundXLight: '#fefefe',
+  backgroundLight: '#fefefe',
+  backgroundDark: '#adadad',
+  backgroundXDark: '#848484',
+  backgroundXXDark: '#5b5b5b',
 
   transparent: 'transparent',
 
   // Fixed colors
   white: '#ffffff',
   black: '#000000',
-  background: '#fefefe', // Pure white with subtle warmth
+  background: '#fefefe',
 } as any; // Cast to avoid complex type checking for now
