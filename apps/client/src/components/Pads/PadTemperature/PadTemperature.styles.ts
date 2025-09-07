@@ -24,11 +24,23 @@ export const styles = css`
   /* grid-template-columns: 1fr 1fr; */
   grid-gap: 2rem;
 
-  label {
-    margin-bottom: 2rem !important;
-    padding-bottom: 2rem !important;
-    transform: translateY(-2rem) !important;
-    /* display: none; */
+  .temperature-container {
+    position: relative;
+    padding-top: 4rem; /* More room for label */
+    margin-top: 1rem; /* Space from top */
+
+    label {
+      position: absolute;
+      top: 0.5rem; /* Slight offset from top */
+      left: 50%;
+      transform: translateX(-50%);
+      width: 220px;
+      text-align: center;
+      color: ${colors.textLight};
+      font-size: 1.2rem;
+      font-weight: ${button.fontWeight.large};
+      letter-spacing: 0.02em;
+    }
   }
 
   /* Value display */
