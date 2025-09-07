@@ -1,6 +1,6 @@
 import type { ColorBaseName, GeneratedPalette } from '../palette.types';
 import type { ShadeKey } from '../colors.types';
-import { CSS_BASE_COLORS, CSS_SHADE_VARIANTS, CSS_TRANSPARENCY_LEVELS } from '../css.constants';
+import { CSS_BASE_COLORS, CSS_SHADE_VARIANTS, CSS_TRANSPARENCY_LEVELS } from '../constants/css.constants';
 
 // NOTE: THIS is the VERSION of the METHOD USED to GENERATE COLOR VARIABLES
 
