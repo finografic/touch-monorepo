@@ -9,6 +9,7 @@ import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { SHADE_VARIANCE_FACTOR } from '../constants/js.constants';
+import { COLOR_MAPPING } from '../project/project.colors';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -71,35 +72,39 @@ function generateShadeVariants(
  * Theme-specific color adjustments
  * These define how colors should be modified for each theme
  */
+// Light theme colors
+const LIGHT_COLORS = {
+  primary: '#1e3a8a', // Blue-900
+  secondary: '#7e22ce', // Purple-700
+  success: '#065f46', // Green-800
+  warning: '#92400e', // Amber-800
+  danger: '#991b1b', // Red-800
+  info: '#1e40af', // Blue-800
+  text: '#000000', // Pure black
+  grey: '#1f2937', // Gray-800
+  gray: '#1f2937', // Gray-800
+  default: '#111827', // Gray-900
+  background: '#fefefe', // Pure white with subtle warmth
+} as const;
+
+// Dark theme colors
+const DARK_COLORS = {
+  primary: '#93c5fd', // Blue-300
+  secondary: '#e879f9', // Purple-300
+  success: '#6ee7b7', // Green-300
+  warning: '#fcd34d', // Amber-300
+  danger: '#fca5a5', // Red-300
+  info: '#93c5fd', // Blue-300
+  text: '#ffffff', // Pure white
+  grey: '#d1d5db', // Gray-300
+  gray: '#d1d5db', // Gray-300
+  default: '#d1d5db', // Gray-300
+  background: '#0f172a', // Darker slate background
+} as const;
+
 const THEME_ADJUSTMENTS = {
-  light: {
-    // Light theme: darker colors for high contrast on light backgrounds
-    primary: '#1e3a8a', // Blue-900
-    secondary: '#047857', // Emerald-700
-    success: '#065f46', // Emerald-800
-    warning: '#92400e', // Amber-800
-    danger: '#991b1b', // Red-800
-    info: '#1e40af', // Blue-800
-    text: '#000000', // Pure black
-    grey: '#1f2937', // Gray-800
-    gray: '#1f2937', // Gray-800
-    default: '#111827', // Gray-900
-    background: '#fefefe', // Pure white with subtle warmth
-  },
-  dark: {
-    // Dark theme: lighter colors for visibility on dark backgrounds
-    primary: '#93c5fd', // Blue-300
-    secondary: '#6ee7b7', // Emerald-300
-    success: '#6ee7b7', // Emerald-300
-    warning: '#fcd34d', // Amber-300
-    danger: '#fca5a5', // Red-300
-    info: '#93c5fd', // Blue-300
-    text: '#ffffff', // Pure white
-    grey: '#d1d5db', // Gray-300
-    gray: '#d1d5db', // Gray-300
-    default: '#d1d5db', // Gray-300
-    background: '#0f172a', // Darker slate background
-  },
+  light: LIGHT_COLORS,
+  dark: DARK_COLORS,
 } as const;
 
 /**
@@ -109,13 +114,24 @@ function generateThemeContent(themeName: 'light' | 'dark'): string {
   const themeColors = THEME_ADJUSTMENTS[themeName];
   const themeTitle = themeName.charAt(0).toUpperCase() + themeName.slice(1);
 
-  const timestamp = new Date().toISOString();
+  const now = new Date();
+  const timestamp = `📅 Generated: ${now
+    .toLocaleString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    })
+    .replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, '$3-$1-$2 -- $4:$5:$6')}`;
   let content = `import type { ColorPalette } from '../palette.types';
 
 /**
  * ${themeTitle} theme color palette - actual hex values for CSS variable generation
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated: ${timestamp}
+ * ${timestamp}
  *
  * Run: pnpm generate:themes to update this file
  *

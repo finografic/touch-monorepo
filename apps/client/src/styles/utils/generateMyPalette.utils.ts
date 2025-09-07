@@ -104,11 +104,22 @@ function generateActualHexValues(): Record<string, string> {
 function generatePaletteContent(): string {
   const actualHexValues = generateActualHexValues();
 
-  const timestamp = new Date().toISOString();
+  const now = new Date();
+  const timestamp = `📅 Generated: ${now
+    .toLocaleString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+      hour12: false,
+    })
+    .replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, '$3-$1-$2 -- $4:$5:$6')}`;
   let content = `/**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated: ${timestamp}
+ * ${timestamp}
  *
  * Run: pnpm generate:palette to update this file
  *

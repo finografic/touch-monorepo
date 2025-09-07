@@ -1,7 +1,7 @@
 /**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated: 2025-09-07T08:37:30.934Z
+ * 📅 Generated: 2025-09-07 -- 11:24:50
  *
  * Run: pnpm generate:palette to update this file
  *
@@ -63,13 +63,13 @@ export const ___COLORS___ = {
   primaryXDark: '#101e48',
   primaryXXDark: '#0b1532',
 
-  secondary: '#047857',
-  secondaryXXLight: '#a5cec3',
-  secondaryXLight: '#7cb9a8',
-  secondaryLight: '#54a38d',
-  secondaryDark: '#03523b',
-  secondaryXDark: '#023e2d',
-  secondaryXXDark: '#012b1f',
+  secondary: '#7e22ce',
+  secondaryXXLight: '#d1afed',
+  secondaryXLight: '#bc8ce6',
+  secondaryLight: '#a769de',
+  secondaryDark: '#56178c',
+  secondaryXDark: '#42126b',
+  secondaryXXDark: '#2d0c4a',
 
   success: '#065f46',
   successXXLight: '#a5c5bc',

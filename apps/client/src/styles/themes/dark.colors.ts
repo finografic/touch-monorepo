@@ -3,7 +3,7 @@ import type { ColorPalette } from '../palette.types';
 /**
  * Dark theme color palette - actual hex values for CSS variable generation
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated: 2025-09-07T08:37:31.804Z
+ * 📅 Generated: 2025-09-07 -- 11:24:49
  *
  * Run: pnpm generate:themes to update this file
  *
@@ -18,13 +18,13 @@ export const darkColors: ColorPalette = {
   primaryXDark: '#4c6684',
   primaryXXDark: '#35475b',
 
-  secondary: '#6ee7b7',
-  secondaryXXLight: '#cbf6e5',
-  secondaryXLight: '#b4f3da',
-  secondaryLight: '#9cefce',
-  secondaryDark: '#4b9d7c',
-  secondaryXDark: '#39785f',
-  secondaryXXDark: '#285342',
+  secondary: '#e879f9',
+  secondaryXXLight: '#f7cffd',
+  secondaryXLight: '#f3b9fc',
+  secondaryLight: '#efa4fb',
+  secondaryDark: '#9e52a9',
+  secondaryXDark: '#793f81',
+  secondaryXXDark: '#542c5a',
 
   success: '#6ee7b7',
   successXXLight: '#cbf6e5',
