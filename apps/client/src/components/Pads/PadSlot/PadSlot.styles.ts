@@ -18,17 +18,17 @@ export const styles = css`
     }
 
     &.item-type-A {
-      color: ${colors.greyXLight};
-      border-color: ${colors.greyLight};
+      color: var(--color-grey-xlight);
+      border-color: var(--color-grey-light);
       transition:
         transform 0.2s ease,
         border-color 0.2s ease,
         color 0.2s ease;
 
       &:hover {
-        color: ${colors.greyLight};
-        border-color: ${colors.greyXLight};
-        background-color: ${colors.grey25};
+        color: var(--color-grey-light);
+        border-color: var(--color-grey-xlight);
+        background-color: var(--color-grey-25);
         transform: scale(1.05);
         /* Override transition to exclude background-color */
         transition:
@@ -38,9 +38,9 @@ export const styles = css`
       }
 
       &.checked {
-        color: ${colors.greyLight};
-        border-color: ${colors.greyXLight};
-        background-color: ${colors.greyLight};
+        color: var(--color-grey-light);
+        border-color: var(--color-grey-xlight);
+        background-color: var(--color-grey-light);
       }
     }
 
