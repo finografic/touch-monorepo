@@ -5,11 +5,11 @@ import 'sanitize.css/forms.css';
 
 import { css } from '@emotion/react';
 import { cssFontDefaults } from './fonts.styles';
+import { darkColors, lightColors } from './themes';
 import {
   generateCssColorVariables,
   generateCssColorVariablesTransparency,
-} from './utils/css-color-variables.utils';
-import { darkColors, lightColors } from './themes';
+} from './utils/generate-css-variables.utils';
 
 export const cssGlobal = css`
   /* Use CSS layers to ensure our styles override Radix */

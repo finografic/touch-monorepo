@@ -1,6 +1,6 @@
 import type { ColorMapping, HexColor } from '../colors.types';
 import type { ColorPalette } from '../palette.types';
-import { generateColorPaletteWithCssVars } from '../utils/cssvar.palette';
+import { generateColorPaletteWithCssVars } from '../utils/generate-project-palette.utils';
 
 export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'> = {
   primary: { value: '#5E9DB0' },

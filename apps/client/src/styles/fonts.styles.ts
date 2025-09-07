@@ -6,7 +6,8 @@ const { fontFamily: twFontFamily, fontSmoothing: twFontSmoothing, fontWeight: tw
 
 export const cssFontDefaults = css`
   font-family: ${twFontFamily.sans.join(', ')};
-  ${css(twFontSmoothing.antialiased)}
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   font-feature-settings: 'kern' 1;
   font-kerning: normal;
 `;
