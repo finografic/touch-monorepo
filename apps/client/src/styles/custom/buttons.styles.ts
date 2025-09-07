@@ -14,29 +14,29 @@ export const stylesButtonBase = css`
   justify-content: center;
   position: relative; /* For absolute positioning of icons */
 
-  color: var(--color-info);
-  border-color: var(--color-info-dark);
-  border-width: ${layout.borderWidth};
+  color: ${colors.infoDark};
+  border-color: ${colors.infoDark};
+  border-width: 2px;
+  border-style: solid;
 
   &:hover {
-    color: var(--color-info);
-    border: ${layout.borderWidth} solid var(--color-info-dark);
-    border-color: var(--color-info);
-    background-color: var(--color-info-25);
+    color: ${colors.infoDark};
+    border-color: ${colors.info};
+    background-color: ${colors.infoLight};
     transform: scale(1.025);
   }
 
   &:disabled,
   &.disabled,
   &[data-disabled='true'] {
-    opacity: 0.5;
+    opacity: 0.6;
     cursor: not-allowed;
-    color: var(--color-grey);
-    border-color: var(--color-grey-dark);
+    color: ${colors.greyLight};
+    border-color: ${colors.greyLight};
     background-color: transparent;
     &:hover {
-      color: var(--color-grey);
-      border-color: var(--color-grey-dark);
+      color: ${colors.greyLight};
+      border-color: ${colors.greyLight};
       background-color: transparent;
       transform: none;
     }

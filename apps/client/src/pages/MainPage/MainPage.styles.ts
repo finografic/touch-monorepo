@@ -68,19 +68,19 @@ export const styles = css`
     width: ${props.pad.width};
     height: ${props.pad.height};
     border-radius: 50%;
-    border: ${layout.borderWidth} solid var(--color-grey-dark);
+    border: 2px solid ${colors.greyDark};
     display: flex;
     align-items: center;
     justify-content: center;
     font-size: 1.5rem;
-    color: var(--color-info);
+    color: ${colors.infoDark};
     transition: all 0.3s;
     background-color: transparent;
     cursor: pointer;
 
     &.error {
-      border-color: var(--color-danger);
-      color: var(--color-danger);
+      border-color: ${colors.dangerDark};
+      color: ${colors.dangerDark};
       width: ${props.padLG.width};
       height: ${props.padLG.height};
     }
@@ -92,17 +92,17 @@ export const styles = css`
       width: ${props.special.width};
       height: ${props.special.height};
 
-      color: var(--color-success);
-      border-color: var(--color-success);
+      color: ${colors.successDark};
+      border-color: ${colors.successDark};
       &:hover {
-        color: var(--color-success);
-        border-color: var(--color-success);
-        background-color: var(--color-success-light);
+        color: ${colors.successDark};
+        border-color: ${colors.successDark};
+        background-color: ${colors.successLight};
       }
       &.checked {
-        color: var(--color-success);
-        border-color: var(--color-success);
-        background-color: var(--color-success-dark);
+        color: ${colors.successDark};
+        border-color: ${colors.successDark};
+        background-color: ${colors.successLight};
       }
     }
   }
