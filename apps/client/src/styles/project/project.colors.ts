@@ -15,7 +15,7 @@ export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'>
   success: { value: tailwindColors.green[600] }, // oklch(62.7% 0.194 149.214)
   warning: { value: tailwindColors.amber[500] }, // oklch(76.9% 0.188 70.08)
   danger: { value: tailwindColors.red[600] }, // oklch(57.7% 0.245 27.325)
-  info: { value: tailwindColors.sky[600] }, // oklch(58.8% 0.158 241.966)
+  info: { value: tailwindColors.cyan[500] }, // oklch(58.8% 0.158 241.966)
 
   default: { value: tailwindColors.stone[500] }, // oklch(55.3% 0.013 58.071)
   text: { value: tailwindColors.neutral[800] }, // oklch(26.9% 0 0)

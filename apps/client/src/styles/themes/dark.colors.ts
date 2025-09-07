@@ -3,7 +3,7 @@ import type { ColorPalette } from '../palette.types';
 /**
  * Dark theme color palette - actual hex values for CSS variable generation
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-09-07 -- 13:02:51
+ * 📅 Generated: 2025-09-07 -- 13:17:40
  *
  * Run: pnpm generate:themes to update this file
  *

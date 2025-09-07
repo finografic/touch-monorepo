@@ -92,8 +92,12 @@ export const styles = css`
       width: ${props.special.width};
       height: ${props.special.height};
 
-      color: ${colors.successDark};
-      border-color: ${colors.successDark};
+      /* color: ${colors.successDark};
+      border-color: ${colors.successDark}; */
+
+      color: ${colors.successXLight};
+      border-color: ${colors.successXLight};
+
       &:hover {
         color: ${colors.successDark};
         border-color: ${colors.successDark};
