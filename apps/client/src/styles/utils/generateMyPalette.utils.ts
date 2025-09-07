@@ -68,32 +68,25 @@ function generateShadeVariants(
 }
 
 /**
- * Generate actual hex values for all color variants using the original palette logic
+ * Generate actual hex values for all color variants using the theme files
  * This creates a proper visual reference with distinct shade values
  */
 function generateActualHexValues(): Record<string, string> {
   const hexValues: Record<string, string> = {};
 
-  // Generate actual shade variants using the original logic
-  for (const [colorName, colorDef] of Object.entries(COLOR_MAPPING)) {
-    if (typeof colorDef === 'object' && 'value' in colorDef) {
-      const baseHex = colorDef.value;
-
-      // Skip generating variants for fixed colors
-      if (colorName === 'white' || colorName === 'black' || colorName === 'transparent') {
-        hexValues[colorName] = baseHex;
-        continue;
-      }
-
-      // Add base color
-      hexValues[colorName] = baseHex;
-
-      // Generate and add shade variants
-      const variants = generateShadeVariants(baseHex, SHADE_VARIANCE_FACTOR);
-      Object.entries(variants).forEach(([variantName, hexValue]) => {
-        hexValues[`${colorName}${variantName}`] = hexValue;
-      });
+  // Use the actual hex values from the theme files instead of parsing OKLCH
+  for (const [colorName, hexValue] of Object.entries(lightColors)) {
+    // Skip transparency variants and fixed colors
+    if (
+      colorName.match(/\d+$/) ||
+      colorName === 'white' ||
+      colorName === 'black' ||
+      colorName === 'transparent'
+    ) {
+      continue;
     }
+
+    hexValues[colorName] = hexValue as string;
   }
 
   // Add fixed colors
@@ -111,9 +104,11 @@ function generateActualHexValues(): Record<string, string> {
 function generatePaletteContent(): string {
   const actualHexValues = generateActualHexValues();
 
+  const timestamp = new Date().toISOString();
   let content = `/**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
+ * Generated: ${timestamp}
  *
  * Run: pnpm generate:palette to update this file
  *
@@ -142,8 +137,18 @@ export const ___COLORS___ = {\n`;
       return orderA - orderB;
     });
 
+  let lastBaseColor = '';
   for (const [key, hexValue] of sortedEntries) {
+    // Get base color name (e.g., 'primary' from 'primaryLight')
+    const baseColor = key.replace(/[A-Z][a-z]*|\d+/g, '');
+
+    // Add line break between different base colors
+    if (lastBaseColor && baseColor !== lastBaseColor) {
+      content += '\n';
+    }
+
     content += `  ${key}: '${hexValue}',\n`;
+    lastBaseColor = baseColor;
   }
 
   content += '};\n\n';

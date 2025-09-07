@@ -109,11 +109,13 @@ function generateThemeContent(themeName: 'light' | 'dark'): string {
   const themeColors = THEME_ADJUSTMENTS[themeName];
   const themeTitle = themeName.charAt(0).toUpperCase() + themeName.slice(1);
 
+  const timestamp = new Date().toISOString();
   let content = `import type { ColorPalette } from '../palette.types';
 
 /**
  * ${themeTitle} theme color palette - actual hex values for CSS variable generation
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
+ * Generated: ${timestamp}
  *
  * Run: pnpm generate:themes to update this file
  *
@@ -122,19 +124,13 @@ function generateThemeContent(themeName: 'light' | 'dark'): string {
 export const ${themeName}Colors: ColorPalette = {
 `;
 
-  // Generate colors for each base color
-  for (const [colorName, baseHex] of Object.entries(themeColors)) {
-    // Skip generating variants for fixed colors
-    if (
-      colorName === 'white' ||
-      colorName === 'black' ||
-      colorName === 'transparent' ||
-      colorName === 'background'
-    ) {
-      content += `  ${colorName}: '${baseHex}',\n`;
-      continue;
-    }
+  // Filter out fixed colors to handle separately
+  const colorGroups = Object.entries(themeColors).filter(
+    ([name]) => !['white', 'black', 'transparent', 'background'].includes(name),
+  );
 
+  // Generate each color group with spacing
+  for (const [colorName, baseHex] of colorGroups) {
     // Add base color
     content += `  ${colorName}: '${baseHex}',\n`;
 
@@ -144,17 +140,17 @@ export const ${themeName}Colors: ColorPalette = {
       content += `  ${colorName}${variantName}: '${hexValue}',\n`;
     });
 
-    // Add spacing between color groups
+    // Add blank line after each color group
     content += '\n';
   }
 
-  // Add fixed colors
-  content += `  transparent: 'transparent',
-
-  // Fixed colors
-  white: '#ffffff',
-  black: '#000000',
-} as any; // Cast to avoid complex type checking for now
+  // Add fixed colors at the end
+  content += `  background: '${themeColors.background}',\n`;
+  content += "  transparent: 'transparent',\n\n";
+  content += '  // Fixed colors\n';
+  content += "  white: '#ffffff',\n";
+  content += "  black: '#000000',\n";
+  content += `} as any; // Cast to avoid complex type checking for now
 `;
 
   return content;
