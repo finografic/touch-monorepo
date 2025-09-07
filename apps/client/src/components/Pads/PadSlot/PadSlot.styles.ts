@@ -18,40 +18,50 @@ export const styles = css`
     }
 
     &.item-type-A {
-      color: ${colors.greyXLight};
-      border-color: ${colors.greyLight};
+      color: ${colors.defaultLight80};
+      border-color: ${colors.defaultLight80};
       transition: ${button.transition};
 
-      &:hover {
-        color: ${colors.greyLight};
-        border-color: ${colors.greyXLight};
-        background-color: ${colors.grey25};
-        transform: scale(${button.transform.padHoverScale});
+      &.checked {
+        color: ${colors.defaultLight80};
+        border-color: ${colors.defaultLight80};
+        background-color: ${colors.defaultXLight66};
       }
 
-      &.checked {
-        color: ${colors.greyLight};
-        border-color: ${colors.greyXLight};
-        background-color: ${colors.greyLight};
+      &:hover {
+        color: ${colors.defaultLight};
+        border-color: ${colors.defaultLight};
+        background-color: ${colors.defaultXLight50};
+        transform: scale(${button.transform.padHoverScale});
+        &.checked {
+          color: ${colors.defaultLight};
+          border-color: ${colors.defaultLight};
+          background-color: ${colors.defaultXLight50};
+        }
       }
     }
 
     &.item-type-B {
-      color: ${colors.info};
-      border-color: ${colors.infoDark};
+      color: ${colors.infoLight};
+      border-color: ${colors.infoLight};
       transition: ${button.transition};
 
-      &:hover {
-        color: ${colors.info};
-        border-color: ${colors.info};
-        background-color: ${colors.info25};
-        transform: scale(${button.transform.padHoverScale});
+      &.checked {
+        color: ${colors.infoLight};
+        border-color: ${colors.infoLight};
+        background-color: ${colors.infoXLight33};
       }
 
-      &.checked {
-        color: ${colors.info};
-        border-color: ${colors.info};
-        background-color: ${colors.infoLight};
+      &:hover {
+        color: ${colors.infoDark};
+        border-color: ${colors.infoDark};
+        background-color: ${colors.infoLight66};
+        transform: scale(${button.transform.padHoverScale});
+        &.checked {
+          color: ${colors.infoDark};
+          border-color: ${colors.infoDark};
+          background-color: ${colors.infoLight66};
+        }
       }
     }
 
@@ -60,17 +70,22 @@ export const styles = css`
       border-color: ${colors.danger};
       transition: ${button.transition};
 
+      &.checked {
+        color: ${colors.danger};
+        border-color: ${colors.danger};
+        background-color: ${colors.dangerLight};
+      }
+
       &:hover {
         color: ${colors.danger};
         border-color: ${colors.danger};
         background-color: ${colors.danger25};
         transform: scale(${button.transform.padHoverScale});
-      }
-
-      &.checked {
-        color: ${colors.danger};
-        border-color: ${colors.danger};
-        background-color: ${colors.dangerLight};
+        &.checked {
+          color: ${colors.danger};
+          border-color: ${colors.danger};
+          background-color: ${colors.dangerLight};
+        }
       }
     }
 

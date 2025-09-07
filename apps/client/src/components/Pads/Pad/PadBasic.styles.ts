@@ -32,6 +32,7 @@ export const stylesPad = css`
   &.checked {
     border-color: ${colors.infoLight};
     background-color: ${colors.infoXLight33}; /* Much lighter + 33% opacity */
+    background-color: ${colors.danger}; /* Much lighter + 33% opacity */
     color: ${colors.info}; /* Base color for better contrast */
   }
 
