@@ -90,17 +90,9 @@ export const darkColors: ColorPalette = {
   defaultXXDark: '#4b4d4f',
 
   background: '#0f172a',
-  backgroundXXLight: '#a9abb2',
-  backgroundXLight: '#828690',
-  backgroundLight: '#5c616e',
-  backgroundDark: '#0a101d',
-  backgroundXDark: '#080c16',
-  backgroundXXDark: '#05080f',
-
   transparent: 'transparent',
 
   // Fixed colors
   white: '#ffffff',
   black: '#000000',
-  background: '#0f172a',
 } as any; // Cast to avoid complex type checking for now

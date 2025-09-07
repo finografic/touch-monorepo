@@ -8,9 +8,7 @@
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { COLOR_MAPPING } from '../custom/custom.colors';
-import { SHADE_VARIANCE_FACTOR, JS_SHADE_VARIANTS } from '../js.constants';
-import { CSS_BASE_COLORS } from '../css.constants';
+import { SHADE_VARIANCE_FACTOR } from '../js.constants';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -26,9 +24,9 @@ function generateShadeVariants(
 ): Record<string, string> {
   // Convert hex to RGB
   const hex = baseHex.replace('#', '');
-  const r = Number.parseInt(hex.substr(0, 2), 16);
-  const g = Number.parseInt(hex.substr(2, 2), 16);
-  const b = Number.parseInt(hex.substr(4, 2), 16);
+  const r = Number.parseInt(hex.substring(0, 2), 16);
+  const g = Number.parseInt(hex.substring(2, 4), 16);
+  const b = Number.parseInt(hex.substring(4, 6), 16);
 
   const variants: Record<string, string> = {};
 
@@ -127,7 +125,12 @@ export const ${themeName}Colors: ColorPalette = {
   // Generate colors for each base color
   for (const [colorName, baseHex] of Object.entries(themeColors)) {
     // Skip generating variants for fixed colors
-    if (colorName === 'white' || colorName === 'black' || colorName === 'transparent') {
+    if (
+      colorName === 'white' ||
+      colorName === 'black' ||
+      colorName === 'transparent' ||
+      colorName === 'background'
+    ) {
       content += `  ${colorName}: '${baseHex}',\n`;
       continue;
     }
@@ -151,7 +154,6 @@ export const ${themeName}Colors: ColorPalette = {
   // Fixed colors
   white: '#ffffff',
   black: '#000000',
-  background: '${themeColors.background}',
 } as any; // Cast to avoid complex type checking for now
 `;
 

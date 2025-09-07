@@ -6,10 +6,9 @@
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { generateColorPaletteWithCssVars } from '../custom/cssvar.palette';
 import { COLOR_MAPPING } from '../custom/custom.colors';
 import { lightColors } from '../themes/light.colors';
-import { SHADE_VARIANCE_FACTOR, JS_SHADE_ORDER } from '../js.constants';
+import { JS_SHADE_ORDER, SHADE_VARIANCE_FACTOR } from '../js.constants';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -25,9 +24,9 @@ function generateShadeVariants(
 ): Record<string, string> {
   // Convert hex to RGB
   const hex = baseHex.replace('#', '');
-  const r = Number.parseInt(hex.substr(0, 2), 16);
-  const g = Number.parseInt(hex.substr(2, 2), 16);
-  const b = Number.parseInt(hex.substr(4, 2), 16);
+  const r = Number.parseInt(hex.substring(0, 2), 16);
+  const g = Number.parseInt(hex.substring(2, 4), 16);
+  const b = Number.parseInt(hex.substring(4, 6), 16);
 
   const variants: Record<string, string> = {};
 
@@ -138,8 +137,8 @@ export const ___COLORS___ = {\n`;
       const shadeOrder = JS_SHADE_ORDER;
       const shadeA = a.replace(baseA, '');
       const shadeB = b.replace(baseB, '');
-      const orderA = shadeOrder.indexOf(shadeA);
-      const orderB = shadeOrder.indexOf(shadeB);
+      const orderA = shadeOrder.indexOf(shadeA as any);
+      const orderB = shadeOrder.indexOf(shadeB as any);
       return orderA - orderB;
     });
 

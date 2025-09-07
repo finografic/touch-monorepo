@@ -90,17 +90,9 @@ export const lightColors: ColorPalette = {
   defaultXXDark: '#06090e',
 
   background: '#fefefe',
-  backgroundXXLight: '#ffffff',
-  backgroundXLight: '#fefefe',
-  backgroundLight: '#fefefe',
-  backgroundDark: '#adadad',
-  backgroundXDark: '#848484',
-  backgroundXXDark: '#5b5b5b',
-
   transparent: 'transparent',
 
   // Fixed colors
   white: '#ffffff',
   black: '#000000',
-  background: '#fefefe',
 } as any; // Cast to avoid complex type checking for now
