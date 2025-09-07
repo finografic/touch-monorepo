@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { button, colors, layout } from 'styles';
-import { stylesButtonBase } from 'styles/custom/buttons.styles';
+import { stylesButtonBase } from 'styles/project/buttons.styles';
 
 // Common dimensions for different button types
 export const padProps = {

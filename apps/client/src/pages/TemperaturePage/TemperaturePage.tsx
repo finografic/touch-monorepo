@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import type { Temperature } from 'types/orders.types';
 import { Box, Flex } from '@radix-ui/themes';
-import { stylesAppContent } from 'styles/custom/content.app.styles';
+import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useFilters } from 'hooks/useFilters';

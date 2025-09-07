@@ -9,4 +9,4 @@
  *
  * All values are CSS variable references (var(--color-name)) for automatic theming
  */
-export { colors } from './custom/custom.colors';
+export { colors } from './project/project.colors';
