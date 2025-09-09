@@ -81,7 +81,14 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     return allPadsConfig[routeConfig.fieldKey];
   }, [routeConfig.fieldKey, currentLanguage, routeConfig.route]);
 
-  const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T;
+  const loaderData = useMemo(() => {
+    try {
+      return useRouteLoaderData(routeConfig.fieldKey || 'root') as T;
+    } catch (error) {
+      console.error('useRouteConfig: Error loading route data:', error);
+      return [] as unknown as T;
+    }
+  }, [routeConfig.fieldKey]);
 
   // Build the result with all required properties
   const result: RequiredRouteConfig<T> = {

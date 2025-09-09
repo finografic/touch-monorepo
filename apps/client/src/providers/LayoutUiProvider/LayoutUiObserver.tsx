@@ -78,26 +78,32 @@ export const useLayoutUiObserver = () => {
         return;
       }
 
-      if (loaderData && padsConfig && dataPool) {
-        log('orders - dataPool', 'grey', dataPool);
+      try {
+        if (loaderData && padsConfig && dataPool) {
+          log('orders - dataPool', 'grey', dataPool);
 
-        isInitializedRef.current[fieldKey] = false;
+          isInitializedRef.current[fieldKey] = false;
 
-        // Pass the full locale to maintain regional information
-        store.handleRouteChange(
-          fieldKey,
-          loaderData,
-          padsConfig,
-          dataPool,
-          sessionServerFieldMap,
-          currentLanguage, // ✅ Pass full locale (e.g., 'es-ES', 'en-GB', 'ca-ES')
-        );
+          // Pass the full locale to maintain regional information
+          store.handleRouteChange(
+            fieldKey,
+            loaderData,
+            padsConfig,
+            dataPool,
+            sessionServerFieldMap,
+            currentLanguage, // ✅ Pass full locale (e.g., 'es-ES', 'en-GB', 'ca-ES')
+          );
+          isInitializedRef.current[fieldKey] = true;
+        } else {
+          store.handleRouteChange(fieldKey, [], {} as any, [], {});
+        }
+      } catch (error) {
+        console.error('LayoutUiObserver: Error handling route change:', error);
+        // Fallback: still mark as initialized to prevent infinite loops
         isInitializedRef.current[fieldKey] = true;
-      } else {
-        store.handleRouteChange(fieldKey, [], {} as any, [], {});
       }
     }
-  }); // No dependency array - runs on every render but only acts on actual changes
+  }, [fieldKey, loaderData, dataPool, currentSessionId, currentLanguage, sessions, store]); // ✅ Add proper dependencies
 
   // Subscription 2: Handle pad changes for pagination
   useEffect(() => {
@@ -108,7 +114,7 @@ export const useLayoutUiObserver = () => {
       const checkedCount = store.pads.filter((pad) => pad.isChecked).length;
       setIsNextDisabled(checkedCount < padsConfig.minRequired);
     }
-  }); // No dependency array - runs on every render but has built-in guards
+  }, [store.pads, fieldKey, padsConfig?.minRequired, setIsNextDisabled]); // ✅ Add proper dependencies
 
   // Subscription 3: Sync filters from useFilters to OrdersContext
   useEffect(() => {

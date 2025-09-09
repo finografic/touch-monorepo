@@ -64,65 +64,9 @@ The "closest temperature" logic in `findClosestProfile()` is essential - without
 
 ## TODO List & Implementation Plan
 
-### 1. Temperature System Cleanup
+### 1. Selection State Consolidation
 
-**Priority**: HIGH | **Complexity**: MEDIUM | **Risk**: LOW | **Order**: 1st
-
-#### Background
-
-The temperature system has been partially cleaned up but still contains multiple hooks and potentially redundant server routes. The core logic is sound, but there may be unnecessary complexity.
-
-#### Approaches
-
-**Approach A: Audit & Consolidate (Recommended)**
-1. **Audit all temperature-related files**:
-   - `useTemperatureControl.ts`
-   - `useTemperatureManagement.ts`
-   - `useTemperatureCalculation.ts` (if exists)
-   - Temperature server routes in `apps/server/src/routes/`
-   - Temperature-related API endpoints
-
-2. **Identify redundancies**:
-   - Multiple hooks doing similar calculations
-   - Overlapping server endpoints
-   - Duplicate temperature state management
-
-3. **Consolidate logic**:
-   - Merge redundant hooks into single `useTemperatureControl`
-   - Remove unused server routes
-   - Centralize temperature state in OrdersContext
-
-4. **Preserve critical logic**:
-   - Keep `findClosestProfile()` function intact
-   - Maintain `getTimeValueForItemType()` calculation
-   - Ensure timer creation flow remains unchanged
-
-**Approach B: Complete Rewrite (If Approach A reveals major issues)**
-1. Design new temperature management architecture
-2. Implement single temperature context
-3. Create unified calculation pipeline
-4. Migrate existing functionality
-
-#### Gotchas
-
-- **CRITICAL**: Don't break the "closest temperature" logic - this prevents MainPage failures
-- Ensure both PATH_A (manual flow) and PATH_B (mock flow) still work
-- Test timer creation with various temperature profiles
-- Verify temperature form rendering still works
-- Check that `useTemperatureControl.onSuccess` callback still functions
-
-#### Success Criteria
-
-- Single source of truth for temperature calculations
-- No redundant hooks or server routes
-- All existing functionality preserved
-- Cleaner, more maintainable code
-
----
-
-### 2. Selection State Consolidation
-
-**Priority**: HIGH | **Complexity**: MEDIUM | **Risk**: MEDIUM | **Order**: 2nd
+**Priority**: HIGH | **Complexity**: MEDIUM | **Risk**: MEDIUM | **Order**: 1st
 
 #### Background
 
@@ -174,9 +118,9 @@ Currently, selection state is tracked in three places: `orders[].isSelected`, `m
 
 ---
 
-### 3. useFilters Hook Refactoring
+### 2. useFilters Hook Refactoring
 
-**Priority**: MEDIUM | **Complexity**: HIGH | **Risk**: MEDIUM | **Order**: 3rd
+**Priority**: MEDIUM | **Complexity**: HIGH | **Risk**: MEDIUM | **Order**: 2nd
 
 #### Background
 
@@ -244,9 +188,9 @@ The `useFilters` hook is doing too much: managing complete dataset, filter state
 
 ---
 
-### 4. Orders vs Orders_Readable Migration
+### 3. Orders vs Orders_Readable Migration
 
-**Priority**: MEDIUM | **Complexity**: HIGH | **Risk**: HIGH | **Order**: 4th
+**Priority**: MEDIUM | **Complexity**: HIGH | **Risk**: HIGH | **Order**: 3rd
 
 #### Background
 
