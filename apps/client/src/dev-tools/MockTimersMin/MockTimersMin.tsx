@@ -1,29 +1,42 @@
 import { useOrders } from 'providers/OrdersProvider';
+import { useTimers } from 'providers/TimersProvider';
 import { TimerIcon } from 'styles/icons';
 import { useCallback } from 'react';
 import { hasProcessingTimers } from 'components/Timer/timers.utils';
 
 export const MockTimersMin = () => {
   const { orders, setOrderProcessing } = useOrders();
+  const { timers, updateTimerByOrderId } = useTimers();
 
   const handleSetMinTimers = useCallback(() => {
     // Configuration for timer reduction
-    const PERCENTAGE = 0.075; // 10% of remaining time (adjust as needed: 0.05 = 5%, 0.2 = 20%)
-    const MIN_DURATION = 3; // Minimum 3 seconds fallback
+    const PERCENTAGE = 0.05; // 5% of remaining time
+    const MIN_DURATION = 5; // Minimum 5 seconds fallback
 
-    orders.forEach((order) => {
-      if (order.process.status === 'processing' && order.process.timeRemaining) {
-        // Calculate percentage of remaining time
-        const percentageDuration = Math.floor(order.process.timeRemaining * PERCENTAGE);
+    // Find processing timers and update them
+    const processingTimers = timers.filter((timer) => timer.status === 'processing');
 
-        // Use the larger of percentage or minimum duration
-        // This preserves relative timing differences while ensuring no timer is too short
-        const newDuration = Math.max(percentageDuration, MIN_DURATION);
+    processingTimers.forEach((timer) => {
+      // Calculate percentage of remaining time
+      const percentageDuration = Math.floor(timer.remaining * PERCENTAGE);
 
-        console.debug(
-          `Timer ${order.itemNumber}: ${order.process.timeRemaining}s → ${newDuration}s (${Math.round(PERCENTAGE * 100)}% or min ${MIN_DURATION}s)`,
-        );
+      // Use the larger of percentage or minimum duration
+      const newDuration = Math.max(percentageDuration, MIN_DURATION);
 
+      console.debug(
+        `Timer ${timer.slotNumber}: ${timer.remaining}s → ${newDuration}s (${Math.round(PERCENTAGE * 100)}% or min ${MIN_DURATION}s)`,
+      );
+
+      // Update the timer with new duration and remaining time
+      updateTimerByOrderId(timer.orderId, {
+        duration: newDuration,
+        remaining: newDuration,
+        estimatedCompletionTime: new Date(Date.now() + newDuration * 1000).toISOString(),
+      });
+
+      // Also update the corresponding order
+      const order = orders.find((o) => o.itemNumber === timer.slotNumber);
+      if (order) {
         setOrderProcessing({
           itemNumber: order.itemNumber,
           duration: newDuration,
@@ -31,7 +44,7 @@ export const MockTimersMin = () => {
         });
       }
     });
-  }, [orders, setOrderProcessing]);
+  }, [orders, timers, setOrderProcessing, updateTimerByOrderId]);
 
   // Only show when there are processing timers
   if (!hasProcessingTimers(orders)) return null;
