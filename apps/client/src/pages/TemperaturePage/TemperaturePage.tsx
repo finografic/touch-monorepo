@@ -21,7 +21,7 @@ interface TemperatureState {
 }
 
 export const TemperaturePage = () => {
-  const { ordersReadable, profile } = useOrders();
+  const { profile, ordersReadable } = useOrders();
   const { dataFiltered } = useFilters();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
@@ -30,6 +30,7 @@ export const TemperaturePage = () => {
   });
 
   // Extract temperature profiles from the profile data (filtered order)
+  // Fallback to first order if profile is not set (safety net for edge cases)
   const currentOrder = profile || ordersReadable[0];
   const temperatureProfiles = currentOrder?.temperatureProfiles ?? [];
 
