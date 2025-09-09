@@ -20,8 +20,8 @@ export const SessionAndTimers = () => {
         <pre>{JSON.stringify(mainPageSelectedSlots, null, 2)}</pre>
       </div>
       <div className="results-list">
-        <h4>Timers: {timers.length}</h4>
-        <pre>{JSON.stringify(timers, null, 2)}</pre>
+        {/* <h4>Timers: {timers.length}</h4> */}
+        {/* <pre>{JSON.stringify(timers, null, 2)}</pre> */}
         <DevDataTable
           data={timers}
           title={`Timers: ${timers.length}`}
