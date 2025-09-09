@@ -80,7 +80,8 @@ export const styles = css`
       color: ${colors.textXLight90};
 
       /* Ensure p elements inside result-col also have correct font size */
-      p {
+      p,
+      span {
         font-size: 0.85rem !important;
         font-family: monospace;
         margin: 0;
@@ -112,6 +113,7 @@ export const styles = css`
   pre {
     color: ${colors.textXLight90};
     font-size: 0.7rem !important;
+    font-size: 0.8rem !important;
     line-height: 1.5;
     width: 100%;
     min-width: fit-content;

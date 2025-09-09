@@ -53,14 +53,40 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   const { startTemperatureControl, isLoading: isTemperatureLoading } = useTemperatureControl({
     onSuccess: (calculatedDurations) => {
+      console.log('%c _BUTTON: onSuccess called with durations', 'color: #4a90e2', calculatedDurations);
+      console.log('%c _BUTTON: mainPageSelectedSlots', 'color: #4a90e2', mainPageSelectedSlots);
+      console.log('%c _BUTTON: orders', 'color: #4a90e2', orders);
+      console.log('%c _BUTTON: currentSessionId', 'color: #4a90e2', currentSessionId);
+
+      // 🎯 FIX: If mainPageSelectedSlots is empty, use selected orders from OrdersContext
+      const slotsToProcess =
+        mainPageSelectedSlots.length > 0
+          ? mainPageSelectedSlots
+          : orders.filter((order) => order.isSelected).map((order) => order.itemNumber);
+
+      console.log('%c _BUTTON: slotsToProcess', 'color: #4a90e2', slotsToProcess);
+
       startTransition(function updateProcessForSelectedOrders() {
+        console.log('%c _BUTTON: Inside startTransition', 'color: #4a90e2', '');
+
         // First, set orders to processing state and create timers
-        mainPageSelectedSlots.forEach((slotNumber) => {
+        slotsToProcess.forEach((slotNumber) => {
+          console.log('%c _BUTTON: Processing slot', 'color: #4a90e2', slotNumber);
+
           const order = orders.find((o) => o.itemNumber === slotNumber);
+          console.log('%c _BUTTON: Found order for slot', 'color: #4a90e2', slotNumber, order);
+
           if (order) {
             const duration = calculatedDurations[order.itemNumber.toString()];
+            console.log('%c _BUTTON: Duration for slot', 'color: #4a90e2', slotNumber, duration);
 
             // Set order to processing
+            console.log(
+              '%c _BUTTON: Setting order to processing',
+              'color: #4a90e2',
+              order.itemNumber,
+              duration,
+            );
             setOrderProcessing({
               itemNumber: order.itemNumber,
               duration,
@@ -69,6 +95,15 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
             // Check if there's already a timer for this slot
             const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
             const orderId = existingTimer?.orderId || createCuid();
+            console.log(
+              '%c _BUTTON: Creating timer for slot',
+              'color: #4a90e2',
+              slotNumber,
+              'duration:',
+              duration,
+              'orderId:',
+              orderId,
+            );
 
             addTimer({
               sessionId: currentSessionId!,
@@ -80,6 +115,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
               status: 'processing',
               estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
             });
+          } else {
+            console.error('%c _BUTTON: No order found for slot', 'color: #ff0000', slotNumber);
           }
         });
 
@@ -170,13 +207,21 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   }, [selectAllMainPageSlots]);
 
   const handleStartProductProcess = useCallback(() => {
+    console.log('%c _BUTTON: handleStartProductProcess called', 'color: #4a90e2', '');
+    console.log('%c _BUTTON: location.pathname', 'color: #4a90e2', location.pathname);
+    console.log('%c _BUTTON: ALTERNATIVE_PATHS.time', 'color: #4a90e2', ALTERNATIVE_PATHS.time);
+    console.log('%c _BUTTON: profile', 'color: #4a90e2', profile);
+    console.log('%c _BUTTON: orders', 'color: #4a90e2', orders);
+    console.log('%c _BUTTON: mainPageSelectedSlots', 'color: #4a90e2', mainPageSelectedSlots);
+
     // Only use temperature control if NOT on TimePage
     if (location.pathname !== ALTERNATIVE_PATHS.time) {
+      console.log('%c _BUTTON: Calling startTemperatureControl...', 'color: #4a90e2', '');
       startTemperatureControl();
     } else {
       console.warn('handleStartProductProcess: Called on TimePage but should use handleStartTimeProcess');
     }
-  }, [startTemperatureControl, location.pathname]);
+  }, [startTemperatureControl, location.pathname, profile, orders, mainPageSelectedSlots]);
 
   const handleStartTimeProcess = useCallback(
     (duration: number) => {

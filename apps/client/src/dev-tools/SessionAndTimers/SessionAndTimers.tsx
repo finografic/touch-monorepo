@@ -15,7 +15,7 @@ export const SessionAndTimers = () => {
       <div className="results-list">
         <h4>Timers: {timers.length}</h4>
         <pre>{JSON.stringify(timers, null, 2)}</pre>
-        {/* {timers.map((timer: TimerItem) => (
+        {timers.map((timer: TimerItem) => (
           <div key={timer.id} className="result-row">
             <div className="result-col" style={{ flex: 0.5 }}>
               <strong>{timer.orderId}</strong>
@@ -35,8 +35,8 @@ export const SessionAndTimers = () => {
             <div className="result-col" style={{ flex: 1 }}>
               <strong style={{ opacity: 0.33 }}>{timer.sessionId.slice(-8)}</strong>
             </div>
-          </div> */}
-        {/* ))} */}
+          </div>
+        ))}
       </div>
     </div>
   );

@@ -5,6 +5,7 @@ import { transformPadData } from 'utils/data.utils';
 import { DevFilterResults } from 'dev-tools/DevFilterResults/DevFilterResults';
 import { stylesLeft } from './DevPanels.styles';
 import { DevOrderProfile } from 'dev-tools/DevOrderProfile/DevOrderProfile';
+import { SessionAndTimers } from 'dev-tools/SessionAndTimers/SessionAndTimers';
 
 export const DevPanelLeft = () => {
   const location = useLocation();
@@ -16,6 +17,7 @@ export const DevPanelLeft = () => {
   }
 
   if (!['/', '/time'].includes(location.pathname)) {
+    return <SessionAndTimers />;
     return <DevFilterResults />;
   }
 
@@ -28,7 +30,7 @@ export const DevPanelLeft = () => {
 
   return (
     <aside id="dev-data-left" css={stylesLeft}>
-      <pre>{JSON.stringify(devDataLeft, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(devDataLeft, null, 2)}</pre> */}
     </aside>
   );
 };
