@@ -91,24 +91,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
   const startTemperatureControl = useCallback(async () => {
     try {
-      // 🔍 DEBUG: Log all the key data
-      console.log('%c _TEMP: TEMPERATURE CONTROL DEBUG START', 'color: #ff6b35', '');
-      console.log('%c _TEMP: filters', 'color: #ff6b35', filters);
-      console.log('%c _TEMP: currentFilter', 'color: #ff6b35', currentFilter);
-      console.log('%c _TEMP: profile', 'color: #ff6b35', profile);
-      console.log('%c _TEMP: temperatureProfiles', 'color: #ff6b35', temperatureProfiles);
-      console.log('%c _TEMP: orders', 'color: #ff6b35', orders);
-      console.log(
-        '%c _TEMP: selectedOrders',
-        'color: #ff6b35',
-        orders.filter((order) => order.isSelected),
-      );
-
       if (!currentFilter?.initial || !currentFilter?.final) {
-        console.error('%c _TEMP: ERROR: Missing temperature values', 'color: #ff0000');
-        console.error('%c _TEMP: currentFilter available', 'color: #ff0000', !!currentFilter);
-        console.error('%c _TEMP: initial temp', 'color: #ff0000', currentFilter?.initial);
-        console.error('%c _TEMP: final temp', 'color: #ff0000', currentFilter?.final);
         throw new Error('Initial and final temperatures must be set');
       }
 
@@ -118,14 +101,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
       }
 
       // Find closest available profiles for initial and final temperatures
-      console.log(
-        '%c _TEMP: Finding profiles for initial',
-        'color: #ff6b35',
-        currentFilter.initial,
-        'final:',
-        currentFilter.final,
-      );
-
       const initialProfile = findClosestProfile(
         temperatureProfiles,
         currentFilter.initial,
@@ -136,9 +111,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         currentFilter.final,
         currentFilter.final,
       ) as TemperatureProfile;
-
-      console.log('%c _TEMP: Found initialProfile', 'color: #ff6b35', initialProfile);
-      console.log('%c _TEMP: Found finalProfile', 'color: #ff6b35', finalProfile);
 
       if (!initialProfile) {
         throw new Error(
@@ -159,19 +131,11 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
       }
 
       // Calculate durations for each selected order based on their item type
-      console.log('%c _TEMP: Calculating durations for selectedOrders', 'color: #ff6b35', selectedOrders);
-
       const calculatedDurations = selectedOrders.reduce<Record<string, number>>((acc, order) => {
         const duration = getTimeValueForItemType(initialProfile, finalProfile, order.itemType);
-        console.log(
-          `%c _TEMP: Order ${order.itemNumber} (${order.itemType}): duration = ${duration}s`,
-          'color: #ff6b35',
-        );
         acc[order.itemNumber.toString()] = duration;
         return acc;
       }, {});
-
-      console.log('%c _TEMP: calculatedDurations', 'color: #ff6b35', calculatedDurations);
 
       // Also calculate durations for all item types (A, B, C) for future use
       const itemTypeDurations = {
@@ -203,14 +167,10 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         selectedOrders: selectedOrders.map((order) => order.itemNumber),
       };
 
-      console.log('%c _TEMP: Saving config', 'color: #ff6b35', configToSave);
       await saveConfig(configToSave);
 
       // Call onSuccess with the calculated durations map
-      console.log('%c _TEMP: Calling onSuccess with durations', 'color: #ff6b35', calculatedDurations);
       options.onSuccess?.(calculatedDurations);
-
-      console.log('%c _TEMP: TEMPERATURE CONTROL DEBUG END - SUCCESS', 'color: #00ff00', '');
     } catch (error) {
       console.error('Temperature control error:', error);
       options.onError?.(error as Error);

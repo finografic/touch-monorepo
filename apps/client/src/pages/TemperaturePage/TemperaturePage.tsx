@@ -77,39 +77,6 @@ export const TemperaturePage = () => {
 
   return (
     <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
-      {/* 🔍 DEBUG: On-screen data dump */}
-      <Box
-        style={{
-          position: 'fixed',
-          top: '10px',
-          right: '10px',
-          background: 'rgba(0,0,0,0.8)',
-          color: 'white',
-          padding: '10px',
-          fontSize: '12px',
-          zIndex: 9999,
-          pointerEvents: 'none',
-          maxWidth: '400px',
-          maxHeight: '300px',
-          overflow: 'auto',
-        }}
-      >
-        <div>
-          <strong>🔍 TEMPERATURE PAGE DEBUG</strong>
-        </div>
-        <div>currentOrder: {currentOrder ? 'YES' : 'NO'}</div>
-        <div>currentOrder.id: {currentOrder?.id || 'NONE'}</div>
-        <div>temperatureProfiles.length: {temperatureProfiles.length}</div>
-        <div>temperatures: {JSON.stringify(temperatures)}</div>
-        <div>closestProfile: {closestProfile ? `${closestProfile.temperature}°C` : 'NONE'}</div>
-        <div>minProfileTemp: {minProfileTemp}</div>
-        <div>minMaxTemperatures: {JSON.stringify(minMaxTemperatures)}</div>
-        <div>dataFiltered.length: {dataFiltered.length}</div>
-        <div>ordersReadable.length: {ordersReadable.length}</div>
-        <div>profile: {profile ? 'YES' : 'NO'}</div>
-        <div>profile.id: {profile?.id || 'NONE'}</div>
-      </Box>
-
       <Flex direction="column" gap="3" justify="center" css={styles}>
         <Flex gap="3" justify="center" className="page-description">
           <Box>
