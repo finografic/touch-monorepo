@@ -90,15 +90,10 @@ export function tickAction({
   orderId: string | number;
   eventNumber: number;
 }) {
-  // log(`EVENT: ${elapsed}s elapsed, ${remaining}s remaining (order ${orderId})`, 'grey');
-
-  // Only play sound every EVENT_INTERVAL (when eventNumber changes)
-  // This prevents playing sound every second while still logging every second
+  // NOTE: Only play sound every EVENT_INTERVAL (when eventNumber changes)
   if (eventNumber > 0 && remaining % EVENT_INTERVAL === 0) {
-    // log('timer: ding!', 'hotpink', { elapsed, remaining, orderId });
-    playTickSound().catch(() => {
-      // Silent fallback
-    });
+    // TODO: REMOVED - no tick sound, for now..
+    // playTickSound().catch(() => { /* Silent fallback */ });
   }
 }
 

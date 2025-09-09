@@ -10,7 +10,7 @@ import { styles } from './PadSlot.styles';
 import type { DataEntry } from 'types/data.types';
 import { Pad } from 'components/Pads/Pad';
 import { OrderFieldKeys } from 'constants/app.config';
-import { TimerV2 } from 'components/Timer/TimerV2';
+import { TimerV2 } from 'components/Timer/Timer';
 
 export interface PadMenuProps {
   itemType: ItemType;
