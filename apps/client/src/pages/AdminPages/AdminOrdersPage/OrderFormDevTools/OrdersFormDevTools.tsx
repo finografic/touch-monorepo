@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { Button } from 'components/Button';
-import { useDev } from 'providers/DevProvider';
+import { useDev } from 'dev-tools/providers/DevProvider';
 import type { OrdersFormValues } from '../OrdersForm/OrdersForm.schema';
 import { stylesFormValues } from './OrdersFormDevTools.styles';
 import { useOrdersFormDevTools } from 'pages/AdminPages/AdminOrdersPage/OrderFormDevTools/useOrdersFormDevTools';

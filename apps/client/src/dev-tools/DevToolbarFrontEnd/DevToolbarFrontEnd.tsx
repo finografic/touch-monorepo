@@ -1,6 +1,6 @@
 import { Box, Flex } from '@radix-ui/themes';
 import { styles } from './DevToolbarFrontEnd.styles';
-import { useDev } from 'providers/DevProvider/DevContext';
+import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { LockIcon, TextAlignTopIcon } from 'styles/icons';
 import { QueryDevtoolsPanel } from '../QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { DevScreenSize } from '../DevScreenSize/DevScreenSize';

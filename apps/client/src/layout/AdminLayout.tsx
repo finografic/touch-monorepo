@@ -3,7 +3,7 @@ import type { FC } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
 import { ContentProvider } from 'providers/ContentProvider';
-import { DevProvider } from 'providers/DevProvider/DevProvider';
+import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { Loader } from 'components/Loader/Loader';
 import { useIsMounted } from 'hooks/useIsMounted';

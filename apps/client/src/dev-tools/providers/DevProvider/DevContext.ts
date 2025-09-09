@@ -18,7 +18,7 @@ export enum DevKeys {
 
 export const defaultValue: DevValues = {
   // isDevToolsVisible: process.env.NODE_ENV === 'development',
-  isDevToolsVisible: false,
+  isDevToolsVisible: true,
   isDevQueryPanelOpen: false,
   isDevDataVisible: false,
   isDevScreenSizeVisible: false,

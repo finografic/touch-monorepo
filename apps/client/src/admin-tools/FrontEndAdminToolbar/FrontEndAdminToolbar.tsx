@@ -10,7 +10,7 @@ import { ALTERNATIVE_PATHS } from 'routes/routes.config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { MockSessionTimer } from 'dev-tools/MockSessionTimer/MockSessionTimer';
-import { useDev } from 'providers/DevProvider';
+import { useDev } from 'dev-tools/providers/DevProvider';
 
 export const FrontEndAdminToolbar = () => {
   const { isDevToolsVisible } = useDev();

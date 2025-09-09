@@ -5,7 +5,7 @@ import type { RouteObject } from 'react-router-dom';
 import { useRouteLoaderData } from 'react-router-dom';
 import { NotFoundCard } from 'components/NotFoundCard';
 import { styles } from './NotFound.styles';
-import { useDev } from 'providers/DevProvider/DevContext';
+import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 
 const NotFound = (): ReactElement => {

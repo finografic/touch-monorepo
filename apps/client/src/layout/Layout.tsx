@@ -11,7 +11,7 @@ import { useIsMounted } from 'hooks/useIsMounted';
 import { Outlet } from 'react-router-dom';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { Loader } from '../components/Loader/Loader';
-import { DevProvider } from 'providers/DevProvider/DevProvider';
+import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
