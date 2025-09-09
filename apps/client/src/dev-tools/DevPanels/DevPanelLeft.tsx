@@ -16,10 +16,11 @@ export const DevPanelLeft = () => {
     return <DevOrderProfile />;
   }
 
-  if (!['/', '/time'].includes(location.pathname)) {
+  if (['/', '/time'].includes(location.pathname)) {
     return <SessionAndTimers />;
-    return <DevFilterResults />;
   }
+
+  return <DevFilterResults />;
 
   const devDataLeft = {
     pathname: location.pathname,
