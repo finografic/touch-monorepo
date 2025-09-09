@@ -1,9 +1,3 @@
-export { useCalculateTemperature } from './useCalculateTemperature';
-export type {
-  CalculateTemperatureRequest,
-  CalculateTemperatureResponse,
-  TemperaturePhase,
-} from './useCalculateTemperature';
 export { useGetTemperatureProfiles } from './useGetTemperatureProfiles';
 export { useGetTemperatureSettings } from './useGetTemperatureSettings';
 export type { GetTemperatureSettingsRequest, TemperatureSettings } from './useGetTemperatureSettings';
