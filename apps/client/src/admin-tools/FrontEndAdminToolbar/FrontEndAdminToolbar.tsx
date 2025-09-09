@@ -9,8 +9,11 @@ import { LanguageIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
 import { ALTERNATIVE_PATHS } from 'routes/routes.config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
+import { MockSessionTimer } from 'dev-tools/MockSessionTimer/MockSessionTimer';
+import { useDev } from 'providers/DevProvider';
 
 export const FrontEndAdminToolbar = () => {
+  const { isDevToolsVisible } = useDev();
   const {
     isAdminToolsVisible,
     isTimerVisible,
@@ -76,6 +79,12 @@ export const FrontEndAdminToolbar = () => {
               <WindowIcon />
             </button>
           </Box> */}
+
+          {hasActiveTimer && isDevToolsVisible && (
+            <Box className="button-box">
+              <MockSessionTimer />
+            </Box>
+          )}
 
           {/* Timer visibility toggle - only show if there's an active timer */}
           {hasActiveTimer && (

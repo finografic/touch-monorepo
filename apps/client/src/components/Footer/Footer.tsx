@@ -12,10 +12,10 @@ export const Footer: FC = () => {
   return (
     <footer css={styles}>
       <Flex width="100%" justify="between" align="center">
-        <Flex justify="start" style={{ flex: '1' }}>
+        <Flex justify="start" style={{ flex: '1' }} className="col col-left">
           {location.pathname.startsWith('/admin') ? <AdminToolbar /> : <FrontEndAdminToolbar />}
         </Flex>
-        <Flex justify="end" style={{ flex: '1' }}>
+        <Flex justify="end" style={{ flex: '1' }} className="col col-right">
           {location.pathname.startsWith('/admin') ? <></> : <DevToolbarFrontEnd />}
         </Flex>
       </Flex>

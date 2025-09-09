@@ -35,15 +35,15 @@ export const stylesButtonBase = css`
   &[data-disabled='true'] {
     opacity: ${button.disabled.opacity};
     cursor: not-allowed;
-    color: ${colors.default66} !important;
-    border-color: ${colors.defaultLight66};
+    color: ${colors.default40} !important;
+    border-color: ${colors.defaultLight50};
     background-color: transparent;
     pointer-events: none;
 
     /* Ensure hover states don't override */
     &:hover {
-      color: ${colors.default66} !important;
-      border-color: ${colors.defaultLight66};
+      color: ${colors.default40} !important;
+      border-color: ${colors.defaultLight50};
       background-color: transparent;
       transform: none;
     }

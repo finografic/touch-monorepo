@@ -39,17 +39,13 @@ export const DevToolbarFrontEnd = () => {
         {isDevToolsVisible && <DevPanelLeft />}
         {/* {isDevToolsVisible && <DevPanelRight />} */}
       </>
-      <div css={styles}>
+      <div id="__DEV__" css={styles}>
         <Flex gap="3" align="center">
           {hasProcessingTimers(orders) && (
             <Box className="button-box">
               <MockTimersMin />
             </Box>
           )}
-
-          <Box className="button-box">
-            <MockSessionTimer />
-          </Box>
 
           <Box className="button-box">
             <MockOrdersButton />
@@ -81,11 +77,11 @@ export const DevToolbarFrontEnd = () => {
         </Flex>
       </div>
 
-      <AuthStatusDialog isOpen={isDevAuthVisible} onClose={() => setIsDevAuthVisible(false)} />
+      {/* <AuthStatusDialog isOpen={isDevAuthVisible} onClose={() => setIsDevAuthVisible(false)} />
       <AuthLoginSimpleDialog
         isOpen={isDevSimpleLoginVisible}
         onClose={() => setIsDevSimpleLoginVisible(false)}
-      />
+      /> */}
       {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
     </>
   );

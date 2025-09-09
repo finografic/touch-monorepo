@@ -2,38 +2,33 @@ import { css } from '@emotion/react';
 import { baseToolbarStyles } from 'admin-tools/toolbar.styles';
 import { colors } from 'styles';
 
-/**
- * DevToolbarFrontEnd styles - extends base toolbar styles with grey color scheme
- */
 export const styles = css`
   ${baseToolbarStyles}
 
-  /* Override positioning to right-align icons */
-  justify-content: flex-end !important;
+  justify-content: flex-end;
 
-  /* Override button colors to grey for DevTools - very specific selectors */
   .button-box button.btn {
     svg.icon {
-      color: ${colors.greyDark} !important;
+      color: ${colors.default40};
     }
     &:hover {
       border-color: transparent;
-      background-color: ${colors.grey10} !important;
+      background-color: ${colors.grey10};
       svg.icon {
-        color: ${colors.greyLight} !important;
+        color: ${colors.greyLight};
       }
     }
 
     &.active {
       svg.icon {
-        color: ${colors.warningDark} !important;
+        color: ${colors.warningDark};
       }
     }
   }
 
   button.btn.btn-toggle-query-panel {
     svg.icon {
-      transform: translate(-2px, 4px);
+      transform: translate(-2px, 4px) scale(1.1);
     }
   }
   button.btn.btn-toggle-auth {

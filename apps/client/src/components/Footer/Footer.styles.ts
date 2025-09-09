@@ -12,8 +12,17 @@ export const styles = css`
   align-items: center;
   justify-content: space-between; /* Ensure proper spacing between left and right toolbars */
 
+  /* > div > div:first-child { */
+  .col.col-left {
+    flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    padding-left: 2rem;
+  }
+
   /* Ensure right side takes full width for proper alignment */
-  > div:last-child {
+  /* > div > div:last-child { */
+  .col.col-right {
     flex: 1;
     display: flex;
     justify-content: flex-end;
