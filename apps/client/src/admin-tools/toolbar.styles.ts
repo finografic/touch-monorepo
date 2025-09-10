@@ -19,19 +19,6 @@ export const baseToolbarStyles = css`
   box-sizing: border-box;
   z-index: 1500;
 
-  .button-box {
-    width: auto;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    margin-left: 0.25rem;
-    &:first-of-type {
-      margin-left: 2rem;
-    }
-  }
-
   button {
     ${stylesButton}
     padding: 0.75rem 1rem;
@@ -39,12 +26,17 @@ export const baseToolbarStyles = css`
     width: auto;
     border-width: 0;
     svg.icon {
-      color: ${colors.text};
+      color: ${colors.infoXLight};
+      border-color: ${colors.infoXLight};
+      stroke: ${colors.infoXLight};
     }
     &:hover {
       border-color: transparent;
       svg.icon {
         color: ${colors.info};
+        color: ${colors.info};
+        border-color: ${colors.info};
+        stroke: ${colors.info};
       }
     }
 

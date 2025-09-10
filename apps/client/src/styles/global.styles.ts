@@ -10,6 +10,7 @@ import {
   generateCssColorVariables,
   generateCssColorVariablesTransparency,
 } from './utils/generate-css-variables.utils';
+import { colors } from 'styles';
 
 export const cssGlobal = css`
   /* Use CSS layers to ensure our styles override Radix */
@@ -161,5 +162,13 @@ export const cssGlobal = css`
     &:first-of-type {
       margin-left: 2rem;
     }
+  }
+
+  svg.icon {
+    color: ${colors.infoXLight};
+  }
+
+  svg[width][height].icon {
+    color: ${colors.infoXLight};
   }
 `;
