@@ -75,7 +75,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   });
   const [canAddRow, setCanAddRow] = useState(false);
 
-  const { currentLanguage } = useContent();
+  const { currentLanguage } = useAppConfig();
 
   // ========================================================================
   // Form Setup

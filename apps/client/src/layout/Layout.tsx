@@ -19,34 +19,7 @@ import { TimersProvider } from 'providers/TimersProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { setConfiguration } from 'react-grid-system';
 import { DevGuidesLayer } from 'dev-tools/DevGuidesLayer/DevGuidesLayer';
-import { useRouteChangeHandler } from 'hooks/useRouteChangeHandler';
-
-const LayoutContent: FC = () => {
-  // Handle route changes and filter syncing
-  useRouteChangeHandler();
-
-  return (
-    <div id="layout" css={styles}>
-      <Header />
-      <main>
-        <div className="main-content">
-          <section>
-            <PageHeader />
-            <div className="page-content" role="main">
-              <Suspense fallback={<Loader message="Loading..." />}>
-                <Outlet />
-              </Suspense>
-            </div>
-            <nav className="page-navigation">
-              <Navigation />
-            </nav>
-          </section>
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
-};
+import { ContentProvider } from 'providers/ContentProvider';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
@@ -74,7 +47,27 @@ export const Layout: FC = () => {
               <AdminProvider>
                 <DevProvider>
                   <DevGuidesLayer>
-                    <LayoutContent />
+                    <ContentProvider>
+                      <div id="layout" css={styles}>
+                        <Header />
+                        <main>
+                          <div className="main-content">
+                            <section>
+                              <PageHeader />
+                              <div className="page-content" role="main">
+                                <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                  <Outlet />
+                                </Suspense>
+                              </div>
+                              <nav className="page-navigation">
+                                <Navigation />
+                              </nav>
+                            </section>
+                          </div>
+                        </main>
+                        <Footer />
+                      </div>
+                    </ContentProvider>
                   </DevGuidesLayer>
                 </DevProvider>
               </AdminProvider>

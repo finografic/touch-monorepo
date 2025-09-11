@@ -11,12 +11,12 @@ import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
 import { AuthProvider } from 'providers/AuthProvider/AuthContext';
-import { ContentProvider } from 'providers/ContentProvider';
+import { AppConfigProvider } from 'providers/AppConfigProvider';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
     <Global styles={cssGlobal} />
-    <ContentProvider>
+    <AppConfigProvider>
       <AuthProvider>
         <ScreenClassProvider>
           <Suspense fallback={<Spinner size="3" />}>
@@ -24,7 +24,7 @@ const AppBaseLayout = () => (
           </Suspense>
         </ScreenClassProvider>
       </AuthProvider>
-    </ContentProvider>
+    </AppConfigProvider>
   </ErrorBoundary>
 );
 

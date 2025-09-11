@@ -3,15 +3,15 @@ import { styles } from './Header.styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useContent } from 'providers/ContentProvider/ContentContext';
 import { ThemeToggle } from 'components/ThemeToggle';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 export const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const { currentSessionId } = useSession();
-  const { currentLanguage } = useContent();
+  const { currentLanguage } = useAppConfig();
 
   return (
     <header css={styles}>

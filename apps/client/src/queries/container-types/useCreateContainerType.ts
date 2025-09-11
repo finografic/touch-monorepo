@@ -17,7 +17,7 @@ export interface CreateContainerTypeInput {
  */
 export const useCreateContainerType = () => {
   const queryClient = useQueryClient();
-  const { currentLanguage } = useContent();
+  const { currentLanguage } = useAppConfig();
 
   return useMutation({
     mutationFn: async (data: CreateContainerTypeInput): Promise<ContainerType> => {

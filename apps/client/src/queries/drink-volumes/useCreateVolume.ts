@@ -3,8 +3,8 @@ import { api } from 'api';
 import { transformAxiosError } from 'api/api.utils';
 import { GET_DRINK_VOLUMES_QUERYKEY } from '.';
 import type { DrinkVolume } from 'types/models/volume.model';
-import { useContent } from 'providers/ContentProvider/ContentContext';
 import { slugify } from 'utils/string.utils';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 export interface CreateVolumeInput {
   name: string;
@@ -19,7 +19,7 @@ export interface CreateVolumeInput {
  */
 export const useCreateVolume = () => {
   const queryClient = useQueryClient();
-  const { currentLanguage } = useContent();
+  const { currentLanguage } = useAppConfig();
 
   return useMutation({
     mutationFn: async (data: CreateVolumeInput): Promise<DrinkVolume> => {

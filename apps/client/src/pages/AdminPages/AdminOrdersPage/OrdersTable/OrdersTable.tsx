@@ -23,7 +23,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   onClickEdit,
   onClickDelete,
 }) => {
-  const { currentLanguage } = useContent();
+  const { currentLanguage } = useAppConfig();
 
   return (
     <section css={styles} className="admin-content-page">

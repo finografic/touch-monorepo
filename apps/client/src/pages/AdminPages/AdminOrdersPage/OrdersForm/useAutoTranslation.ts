@@ -106,7 +106,7 @@ const translateText = async (
 export const useAutoTranslation = (options: AutoTranslationOptions = {}) => {
   const [isTranslating, setIsTranslating] = useState(false);
   const [translations, setTranslations] = useState<AutoTranslationResult>({});
-  const { currentLanguage } = useContent();
+  const { currentLanguage } = useAppConfig();
 
   const {
     enabled = false,

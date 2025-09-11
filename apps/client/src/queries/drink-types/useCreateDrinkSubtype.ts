@@ -19,7 +19,7 @@ export interface CreateDrinkSubtypeInput {
  */
 export const useCreateDrinkSubtype = () => {
   const queryClient = useQueryClient();
-  const { currentLanguage } = useContent();
+  const { currentLanguage } = useAppConfig();
 
   return useMutation({
     mutationFn: async (data: CreateDrinkSubtypeInput): Promise<DrinkSubtype> => {

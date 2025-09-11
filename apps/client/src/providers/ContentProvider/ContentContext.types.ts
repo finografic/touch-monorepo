@@ -1,26 +1,20 @@
-import type { ReactNode } from 'react';
-import type { ContentKeys, SETTER_PREFIX } from './ContentContext';
 import type { CreateSettersType } from 'utils/zustand';
+import type { ContentKeys } from './ContentContext';
 
 export interface ContentValues {
   [ContentKeys.title]: string;
-  [ContentKeys.currentLanguage]: string;
-  [ContentKeys.theme]: 'light' | 'dark';
 }
 
-type ContentSetters = CreateSettersType<ContentValues, typeof SETTER_PREFIX> & {
-  setCurrentLanguage: (languageCode: string) => void;
-  setTheme: (theme: 'light' | 'dark') => void;
-  toggleTheme: () => void;
-};
+const SETTER_PREFIX = 'Content';
+type ContentSetters = CreateSettersType<ContentValues, typeof SETTER_PREFIX>;
 
-type ContentActions = ContentSetters & {};
-
-export interface ContentProviderProps {
-  initialValue?: Partial<ContentStore>;
-  children: ReactNode;
-}
+export type ContentActions = ContentSetters;
 
 export interface ContentStore extends ContentValues {
   actions: ContentActions;
+}
+
+export interface ContentProviderProps {
+  initialValue?: Partial<ContentValues>;
+  children: React.ReactNode;
 }

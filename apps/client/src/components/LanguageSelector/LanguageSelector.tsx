@@ -1,23 +1,24 @@
 import { Flex, RadioCards, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
-import { useContent } from 'providers/ContentProvider/ContentContext';
 import { styles } from './LanguageSelector.styles';
 import type { LanguageSelectorProps, RegionLocale } from '@workspace/core/types';
 import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
 import { LanguagesDto } from 'queries/supported-languages';
 import { getFlagUrl } from 'utils/flag.utils';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {
   const { i18n } = useTranslation();
-  const { currentLanguage, setCurrentLanguage } = useContent();
+  const { currentLanguage, setCurrentLanguage } = useAppConfig();
 
   // Fetch supported languages from database
-  const { data: supportedLanguagesData, isLoading, error } = useGetSupportedLanguages();
+  const { data, isLoading, error } = useGetSupportedLanguages();
+  const supportedLanguagesData = data as SupportedLanguage[];
   const languages = supportedLanguagesData
-    ? LanguagesDto.fromApi(supportedLanguagesData as SupportedLanguage[], (flagCode) =>
-        getFlagUrl(flagCode, 'medium'),
-      ).filter((language) => language.isActive)
+    ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium')).filter(
+        (language) => language.isActive,
+      )
     : [];
 
   const handleLanguageChange = (languageCode: string) => {

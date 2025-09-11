@@ -16,7 +16,7 @@ import { ReadableSalt } from 'constants/readable-salt.constants';
 import clsx from 'clsx';
 
 export const AdminOrdersPage: React.FC = () => {
-  const { currentLanguage } = useContent();
+  const { currentLanguage } = useAppConfig();
   const [searchTerm, setSearchTerm] = useState('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { toast } = useToast();
