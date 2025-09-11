@@ -28,14 +28,12 @@ export const baseToolbarStyles = css`
     svg.icon {
       color: ${colors.infoXLight};
       border-color: ${colors.infoXLight};
-      stroke: ${colors.infoXLight};
     }
     &:hover {
       border-color: transparent;
       svg.icon {
         color: ${colors.info};
         border-color: ${colors.info};
-        stroke: ${colors.info};
       }
     }
 
