@@ -34,7 +34,6 @@ export const baseToolbarStyles = css`
       border-color: transparent;
       svg.icon {
         color: ${colors.info};
-        color: ${colors.info};
         border-color: ${colors.info};
         stroke: ${colors.info};
       }

@@ -425,7 +425,6 @@ export const getButtonStyles = (variant: ButtonVariant, color: ButtonStatusColor
     }
 
     &:disabled {
-      /* Inherit disabled styles from base button styles */
       opacity: ${opacities.disabled};
       cursor: not-allowed;
     }

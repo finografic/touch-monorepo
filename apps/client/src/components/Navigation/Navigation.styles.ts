@@ -50,7 +50,6 @@ export const styles = css`
     }
 
     &[data-disabled] {
-      opacity: 0.5;
       cursor: not-allowed;
       color: ${colors.greyDark};
       &:hover {
@@ -75,7 +74,6 @@ export const styles = css`
     }
 
     &[data-disabled] {
-      opacity: 0.5;
       cursor: not-allowed;
       color: ${colors.greyDark};
       &:hover {

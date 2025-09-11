@@ -38,12 +38,13 @@ export const stylesButtonBase = css`
     color: ${colors.default40} !important;
     border-color: ${colors.defaultLight50};
     background-color: transparent;
-    pointer-events: none;
+    /* pointer-events: none; */
+    user-select: none;
 
     /* Ensure hover states don't override */
     &:hover {
       color: ${colors.default40} !important;
-      border-color: ${colors.defaultLight50};
+      border-color: ${colors.defaultLight50}!important;
       background-color: transparent;
       transform: none;
     }

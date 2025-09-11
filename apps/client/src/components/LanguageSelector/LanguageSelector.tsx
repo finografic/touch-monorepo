@@ -6,6 +6,7 @@ import type { LanguageSelectorProps, RegionLocale } from '@workspace/core/types'
 import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
 import { LanguagesDto } from 'queries/supported-languages';
 import { getFlagUrl } from 'utils/flag.utils';
+import type { SupportedLanguage } from 'types/models/supported-language.model';
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {
   const { i18n } = useTranslation();
@@ -14,9 +15,9 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
   // Fetch supported languages from database
   const { data: supportedLanguagesData, isLoading, error } = useGetSupportedLanguages();
   const languages = supportedLanguagesData
-    ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium')).filter(
-        (language) => language.isActive,
-      )
+    ? LanguagesDto.fromApi(supportedLanguagesData as SupportedLanguage[], (flagCode) =>
+        getFlagUrl(flagCode, 'medium'),
+      ).filter((language) => language.isActive)
     : [];
 
   const handleLanguageChange = (languageCode: string) => {
