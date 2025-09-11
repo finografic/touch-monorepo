@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import type { CreateSettersType } from 'utils/zustand';
 import type { ContentKeys } from './ContentContext';
 
@@ -16,5 +17,5 @@ export interface ContentStore extends ContentValues {
 
 export interface ContentProviderProps {
   initialValue?: Partial<ContentValues>;
-  children: React.ReactNode;
+  children: ReactNode;
 }
