@@ -21,33 +21,6 @@ import { setConfiguration } from 'react-grid-system';
 import { DevGuidesLayer } from 'dev-tools/DevGuidesLayer/DevGuidesLayer';
 import { useRouteChangeHandler } from 'hooks/useRouteChangeHandler';
 
-const LayoutContent: FC = () => {
-  // Handle route changes and filter syncing
-  useRouteChangeHandler();
-
-  return (
-    <div id="layout" css={styles}>
-      <Header />
-      <main>
-        <div className="main-content">
-          <section>
-            <PageHeader />
-            <div className="page-content" role="main">
-              <Suspense fallback={<Loader message="Loading..." />}>
-                <Outlet />
-              </Suspense>
-            </div>
-            <nav className="page-navigation">
-              <Navigation />
-            </nav>
-          </section>
-        </div>
-      </main>
-      <Footer />
-    </div>
-  );
-};
-
 export const Layout: FC = () => {
   const { t } = useTranslation();
   const isMounted: boolean = !!useIsMounted();
@@ -74,7 +47,25 @@ export const Layout: FC = () => {
               <AdminProvider>
                 <DevProvider>
                   <DevGuidesLayer>
-                    <LayoutContent />
+                    <div id="layout" css={styles}>
+                      <Header />
+                      <main>
+                        <div className="main-content">
+                          <section>
+                            <PageHeader />
+                            <div className="page-content" role="main">
+                              <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                <Outlet />
+                              </Suspense>
+                            </div>
+                            <nav className="page-navigation">
+                              <Navigation />
+                            </nav>
+                          </section>
+                        </div>
+                      </main>
+                      <Footer />
+                    </div>
                   </DevGuidesLayer>
                 </DevProvider>
               </AdminProvider>

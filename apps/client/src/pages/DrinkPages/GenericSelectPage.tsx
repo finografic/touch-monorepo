@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
+import { usePaginationManagement } from 'hooks/usePaginationManagement';
 import type { PadType, PadUI } from 'types/ui.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import PadGroup from 'components/Pads/PadGroup/PadGroup';
@@ -17,6 +18,9 @@ export const GenericSelectPage = () => {
   const { pads } = useLayoutUi();
   const { orders, setOrdersFilter } = useOrders();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
+
+  // Use pagination management hook
+  usePaginationManagement();
 
   const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
     if (!orders?.length || !currentSessionId) return;
