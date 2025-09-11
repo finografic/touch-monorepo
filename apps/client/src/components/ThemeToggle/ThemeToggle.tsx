@@ -1,11 +1,11 @@
 import type { FC } from 'react';
 import clsx from 'clsx';
 import { MoonIcon, SunIcon } from 'styles/icons';
-import { useContent } from 'providers/ContentProvider';
 import { styles } from './ThemeToggle.styles';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 export const ThemeToggle: FC = () => {
-  const { theme, toggleTheme } = useContent();
+  const { theme, toggleTheme } = useAppConfig();
 
   return (
     <div className="button-box">

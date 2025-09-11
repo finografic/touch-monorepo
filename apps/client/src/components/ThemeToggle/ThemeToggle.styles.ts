@@ -43,8 +43,4 @@ export const styles = css`
       transform 0.3s ease,
       opacity 0.3s ease;
   }
-
-  &.btn.theme-toggle:hover svg.icon {
-    transform: rotate(15deg);
-  }
 `;
