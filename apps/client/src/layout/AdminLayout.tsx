@@ -50,8 +50,8 @@ export const AdminLayout: FC = () => {
   return (
     <SessionProvider>
       {/* <ContentProvider> */}
-      <AdminProvider>
-        <DevProvider>
+      <DevProvider>
+        <AdminProvider>
           <ToastProvider>
             <Theme
               appearance={adminTheme.appearance}
@@ -68,7 +68,6 @@ export const AdminLayout: FC = () => {
                     </div>
                   </div>
                 </header>
-
                 <main>
                   <div className="main-content">
                     <section>
@@ -84,16 +83,14 @@ export const AdminLayout: FC = () => {
                     </section>
                   </div>
                 </main>
-
                 <Footer />
               </div>
-
               {/* Toast System for notifications */}
               <ToastSystem />
             </Theme>
           </ToastProvider>
-        </DevProvider>
-      </AdminProvider>
+        </AdminProvider>
+      </DevProvider>
       {/* </ContentProvider> */}
     </SessionProvider>
   );
