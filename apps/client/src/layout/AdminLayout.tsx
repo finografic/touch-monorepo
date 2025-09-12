@@ -85,7 +85,6 @@ export const AdminLayout: FC = () => {
                 </main>
                 <Footer />
               </div>
-              {/* Toast System for notifications */}
               <ToastSystem />
             </Theme>
           </ToastProvider>

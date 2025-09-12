@@ -1,9 +1,9 @@
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { useButtonConfig } from 'hooks/useButtonConfig';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
-import { styles } from './Navigation.styles';
+import { styles } from './FrontEndNavigation.styles';
 
-export const Navigation = () => {
+export const FrontEndNavigation = () => {
   const { footerButtons } = useButtonConfig();
 
   if (footerButtons.length === 0) {
