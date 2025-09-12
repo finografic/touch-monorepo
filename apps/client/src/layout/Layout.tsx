@@ -7,7 +7,6 @@ import { PageHeader } from 'components/PageHeader';
 import { Navigation } from 'components/Navigation/Navigation';
 import { styles } from './Layout.styles';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
-import { useIsMounted } from 'hooks/useIsMounted';
 import { Outlet } from 'react-router-dom';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { Loader } from '../components/Loader/Loader';
@@ -18,25 +17,12 @@ import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { TimersProvider } from 'providers/TimersProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { setConfiguration } from 'react-grid-system';
-import { DevGuidesLayer } from 'dev-tools/DevGuidesLayer/DevGuidesLayer';
 import { ContentProvider } from 'providers/ContentProvider';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
-  const isMounted: boolean = !!useIsMounted();
-  // const location = useLocation();
-  // const navigate = useNavigate();
 
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
-
-  // TODO: Browser refresh redirect - disabled for now since sessionStorage needs to persist
-  // useEffect(() => {
-  //   // Redirect logic would go here
-  // }, [location.pathname, navigate]);
-
-  if (!isMounted) {
-    return <Loader message={t('ui.states.loading')} />;
-  }
 
   return (
     <SessionProvider>
@@ -46,29 +32,27 @@ export const Layout: FC = () => {
             <LayoutUiProvider>
               <AdminProvider>
                 <DevProvider>
-                  <DevGuidesLayer>
-                    <ContentProvider>
-                      <div id="layout" css={styles}>
-                        <Header />
-                        <main>
-                          <div className="main-content">
-                            <section>
-                              <PageHeader />
-                              <div className="page-content" role="main">
-                                <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                  <Outlet />
-                                </Suspense>
-                              </div>
-                              <nav className="page-navigation">
-                                <Navigation />
-                              </nav>
-                            </section>
-                          </div>
-                        </main>
-                        <Footer />
-                      </div>
-                    </ContentProvider>
-                  </DevGuidesLayer>
+                  <ContentProvider>
+                    <div id="layout" css={styles}>
+                      <Header />
+                      <main>
+                        <div className="main-content">
+                          <section>
+                            <PageHeader />
+                            <div className="page-content" role="main">
+                              <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                <Outlet />
+                              </Suspense>
+                            </div>
+                            <nav className="page-navigation">
+                              <Navigation />
+                            </nav>
+                          </section>
+                        </div>
+                      </main>
+                      <Footer />
+                    </div>
+                  </ContentProvider>
                 </DevProvider>
               </AdminProvider>
             </LayoutUiProvider>
