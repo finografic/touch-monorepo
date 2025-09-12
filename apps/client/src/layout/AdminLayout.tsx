@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import type { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
@@ -16,6 +16,11 @@ import { ToastProvider, ToastSystem } from 'components/Toast';
 
 export const AdminLayout: FC = () => {
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
+
+  // Initialize admin theme - force light theme for admin panel
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }, []);
 
   // Admin theme configuration
   const adminTheme = {
