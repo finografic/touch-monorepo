@@ -1,10 +1,14 @@
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
 import { useButtonConfig } from 'hooks/useButtonConfig';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
+import { useRouteChangeHandler } from 'hooks/useRouteChangeHandler';
 import { styles } from './FrontEndNavigation.styles';
 
 export const FrontEndNavigation = () => {
   const { footerButtons } = useButtonConfig();
+
+  // Handle route changes and filter synchronization
+  useRouteChangeHandler();
 
   if (footerButtons.length === 0) {
     return null;

@@ -12,17 +12,20 @@ import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
 import { AuthProvider } from 'providers/AuthProvider/AuthContext';
 import { AppConfigProvider } from 'providers/AppConfigProvider';
+import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
     <Global styles={cssGlobal} />
     <AppConfigProvider>
       <AuthProvider>
-        <ScreenClassProvider>
-          <Suspense fallback={<Spinner size="3" />}>
-            <Outlet />
-          </Suspense>
-        </ScreenClassProvider>
+        <SessionProvider>
+          <ScreenClassProvider>
+            <Suspense fallback={<Spinner size="3" />}>
+              <Outlet />
+            </Suspense>
+          </ScreenClassProvider>
+        </SessionProvider>
       </AuthProvider>
     </AppConfigProvider>
   </ErrorBoundary>

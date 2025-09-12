@@ -13,7 +13,6 @@ import { Loader } from '../components/Loader/Loader';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
-import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { TimersProvider } from 'providers/TimersProvider';
 import { ContentProvider } from 'providers/ContentProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
@@ -25,40 +24,38 @@ export const Layout: FC = () => {
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
   return (
-    <SessionProvider>
-      <TimersProvider>
-        <OrdersProvider>
-          <PaginationProvider>
-            <LayoutUiProvider>
-              <AdminProvider>
+    <TimersProvider>
+      <OrdersProvider>
+        <PaginationProvider>
+          <LayoutUiProvider>
+            <AdminProvider>
+              <ContentProvider>
                 <DevProvider>
-                  <ContentProvider>
-                    <div id="layout" css={styles}>
-                      <Header />
-                      <main>
-                        <div className="main-content">
-                          <section>
-                            <PageHeader />
-                            <div className="page-content" role="main">
-                              <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                <Outlet />
-                              </Suspense>
-                            </div>
-                            <nav className="page-navigation">
-                              <FrontEndNavigation />
-                            </nav>
-                          </section>
-                        </div>
-                      </main>
-                      <Footer />
-                    </div>
-                  </ContentProvider>
+                  <div id="layout" css={styles}>
+                    <Header />
+                    <main>
+                      <div className="main-content">
+                        <section>
+                          <PageHeader />
+                          <div className="page-content" role="main">
+                            <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                              <Outlet />
+                            </Suspense>
+                          </div>
+                          <nav className="page-navigation">
+                            <FrontEndNavigation />
+                          </nav>
+                        </section>
+                      </div>
+                    </main>
+                    <Footer />
+                  </div>
                 </DevProvider>
-              </AdminProvider>
-            </LayoutUiProvider>
-          </PaginationProvider>
-        </OrdersProvider>
-      </TimersProvider>
-    </SessionProvider>
+              </ContentProvider>
+            </AdminProvider>
+          </LayoutUiProvider>
+        </PaginationProvider>
+      </OrdersProvider>
+    </TimersProvider>
   );
 };

@@ -4,7 +4,6 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
 import { ContentProvider } from 'providers/ContentProvider';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
-import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { Loader } from 'components/Loader/Loader';
 import { useIsMounted } from 'hooks/useIsMounted';
 import { styles } from './AdminLayout.styles';
@@ -48,10 +47,9 @@ export const AdminLayout: FC = () => {
   };
 
   return (
-    <SessionProvider>
-      {/* <ContentProvider> */}
-      <DevProvider>
-        <AdminProvider>
+    <ContentProvider>
+      <AdminProvider>
+        <DevProvider>
           <ToastProvider>
             <Theme
               appearance={adminTheme.appearance}
@@ -88,9 +86,8 @@ export const AdminLayout: FC = () => {
               <ToastSystem />
             </Theme>
           </ToastProvider>
-        </AdminProvider>
-      </DevProvider>
-      {/* </ContentProvider> */}
-    </SessionProvider>
+        </DevProvider>
+      </AdminProvider>
+    </ContentProvider>
   );
 };
