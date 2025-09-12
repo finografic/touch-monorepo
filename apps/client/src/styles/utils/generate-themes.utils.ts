@@ -1,7 +1,7 @@
 /**
  * Theme Generator - Auto-generates light.colors.ts and dark.colors.ts
  *
- * This script generates theme-specific color files from the base COLOR_MAPPING,
+ * This script generates theme-specific color files from predefined theme colors,
  * ensuring consistency and eliminating manual maintenance.
  */
 
@@ -10,10 +10,9 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import {
   SATURATION_FACTOR,
-  STATUS_SATURATION_FACTOR,
   SHADE_VARIANCE_FACTOR,
+  STATUS_SATURATION_FACTOR,
 } from '../constants/js.constants';
-import { COLOR_MAPPING } from '../project/project.colors';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);

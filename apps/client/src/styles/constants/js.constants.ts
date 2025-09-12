@@ -30,13 +30,6 @@ export const JS_SHADE_ORDER = [
  * - 0.8 = balanced variations (default)
  * - 1.0 = maximum variations
  */
-/**
- * Variance factor for generating shade variants
- * Controls the intensity of color variations
- * - 0.5 = subtle variations
- * - 0.8 = balanced variations (default)
- * - 1.0 = maximum variations
- */
 export const SHADE_VARIANCE_FACTOR = 0.8;
 
 /**
