@@ -1,11 +1,10 @@
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense } from 'react';
 import type { FC } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
 import { ContentProvider } from 'providers/ContentProvider';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from 'components/Loader/Loader';
-import { useIsMounted } from 'hooks/useIsMounted';
 import { styles } from './AdminLayout.styles';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { Footer } from 'components/Footer/Footer';
@@ -16,27 +15,7 @@ import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary'
 import { ToastProvider, ToastSystem } from 'components/Toast';
 
 export const AdminLayout: FC = () => {
-  const isMounted: boolean = !!useIsMounted();
-  const location = useLocation();
-  const [isNavigating, setIsNavigating] = useState(false);
-
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
-
-  // Handle navigation loading state
-  useEffect(() => {
-    setIsNavigating(true);
-
-    // Small delay to prevent flashing and ensure smooth navigation
-    const timer = setTimeout(() => {
-      setIsNavigating(false);
-    }, 100);
-
-    return () => clearTimeout(timer);
-  }, [location.pathname]);
-
-  if (!isMounted) {
-    return <Loader message="Loading Admin..." />;
-  }
 
   // Admin theme configuration
   const adminTheme = {
@@ -73,7 +52,7 @@ export const AdminLayout: FC = () => {
                       <div className="page-content" role="main">
                         <AdminErrorBoundary>
                           <Suspense fallback={<Loader message="Loading..." />}>
-                            {isNavigating ? <Loader message="Navigating..." /> : <Outlet />}
+                            <Outlet />
                           </Suspense>
                         </AdminErrorBoundary>
                       </div>

@@ -1,13 +1,15 @@
 import { css } from '@emotion/react';
+import { colors } from 'styles';
 
 export const styles = css`
   .admin-nav {
     display: flex;
     gap: 0.5rem;
+    font-size: 1rem;
+    font-weight: 600;
 
-    /* Make tab links visible with white text */
     a {
-      color: white !important;
+      color: white;
       text-decoration: none;
       padding: 0.5rem 1rem;
       border-radius: 6px;
@@ -17,10 +19,9 @@ export const styles = css`
         background-color: rgba(255, 255, 255, 0.1);
       }
 
-      /* Active state - blue text */
       &[data-state='active'] {
         background-color: transparent !important;
-        color: #3b82f6 !important;
+        color: ${colors.infoLight} !important;
         font-weight: 600 !important;
       }
     }

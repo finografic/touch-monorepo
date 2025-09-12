@@ -8,6 +8,7 @@ import {
 
 export const stylesAdminContent = css`
   > header {
+    background-color: ${colors.greyDark}!important;
     nav .admin-nav {
       a[data-active] span {
         color: ${colors.info};
