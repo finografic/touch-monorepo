@@ -3,8 +3,8 @@ import { api } from 'api';
 import { transformAxiosError } from 'api/api.utils';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 import type { ContainerType } from 'types/models/container.model';
-import { useContent } from 'providers/ContentProvider/ContentContext';
 import { slugify } from 'utils/string.utils';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 export interface CreateContainerTypeInput {
   name: string;

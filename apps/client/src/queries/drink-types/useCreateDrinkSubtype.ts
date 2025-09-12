@@ -3,8 +3,8 @@ import { api } from 'api';
 import { transformAxiosError } from 'api/api.utils';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 import type { DrinkSubtype } from 'types/models/drink-type.model';
-import { useContent } from 'providers/ContentProvider/ContentContext';
 import { slugify } from 'utils/string.utils';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 export interface CreateDrinkSubtypeInput {
   name: string;

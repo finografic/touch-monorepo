@@ -4,8 +4,8 @@ import { transformAxiosError } from 'api/api.utils';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { DrinkTypeDTO } from './DrinkTypes.dto';
-import { useContent } from 'providers/ContentProvider/ContentContext';
 import { slugify } from 'utils/string.utils';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 export interface CreateDrinkTypeInput {
   name: string;

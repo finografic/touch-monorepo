@@ -18,6 +18,7 @@ import { Col, Row } from 'react-grid-system';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { useContent } from 'providers/ContentProvider/ContentContext';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 // Import utilities
 import {

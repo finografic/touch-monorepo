@@ -5,6 +5,7 @@ import { EditIcon, TrashIcon } from 'styles/icons';
 import { styles } from './OrdersTable.styles';
 import { getHumanReadableId } from 'utils/readable.utils';
 import { useContent } from 'providers/ContentProvider';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { ReadableSalt } from 'constants/readable-salt.constants';
 import { formatUnixTimestamp } from 'utils/date.utils';
 

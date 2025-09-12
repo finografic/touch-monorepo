@@ -12,6 +12,7 @@ import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getHumanReadableId } from 'utils/readable.utils';
 import { useContent } from 'providers/ContentProvider/ContentContext';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { ReadableSalt } from 'constants/readable-salt.constants';
 import clsx from 'clsx';
 
