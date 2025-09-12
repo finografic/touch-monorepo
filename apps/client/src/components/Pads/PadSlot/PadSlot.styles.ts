@@ -127,10 +127,10 @@ export const styles = css`
 
     &.status-completed {
       cursor: not-allowed;
-      pointer-events: none;
-      color: ${colors.warning};
-      border: ${layout.borderWidth} solid ${colors.warning};
-      background-color: ${colors.warning25};
+      /* pointer-events: none; */
+      color: ${colors.warningLight};
+      border: ${layout.borderWidth} solid ${colors.warningLight};
+      background-color: ${colors.warningLight25};
       &:hover {
         color: ${colors.warning};
         border-color: ${colors.warning};

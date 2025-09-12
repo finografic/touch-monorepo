@@ -31,15 +31,6 @@ export const getFlagUrl = (
     return getFallbackFlag();
   }
 
-  const __inlineSvgFlags: Record<string, string> = {
-    CAT: `data:image/svg+xml;base64,${btoa(`
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 810 540">
-        <rect width="810" height="540" fill="#FCDD09"/>
-        <path stroke="#DA121A" stroke-width="60" d="M0,90H810m0,120H0m0,120H810m0,120H0"/>
-      </svg>
-    `)}`,
-  };
-
   // Handle special regional flags with inline SVG data URLs
   const inlineSvgFlags: Record<string, string> = {
     CAT: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 810 540'%3E%3Crect width='810' height='540' fill='%23FCDD09'/%3E%3Cpath stroke='%23DA121A' stroke-width='60' d='M0,90H810m0,120H0m0,120H810m0,120H0'/%3E%3C/svg%3E",

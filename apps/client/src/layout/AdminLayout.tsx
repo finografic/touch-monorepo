@@ -50,54 +50,54 @@ export const AdminLayout: FC = () => {
 
   return (
     <SessionProvider>
-      <ContentProvider>
-        <AdminProvider>
-          <DevProvider>
-            <DevGuidesLayer>
-              <ToastProvider>
-                <Theme
-                  appearance={adminTheme.appearance}
-                  grayColor={adminTheme.grayColor}
-                  accentColor={adminTheme.accentColor}
-                  scaling={adminTheme.scaling}
-                >
-                  <div id="admin-layout" css={styles}>
-                    <header>
-                      <div className="header-content">
-                        <h1>Administration Panel</h1>
-                        <div className="header-actions">
-                          <AdminNavigation />
+      {/* <ContentProvider> */}
+      <AdminProvider>
+        <DevProvider>
+          <DevGuidesLayer>
+            <ToastProvider>
+              <Theme
+                appearance={adminTheme.appearance}
+                grayColor={adminTheme.grayColor}
+                accentColor={adminTheme.accentColor}
+                scaling={adminTheme.scaling}
+              >
+                <div id="admin-layout" css={styles}>
+                  <header>
+                    <div className="header-content">
+                      <h1>Administration Panel</h1>
+                      <div className="header-actions">
+                        <AdminNavigation />
+                      </div>
+                    </div>
+                  </header>
+
+                  <main>
+                    <div className="main-content">
+                      <section>
+                        <header className="page-header">{/* Page header content will go here */}</header>
+                        <div className="page-content" role="main">
+                          <AdminErrorBoundary>
+                            <Suspense fallback={<Loader message="Loading..." />}>
+                              {isNavigating ? <Loader message="Navigating..." /> : <Outlet />}
+                            </Suspense>
+                          </AdminErrorBoundary>
                         </div>
-                      </div>
-                    </header>
+                        <nav className="page-navigation">{/* Page navigation can go here if needed */}</nav>
+                      </section>
+                    </div>
+                  </main>
 
-                    <main>
-                      <div className="main-content">
-                        <section>
-                          <header className="page-header">{/* Page header content will go here */}</header>
-                          <div className="page-content" role="main">
-                            <AdminErrorBoundary>
-                              <Suspense fallback={<Loader message="Loading..." />}>
-                                {isNavigating ? <Loader message="Navigating..." /> : <Outlet />}
-                              </Suspense>
-                            </AdminErrorBoundary>
-                          </div>
-                          <nav className="page-navigation">{/* Page navigation can go here if needed */}</nav>
-                        </section>
-                      </div>
-                    </main>
+                  <Footer />
+                </div>
 
-                    <Footer />
-                  </div>
-
-                  {/* Toast System for notifications */}
-                  <ToastSystem />
-                </Theme>
-              </ToastProvider>
-            </DevGuidesLayer>
-          </DevProvider>
-        </AdminProvider>
-      </ContentProvider>
+                {/* Toast System for notifications */}
+                <ToastSystem />
+              </Theme>
+            </ToastProvider>
+          </DevGuidesLayer>
+        </DevProvider>
+      </AdminProvider>
+      {/* </ContentProvider> */}
     </SessionProvider>
   );
 };

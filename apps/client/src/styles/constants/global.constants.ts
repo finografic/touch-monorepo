@@ -19,7 +19,7 @@ export const border = css`
 export const layout = {
   fontSize: baseLayout.fontSize,
   padding: baseLayout.padding,
-  borderWidth: baseLayout.borderWidth,
+  borderWidth: baseLayout.borderWidth[2],
   borderRadius: baseLayout.borderRadius,
   pageColor: colors.white,
   bgColor: colors.white,
