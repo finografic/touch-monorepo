@@ -64,8 +64,8 @@ export const AdminPage: React.FC = () => {
     },
     {
       id: 'slot-config',
-      title: 'Slot Configuration',
-      description: 'Configure MainPage grid layout and slot types',
+      title: 'App Configuration',
+      description: 'Configure modes, MainPage grid layout and slot types',
       icon: <GearIcon width="32" height="32" />,
       path: '/admin/slot-config',
       color: 'orange' as const,

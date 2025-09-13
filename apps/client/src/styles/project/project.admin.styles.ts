@@ -1,10 +1,6 @@
 import { colors, layout, min } from 'styles';
 import { css } from '@emotion/react';
-import {
-  // cssInputBox,
-  // cssInputText,
-  forms,
-} from '../forms.styles';
+import { forms } from '../forms.styles';
 
 export const stylesAdminContent = css`
   > header {

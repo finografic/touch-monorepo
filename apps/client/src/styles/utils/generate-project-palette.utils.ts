@@ -1,6 +1,7 @@
 import type { ColorMapping, HexColor } from '../colors.types';
 import type { ColorBaseName, ColorPalette, CssVariableRef, TransparencyLevel } from '../palette.types';
 import { SHADE_PREFIX } from '../constants/palette.constants';
+import { CSS_TRANSPARENCY_ONLY_COLORS } from '../constants/css.constants';
 import { colorToCssVarRef } from './camelToKebab';
 
 /**
@@ -20,14 +21,16 @@ export const generateCssVarColorPalette = ({
       // Base color
       palette[name] = colorToCssVarRef(name) as CssVariableRef;
 
-      // Shade variants
-      Object.entries(SHADE_PREFIX).forEach(([shadeKey, suffix]) => {
-        if (suffix) {
-          // Skip 'base' which has empty suffix
-          const variantName = `${name}${suffix}` as keyof ColorPalette;
-          palette[variantName] = colorToCssVarRef(variantName) as CssVariableRef;
-        }
-      });
+      // Shade variants (skip for transparency-only colors like black/white)
+      if (!CSS_TRANSPARENCY_ONLY_COLORS.includes(name as any)) {
+        Object.entries(SHADE_PREFIX).forEach(([shadeKey, suffix]) => {
+          if (suffix) {
+            // Skip 'base' which has empty suffix
+            const variantName = `${name}${suffix}` as keyof ColorPalette;
+            palette[variantName] = colorToCssVarRef(variantName) as CssVariableRef;
+          }
+        });
+      }
 
       // Transparency variants (5, 10, 20, 25, 30, 33, 40, 50, 60, 66, 70, 75, 80, 90, 95)
       const transparencyLevels: TransparencyLevel[] = [
@@ -48,24 +51,26 @@ export const generateCssVarColorPalette = ({
         '95',
       ];
 
-      // Base color transparency variants
+      // Base color transparency variants (for all colors including black/white)
       transparencyLevels.forEach((level) => {
         const variantName = `${name}${level}` as keyof ColorPalette;
         const cssVarName = `--color-${name}-${level}`;
         palette[variantName] = `var(${cssVarName})` as CssVariableRef;
       });
 
-      // Combined shade + transparency variants (e.g., primaryLight33, dangerDark25)
-      Object.entries(SHADE_PREFIX).forEach(([shadeKey, suffix]) => {
-        if (suffix) {
-          // Skip 'base' which has empty suffix
-          transparencyLevels.forEach((level) => {
-            const variantName = `${name}${suffix}${level}` as keyof ColorPalette;
-            const cssVarName = `--color-${name}-${shadeKey}-${level}`;
-            palette[variantName] = `var(${cssVarName})` as CssVariableRef;
-          });
-        }
-      });
+      // Combined shade + transparency variants (only for colors that have shade variants)
+      if (!CSS_TRANSPARENCY_ONLY_COLORS.includes(name as any)) {
+        Object.entries(SHADE_PREFIX).forEach(([shadeKey, suffix]) => {
+          if (suffix) {
+            // Skip 'base' which has empty suffix
+            transparencyLevels.forEach((level) => {
+              const variantName = `${name}${suffix}${level}` as keyof ColorPalette;
+              const cssVarName = `--color-${name}-${shadeKey}-${level}`;
+              palette[variantName] = `var(${cssVarName})` as CssVariableRef;
+            });
+          }
+        });
+      }
     } catch (error) {
       console.error(`Error generating CSS variable color variants for ${name}:`, error);
     }
@@ -92,16 +97,50 @@ export const generateColorPaletteWithCssVars = ({
     transparent: 'transparent' as HexColor,
   };
 
-  // Also add CSS variable versions of fixed colors for consistency
+  // Add CSS variable versions of fixed colors for consistency
   const fixedColorVars = {
     whiteVar: colorToCssVarRef('white') as CssVariableRef,
     blackVar: colorToCssVarRef('black') as CssVariableRef,
     transparentVar: colorToCssVarRef('transparent') as CssVariableRef,
   };
 
+  // Add transparency variants for black and white
+  const transparencyLevels: TransparencyLevel[] = [
+    '5',
+    '10',
+    '20',
+    '25',
+    '30',
+    '33',
+    '40',
+    '50',
+    '60',
+    '66',
+    '70',
+    '75',
+    '80',
+    '90',
+    '95',
+  ];
+
+  const blackWhiteTransparency = {
+    // Black transparency variants
+    ...transparencyLevels.reduce((acc, level) => {
+      acc[`black${level}` as keyof ColorPalette] = `var(--color-black-${level})` as CssVariableRef;
+      return acc;
+    }, {} as Partial<ColorPalette>),
+
+    // White transparency variants
+    ...transparencyLevels.reduce((acc, level) => {
+      acc[`white${level}` as keyof ColorPalette] = `var(--color-white-${level})` as CssVariableRef;
+      return acc;
+    }, {} as Partial<ColorPalette>),
+  };
+
   return {
     ...generatedPalette,
     ...fixedColors,
     ...fixedColorVars,
+    ...blackWhiteTransparency,
   } as ColorPalette;
 };

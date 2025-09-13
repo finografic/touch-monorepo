@@ -46,18 +46,18 @@ export const styles = css`
   }
 
   .slot-default {
-    border-color: ${colors.default};
-    color: ${colors.default};
+    border-color: ${colors.defaultLight};
+    color: ${colors.defaultLight};
   }
 
   .slot-info {
-    border-color: ${colors.info};
-    color: ${colors.info};
+    border-color: ${colors.infoLight};
+    color: ${colors.infoLight};
   }
 
   .slot-danger {
-    border-color: ${colors.danger};
-    color: ${colors.danger};
+    border-color: ${colors.dangerLight};
+    color: ${colors.dangerLight};
   }
 
   .slot-legend {
@@ -83,10 +83,10 @@ export const styles = css`
   }
 
   .legend-type-b {
-    background: ${colors.info};
+    background: ${colors.infoLight};
   }
 
   .legend-type-c {
-    background: ${colors.danger};
+    background: ${colors.dangerLight};
   }
 `;

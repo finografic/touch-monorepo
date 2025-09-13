@@ -1,6 +1,11 @@
 import type { ColorBaseName, GeneratedPalette } from '../palette.types';
 import type { ShadeKey } from '../colors.types';
-import { CSS_BASE_COLORS, CSS_SHADE_VARIANTS, CSS_TRANSPARENCY_LEVELS } from '../constants/css.constants';
+import {
+  CSS_BASE_COLORS,
+  CSS_SHADE_VARIANTS,
+  CSS_TRANSPARENCY_LEVELS,
+  CSS_TRANSPARENCY_ONLY_COLORS,
+} from '../constants/css.constants';
 
 // NOTE: THIS is the VERSION of the METHOD USED to GENERATE COLOR VARIABLES
 
@@ -39,10 +44,11 @@ export const generateCssColorVariablesTransparency = () => {
   const colorNames = CSS_BASE_COLORS;
   const shadeVariants = CSS_SHADE_VARIANTS;
   const transparencyLevels = CSS_TRANSPARENCY_LEVELS;
+  const transparencyOnlyColors = CSS_TRANSPARENCY_ONLY_COLORS;
 
   let cssVars = '\n  /* Base color transparency utilities using color-mix() */\n';
 
-  // Base color transparency variants
+  // Base color transparency variants (for all colors including black/white)
   colorNames.forEach((colorName) => {
     transparencyLevels.forEach((level) => {
       cssVars += `  --color-${colorName}-${level}: color-mix(in srgb, var(--color-${colorName}) ${level}%, transparent);\n`;
@@ -52,14 +58,17 @@ export const generateCssColorVariablesTransparency = () => {
 
   cssVars += '  /* Shade + transparency combination utilities */\n';
 
-  // Combined shade + transparency variants
+  // Combined shade + transparency variants (only for colors that have shade variants)
   colorNames.forEach((colorName) => {
-    shadeVariants.forEach((shade) => {
-      transparencyLevels.forEach((level) => {
-        cssVars += `  --color-${colorName}-${shade}-${level}: color-mix(in srgb, var(--color-${colorName}-${shade}) ${level}%, transparent);\n`;
+    // Skip shade variants for transparency-only colors (black, white)
+    if (!transparencyOnlyColors.includes(colorName as any)) {
+      shadeVariants.forEach((shade) => {
+        transparencyLevels.forEach((level) => {
+          cssVars += `  --color-${colorName}-${shade}-${level}: color-mix(in srgb, var(--color-${colorName}-${shade}) ${level}%, transparent);\n`;
+        });
       });
-    });
-    cssVars += '\n'; // Add spacing between color groups
+      cssVars += '\n'; // Add spacing between color groups
+    }
   });
 
   cssVars += `  /* Alternative: Using rgba() with CSS variables (better browser support) */

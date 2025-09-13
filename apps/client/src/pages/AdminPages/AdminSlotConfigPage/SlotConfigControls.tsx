@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Flex, Heading, Table, Text } from '@radix-ui/themes';
+import { Box, Button, Flex, Heading, Text } from '@radix-ui/themes';
 import type { ItemType } from 'types/orders.types';
 import { SelectSimple } from 'forms/SelectSimple';
 import { styles } from './SlotConfigControls.styles';
@@ -55,34 +55,26 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
           </Flex>
         </Box>
 
-        {/* Configuration table */}
+        {/* Configuration grid */}
         <Box>
           <Text size="2" weight="bold" mb="2">
             Current Configuration:
           </Text>
-          <Table.Root>
-            <Table.Header>
-              <Table.Row>
-                <Table.ColumnHeaderCell>Slot #</Table.ColumnHeaderCell>
-                <Table.ColumnHeaderCell>Type</Table.ColumnHeaderCell>
-              </Table.Row>
-            </Table.Header>
-            <Table.Body>
-              {configurations.map((config) => (
-                <Table.Row key={config.slotNumber} className="slot-table-row">
-                  <Table.Cell>{config.slotNumber}</Table.Cell>
-                  <Table.Cell>
-                    <SelectSimple
-                      className="slot-select"
-                      options={['A', 'B', 'C']}
-                      value={config.itemType}
-                      onSelect={(val) => onTypeChange?.(config.slotNumber, val as ItemType)}
-                    />
-                  </Table.Cell>
-                </Table.Row>
-              ))}
-            </Table.Body>
-          </Table.Root>
+          <div className="config-grid">
+            {configurations.map((config) => (
+              <div key={config.slotNumber} className="config-grid-item">
+                <Text size="2" weight="bold" mb="1">
+                  Slot {config.slotNumber}
+                </Text>
+                <SelectSimple
+                  className="slot-select"
+                  options={['A', 'B', 'C']}
+                  value={config.itemType}
+                  onSelect={(val) => onTypeChange?.(config.slotNumber, val as ItemType)}
+                />
+              </div>
+            ))}
+          </div>
         </Box>
 
         {/* Save button */}

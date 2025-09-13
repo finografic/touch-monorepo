@@ -30,7 +30,15 @@ export const CSS_BASE_COLORS = [
   'grey',
   'gray',
   'default',
+  'black',
+  'white',
 ] as const;
+
+/**
+ * Colors that should only get transparency variants (no shade variants)
+ * These colors don't have light/dark variants but still need transparency levels
+ */
+export const CSS_TRANSPARENCY_ONLY_COLORS = ['black', 'white'] as const;
 
 /**
  * CSS variable prefix for all color variables

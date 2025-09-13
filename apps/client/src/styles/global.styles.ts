@@ -123,27 +123,28 @@ export const cssGlobal = css`
   }
 
   :not(body):not(html)::-webkit-scrollbar-track {
-    background: var(--color-grey-xxlight);
+    background: ${colors.greyXXLight20};
     border-radius: 6px;
   }
 
   :not(body):not(html)::-webkit-scrollbar-thumb {
     background: var(--color-grey-light);
+    background: ${colors.greyXLight40};
     border-radius: 6px;
-    border: 2px solid var(--color-grey-xxlight); /* Creates inset effect */
+    border: 4px solid ${colors.white60}; /* Creates inset effect */
 
     &:hover {
-      background: var(--color-grey);
+      background: ${colors.greyLight};
     }
 
     &:active {
-      background: var(--color-grey-dark);
+      background: ${colors.grey};
     }
   }
 
   /* Corner styling when both scrollbars are present */
   :not(body):not(html)::-webkit-scrollbar-corner {
-    background: var(--color-grey-xxlight);
+    background: ${colors.greyXXLight};
   }
 
   /* Test styles removed - theme system confirmed working! */

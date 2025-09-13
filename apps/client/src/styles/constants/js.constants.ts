@@ -30,7 +30,7 @@ export const JS_SHADE_ORDER = [
  * - 0.8 = balanced variations (default)
  * - 1.0 = maximum variations
  */
-export const SHADE_VARIANCE_FACTOR = 0.8;
+export const SHADE_VARIANCE_FACTOR = 0.75;
 
 /**
  * Saturation factor for color variants
@@ -43,7 +43,7 @@ export const SHADE_VARIANCE_FACTOR = 0.8;
  * - 1.1 = enhanced saturation (vibrant but professional)
  * - 1.2 = high saturation (for emphasis)
  */
-export const SATURATION_FACTOR = 0.9; // Optimized for OKLCH
+export const SATURATION_FACTOR = 0.8; // Optimized for OKLCH
 
 /**
  * Saturation factor specifically for status colors (success, warning, danger, info)
@@ -54,7 +54,7 @@ export const SATURATION_FACTOR = 0.9; // Optimized for OKLCH
  * - 1.4 = high impact (maximum recommended)
  * - 1.6 = ultra vibrant (use with caution)
  */
-export const STATUS_SATURATION_FACTOR = 1.6; // Maximum vibrancy - will be balanced with transparency in components
+export const STATUS_SATURATION_FACTOR = 1.5; // Maximum vibrancy - will be balanced with transparency in components
 
 /**
  * Type definitions for JS constants

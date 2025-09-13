@@ -1,6 +1,6 @@
-import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
+import { BREAKPOINTS } from './src/styles/viewport/viewport.breakpoints';
 import type { Config } from 'tailwindcss';
-import type { BreakpointMap } from 'styles/viewport/viewport.types';
+import type { BreakpointMap } from './src/styles/viewport/viewport.types';
 import colors from 'tailwindcss/colors';
 
 export default {

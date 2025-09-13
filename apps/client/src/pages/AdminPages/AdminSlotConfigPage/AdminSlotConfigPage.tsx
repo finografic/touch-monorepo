@@ -11,6 +11,7 @@ import {
   useGetSlotConfigurations,
   useResetSlotConfigurations,
 } from 'queries/slot-configurations';
+import { SelectSimple } from 'forms/SelectSimple';
 import { GRID_CONFIGS } from 'types/slot-config.types';
 import { ItemType } from 'types/orders.types';
 import { styles } from './AdminSlotConfigPage.styles';
@@ -195,17 +196,38 @@ export const AdminSlotConfigPage: React.FC = () => {
             <Flex direction="column" gap="6">
               {/* Visual grid */}
               <Card size="3" variant="surface">
-                <Flex direction="column" gap="4">
-                  <Heading size="4">Slot Grid Preview</Heading>
-                  <Text size="2" color="gray">
-                    Click on slots to change their type. The last slot is positioned separately.
-                  </Text>
-                  <SlotGrid
-                    configurations={slots}
-                    gridConfig={GRID_CONFIGS[columns]}
-                    onConfigurationChange={handleGridConfigChange}
-                  />
+                <Flex gap="4" justify="between">
+                  <Flex direction="column" gap="4">
+                    <Heading size="4">Slot Grid Layout Preview</Heading>
+                    <Text size="2" color="gray">
+                      Click on slots to change their type. The last slot is positioned separately.
+                    </Text>
+                    <SlotGrid
+                      configurations={slots}
+                      gridConfig={GRID_CONFIGS[columns]}
+                      onConfigurationChange={handleGridConfigChange}
+                    />
+                  </Flex>
+                  <Flex direction="column" gap="4">
+                    <Heading size="4">Slot Grid Assignments</Heading>
+                    <div className="slot-list-container">
+                      {slots.map(({ slotNumber, itemType }) => (
+                        <Flex key={slotNumber} className="slot-list-item">
+                          <Text size="2" weight="bold">
+                            Slot {slotNumber}
+                          </Text>
+                          <SelectSimple
+                            className="slot-select"
+                            options={['A', 'B', 'C']}
+                            value={itemType}
+                            onSelect={(val) => handleTypeChange?.(slotNumber, val as ItemType)}
+                          />
+                        </Flex>
+                      ))}
+                    </div>
+                  </Flex>
                 </Flex>
+
                 <Flex direction="column" gap="4">
                   <Flex gap="4" align="center" pt="4" pb="2">
                     <Badge variant="soft" color="blue">
@@ -217,25 +239,29 @@ export const AdminSlotConfigPage: React.FC = () => {
                     <Flex gap="2">
                       <Button
                         variant="outline"
-                        size="2"
-                        onClick={handleRemoveColumn}
-                        disabled={columns <= minColumns}
-                      >
-                        <MinusIcon />
-                        Remove Column
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="2"
+                        color="green"
+                        size="3"
                         onClick={handleAddColumn}
                         disabled={columns >= maxColumns}
                       >
                         <PlusIcon />
                         Add Column
                       </Button>
+                      <Button
+                        variant="outline"
+                        color="orange"
+                        size="3"
+                        onClick={handleRemoveColumn}
+                        disabled={columns <= minColumns}
+                      >
+                        <MinusIcon />
+                        Remove Column
+                      </Button>
                     </Flex>
                     <Flex gap="2">
                       <Button
+                        size="3"
+                        color="green"
                         onClick={handleSubmit(onSave)}
                         disabled={bulkUpdateMutation.isPending}
                         loading={bulkUpdateMutation.isPending}
@@ -243,7 +269,9 @@ export const AdminSlotConfigPage: React.FC = () => {
                         Save Configuration
                       </Button>
                       <Button
+                        size="3"
                         variant="outline"
+                        color="gray"
                         onClick={onReset}
                         disabled={resetMutation.isPending}
                         loading={resetMutation.isPending}
@@ -256,13 +284,27 @@ export const AdminSlotConfigPage: React.FC = () => {
                 </Flex>
               </Card>
               {/* Configuration controls */}
+              <Heading size="8" mb="0">
+                Selecció de modo
+              </Heading>
               <Card size="3" variant="surface">
-                <SlotConfigControls
-                  configurations={slots}
-                  onSave={handleSubmit(onSave)}
-                  isSaving={bulkUpdateMutation.isPending}
-                  onTypeChange={handleTypeChange}
-                />
+                <Flex direction="column" gap="4">
+                  <div className="slot-list-container">
+                    {slots.map(({ slotNumber, itemType }) => (
+                      <Flex key={slotNumber} className="slot-list-item">
+                        <Text size="2" weight="bold">
+                          Slot {slotNumber}
+                        </Text>
+                        <SelectSimple
+                          className="slot-select"
+                          options={['A', 'B', 'C']}
+                          value={itemType}
+                          onSelect={(val) => handleTypeChange?.(slotNumber, val as ItemType)}
+                        />
+                      </Flex>
+                    ))}
+                  </div>
+                </Flex>
               </Card>
             </Flex>
           </Box>
