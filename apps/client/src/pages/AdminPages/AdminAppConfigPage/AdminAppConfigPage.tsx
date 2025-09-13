@@ -1,11 +1,10 @@
-import React, { useEffect, useMemo, useRef } from 'react';
-import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import React, { useEffect, useRef } from 'react';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { MinusIcon, PlusIcon, ResetIcon } from '@radix-ui/react-icons';
 import { useTranslation } from 'react-i18next';
 import { AdminContentLayout } from '../shared';
 import { SlotGrid } from './SlotGrid';
-import { SlotConfigControls } from './SlotConfigControls';
 import {
   useBulkUpdateSlotConfigurations,
   useGetSlotConfigurations,
@@ -17,7 +16,6 @@ import { GRID_CONFIGS } from 'types/slot-config.types';
 import { ItemType } from 'types/orders.types';
 import { styles } from './AdminAppConfigPage.styles';
 import { useToast } from 'components/Toast';
-import { colors } from 'styles';
 
 // Types for form values
 interface SlotConfigFormValue {
@@ -42,7 +40,7 @@ export const AdminAppConfigPage: React.FC = () => {
   const maxColumns = 5;
   const defaultGridConfig = GRID_CONFIGS[initialColumns];
 
-  log('__DEV: slotConfigs', 'cyan', slotConfigs);
+  log('__DEV: slotConfigs', 'cyan', slotConfigs.length);
 
   // Helper to generate slots for a given column count
   const generateSlots = (columns: number, fromConfigs?: SlotConfigFormValue[]): SlotConfigFormValue[] => {
@@ -205,11 +203,7 @@ export const AdminAppConfigPage: React.FC = () => {
 
   // Get current default mode
   const defaultMode = modes?.find((mode) => mode.isDefault);
-  const modeOptions =
-    modes?.map((mode) => ({
-      value: mode.id,
-      label: `${mode.name} - ${mode.description}`,
-    })) || [];
+  const modeOptions = modes?.map((mode) => ({ value: mode.id, label: mode.name })) || [];
 
   // Create options array for SelectSimple (using labels as display values)
   const selectOptions = modeOptions.map((opt) => opt.label);
@@ -339,7 +333,7 @@ export const AdminAppConfigPage: React.FC = () => {
                 Mode Selection
               </Heading>
               <Card size="3" variant="surface">
-                <Flex gap="4" justify="between">
+                <Flex gap="1" justify="start">
                   <Flex direction="column" gap="4" className="mode-select-container">
                     <Text size="2" color="gray">
                       Default cooling mode
@@ -350,7 +344,7 @@ export const AdminAppConfigPage: React.FC = () => {
                       <SelectSimple
                         className="mode-select"
                         options={selectOptions}
-                        value={defaultMode ? `${defaultMode.name} - ${defaultMode.description}` : ''}
+                        value={defaultMode ? defaultMode.name : ''}
                         onSelect={(label) => {
                           const modeId = getModeIdFromLabel(label as string);
                           if (modeId) {
@@ -360,10 +354,10 @@ export const AdminAppConfigPage: React.FC = () => {
                       />
                     )}
                   </Flex>
-                  <Flex align="center" gap="4" className="mode-value">
+                  <Flex align="center" justify="start" gap="1" className="mode-value">
                     {defaultMode && (
                       <Text size="2" color="sky" mt="6">
-                        Current default: {defaultMode.name} - {defaultMode.description}
+                        Modo actual: <strong>{defaultMode.name}</strong>
                       </Text>
                     )}
                   </Flex>

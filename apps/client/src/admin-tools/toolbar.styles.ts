@@ -39,7 +39,7 @@ export const baseToolbarStyles = css`
 
     &.active {
       svg.icon {
-        color: ${colors.warningDark};
+        color: ${colors.warningLight};
       }
     }
   }
@@ -51,6 +51,6 @@ export const baseToolbarStyles = css`
     padding-right: 20px;
     width: fit-content;
     height: auto;
-    color: ${colors.warningDark};
+    color: ${colors.warningLight};
   }
 `;

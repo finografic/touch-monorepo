@@ -64,9 +64,8 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
           }}
         >
           {regularSlots.map((config) => (
-            <Flex className="slot-grid-item">
+            <Flex key={config.slotNumber} className="slot-grid-item">
               <Button
-                key={config.slotNumber}
                 className={`slot-button slot-${getSlotColor(config.itemType)}`}
                 onClick={() => handleSlotClick(config.slotNumber)}
                 variant="outline"

@@ -49,6 +49,9 @@ export const styles = css`
     font-size: 2.5rem;
     font-weight: ${button.fontWeight.large};
     color: ${colors.infoLight};
+    border-color: ${colors.infoLight40};
+    margin: 1rem 0;
+    min-width: 200px;
 
     &:focus-within {
       border-color: ${colors.infoLight};

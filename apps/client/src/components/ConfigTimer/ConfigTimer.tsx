@@ -49,7 +49,9 @@ export const ConfigTimer = () => {
   return (
     <div css={styles}>
       <div className="config-timer">
-        <span>Configuration expires in: {formatTime(remainingTime)}</span>
+        <span>
+          Configuration expires in: <strong>{formatTime(remainingTime)}</strong>
+        </span>
       </div>
     </div>
   );

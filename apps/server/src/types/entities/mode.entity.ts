@@ -1,5 +1,5 @@
 export interface ModeEntity {
   id: string;
   name: string;
-  description?: string;
+  is_default: number;
 }

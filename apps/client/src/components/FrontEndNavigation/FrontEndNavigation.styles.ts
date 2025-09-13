@@ -44,17 +44,17 @@ export const styles = css`
     background: transparent;
 
     &:hover {
-      color: ${colors.successDark};
-      border-color: ${colors.successLight};
+      color: ${colors.success};
+      border-color: ${colors.success};
       background-color: ${colors.successXLight50};
     }
 
     &[data-disabled] {
       cursor: not-allowed;
-      color: ${colors.greyDark};
+      color: ${colors.greyXLight};
       &:hover {
-        color: ${colors.greyDark};
-        border-color: ${colors.greyDark};
+        color: ${colors.greyXLight};
+        border-color: ${colors.greyXLight};
         background-color: transparent;
       }
     }
@@ -62,23 +62,23 @@ export const styles = css`
 
   .button-reset,
   .button-cancel {
-    border: ${layout.borderWidth} solid ${colors.warningDark};
     border-radius: 4px;
     background: transparent;
-    color: ${colors.warningDark};
+    border: ${layout.borderWidth} solid ${colors.warningLight};
+    color: ${colors.warningLight};
 
     &:hover {
-      color: ${colors.warningDark};
+      color: ${colors.warning};
       border-color: ${colors.warning};
       background-color: ${colors.warning10};
     }
 
     &[data-disabled] {
       cursor: not-allowed;
-      color: ${colors.greyDark};
+      color: ${colors.greyXLight};
       &:hover {
-        color: ${colors.greyDark};
-        border-color: ${colors.greyDark};
+        color: ${colors.greyXLight};
+        border-color: ${colors.greyXLight};
         background-color: transparent;
       }
     }

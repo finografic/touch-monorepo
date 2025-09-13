@@ -9,7 +9,6 @@ export const modes = sqliteTable('modes', {
     .primaryKey()
     .$defaultFn(() => createCuid()),
   name: text('name').notNull(),
-  description: text('description'),
   isDefault: integer('is_default', { mode: 'boolean' }).notNull().default(false),
 });
 

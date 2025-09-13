@@ -32,7 +32,7 @@ export const styles = css`
     flex-direction: column;
     align-items: center;
     gap: 1rem;
-    min-width: 180px;
+    min-width: 200px;
 
     label {
       font-size: 1.5rem;
@@ -56,6 +56,7 @@ export const styles = css`
   .input-container {
     ${stylesPadBasic.inputContainer}
     margin-bottom: 0; /* Remove bottom margin */
+    gap: 0.5rem;
   }
 
   .control-button {
@@ -66,6 +67,11 @@ export const styles = css`
     ${stylesPadBasic.valueContainer}
     flex-direction: row; /* Horizontal layout for value and unit */
     gap: 0.5rem;
+    font-size: 2.5rem;
+    color: ${colors.infoLight};
+    border-color: ${colors.infoLight40};
+    margin: 0.66rem 0;
+    /* min-width: 200px; */
   }
 
   .value {

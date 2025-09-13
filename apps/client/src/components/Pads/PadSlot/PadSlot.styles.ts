@@ -126,7 +126,7 @@ export const styles = css`
     }
 
     &.status-completed {
-      cursor: not-allowed;
+      /* cursor: not-allowed; */
       /* pointer-events: none; */
       color: ${colors.warningLight};
       border: ${layout.borderWidth} solid ${colors.warningLight};

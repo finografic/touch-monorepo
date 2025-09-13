@@ -1,5 +1,5 @@
 import { db } from 'db';
-import { auth } from '../../lib/auth';
+import { auth } from 'lib/auth';
 import { user } from '../schemas';
 
 export async function seed() {

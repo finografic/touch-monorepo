@@ -103,8 +103,8 @@ export const stylesPadBasic = {
     font-size: 2rem;
     background: transparent;
     width: 100%;
-    border: ${layout.borderWidth} solid ${colors.greyXXDark};
-    color: ${colors.info};
+    border: ${layout.borderWidth} solid ${colors.greyXXLight};
+    color: ${colors.infoLight};
   `,
 
   controlButton: css`
@@ -121,8 +121,8 @@ export const stylesPadBasic = {
     background: transparent;
     padding: 0;
     line-height: 1;
-    border: ${layout.borderWidth} solid ${colors.info};
-    color: ${colors.info};
+    border: ${layout.borderWidth} solid ${colors.infoLight};
+    color: ${colors.infoLight};
 
     span {
       padding-bottom: 0.15em;
@@ -132,14 +132,14 @@ export const stylesPadBasic = {
       transform: scale(${button.transform.padBasicHoverScale});
       border-color: ${colors.info};
       color: ${colors.info};
-      background-color: ${colors.infoLight};
+      background-color: ${colors.infoXLight50};
     }
 
     &:disabled {
       cursor: not-allowed;
       background-color: transparent;
-      border-color: ${colors.greyXDark};
-      color: ${colors.greyXDark};
+      border-color: ${colors.greyXXLight66};
+      color: ${colors.greyXXLight66};
     }
   `,
 

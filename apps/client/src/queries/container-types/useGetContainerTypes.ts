@@ -1,14 +1,14 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import type { ContainerType } from 'types/models/container.model';
-import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
+import type { ErrorResponse } from '@workspace/core/api';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 import { api } from 'api';
 import { transformAxiosError } from 'src/api/api.utils';
 
 const getContainerTypes = async () => {
   try {
-    const response = await api.get<ApiResponse<ContainerType[]>>('/container-types');
+    const response = await api.get<ContainerType[]>('/container-types');
     if (response.status !== 200) {
       throw new Error(`Failed to fetch container types: ${response.statusText}`);
     }

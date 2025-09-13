@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 import { OrdersTable } from 'pages/AdminPages/AdminOrdersPage/OrdersTable';
@@ -11,7 +11,6 @@ import { Drawer } from 'components/Drawer';
 import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getHumanReadableId } from 'utils/readable.utils';
-import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { ReadableSalt } from 'constants/readable-salt.constants';
 import clsx from 'clsx';
