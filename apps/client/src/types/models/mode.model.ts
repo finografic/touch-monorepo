@@ -1,4 +1,4 @@
 import type { ModeEntity } from '@workspace/server/types';
-import type { ConvertKeysToCamelCase, OverridePropTypes } from '@workspace/core/types/utils';
+import type { ConvertKeysToCamelCase } from '@workspace/core/types/utils';
 
-export type Mode = ConvertKeysToCamelCase<ModeEntity>;
+export type ModeModel = ConvertKeysToCamelCase<ModeEntity>;

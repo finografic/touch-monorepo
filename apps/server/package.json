@@ -14,6 +14,18 @@
     "./db/schemas": {
       "types": "./dist/db/schemas/index.d.ts",
       "import": "./dist/db/schemas/index.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    },
+    "./types/entities": {
+      "types": "./dist/types/entities/index.d.ts",
+      "import": "./dist/types/entities/index.js"
+    },
+    "./types/entities/*": {
+      "types": "./dist/types/entities/*.d.ts",
+      "import": "./dist/types/entities/*.js"
     }
   },
   "main": "./dist/index.js",

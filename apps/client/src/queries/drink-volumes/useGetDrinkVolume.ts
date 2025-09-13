@@ -8,7 +8,7 @@ import type { DrinkVolume } from 'types/models/volume.model';
 
 const getDrinkVolume = async (id: string) => {
   try {
-    const response = await api.get<ApiResponse<DrinkVolume>>(`/drink-volumes/${id}`);
+    const response = await api.get<DrinkVolume>(`/drink-volumes/${id}`);
     if (response.status !== 200) {
       throw new Error(`Failed to fetch drink volume: ${response.statusText}`);
     }
