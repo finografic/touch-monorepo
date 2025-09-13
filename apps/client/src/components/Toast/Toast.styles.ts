@@ -6,14 +6,14 @@ import type { ToastVariant } from './Toast.types';
 const getVariantColor = (variant: ToastVariant): string => {
   switch (variant) {
     case 'success':
-      return colors.success;
+      return colors.successXLight;
     case 'error':
-      return colors.danger;
+      return colors.dangerXLight;
     case 'warning':
-      return colors.warning;
+      return colors.warningXLight;
     case 'info':
     default:
-      return colors.info;
+      return colors.infoXLight;
   }
 };
 
@@ -38,7 +38,7 @@ export const getToastRootStyles = (variant: ToastVariant) => {
   const isSuccess = variant === 'success';
 
   return css`
-    background-color: ${isSuccess ? colors.successXDark : 'white'};
+    background-color: ${isSuccess ? colors.successLight : 'white'};
     border-radius: 8px;
     border-left: 4px solid ${getVariantColor(variant)};
     border-left: none;
@@ -108,8 +108,8 @@ export const toastIconStyles = css`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   margin-top: 2px;
 `;
 

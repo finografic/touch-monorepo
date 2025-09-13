@@ -11,10 +11,13 @@ import {
   useGetSlotConfigurations,
   useResetSlotConfigurations,
 } from 'queries/slot-configurations';
+import { useGetModes, useUpdateMode } from 'queries/modes';
 import { SelectSimple } from 'forms/SelectSimple';
 import { GRID_CONFIGS } from 'types/slot-config.types';
 import { ItemType } from 'types/orders.types';
 import { styles } from './AdminAppConfigPage.styles';
+import { useToast } from 'components/Toast';
+import { colors } from 'styles';
 
 // Types for form values
 interface SlotConfigFormValue {
@@ -29,8 +32,11 @@ interface SlotConfigForm {
 export const AdminAppConfigPage: React.FC = () => {
   const { t } = useTranslation();
   const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
+  const { data: modes, isLoading: modesLoading } = useGetModes();
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
   const resetMutation = useResetSlotConfigurations();
+  const updateModeMutation = useUpdateMode();
+  const { toast } = useToast();
   const initialColumns = 3;
   const minColumns = 2;
   const maxColumns = 5;
@@ -168,6 +174,50 @@ export const AdminAppConfigPage: React.FC = () => {
     );
   };
 
+  // Mode selection handler
+  const handleModeChange = async (modeId: string) => {
+    try {
+      // First, set all modes to not default
+      const updatePromises = modes?.map((mode) => {
+        if (mode.id !== modeId && mode.isDefault) {
+          return updateModeMutation.mutateAsync({
+            id: mode.id,
+            updates: { isDefault: false },
+          });
+        }
+        return Promise.resolve();
+      });
+
+      await Promise.all(updatePromises);
+
+      // Then set the selected mode as default
+      await updateModeMutation.mutateAsync({
+        id: modeId,
+        updates: { isDefault: true },
+      });
+
+      toast({ variant: 'success', message: 'Mode updated successfully!' });
+    } catch (error) {
+      console.error('Failed to update mode:', error);
+      toast({ variant: 'error', message: 'Failed to update mode. Please try again.' });
+    }
+  };
+
+  // Get current default mode
+  const defaultMode = modes?.find((mode) => mode.isDefault);
+  const modeOptions =
+    modes?.map((mode) => ({
+      value: mode.id,
+      label: `${mode.name} - ${mode.description}`,
+    })) || [];
+
+  // Create options array for SelectSimple (using labels as display values)
+  const selectOptions = modeOptions.map((opt) => opt.label);
+  const getModeIdFromLabel = (label: string) => {
+    const mode = modeOptions.find((opt) => opt.label === label);
+    return mode?.value;
+  };
+
   if (isLoading) {
     return (
       <AdminContentLayout title="Slot Configuration" subtitle="Loading...">
@@ -283,18 +333,40 @@ export const AdminAppConfigPage: React.FC = () => {
                   </Flex>
                 </Flex>
               </Card>
-              {/* Configuration controls */}
+
+              {/* App mode selection */}
               <Heading size="8" mb="0">
-                Selecció de modo
+                Mode Selection
               </Heading>
               <Card size="3" variant="surface">
-                <Flex direction="column" gap="4" className="mode-select-container">
-                  <SelectSimple
-                    className="mode-select"
-                    options={['A', 'B', 'C']}
-                    value=""
-                    onSelect={(val) => ({})}
-                  />
+                <Flex gap="4" justify="between">
+                  <Flex direction="column" gap="4" className="mode-select-container">
+                    <Text size="2" color="gray">
+                      Default cooling mode
+                    </Text>
+                    {modesLoading ? (
+                      <Text size="2">Loading modes...</Text>
+                    ) : (
+                      <SelectSimple
+                        className="mode-select"
+                        options={selectOptions}
+                        value={defaultMode ? `${defaultMode.name} - ${defaultMode.description}` : ''}
+                        onSelect={(label) => {
+                          const modeId = getModeIdFromLabel(label as string);
+                          if (modeId) {
+                            handleModeChange(modeId);
+                          }
+                        }}
+                      />
+                    )}
+                  </Flex>
+                  <Flex align="center" gap="4" className="mode-value">
+                    {defaultMode && (
+                      <Text size="2" color="sky" mt="6">
+                        Current default: {defaultMode.name} - {defaultMode.description}
+                      </Text>
+                    )}
+                  </Flex>
                 </Flex>
               </Card>
             </Flex>
