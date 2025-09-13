@@ -30,6 +30,5 @@ export interface TemperatureFilter {
   initial?: number;
   final?: number;
   duration?: number;
-  status?: 'pending' | 'in_progress' | 'completed' | 'error';
   lookup?: { [FilterKeys.temperatureName]: string | number };
 }

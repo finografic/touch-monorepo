@@ -17,9 +17,14 @@ import { TimersProvider } from 'providers/TimersProvider';
 import { ContentProvider } from 'providers/ContentProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';
+import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
+import { NUM_GRID_ITEMS } from 'constants/app.config';
+import type { ValidGridSize } from 'types/menu.types';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
+  const { data: slotConfigs } = useGetSlotConfigurations();
+  const numItems = (slotConfigs ? slotConfigs.length : NUM_GRID_ITEMS) as ValidGridSize;
 
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
@@ -27,7 +32,7 @@ export const Layout: FC = () => {
     <TimersProvider>
       <OrdersProvider>
         <PaginationProvider>
-          <LayoutUiProvider>
+          <LayoutUiProvider initialValue={{ numItems }}>
             <AdminProvider>
               <ContentProvider>
                 <DevProvider>

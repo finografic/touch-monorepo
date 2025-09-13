@@ -152,7 +152,8 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             });
           },
           selectAllMainPageSlots: () => {
-            set({ mainPageSelectedSlots: [1, 2, 3, 4, 5, 6, 7, 8, 9] });
+            const { numItems } = get();
+            set({ mainPageSelectedSlots: Array.from({ length: numItems }, (_, i) => i + 1) });
           },
           clearMainPageSelection: () => {
             set({ mainPageSelectedSlots: [] });
