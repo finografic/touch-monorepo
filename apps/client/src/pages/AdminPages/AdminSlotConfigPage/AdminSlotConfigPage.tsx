@@ -288,22 +288,13 @@ export const AdminSlotConfigPage: React.FC = () => {
                 Selecció de modo
               </Heading>
               <Card size="3" variant="surface">
-                <Flex direction="column" gap="4">
-                  <div className="slot-list-container">
-                    {slots.map(({ slotNumber, itemType }) => (
-                      <Flex key={slotNumber} className="slot-list-item">
-                        <Text size="2" weight="bold">
-                          Slot {slotNumber}
-                        </Text>
-                        <SelectSimple
-                          className="slot-select"
-                          options={['A', 'B', 'C']}
-                          value={itemType}
-                          onSelect={(val) => handleTypeChange?.(slotNumber, val as ItemType)}
-                        />
-                      </Flex>
-                    ))}
-                  </div>
+                <Flex direction="column" gap="4" className="mode-select-container">
+                  <SelectSimple
+                    className="mode-select"
+                    options={['A', 'B', 'C']}
+                    value=""
+                    onSelect={(val) => ({})}
+                  />
                 </Flex>
               </Card>
             </Flex>
