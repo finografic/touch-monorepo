@@ -21,26 +21,31 @@ export async function seed() {
           id: randomUUID(),
           name: '1',
           description: 'fast - Fast mode - rapid temperature reduction',
+          isDefault: false,
         },
         {
           id: randomUUID(),
           name: '2',
           description: 'fast - Fast mode - rapid temperature reduction',
+          isDefault: false,
         },
         {
           id: randomUUID(),
           name: '3',
           description: 'slow - Slow mode - gentler temperature reduction',
+          isDefault: true,
         },
         {
           id: randomUUID(),
           name: '4',
           description: 'medium - Medium mode - balanced temperature reduction',
+          isDefault: false,
         },
         {
           id: randomUUID(),
           name: '5',
           description: 'fast - Fast mode - rapid temperature reduction',
+          isDefault: false,
         },
       ])
       .returning();

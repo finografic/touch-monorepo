@@ -1,4 +1,4 @@
-import { sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { relations } from 'drizzle-orm';
 import { temperature_profiles } from './temperature_profiles.schema';
@@ -10,6 +10,7 @@ export const modes = sqliteTable('modes', {
     .$defaultFn(() => createCuid()),
   name: text('name').notNull(),
   description: text('description'),
+  isDefault: integer('is_default', { mode: 'boolean' }).notNull().default(false),
 });
 
 // Define relations

@@ -14,7 +14,7 @@ import {
 import { SelectSimple } from 'forms/SelectSimple';
 import { GRID_CONFIGS } from 'types/slot-config.types';
 import { ItemType } from 'types/orders.types';
-import { styles } from './AdminSlotConfigPage.styles';
+import { styles } from './AdminAppConfigPage.styles';
 
 // Types for form values
 interface SlotConfigFormValue {
@@ -26,7 +26,7 @@ interface SlotConfigForm {
   slots: SlotConfigFormValue[];
 }
 
-export const AdminSlotConfigPage: React.FC = () => {
+export const AdminAppConfigPage: React.FC = () => {
   const { t } = useTranslation();
   const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();

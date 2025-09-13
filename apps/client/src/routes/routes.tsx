@@ -17,7 +17,7 @@ import { TimePage } from 'pages/TimePage/TimePage';
 import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
 import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPage';
 import { AdminSoundPage } from 'pages/AdminPages/AdminSoundPage/AdminSoundPage';
-import { AdminSlotConfigPage } from 'pages/AdminPages/AdminSlotConfigPage/AdminSlotConfigPage';
+import { AdminAppConfigPage } from 'pages/AdminPages/AdminAppConfigPage/AdminAppConfigPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { AdminLoginPage } from 'pages/AdminLoginPage/AdminLoginPage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
@@ -166,7 +166,7 @@ export const routes: RouteObject[] = [
           {
             path: 'slot-config',
             id: 'slot-config',
-            element: <AdminSlotConfigPage />,
+            element: <AdminAppConfigPage />,
           },
         ],
       },
