@@ -13,6 +13,7 @@ export const DevPanelLeft = () => {
   const { pads: padsSource } = useLayoutUi();
 
   if (['/temperature'].includes(location.pathname)) {
+    return <DevFilterResults />;
     return <DevOrderProfile />;
   }
 

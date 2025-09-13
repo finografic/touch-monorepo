@@ -5,6 +5,7 @@ import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useFilters } from 'hooks/useFilters';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 import { TemperatureKey } from 'types/temperature.types';
 import { styles } from './TemperaturePage.styles';
 import { findClosestProfile } from 'utils/temperature.utils';
@@ -23,6 +24,7 @@ interface TemperatureState {
 export const TemperaturePage = () => {
   const { profile, ordersReadable } = useOrders();
   const { dataFiltered } = useFilters();
+  const { currentSessionId, sessions, updateSessionFilters } = useSession();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
     [TemperatureKey.Initial]: INITIAL_TEMP_DEFAULT,
@@ -51,6 +53,38 @@ export const TemperaturePage = () => {
   useEffect(() => {
     initializeTemperatures(setTemperatures);
   }, [initializeTemperatures]);
+
+  /*
+  // Update session filters when temperatures change
+  useEffect(() => {
+    if (!currentSessionId) return;
+
+    const currentSessionFilters = sessions[currentSessionId]?.filters || {};
+
+    // Get default values from drink_subtype filter first, then fallback to drink_type filter
+    const drinkSubtypeFilter = currentSessionFilters.drinkSubtype;
+    const drinkTypeFilter = currentSessionFilters.drinkType;
+
+    const defaultConsume = drinkSubtypeFilter?.defaultTempConsume ?? drinkTypeFilter?.defaultTempConsume;
+    const defaultFreeze = drinkSubtypeFilter?.defaultTempFreeze ?? drinkTypeFilter?.defaultTempFreeze;
+
+    const temperatureFilter = {
+      defaultConsume,
+      defaultFreeze,
+      initial: temperatures.initial,
+      final: temperatures.final,
+      closestTemperature: closestProfile?.temperature,
+      temperatureProfiles,
+    };
+
+    const newFilters = {
+      ...currentSessionFilters,
+      temperature: temperatureFilter,
+    };
+
+    updateSessionFilters(currentSessionId, newFilters);
+  }, [temperatures, closestProfile, temperatureProfiles, currentSessionId, sessions, updateSessionFilters]);
+*/
 
   // Handle temperature changes
   const handleChange = (name: TemperatureKey, temp: Temperature) => {

@@ -26,9 +26,18 @@ export interface TemperatureProfileWithRelations extends TemperatureProfile {
   };
 }
 
-export interface TemperatureFilter {
+export interface TemperatureFilter__V1 {
   initial?: number;
   final?: number;
   duration?: number;
   lookup?: { [FilterKeys.temperatureName]: string | number };
+}
+
+export interface TemperatureFilter {
+  defaultConsume?: number;
+  defaultFreeze?: number;
+  initial?: number;
+  final?: number;
+  closestTemperature?: TemperatureProfile['temperature'];
+  temperatureProfiles?: TemperatureProfile[];
 }

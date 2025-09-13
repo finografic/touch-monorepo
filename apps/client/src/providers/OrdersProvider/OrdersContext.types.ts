@@ -12,6 +12,7 @@ export interface OrdersValues {
   [OrdersKeys.profile]: OrderReadableModel | null;
   [OrdersKeys.ordersReadable]: OrderReadableModel[];
   [OrdersKeys.filters]: OrderFilters;
+  // [OrdersKeys.orderFilters]: OrderFilters;
 }
 
 // Auto-generated setters for OrdersValues
@@ -24,6 +25,7 @@ export type OrdersActions = OrdersSetters & {
   setProfile: (profile: OrderReadableModel | null) => void;
   fetchOrderWithProfiles: (orderId: string) => Promise<void>;
   setFilters: (filters: OrderFilters) => void;
+  // setOrderFilters: (filters: OrderFilters) => void;
   setOrdersFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => void;
   setOrderProcessing: ({
     itemNumber,

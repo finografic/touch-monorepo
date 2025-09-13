@@ -2,16 +2,28 @@ import { useFilters } from 'hooks/useFilters';
 import { styles } from './DevFilterResults.styles';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { DevDataTable } from '../DevDataTable';
+import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 export const DevFilterResults = () => {
   const { dataFiltered, filters } = useFilters({});
+  // const { filters: ordersFilters } = useOrders();
   const { sessions, currentSessionId } = useSession();
+
+  log('__DEV: filters', 'hotpink', filters);
+  // log('__DEV: ordersFilters', 'hotpink', ordersFilters);
+
+  const sessionFilters =
+    currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
 
   return (
     <div id="dev-filter-results" css={styles}>
-      <div className="filters">
+      {/* <div className="filters">
         <h4>Filters ({Object.keys(filters).length}):</h4>
         <pre>{JSON.stringify(filters, null, 2)}</pre>
+      </div> */}
+      <div className="filters">
+        <h4>sessionFilters ({Object.keys(sessionFilters).length}):</h4>
+        <pre>{JSON.stringify(sessionFilters, null, 2)}</pre>
       </div>
       <DevDataTable
         data={dataFiltered}

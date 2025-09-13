@@ -22,6 +22,7 @@ export enum OrdersKeys {
   profile = 'profile',
   ordersReadable = 'ordersReadable',
   filters = 'filters',
+  // orderFilters = 'orderFilters',
 }
 
 export const defaultValue: OrdersValues = {
@@ -29,6 +30,7 @@ export const defaultValue: OrdersValues = {
   profile: null,
   ordersReadable: [],
   filters: {},
+  // orderFilters: {},
 };
 
 export const OrdersContext = createZustandContext(({ initialValue }) => {
