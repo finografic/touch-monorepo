@@ -68,7 +68,11 @@ export const SlotConfigControls: React.FC<SlotConfigControlsProps> = ({
                 </Text>
                 <SelectSimple
                   className="slot-select"
-                  options={['A', 'B', 'C']}
+                  options={[
+                    { value: 'A', label: 'A' },
+                    { value: 'B', label: 'B' },
+                    { value: 'C', label: 'C' },
+                  ]}
                   value={config.itemType}
                   onSelect={(val) => onTypeChange?.(config.slotNumber, val as ItemType)}
                 />
