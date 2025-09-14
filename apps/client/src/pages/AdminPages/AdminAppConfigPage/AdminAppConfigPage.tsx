@@ -244,6 +244,12 @@ export const AdminAppConfigPage: React.FC = () => {
                       gridConfig={GRID_CONFIGS[columns]}
                       onConfigurationChange={handleGridConfigChange}
                     />
+                    <Flex gap="4" align="center" mt="-4" pb="4">
+                      <Badge variant="soft" color="blue">
+                        {columns} columns × 3 rows = {GRID_CONFIGS[columns].totalSlots - 1} slots + 1 separate
+                        slot
+                      </Badge>
+                    </Flex>
                   </Flex>
                   <Flex direction="column" gap="4">
                     <div className="slot-types-container">
@@ -265,47 +271,37 @@ export const AdminAppConfigPage: React.FC = () => {
                         </Flex>
                       </div>
                     </div>
-                    <div className="slot-types-container">
-                      <Heading size="4">Dimensiones de Cuadrícula</Heading>
-                      <div className="slot-legend">
-                        <Flex direction="column" align="stretch" gap="4">
-                          <Button
-                            variant="outline"
-                            color="green"
-                            size="3"
-                            onClick={handleAddColumn}
-                            disabled={columns >= maxColumns}
-                          >
-                            <Flex justify="start" align="center" width="100%" gap="4" ml="6">
-                              <PlusIcon />
-                              Add Column
-                            </Flex>
-                          </Button>
-                          <Button
-                            variant="outline"
-                            color="orange"
-                            size="3"
-                            onClick={handleRemoveColumn}
-                            disabled={columns <= minColumns}
-                          >
-                            <Flex justify="start" align="center" width="100%" gap="4" ml="6">
-                              <MinusIcon />
-                              Remove Column
-                            </Flex>
-                          </Button>
-                        </Flex>
-                      </div>
-                    </div>
                   </Flex>
                 </Flex>
 
                 <Flex justify="between" gap="4" pr="3">
-                  <Flex gap="4" align="center" pt="4" pb="2">
-                    <Badge variant="soft" color="blue">
-                      {columns} columns × 3 rows = {GRID_CONFIGS[columns].totalSlots - 1} slots + 1 separate
-                      slot
-                    </Badge>
+                  <Flex gap="2">
+                    <Button
+                      variant="outline"
+                      color="green"
+                      size="3"
+                      onClick={handleAddColumn}
+                      disabled={columns >= maxColumns}
+                    >
+                      <Flex justify="start" align="center" width="180px" gap="4" ml="4">
+                        <PlusIcon />
+                        Add Column
+                      </Flex>
+                    </Button>
+                    <Button
+                      variant="outline"
+                      color="orange"
+                      size="3"
+                      onClick={handleRemoveColumn}
+                      disabled={columns <= minColumns}
+                    >
+                      <Flex justify="start" align="center" width="180px" gap="4" ml="4">
+                        <MinusIcon />
+                        Remove Column
+                      </Flex>
+                    </Button>
                   </Flex>
+
                   <Flex justify="between" gap="2">
                     <Flex gap="2">
                       <Button

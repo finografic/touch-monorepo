@@ -32,7 +32,7 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     padding: 0rem 1rem 1.5rem 1rem;
-    width: 280px;
+    width: 180px;
   }
 
   .slot-legend {
@@ -52,7 +52,7 @@ export const styles = css`
     border: 1px solid ${colors.greyXXLight20};
     padding: 0.5rem 1.5rem;
     border-radius: ${layout.borderRadius.md};
-    width: 280px;
+    width: 180px;
   }
 
   .slot-legend {
@@ -68,7 +68,7 @@ export const styles = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 0.5rem;
+    margin-left: 0.25rem;
     font-weight: bold;
     font-size: 14px;
     line-height: 1;
