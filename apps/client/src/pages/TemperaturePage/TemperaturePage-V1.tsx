@@ -10,7 +10,7 @@ import { TemperatureKey } from 'types/temperature.types';
 import { styles } from './TemperaturePage.styles';
 import { findClosestProfile } from 'utils/temperature.utils';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
-import { PadNumeric } from 'components/Pads/PadNumeric';
+import { TemperatureForm } from './TemperatureForm';
 import { useTemperatureManagement } from './useTemperatureManagement';
 import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
 
@@ -124,28 +124,17 @@ export const TemperaturePage = () => {
           </Box>
         </Flex>
 
-        <Flex gap="3" justify="center">
-          <PadNumeric
-            label={TEMPERATURE_DESCRIPTIONS.initial.label}
-            value={temperatures.initial}
-            onChange={(value) => handleChange(TemperatureKey.Initial, { value, unit: '°C' })}
-            min={minProfileTemp}
-            max={minMaxTemperatures.max}
-            step={0.5}
-            decimalPlaces={1}
-            suffix="°C"
-          />
-          <PadNumeric
-            label={TEMPERATURE_DESCRIPTIONS.final.label}
-            value={temperatures.final}
-            onChange={(value) => handleChange(TemperatureKey.Final, { value, unit: '°C' })}
-            min={minMaxTemperatures.min}
-            max={temperatures.initial - MIN_TEMP_DIFFERENCE}
-            step={0.5}
-            decimalPlaces={1}
-            suffix="°C"
-          />
-        </Flex>
+        <TemperatureForm
+          temperatures={temperatures}
+          onChange={handleChange}
+          minProfileTemp={minProfileTemp}
+          maxInitialTemp={minMaxTemperatures.max}
+          minFinalTemp={minMaxTemperatures.min}
+          labels={{
+            initial: TEMPERATURE_DESCRIPTIONS.initial.label,
+            final: TEMPERATURE_DESCRIPTIONS.final.label,
+          }}
+        />
       </Flex>
     </Flex>
   );

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PadTimeGroup } from 'components/Pads/PadTimeGroup';
+import { PadNumeric } from 'components/Pads/PadNumeric';
 import { Box, Flex } from '@radix-ui/themes';
 import { stylesAppContent } from '../../styles/project/project.app.styles';
 import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS, TIME_MIN_SECONDS } from 'constants/time.config';
@@ -39,13 +39,34 @@ export const TimePage = () => {
     <Flex css={stylesAppContent} className="time-content" gap="3" direction="column">
       <Flex gap="3" justify="center">
         <Box>
-          <PadTimeGroup
-            value={totalSeconds}
-            onChange={handleTimeChange}
-            // description={t('app.components.temperatureControl.initial')}
-            min={TIME_MIN_SECONDS}
-            max={TIME_MAX_SECONDS}
-          />
+          <Flex gap="3" justify="center">
+            <PadNumeric
+              label="Minutos"
+              value={Math.floor(totalSeconds / 60)}
+              onChange={(minutes) => {
+                const newTotalSeconds = minutes * 60 + (totalSeconds % 60);
+                handleTimeChange(newTotalSeconds);
+              }}
+              min={0}
+              max={Math.floor(TIME_MAX_SECONDS / 60)}
+              step={1}
+              padZeros={2}
+              suffix="Min"
+            />
+            <PadNumeric
+              label="Segundos"
+              value={totalSeconds % 60}
+              onChange={(seconds) => {
+                const newTotalSeconds = Math.floor(totalSeconds / 60) * 60 + seconds;
+                handleTimeChange(newTotalSeconds);
+              }}
+              min={0}
+              max={59}
+              step={1}
+              padZeros={2}
+              suffix="Seg"
+            />
+          </Flex>
         </Box>
       </Flex>
     </Flex>

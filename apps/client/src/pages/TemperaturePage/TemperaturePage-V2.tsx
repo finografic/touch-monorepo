@@ -128,22 +128,22 @@ export const TemperaturePage = () => {
           <PadNumeric
             label={TEMPERATURE_DESCRIPTIONS.initial.label}
             value={temperatures.initial}
-            onChange={(value) => handleChange(TemperatureKey.Initial, { value, unit: '°C' })}
+            onChange={(value) => handleChange(TemperatureKey.Initial, { value })}
             min={minProfileTemp}
             max={minMaxTemperatures.max}
             step={0.5}
             decimalPlaces={1}
-            suffix="°C"
+            suffix=" °C"
           />
           <PadNumeric
             label={TEMPERATURE_DESCRIPTIONS.final.label}
             value={temperatures.final}
-            onChange={(value) => handleChange(TemperatureKey.Final, { value, unit: '°C' })}
+            onChange={(value) => handleChange(TemperatureKey.Final, { value })}
             min={minMaxTemperatures.min}
             max={temperatures.initial - MIN_TEMP_DIFFERENCE}
             step={0.5}
             decimalPlaces={1}
-            suffix="°C"
+            suffix=" °C"
           />
         </Flex>
       </Flex>
