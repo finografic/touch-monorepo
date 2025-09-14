@@ -59,34 +59,4 @@ export const styles = css`
     border-color: ${colors.dangerLight};
     color: ${colors.dangerLight};
   }
-
-  .slot-legend {
-    margin-top: 1rem;
-    padding: 0 0 1rem 0;
-    border-radius: var(--radius-2);
-  }
-
-  .legend-item {
-    width: 24px;
-    height: 24px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 12px;
-    color: white;
-  }
-
-  .legend-type-a {
-    background: ${colors.defaultLight};
-  }
-
-  .legend-type-b {
-    background: ${colors.infoLight};
-  }
-
-  .legend-type-c {
-    background: ${colors.dangerLight};
-  }
 `;

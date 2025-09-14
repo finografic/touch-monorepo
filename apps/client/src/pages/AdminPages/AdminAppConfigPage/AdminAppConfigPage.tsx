@@ -40,8 +40,6 @@ export const AdminAppConfigPage: React.FC = () => {
   const maxColumns = 5;
   const defaultGridConfig = GRID_CONFIGS[initialColumns];
 
-  log('__DEV: slotConfigs', 'cyan', slotConfigs.length);
-
   // Helper to generate slots for a given column count
   const generateSlots = (columns: number, fromConfigs?: SlotConfigFormValue[]): SlotConfigFormValue[] => {
     const gridConfig = GRID_CONFIGS[columns];
@@ -80,10 +78,7 @@ export const AdminAppConfigPage: React.FC = () => {
     mode: 'onChange',
   });
   const { control, handleSubmit, reset, watch, setValue } = methods;
-  const { fields, replace } = useFieldArray({
-    control,
-    name: 'slots',
-  });
+  const { replace } = useFieldArray({ control, name: 'slots' });
   const columns = watch('columns');
   const slots = watch('slots');
 
@@ -142,7 +137,6 @@ export const AdminAppConfigPage: React.FC = () => {
     }
   };
 
-  // Add/Remove column handlers
   const handleAddColumn = () => {
     if (columns < maxColumns) {
       setValue('columns', columns + 1);
@@ -238,7 +232,6 @@ export const AdminAppConfigPage: React.FC = () => {
         >
           <Box className="admin-slot-config">
             <Flex direction="column" gap="6">
-              {/* Visual grid */}
               <Card size="3" variant="surface">
                 <Flex gap="4" justify="between">
                   <Flex direction="column" gap="4">
@@ -253,26 +246,60 @@ export const AdminAppConfigPage: React.FC = () => {
                     />
                   </Flex>
                   <Flex direction="column" gap="4">
-                    <Heading size="4">Slot Grid Assignments</Heading>
-                    <div className="slot-list-container">
-                      {slots.map(({ slotNumber, itemType }) => (
-                        <Flex key={slotNumber} className="slot-list-item">
-                          <Text size="2" weight="bold">
-                            Slot {slotNumber}
-                          </Text>
-                          <SelectSimple
-                            className="slot-select"
-                            options={['A', 'B', 'C']}
-                            value={itemType}
-                            onSelect={(val) => handleTypeChange?.(slotNumber, val as ItemType)}
-                          />
+                    <div className="slot-types-container">
+                      <Heading size="4">Slot Types</Heading>
+                      <div className="slot-legend">
+                        <Flex direction="column" gap="5">
+                          <Flex align="center" gap="4">
+                            <div className="legend-item legend-type-a">A</div>
+                            <Text size="3">Type A</Text>
+                          </Flex>
+                          <Flex align="center" gap="4">
+                            <div className="legend-item legend-type-b">B</div>
+                            <Text size="3">Type B</Text>
+                          </Flex>
+                          <Flex align="center" gap="4">
+                            <div className="legend-item legend-type-c">C</div>
+                            <Text size="3">Type C</Text>
+                          </Flex>
                         </Flex>
-                      ))}
+                      </div>
+                    </div>
+                    <div className="slot-types-container">
+                      <Heading size="4">Dimensiones de Cuadrícula</Heading>
+                      <div className="slot-legend">
+                        <Flex direction="column" align="stretch" gap="4">
+                          <Button
+                            variant="outline"
+                            color="green"
+                            size="3"
+                            onClick={handleAddColumn}
+                            disabled={columns >= maxColumns}
+                          >
+                            <Flex justify="start" align="center" width="100%" gap="4" ml="6">
+                              <PlusIcon />
+                              Add Column
+                            </Flex>
+                          </Button>
+                          <Button
+                            variant="outline"
+                            color="orange"
+                            size="3"
+                            onClick={handleRemoveColumn}
+                            disabled={columns <= minColumns}
+                          >
+                            <Flex justify="start" align="center" width="100%" gap="4" ml="6">
+                              <MinusIcon />
+                              Remove Column
+                            </Flex>
+                          </Button>
+                        </Flex>
+                      </div>
                     </div>
                   </Flex>
                 </Flex>
 
-                <Flex direction="column" gap="4">
+                <Flex justify="between" gap="4" pr="3">
                   <Flex gap="4" align="center" pt="4" pb="2">
                     <Badge variant="soft" color="blue">
                       {columns} columns × 3 rows = {GRID_CONFIGS[columns].totalSlots - 1} slots + 1 separate
@@ -280,28 +307,6 @@ export const AdminAppConfigPage: React.FC = () => {
                     </Badge>
                   </Flex>
                   <Flex justify="between" gap="2">
-                    <Flex gap="2">
-                      <Button
-                        variant="outline"
-                        color="green"
-                        size="3"
-                        onClick={handleAddColumn}
-                        disabled={columns >= maxColumns}
-                      >
-                        <PlusIcon />
-                        Add Column
-                      </Button>
-                      <Button
-                        variant="outline"
-                        color="orange"
-                        size="3"
-                        onClick={handleRemoveColumn}
-                        disabled={columns <= minColumns}
-                      >
-                        <MinusIcon />
-                        Remove Column
-                      </Button>
-                    </Flex>
                     <Flex gap="2">
                       <Button
                         size="3"

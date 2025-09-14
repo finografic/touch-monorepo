@@ -28,6 +28,18 @@ export const styles = css`
     padding: 0rem 0.5rem 0rem 0rem;
   }
 
+  .slot-types-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0rem 1rem 1.5rem 1rem;
+    width: 280px;
+  }
+
+  .slot-legend {
+    display: block;
+    padding: 3rem 1.5rem;
+  }
+
   .slot-list-item {
     display: flex;
     flex-direction: row;
@@ -40,6 +52,38 @@ export const styles = css`
     border: 1px solid ${colors.greyXXLight20};
     padding: 0.5rem 1.5rem;
     border-radius: ${layout.borderRadius.md};
-    width: 220px;
+    width: 280px;
+  }
+
+  .slot-legend {
+    margin-top: 1rem;
+    padding: 0 0 1rem 0;
+    border-radius: var(--radius-2);
+  }
+
+  .legend-item {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5rem;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 1;
+    color: white;
+  }
+
+  .legend-type-a {
+    background: ${colors.defaultLight};
+  }
+
+  .legend-type-b {
+    background: ${colors.infoLight};
+  }
+
+  .legend-type-c {
+    background: ${colors.dangerLight};
   }
 `;

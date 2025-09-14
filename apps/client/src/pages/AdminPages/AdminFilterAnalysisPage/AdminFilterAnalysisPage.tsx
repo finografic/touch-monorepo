@@ -3,7 +3,6 @@ import { useTranslation } from 'react-i18next';
 import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { useGetOrdersReadable } from 'queries/orders/useGetOrdersReadable';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
 import { OrdersTable } from 'pages/AdminPages/AdminOrdersPage/OrdersTable';
 
@@ -11,14 +10,11 @@ export const AdminFilterAnalysisPage: React.FC = () => {
   const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState('');
 
-  // Fetch orders-readable data
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
 
-  // Simple search filtering
   const filteredOrders = useMemo(() => {
     let results = ordersData;
 
-    // Apply search
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
       results = results.filter(
