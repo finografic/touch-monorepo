@@ -11,7 +11,7 @@ import {
   useResetSlotConfigurations,
 } from 'queries/slot-configurations';
 import { useGetModes, useUpdateMode } from 'queries/modes';
-import { SelectSimpleAlt } from 'forms/SelectSimpleAlt';
+import { SelectSimple } from 'forms/SelectSimple';
 import { GRID_CONFIGS } from 'types/slot-config.types';
 import { ItemType } from 'types/orders.types';
 import { styles } from './AdminAppConfigPage.styles';
@@ -200,7 +200,7 @@ export const AdminAppConfigPage: React.FC = () => {
   const modeOptions = modes?.map((mode) => ({ value: mode.id, label: mode.name })) || [];
 
   // Create options array for SelectSimple (using labels as display values)
-  const selectOptions = modeOptions.map((opt) => opt.label);
+  const selectOptions = modeOptions.map((option) => ({ value: option.label, label: option.label }));
   const getModeIdFromLabel = (label: string) => {
     const mode = modeOptions.find((opt) => opt.label === label);
     return mode?.value;
@@ -342,7 +342,7 @@ export const AdminAppConfigPage: React.FC = () => {
                     {modesLoading ? (
                       <Text size="2">Loading modes...</Text>
                     ) : (
-                      <SelectSimpleAlt
+                      <SelectSimple
                         className="mode-select"
                         options={selectOptions}
                         value={defaultMode ? defaultMode.name : ''}
