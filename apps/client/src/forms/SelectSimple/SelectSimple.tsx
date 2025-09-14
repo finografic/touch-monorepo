@@ -32,24 +32,6 @@ export const SelectSimple = forwardRef<HTMLSelectElement, SelectSimpleProps>(
     },
     ref,
   ) => {
-    // Convert simple arrays to SelectOption format
-    const selectOptions = useMemo((): SelectOption[] => {
-      if (options.length === 0) return [];
-
-      // Check if already SelectOption objects
-      if (typeof options[0] === 'object' && 'value' in options[0]) {
-        return options as SelectOption[];
-      }
-
-      // Convert string[] or number[] to SelectOption[]
-      return (options as (string | number)[]).map((option) => ({
-        value: String(option),
-        label: String(option),
-        description: `Option: ${option}`,
-        category: 'Simple',
-      }));
-    }, [options]);
-
     const handleValueChange = (newValue: string) => {
       // Convert back to original type for onSelect
       if (typeof options[0] === 'object' && 'value' in options[0]) {
@@ -85,7 +67,7 @@ export const SelectSimple = forwardRef<HTMLSelectElement, SelectSimpleProps>(
         >
           <Select.Trigger placeholder={placeholder} />
           <Select.Content>
-            {selectOptions.map((option) => (
+            {options.map((option) => (
               <Select.Item key={option.value} value={option.value}>
                 {option.label}
               </Select.Item>

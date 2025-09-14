@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { colors } from 'styles';
 
 export const styles = css`
   .search-container {
@@ -25,7 +26,7 @@ export const styles = css`
     margin-top: 4px;
     max-height: 300px;
     overflow-y: auto;
-    background: var(--color-background);
+    background: ${colors.background};
     /* border: 1px solid red; */
 
     &:before {
