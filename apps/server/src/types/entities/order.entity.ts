@@ -1,5 +1,6 @@
 export interface OrderEntity {
   id: string;
+  mode_id: string;
   drink_type_id: string;
   drink_subtype_id: string | null;
   volume_id: string;

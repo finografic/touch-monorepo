@@ -16,7 +16,7 @@ export const useUpdateOrder = () => {
     }: {
       id: string;
       updates: {
-        mode?: number;
+        modeId?: string;
         drinkTypeId?: string;
         drinkSubtypeId?: string;
         volumeId?: string;

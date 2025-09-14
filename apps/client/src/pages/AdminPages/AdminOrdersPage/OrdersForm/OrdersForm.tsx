@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'components/Button';
@@ -12,7 +12,6 @@ import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/For
 import {
   type OrdersFormValues as MiddlewareOrdersFormValues,
   ordersFormFieldConfigs,
-  type OrdersFormValues,
 } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
 import { Col, Row } from 'react-grid-system';
 import { MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
@@ -34,7 +33,10 @@ import {
   useFormSubmissionMutations,
 } from './orders-form.submission';
 import { OrdersFormDevTools } from '../OrderFormDevTools/OrdersFormDevTools';
-import { ORDER_FORM_SCHEMA } from 'pages/AdminPages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
+import {
+  ORDER_FORM_SCHEMA,
+  type OrdersFormValues,
+} from 'pages/AdminPages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from 'components/Toast';
 
@@ -75,7 +77,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     containerTypes: [],
   });
   const [canAddRow, setCanAddRow] = useState(false);
-
   const { currentLanguage } = useAppConfig();
 
   // ========================================================================
@@ -87,7 +88,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     reValidateMode: 'onChange',
     resolver: zodResolver(ORDER_FORM_SCHEMA),
     defaultValues: {
-      modeId: orderData?.modeId || '',
+      modeId: orderData?.mode || '',
       drinkType: orderData?.drinkType || '',
       drinkSubtype: orderData?.drinkSubtype || '',
       volume: orderData?.volume || '',
@@ -182,10 +183,36 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
         },
         setTempItems,
       })(data);
+      // Show success message
       toast({
         variant: 'success',
         message: isEditMode ? 'Order updated successfully!' : 'Order added successfully!',
       });
+
+      // Reset all form state
+      methods.reset({
+        modeId: '',
+        drinkType: '',
+        drinkSubtype: '',
+        volume: '',
+        containerType: '',
+        defaultTempConsume: 5,
+        defaultTempFreeze: -2,
+        timeRows: Array.from({ length: MIN_TABLE_ROWS }, () => PROFILE_ITEM_VALUES_EMPTY),
+      });
+
+      // Reset temp items
+      setTempItems({
+        drinkTypes: [],
+        drinkSubtypes: [],
+        volumes: [],
+        containerTypes: [],
+      });
+
+      // Navigate after a small delay to ensure state is cleared
+      setTimeout(() => {
+        navigate('/admin/orders', { replace: true });
+      }, 500);
     } catch (error) {
       toast({
         variant: 'error',
@@ -232,15 +259,30 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     append(PROFILE_ITEM_VALUES_EMPTY);
   }, [append]);
 
+  const selectedModeId = useMemo(() => {
+    if (dropdownData?.modeOptions) {
+      const modeLabels = dropdownData.modeOptions.map((option) => option.label);
+      if (modeLabels.includes(String(formValues?.modeId))) {
+        const selectedModeId = dropdownData.modeOptions.find(
+          (option) => option.label === String(formValues?.modeId),
+        )?.value;
+
+        return selectedModeId;
+      }
+
+      return formValues.modeId;
+    }
+  }, [formValues.modeId]);
+
   // ========================================================================
   // Render
   // ========================================================================
 
   return (
     <FormProvider {...methods}>
-      <FormMiddlewareProvider
+      <FormMiddlewareProvider<OrdersFormValues>
         formMethods={methods}
-        fieldConfigs={ordersFormFieldConfigs}
+        fieldConfigs={ordersFormFieldConfigs as any}
         defaultLocale={language}
         onFieldChange={handleFieldChange}
       >
@@ -250,15 +292,16 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
               <Row className="row">
                 <Col xs={2} md={2} className="col col-form-fields">
                   {/* Mode */}
-                  <FieldWrapper name="modeId" label="Mode" required>
+                  <FieldWrapper name="mode" label="Mode" required>
                     <SelectSimple
                       {...register('modeId')}
                       className="mode-select"
                       options={dropdownData.modeOptions}
                       placeholder="Select mode"
-                      // defaultValue={formValues.modeId}
-                      value={formValues.modeId}
-                      onSelect={(value) => handleSimpleFieldChange('modeId', value)}
+                      value={selectedModeId}
+                      onSelect={(value) => {
+                        handleSimpleFieldChange('modeId', value);
+                      }}
                     />
                   </FieldWrapper>
                 </Col>

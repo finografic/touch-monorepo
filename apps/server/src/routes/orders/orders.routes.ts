@@ -3,6 +3,7 @@ import { orderSchemas } from 'db/schemas/orders.schema';
 import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
 import { notFoundSchema } from 'lib/constants';
 import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
+import { IdUuidParamsSchema } from 'schemas/id-uuid-params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';

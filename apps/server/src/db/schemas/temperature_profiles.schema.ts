@@ -3,12 +3,12 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { relations } from 'drizzle-orm';
 import { orders } from './orders.schema';
 import { modes } from './modes.schema';
-import createCuid from '@bugsnag/cuid';
+import { randomUUID } from 'crypto';
 
 export const temperature_profiles = sqliteTable('temperature_profiles', {
   id: text('id')
     .primaryKey()
-    .$defaultFn(() => createCuid()),
+    .$defaultFn(() => randomUUID()),
   orderId: text('order_id')
     .notNull()
     .references(() => orders.id, { onDelete: 'cascade' }),

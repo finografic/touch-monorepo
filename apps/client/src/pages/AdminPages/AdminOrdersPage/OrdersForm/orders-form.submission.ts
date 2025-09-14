@@ -8,7 +8,7 @@ import { useCreateContainerType } from 'queries/container-types/useCreateContain
 import { useUpdateDrinkType } from 'queries/drink-types/useUpdateDrinkType';
 import { useUpdateTemperatureProfiles } from 'queries/orders/useUpdateTemperatureProfiles';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { OrdersFormValues } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
+import type { OrdersFormValues } from './OrdersForm.schema';
 import type { TempItems, TimeRow } from './orders-form.utils';
 
 // ============================================================================

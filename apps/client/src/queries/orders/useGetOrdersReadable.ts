@@ -14,7 +14,7 @@ export const useGetOrdersReadable = () => {
     queryFn: async (): Promise<OrderReadableModel[]> => {
       try {
         const response = await api.get('/orders-readable');
-        return response.data.data;
+        return response.data;
       } catch (error) {
         throw transformAxiosError(error);
       }

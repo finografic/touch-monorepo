@@ -25,8 +25,7 @@ const TIME_INCREMENT = 30; // Seconds to add between temperature points
  */
 function generateProfilesForDrinkType(
   drinkTypeId: string,
-  orderIds: string[],
-  modeId: string,
+  orders: Array<{ id: string; modeId: string }>,
   drinkTypeIndex: number,
 ): TemperatureProfileRow[] {
   const rows: TemperatureProfileRow[] = [];
@@ -48,11 +47,11 @@ function generateProfilesForDrinkType(
     );
 
     // Create profiles for all orders of this drink type
-    orderIds.forEach((orderId) => {
+    orders.forEach((order) => {
       rows.push({
         id: randomUUID(),
-        orderId,
-        modeId,
+        orderId: order.id,
+        modeId: order.modeId, // Use the order's mode ID
         temperature: temp,
         timeA,
         timeB,
@@ -70,13 +69,7 @@ function generateProfilesForDrinkType(
 async function generateAllProfiles(): Promise<TemperatureProfileRow[]> {
   const rows: TemperatureProfileRow[] = [];
 
-  // Get a mode
-  const [mode] = await db.select().from(modes).limit(1);
-  if (!mode) {
-    throw new Error('No mode found. Please seed modes first.');
-  }
-
-  // Get all orders with their drink types
+  // Get all orders with their drink types and modes
   const allOrders = await db.select().from(orders);
   if (allOrders.length === 0) {
     throw new Error('No orders found. Please seed orders first.');
@@ -88,10 +81,10 @@ async function generateAllProfiles(): Promise<TemperatureProfileRow[]> {
       if (!acc[order.drinkTypeId]) {
         acc[order.drinkTypeId] = [];
       }
-      acc[order.drinkTypeId].push(order.id);
+      acc[order.drinkTypeId].push({ id: order.id, modeId: order.modeId });
       return acc;
     },
-    {} as Record<string, string[]>,
+    {} as Record<string, Array<{ id: string; modeId: string }>>,
   );
 
   // Generate profiles for each drink type
@@ -108,7 +101,7 @@ async function generateAllProfiles(): Promise<TemperatureProfileRow[]> {
       console.log(`     ${temp}°C → ${timeA}s / ${timeB}s / ${timeC}s`);
     });
 
-    const drinkTypeProfiles = generateProfilesForDrinkType(drinkTypeId, orderIds, mode.id, drinkTypeIndex);
+    const drinkTypeProfiles = generateProfilesForDrinkType(drinkTypeId, orderIds, drinkTypeIndex);
     rows.push(...drinkTypeProfiles);
   });
 

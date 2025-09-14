@@ -8,7 +8,7 @@ import { SelectOptionDto } from 'types/models/select-option.model';
 import { OrderFieldKeys } from 'constants/app.config';
 import { slugify } from 'utils/string.utils';
 import { useGetModes } from 'queries/modes';
-import type { Mode } from 'types/models/mode.model';
+import type { ModeModel } from 'types/models/mode.model';
 
 // ============================================================================
 // Types
@@ -99,7 +99,7 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
   const { data: containerTypes = [] } = useGetContainerTypes();
   const { data: ordersData = [] } = useGetOrdersReadable();
 
-  const modeOptions = modes.map((mode: Mode) => ({
+  const modeOptions = modes.map((mode: ModeModel) => ({
     value: mode.id,
     label: mode.name,
   }));
@@ -166,6 +166,24 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
     return [...databaseOptions, ...customOptions, ...ordersOptions];
   }, [containerTypes, tempItems.containerTypes, ordersData, language]);
 
+  // Helper function to find mode ID by name
+  const findModeIdByName = useCallback(
+    (name: string): string | undefined => {
+      const mode = modes.find((m) => m.name === name);
+      return mode?.id;
+    },
+    [modes],
+  );
+
+  // Helper function to find mode name by ID
+  const findModeNameById = useCallback(
+    (id: string): string | undefined => {
+      const mode = modes.find((m) => m.id === id);
+      return mode?.name;
+    },
+    [modes],
+  );
+
   // Helper function to find ID by name
   const findIdByName = useCallback(
     (
@@ -205,6 +223,8 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
 
     // Helper functions
     findIdByName,
+    findModeIdByName,
+    findModeNameById,
   };
 };
 

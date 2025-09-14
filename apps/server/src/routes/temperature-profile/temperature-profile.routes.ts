@@ -3,7 +3,7 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { notFoundSchema } from 'lib/constants';
-import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
+import { IdUuidParamsSchema } from 'schemas/id-uuid-params.schema';
 import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
 
 const tags = ['TemperatureProfile'];
@@ -29,7 +29,7 @@ export const getOne = createRoute({
   path: '/temperature-profiles/{id}',
   method: 'get',
   request: {
-    params: IdCuidParamsSchema,
+    params: IdUuidParamsSchema,
   },
   tags,
   responses: {
@@ -62,7 +62,7 @@ export const patch = createRoute({
   path: '/temperature-profiles/{id}',
   method: 'patch',
   request: {
-    params: IdCuidParamsSchema,
+    params: IdUuidParamsSchema,
     body: jsonContentRequired(temperatureProfileSchemas.patch, 'The temperature profile updates'),
   },
   tags,
@@ -80,7 +80,7 @@ export const remove = createRoute({
   path: '/temperature-profiles/{id}',
   method: 'delete',
   request: {
-    params: IdCuidParamsSchema,
+    params: IdUuidParamsSchema,
   },
   tags,
   responses: {

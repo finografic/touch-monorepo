@@ -2,6 +2,7 @@ CREATE VIEW orders_readable
 AS
   SELECT
     o.id,
+    o.mode_id AS modeId,
     md.name AS mode,
     dt.name AS drink_type,
     dst.name AS drink_subtype,

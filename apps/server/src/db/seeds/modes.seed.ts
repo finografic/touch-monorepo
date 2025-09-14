@@ -1,6 +1,6 @@
 import { db } from '../db.adapter';
 import { modes } from '../schemas';
-import { randomUUID } from 'node:crypto';
+import createCuid from '@bugsnag/cuid';
 
 export async function seed() {
   console.log('Seeding modes...');
@@ -18,27 +18,27 @@ export async function seed() {
       .insert(modes)
       .values([
         {
-          id: randomUUID(),
+          id: createCuid(),
           name: '1',
           isDefault: false,
         },
         {
-          id: randomUUID(),
+          id: createCuid(),
           name: '2',
           isDefault: false,
         },
         {
-          id: randomUUID(),
+          id: createCuid(),
           name: '3',
           isDefault: true,
         },
         {
-          id: randomUUID(),
+          id: createCuid(),
           name: '4',
           isDefault: false,
         },
         {
-          id: randomUUID(),
+          id: createCuid(),
           name: '5',
           isDefault: false,
         },
