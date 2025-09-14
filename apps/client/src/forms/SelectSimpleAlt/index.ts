@@ -1,0 +1,1 @@
+export { SelectSimpleAlt } from './SelectSimpleAlt';

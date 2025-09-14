@@ -11,7 +11,7 @@ import {
   useResetSlotConfigurations,
 } from 'queries/slot-configurations';
 import { useGetModes, useUpdateMode } from 'queries/modes';
-import { SelectSimple } from 'forms/SelectSimple';
+import { SelectSimpleAlt } from 'forms/SelectSimpleAlt';
 import { GRID_CONFIGS } from 'types/slot-config.types';
 import { ItemType } from 'types/orders.types';
 import { styles } from './AdminAppConfigPage.styles';
@@ -342,7 +342,7 @@ export const AdminAppConfigPage: React.FC = () => {
                     {modesLoading ? (
                       <Text size="2">Loading modes...</Text>
                     ) : (
-                      <SelectSimple
+                      <SelectSimpleAlt
                         className="mode-select"
                         options={selectOptions}
                         value={defaultMode ? defaultMode.name : ''}
