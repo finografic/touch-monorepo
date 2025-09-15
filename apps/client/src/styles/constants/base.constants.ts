@@ -4,6 +4,8 @@
  * These are pure values that can be shared across different apps
  */
 
+import { colors } from 'styles/colors.styles';
+
 export const baseLayout = {
   fontSize: {
     'xs': '0.75rem',
@@ -104,6 +106,17 @@ export const button = {
     width: '2px',
     style: 'solid',
   },
+  color: {
+    default: colors.defaultDark,
+    hover: colors.defaultXDark,
+    active: colors.defaultXLight,
+    disabled: colors.defaultDark,
+  },
+  md: {
+    minWidth: '200px',
+    minHeight: '60px',
+  },
+  radius: baseLayout.borderRadius.lg,
   transform: {
     hoverScale: 1.025,
     padHoverScale: 1.05,

@@ -10,6 +10,7 @@ export const stylesButtonBase = css`
   align-items: center;
   justify-content: center;
   position: relative; /* For absolute positioning of icons */
+  box-shadow: none;
 
   /* color: ${colors.infoDark};
   border-color: ${colors.infoDark}; */

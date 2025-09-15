@@ -3,7 +3,7 @@ import { stylesPadBasic } from 'components/Pads/Pad/PadBasic.styles';
 import { colors } from 'styles';
 
 export const styles = css`
-  .time-group-container {
+  /* .time-group-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -23,7 +23,7 @@ export const styles = css`
 
   .inputs-container {
     display: flex;
-    gap: 1rem; /* Much closer spacing between inputs */
+    gap: 1rem;
     align-items: flex-start;
   }
 
@@ -49,13 +49,13 @@ export const styles = css`
       text-align: center;
       max-width: 200px;
       margin: 0;
-      min-height: auto; /* Override the min-height from base styles */
+      min-height: auto;
     }
   }
 
   .input-container {
     ${stylesPadBasic.inputContainer}
-    margin-bottom: 0; /* Remove bottom margin */
+    margin-bottom: 0;
     gap: 0.5rem;
   }
 
@@ -65,13 +65,12 @@ export const styles = css`
 
   .value-container {
     ${stylesPadBasic.valueContainer}
-    flex-direction: row; /* Horizontal layout for value and unit */
+    flex-direction: row;
     gap: 0.5rem;
     font-size: 2.5rem;
     color: ${colors.infoLight};
     border-color: ${colors.infoLight40};
     margin: 0.66rem 0;
-    /* min-width: 200px; */
   }
 
   .value {
@@ -82,11 +81,11 @@ export const styles = css`
   .unit {
     font-size: 1.2rem;
     color: ${colors.info};
-    margin: 0; /* Reset margins for horizontal layout */
+    margin: 0;
   }
 
   .total-display {
     ${stylesPadBasic.totalDisplay}
     margin-top: 1.5rem;
-  }
+  } */
 `;

@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles';
+import { stylesPadBasic } from 'components/Pads/Pad/PadBasic.styles';
+import { button, colors } from 'styles';
 
 export const styles = css`
   .pad-container {
@@ -19,9 +20,9 @@ export const styles = css`
     text-align: center;
 
     label {
-      font-size: 1.5rem;
-      font-weight: 500;
-      color: ${colors.textLight};
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: ${colors.textXLight};
       margin: 0;
     }
 
@@ -38,26 +39,41 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem;
+    gap: 1rem;
     min-width: 200px;
   }
 
   .control-button {
+    min-width: ${button.md.minWidth};
+    min-height: ${button.md.minHeight};
     width: 100%;
     height: 56px;
-    font-size: 1.5rem;
-    font-weight: 500;
-    border-radius: 8px;
+    font-size: 2.5rem;
+    font-weight: 300;
+    padding-bottom: 0.25rem;
+    border-radius: ${button.radius};
+    /* outline: none; */
+    box-shadow: none;
     transition: all 0.2s ease;
+    border-style: ${button.border.style};
+    border-width: ${button.border.width};
+
+    color: ${colors.infoLight80};
+    border-color: ${colors.infoLight80};
 
     &:disabled {
       cursor: not-allowed;
       opacity: 0.5;
+      color: ${colors.greyLight66};
+      border-color: ${colors.greyLight66};
     }
 
     &:not(:disabled) {
       &:hover {
-        background-color: ${colors.infoLight33};
+        /* background-color: ${colors.infoLight33}; */
+        color: ${colors.info};
+        border-color: ${colors.info};
+        background-color: ${colors.infoXLight30};
       }
 
       &:active {
@@ -71,10 +87,10 @@ export const styles = css`
     align-items: center;
     justify-content: center;
     min-height: 80px;
-    min-width: 200px;
+    min-width: ${button.md.minWidth};
     padding: 1rem;
-    border: 2px solid ${colors.infoLight40};
-    border-radius: 8px;
+    border: ${button.border.width} solid ${colors.infoLight33};
+    border-radius: ${button.radius};
     background-color: transparent;
     transition: all 0.2s ease;
     gap: 0.5rem;
@@ -87,14 +103,14 @@ export const styles = css`
     .prefix,
     .suffix {
       font-size: 1.2rem;
-      font-weight: 400;
-      color: ${colors.info};
+      font-weight: 600;
+      color: ${colors.infoLight80};
     }
 
     .numeric {
       font-size: 2.5rem;
       font-weight: 500;
-      color: ${colors.infoLight};
+      color: ${colors.infoLight80};
       text-align: center;
     }
   }

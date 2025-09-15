@@ -23,6 +23,8 @@ export const layout = {
   borderRadius: baseLayout.borderRadius,
   pageColor: colors.white,
   bgColor: colors.white,
+  radius: baseLayout.borderRadius.lg,
+  radiusInner: baseLayout.borderRadius.md,
   header: {
     height: '80px',
   },
