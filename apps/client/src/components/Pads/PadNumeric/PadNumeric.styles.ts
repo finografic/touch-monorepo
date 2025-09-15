@@ -104,13 +104,13 @@ export const styles = css`
     .suffix {
       font-size: 1.2rem;
       font-weight: 600;
-      color: ${colors.infoLight80};
+      color: ${colors.infoLight90};
     }
 
     .numeric {
       font-size: 2.5rem;
       font-weight: 500;
-      color: ${colors.infoLight80};
+      color: ${colors.infoLight90};
       text-align: center;
     }
   }
