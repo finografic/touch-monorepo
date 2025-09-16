@@ -47,6 +47,13 @@ export const BUTTON_CONFIGS: Record<PadActionType, PadActionConfig> = {
     className: 'small-button button-cancel',
     actionType: 'cancel-completed',
   },
+  [BUTTON_TYPES.CANCEL_TIME_SESSION]: {
+    id: 'btn-cancel-time-session',
+    type: 'cancel-time-session',
+    labelKey: 'ui.buttons.cancel',
+    className: 'small-button button-cancel',
+    actionType: 'cancel-time-session',
+  },
   [BUTTON_TYPES.PROGRAM_TIME]: {
     id: 'btn-program-time',
     type: 'program-time',
@@ -73,7 +80,7 @@ export const BUTTON_CONFIGS: Record<PadActionType, PadActionConfig> = {
 // Alternative route configurations (not part of main OrderFieldKey flow)
 export const ALTERNATIVE_ROUTE_BUTTON_CONFIG = {
   time: {
-    footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.START],
+    footer: [BUTTON_TYPES.CANCEL_TIME_SESSION, BUTTON_TYPES.START],
     content: [],
   },
 } as const;

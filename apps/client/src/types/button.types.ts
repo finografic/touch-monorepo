@@ -12,6 +12,7 @@ type ButtonType =
   | 'next'
   | 'start'
   | 'cancel'
+  | 'cancel-time-session'
   | 'program-product'
   | 'program-time'
   | 'repeat-selection';
@@ -24,6 +25,7 @@ export const BUTTON_TYPES: ConstEnumOf<ButtonType> = {
   NEXT: 'next',
   START: 'start',
   CANCEL: 'cancel',
+  CANCEL_TIME_SESSION: 'cancel-time-session',
   PROGRAM_PRODUCT: 'program-product',
   PROGRAM_TIME: 'program-time',
   REPEAT_SELECTION: 'repeat-selection',
@@ -42,7 +44,8 @@ export type ButtonActionType =
   | 'start-process'
   | 'program-product'
   | 'program-time'
-  | 'repeat-selection';
+  | 'repeat-selection'
+  | 'cancel-time-session';
 
 // 2. Derive the const object from the union using your enhanced utility
 export const BUTTON_ACTIONS: ConstEnumOf<ButtonActionType> = {
@@ -55,6 +58,7 @@ export const BUTTON_ACTIONS: ConstEnumOf<ButtonActionType> = {
   PROGRAM_PRODUCT: 'program-product',
   PROGRAM_TIME: 'program-time',
   REPEAT_SELECTION: 'repeat-selection',
+  CANCEL_TIME_SESSION: 'cancel-time-session',
 } as const;
 
 export interface PadActionConfig {

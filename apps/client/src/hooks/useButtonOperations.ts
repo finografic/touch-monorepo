@@ -21,7 +21,8 @@ type OperationActionType =
   | 'start-process'
   | 'program-time'
   | 'program-product'
-  | 'repeat-selection';
+  | 'repeat-selection'
+  | 'cancel-time-session';
 
 interface UseButtonOperationsReturn {
   handleClearCompleted: () => void;
@@ -32,6 +33,7 @@ interface UseButtonOperationsReturn {
   handleProgramTime: () => void;
   handleProgramProduct: () => void;
   handleRepeatSelection: () => void;
+  handleCancelTimeSession: () => void;
   getOperationDisabled: (actionType: OperationActionType) => boolean;
   getOperationLoading: (actionType: OperationActionType) => boolean;
   isOperationPending: boolean;
@@ -43,7 +45,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
   const { orders, setOrderProcessing, toggleOrder, setOrdersSession, profile } = useOrders();
-  const { createSession, assignOrdersToSession, currentSessionId } = useSession();
+  const { createSession, assignOrdersToSession, currentSessionId, clearSession } = useSession();
   const { addTimer, clearCompletedTimers, timers, removeTimer } = useTimers();
   const { selectAllMainPageSlots, clearMainPageSelection, toggleMainPageSlot, mainPageSelectedSlots } =
     useLayoutUi();
@@ -389,6 +391,36 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     });
   }, [orders, setOrderProcessing, mainPageSelectedSlots]);
 
+  const handleCancelTimeSession = useCallback(() => {
+    startTransition(() => {
+      // Only proceed if we're on the TimePage
+      if (location.pathname !== ALTERNATIVE_PATHS.time) {
+        console.warn('handleCancelTimeSession: Called but not on TimePage');
+        return;
+      }
+
+      // Remove the current session
+      if (currentSessionId) {
+        console.log('Cancelling time session:', currentSessionId);
+
+        // Clear any orders that were created for this session
+        const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
+        sessionOrders.forEach((order) => {
+          toggleOrder({
+            itemType: order.itemType,
+            itemNumber: order.itemNumber,
+          });
+        });
+
+        // Remove the session from SessionContext
+        clearSession(currentSessionId);
+      }
+
+      // Navigate back to main page
+      navigate(PATHS.main, { replace: true });
+    });
+  }, [location.pathname, currentSessionId, orders, toggleOrder, navigate, clearSession]);
+
   const getOperationDisabled = useCallback(
     (actionType: OperationActionType): boolean => {
       // Use mainPageSelectedSlots from top level (already available)
@@ -454,6 +486,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
             isPending
           );
         }
+        case 'cancel-time-session':
+          // Always enabled on TimePage (no conditions)
+          return false;
         default:
           return false;
       }
@@ -496,6 +531,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     handleProgramTime,
     handleProgramProduct,
     handleRepeatSelection,
+    handleCancelTimeSession,
     getOperationDisabled,
     getOperationLoading,
     isOperationPending: isPending,
