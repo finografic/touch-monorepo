@@ -35,4 +35,16 @@ export const styles = css`
   .admin-card:hover .card-icon {
     transform: scale(1.1);
   }
+
+  .section-header {
+    /* margin-bottom: 0 !important; */
+    .section-title {
+      margin-top: 2rem;
+      /* margin-bottom: -2rem !important; */
+    }
+  }
+
+  .admin-cards {
+    margin-top: -2rem;
+  }
 `;

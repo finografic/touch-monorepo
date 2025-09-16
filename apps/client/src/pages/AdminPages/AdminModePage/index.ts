@@ -1,1 +1,0 @@
-export { AdminModePage } from './AdminModePage';

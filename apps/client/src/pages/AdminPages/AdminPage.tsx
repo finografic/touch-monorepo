@@ -12,6 +12,8 @@ export const AdminPage: React.FC = () => {
   const { t } = useTranslation();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
 
+  const userCards = [];
+
   const adminCards = [
     {
       id: 'translations',
@@ -37,14 +39,15 @@ export const AdminPage: React.FC = () => {
       path: '/admin/languages',
       color: 'green' as const,
     },
-    // {
-    //   id: 'system',
-    //   title: 'System Settings',
-    //   description: 'Configure system-wide settings and preferences',
-    //   icon: <GearIcon width="32" height="32" />,
-    //   path: '/admin/system',
-    //   color: 'orange' as const,
-    // },
+    {
+      id: 'slot-config',
+      title: 'Cuadrícula',
+      description: 'Configure MainPage grid layout and slot types',
+      icon: <TableIcon width="32" height="32" />,
+      path: '/admin/slot-config',
+      color: 'orange' as const,
+      // color: 'amber' as const,
+    },
     {
       id: 'filter-analysis',
       title: 'Filter Analysis',
@@ -62,23 +65,6 @@ export const AdminPage: React.FC = () => {
       path: '/admin/sounds',
       color: 'indigo' as const,
     },
-    {
-      id: 'slot-config',
-      title: 'App Configuration',
-      description: 'Configure modes, MainPage grid layout and slot types',
-      icon: <GearIcon width="32" height="32" />,
-      path: '/admin/slot-config',
-      color: 'orange' as const,
-      // color: 'amber' as const,
-    },
-    // {
-    //   id: 'database',
-    //   title: 'Database Management',
-    //   description: 'Manage database connections and data integrity',
-    //   icon: <TableIcon width="32" height="32" />,
-    //   path: '/admin/database',
-    //   color: 'purple' as const,
-    // },
   ];
 
   const handleCardClick = (path: string) => {
@@ -93,12 +79,18 @@ export const AdminPage: React.FC = () => {
         centerTitle={true}
       >
         <Box className="admin-dashboard">
-          <Flex direction="column" gap="6" align="center">
+          {/* <Flex direction="column" gap="6" align="center">
             <SectionHeader
-              title="Welcome to the Admin Panel"
-              description="Select a section below to get started"
+              title="User Configuration"
               align="center"
             />
+            <div className="admin-cards">
+              {userCards.map((card) => (<></> ))}
+            </div>
+          </Flex> */}
+
+          <Flex direction="column" gap="6" align="center">
+            <SectionHeader title="Admin Configuration" align="center" />
 
             <div className="admin-cards">
               {adminCards.map((card) => (
