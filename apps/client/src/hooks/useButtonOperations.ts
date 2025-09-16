@@ -245,7 +245,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       assignOrdersToSession(sessionId, selectedIdleSlots);
       setOrdersSession({
-        orderNumbers: selectedIdleSlots,
+        slotNumbers: selectedIdleSlots,
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_TIME },
       });
 
@@ -294,7 +294,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       assignOrdersToSession(sessionId, selectedIdleSlots);
       setOrdersSession({
-        orderNumbers: selectedIdleSlots,
+        slotNumbers: selectedIdleSlots,
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
       });
 

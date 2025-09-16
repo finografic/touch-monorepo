@@ -36,7 +36,7 @@ export const SessionContext = createZustandContext(({ initialValue }) => {
               flowType,
               createdAt: new Date().toISOString(),
               filters: {},
-              orderNumbers: [],
+              slotNumbers: [],
               isActive: true,
               isCurrent: true,
               isComplete: false,
@@ -94,7 +94,7 @@ export const SessionContext = createZustandContext(({ initialValue }) => {
               },
             });
           },
-          assignOrdersToSession: (sessionId: string, orderNumbers: number[]) => {
+          assignOrdersToSession: (sessionId: string, slotNumbers: number[]) => {
             const { sessions } = get();
 
             if (!sessions[sessionId]) return;
@@ -104,7 +104,7 @@ export const SessionContext = createZustandContext(({ initialValue }) => {
                 ...sessions,
                 [sessionId]: {
                   ...sessions[sessionId],
-                  orderNumbers: [...new Set([...sessions[sessionId].orderNumbers, ...orderNumbers])],
+                  slotNumbers: [...new Set([...sessions[sessionId].slotNumbers, ...slotNumbers])],
                 },
               },
             });

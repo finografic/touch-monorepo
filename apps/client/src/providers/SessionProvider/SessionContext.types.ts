@@ -9,7 +9,7 @@ export interface ConfigurationSession {
   flowType: FlowTypeValue;
   createdAt: string;
   filters: OrderFilters;
-  orderNumbers: number[];
+  slotNumbers: number[];
   isActive: boolean;
   isCurrent: boolean;
   isComplete: boolean;
@@ -26,7 +26,7 @@ type SessionActions = SessionSetters & {
   createSession: (flowType: FlowTypeValue) => string;
   setActiveSession: (sessionId: string) => void;
   updateSessionFilters: (sessionId: string, filters: OrderFilters) => void;
-  assignOrdersToSession: (sessionId: string, orderNumbers: number[]) => void;
+  assignOrdersToSession: (sessionId: string, slotNumbers: number[]) => void;
   clearSession: (sessionId: string) => void;
   clearAllSessions: () => void;
 };

@@ -40,10 +40,10 @@ export type OrdersActions = OrdersSetters & {
   selectAllOrders: (config?: OrderItemConfig[]) => void;
   updateOrderIds: ({ ids }: { ids: string[] }) => void;
   setOrdersSession: ({
-    orderNumbers,
+    slotNumbers,
     session,
   }: {
-    orderNumbers: number[];
+    slotNumbers: number[];
     session: { id: string; flowType: FlowTypeValue };
   }) => void;
   fetchOrdersReadable: () => Promise<void>;

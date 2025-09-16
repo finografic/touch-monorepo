@@ -182,16 +182,16 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             set({ orders: updatedOrders });
           },
           setOrdersSession: ({
-            orderNumbers,
+            slotNumbers,
             session,
           }: {
-            orderNumbers: number[];
+            slotNumbers: number[];
             session: { id: string; flowType: FlowTypeValue };
           }) => {
             const { orders } = get();
 
             const updatedOrders = orders.map((order) => {
-              if (orderNumbers.includes(order.itemNumber)) {
+              if (slotNumbers.includes(order.itemNumber)) {
                 return { ...order, session };
               }
               return order;
