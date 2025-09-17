@@ -6,10 +6,10 @@ export const styles = css`
   transform: translateY(-5%);
 
   .page-title {
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 1.66rem;
+    font-weight: 600;
     line-height: 2;
-    color: ${colors.textLight};
+    color: ${colors.textXLight};
     margin: 0;
   }
 
