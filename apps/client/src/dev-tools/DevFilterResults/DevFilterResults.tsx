@@ -3,9 +3,11 @@ import { styles } from './DevFilterResults.styles';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { DevDataTable } from '../DevDataTable';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
+import { useFilters } from 'providers/FiltersProvider/FiltersContext';
 
 export const DevFilterResults = () => {
-  const { dataFiltered, filters } = useFiltering({});
+  const { filters } = useFilters();
+  const { dataFiltered, filters: filtering } = useFiltering({});
   // const { filters: ordersFilters } = useOrders();
   const { sessions, currentSessionId } = useSession();
 
@@ -17,10 +19,10 @@ export const DevFilterResults = () => {
 
   return (
     <div id="dev-filter-results" css={styles}>
-      {/* <div className="filters">
+      <div className="filters">
         <h4>Filters ({Object.keys(filters).length}):</h4>
         <pre>{JSON.stringify(filters, null, 2)}</pre>
-      </div> */}
+      </div>
       <div className="filters">
         <h4>sessionFilters ({Object.keys(sessionFilters).length}):</h4>
         <pre>{JSON.stringify(sessionFilters, null, 2)}</pre>

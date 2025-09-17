@@ -9,6 +9,9 @@ import { useTemperatureControl } from 'hooks/useTemperatureControl';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
+import { useFiltering } from 'hooks/useFiltering';
+import { useFilters } from 'providers/FiltersProvider';
+import { api } from 'api';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
 import { FLOW_TYPES } from 'types/flow.types';
@@ -52,6 +55,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
   const orderItemsConfig = useOrderItemsConfig();
+  const { setFilter } = useFilters();
 
   const { startTemperatureControl, isLoading: isTemperatureLoading } = useTemperatureControl({
     onSuccess: (calculatedDurations) => {
@@ -267,19 +271,23 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   // ======================================================================== //
 
-  const handleProgramProduct = useCallback(() => {
+  const handleProgramProduct = useCallback(async () => {
+    console.log('🔍 handleProgramProduct: Starting...');
+
+    // Get selected slots that are idle (not running timers)
+    const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
+      const timer = timers.find((t: any) => t.slotNumber === slotNumber);
+      return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
+    });
+
+    console.log('🔍 handleProgramProduct: Selected idle slots:', selectedIdleSlots);
+
+    if (selectedIdleSlots.length === 0) {
+      console.warn('No selected idle slots to program product for');
+      return;
+    }
+
     startTransition(() => {
-      // Get selected slots that are idle (not running timers)
-      const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t: any) => t.slotNumber === slotNumber);
-        return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
-      });
-
-      if (selectedIdleSlots.length === 0) {
-        console.warn('No selected idle slots to program product for');
-        return;
-      }
-
       // Create orders for selected slots first
       selectedIdleSlots.forEach((slotNumber) => {
         const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
@@ -293,20 +301,44 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
+      console.log('🔍 handleProgramProduct: Created session:', sessionId);
 
       assignOrdersToSession(sessionId, selectedIdleSlots);
       setOrdersSession({
         slotNumbers: selectedIdleSlots,
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
       });
-
-      // Navigate to first step of product configuration flow (drink type selection)
-      const drinkTypePath = PATHS.drinkType;
-
-      // Set pagination to first step (index 1, since index 0 is main page)
-      setPageCurrent(1);
-      navigate(drinkTypePath); // Navigate directly to drink type page
     });
+
+    // Set the default mode filter (outside of startTransition since it's async)
+    console.log('🔍 handleProgramProduct: Fetching default mode...');
+    try {
+      const response = await api.get('/modes');
+      console.log('🔍 handleProgramProduct: Modes API response:', response.data);
+
+      const defaultMode = response.data.find((mode: any) => mode.isDefault);
+      console.log('🔍 handleProgramProduct: Found default mode:', defaultMode);
+
+      if (defaultMode) {
+        const modeFilter = {
+          id: defaultMode.id,
+          name: defaultMode.name,
+        };
+        setFilter('mode', modeFilter);
+        console.log('🔍 handleProgramProduct: Set default mode filter:', modeFilter);
+      } else {
+        console.warn('🔍 handleProgramProduct: No default mode found');
+      }
+    } catch (error) {
+      console.error('🔍 handleProgramProduct: Error fetching modes:', error);
+    }
+
+    // Navigate to first step of product configuration flow (drink type selection)
+    const drinkTypePath = PATHS.drinkType;
+
+    // Set pagination to first step (index 1, since index 0 is main page)
+    setPageCurrent(1);
+    navigate(drinkTypePath); // Navigate directly to drink type page
   }, [
     mainPageSelectedSlots,
     timers,
@@ -318,6 +350,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     navigate,
     toggleOrder,
     orderItemsConfig,
+    setFilter,
   ]);
 
   // ======================================================================== //

@@ -9,6 +9,7 @@ import { PageHeader } from 'components/PageHeader';
 import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
+import { FiltersProvider } from 'providers/FiltersProvider';
 import { Loader } from '../components/Loader/Loader';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
@@ -31,35 +32,37 @@ export const Layout: FC = () => {
   return (
     <TimersProvider>
       <OrdersProvider>
-        <PaginationProvider>
-          <LayoutUiProvider initialValue={{ numItems }}>
-            <AdminProvider>
-              <ContentProvider>
-                <DevProvider>
-                  <div id="layout" css={styles}>
-                    <Header />
-                    <main>
-                      <div className="main-content">
-                        <section>
-                          <PageHeader />
-                          <div className="page-content" role="main">
-                            <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                              <Outlet />
-                            </Suspense>
-                          </div>
-                          <nav className="page-navigation">
-                            <FrontEndNavigation />
-                          </nav>
-                        </section>
-                      </div>
-                    </main>
-                    <Footer />
-                  </div>
-                </DevProvider>
-              </ContentProvider>
-            </AdminProvider>
-          </LayoutUiProvider>
-        </PaginationProvider>
+        <FiltersProvider>
+          <PaginationProvider>
+            <LayoutUiProvider initialValue={{ numItems }}>
+              <AdminProvider>
+                <ContentProvider>
+                  <DevProvider>
+                    <div id="layout" css={styles}>
+                      <Header />
+                      <main>
+                        <div className="main-content">
+                          <section>
+                            <PageHeader />
+                            <div className="page-content" role="main">
+                              <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                <Outlet />
+                              </Suspense>
+                            </div>
+                            <nav className="page-navigation">
+                              <FrontEndNavigation />
+                            </nav>
+                          </section>
+                        </div>
+                      </main>
+                      <Footer />
+                    </div>
+                  </DevProvider>
+                </ContentProvider>
+              </AdminProvider>
+            </LayoutUiProvider>
+          </PaginationProvider>
+        </FiltersProvider>
       </OrdersProvider>
     </TimersProvider>
   );
