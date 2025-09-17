@@ -2,9 +2,9 @@ import React, { forwardRef, useCallback } from 'react';
 import { Select } from '@radix-ui/themes';
 import type { SelectOption } from 'types/models/select-option.model';
 import clsx from 'clsx';
-import { styles } from './SelectSimple.styles';
+import { styles } from './SelectBasic.styles';
 
-interface SelectSimpleProps {
+interface SelectBasicProps {
   options: SelectOption[];
   value?: string;
   className?: string;
@@ -16,7 +16,7 @@ interface SelectSimpleProps {
   onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-export const SelectSimple = forwardRef<HTMLSelectElement, SelectSimpleProps>(
+export const SelectBasic = forwardRef<HTMLSelectElement, SelectBasicProps>(
   (
     {
       options,
@@ -44,7 +44,7 @@ export const SelectSimple = forwardRef<HTMLSelectElement, SelectSimpleProps>(
             onChange(event);
           }
         } catch (error) {
-          console.error('SelectSimple handleValueChange error:', error);
+          console.error('SelectBasic handleValueChange error:', error);
         }
       },
       [onSelect, onChange, name],
@@ -75,4 +75,4 @@ export const SelectSimple = forwardRef<HTMLSelectElement, SelectSimpleProps>(
   },
 );
 
-SelectSimple.displayName = 'SelectSimple';
+SelectBasic.displayName = 'SelectBasic';

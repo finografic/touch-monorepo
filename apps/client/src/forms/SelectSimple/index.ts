@@ -1,1 +1,0 @@
-export { SelectSimple } from './SelectSimple';

@@ -3,7 +3,7 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'components/Button';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
-import { SelectSimple } from 'forms/SelectSimple';
+import { SelectBasic } from 'forms/SelectBasic';
 import { InputTemperature } from 'forms/InputTemperature';
 import { FormMiddlewareProvider } from 'forms/FormMiddleware';
 import { FieldWrapper } from 'forms/FieldWrapper';
@@ -39,6 +39,7 @@ import {
 } from 'pages/AdminPages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from 'components/Toast';
+import { SelectCustom } from 'forms/SelectCustom';
 
 // ============================================================================
 // Form Schema & Types
@@ -293,7 +294,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 <Col xs={2} md={2} className="col col-form-fields">
                   {/* Mode */}
                   <FieldWrapper name="mode" label="Mode" required>
-                    <SelectSimple
+                    <SelectCustom
                       {...register('modeId')}
                       className="mode-select"
                       options={dropdownData.modeOptions}
