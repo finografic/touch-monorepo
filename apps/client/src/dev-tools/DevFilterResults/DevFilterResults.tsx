@@ -19,10 +19,10 @@ export const DevFilterResults = () => {
 
   return (
     <div id="dev-filter-results" css={styles}>
-      <div className="filters">
+      {/* <div className="filters">
         <h4>Filters ({Object.keys(filters).length}):</h4>
         <pre>{JSON.stringify(filters, null, 2)}</pre>
-      </div>
+      </div> */}
       <div className="filters">
         <h4>sessionFilters ({Object.keys(sessionFilters).length}):</h4>
         <pre>{JSON.stringify(sessionFilters, null, 2)}</pre>

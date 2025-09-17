@@ -57,7 +57,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
   const orderItemsConfig = useOrderItemsConfig();
-  const { setFilter } = useFilters();
+  const { setFilter, clearFilters } = useFilters();
 
   const { startTemperatureControl, isLoading: isTemperatureLoading } = useTemperatureControl({
     onSuccess: (calculatedDurations) => {
@@ -487,12 +487,14 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
         // Remove the session from SessionContext
         clearSession(currentSessionId);
+        // Clear all filters from FiltersContext
+        clearFilters();
       }
 
       // Navigate back to main page
       navigate(PATHS.main, { replace: true });
     });
-  }, [location.pathname, currentSessionId, orders, toggleOrder, navigate, clearSession]);
+  }, [location.pathname, currentSessionId, orders, toggleOrder, navigate, clearSession, clearFilters]);
 
   const getOperationDisabled = useCallback(
     (actionType: OperationActionType): boolean => {

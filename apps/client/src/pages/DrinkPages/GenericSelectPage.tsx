@@ -11,6 +11,7 @@ import type { FilterFieldKey, NavigationFieldKey, OrderFieldKey } from 'types/or
 import PadGroup from 'components/Pads/PadGroup/PadGroup';
 import type { DataEntry } from 'types/data.types';
 import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useFilters } from 'providers/FiltersProvider';
 import { isFilterFieldKey, isNavigationFieldKey } from 'utils/fieldKey.utils';
 
 export const GenericSelectPage = () => {
@@ -19,6 +20,7 @@ export const GenericSelectPage = () => {
   const { pads } = useLayoutUi();
   const { orders, setOrdersFilter } = useOrders();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
+  const { setFilter, clearFilter } = useFilters();
 
   // Use pagination management hook
   usePaginationManagement();
@@ -38,9 +40,13 @@ export const GenericSelectPage = () => {
         [fieldKey]: { ...filterValue, lookup },
       };
       updateSessionFilters(currentSessionId, newFilters);
+      // Update FiltersContext for the current fieldKey
+      setFilter(fieldKey, { ...filterValue, lookup });
     } else {
       const { [fieldKey]: _removed, ...rest } = currentSessionFilters;
       updateSessionFilters(currentSessionId, rest);
+      // Clear filter from FiltersContext for the current fieldKey
+      clearFilter(fieldKey);
     }
 
     // Also update individual orders for backward compatibility
