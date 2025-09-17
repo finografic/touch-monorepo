@@ -13,6 +13,7 @@ import type { DataEntry } from 'types/data.types';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFilters } from 'providers/FiltersProvider';
 import { isFilterFieldKey, isNavigationFieldKey } from 'utils/fieldKey.utils';
+import { getFiltersToClearAhead } from 'utils/filterStep.utils';
 
 export const GenericSelectPage = () => {
   const { t } = useTranslation();
@@ -35,8 +36,19 @@ export const GenericSelectPage = () => {
     if (pad.isChecked) {
       const lookup = { [padsConfig.filterKey as keyof DataEntry]: pad.value.name };
       const { temperatureProfileId, ...filterValue } = pad.value;
+
+      // Clear filters for steps ahead when making a new selection
+      const filtersToClearAhead = getFiltersToClearAhead(fieldKey);
+      filtersToClearAhead.forEach(clearFilter);
+
+      // Remove filters for steps ahead from session filters too
+      const sessionFiltersWithoutAhead = { ...currentSessionFilters };
+      filtersToClearAhead.forEach((filterKey) => {
+        delete sessionFiltersWithoutAhead[filterKey];
+      });
+
       const newFilters = {
-        ...currentSessionFilters,
+        ...sessionFiltersWithoutAhead,
         [fieldKey]: { ...filterValue, lookup },
       };
       updateSessionFilters(currentSessionId, newFilters);
