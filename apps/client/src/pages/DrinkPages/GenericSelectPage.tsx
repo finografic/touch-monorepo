@@ -22,8 +22,11 @@ export const GenericSelectPage = () => {
   // Use pagination management hook
   usePaginationManagement();
 
-  const handleSelect = ({ fieldKey, pad }: { fieldKey: OrderFieldKey; pad: PadUI }) => {
+  const handleSelect = ({ pad }: { pad: PadUI }) => {
     if (!orders?.length || !currentSessionId) return;
+
+    // Skip filtering for 'main' fieldKey as it's not a filter field
+    if (fieldKey === 'main') return;
 
     // Get current session's orders
     const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
