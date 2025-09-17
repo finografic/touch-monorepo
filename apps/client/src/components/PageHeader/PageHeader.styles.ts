@@ -14,8 +14,8 @@ export const styles = css`
   }
 
   .page-subtitle {
-    font-size: 1.2rem;
-    color: ${colors.text};
+    font-size: 1.1rem;
+    color: ${colors.textXLight};
     margin: 0;
   }
 `;
