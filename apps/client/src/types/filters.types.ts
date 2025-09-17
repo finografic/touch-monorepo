@@ -16,6 +16,8 @@ interface BaseFilter {
 }
 
 // Specific filter types with lookup information
+interface ModeFilter extends BaseFilter {}
+
 interface DrinkTypeFilter extends BaseFilter {
   hasSubtypes: boolean;
   defaultTempConsume?: number;
@@ -43,7 +45,8 @@ export interface OrderFilter {
 }
 
 // The fields that are managed by the selection process
-export interface OrderFilters extends Partial<Record<keyof typeof OrderFieldKeys, unknown>> {
+export interface OrderFilters extends Partial<Record<keyof typeof OrderFieldKeys & 'mode', unknown>> {
+  mode?: ModeFilter;
   drinkType?: DrinkTypeFilter;
   drinkSubtype?: DrinkSubtypeFilter;
   drinkVolume?: VolumeFilter;

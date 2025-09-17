@@ -4,7 +4,7 @@ import { Box, Flex } from '@radix-ui/themes';
 import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
-import { useFilters } from 'hooks/useFilters';
+import { useFiltering } from 'hooks/useFiltering';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { TemperatureKey } from 'types/temperature.types';
 import { styles } from './TemperaturePage.styles';
@@ -23,7 +23,7 @@ interface TemperatureState {
 
 export const TemperaturePage = () => {
   const { profile, ordersReadable } = useOrders();
-  const { dataFiltered } = useFilters();
+  const { dataFiltered } = useFiltering();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({

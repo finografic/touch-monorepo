@@ -28,7 +28,7 @@ apps/client/src/pages/TemperaturePage/
 
 - **File**: `TemperaturePage.tsx` (lines 36-37)
 - **Action**: Retrieves orders and filtered data from context providers
-- **Providers**: `useOrders()`, `useFilters()`
+- **Providers**: `useOrders()`, `useFiltering()`
 
 ### 3. API Calls Initiation
 
@@ -50,7 +50,7 @@ apps/client/src/pages/TemperaturePage/
 - **Action**: Sets initial temperature values based on available data and updates all filter systems
 - **Available Data Sources**:
   - **`defaultTempConsume`**: Retrieved from `dataFiltered[0].defaultTempConsume`
-    - **Origin**: Comes from the `useFilters()` hook context
+    - **Origin**: Comes from the `useFiltering()` hook context
     - **Source**: Originally fetched from order data via API calls
     - **Purpose**: Represents the recommended consumption temperature for the current order
   - **`INITIAL_TEMP_DEFAULT`**: Hardcoded constant value of 25°C
@@ -60,7 +60,7 @@ apps/client/src/pages/TemperaturePage/
   - **Initial Temperature**: Always set to `INITIAL_TEMP_DEFAULT` (25°C)
   - **Final Temperature**: Uses `defaultTempConsume` if available, otherwise falls back to 8°C
   - **Fallback Chain**: `defaultTempConsume` → 8°C (hardcoded fallback)
-- **Data Flow**: `useFilters()` → `dataFiltered` → `defaultTempConsume` → Temperature initialization
+- **Data Flow**: `useFiltering()` → `dataFiltered` → `defaultTempConsume` → Temperature initialization
 
 ### 6. Filter Updates
 
@@ -172,7 +172,7 @@ const [temperatures, setTemperatures] = useState<TemperatureState>({
 ### External Hooks
 
 - `useOrders()` - Order management context
-- `useFilters()` - Global filter management
+- `useFiltering()` - Global filter management
 - `useSession()` - Session management
 - `usePagination()` - Navigation state
 - `useRouteConfig()` - Route configuration

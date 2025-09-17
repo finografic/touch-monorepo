@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from 'react';
-import { useFilters } from 'hooks/useFilters';
+import { useFiltering } from 'hooks/useFiltering';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider';
@@ -17,7 +17,7 @@ interface UseTemperatureManagementProps {
 }
 
 export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperatureManagementProps) => {
-  const { setFilter } = useFilters();
+  const { setFilter } = useFiltering();
   const { setIsNextDisabled } = usePagination();
   const { fieldKey } = useRouteConfig();
   const { setFilters: setOrdersFilters } = useOrders();

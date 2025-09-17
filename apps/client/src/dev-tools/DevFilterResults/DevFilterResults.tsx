@@ -1,11 +1,11 @@
-import { useFilters } from 'hooks/useFilters';
+import { useFiltering } from 'hooks/useFiltering';
 import { styles } from './DevFilterResults.styles';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { DevDataTable } from '../DevDataTable';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 export const DevFilterResults = () => {
-  const { dataFiltered, filters } = useFilters({});
+  const { dataFiltered, filters } = useFiltering({});
   // const { filters: ordersFilters } = useOrders();
   const { sessions, currentSessionId } = useSession();
 

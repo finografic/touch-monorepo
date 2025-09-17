@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useFilters } from 'hooks/useFilters';
+import { useFiltering } from 'hooks/useFiltering';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { RegionLocale } from '@workspace/core/types';
@@ -16,7 +16,7 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 export const useRouteChangeHandler = () => {
   const { handleRouteChange } = useLayoutUi();
   const { currentSessionId, sessions } = useSession();
-  const { dataPool, filters } = useFilters();
+  const { dataPool, filters } = useFiltering();
   const { setFilters: setOrdersFilters } = useOrders();
   const { fieldKey, loaderData, padsConfig } = useRouteConfig();
 
@@ -89,7 +89,7 @@ export const useRouteChangeHandler = () => {
     }
   }, [fieldKey, loaderData, padsConfig, dataPool, currentSessionId, sessions, handleRouteChange]);
 
-  // Sync filters from useFilters to OrdersContext (consolidated from LayoutUiObserver)
+  // Sync filters from useFiltering to OrdersContext (consolidated from LayoutUiObserver)
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {
       setOrdersFilters(filters);

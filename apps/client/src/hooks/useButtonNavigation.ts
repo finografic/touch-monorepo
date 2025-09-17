@@ -2,7 +2,7 @@ import { useCallback, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
-import { useFilters } from 'hooks/useFilters';
+import { useFiltering } from 'hooks/useFiltering';
 import { useOrders } from 'providers/OrdersProvider';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
 
@@ -27,7 +27,7 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   const [isPending, startTransition] = useTransition();
   const { current, setPageCurrent, isNextDisabled } = usePagination();
   const { pathnames } = useRoutePathnamesByFilters();
-  const { dataFiltered } = useFilters();
+  const { dataFiltered } = useFiltering();
   const { setProfile, fetchOrderWithProfiles, ordersReadable } = useOrders();
 
   const handleNavigateBack = useCallback(() => {

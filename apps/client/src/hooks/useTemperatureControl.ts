@@ -1,5 +1,5 @@
 import { useCallback, useDeferredValue, useEffect, useState } from 'react';
-// import { useFilters } from './useFilters'; // ✅ REMOVED: Now using OrdersContext.filters
+// import { useFiltering } from './useFiltering'; // ✅ REMOVED: Now using OrdersContext.filters
 import { OrderFieldKeys } from 'constants/app.config';
 import type { TemperatureFilter, TemperatureProfile } from 'types/temperature.types';
 import { useConfigStorage } from './useConfigStorage';

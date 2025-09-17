@@ -27,7 +27,7 @@ interface UseFiltersReturn {
   uniqueValues: Record<string, string[]>;
 }
 
-export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
+export const useFiltering = (initialFilters?: OrderFilters): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
   const { orders, updateOrderIds, ordersReadable } = useOrders();
   const { currentSessionId, sessions } = useSession();
@@ -105,7 +105,7 @@ export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
   }, []);
 
   // Clear specific filter
-  const clearFilter = useCallback((key: OrderFieldKey) => {
+  const clearFilter = useCallback((key: Exclude<OrderFieldKey, 'main'>) => {
     setFilters((prev) => {
       const { [key]: _, ...rest } = prev;
       return rest;

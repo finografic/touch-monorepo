@@ -27,7 +27,7 @@ interface UseFiltersReturn {
   uniqueValues: Record<string, string[]>;
 }
 
-export const useFilters = (initialFilters?: OrderFilters): UseFiltersReturn => {
+export const useFiltering = (initialFilters?: OrderFilters): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
   const { orders, updateOrderIds, ordersReadable, ordersFilters, setOrdersFilters } = useOrders();
   const { currentSessionId, sessions } = useSession();
