@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, useCallback } from 'react';
 import { Select } from '@radix-ui/themes';
 import type { SelectOption } from 'types/models/select-option.model';
 import clsx from 'clsx';
@@ -32,17 +32,23 @@ export const SelectSimple = forwardRef<HTMLSelectElement, SelectSimpleProps>(
     },
     ref,
   ) => {
-    const handleValueChange = (newValue: string) => {
-      // Call both handlers with the raw string value
-      onSelect?.(newValue);
-
-      if (onChange) {
-        const event = {
-          target: { name, value: newValue },
-        } as React.ChangeEvent<HTMLSelectElement>;
-        onChange(event);
-      }
-    };
+    const handleValueChange = useCallback(
+      (newValue: string) => {
+        try {
+          if (onSelect) {
+            onSelect(newValue);
+          } else if (onChange) {
+            const event = {
+              target: { name, value: newValue },
+            } as React.ChangeEvent<HTMLSelectElement>;
+            onChange(event);
+          }
+        } catch (error) {
+          console.error('SelectSimple handleValueChange error:', error);
+        }
+      },
+      [onSelect, onChange, name],
+    );
 
     return (
       <div css={styles} className={clsx('simple-select', className)}>
