@@ -3,8 +3,11 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
 import { useFiltering } from 'hooks/useFiltering';
+import { useFilters } from 'providers/FiltersProvider';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useOrders } from 'providers/OrdersProvider';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
+import type { TemperatureFilter } from 'types/temperature.types';
 
 const NAVIGATION_ACTIONS = {
   NAVIGATE_BACK: 'navigate-back',
@@ -28,6 +31,8 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   const { current, setPageCurrent, isNextDisabled } = usePagination();
   const { pathnames } = useRoutePathnamesByFilters();
   const { dataFiltered } = useFiltering();
+  const { setFilter } = useFilters();
+  const { currentSessionId, sessions, updateSessionFilters } = useSession();
   const { setProfile, fetchOrderWithProfiles, ordersReadable } = useOrders();
 
   const handleNavigateBack = useCallback(() => {
@@ -48,24 +53,56 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
     });
   }, [current, navigate, pathnames, setPageCurrent, location.pathname]);
 
-  const handleNavigateNext = useCallback(() => {
+  const handleNavigateNext = useCallback(async () => {
     const newIndex = current + 1;
     const nextPathname = pathnames[newIndex];
 
-    startTransition(() => {
-      // Set profile when navigating from ContainerType page to Temperature page
-      if (location.pathname === '/container-type' && dataFiltered.length > 0) {
-        // Get the order ID from the filtered data and find the readable model from context
-        const orderId = dataFiltered[0].id;
-        const profileOrder = ordersReadable.find((order) => order.id === orderId);
-        if (profileOrder) {
-          setProfile(profileOrder); // Set basic profile first
+    // Handle async temperature filter logic outside of startTransition
+    if (location.pathname === '/container-type' && dataFiltered.length > 0) {
+      // Get the order ID from the filtered data and find the readable model from context
+      const orderId = dataFiltered[0].id;
+      const profileOrder = ordersReadable.find((order) => order.id === orderId);
+      if (profileOrder) {
+        setProfile(profileOrder); // Set basic profile first
 
+        try {
           // Fetch complete order with temperature profiles
-          fetchOrderWithProfiles(orderId);
+          const fullOrderData = await fetchOrderWithProfiles(orderId);
+
+          // Create temperature filter from the fetched data
+          const temperatureFilter: TemperatureFilter = {
+            defaultConsume: fullOrderData.defaultTempConsume,
+            defaultFreeze: fullOrderData.defaultTempFreeze,
+            temperatureProfiles: fullOrderData.temperatureProfiles || [],
+            // Set initial and final to defaults if available
+            initial: fullOrderData.defaultTempConsume,
+            final: fullOrderData.defaultTempFreeze,
+            // Find closest temperature (you can implement custom logic here)
+            closestTemperature: fullOrderData.temperatureProfiles?.[0]?.temperature,
+          };
+
+          // Set temperature filter using the new FiltersContext
+          setFilter('temperature', temperatureFilter);
+
+          // Also update session filters for backward compatibility
+          if (currentSessionId) {
+            const currentSessionFilters = sessions[currentSessionId]?.filters || {};
+            const newSessionFilters = {
+              ...currentSessionFilters,
+              temperature: temperatureFilter,
+            };
+            updateSessionFilters(currentSessionId, newSessionFilters);
+          }
+
+          console.log('Temperature filter set:', temperatureFilter);
+        } catch (error) {
+          console.error('Failed to fetch order with profiles:', error);
         }
       }
+    }
 
+    // Use startTransition for the navigation part only
+    startTransition(() => {
       setPageCurrent(newIndex);
       navigate(nextPathname);
     });
@@ -78,6 +115,10 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
     ordersReadable,
     setProfile,
     fetchOrderWithProfiles,
+    setFilter,
+    currentSessionId,
+    sessions,
+    updateSessionFilters,
     setPageCurrent,
     navigate,
   ]);

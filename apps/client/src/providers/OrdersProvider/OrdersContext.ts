@@ -46,14 +46,13 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             set({ profile });
           },
 
-          fetchOrderWithProfiles: async (orderId: string) => {
+          fetchOrderWithProfiles: async (orderId: string): Promise<OrderReadableModel> => {
             try {
               const response = await api.get(`/orders-readable/${orderId}`);
-
-              // With Axios, the actual data is in response.data
               const fullOrder = response.data as OrderReadableModel;
-
               set({ profile: fullOrder }); // This will have temperatureProfiles + timeRows
+
+              return fullOrder;
             } catch (error) {
               console.error('Failed to fetch order with profiles:', error);
             }
