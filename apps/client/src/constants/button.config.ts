@@ -54,6 +54,13 @@ export const BUTTON_CONFIGS: Record<PadActionType, PadActionConfig> = {
     className: 'small-button button-cancel',
     actionType: 'cancel-time-session',
   },
+  [BUTTON_TYPES.CANCEL_PRODUCT_SESSION]: {
+    id: 'btn-cancel-product-session',
+    type: 'cancel-product-session',
+    labelKey: 'ui.buttons.cancel',
+    className: 'small-button button-cancel',
+    actionType: 'cancel-product-session',
+  },
   [BUTTON_TYPES.PROGRAM_TIME]: {
     id: 'btn-program-time',
     type: 'program-time',

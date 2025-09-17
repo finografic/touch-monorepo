@@ -25,7 +25,8 @@ type OperationActionType =
   | 'program-time'
   | 'program-product'
   | 'repeat-selection'
-  | 'cancel-time-session';
+  | 'cancel-time-session'
+  | 'cancel-product-session';
 
 interface UseButtonOperationsReturn {
   handleClearCompleted: () => void;
@@ -37,6 +38,7 @@ interface UseButtonOperationsReturn {
   handleProgramProduct: () => void;
   handleRepeatSelection: () => void;
   handleCancelTimeSession: () => void;
+  handleCancelProductSession: () => void;
   getOperationDisabled: (actionType: OperationActionType) => boolean;
   getOperationLoading: (actionType: OperationActionType) => boolean;
   isOperationPending: boolean;
@@ -454,6 +456,44 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     });
   }, [location.pathname, currentSessionId, orders, toggleOrder, navigate, clearSession]);
 
+  const handleCancelProductSession = useCallback(() => {
+    startTransition(() => {
+      // Only proceed if we're on a product flow page (drinkType, drinkSubtype, etc.)
+      const productFlowPages = [
+        PATHS.drinkType,
+        PATHS.drinkSubtype,
+        PATHS.drinkVolume,
+        PATHS.containerType,
+        PATHS.temperature,
+      ];
+
+      if (!productFlowPages.includes(location.pathname as any)) {
+        console.warn('handleCancelProductSession: Called but not on a product flow page');
+        return;
+      }
+
+      // Remove the current session
+      if (currentSessionId) {
+        console.log('Cancelling product session:', currentSessionId);
+
+        // Clear any orders that were created for this session
+        const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
+        sessionOrders.forEach((order) => {
+          toggleOrder({
+            itemType: order.itemType,
+            itemNumber: order.itemNumber,
+          });
+        });
+
+        // Remove the session from SessionContext
+        clearSession(currentSessionId);
+      }
+
+      // Navigate back to main page
+      navigate(PATHS.main, { replace: true });
+    });
+  }, [location.pathname, currentSessionId, orders, toggleOrder, navigate, clearSession]);
+
   const getOperationDisabled = useCallback(
     (actionType: OperationActionType): boolean => {
       // Use mainPageSelectedSlots from top level (already available)
@@ -522,6 +562,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         case 'cancel-time-session':
           // Always enabled on TimePage (no conditions)
           return false;
+        case 'cancel-product-session':
+          // Always enabled on product flow pages (no conditions)
+          return false;
         default:
           return false;
       }
@@ -565,6 +608,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     handleProgramProduct,
     handleRepeatSelection,
     handleCancelTimeSession,
+    handleCancelProductSession,
     getOperationDisabled,
     getOperationLoading,
     isOperationPending: isPending,

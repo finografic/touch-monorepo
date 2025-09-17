@@ -28,7 +28,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'drinkType',
     title: 'Select drink type:',
     buttons: {
-      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
+      footer: [BUTTON_TYPES.CANCEL_PRODUCT_SESSION, BUTTON_TYPES.NEXT],
       content: [],
     },
   },

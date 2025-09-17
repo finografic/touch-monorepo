@@ -32,6 +32,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     handleProgramProduct,
     handleRepeatSelection,
     handleCancelTimeSession,
+    handleCancelProductSession,
     getOperationDisabled,
     getOperationLoading,
     // isOperationPending,
@@ -79,6 +80,8 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
           return handleRepeatSelection();
         case BUTTON_ACTIONS.CANCEL_TIME_SESSION:
           return handleCancelTimeSession();
+        case BUTTON_ACTIONS.CANCEL_PRODUCT_SESSION:
+          return handleCancelProductSession();
         default:
           console.warn(`Unknown action type: ${actionType}`);
       }
@@ -94,6 +97,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
       handleProgramProduct,
       handleRepeatSelection,
       handleCancelTimeSession,
+      handleCancelProductSession,
     ],
   );
 
