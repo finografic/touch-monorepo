@@ -3,7 +3,10 @@ import type { OrderFilters } from 'types/filters.types';
 import type { CamelToKebab, CamelToSnake } from '@workspace/core/types/utils';
 import type { FlowTypeValue } from 'types/flow.types';
 
-export type OrderFieldKey = (typeof ORDER_FIELD_KEYS)[number];
+// Separate field key types for better type safety
+export type FilterFieldKey = 'drinkType' | 'drinkSubtype' | 'drinkVolume' | 'containerType' | 'temperature';
+export type NavigationFieldKey = 'main';
+export type OrderFieldKey = FilterFieldKey | NavigationFieldKey;
 export type OrderFieldKeyKebab = CamelToKebab<OrderFieldKey>;
 export type OrderFieldKeySnake = CamelToSnake<OrderFieldKey>;
 

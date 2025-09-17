@@ -1,7 +1,6 @@
 import type { FilterKeys } from 'constants/filters.constants';
 import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
-import type { ContainerType, Temperature, Volume } from 'types/orders.types';
-import type { OrderFieldKeys } from 'constants/app.config';
+import type { ContainerType, FilterFieldKey, Temperature, Volume } from 'types/orders.types';
 import type { TemperatureFilter } from 'types/temperature.types';
 
 /**
@@ -45,7 +44,7 @@ export interface OrderFilter {
 }
 
 // The fields that are managed by the selection process
-export interface OrderFilters extends Partial<Record<keyof typeof OrderFieldKeys & 'mode', unknown>> {
+export interface OrderFilters extends Partial<Record<FilterFieldKey, unknown>> {
   mode?: ModeFilter;
   drinkType?: DrinkTypeFilter;
   drinkSubtype?: DrinkSubtypeFilter;
