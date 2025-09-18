@@ -44,10 +44,12 @@ export const stylesDropdown = css`
     &:hover,
     &.focused {
       background-color: var(--gray-2);
+      background-color: yellow !important;
     }
 
     &:active {
       background-color: var(--gray-3);
+      background-color: pink !important;
     }
 
     /* Text styling within options */
@@ -111,6 +113,7 @@ export const stylesDropdown = css`
     text-align: center;
     border-top: 1px solid var(--gray-6);
     background: var(--gray-2);
+
     font-size: 0.75rem;
     color: var(--blue-11);
     line-height: 1.4;

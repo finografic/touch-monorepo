@@ -3,7 +3,7 @@ import { TextField } from '@radix-ui/themes';
 import { ChevronDownIcon } from '@radix-ui/react-icons';
 import type { SelectOption } from 'types/models/select-option.model';
 import clsx from 'clsx';
-import { styles } from './SelectCustom.styles';
+import { styles, stylesDropdown } from './SelectCustom.styles';
 import { DropdownPortal } from 'forms/SelectSearchable/DropdownPortal';
 
 interface SelectCustomProps {
@@ -39,10 +39,10 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
     const containerRef = useRef<HTMLDivElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 
-    // Get display value
+    // Get display value - prioritize label over value
     const displayValue = value !== undefined ? value : defaultValue || '';
     const selectedOption = options.find((option) => option.value === displayValue);
-    const displayText = selectedOption ? selectedOption.label : displayValue;
+    const displayText = selectedOption ? selectedOption.label || selectedOption.value : displayValue;
 
     const handleValueChange = useCallback(
       (newValue: string) => {
@@ -116,8 +116,8 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
     };
 
     return (
-      <div css={styles} className={clsx('simple-select', className)}>
-        <div ref={containerRef} className="select-container" style={{ position: 'relative' }}>
+      <div css={styles} className={clsx('searchable-select', className)}>
+        <div ref={containerRef} className="search-container" style={{ position: 'relative' }}>
           <TextField.Root
             ref={inputRef}
             value={displayText}
@@ -149,6 +149,7 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
           isOpen={isOpen}
           onClose={handleCloseDropdown}
           className="dropdown"
+          css={stylesDropdown}
         >
           <div>
             {options.length > 0 ? (
@@ -160,8 +161,10 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
                   onMouseEnter={() => setFocusedIndex(index)}
                 >
                   <div className="option-content">
-                    <span className="option-value">{option.value}</span>
-                    {option.label && <span className="option-label">{option.label}</span>}
+                    <span className="option-value">{option.label || option.value}</span>
+                    {/* {option.label && option.label !== option.value && (
+                      <span className="option-label">{option.value}</span>
+                    )} */}
                   </div>
                 </div>
               ))

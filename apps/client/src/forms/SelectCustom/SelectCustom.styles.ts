@@ -1,47 +1,58 @@
 import { css } from '@emotion/react';
+import { colors } from 'styles';
 
+// Main component styles (for the input and container)
 export const styles = css`
   .search-container {
     position: relative;
     width: 100%;
-    z-index: 1000; /* Ensure container has high z-index */
   }
 
-  .dropdown {
-    background: var(--color-background);
-    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-    border-radius: var(--radius-3);
-    overflow: hidden;
-    z-index: 9999;
-    position: absolute !important;
+  /* SelectCustom input styling - matching SelectSearchable structure */
+  .searchable-select {
+    .rt-TextFieldInput {
+      color: var(--gray-12) !important; /* Force white text for readonly input */
+      background-color: white !important;
+      cursor: pointer !important; /* Make entire input clickable */
 
-    /* ================================================================== */
+      &::placeholder {
+        color: ${colors.grey};
+        opacity: 0.7;
+        font-weight: 500;
+      }
+    }
 
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 9999;
-    margin-top: 4px;
-    max-height: 300px;
-    overflow-y: auto;
-    background: var(--color-background);
-    /* border: 1px solid red; */
+    /* Make the right slot (chevron) clickable */
+    .input-slot-right {
+      cursor: pointer !important;
+      pointer-events: auto !important;
 
-    &:before {
-      /* border: 1px solid blue; */
-      /* inset: 0 !important; */
-      /* box-shadow: none !important; */
-      /* border: 0 !important; */
-      /* border-width: 0 !important; */
+      svg {
+        cursor: pointer !important;
+      }
     }
   }
+  input {
+    background-color: white !important;
+  }
+`;
+
+// Dropdown portal styles (for the dropdown content rendered in portal)
+export const stylesDropdown = css`
+  background: white; /* Use explicit white instead of CSS variable */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+  border-radius: var(--radius-3);
+  border: 1px solid var(--gray-6);
+  overflow: hidden;
+  max-height: 300px;
+  overflow-y: auto;
 
   .option {
     cursor: pointer;
     transition: background-color 0.15s ease;
     border-bottom: 1px solid var(--gray-3);
-    padding: 8px 12px;
+    padding: 0.75rem 1rem; /* Direct padding instead of using Flex p="3" */
+    background: white; /* Ensure options have white background */
 
     &:last-child {
       border-bottom: none;
@@ -55,22 +66,27 @@ export const styles = css`
     &:active {
       background-color: var(--gray-3);
     }
-  }
 
-  .option-content {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
+    /* Text styling within options */
+    .option-content {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
 
-  .option-value {
-    font-weight: 500;
-    color: var(--gray-12);
-  }
+    .option-value {
+      font-size: 0.875rem; /* size="2" equivalent */
+      font-weight: 400; /* Remove bold */
+      color: var(--gray-12);
+      line-height: 1.4;
+    }
 
-  .option-label {
-    font-size: 0.875rem;
-    color: var(--gray-11);
+    .option-label {
+      font-size: 0.75rem; /* size="1" equivalent */
+      color: var(--gray-9);
+      font-weight: 400;
+      line-height: 1.4;
+    }
   }
 
   /* Ensure flag images don't break layout */
@@ -80,20 +96,20 @@ export const styles = css`
   }
 
   /* Custom scrollbar for dropdown */
-  .dropdown::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     width: 6px;
   }
 
-  .dropdown::-webkit-scrollbar-track {
+  &::-webkit-scrollbar-track {
     background: var(--gray-2);
   }
 
-  .dropdown::-webkit-scrollbar-thumb {
+  &::-webkit-scrollbar-thumb {
     background: var(--gray-6);
     border-radius: 3px;
   }
 
-  .dropdown::-webkit-scrollbar-thumb:hover {
+  &::-webkit-scrollbar-thumb:hover {
     background: var(--gray-8);
   }
 `;
