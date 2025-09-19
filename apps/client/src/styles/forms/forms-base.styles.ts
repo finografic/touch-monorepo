@@ -77,12 +77,16 @@ export const formsBase = css`
     }
 
     &:disabled {
-      background-color: ${forms.inputs.disabled.background};
+      background-color: ${forms.inputs.disabled.background}!important;
+      background-color: ${colors.greyXXLight33}!important;
       border-color: ${forms.inputs.disabled.border.color};
-      color: ${forms.inputs.disabled.text.color};
-      font-weight: ${forms.inputs.disabled.text.fontWeight};
-      opacity: ${forms.inputs.disabled.opacity};
+      color: ${forms.inputs.placeholder.disabled.color};
+      font-weight: ${forms.inputs.placeholder.disabled.fontWeight};
+      opacity: ${forms.inputs.placeholder.disabled.opacity};
       cursor: not-allowed;
+      &::placeholder {
+        opacity: 0.8;
+      }
     }
 
     &:read-only {
@@ -150,6 +154,18 @@ export const formsBase = css`
     }
 
     cursor: pointer;
+  }
+
+  /* Radix UI Form Input Overrides - Remove default box-shadows */
+  .rt-TextFieldInput:where(.rt-variant-surface),
+  .rt-TextAreaInput:where(.rt-variant-surface),
+  .rt-SelectTrigger:where(.rt-variant-surface),
+  .rt-SelectValue:where(.rt-variant-surface),
+  .rt-CheckboxRoot:where(.rt-variant-surface),
+  .rt-RadioGroupRoot:where(.rt-variant-surface),
+  .rt-SwitchRoot:where(.rt-variant-surface),
+  .rt-SliderRoot:where(.rt-variant-surface) {
+    box-shadow: none;
   }
 
   /* Buttons - basic enhancement */

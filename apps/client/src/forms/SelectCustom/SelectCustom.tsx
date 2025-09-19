@@ -129,7 +129,13 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
             size="3"
             {...props}
           >
-            <TextField.Slot side="right" className="input-slot-right">
+            <TextField.Slot
+              side="right"
+              className="input-slot-right"
+              onClick={handleInputClick}
+              onKeyDown={handleKeyDown}
+              style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
+            >
               <ChevronDownIcon
                 height="18"
                 width="18"

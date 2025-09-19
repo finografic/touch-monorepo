@@ -43,13 +43,13 @@ export const stylesDropdown = css`
 
     &:hover,
     &.focused {
-      background-color: var(--gray-2);
-      background-color: yellow !important;
+      background-color: ${colors.primary20};
+      /* background-color: yellow; */
     }
 
     &:active {
       background-color: var(--gray-3);
-      background-color: pink !important;
+      background-color: pink;
     }
 
     /* Text styling within options */
@@ -60,16 +60,16 @@ export const stylesDropdown = css`
     }
 
     .option-value {
-      font-size: 0.875rem; /* size="2" equivalent */
-      font-weight: 400; /* Remove bold */
-      color: var(--gray-12);
+      font-size: 0.9rem; /* size="2" equivalent */
+      font-weight: 600; /* Remove bold */
+      color: ${colors.text80};
       line-height: 1.4;
     }
 
     .option-label {
-      font-size: 0.75rem; /* size="1" equivalent */
-      color: var(--gray-9);
-      font-weight: 400;
+      font-size: 0.9rem; /* size="1" equivalent */
+      color: ${colors.text33};
+      font-weight: 600;
       line-height: 1.4;
     }
   }

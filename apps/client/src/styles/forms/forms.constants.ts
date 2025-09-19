@@ -20,8 +20,8 @@ export const forms = {
 
     label: {
       color: colors.textXDark,
-      fontSize: '1rem',
-      fontWeight: 600,
+      fontSize: '1.15rem',
+      fontWeight: 900,
     },
 
     text: {
@@ -32,8 +32,13 @@ export const forms = {
 
     placeholder: {
       color: colors.grey,
-      opacity: 0.66,
-      fontWeight: 600,
+      opacity: 0.5,
+      fontWeight: 500,
+      disabled: {
+        color: colors.grey,
+        opacity: 0.66,
+        fontWeight: 500,
+      },
     },
 
     hover: {
@@ -63,7 +68,8 @@ export const forms = {
     },
 
     disabled: {
-      background: colors.greyXXLight,
+      // background: colors.greyXXLight,
+      background: 'red',
       border: {
         color: colors.greyLight,
         width: '1px',

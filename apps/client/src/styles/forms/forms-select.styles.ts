@@ -14,7 +14,8 @@ export const formsSelect = css`
   }
 
   /* Custom select components */
-  .select-simple,
+  .select-basic,
+  .select-custom,
   .select-searchable {
     .select-trigger {
       min-height: ${forms.inputs.height};
@@ -32,6 +33,9 @@ export const formsSelect = css`
       &[data-state='open'] {
         border-color: ${forms.inputs.focus.border.color};
         box-shadow: 0 0 0 3px ${colors.primaryLight20};
+      }
+      .option.focussed {
+        background-color: ${colors.primaryLight20}!important;
       }
     }
 

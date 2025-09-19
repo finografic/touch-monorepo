@@ -10,6 +10,6 @@ export const cssFontDefaults = css`
 `;
 
 export const cssFontMono = css`
-  font-family: ${typography.fontFamily.mono.join(', ')};
+  font-family: ${typography.fontFamily.mono.join(', ')} !important;
   ${css(typography.fontSmoothing.antialiased)}
 `;
