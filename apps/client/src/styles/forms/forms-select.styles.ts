@@ -27,12 +27,19 @@ export const formsSelect = css`
 
       &:hover {
         border-color: ${forms.inputs.hover.border.color};
+        .option {
+          border-color: ${forms.inputs.hover.border.color};
+          background-color: red !important;
+        }
       }
 
       &:focus,
       &[data-state='open'] {
         border-color: ${forms.inputs.focus.border.color};
         box-shadow: 0 0 0 3px ${colors.primaryLight20};
+      }
+      .option {
+        font-weight: 600 !important;
       }
       .option.focussed {
         background-color: ${colors.primaryLight20}!important;

@@ -70,22 +70,6 @@ export const AdminSoundPage: React.FC = () => {
         title="Sound Management"
         subtitle="Upload and configure sound files for timer events"
       >
-        {/* Debug Test Section */}
-        <AdminSection
-          title="Debug Audio Test"
-          description="Test basic audio playback functionality"
-          variant="border-dashed"
-        >
-          <Flex gap="3" align="center">
-            <Button onClick={handleTestAudio} variant="soft" color="blue">
-              Test Basic Audio Playback
-            </Button>
-            <Text size="2" color="gray">
-              This will test if audio playback works at all in your browser
-            </Text>
-          </Flex>
-        </AdminSection>
-
         {/* Sound Settings Section */}
         <AdminSection
           title="Sound Configuration"

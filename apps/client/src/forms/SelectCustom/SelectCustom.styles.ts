@@ -33,6 +33,9 @@ export const styles = css`
     }
   }
   input {
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    opacity: 1 !important;
     background-color: white !important;
   }
 `;
@@ -48,6 +51,7 @@ export const stylesDropdown = css`
   overflow-y: auto;
 
   .option {
+    /* font-weight: 600 !important; */
     cursor: pointer;
     transition: background-color 0.15s ease;
     border-bottom: 1px solid var(--gray-3);
@@ -58,13 +62,13 @@ export const stylesDropdown = css`
       border-bottom: none;
     }
 
-    &:hover,
-    &.focused {
-      background-color: var(--gray-2);
+    &:hover {
+      background-color: ${colors.greyXXLight20};
     }
 
+    &.focused,
     &:active {
-      background-color: var(--gray-3);
+      background-color: ${colors.defaultXLight33};
     }
 
     /* Text styling within options */

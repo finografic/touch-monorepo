@@ -44,6 +44,7 @@ export const stylesDropdown = css`
     &:hover,
     &.focused {
       background-color: ${colors.primary20};
+      border-color: red !important;
       /* background-color: yellow; */
     }
 
