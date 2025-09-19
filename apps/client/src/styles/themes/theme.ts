@@ -1,7 +1,7 @@
 import { colors } from '../colors/colors.styles';
 import { spacing } from '../constants/global.constants';
 import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
-import { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from '../fonts/typography.styles';
+import { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from '../fonts/typography.contants';
 
 export const theme = {
   colors,

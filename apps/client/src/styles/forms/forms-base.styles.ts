@@ -134,10 +134,20 @@ export const formsBase = css`
 
   /* Labels */
 
+  label,
   label.field-label {
-    font-weight: ${forms.inputs.label.fontWeight};
+    display: inline-flex;
+    align-items: center;
     font-size: ${forms.inputs.label.fontSize};
-    color: ${colors.text};
+    font-weight: ${forms.inputs.label.fontWeight};
+    letter-spacing: 0;
+    color: ${colors.primaryDark};
+    margin: 0.5em 0.5em 0.7em 0.1em;
+    span {
+      // NOTE: REMOVED: - 2024-04-14
+      /* opacity: 0.66; */
+      margin: 0;
+    }
 
     cursor: pointer;
   }

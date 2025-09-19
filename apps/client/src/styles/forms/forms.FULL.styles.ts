@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from '../colors/colors.styles';
 import { layout } from '../constants/global.constants';
-import { cssLabels } from '../fonts/fonts.styles';
 
 // ======================================================================== //
 // NOTE: FORMS RESET
@@ -746,7 +745,6 @@ export const cssForms = css`
   }
 
   label {
-    ${cssLabels}
     & + &,
     & + input,
     & + select,
