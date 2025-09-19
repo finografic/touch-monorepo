@@ -165,7 +165,18 @@ export const formsBase = css`
   .rt-RadioGroupRoot:where(.rt-variant-surface),
   .rt-SwitchRoot:where(.rt-variant-surface),
   .rt-SliderRoot:where(.rt-variant-surface) {
-    box-shadow: none;
+    &,
+    & input {
+      box-shadow: none !important;
+    }
+
+    &:focus {
+      .rt-TextFieldRoot:where(.rt-r-size-3) :where(.rt-TextFieldSlot),
+      .rt-TextFieldSlot:where([data-side='right']),
+      .rt-TextFieldSlot:where(.rt-TextFieldSlot:not([data-side='left'])) {
+        border: none !important;
+      }
+    }
   }
 
   /* Buttons - basic enhancement */

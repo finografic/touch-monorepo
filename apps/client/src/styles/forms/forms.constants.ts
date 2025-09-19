@@ -13,9 +13,12 @@ export const forms = {
     background: colors.white,
 
     border: {
-      color: colors.grey,
-      width: '1px',
+      color: colors.greyXXLight66,
+      width: '2px',
       radius: '6px',
+      focus: {
+        color: colors.greyXLight80,
+      },
     },
 
     label: {
@@ -68,8 +71,7 @@ export const forms = {
     },
 
     disabled: {
-      // background: colors.greyXXLight,
-      background: 'red',
+      background: colors.greyXXLight,
       border: {
         color: colors.greyLight,
         width: '1px',

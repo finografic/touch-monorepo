@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from 'styles';
+import { forms } from 'styles/forms/forms.constants';
 
 // Main component styles (for the input and container)
 export const styles = css`
@@ -26,17 +27,61 @@ export const styles = css`
     .input-slot-right {
       cursor: pointer !important;
       pointer-events: auto !important;
+      display: none !important;
 
       svg {
         cursor: pointer !important;
       }
     }
   }
+
+  *,
+  *:focus {
+    box-shadow: none !important;
+    border: none !important;
+  }
+
   input {
     font-size: 1rem !important;
     font-weight: 600 !important;
     opacity: 1 !important;
     background-color: white !important;
+    border-left: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
+    border-top: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
+    border-bottom: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
+    /* border: none !important; */
+    box-shadow: none !important;
+    &:focus {
+      border: none !important;
+    }
+  }
+
+  /* *,
+  *:focus {
+    &:not(input) {
+      border: none !important;
+    }
+  } */
+
+  /* NOTE: SLOT-RIGHT (CHEVRON) - Override Radix TextFieldSlot sizing and spacing */
+  .rt-TextFieldRoot:where(.rt-r-size-3) :where(.rt-TextFieldSlot),
+  .rt-TextFieldSlot:where([data-side='right']),
+  .rt-TextFieldSlot:where(.rt-TextFieldSlot:not([data-side='left'])) {
+    gap: var(--space-2) !important;
+    padding-left: var(--space-2) !important;
+    padding-right: var(--space-2) !important;
+    &:not(.open) {
+      /* border: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important; */
+      border-top-right-radius: ${forms.inputs.border.radius} !important;
+      border-bottom-right-radius: ${forms.inputs.border.radius} !important;
+      /* &:focus{ border: none !important;} */
+      /* &:focus{ border: none !important;} */
+      /* border-left: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important; */
+    }
+    /* &.open {
+      border-left: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
+    } */
+    border-left: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
   }
 `;
 

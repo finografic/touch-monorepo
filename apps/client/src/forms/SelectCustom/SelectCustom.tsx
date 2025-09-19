@@ -116,7 +116,7 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
     };
 
     return (
-      <div css={styles} className={clsx('searchable-select', className)}>
+      <div css={styles} className={clsx('searchable-select', className, isOpen && 'open')}>
         <div ref={containerRef} className="search-container" style={{ position: 'relative' }}>
           <TextField.Root
             ref={inputRef}
@@ -131,10 +131,13 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
           >
             <TextField.Slot
               side="right"
-              className="input-slot-right"
+              className={clsx('input-slot-right', isOpen && 'open')}
               onClick={handleInputClick}
               onKeyDown={handleKeyDown}
-              style={{ cursor: disabled ? 'not-allowed' : 'pointer' }}
+              style={{
+                cursor: disabled ? 'not-allowed' : 'pointer',
+                // border: isOpen ? 'none' : 'none',
+              }}
             >
               <ChevronDownIcon
                 height="18"
@@ -144,6 +147,7 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
                   transition: 'transform 0.2s ease',
                   marginLeft: '2px',
                   marginRight: '4px',
+                  // border: isOpen ? 'none' : 'none',
                 }}
               />
             </TextField.Slot>

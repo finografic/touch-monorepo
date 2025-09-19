@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react';
-import { Box, Button, Flex, Heading, Select, Text } from '@radix-ui/themes';
+import { Box, Button, Flex, Heading, Text } from '@radix-ui/themes';
 import { SpeakerLoudIcon } from 'styles/icons';
 
 import { useToast } from 'components/Toast';
+import { SelectCustom } from 'forms/SelectCustom';
 import { type SoundFile, type SoundSettings, useUpdateSoundSettings } from 'api/hooks/useSounds';
 import { playSoundByPath } from 'utils/soundCache.utils';
 import { styles } from './SoundConfigurationSection.styles';
@@ -86,21 +87,19 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
             <Text weight="bold">Tick Sound:</Text>
           </Box>
           <Box className="sound-select-container">
-            <Select.Root
+            <SelectCustom
               value={soundSettings.tick || 'none'}
-              onValueChange={(value) => handleSoundSelection('tick', value === 'none' ? null : value)}
+              onSelect={(value) => handleSoundSelection('tick', value === 'none' ? null : value)}
               disabled={updateSettingsMutation.isPending}
-            >
-              <Select.Trigger placeholder="Select tick sound..." />
-              <Select.Content>
-                <Select.Item value="none">None</Select.Item>
-                {soundFiles.map((file) => (
-                  <Select.Item key={file.id} value={file.id}>
-                    {file.name}
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Root>
+              placeholder="Select tick sound..."
+              options={[
+                { value: 'none', label: 'None' },
+                ...soundFiles.map((file) => ({
+                  value: file.id,
+                  label: file.name,
+                })),
+              ]}
+            />
           </Box>
           {soundSettings.tick && (
             <Button
@@ -120,21 +119,19 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
             <Text weight="bold">Finish Sound:</Text>
           </Box>
           <Box className="sound-select-container">
-            <Select.Root
+            <SelectCustom
               value={soundSettings.finish || 'none'}
-              onValueChange={(value) => handleSoundSelection('finish', value === 'none' ? null : value)}
+              onSelect={(value) => handleSoundSelection('finish', value === 'none' ? null : value)}
               disabled={updateSettingsMutation.isPending}
-            >
-              <Select.Trigger placeholder="Select finish sound..." />
-              <Select.Content>
-                <Select.Item value="none">None</Select.Item>
-                {soundFiles.map((file) => (
-                  <Select.Item key={file.id} value={file.id}>
-                    {file.name}
-                  </Select.Item>
-                ))}
-              </Select.Content>
-            </Select.Root>
+              placeholder="Select finish sound..."
+              options={[
+                { value: 'none', label: 'None' },
+                ...soundFiles.map((file) => ({
+                  value: file.id,
+                  label: file.name,
+                })),
+              ]}
+            />
           </Box>
           {soundSettings.finish && (
             <Button
