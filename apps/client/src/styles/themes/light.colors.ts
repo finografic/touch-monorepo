@@ -1,9 +1,9 @@
-import type { ColorPalette } from '../colors/palette.types';
+import type { ColorPalette } from '../palette.types';
 
 /**
  * Light theme color palette - actual hex values for CSS variable generation
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-09-18 -- 08:50:42
+ * 📅 Generated: 2025-09-19 -- 19:42:04
  *
  * Run: pnpm generate:themes to update this file
  *

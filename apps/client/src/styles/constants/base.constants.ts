@@ -54,9 +54,15 @@ export const baseLayout = {
 export const typography = {
   fontFamily: {
     sans: [
-      'ui-sans-serif',
-      'system-ui',
-      'sans-serif',
+      '-apple-system', // macOS system font (specific)
+      'BlinkMacSystemFont', // macOS system font (specific)
+      '"Segoe UI"', // Windows system font (specific)
+      'Roboto', // Android/Chrome font (specific)
+      '"Helvetica Neue"', // Fallback sans-serif (specific)
+      'Arial', // Universal fallback (specific)
+      'sans-serif', // Generic fallback (generic)
+      'ui-sans-serif', // Generic system font (generic)
+      'system-ui', // Generic system font (generic)
       '"Apple Color Emoji"',
       '"Segoe UI Emoji"',
       '"Segoe UI Symbol"',

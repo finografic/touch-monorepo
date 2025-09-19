@@ -200,7 +200,7 @@ export const ${themeName}Colors: ColorPalette = {
  */
 function main() {
   try {
-    const themesDir = join(__dirname, '..', 'themes');
+    const themesDir = join(__dirname, '../..', 'themes');
 
     // Generate light theme
     const lightContent = generateThemeContent('light');
