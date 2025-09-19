@@ -11,5 +11,4 @@ export const cssForms = css`
   ${formsBase}
   ${formsValidation}
   ${formsInputs}
-  ${formsSelect}
 `;
