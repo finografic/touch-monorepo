@@ -1,7 +1,7 @@
 import type { ColorMapping, HexColor } from '../colors.types';
 import type { ColorBaseName, ColorPalette, CssVariableRef, TransparencyLevel } from '../palette.types';
-import { SHADE_PREFIX } from '../../constants/palette.constants';
-import { CSS_TRANSPARENCY_ONLY_COLORS } from '../../constants/css.constants';
+import { SHADE_PREFIX } from '../constants/palette.constants';
+import { CSS_TRANSPARENCY_ONLY_COLORS } from '../constants/variants.constants';
 import { colorToCssVarRef } from './camelToKebab';
 
 /**

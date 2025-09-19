@@ -8,7 +8,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { COLOR_MAPPING } from '../../project/project.colors';
 import { lightColors } from '../../themes/light.colors';
-import { JS_SHADE_ORDER, SHADE_VARIANCE_FACTOR } from '../../constants/js.constants';
+import { JS_SHADE_ORDER, SHADE_VARIANCE_FACTOR } from '../constants/js.constants';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);

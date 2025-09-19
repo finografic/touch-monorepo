@@ -133,10 +133,12 @@ export const formsBase = css`
   }
 
   /* Labels */
-  .rt-Text,
-  label {
-    font-weight: ${forms.inputs.text.fontWeight};
+
+  label.field-label {
+    font-weight: ${forms.inputs.label.fontWeight};
+    font-size: ${forms.inputs.label.fontSize};
     color: ${colors.text};
+
     cursor: pointer;
   }
 

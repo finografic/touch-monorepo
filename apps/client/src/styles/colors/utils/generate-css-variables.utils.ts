@@ -5,7 +5,7 @@ import {
   CSS_SHADE_VARIANTS,
   CSS_TRANSPARENCY_LEVELS,
   CSS_TRANSPARENCY_ONLY_COLORS,
-} from '../../constants/css.constants';
+} from '../constants/variants.constants';
 
 // NOTE: THIS is the VERSION of the METHOD USED to GENERATE COLOR VARIABLES
 

@@ -12,7 +12,7 @@ import {
   SATURATION_FACTOR,
   SHADE_VARIANCE_FACTOR,
   STATUS_SATURATION_FACTOR,
-} from '../../constants/js.constants';
+} from '../constants/js.constants';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);

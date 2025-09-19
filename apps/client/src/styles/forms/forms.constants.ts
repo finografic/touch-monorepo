@@ -18,6 +18,12 @@ export const forms = {
       radius: '6px',
     },
 
+    label: {
+      color: colors.textXDark,
+      fontSize: '1rem',
+      fontWeight: 600,
+    },
+
     text: {
       color: colors.textXDark,
       fontSize: '1rem',
