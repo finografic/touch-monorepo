@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { forms } from 'styles/forms.styles';
+import { forms } from 'styles/forms/forms.styles';
 import { colors } from 'styles';
 
 export const styles = css`

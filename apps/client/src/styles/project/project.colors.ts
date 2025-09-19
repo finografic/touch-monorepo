@@ -1,6 +1,6 @@
-import type { ColorMapping, HexColor } from '../colors.types';
-import type { ColorPalette } from '../palette.types';
-import { generateColorPaletteWithCssVars } from '../utils/generate-project-palette.utils';
+import type { ColorMapping, HexColor } from '../colors/colors.types';
+import type { ColorPalette } from '../colors/palette.types';
+import { generateColorPaletteWithCssVars } from '../colors/utils/generate-project-palette.utils';
 import tailwindColors from 'tailwindcss/colors';
 
 /**

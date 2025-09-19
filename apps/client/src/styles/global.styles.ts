@@ -4,12 +4,12 @@ import 'sanitize.css/typography.css';
 import 'sanitize.css/forms.css';
 
 import { css } from '@emotion/react';
-import { cssFontDefaults } from './fonts.styles';
+import { cssFontDefaults } from './fonts/fonts.styles';
 import { darkColors, lightColors } from './themes';
 import {
   generateCssColorVariables,
   generateCssColorVariablesTransparency,
-} from './utils/generate-css-variables.utils';
+} from './colors/utils/generate-css-variables.utils';
 import { colors } from 'styles';
 
 export const cssGlobal = css`

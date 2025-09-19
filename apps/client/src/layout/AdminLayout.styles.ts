@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { colors, layout, max, min, spacing, typography } from 'styles';
 import { stylesAdminContent } from 'styles/project/project.admin.styles';
-import { cssForms } from 'styles/forms.styles';
+import { cssForms } from 'styles/forms/forms.styles';
 
 export const styles = css`
   ${stylesAdminContent}

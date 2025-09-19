@@ -4,7 +4,7 @@
  */
 
 import { describe, test, expect } from 'vitest';
-import { camelToKebab, colorToCssVar, colorToCssVarRef } from '../utils/camelToKebab';
+import { camelToKebab, colorToCssVar, colorToCssVarRef } from '../colors/utils/camelToKebab';
 
 describe('Color Utilities', () => {
   describe('camelToKebab', () => {

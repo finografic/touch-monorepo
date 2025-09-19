@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles/colors.styles';
+import { colors } from 'styles/colors/colors.styles';
 
 // Helper to create rgba from hex with opacity
 export const withOpacity = (hex: string, opacity: number) => {

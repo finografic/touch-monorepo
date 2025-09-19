@@ -3,7 +3,7 @@ import { IconButton, TextField } from '@radix-ui/themes';
 import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
 import { styles } from './InputTemperature.styles';
-import { colors } from 'styles/colors.styles';
+import { colors } from 'styles/colors/colors.styles';
 import {
   CONSTRAINT_WARNING_TIMEOUT,
   DEFAULT_TEMP_MAX,

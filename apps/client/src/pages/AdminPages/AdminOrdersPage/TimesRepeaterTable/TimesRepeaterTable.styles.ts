@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colors, spacing } from 'styles';
-import { cssFontMono } from 'styles/fonts.styles';
+import { cssFontMono } from 'styles/fonts/fonts.styles';
 
 export const styles = css`
   width: 100%;

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
-import { colors } from './colors.styles';
-import { typography } from './constants/base.constants';
+import { colors } from '../colors/colors.styles';
+import { typography } from '../constants/base.constants';
 
 const { fontFamily: twFontFamily, fontSmoothing: twFontSmoothing, fontWeight: twFontWeight } = typography;
 

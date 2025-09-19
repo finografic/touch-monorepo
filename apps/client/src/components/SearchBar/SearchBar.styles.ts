@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from 'styles';
-import { forms } from 'styles/forms.styles';
+import { forms } from 'styles/forms/forms.styles';
 
 export const styles = css`
   width: 100%;

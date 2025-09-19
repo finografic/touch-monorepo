@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles/colors.styles';
-import { forms } from 'styles/forms.styles';
+import { colors } from 'styles/colors/colors.styles';
+import { forms } from 'styles/forms/forms.styles';
 
 export const styles = css`
   /* Temperature input using TextField.Root structure like InputTime */
