@@ -4,7 +4,7 @@ import 'sanitize.css/typography.css';
 import 'sanitize.css/forms.css';
 
 import { css } from '@emotion/react';
-// import { cssFontDefaults } from './fonts/fonts.styles';
+import { cssFontDefaults } from './fonts/fonts.styles';
 import { darkColors, lightColors } from './themes';
 import {
   generateCssColorVariables,
@@ -73,6 +73,16 @@ export const cssGlobal = css`
   html,
   body,
   * {
+    /* Unset Radix UI font classes before applying our defaults */
+    .rt-Heading,
+    .rt-Text,
+    .rt-Card,
+    .rt-Button,
+    .rt-TextField,
+    .rt-Select {
+      font-family: unset;
+    }
+    ${cssFontDefaults}
   }
 
   body {
