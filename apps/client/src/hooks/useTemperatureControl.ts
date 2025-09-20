@@ -13,7 +13,7 @@ interface UseTemperatureControlOptions {
   onError?: (error: Error) => void;
 }
 
-export const useTemperatureControl = (options: UseTemperatureControlOptions = {}) => {
+export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureControlOptions = {}) => {
   const [showLoading, setShowLoading] = useState(false);
   const { orders, profile, filters: filtersOrders } = useOrders(); // ✅ Get profile directly
   const { filters } = useFilters(); // ✅ Get profile directly
@@ -51,14 +51,23 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         throw new Error('Temperature profiles not available');
       }
 
-      // Find the single temperature profile using closestInitialTemperature
-      const temperatureProfile = temperatureProfiles.find(
+      // Find both temperature profiles using closest temperatures
+      const initialProfile = temperatureProfiles.find(
         (profile) => profile.temperature === temperatureFilter.closestInitialTemperature,
       );
+      const finalProfile = temperatureProfiles.find(
+        (profile) => profile.temperature === temperatureFilter.closestFinalTemperature,
+      );
 
-      if (!temperatureProfile) {
+      if (!initialProfile) {
         throw new Error(
           `No temperature profile found for closestInitialTemperature ${temperatureFilter.closestInitialTemperature}°C. Available profiles: ${temperatureProfiles.map((p) => p.temperature).join(', ')}°C`,
+        );
+      }
+
+      if (!finalProfile) {
+        throw new Error(
+          `No temperature profile found for closestFinalTemperature ${temperatureFilter.closestFinalTemperature}°C. Available profiles: ${temperatureProfiles.map((p) => p.temperature).join(', ')}°C`,
         );
       }
 
@@ -67,13 +76,13 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         let duration: number;
         switch (order.itemType) {
           case ItemType.A:
-            duration = temperatureProfile.timeA;
+            duration = Math.abs(finalProfile.timeA - initialProfile.timeA);
             break;
           case ItemType.B:
-            duration = temperatureProfile.timeB;
+            duration = Math.abs(finalProfile.timeB - initialProfile.timeB);
             break;
           case ItemType.C:
-            duration = temperatureProfile.timeC;
+            duration = Math.abs(finalProfile.timeC - initialProfile.timeC);
             break;
           default:
             duration = 0;
@@ -84,9 +93,9 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
       // Also calculate durations for all item types (A, B, C) for future use
       const itemTypeDurations = {
-        [ItemType.A]: temperatureProfile.timeA,
-        [ItemType.B]: temperatureProfile.timeB,
-        [ItemType.C]: temperatureProfile.timeC,
+        [ItemType.A]: Math.abs(finalProfile.timeA - initialProfile.timeA),
+        [ItemType.B]: Math.abs(finalProfile.timeB - initialProfile.timeB),
+        [ItemType.C]: Math.abs(finalProfile.timeC - initialProfile.timeC),
       };
 
       // TODO: 🔴 STOP HERE !!
@@ -98,8 +107,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
       // TODO: const operatingTime = Math.abs(finalTime - initialTime);
 
-      const operatingTime = Math.abs(temperatureFilter.final - temperatureFilter.closestInitialTemperature);
-
       // Save configuration with calculated durations for both selected orders and all item types
       const config = {
         filters: {
@@ -110,7 +117,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
           },
         },
         temperatures: {
-          default: temperatureProfile.temperature,
+          default: initialProfile.temperature,
           initial: temperatureFilter.closestInitialTemperature,
           final: temperatureFilter.final, // Use actual user input
         },

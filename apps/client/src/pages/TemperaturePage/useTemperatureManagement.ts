@@ -16,7 +16,10 @@ interface UseTemperatureManagementProps {
   dataFiltered: OrderReadableModel[];
 }
 
-export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperatureManagementProps) => {
+export const useFormStateAndTemperatureFilter = ({
+  profiles,
+  dataFiltered,
+}: UseTemperatureManagementProps) => {
   const refIsInitialized = useRef(false);
   const { setFilter: setFiltering } = useFiltering();
   const { filters, setFilter } = useFilters();
@@ -52,10 +55,12 @@ export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperat
   const getTemperatureFilter = useCallback(
     ({ initial, final }: TemperatureState) => {
       const closestInitialProfile = findClosestProfile(profiles, initial, final);
+      const closestFinalProfile = findClosestProfile(profiles, final, initial);
 
       return {
         ...filters.temperature,
         closestInitialTemperature: closestInitialProfile ? closestInitialProfile.temperature : initial,
+        closestFinalTemperature: closestFinalProfile ? closestFinalProfile.temperature : final,
         initial,
         final,
       };

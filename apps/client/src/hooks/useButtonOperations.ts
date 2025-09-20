@@ -5,7 +5,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
-import { useTemperatureControl } from 'hooks/useTemperatureControl';
+import { useProcessTimesFromTemperatureFilter } from 'hooks/useTemperatureControl';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
@@ -61,7 +61,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const orderItemsConfig = useOrderItemsConfig();
   const { setFilter, clearFilters } = useFilters();
 
-  const { startTemperatureControl, isLoading: isTemperatureLoading } = useTemperatureControl({
+  const { startTemperatureControl, isLoading: isTemperatureLoading } = useProcessTimesFromTemperatureFilter({
     onSuccess: (calculatedDurations) => {
       startTransition(function updateProcessForSelectedOrders() {
         // 🎯 FIX: If mainPageSelectedSlots is empty, use selected orders from OrdersContext

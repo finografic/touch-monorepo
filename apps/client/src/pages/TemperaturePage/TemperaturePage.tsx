@@ -9,7 +9,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { TemperatureKey } from 'types/temperature.types';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
 import { PadNumeric } from 'components/Pads/PadNumeric';
-import { useTemperatureManagement } from './useTemperatureManagement';
+import { useFormStateAndTemperatureFilter } from './useTemperatureManagement';
 import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 import { styles } from './TemperaturePage.styles';
@@ -33,7 +33,7 @@ export const TemperaturePage = () => {
 
   // Use custom hook for temperature management
   const { minProfileTemp, minMaxTemperatures, initializeTemperatures, updateTemperatures } =
-    useTemperatureManagement({
+    useFormStateAndTemperatureFilter({
       profiles: temperatureProfiles,
       dataFiltered,
     });

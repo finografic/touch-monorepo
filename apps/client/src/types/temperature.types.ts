@@ -39,5 +39,6 @@ export interface TemperatureFilter {
   initial?: number;
   final?: number;
   closestInitialTemperature?: TemperatureProfile['temperature'];
+  closestFinalTemperature?: TemperatureProfile['temperature'];
   temperatureProfiles?: TemperatureProfile[];
 }
