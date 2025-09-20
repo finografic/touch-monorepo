@@ -1,5 +1,6 @@
 import { useOrdersOptional } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useFilters } from 'providers/FiltersProvider';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
 import { StarIcon } from 'styles/icons';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +8,7 @@ import { PATHS } from 'routes/routes.config';
 import { useCallback } from 'react';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { FLOW_TYPES } from 'types/flow.types';
+import { api } from 'api';
 
 export const MockOrdersButton = () => {
   const navigate = useNavigate();
@@ -14,6 +16,7 @@ export const MockOrdersButton = () => {
   const { createSession, assignOrdersToSession, updateSessionFilters } = useSession();
   const { ordersReadable } = useOrdersOptional();
   const { setPageCurrent } = usePagination();
+  const { setFilter } = useFilters();
 
   const handleMockData = useCallback(() => {
     if (!ordersContext?.setOrders) return;
@@ -61,10 +64,33 @@ export const MockOrdersButton = () => {
     const slotNumbers = updatedMockData.map((order) => order.itemNumber);
     assignOrdersToSession(sessionId, slotNumbers);
 
+    // 🎯 FIRST: Set the mode filter (like handleProgramProduct does)
+    // This needs to happen BEFORE navigation to match the manual flow
+    const setModeFilter = async () => {
+      try {
+        const response = await api.get('/modes');
+        const defaultMode = response.data.find((mode: any) => mode.isDefault);
+
+        if (defaultMode) {
+          const modeFilter = {
+            id: defaultMode.id,
+            name: defaultMode.name,
+          };
+          setFilter('mode', modeFilter);
+          console.log('🎯 MOCK: Set mode filter:', modeFilter);
+        }
+      } catch (error) {
+        console.error('🎯 MOCK: Error fetching modes:', error);
+      }
+    };
+
     // Set orders and navigate
     queueMicrotask(async () => {
       ordersContext.setOrders(updatedMockData);
       setPageCurrent(Object.keys(updatedMockData[0].filters || {}).length);
+
+      // Set mode filter first
+      await setModeFilter();
 
       requestAnimationFrame(async () => {
         navigate(PATHS.containerType);
@@ -83,6 +109,19 @@ export const MockOrdersButton = () => {
 
         // 🎯 CRITICAL FIX: Also set filters in OrdersContext for TemperaturePage
         ordersContext.setFilters(sessionFilters);
+
+        // 🎯 NEW: Set filters in the new FiltersContext
+        setFilter('drinkType', mockFilters.drinkType);
+        setFilter('drinkSubtype', mockFilters.drinkSubtype);
+        setFilter('drinkVolume', mockFilters.drinkVolume);
+        setFilter('containerType', mockFilters.containerType);
+
+        console.log('🎯 MOCK: Set all filters in new FiltersContext:', {
+          drinkType: mockFilters.drinkType,
+          drinkSubtype: mockFilters.drinkSubtype,
+          drinkVolume: mockFilters.drinkVolume,
+          containerType: mockFilters.containerType,
+        });
       }, 500);
     });
   }, [
@@ -93,6 +132,7 @@ export const MockOrdersButton = () => {
     assignOrdersToSession,
     updateSessionFilters,
     ordersReadable,
+    setFilter,
   ]);
 
   if (!ordersContext) return null;
