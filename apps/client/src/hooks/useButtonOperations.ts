@@ -186,26 +186,12 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   }, [selectAllMainPageSlots]);
 
   const handleStartProductProcess = useCallback(() => {
-    // Only use temperature control if NOT on TimePage
-    if (location.pathname !== ALTERNATIVE_PATHS.time) {
-      startTemperatureControl();
-    } else {
-      console.warn('handleStartProductProcess: Called on TimePage but should use handleStartTimeProcess');
-    }
-  }, [startTemperatureControl, location.pathname]);
+    startTemperatureControl();
+  }, [startTemperatureControl]);
 
   // 🎯 NEW: Handle finishing product process (TemperaturePage START button)
   const handleFinishProductProcess = useCallback(() => {
     console.log('🎯 FINISH: Starting finish product process...');
-
-    // This is the simplified version for TemperaturePage
-    // It should:
-    // 1. Use the new FiltersContext for temperature data
-    // 2. Start temperature control with the current temperature settings
-    // 3. Handle the process flow more cleanly than the generic handler
-
-    // For now, use the existing temperature control
-    // TODO: Implement FiltersContext integration
     startTemperatureControl();
   }, [startTemperatureControl]);
 

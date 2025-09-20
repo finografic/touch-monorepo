@@ -69,7 +69,7 @@ export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTempe
     ({ initial, final }: TemperatureState) => {
       const temperatureFilter = getTemperatureFilter({ initial, final });
 
-      // TODO: V1: REMOVE Update global filters (essential for navigation)
+      // Update global filters (essential for navigation)
       setFiltering(fieldKey, temperatureFilter);
       // NEW: V2
       setFilter(OrderFieldKeys.temperature, temperatureFilter);
