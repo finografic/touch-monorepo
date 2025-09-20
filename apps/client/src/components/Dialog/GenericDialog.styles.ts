@@ -6,6 +6,8 @@ export const styles = css`
   &[role='dialog'] {
     padding-bottom: 0;
     overflow: hidden;
+    background-color: var(--color-background) !important;
+    color: var(--color-text) !important;
 
     /* Flexbox layout: header -> content -> footer */
     display: flex;
@@ -16,13 +18,14 @@ export const styles = css`
       font-size: 2rem;
       font-weight: 500;
       margin-bottom: 1.5rem;
+      color: var(--color-text) !important;
     }
 
     .close-button {
       transform: scale(1.5) translate(-25%);
-      color: ${colors.greyLight};
+      color: var(--color-text-secondary) !important;
       &:hover {
-        color: ${colors.warning};
+        color: var(--color-warning) !important;
         background-color: transparent;
         cursor: pointer;
       }
@@ -76,7 +79,7 @@ export const styles = css`
 
         /* Custom scrollbar styling */
         scrollbar-width: thin;
-        scrollbar-color: ${colors.greyDark} transparent;
+        scrollbar-color: var(--color-text-secondary) transparent;
 
         &::-webkit-scrollbar {
           width: 8px;
@@ -87,11 +90,11 @@ export const styles = css`
         }
 
         &::-webkit-scrollbar-thumb {
-          background-color: ${colors.greyDark};
+          background-color: var(--color-text-secondary);
           border-radius: 4px;
 
           &:hover {
-            background-color: ${colors.grey};
+            background-color: var(--color-text);
           }
         }
 
@@ -117,7 +120,7 @@ export const styles = css`
 
       /* Custom scrollbar styling */
       scrollbar-width: thin;
-      scrollbar-color: ${colors.greyDark} transparent;
+      scrollbar-color: var(--color-text-secondary) transparent;
 
       &::-webkit-scrollbar {
         width: 8px;
@@ -128,18 +131,18 @@ export const styles = css`
       }
 
       &::-webkit-scrollbar-thumb {
-        background-color: ${colors.greyDark};
+        background-color: var(--color-text-secondary);
         border-radius: 4px;
 
         &:hover {
-          background-color: ${colors.grey};
+          background-color: var(--color-text);
         }
       }
     }
 
     /* Tab List Styles */
     [role='tablist'] {
-      box-shadow: inset 0 -2px 0 0 ${colors.greyXXDark};
+      box-shadow: inset 0 -2px 0 0 var(--color-border);
       flex-shrink: 0; /* Don't shrink the tab list */
 
       button[role='tab'] {
@@ -150,15 +153,15 @@ export const styles = css`
           font-size: 1.2rem;
           font-weight: 500;
           line-height: 1.2;
-          color: ${colors.grey};
+          color: var(--color-text-secondary);
         }
         &[data-state='active'] {
           &:before {
-            background-color: ${colors.info};
+            background-color: var(--color-primary);
             height: 2px;
           }
           span {
-            color: ${colors.info};
+            color: var(--color-primary);
           }
         }
       }
@@ -176,21 +179,20 @@ export const styles = css`
 
       button {
         ${stylesSmallButton}
-        border: ${layout.borderWidth} solid ${colors.greyXXDark};
+        border: ${layout.borderWidth} solid var(--color-border);
         padding: 1.5rem 1rem;
         font-size: 1.2rem;
         font-weight: 500;
-        background-color: transparent;
+        background-color: var(--color-background);
+        color: var(--color-text);
 
-        border-color: ${colors.infoXDark};
-        background-color: ${colors.infoDark10};
+        border-color: var(--color-primary);
+        background-color: var(--color-background);
 
         &:hover {
-          color: ${colors.infoLight};
-          border-color: ${colors.info};
-          border-color: ${colors.infoLight};
-          background-color: ${colors.info25};
-          /* background-color: ${colors.whiteXXDark66}; */
+          color: var(--color-primary);
+          border-color: var(--color-primary);
+          background-color: var(--color-background-hover);
         }
       }
     }

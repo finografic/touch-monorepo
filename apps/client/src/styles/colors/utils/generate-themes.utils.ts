@@ -149,7 +149,7 @@ function generateThemeContent(themeName: 'light' | 'dark'): string {
       hour12: false,
     })
     .replace(/(\d+)\/(\d+)\/(\d+), (\d+):(\d+):(\d+)/, '$3-$1-$2 -- $4:$5:$6')}`;
-  let content = `import type { ColorPalette } from '../palette.types';
+  let content = `import type { ColorPalette } from 'styles/colors/palette.types';
 
 /**
  * ${themeTitle} theme color palette - actual hex values for CSS variable generation

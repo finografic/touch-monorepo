@@ -1,7 +1,9 @@
-// import 'packages/globals/src';
 import '@workspace/core';
 import './index.css';
+import '@radix-ui/themes/styles.css';
+import 'styles/radix-ui/radix.css';
 import './styles/icons/icons.css';
+// import './styles/radix-ui/radix-dialog.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

@@ -3,6 +3,7 @@ import type { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { setConfiguration } from 'react-grid-system';
+import { Theme } from '@radix-ui/themes';
 import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
 import { PageHeader } from 'components/PageHeader';
@@ -16,6 +17,7 @@ import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { TimersProvider } from 'providers/TimersProvider';
 import { ContentProvider } from 'providers/ContentProvider';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
@@ -24,10 +26,19 @@ import type { ValidGridSize } from 'types/menu.types';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
+  const { theme } = useAppConfig();
   const { data: slotConfigs } = useGetSlotConfigurations();
   const numItems = (slotConfigs ? slotConfigs.length : NUM_GRID_ITEMS) as ValidGridSize;
 
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
+
+  // Main theme configuration - uses current theme from AppConfig
+  const mainTheme = {
+    appearance: theme as 'light' | 'dark',
+    grayColor: 'slate' as const,
+    accentColor: 'blue' as const,
+    scaling: '100%' as const,
+  };
 
   return (
     <TimersProvider>
@@ -38,25 +49,32 @@ export const Layout: FC = () => {
               <AdminProvider>
                 <ContentProvider>
                   <DevProvider>
-                    <div id="layout" css={styles}>
-                      <Header />
-                      <main>
-                        <div className="main-content">
-                          <section>
-                            <PageHeader />
-                            <div className="page-content" role="main">
-                              <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                <Outlet />
-                              </Suspense>
-                            </div>
-                            <nav className="page-navigation">
-                              <FrontEndNavigation />
-                            </nav>
-                          </section>
-                        </div>
-                      </main>
-                      <Footer />
-                    </div>
+                    <Theme
+                      appearance={mainTheme.appearance}
+                      grayColor={mainTheme.grayColor}
+                      accentColor={mainTheme.accentColor}
+                      scaling={mainTheme.scaling}
+                    >
+                      <div id="layout" css={styles}>
+                        <Header />
+                        <main>
+                          <div className="main-content">
+                            <section>
+                              <PageHeader />
+                              <div className="page-content" role="main">
+                                <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                  <Outlet />
+                                </Suspense>
+                              </div>
+                              <nav className="page-navigation">
+                                <FrontEndNavigation />
+                              </nav>
+                            </section>
+                          </div>
+                        </main>
+                        <Footer />
+                      </div>
+                    </Theme>
                   </DevProvider>
                 </ContentProvider>
               </AdminProvider>

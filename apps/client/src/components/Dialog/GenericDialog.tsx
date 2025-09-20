@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Button, Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
 import { Cross2Icon } from '@radix-ui/react-icons';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { styles } from './GenericDialog.styles';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
+import clsx from 'clsx';
 
 interface GenericDialogProps {
   isOpen: boolean;
@@ -12,16 +14,17 @@ interface GenericDialogProps {
 }
 
 export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, config, defaultTab }) => {
+  const { theme: appTheme } = useAppConfig();
   const [activeTab, setActiveTab] = useState(defaultTab || config.tabs[0]?.id || '');
 
   const hasTabs = config.tabs.length > 1;
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
 
   const defaultTheme = {
-    appearance: 'dark' as const,
-    grayColor: 'sand' as const,
+    appearance: appTheme as 'light' | 'dark', // Use app theme instead of hardcoded dark
+    grayColor: 'slate' as const,
     accentColor: 'blue' as const,
-    scaling: '110%' as const,
+    scaling: '100%' as const,
   };
 
   const theme = { ...defaultTheme, ...config.theme };
@@ -36,13 +39,19 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
 
   return (
     <Theme
-      appearance={theme.appearance}
+      // appearance={theme.appearance}
+      appearance={appTheme}
       grayColor={theme.grayColor}
       accentColor={theme.accentColor}
       scaling={theme.scaling}
     >
       <Dialog.Root open={isOpen} onOpenChange={onClose}>
-        <Dialog.Content size={config.size || '4'} css={styles} style={dynamicStyles}>
+        <Dialog.Content
+          size={config.size || '4'}
+          className={clsx('dialog-content', `theme-${appTheme}`)}
+          css={styles}
+          style={dynamicStyles}
+        >
           {/* Header - Fixed at top */}
           <div className="dialog-header">
             <Flex

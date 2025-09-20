@@ -1,4 +1,4 @@
-import { Flex, RadioCards, Text } from '@radix-ui/themes';
+import { Flex, RadioCards, Text, Theme } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { styles } from './LanguageSelector.styles';
 import type { LanguageSelectorProps, RegionLocale } from '@workspace/core/types';
@@ -10,7 +10,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {
   const { i18n } = useTranslation();
-  const { currentLanguage, setCurrentLanguage } = useAppConfig();
+  const { currentLanguage, setCurrentLanguage, theme } = useAppConfig();
 
   // Fetch supported languages from database
   const { data, isLoading, error } = useGetSupportedLanguages();

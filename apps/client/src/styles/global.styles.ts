@@ -4,7 +4,7 @@ import 'sanitize.css/typography.css';
 import 'sanitize.css/forms.css';
 
 import { css } from '@emotion/react';
-import { cssFontDefaults } from './fonts/fonts.styles';
+import { cssFontDefaults, cssFontMono } from './fonts/fonts.styles';
 import { darkColors, lightColors } from './themes';
 import {
   generateCssColorVariables,
@@ -180,5 +180,9 @@ export const cssGlobal = css`
 
   svg[width][height].icon {
     color: ${colors.infoXLight};
+  }
+
+  pre {
+    ${cssFontMono}
   }
 `;
