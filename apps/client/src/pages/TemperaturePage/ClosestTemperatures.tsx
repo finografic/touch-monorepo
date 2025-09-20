@@ -1,12 +1,25 @@
+import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
+import { useMemo } from 'react';
 import type { TemperatureProfile } from 'types/temperature.types';
+import { findClosestProfile } from 'utils/temperature.utils';
 
 export const ClosestTemperatures = ({
-  closestProfile,
+  temperatures,
   profiles,
 }: {
-  closestProfile: TemperatureProfile;
+  temperatures: TemperatureState;
   profiles: TemperatureProfile[];
 }) => {
+  // Find the closest temperature profile for the current selection
+  const closestProfile = useMemo((): TemperatureProfile | null => {
+    if (!profiles.length) return null;
+    return findClosestProfile(profiles, temperatures.initial, temperatures.final);
+  }, [profiles, temperatures.initial, temperatures.final]);
+
+  if (!closestProfile) {
+    return null;
+  }
+
   return (
     <>
       <div style={{ color: 'orange', marginTop: 8, textAlign: 'center' }}>

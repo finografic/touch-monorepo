@@ -3,8 +3,10 @@ import { type TimerItem, useTimers } from 'providers/TimersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { DevDataTable } from 'dev-tools/DevDataTable';
+import { useFilters } from 'providers/FiltersProvider';
 
 export const SessionAndTimers = () => {
+  const { filters } = useFilters();
   const { sessions } = useSession();
   const { timers } = useTimers();
   const { mainPageSelectedSlots } = useLayoutUi();
@@ -12,13 +14,18 @@ export const SessionAndTimers = () => {
   return (
     <div id="dev-filter-results" css={styles}>
       <div className="filters">
-        <h4>Session ({Object.keys(sessions).length}):</h4>
-        <pre>{JSON.stringify(sessions, null, 2)}</pre>
-      </div>
-      <div className="filters">
         <h4>mainPageSelectedSlots: {mainPageSelectedSlots.length}:</h4>
         <pre>{JSON.stringify(mainPageSelectedSlots, null, 2)}</pre>
       </div>
+      <div className="filters">
+        <h4>Filters ({Object.keys(filters).length}):</h4>
+        <pre>{JSON.stringify(filters?.temperature, null, 2)}</pre>
+      </div>
+      <div className="filters">
+        <h4>Session ({Object.keys(sessions).length}):</h4>
+        <pre>{JSON.stringify(sessions, null, 2)}</pre>
+      </div>
+
       <div className="results-list">
         {/* <h4>Timers: {timers.length}</h4> */}
         {/* <pre>{JSON.stringify(timers, null, 2)}</pre> */}

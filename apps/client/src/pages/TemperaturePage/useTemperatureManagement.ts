@@ -7,11 +7,7 @@ import { FINAL_TEMP_DEFAULT, INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'c
 import { findClosestProfile } from 'utils/temperature.utils';
 import { useFilters } from 'providers/FiltersProvider/FiltersContext';
 import { OrderFieldKeys } from 'constants/app.config';
-
-interface TemperatureState {
-  initial: number;
-  final: number;
-}
+import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 
 interface UseTemperatureManagementProps {
   profiles: any[];

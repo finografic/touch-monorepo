@@ -7,19 +7,14 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useFiltering } from 'hooks/useFiltering';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { TemperatureKey } from 'types/temperature.types';
-import { styles } from './TemperaturePage.styles';
-import { findClosestProfile } from 'utils/temperature.utils';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 import { useTemperatureManagement } from './useTemperatureManagement';
 import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
+import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
+import { styles } from './TemperaturePage.styles';
 
 const isVisibleClosestProfile = false;
-
-interface TemperatureState {
-  initial: number;
-  final: number;
-}
 
 export const TemperaturePage = () => {
   const { profile, ordersReadable } = useOrders();
@@ -42,12 +37,6 @@ export const TemperaturePage = () => {
       profiles: temperatureProfiles,
       dataFiltered,
     });
-
-  // Find the closest temperature profile for the current selection
-  const closestProfile = useMemo(() => {
-    if (!temperatureProfiles.length) return null;
-    return findClosestProfile(temperatureProfiles, temperatures.initial, temperatures.final);
-  }, [temperatureProfiles, temperatures.initial, temperatures.final]);
 
   // Initialize temperatures
   useEffect(() => {
@@ -118,8 +107,8 @@ export const TemperaturePage = () => {
             {TEMPERATURE_DESCRIPTIONS.page && (
               <p style={{ textAlign: 'center' }}>{TEMPERATURE_DESCRIPTIONS.page}</p>
             )}
-            {isVisibleClosestProfile && closestProfile !== null && (
-              <ClosestTemperatures closestProfile={closestProfile} profiles={temperatureProfiles} />
+            {isVisibleClosestProfile && (
+              <ClosestTemperatures temperatures={temperatures} profiles={temperatureProfiles} />
             )}
           </Box>
         </Flex>
