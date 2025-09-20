@@ -8,6 +8,7 @@ import { useFilters } from 'providers/FiltersProvider';
 interface UseTemperatureControlOptions {
   onSuccess?: (durations: Record<string, number>) => void;
   onError?: (error: Error) => void;
+  selectedOrders?: number[]; // Add selected orders parameter
 }
 
 export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureControlOptions = {}) => {
@@ -111,7 +112,7 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
           ...itemTypeDurations, // Item type durations (A, B, C)
           default: Math.max(...Object.values(calculatedDurations)),
         },
-        selectedOrders: orders.map((order) => order.itemNumber),
+        selectedOrders: options.selectedOrders || [],
       };
 
       await saveConfig(config);

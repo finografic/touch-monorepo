@@ -59,15 +59,16 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const orderItemsConfig = useOrderItemsConfig();
   const { setFilter, clearFilters } = useFilters();
 
+  // Determine which slots to process (same logic used in onSuccess)
+  const slotsToProcess =
+    mainPageSelectedSlots.length > 0
+      ? mainPageSelectedSlots
+      : orders.filter((order) => order.isSelected).map((order) => order.itemNumber);
+
   const { startTemperatureControl, isLoading: isTemperatureLoading } = useProcessTimesFromTemperatureFilter({
+    selectedOrders: slotsToProcess,
     onSuccess: (calculatedDurations) => {
       startTransition(function updateProcessForSelectedOrders() {
-        // 🎯 FIX: If mainPageSelectedSlots is empty, use selected orders from OrdersContext
-        const slotsToProcess =
-          mainPageSelectedSlots.length > 0
-            ? mainPageSelectedSlots
-            : orders.filter((order) => order.isSelected).map((order) => order.itemNumber);
-
         // First, set orders to processing state and create timers
         slotsToProcess.forEach((slotNumber) => {
           const order = orders.find((o) => o.itemNumber === slotNumber);
@@ -281,14 +282,18 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     }
 
     startTransition(() => {
-      // Create orders for selected slots first
+      // Create orders for selected slots first and ensure they are selected
       selectedIdleSlots.forEach((slotNumber) => {
         const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
         if (orderConfig) {
-          toggleOrder({
-            itemType: orderConfig.itemType,
-            itemNumber: slotNumber,
-          });
+          // Check if order already exists and is selected
+          const existingOrder = orders.find((order) => order.itemNumber === slotNumber);
+          if (!existingOrder || !existingOrder.isSelected) {
+            toggleOrder({
+              itemType: orderConfig.itemType,
+              itemNumber: slotNumber,
+            });
+          }
         }
       });
 
