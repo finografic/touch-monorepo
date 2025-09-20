@@ -108,11 +108,9 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
           final: temperatureFilter.final, // Use actual user input
         },
         durations: {
-          ...calculatedDurations, // Individual order durations
-          ...itemTypeDurations, // Item type durations (A, B, C)
+          ...itemTypeDurations, // Only item type durations (A, B, C)
           default: Math.max(...Object.values(calculatedDurations)),
         },
-        selectedOrders: options.selectedOrders || [],
       };
 
       await saveConfig(config);

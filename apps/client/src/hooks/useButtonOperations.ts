@@ -382,33 +382,56 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
     console.log('Applying saved configuration to selected orders:', config);
     console.log('Available durations in config:', config.durations);
+    console.log('Current mainPageSelectedSlots:', mainPageSelectedSlots);
+    console.log(
+      'Current orders:',
+      orders.map((o) => ({ itemNumber: o.itemNumber, itemType: o.itemType, isSelected: o.isSelected })),
+    );
 
     startTransition(() => {
       // Apply configuration to all selected orders
-      // Use selected slots from LayoutUiContext instead of order.isSelected
+      // Use selected slots from LayoutUiContext and map by itemType from orderItemsConfig
       mainPageSelectedSlots.forEach((slotNumber) => {
-        const order = orders.find((o) => o.itemNumber === slotNumber);
-        if (order) {
+        // Get itemType from orderItemsConfig instead of orders array
+        const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
+        console.log(`Processing slot ${slotNumber}:`, {
+          orderConfig: orderConfig
+            ? { number: orderConfig.number, itemType: orderConfig.itemType }
+            : 'NOT FOUND',
+        });
+
+        if (orderConfig) {
           // Get duration for this specific item type from saved config
-          // Try item type first, then fall back to default
-          const itemTypeDuration = config.durations?.[order.itemType];
+          // Use itemType (A, B, C) to get the correct duration
+          const itemTypeDuration = config.durations?.[orderConfig.itemType];
           const defaultDuration = config.durations?.default;
           const duration = itemTypeDuration || defaultDuration || 300;
 
-          console.log(`Order ${order.itemNumber} (type ${order.itemType}):`, {
+          console.log(`Creating timer for slot ${slotNumber} (type ${orderConfig.itemType}):`, {
             itemTypeDuration,
             defaultDuration,
             finalDuration: duration,
-            availableKeys: Object.keys(config.durations || {}),
-            orderItemType: order.itemType,
-            orderItemTypeType: typeof order.itemType,
-            configDurations: config.durations,
-            lookupResult: config.durations?.[order.itemType],
           });
+
+          // Create timer using the same logic as handleStartTimeProcess
+          addTimer({
+            sessionId: currentSessionId || 'repeat-session',
+            slotNumber,
+            orderId: createCuid(),
+            flowType: FLOW_TYPES.PROGRAM_PRODUCT,
+            duration,
+            remaining: duration,
+            status: 'processing',
+            estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
+          });
+
+          console.log(`✅ Timer created for slot ${slotNumber} with duration ${duration}`);
+        } else {
+          console.warn(`❌ No order config found for slot ${slotNumber}`);
         }
       });
     });
-  }, [orders, mainPageSelectedSlots]);
+  }, [mainPageSelectedSlots, addTimer, orderItemsConfig, currentSessionId]);
 
   const handleCancelTimeSession = useCallback(() => {
     startTransition(() => {

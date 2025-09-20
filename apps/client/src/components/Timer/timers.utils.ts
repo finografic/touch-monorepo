@@ -1,6 +1,6 @@
 import { getCachedSettings, playCachedSound, playSoundFromUrl } from 'utils/soundCache.utils';
 
-export const EVENT_INTERVAL = 15; // seconds
+export const EVENT_INTERVAL = 60; // seconds
 
 // Initialize the global timer registry if it doesn't exist
 if (typeof window !== 'undefined') {
@@ -52,14 +52,24 @@ export async function playFinishSound() {
 
 // Legacy functions for backward compatibility
 export function makeDefaultSound() {
+  /*
   playTickSound().catch(() => {
+    // Silent fallback
+  });
+  */
+  playFinishSound().catch(() => {
     // Silent fallback
   });
 }
 
 export function makeUserSound(key: 'tick' | 'finish') {
   if (key === 'tick') {
+    /*
     playTickSound().catch(() => {
+      // Silent fallback
+    });
+    */
+    playFinishSound().catch(() => {
       // Silent fallback
     });
   } else if (key === 'finish') {
