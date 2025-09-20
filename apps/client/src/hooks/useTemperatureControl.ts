@@ -1,11 +1,8 @@
 import { useCallback, useDeferredValue, useEffect, useState } from 'react';
-// import { useFiltering } from './useFiltering'; // ✅ REMOVED: Now using OrdersContext.filters
-import { OrderFieldKeys } from 'constants/app.config';
 import type { TemperatureFilter, TemperatureProfile } from 'types/temperature.types';
 import { useConfigStorage } from './useConfigStorage';
 import { useOrders } from 'providers/OrdersProvider';
 import { ItemType } from 'types/orders.types';
-import { findClosestProfile } from 'utils/temperature.utils';
 import { useFilters } from 'providers/FiltersProvider';
 
 interface UseTemperatureControlOptions {
@@ -15,8 +12,8 @@ interface UseTemperatureControlOptions {
 
 export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureControlOptions = {}) => {
   const [showLoading, setShowLoading] = useState(false);
-  const { orders, profile, filters: filtersOrders } = useOrders(); // ✅ Get profile directly
-  const { filters } = useFilters(); // ✅ Get profile directly
+  const { orders, profile } = useOrders();
+  const { filters } = useFilters();
   const { saveConfig } = useConfigStorage();
 
   const temperatureFilter = useDeferredValue(filters.temperature);
@@ -71,41 +68,25 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
         );
       }
 
+      // Calculate operating time for each item type
+      const operatingTimeA = Math.abs(finalProfile.timeA - initialProfile.timeA);
+      const operatingTimeB = Math.abs(finalProfile.timeB - initialProfile.timeB);
+      const operatingTimeC = Math.abs(finalProfile.timeC - initialProfile.timeC);
+
       // Calculate durations for each order based on their item type
+      const operatingTimes = {
+        [ItemType.A]: operatingTimeA,
+        [ItemType.B]: operatingTimeB,
+        [ItemType.C]: operatingTimeC,
+      };
+
       const calculatedDurations = orders.reduce<Record<string, number>>((acc, order) => {
-        let duration: number;
-        switch (order.itemType) {
-          case ItemType.A:
-            duration = Math.abs(finalProfile.timeA - initialProfile.timeA);
-            break;
-          case ItemType.B:
-            duration = Math.abs(finalProfile.timeB - initialProfile.timeB);
-            break;
-          case ItemType.C:
-            duration = Math.abs(finalProfile.timeC - initialProfile.timeC);
-            break;
-          default:
-            duration = 0;
-        }
-        acc[order.itemNumber.toString()] = duration;
+        acc[order.itemNumber.toString()] = operatingTimes[order.itemType] || 0;
         return acc;
       }, {});
 
       // Also calculate durations for all item types (A, B, C) for future use
-      const itemTypeDurations = {
-        [ItemType.A]: Math.abs(finalProfile.timeA - initialProfile.timeA),
-        [ItemType.B]: Math.abs(finalProfile.timeB - initialProfile.timeB),
-        [ItemType.C]: Math.abs(finalProfile.timeC - initialProfile.timeC),
-      };
-
-      // TODO: 🔴 STOP HERE !!
-
-      // TODO: REMOVE - DEV ONLY
-      // log('__DEV: filters', 'hotpink', filters);
-
-      // ======================================================================== //
-
-      // TODO: const operatingTime = Math.abs(finalTime - initialTime);
+      const itemTypeDurations = operatingTimes;
 
       // Save configuration with calculated durations for both selected orders and all item types
       const config = {
@@ -137,15 +118,7 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
       console.error('Temperature control error:', error);
       options.onError?.(error as Error);
     }
-  }, [
-    filters,
-    temperatureFilter,
-    temperatureProfiles, // ✅ Use temperatureProfiles instead of query
-    orders,
-    saveConfig,
-    options.onSuccess,
-    options.onError,
-  ]);
+  }, [temperatureFilter, temperatureProfiles, orders, saveConfig, options.onSuccess, options.onError]);
 
   return {
     startTemperatureControl,
