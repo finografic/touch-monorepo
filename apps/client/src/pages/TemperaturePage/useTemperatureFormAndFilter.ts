@@ -16,10 +16,7 @@ interface UseTemperatureManagementProps {
   dataFiltered: OrderReadableModel[];
 }
 
-export const useFormStateAndTemperatureFilter = ({
-  profiles,
-  dataFiltered,
-}: UseTemperatureManagementProps) => {
+export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTemperatureManagementProps) => {
   const refIsInitialized = useRef(false);
   const { setFilter: setFiltering } = useFiltering();
   const { filters, setFilter } = useFilters();

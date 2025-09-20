@@ -5,7 +5,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
-import { useProcessTimesFromTemperatureFilter } from 'hooks/useTemperatureControl';
+import { useProcessTimesFromTemperatureFilter } from 'hooks/useProcessTimesFromTemperatureFilter';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';

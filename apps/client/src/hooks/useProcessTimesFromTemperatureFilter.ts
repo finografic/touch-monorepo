@@ -17,7 +17,7 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
   const { saveConfig } = useConfigStorage();
 
   const temperatureFilter = useDeferredValue(filters.temperature);
-  const temperatureProfiles = temperatureFilter.temperatureProfiles || [];
+  const temperatureProfiles = temperatureFilter?.temperatureProfiles || [];
 
   const isLoading = !profile || temperatureProfiles.length === 0;
 
@@ -41,6 +41,10 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
     try {
       if (!temperatureFilter?.initial || !temperatureFilter?.final) {
         throw new Error('Initial and final temperatures must be set');
+      }
+
+      if (!temperatureFilter?.closestInitialTemperature || !temperatureFilter?.closestFinalTemperature) {
+        throw new Error('Closest initial and final temperatures must be calculated');
       }
 
       // ✅ Get temperature profiles from FiltersContext
