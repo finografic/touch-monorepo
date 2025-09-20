@@ -50,33 +50,10 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
   const { filters } = useFilters(); // ✅ Get profile directly
   const { saveConfig } = useConfigStorage();
 
-  /*
-  // Get current temperature filter values
-  // SAFEGUARD: filters may not be available yet, or may not have the temperature key
-  const temperatureFilter: TemperatureFilter | undefined =
-    filters && OrderFieldKeys.temperature in filters
-      ? (filters[OrderFieldKeys.temperature] as TemperatureFilter)
-      : undefined;
-  const { initial, final } = temperatureFilter || {};
-  */
-
-  // const currentFilter = useDeferredValue(filters.temperature);
   const temperatureFilter = useDeferredValue(filters.temperature);
-
-  // Defer the query state to prevent UI flickering
-  // const deferredInitial = useDeferredValue(filters.temperature.initial);
-  // const deferredFinal = useDeferredValue(filters.temperature.final);
-
-  // ✅ NEW: Get temperature profiles directly from profile
-  // const temperatureProfiles = profile?.temperatureProfiles || [];
   const temperatureProfiles = temperatureFilter.temperatureProfiles || [];
 
-  // ======================================================================== //
-
-  // ✅ SIMPLIFIED: No more complex query logic
   const isLoading = !profile || temperatureProfiles.length === 0;
-
-  // ======================================================================== //
 
   // Add delay before showing loading state
   useEffect(() => {
@@ -110,29 +87,47 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         throw new Error('Initial and final temperatures must be set');
       }
 
-      // ✅ Get temperature profiles from profile object
+      // ✅ Get temperature profiles from FiltersContext
       if (temperatureProfiles.length === 0) {
         throw new Error('Temperature profiles not available');
       }
 
-      // Get selected orders
-      const selectedOrders = orders.filter((order) => order.isSelected);
-      if (selectedOrders.length === 0) {
-        throw new Error('No orders selected');
+      // Find the single temperature profile using closestInitialTemperature
+      const temperatureProfile = temperatureProfiles.find(
+        (profile) => profile.temperature === temperatureFilter.closestInitialTemperature,
+      );
+
+      if (!temperatureProfile) {
+        throw new Error(
+          `No temperature profile found for closestInitialTemperature ${temperatureFilter.closestInitialTemperature}°C. Available profiles: ${temperatureProfiles.map((p) => p.temperature).join(', ')}°C`,
+        );
       }
 
-      // Calculate durations for each selected order based on their item type
-      const calculatedDurations = selectedOrders.reduce<Record<string, number>>((acc, order) => {
-        const duration = getTimeValueForItemType(initialProfile, finalProfile, order.itemType);
+      // Calculate durations for each order based on their item type
+      const calculatedDurations = orders.reduce<Record<string, number>>((acc, order) => {
+        let duration: number;
+        switch (order.itemType) {
+          case ItemType.A:
+            duration = temperatureProfile.timeA;
+            break;
+          case ItemType.B:
+            duration = temperatureProfile.timeB;
+            break;
+          case ItemType.C:
+            duration = temperatureProfile.timeC;
+            break;
+          default:
+            duration = 0;
+        }
         acc[order.itemNumber.toString()] = duration;
         return acc;
       }, {});
 
       // Also calculate durations for all item types (A, B, C) for future use
       const itemTypeDurations = {
-        [ItemType.A]: getTimeValueForItemType(initialProfile, finalProfile, ItemType.A),
-        [ItemType.B]: getTimeValueForItemType(initialProfile, finalProfile, ItemType.B),
-        [ItemType.C]: getTimeValueForItemType(initialProfile, finalProfile, ItemType.C),
+        [ItemType.A]: temperatureProfile.timeA,
+        [ItemType.B]: temperatureProfile.timeB,
+        [ItemType.C]: temperatureProfile.timeC,
       };
 
       // TODO: 🔴 STOP HERE !!
@@ -150,7 +145,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
           },
         },
         temperatures: {
-          default: initialProfile.temperature,
+          default: temperatureProfile.temperature,
           initial: temperatureFilter.initial, // Use actual user input
           final: temperatureFilter.final, // Use actual user input
         },
@@ -159,7 +154,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
           ...itemTypeDurations, // Item type durations (A, B, C)
           default: Math.max(...Object.values(calculatedDurations)),
         },
-        selectedOrders: selectedOrders.map((order) => order.itemNumber),
+        selectedOrders: orders.map((order) => order.itemNumber),
       };
 
       await saveConfig(configToSave);
