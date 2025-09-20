@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import type { FC, ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Box, Button, Callout, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { ExclamationTriangleIcon, ReloadIcon } from '@radix-ui/react-icons';
@@ -13,7 +13,7 @@ interface ErrorFallbackProps {
   resetErrorBoundary: () => void;
 }
 
-const AdminErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBoundary }) => {
+const AdminErrorFallback: FC<ErrorFallbackProps> = ({ error, resetErrorBoundary }) => {
   const handleReload = () => {
     window.location.reload();
   };
@@ -71,7 +71,7 @@ const AdminErrorFallback: React.FC<ErrorFallbackProps> = ({ error, resetErrorBou
   );
 };
 
-export const AdminErrorBoundary: React.FC<Props> = ({ children, fallback }) => {
+export const AdminErrorBoundary: FC<Props> = ({ children, fallback }) => {
   if (fallback) {
     return <ErrorBoundary fallbackRender={() => fallback}>{children}</ErrorBoundary>;
   }

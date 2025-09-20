@@ -14,6 +14,10 @@ const ErrorFallback: React.FC = () => {
   let errorComponentStack: string | undefined;
   let errorData: any;
 
+  if (window.location.pathname.endsWith('/temperature')) {
+    window.location.replace('/');
+  }
+
   if (isRouteErrorResponse(error)) {
     errorName = `RouteErrorResponse (${error.status})`;
     errorMessage = error.statusText || error.data?.message || 'Unknown error';
