@@ -13,37 +13,6 @@ interface UseTemperatureControlOptions {
   onError?: (error: Error) => void;
 }
 
-const getTimeValueForItemType = (
-  initialProfile: TemperatureProfile,
-  finalProfile: TemperatureProfile,
-  itemType: ItemType,
-): number => {
-  let initialTime: number;
-  let finalTime: number;
-
-  switch (itemType) {
-    case ItemType.A:
-      initialTime = initialProfile.timeA;
-      finalTime = finalProfile.timeA;
-      break;
-    case ItemType.B:
-      initialTime = initialProfile.timeB;
-      finalTime = finalProfile.timeB;
-      break;
-    case ItemType.C:
-      initialTime = initialProfile.timeC;
-      finalTime = finalProfile.timeC;
-      break;
-    default:
-      return 0;
-  }
-
-  // Calculate operating time: final_time - initial_time
-  const operatingTime = Math.abs(finalTime - initialTime);
-
-  return operatingTime;
-};
-
 export const useTemperatureControl = (options: UseTemperatureControlOptions = {}) => {
   const [showLoading, setShowLoading] = useState(false);
   const { orders, profile, filters: filtersOrders } = useOrders(); // ✅ Get profile directly
@@ -55,7 +24,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
   const isLoading = !profile || temperatureProfiles.length === 0;
 
-  // Add delay before showing loading state
   useEffect(() => {
     let timeoutId: number;
 
@@ -71,15 +39,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
       window.clearTimeout(timeoutId);
     };
   }, [isLoading]);
-
-  // ======================================================================== //
-
-  // TODO: REMOVE - DEV ONLY
-  log('__DEV: filters', 'hotpink', filters);
-
-  // return;
-
-  // ======================================================================== //
 
   const startTemperatureControl = useCallback(async () => {
     try {
@@ -132,21 +91,27 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
       // TODO: 🔴 STOP HERE !!
 
+      // TODO: REMOVE - DEV ONLY
+      // log('__DEV: filters', 'hotpink', filters);
+
       // ======================================================================== //
 
+      // TODO: const operatingTime = Math.abs(finalTime - initialTime);
+
+      const operatingTime = Math.abs(temperatureFilter.final - temperatureFilter.closestInitialTemperature);
+
       // Save configuration with calculated durations for both selected orders and all item types
-      const configToSave = {
+      const config = {
         filters: {
           temperature: {
-            initial: temperatureFilter.initial, // Use actual user input, not profile temperature
+            initial: temperatureFilter.closestInitialTemperature,
             final: temperatureFilter.final, // Use actual user input, not profile temperature
-            name: `${temperatureFilter.initial}°C → ${temperatureFilter.final}°C`,
             duration: Math.max(...Object.values(calculatedDurations)),
           },
         },
         temperatures: {
           default: temperatureProfile.temperature,
-          initial: temperatureFilter.initial, // Use actual user input
+          initial: temperatureFilter.closestInitialTemperature,
           final: temperatureFilter.final, // Use actual user input
         },
         durations: {
@@ -157,7 +122,7 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
         selectedOrders: orders.map((order) => order.itemNumber),
       };
 
-      await saveConfig(configToSave);
+      await saveConfig(config);
 
       // Call onSuccess with the calculated durations map
       options.onSuccess?.(calculatedDurations);
@@ -177,7 +142,6 @@ export const useTemperatureControl = (options: UseTemperatureControlOptions = {}
 
   return {
     startTemperatureControl,
-    // ✅ REMOVE: temperatureProfilesQuery - no longer needed
     isLoading: showLoading,
   };
 };
