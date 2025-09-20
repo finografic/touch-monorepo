@@ -98,14 +98,6 @@ const getActualPreviousPath = (previousPath: string | undefined, filters: any): 
   // Replace dynamic route parameters with actual values
   const resolvedPath = resolveRouteParameters(actualPreviousPath, filters);
 
-  console.log('🔍 PREVIOUS PATH RESOLUTION:', {
-    originalPath: previousPath,
-    actualPreviousPath,
-    resolvedPath,
-    hasSubtypes: filters.drinkType?.hasSubtypes,
-    filters: filters.drinkType?.id,
-  });
-
   return resolvedPath;
 };
 
@@ -116,11 +108,6 @@ const resolveRouteParameters = (path: string, filters: any): string => {
   // Handle drinkSubtype route parameter
   if (path.includes(':drinkTypeId') && filters.drinkType?.id) {
     const resolvedPath = path.replace(':drinkTypeId', filters.drinkType.id);
-    console.log('🔍 ROUTE PARAMETER RESOLUTION:', {
-      originalPath: path,
-      resolvedPath,
-      drinkTypeId: filters.drinkType.id,
-    });
     return resolvedPath;
   }
 

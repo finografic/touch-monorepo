@@ -50,14 +50,8 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
           const regex = new RegExp(`^${routePattern}$`);
           const matches = regex.test(location.pathname);
           if (matches) {
-            console.log('🔍 ROUTE MATCH:', {
-              routePath: r.pathname,
-              currentPath: location.pathname,
-              routePattern,
-              fieldKey: r.id,
-            });
+            return r;
           }
-          return matches;
         }
 
         return false;

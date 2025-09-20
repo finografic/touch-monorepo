@@ -38,13 +38,8 @@ export const MockOrdersButton = () => {
     if (!realDbEntry) {
       // This should never happen, but if it does, it's a critical error
       console.error('🔴 CRITICAL: No matching database entry found! This should never happen!');
-      console.log('🔍 Mock filters:', mockFilters);
-      console.log('🔍 Available entries count:', ordersReadable.length);
-      console.log('🔍 Sample entries:', ordersReadable.slice(0, 3));
       throw new Error('Mock data cannot find matching database entry - check database seeding!');
     }
-
-    console.log('🔧 MOCK: Found matching database entry:', realDbEntry.id);
 
     // 🎯 CRITICAL FIX: Create only ONE order that matches the filtered result
     // Instead of multiple orders, create a single order that represents the filtered selection

@@ -15,8 +15,6 @@ export const Header = () => {
   const { currentLanguage } = useAppConfig();
   const { isNextDisabled } = usePagination();
 
-  console.log('🔍 IS NEXT DISABLED:', isNextDisabled);
-
   return (
     <header css={styles}>
       <Container size="4">

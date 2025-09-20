@@ -151,8 +151,6 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
       const isLoading = getActionLoading(config.actionType);
       const translatedLabel = t(config.labelKey);
 
-      log('>> BUTTON_CONFIG_3:', 'orange', { isDisabled });
-
       // Destructure to exclude labelKey from spreading
       const { labelKey, ...configWithoutLabelKey } = config;
 

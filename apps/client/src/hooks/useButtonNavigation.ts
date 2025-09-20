@@ -53,33 +53,21 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   }, [navigate, previousPath, setPageCurrent, currentFlowStep, location.pathname]);
 
   const handleNavigateNext = useCallback(async () => {
-    console.log('🔍 NAVIGATION DEBUG:', {
-      currentFlowStep,
-      nextPath,
-      location: location.pathname,
-    });
-
-    // Handle async temperature filter logic outside of startTransition
     if (location.pathname === '/container-type' && dataFiltered.length > 0) {
-      // Get the order ID from the filtered data and find the readable model from context
       const orderId = dataFiltered[0].id;
       const profileOrder = ordersReadable.find((order) => order.id === orderId);
       if (profileOrder) {
-        setProfile(profileOrder); // Set basic profile first
+        setProfile(profileOrder);
 
         try {
-          // Fetch complete order with temperature profiles
           const fullOrderData = await fetchOrderWithProfiles(orderId);
 
-          // Create temperature filter from the fetched data
           const temperatureFilter: TemperatureFilter = {
             defaultConsume: fullOrderData.defaultTempConsume,
             defaultFreeze: fullOrderData.defaultTempFreeze,
             temperatureProfiles: fullOrderData.temperatureProfiles || [],
-            // Set initial and final to defaults if available
             initial: fullOrderData.defaultTempConsume,
             final: fullOrderData.defaultTempFreeze,
-            // Find closest temperatures (you can implement custom logic here)
             closestInitialTemperature: fullOrderData.temperatureProfiles?.[0]?.temperature,
             closestFinalTemperature: fullOrderData.temperatureProfiles?.[0]?.temperature,
           };
@@ -96,8 +84,6 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
             };
             updateSessionFilters(currentSessionId, newSessionFilters);
           }
-
-          console.log('Temperature filter set:', temperatureFilter);
         } catch (error) {
           console.error('Failed to fetch order with profiles:', error);
         }

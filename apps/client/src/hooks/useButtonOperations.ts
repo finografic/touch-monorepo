@@ -269,15 +269,11 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   // ======================================================================== //
 
   const handleProgramProduct = useCallback(async () => {
-    console.log('🔍 handleProgramProduct: Starting...');
-
     // Get selected slots that are idle (not running timers)
     const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
       const timer = timers.find((t: any) => t.slotNumber === slotNumber);
       return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
     });
-
-    console.log('🔍 handleProgramProduct: Selected idle slots:', selectedIdleSlots);
 
     if (selectedIdleSlots.length === 0) {
       console.warn('No selected idle slots to program product for');
@@ -298,7 +294,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
-      console.log('🔍 handleProgramProduct: Created session:', sessionId);
 
       assignOrdersToSession(sessionId, selectedIdleSlots);
       setOrdersSession({
@@ -308,13 +303,10 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     });
 
     // Set the default mode filter (outside of startTransition since it's async)
-    console.log('🔍 handleProgramProduct: Fetching default mode...');
     try {
       const response = await api.get('/modes');
-      console.log('🔍 handleProgramProduct: Modes API response:', response.data);
 
       const defaultMode = response.data.find((mode: any) => mode.isDefault);
-      console.log('🔍 handleProgramProduct: Found default mode:', defaultMode);
 
       if (defaultMode) {
         const modeFilter = {
@@ -322,7 +314,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           name: defaultMode.name,
         };
         setFilter('mode', modeFilter);
-        console.log('🔍 handleProgramProduct: Set default mode filter:', modeFilter);
       } else {
         console.warn('🔍 handleProgramProduct: No default mode found');
       }

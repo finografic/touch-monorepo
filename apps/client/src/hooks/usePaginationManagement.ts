@@ -20,15 +20,6 @@ export const usePaginationManagement = () => {
       const checkedCount = pads.filter((pad) => pad.isChecked).length;
       const shouldDisableNext = checkedCount < padsConfig.minRequired;
 
-      console.log('🔍 PAGINATION MANAGEMENT:', {
-        fieldKey,
-        padsCount: pads.length,
-        checkedCount,
-        minRequired: padsConfig.minRequired,
-        shouldDisableNext,
-        pads: pads.map((p) => ({ id: p.id, label: p.label, isChecked: p.isChecked })),
-      });
-
       setIsNextDisabled(shouldDisableNext);
     }
   }, [pads, fieldKey, padsConfig?.minRequired, setIsNextDisabled]);
