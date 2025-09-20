@@ -41,21 +41,17 @@ export const MockOrdersButton = () => {
       throw new Error('Mock data cannot find matching database entry - check database seeding!');
     }
 
-    // 🎯 CRITICAL FIX: Create only ONE order that matches the filtered result
-    // Instead of multiple orders, create a single order that represents the filtered selection
-    const updatedMockData = [
-      {
-        ...MOCK_ORDERS_DATA[0], // Use first mock order as template
-        id: realDbEntry.id, // ← Use REAL database ID
-        itemNumber: 8, // ← Use a single item number (matching PATH_A)
-        session: {
-          id: sessionId,
-          flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-        },
+    // 🎯 CREATE THREE ORDERS: Use all mock orders with different slot numbers
+    const updatedMockData = MOCK_ORDERS_DATA.map((mockOrder, index) => ({
+      ...mockOrder,
+      id: `${realDbEntry.id}_${index}`, // ← Use REAL database ID with index suffix
+      session: {
+        id: sessionId,
+        flowType: FLOW_TYPES.PROGRAM_PRODUCT,
       },
-    ];
+    }));
 
-    // Assign orders to session before navigation
+    // Assign ALL THREE orders to session before navigation
     const slotNumbers = updatedMockData.map((order) => order.itemNumber);
     assignOrdersToSession(sessionId, slotNumbers);
 
