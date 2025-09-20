@@ -38,6 +38,6 @@ export interface TemperatureFilter {
   defaultFreeze?: number;
   initial?: number;
   final?: number;
-  closestTemperature?: TemperatureProfile['temperature'];
+  closestInitialTemperature?: TemperatureProfile['temperature'];
   temperatureProfiles?: TemperatureProfile[];
 }

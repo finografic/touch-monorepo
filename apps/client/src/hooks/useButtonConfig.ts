@@ -33,6 +33,8 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     handleRepeatSelection,
     handleCancelTimeSession,
     handleCancelProductSession,
+    handleStartProductProcess,
+    handleFinishProductProcess,
     getOperationDisabled,
     getOperationLoading,
     // isOperationPending,
@@ -72,6 +74,8 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
         case BUTTON_ACTIONS.START_PROCESS:
           // Use route-specific handler
           return getStartHandler()();
+        case BUTTON_ACTIONS.FINISH_PRODUCT_PROCESS:
+          return handleFinishProductProcess();
         case BUTTON_ACTIONS.PROGRAM_TIME:
           return handleProgramTime();
         case BUTTON_ACTIONS.PROGRAM_PRODUCT:
@@ -93,6 +97,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
       handleCancelCompleted,
       handleSelectAll,
       getStartHandler,
+      handleFinishProductProcess,
       handleProgramTime,
       handleProgramProduct,
       handleRepeatSelection,

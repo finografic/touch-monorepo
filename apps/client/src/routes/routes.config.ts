@@ -64,7 +64,11 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'temperature',
     title: 'Select initial and final temperatures:',
     buttons: {
-      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.START],
+      footer: [
+        BUTTON_TYPES.BACK,
+        // BUTTON_TYPES.START,
+        BUTTON_TYPES.FINISH_PRODUCT,
+      ],
       content: [],
     },
   },

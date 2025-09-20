@@ -11,6 +11,7 @@ type ButtonType =
   | 'back'
   | 'next'
   | 'start'
+  | 'finish-product'
   | 'cancel'
   | 'cancel-time-session'
   | 'cancel-product-session'
@@ -25,6 +26,7 @@ export const BUTTON_TYPES: ConstEnumOf<ButtonType> = {
   BACK: 'back',
   NEXT: 'next',
   START: 'start',
+  FINISH_PRODUCT: 'finish-product',
   CANCEL: 'cancel',
   CANCEL_TIME_SESSION: 'cancel-time-session',
   CANCEL_PRODUCT_SESSION: 'cancel-product-session',
@@ -44,6 +46,7 @@ export type ButtonActionType =
   | 'navigate-back'
   | 'navigate-next'
   | 'start-process'
+  | 'finish-product-process'
   | 'program-product'
   | 'program-time'
   | 'repeat-selection'
@@ -58,6 +61,7 @@ export const BUTTON_ACTIONS: ConstEnumOf<ButtonActionType> = {
   NAVIGATE_BACK: 'navigate-back',
   NAVIGATE_NEXT: 'navigate-next',
   START_PROCESS: 'start-process',
+  FINISH_PRODUCT_PROCESS: 'finish-product-process',
   PROGRAM_PRODUCT: 'program-product',
   PROGRAM_TIME: 'program-time',
   REPEAT_SELECTION: 'repeat-selection',

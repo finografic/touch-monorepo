@@ -55,7 +55,7 @@ export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperat
 
       return {
         ...filters.temperature,
-        closestTemperature: closestInitialProfile ? closestInitialProfile.temperature : initial,
+        closestInitialTemperature: closestInitialProfile ? closestInitialProfile.temperature : initial,
         initial,
         final,
       };

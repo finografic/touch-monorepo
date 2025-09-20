@@ -33,12 +33,19 @@ export const BUTTON_CONFIGS: Record<PadActionType, PadActionConfig> = {
     icon: 'chevron-right',
     actionType: 'navigate-next',
   },
-  [BUTTON_TYPES.START]: {
-    id: 'btn-start',
-    type: 'start',
+  // [BUTTON_TYPES.START]: {
+  //   id: 'btn-start',
+  //   type: 'start',
+  //   labelKey: 'ui.buttons.start',
+  //   className: 'small-button button-start',
+  //   actionType: 'start-process',
+  // },
+  [BUTTON_TYPES.FINISH_PRODUCT]: {
+    id: 'btn-finish-product',
+    type: 'finish-product',
     labelKey: 'ui.buttons.start',
     className: 'small-button button-start',
-    actionType: 'start-process',
+    actionType: 'finish-product-process',
   },
   [BUTTON_TYPES.CANCEL]: {
     id: 'btn-cancel',

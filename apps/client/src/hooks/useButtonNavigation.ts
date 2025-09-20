@@ -78,7 +78,7 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
             initial: fullOrderData.defaultTempConsume,
             final: fullOrderData.defaultTempFreeze,
             // Find closest temperature (you can implement custom logic here)
-            closestTemperature: fullOrderData.temperatureProfiles?.[0]?.temperature,
+            closestInitialTemperature: fullOrderData.temperatureProfiles?.[0]?.temperature,
           };
 
           // Set temperature filter using the new FiltersContext

@@ -22,6 +22,7 @@ type OperationActionType =
   | 'cancel-completed'
   | 'select-all'
   | 'start-process'
+  | 'finish-product-process'
   | 'program-time'
   | 'program-product'
   | 'repeat-selection'
@@ -33,6 +34,7 @@ interface UseButtonOperationsReturn {
   handleCancelCompleted: () => void;
   handleSelectAll: () => void;
   handleStartProductProcess: () => void;
+  handleFinishProductProcess: () => void;
   handleStartTimeProcess: (duration: number) => void;
   handleProgramTime: () => void;
   handleProgramProduct: () => void;
@@ -191,6 +193,21 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       console.warn('handleStartProductProcess: Called on TimePage but should use handleStartTimeProcess');
     }
   }, [startTemperatureControl, location.pathname]);
+
+  // 🎯 NEW: Handle finishing product process (TemperaturePage START button)
+  const handleFinishProductProcess = useCallback(() => {
+    console.log('🎯 FINISH: Starting finish product process...');
+
+    // This is the simplified version for TemperaturePage
+    // It should:
+    // 1. Use the new FiltersContext for temperature data
+    // 2. Start temperature control with the current temperature settings
+    // 3. Handle the process flow more cleanly than the generic handler
+
+    // For now, use the existing temperature control
+    // TODO: Implement FiltersContext integration
+    startTemperatureControl();
+  }, [startTemperatureControl]);
 
   const handleStartTimeProcess = useCallback(
     (duration: number) => {
@@ -605,6 +622,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     handleCancelCompleted,
     handleSelectAll,
     handleStartProductProcess,
+    handleFinishProductProcess,
     handleStartTimeProcess,
     handleProgramTime,
     handleProgramProduct,

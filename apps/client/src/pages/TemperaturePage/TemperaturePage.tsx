@@ -64,7 +64,7 @@ export const TemperaturePage = () => {
       defaultFreeze,
       initial: temperatures.initial,
       final: temperatures.final,
-      closestTemperature: closestProfile?.temperature,
+      closestInitialTemperature: closestProfile?.temperature,
       temperatureProfiles,
     };
 
