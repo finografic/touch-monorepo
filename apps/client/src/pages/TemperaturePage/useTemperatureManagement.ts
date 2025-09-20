@@ -8,10 +8,12 @@ import { findClosestProfile } from 'utils/temperature.utils';
 import { useFilters } from 'providers/FiltersProvider/FiltersContext';
 import { OrderFieldKeys } from 'constants/app.config';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
+import type { TemperatureProfile } from 'types/temperature.types';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 
 interface UseTemperatureManagementProps {
-  profiles: any[];
-  dataFiltered: any[];
+  profiles: TemperatureProfile[];
+  dataFiltered: OrderReadableModel[];
 }
 
 export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperatureManagementProps) => {
