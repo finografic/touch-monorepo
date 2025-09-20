@@ -380,25 +380,12 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       return;
     }
 
-    console.log('Applying saved configuration to selected orders:', config);
-    console.log('Available durations in config:', config.durations);
-    console.log('Current mainPageSelectedSlots:', mainPageSelectedSlots);
-    console.log(
-      'Current orders:',
-      orders.map((o) => ({ itemNumber: o.itemNumber, itemType: o.itemType, isSelected: o.isSelected })),
-    );
-
     startTransition(() => {
       // Apply configuration to all selected orders
       // Use selected slots from LayoutUiContext and map by itemType from orderItemsConfig
       mainPageSelectedSlots.forEach((slotNumber) => {
         // Get itemType from orderItemsConfig instead of orders array
         const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
-        console.log(`Processing slot ${slotNumber}:`, {
-          orderConfig: orderConfig
-            ? { number: orderConfig.number, itemType: orderConfig.itemType }
-            : 'NOT FOUND',
-        });
 
         if (orderConfig) {
           // Get duration for this specific item type from saved config
@@ -406,12 +393,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           const itemTypeDuration = config.durations?.[orderConfig.itemType];
           const defaultDuration = config.durations?.default;
           const duration = itemTypeDuration || defaultDuration || 300;
-
-          console.log(`Creating timer for slot ${slotNumber} (type ${orderConfig.itemType}):`, {
-            itemTypeDuration,
-            defaultDuration,
-            finalDuration: duration,
-          });
 
           // Create timer using the same logic as handleStartTimeProcess
           addTimer({
@@ -424,10 +405,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
             status: 'processing',
             estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
           });
-
-          console.log(`✅ Timer created for slot ${slotNumber} with duration ${duration}`);
-        } else {
-          console.warn(`❌ No order config found for slot ${slotNumber}`);
         }
       });
     });
