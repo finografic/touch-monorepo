@@ -38,10 +38,12 @@ export const TemperaturePage = () => {
       dataFiltered,
     });
 
-  // Initialize temperatures
-  useEffect(() => {
-    initializeTemperatures(setTemperatures);
-  }, [initializeTemperatures]);
+  useEffect(
+    function initializePage() {
+      initializeTemperatures(setTemperatures);
+    },
+    [initializeTemperatures],
+  );
 
   /*
   // Update session filters when temperatures change
