@@ -79,8 +79,9 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
             // Set initial and final to defaults if available
             initial: fullOrderData.defaultTempConsume,
             final: fullOrderData.defaultTempFreeze,
-            // Find closest temperature (you can implement custom logic here)
+            // Find closest temperatures (you can implement custom logic here)
             closestInitialTemperature: fullOrderData.temperatureProfiles?.[0]?.temperature,
+            closestFinalTemperature: fullOrderData.temperatureProfiles?.[0]?.temperature,
           };
 
           // Set temperature filter using the new FiltersContext
@@ -127,7 +128,6 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   ]);
 
   const handleProgramProduct = useCallback(() => {
-    // Navigate to the first step of the flow (drinkType)
     startTransition(() => {
       setPageCurrent(0);
       navigate(PATHS.drinkType);
@@ -138,22 +138,13 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
     (actionType: NavigationActionType): boolean => {
       switch (actionType) {
         case NAVIGATION_ACTIONS.NAVIGATE_BACK:
-          // For alternative routes, back is always enabled (unless pending)
           if (location.pathname === ALTERNATIVE_PATHS.time) {
             return isPending;
           }
-          // For main flow, disable if at main page or first step
+
           return location.pathname === PATHS.main || isFirstStep || isPending;
         case NAVIGATION_ACTIONS.NAVIGATE_NEXT: {
           const disabled = isNextDisabled || isPending || !nextPath;
-          console.log('🔍 NEXT BUTTON DISABLED CHECK:', {
-            isNextDisabled,
-            isPending,
-            nextPath,
-            disabled,
-            location: location.pathname,
-          });
-          log('__DEV: getActionDisabled', 'cyan', { isNextDisabled, isPending, nextPath });
           return disabled;
         }
         default:

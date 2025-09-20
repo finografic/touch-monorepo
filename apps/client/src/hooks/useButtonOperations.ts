@@ -94,9 +94,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         // Clear selection when timers start
         clearMainPageSelection();
 
-        // Navigate back to first page
+        // Navigate back to main page
         setPageCurrent(0);
-        navigate(PATHS.drinkType, { replace: true });
+        navigate(PATHS.main, { replace: true });
       });
     },
 
