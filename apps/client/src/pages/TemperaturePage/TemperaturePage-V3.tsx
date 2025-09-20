@@ -5,6 +5,7 @@ import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useFiltering } from 'hooks/useFiltering';
+import { useFilters } from 'providers/FiltersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { TemperatureKey } from 'types/temperature.types';
 import { styles } from './TemperaturePage.styles';
@@ -24,12 +25,16 @@ interface TemperatureState {
 export const TemperaturePage = () => {
   const { profile, ordersReadable } = useOrders();
   const { dataFiltered } = useFiltering();
+  const { filters, setFilter } = useFilters();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
     [TemperatureKey.Initial]: INITIAL_TEMP_DEFAULT,
     [TemperatureKey.Final]: INITIAL_TEMP_DEFAULT,
   });
+
+  // Flag to prevent re-initialization after first load
+  const [isInitialized, setIsInitialized] = useState(false);
 
   // Extract temperature profiles from the profile data (filtered order)
   // Fallback to first order if profile is not set (safety net for edge cases)
@@ -43,48 +48,48 @@ export const TemperaturePage = () => {
       dataFiltered,
     });
 
+  // ======================================================================== //
+
   // Find the closest temperature profile for the current selection
   const closestProfile = useMemo(() => {
     if (!temperatureProfiles.length) return null;
     return findClosestProfile(temperatureProfiles, temperatures.initial, temperatures.final);
   }, [temperatureProfiles, temperatures.initial, temperatures.final]);
 
-  // Initialize temperatures
+  // ======================================================================== //
+
+  // Initialize temperatures from FiltersContext on page load (only once)
   useEffect(() => {
-    initializeTemperatures(setTemperatures);
-  }, [initializeTemperatures]);
+    if (isInitialized) return; // Prevent re-initialization
 
-  /*
-  // Update session filters when temperatures change
-  useEffect(() => {
-    if (!currentSessionId) return;
+    const temperatureFilter = filters.temperature;
+    if (
+      temperatureFilter &&
+      temperatureFilter.initial !== undefined &&
+      temperatureFilter.final !== undefined
+    ) {
+      console.log('🎯 TEMPERATURE: Initializing from FiltersContext:', {
+        initial: temperatureFilter.initial,
+        final: temperatureFilter.final,
+        closestTemperature: temperatureFilter.closestTemperature,
+      });
 
-    const currentSessionFilters = sessions[currentSessionId]?.filters || {};
+      // Map the filter values to the correct temperature inputs
+      // initial filter value (3) -> Final temperature input (03.0 °C)
+      // final filter value (-4) -> Initial temperature input (25.0 °C from closestTemperature)
+      setTemperatures({
+        [TemperatureKey.Initial]: temperatureFilter.closestTemperature || temperatureFilter.final,
+        [TemperatureKey.Final]: temperatureFilter.initial,
+      });
+      setIsInitialized(true);
+    } else {
+      // Fallback to the old initialization logic
+      initializeTemperatures(setTemperatures);
+      setIsInitialized(true);
+    }
+  }, [filters.temperature, initializeTemperatures, isInitialized]);
 
-    // Get default values from drink_subtype filter first, then fallback to drink_type filter
-    const drinkSubtypeFilter = currentSessionFilters.drinkSubtype;
-    const drinkTypeFilter = currentSessionFilters.drinkType;
-
-    const defaultConsume = drinkSubtypeFilter?.defaultTempConsume ?? drinkTypeFilter?.defaultTempConsume;
-    const defaultFreeze = drinkSubtypeFilter?.defaultTempFreeze ?? drinkTypeFilter?.defaultTempFreeze;
-
-    const temperatureFilter = {
-      defaultConsume,
-      defaultFreeze,
-      initial: temperatures.initial,
-      final: temperatures.final,
-      closestTemperature: closestProfile?.temperature,
-      temperatureProfiles,
-    };
-
-    const newFilters = {
-      ...currentSessionFilters,
-      temperature: temperatureFilter,
-    };
-
-    updateSessionFilters(currentSessionId, newFilters);
-  }, [temperatures, closestProfile, temperatureProfiles, currentSessionId, sessions, updateSessionFilters]);
-*/
+  // ======================================================================== //
 
   // Handle temperature changes
   const handleChange = (name: TemperatureKey, temp: Temperature) => {
@@ -97,6 +102,25 @@ export const TemperaturePage = () => {
     }
 
     updateTemperatures(update.initial, update.final, setTemperatures);
+
+    // Update the temperature filter in FiltersContext when user changes values
+    const temperatureFilter = filters.temperature;
+    if (temperatureFilter) {
+      const updatedTemperatureFilter = {
+        ...temperatureFilter,
+        initial: update.final, // Final temperature input -> initial filter value
+        final: update.initial, // Initial temperature input -> final filter value
+        closestTemperature: closestProfile?.temperature,
+      };
+
+      setFilter('temperature', updatedTemperatureFilter);
+
+      console.log('🎯 TEMPERATURE: User changed temperature, updated filter:', {
+        initial: update.initial,
+        final: update.final,
+        closestTemperature: closestProfile?.temperature,
+      });
+    }
   };
 
   // Don't show inputs until we have the order data and temperature profiles

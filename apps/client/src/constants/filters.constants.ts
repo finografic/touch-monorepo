@@ -12,6 +12,7 @@ export const FilterKeys: { [K in string]: K } = {
   containerTypeName: 'containerType',
   temperatureName: 'temperatureProfile',
   defaultTempConsume: 'defaultTempConsume',
+  defaultTempFreeze: 'defaultTempFreeze',
   temperatureProfileId: 'temperatureProfileId',
 } as const;
 

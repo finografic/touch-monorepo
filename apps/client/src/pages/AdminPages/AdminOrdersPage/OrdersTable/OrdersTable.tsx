@@ -34,6 +34,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           <Table.Header>
             <Table.Row>
               <Table.ColumnHeaderCell className="th">Order ID</Table.ColumnHeaderCell>
+              <Table.ColumnHeaderCell className="th">Modo</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th">Drink Type</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th">Subtype</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th">Volume</Table.ColumnHeaderCell>
@@ -55,6 +56,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                     {order.id}
                   </Text>
                 </Table.Cell>
+                <Table.Cell className="td">{order.modeId || '-'}</Table.Cell>
                 <Table.Cell className="td">{order.drinkType || '-'}</Table.Cell>
                 <Table.Cell className="td">{order.drinkSubtype || '-'}</Table.Cell>
                 <Table.Cell className="td">{order.volume || '-'}</Table.Cell>

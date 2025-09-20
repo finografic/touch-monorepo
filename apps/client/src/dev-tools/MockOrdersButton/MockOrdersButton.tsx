@@ -77,7 +77,6 @@ export const MockOrdersButton = () => {
             name: defaultMode.name,
           };
           setFilter('mode', modeFilter);
-          console.log('🎯 MOCK: Set mode filter:', modeFilter);
         }
       } catch (error) {
         console.error('🎯 MOCK: Error fetching modes:', error);

@@ -4,6 +4,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { FiltersStore, FiltersValues } from './FiltersContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
 import type { OrderFilters } from 'types/filters.types';
+import type { FilterFieldKey } from 'types/orders.types';
 
 export const DISPLAY_NAME = 'Filters';
 export const SETTER_PREFIX = 'Filters';
@@ -24,12 +25,14 @@ export const FiltersContext = createZustandContext(({ initialValue }) => {
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
-          setFilter: (key: keyof OrderFilters, value: unknown) => {
+          // setFilter: (key: keyof OrderFilters, value: unknown) => {
+          setFilter: (key: keyof OrderFilters | FilterFieldKey, value: unknown) => {
             set((state) => ({
               filters: { ...state.filters, [key]: value },
             }));
           },
-          clearFilter: (key: keyof OrderFilters) => {
+          // clearFilter: (key: keyof OrderFilters) => {
+          clearFilter: (key: keyof OrderFilters | FilterFieldKey) => {
             set((state) => {
               const { [key]: _, ...rest } = state.filters;
               return { filters: rest };

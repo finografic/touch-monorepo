@@ -1,12 +1,10 @@
-import { useCallback, useMemo, useRef } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useFiltering } from 'hooks/useFiltering';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider';
-import { FINAL_TEMP_DEFAULT, INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
+import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { findClosestProfile } from 'utils/temperature.utils';
-import { useFilters } from 'providers/FiltersProvider/FiltersContext';
-import { OrderFieldKeys } from 'constants/app.config';
 
 interface TemperatureState {
   initial: number;
@@ -19,9 +17,8 @@ interface UseTemperatureManagementProps {
 }
 
 export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperatureManagementProps) => {
-  const refIsInitialized = useRef(false);
-  const { setFilter: setFiltering } = useFiltering();
-  const { filters, setFilter } = useFilters();
+  // const { setFilter } = useFiltering();
+  const { setFilter } = useFiltering();
   const { setIsNextDisabled } = usePagination();
   const { fieldKey } = useRouteConfig();
   const { setFilters: setOrdersFilters } = useOrders();
@@ -51,31 +48,9 @@ export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperat
     };
   }, [profiles]);
 
-  // ======================================================================== //
-
-  const getTemperatureFilter = useCallback(
-    ({ initial, final }: TemperatureState) => {
-      // Find closest available profiles for initial and final temperatures
-      const closestInitialProfile = findClosestProfile(profiles, initial, final);
-      const closestFinalProfile = findClosestProfile(profiles, final, final);
-      const usedInitial = closestInitialProfile ? closestInitialProfile.temperature : initial;
-      const usedFinal = closestFinalProfile ? closestFinalProfile.temperature : final;
-
-      log('📡 CLOSEST_1:', 'blue', { initial, final });
-      log('📡 CLOSEST_2:', 'blue', closestInitialProfile.temperature, closestFinalProfile.temperature);
-      log('📡 CLOSEST_3:', 'blue', usedInitial, usedFinal);
-
-      // return { ...filters.temperature, initial: usedInitial, final: usedFinal };
-      return { ...filters.temperature, initial, final };
-    },
-    [profiles, filters],
-  );
-
-  // ======================================================================== //
-
   // Simplified filter update - only update essential systems
   const updateFilters = useCallback(
-    ({ initial, final }: TemperatureState) => {
+    (initial: number, final: number) => {
       // Find closest available profiles for initial and final temperatures
       const closestInitialProfile = findClosestProfile(profiles, initial, final);
       const closestFinalProfile = findClosestProfile(profiles, final, final);
@@ -89,24 +64,8 @@ export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperat
         lookup: { initial: usedInitial, final: usedFinal, name: `${usedInitial}°C → ${usedFinal}°C` },
       };
 
-      // Create temperature filter object
-      const temperatureFilterV2 = {
-        ...filters.temperature,
-        initial: usedInitial,
-        final: usedFinal,
-      };
-
-      log('🚧 UPDATING FILTERS:', 'cyan', {
-        fieldKey,
-        temperatureFilter,
-        // NEW: filters.temperature,
-        NEW: temperatureFilterV2,
-      });
-
-      // TODO: V1: REMOVE Update global filters (essential for navigation)
-      setFiltering(fieldKey, temperatureFilter);
-
-      // setFilter(OrderFieldKeys.temperature, temperatureFilterV2);
+      // Update global filters (essential for navigation)
+      setFilter(fieldKey, temperatureFilter);
 
       // ✅ ALSO update OrdersContext filters so useTemperatureControl can find them
       setOrdersFilters({
@@ -118,33 +77,25 @@ export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperat
 
       return { usedInitial, usedFinal };
     },
-    [profiles, filters, setFilter, setFiltering, fieldKey, setIsNextDisabled, setOrdersFilters],
+    [profiles, setFilter, fieldKey, setIsNextDisabled, setOrdersFilters],
   );
 
   // Initialize temperatures with fallback values
   const initializeTemperatures = useCallback(
     (setTemperatures: (temps: TemperatureState) => void) => {
-      if (refIsInitialized.current) return;
-
-      log('🚧 INITIALIZING_1:', 'grey', { defaultTempConsume });
-
       const initial = INITIAL_TEMP_DEFAULT;
-      const final = filters.temperature.defaultConsume ?? FINAL_TEMP_DEFAULT;
-      // const final = defaultTempConsume ?? FINAL_TEMP_DEFAULT;
+      const final = defaultTempConsume ?? 8;
+      const newTemperatures = { initial, final };
 
-      log('🚧 INITIALIZING_2:', 'grey', { initial, final });
+      log('🚧 INITIALIZING:', 'orange', {
+        initial,
+        final,
+        newTemperatures,
+      });
 
-      const temperatureFilter = getTemperatureFilter({ initial, final });
-      // const temperatureFilter = { ...filters.temperature, initial, final };
+      setTemperatures(newTemperatures);
 
-      log('🚧 INITIALIZING_3:', 'orange', temperatureFilter);
-
-      setTemperatures({ initial, final });
-      updateFilters({ initial, final });
-
-      setFilter(OrderFieldKeys.temperature, temperatureFilter);
-
-      refIsInitialized.current = true;
+      updateFilters(initial, final);
     },
     [defaultTempConsume, updateFilters],
   );
@@ -153,7 +104,7 @@ export const useTemperatureManagement = ({ profiles, dataFiltered }: UseTemperat
   const updateTemperatures = useCallback(
     (initial: number, final: number, setTemperatures: (temps: TemperatureState) => void) => {
       setTemperatures({ initial, final });
-      updateFilters({ initial, final });
+      updateFilters(initial, final);
     },
     [updateFilters],
   );

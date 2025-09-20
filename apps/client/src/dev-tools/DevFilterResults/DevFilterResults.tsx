@@ -13,7 +13,7 @@ export const DevFilterResults = () => {
   // const { filters: ordersFilters } = useOrders();
   // const { profile } = useOrders();
   // log('__DEV: profile', 'yellow', profile);
-  log('__DEV: filters', 'hotpink', filters);
+  // log('__DEV: filters', 'hotpink', filters);
   // log('__DEV: ordersFilters', 'hotpink', ordersFilters);
 
   const sessionFilters =
@@ -21,14 +21,6 @@ export const DevFilterResults = () => {
 
   return (
     <div id="dev-filter-results" css={styles}>
-      <div className="filters">
-        <h4>Filters ({Object.keys(filters).length}):</h4>
-        <pre>{JSON.stringify(filters, null, 2)}</pre>
-      </div>
-      {/* <div className="filters">
-        <h4>sessionFilters ({Object.keys(sessionFilters).length}):</h4>
-        <pre>{JSON.stringify(sessionFilters, null, 2)}</pre>
-      </div> */}
       <DevDataTable
         data={dataFiltered}
         title={`Results: ${dataFiltered.length}`}
@@ -36,11 +28,20 @@ export const DevFilterResults = () => {
           { key: 'drinkType', strong: true },
           { key: 'drinkSubtype' },
           { key: 'volume' },
-          { key: 'containerType' },
-          { key: 'temperatureProfile', styles: { margin: 0 } },
+          { key: 'defaultTempConsume' },
+          { key: 'defaultTempFreeze' },
+          // { key: 'temperatureProfile', styles: { margin: 0 } },
           { key: 'id', styles: { opacity: 0.66 } },
         ]}
       />
+      <div className="filters">
+        <h4>Filters ({Object.keys(filters).length}):</h4>
+        <pre>{JSON.stringify(filters?.temperature, null, 2)}</pre>
+      </div>
+      {/* <div className="filters">
+        <h4>sessionFilters ({Object.keys(sessionFilters).length}):</h4>
+        <pre>{JSON.stringify(sessionFilters, null, 2)}</pre>
+      </div> */}
     </div>
   );
 };
