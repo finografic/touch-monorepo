@@ -22,6 +22,9 @@ export const ROUTES_CONFIG: RouteConfig[] = [
       footer: [BUTTON_TYPES.CANCEL, BUTTON_TYPES.RESET, BUTTON_TYPES.ALL],
       content: [BUTTON_TYPES.PROGRAM_TIME, BUTTON_TYPES.PROGRAM_PRODUCT, BUTTON_TYPES.REPEAT_SELECTION],
     },
+    navigation: {
+      flowStep: -1, // Special case: not part of the main flow
+    },
   },
   {
     path: PATHS.drinkType,
@@ -30,6 +33,11 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     buttons: {
       footer: [BUTTON_TYPES.CANCEL_PRODUCT_SESSION, BUTTON_TYPES.NEXT],
       content: [],
+    },
+    navigation: {
+      next: PATHS.drinkSubtype, // Will be dynamically resolved based on hasSubtypes
+      previous: PATHS.main,
+      flowStep: 0,
     },
   },
   {
@@ -40,6 +48,11 @@ export const ROUTES_CONFIG: RouteConfig[] = [
       footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
       content: [],
     },
+    navigation: {
+      next: PATHS.drinkVolume,
+      previous: PATHS.drinkType,
+      flowStep: 1,
+    },
   },
   {
     path: PATHS.drinkVolume,
@@ -48,6 +61,11 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     buttons: {
       footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
       content: [],
+    },
+    navigation: {
+      next: PATHS.containerType,
+      previous: PATHS.drinkSubtype, // Will be dynamically resolved based on hasSubtypes
+      flowStep: 2,
     },
   },
   {
@@ -58,6 +76,11 @@ export const ROUTES_CONFIG: RouteConfig[] = [
       footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
       content: [],
     },
+    navigation: {
+      next: PATHS.temperature,
+      previous: PATHS.drinkVolume,
+      flowStep: 3,
+    },
   },
   {
     path: PATHS.temperature,
@@ -66,6 +89,10 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     buttons: {
       footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.FINISH_PRODUCT],
       content: [],
+    },
+    navigation: {
+      previous: PATHS.containerType,
+      flowStep: 4, // Last step in the flow
     },
   },
 ];

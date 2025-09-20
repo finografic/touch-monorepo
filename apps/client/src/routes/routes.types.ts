@@ -24,6 +24,14 @@ export interface RouteConfig extends Omit<RouteObject, 'element' | 'children'> {
   children?: RouteConfig[];
   element?: ReactElement;
 
+  // Navigation properties
+  navigation?: {
+    next?: string; // Path to next step in flow
+    previous?: string; // Path to previous step in flow
+    flowStep?: number; // Order in the flow (0-based)
+    condition?: (filters: any) => boolean; // Function to determine if route should be included
+  };
+
   readonly pathname?: string; // computed during transformation, not set manually
 }
 

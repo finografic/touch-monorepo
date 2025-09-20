@@ -8,16 +8,15 @@ import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
 import { MockOrdersButton } from '../MockOrdersButton/MockOrdersButton';
 import { MockTimersMin } from '../MockTimersMin/MockTimersMin';
 import { MockSessionTimer } from '../MockSessionTimer/MockSessionTimer';
-import { hasProcessingTimers } from 'components/Timer/timers.utils';
 import { useOrdersOptional } from 'providers/OrdersProvider/OrdersContext';
+import { useTimers } from 'providers/TimersProvider';
 // import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { AuthStatusDialog } from 'components/Dialog/dialogs/AuthStatusDialog';
 import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
 import { DevPanelLeft } from 'dev-tools/DevPanels/DevPanelLeft';
 
 export const DevToolbarFrontEnd = () => {
-  const ordersContext = useOrdersOptional();
-  const orders = ordersContext?.orders || [];
+  const { timers } = useTimers();
   const {
     isDevToolsVisible,
     isDevAuthVisible,
@@ -41,7 +40,7 @@ export const DevToolbarFrontEnd = () => {
       </>
       <div id="__DEV__" css={styles}>
         <Flex gap="3" align="center">
-          {hasProcessingTimers(orders) && (
+          {timers.some((timer) => timer.status === 'processing') && (
             <Box className="button-box">
               <MockTimersMin />
             </Box>

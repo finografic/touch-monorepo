@@ -115,7 +115,13 @@ export const useFiltering = (initialFilters?: OrderFilters): UseFiltersReturn =>
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {
     return Object.entries(filters as OrderFilters).reduce(
-      (acc, [_filterKey, filterValue]) => ({ ...acc, [_filterKey as string]: filterValue.name }),
+      (acc, [_filterKey, filterValue]) => {
+        // ✅ ADD: Check if filterValue exists and has a name property
+        if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
+          return { ...acc, [_filterKey as string]: filterValue.name };
+        }
+        return acc;
+      },
       {} as Record<string, string>,
     );
   }, [filters]);

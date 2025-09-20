@@ -12,7 +12,6 @@ export interface OrdersValues {
   [OrdersKeys.profile]: OrderReadableModel | null;
   [OrdersKeys.ordersReadable]: OrderReadableModel[];
   [OrdersKeys.filters]: OrderFilters;
-  // [OrdersKeys.orderFilters]: OrderFilters;
 }
 
 // Auto-generated setters for OrdersValues
@@ -27,15 +26,6 @@ export type OrdersActions = OrdersSetters & {
   setFilters: (filters: OrderFilters) => void;
   // setOrderFilters: (filters: OrderFilters) => void;
   setOrdersFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => void;
-  setOrderProcessing: ({
-    itemNumber,
-    duration,
-    preserveSelection,
-  }: {
-    itemNumber: number;
-    duration: number;
-    preserveSelection?: boolean;
-  }) => void;
   toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => void;
   selectAllOrders: (config?: OrderItemConfig[]) => void;
   updateOrderIds: ({ ids }: { ids: string[] }) => void;

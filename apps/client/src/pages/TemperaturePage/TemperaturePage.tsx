@@ -1,11 +1,10 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import type { Temperature } from 'types/orders.types';
 import { Box, Flex } from '@radix-ui/themes';
 import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useFiltering } from 'hooks/useFiltering';
-import { useSession } from 'providers/SessionProvider/SessionContext';
 import { TemperatureKey } from 'types/temperature.types';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
 import { PadNumeric } from 'components/Pads/PadNumeric';
@@ -19,7 +18,6 @@ const isVisibleClosestProfile = false;
 export const TemperaturePage = () => {
   const { profile, ordersReadable } = useOrders();
   const { dataFiltered } = useFiltering();
-  const { currentSessionId, sessions, updateSessionFilters } = useSession();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
     [TemperatureKey.Initial]: INITIAL_TEMP_DEFAULT,
@@ -31,7 +29,6 @@ export const TemperaturePage = () => {
   const currentOrder = profile || ordersReadable[0];
   const temperatureProfiles = currentOrder?.temperatureProfiles ?? [];
 
-  // Use custom hook for temperature management
   const { minProfileTemp, minMaxTemperatures, initializeTemperatures, updateTemperatures } =
     useTemperatureFormAndFilter({
       profiles: temperatureProfiles,
@@ -45,39 +42,6 @@ export const TemperaturePage = () => {
     [initializeTemperatures],
   );
 
-  /*
-  // Update session filters when temperatures change
-  useEffect(() => {
-    if (!currentSessionId) return;
-
-    const currentSessionFilters = sessions[currentSessionId]?.filters || {};
-
-    // Get default values from drink_subtype filter first, then fallback to drink_type filter
-    const drinkSubtypeFilter = currentSessionFilters.drinkSubtype;
-    const drinkTypeFilter = currentSessionFilters.drinkType;
-
-    const defaultConsume = drinkSubtypeFilter?.defaultTempConsume ?? drinkTypeFilter?.defaultTempConsume;
-    const defaultFreeze = drinkSubtypeFilter?.defaultTempFreeze ?? drinkTypeFilter?.defaultTempFreeze;
-
-    const temperatureFilter = {
-      defaultConsume,
-      defaultFreeze,
-      initial: temperatures.initial,
-      final: temperatures.final,
-      closestInitialTemperature: closestProfile?.temperature,
-      temperatureProfiles,
-    };
-
-    const newFilters = {
-      ...currentSessionFilters,
-      temperature: temperatureFilter,
-    };
-
-    updateSessionFilters(currentSessionId, newFilters);
-  }, [temperatures, closestProfile, temperatureProfiles, currentSessionId, sessions, updateSessionFilters]);
-*/
-
-  // Handle temperature changes
   const handleChange = (name: TemperatureKey, temp: Temperature) => {
     const update = { ...temperatures, [name]: temp.value };
 
@@ -90,7 +54,6 @@ export const TemperaturePage = () => {
     updateTemperatures(update.initial, update.final, setTemperatures);
   };
 
-  // Don't show inputs until we have the order data and temperature profiles
   if (!currentOrder || !temperatureProfiles.length) {
     return (
       <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">

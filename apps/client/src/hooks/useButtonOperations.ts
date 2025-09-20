@@ -4,7 +4,6 @@ import { useOrders } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
 import { useProcessTimesFromTemperatureFilter } from 'hooks/useProcessTimesFromTemperatureFilter';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
@@ -51,12 +50,11 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
-  const { orders, setOrderProcessing, toggleOrder, setOrdersSession, profile } = useOrders();
+  const { orders, toggleOrder, setOrdersSession, profile } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId, clearSession } = useSession();
   const { addTimer, clearCompletedTimers, timers, removeTimer } = useTimers();
   const { selectAllMainPageSlots, clearMainPageSelection, toggleMainPageSlot, mainPageSelectedSlots } =
     useLayoutUi();
-  const { pathnames } = useRoutePathnamesByFilters();
   const { saveConfig } = useConfigStorage();
   const orderItemsConfig = useOrderItemsConfig();
   const { setFilter, clearFilters } = useFilters();
@@ -75,12 +73,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           const order = orders.find((o) => o.itemNumber === slotNumber);
           if (order) {
             const duration = calculatedDurations[order.itemNumber.toString()];
-
-            // Set order to processing
-            setOrderProcessing({
-              itemNumber: order.itemNumber,
-              duration,
-            });
 
             // Check if there's already a timer for this slot
             const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
@@ -104,7 +96,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
         // Navigate back to first page
         setPageCurrent(0);
-        navigate(pathnames[0], { replace: true });
+        navigate(PATHS.drinkType, { replace: true });
       });
     },
 
@@ -350,7 +342,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     createSession,
     assignOrdersToSession,
     setOrdersSession,
-    pathnames,
     setPageCurrent,
     navigate,
     toggleOrder,
@@ -418,16 +409,10 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
             configDurations: config.durations,
             lookupResult: config.durations?.[order.itemType],
           });
-
-          setOrderProcessing({
-            itemNumber: order.itemNumber,
-            duration,
-            preserveSelection: false, // Clear selection after starting
-          });
         }
       });
     });
-  }, [orders, setOrderProcessing, mainPageSelectedSlots]);
+  }, [orders, mainPageSelectedSlots]);
 
   const handleCancelTimeSession = useCallback(() => {
     startTransition(() => {

@@ -9,6 +9,10 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
     itemNumber: 1,
     isSelected: true,
     filters: {
+      mode: {
+        id: 'cmfk17i8e0002mulwv27uneha',
+        name: '3',
+      },
       drinkType: {
         id: 'cmed7c9vb0001itlwd3sxcr36',
         name: 'vino',
@@ -26,7 +30,6 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
       containerType: { id: 'cmed7cba30001lylw3pux1t1a', name: 'vidrio', lookup: { containerType: 'vidrio' } },
     },
     session: { id: 'session_1755334628264_al8cq752l', flowType: 'program-product' },
-    process: { status: 'idle' },
   },
   {
     id: 'cmed7ceb8002xrllwxh87gxqo',
@@ -35,6 +38,10 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
     itemNumber: 7,
     isSelected: true,
     filters: {
+      mode: {
+        id: 'cmfk17i8e0002mulwv27uneha',
+        name: '3',
+      },
       drinkType: {
         id: 'cmed7c9vb0001itlwd3sxcr36',
         name: 'vino',
@@ -52,7 +59,6 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
       containerType: { id: 'cmed7cba30001lylw3pux1t1a', name: 'vidrio', lookup: { containerType: 'vidrio' } },
     },
     session: { id: 'session_1755334628264_al8cq752l', flowType: 'program-product' },
-    process: { status: 'idle' },
   },
   {
     id: 'cmed7ceb8002xrllwxh87gxqo',
@@ -61,6 +67,10 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
     itemNumber: 10,
     isSelected: true,
     filters: {
+      mode: {
+        id: 'cmfk17i8e0002mulwv27uneha',
+        name: '3',
+      },
       drinkType: {
         id: 'cmed7c9vb0001itlwd3sxcr36',
         name: 'vino',
@@ -78,6 +88,5 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
       containerType: { id: 'cmed7cba30001lylw3pux1t1a', name: 'vidrio', lookup: { containerType: 'vidrio' } },
     },
     session: { id: 'session_1755334628264_al8cq752l', flowType: 'program-product' },
-    process: { status: 'idle' },
   },
 ];

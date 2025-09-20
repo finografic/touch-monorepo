@@ -1,15 +1,17 @@
 import { styles } from './SessionAndTimers.styles';
-import { type TimerItem, useTimers } from 'providers/TimersProvider';
+import { useTimers } from 'providers/TimersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { DevDataTable } from 'dev-tools/DevDataTable';
 import { useFilters } from 'providers/FiltersProvider';
+import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 export const SessionAndTimers = () => {
   const { filters } = useFilters();
   const { sessions } = useSession();
   const { timers } = useTimers();
   const { mainPageSelectedSlots } = useLayoutUi();
+  const { orders } = useOrders();
 
   return (
     <div id="dev-filter-results" css={styles}>
@@ -17,10 +19,14 @@ export const SessionAndTimers = () => {
         <h4>mainPageSelectedSlots: {mainPageSelectedSlots.length}:</h4>
         <pre>{JSON.stringify(mainPageSelectedSlots, null, 2)}</pre>
       </div>
-      <div className="filters">
+      {/* <div className="filters">
+        <h4>orders: {orders.length}:</h4>
+        <pre>{JSON.stringify(orders, null, 2)}</pre>
+      </div> */}
+      {/* <div className="filters">
         <h4>Filters ({Object.keys(filters).length}):</h4>
         <pre>{JSON.stringify(filters?.temperature, null, 2)}</pre>
-      </div>
+      </div> */}
       <div className="filters">
         <h4>Session ({Object.keys(sessions).length}):</h4>
         <pre>{JSON.stringify(sessions, null, 2)}</pre>

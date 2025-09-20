@@ -37,9 +37,31 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     // NOTE: Strategy 1 - get the most specific match (last)
     const currentMatch = matches[matches.length - 1];
     if (currentMatch) {
-      matchedConfig = routesMetadata.find(
-        (r) => !!(r.pathname === location.pathname || r.id === currentMatch.id),
-      );
+      matchedConfig = routesMetadata.find((r) => {
+        // Exact path match
+        if (r.pathname === location.pathname) return true;
+
+        // ID match
+        if (r.id === currentMatch.id) return true;
+
+        // Dynamic parameter match (e.g., /drink-type/:drinkTypeId matches /drink-type/123)
+        if (r.pathname && r.pathname.includes(':')) {
+          const routePattern = r.pathname.replace(/:[^/]+/g, '[^/]+');
+          const regex = new RegExp(`^${routePattern}$`);
+          const matches = regex.test(location.pathname);
+          if (matches) {
+            console.log('🔍 ROUTE MATCH:', {
+              routePath: r.pathname,
+              currentPath: location.pathname,
+              routePattern,
+              fieldKey: r.id,
+            });
+          }
+          return matches;
+        }
+
+        return false;
+      });
       fieldKey = (matchedConfig?.id || currentMatch?.id) as OrderFieldKey;
     }
 

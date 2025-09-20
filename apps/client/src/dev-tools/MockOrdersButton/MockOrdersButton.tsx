@@ -98,6 +98,7 @@ export const MockOrdersButton = () => {
       // Update session filters after navigation
       setTimeout(async () => {
         const sessionFilters = {
+          mode: mockFilters.mode, // ✅ ADD: mode filter
           drinkType: mockFilters.drinkType,
           drinkSubtype: mockFilters.drinkSubtype,
           drinkVolume: mockFilters.drinkVolume,
@@ -110,12 +111,14 @@ export const MockOrdersButton = () => {
         ordersContext.setFilters(sessionFilters);
 
         // 🎯 NEW: Set filters in the new FiltersContext
+        setFilter('mode', mockFilters.mode);
         setFilter('drinkType', mockFilters.drinkType);
         setFilter('drinkSubtype', mockFilters.drinkSubtype);
         setFilter('drinkVolume', mockFilters.drinkVolume);
         setFilter('containerType', mockFilters.containerType);
 
         console.log('🎯 MOCK: Set all filters in new FiltersContext:', {
+          mode: mockFilters.mode,
           drinkType: mockFilters.drinkType,
           drinkSubtype: mockFilters.drinkSubtype,
           drinkVolume: mockFilters.drinkVolume,

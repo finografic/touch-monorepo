@@ -1,11 +1,8 @@
-import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
 import { TimerIcon } from 'styles/icons';
 import { useCallback } from 'react';
-import { hasProcessingTimers } from 'components/Timer/timers.utils';
 
 export const MockTimersMin = () => {
-  const { orders, setOrderProcessing } = useOrders();
   const { timers, updateTimerByOrderId } = useTimers();
 
   const handleSetMinTimers = useCallback(() => {
@@ -33,21 +30,11 @@ export const MockTimersMin = () => {
         remaining: newDuration,
         estimatedCompletionTime: new Date(Date.now() + newDuration * 1000).toISOString(),
       });
-
-      // Also update the corresponding order
-      const order = orders.find((o) => o.itemNumber === timer.slotNumber);
-      if (order) {
-        setOrderProcessing({
-          itemNumber: order.itemNumber,
-          duration: newDuration,
-          preserveSelection: true,
-        });
-      }
     });
-  }, [orders, timers, setOrderProcessing, updateTimerByOrderId]);
+  }, [timers, updateTimerByOrderId]);
 
   // Only show when there are processing timers
-  if (!hasProcessingTimers(orders)) return null;
+  if (!timers.some((timer) => timer.status === 'processing')) return null;
 
   return (
     <button className="btn" onClick={handleSetMinTimers}>

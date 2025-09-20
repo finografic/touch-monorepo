@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM, ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { ItemType, OrderFieldKey, OrderStatus } from 'types/orders.types';
+import type { ItemType, OrderFieldKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
@@ -22,7 +21,6 @@ export enum OrdersKeys {
   profile = 'profile',
   ordersReadable = 'ordersReadable',
   filters = 'filters',
-  // orderFilters = 'orderFilters',
 }
 
 export const defaultValue: OrdersValues = {
@@ -30,7 +28,6 @@ export const defaultValue: OrdersValues = {
   profile: null,
   ordersReadable: [],
   filters: {},
-  // orderFilters: {},
 };
 
 export const OrdersContext = createZustandContext(({ initialValue }) => {
@@ -94,33 +91,6 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                 }
 
                 return { ...order, filters: orderedFilters };
-              }
-              return order;
-            });
-            set({ orders: updatedOrders });
-          },
-          setOrderProcessing: ({
-            itemNumber,
-            duration,
-            preserveSelection = false,
-          }: {
-            itemNumber: number;
-            duration: number;
-            preserveSelection?: boolean;
-          }) => {
-            const { orders } = get();
-            const updatedOrders = orders.map((order) => {
-              if (order.itemNumber === itemNumber) {
-                const estimatedCompletionTime = new Date(Date.now() + duration * 1000).toISOString();
-                return {
-                  ...order,
-                  isSelected: preserveSelection ? order.isSelected : false,
-                  process: {
-                    status: duration > 0 ? ('processing' as OrderStatus) : ('completed' as OrderStatus),
-                    estimatedCompletionTime: duration > 0 ? estimatedCompletionTime : undefined,
-                    timeRemaining: duration > 0 ? duration : undefined,
-                  },
-                };
               }
               return order;
             });
@@ -228,56 +198,6 @@ export const useOrders = (): OrdersReturn => {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  // Subscribe to order status changes using useEffect to avoid infinite loops
-  useEffect(() => {
-    const unsubscribe = store.subscribe(
-      (state) =>
-        // Only track minimal necessary data
-        state.orders.map((order) => ({
-          number: order.itemNumber,
-          status: order.process.status,
-        })),
-      (current, prev) => {
-        if (typeof window === 'undefined') return;
-
-        // Find orders that have changed status
-        current.forEach((curr) => {
-          const previous = prev.find((p) => p.number === curr.number);
-
-          if (previous && curr.status !== previous.status) {
-            // Only log status changes
-            // console.debug(`Order ${curr.number}: ${previous.status} -> ${curr.status}`);
-
-            // If changed from processing, handle cleanup
-            if (previous.status === 'processing' && window.__timerIntervals) {
-              const timerId = window.__timerIntervals[curr.number];
-              if (timerId) {
-                clearInterval(timerId);
-                delete window.__timerIntervals[curr.number];
-                console.debug(`Cleaned up timer for order ${curr.number}`);
-              }
-            }
-          }
-        });
-
-        // Handle removed orders
-        prev.forEach((previous) => {
-          if (
-            !current.some((c) => c.number === previous.number) &&
-            previous.status === 'processing' &&
-            window.__timerIntervals?.[previous.number]
-          ) {
-            clearInterval(window.__timerIntervals[previous.number]);
-            delete window.__timerIntervals[previous.number];
-            console.debug(`Cleaned up timer for removed order ${previous.number}`);
-          }
-        });
-      },
-    );
-
-    return unsubscribe;
-  }, [store]);
-
   return useStore<StoreApi<OrdersStore>, OrdersReturn>(
     store,
     useShallow(({ actions, ...state }) => ({
@@ -293,49 +213,6 @@ export const useOrdersOptional = (): OrdersReturn | null => {
   if (!store) {
     return null;
   }
-
-  // Subscribe to order status changes using useEffect to avoid infinite loops
-  useEffect(() => {
-    const unsubscribe = store.subscribe(
-      (state) =>
-        state.orders.map((order) => ({
-          number: order.itemNumber,
-          status: order.process.status,
-        })),
-      (current, prev) => {
-        if (typeof window === 'undefined') return;
-
-        current.forEach((curr) => {
-          const previous = prev.find((p) => p.number === curr.number);
-
-          if (previous && curr.status !== previous.status) {
-            if (previous.status === 'processing' && window.__timerIntervals) {
-              const timerId = window.__timerIntervals[curr.number];
-              if (timerId) {
-                clearInterval(timerId);
-                delete window.__timerIntervals[curr.number];
-                console.debug(`Cleaned up timer for order ${curr.number}`);
-              }
-            }
-          }
-        });
-
-        prev.forEach((previous) => {
-          if (
-            !current.some((c) => c.number === previous.number) &&
-            previous.status === 'processing' &&
-            window.__timerIntervals?.[previous.number]
-          ) {
-            clearInterval(window.__timerIntervals[previous.number]);
-            delete window.__timerIntervals[previous.number];
-            console.debug(`Cleaned up timer for removed order ${previous.number}`);
-          }
-        });
-      },
-    );
-
-    return unsubscribe;
-  }, [store]);
 
   return useStore<StoreApi<OrdersStore>, OrdersReturn>(
     store,

@@ -5,6 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { ThemeToggle } from 'components/ThemeToggle';
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 
 export const Header = () => {
   const { t } = useTranslation();
@@ -12,6 +13,9 @@ export const Header = () => {
   const location = useLocation();
   const { currentSessionId } = useSession();
   const { currentLanguage } = useAppConfig();
+  const { isNextDisabled } = usePagination();
+
+  console.log('🔍 IS NEXT DISABLED:', isNextDisabled);
 
   return (
     <header css={styles}>

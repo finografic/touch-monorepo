@@ -6,6 +6,7 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { usePaginationManagement } from 'hooks/usePaginationManagement';
+import { usePaginationSync } from 'hooks/usePaginationSync';
 import type { PadType, PadUI } from 'types/ui.types';
 import type { FilterFieldKey, NavigationFieldKey, OrderFieldKey } from 'types/orders.types';
 import PadGroup from 'components/Pads/PadGroup/PadGroup';
@@ -25,6 +26,9 @@ export const GenericSelectPage = () => {
 
   // Use pagination management hook
   usePaginationManagement();
+
+  // Sync pagination state with current route
+  usePaginationSync();
 
   const handleFilterSelection = (fieldKey: FilterFieldKey, pad: PadUI) => {
     // Get current session's orders

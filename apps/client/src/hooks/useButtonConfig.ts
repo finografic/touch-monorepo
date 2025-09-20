@@ -135,6 +135,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const getButtonProps = useMemo(() => {
     return (buttonType: PadActionType): PadActionProps => {
       const config = BUTTON_CONFIGS[buttonType];
+
       if (!config) {
         console.warn(`No configuration found for button type: ${buttonType}`);
         return {
@@ -149,6 +150,8 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
       const isDisabled = getActionDisabled(config.actionType);
       const isLoading = getActionLoading(config.actionType);
       const translatedLabel = t(config.labelKey);
+
+      log('>> BUTTON_CONFIG_3:', 'orange', { isDisabled });
 
       // Destructure to exclude labelKey from spreading
       const { labelKey, ...configWithoutLabelKey } = config;

@@ -3,6 +3,7 @@ import { useFiltering } from 'hooks/useFiltering';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 import { FINAL_TEMP_DEFAULT, INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
 import { findClosestProfile } from 'utils/temperature.utils';
 import { useFilters } from 'providers/FiltersProvider/FiltersContext';
@@ -18,11 +19,12 @@ interface UseTemperatureManagementProps {
 
 export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTemperatureManagementProps) => {
   const refIsInitialized = useRef(false);
-  const { setFilter: setFiltering } = useFiltering();
+  // const { setFilter: setFiltering } = useFiltering();
   const { filters, setFilter } = useFilters();
   const { setIsNextDisabled } = usePagination();
   const { fieldKey } = useRouteConfig();
   const { setFilters: setOrdersFilters } = useOrders();
+  const { currentSessionId, sessions, updateSessionFilters } = useSession();
 
   // Get default consumption temperature from filtered data
   const defaultTempConsume = useMemo(() => {
@@ -70,17 +72,38 @@ export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTempe
       const temperatureFilter = getTemperatureFilter({ initial, final });
 
       // Update global filters (essential for navigation)
-      setFiltering(fieldKey, temperatureFilter);
+      // setFiltering(fieldKey, temperatureFilter);
       // NEW: V2
       setFilter(OrderFieldKeys.temperature, temperatureFilter);
 
       // ✅ ALSO update OrdersContext filters so useTemperatureControl can find them
       setOrdersFilters({ [fieldKey]: temperatureFilter });
 
+      // ✅ ADD: Update session filters with final temperature values
+      if (currentSessionId) {
+        const currentSessionFilters = sessions[currentSessionId]?.filters || {};
+        const newSessionFilters = {
+          ...currentSessionFilters,
+          temperature: temperatureFilter,
+        };
+        updateSessionFilters(currentSessionId, newSessionFilters);
+      }
+
       // Enable Next button only if final temp is less than initial by at least MIN_TEMP_DIFFERENCE
       setIsNextDisabled(temperatureFilter.final >= temperatureFilter.initial - MIN_TEMP_DIFFERENCE);
     },
-    [profiles, filters, setFilter, setFiltering, fieldKey, setIsNextDisabled, setOrdersFilters],
+    [
+      profiles,
+      filters,
+      setFilter,
+      // setFiltering,
+      fieldKey,
+      setIsNextDisabled,
+      setOrdersFilters,
+      currentSessionId,
+      sessions,
+      updateSessionFilters,
+    ],
   );
 
   const initializeTemperatures = useCallback(

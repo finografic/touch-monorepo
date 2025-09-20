@@ -22,16 +22,9 @@ export interface OrderBaseProps {
   itemNumber: number;
   isSelected: boolean;
   filters: OrderFilters;
-  process: OrderProcessingProps;
 }
 
 export type OrderStatus = 'idle' | 'processing' | 'completed' | 'error' | 'pending';
-
-export interface OrderProcessingProps {
-  status: OrderStatus;
-  estimatedCompletionTime?: string;
-  timeRemaining?: number;
-}
 
 // The complete order type combining selection fields and base properties
 export interface OrderItem {
@@ -44,11 +37,6 @@ export interface OrderItem {
   session?: {
     id: string;
     flowType: FlowTypeValue;
-  };
-  process: {
-    status: OrderStatus;
-    estimatedCompletionTime?: string;
-    timeRemaining?: number;
   };
 }
 

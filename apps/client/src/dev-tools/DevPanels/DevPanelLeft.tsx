@@ -21,6 +21,7 @@ export const DevPanelLeft = () => {
     return <SessionAndTimers />;
   }
 
+  // return <SessionAndTimers />;
   return <DevFilterResults />;
 
   const devDataLeft = {

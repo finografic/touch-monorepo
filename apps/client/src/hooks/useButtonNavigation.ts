@@ -1,7 +1,7 @@
 import { useCallback, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useRoutePathnamesByFilters } from 'routes/hooks/useRoutePathnamesByFilters';
+import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
 import { useFiltering } from 'hooks/useFiltering';
 import { useFilters } from 'providers/FiltersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
@@ -28,8 +28,9 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
-  const { current, setPageCurrent, isNextDisabled } = usePagination();
-  const { pathnames } = useRoutePathnamesByFilters();
+  const { setPageCurrent, isNextDisabled } = usePagination();
+  const { nextPath, previousPath, isInFlow, isFirstStep, isLastStep } = useRouteNavigation();
+  const currentFlowStep = useCurrentFlowStep();
   const { dataFiltered } = useFiltering();
   const { setFilter } = useFilters();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
@@ -43,19 +44,20 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
         return;
       }
 
-      // Handle main flow navigation using pagination
-      if (current > 0) {
-        const newIndex = current - 1;
-        const nextPathname = pathnames[newIndex];
-        setPageCurrent(newIndex);
-        navigate(nextPathname, { replace: true });
+      // Handle main flow navigation using explicit paths
+      if (previousPath) {
+        setPageCurrent(currentFlowStep - 1);
+        navigate(previousPath, { replace: true });
       }
     });
-  }, [current, navigate, pathnames, setPageCurrent, location.pathname]);
+  }, [navigate, previousPath, setPageCurrent, currentFlowStep, location.pathname]);
 
   const handleNavigateNext = useCallback(async () => {
-    const newIndex = current + 1;
-    const nextPathname = pathnames[newIndex];
+    console.log('🔍 NAVIGATION DEBUG:', {
+      currentFlowStep,
+      nextPath,
+      location: location.pathname,
+    });
 
     // Handle async temperature filter logic outside of startTransition
     if (location.pathname === '/container-type' && dataFiltered.length > 0) {
@@ -102,14 +104,15 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
     }
 
     // Use startTransition for the navigation part only
-    startTransition(() => {
-      setPageCurrent(newIndex);
-      navigate(nextPathname);
-    });
+    if (nextPath) {
+      startTransition(() => {
+        setPageCurrent(currentFlowStep + 1);
+        navigate(nextPath);
+      });
+    }
   }, [
-    current,
-    pathnames,
-    startTransition,
+    currentFlowStep,
+    nextPath,
     location.pathname,
     dataFiltered,
     ordersReadable,
@@ -124,16 +127,12 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   ]);
 
   const handleProgramProduct = useCallback(() => {
-    const newIndex = current + 1;
-    const nextPathname = pathnames[newIndex];
-
+    // Navigate to the first step of the flow (drinkType)
     startTransition(() => {
-      setPageCurrent(newIndex);
-      if (nextPathname) {
-        navigate(nextPathname); // No replace: true
-      }
+      setPageCurrent(0);
+      navigate(PATHS.drinkType);
     });
-  }, [current, navigate, pathnames, setPageCurrent]);
+  }, [navigate, setPageCurrent]);
 
   const getNavigationDisabled = useCallback(
     (actionType: NavigationActionType): boolean => {
@@ -144,14 +143,24 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
             return isPending;
           }
           // For main flow, disable if at main page or first step
-          return location.pathname === PATHS.main || current <= 0 || isPending;
-        case NAVIGATION_ACTIONS.NAVIGATE_NEXT:
-          return isNextDisabled || isPending;
+          return location.pathname === PATHS.main || isFirstStep || isPending;
+        case NAVIGATION_ACTIONS.NAVIGATE_NEXT: {
+          const disabled = isNextDisabled || isPending || !nextPath;
+          console.log('🔍 NEXT BUTTON DISABLED CHECK:', {
+            isNextDisabled,
+            isPending,
+            nextPath,
+            disabled,
+            location: location.pathname,
+          });
+          log('__DEV: getActionDisabled', 'cyan', { isNextDisabled, isPending, nextPath });
+          return disabled;
+        }
         default:
           return false;
       }
     },
-    [location.pathname, current, isNextDisabled, isPending],
+    [location.pathname, isFirstStep, isNextDisabled, isPending, nextPath],
   );
 
   return {

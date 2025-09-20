@@ -3,6 +3,7 @@ import { Col, Row } from 'react-grid-system';
 import { PadSlot } from 'components/Pads/PadSlot';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 import { useOrders } from 'providers/OrdersProvider';
+import { useTimers } from 'providers/TimersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useButtonConfig } from 'hooks/useButtonConfig';
@@ -12,15 +13,23 @@ import { Flex } from '@radix-ui/themes';
 
 export function MainPage() {
   const { orders } = useOrders();
+  const { timers } = useTimers();
   const { contentButtons } = useButtonConfig();
   const { setIsNextDisabled } = usePagination();
   const orderItemsConfig = useOrderItemsConfig();
 
   // Get currently selected orders that are not processing or completed
-  const availableOrders = orders.filter(
-    (order) =>
-      order.isSelected && order.process.status !== 'processing' && order.process.status !== 'completed',
-  );
+  const availableOrders = orders.filter((order) => {
+    if (!order.isSelected) return false;
+
+    // Check if there's a timer for this order
+    const timer = timers.find((t) => t.slotNumber === order.itemNumber);
+    if (timer && (timer.status === 'processing' || timer.status === 'completed')) {
+      return false; // Exclude orders with active timers
+    }
+
+    return true; // Include orders without timers
+  });
   const numSelected = availableOrders.length;
 
   useEffect(() => {
