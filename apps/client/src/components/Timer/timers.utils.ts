@@ -1,6 +1,6 @@
 import { getCachedSettings, playCachedSound, playSoundFromUrl } from 'utils/soundCache.utils';
 
-export const EVENT_INTERVAL = 60; // seconds
+export const EVENT_INTERVAL = 120; // seconds
 
 // Initialize the global timer registry if it doesn't exist
 if (typeof window !== 'undefined') {
@@ -14,7 +14,6 @@ export const formatTime = (seconds: number | undefined): string => {
   return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
-// Play the configured tick sound from API with fallback
 export async function playTickSound() {
   try {
     const settings = await getCachedSettings();
@@ -50,13 +49,7 @@ export async function playFinishSound() {
   }
 }
 
-// Legacy functions for backward compatibility
 export function makeDefaultSound() {
-  /*
-  playTickSound().catch(() => {
-    // Silent fallback
-  });
-  */
   playFinishSound().catch(() => {
     // Silent fallback
   });
@@ -64,12 +57,7 @@ export function makeDefaultSound() {
 
 export function makeUserSound(key: 'tick' | 'finish') {
   if (key === 'tick') {
-    /*
     playTickSound().catch(() => {
-      // Silent fallback
-    });
-    */
-    playFinishSound().catch(() => {
       // Silent fallback
     });
   } else if (key === 'finish') {
@@ -94,7 +82,9 @@ export function tickAction({
   // NOTE: Only play sound every EVENT_INTERVAL (when eventNumber changes)
   if (eventNumber > 0 && remaining % EVENT_INTERVAL === 0) {
     // TODO: REMOVED - no tick sound, for now..
-    // playTickSound().catch(() => { /* Silent fallback */ });
+    playTickSound().catch(() => {
+      /* Silent fallback */
+    });
   }
 }
 
@@ -114,7 +104,7 @@ export function finishAction({
   });
 }
 
-export function getElapsedAndEventNumber(duration: number, remaining: number) {
+export function getElapsedTimeAndEventNumber(duration: number, remaining: number) {
   const elapsed = Math.max(0, duration - remaining);
   const eventNumber = Math.floor(elapsed / EVENT_INTERVAL);
   return { elapsed, eventNumber };

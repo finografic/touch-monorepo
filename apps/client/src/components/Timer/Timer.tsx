@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTimers } from 'providers/TimersProvider';
-import type { TimerItem } from 'providers/TimersProvider';
-import { finishAction, getElapsedAndEventNumber, tickAction } from './timers.utils';
+import { finishAction, getElapsedTimeAndEventNumber, tickAction } from './timers.utils';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 
 interface TimerProps {
@@ -26,10 +25,8 @@ export const Timer = ({ slotNumber, onComplete }: TimerProps) => {
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const lastEventFiredRef = useRef<number>(-1);
 
-  // Find the timer for this slot
   const timer = timers.find((t) => t.slotNumber === slotNumber);
 
-  // Function to handle timer completion
   const handleTimerComplete = () => {
     console.debug('Timer: completing', { slotNumber });
 
@@ -44,7 +41,6 @@ export const Timer = ({ slotNumber, onComplete }: TimerProps) => {
       delete window.__timerIntervals[slotNumber];
     }
 
-    // Finally update the timer status in TimersContext
     if (timer) {
       updateTimer(timer.id, {
         status: 'completed',
@@ -56,13 +52,7 @@ export const Timer = ({ slotNumber, onComplete }: TimerProps) => {
   };
 
   useEffect(() => {
-    // console.debug('Timer: useEffect triggered', {
-    //   slotNumber,
-    //   timerId: timer?.id,
-    //   timerStatus: timer?.status,
-    // });
     if (!timer || timer.status !== 'processing') {
-      // console.debug('Timer: no active timer, skipping', { slotNumber });
       setRemainingTime(0);
       return;
     }
@@ -70,13 +60,6 @@ export const Timer = ({ slotNumber, onComplete }: TimerProps) => {
     const endTime = new Date(timer.estimatedCompletionTime!).getTime();
     const startTime = Date.now();
     const duration = Math.floor((endTime - startTime) / 1000);
-
-    // console.debug('Timer: starting', {
-    //   slotNumber,
-    //   orderId: timer.orderId,
-    //   duration: `${duration}s`,
-    //   endTime: new Date(endTime).toISOString(),
-    // });
 
     // Set initial remaining time
     setRemainingTime(Math.max(0, duration));
@@ -92,16 +75,13 @@ export const Timer = ({ slotNumber, onComplete }: TimerProps) => {
       const now = Date.now();
       const remaining = Math.floor((endTime - now) / 1000);
 
-      // Update remaining time state to trigger re-render
       setRemainingTime(Math.max(0, remaining));
 
-      // Update timer in TimersContext
       if (timer) {
         updateTimer(timer.id, { remaining: Math.max(0, remaining) });
       }
 
-      // Calculate elapsed time and event number using utility
-      const { elapsed, eventNumber } = getElapsedAndEventNumber(timer.duration, remaining);
+      const { elapsed, eventNumber } = getElapsedTimeAndEventNumber(timer.duration, remaining);
       if (eventNumber > lastEventFiredRef.current) {
         lastEventFiredRef.current = eventNumber;
         tickAction({ elapsed, remaining, orderId: timer.orderId, eventNumber });
@@ -128,7 +108,6 @@ export const Timer = ({ slotNumber, onComplete }: TimerProps) => {
     intervalRef.current = intervalId;
 
     return () => {
-      // console.debug('Timer: cleanup', { slotNumber });
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = undefined;
