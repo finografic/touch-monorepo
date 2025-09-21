@@ -313,15 +313,8 @@ async function createPackageJson(options: BuildOptions): Promise<void> {
     'start:client': 'node start-client.js',
   };
 
-  // Add Windows-specific scripts if platform is Windows
-  const scripts =
-    options.platform === 'windows'
-      ? {
-          ...baseScripts,
-          'install:windows.tools': 'npm install -g windows-build-tools && npm install',
-          'preinstall': 'npm run install:windows.tools',
-        }
-      : baseScripts;
+  // Use base scripts only (Windows-specific scripts added later)
+  const scripts = baseScripts;
 
   const packageJson = {
     name: 'touch-monorepo-production',
@@ -346,6 +339,36 @@ async function createPackageJson(options: BuildOptions): Promise<void> {
   await writeFile(join(config.distDir, 'package.json'), JSON.stringify(packageJson, null, 2));
 
   console.log('✅ Production package.json created');
+}
+
+async function addWindowsScriptsToPackageJson(options: BuildOptions): Promise<void> {
+  if (options.platform !== 'windows') {
+    return; // Only add Windows scripts for Windows deployments
+  }
+
+  console.log('🪟 Adding Windows-specific scripts to package.json...');
+
+  try {
+    // Read the existing package.json
+    const packageJsonPath = join(config.distDir, 'package.json');
+    const packageJsonContent = await readFile(packageJsonPath, 'utf-8');
+    const packageJson = JSON.parse(packageJsonContent);
+
+    // Add Windows-specific scripts
+    packageJson.scripts = {
+      ...packageJson.scripts,
+      'install:windows.tools': 'npm install -g windows-build-tools && npm install',
+      'preinstall':
+        "node -e \"if(process.platform==='win32'){require('child_process').exec('npm run install:windows.tools')}else{console.log('Skipping Windows build tools on non-Windows platform')}\"",
+    };
+
+    // Write the updated package.json
+    await writeFile(packageJsonPath, JSON.stringify(packageJson, null, 2));
+    console.log('✅ Windows-specific scripts added to package.json');
+  } catch (error) {
+    console.error('❌ Failed to add Windows scripts:', error);
+    throw error;
+  }
 }
 
 async function createReadme(): Promise<void> {
@@ -1343,6 +1366,9 @@ async function main(): Promise<void> {
     } else {
       await installDependencies();
     }
+
+    // Add Windows-specific scripts after dependencies are installed
+    await addWindowsScriptsToPackageJson(options);
 
     await copyEnvExample();
     await cleanPlatformArtifacts();
