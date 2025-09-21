@@ -7,23 +7,25 @@ import { useTimers } from 'providers/TimersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useButtonConfig } from 'hooks/useButtonConfig';
-import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
+// import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
 import { styles } from './MainPage.styles';
-import { Flex } from '@radix-ui/themes';
+import { Flex, Spinner } from '@radix-ui/themes';
+import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 export function MainPage() {
   const { orders } = useOrders();
   const { timers } = useTimers();
   const { contentButtons } = useButtonConfig();
   const { setIsNextDisabled } = usePagination();
-  const orderItemsConfig = useOrderItemsConfig();
+  // const slotsConfig = useslotsConfig();
+  const { data: slotsConfig, isLoading, error } = useGetSlotConfigurations();
 
   // Get currently selected orders that are not processing or completed
   const availableOrders = orders.filter((order) => {
     if (!order.isSelected) return false;
 
     // Check if there's a timer for this order
-    const timer = timers.find((t) => t.slotNumber === order.itemNumber);
+    const timer = timers.find((t) => t.slotNumber === order.slotNumber);
     if (timer && (timer.status === 'processing' || timer.status === 'completed')) {
       return false; // Exclude orders with active timers
     }
@@ -37,12 +39,18 @@ export function MainPage() {
   }, [numSelected, setIsNextDisabled]);
 
   // Dynamically determine grid dimensions
-  const totalSlots = orderItemsConfig.length;
-  const mainGridSlots = orderItemsConfig.slice(0, totalSlots - 1); // All except the last
-  const lastSlot = orderItemsConfig[totalSlots - 1]; // The last slot
+  const totalSlots = slotsConfig.length;
+  const mainGridSlots = slotsConfig.slice(0, totalSlots - 1); // All except the last
+  const lastSlot = slotsConfig[totalSlots - 1]; // The last slot
+
+  // log('MAIN_PAGE_SLOTS:', 'cyan', mainGridSlots);
 
   const rows = 3; // Always 3 rows
   const columns = Math.floor((totalSlots - 1) / rows); // Dynamic columns
+
+  if (isLoading) {
+    return <Spinner size="3" />;
+  }
 
   return (
     <Flex css={styles} gap="3" direction="column">
@@ -69,9 +77,9 @@ export function MainPage() {
               {Array.from({ length: rows }).map((_, rowIdx) =>
                 Array.from({ length: columns }).map((_, colIdx) => {
                   const slotNumber = rowIdx + colIdx * rows + 1;
-                  const slot = mainGridSlots.find((s) => s.number === slotNumber);
+                  const slot = mainGridSlots.find((s) => s.slotNumber === slotNumber);
                   return slot ? (
-                    <PadSlot key={slot.number} slotType={slot.slotType} slotNumber={slot.number} />
+                    <PadSlot key={slot.slotNumber} slotType={slot.slotType} slotNumber={slot.slotNumber} />
                   ) : null;
                 }),
               )}
@@ -96,9 +104,9 @@ export function MainPage() {
             {/* Last slot positioned separately */}
             {lastSlot && (
               <PadSlot
-                key={lastSlot.number}
+                key={lastSlot.slotNumber}
                 slotType={lastSlot.slotType}
-                slotNumber={lastSlot.number}
+                slotNumber={lastSlot.slotNumber}
                 variant="large"
               />
             )}

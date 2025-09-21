@@ -115,7 +115,7 @@ CREATE TABLE `orders` (
 CREATE TABLE `slot_configurations` (
 	`id` text PRIMARY KEY NOT NULL,
 	`slot_number` integer NOT NULL,
-	`item_type` text NOT NULL,
+	`slot_type` text NOT NULL,
 	`created_at` text DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` text DEFAULT CURRENT_TIMESTAMP
 );

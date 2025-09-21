@@ -6,7 +6,7 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
     id: 'cmed7ceb8002xrllwxh87gxqo',
     ids: [],
     slotType: SlotType.A,
-    itemNumber: 1,
+    slotNumber: 1,
     isSelected: true,
     filters: {
       mode: {
@@ -35,7 +35,7 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
     id: 'cmed7ceb8002xrllwxh87gxqo',
     ids: [],
     slotType: SlotType.B,
-    itemNumber: 7,
+    slotNumber: 7,
     isSelected: true,
     filters: {
       mode: {
@@ -64,7 +64,7 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
     id: 'cmed7ceb8002xrllwxh87gxqo',
     ids: [],
     slotType: SlotType.C,
-    itemNumber: 10,
+    slotNumber: 10,
     isSelected: true,
     filters: {
       mode: {

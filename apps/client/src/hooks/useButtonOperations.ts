@@ -8,13 +8,13 @@ import { useProcessTimesFromTemperatureFilter } from 'hooks/useProcessTimesFromT
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
-import { useFiltering } from 'hooks/useFiltering';
 import { useFilters } from 'providers/FiltersProvider';
 import { api } from 'api';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
 import { FLOW_TYPES } from 'types/flow.types';
 import createCuid from '@bugsnag/cuid';
+import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 type OperationActionType =
   | 'clear-completed'
@@ -62,20 +62,17 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   // Determine which slots to process (same logic used in onSuccess)
   const slotsToProcess =
     mainPageSelectedSlots.length > 0
-      ? mainPageSelectedSlots
-      : orders.filter((order) => order.isSelected).map((order) => order.itemNumber);
+      ? mainPageSelectedSlots.map((slot) => slot.slotNumber)
+      : orders.filter((order) => order.isSelected).map((order) => order.slotNumber);
 
   const { startTemperatureControl, isLoading: isTemperatureLoading } = useProcessTimesFromTemperatureFilter({
-    selectedOrders: slotsToProcess,
+    selectedSlots: mainPageSelectedSlots,
     onSuccess: (calculatedDurations) => {
       startTransition(function updateProcessForSelectedOrders() {
-        // First, set orders to processing state and create timers
         slotsToProcess.forEach((slotNumber) => {
-          const order = orders.find((o) => o.itemNumber === slotNumber);
+          const order = orders.find((o) => o.slotNumber === slotNumber);
           if (order) {
-            const duration = calculatedDurations[order.itemNumber.toString()];
-
-            // Check if there's already a timer for this slot
+            const duration = calculatedDurations[order.slotNumber.toString()];
             const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
             const orderId = existingTimer?.orderId || createCuid();
 
@@ -92,10 +89,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           }
         });
 
-        // Clear selection when timers start
         clearMainPageSelection();
 
-        // Navigate back to main page
         setPageCurrent(0);
         navigate(PATHS.main, { replace: true });
       });
@@ -123,13 +118,13 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       // Save new configuration to reset timer
       // Use selected slots from LayoutUiContext instead of order.isSelected
       const selectedOrders = mainPageSelectedSlots
-        .map((slotNumber) => orders.find((order) => order.itemNumber === slotNumber))
+        .map((slot) => orders.find((order) => order.slotNumber === slot.slotNumber))
         .filter(Boolean);
       saveConfig({
         filters: {},
         temperatures: { default: 25 },
         durations: { default: 300 },
-        selectedOrders: selectedOrders.map((order) => order!.itemNumber),
+        selectedOrders: selectedOrders.map((order) => order!.slotNumber),
       });
     });
   }, [clearCompletedTimers, orders, saveConfig, mainPageSelectedSlots]);
@@ -137,36 +132,34 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const handleCancelCompleted = useCallback(() => {
     startTransition(() => {
       // Clear only timers that are SELECTED/checked
-      const selectedSlotsWithTimers = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t) => t.slotNumber === slotNumber);
+      const selectedSlotsWithTimers = mainPageSelectedSlots.filter((slot) => {
+        const timer = timers.find((t) => t.slotNumber === slot.slotNumber);
         return timer && (timer.status === 'processing' || timer.status === 'completed');
       });
 
       // Remove timers for selected slots
-      selectedSlotsWithTimers.forEach((slotNumber) => {
-        const timer = timers.find((t) => t.slotNumber === slotNumber);
+      selectedSlotsWithTimers.forEach((slot) => {
+        const timer = timers.find((t) => t.slotNumber === slot.slotNumber);
         if (timer) {
           removeTimer(timer.id);
         }
       });
 
       // Clear selection for slots that had timers
-      selectedSlotsWithTimers.forEach((slotNumber) => {
-        if (mainPageSelectedSlots.includes(slotNumber)) {
-          toggleMainPageSlot(slotNumber);
-        }
+      selectedSlotsWithTimers.forEach((slot) => {
+        toggleMainPageSlot(slot);
       });
 
       // Save new configuration to reset timer
       // Use selected slots from LayoutUiContext instead of order.isSelected
       const selectedOrders = mainPageSelectedSlots
-        .map((slotNumber) => orders.find((order) => order.itemNumber === slotNumber))
+        .map((slot) => orders.find((order) => order.slotNumber === slot.slotNumber))
         .filter(Boolean);
       saveConfig({
         filters: {},
         temperatures: { default: 25 },
         durations: { default: 300 },
-        selectedOrders: selectedOrders.map((order) => order!.itemNumber),
+        selectedOrders: selectedOrders.map((order) => order!.slotNumber),
       });
     });
   }, [mainPageSelectedSlots, timers, removeTimer, toggleMainPageSlot, orders, saveConfig]);
@@ -192,14 +185,14 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     (duration: number) => {
       startTransition(() => {
         // Add timers to TimerContext for each selected slot
-        mainPageSelectedSlots.forEach((slotNumber) => {
+        mainPageSelectedSlots.forEach((slot) => {
           // Check if there's already a timer for this slot
-          const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
+          const existingTimer = timers.find((t) => t.slotNumber === slot.slotNumber);
           const orderId = existingTimer?.orderId || createCuid();
 
           addTimer({
             sessionId: currentSessionId!,
-            slotNumber,
+            slotNumber: slot.slotNumber,
             orderId,
             flowType: FLOW_TYPES.PROGRAM_TIME,
             duration,
@@ -223,8 +216,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const handleProgramTime = useCallback(() => {
     startTransition(() => {
       // Get selected slots that are idle (not running timers)
-      const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t: any) => t.slotNumber === slotNumber);
+      const selectedIdleSlots = mainPageSelectedSlots.filter((slot) => {
+        const timer = timers.find((t: any) => t.slotNumber === slot.slotNumber);
         return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
       });
 
@@ -234,12 +227,12 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       }
 
       // Create orders for selected slots first
-      selectedIdleSlots.forEach((slotNumber) => {
-        const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
+      selectedIdleSlots.forEach((slot) => {
+        const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
         if (orderConfig) {
           toggleOrder({
             slotType: orderConfig.slotType,
-            itemNumber: slotNumber,
+            slotNumber: slot.slotNumber,
           });
         }
       });
@@ -247,9 +240,12 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
 
-      assignOrdersToSession(sessionId, selectedIdleSlots);
+      assignOrdersToSession(
+        sessionId,
+        selectedIdleSlots.map((slot) => slot.slotNumber),
+      );
       setOrdersSession({
-        slotNumbers: selectedIdleSlots,
+        slotNumbers: selectedIdleSlots.map((slot) => slot.slotNumber),
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_TIME },
       });
 
@@ -271,8 +267,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   const handleProgramProduct = useCallback(async () => {
     // Get selected slots that are idle (not running timers)
-    const selectedIdleSlots = mainPageSelectedSlots.filter((slotNumber) => {
-      const timer = timers.find((t: any) => t.slotNumber === slotNumber);
+    const selectedIdleSlots = mainPageSelectedSlots.filter((slot) => {
+      const timer = timers.find((t: any) => t.slotNumber === slot.slotNumber);
       return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
     });
 
@@ -283,15 +279,15 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
     startTransition(() => {
       // Create orders for selected slots first and ensure they are selected
-      selectedIdleSlots.forEach((slotNumber) => {
-        const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
+      selectedIdleSlots.forEach((slot) => {
+        const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
         if (orderConfig) {
           // Check if order already exists and is selected
-          const existingOrder = orders.find((order) => order.itemNumber === slotNumber);
+          const existingOrder = orders.find((order) => order.slotNumber === slot.slotNumber);
           if (!existingOrder || !existingOrder.isSelected) {
             toggleOrder({
               slotType: orderConfig.slotType,
-              itemNumber: slotNumber,
+              slotNumber: slot.slotNumber,
             });
           }
         }
@@ -300,9 +296,12 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
 
-      assignOrdersToSession(sessionId, selectedIdleSlots);
+      assignOrdersToSession(
+        sessionId,
+        selectedIdleSlots.map((slot) => slot.slotNumber),
+      );
       setOrdersSession({
-        slotNumbers: selectedIdleSlots,
+        slotNumbers: selectedIdleSlots.map((slot) => slot.slotNumber),
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
       });
     });
@@ -383,9 +382,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     startTransition(() => {
       // Apply configuration to all selected orders
       // Use selected slots from LayoutUiContext and map by slotType from orderItemsConfig
-      mainPageSelectedSlots.forEach((slotNumber) => {
+      mainPageSelectedSlots.forEach((slot) => {
         // Get slotType from orderItemsConfig instead of orders array
-        const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
+        const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
 
         if (orderConfig) {
           // Get duration for this specific item type from saved config
@@ -397,7 +396,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           // Create timer using the same logic as handleStartTimeProcess
           addTimer({
             sessionId: currentSessionId || 'repeat-session',
-            slotNumber,
+            slotNumber: slot.slotNumber,
             orderId: createCuid(),
             flowType: FLOW_TYPES.PROGRAM_PRODUCT,
             duration,
@@ -427,7 +426,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         sessionOrders.forEach((order) => {
           toggleOrder({
             slotType: order.slotType,
-            itemNumber: order.itemNumber,
+            slotNumber: order.slotNumber,
           });
         });
 
@@ -465,7 +464,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         sessionOrders.forEach((order) => {
           toggleOrder({
             slotType: order.slotType,
-            itemNumber: order.itemNumber,
+            slotNumber: order.slotNumber,
           });
         });
 
@@ -485,8 +484,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       // Use mainPageSelectedSlots from top level (already available)
 
       // Count available slots (not running timers) for operations that need idle slots
-      const numAvailableSelected = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t: any) => t.slotNumber === slotNumber);
+      const numAvailableSelected = mainPageSelectedSlots.filter((slot) => {
+        const timer = timers.find((t: any) => t.slotNumber === slot.slotNumber);
         return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
       }).length;
 
@@ -494,8 +493,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       const numAnySelected = mainPageSelectedSlots.length;
 
       // Count selected processing timers for cancel button
-      const numSelectedProcessing = mainPageSelectedSlots.filter((slotNumber) => {
-        const timer = timers.find((t: any) => t.slotNumber === slotNumber);
+      const numSelectedProcessing = mainPageSelectedSlots.filter((slot) => {
+        const timer = timers.find((t: any) => t.slotNumber === slot.slotNumber);
         return timer && timer.status === 'processing';
       }).length;
 

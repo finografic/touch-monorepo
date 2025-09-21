@@ -95,7 +95,7 @@
     "date-fns": "4.1.0",
     "date-fns-tz": "3.2.0",
     "dayjs": "1.11.13",
-    "drizzle-orm": "^0.44.4",
+    "drizzle-orm": "^0.44.5",
     "drizzle-zod": "^0.5.1",
     "google-translate-api-x": "10.7.2",
     "hono": "4.9.2",

@@ -34,7 +34,7 @@ export const MockOrdersButton = () => {
     }));
 
     // Assign orders to session before navigation
-    const slotNumbers = updatedMockData.map((order) => order.itemNumber);
+    const slotNumbers = updatedMockData.map((order) => order.slotNumber);
     assignOrdersToSession(sessionId, slotNumbers);
 
     // Set orders and navigate

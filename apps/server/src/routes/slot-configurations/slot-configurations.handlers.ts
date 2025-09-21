@@ -88,16 +88,16 @@ export const bulkUpdate: AppRouteHandler<BulkUpdateRoute> = async (context) => {
 
 export const reset: AppRouteHandler<ResetRoute> = async (context) => {
   const defaultConfig = [
-    { slotNumber: 0, itemType: 'A' as const },
-    { slotNumber: 1, itemType: 'B' as const },
-    { slotNumber: 2, itemType: 'B' as const },
-    { slotNumber: 3, itemType: 'B' as const },
-    { slotNumber: 4, itemType: 'B' as const },
-    { slotNumber: 5, itemType: 'B' as const },
-    { slotNumber: 6, itemType: 'B' as const },
-    { slotNumber: 7, itemType: 'B' as const },
-    { slotNumber: 8, itemType: 'B' as const },
-    { slotNumber: 9, itemType: 'C' as const },
+    { slotNumber: 0, slotType: 'A' as const },
+    { slotNumber: 1, slotType: 'B' as const },
+    { slotNumber: 2, slotType: 'B' as const },
+    { slotNumber: 3, slotType: 'B' as const },
+    { slotNumber: 4, slotType: 'B' as const },
+    { slotNumber: 5, slotType: 'B' as const },
+    { slotNumber: 6, slotType: 'B' as const },
+    { slotNumber: 7, slotType: 'B' as const },
+    { slotNumber: 8, slotType: 'B' as const },
+    { slotNumber: 9, slotType: 'C' as const },
   ];
   await db.delete(slot_configurations);
   await db.insert(slot_configurations).values(defaultConfig.map((c) => ({ ...c, id: createCuid() })));

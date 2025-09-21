@@ -27,7 +27,7 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
             const { timers } = get();
 
             // Check if there's already a timer for this slot
-            const existingTimerIndex = timers.findIndex((t) => t.slotNumber === timerData.slotNumber);
+            const existingTimer = timers.find((t) => t.slotNumber === timerData.slotNumber);
 
             const newTimer: TimerItem = {
               ...timerData,
@@ -38,10 +38,11 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
               createdAt: new Date().toISOString(),
             };
 
-            if (existingTimerIndex >= 0) {
+            if (existingTimer) {
               // Replace existing timer
-              const updatedTimers = [...timers];
-              updatedTimers[existingTimerIndex] = newTimer;
+              const updatedTimers = timers.map((timer) =>
+                timer.slotNumber === timerData.slotNumber ? newTimer : timer,
+              );
 
               set({ timers: updatedTimers });
             } else {

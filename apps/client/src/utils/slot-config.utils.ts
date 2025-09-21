@@ -3,7 +3,7 @@ import type { SlotConfiguration } from 'types/slot-config.types';
 
 export interface OrderItemConfig {
   slotType: SlotType;
-  number: number;
+  slotNumber: number;
 }
 
 // Utility to generate column-major order slot configs, starting at 1
@@ -24,12 +24,12 @@ export function generateColumnMajorConfig({
       // Always use B for all except first (A) and last (special)
       let type: SlotType = SlotType.B;
       if (n === 1) type = SlotType.A;
-      config.push({ slotType: type, number: n });
+      config.push({ slotType: type, slotNumber: n });
       n++;
     }
   }
   // Add the special/large slot as the last one (number = total + 1)
-  config.push({ slotType: lastType, number: total + 1 });
+  config.push({ slotType: lastType, slotNumber: total + 1 });
   return config;
 }
 
@@ -49,7 +49,7 @@ export const convertSlotConfigsToOrderConfig = (slotConfigs: SlotConfiguration[]
     .sort((a, b) => a.slotNumber - b.slotNumber)
     .map((config) => ({
       slotType: config.slotType,
-      number: config.slotNumber,
+      slotNumber: config.slotNumber,
     }));
 };
 

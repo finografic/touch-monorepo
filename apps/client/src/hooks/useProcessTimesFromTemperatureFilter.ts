@@ -4,11 +4,12 @@ import { useConfigStorage } from './useConfigStorage';
 import { useOrders } from 'providers/OrdersProvider';
 import { SlotType } from 'types/orders.types';
 import { useFilters } from 'providers/FiltersProvider';
+import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 interface UseTemperatureControlOptions {
   onSuccess?: (durations: Record<string, number>) => void;
   onError?: (error: Error) => void;
-  selectedOrders?: number[]; // Add selected orders parameter
+  selectedSlots?: SlotMeta[]; // Add selected orders parameter
 }
 
 export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureControlOptions = {}) => {
@@ -86,7 +87,7 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
       };
 
       const calculatedDurations = orders.reduce<Record<string, number>>((acc, order) => {
-        acc[order.itemNumber.toString()] = operatingTimes[order.slotType] || 0;
+        acc[order.slotNumber.toString()] = operatingTimes[order.slotType] || 0;
         return acc;
       }, {});
 

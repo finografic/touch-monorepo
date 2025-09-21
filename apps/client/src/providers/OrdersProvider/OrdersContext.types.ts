@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
-import type { SlotType, OrderItem } from 'types/orders.types';
+import type { OrderItem, SlotType } from 'types/orders.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
@@ -25,8 +25,8 @@ export type OrdersActions = OrdersSetters & {
   fetchOrderWithProfiles: (orderId: string) => Promise<OrderReadableModel>;
   setFilters: (filters: OrderFilters) => void;
   // setOrderFilters: (filters: OrderFilters) => void;
-  setOrdersFilter: ({ itemNumber, filter }: { itemNumber: number; filter: Partial<OrderFilters> }) => void;
-  toggleOrder: ({ slotType, itemNumber }: { slotType: SlotType; itemNumber: number }) => void;
+  setOrdersFilter: ({ slotNumber, filter }: { slotNumber: number; filter: Partial<OrderFilters> }) => void;
+  toggleOrder: ({ slotType, slotNumber }: { slotType: SlotType; slotNumber: number }) => void;
   selectAllOrders: (config?: OrderItemConfig[]) => void;
   updateOrderIds: ({ ids }: { ids: string[] }) => void;
   setOrdersSession: ({

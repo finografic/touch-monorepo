@@ -16,6 +16,8 @@ interface PadGroupProps {
   [key: string]: any;
 }
 
+// IMPORTANT:  THESE PADS ARE FOR FLOW PAGES *ONLY* / NOT MAIN_PAGE !!
+
 const PadGroup: React.FC<PadGroupProps> = ({
   type,
   pads,

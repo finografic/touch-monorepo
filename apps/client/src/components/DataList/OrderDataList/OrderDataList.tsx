@@ -56,10 +56,10 @@ export const OrderDataList = ({ data }: { data: any }) => {
           </DataList.Item>
         )}
 
-        {data.itemNumber !== undefined && (
+        {data.slotNumber !== undefined && (
           <DataList.Item>
             <DataList.Label className="label">Item Number</DataList.Label>
-            <DataList.Value className="value">{data.itemNumber}</DataList.Value>
+            <DataList.Value className="value">{data.slotNumber}</DataList.Value>
           </DataList.Item>
         )}
 

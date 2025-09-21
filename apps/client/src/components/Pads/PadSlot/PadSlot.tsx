@@ -1,3 +1,4 @@
+/* eslint-disable fino/consistent-chaining */
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { useTimers } from 'providers/TimersProvider';
@@ -16,16 +17,23 @@ export interface PadMenuProps {
   variant?: 'large' | 'default';
 }
 
-export const PadSlot = ({ slotType, slotNumber, className, variant = 'default' }: PadMenuProps) => {
+export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, className, variant = 'default' }) => {
   const { timers } = useTimers();
   const { mainPageSelectedSlots, toggleMainPageSlot } = useLayoutUi();
 
-  const isChecked = mainPageSelectedSlots.includes(slotNumber);
+  const isChecked = mainPageSelectedSlots.some((selectedSlot) => selectedSlot.slotNumber === slotNumber);
 
   const timer = timers.find((t) => t.slotNumber === slotNumber);
   const hasTimer = timer && (timer.status === 'processing' || timer.status === 'completed');
+  const status = timer?.status || 'idle';
 
-  // Always include both 'pad' and 'pad-slot' in the className
+  // log('__CHECKBOX:', 'grey', {
+  //   slotType,
+  //   slotNumber,
+  //   status,
+  //   isChecked,
+  // });
+
   const mergedClassName = useMemo(
     () =>
       clsx('pad', 'pad-slot', `item-type-${slotType}`, className, {
@@ -39,18 +47,23 @@ export const PadSlot = ({ slotType, slotNumber, className, variant = 'default' }
   );
 
   const handleSelect = React.useCallback(() => {
-    toggleMainPageSlot(slotNumber);
+    toggleMainPageSlot({ slotType, slotNumber, isChecked, status });
   }, [slotNumber, toggleMainPageSlot]);
 
   const handleTimerComplete = React.useCallback(() => {
-    // Timer completion is now handled by Timer component
     console.log('PadMenu: Timer completed for order', slotNumber);
   }, [slotNumber]);
 
-  // Show timer if there's a timer for this order (regardless of selection)
   if (hasTimer) {
     return (
-      <PadSlotToggle css={styles} slotType={slotType} slotNumber={slotNumber} className={mergedClassName}>
+      <PadSlotToggle
+        css={styles}
+        slotType={slotType}
+        slotNumber={slotNumber}
+        status={status}
+        isChecked={isChecked}
+        className={mergedClassName}
+      >
         <Timer key={`timer-${slotNumber}`} slotNumber={slotNumber} onComplete={handleTimerComplete} />
       </PadSlotToggle>
     );

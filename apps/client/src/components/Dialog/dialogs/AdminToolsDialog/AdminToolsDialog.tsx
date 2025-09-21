@@ -24,9 +24,9 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
   const { loadConfig } = useConfigStorage();
 
   // Safe storage access helper
-  function safeLoadCalculationFromStorage(itemNumber: string): Calculation | null {
+  function safeLoadCalculationFromStorage(slotNumber: string): Calculation | null {
     try {
-      return loadCalculationFromStorage(itemNumber) ?? null;
+      return loadCalculationFromStorage(slotNumber) ?? null;
     } catch (err) {
       console.warn('[AdminToolsDialog] Failed to load calculation from storage:', err);
       return null;
@@ -44,8 +44,8 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
 
   useEffect(
     function handleOrdersChangeAndCalculateData() {
-      if (orders?.[0]?.itemNumber) {
-        const loadedCalculation = safeLoadCalculationFromStorage(String(orders[0].itemNumber));
+      if (orders?.[0]?.slotNumber) {
+        const loadedCalculation = safeLoadCalculationFromStorage(String(orders[0].slotNumber));
         setCalculation(loadedCalculation);
       } else {
         setCalculation(null);

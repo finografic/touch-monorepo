@@ -8,12 +8,7 @@ import type { RegionLocale } from '@workspace/core/types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { CreateSettersType } from 'utils/zustand';
-
-interface SlotMeta {
-  slotType: SlotType;
-  slotNumber: number;
-  isChecked: boolean;
-}
+import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numItems]: ValidGridSize;
@@ -21,7 +16,7 @@ export interface LayoutUiValues {
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadUI[];
   [LayoutUiKeys.padsFiltered]: PadUI[];
-  [LayoutUiKeys.mainPageSelectedSlots]: number[];
+  [LayoutUiKeys.mainPageSelectedSlots]: SlotMeta[];
   [LayoutUiKeys.mainPageIsSelectMode]: boolean;
 }
 
@@ -40,7 +35,7 @@ type LayoutUiActions = LayoutUiSetters & {
     currentLanguage?: RegionLocale,
   ) => void;
   // MainPage selection actions
-  toggleMainPageSlot: (slotNumber: number) => void;
+  toggleMainPageSlot: (slot: SlotMeta) => void;
   selectAllMainPageSlots: () => void;
   clearMainPageSelection: () => void;
 };

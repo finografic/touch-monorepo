@@ -14,6 +14,7 @@ export const useOrderItemsConfig = (): OrderItemConfig[] => {
   const orderItemsConfig = useMemo(() => {
     // If loading or error, use fallback config
     if (isLoading || error || !slotConfigs || slotConfigs.length === 0) {
+      log('>> CONFIG_1:', 'red');
       console.warn('Using fallback order items config:', {
         isLoading,
         error,
@@ -21,16 +22,16 @@ export const useOrderItemsConfig = (): OrderItemConfig[] => {
       });
       // Return fallback config: slots 1-9, special slot 10
       return [
-        { slotType: SlotType.A, number: 1 },
-        { slotType: SlotType.B, number: 2 },
-        { slotType: SlotType.B, number: 3 },
-        { slotType: SlotType.B, number: 4 },
-        { slotType: SlotType.B, number: 5 },
-        { slotType: SlotType.B, number: 6 },
-        { slotType: SlotType.B, number: 7 },
-        { slotType: SlotType.B, number: 8 },
-        { slotType: SlotType.B, number: 9 },
-        { slotType: SlotType.C, number: 10 },
+        { slotType: SlotType.A, slotNumber: 1 },
+        { slotType: SlotType.B, slotNumber: 2 },
+        { slotType: SlotType.B, slotNumber: 3 },
+        { slotType: SlotType.B, slotNumber: 4 },
+        { slotType: SlotType.B, slotNumber: 5 },
+        { slotType: SlotType.B, slotNumber: 6 },
+        { slotType: SlotType.B, slotNumber: 7 },
+        { slotType: SlotType.B, slotNumber: 8 },
+        { slotType: SlotType.B, slotNumber: 9 },
+        { slotType: SlotType.C, slotNumber: 10 },
       ];
     }
 
@@ -38,23 +39,29 @@ export const useOrderItemsConfig = (): OrderItemConfig[] => {
     try {
       const config = convertSlotConfigsToOrderConfig(slotConfigs);
       // console.log('Loaded order items config from API:', config);
+
+      log('>> CONFIG_2:', 'red');
+
       return config;
     } catch (error) {
       console.error('Error converting slot configs to order config:', error);
+      log('>> CONFIG_3:', 'red');
       return [
-        { slotType: SlotType.A, number: 1 },
-        { slotType: SlotType.B, number: 2 },
-        { slotType: SlotType.B, number: 3 },
-        { slotType: SlotType.B, number: 4 },
-        { slotType: SlotType.B, number: 5 },
-        { slotType: SlotType.B, number: 6 },
-        { slotType: SlotType.B, number: 7 },
-        { slotType: SlotType.B, number: 8 },
-        { slotType: SlotType.B, number: 9 },
-        { slotType: SlotType.C, number: 10 },
+        { slotType: SlotType.A, slotNumber: 1 },
+        { slotType: SlotType.B, slotNumber: 2 },
+        { slotType: SlotType.B, slotNumber: 3 },
+        { slotType: SlotType.B, slotNumber: 4 },
+        { slotType: SlotType.B, slotNumber: 5 },
+        { slotType: SlotType.B, slotNumber: 6 },
+        { slotType: SlotType.B, slotNumber: 7 },
+        { slotType: SlotType.B, slotNumber: 8 },
+        { slotType: SlotType.B, slotNumber: 9 },
+        { slotType: SlotType.C, slotNumber: 10 },
       ];
     }
   }, [slotConfigs, isLoading, error]);
+
+  // log('>> CONFIG_4:', 'red', slotConfigs);
 
   return orderItemsConfig;
 };

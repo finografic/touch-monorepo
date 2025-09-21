@@ -10,7 +10,7 @@ export const INITIAL_ORDER_ITEM: OrderItem = {
   id: '', // Default empty, will be set when creating new orders
   ids: [], // Default empty, will be set when creating new orders
   slotType: SlotType.A,
-  itemNumber: 0,
+  slotNumber: 0,
   isSelected: false,
   filters: {},
   session: undefined,

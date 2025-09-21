@@ -3,18 +3,43 @@ import type { PadMenuBaseProps } from './PadSlot.types';
 import clsx from 'clsx';
 import type { ReactNode } from 'react';
 import type { SlotType } from 'types/orders.types';
+import type { SlotStatus } from 'pages/MainPage/MainPage.types';
 
 export interface PadSlotToggleProps extends PadMenuBaseProps {
   slotType: SlotType;
+  status: SlotStatus;
+  isChecked: boolean;
   children: ReactNode;
 }
 
-export const PadSlotToggle = ({ slotType, slotNumber, className, children }: PadSlotToggleProps) => {
-  const { mainPageSelectedSlots, toggleMainPageSlot } = useLayoutUi();
-  const isChecked = mainPageSelectedSlots.includes(slotNumber);
+export const PadSlotToggle = ({
+  slotType,
+  slotNumber,
+  status,
+  isChecked,
+  className,
+  children,
+}: PadSlotToggleProps) => {
+  const {
+    // mainPageSelectedSlots,
+    toggleMainPageSlot,
+  } = useLayoutUi();
+  // const isChecked = mainPageSelectedSlots.includes({
+  //   slotType,
+  //   slotNumber,
+  //   isChecked,
+  //   status: timer?.status || 'idle',
+  // });
+
+  log('__CHECKBOX:', 'hotpink', {
+    slotType,
+    slotNumber,
+    status,
+    isChecked,
+  });
 
   const handleClick = () => {
-    toggleMainPageSlot(slotNumber);
+    toggleMainPageSlot({ slotType, slotNumber, isChecked, status });
   };
 
   return (

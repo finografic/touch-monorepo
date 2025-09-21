@@ -55,7 +55,7 @@ export const isValidPadData = (pad: unknown): pad is TransformedPad => {
 };
 
 interface FlattenedOrder {
-  id: number; // from itemNumber
+  id: number; // from slotNumber
   isSelected: boolean;
   status: OrderStatus;
   timeRemaining?: number;
@@ -89,7 +89,7 @@ export const flattenOrders = (orders: OrderItem[]): FlattenedOrder[] => {
 
   return orders.map((order) => ({
     // Base properties
-    id: order.itemNumber,
+    id: order.slotNumber,
     isSelected: order.isSelected,
     status: order.process?.status || 'idle',
     timeRemaining: order.process?.timeRemaining,
@@ -111,7 +111,7 @@ export const isFlattenedOrder = (obj: unknown): obj is FlattenedOrder => {
 
 export const transformOrderData = (order: OrderItem) => ({
   slotType: order.slotType,
-  itemNumber: order.itemNumber,
+  slotNumber: order.slotNumber,
   isSelected: order.isSelected,
   status: order.process?.status || 'idle',
   filters: order.filters,

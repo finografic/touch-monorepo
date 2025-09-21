@@ -6,11 +6,12 @@ import type { PadConfig, PadType, PadUI } from 'types/ui.types';
 import { NUM_GRID_ITEMS } from 'constants/app.config';
 import { parsePadConfig } from 'utils/ui-V2.utils';
 import type { DataEntry, Dataset } from 'types/data.types';
-import type { OrderFieldKey } from 'types/orders.types';
+import type { OrderFieldKey, SlotType } from 'types/orders.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { subscribeWithSelector } from 'zustand/middleware';
 import type { RegionLocale } from '@workspace/core/types';
+import type { SlotMeta, SlotStatus } from 'pages/MainPage/MainPage.types';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
@@ -135,25 +136,42 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             }
           },
           // MainPage selection actions
-          toggleMainPageSlot: (slotNumber: number) => {
+          toggleMainPageSlot: (slot: SlotMeta) => {
+            log('TOGGLE_1:', 'yellow', slot);
             set((state) => {
-              const currentSelected = state.mainPageSelectedSlots;
-              const isSelected = currentSelected.includes(slotNumber);
+              const selectedSlots = state.mainPageSelectedSlots;
 
-              if (isSelected) {
+              log('TOGGLE_2:', 'grey', selectedSlots);
+
+              // Check if slot is already selected by looking at the actual state
+              const isCurrentlySelected = selectedSlots.some(
+                (selectedSlot) => selectedSlot.slotNumber === slot.slotNumber,
+              );
+
+              if (!isCurrentlySelected) {
+                log('TOGGLE_3:', 'lime', selectedSlots);
                 return {
-                  mainPageSelectedSlots: currentSelected.filter((num) => num !== slotNumber),
+                  mainPageSelectedSlots: [...selectedSlots, { ...slot, isChecked: true }],
                 };
               } else {
                 return {
-                  mainPageSelectedSlots: [...currentSelected, slotNumber],
+                  mainPageSelectedSlots: selectedSlots.filter(
+                    ({ slotNumber }) => slotNumber !== slot.slotNumber,
+                  ),
                 };
               }
             });
           },
           selectAllMainPageSlots: () => {
             const { numItems } = get();
-            set({ mainPageSelectedSlots: Array.from({ length: numItems }, (_, i) => i + 1) });
+            set({
+              mainPageSelectedSlots: Array.from({ length: numItems }, (_, i) => ({
+                slotType: 'A' as SlotType, // Default slot type, will be updated by actual config
+                slotNumber: i + 1,
+                isChecked: true,
+                status: 'idle' as SlotStatus, // Default status
+              })),
+            });
           },
           clearMainPageSelection: () => {
             set({ mainPageSelectedSlots: [] });

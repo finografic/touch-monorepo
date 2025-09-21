@@ -74,7 +74,7 @@ export const GenericSelectPage = () => {
           const lookup = { [padsConfig.filterKey as keyof DataEntry]: pad.value.name };
           const { temperatureProfileId, ...filterValue } = pad.value;
           setOrdersFilter({
-            itemNumber: order.itemNumber,
+            slotNumber: order.slotNumber,
             filter: { ...currentFilters, [fieldKey]: { ...filterValue, lookup } },
           });
         }
@@ -82,7 +82,7 @@ export const GenericSelectPage = () => {
         if (fieldKey in currentFilters) {
           const { [fieldKey]: _removed, ...rest } = currentFilters;
           setOrdersFilter({
-            itemNumber: order.itemNumber,
+            slotNumber: order.slotNumber,
             filter: rest,
           });
         }

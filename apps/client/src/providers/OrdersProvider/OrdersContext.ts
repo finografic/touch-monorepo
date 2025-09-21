@@ -4,7 +4,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM, ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { SlotType, OrderFieldKey } from 'types/orders.types';
+import type { OrderFieldKey, SlotType } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
@@ -60,17 +60,17 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           },
 
           setOrdersFilter: ({
-            itemNumber,
+            slotNumber,
             filter,
           }: {
-            itemNumber: number;
+            slotNumber: number;
             filter: Partial<OrderFilters>;
           }) => {
             const { orders } = get();
 
             // Update the specific order's filters
             const updatedOrders = orders.map((order) => {
-              if (order.itemNumber === itemNumber) {
+              if (order.slotNumber === slotNumber) {
                 const updatedFilters: OrderFilters = { ...order.filters };
 
                 (Object.entries(filter) as [OrderFieldKey, unknown][]).forEach(([key, value]) => {
@@ -96,9 +96,9 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             });
             set({ orders: updatedOrders });
           },
-          toggleOrder: ({ slotType, itemNumber }: { slotType: SlotType; itemNumber: number }) => {
+          toggleOrder: ({ slotType, slotNumber }: { slotType: SlotType; slotNumber: number }) => {
             const { orders } = get();
-            const existingOrder = findOrderByNumber(orders, itemNumber);
+            const existingOrder = findOrderByNumber(orders, slotNumber);
 
             if (!existingOrder) {
               // Create new order if it doesn't exist
@@ -109,18 +109,18 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                   id:
                     typeof crypto !== 'undefined' && crypto.randomUUID
                       ? crypto.randomUUID()
-                      : `order-${itemNumber}`,
+                      : `order-${slotNumber}`,
                   slotType,
-                  itemNumber,
+                  slotNumber,
                   isSelected: true,
                 },
               ];
-              const sortedOrders = [...newOrders].sort((a, b) => a.itemNumber - b.itemNumber);
+              const sortedOrders = [...newOrders].sort((a, b) => a.slotNumber - b.slotNumber);
               set({ orders: sortedOrders });
             } else {
               // Toggle isSelected for existing order instead of removing it
               const updatedOrders = orders.map((order) => {
-                if (order.itemNumber === itemNumber) {
+                if (order.slotNumber === slotNumber) {
                   return { ...order, isSelected: !order.isSelected };
                 }
                 return order;
@@ -130,12 +130,14 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             }
           },
           selectAllOrders: (config: OrderItemConfig[] = ORDER_ITEMS_CONFIG) => {
-            const newOrders = config.map(({ slotType, number }) => ({
+            const newOrders = config.map(({ slotType, slotNumber }) => ({
               ...INITIAL_ORDER_ITEM,
               id:
-                typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `order-${number}`,
+                typeof crypto !== 'undefined' && crypto.randomUUID
+                  ? crypto.randomUUID()
+                  : `order-${slotNumber}`,
               slotType,
-              itemNumber: number,
+              slotNumber,
               isSelected: true,
             }));
             set({ orders: newOrders });
@@ -160,7 +162,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             const { orders } = get();
 
             const updatedOrders = orders.map((order) => {
-              if (slotNumbers.includes(order.itemNumber)) {
+              if (slotNumbers.includes(order.slotNumber)) {
                 return { ...order, session };
               }
               return order;

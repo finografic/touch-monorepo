@@ -311,12 +311,10 @@ export const upload: AppRouteHandler<UploadRoute> = async (context) => {
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   const { id } = context.req.valid('param');
 
-  const fileIndex = soundFiles.findIndex((file) => file.id === id);
-  if (fileIndex === -1) {
+  const file = soundFiles.find((file) => file.id === id);
+  if (!file) {
     return context.json({ message: 'Sound file not found' }, HttpStatusCodes.NOT_FOUND);
   }
-
-  const file = soundFiles[fileIndex];
 
   try {
     // Remove file from disk using filePath

@@ -19,7 +19,7 @@ export enum SlotType {
 // Base properties that every order has
 export interface OrderBaseProps {
   slotType: SlotType;
-  itemNumber: number;
+  slotNumber: number;
   isSelected: boolean;
   filters: OrderFilters;
 }
@@ -30,7 +30,7 @@ export type OrderStatus = 'idle' | 'processing' | 'completed' | 'error' | 'pendi
 export interface OrderItem {
   id: string; // Unique order ID from backend
   ids: string[]; // All filtered ids // NOTE: not optional ..
-  itemNumber: number;
+  slotNumber: number;
   slotType: SlotType;
   isSelected: boolean;
   filters?: OrderFilters;

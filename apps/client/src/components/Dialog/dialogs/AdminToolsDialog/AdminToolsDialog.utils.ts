@@ -13,8 +13,8 @@ export const cleanCalculationData = (calculation: Calculation | null) => {
   return cleanCalc;
 };
 
-export const loadCalculationFromStorage = (itemNumber: string): Calculation | null => {
-  const storedCalc = localStorage.getItem(`temperatureCalculation_${itemNumber}`);
+export const loadCalculationFromStorage = (slotNumber: string): Calculation | null => {
+  const storedCalc = localStorage.getItem(`temperatureCalculation_${slotNumber}`);
   if (!storedCalc) return null;
 
   try {
