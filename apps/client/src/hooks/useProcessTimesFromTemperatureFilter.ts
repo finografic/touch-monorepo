@@ -2,7 +2,7 @@ import { useCallback, useDeferredValue, useEffect, useState } from 'react';
 import type { TemperatureFilter, TemperatureProfile } from 'types/temperature.types';
 import { useConfigStorage } from './useConfigStorage';
 import { useOrders } from 'providers/OrdersProvider';
-import { ItemType } from 'types/orders.types';
+import { SlotType } from 'types/orders.types';
 import { useFilters } from 'providers/FiltersProvider';
 
 interface UseTemperatureControlOptions {
@@ -80,18 +80,18 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
 
       // Calculate durations for each order based on their item type
       const operatingTimes = {
-        [ItemType.A]: operatingTimeA,
-        [ItemType.B]: operatingTimeB,
-        [ItemType.C]: operatingTimeC,
+        [SlotType.A]: operatingTimeA,
+        [SlotType.B]: operatingTimeB,
+        [SlotType.C]: operatingTimeC,
       };
 
       const calculatedDurations = orders.reduce<Record<string, number>>((acc, order) => {
-        acc[order.itemNumber.toString()] = operatingTimes[order.itemType] || 0;
+        acc[order.itemNumber.toString()] = operatingTimes[order.slotType] || 0;
         return acc;
       }, {});
 
       // Also calculate durations for all item types (A, B, C) for future use
-      const itemTypeDurations = operatingTimes;
+      const slotTypeDurations = operatingTimes;
 
       // Save configuration with calculated durations for both selected orders and all item types
       const config = {
@@ -108,7 +108,7 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
           final: temperatureFilter.final, // Use actual user input
         },
         durations: {
-          ...itemTypeDurations, // Only item type durations (A, B, C)
+          ...slotTypeDurations, // Only item type durations (A, B, C)
           default: Math.max(...Object.values(calculatedDurations)),
         },
       };

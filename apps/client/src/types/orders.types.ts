@@ -10,7 +10,7 @@ export type OrderFieldKey = FilterFieldKey | NavigationFieldKey;
 export type OrderFieldKeyKebab = CamelToKebab<OrderFieldKey>;
 export type OrderFieldKeySnake = CamelToSnake<OrderFieldKey>;
 
-export enum ItemType {
+export enum SlotType {
   A = 'A',
   B = 'B',
   C = 'C',
@@ -18,7 +18,7 @@ export enum ItemType {
 
 // Base properties that every order has
 export interface OrderBaseProps {
-  itemType: ItemType;
+  slotType: SlotType;
   itemNumber: number;
   isSelected: boolean;
   filters: OrderFilters;
@@ -31,7 +31,7 @@ export interface OrderItem {
   id: string; // Unique order ID from backend
   ids: string[]; // All filtered ids // NOTE: not optional ..
   itemNumber: number;
-  itemType: ItemType;
+  slotType: SlotType;
   isSelected: boolean;
   filters?: OrderFilters;
   session?: {

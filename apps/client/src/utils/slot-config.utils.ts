@@ -1,8 +1,8 @@
-import { ItemType } from 'types/orders.types';
+import { SlotType } from 'types/orders.types';
 import type { SlotConfiguration } from 'types/slot-config.types';
 
 export interface OrderItemConfig {
-  itemType: ItemType;
+  slotType: SlotType;
   number: number;
 }
 
@@ -10,11 +10,11 @@ export interface OrderItemConfig {
 export function generateColumnMajorConfig({
   columns = 3,
   rows = 3,
-  lastType = ItemType.C,
+  lastType = SlotType.C,
 }: {
   columns?: number;
   rows?: number;
-  lastType?: ItemType;
+  lastType?: SlotType;
 }): OrderItemConfig[] {
   const total = columns * rows;
   const config: OrderItemConfig[] = [];
@@ -22,14 +22,14 @@ export function generateColumnMajorConfig({
   for (let col = 0; col < columns; col++) {
     for (let row = 0; row < rows; row++) {
       // Always use B for all except first (A) and last (special)
-      let type: ItemType = ItemType.B;
-      if (n === 1) type = ItemType.A;
-      config.push({ itemType: type, number: n });
+      let type: SlotType = SlotType.B;
+      if (n === 1) type = SlotType.A;
+      config.push({ slotType: type, number: n });
       n++;
     }
   }
   // Add the special/large slot as the last one (number = total + 1)
-  config.push({ itemType: lastType, number: total + 1 });
+  config.push({ slotType: lastType, number: total + 1 });
   return config;
 }
 
@@ -37,7 +37,7 @@ export function generateColumnMajorConfig({
 const FALLBACK_CONFIG: OrderItemConfig[] = generateColumnMajorConfig({
   columns: 3,
   rows: 3,
-  lastType: ItemType.C,
+  lastType: SlotType.C,
 });
 
 /**
@@ -48,7 +48,7 @@ export const convertSlotConfigsToOrderConfig = (slotConfigs: SlotConfiguration[]
   return slotConfigs
     .sort((a, b) => a.slotNumber - b.slotNumber)
     .map((config) => ({
-      itemType: config.itemType,
+      slotType: config.slotType,
       number: config.slotNumber,
     }));
 };

@@ -238,7 +238,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
         if (orderConfig) {
           toggleOrder({
-            itemType: orderConfig.itemType,
+            slotType: orderConfig.slotType,
             itemNumber: slotNumber,
           });
         }
@@ -290,7 +290,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           const existingOrder = orders.find((order) => order.itemNumber === slotNumber);
           if (!existingOrder || !existingOrder.isSelected) {
             toggleOrder({
-              itemType: orderConfig.itemType,
+              slotType: orderConfig.slotType,
               itemNumber: slotNumber,
             });
           }
@@ -382,17 +382,17 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
     startTransition(() => {
       // Apply configuration to all selected orders
-      // Use selected slots from LayoutUiContext and map by itemType from orderItemsConfig
+      // Use selected slots from LayoutUiContext and map by slotType from orderItemsConfig
       mainPageSelectedSlots.forEach((slotNumber) => {
-        // Get itemType from orderItemsConfig instead of orders array
+        // Get slotType from orderItemsConfig instead of orders array
         const orderConfig = orderItemsConfig.find((config) => config.number === slotNumber);
 
         if (orderConfig) {
           // Get duration for this specific item type from saved config
-          // Use itemType (A, B, C) to get the correct duration
-          const itemTypeDuration = config.durations?.[orderConfig.itemType];
+          // Use slotType (A, B, C) to get the correct duration
+          const slotTypeDuration = config.durations?.[orderConfig.slotType];
           const defaultDuration = config.durations?.default;
-          const duration = itemTypeDuration || defaultDuration || 300;
+          const duration = slotTypeDuration || defaultDuration || 300;
 
           // Create timer using the same logic as handleStartTimeProcess
           addTimer({
@@ -426,7 +426,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
         sessionOrders.forEach((order) => {
           toggleOrder({
-            itemType: order.itemType,
+            slotType: order.slotType,
             itemNumber: order.itemNumber,
           });
         });
@@ -464,7 +464,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
         sessionOrders.forEach((order) => {
           toggleOrder({
-            itemType: order.itemType,
+            slotType: order.slotType,
             itemNumber: order.itemNumber,
           });
         });

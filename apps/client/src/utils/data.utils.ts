@@ -1,6 +1,6 @@
 import type { PadUI } from 'types/ui.types';
 import type { DataEntry } from 'types/data.types';
-import type { ItemType, OrderItem, OrderStatus } from 'types/orders.types';
+import type { SlotType, OrderItem, OrderStatus } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 
 interface TransformedPad {
@@ -110,7 +110,7 @@ export const isFlattenedOrder = (obj: unknown): obj is FlattenedOrder => {
 };
 
 export const transformOrderData = (order: OrderItem) => ({
-  itemType: order.itemType,
+  slotType: order.slotType,
   itemNumber: order.itemNumber,
   isSelected: order.isSelected,
   status: order.process?.status || 'idle',

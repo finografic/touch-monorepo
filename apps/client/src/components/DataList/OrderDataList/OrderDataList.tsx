@@ -49,10 +49,10 @@ export const OrderDataList = ({ data }: { data: any }) => {
     <div css={styles} className="data-list-wrapper">
       <DataList.Root className="data-list">
         {/* Show basic item info */}
-        {data.itemType && (
+        {data.slotType && (
           <DataList.Item>
             <DataList.Label className="label">Item Type</DataList.Label>
-            <DataList.Value className="value">{data.itemType}</DataList.Value>
+            <DataList.Value className="value">{data.slotType}</DataList.Value>
           </DataList.Item>
         )}
 

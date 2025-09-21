@@ -189,9 +189,9 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
     (
       items: any[],
       name: string,
-      itemType: 'drinkType' | 'drinkSubtype' | 'volume' | 'containerType',
+      slotType: 'drinkType' | 'drinkSubtype' | 'volume' | 'containerType',
     ): string | undefined => {
-      if (itemType === 'drinkSubtype') {
+      if (slotType === 'drinkSubtype') {
         // For subtypes, search in the subtypesData array
         const item = subtypesData.find((subtype) => subtype.name === name);
         return item?.id;

@@ -71,7 +71,7 @@ export function MainPage() {
                   const slotNumber = rowIdx + colIdx * rows + 1;
                   const slot = mainGridSlots.find((s) => s.number === slotNumber);
                   return slot ? (
-                    <PadSlot key={slot.number} itemType={slot.itemType} number={slot.number} />
+                    <PadSlot key={slot.number} slotType={slot.slotType} slotNumber={slot.number} />
                   ) : null;
                 }),
               )}
@@ -97,8 +97,8 @@ export function MainPage() {
             {lastSlot && (
               <PadSlot
                 key={lastSlot.number}
-                itemType={lastSlot.itemType}
-                number={lastSlot.number}
+                slotType={lastSlot.slotType}
+                slotNumber={lastSlot.number}
                 variant="large"
               />
             )}

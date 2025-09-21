@@ -26,7 +26,7 @@ export const stylesPad = css`
   padding: ${button.padding.base};
   text-align: center;
 
-  &.pad-menu {
+  &.pad-main {
     border-radius: 50%;
   }
 

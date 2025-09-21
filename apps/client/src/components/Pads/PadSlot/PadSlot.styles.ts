@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { padProps, stylesPad } from 'components/Pads/Pad/PadBasic.styles';
 
 export const styles = css`
-  &.pad-menu,
+  &.pad-main,
   &.pad {
     ${stylesPad}
 

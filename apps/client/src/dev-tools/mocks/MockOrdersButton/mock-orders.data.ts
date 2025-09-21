@@ -1,11 +1,11 @@
 import type { OrderItem } from 'types/orders.types';
-import { ItemType } from 'types/orders.types';
+import { SlotType } from 'types/orders.types';
 
 export const MOCK_ORDERS_DATA: OrderItem[] = [
   {
     id: 'cmed7ceb8002xrllwxh87gxqo',
     ids: [],
-    itemType: ItemType.A,
+    slotType: SlotType.A,
     itemNumber: 1,
     isSelected: true,
     filters: {
@@ -34,7 +34,7 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
   {
     id: 'cmed7ceb8002xrllwxh87gxqo',
     ids: [],
-    itemType: ItemType.B,
+    slotType: SlotType.B,
     itemNumber: 7,
     isSelected: true,
     filters: {
@@ -63,7 +63,7 @@ export const MOCK_ORDERS_DATA: OrderItem[] = [
   {
     id: 'cmed7ceb8002xrllwxh87gxqo',
     ids: [],
-    itemType: ItemType.C,
+    slotType: SlotType.C,
     itemNumber: 10,
     isSelected: true,
     filters: {

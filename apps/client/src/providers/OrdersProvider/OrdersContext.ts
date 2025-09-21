@@ -4,7 +4,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_ORDER_ITEM, ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { ItemType, OrderFieldKey } from 'types/orders.types';
+import type { SlotType, OrderFieldKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
@@ -96,7 +96,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             });
             set({ orders: updatedOrders });
           },
-          toggleOrder: ({ itemType, itemNumber }: { itemType: ItemType; itemNumber: number }) => {
+          toggleOrder: ({ slotType, itemNumber }: { slotType: SlotType; itemNumber: number }) => {
             const { orders } = get();
             const existingOrder = findOrderByNumber(orders, itemNumber);
 
@@ -110,7 +110,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
                     typeof crypto !== 'undefined' && crypto.randomUUID
                       ? crypto.randomUUID()
                       : `order-${itemNumber}`,
-                  itemType,
+                  slotType,
                   itemNumber,
                   isSelected: true,
                 },
@@ -130,11 +130,11 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             }
           },
           selectAllOrders: (config: OrderItemConfig[] = ORDER_ITEMS_CONFIG) => {
-            const newOrders = config.map(({ itemType, number }) => ({
+            const newOrders = config.map(({ slotType, number }) => ({
               ...INITIAL_ORDER_ITEM,
               id:
                 typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `order-${number}`,
-              itemType,
+              slotType,
               itemNumber: number,
               isSelected: true,
             }));

@@ -1,20 +1,24 @@
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import type { PadMenuProps } from './PadSlot.types';
+import type { PadMenuBaseProps } from './PadSlot.types';
 import clsx from 'clsx';
+import type { ReactNode } from 'react';
+import type { SlotType } from 'types/orders.types';
 
-export const PadSlotToggle = ({ itemType, number, className, children }: PadMenuProps) => {
+export interface PadSlotToggleProps extends PadMenuBaseProps {
+  slotType: SlotType;
+  children: ReactNode;
+}
+
+export const PadSlotToggle = ({ slotType, slotNumber, className, children }: PadSlotToggleProps) => {
   const { mainPageSelectedSlots, toggleMainPageSlot } = useLayoutUi();
-
-  // Use LayoutUIContext for selection state
-  const isSelected = mainPageSelectedSlots.includes(number);
+  const isChecked = mainPageSelectedSlots.includes(slotNumber);
 
   const handleClick = () => {
-    // Toggle selection using LayoutUIContext (doesn't create orders)
-    toggleMainPageSlot(number);
+    toggleMainPageSlot(slotNumber);
   };
 
   return (
-    <div className={clsx(className, { active: isSelected })} onClick={handleClick}>
+    <div className={clsx(className, { active: isChecked })} onClick={handleClick}>
       {children}
     </div>
   );

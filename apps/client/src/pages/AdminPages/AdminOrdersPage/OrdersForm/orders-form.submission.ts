@@ -28,7 +28,7 @@ interface SubmissionDependencies {
   findIdByName: (
     items: any[],
     name: string,
-    itemType: 'drinkType' | 'drinkSubtype' | 'volume' | 'containerType',
+    slotType: 'drinkType' | 'drinkSubtype' | 'volume' | 'containerType',
   ) => string | undefined;
 
   // Order data for edit mode
@@ -73,7 +73,7 @@ interface UpdateOrderDependencies {
   findIdByName: (
     items: any[],
     name: string,
-    itemType: 'drinkType' | 'drinkSubtype' | 'volume' | 'containerType',
+    slotType: 'drinkType' | 'drinkSubtype' | 'volume' | 'containerType',
   ) => string | undefined;
   drinkTypes: any[];
   volumes: any[];
@@ -186,7 +186,7 @@ interface CreateOrderDependencies {
   findIdByName: (
     items: any[],
     name: string,
-    itemType: 'drinkType' | 'drinkSubtype' | 'volume' | 'containerType',
+    slotType: 'drinkType' | 'drinkSubtype' | 'volume' | 'containerType',
   ) => string | undefined;
   drinkTypes: any[];
   volumes: any[];

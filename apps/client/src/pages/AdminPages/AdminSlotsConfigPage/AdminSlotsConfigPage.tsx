@@ -11,14 +11,14 @@ import {
   useResetSlotConfigurations,
 } from 'queries/slot-configurations';
 import { GRID_CONFIGS } from 'types/slot-config.types';
-import { ItemType } from 'types/orders.types';
+import { SlotType } from 'types/orders.types';
 import { styles } from './AdminSlotsConfigPage.styles';
 import { useToast } from 'components/Toast';
 
 // Types for form values
 interface SlotConfigFormValue {
   slotNumber: number;
-  itemType: ItemType;
+  slotType: SlotType;
 }
 interface SlotConfigForm {
   columns: number;
@@ -47,7 +47,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
       const existing = fromConfigs?.find((c) => c.slotNumber === i);
       slots.push({
         slotNumber: i,
-        itemType: existing?.itemType || ItemType.B, // All slots can be any type
+        slotType: existing?.slotType || SlotType.B, // All slots can be any type
       });
     }
     return slots;

@@ -10,7 +10,7 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { CreateSettersType } from 'utils/zustand';
 
 // type SlotMeta = {
-//   itemType: ItemType;
+//   slotType: SlotType;
 //   number: number;
 // }
 

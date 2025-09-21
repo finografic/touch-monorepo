@@ -1,26 +1,26 @@
-import type { ItemType } from './orders.types';
+import type { SlotType } from './orders.types';
 
 export interface SlotConfiguration {
   id: string;
   slotNumber: number;
-  itemType: ItemType;
+  slotType: SlotType;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface CreateSlotConfigRequest {
   slotNumber: number;
-  itemType: ItemType;
+  slotType: SlotType;
 }
 
 export interface UpdateSlotConfigRequest {
-  itemType?: ItemType;
+  slotType?: SlotType;
 }
 
 export interface BulkUpdateSlotConfigRequest {
   configurations: Array<{
     slotNumber: number;
-    itemType: ItemType;
+    slotType: SlotType;
   }>;
 }
 

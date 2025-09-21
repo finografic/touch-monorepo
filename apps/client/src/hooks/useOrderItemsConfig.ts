@@ -2,7 +2,7 @@ import { useMemo } from 'react';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import type { OrderItemConfig } from 'utils/slot-config.utils';
 import { convertSlotConfigsToOrderConfig } from 'utils/slot-config.utils';
-import { ItemType } from 'types/orders.types';
+import { SlotType } from 'types/orders.types';
 
 /**
  * Hook to get order items configuration from slot configurations API
@@ -21,16 +21,16 @@ export const useOrderItemsConfig = (): OrderItemConfig[] => {
       });
       // Return fallback config: slots 1-9, special slot 10
       return [
-        { itemType: ItemType.A, number: 1 },
-        { itemType: ItemType.B, number: 2 },
-        { itemType: ItemType.B, number: 3 },
-        { itemType: ItemType.B, number: 4 },
-        { itemType: ItemType.B, number: 5 },
-        { itemType: ItemType.B, number: 6 },
-        { itemType: ItemType.B, number: 7 },
-        { itemType: ItemType.B, number: 8 },
-        { itemType: ItemType.B, number: 9 },
-        { itemType: ItemType.C, number: 10 },
+        { slotType: SlotType.A, number: 1 },
+        { slotType: SlotType.B, number: 2 },
+        { slotType: SlotType.B, number: 3 },
+        { slotType: SlotType.B, number: 4 },
+        { slotType: SlotType.B, number: 5 },
+        { slotType: SlotType.B, number: 6 },
+        { slotType: SlotType.B, number: 7 },
+        { slotType: SlotType.B, number: 8 },
+        { slotType: SlotType.B, number: 9 },
+        { slotType: SlotType.C, number: 10 },
       ];
     }
 
@@ -42,16 +42,16 @@ export const useOrderItemsConfig = (): OrderItemConfig[] => {
     } catch (error) {
       console.error('Error converting slot configs to order config:', error);
       return [
-        { itemType: ItemType.A, number: 1 },
-        { itemType: ItemType.B, number: 2 },
-        { itemType: ItemType.B, number: 3 },
-        { itemType: ItemType.B, number: 4 },
-        { itemType: ItemType.B, number: 5 },
-        { itemType: ItemType.B, number: 6 },
-        { itemType: ItemType.B, number: 7 },
-        { itemType: ItemType.B, number: 8 },
-        { itemType: ItemType.B, number: 9 },
-        { itemType: ItemType.C, number: 10 },
+        { slotType: SlotType.A, number: 1 },
+        { slotType: SlotType.B, number: 2 },
+        { slotType: SlotType.B, number: 3 },
+        { slotType: SlotType.B, number: 4 },
+        { slotType: SlotType.B, number: 5 },
+        { slotType: SlotType.B, number: 6 },
+        { slotType: SlotType.B, number: 7 },
+        { slotType: SlotType.B, number: 8 },
+        { slotType: SlotType.B, number: 9 },
+        { slotType: SlotType.C, number: 10 },
       ];
     }
   }, [slotConfigs, isLoading, error]);

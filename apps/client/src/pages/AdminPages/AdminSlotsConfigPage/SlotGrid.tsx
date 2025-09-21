@@ -1,12 +1,12 @@
 import React from 'react';
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
-import { ItemType } from 'types/orders.types';
+import { SlotType } from 'types/orders.types';
 import type { GridConfig } from 'types/slot-config.types';
 import { styles } from './SlotGrid.styles';
 
 interface SlotConfig {
   slotNumber: number;
-  itemType: ItemType;
+  slotType: SlotType;
 }
 
 interface SlotGridProps {
@@ -21,21 +21,21 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
   const regularSlots = configurations.filter((config) => config.slotNumber < totalSlots);
   const lastSlot = configurations.find((config) => config.slotNumber === totalSlots);
 
-  const getSlotColor = (itemType: ItemType) => {
-    switch (itemType) {
-      case ItemType.A:
+  const getSlotColor = (slotType: SlotType) => {
+    switch (slotType) {
+      case SlotType.A:
         return 'default';
-      case ItemType.B:
+      case SlotType.B:
         return 'info';
-      case ItemType.C:
+      case SlotType.C:
         return 'danger';
       default:
         return 'default';
     }
   };
 
-  const getSlotLabel = (itemType: ItemType) => {
-    return `Type ${itemType}`;
+  const getSlotLabel = (slotType: SlotType) => {
+    return `Type ${slotType}`;
   };
 
   const handleSlotClick = (slotNumber: number) => {
@@ -43,12 +43,12 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
     if (!currentConfig) return;
 
     // Cycle through item types: A -> B -> C -> A
-    const typeOrder = [ItemType.A, ItemType.B, ItemType.C];
-    const currentIndex = typeOrder.indexOf(currentConfig.itemType);
+    const typeOrder = [SlotType.A, SlotType.B, SlotType.C];
+    const currentIndex = typeOrder.indexOf(currentConfig.slotType);
     const nextIndex = (currentIndex + 1) % typeOrder.length;
-    const newItemType = typeOrder[nextIndex];
+    const newSlotType = typeOrder[nextIndex];
 
-    onConfigurationChange(slotNumber, { itemType: newItemType });
+    onConfigurationChange(slotNumber, { slotType: newSlotType });
   };
 
   return (
@@ -66,7 +66,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
           {regularSlots.map((config) => (
             <Flex key={config.slotNumber} className="slot-grid-item">
               <Button
-                className={`slot-button slot-${getSlotColor(config.itemType)}`}
+                className={`slot-button slot-${getSlotColor(config.slotType)}`}
                 onClick={() => handleSlotClick(config.slotNumber)}
                 variant="outline"
                 size="3"
@@ -75,7 +75,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
                   <Text size="4" weight="bold">
                     {config.slotNumber}
                   </Text>
-                  <Text size="2">{getSlotLabel(config.itemType)}</Text>
+                  <Text size="2">{getSlotLabel(config.slotType)}</Text>
                 </Flex>
               </Button>
             </Flex>
@@ -86,7 +86,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
         {lastSlot && (
           <div className="slot-item-special">
             <Button
-              className={`slot-button slot-${getSlotColor(lastSlot.itemType)}`}
+              className={`slot-button slot-${getSlotColor(lastSlot.slotType)}`}
               onClick={() => handleSlotClick(lastSlot.slotNumber)}
               variant="outline"
               size="3"
@@ -95,7 +95,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
                 <Text size="4" weight="bold">
                   {lastSlot.slotNumber}
                 </Text>
-                <Text size="2">{getSlotLabel(lastSlot.itemType)}</Text>
+                <Text size="2">{getSlotLabel(lastSlot.slotType)}</Text>
               </Flex>
             </Button>
           </div>

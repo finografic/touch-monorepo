@@ -78,9 +78,9 @@ interface CustomJSONTreeProps {
   expanded?: boolean;
 }
 
-const getItemString: GetItemString = (type, data, itemType) => (
+const getItemString: GetItemString = (type, data, slotType) => (
   <span style={{ color: theme.base05 }}>
-    {itemType} {Array.isArray(data) ? `(${data.length})` : ''}
+    {slotType} {Array.isArray(data) ? `(${data.length})` : ''}
   </span>
 );
 
