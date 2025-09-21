@@ -1,4 +1,4 @@
-import { useCallback, useTransition } from 'react';
+import { useCallback, useMemo, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useOrders } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
@@ -7,7 +7,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useProcessTimesFromTemperatureFilter } from 'hooks/useProcessTimesFromTemperatureFilter';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
+// import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
 import { useFilters } from 'providers/FiltersProvider';
 import { api } from 'api';
 import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
@@ -15,6 +15,8 @@ import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
 import { FLOW_TYPES } from 'types/flow.types';
 import createCuid from '@bugsnag/cuid';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
+import type { error } from 'console';
+import { convertSlotConfigsToOrderConfig, getFallbackSlotsConfig } from 'utils/slot-config.utils';
 
 type OperationActionType =
   | 'clear-completed'
@@ -61,8 +63,21 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     setMainPageSelectedSlots,
   } = useLayoutUi();
   const { saveConfig } = useConfigStorage();
-  const orderItemsConfig = useOrderItemsConfig();
+  // const orderItemsConfig = useOrderItemsConfig();
+  const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
   const { setFilter, clearFilters } = useFilters();
+
+  const orderItemsConfig = useMemo(() => {
+    if (isLoading || error || !slotConfigs || slotConfigs.length === 0) {
+      return getFallbackSlotsConfig();
+    }
+    try {
+      return convertSlotConfigsToOrderConfig(slotConfigs);
+    } catch (error) {
+      console.error('Error converting slot configs:', error);
+      return getFallbackSlotsConfig();
+    }
+  }, [slotConfigs, isLoading, error]);
 
   // Determine which slots to process (same logic used in onSuccess)
   const slotsToProcess =

@@ -9,7 +9,7 @@ import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import { ORDER_FIELD_KEYS } from 'constants/app.config';
 import { subscribeWithSelector } from 'zustand/middleware';
-import type { OrderItemConfig } from 'utils/slot-config.utils';
+import type { SlotItemConfig } from 'utils/slot-config.utils';
 import { api } from 'api';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 
@@ -129,7 +129,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               set({ orders: updatedOrders });
             }
           },
-          selectAllOrders: (config: OrderItemConfig[] = ORDER_ITEMS_CONFIG) => {
+          selectAllOrders: (config: SlotItemConfig[] = ORDER_ITEMS_CONFIG) => {
             const newOrders = config.map(({ slotType, slotNumber }) => ({
               ...INITIAL_ORDER_ITEM,
               id:

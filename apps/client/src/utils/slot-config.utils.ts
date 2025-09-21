@@ -1,7 +1,7 @@
 import { SlotType } from 'types/orders.types';
 import type { SlotConfiguration } from 'types/slot-config.types';
 
-export interface OrderItemConfig {
+export interface SlotItemConfig {
   slotType: SlotType;
   slotNumber: number;
 }
@@ -15,9 +15,9 @@ export function generateColumnMajorConfig({
   columns?: number;
   rows?: number;
   lastType?: SlotType;
-}): OrderItemConfig[] {
+}): SlotItemConfig[] {
   const total = columns * rows;
-  const config: OrderItemConfig[] = [];
+  const config: SlotItemConfig[] = [];
   let n = 1;
   for (let col = 0; col < columns; col++) {
     for (let row = 0; row < rows; row++) {
@@ -34,16 +34,29 @@ export function generateColumnMajorConfig({
 }
 
 // Fallback configuration if API fails (3x3 grid, column-major, starting at 1, special slot is 10)
-const FALLBACK_CONFIG: OrderItemConfig[] = generateColumnMajorConfig({
+const FALLBACK_CONFIG: SlotItemConfig[] = generateColumnMajorConfig({
   columns: 3,
   rows: 3,
   lastType: SlotType.C,
 });
 
+export const getFallbackSlotsConfig = (): SlotItemConfig[] => [
+  { slotType: SlotType.A, slotNumber: 1 },
+  { slotType: SlotType.B, slotNumber: 2 },
+  { slotType: SlotType.B, slotNumber: 3 },
+  { slotType: SlotType.B, slotNumber: 4 },
+  { slotType: SlotType.B, slotNumber: 5 },
+  { slotType: SlotType.B, slotNumber: 6 },
+  { slotType: SlotType.B, slotNumber: 7 },
+  { slotType: SlotType.B, slotNumber: 8 },
+  { slotType: SlotType.B, slotNumber: 9 },
+  { slotType: SlotType.C, slotNumber: 10 },
+];
+
 /**
- * Convert slot configurations from API to OrderItemConfig format
+ * Convert slot configurations from API to SlotItemConfig format
  */
-export const convertSlotConfigsToOrderConfig = (slotConfigs: SlotConfiguration[]): OrderItemConfig[] => {
+export const convertSlotConfigsToOrderConfig = (slotConfigs: SlotConfiguration[]): SlotItemConfig[] => {
   // If slotNumbers are 1-based, sort by slotNumber
   return slotConfigs
     .sort((a, b) => a.slotNumber - b.slotNumber)
@@ -54,10 +67,10 @@ export const convertSlotConfigsToOrderConfig = (slotConfigs: SlotConfiguration[]
 };
 
 /**
- * Load slot configurations from API and convert to OrderItemConfig format
+ * Load slot configurations from API and convert to SlotItemConfig format
  * Falls back to hardcoded config if API fails
  */
-export const loadOrderItemsConfig = async (): Promise<OrderItemConfig[]> => {
+export const loadOrderItemsConfig = async (): Promise<SlotItemConfig[]> => {
   try {
     const response = await fetch('/api/slot-configurations');
     if (!response.ok) {
@@ -83,6 +96,6 @@ export const loadOrderItemsConfig = async (): Promise<OrderItemConfig[]> => {
  * This is a synchronous version that returns the fallback config
  * For dynamic loading, use loadOrderItemsConfig()
  */
-export const getOrderItemsConfig = (): OrderItemConfig[] => {
+export const getOrderItemsConfig = (): SlotItemConfig[] => {
   return FALLBACK_CONFIG;
 };

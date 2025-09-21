@@ -5,12 +5,13 @@ import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
-import { LanguageIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
+import { DialogIcon, LanguageIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
 import { ALTERNATIVE_PATHS } from 'routes/routes.config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
 import { useDev } from 'dev-tools/providers/DevProvider';
+import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
 
 export const FrontEndAdminToolbar = () => {
   const { isDevToolsVisible } = useDev();
@@ -18,8 +19,8 @@ export const FrontEndAdminToolbar = () => {
     isAdminToolsVisible,
     isTimerVisible,
     setIsTimerVisible,
-    // isAdminToolsDialogOpen,
-    // setIsAdminToolsDialogOpen,
+    isAdminToolsDialogOpen,
+    setIsAdminToolsDialogOpen,
     isLanguageDialogOpen,
     setIsLanguageDialogOpen,
   } = useAdmin();
@@ -73,6 +74,13 @@ export const FrontEndAdminToolbar = () => {
             </button>
           </Box>
 
+          {/* Language selector */}
+          <Box className="button-box">
+            <button className="btn" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
+              <DialogIcon />
+            </button>
+          </Box>
+
           {/* Admin Tools Dialog */}
           {/* <Box className="button-box">
             <button className="btn" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
@@ -107,6 +115,12 @@ export const FrontEndAdminToolbar = () => {
           )}
         </Flex>
 
+        {/* {isAdminToolsDialogOpen && (
+          <AdminToolsDialog
+            isOpen={isAdminToolsDialogOpen}
+            onClose={() => setIsAdminToolsDialogOpen(false)}
+          />
+        )} */}
         {/* Language Dialog */}
         {isLanguageDialogOpen && (
           <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />

@@ -5,7 +5,7 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { CreateSettersType } from 'utils/zustand';
-import type { OrderItemConfig } from 'utils/slot-config.utils';
+import type { SlotItemConfig } from 'utils/slot-config.utils';
 
 export interface OrdersValues {
   [OrdersKeys.orders]: OrderItem[];
@@ -27,7 +27,7 @@ export type OrdersActions = OrdersSetters & {
   // setOrderFilters: (filters: OrderFilters) => void;
   setOrdersFilter: ({ slotNumber, filter }: { slotNumber: number; filter: Partial<OrderFilters> }) => void;
   toggleOrder: ({ slotType, slotNumber }: { slotType: SlotType; slotNumber: number }) => void;
-  selectAllOrders: (config?: OrderItemConfig[]) => void;
+  selectAllOrders: (config?: SlotItemConfig[]) => void;
   updateOrderIds: ({ ids }: { ids: string[] }) => void;
   setOrdersSession: ({
     slotNumbers,

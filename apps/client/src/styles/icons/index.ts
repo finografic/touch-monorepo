@@ -21,6 +21,7 @@ import {
 } from '@radix-ui/react-icons';
 
 import {
+  AppWindowMac as _AppWindowMacIcon,
   BadgeCheck as _BadgeCheckIcon,
   Coffee as _CoffeeIcon,
   X as _DeleteIcon,
@@ -58,6 +59,7 @@ const createIconWrapper = (IconComponent: React.ComponentType<any>) => {
 // Enhanced exports with auto-className
 export const CountdownTimerIcon = createIconWrapper(_CountdownTimerIcon);
 export const Cross2Icon = createIconWrapper(_Cross2Icon);
+export const DialogIcon = createIconWrapper(_AppWindowMacIcon);
 export const ExclamationTriangleIcon = createIconWrapper(_ExclamationTriangleIcon);
 export const ReloadIcon = createIconWrapper(_ReloadIcon);
 export const ShieldCheckIcon = createIconWrapper(_ShieldCheckIcon);
