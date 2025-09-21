@@ -8,6 +8,7 @@ export const padStyles = css`
 
     min-height: 80px;
     border-radius: 8px;
+    user-select: none;
 
     &.radio {
     }

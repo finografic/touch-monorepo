@@ -10,7 +10,7 @@ import { styles } from './PadSlot.styles';
 import type { DataEntry } from 'types/data.types';
 import { Pad } from 'components/Pads/Pad';
 import { OrderFieldKeys } from 'constants/app.config';
-import { TimerV2 } from 'components/Timer/Timer';
+import { Timer } from 'components/Timer/Timer';
 
 export interface PadMenuProps {
   itemType: ItemType;
@@ -51,7 +51,7 @@ export const PadSlot = ({ itemType, number, metadata, className, variant = 'defa
   }, [number, toggleMainPageSlot]);
 
   const handleTimerComplete = React.useCallback(() => {
-    // Timer completion is now handled by TimerV2 component
+    // Timer completion is now handled by Timer component
     console.log('PadMenu: Timer completed for order', number);
   }, [number]);
 
@@ -59,7 +59,7 @@ export const PadSlot = ({ itemType, number, metadata, className, variant = 'defa
   if (hasTimer) {
     return (
       <PadSlotToggle css={styles} itemType={itemType} number={number} className={mergedClassName}>
-        <TimerV2 key={`timer-${number}`} slotNumber={number} onComplete={handleTimerComplete} />
+        <Timer key={`timer-${number}`} slotNumber={number} onComplete={handleTimerComplete} />
       </PadSlotToggle>
     );
   }

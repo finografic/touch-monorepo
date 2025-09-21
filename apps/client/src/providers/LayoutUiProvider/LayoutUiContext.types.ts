@@ -9,6 +9,11 @@ import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { CreateSettersType } from 'utils/zustand';
 
+// type SlotMeta = {
+//   itemType: ItemType;
+//   number: number;
+// }
+
 export interface LayoutUiValues {
   [LayoutUiKeys.numItems]: ValidGridSize;
   [LayoutUiKeys.fieldKey]: OrderFieldKey | undefined;

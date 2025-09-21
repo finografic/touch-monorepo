@@ -10,6 +10,7 @@ export const styles = css`
     width: ${padProps.pad.width};
     height: ${padProps.pad.height};
     border-radius: 50%;
+    user-select: none;
 
     &:not(:disabled) {
       &:hover {
@@ -97,37 +98,33 @@ export const styles = css`
     /* Disabled styles inherited from stylesButtonBase */
 
     &.status-processing {
-      color: ${colors.success};
-      border: ${layout.borderWidth} solid ${colors.success};
-      background-color: ${colors.success25};
+      color: ${colors.success80};
+      border: ${layout.borderWidth} solid ${colors.success80};
+      /* background-color: ${colors.success25}; */
+      background-color: transparent;
       &:hover {
         color: ${colors.success};
-        border-color: ${colors.successLight};
+        border-color: ${colors.success};
         background-color: ${colors.success25};
-        transform: none;
       }
-      &:disabled {
-        cursor: wait;
-        &:hover {
-          border-color: ${colors.greyDark};
-          background-color: ${colors.success25};
-        }
-      }
+
       &.selected {
-        color: ${colors.info};
-        border-color: ${colors.info};
-        background-color: ${colors.info25};
+        color: ${colors.successDark};
+        border: ${layout.borderWidth} solid ${colors.successDark};
+        background-color: ${colors.successDark20};
         &:hover {
-          color: ${colors.info};
-          border-color: ${colors.infoLight};
-          background-color: ${colors.info25};
+          color: ${colors.success};
+          border-color: ${colors.successLight};
+          border: ${layout.borderWidth} solid ${colors.success};
+          background-color: ${colors.success25};
         }
       }
     }
 
     &.status-completed {
       /* cursor: not-allowed; */
-      /* pointer-events: none; */
+      pointer-events: none;
+      user-select: none;
       color: ${colors.warningLight};
       border: ${layout.borderWidth} solid ${colors.warningLight};
       background-color: ${colors.warningLight25};
@@ -144,13 +141,13 @@ export const styles = css`
         }
       }
       &.selected {
-        color: ${colors.info};
-        border-color: ${colors.info};
-        background-color: ${colors.info25};
+        color: ${colors.warningLight};
+        border: ${layout.borderWidth} solid ${colors.warningLight};
+        background-color: ${colors.warningLight25};
         &:hover {
-          color: ${colors.info};
-          border-color: ${colors.infoLight};
-          background-color: ${colors.info25};
+          color: ${colors.warningLight};
+          border: ${layout.borderWidth} solid ${colors.warningLight};
+          background-color: ${colors.warningLight25};
         }
       }
     }

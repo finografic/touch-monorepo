@@ -3,12 +3,11 @@ import { useTimers } from 'providers/TimersProvider';
 import type { TimerItem } from 'providers/TimersProvider';
 import { finishAction, getElapsedAndEventNumber, tickAction } from './timers.utils';
 
-interface TimerV2Props {
-  slotNumber: number; // Use slotNumber to find the timer
+interface TimerProps {
+  slotNumber: number;
   onComplete?: () => void;
 }
 
-// Initialize the global timer registry if it doesn't exist
 if (typeof window !== 'undefined') {
   window.__timerIntervals = window.__timerIntervals || {};
 }
@@ -19,7 +18,7 @@ const formatTime = (seconds: number): string => {
   return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
 };
 
-export const TimerV2 = ({ slotNumber, onComplete }: TimerV2Props) => {
+export const Timer = ({ slotNumber, onComplete }: TimerProps) => {
   const { timers, updateTimer } = useTimers();
   const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const [remainingTime, setRemainingTime] = useState<number>(0);
@@ -55,13 +54,13 @@ export const TimerV2 = ({ slotNumber, onComplete }: TimerV2Props) => {
   };
 
   useEffect(() => {
-    // console.debug('TimerV2: useEffect triggered', {
+    // console.debug('Timer: useEffect triggered', {
     //   slotNumber,
     //   timerId: timer?.id,
     //   timerStatus: timer?.status,
     // });
     if (!timer || timer.status !== 'processing') {
-      // console.debug('TimerV2: no active timer, skipping', { slotNumber });
+      // console.debug('Timer: no active timer, skipping', { slotNumber });
       setRemainingTime(0);
       return;
     }
@@ -70,7 +69,7 @@ export const TimerV2 = ({ slotNumber, onComplete }: TimerV2Props) => {
     const startTime = Date.now();
     const duration = Math.floor((endTime - startTime) / 1000);
 
-    // console.debug('TimerV2: starting', {
+    // console.debug('Timer: starting', {
     //   slotNumber,
     //   orderId: timer.orderId,
     //   duration: `${duration}s`,
@@ -120,7 +119,7 @@ export const TimerV2 = ({ slotNumber, onComplete }: TimerV2Props) => {
     intervalRef.current = intervalId;
 
     return () => {
-      // console.debug('TimerV2: cleanup', { slotNumber });
+      // console.debug('Timer: cleanup', { slotNumber });
       if (intervalRef.current) {
         clearInterval(intervalRef.current);
         intervalRef.current = undefined;
