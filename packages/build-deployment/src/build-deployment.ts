@@ -288,7 +288,7 @@ async function createClientServer(): Promise<void> {
   console.log('✅ Client server script created');
 }
 
-async function createPackageJson(): Promise<void> {
+async function createPackageJson(options: BuildOptions): Promise<void> {
   console.log('📦 Creating production package.json...');
 
   // Read server package.json to get dependencies
@@ -306,17 +306,30 @@ async function createPackageJson(): Promise<void> {
     }
   });
 
+  // Base scripts
+  const baseScripts = {
+    'start': 'run-p start:server start:client',
+    'start:server': 'node start-server.js',
+    'start:client': 'node start-client.js',
+  };
+
+  // Add Windows-specific scripts if platform is Windows
+  const scripts =
+    options.platform === 'windows'
+      ? {
+          ...baseScripts,
+          'install:windows.tools': 'npm install -g windows-build-tools && npm install',
+          'preinstall': 'npm run install:windows.tools',
+        }
+      : baseScripts;
+
   const packageJson = {
     name: 'touch-monorepo-production',
     version: '1.0.0',
     description: 'Touch Monorepo Production Distribution',
     private: true,
     type: 'module',
-    scripts: {
-      'start': 'run-p start:server start:client',
-      'start:server': 'node start-server.js',
-      'start:client': 'node start-client.js',
-    },
+    scripts,
     dependencies: {
       ...serverDependencies,
       dotenv: '^16.0.0',
@@ -326,7 +339,7 @@ async function createPackageJson(): Promise<void> {
       'serve': '^14.0.0',
     },
     engines: {
-      node: '>=20.0.0',
+      node: '>=22.0.0',
     },
   };
 
@@ -1321,7 +1334,7 @@ async function main(): Promise<void> {
     await createPortsUtility();
     await createStartupScript();
     await createClientServer();
-    await createPackageJson();
+    await createPackageJson(options);
     await createReadme();
     await createTestScript();
 
