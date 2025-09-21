@@ -38,6 +38,7 @@ type LayoutUiActions = LayoutUiSetters & {
   toggleMainPageSlot: (slot: SlotMeta) => void;
   selectAllMainPageSlots: () => void;
   clearMainPageSelection: () => void;
+  setMainPageSelectedSlots: (slots: SlotMeta[]) => void;
 };
 
 export interface LayoutUiProviderProps {

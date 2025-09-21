@@ -31,12 +31,12 @@ export const PadSlotToggle = ({
   //   status: timer?.status || 'idle',
   // });
 
-  log('__CHECKBOX:', 'hotpink', {
-    slotType,
-    slotNumber,
-    status,
-    isChecked,
-  });
+  // log('__CHECKBOX:', 'hotpink', {
+  //   slotType,
+  //   slotNumber,
+  //   status,
+  //   isChecked,
+  // });
 
   const handleClick = () => {
     toggleMainPageSlot({ slotType, slotNumber, isChecked, status });

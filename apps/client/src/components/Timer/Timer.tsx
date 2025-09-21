@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useTimers } from 'providers/TimersProvider';
 import type { TimerItem } from 'providers/TimersProvider';
 import { finishAction, getElapsedAndEventNumber, tickAction } from './timers.utils';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
 
 interface TimerProps {
   slotNumber: number;
@@ -19,6 +20,7 @@ const formatTime = (seconds: number): string => {
 };
 
 export const Timer = ({ slotNumber, onComplete }: TimerProps) => {
+  const { mainPageSelectedSlots, setMainPageSelectedSlots } = useLayoutUi();
   const { timers, updateTimer } = useTimers();
   const intervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const [remainingTime, setRemainingTime] = useState<number>(0);
@@ -106,6 +108,13 @@ export const Timer = ({ slotNumber, onComplete }: TimerProps) => {
       }
 
       if (remaining <= 0) {
+        const isTimerSelected = mainPageSelectedSlots.find((slot) => slot.slotNumber === slotNumber);
+        if (isTimerSelected) {
+          const updatedSlots = mainPageSelectedSlots.filter((slot) => slot.slotNumber !== slotNumber);
+          log('TIMER_COMPLETE:', 'cyan', timer);
+          setMainPageSelectedSlots(updatedSlots);
+        }
+
         finishAction({ elapsed, remaining, orderId: timer.orderId });
         handleTimerComplete();
       }

@@ -173,6 +173,9 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               })),
             });
           },
+          setMainPageSelectedSlots: (slots: SlotMeta[]) => {
+            set({ mainPageSelectedSlots: slots });
+          },
           clearMainPageSelection: () => {
             set({ mainPageSelectedSlots: [] });
           },

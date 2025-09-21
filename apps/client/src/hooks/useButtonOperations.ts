@@ -53,8 +53,13 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const { orders, toggleOrder, setOrdersSession, profile } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId, clearSession } = useSession();
   const { addTimer, clearCompletedTimers, timers, removeTimer } = useTimers();
-  const { selectAllMainPageSlots, clearMainPageSelection, toggleMainPageSlot, mainPageSelectedSlots } =
-    useLayoutUi();
+  const {
+    selectAllMainPageSlots,
+    clearMainPageSelection,
+    toggleMainPageSlot,
+    mainPageSelectedSlots,
+    setMainPageSelectedSlots,
+  } = useLayoutUi();
   const { saveConfig } = useConfigStorage();
   const orderItemsConfig = useOrderItemsConfig();
   const { setFilter, clearFilters } = useFilters();
@@ -106,6 +111,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const { getCompletedTimers } = useTimers();
   const completedTimers = getCompletedTimers();
   const hasCompletedTimers = completedTimers.length > 0;
+  const isTimerSelected = mainPageSelectedSlots.some(({ status }) => status === 'processing');
 
   // Check if there are any selected items using LayoutUIContext
   const hasSelectedItems = mainPageSelectedSlots.length > 0;
@@ -347,6 +353,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   // ======================================================================== //
 
   const handleRepeatSelection = useCallback(() => {
+    const selectedIdleSlots = mainPageSelectedSlots.filter(({ status }) => status === 'idle');
+    // log('__TEST:', 'orange', clearMainPageSelection);
+    // setMainPageSelectedSlots(mainPageSelectedSlots);
     // Check if session storage timer is active
     const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
     if (!timestamp) {
@@ -392,6 +401,10 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           const slotTypeDuration = config.durations?.[orderConfig.slotType];
           const defaultDuration = config.durations?.default;
           const duration = slotTypeDuration || defaultDuration || 300;
+
+          log('__TEST:', 'orange', slot, orderConfig);
+          const updatedSlots = mainPageSelectedSlots.filter((s) => s.slotNumber !== slot.slotNumber);
+          setMainPageSelectedSlots(updatedSlots);
 
           // Create timer using the same logic as handleStartTimeProcess
           addTimer({
@@ -523,6 +536,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
           // Enable only if there are selected IDLE orders (can't program product for running/completed timers)
           return numAvailableSelected === 0 || location.pathname !== PATHS.main || isPending;
         case 'repeat-selection': {
+          if (isTimerSelected) return true;
           // Check if session storage timer is active
           const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
           if (!timestamp) return true;

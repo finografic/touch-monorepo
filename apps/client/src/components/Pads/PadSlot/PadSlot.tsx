@@ -1,4 +1,3 @@
-/* eslint-disable fino/consistent-chaining */
 import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { useTimers } from 'providers/TimersProvider';
@@ -55,17 +54,21 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
   }, [slotNumber]);
 
   if (hasTimer) {
+    const isIdleSlotChecked = mainPageSelectedSlots.some((slot) => slot.status === 'idle');
+
     return (
-      <PadSlotToggle
-        css={styles}
-        slotType={slotType}
-        slotNumber={slotNumber}
-        status={status}
-        isChecked={isChecked}
-        className={mergedClassName}
-      >
-        <Timer key={`timer-${slotNumber}`} slotNumber={slotNumber} onComplete={handleTimerComplete} />
-      </PadSlotToggle>
+      <div style={{ cursor: isIdleSlotChecked ? 'not-allowed' : 'auto' }}>
+        <PadSlotToggle
+          css={styles}
+          slotType={slotType}
+          slotNumber={slotNumber}
+          status={status}
+          isChecked={isChecked}
+          className={clsx(mergedClassName, { 'checking-blocked': isIdleSlotChecked })}
+        >
+          <Timer key={`timer-${slotNumber}`} slotNumber={slotNumber} onComplete={handleTimerComplete} />
+        </PadSlotToggle>
+      </div>
     );
   }
 

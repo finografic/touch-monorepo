@@ -119,6 +119,15 @@ export const styles = css`
           background-color: ${colors.success25};
         }
       }
+
+      &.checking-blocked,
+      &.checking-blocked.selected {
+        cursor: not-allowed;
+        pointer-events: none;
+        color: ${colors.success80};
+        border: ${layout.borderWidth} solid ${colors.success80};
+        background-color: transparent;
+      }
     }
 
     &.status-completed {
