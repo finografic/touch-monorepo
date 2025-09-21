@@ -3,7 +3,7 @@ import type { SETTER_PREFIX, TimersKeys } from './TimerContext';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { CreateSettersType } from 'utils/zustand';
 
-export type TimerStatus = 'idle' | 'processing' | 'completed';
+export type SlotStatus = 'idle' | 'processing' | 'completed';
 
 export interface TimerItem {
   id: string;
@@ -13,7 +13,7 @@ export interface TimerItem {
   flowType: FlowTypeValue;
   duration: number;
   remaining: number;
-  status: TimerStatus;
+  status: SlotStatus;
   estimatedCompletionTime?: string;
   createdAt: string;
   completedAt?: string;

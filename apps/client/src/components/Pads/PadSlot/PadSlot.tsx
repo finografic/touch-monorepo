@@ -25,10 +25,10 @@ export const PadSlot = ({ slotType, slotNumber, className, variant = 'default' }
   const timer = timers.find((t) => t.slotNumber === slotNumber);
   const hasTimer = timer && (timer.status === 'processing' || timer.status === 'completed');
 
-  // Always include both 'pad' and 'pad-main' in the className
+  // Always include both 'pad' and 'pad-slot' in the className
   const mergedClassName = useMemo(
     () =>
-      clsx('pad', 'pad-main', `item-type-${slotType}`, className, {
+      clsx('pad', 'pad-slot', `item-type-${slotType}`, className, {
         'pad-large': variant === 'large',
         'status-processing': timer?.status === 'processing',
         'status-completed': timer?.status === 'completed',
