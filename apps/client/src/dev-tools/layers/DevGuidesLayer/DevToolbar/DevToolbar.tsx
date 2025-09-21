@@ -2,7 +2,7 @@ import type { ReactElement } from 'react';
 import React from 'react';
 import { Col, Row } from 'react-grid-system';
 import { ToolbarToggle } from '../ToolbarToggle';
-import { useDevLayer } from '../../providers/DevGuidesProvider';
+import { useDevLayer } from '../../../providers/DevGuidesProvider';
 import { styles } from './DevToolbar.styles';
 
 export const DevToolbar: React.FC = (): ReactElement => {

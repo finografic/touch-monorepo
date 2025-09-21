@@ -4,7 +4,7 @@ import { styles } from './Footer.styles';
 import { useLocation } from 'react-router-dom';
 import { AdminToolbar } from 'admin-tools/AdminToolbar/AdminToolbar';
 import { FrontEndAdminToolbar } from 'admin-tools/FrontEndAdminToolbar/FrontEndAdminToolbar';
-import { DevToolbarFrontEnd } from 'dev-tools/DevToolbarFrontEnd/DevToolbarFrontEnd';
+import { DevToolbarFrontEnd } from 'dev-tools/_DevToolbarFrontEnd/DevToolbarFrontEnd';
 
 export const Footer: FC = () => {
   const location = useLocation();

@@ -2,7 +2,7 @@ import { styles } from './SessionAndTimers.styles';
 import { useTimers } from 'providers/TimersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
-import { DevDataTable } from 'dev-tools/DevDataTable';
+import { DevDataTable } from 'dev-tools/components/DevDataTable';
 import { useFilters } from 'providers/FiltersProvider';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 

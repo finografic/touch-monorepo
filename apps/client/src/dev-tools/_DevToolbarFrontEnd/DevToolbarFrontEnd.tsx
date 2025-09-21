@@ -2,18 +2,18 @@ import { Box, Flex } from '@radix-ui/themes';
 import { styles } from './DevToolbarFrontEnd.styles';
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { LockIcon, TextAlignTopIcon } from 'styles/icons';
-import { QueryDevtoolsPanel } from '../QueryDevtoolsPanel/QueryDevtoolsPanel';
-import { DevScreenSize } from '../DevScreenSize/DevScreenSize';
+import { QueryDevtoolsPanel } from '../layers/QueryDevtoolsPanel/QueryDevtoolsPanel';
+import { DevScreenSize } from '../components/DevScreenSize/DevScreenSize';
 import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
-import { MockOrdersButton } from '../MockOrdersButton/MockOrdersButton';
-import { MockTimersMin } from '../MockTimersMin/MockTimersMin';
-import { MockSessionTimer } from '../MockSessionTimer/MockSessionTimer';
+import { MockOrdersButton } from '../mocks/MockOrdersButton/MockOrdersButton';
+import { MockTimersMin } from '../mocks/MockTimersMin/MockTimersMin';
+import { MockSessionTimer } from '../mocks/MockSessionTimer/MockSessionTimer';
 import { useOrdersOptional } from 'providers/OrdersProvider/OrdersContext';
 import { useTimers } from 'providers/TimersProvider';
 // import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { AuthStatusDialog } from 'components/Dialog/dialogs/AuthStatusDialog';
 import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
-import { DevPanelLeft } from 'dev-tools/DevPanels/DevPanelLeft';
+import { DevPanelLeft } from 'dev-tools/_Panels/DevPanelLeft';
 
 export const DevToolbarFrontEnd = () => {
   const { timers } = useTimers();

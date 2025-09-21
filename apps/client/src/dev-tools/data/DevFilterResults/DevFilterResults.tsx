@@ -1,7 +1,7 @@
 import { useFiltering } from 'hooks/useFiltering';
 import { styles } from './DevFilterResults.styles';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-import { DevDataTable } from '../DevDataTable';
+import { DevDataTable } from '../../components/DevDataTable';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useFilters } from 'providers/FiltersProvider/FiltersContext';
 

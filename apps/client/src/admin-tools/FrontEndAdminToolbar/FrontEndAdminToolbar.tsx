@@ -9,7 +9,7 @@ import { LanguageIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
 import { ALTERNATIVE_PATHS } from 'routes/routes.config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
-import { MockSessionTimer } from 'dev-tools/MockSessionTimer/MockSessionTimer';
+import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
 import { useDev } from 'dev-tools/providers/DevProvider';
 
 export const FrontEndAdminToolbar = () => {

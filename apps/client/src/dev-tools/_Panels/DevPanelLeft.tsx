@@ -2,10 +2,10 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { transformPadData } from 'utils/data.utils';
-import { DevFilterResults } from 'dev-tools/DevFilterResults/DevFilterResults';
+import { DevFilterResults } from 'dev-tools/data/DevFilterResults/DevFilterResults';
 import { stylesLeft } from './DevPanels.styles';
-import { DevOrderProfile } from 'dev-tools/DevOrderProfile/DevOrderProfile';
-import { SessionAndTimers } from 'dev-tools/SessionAndTimers/SessionAndTimers';
+import { DevOrderProfile } from 'dev-tools/data/DevOrderProfile/DevOrderProfile';
+import { SessionAndTimers } from 'dev-tools/data/SessionAndTimers/SessionAndTimers';
 
 export const DevPanelLeft = () => {
   const location = useLocation();

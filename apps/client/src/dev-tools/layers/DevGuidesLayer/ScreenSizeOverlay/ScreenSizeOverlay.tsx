@@ -2,7 +2,7 @@ import { Row } from 'react-grid-system';
 import type { ReactElement } from 'react';
 import { styles } from './ScreenSizeOverlay.styles';
 import { KEY_PRESS, useKeyPressToggle } from '@workspace/core';
-import { useDevGuides } from '../../providers/DevGuidesProvider';
+import { useDevGuides } from '../../../providers/DevGuidesProvider';
 
 export const ScreenSizeOverlay = (): ReactElement | null => {
   const { isDevGuidesVisibile, setIsDevGuidesVisibile } = useDevGuides();

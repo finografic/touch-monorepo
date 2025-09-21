@@ -1,7 +1,7 @@
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrdersOptional } from 'providers/OrdersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
-import { JSONTree } from '../JSONTree/JSONTree';
+import { JSONTree } from '../components/JSONTree/JSONTree';
 import { stylesRight } from './DevPanels.styles';
 import { useFiltering } from 'hooks/useFiltering';
 
@@ -12,19 +12,21 @@ export const DevPanelRight = () => {
   const ordersContext = useOrdersOptional();
   const orders = ordersContext?.orders || [];
 
+  /*
   // Filter out filters property from processing orders
   const cleanOrdersForDisplay = orders.map((order) => {
-    if (order.process?.status === 'processing') {
+    if (order?.process?.status === 'processing') {
       const { filters, ...orderWithoutFilters } = order;
       return orderWithoutFilters;
     }
     return order;
   });
+  */
 
   const devDataRight = {
     numItems,
     count: orders.length,
-    orders: cleanOrdersForDisplay,
+    // orders: cleanOrdersForDisplay,
     DATA_TOTAL: data?.length,
     DATA_FILTERED: dataFiltered?.length,
     PADS_ALL: ['', '/', '/temperature'].includes(location.pathname)
@@ -35,7 +37,7 @@ export const DevPanelRight = () => {
   return (
     <aside id="dev-data-right" css={stylesRight}>
       <pre id="___DATA-DUMP-ALL___">{JSON.stringify(orders)}</pre>
-      <pre>{JSON.stringify(cleanOrdersForDisplay)}</pre>
+      {/* <pre>{JSON.stringify(cleanOrdersForDisplay)}</pre> */}
       <div className="data-tree">
         <JSONTree data={devDataRight} />
       </div>
