@@ -39,30 +39,23 @@ export const auth = betterAuth({
   //   });
   // },
   session: {
-    expiresIn: 30 * 24 * 60 * 60,
-    updateAge: 24 * 60 * 60,
-    cookieName: 'auth_session',
+    expiresIn: 30 * 24 * 60 * 60, // 30 days
+    updateAge: 24 * 60 * 60, // 24 hours
+    cookieName: 'auth_token',
     cookieCache: {
-      enabled: true,
+      enabled: false, // Disable cookie cache for JWT
       maxAge: 5 * 60,
     },
   },
   advanced: {
     cookiePrefix: 'iox',
     useSecureCookies: env.NODE_ENV === 'production',
+    generateId: () => crypto.randomUUID(),
     cookies: {
       session_token: {
-        name: 'session',
+        name: 'auth_token',
         attributes: {
-          httpOnly: true,
-          sameSite: 'lax',
-          path: '/',
-        },
-      },
-      session_data: {
-        name: 'session.data',
-        attributes: {
-          httpOnly: true,
+          httpOnly: false, // Allow client-side access for JWT
           sameSite: 'lax',
           path: '/',
         },

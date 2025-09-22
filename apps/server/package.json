@@ -104,6 +104,7 @@
     "pino": "9.7.0",
     "pino-http": "10.4.0",
     "pino-pretty": "13.1.1",
+    "serialport": "13.0.0",
     "stoker": "1.4.2",
     "uuid": "11.1.0",
     "zod": "^3.21.4"

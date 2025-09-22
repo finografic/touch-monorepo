@@ -1,4 +1,4 @@
-import { Container, Flex } from '@radix-ui/themes';
+import { Box, Container, Flex } from '@radix-ui/themes';
 import { styles } from './Header.styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -6,6 +6,8 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { ThemeToggle } from 'components/ThemeToggle';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { LoginButton } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/LoginButton';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 export const Header = () => {
   const { t } = useTranslation();
@@ -14,6 +16,15 @@ export const Header = () => {
   const { currentSessionId } = useSession();
   const { currentLanguage } = useAppConfig();
   const { isNextDisabled } = usePagination();
+
+  const { user, session, isLoading, isAuthenticated, isAdmin, signOut } = useAuth();
+
+  console.log('🔍 USER:', user);
+  console.log('🔍 SESSION:', session);
+  console.log('🔍 IS LOADING:', isLoading);
+  console.log('🔍 IS AUTHENTICATED:', isAuthenticated);
+  console.log('🔍 IS ADMIN:', isAdmin);
+  console.log('🔍 SIGN OUT:', signOut);
 
   return (
     <header css={styles}>
@@ -40,7 +51,13 @@ export const Header = () => {
           </Flex>
 
           <Flex justify="end" style={{ flex: '3' }} className="col col-header-right">
-            <ThemeToggle />
+            <Box className="button-box">
+              <LoginButton />
+            </Box>
+            <Box className="button-box">
+              <ThemeToggle />
+            </Box>
+
             {/* <LanguageSelector onLanguageChange={handleLanguageChange} /> */}
             {/* <pre className="current-language">{String(currentSessionId)}</pre> */}
           </Flex>

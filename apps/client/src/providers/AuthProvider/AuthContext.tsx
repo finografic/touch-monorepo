@@ -70,7 +70,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signIn = async (email: string, password: string) => {
     try {
-      const response = await fetch('http://localhost:4040/api/auth/login', {
+      const response = await fetch('http://localhost:4040/api/auth/sign-in/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -96,7 +96,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signUp = async (email: string, password: string, name: string) => {
     try {
-      const response = await fetch('http://localhost:4040/api/auth/signup', {
+      const response = await fetch('http://localhost:4040/api/auth/sign-up/email', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -122,13 +122,32 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
   const signOut = async () => {
     try {
-      await fetch('http://localhost:4040/api/auth/signout', {
-        method: 'POST',
-        credentials: 'include',
-      });
+      // For JWT, we can simply clear the client-side state
+      // The token will expire naturally, or we can call the server to invalidate it
       setSession(null);
+
+      // Clear any auth tokens from cookies/localStorage
+      document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+      // Optional: Call server to invalidate token (if you want server-side invalidation)
+      try {
+        await fetch('http://localhost:4040/api/auth/sign-out', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+          body: JSON.stringify({}),
+        });
+      } catch (serverError) {
+        // Server error is not critical for JWT logout
+        console.warn('Server sign-out failed, but client-side logout successful:', serverError);
+      }
     } catch (error) {
       console.error('Sign out error:', error);
+      // Even if there's an error, clear the session state
+      setSession(null);
+      document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
     }
   };
 

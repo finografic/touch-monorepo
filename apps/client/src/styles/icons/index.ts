@@ -23,6 +23,7 @@ import {
 import {
   AppWindowMac as _AppWindowMacIcon,
   BadgeCheck as _BadgeCheckIcon,
+  CircleUserRound as _CircleUserRoundIcon,
   Coffee as _CoffeeIcon,
   X as _DeleteIcon,
   PencilLine as _EditIcon,
@@ -34,10 +35,12 @@ import {
   PanelBottomClose as _PanelBottomCloseIcon,
   PanelBottomOpen as _PanelBottomOpenIcon,
   ShieldCheck as _ShieldCheckIcon,
+  ShieldUser as _ShieldUserIcon,
   CircleStop as _StopIcon,
   Sun as _SunIcon,
   Thermometer as _TempIcon,
   Trash2 as _Trash2Icon,
+  UserLock as _UserLockIcon,
   AppWindowMac as _WindowIcon,
   Wine as _WineIcon,
 } from 'lucide-react';
@@ -97,6 +100,9 @@ export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);
 export const MagnifyingGlassIcon = createIconWrapper(_MagnifyingGlassIcon);
 export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);
 export const PanelBottomOpenIcon = createIconWrapper(_PanelBottomOpenIcon);
+export const UserLockIcon = createIconWrapper(_UserLockIcon);
+export const UserCircleIcon = createIconWrapper(_CircleUserRoundIcon);
+export const UserShildIcon = createIconWrapper(_ShieldUserIcon);
 export const PlusIcon = createIconWrapper(_PlusIcon);
 export const SpeakerLoudIcon = createIconWrapper(_SpeakerLoudIcon);
 export const StopIcon = createIconWrapper(_StopIcon);

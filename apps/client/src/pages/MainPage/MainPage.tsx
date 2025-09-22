@@ -38,8 +38,12 @@ export function MainPage() {
     setIsNextDisabled(numSelected === 0);
   }, [numSelected, setIsNextDisabled]);
 
+  if (isLoading) {
+    return <Spinner size="3" />;
+  }
+
   // Dynamically determine grid dimensions
-  const totalSlots = slotsConfig.length;
+  const totalSlots = slotsConfig?.length;
   const mainGridSlots = slotsConfig.slice(0, totalSlots - 1); // All except the last
   const lastSlot = slotsConfig[totalSlots - 1]; // The last slot
 
@@ -47,10 +51,6 @@ export function MainPage() {
 
   const rows = 3; // Always 3 rows
   const columns = Math.floor((totalSlots - 1) / rows); // Dynamic columns
-
-  if (isLoading) {
-    return <Spinner size="3" />;
-  }
 
   return (
     <Flex css={styles} gap="3" direction="column">

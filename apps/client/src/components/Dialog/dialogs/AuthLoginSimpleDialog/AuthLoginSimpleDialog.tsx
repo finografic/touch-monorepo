@@ -6,14 +6,22 @@ import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { styles } from './AuthLoginSimpleDialog.styles';
 
 const DEFAULT_USER_ADMIN = 'admin@example.com';
+const DEFAULT_PASSWORD = 'password123';
 
 interface AuthLoginSimpleDialogProps {
   isOpen: boolean;
   onClose: () => void;
+  onSuccess?: () => void;
+  onError?: (error: string) => void;
 }
 
-export const AuthLoginSimpleDialog = ({ isOpen, onClose }: AuthLoginSimpleDialogProps) => {
-  const [password, setPassword] = useState('');
+export const AuthLoginSimpleDialog = ({
+  isOpen,
+  onClose,
+  onSuccess,
+  onError,
+}: AuthLoginSimpleDialogProps) => {
+  const [password, setPassword] = useState(DEFAULT_PASSWORD);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -29,11 +37,16 @@ export const AuthLoginSimpleDialog = ({ isOpen, onClose }: AuthLoginSimpleDialog
 
       if (result.success) {
         onClose();
+        onSuccess?.();
       } else {
-        setError(result.error || 'Authentication failed');
+        const errorMessage = result.error || 'Authentication failed';
+        setError(errorMessage);
+        onError?.(errorMessage);
       }
     } catch (err) {
-      setError('An unexpected error occurred');
+      const errorMessage = 'An unexpected error occurred';
+      setError(errorMessage);
+      onError?.(errorMessage);
     } finally {
       setIsLoading(false);
     }

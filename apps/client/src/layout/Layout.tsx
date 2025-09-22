@@ -23,6 +23,7 @@ import { styles } from './Layout.styles';
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
 import { NUM_GRID_ITEMS } from 'constants/app.config';
 import type { ValidGridSize } from 'types/menu.types';
+import { ToastProvider, ToastSystem } from 'components/Toast';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
@@ -41,47 +42,50 @@ export const Layout: FC = () => {
   };
 
   return (
-    <TimersProvider>
-      <OrdersProvider>
-        <FiltersProvider>
-          <PaginationProvider>
-            <LayoutUiProvider initialValue={{ numItems }}>
-              <AdminProvider>
-                <ContentProvider>
-                  <DevProvider>
-                    <Theme
-                      appearance={mainTheme.appearance}
-                      grayColor={mainTheme.grayColor}
-                      accentColor={mainTheme.accentColor}
-                      scaling={mainTheme.scaling}
-                    >
-                      <div id="layout" css={styles}>
-                        <Header />
-                        <main>
-                          <div className="main-content">
-                            <section>
-                              <PageHeader />
-                              <div className="page-content" role="main">
-                                <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                  <Outlet />
-                                </Suspense>
-                              </div>
-                              <nav className="page-navigation">
-                                <FrontEndNavigation />
-                              </nav>
-                            </section>
-                          </div>
-                        </main>
-                        <Footer />
-                      </div>
-                    </Theme>
-                  </DevProvider>
-                </ContentProvider>
-              </AdminProvider>
-            </LayoutUiProvider>
-          </PaginationProvider>
-        </FiltersProvider>
-      </OrdersProvider>
-    </TimersProvider>
+    <ToastProvider>
+      <TimersProvider>
+        <OrdersProvider>
+          <FiltersProvider>
+            <PaginationProvider>
+              <LayoutUiProvider initialValue={{ numItems }}>
+                <AdminProvider>
+                  <ContentProvider>
+                    <DevProvider>
+                      <Theme
+                        appearance={mainTheme.appearance}
+                        grayColor={mainTheme.grayColor}
+                        accentColor={mainTheme.accentColor}
+                        scaling={mainTheme.scaling}
+                      >
+                        <div id="layout" css={styles}>
+                          <Header />
+                          <main>
+                            <div className="main-content">
+                              <section>
+                                <PageHeader />
+                                <div className="page-content" role="main">
+                                  <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                    <Outlet />
+                                  </Suspense>
+                                </div>
+                                <nav className="page-navigation">
+                                  <FrontEndNavigation />
+                                </nav>
+                              </section>
+                            </div>
+                          </main>
+                          <Footer />
+                        </div>
+                        <ToastSystem />
+                      </Theme>
+                    </DevProvider>
+                  </ContentProvider>
+                </AdminProvider>
+              </LayoutUiProvider>
+            </PaginationProvider>
+          </FiltersProvider>
+        </OrdersProvider>
+      </TimersProvider>
+    </ToastProvider>
   );
 };

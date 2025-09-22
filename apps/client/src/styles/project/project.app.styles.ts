@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+import { colors } from 'styles';
 
 export const stylesAppContent = css`
   &.temperature-content,
@@ -15,5 +16,24 @@ export const stylesAppContent = css`
   .page-description {
     margin-top: -33%;
     margin-bottom: -8%;
+  }
+
+  .button-box button.btn {
+    svg.icon {
+      color: ${colors.default40};
+    }
+    &:hover {
+      border-color: transparent;
+      background-color: ${colors.grey10};
+      svg.icon {
+        color: ${colors.greyLight};
+      }
+    }
+
+    &.active {
+      svg.icon {
+        color: ${colors.warningDark};
+      }
+    }
   }
 `;
