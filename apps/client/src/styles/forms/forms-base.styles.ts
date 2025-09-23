@@ -55,7 +55,8 @@ export const formsBase = css`
     font-size: ${forms.inputs.text.fontSize};
     font-weight: ${forms.inputs.text.fontWeight};
     border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
-    background-color: ${forms.inputs.background};
+    /* background-color: ${forms.inputs.background}; */
+    background-color: red !important;
     color: ${forms.inputs.text.color};
     transition: ${forms.inputs.transition};
     padding: ${forms.inputs.padding};

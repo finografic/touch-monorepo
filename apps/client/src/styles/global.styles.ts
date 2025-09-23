@@ -1,7 +1,7 @@
-import 'sanitize.css/sanitize.css';
-import 'sanitize.css/assets.css';
-import 'sanitize.css/typography.css';
-import 'sanitize.css/forms.css';
+// import 'sanitize.css/sanitize.css';
+// import 'sanitize.css/assets.css';
+// import 'sanitize.css/typography.css';
+// import 'sanitize.css/forms.css';
 
 import { css } from '@emotion/react';
 import { cssFontDefaults, cssFontMono } from './fonts/fonts.styles';
@@ -43,7 +43,7 @@ export const cssGlobal = css`
     ${generateCssColorVariablesTransparency()}
 
     /* Debug: Show current theme */
-    --debug-theme: 'default-dark';
+    --debug-theme: 'default-light';
   }
 
   /* Light theme color variables */

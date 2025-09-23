@@ -1,5 +1,6 @@
 import type { CreateSettersType } from 'utils/zustand';
 import type { AppConfigKeys } from './AppConfigContext';
+import type { ReactNode } from 'react';
 
 export interface AppConfigValues {
   [AppConfigKeys.currentLanguage]: string;
@@ -21,5 +22,5 @@ export interface AppConfigStore extends AppConfigValues {
 
 export interface AppConfigProviderProps {
   initialValue?: Partial<AppConfigValues>;
-  children: React.ReactNode;
+  children: ReactNode;
 }

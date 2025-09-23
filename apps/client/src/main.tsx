@@ -1,7 +1,7 @@
 import '@workspace/core';
 import './index.css';
 import '@radix-ui/themes/styles.css';
-import 'styles/radix-ui/radix.css';
+// import 'styles/radix-ui/radix.css';
 import './styles/icons/icons.css';
 // import './styles/radix-ui/radix-dialog.css';
 

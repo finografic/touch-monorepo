@@ -14,7 +14,7 @@ export enum AppConfigKeys {
 
 export const defaultValue: AppConfigValues = {
   currentLanguage: 'es-ES', // ✅ Use full locale code as the default
-  theme: 'dark', // ✅ Default theme
+  theme: 'light', // ✅ Default theme
 };
 
 export const AppConfigContext = createZustandContext(({ initialValue }) => {

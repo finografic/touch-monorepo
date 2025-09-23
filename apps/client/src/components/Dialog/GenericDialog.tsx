@@ -22,12 +22,17 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
 
   const defaultTheme = {
     appearance: appTheme as 'light' | 'dark', // Use app theme instead of hardcoded dark
-    grayColor: 'slate' as const,
-    accentColor: 'blue' as const,
-    scaling: '100%' as const,
+    // grayColor: 'slate' as const,
+    // accentColor: 'blue' as const,
+    // scaling: '100%' as const,
   };
 
+  // console.log('%c __THEME:', 'color:yellow', defaultTheme);
+  // console.log('%c __THEME:', 'color:orange', appTheme);
+
   const theme = { ...defaultTheme, ...config.theme };
+
+  // console.log('%c __THEME:', 'color:lime', theme);
 
   // Create dynamic styles for max width/height constraints
   const dynamicStyles = {

@@ -14,6 +14,7 @@
   }
 
   [data-theme='light'] {
+    --color-background: red;
     --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
       'Apple Color Emoji', 'Segoe UI Emoji';
     --default-font-family: var(--font-sans);
@@ -22,6 +23,7 @@
   }
 
   [data-theme='dark'] {
+    --color-background: red;
     --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
       'Apple Color Emoji', 'Segoe UI Emoji';
     --default-font-family: var(--font-sans);
@@ -57,7 +59,7 @@
 
 /* Radix UI Colors - Dark Mode */
 
-/* @import '@radix-ui/colors/gray-dark.css';
+@import '@radix-ui/colors/gray-dark.css';
 @import '@radix-ui/colors/slate-dark.css';
 @import '@radix-ui/colors/sand-dark.css';
 @import '@radix-ui/colors/red-dark.css';
@@ -73,7 +75,7 @@
 @import '@radix-ui/colors/amber-dark.css';
 @import '@radix-ui/colors/yellow-dark.css';
 @import '@radix-ui/colors/gold-dark.css';
-@import '@radix-ui/colors/orange-dark.css'; */
+@import '@radix-ui/colors/orange-dark.css';
 
 :root {
   color-scheme: light;
