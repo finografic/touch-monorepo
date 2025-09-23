@@ -1,11 +1,8 @@
 import { useEffect } from 'react';
-import { Global } from '@emotion/react';
 import type { AppConfigProviderProps } from './AppConfigContext.types';
 import { AppConfigContext as AppConfig, DISPLAY_NAME, useAppConfig } from './AppConfigContext';
 import { useTranslation } from 'react-i18next';
-import { cssGlobal } from 'styles/global.styles';
 
-// Mapping from simple i18n codes to full locale codes
 const LOCALE_MAPPING = {
   es: 'es-ES',
   en: 'en-GB',
@@ -22,60 +19,43 @@ const getSimpleCodeFromLocale = (locale: string): string => {
   return locale.includes('-') ? locale.split('-')[0] : locale;
 };
 
-// Component to sync AppConfigProvider language with i18n on startup and initialize theme
 const LanguageSync = () => {
   const { i18n } = useTranslation();
-  const { setCurrentLanguage } = useAppConfig();
+  const { setCurrentLanguage, setTheme } = useAppConfig();
 
   useEffect(() => {
-    // On startup: Convert i18n's simple code to full locale for AppConfigProvider
-    const currentI18nLanguage = i18n.language; // e.g., 'es'
-    const fullLocale = getFullLocaleFromSimpleCode(currentI18nLanguage); // e.g., 'es-ES'
+    console.log('%c __LANG__', 'color:cyan', i18n);
+    const currentI18nLanguage = i18n.language; // 'es-ES', normally
+    const fullLocale = getFullLocaleFromSimpleCode(currentI18nLanguage); // NOTE: is 'es-ES', but failsafe
     setCurrentLanguage(fullLocale);
 
-    // Listen for i18n language changes and sync AppConfigProvider
+    // NOTE: tnitialize theme from localStorage
+    const storedTheme = localStorage.getItem('touch-app-theme') as 'light' | 'dark';
+    if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark')) {
+      setTheme(storedTheme);
+    }
+
     const handleLanguageChanged = (lng: string) => {
+      console.log('%c __LANG__', 'color:lime', lng);
       const fullLocale = getFullLocaleFromSimpleCode(lng);
+      console.log('%c __LANG__', 'color:hotpink', currentI18nLanguage);
       setCurrentLanguage(fullLocale);
     };
 
     i18n.on('languageChanged', handleLanguageChanged);
 
-    console.log('%c __LANG__', 'color:lime', i18n);
-
     return () => {
       i18n.off('languageChanged', handleLanguageChanged);
     };
-  }, [i18n, setCurrentLanguage]);
+  }, [i18n, setCurrentLanguage, setTheme]);
 
-  return null; // This component doesn't render anything
-};
-
-// Component to sync AppConfigProvider language with i18n on startup and initialize theme
-const ThemeSync = () => {
-  const { theme, setTheme } = useAppConfig();
-
-  useEffect(() => {
-    // Initialize theme from localStorage
-    const storedTheme = localStorage.getItem('touch-app-theme') as 'light' | 'dark';
-    if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark')) {
-      setTheme(storedTheme);
-    }
-    console.log('%c __THEME__', 'color:lime', theme);
-  }, [setTheme]);
-
-  useEffect(() => {
-    console.log('%c __THEME__', 'color:lime', theme);
-  }, [theme]);
-
-  return <Global styles={cssGlobal} />;
+  return null;
 };
 
 export const AppConfigProvider = ({ initialValue, children }: AppConfigProviderProps) => {
   return (
     <AppConfig.Provider initialValue={initialValue}>
       <LanguageSync />
-      <ThemeSync />
       {children}
     </AppConfig.Provider>
   );
@@ -83,5 +63,4 @@ export const AppConfigProvider = ({ initialValue, children }: AppConfigProviderP
 
 AppConfigProvider.displayName = `${DISPLAY_NAME}Provider`;
 
-// Export helper functions for use in components
 export { getFullLocaleFromSimpleCode, getSimpleCodeFromLocale };

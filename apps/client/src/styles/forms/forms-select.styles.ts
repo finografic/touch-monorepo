@@ -31,7 +31,7 @@ export const formsSelect = css`
         border-color: ${forms.inputs.hover.border.color};
         .option {
           border-color: ${forms.inputs.hover.border.color};
-          background-color: red !important;
+          /* background-color: red !important; */
         }
       }
 
