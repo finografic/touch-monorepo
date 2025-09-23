@@ -4,7 +4,6 @@ import { Button } from 'components/Button/Button';
 import { Input } from 'components/Input/Input';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { styles } from './AuthLoginSimpleDialog.styles';
-import { useAppConfig } from 'providers/AppConfigProvider/AppConfigContext';
 
 const DEFAULT_USER_ADMIN = 'admin@example.com';
 const DEFAULT_PASSWORD = 'password123';
@@ -22,7 +21,6 @@ export const AuthLoginSimpleDialog = ({
   onSuccess,
   onError,
 }: AuthLoginSimpleDialogProps) => {
-  const { theme: appTheme } = useAppConfig();
   const [password, setPassword] = useState(DEFAULT_PASSWORD);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
@@ -62,7 +60,6 @@ export const AuthLoginSimpleDialog = ({
     minHeight: '300px',
     minWidth: '350px',
     theme: {
-      appearance: appTheme,
       accentColor: 'blue',
       grayColor: 'sand',
       scaling: '110%',
