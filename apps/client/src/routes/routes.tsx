@@ -23,6 +23,7 @@ import { AdminLoginPage } from 'pages/AdminLoginPage/AdminLoginPage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { AuthTestPage } from 'pages/AuthTestPage/AuthTestPage';
+import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
 
 export const routes: RouteObject[] = [
   {
@@ -167,6 +168,11 @@ export const routes: RouteObject[] = [
             path: 'slot-config',
             id: 'slot-config',
             element: <AdminSlotsConfigPage />,
+          },
+          {
+            path: 'relays',
+            id: 'relays',
+            element: <AdminRelaysPage />,
           },
         ],
       },
