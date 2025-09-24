@@ -6,7 +6,7 @@ export const styles = css`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 0.5rem;
+  margin-top: 1.25rem;
 
   /* Form wrapper */
   .form-wrapper {
@@ -35,7 +35,14 @@ export const styles = css`
   /* Submit button */
   .submit-button {
     width: 100%;
-    margin-top: 1rem;
+    color: ${colors.white};
+    /* margin-top: 1rem; */
+
+    &:hover:not(:disabled) {
+      background-color: ${colors.infoDark75};
+      border-color: ${colors.infoDark75};
+      color: ${colors.white};
+    }
   }
 
   /* Error message */

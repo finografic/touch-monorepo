@@ -196,15 +196,21 @@ export const cssGlobal = css`
     font-size: ${forms.inputs.label.fontSize};
     font-weight: ${forms.inputs.label.fontWeight}!important;
     letter-spacing: 0;
-    color: ${colors.primaryDark};
-    margin: 0.5em 0.5em 0.5em 0.1em;
+    color: ${colors.textDark};
+    margin: 0.5rem 0.25rem 0.5rem 0.1rem;
+    cursor: default;
+    /* user-select: none; */
+
     span.hint,
     span.label-hint {
+      color: ${colors.text};
       font-weight: ${forms.inputs.label.fontWeight};
       opacity: 0.5;
-      margin: 0;
     }
 
-    cursor: pointer;
+    span {
+      padding: 0;
+      margin: 0;
+    }
   }
 `;

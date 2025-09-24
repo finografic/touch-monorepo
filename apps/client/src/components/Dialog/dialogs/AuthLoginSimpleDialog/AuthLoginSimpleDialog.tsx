@@ -57,7 +57,7 @@ export const AuthLoginSimpleDialog = ({
     size: '3',
     maxWidth: '400px',
     maxHeight: '60vh',
-    minHeight: '300px',
+    minHeight: '280px',
     minWidth: '350px',
     theme: {
       accentColor: 'blue',
@@ -91,7 +91,7 @@ export const AuthLoginSimpleDialog = ({
 
                 {error && <div className="error">{error}</div>}
 
-                <Button type="submit" disabled={isLoading} className="submit-button">
+                <Button type="submit" disabled={isLoading} variant="soft" size="3" className="submit-button">
                   {isLoading ? 'Loading...' : 'Sign In'}
                 </Button>
               </form>
