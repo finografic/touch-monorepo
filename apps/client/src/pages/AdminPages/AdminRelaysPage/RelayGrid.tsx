@@ -3,6 +3,7 @@ import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { SlotType } from 'types/orders.types';
 import type { GridConfig } from 'types/slot-config.types';
 import { styles } from './RelayGrid.styles';
+import { NUM_RELAYS } from './relays.config';
 
 interface SlotConfig {
   slotNumber: number;
@@ -19,8 +20,11 @@ interface SlotGridProps {
 export const RelayGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, onConfigurationChange }) => {
   const { columns, rows } = gridConfig;
   const totalSlots = gridConfig.totalSlots;
-  const regularSlots = configurations.filter((config) => config.slotNumber < totalSlots);
-  const lastSlot = configurations.find((config) => config.slotNumber === totalSlots);
+
+  // Filter configurations to only show relays (1 to NUM_RELAYS)
+  const relayConfigurations = configurations.filter((config) => config.slotNumber <= NUM_RELAYS);
+  const regularSlots = relayConfigurations.filter((config) => config.slotNumber < totalSlots);
+  const lastSlot = relayConfigurations.find((config) => config.slotNumber === totalSlots);
 
   const getSlotColor = (slotType: SlotType, isOn?: boolean) => {
     // If relay is ON, use success color regardless of slot type
@@ -48,7 +52,7 @@ export const RelayGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig,
   };
 
   const handleSlotClick = (slotNumber: number) => {
-    const currentConfig = configurations.find((config) => config.slotNumber === slotNumber);
+    const currentConfig = relayConfigurations.find((config) => config.slotNumber === slotNumber);
     if (!currentConfig) return;
 
     // Toggle relay state instead of cycling through slot types

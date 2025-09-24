@@ -14,6 +14,7 @@ import { GRID_CONFIGS } from 'types/slot-config.types';
 import { SlotType } from 'types/orders.types';
 import { styles } from './AdminRelaysPage.styles';
 import { useToast } from 'components/Toast';
+import { NUM_RELAYS } from './relays.config';
 
 // Types for form values
 interface SlotConfigFormValue {
@@ -29,9 +30,6 @@ interface SlotConfigForm {
 export const AdminRelaysPage: React.FC = () => {
   const { t } = useTranslation();
   const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
-  const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
-  const resetMutation = useResetSlotConfigurations();
-  const { toast } = useToast();
   const initialColumns = 3;
   const minColumns = 2;
   const maxColumns = 5;
@@ -113,40 +111,6 @@ export const AdminRelaysPage: React.FC = () => {
     }
   }, [slotConfigs, reset]);
 
-  // Save handler
-  const onSave = async (data: SlotConfigForm) => {
-    try {
-      await bulkUpdateMutation.mutateAsync({ configurations: data.slots });
-      // After successful save, the API will refetch and update slotConfigs
-      // which will trigger the useEffect above to reset the form
-    } catch (error) {
-      console.error('Failed to save configurations:', error);
-    }
-  };
-
-  // Reset handler
-  const onReset = async () => {
-    try {
-      await resetMutation.mutateAsync();
-      // After successful reset, the API will refetch and update slotConfigs
-      // which will trigger the useEffect above to reset the form
-    } catch (error) {
-      console.error('Failed to reset configurations:', error);
-    }
-  };
-
-  const handleAddColumn = () => {
-    if (columns < maxColumns) {
-      setValue('columns', columns + 1);
-    }
-  };
-  const handleRemoveColumn = () => {
-    if (columns > minColumns) {
-      setValue('columns', columns - 1);
-    }
-  };
-
-  // SlotGrid change handler
   const handleGridConfigChange = (slotNumber: number, newConfig: Partial<SlotConfigFormValue>) => {
     setValue(
       'slots',
@@ -175,7 +139,10 @@ export const AdminRelaysPage: React.FC = () => {
   return (
     <section css={styles} id="admin-slot-config">
       <FormProvider {...methods}>
-        <AdminContentLayout title="Relay Control" subtitle="Test and control the 8-channel relay board">
+        <AdminContentLayout
+          title="Relay Control"
+          subtitle={`Test and control the ${NUM_RELAYS}-channel relay board`}
+        >
           <Box className="admin-slot-config">
             <Flex direction="column" gap="6">
               <Card size="3" variant="surface">
@@ -196,19 +163,21 @@ export const AdminRelaysPage: React.FC = () => {
                       <Heading size="4">Relay Status</Heading>
                       <div className="slot-legend">
                         <Flex direction="column" gap="3">
-                          {slots.map((slot) => (
-                            <Flex
-                              key={slot.slotNumber}
-                              align="center"
-                              gap="4"
-                              className={`legend-item ${slot.isOn ? 'legend-relay-on' : 'legend-relay-off'}`}
-                            >
-                              <div>{slot.slotNumber}</div>
-                              <Text size="3">
-                                Relay {slot.slotNumber}: {slot.isOn ? 'ON' : 'OFF'}
-                              </Text>
-                            </Flex>
-                          ))}
+                          {slots
+                            .filter((slot) => slot.slotNumber <= NUM_RELAYS)
+                            .map((slot) => (
+                              <Flex
+                                key={slot.slotNumber}
+                                align="center"
+                                gap="4"
+                                className={`legend-item ${slot.isOn ? 'legend-relay-on' : 'legend-relay-off'}`}
+                              >
+                                <div>{slot.slotNumber}</div>
+                                <Text size="3">
+                                  Relay {slot.slotNumber}: {slot.isOn ? 'ON' : 'OFF'}
+                                </Text>
+                              </Flex>
+                            ))}
                         </Flex>
                       </div>
                     </div>
