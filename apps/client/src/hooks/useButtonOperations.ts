@@ -89,39 +89,51 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   const { startTemperatureControl, isLoading: isTemperatureLoading } = useProcessTimesFromTemperatureFilter({
     selectedSlots: mainPageSelectedSlots,
-    onSuccess: (calculatedDurations) => {
-      startTransition(function updateProcessForSelectedOrders() {
-        slotsToProcess.forEach((slotNumber) => {
-          const order = orders.find((o) => o.slotNumber === slotNumber);
-          if (order) {
-            const duration = calculatedDurations[order.slotNumber.toString()];
-            const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
-            const orderId = existingTimer?.orderId || createCuid();
+    onSuccess: useCallback(
+      (calculatedDurations) => {
+        startTransition(function updateProcessForSelectedOrders() {
+          slotsToProcess.forEach((slotNumber) => {
+            const order = orders.find((o) => o.slotNumber === slotNumber);
+            if (order) {
+              const duration = calculatedDurations[order.slotNumber.toString()];
+              const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
+              const orderId = existingTimer?.orderId || createCuid();
 
-            addTimer({
-              sessionId: currentSessionId!,
-              slotNumber,
-              orderId,
-              flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-              duration,
-              remaining: duration,
-              status: 'processing',
-              estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
-            });
-          }
+              addTimer({
+                sessionId: currentSessionId!,
+                slotNumber,
+                orderId,
+                flowType: FLOW_TYPES.PROGRAM_PRODUCT,
+                duration,
+                remaining: duration,
+                status: 'processing',
+                estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
+              });
+            }
+          });
+
+          clearMainPageSelection();
+
+          setPageCurrent(0);
+          navigate(PATHS.main, { replace: true });
         });
+      },
+      [
+        orders,
+        mainPageSelectedSlots,
+        timers,
+        addTimer,
+        currentSessionId,
+        clearMainPageSelection,
+        setPageCurrent,
+        navigate,
+      ],
+    ),
 
-        clearMainPageSelection();
-
-        setPageCurrent(0);
-        navigate(PATHS.main, { replace: true });
-      });
-    },
-
-    onError: (error) => {
+    onError: useCallback((error) => {
       // TODO: Show error message to user
       console.error('Failed to control temperature:', error);
-    },
+    }, []),
   });
 
   // Check if there are any completed timers using TimersContext

@@ -104,7 +104,7 @@ export const styles = css`
 
   .legend-relay-off {
     div {
-      background: ${colors.greyXXLight75};
+      background: ${colors.greyXLight50};
     }
 
     div + span {
