@@ -12,6 +12,12 @@ const envServerSchema = z
     DB_PORT: z.number(),
     BETTER_AUTH_SECRET: z.string().min(32),
     BETTER_AUTH_URL: z.string().url(),
+    // Relay board configuration
+    RELAY_ENABLED: z.boolean().default(false),
+    RELAY_PORT: z.string().default('/dev/ttyUSB0'),
+    RELAY_BAUD_RATE: z.number().default(9600),
+    RELAY_TIMEOUT: z.number().optional().default(5000),
+    RELAY_RECONNECT_ATTEMPTS: z.number().optional().default(5),
   })
   .transform((env) => ({
     ...env,
@@ -27,6 +33,14 @@ const envServerValidated = envServerSchema.parse({
   DB_PORT: Number(process.env.DB_PORT),
   BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
   BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+  // Relay board configuration
+  RELAY_ENABLED: process.env.RELAY_ENABLED === 'true',
+  RELAY_PORT: process.env.RELAY_PORT,
+  RELAY_BAUD_RATE: Number(process.env.RELAY_BAUD_RATE),
+  RELAY_TIMEOUT: process.env.RELAY_TIMEOUT ? Number(process.env.RELAY_TIMEOUT) : undefined,
+  RELAY_RECONNECT_ATTEMPTS: process.env.RELAY_RECONNECT_ATTEMPTS
+    ? Number(process.env.RELAY_RECONNECT_ATTEMPTS)
+    : undefined,
 });
 
 export const env = {

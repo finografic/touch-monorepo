@@ -13,6 +13,7 @@ const prettierDefaults = {
   cursorOffset: -1, // (default: -1) - Cursor offset for formatting a selected range. -1 means format the whole document.
   embeddedLanguageFormatting: 'auto', // (default: 'auto' | 'off') - Control whether Prettier formats quoted code embedded in the file.
   endOfLine: 'lf', // (default: 'lf' | 'crlf' | 'cr' | 'auto') - Line ending setting.
+  hexLiterals: 'uppercase',
   htmlWhitespaceSensitivity: 'css', // (default: 'css' | 'strict' | 'ignore') - How to handle whitespaces in HTML.
   insertPragma: false, // (default: false | true) - Insert a special @format marker at the top of files specifying that the file has been formatted with Prettier.
   jsxSingleQuote: false, // (default: false | true) - Use single quotes instead of double quotes in JSX.

@@ -13,8 +13,8 @@ export default fino({
   },
   // plugins: {
   //   prettier: prettierPlugin,
-  //   lodash: pluginLodash,
-  //   import: pluginImport,
+  // lodash: pluginLodash,
+  // import: pluginImport,
   // },
   // files: [...INCLUDE_FILES_TS],
   rules: {
@@ -36,6 +36,7 @@ export default fino({
     'ts/no-undef': OFF,
     'no-unused-vars': OFF,
     'fino/top-level-function': OFF,
+    // 'unicorn/number-literal-case': ERROR,
     // 'simple-import-sort/imports': [
     //   ERROR,
     //   {
