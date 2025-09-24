@@ -33,7 +33,7 @@ export const stylesPad = css`
   &.checked {
     color: ${colors.infoDark};
     border-color: ${colors.infoDark};
-    background-color: ${colors.infoXLight33};
+    background-color: ${colors.infoXLight25};
   }
 
   &:hover {
@@ -138,8 +138,8 @@ export const stylesPadBasic = {
     &:disabled {
       cursor: not-allowed;
       background-color: transparent;
-      border-color: ${colors.greyXXLight66};
-      color: ${colors.greyXXLight66};
+      border-color: ${colors.greyXXLight75};
+      color: ${colors.greyXXLight75};
     }
   `,
 

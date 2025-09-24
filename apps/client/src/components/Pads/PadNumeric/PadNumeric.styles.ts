@@ -58,22 +58,22 @@ export const styles = css`
     border-style: ${button.border.style};
     border-width: ${button.border.width};
 
-    color: ${colors.infoLight80};
-    border-color: ${colors.infoLight80};
+    color: ${colors.infoLight75};
+    border-color: ${colors.infoLight75};
 
     &:disabled {
       cursor: not-allowed;
       opacity: 0.5;
-      color: ${colors.greyLight66};
-      border-color: ${colors.greyLight66};
+      color: ${colors.greyLight75};
+      border-color: ${colors.greyLight75};
     }
 
     &:not(:disabled) {
       &:hover {
-        /* background-color: ${colors.infoLight33}; */
+        /* background-color: ${colors.infoLight25}; */
         color: ${colors.info};
         border-color: ${colors.info};
-        background-color: ${colors.infoXLight30};
+        background-color: ${colors.infoXLight25};
       }
 
       &:active {
@@ -89,7 +89,7 @@ export const styles = css`
     min-height: 80px;
     min-width: ${button.md.minWidth};
     padding: 1rem;
-    border: ${button.border.width} solid ${colors.infoLight33};
+    border: ${button.border.width} solid ${colors.infoLight25};
     border-radius: ${button.radius};
     background-color: transparent;
     transition: all 0.2s ease;

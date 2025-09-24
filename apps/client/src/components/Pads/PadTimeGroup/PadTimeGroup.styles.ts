@@ -69,7 +69,7 @@ export const styles = css`
     gap: 0.5rem;
     font-size: 2.5rem;
     color: ${colors.infoLight};
-    border-color: ${colors.infoLight40};
+    border-color: ${colors.infoLight50};
     margin: 0.66rem 0;
   }
 

@@ -26,7 +26,7 @@ export const stylesButtonBase = css`
     background-color: ${colors.infoLight}; */
     color: ${colors.infoDark};
     border-color: ${colors.infoDark};
-    background-color: ${colors.infoLight20};
+    background-color: ${colors.infoLight25};
     transform: scale(${button.transform.hoverScale});
   }
 
@@ -36,7 +36,7 @@ export const stylesButtonBase = css`
   &[data-disabled='true'] {
     opacity: ${button.disabled.opacity};
     cursor: not-allowed;
-    color: ${colors.default40} !important;
+    color: ${colors.default50} !important;
     border-color: ${colors.defaultLight50};
     background-color: transparent;
     /* pointer-events: none; */
@@ -44,7 +44,7 @@ export const stylesButtonBase = css`
 
     /* Ensure hover states don't override */
     &:hover {
-      color: ${colors.default40} !important;
+      color: ${colors.default50} !important;
       border-color: ${colors.defaultLight50}!important;
       background-color: transparent;
       transform: none;

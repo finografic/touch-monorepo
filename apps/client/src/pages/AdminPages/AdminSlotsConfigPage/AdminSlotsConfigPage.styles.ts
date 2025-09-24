@@ -49,7 +49,7 @@ export const styles = css`
     column-gap: 1rem;
     color: ${colors.textLight};
     background-color: ${colors.greyXXLight10};
-    border: 1px solid ${colors.greyXXLight20};
+    border: 1px solid ${colors.greyXXLight25};
     padding: 0.5rem 1.5rem;
     border-radius: ${layout.borderRadius.md};
     width: 180px;

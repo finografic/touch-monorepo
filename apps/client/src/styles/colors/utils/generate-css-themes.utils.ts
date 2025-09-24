@@ -44,7 +44,7 @@ function generateCssThemeContent(): string {
   const darkCssVars = generateCssColorVariables({ colors: darkColors });
   const darkTransparencyVars = generateCssColorVariablesTransparency();
 
-  let content = `@import 'tailwindcss';
+  const content = `@import 'tailwindcss';
 
 @plugin "tailwindcss-animate";
 

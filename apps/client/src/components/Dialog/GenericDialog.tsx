@@ -45,8 +45,8 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
   return (
     <Theme
       // appearance={theme.appearance}
-      // appearance={appTheme}
-      appearance="dark"
+      appearance={appTheme}
+      // appearance="dark"
       grayColor={theme.grayColor}
       accentColor={theme.accentColor}
       scaling={theme.scaling}

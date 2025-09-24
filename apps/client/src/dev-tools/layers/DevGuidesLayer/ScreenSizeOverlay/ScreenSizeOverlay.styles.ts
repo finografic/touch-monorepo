@@ -10,7 +10,7 @@ export const styles = css`
     border-radius: ${layout.borderRadius};
     opacity: 0.5;
     background-color: #00cc9944;
-    box-shadow: inset 0 0 0 3px ${colors.greyDark95};
+    box-shadow: inset 0 0 0 3px ${colors.greyDark};
   }
 
   .screen-800x480 {

@@ -44,6 +44,6 @@ export const styles = {
     padding: 0.5rem;
     background-color: ${colors.danger10};
     border-radius: 4px;
-    border: 1px solid ${colors.danger33};
+    border: 1px solid ${colors.danger25};
   `,
 };

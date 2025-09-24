@@ -77,7 +77,7 @@ export const formsInputs = css`
 
       &:focus-within {
         border-color: ${forms.inputs.focus.border.color};
-        box-shadow: 0 0 0 3px ${colors.primaryLight20};
+        box-shadow: 0 0 0 3px ${colors.primaryLight25};
       }
 
       input {

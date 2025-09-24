@@ -43,7 +43,7 @@ export const stylesDropdown = css`
 
     &:hover,
     &.focused {
-      background-color: ${colors.primary20};
+      background-color: ${colors.primary25};
       border-color: red !important;
       /* background-color: yellow; */
     }
@@ -63,13 +63,13 @@ export const stylesDropdown = css`
     .option-value {
       font-size: 0.9rem; /* size="2" equivalent */
       font-weight: 600; /* Remove bold */
-      color: ${colors.text80};
+      color: ${colors.text75};
       line-height: 1.4;
     }
 
     .option-label {
       font-size: 0.9rem; /* size="1" equivalent */
-      color: ${colors.text33};
+      color: ${colors.text25};
       font-weight: 600;
       line-height: 1.4;
     }

@@ -13,7 +13,28 @@ export const CSS_SHADE_VARIANTS = ['xxlight', 'xlight', 'light', 'dark', 'xdark'
  * CSS transparency levels for color-mix() function
  * Used to generate transparent color variants
  */
-export const CSS_TRANSPARENCY_LEVELS = [5, 10, 20, 25, 30, 33, 40, 50, 60, 66, 70, 75, 80, 90, 95] as const;
+
+// NOTE: V1 - ALL SHADE LEVELS
+// export const CSS_TRANSPARENCY_LEVELS = [5, 10, 20, 25, 30, 33, 40, 50, 60, 66, 70, 75, 80, 90, 95] as const;
+
+// NOTE: V2 - SLIM SHADE LEVELS
+export const CSS_TRANSPARENCY_LEVELS = [
+  // 5,
+  10,
+  // 20,
+  25,
+  // 30,
+  // 33,
+  // 40,
+  50,
+  // 60,
+  // 66,
+  // 70,
+  75,
+  // 80,
+  90,
+  // 95,
+] as const;
 
 /**
  * Base color names for CSS variable generation

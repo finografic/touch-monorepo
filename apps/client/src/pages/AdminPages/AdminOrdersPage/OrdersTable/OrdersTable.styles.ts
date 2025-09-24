@@ -52,14 +52,14 @@ export const styles = css`
 
     &:hover {
       color: ${colors.successXDark};
-      background-color: ${colors.success33};
+      background-color: ${colors.success25};
     }
     &.active {
       color: ${colors.warningDark};
       background-color: transparent;
       &:hover {
         color: ${colors.warningDark};
-        background-color: ${colors.warning33};
+        background-color: ${colors.warning25};
       }
     }
   }
@@ -71,14 +71,14 @@ export const styles = css`
 
     &:hover {
       color: ${colors.successXDark};
-      background-color: ${colors.success33};
+      background-color: ${colors.success25};
     }
     &.active {
       color: ${colors.warningDark};
       background-color: transparent;
       &:hover {
         color: ${colors.warningDark};
-        background-color: ${colors.warning33};
+        background-color: ${colors.warning25};
       }
     }
   }

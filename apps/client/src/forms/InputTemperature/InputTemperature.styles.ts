@@ -10,7 +10,7 @@ export const styles = css`
       padding-right: 0.5rem; /* Add space for unit display */
 
       &:disabled {
-        background-color: ${colors.greyXXLight80}; /* Even lighter than forms default */
+        background-color: ${colors.greyXXLight75}; /* Even lighter than forms default */
         border-color: ${forms.inputs.disabled.border.color};
         color: ${forms.inputs.disabled.text.color};
         font-weight: ${forms.inputs.disabled.text.fontWeight};
@@ -20,7 +20,7 @@ export const styles = css`
 
     /* Style disabled slots */
     &:has(.rt-TextFieldInput:disabled) .rt-TextFieldSlot {
-      background-color: ${colors.greyXXLight60}; /* Lighter background for slot */
+      background-color: ${colors.greyXXLight50}; /* Lighter background for slot */
       border-color: ${colors.greyXLight}; /* Dimmed border */
       opacity: 0.7; /* Additional dimming */
 
@@ -60,7 +60,7 @@ export const styles = css`
       border-color: ${colors.dangerDark} !important;
 
       &:focus {
-        box-shadow: 0 0 0 3px ${colors.dangerDark20} !important;
+        box-shadow: 0 0 0 3px ${colors.dangerDark25} !important;
       }
     }
 
@@ -75,7 +75,7 @@ export const styles = css`
       border-color: ${colors.warningDark} !important;
 
       &:focus {
-        box-shadow: 0 0 0 3px ${colors.warningDark20} !important;
+        box-shadow: 0 0 0 3px ${colors.warningDark25} !important;
       }
     }
 

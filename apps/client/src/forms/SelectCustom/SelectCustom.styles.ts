@@ -82,12 +82,12 @@ export const stylesDropdown = css`
     }
 
     &:hover {
-      background-color: ${colors.greyXXLight20};
+      background-color: ${colors.greyXXLight25};
     }
 
     &.focused,
     &:active {
-      background-color: ${colors.defaultXLight33};
+      background-color: ${colors.defaultXLight25};
     }
 
     /* Text styling within options */

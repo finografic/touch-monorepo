@@ -17,7 +17,7 @@ export const padStyles = css`
       &.checked {
         color: ${colors.infoDark};
         border-color: ${colors.infoDark};
-        background-color: ${colors.infoLight66};
+        background-color: ${colors.infoLight75};
       }
     }
 

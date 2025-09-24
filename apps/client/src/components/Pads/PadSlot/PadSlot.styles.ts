@@ -19,24 +19,24 @@ export const styles = css`
     }
 
     &.item-type-A {
-      color: ${colors.defaultLight80};
-      border-color: ${colors.defaultLight80};
+      color: ${colors.defaultLight75};
+      border-color: ${colors.defaultLight75};
       transition: ${button.transition};
 
       &.checked {
-        color: ${colors.defaultLight80};
-        border-color: ${colors.defaultLight80};
-        background-color: ${colors.defaultXLight33};
+        color: ${colors.defaultLight75};
+        border-color: ${colors.defaultLight75};
+        background-color: ${colors.defaultXLight25};
       }
 
       &:hover {
-        color: ${colors.default66};
-        border-color: ${colors.default66};
-        background-color: ${colors.defaultXLight66};
+        color: ${colors.default75};
+        border-color: ${colors.default75};
+        background-color: ${colors.defaultXLight75};
         transform: scale(${button.transform.padHoverScale});
         &.checked {
-          color: ${colors.default66};
-          border-color: ${colors.default66};
+          color: ${colors.default75};
+          border-color: ${colors.default75};
           background-color: ${colors.defaultLight50};
         }
       }
@@ -50,18 +50,18 @@ export const styles = css`
       &.checked {
         color: ${colors.infoLight};
         border-color: ${colors.infoLight};
-        background-color: ${colors.infoXLight33};
+        background-color: ${colors.infoXLight25};
       }
 
       &:hover {
         color: ${colors.infoDark};
         border-color: ${colors.infoDark};
-        background-color: ${colors.infoLight66};
+        background-color: ${colors.infoLight75};
         transform: scale(${button.transform.padHoverScale});
         &.checked {
           color: ${colors.infoDark};
           border-color: ${colors.infoDark};
-          background-color: ${colors.infoLight66};
+          background-color: ${colors.infoLight75};
         }
       }
     }
@@ -98,8 +98,8 @@ export const styles = css`
     /* Disabled styles inherited from stylesButtonBase */
 
     &.status-processing {
-      color: ${colors.success80};
-      border: ${layout.borderWidth} solid ${colors.success80};
+      color: ${colors.success75};
+      border: ${layout.borderWidth} solid ${colors.success75};
       /* background-color: ${colors.success25}; */
       background-color: transparent;
       &:hover {
@@ -111,7 +111,7 @@ export const styles = css`
       &.selected {
         color: ${colors.successDark};
         border: ${layout.borderWidth} solid ${colors.successDark};
-        background-color: ${colors.successDark20};
+        background-color: ${colors.successDark25};
         &:hover {
           color: ${colors.success};
           border-color: ${colors.successLight};
@@ -124,8 +124,8 @@ export const styles = css`
       &.checking-blocked.selected {
         cursor: not-allowed;
         pointer-events: none;
-        color: ${colors.success80};
-        border: ${layout.borderWidth} solid ${colors.success80};
+        color: ${colors.success75};
+        border: ${layout.borderWidth} solid ${colors.success75};
         background-color: transparent;
       }
     }

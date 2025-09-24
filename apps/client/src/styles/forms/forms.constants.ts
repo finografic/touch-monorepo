@@ -13,11 +13,11 @@ export const forms = {
     background: colors.white,
 
     border: {
-      color: colors.greyXXLight66,
+      color: colors.greyXXLight75,
       width: '2px',
       radius: '6px',
       focus: {
-        color: colors.greyXLight80,
+        color: colors.greyXLight75,
       },
     },
 

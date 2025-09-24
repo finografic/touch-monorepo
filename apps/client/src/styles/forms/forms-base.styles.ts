@@ -74,12 +74,12 @@ export const formsBase = css`
 
     &:focus {
       border-color: ${forms.inputs.focus.border.color};
-      box-shadow: 0 0 0 3px ${colors.primaryLight20};
+      box-shadow: 0 0 0 3px ${colors.primaryLight25};
     }
 
     &:disabled {
       background-color: ${forms.inputs.disabled.background}!important;
-      background-color: ${colors.greyXXLight33}!important;
+      background-color: ${colors.greyXXLight25}!important;
       border-color: ${forms.inputs.disabled.border.color};
       color: ${forms.inputs.placeholder.disabled.color};
       font-weight: ${forms.inputs.placeholder.disabled.fontWeight};
@@ -133,7 +133,7 @@ export const formsBase = css`
 
     &:focus {
       border-color: ${forms.inputs.focus.border.color};
-      box-shadow: 0 0 0 3px ${colors.primaryLight20};
+      box-shadow: 0 0 0 3px ${colors.primaryLight25};
     }
   }
 

@@ -132,15 +132,15 @@ export const cssGlobal = css`
   }
 
   :not(body):not(html)::-webkit-scrollbar-track {
-    background: ${colors.greyXXLight20};
+    background: ${colors.greyXXLight25};
     border-radius: 6px;
   }
 
   :not(body):not(html)::-webkit-scrollbar-thumb {
     background: var(--color-grey-light);
-    background: ${colors.greyXLight40};
+    background: ${colors.greyXLight50};
     border-radius: 6px;
-    border: 4px solid ${colors.white60}; /* Creates inset effect */
+    border: 4px solid ${colors.white50}; /* Creates inset effect */
 
     &:hover {
       background: ${colors.greyLight};

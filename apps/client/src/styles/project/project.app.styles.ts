@@ -20,7 +20,7 @@ export const stylesAppContent = css`
 
   .button-box button.btn {
     svg.icon {
-      color: ${colors.default40};
+      color: ${colors.default50};
     }
     &:hover {
       border-color: transparent;

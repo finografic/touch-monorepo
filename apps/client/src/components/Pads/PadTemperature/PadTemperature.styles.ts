@@ -49,7 +49,7 @@ export const styles = css`
     font-size: 2.5rem;
     font-weight: ${button.fontWeight.large};
     color: ${colors.infoLight};
-    border-color: ${colors.infoLight40};
+    border-color: ${colors.infoLight50};
     margin: 1rem 0;
     min-width: 200px;
 
@@ -70,12 +70,12 @@ export const styles = css`
 
     &:disabled {
       cursor: not-allowed;
-      color: ${colors.defaultXLight66}!important;
-      border-color: ${colors.defaultXLight66};
+      color: ${colors.defaultXLight75}!important;
+      border-color: ${colors.defaultXLight75};
     }
 
     &:hover:not(:disabled) {
-      background-color: ${colors.infoLight33};
+      background-color: ${colors.infoLight25};
     }
 
     &:active:not(:disabled) {

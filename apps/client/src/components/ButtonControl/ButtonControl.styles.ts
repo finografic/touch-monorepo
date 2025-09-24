@@ -12,7 +12,7 @@ export const styles = css`
   transition: all 0.2s;
 
   color: ${colors.info};
-  border-color: ${colors.infoDark95};
+  border-color: ${colors.infoXDark};
   background: transparent;
 
   &:hover {
@@ -48,14 +48,14 @@ export const styles = css`
     /* background: transparent; */
     color: ${colors.success};
 
-    color: ${colors.defaultLight80};
-    border-color: ${colors.defaultLight80};
+    color: ${colors.defaultLight75};
+    border-color: ${colors.defaultLight75};
 
     display: none;
 
     &:hover {
       border-color: ${colors.successLight};
-      background-color: ${colors.successLight80};
+      background-color: ${colors.successLight75};
     }
 
     &:disabled {
