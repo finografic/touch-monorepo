@@ -69,11 +69,11 @@ export const AuthLoginSimpleDialog = ({
         id: 'login',
         label: 'Sign In',
         content: (
-          <div css={styles.container} id="simple-login-dialog">
-            <div css={styles.formWrapper}>
-              <form css={styles.form} onSubmit={handleSubmit}>
-                <div css={styles.inputGroup}>
-                  <label css={styles.label} htmlFor="password">
+          <div css={styles} id="simple-login-dialog">
+            <div className="form-wrapper">
+              <form className="form" onSubmit={handleSubmit}>
+                <div className="input-group">
+                  <label className="label" htmlFor="password">
                     Password
                     <span className="hint">{DEFAULT_PASSWORD}</span>
                   </label>
@@ -89,9 +89,9 @@ export const AuthLoginSimpleDialog = ({
                   />
                 </div>
 
-                {error && <div css={styles.error}>{error}</div>}
+                {error && <div className="error">{error}</div>}
 
-                <Button type="submit" disabled={isLoading} css={styles.submitButton}>
+                <Button type="submit" disabled={isLoading} className="submit-button">
                   {isLoading ? 'Loading...' : 'Sign In'}
                 </Button>
               </form>
