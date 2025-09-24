@@ -1,4 +1,5 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState, useEffect, useCallback } from 'react';
 import type { UseQueryResult } from '@tanstack/react-query';
 import type { ErrorResponse } from '@workspace/core/api';
 import { api } from 'api';
@@ -29,13 +30,61 @@ const getRelayStates = async (): Promise<RelayState[]> => {
   }
 };
 
-export const useGetRelayStates = (): UseQueryResult<RelayState[], ErrorResponse> => {
-  return useQuery({
+export const useGetRelayStates = (): UseQueryResult<RelayState[], ErrorResponse> & {
+  isPollingEnabled: boolean;
+  enablePolling: () => void;
+  disablePolling: () => void;
+} => {
+  const queryClient = useQueryClient();
+  const [isPollingEnabled, setIsPollingEnabled] = useState(true);
+  const [hasNetworkError, setHasNetworkError] = useState(false);
+
+  const query = useQuery({
     queryKey: [...GET_RELAY_STATES_QUERYKEY],
     queryFn: getRelayStates,
     enabled: true,
     retry: 1,
     staleTime: 1000 * 5, // 5 seconds - relay states change frequently
-    refetchInterval: 2000, // Refetch every 2 seconds for real-time updates
+    refetchInterval: isPollingEnabled ? 3000 : false, // Conditional polling
+    refetchOnWindowFocus: isPollingEnabled, // Conditional refetch on focus
+    refetchOnMount: true, // Always refetch when component mounts
   });
+
+  // Monitor for network errors and disable polling
+  useEffect(() => {
+    if (query.error) {
+      const error = query.error as ErrorResponse;
+      // Check if it's a network error (server down, connection refused, etc.)
+      if (
+        error.message?.includes('Network Error') ||
+        error.message?.includes('RPC Request Failed') ||
+        error.message?.includes('ECONNREFUSED') ||
+        error.message?.includes('fetch')
+      ) {
+        setHasNetworkError(true);
+        setIsPollingEnabled(false);
+      }
+    } else if (hasNetworkError && query.isSuccess) {
+      // Reset error state when we get a successful response
+      setHasNetworkError(false);
+    }
+  }, [query.error, query.isSuccess, hasNetworkError]);
+
+  const enablePolling = useCallback(() => {
+    setIsPollingEnabled(true);
+    setHasNetworkError(false);
+    // Force a refetch when re-enabling polling
+    queryClient.invalidateQueries({ queryKey: [...GET_RELAY_STATES_QUERYKEY] });
+  }, [queryClient]);
+
+  const disablePolling = useCallback(() => {
+    setIsPollingEnabled(false);
+  }, []);
+
+  return {
+    ...query,
+    isPollingEnabled,
+    enablePolling,
+    disablePolling,
+  };
 };

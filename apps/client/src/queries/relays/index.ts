@@ -6,6 +6,7 @@ export { useTurnAllRelaysOn } from './useTurnAllRelaysOn';
 export { useTurnAllRelaysOff } from './useTurnAllRelaysOff';
 export { useReconnectRelay } from './useReconnectRelay';
 export { useDisconnectRelay } from './useDisconnectRelay';
+export { useInitializeRelay } from './useInitializeRelay';
 
 export type { RelayState } from './useGetRelayStates';
 
@@ -17,3 +18,4 @@ export const POST_RELAY_TURN_ALL_ON_QUERYKEY = ['post-relay-turn-all-on'] as con
 export const POST_RELAY_TURN_ALL_OFF_QUERYKEY = ['post-relay-turn-all-off'] as const;
 export const POST_RELAY_RECONNECT_QUERYKEY = ['post-relay-reconnect'] as const;
 export const POST_RELAY_DISCONNECT_QUERYKEY = ['post-relay-disconnect'] as const;
+export const POST_RELAY_INIT_QUERYKEY = ['post-relay-init'] as const;

@@ -10,4 +10,5 @@ export default createRouter()
   .openapi(routes.turnAllRelaysOn, handlers.turnAllRelaysOn)
   .openapi(routes.turnAllRelaysOff, handlers.turnAllRelaysOff)
   .openapi(routes.reconnectRelay, handlers.reconnectRelay)
-  .openapi(routes.disconnectRelay, handlers.disconnectRelay);
+  .openapi(routes.disconnectRelay, handlers.disconnectRelay)
+  .openapi(routes.initializeRelay, handlers.initializeRelay);

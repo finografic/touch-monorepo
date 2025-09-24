@@ -64,7 +64,8 @@ export const RelayGrid: React.FC<RelayGridProps> = ({ configurations, onRelayTog
             gridTemplateColumns: 'repeat(3, 1fr)',
             gridTemplateRows: 'repeat(3, 1fr)',
             minWidth: '360px',
-            gap: '8px',
+            columnGap: '4px',
+            rowGap: '24px',
           }}
         >
           {relayConfigurations.map((config) => (

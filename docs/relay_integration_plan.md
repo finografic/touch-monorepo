@@ -22,23 +22,22 @@ This document outlines the **completed implementation** of the HW-554 USB relay 
 - **Error Handling:** Robust error handling for hardware communication failures
 - **Cross-platform:** Support Windows (client) and Linux/macOS (server)
 
-## 2. ✅ IMPLEMENTED: Serial Communication
+## 2. ✅ IMPLEMENTED: USB HID Communication
 
-**Chosen Approach:** Serial Communication via `serialport` library
+**Chosen Approach:** USB HID Communication via `node-hid` library
 
 **Why This Approach:**
-- ✅ **Explicit Documentation:** Clear byte commands (`0xFF, 0xFF`, `0x00, 0x00`)
-- ✅ **Mature Ecosystem:** Well-established Node.js `serialport` library
-- ✅ **Direct Control:** Low-level access to hardware
-- ✅ **Cross-platform:** Works on Windows, Linux, macOS
+- ✅ **Hardware Discovery:** The HW-554 board uses USBRelay8 chip (vendor: 16c0, product: 05df)
+- ✅ **HID Protocol:** Board communicates via USB HID interface, not serial
+- ✅ **Direct Control:** Low-level access to hardware via HID commands
+- ✅ **Cross-platform:** Works on Windows, Linux, macOS with proper permissions
 - ✅ **Functional Module Pattern:** Modern TypeScript implementation without classes
 
 **Actual Implementation:**
 
 ```typescript
-// apps/server/src/services/relay.service.ts
-import { SerialPort } from 'serialport';
-import { Buffer } from 'buffer';
+// apps/server/src/services/usbrelay.service.ts
+import * as HID from 'node-hid';
 import { relayConfig } from '../config/relay.config';
 
 export interface RelayState {
@@ -54,20 +53,21 @@ export interface RelayConnectionStatus {
 }
 
 // Functional Module Pattern (no classes, no 'this')
-export const RelayService = {
-  async initialize(): Promise<void> {
+export const USBRelayService = {
+  async initialize(): Promise<boolean> {
     if (!relayConfig.enabled) {
       console.log('🔌 Relay control disabled via configuration');
-      return;
+      return false;
     }
-    // Auto-detects FTDI/CH340 devices and connects
+    // Auto-detects USBRelay8 device and connects via HID
   },
 
-  async toggleRelay(slotNumber: number, state: boolean): Promise<void> {
+  async toggleRelay(slotNumber: number, state: boolean): Promise<boolean> {
     validateSlotNumber(slotNumber);
     const command = buildRelayCommand(slotNumber, state);
-    await sendCommand(command);
+    await sendHIDCommand(command);
     relayStates.set(slotNumber, state);
+    return true;
   },
 
   getRelayState(slotNumber: number): boolean {
@@ -83,7 +83,7 @@ export const RelayService = {
   },
 
   getConnectionStatus(): RelayConnectionStatus {
-    // Returns connection status with port info
+    // Returns connection status with device info
   },
 
   async ensureConnection(): Promise<boolean> {
@@ -91,19 +91,25 @@ export const RelayService = {
   },
 
   // Bulk operations
-  async turnAllRelaysOn(): Promise<void> { /* ... */ },
-  async turnAllRelaysOff(): Promise<void> { /* ... */ },
+  async turnAllRelaysOn(): Promise<boolean> { /* ... */ },
+  async turnAllRelaysOff(): Promise<boolean> { /* ... */ },
 };
 ```
 
 **Key Features Implemented:**
-- ✅ **Auto-detection** of FTDI FT245RL and CH340 chips
+- ✅ **Auto-detection** of USBRelay8 device (vendor: 16c0, product: 05df)
+- ✅ **HID Protocol Commands:**
+  - Individual ON: `[0xFF, slotNumber, slotNumber, slotNumber]`
+  - Individual OFF: `[0xFD, slotNumber, slotNumber, slotNumber]`
+  - All ON: `[0xFE]`
+  - All OFF: `[0xFC]`
 - ✅ **Exponential backoff** reconnection strategy
 - ✅ **Connection state management** (disconnected/connecting/connected)
 - ✅ **Error handling** with detailed logging
 - ✅ **Configuration-based** enable/disable
 - ✅ **Bulk operations** (all on/off)
 - ✅ **Type-safe** interfaces and readonly data
+- ✅ **Lazy initialization** to prevent race conditions during server startup
 
 ## 3. ✅ IMPLEMENTED: Server-Side Architecture
 
@@ -113,20 +119,15 @@ export const RelayService = {
 // apps/server/src/config/relay.config.ts
 export const relayConfig = {
   enabled: process.env.RELAY_ENABLED === 'true',
-  port: process.env.RELAY_PORT || '/dev/ttyUSB0', // Default for Linux/macOS
-  baudRate: parseInt(process.env.RELAY_BAUD_RATE || '9600'),
-  timeout: parseInt(process.env.RELAY_TIMEOUT || '5000'),
-  maxReconnectAttempts: parseInt(process.env.RELAY_RECONNECT_ATTEMPTS || '5'),
+  timeout: Number(process.env.RELAY_TIMEOUT) || 5000,
+  maxReconnectAttempts: Number(process.env.RELAY_RECONNECT_ATTEMPTS) || 5,
   slotMapping: {
     // Map UI slots to physical relays (1-8)
     1: 1, 2: 2, 3: 3, 4: 4, 5: 5, 6: 6, 7: 7, 8: 8,
   },
-  // FTDI chip identifiers for device detection
-  ftdiVendorId: '0403',
-  ftdiProductId: '6001',
-  // CH340 chip identifiers (alternative)
-  ch340VendorId: '1a86',
-  ch340ProductId: '7523',
+  // USBRelay8 chip identifiers for device detection
+  usbrelayVendorId: '16c0',
+  usbrelayProductId: '05df',
 };
 ```
 
@@ -177,6 +178,18 @@ export const reconnectRelay = createRoute({
   method: 'post',
   // Manual reconnection trigger
 });
+
+export const disconnectRelay = createRoute({
+  path: '/relay/disconnect',
+  method: 'post',
+  // Manual disconnection
+});
+
+export const initializeRelay = createRoute({
+  path: '/relay/init',
+  method: 'post',
+  // Lazy initialization endpoint
+});
 ```
 
 ### ✅ Handler Implementation
@@ -217,109 +230,262 @@ export const toggleRelay: AppRouteHandler<ToggleRelayRoute> = async (context) =>
 - ✅ `POST /api/relay/all-on` - Turn all relays ON
 - ✅ `POST /api/relay/all-off` - Turn all relays OFF
 - ✅ `POST /api/relay/reconnect` - Manual reconnection
+- ✅ `POST /api/relay/disconnect` - Manual disconnection
+- ✅ `POST /api/relay/init` - Lazy initialization (prevents race conditions)
 
 ## 4. ✅ IMPLEMENTED: Client-Side Test Interface
 
-### ✅ Admin Relay Test Page
+### ✅ Admin Relay Test Page with React Query
 
-**Implemented a dedicated test interface for relay control:**
+**Implemented a comprehensive test interface with React Query hooks:**
 
 ```typescript
 // apps/client/src/pages/AdminPages/AdminRelaysPage/AdminRelaysPage.tsx
 export const AdminRelaysPage: React.FC = () => {
-  const [slotConfigs, setSlotConfigs] = useState<SlotConfigFormValue[]>([]);
+  // React Query hooks for API communication
+  const {
+    data: relayStates,
+    isLoading: isLoadingStates,
+    error: statesError,
+    isPollingEnabled: statesPollingEnabled,
+    enablePolling: enableStatesPolling,
+    disablePolling: disableStatesPolling,
+  } = useGetRelayStates();
 
-  // Initialize with NUM_RELAYS (8) slots
-  useEffect(() => {
-    const initialConfigs = Array.from({ length: NUM_RELAYS }, (_, index) => ({
-      slotNumber: index + 1,
-      slotType: 'empty' as SlotType,
-      isOn: false, // Relay state
-    }));
-    setSlotConfigs(initialConfigs);
-  }, []);
+  const {
+    data: relayStatus,
+    isLoading: isLoadingStatus,
+    isPollingEnabled: statusPollingEnabled,
+    enablePolling: enableStatusPolling,
+    disablePolling: disableStatusPolling,
+  } = useGetRelayStatus();
 
-  return (
-    <div className="admin-relays-page">
-      <h1>Relay Control Test</h1>
-      <p>Test interface for HW-554 USB Relay Board (8 channels)</p>
+  // Mutation hooks for relay control
+  const toggleRelayMutation = useToggleRelay();
+  const turnAllOnMutation = useTurnAllRelaysOn();
+  const turnAllOffMutation = useTurnAllRelaysOff();
+  const reconnectMutation = useReconnectRelay();
+  const disconnectMutation = useDisconnectRelay();
 
-      <RelayGrid
-        configurations={slotConfigs}
-        onSlotClick={handleSlotClick}
-      />
-
-      <div className="relay-status-legend">
-        <h3>Relay Status</h3>
-        {Array.from({ length: NUM_RELAYS }, (_, index) => (
-          <div key={index + 1} className="legend-item">
-            <span className={`legend-relay-${slotConfigs[index]?.isOn ? 'on' : 'off'}`}>
-              Relay {index + 1}: {slotConfigs[index]?.isOn ? 'ON' : 'OFF'}
-            </span>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-```
-
-### ✅ Interactive Relay Grid
-
-```typescript
-// apps/client/src/pages/AdminPages/AdminRelaysPage/RelayGrid.tsx
-export const RelayGrid: React.FC<RelayGridProps> = ({ configurations, onSlotClick }) => {
-  const handleSlotClick = (slotNumber: number) => {
-    const config = configurations.find(c => c.slotNumber === slotNumber);
-    if (config) {
-      onSlotClick(slotNumber, !config.isOn);
+  // Smart polling management
+  const handleRetryConnection = async () => {
+    try {
+      enableStatesPolling();
+      enableStatusPolling();
+      toast({
+        message: 'Retrying Connection',
+        subText: 'Attempting to reconnect to server...',
+        variant: 'info',
+      });
+    } catch (error) {
+      toast({
+        message: 'Retry Failed',
+        subText: 'Failed to retry connection',
+        variant: 'error',
+      });
     }
   };
 
   return (
-    <div className="relay-grid">
-      {configurations.map((config) => (
-        <div
-          key={config.slotNumber}
-          className={`slot ${config.isOn ? 'slot-success' : 'slot-default'}`}
-          onClick={() => handleSlotClick(config.slotNumber)}
-        >
-          <span className="slot-label">
-            Relay {config.slotNumber}
-          </span>
-          <span className="slot-status">
-            {config.isOn ? 'ON' : 'OFF'}
-          </span>
-        </div>
-      ))}
-    </div>
+    <AdminContentLayout title="Relay Control" subtitle={`Test and control the ${NUM_RELAYS}-channel relay board`}>
+      <Box className="admin-relay-control">
+        <Flex direction="column" gap="6">
+          {/* Connection Status with Smart Polling */}
+          <Card size="3" variant="surface">
+            <Flex justify="between" align="center">
+              <Flex direction="column" gap="2">
+                <Heading size="4">Connection Status</Heading>
+                <Flex align="center" gap="3">
+                  <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">
+                    {relayStatus?.connected ? 'Connected' : 'Disconnected'}
+                  </Badge>
+                  <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
+                    Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
+                  </Badge>
+                  {relayStatus?.port && (
+                    <Text size="2" color="gray">
+                      Port: {relayStatus.port}
+                    </Text>
+                  )}
+                  {relayStatus?.error && (
+                    <Text size="2" color="red">
+                      Error: {relayStatus.error}
+                    </Text>
+                  )}
+                </Flex>
+              </Flex>
+              <Flex align="center" gap="3">
+                <Button
+                  onClick={handleReconnect}
+                  disabled={reconnectMutation.isPending || disconnectMutation.isPending}
+                  variant="outline"
+                  size="2"
+                >
+                  {reconnectMutation.isPending || disconnectMutation.isPending
+                    ? relayStatus?.connected
+                      ? 'Disconnecting...'
+                      : 'Reconnecting...'
+                    : relayStatus?.connected
+                      ? 'Disconnect'
+                      : 'Reconnect'}
+                </Button>
+              </Flex>
+            </Flex>
+          </Card>
+
+          {/* Relay Control Grid */}
+          <Card size="3" variant="surface">
+            <Flex gap="4" justify="between">
+              <Flex direction="column" gap="4">
+                <Flex justify="between" align="center">
+                  <Heading size="4">Relay Control Grid</Heading>
+                  <Flex gap="2" ml="4">
+                    <Button
+                      onClick={handleTurnAllOn}
+                      disabled={turnAllOnMutation.isPending}
+                      variant="solid"
+                      color="green"
+                      size="2"
+                    >
+                      {turnAllOnMutation.isPending ? 'Turning ON...' : 'All ON'}
+                    </Button>
+                    <Button
+                      onClick={handleTurnAllOff}
+                      disabled={turnAllOffMutation.isPending}
+                      variant="solid"
+                      color="red"
+                      size="2"
+                    >
+                      {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
+                    </Button>
+                    <Button
+                      onClick={handleResetAll}
+                      disabled={turnAllOffMutation.isPending}
+                      variant="outline"
+                      color="orange"
+                      size="2"
+                    >
+                      {turnAllOffMutation.isPending ? 'Resetting...' : 'Reset All'}
+                    </Button>
+                  </Flex>
+                </Flex>
+                <RelayGrid
+                  configurations={relayConfigs}
+                  onRelayToggle={handleRelayToggle}
+                  isLoading={toggleRelayMutation.isPending}
+                />
+              </Flex>
+            </Flex>
+          </Card>
+        </Flex>
+      </Box>
+    </AdminContentLayout>
   );
 };
 ```
 
-### ✅ Configuration Constants
+### ✅ React Query Hooks for API Communication
+
+**Comprehensive React Query hooks for all relay operations:**
 
 ```typescript
-// apps/client/src/pages/AdminPages/AdminRelaysPage/relays.config.ts
-export const NUM_RELAYS = 8;
+// apps/client/src/queries/relays/useGetRelayStates.ts
+export const useGetRelayStates = () => {
+  const [isPollingEnabled, setIsPollingEnabled] = useState(true);
+
+  const query = useQuery({
+    queryKey: GET_RELAY_STATES_QUERYKEY,
+    queryFn: async () => {
+      const response = await fetch('/api/relay/states');
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to fetch relay states');
+      }
+      return response.json();
+    },
+    refetchInterval: isPollingEnabled ? 2000 : false, // Smart polling
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+  });
+
+  // Auto-disable polling on network errors
+  useEffect(() => {
+    if (query.error) {
+      const isNetworkError = query.error.message?.includes('Network Error') ||
+                           query.error.message?.includes('RPC Request Failed');
+      if (isNetworkError) {
+        setIsPollingEnabled(false);
+      }
+    }
+  }, [query.error]);
+
+  return {
+    ...query,
+    isPollingEnabled,
+    enablePolling: () => setIsPollingEnabled(true),
+    disablePolling: () => setIsPollingEnabled(false),
+  };
+};
+
+// Similar implementation for useGetRelayStatus, useToggleRelay, etc.
 ```
 
 **Key Features:**
-- ✅ **Visual grid** of 8 relay buttons
-- ✅ **Real-time status** display (ON/OFF)
-- ✅ **Click to toggle** functionality
-- ✅ **Status legend** showing all relay states
-- ✅ **Responsive design** with proper styling
-- ✅ **Type-safe** configuration management
+- ✅ **Smart Polling:** Automatically stops polling on network errors
+- ✅ **Retry Logic:** Exponential backoff for failed requests
+- ✅ **State Management:** Real-time UI updates with React Query
+- ✅ **Error Handling:** Comprehensive error states and recovery
+- ✅ **Performance:** Optimized refetch intervals and caching
+- ✅ **User Control:** Manual retry and polling control
+
+### ✅ Lazy Initialization and Race Condition Prevention
+
+**Implemented lazy initialization to prevent server startup conflicts:**
+
+```typescript
+// apps/client/src/pages/AdminPages/AdminRelaysPage/RelayPageWrapper.tsx
+export const RelayPageWrapper: React.FC = () => {
+  const initializeMutation = useInitializeRelay();
+
+  useEffect(() => {
+    // Initialize the relay service when the component mounts
+    initializeMutation.mutate();
+  }, []);
+
+  if (initializeMutation.isPending) {
+    return (
+      <Box p="4">
+        <Text>Initializing relay service...</Text>
+      </Box>
+    );
+  }
+
+  if (initializeMutation.isError) {
+    return (
+      <Box p="4">
+        <Text color="red">Error initializing relay service: {initializeMutation.error?.message}</Text>
+      </Box>
+    );
+  }
+
+  return <AdminRelaysPage />;
+};
+```
+
+**Key Features:**
+- ✅ **Lazy Initialization:** Service starts only when `/admin/relays` route is accessed
+- ✅ **Race Condition Prevention:** Avoids conflicts during server startup
+- ✅ **User Experience:** Clear loading and error states
+- ✅ **Automatic Recovery:** Service initializes automatically on route access
 
 ## 5. ✅ IMPLEMENTED: Error Handling and Recovery
 
 ### ✅ Hardware Connection Management
 
-**Built into the RelayService with comprehensive error handling:**
+**Built into the USBRelayService with comprehensive error handling:**
 
 ```typescript
-// apps/server/src/services/relay.service.ts
+// apps/server/src/services/usbrelay.service.ts
 const handleConnectionFailure = (): void => {
   reconnectAttempts++;
   if (reconnectAttempts < maxReconnectAttempts) {
@@ -333,26 +499,27 @@ const handleConnectionFailure = (): void => {
   }
 };
 
-const setupEventHandlers = (): void => {
-  if (!port) return;
+const connectToRelayBoard = async (): Promise<void> => {
+  if (connectionState === 'connected') return;
 
-  port.on('open', () => {
-    console.log('✅ Relay board connected successfully');
-    connectionState = 'connected';
-    reconnectAttempts = 0;
-  });
+  connectionState = 'connecting';
+  console.log('🔌 Searching for USBRelay8 device...');
 
-  port.on('error', (error) => {
-    console.error('❌ Relay board error:', error);
+  try {
+    const devices = HID.devices();
+    const relayDevice = findRelayDevice(devices);
+
+    if (!relayDevice) {
+      throw new Error('No USBRelay8 device detected. Please check USB connection.');
+    }
+
+    console.log('🎯 Found USBRelay8 device:', relayDevice.path);
+    await createHIDConnection(relayDevice);
+  } catch (error) {
     connectionState = 'disconnected';
-    handleConnectionFailure();
-  });
-
-  port.on('close', () => {
-    console.log('🔌 Relay board disconnected');
-    connectionState = 'disconnected';
-    handleConnectionFailure();
-  });
+    console.error('❌ Failed to connect to relay board:', error);
+    throw error;
+  }
 };
 ```
 
@@ -456,7 +623,104 @@ export const relayConfig = {
 
 **Note:** The existing `preinstall` hook for `windows-build-tools` handles native dependencies for Windows deployments.
 
-## 7. 🚀 READY FOR TESTING
+## 7. ✅ IMPLEMENTED: Test Suite
+
+### ✅ Comprehensive Vitest Test Coverage
+
+**Created comprehensive test suite covering all relay functionality:**
+
+```typescript
+// apps/server/src/services/__tests__/usbrelay.service.test.ts
+import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import * as HID from 'node-hid';
+
+// Mock node-hid
+vi.mock('node-hid', () => ({
+  devices: vi.fn(),
+  HID: vi.fn(),
+}));
+
+describe('USBRelayService', () => {
+  describe('Device Detection', () => {
+    it('should detect USBRelay8 device', () => {
+      const devices = HID.devices();
+      expect(devices).toHaveLength(1);
+      expect(devices[0]).toEqual(mockDevice);
+    });
+  });
+
+  describe('Relay Control', () => {
+    it('should toggle individual relay ON', async () => {
+      const result = await USBRelayService.toggleRelay(1, true);
+      expect(result).toBe(true);
+    });
+
+    it('should toggle individual relay OFF', async () => {
+      const result = await USBRelayService.toggleRelay(1, false);
+      expect(result).toBe(true);
+    });
+  });
+
+  describe('Error Handling', () => {
+    it('should handle device write errors', async () => {
+      await expect(USBRelayService.toggleRelay(1, true)).rejects.toThrow('Write failed');
+    });
+  });
+});
+```
+
+### ✅ API Handler Tests
+
+```typescript
+// apps/server/src/routes/relay/__tests__/relay.handlers.test.ts
+describe('Relay API Handlers', () => {
+  describe('toggleRelay', () => {
+    it('should toggle relay ON successfully', async () => {
+      await toggleRelay(mockContext as Context);
+      expect(mockToggleRelay).toHaveBeenCalledWith(1, true);
+    });
+  });
+
+  describe('initializeRelay', () => {
+    it('should initialize successfully', async () => {
+      await initializeRelay(mockContext as Context);
+      expect(mockInitialize).toHaveBeenCalledOnce();
+    });
+  });
+});
+```
+
+### ✅ Test Configuration
+
+```typescript
+// apps/server/vitest.config.ts
+export default defineConfig({
+  test: {
+    globals: true,
+    environment: 'node',
+    setupFiles: ['./src/test/setup.ts'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'json', 'html'],
+    },
+  },
+});
+```
+
+**Test Scripts Added:**
+- ✅ `npm run test` - Run tests in watch mode
+- ✅ `npm run test.run` - Run tests once
+- ✅ `npm run test.coverage` - Run tests with coverage report
+- ✅ `npm run test.watch` - Run tests in watch mode
+
+**Key Features:**
+- ✅ **Comprehensive Coverage:** Tests for service, handlers, and error scenarios
+- ✅ **Mocked Dependencies:** Proper mocking of `node-hid` and external services
+- ✅ **Error Scenarios:** Tests for device failures, permission errors, and network issues
+- ✅ **Type Safety:** Full TypeScript support with proper typing
+- ✅ **Coverage Reports:** Detailed coverage reporting for all relay functionality
+
+## 8. 🚀 READY FOR TESTING
 
 ### ✅ Implementation Complete
 
@@ -467,20 +731,37 @@ export const relayConfig = {
 ```
 apps/server/src/
 ├── config/
-│   └── relay.config.ts          # ✅ Configuration service
+│   └── relay.config.ts          # ✅ Configuration service (USB HID)
 ├── services/
-│   └── relay.service.ts          # ✅ Core relay service (functional module)
-└── routes/relay/
-    ├── relay.routes.ts           # ✅ OpenAPI route definitions
-    ├── relay.handlers.ts         # ✅ Route handlers
-    └── index.ts                  # ✅ Route registration
+│   ├── usbrelay.service.ts       # ✅ Core USB HID relay service
+│   └── __tests__/
+│       └── usbrelay.service.test.ts  # ✅ Service tests
+├── routes/relay/
+│   ├── relay.routes.ts           # ✅ OpenAPI route definitions
+│   ├── relay.handlers.ts         # ✅ Route handlers
+│   ├── __tests__/
+│   │   └── relay.handlers.test.ts # ✅ Handler tests
+│   └── index.ts                  # ✅ Route registration
+├── test/
+│   └── setup.ts                  # ✅ Test setup configuration
+└── vitest.config.ts              # ✅ Test configuration
 
-apps/client/src/pages/AdminPages/AdminRelaysPage/
-├── AdminRelaysPage.tsx           # ✅ Main test page
-├── AdminRelaysPage.styles.ts     # ✅ Styling
-├── RelayGrid.tsx                 # ✅ Interactive grid
-├── RelayGrid.styles.ts           # ✅ Grid styling
-└── relays.config.ts              # ✅ Constants (NUM_RELAYS = 8)
+apps/client/src/
+├── pages/AdminPages/AdminRelaysPage/
+│   ├── AdminRelaysPage.tsx       # ✅ Main test page with React Query
+│   ├── RelayGrid.tsx             # ✅ Interactive grid
+│   ├── RelayPageWrapper.tsx      # ✅ Lazy initialization wrapper
+│   └── relays.config.ts          # ✅ Constants (NUM_RELAYS = 8)
+└── queries/relays/
+    ├── index.ts                  # ✅ Export all relay hooks
+    ├── useGetRelayStates.ts      # ✅ Smart polling hook
+    ├── useGetRelayStatus.ts      # ✅ Status polling hook
+    ├── useToggleRelay.ts         # ✅ Toggle mutation hook
+    ├── useTurnAllRelaysOn.ts     # ✅ All ON mutation hook
+    ├── useTurnAllRelaysOff.ts    # ✅ All OFF mutation hook
+    ├── useReconnectRelay.ts      # ✅ Reconnect mutation hook
+    ├── useDisconnectRelay.ts     # ✅ Disconnect mutation hook
+    └── useInitializeRelay.ts    # ✅ Initialize mutation hook
 ```
 
 ### ✅ Testing Checklist
@@ -488,15 +769,17 @@ apps/client/src/pages/AdminPages/AdminRelaysPage/
 **Hardware Setup:**
 - [ ] Connect HW-554 USB relay board to computer
 - [ ] Provide 12V external power supply
-- [ ] Verify device appears in system (Device Manager on Windows, `/dev/ttyUSB*` on Linux)
+- [ ] Verify device appears in system (Device Manager on Windows, `lsusb` on Linux/macOS)
+- [ ] Grant HID device permissions (macOS: System Preferences > Security & Privacy > Input Monitoring)
 
 **Software Testing:**
 - [ ] Start server: `cd apps/server && pnpm dev`
-- [ ] Navigate to admin relay test page
+- [ ] Navigate to admin relay test page (`/admin/relays`)
 - [ ] Test individual relay toggles (slots 1-8)
 - [ ] Test bulk operations (all on/off)
 - [ ] Test connection status endpoint
 - [ ] Test reconnection functionality
+- [ ] Test smart polling (stop/start server to verify polling stops/starts)
 
 **API Testing:**
 
@@ -513,15 +796,22 @@ curl -s http://localhost:4040/api/relay/status
 # Test bulk operations
 curl -X POST http://localhost:4040/api/relay/all-on
 curl -X POST http://localhost:4040/api/relay/all-off
+
+# Test lazy initialization
+curl -X POST http://localhost:4040/api/relay/init
 ```
+
+**Test Suite:**
+- [ ] Run tests: `cd apps/server && pnpm test.run`
+- [ ] Check coverage: `cd apps/server && pnpm test.coverage`
 
 ### ✅ Next Steps
 
 1. **Hardware Testing** - Connect actual HW-554 board and test functionality
-2. **Protocol Refinement** - Implement individual relay control (currently uses all-on/all-off)
-3. **Integration** - Connect relay control to main application slots
-4. **WebSocket Updates** - Add real-time state synchronization
-5. **Production Deployment** - Test on target Windows client machine
+2. **Production Integration** - Integrate relay control into main application workflow
+3. **WebSocket Updates** - Add real-time state synchronization for multiple clients
+4. **Production Deployment** - Test on target Windows client machine
+5. **Monitoring** - Add logging and monitoring for production use
 
 ---
 

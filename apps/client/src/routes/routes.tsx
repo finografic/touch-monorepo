@@ -24,6 +24,7 @@ import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { AuthTestPage } from 'pages/AuthTestPage/AuthTestPage';
 import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
+import { RelayPageWrapper } from 'pages/AdminPages/AdminRelaysPage/RelayPageWrapper';
 
 export const routes: RouteObject[] = [
   {
@@ -172,7 +173,7 @@ export const routes: RouteObject[] = [
           {
             path: 'relays',
             id: 'relays',
-            element: <AdminRelaysPage />,
+            element: <RelayPageWrapper />,
           },
         ],
       },

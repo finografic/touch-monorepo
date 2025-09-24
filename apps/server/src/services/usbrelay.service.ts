@@ -29,11 +29,30 @@ const USBRELAY_VENDOR_ID = 0x16c0;
 const USBRELAY_PRODUCT_ID = 0x05df;
 
 // Helper functions
-const initializeRelayStates = (): void => {
-  validSlotNumbers.forEach((slotNumber) => {
-    relayStates.set(slotNumber, false);
-  });
-  console.log('🔄 Initialized relay states (all OFF)');
+// Helper function to read actual hardware state (if possible)
+const readHardwareState = async (): Promise<Map<number, boolean>> => {
+  const hardwareStates = new Map<number, boolean>();
+
+  if (!isConnected()) {
+    console.log('🔌 Cannot read hardware state - device not connected');
+    return hardwareStates;
+  }
+
+  try {
+    // Note: USBRelay8 doesn't support reading relay states
+    // We'll need to track state changes instead
+    console.log('⚠️  USBRelay8 does not support reading relay states');
+    console.log('💡 Server will initialize with all relays OFF');
+
+    // Initialize all relays as OFF (hardware state unknown)
+    validSlotNumbers.forEach((slotNumber) => {
+      hardwareStates.set(slotNumber, false);
+    });
+  } catch (error) {
+    console.error('❌ Error reading hardware state:', error);
+  }
+
+  return hardwareStates;
 };
 
 const findRelayDevice = (): any => {
@@ -114,13 +133,9 @@ const sendHIDCommand = async (command: number[]): Promise<void> => {
   if (!device) throw new Error('Device not available');
 
   try {
-    // USBRelay8 typically uses 8-byte HID reports
-    // Format: [0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, relay_mask]
-    const report = new Array(8).fill(0);
-    report[7] = command[0] || 0; // Relay mask in last byte
-
-    device.write(report);
-    console.log('📤 Sent HID command:', report);
+    // USBRelay8 uses direct HID commands (no padding needed)
+    device.write(command);
+    console.log('📤 Sent HID command:', command);
   } catch (error) {
     console.error('❌ Failed to send HID command:', error);
     throw error;
@@ -128,30 +143,38 @@ const sendHIDCommand = async (command: number[]): Promise<void> => {
 };
 
 const buildRelayCommand = (slotNumber: number, state: boolean): number[] => {
-  // USBRelay8 uses bitmask for relay control
-  // Each relay corresponds to a bit position (0-7 for relays 1-8)
-  const bitPosition = slotNumber - 1; // Convert 1-8 to 0-7
-  const relayMask = 1 << bitPosition;
+  // USBRelay8 uses specific protocol:
+  // Individual relay: [0xFF, relay_number, relay_number, relay_number] for ON
+  //                   [0xFD, relay_number, relay_number, relay_number] for OFF
+  // All relays:       [0xFE] for ON, [0xFC] for OFF
 
   if (state) {
-    // Turn relay ON - set the bit
-    return [relayMask];
+    // Turn relay ON
+    return [0xff, slotNumber, slotNumber, slotNumber];
   } else {
-    // Turn relay OFF - clear the bit
-    return [0];
+    // Turn relay OFF
+    return [0xfd, slotNumber, slotNumber, slotNumber];
   }
 };
 
 // Public API
 export const USBRelayService = {
-  async initialize(): Promise<void> {
+  async initialize(): Promise<boolean> {
     if (!relayConfig.enabled) {
       console.log('🔌 Relay control disabled via configuration');
-      return;
+      return false;
+    }
+
+    // Check if already initialized
+    if (isConnected()) {
+      console.log('🔌 USBRelay service already initialized');
+      return false;
     }
 
     try {
       await connectToRelayBoard();
+      console.log('✅ USBRelay service initialized successfully');
+      return true;
     } catch (error) {
       console.error('❌ Failed to initialize USBRelay service:', error);
       throw error;
@@ -247,8 +270,35 @@ export const USBRelayService = {
 
   // Utility methods for bulk operations
   async toggleAllRelays(state: boolean): Promise<void> {
-    const promises = validSlotNumbers.map((slotNumber) => USBRelayService.toggleRelay(slotNumber, state));
-    await Promise.all(promises);
+    if (!relayConfig.enabled) {
+      console.log(`🔌 All relays would be ${state ? 'ON' : 'OFF'} (disabled)`);
+      validSlotNumbers.forEach((slotNumber) => {
+        relayStates.set(slotNumber, state);
+      });
+      return;
+    }
+
+    if (!isConnected()) {
+      throw new Error('USBRelay8 not connected. Please check hardware connection.');
+    }
+
+    try {
+      const command = state ? [0xfe] : [0xfc]; // All ON or All OFF
+      console.log(`🔌 Sending HID command to all relays: ${state ? 'ON' : 'OFF'}`, command);
+
+      await sendHIDCommand(command);
+
+      // Update all relay states
+      validSlotNumbers.forEach((slotNumber) => {
+        relayStates.set(slotNumber, state);
+      });
+
+      console.log(`✅ All relays set to ${state ? 'ON' : 'OFF'}`);
+    } catch (error) {
+      console.error('❌ Failed to control all relays:', error);
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`Failed to control all relays: ${errorMessage}`);
+    }
   },
 
   async turnAllRelaysOn(): Promise<void> {
@@ -274,4 +324,31 @@ export const USBRelayService = {
 };
 
 // Initialize relay states on module load
+const initializeRelayStates = async (): Promise<void> => {
+  try {
+    const hardwareStates = await readHardwareState();
+
+    // Update relay states from hardware (or default to OFF)
+    validSlotNumbers.forEach((slotNumber) => {
+      const hardwareState = hardwareStates.get(slotNumber) ?? false;
+      relayStates.set(slotNumber, hardwareState);
+    });
+
+    console.log('🔄 Initialized relay states from hardware');
+    console.log(
+      '📊 Current states:',
+      Array.from(relayStates.entries())
+        .map(([slot, state]) => `Relay ${slot}: ${state ? 'ON' : 'OFF'}`)
+        .join(', '),
+    );
+  } catch (error) {
+    console.error('❌ Error initializing relay states:', error);
+    // Fallback to all OFF
+    validSlotNumbers.forEach((slotNumber) => {
+      relayStates.set(slotNumber, false);
+    });
+    console.log('🔄 Fallback: Initialized relay states (all OFF)');
+  }
+};
+
 initializeRelayStates();

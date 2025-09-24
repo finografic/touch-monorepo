@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
+import { useQueryClient } from '@tanstack/react-query';
 import { AdminContentLayout } from '../shared';
 import { RelayGrid } from './RelayGrid';
 import { SlotType } from 'types/orders.types';
@@ -8,14 +9,15 @@ import { styles } from './AdminRelaysPage.styles';
 import { useToast } from 'components/Toast';
 import { NUM_RELAYS } from './relays.config';
 import {
+  GET_RELAY_STATES_QUERYKEY,
+  type RelayState,
+  useDisconnectRelay,
   useGetRelayStates,
   useGetRelayStatus,
-  useToggleRelay,
-  useTurnAllRelaysOn,
-  useTurnAllRelaysOff,
   useReconnectRelay,
-  useDisconnectRelay,
-  type RelayState,
+  useToggleRelay,
+  useTurnAllRelaysOff,
+  useTurnAllRelaysOn,
 } from 'queries/relays';
 
 // Types for relay configuration
@@ -28,10 +30,25 @@ interface RelayConfig {
 export const AdminRelaysPage: React.FC = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  // API hooks
-  const { data: relayStates, isLoading: isLoadingStates, error: statesError } = useGetRelayStates();
-  const { data: relayStatus, isLoading: isLoadingStatus } = useGetRelayStatus();
+  // API hooks with smart polling
+  const {
+    data: relayStates,
+    isLoading: isLoadingStates,
+    error: statesError,
+    isPollingEnabled: statesPollingEnabled,
+    enablePolling: enableStatesPolling,
+    disablePolling: disableStatesPolling,
+  } = useGetRelayStates();
+
+  const {
+    data: relayStatus,
+    isLoading: isLoadingStatus,
+    isPollingEnabled: statusPollingEnabled,
+    enablePolling: enableStatusPolling,
+    disablePolling: disableStatusPolling,
+  } = useGetRelayStatus();
   const toggleRelayMutation = useToggleRelay();
   const turnAllOnMutation = useTurnAllRelaysOn();
   const turnAllOffMutation = useTurnAllRelaysOff();
@@ -70,14 +87,14 @@ export const AdminRelaysPage: React.FC = () => {
     try {
       await toggleRelayMutation.mutateAsync({ slotNumber, state: newState });
       toast({
-        title: 'Relay Updated',
-        description: `Relay ${slotNumber} turned ${newState ? 'ON' : 'OFF'}`,
+        message: 'Relay Updated',
+        subText: `Relay ${slotNumber} turned ${newState ? 'ON' : 'OFF'}`,
         variant: 'success',
       });
     } catch (error) {
       toast({
-        title: 'Error',
-        description: `Failed to toggle relay ${slotNumber}`,
+        message: 'Error',
+        subText: `Failed to toggle relay ${slotNumber}`,
         variant: 'error',
       });
     }
@@ -87,14 +104,14 @@ export const AdminRelaysPage: React.FC = () => {
     try {
       await turnAllOnMutation.mutateAsync();
       toast({
-        title: 'All Relays ON',
-        description: 'All relays have been turned ON',
+        message: 'All Relays ON',
+        subText: 'All relays have been turned ON',
         variant: 'success',
       });
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Failed to turn all relays ON',
+        message: 'Error',
+        subText: 'Failed to turn all relays ON',
         variant: 'error',
       });
     }
@@ -104,14 +121,36 @@ export const AdminRelaysPage: React.FC = () => {
     try {
       await turnAllOffMutation.mutateAsync();
       toast({
-        title: 'All Relays OFF',
-        description: 'All relays have been turned OFF',
+        message: 'All Relays OFF',
+        subText: 'All relays have been turned OFF',
         variant: 'success',
       });
     } catch (error) {
       toast({
-        title: 'Error',
-        description: 'Failed to turn all relays OFF',
+        message: 'Error',
+        subText: 'Failed to turn all relays OFF',
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleResetAll = async () => {
+    try {
+      // First turn all relays OFF (hardware reset)
+      await turnAllOffMutation.mutateAsync();
+
+      // Then invalidate queries to refresh UI state
+      queryClient.invalidateQueries({ queryKey: [...GET_RELAY_STATES_QUERYKEY] });
+
+      toast({
+        message: 'Reset Complete',
+        subText: 'All relays have been reset to OFF',
+        variant: 'success',
+      });
+    } catch (error) {
+      toast({
+        message: 'Error',
+        subText: 'Failed to reset relays',
         variant: 'error',
       });
     }
@@ -123,24 +162,44 @@ export const AdminRelaysPage: React.FC = () => {
         // Disconnect if currently connected
         await disconnectMutation.mutateAsync();
         toast({
-          title: 'Disconnected',
-          description: 'Successfully disconnected from relay board',
+          message: 'Disconnected',
+          subText: 'Successfully disconnected from relay board',
           variant: 'success',
         });
       } else {
         // Reconnect if currently disconnected
         await reconnectMutation.mutateAsync();
         toast({
-          title: 'Reconnection Attempted',
-          description: 'Attempting to reconnect to relay board',
+          message: 'Reconnection Attempted',
+          subText: 'Attempting to reconnect to relay board',
           variant: 'info',
         });
       }
     } catch (error) {
       const action = relayStatus?.connected ? 'disconnect' : 'reconnect';
       toast({
-        title: `${action === 'disconnect' ? 'Disconnection' : 'Reconnection'} Failed`,
-        description: `Failed to ${action} from relay board`,
+        message: `${action === 'disconnect' ? 'Disconnection' : 'Reconnection'} Failed`,
+        subText: `Failed to ${action} from relay board`,
+        variant: 'error',
+      });
+    }
+  };
+
+  const handleRetryConnection = async () => {
+    try {
+      // Re-enable polling for both queries
+      enableStatesPolling();
+      enableStatusPolling();
+
+      toast({
+        message: 'Retrying Connection',
+        subText: 'Attempting to reconnect to server...',
+        variant: 'info',
+      });
+    } catch (error) {
+      toast({
+        message: 'Retry Failed',
+        subText: 'Failed to retry connection',
         variant: 'error',
       });
     }
@@ -155,10 +214,30 @@ export const AdminRelaysPage: React.FC = () => {
   }
 
   if (statesError) {
+    const isNetworkError =
+      statesError.message?.includes('Network Error') || statesError.message?.includes('RPC Request Failed');
+
     return (
-      <AdminContentLayout title="Relay Control" subtitle="Error">
+      <AdminContentLayout title="Relay Control" subtitle="Connection Error">
         <Box className="error">
-          <Text color="red">Error loading relay states: {statesError.message}</Text>
+          <Flex direction="column" gap="4" align="center">
+            <Text color="red" size="4" weight="bold">
+              {isNetworkError ? 'Server Unavailable' : 'Error'}
+            </Text>
+            <Text color="gray" size="3">
+              {isNetworkError
+                ? 'The development server appears to be stopped. Polling has been disabled to prevent conflicts.'
+                : `Error loading relay states: ${statesError.message}`}
+            </Text>
+            <Flex gap="3" align="center">
+              <Button onClick={handleRetryConnection} variant="solid" color="blue" size="3">
+                🔄 Retry Connection
+              </Button>
+              <Text size="2" color="gray">
+                Polling: {statesPollingEnabled ? '🟢 Active' : '🔴 Disabled'}
+              </Text>
+            </Flex>
+          </Flex>
         </Box>
       </AdminContentLayout>
     );
@@ -181,6 +260,10 @@ export const AdminRelaysPage: React.FC = () => {
                     <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">
                       {relayStatus?.connected ? 'Connected' : 'Disconnected'}
                     </Badge>
+                    <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
+                      Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
+                    </Badge>
+
                     {relayStatus?.port && (
                       <Text size="2" color="gray">
                         Port: {relayStatus.port}
@@ -193,20 +276,22 @@ export const AdminRelaysPage: React.FC = () => {
                     )}
                   </Flex>
                 </Flex>
-                <Button
-                  onClick={handleReconnect}
-                  disabled={reconnectMutation.isPending || disconnectMutation.isPending}
-                  variant="outline"
-                  size="3"
-                >
-                  {reconnectMutation.isPending || disconnectMutation.isPending
-                    ? relayStatus?.connected
-                      ? 'Disconnecting...'
-                      : 'Reconnecting...'
-                    : relayStatus?.connected
-                      ? 'Disconnect'
-                      : 'Reconnect'}
-                </Button>
+                <Flex align="center" gap="3">
+                  <Button
+                    onClick={handleReconnect}
+                    disabled={reconnectMutation.isPending || disconnectMutation.isPending}
+                    variant="outline"
+                    size="2"
+                  >
+                    {reconnectMutation.isPending || disconnectMutation.isPending
+                      ? relayStatus?.connected
+                        ? 'Disconnecting...'
+                        : 'Reconnecting...'
+                      : relayStatus?.connected
+                        ? 'Disconnect'
+                        : 'Reconnect'}
+                  </Button>
+                </Flex>
               </Flex>
             </Card>
 
@@ -216,7 +301,7 @@ export const AdminRelaysPage: React.FC = () => {
                 <Flex direction="column" gap="4">
                   <Flex justify="between" align="center">
                     <Heading size="4">Relay Control Grid</Heading>
-                    <Flex gap="2">
+                    <Flex gap="2" ml="4">
                       <Button
                         onClick={handleTurnAllOn}
                         disabled={turnAllOnMutation.isPending}
@@ -234,6 +319,15 @@ export const AdminRelaysPage: React.FC = () => {
                         size="2"
                       >
                         {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
+                      </Button>
+                      <Button
+                        onClick={handleResetAll}
+                        disabled={turnAllOffMutation.isPending}
+                        variant="outline"
+                        color="orange"
+                        size="2"
+                      >
+                        {turnAllOffMutation.isPending ? 'Resetting...' : 'Reset All'}
                       </Button>
                     </Flex>
                   </Flex>

@@ -11,3 +11,5 @@ serve({
   fetch: app.fetch,
   port: env.API_PORT,
 });
+
+// Note: USBRelay service will be initialized on-demand via /api/relay/init endpoint

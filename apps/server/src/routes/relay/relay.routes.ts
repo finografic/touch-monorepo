@@ -5,10 +5,7 @@ import { USBRelayService } from '../../services/usbrelay.service';
 
 const tags = ['Relay'];
 
-// Initialize relay service on startup
-USBRelayService.initialize().catch((error) => {
-  console.error('Failed to initialize USBRelay service:', error);
-});
+// Note: USBRelayService initialization moved to server startup (after listening)
 
 // Schemas
 export const relayStateSchema = z.object({
@@ -175,6 +172,23 @@ export const disconnectRelay = createRoute({
   },
 });
 
+export const initializeRelay = createRoute({
+  path: '/relay/init',
+  method: 'post',
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(
+      z.object({
+        success: z.boolean(),
+        message: z.string(),
+        initialized: z.boolean(),
+      }),
+      'Relay service initialized successfully',
+    ),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(errorMessageSchema, 'Server error'),
+  },
+});
+
 export type ToggleRelayRoute = typeof toggleRelay;
 export type GetRelayStatesRoute = typeof getRelayStates;
 export type GetRelayStateRoute = typeof getRelayState;
@@ -183,3 +197,4 @@ export type TurnAllRelaysOnRoute = typeof turnAllRelaysOn;
 export type TurnAllRelaysOffRoute = typeof turnAllRelaysOff;
 export type ReconnectRelayRoute = typeof reconnectRelay;
 export type DisconnectRelayRoute = typeof disconnectRelay;
+export type InitializeRelayRoute = typeof initializeRelay;

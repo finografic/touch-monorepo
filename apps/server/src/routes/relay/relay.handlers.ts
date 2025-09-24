@@ -8,6 +8,7 @@ import type {
   TurnAllRelaysOffRoute,
   ReconnectRelayRoute,
   DisconnectRelayRoute,
+  InitializeRelayRoute,
 } from './relay.routes';
 import { USBRelayService } from '../../services/usbrelay.service';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
@@ -219,6 +220,29 @@ export const disconnectRelay: AppRouteHandler<DisconnectRelayRoute> = async (con
   } catch (error) {
     console.error('Disconnect error:', error);
     const errorMessage = error instanceof Error ? error.message : 'Failed to disconnect';
+    return context.json(
+      {
+        success: false,
+        error: errorMessage,
+      },
+      HttpStatusCodes.INTERNAL_SERVER_ERROR,
+    );
+  }
+};
+
+// @ts-ignore - Avoiding complex type inference issue
+export const initializeRelay: AppRouteHandler<InitializeRelayRoute> = async (context) => {
+  try {
+    const initialized = await USBRelayService.initialize();
+
+    return context.json({
+      success: true,
+      message: initialized ? 'Relay service initialized successfully' : 'Relay service already initialized',
+      initialized,
+    });
+  } catch (error) {
+    console.error('Initialize relay error:', error);
+    const errorMessage = error instanceof Error ? error.message : 'Failed to initialize relay service';
     return context.json(
       {
         success: false,
