@@ -20,23 +20,16 @@ export const styles = css`
     flex-direction: column;
     gap: 1.5rem;
   }
-
+  /*
   .form label {
     color: grey;
-  }
+  } */
 
   /* Input group */
   .input-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-  }
-
-  /* Label */
-  .label {
-    font-size: 0.875rem;
-    font-weight: 500;
-    color: ${colors.white};
   }
 
   /* Submit button */

@@ -2,45 +2,28 @@ import { css } from '@emotion/react';
 import { colors } from 'styles';
 
 export const styles = css`
-  /* Theme toggle button - targets the button element directly */
-  &.btn.theme-toggle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 3rem;
-    height: 3rem;
-    border-radius: 50%;
-    background-color: transparent;
-    border: none !important;
-    border-width: 0;
+  &.btn.logged-out,
+  &.btn.logged-in {
     cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 0.75rem 1rem;
-    min-width: auto;
-    width: auto;
-
-    /* Icon styling - matches toolbar pattern */
     svg.icon {
-      color: ${colors.greyLight};
-      transition: all 0.3s ease;
+      color: ${colors.greyXLight};
     }
-
     &:hover {
       border-color: transparent;
       svg.icon {
-        color: ${colors.info};
+        color: ${colors.infoLight};
       }
-    }
-
-    &:active {
-      transform: scale(0.95);
     }
   }
 
-  /* Animation for icon transitions */
-  &.btn.theme-toggle svg.icon {
-    transition:
-      transform 0.3s ease,
-      opacity 0.3s ease;
+  &.btn.logged-out {
+    svg.icon {
+      color: ${colors.greyXXLight};
+    }
+  }
+
+  &.btn.logged-in {
+    svg.icon {
+    }
   }
 `;

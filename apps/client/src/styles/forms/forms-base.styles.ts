@@ -137,26 +137,6 @@ export const formsBase = css`
     }
   }
 
-  /* Labels */
-
-  label,
-  label.field-label {
-    display: inline-flex;
-    align-items: center;
-    font-size: ${forms.inputs.label.fontSize};
-    font-weight: ${forms.inputs.label.fontWeight};
-    letter-spacing: 0;
-    color: ${colors.primaryDark};
-    margin: 0.5em 0.5em 0.7em 0.1em;
-    span {
-      // NOTE: REMOVED: - 2024-04-14
-      /* opacity: 0.66; */
-      margin: 0;
-    }
-
-    cursor: pointer;
-  }
-
   /* Radix UI Form Input Overrides - Remove default box-shadows */
   .rt-TextFieldInput:where(.rt-variant-surface),
   .rt-TextAreaInput:where(.rt-variant-surface),

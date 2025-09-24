@@ -21,14 +21,14 @@ export const styles = css`
 
     /* Icon styling - matches toolbar pattern */
     svg.icon {
-      color: ${colors.greyLight};
+      color: ${colors.greyXXLight};
       transition: all 0.3s ease;
     }
 
     &:hover {
       border-color: transparent;
       svg.icon {
-        color: ${colors.info};
+        color: ${colors.infoLight};
       }
     }
 

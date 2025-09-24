@@ -23,8 +23,8 @@ export const forms = {
 
     label: {
       color: colors.textXDark,
-      fontSize: '1.15rem',
-      fontWeight: 900,
+      fontSize: '0.9rem',
+      fontWeight: 600,
     },
 
     text: {

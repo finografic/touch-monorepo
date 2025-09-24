@@ -55,7 +55,7 @@ export const LoginButton: FC = () => {
       <div className="button-box">
         <button
           css={styles}
-          className={clsx('btn auth-toggle')}
+          className={clsx('btn', isAuthenticated ? 'logged-in' : 'logged-out')}
           onClick={handleClick}
           aria-label={isAuthenticated ? 'Log out' : 'Log in'}
           title={isAuthenticated ? 'Log out' : 'Log in'}

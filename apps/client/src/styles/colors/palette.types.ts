@@ -23,7 +23,7 @@ export type ColorBaseName =
 /**
  * Transparency levels for color variants
  */
-export type TransparencyLevel =
+export type TransparencyLevel__V1 =
   | '5'
   | '10'
   | '20'
@@ -39,6 +39,8 @@ export type TransparencyLevel =
   | '80'
   | '90'
   | '95';
+
+export type TransparencyLevel = '25' | '50' | '75';
 
 /**
  * CSS variable reference type

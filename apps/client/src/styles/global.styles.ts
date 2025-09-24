@@ -11,6 +11,7 @@ import {
   generateCssColorVariablesTransparency,
 } from './colors/utils/generate-css-variables.utils';
 import { colors } from 'styles';
+import { forms } from 'styles/forms/forms.styles';
 
 export const cssGlobal = css`
   /* Use CSS layers to ensure our styles override Radix */
@@ -184,5 +185,26 @@ export const cssGlobal = css`
 
   pre {
     ${cssFontMono}
+  }
+
+  /* Labels */
+  label,
+  label.field-label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: ${forms.inputs.label.fontSize};
+    font-weight: ${forms.inputs.label.fontWeight}!important;
+    letter-spacing: 0;
+    color: ${colors.primaryDark};
+    margin: 0.5em 0.5em 0.5em 0.1em;
+    span.hint,
+    span.label-hint {
+      font-weight: ${forms.inputs.label.fontWeight};
+      opacity: 0.5;
+      margin: 0;
+    }
+
+    cursor: pointer;
   }
 `;

@@ -8,15 +8,8 @@ export const styles = css`
   /* min-width: 180px; */
   padding: 0.5rem 0 0.25rem;
 
-  .field-label {
-    padding: 0.5rem 0 0rem;
-    display: block;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    span.label-hint {
-      opacity: 0.66;
-    }
+  label.field-label {
+    /* NOTE: MOVED TO forms-base.styles.ts */
 
     & + div {
       width: 100%;
