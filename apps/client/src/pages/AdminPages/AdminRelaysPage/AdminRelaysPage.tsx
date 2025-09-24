@@ -1,193 +1,275 @@
-import React, { useEffect, useRef } from 'react';
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import React, { useEffect, useState } from 'react';
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
-import { MinusIcon, PlusIcon, ResetIcon } from '@radix-ui/react-icons';
 import { useTranslation } from 'react-i18next';
 import { AdminContentLayout } from '../shared';
 import { RelayGrid } from './RelayGrid';
-import {
-  useBulkUpdateSlotConfigurations,
-  useGetSlotConfigurations,
-  useResetSlotConfigurations,
-} from 'queries/slot-configurations';
-import { GRID_CONFIGS } from 'types/slot-config.types';
 import { SlotType } from 'types/orders.types';
 import { styles } from './AdminRelaysPage.styles';
 import { useToast } from 'components/Toast';
 import { NUM_RELAYS } from './relays.config';
+import {
+  useGetRelayStates,
+  useGetRelayStatus,
+  useToggleRelay,
+  useTurnAllRelaysOn,
+  useTurnAllRelaysOff,
+  useReconnectRelay,
+  useDisconnectRelay,
+  type RelayState,
+} from 'queries/relays';
 
-// Types for form values
-interface SlotConfigFormValue {
+// Types for relay configuration
+interface RelayConfig {
   slotNumber: number;
   slotType: SlotType;
-  isOn?: boolean; // New: relay state
-}
-interface SlotConfigForm {
-  columns: number;
-  slots: SlotConfigFormValue[];
+  isOn: boolean;
 }
 
 export const AdminRelaysPage: React.FC = () => {
   const { t } = useTranslation();
-  const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
-  const initialColumns = 3;
-  const minColumns = 2;
-  const maxColumns = 5;
-  const defaultGridConfig = GRID_CONFIGS[initialColumns];
+  const { toast } = useToast();
 
-  // Helper to generate slots for a given column count
-  const generateSlots = (columns: number, fromConfigs?: SlotConfigFormValue[]): SlotConfigFormValue[] => {
-    const gridConfig = GRID_CONFIGS[columns];
-    const totalSlots = gridConfig.totalSlots;
-    const slots: SlotConfigFormValue[] = [];
+  // API hooks
+  const { data: relayStates, isLoading: isLoadingStates, error: statesError } = useGetRelayStates();
+  const { data: relayStatus, isLoading: isLoadingStatus } = useGetRelayStatus();
+  const toggleRelayMutation = useToggleRelay();
+  const turnAllOnMutation = useTurnAllRelaysOn();
+  const turnAllOffMutation = useTurnAllRelaysOff();
+  const reconnectMutation = useReconnectRelay();
+  const disconnectMutation = useDisconnectRelay();
 
-    // 1-based slot numbers: 1 to totalSlots
-    for (let i = 1; i <= totalSlots; i++) {
-      const existing = fromConfigs?.find((c) => c.slotNumber === i);
-      slots.push({
-        slotNumber: i,
-        slotType: existing?.slotType || SlotType.B, // All slots can be any type
-        isOn: false, // Initialize all relays as OFF
+  // Local state for relay configurations
+  const [relayConfigs, setRelayConfigs] = useState<RelayConfig[]>([]);
+
+  // Initialize relay configurations
+  useEffect(() => {
+    const initialConfigs: RelayConfig[] = Array.from({ length: NUM_RELAYS }, (_, index) => ({
+      slotNumber: index + 1,
+      slotType: SlotType.B, // Default slot type
+      isOn: false, // Will be updated from API
+    }));
+    setRelayConfigs(initialConfigs);
+  }, []);
+
+  // Update relay configurations when API data changes
+  useEffect(() => {
+    if (relayStates && relayStates.length > 0) {
+      setRelayConfigs((prevConfigs) =>
+        prevConfigs.map((config) => {
+          const relayState = relayStates.find((state) => state.slotNumber === config.slotNumber);
+          return {
+            ...config,
+            isOn: relayState?.isOn ?? false,
+          };
+        }),
+      );
+    }
+  }, [relayStates]);
+
+  const handleRelayToggle = async (slotNumber: number, newState: boolean) => {
+    try {
+      await toggleRelayMutation.mutateAsync({ slotNumber, state: newState });
+      toast({
+        title: 'Relay Updated',
+        description: `Relay ${slotNumber} turned ${newState ? 'ON' : 'OFF'}`,
+        variant: 'success',
+      });
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: `Failed to toggle relay ${slotNumber}`,
+        variant: 'error',
       });
     }
-    return slots;
   };
 
-  // Helper to determine columns from slot configs
-  const getColumnsFromConfigs = (configs: SlotConfigFormValue[]): number => {
-    const totalSlots = configs.length;
-    // Find the grid config that matches this total slots
-    for (let cols = minColumns; cols <= maxColumns; cols++) {
-      if (GRID_CONFIGS[cols].totalSlots === totalSlots) {
-        return cols;
-      }
+  const handleTurnAllOn = async () => {
+    try {
+      await turnAllOnMutation.mutateAsync();
+      toast({
+        title: 'All Relays ON',
+        description: 'All relays have been turned ON',
+        variant: 'success',
+      });
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to turn all relays ON',
+        variant: 'error',
+      });
     }
-    return initialColumns; // fallback
   };
 
-  // Setup RHF
-  const methods = useForm<SlotConfigForm>({
-    defaultValues: {
-      columns: initialColumns,
-      slots: generateSlots(initialColumns),
-    },
-    mode: 'onChange',
-  });
-  const { control, handleSubmit, reset, watch, setValue } = methods;
-  const { replace } = useFieldArray({ control, name: 'slots' });
-  const columns = watch('columns');
-  const slots = watch('slots');
-
-  // Keep slots in sync with columns
-  const prevColumns = useRef(columns);
-  useEffect(() => {
-    if (columns !== prevColumns.current) {
-      replace(generateSlots(columns, slots));
-      prevColumns.current = columns;
+  const handleTurnAllOff = async () => {
+    try {
+      await turnAllOffMutation.mutateAsync();
+      toast({
+        title: 'All Relays OFF',
+        description: 'All relays have been turned OFF',
+        variant: 'success',
+      });
+    } catch (error) {
+      toast({
+        title: 'Error',
+        description: 'Failed to turn all relays OFF',
+        variant: 'error',
+      });
     }
-  }, [columns, replace, slots]);
+  };
 
-  // Update form when API data changes (e.g., after save/reset or page refresh)
-  const prevSlotConfigs = useRef<SlotConfigFormValue[] | undefined>(undefined);
-  useEffect(() => {
-    // Only update if slotConfigs actually changed and we have data
-    if (slotConfigs && slotConfigs.length > 0) {
-      const configsString = JSON.stringify(slotConfigs);
-      const prevConfigsString = JSON.stringify(prevSlotConfigs.current);
-
-      if (configsString !== prevConfigsString) {
-        const columns = getColumnsFromConfigs(slotConfigs);
-        const newSlots = generateSlots(columns, slotConfigs);
-
-        console.log('Updating form with new slot configs:', slotConfigs);
-        console.log('New form values:', { columns, slots: newSlots });
-
-        reset({
-          columns,
-          slots: newSlots,
+  const handleReconnect = async () => {
+    try {
+      if (relayStatus?.connected) {
+        // Disconnect if currently connected
+        await disconnectMutation.mutateAsync();
+        toast({
+          title: 'Disconnected',
+          description: 'Successfully disconnected from relay board',
+          variant: 'success',
         });
-        prevSlotConfigs.current = slotConfigs;
+      } else {
+        // Reconnect if currently disconnected
+        await reconnectMutation.mutateAsync();
+        toast({
+          title: 'Reconnection Attempted',
+          description: 'Attempting to reconnect to relay board',
+          variant: 'info',
+        });
       }
+    } catch (error) {
+      const action = relayStatus?.connected ? 'disconnect' : 'reconnect';
+      toast({
+        title: `${action === 'disconnect' ? 'Disconnection' : 'Reconnection'} Failed`,
+        description: `Failed to ${action} from relay board`,
+        variant: 'error',
+      });
     }
-  }, [slotConfigs, reset]);
-
-  const handleGridConfigChange = (slotNumber: number, newConfig: Partial<SlotConfigFormValue>) => {
-    setValue(
-      'slots',
-      slots.map((slot) => (slot.slotNumber === slotNumber ? { ...slot, ...newConfig } : slot)),
-      { shouldDirty: true },
-    );
   };
 
-  if (isLoading) {
+  if (isLoadingStates) {
     return (
       <AdminContentLayout title="Relay Control" subtitle="Loading...">
-        <Box className="loading">Loading relay configurations...</Box>
+        <Box className="loading">Loading relay states...</Box>
       </AdminContentLayout>
     );
   }
-  if (error) {
+
+  if (statesError) {
     return (
       <AdminContentLayout title="Relay Control" subtitle="Error">
         <Box className="error">
-          <Text color="red">Error loading relay configurations: {error.message}</Text>
+          <Text color="red">Error loading relay states: {statesError.message}</Text>
         </Box>
       </AdminContentLayout>
     );
   }
 
   return (
-    <section css={styles} id="admin-slot-config">
-      <FormProvider {...methods}>
-        <AdminContentLayout
-          title="Relay Control"
-          subtitle={`Test and control the ${NUM_RELAYS}-channel relay board`}
-        >
-          <Box className="admin-slot-config">
-            <Flex direction="column" gap="6">
-              <Card size="3" variant="surface">
-                <Flex gap="4" justify="between">
-                  <Flex direction="column" gap="4">
-                    <Heading size="4">Relay Control Grid</Heading>
-                    {/* <Text size="2" color="gray">
-                      Click on relays to toggle them ON/OFF. Green indicates relay is ON.
-                    </Text> */}
-                    <RelayGrid
-                      configurations={slots}
-                      gridConfig={GRID_CONFIGS[columns]}
-                      onConfigurationChange={handleGridConfigChange}
-                    />
-                  </Flex>
-                  <Flex direction="column" gap="4">
-                    <div className="slot-types-container">
-                      <Heading size="4">Relay Status</Heading>
-                      <div className="slot-legend">
-                        <Flex direction="column" gap="3">
-                          {slots
-                            .filter((slot) => slot.slotNumber <= NUM_RELAYS)
-                            .map((slot) => (
-                              <Flex
-                                key={slot.slotNumber}
-                                align="center"
-                                gap="4"
-                                className={`legend-item ${slot.isOn ? 'legend-relay-on' : 'legend-relay-off'}`}
-                              >
-                                <div>{slot.slotNumber}</div>
-                                <Text size="3">
-                                  Relay {slot.slotNumber}: {slot.isOn ? 'ON' : 'OFF'}
-                                </Text>
-                              </Flex>
-                            ))}
-                        </Flex>
-                      </div>
-                    </div>
+    <section css={styles} id="admin-relay-control">
+      <AdminContentLayout
+        title="Relay Control"
+        subtitle={`Test and control the ${NUM_RELAYS}-channel relay board`}
+      >
+        <Box className="admin-relay-control">
+          <Flex direction="column" gap="6">
+            {/* Connection Status */}
+            <Card size="3" variant="surface">
+              <Flex justify="between" align="center">
+                <Flex direction="column" gap="2">
+                  <Heading size="4">Connection Status</Heading>
+                  <Flex align="center" gap="3">
+                    <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">
+                      {relayStatus?.connected ? 'Connected' : 'Disconnected'}
+                    </Badge>
+                    {relayStatus?.port && (
+                      <Text size="2" color="gray">
+                        Port: {relayStatus.port}
+                      </Text>
+                    )}
+                    {relayStatus?.error && (
+                      <Text size="2" color="red">
+                        Error: {relayStatus.error}
+                      </Text>
+                    )}
                   </Flex>
                 </Flex>
-              </Card>
-            </Flex>
-          </Box>
-        </AdminContentLayout>
-      </FormProvider>
+                <Button
+                  onClick={handleReconnect}
+                  disabled={reconnectMutation.isPending || disconnectMutation.isPending}
+                  variant="outline"
+                  size="3"
+                >
+                  {reconnectMutation.isPending || disconnectMutation.isPending
+                    ? relayStatus?.connected
+                      ? 'Disconnecting...'
+                      : 'Reconnecting...'
+                    : relayStatus?.connected
+                      ? 'Disconnect'
+                      : 'Reconnect'}
+                </Button>
+              </Flex>
+            </Card>
+
+            {/* Relay Control */}
+            <Card size="3" variant="surface">
+              <Flex gap="4" justify="between">
+                <Flex direction="column" gap="4">
+                  <Flex justify="between" align="center">
+                    <Heading size="4">Relay Control Grid</Heading>
+                    <Flex gap="2">
+                      <Button
+                        onClick={handleTurnAllOn}
+                        disabled={turnAllOnMutation.isPending}
+                        variant="solid"
+                        color="green"
+                        size="2"
+                      >
+                        {turnAllOnMutation.isPending ? 'Turning ON...' : 'All ON'}
+                      </Button>
+                      <Button
+                        onClick={handleTurnAllOff}
+                        disabled={turnAllOffMutation.isPending}
+                        variant="solid"
+                        color="red"
+                        size="2"
+                      >
+                        {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
+                      </Button>
+                    </Flex>
+                  </Flex>
+                  <RelayGrid
+                    configurations={relayConfigs}
+                    onRelayToggle={handleRelayToggle}
+                    isLoading={toggleRelayMutation.isPending}
+                  />
+                </Flex>
+                <Flex direction="column" gap="4">
+                  <div className="slot-types-container">
+                    <Heading size="4">Relay Status</Heading>
+                    <div className="slot-legend">
+                      <Flex direction="column" gap="3">
+                        {relayConfigs.map((config) => (
+                          <Flex
+                            key={config.slotNumber}
+                            align="center"
+                            gap="4"
+                            className={`legend-item ${config.isOn ? 'legend-relay-on' : 'legend-relay-off'}`}
+                          >
+                            <div>{config.slotNumber}</div>
+                            <Text size="3">
+                              Relay {config.slotNumber}: {config.isOn ? 'ON' : 'OFF'}
+                            </Text>
+                          </Flex>
+                        ))}
+                      </Flex>
+                    </div>
+                  </div>
+                </Flex>
+              </Flex>
+            </Card>
+          </Flex>
+        </Box>
+      </AdminContentLayout>
     </section>
   );
 };

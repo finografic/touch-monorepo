@@ -1,30 +1,24 @@
 import React from 'react';
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { SlotType } from 'types/orders.types';
-import type { GridConfig } from 'types/slot-config.types';
 import { styles } from './RelayGrid.styles';
 import { NUM_RELAYS } from './relays.config';
 
-interface SlotConfig {
+interface RelayConfig {
   slotNumber: number;
   slotType: SlotType;
-  isOn?: boolean; // New: relay state
+  isOn: boolean;
 }
 
-interface SlotGridProps {
-  configurations: SlotConfig[];
-  gridConfig: GridConfig;
-  onConfigurationChange: (slotNumber: number, newConfig: Partial<SlotConfig>) => void;
+interface RelayGridProps {
+  configurations: RelayConfig[];
+  onRelayToggle: (slotNumber: number, newState: boolean) => void;
+  isLoading?: boolean;
 }
 
-export const RelayGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, onConfigurationChange }) => {
-  const { columns, rows } = gridConfig;
-  const totalSlots = gridConfig.totalSlots;
-
+export const RelayGrid: React.FC<RelayGridProps> = ({ configurations, onRelayToggle, isLoading = false }) => {
   // Filter configurations to only show relays (1 to NUM_RELAYS)
   const relayConfigurations = configurations.filter((config) => config.slotNumber <= NUM_RELAYS);
-  const regularSlots = relayConfigurations.filter((config) => config.slotNumber < totalSlots);
-  const lastSlot = relayConfigurations.find((config) => config.slotNumber === totalSlots);
 
   const getSlotColor = (slotType: SlotType, isOn?: boolean) => {
     // If relay is ON, use success color regardless of slot type
@@ -55,28 +49,30 @@ export const RelayGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig,
     const currentConfig = relayConfigurations.find((config) => config.slotNumber === slotNumber);
     if (!currentConfig) return;
 
-    // Toggle relay state instead of cycling through slot types
+    // Toggle relay state
     const newIsOn = !currentConfig.isOn;
-    onConfigurationChange(slotNumber, { isOn: newIsOn });
+    onRelayToggle(slotNumber, newIsOn);
   };
 
   return (
     <Box css={styles}>
       <div className="slot-grid-container">
-        {/* Main grid */}
+        {/* Simple 3x3 grid layout for 8 relays */}
         <div
           className="slot-grid"
           style={{
-            gridTemplateColumns: `repeat(${columns}, 1fr)`,
-            gridTemplateRows: `repeat(${rows}, 1fr)`,
-            minWidth: columns <= 3 ? '360px' : columns === 4 ? '480px' : '600px',
+            gridTemplateColumns: 'repeat(3, 1fr)',
+            gridTemplateRows: 'repeat(3, 1fr)',
+            minWidth: '360px',
+            gap: '8px',
           }}
         >
-          {regularSlots.map((config) => (
+          {relayConfigurations.map((config) => (
             <Flex key={config.slotNumber} className="slot-grid-item">
               <Button
                 className={`slot-button slot-${getSlotColor(config.slotType, config.isOn)}`}
                 onClick={() => handleSlotClick(config.slotNumber)}
+                disabled={isLoading}
                 variant="outline"
                 size="3"
               >
@@ -90,25 +86,6 @@ export const RelayGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig,
             </Flex>
           ))}
         </div>
-
-        {/* Last slot positioned separately */}
-        {lastSlot && (
-          <div className="slot-item-special">
-            <Button
-              className={`slot-button slot-${getSlotColor(lastSlot.slotType, lastSlot.isOn)}`}
-              onClick={() => handleSlotClick(lastSlot.slotNumber)}
-              variant="outline"
-              size="3"
-            >
-              <Flex direction="column" align="center" gap="1">
-                <Text size="4" weight="bold">
-                  {lastSlot.slotNumber}
-                </Text>
-                <Text size="2">{getSlotLabel(lastSlot.slotType, lastSlot.isOn)}</Text>
-              </Flex>
-            </Button>
-          </div>
-        )}
       </div>
     </Box>
   );
