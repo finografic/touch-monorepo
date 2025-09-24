@@ -149,9 +149,9 @@ export const AdminRelaysPage: React.FC = () => {
                 <Flex gap="4" justify="between">
                   <Flex direction="column" gap="4">
                     <Heading size="4">Relay Control Grid</Heading>
-                    <Text size="2" color="gray">
+                    {/* <Text size="2" color="gray">
                       Click on relays to toggle them ON/OFF. Green indicates relay is ON.
-                    </Text>
+                    </Text> */}
                     <RelayGrid
                       configurations={slots}
                       gridConfig={GRID_CONFIGS[columns]}
