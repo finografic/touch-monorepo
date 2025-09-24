@@ -70,7 +70,7 @@ export const styles = css`
     &:hover {
       color: ${colors.warning};
       border-color: ${colors.warning};
-      background-color: ${colors.warning10};
+      background-color: ${colors.warning25};
     }
 
     &[data-disabled] {

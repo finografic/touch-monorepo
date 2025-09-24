@@ -24,7 +24,7 @@ export const stylesAppContent = css`
     }
     &:hover {
       border-color: transparent;
-      background-color: ${colors.grey10};
+      background-color: ${colors.grey25};
       svg.icon {
         color: ${colors.greyLight};
       }

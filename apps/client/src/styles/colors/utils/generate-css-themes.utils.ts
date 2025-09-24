@@ -65,11 +65,7 @@ ${lightCssVars}${lightTransparencyVars}
 }
 
 /* Dark theme */
-[data-theme='dark'] {
-${darkCssVars}${darkTransparencyVars}
-}
-
-/* Legacy .dark class support */
+[data-theme='dark'],
 .dark {
 ${darkCssVars}${darkTransparencyVars}
 }

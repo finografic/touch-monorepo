@@ -20,7 +20,7 @@ export const CSS_SHADE_VARIANTS = ['xxlight', 'xlight', 'light', 'dark', 'xdark'
 // NOTE: V2 - SLIM SHADE LEVELS
 export const CSS_TRANSPARENCY_LEVELS = [
   // 5,
-  10,
+  // 10,
   // 20,
   25,
   // 30,
@@ -32,7 +32,7 @@ export const CSS_TRANSPARENCY_LEVELS = [
   // 70,
   75,
   // 80,
-  90,
+  // 90,
   // 95,
 ] as const;
 

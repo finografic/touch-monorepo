@@ -18,7 +18,7 @@ export const styles = css`
   &:hover {
     color: ${colors.info};
     border-color: ${colors.info};
-    background-color: ${colors.info10};
+    background-color: ${colors.info25};
   }
 
   &:disabled {

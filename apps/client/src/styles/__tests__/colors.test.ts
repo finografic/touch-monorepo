@@ -66,14 +66,14 @@ describe('enhanced Color System', () => {
     });
 
     it('should have standard increments (10%, 20%, etc.)', () => {
-      expect(colors.primary10).toBe('var(--color-primary-10)');
+      expect(colors.primary25).toBe('var(--color-primary-10)');
       expect(colors.primary25).toBe('var(--color-primary-20)');
       expect(colors.primary25).toBe('var(--color-primary-30)');
       expect(colors.primary50).toBe('var(--color-primary-40)');
       expect(colors.primary50).toBe('var(--color-primary-60)');
       expect(colors.primary70).toBe('var(--color-primary-70)');
       expect(colors.primary75).toBe('var(--color-primary-80)');
-      expect(colors.primary90).toBe('var(--color-primary-90)');
+      expect(colors.primary).toBe('var(--color-primary-90)');
     });
   });
 
@@ -147,11 +147,11 @@ describe('enhanced Color System', () => {
 
     it('should replace hex suffix patterns', () => {
       // These new patterns should replace old hex suffixes like:
-      // ${colors.info}11 → ${colors.info10} or ${colors.info5}
+      // ${colors.info}11 → ${colors.info25} or ${colors.info5}
       // ${colors.primary}33 → ${colors.primary25}
       // ${colors.danger}80 → ${colors.danger75}
 
-      expect(colors.info10).toBe('var(--color-info-10)');
+      expect(colors.info25).toBe('var(--color-info-10)');
       expect(colors.primary25).toBe('var(--color-primary-33)');
       expect(colors.danger75).toBe('var(--color-danger-80)');
     });

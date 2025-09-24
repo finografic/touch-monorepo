@@ -48,7 +48,7 @@ export const styles = css`
     row-gap: 0rem;
     column-gap: 1rem;
     color: ${colors.textLight};
-    background-color: ${colors.greyXXLight10};
+    background-color: ${colors.greyXXLight25};
     border: 1px solid ${colors.greyXXLight25};
     padding: 0.5rem 1.5rem;
     border-radius: ${layout.borderRadius.md};

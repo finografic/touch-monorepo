@@ -134,7 +134,7 @@ export const formsInputs = css`
 
     .table-row {
       &:nth-of-type(even) {
-        background-color: ${colors.greyXLight10};
+        background-color: ${colors.greyXLight25};
       }
 
       &.incomplete {

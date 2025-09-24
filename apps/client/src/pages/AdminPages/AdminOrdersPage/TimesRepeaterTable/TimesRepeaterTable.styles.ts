@@ -16,7 +16,7 @@ export const styles = css`
     grid-template-columns: 2.8rem 1fr 1fr 1fr 1fr auto;
     gap: 8px;
     padding: 0;
-    /* background-color: ${colors.greyXXLight90}; */
+    /* background-color: ${colors.greyXXLight}; */
     border-radius: 6px 6px 0 0;
     position: sticky;
     top: 0;
