@@ -85,7 +85,7 @@ export const AuthLoginSimpleDialog = ({
                     placeholder="Enter admin password"
                     required
                     disabled={isLoading}
-                    variant="dark"
+                    // variant="light"
                   />
                 </div>
 

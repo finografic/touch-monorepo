@@ -22,7 +22,7 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-    height: 480px;
+    min-height: 400px;
     overflow-y: auto;
     padding: 0rem 0.5rem 0rem 0rem;
   }
@@ -30,7 +30,7 @@ export const styles = css`
   .slot-types-container {
     display: flex;
     flex-direction: column;
-    padding: 0rem 1rem 1.5rem 1rem;
+    padding: 0rem 1rem;
     width: 250px;
   }
 

@@ -7,6 +7,7 @@ export const styles = {
     justify-content: center;
     align-items: center;
     /* min-height: 200px; */
+    margin-top: 0.5rem;
   `,
 
   formWrapper: css`
@@ -18,6 +19,9 @@ export const styles = {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    label {
+      color: grey;
+    }
   `,
 
   inputGroup: css`
