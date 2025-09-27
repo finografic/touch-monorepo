@@ -1,17 +1,17 @@
 {
   "name": "touch-monorepo",
   "description": "ServiFresc",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "private": true,
   "author": {
     "name": "Justin",
     "email": "justin.blair.rankin@gmail.com",
     "url": "http://finografic.github.com/cv-justin-rankin"
   },
-  "packageManager": "pnpm@10.15.0",
+  "packageManager": "pnpm@10.17.1",
   "engines": {
     "node": ">=22.17.1",
-    "pnpm": ">=10.15.0"
+    "pnpm": ">=10.17.1"
   },
   "scripts": {
     "========== DEV": "=======================================================",
