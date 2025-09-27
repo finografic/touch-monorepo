@@ -18,9 +18,7 @@ const AppBaseLayout = () => (
       <AuthProvider>
         <SessionProvider>
           <ScreenClassProvider>
-            <Suspense fallback={<Spinner size="3" />}>
-              <Outlet />
-            </Suspense>
+            <Suspense fallback={<Spinner size="3" />}>XXX</Suspense>
           </ScreenClassProvider>
         </SessionProvider>
       </AuthProvider>
