@@ -38,6 +38,12 @@
     "watch": "tsup --format esm,cjs --watch",
     "·········· BUILD": "·····················································",
     "build": "tsup",
+    "·········· PYTHON_ENV": "················································",
+    "relay.env.activate": "source relay_test_env/bin/activate",
+    "relay.env.deactivate": "deactivate",
+    "relay.on.all": "source relay_test_env/bin/activate && python relay_test_env/on_all.py && deactivate",
+    "relay.off.all": "source relay_test_env/bin/activate && python relay_test_env/off_all.py && deactivate",
+    "relay.status": "source relay_test_env/bin/activate && python relay_test_env/relay_status.py && deactivate",
     "·········· HOOKS": "·····················································",
     "prepack": "pnpm build"
   },
