@@ -1,7 +1,7 @@
 import { execSync } from 'child_process';
 
 // Function to kill processes on specific ports
-export function killPortIfOccupied(port) {
+export function killPortIfOccupied(port: number): void {
   try {
     const result = execSync('lsof -ti:' + port, { stdio: 'pipe' })
       .toString()
