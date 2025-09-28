@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Button, Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
+import { Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { styles } from './GenericDialog.styles';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
+import { Button } from 'components/Button';
 import clsx from 'clsx';
 
 interface GenericDialogProps {
@@ -115,8 +116,8 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
             <Flex justify="end" gap="4" width="100%" id="__ABC__">
               {config.footer.secondaryButton && (
                 <Button
-                  variant={config.footer.secondaryButton.variant || 'soft'}
-                  color={config.footer.secondaryButton.color || 'gray'}
+                  // variant={config.footer.secondaryButton.variant || 'soft'}
+                  // color={config.footer.secondaryButton.color || 'gray'}
                   size="2"
                   onClick={config.footer.secondaryButton.onClick}
                 >
@@ -126,8 +127,8 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
 
               {config.footer.primaryButton && (
                 <Button
-                  variant={config.footer.primaryButton.variant || 'soft'}
-                  color={config.footer.primaryButton.color || 'blue'}
+                  // variant={config.footer.primaryButton.variant || 'soft'}
+                  // color={config.footer.primaryButton.color || 'blue'}
                   size="2"
                   onClick={config.footer.primaryButton.onClick}
                 >

@@ -31,110 +31,16 @@
       background-color: rgba(0, 0, 0, 0.5) !important;
       z-index: 1000;
     }
-
-    /* Dialog content elements */
-    .rt-Heading,
-    .rt-Text,
-    .rt-Flex,
-    .rt-Grid,
-    .rt-BaseCard,
-    .rt-RadioCardsItem,
-    .rt-BaseButton,
-    .rt-Button {
-      background-color: #fefefe !important;
-      color: var(--color-text) !important;
-    }
-
-    /* Radio button states */
-    .rt-RadioCardsItem[data-state='checked'] {
-      background-color: var(--color-primary-xxl-20) !important;
-      color: var(--color-primary) !important;
-    }
-
-    .rt-RadioCardsItem[data-state='unchecked'] {
-      background-color: #fefefe !important;
-      color: var(--color-text) !important;
-    }
-
-    /* Button states */
-    .rt-Button[data-variant='soft'] {
-      background-color: var(--color-primary-xxl-20) !important;
-      color: var(--color-primary) !important;
-    }
-
-    .rt-IconButton[data-variant='ghost'] {
-      background-color: transparent !important;
-      color: var(--color-text-dark) !important;
-    }
-
-    /* Close button hover */
-    .close-button:hover {
-      background-color: var(--color-warning-xxl-20) !important;
-      color: var(--color-warning) !important;
-    }
   }
 
-  [data-theme='dark'] {
-    --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
-      'Apple Color Emoji', 'Segoe UI Emoji';
-    --default-font-family: var(--font-sans);
-    --heading-font-family: var(--default-font-family);
-    --strong-font-family: var(--default-font-family);
+  [role='dialog'] button,
+  .rt-DialogContent button,
+  .rt-BaseDialogContent button [role='dialog'] button,
+  .rt-DialogContent button,
+  .rt-BaseDialogContent button {
+    all: revert; /* Complete CSS reset */
 
-    /* Force dialog background to use theme-aware colors */
-    .rt-BaseDialogContent,
-    .rt-DialogContent,
-    [role='dialog'] {
-      background-color: var(--color-background) !important;
-      color: var(--color-text) !important;
-    }
-
-    /* Force dialog overlay to use theme-aware colors */
-    .rt-BaseDialogOverlay,
-    .rt-DialogOverlay {
-      background-color: rgba(0, 0, 0, 0.5) !important;
-    }
-
-    /* Dialog content elements */
-    .rt-Heading,
-    .rt-Text,
-    .rt-Flex,
-    .rt-Grid,
-    .rt-BaseCard,
-    .rt-RadioCardsItem,
-    .rt-BaseButton,
-    .rt-Button {
-      background-color: var(--color-background) !important;
-      color: var(--color-text) !important;
-    }
-
-    /* Radio button states */
-    .rt-RadioCardsItem[data-state='checked'] {
-      background-color: var(--color-primary-xxl-20) !important;
-      color: var(--color-primary) !important;
-    }
-
-    .rt-RadioCardsItem[data-state='unchecked'] {
-      background-color: var(--color-background) !important;
-      color: var(--color-text) !important;
-    }
-
-    /* Button states */
-    .rt-Button[data-variant='soft'] {
-      background-color: var(--color-primary-xxl-20) !important;
-      color: var(--color-primary) !important;
-    }
-
-    .rt-IconButton[data-variant='ghost'] {
-      background-color: transparent !important;
-      color: var(--color-text-dark) !important;
-    }
-
-    /* Close button hover */
-    .close-button:hover {
-      background-color: var(--color-warning-xxl-20) !important;
-      color: var(--color-warning) !important;
-    }
+    /* background-color: red !important; */
   }
 }
 

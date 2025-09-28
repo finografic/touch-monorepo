@@ -5,6 +5,21 @@
 
 /* Override Radix UI font variables in @theme-override layer (highest priority) */
 @layer theme-override {
+  /* Reset all button styles inside dialogs */
+  .rt-BaseDialogContent button,
+  .rt-DialogContent button,
+  [role='dialog'] button {
+    all: revert !important; /* Reset to browser defaults */
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    background: none !important;
+    font: inherit !important;
+    color: inherit !important;
+    cursor: pointer !important;
+  }
+
   :root {
     --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif,
       'Apple Color Emoji', 'Segoe UI Emoji';
