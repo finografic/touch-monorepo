@@ -1,6 +1,7 @@
 {
   "name": "@workspace/server",
   "type": "module",
+  "version": "0.0.82",
   "private": true,
   "exports": {
     ".": {
