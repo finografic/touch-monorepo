@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from 'styles';
-import type { ButtonVariant, ButtonSize, ButtonColor } from './ButtonV2.types';
+import type { ButtonColor, ButtonSize, ButtonVariant } from './ButtonV2.types';
 
 /**
  * Base button styles - common to all variants

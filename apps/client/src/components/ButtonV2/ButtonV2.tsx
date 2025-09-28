@@ -2,7 +2,7 @@ import type { ReactElement } from 'react';
 import { forwardRef } from 'react';
 import clsx from 'clsx';
 import type { ButtonV2Props } from './ButtonV2.types';
-import { baseButtonStyles, sizeStyles, fullWidthStyles, getVariantStyles } from './ButtonV2.styles';
+import { baseButtonStyles, fullWidthStyles, getVariantStyles, sizeStyles } from './ButtonV2.styles';
 import { LoadingSpinner } from './LoadingSpinner';
 
 /**
