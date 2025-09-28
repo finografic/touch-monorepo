@@ -35,25 +35,16 @@ export const cssGlobal = css`
     box-sizing: border-box;
   }
 
-  :root {
-    box-sizing: border-box;
-    /* Default dark theme color palette */
-    ${generateCssColorVariables({ colors: darkColors })}
-
-    /* Transparent color utilities */
-    ${generateCssColorVariablesTransparency()}
-
-    /* Debug: Show current theme */
-    --debug-theme: 'default-light';
-  }
-
-  /* Light theme color variables */
+  :root,
   [data-theme='light'] {
+    box-sizing: border-box;
+    /* Light theme color palette (default + explicit light) */
     ${generateCssColorVariables({ colors: lightColors })}
 
     /* Transparent color utilities */
     ${generateCssColorVariablesTransparency()}
 
+    /* Debug: Show current theme */
     --debug-theme: 'light';
   }
 

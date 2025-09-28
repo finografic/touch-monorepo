@@ -29,10 +29,18 @@ const LanguageSync = () => {
     const fullLocale = getFullLocaleFromSimpleCode(currentI18nLanguage); // NOTE: is 'es-ES', but failsafe
     setCurrentLanguage(fullLocale);
 
-    // NOTE: tnitialize theme from localStorage
+    // NOTE: Initialize theme from localStorage, but only if not already set by theme-init.js
+    const currentDataTheme = document.documentElement.getAttribute('data-theme');
     const storedTheme = localStorage.getItem('touch-app-theme') as 'light' | 'dark';
+
     if (storedTheme && (storedTheme === 'light' || storedTheme === 'dark')) {
-      setTheme(storedTheme);
+      // Only call setTheme if the DOM attribute doesn't match (prevents flicker)
+      if (currentDataTheme !== storedTheme) {
+        setTheme(storedTheme);
+      }
+    } else if (!currentDataTheme) {
+      // Fallback: set default theme if nothing is set
+      setTheme('light');
     }
 
     const handleLanguageChanged = (lng: string) => {
