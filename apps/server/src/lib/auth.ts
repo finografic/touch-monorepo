@@ -4,6 +4,12 @@ import { customSession } from 'better-auth/plugins';
 import { db } from 'db';
 import { account, session, user, verification } from '../db/schemas';
 import { env } from '../env.server';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
+import { findProjectRoot } from '@finografic/project-scripts/utils';
+
+const projectRoot = findProjectRoot(__dirname);
+const rootPackageJson = JSON.parse(readFileSync(join(projectRoot, 'package.json'), 'utf-8'));
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -48,9 +54,11 @@ export const auth = betterAuth({
     },
   },
   advanced: {
-    cookiePrefix: 'iox',
+    cookiePrefix: rootPackageJson.name,
     useSecureCookies: env.NODE_ENV === 'production',
-    generateId: () => crypto.randomUUID(),
+    database: {
+      generateId: () => crypto.randomUUID(),
+    },
     cookies: {
       session_token: {
         name: 'auth_token',
