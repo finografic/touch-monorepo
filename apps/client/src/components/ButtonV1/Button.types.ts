@@ -1,8 +1,10 @@
 import type { CSSProperties, ReactElement, ReactNode } from 'react';
-import type { SizeUI, RegexMatchedString } from 'types';
 import type { ColorBaseName, ColorName, HexColor } from 'styles';
-import type { IconType } from 'react-icons';
-import { ConstEnumOf } from 'types/utility.types';
+import type { IconType } from 'styles/icons';
+import type { ConstEnumOf } from '@workspace/core/types/utils';
+
+// Define SizeUI type for button sizes
+export type SizeUI = 'sm' | 'md' | 'lg';
 
 export const BUTTON_TYPE = {
   SUBMIT: 'submit',
