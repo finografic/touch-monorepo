@@ -29,7 +29,6 @@
     .rt-BaseDialogOverlay,
     .rt-DialogOverlay {
       background-color: rgba(0, 0, 0, 0.5) !important;
-      z-index: 1000;
     }
 
     /* Dialog content elements */

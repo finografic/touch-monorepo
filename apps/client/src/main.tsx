@@ -4,8 +4,8 @@ import './index.css';
 
 // radix css styles
 import '@radix-ui/themes/styles.css'; // Removed - conflicts with custom theme
-import '@radix-ui/themes/layout.css';
-import '@radix-ui/themes/components.css';
+// import '@radix-ui/themes/layout.css';
+// import '@radix-ui/themes/components.css';
 
 // local css styles
 // import './styles/radix-ui/radix.css'; // Custom Radix styles without color conflicts
@@ -13,10 +13,9 @@ import '@radix-ui/themes/components.css';
 // import './styles/radix-ui/base.css';
 // import './styles/radix-ui/components.css';
 // import './styles/radix-ui/dialog.css';
-// import './styles/radix-ui/overrides.css';
-
+// import './styles/radix-ui/radix-dialog.css';
+import './styles/radix-ui/overrides.css';
 import './styles/icons/icons.css';
-import './styles/radix-ui/radix-dialog.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';

@@ -1,5 +1,7 @@
-/* Radix UI Theme Overrides */
-/* Custom theme variables and overrides */
+/* This file contains base Radix UI styles */
+/* Color variables are now generated at build time by postcss-radix-colors plugin */
+
+@layer theme, base, radix-themes, components, utilities, theme-override;
 
 /* Override Radix UI font variables in @theme-override layer (highest priority) */
 @layer theme-override {
@@ -22,6 +24,7 @@
     .rt-BaseDialogContent,
     .rt-DialogContent,
     [role='dialog'] {
+      background-color: #fefefe !important;
       color: var(--color-text) !important;
     }
 
@@ -138,15 +141,78 @@
   }
 }
 
-/* Dynamic color scheme based on theme */
+/* Tailwind Preset for Radix Themes */
+/* NOTE: https://github.com/viktorbonino/radix-themes-tw */
+
+@import 'radix-themes-tw';
+
+/* Radix UI Colors - Light Mode */
+
+@import '@radix-ui/colors/gray.css';
+@import '@radix-ui/colors/slate.css';
+@import '@radix-ui/colors/sand.css';
+@import '@radix-ui/colors/red.css';
+@import '@radix-ui/colors/crimson.css';
+@import '@radix-ui/colors/purple.css';
+@import '@radix-ui/colors/indigo.css';
+@import '@radix-ui/colors/blue.css';
+@import '@radix-ui/colors/sky.css';
+@import '@radix-ui/colors/cyan.css';
+@import '@radix-ui/colors/teal.css';
+@import '@radix-ui/colors/grass.css';
+@import '@radix-ui/colors/lime.css';
+@import '@radix-ui/colors/amber.css';
+@import '@radix-ui/colors/yellow.css';
+@import '@radix-ui/colors/gold.css';
+@import '@radix-ui/colors/orange.css';
+
+/* Radix UI Colors - Dark Mode */
+
+/* @import '@radix-ui/colors/gray-dark.css';
+@import '@radix-ui/colors/slate-dark.css';
+@import '@radix-ui/colors/sand-dark.css';
+@import '@radix-ui/colors/red-dark.css';
+@import '@radix-ui/colors/crimson-dark.css';
+@import '@radix-ui/colors/purple-dark.css';
+@import '@radix-ui/colors/indigo-dark.css';
+@import '@radix-ui/colors/blue-dark.css';
+@import '@radix-ui/colors/sky-dark.css';
+@import '@radix-ui/colors/cyan-dark.css';
+@import '@radix-ui/colors/teal-dark.css';
+@import '@radix-ui/colors/grass-dark.css';
+@import '@radix-ui/colors/lime-dark.css';
+@import '@radix-ui/colors/amber-dark.css';
+@import '@radix-ui/colors/yellow-dark.css';
+@import '@radix-ui/colors/gold-dark.css';
+@import '@radix-ui/colors/orange-dark.css'; */
+
 :root {
   color-scheme: light;
 }
 
+/* Dynamic color scheme based on theme */
 [data-theme='light'] {
   color-scheme: light;
 }
 
 [data-theme='dark'] {
   color-scheme: dark;
+}
+
+/* Radix Dialog Overlay */
+.drawer-overlay {
+  background-color: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  inset: 0;
+  z-index: 1300; /* Below drawer */
+  animation: overlayShow 150ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes overlayShow {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
