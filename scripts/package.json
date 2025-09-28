@@ -3,7 +3,7 @@
   "type": "module",
   "version": "0.3.2",
   "packageManager": "pnpm@10.17.1",
-  "description": "Fingorafic Project Scripts",
+  "description": "local project-specific custom scripts",
   "author": {
     "name": "Justin",
     "email": "justin.blair.rankin@gmail.com",
