@@ -2,7 +2,8 @@
 
 import { join } from 'path';
 import { loadConfig } from '../config';
-import { generateTypes } from './types';
+import { generateTypes } from './generate-types';
+import { generateConstants } from './generate-constants';
 
 async function main() {
   try {
@@ -13,8 +14,9 @@ async function main() {
     const configPath = join(monorepoRoot, 'config', 'i18n', 'config.ts');
     const config = await loadConfig(configPath);
 
-    // Generate types
+    // Generate types + constants
     await generateTypes(config, monorepoRoot);
+    await generateConstants(config, monorepoRoot);
   } catch (error) {
     console.error('Error:', error);
     process.exit(1);

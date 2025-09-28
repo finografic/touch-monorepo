@@ -36,9 +36,13 @@
       "types": "./dist/generators/index.d.ts",
       "import": "./dist/generators/index.js"
     },
-    "./generators/types": {
-      "types": "./dist/generators/types.d.ts",
-      "import": "./dist/generators/types.js"
+    "./generators/generate-constants": {
+      "types": "./dist/generators/generate-constants.d.ts",
+      "import": "./dist/generators/generate-constants.js"
+    },
+    "./generators/generate-types": {
+      "types": "./dist/generators/generate-types.d.ts",
+      "import": "./dist/generators/generate-types.js"
     },
     "./generators/cli": {
       "types": "./dist/generators/cli.d.ts",

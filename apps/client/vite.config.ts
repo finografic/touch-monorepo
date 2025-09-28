@@ -69,7 +69,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/core/types': resolve(workspaceRoot, 'packages/core/src/types'),
         '@workspace/core/types/utils': resolve(workspaceRoot, 'packages/core/src/types/utils'),
         '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src/index.ts'),
-        '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators'),
+        '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators/index.ts'),
       },
     },
     build: {

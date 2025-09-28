@@ -11,15 +11,9 @@ export async function generateTypes(config: I18nConfig, rootDir: string): Promis
   try {
     // Generate the TypeScript file content
     const typeFileContent = generateTypeFileContent(config);
-    const typesPath = join(rootDir, config.typeGeneration.outputPath);
+    const typesPath = join(rootDir, config.typeGeneration.outputPath, 'language.types.ts');
     writeFileSync(typesPath, typeFileContent, 'utf-8');
     console.log(`✅ Generated language types at: ${typesPath}`);
-
-    // Generate constants file
-    const constantsPath = join(rootDir, 'config', 'generated', 'i18n', 'constants.generated.ts');
-    const constantsContent = generateConstantsContent(config);
-    writeFileSync(constantsPath, constantsContent, 'utf-8');
-    console.log(`📝 Generated constants at: ${constantsPath}`);
   } catch (error) {
     console.error('❌ Error generating language types:', error);
     throw error;
@@ -124,35 +118,4 @@ export const isValidRegionLocale = (locale: string): locale is RegionLocale => {
   const [lang, country] = parts;
   return isSupportedLangCode2(lang) && supportedCountries.includes(country.toUpperCase());
 };`;
-}
-
-function generateConstantsContent(config: I18nConfig): string {
-  const { languageMapping, supportedCountries, defaultCountries } = config.typeGeneration;
-
-  return `/**
- * Generated Constants for i18n
- * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated on ${new Date().toISOString()}
- */
-
-import type { RegionLocale, LangCode2, CountryCode } from './types';
-
-// Supported locales for the application
-export const SUPPORTED_LOCALES: readonly RegionLocale[] = [
-${Object.values(languageMapping)
-  .flatMap((iso2) => supportedCountries.map((country) => `  '${iso2}-${country}' as RegionLocale,`))
-  .join('\n')}
-] as const;
-
-// Primary locale for each language
-export const PRIMARY_LOCALES: Record<LangCode2, RegionLocale> = {
-${Object.entries(defaultCountries)
-  .map(([iso2, country]) => `  '${iso2}': '${iso2}-${country}',`)
-  .join('\n')}
-} as const;
-
-// All available country codes
-export const AVAILABLE_COUNTRIES: readonly CountryCode[] = [
-${supportedCountries.map((code) => `  '${code}',`).join('\n')}
-] as const;`;
 }

@@ -4,7 +4,7 @@
  * Generated on 2025-08-14T20:16:37.234Z
  */
 
-import type { RegionLocale, LangCode2, CountryCode } from './types';
+import type { RegionLocale, LangCode2, CountryCode } from './language.types';
 
 // Supported locales for the application
 export const SUPPORTED_LOCALES: readonly RegionLocale[] = [
@@ -21,14 +21,10 @@ export const SUPPORTED_LOCALES: readonly RegionLocale[] = [
 
 // Primary locale for each language
 export const PRIMARY_LOCALES: Record<LangCode2, RegionLocale> = {
-  'en': 'en-GB',
-  'es': 'es-ES',
-  'ca': 'ca-ES',
+  en: 'en-GB',
+  es: 'es-ES',
+  ca: 'ca-ES',
 } as const;
 
 // All available country codes
-export const AVAILABLE_COUNTRIES: readonly CountryCode[] = [
-  'ES',
-  'GB',
-  'US',
-] as const;
+export const AVAILABLE_COUNTRIES: readonly CountryCode[] = ['ES', 'GB', 'US'] as const;

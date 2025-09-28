@@ -36,7 +36,7 @@ const DEFAULT_LANGUAGES: LanguageConfig[] = [
 export const DEFAULT_CONFIG: I18nConfig = {
   languages: DEFAULT_LANGUAGES,
   typeGeneration: {
-    outputPath: './config/generated/i18n/language.types.ts',
+    outputPath: './config/generated/i18n',
     languageMapping: {
       eng: 'en',
       spa: 'es',
