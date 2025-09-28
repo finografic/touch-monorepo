@@ -17,7 +17,7 @@ export const baseToolbarStyles = css`
   align-items: center;
   justify-content: flex-start;
   box-sizing: border-box;
-  z-index: 1500;
+  z-index: 800;
 
   button {
     ${stylesButton}

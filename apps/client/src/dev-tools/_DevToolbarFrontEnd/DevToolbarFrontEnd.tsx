@@ -1,5 +1,4 @@
 import { Box, Flex } from '@radix-ui/themes';
-import { styles } from './DevToolbarFrontEnd.styles';
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { LockIcon, TextAlignTopIcon } from 'styles/icons';
 import { QueryDevtoolsPanel } from '../layers/QueryDevtoolsPanel/QueryDevtoolsPanel';
@@ -14,6 +13,7 @@ import { useTimers } from 'providers/TimersProvider';
 import { AuthStatusDialog } from 'components/Dialog/dialogs/AuthStatusDialog';
 import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
 import { DevPanelLeft } from 'dev-tools/_Panels/DevPanelLeft';
+import { styles } from './DevToolbarFrontEnd.styles';
 
 export const DevToolbarFrontEnd = () => {
   const { timers } = useTimers();
