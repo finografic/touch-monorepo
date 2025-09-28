@@ -42,7 +42,11 @@ export const DEFAULT_CONFIG: I18nConfig = {
       spa: 'es',
       cat: 'ca',
     },
-    supportedCountries: ['ES', 'GB', 'US'],
+    supportedCountries: [
+      'ES',
+      'GB',
+      // , 'US'
+    ],
     defaultCountries: {
       en: 'GB',
       es: 'ES',

@@ -11,12 +11,12 @@ async function main() {
     const monorepoRoot = join(process.cwd(), '..', '..');
 
     // Look for config file in monorepo root
-    const configPath = join(monorepoRoot, 'config', 'i18n', 'config.ts');
-    const config = await loadConfig(configPath);
+    const configPath = join(monorepoRoot, 'config', 'i18n.config.ts');
+    const i18nConfig = await loadConfig(configPath);
 
     // Generate types + constants
-    await generateTypes(config, monorepoRoot);
-    await generateConstants(config, monorepoRoot); // <TODO: I ADDED THIS WHEN I SPLIT THE GENERATORS INTO TWO FILES>
+    await generateTypes(i18nConfig, monorepoRoot);
+    await generateConstants(i18nConfig, monorepoRoot); // <TODO: I ADDED THIS WHEN I SPLIT THE GENERATORS INTO TWO FILES>
   } catch (error) {
     console.error('Error:', error);
     process.exit(1);

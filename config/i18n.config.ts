@@ -1,4 +1,4 @@
-import type { I18nConfig } from '../../packages/i18n/dist/config/index';
+import type { I18nConfig } from '@workspace/i18n/config';
 
 /**
  * Touch Monorepo I18n Configuration
