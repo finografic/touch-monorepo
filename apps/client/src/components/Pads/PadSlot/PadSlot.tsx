@@ -26,14 +26,7 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
   const hasTimer = timer && (timer.status === 'processing' || timer.status === 'completed');
   const status = timer?.status || 'idle';
 
-  // log('__CHECKBOX:', 'grey', {
-  //   slotType,
-  //   slotNumber,
-  //   status,
-  //   isChecked,
-  // });
-
-  const mergedClassName = useMemo(
+  const mergedClassNames = useMemo(
     () =>
       clsx('pad', 'pad-slot', `item-type-${slotType}`, className, {
         'pad-large': variant === 'large',
@@ -64,7 +57,7 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
           slotNumber={slotNumber}
           status={status}
           isChecked={isChecked}
-          className={clsx(mergedClassName, { 'checking-blocked': isIdleSlotChecked })}
+          className={clsx(mergedClassNames, { 'checking-blocked': isIdleSlotChecked })}
         >
           <Timer key={`timer-${slotNumber}`} slotNumber={slotNumber} onComplete={handleTimerComplete} />
         </PadSlotToggle>
@@ -81,7 +74,7 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
       value={{ id: String(slotNumber), slotType }}
       fieldKey={OrderFieldKeys.main}
       isChecked={isChecked}
-      className={mergedClassName}
+      className={mergedClassNames}
       onSelect={handleSelect}
     />
   );

@@ -24,7 +24,7 @@ const Pad: FC<PadProps> = (props) => {
   if (props.type === 'button') {
     return <PadButton {...props} />;
   }
-  // fallback (unknown type)
+
   return null;
 };
 

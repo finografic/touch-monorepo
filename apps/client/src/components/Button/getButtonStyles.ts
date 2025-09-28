@@ -2,8 +2,7 @@ import type { ColorName, HexColor, ShadeKey } from 'styles/colors.types';
 import type { ButtonVariant } from './Button.types';
 import { css } from '@emotion/react';
 import Color from 'color';
-import { colors } from 'styles/colors.styles';
-import { IconBaseProps } from 'types/ui.types';
+import { colors } from 'styles';
 
 /**
  * Check if a color name is a custom palette color (e.g., 'primary', 'danger')

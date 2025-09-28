@@ -1,10 +1,9 @@
-import type { ReactElement, ReactNode } from 'react';
+import { type ReactElement, type ReactNode, useMemo } from 'react';
 import type { ButtonProps } from './Button.types';
 import { css } from '@emotion/react';
-import { ArrayJSX } from 'utils/ArrayJSX';
 import { styles } from './Button.styles';
 import { getColorsByVariant, getStylesByIconScale } from './getButtonStyles';
-import clsx from 'clsx'; // TODO: 🟡 REPLACE ArrayJSX with clsx !!
+import clsx from 'clsx';
 
 const Button = ({
   type = 'button',
@@ -25,27 +24,30 @@ const Button = ({
   children,
   ...props
 }: ButtonProps): ReactElement => {
-  // DIMENSIONS, PADDING ETC...
   const isIconOnly: boolean = !!icon && !label;
 
-  // CSS CLASSES
-  // TODO: 🟡 REPLACE ArrayJSX with clsx !!
-  const cssClasses = new ArrayJSX('btn');
-  cssClasses.push(`btn-${color}`);
-  cssClasses.push(`btn-${variant}`);
-  cssClasses.push(`size-${size}`);
-  className && cssClasses.push(className);
-  fullWidth && cssClasses.push('full-width');
+  const mergedClassNames = useMemo(
+    () =>
+      clsx('btn', `btn-${color}`, `btn-${variant}`, `size-${size}`, className, {
+        'full-width': fullWidth,
+        'icon-only': isIconOnly,
+        'icon-left': iconPos === 'left',
+        'icon-right': iconPos === 'right',
+        'btn-padded': isPadded && !isIconOnly,
+      }),
+    [color, variant, size, className, fullWidth, isPadded, iconPos, isIconOnly],
+  );
 
-  if (isIconOnly) {
-    cssClasses.push('icon-only');
-  } else {
-    iconPos && cssClasses.push(iconPos);
-    isPadded && cssClasses.push('btn-padded');
-  }
+  const stylesByProps = useMemo(
+    () => css`
+      ${styles}
+      ${getColorsByVariant({ color, colorHover, colorLabel, variant })}
+      ${getStylesByIconScale({ iconScale })}
+    `,
+    [color, variant, colorHover, colorLabel, iconScale, styles],
+  );
 
   const buttonContent = isIconOnly ? (
-    // Pass empty props object to icon component
     <>{typeof icon === 'function' ? icon({}) : icon}</>
   ) : (
     <>
@@ -55,17 +57,11 @@ const Button = ({
     </>
   );
 
-  const stylesByProps = css`
-    ${styles}
-    ${getColorsByVariant({ color, colorHover, colorLabel, variant })}
-    ${getStylesByIconScale({ iconScale })}
-  `;
-
   return (
     <button
       type={type}
       aria-label={label}
-      className={cssClasses.inline()}
+      className={mergedClassNames}
       css={stylesByProps}
       disabled={isDisabled}
       {...props}
