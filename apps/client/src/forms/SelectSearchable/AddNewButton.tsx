@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button } from 'components/Button';
+import { Button } from 'components/ButtonRadix';
 import { AddIcon } from 'styles/icons';
 
 interface SearchableSelectProps {

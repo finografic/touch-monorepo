@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { matchSorter } from 'match-sorter';
 import { TextField } from '@radix-ui/themes';
-import { Button } from 'components/Button';
+import { Button } from 'components/ButtonRadix';
 import { CheckIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import { styles, stylesDropdown } from './SelectSearchable.styles';
 import { DropdownPortal } from './DropdownPortal';

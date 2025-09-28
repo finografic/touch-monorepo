@@ -1,6 +1,6 @@
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
-import { Button } from 'components/Button/Button';
+import { Button } from 'components/ButtonRadix/Button';
 import { styles } from './AuthStatusDialog.styles';
 
 interface AuthStatusDialogProps {

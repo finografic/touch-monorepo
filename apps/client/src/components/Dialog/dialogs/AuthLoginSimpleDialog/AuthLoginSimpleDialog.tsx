@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
-import { Button } from 'components/Button/Button';
+import { Button } from 'components/ButtonRadix/Button';
 import { Input } from 'components/Input/Input';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { styles } from './AuthLoginSimpleDialog.styles';

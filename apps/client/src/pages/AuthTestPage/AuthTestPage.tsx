@@ -1,6 +1,6 @@
 import React from 'react';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
-import { Button } from 'components/Button/Button';
+import { Button } from 'components/ButtonRadix/Button';
 import { styles } from './AuthTestPage.styles';
 
 export const AuthTestPage: React.FC = () => {

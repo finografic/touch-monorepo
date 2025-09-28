@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'components/Button';
+import { Button } from 'components/ButtonRadix';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { SelectBasic } from 'forms/SelectBasic';
 import { InputTemperature } from 'forms/InputTemperature';

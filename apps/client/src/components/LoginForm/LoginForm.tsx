@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
-import { Button } from 'components/Button/Button';
+import { Button } from 'components/ButtonRadix/Button';
 import { Input } from 'components/Input/Input';
 import { styles } from './LoginForm.styles';
 

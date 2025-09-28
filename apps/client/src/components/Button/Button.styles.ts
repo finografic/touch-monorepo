@@ -1,432 +1,212 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles/colors/colors.styles';
+import { layout } from 'styles/layout.styles';
+import { colors } from 'styles/colors.styles';
+import { generateClassColorVariants } from 'styles/utils/generateClassColorVariants';
 
-// Helper to create rgba from hex with opacity
-export const withOpacity = (hex: string, opacity: number) => {
-  const r = Number.parseInt(hex.slice(1, 3), 16);
-  const g = Number.parseInt(hex.slice(3, 5), 16);
-  const b = Number.parseInt(hex.slice(5, 7), 16);
-  return `rgba(${r}, ${g}, ${b}, ${opacity})`;
-};
+export const styles = css`
+  /* RESET */
+  appearance: none;
+  outline: none;
+  background: none;
+  background-image: none;
+  background-color: transparent;
+  border: none;
 
-// Opacity values for different states/variants
-export const opacities = {
-  soft: {
-    default: 0.15,
-    hover: 0.25,
-  },
-  outline: {
-    hover: 0.1,
-  },
-  ghost: {
-    hover: 0.1,
-  },
-  disabled: 0.75,
-} as const;
+  position: relative;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
 
-// Types for button variants and states
-type ButtonVariant = 'solid' | 'soft' | 'outline' | 'ghost';
-type ButtonState = 'default' | 'hover' | 'disabled';
-type ButtonStatusColor = 'success' | 'warning' | 'danger' | 'info' | 'default';
+  user-select: none;
 
-interface ButtonStateStyles {
-  background: string;
-  border: string;
-  label: string;
-}
+  /* CENTER TEXT */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
 
-type ButtonVariantStyles = {
-  [State in ButtonState]: ButtonStateStyles;
-};
+  &.btn {
+    border-width: ${layout.borderWidth};
+    border-style: solid !important;
+    margin: 0 calc(${layout.padding} / 2);
+    background: transparent;
 
-type ButtonColorVariant = {
-  [Variant in ButtonVariant]: ButtonVariantStyles;
-};
-
-// Individual color variants
-const success: ButtonColorVariant = {
-  solid: {
-    default: {
-      background: colors.successDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-    hover: {
-      background: colors.successXDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-    disabled: {
-      background: colors.successDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-  },
-  soft: {
-    default: {
-      background: withOpacity(colors.successDark, opacities.soft.default),
-      border: colors.transparent,
-      label: colors.successXDark,
-    },
-    hover: {
-      background: withOpacity(colors.successDark, opacities.soft.hover),
-      border: colors.transparent,
-      label: colors.successXDark,
-    },
-    disabled: {
-      background: withOpacity(colors.successXDark, opacities.soft.default),
-      border: colors.transparent,
-      label: colors.successXDark,
-    },
-  },
-  outline: {
-    default: {
-      background: colors.transparent,
-      border: colors.successDark,
-      label: colors.successDark,
-    },
-    hover: {
-      background: withOpacity(colors.successDark, opacities.outline.hover),
-      border: colors.successXDark,
-      label: colors.successXDark,
-    },
-    disabled: {
-      background: colors.transparent,
-      border: colors.successDark,
-      label: colors.successDark,
-    },
-  },
-  ghost: {
-    default: {
-      background: colors.transparent,
-      border: colors.transparent,
-      label: colors.successDark,
-    },
-    hover: {
-      background: withOpacity(colors.successDark, opacities.ghost.hover),
-      border: colors.transparent,
-      label: colors.successXDark,
-    },
-    disabled: {
-      background: colors.transparent,
-      border: colors.transparent,
-      label: colors.successDark,
-    },
-  },
-};
-
-const warning: ButtonColorVariant = {
-  solid: {
-    default: {
-      background: colors.warningDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-    hover: {
-      background: colors.warningXDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-    disabled: {
-      background: colors.warningDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-  },
-  soft: {
-    default: {
-      background: withOpacity(colors.warningDark, opacities.soft.default),
-      border: colors.transparent,
-      label: colors.warningXDark,
-    },
-    hover: {
-      background: withOpacity(colors.warningDark, opacities.soft.hover),
-      border: colors.transparent,
-      label: colors.warningXDark,
-    },
-    disabled: {
-      background: withOpacity(colors.warningDark, opacities.soft.default),
-      border: colors.transparent,
-      label: colors.warningXDark,
-    },
-  },
-  outline: {
-    default: {
-      background: colors.transparent,
-      border: colors.warningDark,
-      label: colors.warningDark,
-    },
-    hover: {
-      background: withOpacity(colors.warningDark, opacities.outline.hover),
-      border: colors.warningXDark,
-      label: colors.warningXDark,
-    },
-    disabled: {
-      background: colors.transparent,
-      border: colors.warningDark,
-      label: colors.warningDark,
-    },
-  },
-  ghost: {
-    default: {
-      background: colors.transparent,
-      border: colors.transparent,
-      label: colors.warningDark,
-    },
-    hover: {
-      background: withOpacity(colors.warningDark, opacities.ghost.hover),
-      border: colors.transparent,
-      label: colors.warningXDark,
-    },
-    disabled: {
-      background: colors.transparent,
-      border: colors.transparent,
-      label: colors.warningDark,
-    },
-  },
-};
-
-const danger: ButtonColorVariant = {
-  solid: {
-    default: {
-      background: colors.dangerDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-    hover: {
-      background: colors.dangerXDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-    disabled: {
-      background: colors.dangerDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-  },
-  soft: {
-    default: {
-      background: withOpacity(colors.dangerDark, opacities.soft.default),
-      border: colors.transparent,
-      label: colors.dangerXDark,
-    },
-    hover: {
-      background: withOpacity(colors.dangerDark, opacities.soft.hover),
-      border: colors.transparent,
-      label: colors.dangerXDark,
-    },
-    disabled: {
-      background: withOpacity(colors.dangerDark, opacities.soft.default),
-      border: colors.transparent,
-      label: colors.dangerXDark,
-    },
-  },
-  outline: {
-    default: {
-      background: colors.transparent,
-      border: colors.dangerDark,
-      label: colors.dangerDark,
-    },
-    hover: {
-      background: withOpacity(colors.dangerDark, opacities.outline.hover),
-      border: colors.dangerXDark,
-      label: colors.dangerXDark,
-    },
-    disabled: {
-      background: colors.transparent,
-      border: colors.dangerDark,
-      label: colors.dangerDark,
-    },
-  },
-  ghost: {
-    default: {
-      background: colors.transparent,
-      border: colors.transparent,
-      label: colors.dangerDark,
-    },
-    hover: {
-      background: withOpacity(colors.dangerDark, opacities.ghost.hover),
-      border: colors.transparent,
-      label: colors.dangerXDark,
-    },
-    disabled: {
-      background: colors.transparent,
-      border: colors.transparent,
-      label: colors.dangerDark,
-    },
-  },
-};
-
-const info: ButtonColorVariant = {
-  solid: {
-    default: {
-      background: colors.infoDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-    hover: {
-      background: colors.infoXDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-    disabled: {
-      background: colors.infoDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-  },
-  soft: {
-    default: {
-      background: withOpacity(colors.infoDark, opacities.soft.default),
-      border: colors.transparent,
-      label: colors.infoXDark,
-    },
-    hover: {
-      background: withOpacity(colors.infoDark, opacities.soft.hover),
-      border: colors.transparent,
-      label: colors.infoXDark,
-    },
-    disabled: {
-      background: withOpacity(colors.infoDark, opacities.soft.default),
-      border: colors.transparent,
-      label: colors.infoXDark,
-    },
-  },
-  outline: {
-    default: {
-      background: colors.transparent,
-      border: colors.infoDark,
-      label: colors.infoDark,
-    },
-    hover: {
-      background: withOpacity(colors.infoDark, opacities.outline.hover),
-      border: colors.infoXDark,
-      label: colors.infoXDark,
-    },
-    disabled: {
-      background: colors.transparent,
-      border: colors.infoDark,
-      label: colors.infoDark,
-    },
-  },
-  ghost: {
-    default: {
-      background: colors.transparent,
-      border: colors.transparent,
-      label: colors.infoDark,
-    },
-    hover: {
-      background: withOpacity(colors.infoDark, opacities.ghost.hover),
-      border: colors.transparent,
-      label: colors.infoXDark,
-    },
-    disabled: {
-      background: colors.transparent,
-      border: colors.transparent,
-      label: colors.infoDark,
-    },
-  },
-};
-
-const defaultVariant: ButtonColorVariant = {
-  solid: {
-    default: {
-      background: colors.defaultDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-    hover: {
-      background: colors.defaultXDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-    disabled: {
-      background: colors.defaultDark,
-      border: colors.transparent,
-      label: colors.white,
-    },
-  },
-  soft: {
-    default: {
-      background: withOpacity(colors.defaultDark, opacities.soft.default),
-      border: colors.transparent,
-      label: colors.defaultXDark,
-    },
-    hover: {
-      background: withOpacity(colors.defaultDark, opacities.soft.hover),
-      border: colors.transparent,
-      label: colors.defaultXDark,
-    },
-    disabled: {
-      background: withOpacity(colors.defaultDark, opacities.soft.default),
-      border: colors.transparent,
-      label: colors.defaultDark,
-    },
-  },
-  outline: {
-    default: {
-      background: colors.transparent,
-      border: colors.defaultLight,
-      label: colors.defaultLight,
-    },
-    hover: {
-      background: withOpacity(colors.default, opacities.outline.hover),
-      border: colors.defaultDark,
-      label: colors.defaultDark,
-    },
-    disabled: {
-      background: colors.transparent,
-      border: colors.defaultXDark,
-      label: colors.defaultXDark,
-    },
-  },
-  ghost: {
-    default: {
-      background: colors.transparent,
-      border: colors.transparent,
-      label: colors.defaultDark,
-    },
-    hover: {
-      background: withOpacity(colors.defaultDark, opacities.ghost.hover),
-      border: colors.transparent,
-      label: colors.defaultXDark,
-    },
-    disabled: {
-      background: colors.transparent,
-      border: colors.transparent,
-      label: colors.defaultDark,
-    },
-  },
-};
-
-// Combined color variables with type safety
-export const colorVariables: Record<ButtonStatusColor, ButtonColorVariant> = {
-  success,
-  warning,
-  danger,
-  info,
-  default: defaultVariant,
-} as const;
-
-// Helper function to get button styles
-export const getButtonStyles = (variant: ButtonVariant, color: ButtonStatusColor) => {
-  const styles = colorVariables[color][variant];
-
-  return css`
-    background-color: ${styles.default.background};
-    border-color: ${styles.default.border};
-    color: ${styles.default.label};
-    transition: all 0.2s ease;
-
-    &:hover:not(:disabled) {
-      background-color: ${styles.hover.background};
-      border-color: ${styles.hover.border};
-      color: ${styles.hover.label};
+    &.size-xs {
+      font-size: 1em;
+    }
+    &.size-sm {
+      font-size: 1.1em;
+    }
+    &.size-md {
+      font-size: 1.2em;
+    }
+    &.size-lg {
+      font-size: 1.3em;
+    }
+    &.size-xl {
+      font-size: 1.4em;
     }
 
+    &.full-width {
+      width: 100%;
+    }
+
+    &.icon-only {
+      /* padding: 0.8em;
+    width: 60px !important;
+    height: 60px !important; */
+      /* width: 24px;
+  height: 40px; */
+      padding: 0.5em 1em;
+      border-radius: ${layout.borderRadius};
+    }
+
+    /* BORDER */
+    & {
+      &:disabled {
+        border-width: ${layout.borderWidth};
+        border-style: solid;
+      }
+      border-radius: ${layout.borderRadius};
+    }
+
+    /* SIZE: FONT + PADDING */
+    font-size: 1.3em;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+
+    padding: 0.66em;
+
+    &.btn-padded {
+      /* padding: 0.5em 2.75em; */
+      padding: 0.5em 2em;
+    }
+
+    /* UX */
+    transition:
+      background-color 300ms ease,
+      border-color 300ms ease;
+
+    /* &.variant-solid {
+      background-color: inherit;
+    } */
+
+    &.btn-outline {
+      background-color: transparent;
+    }
+
+    /* DISABLED */
     &:disabled {
-      opacity: ${opacities.disabled};
-      cursor: not-allowed;
+      opacity: 0.66;
+      background-color: ${colors.grey};
+      border-color: ${colors.grey};
+      filter: grayscale(0.33);
+      cursor: default;
+      pointer-events: none;
+
+      &.variant-outline {
+        background-color: transparent;
+      }
     }
-  `;
-};
+
+    span {
+      /* padding-top: 0.1em; */
+    }
+
+    /* ICON */
+    svg {
+      vertical-align: middle;
+    }
+    svg + span {
+      margin-left: 0.75em;
+    }
+    span + svg {
+      margin-left: 0.75em;
+    }
+
+    /* COLOR VARIANTS */
+
+    &.btn-primary {
+      background-color: ${colors.primary};
+      border-color: ${colors.primary};
+      * {
+        color: ${colors.white};
+      }
+      &:hover {
+        background-color: ${colors.primaryXDark};
+        border-color: ${colors.primaryXDark};
+      }
+    }
+
+    &.btn-default {
+      background-color: ${colors.defaultDark};
+      border-color: ${colors.defaultXLight};
+      * {
+        color: ${colors.defaultDark};
+      }
+    }
+
+    &.btn-info {
+      background-color: ${colors.infoDark};
+      border-color: ${colors.infoXLight};
+      * {
+        color: ${colors.infoDark};
+      }
+    }
+
+    &.btn-success {
+      background-color: ${colors.successDark};
+      border-color: ${colors.successXLight};
+      * {
+        color: ${colors.successDark};
+      }
+    }
+
+    &.btn-warning {
+      background-color: ${colors.warningDark};
+      border-color: ${colors.warningXLight};
+      * {
+        color: ${colors.warningDark};
+      }
+    }
+
+    &.btn-danger {
+      background-color: ${colors.dangerDark};
+      border-color: ${colors.dangerXLight};
+      * {
+        color: ${colors.dangerDark};
+      }
+    }
+
+    ${generateClassColorVariants(
+      (color, variant) => /* css */ `&.btn-solid.btn-${color} {
+        background-color: ${variant.dark}!important;
+        border-color: ${variant.xdark}!important;
+        * {
+          color: ${colors.white}!important;
+          -webkit-text-fill-color: ${colors.white}!important;
+        }
+        &:hover{
+          background-color: ${variant.xdark}!important;
+          border-color: ${variant.xdark}!important;
+        }
+      }`,
+    )}
+
+    ${generateClassColorVariants(
+      (color, variant) => /* css */ `&.btn-outline.btn-${color} {
+        background-color: transparent!important;
+        border-color: ${variant.xdark}!important;
+        * {
+          color: ${variant.xdark}!important;
+          -webkit-text-fill-color: ${variant.xdark}!important;
+        }
+        &:hover{
+          background-color: ${variant.xdark}!important;
+          border-color: ${variant.xdark}!important;
+        }
+      }`,
+    )}
+  }
+`;
