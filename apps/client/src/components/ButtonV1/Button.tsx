@@ -1,10 +1,11 @@
-import type { ReactElement, ReactNode } from 'react';
+import type { ReactElement } from 'react';
 import type { ButtonProps } from './Button.types';
 import { css } from '@emotion/react';
+import { ReactNode } from 'react';
 import { ArrayJSX } from 'utils/ArrayJSX';
 import { styles } from './Button.styles';
 import { getColorsByVariant, getStylesByIconScale } from './getButtonStyles';
-import clsx from 'clsx'; // TODO: 🟡 REPLACE ArrayJSX with clsx !!
+import clsx from 'clsx';
 
 const Button = ({
   type = 'button',
@@ -29,7 +30,6 @@ const Button = ({
   const isIconOnly: boolean = !!icon && !label;
 
   // CSS CLASSES
-  // TODO: 🟡 REPLACE ArrayJSX with clsx !!
   const cssClasses = new ArrayJSX('btn');
   cssClasses.push(`btn-${color}`);
   cssClasses.push(`btn-${variant}`);

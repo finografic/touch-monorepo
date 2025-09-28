@@ -91,6 +91,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
           'path',
           'node:os',
           'os',
+          'src/apps/client/src/components/ButtonRadix/radix-source-files/**/*',
+          'src/apps/client/src/components/ButtonV1/**/*',
         ],
         output: {
           format: 'es',

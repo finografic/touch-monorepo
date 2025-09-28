@@ -4,7 +4,8 @@ import { Cross2Icon } from '@radix-ui/react-icons';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { styles } from './GenericDialog.styles';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
-import { Button } from 'components/ButtonRadix';
+// import { Button } from 'components/ButtonRadix';
+import { Button } from 'components/Button';
 import clsx from 'clsx';
 
 interface GenericDialogProps {

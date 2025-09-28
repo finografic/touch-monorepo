@@ -71,5 +71,11 @@
     }
   ],
   "include": ["src/**/*", "src/**/*.json", "../../packages/core/src/types/countries.types.ts"],
-  "exclude": ["dist", "node_modules", "eslint.config.mjs"]
+  "exclude": [
+    "dist",
+    "node_modules",
+    "eslint.config.mjs",
+    "src/apps/client/src/components/ButtonRadix/radix-source-files/**/*",
+    "src/apps/client/src/components/ButtonV1/**/*"
+  ]
 }
