@@ -108,15 +108,23 @@ export const typography = {
  * Single source of truth for all button styling
  */
 export const button = {
+  // color: colors.default,
+  // border: colors.default,
+  background: colors.defaultXLight25,
   border: {
     width: '2px',
     style: 'solid',
   },
   color: {
-    default: colors.defaultDark,
-    hover: colors.defaultXDark,
-    active: colors.defaultXLight,
-    disabled: colors.defaultDark,
+    default: colors.defaultXLight,
+    hover: colors.default,
+    active: colors.secondaryXLight,
+    disabled: colors.defaultXLight,
+  },
+  hover: {
+    color: colors.default,
+    border: colors.default,
+    background: colors.defaultXLight25,
   },
   md: {
     minWidth: '200px',

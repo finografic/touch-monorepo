@@ -1,13 +1,13 @@
 import { css } from '@emotion/react';
-import { colors, layout } from 'styles';
+import { button, colors, layout } from 'styles';
 import { stylesSmallButton } from 'styles/project/buttons.styles';
 
 export const styles = css`
   &[role='dialog'] {
     padding-bottom: 0;
     overflow: hidden;
-    background-color: var(--color-background) !important;
-    color: var(--color-text) !important;
+    background-color: ${colors.background} !important;
+    color: ${colors.text} !important;
 
     /* Flexbox layout: header -> content -> footer */
     display: flex;
@@ -18,14 +18,14 @@ export const styles = css`
       font-size: 2rem;
       font-weight: 500;
       margin-bottom: 1.5rem;
-      color: var(--color-text) !important;
+      color: ${colors.text} !important;
     }
 
     .close-button {
       transform: scale(1.5) translate(-25%);
-      color: var(--color-text-secondary) !important;
+      color: ${colors.textSecondary} !important;
       &:hover {
-        color: var(--color-warning) !important;
+        color: ${colors.warning} !important;
         background-color: transparent;
         cursor: pointer;
       }
@@ -79,7 +79,7 @@ export const styles = css`
 
         /* Custom scrollbar styling */
         scrollbar-width: thin;
-        scrollbar-color: var(--color-text-secondary) transparent;
+        scrollbar-color: ${colors.textSecondary} transparent;
 
         &::-webkit-scrollbar {
           width: 8px;
@@ -90,11 +90,11 @@ export const styles = css`
         }
 
         &::-webkit-scrollbar-thumb {
-          background-color: var(--color-text-secondary);
+          background-color: ${colors.textSecondary};
           border-radius: 4px;
 
           &:hover {
-            background-color: var(--color-text);
+            background-color: ${colors.text};
           }
         }
 
@@ -120,7 +120,7 @@ export const styles = css`
 
       /* Custom scrollbar styling */
       scrollbar-width: thin;
-      scrollbar-color: var(--color-text-secondary) transparent;
+      scrollbar-color: ${colors.textSecondary} transparent;
 
       &::-webkit-scrollbar {
         width: 8px;
@@ -131,18 +131,18 @@ export const styles = css`
       }
 
       &::-webkit-scrollbar-thumb {
-        background-color: var(--color-text-secondary);
+        background-color: ${colors.textSecondary};
         border-radius: 4px;
 
         &:hover {
-          background-color: var(--color-text);
+          background-color: ${colors.text};
         }
       }
     }
 
     /* Tab List Styles */
     [role='tablist'] {
-      box-shadow: inset 0 -2px 0 0 var(--color-border);
+      box-shadow: inset 0 -2px 0 0 ${colors.border};
       flex-shrink: 0; /* Don't shrink the tab list */
 
       button[role='tab'] {
@@ -153,15 +153,15 @@ export const styles = css`
           font-size: 1.2rem;
           font-weight: 500;
           line-height: 1.2;
-          color: var(--color-text-secondary);
+          color: ${colors.textSecondary};
         }
         &[data-state='active'] {
           &:before {
-            background-color: var(--color-primary);
+            background-color: ${colors.primary};
             height: 2px;
           }
           span {
-            color: var(--color-primary);
+            color: ${colors.primary};
           }
         }
       }
@@ -179,20 +179,20 @@ export const styles = css`
 
       button {
         ${stylesSmallButton}
-        border: ${layout.borderWidth} solid var(--color-border);
+        border: ${button.border.width} solid ${button.color.default};
         padding: 1.5rem 1rem;
         font-size: 1.2rem;
         font-weight: 500;
-        background-color: var(--color-background);
-        color: var(--color-text);
+        background-color: ${colors.background};
+        color: ${colors.text};
 
-        border-color: var(--color-primary);
-        background-color: var(--color-background);
+        border-color: ${colors.primary};
+        background-color: ${colors.background};
 
         &:hover {
-          color: var(--color-primary);
-          border-color: var(--color-primary);
-          background-color: var(--color-background-hover);
+          color: ${colors.primary};
+          border-color: ${colors.primary};
+          background-color: ${button.color.hover};
         }
       }
     }

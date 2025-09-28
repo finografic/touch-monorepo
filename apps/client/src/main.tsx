@@ -1,7 +1,7 @@
 import '@workspace/core';
 import './index.css';
-import '@radix-ui/themes/styles.css';
-// import 'styles/radix-ui/radix.css';
+import '@radix-ui/themes/styles.css'; // Removed - conflicts with custom theme
+// import './styles/radix-ui/radix.css'; // Custom Radix styles without color conflicts
 import './styles/icons/icons.css';
 // import './styles/radix-ui/radix-dialog.css';
 

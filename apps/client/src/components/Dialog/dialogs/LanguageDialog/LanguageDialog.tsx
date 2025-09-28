@@ -37,5 +37,5 @@ export const LanguageDialog = ({ isOpen, onClose }: LanguageDialogProps) => {
     },
   };
 
-  return <GenericDialog isOpen={isOpen} onClose={onClose} config={config} />;
+  return <GenericDialog isOpen={true} onClose={onClose} config={config} />;
 };
