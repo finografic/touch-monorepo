@@ -1,4 +1,4 @@
-import type { RegionLocale, LanguageConfigMap, LangCode } from '@workspace/core/types';
+import type { RegionLocale, LanguageConfigMap, LangCode2 as LangCode } from '../config/types';
 
 /**
  * Application Locale Configuration

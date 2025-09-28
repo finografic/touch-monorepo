@@ -29,6 +29,7 @@ function generateTypeFileContent(config: I18nConfig): string {
  * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
  * Generated on ${new Date().toISOString()}
  */
+import { config } from 'config/i18n/config';
 
 // All supported country codes (ISO 3166-1 alpha-2)
 export type CCA2 = ${countryUnion};
@@ -116,6 +117,8 @@ export const isValidRegionLocale = (locale: string): locale is RegionLocale => {
   if (parts.length !== 2) return false;
 
   const [lang, country] = parts;
+  const supportedCountries = config.typeGeneration.supportedCountries;
+
   return isSupportedLangCode2(lang) && supportedCountries.includes(country.toUpperCase());
 };`;
 }

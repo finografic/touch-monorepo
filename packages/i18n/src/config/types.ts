@@ -3,6 +3,11 @@
  * Defines the structure for configuring the i18n system
  */
 
+// Basic type definitions
+export type LangCode2 = string;
+export type CountryCode = string;
+export type RegionLocale = `${LangCode2}-${CountryCode}`;
+
 /**
  * Language configuration for a specific locale
  */
@@ -20,6 +25,11 @@ export interface LanguageConfig {
   /** Whether this is a default language */
   isDefault?: boolean;
 }
+
+/**
+ * Language configuration mapping interface
+ */
+export type LanguageConfigMap = Record<RegionLocale, LanguageConfig>;
 
 /**
  * Configuration for type generation
