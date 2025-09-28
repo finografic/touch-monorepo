@@ -1,5 +1,5 @@
 /** Primitive types supported in API responses */
-export type DataType = string | number | boolean | null | undefined;
+export type DataTypePrimitive = string | number | boolean | null | undefined;
 
 /** Base interface for API resource objects */
 export interface DataEntry {
@@ -7,7 +7,7 @@ export interface DataEntry {
   id?: string;
   name?: string;
   /** Dynamic keys supporting primitive values, arrays, and nested objects */
-  [key: string]: DataType | DataType[] | Record<string, DataType> | DataEntry;
+  [key: string]: DataTypePrimitive | DataTypePrimitive[] | Record<string, DataTypePrimitive> | DataEntry;
 }
 
 /** Generic type for loader data that can be either a single entry or array */
@@ -25,7 +25,7 @@ export interface RouteLoaderData<T extends DataEntry = DataEntry> {
     total?: number;
     page?: number;
     pageSize?: number;
-    [key: string]: DataType | undefined;
+    [key: string]: DataTypePrimitive | undefined;
   };
 }
 
@@ -36,7 +36,7 @@ export interface RouteParams {
 
 // Storage interface for persistent data
 export interface Storage {
-  [key: string]: DataType | Storage | undefined;
+  [key: string]: DataTypePrimitive | Storage | undefined;
 }
 
 // Only use this as a last resort when types are truly unknown

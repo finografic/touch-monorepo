@@ -7,3 +7,7 @@ export { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from '.
 export { cssGlobal } from './global.styles';
 export { BREAKPOINTS } from './viewport/viewport.breakpoints';
 export { max, min, sizes } from './viewport/viewport.queries';
+
+// Utility functions
+export { generateClassColorVariants } from './utils/generateClassColorVariants';
+export type { ColorVariants } from './utils/generateClassColorVariants';

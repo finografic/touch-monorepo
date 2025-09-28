@@ -1,4 +1,4 @@
-import type { ColorName, HexColor, ShadeKey } from 'styles/colors.types';
+import type { ColorName, HexColor, ShadeKey } from 'styles/colors/colors.types';
 import type { ButtonVariant } from './Button.types';
 import { css } from '@emotion/react';
 import Color from 'color';

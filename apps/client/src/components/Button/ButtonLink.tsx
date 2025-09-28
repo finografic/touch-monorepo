@@ -1,18 +1,16 @@
 import { Link } from 'react-router-dom';
-import { ReactElement } from 'react';
-import { useNavigateState } from 'hooks/useNavigateState';
+import type { ReactElement } from 'react';
 import { Button } from './Button';
-import { ButtonLinkProps } from './Button.types';
-import { useRouter } from 'routes/hooks/useRouter';
+import type { ButtonLinkProps } from './Button.types';
+import { useNavigateState } from 'routes/hooks/useNavigateState';
 
 export const ButtonLinkV1 = ({ to, onClick, ...props }: ButtonLinkProps): ReactElement => {
-  const { fromLocation } = useRouter();
   // NOTE: ENSURE `from` previous pathname ALWAYS included in router state
-  // const { pathname /* basePath */ } = useLocation();
+  const { from } = useNavigateState();
   const newState = { ...props.state };
 
   if (!('from' in newState)) {
-    Object.assign(newState, { from: fromLocation });
+    Object.assign(newState, { from });
   }
 
   // TODO: `basePath` SAME as `pathname` ?? -- REMOVE / MERGE ??

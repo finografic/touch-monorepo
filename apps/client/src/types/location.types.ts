@@ -1,8 +1,8 @@
 import type { Location, NavigateOptions } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
-import type { IGeneric } from 'types/data.types';
+import type { Generic } from 'types/data.types';
 
-export interface LocationState extends IGeneric {
+export interface LocationState extends Generic {
   from?: RouteConfig & {
     pathname?: string;
   };
