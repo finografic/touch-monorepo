@@ -85,7 +85,7 @@
     "react-i18next": "15.4.0"
   },
   "devDependencies": {
-    "@finografic/project-scripts": "8.1.40",
+    "@finografic/project-scripts": "8.2.0",
     "@microsoft/api-extractor": "^7.52.11",
     "@types/node": "20.11.24",
     "shx": "0.3.4",
