@@ -94,12 +94,12 @@ describe('USBRelayService', () => {
   describe('Relay Control', () => {
     beforeEach(() => {
       // Mock successful initialization
-      vi.mocked(USBRelayService.isConnected).mockReturnValue(true);
+      vi.mocked(USBRelayService.getConnectionStatus).mockReturnValue({ connected: true });
     });
 
     it('should toggle individual relay ON', async () => {
       const mockToggleRelay = vi.mocked(USBRelayService.toggleRelay);
-      mockToggleRelay.mockResolvedValue(true);
+      mockToggleRelay.mockResolvedValue(undefined);
 
       const result = await USBRelayService.toggleRelay(1, true);
       expect(result).toBe(true);
@@ -108,7 +108,7 @@ describe('USBRelayService', () => {
 
     it('should toggle individual relay OFF', async () => {
       const mockToggleRelay = vi.mocked(USBRelayService.toggleRelay);
-      mockToggleRelay.mockResolvedValue(true);
+      mockToggleRelay.mockResolvedValue(undefined);
 
       const result = await USBRelayService.toggleRelay(1, false);
       expect(result).toBe(true);
@@ -125,7 +125,7 @@ describe('USBRelayService', () => {
 
     it('should turn all relays ON', async () => {
       const mockToggleAllRelays = vi.mocked(USBRelayService.toggleAllRelays);
-      mockToggleAllRelays.mockResolvedValue(true);
+      mockToggleAllRelays.mockResolvedValue(undefined);
 
       const result = await USBRelayService.toggleAllRelays(true);
       expect(result).toBe(true);
@@ -134,7 +134,7 @@ describe('USBRelayService', () => {
 
     it('should turn all relays OFF', async () => {
       const mockToggleAllRelays = vi.mocked(USBRelayService.toggleAllRelays);
-      mockToggleAllRelays.mockResolvedValue(true);
+      mockToggleAllRelays.mockResolvedValue(undefined);
 
       const result = await USBRelayService.toggleAllRelays(false);
       expect(result).toBe(true);
@@ -145,14 +145,14 @@ describe('USBRelayService', () => {
   describe('Status and State Management', () => {
     it('should get relay states', async () => {
       const mockStates = [
-        { slotNumber: 1, isOn: false },
-        { slotNumber: 2, isOn: true },
-        { slotNumber: 3, isOn: false },
+        { slotNumber: 1, isOn: false, lastUpdated: new Date() },
+        { slotNumber: 2, isOn: true, lastUpdated: new Date() },
+        { slotNumber: 3, isOn: false, lastUpdated: new Date() },
       ];
-      const mockGetRelayStates = vi.mocked(USBRelayService.getRelayStates);
-      mockGetRelayStates.mockResolvedValue(mockStates);
+      const mockGetRelayStates = vi.mocked(USBRelayService.getAllRelayStates);
+      mockGetRelayStates.mockReturnValue(mockStates);
 
-      const result = await USBRelayService.getRelayStates();
+      const result = USBRelayService.getAllRelayStates();
       expect(result).toEqual(mockStates);
       expect(mockGetRelayStates).toHaveBeenCalledOnce();
     });
@@ -160,13 +160,13 @@ describe('USBRelayService', () => {
     it('should get connection status', async () => {
       const mockStatus = {
         connected: true,
-        port: '/dev/hidraw0',
-        error: null,
+        device: '/dev/hidraw0',
+        error: undefined,
       };
-      const mockGetStatus = vi.mocked(USBRelayService.getStatus);
-      mockGetStatus.mockResolvedValue(mockStatus);
+      const mockGetStatus = vi.mocked(USBRelayService.getConnectionStatus);
+      mockGetStatus.mockReturnValue(mockStatus);
 
-      const result = await USBRelayService.getStatus();
+      const result = USBRelayService.getConnectionStatus();
       expect(result).toEqual(mockStatus);
       expect(mockGetStatus).toHaveBeenCalledOnce();
     });
@@ -177,10 +177,10 @@ describe('USBRelayService', () => {
         port: null,
         error: 'Connection state: disconnected',
       };
-      const mockGetStatus = vi.mocked(USBRelayService.getStatus);
-      mockGetStatus.mockResolvedValue(mockStatus);
+      const mockGetStatus = vi.mocked(USBRelayService.getConnectionStatus);
+      mockGetStatus.mockReturnValue(mockStatus);
 
-      const result = await USBRelayService.getStatus();
+      const result = USBRelayService.getConnectionStatus();
       expect(result.connected).toBe(false);
       expect(result.error).toBe('Connection state: disconnected');
     });
@@ -189,7 +189,7 @@ describe('USBRelayService', () => {
   describe('Connection Management', () => {
     it('should disconnect successfully', async () => {
       const mockDisconnect = vi.mocked(USBRelayService.disconnect);
-      mockDisconnect.mockResolvedValue(true);
+      mockDisconnect.mockResolvedValue(undefined);
 
       const result = await USBRelayService.disconnect();
       expect(result).toBe(true);
@@ -197,10 +197,10 @@ describe('USBRelayService', () => {
     });
 
     it('should check connection status', () => {
-      const mockIsConnected = vi.mocked(USBRelayService.isConnected);
-      mockIsConnected.mockReturnValue(true);
+      const mockIsConnected = vi.mocked(USBRelayService.getConnectionStatus);
+      mockIsConnected.mockReturnValue({ connected: true });
 
-      const result = USBRelayService.isConnected();
+      const result = USBRelayService.getConnectionStatus();
       expect(result).toBe(true);
       expect(mockIsConnected).toHaveBeenCalledOnce();
     });

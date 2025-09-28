@@ -1,9 +1,6 @@
-
 # server build errors
 
 ```typescript
-@workspace/i18n:build: ESM dist/config/index.js       79.00 B
-@workspace/i18n:build: ESM ⚡️ Build success in 46ms
 @workspace/server:build: src/routes/relay/__tests__/relay.handlers.test.ts:2:10 - error TS1485: 'Context' resolves to a type-only declaration and must be imported using a type-only import when 'verbatimModuleSyntax' is enabled.
 @workspace/server:build:
 @workspace/server:build: 2 import { Context } from 'hono';
@@ -137,7 +134,7 @@
 
  Tasks:    4 successful, 5 total
 Cached:    0 cached, 5 total
-  Time:    14.579s
+  Time:    14.672s
 Failed:    @workspace/server#build
 
  ERROR  run failed: command  exited (1)
@@ -145,4 +142,5 @@ Failed:    @workspace/server#build
 ERROR: "reset.build" exited with 1.
 ERROR: "reset" exited with 1.
 ✖  Error building interactive interface
+ ~/repos-finografic/touch-monorepo   master ⇡8 *140 !5 ❯
 ```

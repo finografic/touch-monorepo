@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
-import { Context } from 'hono';
+import type { Context } from 'hono';
 
 // Mock the USBRelayService
 vi.mock('../../services/usbrelay.service', () => ({
