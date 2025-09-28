@@ -1,9 +1,9 @@
 /**
  * Language and Internationalization Types
  * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated on 2025-09-28T20:32:50.816Z
+ * Generated on 2025-09-28T23:48:29.840Z
  */
-import { config } from 'config/i18n/config';
+import { config } from 'config/i18n.config';
 
 // All supported country codes (ISO 3166-1 alpha-2)
 export type CCA2 = 'ES' | 'GB' | 'US';

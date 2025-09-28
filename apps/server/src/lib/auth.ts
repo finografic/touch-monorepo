@@ -5,8 +5,13 @@ import { db } from 'db';
 import { account, session, user, verification } from '../db/schemas';
 import { env } from '../env.server';
 import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { findProjectRoot } from '@finografic/project-scripts/utils';
+
+// ES module equivalent of __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 const projectRoot = findProjectRoot(__dirname);
 const rootPackageJson = JSON.parse(readFileSync(join(projectRoot, 'package.json'), 'utf-8'));

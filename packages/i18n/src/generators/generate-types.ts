@@ -29,7 +29,7 @@ function generateTypeFileContent(config: I18nConfig): string {
  * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
  * Generated on ${new Date().toISOString()}
  */
-import { config } from 'config/i18n/config';
+import { config } from 'config/i18n.config';
 
 // All supported country codes (ISO 3166-1 alpha-2)
 export type CCA2 = ${countryUnion};
