@@ -1,7 +1,7 @@
 /**
  * Generated Constants for i18n
  * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated on 2025-08-14T20:16:37.234Z
+ * Generated on 2025-09-28T19:18:02.146Z
  */
 
 import type { RegionLocale, LangCode2, CountryCode } from './language.types';
@@ -21,10 +21,14 @@ export const SUPPORTED_LOCALES: readonly RegionLocale[] = [
 
 // Primary locale for each language
 export const PRIMARY_LOCALES: Record<LangCode2, RegionLocale> = {
-  en: 'en-GB',
-  es: 'es-ES',
-  ca: 'ca-ES',
+  'en': 'en-GB',
+  'es': 'es-ES',
+  'ca': 'ca-ES',
 } as const;
 
 // All available country codes
-export const AVAILABLE_COUNTRIES: readonly CountryCode[] = ['ES', 'GB', 'US'] as const;
+export const AVAILABLE_COUNTRIES: readonly CountryCode[] = [
+  'ES',
+  'GB',
+  'US',
+] as const;

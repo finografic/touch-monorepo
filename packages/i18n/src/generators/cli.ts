@@ -16,7 +16,7 @@ async function main() {
 
     // Generate types + constants
     await generateTypes(config, monorepoRoot);
-    await generateConstants(config, monorepoRoot);
+    await generateConstants(config, monorepoRoot); // <TODO: I ADDED THIS WHEN I SPLIT THE GENERATORS INTO TWO FILES>
   } catch (error) {
     console.error('Error:', error);
     process.exit(1);

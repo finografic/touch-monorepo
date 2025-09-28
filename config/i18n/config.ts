@@ -1,4 +1,4 @@
-import type { I18nConfig } from '@workspace/i18n/config';
+import type { I18nConfig } from '../../packages/i18n/dist/config/index';
 
 /**
  * Touch Monorepo I18n Configuration
@@ -29,7 +29,7 @@ export const config: I18nConfig = {
     },
   ],
   typeGeneration: {
-    outputPath: './config/generated/i18n/language.types.ts',
+    outputPath: './config/generated/i18n',
     languageMapping: {
       eng: 'en',
       spa: 'es',
