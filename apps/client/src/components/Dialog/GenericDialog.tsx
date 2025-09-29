@@ -6,6 +6,7 @@ import { styles } from './GenericDialog.styles';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
 // import { Button } from 'components/ButtonRadix';
 import { Button } from 'components/Button';
+import { ButtonV2 } from 'components/ButtonV2';
 import clsx from 'clsx';
 
 interface GenericDialogProps {
@@ -119,10 +120,12 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
                 <Button
                   // variant={config.footer.secondaryButton.variant || 'soft'}
                   // color={config.footer.secondaryButton.color || 'gray'}
+                  variant="outline"
+                  color="default"
                   size="md"
                   onClick={config.footer.secondaryButton.onClick}
                 >
-                  {config.footer.secondaryButton.label}
+                  A: {config.footer.secondaryButton.label}
                 </Button>
               )}
 
@@ -130,10 +133,12 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
                 <Button
                   // variant={config.footer.primaryButton.variant || 'soft'}
                   // color={config.footer.primaryButton.color || 'blue'}
+                  variant="outline"
+                  color="default"
                   size="md"
                   onClick={config.footer.primaryButton.onClick}
                 >
-                  {config.footer.primaryButton.label}
+                  B: {config.footer.primaryButton.label}
                 </Button>
               )}
             </Flex>

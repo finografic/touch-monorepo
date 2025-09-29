@@ -8,7 +8,7 @@ import clsx from 'clsx';
 const Button = ({
   type = 'button',
   variant = 'solid',
-  color = 'primaryDark',
+  color = 'secondary',
   colorHover = color,
   colorLabel,
   isDisabled = false,

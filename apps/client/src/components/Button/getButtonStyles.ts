@@ -57,9 +57,23 @@ export function getButtonColors({
         ? colors[colorHover]
         : colors[`${parsed.base}${darkerShade.charAt(0).toUpperCase()}${darkerShade.slice(1)}`];
 
-      // Use Color.js to determine text color based on luminosity
-      const colorObj = Color(btnColor);
-      const btnColorContent = colorObj.luminosity() <= 0.7 ? '#ffffff' : colors.text;
+      // Handle CSS variables - can't use Color.js on them, so use fallback logic
+      let btnColorContent: string;
+      if (btnColor && btnColor.startsWith('var(')) {
+        // For CSS variables, use a simple heuristic based on color name
+        const isDarkColor =
+          parsed.base === 'primary' || parsed.shade.includes('dark') || parsed.base === 'danger';
+        btnColorContent = isDarkColor ? '#ffffff' : colors.text;
+      } else {
+        try {
+          // Use Color.js to determine text color based on luminosity for hex colors
+          const colorObj = Color(btnColor);
+          btnColorContent = colorObj.luminosity() <= 0.7 ? '#ffffff' : colors.text;
+        } catch (err) {
+          // Fallback if Color.js fails
+          btnColorContent = '#ffffff';
+        }
+      }
 
       return {
         btnColor,
@@ -71,6 +85,16 @@ export function getButtonColors({
 
   // Fallback to Color.js for non-system colors
   try {
+    // Check if it's a CSS variable first
+    if (typeof color === 'string' && color.startsWith('var(')) {
+      // Can't process CSS variables with Color.js, return as-is
+      return {
+        btnColor: color,
+        btnColorContent: '#ffffff', // Safe default for unknown CSS variables
+        btnColorHover: colorHover || color, // Use provided hover or same as base
+      };
+    }
+
     const btnColor = Color(color);
     const btnColorContent = btnColor.luminosity() <= 0.7 ? '#ffffff' : colors.text;
     const btnColorHover = colorHover ? Color(colorHover) : btnColor.darken(0.075);
@@ -102,6 +126,7 @@ export function getColorsByVariant({
   colorLabel?: ColorName | HexColor;
   variant: ButtonVariant;
 }) {
+  // ❌   // TODO: COLOR is CAUSING ERRORS ??
   const { btnColor, btnColorContent, btnColorHover } = getButtonColors({ color, colorHover });
 
   if (variant === 'outline') {

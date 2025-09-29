@@ -21,6 +21,14 @@ export type ButtonColorVariant = Extract<
   'default' | 'info' | 'success' | 'warning' | 'danger'
 >;
 
+/**
+ * Available button colors from the design system
+ */
+export type ButtonColor = Extract<
+  ColorBaseName,
+  'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'grey' | 'gray'
+>;
+
 export const BUTTON_COLOR_VARIANT: ConstEnumOf<ButtonColorVariant> = {
   DEFAULT: 'default',
   INFO: 'info',
@@ -34,7 +42,8 @@ export type IconPos = 'left' | 'right';
 export interface ButtonProps {
   children?: any;
   className?: string;
-  color?: ColorName | HexColor;
+  // color?: ColorName | HexColor;
+  color?: ButtonColor;
   // colorHover?: string;
   colorHover?: ColorName | HexColor;
   colorLabel?: ColorName | HexColor;
