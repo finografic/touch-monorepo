@@ -95,9 +95,9 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
   switch (variant) {
     case 'solid':
       return css`
-        background-color: ${baseColor};
+        background-color: ${defaultColor};
         color: ${color === 'default' || color === 'grey' ? colors.white : colors.white};
-        border: ${button.border.width} solid ${baseColor};
+        border: ${button.border.width} solid ${defaultColor};
 
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${darkColor};
