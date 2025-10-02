@@ -46,15 +46,15 @@ function DynamicIcon({ name }: { name: IconName }) {
 ### Button Integration
 
 ```tsx
-import { ButtonV2 } from 'components/ButtonV2';
+import { Button } from 'components/Button';
 import { SaveIcon, type IconType } from 'styles/icons';
 
 // With specific icon
-<ButtonV2 icon={<SaveIcon />}>Save</ButtonV2>
+<Button icon={<SaveIcon />}>Save</Button>
 
 // With icon type
 const icon: IconType = SaveIcon;
-<ButtonV2 icon={<icon />}>Save</ButtonV2>
+<Button icon={<icon />}>Save</Button>
 ```
 
 ## 🔧 Types

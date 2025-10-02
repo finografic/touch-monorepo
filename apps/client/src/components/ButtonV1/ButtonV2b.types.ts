@@ -25,9 +25,9 @@ export type ButtonColor = Extract<
 export type IconPosition = 'left' | 'right';
 
 /**
- * ButtonV2 Props Interface
+ * Button Props Interface
  */
-export interface ButtonV2Props extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
   /**
    * Button variant - affects visual style
    * @default 'solid'
