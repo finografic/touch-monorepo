@@ -2,7 +2,7 @@ import react from '@vitejs/plugin-react';
 import { defineConfig, loadEnv, type UserConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
-import { logApiURL } from './src/utils/vite.utils';
+import { devCookieClearPlugin, logApiURL } from './src/utils/vite.utils';
 import { resolve } from 'path';
 import { envShared } from '../../env.shared.js';
 
@@ -45,7 +45,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         },
       }),
       tailwindcss(),
-    ],
+      mode === 'development' && devCookieClearPlugin(),
+    ].filter(Boolean),
     base: './',
     server: {
       port: 3000,

@@ -1,9 +1,40 @@
 import chalk from 'chalk';
-import type { UserConfig } from 'vite';
+import type { Plugin, UserConfig } from 'vite';
 
 export function logApiURL({ mode }: Pick<UserConfig, 'mode'>) {
   const currentMode = mode || process.env.NODE_ENV || 'development';
   const apiUrl = 'http://localhost:4040/api';
 
   console.log(chalk.cyan.dim(`[API ${currentMode}]`), chalk.cyan.dim(apiUrl));
+}
+
+export function devCookieClearPlugin(): Plugin {
+  let isFirstRequestAfterStartup = true; // Flag to ensure it runs only once per server startup
+
+  return {
+    name: 'dev-cookie-clear',
+    apply: 'serve', // This plugin should only apply in development mode (when serving)
+
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        // Check if this is the first request since the dev server started
+        if (isFirstRequestAfterStartup) {
+          console.log('🍪 [dev-cookie-clear] Clearing auth_token cookie on dev server startup...');
+
+          // Set the 'auth_token' cookie to expire immediately
+          // Path and Domain must match the original cookie for successful deletion
+          res.setHeader(
+            'Set-Cookie',
+            'auth_token=; Path=/; Domain=localhost; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; SameSite=Lax',
+          );
+
+          // Reset the flag so this logic doesn't run on subsequent requests, refreshes, or HMR
+          isFirstRequestAfterStartup = false;
+
+          console.log('✅ [dev-cookie-clear] Cookie cleared - auth_token will be removed on next page load');
+        }
+        next(); // Continue to the next middleware/handler
+      });
+    },
+  };
 }
