@@ -123,6 +123,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
                   variant="outline"
                   color="default"
                   size="md"
+                  fullWidth={config.footer.secondaryButton && !config.footer.primaryButton}
                   onClick={config.footer.secondaryButton.onClick}
                 >
                   A: {config.footer.secondaryButton.label}
@@ -135,6 +136,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
                   // color={config.footer.primaryButton.color || 'blue'}
                   variant="outline"
                   color="default"
+                  fullWidth={config.footer.primaryButton && !config.footer.secondaryButton}
                   size="md"
                   onClick={config.footer.primaryButton.onClick}
                 >

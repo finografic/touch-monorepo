@@ -2,7 +2,7 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
-import type { PadConfig, PadType, PadUI } from 'types/ui.types';
+import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import { NUM_GRID_ITEMS } from 'constants/app.config';
 import { parsePadConfig } from 'utils/ui-V2.utils';
 import type { DataEntry, Dataset } from 'types/data.types';

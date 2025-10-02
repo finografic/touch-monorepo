@@ -2,9 +2,7 @@ import type { CSSProperties, ReactElement, ReactNode } from 'react';
 import type { ColorBaseName, ColorName, HexColor } from 'styles';
 import type { IconType } from 'styles/icons';
 import type { ConstEnumOf } from '@workspace/core/types/utils';
-
-// Define SizeUI type for button sizes
-export type SizeUI = 'sm' | 'md' | 'lg';
+import type { SizeUI } from 'types/ui.types';
 
 export const BUTTON_TYPE = {
   SUBMIT: 'submit',

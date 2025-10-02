@@ -1,7 +1,7 @@
 import { OrderFieldKeys } from 'constants/app.config';
 import { FilterKeys } from 'constants/filters.constants';
 import type { OrderFieldKey } from 'types/orders.types';
-import type { PadConfig, PadUI } from 'types/ui.types';
+import type { PadConfig, PadUI } from 'types/pads.types';
 
 export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
   [OrderFieldKeys.main]: {

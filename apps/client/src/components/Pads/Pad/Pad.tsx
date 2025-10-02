@@ -1,4 +1,4 @@
-import type { PadUI } from 'types/ui.types';
+import type { PadUI } from 'types/pads.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { FC, ReactNode } from 'react';
 import { memo } from 'react';

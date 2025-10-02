@@ -1,5 +1,5 @@
 import type { OrderItem } from 'types/orders.types';
-import type { PadUI } from 'types/ui.types';
+import type { PadUI } from 'types/pads.types';
 
 export const findOrderByNumber = (orders: OrderItem[], slotNumber: number): OrderItem | undefined => {
   return orders.find((order) => order.slotNumber === slotNumber);

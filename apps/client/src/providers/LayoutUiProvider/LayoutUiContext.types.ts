@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
 import type { ValidGridSize } from 'types/menu.types';
-import type { PadConfig, PadType, PadUI } from 'types/ui.types';
+import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
 import type { RegionLocale } from '@workspace/core/types';

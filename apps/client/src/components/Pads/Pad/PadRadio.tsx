@@ -4,7 +4,7 @@ import clsx from 'clsx';
 import { padStyles } from './Pad.styles';
 import type { PadProps } from './Pad';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import { PAD_TYPE } from 'types/ui.types';
+import { PAD_TYPE } from 'types/pads.types';
 
 export const PadRadio: React.FC<PadProps> = ({
   fieldKey,

@@ -7,7 +7,7 @@ import type { OrderFieldKey } from 'types/orders.types';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
-import type { PadConfig } from 'types/ui.types';
+import type { PadConfig } from 'types/pads.types';
 import type { FilterKey } from 'types/filters.types';
 import { useTranslation } from 'react-i18next';
 import type { RegionLocale } from '@workspace/core/types';

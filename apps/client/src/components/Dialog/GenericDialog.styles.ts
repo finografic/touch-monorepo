@@ -174,10 +174,10 @@ export const styles = css`
       justify-content: center;
       align-items: center;
       margin: 0; /* Remove margin */
-      padding: 1.5rem 1rem; /* Add padding for spacing */
+      padding: 1.5rem 0rem; /* Add padding for spacing */
       background: transparent;
 
-      button {
+      /* button {
         ${stylesSmallButton}
         border: ${button.border.width} solid ${button.color.default};
         padding: 1.5rem 1rem;
@@ -194,7 +194,7 @@ export const styles = css`
           border-color: ${colors.primary};
           background-color: ${button.color.hover};
         }
-      }
+      } */
     }
 
     /* Data List View Styles - Moved to individual components */

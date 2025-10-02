@@ -1,4 +1,4 @@
-import type { PadConfig, PadUI } from 'types/ui.types';
+import type { PadConfig, PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import { OrderFieldKeys } from 'constants/app.config';

@@ -7,7 +7,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { usePaginationManagement } from 'hooks/usePaginationManagement';
 import { usePaginationSync } from 'hooks/usePaginationSync';
-import type { PadType, PadUI } from 'types/ui.types';
+import type { PadType, PadUI } from 'types/pads.types';
 import type { FilterFieldKey, NavigationFieldKey, OrderFieldKey } from 'types/orders.types';
 import PadGroup from 'components/Pads/PadGroup/PadGroup';
 import type { DataEntry } from 'types/data.types';

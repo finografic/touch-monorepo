@@ -1,4 +1,4 @@
-import type { PadUI } from 'types/ui.types';
+import type { PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
 import type { SlotType, OrderItem, OrderStatus } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';

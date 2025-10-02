@@ -1,10 +1,10 @@
 import * as React from 'react';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { PadButton, PadCheckbox, PadRadio } from '../Pad/index';
-import type { PadType, PadUI } from 'types/ui.types';
+import type { PadType, PadUI } from 'types/pads.types';
 import type { OrderFieldKey } from 'types/orders.types';
 import { CheckboxGroup } from '@radix-ui/themes';
-import { PAD_TYPE } from 'types/ui.types';
+import { PAD_TYPE } from 'types/pads.types';
 
 interface PadGroupProps {
   type: PadType;

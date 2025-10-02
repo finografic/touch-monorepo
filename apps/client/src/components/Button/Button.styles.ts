@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles';
+import { button, colors } from 'styles';
 import type { ButtonColor, ButtonSize, ButtonVariant } from './Button.types';
 
 /**
@@ -87,6 +87,7 @@ export const fullWidthStyles = css`
  */
 export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
   const baseColor = colors[color];
+  const defaultColor = colors[`${color}XLight` as keyof typeof colors];
   const lightColor = colors[`${color}Light` as keyof typeof colors];
   const darkColor = colors[`${color}Dark` as keyof typeof colors];
   const transparentColor = colors[`${color}25` as keyof typeof colors];
@@ -96,7 +97,7 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
       return css`
         background-color: ${baseColor};
         color: ${color === 'default' || color === 'grey' ? colors.white : colors.white};
-        border: 1px solid ${baseColor};
+        border: ${button.border.width} solid ${baseColor};
 
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${darkColor};
@@ -111,8 +112,8 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
     case 'outline':
       return css`
         background-color: transparent;
-        color: ${baseColor};
-        border: 1px solid ${baseColor};
+        color: ${defaultColor};
+        border: ${button.border.width} solid ${defaultColor};
 
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${transparentColor};
@@ -129,7 +130,7 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
       return css`
         background-color: transparent;
         color: ${baseColor};
-        border: 1px solid transparent;
+        border: ${button.border.width} solid transparent;
 
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${transparentColor};
@@ -145,7 +146,7 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
       return css`
         background-color: transparent;
         color: ${baseColor};
-        border: 1px solid transparent;
+        border: ${button.border.width} solid transparent;
         padding: 0;
         height: auto;
         text-decoration: underline;
