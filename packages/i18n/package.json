@@ -49,8 +49,8 @@
       "import": "./dist/generators/cli.js"
     },
     "./translations": {
-      "import": "./src/translations/index.ts",
-      "types": "./src/types/translation-keys.ts"
+      "import": "./dist/translations/index.js",
+      "types": "./dist/translations/index.d.ts"
     }
   },
   "scripts": {

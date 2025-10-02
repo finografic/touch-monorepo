@@ -1,5 +1,7 @@
 import type { Options } from 'tsup';
 import { defineConfig } from 'tsup';
+import { copyFileSync, mkdirSync } from 'node:fs';
+import { dirname } from 'node:path';
 
 export default defineConfig({
   entry: {
@@ -22,9 +24,31 @@ export default defineConfig({
   bundle: false,
   splitting: false,
   treeshake: true,
-  publicDir: false,
-  // Copy JSON files to dist
+  publicDir: false, // Don't use publicDir, we'll copy manually
   loader: {
     '.json': 'copy',
+  },
+  onSuccess: async () => {
+    // Copy JSON files to maintain folder structure inside dist/translations/
+    const jsonFiles = [
+      { src: 'src/translations/app/ca-ES.json', dest: 'dist/translations/app/ca-ES.json' },
+      { src: 'src/translations/app/en-GB.json', dest: 'dist/translations/app/en-GB.json' },
+      { src: 'src/translations/app/es-ES.json', dest: 'dist/translations/app/es-ES.json' },
+      { src: 'src/translations/common/ca-ES.json', dest: 'dist/translations/common/ca-ES.json' },
+      { src: 'src/translations/common/en-GB.json', dest: 'dist/translations/common/en-GB.json' },
+      { src: 'src/translations/common/es-ES.json', dest: 'dist/translations/common/es-ES.json' },
+      { src: 'src/translations/dynamic/ca-ES.json', dest: 'dist/translations/dynamic/ca-ES.json' },
+      { src: 'src/translations/dynamic/en-GB.json', dest: 'dist/translations/dynamic/en-GB.json' },
+      { src: 'src/translations/dynamic/es-ES.json', dest: 'dist/translations/dynamic/es-ES.json' },
+    ];
+
+    for (const { src, dest } of jsonFiles) {
+      try {
+        mkdirSync(dirname(dest), { recursive: true });
+        copyFileSync(src, dest);
+      } catch (error) {
+        console.warn(`Failed to copy ${src} to ${dest}:`, error);
+      }
+    }
   },
 });

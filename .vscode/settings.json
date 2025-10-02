@@ -78,7 +78,15 @@
     "typescript": "javascript",
     "typescriptreact": "javascript"
   },
-  "i18n-ally.localesPaths": ["${workspaceFolder}/packages/i18n/src/translations/index.ts"],
+  "i18n-ally.localesPaths": [
+    "${workspaceFolder}/packages/i18n/src/translations/index.ts",
+    "${workspaceFolder}/packages/i18n/dist/translations",
+    "${workspaceFolder}/packages/i18n/dist/translations/index.js",
+    "${workspaceFolder}/packages/i18n/dist/translations/index.d.ts",
+    "${workspaceFolder}/packages/i18n/dist/translations/app",
+    "${workspaceFolder}/packages/i18n/dist/translations/common",
+    "${workspaceFolder}/packages/i18n/dist/translations/dynamic"
+  ],
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
