@@ -1,5 +1,5 @@
 import type { ReactElement } from 'react';
-import { loadingSpinnerStyles } from './ButtonV2.styles';
+import { loadingSpinnerStyles } from './Button.styles';
 
 interface LoadingSpinnerProps {
   size?: number;

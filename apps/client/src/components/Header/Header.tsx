@@ -1,21 +1,20 @@
 import { Box, Container, Flex } from '@radix-ui/themes';
 import { styles } from './Header.styles';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useSession } from 'providers/SessionProvider/SessionContext';
+// import { useSession } from 'providers/SessionProvider/SessionContext';
 import { ThemeToggle } from 'components/ThemeToggle';
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+// import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { LoginButton } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/LoginButton';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
+// import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 export const Header = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const location = useLocation();
-  const { currentSessionId } = useSession();
+  // const { currentSessionId } = useSession();
   const { currentLanguage } = useAppConfig();
-  const { isNextDisabled } = usePagination();
+  // const { isNextDisabled } = usePagination();
 
   // const { user, session, isLoading, isAuthenticated, isAdmin, signOut } = useAuth();
 

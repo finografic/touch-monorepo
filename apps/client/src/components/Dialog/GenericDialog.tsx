@@ -6,7 +6,7 @@ import { styles } from './GenericDialog.styles';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
 // import { Button } from 'components/ButtonRadix';
 import { Button } from 'components/Button';
-import { ButtonV2 } from 'components/ButtonV2';
+// import { ButtonV2 as Button } from 'components/ButtonV2';
 import clsx from 'clsx';
 
 interface GenericDialogProps {

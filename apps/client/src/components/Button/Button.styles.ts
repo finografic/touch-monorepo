@@ -1,211 +1,188 @@
 import { css } from '@emotion/react';
-import { colors, layout } from 'styles';
-import { generateClassColorVariants } from 'styles/utils/generateClassColorVariants';
+import { colors } from 'styles';
+import type { ButtonColor, ButtonSize, ButtonVariant } from './Button.types';
 
-export const styles = css`
-  /* RESET */
-  appearance: none;
-  outline: none;
-  background: none;
-  background-image: none;
-  background-color: transparent;
-  border: none;
+/**
+ * Base button styles - common to all variants
+ */
+export const baseButtonStyles = css`
+  /* Reset and base styles */
+  all: unset;
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 
-  position: relative;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  box-shadow: none;
+  /* Typography */
+  font-family: inherit;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
 
+  /* Interaction */
+  cursor: pointer;
   user-select: none;
 
-  /* CENTER TEXT */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+  /* Transitions */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
-  &.btn {
-    border-width: ${layout.borderWidth};
-    border-style: solid !important;
-    margin: 0 calc(${layout.padding} / 2);
-    background: transparent;
-
-    &.size-xs {
-      font-size: 1em;
-    }
-    &.size-sm {
-      font-size: 1.1em;
-    }
-    &.size-md {
-      font-size: 1.2em;
-    }
-    &.size-lg {
-      font-size: 1.3em;
-    }
-    &.size-xl {
-      font-size: 1.4em;
-    }
-
-    &.full-width {
-      width: 100%;
-    }
-
-    &.icon-only {
-      /* padding: 0.8em;
-    width: 60px !important;
-    height: 60px !important; */
-      /* width: 24px;
-  height: 40px; */
-      padding: 0.5em 1em;
-      border-radius: ${layout.borderRadius};
-    }
-
-    /* BORDER */
-    & {
-      &:disabled {
-        border-width: ${layout.borderWidth};
-        border-style: solid;
-      }
-      border-radius: ${layout.borderRadius};
-    }
-
-    /* SIZE: FONT + PADDING */
-    font-size: 1.3em;
-    font-weight: 600;
-    letter-spacing: -0.02em;
-    white-space: nowrap;
-
-    padding: 0.66em;
-
-    &.btn-padded {
-      /* padding: 0.5em 2.75em; */
-      padding: 0.5em 2em;
-    }
-
-    /* UX */
-    transition:
-      background-color 300ms ease,
-      border-color 300ms ease;
-
-    /* &.variant-solid {
-      background-color: inherit;
-    } */
-
-    &.btn-outline {
-      background-color: transparent;
-    }
-
-    /* DISABLED */
-    &:disabled {
-      opacity: 0.66;
-      background-color: ${colors.grey};
-      border-color: ${colors.grey};
-      filter: grayscale(0.33);
-      cursor: default;
-      pointer-events: none;
-
-      &.variant-outline {
-        background-color: transparent;
-      }
-    }
-
-    span {
-      /* padding-top: 0.1em; */
-    }
-
-    /* ICON */
-    svg {
-      vertical-align: middle;
-    }
-    svg + span {
-      margin-left: 0.75em;
-    }
-    span + svg {
-      margin-left: 0.75em;
-    }
-
-    /* COLOR VARIANTS */
-
-    &.btn-primary {
-      background-color: ${colors.primary};
-      border-color: ${colors.primary};
-      * {
-        color: ${colors.white};
-      }
-      &:hover {
-        background-color: ${colors.primaryXDark};
-        border-color: ${colors.primaryXDark};
-      }
-    }
-
-    &.btn-default {
-      background-color: ${colors.defaultDark};
-      border-color: ${colors.defaultXLight};
-      * {
-        color: ${colors.defaultDark};
-      }
-    }
-
-    &.btn-info {
-      background-color: ${colors.infoDark};
-      border-color: ${colors.infoXLight};
-      * {
-        color: ${colors.infoDark};
-      }
-    }
-
-    &.btn-success {
-      background-color: ${colors.successDark};
-      border-color: ${colors.successXLight};
-      * {
-        color: ${colors.successDark};
-      }
-    }
-
-    &.btn-warning {
-      background-color: ${colors.warningDark};
-      border-color: ${colors.warningXLight};
-      * {
-        color: ${colors.warningDark};
-      }
-    }
-
-    &.btn-danger {
-      background-color: ${colors.dangerDark};
-      border-color: ${colors.dangerXLight};
-      * {
-        color: ${colors.dangerDark};
-      }
-    }
-
-    ${generateClassColorVariants(
-      (color, variant) => /* css */ `&.btn-solid.btn-${color} {
-        background-color: ${variant.dark}!important;
-        border-color: ${variant.xdark}!important;
-        * {
-          color: ${colors.white}!important;
-          -webkit-text-fill-color: ${colors.white}!important;
-        }
-        &:hover{
-          background-color: ${variant.xdark}!important;
-          border-color: ${variant.xdark}!important;
-        }
-      }`,
-    )}
-
-    ${generateClassColorVariants(
-      (color, variant) => /* css */ `&.btn-outline.btn-${color} {
-        background-color: transparent!important;
-        border-color: ${variant.xdark}!important;
-        * {
-          color: ${variant.xdark}!important;
-          -webkit-text-fill-color: ${variant.xdark}!important;
-        }
-        &:hover{
-          background-color: ${variant.xdark}!important;
-          border-color: ${variant.xdark}!important;
-        }
-      }`,
-    )}
+  /* Focus styles */
+  &:focus-visible {
+    outline: 2px solid ${colors.primary};
+    outline-offset: 2px;
   }
+
+  /* Disabled styles */
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  /* Loading styles */
+  &[data-loading='true'] {
+    cursor: not-allowed;
+    position: relative;
+
+    /* Hide content when loading */
+    & > *:not([data-loading-spinner]) {
+      opacity: 0;
+    }
+  }
+`;
+
+/**
+ * Size variants
+ */
+export const sizeStyles = {
+  sm: css`
+    height: 2rem;
+    padding: 0 0.75rem;
+    font-size: 0.875rem;
+    border-radius: 0.375rem;
+  `,
+  md: css`
+    height: 2.5rem;
+    padding: 0 1rem;
+    font-size: 0.875rem;
+    border-radius: 0.5rem;
+  `,
+  lg: css`
+    height: 3rem;
+    padding: 0 1.5rem;
+    font-size: 1rem;
+    border-radius: 0.5rem;
+  `,
+};
+
+/**
+ * Full width styles
+ */
+export const fullWidthStyles = css`
+  width: 100%;
+`;
+
+/**
+ * Generate variant styles for a specific color
+ */
+export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
+  const baseColor = colors[color];
+  const lightColor = colors[`${color}Light` as keyof typeof colors];
+  const darkColor = colors[`${color}Dark` as keyof typeof colors];
+  const transparentColor = colors[`${color}25` as keyof typeof colors];
+
+  switch (variant) {
+    case 'solid':
+      return css`
+        background-color: ${baseColor};
+        color: ${color === 'default' || color === 'grey' ? colors.white : colors.white};
+        border: 1px solid ${baseColor};
+
+        &:hover:not(:disabled):not([data-loading='true']) {
+          background-color: ${darkColor};
+          border-color: ${darkColor};
+        }
+
+        &:active:not(:disabled):not([data-loading='true']) {
+          transform: translateY(1px);
+        }
+      `;
+
+    case 'outline':
+      return css`
+        background-color: transparent;
+        color: ${baseColor};
+        border: 1px solid ${baseColor};
+
+        &:hover:not(:disabled):not([data-loading='true']) {
+          background-color: ${transparentColor};
+          border-color: ${darkColor};
+          color: ${darkColor};
+        }
+
+        &:active:not(:disabled):not([data-loading='true']) {
+          transform: translateY(1px);
+        }
+      `;
+
+    case 'ghost':
+      return css`
+        background-color: transparent;
+        color: ${baseColor};
+        border: 1px solid transparent;
+
+        &:hover:not(:disabled):not([data-loading='true']) {
+          background-color: ${transparentColor};
+          color: ${darkColor};
+        }
+
+        &:active:not(:disabled):not([data-loading='true']) {
+          transform: translateY(1px);
+        }
+      `;
+
+    case 'link':
+      return css`
+        background-color: transparent;
+        color: ${baseColor};
+        border: 1px solid transparent;
+        padding: 0;
+        height: auto;
+        text-decoration: underline;
+        text-underline-offset: 2px;
+
+        &:hover:not(:disabled):not([data-loading='true']) {
+          color: ${darkColor};
+          text-decoration-thickness: 2px;
+        }
+
+        &:active:not(:disabled):not([data-loading='true']) {
+          transform: none;
+        }
+      `;
+
+    default:
+      return css``;
+  }
+}
+
+/**
+ * Loading spinner styles
+ */
+export const loadingSpinnerStyles = css`
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  @keyframes spin {
+    from {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
+  }
+
+  animation: spin 1s linear infinite;
 `;

@@ -1,74 +1,114 @@
-import { type ReactElement, type ReactNode, useMemo } from 'react';
-import type { ButtonProps } from './Button.types';
-import { css } from '@emotion/react';
-import { styles } from './Button.styles';
-import { getColorsByVariant, getStylesByIconScale } from './getButtonStyles';
+import type { ReactElement } from 'react';
+import { forwardRef } from 'react';
 import clsx from 'clsx';
+import type { ButtonProps } from './Button.types';
+import { baseButtonStyles, fullWidthStyles, getVariantStyles, sizeStyles } from './Button.styles';
+import { LoadingSpinner } from './LoadingSpinner';
 
-const Button = ({
-  type = 'button',
-  variant = 'solid',
-  color = 'secondary',
-  colorHover = color,
-  colorLabel,
-  isDisabled = false,
-  fullWidth = false,
-  label,
-  icon,
-  iconPos = 'left',
-  iconScale = 1.5,
-  size = 'md',
-  isBusy,
-  padded: isPadded = true,
-  className,
-  children,
-  ...props
-}: ButtonProps): ReactElement => {
-  const isIconOnly: boolean = !!icon && !label;
+/**
+ * Button - Modern, accessible button component
+ *
+ * Features:
+ * - Clean API with minimal props
+ * - Integrated with design system colors
+ * - Proper accessibility attributes
+ * - Loading states with spinner
+ * - Multiple variants and sizes
+ * - Icon support with positioning
+ */
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  (
+    {
+      variant = 'solid',
+      color = 'default',
+      size = 'md',
+      icon,
+      iconPosition = 'left',
+      loading = false,
+      fullWidth = false,
+      disabled,
+      className,
+      children,
+      type = 'button',
+      ...rest
+    },
+    ref,
+  ): ReactElement => {
+    // Determine if button should be disabled
+    const isDisabled = disabled || loading;
 
-  const mergedClassNames = useMemo(
-    () =>
-      clsx('btn', `btn-${color}`, `btn-${variant}`, `size-${size}`, className, {
-        'full-width': fullWidth,
-        'icon-only': isIconOnly,
-        'icon-left': iconPos === 'left',
-        'icon-right': iconPos === 'right',
-        'btn-padded': isPadded && !isIconOnly,
-      }),
-    [color, variant, size, className, fullWidth, isPadded, iconPos, isIconOnly],
-  );
+    // Generate styles
+    const variantStyles = getVariantStyles(variant, color);
+    const sizeStyle = sizeStyles[size];
 
-  const stylesByProps = useMemo(
-    () => css`
-      ${styles}
-      ${getColorsByVariant({ color, colorHover, colorLabel, variant })}
-      ${getStylesByIconScale({ iconScale })}
-    `,
-    [color, variant, colorHover, colorLabel, iconScale, styles],
-  );
+    // Build class names using clsx
+    const buttonClasses = clsx(
+      'btn',
+      `btn--${variant}`,
+      `btn--${color}`,
+      `btn--${size}`,
+      {
+        'btn--full-width': fullWidth,
+        'btn--loading': loading,
+        'btn--icon-only': icon && !children,
+      },
+      className,
+    );
 
-  const buttonContent = isIconOnly ? (
-    <>{typeof icon === 'function' ? icon({}) : icon}</>
-  ) : (
-    <>
-      {icon && (!iconPos || iconPos === 'left') && (typeof icon === 'function' ? icon({}) : icon)}
-      {label && <span>{label}</span>}
-      {icon && iconPos === 'right' && (typeof icon === 'function' ? icon({}) : icon)}
-    </>
-  );
+    // Determine spinner size based on button size
+    const spinnerSize = size === 'sm' ? 14 : size === 'lg' ? 18 : 16;
 
-  return (
-    <button
-      type={type}
-      aria-label={label}
-      className={mergedClassNames}
-      css={stylesByProps}
-      disabled={isDisabled}
-      {...props}
-    >
-      {children ?? buttonContent}
-    </button>
-  );
-};
+    // Render icon if provided
+    const renderIcon = () => {
+      if (!icon) return null;
+      return <span className="btn__icon">{icon}</span>;
+    };
 
-export { Button };
+    // Render content with proper icon positioning
+    const renderContent = () => {
+      if (loading) {
+        return <LoadingSpinner size={spinnerSize} />;
+      }
+
+      if (icon && !children) {
+        // Icon-only button
+        return renderIcon();
+      }
+
+      if (icon && children) {
+        // Button with both icon and text
+        return (
+          <>
+            {iconPosition === 'left' && renderIcon()}
+            <span className="btn__text">{children}</span>
+            {iconPosition === 'right' && renderIcon()}
+          </>
+        );
+      }
+
+      // Text-only button
+      return <span className="btn__text">{children}</span>;
+    };
+
+    return (
+      <button
+        ref={ref}
+        type={type}
+        disabled={isDisabled}
+        data-loading={loading}
+        data-variant={variant}
+        data-color={color}
+        data-size={size}
+        className={buttonClasses}
+        css={[baseButtonStyles, sizeStyle, variantStyles, fullWidth && fullWidthStyles]}
+        aria-busy={loading}
+        aria-disabled={isDisabled}
+        {...rest}
+      >
+        {renderContent()}
+      </button>
+    );
+  },
+);
+
+Button.displayName = 'Button';
