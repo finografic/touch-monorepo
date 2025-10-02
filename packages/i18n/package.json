@@ -47,6 +47,10 @@
     "./generators/cli": {
       "types": "./dist/generators/cli.d.ts",
       "import": "./dist/generators/cli.js"
+    },
+    "./translations": {
+      "import": "./src/translations/index.ts",
+      "types": "./src/types/translation-keys.ts"
     }
   },
   "scripts": {

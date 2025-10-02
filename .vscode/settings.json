@@ -78,7 +78,7 @@
     "typescript": "javascript",
     "typescriptreact": "javascript"
   },
-  "i18n-ally.localesPaths": ["packages/i18n/src/translations"],
+  "i18n-ally.localesPaths": ["${workspaceFolder}/packages/i18n/src/translations/index.ts"],
   "tailwindCSS.experimental.classRegex": [
     ["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
     ["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
