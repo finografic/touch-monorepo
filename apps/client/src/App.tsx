@@ -7,7 +7,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
-import { AuthProvider } from 'providers/AuthProvider/AuthContext';
+import { AuthProvider } from 'providers/AuthProvider';
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 
