@@ -7,7 +7,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
-import { AuthProvider } from 'providers/AuthProvider';
+import { AuthProviderWithInitialization } from 'providers/AuthProvider';
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 
@@ -15,7 +15,7 @@ const AppBaseLayout = () => (
   <ErrorBoundary>
     <Global styles={cssGlobal} />
     <AppConfigProvider>
-      <AuthProvider>
+      <AuthProviderWithInitialization>
         <SessionProvider>
           <ScreenClassProvider>
             <Suspense fallback={<Spinner size="3" />}>
@@ -23,7 +23,7 @@ const AppBaseLayout = () => (
             </Suspense>
           </ScreenClassProvider>
         </SessionProvider>
-      </AuthProvider>
+      </AuthProviderWithInitialization>
     </AppConfigProvider>
   </ErrorBoundary>
 );

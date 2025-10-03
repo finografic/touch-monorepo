@@ -21,7 +21,7 @@ export const auth = betterAuth({
     provider: 'sqlite',
     schema: { user, account, session, verification },
   }),
-  basePath: '/api/auth',
+  basePath: '/auth', // No /api prefix since we're mounting directly
   debug: true,
   emailAndPassword: {
     enabled: true,
@@ -41,14 +41,6 @@ export const auth = betterAuth({
       // TODO: Implement email sending
     },
   },
-  // onRequest: (req: Request) => {
-  //   console.log('3 - Better-auth received request:', {
-  //     url: req.url,
-  //     method: req.method,
-  //     headers: Object.fromEntries(req.headers),
-  //     path: new URL(req.url).pathname,
-  //   });
-  // },
   session: {
     expiresIn: 30 * 24 * 60 * 60, // 30 days
     updateAge: 24 * 60 * 60, // 24 hours
@@ -65,10 +57,10 @@ export const auth = betterAuth({
       generateId: () => crypto.randomUUID(),
     },
     cookies: {
-      session_token: {
+      sessionToken: {
         name: 'auth_token',
         attributes: {
-          httpOnly: false, // Allow client-side access for JWT
+          httpOnly: true, // Should be true for security
           sameSite: 'lax',
           path: '/',
         },

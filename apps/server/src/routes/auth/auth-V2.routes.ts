@@ -1,23 +1,73 @@
+import { envShared } from '../../lib/env.js';
+import { APIError } from 'better-auth/api';
 import { auth } from 'lib/auth';
 import { createRouter } from 'lib/create-app';
 
 const router = createRouter();
 
-// Specific session endpoint to fix the immediate issue
-router.get('/auth/session', async (context) => {
-  console.log('Session route hit:', context.req.path);
+// Login route
+router.post('/auth/login', async (context) => {
   try {
-    // For now, return a basic "no session" response to fix the 404
-    return context.json({ user: null, session: null });
+    const body = await context.req.json();
+    const result = await (auth.api.signInEmail as any)(body);
+    return context.json(result);
   } catch (error) {
-    console.error('Session error:', error);
-    return context.json({ user: null, session: null });
+    console.error('Auth error:', error);
+    if (error instanceof APIError) {
+      return context.json({
+        error: error.message,
+        status: error.status,
+      });
+    }
+    return context.json({ error: 'Authentication failed' }, 401);
   }
 });
 
-// Let BetterAuth handle specific auth routes only
-router.all('/auth/*', async (context) => {
-  console.log('Auth route hit:', context.req.path);
+// Signup route
+router.post('/auth/signup', async (context) => {
+  try {
+    const body = await context.req.json();
+    const result = await (auth.api.signUpEmail as any)(body);
+    return context.json(result);
+  } catch (error) {
+    console.error('Signup error:', error);
+    if (error instanceof APIError) {
+      return context.json({
+        error: error.message,
+        status: error.status,
+      });
+    }
+    return context.json({ error: 'Registration failed' }, 400);
+  }
+});
+
+// Session route
+router.get('/auth/session', async (context) => {
+  console.log('Session route hit:', context.req.path);
+  return auth.handler(context.req.raw);
+});
+
+// Signout route
+router.post('/auth/signout', async (context) => {
+  console.log('Signout route hit:', context.req.path);
+  return auth.handler(context.req.raw);
+});
+
+// Signin route (BetterAuth internal)
+router.post('/auth/signin', async (context) => {
+  console.log('Signin route hit:', context.req.path);
+  return auth.handler(context.req.raw);
+});
+
+// Verify route
+router.post('/auth/verify', async (context) => {
+  console.log('Verify route hit:', context.req.path);
+  return auth.handler(context.req.raw);
+});
+
+// Reset password route
+router.post('/auth/reset-password', async (context) => {
+  console.log('Reset password route hit:', context.req.path);
   return auth.handler(context.req.raw);
 });
 
