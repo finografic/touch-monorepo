@@ -20,7 +20,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const { fieldKey } = useRouteConfig();
   const { t } = useTranslation();
 
-  console.log('%c loop? 1', 'color:grey', fieldKey);
+  // console.log('%c loop? 1', 'color:grey', fieldKey);
 
   // Get actions from both specialized hooks
   const { handleNavigateBack, handleNavigateNext, getNavigationDisabled, isNavigationPending } =

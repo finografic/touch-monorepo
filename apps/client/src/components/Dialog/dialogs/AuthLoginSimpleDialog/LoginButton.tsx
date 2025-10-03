@@ -7,10 +7,26 @@ import { useState } from 'react';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { useToast } from 'components/Toast';
 
+// const { user, session, isLoading, isAuthenticated, isAdmin, signOut } = useAuth();
+
+// console.log('🔍 USER:', user);
+// console.log('🔍 SESSION:', session);
+// console.log('🔍 IS LOADING:', isLoading);
+// console.log('🔍 IS AUTHENTICATED:', isAuthenticated);
+// console.log('🔍 IS ADMIN:', isAdmin);
+// console.log('🔍 SIGN OUT:', signOut);
+
 export const LoginButton: FC = () => {
-  const { isAuthenticated, signOut } = useAuth();
+  const { user, isAuthenticated, signOut } = useAuth();
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
+
+  console.log('🔍 USER:', user);
+  // console.log('🔍 SESSION:', session);
+  // console.log('🔍 IS LOADING:', isLoading);
+  console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
+  // console.log('🔍 IS ADMIN:', isAdmin);
+  // console.log('🔍 SIGN OUT:', signOut);
 
   const handleClick = async () => {
     if (isAuthenticated) {

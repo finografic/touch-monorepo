@@ -40,7 +40,7 @@ export const useOrderItemsConfig = (): SlotItemConfig[] => {
       const config = convertSlotConfigsToOrderConfig(slotConfigs);
       // console.log('Loaded order items config from API:', config);
 
-      log('>> CONFIG_2:', 'red');
+      // log('>> CONFIG_2:', 'red');
 
       return config;
     } catch (error) {

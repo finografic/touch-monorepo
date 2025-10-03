@@ -25,9 +25,9 @@ export const PageHeader = () => {
       const translationKey = `app.pages.${route.id}.title`;
       const translatedTitle = t(translationKey);
 
-      log('__DEV: route', 'cyan', route);
-      log('__DEV: title_1 - id, translationKey', 'grey', route.id, translationKey);
-      log('__DEV: title_2 - translatedTitle', 'grey', translatedTitle);
+      // log('__DEV: route', 'cyan', route);
+      // log('__DEV: title_1 - id, translationKey', 'grey', route.id, translationKey);
+      // log('__DEV: title_2 - translatedTitle', 'grey', translatedTitle);
 
       // Only use translation if it's not the same as the key (meaning translation exists)
       if (translatedTitle !== translationKey) {

@@ -67,7 +67,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   // const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
   const { setFilter, clearFilters } = useFilters();
 
-  console.log('%c loop? 2', 'color:grey', orders);
+  // console.log('%c loop? 2', 'color:grey', orders);
 
   // const orderItemsConfig = useMemo(() => {
   //   if (isLoading || error || !slotConfigs || slotConfigs.length === 0) {

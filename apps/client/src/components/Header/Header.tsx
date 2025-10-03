@@ -7,7 +7,7 @@ import { ThemeToggle } from 'components/ThemeToggle';
 import { useAppConfig } from 'providers/AppConfigProvider';
 // import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { LoginButton } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/LoginButton';
-// import { useAuth } from 'providers/AuthProvider/AuthContext';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 export const Header = () => {
   const { t } = useTranslation();
