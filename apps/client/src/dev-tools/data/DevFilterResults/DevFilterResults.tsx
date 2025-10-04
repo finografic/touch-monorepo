@@ -1,4 +1,4 @@
-import { useFiltering } from 'hooks/useFiltering';
+import { useFiltersWithData } from 'hooks/useFiltersWithData';
 import { styles } from './DevFilterResults.styles';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { DevDataTable } from '../../components/DevDataTable';
@@ -7,7 +7,7 @@ import { useFilters } from 'providers/FiltersProvider/FiltersContext';
 
 export const DevFilterResults = () => {
   const { filters } = useFilters();
-  const { dataFiltered, filters: filtering } = useFiltering({});
+  const { dataFiltered, filters: filtering } = useFiltersWithData();
   const { sessions, currentSessionId } = useSession();
 
   // const { filters: ordersFilters } = useOrders();
@@ -32,10 +32,10 @@ export const DevFilterResults = () => {
           { key: 'drinkType', strong: true },
           { key: 'drinkSubtype' },
           { key: 'volume' },
-          { key: 'defaultTempConsume' },
-          { key: 'defaultTempFreeze' },
+          // { key: 'defaultTempConsume' },
+          // { key: 'defaultTempFreeze' },
           // { key: 'temperatureProfile', styles: { margin: 0 } },
-          { key: 'id', styles: { opacity: 0.66 } },
+          // { key: 'id', styles: { opacity: 0.66 } },
         ]}
       />
       {/* <div className="filters">

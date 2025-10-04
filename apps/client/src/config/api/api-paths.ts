@@ -6,6 +6,7 @@
 export const API_PATHS = {
   AUTH: '/api/auth',
   ORDERS: '/api/orders',
+  ORDERS_READABLE: '/api/orders-readable',
   SOUNDS: '/api/sounds',
   TRANSLATIONS: '/api/translations',
   UI_LABELS: '/api/ui-labels',

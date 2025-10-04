@@ -27,6 +27,17 @@ export const DevDataTable = <T extends Record<string, any>>({
       {title && <h4>{title}</h4>}
 
       <div className="results-list">
+        {
+          data.map((item: T, index: number) => (
+            <div key={getRowKey(item, index)} className="result-row result-header">
+              {columns.map((column) => (
+                <div key={String(column.key)} className="result-col">
+                  <strong style={column.styles}>{String(column.key)}</strong>
+                </div>
+              ))}
+            </div>
+          ))[0]
+        }
         {data.map((item: T, index: number) => (
           <div key={getRowKey(item, index)} className="result-row">
             {columns.map((column) => (

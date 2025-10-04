@@ -30,8 +30,9 @@ export const styles = css`
     .result-header {
       .result-col {
         font-weight: bold;
-        opacity: 0.5;
+        opacity: 0.66;
       }
+      margin: 1rem 0 1.5rem 0;
     }
 
     .result-col {

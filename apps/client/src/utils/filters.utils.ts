@@ -54,14 +54,9 @@ export const matchesFilters = (entry: DataEntry, activeFilters: [string, any][])
   return activeFilters.every(([key, value]) => {
     if (!value) return true;
 
-    // Use lookup object for comparisons if available
-    if (value.lookup) {
-      return Object.entries(value.lookup).every(([lookupKey, lookupValue]) => {
-        return entry[lookupKey as keyof DataEntry] === lookupValue;
-      });
-    }
-
-    // Fallback to direct field comparisons for backward compatibility
+    // NEW: Direct field comparisons for orders_readable data
+    // The entry now has direct name values (e.g., entry.drinkType = "cerveza")
+    // and the filter value has a name property (e.g., value.name = "cerveza")
     switch (key as SlotFilterKey) {
       case ROUTE_FILTER_KEYS.drinkType:
         return entry.drinkType === value.name;

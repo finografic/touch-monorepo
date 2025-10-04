@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useFiltering } from 'hooks/useFiltering';
+import { useFiltersWithData } from 'hooks/useFiltersWithData';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { RegionLocale } from '@workspace/i18n';
@@ -12,11 +12,12 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 /**
  * Hook to handle route changes and sync filters
  * Separated from useRouteConfig to avoid circular dependencies
+ * Now uses the new useFiltersWithData hook for orders_readable support
  */
 export const useRouteChangeHandler = () => {
   const { handleRouteChange } = useLayoutUi();
   const { currentSessionId, sessions } = useSession();
-  const { dataPool, filters } = useFiltering();
+  const { dataPool, filters } = useFiltersWithData();
   const { setFilters: setOrdersFilters } = useOrders();
   const { fieldKey, loaderData, padsConfig } = useRouteConfig();
 

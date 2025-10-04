@@ -1,7 +1,8 @@
 import { DataList } from '@radix-ui/themes';
 import { styles } from './OrderDataList.styles';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 
-export const OrderDataList = ({ data }: { data: any }) => {
+export const OrderDataList = ({ data }: { data: OrderReadableModel }) => {
   console.log('OrderDataList received data:', data);
 
   if (!data) {
@@ -20,30 +21,38 @@ export const OrderDataList = ({ data }: { data: any }) => {
       .replace(/^./, (str) => str.toUpperCase()); // Capitalize first letter
   };
 
-  // Helper function to extract the lookup value from each filter
-  const extractLookupValue = (fieldKey: string, filterData: any): string => {
-    if (!filterData?.lookup) {
-      // Fallback to name if no lookup
-      return filterData?.name || 'N/A';
+  // Helper function to get display value for each field
+  const getDisplayValue = (fieldKey: string, orderData: OrderReadableModel): string => {
+    switch (fieldKey) {
+      case 'drinkType':
+        return orderData.drinkType || 'N/A';
+      case 'drinkSubtype':
+        return orderData.drinkSubtype || 'N/A';
+      case 'drinkVolume':
+        return orderData.volume || 'N/A';
+      case 'containerType':
+        return orderData.containerType || 'N/A';
+      case 'temperature':
+        return orderData.temperatureProfile || 'N/A';
+      case 'defaultTempConsume':
+        return orderData.defaultTempConsume?.toString() || 'N/A';
+      case 'defaultTempFreeze':
+        return orderData.defaultTempFreeze?.toString() || 'N/A';
+      default:
+        return 'N/A';
     }
-
-    // Map field keys to their respective lookup keys
-    const lookupMapping: Record<string, string> = {
-      drinkType: 'drinkTypeName',
-      drinkSubtype: 'drinkSubtypeName',
-      drinkVolume: 'volumeName',
-      containerType: 'containerTypeName',
-    };
-
-    const lookupKey = lookupMapping[fieldKey];
-    if (lookupKey && filterData.lookup[lookupKey]) {
-      return filterData.lookup[lookupKey];
-    }
-
-    // Fallback to first available lookup value or name
-    const lookupValues = Object.values(filterData.lookup);
-    return (lookupValues[0] as string) || filterData.name || 'N/A';
   };
+
+  // Define which fields to display
+  const displayFields = [
+    'drinkType',
+    'drinkSubtype',
+    'drinkVolume',
+    'containerType',
+    'temperature',
+    'defaultTempConsume',
+    'defaultTempFreeze',
+  ];
 
   return (
     <div css={styles} className="data-list-wrapper">
@@ -63,14 +72,13 @@ export const OrderDataList = ({ data }: { data: any }) => {
           </DataList.Item>
         )}
 
-        {/* Dynamically iterate over filters */}
-        {data.filters &&
-          Object.entries(data.filters).map(([fieldKey, filterData]: [string, any]) => (
-            <DataList.Item key={fieldKey}>
-              <DataList.Label className="label">{formatFieldName(fieldKey)}</DataList.Label>
-              <DataList.Value className="value">{extractLookupValue(fieldKey, filterData)}</DataList.Value>
-            </DataList.Item>
-          ))}
+        {/* Display order data fields */}
+        {displayFields.map((fieldKey) => (
+          <DataList.Item key={fieldKey}>
+            <DataList.Label className="label">{formatFieldName(fieldKey)}</DataList.Label>
+            <DataList.Value className="value">{getDisplayValue(fieldKey, data)}</DataList.Value>
+          </DataList.Item>
+        ))}
       </DataList.Root>
     </div>
   );
