@@ -11,7 +11,7 @@ import type { FilterFieldKey, NavigationFieldKey, SlotFilterKey } from 'types/or
 import PadGroup from 'components/Pads/PadGroup/PadGroup';
 import type { DataEntry } from 'types/data.types';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useFilters } from 'providers/FiltersProvider';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import { isFilterFieldKey, isNavigationFieldKey } from 'utils/fieldKey.utils';
 import { getFiltersToClearAhead } from 'utils/filterStep.utils';
 
@@ -21,7 +21,7 @@ export const GenericSelectPage = () => {
   const { pads } = useLayoutUi();
   const { orders, setOrdersFilter } = useOrders();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
-  const { setFilter, clearFilter } = useFilters();
+  const { setFilter, clearFilter } = useFiltersContext();
 
   // Use consolidated pagination logic
   usePaginationLogic();

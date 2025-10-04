@@ -8,7 +8,7 @@ import { useProcessTimesFromTemperatureFilter } from 'hooks/useProcessTimesFromT
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
-import { useFilters } from 'providers/FiltersProvider';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import { api } from 'api';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
@@ -65,7 +65,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const { saveConfig } = useConfigStorage();
   const orderItemsConfig = useSlotItemsConfig();
   // const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
-  const { setFilter, clearFilters } = useFilters();
+  const { setFilter, clearFilters } = useFiltersContext();
 
   // console.log('%c loop? 2', 'color:grey', orders);
 

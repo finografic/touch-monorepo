@@ -1,6 +1,6 @@
 import { PATHS, ROUTES_CONFIG } from 'config';
 import { useMemo } from 'react';
-import { useFilters } from 'providers/FiltersProvider';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import {
   getActualNextPath,
   getActualPreviousPath,
@@ -16,7 +16,7 @@ import type { OrderFilters } from 'types/filters.types';
  */
 export const useRouteNavigation = () => {
   const { matchRoute, currentPathname } = useRouteMatching();
-  const { filters } = useFilters();
+  const { filters } = useFiltersContext();
 
   return useMemo(() => {
     // Find the current route config using shared matching logic
@@ -59,7 +59,7 @@ export const useRouteNavigation = () => {
  * Resolves dynamic route parameters with actual values.
  */
 export const useFlowPaths = () => {
-  const { filters } = useFilters();
+  const { filters } = useFiltersContext();
 
   return useMemo(() => {
     return ROUTES_CONFIG.filter(

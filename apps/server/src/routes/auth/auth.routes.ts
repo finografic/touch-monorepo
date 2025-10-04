@@ -7,7 +7,8 @@ router.get('/auth/session', async (context) => {
   try {
     // ✅ Use Better Auth's session API instead of handler
     const session = await auth.api.getSession({
-      headers: context.req.header(),
+      // headers: context.req.header(),
+      headers: context.req.raw.headers,
     });
 
     console.log('Better Auth session API result:', session);

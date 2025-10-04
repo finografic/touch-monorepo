@@ -3,11 +3,11 @@ import { useTimers } from 'providers/TimersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { DevDataTable } from 'dev-tools/components/DevDataTable';
-import { useFilters } from 'providers/FiltersProvider';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 export const SessionAndTimers = () => {
-  const { filters } = useFilters();
+  const { filters } = useFiltersContext();
   const { sessions } = useSession();
   const { timers } = useTimers();
   const { mainPageSelectedSlots } = useLayoutUi();

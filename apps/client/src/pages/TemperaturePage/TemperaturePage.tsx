@@ -4,20 +4,20 @@ import { Box, Flex } from '@radix-ui/themes';
 import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
-import { useFiltering } from 'hooks/useFiltering';
 import { TemperatureKey } from 'types/temperature.types';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 import { useTemperatureFormAndFilter } from './useTemperatureFormAndFilter';
 import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
+import { useFilters } from 'hooks/useFilters';
 import { styles } from './TemperaturePage.styles';
 
 const isVisibleClosestProfile = false;
 
 export const TemperaturePage = () => {
   const { profile, ordersReadable } = useOrders();
-  const { dataFiltered } = useFiltering();
+  const { dataFiltered } = useFilters();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
     [TemperatureKey.Initial]: INITIAL_TEMP_DEFAULT,

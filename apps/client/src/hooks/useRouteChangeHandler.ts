@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useFiltersWithData } from 'hooks/useFiltersWithData';
+import { useFilters } from 'hooks/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { RegionLocale } from '@workspace/i18n';
@@ -18,7 +18,7 @@ import type { OrderFilters } from 'types/filters.types';
 export const useRouteChangeHandler = () => {
   const { handleRouteChange } = useLayoutUi();
   const { currentSessionId, sessions } = useSession();
-  const { dataPool, filters } = useFiltersWithData();
+  const { dataPool, filters } = useFilters();
   const { setFilters: setOrdersFilters } = useOrders();
   const { fieldKey, loaderData, padsConfig } = useRouteConfig();
 
@@ -108,8 +108,9 @@ export const useRouteChangeHandler = () => {
     }
   }, [fieldKey, loaderData, padsConfig, dataPool, currentSessionId, sessions]); // Removed handleRouteChange to prevent infinite loop
 
-  // Sync filters from useFiltering to OrdersContext (consolidated from LayoutUiObserver)
+  // Sync filters from useFilters to OrdersContext (consolidated from LayoutUiObserver)
   useEffect(() => {
+    // TODO: IS THIS STILL NECESSARY ??????
     if (filters && Object.keys(filters).length > 0) {
       setOrdersFilters(filters);
     }

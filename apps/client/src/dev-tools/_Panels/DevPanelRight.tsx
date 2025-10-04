@@ -3,10 +3,10 @@ import { useOrdersOptional } from 'providers/OrdersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { JSONTree } from '../components/JSONTree/JSONTree';
 import { stylesRight } from './DevPanels.styles';
-import { useFiltering } from 'hooks/useFiltering';
+import { useFilters } from 'hooks/useFilters';
 
 export const DevPanelRight = () => {
-  const { data, dataFiltered } = useFiltering();
+  const { data, dataFiltered } = useFilters();
   const { loaderData } = useRouteConfig();
   const { numItems } = useLayoutUi();
   const ordersContext = useOrdersOptional();

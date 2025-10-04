@@ -3,7 +3,7 @@ import type { TemperatureFilter, TemperatureProfile } from 'types/temperature.ty
 import { useConfigStorage } from './useConfigStorage';
 import { useOrders } from 'providers/OrdersProvider';
 import { SlotType } from 'types/orders.types';
-import { useFilters } from 'providers/FiltersProvider';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 interface UseTemperatureControlOptions {
@@ -15,7 +15,7 @@ interface UseTemperatureControlOptions {
 export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureControlOptions = {}) => {
   const [showLoading, setShowLoading] = useState(false);
   const { orders, profile } = useOrders();
-  const { filters } = useFilters();
+  const { filters } = useFiltersContext();
   const { saveConfig } = useConfigStorage();
 
   const temperatureFilter = useDeferredValue(filters.temperature);

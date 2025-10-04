@@ -1,83 +1,42 @@
-import { useCallback, useEffect, useMemo } from 'react';
-import { useFilters } from 'providers/FiltersProvider';
+import { useMemo } from 'react';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { useSession } from 'providers/SessionProvider/SessionContext';
 import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { DataEntry } from 'types/data.types';
-import type { SlotFilterKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 
-interface UseFiltersWithDataReturn {
+interface UseFiltersReturn {
   // Data arrays - using the OrderReadableModel type for human-readable data
   data: OrderReadableModel[];
   dataPool: OrderReadableModel[];
   dataFiltered: OrderReadableModel[];
 
-  // Filters state
+  // Filters state (from FiltersContext)
   filters: OrderFilters;
   serverFieldMap: Record<string, string>;
 
-  // Filter manipulation functions
+  // Filter manipulation functions (from FiltersContext)
   setFilter: (key: keyof OrderFilters, value: unknown) => void;
   clearFilter: (key: keyof OrderFilters) => void;
   clearFilters: () => void;
 
-  // Unique values for filters - matches the return type of getUniqueFilterValues
+  // Unique values for filters
   uniqueValues: Record<string, string[]>;
 }
 
 /**
- * Enhanced filters hook that combines FiltersContext with orders_readable data filtering
- * This replaces the legacy useFiltering hook with proper orders_readable support
+ * Comprehensive filters hook that extends FiltersContext with orders_readable data filtering
+ * This is the final hook that replaces useFiltersWithData and provides all filtering functionality
  */
-export const useFiltersWithData = (): UseFiltersWithDataReturn => {
+export const useFilters = (): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
-  const { orders, ordersReadable } = useOrders();
-  const { currentSessionId, sessions } = useSession();
-  const { filters, setFilter, clearFilter, clearFilters } = useFilters();
+  const { ordersReadable } = useOrders();
+  const { filters, setFilter, clearFilter, clearFilters } = useFiltersContext();
 
   // Use the ordersReadable data from OrdersContext - fetched once at provider level
   const data: OrderReadableModel[] = ordersReadable;
-
-  /*
-    // REMOVED: Sync filters with current configuration session
-  // Sync filters with current configuration session
-  useEffect(() => {
-    if (currentSessionId && sessions[currentSessionId]) {
-      const sessionFilters = sessions[currentSessionId].filters;
-      if (sessionFilters && Object.keys(sessionFilters).length > 0) {
-        // Update FiltersContext with session filters
-        Object.entries(sessionFilters).forEach(([key, value]) => {
-          setFilter(key as SlotFilterKey, value);
-        });
-      }
-    } else {
-      // Only fall back to order filters if we don't have any current session
-      const orderFilters = orders[0]?.filters;
-      if (orderFilters && Object.keys(orderFilters).length > 0) {
-        Object.entries(orderFilters).forEach(([key, value]) => {
-          setFilter(key as SlotFilterKey, value);
-        });
-      }
-    }
-  }, [orders, currentSessionId, sessions, setFilter]);
-  */
-
-  // REMOVED: Sync filters with current configuration session
-  // This was causing infinite loops because:
-  // 1. GenericSelectPage calls updateSessionFilters()
-  // 2. updateSessionFilters() updates SessionContext
-  // 3. This useEffect runs when sessions changes
-  // 4. This useEffect calls setFilter()
-  // 5. setFilter() triggers re-renders
-  // 6. Back to step 1 → INFINITE LOOP!
-  //
-  // Instead, we let GenericSelectPage handle the bidirectional sync:
-  // - GenericSelectPage calls setFilter() for FiltersContext
-  // - GenericSelectPage calls updateSessionFilters() for SessionContext
-  // - No automatic syncing needed here
 
   // Get unique values for each filter key
   // SAFEGUARD: ensure data is assignable to DataEntry[]
@@ -114,21 +73,6 @@ export const useFiltersWithData = (): UseFiltersWithDataReturn => {
   }, [data, filters, fieldKey]);
 
   // Map filter keys from app-local names to server-side field names
-
-  /*
-  // NOTE: V1 - NOT WORKING !!
-      const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
-        (acc, [filterKey, filterValue]) => {
-          if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
-            return { ...acc, [filterKey as string]: filterValue.name };
-          }
-          return acc;
-        },
-        {} as Record<string, string>,
-      );
-  */
-
-  // NEW: V2 (NEEDED ??)
   const serverFieldMap = useMemo(() => {
     return Object.entries(filters).reduce(
       (acc, [filterKey, filterValue]) => {

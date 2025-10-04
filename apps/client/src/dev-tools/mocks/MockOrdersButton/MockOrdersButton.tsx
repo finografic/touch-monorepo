@@ -1,6 +1,6 @@
 import { useOrdersOptional } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useFilters } from 'providers/FiltersProvider';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
 import { StarIcon } from 'styles/icons';
 import { useNavigate } from 'react-router-dom';
@@ -16,7 +16,7 @@ export const MockOrdersButton = () => {
   const { createSession, assignOrdersToSession, updateSessionFilters } = useSession();
   const { ordersReadable } = useOrdersOptional();
   const { setPageCurrent } = usePagination();
-  const { setFilter } = useFilters();
+  const { setFilter } = useFiltersContext();
 
   const handleMockData = useCallback(() => {
     if (!ordersContext?.setOrders) return;

@@ -1,12 +1,11 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { SlotFilterKey } from 'types/orders.types';
-import type { OrderFilters } from 'types/filters.types';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { DataEntry } from 'types/data.types';
+import { useMemo } from 'react';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';
-import { useSession } from 'providers/SessionProvider/SessionContext';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { DataEntry } from 'types/data.types';
+import type { OrderFilters } from 'types/filters.types';
 
 interface UseFiltersReturn {
   // Data arrays - using the OrderReadableModel type for human-readable data
@@ -14,50 +13,37 @@ interface UseFiltersReturn {
   dataPool: OrderReadableModel[];
   dataFiltered: OrderReadableModel[];
 
-  // Filters state
+  // Filters state (from FiltersContext)
   filters: OrderFilters;
   serverFieldMap: Record<string, string>;
 
-  // Filter manipulation functions
-  setFilter: (key: SlotFilterKey, value: unknown) => void;
-  clearFilter: (key: SlotFilterKey) => void;
+  // Filter manipulation functions (from FiltersContext)
+  setFilter: (key: keyof OrderFilters, value: unknown) => void;
+  clearFilter: (key: keyof OrderFilters) => void;
   clearFilters: () => void;
 
-  // Unique values for filters - matches the return type of getUniqueFilterValues
+  // Unique values for filters
   uniqueValues: Record<string, string[]>;
 }
 
-export const useFiltering = (initialFilters?: OrderFilters): UseFiltersReturn => {
+/**
+ * Comprehensive filters hook that extends FiltersContext with orders_readable data filtering
+ * This is the final hook that replaces useFiltersWithData and provides all filtering functionality
+ */
+export const useFilters = (): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
-  const { orders, ordersReadable } = useOrders();
-  const { currentSessionId, sessions } = useSession();
-  const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
+  const { ordersReadable } = useOrders();
+  const { filters, setFilter, clearFilter, clearFilters } = useFiltersContext();
 
   // Use the ordersReadable data from OrdersContext - fetched once at provider level
   const data: OrderReadableModel[] = ordersReadable;
-
-  // Sync filters with current configuration session
-  useEffect(() => {
-    if (currentSessionId && sessions[currentSessionId]) {
-      const sessionFilters = sessions[currentSessionId].filters;
-      setFilters(sessionFilters || {});
-    } else {
-      // Only fall back to order filters if we don't have any current session
-      const orderFilters = orders[0]?.filters;
-      if (orderFilters) {
-        setFilters(orderFilters);
-      } else {
-        setFilters({});
-      }
-    }
-  }, [orders, currentSessionId, sessions]);
 
   // Get unique values for each filter key
   // SAFEGUARD: ensure data is assignable to DataEntry[]
   const safeData: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
   const uniqueValues = useMemo(() => getUniqueFilterValues(safeData), [safeData]);
 
-  // Client-side filtering with both datasets
+  // Client-side filtering with orders_readable data
   const { dataPool, dataFiltered } = useMemo(() => {
     // SAFEGUARD: ensure data is assignable to DataEntry[] for matchesFilters
     const safeDataForFilter: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
@@ -86,40 +72,10 @@ export const useFiltering = (initialFilters?: OrderFilters): UseFiltersReturn =>
     };
   }, [data, filters, fieldKey]);
 
-  // Handle filter change
-  const setFilter = useCallback((key: SlotFilterKey, value: unknown) => {
-    setFilters((prev) => ({ ...prev, [key]: value }));
-  }, []);
-
-  // Clear all filters
-  const clearFilters = useCallback(() => {
-    setFilters({});
-  }, []);
-
-  // Clear specific filter
-  const clearFilter = useCallback((key: Exclude<SlotFilterKey, 'main'>) => {
-    setFilters((prev) => {
-      const { [key]: _, ...rest } = prev;
-      return rest;
-    });
-  }, []);
-
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {
-    // return Object.entries(filters as OrderFilters).reduce(
-    //   (acc, [_filterKey, filterValue]) => {
-    //     // ✅ ADD: Check if filterValue exists and has a name property
-    //     if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
-    //       return { ...acc, [_filterKey as string]: filterValue.name };
-    //     }
-    //     return acc;
-    //   },
-    //   {} as Record<string, string>,
-    // );
-    // ======================================================================== //
-    return Object.entries(filters as OrderFilters).reduce(
+    return Object.entries(filters).reduce(
       (acc, [filterKey, filterValue]) => {
-        // ✅ ADD: Check if filterValue exists and has a name property
         if (filterKey in filters) {
           return { ...acc, [filterKey as string]: filterValue.name };
         }

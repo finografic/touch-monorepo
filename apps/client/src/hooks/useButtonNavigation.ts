@@ -2,12 +2,12 @@ import { useCallback, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
-import { useFiltering } from 'hooks/useFiltering';
-import { useFilters } from 'providers/FiltersProvider';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useOrders } from 'providers/OrdersProvider';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import type { TemperatureFilter } from 'types/temperature.types';
+import { useFilters } from 'hooks/useFilters';
 
 const NAVIGATION_ACTIONS = {
   NAVIGATE_BACK: 'navigate-back',
@@ -31,8 +31,8 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   const { setPageCurrent, isNextDisabled } = usePagination();
   const { nextPath, previousPath, isInFlow, isFirstStep, isLastStep } = useRouteNavigation();
   const currentFlowStep = useCurrentFlowStep();
-  const { dataFiltered } = useFiltering();
-  const { setFilter } = useFilters();
+  const { dataFiltered } = useFilters();
+  const { setFilter } = useFiltersContext();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
   const { setProfile, fetchOrderWithProfiles, ordersReadable } = useOrders();
 

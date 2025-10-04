@@ -1,10 +1,10 @@
-import { useFiltering } from 'hooks/useFiltering';
 import { styles } from './DevOrderProfile.styles';
 import { useOrders } from 'providers/OrdersProvider';
+import { useFilters } from 'hooks/useFilters';
 
 export const DevOrderProfile = () => {
   const { profile } = useOrders();
-  const { filters } = useFiltering({});
+  const { filters } = useFilters();
 
   return (
     <div id="dev-filter-results" css={styles}>

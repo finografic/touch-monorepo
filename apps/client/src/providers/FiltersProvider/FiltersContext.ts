@@ -49,7 +49,7 @@ export const FiltersContext = createZustandContext(({ initialValue }) => {
 
 type FiltersReturn = Omit<FiltersStore, 'actions'> & FiltersStore['actions'];
 
-export const useFilters = (): FiltersReturn => {
+export const useFiltersContext = (): FiltersReturn => {
   const store = FiltersContext.useContext();
   if (!store) {
     throw new Error(`use${SETTER_PREFIX} must be used within a ${DISPLAY_NAME}Provider`);
