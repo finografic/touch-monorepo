@@ -12,10 +12,12 @@
     "jsx": "react-jsx",
     "jsxImportSource": "@emotion/react",
     "outDir": "./dist",
-    // "rootDir": "src",
-    "rootDir": ".",
+    "rootDir": "../../",
     "baseUrl": ".",
     "paths": {
+      "@config": ["../../config"],
+      "@config/*": ["../../config/*"],
+      "@config/i18n": ["../../config/i18n.config.ts"],
       // Local package absolute imports
       "admin-tools": ["./src/admin-tools"],
       "admin-tools/*": ["./src/admin-tools/*"],
@@ -72,7 +74,13 @@
       "path": "../server"
     }
   ],
-  "include": ["src/**/*", "src/**/*.json", "../../packages/core/src/types/countries.types.ts"],
+  "include": [
+    "src/**/*",
+    "src/**/*.json",
+    "../../packages/core/src/types/countries.types.ts",
+    "../../config/i18n.config.ts",
+    "../../config/generated/**/*.ts"
+  ],
   "exclude": [
     "dist",
     "node_modules",

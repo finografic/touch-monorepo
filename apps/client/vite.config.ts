@@ -71,6 +71,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/core/types/utils': resolve(workspaceRoot, 'packages/core/src/types/utils'),
         '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src/index.ts'),
         '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators/index.ts'),
+        '@config': resolve(workspaceRoot, 'config'),
+        '@config/i18n': resolve(workspaceRoot, 'config/i18n.config.ts'),
       },
     },
     build: {
