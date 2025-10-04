@@ -11,6 +11,7 @@ import type { PadConfig } from 'types/pads.types';
 import type { FilterKey } from 'types/filters.types';
 import { useTranslation } from 'react-i18next';
 import type { RegionLocale } from '@workspace/i18n';
+import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 
 // Required route config interface
 interface RequiredRouteConfig<T = DataEntry[]> {
@@ -23,7 +24,7 @@ interface RequiredRouteConfig<T = DataEntry[]> {
 
 export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   const { routesMetadata } = useRouteLoaderData('routes') as { routesMetadata: RouteConfig[] };
-  const location = useLocation();
+  const { matchRoute, matchRouteById, currentPathname } = useRouteMatching();
   const matches = useMatches();
   const { i18n } = useTranslation();
 
@@ -37,25 +38,14 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     // NOTE: Strategy 1 - get the most specific match (last)
     const currentMatch = matches[matches.length - 1];
     if (currentMatch) {
-      matchedConfig = routesMetadata.find((r) => {
-        // Exact path match
-        if (r.pathname === location.pathname) return true;
+      // Use shared route matching logic
+      matchedConfig = matchRoute(routesMetadata, currentPathname);
 
-        // ID match
-        if (r.id === currentMatch.id) return true;
+      // If no path match, try ID match
+      if (!matchedConfig) {
+        matchedConfig = matchRouteById(routesMetadata, currentMatch.id);
+      }
 
-        // Dynamic parameter match (e.g., /drink-type/:drinkTypeId matches /drink-type/123)
-        if (r.pathname && r.pathname.includes(':')) {
-          const routePattern = r.pathname.replace(/:[^/]+/g, '[^/]+');
-          const regex = new RegExp(`^${routePattern}$`);
-          const matches = regex.test(location.pathname);
-          if (matches) {
-            return r;
-          }
-        }
-
-        return false;
-      });
       fieldKey = (matchedConfig?.id || currentMatch?.id) as OrderFieldKey;
     }
 
@@ -65,7 +55,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
         (match: UIMatch) => match?.id && Object.values(OrderFieldKeys).includes(match?.id as OrderFieldKey),
       );
       if (routeMatch) {
-        matchedConfig = routesMetadata.find((r) => r.id === routeMatch.id);
+        matchedConfig = matchRouteById(routesMetadata, routeMatch.id);
         fieldKey = fieldKey || (routeMatch.id as OrderFieldKey);
       }
     }
@@ -81,7 +71,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     }
 
     return { route: routeConfig, fieldKey };
-  }, [matches, routesMetadata, location.pathname]);
+  }, [matches, routesMetadata, currentPathname, matchRoute, matchRouteById]);
 
   // Get language-aware pads configuration
   const padsConfig = useMemo(() => {

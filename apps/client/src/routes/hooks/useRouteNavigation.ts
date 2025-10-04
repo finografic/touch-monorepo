@@ -1,4 +1,3 @@
-import { useLocation } from 'react-router-dom';
 import { PATHS, ROUTES_CONFIG } from 'routes/routes.config';
 import { useMemo } from 'react';
 import { useFilters } from 'providers/FiltersProvider';
@@ -7,6 +6,7 @@ import {
   getActualPreviousPath,
   resolveRouteParameters,
 } from 'routes/hooks/useRouteNavigation.utils';
+import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import type { OrderFilters } from 'types/filters.types';
 
 /**
@@ -15,26 +15,12 @@ import type { OrderFilters } from 'types/filters.types';
  * Handles conditional routes based on filter conditions.
  */
 export const useRouteNavigation = () => {
-  const location = useLocation();
+  const { matchRoute, currentPathname } = useRouteMatching();
   const { filters } = useFilters();
 
   return useMemo(() => {
-    // Find the current route config - handle dynamic parameters
-    const currentRoute = ROUTES_CONFIG.find((route) => {
-      if (!route.path) return false;
-
-      // Direct match
-      if (route.path === location.pathname) return true;
-
-      // Dynamic parameter match (e.g., /drink-type/:drinkTypeId vs /drink-type/123)
-      if (route.path.includes(':')) {
-        const routePattern = route.path.replace(/:[^/]+/g, '[^/]+');
-        const regex = new RegExp(`^${routePattern}$`);
-        return regex.test(location.pathname);
-      }
-
-      return false;
-    });
+    // Find the current route config using shared matching logic
+    const currentRoute = matchRoute(ROUTES_CONFIG, currentPathname);
 
     if (!currentRoute?.navigation) {
       return {
@@ -63,7 +49,7 @@ export const useRouteNavigation = () => {
       isFirstStep: flowStep === 0,
       isLastStep: actualNextPath === null && flowStep !== undefined,
     };
-  }, [location.pathname, filters]);
+  }, [matchRoute, currentPathname, filters]);
 };
 
 /**

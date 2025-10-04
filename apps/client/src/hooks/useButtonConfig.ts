@@ -7,6 +7,7 @@ import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'routes/routes.config';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useButtonOperations } from 'hooks/useButtonOperations';
 import { useRouteHandler } from 'hooks/useRouteHandler';
+import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import { BUTTON_ACTIONS, BUTTON_TYPES, type PadActionProps, type PadActionType } from 'types/button.types';
 
 interface UseButtonConfigReturn {
@@ -17,7 +18,7 @@ interface UseButtonConfigReturn {
 
 export const useButtonConfig = (): UseButtonConfigReturn => {
   const location = useLocation();
-  const { fieldKey } = useRouteConfig();
+  const { matchRoute, currentPathname } = useRouteMatching();
   const { t } = useTranslation();
 
   // console.log('%c loop? 1', 'color:grey', fieldKey);
@@ -46,19 +47,21 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const { getStartHandler } = useRouteHandler();
 
   const routeConfig = useMemo(() => {
+    console.log('🔍 useButtonConfig Debug:', {
+      currentPathname,
+      alternativeTimePath: ALTERNATIVE_PATHS.time,
+      isTimePage: currentPathname === ALTERNATIVE_PATHS.time,
+    });
+
     // Check if we're on an alternative route (like TimePage)
-    if (location.pathname === ALTERNATIVE_PATHS.time) {
+    if (currentPathname === ALTERNATIVE_PATHS.time) {
       return ALTERNATIVE_ROUTE_BUTTON_CONFIG.time;
     }
 
-    // Find the route config for the current fieldKey
-    if (!fieldKey) {
-      return { footer: [], content: [] };
-    }
-
-    const route = ROUTES_CONFIG.find((r) => r.id === fieldKey);
-    return route?.buttons || { footer: [], content: [] };
-  }, [fieldKey, location.pathname]);
+    // Find the route config using shared matching logic
+    const currentRoute = matchRoute(ROUTES_CONFIG, currentPathname);
+    return currentRoute?.buttons || { footer: [], content: [] };
+  }, [matchRoute, currentPathname]);
 
   const executeAction = useCallback(
     (actionType: string) => {
