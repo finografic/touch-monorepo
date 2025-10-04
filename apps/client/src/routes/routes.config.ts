@@ -1,17 +1,8 @@
 import type { RouteConfig } from 'routes/routes.types';
 import { BUTTON_TYPES } from 'types/button.types';
-import { ADMIN_PATHS, FLOW_PATHS, ROUTE_PATHS } from '../constants/paths.constants.js';
+import { ADMIN_PATHS, ALTERNATIVE_PATHS, PATHS, ROUTE_ACTION_SLUGS } from './paths';
 
-// Re-export for backward compatibility
-export const PATHS = ROUTE_PATHS;
-
-// Additional paths for alternative flows
-export const ALTERNATIVE_PATHS = {
-  time: FLOW_PATHS.TIME,
-  admin: ADMIN_PATHS.ADMIN_HOME,
-} as const;
-
-export const ROUTE_ACTION_SLUGS = ['new', 'view', 'edit', 'create', 'delete'] as const;
+export { PATHS, ROUTE_ACTION_SLUGS };
 
 export const ROUTES_CONFIG: RouteConfig[] = [
   {

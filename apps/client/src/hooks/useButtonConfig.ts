@@ -47,12 +47,6 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const { getStartHandler } = useRouteHandler();
 
   const routeConfig = useMemo(() => {
-    console.log('🔍 useButtonConfig Debug:', {
-      currentPathname,
-      alternativeTimePath: ALTERNATIVE_PATHS.time,
-      isTimePage: currentPathname === ALTERNATIVE_PATHS.time,
-    });
-
     // Check if we're on an alternative route (like TimePage)
     if (currentPathname === ALTERNATIVE_PATHS.time) {
       return ALTERNATIVE_ROUTE_BUTTON_CONFIG.time;
