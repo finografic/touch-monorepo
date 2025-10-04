@@ -7,6 +7,7 @@ import {
   getActualPreviousPath,
   resolveRouteParameters,
 } from 'routes/hooks/useRouteNavigation.utils';
+import type { OrderFilters } from 'types/filters.types';
 
 /**
  * Hook to get navigation information for the current route.

@@ -1,12 +1,10 @@
-import { useLocation } from 'react-router-dom';
-import { PATHS, ROUTES_CONFIG } from 'routes/routes.config';
-import { useMemo } from 'react';
-import { useFilters } from 'providers/FiltersProvider';
+import { PATHS } from 'routes/routes.config';
+import type { OrderFilters } from 'types/filters.types';
 
 /**
  * Replace dynamic route parameters with actual values from filters
  */
-export const resolveRouteParameters = (path: string, filters: any): string => {
+export const resolveRouteParameters = (path: string, filters: OrderFilters): string => {
   // Handle drinkSubtype route parameter
   if (path.includes(':drinkTypeId') && filters.drinkType?.id) {
     const resolvedPath = path.replace(':drinkTypeId', filters.drinkType.id);
@@ -20,7 +18,10 @@ export const resolveRouteParameters = (path: string, filters: any): string => {
  * Get the actual previous path, handling all conditional logic through dynamic resolution
  * and replacing dynamic route parameters with actual values
  */
-export const getActualPreviousPath = (previousPath: string | undefined, filters: any): string | null => {
+export const getActualPreviousPath = (
+  previousPath: string | undefined,
+  filters: OrderFilters,
+): string | null => {
   if (!previousPath) return null;
 
   // Handle conditional route skipping based on hasSubtypes
@@ -40,7 +41,7 @@ export const getActualPreviousPath = (previousPath: string | undefined, filters:
  * Get the actual next path, handling all conditional logic through dynamic resolution
  * and replacing dynamic route parameters with actual values
  */
-export const getActualNextPath = (nextPath: string | undefined, filters: any): string | null => {
+export const getActualNextPath = (nextPath: string | undefined, filters: OrderFilters): string | null => {
   if (!nextPath) return null;
 
   // Handle conditional route skipping based on hasSubtypes
