@@ -4,7 +4,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useCurrentFlowStep } from 'routes/hooks/useRouteNavigation';
-import { PATHS } from 'routes/routes.config';
+import { PATHS } from 'config';
 
 /**
  * Consolidated pagination hook that handles both management and synchronization

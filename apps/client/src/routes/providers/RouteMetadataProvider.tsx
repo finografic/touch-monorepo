@@ -5,7 +5,7 @@ import { useRouterLoader } from 'routes/hooks/useRouterLoader';
 import { withRouteMetadata } from 'routes/utils/withRouteMetadata';
 import { RouteMetadataContext } from './RouteMetadataContext';
 import NotFound from 'pages/NotFound';
-import { ROUTES_CONFIG } from 'routes/routes.config';
+import { ROUTES_CONFIG } from 'config';
 import { routes } from 'routes/routes';
 import { flatttenChildren } from 'routes/utils/routes.utils.flatten';
 

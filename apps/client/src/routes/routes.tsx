@@ -5,7 +5,6 @@ import { AdminLayout } from 'layout/AdminLayout';
 import { DocsPage } from 'pages/DocsPage/DocsPage';
 import { MainPage } from 'pages/MainPage/MainPage';
 import { GenericSelectPage } from 'pages/DrinkPages/GenericSelectPage';
-import { ALTERNATIVE_PATHS, PATHS } from './routes.config';
 import { AdminFieldKeys, OrderFieldKeys } from 'constants/app.config';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPages/AdminPage';
@@ -25,6 +24,7 @@ import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { AuthTestPage } from 'pages/AuthTestPage/AuthTestPage';
 import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
 import { RelayPageWrapper } from 'pages/AdminPages/AdminRelaysPage/RelayPageWrapper';
+import { ALTERNATIVE_PATHS, PATHS } from 'config';
 
 export const routes: RouteObject[] = [
   {

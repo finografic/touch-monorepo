@@ -23,6 +23,8 @@
       "api/*": ["./src/api/*"],
       "auth/*": ["./src/auth/*"],
       "components/*": ["./src/components/*"],
+      "config": ["./src/config"],
+      "config/*": ["./src/config/*"],
       "constants/*": ["./src/constants/*"],
       "dev-tools": ["./src/dev-tools"],
       "dev-tools/*": ["./src/dev-tools/*"],

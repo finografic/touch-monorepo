@@ -1,4 +1,4 @@
-import { PATHS } from 'routes/routes.config';
+import { PATHS } from 'config';
 import type { OrderFilters } from 'types/filters.types';
 
 /**

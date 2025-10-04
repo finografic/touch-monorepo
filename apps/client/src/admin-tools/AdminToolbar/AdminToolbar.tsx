@@ -5,7 +5,7 @@ import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
 import { HomeIcon, LanguageIcon, StopIcon, TimerIcon } from 'styles/icons';
-import { PATHS } from 'routes/routes.config';
+import { PATHS } from 'config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { stopAllAudio } from 'utils/soundCache.utils';

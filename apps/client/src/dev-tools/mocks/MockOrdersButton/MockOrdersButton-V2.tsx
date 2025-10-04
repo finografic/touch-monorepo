@@ -3,7 +3,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
 import { StarIcon } from 'styles/icons';
 import { useNavigate } from 'react-router-dom';
-import { PATHS } from 'routes/routes.config';
+import { PATHS } from 'config';
 import { useCallback } from 'react';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { FLOW_TYPES } from 'types/flow.types';

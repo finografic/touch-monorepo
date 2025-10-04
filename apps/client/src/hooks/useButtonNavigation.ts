@@ -6,7 +6,7 @@ import { useFiltering } from 'hooks/useFiltering';
 import { useFilters } from 'providers/FiltersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useOrders } from 'providers/OrdersProvider';
-import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
+import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import type { TemperatureFilter } from 'types/temperature.types';
 
 const NAVIGATION_ACTIONS = {

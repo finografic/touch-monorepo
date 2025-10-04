@@ -1,4 +1,4 @@
-import { PATHS, ROUTES_CONFIG } from 'routes/routes.config';
+import { PATHS, ROUTES_CONFIG } from 'config';
 import { useMemo } from 'react';
 import { useFilters } from 'providers/FiltersProvider';
 import {

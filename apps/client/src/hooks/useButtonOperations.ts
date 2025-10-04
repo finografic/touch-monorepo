@@ -10,7 +10,7 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
 import { useFilters } from 'providers/FiltersProvider';
 import { api } from 'api';
-import { ALTERNATIVE_PATHS, PATHS } from 'routes/routes.config';
+import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
 import { FLOW_TYPES } from 'types/flow.types';
 import createCuid from '@bugsnag/cuid';

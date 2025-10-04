@@ -3,7 +3,7 @@ import type { Location, NavigateOptions, To } from 'react-router-dom';
 import type { LocationState, LocationWithState } from 'types/location.types';
 import { cleanRoutePath } from 'routes/utils/routes.utils';
 import { getFromLocation } from 'routes/utils/useRouter.utils';
-import { ROUTES_CONFIG } from 'routes/routes.config';
+import { ROUTES_CONFIG } from 'config';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 type NavigateWithState = (to: To | number, options?: NavigateOptions) => Promise<void>;
