@@ -5,8 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import { usePaginationManagement } from 'hooks/usePaginationManagement';
-import { usePaginationSync } from 'hooks/usePaginationSync';
+import { usePaginationLogic } from 'hooks/usePaginationLogic';
 import type { PadType, PadUI } from 'types/pads.types';
 import type { FilterFieldKey, NavigationFieldKey, OrderFieldKey } from 'types/orders.types';
 import PadGroup from 'components/Pads/PadGroup/PadGroup';
@@ -24,11 +23,8 @@ export const GenericSelectPage = () => {
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
   const { setFilter, clearFilter } = useFilters();
 
-  // Use pagination management hook
-  usePaginationManagement();
-
-  // Sync pagination state with current route
-  usePaginationSync();
+  // Use consolidated pagination logic
+  usePaginationLogic();
 
   const handleFilterSelection = (fieldKey: FilterFieldKey, pad: PadUI) => {
     // Get current session's orders
