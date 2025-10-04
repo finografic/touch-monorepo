@@ -37,7 +37,7 @@ export const ORDER_FIELD_KEYS = [
  * Type-safe mapping of field keys to themselves
  * Useful for strongly-typed object access
  */
-export const SlotFilterKeys: { [K in SlotFilterKey]: K } = {
+export const ROUTE_FILTER_KEYS: { [K in SlotFilterKey]: K } = {
   main: 'main',
   drinkType: 'drinkType',
   drinkSubtype: 'drinkSubtype',

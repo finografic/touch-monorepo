@@ -1,24 +1,24 @@
 import { EndpointHelper } from 'api/api.endpoints';
-import { AdminFieldKeys, SlotFilterKeys } from 'config/app';
+import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 import type { LoaderFunction } from 'react-router-dom';
 
 type LoaderMap = {
-  [K in keyof typeof SlotFilterKeys]: LoaderFunction;
+  [K in keyof typeof ROUTE_FILTER_KEYS]: LoaderFunction;
 };
 
 export const LoaderDataHelper: Partial<LoaderMap> = {
-  [SlotFilterKeys.main]: async () => {
+  [ROUTE_FILTER_KEYS.main]: async () => {
     // TODO: Implement when ready
     return [];
   },
-  [SlotFilterKeys.drinkType]: EndpointHelper.getDrinkTypes,
-  [SlotFilterKeys.drinkSubtype]: async ({ params }) => {
+  [ROUTE_FILTER_KEYS.drinkType]: EndpointHelper.getDrinkTypes,
+  [ROUTE_FILTER_KEYS.drinkSubtype]: async ({ params }) => {
     const { drinkTypeId } = params;
     return EndpointHelper.getDrinkSubtypes({ drinkTypeId: drinkTypeId as string });
   },
-  [SlotFilterKeys.drinkVolume]: EndpointHelper.getDrinkVolumes,
-  [SlotFilterKeys.containerType]: EndpointHelper.getContainerTypes,
-  [SlotFilterKeys.temperature]: async ({ params }) => {
+  [ROUTE_FILTER_KEYS.drinkVolume]: EndpointHelper.getDrinkVolumes,
+  [ROUTE_FILTER_KEYS.containerType]: EndpointHelper.getContainerTypes,
+  [ROUTE_FILTER_KEYS.temperature]: async ({ params }) => {
     // TODO: Implement when ready
     return EndpointHelper.getOrdersReadable();
     return [];

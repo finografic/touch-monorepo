@@ -1,7 +1,7 @@
 import type { PadConfig, PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
 import type { SlotFilterKey } from 'types/orders.types';
-import { SlotFilterKeys } from 'config/app';
+import { ROUTE_FILTER_KEYS } from 'config/app';
 import { getLocalizedName } from './localization.utils';
 import type { RegionLocale } from '@workspace/i18n';
 
@@ -66,16 +66,16 @@ export const parsePadConfig = <T extends DataEntry>({
 export const getPadIdsForField = (orders: any[], fieldKey: SlotFilterKey) => {
   let ids: (string | undefined)[] = [];
   switch (fieldKey) {
-    case SlotFilterKeys.drinkType:
+    case ROUTE_FILTER_KEYS.drinkType:
       ids = orders.map((o) => o.drinkTypeName);
       break;
-    case SlotFilterKeys.drinkSubtype:
+    case ROUTE_FILTER_KEYS.drinkSubtype:
       ids = orders.map((o) => o.drinkSubtypeName);
       break;
-    case SlotFilterKeys.drinkVolume:
+    case ROUTE_FILTER_KEYS.drinkVolume:
       ids = orders.map((o) => o.volumeName);
       break;
-    case SlotFilterKeys.containerType:
+    case ROUTE_FILTER_KEYS.containerType:
       ids = orders.map((o) => o.containerTypeName);
       break;
     default:

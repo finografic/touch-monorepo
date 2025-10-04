@@ -1,8 +1,7 @@
 import type { DataEntry } from 'types/data.types';
 import type { SlotFilterKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
-import { SlotFilterKeys } from 'config/app';
-import { FILTER_ORDER } from 'config/app';
+import { ROUTE_FILTER_KEYS, SLOT_FILTERS } from 'config/app';
 
 /**
  * Reduces filters to find the most specific/dominant value for a given property.
@@ -30,16 +29,16 @@ export const reduceFilterProperty = <T>({
  */
 export const getUniqueFilterValues = (data: DataEntry[]): Record<string, string[]> => {
   const values: Record<string, string[]> = {};
-  values[SlotFilterKeys.drinkType] = Array.from(
+  values[ROUTE_FILTER_KEYS.drinkType] = Array.from(
     new Set(data.map((d) => d.drinkType).filter((v): v is string => typeof v === 'string')),
   );
-  values[SlotFilterKeys.drinkSubtype] = Array.from(
+  values[ROUTE_FILTER_KEYS.drinkSubtype] = Array.from(
     new Set(data.map((d) => d.drinkSubtype).filter((v): v is string => typeof v === 'string')),
   );
-  values[SlotFilterKeys.drinkVolume] = Array.from(
+  values[ROUTE_FILTER_KEYS.drinkVolume] = Array.from(
     new Set(data.map((d) => d.volume).filter((v): v is string => typeof v === 'string')),
   );
-  values[SlotFilterKeys.containerType] = Array.from(
+  values[ROUTE_FILTER_KEYS.containerType] = Array.from(
     new Set(data.map((d) => d.containerType).filter((v): v is string => typeof v === 'string')),
   );
   return values;
@@ -64,15 +63,15 @@ export const matchesFilters = (entry: DataEntry, activeFilters: [string, any][])
 
     // Fallback to direct field comparisons for backward compatibility
     switch (key as SlotFilterKey) {
-      case SlotFilterKeys.drinkType:
+      case ROUTE_FILTER_KEYS.drinkType:
         return entry.drinkType === value.name;
-      case SlotFilterKeys.drinkSubtype:
+      case ROUTE_FILTER_KEYS.drinkSubtype:
         return entry.drinkSubtype === value.name;
-      case SlotFilterKeys.drinkVolume:
+      case ROUTE_FILTER_KEYS.drinkVolume:
         return entry.volume === value.name;
-      case SlotFilterKeys.containerType:
+      case ROUTE_FILTER_KEYS.containerType:
         return entry.containerType === value.name;
-      case SlotFilterKeys.temperature:
+      case ROUTE_FILTER_KEYS.temperature:
         if (value.initial !== undefined && value.final !== undefined) {
           return (
             (!entry.initialTemperature || entry.initialTemperature === value.initial) &&
@@ -98,11 +97,11 @@ export const getFiltersByStep = (
   currentFieldKey: SlotFilterKey,
   inclusive: boolean,
 ): [string, any][] => {
-  const currentStepIndex = FILTER_ORDER.indexOf(currentFieldKey);
+  const currentStepIndex = SLOT_FILTERS.indexOf(currentFieldKey);
   if (currentStepIndex === -1) return [];
 
   return Object.entries(filters).filter(([key]) => {
-    const filterIndex = FILTER_ORDER.indexOf(key as SlotFilterKey);
+    const filterIndex = SLOT_FILTERS.indexOf(key as SlotFilterKey);
     return (
       filterIndex !== -1 && (inclusive ? filterIndex <= currentStepIndex : filterIndex < currentStepIndex)
     );

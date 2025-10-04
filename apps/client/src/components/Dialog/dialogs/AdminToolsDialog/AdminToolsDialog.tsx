@@ -3,7 +3,7 @@ import { GenericDialog } from '../../GenericDialog';
 import type { DialogConfig } from '../../GenericDialog.types';
 import { useOrderSelection } from 'hooks/useOrderSelection';
 import { useConfigStorage } from 'hooks/useConfigStorage';
-import { SlotFilterKeys } from 'config/app';
+import { ROUTE_FILTER_KEYS } from 'config/app';
 import { ConfigTimer } from 'components/ConfigTimer/ConfigTimer';
 import { OrderDataList } from 'components/DataList/OrderDataList/OrderDataList';
 import { CalculationDataList } from 'components/DataList/CalculationDataList/CalculationDataList';
@@ -17,7 +17,7 @@ import { ConfigDataList } from 'components/DataList/ConfigDataList/ConfigDataLis
 
 export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => {
   const { orders } = useOrderSelection<OrderWithMetadata>({
-    field: SlotFilterKeys.drinkType,
+    field: ROUTE_FILTER_KEYS.drinkType,
   });
   const [calculation, setCalculation] = useState<Calculation | null>(null);
   const [viewMode, setViewMode] = useState<'json' | 'list'>('json');

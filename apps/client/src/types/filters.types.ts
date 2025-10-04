@@ -1,12 +1,12 @@
-import type { FilterKeys } from 'config/app';
+import type { API_FILTER_FIELDS } from 'config/app';
 import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
 import type { ContainerType, FilterFieldKey, Temperature, Volume } from 'types/orders.types';
 import type { TemperatureFilter } from 'types/temperature.types';
 
 /**
- * Type representing valid filter keys derived from FilterKeys constant
+ * Type representing valid filter keys derived from API_FILTER_FIELDS constant
  */
-export type FilterKey = keyof typeof FilterKeys;
+export type FilterKey = keyof typeof API_FILTER_FIELDS;
 
 // Base interface for all filters
 interface BaseFilter {
@@ -21,21 +21,21 @@ interface DrinkTypeFilter extends BaseFilter {
   hasSubtypes: boolean;
   defaultTempConsume?: number;
   defaultTempFreeze?: number;
-  lookup?: { [FilterKeys.drinkTypeName]: string };
+  lookup?: { [API_FILTER_FIELDS.drinkTypeName]: string };
 }
 
 interface DrinkSubtypeFilter extends BaseFilter {
   defaultTempConsume?: number;
   defaultTempFreeze?: number;
-  lookup?: { [FilterKeys.drinkSubtypeName]: string };
+  lookup?: { [API_FILTER_FIELDS.drinkSubtypeName]: string };
 }
 
 interface VolumeFilter extends BaseFilter {
-  lookup?: { [FilterKeys.volumeName]: string };
+  lookup?: { [API_FILTER_FIELDS.volumeName]: string };
 }
 
 interface ContainerTypeFilter extends BaseFilter {
-  lookup?: { [FilterKeys.containerTypeName]: string };
+  lookup?: { [API_FILTER_FIELDS.containerTypeName]: string };
 }
 // Type for individual filter values
 export interface OrderFilter {

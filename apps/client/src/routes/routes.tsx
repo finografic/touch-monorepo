@@ -5,7 +5,7 @@ import { AdminLayout } from 'layout/AdminLayout';
 import { DocsPage } from 'pages/DocsPage/DocsPage';
 import { MainPage } from 'pages/MainPage/MainPage';
 import { GenericSelectPage } from 'pages/DrinkPages/GenericSelectPage';
-import { AdminFieldKeys, SlotFilterKeys } from 'config/app';
+import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPages/AdminPage';
 import { AdminTranslationsPage } from 'pages/AdminPages/AdminTranslationsPage/AdminTranslationsPage';
@@ -45,33 +45,33 @@ export const routes: RouteObject[] = [
       // ============================================== //
       {
         path: PATHS.drinkType,
-        id: SlotFilterKeys.drinkType,
+        id: ROUTE_FILTER_KEYS.drinkType,
         element: <GenericSelectPage />,
-        loader: LoaderDataHelper[SlotFilterKeys.drinkType],
+        loader: LoaderDataHelper[ROUTE_FILTER_KEYS.drinkType],
       },
       {
         path: PATHS.drinkSubtype,
-        id: SlotFilterKeys.drinkSubtype,
-        loader: LoaderDataHelper[SlotFilterKeys.drinkSubtype],
+        id: ROUTE_FILTER_KEYS.drinkSubtype,
+        loader: LoaderDataHelper[ROUTE_FILTER_KEYS.drinkSubtype],
         element: <GenericSelectPage />,
       },
       // ------------------------------------------------------------------------ //
       {
         path: PATHS.drinkVolume,
-        id: SlotFilterKeys.drinkVolume,
-        loader: LoaderDataHelper[SlotFilterKeys.drinkVolume],
+        id: ROUTE_FILTER_KEYS.drinkVolume,
+        loader: LoaderDataHelper[ROUTE_FILTER_KEYS.drinkVolume],
         element: <GenericSelectPage />,
       },
       {
         path: PATHS.containerType,
-        id: SlotFilterKeys.containerType,
-        loader: LoaderDataHelper[SlotFilterKeys.containerType],
+        id: ROUTE_FILTER_KEYS.containerType,
+        loader: LoaderDataHelper[ROUTE_FILTER_KEYS.containerType],
         element: <GenericSelectPage />,
       },
       {
         path: PATHS.temperature,
-        id: SlotFilterKeys.temperature,
-        loader: LoaderDataHelper[SlotFilterKeys.temperature],
+        id: ROUTE_FILTER_KEYS.temperature,
+        loader: LoaderDataHelper[ROUTE_FILTER_KEYS.temperature],
         element: <TemperaturePage />,
       },
       // ============================================== //

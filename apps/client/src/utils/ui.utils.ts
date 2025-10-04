@@ -1,7 +1,7 @@
 import type { PadConfig, PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
 import type { SlotFilterKey } from 'types/orders.types';
-import { SlotFilterKeys } from 'config/app';
+import { ROUTE_FILTER_KEYS } from 'config/app';
 
 // -------------------------------------------------------------------------- //
 // NOTE: Parse loader data and config to initialize pad items
@@ -34,7 +34,7 @@ export const parsePadConfig = <T extends DataEntry>({
             if (valueKey === 'temperatureProfileId') {
               const profileId = currentItem?.temperatureProfileId;
               if (profileId === undefined || profileId === null) {
-                if (fieldKey === SlotFilterKeys.drinkType || fieldKey === SlotFilterKeys.drinkSubtype) {
+                if (fieldKey === ROUTE_FILTER_KEYS.drinkType || fieldKey === ROUTE_FILTER_KEYS.drinkSubtype) {
                   // For now, we'll use a placeholder. This should be populated from the database
                   value[valueKey] = 'temp_+30.0'; // TODO: Replace with actual temperature profile lookup
                 } else {
@@ -91,16 +91,16 @@ export const parsePadConfig = <T extends DataEntry>({
 export const getPadIdsForField = (orders: any[], fieldKey: SlotFilterKey) => {
   let ids: (string | undefined)[] = [];
   switch (fieldKey) {
-    case SlotFilterKeys.drinkType:
+    case ROUTE_FILTER_KEYS.drinkType:
       ids = orders.map((o) => o.drinkTypeName);
       break;
-    case SlotFilterKeys.drinkSubtype:
+    case ROUTE_FILTER_KEYS.drinkSubtype:
       ids = orders.map((o) => o.drinkSubtypeName);
       break;
-    case SlotFilterKeys.drinkVolume:
+    case ROUTE_FILTER_KEYS.drinkVolume:
       ids = orders.map((o) => o.volumeName);
       break;
-    case SlotFilterKeys.containerType:
+    case ROUTE_FILTER_KEYS.containerType:
       ids = orders.map((o) => o.containerTypeName);
       break;
     default:

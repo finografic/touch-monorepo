@@ -1,7 +1,7 @@
 import type { UIMatch } from 'react-router-dom';
 import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
-import { SlotFilterKeys } from 'config/app';
+import { ROUTE_FILTER_KEYS } from 'config/app';
 import { getPadsUIConfig } from 'config/ui';
 import type { SlotFilterKey } from 'types/orders.types';
 import { useMemo } from 'react';
@@ -52,7 +52,8 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     // NOTE: Strategy 2 - find first match with SlotFilterKey (fallback)
     if (!matchedConfig) {
       const routeMatch = matches.find(
-        (match: UIMatch) => match?.id && Object.values(SlotFilterKeys).includes(match?.id as SlotFilterKey),
+        (match: UIMatch) =>
+          match?.id && Object.values(ROUTE_FILTER_KEYS).includes(match?.id as SlotFilterKey),
       );
       if (routeMatch) {
         matchedConfig = matchRouteById(routesMetadata, routeMatch.id);

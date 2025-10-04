@@ -1,4 +1,4 @@
-import type { FilterKeys } from 'config/app';
+import type { API_FILTER_FIELDS } from 'config/app';
 
 export enum TemperatureKey {
   Initial = 'initial',
@@ -30,7 +30,7 @@ export interface TemperatureFilter__V1 {
   initial?: number;
   final?: number;
   duration?: number;
-  lookup?: { [FilterKeys.temperatureName]: string | number };
+  lookup?: { [API_FILTER_FIELDS.temperatureName]: string | number };
 }
 
 export interface TemperatureFilter {
