@@ -10,7 +10,7 @@ import type { DataEntry } from 'types/data.types';
 import type { PadConfig } from 'types/pads.types';
 import type { FilterKey } from 'types/filters.types';
 import { useTranslation } from 'react-i18next';
-import type { RegionLocale } from '@workspace/core/types';
+import type { RegionLocale } from '@workspace/i18n';
 
 // Required route config interface
 interface RequiredRouteConfig<T = DataEntry[]> {

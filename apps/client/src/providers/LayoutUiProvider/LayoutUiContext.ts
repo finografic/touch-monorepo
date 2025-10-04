@@ -10,7 +10,7 @@ import type { OrderFieldKey, SlotType } from 'types/orders.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { subscribeWithSelector } from 'zustand/middleware';
-import type { RegionLocale } from '@workspace/core/types';
+import type { RegionLocale } from '@workspace/i18n';
 import type { SlotMeta, SlotStatus } from 'pages/MainPage/MainPage.types';
 
 export const DISPLAY_NAME = 'LayoutUi';

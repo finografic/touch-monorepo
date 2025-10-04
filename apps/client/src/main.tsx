@@ -1,5 +1,4 @@
 import '@workspace/core';
-
 import './index.css';
 
 // radix css styles
@@ -25,11 +24,9 @@ import { I18nextProvider } from 'react-i18next';
 import App from './App';
 import PersistQueryClientProvider from 'providers/QueryClientProvider/PersistQueryClientProvider';
 import { RouteMetadataProvider } from 'routes/providers/RouteMetadataProvider';
-// import ErrorBoundary from './ErrorBoundary';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {/* <ErrorBoundary> */}
     <PersistQueryClientProvider>
       <I18nextProvider i18n={i18n}>
         <RouteMetadataProvider>
@@ -37,6 +34,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </RouteMetadataProvider>
       </I18nextProvider>
     </PersistQueryClientProvider>
-    {/* </ErrorBoundary> */}
   </React.StrictMode>,
 );

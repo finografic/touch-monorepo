@@ -4,7 +4,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFiltering } from 'hooks/useFiltering';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import type { RegionLocale } from '@workspace/core/types';
+import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';

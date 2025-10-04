@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router-dom';
-import { ROUTES_CONFIG } from 'routes/routes.config';
-import { PATHS } from 'routes/routes.config';
+import { PATHS, ROUTES_CONFIG } from 'routes/routes.config';
 import { useMemo } from 'react';
 import { useFilters } from 'providers/FiltersProvider';
 
@@ -69,7 +68,7 @@ const getActualNextPath = (nextPath: string | undefined, filters: any): string |
   if (!nextPath) return null;
 
   // Handle conditional route skipping based on hasSubtypes
-  let actualNextPath = nextPath;
+  const actualNextPath = nextPath;
   if (nextPath === PATHS.drinkSubtype && filters.drinkType?.hasSubtypes === false) {
     // Skip drinkSubtype, go directly to drinkVolume
     return getActualNextPath(PATHS.drinkVolume, filters);
@@ -89,7 +88,7 @@ const getActualPreviousPath = (previousPath: string | undefined, filters: any): 
   if (!previousPath) return null;
 
   // Handle conditional route skipping based on hasSubtypes
-  let actualPreviousPath = previousPath;
+  const actualPreviousPath = previousPath;
   if (previousPath === PATHS.drinkSubtype && filters.drinkType?.hasSubtypes === false) {
     // Skip drinkSubtype, go directly to drinkType
     return getActualPreviousPath(PATHS.drinkType, filters);
