@@ -1,4 +1,4 @@
-import type { FilterKeys } from 'constants/filters.constants';
+import type { FilterKeys } from 'config/app';
 
 export enum TemperatureKey {
   Initial = 'initial',

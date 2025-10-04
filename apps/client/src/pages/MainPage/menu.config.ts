@@ -1,4 +1,4 @@
-import { NUM_GRID_ITEMS } from 'constants/app.config';
+import { NUM_GRID_ITEMS } from 'config/app';
 // import type { PadTestProps } from 'pages/MainPage/MainPage';
 // import type { PadUI } from 'types/ui.types';
 

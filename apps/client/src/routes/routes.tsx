@@ -5,7 +5,7 @@ import { AdminLayout } from 'layout/AdminLayout';
 import { DocsPage } from 'pages/DocsPage/DocsPage';
 import { MainPage } from 'pages/MainPage/MainPage';
 import { GenericSelectPage } from 'pages/DrinkPages/GenericSelectPage';
-import { AdminFieldKeys, OrderFieldKeys } from 'constants/app.config';
+import { AdminFieldKeys, SlotFilterKeys } from 'config/app';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminPage } from 'pages/AdminPages/AdminPage';
 import { AdminTranslationsPage } from 'pages/AdminPages/AdminTranslationsPage/AdminTranslationsPage';
@@ -45,33 +45,33 @@ export const routes: RouteObject[] = [
       // ============================================== //
       {
         path: PATHS.drinkType,
-        id: OrderFieldKeys.drinkType,
+        id: SlotFilterKeys.drinkType,
         element: <GenericSelectPage />,
-        loader: LoaderDataHelper[OrderFieldKeys.drinkType],
+        loader: LoaderDataHelper[SlotFilterKeys.drinkType],
       },
       {
         path: PATHS.drinkSubtype,
-        id: OrderFieldKeys.drinkSubtype,
-        loader: LoaderDataHelper[OrderFieldKeys.drinkSubtype],
+        id: SlotFilterKeys.drinkSubtype,
+        loader: LoaderDataHelper[SlotFilterKeys.drinkSubtype],
         element: <GenericSelectPage />,
       },
       // ------------------------------------------------------------------------ //
       {
         path: PATHS.drinkVolume,
-        id: OrderFieldKeys.drinkVolume,
-        loader: LoaderDataHelper[OrderFieldKeys.drinkVolume],
+        id: SlotFilterKeys.drinkVolume,
+        loader: LoaderDataHelper[SlotFilterKeys.drinkVolume],
         element: <GenericSelectPage />,
       },
       {
         path: PATHS.containerType,
-        id: OrderFieldKeys.containerType,
-        loader: LoaderDataHelper[OrderFieldKeys.containerType],
+        id: SlotFilterKeys.containerType,
+        loader: LoaderDataHelper[SlotFilterKeys.containerType],
         element: <GenericSelectPage />,
       },
       {
         path: PATHS.temperature,
-        id: OrderFieldKeys.temperature,
-        loader: LoaderDataHelper[OrderFieldKeys.temperature],
+        id: SlotFilterKeys.temperature,
+        loader: LoaderDataHelper[SlotFilterKeys.temperature],
         element: <TemperaturePage />,
       },
       // ============================================== //

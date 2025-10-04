@@ -7,11 +7,11 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useProcessTimesFromTemperatureFilter } from 'hooks/useProcessTimesFromTemperatureFilter';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
+import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFilters } from 'providers/FiltersProvider';
 import { api } from 'api';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
+import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 import { FLOW_TYPES } from 'types/flow.types';
 import createCuid from '@bugsnag/cuid';
 // import { useGetSlotConfigurations } from 'queries/slot-configurations';
@@ -63,7 +63,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     setMainPageSelectedSlots,
   } = useLayoutUi();
   const { saveConfig } = useConfigStorage();
-  const orderItemsConfig = useOrderItemsConfig();
+  const orderItemsConfig = useSlotItemsConfig();
   // const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
   const { setFilter, clearFilters } = useFilters();
 

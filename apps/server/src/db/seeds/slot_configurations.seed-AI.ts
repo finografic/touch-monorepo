@@ -2,7 +2,7 @@ import { db } from '../db.adapter';
 import { slot_configurations } from '../schemas';
 import { randomUUID } from 'node:crypto';
 
-// Default configuration matching current ORDER_ITEMS_CONFIG
+// Default configuration matching current SLOT_ITEMS_CONFIG
 const DEFAULT_SLOT_CONFIG = [
   // First row (1-3)
   { slotNumber: 1, slotType: 'A' as const },

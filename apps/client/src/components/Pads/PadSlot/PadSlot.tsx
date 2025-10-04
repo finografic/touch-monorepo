@@ -6,7 +6,7 @@ import type { SlotType } from 'types/orders.types';
 import { PadSlotToggle } from './PadSlotToggle';
 import { styles } from './PadSlot.styles';
 import { Pad } from 'components/Pads/Pad';
-import { OrderFieldKeys } from 'constants/app.config';
+import { SlotFilterKeys } from 'config/app';
 import { Timer } from 'components/Timer/Timer';
 
 export interface PadMenuProps {
@@ -72,7 +72,7 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
       name="main"
       type="checkbox"
       value={{ id: String(slotNumber), slotType }}
-      fieldKey={OrderFieldKeys.main}
+      fieldKey={SlotFilterKeys.main}
       isChecked={isChecked}
       className={mergedClassNames}
       onSelect={handleSelect}

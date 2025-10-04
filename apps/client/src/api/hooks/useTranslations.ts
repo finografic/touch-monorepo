@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { translationEndpoints } from '../endpoints/translations.endpoints';
-import { ADMIN_DATA_QUERY_CONFIG } from 'constants/query.config';
+import { ADMIN_DATA_QUERY_CONFIG } from 'config/api';
 import type {
   ContainerTypeTranslation,
   ContainerTypeUpdate,

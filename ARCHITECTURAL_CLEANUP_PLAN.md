@@ -86,7 +86,7 @@ Currently, selection state is tracked in three places: `orders[].isSelected`, `m
    - It's already in LayoutUiContext
 
 3. **Update OrdersContext**:
-   - Remove `isSelected` from `OrderItem` interface
+   - Remove `isSelected` from `SlotItem` interface
    - Update `toggleOrder` to modify `mainPageSelectedSlots` instead
    - Update `selectAllOrders` to work with `mainPageSelectedSlots`
 
@@ -140,8 +140,8 @@ The `useFilters` hook is doing too much: managing complete dataset, filter state
 
      // Filters
      filters: OrderFilters;
-     setFilter: (key: OrderFieldKey, value: unknown) => void;
-     clearFilter: (key: OrderFieldKey) => void;
+     setFilter: (key: SlotFilterKey, value: unknown) => void;
+     clearFilter: (key: SlotFilterKey) => void;
      clearFilters: () => void;
 
      // Metadata

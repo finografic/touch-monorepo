@@ -2,12 +2,12 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
-import { INITIAL_ORDER_ITEM, ORDER_ITEMS_CONFIG } from 'constants/orders.constants';
+import { INITIAL_SLOT_ITEM, SLOT_ITEMS_CONFIG } from 'config/app';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { OrderFieldKey, SlotType } from 'types/orders.types';
+import type { SlotFilterKey, SlotType } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
-import { ORDER_FIELD_KEYS } from 'constants/app.config';
+import { ORDER_FIELD_KEYS } from 'config/app';
 import { subscribeWithSelector } from 'zustand/middleware';
 import type { SlotItemConfig } from 'utils/slot-config.utils';
 import { api } from 'api';
@@ -73,19 +73,19 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               if (order.slotNumber === slotNumber) {
                 const updatedFilters: OrderFilters = { ...order.filters };
 
-                (Object.entries(filter) as [OrderFieldKey, unknown][]).forEach(([key, value]) => {
+                (Object.entries(filter) as [SlotFilterKey, unknown][]).forEach(([key, value]) => {
                   if (value === undefined) {
-                    delete updatedFilters[key as OrderFieldKey];
+                    delete updatedFilters[key as SlotFilterKey];
                   } else {
-                    (updatedFilters as Partial<Record<OrderFieldKey, unknown>>)[key as OrderFieldKey] = value;
+                    (updatedFilters as Partial<Record<SlotFilterKey, unknown>>)[key as SlotFilterKey] = value;
                   }
                 });
 
                 const orderedFilters: OrderFilters = {} as OrderFilters;
                 for (const key of ORDER_FIELD_KEYS) {
                   if (key in updatedFilters) {
-                    (orderedFilters as Partial<Record<OrderFieldKey, unknown>>)[key] = (
-                      updatedFilters as Partial<Record<OrderFieldKey, unknown>>
+                    (orderedFilters as Partial<Record<SlotFilterKey, unknown>>)[key] = (
+                      updatedFilters as Partial<Record<SlotFilterKey, unknown>>
                     )[key];
                   }
                 }
@@ -105,7 +105,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               const newOrders = [
                 ...orders,
                 {
-                  ...INITIAL_ORDER_ITEM,
+                  ...INITIAL_SLOT_ITEM,
                   id:
                     typeof crypto !== 'undefined' && crypto.randomUUID
                       ? crypto.randomUUID()
@@ -129,9 +129,9 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               set({ orders: updatedOrders });
             }
           },
-          selectAllOrders: (config: SlotItemConfig[] = ORDER_ITEMS_CONFIG) => {
+          selectAllOrders: (config: SlotItemConfig[] = SLOT_ITEMS_CONFIG) => {
             const newOrders = config.map(({ slotType, slotNumber }) => ({
-              ...INITIAL_ORDER_ITEM,
+              ...INITIAL_SLOT_ITEM,
               id:
                 typeof crypto !== 'undefined' && crypto.randomUUID
                   ? crypto.randomUUID()

@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'constants/button.config';
+import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
 import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useButtonOperations } from 'hooks/useButtonOperations';

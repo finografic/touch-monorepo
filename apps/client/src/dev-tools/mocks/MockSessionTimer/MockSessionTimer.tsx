@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { CountdownTimerIcon } from 'styles/icons';
-import { STORAGE_KEYS } from 'constants/app.config';
+import { STORAGE_KEYS } from 'config/app';
 
 export const MockSessionTimer = () => {
   const handleSetSessionTimer = useCallback(() => {

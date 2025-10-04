@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import type { OrderFieldKey } from 'types/orders.types';
+import type { SlotFilterKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { DataEntry } from 'types/data.types';
@@ -19,8 +19,8 @@ interface UseFiltersReturn {
   serverFieldMap: Record<string, string>;
 
   // Filter manipulation functions
-  setFilter: (key: OrderFieldKey, value: unknown) => void;
-  clearFilter: (key: OrderFieldKey) => void;
+  setFilter: (key: SlotFilterKey, value: unknown) => void;
+  clearFilter: (key: SlotFilterKey) => void;
   clearFilters: () => void;
 
   // Unique values for filters - matches the return type of getUniqueFilterValues
@@ -95,7 +95,7 @@ export const useFiltering = (initialFilters?: OrderFilters): UseFiltersReturn =>
   }, [dataFiltered, filters, updateOrderIds]);
 
   // Handle filter change
-  const setFilter = useCallback((key: OrderFieldKey, value: unknown) => {
+  const setFilter = useCallback((key: SlotFilterKey, value: unknown) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
   }, []);
 
@@ -105,7 +105,7 @@ export const useFiltering = (initialFilters?: OrderFilters): UseFiltersReturn =>
   }, []);
 
   // Clear specific filter
-  const clearFilter = useCallback((key: Exclude<OrderFieldKey, 'main'>) => {
+  const clearFilter = useCallback((key: Exclude<SlotFilterKey, 'main'>) => {
     setFilters((prev) => {
       const { [key]: _, ...rest } = prev;
       return rest;

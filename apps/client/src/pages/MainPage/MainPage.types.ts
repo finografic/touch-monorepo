@@ -1,5 +1,5 @@
 import type { ValidGridSize } from 'types/menu.types';
-import type { NUM_GRID_ITEMS } from 'constants/app.config';
+import type { NUM_GRID_ITEMS } from 'config/app';
 import type { SlotType } from 'types/orders.types';
 
 export type MenuGridSize = typeof NUM_GRID_ITEMS;

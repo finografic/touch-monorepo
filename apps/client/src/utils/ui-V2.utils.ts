@@ -1,7 +1,7 @@
 import type { PadConfig, PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
-import type { OrderFieldKey } from 'types/orders.types';
-import { OrderFieldKeys } from 'constants/app.config';
+import type { SlotFilterKey } from 'types/orders.types';
+import { SlotFilterKeys } from 'config/app';
 import { getLocalizedName } from './localization.utils';
 import type { RegionLocale } from '@workspace/i18n';
 
@@ -16,7 +16,7 @@ export const parsePadConfig = <T extends DataEntry>({
 }: {
   data: T[];
   config: PadConfig<T>;
-  fieldKey: OrderFieldKey;
+  fieldKey: SlotFilterKey;
   currentLanguage?: RegionLocale;
 }): { pads: PadUI[]; numPads: number } => {
   const labelKey = (config.labelKey as keyof T) || ('nameEs' as keyof T); // NOTE: which key to use for label
@@ -63,19 +63,19 @@ export const parsePadConfig = <T extends DataEntry>({
 // -------------------------------------------------------------------------- //
 // NOTE: Update pad state
 
-export const getPadIdsForField = (orders: any[], fieldKey: OrderFieldKey) => {
+export const getPadIdsForField = (orders: any[], fieldKey: SlotFilterKey) => {
   let ids: (string | undefined)[] = [];
   switch (fieldKey) {
-    case OrderFieldKeys.drinkType:
+    case SlotFilterKeys.drinkType:
       ids = orders.map((o) => o.drinkTypeName);
       break;
-    case OrderFieldKeys.drinkSubtype:
+    case SlotFilterKeys.drinkSubtype:
       ids = orders.map((o) => o.drinkSubtypeName);
       break;
-    case OrderFieldKeys.drinkVolume:
+    case SlotFilterKeys.drinkVolume:
       ids = orders.map((o) => o.volumeName);
       break;
-    case OrderFieldKeys.containerType:
+    case SlotFilterKeys.containerType:
       ids = orders.map((o) => o.containerTypeName);
       break;
     default:

@@ -1,7 +1,7 @@
 import type { PadConfig, PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
-import type { OrderFieldKey } from 'types/orders.types';
-import { OrderFieldKeys } from 'constants/app.config';
+import type { SlotFilterKey } from 'types/orders.types';
+import { SlotFilterKeys } from 'config/app';
 
 // -------------------------------------------------------------------------- //
 // NOTE: Parse loader data and config to initialize pad items
@@ -13,7 +13,7 @@ export const parsePadConfig = <T extends DataEntry>({
 }: {
   data: T[];
   config: PadConfig<T>;
-  fieldKey: OrderFieldKey;
+  fieldKey: SlotFilterKey;
 }): { pads: PadUI[]; numPads: number } => {
   const labelKey = (config.labelKey as keyof T) || ('nameEn' as keyof T); // NOTE: which key to use for label
   const numPads = Math.min(data.length, config.maxPads);
@@ -34,7 +34,7 @@ export const parsePadConfig = <T extends DataEntry>({
             if (valueKey === 'temperatureProfileId') {
               const profileId = currentItem?.temperatureProfileId;
               if (profileId === undefined || profileId === null) {
-                if (fieldKey === OrderFieldKeys.drinkType || fieldKey === OrderFieldKeys.drinkSubtype) {
+                if (fieldKey === SlotFilterKeys.drinkType || fieldKey === SlotFilterKeys.drinkSubtype) {
                   // For now, we'll use a placeholder. This should be populated from the database
                   value[valueKey] = 'temp_+30.0'; // TODO: Replace with actual temperature profile lookup
                 } else {
@@ -88,19 +88,19 @@ export const parsePadConfig = <T extends DataEntry>({
 // -------------------------------------------------------------------------- //
 // NOTE: Update pad state
 
-export const getPadIdsForField = (orders: any[], fieldKey: OrderFieldKey) => {
+export const getPadIdsForField = (orders: any[], fieldKey: SlotFilterKey) => {
   let ids: (string | undefined)[] = [];
   switch (fieldKey) {
-    case OrderFieldKeys.drinkType:
+    case SlotFilterKeys.drinkType:
       ids = orders.map((o) => o.drinkTypeName);
       break;
-    case OrderFieldKeys.drinkSubtype:
+    case SlotFilterKeys.drinkSubtype:
       ids = orders.map((o) => o.drinkSubtypeName);
       break;
-    case OrderFieldKeys.drinkVolume:
+    case SlotFilterKeys.drinkVolume:
       ids = orders.map((o) => o.volumeName);
       break;
-    case OrderFieldKeys.containerType:
+    case SlotFilterKeys.containerType:
       ids = orders.map((o) => o.containerTypeName);
       break;
     default:

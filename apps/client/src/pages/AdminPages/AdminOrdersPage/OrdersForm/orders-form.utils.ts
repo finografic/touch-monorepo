@@ -5,7 +5,7 @@ import { useGetDrinkVolumes } from 'queries/drink-volumes';
 import { useGetContainerTypes } from 'queries/container-types';
 import { useGetOrdersReadable } from 'queries/orders';
 import { SelectOptionDto } from 'types/models/select-option.model';
-import { OrderFieldKeys } from 'constants/app.config';
+import { SlotFilterKeys } from 'config/app';
 import { slugify } from 'utils/string.utils';
 import { useGetModes } from 'queries/modes';
 import type { ModeModel } from 'types/models/mode.model';
@@ -151,7 +151,7 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
       label: item.displayValue,
       category: 'Custom',
     }));
-    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, OrderFieldKeys.drinkVolume);
+    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, SlotFilterKeys.drinkVolume);
     return [...databaseOptions, ...customOptions, ...ordersOptions];
   }, [volumes, tempItems.volumes, ordersData, language]);
 
@@ -162,7 +162,7 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
       label: item.displayValue,
       category: 'Custom',
     }));
-    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, OrderFieldKeys.containerType);
+    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, SlotFilterKeys.containerType);
     return [...databaseOptions, ...customOptions, ...ordersOptions];
   }, [containerTypes, tempItems.containerTypes, ordersData, language]);
 

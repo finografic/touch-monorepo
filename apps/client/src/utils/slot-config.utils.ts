@@ -70,7 +70,7 @@ export const convertSlotConfigsToOrderConfig = (slotConfigs: SlotConfiguration[]
  * Load slot configurations from API and convert to SlotItemConfig format
  * Falls back to hardcoded config if API fails
  */
-export const loadOrderItemsConfig = async (): Promise<SlotItemConfig[]> => {
+export const loadSlotItemsConfig = async (): Promise<SlotItemConfig[]> => {
   try {
     const response = await fetch('/api/slot-configurations');
     if (!response.ok) {
@@ -94,8 +94,8 @@ export const loadOrderItemsConfig = async (): Promise<SlotItemConfig[]> => {
 /**
  * Get the current order items configuration
  * This is a synchronous version that returns the fallback config
- * For dynamic loading, use loadOrderItemsConfig()
+ * For dynamic loading, use loadSlotItemsConfig()
  */
-export const getOrderItemsConfig = (): SlotItemConfig[] => {
+export const getSlotsConfig = (): SlotItemConfig[] => {
   return FALLBACK_CONFIG;
 };

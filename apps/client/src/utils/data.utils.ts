@@ -1,6 +1,6 @@
 import type { PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
-import type { SlotType, OrderItem, OrderStatus } from 'types/orders.types';
+import type { SlotType, SlotItem, OrderStatus } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 
 interface TransformedPad {
@@ -24,7 +24,7 @@ export const transformPadData = (pads: PadUI[]): TransformedPad[] => {
 
   return pads.map((pad) => {
     // Cast to unknown first to avoid type mismatch
-    const order = pad.value as unknown as OrderItem | undefined;
+    const order = pad.value as unknown as SlotItem | undefined;
     return {
       id: pad.id,
       name: pad.name,
@@ -81,10 +81,10 @@ interface FlattenedOrder {
 /**
  * Transforms order items into a flattened structure for easier consume.
  * Maintains reactivity by avoiding deep cloning of objects.
- * @param orders Array of OrderItem objects to flatten
+ * @param orders Array of SlotItem objects to flatten
  * @returns Array of FlattenedOrder objects
  */
-export const flattenOrders = (orders: OrderItem[]): FlattenedOrder[] => {
+export const flattenOrders = (orders: SlotItem[]): FlattenedOrder[] => {
   if (!orders?.length) return [];
 
   return orders.map((order) => ({
@@ -109,7 +109,7 @@ export const isFlattenedOrder = (obj: unknown): obj is FlattenedOrder => {
   );
 };
 
-export const transformOrderData = (order: OrderItem) => ({
+export const transformOrderData = (order: SlotItem) => ({
   slotType: order.slotType,
   slotNumber: order.slotNumber,
   isSelected: order.isSelected,
@@ -117,7 +117,7 @@ export const transformOrderData = (order: OrderItem) => ({
   filters: order.filters,
 });
 
-export const flattenOrder = (order: OrderItem) => ({
+export const flattenOrder = (order: SlotItem) => ({
   ...order,
   status: order.process?.status || 'idle',
   timeRemaining: order.process?.timeRemaining,

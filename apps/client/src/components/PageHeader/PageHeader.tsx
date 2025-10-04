@@ -3,7 +3,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PageHeader.styles';
-import { OrderFieldKeys } from 'constants/app.config';
+import { SlotFilterKeys } from 'config/app';
 
 // TODO: OVERRIDES..
 const isPageTitleVisible = true;
@@ -69,7 +69,7 @@ export const PageHeader = () => {
               {pageTitle}
             </Heading>
           )}
-          {(route?.id === OrderFieldKeys.drinkSubtype
+          {(route?.id === SlotFilterKeys.drinkSubtype
             ? pageSubtitle
             : isPageSubtitleVisible && pageSubtitle) && (
             <Text size="3" align="center" className="page-subtitle" color="gray">

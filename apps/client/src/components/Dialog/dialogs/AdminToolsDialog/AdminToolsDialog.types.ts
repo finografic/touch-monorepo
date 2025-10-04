@@ -1,6 +1,6 @@
-import type { OrderItem } from 'types/orders.types';
+import type { SlotItem } from 'types/orders.types';
 
-export interface OrderWithMetadata extends OrderItem {
+export interface OrderWithMetadata extends SlotItem {
   id?: string;
   hasSubtypes?: boolean;
   isActive?: boolean;

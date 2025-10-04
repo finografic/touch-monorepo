@@ -1,9 +1,9 @@
 import type { UIMatch } from 'react-router-dom';
 import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
-import { OrderFieldKeys } from 'constants/app.config';
-import { getPadsUIConfig } from 'constants/ui-V2.config';
-import type { OrderFieldKey } from 'types/orders.types';
+import { SlotFilterKeys } from 'config/app';
+import { getPadsUIConfig } from 'config/ui';
+import type { SlotFilterKey } from 'types/orders.types';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
@@ -16,7 +16,7 @@ import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 // Required route config interface
 interface RequiredRouteConfig<T = DataEntry[]> {
   route: RouteConfig;
-  fieldKey: OrderFieldKey;
+  fieldKey: SlotFilterKey;
   filterKey: FilterKey;
   loaderData: T;
   padsConfig: PadConfig<DataEntry>;
@@ -33,7 +33,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
 
   const routeConfig = useMemo(() => {
     let matchedConfig: RouteConfig | undefined;
-    let fieldKey: OrderFieldKey | undefined;
+    let fieldKey: SlotFilterKey | undefined;
 
     // NOTE: Strategy 1 - get the most specific match (last)
     const currentMatch = matches[matches.length - 1];
@@ -46,17 +46,17 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
         matchedConfig = matchRouteById(routesMetadata, currentMatch.id);
       }
 
-      fieldKey = (matchedConfig?.id || currentMatch?.id) as OrderFieldKey;
+      fieldKey = (matchedConfig?.id || currentMatch?.id) as SlotFilterKey;
     }
 
-    // NOTE: Strategy 2 - find first match with OrderFieldKey (fallback)
+    // NOTE: Strategy 2 - find first match with SlotFilterKey (fallback)
     if (!matchedConfig) {
       const routeMatch = matches.find(
-        (match: UIMatch) => match?.id && Object.values(OrderFieldKeys).includes(match?.id as OrderFieldKey),
+        (match: UIMatch) => match?.id && Object.values(SlotFilterKeys).includes(match?.id as SlotFilterKey),
       );
       if (routeMatch) {
         matchedConfig = matchRouteById(routesMetadata, routeMatch.id);
-        fieldKey = fieldKey || (routeMatch.id as OrderFieldKey);
+        fieldKey = fieldKey || (routeMatch.id as SlotFilterKey);
       }
     }
 
@@ -94,7 +94,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   // Build the result with all required properties
   const result: RequiredRouteConfig<T> = {
     route: routeConfig.route || ({} as RouteConfig),
-    fieldKey: routeConfig.fieldKey || ('' as OrderFieldKey),
+    fieldKey: routeConfig.fieldKey || ('' as SlotFilterKey),
     filterKey: padsConfig?.filterKey || ('' as FilterKey),
     loaderData: loaderData || ([] as unknown as T),
     padsConfig: padsConfig || ({} as PadConfig<DataEntry>),

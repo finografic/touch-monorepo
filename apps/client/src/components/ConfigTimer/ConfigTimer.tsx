@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'constants/app.config';
+import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 import { styles } from './ConfigTimer.styles';
 
 const formatTime = (ms: number): string => {

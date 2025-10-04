@@ -4,10 +4,10 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useOrders } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-import { FINAL_TEMP_DEFAULT, INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'constants/temperature.config';
+import { FINAL_TEMP_DEFAULT, INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';
 import { findClosestProfile } from 'utils/temperature.utils';
 import { useFilters } from 'providers/FiltersProvider/FiltersContext';
-import { OrderFieldKeys } from 'constants/app.config';
+import { SlotFilterKeys } from 'config/app';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 import type { TemperatureProfile } from 'types/temperature.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
@@ -74,7 +74,7 @@ export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTempe
       // Update global filters (essential for navigation)
       // setFiltering(fieldKey, temperatureFilter);
       // NEW: V2
-      setFilter(OrderFieldKeys.temperature, temperatureFilter);
+      setFilter(SlotFilterKeys.temperature, temperatureFilter);
 
       // ✅ ALSO update OrdersContext filters so useTemperatureControl can find them
       setOrdersFilters({ [fieldKey]: temperatureFilter });

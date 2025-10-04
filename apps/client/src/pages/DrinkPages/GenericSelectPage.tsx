@@ -7,7 +7,7 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { usePaginationLogic } from 'hooks/usePaginationLogic';
 import type { PadType, PadUI } from 'types/pads.types';
-import type { FilterFieldKey, NavigationFieldKey, OrderFieldKey } from 'types/orders.types';
+import type { FilterFieldKey, NavigationFieldKey, SlotFilterKey } from 'types/orders.types';
 import PadGroup from 'components/Pads/PadGroup/PadGroup';
 import type { DataEntry } from 'types/data.types';
 import { useSession } from 'providers/SessionProvider/SessionContext';

@@ -1,4 +1,4 @@
-import type { FilterKeys } from 'constants/filters.constants';
+import type { FilterKeys } from 'config/app';
 import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
 import type { ContainerType, FilterFieldKey, Temperature, Volume } from 'types/orders.types';
 import type { TemperatureFilter } from 'types/temperature.types';

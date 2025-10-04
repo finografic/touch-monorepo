@@ -1,7 +1,7 @@
-import type { OrderItem } from 'types/orders.types';
+import type { SlotItem } from 'types/orders.types';
 import { SlotType } from 'types/orders.types';
 
-export const MOCK_ORDERS_DATA: OrderItem[] = [
+export const MOCK_ORDERS_DATA: SlotItem[] = [
   {
     id: 'cmed7ceb8002xrllwxh87gxqo',
     ids: [],

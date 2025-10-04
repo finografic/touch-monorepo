@@ -7,7 +7,7 @@ import { useTimers } from 'providers/TimersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useButtonConfig } from 'hooks/useButtonConfig';
-// import { useOrderItemsConfig } from 'hooks/useOrderItemsConfig';
+// import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { styles } from './MainPage.styles';
 import { Flex, Spinner } from '@radix-ui/themes';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';

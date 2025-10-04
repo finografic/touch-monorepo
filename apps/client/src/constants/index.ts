@@ -1,16 +1,10 @@
 /**
  * Client constants index
- * Centralized exports for all client-side constants
+ * Re-exports from config and remaining utility constants
  */
 
-export * from './app.config.js';
-export * from './button.config.js';
-export * from './errors.js';
-export * from './filters.constants.js';
-export * from './orders.constants.js';
-export * from './query.config.js';
+// Re-export all configurations from the centralized config folder
+export * from 'config';
+
+// Remaining utility constants (not moved to config)
 export * from './readable-salt.constants.js';
-export * from './temperature.config.js';
-export * from './time.config.js';
-export * from './ui-V2.config.js';
-export * from './zod-errors.js';

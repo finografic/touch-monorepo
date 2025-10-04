@@ -21,7 +21,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
-import { NUM_GRID_ITEMS } from 'constants/app.config';
+import { NUM_GRID_ITEMS } from 'config/app';
 import type { ValidGridSize } from 'types/menu.types';
 import { ToastProvider, ToastSystem } from 'components/Toast';
 

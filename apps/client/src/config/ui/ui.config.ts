@@ -1,17 +1,17 @@
-import { OrderFieldKeys } from 'constants/app.config';
-import { FilterKeys } from 'constants/filters.constants';
-import type { OrderFieldKey } from 'types/orders.types';
+import { SlotFilterKeys } from 'config/app';
+import { FilterKeys } from 'config/app';
+import type { SlotFilterKey } from 'types/orders.types';
 import type { PadConfig, PadUI } from 'types/pads.types';
 
-export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
-  [OrderFieldKeys.main]: {
+export const PADS_UI_CONFIG: Record<SlotFilterKey, PadConfig> = {
+  [SlotFilterKeys.main]: {
     type: 'checkbox',
     labelKey: 'name',
     valueKeys: ['id', 'name'],
     maxPads: 2,
     minRequired: 1,
   },
-  [OrderFieldKeys.drinkType]: {
+  [SlotFilterKeys.drinkType]: {
     filterKey: FilterKeys.drinkTypeName,
     type: 'radio',
     labelKey: 'nameEn',
@@ -19,7 +19,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     maxPads: 10,
     minRequired: 1,
   },
-  [OrderFieldKeys.drinkSubtype]: {
+  [SlotFilterKeys.drinkSubtype]: {
     filterKey: FilterKeys.drinkSubtypeName,
     type: 'radio',
     labelKey: 'nameEn',
@@ -27,7 +27,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     maxPads: 10,
     minRequired: 1,
   },
-  [OrderFieldKeys.drinkVolume]: {
+  [SlotFilterKeys.drinkVolume]: {
     filterKey: FilterKeys.volumeName,
     type: 'radio',
     labelKey: 'name',
@@ -35,7 +35,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     maxPads: 10,
     minRequired: 1,
   },
-  [OrderFieldKeys.containerType]: {
+  [SlotFilterKeys.containerType]: {
     filterKey: FilterKeys.containerTypeName,
     type: 'radio',
     labelKey: 'nameEn',
@@ -43,7 +43,7 @@ export const PADS_UI_CONFIG: Record<OrderFieldKey, PadConfig> = {
     maxPads: 10,
     minRequired: 1,
   },
-  [OrderFieldKeys.temperature]: {
+  [SlotFilterKeys.temperature]: {
     filterKey: FilterKeys.temperature,
     type: 'radio',
     labelKey: 'nameEn',
@@ -57,7 +57,7 @@ export const INITIAL_PAD_CHECKBOX: PadUI = {
   index: 0,
   id: '',
   label: '',
-  name: '' as OrderFieldKey,
+  name: '' as SlotFilterKey,
   value: {
     name: '',
     id: '',
@@ -70,7 +70,7 @@ export const INITIAL_PAD_RADIO: PadUI = {
   index: 0,
   id: '',
   label: '',
-  name: '' as OrderFieldKey,
+  name: '' as SlotFilterKey,
   value: {
     name: '',
     id: '',

@@ -8,7 +8,7 @@ import { SlotType } from 'types/orders.types';
  * Hook to get order items configuration from slot configurations API
  * Falls back to hardcoded config if API fails or data is not available
  */
-export const useOrderItemsConfig = (): SlotItemConfig[] => {
+export const useSlotItemsConfig = (): SlotItemConfig[] => {
   const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
 
   const orderItemsConfig = useMemo(() => {

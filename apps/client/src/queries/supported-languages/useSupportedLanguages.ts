@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { EndpointHelper } from 'api/api.endpoints';
-import { ADMIN_DATA_QUERY_CONFIG } from 'constants/query.config';
+import { ADMIN_DATA_QUERY_CONFIG } from 'config/api';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import type { SupportedLanguageInput, SupportedLanguageUpdate } from './supported-languages.types';
 
