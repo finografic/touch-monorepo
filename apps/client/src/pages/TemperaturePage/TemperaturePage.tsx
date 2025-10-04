@@ -10,7 +10,7 @@ import { PadNumeric } from 'components/Pads/PadNumeric';
 import { useTemperatureFormAndFilter } from './useTemperatureFormAndFilter';
 import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
-import { useFilters } from 'hooks/useFilters';
+import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { styles } from './TemperaturePage.styles';
 
 const isVisibleClosestProfile = false;

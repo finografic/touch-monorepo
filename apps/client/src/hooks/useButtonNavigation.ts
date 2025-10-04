@@ -7,7 +7,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useOrders } from 'providers/OrdersProvider';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import type { TemperatureFilter } from 'types/temperature.types';
-import { useFilters } from 'hooks/useFilters';
+import { useFilters } from 'providers/FiltersProvider/useFilters';
 
 const NAVIGATION_ACTIONS = {
   NAVIGATE_BACK: 'navigate-back',

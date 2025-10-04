@@ -3,7 +3,7 @@ import { useOrdersOptional } from 'providers/OrdersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { JSONTree } from '../components/JSONTree/JSONTree';
 import { stylesRight } from './DevPanels.styles';
-import { useFilters } from 'hooks/useFilters';
+import { useFilters } from 'providers/FiltersProvider/useFilters';
 
 export const DevPanelRight = () => {
   const { data, dataFiltered } = useFilters();
