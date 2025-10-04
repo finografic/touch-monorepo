@@ -12,6 +12,39 @@ export const useRouteNavigation = () => {
   const location = useLocation();
   const { filters } = useFilters();
 
+  /**
+   * Replace dynamic route parameters with actual values from filters
+   */
+  const resolveRouteParameters = (path: string, filters: any): string => {
+    // Handle drinkSubtype route parameter
+    if (path.includes(':drinkTypeId') && filters.drinkType?.id) {
+      const resolvedPath = path.replace(':drinkTypeId', filters.drinkType.id);
+      return resolvedPath;
+    }
+
+    return path;
+  };
+
+  /**
+   * Get the actual previous path, handling all conditional logic through dynamic resolution
+   * and replacing dynamic route parameters with actual values
+   */
+  const getActualPreviousPath = (previousPath: string | undefined, filters: any): string | null => {
+    if (!previousPath) return null;
+
+    // Handle conditional route skipping based on hasSubtypes
+    const actualPreviousPath = previousPath;
+    if (previousPath === PATHS.drinkSubtype && filters.drinkType?.hasSubtypes === false) {
+      // Skip drinkSubtype, go directly to drinkType
+      return getActualPreviousPath(PATHS.drinkType, filters);
+    }
+
+    // Replace dynamic route parameters with actual values
+    const resolvedPath = resolveRouteParameters(actualPreviousPath, filters);
+
+    return resolvedPath;
+  };
+
   return useMemo(() => {
     // Find the current route config - handle dynamic parameters
     const currentRoute = ROUTES_CONFIG.find((route) => {
@@ -78,39 +111,6 @@ const getActualNextPath = (nextPath: string | undefined, filters: any): string |
   const resolvedPath = resolveRouteParameters(actualNextPath, filters);
 
   return resolvedPath;
-};
-
-/**
- * Get the actual previous path, handling all conditional logic through dynamic resolution
- * and replacing dynamic route parameters with actual values
- */
-const getActualPreviousPath = (previousPath: string | undefined, filters: any): string | null => {
-  if (!previousPath) return null;
-
-  // Handle conditional route skipping based on hasSubtypes
-  const actualPreviousPath = previousPath;
-  if (previousPath === PATHS.drinkSubtype && filters.drinkType?.hasSubtypes === false) {
-    // Skip drinkSubtype, go directly to drinkType
-    return getActualPreviousPath(PATHS.drinkType, filters);
-  }
-
-  // Replace dynamic route parameters with actual values
-  const resolvedPath = resolveRouteParameters(actualPreviousPath, filters);
-
-  return resolvedPath;
-};
-
-/**
- * Replace dynamic route parameters with actual values from filters
- */
-const resolveRouteParameters = (path: string, filters: any): string => {
-  // Handle drinkSubtype route parameter
-  if (path.includes(':drinkTypeId') && filters.drinkType?.id) {
-    const resolvedPath = path.replace(':drinkTypeId', filters.drinkType.id);
-    return resolvedPath;
-  }
-
-  return path;
 };
 
 /**
