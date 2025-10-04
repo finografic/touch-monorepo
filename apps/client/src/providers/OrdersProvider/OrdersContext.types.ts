@@ -28,7 +28,6 @@ export type OrdersActions = OrdersSetters & {
   setOrdersFilter: ({ slotNumber, filter }: { slotNumber: number; filter: Partial<OrderFilters> }) => void;
   toggleOrder: ({ slotType, slotNumber }: { slotType: SlotType; slotNumber: number }) => void;
   selectAllOrders: (config?: SlotItemConfig[]) => void;
-  updateOrderIds: ({ ids }: { ids: string[] }) => void;
   setOrdersSession: ({
     slotNumbers,
     session,

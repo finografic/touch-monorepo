@@ -20,8 +20,8 @@ interface UseFiltersWithDataReturn {
   serverFieldMap: Record<string, string>;
 
   // Filter manipulation functions
-  setFilter: (key: SlotFilterKey, value: unknown) => void;
-  clearFilter: (key: SlotFilterKey) => void;
+  setFilter: (key: keyof OrderFilters, value: unknown) => void;
+  clearFilter: (key: keyof OrderFilters) => void;
   clearFilters: () => void;
 
   // Unique values for filters - matches the return type of getUniqueFilterValues
@@ -34,13 +34,15 @@ interface UseFiltersWithDataReturn {
  */
 export const useFiltersWithData = (): UseFiltersWithDataReturn => {
   const { fieldKey } = useRouteConfig();
-  const { orders, updateOrderIds, ordersReadable } = useOrders();
+  const { orders, ordersReadable } = useOrders();
   const { currentSessionId, sessions } = useSession();
   const { filters, setFilter, clearFilter, clearFilters } = useFilters();
 
   // Use the ordersReadable data from OrdersContext - fetched once at provider level
   const data: OrderReadableModel[] = ordersReadable;
 
+  /*
+    // REMOVED: Sync filters with current configuration session
   // Sync filters with current configuration session
   useEffect(() => {
     if (currentSessionId && sessions[currentSessionId]) {
@@ -61,6 +63,21 @@ export const useFiltersWithData = (): UseFiltersWithDataReturn => {
       }
     }
   }, [orders, currentSessionId, sessions, setFilter]);
+  */
+
+  // REMOVED: Sync filters with current configuration session
+  // This was causing infinite loops because:
+  // 1. GenericSelectPage calls updateSessionFilters()
+  // 2. updateSessionFilters() updates SessionContext
+  // 3. This useEffect runs when sessions changes
+  // 4. This useEffect calls setFilter()
+  // 5. setFilter() triggers re-renders
+  // 6. Back to step 1 → INFINITE LOOP!
+  //
+  // Instead, we let GenericSelectPage handle the bidirectional sync:
+  // - GenericSelectPage calls setFilter() for FiltersContext
+  // - GenericSelectPage calls updateSessionFilters() for SessionContext
+  // - No automatic syncing needed here
 
   // Get unique values for each filter key
   // SAFEGUARD: ensure data is assignable to DataEntry[]
@@ -96,21 +113,27 @@ export const useFiltersWithData = (): UseFiltersWithDataReturn => {
     };
   }, [data, filters, fieldKey]);
 
-  // Update order IDs when filtered data changes - separate from filtering logic
-  useEffect(() => {
-    if (Object.keys(filters).length > 0 && dataFiltered.length > 0) {
-      const allIds = dataFiltered.map((o) => o.id);
-      updateOrderIds({ ids: allIds });
-    }
-  }, [dataFiltered, filters, updateOrderIds]);
-
   // Map filter keys from app-local names to server-side field names
+
+  /*
+  // NOTE: V1 - NOT WORKING !!
+      const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
+        (acc, [filterKey, filterValue]) => {
+          if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
+            return { ...acc, [filterKey as string]: filterValue.name };
+          }
+          return acc;
+        },
+        {} as Record<string, string>,
+      );
+  */
+
+  // NEW: V2 (NEEDED ??)
   const serverFieldMap = useMemo(() => {
-    return Object.entries(filters as OrderFilters).reduce(
-      (acc, [_filterKey, filterValue]) => {
-        // ✅ Check if filterValue exists and has a name property
-        if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
-          return { ...acc, [_filterKey as string]: filterValue.name };
+    return Object.entries(filters).reduce(
+      (acc, [filterKey, filterValue]) => {
+        if (filterKey in filters) {
+          return { ...acc, [filterKey as string]: filterValue.name };
         }
         return acc;
       },

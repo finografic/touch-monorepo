@@ -57,21 +57,6 @@ export const OrderDataList = ({ data }: { data: OrderReadableModel }) => {
   return (
     <div css={styles} className="data-list-wrapper">
       <DataList.Root className="data-list">
-        {/* Show basic item info */}
-        {data.slotType && (
-          <DataList.Item>
-            <DataList.Label className="label">Item Type</DataList.Label>
-            <DataList.Value className="value">{data.slotType}</DataList.Value>
-          </DataList.Item>
-        )}
-
-        {data.slotNumber !== undefined && (
-          <DataList.Item>
-            <DataList.Label className="label">Item Number</DataList.Label>
-            <DataList.Value className="value">{data.slotNumber}</DataList.Value>
-          </DataList.Item>
-        )}
-
         {/* Display order data fields */}
         {displayFields.map((fieldKey) => (
           <DataList.Item key={fieldKey}>

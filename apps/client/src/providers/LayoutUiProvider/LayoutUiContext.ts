@@ -101,17 +101,12 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             }
 
             if (loaderData && padsConfig && dataPool) {
-              const filterKey = padsConfig.filterKey as keyof (DataEntry | OrderModel);
+              const filterKey = padsConfig.filterKey as keyof (DataEntry | OrderModel | OrderReadableModel);
+
               const visiblePadNames = [
                 ...new Set(
                   dataPool
-                    .map((entry) => {
-                      // Handle both DataEntry and OrderModel types
-                      if (entry && typeof entry === 'object' && filterKey in entry) {
-                        return (entry as any)[filterKey];
-                      }
-                      return undefined;
-                    })
+                    .map((entry) => (filterKey in entry ? entry[filterKey] : undefined))
                     .filter(Boolean),
                 ),
               ];
@@ -137,11 +132,8 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
           },
           // MainPage selection actions
           toggleMainPageSlot: (slot: SlotMeta) => {
-            log('TOGGLE_1:', 'yellow', slot);
             set((state) => {
               const selectedSlots = state.mainPageSelectedSlots;
-
-              log('TOGGLE_2:', 'grey', selectedSlots);
 
               // Check if slot is already selected by looking at the actual state
               const isCurrentlySelected = selectedSlots.some(
@@ -149,7 +141,6 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               );
 
               if (!isCurrentlySelected) {
-                log('TOGGLE_3:', 'lime', selectedSlots);
                 return {
                   mainPageSelectedSlots: [...selectedSlots, { ...slot, isChecked: true }],
                 };

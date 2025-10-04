@@ -7,7 +7,7 @@ export const DrinkTypeDTO = {
     return data.data.map((drinkType) => ({
       id: drinkType.id,
       name: drinkType.name,
-      nameEn: drinkType.name_en,
+      name: drinkType.name_en,
       nameEs: drinkType.name_es,
       nameCa: drinkType.name_ca,
       hasSubtypes: Boolean(drinkType.has_subtypes),
@@ -23,7 +23,7 @@ export const DrinkTypeDTO = {
     return {
       id: data.id,
       name: data.name,
-      name_en: data.nameEn,
+      name_en: data.name,
       name_es: data.nameEs,
       name_ca: data.nameCa,
       has_subtypes: Number(data.hasSubtypes),

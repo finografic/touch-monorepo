@@ -25,6 +25,10 @@ export const DevFilterResults = () => {
         <h4>Filters ({Object.keys(filters).length}):</h4>
         <pre>{JSON.stringify(filters, null, 2)}</pre>
       </div>
+      <div className="filters">
+        <h4>sessionFilters ({Object.keys(sessionFilters).length}):</h4>
+        <pre>{JSON.stringify(sessionFilters, null, 2)}</pre>
+      </div>
       <DevDataTable
         data={dataFiltered}
         title={`Results: ${dataFiltered.length}`}
@@ -38,10 +42,6 @@ export const DevFilterResults = () => {
           // { key: 'id', styles: { opacity: 0.66 } },
         ]}
       />
-      {/* <div className="filters">
-        <h4>sessionFilters ({Object.keys(sessionFilters).length}):</h4>
-        <pre>{JSON.stringify(sessionFilters, null, 2)}</pre>
-      </div> */}
     </div>
   );
 };

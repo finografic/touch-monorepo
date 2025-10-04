@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFiltersWithData } from 'hooks/useFiltersWithData';
@@ -8,6 +8,7 @@ import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { OrderFilters } from 'types/filters.types';
 
 /**
  * Hook to handle route changes and sync filters
@@ -55,10 +56,27 @@ export const useRouteChangeHandler = () => {
       const sessionFilters =
         currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
 
+      /*
+      // NOTE: V1 - NOT WORKING !!
       const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
-        (acc, [_filterKey, filterValue]) => {
+        (acc, [filterKey, filterValue]) => {
           if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
-            return { ...acc, [_filterKey as string]: filterValue.name };
+            return { ...acc, [filterKey as string]: filterValue.name };
+          }
+          return acc;
+        },
+        {} as Record<string, string>,
+      );
+      */
+
+      log('DEBUG sessionFilters:', 'blue', sessionFilters);
+
+      // NEW: V2 -- WE WANT TO USE sessionFilters, AS IN V1 --or-- filters ??
+      const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
+        // const sessionServerFieldMap = Object.entries(filters).reduce(
+        (acc, [filterKey, filterValue]) => {
+          if (filterKey in filters) {
+            return { ...acc, [filterKey as string]: filterValue.name };
           }
           return acc;
         },
@@ -88,7 +106,7 @@ export const useRouteChangeHandler = () => {
         console.error('useRouteChangeHandler: Error handling route change:', error);
       }
     }
-  }, [fieldKey, loaderData, padsConfig, dataPool, currentSessionId, sessions, handleRouteChange]);
+  }, [fieldKey, loaderData, padsConfig, dataPool, currentSessionId, sessions]); // Removed handleRouteChange to prevent infinite loop
 
   // Sync filters from useFiltering to OrdersContext (consolidated from LayoutUiObserver)
   useEffect(() => {

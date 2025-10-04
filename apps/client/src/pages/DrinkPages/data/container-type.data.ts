@@ -4,16 +4,16 @@ export const CONTAINER_TYPES: ContainerType[] = [
   {
     id: 'cm9n959tj0000gqlw092e73e9',
     name: 'plastico',
-    nameEn: 'Plástico',
+    name: 'Plástico',
   },
   {
     id: 'cm9n959tj0001gqlwooqbq2pq',
     name: 'vidrio',
-    nameEn: 'Vidrio',
+    name: 'Vidrio',
   },
   {
     id: 'cm9n959tj0002gqlwh75pfoyp',
     name: 'metal',
-    nameEn: 'Metal',
+    name: 'Metal',
   },
 ];

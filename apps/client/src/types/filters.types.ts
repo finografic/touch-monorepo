@@ -21,22 +21,16 @@ interface DrinkTypeFilter extends BaseFilter {
   hasSubtypes: boolean;
   defaultTempConsume?: number;
   defaultTempFreeze?: number;
-  lookup?: { [API_FILTER_FIELDS.drinkTypeName]: string };
 }
 
 interface DrinkSubtypeFilter extends BaseFilter {
   defaultTempConsume?: number;
   defaultTempFreeze?: number;
-  lookup?: { [API_FILTER_FIELDS.drinkSubtypeName]: string };
 }
 
-interface VolumeFilter extends BaseFilter {
-  lookup?: { [API_FILTER_FIELDS.volumeName]: string };
-}
+interface VolumeFilter extends BaseFilter {}
 
-interface ContainerTypeFilter extends BaseFilter {
-  lookup?: { [API_FILTER_FIELDS.containerTypeName]: string };
-}
+interface ContainerTypeFilter extends BaseFilter {}
 // Type for individual filter values
 export interface OrderFilter {
   value: DrinkType | DrinkSubtype | Volume | ContainerType | Temperature;

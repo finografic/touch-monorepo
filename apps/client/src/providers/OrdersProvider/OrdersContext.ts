@@ -141,16 +141,6 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             }));
             set({ orders: newOrders });
           },
-          updateOrderIds: ({ ids }: { ids: string[] }) => {
-            const { orders } = get();
-
-            const updatedOrders =
-              ids.length > 0
-                ? orders.map((order) => ({ ...order, id: ids[0] })) // set "id" of order entry (first, if series)
-                : orders.map((order) => ({ ...order }));
-
-            set({ orders: updatedOrders });
-          },
           setOrdersSession: ({
             slotNumbers,
             session,

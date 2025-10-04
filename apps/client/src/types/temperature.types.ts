@@ -26,13 +26,6 @@ export interface TemperatureProfileWithRelations extends TemperatureProfile {
   };
 }
 
-export interface TemperatureFilter__V1 {
-  initial?: number;
-  final?: number;
-  duration?: number;
-  lookup?: { [API_FILTER_FIELDS.temperatureName]: string | number };
-}
-
 export interface TemperatureFilter {
   defaultConsume?: number;
   defaultFreeze?: number;

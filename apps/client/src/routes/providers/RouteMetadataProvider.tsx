@@ -24,6 +24,9 @@ interface RoutesMetadataReturns {
 export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ children }) => {
   const { routerLoader } = useRouterLoader();
 
+  // Memoize routes to prevent recreation on every render
+  const memoizedRoutes = React.useMemo(() => routes, []);
+
   const stateValues = useMemo((): RoutesMetadataReturns => {
     const base: RouteObject[] = [
       {
@@ -31,7 +34,7 @@ export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ ch
         path: '/',
         loader: routerLoader,
         element: <Outlet />,
-        children: [...routes, { id: 'not-found', path: '*', element: <NotFound /> }],
+        children: [...memoizedRoutes, { id: 'not-found', path: '*', element: <NotFound /> }],
       },
     ];
 
@@ -46,7 +49,7 @@ export const RouteMetadataProvider: React.FC<RouteMetadataProviderProps> = ({ ch
       routes: routesWithMetadata,
       routesMetadata,
     };
-  }, [routes, routerLoader]);
+  }, [memoizedRoutes, routerLoader]);
 
   return <RouteMetadataContext.Provider value={stateValues}>{children}</RouteMetadataContext.Provider>;
 };

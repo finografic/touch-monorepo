@@ -12,9 +12,6 @@ interface FromApiOverloads {
 const transformEntity = (drinkType: DrinkTypeEntity): DrinkType => ({
   id: drinkType.id,
   name: drinkType.name,
-  nameEn: drinkType.name_en,
-  nameEs: drinkType.name_es,
-  nameCa: drinkType.name_ca,
   hasSubtypes: Boolean(drinkType.has_subtypes),
   defaultTempConsume: drinkType.default_temp_consume,
   defaultTempFreeze: drinkType.default_temp_freeze,
@@ -26,9 +23,6 @@ const transformEntity = (drinkType: DrinkTypeEntity): DrinkType => ({
 const transformSubtypeEntity = (subtype: DrinkSubtypeEntity): DrinkSubtype => ({
   id: subtype.id,
   name: subtype.name,
-  nameEn: subtype.name_en,
-  nameEs: subtype.name_es,
-  nameCa: subtype.name_ca,
   drinkTypeId: subtype.drink_type_id,
   defaultTempConsume: subtype.default_temp_consume,
   defaultTempFreeze: subtype.default_temp_freeze,
@@ -58,7 +52,7 @@ export const DrinkTypeDTO = {
     return {
       id: data.id,
       name: data.name,
-      name_en: data.nameEn,
+      name_en: data.name,
       name_es: data.nameEs,
       name_ca: data.nameCa,
       has_subtypes: Number(data.hasSubtypes),
@@ -74,7 +68,7 @@ export const DrinkTypeDTO = {
     return {
       id: data.id,
       name: data.name,
-      name_en: data.nameEn,
+      name_en: data.name,
       name_es: data.nameEs,
       name_ca: data.nameCa,
       drink_type_id: data.drinkTypeId,

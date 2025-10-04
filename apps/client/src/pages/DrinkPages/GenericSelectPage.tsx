@@ -34,7 +34,6 @@ export const GenericSelectPage = () => {
     const currentSessionFilters = sessions[currentSessionId]?.filters || {};
 
     if (pad.isChecked) {
-      const lookup = { [padsConfig.filterKey as keyof DataEntry]: pad.value.name };
       const { temperatureProfileId, ...filterValue } = pad.value;
 
       // Clear filters for steps ahead when making a new selection
@@ -49,11 +48,11 @@ export const GenericSelectPage = () => {
 
       const newFilters = {
         ...sessionFiltersWithoutAhead,
-        [fieldKey]: { ...filterValue, lookup },
+        [fieldKey]: filterValue,
       };
       updateSessionFilters(currentSessionId, newFilters);
       // Update FiltersContext for the current fieldKey
-      setFilter(fieldKey, { ...filterValue, lookup });
+      setFilter(fieldKey, filterValue);
     } else {
       const { [fieldKey]: _removed, ...rest } = currentSessionFilters;
       updateSessionFilters(currentSessionId, rest);
@@ -67,11 +66,10 @@ export const GenericSelectPage = () => {
 
       if (pad.isChecked) {
         if (currentFilters[fieldKey] !== pad.id) {
-          const lookup = { [padsConfig.filterKey as keyof DataEntry]: pad.value.name };
           const { temperatureProfileId, ...filterValue } = pad.value;
           setOrdersFilter({
             slotNumber: order.slotNumber,
-            filter: { ...currentFilters, [fieldKey]: { ...filterValue, lookup } },
+            filter: { ...currentFilters, [fieldKey]: filterValue },
           });
         }
       } else {

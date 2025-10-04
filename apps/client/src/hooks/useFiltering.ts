@@ -29,7 +29,7 @@ interface UseFiltersReturn {
 
 export const useFiltering = (initialFilters?: OrderFilters): UseFiltersReturn => {
   const { fieldKey } = useRouteConfig();
-  const { orders, updateOrderIds, ordersReadable } = useOrders();
+  const { orders, ordersReadable } = useOrders();
   const { currentSessionId, sessions } = useSession();
   const [filters, setFilters] = useState<OrderFilters>(initialFilters ?? {});
 
@@ -86,14 +86,6 @@ export const useFiltering = (initialFilters?: OrderFilters): UseFiltersReturn =>
     };
   }, [data, filters, fieldKey]);
 
-  // Update order IDs when filtered data changes - separate from filtering logic
-  useEffect(() => {
-    if (Object.keys(filters).length > 0 && dataFiltered.length > 0) {
-      const allIds = dataFiltered.map((o) => o.id);
-      updateOrderIds({ ids: allIds });
-    }
-  }, [dataFiltered, filters, updateOrderIds]);
-
   // Handle filter change
   const setFilter = useCallback((key: SlotFilterKey, value: unknown) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -114,11 +106,22 @@ export const useFiltering = (initialFilters?: OrderFilters): UseFiltersReturn =>
 
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {
+    // return Object.entries(filters as OrderFilters).reduce(
+    //   (acc, [_filterKey, filterValue]) => {
+    //     // ✅ ADD: Check if filterValue exists and has a name property
+    //     if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
+    //       return { ...acc, [_filterKey as string]: filterValue.name };
+    //     }
+    //     return acc;
+    //   },
+    //   {} as Record<string, string>,
+    // );
+    // ======================================================================== //
     return Object.entries(filters as OrderFilters).reduce(
-      (acc, [_filterKey, filterValue]) => {
+      (acc, [filterKey, filterValue]) => {
         // ✅ ADD: Check if filterValue exists and has a name property
-        if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
-          return { ...acc, [_filterKey as string]: filterValue.name };
+        if (filterKey in filters) {
+          return { ...acc, [filterKey as string]: filterValue.name };
         }
         return acc;
       },

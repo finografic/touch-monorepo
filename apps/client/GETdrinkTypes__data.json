@@ -2,7 +2,7 @@
   {
     "id": "cm9n959050000fnlwr63nmln7",
     "name": "cerveza",
-    "nameEn": "Beer",
+    "name": "Beer",
     "nameEs": "Cerveza",
     "nameCat": "Cervesa",
     "hasSubtypes": true,
@@ -15,7 +15,7 @@
   {
     "id": "cm9n959050001fnlwlwobwlth",
     "name": "vino",
-    "nameEn": "Wine",
+    "name": "Wine",
     "nameEs": "Vino",
     "nameCat": "Vi",
     "hasSubtypes": true,
@@ -28,7 +28,7 @@
   {
     "id": "cm9n959050002fnlwnd7ga33l",
     "name": "cava",
-    "nameEn": "Cava",
+    "name": "Cava",
     "nameEs": "Cava",
     "nameCat": "Cava",
     "hasSubtypes": false,
@@ -41,7 +41,7 @@
   {
     "id": "cm9n959050003fnlwntowtir8",
     "name": "licor",
-    "nameEn": "Liquor",
+    "name": "Liquor",
     "nameEs": "Licor",
     "nameCat": "Licor",
     "hasSubtypes": false,
@@ -54,7 +54,7 @@
   {
     "id": "cm9n959050004fnlwwuc4m5ch",
     "name": "zumo",
-    "nameEn": "Juice",
+    "name": "Juice",
     "nameEs": "Zumo",
     "nameCat": "Zumo",
     "hasSubtypes": false,
@@ -67,7 +67,7 @@
   {
     "id": "cm9n959060005fnlwn5tyc92u",
     "name": "refresco",
-    "nameEn": "Soda",
+    "name": "Soda",
     "nameEs": "Refresco",
     "nameCat": "Refresco",
     "hasSubtypes": false,
@@ -80,7 +80,7 @@
   {
     "id": "cm9n959060006fnlw3ksslrjt",
     "name": "agua",
-    "nameEn": "Water",
+    "name": "Water",
     "nameEs": "Agua",
     "nameCat": "Aigua",
     "hasSubtypes": false,

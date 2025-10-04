@@ -1,4 +1,4 @@
-import type { LangCode, RegionLocale } from '@workspace/core/types';
+import type { LangCode, RegionLocale } from '@workspace/i18n';
 
 interface LocalizedEntity {
   name?: string;
@@ -64,7 +64,7 @@ export const getLocalizedName = (
   const simpleCode = getSimpleCode(currentLanguage);
   switch (simpleCode) {
     case 'en':
-      return entity.nameEn || entity.name_en_gb || entity.name || '';
+      return entity.name || entity.name_en_gb || entity.name || '';
     case 'es':
       return entity.nameEs || entity.name_es_es || entity.name || '';
     case 'ca':
@@ -83,7 +83,7 @@ export const getLabelKey = (currentLanguage: LangCode | RegionLocale): keyof Loc
 
   switch (simpleCode) {
     case 'en':
-      return 'nameEn';
+      return 'name';
     case 'es':
       return 'nameEs';
     case 'ca':
