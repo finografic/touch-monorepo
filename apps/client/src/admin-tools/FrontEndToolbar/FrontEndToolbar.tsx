@@ -1,6 +1,6 @@
 import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../components/ConfigTimer/ConfigTimer';
-import { styles } from './FrontEndAdminToolbar.styles';
+import { styles } from './FrontEndToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { DialogIcon, LanguageIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
@@ -12,7 +12,7 @@ import { useDev } from 'dev-tools/providers/DevProvider';
 import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
 import { useStorageTimer } from 'providers/TimersProvider';
 
-export const FrontEndAdminToolbar = () => {
+export const FrontEndToolbar = () => {
   const { isDevToolsVisible } = useDev();
   const {
     isAdminToolsVisible,

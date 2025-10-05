@@ -4,7 +4,7 @@ import { colors, layout } from 'styles';
 
 /**
  * Shared base styles for all admin toolbars
- * Used by both AdminToolbar and FrontEndAdminToolbar
+ * Used by both AdminToolbar and FrontEndToolbar
  */
 export const baseToolbarStyles = css`
   width: 100%;

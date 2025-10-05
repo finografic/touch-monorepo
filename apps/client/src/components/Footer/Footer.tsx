@@ -3,7 +3,7 @@ import { Flex } from '@radix-ui/themes';
 import { styles } from './Footer.styles';
 import { useLocation } from 'react-router-dom';
 import { AdminToolbar } from 'admin-tools/AdminToolbar/AdminToolbar';
-import { FrontEndAdminToolbar } from 'admin-tools/FrontEndAdminToolbar/FrontEndAdminToolbar';
+import { FrontEndToolbar } from 'admin-tools/FrontEndToolbar/FrontEndToolbar';
 import { DevToolbarFrontEnd } from 'dev-tools/_DevToolbarFrontEnd/DevToolbarFrontEnd';
 
 export const Footer: FC = () => {
@@ -13,7 +13,7 @@ export const Footer: FC = () => {
     <footer css={styles}>
       <Flex width="100%" justify="between" align="center">
         <Flex justify="start" style={{ flex: '1' }} className="col col-left">
-          {location.pathname.startsWith('/admin') ? <AdminToolbar /> : <FrontEndAdminToolbar />}
+          {location.pathname.startsWith('/admin') ? <AdminToolbar /> : <FrontEndToolbar />}
         </Flex>
         <Flex justify="end" style={{ flex: '1' }} className="col col-right">
           {location.pathname.startsWith('/admin') ? <></> : <DevToolbarFrontEnd />}
