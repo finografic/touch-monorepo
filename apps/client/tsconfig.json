@@ -64,7 +64,8 @@
     "declaration": true,
     "declarationMap": true,
     "isolatedModules": true,
-    "types": ["@emotion/react/types/css-prop", "vitest/globals", "@testing-library/jest-dom"]
+    "types": ["@emotion/react/types/css-prop", "vitest"],
+    "typeRoots": ["../../packages/core/src/types", "../../node_modules/@types", "../../node_modules"]
   },
   "references": [
     {

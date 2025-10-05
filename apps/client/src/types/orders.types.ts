@@ -43,7 +43,6 @@ export interface SlotItem {
 export interface ContainerType {
   id: string;
   name: string;
-  name: string;
 }
 
 // Types for the values of each field

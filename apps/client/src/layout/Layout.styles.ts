@@ -1,7 +1,10 @@
 import { css } from '@emotion/react';
-import { colors, layout, spacing, typography } from 'styles';
+import { layout, spacing, typography } from 'styles';
+import { stylesAppContent } from 'styles/project/project.app.styles';
 
 export const styles = css`
+  ${stylesAppContent}
+
   /* Layout Root Container */
   display: flex;
   flex-direction: column;

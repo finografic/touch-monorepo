@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { Temperature } from 'types/orders.types';
 import { Box, Flex } from '@radix-ui/themes';
-import { stylesAppContent } from 'styles/project/project.app.styles';
+// import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { TemperatureKey } from 'types/temperature.types';
@@ -56,7 +56,12 @@ export const TemperaturePage = () => {
 
   if (!currentOrder || !temperatureProfiles.length) {
     return (
-      <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
+      <Flex
+        // css={stylesAppContent}
+        className="temperature-content"
+        gap="3"
+        direction="column"
+      >
         <Box style={{ background: 'white', padding: '15px' }}>
           <div>Loading temperature settings...</div>
         </Box>
@@ -65,7 +70,12 @@ export const TemperaturePage = () => {
   }
 
   return (
-    <Flex css={stylesAppContent} className="temperature-content" gap="3" direction="column">
+    <Flex
+      //  css={stylesAppContent}
+      className="temperature-content"
+      gap="3"
+      direction="column"
+    >
       <Flex direction="column" gap="3" justify="center" css={styles}>
         <Flex gap="3" justify="center" className="page-description">
           <Box>

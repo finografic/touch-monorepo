@@ -2,8 +2,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 import { Box, Flex } from '@radix-ui/themes';
-import { stylesAppContent } from '../../styles/project/project.app.styles';
-import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS, TIME_MIN_SECONDS } from 'config/app';
+import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS } from 'config/app';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { timePageState } from 'utils/timePageState';
@@ -36,7 +35,7 @@ export const TimePage = () => {
   );
 
   return (
-    <Flex css={stylesAppContent} className="time-content" gap="3" direction="column">
+    <Flex className="time-content" gap="3" direction="column">
       <Flex gap="3" justify="center">
         <Box>
           <Flex gap="3" justify="center">

@@ -5,7 +5,6 @@ import { Theme } from '@radix-ui/themes';
 import { ContentProvider } from 'providers/ContentProvider';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from 'components/Loader/Loader';
-import { styles } from './AdminLayout.styles';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { Footer } from 'components/Footer/Footer';
 import { AdminNavigation } from 'components/AdminNavigation';
@@ -15,6 +14,7 @@ import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary'
 import { ToastProvider, ToastSystem } from 'components/Toast';
 import { PageHeader } from 'components/PageHeader/PageHeader';
 import { Header } from 'components/Header/Header';
+import { styles } from './AdminLayout.styles';
 
 export const AdminLayout: FC = () => {
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });

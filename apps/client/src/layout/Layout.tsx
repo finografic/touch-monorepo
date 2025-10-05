@@ -19,11 +19,11 @@ import { TimersProvider } from 'providers/TimersProvider';
 import { ContentProvider } from 'providers/ContentProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
-import { styles } from './Layout.styles';
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
 import { NUM_GRID_ITEMS } from 'config/app';
 import type { ValidGridSize } from 'types/menu.types';
 import { ToastProvider, ToastSystem } from 'components/Toast';
+import { styles } from './Layout.styles';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
