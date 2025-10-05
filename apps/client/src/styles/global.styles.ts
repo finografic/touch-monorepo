@@ -189,8 +189,8 @@ export const cssGlobal = css`
     /* 20px - sweet spot between 15px and 24px */
     /* width: 1.25rem;
   height: 1.25rem; */
-    width: 3rem;
-    height: 3rem;
+    /* width: 3rem;
+    height: 3rem; */
     display: inline-block;
     flex-shrink: 0;
 
