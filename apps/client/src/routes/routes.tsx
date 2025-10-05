@@ -22,7 +22,6 @@ import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { AdminLoginPage } from 'pages/AdminLoginPage/AdminLoginPage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
-import { AuthTestPage } from 'pages/AuthTestPage/AuthTestPage';
 import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
 import { RelayPageWrapper } from 'pages/AdminPages/AdminRelaysPage/RelayPageWrapper';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
@@ -99,10 +98,6 @@ export const routes: RouteObject[] = [
       {
         path: '/unauthorized',
         element: <UnauthorizedPage />,
-      },
-      {
-        path: '/auth-test',
-        element: <AuthTestPage />,
       },
     ],
   },
