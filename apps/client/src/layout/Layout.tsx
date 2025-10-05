@@ -23,6 +23,7 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlot
 import { NUM_GRID_ITEMS } from 'config/app';
 import type { ValidGridSize } from 'types/menu.types';
 import { ToastProvider, ToastSystem } from 'components/Toast';
+import { UserToolbar } from 'components/Toolbars';
 import { styles } from './Layout.styles';
 
 export const Layout: FC = () => {
@@ -58,7 +59,7 @@ export const Layout: FC = () => {
                         scaling={mainTheme.scaling}
                       >
                         <div id="layout" css={styles}>
-                          <Header />
+                          <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
                           <main>
                             <div className="main-content">
                               <section>

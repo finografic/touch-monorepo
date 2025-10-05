@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { baseToolbarStyles } from 'admin-tools/toolbar.styles';
+import { baseToolbarStyles } from 'components/Toolbars/toolbar.styles';
 import { colors } from 'styles';
 
 export const styles = css`

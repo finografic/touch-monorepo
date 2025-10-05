@@ -19,8 +19,8 @@
       "@config/*": ["../../config/*"],
       "@config/i18n": ["../../config/i18n.config.ts"],
       // Local package absolute imports
-      "admin-tools": ["./src/admin-tools"],
-      "admin-tools/*": ["./src/admin-tools/*"],
+      // "admin-tools": ["src/components/Toolbars"],
+      // "admin-tools/*": ["src/components/Toolbars/*"],
       "api": ["./src/api"],
       "api/*": ["./src/api/*"],
       "auth/*": ["./src/auth/*"],

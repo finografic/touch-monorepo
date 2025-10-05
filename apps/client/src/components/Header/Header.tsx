@@ -1,26 +1,31 @@
 import React from 'react';
 import type { ReactNode } from 'react';
-import { Box, Flex } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import { styles } from './Header.styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-// import { useSession } from 'providers/SessionProvider/SessionContext';
-import { ThemeToggle } from 'components/IconButtons/ThemeToggle';
 import { useAppConfig } from 'providers/AppConfigProvider';
-// import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { LoginButton } from 'components/IconButtons/LoginButton';
 import { Col, Container, Row } from 'react-grid-system';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
 import clsx from 'clsx';
-import { LanguageIcon } from 'styles/icons';
 import { useAdmin } from 'providers/AdminProvider';
 
-interface HeaderProps {
-  titleAlign?: 'left' | 'center';
-  navigation?: React.ReactNode;
-}
+type HeaderProps =
+  | {
+      titleAlign?: 'center' | 'left';
+      toolbarAlign: 'right';
+      toolbar: ReactNode;
+    }
+  | {
+      titleAlign?: 'center' | 'right';
+      toolbarAlign: 'left';
+      toolbar: ReactNode;
+    };
 
-export const Header: React.FC<HeaderProps> = ({ titleAlign = 'center', navigation = <React.Fragment /> }) => {
+export const Header: React.FC<HeaderProps> = ({
+  titleAlign = 'center',
+  toolbar = <React.Fragment />,
+  toolbarAlign = 'right',
+}) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -63,10 +68,14 @@ export const Header: React.FC<HeaderProps> = ({ titleAlign = 'center', navigatio
       <header className={clsx('app-header', { 'admin-app-header': isAdmin })}>
         <Container className="container">
           <Row justify="between" align="center">
-            {/* <Flex justify="between" align="center" width="100%" className="row-header"> */}
-            {/* ====================================================================== */}
             <Col xs={3} className="col col-header-left">
-              {titleAlign === 'left' && <HeaderTitle />}
+              {titleAlign === 'left' ? (
+                <HeaderTitle />
+              ) : toolbar && toolbarAlign === 'left' ? (
+                toolbar
+              ) : (
+                <React.Fragment />
+              )}
             </Col>
 
             {/* Center column - 6 parts */}
@@ -75,27 +84,17 @@ export const Header: React.FC<HeaderProps> = ({ titleAlign = 'center', navigatio
             </Col>
 
             <Col xs={3} className="col col-header-right">
-              {/* Language selector */}
-              <div className="button-box">
-                <button className="btn" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
-                  <LanguageIcon />
-                </button>
-              </div>
-              <div className="button-box">
-                <LoginButton />
-              </div>
-              <div className="button-box">
-                <ThemeToggle />
-              </div>
-
-              {/* <LanguageSelector onLanguageChange={handleLanguageChange} /> */}
-              {/* <pre className="current-language">{String(currentSessionId)}</pre> */}
+              {titleAlign === 'right' ? (
+                <HeaderTitle />
+              ) : toolbar && toolbarAlign === 'right' ? (
+                toolbar
+              ) : (
+                <React.Fragment />
+              )}
             </Col>
-            {/* </Flex> */}
           </Row>
         </Container>
       </header>
-      {navigation && <div className="admin-navigation">{navigation}</div>}
     </div>
   );
 };

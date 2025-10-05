@@ -1,5 +1,5 @@
 import { Box, Flex } from '@radix-ui/themes';
-import { ConfigTimer } from '../../components/ConfigTimer/ConfigTimer';
+import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
 import { styles } from './AdminToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useEffect, useState } from 'react';
@@ -57,11 +57,11 @@ export const AdminToolbar = () => {
       <div css={styles}>
         <Flex gap="3" align="center">
           {/* Home button - navigate to frontend */}
-          {/* <div className="button-box">
+          <div className="button-box">
             <button className="btn btn-dialog" onClick={() => navigate(PATHS.main)}>
               <HomeIcon />
             </button>
-          </div> */}
+          </div>
 
           {/* Language selector */}
           <div className="button-box">

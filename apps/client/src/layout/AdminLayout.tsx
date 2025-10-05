@@ -15,6 +15,7 @@ import { ToastProvider, ToastSystem } from 'components/Toast';
 import { PageHeader } from 'components/PageHeader/PageHeader';
 import { Header } from 'components/Header/Header';
 import { styles } from './AdminLayout.styles';
+import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
 
 export const AdminLayout: FC = () => {
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
@@ -44,7 +45,8 @@ export const AdminLayout: FC = () => {
           >
             <div id="admin-layout" css={styles}>
               <ToastProvider>
-                <Header titleAlign="left" navigation={<AdminNavigation />} />
+                <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
+                <AdminNavigation />
                 <main>
                   <div className="main-content">
                     <section>
@@ -61,7 +63,6 @@ export const AdminLayout: FC = () => {
                   </div>
                 </main>
                 <Footer />
-
                 <ToastSystem />
               </ToastProvider>
             </div>

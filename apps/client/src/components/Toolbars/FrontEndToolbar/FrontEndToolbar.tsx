@@ -1,5 +1,5 @@
 import { Box, Flex } from '@radix-ui/themes';
-import { ConfigTimer } from '../../components/ConfigTimer/ConfigTimer';
+import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
 import { styles } from './FrontEndToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useConfigStorage } from 'hooks/useConfigStorage';
@@ -42,11 +42,11 @@ export const FrontEndToolbar = () => {
           </div>
 
           {/* Language selector */}
-          {/* <div className="button-box">
+          <div className="button-box">
             <button className="btn" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
               <LanguageIcon />
             </button>
-          </div> */}
+          </div>
 
           {/* Language selector */}
           <div className="button-box">
