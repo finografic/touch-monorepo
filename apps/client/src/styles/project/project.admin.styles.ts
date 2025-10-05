@@ -14,8 +14,7 @@ export const stylesAdminContent = css`
   }
 
   .admin-navigation {
-    border: 1px solid red;
-    padding: 0 4remm;
+    padding: 0 3rem;
     a[data-active] span {
       color: ${colors.info};
     }

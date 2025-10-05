@@ -18,7 +18,7 @@ export const border = css`
 // LAYOUT VARIABLES
 export const layout = {
   fontSize: baseLayout.fontSize,
-  padding: baseLayout.padding,
+  padding: baseLayout.padding[2],
   borderWidth: baseLayout.borderWidth[2],
   borderRadius: baseLayout.borderRadius,
   pageColor: colors.white,

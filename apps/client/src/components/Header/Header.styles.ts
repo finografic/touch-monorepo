@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles';
+import { colors, layout } from 'styles';
 
 export const styles = css`
   /* Header content styling - layout handled by Layout.styles.ts */
@@ -33,7 +33,7 @@ export const styles = css`
       align-items: center;
       padding-left: 1rem; /* Add some padding for better visual balance */
       height: -webkit-fill-available; /* Better cross-browser full height support */
-      padding-left: 0 !important;
+      padding-left: ${layout.padding[0]} !important;
     }
 
     .col-header-center {
