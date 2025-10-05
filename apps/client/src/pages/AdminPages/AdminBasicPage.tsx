@@ -8,7 +8,7 @@ import { styles } from './AdminPage.styles';
 import { LanguageIcon } from 'styles/icons';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
-export const AdminPage: React.FC = () => {
+export const AdminBasicPage: React.FC = () => {
   const { t } = useTranslation();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
 

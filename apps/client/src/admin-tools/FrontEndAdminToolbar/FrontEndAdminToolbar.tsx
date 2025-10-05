@@ -6,7 +6,7 @@ import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 import { DialogIcon, LanguageIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
-import { ALTERNATIVE_PATHS } from 'config';
+import { ADMIN_PATHS, ALTERNATIVE_PATHS } from 'config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
@@ -62,7 +62,7 @@ export const FrontEndAdminToolbar = () => {
         <Flex gap="3" align="center">
           {/* Admin button - navigate to admin */}
           <Box className="button-box">
-            <button className="btn btn-dialog" onClick={() => navigate(ALTERNATIVE_PATHS.admin)}>
+            <button className="btn btn-dialog" onClick={() => navigate(ADMIN_PATHS.DASHBOARD)}>
               <ShieldCheckIcon />
             </button>
           </Box>

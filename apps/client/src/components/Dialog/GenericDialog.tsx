@@ -58,32 +58,31 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
         container={portalContainer}
       >
         {/* Header - Fixed at top */}
-        <div className="dialog-header">
+        {/* <div className="dialog-header">
           <Flex
             justify="between"
             align="center"
             //  mb="4"
-          >
-            <Dialog.Title size="5">{config.title}</Dialog.Title>
-            <IconButton className="close-button" variant="ghost" onClick={onClose}>
-              <Cross2Icon width="20" height="20" />
-            </IconButton>
-          </Flex>
+          > */}
+        <Dialog.Title size="5">{config.title}</Dialog.Title>
+        <IconButton className="close-button" variant="ghost" onClick={onClose}>
+          <Cross2Icon width="20" height="20" />
+        </IconButton>
+        {/* </Flex> */}
 
-          {/* Accessible description for screen readers */}
-          <Dialog.Description
-            style={{
-              position: 'absolute',
-              left: '-10000px',
-              width: '1px',
-              height: '1px',
-              overflow: 'hidden',
-            }}
-          >
-            {config.title} -{' '}
-            {hasTabs ? 'Navigate between tabs to access different sections' : 'Dialog content'}
-          </Dialog.Description>
-        </div>
+        {/* Accessible description for screen readers */}
+        <Dialog.Description
+          style={{
+            position: 'absolute',
+            left: '-10000px',
+            width: '1px',
+            height: '1px',
+            overflow: 'hidden',
+          }}
+        >
+          {config.title} - {hasTabs ? 'Navigate between tabs to access different sections' : 'Dialog content'}
+        </Dialog.Description>
+        {/* </div> */}
 
         {/* Content Area - Flexible height */}
         <div className="dialog-content">

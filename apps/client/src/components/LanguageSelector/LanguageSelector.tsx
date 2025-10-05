@@ -1,7 +1,7 @@
 import { Flex, RadioCards, Text, Theme } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { styles } from './LanguageSelector.styles';
-import type { LanguageSelectorProps, RegionLocale } from '@workspace/core/types';
+import type { LanguageSelectorProps, RegionLocale } from '@config/i18n';
 import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
 import { LanguagesDto } from 'queries/supported-languages';
 import { getFlagUrl } from 'utils/flag.utils';

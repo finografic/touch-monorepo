@@ -25,8 +25,7 @@ export const ALTERNATIVE_PATHS = {
 
 // Admin routes
 export const ADMIN_PATHS = {
-  HOME: '/admin',
-  DASHBOARD: '/admin/dashboard',
+  DASHBOARD: '/admin',
   LANGUAGES: '/admin/languages',
   TRANSLATIONS: '/admin/translations',
   TRANSLATIONS_UI: '/admin/translations-ui',

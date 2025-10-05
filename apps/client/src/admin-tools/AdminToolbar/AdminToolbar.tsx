@@ -23,6 +23,8 @@ export const AdminToolbar = () => {
   const navigate = useNavigate();
 
   useEffect(function checkActiveTimer() {
+    log('ADMIN_INIT', 'orange', { isAdminToolsVisible, isTimerVisible, isLanguageDialogOpen });
+    /*
     const checkActiveTimer = () => {
       const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
       if (!timestamp) {
@@ -45,6 +47,7 @@ export const AdminToolbar = () => {
     const intervalId = setInterval(checkActiveTimer, 5000);
 
     return () => clearInterval(intervalId);
+    */
   }, []);
 
   if (!isAdminToolsVisible) return null;
@@ -96,8 +99,9 @@ export const AdminToolbar = () => {
         </Flex>
       </div>
 
-      {/* Language Dialog */}
-      <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
+      {isLanguageDialogOpen && (
+        <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
+      )}
     </>
   );
 };
