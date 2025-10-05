@@ -28,7 +28,7 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
-import type { AuthSession, AuthSignOutParams, AuthStore, AuthValues } from './AuthContext.types';
+import type { AuthSession, AuthSignOutCallbacks, AuthStore, AuthValues } from './AuthContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
 
 export const DISPLAY_NAME = 'Auth';
@@ -122,26 +122,31 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               return { success: false, error: 'Sign up failed' };
             }
           },
-          signOut: async ({ onSuccess, onError }: AuthSignOutParams) => {
+          signOut: async ({ onSuccess, onError }: AuthSignOutCallbacks) => {
             try {
               // Call server to invalidate session in database
               const response = await fetch('http://localhost:4040/api/auth/sign-out', {
                 method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify({}),
               });
 
               // Clear client-side state after successful server response
               if (response.ok) {
-                set({
-                  session: null,
-                  user: null,
-                  isAuthenticated: false,
-                  isLoading: false,
-                });
+                set({ ...defaultValue });
+                // set({
+                //   session: null,
+                //   user: null,
+                //   isAuthenticated: false,
+                //   isLoading: false,
+                // });
+
+                // user: null,
+                // session: null,
+                // isLoading: true,
+                // isAuthenticated: false,
+                // isAdmin: false,
 
                 // Clear the actual cookie name used by BetterAuth
                 // The cookie prefix comes from package.json name: "touch-monorepo"

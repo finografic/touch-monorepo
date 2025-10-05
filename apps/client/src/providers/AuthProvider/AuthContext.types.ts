@@ -17,7 +17,7 @@ export interface AuthSession {
   session: any;
 }
 
-export interface AuthSignOutParams {
+export interface AuthSignOutCallbacks {
   onSuccess?: () => void;
   onError?: () => void;
 }
@@ -35,7 +35,7 @@ type AuthSetters = CreateSettersType<AuthValues, typeof SETTER_PREFIX>;
 type AuthActions = AuthSetters & {
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signUp: (email: string, password: string, name: string) => Promise<{ success: boolean; error?: string }>;
-  signOut: (params: AuthSignOutParams) => Promise<void>;
+  signOut: (params: AuthSignOutCallbacks) => Promise<void>;
   setSession: (session: AuthSession | null) => void;
   setLoading: (isLoading: boolean) => void;
   refreshSession: () => Promise<void>;
