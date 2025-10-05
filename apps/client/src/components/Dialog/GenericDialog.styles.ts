@@ -14,13 +14,6 @@ export const styles = css`
     flex-direction: column;
     min-height: 260px !important;
 
-    h1 {
-      font-size: 2rem;
-      font-weight: 500;
-      margin-bottom: 1.5rem;
-      color: ${colors.text} !important;
-    }
-
     .close-button {
       transform: scale(1.5) translate(-25%);
       color: ${colors.textLight} !important;
@@ -32,9 +25,24 @@ export const styles = css`
     }
 
     /* Dialog Header - Fixed at top */
-    .dialog-header {
-      flex-shrink: 0; /* Don't shrink */
-      padding: 0; /* Remove default padding, let Radix handle it */
+    .dialog-header > div {
+      flex-shrink: 0;
+      /* background-color: yellow; */
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 0rem 0 1.25rem;
+      padding: 0;
+      width: 100%;
+      h1 {
+        font-size: 2rem;
+        font-weight: 500;
+        font-weight: 700;
+        font-size: 1.75rem;
+        margin: 0;
+        color: ${colors.textLight};
+      }
     }
 
     /* Dialog Content - Flexible height */

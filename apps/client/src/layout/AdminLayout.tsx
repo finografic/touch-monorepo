@@ -13,6 +13,8 @@ import { setConfiguration } from 'react-grid-system';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
 import { ToastProvider, ToastSystem } from 'components/Toast';
+import { PageHeader } from 'components/PageHeader/PageHeader';
+import { Header } from 'components/Header/Header';
 
 export const AdminLayout: FC = () => {
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
@@ -34,26 +36,19 @@ export const AdminLayout: FC = () => {
     <ContentProvider>
       <AdminProvider>
         <DevProvider>
-          <ToastProvider>
-            <Theme
-              appearance={adminTheme.appearance}
-              grayColor={adminTheme.grayColor}
-              accentColor={adminTheme.accentColor}
-              scaling={adminTheme.scaling}
-            >
+          <Theme
+            appearance={adminTheme.appearance}
+            grayColor={adminTheme.grayColor}
+            accentColor={adminTheme.accentColor}
+            scaling={adminTheme.scaling}
+          >
+            <ToastProvider>
               <div id="admin-layout" css={styles}>
-                <header>
-                  <div className="header-content">
-                    <h1>Administration Panel</h1>
-                    <div className="header-actions">
-                      <AdminNavigation />
-                    </div>
-                  </div>
-                </header>
+                <Header navigation={<AdminNavigation />} />
                 <main>
                   <div className="main-content">
                     <section>
-                      <header className="page-header">{/* Page header content will go here */}</header>
+                      <PageHeader />
                       <div className="page-content" role="main">
                         <AdminErrorBoundary>
                           <Suspense fallback={<Loader message="Loading..." />}>
@@ -68,8 +63,8 @@ export const AdminLayout: FC = () => {
                 <Footer />
               </div>
               <ToastSystem />
-            </Theme>
-          </ToastProvider>
+            </ToastProvider>
+          </Theme>
         </DevProvider>
       </AdminProvider>
     </ContentProvider>

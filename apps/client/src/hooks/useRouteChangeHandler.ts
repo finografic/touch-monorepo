@@ -56,19 +56,6 @@ export const useRouteChangeHandler = () => {
       const sessionFilters =
         currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
 
-      /*
-      // NOTE: V1 - NOT WORKING !!
-      const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
-        (acc, [filterKey, filterValue]) => {
-          if (filterValue && typeof filterValue === 'object' && 'name' in filterValue) {
-            return { ...acc, [filterKey as string]: filterValue.name };
-          }
-          return acc;
-        },
-        {} as Record<string, string>,
-      );
-      */
-
       // NEW: V2 -- WE WANT TO USE sessionFilters, AS IN V1 --or-- filters ??
       const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
         // const sessionServerFieldMap = Object.entries(filters).reduce(

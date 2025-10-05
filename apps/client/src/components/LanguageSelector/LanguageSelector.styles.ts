@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles';
+import { button, colors, layout } from 'styles';
 
 export const styles = css`
   /* Trigger button styling (closed state) */
@@ -41,10 +41,12 @@ export const styles = css`
   }
 
   /* Trigger button styling (open state) */
-  button[role='radio'] {
+  button[role='radio'].language-radio {
     cursor: pointer;
     padding: 2.1rem 2rem 1.9rem 2rem;
     margin-top: 0.5rem;
+    border: ${button.border.width} solid ${colors.defaultXXLight50};
+    outline: none !important;
     /***** flag *****/
     svg,
     img {
@@ -60,5 +62,16 @@ export const styles = css`
       color: ${colors.grey};
       font-weight: 500;
     }
+
+    &.checked {
+      border: ${button.border.width} solid ${colors.default};
+    }
+
+    &:hover {
+      border: ${button.border.width} solid ${colors.secondaryXLight};
+    }
+    /* background-color: ${colors.default};
+    color: ${colors.white};
+    border: ${button.border.width} solid ${colors.default}; */
   }
 `;

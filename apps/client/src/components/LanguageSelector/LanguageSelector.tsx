@@ -7,6 +7,7 @@ import { LanguagesDto } from 'queries/supported-languages';
 import { getFlagUrl } from 'utils/flag.utils';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import { useAppConfig } from 'providers/AppConfigProvider';
+import clsx from 'clsx';
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {
   const { i18n } = useTranslation();
@@ -66,6 +67,9 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
     );
   }
 
+  const currentLanguageCode = getCurrentLanguageCode();
+  log('CURRENT_LANGUAGE_CODE', 'blue', currentLanguageCode);
+
   return (
     <div className="language-selector" css={styles}>
       <RadioCards.Root
@@ -78,7 +82,11 @@ export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) =>
         {languages
           .filter((language) => language && language.code) // Filter out any malformed language objects
           .map((language) => (
-            <RadioCards.Item key={language.code} value={language.code}>
+            <RadioCards.Item
+              key={language.code}
+              value={language.code}
+              className={clsx('language-radio', language.code === currentLanguageCode ? 'checked' : '')}
+            >
               <Flex direction="column" width="100%">
                 <Flex align="center" gap="4" mb="1">
                   <img

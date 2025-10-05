@@ -1,15 +1,18 @@
+import React from 'react';
+import type { ReactNode } from 'react';
 import { Container, Flex, Heading, Text } from '@radix-ui/themes';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useTranslation } from 'react-i18next';
 import { styles } from './PageHeader.styles';
 import { ROUTE_FILTER_KEYS } from 'config/app';
+import { LucideArrowRightSquare } from 'lucide-react';
 
 // TODO: OVERRIDES..
 const isPageTitleVisible = true;
 const isPageSubtitleVisible = false;
 
-export const PageHeader = () => {
+export const PageHeader: React.FC = () => {
   const { t } = useTranslation();
   const { title } = useContent();
   const { route } = useRouteConfig();
@@ -56,28 +59,35 @@ export const PageHeader = () => {
   const pageTitle = getPageTitle();
   const pageSubtitle = getPageSubtitle();
 
+  log('__DEV: pageTitle', 'grey', pageTitle);
+  log('__DEV: pageSubtitle', 'grey', pageSubtitle);
+  log('__DEV: isPageTitleVisible', 'grey', isPageTitleVisible);
+  log('__DEV: isPageSubtitleVisible', 'grey', isPageSubtitleVisible);
+
   if (!isPageTitleVisible || !pageTitle) {
     return null;
   }
 
   return (
-    <header className="page-header" css={styles}>
-      <Container size="4">
-        <Flex direction="column" align="center" gap="2">
-          {isPageTitleVisible && pageTitle && (
-            <Heading size="6" align="center" className="page-title">
-              {pageTitle}
-            </Heading>
-          )}
-          {(route?.id === ROUTE_FILTER_KEYS.drinkSubtype
-            ? pageSubtitle
-            : isPageSubtitleVisible && pageSubtitle) && (
-            <Text size="3" align="center" className="page-subtitle" color="gray">
-              {pageSubtitle}
-            </Text>
-          )}
-        </Flex>
-      </Container>
-    </header>
+    <div css={styles}>
+      <header className="page-header">
+        <Container size="4">
+          <Flex direction="column" align="center" gap="2">
+            {isPageTitleVisible && pageTitle && (
+              <Heading size="6" align="center" className="page-title">
+                {pageTitle}
+              </Heading>
+            )}
+            {(route?.id === ROUTE_FILTER_KEYS.drinkSubtype
+              ? pageSubtitle
+              : isPageSubtitleVisible && pageSubtitle) && (
+              <Text size="3" align="center" className="page-subtitle" color="gray">
+                {pageSubtitle}
+              </Text>
+            )}
+          </Flex>
+        </Container>
+      </header>
+    </div>
   );
 };

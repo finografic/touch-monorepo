@@ -29,8 +29,9 @@ export const baseButtonStyles = css`
 
   /* Focus styles */
   &:focus-visible {
-    outline: 2px solid ${colors.primary};
-    outline-offset: 2px;
+    /* outline: 2px solid ${colors.primary}; */
+    /* outline-offset: 2px; */
+    outline: none;
   }
 
   /* Disabled styles */
@@ -49,6 +50,9 @@ export const baseButtonStyles = css`
       opacity: 0;
     }
   }
+
+  border-width: ${button.border.width};
+  border-style: ${button.border.style};
 `;
 
 /**
@@ -59,18 +63,21 @@ export const sizeStyles = {
     height: 2rem;
     padding: 0 0.75rem;
     font-size: 0.875rem;
+    font-weight: 600;
     border-radius: 0.375rem;
   `,
   md: css`
-    height: 2.5rem;
+    height: 3rem;
     padding: 0 1rem;
-    font-size: 0.875rem;
+    font-size: 1rem;
+    font-weight: 600;
     border-radius: 0.5rem;
   `,
   lg: css`
-    height: 3rem;
+    height: 4rem;
     padding: 0 1.5rem;
-    font-size: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
     border-radius: 0.5rem;
   `,
 };
