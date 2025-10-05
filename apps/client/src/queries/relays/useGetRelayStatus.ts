@@ -4,7 +4,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import type { ErrorResponse } from '@workspace/core/api';
 import { GET_RELAY_STATUS_QUERYKEY } from 'queries/relays';
 import { api } from 'api';
-import { transformAxiosError } from 'src/api/api.utils';
+import { transformAxiosError } from '@workspace/core/api';
 
 export interface RelayStatus {
   success: boolean;

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-import { transformAxiosError } from 'api/api.utils';
+import { transformAxiosError } from '@workspace/core/api';
 import { GET_DRINK_VOLUMES_QUERYKEY } from '.';
 import type { DrinkVolume } from 'types/models/volume.model';
 import { slugify } from 'utils/string.utils';

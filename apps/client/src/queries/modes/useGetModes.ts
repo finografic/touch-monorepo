@@ -3,7 +3,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
 import { GET_MODES_QUERYKEY } from '.';
 import { api } from 'api';
-import { transformAxiosError } from 'src/api/api.utils';
+import { transformAxiosError } from '@workspace/core/api';
 import type { ModeModel } from 'types/models/mode.model';
 
 const getModes = async (): Promise<ModeModel[]> => {

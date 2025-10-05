@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-import { transformAxiosError } from 'api/api.utils';
+import { transformAxiosError } from '@workspace/core/api';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 import type { DrinkSubtype } from 'types/models/drink-type.model';
 import { slugify } from 'utils/string.utils';

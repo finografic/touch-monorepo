@@ -3,7 +3,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import type { ErrorResponse } from '@workspace/core/api';
 import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
 import { api } from 'api';
-import { transformAxiosError } from 'api/api.utils';
+import { transformAxiosError } from '@workspace/core/api';
 import type { SlotConfiguration } from 'types/slot-config.types';
 
 const getSlotConfiguration = async (slotNumber: number) => {

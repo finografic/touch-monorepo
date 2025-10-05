@@ -3,7 +3,7 @@ import type { UseQueryResult } from '@tanstack/react-query';
 import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
 import { GET_DRINK_VOLUMES_QUERYKEY } from '.';
 import { api } from 'api';
-import { transformAxiosError } from 'src/api/api.utils';
+import { transformAxiosError } from '@workspace/core/api';
 import type { DrinkVolume } from 'types/models/volume.model';
 
 const getDrinkVolume = async (id: string) => {

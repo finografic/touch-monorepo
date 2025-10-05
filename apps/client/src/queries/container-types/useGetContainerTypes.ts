@@ -4,7 +4,7 @@ import type { ContainerType } from 'types/models/container.model';
 import type { ErrorResponse } from '@workspace/core/api';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 import { api } from 'api';
-import { transformAxiosError } from 'src/api/api.utils';
+import { transformAxiosError } from '@workspace/core/api';
 
 const getContainerTypes = async () => {
   try {

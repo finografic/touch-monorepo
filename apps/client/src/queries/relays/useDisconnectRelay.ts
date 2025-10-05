@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-import { transformAxiosError } from 'api/api.utils';
+import { transformAxiosError } from '@workspace/core/api';
 import { GET_RELAY_STATUS_QUERYKEY, GET_RELAY_STATES_QUERYKEY } from 'queries/relays';
 
 interface DisconnectRelayResponse {

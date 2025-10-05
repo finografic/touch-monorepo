@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-import { transformAxiosError } from 'api/api.utils';
+import { transformAxiosError } from '@workspace/core/api';
 import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
 
 /**

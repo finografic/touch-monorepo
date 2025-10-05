@@ -1,5 +1,5 @@
 import { api } from 'api';
-import { transformAxiosError } from '../api.utils';
+import { transformAxiosError } from '@workspace/core/api';
 
 // Types for translation entities - now using dynamic Record for translations
 export interface DrinkTypeTranslation {
