@@ -17,30 +17,4 @@ export const stylesAppContent = css`
     margin-top: -33%;
     margin-bottom: -8%;
   }
-
-  .button-box button.btn {
-    svg.icon {
-      color: ${colors.default50};
-    }
-    svg.icon {
-      display: inline-block;
-      flex-shrink: 0;
-      transition: all 0.2s ease-in-out;
-      color: currentColor;
-      display: none !important;
-    }
-    &:hover {
-      border-color: transparent;
-      background-color: ${colors.grey25};
-      svg.icon {
-        color: ${colors.greyLight};
-      }
-    }
-
-    &.active {
-      svg.icon {
-        color: ${colors.warningDark};
-      }
-    }
-  }
 `;

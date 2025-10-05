@@ -26,7 +26,7 @@ export const baseToolbarStyles = css`
     width: auto;
     border-width: 0;
     svg.icon {
-      color: ${colors.infoXLight};
+      color: ${colors.white75};
       border-color: ${colors.infoXLight};
     }
     &:hover {

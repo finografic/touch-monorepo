@@ -1,8 +1,14 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles';
+import { colors, layout } from 'styles';
 
 export const styles = css`
-  &.btn.btn-auth.logged-out,
+  /* width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  height: -webkit-fill-available; */
+
+  /* &.btn,
   &.btn.btn-auth.logged-in {
     svg.icon {
       color: ${colors.white75};
@@ -13,7 +19,7 @@ export const styles = css`
         color: ${colors.infoLight};
       }
     }
-  }
+  } */
 
   &.btn.btn-auth.logged-out {
     svg.icon {
@@ -23,6 +29,7 @@ export const styles = css`
 
   &.btn.btn-auth.logged-in {
     svg.icon {
+      color: ${colors.successXXLight};
     }
   }
 `;

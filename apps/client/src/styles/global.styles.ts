@@ -148,34 +148,6 @@ export const cssGlobal = css`
     background: ${colors.greyXXLight};
   }
 
-  /* Test styles removed - theme system confirmed working! */
-
-  /* Test styles removed - colors now use CSS variables automatically! */
-
-  /* Global button-box styles for consistent icon button layout */
-  .button-box {
-    width: auto;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    margin-left: 0.25rem;
-    &:first-of-type {
-      margin-left: 2rem;
-    }
-
-    svg.icon {
-      /* width: 3rem;
-      height: 3rem; */
-      display: inline-block;
-      flex-shrink: 0;
-      transition: all 0.2s ease-in-out;
-      color: currentColor;
-      display: none;
-    }
-  }
-
   svg.icon {
     color: ${colors.infoXLight};
   }
@@ -187,25 +159,54 @@ export const cssGlobal = css`
   svg[width][height].icon {
     /* NORMALIZED sizing - forces all icon libraries to same visual size */
     /* 20px - sweet spot between 15px and 24px */
-    /* width: 1.25rem;
-  height: 1.25rem; */
-    /* width: 3rem;
-    height: 3rem; */
+    width: 2rem;
+    height: 2rem;
     display: inline-block;
     flex-shrink: 0;
-
-    /* Smooth transitions for interactive states */
     transition: all 0.2s ease-in-out;
-
-    /* Inherit text color by default */
     color: currentColor;
+  }
+
+  /* Global button-box styles for consistent icon button layout */
+  .button-box {
+    width: auto;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0.5rem;
+    &:first-of-type {
+      margin-left: 0rem;
+    }
+    &:last-of-type {
+      margin-right: 0rem;
+    }
+
+    button {
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-sizing: border-box;
+      padding: 0.5rem;
+      cursor: pointer;
+    }
+
+    svg.icon {
+      display: inline-block;
+      flex-shrink: 0;
+      transition: all 0.2s ease-in-out;
+      color: currentColor;
+      cursor: pointer;
+    }
   }
 
   pre {
     ${cssFontMono}
   }
 
-  /* Labels */
   label,
   label.field-label {
     display: flex;
