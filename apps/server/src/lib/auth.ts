@@ -1,6 +1,5 @@
 import { betterAuth } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
-import { customSession } from 'better-auth/plugins';
 import { db } from 'db';
 import { account, session, user, verification } from '../db/schemas';
 import { env } from '../env.server';
@@ -51,38 +50,34 @@ export const auth = betterAuth({
     },
   },
   advanced: {
-    cookiePrefix: rootPackageJson.name,
+    cookiePrefix: rootPackageJson.name, // "touch-monorepo" -> cookies named "touch-monorepo.session_token"
     useSecureCookies: env.NODE_ENV === 'production',
     database: {
       generateId: () => crypto.randomUUID(),
     },
+    // CORS configuration for cross-origin requests (dev: localhost:3000 -> localhost:4040)
     cors: {
       enabled: true,
-      allowedOrigins: ['http://localhost:3000'], // Your Vite client URL
-      credentials: true,
+      allowedOrigins: [
+        'http://localhost:3000', // Vite dev server
+        ...(env.NODE_ENV === 'production' ? ['https://your-production-domain.com'] : []),
+      ],
+      credentials: true, // Required for cookie-based authentication
     },
+    // Cookie configuration
     cookies: {
       sessionToken: {
-        name: 'auth_token',
-        // sameSite: 'lax',
-        // sameSite: 'lax',
-        // attributes: {
-        //   httpOnly: true, // Should be true for security
-        //   sameSite: 'lax',
-        //   path: '/',
-        // },
+        name: 'auth_token', // Combined with cookiePrefix -> "touch-monorepo.session_token"
         attributes: {
-          httpOnly: true,
-          sameSite: env.NODE_ENV === 'production' ? 'lax' : 'none',
-          secure: env.NODE_ENV === 'production',
-          path: '/',
+          httpOnly: true, // Prevent JavaScript access (XSS protection)
+          sameSite: env.NODE_ENV === 'production' ? 'lax' : 'none', // 'none' required for localhost cross-origin
+          secure: env.NODE_ENV === 'production', // HTTPS only in production
+          path: '/', // Available across entire domain
         },
       },
     },
   },
-  plugins: [
-    // Removed customSession plugin - BetterAuth will handle session data
-  ],
+  plugins: [],
 });
 
 export type Session = typeof auth.$Infer.Session;

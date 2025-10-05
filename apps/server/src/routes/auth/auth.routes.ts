@@ -1,67 +1,62 @@
 import { auth } from 'lib/auth';
 import { createRouter } from 'lib/create-app';
-import { APIError } from 'better-auth/api';
 
 const router = createRouter();
 
+// ============================================
+// Explicit Auth Routes (Required for Hono routing)
+// ============================================
+
+/**
+ * Get current session
+ * Uses BetterAuth API instead of handler for better control
+ */
 router.get('/auth/session', async (context) => {
   try {
     const session = await auth.api.getSession({
       headers: context.req.raw.headers,
     });
 
-    console.log('Better Auth session API result:', session);
-
     return context.json({
       user: session?.user || null,
       session: session?.session || null,
     });
   } catch (error) {
-    // console.error('Session error:', error);
-    // return context.json({ user: null, session: null });
     console.error('Session error:', error);
-    if (error instanceof APIError) {
-      return context.json({
-        error: error.message,
-        status: error.status,
-      });
-    }
-    return context.json({ error: 'Authentication failed' }, 401);
+    return context.json({ user: null, session: null });
   }
 });
 
-// Signout route
+/**
+ * Sign out current user
+ * Uses BetterAuth API for session invalidation
+ */
 router.post('/auth/sign-out', async (context) => {
   try {
-    // ✅ Use Better Auth's session API instead of handler
-    const session = await auth.api.signOut({
+    const result = await auth.api.signOut({
       headers: context.req.raw.headers,
     });
 
-    console.log('Better Auth session API result:', session);
-
-    // ✅ Return the session data in the expected format
-    // return context.json({
-    //   success: session?.success || null,
-    // });
-
-    return context.json({ ...session });
+    return context.json(result);
   } catch (error) {
-    console.error('Session error:', error);
-    // return context.json({ success: false });
-    if (error instanceof APIError) {
-      return context.json({
-        error: error.message,
-        status: error.status,
-      });
-    }
-    return context.json({ error: 'Authentication failed' }, 401);
+    console.error('Sign out error:', error);
+    return context.json({ error: 'Sign out failed' }, 500);
   }
 });
 
-// ✅ Let BetterAuth handle ALL other auth routes
+// ============================================
+// BetterAuth Handler for other routes
+// ============================================
+
+/**
+ * Catch-all for remaining BetterAuth endpoints:
+ * - POST /auth/sign-in/email
+ * - POST /auth/sign-up/email
+ * - POST /auth/reset-password
+ * - POST /auth/verify-email
+ * - etc.
+ */
 router.all('/auth/*', async (context) => {
-  console.log('Better Auth route hit:', context.req.path);
   return auth.handler(context.req.raw);
 });
 

@@ -124,30 +124,42 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
           },
           signOut: async () => {
             try {
-              // Clear client-side state first
-              set({
-                session: null,
-                user: null,
-                isAuthenticated: false,
-                isLoading: false,
+              // Call server to invalidate session in database
+              const response = await fetch('http://localhost:4040/api/auth/sign-out', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json',
+                },
+                credentials: 'include',
+                body: JSON.stringify({}),
               });
 
-              // Clear any auth tokens from cookies/localStorage
-              document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-
-              // Optional: Call server to invalidate token (if you want server-side invalidation)
-              try {
-                await fetch('http://localhost:4040/api/auth/sign-out', {
-                  method: 'POST',
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  credentials: 'include',
-                  body: JSON.stringify({}),
+              // Clear client-side state after successful server response
+              if (response.ok) {
+                set({
+                  session: null,
+                  user: null,
+                  isAuthenticated: false,
+                  isLoading: false,
                 });
-              } catch (serverError) {
-                // Server error is not critical for JWT logout
-                console.warn('Server sign-out failed, but client-side logout successful:', serverError);
+
+                // Clear the actual cookie name used by BetterAuth
+                // The cookie prefix comes from package.json name: "touch-monorepo"
+                document.cookie =
+                  'touch-monorepo.session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+
+                console.log('✅ Sign out successful - session cleared');
+              } else {
+                console.warn('⚠️ Server sign-out failed, clearing client-side state anyway');
+                // Still clear client state even if server fails
+                set({
+                  session: null,
+                  user: null,
+                  isAuthenticated: false,
+                  isLoading: false,
+                });
+                document.cookie =
+                  'touch-monorepo.session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
               }
             } catch (error) {
               console.error('Sign out error:', error);
@@ -158,7 +170,8 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                 isAuthenticated: false,
                 isLoading: false,
               });
-              document.cookie = 'auth_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+              document.cookie =
+                'touch-monorepo.session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
             }
           },
           setSession: (session: AuthSession | null) => {
