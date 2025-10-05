@@ -10,21 +10,21 @@ import {
 // ======================================================================== //
 
 // Custom HTTP Exception class for better error handling
-export class HttpException extends Error {
-  constructor(
-    message: string,
-    public cause: {
-      response?: {
-        data?: unknown;
-        status?: number;
-        headers?: Record<string, string>;
-      };
-    },
-  ) {
-    super(message);
-    this.name = 'HttpException';
-  }
-}
+// export class HttpException extends Error {
+//   constructor(
+//     message: string,
+//     public cause: {
+//       response?: {
+//         data?: unknown;
+//         status?: number;
+//         headers?: Record<string, string>;
+//       };
+//     },
+//   ) {
+//     super(message);
+//     this.name = 'HttpException';
+//   }
+// }
 
 // ======================================================================== //
 
