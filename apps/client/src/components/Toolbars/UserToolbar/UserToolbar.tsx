@@ -5,12 +5,15 @@ import { LanguageIcon } from 'styles/icons';
 import { useAdmin } from 'providers/AdminProvider';
 import { Flex } from '@radix-ui/themes';
 import { styles } from './UserToolbar.styles';
+import type { Theme } from 'types/ui.types';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 export const UserToolbar: React.FC = () => {
+  const { theme } = useAppConfig();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   return (
-    <div css={styles}>
+    <div css={styles} className={`theme-${theme}`}>
       <Flex gap="3" align="center">
         <div className="button-box">
           <button className="btn btn-language" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>

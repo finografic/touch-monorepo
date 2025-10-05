@@ -14,8 +14,10 @@ import { AuthStatusDialog } from 'components/Dialog/dialogs/AuthStatusDialog';
 import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
 import { DevPanelLeft } from 'dev-tools/_Panels/DevPanelLeft';
 import { styles } from './DevToolbarFrontEnd.styles';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 export const DevToolbarFrontEnd = () => {
+  const { theme } = useAppConfig();
   const { timers } = useTimers();
   const {
     isDevToolsVisible,
@@ -38,7 +40,7 @@ export const DevToolbarFrontEnd = () => {
         {isDevToolsVisible && <DevPanelLeft />}
         {/* {isDevToolsVisible && <DevPanelRight />} */}
       </>
-      <div css={styles}>
+      <div css={styles} className={`theme-${theme}`}>
         <Flex gap="3" align="center">
           {timers.some((timer) => timer.status === 'processing') && (
             <div className="button-box">

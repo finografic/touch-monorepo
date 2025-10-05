@@ -1,10 +1,11 @@
 import type { CreateSettersType } from 'utils/zustand';
 import type { AppConfigKeys } from './AppConfigContext';
 import type { ReactNode } from 'react';
+import type { Theme } from 'types/ui.types';
 
 export interface AppConfigValues {
   [AppConfigKeys.currentLanguage]: string;
-  [AppConfigKeys.theme]: 'light' | 'dark';
+  [AppConfigKeys.theme]: Theme;
   [AppConfigKeys.title]: string;
 }
 
@@ -13,7 +14,7 @@ type AppConfigSetters = CreateSettersType<AppConfigValues, typeof SETTER_PREFIX>
 
 export type AppConfigActions = AppConfigSetters & {
   setCurrentLanguage: (languageCode: string) => void;
-  setTheme: (theme: 'light' | 'dark') => void;
+  setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
 };
 

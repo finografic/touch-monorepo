@@ -1,3 +1,4 @@
+import React from 'react';
 import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
@@ -9,9 +10,12 @@ import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTi
 import { useDev } from 'dev-tools/providers/DevProvider';
 import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
 import { useStorageTimer } from 'providers/TimersProvider';
+import type { Theme } from 'types/ui.types';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { styles } from './FrontEndToolbar.styles';
 
-export const FrontEndToolbar = () => {
+export const FrontEndToolbar: React.FC = () => {
+  const { theme } = useAppConfig();
   const { isDevToolsVisible } = useDev();
   const {
     isAdminToolsVisible,
@@ -31,7 +35,7 @@ export const FrontEndToolbar = () => {
 
   return (
     <>
-      <div css={styles}>
+      <div css={styles} className={`theme-${theme}`}>
         <Flex gap="3" align="center">
           {/* Admin button - navigate to admin */}
           <div className="button-box">

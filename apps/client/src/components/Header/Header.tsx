@@ -8,6 +8,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { Col, Container, Row } from 'react-grid-system';
 import clsx from 'clsx';
 import { useAdmin } from 'providers/AdminProvider';
+import type { Theme } from 'types/ui.types';
 
 type HeaderProps =
   | {
@@ -23,10 +24,11 @@ type HeaderProps =
 
 export const Header: React.FC<HeaderProps> = ({
   titleAlign = 'center',
-  toolbar = <React.Fragment />,
   toolbarAlign = 'right',
+  toolbar = <React.Fragment />,
 }) => {
   const { t } = useTranslation();
+  const { theme } = useAppConfig();
   const navigate = useNavigate();
   const location = useLocation();
   // const { currentSessionId } = useSession();

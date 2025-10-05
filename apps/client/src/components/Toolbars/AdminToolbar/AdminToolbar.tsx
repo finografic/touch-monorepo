@@ -1,7 +1,7 @@
+import React, { useEffect, useState } from 'react';
 import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
-import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 import { HomeIcon, LanguageIcon, StopIcon, TimerIcon } from 'styles/icons';
 import { PATHS } from 'config';
@@ -9,8 +9,11 @@ import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { stopAllAudio } from 'utils/soundCache.utils';
 import { styles } from './AdminToolbar.styles';
+import type { Theme } from 'types/ui.types';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
-export const AdminToolbar = () => {
+export const AdminToolbar: React.FC = () => {
+  const { theme } = useAppConfig();
   const {
     isAdminToolsVisible,
     isStorageTimerVisible,
@@ -54,7 +57,7 @@ export const AdminToolbar = () => {
 
   return (
     <>
-      <div css={styles}>
+      <div css={styles} className={`theme-${theme}`}>
         <Flex gap="3" align="center">
           {/* Home button - navigate to frontend */}
           <div className="button-box">

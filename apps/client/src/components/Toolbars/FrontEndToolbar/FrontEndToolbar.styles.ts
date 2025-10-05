@@ -6,20 +6,35 @@ import { colors } from 'styles';
  * FrontEndToolbar styles - extends base toolbar styles
  * Add any frontend-specific style overrides here if needed
  */
-// export const styles = baseToolbarStyles;
 
 export const styles = css`
   ${baseToolbarStyles}
 
-  .button-box button.btn {
-    svg.icon {
-      color: ${colors.greyLight}!important;
-      border-color: ${colors.greyLight}!important;
+  &.theme-light {
+    .button-box button.btn {
+      svg.icon {
+        color: ${colors.defaultXLight};
+        border-color: ${colors.defaultXLight};
+      }
+      &:hover {
+        cursor: pointer;
+        border-color: transparent;
+        background-color: transparent;
+      }
     }
-    &:hover {
-      cursor: pointer;
-      border-color: transparent;
-      background-color: transparent;
+  }
+
+  &.theme-dark {
+    .button-box button.btn {
+      svg.icon {
+        color: ${colors.white75};
+        border-color: ${colors.white75};
+      }
+      &:hover {
+        cursor: pointer;
+        border-color: transparent;
+        background-color: transparent;
+      }
     }
   }
 `;
