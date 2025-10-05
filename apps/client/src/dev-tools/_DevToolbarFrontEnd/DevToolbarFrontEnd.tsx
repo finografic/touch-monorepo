@@ -38,7 +38,7 @@ export const DevToolbarFrontEnd = () => {
         {isDevToolsVisible && <DevPanelLeft />}
         {/* {isDevToolsVisible && <DevPanelRight />} */}
       </>
-      <div id="__DEV__" css={styles}>
+      <div css={styles}>
         <Flex gap="3" align="center">
           {timers.some((timer) => timer.status === 'processing') && (
             <Box className="button-box">

@@ -1,23 +1,19 @@
 import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
-import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
+import type { ErrorResponse } from '@workspace/core/api';
 import { GET_MODES_QUERYKEY } from '.';
 import { api } from 'api';
 import { transformAxiosError } from 'src/api/api.utils';
 import type { ModeModel } from 'types/models/mode.model';
 
 const getDefaultMode = async (): Promise<ModeModel | null> => {
-  console.log('🔍 getDefaultMode: Starting to fetch modes...');
   try {
     const response = await api.get<ModeModel[]>('/modes');
-    console.log('🔍 getDefaultMode: API response received:', response.data);
     if (response.status !== 200) {
       throw new Error(`Failed to fetch modes: ${response.statusText}`);
     }
 
-    // Find the mode with isDefault: true
     const defaultMode = response.data.find((mode) => mode.isDefault);
-    console.log('🔍 getDefaultMode: Found default mode:', defaultMode);
     return defaultMode || null;
   } catch (error) {
     console.error('🔍 getDefaultMode: Error occurred:', error);
@@ -26,11 +22,9 @@ const getDefaultMode = async (): Promise<ModeModel | null> => {
 };
 
 export const useGetDefaultMode = (): UseQueryResult<ModeModel | null, ErrorResponse> => {
-  console.log('🔍 useGetDefaultMode: Hook called');
   return useQuery({
     queryKey: [...GET_MODES_QUERYKEY, 'default'],
     queryFn: async () => {
-      console.log('🔍 useGetDefaultMode: queryFn called');
       return getDefaultMode();
     },
     enabled: true,

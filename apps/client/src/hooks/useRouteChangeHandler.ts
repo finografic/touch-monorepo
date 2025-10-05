@@ -69,8 +69,6 @@ export const useRouteChangeHandler = () => {
       );
       */
 
-      log('DEBUG sessionFilters:', 'blue', sessionFilters);
-
       // NEW: V2 -- WE WANT TO USE sessionFilters, AS IN V1 --or-- filters ??
       const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
         // const sessionServerFieldMap = Object.entries(filters).reduce(

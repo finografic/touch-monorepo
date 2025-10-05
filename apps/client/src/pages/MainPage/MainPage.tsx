@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { PadSlot } from 'components/Pads/PadSlot';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
@@ -23,12 +23,17 @@ export function MainPage() {
   // const slotsConfig = useslotsConfig();
   const { data: slotsConfig, isLoading, error } = useGetSlotConfigurations();
 
-  // 🚀 PERFORMANCE OPTIMIZATION: Pre-fetch default mode on MainPage
+  // 🚀 PERFORMANCE OPTIMIZATION: Use ref to prevent re-fetching on every render
+  const hasInitializedMode = useRef(false);
+
+  // 🚀 PERFORMANCE OPTIMIZATION: Pre-fetch default mode on MainPage (only once)
   const { data: defaultMode, isLoading: isModeLoading } = useGetDefaultMode();
 
-  // 🚀 PERFORMANCE OPTIMIZATION: Set default mode filter when loaded
+  // 🚀 PERFORMANCE OPTIMIZATION: Set default mode filter when loaded (only once)
   useEffect(() => {
-    if (defaultMode && !isModeLoading) {
+    if (defaultMode && !isModeLoading && !hasInitializedMode.current) {
+      hasInitializedMode.current = true;
+
       const modeFilter = {
         id: defaultMode.id,
         name: defaultMode.name,
