@@ -117,100 +117,65 @@ export const routes: RouteObject[] = [
         element: <AdminLoginPage />,
       },
       {
-        path: '',
-        element: (
-          // <ProtectedRoute requireAdmin={true} redirectTo="/admin/login">
-          <AdminLayout />
-          // </ProtectedRoute>
-        ),
+        // Protected admin section
+        element: <ProtectedAdminRoute />,
         children: [
           {
-            index: true,
-            id: AdminFieldKeys.dashboard,
-            element: <AdminPageWrapper />,
-          },
-          {
-            path: 'orders',
-            id: AdminFieldKeys.itemsList,
-            element: (
-              <ProtectedAdminRoute>
-                <AdminOrdersPage />
-              </ProtectedAdminRoute>
-            ),
+            element: <AdminLayout />,
             children: [
               {
-                path: ':orderId',
-                id: 'order-edit',
-                element: (
-                  <ProtectedAdminRoute>
-                    <AdminOrdersPage />
-                  </ProtectedAdminRoute>
-                ),
+                index: true,
+                id: AdminFieldKeys.dashboard,
+                element: <AdminPageWrapper />,
+              },
+              {
+                path: 'orders',
+                id: AdminFieldKeys.itemsList,
+                element: <AdminOrdersPage />,
+                children: [
+                  {
+                    path: ':orderId',
+                    id: 'order-edit',
+                    element: <AdminOrdersPage />,
+                  },
+                ],
+              },
+              {
+                path: 'translations',
+                id: AdminFieldKeys.translations,
+                element: <AdminTranslationsPage />,
+              },
+              {
+                path: 'ui-labels',
+                id: AdminFieldKeys.translationsUi,
+                element: <AdminUiLabelsPage />,
+              },
+              {
+                path: 'languages',
+                id: AdminFieldKeys.languages,
+                element: <AdminLanguagesPage />,
+              },
+              {
+                path: 'filter-analysis',
+                id: 'filter-analysis',
+                element: <AdminFilterAnalysisPage />,
+              },
+              {
+                path: 'sounds',
+                id: 'sounds',
+                element: <AdminSoundPage />,
+              },
+              {
+                path: 'slot-config',
+                id: 'slot-config',
+                element: <AdminSlotsConfigPage />,
+              },
+              {
+                path: 'relays',
+                id: 'relays',
+                element: <RelayPageWrapper />,
               },
             ],
-          },
-          {
-            path: 'translations',
-            id: AdminFieldKeys.translations,
-            element: (
-              <ProtectedAdminRoute>
-                <AdminTranslationsPage />
-              </ProtectedAdminRoute>
-            ),
-          },
-          {
-            path: 'ui-labels',
-            id: AdminFieldKeys.translationsUi,
-            element: (
-              <ProtectedAdminRoute>
-                <AdminUiLabelsPage />
-              </ProtectedAdminRoute>
-            ),
-          },
-          {
-            path: 'languages',
-            id: AdminFieldKeys.languages,
-            element: (
-              <ProtectedAdminRoute>
-                <AdminLanguagesPage />
-              </ProtectedAdminRoute>
-            ),
-          },
-          {
-            path: 'filter-analysis',
-            id: 'filter-analysis',
-            element: (
-              <ProtectedAdminRoute>
-                <AdminFilterAnalysisPage />
-              </ProtectedAdminRoute>
-            ),
-          },
-          {
-            path: 'sounds',
-            id: 'sounds',
-            element: (
-              <ProtectedAdminRoute>
-                <AdminSoundPage />
-              </ProtectedAdminRoute>
-            ),
-          },
-          {
-            path: 'slot-config',
-            id: 'slot-config',
-            element: (
-              <ProtectedAdminRoute>
-                <AdminSlotsConfigPage />
-              </ProtectedAdminRoute>
-            ),
-          },
-          {
-            path: 'relays',
-            id: 'relays',
-            element: (
-              <ProtectedAdminRoute>
-                <RelayPageWrapper />
-              </ProtectedAdminRoute>
-            ),
           },
         ],
       },
