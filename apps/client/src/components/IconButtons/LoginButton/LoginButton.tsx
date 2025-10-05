@@ -21,10 +21,10 @@ export const LoginButton: FC = () => {
   const { toast } = useToast();
   const [isOpen, setIsOpen] = useState(false);
 
-  // console.log('🔍 USER:', user);
+  console.log('🔍 USER:', user);
   // console.log('🔍 SESSION:', session);
   // console.log('🔍 IS LOADING:', isLoading);
-  // console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
+  console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
   // console.log('🔍 IS ADMIN:', isAdmin);
   // console.log('🔍 SIGN OUT:', signOut);
 
