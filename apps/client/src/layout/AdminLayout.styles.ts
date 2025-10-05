@@ -10,24 +10,15 @@ export const styles = css`
     ${cssForms}
   }
 
-  /* ========================================
-     SHARED LAYOUT STRUCTURE (from Layout.styles.ts)
-     ======================================== */
-
-  /* Layout Root Container */
   display: flex;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  overflow: hidden; /* Prevent horizontal scrollbars */
+  overflow: hidden;
 
-  /* Admin-specific: White background instead of dark */
   background-color: ${colors.white};
   color: ${colors.text};
 
-  /* ========================================
-     HEADER - Admin-specific styling
-     ======================================== */
   > header {
     width: 100%;
     height: ${layout.header.height};
@@ -36,69 +27,10 @@ export const styles = css`
 
     display: flex;
     align-items: center;
-    /* Admin-specific: Dark grey header background */
     background-color: ${colors.background};
     border-bottom: 1px solid ${colors.greyDark};
     z-index: 100;
 
-    /* .header-content {
-      width: 100%;
-      max-width: 1200px;
-      max-width: 98vw; /
-      margin: 0 auto;
-      padding: 0 ${spacing[6]};
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      height: ${layout.header.height};
-      min-height: ${layout.header.height};
-      max-height: ${layout.header.height};
-
-      h1 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: ${colors.white};
-        margin: 0;
-      }
-
-      .header-actions {
-        display: flex;
-        align-items: center;
-        gap: ${spacing[4]};
-
-        .user-info {
-          display: flex;
-          align-items: center;
-          gap: ${spacing[3]};
-          color: ${colors.white};
-          font-size: 0.875rem;
-
-          span {
-            color: ${colors.white};
-          }
-        }
-
-        ul {
-          height: ${layout.header.height};
-          min-height: ${layout.header.height};
-          max-height: ${layout.header.height};
-          align-items: end;
-          a {
-            height: ${layout.header.height};
-            min-height: ${layout.header.height};
-            max-height: ${layout.header.height};
-            font-size: 1.1rem;
-            &:before {
-              background-color: var(--accent-indicator);
-              height: 5px;
-            }
-          }
-        }
-      }
-    } */
-
-    /* Override Header component styles for admin */
     h1 {
       color: ${colors.white} !important;
       font-size: 1.5rem !important;
@@ -107,20 +39,15 @@ export const styles = css`
     }
   }
 
-  /* ========================================
-     MAIN - Shared structure with admin customizations
-     ======================================== */
   > main {
     width: 100%;
-    flex: 1; /* Grows to fill remaining space */
-    position: relative; /* For positioning dialogs */
-    overflow-y: auto; /* Only vertical scrollbar if needed */
-    overflow-x: hidden; /* Never horizontal scrollbar */
+    flex: 1;
+    position: relative;
+    overflow-y: auto;
+    overflow-x: hidden;
 
-    /* Admin-specific: White background */
     background-color: ${colors.white};
 
-    /* Main content container - from Layout.styles.ts */
     .main-content {
       width: 100%;
       height: 100%;
@@ -129,70 +56,53 @@ export const styles = css`
       justify-content: center;
       padding: 3rem 0;
 
-      /* Section - wrapper for entire page content area */
       section {
         display: flex;
         flex-direction: column;
 
-        /* Admin-specific: Full width instead of constrained */
         width: 100%;
         height: 100%;
-        min-width: 1100px; /* Never smaller than mobile width */
-        /* max-width: none;  */
-        max-width: 98vw; /* Never larger than 90% viewport */
-        min-height: 600px; /* Never smaller than reasonable content height */
-        /* max-height: none; Admin: No max-height constraint */
+        min-width: 1100px;
+        max-width: 98vw;
+        min-height: 600px;
 
-        /* Flex alignment */
-        justify-content: flex-start; /* Admin: Top-aligned instead of space-between */
-        align-items: stretch; /* Admin: Full width children */
+        justify-content: flex-start;
+        align-items: stretch;
 
-        /* Page header - content header (not app header) */
         header.page-header {
           width: 100%;
           height: auto;
           min-height: auto;
           max-height: none;
           padding: 1rem 2rem;
-          flex-shrink: 0; /* Don't shrink when space is tight */
-          /* Add any page header specific styles here */
+          flex-shrink: 0;
         }
 
-        /* Page content - the actual route content */
         .page-content {
-          flex: 1; /* Grows to fill available space */
-          width: 100%; /* Full width for container */
+          flex: 1;
+          width: 100%;
 
-          padding: 0rem 2rem 2rem 2rem; /* Reduced from 2rem to 1rem top/bottom */
+          padding: 0rem 2rem 2rem 2rem;
 
-          /* Admin-specific: Center the content with fit-content width */
           display: flex;
-          justify-content: center; /* Center horizontally */
-          align-items: flex-start; /* Align to top */
+          justify-content: center;
+          align-items: flex-start;
 
-          /* The actual content inside will be fit-content */
           > * {
             width: fit-content;
-            max-width: 100%; /* Don't exceed container width */
+            max-width: 100%;
           }
-
-          /* Route content goes here */
         }
 
-        /* Page navigation - content navigation (not app footer) */
         nav.page-navigation {
           width: 100%;
           padding: 1rem 2rem;
-          flex-shrink: 0; /* Don't shrink when space is tight */
-          /* Navigation styles handled by Navigation component */
+          flex-shrink: 0;
         }
       }
     }
   }
 
-  /* ========================================
-     ADMIN FOOTER - positioned at bottom
-     ======================================== */
   > footer {
     width: 100%;
     height: ${layout.footer.height};
@@ -200,9 +110,7 @@ export const styles = css`
     max-height: ${layout.footer.height};
     display: flex;
     align-items: center;
-    /* Admin-specific: Dark grey footer background */
     background-color: ${colors.background};
-    /* border-top: 1px solid ${colors.greyDark}; */
     z-index: 2000;
 
     .footer-content {
@@ -215,17 +123,12 @@ export const styles = css`
       align-items: center;
     }
 
-    /* Override Footer component nav-wrapper for admin */
     .nav-wrapper {
       width: 100%;
       display: flex;
       justify-content: center;
     }
   }
-
-  /* ========================================
-     SHARED TYPOGRAPHY STYLES (from Layout.styles.ts)
-     ======================================== */
 
   .title {
     ${typography.h1};
@@ -247,10 +150,6 @@ export const styles = css`
     padding-bottom: 2rem;
   }
 
-  /* ========================================
-     SHARED BUTTON STYLES (from Layout.styles.ts)
-     ======================================== */
-
   button.btn-logout {
     padding: 0.5rem 1rem;
     background-color: transparent;
@@ -263,10 +162,6 @@ export const styles = css`
       background-color: #f3f4f6;
     }
   }
-
-  /* ========================================
-     LOGOUT BUTTON STYLES
-     ======================================== */
 
   .logoutButton {
     padding: 0.5rem 1rem;
@@ -284,20 +179,10 @@ export const styles = css`
     }
   }
 
-  /* ========================================
-     RESPONSIVE ADJUSTMENTS
-     ======================================== */
-
   ${min.xl} {
-    /* section.admin-content-page {
-      max-width: 85vw !important;
-    } */
   }
 
   ${max.xl} {
-    /* section.admin-content-page {
-      max-width: 90vw !important;
-    } */
     > header .header-content {
       padding: 0 ${spacing[4]};
 
@@ -311,12 +196,12 @@ export const styles = css`
     }
 
     > main .main-content section {
-      min-width: 100%; /* Mobile: Full width */
+      min-width: 100%;
 
       header.page-header,
       .page-content,
       nav.page-navigation {
-        padding: 1rem; /* Mobile: Reduced padding */
+        padding: 1rem;
       }
     }
   }
