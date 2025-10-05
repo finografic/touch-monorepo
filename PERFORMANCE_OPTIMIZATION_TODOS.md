@@ -199,11 +199,37 @@
 
 **Location:** `OrdersContext.ts` lines 57-59, 25, 29
 **Question:** Why does OrdersContext have a `filters` object?
-**Investigation needed:**
-- [ ] **Check usage** - where is `orders.filters` used vs `FiltersContext.filters`?
-- [ ] **Check duplication** - is this redundant with FiltersContext?
-- [ ] **Check migration path** - can OrdersContext.filters be eliminated?
-- [ ] **Check backward compatibility** - what breaks if removed?
+
+#### **🔍 INVESTIGATION RESULTS:**
+
+**✅ USAGE FOUND:**
+1. **`GenericSelectPage.tsx`** - Updates individual `order.filters` for "backward compatibility"
+2. **`useRouteChangeHandler.ts`** - Syncs `FiltersContext.filters` → `OrdersContext.filters`
+3. **`useTemperatureFormAndFilter.ts`** - Updates `OrdersContext.filters` for temperature control
+4. **`DevPanelRight.tsx`** - Displays orders data (including filters)
+
+**✅ DUPLICATION CONFIRMED:**
+- **FiltersContext.filters** = Global filter state (primary)
+- **OrdersContext.filters** = Individual order filters (legacy/backup)
+- **SessionContext.filters** = Session-specific filters
+
+**✅ MIGRATION ASSESSMENT:**
+- [x] **Check usage** - ✅ Found 4 locations using `order.filters`
+- [x] **Check duplication** - ✅ Confirmed redundant with FiltersContext
+- [x] **Check migration path** - ⚠️ **COMPLEX** - Multiple systems depend on it
+- [x] **Check backward compatibility** - ⚠️ **BREAKS** - Temperature control needs it
+
+#### **🎯 CONCLUSION: CANNOT BE ELIMINATED YET**
+
+**Reason:** Temperature control system (`useTemperatureFormAndFilter.ts`) specifically updates `OrdersContext.filters` for `useTemperatureControl` to find them.
+
+**Migration Strategy:**
+1. **Phase 1:** Update temperature control to use `FiltersContext` instead
+2. **Phase 2:** Remove "backward compatibility" updates in `GenericSelectPage`
+3. **Phase 3:** Remove `OrdersContext.filters` entirely
+4. **Phase 4:** Clean up `setOrdersFilter` method
+
+**Priority:** LOW - Not causing performance issues, just architectural debt
 
 ---
 
@@ -246,7 +272,7 @@
 ### **⏳ PENDING (2/5 issues)**
 
 - **Issue 4:** Monolithic hook - 📋 PLANNED
-- **Question:** OrdersContext filters - 🔍 INVESTIGATION NEEDED
+- **Question:** OrdersContext filters - ✅ INVESTIGATION COMPLETE (cannot eliminate yet)
 
 ### **🚀 PERFORMANCE GAINS ACHIEVED**
 
