@@ -7,8 +7,8 @@ export const styles = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
+    /* width: 3rem;
+    height: 3rem; */
     border-radius: 50%;
     background-color: transparent;
     border: none !important;

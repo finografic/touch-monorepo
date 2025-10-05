@@ -1,10 +1,12 @@
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { describe, expect, it, vi } from 'vitest';
+import '@testing-library/jest-dom/vitest';
+import { fireEvent, render, screen } from '@testing-library/react';
 import { ThemeToggle } from './ThemeToggle';
 import { ContentProvider } from 'providers/ContentProvider';
 
 // Mock the icon components
-jest.mock('styles/icons', () => ({
+vi.mock('styles/icons', () => ({
   MoonIcon: () => <div data-testid="moon-icon">Moon</div>,
   SunIcon: () => <div data-testid="sun-icon">Sun</div>,
 }));
@@ -13,7 +15,7 @@ const TestWrapper = ({ children }: { children: React.ReactNode }) => (
   <ContentProvider>{children}</ContentProvider>
 );
 
-describe('ThemeToggle', () => {
+describe('themeToggle', () => {
   it('renders sun icon in dark mode', () => {
     render(
       <TestWrapper>
@@ -21,7 +23,9 @@ describe('ThemeToggle', () => {
       </TestWrapper>,
     );
 
+    // Sun icon should be visible initially; moon should not
     expect(screen.getByTestId('sun-icon')).toBeInTheDocument();
+    expect(screen.queryByTestId('moon-icon')).not.toBeInTheDocument();
   });
 
   it('toggles theme when clicked', () => {
@@ -34,8 +38,9 @@ describe('ThemeToggle', () => {
     const button = screen.getByRole('button');
     fireEvent.click(button);
 
-    // After clicking, should show moon icon (light mode)
+    // After clicking, should show moon icon and hide sun icon
     expect(screen.getByTestId('moon-icon')).toBeInTheDocument();
+    expect(screen.queryByTestId('sun-icon')).not.toBeInTheDocument();
   });
 
   it('has proper accessibility attributes', () => {

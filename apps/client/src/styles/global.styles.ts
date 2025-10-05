@@ -166,8 +166,8 @@ export const cssGlobal = css`
     }
 
     svg.icon {
-      width: 3rem;
-      height: 3rem;
+      /* width: 3rem;
+      height: 3rem; */
       display: inline-block;
       flex-shrink: 0;
       transition: all 0.2s ease-in-out;
@@ -182,6 +182,23 @@ export const cssGlobal = css`
 
   svg[width][height].icon {
     color: ${colors.infoXLight};
+  }
+
+  svg[width][height].icon {
+    /* NORMALIZED sizing - forces all icon libraries to same visual size */
+    /* 20px - sweet spot between 15px and 24px */
+    /* width: 1.25rem;
+  height: 1.25rem; */
+    width: 3rem;
+    height: 3rem;
+    display: inline-block;
+    flex-shrink: 0;
+
+    /* Smooth transitions for interactive states */
+    transition: all 0.2s ease-in-out;
+
+    /* Inherit text color by default */
+    color: currentColor;
   }
 
   pre {
