@@ -176,30 +176,12 @@ export const cssGlobal = css`
     align-items: center;
     box-sizing: border-box;
     padding: 0;
-    margin: 0.5rem;
+    margin: 1rem;
     &:first-of-type {
       margin-left: 0rem;
     }
     &:last-of-type {
       margin-right: 0rem;
-    }
-
-    button {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      box-sizing: border-box;
-      padding: 0.5rem;
-      cursor: pointer;
-    }
-
-    svg.icon {
-      display: inline-block;
-      flex-shrink: 0;
-      transition: all 0.2s ease-in-out;
-      color: currentColor;
-      cursor: pointer;
     }
   }
 
