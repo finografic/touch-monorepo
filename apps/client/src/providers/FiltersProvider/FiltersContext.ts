@@ -25,13 +25,11 @@ export const FiltersContext = createZustandContext(({ initialValue }) => {
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
-          // setFilter: (key: keyof OrderFilters, value: unknown) => {
           setFilter: (key: keyof OrderFilters | FilterFieldKey, value: unknown) => {
             set((state) => ({
               filters: { ...state.filters, [key]: value },
             }));
           },
-          // clearFilter: (key: keyof OrderFilters) => {
           clearFilter: (key: keyof OrderFilters | FilterFieldKey) => {
             set((state) => {
               const { [key]: _, ...rest } = state.filters;
