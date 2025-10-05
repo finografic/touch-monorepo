@@ -56,12 +56,25 @@ export const auth = betterAuth({
     database: {
       generateId: () => crypto.randomUUID(),
     },
+    cors: {
+      enabled: true,
+      allowedOrigins: ['http://localhost:3000'], // Your Vite client URL
+      credentials: true,
+    },
     cookies: {
       sessionToken: {
         name: 'auth_token',
+        // sameSite: 'lax',
+        // sameSite: 'lax',
+        // attributes: {
+        //   httpOnly: true, // Should be true for security
+        //   sameSite: 'lax',
+        //   path: '/',
+        // },
         attributes: {
-          httpOnly: true, // Should be true for security
-          sameSite: 'lax',
+          httpOnly: true,
+          sameSite: env.NODE_ENV === 'production' ? 'lax' : 'none',
+          secure: env.NODE_ENV === 'production',
           path: '/',
         },
       },

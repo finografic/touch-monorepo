@@ -23,6 +23,12 @@ router.get('/auth/session', async (context) => {
   }
 });
 
+// Signout route
+// router.post('/auth/signout', async (context) => {
+//   console.log('Signout route hit:', context.req.path);
+//   return auth.handler(context.req.raw);
+// });
+
 // ✅ Let BetterAuth handle ALL other auth routes
 router.all('/auth/*', async (context) => {
   console.log('Better Auth route hit:', context.req.path);
