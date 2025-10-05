@@ -3,8 +3,8 @@ import { TabNav } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { usePageTransition } from 'hooks/usePageTransition';
-import { styles } from './AdminNavigation.styles';
 import { Col, Container, Row } from 'react-grid-system';
+import { styles } from './AdminNavigation.styles';
 
 export const AdminNavigation: React.FC = () => {
   const { t } = useTranslation();

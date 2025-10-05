@@ -4,7 +4,7 @@ import { colors } from 'styles';
 export const styles = css`
   margin-top: 2em;
   padding-top: 2em;
-  margin-bottom: 0rem;
+  margin-bottom: 2rem;
   /* transform: translateY(-5%); */
 
   .page-title {

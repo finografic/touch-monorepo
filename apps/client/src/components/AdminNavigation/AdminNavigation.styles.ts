@@ -3,6 +3,10 @@ import { colors, layout } from 'styles';
 
 export const styles = css`
   .container > div > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
     padding: 0 !important;
   }
 
