@@ -33,7 +33,7 @@ export const styles = css`
       align-items: center;
       padding-left: 1rem; /* Add some padding for better visual balance */
       height: -webkit-fill-available; /* Better cross-browser full height support */
-      padding-left: ${layout.padding[0]} !important;
+      padding-left: ${layout.padding} !important;
     }
 
     .col-header-center {
@@ -54,18 +54,18 @@ export const styles = css`
     h1 {
       display: flex;
       align-items: center;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       font-weight: 700;
       /* color: ${colors.info}; */
       margin: 0 0 0 0.8rem;
+      white-space: nowrap;
 
       span.current-language {
-        font-size: 1.6rem;
+        font-size: 1.1rem;
         font-weight: 600;
         /* color: ${colors.info}; */
         margin: 0 0 0 0.8rem;
         opacity: 0.4;
-        transform: translateY(-4%);
         text-transform: none;
       }
     }

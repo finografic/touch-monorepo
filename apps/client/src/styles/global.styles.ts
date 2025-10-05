@@ -164,6 +164,16 @@ export const cssGlobal = css`
     &:first-of-type {
       margin-left: 2rem;
     }
+
+    svg.icon {
+      width: 3rem;
+      height: 3rem;
+      display: inline-block;
+      flex-shrink: 0;
+      transition: all 0.2s ease-in-out;
+      color: currentColor;
+      display: none;
+    }
   }
 
   svg.icon {

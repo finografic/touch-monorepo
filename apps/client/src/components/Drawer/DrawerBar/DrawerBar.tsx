@@ -29,7 +29,7 @@ export const DrawerBar: FC<DrawerBarProps> = ({
           <div className="drawer-children">{children ?? <></>}</div>
         </Flex>
         <Flex justify="end" align="center" className="col col-button">
-          <Box className="button-box">
+          <div className="button-box">
             <Button
               className={clsx('btn', isActionActive && 'active')}
               onClick={onClickAction}
@@ -37,7 +37,7 @@ export const DrawerBar: FC<DrawerBarProps> = ({
             >
               {isActionActive ? <PanelBottomCloseIcon /> : <PanelBottomOpenIcon />}
             </Button>
-          </Box>
+          </div>
         </Flex>
       </Flex>
     </div>

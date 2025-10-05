@@ -68,17 +68,15 @@ export const LoginButton: FC = () => {
 
   return (
     <>
-      <div className="button-box">
-        <button
-          css={styles}
-          className={clsx('btn', isAuthenticated ? 'logged-in' : 'logged-out')}
-          onClick={handleClick}
-          aria-label={isAuthenticated ? 'Log out' : 'Log in'}
-          title={isAuthenticated ? 'Log out' : 'Log in'}
-        >
-          {isAuthenticated ? <UserLockIcon /> : <UserCircleIcon />}
-        </button>
-      </div>
+      <button
+        // css={styles}
+        className={clsx('btn', isAuthenticated ? 'logged-in' : 'logged-out')}
+        onClick={handleClick}
+        aria-label={isAuthenticated ? 'Log out' : 'Log in'}
+        title={isAuthenticated ? 'Log out' : 'Log in'}
+      >
+        {isAuthenticated ? <UserLockIcon /> : <UserCircleIcon />}
+      </button>
       <AuthLoginSimpleDialog
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}

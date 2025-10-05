@@ -57,22 +57,22 @@ export const AdminToolbar = () => {
       <div css={styles}>
         <Flex gap="3" align="center">
           {/* Home button - navigate to frontend */}
-          <Box className="button-box">
+          <div className="button-box">
             <button className="btn btn-dialog" onClick={() => navigate(PATHS.main)}>
               <HomeIcon />
             </button>
-          </Box>
+          </div>
 
           {/* Language selector */}
-          <Box className="button-box">
+          <div className="button-box">
             <button className="btn" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
               <LanguageIcon />
             </button>
-          </Box>
+          </div>
 
           {/* Timer visibility toggle - only show if there's an active timer */}
           {hasActiveTimer && (
-            <Box className="button-box">
+            <div className="button-box">
               <button
                 className={`btn btn-admin ${isStorageTimerVisible ? 'active' : ''}`}
                 onClick={() => setIsStorageTimerVisible(!isStorageTimerVisible)}
@@ -80,22 +80,22 @@ export const AdminToolbar = () => {
               >
                 <TimerIcon />
               </button>
-            </Box>
+            </div>
           )}
 
           {/* Config expiry timer */}
           {isStorageTimerVisible && hasActiveTimer && (
-            <Box className="timer-container">
+            <div className="timer-container">
               <ConfigTimer />
-            </Box>
+            </div>
           )}
 
           {/* Panic button - stop all audio */}
-          <Box className="button-box">
+          <div className="button-box">
             <button className="btn btn-panic" onClick={stopAllAudio} title="Stop All Audio (Panic)">
               <StopIcon color="orange" />
             </button>
-          </Box>
+          </div>
         </Flex>
       </div>
 

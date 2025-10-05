@@ -5,13 +5,15 @@ import { styles } from './Header.styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 // import { useSession } from 'providers/SessionProvider/SessionContext';
-import { ThemeToggle } from 'components/ThemeToggle';
+import { ThemeToggle } from 'components/IconButtons/ThemeToggle';
 import { useAppConfig } from 'providers/AppConfigProvider';
 // import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { LoginButton } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/LoginButton';
+import { LoginButton } from 'components/IconButtons/LoginButton';
 import { Col, Container, Row } from 'react-grid-system';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import clsx from 'clsx';
+import { LanguageIcon } from 'styles/icons';
+import { useAdmin } from 'providers/AdminProvider';
 
 interface HeaderProps {
   titleAlign?: 'left' | 'center';
@@ -25,6 +27,8 @@ export const Header: React.FC<HeaderProps> = ({ titleAlign = 'center', navigatio
   // const { currentSessionId } = useSession();
   const { currentLanguage } = useAppConfig();
   // const { isNextDisabled } = usePagination();
+
+  const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   const isAdmin = location.pathname.startsWith('/admin');
   log('__DEV: navigation', 'hotpink', isAdmin);
@@ -71,12 +75,18 @@ export const Header: React.FC<HeaderProps> = ({ titleAlign = 'center', navigatio
             </Col>
 
             <Col xs={3} className="col col-header-right">
-              <Box className="button-box">
+              {/* Language selector */}
+              <div className="button-box">
+                <button className="btn" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
+                  <LanguageIcon />
+                </button>
+              </div>
+              <div className="button-box">
                 <LoginButton />
-              </Box>
-              <Box className="button-box">
+              </div>
+              <div className="button-box">
                 <ThemeToggle />
-              </Box>
+              </div>
 
               {/* <LanguageSelector onLanguageChange={handleLanguageChange} /> */}
               {/* <pre className="current-language">{String(currentSessionId)}</pre> */}

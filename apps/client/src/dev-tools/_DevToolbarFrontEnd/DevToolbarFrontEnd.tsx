@@ -41,38 +41,38 @@ export const DevToolbarFrontEnd = () => {
       <div css={styles}>
         <Flex gap="3" align="center">
           {timers.some((timer) => timer.status === 'processing') && (
-            <Box className="button-box">
+            <div className="button-box">
               <MockTimersMin />
-            </Box>
+            </div>
           )}
 
-          <Box className="button-box">
+          <div className="button-box">
             <MockOrdersButton />
-          </Box>
+          </div>
 
-          <Box className="button-box">
+          <div className="button-box">
             <button
               className="btn btn-toggle-query-panel"
               onClick={() => setIsDevQueryPanelOpen(!isDevQueryPanelOpen)}
             >
               <TextAlignTopIcon />
             </button>
-          </Box>
+          </div>
 
-          <Box className="button-box">
+          <div className="button-box">
             <button className="btn btn-toggle-auth" onClick={() => setIsDevAuthVisible(!isDevAuthVisible)}>
               <LockIcon />
             </button>
-          </Box>
+          </div>
 
-          <Box className="button-box">
+          <div className="button-box">
             <button
               className="btn btn-toggle-simple-login"
               onClick={() => setIsDevSimpleLoginVisible(!isDevSimpleLoginVisible)}
             >
               <LockIcon />
             </button>
-          </Box>
+          </div>
         </Flex>
       </div>
 

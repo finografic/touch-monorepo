@@ -35,42 +35,42 @@ export const FrontEndAdminToolbar = () => {
       <div css={styles}>
         <Flex gap="3" align="center">
           {/* Admin button - navigate to admin */}
-          <Box className="button-box">
+          <div className="button-box">
             <button className="btn btn-dialog" onClick={() => navigate(ADMIN_PATHS.DASHBOARD)}>
               <ShieldCheckIcon />
             </button>
-          </Box>
+          </div>
 
           {/* Language selector */}
-          <Box className="button-box">
+          {/* <div className="button-box">
             <button className="btn" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
               <LanguageIcon />
             </button>
-          </Box>
+          </div> */}
 
           {/* Language selector */}
-          <Box className="button-box">
+          <div className="button-box">
             <button className="btn" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
               <DialogIcon />
             </button>
-          </Box>
+          </div>
 
           {/* Admin Tools Dialog */}
-          {/* <Box className="button-box">
+          {/* <div className="button-box">
             <button className="btn" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
               <WindowIcon />
             </button>
-          </Box> */}
+          </div> */}
 
           {hasActiveTimer && isDevToolsVisible && (
-            <Box className="button-box">
+            <div className="button-box">
               <MockSessionTimer />
-            </Box>
+            </div>
           )}
 
           {/* Timer visibility toggle - only show if there's an active timer */}
           {hasActiveTimer && (
-            <Box className="button-box">
+            <div className="button-box">
               <button
                 className={`btn btn-admin ${isStorageTimerVisible ? 'active' : ''}`}
                 onClick={() => setIsStorageTimerVisible(!isStorageTimerVisible)}
@@ -78,7 +78,7 @@ export const FrontEndAdminToolbar = () => {
               >
                 <TimerIcon />
               </button>
-            </Box>
+            </div>
           )}
 
           {/* Config expiry timer */}

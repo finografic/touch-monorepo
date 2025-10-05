@@ -22,6 +22,15 @@ export const stylesAppContent = css`
     svg.icon {
       color: ${colors.default50};
     }
+    svg.icon {
+      width: 3rem;
+      height: 3rem;
+      display: inline-block;
+      flex-shrink: 0;
+      transition: all 0.2s ease-in-out;
+      color: currentColor;
+      display: none !important;
+    }
     &:hover {
       border-color: transparent;
       background-color: ${colors.grey25};

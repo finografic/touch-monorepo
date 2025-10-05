@@ -6,16 +6,17 @@ export const styles = css`
     padding: 0 !important;
   }
 
-  .admin-nav {
+  ul.admin-nav {
     display: flex;
     gap: 0.5rem;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-weight: 700;
+    overflow: visible;
 
     .nav-button {
       color: ${colors.text};
       background-color: transparent;
-      font-weight: 600;
+      font-weight: 700;
       border: none;
       cursor: pointer;
       padding: 0.5rem 1rem;
@@ -29,6 +30,9 @@ export const styles = css`
 
       &.active {
         color: ${colors.infoLight};
+        & span {
+          font-weight: 700;
+        }
       }
 
       &.transitioning {
