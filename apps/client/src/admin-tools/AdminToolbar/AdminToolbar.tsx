@@ -13,8 +13,8 @@ import { stopAllAudio } from 'utils/soundCache.utils';
 export const AdminToolbar = () => {
   const {
     isAdminToolsVisible,
-    isTimerVisible,
-    setIsTimerVisible,
+    isStorageTimerVisible,
+    setIsStorageTimerVisible,
     isLanguageDialogOpen,
     setIsLanguageDialogOpen,
   } = useAdmin();
@@ -22,8 +22,8 @@ export const AdminToolbar = () => {
   const [hasActiveTimer, setHasActiveTimer] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(function checkActiveTimer() {
-    log('ADMIN_INIT', 'orange', { isAdminToolsVisible, isTimerVisible, isLanguageDialogOpen });
+  useEffect(function checkActiveStorageTimer() {
+    log('ADMIN_INIT', 'orange', { isAdminToolsVisible, isStorageTimerVisible, isLanguageDialogOpen });
     /*
     const checkActiveTimer = () => {
       const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
@@ -74,8 +74,8 @@ export const AdminToolbar = () => {
           {hasActiveTimer && (
             <Box className="button-box">
               <button
-                className={`btn btn-admin ${isTimerVisible ? 'active' : ''}`}
-                onClick={() => setIsTimerVisible(!isTimerVisible)}
+                className={`btn btn-admin ${isStorageTimerVisible ? 'active' : ''}`}
+                onClick={() => setIsStorageTimerVisible(!isStorageTimerVisible)}
                 title="Toggle Timer"
               >
                 <TimerIcon />
@@ -84,7 +84,7 @@ export const AdminToolbar = () => {
           )}
 
           {/* Config expiry timer */}
-          {isTimerVisible && hasActiveTimer && (
+          {isStorageTimerVisible && hasActiveTimer && (
             <Box className="timer-container">
               <ConfigTimer />
             </Box>

@@ -11,14 +11,14 @@ export enum AdminKeys {
   isAdminToolsVisible = 'isAdminToolsVisible',
   isAdminToolsDialogOpen = 'isAdminToolsDialogOpen',
   isLanguageDialogOpen = 'isLanguageDialogOpen',
-  isTimerVisible = 'isTimerVisible',
+  isStorageTimerVisible = 'isStorageTimerVisible',
 }
 
 export const defaultValue = {
   isAdminToolsVisible: true,
   isAdminToolsDialogOpen: false,
   isLanguageDialogOpen: false,
-  isTimerVisible: true,
+  isStorageTimerVisible: true,
 };
 
 export const AdminContext = createZustandContext(({ initialValue }) => {

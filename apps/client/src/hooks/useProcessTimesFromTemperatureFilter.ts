@@ -1,5 +1,4 @@
 import { useCallback, useDeferredValue, useEffect, useState } from 'react';
-import type { TemperatureFilter, TemperatureProfile } from 'types/temperature.types';
 import { useConfigStorage } from './useConfigStorage';
 import { useOrders } from 'providers/OrdersProvider';
 import { SlotType } from 'types/orders.types';

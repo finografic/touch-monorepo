@@ -3,8 +3,6 @@ import { ConfigTimer } from '../../components/ConfigTimer/ConfigTimer';
 import { styles } from './FrontEndAdminToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useConfigStorage } from 'hooks/useConfigStorage';
-import { useEffect, useState } from 'react';
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 import { DialogIcon, LanguageIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
 import { ADMIN_PATHS, ALTERNATIVE_PATHS } from 'config';
 import { useNavigate } from 'react-router-dom';
@@ -12,47 +10,23 @@ import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
 import { useDev } from 'dev-tools/providers/DevProvider';
 import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
+import { useStorageTimer } from 'providers/TimersProvider';
 
 export const FrontEndAdminToolbar = () => {
   const { isDevToolsVisible } = useDev();
   const {
     isAdminToolsVisible,
-    isTimerVisible,
-    setIsTimerVisible,
+    isStorageTimerVisible,
+    setIsStorageTimerVisible,
     isAdminToolsDialogOpen,
     setIsAdminToolsDialogOpen,
     isLanguageDialogOpen,
     setIsLanguageDialogOpen,
   } = useAdmin();
 
-  // const { saveConfig } = useConfigStorage();
-  const [hasActiveTimer, setHasActiveTimer] = useState(false);
+  // 🎯 NEW: Use the centralized storage timer hook
+  const { hasActiveTimer } = useStorageTimer();
   const navigate = useNavigate();
-
-  useEffect(function checkActiveTimer() {
-    const checkActiveTimer = () => {
-      const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
-      if (!timestamp) {
-        setHasActiveTimer(false);
-        return;
-      }
-
-      const startTime = Number.parseInt(timestamp, 10);
-      const now = Date.now();
-      const elapsed = now - startTime;
-      const remaining = Math.max(0, CONFIG_EXPIRY_TIME_MS - elapsed);
-
-      setHasActiveTimer(remaining > 0);
-    };
-
-    // Initial check
-    checkActiveTimer();
-
-    // Update every 5 seconds
-    const intervalId = setInterval(checkActiveTimer, 5000);
-
-    return () => clearInterval(intervalId);
-  }, []);
 
   if (!isAdminToolsVisible) return null;
 
@@ -98,8 +72,8 @@ export const FrontEndAdminToolbar = () => {
           {hasActiveTimer && (
             <Box className="button-box">
               <button
-                className={`btn btn-admin ${isTimerVisible ? 'active' : ''}`}
-                onClick={() => setIsTimerVisible(!isTimerVisible)}
+                className={`btn btn-admin ${isStorageTimerVisible ? 'active' : ''}`}
+                onClick={() => setIsStorageTimerVisible(!isStorageTimerVisible)}
                 title="Toggle Timer"
               >
                 <TimerIcon />
@@ -108,7 +82,7 @@ export const FrontEndAdminToolbar = () => {
           )}
 
           {/* Config expiry timer */}
-          {isTimerVisible && hasActiveTimer && (
+          {isStorageTimerVisible && hasActiveTimer && (
             <Box className="timer-container">
               <ConfigTimer />
             </Box>
