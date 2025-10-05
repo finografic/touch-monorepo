@@ -82,7 +82,33 @@
     "pages": {
       "dashboard": {
         "title": "Tauler",
-        "subtitle": "Resum del sistema"
+        "subtitle": "Resum del sistema",
+        "callouts": {
+          "translations": {
+            "title": "Gestió de traduccions",
+            "description": "Editar traduccions per a contingut de base de dades"
+          },
+          "ui-labels": {
+            "title": "Etiquetes d'UI / Traduccions",
+            "description": "Editar etiquetes de la interfície d'usuari i traduccions de fitxers locals"
+          },
+          "languages": {
+            "title": "Gestió d'idiomes",
+            "description": "Configurar idiomes del sistema i localització"
+          },
+          "slot-config": {
+            "title": "Quadrícula",
+            "description": "Configurar el disseny de la quadrícula de la pàgina principal i els tipus de ranura"
+          },
+          "filter-analysis": {
+            "title": "Anàlisi de filtres",
+            "description": "Analitzar dades de comandes i comportament de filtratge"
+          },
+          "sounds": {
+            "title": "Gestió de so",
+            "description": "Pujar i configurar fitxers de so per a esdeveniments de temporitzador"
+          }
+        }
       },
       "translations": {
         "title": "Gestió de traduccions",

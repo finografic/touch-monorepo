@@ -1,6 +1,6 @@
 import React from 'react';
 import type { ReactNode } from 'react';
-import { Box, Container, Flex } from '@radix-ui/themes';
+import { Box, Flex } from '@radix-ui/themes';
 import { styles } from './Header.styles';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -9,7 +9,7 @@ import { ThemeToggle } from 'components/ThemeToggle';
 import { useAppConfig } from 'providers/AppConfigProvider';
 // import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { LoginButton } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/LoginButton';
-import { Col, Row } from 'react-grid-system';
+import { Col, Container, Row } from 'react-grid-system';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import clsx from 'clsx';
 
@@ -40,7 +40,7 @@ export const Header: React.FC<HeaderProps> = ({ titleAlign = 'center', navigatio
 
   const HeaderTitle = () => {
     return (
-      <Flex direction="column" justify="end" align="center" style={{ flex: '6' }}>
+      <Flex direction="column" justify="end" align="center">
         <h1
           onClick={() => {
             navigate('/');
@@ -56,21 +56,21 @@ export const Header: React.FC<HeaderProps> = ({ titleAlign = 'center', navigatio
 
   return (
     <div css={styles}>
-      <header className={clsx('app-header', { 'admin-header': isAdmin })}>
-        <Container size="4" className="container">
+      <header className={clsx('app-header', { 'admin-app-header': isAdmin })}>
+        <Container className="container">
           <Row justify="between" align="center">
             {/* <Flex justify="between" align="center" width="100%" className="row-header"> */}
             {/* ====================================================================== */}
-            <Col xs={3} style={{ flex: '4' }} className="col col-header-left">
+            <Col xs={3} className="col col-header-left">
               {titleAlign === 'left' && <HeaderTitle />}
             </Col>
 
             {/* Center column - 6 parts */}
-            <Col xs={6} style={{ flex: '6' }} className="col col-header-center">
+            <Col xs={6} className="col col-header-center">
               {titleAlign === 'center' && <HeaderTitle />}
             </Col>
 
-            <Col xs={3} style={{ flex: '4' }} className="col col-header-right">
+            <Col xs={3} className="col col-header-right">
               <Box className="button-box">
                 <LoginButton />
               </Box>
@@ -85,7 +85,7 @@ export const Header: React.FC<HeaderProps> = ({ titleAlign = 'center', navigatio
           </Row>
         </Container>
       </header>
-      {navigation}
+      {navigation && <div className="admin-navigation">{navigation}</div>}
     </div>
   );
 };

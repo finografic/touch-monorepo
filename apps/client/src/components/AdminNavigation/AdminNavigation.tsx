@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 import { usePageTransition } from 'hooks/usePageTransition';
 import { styles } from './AdminNavigation.styles';
+import { Col, Container, Row } from 'react-grid-system';
 
 export const AdminNavigation: React.FC = () => {
   const { t } = useTranslation();
@@ -13,7 +14,7 @@ export const AdminNavigation: React.FC = () => {
   const navItems = [
     {
       id: 'dashboard',
-      label: 'Dashboard',
+      label: t('admin.pages.dashboard.title'),
       path: '/admin',
     },
     {
@@ -54,30 +55,26 @@ export const AdminNavigation: React.FC = () => {
 
   return (
     <div css={styles}>
-      <TabNav.Root size="2" className="admin-nav">
-        {navItems.map((item) => (
-          <TabNav.Link key={item.id} asChild active={location.pathname === item.path}>
-            <button
-              type="button"
-              onClick={() => handleNavigation(item.path)}
-              style={{
-                color: location.pathname === item.path ? '#3b82f6' : 'rgba(255, 255, 255, 0.8)',
-                backgroundColor: 'transparent',
-                fontWeight: location.pathname === item.path ? '600' : '400',
-                border: 'none',
-                cursor: isTransitioning ? 'wait' : 'pointer',
-                padding: '0.5rem 1rem',
-                borderRadius: '6px',
-                transition: 'all 0.2s ease',
-                opacity: isTransitioning ? 0.7 : 1,
-              }}
-              disabled={isTransitioning}
-            >
-              {item.label}
-            </button>
-          </TabNav.Link>
-        ))}
-      </TabNav.Root>
+      <Container className="container">
+        <Row justify="center" align="center">
+          <Col xs={12}>
+            <TabNav.Root size="2" className="admin-nav">
+              {navItems.map((item) => (
+                <TabNav.Link key={item.id} asChild active={location.pathname === item.path}>
+                  <button
+                    type="button"
+                    className={`nav-button ${location.pathname === item.path ? 'active' : ''} ${isTransitioning ? 'transitioning' : ''}`}
+                    onClick={() => handleNavigation(item.path)}
+                    disabled={isTransitioning}
+                  >
+                    {item.label}
+                  </button>
+                </TabNav.Link>
+              ))}
+            </TabNav.Root>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

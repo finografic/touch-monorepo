@@ -1,2 +1,2 @@
-export { default } from './QueryClientProvider';
-// export { default } from './PersistQueryClientProvider';
+export { default as PersistQueryClientProvider } from './PersistQueryClientProvider';
+export { default as QueryClientProvider } from './QueryClientProvider';

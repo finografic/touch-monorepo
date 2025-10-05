@@ -7,16 +7,15 @@ export const styles = css`
 
   .app-header {
     padding: 0 2.5rem;
-    border: 2px solid pink;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 
     .container {
-      border: 2px solid yellow;
+      /* border: 2px solid yellow; */
       .col {
-        border: 2px solid cyan;
+        /* border: 2px solid cyan; */
       }
     }
 
@@ -29,7 +28,6 @@ export const styles = css`
     }
 
     .col-header-left {
-      /* flex: 3; */
       display: flex;
       justify-content: flex-start;
       align-items: center;
@@ -39,14 +37,12 @@ export const styles = css`
     }
 
     .col-header-center {
-      /* flex: 6; */
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
     .col-header-right {
-      /* flex: 3; */
       display: flex;
       justify-content: flex-end;
       align-items: center;
@@ -60,13 +56,13 @@ export const styles = css`
       align-items: center;
       font-size: 1.8rem;
       font-weight: 700;
-      color: ${colors.info};
+      /* color: ${colors.info}; */
       margin: 0 0 0 0.8rem;
 
       span.current-language {
         font-size: 1.6rem;
         font-weight: 600;
-        color: ${colors.info};
+        /* color: ${colors.info}; */
         margin: 0 0 0 0.8rem;
         opacity: 0.4;
         transform: translateY(-4%);

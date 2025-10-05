@@ -3,12 +3,21 @@ import { css } from '@emotion/react';
 import { forms } from '../forms/forms.constants';
 
 export const stylesAdminContent = css`
-  > header {
-    background-color: ${colors.greyDark}!important;
-    nav .admin-nav {
-      a[data-active] span {
-        color: ${colors.info};
-      }
+  header.app-header.admin-app-header {
+    background-color: ${colors.greyDark};
+    color: ${colors.white};
+
+    h1,
+    h1 span {
+      color: ${colors.white};
+    }
+  }
+
+  .admin-navigation {
+    border: 1px solid red;
+    padding: 0 4remm;
+    a[data-active] span {
+      color: ${colors.info};
     }
   }
 
@@ -17,6 +26,11 @@ export const stylesAdminContent = css`
 
     min-width: 100%;
     width: 100% !important;
+
+    > .admin-page-title {
+      padding: 2em;
+      background-color: ${colors.greyDark};
+    }
 
     h1 {
       font-size: 2.5rem;

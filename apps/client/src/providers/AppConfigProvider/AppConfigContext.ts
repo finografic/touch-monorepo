@@ -10,11 +10,13 @@ export const SETTER_PREFIX = 'AppConfig';
 export enum AppConfigKeys {
   currentLanguage = 'currentLanguage',
   theme = 'theme',
+  title = 'title',
 }
 
 export const defaultValue: AppConfigValues = {
   currentLanguage: 'es-ES', // ✅ Use full locale code as the default
   theme: 'light', // ✅ Default theme
+  title: import.meta.env.VITE_APP_TITLE,
 };
 
 export const AppConfigContext = createZustandContext(({ initialValue }) => {

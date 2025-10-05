@@ -42,9 +42,9 @@ export const AdminLayout: FC = () => {
             accentColor={adminTheme.accentColor}
             scaling={adminTheme.scaling}
           >
-            <ToastProvider>
-              <div id="admin-layout" css={styles}>
-                <Header navigation={<AdminNavigation />} />
+            <div id="admin-layout" css={styles}>
+              <ToastProvider>
+                <Header titleAlign="left" navigation={<AdminNavigation />} />
                 <main>
                   <div className="main-content">
                     <section>
@@ -61,9 +61,10 @@ export const AdminLayout: FC = () => {
                   </div>
                 </main>
                 <Footer />
-              </div>
-              <ToastSystem />
-            </ToastProvider>
+
+                <ToastSystem />
+              </ToastProvider>
+            </div>
           </Theme>
         </DevProvider>
       </AdminProvider>

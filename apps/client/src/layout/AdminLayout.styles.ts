@@ -41,10 +41,10 @@ export const styles = css`
     border-bottom: 1px solid ${colors.greyDark};
     z-index: 100;
 
-    .header-content {
+    /* .header-content {
       width: 100%;
       max-width: 1200px;
-      max-width: 98vw; /* Never larger than 90% viewport */
+      max-width: 98vw; /
       margin: 0 auto;
       padding: 0 ${spacing[6]};
       display: flex;
@@ -96,7 +96,7 @@ export const styles = css`
           }
         }
       }
-    }
+    } */
 
     /* Override Header component styles for admin */
     h1 {
@@ -127,6 +127,7 @@ export const styles = css`
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 3rem 0;
 
       /* Section - wrapper for entire page content area */
       section {

@@ -62,7 +62,33 @@
     "pages": {
       "dashboard": {
         "title": "Panel de control",
-        "subtitle": "Resumen del sistema"
+        "subtitle": "Resumen del sistema",
+        "callouts": {
+          "translations": {
+            "title": "Gestión de traducciones",
+            "description": "Editar traducciones para contenido de base de datos"
+          },
+          "ui-labels": {
+            "title": "Etiquetas de UI / Traducciones",
+            "description": "Editar etiquetas de la interfaz de usuario y traducciones de archivos locales"
+          },
+          "languages": {
+            "title": "Gestión de idiomas",
+            "description": "Configurar idiomas del sistema y localización"
+          },
+          "slot-config": {
+            "title": "Cuadrícula",
+            "description": "Configurar el diseño de la cuadrícula de la página principal y los tipos de ranura"
+          },
+          "filter-analysis": {
+            "title": "Análisis de filtros",
+            "description": "Analizar datos de pedidos y comportamiento de filtrado"
+          },
+          "sounds": {
+            "title": "Gestión de sonido",
+            "description": "Subir y configurar archivos de sonido para eventos de temporizador"
+          }
+        }
       },
       "translations": {
         "title": "Gestión de traducciones",
@@ -90,6 +116,10 @@
       },
       "languages": {
         "title": "Gestión de idiomas",
+        "subtitle": "Configurar idiomas del sistema y localización"
+      },
+      "orders": {
+        "title": "Gestión de configuración",
         "subtitle": "Configurar idiomas del sistema y localización"
       }
     }

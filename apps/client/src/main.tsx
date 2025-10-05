@@ -22,7 +22,7 @@ import i18n from './i18n.config.ts';
 
 import { I18nextProvider } from 'react-i18next';
 import App from './App';
-import PersistQueryClientProvider from 'providers/QueryClientProvider/PersistQueryClientProvider';
+import { PersistQueryClientProvider } from 'providers/QueryClientProvider';
 import { RouteMetadataProvider } from 'routes/providers/RouteMetadataProvider';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

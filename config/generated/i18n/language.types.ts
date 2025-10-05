@@ -1,7 +1,7 @@
 /**
  * Language and Internationalization Types
  * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated on 2025-10-03T21:14:57.060Z
+ * Generated on 2025-10-05T09:53:11.139Z
  */
 import { config } from 'config/i18n.config';
 
@@ -13,14 +13,14 @@ export type CCA2 = 'ES' | 'GB' | 'US';
  * to 2-character language codes (ISO 639-1)
  */
 export const LANG_CODE_MAPPING = {
-  eng: 'en', // English
-  spa: 'es', // Spanish
-  cat: 'ca', // Catalan
+  'eng': 'en', // English
+  'spa': 'es', // Spanish
+  'cat': 'ca', // Catalan
 } as const;
 
 // Extract types from the controlled mapping
 export type LangCode3 = keyof typeof LANG_CODE_MAPPING;
-export type LangCode2 = (typeof LANG_CODE_MAPPING)[LangCode3];
+export type LangCode2 = typeof LANG_CODE_MAPPING[LangCode3];
 
 // Legacy alias for backward compatibility
 export type LangCode = LangCode2;

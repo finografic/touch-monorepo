@@ -5,6 +5,7 @@ import type { ReactNode } from 'react';
 export interface AppConfigValues {
   [AppConfigKeys.currentLanguage]: string;
   [AppConfigKeys.theme]: 'light' | 'dark';
+  [AppConfigKeys.title]: string;
 }
 
 const SETTER_PREFIX = 'AppConfig';
