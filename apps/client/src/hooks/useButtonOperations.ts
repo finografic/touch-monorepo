@@ -47,12 +47,16 @@ interface UseButtonOperationsReturn {
   isOperationPending: boolean;
 }
 
+// TODO: SPLIT UP THIS FILE ??
+// MainPageOps vs TemperatureOps vs ProductOps ??
+// Timers
+// etc..
 export const useButtonOperations = (): UseButtonOperationsReturn => {
   const location = useLocation();
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
-  const { orders, toggleOrder, setOrdersSession, profile } = useOrders();
+  const { orders, toggleSlot, setOrdersSession, profile } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId, clearSession } = useSession();
   const { addTimer, clearCompletedTimers, timers, removeTimer } = useTimers();
   const {
@@ -82,10 +86,12 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   // }, [slotConfigs, isLoading, error]);
 
   // Determine which slots to process (same logic used in onSuccess)
-  const slotsToProcess =
-    mainPageSelectedSlots.length > 0
+
+  const slotsToProcess = useMemo(() => {
+    return mainPageSelectedSlots.length > 0
       ? mainPageSelectedSlots.map((slot) => slot.slotNumber)
       : orders.filter((order) => order.isSelected).map((order) => order.slotNumber);
+  }, [mainPageSelectedSlots, orders]);
 
   const { startTemperatureControl, isLoading: isTemperatureLoading } = useProcessTimesFromTemperatureFilter({
     selectedSlots: mainPageSelectedSlots,
@@ -265,7 +271,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       selectedIdleSlots.forEach((slot) => {
         const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
         if (orderConfig) {
-          toggleOrder({
+          toggleSlot({
             slotType: orderConfig.slotType,
             slotNumber: slot.slotNumber,
           });
@@ -294,16 +300,21 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     createSession,
     assignOrdersToSession,
     setOrdersSession,
-    toggleOrder,
+    toggleSlot,
     orderItemsConfig,
   ]);
 
   // ======================================================================== //
 
-  const handleProgramProduct = useCallback(async () => {
+  const handleProgramProduct = useCallback(() => {
+    // 🚀 PERFORMANCE OPTIMIZATION: Use Maps for O(n) lookups
+    const timerMap = new Map(timers.map((t) => [t.slotNumber, t]));
+    const orderConfigMap = new Map(orderItemsConfig.map((config) => [config.slotNumber, config]));
+    const ordersMap = new Map(orders.map((order) => [order.slotNumber, order]));
+
     // Get selected slots that are idle (not running timers)
     const selectedIdleSlots = mainPageSelectedSlots.filter((slot) => {
-      const timer = timers.find((t: any) => t.slotNumber === slot.slotNumber);
+      const timer = timerMap.get(slot.slotNumber);
       return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
     });
 
@@ -315,12 +326,12 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     startTransition(() => {
       // Create orders for selected slots first and ensure they are selected
       selectedIdleSlots.forEach((slot) => {
-        const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
+        const orderConfig = orderConfigMap.get(slot.slotNumber);
         if (orderConfig) {
           // Check if order already exists and is selected
-          const existingOrder = orders.find((order) => order.slotNumber === slot.slotNumber);
+          const existingOrder = ordersMap.get(slot.slotNumber);
           if (!existingOrder || !existingOrder.isSelected) {
-            toggleOrder({
+            toggleSlot({
               slotType: orderConfig.slotType,
               slotNumber: slot.slotNumber,
             });
@@ -341,23 +352,17 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       });
     });
 
-    // Set the default mode filter (outside of startTransition since it's async)
+    // 🚀 PERFORMANCE OPTIMIZATION: Get mode from localStorage instead of API call
     try {
-      const response = await api.get('/modes');
-
-      const defaultMode = response.data.find((mode: any) => mode.isDefault);
-
-      if (defaultMode) {
-        const modeFilter = {
-          id: defaultMode.id,
-          name: defaultMode.name,
-        };
+      const storedMode = localStorage.getItem('defaultMode');
+      if (storedMode) {
+        const modeFilter = JSON.parse(storedMode);
         setFilter('mode', modeFilter);
       } else {
-        console.warn('🔍 handleProgramProduct: No default mode found');
+        console.warn('🔍 handleProgramProduct: No default mode found in localStorage');
       }
     } catch (error) {
-      console.error('🔍 handleProgramProduct: Error fetching modes:', error);
+      console.error('🔍 handleProgramProduct: Error parsing stored mode:', error);
     }
 
     // Navigate to first step of product configuration flow (drink type selection)
@@ -374,8 +379,9 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     setOrdersSession,
     setPageCurrent,
     navigate,
-    toggleOrder,
+    toggleSlot,
     orderItemsConfig,
+    orders,
     setFilter,
   ]);
 
@@ -466,7 +472,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         // Clear any orders that were created for this session
         const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
         sessionOrders.forEach((order) => {
-          toggleOrder({
+          toggleSlot({
             slotType: order.slotType,
             slotNumber: order.slotNumber,
           });
@@ -479,7 +485,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       // Navigate back to main page
       navigate(PATHS.main, { replace: true });
     });
-  }, [location.pathname, currentSessionId, orders, toggleOrder, navigate, clearSession]);
+  }, [location.pathname, currentSessionId, orders, toggleSlot, navigate, clearSession]);
 
   const handleCancelProductSession = useCallback(() => {
     startTransition(() => {
@@ -504,7 +510,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         // Clear any orders that were created for this session
         const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
         sessionOrders.forEach((order) => {
-          toggleOrder({
+          toggleSlot({
             slotType: order.slotType,
             slotNumber: order.slotNumber,
           });
@@ -519,15 +525,16 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       // Navigate back to main page
       navigate(PATHS.main, { replace: true });
     });
-  }, [location.pathname, currentSessionId, orders, toggleOrder, navigate, clearSession, clearFilters]);
+  }, [location.pathname, currentSessionId, orders, toggleSlot, navigate, clearSession, clearFilters]);
 
   const getOperationDisabled = useCallback(
     (actionType: OperationActionType): boolean => {
-      // Use mainPageSelectedSlots from top level (already available)
+      // 🚀 PERFORMANCE OPTIMIZATION: Use Map for O(n) timer lookups
+      const timerMap = new Map(timers.map((t) => [t.slotNumber, t]));
 
       // Count available slots (not running timers) for operations that need idle slots
       const numAvailableSelected = mainPageSelectedSlots.filter((slot) => {
-        const timer = timers.find((t: any) => t.slotNumber === slot.slotNumber);
+        const timer = timerMap.get(slot.slotNumber);
         return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
       }).length;
 
@@ -536,7 +543,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
       // Count selected processing timers for cancel button
       const numSelectedProcessing = mainPageSelectedSlots.filter((slot) => {
-        const timer = timers.find((t: any) => t.slotNumber === slot.slotNumber);
+        const timer = timerMap.get(slot.slotNumber);
         return timer && timer.status === 'processing';
       }).length;
 

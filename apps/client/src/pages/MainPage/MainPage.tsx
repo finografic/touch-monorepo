@@ -7,25 +7,48 @@ import { useTimers } from 'providers/TimersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useButtonConfig } from 'hooks/useButtonConfig';
+import { useFiltersContext } from 'providers/FiltersProvider';
 // import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { styles } from './MainPage.styles';
 import { Flex, Spinner } from '@radix-ui/themes';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
+import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 
 export function MainPage() {
   const { orders } = useOrders();
   const { timers } = useTimers();
   const { contentButtons } = useButtonConfig();
   const { setIsNextDisabled } = usePagination();
+  const { setFilter } = useFiltersContext();
   // const slotsConfig = useslotsConfig();
   const { data: slotsConfig, isLoading, error } = useGetSlotConfigurations();
+
+  // 🚀 PERFORMANCE OPTIMIZATION: Pre-fetch default mode on MainPage
+  const { data: defaultMode, isLoading: isModeLoading } = useGetDefaultMode();
+
+  // 🚀 PERFORMANCE OPTIMIZATION: Set default mode filter when loaded
+  useEffect(() => {
+    if (defaultMode && !isModeLoading) {
+      const modeFilter = {
+        id: defaultMode.id,
+        name: defaultMode.name,
+      };
+      setFilter('mode', modeFilter);
+
+      // Store in localStorage for quick access
+      localStorage.setItem('defaultMode', JSON.stringify(modeFilter));
+    }
+  }, [defaultMode, isModeLoading, setFilter]);
+
+  // 🚀 PERFORMANCE OPTIMIZATION: Use Map for O(n) timer lookups
+  const timerMap = new Map(timers.map((t) => [t.slotNumber, t]));
 
   // Get currently selected orders that are not processing or completed
   const availableOrders = orders.filter((order) => {
     if (!order.isSelected) return false;
 
-    // Check if there's a timer for this order
-    const timer = timers.find((t) => t.slotNumber === order.slotNumber);
+    // Check if there's a timer for this order using Map lookup
+    const timer = timerMap.get(order.slotNumber);
     if (timer && (timer.status === 'processing' || timer.status === 'completed')) {
       return false; // Exclude orders with active timers
     }

@@ -95,7 +95,7 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
             });
             set({ orders: updatedOrders });
           },
-          toggleOrder: ({ slotType, slotNumber }: { slotType: SlotType; slotNumber: number }) => {
+          toggleSlot: ({ slotType, slotNumber }: { slotType: SlotType; slotNumber: number }) => {
             const { orders } = get();
             const existingOrder = findOrderByNumber(orders, slotNumber);
 
