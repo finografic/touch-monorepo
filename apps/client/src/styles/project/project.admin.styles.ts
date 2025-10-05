@@ -48,7 +48,7 @@ export const stylesAdminContent = css`
     }
 
     h3 {
-      color: var(--color-text-light);
+      color: ${colors.textLight};
       font-weight: 500;
     }
 
@@ -86,30 +86,30 @@ export const stylesAdminContent = css`
     }
 
     p {
-      color: var(--color-text);
+      color: ${colors.text};
       font-weight: 500;
       line-height: 1.75;
     }
     a {
-      color: var(--color-primary);
-      color: var(--color-secondary-xdark);
+      color: ${colors.primary};
+      color: ${colors.secondaryXDark};
       text-decoration: none;
       &:hover {
-        color: var(--color-primary-x-dark);
+        color: ${colors.primaryXDark};
       }
     }
     code {
       font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
-      color: var(--color-text-light);
+      color: ${colors.textLight};
     }
     pre {
       font-size: 0.8em;
       line-height: 1.5;
-      color: var(--color-text-light);
+      color: ${colors.textLight};
     }
     hr {
       border: none;
-      border-bottom: ${layout.borderWidth} dashed var(--color-grey-light);
+      border-bottom: ${layout.borderWidth} dashed ${colors.greyLight};
       margin: calc(${layout.padding} * 1.2) 0;
       opacity: 0.5;
     }

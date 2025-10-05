@@ -18,7 +18,35 @@ export const border = css`
 // LAYOUT VARIABLES
 export const layout = {
   fontSize: baseLayout.fontSize,
-  padding: baseLayout.padding[2],
+  // NEW: 🎯 Proxy - native JS feature
+  // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Proxy
+  padding: new Proxy(baseLayout.padding, {
+    get(target, prop) {
+      const DEFAULT_VALUE_INDEX = 4;
+      // Handle numeric property access (e.g., layout.padding[4])
+      if (typeof prop === 'string' && !Number.isNaN(Number(prop))) {
+        return target[prop];
+      }
+
+      // Handle string conversion (e.g., `${layout.padding}` in template literals)
+      if (prop === Symbol.toPrimitive) {
+        return () => target[DEFAULT_VALUE_INDEX]; // Default to '1rem' (index 4)
+      }
+
+      // Handle valueOf() calls
+      if (prop === 'valueOf') {
+        return () => target[DEFAULT_VALUE_INDEX]; // Default to '1rem' (index 4)
+      }
+
+      // Handle toString() calls
+      if (prop === 'toString') {
+        return () => target[DEFAULT_VALUE_INDEX]; // Default to '1rem' (index 4)
+      }
+
+      // Handle other property access (like Object.keys(), for...in loops)
+      return target[prop];
+    },
+  }),
   borderWidth: baseLayout.borderWidth[2],
   borderRadius: baseLayout.borderRadius,
   pageColor: colors.white,
