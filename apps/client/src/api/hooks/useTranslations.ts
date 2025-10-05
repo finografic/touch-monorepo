@@ -1,5 +1,12 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { translationEndpoints } from '../endpoints/translations.endpoints';
+// import { translationEndpoints } from '../endpoints';
+import {
+  batchTranslationEndpoints,
+  containerTypeEndpoints,
+  drinkSubtypeEndpoints,
+  drinkTypeEndpoints,
+  volumeEndpoints,
+} from '../endpoints';
 import { ADMIN_DATA_QUERY_CONFIG } from 'config/api';
 import type {
   ContainerTypeTranslation,
@@ -10,7 +17,7 @@ import type {
   DrinkTypeUpdate,
   VolumeTranslation,
   VolumeUpdate,
-} from '../endpoints/translations.endpoints';
+} from '../endpoints';
 
 // Query keys for caching
 export const TRANSLATION_QUERY_KEYS = {
@@ -27,7 +34,7 @@ export const TRANSLATION_QUERY_KEYS = {
 export const useGetDrinkTypes = () => {
   return useQuery({
     queryKey: TRANSLATION_QUERY_KEYS.drinkTypes,
-    queryFn: translationEndpoints.getDrinkTypes,
+    queryFn: drinkTypeEndpoints.getDrinkTypes,
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
 };
@@ -38,7 +45,7 @@ export const useGetDrinkTypes = () => {
 export const useGetDrinkSubtypes = () => {
   return useQuery({
     queryKey: TRANSLATION_QUERY_KEYS.drinkSubtypes,
-    queryFn: translationEndpoints.getDrinkSubtypes,
+    queryFn: drinkSubtypeEndpoints.getDrinkSubtypes,
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
 };
@@ -49,7 +56,7 @@ export const useGetDrinkSubtypes = () => {
 export const useGetVolumes = () => {
   return useQuery({
     queryKey: TRANSLATION_QUERY_KEYS.volumes,
-    queryFn: translationEndpoints.getVolumes,
+    queryFn: volumeEndpoints.getVolumes,
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
 };
@@ -60,7 +67,7 @@ export const useGetVolumes = () => {
 export const useGetContainerTypes = () => {
   return useQuery({
     queryKey: TRANSLATION_QUERY_KEYS.containerTypes,
-    queryFn: translationEndpoints.getContainerTypes,
+    queryFn: containerTypeEndpoints.getContainerTypes,
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin config for fresh data in dev
   });
 };
@@ -110,7 +117,7 @@ export const useUpdateDrinkType = () => {
 
   return useMutation({
     mutationFn: ({ id, updates }: { id: string; updates: DrinkTypeUpdate }) =>
-      translationEndpoints.updateDrinkType(id, updates),
+      drinkTypeEndpoints.updateDrinkType(id, updates),
     onSuccess: (updatedDrinkType) => {
       // Update the cache with the new data
       queryClient.setQueryData<DrinkTypeTranslation[]>(TRANSLATION_QUERY_KEYS.drinkTypes, (oldData) => {
@@ -129,7 +136,7 @@ export const useUpdateDrinkSubtype = () => {
 
   return useMutation({
     mutationFn: ({ id, updates }: { id: string; updates: DrinkSubtypeUpdate }) =>
-      translationEndpoints.updateDrinkSubtype(id, updates),
+      drinkSubtypeEndpoints.updateDrinkSubtype(id, updates),
     onSuccess: (updatedSubtype) => {
       // Update the cache with the new data
       queryClient.setQueryData<DrinkSubtypeTranslation[]>(TRANSLATION_QUERY_KEYS.drinkSubtypes, (oldData) => {
@@ -148,7 +155,7 @@ export const useUpdateVolume = () => {
 
   return useMutation({
     mutationFn: ({ id, updates }: { id: string; updates: VolumeUpdate }) =>
-      translationEndpoints.updateVolume(id, updates),
+      volumeEndpoints.updateVolume(id, updates),
     onSuccess: (updatedVolume) => {
       // Update the cache with the new data
       queryClient.setQueryData<VolumeTranslation[]>(TRANSLATION_QUERY_KEYS.volumes, (oldData) => {
@@ -167,7 +174,7 @@ export const useUpdateContainerType = () => {
 
   return useMutation({
     mutationFn: ({ id, updates }: { id: string; updates: ContainerTypeUpdate }) =>
-      translationEndpoints.updateContainerType(id, updates),
+      containerTypeEndpoints.updateContainerType(id, updates),
     onSuccess: (updatedContainerType) => {
       // Update the cache with the new data
       queryClient.setQueryData<ContainerTypeTranslation[]>(
@@ -188,7 +195,7 @@ export const useBatchUpdateTranslations = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: translationEndpoints.batchUpdateTranslations,
+    mutationFn: batchTranslationEndpoints.batchUpdateTranslations,
     onSuccess: () => {
       // Invalidate all translation queries to refetch fresh data
       queryClient.invalidateQueries({

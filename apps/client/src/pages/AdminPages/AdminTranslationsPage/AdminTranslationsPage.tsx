@@ -18,12 +18,7 @@ import {
   getLanguageCodesFromData,
   getLanguageFieldName,
 } from './utils/translation-helpers';
-import type {
-  ContainerTypeUpdate,
-  DrinkSubtypeUpdate,
-  DrinkTypeUpdate,
-  VolumeUpdate,
-} from 'api/endpoints/translations.endpoints';
+import type { ContainerTypeUpdate, DrinkSubtypeUpdate, DrinkTypeUpdate, VolumeUpdate } from 'api/endpoints';
 import { LanguagesDto, useGetSupportedLanguages } from 'queries/supported-languages';
 
 // Create dynamic schema based on supported languages

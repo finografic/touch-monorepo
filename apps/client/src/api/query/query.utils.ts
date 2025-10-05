@@ -1,4 +1,4 @@
-import type { QueryBuilder, QueryOperatorObject, QueryValue } from './types';
+import type { QueryBuilder, QueryOperatorObject, QueryValue } from './query.types';
 
 export class QueryStringBuilder<T> {
   #query: QueryBuilder<T>;

@@ -11,7 +11,7 @@ import type {
   DrinkVolumeEntity,
 } from '@workspace/server/types/entities';
 import { api } from 'api';
-import { isRetryableError, transformAxiosError } from './api.utils';
+import { isRetryableError, transformAxiosError } from '@workspace/core/api';
 import type { TemperatureProfileEntity } from 'types/models/temperature.model';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import type {
