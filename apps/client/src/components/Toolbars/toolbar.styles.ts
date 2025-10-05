@@ -19,24 +19,25 @@ export const baseToolbarStyles = css`
   box-sizing: border-box;
   z-index: 800;
 
-  button {
+  .button-box button.btn {
     ${stylesButton}
-    padding: 0.75rem 1rem;
+    padding: 0.5rem;
     min-width: auto;
     width: auto;
     border-width: 0;
-    svg.icon {
+    /* svg.icon {
       color: ${colors.white75};
-      border-color: ${colors.infoXLight};
-    }
+      border-color: ${colors.white75};
+    } */
     &:hover {
+      cursor: pointer;
       border-color: transparent;
+      background-color: transparent;
       svg.icon {
-        color: ${colors.info};
-        border-color: ${colors.info};
+        color: ${colors.infoLight};
+        border-color: ${colors.infoLight};
       }
     }
-
     &.active {
       svg.icon {
         color: ${colors.warningLight};

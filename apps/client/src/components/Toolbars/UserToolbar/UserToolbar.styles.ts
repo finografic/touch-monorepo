@@ -1,35 +1,20 @@
 import { css } from '@emotion/react';
-import { colors, layout } from 'styles';
+import { baseToolbarStyles } from '../toolbar.styles';
+
+/**
+ * FrontEndToolbar styles - extends base toolbar styles
+ * Add any frontend-specific style overrides here if needed
+ */
+// export const styles = baseToolbarStyles;
 
 export const styles = css`
-  /* width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  height: -webkit-fill-available; */
+  ${baseToolbarStyles}
 
-  /* &.btn,
-  &.btn.btn-auth.logged-in {
-    svg.icon {
-      color: ${colors.white75};
-    }
+  .button-box button.btn {
     &:hover {
+      cursor: pointer;
       border-color: transparent;
-      svg.icon {
-        color: ${colors.infoLight};
-      }
-    }
-  } */
-
-  &.btn.btn-auth.logged-out {
-    svg.icon {
-      color: ${colors.greyXXLight};
-    }
-  }
-
-  &.btn.btn-auth.logged-in {
-    svg.icon {
-      color: ${colors.successXXLight};
+      background-color: transparent;
     }
   }
 `;

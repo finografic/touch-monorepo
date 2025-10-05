@@ -1,6 +1,5 @@
 import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
-import { styles } from './AdminToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useEffect, useState } from 'react';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
@@ -9,6 +8,7 @@ import { PATHS } from 'config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { stopAllAudio } from 'utils/soundCache.utils';
+import { styles } from './AdminToolbar.styles';
 
 export const AdminToolbar = () => {
   const {

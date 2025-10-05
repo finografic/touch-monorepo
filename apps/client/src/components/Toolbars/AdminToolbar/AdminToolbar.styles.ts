@@ -1,7 +1,27 @@
+import { css } from '@emotion/react';
 import { baseToolbarStyles } from '../toolbar.styles';
+import { colors } from 'styles';
 
 /**
- * AdminToolbar styles - extends base toolbar styles
- * Add any admin-specific style overrides here if needed
+ * FrontEndToolbar styles - extends base toolbar styles
+ * Add any frontend-specific style overrides here if needed
  */
-export const styles = baseToolbarStyles;
+// export const styles = baseToolbarStyles;
+
+export const styles = css`
+  ${baseToolbarStyles}
+
+  .button-box button.btn {
+    svg.icon {
+      color: ${colors.infoLight};
+      border-color: ${colors.infoLight};
+      background-color: transparent;
+    }
+    &:hover {
+      cursor: pointer;
+      color: ${colors.infoDark};
+      border-color: ${colors.infoDark};
+      background-color: ${colors.infoLight25};
+    }
+  }
+`;

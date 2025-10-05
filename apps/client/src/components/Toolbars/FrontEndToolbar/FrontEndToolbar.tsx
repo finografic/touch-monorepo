@@ -1,8 +1,6 @@
 import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
-import { styles } from './FrontEndToolbar.styles';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
-import { useConfigStorage } from 'hooks/useConfigStorage';
 import { DialogIcon, LanguageIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
 import { ADMIN_PATHS, ALTERNATIVE_PATHS } from 'config';
 import { useNavigate } from 'react-router-dom';
@@ -11,6 +9,7 @@ import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTi
 import { useDev } from 'dev-tools/providers/DevProvider';
 import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
 import { useStorageTimer } from 'providers/TimersProvider';
+import { styles } from './FrontEndToolbar.styles';
 
 export const FrontEndToolbar = () => {
   const { isDevToolsVisible } = useDev();
