@@ -163,8 +163,16 @@ export const cssGlobal = css`
     height: 2rem;
     display: inline-block;
     flex-shrink: 0;
-    transition: all 0.2s ease-in-out;
+    transition:
+      color 200ms ease-in-out,
+      border-color 200ms ease-in-out,
+      background-color 200ms ease-in-out;
     color: currentColor;
+
+    transform: none !important;
+    &:hover {
+      transform: none !important;
+    }
   }
 
   /* Global button-box styles for consistent icon button layout */

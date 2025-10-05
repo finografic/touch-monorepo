@@ -25,12 +25,11 @@ export const baseToolbarStyles = css`
     min-width: auto;
     width: auto;
     border-width: 0;
-    /* svg.icon {
-      color: ${colors.white75};
-      border-color: ${colors.white75};
-    } */
+    transform: none;
+
     &:hover {
       cursor: pointer;
+      transform: none;
       border-color: transparent;
       background-color: transparent;
       svg.icon {
