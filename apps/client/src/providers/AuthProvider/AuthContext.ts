@@ -28,7 +28,7 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { useShallow } from 'zustand/react/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
-import type { AuthSession, AuthStore, AuthValues } from './AuthContext.types';
+import type { AuthSession, AuthSignOutParams, AuthStore, AuthValues } from './AuthContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
 
 export const DISPLAY_NAME = 'Auth';
@@ -122,7 +122,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               return { success: false, error: 'Sign up failed' };
             }
           },
-          signOut: async () => {
+          signOut: async ({ onSuccess, onError }: AuthSignOutParams) => {
             try {
               // Call server to invalidate session in database
               const response = await fetch('http://localhost:4040/api/auth/sign-out', {
@@ -149,6 +149,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                   'touch-monorepo.session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
 
                 console.log('✅ Sign out successful - session cleared');
+                onSuccess?.();
               } else {
                 console.warn('⚠️ Server sign-out failed, clearing client-side state anyway');
                 // Still clear client state even if server fails
@@ -172,6 +173,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               });
               document.cookie =
                 'touch-monorepo.session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+              onError?.();
             }
           },
           setSession: (session: AuthSession | null) => {
