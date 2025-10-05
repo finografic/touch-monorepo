@@ -10,6 +10,19 @@
  * - Loading states
  * - Type-safe state management
  *
+ * Usage:
+ * ```tsx
+ * // Wrap your app with the provider (from AuthProvider.tsx)
+ * <AuthProviderWithInitialization>
+ *   <App />
+ * </AuthProviderWithInitialization>
+ *
+ * // Use in components
+ * const { user, isAuthenticated, signIn, signOut } = useAuth();
+ * ```
+ *
+ * Note: The automatic session initialization is handled by AuthProvider.tsx,
+ * not by this store file. This file only contains the store logic.
  */
 
 import { createStore, type StoreApi, useStore } from 'zustand';
@@ -49,9 +62,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             try {
               const response = await fetch('http://localhost:4040/api/auth/sign-in/email', {
                 method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 credentials: 'include',
                 body: JSON.stringify({ email, password }),
               });
@@ -89,7 +100,13 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               const result = await response.json();
 
               if (response.ok && result.user) {
-                set({ session: result, user: result.user, isAuthenticated: true, isLoading: false });
+                // BetterAuth returns user data directly on successful signup
+                set({
+                  session: result,
+                  user: result.user,
+                  isAuthenticated: true,
+                  isLoading: false,
+                });
                 return { success: true };
               } else {
                 set({ isLoading: false });
@@ -98,7 +115,6 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             } catch (error) {
               console.error('Sign up error:', error);
               set({ isLoading: false });
-
               return { success: false, error: 'Sign up failed' };
             }
           },
@@ -115,6 +131,18 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               // Clear client-side state after successful server response
               if (response.ok) {
                 set({ ...defaultValue });
+                // set({
+                //   session: null,
+                //   user: null,
+                //   isAuthenticated: false,
+                //   isLoading: false,
+                // });
+
+                // user: null,
+                // session: null,
+                // isLoading: true,
+                // isAuthenticated: false,
+                // isAdmin: false,
 
                 // Clear the actual cookie name used by BetterAuth
                 // The cookie prefix comes from package.json name: "touch-monorepo"
@@ -126,23 +154,36 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               } else {
                 console.warn('⚠️ Server sign-out failed, clearing client-side state anyway');
                 // Still clear client state even if server fails
-                set({ ...defaultValue });
-
+                set({
+                  session: null,
+                  user: null,
+                  isAuthenticated: false,
+                  isLoading: false,
+                });
                 document.cookie =
                   'touch-monorepo.session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
               }
             } catch (error) {
               console.error('Sign out error:', error);
               // Even if there's an error, clear the session state
-              set({ ...defaultValue });
-
+              set({
+                session: null,
+                user: null,
+                isAuthenticated: false,
+                isLoading: false,
+              });
               document.cookie =
                 'touch-monorepo.session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
               onError?.();
             }
           },
           setSession: (session: AuthSession | null) => {
-            set({ session, user: session?.user || null, isAuthenticated: !!session?.user, isLoading: false });
+            set({
+              session,
+              user: session?.user || null,
+              isAuthenticated: !!session?.user,
+              isLoading: false,
+            });
           },
           setLoading: (isLoading: boolean) => {
             set({ isLoading });
@@ -163,11 +204,21 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                   isLoading: false,
                 });
               } else {
-                set({ ...defaultValue });
+                set({
+                  session: null,
+                  user: null,
+                  isAuthenticated: false,
+                  isLoading: false,
+                });
               }
             } catch (error) {
               console.error('Failed to refresh session:', error);
-              set({ ...defaultValue });
+              set({
+                session: null,
+                user: null,
+                isAuthenticated: false,
+                isLoading: false,
+              });
             }
           },
         },
