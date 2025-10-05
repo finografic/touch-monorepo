@@ -1,8 +1,6 @@
 import type { RouteConfig } from 'routes/routes.types';
 import { BUTTON_TYPES } from 'types/button.types';
-import { ADMIN_PATHS, ALTERNATIVE_PATHS, PATHS, ROUTE_ACTION_SLUGS } from './paths.constants';
-
-export { ALTERNATIVE_PATHS, PATHS, ROUTE_ACTION_SLUGS };
+import { PATHS } from './paths.constants';
 
 export const ROUTES_CONFIG: RouteConfig[] = [
   {

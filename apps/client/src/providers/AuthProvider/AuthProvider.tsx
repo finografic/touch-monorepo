@@ -13,7 +13,6 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   const { refreshSession } = useAuth();
 
   useEffect(() => {
-    // Initialize session on mount
     refreshSession();
   }, [refreshSession]);
 

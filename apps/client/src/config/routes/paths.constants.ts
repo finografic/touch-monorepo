@@ -1,12 +1,6 @@
 import type { SlotFilterKey } from 'types/orders.types';
 import type { ConstMapOf } from '@workspace/core/types/utils';
 
-/**
- * Route path constants for the main ordering flow
- * Organized by category for better maintainability
- */
-
-// Main ordering flow routes
 export const ROUTE_PATHS: ConstMapOf<SlotFilterKey, string> = {
   main: '/',
   drinkType: '/drink-type',
@@ -16,14 +10,12 @@ export const ROUTE_PATHS: ConstMapOf<SlotFilterKey, string> = {
   temperature: '/temperature',
 } as const;
 
-// Alternative flow routes (non-main flow)
 export const ALTERNATIVE_PATHS = {
   time: '/time',
   help: '/help',
   settings: '/settings',
 } as const;
 
-// Admin routes
 export const ADMIN_PATHS = {
   DASHBOARD: '/admin',
   LANGUAGES: '/admin/languages',
