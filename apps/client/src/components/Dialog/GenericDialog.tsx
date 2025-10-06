@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
+import { Dialog, Flex, IconButton, Tabs, Theme, VisuallyHidden } from '@radix-ui/themes';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { styles } from './GenericDialog.styles';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
 // import { Button } from 'components/ButtonRadix';
 import { Button } from 'components/Button';
+import { CloseIcon } from 'styles/icons';
 // import { Button as Button } from 'components/Button';
 import clsx from 'clsx';
 
@@ -48,6 +49,10 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
   // Get the portal container element
   const portalContainer = document.getElementById('radix-portal-container') || document.body;
 
+  // Object.assign(config, { title: 'TEST TITLE' });
+
+  const hasTitle = config.title;
+
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Content
@@ -58,21 +63,24 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
         container={portalContainer}
       >
         {/* Header - Fixed at top */}
-        <div
-          className="dialog-header"
-          //  style={{ backgroundColor: 'pink' }}
-        >
-          <Flex
-            justify="between"
-            align="center"
-            //  mb="4"
-          >
-            <Dialog.Title size="5">{config.title}</Dialog.Title>
-            <IconButton className="close-button" variant="ghost" onClick={onClose}>
-              <Cross2Icon width="20" height="20" />
-            </IconButton>
-          </Flex>
-
+        <div className={clsx('dialog-header', hasTitle ? 'has-title' : 'no-title')}>
+          {hasTitle ? (
+            <Flex display="flex" justify="between" align="center">
+              <Dialog.Title size="5">{config.title}</Dialog.Title>
+              <IconButton className="close-button" variant="ghost" onClick={onClose}>
+                <CloseIcon />
+              </IconButton>
+            </Flex>
+          ) : (
+            <Flex display="flex" justify="end" align="center">
+              <VisuallyHidden>
+                <Dialog.Title />
+              </VisuallyHidden>
+              <IconButton className="close-button" variant="ghost" onClick={onClose}>
+                <CloseIcon />
+              </IconButton>
+            </Flex>
+          )}
           {/* Accessible description for screen readers */}
           <Dialog.Description
             style={{

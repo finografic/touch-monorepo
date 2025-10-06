@@ -35,7 +35,6 @@ type AuthSetters = CreateSettersType<AuthValues, typeof SETTER_PREFIX>;
 type AuthActions = AuthSetters & {
   signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   signUp: (email: string, password: string, name: string) => Promise<{ success: boolean; error?: string }>;
-  // signOut: (params?: AuthSignOutCallbacks) => Promise<void>;
   signOut(): Promise<void>;
   signOut(params: AuthSignOutCallbacks): Promise<void>;
   setSession: (session: AuthSession | null) => void;

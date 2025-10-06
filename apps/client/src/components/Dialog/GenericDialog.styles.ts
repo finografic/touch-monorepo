@@ -14,34 +14,38 @@ export const styles = css`
     flex-direction: column;
     min-height: 260px !important;
 
-    .close-button {
-      transform: scale(1.5) translate(-25%);
-      color: ${colors.textLight} !important;
-      &:hover {
-        color: ${colors.warning} !important;
-        background-color: transparent;
-        cursor: pointer;
+    .has-title {
+      .close-button {
+        transform: translate(0.25rem, -1rem);
       }
     }
 
     /* Dialog Header - Fixed at top */
-    .dialog-header > div {
-      flex-shrink: 0;
-      /* background-color: yellow; */
-      height: 4rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin: 0rem 0 1.25rem;
-      padding: 0;
-      width: 100%;
-      h1 {
-        font-size: 2rem;
-        font-weight: 500;
-        font-weight: 700;
-        font-size: 1.75rem;
-        margin: 0;
+    .dialog-header {
+      /* padding: 0 0 0.5rem 0; */
+      > div {
+        width: 100%;
+        display: flex;
+        flex-shrink: 0;
+        padding: 0;
+
+        h1 {
+          font-size: 2rem;
+          font-weight: 500;
+          font-weight: 700;
+          font-size: 1.75rem;
+          margin: 0;
+          color: ${colors.textLight};
+        }
+      }
+      .close-button {
+        transform: translate(0.25rem, 0rem);
         color: ${colors.textLight};
+        &:hover {
+          color: ${colors.warningLight};
+          background-color: ${colors.warningLight25};
+          cursor: pointer;
+        }
       }
     }
 
