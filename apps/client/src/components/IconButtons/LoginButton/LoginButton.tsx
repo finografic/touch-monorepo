@@ -6,63 +6,48 @@ import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimple
 import { useState } from 'react';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { useToast } from 'components/Toast';
-
-// const { user, session, isLoading, isAuthenticated, isAdmin, signOut } = useAuth();
-
-// console.log('🔍 USER:', user);
-// console.log('🔍 SESSION:', session);
-// console.log('🔍 IS LOADING:', isLoading);
-// console.log('🔍 IS AUTHENTICATED:', isAuthenticated);
-// console.log('🔍 IS ADMIN:', isAdmin);
-// console.log('🔍 SIGN OUT:', signOut);
+import { useLocation, useNavigate } from 'react-router-dom';
+import { ADMIN_PATHS, PATHS } from 'config/routes/paths.constants';
 
 export const LoginButton: FC = () => {
   const { user, isAuthenticated, signOut } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isAdminLocation = location.pathname.startsWith('/admin');
   const [isOpen, setIsOpen] = useState(false);
 
   console.log('🔍 USER:', user);
-  // console.log('🔍 SESSION:', session);
-  // console.log('🔍 IS LOADING:', isLoading);
   console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
-  // console.log('🔍 IS ADMIN:', isAdmin);
-  // console.log('🔍 SIGN OUT:', signOut);
+
+  const handleLogout = async () => {
+    await signOut({
+      onSuccess: () => {
+        toast({ variant: 'success', message: 'Successfully logged out' });
+      },
+    });
+    navigate(isAdminLocation ? ADMIN_PATHS.DASHBOARD : PATHS.main);
+  };
 
   const handleClick = async () => {
-    if (isAuthenticated) {
-      try {
-        await signOut();
-        toast({
-          variant: 'success',
-          message: 'Successfully logged out',
-        });
-      } catch (error) {
-        toast({
-          variant: 'error',
-          message: 'Failed to log out',
-          subText: 'Please try again',
-        });
-      }
-    } else {
-      // User is not logged in, show login dialog
+    if (!isAuthenticated) {
       setIsOpen(true);
+    } else {
+      try {
+        await handleLogout();
+      } catch (error) {
+        toast({ variant: 'error', message: 'Failed to log out', subText: 'Please try again' });
+      }
     }
   };
 
   const handleLoginSuccess = () => {
     setIsOpen(false);
-    toast({
-      variant: 'success',
-      message: 'Successfully logged in',
-    });
+    toast({ variant: 'success', message: 'Successfully logged in' });
   };
 
   const handleLoginError = (error: string) => {
-    toast({
-      variant: 'error',
-      message: 'Login failed',
-      subText: error,
-    });
+    toast({ variant: 'error', message: 'Login failed', subText: error });
   };
 
   return (
