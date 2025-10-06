@@ -15,7 +15,7 @@ export * from './errors';
 export * from './routes/paths.constants';
 
 // Re-export commonly used configurations for convenience
-export { ADMIN_PATHS, ALTERNATIVE_PATHS, PATHS, ROUTE_ACTION_SLUGS } from './routes/paths.constants';
+export { ALTERNATIVE_PATHS, PATHS, ROUTE_ACTION_SLUGS } from './routes/paths.constants';
 // Route configurations
 export * from './routes/routes.config';
 

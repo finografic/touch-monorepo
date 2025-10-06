@@ -3,7 +3,7 @@ import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { DialogIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
-import { ADMIN_PATHS } from 'config';
+// ADMIN_PATHS deprecated: navigate directly to '/admin' from single source map
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
@@ -39,7 +39,7 @@ export const FrontEndToolbar: React.FC = () => {
         <Flex gap="3" align="center">
           {/* Admin button - navigate to admin */}
           <div className="button-box">
-            <button className="btn btn-dialog" onClick={() => navigate(ADMIN_PATHS.DASHBOARD)}>
+            <button className="btn btn-dialog" onClick={() => navigate('/admin')}>
               <ShieldCheckIcon />
             </button>
           </div>

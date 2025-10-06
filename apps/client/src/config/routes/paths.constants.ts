@@ -16,13 +16,7 @@ export const ALTERNATIVE_PATHS = {
   settings: '/settings',
 } as const;
 
-export const ADMIN_PATHS = {
-  DASHBOARD: '/admin',
-  LANGUAGES: '/admin/languages',
-  TRANSLATIONS: '/admin/translations',
-  TRANSLATIONS_UI: '/admin/translations-ui',
-  ITEMS_LIST: '/admin/items-list',
-} as const;
+// ADMIN_PATHS deprecated in favor of ADMIN_ENTRIES config map + selectors
 
 // Re-export for backward compatibility
 export const PATHS = ROUTE_PATHS;

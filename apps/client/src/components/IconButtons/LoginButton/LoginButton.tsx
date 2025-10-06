@@ -8,7 +8,7 @@ import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { useResetAppState } from 'hooks/useResetAppState';
 import { useToast } from 'components/Toast';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { ADMIN_PATHS, PATHS } from 'config/routes/paths.constants';
+import { PATHS } from 'config/routes/paths.constants';
 
 interface LoginButtonProps {
   onLogoutSuccess: () => void;
@@ -25,7 +25,7 @@ export const LoginButton: FC<LoginButtonProps> = ({ onLogoutSuccess }) => {
   console.log('🔍 USER:', user);
   console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
 
-  const targetPath = isAdminLocation ? ADMIN_PATHS.DASHBOARD : PATHS.main;
+  const targetPath = isAdminLocation ? '/admin' : PATHS.main;
 
   const handleLogout = useCallback(async () => {
     try {
