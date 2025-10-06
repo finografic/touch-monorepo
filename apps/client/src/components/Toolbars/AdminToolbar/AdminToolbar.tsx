@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
-import { HomeIcon, LanguageIcon, StopIcon, TimerIcon } from 'styles/icons';
+import { HomeIcon, StopIcon, TimerIcon } from 'styles/icons';
 import { PATHS } from 'config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
@@ -27,30 +26,6 @@ export const AdminToolbar: React.FC = () => {
 
   useEffect(function checkActiveStorageTimer() {
     log('ADMIN_INIT', 'orange', { isAdminToolsVisible, isStorageTimerVisible, isLanguageDialogOpen });
-    /*
-    const checkActiveTimer = () => {
-      const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
-      if (!timestamp) {
-        setHasActiveTimer(false);
-        return;
-      }
-
-      const startTime = Number.parseInt(timestamp, 10);
-      const now = Date.now();
-      const elapsed = now - startTime;
-      const remaining = Math.max(0, CONFIG_EXPIRY_TIME_MS - elapsed);
-
-      setHasActiveTimer(remaining > 0);
-    };
-
-    // Initial check
-    checkActiveTimer();
-
-    // Update every 5 seconds
-    const intervalId = setInterval(checkActiveTimer, 5000);
-
-    return () => clearInterval(intervalId);
-    */
   }, []);
 
   if (!isAdminToolsVisible) return null;
@@ -63,13 +38,6 @@ export const AdminToolbar: React.FC = () => {
           <div className="button-box">
             <button className="btn btn-dialog" onClick={() => navigate(PATHS.main)}>
               <HomeIcon />
-            </button>
-          </div>
-
-          {/* Language selector */}
-          <div className="button-box">
-            <button className="btn" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
-              <LanguageIcon />
             </button>
           </div>
 

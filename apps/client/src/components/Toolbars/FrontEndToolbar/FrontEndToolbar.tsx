@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
-import { DialogIcon, LanguageIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
-import { ADMIN_PATHS, ALTERNATIVE_PATHS } from 'config';
+import { DialogIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
+import { ADMIN_PATHS } from 'config';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
@@ -41,13 +41,6 @@ export const FrontEndToolbar: React.FC = () => {
           <div className="button-box">
             <button className="btn btn-dialog" onClick={() => navigate(ADMIN_PATHS.DASHBOARD)}>
               <ShieldCheckIcon />
-            </button>
-          </div>
-
-          {/* Language selector */}
-          <div className="button-box">
-            <button className="btn" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
-              <LanguageIcon />
             </button>
           </div>
 
@@ -92,12 +85,6 @@ export const FrontEndToolbar: React.FC = () => {
           )}
         </Flex>
 
-        {/* {isAdminToolsDialogOpen && (
-          <AdminToolsDialog
-            isOpen={isAdminToolsDialogOpen}
-            onClose={() => setIsAdminToolsDialogOpen(false)}
-          />
-        )} */}
         {/* Language Dialog */}
         {isLanguageDialogOpen && (
           <LanguageDialog isOpen={isLanguageDialogOpen} onClose={() => setIsLanguageDialogOpen(false)} />
