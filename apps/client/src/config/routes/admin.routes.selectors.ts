@@ -3,7 +3,7 @@ import { ADMIN_ENTRIES } from './admin.routes.map';
 
 /**
  * ADMIN ENTRIES based on authentication status
- * Uses element.auth to determine if route should be visible
+ * Uses element.public and element.auth to determine if route should be visible
  */
 export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntry[] {
   return ADMIN_ENTRIES.filter((entry) => {
@@ -12,8 +12,8 @@ export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntr
       return true;
     }
 
-    // If user is not authenticated, only show routes that have an auth component
-    return entry.element.auth !== null;
+    // If user is not authenticated, only show routes that have a public component
+    return entry.element.public !== null;
   });
 }
 

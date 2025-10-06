@@ -9,8 +9,9 @@ import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPag
 import { AdminSlotsConfigPage } from 'pages/AdminPages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { EditIcon, LanguageIcon, MagnifyingGlassIcon, UserShildIcon } from 'styles/icons';
 import { SpeakerLoudIcon } from '@radix-ui/react-icons';
+import { AdminLanguagesBasicPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesBasicPage';
 
-export type AuthRoles = 'auth' | 'admin';
+export type AuthRoles = 'public' | 'auth' | 'admin';
 
 /** Base properties shared by all admin route entries */
 interface AdminRouteBase {
@@ -51,7 +52,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'languages',
     path: '/admin/languages',
     element: {
-      auth: null,
+      public: AdminLanguagesBasicPage,
+      auth: AdminLanguagesPage,
       admin: AdminLanguagesPage,
     },
     showInNav: true,
@@ -66,7 +68,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'sounds',
     path: '/admin/sounds',
     element: {
-      auth: AdminSoundBasicPage,
+      public: AdminSoundBasicPage,
+      auth: AdminSoundPage,
       admin: AdminSoundPage,
     },
     showInNav: true,
@@ -83,7 +86,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'translations',
     path: '/admin/translations',
     element: {
-      auth: null,
+      public: null,
+      auth: AdminTranslationsPage,
       admin: AdminTranslationsPage,
     },
     showInNav: true,
@@ -98,7 +102,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'ui-labels',
     path: '/admin/ui-labels',
     element: {
-      auth: null,
+      public: null,
+      auth: AdminUiLabelsPage,
       admin: AdminUiLabelsPage,
     },
     showInNav: true,
@@ -113,7 +118,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'slot-config',
     path: '/admin/slot-config',
     element: {
-      auth: null,
+      public: null,
+      auth: AdminSlotsConfigPage,
       admin: AdminSlotsConfigPage,
     },
     showInNav: true,
@@ -128,7 +134,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'filter-analysis',
     path: '/admin/filter-analysis',
     element: {
-      auth: null,
+      public: null,
+      auth: AdminFilterAnalysisPage,
       admin: AdminFilterAnalysisPage,
     },
     showInNav: true,
@@ -143,7 +150,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'orders',
     path: '/admin/orders',
     element: {
-      auth: null,
+      public: null,
+      auth: AdminOrdersPage,
       admin: AdminOrdersPage,
     },
     showInNav: true,

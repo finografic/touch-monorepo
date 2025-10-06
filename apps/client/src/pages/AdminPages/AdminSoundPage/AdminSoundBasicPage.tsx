@@ -62,7 +62,7 @@ export const AdminSoundBasicPage: React.FC = () => {
     );
   }
 
-  log('__DEV: soundFiles', 'orange', soundFiles);
+  log('__DEV: soundFiles (BASIC)', 'orange', soundFiles);
 
   return (
     <section css={styles} className="admin-content-page">

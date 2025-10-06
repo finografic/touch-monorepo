@@ -34,9 +34,9 @@ export const ProtectedRouteWrapper: React.FC<ProtectedRouteWrapperProps> = ({ ch
     }
 
     // Check if current route has a public component
-    if (currentRouteEntry && currentRouteEntry.element.auth) {
-      // Render the auth component for unauthenticated users (public access)
-      return React.createElement(currentRouteEntry.element.auth);
+    if (currentRouteEntry && currentRouteEntry.element.public) {
+      // Render the public component for unauthenticated users
+      return React.createElement(currentRouteEntry.element.public);
     }
 
     // No public component available - show dashboard cards

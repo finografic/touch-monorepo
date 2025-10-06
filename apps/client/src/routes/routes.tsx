@@ -7,8 +7,8 @@ import { MainPage } from 'pages/MainPage/MainPage';
 import { GenericSelectPage } from 'pages/DrinkPages/GenericSelectPage';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
-import { AdminDashboardWrapper, AdminRouteWrapper } from 'routes/AdminRouteWrapper';
-import { ProtectedAdminRoute } from 'components/ProtectedAdminRoute';
+import { ProtectedRouteWrapper } from 'components/ProtectedRouteWrapper/ProtectedRouteWrapper';
+import { ProtectedAdminRoutes } from 'components/ProtectedAdminRoutes';
 import { AdminTranslationsPage } from 'pages/AdminPages/AdminTranslationsPage/AdminTranslationsPage';
 import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesPage';
 import { AdminUiLabelsPage } from 'pages/AdminPages/AdminUiLabelsPage';
@@ -25,6 +25,7 @@ import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 // import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
 import { RelayPageWrapper } from 'pages/AdminPages/AdminRelaysPage/RelayPageWrapper';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
+import { AdminDashboardWrapper } from 'routes/AdminRouteWrapper';
 
 export const routes: RouteObject[] = [
   {
@@ -114,7 +115,7 @@ export const routes: RouteObject[] = [
       },
       {
         // Protected admin section
-        element: <ProtectedAdminRoute />,
+        element: <ProtectedAdminRoutes />,
         children: [
           {
             index: true,
@@ -125,9 +126,9 @@ export const routes: RouteObject[] = [
             path: 'orders',
             id: AdminFieldKeys.itemsList,
             element: (
-              <AdminRouteWrapper>
+              <ProtectedRouteWrapper>
                 <AdminOrdersPage />
-              </AdminRouteWrapper>
+              </ProtectedRouteWrapper>
             ),
             children: [
               {
@@ -141,63 +142,63 @@ export const routes: RouteObject[] = [
             path: 'translations',
             id: AdminFieldKeys.translations,
             element: (
-              <AdminRouteWrapper>
+              <ProtectedRouteWrapper>
                 <AdminTranslationsPage />
-              </AdminRouteWrapper>
+              </ProtectedRouteWrapper>
             ),
           },
           {
             path: 'ui-labels',
             id: AdminFieldKeys.translationsUi,
             element: (
-              <AdminRouteWrapper>
+              <ProtectedRouteWrapper>
                 <AdminUiLabelsPage />
-              </AdminRouteWrapper>
+              </ProtectedRouteWrapper>
             ),
           },
           {
             path: 'languages',
             id: AdminFieldKeys.languages,
             element: (
-              <AdminRouteWrapper>
+              <ProtectedRouteWrapper>
                 <AdminLanguagesPage />
-              </AdminRouteWrapper>
+              </ProtectedRouteWrapper>
             ),
           },
           {
             path: 'filter-analysis',
             id: 'filter-analysis',
             element: (
-              <AdminRouteWrapper>
+              <ProtectedRouteWrapper>
                 <AdminFilterAnalysisPage />
-              </AdminRouteWrapper>
+              </ProtectedRouteWrapper>
             ),
           },
           {
             path: 'sounds',
             id: 'sounds',
             element: (
-              <AdminRouteWrapper>
+              <ProtectedRouteWrapper>
                 <AdminSoundPage />
-              </AdminRouteWrapper>
+              </ProtectedRouteWrapper>
             ),
           },
           {
             path: 'slot-config',
             id: 'slot-config',
             element: (
-              <AdminRouteWrapper>
+              <ProtectedRouteWrapper>
                 <AdminSlotsConfigPage />
-              </AdminRouteWrapper>
+              </ProtectedRouteWrapper>
             ),
           },
           {
             path: 'relays',
             id: 'relays',
             element: (
-              <AdminRouteWrapper>
+              <ProtectedRouteWrapper>
                 <RelayPageWrapper />
-              </AdminRouteWrapper>
+              </ProtectedRouteWrapper>
             ),
           },
         ],

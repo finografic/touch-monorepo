@@ -4,7 +4,7 @@ import { useAuth } from 'providers/AuthProvider';
 import { AdminBasicPage } from 'pages/AdminPages/AdminBasicPage';
 import { getAdminEntryByPath } from 'config/routes/admin.routes.selectors';
 
-export const ProtectedAdminRoute: React.FC = () => {
+export const ProtectedAdminRoutes: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const location = useLocation();
 
@@ -23,8 +23,8 @@ export const ProtectedAdminRoute: React.FC = () => {
       return <Outlet />;
     }
 
-    // Check if current route is public (has auth component)
-    if (currentRouteEntry && currentRouteEntry.element.auth) {
+    // Check if current route is public (has public component)
+    if (currentRouteEntry && currentRouteEntry.element.public) {
       // Allow access to public routes (e.g., /admin/languages, /admin/sounds)
       return <Outlet />;
     }
