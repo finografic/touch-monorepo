@@ -5,6 +5,7 @@ import { styles } from './LoginButton.styles';
 import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/AuthLoginSimpleDialog';
 import { useCallback, useState } from 'react';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+import { useResetAppState } from 'hooks/useResetAppState';
 import { useToast } from 'components/Toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ADMIN_PATHS, PATHS } from 'config/routes/paths.constants';
@@ -16,6 +17,7 @@ export const LoginButton: FC = () => {
   const location = useLocation();
   const isAdminLocation = location.pathname.startsWith('/admin');
   const [isOpen, setIsOpen] = useState(false);
+  const { resetAppState } = useResetAppState();
 
   console.log('🔍 USER:', user);
   console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
@@ -29,9 +31,12 @@ export const LoginButton: FC = () => {
         onError: () => toast({ variant: 'error', message: 'Failed to log out', subText: 'Please try again' }),
       });
     } finally {
+      if (!isAdminLocation) {
+        resetAppState();
+      }
       navigate(targetPath);
     }
-  }, [navigate, signOut, targetPath, toast]);
+  }, [isAdminLocation, navigate, resetAppState, signOut, targetPath, toast]);
 
   const handleClick = useCallback(async () => {
     if (!isAuthenticated) {
