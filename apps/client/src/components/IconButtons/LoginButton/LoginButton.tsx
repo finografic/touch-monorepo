@@ -30,7 +30,6 @@ export const LoginButton: FC = () => {
 
   const handleClick = async () => {
     if (isAuthenticated) {
-      // User is logged in, show logout option
       try {
         await signOut();
         toast({

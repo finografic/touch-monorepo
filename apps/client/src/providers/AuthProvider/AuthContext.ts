@@ -102,7 +102,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               return { success: false, error: 'Sign up failed' };
             }
           },
-          signOut: async ({ onSuccess, onError }: AuthSignOutCallbacks) => {
+          signOut: async ({ onSuccess, onError }: AuthSignOutCallbacks = {}) => {
             try {
               // Call server to invalidate session in database
               const response = await fetch('http://localhost:4040/api/auth/sign-out', {

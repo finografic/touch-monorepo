@@ -59,10 +59,10 @@ export const PageHeader: React.FC = () => {
   const pageTitle = getPageTitle();
   const pageSubtitle = getPageSubtitle();
 
-  log('__DEV: pageTitle', 'grey', pageTitle);
-  log('__DEV: pageSubtitle', 'grey', pageSubtitle);
-  log('__DEV: isPageTitleVisible', 'grey', isPageTitleVisible);
-  log('__DEV: isPageSubtitleVisible', 'grey', isPageSubtitleVisible);
+  // log('__DEV: pageTitle', 'grey', pageTitle);
+  // log('__DEV: pageSubtitle', 'grey', pageSubtitle);
+  // log('__DEV: isPageTitleVisible', 'grey', isPageTitleVisible);
+  // log('__DEV: isPageSubtitleVisible', 'grey', isPageSubtitleVisible);
 
   if (!isPageTitleVisible || !pageTitle) {
     return null;
