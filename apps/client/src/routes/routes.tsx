@@ -7,7 +7,7 @@ import { MainPage } from 'pages/MainPage/MainPage';
 import { GenericSelectPage } from 'pages/DrinkPages/GenericSelectPage';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
-import { AdminPageWrapper } from 'pages/AdminPages/AdminPageWrapper';
+import { AdminDashboardWrapper, AdminRouteWrapper } from 'routes/AdminRouteWrapper';
 import { ProtectedAdminRoute } from 'components/ProtectedAdminRoute';
 import { AdminTranslationsPage } from 'pages/AdminPages/AdminTranslationsPage/AdminTranslationsPage';
 import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesPage';
@@ -119,12 +119,16 @@ export const routes: RouteObject[] = [
           {
             index: true,
             id: AdminFieldKeys.dashboard,
-            element: <AdminPageWrapper />,
+            element: <AdminDashboardWrapper />,
           },
           {
             path: 'orders',
             id: AdminFieldKeys.itemsList,
-            element: <AdminOrdersPage />,
+            element: (
+              <AdminRouteWrapper>
+                <AdminOrdersPage />
+              </AdminRouteWrapper>
+            ),
             children: [
               {
                 path: ':orderId',
@@ -136,37 +140,65 @@ export const routes: RouteObject[] = [
           {
             path: 'translations',
             id: AdminFieldKeys.translations,
-            element: <AdminTranslationsPage />,
+            element: (
+              <AdminRouteWrapper>
+                <AdminTranslationsPage />
+              </AdminRouteWrapper>
+            ),
           },
           {
             path: 'ui-labels',
             id: AdminFieldKeys.translationsUi,
-            element: <AdminUiLabelsPage />,
+            element: (
+              <AdminRouteWrapper>
+                <AdminUiLabelsPage />
+              </AdminRouteWrapper>
+            ),
           },
           {
             path: 'languages',
             id: AdminFieldKeys.languages,
-            element: <AdminLanguagesPage />,
+            element: (
+              <AdminRouteWrapper>
+                <AdminLanguagesPage />
+              </AdminRouteWrapper>
+            ),
           },
           {
             path: 'filter-analysis',
             id: 'filter-analysis',
-            element: <AdminFilterAnalysisPage />,
+            element: (
+              <AdminRouteWrapper>
+                <AdminFilterAnalysisPage />
+              </AdminRouteWrapper>
+            ),
           },
           {
             path: 'sounds',
             id: 'sounds',
-            element: <AdminSoundPage />,
+            element: (
+              <AdminRouteWrapper>
+                <AdminSoundPage />
+              </AdminRouteWrapper>
+            ),
           },
           {
             path: 'slot-config',
             id: 'slot-config',
-            element: <AdminSlotsConfigPage />,
+            element: (
+              <AdminRouteWrapper>
+                <AdminSlotsConfigPage />
+              </AdminRouteWrapper>
+            ),
           },
           {
             path: 'relays',
             id: 'relays',
-            element: <RelayPageWrapper />,
+            element: (
+              <AdminRouteWrapper>
+                <RelayPageWrapper />
+              </AdminRouteWrapper>
+            ),
           },
         ],
       },

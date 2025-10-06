@@ -1,7 +1,7 @@
 import type React from 'react';
 import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesPage';
 import { AdminSoundPage } from 'pages/AdminPages/AdminSoundPage/AdminSoundPage';
-import { LanguageIcon, EditIcon, MagnifyingGlassIcon, UserShildIcon } from 'styles/icons';
+import { EditIcon, LanguageIcon, MagnifyingGlassIcon, UserShildIcon } from 'styles/icons';
 import { SpeakerLoudIcon } from '@radix-ui/react-icons';
 
 export type Visibility = 'public' | 'authenticated' | 'admin';
