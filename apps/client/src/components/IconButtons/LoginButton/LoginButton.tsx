@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import { UserCircleIcon, UserLockIcon } from 'styles/icons';
 import { styles } from './LoginButton.styles';
 import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/AuthLoginSimpleDialog';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { useToast } from 'components/Toast';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -20,26 +20,26 @@ export const LoginButton: FC = () => {
   console.log('🔍 USER:', user);
   console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
 
-  const handleLogout = async () => {
-    await signOut({
-      onSuccess: () => {
-        toast({ variant: 'success', message: 'Successfully logged out' });
-      },
-    });
-    navigate(isAdminLocation ? ADMIN_PATHS.DASHBOARD : PATHS.main);
-  };
+  const targetPath = isAdminLocation ? ADMIN_PATHS.DASHBOARD : PATHS.main;
 
-  const handleClick = async () => {
+  const handleLogout = useCallback(async () => {
+    try {
+      await signOut({
+        onSuccess: () => toast({ variant: 'success', message: 'Successfully logged out' }),
+        onError: () => toast({ variant: 'error', message: 'Failed to log out', subText: 'Please try again' }),
+      });
+    } finally {
+      navigate(targetPath);
+    }
+  }, [navigate, signOut, targetPath, toast]);
+
+  const handleClick = useCallback(async () => {
     if (!isAuthenticated) {
       setIsOpen(true);
-    } else {
-      try {
-        await handleLogout();
-      } catch (error) {
-        toast({ variant: 'error', message: 'Failed to log out', subText: 'Please try again' });
-      }
+      return;
     }
-  };
+    await handleLogout();
+  }, [isAuthenticated, handleLogout]);
 
   const handleLoginSuccess = () => {
     setIsOpen(false);
