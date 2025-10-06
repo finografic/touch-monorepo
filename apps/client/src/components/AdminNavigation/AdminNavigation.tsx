@@ -5,43 +5,30 @@ import { useLocation } from 'react-router-dom';
 import { usePageTransition } from 'hooks/usePageTransition';
 import { Col, Container, Row } from 'react-grid-system';
 import { styles } from './AdminNavigation.styles';
+import { getAdminNavItems } from 'config/routes/admin.routes.selectors';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 export const AdminNavigation: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 100 });
+  const { isAuthenticated } = useAuth();
 
+  // Get navigation items from the single source of truth
+  const configNavItems = getAdminNavItems(isAuthenticated);
+
+  // DASHBOARD first item (always visible)
   const navItems = [
     {
       id: 'dashboard',
       label: t('admin.pages.dashboard.title'),
       path: '/admin',
     },
-    {
-      id: 'translations',
-      label: t('admin.pages.translations.title'),
-      path: '/admin/translations',
-    },
-    {
-      id: 'ui-labels',
-      label: 'UI Labels / Translations',
-      path: '/admin/ui-labels',
-    },
-    {
-      id: 'languages',
-      label: t('admin.pages.languages.title'),
-      path: '/admin/languages',
-    },
-    {
-      id: 'orders',
-      label: t('admin.pages.orders.title'),
-      path: '/admin/orders',
-    },
-    {
-      id: 'sounds',
-      label: 'Sounds',
-      path: '/admin/sounds',
-    },
+    ...configNavItems.map((item) => ({
+      id: item.key,
+      label: item.label,
+      path: item.path,
+    })),
   ];
 
   const handleNavigation = (path: string) => {
@@ -63,7 +50,9 @@ export const AdminNavigation: React.FC = () => {
                 <TabNav.Link key={item.id} asChild active={location.pathname === item.path}>
                   <button
                     type="button"
-                    className={`nav-button ${location.pathname === item.path ? 'active' : ''} ${isTransitioning ? 'transitioning' : ''}`}
+                    className={`nav-button ${location.pathname === item.path ? 'active' : ''} ${
+                      isTransitioning ? 'transitioning' : ''
+                    }`}
                     onClick={() => handleNavigation(item.path)}
                     disabled={isTransitioning}
                   >

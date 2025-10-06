@@ -1,37 +1,25 @@
 import React from 'react';
-import { Box, Card, Flex, Heading, Text } from '@radix-ui/themes';
+import { Box, Card, Flex } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
-import { ChatBubbleIcon, GearIcon, GlobeIcon, SpeakerLoudIcon, TableIcon } from '@radix-ui/react-icons';
 import { usePageTransition } from 'hooks/usePageTransition';
 import { AdminContentLayout } from './shared';
 import { styles } from './AdminPage.styles';
-import { LanguageIcon } from 'styles/icons';
+import { getAdminDashboardCards } from 'config/routes/admin.routes.selectors';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 export const AdminBasicPage: React.FC = () => {
-  const { t } = useTranslation();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
 
-  const userCards = [];
-
-  const adminCards = [
-    {
-      id: 'languages',
-      title: t('admin.pages.languages.title'),
-      description: t('admin.pages.languages.subtitle'),
-      icon: <LanguageIcon width="32" height="32" />,
-      path: '/admin/languages',
-      color: 'green' as const,
-    },
-    {
-      id: 'sounds',
-      title: 'Sound Management',
-      description: 'Upload and configure sound files for timer events',
-      icon: <SpeakerLoudIcon width="32" height="32" />,
-      path: '/admin/sounds',
-      color: 'indigo' as const,
-    },
-  ];
+  const { isAuthenticated } = useAuth();
+  const adminCards = getAdminDashboardCards(isAuthenticated).map((card) => ({
+    id: card.key,
+    title: card.title,
+    description: card.description,
+    icon: React.createElement(card.icon, { width: 32, height: 32 }),
+    path: card.path,
+    color: card.color,
+  }));
 
   const handleCardClick = (path: string) => {
     navigateWithTransition(path);
@@ -69,15 +57,10 @@ export const AdminBasicPage: React.FC = () => {
                 >
                   <Flex direction="column" gap="4" align="center" p="4">
                     <Box
-                      className="card-icon"
+                      className="card-icon-box"
                       style={{
                         color: `var(--${card.color}-9)`,
                         backgroundColor: `var(--${card.color}-3)`,
-                        borderRadius: '12px',
-                        padding: '16px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
                       }}
                     >
                       {card.icon}

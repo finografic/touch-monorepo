@@ -29,11 +29,16 @@ export const styles = css`
     }
   }
 
-  .card-icon {
+  .card-icon-box {
     transition: all 0.2s ease;
+    border-radius: 12px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .admin-card:hover .card-icon {
+  .admin-card:hover .card-icon-box {
     transform: scale(1.1);
   }
 
