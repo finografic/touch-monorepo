@@ -79,19 +79,8 @@ export const AdminPage: React.FC = () => {
         centerTitle={true}
       >
         <Box className="admin-dashboard">
-          {/* <Flex direction="column" gap="6" align="center">
-            <SectionHeader
-              title="User Configuration"
-              align="center"
-            />
-            <div className="admin-cards">
-              {userCards.map((card) => (<></> ))}
-            </div>
-          </Flex> */}
-
           <Flex direction="column" gap="6" align="center">
             <SectionHeader title="Admin Configuration" align="center" />
-
             <div className="admin-cards">
               {adminCards.map((card) => (
                 <Card

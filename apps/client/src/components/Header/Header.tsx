@@ -9,6 +9,7 @@ import { Col, Container, Row } from 'react-grid-system';
 import clsx from 'clsx';
 import { useAdmin } from 'providers/AdminProvider';
 import type { Theme } from 'types/ui.types';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 type HeaderProps =
   | {
@@ -34,6 +35,11 @@ export const Header: React.FC<HeaderProps> = ({
   // const { currentSessionId } = useSession();
   const { currentLanguage } = useAppConfig();
   // const { isNextDisabled } = usePagination();
+
+  const { user, isAuthenticated } = useAuth();
+
+  console.log('🔍 USER:', user);
+  console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
 
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 

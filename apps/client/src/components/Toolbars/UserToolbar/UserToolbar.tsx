@@ -8,7 +8,11 @@ import { styles } from './UserToolbar.styles';
 import type { Theme } from 'types/ui.types';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
-export const UserToolbar: React.FC = () => {
+interface UserToolbarProps {
+  onLogoutSuccess?: () => void;
+}
+
+export const UserToolbar: React.FC<UserToolbarProps> = ({ onLogoutSuccess }) => {
   const { theme } = useAppConfig();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
@@ -21,7 +25,7 @@ export const UserToolbar: React.FC = () => {
           </button>
         </div>
         <div className="button-box">
-          <LoginButton />
+          <LoginButton onLogoutSuccess={onLogoutSuccess} />
         </div>
         <div className="button-box">
           <ThemeToggle />

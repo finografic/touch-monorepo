@@ -25,6 +25,7 @@ import type { ValidGridSize } from 'types/menu.types';
 import { ToastProvider, ToastSystem } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars';
 import { styles } from './Layout.styles';
+import { useResetAppState } from 'hooks/useResetAppState';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
@@ -59,7 +60,8 @@ export const Layout: FC = () => {
                         scaling={mainTheme.scaling}
                       >
                         <div id="layout" css={styles}>
-                          <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
+                          {/** Use a child component to access reset hook inside providers */}
+                          <HeaderWithToolbar />
                           <main>
                             <div className="main-content">
                               <section>
@@ -91,3 +93,15 @@ export const Layout: FC = () => {
     </ToastProvider>
   );
 };
+
+// Child component rendered within providers so context hooks are valid
+function HeaderWithToolbar() {
+  const { resetAppState } = useResetAppState();
+  return (
+    <Header
+      titleAlign="center"
+      toolbarAlign="right"
+      toolbar={<UserToolbar onLogoutSuccess={resetAppState} />}
+    />
+  );
+}

@@ -10,14 +10,17 @@ import { useToast } from 'components/Toast';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ADMIN_PATHS, PATHS } from 'config/routes/paths.constants';
 
-export const LoginButton: FC = () => {
+interface LoginButtonProps {
+  onLogoutSuccess: () => void;
+}
+
+export const LoginButton: FC<LoginButtonProps> = ({ onLogoutSuccess }) => {
   const { user, isAuthenticated, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
   const isAdminLocation = location.pathname.startsWith('/admin');
   const [isOpen, setIsOpen] = useState(false);
-  const { resetAppState } = useResetAppState();
 
   console.log('🔍 USER:', user);
   console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
@@ -32,11 +35,11 @@ export const LoginButton: FC = () => {
       });
     } finally {
       if (!isAdminLocation) {
-        resetAppState();
+        onLogoutSuccess();
       }
       navigate(targetPath);
     }
-  }, [isAdminLocation, navigate, resetAppState, signOut, targetPath, toast]);
+  }, [isAdminLocation, navigate, onLogoutSuccess, signOut, targetPath, toast]);
 
   const handleClick = useCallback(async () => {
     if (!isAuthenticated) {

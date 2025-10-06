@@ -19,10 +19,10 @@ import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPag
 import { AdminSoundPage } from 'pages/AdminPages/AdminSoundPage/AdminSoundPage';
 import { AdminSlotsConfigPage } from 'pages/AdminPages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
-import { AdminLoginPage } from 'pages/AdminLoginPage/AdminLoginPage';
+import { AdminLoginPage } from 'pages/AdminPages/AdminLoginPage/AdminLoginPage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
-import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
+// import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
 import { RelayPageWrapper } from 'pages/AdminPages/AdminRelaysPage/RelayPageWrapper';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 
@@ -106,6 +106,7 @@ export const routes: RouteObject[] = [
   // ============================================== //
   {
     path: '/admin',
+    element: <AdminLayout />,
     children: [
       {
         path: 'login',
@@ -116,61 +117,56 @@ export const routes: RouteObject[] = [
         element: <ProtectedAdminRoute />,
         children: [
           {
-            element: <AdminLayout />,
+            index: true,
+            id: AdminFieldKeys.dashboard,
+            element: <AdminPageWrapper />,
+          },
+          {
+            path: 'orders',
+            id: AdminFieldKeys.itemsList,
+            element: <AdminOrdersPage />,
             children: [
               {
-                index: true,
-                id: AdminFieldKeys.dashboard,
-                element: <AdminPageWrapper />,
-              },
-              {
-                path: 'orders',
-                id: AdminFieldKeys.itemsList,
+                path: ':orderId',
+                id: 'order-edit',
                 element: <AdminOrdersPage />,
-                children: [
-                  {
-                    path: ':orderId',
-                    id: 'order-edit',
-                    element: <AdminOrdersPage />,
-                  },
-                ],
-              },
-              {
-                path: 'translations',
-                id: AdminFieldKeys.translations,
-                element: <AdminTranslationsPage />,
-              },
-              {
-                path: 'ui-labels',
-                id: AdminFieldKeys.translationsUi,
-                element: <AdminUiLabelsPage />,
-              },
-              {
-                path: 'languages',
-                id: AdminFieldKeys.languages,
-                element: <AdminLanguagesPage />,
-              },
-              {
-                path: 'filter-analysis',
-                id: 'filter-analysis',
-                element: <AdminFilterAnalysisPage />,
-              },
-              {
-                path: 'sounds',
-                id: 'sounds',
-                element: <AdminSoundPage />,
-              },
-              {
-                path: 'slot-config',
-                id: 'slot-config',
-                element: <AdminSlotsConfigPage />,
-              },
-              {
-                path: 'relays',
-                id: 'relays',
-                element: <RelayPageWrapper />,
               },
             ],
+          },
+          {
+            path: 'translations',
+            id: AdminFieldKeys.translations,
+            element: <AdminTranslationsPage />,
+          },
+          {
+            path: 'ui-labels',
+            id: AdminFieldKeys.translationsUi,
+            element: <AdminUiLabelsPage />,
+          },
+          {
+            path: 'languages',
+            id: AdminFieldKeys.languages,
+            element: <AdminLanguagesPage />,
+          },
+          {
+            path: 'filter-analysis',
+            id: 'filter-analysis',
+            element: <AdminFilterAnalysisPage />,
+          },
+          {
+            path: 'sounds',
+            id: 'sounds',
+            element: <AdminSoundPage />,
+          },
+          {
+            path: 'slot-config',
+            id: 'slot-config',
+            element: <AdminSlotsConfigPage />,
+          },
+          {
+            path: 'relays',
+            id: 'relays',
+            element: <RelayPageWrapper />,
           },
         ],
       },

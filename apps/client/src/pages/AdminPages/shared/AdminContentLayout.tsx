@@ -36,7 +36,7 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
                 align={centerTitle ? 'center' : 'left'}
                 style={centerTitle ? { textAlign: 'center' } : {}}
               >
-                {subtitle}
+                <div style={{ padding: '1rem' }}>{subtitle}</div>
               </Text>
             )}
           </div>
