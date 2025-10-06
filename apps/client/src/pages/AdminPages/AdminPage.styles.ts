@@ -11,8 +11,9 @@ export const styles = css`
   .admin-cards {
     max-width: 1000px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(var(--cols, 3), 1fr);
     gap: 2rem;
+    justify-content: center;
   }
 
   .admin-card {

@@ -78,10 +78,16 @@ export const AdminPage: React.FC = () => {
         subtitle="Manage system settings, translations, and configurations"
         centerTitle={true}
       >
-        <Box className="admin-dashboard">
+        <Box
+          className="admin-dashboard"
+          style={{ ['--cols' as any]: Math.min(3, Math.max(1, adminCards.length)) }}
+        >
           <Flex direction="column" gap="6" align="center">
             <SectionHeader title="Admin Configuration" align="center" />
-            <div className="admin-cards">
+            <div
+              className="admin-cards"
+              style={{ ['--cols' as any]: Math.min(3, Math.max(1, adminCards.length)) }}
+            >
               {adminCards.map((card) => (
                 <Card
                   key={card.id}
