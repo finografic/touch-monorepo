@@ -48,3 +48,10 @@ export function getAdminDashboardCards(isAuthenticated: boolean) {
       icon: entry.navIcon!,
     }));
 }
+
+/**
+ * Get admin route entry by path for route protection logic
+ */
+export function getAdminEntryByPath(path: string): AdminRouteEntry | undefined {
+  return ADMIN_ENTRIES.find((entry) => entry.path === path);
+}
