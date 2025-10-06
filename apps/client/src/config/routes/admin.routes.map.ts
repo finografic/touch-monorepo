@@ -1,17 +1,22 @@
 import type React from 'react';
 import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesPage';
 import { AdminSoundPage } from 'pages/AdminPages/AdminSoundPage/AdminSoundPage';
+import { AdminSoundBasicPage } from 'pages/AdminPages/AdminSoundPage/AdminSoundBasicPage';
+import { AdminTranslationsPage } from 'pages/AdminPages/AdminTranslationsPage/AdminTranslationsPage';
+import { AdminUiLabelsPage } from 'pages/AdminPages/AdminUiLabelsPage';
+import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
+import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPage';
+import { AdminSlotsConfigPage } from 'pages/AdminPages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { EditIcon, LanguageIcon, MagnifyingGlassIcon, UserShildIcon } from 'styles/icons';
 import { SpeakerLoudIcon } from '@radix-ui/react-icons';
 
-export type Visibility = 'public' | 'authenticated' | 'admin';
+export type AuthRoles = 'auth' | 'admin';
 
 /** Base properties shared by all admin route entries */
 interface AdminRouteBase {
   key: string;
   path: string;
-  element: React.ComponentType;
-  visibility: Visibility;
+  element: Record<AuthRoles, React.ComponentType | null>;
 }
 
 /** Properties for navigation items */
@@ -45,8 +50,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   {
     key: 'languages',
     path: '/admin/languages',
-    element: AdminLanguagesPage,
-    visibility: 'public',
+    element: {
+      auth: null,
+      admin: AdminLanguagesPage,
+    },
     showInNav: true,
     navLabel: 'Languages',
     navIcon: LanguageIcon,
@@ -58,8 +65,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   {
     key: 'sounds',
     path: '/admin/sounds',
-    element: AdminSoundPage,
-    visibility: 'public',
+    element: {
+      auth: AdminSoundBasicPage,
+      admin: AdminSoundPage,
+    },
     showInNav: true,
     navLabel: 'Sounds',
     navIcon: SpeakerLoudIcon,
@@ -73,8 +82,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   {
     key: 'translations',
     path: '/admin/translations',
-    element: AdminLanguagesPage, // TODO: Replace with actual AdminTranslationsPage
-    visibility: 'authenticated',
+    element: {
+      auth: null,
+      admin: AdminTranslationsPage,
+    },
     showInNav: true,
     navLabel: 'Gestión de traducciones',
     navIcon: EditIcon,
@@ -86,8 +97,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   {
     key: 'ui-labels',
     path: '/admin/ui-labels',
-    element: AdminLanguagesPage, // TODO: Replace with actual AdminUILabelsPage
-    visibility: 'authenticated',
+    element: {
+      auth: null,
+      admin: AdminUiLabelsPage,
+    },
     showInNav: true,
     navLabel: 'UI Labels / Translations',
     navIcon: EditIcon,
@@ -99,8 +112,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   {
     key: 'slot-config',
     path: '/admin/slot-config',
-    element: AdminLanguagesPage, // TODO: Replace with actual AdminSlotConfigPage
-    visibility: 'authenticated',
+    element: {
+      auth: null,
+      admin: AdminSlotsConfigPage,
+    },
     showInNav: true,
     navLabel: 'Gestión de configuración',
     navIcon: UserShildIcon,
@@ -112,14 +127,31 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   {
     key: 'filter-analysis',
     path: '/admin/filter-analysis',
-    element: AdminLanguagesPage, // TODO: Replace with actual AdminFilterAnalysisPage
-    visibility: 'authenticated',
+    element: {
+      auth: null,
+      admin: AdminFilterAnalysisPage,
+    },
     showInNav: true,
     navLabel: 'Filter Analysis',
     navIcon: MagnifyingGlassIcon,
     showOnDashboard: true,
     cardTitle: 'Filter Analysis',
     cardDescription: 'Analyze orders data and filtering behavior',
+    cardColor: 'blue',
+  },
+  {
+    key: 'orders',
+    path: '/admin/orders',
+    element: {
+      auth: null,
+      admin: AdminOrdersPage,
+    },
+    showInNav: true,
+    navLabel: 'Orders',
+    navIcon: UserShildIcon,
+    showOnDashboard: true,
+    cardTitle: 'Order Management',
+    cardDescription: 'View and manage customer orders',
     cardColor: 'blue',
   },
 ];

@@ -40,9 +40,9 @@ export const AdminRouteWrapper: React.FC<AdminRouteWrapperProps> = ({ children }
       return <AdminBasicPage />;
     }
 
-    // Check if current route is public
-    if (currentRouteEntry && currentRouteEntry.visibility === 'public') {
-      // Allow access to public routes (e.g., /admin/languages, /admin/sounds)
+    // Check if current route has an auth component (public access)
+    if (currentRouteEntry && currentRouteEntry.element.auth) {
+      // Allow access to routes with auth components (e.g., /admin/languages, /admin/sounds)
       return <>{children}</>;
     }
 

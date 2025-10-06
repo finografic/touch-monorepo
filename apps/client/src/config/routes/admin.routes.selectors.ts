@@ -1,21 +1,19 @@
-import type { AdminRouteEntry, Visibility } from './admin.routes.map';
+import type { AdminRouteEntry, AuthRoles } from './admin.routes.map';
 import { ADMIN_ENTRIES } from './admin.routes.map';
 
 /**
  * ADMIN ENTRIES based on authentication status
+ * Uses element.auth to determine if route should be visible
  */
 export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntry[] {
   return ADMIN_ENTRIES.filter((entry) => {
-    switch (entry.visibility) {
-      case 'public':
-        return true;
-      case 'authenticated':
-        return isAuthenticated;
-      case 'admin':
-        return isAuthenticated; // (can be extended later)
-      default:
-        return false;
+    // If user is authenticated, show all routes
+    if (isAuthenticated) {
+      return true;
     }
+
+    // If user is not authenticated, only show routes that have an auth component
+    return entry.element.auth !== null;
   });
 }
 
