@@ -59,7 +59,7 @@ export const Layout: FC = () => {
                         scaling={mainTheme.scaling}
                       >
                         <div id="layout" css={styles}>
-                          <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
+                          <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
                           <main>
                             <div className="main-content">
                               <section>
