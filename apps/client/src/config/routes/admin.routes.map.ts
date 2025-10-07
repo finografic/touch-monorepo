@@ -7,7 +7,14 @@ import { AdminUiLabelsPage } from 'pages/AdminPages/AdminUiLabelsPage';
 import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
 import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPage';
 import { AdminSlotsConfigPage } from 'pages/AdminPages/AdminSlotsConfigPage/AdminSlotsConfigPage';
-import { EditIcon, LanguageIcon, MagnifyingGlassIcon, UserShildIcon, ZapIcon } from 'styles/icons';
+import {
+  EditIcon,
+  LanguageIcon,
+  MagnifyingGlassIcon,
+  SettingsIcon,
+  UserShildIcon,
+  ZapIcon,
+} from 'styles/icons';
 import { SpeakerLoudIcon } from '@radix-ui/react-icons';
 import { AdminLanguagesBasicPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesBasicPage';
 import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
@@ -64,7 +71,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     showOnDashboard: true,
     cardTitle: 'Gestión de idiomas',
     cardDescription: {
-      public: 'Configurar idiomas del sistema y localización',
+      public: 'Seleccionar idioma por defecto',
       auth: 'Configurar idiomas del sistema y localización',
       admin: 'Configurar idiomas del sistema y localización',
     },
@@ -133,24 +140,44 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     cardColor: 'purple',
   },
   {
-    key: 'mode-default',
-    path: '/admin/mode-default',
+    key: 'mode',
+    path: '/admin/mode',
     element: {
       public: AdminSlotsConfigPage,
       auth: null,
       admin: null,
     },
     showInNav: true,
-    navLabel: 'Modo por defecto',
+    navLabel: 'Modo',
     navIcon: UserShildIcon,
     showOnDashboard: true,
     cardTitle: 'Modo',
     cardDescription: {
-      public: 'Select the default mode for the system',
+      public: 'Seleccionar modo por defecto',
       auth: null,
       admin: null,
     },
     cardColor: 'blue',
+  },
+  {
+    key: 'maintenance',
+    path: '/admin/maintenance',
+    element: {
+      public: AdminSlotsConfigPage,
+      auth: null,
+      admin: null,
+    },
+    showInNav: true,
+    navLabel: 'Mantenimiento',
+    navIcon: SettingsIcon,
+    showOnDashboard: true,
+    cardTitle: 'Mantenimiento',
+    cardDescription: {
+      public: 'Gestionar mantenimiento',
+      auth: null,
+      admin: null,
+    },
+    cardColor: 'orange',
   },
   {
     key: 'slot-config',

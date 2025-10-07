@@ -35,6 +35,7 @@ import {
   Moon as _MoonIcon,
   PanelBottomClose as _PanelBottomCloseIcon,
   PanelBottomOpen as _PanelBottomOpenIcon,
+  Cog as _SettingsIcon,
   ShieldCheck as _ShieldCheckIcon,
   ShieldUser as _ShieldUserIcon,
   CircleStop as _StopIcon,
@@ -100,6 +101,7 @@ export const UserShildIcon = createIconWrapper(_ShieldUserIcon);
 export const PlusIcon = createIconWrapper(_PlusIcon);
 export const SpeakerLoudIcon = createIconWrapper(_SpeakerLoudIcon);
 export const StopIcon = createIconWrapper(_StopIcon);
+export const SettingsIcon = createIconWrapper(_SettingsIcon);
 export const TrashIcon = createIconWrapper(_Trash2Icon);
 export const ZapIcon = createIconWrapper(_ZapIcon);
 export const ListChecksIcon = createIconWrapper(_ListChecksIcon);
@@ -151,6 +153,7 @@ export const ICON_MAP = {
   PlusIcon,
   SpeakerLoudIcon,
   StopIcon,
+  SettingsIcon,
   TrashIcon,
   ZapIcon,
   ListChecksIcon,
