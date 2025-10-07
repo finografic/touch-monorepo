@@ -12,10 +12,18 @@ export function resolveRole(isAuthenticated: boolean, isAdmin: boolean = false):
 }
 
 /**
+ * Get navigation label for a given page key.
+ * Uses admin.pages.{key}.title as the source of truth.
+ */
+export function getNavLabel(t: TFunction, pageKey: string): string {
+  return t(`admin.pages.${pageKey}.title`, { defaultValue: pageKey });
+}
+
+/**
  * Get callout title/description for a given role and page key.
  *
  * Order of resolution (with graceful fallbacks):
- * 1) admin.callouts.{role}.{key}.title|description
+ * 1) admin.pages.{key}.card_{role}.title|description (role-specific override)
  * 2) admin.pages.{key}.title|description (defaults/source of truth)
  * 3) '' (empty string)
  */
@@ -24,12 +32,12 @@ export function getCalloutText(
   role: AuthRoles,
   pageKey: string,
 ): { title: string; description: string } {
-  const title = t([`admin.callouts.${role}.${pageKey}.title`, `admin.pages.${pageKey}.title`], {
+  const title = t([`admin.pages.${pageKey}.card_${role}.title`, `admin.pages.${pageKey}.title`], {
     defaultValue: '',
   });
 
   const description = t(
-    [`admin.callouts.${role}.${pageKey}.description`, `admin.pages.${pageKey}.description`],
+    [`admin.pages.${pageKey}.card_${role}.description`, `admin.pages.${pageKey}.description`],
     { defaultValue: '' },
   );
 

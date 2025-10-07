@@ -7,6 +7,7 @@ import { Col, Container, Row } from 'react-grid-system';
 import { styles } from './AdminNavigation.styles';
 import { getAdminNavItems } from 'config/routes/admin.routes.selectors';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+import { getNavLabel } from 'pages/AdminPages/i18n.utils';
 
 export const AdminNavigation: React.FC = () => {
   const { t } = useTranslation();
@@ -26,7 +27,7 @@ export const AdminNavigation: React.FC = () => {
     },
     ...configNavItems.map((item) => ({
       id: item.key,
-      label: item.label,
+      label: getNavLabel(t, item.key),
       path: item.path,
     })),
   ];

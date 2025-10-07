@@ -42,11 +42,11 @@ export function getAdminDashboardCards(isAuthenticated: boolean) {
     )
     .map((entry) => ({
       key: entry.key,
-      title: entry.navLabel || entry.key,
-      description: '', // description now resolved at render time via i18n utils
-      color: entry.cardColor!,
+      title: entry.key, // Will be resolved from translations at render time
+      description: '', // Will be resolved from translations at render time
+      color: entry.color!,
       path: entry.path,
-      icon: entry.navIcon!,
+      icon: entry.icon!,
     }));
 }
 
