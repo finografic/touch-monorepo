@@ -62,15 +62,12 @@ export const AdminSoundBasicPage: React.FC = () => {
     );
   }
 
-  log('__DEV: soundFiles (BASIC)', 'orange', soundFiles);
-
   return (
     <section css={styles} className="admin-content-page">
       <AdminContentLayout
         title="Sound Management (BASIC)"
         subtitle="Upload and configure sound files for timer events"
       >
-        {/* Sound Settings Section */}
         <AdminSection
           title="Sound Configuration"
           description="Select which sound files to use for timer events"
@@ -78,24 +75,6 @@ export const AdminSoundBasicPage: React.FC = () => {
         >
           <SoundConfigurationSection soundFiles={soundFiles} soundSettings={soundSettings} />
         </AdminSection>
-
-        {/* File Upload Section */}
-        {/* <AdminSection
-          title="Upload Sound Files"
-          description="Add new sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
-          variant="border-solid"
-        >
-          <FileUploadSection />
-        </AdminSection> */}
-
-        {/* File Library Section */}
-        {/* <AdminSection
-          title="Sound Library"
-          description={`${soundFiles.length} sound file(s) available`}
-          variant="border-solid"
-        >
-          <SoundLibrarySection soundFiles={soundFiles} soundSettings={soundSettings} />
-        </AdminSection> */}
       </AdminContentLayout>
     </section>
   );

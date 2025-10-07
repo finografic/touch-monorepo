@@ -6,8 +6,8 @@ import { MainPage } from 'pages/MainPage/MainPage';
 import { GenericSelectPage } from 'pages/DrinkPages/GenericSelectPage';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
-import { ProtectedRouteWrapper } from 'routes/ProtectedRouteWrapper';
-import { ProtectedAdminRoutes } from './ProtectedAdminRoutes';
+import { ProtectedRouteWrapper } from 'routes/auth/ProtectedRouteWrapper';
+import { ProtectedAdminRoutes } from './auth/ProtectedAdminRoutes';
 import { AdminTranslationsPage } from 'pages/AdminPages/AdminTranslationsPage/AdminTranslationsPage';
 import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesPage';
 import { AdminUiLabelsPage } from 'pages/AdminPages/AdminUiLabelsPage';
@@ -24,7 +24,7 @@ import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 // import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
 import { RelayPageWrapper } from 'pages/AdminPages/AdminRelaysPage/RelayPageWrapper';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
-import { AdminDashboardWrapper } from 'routes/AdminDashboardWrapper';
+import { AdminDashboardWrapper } from 'routes/auth/AdminDashboardWrapper';
 
 export const routes: RouteObject[] = [
   {

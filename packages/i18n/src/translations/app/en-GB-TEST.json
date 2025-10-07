@@ -1,0 +1,66 @@
+{
+  "admin": {
+    "title": "Administration Panel",
+    "description": "Manage system settings, translations, and configurations",
+    "pages": {
+      "dashboard": {
+        "title": "Dashboard",
+        "subtitle": "System Overview"
+      },
+      "translations": {
+        "title": "Translation Management",
+        "subtitle": "Edit translations for database content"
+      },
+      "languages": {
+        "title": "Language Management",
+        "subtitle": "Configure system languages and localization"
+      },
+      "orders": {
+        "title": "Configuration Management",
+        "subtitle": "Configure system languages and localization"
+      }
+    },
+    "callouts": {
+      "translations": {
+        "title": "Translation Management",
+        "description": "Edit translations for database content"
+      },
+      "languages": {
+        "title": "Language Management",
+        "description": "Configure system languages and localization"
+      },
+      "ui-labels": {
+        "title": "UI Labels / Translations",
+        "description": "Edit user interface labels and translations from local files"
+      },
+      "orders": {
+        "title": "Orders",
+        "description": "Manage customer orders"
+      },
+      "slot-config": {
+        "title": "Grid",
+        "description": "Configure MainPage grid layout and slot types"
+      },
+      "filter-analysis": {
+        "title": "Filter Analysis",
+        "description": "Analyze orders data and filtering behavior"
+      },
+      "sounds": {
+        "title": "Sound Management",
+        "description": "Upload and configure sound files for timer events"
+      },
+      "mode": {
+        "title": "Mode",
+        "description": "Select default mode"
+      },
+      "relays": {
+        "title": "Relays",
+        "description": "Manage relays"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Manage general maintenance"
+      }
+    }
+  }
+}
