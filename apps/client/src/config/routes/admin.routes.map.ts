@@ -46,12 +46,10 @@ interface AdminDashboardCard {
 
 /** Main admin route entry interface - composed of base + optional consumer-specific properties */
 export interface AdminRouteEntry extends AdminRouteBase {
-  showInNav?: boolean;
+  hasNav?: Record<AuthRoles, boolean>;
   navLabel?: string;
   navIcon?: React.ComponentType<any>;
-  showOnDashboard?: boolean;
-  cardTitle?: string;
-  cardDescription?: Record<AuthRoles, string | null>;
+  hasCard?: Record<AuthRoles, boolean>;
   cardColor?: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
 }
 
@@ -65,16 +63,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       auth: AdminLanguagesPage,
       admin: AdminLanguagesPage,
     },
-    showInNav: true,
+    hasNav: { public: true, auth: true, admin: true },
     navLabel: 'Languages',
     navIcon: LanguageIcon,
-    showOnDashboard: true,
-    cardTitle: 'Gestión de idiomas',
-    cardDescription: {
-      public: 'Seleccionar idioma por defecto',
-      auth: 'Configurar idiomas del sistema y localización',
-      admin: 'Configurar idiomas del sistema y localización',
-    },
+    hasCard: { public: true, auth: true, admin: true },
     cardColor: 'green',
   },
   {
@@ -85,16 +77,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       auth: AdminSoundPage,
       admin: AdminSoundPage,
     },
-    showInNav: true,
+    hasNav: { public: true, auth: true, admin: true },
     navLabel: 'Sounds',
     navIcon: SpeakerLoudIcon,
-    showOnDashboard: true,
-    cardTitle: 'Sound Management',
-    cardDescription: {
-      public: 'Upload and configure sound files for timer events',
-      auth: 'Upload and configure sound files for timer events',
-      admin: 'Upload and configure sound files for timer events',
-    },
+    hasCard: { public: true, auth: true, admin: true },
     cardColor: 'indigo',
   },
 
@@ -107,16 +93,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       auth: AdminTranslationsPage,
       admin: AdminTranslationsPage,
     },
-    showInNav: true,
+    hasNav: { public: false, auth: true, admin: true },
     navLabel: 'Gestión de traducciones',
     navIcon: EditIcon,
-    showOnDashboard: true,
-    cardTitle: 'Gestión de traducciones',
-    cardDescription: {
-      public: null,
-      auth: 'Editar traducciones para contenido de base de datos',
-      admin: 'Editar traducciones para contenido de base de datos',
-    },
+    hasCard: { public: false, auth: true, admin: true },
     cardColor: 'blue',
   },
   {
@@ -127,16 +107,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       auth: AdminUiLabelsPage,
       admin: AdminUiLabelsPage,
     },
-    showInNav: true,
+    hasNav: { public: false, auth: true, admin: true },
     navLabel: 'UI Labels / Translations',
     navIcon: EditIcon,
-    showOnDashboard: true,
-    cardTitle: 'UI Labels / Translations',
-    cardDescription: {
-      public: null,
-      auth: 'Edit user interface labels and translations from local files',
-      admin: 'Edit user interface labels and translations from local files',
-    },
+    hasCard: { public: false, auth: true, admin: true },
     cardColor: 'purple',
   },
   {
@@ -147,16 +121,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       auth: null,
       admin: null,
     },
-    showInNav: true,
+    hasNav: { public: true, auth: false, admin: false },
     navLabel: 'Modo',
     navIcon: UserShildIcon,
-    showOnDashboard: true,
-    cardTitle: 'Modo',
-    cardDescription: {
-      public: 'Seleccionar modo por defecto',
-      auth: null,
-      admin: null,
-    },
+    hasCard: { public: true, auth: false, admin: false },
     cardColor: 'blue',
   },
   {
@@ -167,16 +135,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       auth: null,
       admin: null,
     },
-    showInNav: true,
+    hasNav: { public: true, auth: false, admin: false },
     navLabel: 'Mantenimiento',
     navIcon: SettingsIcon,
-    showOnDashboard: true,
-    cardTitle: 'Mantenimiento',
-    cardDescription: {
-      public: 'Gestionar mantenimiento',
-      auth: null,
-      admin: null,
-    },
+    hasCard: { public: true, auth: false, admin: false },
     cardColor: 'orange',
   },
   {
@@ -187,16 +149,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       auth: AdminSlotsConfigPage,
       admin: AdminSlotsConfigPage,
     },
-    showInNav: true,
+    hasNav: { public: false, auth: true, admin: true },
     navLabel: 'Gestión de configuración',
     navIcon: UserShildIcon,
-    showOnDashboard: true,
-    cardTitle: 'Cuadrícula',
-    cardDescription: {
-      public: null,
-      auth: 'Configure MainPage grid layout and slot types',
-      admin: 'Configure MainPage grid layout and slot types',
-    },
+    hasCard: { public: false, auth: true, admin: true },
     cardColor: 'orange',
   },
   {
@@ -207,16 +163,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       auth: AdminRelaysPage,
       admin: AdminRelaysPage,
     },
-    showInNav: true,
+    hasNav: { public: true, auth: true, admin: true },
     navLabel: 'Gestión de relays',
     navIcon: ZapIcon,
-    showOnDashboard: true,
-    cardTitle: 'Relays',
-    cardDescription: {
-      public: 'Configure relay settings',
-      auth: 'Configure MainPage grid layout and slot types',
-      admin: 'Configure MainPage grid layout and slot types',
-    },
+    hasCard: { public: true, auth: true, admin: true },
     cardColor: 'purple',
   },
   {
@@ -227,16 +177,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       auth: AdminFilterAnalysisPage,
       admin: AdminFilterAnalysisPage,
     },
-    showInNav: true,
+    hasNav: { public: false, auth: true, admin: true },
     navLabel: 'Filter Analysis',
     navIcon: MagnifyingGlassIcon,
-    showOnDashboard: true,
-    cardTitle: 'Filter Analysis',
-    cardDescription: {
-      public: null,
-      auth: 'Analyze orders data and filtering behavior',
-      admin: 'Analyze orders data and filtering behavior',
-    },
+    hasCard: { public: false, auth: true, admin: true },
     cardColor: 'blue',
   },
   {
@@ -247,16 +191,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       auth: AdminOrdersPage,
       admin: AdminOrdersPage,
     },
-    showInNav: true,
+    hasNav: { public: false, auth: true, admin: true },
     navLabel: 'Orders',
     navIcon: UserShildIcon,
-    showOnDashboard: true,
-    cardTitle: 'Order Management',
-    cardDescription: {
-      public: null,
-      auth: 'View and manage customer orders',
-      admin: 'View and manage customer orders',
-    },
+    hasCard: { public: false, auth: true, admin: true },
     cardColor: 'blue',
   },
 ];

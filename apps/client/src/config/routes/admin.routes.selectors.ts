@@ -22,7 +22,7 @@ export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntr
  */
 export function getAdminNavItems(isAuthenticated: boolean) {
   return getAdminEntriesForAuth(isAuthenticated)
-    .filter((entry) => entry.showInNav)
+    .filter((entry) => (isAuthenticated ? entry.hasNav?.auth || entry.hasNav?.admin : entry.hasNav?.public))
     .map((entry) => ({
       key: entry.key,
       label: entry.navLabel!,
@@ -35,14 +35,15 @@ export function getAdminNavItems(isAuthenticated: boolean) {
  * DASHBOARD CARDS for the admin dashboard
  */
 export function getAdminDashboardCards(isAuthenticated: boolean) {
+  const role: AuthRoles = isAuthenticated ? 'auth' : 'public';
   return getAdminEntriesForAuth(isAuthenticated)
-    .filter((entry) => entry.showOnDashboard)
+    .filter((entry) =>
+      role === 'auth' ? entry.hasCard?.auth || entry.hasCard?.admin : entry.hasCard?.public,
+    )
     .map((entry) => ({
       key: entry.key,
-      title: entry.cardTitle!,
-      description: isAuthenticated
-        ? entry.cardDescription!.auth || entry.cardDescription!.admin
-        : entry.cardDescription!.public,
+      title: entry.navLabel || entry.key,
+      description: '', // description now resolved at render time via i18n utils
       color: entry.cardColor!,
       path: entry.path,
       icon: entry.navIcon!,

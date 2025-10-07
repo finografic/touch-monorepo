@@ -7,19 +7,26 @@ import { styles } from './AdminPage.styles';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { getAdminDashboardCards } from 'config/routes/admin.routes.selectors';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+import { getCalloutText } from './i18n.utils';
+import type { AuthRoles } from 'config/routes/admin.routes.map';
 
 export const AdminDashboardPage: React.FC = () => {
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
 
-  const { isAuthenticated } = useAuth();
-  const adminCards = getAdminDashboardCards(isAuthenticated).map((card) => ({
-    id: card.key,
-    title: card.title,
-    description: card.description,
-    icon: React.createElement(card.icon, { width: 32, height: 32 }),
-    path: card.path,
-    color: card.color,
-  }));
+  const { t } = useTranslation();
+  const role: AuthRoles = 'admin';
+  // Admin dashboard shows the authenticated view; selector filtering with true includes admin/auth items
+  const adminCards = getAdminDashboardCards(true).map((card) => {
+    const text = getCalloutText(t, role, card.key);
+    return {
+      id: card.key,
+      title: text.title,
+      description: text.description,
+      icon: React.createElement(card.icon, { width: 32, height: 32 }),
+      path: card.path,
+      color: card.color,
+    };
+  });
 
   const handleCardClick = (path: string) => {
     navigateWithTransition(path);
