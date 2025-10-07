@@ -31,7 +31,7 @@ interface AdminNavItem {
 interface AdminDashboardCard {
   showOnDashboard: true;
   cardTitle: string;
-  cardDescription: string;
+  cardDescription: Record<AuthRoles, string | null>;
   cardColor: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
 }
 
@@ -42,7 +42,7 @@ export interface AdminRouteEntry extends AdminRouteBase {
   navIcon?: React.ComponentType<any>;
   showOnDashboard?: boolean;
   cardTitle?: string;
-  cardDescription?: string;
+  cardDescription?: Record<AuthRoles, string | null>;
   cardColor?: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
 }
 
@@ -61,7 +61,11 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     navIcon: LanguageIcon,
     showOnDashboard: true,
     cardTitle: 'Gestión de idiomas',
-    cardDescription: 'Configurar idiomas del sistema y localización',
+    cardDescription: {
+      public: 'Configurar idiomas del sistema y localización',
+      auth: 'Configurar idiomas del sistema y localización',
+      admin: 'Configurar idiomas del sistema y localización',
+    },
     cardColor: 'green',
   },
   {
@@ -77,7 +81,11 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     navIcon: SpeakerLoudIcon,
     showOnDashboard: true,
     cardTitle: 'Sound Management',
-    cardDescription: 'Upload and configure sound files for timer events',
+    cardDescription: {
+      public: 'Upload and configure sound files for timer events',
+      auth: 'Upload and configure sound files for timer events',
+      admin: 'Upload and configure sound files for timer events',
+    },
     cardColor: 'indigo',
   },
 
@@ -95,7 +103,11 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     navIcon: EditIcon,
     showOnDashboard: true,
     cardTitle: 'Gestión de traducciones',
-    cardDescription: 'Editar traducciones para contenido de base de datos',
+    cardDescription: {
+      public: null,
+      auth: 'Editar traducciones para contenido de base de datos',
+      admin: 'Editar traducciones para contenido de base de datos',
+    },
     cardColor: 'blue',
   },
   {
@@ -111,7 +123,11 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     navIcon: EditIcon,
     showOnDashboard: true,
     cardTitle: 'UI Labels / Translations',
-    cardDescription: 'Edit user interface labels and translations from local files',
+    cardDescription: {
+      public: null,
+      auth: 'Edit user interface labels and translations from local files',
+      admin: 'Edit user interface labels and translations from local files',
+    },
     cardColor: 'purple',
   },
   {
@@ -127,7 +143,11 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     navIcon: UserShildIcon,
     showOnDashboard: true,
     cardTitle: 'Cuadrícula',
-    cardDescription: 'Configure MainPage grid layout and slot types',
+    cardDescription: {
+      public: null,
+      auth: 'Configure MainPage grid layout and slot types',
+      admin: 'Configure MainPage grid layout and slot types',
+    },
     cardColor: 'orange',
   },
   {
@@ -143,7 +163,11 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     navIcon: MagnifyingGlassIcon,
     showOnDashboard: true,
     cardTitle: 'Filter Analysis',
-    cardDescription: 'Analyze orders data and filtering behavior',
+    cardDescription: {
+      public: null,
+      auth: 'Analyze orders data and filtering behavior',
+      admin: 'Analyze orders data and filtering behavior',
+    },
     cardColor: 'blue',
   },
   {
@@ -159,7 +183,11 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     navIcon: UserShildIcon,
     showOnDashboard: true,
     cardTitle: 'Order Management',
-    cardDescription: 'View and manage customer orders',
+    cardDescription: {
+      public: null,
+      auth: 'View and manage customer orders',
+      admin: 'View and manage customer orders',
+    },
     cardColor: 'blue',
   },
 ];

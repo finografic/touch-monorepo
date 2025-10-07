@@ -40,7 +40,9 @@ export function getAdminDashboardCards(isAuthenticated: boolean) {
     .map((entry) => ({
       key: entry.key,
       title: entry.cardTitle!,
-      description: entry.cardDescription!,
+      description: isAuthenticated
+        ? entry.cardDescription!.auth || entry.cardDescription!.admin
+        : entry.cardDescription!.public,
       color: entry.cardColor!,
       path: entry.path,
       icon: entry.navIcon!,
