@@ -88,7 +88,7 @@
             "title": "Gestió de traduccions",
             "description": "Editar traduccions per a contingut de base de dades"
           },
-          "ui-labels": {
+          "uiLabels": {
             "title": "Etiquetes d'UI / Traduccions",
             "description": "Editar etiquetes de la interfície d'usuari i traduccions de fitxers locals"
           },
@@ -96,11 +96,11 @@
             "title": "Gestió d'idiomes",
             "description": "Configurar idiomes del sistema i localització"
           },
-          "slot-config": {
+          "slotConfig": {
             "title": "Quadrícula",
             "description": "Configurar el disseny de la quadrícula de la pàgina principal i els tipus de ranura"
           },
-          "filter-analysis": {
+          "filterAnalysis": {
             "title": "Anàlisi de filtres",
             "description": "Analitzar dades de comandes i comportament de filtratge"
           },
@@ -141,6 +141,34 @@
       "orders": {
         "title": "Gestió de configuracion",
         "subtitle": "Configurar idiomes del sistema i localització"
+      },
+      "uiLabels": {
+        "title": "Etiquetes UI / Traduccions",
+        "description": "Editar etiquetes de la interfície d'usuari i traduccions des de fitxers locals"
+      },
+      "slotConfig": {
+        "title": "Graella",
+        "description": "Configurar la disposició de la graella de la pàgina principal i tipus de ranures"
+      },
+      "filterAnalysis": {
+        "title": "Anàlisi de Filtres",
+        "description": "Analitzar dades de comandes i comportament de filtrat"
+      },
+      "sounds": {
+        "title": "Gestió de Sons",
+        "description": "Pujar i configurar fitxers de so per a esdeveniments de temporitzador"
+      },
+      "mode": {
+        "title": "Mode",
+        "description": "Seleccionar mode per defecte"
+      },
+      "relays": {
+        "title": "Relés",
+        "description": "Gestionar relés"
+      },
+      "maintenance": {
+        "title": "Manteniment",
+        "description": "Gestionar manteniment general"
       }
     }
   },

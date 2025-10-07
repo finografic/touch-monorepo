@@ -17,7 +17,6 @@ export const AdminLanguagesBasicPage: React.FC = () => {
         subtitle="Select a language"
       >
         <AdminSection>
-          {/* Selected Languages Section */}
           <Box className="selected-section" mb="6">
             <LanguageSelector />
           </Box>

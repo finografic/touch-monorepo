@@ -62,33 +62,7 @@
     "pages": {
       "dashboard": {
         "title": "Panel de control",
-        "subtitle": "Resumen del sistema",
-        "callouts": {
-          "translations": {
-            "title": "Gestión de traducciones",
-            "description": "Editar traducciones para contenido de base de datos"
-          },
-          "ui-labels": {
-            "title": "Etiquetas de UI / Traducciones",
-            "description": "Editar etiquetas de la interfaz de usuario y traducciones de archivos locales"
-          },
-          "languages": {
-            "title": "Gestión de idiomas",
-            "description": "Configurar idiomas del sistema y localización"
-          },
-          "slot-config": {
-            "title": "Cuadrícula",
-            "description": "Configurar el diseño de la cuadrícula de la página principal y los tipos de ranura"
-          },
-          "filter-analysis": {
-            "title": "Análisis de filtros",
-            "description": "Analizar datos de pedidos y comportamiento de filtrado"
-          },
-          "sounds": {
-            "title": "Gestión de sonido",
-            "description": "Subir y configurar archivos de sonido para eventos de temporizador"
-          }
-        }
+        "subtitle": "Resumen del sistema"
       },
       "translations": {
         "title": "Gestión de traducciones",
@@ -121,6 +95,34 @@
       "orders": {
         "title": "Gestión de configuración",
         "subtitle": "Configurar idiomas del sistema y localización"
+      },
+      "uiLabels": {
+        "title": "UI Labels / Translations",
+        "description": "Edit user interface labels and translations from local files"
+      },
+      "slotConfig": {
+        "title": "Grid",
+        "description": "Configure MainPage grid layout and slot types"
+      },
+      "filterAnalysis": {
+        "title": "Filter Analysis",
+        "description": "Analyze orders data and filtering behavior"
+      },
+      "sounds": {
+        "title": "Sound Management",
+        "description": "Upload and configure sound files for timer events"
+      },
+      "mode": {
+        "title": "Mode",
+        "description": "Select default mode"
+      },
+      "relays": {
+        "title": "Relays",
+        "description": "Manage relays"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Manage general maintenance"
       }
     }
   },

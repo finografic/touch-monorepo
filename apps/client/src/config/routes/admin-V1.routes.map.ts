@@ -120,7 +120,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     cardColor: 'blue',
   },
   {
-    key: 'ui-labels',
+    key: 'uiLabels',
     path: '/admin/ui-labels',
     element: {
       public: null,
@@ -180,7 +180,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     cardColor: 'orange',
   },
   {
-    key: 'slot-config',
+    key: 'slotConfig',
     path: '/admin/slot-config',
     element: {
       public: null,
@@ -220,7 +220,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     cardColor: 'purple',
   },
   {
-    key: 'filter-analysis',
+    key: 'filterAnalysis',
     path: '/admin/filter-analysis',
     element: {
       public: null,

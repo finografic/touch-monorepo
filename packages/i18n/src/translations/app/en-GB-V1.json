@@ -88,7 +88,7 @@
             "title": "Translation Management",
             "description": "Edit translations for database content"
           },
-          "ui-labels": {
+          "uiLabels": {
             "title": "UI Labels / Translations",
             "description": "Edit user interface labels and translations from local files"
           },
@@ -96,11 +96,11 @@
             "title": "Language Management",
             "description": "Configure system languages and localization"
           },
-          "slot-config": {
+          "slotConfig": {
             "title": "Grid",
             "description": "Configure MainPage grid layout and slot types"
           },
-          "filter-analysis": {
+          "filterAnalysis": {
             "title": "Filter Analysis",
             "description": "Analyze orders data and filtering behavior"
           },
