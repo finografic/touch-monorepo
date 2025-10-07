@@ -6,52 +6,52 @@
     "pages": {
       "main": {
         "title": "Main",
-        "subtitle": "Main page"
+        "description": "Main page"
       },
       "drinkType": {
         "title": "Drink Types",
-        "subtitle": "Select drink type"
+        "description": "Select drink type"
       },
       "drinkSubtypes": {
         "title": "Drink Subtypes",
-        "subtitle": "Select drink subtype"
+        "description": "Select drink subtype"
       },
       "volumes": {
         "title": "Volumes",
-        "subtitle": "Select volume"
+        "description": "Select volume"
       },
       "containerTypes": {
         "title": "Container Types",
-        "subtitle": "Select container type"
+        "description": "Select container type"
       },
       "temperatureControl": {
         "title": "Temperature Control",
-        "subtitle": "Select temperature control"
+        "description": "Select temperature control"
       },
       "drink-type": {
         "title": "Select Drink Type",
-        "subtitle": "Choose your beverage type"
+        "description": "Choose your beverage type"
       },
       "drink-subtype": {
         "title": "Select Drink Subtype",
-        "subtitle": "Choose your beverage subtype"
+        "description": "Choose your beverage subtype"
       },
       "drink-volume": {
         "title": "Select Volume",
-        "subtitle": "Choose your volume"
+        "description": "Choose your volume"
       },
       "container-type": {
         "title": "Select Container Type",
-        "subtitle": "Choose your container type"
+        "description": "Choose your container type"
       },
       "temperature": {
         "title": "Temperature Control",
-        "subtitle": "Set your temperature preferences"
+        "description": "Set your temperature preferences"
       }
     },
     "orders": {
       "title": "Orders",
-      "subtitle": "Manage beverage orders",
+      "description": "Manage beverage orders",
       "new": "New Order",
       "active": "Active Orders",
       "completed": "Completed Orders"
@@ -82,11 +82,11 @@
     "pages": {
       "dashboard": {
         "title": "Dashboard",
-        "subtitle": "System Overview"
+        "description": "System Overview"
       },
       "translations": {
         "title": "Translation Management",
-        "subtitle": "Edit translations for database content",
+        "description": "Edit translations for database content",
         "content": {
           "management": "Translation Management",
           "editTables": "Edit translations for database tables",
@@ -114,7 +114,7 @@
       },
       "languages": {
         "title": "Language Management",
-        "subtitle": "Configure system languages and localization",
+        "description": "Configure system languages and localization",
         "card_public": {
           "title": "Language Selection",
           "description": "Select your preferred language"
@@ -122,7 +122,7 @@
       },
       "orders": {
         "title": "Configuration Management",
-        "subtitle": "Configure system languages and localization"
+        "description": "Configure system languages and localization"
       },
       "uiLabels": {
         "title": "UI Labels / Translations",

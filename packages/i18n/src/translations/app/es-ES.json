@@ -6,27 +6,27 @@
     "pages": {
       "main": {
         "title": "Principal",
-        "subtitle": "Página principal"
+        "description": "Página principal"
       },
       "drinkType": {
         "title": "Tipos de bebidas",
-        "subtitle": "Seleccionar tipo de bebida"
+        "description": "Seleccionar tipo de bebida"
       },
       "drinkSubtype": {
         "title": "Subtipos de bebidas",
-        "subtitle": "Seleccionar subtipo de bebida"
+        "description": "Seleccionar subtipo de bebida"
       },
       "drinkVolume": {
         "title": "Volúmenes",
-        "subtitle": "Seleccionar volumen"
+        "description": "Seleccionar volumen"
       },
       "containerType": {
         "title": "Tipos de contenedores",
-        "subtitle": "Seleccionar tipo de contenedor"
+        "description": "Seleccionar tipo de contenedor"
       },
       "temperature": {
         "title": "Control de temperatura",
-        "subtitle": "Configura tus preferencias de temperatura"
+        "description": "Configura tus preferencias de temperatura"
       }
     },
     "orders": {
@@ -62,11 +62,11 @@
     "pages": {
       "dashboard": {
         "title": "Panel de control",
-        "subtitle": "Resumen del sistema"
+        "description": "Resumen del sistema"
       },
       "translations": {
         "title": "Gestión de traducciones",
-        "subtitle": "Editar traducciones para contenido de base de datos",
+        "description": "Editar traducciones para contenido de base de datos",
         "content": {
           "management": "Gestión de traducciones",
           "editTables": "Editar traducciones para tablas de base de datos",
@@ -94,7 +94,7 @@
       },
       "languages": {
         "title": "Gestión de idiomas",
-        "subtitle": "Configurar idiomas del sistema y localización",
+        "description": "Configurar idiomas del sistema y localización",
         "card_public": {
           "title": "Selección de idioma",
           "description": "Seleccionar idioma por defecto"
@@ -102,7 +102,7 @@
       },
       "orders": {
         "title": "Gestión de configuración",
-        "subtitle": "Configurar idiomas del sistema y localización"
+        "description": "Configurar idiomas del sistema y localización"
       },
       "uiLabels": {
         "title": "UI Labels / Translations",

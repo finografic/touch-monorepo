@@ -25,8 +25,8 @@ export function getAdminNavItems(isAuthenticated: boolean) {
     .filter((entry) => (isAuthenticated ? entry.hasNav?.auth || entry.hasNav?.admin : entry.hasNav?.public))
     .map((entry) => ({
       key: entry.key,
-      label: entry.navLabel!,
-      icon: entry.navIcon!,
+      label: entry.key, // Will be resolved from translations at render time
+      icon: entry.icon!,
       path: entry.path,
     }));
 }

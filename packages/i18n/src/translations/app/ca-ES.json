@@ -6,52 +6,52 @@
     "pages": {
       "main": {
         "title": "Principal",
-        "subtitle": "Pàgina principal"
+        "description": "Pàgina principal"
       },
       "drinkTypes": {
         "title": "Tipus de begudes",
-        "subtitle": "Seleccionar tipus de beguda"
+        "description": "Seleccionar tipus de beguda"
       },
       "drinkSubtypes": {
         "title": "Subtipus de begudes",
-        "subtitle": "Seleccionar subtipus de beguda"
+        "description": "Seleccionar subtipus de beguda"
       },
       "volumes": {
         "title": "Volums",
-        "subtitle": "Seleccionar volum"
+        "description": "Seleccionar volum"
       },
       "containerTypes": {
         "title": "Tipus de contenidors",
-        "subtitle": "Seleccionar tipus de contenidor"
+        "description": "Seleccionar tipus de contenidor"
       },
       "temperatureControl": {
         "title": "Control de temperatura",
-        "subtitle": "Seleccionar control de temperatura"
+        "description": "Seleccionar control de temperatura"
       },
       "drink-type": {
         "title": "Seleccionar tipus de beguda",
-        "subtitle": "Tria el teu tipus de beguda"
+        "description": "Tria el teu tipus de beguda"
       },
       "drink-subtype": {
         "title": "Seleccionar subtipus de beguda",
-        "subtitle": "Tria el teu subtipus de beguda"
+        "description": "Tria el teu subtipus de beguda"
       },
       "drink-volume": {
         "title": "Seleccionar volum",
-        "subtitle": "Tria el teu volum"
+        "description": "Tria el teu volum"
       },
       "container-type": {
         "title": "Seleccionar tipus de contenidor",
-        "subtitle": "Tria el teu tipus de contenidor"
+        "description": "Tria el teu tipus de contenidor"
       },
       "temperature": {
         "title": "Control de temperatura",
-        "subtitle": "Configura les teves preferències de temperatura"
+        "description": "Configura les teves preferències de temperatura"
       }
     },
     "orders": {
       "title": "Comandes",
-      "subtitle": "Gestionar comandes de begudes",
+      "description": "Gestionar comandes de begudes",
       "new": "Nova comanda",
       "active": "Comandes actives",
       "completed": "Comandes completades"
@@ -82,16 +82,12 @@
     "pages": {
       "dashboard": {
         "title": "Tauler",
-        "subtitle": "Resum del sistema"
-      },
-      "card": {
-        "title": "Gestió de traduccions",
-        "description": "Editar traduccions per contingut de base de dades"
+        "description": "Resum del sistema"
       }
     },
     "translations": {
       "title": "Gestió de traduccions",
-      "subtitle": "Editar traduccions per contingut de base de dades",
+      "description": "Editar traduccions per contingut de base de dades",
       "content": {
         "management": "Gestió de traduccions",
         "editTables": "Editar traduccions per taules de base de dades",
@@ -119,7 +115,7 @@
     },
     "languages": {
       "title": "Gestió d'idiomes",
-      "subtitle": "Configurar idiomes del sistema i localització",
+      "description": "Configurar idiomes del sistema i localització",
       "card_public": {
         "title": "Selecció d'idioma",
         "description": "Seleccionar idioma per defecte"
@@ -127,7 +123,7 @@
     },
     "orders": {
       "title": "Gestió de configuracion",
-      "subtitle": "Configurar idiomes del sistema i localització"
+      "description": "Configurar idiomes del sistema i localització"
     },
     "uiLabels": {
       "title": "Etiquetes UI / Traduccions",
