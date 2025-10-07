@@ -66,19 +66,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     color: 'indigo',
   },
   {
-    key: 'relays',
-    path: '/admin/relays',
-    element: {
-      public: AdminRelaysBasicPage,
-      auth: AdminRelaysPage,
-      admin: AdminRelaysPage,
-    },
-    hasNav: { public: true, auth: true, admin: true },
-    hasCard: { public: true, auth: true, admin: true },
-    icon: ZapIcon,
-    color: 'purple',
-  },
-  {
     key: 'mode',
     path: '/admin/mode',
     element: {
@@ -171,5 +158,18 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     hasCard: { public: false, auth: true, admin: true },
     icon: UserShildIcon,
     color: 'blue',
+  },
+  {
+    key: 'relays',
+    path: '/admin/relays',
+    element: {
+      public: AdminRelaysBasicPage,
+      auth: AdminRelaysPage,
+      admin: AdminRelaysPage,
+    },
+    hasNav: { public: false, auth: true, admin: true },
+    hasCard: { public: false, auth: true, admin: true },
+    icon: ZapIcon,
+    color: 'purple',
   },
 ];

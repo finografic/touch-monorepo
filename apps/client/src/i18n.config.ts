@@ -36,7 +36,8 @@ i18n
       lookupLocalStorage: 'i18nextLng',
       lookupSessionStorage: 'i18nextLng',
 
-      caches: ['localStorage'],
+      // Cache-busting for development
+      caches: process.env.NODE_ENV === 'development' ? [] : ['localStorage'],
       excludeCacheFor: ['cimode'],
 
       convertDetectedLanguage: (lng: string) => {

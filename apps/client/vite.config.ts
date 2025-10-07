@@ -58,6 +58,12 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       proxy: {
         '/api': 'http://localhost:4040',
       },
+      // Cache busting for development
+      headers: {
+        'Cache-Control': 'no-cache, no-store, must-revalidate',
+        'Pragma': 'no-cache',
+        'Expires': '0',
+      },
     },
     clearScreen: false,
     define: {
@@ -108,9 +114,9 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
               return 'vendor';
             }
           },
-          entryFileNames: 'app.js',
-          chunkFileNames: '[name].js',
-          assetFileNames: 'assets/[name].[ext]',
+          entryFileNames: mode === 'development' ? 'app.[hash].js' : 'app.js',
+          chunkFileNames: mode === 'development' ? '[name].[hash].js' : '[name].js',
+          assetFileNames: mode === 'development' ? 'assets/[name].[hash].[ext]' : 'assets/[name].[ext]',
           sourcemapExcludeSources: true,
         },
       },
