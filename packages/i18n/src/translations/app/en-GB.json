@@ -114,7 +114,11 @@
       },
       "languages": {
         "title": "Language Management",
-        "subtitle": "Configure system languages and localization"
+        "subtitle": "Configure system languages and localization",
+        "card_public": {
+          "title": "Language Selection",
+          "description": "Select your preferred language"
+        }
       },
       "orders": {
         "title": "Configuration Management",
@@ -138,7 +142,11 @@
       },
       "mode": {
         "title": "Mode",
-        "description": "Select default mode"
+        "description": "Select default mode",
+        "card_public": {
+          "title": "Mode Selection",
+          "description": "Select default mode"
+        }
       },
       "relays": {
         "title": "Relays",
@@ -146,74 +154,10 @@
       },
       "maintenance": {
         "title": "Maintenance",
-        "description": "Manage general maintenance"
-      }
-    },
-    "callouts": {
-      "public": {
-        "languages": {
-          "title": "$t(admin.pages.languages.title)",
-          "description": "$t(admin.pages.languages.description)"
-        },
-        "sounds": {
-          "title": "$t(admin.pages.sounds.title)",
-          "description": "$t(admin.pages.sounds.description)"
-        }
-      },
-      "auth": {
-        "translations": {
-          "title": "$t(admin.pages.translations.title)",
-          "description": "$t(admin.pages.translations.description)"
-        },
-        "languages": {
-          "title": "$t(admin.pages.languages.title)",
-          "description": "$t(admin.pages.languages.description)"
-        },
-        "sounds": {
-          "title": "$t(admin.pages.sounds.title)",
-          "description": "$t(admin.pages.sounds.description)"
-        }
-      },
-      "admin": {
-        "translations": {
-          "title": "$t(admin.pages.translations.title)",
-          "description": "$t(admin.pages.translations.description)"
-        },
-        "languages": {
-          "title": "$t(admin.pages.languages.title)",
-          "description": "$t(admin.pages.languages.description)"
-        },
-        "uiLabels": {
-          "title": "$t(admin.pages.uiLabels.title)",
-          "description": "$t(admin.pages.uiLabels.description)"
-        },
-        "orders": {
-          "title": "$t(admin.pages.orders.title)",
-          "description": "$t(admin.pages.orders.description)"
-        },
-        "slotConfig": {
-          "title": "$t(admin.pages.slotConfig.title)",
-          "description": "$t(admin.pages.slotConfig.description)"
-        },
-        "filterAnalysis": {
-          "title": "$t(admin.pages.filterAnalysis.title)",
-          "description": "$t(admin.pages.filterAnalysis.description)"
-        },
-        "sounds": {
-          "title": "$t(admin.pages.sounds.title)",
-          "description": "$t(admin.pages.sounds.description)"
-        },
-        "mode": {
-          "title": "$t(admin.pages.mode.title)",
-          "description": "$t(admin.pages.mode.description)"
-        },
-        "relays": {
-          "title": "$t(admin.pages.relays.title)",
-          "description": "$t(admin.pages.relays.description)"
-        },
-        "maintenance": {
-          "title": "$t(admin.pages.maintenance.title)",
-          "description": "$t(admin.pages.maintenance.description)"
+        "description": "Manage general maintenance",
+        "card_public": {
+          "title": "Maintenance",
+          "description": "Manage general maintenance"
         }
       }
     }

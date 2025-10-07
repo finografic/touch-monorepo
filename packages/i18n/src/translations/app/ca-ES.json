@@ -119,7 +119,11 @@
     },
     "languages": {
       "title": "Gestió d'idiomes",
-      "subtitle": "Configurar idiomes del sistema i localització"
+      "subtitle": "Configurar idiomes del sistema i localització",
+      "card_public": {
+        "title": "Selecció d'idioma",
+        "description": "Seleccionar idioma per defecte"
+      }
     },
     "orders": {
       "title": "Gestió de configuracion",
@@ -143,7 +147,11 @@
     },
     "mode": {
       "title": "Mode",
-      "description": "Seleccionar mode per defecte"
+      "description": "Seleccionar mode per defecte",
+      "card_public": {
+        "title": "Mode",
+        "description": "Seleccionar mode per defecte"
+      }
     },
     "relays": {
       "title": "Relés",
@@ -151,7 +159,11 @@
     },
     "maintenance": {
       "title": "Manteniment",
-      "description": "Gestionar manteniment general"
+      "description": "Gestionar manteniment general",
+      "card_public": {
+        "title": "Manteniment",
+        "description": "Gestionar manteniment"
+      }
     }
   },
   "shared": {
