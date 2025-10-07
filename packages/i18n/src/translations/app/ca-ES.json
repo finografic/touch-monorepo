@@ -82,94 +82,76 @@
     "pages": {
       "dashboard": {
         "title": "Tauler",
-        "subtitle": "Resum del sistema",
-        "callouts": {
-          "translations": {
-            "title": "Gestió de traduccions",
-            "description": "Editar traduccions per a contingut de base de dades"
-          },
-          "uiLabels": {
-            "title": "Etiquetes d'UI / Traduccions",
-            "description": "Editar etiquetes de la interfície d'usuari i traduccions de fitxers locals"
-          },
-          "languages": {
-            "title": "Gestió d'idiomes",
-            "description": "Configurar idiomes del sistema i localització"
-          },
-          "slotConfig": {
-            "title": "Quadrícula",
-            "description": "Configurar el disseny de la quadrícula de la pàgina principal i els tipus de ranura"
-          },
-          "filterAnalysis": {
-            "title": "Anàlisi de filtres",
-            "description": "Analitzar dades de comandes i comportament de filtratge"
-          },
-          "sounds": {
-            "title": "Gestió de so",
-            "description": "Pujar i configurar fitxers de so per a esdeveniments de temporitzador"
-          }
-        }
+        "subtitle": "Resum del sistema"
       },
-      "translations": {
+      "card": {
         "title": "Gestió de traduccions",
-        "subtitle": "Editar traduccions per contingut de base de dades",
-        "content": {
-          "management": "Gestió de traduccions",
-          "editTables": "Editar traduccions per taules de base de dades",
-          "drinkSubtypes": {
-            "title": "Subtipus de begudes",
-            "description": "Subtipus de vi i cervesa (rubia, negra, tinto, blanco)"
-          },
-          "volumes": {
-            "title": "Volums",
-            "description": "Volums de contenidors (2L, 1.5L, 50cl, 33cl, etc.)"
-          },
-          "drinkTypes": {
-            "title": "Tipus de begudes",
-            "description": "Categories principals de begudes (cervesa, vi, cava, licor, etc.)"
-          },
-          "containerTypes": {
-            "title": "Tipus de contenidors",
-            "description": "Materials de contenidors (plàstic, vidre, metall)"
-          }
+        "description": "Editar traduccions per contingut de base de dades"
+      }
+    },
+    "translations": {
+      "title": "Gestió de traduccions",
+      "subtitle": "Editar traduccions per contingut de base de dades",
+      "content": {
+        "management": "Gestió de traduccions",
+        "editTables": "Editar traduccions per taules de base de dades",
+        "drinkSubtypes": {
+          "title": "Subtipus de begudes",
+          "description": "Subtipus de vi i cervesa (rubia, negra, tinto, blanco)"
+        },
+        "volumes": {
+          "title": "Volums",
+          "description": "Volums de contenidors (2L, 1.5L, 50cl, 33cl, etc.)"
+        },
+        "drinkTypes": {
+          "title": "Tipus de begudes",
+          "description": "Categories principals de begudes (cervesa, vi, cava, licor, etc.)"
+        },
+        "containerTypes": {
+          "title": "Tipus de contenidors",
+          "description": "Materials de contenidors (plàstic, vidre, metall)"
         }
       },
-      "languages": {
-        "title": "Gestió d'idiomes",
-        "subtitle": "Configurar idiomes del sistema i localització"
-      },
-      "orders": {
-        "title": "Gestió de configuracion",
-        "subtitle": "Configurar idiomes del sistema i localització"
-      },
-      "uiLabels": {
-        "title": "Etiquetes UI / Traduccions",
-        "description": "Editar etiquetes de la interfície d'usuari i traduccions des de fitxers locals"
-      },
-      "slotConfig": {
-        "title": "Graella",
-        "description": "Configurar la disposició de la graella de la pàgina principal i tipus de ranures"
-      },
-      "filterAnalysis": {
-        "title": "Anàlisi de Filtres",
-        "description": "Analitzar dades de comandes i comportament de filtrat"
-      },
-      "sounds": {
-        "title": "Gestió de Sons",
-        "description": "Pujar i configurar fitxers de so per a esdeveniments de temporitzador"
-      },
-      "mode": {
-        "title": "Mode",
-        "description": "Seleccionar mode per defecte"
-      },
-      "relays": {
-        "title": "Relés",
-        "description": "Gestionar relés"
-      },
-      "maintenance": {
-        "title": "Manteniment",
-        "description": "Gestionar manteniment general"
+      "card": {
+        "title": "Gestió de traduccions",
+        "description": "Editar traduccions per contingut de base de dades"
       }
+    },
+    "languages": {
+      "title": "Gestió d'idiomes",
+      "subtitle": "Configurar idiomes del sistema i localització"
+    },
+    "orders": {
+      "title": "Gestió de configuracion",
+      "subtitle": "Configurar idiomes del sistema i localització"
+    },
+    "uiLabels": {
+      "title": "Etiquetes UI / Traduccions",
+      "description": "Editar etiquetes de la interfície d'usuari i traduccions des de fitxers locals"
+    },
+    "slotConfig": {
+      "title": "Graella",
+      "description": "Configurar la disposició de la graella de la pàgina principal i tipus de ranures"
+    },
+    "filterAnalysis": {
+      "title": "Anàlisi de Filtres",
+      "description": "Analitzar dades de comandes i comportament de filtrat"
+    },
+    "sounds": {
+      "title": "Gestió de Sons",
+      "description": "Pujar i configurar fitxers de so per a esdeveniments de temporitzador"
+    },
+    "mode": {
+      "title": "Mode",
+      "description": "Seleccionar mode per defecte"
+    },
+    "relays": {
+      "title": "Relés",
+      "description": "Gestionar relés"
+    },
+    "maintenance": {
+      "title": "Manteniment",
+      "description": "Gestionar manteniment general"
     }
   },
   "shared": {

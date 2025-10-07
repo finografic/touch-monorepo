@@ -29,12 +29,28 @@ interface AdminRouteBase {
   element: Record<AuthRoles, React.ComponentType | null>;
 }
 
+/** Properties for navigation items */
+interface AdminNavItem {
+  showInNav: true;
+  navLabel: string;
+  navIcon: React.ComponentType<any>;
+}
+
+/** Properties for dashboard cards */
+interface AdminDashboardCard {
+  showOnDashboard: true;
+  cardTitle: string;
+  cardDescription: Record<AuthRoles, string | null>;
+  cardColor: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
+}
+
 /** Main admin route entry interface - composed of base + optional consumer-specific properties */
 export interface AdminRouteEntry extends AdminRouteBase {
   hasNav?: Record<AuthRoles, boolean>;
+  navLabel?: string;
+  navIcon?: React.ComponentType<any>;
   hasCard?: Record<AuthRoles, boolean>;
-  icon?: React.ComponentType<any>;
-  color?: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
+  cardColor?: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
 }
 
 export const ADMIN_ENTRIES: AdminRouteEntry[] = [
@@ -61,9 +77,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       admin: AdminSoundPage,
     },
     hasNav: { public: true, auth: true, admin: true },
+    navLabel: 'Sounds',
+    navIcon: SpeakerLoudIcon,
     hasCard: { public: true, auth: true, admin: true },
-    icon: SpeakerLoudIcon,
-    color: 'indigo',
+    cardColor: 'indigo',
   },
 
   // AUTHENTICATED ENTRIES (only visible when logged in)
@@ -76,9 +93,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       admin: AdminTranslationsPage,
     },
     hasNav: { public: false, auth: true, admin: true },
+    navLabel: 'Gestión de traducciones',
+    navIcon: EditIcon,
     hasCard: { public: false, auth: true, admin: true },
-    icon: EditIcon,
-    color: 'blue',
+    cardColor: 'blue',
   },
   {
     key: 'uiLabels',
@@ -89,9 +107,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       admin: AdminUiLabelsPage,
     },
     hasNav: { public: false, auth: true, admin: true },
+    navLabel: 'UI Labels / Translations',
+    navIcon: EditIcon,
     hasCard: { public: false, auth: true, admin: true },
-    icon: EditIcon,
-    color: 'purple',
+    cardColor: 'purple',
   },
   {
     key: 'mode',
@@ -102,9 +121,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       admin: null,
     },
     hasNav: { public: true, auth: false, admin: false },
+    navLabel: 'Modo',
+    navIcon: UserShildIcon,
     hasCard: { public: true, auth: false, admin: false },
-    icon: UserShildIcon,
-    color: 'blue',
+    cardColor: 'blue',
   },
   {
     key: 'maintenance',
@@ -115,9 +135,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       admin: null,
     },
     hasNav: { public: true, auth: false, admin: false },
+    navLabel: 'Mantenimiento',
+    navIcon: SettingsIcon,
     hasCard: { public: true, auth: false, admin: false },
-    icon: SettingsIcon,
-    color: 'orange',
+    cardColor: 'orange',
   },
   {
     key: 'slotConfig',
@@ -128,9 +149,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       admin: AdminSlotsConfigPage,
     },
     hasNav: { public: false, auth: true, admin: true },
+    navLabel: 'Gestión de configuración',
+    navIcon: UserShildIcon,
     hasCard: { public: false, auth: true, admin: true },
-    icon: UserShildIcon,
-    color: 'orange',
+    cardColor: 'orange',
   },
   {
     key: 'relays',
@@ -141,9 +163,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       admin: AdminRelaysPage,
     },
     hasNav: { public: true, auth: true, admin: true },
+    navLabel: 'Gestión de relays',
+    navIcon: ZapIcon,
     hasCard: { public: true, auth: true, admin: true },
-    icon: ZapIcon,
-    color: 'purple',
+    cardColor: 'purple',
   },
   {
     key: 'filterAnalysis',
@@ -154,9 +177,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       admin: AdminFilterAnalysisPage,
     },
     hasNav: { public: false, auth: true, admin: true },
+    navLabel: 'Filter Analysis',
+    navIcon: MagnifyingGlassIcon,
     hasCard: { public: false, auth: true, admin: true },
-    icon: MagnifyingGlassIcon,
-    color: 'blue',
+    cardColor: 'blue',
   },
   {
     key: 'orders',
@@ -167,8 +191,9 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       admin: AdminOrdersPage,
     },
     hasNav: { public: false, auth: true, admin: true },
+    navLabel: 'Orders',
+    navIcon: UserShildIcon,
     hasCard: { public: false, auth: true, admin: true },
-    icon: UserShildIcon,
-    color: 'blue',
+    cardColor: 'blue',
   },
 ];

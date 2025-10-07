@@ -1,0 +1,34 @@
+{
+  "admin": {
+    "title": "Administration Panel",
+    "description": "Manage system settings, translations, and configurations",
+    "pages": {
+      "dashboard": {
+        "title": "Dashboard",
+        "description": "System Overview"
+      },
+      "translations": {
+        "title": "Translation Management",
+        "description": "Edit translations for database content",
+        "callout": {
+          "title": "Translation Management",
+          "description": "Edit translations for database content"
+        }
+      },
+      "languages": {
+        "title": "Language Management",
+        "description": "Configure system languages and localization",
+        "callout": {
+          "title_public": "Translation Management",
+          "description_public": "Edit translations for database content",
+          "title_auth": "Translation Management",
+          "description_auth": "Edit translations for database content"
+        }
+      },
+      "orders": {
+        "title": "Configuration Management",
+        "description": "Configure system languages and localization"
+      }
+    }
+  }
+}

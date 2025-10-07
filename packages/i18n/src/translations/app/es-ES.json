@@ -86,6 +86,10 @@
             "title": "Tipos de contenedores",
             "description": "Materiales de contenedores (plástico, vidrio, metal)"
           }
+        },
+        "card": {
+          "title": "Gestión de traducciones",
+          "description": "Editar traducciones para contenido de base de datos"
         }
       },
       "languages": {

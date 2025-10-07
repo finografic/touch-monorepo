@@ -106,6 +106,10 @@
             "title": "Container Types",
             "description": "Container materials (plastico, vidrio, metal)"
           }
+        },
+        "card": {
+          "title": "Translation Management",
+          "description": "Edit translations for database content"
         }
       },
       "languages": {

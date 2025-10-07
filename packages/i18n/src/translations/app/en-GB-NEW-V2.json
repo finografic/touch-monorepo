@@ -1,0 +1,76 @@
+{
+  "admin": {
+    "title": "Administration Panel",
+    "description": "Manage system settings, translations, and configurations",
+    "pages": {
+      "dashboard": {
+        "title": "Dashboard",
+        "description": "System Overview"
+      },
+      "translations": {
+        "title": "Translation Management",
+        "subtitle": "Edit translations for database content",
+        "content": {
+          "management": "Translation Management",
+          "editTables": "Edit translations for database tables",
+          "drinkSubtypes": {
+            "title": "Drink Subtypes",
+            "description": "Wine and beer subtypes (rubia, negra, tinto, blanco)"
+          },
+          "volumes": {
+            "title": "Volumes",
+            "description": "Container volumes (2L, 1.5L, 50cl, 33cl, etc.)"
+          },
+          "drinkTypes": {
+            "title": "Drink Types",
+            "description": "Main drink categories (cerveza, vino, cava, licor, etc.)"
+          },
+          "containerTypes": {
+            "title": "Container Types",
+            "description": "Container materials (plastico, vidrio, metal)"
+          }
+        },
+        "card": {
+          "title": "Translation Management",
+          "description": "Edit translations for database content"
+        }
+      },
+      "languages": {
+        "title": "Language Management",
+        "description": "Configure system languages and localization"
+      },
+      "orders": {
+        "title": "Configuration Management",
+        "description": "Configure system languages and localization"
+      },
+      "uiLabels": {
+        "title": "UI Labels / Translations",
+        "description": "Edit user interface labels and translations from local files"
+      },
+      "slotConfig": {
+        "title": "Grid",
+        "description": "Configure MainPage grid layout and slot types"
+      },
+      "filterAnalysis": {
+        "title": "Filter Analysis",
+        "description": "Analyze orders data and filtering behavior"
+      },
+      "sounds": {
+        "title": "Sound Management",
+        "description": "Upload and configure sound files for timer events"
+      },
+      "mode": {
+        "title": "Mode",
+        "description": "Select default mode"
+      },
+      "relays": {
+        "title": "Relays",
+        "description": "Manage relays"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Manage general maintenance"
+      }
+    }
+  }
+}
