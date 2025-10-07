@@ -54,7 +54,10 @@ export const AdminLanguagesBasicPage: React.FC = () => {
 
   // Convert database data to the unified LanguageInfo format using DTO
   const languages: LanguageInfo[] = supportedLanguagesData
-    ? LanguagesDto.fromApi(supportedLanguagesData, (flagCode) => getFlagUrl(flagCode, 'medium'))
+    ? LanguagesDto.fromApi(
+        Array.isArray(supportedLanguagesData) ? supportedLanguagesData : supportedLanguagesData.data || [],
+        (flagCode) => getFlagUrl(flagCode, 'medium'),
+      )
     : [];
 
   // Convert curated languages to the format expected by SearchableLanguageInput

@@ -1,4 +1,5 @@
-import type { LanguageInfo } from '@workspace/i18n/types';
+// import type { LanguageInfo } from '@workspace/i18n/types';
+import type { CountryCode, LanguageInfo } from '@config/i18n.config';
 
 // Interface for the search component results (matches LanguageOption from SearchableLanguageInput)
 interface LanguageOption {
@@ -54,7 +55,7 @@ export const convertSearchResultToLanguageInfo = (searchResult: LanguageOption):
     nativeLabel: searchResult.nativeName || searchResult.languageName,
     flag: searchResult.flagUrl,
     countryName: searchResult.countryName,
-    countryCode: searchResult.countryCode,
+    countryCode: searchResult.countryCode as CountryCode,
     isActive: true, // New languages are active by default
     isDefault: false,
     sortOrder: 0,
