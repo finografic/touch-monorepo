@@ -7,9 +7,11 @@ import { AdminUiLabelsPage } from 'pages/AdminPages/AdminUiLabelsPage';
 import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
 import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPage';
 import { AdminSlotsConfigPage } from 'pages/AdminPages/AdminSlotsConfigPage/AdminSlotsConfigPage';
-import { EditIcon, LanguageIcon, MagnifyingGlassIcon, UserShildIcon } from 'styles/icons';
+import { EditIcon, LanguageIcon, MagnifyingGlassIcon, UserShildIcon, ZapIcon } from 'styles/icons';
 import { SpeakerLoudIcon } from '@radix-ui/react-icons';
 import { AdminLanguagesBasicPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesBasicPage';
+import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
+import { AdminRelaysBasicPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysBasicPage';
 
 export type AuthRoles = 'public' | 'auth' | 'admin';
 
@@ -131,6 +133,26 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     cardColor: 'purple',
   },
   {
+    key: 'mode-default',
+    path: '/admin/mode-default',
+    element: {
+      public: AdminSlotsConfigPage,
+      auth: null,
+      admin: null,
+    },
+    showInNav: true,
+    navLabel: 'Modo por defecto',
+    navIcon: UserShildIcon,
+    showOnDashboard: true,
+    cardTitle: 'Modo',
+    cardDescription: {
+      public: 'Select the default mode for the system',
+      auth: null,
+      admin: null,
+    },
+    cardColor: 'blue',
+  },
+  {
     key: 'slot-config',
     path: '/admin/slot-config',
     element: {
@@ -149,6 +171,26 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       admin: 'Configure MainPage grid layout and slot types',
     },
     cardColor: 'orange',
+  },
+  {
+    key: 'relays',
+    path: '/admin/relays',
+    element: {
+      public: AdminRelaysBasicPage,
+      auth: AdminRelaysPage,
+      admin: AdminRelaysPage,
+    },
+    showInNav: true,
+    navLabel: 'Gestión de relays',
+    navIcon: ZapIcon,
+    showOnDashboard: true,
+    cardTitle: 'Relays',
+    cardDescription: {
+      public: 'Configure relay settings',
+      auth: 'Configure MainPage grid layout and slot types',
+      admin: 'Configure MainPage grid layout and slot types',
+    },
+    cardColor: 'purple',
   },
   {
     key: 'filter-analysis',

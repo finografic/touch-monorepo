@@ -2,7 +2,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from 'providers/AuthProvider';
 import { getAdminEntryByPath } from 'config/routes/admin.routes.selectors';
-import { AdminBasicPage } from 'pages/AdminPages/AdminBasicPage';
+import { AdminDashboardBasicPage } from 'pages/AdminPages/AdminDashboardBasicPage';
 
 interface ProtectedRouteWrapperProps {
   /** The fallback component to render when no specific role component exists */
@@ -15,7 +15,7 @@ interface ProtectedRouteWrapperProps {
  * Uses ADMIN_ENTRIES to determine which component to render based on user role:
  * - If user has a specific role component defined in ADMIN_ENTRIES: Renders that component
  * - If no specific role component exists: Renders children (fallback)
- * - If user is unauthenticated: Renders AdminBasicPage (dashboard cards)
+ * - If user is unauthenticated: Renders AdminDashboardBasicPage (dashboard cards)
  *
  * @param children - Fallback component to render when no specific role component exists
  */
@@ -30,7 +30,7 @@ export const ProtectedRouteWrapper: React.FC<ProtectedRouteWrapperProps> = ({ ch
   if (!isAuthenticated) {
     // Special case: /admin root path - show dashboard cards
     if (location.pathname === '/admin') {
-      return <AdminBasicPage />;
+      return <AdminDashboardBasicPage />;
     }
 
     // Check if current route has a public component
@@ -40,7 +40,7 @@ export const ProtectedRouteWrapper: React.FC<ProtectedRouteWrapperProps> = ({ ch
     }
 
     // No public component available - show dashboard cards
-    return <AdminBasicPage />;
+    return <AdminDashboardBasicPage />;
   }
 
   // Handle authenticated users
@@ -62,5 +62,5 @@ export const ProtectedRouteWrapper: React.FC<ProtectedRouteWrapperProps> = ({ ch
   }
 
   // Fallback (should not reach here)
-  return <AdminBasicPage />;
+  return <AdminDashboardBasicPage />;
 };

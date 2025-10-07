@@ -29,6 +29,7 @@ import {
   PencilLine as _EditIcon,
   House as _HomeIcon,
   Languages as _LanguagesIcon,
+  ListChecks as _ListChecksIcon,
   Lock as _LockIcon,
   Search as _MagnifyingGlassIcon,
   Moon as _MoonIcon,
@@ -43,6 +44,7 @@ import {
   UserLock as _UserLockIcon,
   AppWindowMac as _WindowIcon,
   Wine as _WineIcon,
+  Zap as _ZapIcon,
 } from 'lucide-react';
 
 import { createIconWrapper } from './icons.utils';
@@ -99,6 +101,8 @@ export const PlusIcon = createIconWrapper(_PlusIcon);
 export const SpeakerLoudIcon = createIconWrapper(_SpeakerLoudIcon);
 export const StopIcon = createIconWrapper(_StopIcon);
 export const TrashIcon = createIconWrapper(_Trash2Icon);
+export const ZapIcon = createIconWrapper(_ZapIcon);
+export const ListChecksIcon = createIconWrapper(_ListChecksIcon);
 
 // ============================================================================
 // AUTOMATIC ICON MAP & TYPES
@@ -148,6 +152,8 @@ export const ICON_MAP = {
   SpeakerLoudIcon,
   StopIcon,
   TrashIcon,
+  ZapIcon,
+  ListChecksIcon,
 } as const;
 
 /**

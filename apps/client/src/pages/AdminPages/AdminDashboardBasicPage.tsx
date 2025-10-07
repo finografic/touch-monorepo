@@ -4,11 +4,11 @@ import { useTranslation } from 'react-i18next';
 import { usePageTransition } from 'hooks/usePageTransition';
 import { AdminContentLayout } from './shared';
 import { styles } from './AdminPage.styles';
-import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { getAdminDashboardCards } from 'config/routes/admin.routes.selectors';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
-export const AdminPage: React.FC = () => {
+export const AdminDashboardBasicPage: React.FC = () => {
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
 
   const { isAuthenticated } = useAuth();

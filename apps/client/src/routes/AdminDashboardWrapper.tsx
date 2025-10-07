@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from 'providers/AuthProvider';
-import { AdminPage } from '../pages/AdminPages/AdminPage';
-import { AdminBasicPage } from '../pages/AdminPages/AdminBasicPage';
+import { AdminDashboardPage } from '../pages/AdminPages/AdminDashboardPage';
+import { AdminDashboardBasicPage } from '../pages/AdminPages/AdminDashboardBasicPage';
 
 /**
  * Dashboard-specific wrapper for the main admin dashboard
@@ -17,9 +17,9 @@ export const AdminDashboardWrapper: React.FC = () => {
 
   // Show authenticated version
   if (user && isAuthenticated) {
-    return <AdminPage />;
+    return <AdminDashboardPage />;
   }
 
   // Show unauthenticated version (dashboard cards)
-  return <AdminBasicPage />;
+  return <AdminDashboardBasicPage />;
 };

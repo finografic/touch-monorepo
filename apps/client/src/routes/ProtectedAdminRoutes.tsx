@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from 'providers/AuthProvider';
-import { AdminBasicPage } from 'pages/AdminPages/AdminBasicPage';
+import { AdminDashboardBasicPage } from 'pages/AdminPages/AdminDashboardBasicPage';
 import { getAdminEntryByPath } from 'config/routes/admin.routes.selectors';
 
 export const ProtectedAdminRoutes: React.FC = () => {
@@ -35,5 +35,5 @@ export const ProtectedAdminRoutes: React.FC = () => {
   }
 
   // Fallback (should not reach here)
-  return <AdminBasicPage />;
+  return <AdminDashboardBasicPage />;
 };

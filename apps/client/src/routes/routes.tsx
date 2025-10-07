@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom';
-import { DashboardPage } from 'pages/DashboardPage/DashboardPage';
 import { Layout } from 'layout/Layout';
 import { AdminLayout } from 'layout/AdminLayout';
 import { DocsPage } from 'pages/DocsPage/DocsPage';
@@ -84,14 +83,6 @@ export const routes: RouteObject[] = [
         element: <TimePage />,
       },
       // ============================================== //
-      {
-        path: '/dashboard',
-        element: (
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        ),
-      },
       {
         path: '/login',
         element: <LoginPage />,
@@ -195,6 +186,15 @@ export const routes: RouteObject[] = [
           {
             path: 'relays',
             id: 'relays',
+            element: (
+              <ProtectedRouteWrapper>
+                <RelayPageWrapper />
+              </ProtectedRouteWrapper>
+            ),
+          },
+          {
+            path: 'mode',
+            id: 'modo',
             element: (
               <ProtectedRouteWrapper>
                 <RelayPageWrapper />

@@ -80,22 +80,22 @@ export const AdminSoundBasicPage: React.FC = () => {
         </AdminSection>
 
         {/* File Upload Section */}
-        <AdminSection
+        {/* <AdminSection
           title="Upload Sound Files"
           description="Add new sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
           variant="border-solid"
         >
           <FileUploadSection />
-        </AdminSection>
+        </AdminSection> */}
 
         {/* File Library Section */}
-        <AdminSection
+        {/* <AdminSection
           title="Sound Library"
           description={`${soundFiles.length} sound file(s) available`}
           variant="border-solid"
         >
           <SoundLibrarySection soundFiles={soundFiles} soundSettings={soundSettings} />
-        </AdminSection>
+        </AdminSection> */}
       </AdminContentLayout>
     </section>
   );
