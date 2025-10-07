@@ -139,7 +139,7 @@ export const routes: RouteObject[] = [
             ),
           },
           {
-            path: 'uiLabels',
+            path: 'ui-labels',
             id: AdminFieldKeys.translationsUi,
             element: (
               <ProtectedRouteWrapper>
@@ -157,7 +157,7 @@ export const routes: RouteObject[] = [
             ),
           },
           {
-            path: 'filterAnalysis',
+            path: 'filter-analysis',
             id: 'filterAnalysis',
             element: (
               <ProtectedRouteWrapper>
@@ -175,7 +175,7 @@ export const routes: RouteObject[] = [
             ),
           },
           {
-            path: 'slotConfig',
+            path: 'slot-config',
             id: 'slotConfig',
             element: (
               <ProtectedRouteWrapper>

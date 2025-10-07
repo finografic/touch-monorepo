@@ -5,7 +5,6 @@ import { usePageTransition } from 'hooks/usePageTransition';
 import { AdminContentLayout } from './shared';
 import { styles } from './AdminDashboardPage.styles';
 import { getAdminDashboardCards } from 'config/routes/admin.routes.selectors';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { getCalloutText } from './i18n.utils';
 import type { AuthRoles } from 'config/routes/admin.routes.map';

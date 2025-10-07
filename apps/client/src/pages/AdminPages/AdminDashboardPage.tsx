@@ -6,7 +6,6 @@ import { AdminContentLayout } from './shared';
 import { styles } from './AdminDashboardPage.styles';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { getAdminDashboardCards } from 'config/routes/admin.routes.selectors';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { getCalloutText } from './i18n.utils';
 import type { AuthRoles } from 'config/routes/admin.routes.map';
 

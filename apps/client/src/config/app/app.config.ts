@@ -57,5 +57,12 @@ export const AdminFieldKeys: { [K in string]: K } = {
   languages: 'languages',
   translations: 'translations',
   translationsUi: 'translationsUi',
-  itemsList: 'itemsList',
+  uiLabels: 'ui-labels',
+  slotConfig: 'slot-config',
+  filterAnalysis: 'filter-analysis',
+  sounds: 'sounds',
+  mode: 'mode',
+  relays: 'relays',
+  maintenance: 'maintenance',
+  itemsList: 'items-list',
 } as const;
