@@ -205,9 +205,10 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       'LOGS_DIR=./dist/data/logs',
       'UPLOADS_DIR=./dist/data/uploads',
       '',
-      '# Logging Configuration',
-      'PINO_DISABLE_WORKER_THREADS=true',
-      'PINO_LOG_LEVEL=info',
+      '# Relay Serial Connection',
+      'RELAY_ENABLED=true',
+      'RELAY_PORT=/dev/usbmodem11401  # or COM3 on Windows',
+      'RELAY_BAUD_RATE=9600',
       '',
     ];
 

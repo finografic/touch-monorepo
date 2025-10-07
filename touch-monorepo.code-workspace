@@ -1,34 +1,37 @@
 {
-	"folders": [
-		{
-			"path": "."
-		}
+  "folders": [
+    {
+      "path": ".",
+    },
+    {
+      "path": "../../Downloads/touch-monorepo-windows-x64-2025-10-07T00-57-25",
+    },
   ],
   "settings": {
     "terminal.integrated.env.osx": {
-      "NODE_PATH": ""
+      "NODE_PATH": "",
     },
     "debug.javascript.terminalOptions": {
       "resolveSourceMapLocations": [
         "${workspaceFolder}/**",
         "!**/node_modules/**",
-        "**/node_modules/.vite-temp/**"
-      ]
+        "**/node_modules/.vite-temp/**",
+      ],
     },
     "files.associations": {
       "*.css": "tailwindcss",
       "*.ejs": "javascript",
-      "*.template": "javascript"
+      "*.template": "javascript",
     },
     "tailwindCSS.includeLanguages": {
       "typescript": "javascript",
-      "typescriptreact": "javascript"
+      "typescriptreact": "javascript",
     },
     "typescript.preferences.includePackageJsonAutoImports": "off",
     "emmet.includeLanguages": {
-      "javascript": "html"
+      "javascript": "html",
     },
     "javascript.validate.enable": true,
-    "typescript.validate.enable": true
-  }
+    "typescript.validate.enable": true,
+  },
 }

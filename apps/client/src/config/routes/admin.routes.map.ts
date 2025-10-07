@@ -65,6 +65,32 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: SpeakerLoudIcon,
     color: 'indigo',
   },
+  {
+    key: 'relays',
+    path: '/admin/relays',
+    element: {
+      public: AdminRelaysBasicPage,
+      auth: AdminRelaysPage,
+      admin: AdminRelaysPage,
+    },
+    hasNav: { public: true, auth: true, admin: true },
+    hasCard: { public: true, auth: true, admin: true },
+    icon: ZapIcon,
+    color: 'purple',
+  },
+  {
+    key: 'mode',
+    path: '/admin/mode',
+    element: {
+      public: AdminSlotsConfigPage,
+      auth: null,
+      admin: null,
+    },
+    hasNav: { public: true, auth: false, admin: false },
+    hasCard: { public: true, auth: false, admin: false },
+    icon: UserShildIcon,
+    color: 'blue',
+  },
 
   // AUTHENTICATED ENTRIES (only visible when logged in)
   {
@@ -94,19 +120,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     color: 'purple',
   },
   {
-    key: 'mode',
-    path: '/admin/mode',
-    element: {
-      public: AdminSlotsConfigPage,
-      auth: null,
-      admin: null,
-    },
-    hasNav: { public: true, auth: false, admin: false },
-    hasCard: { public: true, auth: false, admin: false },
-    icon: UserShildIcon,
-    color: 'blue',
-  },
-  {
     key: 'maintenance',
     path: '/admin/maintenance',
     element: {
@@ -132,19 +145,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: UserShildIcon,
     color: 'orange',
   },
-  {
-    key: 'relays',
-    path: '/admin/relays',
-    element: {
-      public: AdminRelaysBasicPage,
-      auth: AdminRelaysPage,
-      admin: AdminRelaysPage,
-    },
-    hasNav: { public: true, auth: true, admin: true },
-    hasCard: { public: true, auth: true, admin: true },
-    icon: ZapIcon,
-    color: 'purple',
-  },
+
   {
     key: 'filterAnalysis',
     path: '/admin/filter-analysis',

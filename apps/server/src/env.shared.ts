@@ -14,7 +14,7 @@ const findRootDir = (): string => {
     }
     if (fs.existsSync(path.join(currentDir, 'package.json'))) {
       const pkg = JSON.parse(fs.readFileSync(path.join(currentDir, 'package.json'), 'utf8'));
-      if (pkg.name === 'touch-monorepo') {
+      if (pkg.name === 'touch-monorepo' || pkg.name === 'touch-monorepo-production') {
         return currentDir;
       }
     }
