@@ -8,7 +8,7 @@ import { SearchableLanguageInputCurated } from 'forms/SearchableLanguageInput/Se
 import { convertToLanguageOptions } from 'forms/SearchableLanguageInput/data/curated-languages';
 import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';
 import { LanguageDeleteDialog } from './components/LanguageDeleteDialog';
-import type { LanguageInfo } from '@workspace/i18n/types';
+
 import { useQueryClient } from '@tanstack/react-query';
 import { getFlagUrl } from 'utils/flag.utils';
 import {
@@ -21,6 +21,7 @@ import {
 import { Col, Row } from 'react-grid-system';
 import { convertSearchResultToLanguageInfo } from './languages.utils';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
+import type { LanguageInfo } from '@config/i18n.config';
 
 // Interface for the search component results (matches LanguageOption from SearchableLanguageInput)
 interface LanguageOption {

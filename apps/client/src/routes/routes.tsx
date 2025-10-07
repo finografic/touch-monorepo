@@ -25,7 +25,7 @@ import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 // import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
 import { RelayPageWrapper } from 'pages/AdminPages/AdminRelaysPage/RelayPageWrapper';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
-import { AdminDashboardWrapper } from 'routes/AdminRouteWrapper';
+import { AdminDashboardWrapper } from 'routes/AdminDashboardWrapper';
 
 export const routes: RouteObject[] = [
   {
