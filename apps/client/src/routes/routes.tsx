@@ -21,8 +21,7 @@ import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { AdminLoginPage } from 'pages/AdminPages/AdminLoginPage/AdminLoginPage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
-// import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
-import { RelayPageWrapper } from 'pages/AdminPages/AdminRelaysPage/RelayPageWrapper';
+import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { AdminDashboardWrapper } from 'routes/auth/AdminDashboardWrapper';
 
@@ -188,7 +187,7 @@ export const routes: RouteObject[] = [
             id: 'relays',
             element: (
               <ProtectedRouteWrapper>
-                <RelayPageWrapper />
+                <AdminRelaysPage />
               </ProtectedRouteWrapper>
             ),
           },
@@ -197,7 +196,7 @@ export const routes: RouteObject[] = [
             id: 'modo',
             element: (
               <ProtectedRouteWrapper>
-                <RelayPageWrapper />
+                <AdminSlotsConfigPage />
               </ProtectedRouteWrapper>
             ),
           },

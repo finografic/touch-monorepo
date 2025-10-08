@@ -1,24 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
-import { useQueryClient } from '@tanstack/react-query';
 import { AdminContentLayout } from '../shared';
 import { RelayGrid } from './RelayGrid';
 import { SlotType } from 'types/orders.types';
 import { styles } from './AdminRelaysPage.styles';
-import { useToast } from 'components/Toast';
 import { NUM_RELAYS } from './relays.config';
-import {
-  GET_RELAY_STATES_QUERYKEY,
-  type RelayState,
-  useDisconnectRelay,
-  useGetRelayStates,
-  useGetRelayStatus,
-  useReconnectRelay,
-  useToggleRelay,
-  useTurnAllRelaysOff,
-  useTurnAllRelaysOn,
-} from 'queries/relays';
+import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
+import { useRelayHandlers } from './useRelayHandlers';
 
 // Types for relay configuration
 interface RelayConfig {
@@ -29,8 +18,27 @@ interface RelayConfig {
 
 export const AdminRelaysPage: React.FC = () => {
   const { t } = useTranslation();
-  const { toast } = useToast();
-  const queryClient = useQueryClient();
+
+  // Initialize relay service on mount
+  const initializeRelayMutation = useInitializeRelay();
+  useEffect(() => {
+    initializeRelayMutation.mutate();
+  }, []);
+
+  // Use custom hook for all relay handlers
+  const {
+    handleRelayToggle,
+    handleTurnAllOn,
+    handleTurnAllOff,
+    handleResetAll,
+    handleReconnect,
+    handleRetryConnection,
+    toggleRelayMutation,
+    turnAllOnMutation,
+    turnAllOffMutation,
+    reconnectMutation,
+    disconnectMutation,
+  } = useRelayHandlers();
 
   // API hooks with smart polling
   const {
@@ -49,11 +57,6 @@ export const AdminRelaysPage: React.FC = () => {
     enablePolling: enableStatusPolling,
     disablePolling: disableStatusPolling,
   } = useGetRelayStatus();
-  const toggleRelayMutation = useToggleRelay();
-  const turnAllOnMutation = useTurnAllRelaysOn();
-  const turnAllOffMutation = useTurnAllRelaysOff();
-  const reconnectMutation = useReconnectRelay();
-  const disconnectMutation = useDisconnectRelay();
 
   // Local state for relay configurations
   const [relayConfigs, setRelayConfigs] = useState<RelayConfig[]>([]);
@@ -83,128 +86,6 @@ export const AdminRelaysPage: React.FC = () => {
     }
   }, [relayStates]);
 
-  const handleRelayToggle = async (slotNumber: number, newState: boolean) => {
-    try {
-      await toggleRelayMutation.mutateAsync({ slotNumber, state: newState });
-      toast({
-        message: 'Relay Updated',
-        subText: `Relay ${slotNumber} turned ${newState ? 'ON' : 'OFF'}`,
-        variant: 'success',
-      });
-    } catch (error) {
-      toast({
-        message: 'Error',
-        subText: `Failed to toggle relay ${slotNumber}`,
-        variant: 'error',
-      });
-    }
-  };
-
-  const handleTurnAllOn = async () => {
-    try {
-      await turnAllOnMutation.mutateAsync();
-      toast({
-        message: 'All Relays ON',
-        subText: 'All relays have been turned ON',
-        variant: 'success',
-      });
-    } catch (error) {
-      toast({
-        message: 'Error',
-        subText: 'Failed to turn all relays ON',
-        variant: 'error',
-      });
-    }
-  };
-
-  const handleTurnAllOff = async () => {
-    try {
-      await turnAllOffMutation.mutateAsync();
-      toast({
-        message: 'All Relays OFF',
-        subText: 'All relays have been turned OFF',
-        variant: 'success',
-      });
-    } catch (error) {
-      toast({
-        message: 'Error',
-        subText: 'Failed to turn all relays OFF',
-        variant: 'error',
-      });
-    }
-  };
-
-  const handleResetAll = async () => {
-    try {
-      // First turn all relays OFF (hardware reset)
-      await turnAllOffMutation.mutateAsync();
-
-      // Then invalidate queries to refresh UI state
-      queryClient.invalidateQueries({ queryKey: [...GET_RELAY_STATES_QUERYKEY] });
-
-      toast({
-        message: 'Reset Complete',
-        subText: 'All relays have been reset to OFF',
-        variant: 'success',
-      });
-    } catch (error) {
-      toast({
-        message: 'Error',
-        subText: 'Failed to reset relays',
-        variant: 'error',
-      });
-    }
-  };
-
-  const handleReconnect = async () => {
-    try {
-      if (relayStatus?.connected) {
-        // Disconnect if currently connected
-        await disconnectMutation.mutateAsync();
-        toast({
-          message: 'Disconnected',
-          subText: 'Successfully disconnected from relay board',
-          variant: 'success',
-        });
-      } else {
-        // Reconnect if currently disconnected
-        await reconnectMutation.mutateAsync();
-        toast({
-          message: 'Reconnection Attempted',
-          subText: 'Attempting to reconnect to relay board',
-          variant: 'info',
-        });
-      }
-    } catch (error) {
-      const action = relayStatus?.connected ? 'disconnect' : 'reconnect';
-      toast({
-        message: `${action === 'disconnect' ? 'Disconnection' : 'Reconnection'} Failed`,
-        subText: `Failed to ${action} from relay board`,
-        variant: 'error',
-      });
-    }
-  };
-
-  const handleRetryConnection = async () => {
-    try {
-      // Re-enable polling for both queries
-      enableStatesPolling();
-      enableStatusPolling();
-
-      toast({
-        message: 'Retrying Connection',
-        subText: 'Attempting to reconnect to server...',
-        variant: 'info',
-      });
-    } catch (error) {
-      toast({
-        message: 'Retry Failed',
-        subText: 'Failed to retry connection',
-        variant: 'error',
-      });
-    }
-  };
-
   if (isLoadingStates) {
     return (
       <AdminContentLayout title="Relay Control" subtitle="Loading...">
@@ -230,7 +111,12 @@ export const AdminRelaysPage: React.FC = () => {
                 : `Error loading relay states: ${statesError.message}`}
             </Text>
             <Flex gap="3" align="center">
-              <Button onClick={handleRetryConnection} variant="solid" color="blue" size="3">
+              <Button
+                onClick={() => handleRetryConnection(enableStatesPolling, enableStatusPolling)}
+                variant="solid"
+                color="blue"
+                size="3"
+              >
                 🔄 Retry Connection
               </Button>
               <Text size="2" color="gray">
@@ -278,7 +164,7 @@ export const AdminRelaysPage: React.FC = () => {
                 </Flex>
                 <Flex align="center" gap="3">
                   <Button
-                    onClick={handleReconnect}
+                    onClick={() => handleReconnect(relayStatus)}
                     disabled={reconnectMutation.isPending || disconnectMutation.isPending}
                     variant="outline"
                     size="2"
