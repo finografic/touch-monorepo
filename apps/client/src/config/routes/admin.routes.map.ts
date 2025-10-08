@@ -7,6 +7,8 @@ import { AdminUiLabelsPage } from 'pages/AdminPages/AdminUiLabelsPage';
 import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
 import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPage';
 import { AdminSlotsConfigPage } from 'pages/AdminPages/AdminSlotsConfigPage/AdminSlotsConfigPage';
+import { AdminModePage } from 'pages/AdminPages/AdminModePage/AdminModePage';
+import { AdminModeBasicPage } from 'pages/AdminPages/AdminModePage/AdminModeBasicPage';
 import {
   EditIcon,
   LanguageIcon,
@@ -69,7 +71,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'mode',
     path: '/admin/mode',
     element: {
-      public: AdminSlotsConfigPage,
+      public: AdminModeBasicPage,
       auth: null,
       admin: null,
     },

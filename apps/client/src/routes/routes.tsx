@@ -22,6 +22,7 @@ import { AdminLoginPage } from 'pages/AdminPages/AdminLoginPage/AdminLoginPage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
+import { AdminModePage } from 'pages/AdminPages/AdminModePage/AdminModePage';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { AdminDashboardWrapper } from 'routes/auth/AdminDashboardWrapper';
 
@@ -196,7 +197,7 @@ export const routes: RouteObject[] = [
             id: 'modo',
             element: (
               <ProtectedRouteWrapper>
-                <AdminSlotsConfigPage />
+                <AdminModePage />
               </ProtectedRouteWrapper>
             ),
           },
