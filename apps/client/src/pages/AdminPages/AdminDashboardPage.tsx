@@ -67,8 +67,6 @@ export const AdminDashboardPage: React.FC = () => {
                       style={{
                         color: `var(--${card.color}-9)`,
                         backgroundColor: `var(--${card.color}-3)`,
-                        minWidth: '48px',
-                        minHeight: '48px',
                       }}
                     >
                       {React.cloneElement(card.icon, { width: 24, height: 24 })}
