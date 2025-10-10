@@ -128,20 +128,18 @@ export const AdminModePage: React.FC = () => {
               </Flex>
             </Flex>
 
-            {selectedModeId && (
-              <Flex direction="column" gap="2">
+            <Flex direction="column" gap="2">
+              {selectedModeId ? (
                 <Text size="2" color="gray">
                   Current default mode:{' '}
                   <Text weight="medium">{modes.find((m) => m.id === selectedModeId)?.name}</Text>
                 </Text>
-              </Flex>
-            )}
-
-            {!selectedModeId && (
-              <Text size="2" color="gray">
-                No default mode is currently set
-              </Text>
-            )}
+              ) : (
+                <Text size="2" color="gray">
+                  No default mode is currently set
+                </Text>
+              )}
+            </Flex>
           </Flex>
         </AdminSection>
       </AdminContentLayout>

@@ -78,7 +78,6 @@ export const AdminModeBasicPage: React.FC = () => {
         <AdminSection
           title="Default Mode Configuration"
           description="Choose the default mode that will be used when no specific mode is selected"
-          // variant="border-solid"
         >
           <Flex direction="column" gap="4" align="start">
             <Flex direction="column" gap="2" style={{ width: '100%', maxWidth: '400px' }}>
@@ -94,20 +93,18 @@ export const AdminModeBasicPage: React.FC = () => {
               />
             </Flex>
 
-            {selectedModeId && (
-              <Flex direction="column" gap="2">
+            <Flex direction="column" gap="2">
+              {selectedModeId ? (
                 <Text size="2" color="gray">
                   Current default mode:{' '}
                   <Text weight="medium">{modes.find((m) => m.id === selectedModeId)?.name}</Text>
                 </Text>
-              </Flex>
-            )}
-
-            {!selectedModeId && (
-              <Text size="2" color="gray">
-                No default mode is currently set
-              </Text>
-            )}
+              ) : (
+                <Text size="2" color="gray">
+                  No default mode is currently set
+                </Text>
+              )}
+            </Flex>
           </Flex>
         </AdminSection>
       </AdminContentLayout>
