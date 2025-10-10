@@ -97,26 +97,30 @@ export const styles = css`
 
     /* Disabled styles inherited from stylesButtonBase */
 
+    /* ACTIVE TIMERS - Orange/Warning styling overrides type colors */
     &.status-processing {
-      color: ${colors.success75};
-      border: ${layout.borderWidth} solid ${colors.success75};
-      /* background-color: ${colors.success25}; */
-      background-color: transparent;
+      color: ${colors.warning} !important;
+      border-color: ${colors.warning} !important;
+      background-color: ${colors.warning25} !important;
+
       &:hover {
-        color: ${colors.success};
-        border-color: ${colors.success};
-        background-color: ${colors.success25};
+        color: ${colors.warningDark} !important;
+        border-color: ${colors.warningDark} !important;
+        background-color: ${colors.warning50} !important;
+        transform: scale(${button.transform.padHoverScale});
       }
 
-      &.selected {
-        color: ${colors.successDark};
-        border: ${layout.borderWidth} solid ${colors.successDark};
-        background-color: ${colors.successDark25};
+      /* Override checked state - timer colors take precedence */
+      &.checked {
+        color: ${colors.warningDark} !important;
+        border-color: ${colors.warningDark} !important;
+        background-color: ${colors.warning50} !important;
+
         &:hover {
-          color: ${colors.success};
-          border-color: ${colors.successLight};
-          border: ${layout.borderWidth} solid ${colors.success};
-          background-color: ${colors.success25};
+          color: ${colors.warningDark} !important;
+          border-color: ${colors.warningDark} !important;
+          background-color: ${colors.warning75} !important;
+          transform: scale(${button.transform.padHoverScale});
         }
       }
 
@@ -124,39 +128,45 @@ export const styles = css`
       &.checking-blocked.selected {
         cursor: not-allowed;
         pointer-events: none;
-        color: ${colors.success75};
-        border: ${layout.borderWidth} solid ${colors.success75};
-        background-color: transparent;
+        color: ${colors.warning} !important;
+        border-color: ${colors.warning} !important;
+        background-color: ${colors.warning25} !important;
+        transform: none;
       }
     }
 
+    /* COMPLETED TIMERS - See-through opacity tint overrides type colors */
     &.status-completed {
-      /* cursor: not-allowed; */
       pointer-events: none;
       user-select: none;
-      color: ${colors.warningLight};
-      border: ${layout.borderWidth} solid ${colors.warningLight};
-      background-color: ${colors.warningLight25};
+      color: ${colors.warningLight} !important;
+      border-color: ${colors.warningLight} !important;
+      background-color: ${colors.warningLight25} !important;
+
       &:hover {
-        color: ${colors.warning};
-        border-color: ${colors.warning};
-        background-color: ${colors.warning25};
+        color: ${colors.warning} !important;
+        border-color: ${colors.warning} !important;
+        background-color: ${colors.warning25} !important;
         transform: none;
       }
+
       &:disabled {
         &:hover {
-          border-color: ${colors.greyDark};
-          background-color: ${colors.warning25};
+          border-color: ${colors.greyDark} !important;
+          background-color: ${colors.warning25} !important;
         }
       }
-      &.selected {
-        color: ${colors.warningLight};
-        border: ${layout.borderWidth} solid ${colors.warningLight};
-        background-color: ${colors.warningLight25};
+
+      /* Override checked state - timer colors take precedence */
+      &.checked {
+        color: ${colors.warning} !important;
+        border-color: ${colors.warning} !important;
+        background-color: ${colors.warning50} !important;
+
         &:hover {
-          color: ${colors.warningLight};
-          border: ${layout.borderWidth} solid ${colors.warningLight};
-          background-color: ${colors.warningLight25};
+          color: ${colors.warning} !important;
+          border-color: ${colors.warning} !important;
+          background-color: ${colors.warning75} !important;
         }
       }
     }
