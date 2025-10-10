@@ -56,5 +56,7 @@ export const styles = css`
     transition: all 0.2s ease;
     border-radius: 8px;
     padding: 1rem;
+    min-width: 3rem;
+    min-height: 3rem;
   }
 `;

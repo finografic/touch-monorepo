@@ -19,11 +19,13 @@ export async function seed() {
         email: 'admin@example.com',
         password: 'password123',
         name: 'Admin User',
+        role: 'admin',
       },
       {
         email: 'user@example.com',
         password: 'password123',
         name: 'Regular User',
+        role: 'auth',
       },
       {
         email: 'guest@example.com',

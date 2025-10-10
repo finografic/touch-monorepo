@@ -42,12 +42,12 @@ export const styles = css`
 
   /* Admin section styling */
   .admin-section {
-    background-color: ${colors.white};
+    /* background-color: ${colors.white};
     border: 1px solid ${colors.greyLight};
-    border-radius: 12px;
-    padding: ${spacing[6]};
+    border-radius: 12px; */
+    /* padding: ${spacing[6]}; */
 
-    .section-header {
+    /* .section-header {
       h3 {
         color: ${colors.text};
         font-size: 1.66rem;
@@ -55,7 +55,7 @@ export const styles = css`
         margin-bottom: ${spacing[2]};
         padding-bottom: ${spacing[2]};
       }
-    }
+    } */
   }
 
   .sound-library-list {

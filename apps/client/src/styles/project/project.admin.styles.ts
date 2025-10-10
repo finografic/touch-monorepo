@@ -1,6 +1,8 @@
-import { colors, layout, min } from 'styles';
+import { colors, layout, min, spacing } from 'styles';
 import { css } from '@emotion/react';
 import { forms } from '../forms/forms.constants';
+import { baseLayout } from 'styles/constants/base.constants';
+import { createFallbackProxy } from 'styles/utils/fallbackProxy.utils';
 
 export const stylesAdminContent = css`
   header.app-header.admin-app-header {
@@ -118,8 +120,32 @@ export const stylesAdminContent = css`
       min-height: ${forms.inputs.height};
       box-shadow: inset 0px 0px 0px 2px ${colors.greyXLight};
     }
+
+    /* ADMIN-SECTIONS ======================================================= */
+
+    div.admin-section {
+      background-color: ${colors.white};
+      border: 1px solid ${colors.greyXLight};
+      /* border-radius: ${layout.borderRadius.lg}; */
+      border-radius: ${createFallbackProxy(baseLayout.borderRadius, 'lg')};
+      /* padding: ${layout.padding[4]}; */
+      /* padding: ${createFallbackProxy(baseLayout.padding, 4)}; */
+      padding: ${layout.padding};
+
+      .section-header {
+        h3 {
+          color: ${colors.text};
+          font-size: 1.66rem;
+          font-weight: 700;
+          margin-bottom: ${spacing[2]};
+          padding-bottom: ${spacing[2]};
+        }
+      }
+    }
   }
 
+  /* ======================================================================== */
+  /* ======================================================================== */
   /* ======================================================================== */
 
   .field-label {
