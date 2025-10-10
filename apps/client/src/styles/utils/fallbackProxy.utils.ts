@@ -51,3 +51,24 @@ export const createFallbackProxy = <T extends Record<string | number, string>>(
     },
   });
 };
+
+/**
+ * Creates a CSS-safe proxy that works with both direct interpolation and indexed access
+ *
+ * This version ensures Emotion CSS-in-JS can interpolate the value correctly while
+ * maintaining indexed access capabilities.
+ */
+export const createCSSProxy = <T extends Record<string | number, string>>(
+  target: T,
+  defaultKey: keyof T,
+): T => {
+  // Create a new object that extends the target
+  const proxyTarget = Object.create(target);
+
+  // Override the string conversion methods to return the default value
+  proxyTarget[Symbol.toPrimitive] = () => target[defaultKey];
+  proxyTarget.valueOf = () => target[defaultKey];
+  proxyTarget.toString = () => target[defaultKey];
+
+  return proxyTarget;
+};

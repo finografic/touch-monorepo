@@ -7,7 +7,7 @@
 import { css } from '@emotion/react';
 import { colors } from '../colors/colors.styles';
 import { baseLayout, button } from './base.constants';
-import { createFallbackProxy } from '../utils/fallbackProxy.utils';
+import { createCSSProxy, createFallbackProxy } from '../utils/fallbackProxy.utils';
 
 // Base border styles using button constants
 export const border = css`
@@ -18,10 +18,10 @@ export const border = css`
 
 // LAYOUT VARIABLES
 export const layout = {
-  fontSize: createFallbackProxy(baseLayout.fontSize, 'base'), // '1rem'
-  padding: createFallbackProxy(baseLayout.padding, 4), // '1rem'
-  borderWidth: createFallbackProxy(baseLayout.borderWidth, 2), // '2px'
-  borderRadius: createFallbackProxy(baseLayout.borderRadius, 'lg'), // '0.5rem'
+  fontSize: createCSSProxy(baseLayout.fontSize, 'base'), // '1rem'
+  padding: createCSSProxy(baseLayout.padding, 4), // '1rem'
+  borderWidth: createCSSProxy(baseLayout.borderWidth, 2), // '2px'
+  borderRadius: createCSSProxy(baseLayout.borderRadius, 'lg'), // '0.5rem'
   pageColor: colors.white,
   bgColor: colors.white,
   radius: baseLayout.borderRadius.lg,

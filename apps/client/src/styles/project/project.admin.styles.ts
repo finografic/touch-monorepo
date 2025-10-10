@@ -4,6 +4,15 @@ import { forms } from '../forms/forms.constants';
 import { baseLayout } from 'styles/constants/base.constants';
 import { createFallbackProxy } from 'styles/utils/fallbackProxy.utils';
 
+// console.log('>>>>>>>>', layout.padding[6]);
+// console.log('>>>>>>>', layout.padding[1]);
+// console.log('>>>>>>>>', layout.padding);
+
+// console.log('>>>>>>>> String(layout.padding):', String(layout.padding));
+// console.log('>>>>>>>> layout.padding.toString():', layout.padding.toString());
+// console.log('>>>>>>>> layout.padding.valueOf():', layout.padding.valueOf());
+// console.log('>>>>>>>> Template literal test:', `${layout.padding}`);
+
 export const stylesAdminContent = css`
   header.app-header.admin-app-header {
     background-color: ${colors.greyDark};
@@ -126,13 +135,9 @@ export const stylesAdminContent = css`
     div.admin-section {
       background-color: ${colors.white};
       border: 1px solid ${colors.greyXLight};
-      border-radius: ${layout.borderRadius};
-      /* border-radius: ${layout.borderRadius.lg}; */
-      /* border-radius: ${createFallbackProxy(baseLayout.borderRadius, 'lg')}; */
-
-      padding: ${layout.padding};
-      /* padding: ${layout.padding[4]}; */
-      /* padding: ${createFallbackProxy(baseLayout.padding, 4)}; */
+      border: 1px solid ${colors.greyXLight};
+      border-radius: ${String(layout.borderRadius)};
+      padding: ${String(layout.padding)};
 
       .section-header {
         h3 {

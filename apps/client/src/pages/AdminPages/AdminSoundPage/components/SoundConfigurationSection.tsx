@@ -7,8 +7,8 @@ import { SelectCustom } from 'forms/SelectCustom';
 import {
   type SoundFile,
   type SoundSettings,
-  useUpdateSoundSettings,
   type SoundType,
+  useUpdateSoundSettings,
 } from 'api/hooks/useSounds';
 import { playSoundByPath } from 'utils/soundCache.utils';
 import { styles } from './SoundConfigurationSection.styles';
@@ -89,7 +89,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
   return (
     <div css={styles} className="sound-configuration-section">
       <Flex direction="column" gap="3">
-        <Heading size="3">{soundType === 'alarm' ? 'Alarm Sound' : 'Finish Sound'} Configuration</Heading>
+        {/* <Heading size="3">{soundType === 'alarm' ? 'Alarm Sound' : 'Finish Sound'} Configuration</Heading> */}
 
         <Flex gap="4" align="center" className="sound-config-row">
           <Box className="sound-label">
