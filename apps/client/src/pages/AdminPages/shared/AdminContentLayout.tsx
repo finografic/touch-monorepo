@@ -6,6 +6,7 @@ interface AdminContentLayoutProps {
   title: string;
   detail?: string;
   subtitle?: string;
+  description?: string;
   children: ReactNode;
   message?: {
     type: 'success' | 'error' | 'warning' | 'info';
@@ -17,29 +18,31 @@ interface AdminContentLayoutProps {
 }
 
 export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
-  ({ title, detail, subtitle, children, message, isLoading = false, error, centerTitle = false }) => {
+  ({
+    title,
+    detail,
+    subtitle,
+    description,
+    children,
+    message,
+    isLoading = false,
+    error,
+    centerTitle = false,
+  }) => {
     return (
       <section className="admin-page">
         <div className="admin-page-container">
-          <div
-            className={`admin-page-header ${centerTitle ? 'centered' : ''}`}
-            style={centerTitle ? { textAlign: 'center' } : {}}
-          >
+          <header className={`admin-page-header ${centerTitle ? 'centered' : ''}`}>
             <Heading size="8" className="admin-page-title" align={centerTitle ? 'center' : 'left'}>
               {title}
-              {detail && <span style={{ opacity: 0.5 }}> : {detail}</span>}
+              {subtitle && <span style={{ opacity: 0.5 }}> : {subtitle}</span>}
             </Heading>
-            {subtitle && (
-              <Text
-                size="3"
-                className="admin-page-subtitle"
-                align={centerTitle ? 'center' : 'left'}
-                style={centerTitle ? { textAlign: 'center' } : {}}
-              >
-                <div style={{ padding: '1rem' }}>{subtitle}</div>
-              </Text>
+            {description && (
+              <div className="admin-page-description">
+                <Text>{description}</Text>
+              </div>
             )}
-          </div>
+          </header>
 
           {/* Status Messages */}
           {error && (

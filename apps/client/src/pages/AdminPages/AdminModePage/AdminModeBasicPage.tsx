@@ -62,7 +62,11 @@ export const AdminModeBasicPage: React.FC = () => {
   if (isLoadingModes) {
     return (
       <section css={styles} className="admin-content-page">
-        <AdminContentLayout title="Mode Selection (BASIC)" subtitle="Select default mode for the system">
+        <AdminContentLayout
+          title="Mode Selection"
+          subtitle="User"
+          description="Select default mode for the system"
+        >
           <Flex direction="column" gap="4" align="center" justify="center" p="6">
             <Spinner size="3" />
             <Text>Loading available modes...</Text>
@@ -74,7 +78,7 @@ export const AdminModeBasicPage: React.FC = () => {
 
   return (
     <section css={styles} className="admin-content-page">
-      <AdminContentLayout title="Mode Selection (BASIC)" subtitle="Select default mode for the system">
+      <AdminContentLayout title="Mode Selection" description="Select default mode for the system">
         <AdminSection
           title="Default Mode Configuration"
           description="Choose the default mode that will be used when no specific mode is selected"
@@ -97,7 +101,7 @@ export const AdminModeBasicPage: React.FC = () => {
               {selectedModeId ? (
                 <Text size="2" color="gray">
                   Current default mode:{' '}
-                  <Text weight="medium">{modes.find((m) => m.id === selectedModeId)?.name}</Text>
+                  <Text weight="bold">{modes.find((m) => m.id === selectedModeId)?.name}</Text>
                 </Text>
               ) : (
                 <Text size="2" color="gray">

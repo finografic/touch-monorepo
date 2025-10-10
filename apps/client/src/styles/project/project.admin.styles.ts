@@ -1,17 +1,6 @@
 import { colors, layout, min, spacing } from 'styles';
 import { css } from '@emotion/react';
 import { forms } from '../forms/forms.constants';
-import { baseLayout } from 'styles/constants/base.constants';
-import { createFallbackProxy } from 'styles/utils/fallbackProxy.utils';
-
-// console.log('>>>>>>>>', layout.padding[6]);
-// console.log('>>>>>>>', layout.padding[1]);
-// console.log('>>>>>>>>', layout.padding);
-
-// console.log('>>>>>>>> String(layout.padding):', String(layout.padding));
-// console.log('>>>>>>>> layout.padding.toString():', layout.padding.toString());
-// console.log('>>>>>>>> layout.padding.valueOf():', layout.padding.valueOf());
-// console.log('>>>>>>>> Template literal test:', `${layout.padding}`);
 
 export const stylesAdminContent = css`
   header.app-header.admin-app-header {
@@ -26,8 +15,38 @@ export const stylesAdminContent = css`
 
   .admin-navigation {
     padding: 0 3rem;
+
     a[data-active] span {
       color: ${colors.info};
+    }
+  }
+
+  /* ADMIN-PAGE-LAYOUT ======================================================= */
+
+  div.admin-page-container {
+    /* #content,
+    .header > div,
+    .footer > nav {
+      padding-left: calc(${layout.padding} * 1.5) !important;
+      padding-right: calc(${layout.padding} * 1.5) !important;
+    } */
+
+    width: 100%;
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 0em 3rem 1rem 3rem;
+    box-shadow: inset 0 0 0 6px transparent;
+
+    ${min.md} {
+      /* box-shadow: inset 0 0 0 6px rgba(200, 200, 0, 0.2); */
+    }
+
+    ${min.lg} {
+      /* box-shadow: inset 0 0 0 6px rgba(0, 200, 200, 0.2); */
+    }
+
+    ${min.xl} {
+      /* box-shadow: inset 0 0 0 6px rgba(0, 200, 0, 0.2); */
     }
   }
 
@@ -132,21 +151,52 @@ export const stylesAdminContent = css`
 
     /* ADMIN-SECTIONS ======================================================= */
 
+    header.admin-page-header {
+      margin: 2rem 0 2.5rem 0;
+
+      h1,
+      h1 span {
+        color: ${colors.textLight};
+      }
+
+      h1 {
+        margin: 0.5rem 0 0.5rem 0;
+      }
+
+      div.admin-page-description {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: ${colors.textLight};
+        line-height: 1.5;
+        text-align: left;
+        align-items: left;
+        padding: 0.5rem 0;
+      }
+
+      &.centered,
+      &.centered div.admin-page-description {
+        text-align: center;
+      }
+    }
+
+    /* ADMIN-SECTIONS ======================================================= */
+
     div.admin-section {
       background-color: ${colors.white};
       border: 1px solid ${colors.greyXLight};
       border: 2px solid ${colors.greyXXLight50};
       border-radius: ${String(layout.borderRadius)};
       /* padding: ${String(layout.padding)}; */
-      padding: 1.5rem 1.5rem 2.5rem 1.5rem;
+      padding: 1.5rem 2rem 2.5rem 2rem;
       margin: 1.5rem 0;
 
       .section-header {
         h2 {
+          color: ${colors.textLight};
           margin-top: 0.5rem;
         }
         h3 {
-          color: ${colors.text};
+          color: ${colors.textLight};
           font-size: 1.66rem;
           font-weight: 700;
           /* margin-bottom: ${spacing[2]};
@@ -309,31 +359,5 @@ export const stylesAdminContent = css`
       padding-right: calc(${layout.padding} * 1) !important;
     }
   }
-
-  ${min.lg} {
-    #content,
-    .header > div,
-    .footer > nav {
-      padding-left: calc(${layout.padding} * 1.5) !important;
-      padding-right: calc(${layout.padding} * 1.5) !important;
-    }
-  }
-
-  ${min.xl} {
-    #content,
-    .header > div,
-    .footer > nav {
-      padding-left: calc(${layout.padding} * 2.5) !important;
-      padding-right: calc(${layout.padding} * 2.5) !important;
-    }
-  }
-
-  ${min.xxl} {
-    #content,
-    .header > div,
-    .footer > nav {
-      padding-left: calc(${layout.padding} * 0.5) !important;
-      padding-right: calc(${layout.padding} * 0.5) !important;
-    }
-  } */
+    */
 `;

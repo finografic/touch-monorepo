@@ -33,11 +33,13 @@ export const AdminModePage: React.FC = () => {
     // Find the selected mode name for toast
     const selectedMode = modes.find((mode) => mode.id === modeId);
 
-    toast({
-      variant: 'success',
-      message: 'Default mode updated!',
-      subText: `Default mode set to: ${selectedMode?.name || 'Unknown'}`,
-    });
+    // TODO: DEBOUNCE ??
+
+    // toast({
+    //   variant: 'success',
+    //   message: 'Default mode updated!',
+    //   subText: `Default mode set to: ${selectedMode?.name || 'Unknown'}`,
+    // });
   };
 
   // Clear default mode
@@ -55,7 +57,7 @@ export const AdminModePage: React.FC = () => {
   if (isLoadingModes) {
     return (
       <section css={styles} className="admin-content-page">
-        <AdminContentLayout title="Mode Selection" subtitle="Select default mode for the system">
+        <AdminContentLayout title="Mode Selection" description="Select default mode for the system">
           <Flex direction="column" gap="4" align="center" justify="center" p="6">
             <Spinner size="3" />
             <Text>Loading available modes...</Text>
@@ -67,11 +69,14 @@ export const AdminModePage: React.FC = () => {
 
   return (
     <section css={styles} className="admin-content-page">
-      <AdminContentLayout title="Mode Selection" subtitle="Select default mode for the system">
+      <AdminContentLayout
+        title="Mode Selection"
+        subtitle="Admin"
+        description="Select default mode for the system"
+      >
         <AdminSection
           title="Default Mode Configuration"
           description="Choose the default mode that will be used when no specific mode is selected"
-          variant="border-solid"
         >
           <Flex direction="column" gap="4" align="start">
             <Flex direction="column" gap="3" style={{ width: '100%', maxWidth: '500px' }}>
@@ -132,7 +137,7 @@ export const AdminModePage: React.FC = () => {
               {selectedModeId ? (
                 <Text size="2" color="gray">
                   Current default mode:{' '}
-                  <Text weight="medium">{modes.find((m) => m.id === selectedModeId)?.name}</Text>
+                  <Text weight="bold">{modes.find((m) => m.id === selectedModeId)?.name}</Text>
                 </Text>
               ) : (
                 <Text size="2" color="gray">

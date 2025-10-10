@@ -15,8 +15,9 @@ export const AdminSoundBasicPage: React.FC = () => {
     return (
       <section css={styles} className="admin-content-page">
         <AdminContentLayout
-          title="Sound Management (BASIC)"
-          subtitle="Upload and configure sound files for timer events"
+          title="Sound Management"
+          subtitle="(BASIC)"
+          description="Upload and configure sound files for timer events"
         >
           <Flex direction="column" gap="4" align="center" justify="center" p="6">
             <Spinner size="3" />
@@ -30,8 +31,9 @@ export const AdminSoundBasicPage: React.FC = () => {
   return (
     <section css={styles} className="admin-content-page">
       <AdminContentLayout
-        title="Sound Management (BASIC)"
-        subtitle="Upload and configure sound files for timer events"
+        title="Sound Management"
+        subtitle="(BASIC)"
+        description="Upload and configure sound files for timer events"
       >
         <AdminSection
           title="Alarm Sound Configuration"

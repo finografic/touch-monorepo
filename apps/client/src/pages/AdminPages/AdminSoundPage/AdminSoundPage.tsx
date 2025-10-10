@@ -72,7 +72,8 @@ export const AdminSoundPage: React.FC = () => {
     <section css={styles} className="admin-content-page">
       <AdminContentLayout
         title="Sound Management"
-        subtitle="Upload and configure sound files for timer events"
+        // subtitle="Upload and configure sound files for timer events"
+        description="Upload and configure sound files for timer events"
       >
         <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SoundType)}>
           <Tabs.List>
