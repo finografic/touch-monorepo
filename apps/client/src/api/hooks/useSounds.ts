@@ -1,5 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
+import { clearSoundCache } from 'utils/soundCache.utils';
 
 // Types
 export type SoundType = 'alarm' | 'finish';
@@ -85,6 +86,7 @@ export const useRemoveSoundFile = (soundType: SoundType) => {
       queryClient.invalidateQueries({ queryKey: ['sounds', 'files', soundType] });
       queryClient.invalidateQueries({ queryKey: ['sounds', 'files'] }); // Also invalidate general files
       queryClient.invalidateQueries({ queryKey: ['sounds', 'settings'] });
+      clearSoundCache(); // Clear custom sound cache to prevent stale entries
     },
   });
 };
@@ -103,6 +105,7 @@ export const useUpdateSoundSettings = () => {
     mutationFn: updateSoundSettings,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sounds', 'settings'] });
+      clearSoundCache(); // Clear custom sound cache when settings change
     },
   });
 };
