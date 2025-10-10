@@ -78,7 +78,7 @@ export const AdminModeBasicPage: React.FC = () => {
         <AdminSection
           title="Default Mode Configuration"
           description="Choose the default mode that will be used when no specific mode is selected"
-          variant="border-solid"
+          // variant="border-solid"
         >
           <Flex direction="column" gap="4" align="start">
             <Flex direction="column" gap="2" style={{ width: '100%', maxWidth: '400px' }}>

@@ -36,7 +36,6 @@ export const AdminSoundBasicPage: React.FC = () => {
         <AdminSection
           title="Alarm Sound Configuration"
           description="Select which sound file to use for timer alarm events"
-          variant="border-solid"
         >
           <SoundConfigurationSection
             soundFiles={soundFiles}

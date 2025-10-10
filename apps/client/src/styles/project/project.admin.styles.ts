@@ -135,17 +135,22 @@ export const stylesAdminContent = css`
     div.admin-section {
       background-color: ${colors.white};
       border: 1px solid ${colors.greyXLight};
-      border: 1px solid ${colors.greyXLight};
+      border: 2px solid ${colors.greyXXLight50};
       border-radius: ${String(layout.borderRadius)};
-      padding: ${String(layout.padding)};
+      /* padding: ${String(layout.padding)}; */
+      padding: 1.5rem 1.5rem 2.5rem 1.5rem;
+      margin: 1.5rem 0;
 
       .section-header {
+        h2 {
+          margin-top: 0.5rem;
+        }
         h3 {
           color: ${colors.text};
           font-size: 1.66rem;
           font-weight: 700;
-          margin-bottom: ${spacing[2]};
-          padding-bottom: ${spacing[2]};
+          /* margin-bottom: ${spacing[2]};
+          padding-bottom: ${spacing[2]}; */
         }
       }
     }

@@ -23,8 +23,9 @@ export const AdminSection: React.FC<AdminSectionProps> = memo(
               <div
                 style={{
                   padding: '1rem',
-                  // border: variant === 'border-solid' ? '1px solid #e2e8f0' : '1px dashed transparent',
-                  border: variant === 'border-solid' ? '1px solid red' : '1px dashed orange',
+                  border: variant === 'border-solid' ? '1px solid #e2e8f0' : '1px dashed transparent',
+                  // border: variant === 'border-solid' ? '1px solid red' : '1px dashed orange',
+                  // border: variant === 'border-solid' ? '1px solid red' : '1px dashed orange',
                   borderRadius: '8px',
                 }}
               >

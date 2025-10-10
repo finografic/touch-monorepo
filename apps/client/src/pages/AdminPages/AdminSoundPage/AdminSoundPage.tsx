@@ -85,7 +85,6 @@ export const AdminSoundPage: React.FC = () => {
             <AdminSection
               title="Alarm Sound Configuration"
               description="Select which sound file to use for alarm events"
-              variant="border-solid"
             >
               <SoundConfigurationSection
                 soundFiles={activeTabSoundFiles}
@@ -98,7 +97,6 @@ export const AdminSoundPage: React.FC = () => {
             <AdminSection
               title="Upload Alarm Sound Files"
               description="Add new alarm sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
-              variant="border-solid"
             >
               <FileUploadSection soundType="alarm" />
             </AdminSection>
@@ -107,7 +105,6 @@ export const AdminSoundPage: React.FC = () => {
             <AdminSection
               title="Alarm Sound Library"
               description={`${activeTabSoundFiles.length} alarm sound file(s) available`}
-              variant="border-solid"
             >
               <SoundLibrarySection
                 soundFiles={activeTabSoundFiles}
@@ -122,7 +119,6 @@ export const AdminSoundPage: React.FC = () => {
             <AdminSection
               title="Finish Sound Configuration"
               description="Select which sound file to use for finish events"
-              variant="border-solid"
             >
               <SoundConfigurationSection
                 soundFiles={activeTabSoundFiles}
@@ -135,7 +131,6 @@ export const AdminSoundPage: React.FC = () => {
             <AdminSection
               title="Upload Finish Sound Files"
               description="Add new finish sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
-              variant="border-solid"
             >
               <FileUploadSection soundType="finish" />
             </AdminSection>
@@ -144,7 +139,6 @@ export const AdminSoundPage: React.FC = () => {
             <AdminSection
               title="Finish Sound Library"
               description={`${activeTabSoundFiles.length} finish sound file(s) available`}
-              variant="border-solid"
             >
               <SoundLibrarySection
                 soundFiles={activeTabSoundFiles}
