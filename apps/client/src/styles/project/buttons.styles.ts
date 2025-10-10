@@ -67,7 +67,7 @@ export const stylesButtonBase = css`
     color: ${colors.infoDark};
     border-color: ${colors.infoDark};
     background-color: ${colors.infoLight25};
-    transform: scale(${button.transform.hoverScale});
+    /* Scale removed for buttons - pads keep scale effect */
   }
 
   /* Override Radix UI disabled styles */
