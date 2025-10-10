@@ -102,6 +102,12 @@ export const styles = css`
       color: ${colors.warningLight} !important; /* Lightened variant */
       border-color: ${colors.warningLight} !important; /* Lightened variant */
       background-color: transparent !important; /* Transparent background */
+      /* Optimized transitions - only animate specific properties */
+      transition:
+        color 0.15s ease,
+        border-color 0.15s ease,
+        background-color 0.15s ease,
+        transform 0.15s ease !important;
 
       &:hover {
         color: ${colors.warningDark} !important;
