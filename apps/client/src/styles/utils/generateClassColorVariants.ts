@@ -1,13 +1,43 @@
+import { css } from '@emotion/react';
 import { colors } from 'styles';
 import type { ColorBaseName } from 'styles/colors/palette.types';
 
 /**
- * Generate CSS class color variants for legacy Button component
- * This function takes a template function and generates CSS for all color variants
+ * Generate CSS class color variants for any component type
+ * This function generates CSS classes for all color variants of a given component
+ *
+ * @param componentType - The component type name (e.g., 'btn', 'alert', 'card')
+ * @param variantTemplate - Template function that defines styles for each color variant
+ * @returns CSS-in-JS emotion styles for all color variants
+ *
+ * @example
+ * // Generate button color variants
+ * const buttonColorVariants = generateComponentColorVariants('btn', (colorName, variants) => css`
+ *   &.btn-${colorName} {
+ *     background-color: ${variants.dark};
+ *     border-color: ${variants.xdark};
+ *     color: ${colors.white};
+ *   }
+ * `);
+ *
+ * @example
+ * // Generate alert color variants
+ * const alertColorVariants = generateComponentColorVariants('alert', (colorName, variants) => css`
+ *   &.alert-${colorName} {
+ *     background-color: ${variants.light};
+ *     border-color: ${variants.dark};
+ *     color: ${variants.dark};
+ *   }
+ * `);
  */
-export function generateClassColorVariants(
-  templateFn: (colorName: string, variants: ColorVariants) => string,
-): string {
+export function generateComponentColorVariants(
+  componentType: string,
+  variantTemplate: (
+    colorName: string,
+    variants: ColorVariants,
+    componentType: string,
+  ) => ReturnType<typeof css>,
+): ReturnType<typeof css> {
   // Define the available color names that should have variants
   const colorNames: ColorBaseName[] = [
     'primary',
@@ -20,9 +50,8 @@ export function generateClassColorVariants(
     'grey',
   ];
 
-  let css = '';
-
-  colorNames.forEach((colorName) => {
+  // Generate CSS for each color variant
+  const variantStyles = colorNames.map((colorName) => {
     // Create variant object with color system references
     const variants: ColorVariants = {
       base: colors[colorName],
@@ -33,11 +62,14 @@ export function generateClassColorVariants(
       xxdark: colors[`${colorName}XXDark` as keyof typeof colors] || colors[colorName],
     };
 
-    // Generate CSS using the template function
-    css += templateFn(colorName, variants);
+    // Generate CSS using the template function with componentType
+    return variantTemplate(colorName, variants, componentType);
   });
 
-  return css;
+  // Combine all variant styles into a single CSS-in-JS object
+  return css`
+    ${variantStyles}
+  `;
 }
 
 /**
