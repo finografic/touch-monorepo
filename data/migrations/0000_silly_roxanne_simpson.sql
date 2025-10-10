@@ -90,7 +90,8 @@ CREATE UNIQUE INDEX `drink_types_name_unique` ON `drink_types` (`name`);--> stat
 CREATE TABLE `modes` (
 	`id` text PRIMARY KEY NOT NULL,
 	`name` text NOT NULL,
-	`is_default` integer DEFAULT false NOT NULL
+	`is_default` integer DEFAULT false NOT NULL,
+	`is_active` integer DEFAULT false NOT NULL
 );
 --> statement-breakpoint
 CREATE TABLE `orders` (

@@ -6,14 +6,13 @@ export async function seed() {
   console.log('Seeding modes...');
 
   try {
-    // Check if already seeded
     const existing = await db.select().from(modes).limit(1);
     if (existing.length > 0) {
       console.log('✓ Modes already seeded, skipping...');
       return;
     }
 
-    // Insert the three basic modes
+    // Insert the five basic modes
     const insertedModes = await db
       .insert(modes)
       .values([
@@ -21,26 +20,31 @@ export async function seed() {
           id: createCuid(),
           name: '1',
           isDefault: false,
+          isActive: true,
         },
         {
           id: createCuid(),
           name: '2',
           isDefault: false,
+          isActive: true,
         },
         {
           id: createCuid(),
           name: '3',
           isDefault: true,
+          isActive: true,
         },
         {
           id: createCuid(),
           name: '4',
           isDefault: false,
+          isActive: false,
         },
         {
           id: createCuid(),
           name: '5',
           isDefault: false,
+          isActive: false,
         },
       ])
       .returning();

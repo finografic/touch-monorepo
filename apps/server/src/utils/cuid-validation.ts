@@ -18,7 +18,7 @@ export function isCuid(str: string): boolean {
   }
 
   // Basic length check - CUIDs are typically 25 characters
-  if (str.length !== 25) {
+  if (str.length < 20 || str.length > 30) {
     return false;
   }
 

@@ -3,6 +3,8 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { relations } from 'drizzle-orm';
 import { temperature_profiles } from './temperature_profiles.schema';
 import createCuid from '@bugsnag/cuid';
+import { sqliteBooleanField } from 'lib/zod-utils';
+import { z } from 'zod';
 
 export const modes = sqliteTable('modes', {
   id: text('id')
@@ -10,6 +12,7 @@ export const modes = sqliteTable('modes', {
     .$defaultFn(() => createCuid()),
   name: text('name').notNull(),
   isDefault: integer('is_default', { mode: 'boolean' }).notNull().default(false),
+  isActive: integer('is_active', { mode: 'boolean' }).notNull().default(false),
 });
 
 // Define relations
@@ -18,7 +21,19 @@ export const modeRelations = relations(modes, ({ many }) => ({
 }));
 
 export const modeSchemas = {
-  select: createSelectSchema(modes),
-  insert: createInsertSchema(modes).omit({ id: true }),
-  patch: createInsertSchema(modes).partial(),
+  select: createSelectSchema(modes, {
+    isDefault: () => sqliteBooleanField(),
+    isActive: () => sqliteBooleanField(),
+  }),
+  insert: createInsertSchema(modes, {
+    isDefault: () => sqliteBooleanField(),
+    isActive: () => sqliteBooleanField(),
+  }).omit({ id: true }),
+  patch: createInsertSchema(modes, {
+    isDefault: () => sqliteBooleanField().optional(),
+    isActive: () => sqliteBooleanField().optional(),
+  }).partial().extend({
+    isDefault: sqliteBooleanField().optional(),
+    isActive: sqliteBooleanField().optional(),
+  }),
 } as const;

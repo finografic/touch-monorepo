@@ -2,61 +2,97 @@ import React, { useEffect, useState } from 'react';
 import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminModePage.styles';
-import { useGetModes } from 'queries/modes';
+import { useGetModes, useUpdateDefaultMode } from 'queries/modes';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
-// Storage key for default mode
-const DEFAULT_MODE_STORAGE_KEY = 'touch-monorepo.default-mode';
-
 export const AdminModeBasicPage: React.FC = () => {
   const { toast } = useToast();
-  const [selectedModeId, setSelectedModeId] = useState<string>('');
+  const [defaultModeId, setDefaultModeId] = useState<string>('');
 
   // API hooks
   const { data: modes = [], isLoading: isLoadingModes } = useGetModes();
+  const updateDefaultModeMutation = useUpdateDefaultMode();
 
-  // Transform modes into dropdown options
-  const modeOptions = modes.map((mode) => ({
-    value: mode.id,
-    label: mode.name,
-  }));
+  // Transform active modes into dropdown options
+  const modeOptions = modes
+    .filter((mode) => mode.isActive)
+    .map((mode) => ({
+      value: mode.id,
+      label: mode.name,
+    }));
 
-  // Load saved default mode on component mount
+  // Load default mode from database on component mount
   useEffect(() => {
-    const savedModeId = localStorage.getItem(DEFAULT_MODE_STORAGE_KEY);
-    if (savedModeId) {
-      setSelectedModeId(savedModeId);
+    const defaultMode = modes.find((mode) => mode.isDefault);
+    if (defaultMode) {
+      setDefaultModeId(defaultMode.id);
     }
-  }, []);
+  }, [modes]);
 
-  // Handle mode selection
+  // Handle default mode selection
   const handleModeSelect = (modeId: string) => {
-    setSelectedModeId(modeId);
+    const previousModeId = defaultModeId;
 
-    // Save to localStorage
-    localStorage.setItem(DEFAULT_MODE_STORAGE_KEY, modeId);
+    // Update local state immediately for responsive UI
+    setDefaultModeId(modeId);
 
     // Find the selected mode name for toast
     const selectedMode = modes.find((mode) => mode.id === modeId);
 
-    toast({
-      variant: 'success',
-      message: 'Default mode updated!',
-      subText: `Default mode set to: ${selectedMode?.name || 'Unknown'}`,
-    });
+    // Update database
+    updateDefaultModeMutation.mutate(
+      { defaultModeId: modeId },
+      {
+        onSuccess: () => {
+          toast({
+            variant: 'success',
+            message: 'Default mode updated!',
+            subText: `Default mode set to: ${selectedMode?.name || 'Unknown'}`,
+          });
+        },
+        onError: () => {
+          // Revert on error
+          setDefaultModeId(previousModeId);
+          toast({
+            variant: 'error',
+            message: 'Failed to update default mode',
+            subText: 'Please try again',
+          });
+        },
+      },
+    );
   };
 
   // Clear default mode
   const handleClearMode = () => {
-    setSelectedModeId('');
-    localStorage.removeItem(DEFAULT_MODE_STORAGE_KEY);
+    const previousModeId = defaultModeId;
 
-    toast({
-      variant: 'info',
-      message: 'Default mode cleared',
-      subText: 'No default mode is currently set',
-    });
+    // Update local state immediately for responsive UI
+    setDefaultModeId('');
+
+    // Update database
+    updateDefaultModeMutation.mutate(
+      { defaultModeId: null },
+      {
+        onSuccess: () => {
+          toast({
+            variant: 'info',
+            message: 'Default mode cleared',
+            subText: 'No default mode is currently set',
+          });
+        },
+        onError: () => {
+          // Revert on error
+          setDefaultModeId(previousModeId);
+          toast({
+            variant: 'error',
+            message: 'Failed to clear default mode',
+            subText: 'Please try again',
+          });
+        },
+      },
+    );
   };
 
   if (isLoadingModes) {
@@ -92,16 +128,16 @@ export const AdminModeBasicPage: React.FC = () => {
                 className="mode-select"
                 options={modeOptions}
                 placeholder="Choose a default mode..."
-                value={selectedModeId}
+                value={defaultModeId}
                 onSelect={handleModeSelect}
               />
             </Flex>
 
             <Flex direction="column" gap="2">
-              {selectedModeId ? (
+              {defaultModeId ? (
                 <Text size="2" color="gray">
                   Current default mode:{' '}
-                  <Text weight="bold">{modes.find((m) => m.id === selectedModeId)?.name}</Text>
+                  <Text weight="bold">{modes.find((m) => m.id === defaultModeId)?.name}</Text>
                 </Text>
               ) : (
                 <Text size="2" color="gray">

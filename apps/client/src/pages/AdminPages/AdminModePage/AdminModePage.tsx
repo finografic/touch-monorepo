@@ -2,62 +2,90 @@ import React, { useEffect, useState } from 'react';
 import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminModePage.styles';
-import { useGetModes } from 'queries/modes';
+import { useGetModes, useUpdateActiveStates } from 'queries/modes';
 import { useToast } from 'components/Toast';
-
-// Storage key for default mode
-const DEFAULT_MODE_STORAGE_KEY = 'touch-monorepo.default-mode';
 
 export const AdminModePage: React.FC = () => {
   const { toast } = useToast();
-  const [selectedModeId, setSelectedModeId] = useState<string>('');
+  const [activeModeIds, setActiveModeIds] = useState<string[]>([]);
 
   // API hooks
   const { data: modes = [], isLoading: isLoadingModes } = useGetModes();
+  const updateActiveStatesMutation = useUpdateActiveStates();
 
-  // Load saved default mode on component mount
+  // Load active modes from database on component mount
   useEffect(() => {
-    const savedModeId = localStorage.getItem(DEFAULT_MODE_STORAGE_KEY);
-    if (savedModeId) {
-      setSelectedModeId(savedModeId);
-    }
-  }, []);
+    const activeModes = modes.filter((mode) => mode.isActive);
+    setActiveModeIds(activeModes.map((mode) => mode.id));
+  }, [modes]);
 
-  // Handle mode selection
-  const handleModeSelect = (modeId: string) => {
-    setSelectedModeId(modeId);
+  // Handle mode toggle (multi-select)
+  const handleModeToggle = (modeId: string) => {
+    const isCurrentlyActive = activeModeIds.includes(modeId);
+    const newActiveIds = isCurrentlyActive
+      ? activeModeIds.filter((id) => id !== modeId)
+      : [...activeModeIds, modeId];
 
-    // Save to localStorage
-    localStorage.setItem(DEFAULT_MODE_STORAGE_KEY, modeId);
+    // Update local state immediately for responsive UI
+    setActiveModeIds(newActiveIds);
 
-    // Find the selected mode name for toast
-    const selectedMode = modes.find((mode) => mode.id === modeId);
-
-    // TODO: DEBOUNCE ??
-
-    // toast({
-    //   variant: 'success',
-    //   message: 'Default mode updated!',
-    //   subText: `Default mode set to: ${selectedMode?.name || 'Unknown'}`,
-    // });
+    // Update database
+    updateActiveStatesMutation.mutate(
+      { activeModeIds: newActiveIds },
+      {
+        onSuccess: () => {
+          toast({
+            variant: 'success',
+            message: 'Active modes updated!',
+            subText: `${newActiveIds.length} mode(s) are now active`,
+          });
+        },
+        onError: () => {
+          // Revert on error
+          setActiveModeIds(activeModeIds);
+          toast({
+            variant: 'error',
+            message: 'Failed to update active modes',
+            subText: 'Please try again',
+          });
+        },
+      },
+    );
   };
 
-  // Clear default mode
-  const handleClearMode = () => {
-    setSelectedModeId('');
-    localStorage.removeItem(DEFAULT_MODE_STORAGE_KEY);
+  // Clear all active modes
+  const handleClearAllModes = () => {
+    // Update local state immediately for responsive UI
+    setActiveModeIds([]);
 
-    toast({
-      variant: 'info',
-      message: 'Default mode cleared',
-      subText: 'No default mode is currently set',
-    });
+    // Update database
+    updateActiveStatesMutation.mutate(
+      { activeModeIds: [] },
+      {
+        onSuccess: () => {
+          toast({
+            variant: 'info',
+            message: 'All modes deactivated',
+            subText: 'No modes are currently active',
+          });
+        },
+        onError: () => {
+          // Revert on error
+          setActiveModeIds(activeModeIds);
+          toast({
+            variant: 'error',
+            message: 'Failed to clear active modes',
+            subText: 'Please try again',
+          });
+        },
+      },
+    );
   };
 
   if (isLoadingModes) {
     return (
       <section css={styles} className="admin-content-page">
-        <AdminContentLayout title="Mode Selection" description="Select default mode for the system">
+        <AdminContentLayout title="Mode Selection" description="Manage active modes for the system">
           <Flex direction="column" gap="4" align="center" justify="center" p="6">
             <Spinner size="3" />
             <Text>Loading available modes...</Text>
@@ -72,77 +100,93 @@ export const AdminModePage: React.FC = () => {
       <AdminContentLayout
         title="Mode Selection"
         subtitle="Admin"
-        description="Select default mode for the system"
+        description="Manage active modes for the system"
       >
         <AdminSection
-          title="Default Mode Configuration"
-          description="Choose the default mode that will be used when no specific mode is selected"
+          title="Active Mode Configuration"
+          description="Select which modes should be active and available for use"
         >
           <Flex direction="column" gap="4" align="start">
             <Flex direction="column" gap="3" style={{ width: '100%', maxWidth: '500px' }}>
               <Text size="3" weight="medium">
-                Select Default Mode
+                Select Active Modes
               </Text>
               <Flex direction="column" gap="2">
-                {modes.map((mode) => (
-                  <Flex
-                    key={mode.id}
-                    className={`mode-checkbox-item ${selectedModeId === mode.id ? 'selected' : ''}`}
-                    onClick={() => handleModeSelect(mode.id)}
-                    style={{
-                      padding: '12px 16px',
-                      borderRadius: '8px',
-                      border: '1px solid',
-                      cursor: 'pointer',
-                      backgroundColor: selectedModeId === mode.id ? 'var(--accent-3)' : 'white',
-                      borderColor: selectedModeId === mode.id ? 'var(--accent-9)' : 'var(--gray-6)',
-                      transition: 'all 150ms ease',
-                    }}
-                  >
-                    <Flex align="center" gap="3">
-                      <div
-                        style={{
-                          width: '16px',
-                          height: '16px',
-                          borderRadius: '4px',
-                          border: '2px solid',
-                          borderColor: selectedModeId === mode.id ? 'var(--accent-9)' : 'var(--gray-8)',
-                          backgroundColor: selectedModeId === mode.id ? 'var(--accent-9)' : 'transparent',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}
-                      >
-                        {selectedModeId === mode.id && (
-                          <div
-                            style={{
-                              width: '6px',
-                              height: '6px',
-                              borderRadius: '50%',
-                              backgroundColor: 'white',
-                            }}
-                          />
-                        )}
-                      </div>
-                      <Text size="2" weight={selectedModeId === mode.id ? 'medium' : 'regular'}>
-                        {mode.name}
-                      </Text>
+                {modes.map((mode) => {
+                  const isActive = activeModeIds.includes(mode.id);
+                  return (
+                    <Flex
+                      key={mode.id}
+                      className={`mode-checkbox-item ${isActive ? 'selected' : ''}`}
+                      onClick={() => handleModeToggle(mode.id)}
+                      style={{
+                        padding: '12px 16px',
+                        borderRadius: '8px',
+                        border: '1px solid',
+                        cursor: 'pointer',
+                        backgroundColor: isActive ? 'var(--accent-3)' : 'white',
+                        borderColor: isActive ? 'var(--accent-9)' : 'var(--gray-6)',
+                        transition: 'all 150ms ease',
+                      }}
+                    >
+                      <Flex align="center" gap="3">
+                        <div
+                          style={{
+                            width: '16px',
+                            height: '16px',
+                            borderRadius: '4px',
+                            border: '2px solid',
+                            borderColor: isActive ? 'var(--accent-9)' : 'var(--gray-8)',
+                            backgroundColor: isActive ? 'var(--accent-9)' : 'transparent',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}
+                        >
+                          {isActive && (
+                            <div
+                              style={{
+                                width: '6px',
+                                height: '6px',
+                                borderRadius: '50%',
+                                backgroundColor: 'white',
+                              }}
+                            />
+                          )}
+                        </div>
+                        <Text size="2" weight={isActive ? 'medium' : 'regular'}>
+                          {mode.name}
+                        </Text>
+                      </Flex>
                     </Flex>
-                  </Flex>
-                ))}
+                  );
+                })}
               </Flex>
             </Flex>
 
             <Flex direction="column" gap="2">
-              {selectedModeId ? (
-                <Text size="2" color="gray">
-                  Current default mode:{' '}
-                  <Text weight="bold">{modes.find((m) => m.id === selectedModeId)?.name}</Text>
-                </Text>
+              {activeModeIds.length > 0 ? (
+                <Flex direction="column" gap="1">
+                  <Text size="2" color="gray">
+                    Active modes ({activeModeIds.length}):
+                  </Text>
+                  <Text size="2" weight="bold">
+                    {modes
+                      .filter((mode) => activeModeIds.includes(mode.id))
+                      .map((mode) => mode.name)
+                      .join(', ')}
+                  </Text>
+                </Flex>
               ) : (
                 <Text size="2" color="gray">
-                  No default mode is currently set
+                  No modes are currently active
                 </Text>
+              )}
+
+              {activeModeIds.length > 0 && (
+                <Button variant="outline" size="2" color="red" onClick={handleClearAllModes}>
+                  Clear All Active Modes
+                </Button>
               )}
             </Flex>
           </Flex>

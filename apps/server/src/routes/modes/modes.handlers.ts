@@ -1,6 +1,14 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
 import type { AppRouteHandler } from 'types/app.types';
-import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './modes.routes';
+import type {
+  CreateRoute,
+  GetOneRoute,
+  ListRoute,
+  PatchRoute,
+  RemoveRoute,
+  UpdateActiveStatesRoute,
+  UpdateDefaultModeRoute,
+} from './modes.routes';
 import { db } from 'db';
 import { modes } from 'db/schemas';
 import { eq } from 'drizzle-orm';
@@ -79,4 +87,39 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   }
 
   return context.body(null, HttpStatusCodes.NO_CONTENT);
+};
+
+export const updateActiveStates: AppRouteHandler<UpdateActiveStatesRoute> = async (context) => {
+  const { activeModeIds } = context.req.valid('json');
+
+  // First, set all modes to inactive
+  await db.update(modes).set({ isActive: false });
+
+  // Then, set the specified modes to active
+  if (activeModeIds.length > 0) {
+    await db.update(modes).set({ isActive: true }).where(eq(modes.id, activeModeIds[0]));
+    for (let i = 1; i < activeModeIds.length; i++) {
+      await db.update(modes).set({ isActive: true }).where(eq(modes.id, activeModeIds[i]));
+    }
+  }
+
+  // Return all modes
+  const allModes = await db.query.modes.findMany();
+  return context.json(allModes, HttpStatusCodes.OK);
+};
+
+export const updateDefaultMode: AppRouteHandler<UpdateDefaultModeRoute> = async (context) => {
+  const { defaultModeId } = context.req.valid('json');
+
+  // First, set all modes to not default
+  await db.update(modes).set({ isDefault: false });
+
+  // Then, set the specified mode to default (if provided)
+  if (defaultModeId) {
+    await db.update(modes).set({ isDefault: true }).where(eq(modes.id, defaultModeId));
+  }
+
+  // Return all modes
+  const allModes = await db.query.modes.findMany();
+  return context.json(allModes, HttpStatusCodes.OK);
 };
