@@ -3,7 +3,6 @@ import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminModePage.styles';
 import { useGetModes } from 'queries/modes';
-import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
 // Storage key for default mode
@@ -15,12 +14,6 @@ export const AdminModePage: React.FC = () => {
 
   // API hooks
   const { data: modes = [], isLoading: isLoadingModes } = useGetModes();
-
-  // Transform modes into dropdown options
-  const modeOptions = modes.map((mode) => ({
-    value: mode.id,
-    label: mode.name,
-  }));
 
   // Load saved default mode on component mount
   useEffect(() => {
@@ -81,17 +74,58 @@ export const AdminModePage: React.FC = () => {
           variant="border-solid"
         >
           <Flex direction="column" gap="4" align="start">
-            <Flex direction="column" gap="2" style={{ width: '100%', maxWidth: '400px' }}>
+            <Flex direction="column" gap="3" style={{ width: '100%', maxWidth: '500px' }}>
               <Text size="3" weight="medium">
                 Select Default Mode
               </Text>
-              <SelectCustom
-                className="mode-select"
-                options={modeOptions}
-                placeholder="Choose a default mode..."
-                value={selectedModeId}
-                onSelect={handleModeSelect}
-              />
+              <Flex direction="column" gap="2">
+                {modes.map((mode) => (
+                  <Flex
+                    key={mode.id}
+                    className={`mode-checkbox-item ${selectedModeId === mode.id ? 'selected' : ''}`}
+                    onClick={() => handleModeSelect(mode.id)}
+                    style={{
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid',
+                      cursor: 'pointer',
+                      backgroundColor: selectedModeId === mode.id ? 'var(--accent-3)' : 'white',
+                      borderColor: selectedModeId === mode.id ? 'var(--accent-9)' : 'var(--gray-6)',
+                      transition: 'all 150ms ease',
+                    }}
+                  >
+                    <Flex align="center" gap="3">
+                      <div
+                        style={{
+                          width: '16px',
+                          height: '16px',
+                          borderRadius: '4px',
+                          border: '2px solid',
+                          borderColor: selectedModeId === mode.id ? 'var(--accent-9)' : 'var(--gray-8)',
+                          backgroundColor: selectedModeId === mode.id ? 'var(--accent-9)' : 'transparent',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {selectedModeId === mode.id && (
+                          <div
+                            style={{
+                              width: '6px',
+                              height: '6px',
+                              borderRadius: '50%',
+                              backgroundColor: 'white',
+                            }}
+                          />
+                        )}
+                      </div>
+                      <Text size="2" weight={selectedModeId === mode.id ? 'medium' : 'regular'}>
+                        {mode.name}
+                      </Text>
+                    </Flex>
+                  </Flex>
+                ))}
+              </Flex>
             </Flex>
 
             {selectedModeId && (
@@ -100,9 +134,6 @@ export const AdminModePage: React.FC = () => {
                   Current default mode:{' '}
                   <Text weight="medium">{modes.find((m) => m.id === selectedModeId)?.name}</Text>
                 </Text>
-                <Button variant="outline" size="2" color="red" onClick={handleClearMode}>
-                  Clear Default Mode
-                </Button>
               </Flex>
             )}
 

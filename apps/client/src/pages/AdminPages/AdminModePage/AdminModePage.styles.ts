@@ -58,7 +58,10 @@ export const styles = css`
     }
   }
 
-  .mode-select {
-    width: 100%;
+  .mode-checkbox-item {
+    &:hover {
+      background-color: var(--gray-2) !important;
+      border-color: var(--gray-8) !important;
+    }
   }
 `;
