@@ -99,9 +99,9 @@ export const styles = css`
 
     /* ACTIVE TIMERS - Orange/Warning styling overrides type colors */
     &.status-processing {
-      color: ${colors.warning} !important;
-      border-color: ${colors.warning} !important;
-      background-color: ${colors.warning25} !important;
+      color: ${colors.warningLight} !important; /* Lightened variant */
+      border-color: ${colors.warningLight} !important; /* Lightened variant */
+      background-color: transparent !important; /* Transparent background */
 
       &:hover {
         color: ${colors.warningDark} !important;
@@ -128,9 +128,9 @@ export const styles = css`
       &.checking-blocked.selected {
         cursor: not-allowed;
         pointer-events: none;
-        color: ${colors.warning} !important;
-        border-color: ${colors.warning} !important;
-        background-color: ${colors.warning25} !important;
+        color: ${colors.warningLight} !important; /* Lightened variant */
+        border-color: ${colors.warningLight} !important; /* Lightened variant */
+        background-color: transparent !important; /* Transparent background */
         transform: none;
       }
     }
