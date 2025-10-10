@@ -1,5 +1,5 @@
-import { playCompleteSound, playTickSound } from './timer.sounds.utils';
 import { formatTime } from 'utils/time.utils';
+import { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound } from 'utils/sound.utils';
 
 export const EVENT_INTERVAL = 120; // seconds
 
@@ -7,7 +7,7 @@ export const EVENT_INTERVAL = 120; // seconds
 export { formatTime };
 
 // Re-export sound functions for backward compatibility
-export { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound } from './timer.sounds.utils';
+export { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound };
 
 // Example tick action (can be customized)
 export function tickAction({
