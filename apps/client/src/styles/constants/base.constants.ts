@@ -136,7 +136,7 @@ export const button = {
     padHoverScale: 1.05,
     padBasicHoverScale: 1.02,
   },
-  transition: 'transform 0.2s ease, border-color 0.2s ease, color 0.2s ease',
+  transition: 'transform 200ms ease, border-color 200ms ease, color 200ms ease',
   disabled: {
     opacity: 0.55, // TODO: DEV VALUE (HIGH) FOR LIGHT MODE.. MAKE VALUE LIGHTER IF NEEDED
   },
