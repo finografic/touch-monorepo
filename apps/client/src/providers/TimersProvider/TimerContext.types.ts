@@ -35,6 +35,7 @@ type TimersActions = TimersSetters & {
   getCompletedTimers: () => TimerItem[];
   getTimerByOrderId: (orderId: string) => TimerItem | undefined;
   getTimerBySlotNumber: (slotNumber: number) => TimerItem | undefined;
+  getTimerMap: () => Map<number, TimerItem>;
   updateTimerByOrderId: (orderId: string, updates: Partial<TimerItem>) => void;
 };
 

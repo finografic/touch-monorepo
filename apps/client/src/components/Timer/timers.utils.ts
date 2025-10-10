@@ -1,11 +1,6 @@
-import { getCachedSettings, playCachedSound, playSoundFromUrl } from 'utils/soundCache.utils';
+import { playCompleteSound, playTickSound } from './timer.sounds.utils';
 
 export const EVENT_INTERVAL = 120; // seconds
-
-// Initialize the global timer registry if it doesn't exist
-if (typeof window !== 'undefined') {
-  window.__timerIntervals = window.__timerIntervals || {};
-}
 
 export const formatTime = (seconds: number | undefined): string => {
   if (seconds === undefined) return '00:00';
@@ -14,58 +9,8 @@ export const formatTime = (seconds: number | undefined): string => {
   return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
 };
 
-export async function playTickSound() {
-  try {
-    const settings = await getCachedSettings();
-    if (settings.tick) {
-      try {
-        await playCachedSound(settings.tick, 0.2);
-      } catch (cachedError) {
-        console.warn('Cached tick sound failed, trying URL fallback:', cachedError);
-        await playSoundFromUrl(settings.tick, 0.2);
-      }
-    }
-  } catch (e) {
-    console.warn('Could not play tick sound:', e);
-    // Fallback: do nothing
-  }
-}
-
-// Play the configured finish sound from API with fallback
-export async function playFinishSound() {
-  try {
-    const settings = await getCachedSettings();
-    if (settings.finish) {
-      try {
-        await playCachedSound(settings.finish, 0.2);
-      } catch (cachedError) {
-        console.warn('Cached finish sound failed, trying URL fallback:', cachedError);
-        await playSoundFromUrl(settings.finish, 0.2);
-      }
-    }
-  } catch (e) {
-    console.warn('Could not play finish sound:', e);
-    // Fallback: do nothing
-  }
-}
-
-export function makeDefaultSound() {
-  playFinishSound().catch(() => {
-    // Silent fallback
-  });
-}
-
-export function makeUserSound(key: 'tick' | 'finish') {
-  if (key === 'tick') {
-    playTickSound().catch(() => {
-      // Silent fallback
-    });
-  } else if (key === 'finish') {
-    playFinishSound().catch(() => {
-      // Silent fallback
-    });
-  }
-}
+// Re-export sound functions for backward compatibility
+export { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound } from './timer.sounds.utils';
 
 // Example tick action (can be customized)
 export function tickAction({
@@ -88,8 +33,8 @@ export function tickAction({
   }
 }
 
-// Example finish action (can be customized)
-export function finishAction({
+// Example complete action (can be customized)
+export function completeAction({
   elapsed,
   remaining,
   orderId,
@@ -98,8 +43,8 @@ export function finishAction({
   remaining: number;
   orderId: string | number;
 }) {
-  log('timer: FINISHED.', 'orange', { elapsed, remaining, orderId });
-  playFinishSound().catch(() => {
+  console.log('timer: COMPLETED.', { elapsed, remaining, orderId });
+  playCompleteSound().catch(() => {
     // Silent fallback
   });
 }

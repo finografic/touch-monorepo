@@ -93,6 +93,10 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
             const { timers } = get();
             return timers.find((timer) => timer.slotNumber === slotNumber);
           },
+          getTimerMap: () => {
+            const { timers } = get();
+            return new Map(timers.map((timer) => [timer.slotNumber, timer]));
+          },
           updateTimerByOrderId: (orderId: string, updates: Partial<TimerItem>) => {
             const { timers } = get();
             const updatedTimers = timers.map((timer) => {
