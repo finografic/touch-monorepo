@@ -91,7 +91,6 @@
     "@hono/zod-openapi": "^0.18.4",
     "@hono/zod-validator": "0.4.3",
     "@scalar/hono-api-reference": "0.9.13",
-    "@types/serialport": "10.2.0",
     "@vitalets/google-translate-api": "9.2.1",
     "@workspace/core": "workspace:*",
     "ansis": "^3.0.0",
