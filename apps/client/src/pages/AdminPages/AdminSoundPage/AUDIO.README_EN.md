@@ -1,72 +1,164 @@
+# Sound Management System
 
-Great, that confirms the issue is the browser's **autoplay policy**—not your code or sound files.
+This document explains the sound management system for timer events in the Touch application.
 
----
+## Overview
 
-## Why This Happens
+The sound system supports two types of timer sounds:
+- **Alarm Sounds**: Played during timer intervals (every 2 minutes by default)
+- **Finish Sounds**: Played when a timer completes
 
-Modern browsers (including Chrome, Edge, Safari, Firefox) block audio playback unless it is triggered by a direct user gesture (like a click, tap, or keypress). This is to prevent annoying auto-playing ads and sounds.
+## File Structure
 
-- **Timers, intervals, and background events** are not considered user gestures.
-- This policy applies even to local apps and PWAs, not just websites.
+```
+data/uploads/sounds/
+├── _settings.json          # Sound configuration file
+├── alarm/                  # Alarm sound files directory
+│   └── sound--alarm-*.mp3
+└── finish/                 # Finish sound files directory
+    └── sound--finish-*.mp3
+```
 
----
+## Configuration
 
-## Can You Work Around This?
+The `_settings.json` file contains the currently selected sounds:
 
-### 1. **No Reliable Programmatic Bypass**
+```json
+{
+  "alarm": "sound--alarm-1760094208933-nm5t",
+  "finish": "sound--finish-1760094183733-dkak"
+}
+```
 
-- There is **no official way** to programmatically bypass this policy for background sounds.
-- There are **no Chrome flags or settings** that will globally allow autoplay with sound for all sites, including local apps.
+- `alarm`: ID of the selected alarm sound file (or `null` if none selected)
+- `finish`: ID of the selected finish sound file (or `null` if none selected)
 
-### 2. **User Gesture "Priming"**
+## API Endpoints
 
-- If the user interacts with your app (clicks a button, etc.), you can "prime" the AudioContext or play a silent sound. After that, some browsers will allow subsequent programmatic sounds for a while.
-- This is not 100% reliable and may reset after inactivity or tab switch.
+### Sound Files
 
-### 3. **Site-Specific Permissions** ✅
+- `GET /api/sounds/alarm` - List alarm sound files
+- `GET /api/sounds/finish` - List finish sound files
+- `GET /api/sounds/files/{filename}` - Serve sound file
 
-- In Chrome, you can allow sound for a specific site (click the lock icon in the address bar → Site settings → Sound: Allow).
-- **IMPORTANT**: This setting DOES allow programmatic sounds (like timers) without user gestures.
-- The setting persists after page reload.
-- This is the most reliable solution for local apps and development.
+### Sound Settings
 
-### 4. **Electron or Native Wrappers**
+- `GET /api/sounds/settings` - Get current sound settings
+- `PUT /api/sounds/settings` - Update sound settings
 
-- If you package your app with Electron or a similar framework, you can disable autoplay restrictions via command-line flags or configuration.
-- For example, Electron allows you to launch with `--autoplay-policy=no-user-gesture-required`.
+### File Management
 
-### 5. **User Education**
+- `POST /api/sounds/alarm/upload` - Upload alarm sound files
+- `POST /api/sounds/finish/upload` - Upload finish sound files
+- `DELETE /api/sounds/alarm/{id}` - Remove alarm sound file
+- `DELETE /api/sounds/finish/{id}` - Remove finish sound file
 
-- The most reliable approach is to **require a user gesture** to start timers or "prime" the sound system, and inform users that background sounds may be blocked by browser policy.
+## Supported Formats
 
----
+- **MP3**: Recommended format for web compatibility
+- **WAV**: Supported, automatically converted to MP3
+- **AIFF**: Supported, automatically converted to MP3
 
-## **Summary Table**
+Files are automatically converted to MP3 for optimal web compatibility and smaller file sizes.
 
-| Approach                | Works in Browser? | Works in Electron? | Notes                                 |
-|-------------------------|:-----------------:|:------------------:|---------------------------------------|
-| User gesture (click)    |        ✅         |        ✅          | Always works                          |
-| Timer/interval sound    |        ✅*        |        ✅*         | Works with site permissions in browser |
-| Chrome site settings    |        ✅         |        N/A         | Allows programmatic sounds            |
-| Chrome flags            |        ❌         |        ✅*         | Only in custom wrappers               |
+## Browser Autoplay Policy
 
----
+Modern browsers block audio playback unless triggered by a direct user gesture (click, tap, keypress). This affects timer sounds that play automatically.
 
-## **What Should You Do?**
+### Solutions
 
-- For browser-based apps:
-  - Configure site-specific sound permissions for your domain.
-  - Optionally, show instructions for users on how to enable sound permissions.
-  - Fall back to user gesture priming if needed.
+1. **Site-Specific Permissions** (Recommended)
+   - In Chrome: Click lock icon → Site settings → Sound: Allow
+   - This allows programmatic sounds without user gestures
+   - Setting persists after page reload
 
-- For Electron/native:
-  - You can disable the autoplay policy and allow programmatic sound.
+2. **User Gesture Priming**
+   - User clicks a button to "prime" the audio system
+   - Subsequent programmatic sounds work for a limited time
+   - Not 100% reliable, may reset after inactivity
 
----
+3. **Electron/Native Wrappers**
+   - Can disable autoplay restrictions via command-line flags
+   - Example: `--autoplay-policy=no-user-gesture-required`
 
-## **Want a "Priming" Example?**
+## Usage in Code
 
-If you want, I can add a "prime sound" button that the user clicks once, and after that, timer sounds are more likely to work (until the tab is reloaded or loses focus).
+### Timer Integration
 
-Let me know if you want this, or if you have other questions!
+```typescript
+import { playTickSound, playCompleteSound } from 'utils/sound.utils';
+
+// Play alarm sound during timer intervals
+await playTickSound(0.2); // 20% volume
+
+// Play finish sound when timer completes
+await playCompleteSound(0.3); // 30% volume
+```
+
+### Sound Configuration
+
+```typescript
+import { makeUserSound } from 'utils/sound.utils';
+
+// Play sounds by type
+makeUserSound('alarm', 0.2);    // Play alarm sound
+makeUserSound('complete', 0.3); // Play finish sound
+```
+
+## Admin Interface
+
+### Full Admin Page (`/admin/sounds`)
+
+- Tabbed interface for managing alarm and finish sounds
+- Upload, configure, and manage sound files
+- Test sound playback
+- View sound library
+
+### Basic Admin Page (`/admin/sounds` - public version)
+
+- Simplified interface showing only alarm sound selection
+- No file upload or management capabilities
+- Focused on essential sound configuration
+
+## File Naming Convention
+
+Sound files follow this naming pattern:
+
+```
+sound--{type}-{timestamp}-{randomId}.mp3
+```
+
+Examples:
+- `sound--alarm-1760094208933-nm5t.mp3`
+- `sound--finish-1760094183733-dkak.mp3`
+
+The system automatically extracts display names from filenames for user-friendly selection.
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Sounds not playing**
+   - Check browser autoplay policy
+   - Verify site sound permissions
+   - Check console for errors
+
+2. **Files not appearing**
+   - Ensure files are in correct subfolder (`alarm/` or `finish/`)
+   - Check file naming convention
+   - Verify server file scanning
+
+3. **Upload failures**
+   - Check file format (MP3, WAV, AIFF)
+   - Verify file size limits (10MB max)
+   - Check server disk space
+
+### Debug Information
+
+The system provides detailed logging:
+- File scanning and discovery
+- Sound playback attempts
+- Cache management
+- Error handling
+
+Check browser console and server logs for troubleshooting information.

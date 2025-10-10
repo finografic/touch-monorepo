@@ -1,72 +1,164 @@
+# Sistema de Gestión de Sonidos
 
-Genial, eso confirma que el problema es la **política de reproducción automática** del navegador, no tu código ni los archivos de sonido.
+Este documento explica el sistema de gestión de sonidos para eventos de temporizador en la aplicación Touch.
 
----
+## Resumen
 
-## ¿Por qué sucede esto?
+El sistema de sonidos soporta dos tipos de sonidos de temporizador:
+- **Sonidos de Alarma**: Reproducidos durante intervalos del temporizador (cada 2 minutos por defecto)
+- **Sonidos de Finalización**: Reproducidos cuando un temporizador se completa
 
-Los navegadores modernos (incluyendo Chrome, Edge, Safari, Firefox) bloquean la reproducción de audio a menos que sea activada por un gesto directo del usuario (como un clic, toque o pulsación de tecla). Esto es para evitar anuncios y sonidos molestos que se reproducen automáticamente.
+## Estructura de Archivos
 
-- **Los temporizadores, intervalos y eventos en segundo plano** no se consideran gestos del usuario.
-- Esta política se aplica incluso a aplicaciones locales y PWAs, no solo a sitios web.
+```
+data/uploads/sounds/
+├── _settings.json          # Archivo de configuración de sonidos
+├── alarm/                  # Directorio de archivos de sonido de alarma
+│   └── sound--alarm-*.mp3
+└── finish/                 # Directorio de archivos de sonido de finalización
+    └── sound--finish-*.mp3
+```
 
----
+## Configuración
 
-## ¿Se puede evitar esto?
+El archivo `_settings.json` contiene los sonidos actualmente seleccionados:
 
-### 1. **No hay una forma programática confiable**
+```json
+{
+  "alarm": "sound--alarm-1760094208933-nm5t",
+  "finish": "sound--finish-1760094183733-dkak"
+}
+```
 
-- **No existe una forma oficial** de evitar esta política para sonidos en segundo plano.
-- **No hay flags ni configuraciones en Chrome** que permitan la reproducción automática de sonido para todos los sitios, incluidas apps locales.
+- `alarm`: ID del archivo de sonido de alarma seleccionado (o `null` si no hay ninguno seleccionado)
+- `finish`: ID del archivo de sonido de finalización seleccionado (o `null` si no hay ninguno seleccionado)
 
-### 2. **"Preparar" el audio con un gesto del usuario**
+## Endpoints de API
 
-- Si el usuario interactúa con tu app (hace clic en un botón, etc.), puedes "preparar" el sistema de audio o reproducir un sonido silencioso. Después de eso, algunos navegadores permitirán sonidos programáticos por un tiempo.
-- Esto **no es 100% confiable** y puede reiniciarse tras inactividad o cambiar de pestaña.
+### Archivos de Sonido
 
-### 3. **Permisos específicos del sitio** ✅
+- `GET /api/sounds/alarm` - Listar archivos de sonido de alarma
+- `GET /api/sounds/finish` - Listar archivos de sonido de finalización
+- `GET /api/sounds/files/{filename}` - Servir archivo de sonido
 
-- En Chrome, puedes permitir sonido para un sitio específico (haz clic en el candado en la barra de direcciones → Configuración del sitio → Sonido: Permitir).
-- **IMPORTANTE**: Esta configuración SÍ permite sonidos programáticos (como timers) sin gestos del usuario.
-- La configuración persiste después de recargar la página.
-- Es la solución más confiable para apps locales y de desarrollo.
+### Configuración de Sonidos
 
-### 4. **Electron u otros wrappers nativos**
+- `GET /api/sounds/settings` - Obtener configuración actual de sonidos
+- `PUT /api/sounds/settings` - Actualizar configuración de sonidos
 
-- Si empaquetas tu app con Electron u otro framework similar, puedes desactivar las restricciones de reproducción automática mediante flags o configuración.
-- Por ejemplo, Electron permite lanzar con `--autoplay-policy=no-user-gesture-required`.
+### Gestión de Archivos
 
-### 5. **Educación del usuario**
+- `POST /api/sounds/alarm/upload` - Subir archivos de sonido de alarma
+- `POST /api/sounds/finish/upload` - Subir archivos de sonido de finalización
+- `DELETE /api/sounds/alarm/{id}` - Eliminar archivo de sonido de alarma
+- `DELETE /api/sounds/finish/{id}` - Eliminar archivo de sonido de finalización
 
-- El enfoque más confiable es **requerir un gesto del usuario** para iniciar temporizadores o "preparar" el sistema de sonido, e informar que los sonidos en segundo plano pueden ser bloqueados por la política del navegador.
+## Formatos Soportados
 
----
+- **MP3**: Formato recomendado para compatibilidad web
+- **WAV**: Soportado, convertido automáticamente a MP3
+- **AIFF**: Soportado, convertido automáticamente a MP3
 
-## **Tabla resumen**
+Los archivos se convierten automáticamente a MP3 para una compatibilidad web óptima y tamaños de archivo más pequeños.
 
-| Enfoque                    | ¿Funciona en navegador? | ¿Funciona en Electron? | Notas                                      |
-|---------------------------|:----------------------:|:---------------------:|--------------------------------------------|
-| Gesto del usuario (clic)  |          ✅            |         ✅            | Siempre funciona                           |
-| Sonido por temporizador   |          ✅*           |         ✅*           | Funciona con permisos del sitio en navegador |
-| Permiso en Chrome         |          ✅            |        N/A            | Permite sonidos programáticos              |
-| Flags de Chrome           |          ❌            |         ✅*           | Solo en wrappers personalizados            |
+## Política de Reproducción Automática del Navegador
 
----
+Los navegadores modernos bloquean la reproducción de audio a menos que sea activada por un gesto directo del usuario (clic, toque, pulsación de tecla). Esto afecta los sonidos de temporizador que se reproducen automáticamente.
 
-## **¿Qué deberías hacer?**
+### Soluciones
 
-- Para apps en navegador:
-  - Configura permisos de sonido específicos del sitio para tu dominio.
-  - Opcionalmente, muestra instrucciones para que los usuarios habiliten los permisos de sonido.
-  - Usa "preparación" con gesto del usuario como respaldo si es necesario.
+1. **Permisos Específicos del Sitio** (Recomendado)
+   - En Chrome: Clic en icono de candado → Configuración del sitio → Sonido: Permitir
+   - Esto permite sonidos programáticos sin gestos del usuario
+   - La configuración persiste después de recargar la página
 
-- Para Electron/nativo:
-  - Puedes desactivar la política de reproducción automática y permitir sonido programático.
+2. **Preparación con Gesto del Usuario**
+   - El usuario hace clic en un botón para "preparar" el sistema de audio
+   - Los sonidos programáticos posteriores funcionan por tiempo limitado
+   - No es 100% confiable, puede reiniciarse después de inactividad
 
----
+3. **Wrappers Electron/Nativos**
+   - Puede desactivar las restricciones de reproducción automática mediante flags de línea de comandos
+   - Ejemplo: `--autoplay-policy=no-user-gesture-required`
 
-## **¿Quieres un ejemplo de "preparación"?**
+## Uso en Código
 
-Si quieres, puedo añadir un botón de "preparar sonido" que el usuario pulse una vez, y después de eso, los sonidos de temporizador probablemente funcionarán (hasta que se recargue la pestaña o pierda el foco).
+### Integración con Temporizador
 
-¡Avísame si lo quieres, o si tienes otras preguntas!
+```typescript
+import { playTickSound, playCompleteSound } from 'utils/sound.utils';
+
+// Reproducir sonido de alarma durante intervalos del temporizador
+await playTickSound(0.2); // 20% de volumen
+
+// Reproducir sonido de finalización cuando el temporizador se completa
+await playCompleteSound(0.3); // 30% de volumen
+```
+
+### Configuración de Sonidos
+
+```typescript
+import { makeUserSound } from 'utils/sound.utils';
+
+// Reproducir sonidos por tipo
+makeUserSound('alarm', 0.2);    // Reproducir sonido de alarma
+makeUserSound('complete', 0.3); // Reproducir sonido de finalización
+```
+
+## Interfaz de Administración
+
+### Página de Administración Completa (`/admin/sounds`)
+
+- Interfaz con pestañas para gestionar sonidos de alarma y finalización
+- Subir, configurar y gestionar archivos de sonido
+- Probar reproducción de sonidos
+- Ver biblioteca de sonidos
+
+### Página de Administración Básica (`/admin/sounds` - versión pública)
+
+- Interfaz simplificada que muestra solo la selección de sonido de alarma
+- Sin capacidades de subida o gestión de archivos
+- Enfocada en la configuración esencial de sonidos
+
+## Convención de Nombres de Archivos
+
+Los archivos de sonido siguen este patrón de nombres:
+
+```
+sound--{type}-{timestamp}-{randomId}.mp3
+```
+
+Ejemplos:
+- `sound--alarm-1760094208933-nm5t.mp3`
+- `sound--finish-1760094183733-dkak.mp3`
+
+El sistema extrae automáticamente nombres de visualización de los nombres de archivo para una selección amigable al usuario.
+
+## Resolución de Problemas
+
+### Problemas Comunes
+
+1. **Los sonidos no se reproducen**
+   - Verificar política de reproducción automática del navegador
+   - Verificar permisos de sonido del sitio
+   - Revisar consola para errores
+
+2. **Los archivos no aparecen**
+   - Asegurar que los archivos estén en el subdirectorio correcto (`alarm/` o `finish/`)
+   - Verificar convención de nombres de archivos
+   - Verificar escaneo de archivos del servidor
+
+3. **Fallos de subida**
+   - Verificar formato de archivo (MP3, WAV, AIFF)
+   - Verificar límites de tamaño de archivo (máximo 10MB)
+   - Verificar espacio en disco del servidor
+
+### Información de Depuración
+
+El sistema proporciona registro detallado:
+- Escaneo y descubrimiento de archivos
+- Intentos de reproducción de sonidos
+- Gestión de caché
+- Manejo de errores
+
+Revisar consola del navegador y logs del servidor para información de resolución de problemas.
