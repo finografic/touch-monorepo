@@ -1,8 +1,48 @@
 import { button, colors, layout } from 'styles';
 import { css } from '@emotion/react';
+import { generateComponentColorVariants } from 'styles/utils/generateClassColorVariants';
+
+// Generate semantic button color variants using the utility
+export const buttonColorVariants = generateComponentColorVariants(
+  'button',
+  (colorName, variants, componentType) => css`
+    &.${componentType}-${colorName} {
+      color: ${variants.light};
+      border-color: ${variants.light};
+      background-color: transparent;
+
+      &:hover {
+        color: ${variants.base};
+        border-color: ${variants.base};
+        background-color: ${colors[`${colorName}25` as keyof typeof colors]};
+      }
+
+      &:active {
+        color: ${variants.dark};
+        border-color: ${variants.dark};
+        background-color: ${colors[`${colorName}50` as keyof typeof colors]};
+      }
+
+      &:disabled,
+      &[data-disabled='true'] {
+        cursor: not-allowed;
+        color: ${colors.greyXLight};
+        border-color: ${colors.greyXLight};
+        background-color: transparent;
+
+        &:hover {
+          color: ${colors.greyXLight};
+          border-color: ${colors.greyXLight};
+          background-color: transparent;
+        }
+      }
+    }
+  `,
+);
 
 // Base styles shared across all interactive buttons
 export const stylesButtonBase = css`
+  ${buttonColorVariants}
   cursor: pointer;
   background: transparent;
   transition: ${button.transition};

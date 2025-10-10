@@ -38,49 +38,5 @@ export const styles = css`
     ${stylesSmallButton}
   }
 
-  .button-start {
-    color: ${colors.successLight};
-    border-color: ${colors.successLight};
-    background: transparent;
-
-    &:hover {
-      color: ${colors.success};
-      border-color: ${colors.success};
-      background-color: ${colors.successXLight50};
-    }
-
-    &[data-disabled] {
-      cursor: not-allowed;
-      color: ${colors.greyXLight};
-      &:hover {
-        color: ${colors.greyXLight};
-        border-color: ${colors.greyXLight};
-        background-color: transparent;
-      }
-    }
-  }
-
-  .button-reset,
-  .button-cancel {
-    border-radius: 4px;
-    background: transparent;
-    border: ${layout.borderWidth} solid ${colors.warningLight};
-    color: ${colors.warningLight};
-
-    &:hover {
-      color: ${colors.warning};
-      border-color: ${colors.warning};
-      background-color: ${colors.warning25};
-    }
-
-    &[data-disabled] {
-      cursor: not-allowed;
-      color: ${colors.greyXLight};
-      &:hover {
-        color: ${colors.greyXLight};
-        border-color: ${colors.greyXLight};
-        background-color: transparent;
-      }
-    }
-  }
+  /* Button color variants are now handled globally in buttons.styles.ts */
 `;

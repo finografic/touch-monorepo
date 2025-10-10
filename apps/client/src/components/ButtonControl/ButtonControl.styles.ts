@@ -9,7 +9,7 @@ export const styles = css`
   padding: 0.5rem 1.5rem;
   border: ${layout.borderWidth} solid ${colors.greyDark};
   border-radius: 4px;
-  transition: all 0.2s;
+  transition: all 200ms;
 
   color: ${colors.info};
   border-color: ${colors.infoXDark};
@@ -27,44 +27,6 @@ export const styles = css`
     &:hover {
       border-color: ${colors.greyDark};
       background-color: transparent;
-    }
-  }
-  /*
-  .small-button,
-  .button-start,
-  .btn-start {
-    display: none;
-  }
-
-  &.small-button,
-  &.button-start,
-  &.btn-start {
-    display: none;
-  } */
-
-  &.button-start,
-  &.btn-start {
-    /* border-radius: 4px; */
-    /* background: transparent; */
-    color: ${colors.success};
-
-    color: ${colors.defaultLight75};
-    border-color: ${colors.defaultLight75};
-
-    display: none;
-
-    &:hover {
-      border-color: ${colors.successLight};
-      background-color: ${colors.successLight75};
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      cursor: not-allowed;
-      &:hover {
-        border-color: ${colors.greyDark};
-        background-color: transparent;
-      }
     }
   }
 `;
