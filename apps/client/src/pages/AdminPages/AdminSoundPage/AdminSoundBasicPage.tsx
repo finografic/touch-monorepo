@@ -1,50 +1,15 @@
-import React, { useEffect } from 'react';
-import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
+import React from 'react';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminSoundPage.styles';
 import { useGetSoundFiles, useGetSoundSettings } from 'api/hooks/useSounds';
-import { FileUploadSection, SoundConfigurationSection, SoundLibrarySection } from './components';
-import { preloadSounds, testAudioPlayback, updateCachedSoundFiles } from 'utils/soundCache.utils';
-import { useToast } from 'components/Toast';
+import { SoundConfigurationSection } from './components';
 
 export const AdminSoundBasicPage: React.FC = () => {
-  const { toast } = useToast();
-
-  // API hooks
-  const { data: soundFiles = [], isLoading: isLoadingFiles } = useGetSoundFiles();
+  // API hooks - only get alarm sounds for basic page
+  const { data: soundFiles = [], isLoading: isLoadingFiles } = useGetSoundFiles('alarm');
   const { data: soundSettings = { alarm: null, finish: null }, isLoading: isLoadingSettings } =
     useGetSoundSettings();
-
-  // Preload sounds when files are loaded
-  useEffect(() => {
-    if (soundFiles.length > 0) {
-      // Update cached sound files list
-      updateCachedSoundFiles(soundFiles);
-
-      // Preload all sounds
-      preloadSounds(soundFiles).catch((error) => {
-        console.warn('Failed to preload some sounds:', error);
-      });
-    }
-  }, [soundFiles]);
-
-  // Test basic audio playback
-  const handleTestAudio = async () => {
-    try {
-      await testAudioPlayback();
-      toast({
-        variant: 'success',
-        message: 'Basic audio test passed!',
-        subText: 'Audio playback is working correctly',
-      });
-    } catch (error) {
-      toast({
-        variant: 'error',
-        message: 'Basic audio test failed',
-        subText: 'Check browser console for details',
-      });
-    }
-  };
 
   if (isLoadingFiles || isLoadingSettings) {
     return (
@@ -69,8 +34,8 @@ export const AdminSoundBasicPage: React.FC = () => {
         subtitle="Upload and configure sound files for timer events"
       >
         <AdminSection
-          title="Sound Configuration"
-          description="Select which sound files to use for timer events"
+          title="Alarm Sound Configuration"
+          description="Select which sound file to use for timer alarm events"
           variant="border-solid"
         >
           <SoundConfigurationSection

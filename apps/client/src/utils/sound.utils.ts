@@ -14,7 +14,7 @@ import { getCachedSettings, playCachedSound, playSoundFromUrl } from './soundCac
  */
 
 /**
- * Play the configured tick sound from API with fallback
+ * Play the configured alarm sound from API with fallback
  *
  * @param volume - Volume level (0.0 to 1.0, default: 0.2)
  * @returns Promise that resolves when sound playback completes
@@ -26,16 +26,16 @@ import { getCachedSettings, playCachedSound, playSoundFromUrl } from './soundCac
 export async function playTickSound(volume: number = 0.2): Promise<void> {
   try {
     const settings = await getCachedSettings();
-    if (settings.tick) {
+    if (settings.alarm) {
       try {
-        await playCachedSound(settings.tick, volume);
+        await playCachedSound(settings.alarm, volume);
       } catch (cachedError) {
-        console.warn('Cached tick sound failed, trying URL fallback:', cachedError);
-        await playSoundFromUrl(settings.tick, volume);
+        console.warn('Cached alarm sound failed, trying URL fallback:', cachedError);
+        await playSoundFromUrl(settings.alarm, volume);
       }
     }
   } catch (e) {
-    console.warn('Could not play tick sound:', e);
+    console.warn('Could not play alarm sound:', e);
     // Fallback: do nothing
   }
 }
@@ -113,11 +113,11 @@ export function makeDefaultSound(): void {
  * @param volume - Volume level (0.0 to 1.0, default: 0.2)
  *
  * @example
- * makeUserSound('tick'); // Plays tick sound
+ * makeUserSound('alarm'); // Plays alarm sound
  * makeUserSound('complete', 0.5); // Plays complete sound at 50% volume
  */
-export function makeUserSound(key: 'tick' | 'complete', volume: number = 0.2): void {
-  if (key === 'tick') {
+export function makeUserSound(key: 'alarm' | 'complete', volume: number = 0.2): void {
+  if (key === 'alarm') {
     playTickSound(volume).catch(() => {
       // Silent fallback
     });
@@ -133,7 +133,7 @@ export function makeUserSound(key: 'tick' | 'complete', volume: number = 0.2): v
  * Used for type safety when working with sound settings
  */
 export interface SoundConfig {
-  tick?: string;
+  alarm?: string;
   finish?: string;
   volume?: number;
 }
@@ -146,17 +146,17 @@ export interface SoundConfig {
  * @param volume - Volume level (0.0 to 1.0, overrides config volume)
  *
  * @example
- * const config = { tick: 'tick.mp3', finish: 'complete.mp3', volume: 0.3 };
- * await playSoundFromConfig(config, 'tick'); // Plays tick sound at 30% volume
+ * const config = { alarm: 'alarm.mp3', finish: 'complete.mp3', volume: 0.3 };
+ * await playSoundFromConfig(config, 'alarm'); // Plays alarm sound at 30% volume
  * await playSoundFromConfig(config, 'complete', 0.8); // Plays complete sound at 80% volume
  */
 export async function playSoundFromConfig(
   config: SoundConfig,
-  soundType: 'tick' | 'complete',
+  soundType: 'alarm' | 'complete',
   volume?: number,
 ): Promise<void> {
   const finalVolume = volume ?? config.volume ?? 0.2;
-  const soundUrl = soundType === 'tick' ? config.tick : config.finish;
+  const soundUrl = soundType === 'alarm' ? config.alarm : config.finish;
 
   if (soundUrl) {
     await playCustomSound(soundUrl, finalVolume);

@@ -339,7 +339,7 @@ export const getCachedSettings = async (): Promise<SoundSettings> => {
     return cachedSettings;
   } catch (error) {
     console.error('Error fetching sound settings:', error);
-    return { tick: null, finish: null };
+    return { alarm: null, finish: null };
   }
 };
 

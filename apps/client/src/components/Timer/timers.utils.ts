@@ -9,7 +9,7 @@ export { formatTime };
 // Re-export sound functions for backward compatibility
 export { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound };
 
-// Example tick action (can be customized)
+// Example alarm action (can be customized)
 export function tickAction({
   elapsed,
   remaining,
@@ -23,7 +23,7 @@ export function tickAction({
 }) {
   // NOTE: Only play sound every EVENT_INTERVAL (when eventNumber changes)
   if (eventNumber > 0 && remaining % EVENT_INTERVAL === 0) {
-    // TODO: REMOVED - no tick sound, for now..
+    // TODO: REMOVED - no alarm sound, for now..
     playTickSound().catch(() => {
       /* Silent fallback */
     });
