@@ -8,15 +8,16 @@ This document tracks the security vulnerability updates made to the Touch Monore
 
 ### Critical Vulnerabilities Fixed
 
-#### 1. `better-auth` - Critical
+#### 1. `better-auth` - Critical - **REVERTED**
 
 - **Issue**: Unauthenticated API key creation through api-key plugin
 - **Advisory**: [GHSA-99h5-pjcv-gr6v](https://github.com/advisories/GHSA-99h5-pjcv-gr6v)
-- **Updated**: `1.3.6` → `^1.3.27`
+- **Attempted**: `1.3.6` → `^1.3.27`
+- **Reverted To**: `1.3.6`
 - **Location**:
   - `apps/server/package.json`
   - `apps/client/package.json`
-- **Status**: ✅ **RESOLVED**
+- **Status**: ⚠️ **REVERTED** - `better-auth@1.3.27` introduced breaking changes with Zod validation (`z.coerce.boolean().meta is not a function`) that broke database seeding functionality.
 
 ### High Vulnerabilities Fixed
 
