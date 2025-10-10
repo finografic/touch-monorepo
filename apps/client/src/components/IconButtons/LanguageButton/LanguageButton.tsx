@@ -9,7 +9,7 @@ export const LanguageButton: React.FC = () => {
 
   return (
     <div css={styles}>
-      <button className="btn" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
+      <button className="button" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
         <LanguageIcon />
       </button>
     </div>

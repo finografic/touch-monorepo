@@ -240,7 +240,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
         {/* Clear button outside TextField */}
         {!isOpen && displayValue && onClear && (
           <div
-            className="btn-clear"
+            className="button-clear"
             onClick={handleClear}
             onMouseEnter={() => setIsClearHovered(true)}
             onMouseLeave={() => setIsClearHovered(false)}

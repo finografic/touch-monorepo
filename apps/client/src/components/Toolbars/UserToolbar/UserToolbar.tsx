@@ -20,7 +20,10 @@ export const UserToolbar: React.FC<UserToolbarProps> = ({ onLogoutSuccess }) => 
     <div css={styles} className={`theme-${theme}`}>
       <Flex gap="3" align="center">
         <div className="button-box">
-          <button className="btn btn-language" onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}>
+          <button
+            className="button button-language"
+            onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}
+          >
             <LanguageIcon />
           </button>
         </div>

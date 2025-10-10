@@ -39,21 +39,21 @@ export const FrontEndToolbar: React.FC = () => {
         <Flex gap="3" align="center">
           {/* Admin button - navigate to admin */}
           <div className="button-box">
-            <button className="btn btn-dialog" onClick={() => navigate('/admin')}>
+            <button className="button button-dialog" onClick={() => navigate('/admin')}>
               <ShieldCheckIcon />
             </button>
           </div>
 
           {/* Language selector */}
           <div className="button-box">
-            <button className="btn" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
+            <button className="button" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
               <DialogIcon />
             </button>
           </div>
 
           {/* Admin Tools Dialog */}
           {/* <div className="button-box">
-            <button className="btn" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
+            <button className="button" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
               <WindowIcon />
             </button>
           </div> */}
@@ -68,7 +68,7 @@ export const FrontEndToolbar: React.FC = () => {
           {hasActiveTimer && (
             <div className="button-box">
               <button
-                className={`btn btn-admin ${isStorageTimerVisible ? 'active' : ''}`}
+                className={`button button-admin ${isStorageTimerVisible ? 'active' : ''}`}
                 onClick={() => setIsStorageTimerVisible(!isStorageTimerVisible)}
                 title="Toggle Timer"
               >

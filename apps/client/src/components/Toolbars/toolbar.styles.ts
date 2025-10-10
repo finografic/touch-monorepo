@@ -19,7 +19,7 @@ export const baseToolbarStyles = css`
   box-sizing: border-box;
   z-index: 800;
 
-  .button-box button.btn {
+  .button-box button.button {
     ${stylesButton}
     padding: 0.5rem;
     min-width: auto;

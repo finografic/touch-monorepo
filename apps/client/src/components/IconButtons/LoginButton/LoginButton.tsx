@@ -62,7 +62,7 @@ export const LoginButton: FC<LoginButtonProps> = ({ onLogoutSuccess }) => {
     <>
       <button
         css={styles}
-        className={clsx('btn', 'btn-auth', isAuthenticated ? 'logged-in' : 'logged-out')}
+        className={clsx('button', 'button-auth', isAuthenticated ? 'logged-in' : 'logged-out')}
         onClick={handleClick}
         aria-label={isAuthenticated ? 'Log out' : 'Log in'}
         title={isAuthenticated ? 'Log out' : 'Log in'}

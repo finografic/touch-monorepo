@@ -36,7 +36,7 @@ export const AdminToolbar: React.FC = () => {
         <Flex gap="3" align="center">
           {/* Home button - navigate to frontend */}
           <div className="button-box">
-            <button className="btn btn-dialog" onClick={() => navigate(PATHS.main)}>
+            <button className="button button-dialog" onClick={() => navigate(PATHS.main)}>
               <HomeIcon />
             </button>
           </div>
@@ -45,7 +45,7 @@ export const AdminToolbar: React.FC = () => {
           {hasActiveTimer && (
             <div className="button-box">
               <button
-                className={`btn btn-admin ${isStorageTimerVisible ? 'active' : ''}`}
+                className={`button button-admin ${isStorageTimerVisible ? 'active' : ''}`}
                 onClick={() => setIsStorageTimerVisible(!isStorageTimerVisible)}
                 title="Toggle Timer"
               >
@@ -63,7 +63,7 @@ export const AdminToolbar: React.FC = () => {
 
           {/* Panic button - stop all audio */}
           <div className="button-box">
-            <button className="btn btn-panic" onClick={stopAllAudio} title="Stop All Audio (Panic)">
+            <button className="button button-panic" onClick={stopAllAudio} title="Stop All Audio (Panic)">
               <StopIcon color="orange" />
             </button>
           </div>

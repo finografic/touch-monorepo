@@ -2,7 +2,7 @@ import { css } from '@emotion/react';
 import { colors } from 'styles';
 
 export const styles = css`
-  &.btn.theme-toggle {
+  &.button.theme-toggle {
     svg.icon {
       color: ${colors.white75};
     }

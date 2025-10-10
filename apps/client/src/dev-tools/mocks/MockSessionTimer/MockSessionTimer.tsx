@@ -38,7 +38,7 @@ export const MockSessionTimer = () => {
   }, []);
 
   return (
-    <button className="btn" onClick={handleSetSessionTimer} title="Set Session Timer to 10s">
+    <button className="button" onClick={handleSetSessionTimer} title="Set Session Timer to 10s">
       <CountdownTimerIcon />
     </button>
   );

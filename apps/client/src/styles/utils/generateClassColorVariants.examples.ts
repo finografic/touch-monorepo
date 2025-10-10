@@ -14,7 +14,7 @@ import { generateComponentColorVariants } from './generateClassColorVariants';
 // ============================================================================
 
 export const buttonColorVariants = generateComponentColorVariants(
-  'btn',
+  'button',
   (colorName, variants, componentType) => css`
     &.${componentType}-${colorName} {
       background-color: ${variants.dark};

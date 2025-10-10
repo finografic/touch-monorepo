@@ -43,14 +43,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     // Build class names using clsx
     const buttonClasses = clsx(
-      'btn',
-      `btn--${variant}`,
-      `btn--${color}`,
-      `btn--${size}`,
+      'button',
+      `button--${variant}`,
+      `button--${color}`,
+      `button--${size}`,
       {
-        'btn--full-width': fullWidth,
-        'btn--loading': loading,
-        'btn--icon-only': icon && !children,
+        'button--full-width': fullWidth,
+        'button--loading': loading,
+        'button--icon-only': icon && !children,
       },
       className,
     );
@@ -61,7 +61,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // Render icon if provided
     const renderIcon = () => {
       if (!icon) return null;
-      return <span className="btn__icon">{icon}</span>;
+      return <span className="button__icon">{icon}</span>;
     };
 
     // Render content with proper icon positioning
@@ -80,14 +80,14 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         return (
           <>
             {iconPosition === 'left' && renderIcon()}
-            <span className="btn__text">{children}</span>
+            <span className="button__text">{children}</span>
             {iconPosition === 'right' && renderIcon()}
           </>
         );
       }
 
       // Text-only button
-      return <span className="btn__text">{children}</span>;
+      return <span className="button__text">{children}</span>;
     };
 
     return (

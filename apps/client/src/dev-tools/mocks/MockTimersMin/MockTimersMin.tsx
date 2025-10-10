@@ -37,7 +37,7 @@ export const MockTimersMin = () => {
   if (!timers.some((timer) => timer.status === 'processing')) return null;
 
   return (
-    <button className="btn" onClick={handleSetMinTimers}>
+    <button className="button" onClick={handleSetMinTimers}>
       <TimerIcon />
     </button>
   );

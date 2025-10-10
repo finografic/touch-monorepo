@@ -7,7 +7,7 @@ export const styles = css`
 
   justify-content: flex-end;
 
-  .button-box button.btn {
+  .button-box button.button {
     svg.icon {
       color: ${colors.default50};
     }
@@ -26,17 +26,17 @@ export const styles = css`
     }
   }
 
-  button.btn.btn-toggle-query-panel {
+  button.button.button-toggle-query-panel {
     svg.icon {
       transform: translate(-2px, 4px) scale(1.1);
     }
   }
-  button.btn.btn-toggle-auth {
+  button.button.button-toggle-auth {
     svg.icon {
       transform: translate(0, -1px) scale(0.9);
     }
   }
-  button.btn.btn-toggle-simple-login {
+  button.button.button-toggle-simple-login {
     svg.icon {
       transform: translate(0, -1px) scale(0.9);
     }

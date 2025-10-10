@@ -9,10 +9,10 @@ interface ButtonControlProps {
 }
 
 export const ButtonControl: FC<ButtonControlProps> = ({ className, disabled = false, onClick, children }) => {
-  // const classNames = [...new Set(['btn-control', className].filter(Boolean))].join(' ');
+  // const classNames = [...new Set(['button-control', className].filter(Boolean))].join(' ');
 
   return (
-    <button css={styles} className={`btn ${className}`} onClick={onClick} disabled={disabled}>
+    <button css={styles} className={`button ${className}`} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );

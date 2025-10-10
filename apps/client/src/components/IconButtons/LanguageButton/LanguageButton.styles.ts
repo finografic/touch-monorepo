@@ -2,8 +2,8 @@ import { css } from '@emotion/react';
 import { colors } from 'styles';
 
 export const styles = css`
-  &.btn.logged-out,
-  &.btn.logged-in {
+  &.button.logged-out,
+  &.button.logged-in {
     cursor: pointer;
     svg.icon {
       color: ${colors.greyXLight};
@@ -16,13 +16,13 @@ export const styles = css`
     }
   }
 
-  &.btn.logged-out {
+  &.button.logged-out {
     svg.icon {
       color: ${colors.greyXXLight};
     }
   }
 
-  &.btn.logged-in {
+  &.button.logged-in {
     svg.icon {
     }
   }

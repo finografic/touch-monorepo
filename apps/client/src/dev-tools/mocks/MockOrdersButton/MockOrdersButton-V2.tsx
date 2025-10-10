@@ -64,7 +64,7 @@ export const MockOrdersButton = () => {
   if (!ordersContext) return null;
 
   return (
-    <button className="btn" onClick={handleMockData}>
+    <button className="button" onClick={handleMockData}>
       <StarIcon />
     </button>
   );

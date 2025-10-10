@@ -150,7 +150,7 @@ export const styles = css`
     padding-bottom: 2rem;
   }
 
-  button.btn-logout {
+  button.button-logout {
     padding: 0.5rem 1rem;
     background-color: transparent;
     border: 1px solid #e5e7eb;

@@ -5,7 +5,7 @@ import { styles as buttonStyles } from 'components/ButtonControl/ButtonControl.s
 export const styles = css`
   ${buttonStyles}
 
-  &.btn-mock {
+  &.button-mock {
     border: ${layout.borderWidth} solid ${colors.warning};
     border-radius: 4px;
     background: transparent;

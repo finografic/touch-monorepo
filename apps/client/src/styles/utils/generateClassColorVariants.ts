@@ -6,14 +6,14 @@ import type { ColorBaseName } from 'styles/colors/palette.types';
  * Generate CSS class color variants for any component type
  * This function generates CSS classes for all color variants of a given component
  *
- * @param componentType - The component type name (e.g., 'btn', 'alert', 'card')
+ * @param componentType - The component type name (e.g., 'button', 'alert', 'card')
  * @param variantTemplate - Template function that defines styles for each color variant
  * @returns CSS-in-JS emotion styles for all color variants
  *
  * @example
  * // Generate button color variants
- * const buttonColorVariants = generateComponentColorVariants('btn', (colorName, variants) => css`
- *   &.btn-${colorName} {
+ * const buttonColorVariants = generateComponentColorVariants('button', (colorName, variants) => css`
+ *   &.button-${colorName} {
  *     background-color: ${variants.dark};
  *     border-color: ${variants.xdark};
  *     color: ${colors.white};

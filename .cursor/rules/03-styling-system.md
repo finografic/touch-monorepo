@@ -31,6 +31,7 @@ color: white;
 - Create style objects in separate `.styles.ts` files for complex components
 - Use the `css` function for dynamic styles
 - Leverage your button, layout, and spacing constants
+- Use semantic class names: `button-*` instead of `btn-*` for clarity and consistency
 
 ## Icon System
 

@@ -69,7 +69,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                 </Table.Cell>
                 <Table.Cell className="td td-action">
                   <Button
-                    className="btn btn-edit"
+                    className="button button-edit"
                     onClick={() => onClickEdit(order.id)}
                     variant="ghost"
                     size="2"
@@ -79,7 +79,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                 </Table.Cell>
                 <Table.Cell className="td td-action">
                   <Button
-                    className="btn btn-delete"
+                    className="button button-delete"
                     onClick={() => onClickDelete(order.id)}
                     variant="ghost"
                     size="2"

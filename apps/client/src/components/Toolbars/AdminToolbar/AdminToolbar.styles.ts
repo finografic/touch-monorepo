@@ -11,7 +11,7 @@ export const styles = css`
   ${baseToolbarStyles}
 
   &.theme-light {
-    .button-box button.btn {
+    .button-box button.button {
       svg.icon {
         color: ${colors.infoLight};
         border-color: ${colors.infoLight};
@@ -27,7 +27,7 @@ export const styles = css`
   }
 
   &.theme-dark {
-    .button-box button.btn {
+    .button-box button.button {
       svg.icon {
         color: ${colors.infoLight};
         border-color: ${colors.infoLight};

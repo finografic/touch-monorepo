@@ -54,7 +54,7 @@ export const DevToolbarFrontEnd = () => {
 
           <div className="button-box">
             <button
-              className="btn btn-toggle-query-panel"
+              className="button button-toggle-query-panel"
               onClick={() => setIsDevQueryPanelOpen(!isDevQueryPanelOpen)}
             >
               <TextAlignTopIcon />
@@ -62,14 +62,17 @@ export const DevToolbarFrontEnd = () => {
           </div>
 
           <div className="button-box">
-            <button className="btn btn-toggle-auth" onClick={() => setIsDevAuthVisible(!isDevAuthVisible)}>
+            <button
+              className="button button-toggle-auth"
+              onClick={() => setIsDevAuthVisible(!isDevAuthVisible)}
+            >
               <LockIcon />
             </button>
           </div>
 
           <div className="button-box">
             <button
-              className="btn btn-toggle-simple-login"
+              className="button button-toggle-simple-login"
               onClick={() => setIsDevSimpleLoginVisible(!isDevSimpleLoginVisible)}
             >
               <LockIcon />

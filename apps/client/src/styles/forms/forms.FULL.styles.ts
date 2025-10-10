@@ -300,9 +300,9 @@ export const stylesFormsReset = css`
   input[type='submit'],
   input[type='button'],
   input::file-selector-button {
-    border-color: var(--co-btn-bg);
-    background-color: var(--co-btn-bg);
-    color: var(--co-btn-text);
+    border-color: var(--co-button-bg);
+    background-color: var(--co-button-bg);
+    color: var(--co-button-text);
     cursor: pointer;
   }
 
@@ -316,8 +316,8 @@ export const stylesFormsReset = css`
   input[type='button']:active,
   input::file-selector-button:hover,
   input::file-selector-button:active {
-    background-color: var(--co-btn-active-bg);
-    border-color: var(--co-btn-active-bg);
+    background-color: var(--co-button-active-bg);
+    border-color: var(--co-button-active-bg);
   }
 
   button:focus,
@@ -325,7 +325,7 @@ export const stylesFormsReset = css`
   input[type='submit']:focus,
   input[type='button']:focus,
   input::file-selector-button:focus {
-    background-color: var(--co-btn-active-bg);
+    background-color: var(--co-button-active-bg);
   }
 
   /* Labels */
