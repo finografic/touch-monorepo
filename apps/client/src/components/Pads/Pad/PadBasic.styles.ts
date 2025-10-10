@@ -40,7 +40,7 @@ export const stylesPad = css`
     color: ${colors.infoDark};
     border-color: ${colors.infoDark};
     background-color: ${colors.infoLight50};
-    transform: scale(${button.transform.padHoverScale});
+    /* Scale removed for pad-rect buttons - only circular pads keep scale */
     &.checked {
       color: ${colors.infoDark};
       border-color: ${colors.infoDark};
