@@ -3,17 +3,22 @@ import { Button, Callout, Flex, Text } from '@radix-ui/themes';
 // import { CheckIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
 import { BadgeCheckIcon, SpeakerLoudIcon } from 'styles/icons';
 import { useToast } from 'components/Toast';
-import { type SoundFile, type SoundSettings, useRemoveSoundFile } from 'api/hooks/useSounds';
+import { type SoundFile, type SoundSettings, useRemoveSoundFile, type SoundType } from 'api/hooks/useSounds';
 import { playSoundByPath } from 'utils/soundCache.utils';
 
 interface SoundLibrarySectionProps {
   soundFiles: SoundFile[];
   soundSettings: SoundSettings;
+  soundType: SoundType;
 }
 
-export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({ soundFiles, soundSettings }) => {
+export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({
+  soundFiles,
+  soundSettings,
+  soundType,
+}) => {
   const { toast } = useToast();
-  const removeMutation = useRemoveSoundFile();
+  const removeMutation = useRemoveSoundFile(soundType);
 
   // Test sound playback using file path
   const testSound = useCallback(
@@ -93,9 +98,7 @@ export const SoundLibrarySection: React.FC<SoundLibrarySectionProps> = ({ soundF
               <Flex justify="between" align="center" gap="3">
                 {/* Checkmark Column - Fixed Width */}
                 <div style={{ width: '24px', display: 'flex', justifyContent: 'center' }}>
-                  {(soundSettings.tick === file.id || soundSettings.finish === file.id) && (
-                    <BadgeCheckIcon className="icon-check" />
-                  )}
+                  {soundSettings[soundType] === file.id && <BadgeCheckIcon className="icon-check" />}
                 </div>
 
                 {/* Content Column - Takes remaining space */}

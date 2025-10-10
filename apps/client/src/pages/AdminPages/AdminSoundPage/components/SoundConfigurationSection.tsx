@@ -4,7 +4,12 @@ import { SpeakerLoudIcon } from 'styles/icons';
 
 import { useToast } from 'components/Toast';
 import { SelectCustom } from 'forms/SelectCustom';
-import { type SoundFile, type SoundSettings, useUpdateSoundSettings } from 'api/hooks/useSounds';
+import {
+  type SoundFile,
+  type SoundSettings,
+  useUpdateSoundSettings,
+  type SoundType,
+} from 'api/hooks/useSounds';
 import { playSoundByPath } from 'utils/soundCache.utils';
 import { styles } from './SoundConfigurationSection.styles';
 import { useAuth } from 'providers/AuthProvider';
@@ -12,11 +17,13 @@ import { useAuth } from 'providers/AuthProvider';
 interface SoundConfigurationSectionProps {
   soundFiles: SoundFile[];
   soundSettings: SoundSettings;
+  soundType: SoundType;
 }
 
 export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps> = ({
   soundFiles,
   soundSettings,
+  soundType,
 }) => {
   const { isAuthenticated } = useAuth();
   const { toast } = useToast();
@@ -24,7 +31,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
 
   // Handle sound selection
   const handleSoundSelection = useCallback(
-    async (soundType: 'tick' | 'finish', fileId: string | null) => {
+    async (fileId: string | null) => {
       try {
         const newSettings = {
           ...soundSettings,
@@ -49,7 +56,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
         });
       }
     },
-    [soundSettings, soundFiles, updateSettingsMutation, toast],
+    [soundSettings, soundFiles, updateSettingsMutation, toast, soundType],
   );
 
   // Test sound playback using file path
@@ -82,18 +89,18 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
   return (
     <div css={styles} className="sound-configuration-section">
       <Flex direction="column" gap="3">
-        <Heading size="3">Timer Event Sounds</Heading>
+        <Heading size="3">{soundType === 'alarm' ? 'Alarm Sound' : 'Finish Sound'} Configuration</Heading>
 
         <Flex gap="4" align="center" className="sound-config-row">
           <Box className="sound-label">
-            <Text weight="bold">Alarm Sound:</Text>
+            <Text weight="bold">{soundType === 'alarm' ? 'Alarm Sound:' : 'Finish Sound:'}</Text>
           </Box>
           <Box className="sound-select-container">
             <SelectCustom
-              value={soundSettings.tick || 'none'}
-              onSelect={(value) => handleSoundSelection('tick', value === 'none' ? null : value)}
+              value={soundSettings[soundType] || 'none'}
+              onSelect={(value) => handleSoundSelection(value === 'none' ? null : value)}
               disabled={updateSettingsMutation.isPending}
-              placeholder="Select tick sound..."
+              placeholder={`Select ${soundType} sound...`}
               options={[
                 { value: 'none', label: 'None' },
                 ...soundFiles.map((file) => ({
@@ -103,11 +110,11 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
               ]}
             />
           </Box>
-          {soundSettings.tick && (
+          {soundSettings[soundType] && (
             <Button
               size="1"
               variant="soft"
-              onClick={() => testSound(soundSettings.tick!)}
+              onClick={() => testSound(soundSettings[soundType]!)}
               className="test-button"
             >
               <SpeakerLoudIcon className="icon-speaker" />
@@ -115,40 +122,6 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
             </Button>
           )}
         </Flex>
-
-        {isAuthenticated && (
-          <Flex gap="4" align="center" className="sound-config-row">
-            <Box className="sound-label">
-              <Text weight="bold">Finish Sound:</Text>
-            </Box>
-            <Box className="sound-select-container">
-              <SelectCustom
-                value={soundSettings.finish || 'none'}
-                onSelect={(value) => handleSoundSelection('finish', value === 'none' ? null : value)}
-                disabled={updateSettingsMutation.isPending}
-                placeholder="Select finish sound..."
-                options={[
-                  { value: 'none', label: 'None' },
-                  ...soundFiles.map((file) => ({
-                    value: file.id,
-                    label: file.name,
-                  })),
-                ]}
-              />
-            </Box>
-            {soundSettings.finish && (
-              <Button
-                size="1"
-                variant="soft"
-                onClick={() => testSound(soundSettings.finish!)}
-                className="test-button"
-              >
-                <SpeakerLoudIcon className="icon-speaker" />
-                Test
-              </Button>
-            )}
-          </Flex>
-        )}
       </Flex>
     </div>
   );

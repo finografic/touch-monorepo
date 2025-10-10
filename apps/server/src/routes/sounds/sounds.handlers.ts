@@ -4,10 +4,13 @@ import * as HttpStatusCodes from 'stoker/http-status-codes';
 import type { AppRouteHandler } from 'types/app.types';
 import type {
   GetSettingsRoute,
+  ListByTypeRoute,
   ListRoute,
+  RemoveByTypeRoute,
   RemoveRoute,
   ServeFileRoute,
   UpdateSettingsRoute,
+  UploadByTypeRoute,
   UploadRoute,
 } from './sounds.routes';
 import { mkdir, readdir, readFile, stat, unlink, writeFile } from 'fs/promises';
@@ -17,7 +20,7 @@ import { Buffer } from 'buffer';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
 import { slugify } from 'utils/string.utils';
 
-import { UPLOAD_PATHS, CONFIG_PATHS } from '../../constants/paths.constants.js';
+import { CONFIG_PATHS, UPLOAD_PATHS } from '../../constants/paths.constants.js';
 
 // In-memory storage for demo purposes
 // In production, this would be replaced with database storage
@@ -32,10 +35,10 @@ const soundFiles: Array<{
 }> = [];
 
 let soundSettings: {
-  tick: string | null;
+  alarm: string | null;
   finish: string | null;
 } = {
-  tick: null,
+  alarm: null,
   finish: null,
 };
 
@@ -46,11 +49,27 @@ const generateId = () => `sound-${Date.now()}-${Math.random().toString(36).subst
 const uploadsDir = UPLOAD_PATHS.SOUNDS_DIR;
 const settingsFile = CONFIG_PATHS.SOUND_SETTINGS;
 
+// Sound type validation
+type SoundType = 'alarm' | 'finish';
+
+const isValidSoundType = (type: string): type is SoundType => {
+  return type === 'alarm' || type === 'finish';
+};
+
 // Create directory if it doesn't exist
 async function ensureUploadsDir() {
   if (!existsSync(uploadsDir)) {
     await mkdir(uploadsDir, { recursive: true });
   }
+}
+
+// Create subdirectory for specific sound type
+async function ensureSoundTypeDir(soundType: SoundType) {
+  const subDir = join(uploadsDir, soundType);
+  if (!existsSync(subDir)) {
+    await mkdir(subDir, { recursive: true });
+  }
+  return subDir;
 }
 
 // Initialize sound files on module load
@@ -68,7 +87,7 @@ async function loadSettings() {
       const settings = JSON.parse(settingsData);
 
       // Load settings but we'll validate them after scanning files
-      soundSettings.tick = settings.tick || null;
+      soundSettings.alarm = settings.alarm || null;
       soundSettings.finish = settings.finish || null;
     }
   } catch (error) {
@@ -82,18 +101,18 @@ async function validateSettings() {
   // Validate settings against actual files (files already scanned)
   let settingsChanged = false;
 
-  if (soundSettings.tick) {
-    // Check if the tick setting exists as a file (with or without extension)
-    const tickFile = soundFiles.find(
-      (file) => file.id === soundSettings.tick || file.id === soundSettings.tick.split('.')[0],
+  if (soundSettings.alarm) {
+    // Check if the alarm setting exists as a file (with or without extension)
+    const alarmFile = soundFiles.find(
+      (file) => file.id === soundSettings.alarm || file.id === soundSettings.alarm.split('.')[0],
     );
 
-    if (!tickFile) {
-      soundSettings.tick = null;
+    if (!alarmFile) {
+      soundSettings.alarm = null;
       settingsChanged = true;
-    } else if (soundSettings.tick !== tickFile.id) {
+    } else if (soundSettings.alarm !== alarmFile.id) {
       // Update to use the correct ID (with extension)
-      soundSettings.tick = tickFile.id;
+      soundSettings.alarm = alarmFile.id;
       settingsChanged = true;
     }
   }
@@ -138,54 +157,63 @@ async function scanFilesFromDisk() {
     // Clear existing in-memory files
     soundFiles.length = 0;
 
-    // Read all files in the uploads directory
-    const files = await readdir(uploadsDir);
+    // Scan subfolders for sound files
+    const soundTypes: SoundType[] = ['alarm', 'finish'];
 
-    for (const fileName of files) {
-      // Skip directories, non-sound files, and files starting with underscore
-      if (fileName === '.gitignore' || !fileName.startsWith('sound-') || fileName.startsWith('_')) {
-        continue;
+    for (const soundType of soundTypes) {
+      try {
+        const subDir = await ensureSoundTypeDir(soundType);
+        const files = await readdir(subDir);
+
+        for (const fileName of files) {
+          // Skip directories, non-sound files, and files starting with underscore
+          if (fileName === '.gitignore' || !fileName.startsWith('sound-') || fileName.startsWith('_')) {
+            continue;
+          }
+
+          const filePath = join(subDir, fileName);
+          const fileStats = await stat(filePath);
+
+          // Extract ID from filename (remove extension)
+          const id = fileName.split('.')[0];
+
+          // Determine content type
+          const ext = fileName.split('.').pop()?.toLowerCase();
+          let contentType = 'audio/mpeg';
+          if (ext === 'wav') contentType = 'audio/wav';
+          else if (ext === 'aiff' || ext === 'aif') contentType = 'audio/aiff';
+          else if (ext === 'mp3') contentType = 'audio/mpeg';
+
+          // Try to extract original name from filename pattern
+          let displayName = fileName;
+          const soundPattern = /^sound-(.+?)-(\d+)-([a-z0-9]+)\.(.+)$/;
+          const match = fileName.match(soundPattern);
+
+          if (match) {
+            // If it matches our new pattern, extract the slugified name and convert back
+            const slugifiedName = match[1];
+            // Convert slugified name back to readable format
+            displayName = slugifiedName.replace(/-/g, ' ').replace(/_/g, ' ');
+          } else {
+            // For files that don't match our pattern, remove the extension from the display name
+            displayName = fileName.replace(/\.[^/.]+$/, '');
+          }
+
+          const fileInfo = {
+            id,
+            name: displayName,
+            url: `/api/sounds/files/${fileName}`,
+            filePath: fileName, // Add the actual filename for direct access
+            type: contentType,
+            size: fileStats.size,
+            uploadedAt: fileStats.birthtime.toISOString(),
+          };
+
+          soundFiles.push(fileInfo);
+        }
+      } catch (error) {
+        console.error(`❌ Error scanning ${soundType} subfolder:`, error);
       }
-
-      const filePath = join(uploadsDir, fileName);
-      const fileStats = await stat(filePath);
-
-      // Extract ID from filename (remove extension)
-      const id = fileName.split('.')[0];
-
-      // Determine content type
-      const ext = fileName.split('.').pop()?.toLowerCase();
-      let contentType = 'audio/mpeg';
-      if (ext === 'wav') contentType = 'audio/wav';
-      else if (ext === 'aiff' || ext === 'aif') contentType = 'audio/aiff';
-      else if (ext === 'mp3') contentType = 'audio/mpeg';
-
-      // Try to extract original name from filename pattern
-      let displayName = fileName;
-      const soundPattern = /^sound-(.+?)-(\d+)-([a-z0-9]+)\.(.+)$/;
-      const match = fileName.match(soundPattern);
-
-      if (match) {
-        // If it matches our new pattern, extract the slugified name and convert back
-        const slugifiedName = match[1];
-        // Convert slugified name back to readable format
-        displayName = slugifiedName.replace(/-/g, ' ').replace(/_/g, ' ');
-      } else {
-        // For files that don't match our pattern, remove the extension from the display name
-        displayName = fileName.replace(/\.[^/.]+$/, '');
-      }
-
-      const fileInfo = {
-        id,
-        name: displayName,
-        url: `/api/sounds/files/${fileName}`,
-        filePath: fileName, // Add the actual filename for direct access
-        type: contentType,
-        size: fileStats.size,
-        uploadedAt: fileStats.birthtime.toISOString(),
-      };
-
-      soundFiles.push(fileInfo);
     }
 
     // Minimal output: path with existence status and file count
@@ -204,6 +232,29 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
 
   // Just return the current in-memory files - no need to re-scan
   return context.json(soundFiles);
+};
+
+// List sound files by type
+export const listByType: AppRouteHandler<ListByTypeRoute> = async (context) => {
+  const { type } = context.req.valid('param');
+
+  if (!isValidSoundType(type)) {
+    return context.json({ message: 'Invalid sound type' }, HttpStatusCodes.BAD_REQUEST);
+  }
+
+  console.log(`📋 List ${type} sound files called`);
+
+  // Filter files by type (scan subfolder)
+  const subDir = await ensureSoundTypeDir(type);
+  const subDirFiles = await readdir(subDir);
+
+  const typeSpecificFiles = soundFiles.filter((file) => {
+    // Check if file exists in the subfolder
+    return subDirFiles.includes(file.filePath || '');
+  });
+
+  console.log(`📋 ${type} sound files count:`, typeSpecificFiles.length);
+  return context.json(typeSpecificFiles);
 };
 
 // Upload sound files
@@ -307,6 +358,114 @@ export const upload: AppRouteHandler<UploadRoute> = async (context) => {
   }
 };
 
+// Upload sound files by type
+export const uploadByType: AppRouteHandler<UploadByTypeRoute> = async (context) => {
+  try {
+    const { type } = context.req.valid('param');
+
+    if (!isValidSoundType(type)) {
+      return context.json({ message: 'Invalid sound type' }, HttpStatusCodes.BAD_REQUEST);
+    }
+
+    // Ensure uploads directory and subdirectory exist
+    await ensureUploadsDir();
+    const subDir = await ensureSoundTypeDir(type);
+
+    const formData = await context.req.formData();
+    const files = formData.getAll('files') as File[];
+
+    if (!files || files.length === 0) {
+      return context.json({ message: 'No files provided' }, HttpStatusCodes.BAD_REQUEST);
+    }
+
+    const uploadedFiles = await Promise.all(
+      files.map(async (file) => {
+        // Extract original filename without extension
+        const originalName = file.name.replace(/\.[^/.]+$/, '');
+        const fileExtension = file.name.split('.').pop()?.toLowerCase() || 'mp3';
+
+        // Convert AIFF/WAV to MP3 for better browser compatibility and smaller file sizes
+        let finalExtension = fileExtension;
+        let finalBuffer = Buffer.from(await file.arrayBuffer());
+
+        if (fileExtension === 'aiff' || fileExtension === 'aif' || fileExtension === 'wav') {
+          console.log(
+            `🔄 Converting ${fileExtension.toUpperCase()} to MP3 for web compatibility: ${file.name}`,
+          );
+
+          try {
+            // Use macOS built-in converter
+            const tempInputPath = join(subDir, `temp_${Date.now()}_${file.name}`);
+            const tempOutputPath = join(subDir, `temp_${Date.now()}_${originalName}.mp3`);
+
+            // Write temporary input file
+            await writeFile(tempInputPath, finalBuffer);
+
+            // Convert using afconvert to MP3
+            const { exec } = await import('child_process');
+            const { promisify } = await import('util');
+            const execAsync = promisify(exec);
+
+            await execAsync(`afconvert -f 'mp4f' -d 'aac ' "${tempInputPath}" "${tempOutputPath}"`);
+
+            // Read converted file
+            finalBuffer = await readFile(tempOutputPath);
+            finalExtension = 'mp3';
+
+            // Clean up temp files
+            await unlink(tempInputPath);
+            await unlink(tempOutputPath);
+
+            console.log(`✅ Successfully converted ${file.name} to MP3`);
+          } catch (conversionError) {
+            console.warn(`⚠️  Failed to convert ${file.name} to MP3, keeping original:`, conversionError);
+            // Keep original file if conversion fails
+          }
+        }
+
+        // Create slugified filename, removing any existing "sound-" prefix to avoid doubling
+        let slugifiedName = slugify(originalName, { isFilename: true });
+        if (slugifiedName.startsWith('sound-')) {
+          slugifiedName = slugifiedName.substring(6); // Remove "sound-" prefix
+        }
+
+        const timestamp = Date.now();
+        const shortHash = Math.random().toString(36).substr(2, 4); // Shorter hash (4 chars)
+
+        // Generate filename: sound-{slugified-name}-{timestamp}-{hash}.{extension}
+        const fileName = `sound-${slugifiedName}-${timestamp}-${shortHash}.${finalExtension}`;
+        const filePath = join(subDir, fileName);
+
+        // Save the final file (converted or original)
+        await writeFile(filePath, finalBuffer);
+
+        // Use the filename (without extension) as the ID
+        const id = fileName.split('.')[0];
+
+        const fileInfo = {
+          id,
+          name: originalName, // Use original name without extension for display
+          originalName: file.name, // Store original name for future reference
+          url: `/api/sounds/files/${fileName}`,
+          filePath: fileName, // Add the actual filename for direct access
+          type: finalExtension === 'mp3' ? 'audio/mpeg' : file.type,
+          size: finalBuffer.length,
+          uploadedAt: new Date().toISOString(),
+        };
+
+        // Store metadata in memory
+        soundFiles.push(fileInfo);
+        return fileInfo;
+      }),
+    );
+
+    return context.json(uploadedFiles);
+  } catch (error) {
+    console.error('Upload error:', error);
+    return context.json({ message: 'Upload failed' }, HttpStatusCodes.BAD_REQUEST);
+  }
+};
+
 // Remove sound file
 export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   const { id } = context.req.valid('param');
@@ -335,8 +494,57 @@ export const remove: AppRouteHandler<RemoveRoute> = async (context) => {
   soundFiles.splice(fileIndex, 1);
 
   // Clear from settings if it was selected
-  if (soundSettings.tick === id) {
-    soundSettings.tick = null;
+  if (soundSettings.alarm === id) {
+    soundSettings.alarm = null;
+  }
+  if (soundSettings.finish === id) {
+    soundSettings.finish = null;
+  }
+
+  // Save updated settings to file
+  await saveSettings();
+
+  return context.json({ message: 'Sound file removed successfully' }, HttpStatusCodes.OK);
+};
+
+// Remove sound file by type
+export const removeByType: AppRouteHandler<RemoveByTypeRoute> = async (context) => {
+  const { type, id } = context.req.valid('param');
+
+  if (!isValidSoundType(type)) {
+    return context.json({ message: 'Invalid sound type' }, HttpStatusCodes.BAD_REQUEST);
+  }
+
+  const file = soundFiles.find((file) => file.id === id);
+  if (!file) {
+    return context.json({ message: 'Sound file not found' }, HttpStatusCodes.NOT_FOUND);
+  }
+
+  try {
+    // Remove file from disk using filePath
+    if (file.filePath) {
+      const subDir = await ensureSoundTypeDir(type);
+      const filePath = join(subDir, file.filePath);
+      console.log(`🗑️  Deleting file from disk: ${filePath}`);
+      await unlink(filePath);
+      console.log(`✅ File deleted from disk: ${file.filePath}`);
+    } else {
+      console.warn(`⚠️  No filePath found for file: ${file.id}`);
+    }
+  } catch (error) {
+    console.error('Error deleting file from disk:', error);
+    // Continue with removal from memory even if disk deletion fails
+  }
+
+  // Remove from sound files
+  const fileIndex = soundFiles.findIndex((file) => file.id === id);
+  if (fileIndex !== -1) {
+    soundFiles.splice(fileIndex, 1);
+  }
+
+  // Clear from settings if it was selected
+  if (soundSettings.alarm === id) {
+    soundSettings.alarm = null;
   }
   if (soundSettings.finish === id) {
     soundSettings.finish = null;
@@ -359,12 +567,12 @@ export const updateSettings: AppRouteHandler<UpdateSettingsRoute> = async (conte
   const body = context.req.valid('json');
 
   // Validate that the selected files exist
-  if (body.tick && !soundFiles.find((file) => file.id === body.tick)) {
-    return context.json({ tick: null, finish: body.finish }, HttpStatusCodes.UNPROCESSABLE_ENTITY);
+  if (body.alarm && !soundFiles.find((file) => file.id === body.alarm)) {
+    return context.json({ alarm: null, finish: body.finish }, HttpStatusCodes.UNPROCESSABLE_ENTITY);
   }
 
   if (body.finish && !soundFiles.find((file) => file.id === body.finish)) {
-    return context.json({ tick: body.tick, finish: null }, HttpStatusCodes.UNPROCESSABLE_ENTITY);
+    return context.json({ alarm: body.alarm, finish: null }, HttpStatusCodes.UNPROCESSABLE_ENTITY);
   }
 
   soundSettings = body;
@@ -380,22 +588,39 @@ export const serveFile: AppRouteHandler<ServeFileRoute> = async (context) => {
   const { filename } = context.req.valid('param');
 
   try {
-    const filePath = join(uploadsDir, filename);
-    const fileBuffer = await readFile(filePath);
+    // Search for the file in subfolders
+    const soundTypes: SoundType[] = ['alarm', 'finish'];
 
-    // Determine content type based on file extension
-    const ext = filename.split('.').pop()?.toLowerCase();
-    let contentType = 'audio/mpeg';
-    if (ext === 'wav') contentType = 'audio/wav';
-    else if (ext === 'aiff' || ext === 'aif') contentType = 'audio/aiff';
-    else if (ext === 'mp3') contentType = 'audio/mpeg';
+    for (const soundType of soundTypes) {
+      try {
+        const subDir = await ensureSoundTypeDir(soundType);
+        const filePath = join(subDir, filename);
 
-    return new Response(fileBuffer, {
-      headers: {
-        'Content-Type': contentType,
-        'Cache-Control': 'public, max-age=31536000', // Cache for 1 year
-      },
-    });
+        if (existsSync(filePath)) {
+          const fileBuffer = await readFile(filePath);
+
+          // Determine content type based on file extension
+          const ext = filename.split('.').pop()?.toLowerCase();
+          let contentType = 'audio/mpeg';
+          if (ext === 'wav') contentType = 'audio/wav';
+          else if (ext === 'aiff' || ext === 'aif') contentType = 'audio/aiff';
+          else if (ext === 'mp3') contentType = 'audio/mpeg';
+
+          return new Response(fileBuffer, {
+            headers: {
+              'Content-Type': contentType,
+              'Cache-Control': 'public, max-age=31536000', // Cache for 1 year
+            },
+          });
+        }
+      } catch (error) {
+        // Continue to next subfolder
+        continue;
+      }
+    }
+
+    // File not found in any subfolder
+    return context.json({ message: 'File not found' }, HttpStatusCodes.NOT_FOUND);
   } catch (error) {
     return context.json({ message: 'File not found' }, HttpStatusCodes.NOT_FOUND);
   }

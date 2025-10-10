@@ -2,13 +2,17 @@ import React, { useCallback, useRef, useState } from 'react';
 import { Button, Flex, Text } from '@radix-ui/themes';
 import { UploadIcon } from '@radix-ui/react-icons';
 import { useToast } from 'components/Toast';
-import { useUploadSoundFiles } from 'api/hooks/useSounds';
+import { useUploadSoundFiles, type SoundType } from 'api/hooks/useSounds';
 
-export const FileUploadSection: React.FC = () => {
+interface FileUploadSectionProps {
+  soundType: SoundType;
+}
+
+export const FileUploadSection: React.FC<FileUploadSectionProps> = ({ soundType }) => {
   const { toast } = useToast();
   const [isUploading, setIsUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const uploadMutation = useUploadSoundFiles();
+  const uploadMutation = useUploadSoundFiles(soundType);
 
   // Handle file upload
   const handleFileUpload = useCallback(

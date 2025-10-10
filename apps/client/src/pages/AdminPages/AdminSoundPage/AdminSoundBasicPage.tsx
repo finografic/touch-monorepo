@@ -12,7 +12,7 @@ export const AdminSoundBasicPage: React.FC = () => {
 
   // API hooks
   const { data: soundFiles = [], isLoading: isLoadingFiles } = useGetSoundFiles();
-  const { data: soundSettings = { tick: null, finish: null }, isLoading: isLoadingSettings } =
+  const { data: soundSettings = { alarm: null, finish: null }, isLoading: isLoadingSettings } =
     useGetSoundSettings();
 
   // Preload sounds when files are loaded
@@ -73,7 +73,11 @@ export const AdminSoundBasicPage: React.FC = () => {
           description="Select which sound files to use for timer events"
           variant="border-solid"
         >
-          <SoundConfigurationSection soundFiles={soundFiles} soundSettings={soundSettings} />
+          <SoundConfigurationSection
+            soundFiles={soundFiles}
+            soundSettings={soundSettings}
+            soundType="alarm"
+          />
         </AdminSection>
       </AdminContentLayout>
     </section>

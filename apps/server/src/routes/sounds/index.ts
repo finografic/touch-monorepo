@@ -8,4 +8,7 @@ export default createRouter()
   .openapi(routes.remove, handlers.remove)
   .openapi(routes.getSettings, handlers.getSettings)
   .openapi(routes.updateSettings, handlers.updateSettings)
-  .openapi(routes.serveFile, handlers.serveFile);
+  .openapi(routes.serveFile, handlers.serveFile)
+  .openapi(routes.listByType, handlers.listByType)
+  .openapi(routes.uploadByType, handlers.uploadByType)
+  .openapi(routes.removeByType, handlers.removeByType);
