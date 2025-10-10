@@ -5,6 +5,7 @@ import { colors } from 'styles';
 import { styles } from './InputTime.styles';
 import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
 import { STEP_BUTTON_SIZE, STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
+import { formatTime, parseTime } from 'utils/time.utils';
 
 interface InputTimeProps {
   // FormMiddleware integration (when used in FormMiddleware forms)
@@ -61,20 +62,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
     },
     [isMiddlewareMode, middleware, name, onTimeChange],
   );
-  // Convert seconds to mm:ss format
-  const formatTime = useCallback((seconds: number): string => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-  }, []);
-
-  // Convert mm:ss format to seconds
-  const parseTime = useCallback((timeString: string): number => {
-    if (!timeString || !timeString.includes(':')) return 0;
-    const [mins, secs] = timeString.split(':').map(Number);
-    if (Number.isNaN(mins) || Number.isNaN(secs)) return 0;
-    return mins * 60 + secs;
-  }, []);
+  // Time utilities are now imported from centralized utils
 
   // Check if we should show placeholder (when currentValue is undefined)
   const shouldShowPlaceholder = currentValue === undefined;

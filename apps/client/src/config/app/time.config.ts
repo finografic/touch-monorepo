@@ -1,6 +1,8 @@
 // Time configuration for Programar Tiempo feature
 // Values are in seconds for easier calculation
 
+import { formatTime, isValidTime } from 'utils/time.utils';
+
 export const TIME_MIN_SECONDS = 1; // 1 second minimum
 export const TIME_MAX_SECONDS = 3599; // (segundos)
 export const TIME_DEFAULT_SECONDS = 60; // 1 minute default
@@ -19,11 +21,8 @@ export const TIME_DISPLAY = {
 
 // Validation helpers
 export const isValidTimeInSeconds = (totalSeconds: number): boolean => {
-  return totalSeconds >= TIME_MIN_SECONDS && totalSeconds <= TIME_MAX_SECONDS;
+  return isValidTime(totalSeconds, TIME_MIN_SECONDS, TIME_MAX_SECONDS);
 };
 
-export const formatTimeDisplay = (totalSeconds: number): string => {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-};
+// Re-export formatTime for backward compatibility
+export const formatTimeDisplay = formatTime;

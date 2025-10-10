@@ -1,13 +1,10 @@
 import { playCompleteSound, playTickSound } from './timer.sounds.utils';
+import { formatTime } from 'utils/time.utils';
 
 export const EVENT_INTERVAL = 120; // seconds
 
-export const formatTime = (seconds: number | undefined): string => {
-  if (seconds === undefined) return '00:00';
-  const minutes = Math.floor(seconds / 60);
-  const remainingSeconds = seconds % 60;
-  return `${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-};
+// Re-export formatTime for backward compatibility
+export { formatTime };
 
 // Re-export sound functions for backward compatibility
 export { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound } from './timer.sounds.utils';

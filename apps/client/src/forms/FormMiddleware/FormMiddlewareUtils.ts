@@ -9,11 +9,10 @@ export const formatTemperatureValue = (value: number, locale: string): string =>
   }).format(value);
 };
 
-export const formatTimeValue = (value: number): string => {
-  const mins = Math.floor(value / 60);
-  const secs = value % 60;
-  return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-};
+import { formatTime } from 'utils/time.utils';
+
+// Re-export formatTime for backward compatibility
+export const formatTimeValue = formatTime;
 
 export const parseNumericValue = (displayValue: string): number | undefined => {
   const normalizedValue = displayValue.replace(',', '.');
@@ -21,14 +20,12 @@ export const parseNumericValue = (displayValue: string): number | undefined => {
   return Number.isNaN(parsed) ? undefined : parsed;
 };
 
+import { parseTime } from 'utils/time.utils';
+
+// Re-export parseTime for backward compatibility
 export const parseTimeValue = (displayValue: string): number | undefined => {
-  if (displayValue.includes(':')) {
-    const [mins, secs] = displayValue.split(':').map(Number);
-    if (!Number.isNaN(mins) && !Number.isNaN(secs)) {
-      return mins * 60 + secs;
-    }
-  }
-  return undefined;
+  const result = parseTime(displayValue);
+  return result === 0 && displayValue !== '00:00' ? undefined : result;
 };
 
 // Field validation utilities
