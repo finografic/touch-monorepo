@@ -126,11 +126,13 @@ export const stylesAdminContent = css`
     div.admin-section {
       background-color: ${colors.white};
       border: 1px solid ${colors.greyXLight};
+      border-radius: ${layout.borderRadius};
       /* border-radius: ${layout.borderRadius.lg}; */
-      border-radius: ${createFallbackProxy(baseLayout.borderRadius, 'lg')};
+      /* border-radius: ${createFallbackProxy(baseLayout.borderRadius, 'lg')}; */
+
+      padding: ${layout.padding};
       /* padding: ${layout.padding[4]}; */
       /* padding: ${createFallbackProxy(baseLayout.padding, 4)}; */
-      padding: ${layout.padding};
 
       .section-header {
         h3 {
