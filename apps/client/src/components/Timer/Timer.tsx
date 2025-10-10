@@ -51,72 +51,75 @@ export const Timer = ({ slotNumber, onComplete }: TimerProps) => {
     onComplete?.();
   };
 
-  useEffect(() => {
-    if (!timer || timer.status !== 'processing') {
-      setRemainingTime(0);
-      return;
-    }
-
-    const endTime = new Date(timer.estimatedCompletionTime!).getTime();
-    const startTime = Date.now();
-    const duration = Math.floor((endTime - startTime) / 1000);
-
-    // Set initial remaining time
-    setRemainingTime(Math.max(0, duration));
-    lastEventFiredRef.current = -1;
-
-    if (duration <= 0) {
-      handleTimerComplete();
-      return;
-    }
-
-    // Store interval ID in global registry
-    const intervalId = setInterval(() => {
-      const now = Date.now();
-      const remaining = Math.floor((endTime - now) / 1000);
-
-      setRemainingTime(Math.max(0, remaining));
-
-      if (timer) {
-        updateTimer(timer.id, { remaining: Math.max(0, remaining) });
+  useEffect(
+    function handleUpdateTimer() {
+      if (!timer || timer.status !== 'processing') {
+        setRemainingTime(0);
+        return;
       }
 
-      const { elapsed, eventNumber } = getElapsedTimeAndEventNumber(timer.duration, remaining);
-      if (eventNumber > lastEventFiredRef.current) {
-        lastEventFiredRef.current = eventNumber;
-        tickAction({ elapsed, remaining, orderId: timer.orderId, eventNumber });
+      const endTime = new Date(timer.estimatedCompletionTime!).getTime();
+      const startTime = Date.now();
+      const duration = Math.floor((endTime - startTime) / 1000);
+
+      // Set initial remaining time
+      setRemainingTime(Math.max(0, duration));
+      lastEventFiredRef.current = -1;
+
+      if (duration <= 0) {
+        handleTimerComplete();
+        return;
       }
 
-      if (remaining <= 0) {
-        const isTimerSelected = mainPageSelectedSlots.find((slot) => slot.slotNumber === slotNumber);
-        if (isTimerSelected) {
-          const updatedSlots = mainPageSelectedSlots.filter((slot) => slot.slotNumber !== slotNumber);
-          log('TIMER_COMPLETE:', 'cyan', timer);
-          setMainPageSelectedSlots(updatedSlots);
+      // Store interval ID in global registry
+      const intervalId = setInterval(() => {
+        const now = Date.now();
+        const remaining = Math.floor((endTime - now) / 1000);
+
+        setRemainingTime(Math.max(0, remaining));
+
+        if (timer) {
+          updateTimer(timer.id, { remaining: Math.max(0, remaining) });
         }
 
-        finishAction({ elapsed, remaining, orderId: timer.orderId });
-        handleTimerComplete();
-      }
-    }, 1000);
+        const { elapsed, eventNumber } = getElapsedTimeAndEventNumber(timer.duration, remaining);
+        if (eventNumber > lastEventFiredRef.current) {
+          lastEventFiredRef.current = eventNumber;
+          tickAction({ elapsed, remaining, orderId: timer.orderId, eventNumber });
+        }
 
-    // Safely store in global registry
-    if (typeof window !== 'undefined') {
-      window.__timerIntervals = window.__timerIntervals || {};
-      window.__timerIntervals[slotNumber] = intervalId;
-    }
-    intervalRef.current = intervalId;
+        if (remaining <= 0) {
+          const isTimerSelected = mainPageSelectedSlots.find((slot) => slot.slotNumber === slotNumber);
+          if (isTimerSelected) {
+            const updatedSlots = mainPageSelectedSlots.filter((slot) => slot.slotNumber !== slotNumber);
+            log('TIMER_COMPLETE:', 'cyan', timer);
+            setMainPageSelectedSlots(updatedSlots);
+          }
 
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = undefined;
+          finishAction({ elapsed, remaining, orderId: timer.orderId });
+          handleTimerComplete();
+        }
+      }, 1000);
+
+      // Safely store in global registry
+      if (typeof window !== 'undefined') {
+        window.__timerIntervals = window.__timerIntervals || {};
+        window.__timerIntervals[slotNumber] = intervalId;
       }
-      if (typeof window !== 'undefined' && window.__timerIntervals) {
-        delete window.__timerIntervals[slotNumber];
-      }
-    };
-  }, [timer, slotNumber, updateTimer, onComplete]);
+      intervalRef.current = intervalId;
+
+      return () => {
+        if (intervalRef.current) {
+          clearInterval(intervalRef.current);
+          intervalRef.current = undefined;
+        }
+        if (typeof window !== 'undefined' && window.__timerIntervals) {
+          delete window.__timerIntervals[slotNumber];
+        }
+      };
+    },
+    [timer, slotNumber, updateTimer, onComplete, mainPageSelectedSlots, setMainPageSelectedSlots],
+  );
 
   // If no timer or timer is not processing, show empty
   if (!timer || timer.status !== 'processing') {
