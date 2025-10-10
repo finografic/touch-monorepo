@@ -100,9 +100,6 @@ export const AdminModeBasicPage: React.FC = () => {
                   Current default mode:{' '}
                   <Text weight="medium">{modes.find((m) => m.id === selectedModeId)?.name}</Text>
                 </Text>
-                <Button variant="outline" size="2" color="red" onClick={handleClearMode}>
-                  Clear Default Mode
-                </Button>
               </Flex>
             )}
 
