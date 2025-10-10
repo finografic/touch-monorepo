@@ -4,7 +4,6 @@ import { relations } from 'drizzle-orm';
 import { temperature_profiles } from './temperature_profiles.schema';
 import createCuid from '@bugsnag/cuid';
 import { sqliteBooleanField } from 'lib/zod-utils';
-import { z } from 'zod';
 
 export const modes = sqliteTable('modes', {
   id: text('id')
@@ -32,8 +31,10 @@ export const modeSchemas = {
   patch: createInsertSchema(modes, {
     isDefault: () => sqliteBooleanField().optional(),
     isActive: () => sqliteBooleanField().optional(),
-  }).partial().extend({
-    isDefault: sqliteBooleanField().optional(),
-    isActive: sqliteBooleanField().optional(),
-  }),
+  })
+    .partial()
+    .extend({
+      isDefault: sqliteBooleanField().optional(),
+      isActive: sqliteBooleanField().optional(),
+    }),
 } as const;

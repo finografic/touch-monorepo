@@ -9,7 +9,6 @@ export const AdminModePage: React.FC = () => {
   const { toast } = useToast();
   const [activeModeIds, setActiveModeIds] = useState<string[]>([]);
 
-  // API hooks
   const { data: modes = [], isLoading: isLoadingModes } = useGetModes();
   const updateActiveStatesMutation = useUpdateActiveStates();
 
@@ -34,11 +33,16 @@ export const AdminModePage: React.FC = () => {
       { activeModeIds: newActiveIds },
       {
         onSuccess: () => {
-          toast({
+          console.log('Active modes updated!', {
             variant: 'success',
             message: 'Active modes updated!',
             subText: `${newActiveIds.length} mode(s) are now active`,
           });
+          // toast({
+          //   variant: 'success',
+          //   message: 'Active modes updated!',
+          //   subText: `${newActiveIds.length} mode(s) are now active`,
+          // });
         },
         onError: () => {
           // Revert on error
@@ -162,32 +166,6 @@ export const AdminModePage: React.FC = () => {
                   );
                 })}
               </Flex>
-            </Flex>
-
-            <Flex direction="column" gap="2">
-              {activeModeIds.length > 0 ? (
-                <Flex direction="column" gap="1">
-                  <Text size="2" color="gray">
-                    Active modes ({activeModeIds.length}):
-                  </Text>
-                  <Text size="2" weight="bold">
-                    {modes
-                      .filter((mode) => activeModeIds.includes(mode.id))
-                      .map((mode) => mode.name)
-                      .join(', ')}
-                  </Text>
-                </Flex>
-              ) : (
-                <Text size="2" color="gray">
-                  No modes are currently active
-                </Text>
-              )}
-
-              {activeModeIds.length > 0 && (
-                <Button variant="outline" size="2" color="red" onClick={handleClearAllModes}>
-                  Clear All Active Modes
-                </Button>
-              )}
             </Flex>
           </Flex>
         </AdminSection>

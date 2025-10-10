@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-import { colors } from 'styles';
 
 export const stylesAppContent = css`
   &.temperature-content,
