@@ -46,6 +46,31 @@ color: white;
 - Test on multiple screen sizes
 - Consider touch targets for mobile devices
 
+## Transitions & Animations
+
+- ALWAYS use `ms` units for transition and animation durations
+- Target specific properties instead of `transition: all` for better performance
+- Use appropriate durations based on interaction type:
+  - `150ms` for quick interactions (hover, focus, form inputs)
+  - `200ms` for standard interactions (button clicks, card interactions)
+  - `300ms` for page transitions and complex animations
+
+Usage examples:
+
+```typescript
+// ✅ Correct - specific properties with ms units
+transition: color 150ms ease, border-color 150ms ease, background-color 150ms ease, transform 150ms ease;
+
+// ✅ Correct - single property
+transition: opacity 200ms ease;
+
+// ❌ Avoid - seconds units
+transition: color 0.15s ease;
+
+// ❌ Avoid - transition all (performance impact)
+transition: all 150ms ease;
+```
+
 ## CSS Organization
 
 - Layer CSS using `@layer` for proper cascade control
