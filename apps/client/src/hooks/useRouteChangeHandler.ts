@@ -22,7 +22,7 @@ export const useRouteChangeHandler = () => {
   const { setFilters: setOrdersFilters } = useOrders();
   const { fieldKey, loaderData, padsConfig } = useRouteConfig();
 
-  const __TODO_proxyDataPool = useMemo((): OrderReadableModel[] => {
+  const __TODO__proxyDataPool = useMemo((): OrderReadableModel[] => {
     // Edge case: If user clicks NEXT with current selection, next page will be EMPTY
     if (dataFiltered.length <= 1) {
       const mockEntries = generateMockEntries(filters);
