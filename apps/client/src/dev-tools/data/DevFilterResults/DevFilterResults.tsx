@@ -32,7 +32,12 @@ export const DevFilterResults = () => {
       <DevDataTable
         data={dataFiltered}
         title={`Results: ${dataFiltered.length}`}
-        columns={[{ key: 'drinkType', strong: true }, { key: 'mode', strong: true }, { key: 'volume' }]}
+        columns={[
+          { key: 'drinkType', strong: true },
+          { key: 'mode', strong: true },
+          { key: 'volume' },
+          { key: 'containerType' },
+        ]}
       />
     </div>
   );
