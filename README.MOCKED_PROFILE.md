@@ -49,6 +49,8 @@ Create a **Smart Fallback System** that:
 
 ## 🚀 Phase 5: DataPool Proxy Implementation
 
+**Note**: DataPool Proxy implementation has been moved to `README.MOCKED_ENTRIES.md` for better organization.
+
 - [x] Create `useDataPoolProxy` hook
 - [x] Generate context-aware mock entries based on current filters
 - [x] Integrate proxy into `useRouteChangeHandler`

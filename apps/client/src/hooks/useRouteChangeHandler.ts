@@ -1,10 +1,10 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { generateMockEntries } from './useRouteChangeHandler.utils';
+import { useDataPoolProxy } from './useDataPoolProxy';
 import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
@@ -18,27 +18,12 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 export const useRouteChangeHandler = () => {
   const { handleRouteChange } = useLayoutUi();
   const { currentSessionId, sessions } = useSession();
-  const { dataPool, dataFiltered, filters } = useFilters();
+  const { dataPool, filters } = useFilters();
   const { setFilters: setOrdersFilters } = useOrders();
   const { fieldKey, loaderData, padsConfig } = useRouteConfig();
 
-  const __TODO__proxyDataPool = useMemo((): OrderReadableModel[] => {
-    // Edge case: If user clicks NEXT with current selection, next page will be EMPTY
-    if (dataFiltered.length <= 1) {
-      const mockEntries = generateMockEntries(filters);
-      console.log('%c🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'color:orange', [
-        ...dataPool,
-        ...mockEntries,
-      ]);
-      console.log('%c🚨 DATA POOL PROXY: Injected mock entries:', 'color:grey', mockEntries.length);
-
-      return [...dataPool, ...mockEntries];
-    }
-
-    // Default: Use real filtered data
-    console.log('%c🚨 DATA POOL PROXY: Using real data, no proxy needed', 'color:lime', dataFiltered);
-    return dataFiltered;
-  }, [dataPool, dataFiltered, filters]);
+  // 🚨 DATA POOL PROXY: Create proxy dataPool that injects mock entries when needed
+  const { dataPoolProxy } = useDataPoolProxy({ dataPool });
 
   // Track route changes to prevent unnecessary re-renders
   const lastRouteDataRef = useRef<{
@@ -92,12 +77,12 @@ export const useRouteChangeHandler = () => {
         }
 
         try {
-          if (loaderData && padsConfig && dataPool) {
+          if (loaderData && padsConfig && dataPoolProxy) {
             handleRouteChange(
               fieldKey,
               loaderData as DataEntry[],
               padsConfig,
-              dataPool as DataEntry[] | OrderModel[] | OrderReadableModel[],
+              dataPoolProxy as DataEntry[] | OrderModel[] | OrderReadableModel[],
               sessionServerFieldMap,
               'es-ES' as RegionLocale,
             );
@@ -109,7 +94,7 @@ export const useRouteChangeHandler = () => {
         }
       }
     },
-    [fieldKey, loaderData, padsConfig, dataPool, currentSessionId, sessions],
+    [fieldKey, loaderData, padsConfig, dataPoolProxy, currentSessionId, sessions],
   );
 
   // Sync filters from useFilters to OrdersContext / SlotsContext
