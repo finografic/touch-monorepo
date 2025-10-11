@@ -26,17 +26,17 @@ export const useRouteChangeHandler = () => {
     // Edge case: If user clicks NEXT with current selection, next page will be EMPTY
     if (dataFiltered.length <= 1) {
       const mockEntries = generateMockEntries(filters);
-      log('🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'orange', [
+      console.log('%c🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'color:yellow', [
         ...dataPool,
         ...mockEntries,
       ]);
-      log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
+      console.log('%c🚨 DATA POOL PROXY: Injected mock entries:', 'color:grey', mockEntries.length);
 
       return [...dataPool, ...mockEntries];
     }
 
     // Default: Use real filtered data
-    log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataFiltered);
+    console.log('%c🚨 DATA POOL PROXY: Using real data, no proxy needed', 'color:lime', dataFiltered);
     return dataFiltered;
   }, [dataPool, dataFiltered, filters]);
 
