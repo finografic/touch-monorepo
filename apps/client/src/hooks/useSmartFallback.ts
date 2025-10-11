@@ -26,11 +26,15 @@ export const useSmartFallback = () => {
   const smartFallbackEntry = useMemo((): OrderReadableModel | null => {
     // Only create fallback when there's no real data
     if (dataFiltered.length > 0) {
-      console.log('🚨 SMART FALLBACK: Real data exists, no fallback needed');
+      console.log('%c🚨 SMART FALLBACK: Real data exists, no fallback needed', 'color:lime', dataFiltered);
       return null;
     }
 
-    console.warn('🚨 SMART FALLBACK: No real data found, creating context-aware fallback entry');
+    console.log(
+      '%c🚨 SMART FALLBACK: No real data found, creating context-aware fallback entry',
+      'color:orange',
+      dataFiltered,
+    );
 
     // Use real filter values when available, fallback to defaults when not
     const fallbackModeId = filters.mode?.id || 'fallback-mode-id';
@@ -72,7 +76,7 @@ export const useSmartFallback = () => {
     return fallbackEntry;
   }, [filters, dataFiltered.length]);
 
-  // 🚨 SMART FALLBACK: Handle side effects (setProfile) in useEffect - ONLY when fallback exists
+  // 🚨 SMART FALLBACK: Handle side effects (setProfile) in useEffect -- ONLY when fallback exists
   useEffect(() => {
     if (smartFallbackEntry) {
       console.warn('🚨 SMART FALLBACK: Setting smart fallback entry as profile');
