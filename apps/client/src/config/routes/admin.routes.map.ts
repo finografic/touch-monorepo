@@ -165,7 +165,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'relays',
     path: '/admin/relays',
     element: {
-      public: AdminRelaysBasicPage,
+      public: null,
       auth: AdminRelaysPage,
       admin: AdminRelaysPage,
     },
