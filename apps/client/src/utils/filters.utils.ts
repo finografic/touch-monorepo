@@ -1,5 +1,5 @@
 import type { DataEntry } from 'types/data.types';
-import type { SlotFilterKey } from 'types/orders.types';
+import type { FilterFieldKey } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import { ROUTE_FILTER_KEYS, SLOT_FILTERS } from 'config/app';
 
@@ -82,7 +82,7 @@ export const matchesFilters = (entry: DataEntry, activeFilters: [string, any][])
     // NEW: Direct field comparisons for orders_readable data
     // The entry now has direct name values (e.g., entry.drinkType = "cerveza")
     // and the filter value has a name property (e.g., value.name = "cerveza")
-    switch (key as SlotFilterKey) {
+    switch (key as FilterFieldKey) {
       case ROUTE_FILTER_KEYS.drinkType:
         return entry.drinkType === value.name;
       case ROUTE_FILTER_KEYS.drinkSubtype:
@@ -100,7 +100,7 @@ export const matchesFilters = (entry: DataEntry, activeFilters: [string, any][])
         }
         return true;
       default:
-        // Handle non-SlotFilterKey filters (like 'mode')
+        // Handle non-FilterFieldKey filters (like 'mode')
         if (key === 'mode') {
           return entry.mode === value.name;
         }
@@ -118,14 +118,14 @@ export const matchesFilters = (entry: DataEntry, activeFilters: [string, any][])
  */
 export const getFiltersByStep = (
   filters: OrderFilters,
-  currentFieldKey: SlotFilterKey,
+  currentFieldKey: FilterFieldKey,
   inclusive: boolean,
 ): [string, any][] => {
   const currentStepIndex = SLOT_FILTERS.indexOf(currentFieldKey);
   if (currentStepIndex === -1) return [];
 
   return Object.entries(filters).filter(([key]) => {
-    const filterIndex = SLOT_FILTERS.indexOf(key as SlotFilterKey);
+    const filterIndex = SLOT_FILTERS.indexOf(key as FilterFieldKey);
     return (
       filterIndex !== -1 && (inclusive ? filterIndex <= currentStepIndex : filterIndex < currentStepIndex)
     );

@@ -1,7 +1,7 @@
 import type { DataEntry } from 'types/data.types';
-import type { SlotFilterKey } from 'types/orders.types';
+import type { FilterFieldKey, NavigationFieldKey } from 'types/orders.types';
 import type { ConstEnumOf } from '@workspace/core/types/utils';
-import type { FilterKey } from 'types/filters.types';
+import type { FilterZZZKey } from 'types/filters.types';
 
 export type PadType = 'radio' | 'checkbox' | 'button';
 
@@ -14,12 +14,12 @@ export const PAD_TYPE: ConstEnumOf<PadType> = {
 export interface PadUI {
   id: string;
   label?: string | null;
-  name: SlotFilterKey;
+  name: FilterFieldKey | NavigationFieldKey;
   value: { [K in 'id' | 'name' | string]: string | number | boolean };
   index?: number;
   type: PadType;
   isChecked: boolean;
-  filterKey?: FilterKey;
+  filterKey?: FilterZZZKey;
   metadata?: DataEntry;
   disabled?: boolean;
   className?: string;
@@ -27,7 +27,7 @@ export interface PadUI {
 
 // Base configuration type with all properties required
 export interface PadConfigOptions<T extends DataEntry = DataEntry> {
-  filterKey?: FilterKey;
+  filterKey?: FilterZZZKey; // TODO: CAREFUL HERE ..
   type: PadType;
   labelKey: keyof T;
   valueKeys: ['id', 'name', ...(keyof T)[]];

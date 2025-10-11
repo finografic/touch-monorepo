@@ -6,7 +6,7 @@ import type { TemperatureFilter } from 'types/temperature.types';
 /**
  * Type representing valid filter keys derived from API_FILTER_FIELDS constant
  */
-export type FilterKey = keyof typeof API_FILTER_FIELDS;
+export type FilterZZZKey = keyof typeof API_FILTER_FIELDS;
 
 // Base interface for all filters
 interface BaseFilter {

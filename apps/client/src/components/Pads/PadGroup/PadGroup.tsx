@@ -2,15 +2,15 @@ import * as React from 'react';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { PadButton, PadCheckbox, PadRadio } from '../Pad/index';
 import type { PadType, PadUI } from 'types/pads.types';
-import type { SlotFilterKey } from 'types/orders.types';
+import type { FilterFieldKey } from 'types/orders.types';
 import { CheckboxGroup } from '@radix-ui/themes';
 import { PAD_TYPE } from 'types/pads.types';
 
 interface PadGroupProps {
   type: PadType;
   pads: PadUI[];
-  onSelect?: ({ fieldKey, pad }: { fieldKey: SlotFilterKey; pad: PadUI }) => void;
-  fieldKey: SlotFilterKey;
+  onSelect?: ({ fieldKey, pad }: { fieldKey: FilterFieldKey; pad: PadUI }) => void;
+  fieldKey: FilterFieldKey;
   className?: string;
   children?: React.ReactNode;
   [key: string]: any;

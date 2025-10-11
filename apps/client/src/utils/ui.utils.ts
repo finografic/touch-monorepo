@@ -1,6 +1,6 @@
 import type { PadConfig, PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
-import type { SlotFilterKey } from 'types/orders.types';
+import type { FilterFieldKey } from 'types/orders.types';
 import { ROUTE_FILTER_KEYS } from 'config/app';
 
 // -------------------------------------------------------------------------- //
@@ -13,7 +13,7 @@ export const parsePadConfig = <T extends DataEntry>({
 }: {
   data: T[];
   config: PadConfig<T>;
-  fieldKey: SlotFilterKey;
+  fieldKey: FilterFieldKey;
 }): { pads: PadUI[]; numPads: number } => {
   const labelKey = (config.labelKey as keyof T) || ('name' as keyof T); // NOTE: which key to use for label
   const numPads = Math.min(data.length, config.maxPads);
@@ -88,7 +88,7 @@ export const parsePadConfig = <T extends DataEntry>({
 // -------------------------------------------------------------------------- //
 // NOTE: Update pad state
 
-export const getPadIdsForField = (orders: any[], fieldKey: SlotFilterKey) => {
+export const getPadIdsForField = (orders: any[], fieldKey: FilterFieldKey) => {
   let ids: (string | undefined)[] = [];
   switch (fieldKey) {
     case ROUTE_FILTER_KEYS.drinkType:

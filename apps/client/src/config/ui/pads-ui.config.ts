@@ -1,5 +1,5 @@
 import { API_FILTER_FIELDS, ROUTE_FILTER_KEYS } from 'config/app';
-import type { SlotFilterKey } from 'types/orders.types';
+import type { FilterFieldKey, NavigationFieldKey } from 'types/orders.types';
 import type { PadConfig, PadUI } from 'types/pads.types';
 import { getLabelKey } from 'utils/localization.utils';
 
@@ -7,7 +7,9 @@ import { getLabelKey } from 'utils/localization.utils';
  * Gets the UI configuration for pads with dynamic language support
  * @param currentLanguage - Current language to determine label keys
  */
-export const getPadsUIConfig = (currentLanguage: 'en' | 'es' | 'ca'): Record<SlotFilterKey, PadConfig> => {
+export const getPadsUIConfig = (
+  currentLanguage: 'en' | 'es' | 'ca',
+): Record<Exclude<FilterFieldKey, 'mode'> | NavigationFieldKey, PadConfig> => {
   const labelKey = getLabelKey(currentLanguage);
 
   return {
@@ -18,6 +20,13 @@ export const getPadsUIConfig = (currentLanguage: 'en' | 'es' | 'ca'): Record<Slo
       maxPads: 2,
       minRequired: 1,
     },
+    // [ROUTE_FILTER_KEYS.mode]: {
+    //   type: 'checkbox',
+    //   labelKey: 'name',
+    //   valueKeys: ['id', 'name'],
+    //   maxPads: 2,
+    //   minRequired: 1,
+    // },
     [ROUTE_FILTER_KEYS.drinkType]: {
       filterKey: API_FILTER_FIELDS.drinkTypeName,
       type: 'radio',
@@ -60,15 +69,16 @@ export const getPadsUIConfig = (currentLanguage: 'en' | 'es' | 'ca'): Record<Slo
     },
   };
 };
-
+// Record<Exclude<FilterFieldKey, 'mode'> | NavigationFieldKey, PadConfig>
 // Legacy static config (for backward compatibility) - now defaults to Spanish
-export const PADS_UI_CONFIG: Record<SlotFilterKey, PadConfig> = getPadsUIConfig('es');
+export const PADS_UI_CONFIG: Record<Exclude<FilterFieldKey, 'mode'> | NavigationFieldKey, PadConfig> =
+  getPadsUIConfig('es');
 
 export const INITIAL_PAD_CHECKBOX: PadUI = {
   index: 0,
   id: '',
   label: '',
-  name: '' as SlotFilterKey,
+  name: '' as FilterFieldKey | NavigationFieldKey,
   value: {
     name: '',
     id: '',
@@ -81,7 +91,7 @@ export const INITIAL_PAD_RADIO: PadUI = {
   index: 0,
   id: '',
   label: '',
-  name: '' as SlotFilterKey,
+  name: '' as FilterFieldKey | NavigationFieldKey,
   value: {
     name: '',
     id: '',

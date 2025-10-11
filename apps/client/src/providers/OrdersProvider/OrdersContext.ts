@@ -4,7 +4,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_SLOT_ITEM, ORDER_FIELD_KEYS, SLOT_ITEMS_CONFIG } from 'config/app';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { SlotFilterKey, SlotType } from 'types/orders.types';
+import type { FilterFieldKey, SlotType } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import { subscribeWithSelector } from 'zustand/middleware';
@@ -72,19 +72,20 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               if (order.slotNumber === slotNumber) {
                 const updatedFilters: OrderFilters = { ...order.filters };
 
-                (Object.entries(filter) as [SlotFilterKey, unknown][]).forEach(([key, value]) => {
+                (Object.entries(filter) as [FilterFieldKey, unknown][]).forEach(([key, value]) => {
                   if (value === undefined) {
-                    delete updatedFilters[key as SlotFilterKey];
+                    delete updatedFilters[key as FilterFieldKey];
                   } else {
-                    (updatedFilters as Partial<Record<SlotFilterKey, unknown>>)[key as SlotFilterKey] = value;
+                    (updatedFilters as Partial<Record<FilterFieldKey, unknown>>)[key as FilterFieldKey] =
+                      value;
                   }
                 });
 
                 const orderedFilters: OrderFilters = {} as OrderFilters;
                 for (const key of ORDER_FIELD_KEYS) {
                   if (key in updatedFilters) {
-                    (orderedFilters as Partial<Record<SlotFilterKey, unknown>>)[key] = (
-                      updatedFilters as Partial<Record<SlotFilterKey, unknown>>
+                    (orderedFilters as Partial<Record<FilterFieldKey, unknown>>)[key] = (
+                      updatedFilters as Partial<Record<FilterFieldKey, unknown>>
                     )[key];
                   }
                 }

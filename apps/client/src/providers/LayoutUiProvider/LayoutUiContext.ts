@@ -6,7 +6,7 @@ import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import { NUM_GRID_ITEMS } from 'config/app';
 import { parsePadConfig } from 'utils/ui-V2.utils';
 import type { DataEntry, Dataset } from 'types/data.types';
-import type { SlotFilterKey, SlotType } from 'types/orders.types';
+import type { FilterFieldKey, SlotType } from 'types/orders.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { subscribeWithSelector } from 'zustand/middleware';
@@ -44,7 +44,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
-          initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, fieldKey: SlotFilterKey) => {
+          initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, fieldKey: FilterFieldKey) => {
             const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
             // Note: We'll need to get currentLanguage from context in the component that calls this
             const { pads, numPads } = parsePadConfig({
@@ -55,7 +55,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             });
             set({ pads, numPads, fieldKey });
           },
-          updatePadState: (fieldKey: SlotFilterKey, updater: (pads: PadUI[]) => PadUI[]) => {
+          updatePadState: (fieldKey: FilterFieldKey, updater: (pads: PadUI[]) => PadUI[]) => {
             const currentPads = get().pads;
             if (!currentPads?.length) return;
 
@@ -72,7 +72,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
 
             set({ pads: updatedPads });
           },
-          togglePad: (fieldKey: SlotFilterKey, clickedId: string, type: PadType) => {
+          togglePad: (fieldKey: FilterFieldKey, clickedId: string, type: PadType) => {
             set((state) => {
               const pads = state.pads.map((pad) => {
                 if (pad.name !== fieldKey) return pad;
@@ -88,7 +88,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             });
           },
           handleRouteChange: (
-            fieldKey: SlotFilterKey | undefined,
+            fieldKey: FilterFieldKey | undefined,
             loaderData: DataEntry[],
             padsConfig: PadConfig,
             dataPool: DataEntry[] | OrderModel[] | OrderReadableModel[],

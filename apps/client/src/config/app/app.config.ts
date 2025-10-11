@@ -1,5 +1,5 @@
 import type { ValidGridSize } from 'types/menu.types';
-import type { SlotFilterKey } from 'types/orders.types';
+import type { FilterFieldKey, NavigationFieldKey } from 'types/orders.types';
 import type { RegionLocale } from '@workspace/i18n';
 
 // Core application configuration
@@ -37,8 +37,10 @@ export const ORDER_FIELD_KEYS = [
  * Type-safe mapping of field keys to themselves
  * Useful for strongly-typed object access
  */
-export const ROUTE_FILTER_KEYS: { [K in SlotFilterKey]: K } = {
+// export const ROUTE_FILTER_KEYS: { [K in FilterFieldKey]: K } = {
+export const ROUTE_FILTER_KEYS: { [K in FilterFieldKey | NavigationFieldKey]: K } = {
   main: 'main',
+  mode: 'mode',
   drinkType: 'drinkType',
   drinkSubtype: 'drinkSubtype',
   drinkVolume: 'drinkVolume',

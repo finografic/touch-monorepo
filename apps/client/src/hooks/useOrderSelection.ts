@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useOrders } from 'providers/OrdersProvider';
-import type { SlotFilterKey } from 'types/orders.types';
+import type { FilterFieldKey } from 'types/orders.types';
 
 interface UseOrderSelectionProps<T> {
-  field: SlotFilterKey;
+  field: FilterFieldKey;
   initialValue?: T;
 }
 
