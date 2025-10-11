@@ -20,13 +20,6 @@ export const getPadsUIConfig = (
       maxPads: 2,
       minRequired: 1,
     },
-    // [ROUTE_FILTER_KEYS.mode]: {
-    //   type: 'checkbox',
-    //   labelKey: 'name',
-    //   valueKeys: ['id', 'name'],
-    //   maxPads: 2,
-    //   minRequired: 1,
-    // },
     [ROUTE_FILTER_KEYS.drinkType]: {
       filterKey: API_FILTER_FIELDS.drinkTypeName,
       type: 'radio',

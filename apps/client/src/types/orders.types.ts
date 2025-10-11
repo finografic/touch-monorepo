@@ -3,6 +3,19 @@ import type { OrderFilters } from 'types/filters.types';
 import type { CamelToKebab, CamelToSnake } from '@workspace/core/types/utils';
 import type { FlowTypeValue } from 'types/flow.types';
 
+// ======================================================================== //
+// TODO: CONOSLIDATE THESE TYPES with FilterFieldKey
+
+// filters.types.ts
+// FieldKey
+// FieldZZZKey
+
+// orders.types.ts
+// FilterFieldKey
+// FilterYYYFieldYYYKey
+
+// ======================================================================== //
+
 // Separate field key types for better type safety
 export type FilterFieldKey =
   | 'mode'
@@ -12,11 +25,13 @@ export type FilterFieldKey =
   | 'containerType'
   | 'temperature';
 export type NavigationFieldKey = 'main';
+
 // export type FilterFieldKey = FilterFieldKey | NavigationFieldKey;
 // export type SlotFilterKeyKebab = CamelToKebab<FilterFieldKey>;
 // export type SlotFilterKeySnake = CamelToSnake<FilterFieldKey>;
+
 // ======================================================================== //
-// export type FilterFieldKey = FilterFieldKey | NavigationFieldKey;
+
 export type SlotFilterKeyKebab = CamelToKebab<FilterFieldKey | NavigationFieldKey>;
 export type SlotFilterKeySnake = CamelToSnake<FilterFieldKey | NavigationFieldKey>;
 
