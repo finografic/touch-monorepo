@@ -1,8 +1,18 @@
 import { useMemo } from 'react';
 import { useFiltersContext } from 'providers/FiltersProvider/FiltersContext';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
-import type { DataEntry, OrderModel, OrderReadableModel } from 'types/data.types';
-import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
+import type { DataEntry } from 'types/data.types';
+import type { OrderModel } from 'types/models/order.model';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
+
+// TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterKey: containterType..
+// import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
+
+// If datafiltered.length === 0 when a containerType radio in INITIALLY selected by user,
+// BEFORE clicking Next button to navigate to TemperaturePage.tsx
+
+// BUT: 🚨 POSSIBLE HEAVY PERFORMANCE IMPACT... AND TemperaturePage.tsx can probably do this.
+// SO: ✅  `temperature` filter, with EMPTY profiles[] array should be fine, and can REMOVE import.
 
 /**
  * 🚨 DATA POOL PROXY HOOK
@@ -26,30 +36,30 @@ export const useDataPoolProxy = <T extends DataEntry | OrderModel | OrderReadabl
     // If we have real data, use it as-is
     if (dataFiltered.length > 0) {
       // NOTE: 1
-      // log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataPool);
-      // return dataPool;
+      log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataPool);
+      return dataPool;
 
       // NEW: V2
-      log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataFiltered);
-      return dataFiltered as T[];
+      // log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataFiltered);
+      // return dataFiltered as T[];
     }
 
     // If no real data, inject mock entries to keep buttons visible
     log('🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'orange');
 
     // Generate mock entries based on current filter context
-    // const mockEntries = generateMockEntries(filters);
-    const mockEntries = [];
+    const mockEntries = generateMockEntries(filters);
+    // const mockEntries = [];
 
     // NOTE: V1
-    // log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
-    // log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataPool, ...mockEntries]);
-    // return [...dataPool, ...mockEntries] as T[];
+    log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
+    log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataPool, ...mockEntries]);
+    return [...dataPool, ...mockEntries] as T[];
 
     // NEW: V2
-    log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
-    log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataFiltered, ...mockEntries]);
-    return [...dataFiltered, ...mockEntries] as T[];
+    // log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
+    // log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataFiltered, ...mockEntries]);
+    // return [...dataFiltered, ...mockEntries] as T[];
 
     // TODO: END >>>
   }, [dataPool, dataFiltered.length, dataFiltered, filters]);
