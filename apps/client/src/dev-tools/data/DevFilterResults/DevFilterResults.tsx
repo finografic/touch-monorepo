@@ -2,6 +2,7 @@ import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { styles } from './DevFilterResults.styles';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { DevDataTable } from '../../components/DevDataTable';
+import type { OrderFilters } from 'types/filters.types';
 
 export const DevFilterResults = () => {
   const { filters, dataFiltered } = useFilters();
@@ -16,11 +17,20 @@ export const DevFilterResults = () => {
   const sessionFilters =
     currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
 
+  const filtersCompact = {} as OrderFilters;
+
+  for (const [key, value] of Object.entries(filters)) {
+    if (key !== 'temperature') {
+      filtersCompact[key as keyof OrderFilters] = value;
+    }
+  }
+
   return (
     <div id="dev-filter-results" css={styles}>
       <div className="filters">
         <h4>Filters ({Object.keys(filters).length}):</h4>
-        <pre>{JSON.stringify(filters, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(filters, null, 2)}</pre>  */}
+        <pre>{JSON.stringify(filtersCompact, null, 2)}</pre>
       </div>
       {/* <div className="filters">
         <h4>
