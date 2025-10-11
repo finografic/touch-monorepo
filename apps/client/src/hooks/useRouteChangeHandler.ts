@@ -4,6 +4,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { useDataPoolProxy } from './useDataPoolProxy';
 import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
@@ -21,6 +22,9 @@ export const useRouteChangeHandler = () => {
   const { dataPool, filters } = useFilters();
   const { setFilters: setOrdersFilters } = useOrders();
   const { fieldKey, loaderData, padsConfig } = useRouteConfig();
+
+  // 🚨 DATA POOL PROXY: Create proxy dataPool that injects mock entries when needed
+  const proxyDataPool = useDataPoolProxy(dataPool);
 
   // Track route changes to prevent unnecessary re-renders
   const lastRouteDataRef = useRef<{
@@ -75,12 +79,12 @@ export const useRouteChangeHandler = () => {
       }
 
       try {
-        if (loaderData && padsConfig && dataPool) {
+        if (loaderData && padsConfig && proxyDataPool) {
           handleRouteChange(
             fieldKey,
             loaderData as DataEntry[],
             padsConfig,
-            dataPool as DataEntry[] | OrderModel[] | OrderReadableModel[],
+            proxyDataPool as DataEntry[] | OrderModel[] | OrderReadableModel[],
             sessionServerFieldMap,
             'es-ES' as RegionLocale,
           );
@@ -91,7 +95,7 @@ export const useRouteChangeHandler = () => {
         console.error('useRouteChangeHandler: Error handling route change:', error);
       }
     }
-  }, [fieldKey, loaderData, padsConfig, dataPool, currentSessionId, sessions]); // Removed handleRouteChange to prevent infinite loop
+  }, [fieldKey, loaderData, padsConfig, proxyDataPool, currentSessionId, sessions]); // Removed handleRouteChange to prevent infinite loop
 
   // Sync filters from useFilters to OrdersContext (consolidated from LayoutUiObserver)
   useEffect(() => {

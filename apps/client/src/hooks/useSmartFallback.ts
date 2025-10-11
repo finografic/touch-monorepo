@@ -22,9 +22,15 @@ export const useSmartFallback = () => {
   const { setProfile } = useOrders();
   const { dataFiltered } = useFilters();
 
-  // 🚨 SMART FALLBACK: Create context-aware fallback entry
-  const smartFallbackEntry = useMemo((): OrderReadableModel => {
-    console.warn('🚨 SMART FALLBACK: Creating context-aware fallback entry');
+  // 🚨 SMART FALLBACK: Create context-aware fallback entry ONLY when dataFiltered is empty
+  const smartFallbackEntry = useMemo((): OrderReadableModel | null => {
+    // Only create fallback when there's no real data
+    if (dataFiltered.length > 0) {
+      console.log('🚨 SMART FALLBACK: Real data exists, no fallback needed');
+      return null;
+    }
+
+    console.warn('🚨 SMART FALLBACK: No real data found, creating context-aware fallback entry');
 
     // Use real filter values when available, fallback to defaults when not
     const fallbackModeId = filters.mode?.id || 'fallback-mode-id';
@@ -64,31 +70,38 @@ export const useSmartFallback = () => {
     });
 
     return fallbackEntry;
-  }, [filters]);
+  }, [filters, dataFiltered.length]);
 
-  // 🚨 SMART FALLBACK: Handle side effects (setProfile) in useEffect
+  // 🚨 SMART FALLBACK: Handle side effects (setProfile) in useEffect - ONLY when fallback exists
   useEffect(() => {
-    console.warn('🚨 SMART FALLBACK: Setting smart fallback entry as profile');
-    setProfile(smartFallbackEntry);
-    console.log('🚨 SMART FALLBACK: Created smart fallback entry:', smartFallbackEntry);
+    if (smartFallbackEntry) {
+      console.warn('🚨 SMART FALLBACK: Setting smart fallback entry as profile');
+      setProfile(smartFallbackEntry);
+      console.log('🚨 SMART FALLBACK: Created smart fallback entry:', smartFallbackEntry);
+    }
   }, [smartFallbackEntry, setProfile]);
 
   // 🚨 SMART FALLBACK: Set up temperature filter when containerType is selected
   useEffect(() => {
-    if (filters.containerType && !filters.temperature && smartFallbackEntry) {
+    if (filters.containerType && !filters.temperature) {
       console.log('🚨 SMART FALLBACK: ContainerType selected, setting up temperature filter');
 
-      // Set up temperature filter using the smart fallback entry
+      // Generate temperature profiles for the current drink type
+      const currentDrinkType = filters.drinkType?.name || 'cerveza';
+      const currentModeId = filters.mode?.id || 'fallback-mode-id';
+      const temperatureProfiles = generateTemperatureProfiles(currentModeId, currentDrinkType);
+
+      // Set up temperature filter
       setFilter('temperature', {
         initial: 18,
         final: 4,
         defaultConsume: 4,
         closestInitialTemperature: 18,
         closestFinalTemperature: 4,
-        temperatureProfiles: smartFallbackEntry.temperatureProfiles,
+        temperatureProfiles,
       });
     }
-  }, [filters.containerType, filters.temperature, setFilter, smartFallbackEntry]);
+  }, [filters.containerType, filters.temperature, filters.drinkType, filters.mode, setFilter]);
 
   return {
     createFallbackEntry: smartFallbackEntry,
