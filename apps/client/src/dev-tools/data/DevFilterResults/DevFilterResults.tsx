@@ -22,13 +22,13 @@ export const DevFilterResults = () => {
         <h4>Filters ({Object.keys(filters).length}):</h4>
         <pre>{JSON.stringify(filters, null, 2)}</pre>
       </div>
-      <div className="filters">
+      {/* <div className="filters">
         <h4>
           Session: <strong style={{ color: 'grey' }}>{currentSessionId}</strong>
         </h4>
         <h4>sessionFilters ({Object.keys(sessionFilters).length}):</h4>
         <pre>{JSON.stringify(sessionFilters, null, 2)}</pre>
-      </div>
+      </div> */}
       <DevDataTable
         data={dataFiltered}
         title={`Results: ${dataFiltered.length}`}
