@@ -41,16 +41,20 @@ interface ConfigurationSession {
 
 - **Global Filters**: `FiltersContext` holds the current filtering state (always active)
 - **Session Filters**: Each session has its own `filters` object for isolation
-- **Mode Filter**: The default mode filter is automatically included in new sessions
-- **Filter Inheritance**: New sessions inherit the current `mode` filter from `FiltersContext`
+- **Time Flows**: Have empty `filters: {}` - no product configuration needed
+- **Product Flows**: Include `mode` filter and other product configuration filters
+- **Filter Inheritance**: Only Product flows inherit filters from `FiltersContext`
 
 ## Implementation Details
 
 ### Session Creation
 
 ```typescript
-// Create a new session with initial filters
-const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT, { mode: filters.mode });
+// Time flows: No filters needed
+const timeSessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
+
+// Product flows: Include current mode filter
+const productSessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT, { mode: filters.mode });
 ```
 
 ### Session Context API
@@ -65,12 +69,15 @@ clearSession(sessionId: string): void
 clearAllSessions(): void
 ```
 
+**Note**: `initialFilters` parameter is optional and only used for Product flows. Time flows automatically get empty `filters: {}`.
+
 ### Data Flow
 
 1. **MainPage**: Sets global `mode` filter in `FiltersContext`
-2. **Flow Start**: Creates new session with current `mode` filter
-3. **Session Active**: Session filters are used for data filtering
-4. **Flow End**: Session is removed, slots become available
+2. **Time Flow Start**: Creates session with empty `filters: {}`
+3. **Product Flow Start**: Creates session with current `mode` filter from `FiltersContext`
+4. **Session Active**: Session filters are used for data filtering (Product flows only)
+5. **Flow End**: Session is removed, slots become available
 
 ## Usage Examples
 
@@ -91,10 +98,9 @@ assignOrdersToSession(sessionId, selectedSlotNumbers);
 
 ```typescript
 const { createSession, assignOrdersToSession } = useSession();
-const { filters } = useFiltersContext();
 
-// Create session with current mode filter
-const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME, { mode: filters.mode });
+// Create session without filters (Time flows don't need product configuration)
+const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
 
 // Assign selected slots to session
 assignOrdersToSession(sessionId, selectedSlotNumbers);
