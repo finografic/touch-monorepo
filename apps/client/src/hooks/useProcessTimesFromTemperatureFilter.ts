@@ -20,7 +20,7 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
   const { filters } = useFiltersContext();
   const { dataFiltered } = useFilters();
   const { saveConfig } = useConfigStorage();
-  const { createFallbackEntry } = useSmartFallback();
+  // const { createFallbackEntry } = useSmartFallback();
 
   const temperatureFilter = useDeferredValue(filters.temperature);
   const temperatureProfiles = temperatureFilter?.temperatureProfiles || [];
@@ -49,7 +49,9 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
       if (dataFiltered.length === 0) {
         console.warn('🚨 SMART FALLBACK: No filtered data found, using shared smart fallback entry');
         // The createFallbackEntry hook handles setting profile (temperature filter set in TemperaturePage)
-        createFallbackEntry;
+        // TODO: WAS THIS MEANT TO BE CONSOLED ?? OR CALLED createFallbackEntry() ??
+        // commented-out, for TS linter error
+        // createFallbackEntry();
       }
 
       if (!temperatureFilter?.initial || !temperatureFilter?.final) {
@@ -142,7 +144,7 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
     options.onError,
     dataFiltered,
     filters,
-    createFallbackEntry,
+    // createFallbackEntry,
   ]);
 
   return {
