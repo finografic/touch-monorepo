@@ -12,14 +12,14 @@ import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { styles } from './TemperaturePage.styles';
-import { useDirtyFixFallback } from 'hooks/useDirtyFixFallback';
+import { useSmartFallback } from 'hooks/useSmartFallback';
 
 const isVisibleClosestProfile = false;
 
 export const TemperaturePage = () => {
   const { profile, ordersReadable } = useOrders();
   const { dataFiltered } = useFilters();
-  const { createFallbackEntry } = useDirtyFixFallback();
+  const { createFallbackEntry } = useSmartFallback();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
     [TemperatureKey.Initial]: INITIAL_TEMP_DEFAULT,

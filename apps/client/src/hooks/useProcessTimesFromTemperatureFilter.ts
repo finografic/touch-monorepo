@@ -6,7 +6,7 @@ import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 import createCuid from '@bugsnag/cuid';
-import { useDirtyFixFallback } from './useDirtyFixFallback';
+import { useSmartFallback } from './useSmartFallback';
 
 interface UseTemperatureControlOptions {
   onSuccess?: (durations: Record<string, number>) => void;
@@ -20,7 +20,7 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
   const { filters } = useFiltersContext();
   const { dataFiltered } = useFilters();
   const { saveConfig } = useConfigStorage();
-  const { createFallbackEntry } = useDirtyFixFallback();
+  const { createFallbackEntry } = useSmartFallback();
 
   const temperatureFilter = useDeferredValue(filters.temperature);
   const temperatureProfiles = temperatureFilter?.temperatureProfiles || [];
@@ -45,9 +45,9 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
 
   const startTemperatureControl = useCallback(async () => {
     try {
-      // 🚨 DIRTY FIX: Use shared fallback entry if dataFiltered is empty
+      // 🚨 SMART FALLBACK: Use shared smart fallback entry if dataFiltered is empty
       if (dataFiltered.length === 0) {
-        console.warn('🚨 DIRTY FIX: No filtered data found, using shared fallback entry');
+        console.warn('🚨 SMART FALLBACK: No filtered data found, using shared smart fallback entry');
         // The createFallbackEntry hook handles setting profile (temperature filter set in TemperaturePage)
         createFallbackEntry;
       }
