@@ -36,7 +36,7 @@ export const useDataPoolProxy = ({
 
   const dataPoolProxy = useMemo((): OrderReadableModel[] => {
     // Edge case: If user clicks NEXT with current selection, next page will be EMPTY
-    if (dataFiltered.length <= 1) {
+    if (dataFiltered.length === 0) {
       const mockEntries = generateMockEntries(filters);
       console.log('%c🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'color:orange', [
         ...dataPool,

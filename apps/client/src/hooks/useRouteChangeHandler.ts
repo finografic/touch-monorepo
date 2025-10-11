@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
