@@ -4,12 +4,11 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { useDataPoolProxy } from './useDataPoolProxy';
+import { generateMockEntries } from './useRouteChangeHandler.utils';
 import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { OrderFilters } from 'types/filters.types';
 
 /**
  * Hook to handle route changes and sync filters
@@ -19,12 +18,27 @@ import type { OrderFilters } from 'types/filters.types';
 export const useRouteChangeHandler = () => {
   const { handleRouteChange } = useLayoutUi();
   const { currentSessionId, sessions } = useSession();
-  const { dataPool, filters } = useFilters();
+  const { dataPool, dataFiltered, filters } = useFilters();
   const { setFilters: setOrdersFilters } = useOrders();
   const { fieldKey, loaderData, padsConfig } = useRouteConfig();
 
-  // 🚨 DATA POOL PROXY: Create proxy dataPool that injects mock entries when needed
-  const proxyDataPool = useDataPoolProxy(dataPool);
+  const __TODO_proxyDataPool = useMemo((): OrderReadableModel[] => {
+    // Edge case: If user clicks NEXT with current selection, next page will be EMPTY
+    if (dataFiltered.length <= 1) {
+      const mockEntries = generateMockEntries(filters);
+      log('🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'orange', [
+        ...dataPool,
+        ...mockEntries,
+      ]);
+      log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
+
+      return [...dataPool, ...mockEntries];
+    }
+
+    // Default: Use real filtered data
+    log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataFiltered);
+    return dataFiltered;
+  }, [dataPool, dataFiltered, filters]);
 
   // Track route changes to prevent unnecessary re-renders
   const lastRouteDataRef = useRef<{
@@ -60,9 +74,7 @@ export const useRouteChangeHandler = () => {
       const sessionFilters =
         currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
 
-      // NEW: V2 -- WE WANT TO USE sessionFilters, AS IN V1 --or-- filters ??
       const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
-        // const sessionServerFieldMap = Object.entries(filters).reduce(
         (acc, [filterKey, filterValue]) => {
           if (filterKey in filters) {
             return { ...acc, [filterKey as string]: filterValue.name };
@@ -79,12 +91,12 @@ export const useRouteChangeHandler = () => {
       }
 
       try {
-        if (loaderData && padsConfig && proxyDataPool) {
+        if (loaderData && padsConfig && dataPool) {
           handleRouteChange(
             fieldKey,
             loaderData as DataEntry[],
             padsConfig,
-            proxyDataPool as DataEntry[] | OrderModel[] | OrderReadableModel[],
+            dataPool as DataEntry[] | OrderModel[] | OrderReadableModel[],
             sessionServerFieldMap,
             'es-ES' as RegionLocale,
           );
@@ -95,13 +107,16 @@ export const useRouteChangeHandler = () => {
         console.error('useRouteChangeHandler: Error handling route change:', error);
       }
     }
-  }, [fieldKey, loaderData, padsConfig, proxyDataPool, currentSessionId, sessions]); // Removed handleRouteChange to prevent infinite loop
+  }, [fieldKey, loaderData, padsConfig, dataPool, currentSessionId, sessions]);
 
-  // Sync filters from useFilters to OrdersContext (consolidated from LayoutUiObserver)
-  useEffect(() => {
-    // TODO: IS THIS STILL NECESSARY ??????
-    if (filters && Object.keys(filters).length > 0) {
-      setOrdersFilters(filters);
-    }
-  }, [filters, setOrdersFilters]);
+  // Sync filters from useFilters to OrdersContext / SlotsContext
+  useEffect(
+    function syncFiltersToSlotsContext() {
+      // TODO: IS THIS STILL NECESSARY ??????
+      if (filters && Object.keys(filters).length > 0) {
+        setOrdersFilters(filters);
+      }
+    },
+    [filters, setOrdersFilters],
+  );
 };
