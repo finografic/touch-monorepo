@@ -25,34 +25,19 @@ export const useDataPoolProxy = <T extends DataEntry | OrderModel | OrderReadabl
   const proxyDataPool = useMemo(() => {
     // If we have real data, use it as-is
     if (dataFiltered.length > 0) {
-      // NOTE: 1
-      log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataPool);
+      console.log('🚨 DATA POOL PROXY: Using real data, no proxy needed');
       return dataPool;
-
-      // NEW: V2
-      // return dataFiltered as T[];
-      // log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataFiltered);
     }
 
     // If no real data, inject mock entries to keep buttons visible
-    log('🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'orange');
+    console.warn('🚨 DATA POOL PROXY: No real data found, injecting mock entries');
 
     // Generate mock entries based on current filter context
     const mockEntries = generateMockEntries(filters);
 
-    // NOTE: V1
-    log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
-    log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataPool, ...mockEntries]);
-
+    console.log('🚨 DATA POOL PROXY: Injected mock entries:', mockEntries.length);
     return [...dataPool, ...mockEntries] as T[];
-
-    // NEW: V2
-    // log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
-    // log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataFiltered, ...mockEntries]);
-    // return [...dataFiltered, ...mockEntries] as T[];
-
-    // TODO: END >>>
-  }, [dataPool, dataFiltered.length, dataFiltered, filters]);
+  }, [dataPool, dataFiltered.length, filters]);
 
   return proxyDataPool;
 };
