@@ -5,8 +5,7 @@ import { SlotType } from 'types/orders.types';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
-import createCuid from '@bugsnag/cuid';
-import { useSmartFallback } from './useSmartFallback';
+// import { useSmartFallback } from './useSmartFallback';
 
 interface UseTemperatureControlOptions {
   onSuccess?: (durations: Record<string, number>) => void;
