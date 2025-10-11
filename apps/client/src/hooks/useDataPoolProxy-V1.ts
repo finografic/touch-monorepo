@@ -19,6 +19,7 @@ import { generateTemperatureProfiles } from 'utils/temperature-profile-generator
 export const useDataPoolProxy = <T extends DataEntry | OrderModel | OrderReadableModel>(
   dataPool: T[],
 ): T[] => {
+  return dataPool;
   const { filters } = useFiltersContext();
   const { dataFiltered } = useFilters();
 

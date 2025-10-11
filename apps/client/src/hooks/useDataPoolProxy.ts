@@ -26,30 +26,30 @@ export const useDataPoolProxy = <T extends DataEntry | OrderModel | OrderReadabl
     // If we have real data, use it as-is
     if (dataFiltered.length > 0) {
       // NOTE: 1
-      log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataPool);
-      return dataPool;
+      // log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataPool);
+      // return dataPool;
 
       // NEW: V2
-      // return dataFiltered as T[];
-      // log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataFiltered);
+      log('🚨 DATA POOL PROXY: Using real data, no proxy needed', 'lime', dataFiltered);
+      return dataFiltered as T[];
     }
 
     // If no real data, inject mock entries to keep buttons visible
     log('🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'orange');
 
     // Generate mock entries based on current filter context
-    const mockEntries = generateMockEntries(filters);
+    // const mockEntries = generateMockEntries(filters);
+    const mockEntries = [];
 
     // NOTE: V1
-    log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
-    log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataPool, ...mockEntries]);
-
-    return [...dataPool, ...mockEntries] as T[];
+    // log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
+    // log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataPool, ...mockEntries]);
+    // return [...dataPool, ...mockEntries] as T[];
 
     // NEW: V2
-    // log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
-    // log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataFiltered, ...mockEntries]);
-    // return [...dataFiltered, ...mockEntries] as T[];
+    log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
+    log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataFiltered, ...mockEntries]);
+    return [...dataFiltered, ...mockEntries] as T[];
 
     // TODO: END >>>
   }, [dataPool, dataFiltered.length, dataFiltered, filters]);
