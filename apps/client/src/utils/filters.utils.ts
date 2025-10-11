@@ -7,6 +7,8 @@ import { ROUTE_FILTER_KEYS, SLOT_FILTERS } from 'config/app';
  * Reduces filters to find the most specific/dominant value for a given property.
  * Later filters (e.g. drinkSubtype) take precedence over earlier ones (e.g. drinkType).
  * @param params Object containing filters and the property to reduce by
+ * @param params.propKey The property key to reduce by
+ * @param params.filters The filters object to reduce
  * @returns The most specific value found, or empty string if not found
  */
 export const reduceFilterProperty = <T>({
@@ -45,6 +47,29 @@ export const getUniqueFilterValues = (data: DataEntry[]): Record<string, string[
 };
 
 /**
+ * Order filters with mode first, then by SLOT_FILTERS order
+ * @param filters Current filters object
+ * @returns Ordered array of [key, value] pairs
+ */
+export const getOrderedFilters = (filters: OrderFilters): [string, any][] => {
+  const orderedEntries: [string, any][] = [];
+
+  // Add mode first if present
+  if (filters.mode) {
+    orderedEntries.push(['mode', filters.mode]);
+  }
+
+  // Add other filters in SLOT_FILTERS order
+  for (const filterKey of SLOT_FILTERS) {
+    if (filters[filterKey as keyof OrderFilters]) {
+      orderedEntries.push([filterKey, filters[filterKey as keyof OrderFilters]]);
+    }
+  }
+
+  return orderedEntries;
+};
+
+/**
  * Check if a data entry matches the given filters
  * @param entry Data entry to check
  * @param activeFilters Array of [key, value] pairs representing active filters
@@ -75,6 +100,10 @@ export const matchesFilters = (entry: DataEntry, activeFilters: [string, any][])
         }
         return true;
       default:
+        // Handle non-SlotFilterKey filters (like 'mode')
+        if (key === 'mode') {
+          return entry.mode === value.name;
+        }
         return true;
     }
   });

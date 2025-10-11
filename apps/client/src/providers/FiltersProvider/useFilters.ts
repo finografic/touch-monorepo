@@ -2,7 +2,12 @@ import { useMemo } from 'react';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { getFiltersByStep, getUniqueFilterValues, matchesFilters } from 'utils/filters.utils';
+import {
+  getFiltersByStep,
+  getUniqueFilterValues,
+  matchesFilters,
+  getOrderedFilters,
+} from 'utils/filters.utils';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFilters } from 'types/filters.types';
@@ -48,8 +53,8 @@ export const useFilters = (): UseFiltersReturn => {
     // SAFEGUARD: ensure data is assignable to DataEntry[] for matchesFilters
     const safeDataForFilter: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
 
-    // For dataFiltered, use ALL filters
-    const allFilters = Object.entries(filters);
+    // For dataFiltered, use ALL filters in ordered format (mode first)
+    const allFilters = getOrderedFilters(filters);
     let filtered = safeDataForFilter.filter((entry) =>
       matchesFilters(entry, allFilters),
     ) as unknown as OrderReadableModel[];

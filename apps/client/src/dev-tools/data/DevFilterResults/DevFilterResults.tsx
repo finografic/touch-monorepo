@@ -23,21 +23,16 @@ export const DevFilterResults = () => {
         <pre>{JSON.stringify(filters, null, 2)}</pre>
       </div>
       <div className="filters">
+        <h4>
+          Session: <strong style={{ color: 'grey' }}>{currentSessionId}</strong>
+        </h4>
         <h4>sessionFilters ({Object.keys(sessionFilters).length}):</h4>
         <pre>{JSON.stringify(sessionFilters, null, 2)}</pre>
       </div>
       <DevDataTable
         data={dataFiltered}
         title={`Results: ${dataFiltered.length}`}
-        columns={[
-          { key: 'drinkType', strong: true },
-          { key: 'drinkSubtype' },
-          { key: 'volume' },
-          // { key: 'defaultTempConsume' },
-          // { key: 'defaultTempFreeze' },
-          // { key: 'temperatureProfile', styles: { margin: 0 } },
-          // { key: 'id', styles: { opacity: 0.66 } },
-        ]}
+        columns={[{ key: 'drinkType', strong: true }, { key: 'mode', strong: true }, { key: 'volume' }]}
       />
     </div>
   );

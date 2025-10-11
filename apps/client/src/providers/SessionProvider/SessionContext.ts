@@ -4,6 +4,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { ConfigurationSession, SessionStore, SessionValues } from './SessionContext.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
+import { FLOW_TYPES } from 'types/flow.types';
 import { subscribeWithSelector } from 'zustand/middleware';
 
 export const DISPLAY_NAME = 'Session';
@@ -27,15 +28,18 @@ export const SessionContext = createZustandContext(({ initialValue }) => {
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
-          createSession: (flowType: FlowTypeValue) => {
+          createSession: (flowType: FlowTypeValue, initialFilters?: OrderFilters) => {
             const { sessions } = get();
             const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+
+            // Only include filters for Product flows, not Time flows
+            const sessionFilters = flowType === FLOW_TYPES.PROGRAM_PRODUCT ? initialFilters || {} : {};
 
             const newSession: ConfigurationSession = {
               id: sessionId,
               flowType,
               createdAt: new Date().toISOString(),
-              filters: {},
+              filters: sessionFilters,
               slotNumbers: [],
               isActive: true,
               isCurrent: true,

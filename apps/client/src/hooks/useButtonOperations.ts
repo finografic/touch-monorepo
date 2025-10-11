@@ -69,7 +69,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const { saveConfig } = useConfigStorage();
   const orderItemsConfig = useSlotItemsConfig();
   // const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
-  const { setFilter, clearFilters } = useFiltersContext();
+  const { setFilter, clearFilters, filters } = useFiltersContext();
 
   // console.log('%c loop? 2', 'color:grey', orders);
 
@@ -340,7 +340,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
       });
 
       // Create new session and assign selected slots
-      const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
+      const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT, { mode: filters.mode });
 
       assignOrdersToSession(
         sessionId,

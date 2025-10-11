@@ -39,9 +39,6 @@ export function MainPage() {
         name: defaultMode.name,
       };
       setFilter('mode', modeFilter);
-
-      // Store in localStorage for quick access
-      localStorage.setItem('defaultMode', JSON.stringify(modeFilter));
     }
   }, [defaultMode, isModeLoading, setFilter]);
 

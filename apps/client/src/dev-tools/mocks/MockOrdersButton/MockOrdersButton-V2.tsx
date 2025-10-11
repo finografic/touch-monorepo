@@ -18,7 +18,7 @@ export const MockOrdersButton = () => {
     if (!ordersContext?.setOrders) return;
 
     // Create session and extract mock data
-    const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
+    const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT, { mode: mockFilters.mode });
     const updatedMockData = MOCK_ORDERS_DATA.map((order) => ({
       ...order,
       session: {
