@@ -198,123 +198,120 @@ export const AdminLanguagesPage: React.FC = () => {
   // Handle loading and error states
   if (isLoading) {
     return (
-      <section css={styles} id="admin-languages" className="admin-content-page">
-        <AdminContentLayout
-          title={t('admin.pages.languages.title')}
-          subtitle={t('admin.pages.languages.subtitle')}
-          isLoading={true}
-        >
-          <AdminSection>
-            <Text>Loading supported languages...</Text>
-          </AdminSection>
-        </AdminContentLayout>
-      </section>
+      <AdminContentLayout
+        title={t('admin.pages.languages.title')}
+        subtitle={t('admin.pages.languages.subtitle')}
+        isLoading={true}
+        css={styles}
+      >
+        <AdminSection>
+          <Text>Loading supported languages...</Text>
+        </AdminSection>
+      </AdminContentLayout>
     );
   }
 
   if (error) {
     return (
-      <section css={styles} id="admin-languages" className="admin-content-page">
-        <AdminContentLayout
-          title={t('admin.pages.languages.title')}
-          subtitle={t('admin.pages.languages.subtitle')}
-          error={error.message}
-        >
-          <AdminSection>
-            <Text color="red">Error loading supported languages: {error.message}</Text>
-          </AdminSection>
-        </AdminContentLayout>
-      </section>
+      <AdminContentLayout
+        title={t('admin.pages.languages.title')}
+        subtitle={t('admin.pages.languages.subtitle')}
+        error={error.message}
+        css={styles}
+      >
+        <AdminSection>
+          <Text color="red">Error loading supported languages: {error.message}</Text>
+        </AdminSection>
+      </AdminContentLayout>
     );
   }
 
   return (
-    <section css={styles} id="admin-languages" className="admin-content-page">
-      <AdminContentLayout
-        title={t('admin.pages.languages.title')}
-        subtitle={t('admin.pages.languages.subtitle')}
-      >
-        <AdminSection>
-          {/* Message Display */}
-          {message && (
-            <Callout.Root color={message.type === 'error' ? 'red' : 'green'} mb="4">
-              <Callout.Icon>
-                <InfoCircledIcon />
-              </Callout.Icon>
-              <Callout.Text>{message.text}</Callout.Text>
-            </Callout.Root>
-          )}
+    <AdminContentLayout
+      title={t('admin.pages.languages.title')}
+      subtitle={t('admin.pages.languages.subtitle')}
+      css={styles}
+    >
+      <AdminSection>
+        {/* Message Display */}
+        {message && (
+          <Callout.Root color={message.type === 'error' ? 'red' : 'green'} mb="4">
+            <Callout.Icon>
+              <InfoCircledIcon />
+            </Callout.Icon>
+            <Callout.Text>{message.text}</Callout.Text>
+          </Callout.Root>
+        )}
 
-          {/* Languages List */}
-          <Box className="languages-section" mb="6">
-            <Flex justify="between" align="center">
-              <SectionHeader title={`Configured Languages (${languages.length})`} />
-            </Flex>
-            <LanguagesList
-              languages={languages}
-              onDeleteLanguage={handleDeleteLanguage}
-              canDelete={languages.length > 1}
-            />
-          </Box>
+        {/* Languages List */}
+        <Box className="languages-section" mb="6">
+          <Flex justify="between" align="center">
+            <SectionHeader title={`Configured Languages (${languages.length})`} />
+          </Flex>
+          <LanguagesList
+            languages={languages}
+            onDeleteLanguage={handleDeleteLanguage}
+            canDelete={languages.length > 1}
+          />
+        </Box>
 
-          {/* Search Section */}
-          <Box className="search-section" mb="6">
-            <SectionHeader
-              title="Add New Language"
-              description='Search by language name, country, or language code (e.g., "French", "Germany", "es-ES")'
-            />
-            <SearchableLanguageInputCurated
-              languageOptions={curatedLanguageOptions}
-              onLanguageSelect={handleLanguageSelect}
-              placeholder="Search curated languages (40 options)..."
-              windowSize={40}
-            />
-          </Box>
+        {/* Search Section */}
+        <Box className="search-section" mb="6">
+          <SectionHeader
+            title="Add New Language"
+            description='Search by language name, country, or language code (e.g., "French", "Germany", "es-ES")'
+          />
+          <SearchableLanguageInputCurated
+            languageOptions={curatedLanguageOptions}
+            onLanguageSelect={handleLanguageSelect}
+            placeholder="Search curated languages (40 options)..."
+            windowSize={40}
+          />
+        </Box>
 
-          {/* Selected Languages Section */}
-          <Box className="selected-section" mb="6">
-            <LanguagesListSelected
-              selectedLanguages={selectedLanguages}
-              onRemoveLanguage={handleRemoveLanguage}
-              isLoading={createLanguageMutation.isPending}
-            />
-          </Box>
+        {/* Selected Languages Section */}
+        <Box className="selected-section" mb="6">
+          <LanguagesListSelected
+            selectedLanguages={selectedLanguages}
+            onRemoveLanguage={handleRemoveLanguage}
+            isLoading={createLanguageMutation.isPending}
+          />
+        </Box>
 
-          {/* Statistics Section with Save Button */}
-          <Box className="stats-section" style={{ marginTop: '3rem' }}>
-            <Row align="center">
-              <Col xs={12} md={8}>
-                <LaungaugeDataStats
-                  selectedLanguages={selectedLanguages}
-                  totalCountries={countries.length}
-                  totalLanguages={curatedLanguageOptions.length}
-                />
-              </Col>
-              <Col xs={12} md={4} style={{ textAlign: 'right' }}>
-                <Button
-                  onClick={handleSaveLanguages}
-                  size="4"
-                  color="green"
-                  variant="solid"
-                  loading={createLanguageMutation.isPending}
-                  disabled={createLanguageMutation.isPending || selectedLanguages.length === 0}
-                >
-                  {createLanguageMutation.isPending ? 'Adding languages...' : 'Confirm: Add new languages'}
-                </Button>
-              </Col>
-            </Row>
-          </Box>
-        </AdminSection>
+        {/* Statistics Section with Save Button */}
+        <Box className="stats-section" style={{ marginTop: '3rem' }}>
+          <Row align="center">
+            <Col xs={12} md={8}>
+              <LaungaugeDataStats
+                selectedLanguages={selectedLanguages}
+                totalCountries={countries.length}
+                totalLanguages={curatedLanguageOptions.length}
+              />
+            </Col>
+            <Col xs={12} md={4} style={{ textAlign: 'right' }}>
+              <Button
+                onClick={handleSaveLanguages}
+                size="4"
+                color="green"
+                variant="solid"
+                loading={createLanguageMutation.isPending}
+                disabled={createLanguageMutation.isPending || selectedLanguages.length === 0}
+              >
+                {createLanguageMutation.isPending ? 'Adding languages...' : 'Confirm: Add new languages'}
+              </Button>
+            </Col>
+          </Row>
+        </Box>
+      </AdminSection>
 
-        {/* Delete Confirmation Dialog */}
-        <LanguageDeleteDialog
-          language={deleteDialog.language}
-          isOpen={deleteDialog.isOpen}
-          onClose={handleCancelDelete}
-          onConfirm={handleConfirmDelete}
-          isLoading={deleteLanguageMutation.isPending}
-        />
-      </AdminContentLayout>
-    </section>
+      {/* Delete Confirmation Dialog */}
+      <LanguageDeleteDialog
+        language={deleteDialog.language}
+        isOpen={deleteDialog.isOpen}
+        onClose={handleCancelDelete}
+        onConfirm={handleConfirmDelete}
+        isLoading={deleteLanguageMutation.isPending}
+      />
+    </AdminContentLayout>
   );
 };

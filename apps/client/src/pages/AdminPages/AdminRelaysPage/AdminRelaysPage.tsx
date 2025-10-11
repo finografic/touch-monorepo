@@ -4,10 +4,10 @@ import { useTranslation } from 'react-i18next';
 import { AdminContentLayout } from '../shared';
 import { RelayGrid } from './RelayGrid';
 import { SlotType } from 'types/orders.types';
-import { styles } from './AdminRelaysPage.styles';
 import { NUM_RELAYS } from './relays.config';
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
 import { useRelayHandlers } from './useRelayHandlers';
+import { styles } from './AdminRelaysPage.styles';
 
 // Types for relay configuration
 interface RelayConfig {
@@ -88,7 +88,7 @@ export const AdminRelaysPage: React.FC = () => {
 
   if (isLoadingStates) {
     return (
-      <AdminContentLayout title="Relay Control" subtitle="Loading...">
+      <AdminContentLayout title="Relay Control" subtitle="Loading..." css={styles}>
         <Box className="loading">Loading relay states...</Box>
       </AdminContentLayout>
     );
@@ -99,7 +99,7 @@ export const AdminRelaysPage: React.FC = () => {
       statesError.message?.includes('Network Error') || statesError.message?.includes('RPC Request Failed');
 
     return (
-      <AdminContentLayout title="Relay Control" subtitle="Connection Error">
+      <AdminContentLayout title="Relay Control" subtitle="Connection Error" css={styles}>
         <Box className="error">
           <Flex direction="column" gap="4" align="center">
             <Text color="red" size="4" weight="bold">
@@ -130,126 +130,125 @@ export const AdminRelaysPage: React.FC = () => {
   }
 
   return (
-    <section css={styles} id="admin-relay-control">
-      <AdminContentLayout
-        title="Relay Control"
-        subtitle={`Test and control the ${NUM_RELAYS}-channel relay board`}
-      >
-        <Box className="admin-relay-control">
-          <Flex direction="column" gap="6">
-            {/* Connection Status */}
-            <Card size="3" variant="surface">
-              <Flex justify="between" align="center">
-                <Flex direction="column" gap="2">
-                  <Heading size="4">Connection Status</Heading>
-                  <Flex align="center" gap="3">
-                    <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">
-                      {relayStatus?.connected ? 'Connected' : 'Disconnected'}
-                    </Badge>
-                    <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
-                      Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
-                    </Badge>
-
-                    {relayStatus?.port && (
-                      <Text size="2" color="gray">
-                        Port: {relayStatus.port}
-                      </Text>
-                    )}
-                    {relayStatus?.error && (
-                      <Text size="2" color="red">
-                        Error: {relayStatus.error}
-                      </Text>
-                    )}
-                  </Flex>
-                </Flex>
+    <AdminContentLayout
+      title="Relay Control"
+      description={`Test and control the ${NUM_RELAYS}-channel relay board`}
+      css={styles}
+    >
+      <Box className="admin-relay-control">
+        <Flex direction="column" gap="6">
+          {/* Connection Status */}
+          <Card size="3" variant="surface">
+            <Flex justify="between" align="center">
+              <Flex direction="column" gap="2">
+                <Heading size="4">Connection Status</Heading>
                 <Flex align="center" gap="3">
-                  <Button
-                    onClick={() => handleReconnect(relayStatus)}
-                    disabled={reconnectMutation.isPending || disconnectMutation.isPending}
-                    variant="outline"
-                    size="2"
-                  >
-                    {reconnectMutation.isPending || disconnectMutation.isPending
-                      ? relayStatus?.connected
-                        ? 'Disconnecting...'
-                        : 'Reconnecting...'
-                      : relayStatus?.connected
-                        ? 'Disconnect'
-                        : 'Reconnect'}
-                  </Button>
-                </Flex>
-              </Flex>
-            </Card>
+                  <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">
+                    {relayStatus?.connected ? 'Connected' : 'Disconnected'}
+                  </Badge>
+                  <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
+                    Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
+                  </Badge>
 
-            {/* Relay Control */}
-            <Card size="3" variant="surface">
-              <Flex gap="4" justify="between">
-                <Flex direction="column" gap="4">
-                  <Flex justify="between" align="center">
-                    <Heading size="4">Relay Control Grid</Heading>
-                    <Flex gap="2" ml="4">
-                      <Button
-                        onClick={handleTurnAllOn}
-                        disabled={turnAllOnMutation.isPending}
-                        variant="solid"
-                        color="green"
-                        size="2"
-                      >
-                        {turnAllOnMutation.isPending ? 'Turning ON...' : 'All ON'}
-                      </Button>
-                      <Button
-                        onClick={handleTurnAllOff}
-                        disabled={turnAllOffMutation.isPending}
-                        variant="solid"
-                        color="red"
-                        size="2"
-                      >
-                        {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
-                      </Button>
-                      <Button
-                        onClick={handleResetAll}
-                        disabled={turnAllOffMutation.isPending}
-                        variant="outline"
-                        color="orange"
-                        size="2"
-                      >
-                        {turnAllOffMutation.isPending ? 'Resetting...' : 'Reset All'}
-                      </Button>
-                    </Flex>
-                  </Flex>
-                  <RelayGrid
-                    configurations={relayConfigs}
-                    onRelayToggle={handleRelayToggle}
-                    isLoading={toggleRelayMutation.isPending}
-                  />
-                </Flex>
-                <Flex direction="column" gap="4">
-                  <div className="slot-types-container">
-                    <Heading size="4">Relay Status</Heading>
-                    <div className="slot-legend">
-                      <Flex direction="column" gap="3">
-                        {relayConfigs.map((config) => (
-                          <Flex
-                            key={config.slotNumber}
-                            align="center"
-                            gap="4"
-                            className={`legend-item ${config.isOn ? 'legend-relay-on' : 'legend-relay-off'}`}
-                          >
-                            <div>{config.slotNumber}</div>
-                            <Text size="3">
-                              Relay {config.slotNumber}: {config.isOn ? 'ON' : 'OFF'}
-                            </Text>
-                          </Flex>
-                        ))}
-                      </Flex>
-                    </div>
-                  </div>
+                  {relayStatus?.port && (
+                    <Text size="2" color="gray">
+                      Port: {relayStatus.port}
+                    </Text>
+                  )}
+                  {relayStatus?.error && (
+                    <Text size="2" color="red">
+                      Error: {relayStatus.error}
+                    </Text>
+                  )}
                 </Flex>
               </Flex>
-            </Card>
-          </Flex>
-        </Box>
-      </AdminContentLayout>
-    </section>
+              <Flex align="center" gap="3">
+                <Button
+                  onClick={() => handleReconnect(relayStatus)}
+                  disabled={reconnectMutation.isPending || disconnectMutation.isPending}
+                  variant="outline"
+                  size="2"
+                >
+                  {reconnectMutation.isPending || disconnectMutation.isPending
+                    ? relayStatus?.connected
+                      ? 'Disconnecting...'
+                      : 'Reconnecting...'
+                    : relayStatus?.connected
+                      ? 'Disconnect'
+                      : 'Reconnect'}
+                </Button>
+              </Flex>
+            </Flex>
+          </Card>
+
+          {/* Relay Control */}
+          <Card size="3" variant="surface">
+            <Flex gap="4" justify="between">
+              <Flex direction="column" gap="4">
+                <Flex justify="between" align="center">
+                  <Heading size="4">Relay Control Grid</Heading>
+                  <Flex gap="2" ml="4">
+                    <Button
+                      onClick={handleTurnAllOn}
+                      disabled={turnAllOnMutation.isPending}
+                      variant="solid"
+                      color="green"
+                      size="2"
+                    >
+                      {turnAllOnMutation.isPending ? 'Turning ON...' : 'All ON'}
+                    </Button>
+                    <Button
+                      onClick={handleTurnAllOff}
+                      disabled={turnAllOffMutation.isPending}
+                      variant="solid"
+                      color="red"
+                      size="2"
+                    >
+                      {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
+                    </Button>
+                    <Button
+                      onClick={handleResetAll}
+                      disabled={turnAllOffMutation.isPending}
+                      variant="outline"
+                      color="orange"
+                      size="2"
+                    >
+                      {turnAllOffMutation.isPending ? 'Resetting...' : 'Reset All'}
+                    </Button>
+                  </Flex>
+                </Flex>
+                <RelayGrid
+                  configurations={relayConfigs}
+                  onRelayToggle={handleRelayToggle}
+                  isLoading={toggleRelayMutation.isPending}
+                />
+              </Flex>
+              <Flex direction="column" gap="4">
+                <div className="slot-types-container">
+                  <Heading size="4">Relay Status</Heading>
+                  <div className="slot-legend">
+                    <Flex direction="column" gap="3">
+                      {relayConfigs.map((config) => (
+                        <Flex
+                          key={config.slotNumber}
+                          align="center"
+                          gap="4"
+                          className={`legend-item ${config.isOn ? 'legend-relay-on' : 'legend-relay-off'}`}
+                        >
+                          <div>{config.slotNumber}</div>
+                          <Text size="3">
+                            Relay {config.slotNumber}: {config.isOn ? 'ON' : 'OFF'}
+                          </Text>
+                        </Flex>
+                      ))}
+                    </Flex>
+                  </div>
+                </div>
+              </Flex>
+            </Flex>
+          </Card>
+        </Flex>
+      </Box>
+    </AdminContentLayout>
   );
 };

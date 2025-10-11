@@ -9,19 +9,16 @@ export const AdminLanguagesBasicPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <section css={styles} id="admin-languages" className="admin-content-page">
-      <AdminContentLayout
-        // title={t('admin.pages.languages.title')}
-        // subtitle={t('admin.pages.languages.subtitle')}
-        title="Languages (Default)"
-        subtitle="Select a language"
-      >
-        <AdminSection>
-          <Box className="selected-section" mb="6">
-            <LanguageSelector />
-          </Box>
-        </AdminSection>
-      </AdminContentLayout>
-    </section>
+    <AdminContentLayout
+      title={t('admin.pages.languages.title')}
+      description={t('admin.pages.languages.subtitle')}
+      css={styles}
+    >
+      <AdminSection>
+        <Box className="selected-section" mb="6">
+          <LanguageSelector />
+        </Box>
+      </AdminSection>
+    </AdminContentLayout>
   );
 };

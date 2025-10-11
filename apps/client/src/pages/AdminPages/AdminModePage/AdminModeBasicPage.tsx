@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
-import { styles } from './AdminModePage.styles';
 import { useGetModes, useUpdateDefaultMode } from 'queries/modes';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
+import { styles } from './AdminModePage.styles';
 
 export const AdminModeBasicPage: React.FC = () => {
   const { toast } = useToast();
@@ -64,90 +64,56 @@ export const AdminModeBasicPage: React.FC = () => {
     );
   };
 
-  // Clear default mode
-  const handleClearMode = () => {
-    const previousModeId = defaultModeId;
-
-    // Update local state immediately for responsive UI
-    setDefaultModeId('');
-
-    // Update database
-    updateDefaultModeMutation.mutate(
-      { defaultModeId: null },
-      {
-        onSuccess: () => {
-          toast({
-            variant: 'info',
-            message: 'Default mode cleared',
-            subText: 'No default mode is currently set',
-          });
-        },
-        onError: () => {
-          // Revert on error
-          setDefaultModeId(previousModeId);
-          toast({
-            variant: 'error',
-            message: 'Failed to clear default mode',
-            subText: 'Please try again',
-          });
-        },
-      },
-    );
-  };
-
   if (isLoadingModes) {
     return (
-      <section css={styles} className="admin-content-page">
-        <AdminContentLayout
-          title="Mode Selection"
-          subtitle="User"
-          description="Select default mode for the system"
-        >
-          <Flex direction="column" gap="4" align="center" justify="center" p="6">
-            <Spinner size="3" />
-            <Text>Loading available modes...</Text>
-          </Flex>
-        </AdminContentLayout>
-      </section>
+      <AdminContentLayout
+        title="Mode Selection"
+        subtitle="User"
+        description="Select default mode for the system"
+        css={styles}
+      >
+        <Flex direction="column" gap="4" align="center" justify="center" p="6">
+          <Spinner size="3" />
+          <Text>Loading available modes...</Text>
+        </Flex>
+      </AdminContentLayout>
     );
   }
 
   return (
-    <section css={styles} className="admin-content-page">
-      <AdminContentLayout title="Mode Selection" description="Select default mode for the system">
-        <AdminSection
-          title="Default Mode Configuration"
-          description="Choose the default mode that will be used when no specific mode is selected"
-        >
-          <Flex direction="column" gap="4" align="start">
-            <Flex direction="column" gap="2" style={{ width: '100%', maxWidth: '400px' }}>
-              <Text size="3" weight="medium">
-                Select Default Mode
-              </Text>
-              <SelectCustom
-                className="mode-select"
-                options={modeOptions}
-                placeholder="Choose a default mode..."
-                value={defaultModeId}
-                onSelect={handleModeSelect}
-              />
-            </Flex>
-
-            <Flex direction="column" gap="2">
-              {defaultModeId ? (
-                <Text size="2" color="gray">
-                  Current default mode:{' '}
-                  <Text weight="bold">{modes.find((m) => m.id === defaultModeId)?.name}</Text>
-                </Text>
-              ) : (
-                <Text size="2" color="gray">
-                  No default mode is currently set
-                </Text>
-              )}
-            </Flex>
+    <AdminContentLayout title="Mode Selection" description="Select default mode for the system" css={styles}>
+      <AdminSection
+        title="Default Mode Configuration"
+        description="Choose the default mode that will be used when no specific mode is selected"
+      >
+        <Flex direction="column" gap="4" align="start">
+          <Flex direction="column" gap="2" style={{ width: '100%', maxWidth: '400px' }}>
+            <Text size="3" weight="medium">
+              Select Default Mode
+            </Text>
+            <SelectCustom
+              className="mode-select"
+              options={modeOptions}
+              placeholder="Choose a default mode..."
+              value={defaultModeId}
+              onSelect={handleModeSelect}
+            />
           </Flex>
-        </AdminSection>
-      </AdminContentLayout>
-    </section>
+
+          <Flex direction="column" gap="2">
+            {defaultModeId ? (
+              <Text size="2" color="gray">
+                Current default mode:{' '}
+                <Text weight="bold">{modes.find((m) => m.id === defaultModeId)?.name}</Text>
+              </Text>
+            ) : (
+              <Text size="2" color="gray">
+                No default mode is currently set
+              </Text>
+            )}
+          </Flex>
+        </Flex>
+      </AdminSection>
+    </AdminContentLayout>
   );
 };

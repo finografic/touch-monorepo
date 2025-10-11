@@ -1,9 +1,8 @@
 import type { RouteObject } from 'react-router-dom';
 import { Layout } from 'layout/Layout';
 import { AdminLayout } from 'layout/AdminLayout';
-import { DocsPage } from 'pages/DocsPage/DocsPage';
 import { MainPage } from 'pages/MainPage/MainPage';
-import { GenericSelectPage } from 'pages/DrinkPages/GenericSelectPage';
+import { GenericSelectPage } from 'pages/GenericSelectPage/GenericSelectPage';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { ProtectedRouteWrapper } from 'routes/auth/ProtectedRouteWrapper';
@@ -35,10 +34,6 @@ export const routes: RouteObject[] = [
         index: true,
         id: 'main',
         element: <MainPage />,
-      },
-      {
-        path: '/docs',
-        element: <DocsPage />,
       },
       // ============================================== //
       // Drink Configuration Flow

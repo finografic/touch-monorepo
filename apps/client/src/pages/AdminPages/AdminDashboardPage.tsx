@@ -6,7 +6,7 @@ import { AdminContentLayout } from './shared';
 import { styles } from './AdminDashboardPage.styles';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { getAdminDashboardCards } from 'config/routes/admin.routes.selectors';
-import { getCalloutText } from './i18n.utils';
+import { getCalloutText } from './utils/i18n.utils';
 import type { AuthRoles } from 'config/routes/admin.routes.map';
 
 export const AdminDashboardPage: React.FC = () => {
@@ -32,60 +32,59 @@ export const AdminDashboardPage: React.FC = () => {
   };
 
   return (
-    <section css={styles} id="admin-dashboard">
-      <AdminContentLayout
-        title="Admin Dashboard"
-        subtitle="Manage system settings, translations, and configurations"
-        centerTitle={true}
+    <AdminContentLayout
+      title="Admin Dashboard"
+      subtitle="Manage system settings, translations, and configurations"
+      centerTitle={true}
+      css={styles}
+    >
+      <Box
+        className="admin-dashboard"
+        style={{ ['--cols' as any]: Math.min(3, Math.max(1, adminCards.length)) }}
       >
-        <Box
-          className="admin-dashboard"
-          style={{ ['--cols' as any]: Math.min(3, Math.max(1, adminCards.length)) }}
-        >
-          <Flex direction="column" gap="4" align="center">
-            <SectionHeader title="Admin Configuration" align="center" />
-            <div
-              className="admin-cards"
-              style={{ ['--cols' as any]: Math.min(2, Math.max(1, adminCards.length)) }}
-            >
-              {adminCards.map((card) => (
-                <Card
-                  key={card.id}
-                  className="admin-card"
-                  size="3"
-                  variant="surface"
-                  onClick={() => handleCardClick(card.path)}
-                  style={{
-                    cursor: isTransitioning ? 'wait' : 'pointer',
-                    opacity: isTransitioning ? 0.7 : 1,
-                    transition: 'opacity 0.2s ease',
-                  }}
-                >
-                  <Flex direction="row" gap="3" align="center" p="3">
-                    <Box
-                      className="card-icon-box"
-                      style={{
-                        color: `var(--${card.color}-9)`,
-                        backgroundColor: `var(--${card.color}-3)`,
-                      }}
-                    >
-                      {React.cloneElement(card.icon, { width: 24, height: 24 })}
-                    </Box>
-                    <Flex direction="column" gap="1" align="start" style={{ flex: 1 }}>
-                      <SectionHeader
-                        className="card-header"
-                        title={card.title}
-                        description={card.description}
-                        align="left"
-                      />
-                    </Flex>
+        <Flex direction="column" gap="4" align="center">
+          <SectionHeader title="Admin Configuration" align="center" />
+          <div
+            className="admin-cards"
+            style={{ ['--cols' as any]: Math.min(2, Math.max(1, adminCards.length)) }}
+          >
+            {adminCards.map((card) => (
+              <Card
+                key={card.id}
+                className="admin-card"
+                size="3"
+                variant="surface"
+                onClick={() => handleCardClick(card.path)}
+                style={{
+                  cursor: isTransitioning ? 'wait' : 'pointer',
+                  opacity: isTransitioning ? 0.7 : 1,
+                  transition: 'opacity 0.2s ease',
+                }}
+              >
+                <Flex direction="row" gap="3" align="center" p="3">
+                  <Box
+                    className="card-icon-box"
+                    style={{
+                      color: `var(--${card.color}-9)`,
+                      backgroundColor: `var(--${card.color}-3)`,
+                    }}
+                  >
+                    {React.cloneElement(card.icon, { width: 24, height: 24 })}
+                  </Box>
+                  <Flex direction="column" gap="1" align="start" style={{ flex: 1 }}>
+                    <SectionHeader
+                      className="card-header"
+                      title={card.title}
+                      description={card.description}
+                      align="left"
+                    />
                   </Flex>
-                </Card>
-              ))}
-            </div>
-          </Flex>
-        </Box>
-      </AdminContentLayout>
-    </section>
+                </Flex>
+              </Card>
+            ))}
+          </div>
+        </Flex>
+      </Box>
+    </AdminContentLayout>
   );
 };

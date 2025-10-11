@@ -23,7 +23,7 @@ export const stylesAdminContent = css`
 
   /* ADMIN-PAGE-LAYOUT ======================================================= */
 
-  div.admin-page-container {
+  section.admin-page-container {
     /* #content,
     .header > div,
     .footer > nav {
@@ -154,6 +154,8 @@ export const stylesAdminContent = css`
     header.admin-page-header {
       margin: 2rem 0 2.5rem 0;
 
+      opacity: 0.5;
+
       h1,
       h1 span {
         color: ${colors.textLight};
@@ -188,7 +190,7 @@ export const stylesAdminContent = css`
       border-radius: ${String(layout.borderRadius)};
       /* padding: ${String(layout.padding)}; */
       padding: 1.5rem 2rem 2.5rem 2rem;
-      margin: 1.5rem 0;
+      margin: 5.5rem 0;
 
       .section-header {
         h2 {

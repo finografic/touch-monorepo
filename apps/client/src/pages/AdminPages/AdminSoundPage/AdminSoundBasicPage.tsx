@@ -13,18 +13,17 @@ export const AdminSoundBasicPage: React.FC = () => {
 
   if (isLoadingFiles || isLoadingSettings) {
     return (
-      <section css={styles} className="admin-content-page">
-        <AdminContentLayout
-          title="Sound Management"
-          subtitle="(BASIC)"
-          description="Upload and configure sound files for timer events"
-        >
-          <Flex direction="column" gap="4" align="center" justify="center" p="6">
-            <Spinner size="3" />
-            <Text>Loading sound settings...</Text>
-          </Flex>
-        </AdminContentLayout>
-      </section>
+      <AdminContentLayout
+        title="Sound Management"
+        subtitle="User"
+        description="Upload and configure sound files for timer events"
+        css={styles}
+      >
+        <Flex direction="column" gap="4" align="center" justify="center" p="6">
+          <Spinner size="3" />
+          <Text>Loading sound settings...</Text>
+        </Flex>
+      </AdminContentLayout>
     );
   }
 
@@ -32,8 +31,9 @@ export const AdminSoundBasicPage: React.FC = () => {
     <section css={styles} className="admin-content-page">
       <AdminContentLayout
         title="Sound Management"
-        subtitle="(BASIC)"
+        subtitle="User"
         description="Upload and configure sound files for timer events"
+        css={styles}
       >
         <AdminSection
           title="Alarm Sound Configuration"

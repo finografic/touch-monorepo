@@ -6,7 +6,7 @@
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { COLOR_MAPPING } from '../../project/project.colors';
+import { COLOR_MAPPING } from '../colors.source';
 import { lightColors } from '../../themes/light.colors';
 import { JS_SHADE_ORDER, SHADE_VARIANCE_FACTOR } from '../constants/js.constants';
 

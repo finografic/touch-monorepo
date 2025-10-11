@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminModePage.styles';
 import { useGetModes, useUpdateActiveStates } from 'queries/modes';
@@ -57,119 +57,91 @@ export const AdminModePage: React.FC = () => {
     );
   };
 
-  // Clear all active modes
-  const handleClearAllModes = () => {
-    // Update local state immediately for responsive UI
-    setActiveModeIds([]);
-
-    // Update database
-    updateActiveStatesMutation.mutate(
-      { activeModeIds: [] },
-      {
-        onSuccess: () => {
-          toast({
-            variant: 'info',
-            message: 'All modes deactivated',
-            subText: 'No modes are currently active',
-          });
-        },
-        onError: () => {
-          // Revert on error
-          setActiveModeIds(activeModeIds);
-          toast({
-            variant: 'error',
-            message: 'Failed to clear active modes',
-            subText: 'Please try again',
-          });
-        },
-      },
-    );
-  };
-
   if (isLoadingModes) {
     return (
-      <section css={styles} className="admin-content-page">
-        <AdminContentLayout title="Mode Selection" description="Manage active modes for the system">
-          <Flex direction="column" gap="4" align="center" justify="center" p="6">
-            <Spinner size="3" />
-            <Text>Loading available modes...</Text>
-          </Flex>
-        </AdminContentLayout>
-      </section>
+      <AdminContentLayout
+        title="Mode Selection"
+        description="Manage active modes for the system"
+        css={styles}
+      >
+        <Flex direction="column" gap="4" align="center" justify="center" p="6">
+          <Spinner size="3" />
+          <Text>Loading available modes...</Text>
+        </Flex>
+      </AdminContentLayout>
     );
   }
 
   return (
-    <section css={styles} className="admin-content-page">
-      <AdminContentLayout
-        title="Mode Selection"
-        subtitle="Admin"
-        description="Manage active modes for the system"
+    <AdminContentLayout
+      title="Mode Selection"
+      subtitle="Admin"
+      description="Manage active modes for the system"
+      css={styles}
+    >
+      <AdminSection
+        title="Active Mode Configuration"
+        description="Select which modes should be active and available for use"
       >
-        <AdminSection
-          title="Active Mode Configuration"
-          description="Select which modes should be active and available for use"
-        >
-          <Flex direction="column" gap="4" align="start">
-            <Flex direction="column" gap="3" style={{ width: '100%', maxWidth: '500px' }}>
-              <Text size="3" weight="medium">
-                Select Active Modes
-              </Text>
-              <Flex direction="column" gap="2">
-                {modes.map((mode) => {
-                  const isActive = activeModeIds.includes(mode.id);
-                  return (
-                    <Flex
-                      key={mode.id}
-                      className={`mode-checkbox-item ${isActive ? 'selected' : ''}`}
-                      onClick={() => handleModeToggle(mode.id)}
-                      style={{
-                        padding: '12px 16px',
-                        borderRadius: '8px',
-                        border: '1px solid',
-                        cursor: 'pointer',
-                        backgroundColor: isActive ? 'var(--accent-3)' : 'white',
-                        borderColor: isActive ? 'var(--accent-9)' : 'var(--gray-6)',
-                        transition: 'all 150ms ease',
-                      }}
-                    >
-                      <Flex align="center" gap="3">
-                        <div
-                          style={{
-                            width: '16px',
-                            height: '16px',
-                            borderRadius: '4px',
-                            border: '2px solid',
-                            borderColor: isActive ? 'var(--accent-9)' : 'var(--gray-8)',
-                            backgroundColor: isActive ? 'var(--accent-9)' : 'transparent',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
-                        >
-                          {isActive && (
-                            <div
-                              style={{
-                                width: '6px',
-                                height: '6px',
-                                borderRadius: '50%',
-                                backgroundColor: 'white',
-                              }}
-                            />
-                          )}
-                        </div>
-                        <Text size="2" weight={isActive ? 'medium' : 'regular'}>
-                          {mode.name}
-                        </Text>
-                      </Flex>
+        <Flex direction="column" gap="4" align="start">
+          <Flex direction="column" gap="3" style={{ width: '100%', maxWidth: '500px' }}>
+            <Text size="3" weight="medium">
+              Select Active Modes
+            </Text>
+            <Flex direction="column" gap="2">
+              {modes.map((mode) => {
+                const isActive = activeModeIds.includes(mode.id);
+                return (
+                  <Flex
+                    key={mode.id}
+                    className={`mode-checkbox-item ${isActive ? 'selected' : ''}`}
+                    onClick={() => handleModeToggle(mode.id)}
+                    style={{
+                      padding: '12px 16px',
+                      borderRadius: '8px',
+                      border: '1px solid',
+                      cursor: 'pointer',
+                      backgroundColor: isActive ? 'var(--accent-3)' : 'white',
+                      borderColor: isActive ? 'var(--accent-9)' : 'var(--gray-6)',
+                      transition: 'all 150ms ease',
+                    }}
+                  >
+                    <Flex align="center" gap="3">
+                      <div
+                        style={{
+                          width: '16px',
+                          height: '16px',
+                          borderRadius: '4px',
+                          border: '2px solid',
+                          borderColor: isActive ? 'var(--accent-9)' : 'var(--gray-8)',
+                          backgroundColor: isActive ? 'var(--accent-9)' : 'transparent',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}
+                      >
+                        {isActive && (
+                          <div
+                            style={{
+                              width: '6px',
+                              height: '6px',
+                              borderRadius: '50%',
+                              backgroundColor: 'white',
+                            }}
+                          />
+                        )}
+                      </div>
+                      <Text size="2" weight={isActive ? 'medium' : 'regular'}>
+                        {mode.name}
+                      </Text>
                     </Flex>
-                  );
-                })}
-              </Flex>
+                  </Flex>
+                );
+              })}
             </Flex>
           </Flex>
-        </AdminSection>
-      </AdminContentLayout>
-    </section>
+        </Flex>
+      </AdminSection>
+    </AdminContentLayout>
   );
 };
