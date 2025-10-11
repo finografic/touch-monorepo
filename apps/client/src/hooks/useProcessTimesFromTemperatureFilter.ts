@@ -3,7 +3,10 @@ import { useConfigStorage } from './useConfigStorage';
 import { useOrders } from 'providers/OrdersProvider';
 import { SlotType } from 'types/orders.types';
 import { useFiltersContext } from 'providers/FiltersProvider';
+import { useFilters } from 'providers/FiltersProvider/useFilters';
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
+import createCuid from '@bugsnag/cuid';
+import { useDirtyFixFallback } from './useDirtyFixFallback';
 
 interface UseTemperatureControlOptions {
   onSuccess?: (durations: Record<string, number>) => void;
@@ -15,7 +18,9 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
   const [showLoading, setShowLoading] = useState(false);
   const { orders, profile } = useOrders();
   const { filters } = useFiltersContext();
+  const { dataFiltered } = useFilters();
   const { saveConfig } = useConfigStorage();
+  const { createFallbackEntry } = useDirtyFixFallback();
 
   const temperatureFilter = useDeferredValue(filters.temperature);
   const temperatureProfiles = temperatureFilter?.temperatureProfiles || [];
@@ -40,6 +45,13 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
 
   const startTemperatureControl = useCallback(async () => {
     try {
+      // 🚨 DIRTY FIX: Use shared fallback entry if dataFiltered is empty
+      if (dataFiltered.length === 0) {
+        console.warn('🚨 DIRTY FIX: No filtered data found, using shared fallback entry');
+        // The createFallbackEntry hook handles setting profile (temperature filter set in TemperaturePage)
+        createFallbackEntry;
+      }
+
       if (!temperatureFilter?.initial || !temperatureFilter?.final) {
         throw new Error('Initial and final temperatures must be set');
       }
@@ -121,7 +133,17 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
       console.error('Temperature control error:', error);
       options.onError?.(error as Error);
     }
-  }, [temperatureFilter, temperatureProfiles, orders, saveConfig, options.onSuccess, options.onError]);
+  }, [
+    temperatureFilter,
+    temperatureProfiles,
+    orders,
+    saveConfig,
+    options.onSuccess,
+    options.onError,
+    dataFiltered,
+    filters,
+    createFallbackEntry,
+  ]);
 
   return {
     startTemperatureControl,

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { Temperature } from 'types/orders.types';
 import { Box, Flex } from '@radix-ui/themes';
 // import { stylesAppContent } from 'styles/project/project.app.styles';
@@ -12,21 +12,29 @@ import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { styles } from './TemperaturePage.styles';
+import { useDirtyFixFallback } from 'hooks/useDirtyFixFallback';
 
 const isVisibleClosestProfile = false;
 
 export const TemperaturePage = () => {
   const { profile, ordersReadable } = useOrders();
   const { dataFiltered } = useFilters();
+  const { createFallbackEntry } = useDirtyFixFallback();
 
   const [temperatures, setTemperatures] = useState<TemperatureState>({
     [TemperatureKey.Initial]: INITIAL_TEMP_DEFAULT,
     [TemperatureKey.Final]: INITIAL_TEMP_DEFAULT,
   });
 
-  // Extract temperature profiles from the profile data (filtered order)
-  // Fallback to first order if profile is not set (safety net for edge cases)
-  const currentOrder = profile || ordersReadable[0];
+  // 🚨 DIRTY FIX: Use fallback entry if no data available
+  const currentOrder = useMemo(() => {
+    if (profile) return profile;
+    if (ordersReadable[0]) return ordersReadable[0];
+
+    // Use the shared dirty fix hook
+    return createFallbackEntry;
+  }, [profile, ordersReadable, createFallbackEntry]);
+
   const temperatureProfiles = currentOrder?.temperatureProfiles ?? [];
 
   const { minProfileTemp, minMaxTemperatures, initializeTemperatures, updateTemperatures } =
