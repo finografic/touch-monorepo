@@ -4,13 +4,14 @@ import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import {
   getFiltersByStep,
+  getOrderedFilters,
   getUniqueFilterValues,
   matchesFilters,
-  getOrderedFilters,
 } from 'utils/filters.utils';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFilters } from 'types/filters.types';
+import type { SlotFilterKey } from 'types/orders.types';
 
 interface UseFiltersReturn {
   // Data arrays - using the OrderReadableModel type for human-readable data
@@ -20,6 +21,7 @@ interface UseFiltersReturn {
 
   // Filters state (from FiltersContext)
   filters: OrderFilters;
+  fieldKey: SlotFilterKey;
   serverFieldMap: Record<string, string>;
 
   // Filter manipulation functions (from FiltersContext)
@@ -94,6 +96,7 @@ export const useFilters = (): UseFiltersReturn => {
     data,
     dataPool,
     dataFiltered,
+    fieldKey,
     filters,
     serverFieldMap,
     setFilter,
