@@ -10,6 +10,9 @@ import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 
+// Union type for dataPool change reasons
+type DataPoolChangeReason = 'route-change' | 'filter-update' | 'initial-load';
+
 /**
  * Hook to handle route changes and sync filters
  * Separated from useRouteConfig to avoid circular dependencies
@@ -27,7 +30,7 @@ export const useRouteChangeHandler = () => {
     previous: OrderReadableModel[];
     current: OrderReadableModel[];
     filterKey: string;
-    changeReason: 'route-change' | 'filter-update' | 'initial-load';
+    changeReason: DataPoolChangeReason;
     timestamp: number;
   }>({
     previous: [],
@@ -43,48 +46,91 @@ export const useRouteChangeHandler = () => {
       const currentFilterKey = filterKey || '';
       const previousFilterKey = dataPoolHistoryRef.current.filterKey;
 
-      // Determine change reason
-      let changeReason: 'route-change' | 'filter-update' | 'initial-load';
-      if (previousFilterKey === '') {
-        changeReason = 'initial-load';
-      } else if (currentFilterKey !== previousFilterKey) {
-        changeReason = 'route-change';
-      } else {
-        changeReason = 'filter-update';
+      // Determine change reason using flat conditional logic
+      let changeReason: DataPoolChangeReason;
+
+      switch (true) {
+        case previousFilterKey === '':
+          changeReason = 'initial-load';
+          break;
+        case currentFilterKey !== previousFilterKey:
+          changeReason = 'filter-update';
+          break;
+        default:
+          changeReason = 'route-change';
       }
 
-      // Update history based on change reason
-      if (changeReason === 'route-change') {
-        // Route change: preserve previous dataPool, update current
-        dataPoolHistoryRef.current.previous = dataPoolHistoryRef.current.current;
-        dataPoolHistoryRef.current.current = dataPool;
-        dataPoolHistoryRef.current.filterKey = currentFilterKey;
-        dataPoolHistoryRef.current.changeReason = changeReason;
-        dataPoolHistoryRef.current.timestamp = Date.now();
+      const reason: Record<string, DataPoolChangeReason> = {
+        '': 'initial-load',
+        'filter-update': 'filter-update',
+        'route-change': 'route-change',
+      };
 
-        console.log('%c🚨 ROUTE CHANGE DETECTED:', 'color:orange', {
-          from: previousFilterKey,
-          to: currentFilterKey,
-          previousDataPool: dataPoolHistoryRef.current.previous.length,
-          currentDataPool: dataPoolHistoryRef.current.current.length,
-          timestamp: new Date(dataPoolHistoryRef.current.timestamp).toISOString(),
-        });
-      } else {
-        // Filter update or initial load: just update current
-        dataPoolHistoryRef.current.current = dataPool;
-        dataPoolHistoryRef.current.filterKey = currentFilterKey;
-        dataPoolHistoryRef.current.changeReason = changeReason;
-        dataPoolHistoryRef.current.timestamp = Date.now();
+      changeReason = reason[previousFilterKey];
 
-        if (changeReason === 'filter-update') {
+      const reasonV2 = [
+        ['initial-load', previousFilterKey === ''],
+        ['route-change', currentFilterKey !== previousFilterKey],
+        ['filter-update', true],
+      ].find(([reason]) => reason[1])?.[0];
+
+      // changeReason = reasonV2.find(([reason]) => reason === previousFilterKey)?.[1]();
+      //   'route-change': () => currentFilterKey !== previousFilterKey,
+      //   'filter-update': () => true,
+      // };
+
+      // TODO: KEEP THIS CODE FOR REFERENCE !!
+      // if (previousFilterKey === '') {
+      //   changeReason = 'initial-load';
+      // } else if (currentFilterKey !== previousFilterKey) {
+      //   changeReason = 'route-change';
+      // } else {
+      //   changeReason = 'filter-update';
+      // }
+
+      // Update history using object-based dispatch
+      const updateHistory: Record<DataPoolChangeReason, () => void> = {
+        'route-change': () => {
+          // Route change: preserve previous dataPool, update current
+          dataPoolHistoryRef.current.previous = dataPoolHistoryRef.current.current;
+          dataPoolHistoryRef.current.current = dataPool;
+          dataPoolHistoryRef.current.filterKey = currentFilterKey;
+          dataPoolHistoryRef.current.changeReason = changeReason;
+          dataPoolHistoryRef.current.timestamp = Date.now();
+
+          console.log('%c🚨 ROUTE CHANGE DETECTED:', 'color:orange', {
+            from: previousFilterKey,
+            to: currentFilterKey,
+            previousDataPool: dataPoolHistoryRef.current.previous.length,
+            currentDataPool: dataPoolHistoryRef.current.current.length,
+            timestamp: new Date(dataPoolHistoryRef.current.timestamp).toISOString(),
+          });
+        },
+        'filter-update': () => {
+          // Filter update: just update current
+          dataPoolHistoryRef.current.current = dataPool;
+          dataPoolHistoryRef.current.filterKey = currentFilterKey;
+          dataPoolHistoryRef.current.changeReason = changeReason;
+          dataPoolHistoryRef.current.timestamp = Date.now();
+
           console.log('%c🔄 FILTER UPDATE:', 'color:blue', {
             filterKey: currentFilterKey,
             previousDataPool: dataPoolHistoryRef.current.previous.length,
             currentDataPool: dataPoolHistoryRef.current.current.length,
             timestamp: new Date(dataPoolHistoryRef.current.timestamp).toISOString(),
           });
-        }
-      }
+        },
+        'initial-load': () => {
+          // Initial load: just update current
+          dataPoolHistoryRef.current.current = dataPool;
+          dataPoolHistoryRef.current.filterKey = currentFilterKey;
+          dataPoolHistoryRef.current.changeReason = changeReason;
+          dataPoolHistoryRef.current.timestamp = Date.now();
+        },
+      };
+
+      // Execute the appropriate update function with single lookup
+      updateHistory[changeReason]?.();
     },
     [dataPool, filterKey],
   );
