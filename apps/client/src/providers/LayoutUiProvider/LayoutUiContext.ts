@@ -125,9 +125,10 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
                 filterApiKey,
               });
 
-              // 🚨 CRITICAL: Use ALL loaderData, not filtered by visiblePadNames
-              // The dataPool already contains the correct filtered data for UI options
-              const filteredLoaderData = Array.isArray(loaderData) ? loaderData : [loaderData];
+              // 🚨 FIX: Filter loaderData by visiblePadNames to show only valid options
+              const filteredLoaderData = (Array.isArray(loaderData) ? loaderData : [loaderData]).filter(
+                (padData) => visiblePadNames.includes(padData.name),
+              );
 
               const { pads, numPads } = parsePadConfig({
                 data: filteredLoaderData,

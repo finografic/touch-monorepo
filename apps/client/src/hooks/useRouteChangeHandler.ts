@@ -104,28 +104,42 @@ export const useRouteChangeHandler = () => {
       const getCorrectDataPoolForUI = (): OrderReadableModel[] => {
         if (!dataPoolRef.current) return dataPool;
 
-        // If we have a previous dataPool and it's larger than current, use previous for UI buttons
-        // This ensures all buttons are shown when navigating back
         const currentDataPool = dataPoolRef.current.dataPool || [];
         const previousDataPool = dataPoolRef.current.previous?.dataPool || [];
+        const currentFilterKey = dataPoolRef.current.filterKey;
+        const previousFilterKey = dataPoolRef.current.previous?.filterKey;
+        const trigger = dataPoolRef.current.trigger;
 
-        // Use previous dataPool if it exists and is larger (more options for UI)
-        if (previousDataPool.length > 0 && previousDataPool.length > currentDataPool.length) {
-          console.log('%c🚨 USING PREVIOUS DATAPOOL FOR UI:', 'color:cyan', {
+        // 🚨 FIX: For forward navigation (route-change), use current dataPool
+        // This ensures filtered results are shown (e.g., only "vidrio" for containerType)
+        if (trigger === 'route-change') {
+          console.log('%c🚨 FORWARD NAVIGATION: Using current dataPool', 'color:lime', {
             currentLength: currentDataPool.length,
             previousLength: previousDataPool.length,
-            filterKey: dataPoolRef.current.filterKey,
-            trigger: dataPoolRef.current.trigger,
+            filterKey: currentFilterKey,
+            previousFilterKey,
+            trigger,
           });
-          return previousDataPool;
+          return currentDataPool;
         }
 
-        // Otherwise use current dataPool
-        console.log('%c🚨 USING CURRENT DATAPOOL FOR UI:', 'color:lime', {
+        // 🚨 For filter-update or initial-load, use current dataPool
+        if (trigger === 'filter-update' || trigger === 'initial-load') {
+          console.log('%c🚨 FILTER UPDATE/INITIAL: Using current dataPool', 'color:lime', {
+            currentLength: currentDataPool.length,
+            previousLength: previousDataPool.length,
+            filterKey: currentFilterKey,
+            trigger,
+          });
+          return currentDataPool;
+        }
+
+        // 🚨 FALLBACK: Use current dataPool
+        console.log('%c🚨 FALLBACK: Using current dataPool', 'color:orange', {
           currentLength: currentDataPool.length,
           previousLength: previousDataPool.length,
-          filterKey: dataPoolRef.current.filterKey,
-          trigger: dataPoolRef.current.trigger,
+          filterKey: currentFilterKey,
+          trigger,
         });
         return currentDataPool;
       };
