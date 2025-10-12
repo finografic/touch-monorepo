@@ -4,7 +4,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { useDataPoolProxy } from './useDataPoolProxy';
+// import { useDataPoolProxy } from './useDataPoolProxy'; // 🚨 COMMENTED OUT: Replaced with new ref system
 import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
@@ -81,8 +81,8 @@ export const useRouteChangeHandler = () => {
     [dataPool, filterKey, loaderData],
   );
 
-  // 🚨 DATA POOL PROXY: Create proxy dataPool that injects mock entries when needed
-  const { dataPoolProxy } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
+  // 🚨 COMMENTED OUT: Old useDataPoolProxy hook - replaced with new ref system
+  // const { dataPoolProxy } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
 
   // ======================================================================== //
   // ======================================================================== //
@@ -100,6 +100,42 @@ export const useRouteChangeHandler = () => {
   // Handle route changes (consolidated from LayoutUiObserver)
   useEffect(
     function handleRouteChanges() {
+      // 🚨 NEW REF SYSTEM: Calculate correct dataPool for UI inside useEffect
+      const getCorrectDataPoolForUI = (): OrderReadableModel[] => {
+        if (!dataPoolRef.current) return dataPool;
+
+        // If we have a previous dataPool and it's larger than current, use previous for UI buttons
+        // This ensures all buttons are shown when navigating back
+        const currentDataPool = dataPoolRef.current.dataPool || [];
+        const previousDataPool = dataPoolRef.current.previous?.dataPool || [];
+
+        // Use previous dataPool if it exists and is larger (more options for UI)
+        if (previousDataPool.length > 0 && previousDataPool.length > currentDataPool.length) {
+          console.log('%c🚨 USING PREVIOUS DATAPOOL FOR UI:', 'color:cyan', {
+            currentLength: currentDataPool.length,
+            previousLength: previousDataPool.length,
+            filterKey: dataPoolRef.current.filterKey,
+            trigger: dataPoolRef.current.trigger,
+          });
+          return previousDataPool;
+        }
+
+        // Otherwise use current dataPool
+        console.log('%c🚨 USING CURRENT DATAPOOL FOR UI:', 'color:lime', {
+          currentLength: currentDataPool.length,
+          previousLength: previousDataPool.length,
+          filterKey: dataPoolRef.current.filterKey,
+          trigger: dataPoolRef.current.trigger,
+        });
+        return currentDataPool;
+      };
+
+      // 🚨 CRITICAL: Only proceed if loaderData is available (non-empty dataset)
+      if (!Array.isArray(loaderData)) {
+        console.log('%c🚨 SKIPPING ROUTE CHANGE: loaderData not ready', 'color:red');
+        return;
+      }
+
       const currentRouteData = {
         filterKey: filterKey || '',
         loaderDataLength: loaderData?.length || 0,
@@ -140,7 +176,17 @@ export const useRouteChangeHandler = () => {
         }
 
         try {
+          // 🚨 NEW: Get correct dataPool for UI using ref system
+          const dataPoolProxy = getCorrectDataPoolForUI();
+
           if (loaderData && padsConfig && dataPoolProxy) {
+            console.log('%c🚨 CALLING handleRouteChange WITH:', 'color:purple', {
+              filterKey,
+              loaderDataLength: loaderData.length,
+              dataPoolProxyLength: dataPoolProxy.length,
+              sessionServerFieldMapKeys: Object.keys(sessionServerFieldMap),
+            });
+
             handleRouteChange(
               filterKey,
               loaderData as DataEntry[],
@@ -150,6 +196,12 @@ export const useRouteChangeHandler = () => {
               'es-ES' as RegionLocale,
             );
           } else {
+            console.log('%c🚨 CALLING handleRouteChange WITH EMPTY DATA:', 'color:orange', {
+              filterKey,
+              hasLoaderData: !!loaderData,
+              hasPadsConfig: !!padsConfig,
+              hasDataPoolProxy: !!dataPoolProxy,
+            });
             handleRouteChange(filterKey, [], {} as any, [], {});
           }
         } catch (error) {
@@ -157,7 +209,7 @@ export const useRouteChangeHandler = () => {
         }
       }
     },
-    [filterKey, loaderData, padsConfig, dataPoolProxy, currentSessionId, sessions],
+    [filterKey, loaderData, padsConfig, dataPool, currentSessionId, sessions, filters],
   );
 
   // Sync filters from useFilters to OrdersContext / SlotsContext

@@ -1,6 +1,6 @@
 import type { PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
-import type { SlotType, SlotItem, OrderStatus } from 'types/orders.types';
+import type { OrderStatus, SlotItem, SlotType } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 
 interface TransformedPad {
