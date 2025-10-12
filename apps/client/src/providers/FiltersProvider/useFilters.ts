@@ -38,7 +38,7 @@ interface UseFiltersReturn {
  * This is the final hook that replaces useFiltersWithData and provides all filtering functionality
  */
 export const useFilters = (): UseFiltersReturn => {
-  const { filterKey } = useRouteConfig();
+  const { filterKey, filterApiKey } = useRouteConfig();
   const { ordersReadable } = useOrders();
   const { filters, setFilter, clearFilter, clearFilters } = useFiltersContext();
 
@@ -96,7 +96,7 @@ export const useFilters = (): UseFiltersReturn => {
     data,
     dataPool,
     dataFiltered,
-    filterKey,
+    filterKey: filterKey === ('base' as FilterKey) ? 'mode' : filterKey,
     filters,
     serverFieldMap,
     setFilter,
