@@ -30,6 +30,12 @@
 - Use render props or hooks for logic reuse
 - Create wrapper components for third-party libraries (like Radix)
 
+## Function Parameters
+
+- Follow TypeScript parameter patterns from `07-typescript-patterns.md`
+- Use inline destructuring with type annotation for named parameters
+- Prefer named parameters for functions with 2+ arguments
+
 ## Performance Optimizations
 
 - Use React.memo for expensive pure components

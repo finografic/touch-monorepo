@@ -9,6 +9,8 @@
 - Prefer explicit return types for functions
 - Use meaningful variable and function names that describe their purpose
 - For both JSDoc and simple comments, include name of model used to generate, between square-brackets []
+- Follow TypeScript parameter patterns from `07-typescript-patterns.md`
+- Follow testing patterns from `08-testing-patterns.md`
 
 ## Error Handling
 
