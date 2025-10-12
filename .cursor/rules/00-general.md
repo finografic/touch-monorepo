@@ -8,6 +8,7 @@
 - Add JSDoc comments for complex functions and public APIs
 - Prefer explicit return types for functions
 - Use meaningful variable and function names that describe their purpose
+- For both JSDoc and simple comments, include name of model used to generate, between square-brackets []
 
 ## Error Handling
 
