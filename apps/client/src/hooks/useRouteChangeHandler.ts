@@ -9,9 +9,24 @@ import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { FilterKey } from 'types/orders.types';
 
-// Union type for dataPool change reasons
-type DataPoolChangeReason = 'route-change' | 'filter-update' | 'initial-load';
+enum CHANGED {
+  INIT = 'initial-load',
+  ROUTE = 'route-change',
+  FILTERS = 'filter-update',
+}
+
+interface DataPoolTrackingState {
+  filterKey: FilterKey;
+  dataPool: OrderReadableModel[];
+  previous: {
+    filterKey: FilterKey;
+    dataPool: OrderReadableModel[] | undefined;
+  };
+  trigger: CHANGED;
+  timestamp: number;
+}
 
 /**
  * Hook to handle route changes and sync filters
@@ -26,135 +41,48 @@ export const useRouteChangeHandler = () => {
   const { filterKey, loaderData, padsConfig } = useRouteConfig();
 
   // 🚨 ENHANCED DATA POOL TRACKING: Route-aware with change context
-  const dataPoolHistoryRef = useRef<{
-    previous: OrderReadableModel[];
-    current: OrderReadableModel[];
-    filterKey: string;
-    changeReason: DataPoolChangeReason;
-    timestamp: number;
-  }>({
-    previous: [],
-    current: [],
-    filterKey: '',
-    changeReason: 'initial-load',
-    timestamp: Date.now(),
-  });
+  const dataPoolRef = useRef<DataPoolTrackingState>();
 
-  // 🚨 ROUTE-AWARE DATA POOL TRACKING
   useEffect(
     function handle_DATA_POOL_CHANGE() {
-      const currentFilterKey = filterKey || '';
-      const previousFilterKey = dataPoolHistoryRef.current.filterKey;
-
-      // Determine change reason using flat conditional logic
-      let changeReason: DataPoolChangeReason;
-
-      switch (true) {
-        case previousFilterKey === '':
-          changeReason = 'initial-load';
-          break;
-        case currentFilterKey !== previousFilterKey:
-          changeReason = 'filter-update';
-          break;
-        default:
-          changeReason = 'route-change';
-      }
-
-      const reason: Record<string, DataPoolChangeReason> = {
-        '': 'initial-load',
-        'filter-update': 'filter-update',
-        'route-change': 'route-change',
-      };
-
-      changeReason = reason[previousFilterKey];
-
-      const reasonV2 = [
-        ['initial-load', previousFilterKey === ''],
-        ['route-change', currentFilterKey !== previousFilterKey],
-        ['filter-update', true],
-      ].find(([reason]) => reason[1])?.[0];
-
-      // changeReason = reasonV2.find(([reason]) => reason === previousFilterKey)?.[1]();
-      //   'route-change': () => currentFilterKey !== previousFilterKey,
-      //   'filter-update': () => true,
-      // };
-
-      // TODO: KEEP THIS CODE FOR REFERENCE !!
-      // if (previousFilterKey === '') {
-      //   changeReason = 'initial-load';
-      // } else if (currentFilterKey !== previousFilterKey) {
-      //   changeReason = 'route-change';
-      // } else {
-      //   changeReason = 'filter-update';
-      // }
-
-      // Update history using object-based dispatch
-      const updateHistory: Record<DataPoolChangeReason, () => void> = {
-        'route-change': () => {
-          // Route change: preserve previous dataPool, update current
-          dataPoolHistoryRef.current.previous = dataPoolHistoryRef.current.current;
-          dataPoolHistoryRef.current.current = dataPool;
-          dataPoolHistoryRef.current.filterKey = currentFilterKey;
-          dataPoolHistoryRef.current.changeReason = changeReason;
-          dataPoolHistoryRef.current.timestamp = Date.now();
-
-          console.log('%c🚨 ROUTE CHANGE DETECTED:', 'color:orange', {
-            from: previousFilterKey,
-            to: currentFilterKey,
-            previousDataPool: dataPoolHistoryRef.current.previous.length,
-            currentDataPool: dataPoolHistoryRef.current.current.length,
-            timestamp: new Date(dataPoolHistoryRef.current.timestamp).toISOString(),
-          });
-        },
-        'filter-update': () => {
-          // Filter update: just update current
-          dataPoolHistoryRef.current.current = dataPool;
-          dataPoolHistoryRef.current.filterKey = currentFilterKey;
-          dataPoolHistoryRef.current.changeReason = changeReason;
-          dataPoolHistoryRef.current.timestamp = Date.now();
-
-          console.log('%c🔄 FILTER UPDATE:', 'color:blue', {
-            filterKey: currentFilterKey,
-            previousDataPool: dataPoolHistoryRef.current.previous.length,
-            currentDataPool: dataPoolHistoryRef.current.current.length,
-            timestamp: new Date(dataPoolHistoryRef.current.timestamp).toISOString(),
-          });
-        },
-        'initial-load': () => {
-          // Initial load: just update current
-          dataPoolHistoryRef.current.current = dataPool;
-          dataPoolHistoryRef.current.filterKey = currentFilterKey;
-          dataPoolHistoryRef.current.changeReason = changeReason;
-          dataPoolHistoryRef.current.timestamp = Date.now();
-        },
-      };
-
-      // Execute the appropriate update function with single lookup
-      updateHistory[changeReason]?.();
-    },
-    [dataPool, filterKey],
-  );
-
-  useEffect(
-    function handle_TEST_DATA() {
       if (Array.isArray(loaderData)) {
-        console.log('%c >> filtered:', 'color:lime', loaderData);
-        console.log('%c >> filtered:', 'color:lime', { data });
-        console.log('%c >> filtered:', 'color:lime', { dataPool });
-        console.log('%c >> filtered:', 'color:lime', { dataFiltered });
-        console.log('%c >> dataPoolHistory:', 'color:cyan', {
-          changeReason: dataPoolHistoryRef.current.changeReason,
-          previousLength: dataPoolHistoryRef.current.previous.length,
-          currentLength: dataPoolHistoryRef.current.current.length,
-          filterKey: dataPoolHistoryRef.current.filterKey,
+        // 🚀 EXPERIMENTAL PATTERN - FOR CHANGE REASON DETERMINATION
+        const trigger: CHANGED = (() => {
+          if (!filterKey) return CHANGED.INIT;
+          if (!dataPoolRef.current) return CHANGED.INIT;
+          if (filterKey !== dataPoolRef.current.filterKey) return CHANGED.ROUTE;
+          return CHANGED.FILTERS;
+        })();
+
+        // 🚀 ENAHNCED FACTORY - better defaults
+        const createDataPoolState = (
+          trigger: CHANGED,
+          current: { filterKey: FilterKey; dataPool: OrderReadableModel[] },
+        ): DataPoolTrackingState => ({
+          filterKey: current.filterKey,
+          dataPool: current.dataPool,
+          previous: {
+            filterKey: dataPoolRef.current?.filterKey || current.filterKey,
+            dataPool: dataPoolRef.current?.dataPool,
+          },
+          trigger,
+          timestamp: Date.now(),
         });
+
+        // 🚀 USAGE - minimal and clean
+        dataPoolRef.current = createDataPoolState(trigger, { filterKey, dataPool });
+        // dataPoolRef.current = createDataPoolState(CHANGED.INIT, { filterKey, dataPool });
+        // dataPoolRef.current = createDataPoolState(CHANGED.ROUTE, { filterKey, dataPool });
+        // dataPoolRef.current = createDataPoolState(CHANGED.FILTERS, { filterKey, dataPool });
+
+        console.log('%c >> dataPoolRef:', 'color:hotpink', dataPoolRef.current);
       }
     },
-    [loaderData],
+    [dataPool, filterKey, loaderData],
   );
 
   // 🚨 DATA POOL PROXY: Create proxy dataPool that injects mock entries when needed
-  const { dataPoolProxy } = useDataPoolProxy({ dataPool });
+  const { dataPoolProxy } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
 
   // ======================================================================== //
   // ======================================================================== //
@@ -204,8 +132,6 @@ export const useRouteChangeHandler = () => {
           },
           {} as Record<string, string>,
         );
-
-        console.log('%c >> sessionServerFieldMap:', 'color:hotpink', sessionServerFieldMap, filterKey);
 
         // Handle route change
         if (!filterKey) {
