@@ -20,14 +20,14 @@ export const useRouteChangeHandler = () => {
   const { currentSessionId, sessions } = useSession();
   const { dataPool, filters } = useFilters();
   const { setFilters: setOrdersFilters } = useOrders();
-  const { filtersKey, loaderData, padsConfig } = useRouteConfig();
+  const { filterKey, loaderData, padsConfig } = useRouteConfig();
 
   // 🚨 DATA POOL PROXY: Create proxy dataPool that injects mock entries when needed
   const { dataPoolProxy } = useDataPoolProxy({ dataPool });
 
   // Track route changes to prevent unnecessary re-renders
   const lastRouteDataRef = useRef<{
-    filtersKey?: string;
+    filterKey?: string;
     loaderDataLength?: number;
     dataPoolLength?: number;
     sessionId?: string;
@@ -38,7 +38,7 @@ export const useRouteChangeHandler = () => {
   useEffect(
     function handleRouteChanges() {
       const currentRouteData = {
-        filtersKey: filtersKey || '',
+        filterKey: filterKey || '',
         loaderDataLength: loaderData?.length || 0,
         dataPoolLength: dataPool?.length || 0,
         sessionId: currentSessionId || '',
@@ -47,7 +47,7 @@ export const useRouteChangeHandler = () => {
 
       // Only trigger if route data actually changed
       const hasRouteChanged =
-        lastRouteDataRef.current.filtersKey !== currentRouteData.filtersKey ||
+        lastRouteDataRef.current.filterKey !== currentRouteData.filterKey ||
         lastRouteDataRef.current.loaderDataLength !== currentRouteData.loaderDataLength ||
         lastRouteDataRef.current.dataPoolLength !== currentRouteData.dataPoolLength ||
         lastRouteDataRef.current.sessionId !== currentRouteData.sessionId ||
@@ -71,7 +71,7 @@ export const useRouteChangeHandler = () => {
         );
 
         // Handle route change
-        if (!filtersKey) {
+        if (!filterKey) {
           handleRouteChange(undefined, [], {} as any, [], {});
           return;
         }
@@ -79,7 +79,7 @@ export const useRouteChangeHandler = () => {
         try {
           if (loaderData && padsConfig && dataPoolProxy) {
             handleRouteChange(
-              filtersKey,
+              filterKey,
               loaderData as DataEntry[],
               padsConfig,
               dataPoolProxy as DataEntry[] | OrderModel[] | OrderReadableModel[],
@@ -87,14 +87,14 @@ export const useRouteChangeHandler = () => {
               'es-ES' as RegionLocale,
             );
           } else {
-            handleRouteChange(filtersKey, [], {} as any, [], {});
+            handleRouteChange(filterKey, [], {} as any, [], {});
           }
         } catch (error) {
           console.error('useRouteChangeHandler: Error handling route change:', error);
         }
       }
     },
-    [filtersKey, loaderData, padsConfig, dataPoolProxy, currentSessionId, sessions],
+    [filterKey, loaderData, padsConfig, dataPoolProxy, currentSessionId, sessions],
   );
 
   // Sync filters from useFilters to OrdersContext / SlotsContext

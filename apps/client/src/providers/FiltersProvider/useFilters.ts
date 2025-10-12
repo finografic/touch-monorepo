@@ -21,7 +21,7 @@ interface UseFiltersReturn {
 
   // Filters state (from FiltersContext)
   filters: OrderFilters;
-  filtersKey: FilterKey;
+  filterKey: FilterKey;
   serverFieldMap: Record<string, string>;
 
   // Filter manipulation functions (from FiltersContext)
@@ -38,7 +38,7 @@ interface UseFiltersReturn {
  * This is the final hook that replaces useFiltersWithData and provides all filtering functionality
  */
 export const useFilters = (): UseFiltersReturn => {
-  const { filtersKey } = useRouteConfig();
+  const { filterKey } = useRouteConfig();
   const { ordersReadable } = useOrders();
   const { filters, setFilter, clearFilter, clearFilters } = useFiltersContext();
 
@@ -63,8 +63,8 @@ export const useFilters = (): UseFiltersReturn => {
 
     // For dataPool (for filter options), use only filters up to the current step
     let pool = safeDataForFilter;
-    if (filtersKey) {
-      const filtersBeforeCurrent = getFiltersByStep(filters, filtersKey, false);
+    if (filterKey) {
+      const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
       pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
     }
 
@@ -77,7 +77,7 @@ export const useFilters = (): UseFiltersReturn => {
       dataPool: pool as unknown as OrderReadableModel[],
       dataFiltered: filtered as unknown as OrderReadableModel[],
     };
-  }, [data, filters, filtersKey]);
+  }, [data, filters, filterKey]);
 
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {
@@ -96,7 +96,7 @@ export const useFilters = (): UseFiltersReturn => {
     data,
     dataPool,
     dataFiltered,
-    filtersKey,
+    filterKey,
     filters,
     serverFieldMap,
     setFilter,

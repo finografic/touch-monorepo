@@ -16,7 +16,7 @@ import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 // Required route config interface
 interface RequiredRouteConfig<T = DataEntry[]> {
   route: RouteConfig;
-  filtersKey: FilterKey;
+  filterKey: FilterKey;
   filterApiKey: FilterApiKey;
   loaderData: T;
   padsConfig: PadConfig<DataEntry>;
@@ -33,7 +33,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
 
   const routeConfig = useMemo(() => {
     let matchedConfig: RouteConfig | undefined;
-    let filtersKey: FilterKey | undefined;
+    let filterKey: FilterKey | undefined;
 
     // NOTE: Strategy 1 - get the most specific match (last)
     const currentMatch = matches[matches.length - 1];
@@ -46,7 +46,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
         matchedConfig = matchRouteById(routesMetadata, currentMatch.id);
       }
 
-      filtersKey = (matchedConfig?.id || currentMatch?.id) as FilterKey;
+      filterKey = (matchedConfig?.id || currentMatch?.id) as FilterKey;
     }
 
     // NOTE: Strategy 2 - find first match with FilterKey (fallback)
@@ -56,7 +56,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
       );
       if (routeMatch) {
         matchedConfig = matchRouteById(routesMetadata, routeMatch.id);
-        filtersKey = filtersKey || (routeMatch.id as FilterKey);
+        filterKey = filterKey || (routeMatch.id as FilterKey);
       }
     }
 
@@ -67,15 +67,15 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     if (routeConfig?.handle) {
       const { handle, ...configExpanded } = routeConfig;
       Object.assign(configExpanded, { ...handle });
-      return { route: configExpanded, filtersKey };
+      return { route: configExpanded, filterKey };
     }
 
-    return { route: routeConfig, filtersKey };
+    return { route: routeConfig, filterKey };
   }, [matches, routesMetadata, currentPathname, matchRoute, matchRouteById]);
 
   // Get language-aware pads configuration
   const padsConfig = useMemo(() => {
-    if (!routeConfig.filtersKey) return undefined;
+    if (!routeConfig.filterKey) return undefined;
 
     const currentRoute = routeConfig.route;
     const languageCode = currentLanguage.startsWith('es')
@@ -85,16 +85,16 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
         : 'en';
 
     const allPadsConfig = getPadsUIConfig(languageCode);
-    return allPadsConfig[routeConfig.filtersKey];
-  }, [routeConfig.filtersKey, currentLanguage, routeConfig.route]);
+    return allPadsConfig[routeConfig.filterKey];
+  }, [routeConfig.filterKey, currentLanguage, routeConfig.route]);
 
   // Call useRouteLoaderData at the top level (not inside useMemo!)
-  const loaderData = useRouteLoaderData(routeConfig.filtersKey || 'root') as T;
+  const loaderData = useRouteLoaderData(routeConfig.filterKey || 'root') as T;
 
   // Build the result with all required properties
   const result: RequiredRouteConfig<T> = {
     route: routeConfig.route || ({} as RouteConfig),
-    filtersKey: routeConfig.filtersKey || ('' as FilterKey),
+    filterKey: routeConfig.filterKey || ('' as FilterKey),
     filterApiKey: padsConfig?.filterApiKey || ('' as FilterApiKey),
     loaderData: loaderData || ([] as unknown as T),
     padsConfig: padsConfig || ({} as PadConfig<DataEntry>),

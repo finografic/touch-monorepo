@@ -14,8 +14,8 @@ export const FILTER_STEP_ORDER: FilterKey[] = [
 /**
  * Get the index of a filter step in the flow
  */
-export const getFilterStepIndex = (filtersKey: FilterKey): number => {
-  return FILTER_STEP_ORDER.indexOf(filtersKey);
+export const getFilterStepIndex = (filterKey: FilterKey): number => {
+  return FILTER_STEP_ORDER.indexOf(filterKey);
 };
 
 /**
@@ -24,7 +24,7 @@ export const getFilterStepIndex = (filtersKey: FilterKey): number => {
  */
 export const getFiltersToClearAhead = (currentFieldKey: FilterKey): FilterKey[] => {
   const currentIndex = getFilterStepIndex(currentFieldKey);
-  if (currentIndex === -1) return []; // Invalid filtersKey
+  if (currentIndex === -1) return []; // Invalid filterKey
 
   return FILTER_STEP_ORDER.slice(currentIndex + 1);
 };

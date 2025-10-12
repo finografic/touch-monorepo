@@ -9,7 +9,7 @@ import { SessionAndTimers } from 'dev-tools/data/SessionAndTimers/SessionAndTime
 
 export const DevPanelLeft = () => {
   const location = useLocation();
-  const { filtersKey, padsConfig } = useRouteConfig();
+  const { filterKey, padsConfig } = useRouteConfig();
   const { pads: padsSource } = useLayoutUi();
 
   if (['/temperature'].includes(location.pathname)) {
@@ -26,7 +26,7 @@ export const DevPanelLeft = () => {
 
   const devDataLeft = {
     pathname: location.pathname,
-    filtersKey,
+    filterKey,
     config: padsConfig,
     pads: transformPadData(padsSource),
   };

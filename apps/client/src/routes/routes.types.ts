@@ -16,7 +16,7 @@ export interface RouterContext {
 export interface RouteConfig extends Omit<RouteObject, 'element' | 'children'> {
   path?: string;
   id?: string;
-  filtersKey?: FilterKey;
+  filterKey?: FilterKey;
   title?: string;
   description?: string;
   buttons?: RouteButtonConfig;

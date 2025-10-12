@@ -7,7 +7,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { PAD_TYPE } from 'types/pads.types';
 
 export const PadCheckbox: React.FC<PadProps> = ({
-  filtersKey,
+  filterKey,
   className,
   children,
   onSelect,
@@ -35,9 +35,9 @@ export const PadCheckbox: React.FC<PadProps> = ({
       aria-checked={isChecked}
       onCheckedChange={() => {
         if (!disabled) {
-          togglePad(filtersKey, id, PAD_TYPE.CHECKBOX);
+          togglePad(filterKey, id, PAD_TYPE.CHECKBOX);
           onSelect?.({
-            filtersKey,
+            filterKey,
             pad: {
               id,
               label,

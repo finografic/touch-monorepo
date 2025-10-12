@@ -9,8 +9,8 @@ import { PAD_TYPE } from 'types/pads.types';
 interface PadGroupProps {
   type: PadType;
   pads: PadUI[];
-  onSelect?: ({ filtersKey, pad }: { filtersKey: FilterKey; pad: PadUI }) => void;
-  filtersKey: FilterKey;
+  onSelect?: ({ filterKey, pad }: { filterKey: FilterKey; pad: PadUI }) => void;
+  filterKey: FilterKey;
   className?: string;
   children?: React.ReactNode;
   [key: string]: any;
@@ -22,7 +22,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
   type,
   pads,
   onSelect,
-  filtersKey,
+  filterKey,
   className,
   children,
   ...rest
@@ -35,7 +35,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
       return (
         <RadioGroup.Root className={className} {...domProps}>
           {pads.map((pad) => (
-            <PadRadio key={pad.id} {...pad} filtersKey={filtersKey} onSelect={onSelect} />
+            <PadRadio key={pad.id} {...pad} filterKey={filterKey} onSelect={onSelect} />
           ))}
           {children}
         </RadioGroup.Root>
@@ -45,7 +45,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
       return (
         <CheckboxGroup.Root className={className} {...domProps}>
           {pads.map((pad) => (
-            <PadCheckbox key={pad.id} {...pad} filtersKey={filtersKey} onSelect={onSelect} />
+            <PadCheckbox key={pad.id} {...pad} filterKey={filterKey} onSelect={onSelect} />
           ))}
           {children}
         </CheckboxGroup.Root>
@@ -57,7 +57,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
         <div className={className} {...domProps}>
           {pads.map((pad) =>
             pad.type === 'button' ? (
-              <PadButton key={pad.id} {...pad} filtersKey={filtersKey} onSelect={onSelect} />
+              <PadButton key={pad.id} {...pad} filterKey={filterKey} onSelect={onSelect} />
             ) : null,
           )}
           {children}

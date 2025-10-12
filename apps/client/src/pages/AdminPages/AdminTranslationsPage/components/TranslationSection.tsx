@@ -61,8 +61,8 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
 
                   {/* Dynamic language fields */}
                   {supportedLanguages.map((language) => {
-                    const filtersKey = getLanguageFieldName(language.isoCode);
-                    const fieldPath = `${fieldName}.${index}.${filtersKey}`;
+                    const filterKey = getLanguageFieldName(language.isoCode);
+                    const fieldPath = `${fieldName}.${index}.${filterKey}`;
 
                     return (
                       <Box key={language.isoCode}>
@@ -74,9 +74,9 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
                           placeholder={t('ui.forms.placeholders.enterText')}
                           size="3"
                         />
-                        {errors?.[index]?.[filtersKey] && (
+                        {errors?.[index]?.[filterKey] && (
                           <Text size="1" color="red" mt="1">
-                            {errors[index][filtersKey].message}
+                            {errors[index][filterKey].message}
                           </Text>
                         )}
                       </Box>

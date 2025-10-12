@@ -33,10 +33,10 @@ export const useDataPoolProxy = ({
   dataPool: OrderReadableModel[];
 }): { dataPoolProxy: OrderReadableModel[] } => {
   const { filters } = useFiltersContext();
-  const { dataFiltered, filtersKey } = useFilters();
+  const { dataFiltered, filterKey } = useFilters();
 
   // Default: return original data (real data from db)
-  console.log('%c🚨>> filterApiKey:', 'color:cyan', filtersKey);
+  console.log('%c🚨>> filterApiKey:', 'color:cyan', filterKey);
 
   const dataPoolProxy = useMemo((): OrderReadableModel[] => {
     // Edge case: If user clicks NEXT with current selection, next page will be EMPTY

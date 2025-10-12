@@ -18,7 +18,7 @@ export const SETTER_PREFIX = 'Ui';
 
 export enum LayoutUiKeys {
   numItems = 'numItems',
-  filtersKey = 'filtersKey',
+  filterKey = 'filterKey',
   numPads = 'numPads',
   pads = 'pads',
   padsFiltered = 'padsFiltered',
@@ -28,7 +28,7 @@ export enum LayoutUiKeys {
 
 export const defaultValue: LayoutUiValues = {
   numItems: NUM_GRID_ITEMS,
-  filtersKey: undefined,
+  filterKey: undefined,
   numPads: 0,
   pads: [],
   padsFiltered: [],
@@ -44,38 +44,38 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
-          initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, filtersKey: FilterKey) => {
+          initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, filterKey: FilterKey) => {
             const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
             // Note: We'll need to get currentLanguage from context in the component that calls this
             const { pads, numPads } = parsePadConfig({
               data,
               config: padsConfig,
-              filtersKey,
+              filterKey,
               currentLanguage: 'es-ES',
             });
-            set({ pads, numPads, filtersKey });
+            set({ pads, numPads, filterKey });
           },
-          updatePadState: (filtersKey: FilterKey, updater: (pads: PadUI[]) => PadUI[]) => {
+          updatePadState: (filterKey: FilterKey, updater: (pads: PadUI[]) => PadUI[]) => {
             const currentPads = get().pads;
             if (!currentPads?.length) return;
 
             // Split pads into current field and other fields
-            const currentFieldPads = currentPads.filter((pad) => pad.name === filtersKey);
+            const currentFieldPads = currentPads.filter((pad) => pad.name === filterKey);
             const updatedFieldPads = updater(currentFieldPads);
 
             // Reconstruct the full pad array maintaining original order
             const updatedPads = currentPads.map((pad) => {
-              if (pad.name !== filtersKey) return pad;
+              if (pad.name !== filterKey) return pad;
               const updatedPad = updatedFieldPads.find((p) => p.id === pad.id);
               return updatedPad || pad;
             });
 
             set({ pads: updatedPads });
           },
-          togglePad: (filtersKey: FilterKey, clickedId: string, type: PadType) => {
+          togglePad: (filterKey: FilterKey, clickedId: string, type: PadType) => {
             set((state) => {
               const pads = state.pads.map((pad) => {
-                if (pad.name !== filtersKey) return pad;
+                if (pad.name !== filterKey) return pad;
                 if (type === 'radio') {
                   return { ...pad, isChecked: pad.id === clickedId };
                 }
@@ -88,15 +88,15 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             });
           },
           handleRouteChange: (
-            filtersKey: FilterKey | undefined,
+            filterKey: FilterKey | undefined,
             loaderData: DataEntry[],
             padsConfig: PadConfig,
             dataPool: DataEntry[] | OrderModel[] | OrderReadableModel[],
             serverFieldMap: Record<string, string>,
             currentLanguage: RegionLocale = 'es-ES',
           ) => {
-            if (!filtersKey) {
-              set({ pads: [], numPads: 0, filtersKey: undefined });
+            if (!filterKey) {
+              set({ pads: [], numPads: 0, filterKey: undefined });
               return;
             }
 
@@ -125,13 +125,13 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
                   ...padsConfig,
                   initChecked: (pad: PadUI) => serverFieldMap[pad.name] === pad.value.name,
                 },
-                filtersKey,
+                filterKey,
                 currentLanguage,
               });
 
-              set({ pads, numPads, filtersKey });
+              set({ pads, numPads, filterKey });
             } else {
-              set({ pads: [], numPads: 0, filtersKey });
+              set({ pads: [], numPads: 0, filterKey });
             }
           },
           // MainPage selection actions

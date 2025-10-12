@@ -21,7 +21,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const { matchRoute, currentPathname } = useRouteMatching();
   const { t } = useTranslation();
 
-  // console.log('%c loop? 1', 'color:grey', filtersKey);
+  // console.log('%c loop? 1', 'color:grey', filterKey);
 
   // Get actions from both specialized hooks
   const { handleNavigateBack, handleNavigateNext, getNavigationDisabled, isNavigationPending } =

@@ -17,7 +17,7 @@ import { isFilterFlowKey, isNavigationFieldKey } from 'utils/fieldKey.utils';
 
 export const GenericSelectPage = () => {
   const { t } = useTranslation();
-  const { filtersKey, padsConfig } = useRouteConfig();
+  const { filterKey, padsConfig } = useRouteConfig();
   const { pads } = useLayoutUi();
   const { orders, setOrdersFilter } = useOrders();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
@@ -26,7 +26,7 @@ export const GenericSelectPage = () => {
   // Use consolidated pagination logic
   usePaginationLogic();
 
-  const handleFilterSelection = (filtersKey: FilterKey, pad: PadUI) => {
+  const handleFilterSelection = (filterKey: FilterKey, pad: PadUI) => {
     // Get current session's orders
     const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
 
@@ -37,7 +37,7 @@ export const GenericSelectPage = () => {
       const { temperatureProfileId, ...filterValue } = pad.value;
 
       // Clear filters for steps ahead when making a new selection
-      const filtersToClearAhead = getFiltersToClearAhead(filtersKey);
+      const filtersToClearAhead = getFiltersToClearAhead(filterKey);
       filtersToClearAhead.forEach(clearFilter);
 
       // Remove filters for steps ahead from session filters too
@@ -48,16 +48,16 @@ export const GenericSelectPage = () => {
 
       const newFilters = {
         ...sessionFiltersWithoutAhead,
-        [filtersKey]: filterValue,
+        [filterKey]: filterValue,
       };
       updateSessionFilters(currentSessionId, newFilters);
-      // Update FiltersContext for the current filtersKey
-      setFilter(filtersKey, filterValue);
+      // Update FiltersContext for the current filterKey
+      setFilter(filterKey, filterValue);
     } else {
-      const { [filtersKey]: _removed, ...rest } = currentSessionFilters;
+      const { [filterKey]: _removed, ...rest } = currentSessionFilters;
       updateSessionFilters(currentSessionId, rest);
-      // Clear filter from FiltersContext for the current filtersKey
-      clearFilter(filtersKey);
+      // Clear filter from FiltersContext for the current filterKey
+      clearFilter(filterKey);
     }
 
     // Also update individual orders for backward compatibility
@@ -65,16 +65,16 @@ export const GenericSelectPage = () => {
       const currentFilters = order.filters || {};
 
       if (pad.isChecked) {
-        if (currentFilters[filtersKey] !== pad.id) {
+        if (currentFilters[filterKey] !== pad.id) {
           const { temperatureProfileId, ...filterValue } = pad.value;
           setOrdersFilter({
             slotNumber: order.slotNumber,
-            filter: { ...currentFilters, [filtersKey]: filterValue },
+            filter: { ...currentFilters, [filterKey]: filterValue },
           });
         }
       } else {
-        if (filtersKey in currentFilters) {
-          const { [filtersKey]: _removed, ...rest } = currentFilters;
+        if (filterKey in currentFilters) {
+          const { [filterKey]: _removed, ...rest } = currentFilters;
           setOrdersFilter({
             slotNumber: order.slotNumber,
             filter: rest,
@@ -84,20 +84,20 @@ export const GenericSelectPage = () => {
     }
   };
 
-  const handleNavigationSelection = (filtersKey: NavigationFieldKey, pad: PadUI) => {
+  const handleNavigationSelection = (filterKey: NavigationFieldKey, pad: PadUI) => {
     // Handle navigation field key logic (e.g., main page slot selection)
     // This is where you would implement the logic for the main page
-    console.log(`Navigation selection for ${filtersKey}:`, pad);
+    console.log(`Navigation selection for ${filterKey}:`, pad);
   };
 
   const handleSelect = ({ pad }: { pad: PadUI }) => {
     if (!orders?.length || !currentSessionId) return;
 
     // Use type guards to handle different field key types
-    if (isFilterFlowKey(filtersKey)) {
-      handleFilterSelection(filtersKey, pad);
-    } else if (isNavigationFieldKey(filtersKey)) {
-      handleNavigationSelection(filtersKey, pad);
+    if (isFilterFlowKey(filterKey)) {
+      handleFilterSelection(filterKey, pad);
+    } else if (isNavigationFieldKey(filterKey)) {
+      handleNavigationSelection(filterKey, pad);
     }
   };
 
@@ -113,7 +113,7 @@ export const GenericSelectPage = () => {
         type={padType}
         pads={pads}
         onSelect={handleSelect}
-        filtersKey={filtersKey}
+        filterKey={filterKey}
         className={getGridFlowClasses(pads.length)}
       />
     </section>
