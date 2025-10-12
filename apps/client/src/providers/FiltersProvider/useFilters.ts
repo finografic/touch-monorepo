@@ -34,7 +34,7 @@ interface UseFiltersReturn {
  * This is the final hook that replaces useFiltersWithData and provides all filtering functionality
  */
 export const useFilters = (): UseFiltersReturn => {
-  const { filterKey, filterApiKey } = useRouteConfig();
+  const { filterKey, filterApiKey, loaderData } = useRouteConfig();
   const { ordersReadable } = useOrders();
   const { filters, setFilter, clearFilter, clearFilters } = useFiltersContext();
 
@@ -52,13 +52,33 @@ export const useFilters = (): UseFiltersReturn => {
 
   // Client-side filtering with orders_readable data using dedicated utility
   const { dataPool, dataFiltered } = useMemo(() => {
+    // 🚨 GUARD: Only filter when loaderData is ready (non-empty dataset)
+    if (!Array.isArray(loaderData)) {
+      console.log('%c🚨 useFilters: loaderData not ready, returning empty arrays', 'color:orange', {
+        filterKey,
+        loaderDataType: typeof loaderData,
+        loaderDataIsArray: Array.isArray(loaderData),
+      });
+      return {
+        dataPool: [],
+        dataFiltered: [],
+      };
+    }
+
+    // console.log('%c🚨 useFilters: loaderData ready, filtering data', 'color:lime', {
+    //   filterKey,
+    //   loaderDataLength: loaderData.length,
+    //   dataLength: data.length,
+    //   filtersCount: Object.keys(filters).length,
+    // });
+
     return filterData({
       data,
       filters,
       filterKey: filterKey || ('' as FilterKey),
       applyContainerTypeFix: true,
     });
-  }, [data, filters, filterKey]);
+  }, [data, filters, filterKey, loaderData]);
 
   // ======================================================================== //
 

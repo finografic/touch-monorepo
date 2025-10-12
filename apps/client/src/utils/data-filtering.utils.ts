@@ -59,6 +59,14 @@ export const filterData = (config: FilteringConfig): FilteringResults => {
     filtered = filtered.length > 0 ? [filtered[0]] : [];
   }
 
+  console.log('%c🚨 useFilters: loaderData ready, filtering data', 'color:lime', {
+    filterKey,
+    loaderDataLength: data.length,
+    poolLength: pool.length,
+    filteredLength: filtered.length,
+    filtersCount: Object.keys(filters).length,
+  });
+
   return {
     dataPool: pool as unknown as OrderReadableModel[],
     dataFiltered: filtered as unknown as OrderReadableModel[],

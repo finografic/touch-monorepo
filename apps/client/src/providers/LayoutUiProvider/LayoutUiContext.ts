@@ -107,6 +107,8 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
                 | OrderReadableModel
               );
 
+              // 🚨 FIX: Use dataPool to determine visible options, but don't filter loaderData
+              // This ensures UI shows all options from dataPool, not just filtered loaderData
               const visiblePadNames = [
                 ...new Set(
                   dataPool
@@ -115,9 +117,17 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
                 ),
               ];
 
-              const filteredLoaderData = (Array.isArray(loaderData) ? loaderData : [loaderData]).filter(
-                (padData) => visiblePadNames.includes(padData.name),
-              );
+              console.log('%c🚨 LayoutUiContext: handleRouteChange', 'color:yellow', {
+                filterKey,
+                dataPoolLength: dataPool.length,
+                loaderDataLength: loaderData.length,
+                visiblePadNames,
+                filterApiKey,
+              });
+
+              // 🚨 CRITICAL: Use ALL loaderData, not filtered by visiblePadNames
+              // The dataPool already contains the correct filtered data for UI options
+              const filteredLoaderData = Array.isArray(loaderData) ? loaderData : [loaderData];
 
               const { pads, numPads } = parsePadConfig({
                 data: filteredLoaderData,
