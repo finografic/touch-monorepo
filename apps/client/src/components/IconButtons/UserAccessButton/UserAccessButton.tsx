@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import clsx from 'clsx';
 import { UserCircleIcon, UserLockIcon } from 'styles/icons';
-import { styles } from './LoginButton.styles';
+import { styles } from './UserAccessButton.styles';
 import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/AuthLoginSimpleDialog';
 import { useCallback, useState } from 'react';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
@@ -61,22 +61,14 @@ export const LoginButton: FC<LoginButtonProps> = ({ onLoginSuccess, onLogoutSucc
   }, [isAuthenticated, handleLogout]);
 
   return (
-    <>
-      <button
-        css={styles}
-        className={clsx('button', 'button-auth', isAuthenticated ? 'logged-in' : 'logged-out')}
-        onClick={handleClick}
-        aria-label={isAuthenticated ? 'Log out' : 'Log in'}
-        title={isAuthenticated ? 'Log out' : 'Log in'}
-      >
-        {isAuthenticated ? <UserLockIcon /> : <UserCircleIcon />}
-      </button>
-      <AuthLoginSimpleDialog
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        onSuccess={handleLoginSuccess}
-        onError={handleLoginError}
-      />
-    </>
+    <button
+      css={styles}
+      className={clsx('button', 'button-auth', isAuthenticated ? 'logged-in' : 'logged-out')}
+      onClick={handleClick}
+      aria-label={isAuthenticated ? 'Log out' : 'Log in'}
+      title={isAuthenticated ? 'Log out' : 'Log in'}
+    >
+      {isAuthenticated ? <UserLockIcon /> : <UserCircleIcon />}
+    </button>
   );
 };
