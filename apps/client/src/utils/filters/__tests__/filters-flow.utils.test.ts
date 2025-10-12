@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { getFilterStepIndex, getFiltersToClearAhead, FILTER_STEP_ORDER } from '../filters-flow.utils';
+import { FILTER_STEP_ORDER, getFilterStepIndex, getFiltersToClearAhead } from '../filters-flow.utils';
 import type { FilterKey } from 'types/orders.types';
 
 describe('filters-flow.utils', () => {
@@ -7,7 +7,7 @@ describe('filters-flow.utils', () => {
     it('should have the correct filter step order', () => {
       expect(FILTER_STEP_ORDER).toEqual([
         'drinkType',
-        'drinkSubtype', 
+        'drinkSubtype',
         'drinkVolume',
         'containerType',
         'temperature',
@@ -68,7 +68,7 @@ describe('filters-flow.utils', () => {
     it('should handle edge cases correctly', () => {
       // Test with empty string
       expect(getFiltersToClearAhead('' as FilterKey)).toEqual([]);
-      
+
       // Test with undefined (if somehow passed)
       expect(getFiltersToClearAhead(undefined as any)).toEqual([]);
     });
@@ -79,11 +79,9 @@ describe('filters-flow.utils', () => {
       // Scenario: User changes from "Vino" to "Agua" (drinkType change)
       const clearedFilters = getFiltersToClearAhead('drinkType');
       expect(clearedFilters).toEqual(['drinkSubtype', 'drinkVolume', 'containerType', 'temperature']);
-      
+
       // After clearing, only mode and drinkType should remain
-      const remainingFilters = FILTER_STEP_ORDER.filter(
-        (filter) => !clearedFilters.includes(filter)
-      );
+      const remainingFilters = FILTER_STEP_ORDER.filter((filter) => !clearedFilters.includes(filter));
       expect(remainingFilters).toEqual(['drinkType']);
     });
 
@@ -91,11 +89,9 @@ describe('filters-flow.utils', () => {
       // Scenario: User changes from "75cl" to "1.25L" (drinkVolume change)
       const clearedFilters = getFiltersToClearAhead('drinkVolume');
       expect(clearedFilters).toEqual(['containerType', 'temperature']);
-      
+
       // After clearing, mode, drinkType, drinkSubtype, drinkVolume should remain
-      const remainingFilters = FILTER_STEP_ORDER.filter(
-        (filter) => !clearedFilters.includes(filter)
-      );
+      const remainingFilters = FILTER_STEP_ORDER.filter((filter) => !clearedFilters.includes(filter));
       expect(remainingFilters).toEqual(['drinkType', 'drinkSubtype', 'drinkVolume']);
     });
 
@@ -103,11 +99,9 @@ describe('filters-flow.utils', () => {
       // Scenario: User changes from "Vidrio" to "Plástico" (containerType change)
       const clearedFilters = getFiltersToClearAhead('containerType');
       expect(clearedFilters).toEqual(['temperature']);
-      
+
       // After clearing, all filters except temperature should remain
-      const remainingFilters = FILTER_STEP_ORDER.filter(
-        (filter) => !clearedFilters.includes(filter)
-      );
+      const remainingFilters = FILTER_STEP_ORDER.filter((filter) => !clearedFilters.includes(filter));
       expect(remainingFilters).toEqual(['drinkType', 'drinkSubtype', 'drinkVolume', 'containerType']);
     });
   });
@@ -116,15 +110,15 @@ describe('filters-flow.utils', () => {
     it('should handle large filter arrays efficiently', () => {
       // Test that the function works correctly with the current filter order
       const startTime = performance.now();
-      
+
       // Run the function multiple times
       for (let i = 0; i < 1000; i++) {
         getFiltersToClearAhead('drinkVolume');
       }
-      
+
       const endTime = performance.now();
       const executionTime = endTime - startTime;
-      
+
       // Should complete in reasonable time (less than 100ms for 1000 iterations)
       expect(executionTime).toBeLessThan(100);
     });
@@ -134,7 +128,7 @@ describe('filters-flow.utils', () => {
       const result1 = getFiltersToClearAhead('drinkType');
       const result2 = getFiltersToClearAhead('drinkType');
       const result3 = getFiltersToClearAhead('drinkType');
-      
+
       expect(result1).toEqual(result2);
       expect(result2).toEqual(result3);
       expect(result1).toEqual(['drinkSubtype', 'drinkVolume', 'containerType', 'temperature']);

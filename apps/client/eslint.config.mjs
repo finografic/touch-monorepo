@@ -40,5 +40,6 @@ export default fino({
     ],
     'jsdoc/check-alignment': OFF,
     'prefer-arrow-callback': OFF,
+    'test/prefer-lowercase-title': OFF,
   },
 });
