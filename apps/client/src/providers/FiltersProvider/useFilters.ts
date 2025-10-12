@@ -2,12 +2,8 @@ import { useMemo } from 'react';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import {
-  getFiltersByStep,
-  getOrderedFilters,
-  getUniqueFilterValues,
-  matchesFilters,
-} from 'utils/filters.utils';
+import { getUniqueFilterValues } from 'utils/filters.utils';
+import { filterData } from 'utils/data-filtering.utils';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFilters } from 'types/filters.types';
@@ -46,39 +42,22 @@ export const useFilters = (): UseFiltersReturn => {
   const data: OrderReadableModel[] = ordersReadable;
 
   // Get unique values for each filter key
-  // SAFEGUARD: ensure data is assignable to DataEntry[]
+  // SAFEGUARD: ensure
+  //
+  // ata is assignable to DataEntry[]
   const safeData: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
   const uniqueValues = useMemo(() => getUniqueFilterValues(safeData), [safeData]);
 
   // ======================================================================== //
 
-  // Client-side filtering with orders_readable data
+  // Client-side filtering with orders_readable data using dedicated utility
   const { dataPool, dataFiltered } = useMemo(() => {
-    // SAFEGUARD: ensure data is assignable to DataEntry[] for matchesFilters
-    const safeDataForFilter: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
-
-    // For dataFiltered, use ALL filters in ordered format (mode first)
-    const allFilters = getOrderedFilters(filters);
-    let filtered = safeDataForFilter.filter((entry) =>
-      matchesFilters(entry, allFilters),
-    ) as unknown as OrderReadableModel[];
-
-    // For dataPool (for filter options), use only filters up to the current step
-    let pool = safeDataForFilter;
-    if (filterKey) {
-      const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
-      pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
-    }
-
-    // TEMP FIX: If containerType filter is present, only return the first entry
-    if (filters.containerType) {
-      filtered = filtered.length > 0 ? [filtered[0]] : [];
-    }
-
-    return {
-      dataPool: pool as unknown as OrderReadableModel[],
-      dataFiltered: filtered as unknown as OrderReadableModel[],
-    };
+    return filterData({
+      data,
+      filters,
+      filterKey: filterKey || ('' as FilterKey),
+      applyContainerTypeFix: true,
+    });
   }, [data, filters, filterKey]);
 
   // ======================================================================== //
