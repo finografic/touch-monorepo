@@ -197,19 +197,3 @@ export const useOrders = (): OrdersReturn => {
     })),
   );
 };
-
-// Optional version that returns null when OrdersProvider is not available
-export const useOrdersOptional = (): OrdersReturn | null => {
-  const store = OrdersContext.useContext();
-  if (!store) {
-    return null;
-  }
-
-  return useStore<StoreApi<OrdersStore>, OrdersReturn>(
-    store,
-    useShallow(({ actions, ...state }) => ({
-      ...state,
-      ...actions,
-    })),
-  );
-};

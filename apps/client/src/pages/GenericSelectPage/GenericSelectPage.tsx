@@ -30,6 +30,8 @@ export const GenericSelectPage = () => {
     // Get current session's orders
     const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
 
+    console.log('%c >> sessionOrders:', 'color:cyan', orders);
+
     // Update session filters
     const currentSessionFilters = sessions[currentSessionId]?.filters || {};
 

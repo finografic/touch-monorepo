@@ -41,12 +41,14 @@ export const useDataPoolProxy = ({
   if (filterKey !== refFilterKey.current) {
     console.log('%c >> filterKey:', 'color:red', refFilterKey.current);
     if (filterKey in filters) {
-      const TEST = {} as OrderFilters;
-      for (const [key, filter] of Object.entries(filters)) {
-        if (key === filterKey) continue;
-        Object.assign(TEST, { [key]: filter });
-      }
-      console.log('%c >> filter:', 'color:blue', TEST);
+      const { [filterKey]: excluded, ...TEST } = filters;
+      // console.log('%c >> filter:', 'color:blue', TEST);
+      // const TEST = {} as OrderFilters;
+      // for (const [key, filter] of Object.entries(filters)) {
+      //   if (key === filterKey) continue;
+      //   Object.assign(TEST, { [key]: filter });
+      // }
+      console.log('%c >> filter:', 'color:blue', TEST, dataFiltered);
     }
     refFilterKey.current = filterKey;
   }

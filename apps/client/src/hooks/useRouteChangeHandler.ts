@@ -70,6 +70,8 @@ export const useRouteChangeHandler = () => {
           {} as Record<string, string>,
         );
 
+        console.log('%c >> sessionServerFieldMap:', 'color:hotpink', sessionServerFieldMap, filterKey);
+
         // Handle route change
         if (!filterKey) {
           handleRouteChange(undefined, [], {} as any, [], {});

@@ -7,7 +7,6 @@ import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
 import { MockOrdersButton } from '../mocks/MockOrdersButton/MockOrdersButton';
 import { MockTimersMin } from '../mocks/MockTimersMin/MockTimersMin';
 import { MockSessionTimer } from '../mocks/MockSessionTimer/MockSessionTimer';
-import { useOrdersOptional } from 'providers/OrdersProvider/OrdersContext';
 import { useTimers } from 'providers/TimersProvider';
 // import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { AuthStatusDialog } from 'components/Dialog/dialogs/AuthStatusDialog';

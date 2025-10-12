@@ -1,4 +1,4 @@
-import { useOrdersOptional } from 'providers/OrdersProvider';
+import { useOrders } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
@@ -11,7 +11,7 @@ import { FLOW_TYPES } from 'types/flow.types';
 
 export const MockOrdersButton = () => {
   const navigate = useNavigate();
-  const ordersContext = useOrdersOptional();
+  const ordersContext = useOrders();
   const { createSession, assignOrdersToSession, updateSessionFilters } = useSession();
   const { setPageCurrent } = usePagination();
   const { setFilter } = useFiltersContext();
@@ -20,7 +20,7 @@ export const MockOrdersButton = () => {
     if (!ordersContext?.setOrders) return;
 
     // Create session and extract mock data
-    const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT, { mode: mockFilters.mode });
+    const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
 
     // 🎯 NEW APPROACH: Use FiltersContext instead of individual order filters
     const mockFilters = MOCK_ORDERS_DATA[0].filters;
