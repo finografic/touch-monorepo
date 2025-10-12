@@ -1,12 +1,13 @@
 import React from 'react';
 import { ThemeToggle } from 'components/IconButtons/ThemeToggle';
 import { LoginButton } from 'components/IconButtons/LoginButton';
-import { LanguageIcon } from 'styles/icons';
+import { HomeIcon, LanguageIcon, ShieldCheckIcon } from 'styles/icons';
 import { useAdmin } from 'providers/AdminProvider';
 import { Flex } from '@radix-ui/themes';
 import { styles } from './UserToolbar.styles';
 import type { Theme } from 'types/ui.types';
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface UserToolbarProps {
   onLogoutSuccess?: () => void;
@@ -15,6 +16,8 @@ interface UserToolbarProps {
 export const UserToolbar: React.FC<UserToolbarProps> = ({ onLogoutSuccess }) => {
   const { theme } = useAppConfig();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   return (
     <div css={styles} className={`theme-${theme}`}>
@@ -25,6 +28,11 @@ export const UserToolbar: React.FC<UserToolbarProps> = ({ onLogoutSuccess }) => 
             onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}
           >
             <LanguageIcon />
+          </button>
+        </div>
+        <div className="button-box">
+          <button className="button button-dialog" onClick={() => navigate('/admin')}>
+            {location.pathname.startsWith('/admin') ? <HomeIcon /> : <ShieldCheckIcon />}
           </button>
         </div>
         <div className="button-box">

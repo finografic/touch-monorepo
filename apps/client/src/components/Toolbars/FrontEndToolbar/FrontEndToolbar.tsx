@@ -2,13 +2,12 @@ import React from 'react';
 import { Box, Flex } from '@radix-ui/themes';
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
-import { DialogIcon, ShieldCheckIcon, TimerIcon } from 'styles/icons';
-// ADMIN_PATHS deprecated: navigate directly to '/admin' from single source map
+import { DialogIcon, TimerIcon } from 'styles/icons';
 import { useNavigate } from 'react-router-dom';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
 import { useDev } from 'dev-tools/providers/DevProvider';
-import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
+// import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
 import { useStorageTimer } from 'providers/TimersProvider';
 import type { Theme } from 'types/ui.types';
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -37,13 +36,6 @@ export const FrontEndToolbar: React.FC = () => {
     <>
       <div css={styles} className={`theme-${theme}`}>
         <Flex gap="3" align="center">
-          {/* Admin button - navigate to admin */}
-          <div className="button-box">
-            <button className="button button-dialog" onClick={() => navigate('/admin')}>
-              <ShieldCheckIcon />
-            </button>
-          </div>
-
           {/* Language selector */}
           <div className="button-box">
             <button className="button" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
@@ -51,7 +43,7 @@ export const FrontEndToolbar: React.FC = () => {
             </button>
           </div>
 
-          {/* Admin Tools Dialog */}
+          {/* Tools Dialog  */}
           {/* <div className="button-box">
             <button className="button" onClick={() => setIsAdminToolsDialogOpen(!isAdminToolsDialogOpen)}>
               <WindowIcon />

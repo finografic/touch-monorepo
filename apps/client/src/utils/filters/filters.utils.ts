@@ -181,16 +181,18 @@ export const filterData = (config: FilteringConfig): FilteringResults => {
   ) as unknown as OrderReadableModel[];
 
   // 🚨 TEMPORARILY DISABLED: For dataPool (for filter options), use only filters up to the current step
-  // let pool = safeDataForFilter;
-  // if (filterKey) {
-  //   const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
-  //   pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
-  // }
 
-  // 🚨 TEMPORARY: Show ALL options regardless of filters
   let pool = safeDataForFilter;
 
-  // TEMP FIX: If containerType filter is present, only return the first entry
+  // ======================================================================== //
+  // TODO: TEMPORARILY DISABLED: 🚨 TEMPORARY: Show ALL options regardless of filters
+  if (filterKey) {
+    const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
+    pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
+  }
+  // ======================================================================== //
+
+  // FIX: If containerType filter is present, only return the first entry
   if (applyContainerTypeFix && filters.containerType) {
     filtered = filtered.length > 0 ? [filtered[0]] : [];
   }
