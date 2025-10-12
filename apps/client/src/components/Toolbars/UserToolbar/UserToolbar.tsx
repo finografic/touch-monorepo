@@ -31,9 +31,15 @@ export const UserToolbar: React.FC<UserToolbarProps> = ({ onLogoutSuccess }) => 
           </button>
         </div>
         <div className="button-box">
-          <button className="button button-dialog" onClick={() => navigate('/admin')}>
-            {location.pathname.startsWith('/admin') ? <HomeIcon /> : <ShieldCheckIcon />}
-          </button>
+          {location.pathname.startsWith('/admin') ? (
+            <button className="button button-dialog" onClick={() => navigate('/')}>
+              <HomeIcon />
+            </button>
+          ) : (
+            <button className="button button-dialog" onClick={() => navigate('/admin')}>
+              <ShieldCheckIcon />
+            </button>
+          )}
         </div>
         <div className="button-box">
           <LoginButton onLogoutSuccess={onLogoutSuccess} />

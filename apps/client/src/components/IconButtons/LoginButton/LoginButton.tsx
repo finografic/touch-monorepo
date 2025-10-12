@@ -11,21 +11,22 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { PATHS } from 'config/routes/paths.constants';
 
 interface LoginButtonProps {
-  onLogoutSuccess: () => void;
+  onLoginSuccess?: () => void;
+  onLogoutSuccess?: () => void;
 }
 
-export const LoginButton: FC<LoginButtonProps> = ({ onLogoutSuccess }) => {
+export const LoginButton: FC<LoginButtonProps> = ({ onLoginSuccess, onLogoutSuccess }) => {
   const { user, isAuthenticated, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
   const location = useLocation();
-  const isAdminLocation = location.pathname.startsWith('/admin');
   const [isOpen, setIsOpen] = useState(false);
+
+  const isAdminLocation = location.pathname.startsWith('/admin');
+  const targetPath = isAdminLocation ? '/admin' : PATHS.main;
 
   console.log('🔍 USER:', user);
   console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
-
-  const targetPath = isAdminLocation ? '/admin' : PATHS.main;
 
   const handleLogout = useCallback(async () => {
     try {
@@ -35,7 +36,7 @@ export const LoginButton: FC<LoginButtonProps> = ({ onLogoutSuccess }) => {
       });
     } finally {
       if (!isAdminLocation) {
-        onLogoutSuccess();
+        onLogoutSuccess?.();
       }
       navigate(targetPath);
     }
@@ -52,6 +53,7 @@ export const LoginButton: FC<LoginButtonProps> = ({ onLogoutSuccess }) => {
   const handleLoginSuccess = () => {
     setIsOpen(false);
     toast({ variant: 'success', message: 'Successfully logged in' });
+    onLoginSuccess?.();
   };
 
   const handleLoginError = (error: string) => {
