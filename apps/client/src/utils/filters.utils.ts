@@ -83,6 +83,10 @@ export const matchesFilters = (entry: DataEntry, activeFilters: [string, any][])
     // The entry now has direct name values (e.g., entry.drinkType = "cerveza")
     // and the filter value has a name property (e.g., value.name = "cerveza")
     switch (key as FilterKey) {
+      // case ROUTE_FILTER_KEYS.main:
+      //   return entry.main === value.name;
+      case ROUTE_FILTER_KEYS.mode:
+        return entry.mode === value.name;
       case ROUTE_FILTER_KEYS.drinkType:
         return entry.drinkType === value.name;
       case ROUTE_FILTER_KEYS.drinkSubtype:

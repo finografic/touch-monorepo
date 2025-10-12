@@ -1,9 +1,11 @@
-import { useMemo } from 'react';
+import { useMemo, useRef } from 'react';
 import { useFiltersContext } from 'providers/FiltersProvider/FiltersContext';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { OrderFilters } from 'types/filters.types';
 import type { FilterKey } from 'types/orders.types';
+import { getFiltersByStep, matchesFilters } from 'utils/filters.utils';
+import type { DataEntry } from 'types/data.types';
 
 // TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterApiKey: containterType..
 // import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
@@ -33,14 +35,37 @@ export const useDataPoolProxy = ({
   dataPool: OrderReadableModel[];
 }): { dataPoolProxy: OrderReadableModel[] } => {
   const { filters } = useFiltersContext();
-  const { dataFiltered, filterKey } = useFilters();
+  const { data, dataFiltered, filterKey } = useFilters();
+  // const refFilterKey = useRef(null as FilterKey | null);
+  const refFilterKey = useRef(filterKey);
 
-  // Default: return original data (real data from db)
-  // console.log('%c🚨>> filterKey:', 'color:cyan', filterKey);
+  if (filterKey !== refFilterKey.current) {
+    // Default: return original data (real data from db)
+    console.log('%c >> filterKey:', 'color:red', refFilterKey.current);
 
-  if (filterKey in filters) {
-    console.log('%c🚨>> dataFiltered:', 'color:grey', dataPool);
-    console.log('%c🚨>> filterKey in filters:', 'color:lime', filterKey);
+    if (filterKey in filters) {
+      // console.log('%c >> dataFiltered:', 'color:grey', filtersBeforeCurrent);
+      // console.log('%c >> filterKey IN filters:', 'color:lime', filterKey);
+      console.log('%c >> filterKey IN filters:', 'color:lime', dataFiltered);
+      const safeDataForFilter: OrderReadableModel[] = Array.isArray(data)
+        ? (data as unknown as OrderReadableModel[])
+        : [];
+
+      const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
+      const TEST = safeDataForFilter.filter((entry) =>
+        matchesFilters(entry as unknown as DataEntry, filtersBeforeCurrent),
+      ) as OrderReadableModel[];
+      refFilterKey.current = filterKey;
+
+      console.log('%c >> filterKey IN filters:', 'color:blue', TEST);
+      return { dataPoolProxy: TEST };
+    }
+    refFilterKey.current = filterKey;
+
+    // Default: return original data (real data from db)
+    // console.log('%c >> filterKey:', 'color:lime', refFilterKey.current);
+    // console.log('%c >> dataFiltered:', 'color:grey', filtersBeforeCurrent);
+    // console.log('%c >> filterKey in filters:', 'color:lime', filterKey);
   }
 
   const dataPoolProxy = useMemo((): OrderReadableModel[] => {

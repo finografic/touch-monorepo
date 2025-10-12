@@ -21,6 +21,7 @@ export const API_FILTER_FIELDS: { [K in string]: K } = {
  * This order ensures proper cascading of filters (e.g. drinkSubtype depends on drinkType)
  */
 export const SLOT_FILTERS: FilterKey[] = [
+  'mode',
   ROUTE_FILTER_KEYS.drinkType,
   ROUTE_FILTER_KEYS.drinkSubtype,
   ROUTE_FILTER_KEYS.drinkVolume,
