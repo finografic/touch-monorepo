@@ -12,7 +12,7 @@ import PadGroup from 'components/Pads/PadGroup/PadGroup';
 import type { DataEntry } from 'types/data.types';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFiltersContext } from 'providers/FiltersProvider';
-import { getFiltersToClearAhead } from 'utils/filterStep.utils';
+import { getFiltersToClearAhead } from 'utils/filters/filters-flow.utils';
 import { isFilterFlowKey, isNavigationFieldKey } from 'utils/fieldKey.utils';
 
 export const GenericSelectPage = () => {

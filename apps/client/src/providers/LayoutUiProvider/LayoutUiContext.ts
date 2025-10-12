@@ -12,6 +12,7 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { subscribeWithSelector } from 'zustand/middleware';
 import type { RegionLocale } from '@workspace/i18n';
 import type { SlotMeta, SlotStatus } from 'pages/MainPage/MainPage.types';
+import type { HandleRouteChangeParams } from './layout-ui-utils.types';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
@@ -87,14 +88,14 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               return { pads };
             });
           },
-          handleRouteChange: (
-            filterKey: FilterKey | undefined,
-            loaderData: DataEntry[],
-            padsConfig: PadConfig,
-            dataPool: DataEntry[] | OrderModel[] | OrderReadableModel[],
-            serverFieldMap: Record<string, string>,
-            currentLanguage: RegionLocale = 'es-ES',
-          ) => {
+          handleRouteChange: ({
+            filterKey,
+            loaderData,
+            padsConfig,
+            dataPool,
+            serverFieldMap,
+            currentLanguage = 'es-ES',
+          }: HandleRouteChangeParams) => {
             if (!filterKey) {
               set({ pads: [], numPads: 0, filterKey: undefined });
               return;
@@ -117,15 +118,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
                 ),
               ];
 
-              console.log('%c🚨 LayoutUiContext: handleRouteChange', 'color:yellow', {
-                filterKey,
-                dataPoolLength: dataPool.length,
-                loaderDataLength: loaderData.length,
-                visiblePadNames,
-                filterApiKey,
-              });
-
-              // 🚨 FIX: Filter loaderData by visiblePadNames to show only valid options
+              // Filter loaderData by visiblePadNames to show only valid options
               const filteredLoaderData = (Array.isArray(loaderData) ? loaderData : [loaderData]).filter(
                 (padData) => visiblePadNames.includes(padData.name),
               );

@@ -4,7 +4,7 @@ import { useFilters } from 'providers/FiltersProvider/useFilters';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { OrderFilter, OrderFilters } from 'types/filters.types';
 import type { FilterKey } from 'types/orders.types';
-import { getFiltersByStep, matchesFilters } from 'utils/filters.utils';
+import { getFiltersByStep, matchesFilters } from 'utils/filters/filters.utils';
 import type { DataEntry } from 'types/data.types';
 
 // TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterApiKey: containterType..

@@ -1,31 +1,37 @@
-import { describe, it, expect, beforeEach } from 'vitest';
-import { createMockData, createMockFilters } from '../data-filtering.utils';
+import { beforeEach, describe, expect, it } from 'vitest';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { FilterKey } from 'types/orders.types';
+import { createMockData, createMockFilters } from '../mocks/filters.utils.mocks';
 
-// Mock the external dependencies to avoid import issues
-const mockFilterData = (config: any) => {
-  const { data, filters, filterKey } = config;
-
-  // Simple mock implementation for testing
+// Simple filtering function for testing
+const simpleFilterData = (data: OrderReadableModel[], filters: any) => {
   let dataPool = data;
   let dataFiltered = data;
 
-  // Apply basic filtering based on drinkType if present
+  // Apply drinkType filter
   if (filters.drinkType) {
     dataPool = data.filter((item) => item.drinkType === filters.drinkType.name);
     dataFiltered = dataPool;
   }
 
-  // Apply additional filtering based on drinkSubtype if present
+  // Apply drinkSubtype filter
   if (filters.drinkSubtype) {
     dataFiltered = dataPool.filter((item) => item.drinkSubtype === filters.drinkSubtype.name);
+  }
+
+  // Apply volume filter
+  if (filters.drinkVolume) {
+    dataFiltered = dataPool.filter((item) => item.volume === filters.drinkVolume.name);
+  }
+
+  // Apply containerType filter
+  if (filters.containerType) {
+    dataFiltered = dataPool.filter((item) => item.containerType === filters.containerType.name);
   }
 
   return { dataPool, dataFiltered };
 };
 
-describe('data-filtering.utils', () => {
+describe('filtering-simple', () => {
   let mockData: OrderReadableModel[];
   let mockFilters: ReturnType<typeof createMockFilters>;
 
@@ -34,13 +40,9 @@ describe('data-filtering.utils', () => {
     mockFilters = createMockFilters();
   });
 
-  describe('mockFilterData', () => {
+  describe('simpleFilterData', () => {
     it('should return dataPool and dataFiltered with correct types', () => {
-      const result = mockFilterData({
-        data: mockData,
-        filters: mockFilters,
-        filterKey: 'drinkType' as FilterKey,
-      });
+      const result = simpleFilterData(mockData, mockFilters);
 
       expect(result).toHaveProperty('dataPool');
       expect(result).toHaveProperty('dataFiltered');
@@ -51,22 +53,14 @@ describe('data-filtering.utils', () => {
     });
 
     it('should handle empty data array', () => {
-      const result = mockFilterData({
-        data: [],
-        filters: mockFilters,
-        filterKey: 'drinkType' as FilterKey,
-      });
+      const result = simpleFilterData([], mockFilters);
 
       expect(result.dataPool).toEqual([]);
       expect(result.dataFiltered).toEqual([]);
     });
 
     it('should handle empty filters', () => {
-      const result = mockFilterData({
-        data: mockData,
-        filters: {},
-        filterKey: 'drinkType' as FilterKey,
-      });
+      const result = simpleFilterData(mockData, {});
 
       expect(result.dataPool.length).toBe(mockData.length);
       expect(result.dataFiltered.length).toBe(mockData.length);
@@ -82,11 +76,7 @@ describe('data-filtering.utils', () => {
         },
       };
 
-      const result = mockFilterData({
-        data: mockData,
-        filters: wineFilters,
-        filterKey: 'drinkSubtype' as FilterKey,
-      });
+      const result = simpleFilterData(mockData, wineFilters);
 
       // dataPool should include all vino entries
       const wineEntries = mockData.filter((item) => item.drinkType === 'vino');
@@ -111,11 +101,7 @@ describe('data-filtering.utils', () => {
         },
       };
 
-      const result = mockFilterData({
-        data: mockData,
-        filters: multiFilters,
-        filterKey: 'drinkVolume' as FilterKey,
-      });
+      const result = simpleFilterData(mockData, multiFilters);
 
       // dataPool should include vino entries
       const wineEntries = mockData.filter((item) => item.drinkType === 'vino');
@@ -126,6 +112,24 @@ describe('data-filtering.utils', () => {
         (item) => item.drinkType === 'vino' && item.drinkSubtype === 'tinto',
       );
       expect(result.dataFiltered.length).toBe(filteredEntries.length);
+    });
+
+    it('should maintain correct filtering order', () => {
+      const orderedFilters = {
+        drinkType: { name: 'vino' },
+        drinkSubtype: { name: 'tinto' },
+      };
+
+      const result = simpleFilterData(mockData, orderedFilters);
+
+      // Each filter should progressively reduce the dataset
+      expect(result.dataPool.length).toBeGreaterThanOrEqual(result.dataFiltered.length);
+
+      // Final result should match all criteria
+      const expectedEntries = mockData.filter(
+        (item) => item.drinkType === 'vino' && item.drinkSubtype === 'tinto',
+      );
+      expect(result.dataFiltered.length).toBe(expectedEntries.length);
     });
   });
 

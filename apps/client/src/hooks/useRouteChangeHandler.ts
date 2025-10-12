@@ -4,7 +4,6 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-// import { useDataPoolProxy } from './useDataPoolProxy'; // 🚨 COMMENTED OUT: Replaced with new ref system
 import type { RegionLocale } from '@workspace/i18n';
 import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
@@ -85,8 +84,6 @@ export const useRouteChangeHandler = () => {
   // const { dataPoolProxy } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
 
   // ======================================================================== //
-  // ======================================================================== //
-  // ======================================================================== //
 
   // Track route changes to prevent unnecessary re-renders
   const lastRouteDataRef = useRef<{
@@ -100,53 +97,20 @@ export const useRouteChangeHandler = () => {
   // Handle route changes (consolidated from LayoutUiObserver)
   useEffect(
     function handleRouteChanges() {
-      // 🚨 NEW REF SYSTEM: Calculate correct dataPool for UI inside useEffect
+      // Calculate correct dataPool for UI based on navigation direction
       const getCorrectDataPoolForUI = (): OrderReadableModel[] => {
         if (!dataPoolRef.current) return dataPool;
 
         const currentDataPool = dataPoolRef.current.dataPool || [];
-        const previousDataPool = dataPoolRef.current.previous?.dataPool || [];
-        const currentFilterKey = dataPoolRef.current.filterKey;
-        const previousFilterKey = dataPoolRef.current.previous?.filterKey;
         const trigger = dataPoolRef.current.trigger;
 
-        // 🚨 FIX: For forward navigation (route-change), use current dataPool
-        // This ensures filtered results are shown (e.g., only "vidrio" for containerType)
-        if (trigger === 'route-change') {
-          console.log('%c🚨 FORWARD NAVIGATION: Using current dataPool', 'color:lime', {
-            currentLength: currentDataPool.length,
-            previousLength: previousDataPool.length,
-            filterKey: currentFilterKey,
-            previousFilterKey,
-            trigger,
-          });
-          return currentDataPool;
-        }
-
-        // 🚨 For filter-update or initial-load, use current dataPool
-        if (trigger === 'filter-update' || trigger === 'initial-load') {
-          console.log('%c🚨 FILTER UPDATE/INITIAL: Using current dataPool', 'color:lime', {
-            currentLength: currentDataPool.length,
-            previousLength: previousDataPool.length,
-            filterKey: currentFilterKey,
-            trigger,
-          });
-          return currentDataPool;
-        }
-
-        // 🚨 FALLBACK: Use current dataPool
-        console.log('%c🚨 FALLBACK: Using current dataPool', 'color:orange', {
-          currentLength: currentDataPool.length,
-          previousLength: previousDataPool.length,
-          filterKey: currentFilterKey,
-          trigger,
-        });
+        // For all navigation types, use current dataPool
+        // This ensures filtered results are shown correctly
         return currentDataPool;
       };
 
-      // 🚨 CRITICAL: Only proceed if loaderData is available (non-empty dataset)
+      // Only proceed if loaderData is available
       if (!Array.isArray(loaderData)) {
-        console.log('%c🚨 SKIPPING ROUTE CHANGE: loaderData not ready', 'color:red');
         return;
       }
 
@@ -185,38 +149,36 @@ export const useRouteChangeHandler = () => {
 
         // Handle route change
         if (!filterKey) {
-          handleRouteChange(undefined, [], {} as any, [], {});
+          handleRouteChange({
+            filterKey: undefined,
+            loaderData: [],
+            padsConfig: {} as any,
+            dataPool: [],
+            serverFieldMap: {},
+          });
           return;
         }
 
         try {
-          // 🚨 NEW: Get correct dataPool for UI using ref system
           const dataPoolProxy = getCorrectDataPoolForUI();
 
           if (loaderData && padsConfig && dataPoolProxy) {
-            console.log('%c🚨 CALLING handleRouteChange WITH:', 'color:purple', {
+            handleRouteChange({
               filterKey,
-              loaderDataLength: loaderData.length,
-              dataPoolProxyLength: dataPoolProxy.length,
-              sessionServerFieldMapKeys: Object.keys(sessionServerFieldMap),
-            });
-
-            handleRouteChange(
-              filterKey,
-              loaderData as DataEntry[],
+              loaderData: loaderData as DataEntry[],
               padsConfig,
-              dataPoolProxy as DataEntry[] | OrderModel[] | OrderReadableModel[],
-              sessionServerFieldMap,
-              'es-ES' as RegionLocale,
-            );
-          } else {
-            console.log('%c🚨 CALLING handleRouteChange WITH EMPTY DATA:', 'color:orange', {
-              filterKey,
-              hasLoaderData: !!loaderData,
-              hasPadsConfig: !!padsConfig,
-              hasDataPoolProxy: !!dataPoolProxy,
+              dataPool: dataPoolProxy as DataEntry[] | OrderModel[] | OrderReadableModel[],
+              serverFieldMap: sessionServerFieldMap,
+              currentLanguage: 'es-ES' as RegionLocale,
             });
-            handleRouteChange(filterKey, [], {} as any, [], {});
+          } else {
+            handleRouteChange({
+              filterKey,
+              loaderData: [],
+              padsConfig: {} as any,
+              dataPool: [],
+              serverFieldMap: {},
+            });
           }
         } catch (error) {
           console.error('useRouteChangeHandler: Error handling route change:', error);
@@ -226,10 +188,9 @@ export const useRouteChangeHandler = () => {
     [filterKey, loaderData, padsConfig, dataPool, currentSessionId, sessions, filters],
   );
 
-  // Sync filters from useFilters to OrdersContext / SlotsContext
+  // Sync filters from useFilters to OrdersContext
   useEffect(
-    function syncFiltersToSlotsContext() {
-      // TODO: IS THIS STILL NECESSARY ??????
+    function syncFiltersToOrdersContext() {
       if (filters && Object.keys(filters).length > 0) {
         setOrdersFilters(filters);
       }

@@ -4,11 +4,9 @@ import type { ValidGridSize } from 'types/menu.types';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import type { FilterKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
-import type { RegionLocale } from '@workspace/i18n';
-import type { OrderModel } from 'types/models/order.model';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { CreateSettersType } from 'utils/zustand';
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
+import type { HandleRouteChangeParams } from './layout-ui-utils.types';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numItems]: ValidGridSize;
@@ -26,14 +24,7 @@ type LayoutUiActions = LayoutUiSetters & {
   initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadConfig, filterKey: FilterKey) => void;
   updatePadState: (filterKey: FilterKey, updater: (pads: PadUI[]) => PadUI[]) => void;
   togglePad: (filterKey: FilterKey, padId: string, type: PadType) => void;
-  handleRouteChange: (
-    filterKey: FilterKey | undefined,
-    loaderData: DataEntry[],
-    padsConfig: PadConfig,
-    dataPool: DataEntry[] | OrderModel[] | OrderReadableModel[],
-    serverFieldMap: Record<string, string>,
-    currentLanguage?: RegionLocale,
-  ) => void;
+  handleRouteChange: (params: HandleRouteChangeParams) => void;
   // MainPage selection actions
   toggleMainPageSlot: (slot: SlotMeta) => void;
   selectAllMainPageSlots: () => void;

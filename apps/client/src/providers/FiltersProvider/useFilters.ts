@@ -2,8 +2,7 @@ import { useMemo } from 'react';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { getUniqueFilterValues } from 'utils/filters.utils';
-import { filterData } from 'utils/data-filtering.utils';
+import { filterData, getUniqueFilterValues } from 'utils/filters/filters.utils';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFilters } from 'types/filters.types';
@@ -42,35 +41,18 @@ export const useFilters = (): UseFiltersReturn => {
   const data: OrderReadableModel[] = ordersReadable;
 
   // Get unique values for each filter key
-  // SAFEGUARD: ensure
-  //
-  // ata is assignable to DataEntry[]
   const safeData: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
   const uniqueValues = useMemo(() => getUniqueFilterValues(safeData), [safeData]);
 
-  // ======================================================================== //
-
   // Client-side filtering with orders_readable data using dedicated utility
   const { dataPool, dataFiltered } = useMemo(() => {
-    // 🚨 GUARD: Only filter when loaderData is ready (non-empty dataset)
+    // Only filter when loaderData is ready (non-empty dataset)
     if (!Array.isArray(loaderData)) {
-      console.log('%c🚨 useFilters: loaderData not ready, returning empty arrays', 'color:orange', {
-        filterKey,
-        loaderDataType: typeof loaderData,
-        loaderDataIsArray: Array.isArray(loaderData),
-      });
       return {
         dataPool: [],
         dataFiltered: [],
       };
     }
-
-    // console.log('%c🚨 useFilters: loaderData ready, filtering data', 'color:lime', {
-    //   filterKey,
-    //   loaderDataLength: loaderData.length,
-    //   dataLength: data.length,
-    //   filtersCount: Object.keys(filters).length,
-    // });
 
     return filterData({
       data,
@@ -79,8 +61,6 @@ export const useFilters = (): UseFiltersReturn => {
       applyContainerTypeFix: true,
     });
   }, [data, filters, filterKey, loaderData]);
-
-  // ======================================================================== //
 
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {
@@ -94,8 +74,6 @@ export const useFilters = (): UseFiltersReturn => {
       {} as Record<string, string>,
     );
   }, [filters]);
-
-  // console.log('%c >> filtered:', 'color:blue', dataPool, dataFiltered);
 
   return {
     data,

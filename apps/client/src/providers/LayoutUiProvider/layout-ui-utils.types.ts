@@ -1,0 +1,24 @@
+import type { FilterKey } from 'types/orders.types';
+import type { DataEntry } from 'types/data.types';
+import type { OrderModel } from 'types/models/order.model';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { PadConfig } from 'types/pads.types';
+import type { RegionLocale } from '@workspace/i18n';
+
+/**
+ * Parameters for handleRouteChange method
+ */
+export interface HandleRouteChangeParams {
+  /** Current filter key (route step) */
+  filterKey: FilterKey | undefined;
+  /** Loader data for the current route */
+  loaderData: DataEntry[];
+  /** Pad configuration for the current route */
+  padsConfig: PadConfig;
+  /** Data pool for UI button options */
+  dataPool: DataEntry[] | OrderModel[] | OrderReadableModel[];
+  /** Server field mapping for filter synchronization */
+  serverFieldMap: Record<string, string>;
+  /** Current language locale */
+  currentLanguage?: RegionLocale;
+}
