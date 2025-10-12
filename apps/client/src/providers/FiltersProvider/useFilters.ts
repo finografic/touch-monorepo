@@ -92,6 +92,8 @@ export const useFilters = (): UseFiltersReturn => {
     );
   }, [filters]);
 
+  // console.log('%c >> filtered:', 'color:blue', dataPool, dataFiltered);
+
   return {
     data,
     dataPool,

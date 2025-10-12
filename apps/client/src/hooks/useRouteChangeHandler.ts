@@ -18,12 +18,101 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 export const useRouteChangeHandler = () => {
   const { handleRouteChange } = useLayoutUi();
   const { currentSessionId, sessions } = useSession();
-  const { dataPool, filters } = useFilters();
+  const { data, dataPool, dataFiltered, filters } = useFilters();
   const { setFilters: setOrdersFilters } = useOrders();
   const { filterKey, loaderData, padsConfig } = useRouteConfig();
 
+  // 🚨 ENHANCED DATA POOL TRACKING: Route-aware with change context
+  const dataPoolHistoryRef = useRef<{
+    previous: OrderReadableModel[];
+    current: OrderReadableModel[];
+    filterKey: string;
+    changeReason: 'route-change' | 'filter-update' | 'initial-load';
+    timestamp: number;
+  }>({
+    previous: [],
+    current: [],
+    filterKey: '',
+    changeReason: 'initial-load',
+    timestamp: Date.now(),
+  });
+
+  // 🚨 ROUTE-AWARE DATA POOL TRACKING
+  useEffect(
+    function handle_DATA_POOL_CHANGE() {
+      const currentFilterKey = filterKey || '';
+      const previousFilterKey = dataPoolHistoryRef.current.filterKey;
+
+      // Determine change reason
+      let changeReason: 'route-change' | 'filter-update' | 'initial-load';
+      if (previousFilterKey === '') {
+        changeReason = 'initial-load';
+      } else if (currentFilterKey !== previousFilterKey) {
+        changeReason = 'route-change';
+      } else {
+        changeReason = 'filter-update';
+      }
+
+      // Update history based on change reason
+      if (changeReason === 'route-change') {
+        // Route change: preserve previous dataPool, update current
+        dataPoolHistoryRef.current.previous = dataPoolHistoryRef.current.current;
+        dataPoolHistoryRef.current.current = dataPool;
+        dataPoolHistoryRef.current.filterKey = currentFilterKey;
+        dataPoolHistoryRef.current.changeReason = changeReason;
+        dataPoolHistoryRef.current.timestamp = Date.now();
+
+        console.log('%c🚨 ROUTE CHANGE DETECTED:', 'color:orange', {
+          from: previousFilterKey,
+          to: currentFilterKey,
+          previousDataPool: dataPoolHistoryRef.current.previous.length,
+          currentDataPool: dataPoolHistoryRef.current.current.length,
+          timestamp: new Date(dataPoolHistoryRef.current.timestamp).toISOString(),
+        });
+      } else {
+        // Filter update or initial load: just update current
+        dataPoolHistoryRef.current.current = dataPool;
+        dataPoolHistoryRef.current.filterKey = currentFilterKey;
+        dataPoolHistoryRef.current.changeReason = changeReason;
+        dataPoolHistoryRef.current.timestamp = Date.now();
+
+        if (changeReason === 'filter-update') {
+          console.log('%c🔄 FILTER UPDATE:', 'color:blue', {
+            filterKey: currentFilterKey,
+            previousDataPool: dataPoolHistoryRef.current.previous.length,
+            currentDataPool: dataPoolHistoryRef.current.current.length,
+            timestamp: new Date(dataPoolHistoryRef.current.timestamp).toISOString(),
+          });
+        }
+      }
+    },
+    [dataPool, filterKey],
+  );
+
+  useEffect(
+    function handle_TEST_DATA() {
+      if (Array.isArray(loaderData)) {
+        console.log('%c >> filtered:', 'color:lime', loaderData);
+        console.log('%c >> filtered:', 'color:lime', { data });
+        console.log('%c >> filtered:', 'color:lime', { dataPool });
+        console.log('%c >> filtered:', 'color:lime', { dataFiltered });
+        console.log('%c >> dataPoolHistory:', 'color:cyan', {
+          changeReason: dataPoolHistoryRef.current.changeReason,
+          previousLength: dataPoolHistoryRef.current.previous.length,
+          currentLength: dataPoolHistoryRef.current.current.length,
+          filterKey: dataPoolHistoryRef.current.filterKey,
+        });
+      }
+    },
+    [loaderData],
+  );
+
   // 🚨 DATA POOL PROXY: Create proxy dataPool that injects mock entries when needed
   const { dataPoolProxy } = useDataPoolProxy({ dataPool });
+
+  // ======================================================================== //
+  // ======================================================================== //
+  // ======================================================================== //
 
   // Track route changes to prevent unnecessary re-renders
   const lastRouteDataRef = useRef<{

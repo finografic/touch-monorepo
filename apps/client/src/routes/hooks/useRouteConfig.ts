@@ -96,7 +96,8 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     route: routeConfig.route || ({} as RouteConfig),
     filterKey: routeConfig.filterKey || ('' as FilterKey),
     filterApiKey: padsConfig?.filterApiKey || ('' as FilterApiKey),
-    loaderData: loaderData || ([] as unknown as T),
+    // loaderData: loaderData || ([] as unknown as T),
+    loaderData,
     padsConfig: padsConfig || ({} as PadConfig<DataEntry>),
   };
 
