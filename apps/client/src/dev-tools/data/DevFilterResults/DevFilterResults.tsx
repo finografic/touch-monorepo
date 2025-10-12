@@ -6,7 +6,7 @@ import type { OrderFilters } from 'types/filters.types';
 
 export const DevFilterResults = () => {
   const { filters, dataFiltered } = useFilters();
-  const { sessions, currentSessionId } = useSession();
+  // const { sessions, currentSessionId } = useSession();
 
   // const { filters: ordersFilters } = useOrders();
   // const { profile } = useOrders();
@@ -14,8 +14,8 @@ export const DevFilterResults = () => {
   // log('__DEV: filters', 'hotpink', filters);
   // log('__DEV: ordersFilters', 'hotpink', ordersFilters);
 
-  const sessionFilters =
-    currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
+  // const sessionFilters =
+  //   currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
 
   const filtersCompact = {} as OrderFilters;
 

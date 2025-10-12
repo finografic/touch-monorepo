@@ -50,6 +50,8 @@ export const useFilters = (): UseFiltersReturn => {
   const safeData: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
   const uniqueValues = useMemo(() => getUniqueFilterValues(safeData), [safeData]);
 
+  // ======================================================================== //
+
   // Client-side filtering with orders_readable data
   const { dataPool, dataFiltered } = useMemo(() => {
     // SAFEGUARD: ensure data is assignable to DataEntry[] for matchesFilters
@@ -78,6 +80,8 @@ export const useFilters = (): UseFiltersReturn => {
       dataFiltered: filtered as unknown as OrderReadableModel[],
     };
   }, [data, filters, filterKey]);
+
+  // ======================================================================== //
 
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {
