@@ -11,6 +11,7 @@
 - For both JSDoc and simple comments, include name of model used to generate, between square-brackets []
 - Follow TypeScript parameter patterns from `07-typescript-patterns.md`
 - Follow testing patterns from `08-testing-patterns.md`
+- Follow provider/context patterns from `09-provider-context-patterns.md`
 
 ## Error Handling
 
