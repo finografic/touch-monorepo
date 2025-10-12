@@ -42,8 +42,8 @@ export const GenericSelectPage = () => {
 
       // Remove filters for steps ahead from session filters too
       const sessionFiltersWithoutAhead = { ...currentSessionFilters };
-      filtersToClearAhead.forEach((filterKey) => {
-        delete sessionFiltersWithoutAhead[filterKey];
+      filtersToClearAhead.forEach((filterApiKey) => {
+        delete sessionFiltersWithoutAhead[filterApiKey];
       });
 
       const newFilters = {

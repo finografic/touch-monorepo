@@ -16,7 +16,7 @@ export const PadButton: React.FC<PadProps> = ({
   index,
   type,
   isChecked,
-  filterKey,
+  filterApiKey,
   metadata,
   ...rest
 }) => {
@@ -40,7 +40,7 @@ export const PadButton: React.FC<PadProps> = ({
               type,
               isChecked,
               disabled,
-              filterKey,
+              filterApiKey,
               metadata,
               ...rest,
             },

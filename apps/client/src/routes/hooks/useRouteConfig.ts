@@ -17,7 +17,7 @@ import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 interface RequiredRouteConfig<T = DataEntry[]> {
   route: RouteConfig;
   filterFieldKey: FilterKey;
-  filterKey: FilterApiKey;
+  filterApiKey: FilterApiKey;
   loaderData: T;
   padsConfig: PadConfig<DataEntry>;
 }
@@ -95,7 +95,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   const result: RequiredRouteConfig<T> = {
     route: routeConfig.route || ({} as RouteConfig),
     filterFieldKey: routeConfig.filterFieldKey || ('' as FilterKey),
-    filterKey: padsConfig?.filterKey || ('' as FilterApiKey),
+    filterApiKey: padsConfig?.filterApiKey || ('' as FilterApiKey),
     loaderData: loaderData || ([] as unknown as T),
     padsConfig: padsConfig || ({} as PadConfig<DataEntry>),
   };

@@ -28,7 +28,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
   ...rest
 }) => {
   // Filter out non-DOM props that shouldn't be passed to DOM elements
-  const { labelKey, valueKeys, filterKey, maxPads, minRequired, initChecked, ...domProps } = rest;
+  const { labelKey, valueKeys, filterApiKey, maxPads, minRequired, initChecked, ...domProps } = rest;
 
   switch (type) {
     case PAD_TYPE.RADIO:

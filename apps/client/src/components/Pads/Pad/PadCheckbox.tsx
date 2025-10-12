@@ -19,7 +19,7 @@ export const PadCheckbox: React.FC<PadProps> = ({
   value,
   index,
   type,
-  filterKey,
+  filterApiKey,
   metadata,
   ...rest
 }) => {
@@ -47,7 +47,7 @@ export const PadCheckbox: React.FC<PadProps> = ({
               type,
               isChecked: !isChecked,
               disabled,
-              filterKey,
+              filterApiKey,
               metadata,
               ...rest,
             },

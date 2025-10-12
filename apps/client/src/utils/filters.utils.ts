@@ -60,9 +60,9 @@ export const getOrderedFilters = (filters: OrderFilters): [string, any][] => {
   }
 
   // Add other filters in SLOT_FILTERS order
-  for (const filterKey of SLOT_FILTERS) {
-    if (filters[filterKey as keyof OrderFilters]) {
-      orderedEntries.push([filterKey, filters[filterKey as keyof OrderFilters]]);
+  for (const filterApiKey of SLOT_FILTERS) {
+    if (filters[filterApiKey as keyof OrderFilters]) {
+      orderedEntries.push([filterApiKey, filters[filterApiKey as keyof OrderFilters]]);
     }
   }
 

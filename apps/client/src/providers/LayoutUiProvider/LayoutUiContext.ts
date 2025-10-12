@@ -101,12 +101,16 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             }
 
             if (loaderData && padsConfig && dataPool) {
-              const filterKey = padsConfig.filterKey as keyof (DataEntry | OrderModel | OrderReadableModel);
+              const filterApiKey = padsConfig.filterApiKey as keyof (
+                | DataEntry
+                | OrderModel
+                | OrderReadableModel
+              );
 
               const visiblePadNames = [
                 ...new Set(
                   dataPool
-                    .map((entry) => (filterKey in entry ? entry[filterKey] : undefined))
+                    .map((entry) => (filterApiKey in entry ? entry[filterApiKey] : undefined))
                     .filter(Boolean),
                 ),
               ];

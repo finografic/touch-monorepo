@@ -76,7 +76,7 @@ export const parsePadConfig = <T extends DataEntry>({
             name: filterFieldKey,
             type: config.type,
             isChecked: false,
-            filterKey: config.filterKey,
+            filterApiKey: config.filterApiKey,
             metadata: currentItem,
           };
           pad.isChecked = initChecked(pad as PadUI);

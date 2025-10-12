@@ -19,7 +19,7 @@ export const PadRadio: React.FC<PadProps> = ({
   value,
   index,
   type,
-  filterKey,
+  filterApiKey,
   metadata,
   ...rest
 }) => {
@@ -46,7 +46,7 @@ export const PadRadio: React.FC<PadProps> = ({
               type,
               isChecked: true,
               disabled,
-              filterKey,
+              filterApiKey,
               metadata,
               ...rest,
             },

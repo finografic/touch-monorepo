@@ -59,9 +59,9 @@ export const useRouteChangeHandler = () => {
       // NEW: V2 -- WE WANT TO USE sessionFilters, AS IN V1 --or-- filters ??
       const sessionServerFieldMap = Object.entries(sessionFilters).reduce(
         // const sessionServerFieldMap = Object.entries(filters).reduce(
-        (acc, [filterKey, filterValue]) => {
-          if (filterKey in filters) {
-            return { ...acc, [filterKey as string]: filterValue.name };
+        (acc, [filterApiKey, filterValue]) => {
+          if (filterApiKey in filters) {
+            return { ...acc, [filterApiKey as string]: filterValue.name };
           }
           return acc;
         },

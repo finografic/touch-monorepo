@@ -19,7 +19,7 @@ export interface PadUI {
   index?: number;
   type: PadType;
   isChecked: boolean;
-  filterKey?: FilterApiKey;
+  filterApiKey?: FilterApiKey;
   metadata?: DataEntry;
   disabled?: boolean;
   className?: string;
@@ -27,7 +27,7 @@ export interface PadUI {
 
 // Base configuration type with all properties required
 export interface PadConfigOptions<T extends DataEntry = DataEntry> {
-  filterKey?: FilterApiKey; // TODO: CAREFUL HERE ..
+  filterApiKey?: FilterApiKey; // TODO: CAREFUL HERE ..
   type: PadType;
   labelKey: keyof T;
   valueKeys: ['id', 'name', ...(keyof T)[]];

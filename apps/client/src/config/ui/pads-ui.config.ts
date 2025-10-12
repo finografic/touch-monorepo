@@ -21,7 +21,7 @@ export const getPadsUIConfig = (
       minRequired: 1,
     },
     [ROUTE_FILTER_KEYS.drinkType]: {
-      filterKey: API_FILTER_FIELDS.drinkTypeName,
+      filterApiKey: API_FILTER_FIELDS.drinkTypeName,
       type: 'radio',
       labelKey,
       valueKeys: ['id', 'name', 'hasSubtypes', 'defaultTempConsume'],
@@ -29,7 +29,7 @@ export const getPadsUIConfig = (
       minRequired: 1,
     },
     [ROUTE_FILTER_KEYS.drinkSubtype]: {
-      filterKey: API_FILTER_FIELDS.drinkSubtypeName,
+      filterApiKey: API_FILTER_FIELDS.drinkSubtypeName,
       type: 'radio',
       labelKey,
       valueKeys: ['id', 'name', 'defaultTempConsume'],
@@ -37,7 +37,7 @@ export const getPadsUIConfig = (
       minRequired: 1,
     },
     [ROUTE_FILTER_KEYS.drinkVolume]: {
-      filterKey: API_FILTER_FIELDS.volumeName,
+      filterApiKey: API_FILTER_FIELDS.volumeName,
       type: 'radio',
       labelKey,
       valueKeys: ['id', 'name'],
@@ -45,7 +45,7 @@ export const getPadsUIConfig = (
       minRequired: 1,
     },
     [ROUTE_FILTER_KEYS.containerType]: {
-      filterKey: API_FILTER_FIELDS.containerTypeName,
+      filterApiKey: API_FILTER_FIELDS.containerTypeName,
       type: 'radio',
       labelKey,
       valueKeys: ['id', 'name'],
@@ -53,7 +53,7 @@ export const getPadsUIConfig = (
       minRequired: 1,
     },
     [ROUTE_FILTER_KEYS.temperature]: {
-      filterKey: API_FILTER_FIELDS.temperature,
+      filterApiKey: API_FILTER_FIELDS.temperature,
       type: 'radio',
       labelKey,
       valueKeys: ['id', 'name'],

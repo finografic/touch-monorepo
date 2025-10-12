@@ -5,7 +5,7 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { OrderFilters } from 'types/filters.types';
 import type { FilterKey } from 'types/orders.types';
 
-// TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterKey: containterType..
+// TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterApiKey: containterType..
 // import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
 
 // If datafiltered.length === 0 when a containerType radio in INITIALLY selected by user,
@@ -36,7 +36,7 @@ export const useDataPoolProxy = ({
   const { dataFiltered, filterFieldKey } = useFilters();
 
   // Default: return original data (real data from db)
-  console.log('%c🚨>> filterKey:', 'color:cyan', filterFieldKey);
+  console.log('%c🚨>> filterApiKey:', 'color:cyan', filterFieldKey);
 
   const dataPoolProxy = useMemo((): OrderReadableModel[] => {
     // Edge case: If user clicks NEXT with current selection, next page will be EMPTY
