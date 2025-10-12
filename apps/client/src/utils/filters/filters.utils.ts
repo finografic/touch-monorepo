@@ -180,12 +180,15 @@ export const filterData = (config: FilteringConfig): FilteringResults => {
     matchesFilters(entry, allFilters),
   ) as unknown as OrderReadableModel[];
 
-  // For dataPool (for filter options), use only filters up to the current step
+  // 🚨 TEMPORARILY DISABLED: For dataPool (for filter options), use only filters up to the current step
+  // let pool = safeDataForFilter;
+  // if (filterKey) {
+  //   const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
+  //   pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
+  // }
+
+  // 🚨 TEMPORARY: Show ALL options regardless of filters
   let pool = safeDataForFilter;
-  if (filterKey) {
-    const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
-    pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
-  }
 
   // TEMP FIX: If containerType filter is present, only return the first entry
   if (applyContainerTypeFix && filters.containerType) {

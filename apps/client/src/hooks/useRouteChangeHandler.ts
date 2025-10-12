@@ -9,6 +9,7 @@ import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { FilterKey } from 'types/orders.types';
+import { useDataPoolProxy } from 'hooks/useDataPoolProxy';
 
 enum CHANGED {
   INIT = 'initial-load',
@@ -85,7 +86,8 @@ export const useRouteChangeHandler = () => {
   // ======================================================================== //
 
   // 🚨 COMMENTED OUT: Old useDataPoolProxy hook - replaced with new ref system
-  // const { dataPoolProxy } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
+  // const { dataPoolProxy: __TEST } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
+  const { dataPoolProxy: __TEST } = useDataPoolProxy({ dataPool });
 
   // ======================================================================== //
 
