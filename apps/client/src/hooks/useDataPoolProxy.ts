@@ -36,47 +36,19 @@ export const useDataPoolProxy = ({
 }): { dataPoolProxy: OrderReadableModel[] } => {
   const { filters } = useFiltersContext();
   const { data, dataFiltered, filterKey } = useFilters();
-  // const refFilterKey = useRef(null as FilterKey | null);
   const refFilterKey = useRef(filterKey);
 
   if (filterKey !== refFilterKey.current) {
-    // Default: return original data (real data from db)
     console.log('%c >> filterKey:', 'color:red', refFilterKey.current);
-
     if (filterKey in filters) {
-      // console.log('%c >> dataFiltered:', 'color:grey', filtersBeforeCurrent);
-      // console.log('%c >> filterKey IN filters:', 'color:lime', filterKey);
-      console.log('%c >> filterKey IN filters:', 'color:lime', dataFiltered);
-      const safeDataForFilter: OrderReadableModel[] = Array.isArray(data)
-        ? (data as unknown as OrderReadableModel[])
-        : [];
-
-      // const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
-      // const TEST = safeDataForFilter.filter((entry) =>
-      //   matchesFilters(entry as unknown as DataEntry, filtersBeforeCurrent),
-      // ) as OrderReadableModel[];
-      // refFilterKey.current = filterKey;
-
-      // console.log('%c >> filterKey IN filters:', 'color:blue', TEST);
-
-      // const TEST: OrderReadableModel[] = Object.entries(filters).map(([key, filter]) => key !== filterKey);
-
       const TEST = {} as OrderFilters;
-      for (const [key, filter] of Object.entries(filters) as [keyof OrderFilters, OrderFilter][]) {
-        if (key !== filterKey) {
-          Object.assign(TEST, { [key]: filter });
-        }
+      for (const [key, filter] of Object.entries(filters)) {
+        if (key === filterKey) continue;
+        Object.assign(TEST, { [key]: filter });
       }
       console.log('%c >> filter:', 'color:blue', TEST);
-      // console.log('%c >> filter:', 'color:blue', TEST);
-      return { dataPoolProxy: dataFiltered };
     }
     refFilterKey.current = filterKey;
-
-    // Default: return original data (real data from db)
-    // console.log('%c >> filterKey:', 'color:lime', refFilterKey.current);
-    // console.log('%c >> dataFiltered:', 'color:grey', filtersBeforeCurrent);
-    // console.log('%c >> filterKey in filters:', 'color:lime', filterKey);
   }
 
   const dataPoolProxy = useMemo((): OrderReadableModel[] => {
