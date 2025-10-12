@@ -11,7 +11,7 @@ import {
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { DataEntry } from 'types/data.types';
 import type { OrderFilters } from 'types/filters.types';
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 
 interface UseFiltersReturn {
   // Data arrays - using the OrderReadableModel type for human-readable data
@@ -21,7 +21,7 @@ interface UseFiltersReturn {
 
   // Filters state (from FiltersContext)
   filters: OrderFilters;
-  fieldKey: FilterFieldKey;
+  filterFieldKey: FilterKey;
   serverFieldMap: Record<string, string>;
 
   // Filter manipulation functions (from FiltersContext)
@@ -38,7 +38,7 @@ interface UseFiltersReturn {
  * This is the final hook that replaces useFiltersWithData and provides all filtering functionality
  */
 export const useFilters = (): UseFiltersReturn => {
-  const { fieldKey } = useRouteConfig();
+  const { filterFieldKey } = useRouteConfig();
   const { ordersReadable } = useOrders();
   const { filters, setFilter, clearFilter, clearFilters } = useFiltersContext();
 
@@ -63,8 +63,8 @@ export const useFilters = (): UseFiltersReturn => {
 
     // For dataPool (for filter options), use only filters up to the current step
     let pool = safeDataForFilter;
-    if (fieldKey) {
-      const filtersBeforeCurrent = getFiltersByStep(filters, fieldKey, false);
+    if (filterFieldKey) {
+      const filtersBeforeCurrent = getFiltersByStep(filters, filterFieldKey, false);
       pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
     }
 
@@ -77,7 +77,7 @@ export const useFilters = (): UseFiltersReturn => {
       dataPool: pool as unknown as OrderReadableModel[],
       dataFiltered: filtered as unknown as OrderReadableModel[],
     };
-  }, [data, filters, fieldKey]);
+  }, [data, filters, filterFieldKey]);
 
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {
@@ -96,7 +96,7 @@ export const useFilters = (): UseFiltersReturn => {
     data,
     dataPool,
     dataFiltered,
-    fieldKey,
+    filterFieldKey,
     filters,
     serverFieldMap,
     setFilter,

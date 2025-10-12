@@ -1,5 +1,5 @@
 import type { PadUI } from 'types/pads.types';
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 import type { FC, ReactNode } from 'react';
 import { memo } from 'react';
 import isEqual from 'lodash/isEqual';
@@ -8,10 +8,10 @@ import { PadRadio } from './PadRadio';
 import { PadButton } from './PadButton';
 
 export interface PadProps extends PadUI {
-  fieldKey: FilterFieldKey;
+  filterFieldKey: FilterKey;
   className?: string;
   children?: ReactNode;
-  onSelect?: ({ fieldKey, pad }: { fieldKey: FilterFieldKey; pad: PadUI }) => void;
+  onSelect?: ({ filterFieldKey, pad }: { filterFieldKey: FilterKey; pad: PadUI }) => void;
 }
 
 const Pad: FC<PadProps> = (props) => {

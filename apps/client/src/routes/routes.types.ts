@@ -1,7 +1,7 @@
 import type { ReactElement } from 'react';
 import type { RouteObject } from 'react-router-dom';
 import type { User } from 'types/auth.types';
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 import type { RouteButtonConfig } from 'types/button.types';
 import type { PATHS } from 'config/routes';
 
@@ -16,7 +16,7 @@ export interface RouterContext {
 export interface RouteConfig extends Omit<RouteObject, 'element' | 'children'> {
   path?: string;
   id?: string;
-  fieldKey?: FilterFieldKey;
+  filterFieldKey?: FilterKey;
   title?: string;
   description?: string;
   buttons?: RouteButtonConfig;

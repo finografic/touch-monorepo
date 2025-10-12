@@ -4,20 +4,20 @@ import type { CamelToKebab, CamelToSnake } from '@workspace/core/types/utils';
 import type { FlowTypeValue } from 'types/flow.types';
 
 // ======================================================================== //
-// TODO: CONOSLIDATE THESE TYPES with FilterFieldKey
+// TODO: CONOSLIDATE THESE TYPES with FilterKey
 
 // filters.types.ts
 // FieldKey
 // FieldZZZKey
 
 // orders.types.ts
-// FilterFieldKey
+// FilterKey
 // FilterYYYFieldYYYKey
 
 // ======================================================================== //
 
 // Separate field key types for better type safety
-export type FilterFieldKey =
+export type FilterKey =
   | 'mode'
   | 'drinkType'
   | 'drinkSubtype'
@@ -26,14 +26,14 @@ export type FilterFieldKey =
   | 'temperature';
 export type NavigationFieldKey = 'main';
 
-// export type FilterFieldKey = FilterFieldKey | NavigationFieldKey;
-// export type SlotFilterKeyKebab = CamelToKebab<FilterFieldKey>;
-// export type SlotFilterKeySnake = CamelToSnake<FilterFieldKey>;
+// export type FilterKey = FilterKey | NavigationFieldKey;
+// export type SlotFilterKeyKebab = CamelToKebab<FilterKey>;
+// export type SlotFilterKeySnake = CamelToSnake<FilterKey>;
 
 // ======================================================================== //
 
-export type SlotFilterKeyKebab = CamelToKebab<FilterFieldKey | NavigationFieldKey>;
-export type SlotFilterKeySnake = CamelToSnake<FilterFieldKey | NavigationFieldKey>;
+export type SlotFilterKeyKebab = CamelToKebab<FilterKey | NavigationFieldKey>;
+export type SlotFilterKeySnake = CamelToSnake<FilterKey | NavigationFieldKey>;
 
 export enum SlotType {
   A = 'A',

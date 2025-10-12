@@ -4,7 +4,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 import { INITIAL_SLOT_ITEM, ORDER_FIELD_KEYS, SLOT_ITEMS_CONFIG } from 'config/app';
 import { findOrderByNumber } from 'utils/context.utils';
-import type { FilterFieldKey, SlotType } from 'types/orders.types';
+import type { FilterKey, SlotType } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import { subscribeWithSelector } from 'zustand/middleware';
@@ -72,20 +72,19 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
               if (order.slotNumber === slotNumber) {
                 const updatedFilters: OrderFilters = { ...order.filters };
 
-                (Object.entries(filter) as [FilterFieldKey, unknown][]).forEach(([key, value]) => {
+                (Object.entries(filter) as [FilterKey, unknown][]).forEach(([key, value]) => {
                   if (value === undefined) {
-                    delete updatedFilters[key as FilterFieldKey];
+                    delete updatedFilters[key as FilterKey];
                   } else {
-                    (updatedFilters as Partial<Record<FilterFieldKey, unknown>>)[key as FilterFieldKey] =
-                      value;
+                    (updatedFilters as Partial<Record<FilterKey, unknown>>)[key as FilterKey] = value;
                   }
                 });
 
                 const orderedFilters: OrderFilters = {} as OrderFilters;
                 for (const key of ORDER_FIELD_KEYS) {
                   if (key in updatedFilters) {
-                    (orderedFilters as Partial<Record<FilterFieldKey, unknown>>)[key] = (
-                      updatedFilters as Partial<Record<FilterFieldKey, unknown>>
+                    (orderedFilters as Partial<Record<FilterKey, unknown>>)[key] = (
+                      updatedFilters as Partial<Record<FilterKey, unknown>>
                     )[key];
                   }
                 }

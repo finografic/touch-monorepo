@@ -91,7 +91,7 @@ export const BUTTON_CONFIGS: Record<PadActionType, PadActionConfig> = {
   },
 };
 
-// Alternative route configurations (not part of main FilterFieldKey flow)
+// Alternative route configurations (not part of main FilterKey flow)
 export const ALTERNATIVE_ROUTE_BUTTON_CONFIG = {
   time: {
     footer: [BUTTON_TYPES.CANCEL_TIME_SESSION, BUTTON_TYPES.START],

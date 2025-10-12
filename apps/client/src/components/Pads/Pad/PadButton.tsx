@@ -4,7 +4,7 @@ import { padStyles } from './Pad.styles';
 import type { PadProps } from './Pad';
 
 export const PadButton: React.FC<PadProps> = ({
-  fieldKey,
+  filterFieldKey,
   className,
   children,
   onSelect,
@@ -30,7 +30,7 @@ export const PadButton: React.FC<PadProps> = ({
       onClick={() => {
         if (!disabled) {
           onSelect?.({
-            fieldKey,
+            filterFieldKey,
             pad: {
               id,
               label,

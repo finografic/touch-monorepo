@@ -2,15 +2,15 @@ import * as React from 'react';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { PadButton, PadCheckbox, PadRadio } from '../Pad/index';
 import type { PadType, PadUI } from 'types/pads.types';
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 import { CheckboxGroup } from '@radix-ui/themes';
 import { PAD_TYPE } from 'types/pads.types';
 
 interface PadGroupProps {
   type: PadType;
   pads: PadUI[];
-  onSelect?: ({ fieldKey, pad }: { fieldKey: FilterFieldKey; pad: PadUI }) => void;
-  fieldKey: FilterFieldKey;
+  onSelect?: ({ filterFieldKey, pad }: { filterFieldKey: FilterKey; pad: PadUI }) => void;
+  filterFieldKey: FilterKey;
   className?: string;
   children?: React.ReactNode;
   [key: string]: any;
@@ -22,7 +22,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
   type,
   pads,
   onSelect,
-  fieldKey,
+  filterFieldKey,
   className,
   children,
   ...rest
@@ -35,7 +35,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
       return (
         <RadioGroup.Root className={className} {...domProps}>
           {pads.map((pad) => (
-            <PadRadio key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
+            <PadRadio key={pad.id} {...pad} filterFieldKey={filterFieldKey} onSelect={onSelect} />
           ))}
           {children}
         </RadioGroup.Root>
@@ -45,7 +45,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
       return (
         <CheckboxGroup.Root className={className} {...domProps}>
           {pads.map((pad) => (
-            <PadCheckbox key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
+            <PadCheckbox key={pad.id} {...pad} filterFieldKey={filterFieldKey} onSelect={onSelect} />
           ))}
           {children}
         </CheckboxGroup.Root>
@@ -57,7 +57,7 @@ const PadGroup: React.FC<PadGroupProps> = ({
         <div className={className} {...domProps}>
           {pads.map((pad) =>
             pad.type === 'button' ? (
-              <PadButton key={pad.id} {...pad} fieldKey={fieldKey} onSelect={onSelect} />
+              <PadButton key={pad.id} {...pad} filterFieldKey={filterFieldKey} onSelect={onSelect} />
             ) : null,
           )}
           {children}

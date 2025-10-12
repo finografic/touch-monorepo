@@ -12,14 +12,14 @@ import { PATHS } from 'config';
  */
 export const usePaginationLogic = () => {
   const { pads } = useLayoutUi();
-  const { fieldKey, padsConfig } = useRouteConfig();
+  const { filterFieldKey, padsConfig } = useRouteConfig();
   const { setIsNextDisabled, setPageCurrent } = usePagination();
   const currentFlowStep = useCurrentFlowStep();
   const location = useLocation();
 
   // Handle pad changes for pagination (from usePaginationManagement)
   useEffect(() => {
-    if (!pads?.length || !fieldKey) return;
+    if (!pads?.length || !filterFieldKey) return;
 
     if (padsConfig?.minRequired !== undefined) {
       const checkedCount = pads.filter((pad) => pad.isChecked).length;
@@ -27,7 +27,7 @@ export const usePaginationLogic = () => {
 
       setIsNextDisabled(shouldDisableNext);
     }
-  }, [pads, fieldKey, padsConfig?.minRequired, setIsNextDisabled]);
+  }, [pads, filterFieldKey, padsConfig?.minRequired, setIsNextDisabled]);
 
   // Synchronize pagination state with current route (from usePaginationSync)
   useEffect(() => {

@@ -76,8 +76,8 @@ The `useFilters` hook is doing too much: managing complete dataset, filter state
 
      // Filters
      filters: OrderFilters;
-     setFilter: (key: FilterFieldKey, value: unknown) => void;
-     clearFilter: (key: FilterFieldKey) => void;
+     setFilter: (key: FilterKey, value: unknown) => void;
+     clearFilter: (key: FilterKey) => void;
      clearFilters: () => void;
 
      // Metadata

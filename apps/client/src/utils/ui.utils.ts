@@ -1,6 +1,6 @@
 import type { PadConfig, PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 import { ROUTE_FILTER_KEYS } from 'config/app';
 
 // -------------------------------------------------------------------------- //
@@ -9,11 +9,11 @@ import { ROUTE_FILTER_KEYS } from 'config/app';
 export const parsePadConfig = <T extends DataEntry>({
   data = [],
   config,
-  fieldKey,
+  filterFieldKey,
 }: {
   data: T[];
   config: PadConfig<T>;
-  fieldKey: FilterFieldKey;
+  filterFieldKey: FilterKey;
 }): { pads: PadUI[]; numPads: number } => {
   const labelKey = (config.labelKey as keyof T) || ('name' as keyof T); // NOTE: which key to use for label
   const numPads = Math.min(data.length, config.maxPads);
@@ -34,7 +34,10 @@ export const parsePadConfig = <T extends DataEntry>({
             if (valueKey === 'temperatureProfileId') {
               const profileId = currentItem?.temperatureProfileId;
               if (profileId === undefined || profileId === null) {
-                if (fieldKey === ROUTE_FILTER_KEYS.drinkType || fieldKey === ROUTE_FILTER_KEYS.drinkSubtype) {
+                if (
+                  filterFieldKey === ROUTE_FILTER_KEYS.drinkType ||
+                  filterFieldKey === ROUTE_FILTER_KEYS.drinkSubtype
+                ) {
                   // For now, we'll use a placeholder. This should be populated from the database
                   value[valueKey] = 'temp_+30.0'; // TODO: Replace with actual temperature profile lookup
                 } else {
@@ -70,7 +73,7 @@ export const parsePadConfig = <T extends DataEntry>({
             id,
             value,
             label,
-            name: fieldKey,
+            name: filterFieldKey,
             type: config.type,
             isChecked: false,
             filterKey: config.filterKey,
@@ -88,9 +91,9 @@ export const parsePadConfig = <T extends DataEntry>({
 // -------------------------------------------------------------------------- //
 // NOTE: Update pad state
 
-export const getPadIdsForField = (orders: any[], fieldKey: FilterFieldKey) => {
+export const getPadIdsForField = (orders: any[], filterFieldKey: FilterKey) => {
   let ids: (string | undefined)[] = [];
-  switch (fieldKey) {
+  switch (filterFieldKey) {
     case ROUTE_FILTER_KEYS.drinkType:
       ids = orders.map((o) => o.drinkTypeName);
       break;

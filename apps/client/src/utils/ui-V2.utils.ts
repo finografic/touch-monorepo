@@ -1,6 +1,6 @@
 import type { PadConfig, PadUI } from 'types/pads.types';
 import type { DataEntry } from 'types/data.types';
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { getLocalizedName } from './localization.utils';
 import type { RegionLocale } from '@workspace/i18n';
@@ -11,12 +11,12 @@ import type { RegionLocale } from '@workspace/i18n';
 export const parsePadConfig = <T extends DataEntry>({
   data = [],
   config,
-  fieldKey,
+  filterFieldKey,
   currentLanguage = 'es-ES',
 }: {
   data: T[];
   config: PadConfig<T>;
-  fieldKey: FilterFieldKey;
+  filterFieldKey: FilterKey;
   currentLanguage?: RegionLocale;
 }): { pads: PadUI[]; numPads: number } => {
   const labelKey = (config.labelKey as keyof T) || ('nameEs' as keyof T); // NOTE: which key to use for label
@@ -25,7 +25,7 @@ export const parsePadConfig = <T extends DataEntry>({
 
   const pads: PadUI[] = slicedData.map((item, index) => {
     const id = String(item.id);
-    const name = fieldKey;
+    const name = filterFieldKey;
     const type = config.type;
 
     // Use localized name based on current language
@@ -63,9 +63,9 @@ export const parsePadConfig = <T extends DataEntry>({
 // -------------------------------------------------------------------------- //
 // NOTE: Update pad state
 
-export const getPadIdsForField = (orders: any[], fieldKey: FilterFieldKey) => {
+export const getPadIdsForField = (orders: any[], filterFieldKey: FilterKey) => {
   let ids: (string | undefined)[] = [];
-  switch (fieldKey) {
+  switch (filterFieldKey) {
     case ROUTE_FILTER_KEYS.drinkType:
       ids = orders.map((o) => o.drinkTypeName);
       break;

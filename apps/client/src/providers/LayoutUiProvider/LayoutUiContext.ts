@@ -6,7 +6,7 @@ import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import { NUM_GRID_ITEMS } from 'config/app';
 import { parsePadConfig } from 'utils/ui-V2.utils';
 import type { DataEntry, Dataset } from 'types/data.types';
-import type { FilterFieldKey, SlotType } from 'types/orders.types';
+import type { FilterKey, SlotType } from 'types/orders.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { subscribeWithSelector } from 'zustand/middleware';
@@ -18,7 +18,7 @@ export const SETTER_PREFIX = 'Ui';
 
 export enum LayoutUiKeys {
   numItems = 'numItems',
-  fieldKey = 'fieldKey',
+  filterFieldKey = 'filterFieldKey',
   numPads = 'numPads',
   pads = 'pads',
   padsFiltered = 'padsFiltered',
@@ -28,7 +28,7 @@ export enum LayoutUiKeys {
 
 export const defaultValue: LayoutUiValues = {
   numItems: NUM_GRID_ITEMS,
-  fieldKey: undefined,
+  filterFieldKey: undefined,
   numPads: 0,
   pads: [],
   padsFiltered: [],
@@ -44,38 +44,38 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
-          initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, fieldKey: FilterFieldKey) => {
+          initPadsFromLoaderData: (loaderData: Dataset, padsConfig: PadConfig, filterFieldKey: FilterKey) => {
             const data = !Array.isArray(loaderData) ? [loaderData] : loaderData;
             // Note: We'll need to get currentLanguage from context in the component that calls this
             const { pads, numPads } = parsePadConfig({
               data,
               config: padsConfig,
-              fieldKey,
+              filterFieldKey,
               currentLanguage: 'es-ES',
             });
-            set({ pads, numPads, fieldKey });
+            set({ pads, numPads, filterFieldKey });
           },
-          updatePadState: (fieldKey: FilterFieldKey, updater: (pads: PadUI[]) => PadUI[]) => {
+          updatePadState: (filterFieldKey: FilterKey, updater: (pads: PadUI[]) => PadUI[]) => {
             const currentPads = get().pads;
             if (!currentPads?.length) return;
 
             // Split pads into current field and other fields
-            const currentFieldPads = currentPads.filter((pad) => pad.name === fieldKey);
+            const currentFieldPads = currentPads.filter((pad) => pad.name === filterFieldKey);
             const updatedFieldPads = updater(currentFieldPads);
 
             // Reconstruct the full pad array maintaining original order
             const updatedPads = currentPads.map((pad) => {
-              if (pad.name !== fieldKey) return pad;
+              if (pad.name !== filterFieldKey) return pad;
               const updatedPad = updatedFieldPads.find((p) => p.id === pad.id);
               return updatedPad || pad;
             });
 
             set({ pads: updatedPads });
           },
-          togglePad: (fieldKey: FilterFieldKey, clickedId: string, type: PadType) => {
+          togglePad: (filterFieldKey: FilterKey, clickedId: string, type: PadType) => {
             set((state) => {
               const pads = state.pads.map((pad) => {
-                if (pad.name !== fieldKey) return pad;
+                if (pad.name !== filterFieldKey) return pad;
                 if (type === 'radio') {
                   return { ...pad, isChecked: pad.id === clickedId };
                 }
@@ -88,15 +88,15 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             });
           },
           handleRouteChange: (
-            fieldKey: FilterFieldKey | undefined,
+            filterFieldKey: FilterKey | undefined,
             loaderData: DataEntry[],
             padsConfig: PadConfig,
             dataPool: DataEntry[] | OrderModel[] | OrderReadableModel[],
             serverFieldMap: Record<string, string>,
             currentLanguage: RegionLocale = 'es-ES',
           ) => {
-            if (!fieldKey) {
-              set({ pads: [], numPads: 0, fieldKey: undefined });
+            if (!filterFieldKey) {
+              set({ pads: [], numPads: 0, filterFieldKey: undefined });
               return;
             }
 
@@ -121,13 +121,13 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
                   ...padsConfig,
                   initChecked: (pad: PadUI) => serverFieldMap[pad.name] === pad.value.name,
                 },
-                fieldKey,
+                filterFieldKey,
                 currentLanguage,
               });
 
-              set({ pads, numPads, fieldKey });
+              set({ pads, numPads, filterFieldKey });
             } else {
-              set({ pads: [], numPads: 0, fieldKey });
+              set({ pads: [], numPads: 0, filterFieldKey });
             }
           },
           // MainPage selection actions

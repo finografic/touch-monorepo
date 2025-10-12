@@ -1,4 +1,4 @@
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 import { ROUTE_FILTER_KEYS } from './app.config';
 
 /**
@@ -20,7 +20,7 @@ export const API_FILTER_FIELDS: { [K in string]: K } = {
  * Order of filter application - used to determine which filters to apply at each step
  * This order ensures proper cascading of filters (e.g. drinkSubtype depends on drinkType)
  */
-export const SLOT_FILTERS: FilterFieldKey[] = [
+export const SLOT_FILTERS: FilterKey[] = [
   ROUTE_FILTER_KEYS.drinkType,
   ROUTE_FILTER_KEYS.drinkSubtype,
   ROUTE_FILTER_KEYS.drinkVolume,

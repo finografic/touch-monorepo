@@ -1,7 +1,7 @@
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 import type { ConstMapOf } from '@workspace/core/types/utils';
 
-export const ROUTE_PATHS: ConstMapOf<FilterFieldKey, string> = {
+export const ROUTE_PATHS: ConstMapOf<FilterKey, string> = {
   main: '/',
   drinkType: '/drink-type',
   drinkSubtype: '/drink-type/:drinkTypeId',

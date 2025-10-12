@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
 import type { ValidGridSize } from 'types/menu.types';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 import type { DataEntry } from 'types/data.types';
 import type { RegionLocale } from '@workspace/i18n';
 import type { OrderModel } from 'types/models/order.model';
@@ -12,7 +12,7 @@ import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numItems]: ValidGridSize;
-  [LayoutUiKeys.fieldKey]: FilterFieldKey | undefined;
+  [LayoutUiKeys.filterFieldKey]: FilterKey | undefined;
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadUI[];
   [LayoutUiKeys.padsFiltered]: PadUI[];
@@ -23,11 +23,11 @@ export interface LayoutUiValues {
 type LayoutUiSetters = CreateSettersType<LayoutUiValues, typeof SETTER_PREFIX>;
 
 type LayoutUiActions = LayoutUiSetters & {
-  initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadConfig, fieldKey: FilterFieldKey) => void;
-  updatePadState: (fieldKey: FilterFieldKey, updater: (pads: PadUI[]) => PadUI[]) => void;
-  togglePad: (fieldKey: FilterFieldKey, padId: string, type: PadType) => void;
+  initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadConfig, filterFieldKey: FilterKey) => void;
+  updatePadState: (filterFieldKey: FilterKey, updater: (pads: PadUI[]) => PadUI[]) => void;
+  togglePad: (filterFieldKey: FilterKey, padId: string, type: PadType) => void;
   handleRouteChange: (
-    fieldKey: FilterFieldKey | undefined,
+    filterFieldKey: FilterKey | undefined,
     loaderData: DataEntry[],
     padsConfig: PadConfig,
     dataPool: DataEntry[] | OrderModel[] | OrderReadableModel[],

@@ -19,7 +19,7 @@ export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTempe
   const refIsInitialized = useRef(false);
   const { filters, setFilter } = useFiltersContext();
   const { setIsNextDisabled } = usePagination();
-  const { fieldKey } = useRouteConfig();
+  const { filterFieldKey } = useRouteConfig();
   const { setFilters: setOrdersFilters } = useOrders();
   const { currentSessionId, sessions, updateSessionFilters } = useSession();
 
@@ -69,12 +69,12 @@ export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTempe
       const temperatureFilter = getTemperatureFilter({ initial, final });
 
       // Update global filters (essential for navigation)
-      // setFiltering(fieldKey, temperatureFilter);
+      // setFiltering(filterFieldKey, temperatureFilter);
       // NEW: V2
       setFilter(ROUTE_FILTER_KEYS.temperature, temperatureFilter);
 
       // ✅ ALSO update OrdersContext filters so useTemperatureControl can find them
-      setOrdersFilters({ [fieldKey]: temperatureFilter });
+      setOrdersFilters({ [filterFieldKey]: temperatureFilter });
 
       // ✅ ADD: Update session filters with final temperature values
       if (currentSessionId) {
@@ -94,7 +94,7 @@ export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTempe
       filters,
       setFilter,
       // setFiltering,
-      fieldKey,
+      filterFieldKey,
       setIsNextDisabled,
       setOrdersFilters,
       currentSessionId,

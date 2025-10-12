@@ -1,5 +1,5 @@
 import { API_FILTER_FIELDS, ROUTE_FILTER_KEYS } from 'config/app';
-import type { FilterFieldKey, NavigationFieldKey } from 'types/orders.types';
+import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
 import type { PadConfig, PadUI } from 'types/pads.types';
 import { getLabelKey } from 'utils/localization.utils';
 
@@ -9,7 +9,7 @@ import { getLabelKey } from 'utils/localization.utils';
  */
 export const getPadsUIConfig = (
   currentLanguage: 'en' | 'es' | 'ca',
-): Record<Exclude<FilterFieldKey, 'mode'> | NavigationFieldKey, PadConfig> => {
+): Record<Exclude<FilterKey, 'mode'> | NavigationFieldKey, PadConfig> => {
   const labelKey = getLabelKey(currentLanguage);
 
   return {
@@ -62,16 +62,16 @@ export const getPadsUIConfig = (
     },
   };
 };
-// Record<Exclude<FilterFieldKey, 'mode'> | NavigationFieldKey, PadConfig>
+// Record<Exclude<FilterKey, 'mode'> | NavigationFieldKey, PadConfig>
 // Legacy static config (for backward compatibility) - now defaults to Spanish
-export const PADS_UI_CONFIG: Record<Exclude<FilterFieldKey, 'mode'> | NavigationFieldKey, PadConfig> =
+export const PADS_UI_CONFIG: Record<Exclude<FilterKey, 'mode'> | NavigationFieldKey, PadConfig> =
   getPadsUIConfig('es');
 
 export const INITIAL_PAD_CHECKBOX: PadUI = {
   index: 0,
   id: '',
   label: '',
-  name: '' as FilterFieldKey | NavigationFieldKey,
+  name: '' as FilterKey | NavigationFieldKey,
   value: {
     name: '',
     id: '',
@@ -84,7 +84,7 @@ export const INITIAL_PAD_RADIO: PadUI = {
   index: 0,
   id: '',
   label: '',
-  name: '' as FilterFieldKey | NavigationFieldKey,
+  name: '' as FilterKey | NavigationFieldKey,
   value: {
     name: '',
     id: '',

@@ -2,7 +2,7 @@
 import type { AxiosError, AxiosResponse } from 'axios';
 import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
 
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 import type { ContainerType, DrinkSubtype, DrinkType, DrinkVolume } from 'types/models/container-type.model';
 import type {
   ContainerTypeEntity,

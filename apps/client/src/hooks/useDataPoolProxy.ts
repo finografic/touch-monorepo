@@ -3,7 +3,7 @@ import { useFiltersContext } from 'providers/FiltersProvider/FiltersContext';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { OrderFilters } from 'types/filters.types';
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 
 // TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterKey: containterType..
 // import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
@@ -33,10 +33,10 @@ export const useDataPoolProxy = ({
   dataPool: OrderReadableModel[];
 }): { dataPoolProxy: OrderReadableModel[] } => {
   const { filters } = useFiltersContext();
-  const { dataFiltered, fieldKey } = useFilters();
+  const { dataFiltered, filterFieldKey } = useFilters();
 
   // Default: return original data (real data from db)
-  console.log('%c🚨>> filterKey:', 'color:cyan', fieldKey);
+  console.log('%c🚨>> filterKey:', 'color:cyan', filterFieldKey);
 
   const dataPoolProxy = useMemo((): OrderReadableModel[] => {
     // Edge case: If user clicks NEXT with current selection, next page will be EMPTY

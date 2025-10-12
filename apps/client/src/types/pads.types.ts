@@ -1,5 +1,5 @@
 import type { DataEntry } from 'types/data.types';
-import type { FilterFieldKey, NavigationFieldKey } from 'types/orders.types';
+import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
 import type { ConstEnumOf } from '@workspace/core/types/utils';
 import type { FilterApiKey } from 'types/filters.types';
 
@@ -14,7 +14,7 @@ export const PAD_TYPE: ConstEnumOf<PadType> = {
 export interface PadUI {
   id: string;
   label?: string | null;
-  name: FilterFieldKey | NavigationFieldKey;
+  name: FilterKey | NavigationFieldKey;
   value: { [K in 'id' | 'name' | string]: string | number | boolean };
   index?: number;
   type: PadType;

@@ -3,7 +3,7 @@ import { useLocation, useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RouteConfig } from 'routes/routes.types';
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { getPadsUIConfig } from 'config/ui';
-import type { FilterFieldKey } from 'types/orders.types';
+import type { FilterKey } from 'types/orders.types';
 import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
@@ -16,7 +16,7 @@ import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 // Required route config interface
 interface RequiredRouteConfig<T = DataEntry[]> {
   route: RouteConfig;
-  fieldKey: FilterFieldKey;
+  filterFieldKey: FilterKey;
   filterKey: FilterApiKey;
   loaderData: T;
   padsConfig: PadConfig<DataEntry>;
@@ -33,7 +33,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
 
   const routeConfig = useMemo(() => {
     let matchedConfig: RouteConfig | undefined;
-    let fieldKey: FilterFieldKey | undefined;
+    let filterFieldKey: FilterKey | undefined;
 
     // NOTE: Strategy 1 - get the most specific match (last)
     const currentMatch = matches[matches.length - 1];
@@ -46,18 +46,17 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
         matchedConfig = matchRouteById(routesMetadata, currentMatch.id);
       }
 
-      fieldKey = (matchedConfig?.id || currentMatch?.id) as FilterFieldKey;
+      filterFieldKey = (matchedConfig?.id || currentMatch?.id) as FilterKey;
     }
 
-    // NOTE: Strategy 2 - find first match with FilterFieldKey (fallback)
+    // NOTE: Strategy 2 - find first match with FilterKey (fallback)
     if (!matchedConfig) {
       const routeMatch = matches.find(
-        (match: UIMatch) =>
-          match?.id && Object.values(ROUTE_FILTER_KEYS).includes(match?.id as FilterFieldKey),
+        (match: UIMatch) => match?.id && Object.values(ROUTE_FILTER_KEYS).includes(match?.id as FilterKey),
       );
       if (routeMatch) {
         matchedConfig = matchRouteById(routesMetadata, routeMatch.id);
-        fieldKey = fieldKey || (routeMatch.id as FilterFieldKey);
+        filterFieldKey = filterFieldKey || (routeMatch.id as FilterKey);
       }
     }
 
@@ -68,15 +67,15 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
     if (routeConfig?.handle) {
       const { handle, ...configExpanded } = routeConfig;
       Object.assign(configExpanded, { ...handle });
-      return { route: configExpanded, fieldKey };
+      return { route: configExpanded, filterFieldKey };
     }
 
-    return { route: routeConfig, fieldKey };
+    return { route: routeConfig, filterFieldKey };
   }, [matches, routesMetadata, currentPathname, matchRoute, matchRouteById]);
 
   // Get language-aware pads configuration
   const padsConfig = useMemo(() => {
-    if (!routeConfig.fieldKey) return undefined;
+    if (!routeConfig.filterFieldKey) return undefined;
 
     const currentRoute = routeConfig.route;
     const languageCode = currentLanguage.startsWith('es')
@@ -86,16 +85,16 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
         : 'en';
 
     const allPadsConfig = getPadsUIConfig(languageCode);
-    return allPadsConfig[routeConfig.fieldKey];
-  }, [routeConfig.fieldKey, currentLanguage, routeConfig.route]);
+    return allPadsConfig[routeConfig.filterFieldKey];
+  }, [routeConfig.filterFieldKey, currentLanguage, routeConfig.route]);
 
   // Call useRouteLoaderData at the top level (not inside useMemo!)
-  const loaderData = useRouteLoaderData(routeConfig.fieldKey || 'root') as T;
+  const loaderData = useRouteLoaderData(routeConfig.filterFieldKey || 'root') as T;
 
   // Build the result with all required properties
   const result: RequiredRouteConfig<T> = {
     route: routeConfig.route || ({} as RouteConfig),
-    fieldKey: routeConfig.fieldKey || ('' as FilterFieldKey),
+    filterFieldKey: routeConfig.filterFieldKey || ('' as FilterKey),
     filterKey: padsConfig?.filterKey || ('' as FilterApiKey),
     loaderData: loaderData || ([] as unknown as T),
     padsConfig: padsConfig || ({} as PadConfig<DataEntry>),
