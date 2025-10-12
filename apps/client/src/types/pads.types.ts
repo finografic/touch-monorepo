@@ -1,7 +1,7 @@
 import type { DataEntry } from 'types/data.types';
 import type { FilterFieldKey, NavigationFieldKey } from 'types/orders.types';
 import type { ConstEnumOf } from '@workspace/core/types/utils';
-import type { FilterZZZKey } from 'types/filters.types';
+import type { FilterApiKey } from 'types/filters.types';
 
 export type PadType = 'radio' | 'checkbox' | 'button';
 
@@ -19,7 +19,7 @@ export interface PadUI {
   index?: number;
   type: PadType;
   isChecked: boolean;
-  filterKey?: FilterZZZKey;
+  filterKey?: FilterApiKey;
   metadata?: DataEntry;
   disabled?: boolean;
   className?: string;
@@ -27,7 +27,7 @@ export interface PadUI {
 
 // Base configuration type with all properties required
 export interface PadConfigOptions<T extends DataEntry = DataEntry> {
-  filterKey?: FilterZZZKey; // TODO: CAREFUL HERE ..
+  filterKey?: FilterApiKey; // TODO: CAREFUL HERE ..
   type: PadType;
   labelKey: keyof T;
   valueKeys: ['id', 'name', ...(keyof T)[]];

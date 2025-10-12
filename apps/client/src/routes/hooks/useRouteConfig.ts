@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import type { DataEntry } from 'types/data.types';
 import type { PadConfig } from 'types/pads.types';
-import type { FilterZZZKey } from 'types/filters.types';
+import type { FilterApiKey } from 'types/filters.types';
 import { useTranslation } from 'react-i18next';
 import type { RegionLocale } from '@workspace/i18n';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
@@ -17,7 +17,7 @@ import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 interface RequiredRouteConfig<T = DataEntry[]> {
   route: RouteConfig;
   fieldKey: FilterFieldKey;
-  filterKey: FilterZZZKey;
+  filterKey: FilterApiKey;
   loaderData: T;
   padsConfig: PadConfig<DataEntry>;
 }
@@ -96,7 +96,7 @@ export function useRouteConfig<T = DataEntry[]>(): RequiredRouteConfig<T> {
   const result: RequiredRouteConfig<T> = {
     route: routeConfig.route || ({} as RouteConfig),
     fieldKey: routeConfig.fieldKey || ('' as FilterFieldKey),
-    filterKey: padsConfig?.filterKey || ('' as FilterZZZKey),
+    filterKey: padsConfig?.filterKey || ('' as FilterApiKey),
     loaderData: loaderData || ([] as unknown as T),
     padsConfig: padsConfig || ({} as PadConfig<DataEntry>),
   };
