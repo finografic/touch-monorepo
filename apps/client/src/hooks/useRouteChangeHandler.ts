@@ -39,11 +39,13 @@ export const useRouteChangeHandler = () => {
   const { setFilters: setOrdersFilters } = useOrders();
   const { filterKey, loaderData, padsConfig } = useRouteConfig();
 
+  // ======================================================================== //
   // 🚨 ENHANCED DATA POOL TRACKING: Route-aware with change context
+
   const dataPoolRef = useRef<DataPoolTrackingState>();
 
   useEffect(
-    function handle_DATA_POOL_CHANGE() {
+    function handleDataPoolChange() {
       if (Array.isArray(loaderData)) {
         // 🚀 EXPERIMENTAL PATTERN - FOR CHANGE REASON DETERMINATION
         const trigger: CHANGED = (() => {
@@ -79,6 +81,8 @@ export const useRouteChangeHandler = () => {
     },
     [dataPool, filterKey, loaderData],
   );
+
+  // ======================================================================== //
 
   // 🚨 COMMENTED OUT: Old useDataPoolProxy hook - replaced with new ref system
   // const { dataPoolProxy } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
