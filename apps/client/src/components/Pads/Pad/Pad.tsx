@@ -8,10 +8,10 @@ import { PadRadio } from './PadRadio';
 import { PadButton } from './PadButton';
 
 export interface PadProps extends PadUI {
-  filterFieldKey: FilterKey;
+  filtersKey: FilterKey;
   className?: string;
   children?: ReactNode;
-  onSelect?: ({ filterFieldKey, pad }: { filterFieldKey: FilterKey; pad: PadUI }) => void;
+  onSelect?: ({ filtersKey, pad }: { filtersKey: FilterKey; pad: PadUI }) => void;
 }
 
 const Pad: FC<PadProps> = (props) => {

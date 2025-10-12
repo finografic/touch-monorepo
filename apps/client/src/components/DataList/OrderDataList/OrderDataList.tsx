@@ -15,15 +15,15 @@ export const OrderDataList = ({ data }: { data: OrderReadableModel }) => {
   }
 
   // Helper function to format field names for display
-  const formatFieldName = (filterFieldKey: string): string => {
-    return filterFieldKey
+  const formatFieldName = (filtersKey: string): string => {
+    return filtersKey
       .replace(/([A-Z])/g, ' $1') // Add space before capital letters
       .replace(/^./, (str) => str.toUpperCase()); // Capitalize first letter
   };
 
   // Helper function to get display value for each field
-  const getDisplayValue = (filterFieldKey: string, orderData: OrderReadableModel): string => {
-    switch (filterFieldKey) {
+  const getDisplayValue = (filtersKey: string, orderData: OrderReadableModel): string => {
+    switch (filtersKey) {
       case 'drinkType':
         return orderData.drinkType || 'N/A';
       case 'drinkSubtype':
@@ -58,10 +58,10 @@ export const OrderDataList = ({ data }: { data: OrderReadableModel }) => {
     <div css={styles} className="data-list-wrapper">
       <DataList.Root className="data-list">
         {/* Display order data fields */}
-        {displayFields.map((filterFieldKey) => (
-          <DataList.Item key={filterFieldKey}>
-            <DataList.Label className="label">{formatFieldName(filterFieldKey)}</DataList.Label>
-            <DataList.Value className="value">{getDisplayValue(filterFieldKey, data)}</DataList.Value>
+        {displayFields.map((filtersKey) => (
+          <DataList.Item key={filtersKey}>
+            <DataList.Label className="label">{formatFieldName(filtersKey)}</DataList.Label>
+            <DataList.Value className="value">{getDisplayValue(filtersKey, data)}</DataList.Value>
           </DataList.Item>
         ))}
       </DataList.Root>

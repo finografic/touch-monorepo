@@ -11,12 +11,12 @@ import type { RegionLocale } from '@workspace/i18n';
 export const parsePadConfig = <T extends DataEntry>({
   data = [],
   config,
-  filterFieldKey,
+  filtersKey,
   currentLanguage = 'es-ES',
 }: {
   data: T[];
   config: PadConfig<T>;
-  filterFieldKey: FilterKey;
+  filtersKey: FilterKey;
   currentLanguage?: RegionLocale;
 }): { pads: PadUI[]; numPads: number } => {
   const labelKey = (config.labelKey as keyof T) || ('nameEs' as keyof T); // NOTE: which key to use for label
@@ -25,7 +25,7 @@ export const parsePadConfig = <T extends DataEntry>({
 
   const pads: PadUI[] = slicedData.map((item, index) => {
     const id = String(item.id);
-    const name = filterFieldKey;
+    const name = filtersKey;
     const type = config.type;
 
     // Use localized name based on current language
@@ -63,9 +63,9 @@ export const parsePadConfig = <T extends DataEntry>({
 // -------------------------------------------------------------------------- //
 // NOTE: Update pad state
 
-export const getPadIdsForField = (orders: any[], filterFieldKey: FilterKey) => {
+export const getPadIdsForField = (orders: any[], filtersKey: FilterKey) => {
   let ids: (string | undefined)[] = [];
-  switch (filterFieldKey) {
+  switch (filtersKey) {
     case ROUTE_FILTER_KEYS.drinkType:
       ids = orders.map((o) => o.drinkTypeName);
       break;

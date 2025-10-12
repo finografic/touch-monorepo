@@ -12,7 +12,7 @@ import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 export interface LayoutUiValues {
   [LayoutUiKeys.numItems]: ValidGridSize;
-  [LayoutUiKeys.filterFieldKey]: FilterKey | undefined;
+  [LayoutUiKeys.filtersKey]: FilterKey | undefined;
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadUI[];
   [LayoutUiKeys.padsFiltered]: PadUI[];
@@ -23,11 +23,11 @@ export interface LayoutUiValues {
 type LayoutUiSetters = CreateSettersType<LayoutUiValues, typeof SETTER_PREFIX>;
 
 type LayoutUiActions = LayoutUiSetters & {
-  initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadConfig, filterFieldKey: FilterKey) => void;
-  updatePadState: (filterFieldKey: FilterKey, updater: (pads: PadUI[]) => PadUI[]) => void;
-  togglePad: (filterFieldKey: FilterKey, padId: string, type: PadType) => void;
+  initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadConfig, filtersKey: FilterKey) => void;
+  updatePadState: (filtersKey: FilterKey, updater: (pads: PadUI[]) => PadUI[]) => void;
+  togglePad: (filtersKey: FilterKey, padId: string, type: PadType) => void;
   handleRouteChange: (
-    filterFieldKey: FilterKey | undefined,
+    filtersKey: FilterKey | undefined,
     loaderData: DataEntry[],
     padsConfig: PadConfig,
     dataPool: DataEntry[] | OrderModel[] | OrderReadableModel[],

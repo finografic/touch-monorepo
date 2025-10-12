@@ -1,4 +1,3 @@
-import type { ORDER_FIELD_KEYS } from 'config/app';
 import type { OrderFilters } from 'types/filters.types';
 import type { CamelToKebab, CamelToSnake } from '@workspace/core/types/utils';
 import type { FlowTypeValue } from 'types/flow.types';

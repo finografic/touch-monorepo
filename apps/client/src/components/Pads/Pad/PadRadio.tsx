@@ -7,7 +7,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { PAD_TYPE } from 'types/pads.types';
 
 export const PadRadio: React.FC<PadProps> = ({
-  filterFieldKey,
+  filtersKey,
   className,
   children,
   onSelect,
@@ -34,9 +34,9 @@ export const PadRadio: React.FC<PadProps> = ({
       aria-checked={isChecked}
       onClick={() => {
         if (!disabled && !isChecked) {
-          togglePad(filterFieldKey, id, PAD_TYPE.RADIO);
+          togglePad(filtersKey, id, PAD_TYPE.RADIO);
           onSelect?.({
-            filterFieldKey,
+            filtersKey,
             pad: {
               id,
               label,
