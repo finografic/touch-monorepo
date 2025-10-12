@@ -44,7 +44,7 @@ export const Header: React.FC<HeaderProps> = ({
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   const isAdmin = location.pathname.startsWith('/admin');
-  log('__DEV: navigation', 'hotpink', isAdmin);
+  // log('__DEV: navigation', 'hotpink', isAdmin);
 
   // const { user, session, isLoading, isAuthenticated, isAdmin, signOut } = useAuth();
 
