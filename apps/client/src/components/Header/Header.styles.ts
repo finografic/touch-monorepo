@@ -14,9 +14,9 @@ export const styles = css`
     justify-content: center;
 
     .container {
-      border: 2px solid yellow;
+      /* border: 2px solid yellow; */
       .col {
-        border: 2px solid cyan;
+        /* border: 2px solid cyan; */
       }
     }
 
