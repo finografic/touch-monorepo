@@ -39,10 +39,10 @@ export const cssGlobal = css`
   [data-theme='light'] {
     box-sizing: border-box;
     /* Light theme color palette (default + explicit light) */
-    ${generateCssColorVariables({ colors: lightColors })}
+    /* ${generateCssColorVariables({ colors: lightColors })} */
 
     /* Transparent color utilities */
-    ${generateCssColorVariablesTransparency()}
+    /* ${generateCssColorVariablesTransparency()} */
 
     /* Debug: Show current theme */
     --debug-theme: 'light';
@@ -50,10 +50,10 @@ export const cssGlobal = css`
 
   /* Dark theme color variables */
   [data-theme='dark'] {
-    ${generateCssColorVariables({ colors: darkColors })}
+    /* ${generateCssColorVariables({ colors: darkColors })} */
 
     /* Transparent color utilities */
-    ${generateCssColorVariablesTransparency()}
+    /* ${generateCssColorVariablesTransparency()} */
 
     --debug-theme: 'dark';
   }
