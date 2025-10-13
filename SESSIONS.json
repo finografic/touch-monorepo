@@ -1,0 +1,162 @@
+{
+  "session_1760385733338_5is7gx0bh": {
+    "id": "session_1760385733338_5is7gx0bh",
+    "flowType": "program-product",
+    "createdAt": "2025-10-13T20:02:13.338Z",
+    "filters": {
+      "mode": {
+        "id": "cmfk17i8e0002mulwv27uneha",
+        "name": "3"
+      },
+      "drinkType": {
+        "id": "cmed7c9vb0001itlwd3sxcr36",
+        "name": "vino",
+        "hasSubtypes": true,
+        "defaultTempConsume": 15
+      },
+      "drinkSubtype": {
+        "id": "cmed7c9vc0009itlwo1wjuaw1",
+        "name": "tinto",
+        "defaultTempConsume": 15
+      },
+      "drinkVolume": {
+        "id": "cmed7cc1i0004nalwj37sq1rt",
+        "name": "75cl"
+      },
+      "containerType": {
+        "id": "cmgola9vu0002ba7n2x4p57wv",
+        "name": "metal"
+      },
+      "temperature": {
+        "defaultConsume": 5,
+        "defaultFreeze": -10,
+        "temperatureProfiles": [
+          {
+            "id": "9b313a9d-99d7-4cce-8f93-37363528c70b",
+            "orderId": "cmgolacxs003pgu7ni7pkacsx",
+            "modeId": "cmgolabed0002e57nuztg4cpl",
+            "temperature": 25,
+            "timeA": 60,
+            "timeB": 90,
+            "timeC": 120
+          },
+          {
+            "id": "698945e9-15f0-4b97-8d5b-c98bcd29aa72",
+            "orderId": "cmgolacxs003pgu7ni7pkacsx",
+            "modeId": "cmgolabed0002e57nuztg4cpl",
+            "temperature": 15,
+            "timeA": 90,
+            "timeB": 135,
+            "timeC": 180
+          },
+          {
+            "id": "afedc581-ddac-4b39-ad7d-09a655843719",
+            "orderId": "cmgolacxs003pgu7ni7pkacsx",
+            "modeId": "cmgolabed0002e57nuztg4cpl",
+            "temperature": 8,
+            "timeA": 120,
+            "timeB": 180,
+            "timeC": 240
+          },
+          {
+            "id": "e17f452e-15af-49ff-80cc-a2017643016d",
+            "orderId": "cmgolacxs003pgu7ni7pkacsx",
+            "modeId": "cmgolabed0002e57nuztg4cpl",
+            "temperature": 2,
+            "timeA": 150,
+            "timeB": 225,
+            "timeC": 300
+          }
+        ],
+        "initial": 25,
+        "final": 5,
+        "closestInitialTemperature": 25,
+        "closestFinalTemperature": 8
+      }
+    },
+    "slotNumbers": [1, 7, 10],
+    "isActive": false,
+    "isCurrent": false,
+    "isComplete": false
+  },
+  "session_1760386198676_25dyv88o3": {
+    "id": "session_1760386198676_25dyv88o3",
+    "flowType": "program-product",
+    "createdAt": "2025-10-13T20:09:58.676Z",
+    "filters": {
+      "mode": {
+        "id": "cmfk17i8e0002mulwv27uneha",
+        "name": "3"
+      },
+      "drinkType": {
+        "id": "cmed7c9vb0001itlwd3sxcr36",
+        "name": "vino",
+        "hasSubtypes": true,
+        "defaultTempConsume": 15
+      },
+      "drinkSubtype": {
+        "id": "cmed7c9vc0009itlwo1wjuaw1",
+        "name": "tinto",
+        "defaultTempConsume": 15
+      },
+      "drinkVolume": {
+        "id": "cmed7cc1i0004nalwj37sq1rt",
+        "name": "75cl"
+      },
+      "containerType": {
+        "id": "cmgola9vu0002ba7n2x4p57wv",
+        "name": "metal"
+      },
+      "temperature": {
+        "defaultConsume": 5,
+        "defaultFreeze": -10,
+        "temperatureProfiles": [
+          {
+            "id": "9b313a9d-99d7-4cce-8f93-37363528c70b",
+            "orderId": "cmgolacxs003pgu7ni7pkacsx",
+            "modeId": "cmgolabed0002e57nuztg4cpl",
+            "temperature": 25,
+            "timeA": 60,
+            "timeB": 90,
+            "timeC": 120
+          },
+          {
+            "id": "698945e9-15f0-4b97-8d5b-c98bcd29aa72",
+            "orderId": "cmgolacxs003pgu7ni7pkacsx",
+            "modeId": "cmgolabed0002e57nuztg4cpl",
+            "temperature": 15,
+            "timeA": 90,
+            "timeB": 135,
+            "timeC": 180
+          },
+          {
+            "id": "afedc581-ddac-4b39-ad7d-09a655843719",
+            "orderId": "cmgolacxs003pgu7ni7pkacsx",
+            "modeId": "cmgolabed0002e57nuztg4cpl",
+            "temperature": 8,
+            "timeA": 120,
+            "timeB": 180,
+            "timeC": 240
+          },
+          {
+            "id": "e17f452e-15af-49ff-80cc-a2017643016d",
+            "orderId": "cmgolacxs003pgu7ni7pkacsx",
+            "modeId": "cmgolabed0002e57nuztg4cpl",
+            "temperature": 2,
+            "timeA": 150,
+            "timeB": 225,
+            "timeC": 300
+          }
+        ],
+        "initial": 25,
+        "final": 5,
+        "closestInitialTemperature": 25,
+        "closestFinalTemperature": 8
+      }
+    },
+    "slotNumbers": [1, 7, 10],
+    "isActive": true,
+    "isCurrent": true,
+    "isComplete": false
+  }
+}

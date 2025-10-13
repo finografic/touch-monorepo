@@ -27,6 +27,7 @@ type SessionActions = SessionSetters & {
   setActiveSession: (sessionId: string) => void;
   updateSessionFilters: (sessionId: string, filters: OrderFilters) => void;
   assignOrdersToSession: (sessionId: string, slotNumbers: number[]) => void;
+  completeSession: (sessionId: string) => void;
   clearSession: (sessionId: string) => void;
   clearAllSessions: () => void;
 };

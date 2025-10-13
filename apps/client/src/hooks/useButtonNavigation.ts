@@ -19,7 +19,6 @@ type NavigationActionType = (typeof NAVIGATION_ACTIONS)[keyof typeof NAVIGATION_
 interface UseButtonNavigationReturn {
   handleNavigateBack: () => void;
   handleNavigateNext: () => void;
-  handleProgramProduct: () => void;
   getNavigationDisabled: (actionType: 'navigate-back' | 'navigate-next') => boolean;
   isNavigationPending: boolean;
 }
@@ -113,13 +112,6 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
     navigate,
   ]);
 
-  const handleProgramProduct = useCallback(() => {
-    startTransition(() => {
-      setPageCurrent(0);
-      navigate(PATHS.drinkType);
-    });
-  }, [navigate, setPageCurrent]);
-
   const getNavigationDisabled = useCallback(
     (actionType: NavigationActionType): boolean => {
       switch (actionType) {
@@ -143,7 +135,6 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   return {
     handleNavigateBack,
     handleNavigateNext,
-    handleProgramProduct,
     getNavigationDisabled,
     isNavigationPending: isPending,
   };

@@ -17,20 +17,20 @@ export const DevFilterResults = () => {
   // const sessionFilters =
   //   currentSessionId && sessions[currentSessionId] ? sessions[currentSessionId].filters : {};
 
-  const filtersCompact = {} as OrderFilters;
+  // const filtersCompact = {} as OrderFilters;
 
-  for (const [key, value] of Object.entries(filters)) {
-    if (key !== 'temperature') {
-      filtersCompact[key as keyof OrderFilters] = value;
-    }
-  }
+  // for (const [key, value] of Object.entries(filters)) {
+  //   if (key !== 'temperature') {
+  //     filtersCompact[key as keyof OrderFilters] = value;
+  //   }
+  // }
 
   return (
     <div id="dev-filter-results" css={styles}>
       <div className="filters">
         <h4>Filters ({Object.keys(filters).length}):</h4>
-        {/* <pre>{JSON.stringify(filters, null, 2)}</pre>  */}
-        <pre>{JSON.stringify(filtersCompact, null, 2)}</pre>
+        <pre>{JSON.stringify(filters, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(filtersCompact, null, 2)}</pre> */}
       </div>
       {/* <div className="filters">
         <h4>

@@ -57,7 +57,14 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
   const { orders, toggleSlot, setOrdersSession, profile } = useOrders();
-  const { createSession, assignOrdersToSession, currentSessionId, clearSession } = useSession();
+  const {
+    createSession,
+    assignOrdersToSession,
+    currentSessionId,
+    clearSession,
+    updateSessionFilters,
+    completeSession,
+  } = useSession();
   const { addTimer, clearCompletedTimers, timers, removeTimer } = useTimers();
   const {
     selectAllMainPageSlots,
@@ -120,6 +127,11 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
           clearMainPageSelection();
 
+          // 🎯 FIX: Mark the current session as complete when flow finishes
+          if (currentSessionId) {
+            completeSession(currentSessionId);
+          }
+
           setPageCurrent(0);
           navigate(PATHS.main, { replace: true });
         });
@@ -131,6 +143,7 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
         addTimer,
         currentSessionId,
         clearMainPageSelection,
+        completeSession,
         setPageCurrent,
         navigate,
       ],

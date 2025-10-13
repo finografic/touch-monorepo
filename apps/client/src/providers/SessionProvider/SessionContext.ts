@@ -113,6 +113,24 @@ export const SessionContext = createZustandContext(({ initialValue }) => {
               },
             });
           },
+          completeSession: (sessionId: string) => {
+            const { sessions } = get();
+
+            if (!sessions[sessionId]) return;
+
+            set({
+              sessions: {
+                ...sessions,
+                [sessionId]: {
+                  ...sessions[sessionId],
+                  isActive: false,
+                  isCurrent: false,
+                  isComplete: true,
+                },
+              },
+              currentSessionId: undefined,
+            });
+          },
           clearSession: (sessionId: string) => {
             const { sessions, currentSessionId } = get();
             const { [sessionId]: _removed, ...remainingSessions } = sessions;

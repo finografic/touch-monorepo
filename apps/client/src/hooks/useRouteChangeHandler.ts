@@ -89,7 +89,7 @@ export const useRouteChangeHandler = () => {
   // const { dataPoolProxy: __TEST } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
   // const { dataPoolProxy: __TEST } = useDataPoolProxy({ dataPool });
   const __TEST = useDataPoolProxy({ dataPool });
-  console.log('%cDATA POOL PROXY:', 'color:grey', __TEST);
+  // console.log('%cDATA POOL PROXY:', 'color:grey', __TEST);
 
   // ======================================================================== //
 

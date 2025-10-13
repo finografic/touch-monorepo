@@ -9,8 +9,7 @@ import { useButtonConfig } from 'hooks/useButtonConfig';
 export const useButtons = () => {
   const { footerButtons, contentButtons } = useButtonConfig();
 
-  const { handleNavigateBack, handleNavigateNext, handleProgramProduct, isNavigationPending } =
-    useButtonNavigation();
+  const { handleNavigateBack, handleNavigateNext, isNavigationPending } = useButtonNavigation();
 
   const {
     handleClearCompleted,
@@ -18,6 +17,7 @@ export const useButtons = () => {
     handleSelectAll,
     handleStartProductProcess,
     handleProgramTime,
+    handleProgramProduct,
     handleRepeatSelection,
   } = useButtonOperations();
 

@@ -13,6 +13,9 @@ export const SessionAndTimers = () => {
   const { mainPageSelectedSlots } = useLayoutUi();
   const { orders } = useOrders();
 
+  const previousSessions = Object.values(sessions).filter((session) => !session.isActive) || [];
+  const activeSession = Object.values(sessions).find((session) => session.isActive) || {};
+
   return (
     <div id="dev-filter-results" css={styles}>
       <div className="filters">
@@ -28,8 +31,9 @@ export const SessionAndTimers = () => {
         <pre>{JSON.stringify(filters?.temperature, null, 2)}</pre>
       </div> */}
       <div className="filters">
-        <h4>Session ({Object.keys(sessions).length}):</h4>
-        <pre>{JSON.stringify(sessions, null, 2)}</pre>
+        {previousSessions.length ? <h4>Sessions (previous) {Number(previousSessions.length)}:</h4> : null}
+        <h4>Session ({Object.keys(activeSession).length}):</h4>
+        <pre>{JSON.stringify(activeSession, null, 2)}</pre>
       </div>
 
       <div className="results-list">
