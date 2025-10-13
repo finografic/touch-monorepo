@@ -31,6 +31,9 @@ export const UserToolbar: React.FC<UserToolbarProps> = ({ onLogoutSuccess }) => 
           </button>
         </div>
         <div className="button-box">
+          <ThemeToggle />
+        </div>
+        <div className="button-box">
           {location.pathname.startsWith('/admin') ? (
             <button className="button button-dialog" onClick={() => navigate('/')}>
               <HomeIcon />
@@ -43,9 +46,6 @@ export const UserToolbar: React.FC<UserToolbarProps> = ({ onLogoutSuccess }) => 
         </div>
         <div className="button-box">
           <LoginButton onLogoutSuccess={onLogoutSuccess} />
-        </div>
-        <div className="button-box">
-          <ThemeToggle />
         </div>
       </Flex>
     </div>
