@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import clsx from 'clsx';
 import { useTimers } from 'providers/TimersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import type { SlotType } from 'types/orders.types';
+import type { FilterKey, SlotType } from 'types/orders.types';
 import { PadSlotToggle } from './PadSlotToggle';
 import { styles } from './PadSlot.styles';
 import { Pad } from 'components/Pads/Pad';
@@ -72,7 +72,7 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
       name="main"
       type="checkbox"
       value={{ id: String(slotNumber), slotType }}
-      filterKey={ROUTE_FILTER_KEYS.main}
+      filterKey={ROUTE_FILTER_KEYS.main as FilterKey}
       isChecked={isChecked}
       className={mergedClassNames}
       onSelect={handleSelect}
