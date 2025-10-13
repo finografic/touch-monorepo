@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'components/ButtonRadix/Button';
 import { Input } from 'components/Input/Input';
 import { styles } from './AuthLoginDialog.styles';
@@ -28,9 +28,7 @@ export const AuthLoginTabContent: React.FC<AuthLoginTabContentProps> = ({
   const [placeholderMask, setPlaceholderMask] = useState('');
 
   useEffect(() => {
-    const seed = activeTab.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-    const random = (seed * 9301 + 49297) % 233280; // Simple LCG
-    const dotCount = Math.round(6 + (random % 7)) + Math.round((random % 7) / 2);
+    const dotCount = Math.max(Math.round(Math.random() * 7) + Math.round(Math.random() * 7) * 0.7) + 6; // random dots;
     const randomPlaceholder = '•'.repeat(dotCount);
 
     setPlaceholderMask(randomPlaceholder);
