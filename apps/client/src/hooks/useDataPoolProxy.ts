@@ -38,10 +38,10 @@ export const useDataPoolProxy = ({
       return mockEntries;
     }
 
-    return [...dataPool];
+    return dataPool;
   }, [loaderData, dataPool, dataFiltered.length, filters]);
 
-  return Array.isArray(loaderData) ? dataPoolProxy : dataPool;
+  return dataPoolProxy;
 };
 
 // ======================================================================== //
