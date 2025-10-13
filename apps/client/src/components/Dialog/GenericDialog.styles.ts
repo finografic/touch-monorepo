@@ -47,6 +47,11 @@ export const styles = css`
           cursor: pointer;
         }
       }
+
+      &:not(.has-title) {
+        position: absolute;
+        right: 1.5rem;
+      }
     }
 
     /* DIALOG MAIN ========================================================== */
