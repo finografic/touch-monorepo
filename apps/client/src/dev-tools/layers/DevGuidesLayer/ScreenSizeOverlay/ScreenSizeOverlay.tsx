@@ -3,6 +3,7 @@ import type { ReactElement } from 'react';
 import { styles } from './ScreenSizeOverlay.styles';
 import { KEY_PRESS, useKeyPressToggle } from '@workspace/core';
 import { useDevGuides } from '../../../providers/DevGuidesProvider';
+import { DevScreenSize } from 'dev-tools/components/DevScreenSize/DevScreenSize';
 
 export const ScreenSizeOverlay = (): ReactElement | null => {
   const { isDevGuidesVisibile, setIsDevGuidesVisibile } = useDevGuides();
@@ -15,9 +16,12 @@ export const ScreenSizeOverlay = (): ReactElement | null => {
   });
 
   return (
-    <Row css={styles}>
-      {/* {isDevGuidesVisibile && <div className="screen-overlay screen-800x480" />} */}
-      {isDevGuidesVisibile && <div className="screen-overlay screen-1024x600" />}
-    </Row>
+    <>
+      {isDevGuidesVisibile && <DevScreenSize />}
+      <Row css={styles}>
+        {/* {isDevGuidesVisibile && <div className="screen-overlay screen-800x480" />} */}
+        {isDevGuidesVisibile && <div className="screen-overlay screen-1024x600" />}
+      </Row>
+    </>
   );
 };
