@@ -5,7 +5,8 @@ import { Input } from 'components/Input/Input';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { styles } from './AuthLoginSimpleDialog.styles';
 
-const DEFAULT_USER_ADMIN = 'admin@example.com';
+const DEFAULT_USER_EMAIL = 'user@example.com';
+const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
 const DEFAULT_PASSWORD = 'password123';
 
 interface AuthLoginSimpleDialogProps {
@@ -24,8 +25,13 @@ export const AuthLoginSimpleDialog = ({
   const [password, setPassword] = useState(DEFAULT_PASSWORD);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [activeTab, setActiveTab] = useState('user');
 
   const { signIn } = useAuth();
+
+  const getCurrentEmail = () => {
+    return activeTab === 'admin' ? DEFAULT_ADMIN_EMAIL : DEFAULT_USER_EMAIL;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -33,7 +39,7 @@ export const AuthLoginSimpleDialog = ({
     setError('');
 
     try {
-      const result = await signIn(DEFAULT_USER_ADMIN, password);
+      const result = await signIn(getCurrentEmail(), password);
 
       if (result.success) {
         onClose();

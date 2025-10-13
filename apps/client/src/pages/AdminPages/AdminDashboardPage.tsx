@@ -8,6 +8,7 @@ import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { getAdminDashboardCards } from 'config/routes/admin.routes.selectors';
 import { getCalloutText } from './utils/i18n.utils';
 import type { AuthRoles } from 'config/routes/admin.routes.map';
+import { AdminAccessTest } from 'components/AdminAccessTest/AdminAccessTest';
 
 export const AdminDashboardPage: React.FC = () => {
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
@@ -44,6 +45,7 @@ export const AdminDashboardPage: React.FC = () => {
       >
         <Flex direction="column" gap="4" align="center">
           <SectionHeader title="Admin Configuration" align="center" />
+          <AdminAccessTest />
           <div
             className="admin-cards"
             style={{ ['--cols' as any]: Math.min(2, Math.max(1, adminCards.length)) }}
