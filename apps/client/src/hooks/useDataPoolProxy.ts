@@ -35,20 +35,24 @@ export const useDataPoolProxy = <T extends OrderReadableModel = OrderReadableMod
 ): T[] => {
   const { loaderData } = useRouteConfig();
   // const { filters } = useFiltersContext();
-  const { filters, dataPool, dataFiltered } = useFilters();
+  const { filters, dataPool, dataFiltered, filterKey } = useFilters();
 
   const proxyDataPool = useMemo(() => {
     log('DATA POOL PROXY: NO LOADER DATA', 'grey');
-    if (!Array.isArray(loaderData)) return dataPool as T[];
+    // if (!Array.isArray(loaderData)) return dataPool as T[];
 
     if (dataFiltered.length === 0) {
       log('🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'orange');
 
-      const mockEntries = []; // const mockEntries = generateMockEntries(filters);
+      const mockEntries = generateMockEntries({ filters });
+      // const mockEntries = [];
 
       // NEW: V2
-      log('🚧 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
-      log('🚧 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataFiltered, ...mockEntries]);
+      log('🚧 DATA POOL PROXY: Injected mock entries:', 'grey', filterKey, mockEntries.length);
+      log('🚧 DATA POOL PROXY: Injected mock entries:', 'yellow', filterKey, [
+        ...dataFiltered,
+        ...mockEntries,
+      ]);
       return [...dataFiltered, ...mockEntries] as T[];
     }
 
@@ -62,7 +66,7 @@ export const useDataPoolProxy = <T extends OrderReadableModel = OrderReadableMod
  * Generate mock entries based on current filter context
  * This ensures mock buttons are contextually relevant
  */
-function generateMockEntries(filters: OrderFilters): OrderReadableModel[] {
+function generateMockEntries({ filters }: { filters: OrderFilters }): OrderReadableModel[] {
   const mockEntries: OrderReadableModel[] = [];
 
   // Get current filter values
