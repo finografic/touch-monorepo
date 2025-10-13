@@ -71,53 +71,66 @@ export const Header: React.FC<HeaderProps> = ({
     );
   };
 
-  const leftColProps =
-    titleAlign === 'center'
-      ? { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 }
-      : { xs: 3, sm: 3, md: 3, lg: 3, xl: 3, xxl: 3 };
+  // Intelligent responsive column system [Claude v3.5]
+  const getColumnProps = () => {
+    if (titleAlign === 'center') {
+      // Title centered: Left(empty) | Center(title) | Right(toolbar)
+      return {
+        left: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 },
+        center: { xs: 8, sm: 8, md: 6, lg: 6, xl: 6, xxl: 6 },
+        right: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 },
+      };
+    } else if (titleAlign === 'left') {
+      // Title left: Left(title) | Center(empty) | Right(toolbar)
+      return {
+        left: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, xxl: 4 },
+        center: { xs: 0, sm: 0, md: 4, lg: 4, xl: 4, xxl: 4 },
+        right: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, xxl: 4 },
+      };
+    } else {
+      // Title right (rare): Left(empty) | Center(empty) | Right(title + toolbar)
+      return {
+        left: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
+        center: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
+        right: { xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 },
+      };
+    }
+  };
 
-  const centerColProps =
-    titleAlign === 'center'
-      ? { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 }
-      : { xs: 3, sm: 3, md: 3, lg: 3, xl: 3, xxl: 3 };
-
-  const rightColProps =
-    titleAlign === 'center'
-      ? { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 }
-      : { xs: 3, sm: 3, md: 3, lg: 3, xl: 3, xxl: 3 };
+  const { left: leftColProps, center: centerColProps, right: rightColProps } = getColumnProps();
 
   return (
     <div css={styles}>
       <header className={clsx('app-header', { 'admin-app-header': isAdmin })}>
         <Container className="container">
           <Row justify="between" align="center">
-            <Col xs={3} className="col col-header-left">
-              {titleAlign === 'left' ? (
-                <HeaderTitle />
-              ) : toolbar && toolbarAlign === 'left' ? (
-                toolbar
-              ) : (
-                <React.Fragment />
-              )}
+            <Col {...leftColProps} className="col col-header-left">
+              <Flex justify="start">
+                {titleAlign === 'left' ? (
+                  <HeaderTitle />
+                ) : toolbar && toolbarAlign === 'left' ? (
+                  toolbar
+                ) : (
+                  <React.Fragment />
+                )}
+              </Flex>
             </Col>
 
-            {/* Center column - 6 parts */}
-            <Col
-              // xs={6} sm={6} md={6} lg={6} xl={6} xxl={6}
-              {...centerColProps}
-              className="col col-header-center"
-            >
-              {titleAlign === 'center' && <HeaderTitle />}
+            {/* Center column - responsive width */}
+            <Col {...centerColProps} className="col col-header-center">
+              <Flex justify="center">{titleAlign === 'center' && <HeaderTitle />}</Flex>
             </Col>
 
-            <Col xs={3} className="col col-header-right">
-              {titleAlign === 'right' ? (
-                <HeaderTitle />
-              ) : toolbar && toolbarAlign === 'right' ? (
-                toolbar
-              ) : (
-                <React.Fragment />
-              )}
+            <Col {...rightColProps} className="col col-header-right">
+              <Flex justify="end">
+                {titleAlign === 'right' ? (
+                  <HeaderTitle />
+                ) : toolbar && toolbarAlign === 'right' ? (
+                  toolbar
+                ) : (
+                  <React.Fragment />
+                )}
+              </Flex>
             </Col>
           </Row>
         </Container>
