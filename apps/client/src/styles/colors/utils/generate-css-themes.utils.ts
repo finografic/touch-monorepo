@@ -54,19 +54,13 @@ function generateCssThemeContent(): string {
 /* ${timestamp} */
 /* Run: pnpm generate:css-themes to update this file */
 
-:root {
-  --radius: 0.625rem;
-${lightCssVars}${lightTransparencyVars}
-}
-
 /* Light theme - explicit selector */
 [data-theme='light'] {
 ${lightCssVars}${lightTransparencyVars}
 }
 
 /* Dark theme */
-[data-theme='dark'],
-.dark {
+[data-theme='dark'] {
 ${darkCssVars}${darkTransparencyVars}
 }
 

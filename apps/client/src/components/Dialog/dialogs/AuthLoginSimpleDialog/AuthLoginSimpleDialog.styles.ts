@@ -20,9 +20,9 @@ export const styles = css`
     padding: 0.75rem;
     background-color: ${colors.gray25};
     border-radius: 6px;
-    border: 1px solid ${colors.gray100};
+    border: 1px solid ${colors.gray};
     font-size: 0.875rem;
-    color: ${colors.gray700};
+    color: ${colors.gray};
   }
 
   /* Form */

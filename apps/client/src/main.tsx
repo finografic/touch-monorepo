@@ -25,6 +25,8 @@ import App from './App';
 import { PersistQueryClientProvider } from 'providers/QueryClientProvider';
 import { RouteMetadataProvider } from 'routes/providers/RouteMetadataProvider';
 
+document.documentElement.setAttribute('data-theme', 'light');
+
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <PersistQueryClientProvider>
