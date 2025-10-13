@@ -90,6 +90,8 @@
   },
   "devDependencies": {
     "@finografic/project-scripts": "8.2.0",
+    "@inlang/cli": "3.0.12",
+    "@inlang/paraglide-js": "2.4.0",
     "@microsoft/api-extractor": "^7.52.11",
     "@types/node": "20.11.24",
     "shx": "0.3.4",
