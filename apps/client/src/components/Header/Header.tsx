@@ -71,6 +71,21 @@ export const Header: React.FC<HeaderProps> = ({
     );
   };
 
+  const leftColProps =
+    titleAlign === 'center'
+      ? { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 }
+      : { xs: 3, sm: 3, md: 3, lg: 3, xl: 3, xxl: 3 };
+
+  const centerColProps =
+    titleAlign === 'center'
+      ? { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 }
+      : { xs: 3, sm: 3, md: 3, lg: 3, xl: 3, xxl: 3 };
+
+  const rightColProps =
+    titleAlign === 'center'
+      ? { xs: 6, sm: 6, md: 6, lg: 6, xl: 6, xxl: 6 }
+      : { xs: 3, sm: 3, md: 3, lg: 3, xl: 3, xxl: 3 };
+
   return (
     <div css={styles}>
       <header className={clsx('app-header', { 'admin-app-header': isAdmin })}>
@@ -87,7 +102,11 @@ export const Header: React.FC<HeaderProps> = ({
             </Col>
 
             {/* Center column - 6 parts */}
-            <Col xs={6} className="col col-header-center">
+            <Col
+              // xs={6} sm={6} md={6} lg={6} xl={6} xxl={6}
+              {...centerColProps}
+              className="col col-header-center"
+            >
               {titleAlign === 'center' && <HeaderTitle />}
             </Col>
 
