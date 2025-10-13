@@ -28,3 +28,31 @@ export const getFiltersToClearAhead = (currentFieldKey: FilterKey): FilterKey[] 
 
   return FILTER_STEP_ORDER.slice(currentIndex + 1);
 };
+
+/**
+ * Get the next filter key in the flow [Claude v3.5]
+ * @param currentFieldKey Current filter key
+ * @returns Next filter key or undefined if at the end
+ */
+export const getNextStepFilterKey = ({ current }: { current: FilterKey }): FilterKey | undefined => {
+  const currentIndex = getFilterStepIndex(current);
+  if (currentIndex === -1 || currentIndex >= FILTER_STEP_ORDER.length - 1) {
+    return undefined; // Invalid filterKey or at the end
+  }
+
+  return FILTER_STEP_ORDER[currentIndex + 1];
+};
+
+/**
+ * Get the previous filter key in the flow [Claude v3.5]
+ * @param currentFieldKey Current filter key
+ * @returns Previous filter key or undefined if at the beginning
+ */
+export const getPrevStepFilterKey = ({ current }: { current: FilterKey }): FilterKey | undefined => {
+  const currentIndex = getFilterStepIndex(current);
+  if (currentIndex === -1 || currentIndex <= 0) {
+    return undefined; // Invalid filterKey or at the beginning
+  }
+
+  return FILTER_STEP_ORDER[currentIndex - 1];
+};

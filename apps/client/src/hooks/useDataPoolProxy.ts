@@ -38,18 +38,17 @@ export const useDataPoolProxy = <T extends OrderReadableModel = OrderReadableMod
   const { filters, dataPool, dataFiltered } = useFilters();
 
   const proxyDataPool = useMemo(() => {
-    log('🚨 DATA POOL PROXY: no loader data', 'grey');
+    log('DATA POOL PROXY: NO LOADER DATA', 'grey');
     if (!Array.isArray(loaderData)) return dataPool as T[];
 
     if (dataFiltered.length === 0) {
       log('🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'orange');
 
-      // const mockEntries = generateMockEntries(filters);
-      const mockEntries = [];
+      const mockEntries = []; // const mockEntries = generateMockEntries(filters);
 
       // NEW: V2
-      log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
-      log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataFiltered, ...mockEntries]);
+      log('🚧 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
+      log('🚧 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataFiltered, ...mockEntries]);
       return [...dataFiltered, ...mockEntries] as T[];
     }
 
