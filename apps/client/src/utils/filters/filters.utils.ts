@@ -182,14 +182,19 @@ export const filterData = (config: FilteringConfig): FilteringResults => {
 
   // 🚨 TEMPORARILY DISABLED: For dataPool (for filter options), use only filters up to the current step
 
-  let pool = safeDataForFilter;
+  const pool = safeDataForFilter;
 
   // ======================================================================== //
   // TODO: TEMPORARILY DISABLED: 🚨 TEMPORARY: Show ALL options regardless of filters
+
+  /*
+  let pool = safeDataForFilter;
+
   if (filterKey) {
     const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
     pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
   }
+  */
   // ======================================================================== //
 
   // FIX: If containerType filter is present, only return the first entry

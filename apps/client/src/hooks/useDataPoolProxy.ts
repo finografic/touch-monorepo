@@ -7,14 +7,14 @@ import type { FilterKey } from 'types/orders.types';
 import { getFiltersByStep, matchesFilters } from 'utils/filters/filters.utils';
 import type { DataEntry } from 'types/data.types';
 
-// TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterApiKey: containterType..
+// TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterKey: containterType..
 // import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
 
 // If datafiltered.length === 0 when a containerType radio in INITIALLY selected by user,
 // BEFORE clicking Next button to navigate to TemperaturePage.tsx
 
 // BUT: 🚨 POSSIBLE HEAVY PERFORMANCE IMPACT... AND TemperaturePage.tsx can probably do this.
-// SO:  ✅ `temperature` filter, with EMPTY profiles[] array should be fine, and can REMOVE import.
+// SO: ✅  `temperature` filter, with EMPTY profiles[] array should be fine, and can REMOVE import.
 
 /**
  * 🚨 DATA POOL PROXY HOOK
@@ -27,60 +27,38 @@ import type { DataEntry } from 'types/data.types';
  * - Reactive: Updates when filters change
  * - Context-aware: Uses real filters for mock generation
  * - Stable for current page: Buttons don't disappear when user changes selection
- * - NOTE: Generic typing <T extends DataEntry | OrderModel | OrderReadableModel> removed for simplicity
  */
-export const useDataPoolProxy = ({
-  dataPool,
-}: {
-  dataPool: OrderReadableModel[];
-}): { dataPoolProxy: OrderReadableModel[] } => {
+// export const useDataPoolProxy = <T extends DataEntry | OrderModel | OrderReadableModel>(
+export const useDataPoolProxy = <T extends OrderReadableModel = OrderReadableModel>(dataPool: T[]): T[] => {
   const { filters } = useFiltersContext();
-  const { data, dataFiltered, filterKey } = useFilters();
-  const refFilterKey = useRef(filterKey);
+  const { dataFiltered } = useFilters();
 
-  if (filterKey !== refFilterKey.current) {
-    console.log('%c >> filterKey:', 'color:red', refFilterKey.current);
-    if (filterKey in filters) {
-      const { [filterKey]: excluded, ...TEST } = filters;
-      // console.log('%c >> filter:', 'color:blue', TEST);
-      // const TEST = {} as OrderFilters;
-      // for (const [key, filter] of Object.entries(filters)) {
-      //   if (key === filterKey) continue;
-      //   Object.assign(TEST, { [key]: filter });
-      // }
-      console.log('%c >> filter:', 'color:blue', TEST, dataFiltered);
-    }
-    refFilterKey.current = filterKey;
-  }
-
-  const dataPoolProxy = useMemo((): OrderReadableModel[] => {
-    // Edge case: If user clicks NEXT with current selection, next page will be EMPTY
-    if (dataFiltered.length === 0) {
-      const mockEntries = generateMockEntries(filters);
-      console.log('%c🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'color:orange', [
-        ...dataPool,
-        ...mockEntries,
-      ]);
-      console.log('%c🚨 DATA POOL PROXY: Injected mock entries:', 'color:grey', mockEntries.length);
-
-      return [...dataPool, ...mockEntries];
+  const proxyDataPool = useMemo(() => {
+    // If we have real data, use it as-is
+    if (dataFiltered.length > 0) {
+      console.log('🚨 DATA POOL PROXY: Using real data, no proxy needed');
+      return dataPool;
     }
 
-    // Default: return original data (real data from db)
-    console.log('%c🚨 DATA POOL PROXY: Using real data, no proxy needed', 'color:lime', dataFiltered);
+    // If no real data, inject mock entries to keep buttons visible
+    console.warn('🚨 DATA POOL PROXY: No real data found, injecting mock entries');
 
-    return dataFiltered;
-  }, [dataPool, dataFiltered, filters]);
+    // Generate mock entries based on current filter context
+    const mockEntries = generateMockEntries(filters);
 
-  return { dataPoolProxy };
+    console.log('🚨 DATA POOL PROXY: Injected mock entries:', mockEntries.length);
+    return [...dataPool, ...mockEntries] as T[];
+  }, [dataPool, dataFiltered.length, filters]);
+
+  return proxyDataPool;
 };
 
 /**
  * Generate mock entries based on current filter context
  * This ensures mock buttons are contextually relevant
  */
-function generateMockEntries(filters: OrderFilters): OrderReadableModel[] {
-  const mockEntries: OrderReadableModel[] = [];
+function generateMockEntries(filters: any): any[] {
+  const mockEntries: any[] = [];
 
   // Get current filter values
   const currentMode = filters.mode?.name || '3';

@@ -77,7 +77,7 @@ export const useRouteChangeHandler = () => {
         // dataPoolRef.current = createDataPoolState(CHANGED.ROUTE, { filterKey, dataPool });
         // dataPoolRef.current = createDataPoolState(CHANGED.FILTERS, { filterKey, dataPool });
 
-        console.log('%c >> dataPoolRef:', 'color:hotpink', dataPoolRef.current);
+        console.log('%cDATA_POOL_REF:', 'color:cyan', dataPoolRef.current);
       }
     },
     [dataPool, filterKey, loaderData],
@@ -88,6 +88,8 @@ export const useRouteChangeHandler = () => {
   // 🚨 COMMENTED OUT: Old useDataPoolProxy hook - replaced with new ref system
   // const { dataPoolProxy: __TEST } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
   const { dataPoolProxy: __TEST } = useDataPoolProxy({ dataPool });
+
+  console.log('%cPROXY_DATA_POOL:', 'color:cyan', __TEST);
 
   // ======================================================================== //
 
