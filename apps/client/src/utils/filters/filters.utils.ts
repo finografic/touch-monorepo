@@ -181,7 +181,8 @@ export const filterData = (config: FilteringConfig): FilteringResults => {
   ) as unknown as OrderReadableModel[];
 
   // ======================================================================== //
-  // TODO: 🚧 REMOVE - TEMPORARY TEST: Show ALL options regardless of filters
+  // TODO: 🚧 TESTING ONLY: shows ALL options regardless of filters
+  /*
   let pool = safeDataForFilter;
 
   if (filterKey) {
@@ -196,17 +197,18 @@ export const filterData = (config: FilteringConfig): FilteringResults => {
   } else {
     pool = safeDataForFilter;
   }
+  */
 
   // ======================================================================== //
-  // TODO: ✅ PUT BACK - TEMPORARILY DISABLED
-  /*
+  // TODO: ✅ PRODUCTION VERSION
+
   let pool = safeDataForFilter;
 
   if (filterKey) {
     const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
     pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
   }
-  */
+
   // ======================================================================== //
 
   // FIX: If containerType filter is present, only return the first entry
