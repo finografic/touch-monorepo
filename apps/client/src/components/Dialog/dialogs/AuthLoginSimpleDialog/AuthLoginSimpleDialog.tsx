@@ -72,11 +72,14 @@ export const AuthLoginSimpleDialog = ({
     },
     tabs: [
       {
-        id: 'login',
-        label: 'Sign In',
+        id: 'user',
+        label: 'User',
         content: (
           <div css={styles} id="simple-login-dialog">
             <div className="form-wrapper">
+              <div className="email-subtitle">
+                <strong>Email:</strong> {DEFAULT_USER_EMAIL}
+              </div>
               <form className="form" onSubmit={handleSubmit}>
                 <div className="input-group">
                   <label className="label" htmlFor="password">
@@ -88,10 +91,45 @@ export const AuthLoginSimpleDialog = ({
                     type="password"
                     value={password}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
-                    placeholder="Enter admin password"
+                    placeholder="Enter password"
                     required
                     disabled={isLoading}
-                    // variant="light"
+                  />
+                </div>
+
+                {error && <div className="error">{error}</div>}
+
+                <Button type="submit" disabled={isLoading} variant="soft" size="3" className="submit-button">
+                  {isLoading ? 'Loading...' : 'Sign In'}
+                </Button>
+              </form>
+            </div>
+          </div>
+        ),
+      },
+      {
+        id: 'admin',
+        label: 'Admin',
+        content: (
+          <div css={styles} id="simple-login-dialog">
+            <div className="form-wrapper">
+              <div className="email-subtitle">
+                <strong>Email:</strong> {DEFAULT_ADMIN_EMAIL}
+              </div>
+              <form className="form" onSubmit={handleSubmit}>
+                <div className="input-group">
+                  <label className="label" htmlFor="password">
+                    Password
+                    <span className="hint">{DEFAULT_PASSWORD}</span>
+                  </label>
+                  <Input
+                    id="password"
+                    type="password"
+                    value={password}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
+                    placeholder="Enter password"
+                    required
+                    disabled={isLoading}
                   />
                 </div>
 
@@ -108,5 +146,5 @@ export const AuthLoginSimpleDialog = ({
     ],
   };
 
-  return <GenericDialog isOpen={isOpen} onClose={onClose} config={config} />;
+  return <GenericDialog isOpen={isOpen} onClose={onClose} config={config} defaultTab={activeTab} />;
 };

@@ -14,6 +14,17 @@ export const styles = css`
     max-width: 350px;
   }
 
+  /* Email subtitle */
+  .email-subtitle {
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    background-color: ${colors.gray25};
+    border-radius: 6px;
+    border: 1px solid ${colors.gray100};
+    font-size: 0.875rem;
+    color: ${colors.gray700};
+  }
+
   /* Form */
   .form {
     display: flex;

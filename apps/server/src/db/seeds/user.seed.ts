@@ -25,7 +25,7 @@ export async function seed() {
         email: 'user@example.com',
         password: 'password123',
         name: 'Regular User',
-        role: 'auth',
+        role: 'user',
       },
       {
         email: 'guest@example.com',
