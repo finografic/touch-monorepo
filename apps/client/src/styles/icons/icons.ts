@@ -42,6 +42,7 @@ import {
   Sun as _SunIcon,
   Thermometer as _TempIcon,
   Trash2 as _Trash2Icon,
+  User as _UserIcon,
   UserLock as _UserLockIcon,
   UserRoundCheck as _UserRoundCheckIcon,
   AppWindowMac as _WindowIcon,
@@ -97,6 +98,7 @@ export const MagnifyingGlassIcon = createIconWrapper(_MagnifyingGlassIcon);
 export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);
 export const PanelBottomOpenIcon = createIconWrapper(_PanelBottomOpenIcon);
 export const UserLockIcon = createIconWrapper(_UserLockIcon);
+export const UserIcon = createIconWrapper(_UserIcon);
 export const UserCircleIcon = createIconWrapper(_CircleUserRoundIcon);
 export const UserShildIcon = createIconWrapper(_ShieldUserIcon);
 export const PlusIcon = createIconWrapper(_PlusIcon);
@@ -150,6 +152,7 @@ export const ICON_MAP = {
   PanelBottomCloseIcon,
   PanelBottomOpenIcon,
   UserLockIcon,
+  UserIcon,
   UserCircleIcon,
   UserShildIcon,
   PlusIcon,

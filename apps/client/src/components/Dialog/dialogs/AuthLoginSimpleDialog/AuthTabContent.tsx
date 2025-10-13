@@ -26,9 +26,9 @@ export const AuthLoginTabContent: React.FC<AuthLoginTabContentProps> = ({
   return (
     <div css={styles}>
       <div className="form-wrapper">
-        <div className="email-subtitle">
+        {/* <div className="email-subtitle">
           <strong>Email:</strong> {email}
-        </div>
+        </div> */}
         <form className="form" onSubmit={onSubmit}>
           <div className="input-group">
             <label className="label" htmlFor="password">

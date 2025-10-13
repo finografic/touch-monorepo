@@ -1,6 +1,5 @@
 import React, { useCallback, useState } from 'react';
 import { Dialog, Flex, IconButton, Tabs, Theme, VisuallyHidden } from '@radix-ui/themes';
-import { Cross2Icon } from '@radix-ui/react-icons';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { styles } from './GenericDialog.styles';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
@@ -31,19 +30,11 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
   const hasTabs = config.tabs.length > 1;
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
 
-  const defaultTheme = {
+  const theme = {
     appearance: appTheme as 'light' | 'dark', // Use app theme instead of hardcoded dark
-    // grayColor: 'slate' as const,
-    // accentColor: 'blue' as const,
-    // scaling: '100%' as const,
+    scaling: '100%' as const,
+    ...(config.theme ?? {}),
   };
-
-  // console.log('%c __THEME:', 'color:yellow', defaultTheme);
-  // console.log('%c __THEME:', 'color:orange', appTheme);
-
-  const theme = { ...defaultTheme, ...config.theme };
-
-  // console.log('%c __THEME:', 'color:lime', theme);
 
   // Create dynamic styles for max width/height constraints
   const dynamicStyles = {
@@ -56,9 +47,11 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
   // Get the portal container element
   const portalContainer = document.getElementById('radix-portal-container') || document.body;
 
-  // Object.assign(config, { title: 'TEST TITLE' });
+  // Object.assign(config, { title: 'TEST TITLE', subtitle: 'TEST SUBTITLE' });
 
   const hasTitle = config.title;
+  const hasSubtitle = config.subtitle;
+  const hasDescription = config.description;
 
   const handleTabChange = useCallback(
     (tab: string) => {
@@ -77,11 +70,14 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
         style={dynamicStyles}
         container={portalContainer}
       >
-        {/* Header - Fixed at top */}
-        <div className={clsx('dialog-header', hasTitle ? 'has-title' : 'no-title')}>
+        {/* DIALOG HEADER =========================================================== */}
+
+        <div className={clsx('dialog-header', { 'has-title': hasTitle })}>
           {hasTitle ? (
             <Flex display="flex" justify="between" align="center">
-              <Dialog.Title size="5">{config.title}</Dialog.Title>
+              <Dialog.Title size="5">
+                {config.title} <span className="subtitle">{config.subtitle}</span>
+              </Dialog.Title>
               <IconButton className="close-button" variant="ghost" onClick={onClose}>
                 <CloseIcon />
               </IconButton>
@@ -111,6 +107,8 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
           </Dialog.Description>
         </div>
 
+        {/* DIALOG TABS + CONTENT =========================================== */}
+
         {/* Content Area - Flexible height */}
         <div className="dialog-content">
           {hasTabs ? (
@@ -137,6 +135,8 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
             <div className="single-content">{currentTab?.content}</div>
           )}
         </div>
+
+        {/* ================================================================ */}
 
         {/* Footer - Fixed at bottom */}
         {config.footer && (

@@ -14,17 +14,6 @@ export const styles = css`
     max-width: 350px;
   }
 
-  /* Email subtitle */
-  .email-subtitle {
-    margin-bottom: 1rem;
-    padding: 0.75rem;
-    background-color: ${colors.gray25};
-    border-radius: 6px;
-    border: 1px solid ${colors.gray};
-    font-size: 0.875rem;
-    color: ${colors.gray};
-  }
-
   /* Form */
   .form {
     display: flex;
@@ -37,11 +26,11 @@ export const styles = css`
   } */
 
   /* Input group */
-  .input-group {
+  /* .input-group {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
-  }
+  } */
 
   /* Submit button */
   .submit-button {
@@ -57,7 +46,7 @@ export const styles = css`
   }
 
   /* Error message */
-  .error {
+  /* .error {
     color: ${colors.danger};
     font-size: 0.875rem;
     text-align: center;
@@ -65,5 +54,5 @@ export const styles = css`
     background-color: ${colors.danger25};
     border-radius: 4px;
     border: 1px solid ${colors.danger25};
-  }
+  } */
 `;

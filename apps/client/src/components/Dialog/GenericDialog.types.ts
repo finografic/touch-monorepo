@@ -3,12 +3,15 @@ import type React from 'react';
 export interface TabConfig {
   id: string;
   label: string;
+  icon?: React.ReactNode;
   content: React.ReactNode;
   disabled?: boolean;
 }
 
 export interface DialogConfig {
   title: string;
+  subtitle?: string;
+  description?: string;
   tabs: TabConfig[];
   size?: '1' | '2' | '3' | '4';
   maxWidth?: string; // e.g., '800px', '50vw', '90%'
