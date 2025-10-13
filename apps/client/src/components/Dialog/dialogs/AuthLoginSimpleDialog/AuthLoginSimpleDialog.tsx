@@ -30,7 +30,9 @@ export const AuthLoginSimpleDialog = ({
   const { signIn } = useAuth();
 
   const getCurrentEmail = () => {
-    return activeTab === 'admin' ? DEFAULT_ADMIN_EMAIL : DEFAULT_USER_EMAIL;
+    const email = activeTab === 'admin' ? DEFAULT_ADMIN_EMAIL : DEFAULT_USER_EMAIL;
+    console.log('getCurrentEmail', { tab: activeTab, email });
+    return email;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -146,5 +148,13 @@ export const AuthLoginSimpleDialog = ({
     ],
   };
 
-  return <GenericDialog isOpen={isOpen} onClose={onClose} config={config} defaultTab={activeTab} />;
+  return (
+    <GenericDialog
+      isOpen={isOpen}
+      onClose={onClose}
+      config={config}
+      defaultTab={activeTab}
+      onTabChange={setActiveTab}
+    />
+  );
 };

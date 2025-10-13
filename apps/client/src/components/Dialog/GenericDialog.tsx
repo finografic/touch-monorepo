@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Dialog, Flex, IconButton, Tabs, Theme, VisuallyHidden } from '@radix-ui/themes';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -15,9 +15,16 @@ interface GenericDialogProps {
   onClose: () => void;
   config: DialogConfig;
   defaultTab?: string;
+  onTabChange?: (tab: string) => void;
 }
 
-export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, config, defaultTab }) => {
+export const GenericDialog: React.FC<GenericDialogProps> = ({
+  isOpen,
+  onClose,
+  config,
+  defaultTab,
+  onTabChange,
+}) => {
   const { theme: appTheme } = useAppConfig();
   const [activeTab, setActiveTab] = useState(defaultTab || config.tabs[0]?.id || '');
 
@@ -52,6 +59,14 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
   // Object.assign(config, { title: 'TEST TITLE' });
 
   const hasTitle = config.title;
+
+  const handleTabChange = useCallback(
+    (tab: string) => {
+      setActiveTab(tab);
+      onTabChange?.(tab);
+    },
+    [activeTab, onTabChange],
+  );
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
@@ -100,7 +115,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({ isOpen, onClose, c
         <div className="dialog-content">
           {hasTabs ? (
             /* Multi-tab layout */
-            <Tabs.Root value={activeTab} onValueChange={setActiveTab}>
+            <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
               <Tabs.List>
                 {config.tabs.map((tab) => (
                   <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
