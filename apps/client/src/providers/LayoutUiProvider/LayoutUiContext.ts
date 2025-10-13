@@ -4,7 +4,7 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import { NUM_GRID_ITEMS } from 'config/app';
-import { parsePadConfig } from 'utils/ui-V2.utils';
+import { parsePadConfig } from 'utils/pads.utils';
 import type { DataEntry, Dataset } from 'types/data.types';
 import type { FilterKey, SlotType } from 'types/orders.types';
 import type { OrderModel } from 'types/models/order.model';
