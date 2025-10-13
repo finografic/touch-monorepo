@@ -21,7 +21,7 @@ export const UserToolbar: React.FC<UserToolbarProps> = ({ onLogoutSuccess }) => 
 
   return (
     <div css={styles} className={`theme-${theme}`}>
-      <Flex gap="3" align="center">
+      <Flex gap="0" align="center">
         <div className="button-box">
           <button
             className="button button-language"

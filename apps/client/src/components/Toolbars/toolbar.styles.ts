@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { styles as stylesButton } from 'components/ButtonControl/ButtonControl.styles';
-import { colors, layout } from 'styles';
+import { colors, layout, min } from 'styles';
 
 /**
  * Shared base styles for all admin toolbars
@@ -41,6 +41,33 @@ export const baseToolbarStyles = css`
       svg.icon {
         color: ${colors.warningLight};
       }
+    }
+
+    box-shadow: inset 0 0 0 2px transparent;
+
+    ${min.sm} {
+      padding: 0.2rem;
+      /* box-shadow: inset 0 0 0 2px rgba(200, 200, 0, 0.2); */
+    }
+
+    ${min.md} {
+      padding: 0.25rem;
+      /* box-shadow: inset 0 0 0 2px rgba(200, 200, 0, 0.2); */
+    }
+
+    ${min.lg} {
+      padding: 0.3rem;
+      /* box-shadow: inset 0 0 0 2px rgba(0, 200, 200, 0.2); */
+    }
+
+    ${min.xl} {
+      padding: 0.4rem;
+      /* box-shadow: inset 0 0 0 2px rgba(0, 200, 0, 0.2); */
+    }
+
+    ${min.xxl} {
+      padding: 0.4rem;
+      /* box-shadow: inset 0 0 0 2px rgba(0, 200, 0, 0.2); */
     }
   }
 
