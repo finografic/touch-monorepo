@@ -27,7 +27,7 @@ export const AuthLoginSimpleDialog = ({
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('user');
 
-  const { signIn } = useAuth();
+  const { signIn, refreshSession } = useAuth();
 
   const getCurrentEmail = () => {
     const email = activeTab === 'admin' ? DEFAULT_ADMIN_EMAIL : DEFAULT_USER_EMAIL;
@@ -44,6 +44,8 @@ export const AuthLoginSimpleDialog = ({
       const result = await signIn(getCurrentEmail(), password);
 
       if (result.success) {
+        // Refresh session to get updated user data with role
+        await refreshSession();
         onClose();
         onSuccess?.();
       } else {
