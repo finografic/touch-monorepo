@@ -5,7 +5,7 @@ import { SlotType } from 'types/orders.types';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
-// import { useSmartFallback } from './useSmartFallback';
+import { useSmartFallback } from './useSmartFallback';
 
 interface UseTemperatureControlOptions {
   onSuccess?: (durations: Record<string, number>) => void;
@@ -17,9 +17,9 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
   const [showLoading, setShowLoading] = useState(false);
   const { orders, profile } = useOrders();
   const { filters } = useFiltersContext();
-  const { dataFiltered } = useFilters();
+  const { filterKey, dataFiltered } = useFilters();
   const { saveConfig } = useConfigStorage();
-  // const { createFallbackEntry } = useSmartFallback();
+  const { createFallbackEntry } = useSmartFallback();
 
   const temperatureFilter = useDeferredValue(filters.temperature);
   const temperatureProfiles = temperatureFilter?.temperatureProfiles || [];
@@ -48,9 +48,9 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
       if (dataFiltered.length === 0) {
         console.warn('🚨 SMART FALLBACK: No filtered data found, using shared smart fallback entry');
         // The createFallbackEntry hook handles setting profile (temperature filter set in TemperaturePage)
-        // TODO: WAS THIS MEANT TO BE CONSOLED ?? OR CALLED createFallbackEntry() ??
-        // commented-out, for TS linter error
-        // createFallbackEntry();
+        if (['containerType', 'temperature'].includes(filterKey)) {
+          log('🚧 FALLBACK TEMPTERATURE ENTRY', 'orange', createFallbackEntry);
+        }
       }
 
       if (!temperatureFilter?.initial || !temperatureFilter?.final) {
@@ -143,7 +143,7 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
     options.onError,
     dataFiltered,
     filters,
-    // createFallbackEntry,
+    createFallbackEntry,
   ]);
 
   return {
