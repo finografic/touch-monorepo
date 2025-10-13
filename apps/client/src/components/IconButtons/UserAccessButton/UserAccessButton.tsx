@@ -2,7 +2,7 @@ import type { FC } from 'react';
 import clsx from 'clsx';
 import { UserCircleIcon, UserLockIcon } from 'styles/icons';
 import { styles } from './UserAccessButton.styles';
-import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/AuthLoginSimpleDialog';
+import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/AuthSimpleDialog';
 import { useCallback, useState } from 'react';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { useResetAppState } from 'hooks/useResetAppState';
