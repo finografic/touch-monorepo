@@ -1,22 +1,9 @@
-import { useMemo, useRef } from 'react';
-import { useFiltersContext } from 'providers/FiltersProvider/FiltersContext';
+import { useMemo } from 'react';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { OrderFilter, OrderFilters } from 'types/filters.types';
-import type { FilterKey } from 'types/orders.types';
-import { getFiltersByStep, matchesFilters } from 'utils/filters/filters.utils';
-import type { DataEntry } from 'types/data.types';
+import type { OrderFilters } from 'types/filters.types';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { getNextStepFilterKey } from 'utils/filters/filters-flow.utils';
-
-// TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterKey: containterType..
-// import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
-
-// If datafiltered.length === 0 when a containerType radio in INITIALLY selected by user,
-// BEFORE clicking Next button to navigate to TemperaturePage.tsx
-
-// BUT: 🚨 POSSIBLE HEAVY PERFORMANCE IMPACT... AND TemperaturePage.tsx can probably do this.
-// SO: ✅  `temperature` filter, with EMPTY profiles[] array should be fine, and can REMOVE import.
 
 /**
  * 🚨 DATA POOL PROXY HOOK
@@ -30,15 +17,12 @@ import { getNextStepFilterKey } from 'utils/filters/filters-flow.utils';
  * - Context-aware: Uses real filters for mock generation
  * - Stable for current page: Buttons don't disappear when user changes selection
  */
-// export const useDataPoolProxy = <T extends DataEntry | OrderModel | OrderReadableModel>(
-// export const useDataPoolProxy = (__TEST__dataPool: OrderReadableModel[]): OrderReadableModel[] => {
 export const useDataPoolProxy = ({
   dataPool: __TEST__dataPool,
 }: {
   dataPool: OrderReadableModel[];
 }): OrderReadableModel[] => {
   const { loaderData } = useRouteConfig();
-  // const { filters } = useFiltersContext();
   const { filters, dataPool, dataFiltered, filterKey } = useFilters();
 
   const proxyDataPool = useMemo(() => {
@@ -60,6 +44,17 @@ export const useDataPoolProxy = ({
 
   return proxyDataPool;
 };
+
+// ======================================================================== //
+
+// TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterKey: containterType..
+// import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
+
+// If datafiltered.length === 0 when a containerType radio in INITIALLY selected by user,
+// BEFORE clicking Next button to navigate to TemperaturePage.tsx
+
+// BUT: 🚨 POSSIBLE HEAVY PERFORMANCE IMPACT... AND TemperaturePage.tsx can probably do this.
+// SO:  ✅ `temperature` filter, with EMPTY profiles[] array should be fine, and can REMOVE import.
 
 /**
  * Generate mock entries based on current filter context
