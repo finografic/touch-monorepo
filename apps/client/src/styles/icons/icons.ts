@@ -43,6 +43,7 @@ import {
   Thermometer as _TempIcon,
   Trash2 as _Trash2Icon,
   UserLock as _UserLockIcon,
+  UserRoundCheck as _UserRoundCheckIcon,
   AppWindowMac as _WindowIcon,
   Wine as _WineIcon,
   Zap as _ZapIcon,
@@ -105,6 +106,7 @@ export const SettingsIcon = createIconWrapper(_SettingsIcon);
 export const TrashIcon = createIconWrapper(_Trash2Icon);
 export const ZapIcon = createIconWrapper(_ZapIcon);
 export const ListChecksIcon = createIconWrapper(_ListChecksIcon);
+export const UserRoundCheckIcon = createIconWrapper(_UserRoundCheckIcon);
 
 // ============================================================================
 // AUTOMATIC ICON MAP & TYPES
@@ -157,6 +159,7 @@ export const ICON_MAP = {
   TrashIcon,
   ZapIcon,
   ListChecksIcon,
+  UserRoundCheckIcon,
 } as const;
 
 /**

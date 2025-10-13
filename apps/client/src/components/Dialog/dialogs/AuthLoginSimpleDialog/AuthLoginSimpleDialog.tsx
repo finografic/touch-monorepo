@@ -77,7 +77,7 @@ export const AuthLoginSimpleDialog = ({
     tabs: [
       {
         id: 'user',
-        label: 'User',
+        label: '⭐ User',
         content: (
           <div css={styles} id="simple-login-dialog">
             <div className="form-wrapper">
@@ -113,7 +113,7 @@ export const AuthLoginSimpleDialog = ({
       },
       {
         id: 'admin',
-        label: 'Admin',
+        label: '🔐 Admin',
         content: (
           <div css={styles} id="simple-login-dialog">
             <div className="form-wrapper">
