@@ -180,13 +180,25 @@ export const filterData = (config: FilteringConfig): FilteringResults => {
     matchesFilters(entry, allFilters),
   ) as unknown as OrderReadableModel[];
 
-  // 🚨 TEMPORARILY DISABLED: For dataPool (for filter options), use only filters up to the current step
+  // ======================================================================== //
+  // TODO: 🚧 REMOVE - TEMPORARY TEST: Show ALL options regardless of filters
+  let pool = safeDataForFilter;
 
-  const pool = safeDataForFilter;
+  if (filterKey) {
+    if (['drinkVolume', 'containerType'].includes(filterKey)) {
+      log('PROXY - KEY', 'red', filterKey);
+      pool = safeDataForFilter;
+    } else {
+      log('PROXY - KEY', 'grey', filterKey);
+      const filtersBeforeCurrent = getFiltersByStep(filters, filterKey, false);
+      pool = safeDataForFilter.filter((entry) => matchesFilters(entry, filtersBeforeCurrent));
+    }
+  } else {
+    pool = safeDataForFilter;
+  }
 
   // ======================================================================== //
-  // TODO: TEMPORARILY DISABLED: 🚨 TEMPORARY: Show ALL options regardless of filters
-
+  // TODO: ✅ PUT BACK - TEMPORARILY DISABLED
   /*
   let pool = safeDataForFilter;
 

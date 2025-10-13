@@ -6,6 +6,7 @@ import type { OrderFilter, OrderFilters } from 'types/filters.types';
 import type { FilterKey } from 'types/orders.types';
 import { getFiltersByStep, matchesFilters } from 'utils/filters/filters.utils';
 import type { DataEntry } from 'types/data.types';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 
 // TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterKey: containterType..
 // import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
@@ -29,26 +30,31 @@ import type { DataEntry } from 'types/data.types';
  * - Stable for current page: Buttons don't disappear when user changes selection
  */
 // export const useDataPoolProxy = <T extends DataEntry | OrderModel | OrderReadableModel>(
-export const useDataPoolProxy = <T extends OrderReadableModel = OrderReadableModel>(dataPool: T[]): T[] => {
-  const { filters } = useFiltersContext();
-  const { dataFiltered } = useFilters();
+export const useDataPoolProxy = <T extends OrderReadableModel = OrderReadableModel>(
+  __TEST__dataPool: T[],
+): T[] => {
+  const { loaderData } = useRouteConfig();
+  // const { filters } = useFiltersContext();
+  const { filters, dataPool, dataFiltered } = useFilters();
 
   const proxyDataPool = useMemo(() => {
-    // If we have real data, use it as-is
-    if (dataFiltered.length > 0) {
-      console.log('🚨 DATA POOL PROXY: Using real data, no proxy needed');
-      return dataPool;
+    log('🚨 DATA POOL PROXY: no loader data', 'grey');
+    if (!Array.isArray(loaderData)) return dataPool as T[];
+
+    if (dataFiltered.length === 0) {
+      log('🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'orange');
+
+      // const mockEntries = generateMockEntries(filters);
+      const mockEntries = [];
+
+      // NEW: V2
+      log('🚨 DATA POOL PROXY: Injected mock entries:', 'grey', mockEntries.length);
+      log('🚨 DATA POOL PROXY: Injected mock entries:', 'yellow', [...dataFiltered, ...mockEntries]);
+      return [...dataFiltered, ...mockEntries] as T[];
     }
 
-    // If no real data, inject mock entries to keep buttons visible
-    console.warn('🚨 DATA POOL PROXY: No real data found, injecting mock entries');
-
-    // Generate mock entries based on current filter context
-    const mockEntries = generateMockEntries(filters);
-
-    console.log('🚨 DATA POOL PROXY: Injected mock entries:', mockEntries.length);
-    return [...dataPool, ...mockEntries] as T[];
-  }, [dataPool, dataFiltered.length, filters]);
+    return dataPool as T[];
+  }, [loaderData, dataPool, dataFiltered.length, filters]);
 
   return proxyDataPool;
 };
@@ -57,8 +63,8 @@ export const useDataPoolProxy = <T extends OrderReadableModel = OrderReadableMod
  * Generate mock entries based on current filter context
  * This ensures mock buttons are contextually relevant
  */
-function generateMockEntries(filters: any): any[] {
-  const mockEntries: any[] = [];
+function generateMockEntries(filters: OrderFilters): OrderReadableModel[] {
+  const mockEntries: OrderReadableModel[] = [];
 
   // Get current filter values
   const currentMode = filters.mode?.name || '3';
