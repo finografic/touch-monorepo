@@ -107,32 +107,34 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
           </Dialog.Description>
         </div>
 
-        {/* DIALOG TABS + CONTENT =========================================== */}
+        {/* ================================================================ */}
 
-        {/* Content Area - Flexible height */}
         <div className="dialog-content">
           {hasTabs ? (
-            /* Multi-tab layout */
-            <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
-              <Tabs.List>
-                {config.tabs.map((tab) => (
-                  <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
-                    {tab.label}
-                  </Tabs.Trigger>
-                ))}
-              </Tabs.List>
-
-              <div className="tab-content">
-                {config.tabs.map((tab) => (
-                  <Tabs.Content key={tab.id} value={tab.id}>
-                    {tab.content}
-                  </Tabs.Content>
-                ))}
-              </div>
-            </Tabs.Root>
+            <>
+              {/* DIALOG TABBED CONTENT ------------------------------------ */}
+              <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
+                <Tabs.List>
+                  {config.tabs.map((tab) => (
+                    <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
+                      {tab.icon ? tab.icon : null} {tab.label}
+                    </Tabs.Trigger>
+                  ))}
+                </Tabs.List>
+                <div className="tab-content">
+                  {config.tabs.map((tab) => (
+                    <Tabs.Content key={tab.id} value={tab.id}>
+                      {tab.content}
+                    </Tabs.Content>
+                  ))}
+                </div>
+              </Tabs.Root>
+            </>
           ) : (
-            /* Single content layout (no tabs) */
-            <div className="single-content">{currentTab?.content}</div>
+            <>
+              {/* DIALOG CONTENT (NO TABS) --------------------------------- */}
+              <div className="single-content">{currentTab?.content}</div>
+            </>
           )}
         </div>
 
