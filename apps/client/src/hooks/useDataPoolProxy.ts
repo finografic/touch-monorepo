@@ -21,12 +21,11 @@ export const useDataPoolProxy = ({
   dataPool: __TEST__dataPool,
 }: {
   dataPool: OrderReadableModel[];
-}): { dataPoolProxy: OrderReadableModel[] | undefined } => {
+}): OrderReadableModel[] | undefined => {
   const { loaderData } = useRouteConfig();
   const { filters, dataPool, dataFiltered, filterKey } = useFilters();
 
   const dataPoolProxy = useMemo(() => {
-    log('DATA POOL PROXY: NO LOADER DATA', 'grey');
     if (!Array.isArray(loaderData)) return dataPool;
 
     if (dataFiltered.length === 0) {
@@ -42,7 +41,7 @@ export const useDataPoolProxy = ({
     return dataPool;
   }, [loaderData, dataPool, dataFiltered.length, filters]);
 
-  return { dataPoolProxy };
+  return dataPoolProxy;
 };
 
 // ======================================================================== //

@@ -84,10 +84,12 @@ export const useRouteChangeHandler = () => {
   );
 
   // ======================================================================== //
+
   // 🚨 COMMENTED OUT: Old useDataPoolProxy hook - replaced with new ref system
   // const { dataPoolProxy: __TEST } = useDataPoolProxy({ dataPool: dataPoolRef.current?.dataPool || [] });
   const { dataPoolProxy: __TEST } = useDataPoolProxy({ dataPool });
   console.log('%cPROXY_DATA_POOL:', 'color:cyan', __TEST);
+
   // ======================================================================== //
 
   // Track route changes to prevent unnecessary re-renders
