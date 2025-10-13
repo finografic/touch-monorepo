@@ -64,6 +64,7 @@ export const TimePage = () => {
               step={1}
               padZeros={2}
               suffix="Seg"
+              loop={true}
             />
           </Flex>
         </Box>
