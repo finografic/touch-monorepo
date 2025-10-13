@@ -7,6 +7,7 @@ import type { FilterKey } from 'types/orders.types';
 import { getFiltersByStep, matchesFilters } from 'utils/filters/filters.utils';
 import type { DataEntry } from 'types/data.types';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { getNextStepFilterKey } from 'utils/filters/filters-flow.utils';
 
 // TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterKey: containterType..
 // import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
@@ -30,33 +31,26 @@ import { useRouteConfig } from 'routes/hooks/useRouteConfig';
  * - Stable for current page: Buttons don't disappear when user changes selection
  */
 // export const useDataPoolProxy = <T extends DataEntry | OrderModel | OrderReadableModel>(
-export const useDataPoolProxy = <T extends OrderReadableModel = OrderReadableModel>(
-  __TEST__dataPool: T[],
-): T[] => {
+export const useDataPoolProxy = (__TEST__dataPool: OrderReadableModel[]): OrderReadableModel[] => {
   const { loaderData } = useRouteConfig();
   // const { filters } = useFiltersContext();
   const { filters, dataPool, dataFiltered, filterKey } = useFilters();
 
   const proxyDataPool = useMemo(() => {
     log('DATA POOL PROXY: NO LOADER DATA', 'grey');
-    // if (!Array.isArray(loaderData)) return dataPool as T[];
+    if (!Array.isArray(loaderData)) return dataPool;
 
     if (dataFiltered.length === 0) {
-      log('🚨 DATA POOL PROXY: No real data found, injecting mock entries', 'orange');
-
       const mockEntries = generateMockEntries({ filters });
-      // const mockEntries = [];
 
-      // NEW: V2
-      log('🚧 DATA POOL PROXY: Injected mock entries:', 'grey', filterKey, mockEntries.length);
-      log('🚧 DATA POOL PROXY: Injected mock entries:', 'yellow', filterKey, [
-        ...dataFiltered,
-        ...mockEntries,
-      ]);
-      return [...dataFiltered, ...mockEntries] as T[];
+      const nextFilterKey = getNextStepFilterKey({ filterKey });
+      log('🚧 PROXY dataPool - NO DATA found in db for:', 'orange', nextFilterKey);
+      log('🚧 PROXY dataPool - Injecting MOCK ENTRIES for NEXT STEP:', 'orange', mockEntries);
+
+      return [...mockEntries];
     }
 
-    return dataPool as T[];
+    return [...dataPool];
   }, [loaderData, dataPool, dataFiltered.length, filters]);
 
   return proxyDataPool;
