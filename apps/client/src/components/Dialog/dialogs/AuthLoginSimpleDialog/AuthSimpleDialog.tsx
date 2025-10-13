@@ -80,6 +80,7 @@ export const AuthLoginSimpleDialog = ({
         icon: <UserIcon />,
         content: (
           <AuthLoginTabContent
+            activeTab={activeTab}
             email={DEFAULT_USER_EMAIL}
             password={password}
             onPasswordChange={setPassword}
@@ -95,6 +96,7 @@ export const AuthLoginSimpleDialog = ({
         icon: <UserLockIcon />,
         content: (
           <AuthLoginTabContent
+            activeTab={activeTab}
             email={DEFAULT_ADMIN_EMAIL}
             password={password}
             onPasswordChange={setPassword}
