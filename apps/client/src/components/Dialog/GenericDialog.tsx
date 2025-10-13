@@ -109,7 +109,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
 
         {/* ================================================================ */}
 
-        <div className="dialog-content">
+        <div className="dialog-main">
           {hasTabs ? (
             <>
               {/* DIALOG TABBED CONTENT ------------------------------------ */}
@@ -121,7 +121,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
                     </Tabs.Trigger>
                   ))}
                 </Tabs.List>
-                <div className="tab-content">
+                <div className="dialog-content">
                   {config.tabs.map((tab) => (
                     <Tabs.Content key={tab.id} value={tab.id}>
                       {tab.content}
@@ -133,7 +133,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
           ) : (
             <>
               {/* DIALOG CONTENT (NO TABS) --------------------------------- */}
-              <div className="single-content">{currentTab?.content}</div>
+              <div className="dialog-content">{currentTab?.content}</div>
             </>
           )}
         </div>

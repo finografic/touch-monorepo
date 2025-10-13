@@ -8,7 +8,7 @@ export const styles = css`
   .app-header {
     padding: 0 2.5rem;
     width: 100%;
-    min-height: ${layout.header.height};
+    height: ${layout.header.height};
     display: flex;
     align-items: center;
     justify-content: center;

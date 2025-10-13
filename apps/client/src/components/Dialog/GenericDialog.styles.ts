@@ -9,7 +9,6 @@ export const styles = css`
     background-color: ${colors.background} !important;
     color: ${colors.text} !important;
 
-    /* Flexbox layout: header -> content -> footer */
     display: flex;
     flex-direction: column;
     min-height: 260px !important;
@@ -20,9 +19,9 @@ export const styles = css`
       }
     }
 
-    /* Dialog Header - Fixed at top */
+    /* DIALOG HEADER ======================================================== */
+
     .dialog-header {
-      /* padding: 0 0 0.5rem 0; */
       > div {
         width: 100%;
         display: flex;
@@ -38,6 +37,7 @@ export const styles = css`
           color: ${colors.textLight};
         }
       }
+
       .close-button {
         transform: translate(0.25rem, 0rem);
         color: ${colors.textLight};
@@ -49,88 +49,40 @@ export const styles = css`
       }
     }
 
-    /* Dialog Content - Flexible height */
-    .dialog-content {
-      flex: 1;
-      min-height: 0;
+    /* DIALOG MAIN ========================================================== */
+
+    .dialog-main {
       display: flex;
       flex-direction: column;
+      flex: 1;
+
+      height: 100%;
+      min-height: 0;
+
       overflow: hidden;
 
-      /* Make TabsRoot transparent to flex layout */
+      padding: 0 0 1.5rem 0;
+
       .rt-TabsRoot[data-orientation='horizontal'] {
         display: contents;
       }
     }
 
-    /* Tab Content Styles */
-    .tab-content {
-      flex: 1;
-      min-height: 0;
-      position: relative;
-      overflow: hidden; /* Prevent content from overflowing */
+    /* DIALOG CONTENT ======================================================= */
+
+    .dialog-content {
       display: flex;
       flex-direction: column;
-
-      /* Keep TabsList horizontal and at top */
-      [role='tablist'] {
-        flex-shrink: 0;
-        display: flex;
-        flex-direction: row;
-      }
-
-      [data-state='active'] {
-        height: 100%;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        overflow-y: auto; /* Enable vertical scrolling */
-        overflow-x: hidden; /* Prevent horizontal scrolling */
-        padding: 2rem 0 1rem; /* Add padding for content spacing */
-        min-height: 0;
-
-        /* Custom scrollbar styling */
-        scrollbar-width: thin;
-        scrollbar-color: ${colors.textLight} transparent;
-
-        &::-webkit-scrollbar {
-          width: 8px;
-        }
-
-        &::-webkit-scrollbar-track {
-          background: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-          background-color: ${colors.textLight};
-          border-radius: 4px;
-
-          &:hover {
-            background-color: ${colors.text};
-          }
-        }
-
-        /* Make direct children fill the space */
-        > * {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          min-height: 0;
-        }
-      }
-    }
-
-    /* Single Content Styles (when no tabs) */
-    .single-content {
       flex: 1;
-      min-height: 0;
-      /* padding: 1rem 0; */
-      padding: 0 0 1rem 0;
-      overflow-y: auto; /* Enable vertical scrolling */
-      overflow-x: hidden; /* Prevent horizontal scrolling */
-      height: 100%;
 
-      /* Custom scrollbar styling */
+      height: 100%;
+      min-height: 0;
+
+      position: relative;
+      overflow: hidden;
+
+      overflow-y: auto;
+      overflow-x: hidden;
       scrollbar-width: thin;
       scrollbar-color: ${colors.textLight} transparent;
 
@@ -152,36 +104,76 @@ export const styles = css`
       }
     }
 
-    /* Tab List Styles */
+    /* DIALOG TABS ========================================================== */
+
     [role='tablist'] {
-      box-shadow: inset 0 -2px 0 0 ${colors.defaultLight};
-      flex-shrink: 0; /* Don't shrink the tab list */
+      /* tab-horizontal-rule */
+      box-shadow: inset 0 -2px 0 0 transparent;
+      box-shadow: inset 0 -0.2rem 0 0 ${colors.defaultXXLight25};
 
       button[role='tab'] {
-        height: 64px;
-        padding-bottom: 0;
+        height: 4rem;
+        margin: 0.2rem 0.15rem 0;
+        padding: 0;
+        border: 0 !important;
+
         span {
-          padding: 1.1rem 1rem;
-          font-size: 1.2rem;
-          font-weight: 500;
-          line-height: 1.2;
-          color: ${colors.textLight};
+          padding: 0.8em 1.25em;
+          font-size: 1rem;
+          font-weight: 600;
+          color: ${colors.textLight75};
         }
-        &[data-state='active'] {
-          &:before {
-            background-color: ${colors.primary};
-            height: 2px;
-          }
-          span {
-            color: ${colors.primary};
-          }
+
+        svg.icon {
+          /* opacity: 0.5; */
+          margin-left: -0.33rem;
+          margin-right: 0rem;
+          transform: translate(-0.25rem, 0) scale(0.8) !important;
+          color: ${colors.textXLight50};
+        }
+
+        &:first-child {
+          margin-left: 0rem;
+        }
+        &:last-child {
+          margin-right: 0rem;
+        }
+      }
+
+      button[role='tab'][data-state='active'] {
+        /* active-tab */
+        &:before {
+          background-color: ${colors.infoLight};
+          height: 0.2rem;
+        }
+        span {
+          color: ${colors.infoLight};
+          color: ${colors.info75};
+        }
+
+        svg.icon {
+          color: ${colors.infoLight};
         }
       }
     }
 
-    /* Dialog Footer - Fixed at bottom */
+    /* DIALOG FORMS ========================================================= */
+
+    .form-wrapper {
+      width: 100%;
+      max-width: 350px;
+
+      .form {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+      }
+    }
+
+    /* DIALOG FOOTER ======================================================== */
+
     .footer {
-      flex-shrink: 0; /* Don't shrink */
+      flex-shrink: 0;
       display: flex;
       justify-content: center;
       align-items: center;

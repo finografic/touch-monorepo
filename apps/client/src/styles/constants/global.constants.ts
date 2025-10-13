@@ -27,7 +27,7 @@ export const layout = {
   radius: baseLayout.borderRadius.lg,
   radiusInner: baseLayout.borderRadius.md,
   header: {
-    height: '80px',
+    height: '70px',
   },
   footer: {
     height: '80px',
