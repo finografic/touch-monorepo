@@ -129,7 +129,7 @@ export const styles = css`
           margin-left: -0.33rem;
           margin-right: 0rem;
           transform: translate(-0.25rem, 0) scale(0.8) !important;
-          color: ${colors.textXLight50};
+          color: ${colors.textXLight75};
         }
 
         &:first-child {
