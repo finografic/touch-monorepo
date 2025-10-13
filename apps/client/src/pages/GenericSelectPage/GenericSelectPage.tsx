@@ -9,7 +9,6 @@ import { usePaginationLogic } from 'hooks/usePaginationLogic';
 import type { PadType, PadUI } from 'types/pads.types';
 import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
 import PadGroup from 'components/Pads/PadGroup/PadGroup';
-import type { DataEntry } from 'types/data.types';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { getFiltersToClearAhead } from 'utils/filters/filters-flow.utils';
@@ -27,19 +26,14 @@ export const GenericSelectPage = () => {
   usePaginationLogic();
 
   const handleFilterSelection = (filterKey: FilterKey, pad: PadUI) => {
-    // Get current session's orders
     const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
-
-    console.log('%c >> sessionOrders:', 'color:cyan', orders);
-
-    // Update session filters
     const currentSessionFilters = sessions[currentSessionId]?.filters || {};
 
     if (pad.isChecked) {
       const { temperatureProfileId, ...filterValue } = pad.value;
 
       // Clear filters for steps ahead when making a new selection
-      const filtersToClearAhead = getFiltersToClearAhead(filterKey);
+      const filtersToClearAhead = getFiltersToClearAhead({ filterKey });
       filtersToClearAhead.forEach(clearFilter);
 
       // Remove filters for steps ahead from session filters too
@@ -53,12 +47,10 @@ export const GenericSelectPage = () => {
         [filterKey]: filterValue,
       };
       updateSessionFilters(currentSessionId, newFilters);
-      // Update FiltersContext for the current filterKey
       setFilter(filterKey, filterValue);
     } else {
       const { [filterKey]: _removed, ...rest } = currentSessionFilters;
       updateSessionFilters(currentSessionId, rest);
-      // Clear filter from FiltersContext for the current filterKey
       clearFilter(filterKey);
     }
 

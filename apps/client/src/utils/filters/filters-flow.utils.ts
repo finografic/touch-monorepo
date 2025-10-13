@@ -13,17 +13,20 @@ export const FILTER_STEP_ORDER: FilterKey[] = [
 
 /**
  * Get the index of a filter step in the flow
+ * @param {filterKey} Current filter key
+ * @returns Index of the filter step
  */
-export const getFilterStepIndex = (filterKey: FilterKey): number => {
+export const getStepIndexByFilterKey = (filterKey: FilterKey): number => {
   return FILTER_STEP_ORDER.indexOf(filterKey);
 };
 
 /**
  * Get all filter keys that come after the current step
- * These should be cleared when the current step selection changes
+ * @param {filterKey} Current filter key
+ * @returns Array of filter keys
  */
-export const getFiltersToClearAhead = (currentFieldKey: FilterKey): FilterKey[] => {
-  const currentIndex = getFilterStepIndex(currentFieldKey);
+export const getFiltersToClearAhead = ({ filterKey }: { filterKey: FilterKey }): FilterKey[] => {
+  const currentIndex = getStepIndexByFilterKey(filterKey);
   if (currentIndex === -1) return []; // Invalid filterKey
 
   return FILTER_STEP_ORDER.slice(currentIndex + 1);
@@ -31,11 +34,11 @@ export const getFiltersToClearAhead = (currentFieldKey: FilterKey): FilterKey[] 
 
 /**
  * Get the next filter key in the flow [Claude v3.5]
- * @param currentFieldKey Current filter key
+ * @param {filterKey} Current filter key
  * @returns Next filter key or undefined if at the end
  */
-export const getNextStepFilterKey = ({ current }: { current: FilterKey }): FilterKey | undefined => {
-  const currentIndex = getFilterStepIndex(current);
+export const getNextStepFilterKey = ({ filterKey }: { filterKey: FilterKey }): FilterKey | undefined => {
+  const currentIndex = getStepIndexByFilterKey(filterKey);
   if (currentIndex === -1 || currentIndex >= FILTER_STEP_ORDER.length - 1) {
     return undefined; // Invalid filterKey or at the end
   }
@@ -45,13 +48,13 @@ export const getNextStepFilterKey = ({ current }: { current: FilterKey }): Filte
 
 /**
  * Get the previous filter key in the flow [Claude v3.5]
- * @param currentFieldKey Current filter key
- * @returns Previous filter key or undefined if at the beginning
+ * @param {filterKey} Current filter key
+ * @returns Previous filter key or undefined if at the start
  */
-export const getPrevStepFilterKey = ({ current }: { current: FilterKey }): FilterKey | undefined => {
-  const currentIndex = getFilterStepIndex(current);
+export const getPrevStepFilterKey = ({ filterKey }: { filterKey: FilterKey }): FilterKey | undefined => {
+  const currentIndex = getStepIndexByFilterKey(filterKey);
   if (currentIndex === -1 || currentIndex <= 0) {
-    return undefined; // Invalid filterKey or at the beginning
+    return undefined; // Invalid filterKey or at the start
   }
 
   return FILTER_STEP_ORDER[currentIndex - 1];
