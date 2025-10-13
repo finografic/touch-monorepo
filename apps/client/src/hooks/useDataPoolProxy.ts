@@ -21,11 +21,11 @@ export const useDataPoolProxy = ({
   dataPool: __TEST__dataPool,
 }: {
   dataPool: OrderReadableModel[];
-}): OrderReadableModel[] => {
+}): { dataPoolProxy: OrderReadableModel[] | undefined } => {
   const { loaderData } = useRouteConfig();
   const { filters, dataPool, dataFiltered, filterKey } = useFilters();
 
-  const proxyDataPool = useMemo(() => {
+  const dataPoolProxy = useMemo(() => {
     log('DATA POOL PROXY: NO LOADER DATA', 'grey');
     if (!Array.isArray(loaderData)) return dataPool;
 
@@ -36,13 +36,13 @@ export const useDataPoolProxy = ({
       log('🚧 PROXY dataPool - NO DATA found in db for:', 'orange', nextFilterKey);
       log('🚧 PROXY dataPool - Injecting MOCK ENTRIES for NEXT STEP:', 'orange', mockEntries);
 
-      return [...mockEntries];
+      return mockEntries;
     }
 
-    return [...dataPool];
+    return dataPool;
   }, [loaderData, dataPool, dataFiltered.length, filters]);
 
-  return proxyDataPool;
+  return { dataPoolProxy };
 };
 
 // ======================================================================== //

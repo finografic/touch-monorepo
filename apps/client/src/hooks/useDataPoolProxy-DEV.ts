@@ -27,7 +27,7 @@ export const useDataPoolProxy = ({
   const { loaderData } = useRouteConfig();
   const { filters, dataPool, dataFiltered, filterKey } = useFilters();
 
-  const proxyDataPool = useMemo(() => {
+  const dataPoolProxy = useMemo(() => {
     log('DATA POOL PROXY: NO LOADER DATA', 'grey');
     if (!Array.isArray(loaderData)) return dataPool;
 
@@ -44,7 +44,7 @@ export const useDataPoolProxy = ({
     return [...dataPool];
   }, [loaderData, dataPool, dataFiltered.length, filters]);
 
-  return proxyDataPool;
+  return dataPoolProxy;
 };
 
 // TODO: ⚠️ *may be needed* for FINAL STEP in FLOW, pathname: /container-type, filterKey: containterType..
