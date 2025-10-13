@@ -87,28 +87,3 @@ export const parsePadConfig = <T extends DataEntry>({
 
   return { pads, numPads };
 };
-
-// -------------------------------------------------------------------------- //
-// NOTE: Update pad state
-
-export const getPadIdsForField = (orders: any[], filterKey: FilterKey) => {
-  let ids: (string | undefined)[] = [];
-  switch (filterKey) {
-    case ROUTE_FILTER_KEYS.drinkType:
-      ids = orders.map((o) => o.drinkTypeName);
-      break;
-    case ROUTE_FILTER_KEYS.drinkSubtype:
-      ids = orders.map((o) => o.drinkSubtypeName);
-      break;
-    case ROUTE_FILTER_KEYS.drinkVolume:
-      ids = orders.map((o) => o.volumeName);
-      break;
-    case ROUTE_FILTER_KEYS.containerType:
-      ids = orders.map((o) => o.containerTypeName);
-      break;
-    default:
-      ids = [];
-  }
-  // Filter out undefined/null/empty
-  return new Set(ids.filter((id): id is string => !!id && typeof id === 'string'));
-};

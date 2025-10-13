@@ -53,7 +53,6 @@ export type OrderStatus = 'idle' | 'processing' | 'completed' | 'error' | 'pendi
 // The complete order type combining selection fields and base properties
 export interface SlotItem {
   id: string; // Unique order ID from backend
-  ids: string[]; // All filtered ids // NOTE: not optional ..
   slotNumber: number;
   slotType: SlotType;
   isSelected: boolean;

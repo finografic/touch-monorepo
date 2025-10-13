@@ -4,7 +4,6 @@ import { SlotType } from 'types/orders.types';
 export const MOCK_ORDERS_DATA: SlotItem[] = [
   {
     id: 'mock-order-1',
-    ids: [],
     slotType: SlotType.A,
     slotNumber: 1,
     isSelected: true,
@@ -78,7 +77,6 @@ export const MOCK_ORDERS_DATA: SlotItem[] = [
   },
   {
     id: 'mock-order-2',
-    ids: [],
     slotType: SlotType.B,
     slotNumber: 7,
     isSelected: true,
@@ -110,7 +108,6 @@ export const MOCK_ORDERS_DATA: SlotItem[] = [
   },
   {
     id: 'mock-order-3',
-    ids: [],
     slotType: SlotType.C,
     slotNumber: 10,
     isSelected: true,

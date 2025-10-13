@@ -7,7 +7,6 @@ export const SLOT_ITEMS_CONFIG: SlotItemConfig[] = getSlotsConfig();
 
 export const INITIAL_SLOT_ITEM: SlotItem = {
   id: '',
-  ids: [],
   slotType: SlotType.A,
   slotNumber: 0,
   isSelected: false,
