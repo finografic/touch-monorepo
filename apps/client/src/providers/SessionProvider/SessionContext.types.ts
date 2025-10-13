@@ -23,7 +23,7 @@ export interface SessionValues {
 type SessionSetters = CreateSettersType<SessionValues, typeof SETTER_PREFIX>;
 
 type SessionActions = SessionSetters & {
-  createSession: (flowType: FlowTypeValue) => string;
+  createSession: (flowType: FlowTypeValue, initialFilters?: OrderFilters) => string;
   setActiveSession: (sessionId: string) => void;
   updateSessionFilters: (sessionId: string, filters: OrderFilters) => void;
   assignOrdersToSession: (sessionId: string, slotNumbers: number[]) => void;
