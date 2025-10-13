@@ -60,10 +60,12 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
 
               if (response.ok && result.user) {
                 // BetterAuth returns user data directly on successful login
+                const isAdmin = result.user.role === 'admin';
                 set({
                   session: result,
                   user: result.user,
                   isAuthenticated: true,
+                  isAdmin,
                   isLoading: false,
                 });
                 return { success: true };
@@ -89,7 +91,8 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               const result = await response.json();
 
               if (response.ok && result.user) {
-                set({ session: result, user: result.user, isAuthenticated: true, isLoading: false });
+                const isAdmin = result.user.role === 'admin';
+                set({ session: result, user: result.user, isAuthenticated: true, isAdmin, isLoading: false });
                 return { success: true };
               } else {
                 set({ isLoading: false });
@@ -142,7 +145,14 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             }
           },
           setSession: (session: AuthSession | null) => {
-            set({ session, user: session?.user || null, isAuthenticated: !!session?.user, isLoading: false });
+            const isAdmin = session?.user?.role === 'admin';
+            set({
+              session,
+              user: session?.user || null,
+              isAuthenticated: !!session?.user,
+              isAdmin,
+              isLoading: false,
+            });
           },
           setLoading: (isLoading: boolean) => {
             set({ isLoading });
@@ -156,10 +166,12 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
 
               if (response.ok) {
                 const currentSession = await response.json();
+                const isAdmin = currentSession?.user?.role === 'admin';
                 set({
                   session: currentSession,
                   user: currentSession?.user || null,
                   isAuthenticated: !!currentSession?.user,
+                  isAdmin,
                   isLoading: false,
                 });
               } else {

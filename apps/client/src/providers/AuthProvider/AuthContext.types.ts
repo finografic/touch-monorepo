@@ -8,6 +8,7 @@ export interface User {
   name: string;
   image?: string | null;
   emailVerified: boolean;
+  role: 'user' | 'admin'; // Admin plugin role field [Claude v3.5]
   createdAt: string;
   updatedAt: string;
 }
