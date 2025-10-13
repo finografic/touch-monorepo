@@ -12,66 +12,83 @@ export const styles = css`
     border-radius: 50%;
     user-select: none;
 
-    transition:
-      color 150ms ease,
-      border-color 150ms ease,
-      background-color 150ms ease,
-      transform 150ms ease;
-
     &:not(:disabled) {
       &:hover {
         transform: scale(${button.transform.padHoverScale});
       }
     }
 
-    /* ====================================================================== */
-
     &.item-type-A {
-      color: ${colors.defaultXLight};
-      border-color: ${colors.defaultXLight};
-      background-color: ${colors.transparent};
-      &:hover,
+      color: ${colors.defaultLight75};
+      border-color: ${colors.defaultLight75};
+      transition: ${button.transition};
+
       &.checked {
-        color: ${colors.defaultDark};
-        border-color: ${colors.defaultDark};
-        background-color: ${colors.defaultXLight50};
+        color: ${colors.defaultLight75};
+        border-color: ${colors.defaultLight75};
+        background-color: ${colors.defaultXLight25};
       }
-      &:active {
+
+      &:hover {
+        color: ${colors.default75};
+        border-color: ${colors.default75};
         background-color: ${colors.defaultXLight75};
+        transform: scale(${button.transform.padHoverScale});
+        &.checked {
+          color: ${colors.default75};
+          border-color: ${colors.default75};
+          background-color: ${colors.defaultLight50};
+        }
       }
     }
 
     &.item-type-B {
       color: ${colors.infoLight};
       border-color: ${colors.infoLight};
-      background-color: ${colors.transparent};
-      &:hover,
+      transition: ${button.transition};
+
       &.checked {
-        color: ${colors.infoXDark};
-        border-color: ${colors.infoXDark};
-        background-color: ${colors.infoLight50};
+        color: ${colors.infoLight};
+        border-color: ${colors.infoLight};
+        background-color: ${colors.infoXLight25};
       }
-      &:active {
+
+      &:hover {
+        color: ${colors.infoDark};
+        border-color: ${colors.infoDark};
         background-color: ${colors.infoLight75};
+        transform: scale(${button.transform.padHoverScale});
+        &.checked {
+          color: ${colors.infoDark};
+          border-color: ${colors.infoDark};
+          background-color: ${colors.infoLight75};
+        }
       }
     }
 
     &.item-type-C {
       color: ${colors.dangerLight};
       border-color: ${colors.dangerLight};
-      background-color: ${colors.transparent};
-      &:hover,
+      transition: ${button.transition};
+
       &.checked {
-        color: ${colors.dangerXDark};
-        border-color: ${colors.dangerXDark};
-        background-color: ${colors.dangerLight50};
+        color: ${colors.dangerLight};
+        border-color: ${colors.dangerLight};
+        background-color: ${colors.dangerXLight50};
       }
-      &:active {
-        background-color: ${colors.dangerLight75};
+
+      &:hover {
+        color: ${colors.dangerDark};
+        border-color: ${colors.dangerDark};
+        background-color: ${colors.dangerXLight50};
+        transform: scale(${button.transform.padHoverScale});
+        &.checked {
+          color: ${colors.dangerDark};
+          border-color: ${colors.dangerDark};
+          background-color: ${colors.dangerXLight};
+        }
       }
     }
-
-    /* ====================================================================== */
 
     &.pad-large {
       width: ${padProps.padLG.width} !important;
@@ -81,7 +98,7 @@ export const styles = css`
     /* Disabled styles inherited from stylesButtonBase */
 
     /* ACTIVE TIMERS - Orange/Warning styling overrides type colors */
-    /* &.status-processing {
+    &.status-processing {
       color: ${colors.warningLight} !important;
       border-color: ${colors.warningLight} !important;
       background-color: transparent !important;
@@ -120,32 +137,27 @@ export const styles = css`
         background-color: transparent !important;
         transform: none;
       }
-    } */
+    }
 
-    &.status-processing {
-      /* color: ${colors.success};
+    /* &.status-processing {
+      color: ${colors.success};
+      border: ${layout.borderWidth} solid ${colors.success};
       border-color: ${colors.success};
       background-color: ${colors.success25};
-      transition:
-        color 150ms ease,
-        border-color 150ms ease,
-        background-color 150ms ease,
-        transform 150ms ease;
-
       &:hover {
-        color: ${colors.successXXDark};
-        border-color: ${colors.successXXDark};
-        background-color: ${colors.success50};
-        transform: scale(${button.transform.padHoverScale});
-      } */
-      /* &:disabled {
+        color: ${colors.success};
+        border-color: ${colors.successLight};
+        background-color: ${colors.success25};
+        transform: none;
+      }
+      &:disabled {
         cursor: wait;
         &:hover {
           border-color: ${colors.greyDark};
           background-color: ${colors.success25};
         }
-      } */
-      /* &.checked {
+      }
+      &.selected {
         color: ${colors.info};
         border-color: ${colors.info};
         background-color: ${colors.info25};
@@ -154,72 +166,8 @@ export const styles = css`
           border-color: ${colors.infoLight};
           background-color: ${colors.info25};
         }
-      } */
-
-      /* &.checked {
-        color: ${colors.warningDark};
-        border-color: ${colors.warningDark};
-        background-color: ${colors.warning50};
-
-        &:hover {
-          color: ${colors.warningDark};
-          border-color: ${colors.warningDark};
-          background-color: ${colors.warning75};
-          transform: none;
-        }
       }
-
-      &.checking-blocked,
-      &.checking-blocked.checked {
-        cursor: not-allowed;
-        pointer-events: none;
-        color: ${colors.warningLight};
-        border-color: ${colors.warningLight};
-        background-color: transparent;
-        transform: none;
-      } */
-    }
-
-    &.status-processing {
-      color: ${colors.success};
-      border-color: ${colors.success};
-      background-color: transparent;
-      transition:
-        color 150ms ease,
-        border-color 150ms ease,
-        background-color 150ms ease,
-        transform 150ms ease;
-
-      /* &:hover {
-        color: ${colors.warningDark} !important;
-        border-color: ${colors.warningDark} !important;
-        background-color: ${colors.warning50} !important;
-        transform: scale(${button.transform.padHoverScale});
-      }
-
-      &.checked {
-        color: ${colors.warningDark} !important;
-        border-color: ${colors.warningDark} !important;
-        background-color: ${colors.warning50} !important;
-
-        &:hover {
-          color: ${colors.warningDark} !important;
-          border-color: ${colors.warningDark} !important;
-          background-color: ${colors.warning75} !important;
-          transform: scale(${button.transform.padHoverScale});
-        }
-      } */
-
-      &.checking-blocked,
-      &.checking-blocked.selected {
-        cursor: not-allowed;
-        pointer-events: none;
-        color: ${colors.success} !important;
-        border-color: ${colors.success} !important;
-        background-color: transparent !important;
-        transform: none;
-      }
-    }
+    } */
 
     /* COMPLETED TIMERS - See-through opacity tint overrides type colors */
     &.status-completed {

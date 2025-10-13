@@ -16,7 +16,7 @@ export interface TimerCallback {
 }
 
 export interface TimerManagerState {
-  intervals: Map<number, NodeJS.Timeout>;
+  intervals: Map<number, ReturnType<typeof setInterval>>;
   isActive: (slotNumber: number) => boolean;
   startTimer: (slotNumber: number, callback: TimerCallback, intervalMs?: number) => void;
   stopTimer: (slotNumber: number) => void;
@@ -28,10 +28,18 @@ export interface TimerManagerState {
  * Create a new TimerManager instance
  */
 export const createTimerManager = (): TimerManagerState => {
-  const intervals = new Map<number, NodeJS.Timeout>();
+  const intervals = new Map<number, ReturnType<typeof setInterval>>();
 
   const isActive = (slotNumber: number): boolean => {
     return intervals.has(slotNumber);
+  };
+
+  const stopTimer = (slotNumber: number): void => {
+    const intervalId = intervals.get(slotNumber);
+    if (intervalId) {
+      clearInterval(intervalId);
+      intervals.delete(slotNumber);
+    }
   };
 
   const startTimer = (slotNumber: number, callback: TimerCallback, intervalMs: number = 1000): void => {
@@ -41,14 +49,6 @@ export const createTimerManager = (): TimerManagerState => {
     // Start new timer
     const intervalId = setInterval(callback, intervalMs);
     intervals.set(slotNumber, intervalId);
-  };
-
-  const stopTimer = (slotNumber: number): void => {
-    const intervalId = intervals.get(slotNumber);
-    if (intervalId) {
-      clearInterval(intervalId);
-      intervals.delete(slotNumber);
-    }
   };
 
   const clearAllTimers = (): void => {

@@ -87,9 +87,9 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
       }
 
       // Calculate operating time for each item type
-      const operatingTimeA = Math.abs(finalProfile.timeA - initialProfile.timeA);
-      const operatingTimeB = Math.abs(finalProfile.timeB - initialProfile.timeB);
-      const operatingTimeC = Math.abs(finalProfile.timeC - initialProfile.timeC);
+      const operatingTimeA = Math.abs(finalProfile.timeA - initialProfile.timeA) * 3;
+      const operatingTimeB = Math.abs(finalProfile.timeB - initialProfile.timeB) * 3;
+      const operatingTimeC = Math.abs(finalProfile.timeC - initialProfile.timeC) * 3;
 
       // Calculate durations for each order based on their item type
       const operatingTimes = {
