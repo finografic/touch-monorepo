@@ -1,5 +1,5 @@
 import type { ColorBaseName, ShadeKey } from '../colors.types';
-import type { GeneratedPaletteCSS } from '../palette.types';
+import type { ColorPalette } from '../palette.types';
 import {
   CSS_BASE_COLORS,
   CSS_SHADE_VARIANTS,
@@ -20,7 +20,7 @@ export type ColorVariable =
   | `--color-${ColorBaseName}`
   | `--color-${ColorBaseName}-${Exclude<ShadeKey, 'base'>}`;
 
-export const generateCssColorVariables = ({ colors }: { colors: GeneratedPaletteCSS }) => {
+export const generateCssColorVariables = ({ colors }: { colors: ColorPalette }) => {
   let cssVars = '';
   const processColor = (name: string, value: string) => {
     const cssName = name.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase();
