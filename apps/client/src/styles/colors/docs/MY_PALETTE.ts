@@ -1,7 +1,7 @@
 /**
  * Visual reference for the complete color palette
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-10-13 -- 09:00:57
+ * 📅 Generated: 2025-10-14 -- 23:00:37
  *
  * Run: pnpm generate:palette to update this file
  *
@@ -30,14 +30,6 @@ export const ___COLORS___ = {
   defaultDark: '#0c111b',
   defaultXDark: '#090d15',
   defaultXXDark: '#070a11',
-
-  gray: '#1f2937',
-  grayXXLight: '#a6a9ad',
-  grayXLight: '#86898f',
-  grayLight: '#646971',
-  grayDark: '#161d27',
-  grayXDark: '#11171e',
-  grayXXDark: '#0b1017',
 
   grey: '#1f2937',
   greyXXLight: '#a6a9ad',
@@ -102,8 +94,8 @@ export const ___COLORS___ = {
 
 /**
  * Color system statistics:
- * - Base colors: 11
- * - Total variants: 74
- * - Shade variants: 60
+ * - Base colors: 9
+ * - Total variants: 67
+ * - Shade variants: 54
  * - Transparency variants: Generated mathematically (not shown here)
  */
