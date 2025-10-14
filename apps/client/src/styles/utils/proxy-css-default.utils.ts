@@ -30,31 +30,32 @@ export const createCSSProxy = <T extends Record<string | number, string>>(
   target: T,
   defaultKey: keyof T,
 ): T => {
-  // Create a new object that spreads all properties from target
-  const proxyTarget = { ...target };
+  // Use an actual Proxy to intercept property access
+  return new Proxy(target, {
+    get(target, prop) {
+      // Handle string conversion for template literals
+      if (prop === Symbol.toPrimitive) {
+        return (hint: string) => String(target[defaultKey]);
+      }
+      if (prop === 'valueOf') {
+        return () => String(target[defaultKey]);
+      }
+      if (prop === 'toString') {
+        return () => String(target[defaultKey]);
+      }
 
-  // Define string conversion methods that return the default value
-  // Using Object.defineProperty to make them non-enumerable
-  Object.defineProperty(proxyTarget, Symbol.toPrimitive, {
-    value: (hint: string) => {
-      // Always return string, regardless of hint (default, string, or number)
-      // CSS values should always be strings anyway
-      return String(target[defaultKey]);
+      // Handle property access (e.g., padding[4], padding.lg)
+      return target[prop as keyof T];
     },
-    enumerable: false,
-  });
 
-  Object.defineProperty(proxyTarget, 'valueOf', {
-    value: () => String(target[defaultKey]),
-    enumerable: false,
-  });
+    // Handle Object.keys(), for...in, JSON.stringify() - return empty to avoid enumeration
+    ownKeys() {
+      return [];
+    },
 
-  Object.defineProperty(proxyTarget, 'toString', {
-    value: () => String(target[defaultKey]),
-    enumerable: false,
-  });
-
-  // Return as T - the string conversion methods are hidden from TypeScript
-  // but available at runtime for template literal coercion
-  return proxyTarget as T;
+    // Make the proxy appear to have no enumerable properties
+    getOwnPropertyDescriptor(target, prop) {
+      return undefined;
+    },
+  }) as T;
 };
