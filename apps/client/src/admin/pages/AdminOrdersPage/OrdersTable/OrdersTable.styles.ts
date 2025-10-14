@@ -27,6 +27,11 @@ export const styles = css`
     text-align: center;
   }
 
+  .action-edit,
+  .action-delete {
+    width: 60px;
+  }
+
   .td-action button {
     opacity: 0.5;
     svg.icon {

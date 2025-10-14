@@ -3,14 +3,34 @@ import { Button, Flex, Table, Text } from '@radix-ui/themes';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import { styles } from './OrdersTable.styles';
-import { getHumanReadableId } from 'utils/readable.utils';
 import { useContent } from 'providers/ContentProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { ReadableSalt } from 'types/readable-salt.types';
 import { formatUnixTimestamp } from 'utils/date.utils';
 
-interface OrdersTableProps {
+// Column definition types
+export type ColumnKey =
+  | 'index'
+  | 'id'
+  | 'mode'
+  | 'drinkType'
+  | 'subtype'
+  | 'volume'
+  | 'container'
+  | 'temperature'
+  | 'created'
+  | 'edit'
+  | 'delete';
+
+export interface ColumnDef {
+  key: ColumnKey;
+  label: string;
+  width?: string;
+  className?: string;
+}
+
+export interface OrdersTableProps {
   orders: OrderReadableModel[];
+  columns: ColumnDef[];
   emptyMessage?: string;
   emptySubMessage?: string;
   onClickEdit: (orderId: string) => void;
@@ -19,12 +39,86 @@ interface OrdersTableProps {
 
 export const OrdersTable: React.FC<OrdersTableProps> = ({
   orders,
+  columns,
   emptyMessage = 'No orders found',
   emptySubMessage = 'Try adjusting your search term',
   onClickEdit,
   onClickDelete,
 }) => {
   const { currentLanguage } = useAppConfig();
+
+  // Render cell content based on column key
+  const renderCellContent = (column: ColumnDef, order: OrderReadableModel, index: number) => {
+    switch (column.key) {
+      case 'index':
+        return (
+          <Text size="2" weight="medium">
+            {index + 1}
+          </Text>
+        );
+
+      case 'id':
+        return (
+          <div className="td-order-id">
+            <Text size="2" weight="medium">
+              {order.id}
+            </Text>
+            <Text size="1" color="gray">
+              {order.id}
+            </Text>
+          </div>
+        );
+
+      case 'mode':
+        return order.modeId || '-';
+
+      case 'drinkType':
+        return order.drinkType || '-';
+
+      case 'subtype':
+        return order.drinkSubtype || '-';
+
+      case 'volume':
+        return order.volume || '-';
+
+      case 'container':
+        return order.containerType || '-';
+
+      case 'temperature':
+        return order.defaultTempConsume ? `${order.defaultTempConsume}°C` : '-';
+
+      case 'created':
+        return <Text size="1">{formatUnixTimestamp(order.createdAt, currentLanguage)}</Text>;
+
+      case 'edit':
+        return (
+          <Button
+            className="button button-edit"
+            onClick={() => onClickEdit(order.id)}
+            variant="ghost"
+            size="2"
+          >
+            <EditIcon className="icon-edit" />
+          </Button>
+        );
+
+      case 'delete':
+        return (
+          <Button
+            className="button button-delete"
+            onClick={() => onClickDelete(order.id)}
+            variant="ghost"
+            size="2"
+            color="red"
+          >
+            <TrashIcon className="icon-delete" />
+          </Button>
+        );
+
+      default:
+        return '-';
+    }
+  };
 
   return (
     <section css={styles} className="admin-content-page">
@@ -33,67 +127,25 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         <Table.Root>
           <Table.Header>
             <Table.Row>
-              <Table.ColumnHeaderCell className="th">#</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th">Order ID</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th">Modo</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th">Drink Type</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th">Subtype</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th">Volume</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th">Container</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th">Temperature</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th">Created</Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th th-action action-edit"></Table.ColumnHeaderCell>
-              <Table.ColumnHeaderCell className="th th-action action-delete"></Table.ColumnHeaderCell>
+              {columns.map((column) => (
+                <Table.ColumnHeaderCell
+                  key={column.key}
+                  className={`th ${column.className || ''}`}
+                  style={{ width: column.width }}
+                >
+                  {column.label}
+                </Table.ColumnHeaderCell>
+              ))}
             </Table.Row>
           </Table.Header>
           <Table.Body>
             {orders.map((order, index) => (
               <Table.Row key={order.id}>
-                <Table.Cell className="td">
-                  <Text size="2" weight="medium">
-                    {index + 1}
-                  </Text>
-                </Table.Cell>
-                <Table.Cell className="td td-order-id">
-                  <Text size="2" weight="medium">
-                    {order.id}
-                  </Text>
-                  <Text size="1" color="gray">
-                    {order.id}
-                  </Text>
-                </Table.Cell>
-                <Table.Cell className="td">{order.modeId || '-'}</Table.Cell>
-                <Table.Cell className="td">{order.drinkType || '-'}</Table.Cell>
-                <Table.Cell className="td">{order.drinkSubtype || '-'}</Table.Cell>
-                <Table.Cell className="td">{order.volume || '-'}</Table.Cell>
-                <Table.Cell className="td">{order.containerType || '-'}</Table.Cell>
-                <Table.Cell className="td">
-                  {order.defaultTempConsume ? `${order.defaultTempConsume}°C` : '-'}
-                </Table.Cell>
-                <Table.Cell className="td">
-                  <Text size="1">{formatUnixTimestamp(order.createdAt, currentLanguage)}</Text>
-                </Table.Cell>
-                <Table.Cell className="td td-action">
-                  <Button
-                    className="button button-edit"
-                    onClick={() => onClickEdit(order.id)}
-                    variant="ghost"
-                    size="2"
-                  >
-                    <EditIcon className="icon-edit" />
-                  </Button>
-                </Table.Cell>
-                <Table.Cell className="td td-action">
-                  <Button
-                    className="button button-delete"
-                    onClick={() => onClickDelete(order.id)}
-                    variant="ghost"
-                    size="2"
-                    color="red"
-                  >
-                    <TrashIcon className="icon-delete" />
-                  </Button>
-                </Table.Cell>
+                {columns.map((column) => (
+                  <Table.Cell key={column.key} className={`td ${column.className || ''}`}>
+                    {renderCellContent(column, order, index)}
+                  </Table.Cell>
+                ))}
               </Table.Row>
             ))}
           </Table.Body>

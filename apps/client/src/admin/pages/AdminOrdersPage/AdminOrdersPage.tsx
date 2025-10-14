@@ -3,6 +3,7 @@ import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../..';
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
+import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/OrdersTable.columns';
 import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
 import { Col, Row } from 'react-grid-system';
@@ -228,6 +229,7 @@ export const AdminOrdersPage: React.FC = () => {
 
         <OrdersTable
           orders={filteredOrders}
+          columns={DEFAULT_ORDERS_COLUMNS}
           emptyMessage="No orders found"
           emptySubMessage="Try adjusting your search term or add new orders"
           onClickEdit={handleEditOrder}
