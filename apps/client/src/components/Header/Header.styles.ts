@@ -46,9 +46,7 @@ export const styles = css`
       align-items: center;
       padding-left: 1rem; /* Add some padding for better visual balance */
       height: -webkit-fill-available; /* Better cross-browser full height support */
-      /* padding-left: 10rem !important; */
-
-      padding-left: ${layout.padding} !important;
+      padding-left: ${layout.padding} !important; /* 🎯 CSS Proxy magic! */
     }
 
     .col-header-center {
