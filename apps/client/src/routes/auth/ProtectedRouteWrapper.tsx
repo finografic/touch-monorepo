@@ -49,7 +49,7 @@ export const ProtectedRouteWrapper: React.FC<ProtectedRouteWrapperProps> = ({ ch
     if (currentRouteEntry) {
       // For now, we'll use 'auth' role for authenticated users
       // In the future, this could be extended to check actual user roles
-      const roleComponent = currentRouteEntry.element.auth;
+      const roleComponent = currentRouteEntry.element.user;
 
       if (roleComponent) {
         // Render the specific role component
