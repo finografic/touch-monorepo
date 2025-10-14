@@ -7,6 +7,18 @@ export const styles = css`
   background-color: ${colors.white};
   color: ${colors.text};
 
+  border: 2px solid red;
+
+  .col-left {
+    width: 60%;
+
+    height: 100%;
+    background-color: ${colors.white};
+  }
+  .col-right {
+    width: 40%;
+  }
+
   .admin-page-container {
     /* min-width: 1400px; */
     width: 100%;
