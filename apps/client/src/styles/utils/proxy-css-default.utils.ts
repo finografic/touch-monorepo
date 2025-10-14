@@ -30,18 +30,21 @@ export const createCSSProxy = <T extends Record<string | number, string>>(
   target: T,
   defaultKey: keyof T,
 ): T => {
+  // Get the default value upfront
+  const defaultValue = String(target[defaultKey]);
+
   // Use an actual Proxy to intercept property access
   return new Proxy(target, {
     get(target, prop) {
       // Handle string conversion for template literals
       if (prop === Symbol.toPrimitive) {
-        return (hint: string) => String(target[defaultKey]);
+        return (hint: string) => defaultValue;
       }
       if (prop === 'valueOf') {
-        return () => String(target[defaultKey]);
+        return () => defaultValue;
       }
       if (prop === 'toString') {
-        return () => String(target[defaultKey]);
+        return () => defaultValue;
       }
 
       // Handle property access (e.g., padding[4], padding.lg)
