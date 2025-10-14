@@ -33,32 +33,19 @@ export const createCSSProxy = <T extends Record<string | number, string>>(
   // Get the default value upfront
   const defaultValue = String(target[defaultKey]);
 
-  // Use an actual Proxy to intercept property access
-  return new Proxy(target, {
-    get(target, prop) {
-      // Handle string conversion for template literals
-      if (prop === Symbol.toPrimitive) {
-        return (hint: string) => defaultValue;
-      }
-      if (prop === 'valueOf') {
-        return () => defaultValue;
-      }
-      if (prop === 'toString') {
-        return () => defaultValue;
-      }
+  // Create a String object (primitive wrapper) - THIS is the key!
+  // String objects can have properties AND are treated as strings by Emotion
+  const str = new String(defaultValue) as any;
 
-      // Handle property access (e.g., padding[4], padding.lg)
-      return target[prop as keyof T];
-    },
+  // Copy all properties from target to the string object
+  Object.keys(target).forEach((key) => {
+    str[key] = target[key as keyof T];
+  });
 
-    // Handle Object.keys(), for...in, JSON.stringify() - return empty to avoid enumeration
-    ownKeys() {
-      return [];
-    },
+  // Debug: Log what we're creating (remove this later)
+  if (typeof window !== 'undefined') {
+    console.log('🎯 createCSSProxy:', { defaultKey, defaultValue, str, typeofStr: typeof str });
+  }
 
-    // Make the proxy appear to have no enumerable properties
-    getOwnPropertyDescriptor(target, prop) {
-      return undefined;
-    },
-  }) as T;
+  return str as T;
 };
