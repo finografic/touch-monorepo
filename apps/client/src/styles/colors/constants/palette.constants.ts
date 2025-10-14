@@ -11,10 +11,10 @@ export const BASE_COLORS: Record<ColorBaseName, ColorBaseName> = {
   text: 'text',
   background: 'background',
   default: 'default',
-  white: 'white',
-  black: 'black',
   grey: 'grey',
   gray: 'gray',
+  black: 'black',
+  white: 'white',
   transparent: 'transparent',
 } as const;
 

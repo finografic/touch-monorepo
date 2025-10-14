@@ -3,7 +3,8 @@ import type { RadixColorVariable } from '../radix-ui/radix.types';
 import type { SHADE_VARIANTS } from 'styles/colors/constants/js.constants';
 
 /**
- * Type definitions for JS constants
+ * Shade variant type derived from JS constants
+ * Extracts the union type from the SHADE_VARIANTS array
  */
 export type ShadeVariant = (typeof SHADE_VARIANTS)[number];
 
@@ -26,17 +27,20 @@ export type ColorName =
   | 'white';
 
 /**
- * Extension color names that have NO SHADE VARIANTS
+ * Color names that have NO SHADE VARIANTS
+ * These colors cannot have lighter/darker variants (e.g., 'black' cannot be 'blackLight')
  */
 type ColorNameNoShadeVariant = 'black' | 'white';
 
 /**
- * Full extended color names available in the system
+ * Extended color names including transparent
+ * Adds 'transparent' to the base ColorName union
  */
 export type ColorNameExtended = ColorName | 'transparent';
 
 /**
- * Extension color names that have SHADE VARIANTS
+ * Color names that HAVE SHADE VARIANTS
+ * Excludes black/white which cannot have lighter/darker variants
  */
 type ColorBaseName = Exclude<ColorName, ColorNameNoShadeVariant>;
 
@@ -46,12 +50,14 @@ type ColorBaseName = Exclude<ColorName, ColorNameNoShadeVariant>;
 export type TransparencyLevel = '25' | '50' | '75';
 
 /**
- * Base color names available in the system  - used for PALETTE KEYS (BEFORE TRANSPARENCY VARIANTS)
+ * Base palette keys (before transparency variants)
+ * Includes: base colors, extended colors, and shade variants
  */
 type ColorPaletteKey = `${ColorNameExtended}` | `${ColorBaseName}${ShadeSuffix}`;
 
 /**
- * All possible color palette keys including base colors, shade variants, and transparency variants
+ * Complete set of all possible color palette keys
+ * Includes: base colors, shade variants, transparency variants, and combined variants
  */
 export type ColorPaletteKeysFull =
   | ColorPaletteKey
@@ -59,11 +65,10 @@ export type ColorPaletteKeysFull =
   | `${ColorBaseName}${ShadeSuffix}${TransparencyLevel}`;
 
 /**
- * CSS variable reference type
- * Examples: 'var(--color-primary)', 'var(--color-info-dark)', 'var(--color-success-50)'
+ * CSS variable reference type for all valid color variable patterns
+ * Examples: 'var(--color-primary)', 'var(--color-info-dark)', 'var(--color-success-50)', 'var(--color-black-25)'
  */
-
-export type CssVariableRefFull =
+export type CssVariableRef =
   | `var(--color-${ColorName})`
   | `var(--color-${ColorName}-${TransparencyLevel})`
   | `var(--color-${ColorBaseName}-${Lowercase<ShadeSuffix>})`
@@ -76,13 +81,6 @@ export type CssVariableRefFull =
  * - Transparency variants (e.g., 'primary50': 'var(--color-primary-50)')
  * - Combined shade+transparency variants (e.g., 'primaryLight33': 'var(--color-primary-light-33)')
  */
-// export type ColorPalette = {
-//   [K in ColorBaseName | `${ColorBaseName}${ShadeSuffix}`]: CssVariableRef | HexColor;
-// } & {
-//   [K in ColorBaseName as `${K}${TransparencyLevel}`]: CssVariableRef | HexColor;
-// } & {
-//   [K in ColorBaseName as `${K}${ShadeSuffix}${TransparencyLevel}`]: CssVariableRef | HexColor;
-// };
 
 export type ColorPalette = {
   [K in `${ColorValidName}`]: CssVariableRef;
