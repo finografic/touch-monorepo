@@ -1,72 +1,47 @@
 /**
- * Creates a Proxy that provides fallback values for indexed object properties
- *
- * This utility solves the problem of migrating from single values to indexed objects
- * while maintaining backward compatibility for existing usage.
- *
- * @param target - The object to wrap with fallback behavior
- * @param defaultKey - The key to use as fallback when no index is provided
- * @returns A Proxy that handles both indexed access and fallback conversion
- *
- * @example
- * ```typescript
- * const padding = createFallbackProxy(baseLayout.padding, 4);
- *
- * // Legacy usage (now works!)
- * `${padding}` // Returns '1rem' (index 4)
- *
- * // New usage (still works!)
- * `${padding[2]}` // Returns '0.5rem'
- * `${padding[4]}` // Returns '1rem'
- * ```
+ * Type that allows both direct string coercion AND indexed access
+ * This is the magic that makes TypeScript happy with ${layout.padding} AND layout.padding[4]
  */
-export const createFallbackProxy = <T extends Record<string | number, string>>(
-  target: T,
-  defaultKey: keyof T,
-): T => {
-  return new Proxy(target, {
-    get(target, prop) {
-      // Handle numeric/string property access (e.g., obj[4], obj['base'])
-      if (typeof prop === 'string' && (prop in target || !Number.isNaN(Number(prop)))) {
-        return target[prop];
-      }
-
-      // Handle string conversion (e.g., `${obj}` in template literals)
-      if (prop === Symbol.toPrimitive) {
-        return () => target[defaultKey];
-      }
-
-      // Handle valueOf() calls
-      if (prop === 'valueOf') {
-        return () => target[defaultKey];
-      }
-
-      // Handle toString() calls
-      if (prop === 'toString') {
-        return () => target[defaultKey];
-      }
-
-      // Handle other property access (like Object.keys(), for...in loops)
-      return target[prop as keyof T];
-    },
-  });
+export type CSSProxyValue<T extends Record<string | number, string>> = T & {
+  toString(): string;
+  valueOf(): string;
+  [Symbol.toPrimitive](hint: string): string;
 };
 
 /**
- * Creates a CSS-safe proxy that works with both direct interpolation and indexed access
+ * Creates a CSS-safe proxy that works with BOTH:
+ * 1. Direct interpolation: ${layout.padding} → default value
+ * 2. Indexed access: layout.padding[4] → specific value
  *
- * This version ensures Emotion CSS-in-JS can interpolate the value correctly while
- * maintaining indexed access capabilities.
+ * This solves the problem of accessing design system values in Emotion CSS-in-JS
+ * without needing to use array notation for the default case.
+ *
+ * @param target - The object containing all available values
+ * @param defaultKey - The key to use when the object is coerced to string
+ * @returns A proxy that behaves as both object AND string
+ *
+ * @example
+ * ```typescript
+ * const padding = createCSSProxy(baseLayout.padding, 4);
+ *
+ * // Direct usage (gets default)
+ * css`padding: ${padding};` // → '1rem'
+ *
+ * // Indexed usage (gets specific value)
+ * css`padding: ${padding[2]};` // → '0.5rem'
+ * css`padding: ${padding[8]};` // → '2rem'
+ * ```
  */
 export const createCSSProxy = <T extends Record<string | number, string>>(
   target: T,
   defaultKey: keyof T,
-): T => {
-  // Create a new object that extends the target
-  const proxyTarget = Object.create(target);
+): CSSProxyValue<T> => {
+  // Create a new object that inherits from target (for property access)
+  const proxyTarget = Object.create(target) as CSSProxyValue<T>;
 
-  // Override the string conversion methods to return the default value
-  proxyTarget[Symbol.toPrimitive] = () => target[defaultKey];
+  // Override string conversion methods to return the default value
+  // These are called when the object is used in template literals or string context
+  proxyTarget[Symbol.toPrimitive] = (hint: string) => target[defaultKey];
   proxyTarget.valueOf = () => target[defaultKey];
   proxyTarget.toString = () => target[defaultKey];
 
