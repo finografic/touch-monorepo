@@ -3,8 +3,7 @@
  * These constants are used for CSS variable generation and manipulation
  */
 
-import type { ColorName, ShadeSuffix } from 'styles/colors/colors.types';
-import type { ColorNameNoShadeVariant } from 'styles/colors/palette.types';
+import type { ColorName, ColorNameNoShadeVariant, ShadeVariant } from 'styles/colors/colors.types';
 
 /**
  * Base color names for CSS variable generation
@@ -19,7 +18,6 @@ export const CSS_BASE_COLORS: ColorName[] = [
   'info',
   'text',
   'grey',
-  'gray',
   'default',
   'black',
   'white',
@@ -29,7 +27,7 @@ export const CSS_BASE_COLORS: ColorName[] = [
  * CSS shade variants in lowercase (used for CSS variable names)
  * Example: --color-primary-xxlight, --color-primary-xlight, etc.
  */
-export const CSS_SHADE_VARIANTS: Lowercase<ShadeSuffix>[] = [
+export const CSS_SHADE_VARIANTS: Lowercase<ShadeVariant>[] = [
   'xxlight',
   'xlight',
   'light',

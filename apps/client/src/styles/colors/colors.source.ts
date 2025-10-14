@@ -18,8 +18,6 @@ export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'>
   default: { value: tailwindColors.stone[500] }, // oklch(55.3% 0.013 58.071)
   text: { value: tailwindColors.neutral[800] }, // oklch(26.9% 0 0)
   grey: { value: tailwindColors.zinc[500] }, // oklch(55.2% 0.016 285.938)
-  gray: { value: tailwindColors.zinc[500] }, // oklch(55.2% 0.016 285.938)
-  transparent: { value: 'transparent' as HexColor },
 } as const;
 
 export const colors: ColorPalette = {

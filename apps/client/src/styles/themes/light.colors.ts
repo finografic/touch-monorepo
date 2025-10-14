@@ -74,14 +74,6 @@ export const lightColors: ColorPalette = {
   greyXDark: '#11171e',
   greyXXDark: '#0b1017',
 
-  gray: '#1f2937',
-  grayXXLight: '#a6a9ad',
-  grayXLight: '#86898f',
-  grayLight: '#646971',
-  grayDark: '#161d27',
-  grayXDark: '#11171e',
-  grayXXDark: '#0b1017',
-
   default: '#111827',
   defaultXXLight: '#a1a3a7',
   defaultXLight: '#7d8086',

@@ -1,42 +1,27 @@
-import type { HexColor, ShadeSuffix } from './colors.types';
+/**
+ * Palette type definitions
+ * Defines the structure and types for the generated color palette
+ */
+import type {
+  ColorBaseName,
+  ColorName,
+  ColorNameExtended,
+  ColorValue,
+  HexColor,
+  ShadeVariant,
+  TransparencyLevel,
+} from './colors.types';
 import type { RadixColorVariable } from '../radix-ui/radix.types';
-import type { ColorName } from 'styles/colors/colors.types';
 
-/**
- * Shade variants in PascalCase - used as suffixes with color names
- * Example: primaryXXLight, primaryXLight, etc.
- */
-export const SHADE_VARIANTS = ['XXLight', 'XLight', 'Light', 'Dark', 'XDark', 'XXDark'] as const;
-export type ShadeVariant = (typeof SHADE_VARIANTS)[number];
-
-/**
- * Color names that have NO SHADE VARIANTS
- * These colors cannot have lighter/darker variants (e.g., 'black' cannot be 'blackLight')
- */
-export type ColorNameNoShadeVariant = 'black' | 'white';
-
-/**
- * Extended color names including transparent
- * Adds 'transparent' to the base ColorName union
- */
-export type ColorNameExtended = ColorName | 'transparent';
-
-/**
- * Color names that HAVE SHADE VARIANTS
- * Excludes black/white which cannot have lighter/darker variants
- */
-type ColorBaseName = Exclude<ColorName, ColorNameNoShadeVariant>;
-
-/**
- * Transparency levels for color variants
- */
-export type TransparencyLevel = '25' | '50' | '75';
+// ======================================================================== //
+// PALETTE KEYS
+// ======================================================================== //
 
 /**
  * Base palette keys (before transparency variants)
  * Includes: base colors, extended colors, and shade variants
  */
-type ColorPaletteKey = `${ColorNameExtended}` | `${ColorBaseName}${ShadeSuffix}`;
+type ColorPaletteKey = `${ColorNameExtended}` | `${ColorBaseName}${ShadeVariant}`;
 
 /**
  * Complete set of all possible color palette keys
@@ -45,7 +30,11 @@ type ColorPaletteKey = `${ColorNameExtended}` | `${ColorBaseName}${ShadeSuffix}`
 export type ColorPaletteKeysFull =
   | ColorPaletteKey
   | `${ColorBaseName}${TransparencyLevel}`
-  | `${ColorBaseName}${ShadeSuffix}${TransparencyLevel}`;
+  | `${ColorBaseName}${ShadeVariant}${TransparencyLevel}`;
+
+// ======================================================================== //
+// CSS VARIABLE REFERENCES
+// ======================================================================== //
 
 /**
  * CSS variable reference type for all valid color variable patterns
@@ -54,8 +43,12 @@ export type ColorPaletteKeysFull =
 export type CssVariableRef =
   | `var(--color-${ColorName})`
   | `var(--color-${ColorName}-${TransparencyLevel})`
-  | `var(--color-${ColorBaseName}-${Lowercase<ShadeSuffix>})`
-  | `var(--color-${ColorBaseName}-${Lowercase<ShadeSuffix>}-${TransparencyLevel})`;
+  | `var(--color-${ColorBaseName}-${Lowercase<ShadeVariant>})`
+  | `var(--color-${ColorBaseName}-${Lowercase<ShadeVariant>}-${TransparencyLevel})`;
+
+// ======================================================================== //
+// GENERATED PALETTE TYPES
+// ======================================================================== //
 
 /**
  * Complete color palette type that includes:
@@ -69,12 +62,14 @@ export type CssVariableRef =
 // export type ColorPalette = {
 //   [K in `${ColorValidName}`]: CssVariableRef;
 // } & {
-//   [K in ColorBaseName as `${ColorBaseName}${ShadeSuffix}${TransparencyLevel}`]: CssVariableRef;
+//   [K in ColorBaseName as `${ColorBaseName}${ShadeVariant}${TransparencyLevel}`]: CssVariableRef;
 // } & {
 //   [K in ColorBaseName as `${ColorBaseName}${TransparencyLevel}`]: CssVariableRef;
 // };
 
-// Type for the generated color palette
+/**
+ * Type for the generated color palette with all shade variants
+ */
 export type GeneratedPaletteCSS = {
   [K in ColorBaseName]: ColorValue | CssVariableRef;
 } & {
@@ -91,7 +86,14 @@ export type GeneratedPaletteCSS = {
   [K in ColorBaseName as `${K}XXDark`]: ColorValue | CssVariableRef;
 };
 
-// Helper type to extract the actual color value based on environment
+/**
+ * Color palette type - includes all color keys with their corresponding values
+ */
+export type ColorPalette = Record<string, ColorValue | CssVariableRef>;
+
+/**
+ * Helper type to extract the actual color value based on environment
+ */
 export type ColorPaletteValue<T> = T extends RadixColorVariable
   ? typeof window extends undefined
     ? RadixColorVariable

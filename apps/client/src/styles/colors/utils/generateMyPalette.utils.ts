@@ -9,7 +9,7 @@ import { fileURLToPath } from 'url';
 import { COLOR_MAPPING } from '../colors.source';
 import { lightColors } from '../../themes/light.colors';
 import { SHADE_VARIANCE_FACTOR } from '../constants/js.constants';
-import { SHADE_VARIANTS } from '../palette.types';
+import { SHADE_VARIANTS } from '../colors.types';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);

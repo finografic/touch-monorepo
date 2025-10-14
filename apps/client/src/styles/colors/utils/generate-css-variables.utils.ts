@@ -1,5 +1,5 @@
-import type { ColorBaseName, GeneratedPaletteCSS } from '../palette.types';
-import type { ShadeKey } from '../colors.types';
+import type { ColorBaseName, ShadeKey } from '../colors.types';
+import type { GeneratedPaletteCSS } from '../palette.types';
 import {
   CSS_BASE_COLORS,
   CSS_SHADE_VARIANTS,

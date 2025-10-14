@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from 'styles';
-import type { ColorBaseName } from 'styles/colors/palette.types';
+import { UI_COLOR_NAMES } from 'styles/colors/colors.types';
 
 /**
  * Generate CSS class color variants for any component type
@@ -38,17 +38,8 @@ export function generateComponentColorVariants(
     componentType: string,
   ) => ReturnType<typeof css>,
 ): ReturnType<typeof css> {
-  // Define the available color names that should have variants
-  const colorNames: ColorBaseName[] = [
-    'primary',
-    'secondary',
-    'success',
-    'warning',
-    'danger',
-    'info',
-    'default',
-    'grey',
-  ];
+  // Use the UI color names constant for component variants
+  const colorNames = UI_COLOR_NAMES;
 
   // Generate CSS for each color variant
   const variantStyles = colorNames.map((colorName) => {

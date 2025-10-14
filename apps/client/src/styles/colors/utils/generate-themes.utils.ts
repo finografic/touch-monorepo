@@ -104,9 +104,8 @@ const LIGHT_COLORS = {
   danger: '#991b1b', // Red-800
   info: '#1e40af', // Blue-800
   text: '#000000', // Pure black
-  grey: '#1f2937', // Gray-800
-  gray: '#1f2937', // Gray-800
-  default: '#111827', // Gray-900
+  grey: '#1f2937', // Grey-800
+  default: '#111827', // Grey-900
   background: '#fefefe', // Pure white with subtle warmth
 } as const;
 
@@ -119,9 +118,8 @@ const DARK_COLORS = {
   danger: '#fca5a5', // Red-300
   info: '#93c5fd', // Blue-300
   text: '#ffffff', // Pure white
-  grey: '#d1d5db', // Gray-300
-  gray: '#d1d5db', // Gray-300
-  default: '#d1d5db', // Gray-300
+  grey: '#d1d5db', // Grey-300
+  default: '#d1d5db', // Grey-300
   background: '#0f172a', // Darker slate background
 } as const;
 
