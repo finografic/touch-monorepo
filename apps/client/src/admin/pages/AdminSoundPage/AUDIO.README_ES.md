@@ -10,7 +10,7 @@ El sistema de sonidos soporta dos tipos de sonidos de temporizador:
 
 ## Estructura de Archivos
 
-```
+```plaintext
 data/uploads/sounds/
 ├── _settings.json          # Archivo de configuración de sonidos
 ├── alarm/                  # Directorio de archivos de sonido de alarma
@@ -130,7 +130,7 @@ const currentAudioVolume = audioVolume; // ej., 0.12 para deslizador al 60%
 updatePlayingAudioVolume(50); // Cambia el audio en reproducción a 50% deslizador (10% real)
 ```
 
-## Control de Volumen
+## Sistema de Control de Volumen
 
 El sistema incluye un control de volumen global que afecta toda la reproducción de sonidos.
 
@@ -180,7 +180,7 @@ Ejemplo:
 
 Los archivos de sonido siguen este patrón de nombres:
 
-```
+```plaintext
 sound--{type}-{timestamp}-{randomId}.mp3
 ```
 

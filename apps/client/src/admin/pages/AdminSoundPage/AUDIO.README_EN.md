@@ -10,7 +10,7 @@ The sound system supports two types of timer sounds:
 
 ## File Structure
 
-```
+```plaintext
 data/uploads/sounds/
 ├── _settings.json          # Sound configuration file
 ├── alarm/                  # Alarm sound files directory
@@ -180,7 +180,7 @@ Example:
 
 Sound files follow this naming pattern:
 
-```
+```plaintext
 sound--{type}-{timestamp}-{randomId}.mp3
 ```
 
