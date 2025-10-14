@@ -1,6 +1,7 @@
 // Volume utility functions for sound management
 export const VOLUME_STORAGE_KEY = 'sound-volume';
-export const DEFAULT_VOLUME = 25; // Reduced from 50 to 25 (50% reduction)
+export const DEFAULT_VOLUME = 60; // Default 60% on slider
+export const VOLUME_SCALE = 0.2; // Scale factor: 100% slider = 20% actual audio
 
 /**
  * Get the current volume level from sessionStorage
@@ -20,12 +21,12 @@ export const setStoredVolume = (volume: number): void => {
 };
 
 /**
- * Get the current volume as a decimal (0-1) for HTMLAudioElement
- * Scaled down so that 100% on slider = 20% actual volume
+ * Get the current volume as a decimal for HTMLAudioElement
+ * Scaled down: 100% slider = 20% actual volume
  * @returns Volume level (0-0.2) for audio elements
  */
 export const getAudioVolume = (): number => {
-  return (getStoredVolume() / 100) * 0.2;
+  return (getStoredVolume() / 100) * VOLUME_SCALE;
 };
 
 /**
@@ -38,11 +39,11 @@ export const applyStoredVolumeToAudio = (audioElement: HTMLAudioElement): void =
 
 /**
  * Apply volume to an HTMLAudioElement
- * Scaled down so that 100% on slider = 20% actual volume
+ * Scaled down: 100% slider = 20% actual volume
  * @param audioElement The audio element to control
  * @param volume Volume level (0-100)
  */
 export const applyVolumeToAudio = (audioElement: HTMLAudioElement, volume: number): void => {
-  // Convert 0-100 to 0-0.2 range for audio volume (scaled down by 0.2)
-  audioElement.volume = (volume / 100) * 0.2;
+  // Convert 0-100 to 0-0.2 range for audio volume
+  audioElement.volume = (volume / 100) * VOLUME_SCALE;
 };

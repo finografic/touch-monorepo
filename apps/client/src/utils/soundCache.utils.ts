@@ -79,9 +79,10 @@ class AudioManager {
   // Update volume of currently playing audio
   updateVolume = (volume: number): void => {
     if (this.#currentAudio && this.#isPlaying) {
-      // Scale down: 100% slider = 20% actual volume (multiply by 0.2)
-      this.#currentAudio.volume = (volume / 100) * 0.2;
-      console.log(`🔊 Updated playing audio volume to ${volume}% (actual: ${volume * 0.2}%)`);
+      // Scale down: 100% slider = 20% actual volume
+      const VOLUME_SCALE = 0.2;
+      this.#currentAudio.volume = (volume / 100) * VOLUME_SCALE;
+      console.log(`🔊 Updated playing audio volume to ${volume}% (actual: ${volume * VOLUME_SCALE}%)`);
     }
   };
 
