@@ -1,4 +1,4 @@
-import type { ColorBaseName, ShadeKey } from '../colors.types';
+import type { ColorBaseName } from '../colors.types';
 import type { ColorPalette } from '../palette.types';
 import {
   CSS_BASE_COLORS,
@@ -8,17 +8,6 @@ import {
 } from '../constants/css-vars.constants';
 
 // NOTE: THIS is the VERSION of the METHOD USED to GENERATE COLOR VARIABLES
-
-/**
- * CSS variable name type for colors
- * Examples:
- * - '--color-primary'
- * - '--color-primary-light'
- * - '--color-danger-xdark'
- */
-export type ColorVariable =
-  | `--color-${ColorBaseName}`
-  | `--color-${ColorBaseName}-${Exclude<ShadeKey, 'base'>}`;
 
 export const generateCssColorVariables = ({ colors }: { colors: ColorPalette }) => {
   let cssVars = '';
