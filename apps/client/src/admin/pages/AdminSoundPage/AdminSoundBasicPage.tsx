@@ -1,6 +1,8 @@
 import React from 'react';
 import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../..';
+import { stopAllAudio } from 'utils/soundCache.utils';
+import { StopIcon } from 'styles/icons';
 import { styles } from './AdminSoundPage.styles';
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
 import { SoundConfigurationSection } from './components';
@@ -45,21 +47,40 @@ export const AdminSoundBasicPage: React.FC = () => {
           description="Select which sound file to use for timer alarm events"
         >
           <Row justify="between" align="center">
-            <Col xs={9}>
+            <Col xs={6}>
               <SoundConfigurationSection
                 soundFiles={soundFiles}
                 soundSettings={soundSettings}
                 soundType="alarm"
               />
             </Col>
-            <Col xs={3}>
-              <Flex direction="column" gap="2" align="center" className="volume-control">
+            <Col xs={6}>
+              <Flex direction="row" gap="2" align="center" className="volume-control">
+                <Flex
+                  direction="column"
+                  gap="2"
+                  align="center"
+                  style={{ width: '60px', fontSize: '1.5rem', fontWeight: '600', padding: '0' }}
+                  // mr="0"
+                >
+                  {/* Panic button - stop all audio */}
+                  <div className="button-box">
+                    <button
+                      className="button button-panic"
+                      onClick={stopAllAudio}
+                      title="Stop All Audio (Panic)"
+                    >
+                      <StopIcon color="orange" />
+                    </button>
+                  </div>
+                </Flex>
                 <Flex
                   direction="column"
                   gap="2"
                   align="center"
                   style={{ width: '100%', fontSize: '1.5rem', fontWeight: '600', padding: '0 4rem' }}
                   mr="8"
+                  pr="8"
                 >
                   <Text size="2" weight="medium" color="gray">
                     Volume
