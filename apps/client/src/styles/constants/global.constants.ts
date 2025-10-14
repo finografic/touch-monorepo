@@ -21,7 +21,7 @@ export const layout = {
   // Cast to any to allow Emotion to accept the proxied values in template literals
   // At runtime, JavaScript calls toString() automatically, but TypeScript needs the hint
   fontSize: createCSSProxy(baseLayout.fontSize, 'base') as any, // '1rem'
-  padding: createCSSProxy(baseLayout.padding, 8) as any, // '2rem' - TESTING!
+  padding: createCSSProxy(baseLayout.padding, 4) as any, // '1rem'
   borderWidth: createCSSProxy(baseLayout.borderWidth, 2) as any, // '2px'
   borderRadius: createCSSProxy(baseLayout.borderRadius, 'lg') as any, // '0.5rem'
   pageColor: colors.white,

@@ -30,14 +30,29 @@ export const createCSSProxy = <T extends Record<string | number, string>>(
   target: T,
   defaultKey: keyof T,
 ): T => {
-  // Create a new object that inherits from target (for property access)
-  const proxyTarget = Object.create(target);
+  // Create a new object that spreads all properties from target
+  const proxyTarget = { ...target };
 
-  // Override string conversion methods to return the default value
-  // These are called when the object is used in template literals or string context
-  proxyTarget[Symbol.toPrimitive] = (hint: string) => target[defaultKey];
-  proxyTarget.valueOf = () => target[defaultKey];
-  proxyTarget.toString = () => target[defaultKey];
+  // Define string conversion methods that return the default value
+  // Using Object.defineProperty to make them non-enumerable
+  Object.defineProperty(proxyTarget, Symbol.toPrimitive, {
+    value: (hint: string) => {
+      // Always return string, regardless of hint (default, string, or number)
+      // CSS values should always be strings anyway
+      return String(target[defaultKey]);
+    },
+    enumerable: false,
+  });
+
+  Object.defineProperty(proxyTarget, 'valueOf', {
+    value: () => String(target[defaultKey]),
+    enumerable: false,
+  });
+
+  Object.defineProperty(proxyTarget, 'toString', {
+    value: () => String(target[defaultKey]),
+    enumerable: false,
+  });
 
   // Return as T - the string conversion methods are hidden from TypeScript
   // but available at runtime for template literal coercion
