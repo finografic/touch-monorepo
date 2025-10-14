@@ -63,17 +63,7 @@ export const AdminOrdersPage: React.FC = () => {
         id: 'admin',
         label: 'Admin',
         icon: <EditIcon />,
-        content: (
-          <AuthLoginTabContent
-            activeTab={activeTab}
-            email={DEFAULT_ADMIN_EMAIL}
-            password={password}
-            onPasswordChange={setPassword}
-            onSubmit={handleSubmit}
-            isLoading={isLoading}
-            error={error}
-          />
-        ),
+        content: React.F,
       },
     ],
   };
@@ -269,6 +259,7 @@ export const AdminOrdersPage: React.FC = () => {
                 </Text>
               </Flex>
             </Tabs.Content>
+            {/* ======================================================================== */}
             <Tabs.Content value={tab.id}>
               <Row className="form-section">
                 <Col>
@@ -290,30 +281,25 @@ export const AdminOrdersPage: React.FC = () => {
         </Tabs.Root>
 
         {/* Show the drawer and table in both list and edit modes */}
-        <Drawer
-          onOpenChange={setIsDrawerOpen}
-          drawerBarLeft={
-            // eslint-disable-next-line style/jsx-wrap-multilines
-            <Flex justify="start" align="center" className="search-container">
-              <Flex px="4">
-                <SearchBar
-                  searchTerm={searchTerm}
-                  onSearchChange={setSearchTerm}
-                  status={isDrawerOpen ? 'active' : 'inactive'}
-                />
-              </Flex>
-            </Flex>
-          }
-        >
-          <OrdersTable
-            orders={filteredOrders}
-            columns={DEFAULT_ORDERS_COLUMNS}
-            emptyMessage="No orders found"
-            emptySubMessage="Try adjusting your search term or add new orders"
-            onClickEdit={handleEditOrder}
-            onClickDelete={handleDeleteOrder}
-          />
-        </Drawer>
+
+        <Flex justify="start" align="center" className="search-container">
+          <Flex px="4">
+            <SearchBar
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              status={isDrawerOpen ? 'active' : 'inactive'}
+            />
+          </Flex>
+        </Flex>
+
+        <OrdersTable
+          orders={filteredOrders}
+          columns={DEFAULT_ORDERS_COLUMNS}
+          emptyMessage="No orders found"
+          emptySubMessage="Try adjusting your search term or add new orders"
+          onClickEdit={handleEditOrder}
+          onClickDelete={handleDeleteOrder}
+        />
       </AdminContentLayout>
     </section>
   );

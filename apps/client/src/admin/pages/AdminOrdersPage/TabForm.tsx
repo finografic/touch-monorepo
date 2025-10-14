@@ -13,7 +13,7 @@ import { getHumanReadableId } from 'utils/readable.utils';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import clsx from 'clsx';
 
-export const AdminOrdersPage: React.FC = () => {
+export const TabForm: React.FC = () => {
   const { currentLanguage } = useAppConfig();
   const [searchTerm, setSearchTerm] = useState('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -142,7 +142,7 @@ export const AdminOrdersPage: React.FC = () => {
           <AdminSection
             className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
             title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
-            isLoading={true}
+            // isLoading={true}
           >
             <Flex direction="column" gap="4" align="center" justify="center" p="6">
               <Spinner size="3" />
@@ -162,7 +162,7 @@ export const AdminOrdersPage: React.FC = () => {
           <AdminSection
             className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
             title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
-            error={errorMessage}
+            // error={errorMessage as any}
           >
             <Text color="red">
               Error loading {isEditMode ? 'order' : 'orders'}: {errorMessage}
