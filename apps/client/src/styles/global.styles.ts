@@ -1,8 +1,3 @@
-// import 'sanitize.css/sanitize.css';
-// import 'sanitize.css/assets.css';
-// import 'sanitize.css/typography.css';
-// import 'sanitize.css/forms.css';
-
 import { css } from '@emotion/react';
 import { cssFontDefaults, cssFontMono } from './fonts/fonts.styles';
 import { colors } from 'styles';
