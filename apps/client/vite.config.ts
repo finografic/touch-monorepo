@@ -44,6 +44,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
           plugins: ['@emotion/babel-plugin'],
         },
       }),
+      // paraglide({ project: '../../packages/i18n' }),
       tailwindcss(),
       mode === 'development' && devCookieClearPlugin(),
     ].filter(Boolean),

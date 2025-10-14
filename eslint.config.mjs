@@ -32,4 +32,5 @@ export default fino({
       },
     ],
   },
+  ignorePatterns: ['**/.inlang/**'],
 });
