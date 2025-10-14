@@ -177,61 +177,6 @@ export const AdminOrdersPage: React.FC = () => {
         // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
         //  subtitle="Development orders for testing"
       >
-<<<<<<< HEAD
-        {/* <Row className="form-section">
-          <Col>
-            <AdminSection
-              className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
-              title={isEditMode ? HUMAN_READABLE_ORDER_ID : 'Formulario de datos'}
-            >
-              <OrdersForm
-                onSubmit={handleAddOrder}
-                orderData={isEditMode ? orderData : undefined}
-                isEditMode={isEditMode}
-              />
-            </AdminSection>
-          </Col>
-        </Row> */}
-
-        <Flex justify="start" align="center" className="search-container">
-          <Flex px="4">
-            <SearchBar
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              status={isDrawerOpen ? 'active' : 'inactive'}
-            />
-          </Flex>
-          <Flex px="4" pl="2">
-            <Text size="2" color="gray" weight="bold" style={{ opacity: isDrawerOpen ? 1 : 0.66 }}>
-              {isDrawerOpen ? (
-                <>
-                  Showing {filteredOrders.length}
-                  <span
-                    style={{
-                      opacity: 0.5,
-                      display: 'inline-block',
-                      paddingLeft: '0.33rem',
-                    }}
-                  >
-                    / {ordersData.length} total
-                  </span>
-                </>
-              ) : (
-                <>{ordersData.length} total</>
-              )}
-            </Text>
-          </Flex>
-        </Flex>
-
-        <OrdersTable
-          orders={filteredOrders}
-          columns={DEFAULT_ORDERS_COLUMNS}
-          emptyMessage="No orders found"
-          emptySubMessage="Try adjusting your search term or add new orders"
-          onClickEdit={handleEditOrder}
-          onClickDelete={handleDeleteOrder}
-        />
-=======
         <header
           style={
             {
@@ -312,7 +257,6 @@ export const AdminOrdersPage: React.FC = () => {
             />
           </Col>
         </Row>
->>>>>>> recover-detached-work
       </AdminContentLayout>
     </section>
   );
