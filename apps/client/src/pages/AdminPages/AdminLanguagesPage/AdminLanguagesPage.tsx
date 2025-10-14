@@ -11,7 +11,7 @@ import { LanguageDeleteDialog } from './components/LanguageDeleteDialog';
 // import type { LanguageInfo } from '@workspace/i18n/types';
 import type { LanguageInfo } from '@config/i18n.config';
 import { useQueryClient } from '@tanstack/react-query';
-import { getFlagUrl } from 'utils/flag.utils';
+import { getFlagUrl } from 'utils/i18n/flag.utils';
 import {
   LanguagesDto,
   supportedLanguagesKeys,

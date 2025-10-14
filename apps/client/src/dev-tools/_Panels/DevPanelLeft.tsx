@@ -1,7 +1,6 @@
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useLocation } from 'react-router-dom';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
-import { transformPadData } from 'utils/data.utils';
 import { DevFilterResults } from 'dev-tools/data/DevFilterResults/DevFilterResults';
 import { stylesLeft } from './DevPanels.styles';
 import { DevOrderProfile } from 'dev-tools/data/DevOrderProfile/DevOrderProfile';
@@ -23,17 +22,4 @@ export const DevPanelLeft = () => {
 
   // return <SessionAndTimers />;
   return <DevFilterResults />;
-
-  const devDataLeft = {
-    pathname: location.pathname,
-    filterKey,
-    config: padsConfig,
-    pads: transformPadData(padsSource),
-  };
-
-  return (
-    <aside id="dev-data-left" css={stylesLeft}>
-      {/* <pre>{JSON.stringify(devDataLeft, null, 2)}</pre> */}
-    </aside>
-  );
 };

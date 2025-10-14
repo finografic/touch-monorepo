@@ -4,7 +4,7 @@ import { styles } from './LanguageSelector.styles';
 import type { LanguageSelectorProps, RegionLocale } from '@config/i18n';
 import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
 import { LanguagesDto } from 'queries/supported-languages';
-import { getFlagUrl } from 'utils/flag.utils';
+import { getFlagUrl } from 'utils/i18n/flag.utils';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import clsx from 'clsx';

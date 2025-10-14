@@ -31,7 +31,10 @@ export const LoginButton: FC<LoginButtonProps> = ({ onLoginSuccess, onLogoutSucc
   const handleLogout = useCallback(async () => {
     try {
       await signOut({
-        onSuccess: () => toast({ variant: 'success', message: 'Successfully logged out' }),
+        onSuccess: () => {
+          toast({ variant: 'success', message: 'Successfully logged out' });
+          navigate('/');
+        },
         onError: () => toast({ variant: 'error', message: 'Failed to log out', subText: 'Please try again' }),
       });
     } finally {
@@ -45,7 +48,9 @@ export const LoginButton: FC<LoginButtonProps> = ({ onLoginSuccess, onLogoutSucc
   const handleLoginSuccess = useCallback(() => {
     setIsOpen(false);
     toast({ variant: 'success', message: 'Successfully logged in' });
-    onLoginSuccess?.();
+    if (!isAdminLocation) {
+      navigate('/admin');
+    }
   }, [toast, onLoginSuccess]);
 
   const handleLoginError = (error: string) => {
