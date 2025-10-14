@@ -1,5 +1,5 @@
 import { api } from 'api';
-import type { SoundFile, SoundSettings } from 'api/hooks/useSounds';
+import type { SoundFile, SoundSettings } from 'queries/sounds/useSounds';
 
 // Audio instance manager to prevent overlapping sounds
 class AudioManager {

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminSoundPage.styles';
-import { type SoundType, useGetSoundFiles, useGetSoundSettings } from 'api/hooks/useSounds';
+import { type SoundType, useGetSoundFiles, useGetSoundSettings } from 'queries/sounds/useSounds';
 import { FileUploadSection, SoundConfigurationSection, SoundLibrarySection } from './components';
 import { preloadSounds, testAudioPlayback, updateCachedSoundFiles } from 'utils/soundCache.utils';
 import { useToast } from 'components/Toast';

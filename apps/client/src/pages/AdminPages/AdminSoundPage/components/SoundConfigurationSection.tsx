@@ -9,7 +9,7 @@ import {
   type SoundSettings,
   type SoundType,
   useUpdateSoundSettings,
-} from 'api/hooks/useSounds';
+} from 'queries/sounds/useSounds';
 import { playSoundByPath } from 'utils/soundCache.utils';
 import { styles } from './SoundConfigurationSection.styles';
 import { useAuth } from 'providers/AuthProvider';

@@ -2,7 +2,7 @@ import React from 'react';
 import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../shared';
 import { styles } from './AdminSoundPage.styles';
-import { useGetSoundFiles, useGetSoundSettings } from 'api/hooks/useSounds';
+import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds/useSounds';
 import { SoundConfigurationSection } from './components';
 
 export const AdminSoundBasicPage: React.FC = () => {
