@@ -3,15 +3,10 @@ import type { RadixColorVariable } from '../radix-ui/radix.types';
 import type { ColorName } from 'styles/colors/colors.types';
 
 /**
- * JS shade variants in PascalCase (used for JS object keys)
+ * Shade variants in PascalCase - used as suffixes with color names
  * Example: primaryXXLight, primaryXLight, etc.
  */
 export const SHADE_VARIANTS = ['XXLight', 'XLight', 'Light', 'Dark', 'XDark', 'XXDark'] as const;
-
-/**
- * Shade variant type derived from JS constants
- * Extracts the union type from the SHADE_VARIANTS array
- */
 export type ShadeVariant = (typeof SHADE_VARIANTS)[number];
 
 /**
