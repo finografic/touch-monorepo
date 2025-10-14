@@ -21,10 +21,11 @@ export const setStoredVolume = (volume: number): void => {
 
 /**
  * Get the current volume as a decimal (0-1) for HTMLAudioElement
- * @returns Volume level (0-1) for audio elements
+ * Scaled down so that 100% on slider = 20% actual volume
+ * @returns Volume level (0-0.2) for audio elements
  */
 export const getAudioVolume = (): number => {
-  return getStoredVolume() / 100;
+  return (getStoredVolume() / 100) * 0.2;
 };
 
 /**
@@ -37,10 +38,11 @@ export const applyStoredVolumeToAudio = (audioElement: HTMLAudioElement): void =
 
 /**
  * Apply volume to an HTMLAudioElement
+ * Scaled down so that 100% on slider = 20% actual volume
  * @param audioElement The audio element to control
  * @param volume Volume level (0-100)
  */
 export const applyVolumeToAudio = (audioElement: HTMLAudioElement, volume: number): void => {
-  // Convert 0-100 to 0-1 range for audio volume
-  audioElement.volume = volume / 100;
+  // Convert 0-100 to 0-0.2 range for audio volume (scaled down by 0.2)
+  audioElement.volume = (volume / 100) * 0.2;
 };
