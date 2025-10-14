@@ -4,6 +4,8 @@ import { forms } from '../forms/forms.constants';
 
 export const stylesAdminContent = css`
   header.app-header.admin-app-header {
+    width: 100%;
+    max-width: none;
     background-color: ${colors.greyDark};
     color: ${colors.white};
 

@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { useAuth } from 'providers/AuthProvider';
-import { getAdminEntryByPath } from 'config/routes/admin.routes.selectors';
-import { AdminDashboardBasicPage } from 'src/admin/pages/AdminDashboardBasicPage';
+import { getAdminEntryByPath } from 'admin/config/admin.routes.selectors';
+import { AdminDashboardBasicPage } from 'admin/AdminDashboardBasicPage';
 
 interface ProtectedRouteWrapperProps {
   /** The fallback component to render when no specific role component exists */

@@ -7,7 +7,7 @@ import { SelectBasic } from 'forms/SelectBasic';
 import { InputTemperature } from 'forms/InputTemperature';
 import { FormMiddlewareProvider } from 'forms/FormMiddleware';
 import { FieldWrapper } from 'forms/FieldWrapper';
-import { TimesRepeaterTable } from 'src/admin/pages/AdminOrdersPage/TimesRepeaterTable';
+import { TimesRepeaterTable } from 'admin/pages/AdminOrdersPage/TimesRepeaterTable';
 import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
 import {
   type OrdersFormValues as MiddlewareOrdersFormValues,
@@ -36,7 +36,7 @@ import { OrdersFormDevTools } from '../OrderFormDevTools/OrdersFormDevTools';
 import {
   ORDER_FORM_SCHEMA,
   type OrdersFormValues,
-} from 'src/admin/pages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
+} from 'admin/pages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from 'components/Toast';
 import { SelectCustom } from 'forms/SelectCustom';

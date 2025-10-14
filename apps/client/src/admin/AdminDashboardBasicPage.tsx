@@ -2,21 +2,20 @@ import React from 'react';
 import { Box, Card, Flex } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { usePageTransition } from 'hooks/usePageTransition';
-import { AdminContentLayout } from '..';
-import { styles } from './AdminDashboardPage.styles';
+import { AdminContentLayout } from '.';
+import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
-import { getAdminDashboardCards } from 'config/routes/admin.routes.selectors';
-import { getCalloutText } from '../utils/i18n.utils';
-import type { AuthRoles } from 'config/routes/admin.routes.map';
-import { AdminAccessTest } from 'src/admin/components/AdminAccessTest/AdminAccessTest';
+import { getCalloutText } from './utils/i18n.utils';
+import type { AuthRoles } from 'admin/config/admin.routes.map';
+import { styles } from './AdminDashboardPage.styles';
 
-export const AdminDashboardPage: React.FC = () => {
+export const AdminDashboardBasicPage: React.FC = () => {
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
 
   const { t } = useTranslation();
-  const role: AuthRoles = 'admin';
-  // Admin dashboard shows the authenticated view; selector filtering with true includes admin/auth items
-  const adminCards = getAdminDashboardCards(true).map((card) => {
+  const role: AuthRoles = 'public';
+  // Public dashboard shows public-only items
+  const adminCards = getAdminDashboardCards(false).map((card) => {
     const text = getCalloutText(t, role, card.key);
     return {
       id: card.key,
@@ -45,7 +44,6 @@ export const AdminDashboardPage: React.FC = () => {
       >
         <Flex direction="column" gap="4" align="center">
           <SectionHeader title="Admin Configuration" align="center" />
-          <AdminAccessTest />
           <div
             className="admin-cards"
             style={{ ['--cols' as any]: Math.min(2, Math.max(1, adminCards.length)) }}
@@ -69,6 +67,8 @@ export const AdminDashboardPage: React.FC = () => {
                     style={{
                       color: `var(--${card.color}-9)`,
                       backgroundColor: `var(--${card.color}-3)`,
+                      minWidth: '48px',
+                      minHeight: '48px',
                     }}
                   >
                     {React.cloneElement(card.icon, { width: 24, height: 24 })}

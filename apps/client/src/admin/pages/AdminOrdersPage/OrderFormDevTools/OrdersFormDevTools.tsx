@@ -3,8 +3,8 @@ import { Button } from 'components/ButtonRadix';
 import { useDev } from 'dev-tools/providers/DevProvider';
 import type { OrdersFormValues } from '../OrdersForm/OrdersForm.schema';
 import { stylesFormValues } from './OrdersFormDevTools.styles';
-import { useOrdersFormDevTools } from 'src/admin/pages/AdminOrdersPage/OrderFormDevTools/useOrdersFormDevTools';
-import type { MockDataHandlers } from 'src/admin/pages/AdminOrdersPage/OrdersForm/orders-form.utils';
+import { useOrdersFormDevTools } from 'admin/pages/AdminOrdersPage/OrderFormDevTools/useOrdersFormDevTools';
+import type { MockDataHandlers } from 'admin/pages/AdminOrdersPage/OrdersForm/orders-form.utils';
 import type { UseFormReturn } from 'react-hook-form';
 
 interface OrdersFormDevToolsProps {

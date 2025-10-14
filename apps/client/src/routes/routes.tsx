@@ -7,23 +7,23 @@ import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { ProtectedRouteWrapper } from 'routes/auth/ProtectedRouteWrapper';
 import { ProtectedAdminRoutes } from './auth/ProtectedAdminRoutes';
-import { AdminTranslationsPage } from 'src/admin/pages/AdminTranslationsPage/AdminTranslationsPage';
-import { AdminLanguagesPage } from 'src/admin/pages/AdminLanguagesPage/AdminLanguagesPage';
-import { AdminUiLabelsPage } from 'src/admin/pages/AdminUiLabelsPage';
+import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
+import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
-import { AdminOrdersPage } from 'src/admin/pages/AdminOrdersPage/AdminOrdersPage';
-import { AdminFilterAnalysisPage } from 'src/admin/pages/AdminFilterAnalysisPage';
-import { AdminSoundPage } from 'src/admin/pages/AdminSoundPage/AdminSoundPage';
-import { AdminSlotsConfigPage } from 'src/admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
+import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
+import { AdminFilterAnalysisPage } from 'admin/pages/AdminFilterAnalysisPage';
+import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
+import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
-import { AdminLoginPage } from 'src/admin/pages/AdminLoginPage/AdminLoginPage';
+import { AdminLoginPage } from 'admin/pages/AdminLoginPage/AdminLoginPage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
-import { AdminRelaysPage } from 'src/admin/pages/AdminRelaysPage/AdminRelaysPage';
-import { AdminModePage } from 'src/admin/pages/AdminModePage/AdminModePage';
+import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
+import { AdminModePage } from 'admin/pages/AdminModePage/AdminModePage';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { AdminDashboardWrapper } from 'routes/auth/AdminDashboardWrapper';
+import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage';
 
 export const routes: RouteObject[] = [
   {

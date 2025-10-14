@@ -10,6 +10,7 @@ import clsx from 'clsx';
 import { useAdmin } from 'providers/AdminProvider';
 import type { Theme } from 'types/ui.types';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+import { HeaderTitle } from 'components/Header/HeaderTitle';
 
 type HeaderProps =
   | {
@@ -55,23 +56,7 @@ export const Header: React.FC<HeaderProps> = ({
   // console.log('🔍 IS ADMIN:', isAdmin);
   // console.log('🔍 SIGN OUT:', signOut);
 
-  const HeaderTitle = () => {
-    return (
-      <Flex direction="column" justify="end" align="center">
-        <h1
-          onClick={() => {
-            navigate('/');
-            window.location.reload();
-          }}
-        >
-          {t('app.title')} <span className="current-language">({currentLanguage})</span>
-        </h1>
-        {/* <pre className="current-language">{String(currentSessionId)}</pre> */}
-      </Flex>
-    );
-  };
-
-  // Intelligent responsive column system [Claude v3.5]
+  // NEW: Intelligent responsive column system [Claude v3.5]
   const getColumnProps = () => {
     if (titleAlign === 'center') {
       // Title centered: Left(empty) | Center(title) | Right(toolbar)

@@ -4,7 +4,7 @@ import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../..';
 import { useGetOrdersReadable } from 'queries/orders/useGetOrdersReadable';
 import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
-import { OrdersTable } from 'src/admin/pages/AdminOrdersPage/OrdersTable';
+import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
 
 export const AdminFilterAnalysisPage: React.FC = () => {
   const { t } = useTranslation();
