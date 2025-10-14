@@ -20,9 +20,27 @@ export type ColorMapping = {
 };
 
 /**
+ * Base color names available in the system
+ */
+export type ColorName =
+  | 'primary'
+  | 'secondary'
+  | 'success'
+  | 'warning'
+  | 'danger'
+  | 'info'
+  | 'text'
+  | 'background'
+  | 'default'
+  | 'grey'
+  | 'gray'
+  | 'black'
+  | 'white';
+
+/**
  * Type for any valid color name in the palette
  */
-export type ColorName = keyof ColorPalette;
+// export type PaletteColorName = keyof ColorPalette;
 
 // ======================================================================== //
 

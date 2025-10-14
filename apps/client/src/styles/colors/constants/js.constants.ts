@@ -4,12 +4,6 @@
  */
 
 /**
- * JS shade variants in PascalCase (used for JS object keys)
- * Example: primaryXXLight, primaryXLight, etc.
- */
-export const SHADE_VARIANTS = ['XXLight', 'XLight', 'Light', 'Dark', 'XDark', 'XXDark'] as const;
-
-/**
  * Variance factor for generating shade variants
  * Controls the intensity of color variations
  * - 0.5 = subtle variations

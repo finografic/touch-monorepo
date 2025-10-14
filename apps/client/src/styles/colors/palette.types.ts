@@ -1,6 +1,12 @@
 import type { HexColor, ShadeSuffix } from './colors.types';
 import type { RadixColorVariable } from '../radix-ui/radix.types';
-import type { SHADE_VARIANTS } from 'styles/colors/constants/js.constants';
+import type { ColorName } from 'styles/colors/colors.types';
+
+/**
+ * JS shade variants in PascalCase (used for JS object keys)
+ * Example: primaryXXLight, primaryXLight, etc.
+ */
+export const SHADE_VARIANTS = ['XXLight', 'XLight', 'Light', 'Dark', 'XDark', 'XXDark'] as const;
 
 /**
  * Shade variant type derived from JS constants
@@ -9,28 +15,10 @@ import type { SHADE_VARIANTS } from 'styles/colors/constants/js.constants';
 export type ShadeVariant = (typeof SHADE_VARIANTS)[number];
 
 /**
- * Base color names available in the system
- */
-export type ColorName =
-  | 'primary'
-  | 'secondary'
-  | 'success'
-  | 'warning'
-  | 'danger'
-  | 'info'
-  | 'text'
-  | 'background'
-  | 'default'
-  | 'grey'
-  | 'gray'
-  | 'black'
-  | 'white';
-
-/**
  * Color names that have NO SHADE VARIANTS
  * These colors cannot have lighter/darker variants (e.g., 'black' cannot be 'blackLight')
  */
-type ColorNameNoShadeVariant = 'black' | 'white';
+export type ColorNameNoShadeVariant = 'black' | 'white';
 
 /**
  * Extended color names including transparent
@@ -82,16 +70,17 @@ export type CssVariableRef =
  * - Combined shade+transparency variants (e.g., 'primaryLight33': 'var(--color-primary-light-33)')
  */
 
-export type ColorPalette = {
-  [K in `${ColorValidName}`]: CssVariableRef;
-} & {
-  [K in ColorBaseName as `${ColorBaseName}${ShadeSuffix}${TransparencyLevel}`]: CssVariableRef;
-} & {
-  [K in ColorBaseName as `${ColorBaseName}${TransparencyLevel}`]: CssVariableRef;
-};
+// TODO: IGNORE AND LEAVE FOR NOW
+// export type ColorPalette = {
+//   [K in `${ColorValidName}`]: CssVariableRef;
+// } & {
+//   [K in ColorBaseName as `${ColorBaseName}${ShadeSuffix}${TransparencyLevel}`]: CssVariableRef;
+// } & {
+//   [K in ColorBaseName as `${ColorBaseName}${TransparencyLevel}`]: CssVariableRef;
+// };
 
 // Type for the generated color palette
-export type GeneratedPalette = {
+export type GeneratedPaletteCSS = {
   [K in ColorBaseName]: ColorValue | CssVariableRef;
 } & {
   [K in ColorBaseName as `${K}Light`]: ColorValue | CssVariableRef;
