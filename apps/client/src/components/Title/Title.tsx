@@ -18,7 +18,7 @@ interface TitleProps {
   detail?: string;
   subtitle?: string;
   description?: string;
-  children: ReactNode;
+  // children: ReactNode;
   message?: {
     type: 'success' | 'error' | 'warning' | 'info';
     content: string;
@@ -34,7 +34,7 @@ export const Title: React.FC<TitleProps> = ({
   detail,
   subtitle,
   description,
-  children,
+  // children,
   message,
   isLoading = false,
   error,

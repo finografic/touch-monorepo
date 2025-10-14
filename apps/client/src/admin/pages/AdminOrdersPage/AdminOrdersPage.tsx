@@ -9,6 +9,7 @@ import { useToast } from 'components/Toast';
 import { Col, Container, Row } from 'react-grid-system';
 import { styles } from './AdminOrdersPage.styles';
 import { Drawer } from 'components/Drawer';
+import { Title } from 'components/Title';
 import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getHumanReadableId } from 'utils/readable.utils';
@@ -176,8 +177,41 @@ export const AdminOrdersPage: React.FC = () => {
         // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
         //  subtitle="Development orders for testing"
       >
+        <header
+          style={
+            {
+              //  width: '100%',
+              // border: '2px solid red',
+            }
+          }
+        >
+          <Row justify="between" align="center">
+            <Col xs={7}>
+              <Title title={isEditMode ? 'Edit drink profile' : 'New drink profile'} />
+            </Col>
+            <Col xs={2}>
+              <Title title="Drink profiles" />
+            </Col>
+            <Col xs={3}>
+              {/* <Title title="Drink profiles" /> */}
+              <Flex
+                display="flex"
+                justify="end"
+                align="end"
+                pt="5"
+                // style={{ border: '2px solid blue' }}
+              >
+                <SearchBar
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                  status={isDrawerOpen ? 'active' : 'inactive'}
+                />
+              </Flex>
+            </Col>
+          </Row>
+        </header>
         <Row justify="between" align="center">
-          <Col xs={7} className="col col-left">
+          <Col xs={7} className="col col-form">
             {/* <AdminSection
               className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
               title="Formulario de datos"
@@ -189,15 +223,8 @@ export const AdminOrdersPage: React.FC = () => {
             />
             {/* </AdminSection> */}
           </Col>
-          <Col xs={5} className="col col-right">
-            <Flex justify="start" align="center" className="search-container">
-              <Flex px="4">
-                <SearchBar
-                  searchTerm={searchTerm}
-                  onSearchChange={setSearchTerm}
-                  status={isDrawerOpen ? 'active' : 'inactive'}
-                />
-              </Flex>
+          <Col xs={5} className="col col-table">
+            <Flex justify="start" align="center" className="search-container" mb="6">
               <Flex px="4" pl="2">
                 <Text size="2" color="gray" weight="bold" style={{ opacity: isDrawerOpen ? 1 : 0.66 }}>
                   {isDrawerOpen ? (

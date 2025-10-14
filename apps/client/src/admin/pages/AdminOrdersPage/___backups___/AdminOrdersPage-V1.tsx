@@ -1,13 +1,13 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Flex, Spinner, Text } from '@radix-ui/themes';
-import { AdminContentLayout, AdminSection } from '../..';
+import { AdminContentLayout, AdminSection } from '../../..';
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
 import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/OrdersTable.columns';
 import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
 import { Col, Row } from 'react-grid-system';
-import { styles } from './AdminOrdersPage.styles';
+import { styles } from '../AdminOrdersPage.styles';
 import { Drawer } from 'components/Drawer';
 import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';

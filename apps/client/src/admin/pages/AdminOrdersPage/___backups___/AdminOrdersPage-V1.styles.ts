@@ -7,27 +7,16 @@ export const styles = css`
   background-color: ${colors.white};
   color: ${colors.text};
 
-  /* border: 2px solid red; */
+  border: 2px solid red;
 
-  div[role='searchbox'] {
-    display: flex;
-    justify-content: flex-end;
-    .input-search {
-      width: 300px;
-    }
-  }
+  .col-left {
+    width: 60%;
 
-  .col.col-form {
-    /* width: 60%; */
     height: 100%;
     background-color: ${colors.white};
-    padding-right: 4rem !important;
   }
-  .col.col-table {
-    /* width: 40%; */
-    table {
-      max-width: 38vw;
-    }
+  .col-right {
+    width: 40%;
   }
 
   .admin-page-container {
@@ -146,6 +135,14 @@ export const styles = css`
   }
 
   .search-container {
+  }
+
+  .drawer-body {
+    section.admin-content-page {
+      margin: 0 2.75rem 0 2.75rem;
+      max-width: 96.33vw !important;
+      height: unset;
+    }
   }
 
   /* Responsive adjustments */
