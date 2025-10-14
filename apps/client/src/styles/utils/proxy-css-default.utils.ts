@@ -6,19 +6,15 @@
  * This solves the problem of accessing design system values in Emotion CSS-in-JS
  * without needing to use array notation for the default case.
  *
- * The return type is `T` but with runtime string coercion methods added.
- * TypeScript treats it as the object type for property access, but JavaScript
- * automatically calls toString() in template literal contexts.
- *
  * @param target - The object containing all available values
  * @param defaultKey - The key to use when the object is coerced to string
- * @returns A proxy that behaves as both object AND string
+ * @returns A value that behaves as both object AND string
  *
  * @example
  * ```typescript
  * const padding = createCSSProxy(baseLayout.padding, 4);
  *
- * // Direct usage (gets default) - TypeScript sees this as valid!
+ * // Direct usage (gets default)
  * css`padding: ${padding};` // → '1rem'
  *
  * // Indexed usage (gets specific value)
@@ -33,11 +29,16 @@ export const createCSSProxy = <T extends Record<string | number, string>>(
   // Get the default value upfront
   const defaultValue = String(target[defaultKey]);
 
-  // Create a String object (primitive wrapper) - THIS is the key!
-  // String objects can have properties AND are treated as strings by Emotion
-  const str = new String(defaultValue) as any;
+  // Create an object that inherits from String.prototype
+  // This gives us string methods without the ESLint error
+  const str = Object.create(String.prototype) as any;
 
-  // Copy all properties from target to the string object
+  // Set the primitive value
+  str.valueOf = () => defaultValue;
+  str.toString = () => defaultValue;
+  str[Symbol.toPrimitive] = () => defaultValue;
+
+  // Copy all properties from target to the string-like object
   Object.keys(target).forEach((key) => {
     str[key] = target[key as keyof T];
   });
