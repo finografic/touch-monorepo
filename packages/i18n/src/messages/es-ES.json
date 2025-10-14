@@ -1,0 +1,167 @@
+{
+  "app": {
+    "title": "Servi Fresc",
+    "tagline": "Servicio de temperatura perfecto",
+    "description": "Sistema de control de temperatura para bebidas",
+    "pages": {
+      "main": {
+        "title": "Principal",
+        "description": "Página principal"
+      },
+      "drinkType": {
+        "title": "Tipos de bebidas",
+        "description": "Seleccionar tipo de bebida"
+      },
+      "drinkSubtype": {
+        "title": "Subtipos de bebidas",
+        "description": "Seleccionar subtipo de bebida"
+      },
+      "drinkVolume": {
+        "title": "Volúmenes",
+        "description": "Seleccionar volumen"
+      },
+      "containerType": {
+        "title": "Tipos de contenedores",
+        "description": "Seleccionar tipo de contenedor"
+      },
+      "temperature": {
+        "title": "Control de temperatura",
+        "description": "Configura tus preferencias de temperatura"
+      }
+    },
+    "orders": {
+      "title": "Pedidos",
+      "description": "Gestionar pedidos de bebidas",
+      "new": "Nuevo pedido",
+      "active": "Pedidos activos",
+      "completed": "Pedidos completados"
+    },
+    "components": {
+      "temperatureControl": {
+        "initial": "Establece el tiempo de preparación especificando minutos y segundos",
+        "target": "Temperatura objetivo",
+        "current": "Temperatura actual",
+        "cooling": "Enfriando",
+        "heating": "Calentando",
+        "maintaining": "Volúmenes"
+      },
+      "orderStatus": {
+        "pending": "Subtipos de bebidas",
+        "processing": "Tipos de bebidas",
+        "cooling": "Enfriando",
+        "heating": "Calentando",
+        "ready": "Listo",
+        "completed": "Tipos de contenedores",
+        "cancelled": "Cancelado"
+      }
+    }
+  },
+  "admin": {
+    "title": "Panel de administración",
+    "description": "Gestionar configuraciones del sistema, traducciones y configuraciones",
+    "pages": {
+      "dashboard": {
+        "title": "Panel de control",
+        "description": "Resumen del sistema"
+      },
+      "translations": {
+        "title": "Gestión de traducciones",
+        "description": "Editar traducciones para contenido de base de datos",
+        "content": {
+          "management": "Gestión de traducciones",
+          "editTables": "Editar traducciones para tablas de base de datos",
+          "drinkSubtypes": {
+            "title": "Subtipos de bebidas",
+            "description": "Subtipos de vino y cerveza (rubia, negra, tinto, blanco)"
+          },
+          "volumes": {
+            "title": "Volúmenes",
+            "description": "Volúmenes de contenedores (2L, 1.5L, 50cl, 33cl, etc.)"
+          },
+          "drinkTypes": {
+            "title": "Tipos de bebidas",
+            "description": "Categorías principales de bebidas (cerveza, vino, cava, licor, etc.)"
+          },
+          "containerTypes": {
+            "title": "Tipos de contenedores",
+            "description": "Materiales de contenedores (plástico, vidrio, metal)"
+          }
+        },
+        "card": {
+          "title": "Gestión de traducciones",
+          "description": "Editar traducciones para contenido de base de datos"
+        }
+      },
+      "languages": {
+        "title": "Gestión de idiomas",
+        "description": "Configurar idiomas del sistema y localización",
+        "card_public": {
+          "title": "Selección de idioma",
+          "description": "Seleccionar idioma por defecto"
+        }
+      },
+      "orders": {
+        "title": "Gestión de configuración",
+        "description": "Configurar idiomas del sistema y localización"
+      },
+      "uiLabels": {
+        "title": "UI Labels / Translations",
+        "description": "Edit user interface labels and translations from local files"
+      },
+      "slotConfig": {
+        "title": "Grid",
+        "description": "Configure MainPage grid layout and slot types"
+      },
+      "filterAnalysis": {
+        "title": "Filter Analysis",
+        "description": "Analyze orders data and filtering behavior"
+      },
+      "sounds": {
+        "title": "Sound Management",
+        "description": "Upload and configure sound files for timer events"
+      },
+      "mode": {
+        "title": "Mode",
+        "description": "Select default mode",
+        "card_public": {
+          "title": "Modo",
+          "description": "Seleccionar modo por defecto"
+        }
+      },
+      "relays": {
+        "title": "Relays",
+        "description": "Manage relays"
+      },
+      "maintenance": {
+        "title": "Maintenance",
+        "description": "Manage general maintenance",
+        "card_public": {
+          "title": "Mantenimiento",
+          "description": "Gestionar mantenimiento"
+        }
+      }
+    }
+  },
+  "shared": {
+    "languageSelector": {
+      "title": "Seleccionar idioma",
+      "change": "Cambiar idioma"
+    },
+    "dialogs": {
+      "admin": {
+        "title": "Herramientas de administración",
+        "tabs": {
+          "orderSelections": "Selecciones de pedidos",
+          "storedConfiguration": "Configuración almacenada",
+          "languages": "Idiomas"
+        }
+      }
+    },
+    "notifications": {
+      "orderReady": "¡Traducciones actualizadas correctamente!",
+      "temperatureReached": "Temperatura objetivo alcanzada",
+      "systemError": "Ocurrió un error del sistema",
+      "orderCancelled": "Pedido cancelado"
+    }
+  }
+}
