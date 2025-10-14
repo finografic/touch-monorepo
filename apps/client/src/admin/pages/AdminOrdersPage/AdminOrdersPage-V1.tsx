@@ -181,8 +181,9 @@ export const AdminOrdersPage: React.FC = () => {
         detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
         //  subtitle="Development orders for testing"
       >
-        {/* <Row className="form-section">
+        <Row className="form-section">
           <Col>
+            {/* Add New Order Form */}
             <AdminSection
               className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
               title={isEditMode ? HUMAN_READABLE_ORDER_ID : 'Formulario de datos'}
@@ -194,45 +195,52 @@ export const AdminOrdersPage: React.FC = () => {
               />
             </AdminSection>
           </Col>
-        </Row> */}
+        </Row>
 
-        <Flex justify="start" align="center" className="search-container">
-          <Flex px="4">
-            <SearchBar
-              searchTerm={searchTerm}
-              onSearchChange={setSearchTerm}
-              status={isDrawerOpen ? 'active' : 'inactive'}
-            />
-          </Flex>
-          <Flex px="4" pl="2">
-            <Text size="2" color="gray" weight="bold" style={{ opacity: isDrawerOpen ? 1 : 0.66 }}>
-              {isDrawerOpen ? (
-                <>
-                  Showing {filteredOrders.length}
-                  <span
-                    style={{
-                      opacity: 0.5,
-                      display: 'inline-block',
-                      paddingLeft: '0.33rem',
-                    }}
-                  >
-                    / {ordersData.length} total
-                  </span>
-                </>
-              ) : (
-                <>{ordersData.length} total</>
-              )}
-            </Text>
-          </Flex>
-        </Flex>
-
-        <OrdersTable
-          orders={filteredOrders}
-          emptyMessage="No orders found"
-          emptySubMessage="Try adjusting your search term or add new orders"
-          onClickEdit={handleEditOrder}
-          onClickDelete={handleDeleteOrder}
-        />
+        {/* Show the drawer and table in both list and edit modes */}
+        <Drawer
+          onOpenChange={setIsDrawerOpen}
+          drawerBarLeft={
+            // eslint-disable-next-line style/jsx-wrap-multilines
+            <Flex justify="start" align="center" className="search-container">
+              <Flex px="4">
+                <SearchBar
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                  status={isDrawerOpen ? 'active' : 'inactive'}
+                />
+              </Flex>
+              <Flex px="4" pl="2">
+                <Text size="2" color="gray" weight="bold" style={{ opacity: isDrawerOpen ? 1 : 0.66 }}>
+                  {isDrawerOpen ? (
+                    <>
+                      Showing {filteredOrders.length}
+                      <span
+                        style={{
+                          opacity: 0.5,
+                          display: 'inline-block',
+                          paddingLeft: '0.33rem',
+                        }}
+                      >
+                        / {ordersData.length} total
+                      </span>
+                    </>
+                  ) : (
+                    <>{ordersData.length} total</>
+                  )}
+                </Text>
+              </Flex>
+            </Flex>
+          }
+        >
+          <OrdersTable
+            orders={filteredOrders}
+            emptyMessage="No orders found"
+            emptySubMessage="Try adjusting your search term or add new orders"
+            onClickEdit={handleEditOrder}
+            onClickDelete={handleDeleteOrder}
+          />
+        </Drawer>
       </AdminContentLayout>
     </section>
   );

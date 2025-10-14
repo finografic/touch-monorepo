@@ -6,7 +6,7 @@ import { styles } from './OrdersTable.styles';
 import { getHumanReadableId } from 'utils/readable.utils';
 import { useContent } from 'providers/ContentProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { ReadableSalt } from 'constants/readable-salt.constants';
+import { ReadableSalt } from 'types/readable-salt.types';
 import { formatUnixTimestamp } from 'utils/date.utils';
 
 interface OrdersTableProps {
@@ -33,6 +33,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         <Table.Root>
           <Table.Header>
             <Table.Row>
+              <Table.ColumnHeaderCell className="th">#</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th">Order ID</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th">Modo</Table.ColumnHeaderCell>
               <Table.ColumnHeaderCell className="th">Drink Type</Table.ColumnHeaderCell>
@@ -46,11 +47,16 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
             </Table.Row>
           </Table.Header>
           <Table.Body>
-            {orders.map((order) => (
+            {orders.map((order, index) => (
               <Table.Row key={order.id}>
+                <Table.Cell className="td">
+                  <Text size="2" weight="medium">
+                    {index + 1}
+                  </Text>
+                </Table.Cell>
                 <Table.Cell className="td td-order-id">
                   <Text size="2" weight="medium">
-                    {getHumanReadableId<ReadableSalt>(order.id, currentLanguage, ReadableSalt.Order)}
+                    {order.id}
                   </Text>
                   <Text size="1" color="gray">
                     {order.id}
