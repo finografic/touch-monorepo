@@ -43,10 +43,5 @@ export const createCSSProxy = <T extends Record<string | number, string>>(
     str[key] = target[key as keyof T];
   });
 
-  // Debug: Log what we're creating (remove this later)
-  if (typeof window !== 'undefined') {
-    console.log('🎯 createCSSProxy:', { defaultKey, defaultValue, str, typeofStr: typeof str });
-  }
-
   return str as T;
 };
