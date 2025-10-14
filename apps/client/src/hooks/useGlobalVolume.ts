@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { getStoredVolume, setStoredVolume } from 'utils/volume.utils';
+import { updatePlayingAudioVolume } from 'utils/soundCache.utils';
 
 /**
  * Hook for managing global volume setting
@@ -8,10 +9,11 @@ import { getStoredVolume, setStoredVolume } from 'utils/volume.utils';
 export const useGlobalVolume = () => {
   const [volume, setVolume] = useState<number>(() => getStoredVolume());
 
-  // Update volume in both state and storage
+  // Update volume in both state, storage, and any currently playing audio
   const updateVolume = useCallback((newVolume: number) => {
     setVolume(newVolume);
     setStoredVolume(newVolume);
+    updatePlayingAudioVolume(newVolume); // Update volume of currently playing audio
   }, []);
 
   // Listen for storage changes from other tabs/windows

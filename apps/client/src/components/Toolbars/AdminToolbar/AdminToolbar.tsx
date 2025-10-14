@@ -34,13 +34,6 @@ export const AdminToolbar: React.FC = () => {
     <>
       <div css={styles} className={`theme-${theme}`}>
         <Flex gap="3" align="center">
-          {/* Home button - navigate to frontend */}
-          <div className="button-box">
-            <button className="button button-dialog" onClick={() => navigate(PATHS.main)}>
-              <HomeIcon />
-            </button>
-          </div>
-
           {/* Timer visibility toggle - only show if there's an active timer */}
           {hasActiveTimer && (
             <div className="button-box">

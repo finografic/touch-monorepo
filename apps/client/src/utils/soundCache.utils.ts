@@ -76,6 +76,14 @@ class AudioManager {
     return this.#isPlaying;
   };
 
+  // Update volume of currently playing audio
+  updateVolume = (volume: number): void => {
+    if (this.#currentAudio && this.#isPlaying) {
+      this.#currentAudio.volume = volume / 100;
+      console.log(`🔊 Updated playing audio volume to ${volume}%`);
+    }
+  };
+
   // Stop all audio and clear all timers
   stopAll = (): void => {
     this.stopCurrent();
@@ -421,6 +429,14 @@ export const testAudioPlayback = async (): Promise<void> => {
     console.error('Basic audio test failed:', error);
     throw error;
   }
+};
+
+/**
+ * Update volume of currently playing audio in real-time
+ * @param volume Volume level (0-100)
+ */
+export const updatePlayingAudioVolume = (volume: number): void => {
+  audioManager.updateVolume(volume);
 };
 
 /**
