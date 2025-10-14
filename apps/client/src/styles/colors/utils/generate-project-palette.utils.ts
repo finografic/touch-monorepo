@@ -1,5 +1,6 @@
 import type { ColorBaseName, ColorMapping, HexColor, TransparencyLevel } from '../colors.types';
 import type { ColorPalette, CssVariableRef } from '../palette.types';
+import { TRANSPARENCY_LEVELS_LEGACY } from '../colors.types';
 import { SHADE_PREFIX } from '../constants/palette.constants';
 import { CSS_TRANSPARENCY_ONLY_COLORS } from '../constants/css-vars.constants';
 import { colorToCssVarRef } from './camelToKebab';
@@ -32,27 +33,8 @@ export const generateCssVarColorPalette = ({
         });
       }
 
-      // Transparency variants (5, 10, 20, 25, 30, 33, 40, 50, 60, 66, 70, 75, 80, 90, 95)
-      const transparencyLevels: TransparencyLevel[] = [
-        '5',
-        '10',
-        '20',
-        '25',
-        '30',
-        '33',
-        '40',
-        '50',
-        '60',
-        '66',
-        '70',
-        '75',
-        '80',
-        '90',
-        '95',
-      ];
-
       // Base color transparency variants (for all colors including black/white)
-      transparencyLevels.forEach((level) => {
+      TRANSPARENCY_LEVELS_LEGACY.forEach((level) => {
         const variantName = `${name}${level}` as keyof ColorPalette;
         const cssVarName = `--color-${name}-${level}`;
         palette[variantName] = `var(${cssVarName})` as CssVariableRef;
@@ -63,7 +45,7 @@ export const generateCssVarColorPalette = ({
         Object.entries(SHADE_PREFIX).forEach(([shadeKey, suffix]) => {
           if (suffix) {
             // Skip 'base' which has empty suffix
-            transparencyLevels.forEach((level) => {
+            TRANSPARENCY_LEVELS_LEGACY.forEach((level) => {
               const variantName = `${name}${suffix}${level}` as keyof ColorPalette;
               const cssVarName = `--color-${name}-${shadeKey}-${level}`;
               palette[variantName] = `var(${cssVarName})` as CssVariableRef;
@@ -105,33 +87,15 @@ export const generateColorPaletteWithCssVars = ({
   };
 
   // Add transparency variants for black and white
-  const transparencyLevels: TransparencyLevel[] = [
-    '5',
-    '10',
-    '20',
-    '25',
-    '30',
-    '33',
-    '40',
-    '50',
-    '60',
-    '66',
-    '70',
-    '75',
-    '80',
-    '90',
-    '95',
-  ];
-
   const blackWhiteTransparency = {
     // Black transparency variants
-    ...transparencyLevels.reduce((acc, level) => {
+    ...TRANSPARENCY_LEVELS_LEGACY.reduce((acc, level) => {
       acc[`black${level}` as keyof ColorPalette] = `var(--color-black-${level})` as CssVariableRef;
       return acc;
     }, {} as Partial<ColorPalette>),
 
     // White transparency variants
-    ...transparencyLevels.reduce((acc, level) => {
+    ...TRANSPARENCY_LEVELS_LEGACY.reduce((acc, level) => {
       acc[`white${level}` as keyof ColorPalette] = `var(--color-white-${level})` as CssVariableRef;
       return acc;
     }, {} as Partial<ColorPalette>),

@@ -116,7 +116,29 @@ export type ShadeSuffix = ShadeVariant;
 export type ShadeKey = Lowercase<ShadeVariant> | 'base';
 
 /**
- * Transparency levels for color variants
+ * All transparency levels (legacy - full set for backwards compatibility)
+ * Used for palette generation where all levels are needed
+ */
+export const TRANSPARENCY_LEVELS_LEGACY = [
+  '5',
+  '10',
+  '20',
+  '25',
+  '30',
+  '33',
+  '40',
+  '50',
+  '60',
+  '66',
+  '70',
+  '75',
+  '80',
+  '90',
+  '95',
+] as const;
+
+/**
+ * Transparency levels for color variants (optimized set)
  */
 export type TransparencyLevel = '25' | '50' | '75';
 

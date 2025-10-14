@@ -1,9 +1,9 @@
 import { css } from '@emotion/react';
 import { colors } from 'styles';
-import { generateComponentColorVariants } from './generateClassColorVariants';
+import { generateUiColorVariants } from './generate-ui-color-variants.utils';
 
 /**
- * Usage Examples for generateComponentColorVariants
+ * Usage Examples for generateUiColorVariants
  *
  * This file demonstrates how to use the modernized color variant generator
  * for different component types.
@@ -13,7 +13,7 @@ import { generateComponentColorVariants } from './generateClassColorVariants';
 // Button Component Example
 // ============================================================================
 
-export const buttonColorVariants = generateComponentColorVariants(
+export const buttonColorVariants = generateUiColorVariants(
   'button',
   (colorName, variants, componentType) => css`
     &.${componentType}-${colorName} {
@@ -37,7 +37,7 @@ export const buttonColorVariants = generateComponentColorVariants(
 // Alert Component Example
 // ============================================================================
 
-export const alertColorVariants = generateComponentColorVariants(
+export const alertColorVariants = generateUiColorVariants(
   'alert',
   (colorName, variants, componentType) => css`
     &.${componentType}-${colorName} {
@@ -64,7 +64,7 @@ export const alertColorVariants = generateComponentColorVariants(
 // Card Component Example
 // ============================================================================
 
-export const cardColorVariants = generateComponentColorVariants(
+export const cardColorVariants = generateUiColorVariants(
   'card',
   (colorName, variants, componentType) => css`
     &.${componentType}-${colorName} {
@@ -88,7 +88,7 @@ export const cardColorVariants = generateComponentColorVariants(
 // Toast Component Example
 // ============================================================================
 
-export const toastColorVariants = generateComponentColorVariants(
+export const toastColorVariants = generateUiColorVariants(
   'toast',
   (colorName, variants, componentType) => css`
     &.${componentType}-${colorName} {
@@ -115,7 +115,7 @@ export const toastColorVariants = generateComponentColorVariants(
 // Badge Component Example
 // ============================================================================
 
-export const badgeColorVariants = generateComponentColorVariants(
+export const badgeColorVariants = generateUiColorVariants(
   'badge',
   (colorName, variants, componentType) => css`
     &.${componentType}-${colorName} {

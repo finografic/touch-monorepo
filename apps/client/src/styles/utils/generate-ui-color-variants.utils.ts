@@ -3,7 +3,7 @@ import { colors } from 'styles';
 import { UI_COLOR_NAMES } from 'styles/colors/colors.types';
 
 /**
- * Generate CSS class color variants for any component type
+ * Generate CSS class color variants for UI components
  * This function generates CSS classes for all color variants of a given component
  *
  * @param componentType - The component type name (e.g., 'button', 'alert', 'card')
@@ -12,7 +12,7 @@ import { UI_COLOR_NAMES } from 'styles/colors/colors.types';
  *
  * @example
  * // Generate button color variants
- * const buttonColorVariants = generateComponentColorVariants('button', (colorName, variants) => css`
+ * const buttonColorVariants = generateUiColorVariants('button', (colorName, variants) => css`
  *   &.button-${colorName} {
  *     background-color: ${variants.dark};
  *     border-color: ${variants.xdark};
@@ -22,7 +22,7 @@ import { UI_COLOR_NAMES } from 'styles/colors/colors.types';
  *
  * @example
  * // Generate alert color variants
- * const alertColorVariants = generateComponentColorVariants('alert', (colorName, variants) => css`
+ * const alertColorVariants = generateUiColorVariants('alert', (colorName, variants) => css`
  *   &.alert-${colorName} {
  *     background-color: ${variants.light};
  *     border-color: ${variants.dark};
@@ -30,11 +30,11 @@ import { UI_COLOR_NAMES } from 'styles/colors/colors.types';
  *   }
  * `);
  */
-export function generateComponentColorVariants(
+export function generateUiColorVariants(
   componentType: string,
   variantTemplate: (
     colorName: string,
-    variants: ColorVariants,
+    variants: UiColorVariants,
     componentType: string,
   ) => ReturnType<typeof css>,
 ): ReturnType<typeof css> {
@@ -44,10 +44,11 @@ export function generateComponentColorVariants(
   // Generate CSS for each color variant
   const variantStyles = colorNames.map((colorName) => {
     // Create variant object with color system references
-    const variants: ColorVariants = {
+    const variants: UiColorVariants = {
       base: colors[colorName],
-      light: colors[`${colorName}Light` as keyof typeof colors] || colors[colorName],
+      xxlight: colors[`${colorName}XXLight` as keyof typeof colors] || colors[colorName],
       xlight: colors[`${colorName}XLight` as keyof typeof colors] || colors[colorName],
+      light: colors[`${colorName}Light` as keyof typeof colors] || colors[colorName],
       dark: colors[`${colorName}Dark` as keyof typeof colors] || colors[colorName],
       xdark: colors[`${colorName}XDark` as keyof typeof colors] || colors[colorName],
       xxdark: colors[`${colorName}XXDark` as keyof typeof colors] || colors[colorName],
@@ -64,13 +65,24 @@ export function generateComponentColorVariants(
 }
 
 /**
- * Type definition for color variants passed to template function
+ * Type definition for UI color variants passed to template function
  */
-export interface ColorVariants {
+export interface UiColorVariants {
   base: string;
-  light: string;
+  xxlight: string;
   xlight: string;
+  light: string;
   dark: string;
   xdark: string;
   xxdark: string;
 }
+
+/**
+ * @deprecated Use generateUiColorVariants instead
+ */
+export const generateComponentColorVariants = generateUiColorVariants;
+
+/**
+ * @deprecated Use UiColorVariants instead
+ */
+export type ColorVariants = UiColorVariants;
