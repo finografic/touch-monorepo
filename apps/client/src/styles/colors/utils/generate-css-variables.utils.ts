@@ -1,4 +1,3 @@
-import type { ColorBaseName } from '../colors.types';
 import type { ColorPalette } from '../palette.types';
 import {
   CSS_BASE_COLORS,
