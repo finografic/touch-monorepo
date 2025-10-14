@@ -98,7 +98,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
             className="button button-edit"
             onClick={() => onClickEdit(order.id)}
             variant="ghost"
-            size="2"
+            // size="1"
           >
             <EditIcon className="icon-edit" />
           </Button>
@@ -110,8 +110,8 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
             className="button button-delete"
             onClick={() => onClickDelete(order.id)}
             variant="ghost"
-            size="2"
-            color="red"
+            size="1"
+            // color="red"
           >
             <TrashIcon className="icon-delete" />
           </Button>

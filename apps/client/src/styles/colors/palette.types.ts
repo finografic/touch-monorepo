@@ -1,10 +1,16 @@
-import type { ColorValue, HexColor, ShadeSuffix } from './colors.types';
+import type { HexColor, ShadeSuffix } from './colors.types';
 import type { RadixColorVariable } from '../radix-ui/radix.types';
+import type { SHADE_VARIANTS } from 'styles/colors/constants/js.constants';
+
+/**
+ * Type definitions for JS constants
+ */
+export type ShadeVariant = (typeof SHADE_VARIANTS)[number];
 
 /**
  * Base color names available in the system
  */
-export type ColorBaseName =
+export type ColorName =
   | 'primary'
   | 'secondary'
   | 'success'
@@ -16,37 +22,52 @@ export type ColorBaseName =
   | 'default'
   | 'grey'
   | 'gray'
-  | 'white'
   | 'black'
-  | 'transparent';
+  | 'white';
+
+/**
+ * Extension color names that have NO SHADE VARIANTS
+ */
+type ColorNameNoShadeVariant = 'black' | 'white';
+
+/**
+ * Full extended color names available in the system
+ */
+export type ColorNameExtended = ColorName | 'transparent';
+
+/**
+ * Extension color names that have SHADE VARIANTS
+ */
+type ColorBaseName = Exclude<ColorName, ColorNameNoShadeVariant>;
 
 /**
  * Transparency levels for color variants
  */
-export type TransparencyLevel__V1 =
-  | '5'
-  | '10'
-  | '20'
-  | '25'
-  | '30'
-  | '33'
-  | '40'
-  | '50'
-  | '60'
-  | '66'
-  | '70'
-  | '75'
-  | '80'
-  | '90'
-  | '95';
-
 export type TransparencyLevel = '25' | '50' | '75';
+
+/**
+ * Base color names available in the system  - used for PALETTE KEYS (BEFORE TRANSPARENCY VARIANTS)
+ */
+type ColorPaletteKey = `${ColorNameExtended}` | `${ColorBaseName}${ShadeSuffix}`;
+
+/**
+ * All possible color palette keys including base colors, shade variants, and transparency variants
+ */
+export type ColorPaletteKeysFull =
+  | ColorPaletteKey
+  | `${ColorBaseName}${TransparencyLevel}`
+  | `${ColorBaseName}${ShadeSuffix}${TransparencyLevel}`;
 
 /**
  * CSS variable reference type
  * Examples: 'var(--color-primary)', 'var(--color-info-dark)', 'var(--color-success-50)'
  */
-export type CssVariableRef = `var(--color-${string})`;
+
+export type CssVariableRefFull =
+  | `var(--color-${ColorName})`
+  | `var(--color-${ColorName}-${TransparencyLevel})`
+  | `var(--color-${ColorBaseName}-${Lowercase<ShadeSuffix>})`
+  | `var(--color-${ColorBaseName}-${Lowercase<ShadeSuffix>}-${TransparencyLevel})`;
 
 /**
  * Complete color palette type that includes:
@@ -55,12 +76,20 @@ export type CssVariableRef = `var(--color-${string})`;
  * - Transparency variants (e.g., 'primary50': 'var(--color-primary-50)')
  * - Combined shade+transparency variants (e.g., 'primaryLight33': 'var(--color-primary-light-33)')
  */
+// export type ColorPalette = {
+//   [K in ColorBaseName | `${ColorBaseName}${ShadeSuffix}`]: CssVariableRef | HexColor;
+// } & {
+//   [K in ColorBaseName as `${K}${TransparencyLevel}`]: CssVariableRef | HexColor;
+// } & {
+//   [K in ColorBaseName as `${K}${ShadeSuffix}${TransparencyLevel}`]: CssVariableRef | HexColor;
+// };
+
 export type ColorPalette = {
-  [K in ColorBaseName | `${ColorBaseName}${ShadeSuffix}`]: CssVariableRef | HexColor;
+  [K in `${ColorValidName}`]: CssVariableRef;
 } & {
-  [K in ColorBaseName as `${K}${TransparencyLevel}`]: CssVariableRef | HexColor;
+  [K in ColorBaseName as `${ColorBaseName}${ShadeSuffix}${TransparencyLevel}`]: CssVariableRef;
 } & {
-  [K in ColorBaseName as `${K}${ShadeSuffix}${TransparencyLevel}`]: CssVariableRef | HexColor;
+  [K in ColorBaseName as `${ColorBaseName}${TransparencyLevel}`]: CssVariableRef;
 };
 
 // Type for the generated color palette

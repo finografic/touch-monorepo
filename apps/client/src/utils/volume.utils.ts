@@ -1,6 +1,6 @@
 // Volume utility functions for sound management
 export const VOLUME_STORAGE_KEY = 'sound-volume';
-export const DEFAULT_VOLUME = 50;
+export const DEFAULT_VOLUME = 25; // Reduced from 50 to 25 (50% reduction)
 
 /**
  * Get the current volume level from sessionStorage
@@ -17,6 +17,22 @@ export const getStoredVolume = (): number => {
  */
 export const setStoredVolume = (volume: number): void => {
   sessionStorage.setItem(VOLUME_STORAGE_KEY, volume.toString());
+};
+
+/**
+ * Get the current volume as a decimal (0-1) for HTMLAudioElement
+ * @returns Volume level (0-1) for audio elements
+ */
+export const getAudioVolume = (): number => {
+  return getStoredVolume() / 100;
+};
+
+/**
+ * Apply current stored volume to an HTMLAudioElement
+ * @param audioElement The audio element to control
+ */
+export const applyStoredVolumeToAudio = (audioElement: HTMLAudioElement): void => {
+  audioElement.volume = getAudioVolume();
 };
 
 /**

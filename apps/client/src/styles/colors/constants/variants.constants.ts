@@ -3,11 +3,20 @@
  * These constants are used for CSS variable generation and manipulation
  */
 
+import type { ColorName, ShadeSuffix } from 'styles/colors/colors.types';
+
 /**
  * CSS shade variants in lowercase (used for CSS variable names)
  * Example: --color-primary-xxlight, --color-primary-xlight, etc.
  */
-export const CSS_SHADE_VARIANTS = ['xxlight', 'xlight', 'light', 'dark', 'xdark', 'xxdark'] as const;
+export const CSS_SHADE_VARIANTS: Lowercase<ShadeSuffix>[] = [
+  'xxlight',
+  'xlight',
+  'light',
+  'dark',
+  'xdark',
+  'xxdark',
+] as const;
 
 /**
  * CSS transparency levels for color-mix() function
@@ -24,7 +33,7 @@ export const CSS_TRANSPARENCY_LEVELS = [25, 50, 75] as const;
  * Base color names for CSS variable generation
  * These are the primary colors that get shade and transparency variants
  */
-export const CSS_BASE_COLORS = [
+export const CSS_BASE_COLORS: ColorName[] = [
   'primary',
   'secondary',
   'success',

@@ -64,7 +64,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
           throw new Error('Sound file not found or missing file path');
         }
 
-        await playSoundByPath(soundFile.filePath, 0.3);
+        await playSoundByPath(soundFile.filePath);
         toast({
           variant: 'success',
           message: 'Sound played successfully',

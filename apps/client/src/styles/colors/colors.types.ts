@@ -2,10 +2,7 @@
  * Basic color type definitions and hex color validation
  */
 import type { ColorBaseName, ColorPalette } from './palette.types';
-import type { RadixColorName, RadixColorVariable } from '../radix-ui/radix.types';
-
-// Union type for possible color values
-export type ColorValue = RadixColorVariable | HexColor | `var(--color-${string})` | 'transparent';
+import type { RadixColorName } from '../radix-ui/radix.types';
 
 // Valid base shades (allowing +/- 3 for variants)
 export type RadixBaseShade = 4 | 5 | 6 | 7 | 8 | 9;

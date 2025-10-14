@@ -7,21 +7,7 @@
  * JS shade variants in PascalCase (used for JS object keys)
  * Example: primaryXXLight, primaryXLight, etc.
  */
-export const JS_SHADE_VARIANTS = ['XXLight', 'XLight', 'Light', 'Dark', 'XDark', 'XXDark'] as const;
-
-/**
- * JS shade order for logical sorting (base first, then lightest to darkest)
- * Used for consistent ordering in generated palettes
- */
-export const JS_SHADE_ORDER = [
-  '', // Base color (no suffix)
-  'XXLight', // Lightest
-  'XLight',
-  'Light',
-  'Dark',
-  'XDark',
-  'XXDark', // Darkest
-] as const;
+export const SHADE_VARIANTS = ['XXLight', 'XLight', 'Light', 'Dark', 'XDark', 'XXDark'] as const;
 
 /**
  * Variance factor for generating shade variants
@@ -55,9 +41,3 @@ export const SATURATION_FACTOR = 0.8; // Optimized for OKLCH
  * - 1.6 = ultra vibrant (use with caution)
  */
 export const STATUS_SATURATION_FACTOR = 1.5; // Maximum vibrancy - will be balanced with transparency in components
-
-/**
- * Type definitions for JS constants
- */
-export type JsShadeVariant = (typeof JS_SHADE_VARIANTS)[number];
-export type JsShadeOrder = (typeof JS_SHADE_ORDER)[number];

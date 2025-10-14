@@ -27,6 +27,17 @@ export const styles = css`
     /* width: 40%; */
     table {
       max-width: 38vw;
+
+      .button-edit {
+        svg.icon-edit {
+          color: ${colors.infoXLight};
+        }
+      }
+      .button-delete {
+        svg.icon-delete {
+          color: ${colors.greyXXLight};
+        }
+      }
     }
   }
 

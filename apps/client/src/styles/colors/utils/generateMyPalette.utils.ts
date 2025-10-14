@@ -8,7 +8,7 @@ import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 import { COLOR_MAPPING } from '../colors.source';
 import { lightColors } from '../../themes/light.colors';
-import { JS_SHADE_ORDER, SHADE_VARIANCE_FACTOR } from '../constants/js.constants';
+import { SHADE_VARIANCE_FACTOR, SHADE_VARIANTS } from '../constants/js.constants';
 
 // ES module compatibility
 const __filename = fileURLToPath(import.meta.url);
@@ -139,8 +139,13 @@ export const ___COLORS___ = {\n`;
       const baseB = b.replace(/[A-Z][a-z]*|\d+/g, '');
       if (baseA !== baseB) return baseA.localeCompare(baseB);
 
+      /**
+       * JS shade order for logical sorting (base first, then lightest to darkest)
+       * Used for consistent ordering in generated palettes
+       */
+
       // Then sort by shade order: base, XXLight, XLight, Light, Dark, XDark, XXDark
-      const shadeOrder = JS_SHADE_ORDER;
+      const shadeOrder = ['', ...SHADE_VARIANTS];
       const shadeA = a.replace(baseA, '');
       const shadeB = b.replace(baseB, '');
       const orderA = shadeOrder.indexOf(shadeA as any);

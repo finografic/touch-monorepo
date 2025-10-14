@@ -1,52 +1,15 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React from 'react';
 import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../..';
 import { styles } from './AdminSoundPage.styles';
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
 import { SoundConfigurationSection } from './components';
 import { Col, Row } from 'react-grid-system';
-import { DEFAULT_VOLUME, getStoredVolume, setStoredVolume } from 'utils/volume.utils';
+import { useGlobalVolume } from 'hooks/useGlobalVolume';
 
 export const AdminSoundBasicPage: React.FC = () => {
-  // Volume state and storage
-  const [volume, setVolume] = useState<number>(() => getStoredVolume());
-
-  // Debounced volume storage
-  const [debounceTimeout, setDebounceTimeout] = useState<number | null>(null);
-
-  const debouncedSetVolume = useCallback(
-    (newVolume: number) => {
-      if (debounceTimeout) {
-        clearTimeout(debounceTimeout);
-      }
-
-      const timeout = window.setTimeout(() => {
-        setStoredVolume(newVolume);
-        console.log(`Volume saved to sessionStorage: ${newVolume}%`);
-      }, 300); // 300ms debounce
-
-      setDebounceTimeout(timeout);
-    },
-    [debounceTimeout],
-  );
-
-  const handleVolumeChange = useCallback(
-    (value: number[]) => {
-      const newVolume = value[0];
-      setVolume(newVolume);
-      debouncedSetVolume(newVolume);
-    },
-    [debouncedSetVolume],
-  );
-
-  // Cleanup timeout on unmount
-  useEffect(() => {
-    return () => {
-      if (debounceTimeout) {
-        clearTimeout(debounceTimeout);
-      }
-    };
-  }, [debounceTimeout]);
+  // Global volume management
+  const { volume, updateVolume } = useGlobalVolume();
 
   // API hooks - only get alarm sounds for basic page
   const { data: soundFiles = [], isLoading: isLoadingFiles } = useGetSoundFiles('alarm');
@@ -103,7 +66,7 @@ export const AdminSoundBasicPage: React.FC = () => {
                   </Text>
                   <Slider
                     value={[volume]}
-                    onValueChange={handleVolumeChange}
+                    onValueChange={(value) => updateVolume(value[0])}
                     max={100}
                     min={0}
                     step={1}

@@ -1,5 +1,6 @@
 import { api } from 'api';
 import type { SoundFile, SoundSettings } from 'types/sounds.types';
+import { applyStoredVolumeToAudio } from './volume.utils';
 
 // Audio instance manager to prevent overlapping sounds
 class AudioManager {
@@ -20,6 +21,9 @@ class AudioManager {
 
   // Play audio with debouncing and stopping current audio
   playAudio = async (audio: HTMLAudioElement, fileId: string, debounceMs: number = 300): Promise<void> => {
+    // Apply global volume setting to the audio element
+    applyStoredVolumeToAudio(audio);
+    console.log(`🔊 Applied global volume (${audio.volume * 100}%) to sound: ${fileId}`);
     // Clear any existing debounce timer for this file
     const existingTimer = this.#debounceTimers.get(fileId);
     if (existingTimer) {
@@ -216,14 +220,15 @@ export const fetchAndCacheSound = async (fileId: string): Promise<string> => {
 
 /**
  * Play a cached sound by file ID
+ * Volume is automatically applied from global settings
  */
-export const playCachedSound = async (fileId: string, volume: number = 0.3): Promise<void> => {
+export const playCachedSound = async (fileId: string): Promise<void> => {
   try {
     // Get or fetch the cached sound
     const base64 = await fetchAndCacheSound(fileId);
     // Create audio object
     const audio = new Audio(base64);
-    audio.volume = volume;
+    // Volume will be applied automatically by audioManager.playAudio
 
     // console.log('Audio object created, attempting to play...');
     await audioManager.playAudio(audio, fileId);
@@ -235,8 +240,9 @@ export const playCachedSound = async (fileId: string, volume: number = 0.3): Pro
 
 /**
  * Alternative: Play sound directly from URL (fallback)
+ * Volume is automatically applied from global settings
  */
-export const playSoundFromUrl = async (fileId: string, volume: number = 0.3): Promise<void> => {
+export const playSoundFromUrl = async (fileId: string): Promise<void> => {
   try {
     // console.log(`Attempting to play sound from URL: ${fileId}`);
 
@@ -259,7 +265,7 @@ export const playSoundFromUrl = async (fileId: string, volume: number = 0.3): Pr
 
     // Create and play audio directly from URL
     const audio = new Audio(url);
-    audio.volume = volume;
+    // Volume will be applied automatically by audioManager.playAudio
 
     await audioManager.playAudio(audio, fileId);
     // console.log(`Sound played successfully from URL: ${fileId}`);
@@ -271,8 +277,9 @@ export const playSoundFromUrl = async (fileId: string, volume: number = 0.3): Pr
 
 /**
  * Play sound directly using file path from DTO
+ * Volume is automatically applied from global settings
  */
-export const playSoundByPath = async (filePath: string, volume: number = 0.3): Promise<void> => {
+export const playSoundByPath = async (filePath: string): Promise<void> => {
   try {
     console.log(`Playing sound by path: ${filePath}`);
 
@@ -297,7 +304,7 @@ export const playSoundByPath = async (filePath: string, volume: number = 0.3): P
     }
 
     const audio = new Audio(url);
-    audio.volume = volume;
+    // Volume will be applied automatically by audioManager.playAudio
 
     // Add event listeners for debugging
     audio.addEventListener('loadstart', () => console.log('Audio: loadstart'));
@@ -386,6 +393,7 @@ export const getCacheStats = () => {
 
 /**
  * Simple test function to verify audio playback works
+ * Uses global volume setting
  */
 export const testAudioPlayback = async (): Promise<void> => {
   try {
@@ -396,7 +404,7 @@ export const testAudioPlayback = async (): Promise<void> => {
     console.log(`Testing URL: ${testUrl}`);
 
     const audio = new Audio(testUrl);
-    audio.volume = 0.1;
+    // Volume will be applied automatically by audioManager.playAudio
 
     // Add event listeners for debugging
     audio.addEventListener('loadstart', () => console.log('Audio: loadstart'));
