@@ -1,5 +1,5 @@
 import '@workspace/core';
-import './index.css';
+import './theme.css';
 
 // radix css styles
 import '@radix-ui/themes/styles.css'; // Removed - conflicts with custom theme

@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /* 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY */
-/* 📅 Generated: 2025-10-13 -- 09:00:59 */
+/* 📅 Generated: 2025-10-14 -- 22:12:55 */
 /* Run: pnpm generate:css-themes to update this file */
 
 /* Light theme - explicit selector */
@@ -66,13 +66,6 @@
   --color-grey-dark: #161d27;
   --color-grey-xdark: #11171e;
   --color-grey-xxdark: #0b1017;
-  --color-gray: #1f2937;
-  --color-gray-xxlight: #a6a9ad;
-  --color-gray-xlight: #86898f;
-  --color-gray-light: #646971;
-  --color-gray-dark: #161d27;
-  --color-gray-xdark: #11171e;
-  --color-gray-xxdark: #0b1017;
   --color-default: #111827;
   --color-default-xxlight: #a1a3a7;
   --color-default-xlight: #7d8086;
@@ -117,10 +110,6 @@
   --color-grey-25: color-mix(in srgb, var(--color-grey) 25%, transparent);
   --color-grey-50: color-mix(in srgb, var(--color-grey) 50%, transparent);
   --color-grey-75: color-mix(in srgb, var(--color-grey) 75%, transparent);
-
-  --color-gray-25: color-mix(in srgb, var(--color-gray) 25%, transparent);
-  --color-gray-50: color-mix(in srgb, var(--color-gray) 50%, transparent);
-  --color-gray-75: color-mix(in srgb, var(--color-gray) 75%, transparent);
 
   --color-default-25: color-mix(in srgb, var(--color-default) 25%, transparent);
   --color-default-50: color-mix(in srgb, var(--color-default) 50%, transparent);
@@ -286,25 +275,6 @@
   --color-grey-xxdark-25: color-mix(in srgb, var(--color-grey-xxdark) 25%, transparent);
   --color-grey-xxdark-50: color-mix(in srgb, var(--color-grey-xxdark) 50%, transparent);
   --color-grey-xxdark-75: color-mix(in srgb, var(--color-grey-xxdark) 75%, transparent);
-
-  --color-gray-xxlight-25: color-mix(in srgb, var(--color-gray-xxlight) 25%, transparent);
-  --color-gray-xxlight-50: color-mix(in srgb, var(--color-gray-xxlight) 50%, transparent);
-  --color-gray-xxlight-75: color-mix(in srgb, var(--color-gray-xxlight) 75%, transparent);
-  --color-gray-xlight-25: color-mix(in srgb, var(--color-gray-xlight) 25%, transparent);
-  --color-gray-xlight-50: color-mix(in srgb, var(--color-gray-xlight) 50%, transparent);
-  --color-gray-xlight-75: color-mix(in srgb, var(--color-gray-xlight) 75%, transparent);
-  --color-gray-light-25: color-mix(in srgb, var(--color-gray-light) 25%, transparent);
-  --color-gray-light-50: color-mix(in srgb, var(--color-gray-light) 50%, transparent);
-  --color-gray-light-75: color-mix(in srgb, var(--color-gray-light) 75%, transparent);
-  --color-gray-dark-25: color-mix(in srgb, var(--color-gray-dark) 25%, transparent);
-  --color-gray-dark-50: color-mix(in srgb, var(--color-gray-dark) 50%, transparent);
-  --color-gray-dark-75: color-mix(in srgb, var(--color-gray-dark) 75%, transparent);
-  --color-gray-xdark-25: color-mix(in srgb, var(--color-gray-xdark) 25%, transparent);
-  --color-gray-xdark-50: color-mix(in srgb, var(--color-gray-xdark) 50%, transparent);
-  --color-gray-xdark-75: color-mix(in srgb, var(--color-gray-xdark) 75%, transparent);
-  --color-gray-xxdark-25: color-mix(in srgb, var(--color-gray-xxdark) 25%, transparent);
-  --color-gray-xxdark-50: color-mix(in srgb, var(--color-gray-xxdark) 50%, transparent);
-  --color-gray-xxdark-75: color-mix(in srgb, var(--color-gray-xxdark) 75%, transparent);
 
   --color-default-xxlight-25: color-mix(in srgb, var(--color-default-xxlight) 25%, transparent);
   --color-default-xxlight-50: color-mix(in srgb, var(--color-default-xxlight) 50%, transparent);
@@ -389,13 +359,6 @@
   --color-grey-dark: #929599;
   --color-grey-xdark: #737578;
   --color-grey-xxdark: #545558;
-  --color-gray: #d1d5db;
-  --color-gray-xxlight: #eeeef0;
-  --color-gray-xlight: #e7e8ea;
-  --color-gray-light: #e0e2e5;
-  --color-gray-dark: #929599;
-  --color-gray-xdark: #737578;
-  --color-gray-xxdark: #545558;
   --color-default: #d1d5db;
   --color-default-xxlight: #eeeef0;
   --color-default-xlight: #e7e8ea;
@@ -440,10 +403,6 @@
   --color-grey-25: color-mix(in srgb, var(--color-grey) 25%, transparent);
   --color-grey-50: color-mix(in srgb, var(--color-grey) 50%, transparent);
   --color-grey-75: color-mix(in srgb, var(--color-grey) 75%, transparent);
-
-  --color-gray-25: color-mix(in srgb, var(--color-gray) 25%, transparent);
-  --color-gray-50: color-mix(in srgb, var(--color-gray) 50%, transparent);
-  --color-gray-75: color-mix(in srgb, var(--color-gray) 75%, transparent);
 
   --color-default-25: color-mix(in srgb, var(--color-default) 25%, transparent);
   --color-default-50: color-mix(in srgb, var(--color-default) 50%, transparent);
@@ -609,25 +568,6 @@
   --color-grey-xxdark-25: color-mix(in srgb, var(--color-grey-xxdark) 25%, transparent);
   --color-grey-xxdark-50: color-mix(in srgb, var(--color-grey-xxdark) 50%, transparent);
   --color-grey-xxdark-75: color-mix(in srgb, var(--color-grey-xxdark) 75%, transparent);
-
-  --color-gray-xxlight-25: color-mix(in srgb, var(--color-gray-xxlight) 25%, transparent);
-  --color-gray-xxlight-50: color-mix(in srgb, var(--color-gray-xxlight) 50%, transparent);
-  --color-gray-xxlight-75: color-mix(in srgb, var(--color-gray-xxlight) 75%, transparent);
-  --color-gray-xlight-25: color-mix(in srgb, var(--color-gray-xlight) 25%, transparent);
-  --color-gray-xlight-50: color-mix(in srgb, var(--color-gray-xlight) 50%, transparent);
-  --color-gray-xlight-75: color-mix(in srgb, var(--color-gray-xlight) 75%, transparent);
-  --color-gray-light-25: color-mix(in srgb, var(--color-gray-light) 25%, transparent);
-  --color-gray-light-50: color-mix(in srgb, var(--color-gray-light) 50%, transparent);
-  --color-gray-light-75: color-mix(in srgb, var(--color-gray-light) 75%, transparent);
-  --color-gray-dark-25: color-mix(in srgb, var(--color-gray-dark) 25%, transparent);
-  --color-gray-dark-50: color-mix(in srgb, var(--color-gray-dark) 50%, transparent);
-  --color-gray-dark-75: color-mix(in srgb, var(--color-gray-dark) 75%, transparent);
-  --color-gray-xdark-25: color-mix(in srgb, var(--color-gray-xdark) 25%, transparent);
-  --color-gray-xdark-50: color-mix(in srgb, var(--color-gray-xdark) 50%, transparent);
-  --color-gray-xdark-75: color-mix(in srgb, var(--color-gray-xdark) 75%, transparent);
-  --color-gray-xxdark-25: color-mix(in srgb, var(--color-gray-xxdark) 25%, transparent);
-  --color-gray-xxdark-50: color-mix(in srgb, var(--color-gray-xxdark) 50%, transparent);
-  --color-gray-xxdark-75: color-mix(in srgb, var(--color-gray-xxdark) 75%, transparent);
 
   --color-default-xxlight-25: color-mix(in srgb, var(--color-default-xxlight) 25%, transparent);
   --color-default-xxlight-50: color-mix(in srgb, var(--color-default-xxlight) 50%, transparent);

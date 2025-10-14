@@ -153,9 +153,19 @@ export type HexColor = Lowercase<`#${HexChar}${string}`> | Uppercase<`#${HexChar
 type HexChar = '0' | '1' | '2' | '3' | '4' | '5' | '6' | '7' | '8' | '9' | 'a' | 'b' | 'c' | 'd' | 'e' | 'f';
 
 /**
+ * OKLCH color format (CSS Color Level 4)
+ * Format: oklch(L% C H) or oklch(L% C H / A)
+ * - L: Lightness (0-100%)
+ * - C: Chroma (0+, typically 0-0.4)
+ * - H: Hue (0-360deg)
+ * - A: Alpha (0-1, optional)
+ */
+export type OklchColor = `oklch(${string})`;
+
+/**
  * Union of all valid color value formats
  */
-export type ColorValue = HexColor | string;
+export type ColorValue = HexColor | OklchColor | string;
 
 // ======================================================================== //
 // RADIX COLOR INTEGRATION

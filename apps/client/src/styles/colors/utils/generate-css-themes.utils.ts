@@ -1,5 +1,5 @@
 /**
- * CSS Themes Generator - Auto-generates index.css with proper theme selectors
+ * CSS Themes Generator - Auto-generates theme.css with proper theme selectors
  *
  * This script generates CSS theme files with proper [data-theme='light'] and [data-theme='dark'] selectors,
  * ensuring consistency with your app's theme system and eliminating manual maintenance.
@@ -120,7 +120,7 @@ ${darkCssVars}${darkTransparencyVars}
  */
 function main() {
   try {
-    const cssPath = join(__dirname, '../../../index.css');
+    const cssPath = join(__dirname, '../../../theme.css');
     const content = generateCssThemeContent();
 
     writeFileSync(cssPath, content, 'utf-8');
