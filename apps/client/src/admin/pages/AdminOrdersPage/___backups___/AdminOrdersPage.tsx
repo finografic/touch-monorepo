@@ -1,21 +1,19 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
-import { AdminContentLayout, AdminSection } from '../..';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
+import { AdminContentLayout, AdminSection } from '../shared';
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
-import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
-import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/OrdersTable.columns';
-import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
+import { OrdersTable } from 'pages/AdminPages/AdminOrdersPage/OrdersTable';
+import { OrdersForm } from 'pages/AdminPages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
-import { Col, Container, Row } from 'react-grid-system';
+import { Col, Row } from 'react-grid-system';
 import { styles } from './AdminOrdersPage.styles';
 import { Drawer } from 'components/Drawer';
-import { Title } from 'components/Title';
 import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getHumanReadableId } from 'utils/readable.utils';
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { ReadableSalt } from 'constants/readable-salt.constants';
 import clsx from 'clsx';
-import { AuthLoginTabContent } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/AuthTabContent';
-import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
 
 export const AdminOrdersPage: React.FC = () => {
   const { currentLanguage } = useAppConfig();
@@ -27,64 +25,6 @@ export const AdminOrdersPage: React.FC = () => {
 
   // Determine if we're in edit mode
   const isEditMode = Boolean(orderId);
-
-  // ======================================================================== //
-
-  const config: DialogConfig = {
-    title: '',
-    size: '3',
-    maxWidth: '400px',
-    maxHeight: '60vh',
-    minHeight: '280px',
-    minWidth: '350px',
-    theme: {
-      accentColor: 'blue',
-      grayColor: 'sand',
-      scaling: '110%',
-    },
-    tabs: [
-      {
-        id: 'user',
-        label: 'user',
-        icon: <ListChecksIcon />,
-        content: (
-          <AuthLoginTabContent
-            activeTab={activeTab}
-            email={DEFAULT_USER_EMAIL}
-            password={password}
-            onPasswordChange={setPassword}
-            onSubmit={handleSubmit}
-            isLoading={isLoading}
-            error={error}
-          />
-        ),
-      },
-      {
-        id: 'admin',
-        label: 'Admin',
-        icon: <EditIcon />,
-        content: (
-          <AuthLoginTabContent
-            activeTab={activeTab}
-            email={DEFAULT_ADMIN_EMAIL}
-            password={password}
-            onPasswordChange={setPassword}
-            onSubmit={handleSubmit}
-            isLoading={isLoading}
-            error={error}
-          />
-        ),
-      },
-    ],
-  };
-
-  // ======================================================================== //
-
-  const [activeTab, setActiveTab] = useState('user');
-  const hasTabs = config.tabs.length > 1;
-  const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
-
-  // ======================================================================== //
 
   // Fetch orders-readable data for the table
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
@@ -229,25 +169,47 @@ export const AdminOrdersPage: React.FC = () => {
     );
   }
 
+  const HUMAN_READABLE_ORDER_ID: string =
+    isEditMode && orderId
+      ? getHumanReadableId<ReadableSalt>(orderId, currentLanguage, ReadableSalt.Order)
+      : `${ReadableSalt.Order} data`;
+
   return (
     <section css={styles} className="admin-content-page">
       <AdminContentLayout
         title={isEditMode ? 'Edit Order' : 'Orders Management'}
-        // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
+        detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
         //  subtitle="Development orders for testing"
       >
-        {/* DIALOG TABBED CONTENT ------------------------------------ */}
-        <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
-          <Tabs.List>
-            <Tabs.Trigger value={tab.id} disabled={tab.disabled}>
-              Lista de registros
-            </Tabs.Trigger>
-            <Tabs.Trigger value={tab.id} disabled={tab.disabled}>
-              Editar registro
-            </Tabs.Trigger>
-          </Tabs.List>
-          <div className="dialog-content">
-            <Tabs.Content value={tab.id}>
+        <Row className="form-section">
+          <Col>
+            {/* Add New Order Form */}
+            <AdminSection
+              className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
+              title={isEditMode ? HUMAN_READABLE_ORDER_ID : 'Formulario de datos'}
+            >
+              <OrdersForm
+                onSubmit={handleAddOrder}
+                orderData={isEditMode ? orderData : undefined}
+                isEditMode={isEditMode}
+              />
+            </AdminSection>
+          </Col>
+        </Row>
+
+        {/* Show the drawer and table in both list and edit modes */}
+        <Drawer
+          onOpenChange={setIsDrawerOpen}
+          drawerBarLeft={
+            // eslint-disable-next-line style/jsx-wrap-multilines
+            <Flex justify="start" align="center" className="search-container">
+              <Flex px="4">
+                <SearchBar
+                  searchTerm={searchTerm}
+                  onSearchChange={setSearchTerm}
+                  status={isDrawerOpen ? 'active' : 'inactive'}
+                />
+              </Flex>
               <Flex px="4" pl="2">
                 <Text size="2" color="gray" weight="bold" style={{ opacity: isDrawerOpen ? 1 : 0.66 }}>
                   {isDrawerOpen ? (
@@ -268,46 +230,11 @@ export const AdminOrdersPage: React.FC = () => {
                   )}
                 </Text>
               </Flex>
-            </Tabs.Content>
-            <Tabs.Content value={tab.id}>
-              <Row className="form-section">
-                <Col>
-                  {/* Add New Order Form */}
-                  <AdminSection
-                    className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
-                    title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
-                  >
-                    <OrdersForm
-                      onSubmit={handleAddOrder}
-                      orderData={isEditMode ? orderData : undefined}
-                      isEditMode={isEditMode}
-                    />
-                  </AdminSection>
-                </Col>
-              </Row>
-            </Tabs.Content>
-          </div>
-        </Tabs.Root>
-
-        {/* Show the drawer and table in both list and edit modes */}
-        <Drawer
-          onOpenChange={setIsDrawerOpen}
-          drawerBarLeft={
-            // eslint-disable-next-line style/jsx-wrap-multilines
-            <Flex justify="start" align="center" className="search-container">
-              <Flex px="4">
-                <SearchBar
-                  searchTerm={searchTerm}
-                  onSearchChange={setSearchTerm}
-                  status={isDrawerOpen ? 'active' : 'inactive'}
-                />
-              </Flex>
             </Flex>
           }
         >
           <OrdersTable
             orders={filteredOrders}
-            columns={DEFAULT_ORDERS_COLUMNS}
             emptyMessage="No orders found"
             emptySubMessage="Try adjusting your search term or add new orders"
             onClickEdit={handleEditOrder}

@@ -4,44 +4,8 @@ import { colors, spacing } from 'styles';
 export const styles = css`
   width: 100%;
   min-height: 100vh;
-  height: 50vh;
   background-color: ${colors.white};
   color: ${colors.text};
-
-  border: 2px solid red;
-  overflow: hidden;
-
-  div[role='searchbox'] {
-    display: flex;
-    justify-content: flex-end;
-    .input-search {
-      width: 300px;
-    }
-  }
-
-  .col.col-form {
-    /* width: 60%; */
-    height: 100%;
-    background-color: ${colors.white};
-    padding-right: 4rem !important;
-  }
-  .col.col-table {
-    /* width: 40%; */
-    table {
-      max-width: 38vw;
-
-      .button-edit {
-        svg.icon-edit {
-          color: ${colors.infoXLight};
-        }
-      }
-      .button-delete {
-        svg.icon-delete {
-          color: ${colors.greyXXLight};
-        }
-      }
-    }
-  }
 
   .admin-page-container {
     /* min-width: 1400px; */
@@ -75,13 +39,7 @@ export const styles = css`
   .admin-page-content {
     display: flex;
     flex-direction: column;
-
-    /* height: min-content; */
-    gap: 0;
-    /* gap: ${spacing[6]}; */
-    background-color: ${colors.greyLight};
-    /* align-items: start; */
-    /* justify-content: start; */
+    gap: ${spacing[6]};
   }
 
   /* Admin section styling */
@@ -89,8 +47,7 @@ export const styles = css`
     background-color: ${colors.white};
     border: 1px solid ${colors.greyLight};
     border-radius: 12px;
-    /* padding: ${spacing[6]}; */
-    padding: 0;
+    padding: ${spacing[6]};
 
     &.orders-table-section {
       height: 66vh;
@@ -166,6 +123,14 @@ export const styles = css`
   }
 
   .search-container {
+  }
+
+  .drawer-body {
+    section.admin-content-page {
+      margin: 0 2.75rem 0 2.75rem;
+      max-width: 96.33vw !important;
+      height: unset;
+    }
   }
 
   /* Responsive adjustments */
