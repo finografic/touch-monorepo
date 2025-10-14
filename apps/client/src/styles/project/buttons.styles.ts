@@ -1,9 +1,9 @@
 import { button, colors, layout } from 'styles';
 import { css } from '@emotion/react';
-import { generateComponentColorVariants } from 'styles/utils/generateClassColorVariants';
+import { generateUiColorVariants } from 'styles/utils/generate-ui-color-variants.utils';
 
 // Generate semantic button color variants using the utility
-export const buttonColorVariants = generateComponentColorVariants(
+export const buttonColorVariants = generateUiColorVariants(
   'button',
   (colorName, variants, componentType) => css`
     &.${componentType}-${colorName} {

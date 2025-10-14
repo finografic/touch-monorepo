@@ -54,16 +54,34 @@ export const OrdersFormDevTools: React.FC<OrdersFormDevToolsProps> = ({
       {/* Dev Tools Buttons */}
       {isDevToolsVisible && (
         <>
-          <Button type="button" variant="soft" size="3" onClick={handlers.handleMockPartial} color="info">
+          <Button
+            type="button"
+            variant="outline"
+            size="2"
+            onClick={handlers.handleMockPartial}
+            color="default"
+          >
             📝 Mock Partial
           </Button>
-          <Button type="button" variant="soft" size="3" onClick={handlers.handleMockTwoRows} color="default">
+          <Button
+            type="button"
+            variant="outline"
+            size="2"
+            onClick={handlers.handleMockTwoRows}
+            color="default"
+          >
             🎲 Mock 2 Rows
           </Button>
-          <Button type="button" variant="soft" size="3" onClick={handlers.handleMockAll} color="info">
+          <Button type="button" variant="outline" size="2" onClick={handlers.handleMockAll} color="default">
             📝 Mock All
           </Button>
-          <Button type="button" variant="soft" size="3" onClick={handlers.handleMockAllRows} color="default">
+          <Button
+            type="button"
+            variant="outline"
+            size="2"
+            onClick={handlers.handleMockAllRows}
+            color="default"
+          >
             🎲 Mock All Rows
           </Button>
         </>

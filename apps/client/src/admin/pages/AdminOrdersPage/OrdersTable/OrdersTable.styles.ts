@@ -33,7 +33,7 @@ export const styles = css`
   }
 
   .td-action button {
-    opacity: 0.5;
+    opacity: 0.5 !important;
     svg.icon {
       width: 24px;
       height: 24px;

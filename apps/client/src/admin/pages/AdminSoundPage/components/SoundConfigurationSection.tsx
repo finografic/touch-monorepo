@@ -64,7 +64,7 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
           throw new Error('Sound file not found or missing file path');
         }
 
-        await playSoundByPath(soundFile.filePath, 0.3);
+        await playSoundByPath(soundFile.filePath);
         toast({
           variant: 'success',
           message: 'Sound played successfully',
@@ -108,12 +108,13 @@ export const SoundConfigurationSection: React.FC<SoundConfigurationSectionProps>
           </Box>
           {soundSettings[soundType] && (
             <Button
-              size="1"
+              size="3"
               variant="soft"
+              color="green"
               onClick={() => testSound(soundSettings[soundType]!)}
               className="test-button"
             >
-              <SpeakerLoudIcon className="icon-speaker" />
+              <SpeakerLoudIcon className="icon-speaker" color="green" />
               Test
             </Button>
           )}

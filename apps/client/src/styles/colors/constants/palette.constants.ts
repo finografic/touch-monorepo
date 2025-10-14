@@ -1,7 +1,9 @@
-import type { ShadeKey, ShadeSuffix } from '../colors.types';
-import type { ColorBaseName } from '../palette.types';
+import type { ColorBaseName, ColorName, ColorNameExtended, ShadeKey, ShadeSuffix } from '../colors.types';
 
-export const BASE_COLORS: Record<ColorBaseName, ColorBaseName> = {
+/**
+ * All base colors including those that don't have shade variants
+ */
+export const BASE_COLORS: Record<ColorNameExtended, ColorNameExtended> = {
   primary: 'primary',
   secondary: 'secondary',
   success: 'success',
@@ -11,10 +13,9 @@ export const BASE_COLORS: Record<ColorBaseName, ColorBaseName> = {
   text: 'text',
   background: 'background',
   default: 'default',
-  white: 'white',
-  black: 'black',
   grey: 'grey',
-  gray: 'gray',
+  black: 'black',
+  white: 'white',
   transparent: 'transparent',
 } as const;
 

@@ -81,4 +81,47 @@ export const styles = css`
     height: 1.2rem;
     color: ${colors.infoDark};
   }
+
+  /* Volume slider styling */
+  .volume-control {
+    .volume-slider {
+      width: 100%;
+      max-width: 320px;
+      transform: scale(1.5);
+
+      /* Custom slider track */
+      [data-radix-slider-track] {
+        background-color: ${colors.greyLight};
+        height: 6px;
+        border-radius: 3px;
+      }
+
+      /* Custom slider range */
+      [data-radix-slider-range] {
+        background-color: ${colors.infoDark};
+        height: 6px;
+        border-radius: 3px;
+      }
+
+      /* Custom slider thumb */
+      [data-radix-slider-thumb] {
+        background-color: ${colors.infoDark};
+        border: 2px solid ${colors.white};
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
+        &:hover {
+          background-color: ${colors.infoXDark};
+          transform: scale(1.1);
+        }
+
+        &:focus {
+          outline: 2px solid ${colors.info25};
+          outline-offset: 2px;
+        }
+      }
+    }
+  }
 `;

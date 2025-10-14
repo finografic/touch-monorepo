@@ -15,23 +15,22 @@ import { getCachedSettings, playCachedSound, playSoundFromUrl } from './soundCac
 
 /**
  * Play the configured alarm sound from API with fallback
+ * Uses global volume setting from sessionStorage
  *
- * @param volume - Volume level (0.0 to 1.0, default: 0.2)
  * @returns Promise that resolves when sound playback completes
  *
  * @example
- * await playTickSound(); // Play with default volume
- * await playTickSound(0.5); // Play with 50% volume
+ * await playTickSound(); // Play with global volume setting
  */
-export async function playTickSound(volume: number = 0.2): Promise<void> {
+export async function playTickSound(): Promise<void> {
   try {
     const settings = await getCachedSettings();
     if (settings.alarm) {
       try {
-        await playCachedSound(settings.alarm, volume);
+        await playCachedSound(settings.alarm);
       } catch (cachedError) {
         console.warn('Cached alarm sound failed, trying URL fallback:', cachedError);
-        await playSoundFromUrl(settings.alarm, volume);
+        await playSoundFromUrl(settings.alarm);
       }
     }
   } catch (e) {
@@ -42,23 +41,22 @@ export async function playTickSound(volume: number = 0.2): Promise<void> {
 
 /**
  * Play the configured complete sound from API with fallback
+ * Uses global volume setting from sessionStorage
  *
- * @param volume - Volume level (0.0 to 1.0, default: 0.2)
  * @returns Promise that resolves when sound playback completes
  *
  * @example
- * await playCompleteSound(); // Play with default volume
- * await playCompleteSound(0.8); // Play with 80% volume
+ * await playCompleteSound(); // Play with global volume setting
  */
-export async function playCompleteSound(volume: number = 0.2): Promise<void> {
+export async function playCompleteSound(): Promise<void> {
   try {
     const settings = await getCachedSettings();
     if (settings.finish) {
       try {
-        await playCachedSound(settings.finish, volume);
+        await playCachedSound(settings.finish);
       } catch (cachedError) {
         console.warn('Cached complete sound failed, trying URL fallback:', cachedError);
-        await playSoundFromUrl(settings.finish, volume);
+        await playSoundFromUrl(settings.finish);
       }
     }
   } catch (e) {
@@ -69,22 +67,21 @@ export async function playCompleteSound(volume: number = 0.2): Promise<void> {
 
 /**
  * Play a custom sound from URL with fallback
+ * Uses global volume setting from sessionStorage
  *
  * @param soundUrl - URL of the sound to play
- * @param volume - Volume level (0.0 to 1.0, default: 0.2)
  * @returns Promise that resolves when sound playback completes
  *
  * @example
  * await playCustomSound('https://example.com/sound.mp3');
- * await playCustomSound('https://example.com/sound.mp3', 0.5);
  */
-export async function playCustomSound(soundUrl: string, volume: number = 0.2): Promise<void> {
+export async function playCustomSound(soundUrl: string): Promise<void> {
   try {
     try {
-      await playCachedSound(soundUrl, volume);
+      await playCachedSound(soundUrl);
     } catch (cachedError) {
       console.warn('Cached custom sound failed, trying URL fallback:', cachedError);
-      await playSoundFromUrl(soundUrl, volume);
+      await playSoundFromUrl(soundUrl);
     }
   } catch (e) {
     console.warn('Could not play custom sound:', e);
@@ -94,7 +91,7 @@ export async function playCustomSound(soundUrl: string, volume: number = 0.2): P
 
 /**
  * Default sound handler with silent fallback
- * Plays the complete sound with default volume
+ * Plays the complete sound with global volume setting
  *
  * @example
  * makeDefaultSound(); // Plays complete sound, ignores errors
@@ -107,22 +104,21 @@ export function makeDefaultSound(): void {
 
 /**
  * User sound handler with silent fallback
- * Plays specified sound type with default volume
+ * Plays specified sound type with global volume setting
  *
  * @param key - Sound type to play
- * @param volume - Volume level (0.0 to 1.0, default: 0.2)
  *
  * @example
  * makeUserSound('alarm'); // Plays alarm sound
- * makeUserSound('complete', 0.5); // Plays complete sound at 50% volume
+ * makeUserSound('complete'); // Plays complete sound
  */
-export function makeUserSound(key: 'alarm' | 'complete', volume: number = 0.2): void {
+export function makeUserSound(key: 'alarm' | 'complete'): void {
   if (key === 'alarm') {
-    playTickSound(volume).catch(() => {
+    playTickSound().catch(() => {
       // Silent fallback
     });
   } else if (key === 'complete') {
-    playCompleteSound(volume).catch(() => {
+    playCompleteSound().catch(() => {
       // Silent fallback
     });
   }
@@ -140,25 +136,23 @@ export interface SoundConfig {
 
 /**
  * Play sound based on configuration
+ * Uses global volume setting from sessionStorage
  *
  * @param config - Sound configuration object
  * @param soundType - Type of sound to play
- * @param volume - Volume level (0.0 to 1.0, overrides config volume)
  *
  * @example
- * const config = { alarm: 'alarm.mp3', finish: 'complete.mp3', volume: 0.3 };
- * await playSoundFromConfig(config, 'alarm'); // Plays alarm sound at 30% volume
- * await playSoundFromConfig(config, 'complete', 0.8); // Plays complete sound at 80% volume
+ * const config = { alarm: 'alarm.mp3', finish: 'complete.mp3' };
+ * await playSoundFromConfig(config, 'alarm'); // Plays alarm sound with global volume
+ * await playSoundFromConfig(config, 'complete'); // Plays complete sound with global volume
  */
 export async function playSoundFromConfig(
   config: SoundConfig,
   soundType: 'alarm' | 'complete',
-  volume?: number,
 ): Promise<void> {
-  const finalVolume = volume ?? config.volume ?? 0.2;
   const soundUrl = soundType === 'alarm' ? config.alarm : config.finish;
 
   if (soundUrl) {
-    await playCustomSound(soundUrl, finalVolume);
+    await playCustomSound(soundUrl);
   }
 }

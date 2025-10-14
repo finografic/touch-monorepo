@@ -1,15 +1,5 @@
-// import 'sanitize.css/sanitize.css';
-// import 'sanitize.css/assets.css';
-// import 'sanitize.css/typography.css';
-// import 'sanitize.css/forms.css';
-
 import { css } from '@emotion/react';
 import { cssFontDefaults, cssFontMono } from './fonts/fonts.styles';
-import { darkColors, lightColors } from './themes';
-import {
-  generateCssColorVariables,
-  generateCssColorVariablesTransparency,
-} from './colors/utils/generate-css-variables.utils';
 import { colors } from 'styles';
 import { forms } from 'styles/forms/forms.styles';
 
@@ -35,30 +25,8 @@ export const cssGlobal = css`
     box-sizing: border-box;
   }
 
-  :root,
-  [data-theme='light'] {
-    box-sizing: border-box;
-    /* Light theme color palette (default + explicit light) */
-    /* ${generateCssColorVariables({ colors: lightColors })} */
-
-    /* Transparent color utilities */
-    /* ${generateCssColorVariablesTransparency()} */
-
-    /* Debug: Show current theme */
-    --debug-theme: 'light';
-  }
-
-  /* Dark theme color variables */
-  [data-theme='dark'] {
-    /* ${generateCssColorVariables({ colors: darkColors })} */
-
-    /* Transparent color utilities */
-    /* ${generateCssColorVariablesTransparency()} */
-
-    --debug-theme: 'dark';
-  }
-
   #root {
+    box-sizing: border-box;
     min-height: 100vh;
   }
 

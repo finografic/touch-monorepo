@@ -1,15 +1,14 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { Flex, Spinner, Text } from '@radix-ui/themes';
-import { AdminContentLayout, AdminSection } from '../..';
+import { AdminContentLayout, AdminSection } from '../../..';
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
 import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/OrdersTable.columns';
 import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
-import { Col, Container, Row } from 'react-grid-system';
-import { styles } from './AdminOrdersPage.styles';
+import { Col, Row } from 'react-grid-system';
+import { styles } from '../AdminOrdersPage.styles';
 import { Drawer } from 'components/Drawer';
-import { Title } from 'components/Title';
 import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getHumanReadableId } from 'utils/readable.utils';
@@ -177,7 +176,6 @@ export const AdminOrdersPage: React.FC = () => {
         // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
         //  subtitle="Development orders for testing"
       >
-<<<<<<< HEAD
         {/* <Row className="form-section">
           <Col>
             <AdminSection
@@ -231,88 +229,6 @@ export const AdminOrdersPage: React.FC = () => {
           onClickEdit={handleEditOrder}
           onClickDelete={handleDeleteOrder}
         />
-=======
-        <header
-          style={
-            {
-              //  width: '100%',
-              // border: '2px solid red',
-            }
-          }
-        >
-          <Row justify="between" align="center">
-            <Col xs={7}>
-              <Title title={isEditMode ? 'Edit drink profile' : 'New drink profile'} />
-            </Col>
-            <Col xs={2}>
-              <Title title="Drink profiles" />
-            </Col>
-            <Col xs={3}>
-              {/* <Title title="Drink profiles" /> */}
-              <Flex
-                display="flex"
-                justify="end"
-                align="end"
-                pt="5"
-                // style={{ border: '2px solid blue' }}
-              >
-                <SearchBar
-                  searchTerm={searchTerm}
-                  onSearchChange={setSearchTerm}
-                  status={isDrawerOpen ? 'active' : 'inactive'}
-                />
-              </Flex>
-            </Col>
-          </Row>
-        </header>
-        <Row justify="between" align="center">
-          <Col xs={7} className="col col-form">
-            {/* <AdminSection
-              className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
-              title="Formulario de datos"
-            > */}
-            <OrdersForm
-              onSubmit={handleAddOrder}
-              orderData={isEditMode ? orderData : undefined}
-              isEditMode={isEditMode}
-            />
-            {/* </AdminSection> */}
-          </Col>
-          <Col xs={5} className="col col-table">
-            <Flex justify="start" align="center" className="search-container" mb="6">
-              <Flex px="4" pl="2">
-                <Text size="2" color="gray" weight="bold" style={{ opacity: isDrawerOpen ? 1 : 0.66 }}>
-                  {isDrawerOpen ? (
-                    <>
-                      Showing {filteredOrders.length}
-                      <span
-                        style={{
-                          opacity: 0.5,
-                          display: 'inline-block',
-                          paddingLeft: '0.33rem',
-                        }}
-                      >
-                        / {ordersData.length} total
-                      </span>
-                    </>
-                  ) : (
-                    <>{ordersData.length} total</>
-                  )}
-                </Text>
-              </Flex>
-            </Flex>
-
-            <OrdersTable
-              orders={filteredOrders}
-              columns={DEFAULT_ORDERS_COLUMNS}
-              emptyMessage="No orders found"
-              emptySubMessage="Try adjusting your search term or add new orders"
-              onClickEdit={handleEditOrder}
-              onClickDelete={handleDeleteOrder}
-            />
-          </Col>
-        </Row>
->>>>>>> recover-detached-work
       </AdminContentLayout>
     </section>
   );
