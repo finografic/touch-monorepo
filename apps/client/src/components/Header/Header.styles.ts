@@ -40,11 +40,14 @@ export const styles = css`
     }
 
     .col-header-left {
+      border: 2px solid red;
       display: flex;
       justify-content: flex-start;
       align-items: center;
       padding-left: 1rem; /* Add some padding for better visual balance */
       height: -webkit-fill-available; /* Better cross-browser full height support */
+      /* padding-left: 10rem !important; */
+
       padding-left: ${layout.padding} !important;
     }
 
