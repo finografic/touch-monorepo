@@ -40,7 +40,6 @@ export const styles = css`
     }
 
     .col-header-left {
-      border: 2px solid red;
       display: flex;
       justify-content: flex-start;
       align-items: center;
