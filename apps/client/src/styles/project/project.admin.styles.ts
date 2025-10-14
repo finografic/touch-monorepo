@@ -156,8 +156,6 @@ export const stylesAdminContent = css`
     header.admin-page-header {
       margin: 2rem 0 2.5rem 0;
 
-      opacity: 0.5;
-
       h1,
       h1 span {
         color: ${colors.textLight};

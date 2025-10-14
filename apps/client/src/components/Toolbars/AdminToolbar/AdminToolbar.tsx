@@ -53,13 +53,6 @@ export const AdminToolbar: React.FC = () => {
               <ConfigTimer />
             </div>
           )}
-
-          {/* Panic button - stop all audio */}
-          <div className="button-box">
-            <button className="button button-panic" onClick={stopAllAudio} title="Stop All Audio (Panic)">
-              <StopIcon color="orange" />
-            </button>
-          </div>
         </Flex>
       </div>
 

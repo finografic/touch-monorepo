@@ -89,21 +89,74 @@ Los navegadores modernos bloquean la reproducción de audio a menos que sea acti
 import { playTickSound, playCompleteSound } from 'utils/sound.utils';
 
 // Reproducir sonido de alarma durante intervalos del temporizador
-await playTickSound(0.2); // 20% de volumen
+// El volumen se aplica automáticamente desde la configuración global
+await playTickSound();
 
 // Reproducir sonido de finalización cuando el temporizador se completa
-await playCompleteSound(0.3); // 30% de volumen
+// El volumen se aplica automáticamente desde la configuración global
+await playCompleteSound();
 ```
 
 ### Configuración de Sonidos
 
 ```typescript
 import { makeUserSound } from 'utils/sound.utils';
+import { playSoundByPath } from 'utils/soundCache.utils';
 
-// Reproducir sonidos por tipo
-makeUserSound('alarm', 0.2);    // Reproducir sonido de alarma
-makeUserSound('complete', 0.3); // Reproducir sonido de finalización
+// Reproducir sonidos por tipo (volumen aplicado automáticamente)
+makeUserSound('alarm');
+makeUserSound('complete');
+
+// Reproducir sonido por ruta de archivo (volumen aplicado automáticamente)
+await playSoundByPath('sound--alarm-1234567890-xyz.mp3');
 ```
+
+### Gestión de Volumen
+
+```typescript
+import { useGlobalVolume } from 'hooks/useGlobalVolume';
+import { updatePlayingAudioVolume } from 'utils/soundCache.utils';
+
+// En un componente React
+const { volume, updateVolume, audioVolume } = useGlobalVolume();
+
+// Actualizar volumen (0-100)
+updateVolume(75); // Establece el deslizador en 75%, audio real en 15%
+
+// Obtener volumen actual para elementos de audio (0-0.2)
+const currentAudioVolume = audioVolume; // ej., 0.12 para deslizador al 60%
+
+// Actualizar volumen del audio actualmente en reproducción
+updatePlayingAudioVolume(50); // Cambia el audio en reproducción a 50% deslizador (10% real)
+```
+
+## Control de Volumen
+
+El sistema incluye un control de volumen global que afecta toda la reproducción de sonidos.
+
+### Configuración de Volumen
+
+- **Volumen Predeterminado**: 60% (en el deslizador)
+- **Rango de Volumen**: 0-100% (deslizador visible al usuario)
+- **Rango de Audio Real**: 0-20% (reducido para comodidad)
+- **Escalado de Volumen**: Valor del deslizador × 0.2 = volumen de audio real
+
+Ejemplo:
+- 60% deslizador (predeterminado) = 12% volumen de audio real
+- 100% deslizador (máximo) = 20% volumen de audio real
+- 50% deslizador = 10% volumen de audio real
+
+### Ajuste de Volumen en Tiempo Real
+
+- Los cambios de volumen se aplican **inmediatamente** al audio que se está reproduciendo
+- No es necesario reiniciar la reproducción para escuchar los cambios de volumen
+- La configuración de volumen persiste en el almacenamiento de sesión del navegador
+
+### Botón de Pánico
+
+- El botón **Detener Todo el Audio** detiene inmediatamente todos los sonidos en reproducción
+- Útil para detener sonidos de alarma durante las pruebas
+- Ubicado junto al deslizador de volumen en la interfaz de administración
 
 ## Interfaz de Administración
 
@@ -111,12 +164,15 @@ makeUserSound('complete', 0.3); // Reproducir sonido de finalización
 
 - Interfaz con pestañas para gestionar sonidos de alarma y finalización
 - Subir, configurar y gestionar archivos de sonido
-- Probar reproducción de sonidos
+- Probar reproducción de sonidos con control de volumen en tiempo real
 - Ver biblioteca de sonidos
+- Deslizador de volumen con botón de pánico
 
-### Página de Administración Básica (`/admin/sounds` - versión pública)
+### Página de Administración Básica (`/admin/sounds-basic` - versión pública)
 
 - Interfaz simplificada que muestra solo la selección de sonido de alarma
+- Control deslizante de volumen global
+- Botón de pánico para detener todo el audio
 - Sin capacidades de subida o gestión de archivos
 - Enfocada en la configuración esencial de sonidos
 

@@ -89,21 +89,74 @@ Modern browsers block audio playback unless triggered by a direct user gesture (
 import { playTickSound, playCompleteSound } from 'utils/sound.utils';
 
 // Play alarm sound during timer intervals
-await playTickSound(0.2); // 20% volume
+// Volume is automatically applied from global settings
+await playTickSound();
 
 // Play finish sound when timer completes
-await playCompleteSound(0.3); // 30% volume
+// Volume is automatically applied from global settings
+await playCompleteSound();
 ```
 
 ### Sound Configuration
 
 ```typescript
 import { makeUserSound } from 'utils/sound.utils';
+import { playSoundByPath } from 'utils/soundCache.utils';
 
-// Play sounds by type
-makeUserSound('alarm', 0.2);    // Play alarm sound
-makeUserSound('complete', 0.3); // Play finish sound
+// Play sounds by type (volume applied automatically)
+makeUserSound('alarm');
+makeUserSound('complete');
+
+// Play sound by file path (volume applied automatically)
+await playSoundByPath('sound--alarm-1234567890-xyz.mp3');
 ```
+
+### Volume Management
+
+```typescript
+import { useGlobalVolume } from 'hooks/useGlobalVolume';
+import { updatePlayingAudioVolume } from 'utils/soundCache.utils';
+
+// In a React component
+const { volume, updateVolume, audioVolume } = useGlobalVolume();
+
+// Update volume (0-100)
+updateVolume(75); // Sets slider to 75%, actual audio to 15%
+
+// Get current volume for audio elements (0-0.2)
+const currentAudioVolume = audioVolume; // e.g., 0.12 for 60% slider
+
+// Update volume of currently playing audio
+updatePlayingAudioVolume(50); // Changes playing audio to 50% slider (10% actual)
+```
+
+## Volume Control
+
+The system includes a global volume control that affects all sound playback.
+
+### Volume Settings
+
+- **Default Volume**: 60% (on slider)
+- **Volume Range**: 0-100% (user-facing slider)
+- **Actual Audio Range**: 0-20% (scaled down for comfort)
+- **Volume Scaling**: Slider value × 0.2 = actual audio volume
+
+Example:
+- 60% slider (default) = 12% actual audio volume
+- 100% slider (max) = 20% actual audio volume
+- 50% slider = 10% actual audio volume
+
+### Real-Time Volume Adjustment
+
+- Volume changes apply **immediately** to currently playing audio
+- No need to restart playback to hear volume changes
+- Volume setting persists in browser session storage
+
+### Panic Button
+
+- **Stop All Audio** button immediately stops all playing sounds
+- Useful for stopping alarm sounds during testing
+- Located next to the volume slider in the admin interface
 
 ## Admin Interface
 
@@ -111,12 +164,15 @@ makeUserSound('complete', 0.3); // Play finish sound
 
 - Tabbed interface for managing alarm and finish sounds
 - Upload, configure, and manage sound files
-- Test sound playback
+- Test sound playback with real-time volume control
 - View sound library
+- Volume slider with panic button
 
-### Basic Admin Page (`/admin/sounds` - public version)
+### Basic Admin Page (`/admin/sounds-basic` - public version)
 
 - Simplified interface showing only alarm sound selection
+- Global volume control slider
+- Panic button to stop all audio
 - No file upload or management capabilities
 - Focused on essential sound configuration
 
