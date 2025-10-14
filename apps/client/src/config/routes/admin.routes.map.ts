@@ -1,14 +1,14 @@
 import type React from 'react';
-import { AdminLanguagesPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesPage';
-import { AdminSoundPage } from 'pages/AdminPages/AdminSoundPage/AdminSoundPage';
-import { AdminSoundBasicPage } from 'pages/AdminPages/AdminSoundPage/AdminSoundBasicPage';
-import { AdminTranslationsPage } from 'pages/AdminPages/AdminTranslationsPage/AdminTranslationsPage';
-import { AdminUiLabelsPage } from 'pages/AdminPages/AdminUiLabelsPage';
-import { AdminOrdersPage } from 'pages/AdminPages/AdminOrdersPage/AdminOrdersPage';
-import { AdminFilterAnalysisPage } from 'pages/AdminPages/AdminFilterAnalysisPage';
-import { AdminSlotsConfigPage } from 'pages/AdminPages/AdminSlotsConfigPage/AdminSlotsConfigPage';
-import { AdminModePage } from 'pages/AdminPages/AdminModePage/AdminModePage';
-import { AdminModeBasicPage } from 'pages/AdminPages/AdminModePage/AdminModeBasicPage';
+import { AdminLanguagesPage } from 'src/admin/pages/AdminLanguagesPage/AdminLanguagesPage';
+import { AdminSoundPage } from 'src/admin/pages/AdminSoundPage/AdminSoundPage';
+import { AdminSoundBasicPage } from 'src/admin/pages/AdminSoundPage/AdminSoundBasicPage';
+import { AdminTranslationsPage } from 'src/admin/pages/AdminTranslationsPage/AdminTranslationsPage';
+import { AdminUiLabelsPage } from 'src/admin/pages/AdminUiLabelsPage';
+import { AdminOrdersPage } from 'src/admin/pages/AdminOrdersPage/AdminOrdersPage';
+import { AdminFilterAnalysisPage } from 'src/admin/pages/AdminFilterAnalysisPage';
+import { AdminSlotsConfigPage } from 'src/admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
+import { AdminModePage } from 'src/admin/pages/AdminModePage/AdminModePage';
+import { AdminModeBasicPage } from 'src/admin/pages/AdminModePage/AdminModeBasicPage';
 import {
   EditIcon,
   LanguageIcon,
@@ -18,9 +18,9 @@ import {
   ZapIcon,
 } from 'styles/icons';
 import { SpeakerLoudIcon } from '@radix-ui/react-icons';
-import { AdminLanguagesBasicPage } from 'pages/AdminPages/AdminLanguagesPage/AdminLanguagesBasicPage';
-import { AdminRelaysPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysPage';
-import { AdminRelaysBasicPage } from 'pages/AdminPages/AdminRelaysPage/AdminRelaysBasicPage';
+import { AdminLanguagesBasicPage } from 'src/admin/pages/AdminLanguagesPage/AdminLanguagesBasicPage';
+import { AdminRelaysPage } from 'src/admin/pages/AdminRelaysPage/AdminRelaysPage';
+import { AdminRelaysBasicPage } from 'src/admin/pages/AdminRelaysPage/AdminRelaysBasicPage';
 
 export type AuthRoles = 'public' | 'user' | 'admin';
 

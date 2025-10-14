@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from 'providers/AuthProvider';
-import { AdminDashboardBasicPage } from 'pages/AdminPages/AdminDashboardBasicPage';
+import { AdminDashboardBasicPage } from 'src/admin/pages/AdminDashboardBasicPage';
 import { getAdminEntryByPath } from 'config/routes/admin.routes.selectors';
 
 export const ProtectedAdminRoutes: React.FC = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useAuth } from 'providers/AuthProvider';
-import { AdminDashboardPage } from '../../pages/AdminPages/AdminDashboardPage';
-import { AdminDashboardBasicPage } from '../../pages/AdminPages/AdminDashboardBasicPage';
+import { AdminDashboardPage } from '../../admin/pages/AdminDashboardPage';
+import { AdminDashboardBasicPage } from '../../admin/pages/AdminDashboardBasicPage';
 
 /**
  * Dashboard-specific wrapper for the main admin dashboard

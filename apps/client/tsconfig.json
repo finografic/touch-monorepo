@@ -21,6 +21,8 @@
       // Local package absolute imports
       // "admin-tools": ["src/components/Toolbars"],
       // "admin-tools/*": ["src/components/Toolbars/*"],
+      "admin": ["./src/admin"],
+      "admin/*": ["./src/admin/*"],
       "api": ["./src/api"],
       "api/*": ["./src/api/*"],
       "auth/*": ["./src/auth/*"],

@@ -7,7 +7,7 @@ import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from 'components/Loader/Loader';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { Footer } from 'components/Footer/Footer';
-import { AdminNavigation } from 'components/AdminNavigation';
+import { AdminNavigation } from 'src/admin/components/AdminNavigation';
 import { setConfiguration } from 'react-grid-system';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
