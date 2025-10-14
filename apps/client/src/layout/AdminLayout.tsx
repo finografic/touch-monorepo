@@ -18,7 +18,7 @@ import { styles } from './AdminLayout.styles';
 import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
 
 export const AdminLayout: FC = () => {
-  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
+  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES], maxScreenClass: 'xxl' });
 
   // Initialize admin theme - force light theme for admin panel
   useEffect(() => {

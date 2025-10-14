@@ -23,6 +23,8 @@ export const styles = css`
 
   &.button.button-auth.logged-in {
     svg.icon {
+      color: ${colors.infoLight};
+      stroke: ${colors.infoLight};
     }
   }
 `;

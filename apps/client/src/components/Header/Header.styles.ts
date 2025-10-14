@@ -1,28 +1,39 @@
 import { css } from '@emotion/react';
-import { colors, layout } from 'styles';
+import { colors, layout, min } from 'styles';
 
 export const styles = css`
   /* Header content styling - layout handled by Layout.styles.ts */
   width: 100%;
 
   .app-header {
-    padding: 0 2.5rem;
+    padding: 0rem;
     width: 100%;
     height: ${layout.header.height};
+    box-sizing: border-box;
     display: flex;
     align-items: center;
     justify-content: center;
 
     .container {
-      border: 2px solid yellow;
+      padding: 0 !important;
+
+      width: 100vw !important;
+
+      /* margin: 0 -2rem !important; */
+      /* opacity: 0.5 !important; */
+      /* border: 2px solid yellow; */
       .col {
-        border: 2px solid cyan;
+        /* border: 2px solid cyan; */
+        display: flex;
+        align-items: center;
+        /* box-shadow: inset 0 0 0 2px rgba(200, 200, 0, 0.5); */
       }
     }
 
     /* 3-column layout: 3:6:3 ratio */
     .row-header {
       width: 100%;
+      height: ${layout.header.height};
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -41,7 +52,7 @@ export const styles = css`
       display: flex;
       justify-content: center;
       align-items: center;
-      height: -webkit-fill-available;
+      /* height: -webkit-fill-available; */
     }
 
     .col-header-right {
@@ -61,6 +72,7 @@ export const styles = css`
       /* color: ${colors.info}; */
       margin: 0 0 0 0.8rem;
       white-space: nowrap;
+      margin: 0;
 
       span.current-language {
         font-size: 1.1rem;

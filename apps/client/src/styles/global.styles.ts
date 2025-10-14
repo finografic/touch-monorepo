@@ -184,7 +184,7 @@ export const cssGlobal = css`
     align-items: center;
     box-sizing: border-box;
     padding: 0;
-    margin: 1rem;
+    margin: 0 1rem;
     &:first-of-type {
       margin-left: 0rem;
     }

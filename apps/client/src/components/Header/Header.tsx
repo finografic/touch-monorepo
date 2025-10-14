@@ -87,7 +87,7 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <div css={styles}>
       <header className={clsx('app-header', { 'admin-app-header': isAdmin })}>
-        <Container className="container">
+        <Container className="container" fluid>
           <Row justify="between" align="center">
             <Col {...leftColProps} className="col col-header-left">
               <Flex justify="start">
