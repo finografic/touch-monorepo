@@ -3,6 +3,7 @@ import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../..';
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
+import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/OrdersTable.columns';
 import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
 import { Col, Row } from 'react-grid-system';
@@ -12,7 +13,6 @@ import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getHumanReadableId } from 'utils/readable.utils';
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { ReadableSalt } from 'constants/readable-salt.constants';
 import clsx from 'clsx';
 
 export const AdminOrdersPage: React.FC = () => {
@@ -169,21 +169,15 @@ export const AdminOrdersPage: React.FC = () => {
     );
   }
 
-  const HUMAN_READABLE_ORDER_ID: string =
-    isEditMode && orderId
-      ? getHumanReadableId<ReadableSalt>(orderId, currentLanguage, ReadableSalt.Order)
-      : `${ReadableSalt.Order} data`;
-
   return (
     <section css={styles} className="admin-content-page">
       <AdminContentLayout
         title={isEditMode ? 'Edit Order' : 'Orders Management'}
-        detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
+        // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
         //  subtitle="Development orders for testing"
       >
-        <Row className="form-section">
+        {/* <Row className="form-section">
           <Col>
-            {/* Add New Order Form */}
             <AdminSection
               className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
               title={isEditMode ? HUMAN_READABLE_ORDER_ID : 'Formulario de datos'}
@@ -195,52 +189,46 @@ export const AdminOrdersPage: React.FC = () => {
               />
             </AdminSection>
           </Col>
-        </Row>
+        </Row> */}
 
-        {/* Show the drawer and table in both list and edit modes */}
-        <Drawer
-          onOpenChange={setIsDrawerOpen}
-          drawerBarLeft={
-            // eslint-disable-next-line style/jsx-wrap-multilines
-            <Flex justify="start" align="center" className="search-container">
-              <Flex px="4">
-                <SearchBar
-                  searchTerm={searchTerm}
-                  onSearchChange={setSearchTerm}
-                  status={isDrawerOpen ? 'active' : 'inactive'}
-                />
-              </Flex>
-              <Flex px="4" pl="2">
-                <Text size="2" color="gray" weight="bold" style={{ opacity: isDrawerOpen ? 1 : 0.66 }}>
-                  {isDrawerOpen ? (
-                    <>
-                      Showing {filteredOrders.length}
-                      <span
-                        style={{
-                          opacity: 0.5,
-                          display: 'inline-block',
-                          paddingLeft: '0.33rem',
-                        }}
-                      >
-                        / {ordersData.length} total
-                      </span>
-                    </>
-                  ) : (
-                    <>{ordersData.length} total</>
-                  )}
-                </Text>
-              </Flex>
-            </Flex>
-          }
-        >
-          <OrdersTable
-            orders={filteredOrders}
-            emptyMessage="No orders found"
-            emptySubMessage="Try adjusting your search term or add new orders"
-            onClickEdit={handleEditOrder}
-            onClickDelete={handleDeleteOrder}
-          />
-        </Drawer>
+        <Flex justify="start" align="center" className="search-container">
+          <Flex px="4">
+            <SearchBar
+              searchTerm={searchTerm}
+              onSearchChange={setSearchTerm}
+              status={isDrawerOpen ? 'active' : 'inactive'}
+            />
+          </Flex>
+          <Flex px="4" pl="2">
+            <Text size="2" color="gray" weight="bold" style={{ opacity: isDrawerOpen ? 1 : 0.66 }}>
+              {isDrawerOpen ? (
+                <>
+                  Showing {filteredOrders.length}
+                  <span
+                    style={{
+                      opacity: 0.5,
+                      display: 'inline-block',
+                      paddingLeft: '0.33rem',
+                    }}
+                  >
+                    / {ordersData.length} total
+                  </span>
+                </>
+              ) : (
+                <>{ordersData.length} total</>
+              )}
+            </Text>
+          </Flex>
+        </Flex>
+
+        <OrdersTable
+          orders={filteredOrders}
+          columns={DEFAULT_ORDERS_COLUMNS}
+          emptyMessage="No orders found"
+          emptySubMessage="Try adjusting your search term or add new orders"
+          onClickEdit={handleEditOrder}
+          onClickDelete={handleDeleteOrder}
+        />
       </AdminContentLayout>
     </section>
   );
