@@ -198,7 +198,7 @@ export const AdminOrdersPage: React.FC = () => {
   if (isLoading || (isEditMode && isOrderLoading)) {
     return (
       <AdminContentLayout
-        title="Gestión de configuraciones"
+        title="Orders Management"
         // subtitle="Development orders for testing"
         isLoading={true}
       >
@@ -214,7 +214,7 @@ export const AdminOrdersPage: React.FC = () => {
     const errorMessage = error?.message || orderError?.message || 'Unknown error';
     return (
       <AdminContentLayout
-        title="Gestión de configuraciones"
+        title="Orders Management"
         // subtitle="Development orders for testing"
         error={errorMessage}
       >
@@ -230,7 +230,7 @@ export const AdminOrdersPage: React.FC = () => {
   return (
     <section css={styles} className="admin-content-page">
       <AdminContentLayout
-        title={isEditMode ? 'Edit Order' : 'Gestión de configuraciones'}
+        title={isEditMode ? 'Edit Order' : 'Orders Management'}
         // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
         //  subtitle="Development orders for testing"
       >
@@ -251,12 +251,21 @@ export const AdminOrdersPage: React.FC = () => {
                   title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
                   variant="none"
                 >
+                  {/* <ScrollArea
+                    id="scroll-area"
+                    type="always"
+                    scrollbars="vertical"
+                    size="2"
+                  > */}
                   {tab.content}
+                  {/* </ScrollArea> */}
                 </AdminSection>
               </Tabs.Content>
             ))}
           </div>
         </Tabs.Root>
+
+        {/* Show the drawer and table in both list and edit modes */}
       </AdminContentLayout>
     </section>
   );

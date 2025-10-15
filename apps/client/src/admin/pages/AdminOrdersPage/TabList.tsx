@@ -176,13 +176,22 @@ export const TabList: React.FC = () => {
   }
 
   return (
-    <OrdersTable
-      orders={filteredOrders}
-      columns={DEFAULT_ORDERS_COLUMNS}
-      emptyMessage="No orders found"
-      emptySubMessage="Try adjusting your search term or add new orders"
-      onClickEdit={handleEditOrder}
-      onClickDelete={handleDeleteOrder}
-    />
+    <Flex justify="start" align="center" className="search-container">
+      <Flex px="4">
+        <SearchBar
+          searchTerm={searchTerm}
+          onSearchChange={setSearchTerm}
+          status={isDrawerOpen ? 'active' : 'inactive'}
+        />
+      </Flex>
+      <OrdersTable
+        orders={filteredOrders}
+        columns={DEFAULT_ORDERS_COLUMNS}
+        emptyMessage="No orders found"
+        emptySubMessage="Try adjusting your search term or add new orders"
+        onClickEdit={handleEditOrder}
+        onClickDelete={handleDeleteOrder}
+      />
+    </Flex>
   );
 };

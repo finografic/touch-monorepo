@@ -159,46 +159,34 @@ export const styles = css`
         /* position: fixed;
         width: 86vw !important;
         display: block; */
-
-        .rt-TableRow {
-          /* display: flex;
-          align-items: center;
-          width: 100%; */
-        }
-        .td {
-          /* align-items: center;
-          display: flex;
-          display: flex;
-          align-items: center;
-          width: 100%; */
-          vertical-align: middle;
-        }
-
-        .button-edit {
-          svg.icon-edit {
-            /* color: ${colors.infoXLight}; */
-          }
-        }
-        .button-delete {
-          svg.icon-delete {
-            color: ${colors.greyXXLight};
-            &:hover {
-              color: #aa0000;
-            }
-          }
-        }
-
-        .button-edit,
-        .button-delete {
-          transform: scale(0.8);
-          padding: 0.5rem 0.5rem !important;
-        }
       }
     }
   }
 
   /* admin-section > ⭐ tab-content >  role=tabpanel ======================== */
   .tab-content {
+    margin: 2rem 0 0 0 !important;
+
+    padding: 0 !important;
+    border: 1px solid green !important;
+    border: 1px solid red;
+    border: none !important;
+
+    padding-right: 2rem !important;
+
+    /* overflow-x: hidden; */
+    /* overflow-y: scroll; */
+
+    /* z-index: 5000; */
+    /* position: fixed; */
+    /* opacity: 0.5; */
+
+    /* width: 100%;
+    width: 86vw;
+    height: 55vh; */
+    /* margin-right: 2rem !important; */
+    /* bottom: 3rem; */
+
     /* admin-section > tab-content > ⭐ role=tabpanel ======================= */
 
     /* div[role='tabpanel'][data-state='active'] { */
