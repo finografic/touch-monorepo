@@ -37,7 +37,7 @@ export const AdminDashboardBasicPage: React.FC = () => {
   console.log('🎴 Admin Dashboard (Basic):', {
     cardCount: adminCards.length,
     gridColumns,
-    cards: adminCards.map(c => c.id),
+    cards: adminCards.map((c) => c.id),
   });
 
   return (
@@ -48,15 +48,14 @@ export const AdminDashboardBasicPage: React.FC = () => {
       css={styles}
     >
       <Box className="admin-dashboard">
-        <Flex direction="column" gap="4" align="center">
-          <SectionHeader title="Admin Configuration" align="center" />
-          <div
-            className="admin-cards"
-            style={{
-              ['--cols' as any]: gridColumns,
-            }}
-          >
-            {adminCards.map((card) => (
+        <SectionHeader title="Admin Configuration" align="center" />
+        <div
+          className="admin-cards"
+          style={{
+            ['--cols' as any]: gridColumns,
+          }}
+        >
+          {adminCards.map((card) => (
               <Card
                 key={card.id}
                 className="admin-card"
@@ -92,8 +91,7 @@ export const AdminDashboardBasicPage: React.FC = () => {
                 </Flex>
               </Card>
             ))}
-          </div>
-        </Flex>
+        </div>
       </Box>
     </AdminContentLayout>
   );
