@@ -5,17 +5,20 @@ A smart navigation component that automatically collapses overflow items into a 
 ## Features
 
 ### 🖥️ **Desktop Mode**
+
 - Shows all nav items that fit in available width
 - Automatically moves overflow items to "More ⬇️" dropdown
 - Recalculates dynamically on window resize
 - No horizontal scrolling or wrapping
 
-### 📱 **Mobile Mode**  
+### 📱 **Mobile Mode**
+
 - Shows hamburger menu (🍔) below configurable breakpoint
 - All items accessible via dropdown
 - Configurable breakpoint: `sm`, `md`, `lg`, or `xl`
 
 ### ✨ **Smart Features**
+
 - ResizeObserver for responsive recalculation
 - Active item highlighting (both in nav and dropdowns)
 - Smooth transitions during navigation
@@ -43,7 +46,7 @@ import { AdminNavigationV2 } from 'admin/components/AdminNavigation';
 // Show hamburger on tablets and below (< 992px)
 <AdminNavigationV2 mobileBreakpoint="lg" />
 
-// Show hamburger only on small phones (< 576px)  
+// Show hamburger only on small phones (< 576px)
 <AdminNavigationV2 mobileBreakpoint="sm" />
 ```
 
@@ -64,27 +67,27 @@ import { AdminNavigationV2 } from 'admin/components/AdminNavigation';
 
 ### Desktop Behavior
 
-1. **Measure Container Width**  
+1. **Measure Container Width**
    Uses `ResizeObserver` to detect container size changes
 
-2. **Calculate Visible Items**  
+2. **Calculate Visible Items**
    Measures each nav item width and determines which fit
 
-3. **Show "More" Dropdown**  
+3. **Show "More" Dropdown**
    If items overflow, shows "More ⬇️" button with dropdown
 
-4. **Dynamic Recalculation**  
+4. **Dynamic Recalculation**
    Automatically adjusts when window resizes
 
 ### Mobile Behavior
 
-1. **Detect Breakpoint**  
+1. **Detect Breakpoint**
    Checks if window width is below configured breakpoint
 
-2. **Show Hamburger**  
+2. **Show Hamburger**
    Renders hamburger icon (🍔) instead of individual items
 
-3. **All Items in Dropdown**  
+3. **All Items in Dropdown**
    Dropdown contains all navigation items
 
 ---
@@ -125,19 +128,19 @@ export const AdminLayout = () => (
 
 ### Files Created
 
-1. **`useResponsiveNav.tsx`**  
+1. **`useResponsiveNav.tsx`**
    Hook that manages responsive behavior
    - Calculates visible/overflow items
    - Detects mobile vs desktop
    - Handles resize events
 
-2. **`AdminNavigationV2.tsx`**  
+2. **`AdminNavigationV2.tsx`**
    Main navigation component
    - Renders visible items
    - Renders "More" dropdown for overflow
    - Renders hamburger for mobile
 
-3. **`AdminNavigation.styles.ts`** (updated)  
+3. **`AdminNavigation.styles.ts`** (updated)
    Added dropdown styles and button alignment
 
 ---
@@ -153,19 +156,19 @@ interface AdminNavigationV2Props {
 ```
 
 **Props:**
-- `mobileBreakpoint` (optional): When to switch to hamburger menu  
+- `mobileBreakpoint` (optional): When to switch to hamburger menu
   - Default: `'md'` (< 768px)
 
 ---
 
 ## Benefits
 
-✅ **Better UX** - No more hidden or scrolling nav items  
-✅ **Responsive** - Works on all screen sizes  
-✅ **Smart** - Automatically adjusts to content  
-✅ **Accessible** - Keyboard navigation supported  
-✅ **Familiar** - Common UX pattern (like browser tabs)  
-✅ **Flexible** - Configurable mobile breakpoint  
+✅ **Better UX** - No more hidden or scrolling nav items
+✅ **Responsive** - Works on all screen sizes
+✅ **Smart** - Automatically adjusts to content
+✅ **Accessible** - Keyboard navigation supported
+✅ **Familiar** - Common UX pattern (like browser tabs)
+✅ **Flexible** - Configurable mobile breakpoint
 
 ---
 
@@ -198,17 +201,17 @@ interface AdminNavigationV2Props {
 
 ### Items not collapsing properly?
 
-**Issue:** All items visible even when they don't fit  
+**Issue:** All items visible even when they don't fit
 **Solution:** Check that the parent container has a constrained width
 
 ### "More" button always showing?
 
-**Issue:** Overflow items detected incorrectly  
+**Issue:** Overflow items detected incorrectly
 **Solution:** Ensure nav items render before calculation (check for conditional rendering)
 
 ### Mobile breakpoint not working?
 
-**Issue:** Hamburger not appearing at expected width  
+**Issue:** Hamburger not appearing at expected width
 **Solution:** Verify breakpoint prop is one of: `sm`, `md`, `lg`, `xl`
 
 ---

@@ -7,7 +7,7 @@ import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from 'components/Loader/Loader';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { Footer } from 'components/Footer/Footer';
-import { AdminNavigation } from 'admin/components/AdminNavigation';
+import { AdminNavigationV2 } from 'admin/components/AdminNavigation';
 import { setConfiguration } from 'react-grid-system';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
@@ -46,7 +46,7 @@ export const AdminLayout: FC = () => {
             <div id="admin-layout" css={styles}>
               <ToastProvider>
                 <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
-                <AdminNavigation />
+                <AdminNavigationV2 />
                 <main>
                   <div className="main-content">
                     <section>

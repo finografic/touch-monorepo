@@ -1,4 +1,4 @@
-import React, { startTransition, useState } from 'react';
+import React, { startTransition, useMemo, useState } from 'react';
 import { DropdownMenu, TabNav } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -26,18 +26,22 @@ export const AdminNavigationV2: React.FC<AdminNavigationV2Props> = ({ mobileBrea
   const configNavItems = getAdminNavItems(isAuthenticated);
 
   // DASHBOARD first item (always visible)
-  const navItems = [
-    {
-      id: 'dashboard',
-      label: t('admin.pages.dashboard.title'),
-      path: '/admin',
-    },
-    ...configNavItems.map((item) => ({
-      id: item.key,
-      label: getNavLabel(t, item.key),
-      path: item.path,
-    })),
-  ];
+  // useMemo to prevent infinite re-renders by stabilizing the array reference
+  const navItems = useMemo(
+    () => [
+      {
+        id: 'dashboard',
+        label: t('admin.pages.dashboard.title'),
+        path: '/admin',
+      },
+      ...configNavItems.map((item) => ({
+        id: item.key,
+        label: getNavLabel(t, item.key),
+        path: item.path,
+      })),
+    ],
+    [t, configNavItems],
+  );
 
   const { containerRef, registerItem, visibleItems, overflowItems, isMobile, hasOverflow } = useResponsiveNav(
     {
