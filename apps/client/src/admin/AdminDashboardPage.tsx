@@ -64,18 +64,18 @@ export const AdminDashboardPage: React.FC = () => {
                 transition: 'opacity 0.2s ease',
               }}
             >
-               <Flex direction="row" gap="0" align="center" height="100%">
-                 <AspectRatio ratio={1} style={{ flexShrink: 0 }}>
-                   <Box
-                     className="card-icon-box"
-                     style={{
-                       color: `var(--${card.color}-9)`,
-                       backgroundColor: `var(--${card.color}-3)`,
-                     }}
-                   >
-                     {React.cloneElement(card.icon, { width: 28, height: 28 })}
-                   </Box>
-                 </AspectRatio>
+              <Flex direction="row" gap="0" align="center" height="100%">
+                <AspectRatio ratio={1} style={{ flexShrink: 0 }}>
+                  <Box
+                    className="card-icon-box"
+                    style={{
+                      color: `var(--${card.color}-9)`,
+                      backgroundColor: `var(--${card.color}-3)`,
+                    }}
+                  >
+                    {React.cloneElement(card.icon, { width: 28, height: 28 })}
+                  </Box>
+                </AspectRatio>
                 <Flex direction="column" gap="1" align="start" p="3" style={{ flex: 1 }}>
                   <SectionHeader
                     className="card-header"
