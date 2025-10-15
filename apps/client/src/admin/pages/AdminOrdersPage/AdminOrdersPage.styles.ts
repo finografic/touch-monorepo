@@ -73,46 +73,145 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     gap: 0;
+
+    /* DIALOG TABS ========================================================== */
+
+    [role='tablist'] {
+      /* tab-horizontal-rule */
+      box-shadow: inset 0 -2px 0 0 transparent;
+      box-shadow: inset 0 -0.2rem 0 0 ${colors.defaultXXLight25};
+
+      button[role='tab'] {
+        height: 4rem;
+        margin: 0.2rem 0.15rem 0;
+        padding: 0;
+        border: 0 !important;
+
+        span {
+          padding: 0.8em 1.25em;
+          font-size: 1rem;
+          font-weight: 600;
+          color: ${colors.textLight75};
+        }
+
+        svg.icon {
+          /* opacity: 0.5; */
+          margin-left: -0.33rem;
+          margin-right: 0rem;
+          transform: translate(-0.25rem, 0) scale(0.8) !important;
+          color: ${colors.textXLight75};
+        }
+
+        &:first-child {
+          margin-left: 0rem;
+        }
+        &:last-child {
+          margin-right: 0rem;
+        }
+      }
+
+      button[role='tab'][data-state='active'] {
+        /* active-tab */
+        &:before {
+          background-color: ${colors.infoLight};
+          height: 0.2rem;
+        }
+        span {
+          color: ${colors.infoLight};
+          color: ${colors.info75};
+        }
+
+        svg.icon {
+          color: ${colors.infoLight};
+        }
+      }
+    }
+
+    /* DIALOG FORMS ========================================================= */
+  }
+
+  .admin-section {
+    margin: 2rem 0 0 0 !important;
+    padding: 0 !important;
+    border: 0 !important;
+
+    /* display: none !important; */
+    /* width: 100%; */
+    /* margin: 2rem 0 0 0 !important; */
+    /* padding: 0 !important; */
+    /* border: 1px solid red !important; */
+    /* height: 68vh;
+      width: 86vw; */
+    /* overflow-x: hidden; */
+    /* overflow-y: hidden; */
+
+    /* overflow-y: scroll;
+      position: fixed; */
+    width: 86vw;
+    top: 360px;
+    left: auto;
+    right: auto;
+    bottom: 3rem;
+    z-index: 5000;
+    position: fixed;
+
+    /* ==================================== */
+
+    .rt-TableHeader {
+      /* position: fixed;
+        width: 86vw; */
+    }
+
+    .rt-TableBody.table-body {
+      /* position: fixed;
+        width: 86vw !important;
+        display: block; */
+    }
+  }
+
+  /* .rt-ScrollAreaRoot */
+  .tab.content {
+    margin: 2rem 0 0 0 !important;
+    border: none;
+    padding: 0 !important;
+    border: 1px solid green !important;
+    border: 1px solid red;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
+
+    z-index: 5000;
+    position: fixed;
+    opacity: 0.5;
+
+    width: 100%;
+    width: 86vw;
+    height: 55vh;
+    /* right: -14px; */
+    bottom: 3rem;
   }
 
   /* Admin section styling */
-  div[role='tabpanel'] {
+  div[role='tabpanel'].active {
+    margin: 0 !important;
+    padding: 0 1rem 0 0 !important;
+    border: none !important;
     background-color: ${colors.white};
     border-radius: 12px;
     border: none;
+    /* margin: 2rem 0 0 0 !important;
+    padding: 0 !important; */
+    border: none;
 
-    .admin-section {
-      width: 100%;
-      margin: 2rem 0 0 0 !important;
-      border: none !important;
-      padding: 0 !important;
-      border: 1px solid red !important;
-      height: 68vh;
-      width: 86vw;
-      overflow-x: hidden;
-      overflow-y: hidden;
-      /* position: fixed; */
-      /* left: auto;
-      right: auto;
-      bottom: 3rem; */
-      z-index: 5000;
-      position: fixed;
-    }
+    overflow-x: hidden;
+    overflow-y: hidden;
 
-    .rt-ScrollAreaRoot {
-      width: 100%;
-      width: 86vw;
-      margin: 2rem 0 0 0 !important;
-      border: none;
-      padding: 0 !important;
-      border: 1px solid green !important;
-      /* border: 1px solid red; */
-      height: 70vh;
-      overflow-x: hidden;
-      overflow-y: scroll;
-      right: -14px;
-      bottom: 3rem;
-    }
+    width: 86vw;
+    top: 300px;
+    bottom: 3rem;
+
+    z-index: 5000;
+    position: fixed;
 
     /* #tab-content-form {
       border: 1px solid blue !important;

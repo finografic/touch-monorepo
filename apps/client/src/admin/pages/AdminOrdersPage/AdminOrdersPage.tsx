@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
+import { Flex, ScrollArea, Spinner, Tabs, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../..';
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
@@ -52,18 +52,25 @@ export const AdminOrdersPage: React.FC = () => {
         icon: <ListChecksIcon />,
         content: <TabList />,
       },
-      {
-        id: 'form',
-        label: 'form',
-        icon: <EditIcon />,
-        content: <TabForm />,
-      },
+      isEditMode
+        ? {
+            id: 'edit',
+            label: 'Editar registro',
+            icon: <EditIcon />,
+            content: <TabForm />,
+          }
+        : {
+            id: 'new',
+            label: 'Nuevo registro',
+            icon: <AddIcon />,
+            content: <TabForm />,
+          },
     ],
   };
 
   // ======================================================================== //
 
-  const [activeTab, setActiveTab] = useState('user');
+  const [activeTab, setActiveTab] = useState('list');
   const hasTabs = config.tabs.length > 1;
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
 
@@ -239,7 +246,21 @@ export const AdminOrdersPage: React.FC = () => {
           <div className="tab-content">
             {config.tabs.map((tab) => (
               <Tabs.Content key={tab.id} id={`tab-content-${tab.id}`} value={tab.id}>
-                {tab.content}
+                <AdminSection
+                  className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
+                  title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
+                  variant="none"
+                >
+                  <ScrollArea
+                    id="scroll-area"
+                    type="always"
+                    scrollbars="vertical"
+                    size="2"
+                    //  style={{ height: 180 }}
+                  >
+                    {tab.content}
+                  </ScrollArea>
+                </AdminSection>
               </Tabs.Content>
             ))}
           </div>

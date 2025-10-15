@@ -174,19 +174,10 @@ export const TabForm: React.FC = () => {
   }
 
   return (
-    <Row className="form-section">
-      <Col>
-        <AdminSection
-          className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
-          title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
-        >
-          <OrdersForm
-            onSubmit={handleAddOrder}
-            orderData={isEditMode ? orderData : undefined}
-            isEditMode={isEditMode}
-          />
-        </AdminSection>
-      </Col>
-    </Row>
+    <OrdersForm
+      onSubmit={handleAddOrder}
+      orderData={isEditMode ? orderData : undefined}
+      isEditMode={isEditMode}
+    />
   );
 };

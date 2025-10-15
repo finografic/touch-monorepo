@@ -176,22 +176,13 @@ export const TabList: React.FC = () => {
   }
 
   return (
-    <Row className="form-section">
-      <Col>
-        <AdminSection
-          className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
-          title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
-        >
-          <OrdersTable
-            orders={filteredOrders}
-            columns={DEFAULT_ORDERS_COLUMNS}
-            emptyMessage="No orders found"
-            emptySubMessage="Try adjusting your search term or add new orders"
-            onClickEdit={handleEditOrder}
-            onClickDelete={handleDeleteOrder}
-          />
-        </AdminSection>
-      </Col>
-    </Row>
+    <OrdersTable
+      orders={filteredOrders}
+      columns={DEFAULT_ORDERS_COLUMNS}
+      emptyMessage="No orders found"
+      emptySubMessage="Try adjusting your search term or add new orders"
+      onClickEdit={handleEditOrder}
+      onClickDelete={handleDeleteOrder}
+    />
   );
 };
