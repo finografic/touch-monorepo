@@ -251,15 +251,14 @@ export const AdminOrdersPage: React.FC = () => {
                   title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
                   variant="none"
                 >
-                  <ScrollArea
+                  {/* <ScrollArea
                     id="scroll-area"
                     type="always"
                     scrollbars="vertical"
                     size="2"
-                    //  style={{ height: 180 }}
-                  >
-                    {tab.content}
-                  </ScrollArea>
+                  > */}
+                  {tab.content}
+                  {/* </ScrollArea> */}
                 </AdminSection>
               </Tabs.Content>
             ))}

@@ -127,50 +127,16 @@ export const styles = css`
       }
     }
 
-    /* ⭐ admin-section > tab-content > rote=tabpanel ======================= */
-
-    /* NOTE: SCROLL-WINDOW */
-
-    .admin-section {
-      margin: 2rem 0 0 0 !important;
-      padding: 0 !important;
-      border: 0 !important;
-      /* border: 1px solid green !important; */
-
-      overflow-y: scroll;
-      position: fixed;
-      width: 86vw;
-
-      top: 360px;
-      left: auto;
-      right: auto;
-
-      bottom: 3rem;
-      z-index: 5000;
-
-      position: fixed;
-
-      .rt-TableHeader {
-        /* position: fixed;
-        width: 86vw; */
-      }
-
-      .rt-TableBody.table-body {
-        /* position: fixed;
-        width: 86vw !important;
-        display: block; */
-      }
-    }
+    /* DIALOG FORMS ========================================================= */
   }
 
-  /* admin-section > ⭐ tab-content >  role=tabpanel ======================== */
-  .tab-content {
+  /* .rt-ScrollAreaRoot */
+  .tab.content {
     margin: 2rem 0 0 0 !important;
-
+    border: none;
     padding: 0 !important;
     border: 1px solid green !important;
     border: 1px solid red;
-    border: none !important;
 
     /* overflow-x: hidden; */
     /* overflow-y: scroll; */
@@ -185,16 +151,95 @@ export const styles = css`
     /* right: -14px; */
     /* bottom: 3rem; */
 
-    /* admin-section > tab-content > ⭐ role=tabpanel ======================= */
-
-    /* div[role='tabpanel'][data-state='active'] { */
-    div[role='tabpanel'] {
+    /* Admin section styling */
+    div[role='tabpanel'][data-state='active'] {
       margin: 0 !important;
       padding: 0 1rem 0 0 !important;
-      /* border: none !important; */
+      border: none !important;
       background-color: ${colors.white};
       border-radius: 12px;
-      /* border: none; */
+      border: none;
+      /* margin: 2rem 0 0 0 !important;
+    padding: 0 !important; */
+      border: none;
+
+      overflow-x: hidden;
+      overflow-y: hidden;
+
+      width: 86vw;
+      top: 300px;
+      bottom: 3rem;
+
+      z-index: 5000;
+      position: fixed;
+
+      border: 1px solid blue !important;
+
+      /* #tab-content-form {
+      border: 1px solid blue !important;
+    } */
+
+      /* &.orders-table-section {
+      height: 50vh;
+      opacity: 0.5;
+      overflow-y: auto;
+    } */
+
+      .admin-section {
+        margin: 2rem 0 0 0 !important;
+        padding: 0 !important;
+        border: 0 !important;
+
+        /* display: none !important; */
+        /* width: 100%; */
+        /* margin: 2rem 0 0 0 !important; */
+        /* padding: 0 !important; */
+        border: 1px solid red !important;
+        /* height: 68vh;
+      width: 86vw; */
+        /* overflow-x: hidden; */
+        /* overflow-y: hidden; */
+
+        /* overflow-y: scroll;
+      position: fixed; */
+        /* width: 86vw; */
+        /* top: 360px; */
+        /* left: auto;
+        right: auto; */
+        bottom: 3rem;
+        z-index: 5000;
+        /* position: fixed; */
+
+        /* ==================================== */
+
+        .rt-TableHeader {
+          /* position: fixed;
+        width: 86vw; */
+        }
+
+        .rt-TableBody.table-body {
+          /* position: fixed;
+        width: 86vw !important;
+        display: block; */
+        }
+      }
+
+      .table-body {
+        /* overflow-y: scroll;
+      opacity: 0.5;
+      border: 1px solid blue;
+      height: 70vh;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      position: fixed;
+      display: block;
+
+      width: 86vw;
+      left: auto;
+      right: auto;
+      bottom: 3rem;
+      z-index: 5000; */
+      }
 
       .section-header {
         h3 {
@@ -243,6 +288,50 @@ export const styles = css`
       .simple-select > button {
         flex: 1;
         width: 100%;
+      }
+    }
+  }
+
+  .form-section {
+    margin-top: ${spacing[2]};
+    min-height: 400px;
+    display: block;
+
+    .admin-section.mode-edit {
+      h3 {
+        opacity: 0.5;
+      }
+    }
+  }
+
+  /* Form styling */
+  form {
+    width: 100%;
+  }
+
+  .search-container {
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 1200px) {
+    .admin-page-container {
+      max-width: 100%;
+      padding: ${spacing[6]};
+    }
+  }
+
+  @media (max-width: 768px) {
+    .admin-page-container {
+      padding: ${spacing[4]};
+    }
+
+    .admin-page-header {
+      .admin-page-title {
+        font-size: 2rem;
+      }
+
+      .admin-page-subtitle {
+        font-size: 1rem;
       }
     }
   }
