@@ -153,8 +153,9 @@ export const stylesAdminContent = css`
 
     /* ADMIN-SECTIONS ======================================================= */
 
-    header.admin-page-header {
-      margin: 2rem 0 2.5rem 0;
+    header.admin-page-header,
+    header.admin-page-header.centered {
+      margin: 2rem 0 8.5rem 0 !important;
 
       h1,
       h1 span {
@@ -173,6 +174,8 @@ export const stylesAdminContent = css`
         text-align: left;
         align-items: left;
         padding: 0.5rem 0;
+        margin: 0 0 1rem 0 !important;
+        /* opacity: 0.66; */
       }
 
       &.centered,

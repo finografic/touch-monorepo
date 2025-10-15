@@ -27,14 +27,15 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           as={`h${headingLevel}`}
           size="5"
           weight="bold"
-          mb={description ? '2' : undefined}
+          mt={description ? '2rem' : undefined}
+          mb={description ? '2rem' : undefined}
           align={align}
         >
           {title}
         </Heading>
       )}
       {description && (
-        <Text className="section-description" align={align}>
+        <Text className="section-description" align={align} mt="8rem" mb="8rem">
           {description}
         </Text>
       )}

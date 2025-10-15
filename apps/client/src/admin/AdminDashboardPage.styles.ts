@@ -20,7 +20,7 @@ export const styles = css`
     grid-template-columns: repeat(var(--cols, 2), 1fr);
     gap: 1.1rem;
     justify-items: stretch;
-    margin: 0 auto;
+    margin: 2rem auto;
 
     .admin-card {
       border: 1px solid ${colors.greyXXLight25};
@@ -69,10 +69,13 @@ export const styles = css`
     justify-content: center;
     flex-shrink: 0;
     transition: all 0.2s ease;
-    border-radius: 0;
-    padding: 1.5rem 1.25rem;
-    min-width: 4rem;
-    min-height: 100%;
+    width: 5rem;
+    height: 5rem;
+    /* min-width: 4rem; */
+    /* min-height: 100%; */
     margin: 0;
+    margin-right: 1rem;
+    padding: 1.5rem 1.25rem;
+    border-radius: 0.6rem;
   }
 `;

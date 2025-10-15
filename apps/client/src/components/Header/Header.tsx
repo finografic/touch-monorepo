@@ -34,7 +34,7 @@ export const Header: React.FC<HeaderProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
   // const { currentSessionId } = useSession();
-  const { currentLanguage } = useAppConfig();
+  // const { currentLanguage } = useAppConfig();
   // const { isNextDisabled } = usePagination();
 
   const { user, isAuthenticated } = useAuth();
@@ -42,7 +42,7 @@ export const Header: React.FC<HeaderProps> = ({
   console.log('🔍 USER:', user);
   console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
 
-  const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
+  // const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   const isAdmin = location.pathname.startsWith('/admin');
   // log('__DEV: navigation', 'hotpink', isAdmin);

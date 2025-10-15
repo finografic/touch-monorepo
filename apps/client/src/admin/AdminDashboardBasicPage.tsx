@@ -45,7 +45,6 @@ export const AdminDashboardBasicPage: React.FC = () => {
       title="Admin Dashboard"
       subtitle="Manage system settings, translations, and configurations"
       centerTitle={true}
-      css={styles}
     >
       <Box className="admin-dashboard" css={styles}>
         <SectionHeader title="Admin Configuration" align="center" />

@@ -72,17 +72,17 @@ export const PageHeader: React.FC = () => {
     <div css={styles}>
       <header className="page-header">
         <Container size="4">
-          <Flex direction="column" align="center" gap="2">
+          <Flex direction="column" align="center" gap="8">
             {isPageTitleVisible && pageTitle && (
-              <Heading size="6" align="center" className="page-title">
-                {pageTitle}
+              <Heading size="4" align="center" className="page-title">
+                A {pageTitle}
               </Heading>
             )}
             {(route?.id === ROUTE_FILTER_KEYS.drinkSubtype
               ? pageSubtitle
               : isPageSubtitleVisible && pageSubtitle) && (
               <Text size="3" align="center" className="page-subtitle" color="gray">
-                {pageSubtitle}
+                B {pageSubtitle}
               </Text>
             )}
           </Flex>

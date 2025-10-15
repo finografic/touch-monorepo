@@ -35,7 +35,7 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
     return (
       <section css={css} className="admin-page-container">
         <header className={`admin-page-header ${centerTitle ? 'centered' : ''}`}>
-          <Heading size="8" className="admin-page-title" align={centerTitle ? 'center' : 'left'}>
+          <Heading size="8" className="admin-page-title" align={centerTitle ? 'center' : 'left'} mb="1rem">
             {title}
             {subtitle && <span style={{ opacity: 0.5 }}> : {subtitle}</span>}
           </Heading>
