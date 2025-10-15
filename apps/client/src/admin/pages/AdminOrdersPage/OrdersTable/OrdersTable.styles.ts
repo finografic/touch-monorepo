@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from 'styles';
+import { cssInputText } from 'styles/forms/forms.FULL.styles';
 
 export const styles = css`
   width: 100%;
@@ -85,6 +86,15 @@ export const styles = css`
         color: ${colors.warningDark};
         background-color: ${colors.warning25};
       }
+    }
+  }
+
+  .column-search-input {
+    ${cssInputText}
+    background-color: transparent;
+    svg.icon {
+      stroke: ${colors.greyXXLight50};
+      transform: scale(0.75) !important;
     }
   }
 `;

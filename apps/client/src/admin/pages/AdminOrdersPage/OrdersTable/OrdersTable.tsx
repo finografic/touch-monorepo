@@ -138,10 +138,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   };
 
   return (
-    <section
-      // css={styles}
-      className="admin-content-page"
-    >
+    <section css={styles} className="admin-content-page">
       <>
         {/* Results Table */}
         {/* <ScrollArea
