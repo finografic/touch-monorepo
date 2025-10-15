@@ -65,7 +65,7 @@ export const AdminDashboardPage: React.FC = () => {
               }}
             >
                <Flex direction="row" gap="0" align="center" height="100%">
-                 <AspectRatio ratio={1}>
+                 <AspectRatio ratio={1} style={{ flexShrink: 0 }}>
                    <Box
                      className="card-icon-box"
                      style={{
@@ -76,15 +76,15 @@ export const AdminDashboardPage: React.FC = () => {
                      {React.cloneElement(card.icon, { width: 28, height: 28 })}
                    </Box>
                  </AspectRatio>
-                 <Flex direction="column" gap="1" align="start" p="3" style={{ flex: 1 }}>
-                   <SectionHeader
-                     className="card-header"
-                     title={card.title}
-                     description={card.description}
-                     align="left"
-                   />
-                 </Flex>
-               </Flex>
+                <Flex direction="column" gap="1" align="start" p="3" style={{ flex: 1 }}>
+                  <SectionHeader
+                    className="card-header"
+                    title={card.title}
+                    description={card.description}
+                    align="left"
+                  />
+                </Flex>
+              </Flex>
             </Card>
           ))}
         </div>
