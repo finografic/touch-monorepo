@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../..';
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
@@ -16,9 +16,6 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import clsx from 'clsx';
 import { AuthLoginTabContent } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/AuthTabContent';
 import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
-import type { DialogConfig } from 'components/Dialog';
-import { TabForm } from 'admin/pages/AdminOrdersPage/TabForm';
-import { TabList } from 'admin/pages/AdminOrdersPage/TabList';
 
 export const AdminOrdersPage: React.FC = () => {
   const { currentLanguage } = useAppConfig();
@@ -50,13 +47,23 @@ export const AdminOrdersPage: React.FC = () => {
         id: 'user',
         label: 'user',
         icon: <ListChecksIcon />,
-        content: <TabList />,
+        content: (
+          <AuthLoginTabContent
+            activeTab={activeTab}
+            email={DEFAULT_USER_EMAIL}
+            password={password}
+            onPasswordChange={setPassword}
+            onSubmit={handleSubmit}
+            isLoading={isLoading}
+            error={error}
+          />
+        ),
       },
       {
         id: 'admin',
         label: 'Admin',
         icon: <EditIcon />,
-        content: <TabForm />,
+        content: React.F,
       },
     ],
   };
@@ -66,14 +73,6 @@ export const AdminOrdersPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState('user');
   const hasTabs = config.tabs.length > 1;
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
-
-  const handleTabChange = useCallback(
-    (tab: string) => {
-      setActiveTab(tab);
-      setActiveTab?.(tab);
-    },
-    [activeTab, setActiveTab],
-  );
 
   // ======================================================================== //
 
@@ -230,18 +229,72 @@ export const AdminOrdersPage: React.FC = () => {
         {/* DIALOG TABBED CONTENT ------------------------------------ */}
         <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
           <Tabs.List>
-            {config.tabs.map((tab) => (
-              <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
-                {tab.icon ? tab.icon : null} {tab.label}
-              </Tabs.Trigger>
-            ))}
+            <Tabs.Trigger value={tab.id} disabled={tab.disabled}>
+              Lista de registros
+            </Tabs.Trigger>
+            <Tabs.Trigger value={tab.id} disabled={tab.disabled}>
+              Editar registro
+            </Tabs.Trigger>
           </Tabs.List>
           <div className="dialog-content">
-            {config.tabs.map((tab) => (
-              <Tabs.Content key={tab.id} value={tab.id}>
-                {tab.content}
-              </Tabs.Content>
-            ))}
+            <Tabs.Content value={tab.id}>
+              <Flex px="4" pl="2">
+                <Text size="2" color="gray" weight="bold" style={{ opacity: isDrawerOpen ? 1 : 0.66 }}>
+                  {isDrawerOpen ? (
+                    <>
+                      Showing {filteredOrders.length}
+                      <span
+                        style={{
+                          opacity: 0.5,
+                          display: 'inline-block',
+                          paddingLeft: '0.33rem',
+                        }}
+                      >
+                        / {ordersData.length} total
+                      </span>
+                    </>
+                  ) : (
+                    <>{ordersData.length} total</>
+                  )}
+                </Text>
+                <Flex justify="start" align="center" className="search-container">
+                  <Flex px="4">
+                    <SearchBar
+                      searchTerm={searchTerm}
+                      onSearchChange={setSearchTerm}
+                      status={isDrawerOpen ? 'active' : 'inactive'}
+                    />
+                  </Flex>
+                </Flex>
+
+                <OrdersTable
+                  orders={filteredOrders}
+                  columns={DEFAULT_ORDERS_COLUMNS}
+                  emptyMessage="No orders found"
+                  emptySubMessage="Try adjusting your search term or add new orders"
+                  onClickEdit={handleEditOrder}
+                  onClickDelete={handleDeleteOrder}
+                />
+              </Flex>
+            </Tabs.Content>
+            {/* ======================================================================== */}
+            <Tabs.Content value={tab.id}>
+              <Row className="form-section">
+                <Col>
+                  {/* Add New Order Form */}
+                  <AdminSection
+                    className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
+                    title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
+                  >
+                    <OrdersForm
+                      onSubmit={handleAddOrder}
+                      orderData={isEditMode ? orderData : undefined}
+                      isEditMode={isEditMode}
+                    />
+                  </AdminSection>
+                </Col>
+              </Row>
+            </Tabs.Content>
           </div>
         </Tabs.Root>
 

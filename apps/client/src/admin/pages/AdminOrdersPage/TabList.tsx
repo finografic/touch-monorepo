@@ -1,26 +1,21 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
+import React, { useEffect, useMemo, useState } from 'react';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../..';
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
-import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
-import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/OrdersTable.columns';
 import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
 import { useToast } from 'components/Toast';
-import { Col, Container, Row } from 'react-grid-system';
-import { styles } from './AdminOrdersPage.styles';
+import { Col, Row } from 'react-grid-system';
+import { styles } from './___backups___/AdminOrdersPage.styles';
 import { Drawer } from 'components/Drawer';
-import { Title } from 'components/Title';
 import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getHumanReadableId } from 'utils/readable.utils';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import clsx from 'clsx';
-import { AuthLoginTabContent } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/AuthTabContent';
-import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
-import type { DialogConfig } from 'components/Dialog';
-import { TabForm } from 'admin/pages/AdminOrdersPage/TabForm';
-import { TabList } from 'admin/pages/AdminOrdersPage/TabList';
+import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
+import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/OrdersTable.columns';
 
-export const AdminOrdersPage: React.FC = () => {
+export const TabList: React.FC = () => {
   const { currentLanguage } = useAppConfig();
   const [searchTerm, setSearchTerm] = useState('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -30,52 +25,6 @@ export const AdminOrdersPage: React.FC = () => {
 
   // Determine if we're in edit mode
   const isEditMode = Boolean(orderId);
-
-  // ======================================================================== //
-
-  const config: DialogConfig = {
-    title: '',
-    size: '3',
-    maxWidth: '400px',
-    maxHeight: '60vh',
-    minHeight: '280px',
-    minWidth: '350px',
-    theme: {
-      accentColor: 'blue',
-      grayColor: 'sand',
-      scaling: '110%',
-    },
-    tabs: [
-      {
-        id: 'user',
-        label: 'user',
-        icon: <ListChecksIcon />,
-        content: <TabList />,
-      },
-      {
-        id: 'admin',
-        label: 'Admin',
-        icon: <EditIcon />,
-        content: <TabForm />,
-      },
-    ],
-  };
-
-  // ======================================================================== //
-
-  const [activeTab, setActiveTab] = useState('user');
-  const hasTabs = config.tabs.length > 1;
-  const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
-
-  const handleTabChange = useCallback(
-    (tab: string) => {
-      setActiveTab(tab);
-      setActiveTab?.(tab);
-    },
-    [activeTab, setActiveTab],
-  );
-
-  // ======================================================================== //
 
   // Fetch orders-readable data for the table
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
@@ -190,63 +139,59 @@ export const AdminOrdersPage: React.FC = () => {
 
   if (isLoading || (isEditMode && isOrderLoading)) {
     return (
-      <AdminContentLayout
-        title="Orders Management"
-        // subtitle="Development orders for testing"
-        isLoading={true}
-      >
-        <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <Spinner size="3" />
-          <Text>Loading {isEditMode ? 'order' : 'orders'} data...</Text>
-        </Flex>
-      </AdminContentLayout>
+      <Row className="form-section">
+        <Col>
+          <AdminSection
+            className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
+            title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
+            // isLoading={true}
+          >
+            <Flex direction="column" gap="4" align="center" justify="center" p="6">
+              <Spinner size="3" />
+              <Text>Loading {isEditMode ? 'order' : 'orders'} data...</Text>
+            </Flex>
+          </AdminSection>
+        </Col>
+      </Row>
     );
   }
 
   if (error || (isEditMode && orderError)) {
     const errorMessage = error?.message || orderError?.message || 'Unknown error';
     return (
-      <AdminContentLayout
-        title="Orders Management"
-        // subtitle="Development orders for testing"
-        error={errorMessage}
-      >
-        <AdminSection>
-          <Text color="red">
-            Error loading {isEditMode ? 'order' : 'orders'}: {errorMessage}
-          </Text>
-        </AdminSection>
-      </AdminContentLayout>
+      <Row className="form-section">
+        <Col>
+          <AdminSection
+            className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
+            title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
+            // error={errorMessage as any}
+          >
+            <Text color="red">
+              Error loading {isEditMode ? 'order' : 'orders'}: {errorMessage}
+            </Text>
+          </AdminSection>
+        </Col>
+      </Row>
     );
   }
 
   return (
-    <section css={styles} className="admin-content-page">
-      <AdminContentLayout
-        title={isEditMode ? 'Edit Order' : 'Orders Management'}
-        // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
-        //  subtitle="Development orders for testing"
-      >
-        {/* DIALOG TABBED CONTENT ------------------------------------ */}
-        <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
-          <Tabs.List>
-            {config.tabs.map((tab) => (
-              <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
-                {tab.icon ? tab.icon : null} {tab.label}
-              </Tabs.Trigger>
-            ))}
-          </Tabs.List>
-          <div className="dialog-content">
-            {config.tabs.map((tab) => (
-              <Tabs.Content key={tab.id} value={tab.id}>
-                {tab.content}
-              </Tabs.Content>
-            ))}
-          </div>
-        </Tabs.Root>
-
-        {/* Show the drawer and table in both list and edit modes */}
-      </AdminContentLayout>
-    </section>
+    <Row className="form-section">
+      <Col>
+        <AdminSection
+          className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
+          title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
+        >
+          <OrdersTable
+            orders={filteredOrders}
+            columns={DEFAULT_ORDERS_COLUMNS}
+            emptyMessage="No orders found"
+            emptySubMessage="Try adjusting your search term or add new orders"
+            onClickEdit={handleEditOrder}
+            onClickDelete={handleDeleteOrder}
+          />
+        </AdminSection>
+      </Col>
+    </Row>
   );
 };

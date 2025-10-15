@@ -79,7 +79,7 @@ export const styles = css`
     /* height: min-content; */
     gap: 0;
     /* gap: ${spacing[6]}; */
-    background-color: ${colors.greyLight};
+    /* background-color: ${colors.greyLight}; */
     /* align-items: start; */
     /* justify-content: start; */
   }
