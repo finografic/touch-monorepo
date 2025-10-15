@@ -59,10 +59,10 @@ export const styles = css`
   /* Dropdown menu styles */
   .rt-DropdownMenuContent {
     min-width: 180px;
-    
+
     .rt-DropdownMenuItem {
       cursor: pointer;
-      
+
       &.active {
         background-color: ${colors.primary25};
         color: ${colors.primaryDark};

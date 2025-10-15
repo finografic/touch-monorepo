@@ -20,7 +20,7 @@ const BREAKPOINTS = {
 
 /**
  * Hook to manage responsive navigation with overflow menu
- * 
+ *
  * Features:
  * - Calculates which items fit in available width
  * - Returns visible items and overflow items
@@ -122,4 +122,3 @@ export const useResponsiveNav = ({ items, mobileBreakpoint = 'md' }: UseResponsi
     hasOverflow: overflowItems.length > 0,
   };
 };
-

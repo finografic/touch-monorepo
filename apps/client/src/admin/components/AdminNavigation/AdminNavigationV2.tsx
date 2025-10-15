@@ -39,11 +39,12 @@ export const AdminNavigationV2: React.FC<AdminNavigationV2Props> = ({ mobileBrea
     })),
   ];
 
-  const { containerRef, registerItem, visibleItems, overflowItems, isMobile, hasOverflow } =
-    useResponsiveNav({
+  const { containerRef, registerItem, visibleItems, overflowItems, isMobile, hasOverflow } = useResponsiveNav(
+    {
       items: navItems,
       mobileBreakpoint,
-    });
+    },
+  );
 
   const handleNavigation = (path: string) => {
     if (location.pathname === path) return;
@@ -55,7 +56,7 @@ export const AdminNavigationV2: React.FC<AdminNavigationV2Props> = ({ mobileBrea
   };
 
   // Render a nav button
-  const renderNavButton = (item: typeof navItems[0], ref?: (el: HTMLButtonElement | null) => void) => (
+  const renderNavButton = (item: (typeof navItems)[0], ref?: (el: HTMLButtonElement | null) => void) => (
     <TabNav.Link key={item.id} asChild active={location.pathname === item.path}>
       <button
         ref={ref}
@@ -102,9 +103,7 @@ export const AdminNavigationV2: React.FC<AdminNavigationV2Props> = ({ mobileBrea
               ) : (
                 <>
                   {/* DESKTOP: Visible Items */}
-                  {visibleItems.map((item) =>
-                    renderNavButton(item, (el) => registerItem(item.id, el)),
-                  )}
+                  {visibleItems.map((item) => renderNavButton(item, (el) => registerItem(item.id, el)))}
 
                   {/* DESKTOP: More Dropdown for Overflow */}
                   {hasOverflow && (
@@ -142,4 +141,3 @@ export const AdminNavigationV2: React.FC<AdminNavigationV2Props> = ({ mobileBrea
     </div>
   );
 };
-
