@@ -32,6 +32,15 @@ export const AdminDashboardPage: React.FC = () => {
     navigateWithTransition(path);
   };
 
+  // Calculate grid columns based on card count
+  const gridColumns = adminCards.length <= 2 ? 1 : adminCards.length <= 4 ? 2 : 3;
+
+  console.log('🎴 Admin Dashboard:', {
+    cardCount: adminCards.length,
+    gridColumns,
+    cards: adminCards.map(c => c.id),
+  });
+
   return (
     <AdminContentLayout
       title="Admin Dashboard"
@@ -42,11 +51,11 @@ export const AdminDashboardPage: React.FC = () => {
       <Box className="admin-dashboard">
         <Flex direction="column" gap="4" align="center">
           <SectionHeader title="Admin Configuration" align="center" />
-          <AdminAccessTest />
+          {/* <AdminAccessTest /> */}
           <div
             className="admin-cards"
             style={{
-              ['--cols' as any]: Math.min(3, Math.max(1, Math.ceil(adminCards.length / 2))),
+              ['--cols' as any]: gridColumns,
             }}
           >
             {adminCards.map((card) => (

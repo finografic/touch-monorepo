@@ -31,6 +31,15 @@ export const AdminDashboardBasicPage: React.FC = () => {
     navigateWithTransition(path);
   };
 
+  // Calculate grid columns based on card count
+  const gridColumns = adminCards.length <= 2 ? 1 : adminCards.length <= 4 ? 2 : 3;
+
+  console.log('🎴 Admin Dashboard (Basic):', {
+    cardCount: adminCards.length,
+    gridColumns,
+    cards: adminCards.map(c => c.id),
+  });
+
   return (
     <AdminContentLayout
       title="Admin Dashboard"
@@ -44,7 +53,7 @@ export const AdminDashboardBasicPage: React.FC = () => {
           <div
             className="admin-cards"
             style={{
-              ['--cols' as any]: Math.min(3, Math.max(1, Math.ceil(adminCards.length / 2))),
+              ['--cols' as any]: gridColumns,
             }}
           >
             {adminCards.map((card) => (
