@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Flex, Table, Text } from '@radix-ui/themes';
+import { Button, Flex, ScrollArea, Table, Text } from '@radix-ui/themes';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import { styles } from './OrdersTable.styles';
@@ -121,9 +121,18 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   };
 
   return (
-    <section css={styles} className="admin-content-page">
+    <section
+      // css={styles}
+      className="admin-content-page"
+    >
       <>
         {/* Results Table */}
+        {/* <ScrollArea
+          id="scroll-area"
+          type="always"
+          scrollbars="vertical"
+          //  style={{ height: 180 }}
+        > */}
         <Table.Root>
           <Table.Header>
             <Table.Row>
@@ -138,7 +147,8 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
               ))}
             </Table.Row>
           </Table.Header>
-          <Table.Body>
+
+          <Table.Body className="table-body">
             {orders.map((order, index) => (
               <Table.Row key={order.id}>
                 {columns.map((column) => (
@@ -162,6 +172,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
             </Text>
           </Flex>
         )}
+        {/* </ScrollArea> */}
       </>
     </section>
   );

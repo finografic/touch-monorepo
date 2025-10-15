@@ -21,7 +21,6 @@ export const styles = css`
     /* width: 60%; */
     height: 100%;
     background-color: ${colors.white};
-    padding-right: 4rem !important;
   }
   .col.col-table {
     /* width: 40%; */
@@ -77,21 +76,69 @@ export const styles = css`
   }
 
   /* Admin section styling */
-  .admin-section {
+  div[role='tabpanel'] {
     background-color: ${colors.white};
-    border: 1px solid ${colors.greyLight};
     border-radius: 12px;
+    border: none;
 
-    &.admin-section.mode-new {
-      margin: 2rem 0 0 0;
-      border: none;
-      padding: 0;
+    .admin-section {
+      width: 100%;
+      margin: 2rem 0 0 0 !important;
+      border: none !important;
+      padding: 0 !important;
+      border: 1px solid red !important;
+      height: 68vh;
+      width: 86vw;
+      overflow-x: hidden;
+      overflow-y: hidden;
+      /* position: fixed; */
+      /* left: auto;
+      right: auto;
+      bottom: 3rem; */
+      z-index: 5000;
+      position: fixed;
     }
 
-    &.orders-table-section {
+    .rt-ScrollAreaRoot {
+      width: 100%;
+      width: 86vw;
+      margin: 2rem 0 0 0 !important;
+      border: none;
+      padding: 0 !important;
+      border: 1px solid green !important;
+      /* border: 1px solid red; */
+      height: 70vh;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      right: -14px;
+      bottom: 3rem;
+    }
+
+    /* #tab-content-form {
+      border: 1px solid blue !important;
+    } */
+
+    /* &.orders-table-section {
       height: 50vh;
       opacity: 0.5;
       overflow-y: auto;
+    } */
+
+    .table-body {
+      /* overflow-y: scroll;
+      opacity: 0.5;
+      border: 1px solid blue;
+      height: 70vh;
+      overflow-x: hidden;
+      overflow-y: scroll;
+      position: fixed;
+      display: block;
+
+      width: 86vw;
+      left: auto;
+      right: auto;
+      bottom: 3rem;
+      z-index: 5000; */
     }
 
     .section-header {

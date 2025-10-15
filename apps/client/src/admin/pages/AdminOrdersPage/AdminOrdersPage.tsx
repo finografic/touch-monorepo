@@ -47,14 +47,14 @@ export const AdminOrdersPage: React.FC = () => {
     },
     tabs: [
       {
-        id: 'user',
-        label: 'user',
+        id: 'list',
+        label: 'list',
         icon: <ListChecksIcon />,
         content: <TabList />,
       },
       {
-        id: 'admin',
-        label: 'Admin',
+        id: 'form',
+        label: 'form',
         icon: <EditIcon />,
         content: <TabForm />,
       },
@@ -238,7 +238,7 @@ export const AdminOrdersPage: React.FC = () => {
           </Tabs.List>
           <div className="tab-content">
             {config.tabs.map((tab) => (
-              <Tabs.Content key={tab.id} value={tab.id}>
+              <Tabs.Content key={tab.id} id={`tab-content-${tab.id}`} value={tab.id}>
                 {tab.content}
               </Tabs.Content>
             ))}
