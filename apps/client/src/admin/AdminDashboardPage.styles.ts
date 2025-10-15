@@ -67,9 +67,12 @@ export const styles = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 100%;
+    flex-shrink: 0;
     transition: all 0.2s ease;
     border-radius: 0;
+    padding: 1.5rem 1.25rem;
+    min-width: 4rem;
+    min-height: 100%;
+    margin: 0;
   }
 `;
