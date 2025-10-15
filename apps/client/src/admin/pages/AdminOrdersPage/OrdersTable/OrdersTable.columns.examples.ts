@@ -130,10 +130,7 @@ export const COLUMNS_MIXED_FILTERS: ColumnDef[] = [
  * Helper function to generate options from existing orders data
  * Use this in TabList to dynamically populate select filters
  */
-export const generateOptionsFromOrders = (
-  orders: any[],
-  field: keyof typeof orders[0],
-): SelectOption[] => {
+export const generateOptionsFromOrders = (orders: any[], field: keyof (typeof orders)[0]): SelectOption[] => {
   const uniqueValues = [...new Set(orders.map((order) => order[field]).filter(Boolean))];
   return uniqueValues.map((value) => ({
     value: String(value),
@@ -141,4 +138,3 @@ export const generateOptionsFromOrders = (
     category: 'From existing orders',
   }));
 };
-

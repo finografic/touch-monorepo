@@ -168,7 +168,7 @@ Combine both filter types for optimal UX:
 ```typescript
 export const DEFAULT_ORDERS_COLUMNS: ColumnDef[] = [
   { key: 'index', label: '#', searchable: false },
-  
+
   // Select filter for categorical data
   {
     key: 'drinkType',
@@ -178,7 +178,7 @@ export const DEFAULT_ORDERS_COLUMNS: ColumnDef[] = [
     filterOptions: DRINK_TYPE_OPTIONS,
     filterPlaceholder: 'Select type...',
   },
-  
+
   // Search filter for free-form text
   {
     key: 'subtype',
@@ -187,7 +187,7 @@ export const DEFAULT_ORDERS_COLUMNS: ColumnDef[] = [
     filterVariant: 'search',
     filterPlaceholder: 'Search subtype...',
   },
-  
+
   // Select filter for standardized volumes
   {
     key: 'volume',
@@ -196,7 +196,7 @@ export const DEFAULT_ORDERS_COLUMNS: ColumnDef[] = [
     filterVariant: 'select',
     filterOptions: VOLUME_OPTIONS,
   },
-  
+
   // Search filter for numeric values
   {
     key: 'temperature',

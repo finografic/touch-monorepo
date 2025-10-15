@@ -1,6 +1,6 @@
 /**
  * Example TabList.tsx showing how to use select filter variants
- * 
+ *
  * This demonstrates:
  * 1. Generating dynamic options from orders data
  * 2. Creating columns with mixed filter variants
@@ -10,12 +10,17 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Flex } from '@radix-ui/themes';
 import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
-import { OrdersTable, type ColumnDef, type ColumnSearchState, type ColumnKey } from 'admin/pages/AdminOrdersPage/OrdersTable';
+import {
+  OrdersTable,
+  type ColumnDef,
+  type ColumnSearchState,
+  type ColumnKey,
+} from 'admin/pages/AdminOrdersPage/OrdersTable';
 import type { SelectOption } from 'types/models/select-option.model';
 
 export const TabListExample: React.FC = () => {
   const [columnSearches, setColumnSearches] = useState<ColumnSearchState>({});
-  
+
   // Fetch orders data
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
 
@@ -25,19 +30,19 @@ export const TabListExample: React.FC = () => {
 
   // Generate drink type options from actual order data
   const drinkTypeOptions = useMemo((): SelectOption[] => {
-    const uniqueTypes = [...new Set(ordersData.map(o => o.drinkType).filter(Boolean))];
-    return uniqueTypes.map(type => ({
+    const uniqueTypes = [...new Set(ordersData.map((o) => o.drinkType).filter(Boolean))];
+    return uniqueTypes.map((type) => ({
       value: type,
       label: type,
       category: 'Existing',
-      description: `Used in ${ordersData.filter(o => o.drinkType === type).length} orders`,
+      description: `Used in ${ordersData.filter((o) => o.drinkType === type).length} orders`,
     }));
   }, [ordersData]);
 
   // Generate volume options
   const volumeOptions = useMemo((): SelectOption[] => {
-    const uniqueVolumes = [...new Set(ordersData.map(o => o.volume).filter(Boolean))];
-    return uniqueVolumes.map(vol => ({
+    const uniqueVolumes = [...new Set(ordersData.map((o) => o.volume).filter(Boolean))];
+    return uniqueVolumes.map((vol) => ({
       value: vol,
       label: vol,
       category: 'Existing',
@@ -46,8 +51,8 @@ export const TabListExample: React.FC = () => {
 
   // Generate container options
   const containerOptions = useMemo((): SelectOption[] => {
-    const uniqueContainers = [...new Set(ordersData.map(o => o.containerType).filter(Boolean))];
-    return uniqueContainers.map(container => ({
+    const uniqueContainers = [...new Set(ordersData.map((o) => o.containerType).filter(Boolean))];
+    return uniqueContainers.map((container) => ({
       value: container,
       label: container,
       category: 'Existing',
@@ -69,82 +74,85 @@ export const TabListExample: React.FC = () => {
   // COLUMN CONFIGURATION WITH MIXED FILTERS
   // ============================================================================
 
-  const columns: ColumnDef[] = useMemo(() => [
-    { 
-      key: 'index', 
-      label: '#', 
-      width: '60px', 
-      searchable: false 
-    },
-    
-    // SELECT filter for drink types (categorical data)
-    {
-      key: 'drinkType',
-      label: 'Drink Type',
-      width: '120px',
-      searchable: true,
-      filterVariant: 'select',
-      filterOptions: drinkTypeOptions,
-      filterPlaceholder: 'Select drink type...',
-    },
-    
-    // SEARCH filter for subtypes (free-form text)
-    {
-      key: 'subtype',
-      label: 'Subtype',
-      width: '100px',
-      searchable: true,
-      filterVariant: 'search', // or omit (default)
-      filterPlaceholder: 'Search subtype...',
-    },
-    
-    // SELECT filter for volumes (standardized values)
-    {
-      key: 'volume',
-      label: 'Volume',
-      width: '80px',
-      searchable: true,
-      filterVariant: 'select',
-      filterOptions: volumeOptions,
-      filterPlaceholder: 'Select volume...',
-    },
-    
-    // SELECT filter for containers (categorical data)
-    {
-      key: 'container',
-      label: 'Container',
-      width: '100px',
-      searchable: true,
-      filterVariant: 'select',
-      filterOptions: containerOptions, // or use STATIC_CONTAINER_OPTIONS
-      filterPlaceholder: 'Select container...',
-    },
-    
-    // SEARCH filter for temperature (numeric/variable)
-    {
-      key: 'temperature',
-      label: 'Temperature',
-      width: '100px',
-      searchable: true,
-      filterVariant: 'search',
-      filterPlaceholder: 'Search temp...',
-    },
-    
-    { 
-      key: 'edit', 
-      label: '', 
-      className: 'th-action action-edit', 
-      width: '60px', 
-      searchable: false 
-    },
-    { 
-      key: 'delete', 
-      label: '', 
-      className: 'th-action action-delete', 
-      width: '60px', 
-      searchable: false 
-    },
-  ], [drinkTypeOptions, volumeOptions, containerOptions]);
+  const columns: ColumnDef[] = useMemo(
+    () => [
+      {
+        key: 'index',
+        label: '#',
+        width: '60px',
+        searchable: false,
+      },
+
+      // SELECT filter for drink types (categorical data)
+      {
+        key: 'drinkType',
+        label: 'Drink Type',
+        width: '120px',
+        searchable: true,
+        filterVariant: 'select',
+        filterOptions: drinkTypeOptions,
+        filterPlaceholder: 'Select drink type...',
+      },
+
+      // SEARCH filter for subtypes (free-form text)
+      {
+        key: 'subtype',
+        label: 'Subtype',
+        width: '100px',
+        searchable: true,
+        filterVariant: 'search', // or omit (default)
+        filterPlaceholder: 'Search subtype...',
+      },
+
+      // SELECT filter for volumes (standardized values)
+      {
+        key: 'volume',
+        label: 'Volume',
+        width: '80px',
+        searchable: true,
+        filterVariant: 'select',
+        filterOptions: volumeOptions,
+        filterPlaceholder: 'Select volume...',
+      },
+
+      // SELECT filter for containers (categorical data)
+      {
+        key: 'container',
+        label: 'Container',
+        width: '100px',
+        searchable: true,
+        filterVariant: 'select',
+        filterOptions: containerOptions, // or use STATIC_CONTAINER_OPTIONS
+        filterPlaceholder: 'Select container...',
+      },
+
+      // SEARCH filter for temperature (numeric/variable)
+      {
+        key: 'temperature',
+        label: 'Temperature',
+        width: '100px',
+        searchable: true,
+        filterVariant: 'search',
+        filterPlaceholder: 'Search temp...',
+      },
+
+      {
+        key: 'edit',
+        label: '',
+        className: 'th-action action-edit',
+        width: '60px',
+        searchable: false,
+      },
+      {
+        key: 'delete',
+        label: '',
+        className: 'th-action action-delete',
+        width: '60px',
+        searchable: false,
+      },
+    ],
+    [drinkTypeOptions, volumeOptions, containerOptions],
+  );
 
   // ============================================================================
   // FILTERING LOGIC
@@ -227,4 +235,3 @@ export const TabListExample: React.FC = () => {
     </Flex>
   );
 };
-
