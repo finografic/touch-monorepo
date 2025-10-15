@@ -18,15 +18,16 @@ export const styles = css`
     max-width: 1200px;
     display: grid;
     grid-template-columns: repeat(var(--cols, 2), 1fr);
-    gap: 1rem;
+    gap: 1.1rem;
     justify-items: stretch;
     margin: 0 auto;
 
     .admin-card {
       border: 1px solid ${colors.greyXXLight25};
-      padding: 0 !important;
+      /* padding: 0 !important; */
+      padding: 0.5rem 0.5rem;
       min-height: 80px;
-      max-height: 100px;
+      /* max-height: 100px; */
       transition: all 0.2s ease;
 
       &:hover {
@@ -66,12 +67,9 @@ export const styles = css`
     display: flex;
     align-items: center;
     justify-content: center;
-    flex-shrink: 0;
+    width: 100%;
+    height: 100%;
     transition: all 0.2s ease;
     border-radius: 0;
-    padding: 1.5rem 1.25rem;
-    min-width: 4rem;
-    min-height: 100%;
-    margin: 0;
   }
 `;
