@@ -2,36 +2,36 @@ import type { ColumnDef } from './OrdersTable';
 
 // Default column configuration - easily customizable!
 export const DEFAULT_ORDERS_COLUMNS: ColumnDef[] = [
-  { key: 'index', label: '#', width: '60px' },
-  { key: 'drinkType', label: 'Drink Type', width: '120px' },
-  { key: 'subtype', label: 'Subtype', width: '100px' },
-  { key: 'volume', label: 'Volume', width: '80px' },
-  { key: 'container', label: 'Container', width: '100px' },
-  { key: 'temperature', label: 'Temperature', width: '100px' },
-  { key: 'edit', label: '', className: 'th-action action-edit', width: '60px' },
-  { key: 'delete', label: '', className: 'th-action action-delete', width: '60px' },
+  { key: 'index', label: '#', width: '60px', searchable: false },
+  { key: 'drinkType', label: 'Drink Type', width: '120px', searchable: true },
+  { key: 'subtype', label: 'Subtype', width: '100px', searchable: true },
+  { key: 'volume', label: 'Volume', width: '80px', searchable: true },
+  { key: 'container', label: 'Container', width: '100px', searchable: true },
+  { key: 'temperature', label: 'Temperature', width: '100px', searchable: true },
+  { key: 'edit', label: '', className: 'th-action action-edit', width: '60px', searchable: false },
+  { key: 'delete', label: '', className: 'th-action action-delete', width: '60px', searchable: false },
 ];
 
 // Alternative configurations for different use cases
 export const COMPACT_ORDERS_COLUMNS: ColumnDef[] = [
-  { key: 'index', label: '#', width: '50px' },
-  { key: 'drinkType', label: 'Type', width: '100px' },
-  { key: 'volume', label: 'Vol', width: '60px' },
-  { key: 'temperature', label: 'Temp', width: '80px' },
-  { key: 'edit', label: '', className: 'th-action action-edit', width: '50px' },
-  { key: 'delete', label: '', className: 'th-action action-delete', width: '50px' },
+  { key: 'index', label: '#', width: '50px', searchable: false },
+  { key: 'drinkType', label: 'Type', width: '100px', searchable: true },
+  { key: 'volume', label: 'Vol', width: '60px', searchable: true },
+  { key: 'temperature', label: 'Temp', width: '80px', searchable: true },
+  { key: 'edit', label: '', className: 'th-action action-edit', width: '50px', searchable: false },
+  { key: 'delete', label: '', className: 'th-action action-delete', width: '50px', searchable: false },
 ];
 
 export const FULL_ORDERS_COLUMNS: ColumnDef[] = [
-  { key: 'index', label: '#', width: '60px' },
-  { key: 'id', label: 'Order ID', width: '200px' },
-  { key: 'mode', label: 'Mode', width: '80px' },
-  { key: 'drinkType', label: 'Drink Type', width: '120px' },
-  { key: 'subtype', label: 'Subtype', width: '100px' },
-  { key: 'volume', label: 'Volume', width: '80px' },
-  { key: 'container', label: 'Container', width: '100px' },
-  { key: 'temperature', label: 'Temperature', width: '100px' },
-  { key: 'created', label: 'Created', width: '120px' },
-  { key: 'edit', label: '', className: 'th-action action-edit', width: '60px' },
-  { key: 'delete', label: '', className: 'th-action action-delete', width: '60px' },
+  { key: 'index', label: '#', width: '60px', searchable: false },
+  { key: 'id', label: 'Order ID', width: '200px', searchable: true },
+  { key: 'mode', label: 'Mode', width: '80px', searchable: true },
+  { key: 'drinkType', label: 'Drink Type', width: '120px', searchable: true },
+  { key: 'subtype', label: 'Subtype', width: '100px', searchable: true },
+  { key: 'volume', label: 'Volume', width: '80px', searchable: true },
+  { key: 'container', label: 'Container', width: '100px', searchable: true },
+  { key: 'temperature', label: 'Temperature', width: '100px', searchable: true },
+  { key: 'created', label: 'Created', width: '120px', searchable: false },
+  { key: 'edit', label: '', className: 'th-action action-edit', width: '60px', searchable: false },
+  { key: 'delete', label: '', className: 'th-action action-delete', width: '60px', searchable: false },
 ];

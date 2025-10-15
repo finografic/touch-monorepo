@@ -6,8 +6,12 @@ import { styles } from './OrdersTable.styles';
 import { useContent } from 'providers/ContentProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { formatUnixTimestamp } from 'utils/date.utils';
+import { ColumnSearchInput } from './ColumnSearchInput';
 
+// ============================================================================
 // Column definition types
+// ============================================================================
+
 export type ColumnKey =
   | 'index'
   | 'id'
@@ -26,6 +30,11 @@ export interface ColumnDef {
   label: string;
   width?: string;
   className?: string;
+  searchable?: boolean; // Whether this column should have a search input
+}
+
+export interface ColumnSearchState {
+  [key: string]: string; // Maps column key to search term
 }
 
 export interface OrdersTableProps {
@@ -35,6 +44,8 @@ export interface OrdersTableProps {
   emptySubMessage?: string;
   onClickEdit: (orderId: string) => void;
   onClickDelete: (orderId: string) => void;
+  columnSearches?: ColumnSearchState;
+  onColumnSearchChange?: (columnKey: ColumnKey, value: string) => void;
 }
 
 export const OrdersTable: React.FC<OrdersTableProps> = ({
@@ -44,6 +55,8 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   emptySubMessage = 'Try adjusting your search term',
   onClickEdit,
   onClickDelete,
+  columnSearches = {},
+  onColumnSearchChange,
 }) => {
   const { currentLanguage } = useAppConfig();
 
@@ -142,7 +155,18 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                   className={`th ${column.className || ''}`}
                   style={{ width: column.width }}
                 >
-                  {column.label}
+                  <Flex direction="column" gap="2">
+                    <Text size="2" weight="medium">
+                      {column.label}
+                    </Text>
+                    {column.searchable && onColumnSearchChange && (
+                      <ColumnSearchInput
+                        value={columnSearches[column.key] || ''}
+                        onChange={(value) => onColumnSearchChange(column.key, value)}
+                        placeholder="Search.."
+                      />
+                    )}
+                  </Flex>
                 </Table.ColumnHeaderCell>
               ))}
             </Table.Row>

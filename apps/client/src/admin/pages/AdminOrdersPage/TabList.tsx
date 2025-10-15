@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { AdminContentLayout, AdminSection } from '../..';
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
@@ -12,12 +12,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getHumanReadableId } from 'utils/readable.utils';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import clsx from 'clsx';
+import type { ColumnKey, ColumnSearchState } from 'admin/pages/AdminOrdersPage/OrdersTable';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
 import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/OrdersTable.columns';
 
 export const TabList: React.FC = () => {
   const { currentLanguage } = useAppConfig();
   const [searchTerm, setSearchTerm] = useState('');
+  const [columnSearches, setColumnSearches] = useState<ColumnSearchState>({});
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -39,11 +41,11 @@ export const TabList: React.FC = () => {
   // Delete order mutation
   const deleteOrderMutation = useDeleteOrder();
 
-  // Simple search filtering
+  // Column-specific search filtering
   const filteredOrders = useMemo(() => {
     let results = ordersData;
 
-    // Apply search
+    // Apply global search (if still needed)
     if (searchTerm) {
       const searchLower = searchTerm.toLowerCase();
       results = results.filter(
@@ -57,8 +59,36 @@ export const TabList: React.FC = () => {
       );
     }
 
+    // Apply column-specific searches
+    Object.entries(columnSearches).forEach(([columnKey, searchValue]) => {
+      if (!searchValue || typeof searchValue !== 'string') return;
+
+      const searchLower = searchValue.toLowerCase();
+
+      results = results.filter((order) => {
+        switch (columnKey as ColumnKey) {
+          case 'drinkType':
+            return order.drinkType?.toLowerCase().includes(searchLower);
+          case 'subtype':
+            return order.drinkSubtype?.toLowerCase().includes(searchLower);
+          case 'volume':
+            return order.volume?.toLowerCase().includes(searchLower);
+          case 'container':
+            return order.containerType?.toLowerCase().includes(searchLower);
+          case 'temperature':
+            return order.defaultTempConsume?.toString().includes(searchLower);
+          case 'id':
+            return order.id?.toLowerCase().includes(searchLower);
+          case 'mode':
+            return order.modeId?.toLowerCase().includes(searchLower);
+          default:
+            return true;
+        }
+      });
+    });
+
     return results.slice(0, 200); // Limit to 200 for performance
-  }, [ordersData, searchTerm]);
+  }, [ordersData, searchTerm, columnSearches]);
 
   // Handle form submission for both create and update modes
   const handleAddOrder = (formData: {
@@ -128,10 +158,19 @@ export const TabList: React.FC = () => {
     }
   };
 
+  // Handle column search change
+  const handleColumnSearchChange = useCallback((columnKey: ColumnKey, value: string) => {
+    setColumnSearches((prev) => ({
+      ...prev,
+      [columnKey]: value,
+    }));
+  }, []);
+
   useEffect(
     function initSearchBox() {
       if (!isDrawerOpen) {
         setSearchTerm('');
+        setColumnSearches({});
       }
     },
     [isDrawerOpen],
@@ -176,19 +215,22 @@ export const TabList: React.FC = () => {
   }
 
   return (
-    <Flex justify="start" align="center" className="search-container">
-      <Flex px="4">
+    <Flex direction="column" width="100%" gap="6">
+      {/* Global search - optional, can be removed if column searches are sufficient */}
+      {/* <Flex px="4" justify="start" align="center" className="search-container">
         <SearchBar
           searchTerm={searchTerm}
           onSearchChange={setSearchTerm}
           status={isDrawerOpen ? 'active' : 'inactive'}
         />
-      </Flex>
+      </Flex> */}
       <OrdersTable
         orders={filteredOrders}
         columns={DEFAULT_ORDERS_COLUMNS}
         emptyMessage="No orders found"
-        emptySubMessage="Try adjusting your search term or add new orders"
+        emptySubMessage="Try adjusting your column filters"
+        columnSearches={columnSearches}
+        onColumnSearchChange={handleColumnSearchChange}
         onClickEdit={handleEditOrder}
         onClickDelete={handleDeleteOrder}
       />
