@@ -227,7 +227,7 @@ export const AdminOrdersPage: React.FC = () => {
         // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
         //  subtitle="Development orders for testing"
       >
-        {/* DIALOG TABBED CONTENT ------------------------------------ */}
+        {/* TABBED CONTENT ------------------------------------ */}
         <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
           <Tabs.List>
             {config.tabs.map((tab) => (
@@ -236,7 +236,7 @@ export const AdminOrdersPage: React.FC = () => {
               </Tabs.Trigger>
             ))}
           </Tabs.List>
-          <div className="dialog-content">
+          <div className="tab-content">
             {config.tabs.map((tab) => (
               <Tabs.Content key={tab.id} value={tab.id}>
                 {tab.content}
