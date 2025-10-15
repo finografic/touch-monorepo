@@ -48,7 +48,7 @@ export const AdminOrdersPage: React.FC = () => {
     tabs: [
       {
         id: 'list',
-        label: 'list',
+        label: 'Listado de registros',
         icon: <ListChecksIcon />,
         content: <TabList />,
       },
@@ -69,18 +69,50 @@ export const AdminOrdersPage: React.FC = () => {
   };
 
   // ======================================================================== //
+  // TAB MANAGEMENT WITH URL HASH
+  // ======================================================================== //
 
-  const [activeTab, setActiveTab] = useState('list');
+  // Get initial tab from URL hash (e.g., #edit, #list)
+  const getInitialTab = useCallback(() => {
+    const hash = window.location.hash.slice(1); // Remove the '#'
+    const validTab = config.tabs.find((tab) => tab.id === hash);
+    return validTab ? hash : 'list'; // Default to 'list' if hash is invalid
+  }, [config.tabs]);
+
+  const [activeTab, setActiveTab] = useState(getInitialTab);
   const hasTabs = config.tabs.length > 1;
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
 
+  // Sync active tab with URL hash
   const handleTabChange = useCallback(
     (tab: string) => {
       setActiveTab(tab);
-      setActiveTab?.(tab);
+      // Update URL hash without triggering navigation
+      window.history.replaceState(null, '', `#${tab}`);
     },
-    [activeTab, setActiveTab],
+    [],
   );
+
+  // Listen for hash changes (browser back/forward)
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash.slice(1);
+      const validTab = config.tabs.find((tab) => tab.id === hash);
+      if (validTab) {
+        setActiveTab(hash);
+      }
+    };
+
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [config.tabs]);
+
+  // Set initial hash if none exists
+  useEffect(() => {
+    if (!window.location.hash) {
+      window.history.replaceState(null, '', `#${activeTab}`);
+    }
+  }, []);
 
   // ======================================================================== //
 
