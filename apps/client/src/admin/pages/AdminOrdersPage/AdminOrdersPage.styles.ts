@@ -172,6 +172,8 @@ export const styles = css`
     border: 1px solid red;
     border: none !important;
 
+    padding-right: 2rem !important;
+
     /* overflow-x: hidden; */
     /* overflow-y: scroll; */
 
@@ -182,7 +184,7 @@ export const styles = css`
     /* width: 100%;
     width: 86vw;
     height: 55vh; */
-    /* right: -14px; */
+    /* margin-right: 2rem !important; */
     /* bottom: 3rem; */
 
     /* admin-section > tab-content > ⭐ role=tabpanel ======================= */
@@ -195,6 +197,8 @@ export const styles = css`
       background-color: ${colors.white};
       border-radius: 12px;
       /* border: none; */
+
+      padding-right: 2rem !important;
 
       .section-header {
         h3 {
