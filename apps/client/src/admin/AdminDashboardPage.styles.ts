@@ -15,16 +15,18 @@ export const styles = css`
 
   .admin-cards {
     width: 100%;
-    max-width: 1000px;
+    max-width: 1200px;
     display: grid;
     grid-template-columns: repeat(var(--cols, 2), 1fr);
-    gap: 1.5rem;
+    gap: 1rem;
     justify-items: stretch;
     margin: 0 auto;
 
     .admin-card {
       border: 1px solid ${colors.greyXXLight25};
-      padding: 0 1rem !important;
+      padding: 0 !important;
+      min-height: 80px;
+      max-height: 100px;
       transition: all 0.2s ease;
 
       &:hover {
@@ -32,7 +34,7 @@ export const styles = css`
         transform: translateY(-1px);
         box-shadow: var(--shadow-4);
         .card-icon-box {
-          transform: scale(1);
+          transform: scale(1.05);
           transform-origin: center;
         }
       }
@@ -42,8 +44,14 @@ export const styles = css`
       }
 
       .section-title {
-        font-size: 1.125rem;
-        margin: 1rem 0 0.33rem 0;
+        font-size: 1rem;
+        margin: 0;
+        line-height: 1.3;
+      }
+
+      .section-description {
+        font-size: 0.875rem;
+        line-height: 1.2;
       }
 
       &:before {
@@ -60,9 +68,10 @@ export const styles = css`
     justify-content: center;
     flex-shrink: 0;
     transition: all 0.2s ease;
-    border-radius: 8px;
-    padding: 1rem;
-    min-width: 3rem;
-    min-height: 3rem;
+    border-radius: 0;
+    padding: 1.5rem 1.25rem;
+    min-width: 4rem;
+    min-height: 100%;
+    margin: 0;
   }
 `;

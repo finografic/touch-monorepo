@@ -32,8 +32,8 @@ export const AdminDashboardPage: React.FC = () => {
     navigateWithTransition(path);
   };
 
-  // Calculate grid columns based on card count
-  const gridColumns = adminCards.length <= 2 ? 1 : adminCards.length <= 4 ? 2 : 3;
+  // Calculate grid columns based on card count (max 2 columns for wider cards)
+  const gridColumns = adminCards.length === 1 ? 1 : 2;
 
   console.log('🎴 Admin Dashboard:', {
     cardCount: adminCards.length,
@@ -46,9 +46,9 @@ export const AdminDashboardPage: React.FC = () => {
       title="Admin Dashboard"
       subtitle="Manage system settings, translations, and configurations"
       centerTitle={true}
-      css={styles}
+      // css={styles}
     >
-      <Box className="admin-dashboard">
+      <Box className="admin-dashboard" css={styles}>
         <SectionHeader title="Admin Configuration" align="center" />
         {/* <AdminAccessTest /> */}
         <div
@@ -58,39 +58,39 @@ export const AdminDashboardPage: React.FC = () => {
           }}
         >
           {adminCards.map((card) => (
-              <Card
-                key={card.id}
-                className="admin-card"
-                size="3"
-                variant="surface"
-                onClick={() => handleCardClick(card.path)}
-                style={{
-                  cursor: isTransitioning ? 'wait' : 'pointer',
-                  opacity: isTransitioning ? 0.7 : 1,
-                  transition: 'opacity 0.2s ease',
-                }}
-              >
-                <Flex direction="row" gap="3" align="center" p="3">
-                  <Box
-                    className="card-icon-box"
-                    style={{
-                      color: `var(--${card.color}-9)`,
-                      backgroundColor: `var(--${card.color}-3)`,
-                    }}
-                  >
-                    {React.cloneElement(card.icon, { width: 24, height: 24 })}
-                  </Box>
-                  <Flex direction="column" gap="1" align="start" style={{ flex: 1 }}>
-                    <SectionHeader
-                      className="card-header"
-                      title={card.title}
-                      description={card.description}
-                      align="left"
-                    />
-                  </Flex>
-                </Flex>
-              </Card>
-            ))}
+             <Card
+               key={card.id}
+               className="admin-card"
+               size="3"
+               variant="surface"
+               onClick={() => handleCardClick(card.path)}
+               style={{
+                 cursor: isTransitioning ? 'wait' : 'pointer',
+                 opacity: isTransitioning ? 0.7 : 1,
+                 transition: 'opacity 0.2s ease',
+               }}
+             >
+               <Flex direction="row" gap="0" align="center" height="100%">
+                 <Box
+                   className="card-icon-box"
+                   style={{
+                     color: `var(--${card.color}-9)`,
+                     backgroundColor: `var(--${card.color}-3)`,
+                   }}
+                 >
+                   {React.cloneElement(card.icon, { width: 28, height: 28 })}
+                 </Box>
+                 <Flex direction="column" gap="1" align="start" p="3" style={{ flex: 1 }}>
+                   <SectionHeader
+                     className="card-header"
+                     title={card.title}
+                     description={card.description}
+                     align="left"
+                   />
+                 </Flex>
+               </Flex>
+             </Card>
+          ))}
         </div>
       </Box>
     </AdminContentLayout>
