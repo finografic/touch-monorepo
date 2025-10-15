@@ -39,16 +39,15 @@ export const AdminDashboardPage: React.FC = () => {
       centerTitle={true}
       css={styles}
     >
-      <Box
-        className="admin-dashboard"
-        style={{ ['--cols' as any]: Math.min(3, Math.max(1, adminCards.length)) }}
-      >
+      <Box className="admin-dashboard">
         <Flex direction="column" gap="4" align="center">
           <SectionHeader title="Admin Configuration" align="center" />
           <AdminAccessTest />
           <div
             className="admin-cards"
-            style={{ ['--cols' as any]: Math.min(2, Math.max(1, adminCards.length)) }}
+            style={{
+              ['--cols' as any]: Math.min(3, Math.max(1, Math.ceil(adminCards.length / 2))),
+            }}
           >
             {adminCards.map((card) => (
               <Card

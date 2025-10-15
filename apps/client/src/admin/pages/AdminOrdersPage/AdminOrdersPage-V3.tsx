@@ -19,6 +19,7 @@ import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
 import type { DialogConfig } from 'components/Dialog';
 import { TabForm } from 'admin/pages/AdminOrdersPage/TabForm';
 import { TabList } from 'admin/pages/AdminOrdersPage/TabList';
+import { TabListExample } from 'admin/pages/AdminOrdersPage/OrdersTable/TabList.EXAMPLE';
 
 export const AdminOrdersPage: React.FC = () => {
   const { currentLanguage } = useAppConfig();
@@ -50,7 +51,8 @@ export const AdminOrdersPage: React.FC = () => {
         id: 'list',
         label: 'list',
         icon: <ListChecksIcon />,
-        content: <TabList />,
+        // content: <TabList />,
+        content: <TabListExample />,
       },
       isEditMode
         ? {

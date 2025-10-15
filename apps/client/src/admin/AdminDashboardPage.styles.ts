@@ -10,11 +10,13 @@ export const styles = css`
   }
 
   .admin-cards {
+    width: 100%;
     max-width: 1000px;
     display: grid;
     grid-template-columns: repeat(var(--cols, 2), 1fr);
-    gap: 1rem;
-    justify-content: center;
+    gap: 1.5rem;
+    justify-items: stretch;
+    margin: 0 auto;
 
     .admin-card {
       border: 1px solid ${colors.greyXXLight25};
