@@ -6,7 +6,8 @@ import { styles } from './OrdersTable.styles';
 import { useContent } from 'providers/ContentProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { formatUnixTimestamp } from 'utils/date.utils';
-import { ColumnSearchInput } from './ColumnSearchInput';
+import { ColumnFilter } from './ColumnSearchInput';
+import type { SelectOption } from 'types/models/select-option.model';
 
 // ============================================================================
 // Column definition types
@@ -30,7 +31,10 @@ export interface ColumnDef {
   label: string;
   width?: string;
   className?: string;
-  searchable?: boolean; // Whether this column should have a search input
+  searchable?: boolean; // Whether this column should have a filter
+  filterVariant?: 'search' | 'select'; // Type of filter: text search or select dropdown
+  filterOptions?: SelectOption[]; // Options for select variant
+  filterPlaceholder?: string; // Custom placeholder for filter
 }
 
 export interface ColumnSearchState {
@@ -160,11 +164,24 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                       {column.label}
                     </Text>
                     {column.searchable && onColumnSearchChange && (
-                      <ColumnSearchInput
-                        value={columnSearches[column.key] || ''}
-                        onChange={(value) => onColumnSearchChange(column.key, value)}
-                        placeholder="Search.."
-                      />
+                      <>
+                        {column.filterVariant === 'select' && column.filterOptions ? (
+                          <ColumnFilter
+                            variant="select"
+                            value={columnSearches[column.key] || ''}
+                            onChange={(value) => onColumnSearchChange(column.key, value)}
+                            placeholder={column.filterPlaceholder || 'Select...'}
+                            options={column.filterOptions}
+                          />
+                        ) : (
+                          <ColumnFilter
+                            variant="search"
+                            value={columnSearches[column.key] || ''}
+                            onChange={(value) => onColumnSearchChange(column.key, value)}
+                            placeholder={column.filterPlaceholder || 'Search..'}
+                          />
+                        )}
+                      </>
                     )}
                   </Flex>
                 </Table.ColumnHeaderCell>
