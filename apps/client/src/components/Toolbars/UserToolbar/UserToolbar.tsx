@@ -9,11 +9,7 @@ import type { Theme } from 'types/ui.types';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-interface UserToolbarProps {
-  onLogoutSuccess?: () => void;
-}
-
-export const UserToolbar: React.FC<UserToolbarProps> = ({ onLogoutSuccess }) => {
+export const UserToolbar: React.FC = () => {
   const { theme } = useAppConfig();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
   const navigate = useNavigate();
@@ -45,7 +41,7 @@ export const UserToolbar: React.FC<UserToolbarProps> = ({ onLogoutSuccess }) => 
           )}
         </div>
         <div className="button-box">
-          <LoginButton onLogoutSuccess={onLogoutSuccess} />
+          <LoginButton />
         </div>
       </Flex>
     </div>

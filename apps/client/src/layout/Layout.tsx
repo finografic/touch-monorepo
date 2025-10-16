@@ -97,11 +97,5 @@ export const Layout: FC = () => {
 // Child component rendered within providers so context hooks are valid
 function HeaderWithToolbar() {
   const { resetAppState } = useResetAppState();
-  return (
-    <Header
-      titleAlign="center"
-      toolbarAlign="right"
-      toolbar={<UserToolbar onLogoutSuccess={resetAppState} />}
-    />
-  );
+  return <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />;
 }

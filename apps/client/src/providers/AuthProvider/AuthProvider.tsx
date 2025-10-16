@@ -44,7 +44,6 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
 
   return (
     <>
-      {children}
       {/* Global Login Dialog - triggered by route protection or manual call */}
       <AuthLoginSimpleDialog
         isOpen={isLoginDialogOpen}
@@ -52,6 +51,7 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
         onSuccess={handleLoginSuccess}
         onError={handleLoginError}
       />
+      {children}
     </>
   );
 };
