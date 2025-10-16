@@ -1,11 +1,11 @@
-import React from 'react';
-import { Navigate, Outlet, useLocation } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from 'providers/AuthProvider';
 import { AdminDashboardBasicPage } from 'admin/AdminDashboardBasicPage';
 import { getAdminEntryByPath } from 'admin/config/admin.routes.selectors';
 
 export const ProtectedAdminRoutes: React.FC = () => {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, openLoginDialog } = useAuth();
   const location = useLocation();
 
   // Get the admin route entry for the current path
@@ -29,9 +29,15 @@ export const ProtectedAdminRoutes: React.FC = () => {
       return <Outlet />;
     }
 
-    // Protected route accessed by unauthenticated user - redirect to /admin
-    // This fixes Bug 1: URL mismatch for protected routes
-    return <Navigate to="/admin" replace />;
+    // Protected route accessed by unauthenticated user - trigger login dialog
+    // This will show the login dialog while keeping the URL intact
+    // When user logs in, they'll be redirected to /admin and can then navigate to desired route
+    useEffect(() => {
+      openLoginDialog();
+    }, [location.pathname]);
+
+    // Show dashboard while login dialog is open
+    return <AdminDashboardBasicPage />;
   }
 
   // Fallback (should not reach here)

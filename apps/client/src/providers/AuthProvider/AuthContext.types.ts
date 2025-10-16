@@ -29,6 +29,7 @@ export interface AuthValues {
   [AuthKeys.isLoading]: boolean;
   [AuthKeys.isAuthenticated]: boolean;
   [AuthKeys.isAdmin]: boolean;
+  isLoginDialogOpen: boolean;
 }
 
 type AuthSetters = CreateSettersType<AuthValues, typeof SETTER_PREFIX>;
@@ -41,6 +42,8 @@ type AuthActions = AuthSetters & {
   setSession: (session: AuthSession | null) => void;
   setLoading: (isLoading: boolean) => void;
   refreshSession: () => Promise<void>;
+  openLoginDialog: () => void;
+  closeLoginDialog: () => void;
 };
 
 export interface AuthStore extends AuthValues {

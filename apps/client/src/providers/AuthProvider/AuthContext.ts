@@ -35,6 +35,7 @@ export const defaultValue: AuthValues = {
   isLoading: false,
   isAuthenticated: false,
   isAdmin: false,
+  isLoginDialogOpen: false,
 };
 
 export const AuthContext = createZustandContext(({ initialValue }) => {
@@ -67,6 +68,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                   isAuthenticated: true,
                   isAdmin,
                   isLoading: false,
+                  isLoginDialogOpen: false, // Close dialog on successful login
                 });
                 return { success: true };
               } else {
@@ -120,16 +122,27 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               if (response.ok) {
                 set({ ...defaultValue });
                 console.log('✅ Sign out successful - session cleared');
+                
+                // Redirect to home page
+                window.location.href = '/';
+                
                 onSuccess?.();
               } else {
                 console.warn('⚠️ Server sign-out failed, clearing client-side state anyway');
                 // Still clear client state even if server fails
                 set({ ...defaultValue });
+                
+                // Still redirect on error
+                window.location.href = '/';
               }
             } catch (error) {
               console.error('Sign out error:', error);
               // Even if there's an error, clear the session state
               set({ ...defaultValue });
+              
+              // Redirect anyway
+              window.location.href = '/';
+              
               onError?.();
             }
           },
@@ -170,6 +183,12 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               console.error('Failed to refresh session:', error);
               set({ ...defaultValue });
             }
+          },
+          openLoginDialog: () => {
+            set({ isLoginDialogOpen: true });
+          },
+          closeLoginDialog: () => {
+            set({ isLoginDialogOpen: false });
           },
         },
       }),
