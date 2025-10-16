@@ -1,27 +1,19 @@
-import React, { useState } from 'react';
+import React, { type FC, useEffect, useState } from 'react';
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { AuthLoginTabContent } from './AuthTabContent';
 import { UserIcon, UserLockIcon } from 'styles/icons';
+import { useNavigate } from 'react-router-dom';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
 const DEFAULT_PASSWORD = 'password123';
 
-interface AuthLoginSimpleDialogProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSuccess?: () => void;
-  onError?: (error: string) => void;
-}
+interface AuthLoginSimpleDialogProps {}
 
-export const AuthLoginSimpleDialog = ({
-  isOpen,
-  onClose,
-  onSuccess,
-  onError,
-}: AuthLoginSimpleDialogProps) => {
-  const { signIn, refreshSession } = useAuth();
+export const AuthLoginSimpleDialog: FC<AuthLoginSimpleDialogProps> = () => {
+  const { refreshSession, isLoginDialogOpen, closeLoginDialog, signIn, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const [password, setPassword] = useState(DEFAULT_PASSWORD);
   const [isLoading, setIsLoading] = useState(false);
@@ -34,6 +26,29 @@ export const AuthLoginSimpleDialog = ({
     return email;
   };
 
+  // Handle login success: close dialog and redirect to /admin
+  const handleLoginSuccess = () => {
+    closeLoginDialog();
+    navigate('/admin');
+  };
+
+  // Handle login error
+  const handleLoginError = (error: string) => {
+    console.error('Login failed:', error);
+  };
+
+  // Handle logout success: redirect to /
+  useEffect(() => {
+    const handleAuthChange = async () => {
+      // This effect will trigger when auth state changes
+      // We'll use signOut callbacks for navigation
+    };
+
+    return () => {
+      // Cleanup if needed
+    };
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -45,17 +60,17 @@ export const AuthLoginSimpleDialog = ({
       if (result.success) {
         // Refresh session to get updated user data with role
         await refreshSession();
-        onClose();
-        onSuccess?.();
+        closeLoginDialog();
+        handleLoginSuccess();
       } else {
         const errorMessage = result.error || 'Authentication failed';
         setError(errorMessage);
-        onError?.(errorMessage);
+        handleLoginError(errorMessage);
       }
     } catch (err) {
       const errorMessage = 'An unexpected error occurred';
       setError(errorMessage);
-      onError?.(errorMessage);
+      handleLoginError(errorMessage);
     } finally {
       setIsLoading(false);
     }
@@ -111,8 +126,8 @@ export const AuthLoginSimpleDialog = ({
 
   return (
     <GenericDialog
-      isOpen={isOpen}
-      onClose={onClose}
+      isOpen={isLoginDialogOpen}
+      onClose={closeLoginDialog}
       config={config}
       defaultTab={activeTab}
       onTabChange={setActiveTab}

@@ -26,6 +26,7 @@ import { ToastProvider, ToastSystem } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars';
 import { styles } from './Layout.styles';
 import { useResetAppState } from 'hooks/useResetAppState';
+import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
@@ -77,6 +78,12 @@ export const Layout: FC = () => {
                               </section>
                             </div>
                           </main>
+                          <AuthLoginSimpleDialog
+                          // isOpen={isLoginDialogOpen}
+                          // onClose={closeLoginDialog}
+                          // onSuccess={handleLoginSuccess}
+                          // onError={handleLoginError}
+                          />
                           <Footer />
                           <div id="radix-portal-container" />
                         </div>
