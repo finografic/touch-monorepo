@@ -153,8 +153,7 @@ export const stylesAdminContent = css`
 
     /* ADMIN-SECTIONS ======================================================= */
 
-    header.admin-page-header,
-    header.admin-page-header.centered {
+    header.admin-page-header {
       margin: 2rem 0 8.5rem 0 !important;
 
       h1,

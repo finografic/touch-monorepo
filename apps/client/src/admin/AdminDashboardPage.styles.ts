@@ -24,10 +24,8 @@ export const styles = css`
 
     .admin-card {
       border: 1px solid ${colors.greyXXLight25};
-      /* padding: 0 !important; */
       padding: 0.5rem 0.5rem;
       min-height: 80px;
-      /* max-height: 100px; */
       transition: all 0.2s ease;
 
       &:hover {

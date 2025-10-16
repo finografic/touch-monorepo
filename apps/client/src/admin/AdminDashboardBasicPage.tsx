@@ -44,7 +44,11 @@ export const AdminDashboardBasicPage: React.FC = () => {
     <AdminContentLayout
       title="Admin Dashboard"
       subtitle="Manage system settings, translations, and configurations"
-      centerTitle={true}
+      align="center"
+      message={{
+        type: 'success',
+        content: 'Admin Dashboard',
+      }}
     >
       <Box className="admin-dashboard" css={styles}>
         <SectionHeader title="Admin Configuration" align="center" />

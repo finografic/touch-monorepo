@@ -45,10 +45,10 @@ export const AdminDashboardPage: React.FC = () => {
     <AdminContentLayout
       title="Admin Dashboard"
       subtitle="Manage system settings, translations, and configurations"
-      centerTitle={true}
+      align="left"
     >
       <Box className="admin-dashboard" css={styles}>
-        <SectionHeader title="Admin Configuration" align="center" />
+        {/* <SectionHeader title="Admin Configuration" align="center" /> */}
         {/* <AdminAccessTest /> */}
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
           {adminCards.map((card) => (

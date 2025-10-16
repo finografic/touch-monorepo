@@ -2,46 +2,37 @@ import type { ReactNode } from 'react';
 import React, { memo } from 'react';
 import { Callout, Heading, Text } from '@radix-ui/themes';
 import type { SerializedStyles } from '@emotion/react';
+import { STATUS_TO_CALLOUT_COLOR, type Align, type StatusType } from 'types/ui.types';
+import clsx from 'clsx';
 
 interface AdminContentLayoutProps {
   title: string;
   detail?: string;
   subtitle?: string;
   description?: string;
+  align?: Align;
   children: ReactNode;
   message?: {
-    type: 'success' | 'error' | 'warning' | 'info';
+    type: StatusType;
     content: string;
   };
   isLoading?: boolean;
   error?: string;
-  centerTitle?: boolean;
   css?: SerializedStyles;
 }
 
 export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
-  ({
-    title,
-    detail,
-    subtitle,
-    description,
-    children,
-    message,
-    isLoading = false,
-    error,
-    centerTitle = false,
-    css,
-  }) => {
+  ({ title, subtitle, description, align = 'left', children, message, isLoading = false, error, css }) => {
     return (
       <section css={css} className="admin-page-container">
-        <header className={`admin-page-header ${centerTitle ? 'centered' : ''}`}>
-          <Heading size="8" className="admin-page-title" align={centerTitle ? 'center' : 'left'} mb="1rem">
+        <header className={clsx('admin-page-header', { [align]: align })}>
+          <Heading size="8" className="admin-page-title" align={align} mb="1rem">
             {title}
             {subtitle && <span style={{ opacity: 0.5 }}> : {subtitle}</span>}
           </Heading>
           {description && (
             <div className="admin-page-description">
-              <Text>{description}</Text>
+              XX<Text>{description}</Text>
             </div>
           )}
         </header>
@@ -55,15 +46,8 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
 
         {message && (
           <Callout.Root
-            color={
-              message.type === 'success'
-                ? 'green'
-                : message.type === 'error'
-                  ? 'red'
-                  : message.type === 'warning'
-                    ? 'yellow'
-                    : 'blue'
-            }
+            color={STATUS_TO_CALLOUT_COLOR[message.type]}
+            className="admin-page-message"
             style={{ marginBottom: '1.5rem' }}
           >
             <Callout.Text>{message.content}</Callout.Text>
