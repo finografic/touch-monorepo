@@ -1,4 +1,10 @@
-**Perfect! That's EXACTLY what you should see!** 🎉
+# 🔐 Authentication & Session Management
+
+> **Overview**: This document explains how cookies, sessions, and user authentication work in this project using BetterAuth with HttpOnly cookies.
+>
+> For detailed **login/logout flow diagrams**, see [README.auth.login-logout.md](./README.auth.login-logout.md)
+
+---
 
 ## ✅ **Your Cookie is Working Correctly!**
 
@@ -161,3 +167,11 @@ You have **exactly the right setup**:
 This is **industry best practice** for session-based authentication! 🎉
 
 The reason you see the cookie in DevTools but not `document.cookie` is **by design** - it's working exactly as it should for security.
+
+---
+
+## 📚 **Related Documentation**
+
+- **[Login/Logout Flow Diagrams](./README.auth.login-logout.md)** - Detailed visual flows for authentication
+- **[BetterAuth Server Setup](../../server/src/lib/BETTER-AUTH.README.md)** - Server-side configuration
+- **[Auth Routes Documentation](../../server/src/routes/auth/BETTER-AUTH.routes.md)** - API endpoints reference
