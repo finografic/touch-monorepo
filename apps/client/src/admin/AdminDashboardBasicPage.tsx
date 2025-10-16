@@ -8,10 +8,12 @@ import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { getCalloutText } from './utils/i18n.utils';
 import type { AuthRoles } from 'admin/config/admin.routes.map';
 import { styles } from './AdminDashboardPage.styles';
+import { NoAdminEntryRedirect } from 'admin/NoAdminEntryRedirect';
+import { useAuth } from 'providers/AuthProvider';
 
 export const AdminDashboardBasicPage: React.FC = () => {
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
-
+  const { isAuthenticated } = useAuth();
   const { t } = useTranslation();
   const role: AuthRoles = 'public';
   // Public dashboard shows public-only items
@@ -40,15 +42,15 @@ export const AdminDashboardBasicPage: React.FC = () => {
     cards: adminCards.map((c) => c.id),
   });
 
+  if (!isAuthenticated) {
+    return <NoAdminEntryRedirect />;
+  }
+
   return (
     <AdminContentLayout
-      title="Admin Dashboard"
+      title="Dashboard"
       subtitle="Manage system settings, translations, and configurations"
       align="center"
-      message={{
-        type: 'success',
-        content: 'Admin Dashboard',
-      }}
     >
       <Box className="admin-dashboard" css={styles}>
         <SectionHeader title="Admin Configuration" align="center" />

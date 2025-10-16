@@ -8,12 +8,15 @@ import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { getCalloutText } from './utils/i18n.utils';
 import type { AuthRoles } from 'admin/config/admin.routes.map';
+import { NoAdminEntryRedirect } from 'admin/NoAdminEntryRedirect';
+import { useAuth } from 'providers/AuthProvider';
 // import { AdminAccessTest } from 'admin/components/AdminAccessTest/AdminAccessTest';
 
 export const AdminDashboardPage: React.FC = () => {
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
 
   const { t } = useTranslation();
+  const { user, isAuthenticated } = useAuth();
   const role: AuthRoles = 'admin';
   // Admin dashboard shows the authenticated view; selector filtering with true includes admin/auth items
   const adminCards = getAdminDashboardCards(true).map((card) => {
@@ -41,11 +44,16 @@ export const AdminDashboardPage: React.FC = () => {
     cards: adminCards.map((c) => c.id),
   });
 
+  if (!isAuthenticated) {
+    return <NoAdminEntryRedirect />;
+  }
+
   return (
     <AdminContentLayout
-      title="Admin Dashboard"
+      // title="Admin Dashboard"
+      title="{User} Dashboard"
       subtitle="Manage system settings, translations, and configurations"
-      align="left"
+      align="center"
     >
       <Box className="admin-dashboard" css={styles}>
         {/* <SectionHeader title="Admin Configuration" align="center" /> */}

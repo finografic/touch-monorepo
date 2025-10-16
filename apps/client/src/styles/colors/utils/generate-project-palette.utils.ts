@@ -1,6 +1,6 @@
 import type { ColorBaseName, ColorMapping, HexColor, TransparencyLevel } from '../colors.types';
 import type { ColorPalette, CssVariableRef } from '../palette.types';
-import { TRANSPARENCY_LEVELS_LEGACY } from '../colors.types';
+import { TRANSPARENCY_LEVELS } from '../colors.types';
 import { SHADE_PREFIX } from '../constants/palette.constants';
 import { CSS_TRANSPARENCY_ONLY_COLORS } from '../constants/css-vars.constants';
 import { colorToCssVarRef } from './camelToKebab';
@@ -34,7 +34,7 @@ export const generateCssVarColorPalette = ({
       }
 
       // Base color transparency variants (for all colors including black/white)
-      TRANSPARENCY_LEVELS_LEGACY.forEach((level) => {
+      TRANSPARENCY_LEVELS.forEach((level) => {
         const variantName = `${name}${level}` as keyof ColorPalette;
         const cssVarName = `--color-${name}-${level}`;
         palette[variantName] = `var(${cssVarName})` as CssVariableRef;
@@ -45,7 +45,7 @@ export const generateCssVarColorPalette = ({
         Object.entries(SHADE_PREFIX).forEach(([shadeKey, suffix]) => {
           if (suffix) {
             // Skip 'base' which has empty suffix
-            TRANSPARENCY_LEVELS_LEGACY.forEach((level) => {
+            TRANSPARENCY_LEVELS.forEach((level) => {
               const variantName = `${name}${suffix}${level}` as keyof ColorPalette;
               const cssVarName = `--color-${name}-${shadeKey}-${level}`;
               palette[variantName] = `var(${cssVarName})` as CssVariableRef;
@@ -89,13 +89,13 @@ export const generateColorPaletteWithCssVars = ({
   // Add transparency variants for black and white
   const blackWhiteTransparency = {
     // Black transparency variants
-    ...TRANSPARENCY_LEVELS_LEGACY.reduce((acc, level) => {
+    ...TRANSPARENCY_LEVELS.reduce((acc, level) => {
       acc[`black${level}` as keyof ColorPalette] = `var(--color-black-${level})` as CssVariableRef;
       return acc;
     }, {} as Partial<ColorPalette>),
 
     // White transparency variants
-    ...TRANSPARENCY_LEVELS_LEGACY.reduce((acc, level) => {
+    ...TRANSPARENCY_LEVELS.reduce((acc, level) => {
       acc[`white${level}` as keyof ColorPalette] = `var(--color-white-${level})` as CssVariableRef;
       return acc;
     }, {} as Partial<ColorPalette>),

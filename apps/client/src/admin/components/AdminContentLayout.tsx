@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import React, { memo } from 'react';
 import { Callout, Heading, Text } from '@radix-ui/themes';
 import type { SerializedStyles } from '@emotion/react';
-import { STATUS_TO_CALLOUT_COLOR, type Align, type StatusType } from 'types/ui.types';
+import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
 import clsx from 'clsx';
 
 interface AdminContentLayoutProps {

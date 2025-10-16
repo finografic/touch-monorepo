@@ -119,28 +119,12 @@ export type ShadeKey = Lowercase<ShadeVariant> | 'base';
  * All transparency levels (legacy - full set for backwards compatibility)
  * Used for palette generation where all levels are needed
  */
-export const TRANSPARENCY_LEVELS_LEGACY = [
-  '5',
-  '10',
-  '20',
-  '25',
-  '30',
-  '33',
-  '40',
-  '50',
-  '60',
-  '66',
-  '70',
-  '75',
-  '80',
-  '90',
-  '95',
-] as const;
+// NOTE: V1 - ALL SHADE LEVELS
+// export const TRANSPARENCY_LEVELS_LEGACY = [5, 10, 20, 25, 30, 33, 40, 50, 60, 66, 70, 75, 80, 90, 95] as const;
 
-/**
- * Transparency levels for color variants (optimized set)
- */
-export type TransparencyLevel = '25' | '50' | '75';
+// NEW: V2 - SMALLER SET OF SHADE LEVELS for Optimization
+export const TRANSPARENCY_LEVELS = [25, 50, 75] as const;
+export type TransparencyLevel = (typeof TRANSPARENCY_LEVELS)[number];
 
 // ======================================================================== //
 // COLOR VALUES
