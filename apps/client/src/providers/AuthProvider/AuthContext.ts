@@ -108,6 +108,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
           signOut: async ({ onSuccess, onError }: AuthSignOutCallbacks = {}) => {
             try {
               // Call server to invalidate session in database
+              // Server will clear the HttpOnly cookie via Set-Cookie headers
               const response = await fetch('http://localhost:4040/api/auth/sign-out', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -118,29 +119,17 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               // Clear client-side state after successful server response
               if (response.ok) {
                 set({ ...defaultValue });
-
-                // Clear the actual cookie name used by BetterAuth
-                // The cookie prefix comes from package.json name: "touch-monorepo"
-                document.cookie =
-                  'touch-monorepo.session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
-
                 console.log('✅ Sign out successful - session cleared');
                 onSuccess?.();
               } else {
                 console.warn('⚠️ Server sign-out failed, clearing client-side state anyway');
                 // Still clear client state even if server fails
                 set({ ...defaultValue });
-
-                document.cookie =
-                  'touch-monorepo.session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
               }
             } catch (error) {
               console.error('Sign out error:', error);
               // Even if there's an error, clear the session state
               set({ ...defaultValue });
-
-              document.cookie =
-                'touch-monorepo.session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
               onError?.();
             }
           },
