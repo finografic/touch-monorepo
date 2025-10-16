@@ -36,7 +36,7 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
       // This effect will trigger when auth state changes
       // We'll use signOut callbacks for navigation
     };
-    
+
     return () => {
       // Cleanup if needed
     };
