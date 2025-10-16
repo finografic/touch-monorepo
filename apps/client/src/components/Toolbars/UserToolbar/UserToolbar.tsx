@@ -8,12 +8,17 @@ import { styles } from './UserToolbar.styles';
 import type { Theme } from 'types/ui.types';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 export const UserToolbar: React.FC = () => {
   const { theme } = useAppConfig();
+  const { isAuthenticated } = useAuth();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const showHomeButton = location.pathname.startsWith('/admin');
+  const showAdminButton = !location.pathname.startsWith('/admin') && isAuthenticated;
 
   return (
     <div css={styles} className={`theme-${theme}`}>
@@ -29,17 +34,20 @@ export const UserToolbar: React.FC = () => {
         <div className="button-box">
           <ThemeToggle />
         </div>
-        <div className="button-box">
-          {location.pathname.startsWith('/admin') ? (
-            <button className="button button-dialog" onClick={() => navigate('/')}>
-              <HomeIcon />
-            </button>
-          ) : (
-            <button className="button button-dialog" onClick={() => navigate('/admin')}>
-              <ShieldCheckIcon />
-            </button>
-          )}
-        </div>
+        {(showHomeButton || showAdminButton) && (
+          <div className="button-box">
+            {location.pathname.startsWith('/admin') && (
+              <button className="button button-dialog" onClick={() => navigate('/')}>
+                <HomeIcon />
+              </button>
+            )}
+            {!location.pathname.startsWith('/admin') && isAuthenticated && (
+              <button className="button button-dialog" onClick={() => navigate('/admin')}>
+                <ShieldCheckIcon />
+              </button>
+            )}
+          </div>
+        )}
         <div className="button-box">
           <LoginButton />
         </div>
