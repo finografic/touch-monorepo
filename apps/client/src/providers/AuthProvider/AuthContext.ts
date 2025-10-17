@@ -124,7 +124,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                 console.log('✅ Sign out successful - session cleared');
 
                 // Redirect to home page
-                window.location.href = '/';
+                window.location.assign('/');
 
                 onSuccess?.();
               } else {
@@ -133,7 +133,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                 set({ ...defaultValue });
 
                 // Still redirect on error
-                window.location.href = '/';
+                window.location.assign('/');
               }
             } catch (error) {
               console.error('Sign out error:', error);
@@ -141,7 +141,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               set({ ...defaultValue });
 
               // Redirect anyway
-              window.location.href = '/';
+              window.location.assign('/');
 
               onError?.();
             }

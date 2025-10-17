@@ -78,12 +78,7 @@ export const Layout: FC = () => {
                               </section>
                             </div>
                           </main>
-                          <AuthLoginSimpleDialog
-                          // isOpen={isLoginDialogOpen}
-                          // onClose={closeLoginDialog}
-                          // onSuccess={handleLoginSuccess}
-                          // onError={handleLoginError}
-                          />
+                          <AuthLoginSimpleDialog />
                           <Footer />
                           <div id="radix-portal-container" />
                         </div>

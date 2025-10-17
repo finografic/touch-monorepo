@@ -1,4 +1,4 @@
-import React, { type FC, useEffect, useState } from 'react';
+import React, { type FC, useEffect, useMemo, useState } from 'react';
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { AuthLoginTabContent } from './AuthTabContent';
@@ -9,16 +9,23 @@ const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
 const DEFAULT_PASSWORD = 'password123';
 
-interface AuthLoginSimpleDialogProps {}
+interface AuthLoginSimpleDialogProps {
+  children: React.ReactNode | React.ReactElement;
+}
 
-export const AuthLoginSimpleDialog: FC<AuthLoginSimpleDialogProps> = () => {
-  const { refreshSession, isLoginDialogOpen, closeLoginDialog, signIn, signOut } = useAuth();
+export const AuthLoginSimpleDialog: FC<AuthLoginSimpleDialogProps> = ({ children = <React.Fragment /> }) => {
+  const { isAuthenticated, refreshSession, isLoginDialogOpen, closeLoginDialog, signIn, signOut } = useAuth();
   const navigate = useNavigate();
 
   const [password, setPassword] = useState(DEFAULT_PASSWORD);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('user');
+
+  const deferToLogin = useMemo(
+    () => location.pathname.includes('/admin') && !isAuthenticated,
+    [location.pathname, isAuthenticated],
+  );
 
   const getCurrentEmail = () => {
     const email = activeTab === 'admin' ? DEFAULT_ADMIN_EMAIL : DEFAULT_USER_EMAIL;
@@ -125,12 +132,15 @@ export const AuthLoginSimpleDialog: FC<AuthLoginSimpleDialogProps> = () => {
   };
 
   return (
-    <GenericDialog
-      isOpen={isLoginDialogOpen}
-      onClose={closeLoginDialog}
-      config={config}
-      defaultTab={activeTab}
-      onTabChange={setActiveTab}
-    />
+    <>
+      <GenericDialog
+        isOpen={deferToLogin ? true : isLoginDialogOpen}
+        onClose={closeLoginDialog}
+        config={config}
+        defaultTab={activeTab}
+        onTabChange={setActiveTab}
+      />
+      {deferToLogin ? <React.Fragment /> : children}
+    </>
   );
 };

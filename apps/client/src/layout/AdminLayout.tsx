@@ -16,6 +16,7 @@ import { PageHeader } from 'components/PageHeader/PageHeader';
 import { Header } from 'components/Header/Header';
 import { styles } from './AdminLayout.styles';
 import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
+import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
 
 export const AdminLayout: FC = () => {
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES], maxScreenClass: 'xxl' });
@@ -45,24 +46,26 @@ export const AdminLayout: FC = () => {
           >
             <div id="admin-layout" css={styles}>
               <ToastProvider>
-                <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
-                <AdminNavigation />
-                <main>
-                  <div className="main-content">
-                    <section>
-                      <PageHeader />
-                      <div className="page-content" role="main">
-                        <AdminErrorBoundary>
-                          <Suspense fallback={<Loader message="Loading..." />}>
-                            <Outlet />
-                          </Suspense>
-                        </AdminErrorBoundary>
-                      </div>
-                      <nav className="page-navigation">{/* Page navigation can go here if needed */}</nav>
-                    </section>
-                  </div>
-                </main>
-                <Footer />
+                <AuthLoginSimpleDialog>
+                  <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
+                  <AdminNavigation />
+                  <main>
+                    <div className="main-content">
+                      <section>
+                        <PageHeader />
+                        <div className="page-content" role="main">
+                          <AdminErrorBoundary>
+                            <Suspense fallback={<Loader message="Loading..." />}>
+                              <Outlet />
+                            </Suspense>
+                          </AdminErrorBoundary>
+                        </div>
+                        <nav className="page-navigation">{/* Page navigation can go here if needed */}</nav>
+                      </section>
+                    </div>
+                  </main>
+                  <Footer />
+                </AuthLoginSimpleDialog>
                 <ToastSystem />
               </ToastProvider>
             </div>
