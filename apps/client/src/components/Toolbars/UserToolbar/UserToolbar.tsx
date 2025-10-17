@@ -36,12 +36,12 @@ export const UserToolbar: React.FC = () => {
         </div>
         {(showHomeButton || showAdminButton) && (
           <div className="button-box">
-            {location.pathname.startsWith('/admin') && isAuthenticated && (
+            {showHomeButton && (
               <button className="button button-dialog" onClick={() => navigate('/')}>
                 <HomeIcon />
               </button>
             )}
-            {!location.pathname.startsWith('/admin') && !isAuthenticated && (
+            {showAdminButton && (
               <button className="button button-dialog" onClick={() => navigate('/admin')}>
                 <ShieldCheckIcon />
               </button>

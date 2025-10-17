@@ -10,8 +10,8 @@ export const LoginButton: FC = () => {
   const { user, isAuthenticated, signOut, openLoginDialog } = useAuth();
   const { toast } = useToast();
 
-  console.log('🔍 USER:', user);
-  console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
+  // console.log('🔍 USER:', user);
+  // console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
 
   const handleLogout = useCallback(async () => {
     try {
