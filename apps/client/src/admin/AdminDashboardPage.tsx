@@ -51,7 +51,6 @@ export const AdminDashboardPage: React.FC = () => {
 
   return (
     <AdminContentLayout
-      // title="Admin Dashboard"
       title="{User} Dashboard"
       subtitle="Manage system settings, translations, and configurations"
       align="center"

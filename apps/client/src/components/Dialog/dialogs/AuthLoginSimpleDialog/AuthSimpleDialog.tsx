@@ -27,10 +27,6 @@ export const AuthLoginSimpleDialog: FC<AuthLoginSimpleDialogProps> = ({ children
     [location.pathname, isAuthenticated],
   );
 
-  const handleCloseDialog = useCallback(() => {
-    deferToLogin ? navigate('/') : closeLoginDialog();
-  }, [closeLoginDialog, navigate]);
-
   const getCurrentEmail = () => {
     const email = activeTab === 'admin' ? DEFAULT_ADMIN_EMAIL : DEFAULT_USER_EMAIL;
     console.log('getCurrentEmail', { tab: activeTab, email });
@@ -47,6 +43,10 @@ export const AuthLoginSimpleDialog: FC<AuthLoginSimpleDialogProps> = ({ children
   const handleLoginError = (error: string) => {
     console.error('Login failed:', error);
   };
+
+  const handleCloseDialog = useCallback(() => {
+    deferToLogin ? navigate('/') : closeLoginDialog();
+  }, [closeLoginDialog, deferToLogin, navigate]);
 
   // Handle logout success: redirect to /
   useEffect(() => {

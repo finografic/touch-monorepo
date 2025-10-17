@@ -5,7 +5,6 @@ import { MainPage } from 'pages/MainPage/MainPage';
 import { GenericSelectPage } from 'pages/GenericSelectPage/GenericSelectPage';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
-import { ProtectedRouteWrapper } from 'routes/auth/ProtectedRouteWrapper';
 import { ProtectedAdminRoutes } from './auth/ProtectedAdminRoutes';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
 import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
@@ -22,7 +21,7 @@ import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { AdminModePage } from 'admin/pages/AdminModePage/AdminModePage';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
-import { AdminDashboardWrapper } from 'routes/auth/AdminDashboardWrapper';
+import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage';
 
 export const routes: RouteObject[] = [
@@ -106,16 +105,12 @@ export const routes: RouteObject[] = [
           {
             index: true,
             id: AdminFieldKeys.dashboard,
-            element: <AdminDashboardWrapper />,
+            element: <AdminDashboardPage />,
           },
           {
             path: 'orders',
             id: AdminFieldKeys.itemsList,
-            element: (
-              <ProtectedRouteWrapper>
-                <AdminOrdersPage />
-              </ProtectedRouteWrapper>
-            ),
+            element: <AdminOrdersPage />,
             children: [
               {
                 path: ':orderId',
@@ -127,74 +122,42 @@ export const routes: RouteObject[] = [
           {
             path: 'translations',
             id: AdminFieldKeys.translations,
-            element: (
-              <ProtectedRouteWrapper>
-                <AdminTranslationsPage />
-              </ProtectedRouteWrapper>
-            ),
+            element: <AdminTranslationsPage />,
           },
           {
             path: 'ui-labels',
             id: AdminFieldKeys.translationsUi,
-            element: (
-              <ProtectedRouteWrapper>
-                <AdminUiLabelsPage />
-              </ProtectedRouteWrapper>
-            ),
+            element: <AdminUiLabelsPage />,
           },
           {
             path: 'languages',
             id: AdminFieldKeys.languages,
-            element: (
-              <ProtectedRouteWrapper>
-                <AdminLanguagesPage />
-              </ProtectedRouteWrapper>
-            ),
+            element: <AdminLanguagesPage />,
           },
           {
             path: 'filter-analysis',
             id: 'filterAnalysis',
-            element: (
-              <ProtectedRouteWrapper>
-                <AdminFilterAnalysisPage />
-              </ProtectedRouteWrapper>
-            ),
+            element: <AdminFilterAnalysisPage />,
           },
           {
             path: 'sounds',
             id: 'sounds',
-            element: (
-              <ProtectedRouteWrapper>
-                <AdminSoundPage />
-              </ProtectedRouteWrapper>
-            ),
+            element: <AdminSoundPage />,
           },
           {
             path: 'slot-config',
             id: 'slotConfig',
-            element: (
-              <ProtectedRouteWrapper>
-                <AdminSlotsConfigPage />
-              </ProtectedRouteWrapper>
-            ),
+            element: <AdminSlotsConfigPage />,
           },
           {
             path: 'relays',
             id: 'relays',
-            element: (
-              <ProtectedRouteWrapper>
-                <AdminRelaysPage />
-              </ProtectedRouteWrapper>
-            ),
+            element: <AdminRelaysPage />,
           },
           {
             path: 'mode',
             id: 'modo',
-            element: (
-              <ProtectedRouteWrapper>
-                <AdminModePage />
-              </ProtectedRouteWrapper>
-            ),
+            element: <AdminModePage />,
           },
         ],
       },
