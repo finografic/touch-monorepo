@@ -1,5 +1,5 @@
 import React from 'react';
-import { AspectRatio, Box, Card, Flex } from '@radix-ui/themes';
+import { Box, Card, Flex } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
 import { usePageTransition } from 'hooks/usePageTransition';
 import { AdminContentLayout } from '.';
@@ -10,15 +10,16 @@ import { getCalloutText } from './utils/i18n.utils';
 import type { AuthRoles } from 'admin/config/admin.routes.map';
 import { NoAdminEntryRedirect } from 'admin/NoAdminEntryRedirect';
 import { useAuth } from 'providers/AuthProvider';
-// import { AdminAccessTest } from 'admin/components/AdminAccessTest/AdminAccessTest';
 
 export const AdminDashboardPage: React.FC = () => {
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
 
   const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
+
   const role: AuthRoles = 'admin';
   // Admin dashboard shows the authenticated view; selector filtering with true includes admin/auth items
+
   const adminCards = getAdminDashboardCards(true).map((card) => {
     const text = getCalloutText(t, role, card.key);
     return {
@@ -73,7 +74,6 @@ export const AdminDashboardPage: React.FC = () => {
               }}
             >
               <Flex direction="row" gap="0" align="center" height="100%">
-                {/* <AspectRatio ratio={1} style={{ flexShrink: 0 }}> */}
                 <Box
                   className="card-icon-box"
                   style={{
