@@ -20,6 +20,8 @@ import type { DialogConfig } from 'components/Dialog';
 import { TabForm } from 'admin/pages/AdminOrdersPage/TabForm';
 import { TabList } from 'admin/pages/AdminOrdersPage/TabList';
 
+export const NUM_TABS = 2;
+
 export const AdminOrdersPage: React.FC = () => {
   const { currentLanguage } = useAppConfig();
   const [searchTerm, setSearchTerm] = useState('');
@@ -84,14 +86,11 @@ export const AdminOrdersPage: React.FC = () => {
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
 
   // Sync active tab with URL hash
-  const handleTabChange = useCallback(
-    (tab: string) => {
-      setActiveTab(tab);
-      // Update URL hash without triggering navigation
-      window.history.replaceState(null, '', `#${tab}`);
-    },
-    [],
-  );
+  const handleTabChange = useCallback((tab: string) => {
+    setActiveTab(tab);
+    // Update URL hash without triggering navigation
+    window.history.replaceState(null, '', `#${tab}`);
+  }, []);
 
   // Listen for hash changes (browser back/forward)
   useEffect(() => {

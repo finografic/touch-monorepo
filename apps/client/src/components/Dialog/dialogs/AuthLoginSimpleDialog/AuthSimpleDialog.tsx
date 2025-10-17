@@ -150,7 +150,7 @@ export const AuthLoginSimpleDialog: FC<AuthLoginSimpleDialogProps> = ({ children
   return (
     <>
       <GenericDialog
-        isOpen={isLoginDialogOpen || deferToLogin}
+        isOpen={isLoginDialogOpen}
         onClose={handleCloseDialog}
         config={config}
         defaultTab={activeTab}

@@ -102,10 +102,10 @@ export const styles = css`
           color: ${colors.textXLight75};
         }
 
-        &:first-child {
+        &:nth-of-type(1) {
           margin-left: 0rem;
         }
-        &:last-child {
+        &:last-of-type {
           margin-right: 0rem;
         }
       }
