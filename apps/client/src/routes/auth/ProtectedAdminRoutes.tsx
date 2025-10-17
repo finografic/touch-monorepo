@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useAuth } from 'providers/AuthProvider';
-import { AdminDashboardBasicPage } from 'admin/AdminDashboardBasicPage';
+import { AdminDashboardBasicPage } from 'admin/__AdminDashboardBasicPage';
 import { getAdminEntryByPath } from 'admin/config/admin.routes.selectors';
 
 export const ProtectedAdminRoutes: React.FC = () => {
@@ -32,9 +32,9 @@ export const ProtectedAdminRoutes: React.FC = () => {
     // Protected route accessed by unauthenticated user - trigger login dialog
     // This will show the login dialog while keeping the URL intact
     // When user logs in, they'll be redirected to /admin and can then navigate to desired route
-    useEffect(() => {
-      openLoginDialog();
-    }, [location.pathname]);
+    // useEffect(() => {
+    //   openLoginDialog();
+    // }, [location.pathname]);
 
     // Show dashboard while login dialog is open
     return <AdminDashboardBasicPage />;
