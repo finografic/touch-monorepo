@@ -1,4 +1,4 @@
-import React, { type FC, useEffect, useMemo, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { AuthLoginTabContent } from './AuthTabContent';
@@ -26,6 +26,10 @@ export const AuthLoginSimpleDialog: FC<AuthLoginSimpleDialogProps> = ({ children
     () => location.pathname.includes('/admin') && !isAuthenticated,
     [location.pathname, isAuthenticated],
   );
+
+  const handleCloseDialog = useCallback(() => {
+    deferToLogin ? navigate('/') : closeLoginDialog();
+  }, [closeLoginDialog, navigate]);
 
   const getCurrentEmail = () => {
     const email = activeTab === 'admin' ? DEFAULT_ADMIN_EMAIL : DEFAULT_USER_EMAIL;
@@ -131,16 +135,28 @@ export const AuthLoginSimpleDialog: FC<AuthLoginSimpleDialogProps> = ({ children
     ],
   };
 
-  return (
-    <>
+  if (deferToLogin) {
+    return (
       <GenericDialog
-        isOpen={deferToLogin ? true : isLoginDialogOpen}
-        onClose={closeLoginDialog}
+        isOpen={true}
+        onClose={handleCloseDialog}
         config={config}
         defaultTab={activeTab}
         onTabChange={setActiveTab}
       />
-      {deferToLogin ? <React.Fragment /> : children}
+    );
+  }
+
+  return (
+    <>
+      <GenericDialog
+        isOpen={isLoginDialogOpen || deferToLogin}
+        onClose={handleCloseDialog}
+        config={config}
+        defaultTab={activeTab}
+        onTabChange={setActiveTab}
+      />
+      {children}
     </>
   );
 };
