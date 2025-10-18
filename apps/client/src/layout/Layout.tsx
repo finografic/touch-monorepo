@@ -3,6 +3,7 @@ import { Suspense, useEffect } from 'react';
 import { setConfiguration } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
+import type { ThemeProps } from '@radix-ui/themes';
 import { Theme } from '@radix-ui/themes';
 
 import { AuthDialogGuard, AuthLoginDialog } from 'components/Dialog/dialogs';
@@ -22,36 +23,29 @@ import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvi
 import { TimersProvider } from 'providers/TimersProvider';
 
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
-import { useResetAppState } from 'hooks/useResetAppState';
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
 import type { ValidGridSize } from 'types/menu.types';
 
 import { NUM_GRID_ITEMS } from 'config/app';
 import { Loader } from '../components/Loader/Loader';
+import { themeConfig } from 'styles/radix-ui/theme.config';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
-  const { theme } = useAppConfig();
   const { data: slotConfigs } = useGetSlotConfigurations();
   const numItems = (slotConfigs ? slotConfigs.length : NUM_GRID_ITEMS) as ValidGridSize;
 
+  const { theme } = useAppConfig();
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
   useEffect(function initializeLayoutTheme() {
     document.documentElement.setAttribute('data-theme', theme);
   }, []);
 
-  const themeConfig = {
-    appearance: theme,
-    grayColor: 'slate' as const,
-    accentColor: 'blue' as const,
-    scaling: '100%' as const,
-  };
-
   return (
-    <Theme {...themeConfig}>
+    <Theme {...themeConfig} appearance={theme}>
       <ToastProvider>
         <TimersProvider>
           <OrdersProvider>

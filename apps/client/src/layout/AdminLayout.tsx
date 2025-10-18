@@ -14,28 +14,25 @@ import { PageHeader } from 'components/PageHeader/PageHeader';
 import { ToastProvider, ToastSystem } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { ContentProvider } from 'providers/ContentProvider';
 
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 
+import { themeConfig } from 'styles/radix-ui/theme.config';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './AdminLayout.styles';
 
 export const AdminLayout: FC = () => {
+  const { theme } = useAppConfig();
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
   useEffect(function initializeLayoutTheme() {
-    document.documentElement.setAttribute('data-theme', 'light');
+    document.documentElement.setAttribute('data-theme', theme);
   }, []);
 
-  const themeConfig = {
-    grayColor: 'slate' as const,
-    accentColor: 'blue' as const,
-    scaling: '100%' as const,
-  };
-
   return (
-    <Theme {...themeConfig}>
+    <Theme {...themeConfig} appearance={theme}>
       <ToastProvider>
         <AdminProvider>
           <ContentProvider>
