@@ -75,10 +75,10 @@ export const Layout: FC = () => {
                                 </section>
                               </div>
                             </main>
-                            <AuthLoginDialog />
                             <Footer />
+                            <ToastSystem />
+                            <AuthLoginDialog />
                           </AuthDialogGuard>
-                          <ToastSystem />
                           <div id="radix-portal-container" />
                         </div>
                       </DevProvider>
