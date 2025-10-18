@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
 
-import { AuthLoginDialog } from 'components/Dialog/dialogs';
+import { AuthDialogGuard, AuthLoginDialog } from 'components/Dialog/dialogs';
 import { Footer } from 'components/Footer';
 import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
 import { Header } from 'components/Header/Header';
@@ -58,24 +58,27 @@ export const Layout: FC = () => {
                     <ContentProvider>
                       <DevProvider>
                         <div id="layout" css={styles}>
-                          <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
-                          <main>
-                            <div className="main-content">
-                              <section>
-                                <PageHeader />
-                                <div className="page-content" role="main">
-                                  <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                    <Outlet />
-                                  </Suspense>
-                                </div>
-                                <nav className="page-navigation">
-                                  <FrontEndNavigation />
-                                </nav>
-                              </section>
-                            </div>
-                          </main>
-                          <AuthLoginDialog />
-                          <Footer />
+                          <AuthDialogGuard>
+                            <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
+                            <main>
+                              <div className="main-content">
+                                <section>
+                                  <PageHeader />
+                                  <div className="page-content" role="main">
+                                    <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                      <Outlet />
+                                    </Suspense>
+                                  </div>
+                                  <nav className="page-navigation">
+                                    <FrontEndNavigation />
+                                  </nav>
+                                </section>
+                              </div>
+                            </main>
+                            <AuthLoginDialog />
+                            <Footer />
+                          </AuthDialogGuard>
+                          <ToastSystem />
                           <div id="radix-portal-container" />
                         </div>
                         <ToastSystem />
