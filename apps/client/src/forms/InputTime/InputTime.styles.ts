@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
-import { forms } from 'styles/forms/forms.styles';
+
 import { colors } from 'styles';
+import { forms } from 'styles/forms/forms.styles';
 
 export const styles = css`
   .time-input-root {

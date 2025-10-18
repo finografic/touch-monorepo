@@ -1,9 +1,10 @@
-import '@tanstack/react-query';
 import type { AxiosError } from 'axios';
-import Color from 'color';
 import type { ColorConstructor as ColorContrutorType } from 'color';
+import Color from 'color';
 import type { ReactNode } from 'react';
 import type React from 'react';
+
+import '@tanstack/react-query';
 
 // Fix react-grid-system type compatibility issues
 // declare module 'react-grid-system' {

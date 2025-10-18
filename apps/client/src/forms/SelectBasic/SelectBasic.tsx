@@ -1,7 +1,10 @@
 import React, { forwardRef, useCallback } from 'react';
+
 import { Select } from '@radix-ui/themes';
-import type { SelectOption } from 'types/models/select-option.model';
 import clsx from 'clsx';
+
+import type { SelectOption } from 'types/models/select-option.model';
+
 import { styles } from './SelectBasic.styles';
 
 interface SelectBasicProps {

@@ -1,5 +1,9 @@
-import { Row, Col } from 'react-grid-system';
-import { ReactElement, useState } from 'react';
+import { useState } from 'react';
+
+import { Col, Row } from 'react-grid-system';
+
+import type { ReactElement } from 'react';
+
 import { styles } from './DevColumns.styles';
 
 export const DevColumns = (): ReactElement | null => {

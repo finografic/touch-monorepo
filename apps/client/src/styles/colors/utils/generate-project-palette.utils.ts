@@ -1,8 +1,9 @@
 import type { ColorBaseName, ColorMapping, HexColor, TransparencyLevel } from '../colors.types';
-import type { ColorPalette, CssVariableRef } from '../palette.types';
 import { TRANSPARENCY_LEVELS } from '../colors.types';
-import { SHADE_PREFIX } from '../constants/palette.constants';
 import { CSS_TRANSPARENCY_ONLY_COLORS } from '../constants/css-vars.constants';
+import { SHADE_PREFIX } from '../constants/palette.constants';
+import type { ColorPalette, CssVariableRef } from '../palette.types';
+
 import { colorToCssVarRef } from './camelToKebab';
 
 /**

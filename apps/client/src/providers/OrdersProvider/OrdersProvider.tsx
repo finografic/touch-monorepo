@@ -1,5 +1,5 @@
-import type { OrdersProviderProps } from './OrdersContext.types';
 import { DISPLAY_NAME, OrdersContext as Orders } from './OrdersContext';
+import type { OrdersProviderProps } from './OrdersContext.types';
 import { OrdersDataInitializer } from './OrdersDataInitializer';
 
 export const OrdersProvider = ({ initialValue, children }: OrdersProviderProps) => {

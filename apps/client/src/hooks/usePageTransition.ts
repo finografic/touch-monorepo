@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface UsePageTransitionOptions {

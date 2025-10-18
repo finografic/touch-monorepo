@@ -1,8 +1,9 @@
-import { useQuery } from '@tanstack/react-query';
 import type { UseQueryResult } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
 import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
-import { api } from 'api';
 import { transformAxiosError } from '@workspace/core/api';
+import { api } from 'api';
+
 import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '.';
 
 export interface TemperatureSettings {

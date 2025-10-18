@@ -1,10 +1,14 @@
 import * as React from 'react';
+
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
-import { padStyles } from './Pad.styles';
-import type { PadProps } from './Pad';
+
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { PAD_TYPE } from 'types/pads.types';
+
+import type { PadProps } from './Pad';
+
+import { padStyles } from './Pad.styles';
 
 export const PadRadio: React.FC<PadProps> = ({
   filterKey,

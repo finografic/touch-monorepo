@@ -1,9 +1,12 @@
 import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
-import { AuthLoginTabContent } from './AuthTabContent';
 import { UserIcon, UserLockIcon } from 'styles/icons';
-import { useNavigate } from 'react-router-dom';
+
+import { AuthLoginTabContent } from './AuthTabContent';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';

@@ -8,8 +8,10 @@
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
-import { lightColors } from '../../themes/light.colors';
+
 import { darkColors } from '../../themes/dark.colors';
+import { lightColors } from '../../themes/light.colors';
+
 import {
   generateCssColorVariables,
   generateCssColorVariablesTransparency,

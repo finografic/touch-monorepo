@@ -1,7 +1,9 @@
 import React, { useCallback, useRef, useState } from 'react';
-import type { FC, ReactElement } from 'react';
+
 import { Button } from '@radix-ui/themes';
 import clsx from 'clsx';
+import type { FC, ReactElement } from 'react';
+
 import { styles } from './PadNumeric.styles';
 
 // Key-repeat timing constants (like macOS system settings)

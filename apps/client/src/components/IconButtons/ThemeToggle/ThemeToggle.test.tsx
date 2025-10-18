@@ -1,9 +1,13 @@
 import React from 'react';
-import { describe, expect, it, vi } from 'vitest';
-import '@testing-library/jest-dom/vitest';
+
 import { fireEvent, render, screen } from '@testing-library/react';
-import { ThemeToggle } from './ThemeToggle';
+import { describe, expect, it, vi } from 'vitest';
+
 import { ContentProvider } from 'providers/ContentProvider';
+
+import '@testing-library/jest-dom/vitest';
+
+import { ThemeToggle } from './ThemeToggle';
 
 // Mock the icon components
 vi.mock('styles/icons', () => ({

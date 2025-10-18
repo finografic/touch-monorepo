@@ -1,7 +1,10 @@
 import React, { memo } from 'react';
+
 import { useFormContext } from 'react-hook-form';
-import { Flex } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
+
+import { Flex } from '@radix-ui/themes';
+
 import { TranslationSection } from './TranslationSection';
 
 interface SupportedLanguage {

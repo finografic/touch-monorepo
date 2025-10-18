@@ -1,6 +1,7 @@
 import tailwindForms from '@tailwindcss/forms';
-import colors from 'tailwindcss/colors';
 import type { Config } from 'tailwindcss';
+import colors from 'tailwindcss/colors';
+
 import { BREAKPOINTS } from './src/styles/viewport/viewport.breakpoints';
 import type { BreakpointMap } from './src/styles/viewport/viewport.types';
 

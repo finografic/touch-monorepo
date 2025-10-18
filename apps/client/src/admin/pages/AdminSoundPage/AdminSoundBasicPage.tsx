@@ -1,13 +1,19 @@
 import React from 'react';
-import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
-import { AdminContentLayout, AdminSection } from '../..';
-import { stopAllAudio } from 'utils/soundCache.utils';
-import { StopIcon } from 'styles/icons';
-import { styles } from './AdminSoundPage.styles';
-import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
-import { SoundConfigurationSection } from './components';
+
 import { Col, Row } from 'react-grid-system';
+
+import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
+import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
+
 import { useGlobalVolume } from 'hooks/useGlobalVolume';
+import { StopIcon } from 'styles/icons';
+import { stopAllAudio } from 'utils/soundCache.utils';
+
+import { AdminContentLayout, AdminSection } from '../..';
+
+import { SoundConfigurationSection } from './components';
+
+import { styles } from './AdminSoundPage.styles';
 
 export const AdminSoundBasicPage: React.FC = () => {
   // Global volume management

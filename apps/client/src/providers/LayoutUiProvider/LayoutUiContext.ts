@@ -1,18 +1,20 @@
-import { createStore, type StoreApi, useStore } from 'zustand';
-import { useShallow } from 'zustand/react/shallow';
-import { createSetters, createZustandContext } from 'utils/zustand';
-import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
-import type { PadConfig, PadType, PadUI } from 'types/pads.types';
-import { NUM_GRID_ITEMS } from 'config/app';
-import { parsePadConfig } from 'utils/pads.utils';
-import type { DataEntry, Dataset } from 'types/data.types';
-import type { FilterKey, SlotType } from 'types/orders.types';
-import type { OrderModel } from 'types/models/order.model';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
-import { subscribeWithSelector } from 'zustand/middleware';
 import type { RegionLocale } from '@workspace/i18n';
 import type { SlotMeta, SlotStatus } from 'pages/MainPage/MainPage.types';
+import { createStore, type StoreApi, useStore } from 'zustand';
+import { subscribeWithSelector } from 'zustand/middleware';
+import { useShallow } from 'zustand/react/shallow';
+
+import { NUM_GRID_ITEMS } from 'config/app';
+import type { DataEntry, Dataset } from 'types/data.types';
+import type { OrderModel } from 'types/models/order.model';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { FilterKey, SlotType } from 'types/orders.types';
+import type { PadConfig, PadType, PadUI } from 'types/pads.types';
+import { parsePadConfig } from 'utils/pads.utils';
+import { createSetters, createZustandContext } from 'utils/zustand';
+
 import type { HandleRouteChangeParams } from './layout-ui-utils.types';
+import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 
 export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';

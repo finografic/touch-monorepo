@@ -1,13 +1,16 @@
 import React, { useCallback, useState } from 'react';
+
 import { Dialog, Flex, IconButton, Tabs, Theme, VisuallyHidden } from '@radix-ui/themes';
-import { useAppConfig } from 'providers/AppConfigProvider';
-import { styles } from './GenericDialog.styles';
-import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
-// import { Button } from 'components/ButtonRadix';
-import { Button } from 'components/Button';
-import { CloseIcon } from 'styles/icons';
 // import { Button as Button } from 'components/Button';
 import clsx from 'clsx';
+
+// import { Button } from 'components/ButtonRadix';
+import { Button } from 'components/Button';
+import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
+import { useAppConfig } from 'providers/AppConfigProvider';
+import { CloseIcon } from 'styles/icons';
+
+import { styles } from './GenericDialog.styles';
 
 interface GenericDialogProps {
   isOpen: boolean;

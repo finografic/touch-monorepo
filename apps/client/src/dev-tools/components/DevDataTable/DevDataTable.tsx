@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+
 import { styles } from './DevDataTable.styles';
 
 interface Column<T extends Record<string, any>> {

@@ -1,5 +1,5 @@
-import { env } from 'env.client';
 import chalk from 'chalk';
+import { env } from 'env.client';
 import type { UserConfig } from 'vite';
 
 export function logApiURL({ mode }: Pick<UserConfig, 'mode'>) {

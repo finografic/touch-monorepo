@@ -1,6 +1,7 @@
 import React, { type FC, useMemo } from 'react';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
+
 import { AuthLoginDialog } from 'components/Dialog/dialogs/AuthLoginDialog/AuthLoginDialog';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 interface AuthDialogGuardProps {
   children?: React.ReactNode | React.ReactElement;

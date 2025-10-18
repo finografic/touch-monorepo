@@ -1,4 +1,5 @@
 import { DataList } from '@radix-ui/themes';
+
 import { styles } from './MetadataDataList.styles';
 
 interface Metadata {

@@ -1,15 +1,17 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { useLayoutUi } from 'providers/LayoutUiProvider';
-import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useFilters } from 'providers/FiltersProvider/useFilters';
-import { useOrders } from 'providers/OrdersProvider';
-import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+
 import type { RegionLocale } from '@workspace/i18n';
+
+import { useDataPoolProxy } from 'hooks/useDataPoolProxy';
+import { useFilters } from 'providers/FiltersProvider/useFilters';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
+import { useOrders } from 'providers/OrdersProvider';
+import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import type { DataEntry } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { FilterKey } from 'types/orders.types';
-import { useDataPoolProxy } from 'hooks/useDataPoolProxy';
 
 enum CHANGED {
   INIT = 'initial-load',

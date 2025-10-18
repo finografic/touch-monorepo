@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import { getSessionTimerStatus } from 'utils/sessionTimer.utils';
 
 /**

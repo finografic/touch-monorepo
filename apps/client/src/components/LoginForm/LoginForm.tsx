@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
+
 import { Button } from 'components/ButtonRadix/Button';
 import { Input } from 'components/Input/Input';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
+
 import { styles } from './LoginForm.styles';
 
 interface LoginFormProps {

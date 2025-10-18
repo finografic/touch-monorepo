@@ -1,9 +1,12 @@
-import type { ReactElement } from 'react';
 import { forwardRef } from 'react';
+
 import clsx from 'clsx';
+import type { ReactElement } from 'react';
+
 import type { ButtonProps } from './Button.types';
-import { baseButtonStyles, fullWidthStyles, getVariantStyles, sizeStyles } from './Button.styles';
 import { LoadingSpinner } from './LoadingSpinner';
+
+import { baseButtonStyles, fullWidthStyles, getVariantStyles, sizeStyles } from './Button.styles';
 
 /**
  * Button - Modern, accessible button component

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
-import { getStoredVolume, setStoredVolume } from 'utils/volume.utils';
+
 import { updatePlayingAudioVolume } from 'utils/soundCache.utils';
+import { getStoredVolume, setStoredVolume } from 'utils/volume.utils';
 
 /**
  * Hook for managing global volume setting

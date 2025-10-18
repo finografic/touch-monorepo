@@ -1,11 +1,14 @@
 import React from 'react';
-import { Flex } from '@radix-ui/themes';
-import { useLocation, useNavigate } from 'react-router-dom';
+
 import { useTranslation } from 'react-i18next';
-import { useAppConfig } from 'providers/AppConfigProvider';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { Flex } from '@radix-ui/themes';
+
 import { useAdmin } from 'providers/AdminProvider';
-import type { Theme } from 'types/ui.types';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+import type { Theme } from 'types/ui.types';
 
 export const HeaderTitle: React.FC = () => {
   const { t } = useTranslation();

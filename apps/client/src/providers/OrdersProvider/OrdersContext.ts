@@ -1,16 +1,18 @@
+import { api } from 'api';
 import { createStore, type StoreApi, useStore } from 'zustand';
+import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
-import { createSetters, createZustandContext } from 'utils/zustand';
-import type { OrdersStore, OrdersValues } from './OrdersContext.types';
+
 import { INITIAL_SLOT_ITEM, ORDER_FIELD_KEYS, SLOT_ITEMS_CONFIG } from 'config/app';
-import { findOrderByNumber } from 'utils/context.utils';
-import type { FilterKey, SlotType } from 'types/orders.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
-import { subscribeWithSelector } from 'zustand/middleware';
-import type { SlotItemConfig } from 'utils/slot-config.utils';
-import { api } from 'api';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { FilterKey, SlotType } from 'types/orders.types';
+import { findOrderByNumber } from 'utils/context.utils';
+import type { SlotItemConfig } from 'utils/slot-config.utils';
+import { createSetters, createZustandContext } from 'utils/zustand';
+
+import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 
 export const DISPLAY_NAME = 'Orders';
 export const SETTER_PREFIX = '';

@@ -1,10 +1,13 @@
 import React, { forwardRef, useCallback, useRef, useState } from 'react';
-import { TextField } from '@radix-ui/themes';
+
 import { ChevronDownIcon } from '@radix-ui/react-icons';
-import type { SelectOption } from 'types/models/select-option.model';
+import { TextField } from '@radix-ui/themes';
 import clsx from 'clsx';
-import { styles, stylesDropdown } from './SelectCustom.styles';
 import { DropdownPortal } from 'forms/SelectSearchable/DropdownPortal';
+
+import type { SelectOption } from 'types/models/select-option.model';
+
+import { styles, stylesDropdown } from './SelectCustom.styles';
 
 interface SelectCustomProps {
   options: SelectOption[];

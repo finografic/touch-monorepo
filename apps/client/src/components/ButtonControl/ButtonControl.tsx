@@ -1,5 +1,6 @@
-import { styles } from './ButtonControl.styles';
 import type { FC, ReactNode } from 'react';
+
+import { styles } from './ButtonControl.styles';
 
 interface ButtonControlProps {
   className?: string;

@@ -1,4 +1,5 @@
 import React, { createContext, useCallback, useContext, useState } from 'react';
+
 import type { Toast, ToastConfig, ToastContextValue } from './Toast.types';
 
 const ToastContext = createContext<ToastContextValue | undefined>(undefined);

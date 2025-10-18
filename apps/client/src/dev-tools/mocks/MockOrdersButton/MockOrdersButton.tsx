@@ -1,13 +1,16 @@
-import { useOrders } from 'providers/OrdersProvider';
-import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useFiltersContext } from 'providers/FiltersProvider';
-import { MOCK_ORDERS_DATA } from './mock-orders.data';
-import { StarIcon } from 'styles/icons';
-import { useNavigate } from 'react-router-dom';
-import { PATHS } from 'config';
 import { useCallback } from 'react';
+
+import { useNavigate } from 'react-router-dom';
+
+import { PATHS } from 'config';
+import { useFiltersContext } from 'providers/FiltersProvider';
+import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { useSession } from 'providers/SessionProvider/SessionContext';
+import { StarIcon } from 'styles/icons';
 import { FLOW_TYPES } from 'types/flow.types';
+
+import { MOCK_ORDERS_DATA } from './mock-orders.data';
 
 export const MockOrdersButton = () => {
   const navigate = useNavigate();

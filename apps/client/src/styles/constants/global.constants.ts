@@ -5,9 +5,12 @@
  */
 
 import { css } from '@emotion/react';
-import { colors } from '../colors/colors.styles';
-import { baseLayout, button } from './base.constants';
+
 import { createCSSProxy } from '../utils/proxy-css-default.utils';
+
+import { baseLayout, button } from './base.constants';
+
+import { colors } from '../colors/colors.styles';
 
 // Base border styles using button constants
 export const border = css`

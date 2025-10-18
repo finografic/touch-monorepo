@@ -1,18 +1,22 @@
 import { useEffect, useRef } from 'react';
+
 import { Col, Row } from 'react-grid-system';
-import { PadSlot } from 'components/Pads/PadSlot';
+
+import { Flex, Spinner } from '@radix-ui/themes';
+import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
+import { useGetSlotConfigurations } from 'queries/slot-configurations';
+
 import { PadAction } from 'components/Pads/PadAction/PadAction';
-import { useOrders } from 'providers/OrdersProvider';
-import { useTimers } from 'providers/TimersProvider';
-import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useSession } from 'providers/SessionProvider/SessionContext';
+import { PadSlot } from 'components/Pads/PadSlot';
 import { useButtonConfig } from 'hooks/useButtonConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
+import { useOrders } from 'providers/OrdersProvider';
+import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useTimers } from 'providers/TimersProvider';
+
 // import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { styles } from './MainPage.styles';
-import { Flex, Spinner } from '@radix-ui/themes';
-import { useGetSlotConfigurations } from 'queries/slot-configurations';
-import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 
 export function MainPage() {
   const { orders } = useOrders();

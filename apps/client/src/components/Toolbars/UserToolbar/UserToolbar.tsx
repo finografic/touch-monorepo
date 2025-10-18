@@ -1,14 +1,18 @@
 import React from 'react';
-import { ThemeToggle } from 'components/IconButtons/ThemeToggle';
-import { LoginButton } from 'components/IconButtons/LoginButton';
-import { HomeIcon, LanguageIcon, ShieldCheckIcon } from 'styles/icons';
-import { useAdmin } from 'providers/AdminProvider';
-import { Flex } from '@radix-ui/themes';
-import { styles } from './UserToolbar.styles';
-import type { Theme } from 'types/ui.types';
-import { useAppConfig } from 'providers/AppConfigProvider';
+
 import { useLocation, useNavigate } from 'react-router-dom';
+
+import { Flex } from '@radix-ui/themes';
+
+import { LoginButton } from 'components/IconButtons/LoginButton';
+import { ThemeToggle } from 'components/IconButtons/ThemeToggle';
+import { useAdmin } from 'providers/AdminProvider';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+import { HomeIcon, LanguageIcon, ShieldCheckIcon } from 'styles/icons';
+import type { Theme } from 'types/ui.types';
+
+import { styles } from './UserToolbar.styles';
 
 export const UserToolbar: React.FC = () => {
   const { theme } = useAppConfig();

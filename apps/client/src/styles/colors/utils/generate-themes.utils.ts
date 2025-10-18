@@ -8,6 +8,7 @@
 import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
+
 import {
   SATURATION_FACTOR,
   SHADE_VARIANCE_FACTOR,

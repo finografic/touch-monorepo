@@ -1,16 +1,20 @@
 import React from 'react';
-import type { ReactNode } from 'react';
-import { Callout, Flex, Heading, Text } from '@radix-ui/themes';
-import { styles } from './Title.styles';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { useAppConfig } from 'providers/AppConfigProvider';
+
 import { Col, Container, Row } from 'react-grid-system';
-import clsx from 'clsx';
-import { useAdmin } from 'providers/AdminProvider';
-import type { Theme } from 'types/ui.types';
+import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import type { SerializedStyles } from '@emotion/react';
+import { Callout, Flex, Heading, Text } from '@radix-ui/themes';
+import clsx from 'clsx';
+import type { ReactNode } from 'react';
+
+import { useAdmin } from 'providers/AdminProvider';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+import type { Theme } from 'types/ui.types';
+
+import { styles } from './Title.styles';
 
 interface TitleProps {
   align?: 'left' | 'center';

@@ -1,5 +1,6 @@
-import type { RouteObject } from 'react-router-dom';
 import { createContext, useContext } from 'react';
+
+import type { RouteObject } from 'react-router-dom';
 
 interface RouteMetadataContextValues {
   isInitialized: boolean;

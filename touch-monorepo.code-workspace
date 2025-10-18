@@ -1,7 +1,16 @@
 {
   "folders": [
     {
+      "name": "✨ touch-monorepo",
       "path": ".",
+    },
+    {
+      "name": "🚀 @workspace/client",
+      "path": "apps/client",
+    },
+    {
+      "name": "🚀 @workspace/server",
+      "path": "apps/server",
     },
   ],
   "settings": {

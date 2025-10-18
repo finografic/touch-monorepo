@@ -1,8 +1,12 @@
 import React, { memo } from 'react';
-import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
+
 import { useTranslation } from 'react-i18next';
-import { styles } from './UiLabelSection.styles';
+
+import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
+
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
+
+import { styles } from './UiLabelSection.styles';
 
 interface SupportedLanguage {
   isoCode: string;

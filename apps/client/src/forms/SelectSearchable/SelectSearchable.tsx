@@ -1,15 +1,19 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { matchSorter } from 'match-sorter';
-import { TextField } from '@radix-ui/themes';
-import { Button } from 'components/ButtonRadix';
+
 import { CheckIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { styles, stylesDropdown } from './SelectSearchable.styles';
-import { DropdownPortal } from './DropdownPortal';
-import type { SelectOption } from 'types/models/select-option.model';
+import { TextField } from '@radix-ui/themes';
+import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
+import { matchSorter } from 'match-sorter';
+
+import { Button } from 'components/ButtonRadix';
 import { colors } from 'styles';
 import { AddIcon, PlusIcon } from 'styles/icons';
+import type { SelectOption } from 'types/models/select-option.model';
 import { slugify } from 'utils/string.utils';
-import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
+
+import { DropdownPortal } from './DropdownPortal';
+
+import { styles, stylesDropdown } from './SelectSearchable.styles';
 
 interface SearchableSelectProps {
   options: SelectOption[];

@@ -1,11 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { IconButton, TextField } from '@radix-ui/themes';
+
 import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
+import { IconButton, TextField } from '@radix-ui/themes';
+
 import { colors } from 'styles';
-import { styles } from './InputTime.styles';
-import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
-import { STEP_BUTTON_SIZE, STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
 import { formatTime, parseTime } from 'utils/time.utils';
+
+import { STEP_BUTTON_SIZE, STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
+import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
+
+import { styles } from './InputTime.styles';
 
 interface InputTimeProps {
   // FormMiddleware integration (when used in FormMiddleware forms)

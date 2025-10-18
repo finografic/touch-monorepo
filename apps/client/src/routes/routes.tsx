@@ -1,28 +1,31 @@
 import type { RouteObject } from 'react-router-dom';
-import { Layout } from 'layout/Layout';
-import { AdminLayout } from 'layout/AdminLayout';
-import { MainPage } from 'pages/MainPage/MainPage';
-import { GenericSelectPage } from 'pages/GenericSelectPage/GenericSelectPage';
-import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
-import { LoaderDataHelper } from 'api/loaders/loader.data';
-import { ProtectedAdminRoutes } from './auth/ProtectedAdminRoutes';
+
+import { AdminDashboardPage } from 'admin/AdminDashboardPage';
+import { AdminFilterAnalysisPage } from 'admin/pages/AdminFilterAnalysisPage';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
+import { AdminLoginPage } from 'admin/pages/AdminLoginPage/AdminLoginPage';
+import { AdminModePage } from 'admin/pages/AdminModePage/AdminModePage';
+import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
+import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
+import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
+import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
+import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage';
 import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
+import { LoaderDataHelper } from 'api/loaders/loader.data';
+import { AdminLayout } from 'layout/AdminLayout';
+import { Layout } from 'layout/Layout';
+import { GenericSelectPage } from 'pages/GenericSelectPage/GenericSelectPage';
+import { LoginPage } from 'pages/LoginPage/LoginPage';
+import { MainPage } from 'pages/MainPage/MainPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
-import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
-import { AdminFilterAnalysisPage } from 'admin/pages/AdminFilterAnalysisPage';
-import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
-import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
-import { LoginPage } from 'pages/LoginPage/LoginPage';
-import { AdminLoginPage } from 'admin/pages/AdminLoginPage/AdminLoginPage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
+
 import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
-import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
-import { AdminModePage } from 'admin/pages/AdminModePage/AdminModePage';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
-import { AdminDashboardPage } from 'admin/AdminDashboardPage';
-import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage';
+import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
+
+import { ProtectedAdminRoutes } from './auth/ProtectedAdminRoutes';
 
 export const routes: RouteObject[] = [
   {

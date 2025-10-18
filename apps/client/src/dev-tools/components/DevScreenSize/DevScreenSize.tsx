@@ -1,8 +1,11 @@
-import { Visible } from 'react-grid-system';
-import type { ReactElement } from 'react';
 import { Fragment } from 'react';
-import { styles } from './DevScreenSize.styles';
+
+import { Visible } from 'react-grid-system';
+
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
+import type { ReactElement } from 'react';
+
+import { styles } from './DevScreenSize.styles';
 
 export const DevScreenSize = ({ variant = 'light' }: { variant?: 'light' | 'dark' }): ReactElement => {
   if (import.meta.env.NODE_ENV === 'production') return <Fragment />;

@@ -1,10 +1,12 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
-import { useShallow } from 'zustand/react/shallow';
-import { createSetters, createZustandContext } from 'utils/zustand';
-import type { FiltersStore, FiltersValues } from './FiltersContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
+import { useShallow } from 'zustand/react/shallow';
+
 import type { OrderFilters } from 'types/filters.types';
 import type { FilterKey } from 'types/orders.types';
+import { createSetters, createZustandContext } from 'utils/zustand';
+
+import type { FiltersStore, FiltersValues } from './FiltersContext.types';
 
 export const DISPLAY_NAME = 'Filters';
 export const SETTER_PREFIX = 'Filters';

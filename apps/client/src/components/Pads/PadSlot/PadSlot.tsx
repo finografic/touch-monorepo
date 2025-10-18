@@ -1,13 +1,17 @@
 import React, { useMemo } from 'react';
+
 import clsx from 'clsx';
-import { useTimers } from 'providers/TimersProvider';
-import { useLayoutUi } from 'providers/LayoutUiProvider';
-import type { FilterKey, SlotType } from 'types/orders.types';
-import { PadSlotToggle } from './PadSlotToggle';
-import { styles } from './PadSlot.styles';
+
 import { Pad } from 'components/Pads/Pad';
-import { ROUTE_FILTER_KEYS } from 'config/app';
 import { Timer } from 'components/Timer/Timer';
+import { ROUTE_FILTER_KEYS } from 'config/app';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
+import { useTimers } from 'providers/TimersProvider';
+import type { FilterKey, SlotType } from 'types/orders.types';
+
+import { PadSlotToggle } from './PadSlotToggle';
+
+import { styles } from './PadSlot.styles';
 
 export interface PadMenuProps {
   slotType: SlotType;

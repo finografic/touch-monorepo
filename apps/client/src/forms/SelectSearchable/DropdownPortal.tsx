@@ -1,6 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Portal } from './Portal';
+
 import type { SerializedStyles } from '@emotion/react';
+
+import { Portal } from './Portal';
 
 interface DropdownPortalProps {
   children: React.ReactNode;

@@ -1,9 +1,12 @@
 import React from 'react';
-import { Box, Callout, Card, Flex, Heading, IconButton } from '@radix-ui/themes';
+
 import { InfoCircledIcon } from '@radix-ui/react-icons';
-import { TrashIcon } from 'styles/icons';
+import { Box, Callout, Card, Flex, Heading, IconButton } from '@radix-ui/themes';
 import type { LanguageInfo } from '@workspace/i18n/types';
 import clsx from 'clsx';
+
+import { TrashIcon } from 'styles/icons';
+
 import { LanguageItem } from './LanguageItem';
 
 interface LanguagesListSelectedProps {

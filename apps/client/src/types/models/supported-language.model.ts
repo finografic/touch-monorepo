@@ -1,5 +1,6 @@
-import type { SupportedLanguageEntity } from '@workspace/server/types';
 import type { ConvertKeysToCamelCase, OverridePropTypes } from '@workspace/core/types/utils';
+import type { SupportedLanguageEntity } from '@workspace/server/types';
+
 import type { ModelBaseProps } from 'types/base.types';
 
 /**

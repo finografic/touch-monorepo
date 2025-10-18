@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from 'api';
 import { transformAxiosError } from '@workspace/core/api';
-import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
+import { api } from 'api';
+
+import { useAppConfig } from 'providers/AppConfigProvider';
 import type { ContainerType } from 'types/models/container.model';
 import { slugify } from 'utils/string.utils';
-import { useAppConfig } from 'providers/AppConfigProvider';
+
+import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 
 export interface CreateContainerTypeInput {
   name: string;

@@ -2,6 +2,8 @@
  * Palette type definitions
  * Defines the structure and types for the generated color palette
  */
+import type { RadixColorVariable } from '../radix-ui/radix.types';
+
 import type {
   ColorBaseName,
   ColorName,
@@ -11,7 +13,6 @@ import type {
   ShadeVariant,
   TransparencyLevel,
 } from './colors.types';
-import type { RadixColorVariable } from '../radix-ui/radix.types';
 
 // ======================================================================== //
 // PALETTE KEYS

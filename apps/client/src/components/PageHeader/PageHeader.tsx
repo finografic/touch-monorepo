@@ -1,12 +1,16 @@
 import React from 'react';
-import type { ReactNode } from 'react';
-import { Container, Flex, Heading, Text } from '@radix-ui/themes';
-import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { useContent } from 'providers/ContentProvider/ContentContext';
+
 import { useTranslation } from 'react-i18next';
-import { styles } from './PageHeader.styles';
-import { ROUTE_FILTER_KEYS } from 'config/app';
+
+import { Container, Flex, Heading, Text } from '@radix-ui/themes';
 import { LucideArrowRightSquare } from 'lucide-react';
+import type { ReactNode } from 'react';
+
+import { ROUTE_FILTER_KEYS } from 'config/app';
+import { useContent } from 'providers/ContentProvider/ContentContext';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+
+import { styles } from './PageHeader.styles';
 
 // TODO: OVERRIDES..
 const isPageTitleVisible = true;

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import type { ToastVariant } from './Toast.types';
 
 interface ToastIconProps {

@@ -1,17 +1,20 @@
+import { useMemo } from 'react';
+
+import { useTranslation } from 'react-i18next';
 import type { UIMatch } from 'react-router-dom';
 import { useMatches, useRouteLoaderData } from 'react-router-dom';
-import type { RouteConfig } from 'routes/routes.types';
+
+import type { RegionLocale } from '@workspace/i18n';
+import cloneDeep from 'lodash/cloneDeep';
+
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { getPadsUIConfig } from 'config/ui';
-import type { FilterKey } from 'types/orders.types';
-import { useMemo } from 'react';
-import cloneDeep from 'lodash/cloneDeep';
-import type { DataEntry } from 'types/data.types';
-import type { PadConfig } from 'types/pads.types';
-import type { FilterApiKey } from 'types/filters.types';
-import { useTranslation } from 'react-i18next';
-import type { RegionLocale } from '@workspace/i18n';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
+import type { RouteConfig } from 'routes/routes.types';
+import type { DataEntry } from 'types/data.types';
+import type { FilterApiKey } from 'types/filters.types';
+import type { FilterKey } from 'types/orders.types';
+import type { PadConfig } from 'types/pads.types';
 
 // Required route config interface
 interface RequiredRouteConfig<T = DataEntry[]> {

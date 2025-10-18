@@ -1,9 +1,11 @@
-import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { useOrders } from 'providers/OrdersProvider';
-import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
-import { JSONTree } from '../components/JSONTree/JSONTree';
-import { stylesRight } from './DevPanels.styles';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
+import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
+import { useOrders } from 'providers/OrdersProvider';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+
+import { JSONTree } from '../components/JSONTree/JSONTree';
+
+import { stylesRight } from './DevPanels.styles';
 
 export const DevPanelRight = () => {
   const { data, dataFiltered } = useFilters();

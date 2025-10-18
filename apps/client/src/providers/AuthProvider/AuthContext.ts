@@ -13,10 +13,12 @@
  */
 
 import { createStore, type StoreApi, useStore } from 'zustand';
-import { useShallow } from 'zustand/react/shallow';
-import { createSetters, createZustandContext } from 'utils/zustand';
-import type { AuthSession, AuthSignOutCallbacks, AuthStore, AuthValues } from './AuthContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
+import { useShallow } from 'zustand/react/shallow';
+
+import { createSetters, createZustandContext } from 'utils/zustand';
+
+import type { AuthSession, AuthSignOutCallbacks, AuthStore, AuthValues } from './AuthContext.types';
 
 export const DISPLAY_NAME = 'Auth';
 export const SETTER_PREFIX = '';

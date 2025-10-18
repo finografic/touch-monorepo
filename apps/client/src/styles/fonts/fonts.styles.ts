@@ -1,4 +1,5 @@
 import { css } from '@emotion/react';
+
 import { typography } from '../constants/base.constants';
 
 export const cssFontDefaults = css`

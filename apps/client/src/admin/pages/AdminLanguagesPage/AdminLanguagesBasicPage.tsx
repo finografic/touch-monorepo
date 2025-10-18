@@ -1,9 +1,14 @@
 import React from 'react';
-import { Box } from '@radix-ui/themes';
+
 import { useTranslation } from 'react-i18next';
-import { AdminContentLayout, AdminSection } from '../..';
-import { styles } from './AdminLanguagesPage.styles';
+
+import { Box } from '@radix-ui/themes';
+
 import { LanguageSelector } from 'components/LanguageSelector/LanguageSelector';
+
+import { AdminContentLayout, AdminSection } from '../..';
+
+import { styles } from './AdminLanguagesPage.styles';
 
 export const AdminLanguagesBasicPage: React.FC = () => {
   const { t } = useTranslation();

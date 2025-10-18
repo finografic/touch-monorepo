@@ -1,6 +1,8 @@
 import React, { type ReactNode, useState } from 'react';
-import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom';
+
 import { ErrorBoundary as ReactErrorBoundary } from 'react-error-boundary';
+import { isRouteErrorResponse, Link, useRouteError } from 'react-router-dom';
+
 import { styles } from './ErrorBoundary.styles';
 
 const ErrorFallback: React.FC = () => {

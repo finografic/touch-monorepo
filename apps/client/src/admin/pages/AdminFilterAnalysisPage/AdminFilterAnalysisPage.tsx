@@ -1,10 +1,14 @@
 import React, { useMemo, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
+
 import { Flex, Spinner, Text } from '@radix-ui/themes';
-import { AdminContentLayout, AdminSection } from '../..';
-import { useGetOrdersReadable } from 'queries/orders/useGetOrdersReadable';
-import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
+import { useGetOrdersReadable } from 'queries/orders/useGetOrdersReadable';
+
+import { OrdersSummaryCards } from 'components/OrdersSummaryCards';
+
+import { AdminContentLayout, AdminSection } from '../..';
 
 export const AdminFilterAnalysisPage: React.FC = () => {
   const { t } = useTranslation();

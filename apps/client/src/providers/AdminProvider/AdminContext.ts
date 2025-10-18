@@ -1,8 +1,9 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
-import { useShallow } from 'zustand/react/shallow';
-import { createSetters, createZustandContext } from 'utils/zustand';
-import type { AdminStore } from 'providers/AdminProvider/AdminContext.types';
 import { subscribeWithSelector } from 'zustand/middleware';
+import { useShallow } from 'zustand/react/shallow';
+
+import type { AdminStore } from 'providers/AdminProvider/AdminContext.types';
+import { createSetters, createZustandContext } from 'utils/zustand';
 
 export const DISPLAY_NAME = 'Admin';
 export const SETTER_PREFIX = '';

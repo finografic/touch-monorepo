@@ -1,5 +1,6 @@
-import type { CountryBasic, CountryModel } from '../../../../../../packages/types/src/countries.types';
 import { CountryDto } from 'queries/countries/country.dto';
+
+import type { CountryBasic, CountryModel } from '../../../../../../packages/types/src/countries.types';
 
 /**
  * Filter countries to a manageable list of ~80-100 options

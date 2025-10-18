@@ -1,6 +1,8 @@
 import React, { memo } from 'react';
-import { Button, Flex } from '@radix-ui/themes';
+
 import { useTranslation } from 'react-i18next';
+
+import { Button, Flex } from '@radix-ui/themes';
 
 interface FormActionsProps {
   isSubmitting: boolean;

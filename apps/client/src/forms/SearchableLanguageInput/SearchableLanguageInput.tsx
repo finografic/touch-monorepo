@@ -1,9 +1,12 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { matchSorter } from 'match-sorter';
-import { Box, Card, Flex, Text, TextField } from '@radix-ui/themes';
+
 import { ChevronDownIcon, MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import { styles } from './SearchableLanguageInput.styles';
+import { Box, Card, Flex, Text, TextField } from '@radix-ui/themes';
+import { matchSorter } from 'match-sorter';
+
 import type { Country } from '../../components/LanguageSelector/languages/country.types';
+
+import { styles } from './SearchableLanguageInput.styles';
 
 interface LanguageOption {
   languageCode: string;

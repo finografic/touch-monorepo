@@ -1,4 +1,7 @@
 import type { FieldPath, FieldValues } from 'react-hook-form';
+
+import { formatTime, parseTime  } from 'utils/time.utils';
+
 import type { FieldConfig } from './FormMiddleware.types';
 
 // Localization utilities
@@ -9,8 +12,6 @@ export const formatTemperatureValue = (value: number, locale: string): string =>
   }).format(value);
 };
 
-import { formatTime } from 'utils/time.utils';
-
 // Re-export formatTime for backward compatibility
 export const formatTimeValue = formatTime;
 
@@ -19,8 +20,6 @@ export const parseNumericValue = (displayValue: string): number | undefined => {
   const parsed = Number.parseFloat(normalizedValue);
   return Number.isNaN(parsed) ? undefined : parsed;
 };
-
-import { parseTime } from 'utils/time.utils';
 
 // Re-export parseTime for backward compatibility
 export const parseTimeValue = (displayValue: string): number | undefined => {

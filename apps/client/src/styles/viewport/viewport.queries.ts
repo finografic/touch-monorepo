@@ -1,6 +1,7 @@
 import { setConfiguration } from 'react-grid-system';
-import type { BreakpointMap, ScreenClass } from './viewport.types';
+
 import { BREAKPOINTS } from './viewport.breakpoints';
+import type { BreakpointMap, ScreenClass } from './viewport.types';
 import { mapNewBreakpointRules, toMediaMaxWidth, toMediaMinWidth } from './viewport.utils';
 
 // ======================================================================== //

@@ -1,11 +1,13 @@
 import type { ReactNode } from 'react';
-import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
-import type { SlotItem, SlotType } from 'types/orders.types';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
+
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
-import type { CreateSettersType } from 'utils/zustand';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { SlotItem, SlotType } from 'types/orders.types';
 import type { SlotItemConfig } from 'utils/slot-config.utils';
+import type { CreateSettersType } from 'utils/zustand';
+
+import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
 
 export interface OrdersValues {
   [OrdersKeys.orders]: SlotItem[];

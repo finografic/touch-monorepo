@@ -1,9 +1,10 @@
 import { useCallback } from 'react';
-import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
+
 import { useFiltersContext } from 'providers/FiltersProvider';
-import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { useSession } from 'providers/SessionProvider/SessionContext';
 
 /**
  * Returns a memoized function that resets front-end app state to a clean slate.

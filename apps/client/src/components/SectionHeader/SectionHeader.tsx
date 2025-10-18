@@ -1,8 +1,10 @@
 import React from 'react';
+
 import { Box, Heading, Text } from '@radix-ui/themes';
-import clsx from 'clsx';
-import { styles } from './SectionHeader.styles';
 import type { Responsive } from '@radix-ui/themes/dist/esm/props/prop-def.js';
+import clsx from 'clsx';
+
+import { styles } from './SectionHeader.styles';
 
 interface SectionHeaderProps {
   title?: string;

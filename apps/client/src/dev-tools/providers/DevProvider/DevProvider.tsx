@@ -1,6 +1,7 @@
-import type { DevProviderProps } from './DevContext.types';
-import { DevContext as Dev, DISPLAY_NAME } from './DevContext';
 import { DevGuidesLayer } from 'dev-tools/layers/DevGuidesLayer/DevGuidesLayer';
+
+import { DevContext as Dev, DISPLAY_NAME } from './DevContext';
+import type { DevProviderProps } from './DevContext.types';
 
 export const DevProvider = ({ initialValue, children }: DevProviderProps) => {
   return (

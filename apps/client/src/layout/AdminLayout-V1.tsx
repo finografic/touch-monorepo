@@ -1,22 +1,26 @@
 import { Suspense, useEffect } from 'react';
-import type { FC } from 'react';
-import { Outlet } from 'react-router-dom';
-import { Theme } from '@radix-ui/themes';
-import { ContentProvider } from 'providers/ContentProvider';
-import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
-import { Loader } from 'components/Loader/Loader';
-import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
-import { Footer } from 'components/Footer/Footer';
-import { AdminNavigation } from 'admin/components/AdminNavigation';
+
 import { setConfiguration } from 'react-grid-system';
-import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
-import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
-import { ToastProvider, ToastSystem } from 'components/Toast';
-import { PageHeader } from 'components/PageHeader/PageHeader';
-import { Header } from 'components/Header/Header';
-import { styles } from './AdminLayout.styles';
-import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
+import { Outlet } from 'react-router-dom';
+
+import { Theme } from '@radix-ui/themes';
+import { AdminNavigation } from 'admin/components/AdminNavigation';
+import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
+import type { FC } from 'react';
+
 import { AuthLoginDialog } from 'components/Dialog/dialogs';
+import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
+import { Footer } from 'components/Footer/Footer';
+import { Header } from 'components/Header/Header';
+import { Loader } from 'components/Loader/Loader';
+import { PageHeader } from 'components/PageHeader/PageHeader';
+import { ToastProvider, ToastSystem } from 'components/Toast';
+import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
+import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
+import { ContentProvider } from 'providers/ContentProvider';
+import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
+
+import { styles } from './AdminLayout.styles';
 
 export const AdminLayout: FC = () => {
   setConfiguration({

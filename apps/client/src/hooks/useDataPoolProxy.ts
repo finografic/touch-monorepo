@@ -1,8 +1,9 @@
 import { useMemo } from 'react';
+
 import { useFilters } from 'providers/FiltersProvider/useFilters';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { OrderFilters } from 'types/filters.types';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import type { OrderFilters } from 'types/filters.types';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { getNextStepFilterKey } from 'utils/filters/filters-flow.utils';
 
 /**

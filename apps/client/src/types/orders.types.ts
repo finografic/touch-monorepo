@@ -1,5 +1,6 @@
-import type { OrderFilters } from 'types/filters.types';
 import type { CamelToKebab, CamelToSnake } from '@workspace/core/types/utils';
+
+import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 
 // ======================================================================== //

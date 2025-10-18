@@ -1,8 +1,10 @@
 import { useFilters } from 'providers/FiltersProvider/useFilters';
-import { styles } from './DevFilterResults.styles';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-import { DevDataTable } from '../../components/DevDataTable';
 import type { OrderFilters } from 'types/filters.types';
+
+import { DevDataTable } from '../../components/DevDataTable';
+
+import { styles } from './DevFilterResults.styles';
 
 export const DevFilterResults = () => {
   const { filters, dataFiltered } = useFilters();

@@ -1,3 +1,5 @@
+// Hooks
+export { useOrdersFormDevTools } from '../OrderFormDevTools/useOrdersFormDevTools';
 export * from './orders-form.submission';
 
 // Utils and types
@@ -8,6 +10,3 @@ export { OrdersForm } from './OrdersForm';
 
 // Dev tools components
 export * from './useAutoTranslation';
-
-// Hooks
-export { useOrdersFormDevTools } from '../OrderFormDevTools/useOrdersFormDevTools';

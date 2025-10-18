@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { useContent } from 'providers/ContentProvider/ContentContext';
+
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { useContent } from 'providers/ContentProvider/ContentContext';
 
 // ============================================================================
 // Types

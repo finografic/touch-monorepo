@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
+
 import type { FC } from 'react';
+
 import type { Temperature } from 'types/orders.types';
-import { styles } from './PadTemperature.styles';
 import type { TemperatureKey } from 'types/temperature.types';
+
+import { styles } from './PadTemperature.styles';
 
 interface TemperatureInputProps {
   name: TemperatureKey;

@@ -1,10 +1,13 @@
-import type { FC } from 'react';
-import { Flex } from '@radix-ui/themes';
-import { styles } from './Footer.styles';
 import { useLocation } from 'react-router-dom';
+
+import { Flex } from '@radix-ui/themes';
+import { DevToolbarFrontEnd } from 'dev-tools/_DevToolbarFrontEnd/DevToolbarFrontEnd';
+import type { FC } from 'react';
+
 import { AdminToolbar } from 'components/Toolbars/AdminToolbar/AdminToolbar';
 import { FrontEndToolbar } from 'components/Toolbars/FrontEndToolbar/FrontEndToolbar';
-import { DevToolbarFrontEnd } from 'dev-tools/_DevToolbarFrontEnd/DevToolbarFrontEnd';
+
+import { styles } from './Footer.styles';
 
 export const Footer: FC = () => {
   const location = useLocation();

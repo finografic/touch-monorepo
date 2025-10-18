@@ -1,8 +1,10 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { api } from 'api';
 import { transformAxiosError } from '@workspace/core/api';
-import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
+import { api } from 'api';
+
 import type { SlotConfiguration, UpdateSlotConfigRequest } from 'types/slot-config.types';
+
+import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
 
 /**
  * Hook to update a slot configuration

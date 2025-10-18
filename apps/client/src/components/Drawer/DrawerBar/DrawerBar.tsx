@@ -1,8 +1,10 @@
 import { Box, Button, Flex } from '@radix-ui/themes';
-import { styles } from './DrawerBar.styles';
-import type { FC, ReactNode } from 'react';
-import { PanelBottomCloseIcon, PanelBottomOpenIcon } from 'styles/icons';
 import clsx from 'clsx';
+import type { FC, ReactNode } from 'react';
+
+import { PanelBottomCloseIcon, PanelBottomOpenIcon } from 'styles/icons';
+
+import { styles } from './DrawerBar.styles';
 
 interface DrawerBarProps {
   isActionActive: boolean;

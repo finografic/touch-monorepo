@@ -1,5 +1,6 @@
 import type { GetItemString, LabelRenderer } from 'react-json-tree';
 import { JSONTree as JSONTreeReact } from 'react-json-tree';
+
 import { styles } from './JSONTree.styles';
 
 // VS Code Dark+ inspired theme

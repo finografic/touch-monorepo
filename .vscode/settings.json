@@ -2,7 +2,8 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit"
+    "source.fixAll.eslint": "explicit",
+    "source.organizeImports": "never" // Disable built-in organize imports
   },
   "eslint.enable": true,
   "[javascript]": {
@@ -105,5 +106,27 @@
     "javascript": "html"
   },
   "javascript.validate.enable": true,
-  "typescript.validate.enable": true
+  "typescript.validate.enable": true,
+
+  // Auto Import Extension Settings
+  "auto-import.imports": {
+    "enabled": true,
+    "sortOnSave": false, // Let ESLint handle sorting
+    "removeUnusedImports": false, // Let ESLint handle this
+    "addMissingImports": true,
+    "organizeImports": false // Disable to prevent conflicts with ESLint
+  },
+
+  // TypeScript Auto Import Settings (Built-in) - duplicates removed since already configured above
+  "typescript.suggest.includeAutomaticOptionalChainCompletions": false,
+
+  // JavaScript Auto Import Settings
+  "javascript.suggest.autoImports": false,
+  "javascript.preferences.includePackageJsonAutoImports": "off",
+
+  // Additional import-related settings
+  "typescript.suggest.includeCompletionsForImportStatements": true,
+  "typescript.suggest.includeCompletionsWithSnippetText": true
+
+  // ESLint will handle import sorting and organization
 }

@@ -1,8 +1,12 @@
 import React from 'react';
+
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
+
 import { SlotType } from 'types/orders.types';
-import { styles } from './RelayGrid.styles';
+
 import { NUM_RELAYS } from './relays.config';
+
+import { styles } from './RelayGrid.styles';
 
 interface RelayConfig {
   slotNumber: number;

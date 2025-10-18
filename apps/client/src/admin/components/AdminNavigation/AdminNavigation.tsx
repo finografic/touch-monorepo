@@ -1,13 +1,17 @@
 import React, { startTransition } from 'react';
-import { TabNav } from '@radix-ui/themes';
+
+import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-import { usePageTransition } from 'hooks/usePageTransition';
-import { Col, Container, Row } from 'react-grid-system';
-import { styles } from './AdminNavigation.styles';
+
+import { TabNav } from '@radix-ui/themes';
 import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { getNavLabel } from 'admin/utils/i18n.utils';
+
+import { usePageTransition } from 'hooks/usePageTransition';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
+
+import { styles } from './AdminNavigation.styles';
 
 export const AdminNavigation: React.FC = () => {
   const { t } = useTranslation();

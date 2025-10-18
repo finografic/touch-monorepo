@@ -8,14 +8,16 @@
  */
 
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { Flex } from '@radix-ui/themes';
-import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
 import {
   type ColumnDef,
   type ColumnKey,
   type ColumnSearchState,
   OrdersTable,
 } from 'admin/pages/AdminOrdersPage/OrdersTable';
+import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
+
 import type { SelectOption } from 'types/models/select-option.model';
 
 export const TabListExample: React.FC = () => {

@@ -1,14 +1,16 @@
 import React, { useCallback } from 'react';
-import { Box, Button, Flex, Heading, Text } from '@radix-ui/themes';
-import { SpeakerLoudIcon } from 'styles/icons';
 
-import { useToast } from 'components/Toast';
+import { Box, Button, Flex, Heading, Text } from '@radix-ui/themes';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useUpdateSoundSettings } from 'queries/sounds';
-import { playSoundByPath } from 'utils/soundCache.utils';
-import { styles } from './SoundConfigurationSection.styles';
+
+import { useToast } from 'components/Toast';
 import { useAuth } from 'providers/AuthProvider';
+import { SpeakerLoudIcon } from 'styles/icons';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
+import { playSoundByPath } from 'utils/soundCache.utils';
+
+import { styles } from './SoundConfigurationSection.styles';
 
 interface SoundConfigurationSectionProps {
   soundFiles: SoundFile[];

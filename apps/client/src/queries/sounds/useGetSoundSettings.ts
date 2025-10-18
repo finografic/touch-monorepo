@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
+
 import type { SoundSettings } from 'types/sounds.types';
 
 // API function

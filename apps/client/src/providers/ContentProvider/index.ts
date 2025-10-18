@@ -1,3 +1,3 @@
-export { ContentProvider } from './ContentProvider';
 export { useContent } from './ContentContext';
-export type { ContentProviderProps, ContentValues, ContentActions } from './ContentContext.types';
+export type { ContentActions, ContentProviderProps, ContentValues } from './ContentContext.types';
+export { ContentProvider } from './ContentProvider';

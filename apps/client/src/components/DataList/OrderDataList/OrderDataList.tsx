@@ -1,6 +1,8 @@
 import { DataList } from '@radix-ui/themes';
-import { styles } from './OrderDataList.styles';
+
 import type { OrderReadableModel } from 'types/models/order-readable.model';
+
+import { styles } from './OrderDataList.styles';
 
 export const OrderDataList = ({ data }: { data: OrderReadableModel }) => {
   console.log('OrderDataList received data:', data);

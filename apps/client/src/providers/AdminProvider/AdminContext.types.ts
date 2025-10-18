@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
-import type { AdminKeys, SETTER_PREFIX } from './AdminContext';
+
 import type { CreateSettersType } from 'utils/zustand';
+
+import type { AdminKeys, SETTER_PREFIX } from './AdminContext';
 
 export interface AdminValues {
   [AdminKeys.isAdminToolsVisible]: boolean;

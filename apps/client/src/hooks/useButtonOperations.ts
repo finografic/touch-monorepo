@@ -1,21 +1,24 @@
 import { useCallback, useMemo, useTransition } from 'react';
+
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useOrders } from 'providers/OrdersProvider';
-import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useTimers } from 'providers/TimersProvider';
-import { useLayoutUi } from 'providers/LayoutUiProvider';
-import { useProcessTimesFromTemperatureFilter } from 'hooks/useProcessTimesFromTemperatureFilter';
-import { useConfigStorage } from 'hooks/useConfigStorage';
-import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
-import { useFiltersContext } from 'providers/FiltersProvider';
-import { api } from 'api';
-import { ALTERNATIVE_PATHS, PATHS } from 'config';
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
-import { FLOW_TYPES } from 'types/flow.types';
+
 import createCuid from '@bugsnag/cuid';
+import { api } from 'api';
 // import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import type { error } from 'console';
+
+import { ALTERNATIVE_PATHS, PATHS } from 'config';
+import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
+import { useConfigStorage } from 'hooks/useConfigStorage';
+import { useProcessTimesFromTemperatureFilter } from 'hooks/useProcessTimesFromTemperatureFilter';
+import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
+import { useFiltersContext } from 'providers/FiltersProvider';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
+import { useOrders } from 'providers/OrdersProvider';
+import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useTimers } from 'providers/TimersProvider';
+import { FLOW_TYPES } from 'types/flow.types';
 import { convertSlotConfigsToOrderConfig, getFallbackSlotsConfig } from 'utils/slot-config.utils';
 
 type OperationActionType =

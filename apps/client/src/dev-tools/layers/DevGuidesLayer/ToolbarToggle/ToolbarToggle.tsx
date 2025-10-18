@@ -1,7 +1,10 @@
 import clsx from 'clsx';
-import { styles } from './ToolbarToggle.styles';
+
 import { PanelBottomCloseIcon, PanelBottomOpenIcon } from 'styles/icons';
+
 import { useDevGuides } from '../../../providers/DevGuidesProvider';
+
+import { styles } from './ToolbarToggle.styles';
 
 export const ToolbarToggle = () => {
   const { isDevGuidesVisibile, setIsDevGuidesVisibile } = useDevGuides();

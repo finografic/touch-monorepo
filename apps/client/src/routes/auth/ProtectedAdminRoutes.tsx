@@ -1,8 +1,11 @@
 import React from 'react';
+
 import { Outlet, useLocation } from 'react-router-dom';
-import { useAuth } from 'providers/AuthProvider';
+
 import { getAdminEntryByPath } from 'admin/config/admin.routes.selectors';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
+
+import { useAuth } from 'providers/AuthProvider';
 
 /**
  * Protected Admin Routes - Single wrapper for all admin route access control

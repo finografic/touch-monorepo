@@ -1,6 +1,8 @@
-import { EndpointHelper } from 'api/api.endpoints';
-import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 import type { LoaderFunction } from 'react-router-dom';
+
+import { EndpointHelper } from 'api/api.endpoints';
+
+import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 
 type LoaderMap = {
   [K in keyof typeof ROUTE_FILTER_KEYS]: LoaderFunction;

@@ -1,7 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
-import { clearSoundCache } from 'utils/soundCache.utils';
+
 import type { SoundType } from 'types/sounds.types';
+import { clearSoundCache } from 'utils/soundCache.utils';
 
 // API function
 export const removeSoundFile = async (id: string, soundType: SoundType): Promise<{ message: string }> => {

@@ -1,6 +1,8 @@
-import type { RouterCurrent } from './useRouterLoader.types';
 import { useParams } from 'react-router-dom';
+
 import { getPathSlug } from 'routes/utils/routes.utils';
+
+import type { RouterCurrent } from './useRouterLoader.types';
 
 export const useRouterLoader = () => {
   const paramsRouter = useParams();

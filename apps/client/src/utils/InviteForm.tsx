@@ -1,22 +1,28 @@
+import { useEffect, useState } from 'react';
+
 import { Col, Row } from 'react-grid-system';
 import { useFormContext } from 'react-hook-form';
-import { useEffect, useState } from 'react';
-import { matchSorter } from 'match-sorter';
-import type { DataEntry } from 'types';
-import { METADATA } from 'types';
+
 import { useGetMetadata } from 'api/useGetMetadata';
-import { useDataFilter } from 'store/DataFilterContext';
-import { DataSearch } from 'components/DataSearch';
-import { DetailFilter } from 'components/DetailFilter';
+import { SPAIN_PROVINCES } from 'forms/config/form.select-options/spain/spain.select-options';
 import type { SelectOption } from 'forms/FormUI/Select';
 import { Select } from 'forms/FormUI/Select';
+import { matchSorter } from 'match-sorter';
+import { useDataFilter } from 'store/DataFilterContext';
+import type { DataEntry } from 'types';
+
+import { DataSearch } from 'components/DataSearch';
+import { DetailFilter } from 'components/DetailFilter';
 import { usePagination } from 'components/Pagination';
-import 'react-datepicker/dist/react-datepicker.css';
+import { METADATA } from 'types';
 import { slugify } from 'utils/string.utils';
-import { SPAIN_PROVINCES } from 'forms/config/form.select-options/spain/spain.select-options';
-import { RESET } from './invite-form.contants';
+
 import { useInviteFilters } from '../InviteFiltersContext';
 import { Summary } from '../invitesDEV';
+
+import { RESET } from './invite-form.contants';
+
+import 'react-datepicker/dist/react-datepicker.css';
 import { styles } from './InviteForm.styles';
 
 export const InviteForm = ({ setSelectedIDs }: any) => {
@@ -296,7 +302,7 @@ export const InviteForm = ({ setSelectedIDs }: any) => {
                       options={entityTypeOptions}
                       onChange={handleSelectType}
                       value={filters.entityType.value}
-                      placeholder={'Tipo de entitidad'}
+                      placeholder="Tipo de entitidad"
                     />
                   )}
                 </fieldset>
@@ -306,7 +312,7 @@ export const InviteForm = ({ setSelectedIDs }: any) => {
                 <fieldset className="fieldset-filter">
                   <label htmlFor="field__search">Buscar</label>
                   <DetailFilter
-                    field={'searchQuery'}
+                    field="searchQuery"
                     initValue={{ value: filters.searchQuery.value, isActive: false }}
                     filtersState={{ filters, setFilters }}
                   >

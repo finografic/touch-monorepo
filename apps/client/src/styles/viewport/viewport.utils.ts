@@ -1,5 +1,5 @@
-import type { BreakpointMap } from 'styles/viewport/viewport.types';
 import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
+import type { BreakpointMap } from 'styles/viewport/viewport.types';
 
 // Default pixel size of the HTML DOM object
 // used to calculate REM, and indirectly EM units
@@ -48,4 +48,4 @@ const toEmNumeric = (px: number) => convertPxToRem(px); // this case:  EM = REM
 const toMediaMinWidth = (value: number) => `(min-width: ${value}px)`;
 const toMediaMaxWidth = (value: number) => `(max-width: ${value}px)`;
 
-export { toPixelString, toRemNumeric, toEmNumeric, toMediaMinWidth, toMediaMaxWidth };
+export { toEmNumeric, toMediaMaxWidth, toMediaMinWidth, toPixelString, toRemNumeric };

@@ -1,7 +1,10 @@
 import * as React from 'react';
+
 import clsx from 'clsx';
-import { padStyles } from './Pad.styles';
+
 import type { PadProps } from './Pad';
+
+import { padStyles } from './Pad.styles';
 
 export const PadButton: React.FC<PadProps> = ({
   filterKey,

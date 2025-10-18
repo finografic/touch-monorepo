@@ -1,8 +1,10 @@
-import type { FC } from 'react';
 import clsx from 'clsx';
-import { MoonIcon, SunIcon } from 'styles/icons';
-import { styles } from './ThemeToggle.styles';
+import type { FC } from 'react';
+
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { MoonIcon, SunIcon } from 'styles/icons';
+
+import { styles } from './ThemeToggle.styles';
 
 export const ThemeToggle: FC = () => {
   const { theme, toggleTheme } = useAppConfig();

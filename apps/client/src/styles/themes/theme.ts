@@ -1,7 +1,9 @@
-import { colors } from '../colors/colors.styles';
-import { spacing } from '../constants/global.constants';
 import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
+
+import { spacing } from '../constants/global.constants';
 import { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from '../fonts/typography.contants';
+
+import { colors } from '../colors/colors.styles';
 
 export const theme = {
   colors,

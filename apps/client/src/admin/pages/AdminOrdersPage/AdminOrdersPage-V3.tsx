@@ -1,25 +1,30 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { Col, Container, Row } from 'react-grid-system';
+import { useNavigate, useParams } from 'react-router-dom';
+
 import { Flex, ScrollArea, Spinner, Tabs, Text } from '@radix-ui/themes';
-import { AdminContentLayout, AdminSection } from '../..';
-import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
+import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
 import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/OrdersTable.columns';
-import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
-import { useToast } from 'components/Toast';
-import { Col, Container, Row } from 'react-grid-system';
-import { styles } from './AdminOrdersPage.styles';
-import { Drawer } from 'components/Drawer';
-import { Title } from 'components/Title';
-import { SearchBar } from 'components/SearchBar';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useAppConfig } from 'providers/AppConfigProvider';
-import clsx from 'clsx';
-import { AuthLoginTabContent } from 'components/Dialog/dialogs/AuthLoginDialog/AuthTabContent';
-import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
-import type { DialogConfig } from 'components/Dialog';
+import { TabListExample } from 'admin/pages/AdminOrdersPage/OrdersTable/TabList.EXAMPLE';
 import { TabForm } from 'admin/pages/AdminOrdersPage/TabForm';
 import { TabList } from 'admin/pages/AdminOrdersPage/TabList';
-import { TabListExample } from 'admin/pages/AdminOrdersPage/OrdersTable/TabList.EXAMPLE';
+import clsx from 'clsx';
+import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
+
+import type { DialogConfig } from 'components/Dialog';
+import { AuthLoginTabContent } from 'components/Dialog/dialogs/AuthLoginDialog/AuthTabContent';
+import { Drawer } from 'components/Drawer';
+import { SearchBar } from 'components/SearchBar';
+import { Title } from 'components/Title';
+import { useToast } from 'components/Toast';
+import { useAppConfig } from 'providers/AppConfigProvider';
+import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
+
+import { AdminContentLayout, AdminSection } from '../..';
+
+import { styles } from './AdminOrdersPage.styles';
 
 export const AdminOrdersPage: React.FC = () => {
   const { currentLanguage } = useAppConfig();

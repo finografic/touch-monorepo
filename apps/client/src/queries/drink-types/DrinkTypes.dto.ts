@@ -1,6 +1,7 @@
-import type { DrinkSubtypeEntity, DrinkTypeEntity } from '@workspace/server/types/entities/drink-type.entity';
-import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
 import type { ApiResponse } from '@workspace/core/api';
+import type { DrinkSubtypeEntity, DrinkTypeEntity } from '@workspace/server/types/entities/drink-type.entity';
+
+import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
 
 interface FromApiOverloads {
   (data: ApiResponse<DrinkTypeEntity[]>): DrinkType[];

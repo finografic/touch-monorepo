@@ -1,5 +1,7 @@
-import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 import { useMemo } from 'react';
+
+import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
+
 import type { TemperatureProfile } from 'types/temperature.types';
 import { findClosestProfile } from 'utils/temperature.utils';
 

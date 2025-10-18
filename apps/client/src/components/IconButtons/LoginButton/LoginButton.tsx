@@ -1,10 +1,13 @@
-import type { FC } from 'react';
-import clsx from 'clsx';
-import { UserCircleIcon, UserLockIcon } from 'styles/icons';
-import { styles } from './LoginButton.styles';
 import { useCallback } from 'react';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
+
+import clsx from 'clsx';
+import type { FC } from 'react';
+
 import { useToast } from 'components/Toast';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
+import { UserCircleIcon, UserLockIcon } from 'styles/icons';
+
+import { styles } from './LoginButton.styles';
 
 export const LoginButton: FC = () => {
   const { user, isAuthenticated, signOut, openLoginDialog } = useAuth();

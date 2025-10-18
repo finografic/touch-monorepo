@@ -1,5 +1,6 @@
-import type { ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
+
+import type { ReactNode } from 'react';
 
 export default function ({ children }: { children: ReactNode }) {
   return (

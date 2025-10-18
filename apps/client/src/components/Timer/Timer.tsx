@@ -1,6 +1,7 @@
 import React from 'react';
-import { useTimerLogic } from './useTimerLogic';
+
 import { formatTime } from './timers.utils';
+import { useTimerLogic } from './useTimerLogic';
 
 interface TimerProps {
   slotNumber: number;

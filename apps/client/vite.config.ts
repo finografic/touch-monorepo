@@ -1,10 +1,12 @@
-import react from '@vitejs/plugin-react';
-import { defineConfig, loadEnv, type UserConfig } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
-import tsconfigPaths from 'vite-tsconfig-paths';
-import { devCookieClearPlugin, logApiURL } from './src/utils/vite.utils';
+import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
+import { defineConfig, loadEnv, type UserConfig } from 'vite';
+import tsconfigPaths from 'vite-tsconfig-paths';
+
 import { envShared } from '../../env.shared.js';
+
+import { devCookieClearPlugin, logApiURL } from './src/utils/vite.utils';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
   const viteEnv = loadEnv(mode as string, process.cwd(), '');

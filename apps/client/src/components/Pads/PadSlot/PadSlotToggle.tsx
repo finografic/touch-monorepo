@@ -1,9 +1,11 @@
-import { useLayoutUi } from 'providers/LayoutUiProvider';
-import type { PadMenuBaseProps } from './PadSlot.types';
 import clsx from 'clsx';
-import type { ReactNode } from 'react';
-import type { SlotType } from 'types/orders.types';
 import type { SlotStatus } from 'pages/MainPage/MainPage.types';
+import type { ReactNode } from 'react';
+
+import { useLayoutUi } from 'providers/LayoutUiProvider';
+import type { SlotType } from 'types/orders.types';
+
+import type { PadMenuBaseProps } from './PadSlot.types';
 
 export interface PadSlotToggleProps extends PadMenuBaseProps {
   slotType: SlotType;

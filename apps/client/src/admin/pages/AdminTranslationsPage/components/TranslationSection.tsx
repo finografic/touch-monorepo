@@ -1,8 +1,11 @@
 import React, { memo } from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+
 import type { FieldError } from 'react-hook-form';
-import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
+import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
+
+import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
+
 import { getLanguageFieldName } from '../utils/translation-helpers';
 
 interface SupportedLanguage {

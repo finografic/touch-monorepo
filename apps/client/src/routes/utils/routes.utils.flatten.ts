@@ -1,4 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
+
 import type { RouteConfig } from 'routes/routes.types';
 
 export const flatttenChildren = <T extends RouteObject | RouteConfig>(routes: T[]): T[] => {

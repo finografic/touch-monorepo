@@ -1,5 +1,5 @@
-import { formatTime } from 'utils/time.utils';
 import { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound } from 'utils/sound.utils';
+import { formatTime } from 'utils/time.utils';
 
 export const EVENT_INTERVAL = 120; // seconds
 

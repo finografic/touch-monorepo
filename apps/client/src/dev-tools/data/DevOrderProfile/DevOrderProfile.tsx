@@ -1,6 +1,7 @@
-import { styles } from './DevOrderProfile.styles';
-import { useOrders } from 'providers/OrdersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
+import { useOrders } from 'providers/OrdersProvider';
+
+import { styles } from './DevOrderProfile.styles';
 
 export const DevOrderProfile = () => {
   const { profile } = useOrders();

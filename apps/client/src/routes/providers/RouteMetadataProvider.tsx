@@ -1,13 +1,17 @@
+import React, { type ReactNode, useMemo } from 'react';
+
 import type { RouteObject } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
-import React, { type ReactNode, useMemo } from 'react';
-import { useRouterLoader } from 'routes/hooks/useRouterLoader';
-import { withRouteMetadata } from 'routes/utils/withRouteMetadata';
-import { RouteMetadataContext } from './RouteMetadataContext';
+
 import NotFound from 'pages/NotFound';
+
 import { ROUTES_CONFIG } from 'config';
+import { useRouterLoader } from 'routes/hooks/useRouterLoader';
 import { routes } from 'routes/routes';
 import { flatttenChildren } from 'routes/utils/routes.utils.flatten';
+import { withRouteMetadata } from 'routes/utils/withRouteMetadata';
+
+import { RouteMetadataContext } from './RouteMetadataContext';
 
 interface RouteMetadataProviderProps {
   children: ReactNode;

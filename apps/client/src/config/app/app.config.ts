@@ -1,6 +1,7 @@
+import type { RegionLocale } from '@workspace/i18n';
+
 import type { ValidGridSize } from 'types/menu.types';
 import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
-import type { RegionLocale } from '@workspace/i18n';
 
 // Core application configuration
 export const NUM_GRID_ITEMS: ValidGridSize = 10 as const; // Now 1-based: 1-9

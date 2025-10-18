@@ -1,7 +1,7 @@
 // Example: How to easily customize OrdersTable columns
 // Just modify the column configuration - no need to touch the component!
 
-import { DEFAULT_ORDERS_COLUMNS, COMPACT_ORDERS_COLUMNS, FULL_ORDERS_COLUMNS } from './OrdersTable.columns';
+import { COMPACT_ORDERS_COLUMNS, DEFAULT_ORDERS_COLUMNS, FULL_ORDERS_COLUMNS } from './OrdersTable.columns';
 
 // Example 1: Use the default configuration (what you requested)
 const defaultConfig = DEFAULT_ORDERS_COLUMNS;
@@ -36,4 +36,4 @@ const reorderedConfig = [
   { key: 'delete', label: '', className: 'th-action action-delete', width: '60px' },
 ];
 
-export { defaultConfig, compactConfig, fullConfig, customConfig, reorderedConfig };
+export { compactConfig, customConfig, defaultConfig, fullConfig, reorderedConfig };

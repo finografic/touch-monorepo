@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Text } from '@radix-ui/themes';
-import { useFormContext } from 'react-hook-form';
-import { useDebouncedCallback } from 'use-debounce';
+
 import type { FieldError } from 'react-hook-form';
-import { Cross2Icon, ExclamationTriangleIcon } from 'styles/icons';
-import { getFieldValidationState } from './field-wrapper.utils';
-import { styles } from './FieldWrapper.styles';
+import { useFormContext } from 'react-hook-form';
+
+import { Box, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
+import { useDebouncedCallback } from 'use-debounce';
+
+import { Cross2Icon, ExclamationTriangleIcon } from 'styles/icons';
+
+import { getFieldValidationState } from './field-wrapper.utils';
+
+import { styles } from './FieldWrapper.styles';
 
 interface FieldWrapperProps {
   name?: string; // Field name for RHF integration

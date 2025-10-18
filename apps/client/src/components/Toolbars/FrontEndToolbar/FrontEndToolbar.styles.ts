@@ -1,6 +1,8 @@
 import { css } from '@emotion/react';
-import { baseToolbarStyles } from '../toolbar.styles';
+
 import { colors } from 'styles';
+
+import { baseToolbarStyles } from '../toolbar.styles';
 
 /**
  * FrontEndToolbar styles - extends base toolbar styles

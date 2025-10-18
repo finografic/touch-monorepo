@@ -1,4 +1,4 @@
-import { Theme as RadixTheme, Spinner } from '@radix-ui/themes';
+import { Spinner, Theme as RadixTheme } from '@radix-ui/themes';
 
 /**
  * Fallback shown during initial router hydration.

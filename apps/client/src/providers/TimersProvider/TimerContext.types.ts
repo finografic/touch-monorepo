@@ -1,8 +1,10 @@
+import type { SlotStatus } from 'pages/MainPage/MainPage.types';
 import type { ReactNode } from 'react';
-import type { SETTER_PREFIX, TimersKeys } from './TimerContext';
+
 import type { FlowTypeValue } from 'types/flow.types';
 import type { CreateSettersType } from 'utils/zustand';
-import type { SlotStatus } from 'pages/MainPage/MainPage.types';
+
+import type { SETTER_PREFIX, TimersKeys } from './TimerContext';
 
 export interface TimerItem {
   id: string;

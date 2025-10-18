@@ -1,13 +1,17 @@
 import React from 'react';
+
 import { Button, Flex, ScrollArea, Table, Text } from '@radix-ui/themes';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
-import { EditIcon, TrashIcon } from 'styles/icons';
-import { styles } from './OrdersTable.styles';
-import { useContent } from 'providers/ContentProvider';
+
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { formatUnixTimestamp } from 'utils/date.utils';
-import { ColumnFilter } from './ColumnSearchInput';
+import { useContent } from 'providers/ContentProvider';
+import { EditIcon, TrashIcon } from 'styles/icons';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SelectOption } from 'types/models/select-option.model';
+import { formatUnixTimestamp } from 'utils/date.utils';
+
+import { ColumnFilter } from './ColumnSearchInput';
+
+import { styles } from './OrdersTable.styles';
 
 // ============================================================================
 // Column definition types

@@ -1,9 +1,11 @@
 import { Flex, TextField } from '@radix-ui/themes';
-import { styles } from './SearchBar.styles';
-import type { FC } from 'react';
 import clsx from 'clsx';
-import { MagnifyingGlassIcon } from 'styles/icons';
+import type { FC } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
+
+import { MagnifyingGlassIcon } from 'styles/icons';
+
+import { styles } from './SearchBar.styles';
 
 interface SearchBarProps {
   searchTerm: string;

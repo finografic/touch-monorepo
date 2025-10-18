@@ -1,9 +1,9 @@
 // Hook exports
 export { useGetSoundFiles } from './useGetSoundFiles';
-export { useUploadSoundFiles } from './useUploadSoundFiles';
-export { useRemoveSoundFile } from './useRemoveSoundFile';
 export { useGetSoundSettings } from './useGetSoundSettings';
+export { useRemoveSoundFile } from './useRemoveSoundFile';
 export { useUpdateSoundSettings } from './useUpdateSoundSettings';
+export { useUploadSoundFiles } from './useUploadSoundFiles';
 
 // Query keys
 export const GET_SOUND_FILES_QUERYKEY = ['sounds', 'files'] as const;

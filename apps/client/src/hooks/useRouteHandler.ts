@@ -1,7 +1,9 @@
 import { useLocation } from 'react-router-dom';
-import { useButtonOperations } from './useButtonOperations';
+
 import { ALTERNATIVE_PATHS } from 'config';
 import { timePageState } from 'utils/timePageState';
+
+import { useButtonOperations } from './useButtonOperations';
 
 export const useRouteHandler = () => {
   const location = useLocation();

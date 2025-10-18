@@ -1,7 +1,10 @@
 import React from 'react';
-import { Button as RadixButton } from '@radix-ui/themes';
+
 import type { ButtonProps as RadixButtonProps } from '@radix-ui/themes';
+import { Button as RadixButton } from '@radix-ui/themes';
+
 import type { colorVariables } from './Button.styles';
+
 import { getButtonStyles } from './Button.styles';
 
 type OmittedRadixProps = 'color' | 'variant';

@@ -1,6 +1,7 @@
-import type React from 'react';
 import { useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
+
+import type React from 'react';
 
 interface PortalProps {
   children: React.ReactNode;

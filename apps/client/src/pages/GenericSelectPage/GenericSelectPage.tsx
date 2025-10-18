@@ -1,18 +1,21 @@
-import { stylesItemsGrid } from './grid.styles';
-import { getGridFlowClasses } from './utils/getGridFlowClasses';
-import { NoItems } from 'components/NoItems/NoItems';
 import { useTranslation } from 'react-i18next';
-import { useOrders } from 'providers/OrdersProvider/OrdersContext';
-import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { useLayoutUi } from 'providers/LayoutUiProvider';
-import { usePaginationLogic } from 'hooks/usePaginationLogic';
-import type { PadType, PadUI } from 'types/pads.types';
-import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
+
+import { NoItems } from 'components/NoItems/NoItems';
 import PadGroup from 'components/Pads/PadGroup/PadGroup';
-import { useSession } from 'providers/SessionProvider/SessionContext';
+import { usePaginationLogic } from 'hooks/usePaginationLogic';
 import { useFiltersContext } from 'providers/FiltersProvider';
-import { getFiltersToClearAhead } from 'utils/filters/filters-flow.utils';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
+import { useOrders } from 'providers/OrdersProvider/OrdersContext';
+import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
+import type { PadType, PadUI } from 'types/pads.types';
 import { isFilterFlowKey, isNavigationFieldKey } from 'utils/fieldKey.utils';
+import { getFiltersToClearAhead } from 'utils/filters/filters-flow.utils';
+
+import { getGridFlowClasses } from './utils/getGridFlowClasses';
+
+import { stylesItemsGrid } from './grid.styles';
 
 export const GenericSelectPage = () => {
   const { t } = useTranslation();

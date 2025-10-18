@@ -1,4 +1,7 @@
 import { describe, expect, it } from 'vitest';
+
+import type { FilterKey } from 'types/orders.types';
+
 import {
   FILTER_STEP_ORDER,
   getFiltersToClearAhead,
@@ -6,7 +9,6 @@ import {
   getPrevStepFilterKey,
   getStepIndexByFilterKey,
 } from '../filters-flow.utils';
-import type { FilterKey } from 'types/orders.types';
 
 describe('filters-flow.utils', () => {
   describe('FILTER_STEP_ORDER', () => {

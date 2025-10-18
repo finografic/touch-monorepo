@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { styles } from './Drawer.styles';
+
 import { DrawerBar } from './DrawerBar';
+
+import { styles } from './Drawer.styles';
 
 interface DrawerProps {
   onOpenChange?: (open: boolean) => void;

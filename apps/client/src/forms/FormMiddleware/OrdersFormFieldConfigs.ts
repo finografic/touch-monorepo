@@ -1,5 +1,5 @@
-import type { FieldConfig } from './FormMiddleware.types';
 import { MIN_TEMP_DIFFERENCE } from 'config/app';
+
 import {
   DEFAULT_SPANISH_LOCALE,
   DEFAULT_TEMP_MAX,
@@ -9,6 +9,7 @@ import {
   TEMP_STEP,
   TIME_STEP,
 } from './FormMiddleware.constants';
+import type { FieldConfig } from './FormMiddleware.types';
 
 // Complete type for the production OrdersForm values
 export interface OrdersFormValues {

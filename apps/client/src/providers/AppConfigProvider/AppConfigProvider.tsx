@@ -1,7 +1,9 @@
 import { useEffect } from 'react';
-import type { AppConfigProviderProps } from './AppConfigContext.types';
-import { AppConfigContext as AppConfig, DISPLAY_NAME, useAppConfig } from './AppConfigContext';
+
 import { useTranslation } from 'react-i18next';
+
+import { AppConfigContext as AppConfig, DISPLAY_NAME, useAppConfig } from './AppConfigContext';
+import type { AppConfigProviderProps } from './AppConfigContext.types';
 
 const LOCALE_MAPPING = {
   es: 'es-ES',

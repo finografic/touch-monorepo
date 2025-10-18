@@ -1,16 +1,20 @@
 import React from 'react';
-import type { ReactNode } from 'react';
-import { Flex } from '@radix-ui/themes';
-import { styles } from './Header.styles';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { useAppConfig } from 'providers/AppConfigProvider';
+
 import { Col, Container, Row } from 'react-grid-system';
+import { useTranslation } from 'react-i18next';
+import { useLocation, useNavigate } from 'react-router-dom';
+
+import { Flex } from '@radix-ui/themes';
 import clsx from 'clsx';
-import { useAdmin } from 'providers/AdminProvider';
-import type { Theme } from 'types/ui.types';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
+import type { ReactNode } from 'react';
+
 import { HeaderTitle } from 'components/Header/HeaderTitle';
+import { useAdmin } from 'providers/AdminProvider';
+import { useAppConfig } from 'providers/AppConfigProvider';
+import { useAuth } from 'providers/AuthProvider/AuthContext';
+import type { Theme } from 'types/ui.types';
+
+import { styles } from './Header.styles';
 
 type HeaderProps =
   | {
@@ -45,16 +49,6 @@ export const Header: React.FC<HeaderProps> = ({
   // const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   const isAdmin = location.pathname.startsWith('/admin');
-  // log('__DEV: navigation', 'hotpink', isAdmin);
-
-  // const { user, session, isLoading, isAuthenticated, isAdmin, signOut } = useAuth();
-
-  // console.log('🔍 USER:', user);
-  // console.log('🔍 SESSION:', session);
-  // console.log('🔍 IS LOADING:', isLoading);
-  // console.log('🔍 IS AUTHENTICATED:', isAuthenticated);
-  // console.log('🔍 IS ADMIN:', isAdmin);
-  // console.log('🔍 SIGN OUT:', signOut);
 
   // NEW: Intelligent responsive column system [Claude v3.5]
   const getColumnProps = () => {

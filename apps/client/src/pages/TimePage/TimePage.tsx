@@ -1,7 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+
 import { useTranslation } from 'react-i18next';
-import { PadNumeric } from 'components/Pads/PadNumeric';
+
 import { Box, Flex } from '@radix-ui/themes';
+
+import { PadNumeric } from 'components/Pads/PadNumeric';
 import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS } from 'config/app';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';

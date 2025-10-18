@@ -1,8 +1,10 @@
 import React, { createContext, useCallback, useContext, useMemo } from 'react';
+
 import type { FieldError, FieldPath, FieldValues } from 'react-hook-form';
-import type { FieldConfig, FormMiddlewareContext, FormMiddlewareProviderProps } from './FormMiddleware.types';
-import { DEFAULT_LOCALE, MAX_FRACTION_DIGITS, MIN_FRACTION_DIGITS } from './FormMiddleware.constants';
 import { useWatch } from 'react-hook-form';
+
+import { DEFAULT_LOCALE, MAX_FRACTION_DIGITS, MIN_FRACTION_DIGITS } from './FormMiddleware.constants';
+import type { FieldConfig, FormMiddlewareContext, FormMiddlewareProviderProps } from './FormMiddleware.types';
 
 // Create the context
 const FormMiddlewareContextValue = createContext<FormMiddlewareContext<any> | null>(null);

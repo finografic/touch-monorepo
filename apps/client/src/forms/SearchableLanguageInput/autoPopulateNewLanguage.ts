@@ -1,9 +1,11 @@
 import React, { useMemo, useState } from 'react';
-import { matchSorter } from 'match-sorter';
-import { Flex, Select, Text, TextField } from '@radix-ui/themes';
+
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
-import type { Country } from '../../components/LanguageSelector/languages/country.types';
+import { Flex, Select, Text, TextField } from '@radix-ui/themes';
 import translate from 'google-translate-api-x';
+import { matchSorter } from 'match-sorter';
+
+import type { Country } from '../../components/LanguageSelector/languages/country.types';
 
 interface LanguageOption {
   languageCode: string;

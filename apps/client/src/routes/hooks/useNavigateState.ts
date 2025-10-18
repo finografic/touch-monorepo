@@ -1,10 +1,11 @@
-import { useLocation, useNavigate } from 'react-router-dom';
 import type { Location, NavigateOptions, To } from 'react-router-dom';
-import type { LocationState, LocationWithState } from 'types/location.types';
-import { cleanRoutePath } from 'routes/utils/routes.utils';
-import { getFromLocation } from 'routes/utils/useRouter.utils';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 import { ROUTES_CONFIG } from 'config';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { cleanRoutePath } from 'routes/utils/routes.utils';
+import { getFromLocation } from 'routes/utils/useRouter.utils';
+import type { LocationState, LocationWithState } from 'types/location.types';
 
 type NavigateWithState = (to: To | number, options?: NavigateOptions) => Promise<void>;
 interface FromLocationProps extends Omit<Location, 'pathname' | 'search'>, LocationState {}

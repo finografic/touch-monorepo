@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
-import { Button, Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
+
 import { Cross2Icon } from '@radix-ui/react-icons';
-import { useAppConfig } from 'providers/AppConfigProvider';
-import { styles } from './GenericDialog.styles';
-import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
+import { Button, Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
 import clsx from 'clsx';
+
+import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
+import { useAppConfig } from 'providers/AppConfigProvider';
+
+import { styles } from './GenericDialog.styles';
 
 interface GenericDialogProps {
   isOpen: boolean;

@@ -1,8 +1,9 @@
 import { TextField } from '@radix-ui/themes';
-import type { FC } from 'react';
-import { MagnifyingGlassIcon } from 'styles/icons';
-import { useDebouncedCallback } from 'use-debounce';
 import { SelectSearchable } from 'forms/SelectSearchable';
+import type { FC } from 'react';
+import { useDebouncedCallback } from 'use-debounce';
+
+import { MagnifyingGlassIcon } from 'styles/icons';
 import type { SelectOption } from 'types/models/select-option.model';
 
 interface ColumnFilterBaseProps {

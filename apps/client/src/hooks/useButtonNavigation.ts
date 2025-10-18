@@ -1,13 +1,15 @@
 import { useCallback, useTransition } from 'react';
+
 import { useLocation, useNavigate } from 'react-router-dom';
-import { usePagination } from 'providers/PaginationProvider/PaginationContext';
-import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
-import { useFiltersContext } from 'providers/FiltersProvider';
-import { useSession } from 'providers/SessionProvider/SessionContext';
-import { useOrders } from 'providers/OrdersProvider';
+
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
-import type { TemperatureFilter } from 'types/temperature.types';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
+import { useOrders } from 'providers/OrdersProvider';
+import { usePagination } from 'providers/PaginationProvider/PaginationContext';
+import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
+import type { TemperatureFilter } from 'types/temperature.types';
 
 const NAVIGATION_ACTIONS = {
   NAVIGATE_BACK: 'navigate-back',

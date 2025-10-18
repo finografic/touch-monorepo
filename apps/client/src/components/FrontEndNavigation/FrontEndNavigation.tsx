@@ -1,7 +1,9 @@
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
-import { useButtonConfig } from 'hooks/useButtonConfig';
+
 import { PadAction } from 'components/Pads/PadAction/PadAction';
+import { useButtonConfig } from 'hooks/useButtonConfig';
 import { useRouteChangeHandler } from 'hooks/useRouteChangeHandler';
+
 import { styles } from './FrontEndNavigation.styles';
 
 export const FrontEndNavigation = () => {

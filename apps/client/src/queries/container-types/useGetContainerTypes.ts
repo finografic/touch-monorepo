@@ -1,10 +1,12 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
-import type { ContainerType } from 'types/models/container.model';
 import type { ErrorResponse } from '@workspace/core/api';
-import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
-import { api } from 'api';
 import { transformAxiosError } from '@workspace/core/api';
+import { api } from 'api';
+
+import type { ContainerType } from 'types/models/container.model';
+
+import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 
 const getContainerTypes = async () => {
   try {

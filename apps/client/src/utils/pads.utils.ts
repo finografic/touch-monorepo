@@ -1,9 +1,11 @@
-import type { PadConfig, PadUI } from 'types/pads.types';
+import type { RegionLocale } from '@workspace/i18n';
+
+import { ROUTE_FILTER_KEYS } from 'config/app';
 import type { DataEntry } from 'types/data.types';
 import type { FilterKey } from 'types/orders.types';
-import { ROUTE_FILTER_KEYS } from 'config/app';
+import type { PadConfig, PadUI } from 'types/pads.types';
+
 import { getLocalizedName } from './i18n/localization.utils';
-import type { RegionLocale } from '@workspace/i18n';
 
 // -------------------------------------------------------------------------- //
 // NOTE: Parse loader data and config to initialize pad items

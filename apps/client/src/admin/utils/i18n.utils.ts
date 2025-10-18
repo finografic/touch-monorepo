@@ -1,5 +1,5 @@
-import type { TFunction } from 'i18next';
 import type { AdminRouteEntry, AuthRoles } from 'admin/config/admin.routes.map';
+import type { TFunction } from 'i18next';
 
 /**
  * Resolve the current role label from auth booleans.

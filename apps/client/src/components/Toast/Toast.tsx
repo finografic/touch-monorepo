@@ -1,7 +1,10 @@
 import React from 'react';
+
 import * as ToastPrimitive from '@radix-ui/react-toast';
+
 import type { Toast as ToastType } from './Toast.types';
 import { ToastIcon } from './ToastIcons';
+
 import {
   getToastDescriptionStyles,
   getToastRootStyles,

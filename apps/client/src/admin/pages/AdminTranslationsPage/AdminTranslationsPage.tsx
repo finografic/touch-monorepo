@@ -1,15 +1,20 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+
 import { FormProvider, useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { Box, Button, Callout, Flex, Heading, Spinner, Text } from '@radix-ui/themes';
 import { useTranslation } from 'react-i18next';
-import { TranslationForm } from './components/TranslationForm';
-import { AdminContentLayout, AdminSection } from '../..';
-import { styles } from './AdminTranslationsPage.styles';
+
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Box, Button, Callout, Flex, Heading, Spinner, Text } from '@radix-ui/themes';
+import type { ContainerTypeUpdate, DrinkSubtypeUpdate, DrinkTypeUpdate, VolumeUpdate } from 'api/endpoints';
 import { useBatchUpdateTranslations, useGetAllTranslations } from 'api/hooks/useTranslations';
+import { LanguagesDto, useGetSupportedLanguages } from 'queries/supported-languages';
+import { z } from 'zod';
+
 import { useToast } from 'components/Toast';
 
+import { AdminContentLayout, AdminSection } from '../..';
+
+import { TranslationForm } from './components/TranslationForm';
 import {
   compareTranslationItems,
   convertLegacyFieldsToTranslations,
@@ -18,8 +23,8 @@ import {
   getLanguageCodesFromData,
   getLanguageFieldName,
 } from './utils/translation-helpers';
-import type { ContainerTypeUpdate, DrinkSubtypeUpdate, DrinkTypeUpdate, VolumeUpdate } from 'api/endpoints';
-import { LanguagesDto, useGetSupportedLanguages } from 'queries/supported-languages';
+
+import { styles } from './AdminTranslationsPage.styles';
 
 // Create dynamic schema based on supported languages
 const createTranslationSchema = (

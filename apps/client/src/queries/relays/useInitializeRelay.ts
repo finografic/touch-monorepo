@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { POST_RELAY_INIT_QUERYKEY, GET_RELAY_STATES_QUERYKEY, GET_RELAY_STATUS_QUERYKEY } from './index';
+
+import { GET_RELAY_STATES_QUERYKEY, GET_RELAY_STATUS_QUERYKEY, POST_RELAY_INIT_QUERYKEY } from './index';
 
 export const useInitializeRelay = () => {
   const queryClient = useQueryClient();

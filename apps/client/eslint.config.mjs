@@ -1,10 +1,14 @@
 // @ts-check
 
 import { ERROR, fino, OFF } from '@finografic/eslint-config';
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
 
 export default fino({
-  ignores: [],
+  ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
+  plugins: {
+    'simple-import-sort': simpleImportSort,
+  },
   languageOptions: {
     ecmaVersion: 'latest',
     globals: {
@@ -30,16 +34,52 @@ export default fino({
     'style/jsx-one-expression-per-line': OFF,
     'style/no-multi-spaces': OFF,
     'ts/no-unused-vars': OFF,
-    'ts/consistent-type-imports': [
-      ERROR,
-      {
-        prefer: 'type-imports',
-        disallowTypeAnnotations: true,
-        fixStyle: 'separate-type-imports',
-      },
-    ],
+    'unused-imports/no-unused-imports': OFF, // Don't remove unused imports automatically
+    // 'ts/consistent-type-imports': [
+    //   ERROR,
+    //   {
+    //     prefer: 'type-imports',
+    //     disallowTypeAnnotations: true,
+    //     fixStyle: 'separate-type-imports',
+    //   },
+    // ],
     'jsdoc/check-alignment': OFF,
     'prefer-arrow-callback': OFF,
     'test/prefer-lowercase-title': OFF,
+
+    // Disable conflicting rules
+    'perfectionist/sort-named-imports': OFF,
+    'perfectionist/sort-object-types': OFF,
+    'perfectionist/sort-objects': OFF,
+
+    // Disable unused import removal rules
+    'import/no-unused-modules': OFF,
+    'import/no-unresolved': OFF,
+
+    // Import sorting rules
+    'simple-import-sort/imports': [
+      ERROR,
+      {
+        groups: [
+          // React imports first
+          ['^react$', '^react-dom$'],
+          // React-related packages
+          ['^react-', '^@react'],
+          // Other external packages
+          ['^@?\\w'],
+          // Internal absolute imports (sorted by common folder names)
+          ['^(providers|types|utils|components|hooks|styles|routes|constants|lib|config)(/.*|$)'],
+          // Side effect imports
+          ['^\\u0000'],
+          // Parent imports. Put `..` last.
+          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+          // Other relative imports. Put same-folder imports and `.` last.
+          ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+          // Style imports
+          ['^.+\\.s?css$', '^.+\\.styles$'],
+        ],
+      },
+    ],
+    'simple-import-sort/exports': ERROR,
   },
 });

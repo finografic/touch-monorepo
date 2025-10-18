@@ -1,4 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
+
 import type { RouteConfig } from 'routes/routes.types';
 import { generatePathname } from 'routes/utils/routes.utils';
 
