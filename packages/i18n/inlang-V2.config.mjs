@@ -1,8 +1,12 @@
 import { missingTranslation } from '@inlang/lint-rule-missing-translation';
 
 /**
- * Inlang (Paraglide) configuration
- * Works with TypeScript message sources instead of JSON.
+ * Inlang (ParaglideJS) configuration for gradual migration from i18next
+ *
+ * Strategy:
+ * - Existing i18next JSON files: src/translations/app/*.json
+ * - New TypeScript messages: src/messages/app/*.ts (your custom implementation)
+ * - Generated ParaglideJS functions: ../../config/generated/i18n/messages
  */
 export default {
   'referenceLanguage': 'en-GB',
@@ -17,12 +21,9 @@ export default {
     // M function matcher for message extraction (locally installed)
     '@inlang/plugin-m-function-matcher',
   ],
-  // Plugin configuration
-  'plugin.paraglide-js': {
-    // Where the generated functions go (imported by Vite / app)
-    outdir: '../../config/generated/i18n/messages',
 
-    // Project directory for IDE integration
-    project: './project.inlang',
+  // JSON plugin configuration - points to existing i18next translations
+  'plugin.inlang.json': {
+    pathPattern: './src/translations/app/{language}.json',
   },
 };

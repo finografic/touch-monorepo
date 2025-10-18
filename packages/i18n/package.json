@@ -65,6 +65,7 @@
     "·········· BUILD": "·····················································",
     "prebuild": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --detach && pnpm install",
     "build": "pnpm generate.paraglide && tsup",
+    "build.with-paraglide": "pnpm generate.paraglide && tsup",
     "postbuild": "tsx src/generators/cli.ts",
     "·········· UPDATE": "····················································",
     "update": "run-s build refresh",

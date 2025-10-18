@@ -1,0 +1,9 @@
+{
+  "$schema": "https://inlang.com/schema/project-settings",
+  "sourceLanguageTag": "en-GB",
+  "languageTags": ["en-GB", "es-ES"],
+  "modules": ["@inlang/plugin-json", "@inlang/plugin-m-function-matcher"],
+  "plugin.inlang.json": {
+    "pathPattern": "./src/translations/app/{language}.json"
+  }
+}
