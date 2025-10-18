@@ -58,28 +58,28 @@ export const Header: React.FC<HeaderProps> = ({
 
   // NEW: Intelligent responsive column system [Claude v3.5]
   const getColumnProps = () => {
+    // NOTE: (empty) | (title) | (toolbar)
     if (titleAlign === 'center') {
-      // Title centered: Left(empty) | Center(title) | Right(toolbar)
       return {
         left: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 },
         center: { xs: 8, sm: 8, md: 6, lg: 6, xl: 6, xxl: 6 },
         right: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 },
       };
-    } else if (titleAlign === 'left') {
-      // Title left: Left(title) | Center(empty) | Right(toolbar)
+    }
+    // NOTE: (title) | (empty) | (toolbar)
+    if (titleAlign === 'left') {
       return {
         left: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, xxl: 4 },
         center: { xs: 0, sm: 0, md: 4, lg: 4, xl: 4, xxl: 4 },
         right: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, xxl: 4 },
       };
-    } else {
-      // Title right (rare): Left(empty) | Center(empty) | Right(title + toolbar)
-      return {
-        left: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
-        center: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
-        right: { xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 },
-      };
     }
+    // NOTE: (empty) | (empty) | (title + toolbar)
+    return {
+      left: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
+      center: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
+      right: { xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 },
+    };
   };
 
   const { left: leftColProps, center: centerColProps, right: rightColProps } = getColumnProps();
