@@ -2,6 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from 'components/ButtonRadix/Button';
+
 import { styles } from './UnauthorizedPage.styles';
 
 export const UnauthorizedPage: React.FC = () => {

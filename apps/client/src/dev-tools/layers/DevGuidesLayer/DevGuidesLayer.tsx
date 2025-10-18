@@ -1,6 +1,5 @@
-import React from 'react';
-
 import type { ReactElement } from 'react';
+import React from 'react';
 
 import { ScreenSizeOverlay } from 'dev-tools/layers/DevGuidesLayer/ScreenSizeOverlay';
 import { DevGuidesProvider } from '../../providers/DevGuidesProvider';

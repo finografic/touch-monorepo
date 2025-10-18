@@ -1,6 +1,7 @@
 import { useCallback } from 'react';
 
 import { useTimers } from 'providers/TimersProvider';
+
 import { TimerIcon } from 'styles/icons';
 
 export const MockTimersMin = () => {

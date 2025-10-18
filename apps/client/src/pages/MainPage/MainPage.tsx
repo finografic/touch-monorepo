@@ -5,12 +5,13 @@ import { Flex, Spinner } from '@radix-ui/themes';
 
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 import { PadSlot } from 'components/Pads/PadSlot';
-import { useButtonConfig } from 'hooks/useButtonConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
+
+import { useButtonConfig } from 'hooks/useButtonConfig';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 // import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';

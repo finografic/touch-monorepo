@@ -1,7 +1,6 @@
+import type { ReactElement } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
-
-import type { ReactElement } from 'react';
 
 import { useNavigateState } from 'routes/hooks/useNavigateState';
 // import { Button } from 'components/Button';

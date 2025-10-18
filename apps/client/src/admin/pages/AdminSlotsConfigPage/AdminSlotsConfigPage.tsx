@@ -6,6 +6,7 @@ import { MinusIcon, PlusIcon, ResetIcon } from '@radix-ui/react-icons';
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 
 import { useToast } from 'components/Toast';
+
 import {
   useBulkUpdateSlotConfigurations,
   useGetSlotConfigurations,

@@ -1,7 +1,7 @@
+import type { ReactElement } from 'react';
 import { forwardRef } from 'react';
 
 import clsx from 'clsx';
-import type { ReactElement } from 'react';
 
 import type { ButtonProps } from './Button.types';
 import { LoadingSpinner } from './LoadingSpinner';

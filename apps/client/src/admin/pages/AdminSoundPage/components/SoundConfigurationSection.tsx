@@ -5,6 +5,7 @@ import { SelectCustom } from 'forms/SelectCustom';
 
 import { useToast } from 'components/Toast';
 import { useAuth } from 'providers/AuthProvider';
+
 import { useUpdateSoundSettings } from 'queries/sounds';
 import { SpeakerLoudIcon } from 'styles/icons';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';

@@ -1,15 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 
 import { Box, Flex } from '@radix-ui/themes';
-import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
-import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 
 import { PadNumeric } from 'components/Pads/PadNumeric';
+import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
+import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
+import { useFilters } from 'providers/FiltersProvider/useFilters';
+import { useOrders } from 'providers/OrdersProvider/OrdersContext';
+
 // import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';
 import { useSmartFallback } from 'hooks/useSmartFallback';
-import { useFilters } from 'providers/FiltersProvider/useFilters';
-import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import type { Temperature } from 'types/orders.types';
 import { TemperatureKey } from 'types/temperature.types';
 import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';

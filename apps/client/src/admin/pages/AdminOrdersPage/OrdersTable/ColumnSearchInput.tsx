@@ -1,6 +1,7 @@
+import type { FC } from 'react';
+
 import { TextField } from '@radix-ui/themes';
 import { SelectSearchable } from 'forms/SelectSearchable';
-import type { FC } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { MagnifyingGlassIcon } from 'styles/icons';

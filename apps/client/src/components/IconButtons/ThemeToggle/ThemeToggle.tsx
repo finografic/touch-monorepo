@@ -1,7 +1,9 @@
-import clsx from 'clsx';
 import type { FC } from 'react';
 
+import clsx from 'clsx';
+
 import { useAppConfig } from 'providers/AppConfigProvider';
+
 import { MoonIcon, SunIcon } from 'styles/icons';
 import { styles } from './ThemeToggle.styles';
 

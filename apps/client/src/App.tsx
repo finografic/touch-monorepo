@@ -8,6 +8,7 @@ import { Spinner, Theme as RadixTheme } from '@radix-ui/themes';
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { AuthProviderWithInitialization } from 'providers/AuthProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
+
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';

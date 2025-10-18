@@ -1,7 +1,6 @@
+import type { ReactElement } from 'react';
 import { Fragment } from 'react';
 import { Visible } from 'react-grid-system';
-
-import type { ReactElement } from 'react';
 
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { styles } from './DevScreenSize.styles';

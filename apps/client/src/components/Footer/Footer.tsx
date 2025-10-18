@@ -1,10 +1,11 @@
+import type { FC } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
-import type { FC } from 'react';
 
 import { AdminToolbar } from 'components/Toolbars/AdminToolbar/AdminToolbar';
 import { FrontEndToolbar } from 'components/Toolbars/FrontEndToolbar/FrontEndToolbar';
+
 import { DevToolbarFrontEnd } from 'dev-tools/_DevToolbarFrontEnd/DevToolbarFrontEnd';
 import { styles } from './Footer.styles';
 

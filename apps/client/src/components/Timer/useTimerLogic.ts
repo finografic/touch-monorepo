@@ -2,6 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
+
 import { timerManager } from './TimerManager';
 import { completeAction, getElapsedTimeAndEventNumber, tickAction } from './timers.utils';
 

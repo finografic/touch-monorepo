@@ -1,6 +1,5 @@
-import { useCallback, useMemo } from 'react';
-
 import type React from 'react';
+import { useCallback, useMemo } from 'react';
 
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { useGetContainerTypes } from 'queries/container-types';

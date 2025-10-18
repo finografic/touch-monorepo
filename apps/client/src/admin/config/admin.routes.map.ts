@@ -1,3 +1,5 @@
+import type React from 'react';
+
 import { SpeakerLoudIcon } from '@radix-ui/react-icons';
 import { AdminFilterAnalysisPage } from 'admin/pages/AdminFilterAnalysisPage';
 import { AdminLanguagesBasicPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesBasicPage';
@@ -12,7 +14,6 @@ import { AdminSoundBasicPage } from 'admin/pages/AdminSoundPage/AdminSoundBasicP
 import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
 import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage/AdminTranslationsPage';
 import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
-import type React from 'react';
 
 import {
   EditIcon,

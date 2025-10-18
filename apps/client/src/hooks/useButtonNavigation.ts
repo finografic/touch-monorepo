@@ -1,12 +1,13 @@
 import { useCallback, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
+
+import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
 import type { TemperatureFilter } from 'types/temperature.types';
 

@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import React from 'react';
 import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
@@ -5,12 +6,12 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
 import clsx from 'clsx';
-import type { ReactNode } from 'react';
 
 import { HeaderTitle } from 'components/Header/HeaderTitle';
 import { useAdmin } from 'providers/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+
 import type { Theme } from 'types/ui.types';
 import { styles } from './Header.styles';
 

@@ -1,8 +1,10 @@
-import clsx from 'clsx';
-import type { SlotStatus } from 'pages/MainPage/MainPage.types';
 import type { ReactNode } from 'react';
 
+import clsx from 'clsx';
+
+import type { SlotStatus } from 'pages/MainPage/MainPage.types';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
+
 import type { SlotType } from 'types/orders.types';
 import type { PadMenuBaseProps } from './PadSlot.types';
 

@@ -1,10 +1,10 @@
+import type { FC } from 'react';
 import { Suspense, useEffect } from 'react';
 import { setConfiguration } from 'react-grid-system';
 import { Outlet } from 'react-router-dom';
 
 import { Theme } from '@radix-ui/themes';
 import { AdminNavigation } from 'admin/components/AdminNavigation';
-import type { FC } from 'react';
 
 import { AuthLoginDialog } from 'components/Dialog/dialogs';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
@@ -14,9 +14,10 @@ import { Loader } from 'components/Loader/Loader';
 import { PageHeader } from 'components/PageHeader/PageHeader';
 import { ToastProvider, ToastSystem } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
-import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { ContentProvider } from 'providers/ContentProvider';
+
+import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './AdminLayout.styles';
 

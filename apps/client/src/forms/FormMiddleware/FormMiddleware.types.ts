@@ -1,6 +1,5 @@
-import type { FieldError, FieldPath, FieldValues, UseFormReturn } from 'react-hook-form';
-
 import type React from 'react';
+import type { FieldError, FieldPath, FieldValues, UseFormReturn } from 'react-hook-form';
 
 // Field configuration for centralized handling
 export interface FieldConfig<T extends FieldValues = FieldValues> {

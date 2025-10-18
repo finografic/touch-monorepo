@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
-
 import type { FC } from 'react';
+import { useEffect, useState } from 'react';
 
 import type { Temperature } from 'types/orders.types';
 import type { TemperatureKey } from 'types/temperature.types';

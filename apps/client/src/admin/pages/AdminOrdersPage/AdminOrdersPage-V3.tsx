@@ -18,6 +18,7 @@ import { SearchBar } from 'components/SearchBar';
 import { Title } from 'components/Title';
 import { useToast } from 'components/Toast';
 import { useAppConfig } from 'providers/AppConfigProvider';
+
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
 import { AdminContentLayout, AdminSection } from '../..';

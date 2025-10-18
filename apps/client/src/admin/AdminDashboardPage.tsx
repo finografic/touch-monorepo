@@ -7,8 +7,9 @@ import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { NoAdminEntryRedirect } from 'admin/NoAdminEntryRedirect';
 
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
-import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider';
+
+import { usePageTransition } from 'hooks/usePageTransition';
 import { getCalloutText } from './utils/i18n.utils';
 import { AdminContentLayout } from '.';
 import { styles } from './AdminDashboardPage.styles';

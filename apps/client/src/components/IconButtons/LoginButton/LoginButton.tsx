@@ -1,10 +1,11 @@
+import type { FC } from 'react';
 import { useCallback } from 'react';
 
 import clsx from 'clsx';
-import type { FC } from 'react';
 
 import { useToast } from 'components/Toast';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+
 import { UserCircleIcon, UserLockIcon } from 'styles/icons';
 import { styles } from './LoginButton.styles';
 

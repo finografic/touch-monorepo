@@ -14,6 +14,8 @@ import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
 import { Layout } from 'layout/Layout';
+
+import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { GenericSelectPage } from 'pages/GenericSelectPage/GenericSelectPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { MainPage } from 'pages/MainPage/MainPage';
@@ -21,7 +23,6 @@ import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 
-import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 import { ProtectedAdminRoutes } from './auth/ProtectedAdminRoutes';

@@ -4,6 +4,7 @@ import { Button, Flex, ScrollArea, Table, Text } from '@radix-ui/themes';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useContent } from 'providers/ContentProvider';
+
 import { EditIcon, TrashIcon } from 'styles/icons';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SelectOption } from 'types/models/select-option.model';

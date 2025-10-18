@@ -1,6 +1,5 @@
-import type { RouteObject } from 'react-router-dom';
-
 import type { ReactElement } from 'react';
+import type { RouteObject } from 'react-router-dom';
 
 import type { PATHS } from 'config/routes';
 import type { User } from 'types/auth.types';

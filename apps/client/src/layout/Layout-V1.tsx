@@ -1,10 +1,10 @@
+import type { FC } from 'react';
 import { Suspense } from 'react';
 import { setConfiguration } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
 
 import { Theme } from '@radix-ui/themes';
-import type { FC } from 'react';
 
 import { AuthLoginDialog } from 'components/Dialog/dialogs';
 import { Footer } from 'components/Footer';
@@ -13,9 +13,6 @@ import { Header } from 'components/Header/Header';
 import { PageHeader } from 'components/PageHeader';
 import { ToastProvider, ToastSystem } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars';
-import { NUM_GRID_ITEMS } from 'config/app';
-import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
-import { useResetAppState } from 'hooks/useResetAppState';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { ContentProvider } from 'providers/ContentProvider';
@@ -24,6 +21,10 @@ import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
 import { TimersProvider } from 'providers/TimersProvider';
+
+import { NUM_GRID_ITEMS } from 'config/app';
+import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
+import { useResetAppState } from 'hooks/useResetAppState';
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import type { ValidGridSize } from 'types/menu.types';

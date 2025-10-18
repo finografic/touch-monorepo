@@ -1,10 +1,10 @@
 import { useCallback, useDeferredValue, useEffect, useState } from 'react';
 
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
-
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
+
 import { SlotType } from 'types/orders.types';
 import { useConfigStorage } from './useConfigStorage';
 import { useSmartFallback } from './useSmartFallback';

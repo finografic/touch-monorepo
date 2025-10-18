@@ -6,6 +6,7 @@ import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
 import { matchSorter } from 'match-sorter';
 
 import { Button } from 'components/ButtonRadix';
+
 import { colors } from 'styles';
 import { AddIcon, PlusIcon } from 'styles/icons';
 import type { SelectOption } from 'types/models/select-option.model';

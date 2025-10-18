@@ -1,5 +1,6 @@
-import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 import type { ReactNode } from 'react';
+
+import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 import type { DataEntry } from 'types/data.types';
 import type { ValidGridSize } from 'types/menu.types';

@@ -13,6 +13,7 @@ import type { DataEntry } from 'types';
 import { DataSearch } from 'components/DataSearch';
 import { DetailFilter } from 'components/DetailFilter';
 import { usePagination } from 'components/Pagination';
+
 import { METADATA } from 'types';
 import { slugify } from 'utils/string.utils';
 import { useInviteFilters } from '../InviteFiltersContext';

@@ -1,9 +1,10 @@
-import { DevDataTable } from 'dev-tools/components/DevDataTable';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
+
+import { DevDataTable } from 'dev-tools/components/DevDataTable';
 import { styles } from './SessionAndTimers.styles';
 
 export const SessionAndTimers = () => {

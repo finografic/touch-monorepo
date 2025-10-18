@@ -1,8 +1,9 @@
 import type { RegionLocale } from '@workspace/i18n';
-import type { SlotMeta, SlotStatus } from 'pages/MainPage/MainPage.types';
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
+
+import type { SlotMeta, SlotStatus } from 'pages/MainPage/MainPage.types';
 
 import { NUM_GRID_ITEMS } from 'config/app';
 import type { DataEntry, Dataset } from 'types/data.types';

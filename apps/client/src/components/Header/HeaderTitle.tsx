@@ -7,6 +7,7 @@ import { Flex } from '@radix-ui/themes';
 import { useAdmin } from 'providers/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+
 import type { Theme } from 'types/ui.types';
 
 export const HeaderTitle: React.FC = () => {

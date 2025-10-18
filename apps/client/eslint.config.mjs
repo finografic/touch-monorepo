@@ -61,12 +61,14 @@ export default fino({
       ERROR,
       {
         groups: [
-          // React imports + React-related packages (merged)
-          ['^react$', '^react-dom$', '^react-', '^@react'],
+          // React imports + React-related packages (merged) - including type imports from react
+          ['^react', '^@react'],
           // Other external packages
           ['^@?\\w'],
-          // All internal imports (absolute + relative merged)
-          ['^(providers|types|utils|components|hooks|styles|routes|constants|lib|config|dev-tools|queries)(/.*|$)', '^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$', '^.+\\.s?css$', '^.+\\.styles$'],
+          // Internal absolute imports: components, providers, pages
+          ['^(components|providers|pages)(/.*|$)'],
+          // The rest of internal absolute imports + relative imports
+          ['^(types|utils|hooks|styles|routes|constants|lib|config|dev-tools|queries)(/.*|$)', '^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$', '^.+\\.s?css$', '^.+\\.styles$'],
           // Side effect imports
           ['^\\u0000'],
         ],

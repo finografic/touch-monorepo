@@ -4,9 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import { Flex } from '@radix-ui/themes';
 
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
-import { PATHS } from 'config';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useAppConfig } from 'providers/AppConfigProvider';
+
+import { PATHS } from 'config';
 import { HomeIcon, StopIcon, TimerIcon } from 'styles/icons';
 import type { Theme } from 'types/ui.types';
 import { stopAllAudio } from 'utils/soundCache.utils';

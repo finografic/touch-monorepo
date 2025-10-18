@@ -7,8 +7,9 @@ import { TabNav } from '@radix-ui/themes';
 import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
 import { getNavLabel } from 'admin/utils/i18n.utils';
 
-import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+
+import { usePageTransition } from 'hooks/usePageTransition';
 import { styles } from './AdminNavigation.styles';
 
 export const AdminNavigation: React.FC = () => {

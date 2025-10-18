@@ -8,6 +8,7 @@ import clsx from 'clsx';
 import { Button } from 'components/Button';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
 import { useAppConfig } from 'providers/AppConfigProvider';
+
 import { CloseIcon } from 'styles/icons';
 import { styles } from './GenericDialog.styles';
 

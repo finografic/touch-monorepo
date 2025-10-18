@@ -1,11 +1,12 @@
 import { Box, Flex } from '@radix-ui/themes';
 
+import { useAppConfig } from 'providers/AppConfigProvider';
+import { useTimers } from 'providers/TimersProvider';
+
 // import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { DevPanelLeft } from 'dev-tools/_Panels/DevPanelLeft';
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
-import { useAppConfig } from 'providers/AppConfigProvider';
-import { useTimers } from 'providers/TimersProvider';
 import { LockIcon, TextAlignTopIcon } from 'styles/icons';
 import { DevScreenSize } from '../components/DevScreenSize/DevScreenSize';
 import { QueryDevtoolsPanel } from '../layers/QueryDevtoolsPanel/QueryDevtoolsPanel';

@@ -6,6 +6,7 @@ import clsx from 'clsx';
 
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
 import { useAppConfig } from 'providers/AppConfigProvider';
+
 import { styles } from './GenericDialog.styles';
 
 interface GenericDialogProps {
