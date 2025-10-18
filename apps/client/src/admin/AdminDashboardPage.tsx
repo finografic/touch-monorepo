@@ -83,9 +83,8 @@ export const AdminDashboardPage: React.FC = () => {
                     backgroundColor: `var(--${card.color}-3)`,
                   }}
                 >
-                  {React.cloneElement(card.icon, { width: 28, height: 28 })}
+                  {React.cloneElement(card.icon)}
                 </Box>
-                {/* </AspectRatio> */}
                 <Flex direction="column" gap="1" align="start" p="3" style={{ flex: 1 }}>
                   <SectionHeader
                     className="card-header"

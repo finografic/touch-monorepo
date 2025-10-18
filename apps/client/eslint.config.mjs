@@ -48,10 +48,16 @@ export default fino({
     'prefer-arrow-callback': OFF,
     'test/prefer-lowercase-title': OFF,
 
-    // Disable conflicting rules
+    // Disable conflicting rules with simple-import-sort
     'perfectionist/sort-named-imports': OFF,
     'perfectionist/sort-object-types': OFF,
     'perfectionist/sort-objects': OFF,
+    'perfectionist/sort-imports': OFF,
+
+    // Disable other import-related rules that conflict
+    'import/order': OFF,
+    'import/sort-imports': OFF,
+    'sort-imports': OFF,
 
     // Disable unused import removal rules
     'import/no-unused-modules': OFF,

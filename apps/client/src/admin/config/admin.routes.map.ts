@@ -1,6 +1,5 @@
 import type React from 'react';
 
-import { SpeakerLoudIcon } from '@radix-ui/react-icons';
 import { AdminFilterAnalysisPage } from 'admin/pages/AdminFilterAnalysisPage';
 import { AdminLanguagesBasicPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesBasicPage';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
@@ -20,6 +19,7 @@ import {
   LanguageIcon,
   MagnifyingGlassIcon,
   SettingsIcon,
+  SpeakerLoudIcon,
   UserShildIcon,
   ZapIcon,
 } from 'styles/icons';
