@@ -16,6 +16,7 @@ export default defineConfig({
     'generators/generate-constants': 'src/generators/generate-constants.ts',
     'generators/cli': 'src/generators/cli.ts',
     'translations/index': 'src/translations/index.ts',
+    'utils/index': 'src/utils/index.ts',
   },
   outDir: './dist',
   clean: true,
