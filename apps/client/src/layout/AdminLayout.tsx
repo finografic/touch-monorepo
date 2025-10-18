@@ -5,7 +5,7 @@ import { Outlet } from 'react-router-dom';
 import { Theme } from '@radix-ui/themes';
 import { AdminNavigation } from 'admin/components/AdminNavigation';
 
-import { AuthLoginDialog } from 'components/Dialog/dialogs';
+import { AuthDialogGuard, AuthLoginDialog } from 'components/Dialog/dialogs';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
 import { Footer } from 'components/Footer/Footer';
 import { Header } from 'components/Header/Header';
@@ -22,37 +22,26 @@ import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './AdminLayout.styles';
 
 export const AdminLayout: FC = () => {
-  setConfiguration({
-    breakpoints: [...BREAKPOINT_VALUES],
-    maxScreenClass: 'xxl',
-  });
+  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
-  // Initialize admin theme - force light theme for admin panel
-  useEffect(() => {
+  useEffect(function initializeLayoutTheme() {
     document.documentElement.setAttribute('data-theme', 'light');
   }, []);
 
-  // Admin theme configuration
-  const adminTheme = {
-    appearance: 'light' as const, // Light theme for admin
-    grayColor: 'slate' as const, // Professional gray
-    accentColor: 'blue' as const, // Blue accent for admin actions
-    scaling: '100%' as const, // Standard scaling
+  const themeConfig = {
+    grayColor: 'slate' as const,
+    accentColor: 'blue' as const,
+    scaling: '100%' as const,
   };
 
   return (
-    <ContentProvider>
-      <AdminProvider>
-        <DevProvider>
-          <Theme
-            appearance={adminTheme.appearance}
-            grayColor={adminTheme.grayColor}
-            accentColor={adminTheme.accentColor}
-            scaling={adminTheme.scaling}
-          >
-            <div id="admin-layout" css={styles}>
-              <ToastProvider>
-                <AuthLoginDialog>
+    <Theme {...themeConfig}>
+      <ToastProvider>
+        <AdminProvider>
+          <ContentProvider>
+            <DevProvider>
+              <div id="admin-layout" css={styles}>
+                <AuthDialogGuard>
                   <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
                   <AdminNavigation />
                   <main>
@@ -66,18 +55,19 @@ export const AdminLayout: FC = () => {
                             </Suspense>
                           </AdminErrorBoundary>
                         </div>
-                        <nav className="page-navigation">{/* Page navigation can go here if needed */}</nav>
+                        <nav className="page-navigation">{/* optional navigation */}</nav>
                       </section>
                     </div>
                   </main>
                   <Footer />
-                </AuthLoginDialog>
-                <ToastSystem />
-              </ToastProvider>
-            </div>
-          </Theme>
-        </DevProvider>
-      </AdminProvider>
-    </ContentProvider>
+                  <ToastSystem />
+                  <AuthLoginDialog />
+                </AuthDialogGuard>
+              </div>
+            </DevProvider>
+          </ContentProvider>
+        </AdminProvider>
+      </ToastProvider>
+    </Theme>
   );
 };

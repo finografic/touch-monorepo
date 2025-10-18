@@ -44,7 +44,6 @@ export const Header: React.FC<HeaderProps> = ({
 
   console.log('🔍 USER:', user);
   console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
-
   // const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   const isAdmin = location.pathname.startsWith('/admin');
@@ -82,6 +81,9 @@ export const Header: React.FC<HeaderProps> = ({
       <header className={clsx('app-header', { 'admin-app-header': isAdmin })}>
         <Container className="container" fluid>
           <Row justify="between" align="center">
+            {/*
+              LEFT column - responsive width
+            */}
             <Col {...leftColProps} className="col col-header-left">
               <Flex justify="start">
                 {titleAlign === 'left' ? (
@@ -93,12 +95,15 @@ export const Header: React.FC<HeaderProps> = ({
                 )}
               </Flex>
             </Col>
-
-            {/* Center column - responsive width */}
+            {/*
+              CENTER column - responsive width
+            */}
             <Col {...centerColProps} className="col col-header-center">
               <Flex justify="center">{titleAlign === 'center' && <HeaderTitle />}</Flex>
             </Col>
-
+            {/*
+              RIGHT column - responsive width
+            */}
             <Col {...rightColProps} className="col col-header-right">
               <Flex justify="end">
                 {titleAlign === 'right' ? (

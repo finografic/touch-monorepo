@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import { setConfiguration } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
@@ -38,6 +38,10 @@ export const Layout: FC = () => {
   const numItems = (slotConfigs ? slotConfigs.length : NUM_GRID_ITEMS) as ValidGridSize;
 
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
+
+  useEffect(function initializeLayoutTheme() {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, []);
 
   const themeConfig = {
     appearance: theme,
