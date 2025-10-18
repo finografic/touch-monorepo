@@ -35,6 +35,7 @@ import {
   PanelBottomClose as _PanelBottomCloseIcon,
   PanelBottomOpen as _PanelBottomOpenIcon,
   PencilLine as _EditIcon,
+  RefreshCcwIcon as _RefreshCcwIcon,
   Search as _MagnifyingGlassIcon,
   ShieldCheck as _ShieldCheckIcon,
   ShieldUser as _ShieldUserIcon,
@@ -96,6 +97,7 @@ export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);
 export const MagnifyingGlassIcon = createIconWrapper(_MagnifyingGlassIcon);
 export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);
 export const PanelBottomOpenIcon = createIconWrapper(_PanelBottomOpenIcon);
+export const RefreshIcon = createIconWrapper(_RefreshCcwIcon);
 export const UserLockIcon = createIconWrapper(_UserLockIcon);
 export const UserIcon = createIconWrapper(_UserIcon);
 export const UserCircleIcon = createIconWrapper(_CircleUserRoundIcon);
@@ -155,6 +157,7 @@ export const ICON_MAP = {
   UserCircleIcon,
   UserShildIcon,
   PlusIcon,
+  RefreshIcon,
   SpeakerLoudIcon,
   StopIcon,
   SettingsIcon,

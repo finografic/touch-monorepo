@@ -39,30 +39,24 @@ export const Layout: FC = () => {
 
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
-  // Main theme configuration - uses current theme from AppConfig
-  const mainTheme = {
-    appearance: theme as 'light' | 'dark',
+  const themeConfig = {
+    appearance: theme,
     grayColor: 'slate' as const,
     accentColor: 'blue' as const,
     scaling: '100%' as const,
   };
 
   return (
-    <ToastProvider>
-      <TimersProvider>
-        <OrdersProvider>
-          <FiltersProvider>
-            <PaginationProvider>
-              <LayoutUiProvider initialValue={{ numItems }}>
-                <AdminProvider>
-                  <ContentProvider>
-                    <DevProvider>
-                      <Theme
-                        appearance={mainTheme.appearance}
-                        grayColor={mainTheme.grayColor}
-                        accentColor={mainTheme.accentColor}
-                        scaling={mainTheme.scaling}
-                      >
+    <Theme {...themeConfig}>
+      <ToastProvider>
+        <TimersProvider>
+          <OrdersProvider>
+            <FiltersProvider>
+              <PaginationProvider>
+                <LayoutUiProvider initialValue={{ numItems }}>
+                  <AdminProvider>
+                    <ContentProvider>
+                      <DevProvider>
                         <div id="layout" css={styles}>
                           <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
                           <main>
@@ -85,15 +79,15 @@ export const Layout: FC = () => {
                           <div id="radix-portal-container" />
                         </div>
                         <ToastSystem />
-                      </Theme>
-                    </DevProvider>
-                  </ContentProvider>
-                </AdminProvider>
-              </LayoutUiProvider>
-            </PaginationProvider>
-          </FiltersProvider>
-        </OrdersProvider>
-      </TimersProvider>
-    </ToastProvider>
+                      </DevProvider>
+                    </ContentProvider>
+                  </AdminProvider>
+                </LayoutUiProvider>
+              </PaginationProvider>
+            </FiltersProvider>
+          </OrdersProvider>
+        </TimersProvider>
+      </ToastProvider>
+    </Theme>
   );
 };
