@@ -3,6 +3,7 @@ import { Col, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 
 import { useNavigateState } from 'routes/hooks/useNavigateState';
+
 // import { Button } from 'components/Button';
 import { styles } from './NotFoundCard.styles';
 

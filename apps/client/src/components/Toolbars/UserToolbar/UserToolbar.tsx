@@ -9,8 +9,9 @@ import { useAdmin } from 'providers/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
-import { HomeIcon, LanguageIcon, ShieldCheckIcon } from 'styles/icons';
 import type { Theme } from 'types/ui.types';
+
+import { HomeIcon, LanguageIcon, ShieldCheckIcon } from 'styles/icons';
 import { styles } from './UserToolbar.styles';
 
 export const UserToolbar: React.FC = () => {

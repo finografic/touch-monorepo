@@ -2,8 +2,9 @@ import type { RouteObject } from 'react-router-dom';
 
 import cloneDeep from 'lodash/cloneDeep';
 
-import { ROUTE_ACTION_SLUGS } from 'config';
 import type { RouteConfig } from 'routes/routes.types';
+
+import { ROUTE_ACTION_SLUGS } from 'config';
 
 export const generatePathname = (path: string | undefined, parentPath: string = ''): string => {
   if (!path) return parentPath || '/';

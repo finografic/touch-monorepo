@@ -3,6 +3,7 @@ import { transformAxiosError } from '@workspace/core/api';
 import { api } from 'api';
 
 import type { CreateSlotConfigRequest, SlotConfiguration } from 'types/slot-config.types';
+
 import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
 
 /**

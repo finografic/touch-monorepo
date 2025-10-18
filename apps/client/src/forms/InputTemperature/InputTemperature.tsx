@@ -3,7 +3,6 @@ import React, { forwardRef, useCallback, useEffect, useRef, useState } from 'rea
 import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { IconButton, TextField } from '@radix-ui/themes';
 
-import { colors } from 'styles/colors/colors.styles';
 import {
   CONSTRAINT_WARNING_TIMEOUT,
   DEFAULT_TEMP_MAX,
@@ -16,6 +15,7 @@ import {
 } from '../FormMiddleware/FormMiddleware.constants';
 import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
 import { styles } from './InputTemperature.styles';
+import { colors } from 'styles/colors/colors.styles';
 
 interface InputTemperatureProps {
   name: string;

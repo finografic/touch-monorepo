@@ -5,8 +5,8 @@ import { Box, Callout, Card, Flex, Heading, IconButton } from '@radix-ui/themes'
 import type { LanguageInfo } from '@workspace/i18n/types';
 import clsx from 'clsx';
 
-import { TrashIcon } from 'styles/icons';
 import { LanguageItem } from './LanguageItem';
+import { TrashIcon } from 'styles/icons';
 
 interface LanguagesListSelectedProps {
   selectedLanguages: LanguageInfo[];

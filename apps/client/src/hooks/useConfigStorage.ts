@@ -1,7 +1,8 @@
 import { useCallback } from 'react';
 
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 import { clearSessionTimer, isSessionTimerExpired } from 'utils/sessionTimer.utils';
+
+import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 
 interface ConfigData {
   filters: Record<string, unknown>;

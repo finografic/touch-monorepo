@@ -6,6 +6,7 @@ import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
 import { useGetModes, useUpdateDefaultMode } from 'queries/modes';
+
 import { AdminContentLayout, AdminSection } from '../..';
 import { styles } from './AdminModePage.styles';
 

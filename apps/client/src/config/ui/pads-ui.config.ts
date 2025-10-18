@@ -1,7 +1,8 @@
-import { API_FILTER_FIELDS, ROUTE_FILTER_KEYS } from 'config/app';
 import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
 import type { PadConfig, PadUI } from 'types/pads.types';
 import { getLabelKey } from 'utils/i18n/localization.utils';
+
+import { API_FILTER_FIELDS, ROUTE_FILTER_KEYS } from 'config/app';
 
 /**
  * Gets the UI configuration for pads with dynamic language support

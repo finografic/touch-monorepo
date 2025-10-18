@@ -4,6 +4,7 @@ import type { SlotStatus } from 'pages/MainPage/MainPage.types';
 
 import type { FlowTypeValue } from 'types/flow.types';
 import type { CreateSettersType } from 'utils/zustand';
+
 import type { SETTER_PREFIX, TimersKeys } from './TimerContext';
 
 export interface TimerItem {

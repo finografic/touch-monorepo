@@ -5,9 +5,10 @@ import { ShuffleIcon } from '@radix-ui/react-icons';
 import { Button, Text } from '@radix-ui/themes';
 
 import { useDev } from 'dev-tools/providers/DevProvider';
-import { DeleteIcon } from 'styles/icons';
+
 import { InputTemperature } from '../../../../forms/InputTemperature';
 import { InputTime } from '../../../../forms/InputTime';
+import { DeleteIcon } from 'styles/icons';
 import { styles } from './TimesRepeaterTable.styles';
 
 interface TimeRowData {

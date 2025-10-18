@@ -7,11 +7,12 @@ import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
-import { PATHS } from 'config';
-import { HomeIcon, StopIcon, TimerIcon } from 'styles/icons';
 import type { Theme } from 'types/ui.types';
 import { stopAllAudio } from 'utils/soundCache.utils';
+
+import { PATHS } from 'config';
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
+import { HomeIcon, StopIcon, TimerIcon } from 'styles/icons';
 import { styles } from './AdminToolbar.styles';
 
 export const AdminToolbar: React.FC = () => {

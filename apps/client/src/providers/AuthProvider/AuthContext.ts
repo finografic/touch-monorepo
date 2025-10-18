@@ -17,6 +17,7 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
+
 import type { AuthSession, AuthSignOutCallbacks, AuthStore, AuthValues } from './AuthContext.types';
 
 export const DISPLAY_NAME = 'Auth';

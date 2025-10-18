@@ -13,13 +13,14 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 
-import { ALTERNATIVE_PATHS, PATHS } from 'config';
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useProcessTimesFromTemperatureFilter } from 'hooks/useProcessTimesFromTemperatureFilter';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { FLOW_TYPES } from 'types/flow.types';
 import { convertSlotConfigsToOrderConfig, getFallbackSlotsConfig } from 'utils/slot-config.utils';
+
+import { ALTERNATIVE_PATHS, PATHS } from 'config';
+import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 
 type OperationActionType =
   | 'clear-completed'

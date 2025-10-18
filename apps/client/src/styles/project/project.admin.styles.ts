@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, min, spacing } from 'styles';
 import { forms } from '../forms/forms.constants';
+import { colors, layout, min, spacing } from 'styles';
 
 export const stylesAdminContent = css`
   header.app-header.admin-app-header {

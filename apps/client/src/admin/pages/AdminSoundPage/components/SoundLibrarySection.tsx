@@ -5,10 +5,11 @@ import { Button, Callout, Flex, Text } from '@radix-ui/themes';
 import { useToast } from 'components/Toast';
 
 import { useRemoveSoundFile } from 'queries/sounds';
-// import { CheckIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
-import { BadgeCheckIcon, SpeakerLoudIcon } from 'styles/icons';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
 import { playSoundByPath } from 'utils/soundCache.utils';
+
+// import { CheckIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
+import { BadgeCheckIcon, SpeakerLoudIcon } from 'styles/icons';
 
 interface SoundLibrarySectionProps {
   soundFiles: SoundFile[];

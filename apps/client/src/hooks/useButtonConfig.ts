@@ -2,14 +2,15 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
-import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config';
-import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useButtonOperations } from 'hooks/useButtonOperations';
 import { useRouteHandler } from 'hooks/useRouteHandler';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import { BUTTON_ACTIONS, BUTTON_TYPES, type PadActionProps, type PadActionType } from 'types/button.types';
+
+import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config';
+import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
 
 interface UseButtonConfigReturn {
   footerButtons: PadActionProps[];

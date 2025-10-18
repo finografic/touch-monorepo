@@ -6,8 +6,8 @@ import { Box, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 
-import { Cross2Icon, ExclamationTriangleIcon } from 'styles/icons';
 import { getFieldValidationState } from './field-wrapper.utils';
+import { Cross2Icon, ExclamationTriangleIcon } from 'styles/icons';
 import { styles } from './FieldWrapper.styles';
 
 interface FieldWrapperProps {

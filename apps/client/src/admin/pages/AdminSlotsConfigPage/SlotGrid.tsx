@@ -4,6 +4,7 @@ import { Box, Button, Flex, Text } from '@radix-ui/themes';
 
 import { SlotType } from 'types/orders.types';
 import type { GridConfig } from 'types/slot-config.types';
+
 import { styles } from './SlotGrid.styles';
 
 interface SlotConfig {

@@ -7,12 +7,13 @@ import { useTimers } from 'providers/TimersProvider';
 import { DevPanelLeft } from 'dev-tools/_Panels/DevPanelLeft';
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
-import { LockIcon, TextAlignTopIcon } from 'styles/icons';
+
 import { DevScreenSize } from '../components/DevScreenSize/DevScreenSize';
 import { QueryDevtoolsPanel } from '../layers/QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { MockOrdersButton } from '../mocks/MockOrdersButton/MockOrdersButton';
 import { MockSessionTimer } from '../mocks/MockSessionTimer/MockSessionTimer';
 import { MockTimersMin } from '../mocks/MockTimersMin/MockTimersMin';
+import { LockIcon, TextAlignTopIcon } from 'styles/icons';
 import { styles } from './DevToolbarFrontEnd.styles';
 
 export const DevToolbarFrontEnd = () => {

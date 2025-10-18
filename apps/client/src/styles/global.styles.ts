@@ -1,8 +1,8 @@
 import { css } from '@emotion/react';
 
 import { colors } from 'styles';
-import { forms } from 'styles/forms/forms.styles';
 import { cssFontDefaults, cssFontMono } from './fonts/fonts.styles';
+import { forms } from 'styles/forms/forms.styles';
 
 export const cssGlobal = css`
   /* Use CSS layers to ensure our styles override Radix */

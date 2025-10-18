@@ -10,6 +10,7 @@ import { getNavLabel } from 'admin/utils/i18n.utils';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { usePageTransition } from 'hooks/usePageTransition';
+
 import { styles } from './AdminNavigation.styles';
 
 export const AdminNavigation: React.FC = () => {

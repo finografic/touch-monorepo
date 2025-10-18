@@ -13,6 +13,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import type { Theme } from 'types/ui.types';
+
 import { styles } from './Title.styles';
 
 interface TitleProps {

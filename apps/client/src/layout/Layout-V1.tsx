@@ -22,13 +22,14 @@ import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
 import { TimersProvider } from 'providers/TimersProvider';
 
-import { NUM_GRID_ITEMS } from 'config/app';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { useResetAppState } from 'hooks/useResetAppState';
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
-import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import type { ValidGridSize } from 'types/menu.types';
+
+import { NUM_GRID_ITEMS } from 'config/app';
 import { Loader } from '../components/Loader/Loader';
+import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';
 
 export const Layout: FC = () => {

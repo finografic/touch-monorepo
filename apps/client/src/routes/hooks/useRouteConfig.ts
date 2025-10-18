@@ -6,14 +6,15 @@ import { useMatches, useRouteLoaderData } from 'react-router-dom';
 import type { RegionLocale } from '@workspace/i18n';
 import cloneDeep from 'lodash/cloneDeep';
 
-import { ROUTE_FILTER_KEYS } from 'config/app';
-import { getPadsUIConfig } from 'config/ui';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import type { RouteConfig } from 'routes/routes.types';
 import type { DataEntry } from 'types/data.types';
 import type { FilterApiKey } from 'types/filters.types';
 import type { FilterKey } from 'types/orders.types';
 import type { PadConfig } from 'types/pads.types';
+
+import { ROUTE_FILTER_KEYS } from 'config/app';
+import { getPadsUIConfig } from 'config/ui';
 
 // Required route config interface
 interface RequiredRouteConfig<T = DataEntry[]> {

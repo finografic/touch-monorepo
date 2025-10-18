@@ -8,6 +8,7 @@ import { NotFoundCard } from 'components/NotFoundCard';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
+
 import { styles } from './NotFound.styles';
 
 const NotFound = (): ReactElement => {

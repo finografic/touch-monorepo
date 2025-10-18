@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 
 import { useFiltersContext } from 'providers/FiltersProvider';
 
-import { PATHS, ROUTES_CONFIG } from 'config';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import {
   getActualNextPath,
@@ -10,6 +9,8 @@ import {
   resolveRouteParameters,
 } from 'routes/hooks/useRouteNavigation.utils';
 import type { OrderFilters } from 'types/filters.types';
+
+import { PATHS, ROUTES_CONFIG } from 'config';
 
 /**
  * Hook to get navigation information for the current route.

@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
-import { UserIcon, UserLockIcon } from 'styles/icons';
 import { AuthLoginTabContent } from './AuthTabContent';
+import { UserIcon, UserLockIcon } from 'styles/icons';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';

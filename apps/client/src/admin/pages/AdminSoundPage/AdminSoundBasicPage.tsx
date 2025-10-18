@@ -5,10 +5,11 @@ import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
 
 import { useGlobalVolume } from 'hooks/useGlobalVolume';
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
-import { StopIcon } from 'styles/icons';
 import { stopAllAudio } from 'utils/soundCache.utils';
+
 import { AdminContentLayout, AdminSection } from '../..';
 import { SoundConfigurationSection } from './components';
+import { StopIcon } from 'styles/icons';
 import { styles } from './AdminSoundPage.styles';
 
 export const AdminSoundBasicPage: React.FC = () => {

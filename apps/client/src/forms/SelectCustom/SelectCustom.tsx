@@ -6,6 +6,7 @@ import clsx from 'clsx';
 import { DropdownPortal } from 'forms/SelectSearchable/DropdownPortal';
 
 import type { SelectOption } from 'types/models/select-option.model';
+
 import { styles, stylesDropdown } from './SelectCustom.styles';
 
 interface SelectCustomProps {

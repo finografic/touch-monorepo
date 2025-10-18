@@ -14,6 +14,7 @@ import {
 } from 'queries/slot-configurations';
 import { SlotType } from 'types/orders.types';
 import { GRID_CONFIGS } from 'types/slot-config.types';
+
 import { AdminContentLayout } from '../..';
 import { SlotGrid } from './SlotGrid';
 import { styles } from './AdminSlotsConfigPage.styles';

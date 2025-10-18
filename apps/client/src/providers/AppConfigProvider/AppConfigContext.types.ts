@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 
 import type { Theme } from 'types/ui.types';
 import type { CreateSettersType } from 'utils/zustand';
+
 import type { AppConfigKeys } from './AppConfigContext';
 
 export interface AppConfigValues {

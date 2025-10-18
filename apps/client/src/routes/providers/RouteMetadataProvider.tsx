@@ -4,11 +4,12 @@ import { Outlet } from 'react-router-dom';
 
 import NotFound from 'pages/NotFound';
 
-import { ROUTES_CONFIG } from 'config';
 import { useRouterLoader } from 'routes/hooks/useRouterLoader';
 import { routes } from 'routes/routes';
 import { flatttenChildren } from 'routes/utils/routes.utils.flatten';
 import { withRouteMetadata } from 'routes/utils/withRouteMetadata';
+
+import { ROUTES_CONFIG } from 'config';
 import { RouteMetadataContext } from './RouteMetadataContext';
 
 interface RouteMetadataProviderProps {

@@ -1,10 +1,10 @@
-import { TRANSPARENCY_LEVELS } from 'styles/colors/colors.types';
 import {
   CSS_BASE_COLORS,
   CSS_SHADE_VARIANTS,
   CSS_TRANSPARENCY_ONLY_COLORS,
 } from '../constants/css-vars.constants';
 import type { ColorPalette } from '../palette.types';
+import { TRANSPARENCY_LEVELS } from 'styles/colors/colors.types';
 
 // NOTE: THIS is the VERSION of the METHOD USED to GENERATE COLOR VARIABLES
 

@@ -11,9 +11,10 @@ import { useStorageTimer } from 'providers/TimersProvider';
 
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
 import { useDev } from 'dev-tools/providers/DevProvider';
-import { DialogIcon, TimerIcon } from 'styles/icons';
 import type { Theme } from 'types/ui.types';
+
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
+import { DialogIcon, TimerIcon } from 'styles/icons';
 import { styles } from './FrontEndToolbar.styles';
 
 export const FrontEndToolbar: React.FC = () => {

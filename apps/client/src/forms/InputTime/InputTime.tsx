@@ -3,10 +3,11 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { ChevronDownIcon, ChevronUpIcon, ExclamationTriangleIcon } from '@radix-ui/react-icons';
 import { IconButton, TextField } from '@radix-ui/themes';
 
-import { colors } from 'styles';
 import { formatTime, parseTime } from 'utils/time.utils';
+
 import { STEP_BUTTON_SIZE, STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
 import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
+import { colors } from 'styles';
 import { styles } from './InputTime.styles';
 
 interface InputTimeProps {

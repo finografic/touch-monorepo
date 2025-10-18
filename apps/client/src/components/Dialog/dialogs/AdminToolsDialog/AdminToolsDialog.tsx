@@ -7,9 +7,10 @@ import { ConfigDataList } from 'components/DataList/ConfigDataList/ConfigDataLis
 import { MetadataDataList } from 'components/DataList/MetadataDataList/MetadataDataList';
 import { OrderDataList } from 'components/DataList/OrderDataList/OrderDataList';
 
-import { ROUTE_FILTER_KEYS } from 'config/app';
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useOrderSelection } from 'hooks/useOrderSelection';
+
+import { ROUTE_FILTER_KEYS } from 'config/app';
 import { GenericDialog } from '../../GenericDialog';
 import type { DialogConfig } from '../../GenericDialog.types';
 // Local imports

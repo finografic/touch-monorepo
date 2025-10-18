@@ -7,8 +7,9 @@ import { Timer } from 'components/Timer/Timer';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 
-import { ROUTE_FILTER_KEYS } from 'config/app';
 import type { FilterKey, SlotType } from 'types/orders.types';
+
+import { ROUTE_FILTER_KEYS } from 'config/app';
 import { PadSlotToggle } from './PadSlotToggle';
 import { styles } from './PadSlot.styles';
 

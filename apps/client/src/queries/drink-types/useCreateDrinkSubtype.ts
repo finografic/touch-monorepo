@@ -6,6 +6,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { DrinkSubtype } from 'types/models/drink-type.model';
 import { slugify } from 'utils/string.utils';
+
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 
 export interface CreateDrinkSubtypeInput {

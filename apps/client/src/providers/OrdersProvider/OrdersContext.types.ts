@@ -6,6 +6,7 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SlotItem, SlotType } from 'types/orders.types';
 import type { SlotItemConfig } from 'utils/slot-config.utils';
 import type { CreateSettersType } from 'utils/zustand';
+
 import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
 
 export interface OrdersValues {

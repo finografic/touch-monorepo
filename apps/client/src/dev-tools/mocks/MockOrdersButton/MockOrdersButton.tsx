@@ -6,10 +6,11 @@ import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
-import { PATHS } from 'config';
-import { StarIcon } from 'styles/icons';
 import { FLOW_TYPES } from 'types/flow.types';
+
+import { PATHS } from 'config';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
+import { StarIcon } from 'styles/icons';
 
 export const MockOrdersButton = () => {
   const navigate = useNavigate();

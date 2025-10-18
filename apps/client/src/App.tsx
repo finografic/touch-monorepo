@@ -12,6 +12,7 @@ import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
+
 import { cssGlobal } from 'styles/global.styles';
 
 const AppBaseLayout = () => (

@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 
 import type { CreateSettersType } from 'utils/zustand';
+
 import type { AuthKeys, SETTER_PREFIX } from './AuthContext';
 
 export interface User {

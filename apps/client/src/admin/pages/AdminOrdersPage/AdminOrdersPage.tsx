@@ -19,8 +19,9 @@ import { useToast } from 'components/Toast';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
-import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
+
 import { AdminContentLayout, AdminSection } from '../..';
+import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
 import { styles } from './AdminOrdersPage.styles';
 
 export const NUM_TABS = 2;

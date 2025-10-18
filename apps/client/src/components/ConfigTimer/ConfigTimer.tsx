@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 import { formatTimeFromMs } from 'utils/time.utils';
+
+import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 import { styles } from './ConfigTimer.styles';
 
 export const ConfigTimer = () => {

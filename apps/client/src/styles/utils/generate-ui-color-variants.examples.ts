@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
 import { generateUiColorVariants } from './generate-ui-color-variants.utils';
+import { colors } from 'styles';
 
 /**
  * Usage Examples for generateUiColorVariants

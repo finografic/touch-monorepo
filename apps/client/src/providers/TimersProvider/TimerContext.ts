@@ -3,6 +3,7 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
+
 import type { TimerItem, TimersStore, TimersValues } from './TimerContext.types';
 
 export const DISPLAY_NAME = 'Timers';

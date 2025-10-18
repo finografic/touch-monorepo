@@ -14,6 +14,7 @@ import { useTimers } from 'providers/TimersProvider';
 import { useButtonConfig } from 'hooks/useButtonConfig';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
+
 // import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { styles } from './MainPage.styles';
 

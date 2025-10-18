@@ -1,5 +1,6 @@
-import { PATHS } from 'config';
 import type { OrderFilters } from 'types/filters.types';
+
+import { PATHS } from 'config';
 
 /**
  * Replace dynamic route parameters with actual values from filters

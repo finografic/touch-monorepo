@@ -1,6 +1,6 @@
-import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
 import { spacing } from '../constants/global.constants';
 import { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from '../fonts/typography.contants';
+import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
 import { colors } from '../colors/colors.styles';
 
 export const theme = {

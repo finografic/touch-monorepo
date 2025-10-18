@@ -16,6 +16,7 @@ import { usePagination } from 'components/Pagination';
 
 import { METADATA } from 'types';
 import { slugify } from 'utils/string.utils';
+
 import { useInviteFilters } from '../InviteFiltersContext';
 import { Summary } from '../invitesDEV';
 import { RESET } from './invite-form.contants';

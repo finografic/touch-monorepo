@@ -18,6 +18,7 @@ import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { ContentProvider } from 'providers/ContentProvider';
 
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
+
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './AdminLayout.styles';
 

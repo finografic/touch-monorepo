@@ -6,6 +6,7 @@ import { CheckboxGroup } from '@radix-ui/themes';
 import type { FilterKey } from 'types/orders.types';
 import type { PadType, PadUI } from 'types/pads.types';
 import { PAD_TYPE } from 'types/pads.types';
+
 import { PadButton, PadCheckbox, PadRadio } from '../Pad/index';
 
 interface PadGroupProps {

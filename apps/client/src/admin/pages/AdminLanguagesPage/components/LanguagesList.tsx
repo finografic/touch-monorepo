@@ -5,9 +5,10 @@ import type { LanguageInfo } from '@workspace/i18n/types';
 import clsx from 'clsx';
 
 import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
-import { LockIcon, TrashIcon } from 'styles/icons';
 import { canDeleteLanguage } from 'utils/i18n/language.utils';
+
 import { LanguageItem } from './LanguageItem';
+import { LockIcon, TrashIcon } from 'styles/icons';
 
 interface LanguagesListProps {
   languages: LanguageInfo[];
