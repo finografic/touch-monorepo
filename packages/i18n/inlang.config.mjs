@@ -6,7 +6,7 @@ import { missingTranslation } from '@inlang/lint-rule-missing-translation';
  */
 export default {
   'referenceLanguage': 'en-GB',
-  'languages': ['en-GB', 'es-ES', 'ca-ES'],
+  'languages': ['en-GB', 'es-ES'],
 
   // Optional lint rules (great for CI)
   'lint': [missingTranslation()],
@@ -22,7 +22,7 @@ export default {
     sourceDirs: ['./src/messages/app'],
 
     // Where the generated functions go (imported by Vite / app)
-    outdir: './src/generated/paraglide',
+    outdir: '../../config/generated/i18n/messages',
 
     // Optionally specify a project file for IDE integration (optional)
     project: './project.inlang',

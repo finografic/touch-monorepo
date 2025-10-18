@@ -1,0 +1,14 @@
+{
+  "$schema": "https://inlang.com/schema/project",
+  "sourceLanguageTag": "en-GB",
+  "languageTags": ["en-GB", "es-ES", "ca-ES"],
+  "modules": [
+    "https://cdn.jsdelivr.net/npm/@inlang/plugin-paraglide-js@2/dist/index.js"
+  ],
+  "settings": {
+    "plugin.paraglide-js": {
+      "sourceDirs": ["./src/messages/app"],
+      "outdir": "../../config/generated/i18n/messages",
+    }
+  }
+}
