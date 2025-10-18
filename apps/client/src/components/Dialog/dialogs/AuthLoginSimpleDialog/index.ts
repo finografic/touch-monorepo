@@ -1,1 +1,0 @@
-export { AuthLoginSimpleDialog } from './AuthSimpleDialog';

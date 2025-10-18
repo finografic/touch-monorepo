@@ -14,7 +14,7 @@ import { SearchBar } from 'components/SearchBar';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import clsx from 'clsx';
-import { AuthLoginTabContent } from 'components/Dialog/dialogs/AuthLoginSimpleDialog/AuthTabContent';
+import { AuthLoginTabContent } from 'components/Dialog/dialogs/AuthLoginDialog/AuthTabContent';
 import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
 import type { DialogConfig } from 'components/Dialog';
 import { TabForm } from 'admin/pages/AdminOrdersPage/TabForm';

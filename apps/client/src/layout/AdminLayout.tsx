@@ -16,7 +16,7 @@ import { PageHeader } from 'components/PageHeader/PageHeader';
 import { Header } from 'components/Header/Header';
 import { styles } from './AdminLayout.styles';
 import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
-import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
+import { AuthDialogGuard } from 'components/Dialog/dialogs';
 
 export const AdminLayout: FC = () => {
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES], maxScreenClass: 'xxl' });
@@ -35,18 +35,18 @@ export const AdminLayout: FC = () => {
   };
 
   return (
-    <ContentProvider>
-      <AdminProvider>
-        <DevProvider>
-          <Theme
-            appearance={adminTheme.appearance}
-            grayColor={adminTheme.grayColor}
-            accentColor={adminTheme.accentColor}
-            scaling={adminTheme.scaling}
-          >
-            <div id="admin-layout" css={styles}>
-              <ToastProvider>
-                <AuthLoginSimpleDialog>
+    <Theme
+      appearance={adminTheme.appearance}
+      grayColor={adminTheme.grayColor}
+      accentColor={adminTheme.accentColor}
+      scaling={adminTheme.scaling}
+    >
+      <ToastProvider>
+        <ContentProvider>
+          <AdminProvider>
+            <DevProvider>
+              <div id="admin-layout" css={styles}>
+                <AuthDialogGuard>
                   <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
                   <AdminNavigation />
                   <main>
@@ -65,13 +65,13 @@ export const AdminLayout: FC = () => {
                     </div>
                   </main>
                   <Footer />
-                </AuthLoginSimpleDialog>
+                </AuthDialogGuard>
                 <ToastSystem />
-              </ToastProvider>
-            </div>
-          </Theme>
-        </DevProvider>
-      </AdminProvider>
-    </ContentProvider>
+              </div>
+            </DevProvider>
+          </AdminProvider>
+        </ContentProvider>
+      </ToastProvider>
+    </Theme>
   );
 };

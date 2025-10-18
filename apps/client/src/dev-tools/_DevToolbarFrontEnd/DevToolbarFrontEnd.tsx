@@ -9,8 +9,6 @@ import { MockTimersMin } from '../mocks/MockTimersMin/MockTimersMin';
 import { MockSessionTimer } from '../mocks/MockSessionTimer/MockSessionTimer';
 import { useTimers } from 'providers/TimersProvider';
 // import { DevPanelRight } from '../DevPanels/DevPanelRight';
-import { AuthStatusDialog } from 'components/Dialog/dialogs/AuthStatusDialog';
-import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
 import { DevPanelLeft } from 'dev-tools/_Panels/DevPanelLeft';
 import { styles } from './DevToolbarFrontEnd.styles';
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -80,11 +78,6 @@ export const DevToolbarFrontEnd = () => {
         </Flex>
       </div>
 
-      {/* <AuthStatusDialog isOpen={isDevAuthVisible} onClose={() => setIsDevAuthVisible(false)} />
-      <AuthLoginSimpleDialog
-        isOpen={isDevSimpleLoginVisible}
-        onClose={() => setIsDevSimpleLoginVisible(false)}
-      /> */}
       {isDevQueryPanelOpen && <QueryDevtoolsPanel onClose={() => setIsDevQueryPanelOpen(false)} />}
     </>
   );

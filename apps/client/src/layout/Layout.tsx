@@ -26,7 +26,7 @@ import { ToastProvider, ToastSystem } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars';
 import { styles } from './Layout.styles';
 import { useResetAppState } from 'hooks/useResetAppState';
-import { AuthLoginSimpleDialog } from 'components/Dialog/dialogs/AuthLoginSimpleDialog';
+import { AuthDialogGuard } from 'components/Dialog/dialogs';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
@@ -45,59 +45,52 @@ export const Layout: FC = () => {
   };
 
   return (
-    <ToastProvider>
-      <TimersProvider>
-        <OrdersProvider>
-          <FiltersProvider>
-            <PaginationProvider>
-              <LayoutUiProvider initialValue={{ numItems }}>
-                <AdminProvider>
-                  <ContentProvider>
-                    <DevProvider>
-                      <Theme
-                        appearance={mainTheme.appearance}
-                        grayColor={mainTheme.grayColor}
-                        accentColor={mainTheme.accentColor}
-                        scaling={mainTheme.scaling}
-                      >
+    <Theme
+      appearance={mainTheme.appearance}
+      grayColor={mainTheme.grayColor}
+      accentColor={mainTheme.accentColor}
+      scaling={mainTheme.scaling}
+    >
+      <ToastProvider>
+        <TimersProvider>
+          <OrdersProvider>
+            <FiltersProvider>
+              <PaginationProvider>
+                <LayoutUiProvider initialValue={{ numItems }}>
+                  <AdminProvider>
+                    <ContentProvider>
+                      <DevProvider>
                         <div id="layout" css={styles}>
-                          {/** Use a child component to access reset hook inside providers */}
-                          <HeaderWithToolbar />
-                          <main>
-                            <div className="main-content">
-                              <section>
-                                <PageHeader />
-                                <div className="page-content" role="main">
-                                  <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                    <Outlet />
-                                  </Suspense>
-                                </div>
-                                <nav className="page-navigation">
-                                  <FrontEndNavigation />
-                                </nav>
-                              </section>
-                            </div>
-                          </main>
-                          <AuthLoginSimpleDialog />
-                          <Footer />
+                          <AuthDialogGuard>
+                            <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
+                            <main>
+                              <div className="main-content">
+                                <section>
+                                  <PageHeader />
+                                  <div className="page-content" role="main">
+                                    <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                      <Outlet />
+                                    </Suspense>
+                                  </div>
+                                  <nav className="page-navigation">
+                                    <FrontEndNavigation />
+                                  </nav>
+                                </section>
+                              </div>
+                            </main>
+                            <Footer />
+                          </AuthDialogGuard>
                           <div id="radix-portal-container" />
                         </div>
-                        <ToastSystem />
-                      </Theme>
-                    </DevProvider>
-                  </ContentProvider>
-                </AdminProvider>
-              </LayoutUiProvider>
-            </PaginationProvider>
-          </FiltersProvider>
-        </OrdersProvider>
-      </TimersProvider>
-    </ToastProvider>
+                      </DevProvider>
+                    </ContentProvider>
+                  </AdminProvider>
+                </LayoutUiProvider>
+              </PaginationProvider>
+            </FiltersProvider>
+          </OrdersProvider>
+        </TimersProvider>
+      </ToastProvider>
+    </Theme>
   );
 };
-
-// Child component rendered within providers so context hooks are valid
-function HeaderWithToolbar() {
-  const { resetAppState } = useResetAppState();
-  return <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />;
-}

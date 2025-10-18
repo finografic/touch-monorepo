@@ -9,11 +9,11 @@ const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
 const DEFAULT_PASSWORD = 'password123';
 
-interface AuthLoginSimpleDialogProps {
+interface AuthLoginDialogProps {
   children?: React.ReactNode | React.ReactElement;
 }
 
-export const AuthLoginSimpleDialog: FC<AuthLoginSimpleDialogProps> = ({ children = <React.Fragment /> }) => {
+export const AuthLoginDialog: FC<AuthLoginDialogProps> = ({ children = <React.Fragment /> }) => {
   const { isAuthenticated, refreshSession, isLoginDialogOpen, closeLoginDialog, signIn, signOut } = useAuth();
   const navigate = useNavigate();
 
