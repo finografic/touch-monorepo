@@ -20,7 +20,7 @@ export default {
   // Plugin configuration
   'plugin.paraglide-js': {
     // Where the generated functions go (imported by Vite / app)
-    outdir: '../../config/generated/i18n/messages',
+    outdir: '../../../config/generated/i18n/app/messages',
 
     // Project directory for IDE integration
     project: './project.inlang',

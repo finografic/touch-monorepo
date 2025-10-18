@@ -1,4 +1,5 @@
-import type { I18nConfig } from '../../packages/i18n/src/config/types';
+import type { I18nConfig } from '../packages/i18n/dist/config/index';
+
 export type * from './generated/i18n/language.types';
 export * from './generated/i18n/constants.generated';
 
