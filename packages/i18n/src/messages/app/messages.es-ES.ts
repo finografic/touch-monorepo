@@ -1,38 +1,39 @@
 // Simple TypeScript-based messages (no ParaglideJS dependency for now)
 export const messages = {
-  // App-level messages
-  title: 'Servi Fresc',
-  tagline: 'Servicio de Temperatura Perfecta',
-  description: 'Sistema de control de temperatura para bebidas',
+  app: {
+    // App-level messages
+    title: 'Servi Fresc',
+    tagline: 'Servicio de Temperatura Perfecta',
+    description: 'Sistema de control de temperatura para bebidas',
 
-  // Pages
-  pages: {
-    main: {
-      title: 'Principal',
-      description: 'Página principal',
-    },
-    drinkType: {
-      title: 'Tipos de Bebida',
-      description: 'Seleccionar tipo de bebida',
-    },
-    drinkSubtypes: {
-      title: 'Subtipos de Bebida',
-      description: 'Seleccionar subtipo de bebida',
-    },
-    volumes: {
-      title: 'Volúmenes',
-      description: 'Seleccionar volumen',
-    },
-    temperature: {
-      title: 'Temperatura',
-      description: 'Seleccionar temperatura',
-    },
-    orders: {
-      title: 'Pedidos',
-      description: 'Ver pedidos',
+    // Pages
+    pages: {
+      main: {
+        title: 'Principal',
+        description: 'Página principal',
+      },
+      drinkType: {
+        title: 'Tipos de Bebida',
+        description: 'Seleccionar tipo de bebida',
+      },
+      drinkSubtypes: {
+        title: 'Subtipos de Bebida',
+        description: 'Seleccionar subtipo de bebida',
+      },
+      volumes: {
+        title: 'Volúmenes',
+        description: 'Seleccionar volumen',
+      },
+      temperature: {
+        title: 'Temperatura',
+        description: 'Seleccionar temperatura',
+      },
+      orders: {
+        title: 'Pedidos',
+        description: 'Ver pedidos',
+      },
     },
   },
-
   // Admin messages
   admin: {
     title: 'Panel de Administración',
