@@ -1,93 +1,80 @@
 import { Suspense, useEffect } from 'react';
 import type { FC } from 'react';
 import { Outlet } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { setConfiguration } from 'react-grid-system';
 import { Theme } from '@radix-ui/themes';
-import { Footer } from 'components/Footer';
-import { Header } from 'components/Header/Header';
-import { PageHeader } from 'components/PageHeader';
-import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
-import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
-import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
-import { FiltersProvider } from 'providers/FiltersProvider';
-import { Loader } from '../components/Loader/Loader';
-import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
-import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
-import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
-import { TimersProvider } from 'providers/TimersProvider';
 import { ContentProvider } from 'providers/ContentProvider';
-import { useAppConfig } from 'providers/AppConfigProvider';
+import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
+import { Loader } from 'components/Loader/Loader';
+import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
+import { Footer } from 'components/Footer/Footer';
+import { AdminNavigation } from 'admin/components/AdminNavigation';
+import { setConfiguration } from 'react-grid-system';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
-import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
-import { NUM_GRID_ITEMS } from 'config/app';
-import type { ValidGridSize } from 'types/menu.types';
-import { ToastProvider } from 'components/Toast';
-import { UserToolbar } from 'components/Toolbars';
-import { styles } from './Layout.styles';
-import { AuthDialogGuard } from 'components/Dialog/dialogs';
+import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
+import { ToastProvider, ToastSystem } from 'components/Toast';
+import { PageHeader } from 'components/PageHeader/PageHeader';
+import { Header } from 'components/Header/Header';
+import { styles } from './AdminLayout.styles';
+import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
+import { AuthLoginDialog } from 'components/Dialog/dialogs';
 
-export const Layout: FC = () => {
-  const { t } = useTranslation();
-  const { theme } = useAppConfig();
-  const { data: slotConfigs } = useGetSlotConfigurations();
-  const numItems = (slotConfigs ? slotConfigs.length : NUM_GRID_ITEMS) as ValidGridSize;
+export const AdminLayout: FC = () => {
+  setConfiguration({
+    breakpoints: [...BREAKPOINT_VALUES],
+    maxScreenClass: 'xxl',
+  });
 
-  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
-
-  useEffect(function initializeLayoutTheme() {
+  // Initialize admin theme - force light theme for admin panel
+  useEffect(() => {
     document.documentElement.setAttribute('data-theme', 'light');
   }, []);
 
-  const themeConfig = {
-    appearance: theme,
-    grayColor: 'slate' as const,
-    accentColor: 'blue' as const,
-    scaling: '100%' as const,
+  // Admin theme configuration
+  const adminTheme = {
+    appearance: 'light' as const, // Light theme for admin
+    grayColor: 'slate' as const, // Professional gray
+    accentColor: 'blue' as const, // Blue accent for admin actions
+    scaling: '100%' as const, // Standard scaling
   };
 
   return (
-    <Theme {...themeConfig}>
-      <ToastProvider>
-        <TimersProvider>
-          <OrdersProvider>
-            <FiltersProvider>
-              <PaginationProvider>
-                <LayoutUiProvider initialValue={{ numItems }}>
-                  <AdminProvider>
-                    <ContentProvider>
-                      <DevProvider>
-                        <div id="layout" css={styles}>
-                          <AuthDialogGuard>
-                            <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
-                            <main>
-                              <div className="main-content">
-                                <section>
-                                  <PageHeader />
-                                  <div className="page-content" role="main">
-                                    <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                      <Outlet />
-                                    </Suspense>
-                                  </div>
-                                  <nav className="page-navigation">
-                                    <FrontEndNavigation />
-                                  </nav>
-                                </section>
-                              </div>
-                            </main>
-                            <Footer />
-                          </AuthDialogGuard>
-                          <div id="radix-portal-container" />
+    <ContentProvider>
+      <AdminProvider>
+        <DevProvider>
+          <Theme
+            appearance={adminTheme.appearance}
+            grayColor={adminTheme.grayColor}
+            accentColor={adminTheme.accentColor}
+            scaling={adminTheme.scaling}
+          >
+            <div id="admin-layout" css={styles}>
+              <ToastProvider>
+                <AuthLoginDialog>
+                  <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
+                  <AdminNavigation />
+                  <main>
+                    <div className="main-content">
+                      <section>
+                        <PageHeader />
+                        <div className="page-content" role="main">
+                          <AdminErrorBoundary>
+                            <Suspense fallback={<Loader message="Loading..." />}>
+                              <Outlet />
+                            </Suspense>
+                          </AdminErrorBoundary>
                         </div>
-                      </DevProvider>
-                    </ContentProvider>
-                  </AdminProvider>
-                </LayoutUiProvider>
-              </PaginationProvider>
-            </FiltersProvider>
-          </OrdersProvider>
-        </TimersProvider>
-      </ToastProvider>
-    </Theme>
+                        <nav className="page-navigation">{/* Page navigation can go here if needed */}</nav>
+                      </section>
+                    </div>
+                  </main>
+                  <Footer />
+                </AuthLoginDialog>
+                <ToastSystem />
+              </ToastProvider>
+            </div>
+          </Theme>
+        </DevProvider>
+      </AdminProvider>
+    </ContentProvider>
   );
 };
