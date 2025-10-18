@@ -1,24 +1,38 @@
 import { Suspense, useEffect } from 'react';
 import type { FC } from 'react';
 import { Outlet } from 'react-router-dom';
-import { Theme } from '@radix-ui/themes';
-import { ContentProvider } from 'providers/ContentProvider';
-import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
-import { Loader } from 'components/Loader/Loader';
-import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
-import { Footer } from 'components/Footer/Footer';
-import { AdminNavigation } from 'admin/components/AdminNavigation';
+import { useTranslation } from 'react-i18next';
 import { setConfiguration } from 'react-grid-system';
-import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
-import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
-import { ToastProvider, ToastSystem } from 'components/Toast';
-import { PageHeader } from 'components/PageHeader/PageHeader';
+import { Theme } from '@radix-ui/themes';
+import { Footer } from 'components/Footer';
 import { Header } from 'components/Header/Header';
-import { styles } from './AdminLayout.styles';
-import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
+import { PageHeader } from 'components/PageHeader';
+import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
+import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
+import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
+import { FiltersProvider } from 'providers/FiltersProvider';
+import { Loader } from '../components/Loader/Loader';
+import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
+import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
+import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
+import { TimersProvider } from 'providers/TimersProvider';
+import { ContentProvider } from 'providers/ContentProvider';
+import { useAppConfig } from 'providers/AppConfigProvider';
+import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
+import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
+import { NUM_GRID_ITEMS } from 'config/app';
+import type { ValidGridSize } from 'types/menu.types';
+import { ToastProvider } from 'components/Toast';
+import { UserToolbar } from 'components/Toolbars';
+import { styles } from './Layout.styles';
 import { AuthDialogGuard } from 'components/Dialog/dialogs';
 
-export const AdminLayout: FC = () => {
+export const Layout: FC = () => {
+  const { t } = useTranslation();
+  const { theme } = useAppConfig();
+  const { data: slotConfigs } = useGetSlotConfigurations();
+  const numItems = (slotConfigs ? slotConfigs.length : NUM_GRID_ITEMS) as ValidGridSize;
+
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
   useEffect(function initializeLayoutTheme() {
@@ -26,6 +40,7 @@ export const AdminLayout: FC = () => {
   }, []);
 
   const themeConfig = {
+    appearance: theme,
     grayColor: 'slate' as const,
     accentColor: 'blue' as const,
     scaling: '100%' as const,
@@ -34,35 +49,44 @@ export const AdminLayout: FC = () => {
   return (
     <Theme {...themeConfig}>
       <ToastProvider>
-        <AdminProvider>
-          <ContentProvider>
-            <DevProvider>
-              <div id="admin-layout" css={styles}>
-                <AuthDialogGuard>
-                  <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
-                  <AdminNavigation />
-                  <main>
-                    <div className="main-content">
-                      <section>
-                        <PageHeader />
-                        <div className="page-content" role="main">
-                          <AdminErrorBoundary>
-                            <Suspense fallback={<Loader message="Loading..." />}>
-                              <Outlet />
-                            </Suspense>
-                          </AdminErrorBoundary>
+        <TimersProvider>
+          <OrdersProvider>
+            <FiltersProvider>
+              <PaginationProvider>
+                <LayoutUiProvider initialValue={{ numItems }}>
+                  <AdminProvider>
+                    <ContentProvider>
+                      <DevProvider>
+                        <div id="layout" css={styles}>
+                          <AuthDialogGuard>
+                            <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
+                            <main>
+                              <div className="main-content">
+                                <section>
+                                  <PageHeader />
+                                  <div className="page-content" role="main">
+                                    <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                      <Outlet />
+                                    </Suspense>
+                                  </div>
+                                  <nav className="page-navigation">
+                                    <FrontEndNavigation />
+                                  </nav>
+                                </section>
+                              </div>
+                            </main>
+                            <Footer />
+                          </AuthDialogGuard>
+                          <div id="radix-portal-container" />
                         </div>
-                        <nav className="page-navigation">{/* Page navigation can go here if needed */}</nav>
-                      </section>
-                    </div>
-                  </main>
-                  <Footer />
-                </AuthDialogGuard>
-                <ToastSystem />
-              </div>
-            </DevProvider>
-          </ContentProvider>
-        </AdminProvider>
+                      </DevProvider>
+                    </ContentProvider>
+                  </AdminProvider>
+                </LayoutUiProvider>
+              </PaginationProvider>
+            </FiltersProvider>
+          </OrdersProvider>
+        </TimersProvider>
       </ToastProvider>
     </Theme>
   );
