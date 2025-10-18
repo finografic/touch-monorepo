@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
+
 import type { SerializedStyles } from '@emotion/react';
 
 import { Portal } from './Portal';

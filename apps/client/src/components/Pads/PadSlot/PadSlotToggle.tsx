@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
-import clsx from 'clsx';
 
+import clsx from 'clsx';
 import type { SlotStatus } from 'pages/MainPage/MainPage.types';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 

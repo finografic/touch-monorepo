@@ -1,7 +1,8 @@
+import type { ErrorResponse } from '@workspace/core/api';
+
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { EndpointHelper } from 'api/api.endpoints';
-import type { ErrorResponse } from '@workspace/core/api';
 
 import type { DrinkType } from 'types/models/drink-type.model';
 

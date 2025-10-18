@@ -1,9 +1,10 @@
 // import simpleImport from 'eslint-plugin-import';
+import { ERROR, fino, IGNORES, OFF } from '@finografic/eslint-config';
+
 import reactPlugin from 'eslint-plugin-react';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
-import { ERROR, fino, IGNORES, OFF } from '@finografic/eslint-config';
 // import tseslint from 'typescript-eslint';
 
 export default fino(

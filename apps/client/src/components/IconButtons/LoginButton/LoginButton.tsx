@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useCallback } from 'react';
-import clsx from 'clsx';
 
+import clsx from 'clsx';
 import { useToast } from 'components/Toast';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 

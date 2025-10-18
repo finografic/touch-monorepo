@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 
+import { Button, Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 import { useToast } from 'components/Toast';
 
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';

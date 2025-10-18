@@ -1,4 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
+
 import cloneDeep from 'lodash/cloneDeep';
 
 import type { RouteConfig } from 'routes/routes.types';

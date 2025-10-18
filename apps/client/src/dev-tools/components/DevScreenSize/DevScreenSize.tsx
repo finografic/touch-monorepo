@@ -3,7 +3,6 @@ import { Fragment } from 'react';
 import { Visible } from 'react-grid-system';
 
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
-
 import { styles } from './DevScreenSize.styles';
 
 export const DevScreenSize = ({ variant = 'light' }: { variant?: 'light' | 'dark' }): ReactElement => {

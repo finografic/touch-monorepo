@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
-import clsx from 'clsx';
 
+import clsx from 'clsx';
 import { Pad } from 'components/Pads/Pad';
 import { Timer } from 'components/Timer/Timer';
 import { useLayoutUi } from 'providers/LayoutUiProvider';

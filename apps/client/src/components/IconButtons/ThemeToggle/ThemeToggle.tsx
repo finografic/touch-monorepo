@@ -1,6 +1,6 @@
 import type { FC } from 'react';
-import clsx from 'clsx';
 
+import clsx from 'clsx';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { MoonIcon, SunIcon } from 'styles/icons';

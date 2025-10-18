@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'react-grid-system';
+
 import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
 
 import { useGlobalVolume } from 'hooks/useGlobalVolume';

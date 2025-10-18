@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import React, { memo } from 'react';
+
 import { Flex } from '@radix-ui/themes';
 import clsx from 'clsx';
-
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 interface AdminSectionProps {

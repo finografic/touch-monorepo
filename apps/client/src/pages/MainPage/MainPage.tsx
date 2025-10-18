@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react';
 import { Col, Row } from 'react-grid-system';
-import { Flex, Spinner } from '@radix-ui/themes';
 
+import { Flex, Spinner } from '@radix-ui/themes';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 import { PadSlot } from 'components/Pads/PadSlot';
 import { useFiltersContext } from 'providers/FiltersProvider';

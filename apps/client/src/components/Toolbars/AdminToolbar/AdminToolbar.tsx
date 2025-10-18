@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Flex } from '@radix-ui/themes';
 
+import { Flex } from '@radix-ui/themes';
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useAppConfig } from 'providers/AppConfigProvider';

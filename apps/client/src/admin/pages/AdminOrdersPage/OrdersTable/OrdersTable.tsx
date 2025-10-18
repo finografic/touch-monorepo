@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button, Flex, ScrollArea, Table, Text } from '@radix-ui/themes';
 
+import { Button, Flex, ScrollArea, Table, Text } from '@radix-ui/themes';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useContent } from 'providers/ContentProvider';
 

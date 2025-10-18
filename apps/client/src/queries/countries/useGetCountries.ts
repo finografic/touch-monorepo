@@ -1,5 +1,6 @@
-import { useQuery } from '@tanstack/react-query';
 import type { CountryModel } from '@workspace/core/types';
+
+import { useQuery } from '@tanstack/react-query';
 
 import { CountryDto } from './country.dto';
 

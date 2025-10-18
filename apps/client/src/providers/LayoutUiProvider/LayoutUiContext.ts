@@ -1,8 +1,8 @@
+import type { RegionLocale } from '@workspace/i18n';
+
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
-import type { RegionLocale } from '@workspace/i18n';
-
 import type { SlotMeta, SlotStatus } from 'pages/MainPage/MainPage.types';
 
 import type { DataEntry, Dataset } from 'types/data.types';

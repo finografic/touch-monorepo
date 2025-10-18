@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { Container, Flex, Heading, Text } from '@radix-ui/themes';
 import { LucideArrowRightSquare } from 'lucide-react';
-
 import { useContent } from 'providers/ContentProvider/ContentContext';
 
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+
 import { Cross2Icon } from '@radix-ui/react-icons';
 import { Button, Dialog, Flex, IconButton, Tabs, Theme } from '@radix-ui/themes';
 import clsx from 'clsx';
-
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
 import { useAppConfig } from 'providers/AppConfigProvider';
 

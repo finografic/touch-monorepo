@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Box, Flex } from '@radix-ui/themes';
 
+import { Box, Flex } from '@radix-ui/themes';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';

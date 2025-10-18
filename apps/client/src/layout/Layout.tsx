@@ -3,9 +3,9 @@ import { Suspense, useEffect } from 'react';
 import { setConfiguration } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
+
 import type { ThemeProps } from '@radix-ui/themes';
 import { Theme } from '@radix-ui/themes';
-
 import { AuthDialogGuard, AuthLoginDialog } from 'components/Dialog/dialogs';
 import { Footer } from 'components/Footer';
 import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
@@ -22,11 +22,11 @@ import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
 import { TimersProvider } from 'providers/TimersProvider';
 
-import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
 import type { ValidGridSize } from 'types/menu.types';
 
 import { NUM_GRID_ITEMS } from 'config/app';
+import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
 import { themeConfig } from 'styles/radix-ui/theme.config';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';

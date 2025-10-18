@@ -1,10 +1,10 @@
 import { useCallback, useMemo, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import createCuid from '@bugsnag/cuid';
 import { api } from 'api';
 // import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import type { error } from 'console';
-
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';

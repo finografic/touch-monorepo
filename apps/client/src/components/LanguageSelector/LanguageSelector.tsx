@@ -1,8 +1,8 @@
 import { useTranslation } from 'react-i18next';
+
 import type { LanguageSelectorProps, RegionLocale } from '@config/i18n';
 import { Flex, RadioCards, Text, Theme } from '@radix-ui/themes';
 import clsx from 'clsx';
-
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { LanguagesDto } from 'queries/supported-languages';

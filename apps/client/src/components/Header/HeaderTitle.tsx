@@ -1,7 +1,7 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Flex } from '@radix-ui/themes';
 
+import { Flex } from '@radix-ui/themes';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { Theme } from 'types/ui.types';

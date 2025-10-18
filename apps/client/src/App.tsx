@@ -1,9 +1,9 @@
 import { Suspense } from 'react';
 import { ScreenClassProvider } from 'react-grid-system';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
+
 import { Global } from '@emotion/react';
 import { Spinner, Theme as RadixTheme } from '@radix-ui/themes';
-
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { AuthProviderWithInitialization } from 'providers/AuthProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';

@@ -1,4 +1,5 @@
 import type { RouteObject } from 'react-router-dom';
+
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminFilterAnalysisPage } from 'admin/pages/AdminFilterAnalysisPage';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
@@ -13,7 +14,6 @@ import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
 import { Layout } from 'layout/Layout';
-
 import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { GenericSelectPage } from 'pages/GenericSelectPage/GenericSelectPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';

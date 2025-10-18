@@ -2,11 +2,11 @@ import { useLocation } from 'react-router-dom';
 
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 
+import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+
 import { DevFilterResults } from 'dev-tools/data/DevFilterResults/DevFilterResults';
 import { DevOrderProfile } from 'dev-tools/data/DevOrderProfile/DevOrderProfile';
 import { SessionAndTimers } from 'dev-tools/data/SessionAndTimers/SessionAndTimers';
-import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-
 import { stylesLeft } from './DevPanels.styles';
 
 export const DevPanelLeft = () => {

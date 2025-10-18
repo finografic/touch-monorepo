@@ -1,7 +1,8 @@
 import React from 'react';
+import type { LanguageInfo } from '@workspace/i18n/types';
+
 import { Card, Flex, IconButton, Switch, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
-import type { LanguageInfo } from '@workspace/i18n/types';
 
 import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
 import { canDeleteLanguage } from 'utils/i18n/language.utils';

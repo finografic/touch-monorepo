@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-
 import { baseToolbarStyles } from 'components/Toolbars/toolbar.styles';
 
 import { colors } from 'styles';

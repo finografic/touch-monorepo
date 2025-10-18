@@ -1,8 +1,9 @@
 // @ts-check
 
+import { ERROR, fino, OFF } from '@finografic/eslint-config';
+
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
-import { ERROR, fino, OFF } from '@finografic/eslint-config';
 
 export default fino({
   ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
@@ -62,17 +63,15 @@ export default fino({
       {
         groups: [
           // React imports + React-related packages (merged) - including type imports from react
-          ['^react', '^@react', '^@?\\w', '^@finografic', '^@workspace'],
-          // Other external packages
-          // ['^@?\\w'],
+          ['^react', '^@react',  '^@finografic', '^@workspace'],
           // Internal absolute imports: components, providers, pages
-          ['^(components|providers|pages)(/.*|$)'],
+          ['^@?\\w', '^(components|providers|pages)(/.*|$)'],
           // The rest of internal absolute imports + relative imports
-          ['^(types|utils|hooks|routes|constants|lib|dev-tools|queries)(/.*|$)'],
+          ['^(types|utils|hooks|routes|constants|lib|queries)(/.*|$)'],
           // Side effect imports
           ['^\\u0000'],
           // All relative imports (parent + same-folder + styles merged)
-          ['^(config)', '^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$', '^(styles)', '^.+\\.s?css$', '^.+\\.styles$'],
+          ['^(config|dev-tools)', '^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$', '^(styles)', '^.+\\.s?css$', '^.+\\.styles$'],
         ],
       },
     ],

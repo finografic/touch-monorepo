@@ -1,7 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Flex } from '@radix-ui/themes';
 
+import { Flex } from '@radix-ui/themes';
 import { LoginButton } from 'components/IconButtons/LoginButton';
 import { ThemeToggle } from 'components/IconButtons/ThemeToggle';
 import { useAdmin } from 'providers/AdminProvider';

@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
 
+import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from 'components/Toast';
 
 import { GET_RELAY_STATES_QUERYKEY,  useDisconnectRelay,  useReconnectRelay,  useToggleRelay,  useTurnAllRelaysOff,  useTurnAllRelaysOn } from 'queries/relays';

@@ -1,7 +1,7 @@
 import * as React from 'react';
+
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import clsx from 'clsx';
-
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 
 import { PAD_TYPE } from 'types/pads.types';

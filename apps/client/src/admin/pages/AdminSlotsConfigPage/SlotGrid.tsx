@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 
 import { SlotType } from 'types/orders.types';

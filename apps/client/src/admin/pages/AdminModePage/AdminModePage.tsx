@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Flex, Spinner, Text } from '@radix-ui/themes';
 
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { useToast } from 'components/Toast';
 
 import { useGetModes, useUpdateActiveStates } from 'queries/modes';

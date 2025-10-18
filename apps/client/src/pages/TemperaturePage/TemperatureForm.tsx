@@ -1,5 +1,4 @@
 import { Box, Flex } from '@radix-ui/themes';
-
 import { PadTemperature } from 'components/Pads/PadTemperature/PadTemperature';
 
 import type { Temperature } from 'types/orders.types';

@@ -1,5 +1,4 @@
 import * as NavigationMenu from '@radix-ui/react-navigation-menu';
-
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 
 import { useButtonConfig } from 'hooks/useButtonConfig';

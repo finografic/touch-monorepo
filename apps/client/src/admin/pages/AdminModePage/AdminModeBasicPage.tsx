@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
+
 import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { SelectCustom } from 'forms/SelectCustom';
-
 import { useToast } from 'components/Toast';
 
 import { useGetModes, useUpdateDefaultMode } from 'queries/modes';

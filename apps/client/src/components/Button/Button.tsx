@@ -1,5 +1,6 @@
 import type { ReactElement } from 'react';
 import { forwardRef } from 'react';
+
 import clsx from 'clsx';
 
 import type { ButtonProps } from './Button.types';

@@ -1,6 +1,7 @@
+import type { ErrorResponse } from '@workspace/core/api';
+
 import type { AxiosError, AxiosResponse } from 'axios';
 import axios from 'axios';
-import type { ErrorResponse } from '@workspace/core/api';
 
 import '@workspace/core'; // Import to make log function available
 

@@ -1,8 +1,9 @@
+import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
+import { transformAxiosError } from '@workspace/core/api';
+
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
-import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
-import { transformAxiosError } from '@workspace/core/api';
 
 import { GET_TEMPERATURE_SETTINGS_QUERYKEY } from '.';
 
