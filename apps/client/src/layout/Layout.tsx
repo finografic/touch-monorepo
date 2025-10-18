@@ -81,7 +81,6 @@ export const Layout: FC = () => {
                           <ToastSystem />
                           <div id="radix-portal-container" />
                         </div>
-                        <ToastSystem />
                       </DevProvider>
                     </ContentProvider>
                   </AdminProvider>
