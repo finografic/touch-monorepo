@@ -1,4 +1,4 @@
-import { Suspense } from 'react';
+import { Suspense, useEffect } from 'react';
 import type { FC } from 'react';
 import { Outlet } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -22,10 +22,9 @@ import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
 import { NUM_GRID_ITEMS } from 'config/app';
 import type { ValidGridSize } from 'types/menu.types';
-import { ToastProvider, ToastSystem } from 'components/Toast';
+import { ToastProvider } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars';
 import { styles } from './Layout.styles';
-import { useResetAppState } from 'hooks/useResetAppState';
 import { AuthDialogGuard } from 'components/Dialog/dialogs';
 
 export const Layout: FC = () => {
@@ -36,21 +35,19 @@ export const Layout: FC = () => {
 
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
-  // Main theme configuration - uses current theme from AppConfig
-  const mainTheme = {
-    appearance: theme as 'light' | 'dark',
+  useEffect(function initializeLayoutTheme() {
+    document.documentElement.setAttribute('data-theme', 'light');
+  }, []);
+
+  const themeConfig = {
+    appearance: theme,
     grayColor: 'slate' as const,
     accentColor: 'blue' as const,
     scaling: '100%' as const,
   };
 
   return (
-    <Theme
-      appearance={mainTheme.appearance}
-      grayColor={mainTheme.grayColor}
-      accentColor={mainTheme.accentColor}
-      scaling={mainTheme.scaling}
-    >
+    <Theme {...themeConfig}>
       <ToastProvider>
         <TimersProvider>
           <OrdersProvider>

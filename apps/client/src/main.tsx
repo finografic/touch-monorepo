@@ -1,31 +1,18 @@
 import '@workspace/core';
 import './theme.css';
 
-// radix css styles
-import '@radix-ui/themes/styles.css'; // Removed - conflicts with custom theme
-// import '@radix-ui/themes/layout.css';
-// import '@radix-ui/themes/components.css';
-
-// local css styles
-// import './styles/radix-ui/radix.css'; // Custom Radix styles without color conflicts
-// import './styles/radix-ui/index.css';
-// import './styles/radix-ui/base.css';
-// import './styles/radix-ui/components.css';
-// import './styles/radix-ui/dialog.css';
-// import './styles/radix-ui/radix-dialog.css';
+import '@radix-ui/themes/styles.css';
 import './styles/radix-ui/overrides.css';
 import './styles/icons/icons.css';
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import i18n from './i18n.config.ts';
+import App from './App';
 
 import { I18nextProvider } from 'react-i18next';
-import App from './App';
 import { PersistQueryClientProvider } from 'providers/QueryClientProvider';
 import { RouteMetadataProvider } from 'routes/providers/RouteMetadataProvider';
-
-document.documentElement.setAttribute('data-theme', 'light');
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

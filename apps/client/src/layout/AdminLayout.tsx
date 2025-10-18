@@ -19,31 +19,23 @@ import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
 import { AuthDialogGuard } from 'components/Dialog/dialogs';
 
 export const AdminLayout: FC = () => {
-  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES], maxScreenClass: 'xxl' });
+  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
-  // Initialize admin theme - force light theme for admin panel
-  useEffect(() => {
+  useEffect(function initializeLayoutTheme() {
     document.documentElement.setAttribute('data-theme', 'light');
   }, []);
 
-  // Admin theme configuration
-  const adminTheme = {
-    appearance: 'light' as const, // Light theme for admin
-    grayColor: 'slate' as const, // Professional gray
-    accentColor: 'blue' as const, // Blue accent for admin actions
-    scaling: '100%' as const, // Standard scaling
+  const themeConfig = {
+    grayColor: 'slate' as const,
+    accentColor: 'blue' as const,
+    scaling: '100%' as const,
   };
 
   return (
-    <Theme
-      appearance={adminTheme.appearance}
-      grayColor={adminTheme.grayColor}
-      accentColor={adminTheme.accentColor}
-      scaling={adminTheme.scaling}
-    >
+    <Theme {...themeConfig}>
       <ToastProvider>
-        <ContentProvider>
-          <AdminProvider>
+        <AdminProvider>
+          <ContentProvider>
             <DevProvider>
               <div id="admin-layout" css={styles}>
                 <AuthDialogGuard>
@@ -69,8 +61,8 @@ export const AdminLayout: FC = () => {
                 <ToastSystem />
               </div>
             </DevProvider>
-          </AdminProvider>
-        </ContentProvider>
+          </ContentProvider>
+        </AdminProvider>
       </ToastProvider>
     </Theme>
   );
