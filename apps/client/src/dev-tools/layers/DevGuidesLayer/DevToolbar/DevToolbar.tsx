@@ -1,12 +1,10 @@
 import React from 'react';
-
 import { Col, Row } from 'react-grid-system';
 
 import type { ReactElement } from 'react';
 
 import { useDevLayer } from '../../../providers/DevGuidesProvider';
 import { ToolbarToggle } from '../ToolbarToggle';
-
 import { styles } from './DevToolbar.styles';
 
 export const DevToolbar: React.FC = (): ReactElement => {

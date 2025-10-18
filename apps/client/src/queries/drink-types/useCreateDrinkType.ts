@@ -5,7 +5,6 @@ import { api } from 'api';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import type { DrinkType } from 'types/models/drink-type.model';
 import { slugify } from 'utils/string.utils';
-
 import { DrinkTypeDTO } from './DrinkTypes.dto';
 import { GET_DRINK_TYPES_QUERYKEY } from '.';
 

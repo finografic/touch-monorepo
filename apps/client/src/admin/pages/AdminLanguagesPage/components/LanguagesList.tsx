@@ -3,11 +3,10 @@ import React from 'react';
 import { Card, Flex, IconButton, Switch, Text } from '@radix-ui/themes';
 import type { LanguageInfo } from '@workspace/i18n/types';
 import clsx from 'clsx';
-import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
 
+import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
 import { LockIcon, TrashIcon } from 'styles/icons';
 import { canDeleteLanguage } from 'utils/i18n/language.utils';
-
 import { LanguageItem } from './LanguageItem';
 
 interface LanguagesListProps {

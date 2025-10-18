@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
@@ -11,9 +10,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { HomeIcon, StopIcon, TimerIcon } from 'styles/icons';
 import type { Theme } from 'types/ui.types';
 import { stopAllAudio } from 'utils/soundCache.utils';
-
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
-
 import { styles } from './AdminToolbar.styles';
 
 export const AdminToolbar: React.FC = () => {

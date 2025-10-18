@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
@@ -11,7 +10,6 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { HomeIcon, LanguageIcon, ShieldCheckIcon } from 'styles/icons';
 import type { Theme } from 'types/ui.types';
-
 import { styles } from './UserToolbar.styles';
 
 export const UserToolbar: React.FC = () => {

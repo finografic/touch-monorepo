@@ -1,24 +1,20 @@
 import React, { useEffect, useRef } from 'react';
-
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { MinusIcon, PlusIcon, ResetIcon } from '@radix-ui/react-icons';
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
+
+import { useToast } from 'components/Toast';
 import {
   useBulkUpdateSlotConfigurations,
   useGetSlotConfigurations,
   useResetSlotConfigurations,
 } from 'queries/slot-configurations';
-
-import { useToast } from 'components/Toast';
 import { SlotType } from 'types/orders.types';
 import { GRID_CONFIGS } from 'types/slot-config.types';
-
 import { AdminContentLayout } from '../..';
-
 import { SlotGrid } from './SlotGrid';
-
 import { styles } from './AdminSlotsConfigPage.styles';
 
 // Types for form values

@@ -3,7 +3,6 @@ import * as React from 'react';
 import clsx from 'clsx';
 
 import type { PadProps } from './Pad';
-
 import { padStyles } from './Pad.styles';
 
 export const PadButton: React.FC<PadProps> = ({

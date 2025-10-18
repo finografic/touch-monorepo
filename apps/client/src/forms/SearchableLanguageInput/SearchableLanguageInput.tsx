@@ -5,7 +5,6 @@ import { Box, Card, Flex, Text, TextField } from '@radix-ui/themes';
 import { matchSorter } from 'match-sorter';
 
 import type { Country } from '../../components/LanguageSelector/languages/country.types';
-
 import { styles } from './SearchableLanguageInput.styles';
 
 interface LanguageOption {

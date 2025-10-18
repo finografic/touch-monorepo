@@ -5,7 +5,6 @@ import type { ReactElement } from 'react';
 
 import type { ButtonProps } from './Button.types';
 import { LoadingSpinner } from './LoadingSpinner';
-
 import { baseButtonStyles, fullWidthStyles, getVariantStyles, sizeStyles } from './Button.styles';
 
 /**

@@ -5,7 +5,6 @@ import { transformAxiosError } from '@workspace/core/api';
 import { api } from 'api';
 
 import type { ModeModel } from 'types/models/mode.model';
-
 import { GET_MODES_QUERYKEY } from '.';
 
 interface UpdateDefaultModeRequest {

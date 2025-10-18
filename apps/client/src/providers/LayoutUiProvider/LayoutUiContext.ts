@@ -12,7 +12,6 @@ import type { FilterKey, SlotType } from 'types/orders.types';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import { parsePadConfig } from 'utils/pads.utils';
 import { createSetters, createZustandContext } from 'utils/zustand';
-
 import type { HandleRouteChangeParams } from './layout-ui-utils.types';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 

@@ -1,5 +1,4 @@
 import { useCallback } from 'react';
-
 import { useLocation } from 'react-router-dom';
 
 import type { RouteConfig } from 'routes/routes.types';

@@ -10,9 +10,7 @@ import { colors } from 'styles';
 import { AddIcon, PlusIcon } from 'styles/icons';
 import type { SelectOption } from 'types/models/select-option.model';
 import { slugify } from 'utils/string.utils';
-
 import { DropdownPortal } from './DropdownPortal';
-
 import { styles, stylesDropdown } from './SelectSearchable.styles';
 
 interface SearchableSelectProps {

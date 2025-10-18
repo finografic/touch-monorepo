@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -11,7 +10,6 @@ import { EndpointHelper } from 'api/api.endpoints';
 import { z } from 'zod';
 
 import { AdminContentLayout, AdminSection, UiLabelSection } from '../..';
-
 import { styles } from './AdminUiLabelsPage.styles';
 
 interface SupportedLanguage {

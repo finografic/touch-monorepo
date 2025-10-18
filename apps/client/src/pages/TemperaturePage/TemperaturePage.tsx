@@ -12,10 +12,8 @@ import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import type { Temperature } from 'types/orders.types';
 import { TemperatureKey } from 'types/temperature.types';
-
 import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';
 import { useTemperatureFormAndFilter } from './useTemperatureFormAndFilter';
-
 import { styles } from './TemperaturePage.styles';
 
 const isVisibleClosestProfile = false;

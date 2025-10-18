@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import { Container, Flex, Heading, Text } from '@radix-ui/themes';
@@ -9,7 +8,6 @@ import type { ReactNode } from 'react';
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-
 import { styles } from './PageHeader.styles';
 
 // TODO: OVERRIDES..

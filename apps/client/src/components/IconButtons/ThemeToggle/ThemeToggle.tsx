@@ -3,7 +3,6 @@ import type { FC } from 'react';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { MoonIcon, SunIcon } from 'styles/icons';
-
 import { styles } from './ThemeToggle.styles';
 
 export const ThemeToggle: FC = () => {

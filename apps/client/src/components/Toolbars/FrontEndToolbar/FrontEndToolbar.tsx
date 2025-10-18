@@ -1,21 +1,18 @@
 import React from 'react';
-
 import { useNavigate } from 'react-router-dom';
 
 import { Box, Flex } from '@radix-ui/themes';
-import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
-import { useDev } from 'dev-tools/providers/DevProvider';
 
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
+import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
+import { useDev } from 'dev-tools/providers/DevProvider';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useAppConfig } from 'providers/AppConfigProvider';
 // import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
 import { useStorageTimer } from 'providers/TimersProvider';
 import { DialogIcon, TimerIcon } from 'styles/icons';
 import type { Theme } from 'types/ui.types';
-
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
-
 import { styles } from './FrontEndToolbar.styles';
 
 export const FrontEndToolbar: React.FC = () => {

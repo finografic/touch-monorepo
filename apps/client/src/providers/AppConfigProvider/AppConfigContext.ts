@@ -3,7 +3,6 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
-
 import type { AppConfigStore, AppConfigValues } from './AppConfigContext.types';
 
 export const DISPLAY_NAME = 'AppConfig';

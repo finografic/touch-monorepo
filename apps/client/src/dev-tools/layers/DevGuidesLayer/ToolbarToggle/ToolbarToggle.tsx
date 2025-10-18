@@ -1,9 +1,7 @@
 import clsx from 'clsx';
 
 import { PanelBottomCloseIcon, PanelBottomOpenIcon } from 'styles/icons';
-
 import { useDevGuides } from '../../../providers/DevGuidesProvider';
-
 import { styles } from './ToolbarToggle.styles';
 
 export const ToolbarToggle = () => {

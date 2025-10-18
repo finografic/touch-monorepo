@@ -1,5 +1,4 @@
 import React, { memo } from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import { Button, Flex } from '@radix-ui/themes';

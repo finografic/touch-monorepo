@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { useTranslation } from 'react-i18next';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
@@ -10,10 +9,8 @@ import { NoAdminEntryRedirect } from 'admin/NoAdminEntryRedirect';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider';
-
 import { getCalloutText } from './utils/i18n.utils';
 import { AdminContentLayout } from '.';
-
 import { styles } from './AdminDashboardPage.styles';
 
 export const AdminDashboardPage: React.FC = () => {

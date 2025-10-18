@@ -5,7 +5,6 @@ import { transformAxiosError } from '@workspace/core/api';
 import { api } from 'api';
 
 import type { ContainerType } from 'types/models/container.model';
-
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 
 const getContainerTypes = async () => {

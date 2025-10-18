@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
 import { layout } from '../constants/global.constants';
-
 import { colors } from '../colors/colors.styles';
 
 // ======================================================================== //

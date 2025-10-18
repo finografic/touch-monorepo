@@ -4,7 +4,6 @@ import { PadTemperature } from 'components/Pads/PadTemperature/PadTemperature';
 import { MIN_TEMP_DIFFERENCE } from 'config/app';
 import type { Temperature } from 'types/orders.types';
 import { TemperatureKey } from 'types/temperature.types';
-
 import { styles } from './TemperaturePage.styles';
 
 interface TemperatureFormProps {

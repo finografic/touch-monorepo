@@ -1,5 +1,4 @@
 import React, { startTransition } from 'react';
-
 import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -10,7 +9,6 @@ import { getNavLabel } from 'admin/utils/i18n.utils';
 
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
-
 import { styles } from './AdminNavigation.styles';
 
 export const AdminNavigation: React.FC = () => {

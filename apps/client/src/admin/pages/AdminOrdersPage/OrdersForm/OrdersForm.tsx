@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo, useState } from 'react';
-
 import { Col, Row } from 'react-grid-system';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
@@ -28,9 +27,7 @@ import { MIN_TEMP_DIFFERENCE } from 'config/app';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useContent } from 'providers/ContentProvider/ContentContext';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-
 import { OrdersFormDevTools } from '../OrderFormDevTools/OrdersFormDevTools';
-
 import {
   createFormSubmissionHandler,
   getSubmissionLoadingState,

@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 
 import type { CreateSettersType } from 'utils/zustand';
-
 import type { PaginationKeys, SETTER_PREFIX } from './PaginationContext';
 
 export interface PaginationValues {

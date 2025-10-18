@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
 import { colors } from 'styles/colors/colors.styles';
-
 import type { ToastVariant } from './Toast.types';
 
 // Helper function to get variant-specific colors

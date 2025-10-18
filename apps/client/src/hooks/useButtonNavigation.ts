@@ -1,5 +1,4 @@
 import { useCallback, useTransition } from 'react';
-
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { ALTERNATIVE_PATHS, PATHS } from 'config';

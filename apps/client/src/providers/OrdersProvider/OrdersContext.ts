@@ -11,7 +11,6 @@ import type { FilterKey, SlotType } from 'types/orders.types';
 import { findOrderByNumber } from 'utils/context.utils';
 import type { SlotItemConfig } from 'utils/slot-config.utils';
 import { createSetters, createZustandContext } from 'utils/zustand';
-
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 
 export const DISPLAY_NAME = 'Orders';

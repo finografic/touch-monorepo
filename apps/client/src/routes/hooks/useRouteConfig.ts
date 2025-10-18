@@ -1,5 +1,4 @@
 import { useMemo } from 'react';
-
 import { useTranslation } from 'react-i18next';
 import type { UIMatch } from 'react-router-dom';
 import { useMatches, useRouteLoaderData } from 'react-router-dom';

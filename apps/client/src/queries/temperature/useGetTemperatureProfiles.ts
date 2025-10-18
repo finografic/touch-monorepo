@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
-import { GET_TEMPERATURE_PROFILES_QUERYKEY } from 'queries/temperature';
 
+import { GET_TEMPERATURE_PROFILES_QUERYKEY } from 'queries/temperature';
 import type { TemperatureProfile } from 'types/temperature.types';
 
 interface UseGetTemperatureProfilesParams {

@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import type { ReactElement } from 'react';
 
 import { useNavigateState } from 'routes/hooks/useNavigateState';
-
 // import { Button } from 'components/Button';
 import { styles } from './NotFoundCard.styles';
 

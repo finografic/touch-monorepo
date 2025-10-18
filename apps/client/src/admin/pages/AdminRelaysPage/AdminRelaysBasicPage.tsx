@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
+
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
-
 import { SlotType } from 'types/orders.types';
-
 import { AdminContentLayout } from '../..';
-
 import { RelayGrid } from './RelayGrid';
 import { NUM_RELAYS } from './relays.config';
 import { useRelayHandlers } from './useRelayHandlers';
-
 import { styles } from './AdminRelaysPage.styles';
 
 // Types for relay configuration

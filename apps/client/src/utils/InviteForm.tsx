@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import { Col, Row } from 'react-grid-system';
 import { useFormContext } from 'react-hook-form';
 
@@ -16,12 +15,9 @@ import { DetailFilter } from 'components/DetailFilter';
 import { usePagination } from 'components/Pagination';
 import { METADATA } from 'types';
 import { slugify } from 'utils/string.utils';
-
 import { useInviteFilters } from '../InviteFiltersContext';
 import { Summary } from '../invitesDEV';
-
 import { RESET } from './invite-form.contants';
-
 import 'react-datepicker/dist/react-datepicker.css';
 import { styles } from './InviteForm.styles';
 

@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
-
 import { SlotType } from 'types/orders.types';
 import type { SlotItemConfig } from 'utils/slot-config.utils';
 import { convertSlotConfigsToOrderConfig } from 'utils/slot-config.utils';

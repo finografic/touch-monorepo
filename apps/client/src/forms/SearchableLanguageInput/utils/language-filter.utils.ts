@@ -1,5 +1,4 @@
 import { CountryDto } from 'queries/countries/country.dto';
-
 import type { CountryBasic, CountryModel } from '../../../../../../packages/types/src/countries.types';
 
 /**

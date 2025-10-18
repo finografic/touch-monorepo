@@ -1,5 +1,4 @@
 import { Suspense } from 'react';
-
 import { ScreenClassProvider } from 'react-grid-system';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 

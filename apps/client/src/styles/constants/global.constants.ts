@@ -7,9 +7,7 @@
 import { css } from '@emotion/react';
 
 import { createCSSProxy } from '../utils/proxy-css-default.utils';
-
 import { baseLayout, button } from './base.constants';
-
 import { colors } from '../colors/colors.styles';
 
 // Base border styles using button constants

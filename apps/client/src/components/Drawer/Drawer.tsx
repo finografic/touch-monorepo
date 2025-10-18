@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { DrawerBar } from './DrawerBar';
-
 import { styles } from './Drawer.styles';
 
 interface DrawerProps {

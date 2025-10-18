@@ -1,5 +1,4 @@
 import React, { type ReactNode, useMemo } from 'react';
-
 import type { RouteObject } from 'react-router-dom';
 import { Outlet } from 'react-router-dom';
 
@@ -10,7 +9,6 @@ import { useRouterLoader } from 'routes/hooks/useRouterLoader';
 import { routes } from 'routes/routes';
 import { flatttenChildren } from 'routes/utils/routes.utils.flatten';
 import { withRouteMetadata } from 'routes/utils/withRouteMetadata';
-
 import { RouteMetadataContext } from './RouteMetadataContext';
 
 interface RouteMetadataProviderProps {

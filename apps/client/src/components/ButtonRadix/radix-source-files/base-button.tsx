@@ -12,7 +12,6 @@ import type { GetPropDefTypes } from '../../props/prop-def.js';
 import { Flex } from '../flex.js';
 import { Spinner } from '../spinner.js';
 import { VisuallyHidden } from '../visually-hidden.js';
-
 import { baseButtonPropDefs } from './base-button.props.js';
 
 type BaseButtonElement = React.ElementRef<'button'>;

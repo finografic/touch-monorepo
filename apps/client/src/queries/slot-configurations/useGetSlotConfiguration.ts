@@ -5,7 +5,6 @@ import { transformAxiosError } from '@workspace/core/api';
 import { api } from 'api';
 
 import type { SlotConfiguration } from 'types/slot-config.types';
-
 import { SLOT_CONFIGURATIONS_QUERY_KEYS } from '.';
 
 const getSlotConfiguration = async (slotNumber: number) => {

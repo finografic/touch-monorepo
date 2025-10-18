@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-
 import { Col, Container, Row } from 'react-grid-system';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -10,7 +9,6 @@ import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/
 import { TabForm } from 'admin/pages/AdminOrdersPage/TabForm';
 import { TabList } from 'admin/pages/AdminOrdersPage/TabList';
 import clsx from 'clsx';
-import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 
 import type { DialogConfig } from 'components/Dialog';
 import { AuthLoginTabContent } from 'components/Dialog/dialogs/AuthLoginDialog/AuthTabContent';
@@ -19,10 +17,9 @@ import { SearchBar } from 'components/SearchBar';
 import { Title } from 'components/Title';
 import { useToast } from 'components/Toast';
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
-
 import { AdminContentLayout, AdminSection } from '../..';
-
 import { styles } from './AdminOrdersPage.styles';
 
 export const NUM_TABS = 2;

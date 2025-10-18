@@ -4,7 +4,6 @@ import * as ToastPrimitive from '@radix-ui/react-toast';
 
 import { Toast } from './Toast';
 import { useToast } from './ToastContext';
-
 import { toastViewportStyles } from './Toast.styles';
 
 export const ToastSystem: React.FC = () => {

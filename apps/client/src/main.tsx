@@ -1,20 +1,17 @@
 import React from 'react';
-
 import ReactDOM from 'react-dom/client';
 import { I18nextProvider } from 'react-i18next';
 
 import { PersistQueryClientProvider } from 'providers/QueryClientProvider';
 import { RouteMetadataProvider } from 'routes/providers/RouteMetadataProvider';
-
-import '@workspace/core';
-
 import App from './App';
 import i18n from './i18n.config.ts';
-
 import './theme.css';
 import '@radix-ui/themes/styles.css';
 import './styles/radix-ui/overrides.css';
 import './styles/icons/icons.css';
+
+import '@workspace/core';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>

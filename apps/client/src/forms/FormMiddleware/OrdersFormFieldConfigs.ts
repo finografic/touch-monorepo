@@ -1,5 +1,4 @@
 import { MIN_TEMP_DIFFERENCE } from 'config/app';
-
 import {
   DEFAULT_SPANISH_LOCALE,
   DEFAULT_TEMP_MAX,

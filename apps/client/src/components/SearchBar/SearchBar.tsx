@@ -4,7 +4,6 @@ import type { FC } from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 
 import { MagnifyingGlassIcon } from 'styles/icons';
-
 import { styles } from './SearchBar.styles';
 
 interface SearchBarProps {

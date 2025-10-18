@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 
 import { Button, Callout, Flex, Text } from '@radix-ui/themes';
-import { useRemoveSoundFile } from 'queries/sounds';
 
 import { useToast } from 'components/Toast';
+import { useRemoveSoundFile } from 'queries/sounds';
 // import { CheckIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
 import { BadgeCheckIcon, SpeakerLoudIcon } from 'styles/icons';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';

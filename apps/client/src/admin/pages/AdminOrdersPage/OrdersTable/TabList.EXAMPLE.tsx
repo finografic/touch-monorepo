@@ -16,8 +16,8 @@ import {
   type ColumnSearchState,
   OrdersTable,
 } from 'admin/pages/AdminOrdersPage/OrdersTable';
-import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
 
+import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
 import type { SelectOption } from 'types/models/select-option.model';
 
 export const TabListExample: React.FC = () => {

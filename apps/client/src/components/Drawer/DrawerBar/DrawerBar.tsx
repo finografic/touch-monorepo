@@ -3,7 +3,6 @@ import clsx from 'clsx';
 import type { FC, ReactNode } from 'react';
 
 import { PanelBottomCloseIcon, PanelBottomOpenIcon } from 'styles/icons';
-
 import { styles } from './DrawerBar.styles';
 
 interface DrawerBarProps {

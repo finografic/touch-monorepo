@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -13,7 +12,6 @@ import { useAdmin } from 'providers/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import type { Theme } from 'types/ui.types';
-
 import { styles } from './Header.styles';
 
 type HeaderProps =

@@ -1,11 +1,10 @@
 import { Row } from 'react-grid-system';
 
 import { KEY_PRESS, useKeyPressToggle } from '@workspace/core';
-import { DevScreenSize } from 'dev-tools/components/DevScreenSize/DevScreenSize';
 import type { ReactElement } from 'react';
 
+import { DevScreenSize } from 'dev-tools/components/DevScreenSize/DevScreenSize';
 import { useDevGuides } from '../../../providers/DevGuidesProvider';
-
 import { styles } from './ScreenSizeOverlay.styles';
 
 export const ScreenSizeOverlay = (): ReactElement | null => {

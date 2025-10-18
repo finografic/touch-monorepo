@@ -1,5 +1,4 @@
 import { TRANSPARENCY_LEVELS } from 'styles/colors/colors.types';
-
 import {
   CSS_BASE_COLORS,
   CSS_SHADE_VARIANTS,

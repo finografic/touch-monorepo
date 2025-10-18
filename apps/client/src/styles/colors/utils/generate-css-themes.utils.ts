@@ -11,7 +11,6 @@ import { fileURLToPath } from 'url';
 
 import { darkColors } from '../../themes/dark.colors';
 import { lightColors } from '../../themes/light.colors';
-
 import {
   generateCssColorVariables,
   generateCssColorVariablesTransparency,

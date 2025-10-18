@@ -1,6 +1,5 @@
 import type { RouteConfig } from 'routes/routes.types';
 import { BUTTON_TYPES } from 'types/button.types';
-
 import { PATHS } from './paths.constants';
 
 export const ROUTES_CONFIG: RouteConfig[] = [

@@ -24,7 +24,6 @@ import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
-
 import { ProtectedAdminRoutes } from './auth/ProtectedAdminRoutes';
 
 export const routes: RouteObject[] = [

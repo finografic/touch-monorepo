@@ -3,13 +3,12 @@ import { useTranslation } from 'react-i18next';
 import type { LanguageSelectorProps, RegionLocale } from '@config/i18n';
 import { Flex, RadioCards, Text, Theme } from '@radix-ui/themes';
 import clsx from 'clsx';
-import { LanguagesDto } from 'queries/supported-languages';
-import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { LanguagesDto } from 'queries/supported-languages';
+import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import { getFlagUrl } from 'utils/i18n/flag.utils';
-
 import { styles } from './LanguageSelector.styles';
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {

@@ -1,6 +1,5 @@
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
-
 import { styles } from './DevOrderProfile.styles';
 
 export const DevOrderProfile = () => {

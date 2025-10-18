@@ -1,7 +1,6 @@
 import { api } from 'api';
 
 import type { SoundFile, SoundSettings } from 'types/sounds.types';
-
 import { applyStoredVolumeToAudio } from './volume.utils';
 
 // Audio instance manager to prevent overlapping sounds

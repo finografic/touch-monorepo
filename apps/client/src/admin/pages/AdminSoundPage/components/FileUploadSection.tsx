@@ -2,9 +2,9 @@ import React, { useCallback, useRef, useState } from 'react';
 
 import { UploadIcon } from '@radix-ui/react-icons';
 import { Button, Flex, Text } from '@radix-ui/themes';
-import { useUploadSoundFiles } from 'queries/sounds';
 
 import { useToast } from 'components/Toast';
+import { useUploadSoundFiles } from 'queries/sounds';
 import type { SoundType } from 'types/sounds.types';
 
 interface FileUploadSectionProps {

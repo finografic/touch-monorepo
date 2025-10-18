@@ -6,7 +6,6 @@ import type { FC } from 'react';
 import { useToast } from 'components/Toast';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 import { UserCircleIcon, UserLockIcon } from 'styles/icons';
-
 import { styles } from './LoginButton.styles';
 
 export const LoginButton: FC = () => {

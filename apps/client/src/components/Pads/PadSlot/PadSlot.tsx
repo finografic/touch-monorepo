@@ -8,9 +8,7 @@ import { ROUTE_FILTER_KEYS } from 'config/app';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 import type { FilterKey, SlotType } from 'types/orders.types';
-
 import { PadSlotToggle } from './PadSlotToggle';
-
 import { styles } from './PadSlot.styles';
 
 export interface PadMenuProps {

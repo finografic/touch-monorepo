@@ -2,7 +2,6 @@ import { css } from '@emotion/react';
 
 import { colors } from 'styles';
 import { forms } from 'styles/forms/forms.styles';
-
 import { cssFontDefaults, cssFontMono } from './fonts/fonts.styles';
 
 export const cssGlobal = css`

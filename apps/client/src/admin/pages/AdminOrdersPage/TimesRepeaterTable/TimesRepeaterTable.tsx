@@ -1,16 +1,13 @@
 import React, { useEffect } from 'react';
-
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { ShuffleIcon } from '@radix-ui/react-icons';
 import { Button, Text } from '@radix-ui/themes';
+
 import { useDev } from 'dev-tools/providers/DevProvider';
-
 import { DeleteIcon } from 'styles/icons';
-
 import { InputTemperature } from '../../../../forms/InputTemperature';
 import { InputTime } from '../../../../forms/InputTime';
-
 import { styles } from './TimesRepeaterTable.styles';
 
 interface TimeRowData {

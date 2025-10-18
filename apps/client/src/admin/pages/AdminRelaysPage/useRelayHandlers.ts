@@ -1,9 +1,9 @@
 import { useCallback } from 'react';
 
 import { useQueryClient } from '@tanstack/react-query';
-import { GET_RELAY_STATES_QUERYKEY,  useDisconnectRelay,  useReconnectRelay,  useToggleRelay,  useTurnAllRelaysOff,  useTurnAllRelaysOn } from 'queries/relays';
 
 import { useToast } from 'components/Toast';
+import { GET_RELAY_STATES_QUERYKEY,  useDisconnectRelay,  useReconnectRelay,  useToggleRelay,  useTurnAllRelaysOff,  useTurnAllRelaysOn } from 'queries/relays';
 
 export const useRelayHandlers = () => {
   const { toast } = useToast();

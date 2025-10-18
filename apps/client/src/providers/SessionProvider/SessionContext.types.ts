@@ -3,7 +3,6 @@ import type { ReactNode } from 'react';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { CreateSettersType } from 'utils/zustand';
-
 import type { SessionKeys, SETTER_PREFIX } from './SessionContext';
 
 export interface ConfigurationSession {

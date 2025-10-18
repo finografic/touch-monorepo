@@ -6,7 +6,6 @@ import type { LanguageInfo } from '@workspace/i18n/types';
 import clsx from 'clsx';
 
 import { TrashIcon } from 'styles/icons';
-
 import { LanguageItem } from './LanguageItem';
 
 interface LanguagesListSelectedProps {
