@@ -1,11 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { getMessages } from '@workspace/i18n';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
 import type { AuthRoles } from 'admin/config/admin.routes.map';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { NoAdminEntryRedirect } from 'admin/NoAdminEntryRedirect';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
 
 import { usePageTransition } from 'hooks/usePageTransition';
@@ -19,6 +21,16 @@ export const AdminDashboardPage: React.FC = () => {
 
   const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
+  const { currentLanguage } = useAppConfig();
+
+  // NEW: Get type-safe messages for current language
+  const messages = getMessages(currentLanguage);
+
+  log('🌐 Current Language:', 'lime', currentLanguage);
+  log('🎯 NEW Messages System:', 'cyan', {
+    title: messages.admin.pages.dashboard.title,
+    description: messages.admin.pages.dashboard.description,
+  });
 
   const role: AuthRoles = 'admin';
   // Admin dashboard shows the authenticated view; selector filtering with true includes admin/auth items
@@ -54,8 +66,8 @@ export const AdminDashboardPage: React.FC = () => {
 
   return (
     <AdminContentLayout
-      title="{User} Dashboard"
-      subtitle="Manage system settings, translations, and configurations"
+      title={messages.admin.pages.dashboard.title}
+      subtitle={messages.admin.pages.dashboard.description}
       align="center"
     >
       <Box className="admin-dashboard" css={styles}>
