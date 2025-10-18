@@ -1,5 +1,4 @@
 import * as React from 'react';
-
 import classNames from 'classnames';
 
 import { BaseButton } from './_internal/base-button.js';

@@ -1,6 +1,5 @@
 import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
 
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';

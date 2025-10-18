@@ -2,9 +2,8 @@ import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { UIMatch } from 'react-router-dom';
 import { useMatches, useRouteLoaderData } from 'react-router-dom';
-
-import type { RegionLocale } from '@workspace/i18n';
 import cloneDeep from 'lodash/cloneDeep';
+import type { RegionLocale } from '@workspace/i18n';
 
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import type { RouteConfig } from 'routes/routes.types';

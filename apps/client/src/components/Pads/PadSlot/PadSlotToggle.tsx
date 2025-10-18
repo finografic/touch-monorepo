@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-
 import clsx from 'clsx';
 
 import type { SlotStatus } from 'pages/MainPage/MainPage.types';

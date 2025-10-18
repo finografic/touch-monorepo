@@ -1,6 +1,5 @@
 import type { FC } from 'react';
 import { useLocation } from 'react-router-dom';
-
 import { Flex } from '@radix-ui/themes';
 
 import { AdminToolbar } from 'components/Toolbars/AdminToolbar/AdminToolbar';

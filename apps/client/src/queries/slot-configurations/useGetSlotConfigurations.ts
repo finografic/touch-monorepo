@@ -1,8 +1,8 @@
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
+import { api } from 'api';
 import type { ErrorResponse } from '@workspace/core/api';
 import { transformAxiosError } from '@workspace/core/api';
-import { api } from 'api';
 
 import type { SlotConfiguration } from 'types/slot-config.types';
 

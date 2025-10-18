@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-
 import { ShuffleIcon } from '@radix-ui/react-icons';
 import { Button, Text } from '@radix-ui/themes';
 

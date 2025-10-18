@@ -1,7 +1,7 @@
 // @ts-check
 
-import { ERROR, fino, OFF } from '@finografic/eslint-config';
 import globals from 'globals';
+import { ERROR, fino, OFF } from '@finografic/eslint-config';
 
 export default fino({
   languageOptions: {

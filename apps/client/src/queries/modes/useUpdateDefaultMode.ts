@@ -1,8 +1,8 @@
 import type { UseMutationResult } from '@tanstack/react-query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { api } from 'api';
 import type { ErrorResponse } from '@workspace/core/api';
 import { transformAxiosError } from '@workspace/core/api';
-import { api } from 'api';
 
 import type { ModeModel } from 'types/models/mode.model';
 

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-
 import { Flex } from '@radix-ui/themes';
 
 import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';

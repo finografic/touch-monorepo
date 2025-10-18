@@ -1,5 +1,4 @@
 import React, { createContext, useEffect } from 'react';
-
 import type { StoreApi } from 'zustand';
 
 export const createZustandContext = <TInitial extends object, TStore extends StoreApi<any>>(

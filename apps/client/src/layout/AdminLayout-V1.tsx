@@ -2,7 +2,6 @@ import type { FC } from 'react';
 import { Suspense, useEffect } from 'react';
 import { setConfiguration } from 'react-grid-system';
 import { Outlet } from 'react-router-dom';
-
 import { Theme } from '@radix-ui/themes';
 import { AdminNavigation } from 'admin/components/AdminNavigation';
 

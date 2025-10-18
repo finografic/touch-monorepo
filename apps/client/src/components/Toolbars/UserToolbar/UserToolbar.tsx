@@ -1,6 +1,5 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import { Flex } from '@radix-ui/themes';
 
 import { LoginButton } from 'components/IconButtons/LoginButton';

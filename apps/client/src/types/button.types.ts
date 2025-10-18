@@ -1,5 +1,4 @@
 import type { ReactNode } from 'react';
-
 import type { ConstEnumOf } from '@workspace/core/types/utils';
 
 // Button translation key type - for now using string literal pattern

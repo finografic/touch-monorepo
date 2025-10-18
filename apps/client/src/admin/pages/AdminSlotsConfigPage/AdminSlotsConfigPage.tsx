@@ -1,7 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-
 import { MinusIcon, PlusIcon, ResetIcon } from '@radix-ui/react-icons';
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 

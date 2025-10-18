@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
 

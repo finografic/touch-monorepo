@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useRef } from 'react';
-
 import type { RegionLocale } from '@workspace/i18n';
 
 import { useFilters } from 'providers/FiltersProvider/useFilters';

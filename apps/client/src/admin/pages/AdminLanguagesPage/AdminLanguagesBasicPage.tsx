@@ -1,6 +1,5 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-
 import { Box } from '@radix-ui/themes';
 
 import { LanguageSelector } from 'components/LanguageSelector/LanguageSelector';

@@ -1,8 +1,7 @@
 import { initReactI18next } from 'react-i18next';
-
-import { translations } from '@workspace/i18n';
 import i18n from 'i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import { translations } from '@workspace/i18n';
 
 import { ENABLE_BROWSER_LANGUAGE_DETECTION } from 'config/app/app.config';
 

@@ -1,5 +1,4 @@
 import React from 'react';
-
 import * as ToastPrimitive from '@radix-ui/react-toast';
 
 import { Toast } from './Toast';

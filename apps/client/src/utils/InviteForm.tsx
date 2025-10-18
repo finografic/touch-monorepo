@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { useFormContext } from 'react-hook-form';
-
 import { useGetMetadata } from 'api/useGetMetadata';
 import { SPAIN_PROVINCES } from 'forms/config/form.select-options/spain/spain.select-options';
 import type { SelectOption } from 'forms/FormUI/Select';

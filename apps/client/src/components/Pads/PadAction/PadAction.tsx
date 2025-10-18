@@ -1,5 +1,4 @@
 import { forwardRef } from 'react';
-
 import { DoubleArrowLeftIcon, DoubleArrowRightIcon } from '@radix-ui/react-icons';
 import clsx from 'clsx';
 

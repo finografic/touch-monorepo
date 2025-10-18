@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { AlertDialog, Button, Flex, Text } from '@radix-ui/themes';
 import type { LanguageInfo } from '@workspace/i18n/types';
 

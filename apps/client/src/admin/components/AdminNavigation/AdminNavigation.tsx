@@ -2,7 +2,6 @@ import React, { startTransition } from 'react';
 import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
-
 import { TabNav } from '@radix-ui/themes';
 import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
 import { getNavLabel } from 'admin/utils/i18n.utils';

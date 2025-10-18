@@ -1,6 +1,5 @@
 import { useCallback, useMemo, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
 import createCuid from '@bugsnag/cuid';
 import { api } from 'api';
 // import { useGetSlotConfigurations } from 'queries/slot-configurations';

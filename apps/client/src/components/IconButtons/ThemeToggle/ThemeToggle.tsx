@@ -1,5 +1,4 @@
 import type { FC } from 'react';
-
 import clsx from 'clsx';
 
 import { useAppConfig } from 'providers/AppConfigProvider';

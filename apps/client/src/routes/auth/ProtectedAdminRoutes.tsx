@@ -1,6 +1,5 @@
 import React from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
-
 import { getAdminEntryByPath } from 'admin/config/admin.routes.selectors';
 
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';

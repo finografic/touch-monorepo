@@ -1,13 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
-// Import the common translation files directly (these contain the UI translations)
-import { commonCa, commonEn, commonEs } from '@workspace/i18n';
 import { EndpointHelper } from 'api/api.endpoints';
 import { z } from 'zod';
+// Import the common translation files directly (these contain the UI translations)
+import { commonCa, commonEn, commonEs } from '@workspace/i18n';
 
 import { AdminContentLayout, AdminSection, UiLabelSection } from '../..';
 import { styles } from './AdminUiLabelsPage.styles';

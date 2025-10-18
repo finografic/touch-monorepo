@@ -1,5 +1,4 @@
 import type { RouteObject } from 'react-router-dom';
-
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminFilterAnalysisPage } from 'admin/pages/AdminFilterAnalysisPage';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';

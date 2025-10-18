@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { transformAxiosError } from '@workspace/core/api';
 import { api } from 'api';
+import { transformAxiosError } from '@workspace/core/api';
 
 import type { BulkUpdateSlotConfigRequest, SlotConfiguration } from 'types/slot-config.types';
 

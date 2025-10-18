@@ -3,7 +3,6 @@ import { Suspense } from 'react';
 import { setConfiguration } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
-
 import { Theme } from '@radix-ui/themes';
 
 import { AuthLoginDialog } from 'components/Dialog/dialogs';
