@@ -37,6 +37,13 @@ export const messages = {
   admin: {
     title: 'Admin Panel',
     description: 'Manage system configurations, translations and settings',
+    welcome: 'Welcome, {name}!',
+    itemCount: {
+      zero: 'No items',
+      one: '1 item',
+      other: '{count} items',
+    },
+    lastUpdated: 'Last updated: {date}',
     pages: {
       dashboard: {
         title: 'Dashboard',

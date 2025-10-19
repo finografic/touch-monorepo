@@ -1,4 +1,4 @@
-// import paraglidePlugin from '@inlang/plugin-paraglide-js/vite';
+import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
@@ -47,6 +47,13 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         },
       }),
       // paraglidePlugin({ project: '../../packages/i18n' }), // Disabled: using custom TS messages with HMR
+      paraglideVitePlugin({
+        project: './project.inlang',
+        outdir: './src/paraglide',
+        // forcing locale modules to detect problems during CI/CD
+        // (all other projects use message-modules)
+        outputStructure: 'locale-modules',
+      }),
       tailwindcss(),
       mode === 'development' && devCookieClearPlugin(),
     ].filter(Boolean),

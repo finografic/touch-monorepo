@@ -38,6 +38,13 @@ export const messages = {
   admin: {
     title: 'Panel de Administración',
     description: 'Gestionar configuraciones del sistema, traducciones y configuraciones',
+    welcome: '¡Bienvenido, {name}!',
+    itemCount: {
+      zero: 'Sin elementos',
+      one: '1 elemento',
+      other: '{count} elementos',
+    },
+    lastUpdated: 'Última actualización: {date}',
     pages: {
       dashboard: {
         title: 'Panel de Control',
