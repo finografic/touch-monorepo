@@ -1,3 +1,4 @@
+// import paraglidePlugin from '@inlang/plugin-paraglide-js/vite';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
@@ -45,7 +46,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
           plugins: ['@emotion/babel-plugin'],
         },
       }),
-      // paraglide({ project: '../../packages/i18n' }),
+      // paraglidePlugin({ project: '../../packages/i18n' }), // Disabled: using custom TS messages with HMR
       tailwindcss(),
       mode === 'development' && devCookieClearPlugin(),
     ].filter(Boolean),
@@ -77,7 +78,9 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       alias: {
         '@workspace/core/types': resolve(workspaceRoot, 'packages/core/src/types'),
         '@workspace/core/types/utils': resolve(workspaceRoot, 'packages/core/src/types/utils'),
+        // Point to SOURCE files for HMR during development
         '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src/index.ts'),
+        '@workspace/i18n/messages': resolve(workspaceRoot, 'packages/i18n/src/messages'),
         '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators/index.ts'),
         '@config': resolve(workspaceRoot, 'config'),
         '@config/i18n': resolve(workspaceRoot, 'config/i18n.config.ts'),

@@ -1,20 +1,34 @@
 import type { AdminRouteEntry, AuthRoles } from './admin.routes.map';
 import { ADMIN_ENTRIES } from './admin.routes.map';
 
+interface AuthRoleParams {
+  isAuthenticated: boolean;
+  role: AuthRoles;
+}
+
 /**
- * ADMIN ENTRIES based on authentication status
- * Uses element.public and element.auth to determine if route should be visible
+ * Get all admin entries filtered by authentication status and role
+ * @param isAuthenticated - Whether the user is authenticated
+ * @param role - Optional role filter (if not provided, uses auth status only)
  */
-export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntry[] {
+export function getAdminEntries(isAuthenticated: boolean, role?: AuthRoles): AdminRouteEntry[] {
   return ADMIN_ENTRIES.filter((entry) => {
-    // If user is authenticated, show all routes
+    // If user is authenticated, show entries that have a component for their role or admin
     if (isAuthenticated) {
-      return true;
+      const userRole = role || 'user';
+      return entry.element[userRole] !== null || entry.element.admin !== null;
     }
 
     // If user is not authenticated, only show routes that have a public component
     return entry.element.public !== null;
   });
+}
+
+/**
+ * @deprecated Use getAdminEntries instead
+ */
+export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntry[] {
+  return getAdminEntries(isAuthenticated);
 }
 
 /**
@@ -32,22 +46,17 @@ export function getAdminNavItems(isAuthenticated: boolean) {
 }
 
 /**
- * DASHBOARD CARDS for the admin dashboard
+ * Get dashboard cards filtered by authentication status and role
+ * @param isAuthenticated - Whether the user is authenticated
+ * @param role - Optional user role (defaults to 'user' if authenticated, 'public' if not)
  */
-export function getAdminDashboardCards(isAuthenticated: boolean) {
-  const role: AuthRoles = isAuthenticated ? 'user' : 'public';
-  return getAdminEntriesForAuth(isAuthenticated)
-    .filter((entry) =>
-      role === 'user' ? entry.hasCard?.user || entry.hasCard?.admin : entry.hasCard?.public,
-    )
-    .map((entry) => ({
-      key: entry.key,
-      title: entry.key, // Will be resolved from translations at render time
-      description: '', // Will be resolved from translations at render time
-      color: entry.color!,
-      path: entry.path,
-      icon: entry.icon!,
-    }));
+export function getAdminDashboardCards(isAuthenticated: boolean, role?: AuthRoles): AdminRouteEntry[] {
+  const userRole = role || (isAuthenticated ? 'user' : 'public');
+
+  return getAdminEntries(isAuthenticated, userRole).filter((entry) => {
+    // Check if this entry should show a card for this role
+    return entry.hasCard?.[userRole] || (userRole === 'user' && entry.hasCard?.admin);
+  });
 }
 
 /**

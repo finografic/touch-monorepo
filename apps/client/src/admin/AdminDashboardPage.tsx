@@ -33,9 +33,9 @@ export const AdminDashboardPage: React.FC = () => {
   });
 
   const role: AuthRoles = 'admin';
-  // Admin dashboard shows the authenticated view; selector filtering with true includes admin/auth items
 
-  const adminCards = getAdminDashboardCards(true).map((card) => {
+  // Get dashboard cards for the current role
+  const adminCards = getAdminDashboardCards(isAuthenticated, role).map((card) => {
     const text = getCalloutText(t, role, card.key);
     return {
       id: card.key,
