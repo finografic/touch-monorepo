@@ -14,6 +14,49 @@ export const styles = css`
         width: 86vw; */
   }
 
+  /* TABLE_HEADER_CELLS ============================ */
+  .th,
+  .rt-TableCell.rt-TableColumnHeaderCell.th {
+    font-size: 1rem;
+    font-weight: 700;
+    color: ${colors.greyXLight};
+
+    transform: translate(0, -0.5rem) !important;
+
+    .rt-Text {
+      transform: translate(0, -0.25rem) !important;
+    }
+
+    /* background-color: ${colors.greyXXLight}; */
+    /* border: 1px solid ${colors.greyXXLight}; */
+    /* border-radius: 6px; */
+    /* padding: 0.5rem 1rem; */
+    /* margin: 0.5rem 0; */
+    /* text-align: center; */
+  }
+
+  .th-action {
+    /* width: 100px; */
+    display: table-cell;
+    text-align: center;
+  }
+
+  .th-index,
+  .th-mode,
+  .th-drinkType,
+  .th-subtype,
+  .th-volume,
+  .th-container,
+  .th-temperature {
+    /* width: 60px !important; */
+    /* border: 1px solid red !important; */
+    /* width: 100px; */
+    /* display: table-cell;
+    text-align: center; */
+  }
+
+  /* TABLE_BODY =============================== */
+
   .rt-TableBody.table-body {
     /* position: fixed;
         width: 86vw !important;
@@ -69,27 +112,10 @@ export const styles = css`
     padding-right: 1rem;
   }
 
-  .th-action,
   .td-action {
     /* width: 100px; */
     display: table-cell;
     text-align: center;
-  }
-
-  /* TH-ACTIONS ============================ */
-
-  .th-index,
-  .th-mode,
-  .th-drinkType,
-  .th-subtype,
-  .th-volume,
-  .th-container,
-  .th-temperature {
-    /* width: 60px !important; */
-    /* border: 1px solid red !important; */
-    /* width: 100px; */
-    /* display: table-cell;
-    text-align: center; */
   }
 
   /* ACTIONS =============================== */

@@ -169,9 +169,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                   }
                 >
                   <Flex direction="column" gap="2">
-                    <Text size="2" weight="medium">
-                      {column.label}
-                    </Text>
+                    <Text>{column.label}</Text>
                     {column.searchable && onColumnSearchChange && (
                       <>
                         {column.filterVariant === 'select' && column.filterOptions ? (
