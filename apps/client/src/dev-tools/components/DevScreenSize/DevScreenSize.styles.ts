@@ -15,6 +15,7 @@ export const styles = css`
   &.variant-light {
     pre {
       color: white !important;
+      /* color: black !important; */
     }
   }
 
@@ -39,7 +40,7 @@ export const styles = css`
   }
 
   top: ${layout.padding} !important;
-  top: 0 !important;
+  top: 2rem !important;
 
   pre {
     opacity: 0.66;

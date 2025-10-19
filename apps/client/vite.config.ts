@@ -53,6 +53,21 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         // forcing locale modules to detect problems during CI/CD
         // (all other projects use message-modules)
         outputStructure: 'locale-modules',
+        strategy: [
+          'localStorage',
+          // 'cookie',
+          'preferredLanguage',
+          'baseLocale',
+        ],
+        // strategy: [
+        // 'baseLocale', // locale configured via overrideGetLocale()
+        // 'globalVariable',
+        // 'cookie',
+        // 'url',
+        // 'preferredLanguage',
+        // 'localStorage',
+        // 'custom-custom',
+        // ],
       }),
       tailwindcss(),
       mode === 'development' && devCookieClearPlugin(),

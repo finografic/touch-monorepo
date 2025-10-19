@@ -3,11 +3,13 @@ import { Row } from 'react-grid-system';
 import { KEY_PRESS, useKeyPressToggle } from '@workspace/core';
 
 import { DevScreenSize } from 'dev-tools/components/DevScreenSize/DevScreenSize';
+import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { useDevGuides } from '../../../providers/DevGuidesProvider';
 import { styles } from './ScreenSizeOverlay.styles';
 
 export const ScreenSizeOverlay = (): ReactElement | null => {
   const { isDevGuidesVisibile, setIsDevGuidesVisibile } = useDevGuides();
+  const { isDevToolsVisible, setIsDevToolsVisible } = useDev();
 
   // NOTE: the `backtick` key to toggle dev guides visibility
   useKeyPressToggle({
@@ -16,9 +18,15 @@ export const ScreenSizeOverlay = (): ReactElement | null => {
     setIsActive: setIsDevGuidesVisibile,
   });
 
+  useKeyPressToggle({
+    key: KEY_PRESS.CONTROL,
+    isActive: isDevToolsVisible,
+    setIsActive: setIsDevToolsVisible,
+  });
+
   return (
     <>
-      {isDevGuidesVisibile && <DevScreenSize />}
+      {isDevToolsVisible && <DevScreenSize />}
       <Row css={styles}>
         {/* {isDevGuidesVisibile && <div className="screen-overlay screen-800x480" />} */}
         {isDevGuidesVisibile && <div className="screen-overlay screen-1024x600" />}

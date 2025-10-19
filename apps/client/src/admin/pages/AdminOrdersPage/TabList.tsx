@@ -227,7 +227,8 @@ export const TabList: React.FC = () => {
           status={isDrawerOpen ? 'active' : 'inactive'}
         />
       </Flex> */}
-      <OrdersTable
+      <hr />
+      {/* <OrdersTable
         orders={filteredOrders}
         columns={DEFAULT_ORDERS_COLUMNS}
         emptyMessage="No orders found"
@@ -236,7 +237,7 @@ export const TabList: React.FC = () => {
         onColumnSearchChange={handleColumnSearchChange}
         onClickEdit={handleEditOrder}
         onClickDelete={handleDeleteOrder}
-      />
+      /> */}
     </Flex>
   );
 };

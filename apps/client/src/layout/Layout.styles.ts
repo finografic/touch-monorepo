@@ -43,8 +43,8 @@ export const styles = css`
 
         width: 100%;
         height: 100%;
-        min-width: 1100px;
-        max-width: 66vw;
+        /* min-width: 1100px;
+        max-width: 66vw; */
         min-height: 600px;
         max-height: 800px;
 
@@ -70,7 +70,7 @@ export const styles = css`
           justify-content: center;
 
           > section {
-            justify-content: center;
+            /* justify-content: center; */
           }
         }
 

@@ -81,9 +81,7 @@ export const Header: React.FC<HeaderProps> = ({
       <header className={clsx('app-header', { 'admin-app-header': isAdmin })}>
         <Container className="container" fluid>
           <Row justify="between" align="center">
-            {/*
-              LEFT column - responsive width
-            */}
+            {/* LEFT column - responsive width */}
             <Col {...leftColProps} className="col col-header-left">
               <Flex justify="start">
                 {titleAlign === 'left' ? (
@@ -95,15 +93,11 @@ export const Header: React.FC<HeaderProps> = ({
                 )}
               </Flex>
             </Col>
-            {/*
-              CENTER column - responsive width
-            */}
+            {/* CENTER column - responsive width */}
             <Col {...centerColProps} className="col col-header-center">
               <Flex justify="center">{titleAlign === 'center' && <HeaderTitle />}</Flex>
             </Col>
-            {/*
-              RIGHT column - responsive width
-            */}
+            {/* RIGHT column - responsive width */}
             <Col {...rightColProps} className="col col-header-right">
               <Flex justify="end">
                 {titleAlign === 'right' ? (

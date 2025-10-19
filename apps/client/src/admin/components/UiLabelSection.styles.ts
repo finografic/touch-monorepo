@@ -66,7 +66,7 @@ export const styles = css`
         }
 
         .labels-grid-header {
-          display: none; /* Hide headers on mobile, rely on placeholders */
+          display: none;
         }
       }
     }

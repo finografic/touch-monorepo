@@ -2,6 +2,7 @@ import { css } from '@emotion/react';
 
 import { forms } from '../forms/forms.constants';
 import { colors, layout, min, spacing } from 'styles';
+import { BREAKPOINTS, BREAKPOINTS_PX } from 'styles/viewport/viewport.breakpoints';
 
 export const stylesAdminContent = css`
   header.app-header.admin-app-header {
@@ -27,6 +28,7 @@ export const stylesAdminContent = css`
   /* ADMIN-PAGE-LAYOUT ======================================================= */
 
   section.admin-page-container {
+    /* box-shadow: inset 0 0 0 20px blue !important; */
     /* #content,
     .header > div,
     .footer > nav {
@@ -34,22 +36,36 @@ export const stylesAdminContent = css`
       padding-right: calc(${layout.padding} * 1.5) !important;
     } */
 
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    padding: 0em 3rem 1rem 3rem;
-    box-shadow: inset 0 0 0 6px transparent;
+    width: 100% !important;
+    margin-left: 1rem !important;
+    box-shadow: inset 0 0 0 10px transparent;
 
     ${min.md} {
-      /* box-shadow: inset 0 0 0 6px rgba(200, 200, 0, 0.2); */
+      width: 100% !important;
+      width: ${BREAKPOINTS_PX.lg} !important;
+      margin: 0 0 0 0 !important;
+      /* box-shadow: inset 0 0 0 10px rgba(200, 200, 0, 0.4); */
     }
 
     ${min.lg} {
-      /* box-shadow: inset 0 0 0 6px rgba(0, 200, 200, 0.2); */
+      width: 100% !important;
+      width: ${BREAKPOINTS_PX.lg} !important;
+      margin: 0 0 0 0 !important;
+      /* box-shadow: inset 0 0 0 10px rgba(0, 200, 200, 0.4); */
     }
 
     ${min.xl} {
-      /* box-shadow: inset 0 0 0 6px rgba(0, 200, 0, 0.2); */
+      width: 100% !important;
+      max-width: calc(${BREAKPOINTS_PX.xxl} - 6rem) !important;
+      margin: 0 0 0 0 !important;
+      /* box-shadow: inset 0 0 0 10px rgba(0, 200, 0, 0.4); */
+    }
+
+    ${min.xxl} {
+      width: 100% !important;
+      max-width: calc(${BREAKPOINTS_PX.xxl} - 6rem) !important;
+      margin: 0 1rem 0 1rem !important;
+      /* box-shadow: inset 0 0 0 10px rgba(200, 250, 0, 0.4); */
     }
   }
 

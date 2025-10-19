@@ -15,7 +15,7 @@ export const DevScreenSize = ({ variant = 'light' }: { variant?: 'light' | 'dark
   };
 
   return (
-    <div css={styles} onClick={handleClick} className={`dev-screen-size variant-${variant}`}>
+    <div id="___SIZE___" css={styles} onClick={handleClick} className={`dev-screen-size variant-${variant}`}>
       <pre>
         <span style={{ paddingRight: '1em' }}>{isDevScreenSizeVisible ? '(DEV)' : ''}</span>
         <Visible xs>XS</Visible>

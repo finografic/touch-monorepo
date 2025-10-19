@@ -63,8 +63,8 @@ export const styles = css`
 
         width: 100%;
         height: 100%;
-        min-width: 1100px;
-        max-width: 98vw;
+        /* min-width: 1100px; */
+        /* max-width: 98vw; */
         min-height: 600px;
 
         justify-content: flex-start;
@@ -90,8 +90,8 @@ export const styles = css`
           align-items: flex-start;
 
           > * {
-            width: fit-content;
-            max-width: 100%;
+            /* width: fit-content;
+            max-width: 100%; */
           }
         }
 

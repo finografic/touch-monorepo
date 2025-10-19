@@ -262,36 +262,35 @@ export const AdminOrdersPage: React.FC = () => {
   }
 
   return (
-    <section css={styles} className="admin-content-page">
-      <AdminContentLayout
-        title={isEditMode ? 'Edit Order' : 'Gestión de configuraciones'}
-        // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
-        //  subtitle="Development orders for testing"
-      >
-        {/* TABBED CONTENT ------------------------------------ */}
-        <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
-          <Tabs.List>
-            {config.tabs.map((tab) => (
-              <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
-                {tab.icon ? tab.icon : null} {tab.label}
-              </Tabs.Trigger>
-            ))}
-          </Tabs.List>
-          <div className="tab-content">
-            {config.tabs.map((tab) => (
-              <Tabs.Content key={tab.id} id={`tab-content-${tab.id}`} value={tab.id}>
-                <AdminSection
-                  className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
-                  title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
-                  variant="none"
-                >
-                  {tab.content}
-                </AdminSection>
-              </Tabs.Content>
-            ))}
-          </div>
-        </Tabs.Root>
-      </AdminContentLayout>
-    </section>
+    <AdminContentLayout
+      title={isEditMode ? 'Edit Order' : '==Gestión de configuraciones'}
+      // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
+      //  subtitle="Development orders for testing"
+      css={styles}
+    >
+      {/* TABBED CONTENT ------------------------------------ */}
+      <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
+        <Tabs.List>
+          {config.tabs.map((tab) => (
+            <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
+              {tab.icon ? tab.icon : null} {tab.label}
+            </Tabs.Trigger>
+          ))}
+        </Tabs.List>
+        <div className="tab-content">
+          {config.tabs.map((tab) => (
+            <Tabs.Content key={tab.id} id={`tab-content-${tab.id}`} value={tab.id}>
+              <AdminSection
+                className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
+                title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
+                variant="none"
+              >
+                {tab.content}
+              </AdminSection>
+            </Tabs.Content>
+          ))}
+        </div>
+      </Tabs.Root>
+    </AdminContentLayout>
   );
 };

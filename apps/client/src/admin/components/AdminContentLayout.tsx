@@ -1,11 +1,14 @@
 import type { ReactNode } from 'react';
 import React, { memo } from 'react';
+import { Col, Container, Row } from 'react-grid-system';
 
 import type { SerializedStyles } from '@emotion/react';
-import { Callout, Heading, Text } from '@radix-ui/themes';
+import { Callout, Flex, Heading, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 
 import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
+
+import { stylesAdminContent } from 'styles/project/project.admin.styles';
 
 interface AdminContentLayoutProps {
   title: string;
@@ -26,7 +29,11 @@ interface AdminContentLayoutProps {
 export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
   ({ title, subtitle, description, align = 'left', children, message, isLoading = false, error, css }) => {
     return (
-      <section css={css} className="admin-page-container">
+      <section
+        // css={css}
+        className="container admin-page-container"
+      >
+        <div className="TEST">XXX</div>
         <header className={clsx('admin-page-header', { [align]: align })}>
           <Heading size="8" className="admin-page-title" align={align} mb="1rem">
             {title}
@@ -57,7 +64,11 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
         )}
 
         {/* Page Content */}
-        <div className="admin-page-content">{children}</div>
+        {/* <div className="admin-page-content" style={{ opacity: '0.5' }}> */}
+        <Flex direction="column" gap="4" style={{ opacity: '0.5' }}>
+          {children}
+        </Flex>
+        {/* </div> */}
       </section>
     );
   },

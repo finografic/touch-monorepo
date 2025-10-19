@@ -90,7 +90,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         );
 
       case 'mode':
-        return order.modeId || '-';
+        return order.mode || '-';
 
       case 'drinkType':
         return order.drinkType || '-';
@@ -142,14 +142,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
 
   return (
     <section css={styles} className="admin-content-page">
-      <>
-        {/* Results Table */}
-        {/* <ScrollArea
-          id="scroll-area"
-          type="always"
-          scrollbars="vertical"
-          //  style={{ height: 180 }}
-        > */}
+      {orders.length > 0 ? (
         <Table.Root>
           <Table.Header>
             <Table.Row>
@@ -188,7 +181,6 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
               ))}
             </Table.Row>
           </Table.Header>
-
           <Table.Body className="table-body">
             {orders.map((order, index) => (
               <Table.Row key={order.id}>
@@ -201,20 +193,16 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
             ))}
           </Table.Body>
         </Table.Root>
-
-        {/* Empty State */}
-        {orders.length === 0 && (
-          <Flex direction="column" align="center" justify="center" py="8">
-            <Text size="3" color="gray">
-              {emptyMessage}
-            </Text>
-            <Text size="2" color="gray">
-              {emptySubMessage}
-            </Text>
-          </Flex>
-        )}
-        {/* </ScrollArea> */}
-      </>
+      ) : (
+        <Flex direction="column" align="center" justify="center" py="8">
+          <Text size="3" color="gray">
+            {emptyMessage}
+          </Text>
+          <Text size="2" color="gray">
+            {emptySubMessage}
+          </Text>
+        </Flex>
+      )}
     </section>
   );
 };

@@ -7,8 +7,8 @@ export const styles = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    padding: 0 !important;
+    /* width: 100%;
+    padding: 0 !important; */
   }
 
   ul.admin-nav {
