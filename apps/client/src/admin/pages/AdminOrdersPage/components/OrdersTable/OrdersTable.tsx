@@ -152,7 +152,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     });
   }, [columns]);
 
-  log('__DEV', 'hotpink', columnStyles);
+  log('__DEV', 'hotpink', columnSearches);
 
   return (
     <section css={styles} className="admin-page-content table-container">
@@ -176,7 +176,10 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                           <ColumnFilter
                             variant="select"
                             value={columnSearches[column.key] || ''}
-                            onChange={(value) => onColumnSearchChange(column.key, value)}
+                            onChange={(value) => {
+                              log('__DEVL', 'lime', { key: column.key, value });
+                              onColumnSearchChange(column.key, value);
+                            }}
                             options={column.filterOptions}
                             placeholder=""
                           />
@@ -184,7 +187,10 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                           <ColumnFilter
                             variant="search"
                             value={columnSearches[column.key] || ''}
-                            onChange={(value) => onColumnSearchChange(column.key, value)}
+                            onChange={(value) => {
+                              log('__DEVL', 'lime', { key: column.key, value });
+                              onColumnSearchChange(column.key, value);
+                            }}
                             placeholder=""
                             hasIcon={false}
                             width={`${Number(column.width.replace('px', '')) * 1.5}px`}

@@ -32,10 +32,11 @@ export const AdminOrdersPage: React.FC = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const { orderId } = useParams<{ orderId?: string }>();
+  const hash = window.location.hash.slice(1); // Get hash without '#'
 
-  // Determine the current mode based on URL params
-  const isEditMode = Boolean(orderId && orderId !== 'new');
-  const isNewMode = orderId === 'new';
+  // Determine the current mode based on URL params or hash
+  const isEditMode = Boolean(orderId); // Real orderId in URL = edit mode
+  const isNewMode = hash === 'new'; // #new hash = new mode
 
   // ======================================================================== //
 
@@ -86,8 +87,8 @@ export const AdminOrdersPage: React.FC = () => {
   // ======================================================================== //
 
   // Default active tab based on URL state:
-  // - /admin/orders/{realId} → 'edit' tab
-  // - /admin/orders/new → 'new' tab
+  // - /admin/orders/{orderId} → 'edit' tab
+  // - /admin/orders#new → 'new' tab
   // - /admin/orders → 'list' tab (default)
   const defaultActiveTab = isEditMode ? 'edit' : isNewMode ? 'new' : 'list';
 
@@ -107,8 +108,8 @@ export const AdminOrdersPage: React.FC = () => {
         // Navigate to list view
         navigate('/admin/orders');
       } else if (tab === 'new') {
-        // Navigate to new form
-        navigate('/admin/orders/new');
+        // Navigate to new form with hash
+        navigate('/admin/orders#new');
       }
       // Note: Can't navigate to 'edit' tab directly - requires an orderId from table actions
     },
@@ -121,11 +122,12 @@ export const AdminOrdersPage: React.FC = () => {
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
 
   // Fetch individual order data when in edit mode
+  // Fetch single order data when editing (only if we have a real orderId, not "new")
   const {
     data: orderData,
     isLoading: isOrderLoading,
     error: orderError,
-  } = useGetOrderReadableById(orderId || '');
+  } = useGetOrderReadableById(isEditMode ? orderId! : '');
 
   // Delete order mutation
   const deleteOrderMutation = useDeleteOrder();

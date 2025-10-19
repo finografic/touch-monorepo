@@ -46,7 +46,7 @@ export const styles = css`
 
       span {
         padding: 0.8em 1.25em;
-        font-size: 1.05rem;
+        font-size: 1rem;
         font-weight: 700;
         color: ${colors.textLight75};
       }

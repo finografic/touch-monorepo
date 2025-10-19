@@ -14,7 +14,7 @@ export const styles = css`
     max-width: 60vw !important;
     min-width: 1000px !important;
     position: fixed;
-    display: inline-table;
+    display: inline-table !important;
     background-color: ${colors.white};
 
     z-index: 999999;

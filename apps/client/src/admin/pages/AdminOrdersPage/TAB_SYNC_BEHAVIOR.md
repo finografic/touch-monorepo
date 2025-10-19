@@ -6,18 +6,18 @@ The AdminOrdersPage manages two tabs with dynamic labels based on the URL state:
 - **Tab 1**: "Listado de registros" (always "List")
 - **Tab 2**: "Editar registro" (Edit) OR "Nuevo registro" (New) - **DYNAMIC**
 
-## URL Structure (Simplified - No Hashes!)
+## URL Structure (Hash for New, Param for Edit)
 
 ```
 /admin/orders                    → List tab active, Tab 2 = "Nuevo registro"
-/admin/orders/new                → New tab active, Tab 2 = "Nuevo registro"
+/admin/orders#new                → New tab active, Tab 2 = "Nuevo registro"
 /admin/orders/{orderId}          → Edit tab active, Tab 2 = "Editar registro"
 ```
 
-**No URL hashes needed!** The URL path determines which tab is active:
-- No param → List view
-- `/new` param → New form
-- Real ID param → Edit form
+**Why use hash for "new"?**
+- ✅ Avoids backend CUID validation errors ("new" is not a valid CUID)
+- ✅ No need to modify API route guards
+- ✅ Clean separation: real IDs in path, "new" mode in hash
 
 ## Behavior Flows
 

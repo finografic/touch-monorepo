@@ -83,7 +83,9 @@ export const TabList: React.FC = () => {
           case 'id':
             return order.id?.toLowerCase().includes(searchLower);
           case 'mode':
-            return order.modeId?.toLowerCase().includes(searchLower);
+            // Check both mode and modeId properties, convert to string for comparison
+            const modeValue = (order as any).mode || order.modeId;
+            return modeValue?.toString().toLowerCase().includes(searchLower);
           default:
             return true;
         }
