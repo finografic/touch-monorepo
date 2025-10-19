@@ -1,9 +1,8 @@
 import React, { type CSSProperties, useMemo } from 'react';
 
-import { Button, Flex, ScrollArea, Table, Text } from '@radix-ui/themes';
+import { Button, Flex, Table, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { useContent } from 'providers/ContentProvider';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SelectOption } from 'types/models/select-option.model';
@@ -74,8 +73,8 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     switch (column.key) {
       case 'index':
         return (
-          <Text size="2" weight="medium">
-            {index + 1}
+          <Text size="2" weight="bold">
+            {String(index + 1).padStart(4, '0')}
           </Text>
         );
 
@@ -83,9 +82,6 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         return (
           <div className="td-order-id">
             <Text size="2" weight="medium">
-              {order.id}
-            </Text>
-            <Text size="1" color="gray">
               {order.id}
             </Text>
           </div>
@@ -152,8 +148,6 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     });
   }, [columns]);
 
-  log('__DEV', 'hotpink', columnSearches);
-
   return (
     <section css={styles} className="admin-page-content table-container">
       {orders.length >= 0 ? (
@@ -176,10 +170,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                           <ColumnFilter
                             variant="select"
                             value={columnSearches[column.key] || ''}
-                            onChange={(value) => {
-                              log('__DEVL', 'lime', { key: column.key, value });
-                              onColumnSearchChange(column.key, value);
-                            }}
+                            onChange={(value) => onColumnSearchChange(column.key, value)}
                             options={column.filterOptions}
                             placeholder=""
                           />
@@ -187,13 +178,10 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                           <ColumnFilter
                             variant="search"
                             value={columnSearches[column.key] || ''}
-                            onChange={(value) => {
-                              log('__DEVL', 'lime', { key: column.key, value });
-                              onColumnSearchChange(column.key, value);
-                            }}
+                            onChange={(value) => onColumnSearchChange(column.key, value)}
                             placeholder=""
                             hasIcon={false}
-                            width={`${Number(column.width.replace('px', '')) * 1.5}px`}
+                            width={`${Number(column.width.replace('px', '')) * 1.7}px`}
                           />
                         )}
                       </>
@@ -212,7 +200,12 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                     className={clsx('td', `td-${column.key}`, column.className)}
                     style={
                       i === 0
-                        ? { ...columnStyles[i], width: '20px', maxWidth: '20px' }
+                        ? {
+                            ...columnStyles[i],
+                            width: '20px',
+                            maxWidth: '20px',
+                            fontWeight: '900',
+                          }
                         : { ...columnStyles[i] }
                     }
                   >
