@@ -21,14 +21,11 @@ export const styles = css`
 
     width: 86vw;
     height: 66vh;
-    /* bottom: 33vh; */
-    /* transform: translateY(50%); */
 
     top: 300px;
     left: auto;
     right: auto;
 
-    /* bottom: 3rem; */
     z-index: 5000;
 
     position: fixed;
