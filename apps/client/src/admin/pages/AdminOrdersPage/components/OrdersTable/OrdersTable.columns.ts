@@ -2,15 +2,15 @@ import type { ColumnDef } from './OrdersTable';
 
 // Default column configuration - easily customizable!
 export const DEFAULT_ORDERS_COLUMNS: ColumnDef[] = [
-  { key: 'index', label: '#', width: '40px', searchable: false },
+  { key: 'index', label: 'ID', width: '40px', searchable: false },
   { key: 'mode', label: 'Mode', width: '40px', maxWidth: '40px', searchable: true },
   { key: 'drinkType', label: 'Drink Type', width: '80px', maxWidth: '40px', searchable: true },
   { key: 'subtype', label: 'Subtype', width: '80px', maxWidth: '40px', searchable: true },
   { key: 'volume', label: 'Volume', width: '80px', maxWidth: '40px', searchable: true },
   { key: 'container', label: 'Container', width: '80px', maxWidth: '40px', searchable: true },
   { key: 'temperature', label: 'Temperature', width: '80px', maxWidth: '40px', searchable: true },
-  { key: 'edit', label: '', width: '40px', maxWidth: '40px', searchable: false },
-  { key: 'delete', label: '', width: '40px', maxWidth: '40px', searchable: false },
+  { key: 'edit', label: '', width: '20px', maxWidth: '20px', searchable: false },
+  { key: 'delete', label: '', width: '20px', maxWidth: '20px', searchable: false },
 ];
 
 // Alternative configurations for different use cases

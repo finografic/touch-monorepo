@@ -21,7 +21,10 @@ export const styles = css`
     font-weight: 700;
     color: ${colors.greyXLight};
 
-    transform: translate(0, -0.5rem) !important;
+    transform: translate(-1rem, -0.5rem) !important;
+    &:nth-of-type(1) {
+      transform: translate(0, -0.5rem) !important;
+    }
 
     .rt-Text {
       transform: translate(0, -0.25rem) !important;
@@ -55,7 +58,27 @@ export const styles = css`
     text-align: center; */
   }
 
+  input {
+    opacity: 0.5 !important;
+  }
+
+  .th-edit,
+  .th-delete {
+    width: 30px !important;
+    max-width: 30px !important;
+    padding: 0.75rem 0rem !important;
+  }
+
   /* TABLE_BODY =============================== */
+
+  .td-edit,
+  .td-delete {
+    width: 30px !important;
+    max-width: 30px !important;
+    padding: 0.75rem 0rem !important;
+    /* background-color: ${colors.greyXXLight}; */
+    /* display: none !important; */
+  }
 
   .rt-TableBody.table-body {
     /* position: fixed;

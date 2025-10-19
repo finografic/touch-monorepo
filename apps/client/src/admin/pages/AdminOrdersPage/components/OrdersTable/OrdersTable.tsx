@@ -178,7 +178,6 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                             value={columnSearches[column.key] || ''}
                             onChange={(value) => onColumnSearchChange(column.key, value)}
                             options={column.filterOptions}
-                            // placeholder={column.filterPlaceholder || 'A_Select...'}
                             placeholder=""
                           />
                         ) : (
@@ -186,9 +185,9 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                             variant="search"
                             value={columnSearches[column.key] || ''}
                             onChange={(value) => onColumnSearchChange(column.key, value)}
-                            // placeholder={column.filterPlaceholder || 'B_Search..'}
                             placeholder=""
                             hasIcon={false}
+                            width={`${Number(column.width.replace('px', '')) * 1.5}px`}
                           />
                         )}
                       </>

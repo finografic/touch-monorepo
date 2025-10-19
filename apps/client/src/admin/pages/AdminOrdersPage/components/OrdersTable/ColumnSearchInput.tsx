@@ -13,6 +13,7 @@ interface ColumnFilterBaseProps {
   onChange: (value: string) => void;
   placeholder?: string;
   hasIcon?: boolean;
+  width?: string;
 }
 
 interface ColumnFilterSearchProps extends ColumnFilterBaseProps {
@@ -40,6 +41,7 @@ export const ColumnFilter: FC<ColumnFilterProps> = ({
   variant = 'search',
   options,
   hasIcon = true,
+  width = '100%',
 }) => {
   const debouncedOnChange = useDebouncedCallback((newValue: string) => {
     onChange(newValue);
@@ -71,7 +73,7 @@ export const ColumnFilter: FC<ColumnFilterProps> = ({
       onChange={(evt) => debouncedOnChange(evt.target.value)}
       size="1"
       variant="soft"
-      style={{ width: '100%' }}
+      style={{ width }}
     >
       {hasIcon && (
         <TextField.Slot>
