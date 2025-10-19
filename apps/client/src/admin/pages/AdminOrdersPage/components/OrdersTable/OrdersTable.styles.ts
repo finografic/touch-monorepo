@@ -12,6 +12,18 @@ export const styles = css`
   .rt-TableHeader {
     /* position: fixed;
         width: 86vw; */
+    width: 60vw;
+    max-width: 60vw !important;
+    min-width: 1000px !important;
+    position: fixed;
+    display: inline-table;
+    background-color: ${colors.white};
+    /* background-color: pink; */
+    /* opacity: 0.8; */
+    z-index: 999999;
+    transform: translate(0, -100px) !important;
+    /* border-bottom: 1px solid transparent !important; */
+    box-shadow: inset 0 -1px 0 0 transparent !important;
   }
 
   /* TABLE_HEADER_CELLS ============================ */
@@ -21,6 +33,7 @@ export const styles = css`
     font-weight: 700;
     color: ${colors.greyXLight};
 
+    border-bottom: 1px solid transparent !important;
     transform: translate(-1rem, -0.5rem) !important;
     &:nth-of-type(1) {
       transform: translate(0, -0.5rem) !important;
@@ -81,6 +94,8 @@ export const styles = css`
   }
 
   .rt-TableBody.table-body {
+    /* transform: translate(0, 2rem) !important; */
+
     /* position: fixed;
         width: 86vw !important;
         display: block; */

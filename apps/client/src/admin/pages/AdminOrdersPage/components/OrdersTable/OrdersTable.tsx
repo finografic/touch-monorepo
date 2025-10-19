@@ -158,7 +158,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     <section css={styles} className="admin-page-content table-container">
       {orders.length >= 0 ? (
         <Table.Root>
-          <Table.Header>
+          <Table.Header style={{ width: '100%', position: 'fixed', display: 'table-header-group' }}>
             <Table.Row>
               {columns.map((column, i) => (
                 <Table.ColumnHeaderCell

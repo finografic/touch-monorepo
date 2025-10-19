@@ -6,15 +6,18 @@ The AdminOrdersPage manages two tabs with dynamic labels based on the URL state:
 - **Tab 1**: "Listado de registros" (always "List")
 - **Tab 2**: "Editar registro" (Edit) OR "Nuevo registro" (New) - **DYNAMIC**
 
-## URL Structure
+## URL Structure (Simplified - No Hashes!)
 
 ```
-/admin/orders                    → Create mode (Tab 2 = "Nuevo registro")
-/admin/orders/{orderId}          → Edit mode (Tab 2 = "Editar registro")
-/admin/orders#list               → List tab active
-/admin/orders#new                → New tab active
-/admin/orders/{orderId}#edit     → Edit tab active
+/admin/orders                    → List tab active, Tab 2 = "Nuevo registro"
+/admin/orders/new                → New tab active, Tab 2 = "Nuevo registro"
+/admin/orders/{orderId}          → Edit tab active, Tab 2 = "Editar registro"
 ```
+
+**No URL hashes needed!** The URL path determines which tab is active:
+- No param → List view
+- `/new` param → New form
+- Real ID param → Edit form
 
 ## Behavior Flows
 

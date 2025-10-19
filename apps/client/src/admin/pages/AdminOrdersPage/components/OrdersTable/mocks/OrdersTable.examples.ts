@@ -1,7 +1,7 @@
 // Example: How to easily customize OrdersTable columns
 // Just modify the column configuration - no need to touch the component!
 
-import { COMPACT_ORDERS_COLUMNS, DEFAULT_ORDERS_COLUMNS, FULL_ORDERS_COLUMNS } from './OrdersTable.columns';
+import { COMPACT_ORDERS_COLUMNS, DEFAULT_ORDERS_COLUMNS, FULL_ORDERS_COLUMNS } from '../OrdersTable.columns';
 
 // Example 1: Use the default configuration (what you requested)
 const defaultConfig = DEFAULT_ORDERS_COLUMNS;
