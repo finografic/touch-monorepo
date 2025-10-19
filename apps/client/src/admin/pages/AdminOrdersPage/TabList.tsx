@@ -3,21 +3,16 @@ import { Col, Row } from 'react-grid-system';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Flex, Spinner, Text } from '@radix-ui/themes';
-import { OrdersForm } from 'admin/pages/AdminOrdersPage/components/OrdersForm';
 import type { ColumnKey, ColumnSearchState } from 'admin/pages/AdminOrdersPage/components/OrdersTable';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/components/OrdersTable';
 import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/components/OrdersTable/OrdersTable.columns';
 import clsx from 'clsx';
-import { Drawer } from 'components/Drawer';
-import { SearchBar } from 'components/SearchBar';
 import { useToast } from 'components/Toast';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
-import { getHumanReadableId } from 'utils/readable.utils';
 
-import { AdminContentLayout, AdminSection } from '../..';
-import { styles } from './AdminOrdersPage.styles';
+import { AdminSection } from '../..';
 
 export const TabList: React.FC = () => {
   const { currentLanguage } = useAppConfig();
@@ -82,10 +77,11 @@ export const TabList: React.FC = () => {
             return order.defaultTempConsume?.toString().includes(searchLower);
           case 'id':
             return order.id?.toLowerCase().includes(searchLower);
-          case 'mode':
+          case 'mode': {
             // Check both mode and modeId properties, convert to string for comparison
             const modeValue = (order as any).mode || order.modeId;
             return modeValue?.toString().toLowerCase().includes(searchLower);
+          }
           default:
             return true;
         }
@@ -221,14 +217,6 @@ export const TabList: React.FC = () => {
 
   return (
     <Flex direction="column" width="100%" gap="6">
-      {/* Global search - optional, can be removed if column searches are sufficient */}
-      {/* <Flex px="4" justify="start" align="center" className="search-container">
-        <SearchBar
-          searchTerm={searchTerm}
-          onSearchChange={setSearchTerm}
-          status={isDrawerOpen ? 'active' : 'inactive'}
-        />
-      </Flex> */}
       <OrdersTable
         orders={filteredOrders}
         columns={DEFAULT_ORDERS_COLUMNS}
