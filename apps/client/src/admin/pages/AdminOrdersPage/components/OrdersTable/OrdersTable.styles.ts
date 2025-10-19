@@ -10,20 +10,27 @@ export const styles = css`
   color: ${colors.text};
 
   .rt-TableHeader {
-    /* position: fixed;
-        width: 86vw; */
     width: 60vw;
     max-width: 60vw !important;
     min-width: 1000px !important;
     position: fixed;
     display: inline-table;
     background-color: ${colors.white};
-    /* background-color: pink; */
-    /* opacity: 0.8; */
+
     z-index: 999999;
     transform: translate(0, -100px) !important;
-    /* border-bottom: 1px solid transparent !important; */
-    box-shadow: inset 0 -1px 0 0 transparent !important;
+
+    /* Target the row inside the header */
+    .rt-TableRow {
+      box-shadow: none !important;
+      border-bottom: none !important;
+    }
+
+    /* Target header cells */
+    .rt-TableCell {
+      box-shadow: none !important;
+      border-bottom: none !important;
+    }
   }
 
   /* TABLE_HEADER_CELLS ============================ */
@@ -42,13 +49,6 @@ export const styles = css`
     .rt-Text {
       transform: translate(0, -0.25rem) !important;
     }
-
-    /* background-color: ${colors.greyXXLight}; */
-    /* border: 1px solid ${colors.greyXXLight}; */
-    /* border-radius: 6px; */
-    /* padding: 0.5rem 1rem; */
-    /* margin: 0.5rem 0; */
-    /* text-align: center; */
   }
 
   .th-action {
