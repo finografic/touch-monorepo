@@ -3,10 +3,10 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { ShuffleIcon } from '@radix-ui/react-icons';
 import { Button, Text } from '@radix-ui/themes';
+import { InputTemperature } from 'forms/InputTemperature';
+import { InputTime } from 'forms/InputTime';
 
 import { useDev } from 'dev-tools/providers/DevProvider';
-import { InputTemperature } from '../../../../forms/InputTemperature';
-import { InputTime } from '../../../../forms/InputTime';
 import { DeleteIcon } from 'styles/icons';
 import { styles } from './TimesRepeaterTable.styles';
 

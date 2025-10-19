@@ -28,8 +28,6 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
       <section css={styles} className="container admin-page-container">
         <Title title={title} subtitle={subtitle} description={description} align={align} />
 
-        <h2>{title}</h2>
-
         {error && (
           <Callout.Root color="red" style={{ marginBottom: '1.5rem' }}>
             <Callout.Text>Error: {error}</Callout.Text>

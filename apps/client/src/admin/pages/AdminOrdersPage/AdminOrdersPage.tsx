@@ -3,9 +3,9 @@ import { Col, Container, Row } from 'react-grid-system';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Flex, ScrollArea, Spinner, Tabs, Text } from '@radix-ui/themes';
-import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
-import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
-import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/OrdersTable/OrdersTable.columns';
+import { OrdersForm } from 'admin/pages/AdminOrdersPage/components/OrdersForm';
+import { OrdersTable } from 'admin/pages/AdminOrdersPage/components/OrdersTable';
+import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/components/OrdersTable/OrdersTable.columns';
 import { TabForm } from 'admin/pages/AdminOrdersPage/TabForm';
 import { TabList } from 'admin/pages/AdminOrdersPage/TabList';
 import clsx from 'clsx';
@@ -243,11 +243,7 @@ export const AdminOrdersPage: React.FC = () => {
   if (error || (isEditMode && orderError)) {
     const errorMessage = error?.message || orderError?.message || 'Unknown error';
     return (
-      <AdminContentLayout
-        title="Gestión de configuraciones"
-        // subtitle="Development orders for testing"
-        error={errorMessage}
-      >
+      <AdminContentLayout error={errorMessage}>
         <AdminSection>
           <Text color="red">
             Error loading {isEditMode ? 'order' : 'orders'}: {errorMessage}
@@ -259,7 +255,6 @@ export const AdminOrdersPage: React.FC = () => {
 
   return (
     <AdminContentLayout title={isEditMode ? 'Edit Order' : 'Gestión de configuraciones'} styles={styles}>
-      {/* TABBED CONTENT ------------------------------------ */}
       <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
         <Tabs.List>
           {config.tabs.map((tab) => (
@@ -268,7 +263,7 @@ export const AdminOrdersPage: React.FC = () => {
             </Tabs.Trigger>
           ))}
         </Tabs.List>
-        <div className="tab-content" style={{ padding: '0 0 0 0' }}>
+        <div className="tab-content">
           {config.tabs.map((tab) => (
             <Tabs.Content key={tab.id} id={`tab-content-${tab.id}`} value={tab.id}>
               <AdminSection
