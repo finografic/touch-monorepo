@@ -5,19 +5,14 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { OrdersForm } from 'admin/pages/AdminOrdersPage/components/OrdersForm';
 import clsx from 'clsx';
-import { Drawer } from 'components/Drawer';
-import { SearchBar } from 'components/SearchBar';
 import { useToast } from 'components/Toast';
-import { useAppConfig } from 'providers/AppConfigProvider';
 
-import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
-import { getHumanReadableId } from 'utils/readable.utils';
+import { useGetOrderReadableById } from 'queries/orders';
 
-import { AdminContentLayout, AdminSection } from '../..';
-import { styles } from './AdminOrdersPage.styles';
+import { AdminSection } from '../..';
+// import { styles } from './AdminOrdersPage.styles';
 
 export const TabForm: React.FC = () => {
-  const { currentLanguage } = useAppConfig();
   const [searchTerm, setSearchTerm] = useState('');
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { toast } = useToast();
@@ -27,39 +22,12 @@ export const TabForm: React.FC = () => {
   // Determine if we're in edit mode
   const isEditMode = Boolean(orderId);
 
-  // Fetch orders-readable data for the table
-  const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
-
   // Fetch individual order data when in edit mode
   const {
     data: orderData,
     isLoading: isOrderLoading,
     error: orderError,
   } = useGetOrderReadableById(orderId || '');
-
-  // Delete order mutation
-  const deleteOrderMutation = useDeleteOrder();
-
-  // Simple search filtering
-  const filteredOrders = useMemo(() => {
-    let results = ordersData;
-
-    // Apply search
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase();
-      results = results.filter(
-        (order) =>
-          order.drinkType?.toLowerCase().includes(searchLower) ||
-          order.drinkSubtype?.toLowerCase().includes(searchLower) ||
-          order.volume?.toLowerCase().includes(searchLower) ||
-          order.containerType?.toLowerCase().includes(searchLower) ||
-          order.temperatureProfile?.toLowerCase().includes(searchLower) ||
-          order.id?.toLowerCase().includes(searchLower),
-      );
-    }
-
-    return results.slice(0, 200); // Limit to 200 for performance
-  }, [ordersData, searchTerm]);
 
   // Handle form submission for both create and update modes
   const handleAddOrder = (formData: {
@@ -99,36 +67,6 @@ export const TabForm: React.FC = () => {
     }
   };
 
-  const handleEditOrder = (orderId: string) => {
-    console.log('Editing order:', orderId);
-    navigate(`/admin/orders/${orderId}`);
-  };
-
-  const handleDeleteOrder = async (orderId: string) => {
-    // eslint-disable-next-line no-alert
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this order? This action cannot be undone.',
-    );
-
-    if (confirmDelete) {
-      try {
-        await deleteOrderMutation.mutateAsync(orderId);
-        toast({
-          variant: 'success',
-          message: 'Order deleted successfully!',
-          subText: `Order ${orderId} has been removed`,
-        });
-      } catch (error) {
-        console.error('Failed to delete order:', error);
-        toast({
-          variant: 'error',
-          message: 'Failed to delete order',
-          subText: 'Please try again or contact support',
-        });
-      }
-    }
-  };
-
   useEffect(
     function initSearchBox() {
       if (!isDrawerOpen) {
@@ -138,7 +76,7 @@ export const TabForm: React.FC = () => {
     [isDrawerOpen],
   );
 
-  if (isLoading || (isEditMode && isOrderLoading)) {
+  if (isEditMode && isOrderLoading) {
     return (
       <Row className="form-section">
         <Col>
@@ -157,8 +95,8 @@ export const TabForm: React.FC = () => {
     );
   }
 
-  if (error || (isEditMode && orderError)) {
-    const errorMessage = error?.message || orderError?.message || 'Unknown error';
+  if (isEditMode && orderError) {
+    const errorMessage = orderError?.message || 'Unknown error';
     return (
       <Row className="form-section">
         <Col>

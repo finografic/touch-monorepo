@@ -22,14 +22,21 @@ export const styles = css`
 
     width: 86vw;
     height: 66vh;
-
     top: 380px;
+
     left: auto;
     right: auto;
 
     z-index: 5000;
 
     position: fixed;
+  }
+
+  .tab-content-new,
+  .tab-content-edit {
+    /* height: 66vh; */
+    overflow-y: hidden;
+    top: 260px;
   }
 
   /* DIALOG TABS ========================================================== */

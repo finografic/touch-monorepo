@@ -42,6 +42,7 @@ import {
   type TempItems,
   useDropdownData,
 } from './orders-form.utils';
+import { styles } from './OrdersForm.styles';
 
 // ============================================================================
 // Form Schema & Types
@@ -282,210 +283,212 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   // ========================================================================
 
   return (
-    <FormProvider {...methods}>
-      <FormMiddlewareProvider<OrdersFormValues>
-        formMethods={methods}
-        fieldConfigs={ordersFormFieldConfigs as any}
-        defaultLocale={language}
-        onFieldChange={handleFieldChange}
-      >
-        <form onSubmit={handleSubmit(formSubmissionHandler)} noValidate>
-          <Row className="row">
-            <Col xs={12} md={12} className="col">
-              <Row className="row">
-                <Col xs={2} md={2} className="col col-form-fields">
-                  {/* Mode */}
-                  <FieldWrapper name="mode" label="Mode" required>
-                    <SelectCustom
-                      {...register('modeId')}
-                      className="mode-select"
-                      options={dropdownData.modeOptions}
-                      placeholder="Select mode"
-                      value={selectedModeId}
-                      onSelect={(value) => {
-                        handleSimpleFieldChange('modeId', value);
-                      }}
-                    />
-                  </FieldWrapper>
-                </Col>
+    <section css={styles} className="admin-page-content form-container">
+      <FormProvider {...methods}>
+        <FormMiddlewareProvider<OrdersFormValues>
+          formMethods={methods}
+          fieldConfigs={ordersFormFieldConfigs as any}
+          defaultLocale={language}
+          onFieldChange={handleFieldChange}
+        >
+          <form onSubmit={handleSubmit(formSubmissionHandler)} noValidate>
+            <Row className="row">
+              <Col xs={12} md={12} className="col">
+                <Row className="row">
+                  <Col xs={2} md={2} className="col col-form-fields">
+                    {/* Mode */}
+                    <FieldWrapper name="mode" label="Mode" required>
+                      <SelectCustom
+                        {...register('modeId')}
+                        className="mode-select"
+                        options={dropdownData.modeOptions}
+                        placeholder="Select mode"
+                        value={selectedModeId}
+                        onSelect={(value) => {
+                          handleSimpleFieldChange('modeId', value);
+                        }}
+                      />
+                    </FieldWrapper>
+                  </Col>
 
-                <Col xs={5} md={5} className="col col-form-fields">
-                  {/* Drink Type */}
-                  <FieldWrapper
-                    name="drinkType"
-                    label="Drink Type"
-                    hint={`${dropdownData.drinkTypeOptions.length} disponibles`}
-                    required
-                  >
-                    <SelectSearchable
-                      value={formValues.drinkType}
-                      onSelect={(value) => {
-                        handleSimpleFieldChange('drinkType', value);
-                        handleSimpleFieldChange('drinkSubtype', '');
-                      }}
-                      onClear={() => {
-                        handleSimpleFieldChange('drinkType', '');
-                        handleSimpleFieldChange('drinkSubtype', '');
-                      }}
-                      onAddNew={(value) => tempItemHandlers.handleAddNew('drinkTypes', value)}
-                      options={dropdownData.drinkTypeOptions}
-                      placeholder="e.g., Coffee, Tea, Juice"
-                      windowSize={15}
-                    />
-                  </FieldWrapper>
-                </Col>
+                  <Col xs={5} md={5} className="col col-form-fields">
+                    {/* Drink Type */}
+                    <FieldWrapper
+                      name="drinkType"
+                      label="Drink Type"
+                      hint={`${dropdownData.drinkTypeOptions.length} disponibles`}
+                      required
+                    >
+                      <SelectSearchable
+                        value={formValues.drinkType}
+                        onSelect={(value) => {
+                          handleSimpleFieldChange('drinkType', value);
+                          handleSimpleFieldChange('drinkSubtype', '');
+                        }}
+                        onClear={() => {
+                          handleSimpleFieldChange('drinkType', '');
+                          handleSimpleFieldChange('drinkSubtype', '');
+                        }}
+                        onAddNew={(value) => tempItemHandlers.handleAddNew('drinkTypes', value)}
+                        options={dropdownData.drinkTypeOptions}
+                        placeholder="e.g., Coffee, Tea, Juice"
+                        windowSize={15}
+                      />
+                    </FieldWrapper>
+                  </Col>
 
-                <Col xs={5} md={5} className="col col-form-fields">
-                  {/* Drink Subtype */}
-                  <FieldWrapper
-                    name="drinkSubtype"
-                    label="Drink Subtype"
-                    hint={
-                      formValues.drinkType
-                        ? `${dropdownData.drinkSubtypeOptions.length} disponibles`
-                        : 'Select drink type first'
-                    }
-                  >
-                    <SelectSearchable
-                      value={formValues.drinkSubtype}
-                      onSelect={(value) => handleSimpleFieldChange('drinkSubtype', value)}
-                      onClear={() => handleSimpleFieldChange('drinkSubtype', '')}
-                      onAddNew={handleAddSubtype}
-                      options={dropdownData.drinkSubtypeOptions}
-                      placeholder={
-                        formValues.drinkType ? 'Select or add new subtype' : 'Select drink type first'
+                  <Col xs={5} md={5} className="col col-form-fields">
+                    {/* Drink Subtype */}
+                    <FieldWrapper
+                      name="drinkSubtype"
+                      label="Drink Subtype"
+                      hint={
+                        formValues.drinkType
+                          ? `${dropdownData.drinkSubtypeOptions.length} disponibles`
+                          : 'Select drink type first'
                       }
-                      windowSize={15}
-                      disabled={!formValues.drinkType}
-                    />
-                  </FieldWrapper>
-                </Col>
-              </Row>
+                    >
+                      <SelectSearchable
+                        value={formValues.drinkSubtype}
+                        onSelect={(value) => handleSimpleFieldChange('drinkSubtype', value)}
+                        onClear={() => handleSimpleFieldChange('drinkSubtype', '')}
+                        onAddNew={handleAddSubtype}
+                        options={dropdownData.drinkSubtypeOptions}
+                        placeholder={
+                          formValues.drinkType ? 'Select or add new subtype' : 'Select drink type first'
+                        }
+                        windowSize={15}
+                        disabled={!formValues.drinkType}
+                      />
+                    </FieldWrapper>
+                  </Col>
+                </Row>
 
-              <Row className="row">
-                <Col xs={4} md={4} className="col col-form-fields">
-                  {/* Volume */}
-                  <FieldWrapper
-                    name="volume"
-                    label="Volume"
-                    hint={`${dropdownData.volumeOptions.length} disponibles`}
-                    required
-                  >
-                    <SelectSearchable
-                      value={formValues.volume}
-                      onSelect={(value) => handleSimpleFieldChange('volume', value)}
-                      onClear={() => handleSimpleFieldChange('volume', '')}
-                      onAddNew={(value) => tempItemHandlers.handleAddNew('volumes', value)}
-                      options={dropdownData.volumeOptions}
-                      placeholder="e.g., 250ml, 500ml, 1L"
-                      windowSize={15}
-                    />
-                  </FieldWrapper>
-                </Col>
+                <Row className="row">
+                  <Col xs={4} md={4} className="col col-form-fields">
+                    {/* Volume */}
+                    <FieldWrapper
+                      name="volume"
+                      label="Volume"
+                      hint={`${dropdownData.volumeOptions.length} disponibles`}
+                      required
+                    >
+                      <SelectSearchable
+                        value={formValues.volume}
+                        onSelect={(value) => handleSimpleFieldChange('volume', value)}
+                        onClear={() => handleSimpleFieldChange('volume', '')}
+                        onAddNew={(value) => tempItemHandlers.handleAddNew('volumes', value)}
+                        options={dropdownData.volumeOptions}
+                        placeholder="e.g., 250ml, 500ml, 1L"
+                        windowSize={15}
+                      />
+                    </FieldWrapper>
+                  </Col>
 
-                <Col xs={4} md={4} className="col col-form-fields">
-                  {/* Container Type */}
-                  <FieldWrapper
-                    name="containerType"
-                    label="Container"
-                    hint={`${dropdownData.containerTypeOptions.length} disponibles`}
-                    required
-                  >
-                    <SelectSearchable
-                      value={formValues.containerType}
-                      onSelect={(value) => handleSimpleFieldChange('containerType', value)}
-                      onClear={() => handleSimpleFieldChange('containerType', '')}
-                      onAddNew={(value) => tempItemHandlers.handleAddNew('containerTypes', value)}
-                      options={dropdownData.containerTypeOptions}
-                      placeholder="e.g., Cup, Bottle, Can"
-                      windowSize={15}
-                    />
-                  </FieldWrapper>
-                </Col>
+                  <Col xs={4} md={4} className="col col-form-fields">
+                    {/* Container Type */}
+                    <FieldWrapper
+                      name="containerType"
+                      label="Container"
+                      hint={`${dropdownData.containerTypeOptions.length} disponibles`}
+                      required
+                    >
+                      <SelectSearchable
+                        value={formValues.containerType}
+                        onSelect={(value) => handleSimpleFieldChange('containerType', value)}
+                        onClear={() => handleSimpleFieldChange('containerType', '')}
+                        onAddNew={(value) => tempItemHandlers.handleAddNew('containerTypes', value)}
+                        options={dropdownData.containerTypeOptions}
+                        placeholder="e.g., Cup, Bottle, Can"
+                        windowSize={15}
+                      />
+                    </FieldWrapper>
+                  </Col>
 
-                <Col xs={2} md={2} className="col col-form-fields">
-                  {/* Temperatura consumo */}
-                  <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
-                    <InputTemperature name="defaultTempConsume" />
-                  </FieldWrapper>
-                </Col>
+                  <Col xs={2} md={2} className="col col-form-fields">
+                    {/* Temperatura consumo */}
+                    <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
+                      <InputTemperature name="defaultTempConsume" />
+                    </FieldWrapper>
+                  </Col>
 
-                <Col xs={2} md={2} className="col col-form-fields">
-                  {/* Temperatura congelación */}
-                  <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
-                    <InputTemperature name="defaultTempFreeze" />
-                  </FieldWrapper>
-                </Col>
-              </Row>
+                  <Col xs={2} md={2} className="col col-form-fields">
+                    {/* Temperatura congelación */}
+                    <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
+                      <InputTemperature name="defaultTempFreeze" />
+                    </FieldWrapper>
+                  </Col>
+                </Row>
 
-              <Col xs={12} md={12} className="col col-form-fields col-form-table">
-                <TimesRepeaterTable
-                  name="timeRows"
-                  emptyRowValues={PROFILE_ITEM_VALUES_EMPTY}
-                  minRows={MIN_TABLE_ROWS}
-                  minVisibleRows={MIN_TABLE_VISIBLE_ROWS}
-                  language={language}
-                  onCanAddRowChange={handleCanAddRowChange}
-                  onGenerateRandomValues={mockDataHandlers.generateRandomValuesForRow}
-                />
+                <Col xs={12} md={12} className="col col-form-fields col-form-table">
+                  <TimesRepeaterTable
+                    name="timeRows"
+                    emptyRowValues={PROFILE_ITEM_VALUES_EMPTY}
+                    minRows={MIN_TABLE_ROWS}
+                    minVisibleRows={MIN_TABLE_VISIBLE_ROWS}
+                    language={language}
+                    onCanAddRowChange={handleCanAddRowChange}
+                    onGenerateRandomValues={mockDataHandlers.generateRandomValuesForRow}
+                  />
+                </Col>
               </Col>
-            </Col>
-          </Row>
+            </Row>
 
-          <Row className="row">
-            <Col xs={12} md={12} className="col col-form-buttons">
-              <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                  {/* Add Row Button */}
-                  <Button
-                    type="button"
-                    variant="soft"
-                    size="3"
-                    onClick={handleAddRow}
-                    disabled={!canAddRow}
-                    color="success"
-                  >
-                    + Add Row
-                  </Button>
+            <Row className="row">
+              <Col xs={12} md={12} className="col col-form-buttons">
+                <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                    {/* Add Row Button */}
+                    <Button
+                      type="button"
+                      variant="soft"
+                      size="3"
+                      onClick={handleAddRow}
+                      disabled={!canAddRow}
+                      color="success"
+                    >
+                      + Add Row
+                    </Button>
+                  </div>
+
+                  {/* Left side buttons */}
+                  <OrdersFormDevTools
+                    formValues={formValues}
+                    methods={methods}
+                    mockDataHandlers={mockDataHandlers}
+                    canAddRow={canAddRow}
+                    onAddRow={handleAddRow}
+                  />
+
+                  {/* Right side buttons */}
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
+                    <Button
+                      type="button"
+                      variant="soft"
+                      size="3"
+                      onClick={() => navigate('/admin/orders')}
+                      color="default"
+                    >
+                      {isEditMode ? 'Cancelar' : 'Cancelar'}
+                    </Button>
+
+                    <Button
+                      type="submit"
+                      css={{ padding: '1rem 3rem' }}
+                      disabled={!isValid || (isEditMode && !isDirty) || isSubmitLoading}
+                      loading={isSubmitLoading}
+                      size="3"
+                      color={isEditMode ? 'warning' : 'success'}
+                    >
+                      {isEditMode ? 'CONFIRM CHANGES' : 'GUARDAR'}
+                    </Button>
+                  </div>
                 </div>
-
-                {/* Left side buttons */}
-                <OrdersFormDevTools
-                  formValues={formValues}
-                  methods={methods}
-                  mockDataHandlers={mockDataHandlers}
-                  canAddRow={canAddRow}
-                  onAddRow={handleAddRow}
-                />
-
-                {/* Right side buttons */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
-                  <Button
-                    type="button"
-                    variant="soft"
-                    size="3"
-                    onClick={() => navigate('/admin/orders')}
-                    color="default"
-                  >
-                    {isEditMode ? 'Cancelar' : 'Cancelar'}
-                  </Button>
-
-                  <Button
-                    type="submit"
-                    css={{ padding: '1rem 3rem' }}
-                    disabled={!isValid || (isEditMode && !isDirty) || isSubmitLoading}
-                    loading={isSubmitLoading}
-                    size="3"
-                    color={isEditMode ? 'warning' : 'success'}
-                  >
-                    {isEditMode ? 'CONFIRM CHANGES' : 'GUARDAR'}
-                  </Button>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </form>
-      </FormMiddlewareProvider>
-    </FormProvider>
+              </Col>
+            </Row>
+          </form>
+        </FormMiddlewareProvider>
+      </FormProvider>
+    </section>
   );
 };

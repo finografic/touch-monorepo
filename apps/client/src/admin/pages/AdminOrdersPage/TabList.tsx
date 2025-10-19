@@ -8,14 +8,12 @@ import { OrdersTable } from 'admin/pages/AdminOrdersPage/components/OrdersTable'
 import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/components/OrdersTable/OrdersTable.columns';
 import clsx from 'clsx';
 import { useToast } from 'components/Toast';
-import { useAppConfig } from 'providers/AppConfigProvider';
 
-import { useDeleteOrder, useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
+import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
 
 import { AdminSection } from '../..';
 
 export const TabList: React.FC = () => {
-  const { currentLanguage } = useAppConfig();
   const [searchTerm, setSearchTerm] = useState('');
   const [columnSearches, setColumnSearches] = useState<ColumnSearchState>({});
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -28,13 +26,6 @@ export const TabList: React.FC = () => {
 
   // Fetch orders-readable data for the table
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
-
-  // Fetch individual order data when in edit mode
-  const {
-    data: orderData,
-    isLoading: isOrderLoading,
-    error: orderError,
-  } = useGetOrderReadableById(orderId || '');
 
   // Delete order mutation
   const deleteOrderMutation = useDeleteOrder();
@@ -91,44 +82,6 @@ export const TabList: React.FC = () => {
     return results.slice(0, 200); // Limit to 200 for performance
   }, [ordersData, searchTerm, columnSearches]);
 
-  // Handle form submission for both create and update modes
-  const handleAddOrder = (formData: {
-    modeId: string;
-    drinkType: string;
-    drinkSubtype?: string;
-    volume: string;
-    containerType: string;
-    defaultTempConsume: number;
-    defaultTempFreeze: number;
-    timeRows: Array<{
-      temperature?: number;
-      timeA?: number;
-      timeB?: number;
-      timeC?: number;
-    }>;
-  }) => {
-    if (isEditMode) {
-      // Success message for edit mode - API call is now handled in OrdersForm
-      const subtypeText = formData.drinkSubtype ? ` (${formData.drinkSubtype})` : '';
-      toast({
-        variant: 'success',
-        message: 'Order updated successfully!',
-        subText: `${formData.drinkType}${subtypeText} ${formData.volume} in ${formData.containerType}`,
-      });
-      // Navigate back to orders list
-      navigate('/admin/orders');
-    } else {
-      // TODO: Implement actual API call to create order
-      // For now, just show success toast
-      const subtypeText = formData.drinkSubtype ? ` (${formData.drinkSubtype})` : '';
-      toast({
-        variant: 'success',
-        message: 'Order added successfully!',
-        subText: `${formData.drinkType}${subtypeText} ${formData.volume} in ${formData.containerType}`,
-      });
-    }
-  };
-
   const handleEditOrder = (orderId: string) => {
     console.log('Editing order:', orderId);
     navigate(`/admin/orders/${orderId}`);
@@ -177,7 +130,7 @@ export const TabList: React.FC = () => {
     [isDrawerOpen],
   );
 
-  if (isLoading || (isEditMode && isOrderLoading)) {
+  if (isLoading || isEditMode) {
     return (
       <Row className="form-section">
         <Col>
@@ -196,8 +149,8 @@ export const TabList: React.FC = () => {
     );
   }
 
-  if (error || (isEditMode && orderError)) {
-    const errorMessage = error?.message || orderError?.message || 'Unknown error';
+  if (error || isEditMode) {
+    const errorMessage = error?.message || 'Unknown error';
     return (
       <Row className="form-section">
         <Col>
