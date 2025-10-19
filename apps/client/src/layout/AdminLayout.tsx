@@ -3,7 +3,7 @@ import { Suspense, useEffect } from 'react';
 import { Container, setConfiguration } from 'react-grid-system';
 import { Outlet } from 'react-router-dom';
 
-import { Container as ContainerRX, Flex, Theme } from '@radix-ui/themes';
+import { Theme } from '@radix-ui/themes';
 import { AdminNavigation } from 'admin/components/AdminNavigation';
 import { AuthDialogGuard, AuthLoginDialog } from 'components/Dialog/dialogs';
 import { AdminErrorBoundary } from 'components/ErrorBoundary/AdminErrorBoundary';
@@ -31,41 +31,39 @@ export const AdminLayout: FC = () => {
   }, []);
 
   return (
-    <>
-      <Theme {...themeConfig} appearance={theme}>
-        <ToastProvider>
-          <AdminProvider>
-            <ContentProvider>
-              <DevProvider>
-                <div id="admin-layout" css={styles}>
-                  <AuthDialogGuard>
-                    <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
-                    <AdminNavigation />
-                    <main>
-                      <div className="main-content">
-                        <section>
-                          <PageHeader />
-                          <div className="page-content" role="main">
-                            <AdminErrorBoundary>
-                              <Suspense fallback={<Loader message="Loading..." />}>
-                                <Outlet />
-                              </Suspense>
-                            </AdminErrorBoundary>
-                          </div>
-                          <nav className="page-navigation">{/* optional navigation */}</nav>
-                        </section>
-                      </div>
-                    </main>
-                    <Footer />
-                    <ToastSystem />
-                    <AuthLoginDialog />
-                  </AuthDialogGuard>
-                </div>
-              </DevProvider>
-            </ContentProvider>
-          </AdminProvider>
-        </ToastProvider>
-      </Theme>
-    </>
+    <Theme {...themeConfig} appearance={theme}>
+      <ToastProvider>
+        <AdminProvider>
+          <ContentProvider>
+            <DevProvider>
+              <div id="admin-layout" css={styles}>
+                <AuthDialogGuard>
+                  <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
+                  <AdminNavigation />
+                  <main>
+                    <div className="main-content">
+                      <section>
+                        <PageHeader />
+                        <div className="page-content" role="main">
+                          <AdminErrorBoundary>
+                            <Suspense fallback={<Loader message="Loading..." />}>
+                              <Outlet />
+                            </Suspense>
+                          </AdminErrorBoundary>
+                        </div>
+                        <nav className="page-navigation">{/* optional navigation */}</nav>
+                      </section>
+                    </div>
+                  </main>
+                  <Footer />
+                  <ToastSystem />
+                  <AuthLoginDialog />
+                </AuthDialogGuard>
+              </div>
+            </DevProvider>
+          </ContentProvider>
+        </AdminProvider>
+      </ToastProvider>
+    </Theme>
   );
 };

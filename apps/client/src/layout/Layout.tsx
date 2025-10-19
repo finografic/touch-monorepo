@@ -4,7 +4,6 @@ import { setConfiguration } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
 
-import type { ThemeProps } from '@radix-ui/themes';
 import { Theme } from '@radix-ui/themes';
 import { AuthDialogGuard, AuthLoginDialog } from 'components/Dialog/dialogs';
 import { Footer } from 'components/Footer';
