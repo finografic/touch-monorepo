@@ -11,16 +11,15 @@ import { useAdmin } from 'providers/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
-import type { Theme } from 'types/ui.types';
+import type { Align, Theme } from 'types/ui.types';
 
 import { styles } from './Title.styles';
 
 interface TitleProps {
-  align?: 'left' | 'center';
-  title: string;
-  detail?: string;
+  title?: string;
   subtitle?: string;
   description?: string;
+  align?: Align;
   // children: ReactNode;
   message?: {
     type: 'success' | 'error' | 'warning' | 'info';
@@ -28,20 +27,17 @@ interface TitleProps {
   };
   isLoading?: boolean;
   error?: string;
-  css?: SerializedStyles;
 }
 
 export const Title: React.FC<TitleProps> = ({
   align = 'left',
   title,
-  detail,
   subtitle,
   description,
   // children,
   message,
   isLoading = false,
   error,
-  css,
 }) => {
   // const { t } = useTranslation();
   // const { theme } = useAppConfig();

@@ -24,14 +24,32 @@ export const styles = css`
 
   .th-action,
   .td-action {
-    width: 100px;
+    /* width: 100px; */
     display: table-cell;
     text-align: center;
   }
 
+  /* TH-ACTIONS ============================ */
+
+  .th-index,
+  .th-mode,
+  .th-drinkType,
+  .th-subtype,
+  .th-volume,
+  .th-container,
+  .th-temperature {
+    /* width: 60px !important; */
+    /* border: 1px solid red !important; */
+    /* width: 100px; */
+    /* display: table-cell;
+    text-align: center; */
+  }
+
+  /* ACTIONS =============================== */
+
   .action-edit,
   .action-delete {
-    width: 60px;
+    /* width: 60px; */
   }
 
   .td-action button {

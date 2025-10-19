@@ -231,11 +231,7 @@ export const AdminOrdersPage: React.FC = () => {
 
   if (isLoading || (isEditMode && isOrderLoading)) {
     return (
-      <AdminContentLayout
-        title="Gestión de configuraciones"
-        // subtitle="Development orders for testing"
-        isLoading={true}
-      >
+      <AdminContentLayout isLoading={true}>
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
           <Text>Loading {isEditMode ? 'order' : 'orders'} data...</Text>
@@ -262,12 +258,7 @@ export const AdminOrdersPage: React.FC = () => {
   }
 
   return (
-    <AdminContentLayout
-      title={isEditMode ? 'Edit Order' : 'Gestión de configuraciones'}
-      // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
-      //  subtitle="Development orders for testing"
-      css={styles}
-    >
+    <AdminContentLayout title={isEditMode ? 'Edit Order' : 'Gestión de configuraciones'} styles={styles}>
       {/* TABBED CONTENT ------------------------------------ */}
       <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
         <Tabs.List>
@@ -277,12 +268,11 @@ export const AdminOrdersPage: React.FC = () => {
             </Tabs.Trigger>
           ))}
         </Tabs.List>
-        <div className="tab-content" style={{ padding: '2rem 0 0 0' }}>
+        <div className="tab-content" style={{ padding: '0 0 0 0' }}>
           {config.tabs.map((tab) => (
             <Tabs.Content key={tab.id} id={`tab-content-${tab.id}`} value={tab.id}>
               <AdminSection
-                className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
-                title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
+                className={clsx(`tab-content-${tab.id}`, isEditMode ? 'mode-edit' : 'mode-new')}
                 variant="none"
               >
                 {tab.content}

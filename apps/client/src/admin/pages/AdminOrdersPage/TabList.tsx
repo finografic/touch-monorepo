@@ -205,7 +205,7 @@ export const TabList: React.FC = () => {
         <Col>
           <AdminSection
             className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
-            title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
+            // title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
             // error={errorMessage as any}
           >
             <Text color="red">

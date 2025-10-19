@@ -1,16 +1,14 @@
 import type { ReactNode } from 'react';
 import React, { memo } from 'react';
-import { Col, Container, Row } from 'react-grid-system';
 
 import type { SerializedStyles } from '@emotion/react';
-import { Callout, Flex, Heading, Text } from '@radix-ui/themes';
-import clsx from 'clsx';
+import { Callout, Flex } from '@radix-ui/themes';
+import { Title } from 'components/Title';
 
 import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
 
 interface AdminContentLayoutProps {
-  title: string;
-  detail?: string;
+  title?: string;
   subtitle?: string;
   description?: string;
   align?: Align;
@@ -21,26 +19,17 @@ interface AdminContentLayoutProps {
   };
   isLoading?: boolean;
   error?: string;
-  css?: SerializedStyles;
+  styles?: SerializedStyles;
 }
 
 export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
-  ({ title, subtitle, description, align = 'left', children, message, isLoading = false, error, css }) => {
+  ({ title, subtitle, description, align = 'left', children, message, isLoading = false, error, styles }) => {
     return (
-      <section css={css} className="container admin-page-container">
-        <header className={clsx('admin-page-header', { [align]: align })}>
-          <Heading size="8" className="admin-page-title" align={align} mb="1rem">
-            {title}
-            {subtitle && <span style={{ opacity: 0.5 }}> : {subtitle}</span>}
-          </Heading>
-          {description && (
-            <div className="admin-page-description">
-              <Text>{description}</Text>
-            </div>
-          )}
-        </header>
+      <section css={styles} className="container admin-page-container">
+        <Title title={title} subtitle={subtitle} description={description} align={align} />
 
-        {/* Status Messages */}
+        <h2>{title}</h2>
+
         {error && (
           <Callout.Root color="red" style={{ marginBottom: '1.5rem' }}>
             <Callout.Text>Error: {error}</Callout.Text>
@@ -57,7 +46,6 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
           </Callout.Root>
         )}
 
-        {/* Page Content */}
         <Flex direction="column" className="admin-page-content">
           {children}
         </Flex>

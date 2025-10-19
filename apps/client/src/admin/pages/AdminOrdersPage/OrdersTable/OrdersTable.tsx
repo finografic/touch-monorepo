@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { type CSSProperties, useMemo } from 'react';
 
 import { Button, Flex, ScrollArea, Table, Text } from '@radix-ui/themes';
+import clsx from 'clsx';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useContent } from 'providers/ContentProvider';
 
@@ -33,6 +34,7 @@ export interface ColumnDef {
   key: ColumnKey;
   label: string;
   width?: string;
+  maxWidth?: string;
   className?: string;
   searchable?: boolean; // Whether this column should have a filter
   filterVariant?: 'search' | 'select'; // Type of filter: text search or select dropdown
@@ -140,17 +142,31 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     }
   };
 
+  const columnStyles = useMemo(() => {
+    return columns.map((column) => {
+      const styles = {} as CSSProperties;
+      if (column.width) Object.assign(styles, { width: column.width });
+      if (column.maxWidth) Object.assign(styles, { maxWidth: column.maxWidth });
+
+      return styles;
+    });
+  }, [columns]);
+
+  log('__DEV', 'hotpink', columnStyles);
+
   return (
-    <section css={styles} className="admin-page-content">
-      {orders.length > 0 ? (
+    <section css={styles} className="admin-page-content table-container">
+      {orders.length >= 0 ? (
         <Table.Root>
           <Table.Header>
             <Table.Row>
-              {columns.map((column) => (
+              {columns.map((column, i) => (
                 <Table.ColumnHeaderCell
                   key={column.key}
-                  className={`th ${column.className || ''}`}
-                  style={{ width: column.width }}
+                  className={clsx('th', `th-${column.key}`, column.className)}
+                  style={
+                    i === 0 ? { ...columnStyles[i], width: '20px', maxWidth: '20px' } : { ...columnStyles[i] }
+                  }
                 >
                   <Flex direction="column" gap="2">
                     <Text size="2" weight="medium">
@@ -163,15 +179,18 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                             variant="select"
                             value={columnSearches[column.key] || ''}
                             onChange={(value) => onColumnSearchChange(column.key, value)}
-                            placeholder={column.filterPlaceholder || 'Select...'}
                             options={column.filterOptions}
+                            // placeholder={column.filterPlaceholder || 'A_Select...'}
+                            placeholder=""
                           />
                         ) : (
                           <ColumnFilter
                             variant="search"
                             value={columnSearches[column.key] || ''}
                             onChange={(value) => onColumnSearchChange(column.key, value)}
-                            placeholder={column.filterPlaceholder || 'Search..'}
+                            // placeholder={column.filterPlaceholder || 'B_Search..'}
+                            placeholder=""
+                            hasIcon={false}
                           />
                         )}
                       </>
@@ -182,11 +201,19 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
             </Table.Row>
           </Table.Header>
           <Table.Body className="table-body">
-            {orders.map((order, index) => (
+            {orders.map((order, rowIndex) => (
               <Table.Row key={order.id}>
-                {columns.map((column) => (
-                  <Table.Cell key={column.key} className={`td ${column.className || ''}`}>
-                    {renderCellContent(column, order, index)}
+                {columns.map((column, i) => (
+                  <Table.Cell
+                    key={column.key}
+                    className={clsx('td', `td-${column.key}`, column.className)}
+                    style={
+                      i === 0
+                        ? { ...columnStyles[i], width: '20px', maxWidth: '20px' }
+                        : { ...columnStyles[i] }
+                    }
+                  >
+                    {renderCellContent(column, order, rowIndex)}
                   </Table.Cell>
                 ))}
               </Table.Row>

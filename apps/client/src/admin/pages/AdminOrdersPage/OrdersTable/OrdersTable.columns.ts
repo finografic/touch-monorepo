@@ -2,15 +2,15 @@ import type { ColumnDef } from './OrdersTable';
 
 // Default column configuration - easily customizable!
 export const DEFAULT_ORDERS_COLUMNS: ColumnDef[] = [
-  { key: 'index', label: '#', width: '60px', searchable: false },
-  { key: 'mode', label: 'Mode', width: '60px', searchable: false },
-  { key: 'drinkType', label: 'Drink Type', width: '120px', searchable: true },
-  { key: 'subtype', label: 'Subtype', width: '100px', searchable: true },
-  { key: 'volume', label: 'Volume', width: '80px', searchable: true },
-  { key: 'container', label: 'Container', width: '100px', searchable: true },
-  { key: 'temperature', label: 'Temperature', width: '100px', searchable: true },
-  { key: 'edit', label: '', className: 'th-action action-edit', width: '60px', searchable: false },
-  { key: 'delete', label: '', className: 'th-action action-delete', width: '60px', searchable: false },
+  { key: 'index', label: '#', width: '40px', searchable: false },
+  { key: 'mode', label: 'Mode', width: '40px', maxWidth: '40px', searchable: true },
+  { key: 'drinkType', label: 'Drink Type', width: '80px', maxWidth: '40px', searchable: true },
+  { key: 'subtype', label: 'Subtype', width: '80px', maxWidth: '40px', searchable: true },
+  { key: 'volume', label: 'Volume', width: '80px', maxWidth: '40px', searchable: true },
+  { key: 'container', label: 'Container', width: '80px', maxWidth: '40px', searchable: true },
+  { key: 'temperature', label: 'Temperature', width: '80px', maxWidth: '40px', searchable: true },
+  { key: 'edit', label: '', width: '40px', maxWidth: '40px', searchable: false },
+  { key: 'delete', label: '', width: '40px', maxWidth: '40px', searchable: false },
 ];
 
 // Alternative configurations for different use cases

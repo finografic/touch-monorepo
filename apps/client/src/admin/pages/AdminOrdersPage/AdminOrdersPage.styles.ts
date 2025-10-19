@@ -10,23 +10,33 @@ export const styles = css`
   color: ${colors.text};
   overflow: hidden;
 
+  .tab-content-list {
+    max-width: 66vw !important;
+  }
+
   div[role='searchbox'] {
     display: flex;
     justify-content: flex-end;
     .input-search {
-      width: 300px;
+      /* width: 300px; */
     }
+    opacity: 0.5;
   }
 
   .col.col-form {
+    display: none !important;
     /* width: 60%; */
     height: 100%;
     background-color: ${colors.white};
   }
   .col.col-table {
     /* width: 40%; */
+
+    display: none !important;
+    /* opacity: 0.3 !important; */
+
     table {
-      max-width: 38vw;
+      /* max-width: 38vw; */
 
       .button-edit {
         svg.icon-edit {
@@ -173,6 +183,8 @@ export const styles = css`
           align-items: center;
           width: 100%; */
           vertical-align: middle;
+
+          opacity: 0.3 !important;
         }
 
         .button-edit {
@@ -194,74 +206,6 @@ export const styles = css`
           transform: scale(0.8);
           padding: 0.5rem 0.5rem !important;
         }
-      }
-    }
-  }
-
-  /* admin-section > ⭐ tab-content >  role=tabpanel ======================== */
-  .tab-content {
-    /* padding-top: 8rem !important; */
-
-    /* admin-section > tab-content > ⭐ role=tabpanel ======================= */
-
-    /* div[role='tabpanel'][data-state='active'] { */
-    div[role='tabpanel'] {
-      margin: 0 !important;
-      padding: 0 1rem 0 0 !important;
-      /* border: none !important; */
-      background-color: ${colors.white};
-      border-radius: 12px;
-      /* border: none; */
-
-      padding-right: 2rem !important;
-
-      .section-header {
-        h3 {
-          color: ${colors.text};
-          font-size: 1.66rem;
-          font-weight: 700;
-          margin-bottom: ${spacing[2]};
-          padding-bottom: ${spacing[2]};
-        }
-      }
-
-      .combobox-field {
-        flex: 1;
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-start;
-      }
-
-      .col-form-fields {
-        margin-bottom: ${spacing[6]};
-      }
-
-      .col-form-buttons {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-end;
-        padding: ${spacing[4]} ${spacing[8]} ${spacing[0]};
-
-        pre {
-          width: 70%;
-          font-size: 0.8rem;
-          color: ${colors.greyXDark};
-          padding: ${spacing[6]};
-          margin: 0 auto ${spacing[4]};
-        }
-      }
-
-      .col-form-table {
-        padding: 0 !important;
-        margin-bottom: 0;
-      }
-
-      .simple-select > button {
-        flex: 1;
-        width: 100%;
       }
     }
   }

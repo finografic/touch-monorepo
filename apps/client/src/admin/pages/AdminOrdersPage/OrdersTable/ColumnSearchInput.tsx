@@ -12,6 +12,7 @@ interface ColumnFilterBaseProps {
   value: string;
   onChange: (value: string) => void;
   placeholder?: string;
+  hasIcon?: boolean;
 }
 
 interface ColumnFilterSearchProps extends ColumnFilterBaseProps {
@@ -38,6 +39,7 @@ export const ColumnFilter: FC<ColumnFilterProps> = ({
   placeholder = 'Search..',
   variant = 'search',
   options,
+  hasIcon = true,
 }) => {
   const debouncedOnChange = useDebouncedCallback((newValue: string) => {
     onChange(newValue);
@@ -71,9 +73,11 @@ export const ColumnFilter: FC<ColumnFilterProps> = ({
       variant="soft"
       style={{ width: '100%' }}
     >
-      <TextField.Slot>
-        <MagnifyingGlassIcon height="12" width="12" />
-      </TextField.Slot>
+      {hasIcon && (
+        <TextField.Slot>
+          <MagnifyingGlassIcon height="12" width="12" />
+        </TextField.Slot>
+      )}
     </TextField.Root>
   );
 };
