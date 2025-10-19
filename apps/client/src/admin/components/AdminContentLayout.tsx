@@ -8,8 +8,6 @@ import clsx from 'clsx';
 
 import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
 
-import { stylesAdminContent } from 'styles/project/project.admin.styles';
-
 interface AdminContentLayoutProps {
   title: string;
   detail?: string;
@@ -33,15 +31,14 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
         // css={css}
         className="container admin-page-container"
       >
-        <div className="TEST">XXX</div>
         <header className={clsx('admin-page-header', { [align]: align })}>
           <Heading size="8" className="admin-page-title" align={align} mb="1rem">
-            {title}
+            XX{title}
             {subtitle && <span style={{ opacity: 0.5 }}> : {subtitle}</span>}
           </Heading>
           {description && (
             <div className="admin-page-description">
-              XX<Text>{description}</Text>
+              ZZ<Text>{description}</Text>
             </div>
           )}
         </header>
@@ -65,9 +62,8 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
 
         {/* Page Content */}
         {/* <div className="admin-page-content" style={{ opacity: '0.5' }}> */}
-        <Flex direction="column" gap="4" style={{ opacity: '0.5' }}>
-          {children}
-        </Flex>
+        <Flex className="admin-page-content">{children}</Flex>
+        {/* <Flex direction="column">{children}</Flex> */}
         {/* </div> */}
       </section>
     );
