@@ -1,26 +1,18 @@
-import type { ReactNode } from 'react';
 import React from 'react';
-import { Col, Container, Row } from 'react-grid-system';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
 
-import type { SerializedStyles } from '@emotion/react';
-import { Callout, Flex, Heading, Text } from '@radix-ui/themes';
+import { Heading, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
-import { useAdmin } from 'providers/AdminProvider';
-import { useAppConfig } from 'providers/AppConfigProvider';
-import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import type { Align, Theme } from 'types/ui.types';
 
+import type { TitleHeadingProps } from './Title.types';
 import { styles } from './Title.styles';
 
-interface TitleProps {
-  title?: string;
-  subtitle?: string;
-  description?: string;
+interface TitleProps extends Partial<TitleHeadingProps> {
+  title?: string | undefined;
+  subtitle?: string | undefined;
+  description?: string | undefined;
   align?: Align;
-  // children: ReactNode;
   message?: {
     type: 'success' | 'error' | 'warning' | 'info';
     content: string;
@@ -30,29 +22,19 @@ interface TitleProps {
 }
 
 export const Title: React.FC<TitleProps> = ({
-  align = 'left',
   title,
   subtitle,
   description,
-  // children,
+  align = 'left',
   message,
   isLoading = false,
   error,
+  ...headingProps
 }) => {
-  // const { t } = useTranslation();
-  // const { theme } = useAppConfig();
-  // const navigate = useNavigate();
-  // const location = useLocation();
-  // const { currentLanguage } = useAppConfig();
-  // const { user, isAuthenticated } = useAuth();
-
-  // const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
-  // const isAdmin = location.pathname.startsWith('/admin');
-
   return (
     <div css={styles}>
       <header className={clsx('title-wrapper', { align })}>
-        <Heading size="8" className="title" align={align}>
+        <Heading size="8" className="title" align={align} {...headingProps}>
           {title}
           {subtitle && (
             <span className="title-subtitle" style={{ opacity: 0.5 }}>

@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 
+import { spacing } from 'styles';
 import { colors } from 'styles/colors/colors.styles';
 
 export const styles = css`

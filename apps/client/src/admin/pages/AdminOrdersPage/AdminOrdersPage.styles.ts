@@ -52,15 +52,6 @@ export const styles = css`
     }
   }
 
-  .admin-page-container {
-    /* min-width: 1400px; */
-    width: 100%;
-    max-width: 1600px;
-    margin: 0 auto;
-    /* margin: auto auto 20vh auto; */
-    padding: ${spacing[8]};
-  }
-
   .admin-page-header {
     text-align: center;
     margin-bottom: ${spacing[8]};

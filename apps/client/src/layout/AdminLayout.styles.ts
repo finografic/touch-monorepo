@@ -131,16 +131,16 @@ export const styles = css`
     }
   }
 
-  .title {
+  /* .title {
     ${typography.h1};
     color: ${colors.text};
     margin-bottom: ${spacing[4]};
-  }
+  } */
 
-  .subtitle {
+  /* .subtitle {
     ${typography.body};
     color: ${colors.textLight};
-  }
+  } */
 
   p {
     color: ${colors.text};
