@@ -23,7 +23,7 @@ export const styles = css`
     width: 86vw;
     height: 66vh;
 
-    top: 360px;
+    top: 380px;
     left: auto;
     right: auto;
 
