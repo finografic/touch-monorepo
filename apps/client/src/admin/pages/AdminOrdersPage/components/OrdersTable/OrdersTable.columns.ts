@@ -2,8 +2,8 @@ import type { ColumnDef } from './OrdersTable';
 
 // Default column configuration - easily customizable!
 export const DEFAULT_ORDERS_COLUMNS: ColumnDef[] = [
-  { key: 'index', label: 'ID', width: '40px', searchable: false },
-  { key: 'mode', label: 'Mode', width: '40px', maxWidth: '40px', searchable: true },
+  { key: 'index', label: 'ID', width: '30px', maxWidth: '30px', searchable: false },
+  { key: 'mode', label: 'Mode', width: '30px', maxWidth: '30px', searchable: true },
   { key: 'drinkType', label: 'Drink Type', width: '80px', maxWidth: '40px', searchable: true },
   { key: 'subtype', label: 'Subtype', width: '80px', maxWidth: '40px', searchable: true },
   { key: 'volume', label: 'Volume', width: '80px', maxWidth: '40px', searchable: true },
