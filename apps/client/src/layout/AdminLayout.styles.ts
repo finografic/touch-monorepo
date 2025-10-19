@@ -55,7 +55,7 @@ export const styles = css`
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 3rem 0;
+      padding: 2rem 0;
 
       section {
         display: flex;

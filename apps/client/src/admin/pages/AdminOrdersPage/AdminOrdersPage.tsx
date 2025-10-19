@@ -89,11 +89,23 @@ export const AdminOrdersPage: React.FC = () => {
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
 
   // Sync active tab with URL hash
-  const handleTabChange = useCallback((tab: string) => {
-    setActiveTab(tab);
-    // Update URL hash without triggering navigation
-    window.history.replaceState(null, '', `#${tab}`);
-  }, []);
+  const handleTabChange = useCallback(
+    (tab: string) => {
+      setActiveTab(tab);
+
+      // If switching to 'list' tab from edit mode, navigate to clear the orderId
+      if (tab === 'list' && isEditMode) {
+        navigate('/admin/orders#list');
+      } else if (tab === 'new' && isEditMode) {
+        // If clicking 'new' while in edit mode, navigate to create mode
+        navigate('/admin/orders#new');
+      } else {
+        // Otherwise, just update the hash without navigation
+        window.history.replaceState(null, '', `#${tab}`);
+      }
+    },
+    [isEditMode, navigate],
+  );
 
   // Listen for hash changes (browser back/forward)
   useEffect(() => {
@@ -109,12 +121,17 @@ export const AdminOrdersPage: React.FC = () => {
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [config.tabs]);
 
-  // Set initial hash if none exists
+  // Set initial hash if none exists, or set to 'edit' when orderId is present
   useEffect(() => {
-    if (!window.location.hash) {
+    if (isEditMode && !window.location.hash) {
+      // If in edit mode (orderId present) but no hash, default to 'edit' tab
+      window.history.replaceState(null, '', '#edit');
+      setActiveTab('edit');
+    } else if (!window.location.hash) {
+      // Otherwise, use the current activeTab
       window.history.replaceState(null, '', `#${activeTab}`);
     }
-  }, []);
+  }, [isEditMode, activeTab]);
 
   // ======================================================================== //
 

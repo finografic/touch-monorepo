@@ -4,7 +4,8 @@ import { colors } from 'styles';
 
 export const styles = css`
   .tab-content-list {
-    max-width: 66vw !important;
+    max-width: 60vw !important;
+    min-width: 1000px !important;
     margin-top: 0 !important;
   }
 
