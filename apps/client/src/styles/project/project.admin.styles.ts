@@ -69,7 +69,7 @@ export const stylesAdminContent = css`
     }
   }
 
-  section.admin-content-page {
+  section.admin-page-content {
     color: ${colors.textDark};
 
     min-width: 100%;

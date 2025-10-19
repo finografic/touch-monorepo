@@ -385,7 +385,7 @@ export const AdminUiLabelsPage: React.FC = () => {
   return (
     <section
       id="admin-ui-labels"
-      className="admin-content-page"
+      className="admin-page-content"
       //  css={styles}
     >
       <FormProvider {...methods}>

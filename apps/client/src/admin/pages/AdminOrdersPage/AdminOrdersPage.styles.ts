@@ -200,6 +200,8 @@ export const styles = css`
 
   /* admin-section > ⭐ tab-content >  role=tabpanel ======================== */
   .tab-content {
+    /* padding-top: 8rem !important; */
+
     /* admin-section > tab-content > ⭐ role=tabpanel ======================= */
 
     /* div[role='tabpanel'][data-state='active'] { */

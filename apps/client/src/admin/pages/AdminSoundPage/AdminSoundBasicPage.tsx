@@ -38,7 +38,7 @@ export const AdminSoundBasicPage: React.FC = () => {
   }
 
   return (
-    <section css={styles} className="admin-content-page">
+    <section css={styles} className="admin-page-content">
       <AdminContentLayout
         title="Sound Management"
         subtitle="User"

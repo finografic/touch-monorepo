@@ -263,7 +263,7 @@ export const AdminOrdersPage: React.FC = () => {
 
   return (
     <AdminContentLayout
-      title={isEditMode ? 'Edit Order' : '==Gestión de configuraciones'}
+      title={isEditMode ? 'Edit Order' : 'Gestión de configuraciones'}
       // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}
       //  subtitle="Development orders for testing"
       css={styles}
@@ -277,7 +277,7 @@ export const AdminOrdersPage: React.FC = () => {
             </Tabs.Trigger>
           ))}
         </Tabs.List>
-        <div className="tab-content">
+        <div className="tab-content" style={{ padding: '2rem 0 0 0' }}>
           {config.tabs.map((tab) => (
             <Tabs.Content key={tab.id} id={`tab-content-${tab.id}`} value={tab.id}>
               <AdminSection

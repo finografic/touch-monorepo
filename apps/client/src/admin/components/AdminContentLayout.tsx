@@ -27,18 +27,15 @@ interface AdminContentLayoutProps {
 export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
   ({ title, subtitle, description, align = 'left', children, message, isLoading = false, error, css }) => {
     return (
-      <section
-        // css={css}
-        className="container admin-page-container"
-      >
+      <section css={css} className="container admin-page-container">
         <header className={clsx('admin-page-header', { [align]: align })}>
           <Heading size="8" className="admin-page-title" align={align} mb="1rem">
-            XX{title}
+            {title}
             {subtitle && <span style={{ opacity: 0.5 }}> : {subtitle}</span>}
           </Heading>
           {description && (
             <div className="admin-page-description">
-              ZZ<Text>{description}</Text>
+              <Text>{description}</Text>
             </div>
           )}
         </header>
@@ -61,10 +58,9 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
         )}
 
         {/* Page Content */}
-        {/* <div className="admin-page-content" style={{ opacity: '0.5' }}> */}
-        <Flex className="admin-page-content">{children}</Flex>
-        {/* <Flex direction="column">{children}</Flex> */}
-        {/* </div> */}
+        <Flex direction="column" className="admin-page-content">
+          {children}
+        </Flex>
       </section>
     );
   },

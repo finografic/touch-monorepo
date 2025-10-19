@@ -233,7 +233,7 @@ export const AdminOrdersPage: React.FC = () => {
   }
 
   return (
-    <section css={styles} className="admin-content-page">
+    <section css={styles} className="admin-page-content">
       <AdminContentLayout
         title={isEditMode ? 'Edit Order' : 'Orders Management'}
         // detail={isEditMode ? HUMAN_READABLE_ORDER_ID : undefined}

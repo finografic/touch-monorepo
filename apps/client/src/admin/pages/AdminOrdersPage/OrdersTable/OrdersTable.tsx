@@ -141,7 +141,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   };
 
   return (
-    <section css={styles} className="admin-content-page">
+    <section css={styles} className="admin-page-content">
       {orders.length > 0 ? (
         <Table.Root>
           <Table.Header>
