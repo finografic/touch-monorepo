@@ -9,6 +9,53 @@ export const styles = css`
   background-color: ${colors.white};
   color: ${colors.text};
 
+  .rt-TableHeader {
+    /* position: fixed;
+        width: 86vw; */
+  }
+
+  .rt-TableBody.table-body {
+    /* position: fixed;
+        width: 86vw !important;
+        display: block; */
+
+    .rt-TableRow {
+      /* display: flex;
+          align-items: center;
+          width: 100%; */
+    }
+    .td {
+      /* align-items: center;
+          display: flex;
+          display: flex;
+          align-items: center;
+          width: 100%; */
+      vertical-align: middle;
+
+      /* opacity: 0.3 !important; */
+    }
+
+    .button-edit {
+      svg.icon-edit {
+        /* color: ${colors.infoXLight}; */
+      }
+    }
+    .button-delete {
+      svg.icon-delete {
+        color: ${colors.greyXXLight};
+        &:hover {
+          color: #aa0000;
+        }
+      }
+    }
+
+    .button-edit,
+    .button-delete {
+      transform: scale(0.8);
+      padding: 0.5rem 0.5rem !important;
+    }
+  }
+
   .td {
     height: 60px;
     display: table-cell;
