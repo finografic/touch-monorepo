@@ -9,7 +9,15 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 /**
  * Hook to fetch a single order by ID with readable names
  */
-export const useGetOrderReadableById = (orderId: string | undefined) => {
+export const useGetOrderReadableById = ({
+  orderId,
+  enabled = true,
+  select,
+}: {
+  orderId: string | undefined;
+  enabled?: boolean;
+  select?: (data: OrderReadableModel) => OrderReadableModel | undefined;
+}) => {
   return useQuery({
     queryKey: ORDERS_READABLE_QUERY_KEYS.detail(orderId || ''),
     queryFn: async (): Promise<OrderReadableModel> => {
@@ -20,7 +28,8 @@ export const useGetOrderReadableById = (orderId: string | undefined) => {
         throw transformAxiosError(error);
       }
     },
-    enabled: !!orderId,
+    select,
+    enabled: Boolean(enabled && !!orderId),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };

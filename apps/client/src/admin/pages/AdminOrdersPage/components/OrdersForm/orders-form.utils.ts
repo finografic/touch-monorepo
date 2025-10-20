@@ -103,7 +103,7 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
 
   const modeOptions = modes.map((mode: ModeModel) => ({
     value: mode.id,
-    label: mode.name,
+    label: String(mode.name),
   }));
 
   // Get selected drink type

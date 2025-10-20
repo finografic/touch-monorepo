@@ -7,7 +7,9 @@ import { OrdersForm } from 'admin/pages/AdminOrdersPage/components/OrdersForm';
 import clsx from 'clsx';
 import { useToast } from 'components/Toast';
 
+import { useGetModes } from 'queries/modes';
 import { useGetOrderReadableById } from 'queries/orders';
+import type { ModeModel } from 'types/models/mode.model';
 
 import { AdminSection } from '../..';
 // import { styles } from './AdminOrdersPage.styles';
@@ -22,12 +24,27 @@ export const TabForm: React.FC = () => {
   // Determine if we're in edit mode
   const isEditMode = Boolean(orderId);
 
+  const { data: modes = [] } = useGetModes();
+  const modeOptions = modes.map((mode: ModeModel) => ({
+    value: mode.id,
+    label: String(mode.name),
+  }));
+
   // Fetch individual order data when in edit mode
   const {
     data: orderData,
     isLoading: isOrderLoading,
     error: orderError,
-  } = useGetOrderReadableById(orderId || '');
+  } = useGetOrderReadableById({
+    orderId,
+    enabled: Boolean(orderId && modeOptions.length > 0),
+    select: (data) => ({
+      ...data,
+      mode: modeOptions.find((option) => option.label === String(data.mode))?.value,
+    }),
+  });
+
+  log('ORDER_DATA', 'lime', orderData);
 
   // Handle form submission for both create and update modes
   const handleAddOrder = (formData: {
