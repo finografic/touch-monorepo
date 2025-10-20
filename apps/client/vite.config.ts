@@ -140,10 +140,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     optimizeDeps: {
       include: [
         'react/jsx-runtime',
-        '@workspace/core',
-        '@workspace/core/types',
-        '@workspace/core/types/utils',
-        '@workspace/i18n',
+        // Note: @workspace packages are aliased to source files via resolve.alias
+        // No need to pre-bundle them here
       ],
       esbuildOptions: {
         target: 'es2020',

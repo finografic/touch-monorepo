@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm, useFormState } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -129,6 +129,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     control,
     formState: { isValid, isDirty },
   } = methods;
+
+  const formState = methods.formState;
+  const { dirtyFields, touchedFields, isReady, errors } = formState;
 
   const { append } = useFieldArray({
     control,
@@ -484,6 +487,27 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     </Button>
                   </div>
                 </div>
+              </Col>
+            </Row>
+
+            <Row className="row">
+              <Col xs={3} className="col col-form-buttons">
+                <strong>Form Values:</strong>
+                <pre style={{ fontSize: '10px' }}>{JSON.stringify(formValues, null, 2)}</pre>
+              </Col>
+              <Col xs={3} className="col col-form-buttons">
+                <pre style={{ fontSize: '11px' }}>
+                  {JSON.stringify({ isReady, isDirty, isValid }, null, 2)}
+                </pre>
+              </Col>
+              <Col xs={3} className="col col-form-buttons">
+                <pre style={{ fontSize: '11px' }}>
+                  {JSON.stringify({ dirtyFields, touchedFields }, null, 2)}
+                </pre>
+              </Col>
+              <Col xs={3} className="col col-form-buttons">
+                <strong>Errors:</strong>
+                <pre style={{ fontSize: '11px', color: 'red' }}>{JSON.stringify(errors, null, 2)}</pre>
               </Col>
             </Row>
           </form>
