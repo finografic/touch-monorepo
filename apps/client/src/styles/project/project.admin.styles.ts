@@ -36,36 +36,24 @@ export const stylesAdminContent = css`
       padding-right: calc(${layout.padding} * 1.5) !important;
     } */
 
-    width: 100% !important;
-    margin-left: 1rem !important;
     box-shadow: inset 0 0 0 10px transparent;
 
+    margin-left: 1rem !important;
+
+    width: 100% !important;
+    max-width: 1240px !important;
+
+    ${min.sm} {
+      max-width: 96vw !important;
+    }
     ${min.md} {
-      width: 100% !important;
-      width: ${BREAKPOINTS_PX.lg} !important;
-      margin: 0 0 0 0 !important;
-      /* box-shadow: inset 0 0 0 10px rgba(200, 200, 0, 0.4); */
+      max-width: 96vw !important;
     }
-
     ${min.lg} {
-      width: 100% !important;
-      width: ${BREAKPOINTS_PX.lg} !important;
-      margin: 0 0 0 0 !important;
-      /* box-shadow: inset 0 0 0 10px rgba(0, 200, 200, 0.4); */
+      max-width: 96vw !important;
     }
-
     ${min.xl} {
-      width: 100% !important;
-      max-width: calc(${BREAKPOINTS_PX.xxl} - 6rem) !important;
-      margin: 0 0 0 0 !important;
-      /* box-shadow: inset 0 0 0 10px rgba(0, 200, 0, 0.4); */
-    }
-
-    ${min.xxl} {
-      width: 100% !important;
-      max-width: calc(${BREAKPOINTS_PX.xxl} - 6rem) !important;
-      margin: 0 1rem 0 1rem !important;
-      /* box-shadow: inset 0 0 0 10px rgba(200, 250, 0, 0.4); */
+      max-width: 1240px !important;
     }
   }
 
@@ -229,6 +217,10 @@ export const stylesAdminContent = css`
         }
       }
     }
+  }
+
+  .admin-section {
+    overflow-x: hidden !important;
   }
 
   /* ======================================================================== */

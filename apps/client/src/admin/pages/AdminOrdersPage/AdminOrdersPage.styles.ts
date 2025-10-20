@@ -38,24 +38,20 @@ export const styles = css`
       opacity: 0 !important;
     }
 
-    min-width: 98vw !important;
-    max-width: 980vw !important;
-    width: 98vw !important;
+    width: 100% !important;
+    max-width: 1240px !important;
 
-    ${min.lg} {
-      min-width: 1000px !important;
+    ${min.sm} {
       max-width: 96vw !important;
-      width: 96vw !important;
+    }
+    ${min.md} {
+      max-width: 96vw !important;
+    }
+    ${min.lg} {
+      max-width: 96vw !important;
     }
     ${min.xl} {
-      min-width: 1000px !important;
-      max-width: 88vw !important;
-      width: 88vw !important;
-    }
-    ${min.xxl} {
-      min-width: 1000px !important;
-      max-width: 60vw !important;
-      width: 60vw !important;
+      max-width: 1240px !important;
     }
   }
 

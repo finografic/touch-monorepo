@@ -10,33 +10,26 @@ export const styles = css`
   color: ${colors.text};
 
   .rt-TableHeader {
-    width: 60vw;
-    max-width: 60vw !important;
-    min-width: 1000px !important;
     position: fixed;
     display: inline-table !important;
     background-color: ${colors.white};
     z-index: 999999;
-    transform: translate(-0.33rem, -100px) !important;
+    transform: translate(-1rem, -100px) !important;
 
-    min-width: 98vw !important;
-    max-width: 980vw !important;
-    width: 98vw !important;
+    width: 100% !important;
+    max-width: 1240px !important;
 
-    ${min.lg} {
-      min-width: 1000px !important;
+    ${min.sm} {
       max-width: 96vw !important;
-      width: 96vw !important;
+    }
+    ${min.md} {
+      max-width: 96vw !important;
+    }
+    ${min.lg} {
+      max-width: 96vw !important;
     }
     ${min.xl} {
-      min-width: 1000px !important;
-      max-width: 88vw !important;
-      width: 88vw !important;
-    }
-    ${min.xxl} {
-      min-width: 1000px !important;
-      max-width: 60vw !important;
-      width: 60vw !important;
+      max-width: 1240px !important;
     }
 
     /* Target the row inside the header */
