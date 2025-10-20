@@ -13,7 +13,7 @@ import { useSmartFallback } from './useSmartFallback';
 interface UseTemperatureControlOptions {
   onSuccess?: (durations: Record<string, number>) => void;
   onError?: (error: Error) => void;
-  selectedSlots?: SlotMeta[]; // Add selected orders parameter
+  selectedSlots?: SlotMeta[];
 }
 
 export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureControlOptions = {}) => {
@@ -69,7 +69,7 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
         throw new Error('Temperature profiles not available');
       }
 
-      // Find both temperature profiles using closest temperatures
+      // 🚧 CLOSEST temperature profiles
       const initialProfile = temperatureProfiles.find(
         (profile) => profile.temperature === temperatureFilter.closestInitialTemperature,
       );
@@ -89,49 +89,40 @@ export const useProcessTimesFromTemperatureFilter = (options: UseTemperatureCont
         );
       }
 
-      // Calculate operating time for each item type
-      const operatingTimeA = Math.abs(finalProfile.timeA - initialProfile.timeA) * 3;
-      const operatingTimeB = Math.abs(finalProfile.timeB - initialProfile.timeB) * 3;
-      const operatingTimeC = Math.abs(finalProfile.timeC - initialProfile.timeC) * 3;
-
-      // Calculate durations for each order based on their item type
-      const operatingTimes = {
-        [SlotType.A]: operatingTimeA,
-        [SlotType.B]: operatingTimeB,
-        [SlotType.C]: operatingTimeC,
+      // calculate durations for all item types (A, B, C) for future use
+      const slotTypeDurations = {
+        [SlotType.A]: Math.abs(finalProfile.timeA - initialProfile.timeA),
+        [SlotType.B]: Math.abs(finalProfile.timeB - initialProfile.timeB),
+        [SlotType.C]: Math.abs(finalProfile.timeC - initialProfile.timeC),
       };
 
       const calculatedDurations = orders.reduce<Record<string, number>>((acc, order) => {
-        acc[order.slotNumber.toString()] = operatingTimes[order.slotType] || 0;
+        acc[order.slotNumber.toString()] = slotTypeDurations[order.slotType] || 0;
         return acc;
       }, {});
 
-      // Also calculate durations for all item types (A, B, C) for future use
-      const slotTypeDurations = operatingTimes;
-
-      // Save configuration with calculated durations for both selected orders and all item types
+      // configuration with calculated durations
       const config = {
         filters: {
           temperature: {
             initial: temperatureFilter.closestInitialTemperature,
-            final: temperatureFilter.final, // Use actual user input, not profile temperature
+            final: temperatureFilter.final, // user input
             duration: Math.max(...Object.values(calculatedDurations)),
           },
         },
         temperatures: {
           default: initialProfile.temperature,
           initial: temperatureFilter.closestInitialTemperature,
-          final: temperatureFilter.final, // Use actual user input
+          final: temperatureFilter.final, // user input
         },
         durations: {
-          ...slotTypeDurations, // Only item type durations (A, B, C)
+          ...slotTypeDurations,
           default: Math.max(...Object.values(calculatedDurations)),
         },
       };
 
       await saveConfig(config);
 
-      // Call onSuccess with the calculated durations map
       options.onSuccess?.(calculatedDurations);
     } catch (error) {
       console.error('Temperature control error:', error);

@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { formatTime } from './timers.utils';
+import { formatTime } from 'utils/time.utils';
+
 import { useTimerLogic } from './useTimerLogic';
 
 interface TimerProps {
