@@ -17,13 +17,11 @@ import {
   type OrdersFormValues as MiddlewareOrdersFormValues,
 } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
 import { InputTemperature } from 'forms/InputTemperature';
-import { SelectBasic } from 'forms/SelectBasic';
 import { SelectCustom } from 'forms/SelectCustom';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
-import { Button } from 'components/ButtonRadix';
+import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { useContent } from 'providers/ContentProvider/ContentContext';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 
@@ -34,7 +32,6 @@ import {
   getSubmissionLoadingState,
   useFormSubmissionMutations,
 } from './orders-form.submission';
-// Import utilities
 import {
   createMockDataHandlers,
   createTempItemHandlers,
@@ -131,9 +128,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     control,
     formState: { isValid, isDirty },
   } = methods;
-
-  const formState = methods.formState;
-  const { dirtyFields, touchedFields, isReady, errors } = formState;
 
   const { append } = useFieldArray({
     control,
@@ -448,8 +442,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     {/* Add Row Button */}
                     <Button
                       type="button"
-                      variant="soft"
-                      size="3"
+                      className="button-success"
                       onClick={handleAddRow}
                       disabled={!canAddRow}
                       color="success"
@@ -469,49 +462,21 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
                   {/* Right side buttons */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
-                    <Button
-                      type="button"
-                      variant="soft"
-                      size="3"
-                      onClick={() => navigate('/admin/orders')}
-                      color="default"
-                    >
+                    <Button type="button" onClick={() => navigate('/admin/orders')} color="default">
                       {isEditMode ? 'Cancelar' : 'Cancelar'}
                     </Button>
 
                     <Button
                       type="submit"
-                      css={{ padding: '1rem 3rem' }}
+                      className="button-success"
                       disabled={!isValid || (isEditMode && !isDirty) || isSubmitLoading}
                       loading={isSubmitLoading}
-                      size="3"
-                      color={isEditMode ? 'warning' : 'success'}
+                      color={isEditMode ? 'success' : 'success'}
                     >
                       {isEditMode ? 'CONFIRM CHANGES' : 'GUARDAR'}
                     </Button>
                   </div>
                 </div>
-              </Col>
-            </Row>
-
-            <Row className="row">
-              <Col xs={3} className="col col-form-buttons">
-                <strong>Form Values:</strong>
-                <pre style={{ fontSize: '10px' }}>{JSON.stringify(formValues, null, 2)}</pre>
-              </Col>
-              <Col xs={3} className="col col-form-buttons">
-                <pre style={{ fontSize: '11px' }}>
-                  {JSON.stringify({ isReady, isDirty, isValid }, null, 2)}
-                </pre>
-              </Col>
-              <Col xs={3} className="col col-form-buttons">
-                <pre style={{ fontSize: '11px' }}>
-                  {JSON.stringify({ dirtyFields, touchedFields }, null, 2)}
-                </pre>
-              </Col>
-              <Col xs={3} className="col col-form-buttons">
-                <strong>Errors:</strong>
-                <pre style={{ fontSize: '11px', color: 'red' }}>{JSON.stringify(errors, null, 2)}</pre>
               </Col>
             </Row>
           </form>

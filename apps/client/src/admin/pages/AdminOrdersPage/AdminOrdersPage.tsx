@@ -39,7 +39,6 @@ export const AdminOrdersPage: React.FC = () => {
     columnSearches,
   });
 
-  // Compute title and subtitle based on current mode and data state
   const { title, subtitle } = useMemo(() => {
     if (isEditMode && orderId) {
       const displayIndex = getOrderIndex(orderId);
@@ -56,7 +55,7 @@ export const AdminOrdersPage: React.FC = () => {
       };
     }
 
-    // List mode
+    // list mode
     return {
       title: 'Gestión de configuraciones',
       subtitle: isFiltered ? `${filteredCount} results` : `${totalCount} entries`,
@@ -126,20 +125,17 @@ export const AdminOrdersPage: React.FC = () => {
   const defaultActiveTab = isEditMode ? 'edit' : isNewMode ? 'new' : 'list';
   const [activeTab, setActiveTab] = React.useState(defaultActiveTab);
 
-  // Sync activeTab when URL changes (e.g., edit → list via navigation)
-  React.useEffect(() => {
-    setActiveTab(defaultActiveTab);
-  }, [defaultActiveTab]);
+  React.useEffect(
+    function syncActiveTabWithURL() {
+      setActiveTab(defaultActiveTab);
+    },
+    [defaultActiveTab],
+  );
 
-  // Handle tab changes
   const handleTabChange = useCallback(
     (tab: string) => {
-      if (tab === 'list') {
-        navigate('/admin/orders');
-      } else if (tab === 'new') {
-        navigate('/admin/orders#new');
-      }
-      // Note: Can't navigate to 'edit' tab directly - requires an orderId from table actions
+      if (tab === 'list') navigate('/admin/orders');
+      if (tab === 'new') navigate('/admin/orders#new');
     },
     [navigate],
   );

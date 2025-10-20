@@ -41,9 +41,7 @@ export const TabForm: React.FC = () => {
     }),
   });
 
-  // Determine if we're in edit mode
   const isEditMode = Boolean(orderId);
-  // Determine if we're in edit mode
   const isLoading = Boolean(isOrderLoading || isModesLoading);
 
   // Handle form submission for both create and update modes
@@ -93,7 +91,7 @@ export const TabForm: React.FC = () => {
     [isDrawerOpen],
   );
 
-  if (isEditMode && isLoading) {
+  if (isLoading && isEditMode) {
     return (
       <Row className="form-section">
         <Col>
@@ -112,7 +110,7 @@ export const TabForm: React.FC = () => {
     );
   }
 
-  if (isEditMode && orderError) {
+  if (orderError && isEditMode) {
     const errorMessage = orderError?.message || 'Unknown error';
     return (
       <Row className="form-section">
