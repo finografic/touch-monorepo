@@ -17,17 +17,15 @@ export const styles = css`
 
     .container {
       padding: 0 !important;
-
       width: 100vw !important;
 
       /* margin: 0 -2rem !important; */
       /* opacity: 0.5 !important; */
       /* border: 2px solid yellow; */
+
       .col {
-        /* border: 2px solid cyan; */
         display: flex;
         align-items: center;
-        /* box-shadow: inset 0 0 0 2px rgba(200, 200, 0, 0.5); */
       }
     }
 
@@ -44,33 +42,29 @@ export const styles = css`
       display: flex;
       justify-content: flex-start;
       align-items: center;
-      padding-left: 1rem; /* Add some padding for better visual balance */
-      height: -webkit-fill-available; /* Better cross-browser full height support */
-      padding-left: ${layout.padding} !important; /* 🎯 CSS Proxy magic! */
+      padding-left: 1rem;
+      height: -webkit-fill-available;
+      padding-left: ${layout.padding} !important; /* 🚧 🎯 CSS PROXY default magic! */
     }
 
     .col-header-center {
       display: flex;
       justify-content: center;
       align-items: center;
-      /* height: -webkit-fill-available; */
     }
 
     .col-header-right {
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      padding-right: 0 !important;
+      padding-right: 1rem !important;
     }
-
-    /* Debug borders removed for production */
 
     h1 {
       display: flex;
       align-items: center;
       font-size: 1.4rem;
       font-weight: 700;
-      /* color: ${colors.info}; */
       margin: 0 0 0 0.8rem;
       white-space: nowrap;
       margin: 0;
@@ -78,7 +72,6 @@ export const styles = css`
       span.current-language {
         font-size: 1.1rem;
         font-weight: 600;
-        /* color: ${colors.info}; */
         margin: 0 0 0 0.8rem;
         opacity: 0.4;
         text-transform: none;
