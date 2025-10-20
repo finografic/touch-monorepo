@@ -12,9 +12,6 @@
       "name": "🚀 @workspace/server",
       "path": "apps/server",
     },
-    {
-      "path": "../___PARAGLIDE___",
-    },
   ],
   "settings": {
     "terminal.integrated.env.osx": {
