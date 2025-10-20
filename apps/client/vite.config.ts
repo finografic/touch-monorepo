@@ -46,28 +46,14 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
           plugins: ['@emotion/babel-plugin'],
         },
       }),
-      // paraglidePlugin({ project: '../../packages/i18n' }), // Disabled: using custom TS messages with HMR
       paraglideVitePlugin({
         project: './project.inlang',
         outdir: './src/paraglide',
-        // forcing locale modules to detect problems during CI/CD
-        // (all other projects use message-modules)
-        outputStructure: 'locale-modules',
-        strategy: [
-          'localStorage',
-          // 'cookie',
-          'preferredLanguage',
-          'baseLocale',
-        ],
-        // strategy: [
-        // 'baseLocale', // locale configured via overrideGetLocale()
-        // 'globalVariable',
-        // 'cookie',
-        // 'url',
-        // 'preferredLanguage',
-        // 'localStorage',
-        // 'custom-custom',
-        // ],
+        // Strategy order matters - first match wins
+        // 1. localStorage: User's manual language selection (persisted)
+        // 2. preferredLanguage: Browser/system language (first visit)
+        // 3. baseLocale: Fallback to en-GB
+        strategy: ['localStorage', 'preferredLanguage', 'baseLocale'],
       }),
       tailwindcss(),
       mode === 'development' && devCookieClearPlugin(),

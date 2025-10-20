@@ -1,11 +1,12 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { getMessages } from '@workspace/i18n';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
 import type { AuthRoles } from 'admin/config/admin.routes.map';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { NoAdminEntryRedirect } from 'admin/NoAdminEntryRedirect';
+import { m } from 'src/paraglide/messages.js';
+import { setLocale } from 'src/paraglide/runtime.js';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
@@ -23,16 +24,15 @@ export const AdminDashboardPage: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const { currentLanguage } = useAppConfig();
 
-  // NEW: Get type-safe messages for current language
-  const messages = getMessages(currentLanguage);
+  // Set ParaglideJS locale to match app's current language
+  React.useEffect(() => {
+    setLocale(currentLanguage as 'en-GB' | 'es-ES');
+  }, [currentLanguage]);
 
-  log('🌐 Current Language:', 'lime', currentLanguage);
-  log('🎯 NEW Messages System:', 'cyan', {
-    title: messages.admin.pages.dashboard.title,
-    description: messages.admin.pages.dashboard.description,
-  });
+  const role: AuthRoles = user?.role || 'admin';
 
-  const role: AuthRoles = 'admin';
+  // Use ParaglideJS `m` function with flat snake_case keys
+  const dashboardTitle = m.admin_dashboard_title_role({ role });
 
   // Get dashboard cards for the current role
   const adminCards = getAdminDashboardCards(isAuthenticated, role).map((card) => {
@@ -65,11 +65,7 @@ export const AdminDashboardPage: React.FC = () => {
   }
 
   return (
-    <AdminContentLayout
-      title={messages.admin.pages.dashboard.title}
-      subtitle={messages.admin.pages.dashboard.description}
-      align="center"
-    >
+    <AdminContentLayout title={dashboardTitle} subtitle={m.admin_dashboard_description()} align="center">
       <Box className="admin-dashboard" css={styles}>
         {/* <SectionHeader title="Admin Configuration" align="center" /> */}
         {/* <AdminAccessTest /> */}
