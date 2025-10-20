@@ -1,12 +1,14 @@
 import { css } from '@emotion/react';
 
 import { colors } from 'styles';
+import { border, layout } from 'styles/constants/global.constants';
 
 export const styles = css`
   .tab-content-list {
-    max-width: 60vw !important;
-    min-width: 1000px !important;
+    /* max-width: 60vw !important;
+    min-width: 1000px !important; */
     margin-top: 0 !important;
+    border: 2px solid red !important;
   }
 
   /* ⭐ admin-section > tab-content > rote=tabpanel ======================= */
@@ -17,9 +19,12 @@ export const styles = css`
     padding: 0 !important;
     border: 0 !important;
 
-    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-y: hidden;
     position: fixed;
 
+    min-width: 1000px !important;
+    max-width: 60vw !important;
     width: 86vw;
     height: 66vh;
     top: 380px;
@@ -30,13 +35,24 @@ export const styles = css`
     z-index: 5000;
 
     position: fixed;
+
+    &.is-loading {
+      opacity: 0 !important;
+    }
   }
 
-  .tab-content-new,
-  .tab-content-edit {
-    /* height: 66vh; */
-    overflow-y: hidden;
-    top: 260px;
+  .tab-content {
+    height: 66vh;
+    .tab-content-new,
+    .tab-content-edit {
+      overflow-y: hidden;
+      top: 260px;
+    }
+  }
+
+  .section-content > div {
+    padding: 1rem;
+    border-radius: ${layout.borderRadius};
   }
 
   /* DIALOG TABS ========================================================== */

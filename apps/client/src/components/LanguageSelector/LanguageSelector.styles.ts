@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
 import { button, colors, layout } from 'styles';
+import { baseLayout } from 'styles/constants/base.constants';
 
 export const styles = css`
   /* Trigger button styling (closed state) */
@@ -43,11 +44,17 @@ export const styles = css`
 
   /* Trigger button styling (open state) */
   button[role='radio'].language-radio {
+    border: ${button.border.width} solid transparent !important;
     cursor: pointer;
     padding: 2.1rem 2rem 1.9rem 2rem;
     margin-top: 0.5rem;
-    border: ${button.border.width} solid ${colors.defaultXXLight50};
+    /* border: ${button.border.width} solid ${colors.defaultXXLight50}; */
     outline: none !important;
+
+    border-radius: ${baseLayout.borderRadius.lg}!important;
+
+    box-shadow: inset 0 0 0 0 transparent !important; /* TEST: Add a green box-shadow to the button */
+
     /***** flag *****/
     svg,
     img {

@@ -154,11 +154,12 @@ export const AdminOrdersPage: React.FC = () => {
             </Tabs.Trigger>
           ))}
         </Tabs.List>
-        <div className="tab-content">
+        <div className={clsx('tab-content')}>
           {config.tabs.map((tab) => (
             <Tabs.Content key={tab.id} id={`tab-content-${tab.id}`} value={tab.id}>
               <AdminSection
                 className={clsx(`tab-content-${tab.id}`, isEditMode ? 'mode-edit' : 'mode-new')}
+                isLoading={isLoading}
                 variant="none"
               >
                 {tab.content}

@@ -92,40 +92,31 @@ export const TabList: React.FC<TabListProps> = ({
 
   if (isLoading || isEditMode) {
     return (
-      <Row className="form-section">
-        <Col>
-          <AdminSection
-            className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
-            title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
-            // isLoading={true}
-          >
-            <Flex direction="column" gap="4" align="center" justify="center" p="6">
-              <Spinner size="3" />
-              <Text>Loading {isEditMode ? 'order' : 'orders'} data...</Text>
-            </Flex>
-          </AdminSection>
-        </Col>
-      </Row>
+      <Flex direction="column" gap="4" align="center" justify="center" p="6">
+        <Spinner size="3" />
+        <Text>Loading {isEditMode ? 'order' : 'orders'} data...</Text>
+      </Flex>
     );
   }
 
   if (error || isEditMode) {
     const errorMessage = error?.message || 'Unknown error';
     return (
-      <Row className="form-section">
-        <Col>
-          <AdminSection className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}>
-            <Text color="red">
-              Error loading {isEditMode ? 'order' : 'orders'}: {errorMessage}
-            </Text>
-          </AdminSection>
-        </Col>
-      </Row>
+      <Flex direction="column" gap="4" align="center" justify="center" p="6">
+        <Text color="red">
+          Error loading {isEditMode ? 'order' : 'orders'}: {errorMessage}
+        </Text>
+      </Flex>
     );
   }
 
   return (
-    <Flex direction="column" width="100%" gap="6">
+    <Flex
+      direction="column"
+      width="100%"
+      gap="6"
+      //  style={{ border: '2px solid red"', overflowY: 'scroll' }}
+    >
       <OrdersTable
         orders={orders}
         columns={DEFAULT_ORDERS_COLUMNS}
