@@ -115,6 +115,11 @@ export const routes: RouteObject[] = [
             element: <AdminOrdersPage />,
             children: [
               {
+                index: true,
+                id: AdminFieldKeys.dashboard,
+                element: <AdminOrdersPage />,
+              },
+              {
                 path: ':orderId',
                 id: 'order-edit',
                 element: <AdminOrdersPage />,
