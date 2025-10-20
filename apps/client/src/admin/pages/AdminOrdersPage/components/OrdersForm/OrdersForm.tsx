@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
-import { FormProvider, useFieldArray, useForm, useFormState } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -86,6 +86,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   // ========================================================================
   // Form Setup
   // ========================================================================
+
+  console.log('orderData', orderData);
 
   const methods = useForm<OrdersFormValues>({
     mode: 'onChange',
@@ -284,6 +286,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   // ========================================================================
   // Render
   // ========================================================================
+
+  log('MODES', 'yellow', dropdownData.modeOptions);
 
   return (
     <section css={styles} className="admin-page-content form-container">
