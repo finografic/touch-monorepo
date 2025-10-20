@@ -33,7 +33,7 @@ export const AdminOrdersPage: React.FC = () => {
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
 
   // Filter orders using custom hook
-  const { filteredOrders, isFiltered, totalCount, filteredCount } = useOrdersFilter({
+  const { filteredOrders, isFiltered, totalCount, filteredCount, getOrderIndex } = useOrdersFilter({
     ordersData,
     searchTerm,
     columnSearches,
@@ -41,10 +41,11 @@ export const AdminOrdersPage: React.FC = () => {
 
   // Compute title and subtitle based on current mode and data state
   const { title, subtitle } = useMemo(() => {
-    if (isEditMode) {
+    if (isEditMode && orderId) {
+      const displayIndex = getOrderIndex(orderId);
       return {
         title: 'Editar registro',
-        subtitle: orderId || '',
+        subtitle: displayIndex || orderId,
       };
     }
 
@@ -60,7 +61,7 @@ export const AdminOrdersPage: React.FC = () => {
       title: 'Gestión de configuraciones',
       subtitle: isFiltered ? `${filteredCount} results` : `${totalCount} entries`,
     };
-  }, [isEditMode, isNewMode, orderId, isFiltered, filteredCount, totalCount]);
+  }, [isEditMode, isNewMode, orderId, isFiltered, filteredCount, totalCount, getOrderIndex]);
 
   // ======================================================================== //
 

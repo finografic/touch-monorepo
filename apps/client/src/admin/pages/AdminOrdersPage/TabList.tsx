@@ -10,12 +10,12 @@ import clsx from 'clsx';
 import { useToast } from 'components/Toast';
 
 import { useDeleteOrder } from 'queries/orders';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
 
 import { AdminSection } from '../..';
+import type { OrderReadableWithIndex } from './hooks/useOrdersFilter';
 
 interface TabListProps {
-  orders: OrderReadableModel[];
+  orders: OrderReadableWithIndex[];
   columnSearches: ColumnSearchState;
   onColumnSearchChange: React.Dispatch<React.SetStateAction<ColumnSearchState>>;
   isLoading: boolean;
@@ -114,11 +114,7 @@ export const TabList: React.FC<TabListProps> = ({
     return (
       <Row className="form-section">
         <Col>
-          <AdminSection
-            className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
-            // title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
-            // error={errorMessage as any}
-          >
+          <AdminSection className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}>
             <Text color="red">
               Error loading {isEditMode ? 'order' : 'orders'}: {errorMessage}
             </Text>

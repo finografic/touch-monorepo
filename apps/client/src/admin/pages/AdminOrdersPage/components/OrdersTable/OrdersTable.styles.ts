@@ -43,7 +43,7 @@ export const styles = css`
     border-bottom: 1px solid transparent !important;
     transform: translate(-1rem, -0.5rem) !important;
     &:nth-of-type(1) {
-      transform: translate(1rem, -0.5rem) !important;
+      transform: translate(0.33rem, -0.5rem) !important;
     }
 
     &:nth-of-type(2) {

@@ -1,7 +1,12 @@
 import { useMemo } from 'react';
 
-import type { ColumnKey, ColumnSearchState } from '../components/OrdersTable';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
+
+import type { ColumnKey, ColumnSearchState } from '../components/OrdersTable';
+
+export interface OrderReadableWithIndex extends OrderReadableModel {
+  displayIndex: string; // e.g., "0001", "0042"
+}
 
 interface UseOrdersFilterProps {
   ordersData: OrderReadableModel[];
@@ -11,10 +16,11 @@ interface UseOrdersFilterProps {
 }
 
 interface UseOrdersFilterReturn {
-  filteredOrders: OrderReadableModel[];
+  filteredOrders: OrderReadableWithIndex[];
   isFiltered: boolean;
   totalCount: number;
   filteredCount: number;
+  getOrderIndex: (orderId: string) => string | null;
 }
 
 /**
@@ -31,6 +37,15 @@ export function useOrdersFilter({
   columnSearches = {},
   maxResults = 200,
 }: UseOrdersFilterProps): UseOrdersFilterReturn {
+  // Create a map of orderId to displayIndex (based on original order in the data)
+  const orderIndexMap = useMemo(() => {
+    const map = new Map<string, string>();
+    ordersData.forEach((order, index) => {
+      map.set(order.id, String(index + 1).padStart(4, '0'));
+    });
+    return map;
+  }, [ordersData]);
+
   const filteredOrders = useMemo(() => {
     let results = ordersData;
 
@@ -79,8 +94,12 @@ export function useOrdersFilter({
       });
     });
 
-    return results.slice(0, maxResults); // Limit to maxResults for performance
-  }, [ordersData, searchTerm, columnSearches, maxResults]);
+    // Add displayIndex to each order and limit results
+    return results.slice(0, maxResults).map((order) => ({
+      ...order,
+      displayIndex: orderIndexMap.get(order.id) || '0000',
+    }));
+  }, [ordersData, searchTerm, columnSearches, maxResults, orderIndexMap]);
 
   // Determine if any filtering is active
   const isFiltered = useMemo(() => {
@@ -89,10 +108,16 @@ export function useOrdersFilter({
     return hasGlobalSearch || hasColumnSearch;
   }, [searchTerm, columnSearches]);
 
+  // Helper function to get the display index for a specific order ID
+  const getOrderIndex = (orderId: string): string | null => {
+    return orderIndexMap.get(orderId) || null;
+  };
+
   return {
     filteredOrders,
     isFiltered,
     totalCount: ordersData.length,
     filteredCount: filteredOrders.length,
+    getOrderIndex,
   };
 }

@@ -8,6 +8,7 @@ import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SelectOption } from 'types/models/select-option.model';
 import { formatUnixTimestamp } from 'utils/date.utils';
 
+import type { OrderReadableWithIndex } from '../../hooks/useOrdersFilter';
 import { ColumnFilter } from './ColumnSearchInput';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import { styles } from './OrdersTable.styles';
@@ -46,7 +47,7 @@ export interface ColumnSearchState {
 }
 
 export interface OrdersTableProps {
-  orders: OrderReadableModel[];
+  orders: OrderReadableWithIndex[];
   columns: ColumnDef[];
   emptyMessage?: string;
   emptySubMessage?: string;
@@ -69,12 +70,12 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   const { currentLanguage } = useAppConfig();
 
   // Render cell content based on column key
-  const renderCellContent = (column: ColumnDef, order: OrderReadableModel, index: number) => {
+  const renderCellContent = (column: ColumnDef, order: OrderReadableWithIndex, index: number) => {
     switch (column.key) {
       case 'index':
         return (
           <Text size="2" weight="bold">
-            {String(index + 1).padStart(4, '0')}
+            {order.displayIndex}
           </Text>
         );
 
