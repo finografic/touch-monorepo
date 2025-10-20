@@ -113,8 +113,9 @@ export const stylesAdminContent = css`
     h4 {
       letter-spacing: -0.025em;
       font-weight: 700;
-      span {
-        opacity: 0.66;
+      span,
+      span.title-subtitle {
+        opacity: 0.4;
       }
     }
 

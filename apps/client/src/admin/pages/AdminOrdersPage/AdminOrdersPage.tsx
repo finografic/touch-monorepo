@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Tabs } from '@radix-ui/themes';
@@ -7,7 +7,11 @@ import { TabList } from 'admin/pages/AdminOrdersPage/TabList';
 import clsx from 'clsx';
 import type { DialogConfig } from 'components/Dialog';
 
+import { useGetOrdersReadable } from 'queries/orders';
+
 import { AdminContentLayout, AdminSection } from '../..';
+import type { ColumnSearchState } from './components/OrdersTable';
+import { useOrdersFilter } from './hooks/useOrdersFilter';
 import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
 import { styles } from './AdminOrdersPage.styles';
 
@@ -16,10 +20,47 @@ export const NUM_TABS = 2;
 export const AdminOrdersPage: React.FC = () => {
   const navigate = useNavigate();
   const { orderId } = useParams<{ orderId?: string }>();
-  const hash = window.location.hash.slice(1); // Get hash without '#'
+  const hash = window.location.hash.slice(1);
 
-  const isEditMode = Boolean(orderId); // Real orderId in URL = edit mode
-  const isNewMode = hash === 'new'; // #new hash = new mode
+  const isEditMode = Boolean(orderId);
+  const isNewMode = hash === 'new';
+
+  // State for search/filter
+  const [searchTerm] = useState('');
+  const [columnSearches, setColumnSearches] = useState<ColumnSearchState>({});
+
+  // Fetch orders data at page level
+  const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
+
+  // Filter orders using custom hook
+  const { filteredOrders, isFiltered, totalCount, filteredCount } = useOrdersFilter({
+    ordersData,
+    searchTerm,
+    columnSearches,
+  });
+
+  // Compute title and subtitle based on current mode and data state
+  const { title, subtitle } = useMemo(() => {
+    if (isEditMode) {
+      return {
+        title: 'Editar registro',
+        subtitle: orderId || '',
+      };
+    }
+
+    if (isNewMode) {
+      return {
+        title: 'Nuevo registro',
+        subtitle: '',
+      };
+    }
+
+    // List mode
+    return {
+      title: 'Gestión de configuraciones',
+      subtitle: isFiltered ? `${filteredCount} results` : `${totalCount} entries`,
+    };
+  }, [isEditMode, isNewMode, orderId, isFiltered, filteredCount, totalCount]);
 
   // ======================================================================== //
 
@@ -40,7 +81,15 @@ export const AdminOrdersPage: React.FC = () => {
         id: 'list',
         label: 'Listado de registros',
         icon: <ListChecksIcon />,
-        content: <TabList />,
+        content: (
+          <TabList
+            orders={filteredOrders}
+            columnSearches={columnSearches}
+            onColumnSearchChange={setColumnSearches}
+            isLoading={isLoading}
+            error={error}
+          />
+        ),
       },
       isEditMode || isNewMode
         ? isEditMode
@@ -95,10 +144,7 @@ export const AdminOrdersPage: React.FC = () => {
   );
 
   return (
-    <AdminContentLayout
-      title={isEditMode ? 'Edit Order' : isNewMode ? 'New Order' : 'Gestión de configuraciones'}
-      styles={styles}
-    >
+    <AdminContentLayout title={title} subtitle={subtitle} styles={styles}>
       <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
         <Tabs.List>
           {config.tabs.map((tab) => (

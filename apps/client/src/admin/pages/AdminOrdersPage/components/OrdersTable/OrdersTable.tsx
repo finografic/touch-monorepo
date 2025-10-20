@@ -181,7 +181,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
                             onChange={(value) => onColumnSearchChange(column.key, value)}
                             placeholder=""
                             hasIcon={false}
-                            width={`${Number(column.width.replace('px', '')) * 1.7}px`}
+                            width={`${Number(column.width.replace('px', '')) * 1.6}px`}
                           />
                         )}
                       </>

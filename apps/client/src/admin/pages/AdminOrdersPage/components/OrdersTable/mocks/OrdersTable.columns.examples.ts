@@ -1,6 +1,6 @@
 import type { SelectOption } from 'types/models/select-option.model';
 
-import type { ColumnDef } from './OrdersTable';
+import type { ColumnDef } from '../OrdersTable';
 
 /**
  * Example column configurations demonstrating filter variants

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -9,13 +9,26 @@ import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/components/O
 import clsx from 'clsx';
 import { useToast } from 'components/Toast';
 
-import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
+import { useDeleteOrder } from 'queries/orders';
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 
 import { AdminSection } from '../..';
 
-export const TabList: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [columnSearches, setColumnSearches] = useState<ColumnSearchState>({});
+interface TabListProps {
+  orders: OrderReadableModel[];
+  columnSearches: ColumnSearchState;
+  onColumnSearchChange: React.Dispatch<React.SetStateAction<ColumnSearchState>>;
+  isLoading: boolean;
+  error: Error | null;
+}
+
+export const TabList: React.FC<TabListProps> = ({
+  orders,
+  columnSearches,
+  onColumnSearchChange,
+  isLoading,
+  error,
+}) => {
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
@@ -24,63 +37,8 @@ export const TabList: React.FC = () => {
   // Determine if we're in edit mode
   const isEditMode = Boolean(orderId);
 
-  // Fetch orders-readable data for the table
-  const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
-
   // Delete order mutation
   const deleteOrderMutation = useDeleteOrder();
-
-  // Column-specific search filtering
-  const filteredOrders = useMemo(() => {
-    let results = ordersData;
-
-    // Apply global search (if still needed)
-    if (searchTerm) {
-      const searchLower = searchTerm.toLowerCase();
-      results = results.filter(
-        (order) =>
-          order.drinkType?.toLowerCase().includes(searchLower) ||
-          order.drinkSubtype?.toLowerCase().includes(searchLower) ||
-          order.volume?.toLowerCase().includes(searchLower) ||
-          order.containerType?.toLowerCase().includes(searchLower) ||
-          order.temperatureProfile?.toLowerCase().includes(searchLower) ||
-          order.id?.toLowerCase().includes(searchLower),
-      );
-    }
-
-    // Apply column-specific searches
-    Object.entries(columnSearches).forEach(([columnKey, searchValue]) => {
-      if (!searchValue || typeof searchValue !== 'string') return;
-
-      const searchLower = searchValue.toLowerCase();
-
-      results = results.filter((order) => {
-        switch (columnKey as ColumnKey) {
-          case 'drinkType':
-            return order.drinkType?.toLowerCase().includes(searchLower);
-          case 'subtype':
-            return order.drinkSubtype?.toLowerCase().includes(searchLower);
-          case 'volume':
-            return order.volume?.toLowerCase().includes(searchLower);
-          case 'container':
-            return order.containerType?.toLowerCase().includes(searchLower);
-          case 'temperature':
-            return order.defaultTempConsume?.toString().includes(searchLower);
-          case 'id':
-            return order.id?.toLowerCase().includes(searchLower);
-          case 'mode': {
-            // Check both mode and modeId properties, convert to string for comparison
-            const modeValue = (order as any).mode || order.modeId;
-            return modeValue?.toString().toLowerCase().includes(searchLower);
-          }
-          default:
-            return true;
-        }
-      });
-    });
-
-    return results.slice(0, 200); // Limit to 200 for performance
-  }, [ordersData, searchTerm, columnSearches]);
 
   const handleEditOrder = (orderId: string) => {
     console.log('Editing order:', orderId);
@@ -113,21 +71,23 @@ export const TabList: React.FC = () => {
   };
 
   // Handle column search change
-  const handleColumnSearchChange = useCallback((columnKey: ColumnKey, value: string) => {
-    setColumnSearches((prev) => ({
-      ...prev,
-      [columnKey]: value,
-    }));
-  }, []);
+  const handleColumnSearchChange = useCallback(
+    (columnKey: ColumnKey, value: string) => {
+      onColumnSearchChange((prev) => ({
+        ...prev,
+        [columnKey]: value,
+      }));
+    },
+    [onColumnSearchChange],
+  );
 
   useEffect(
     function initSearchBox() {
       if (!isDrawerOpen) {
-        setSearchTerm('');
-        setColumnSearches({});
+        onColumnSearchChange({});
       }
     },
-    [isDrawerOpen],
+    [isDrawerOpen, onColumnSearchChange],
   );
 
   if (isLoading || isEditMode) {
@@ -171,7 +131,7 @@ export const TabList: React.FC = () => {
   return (
     <Flex direction="column" width="100%" gap="6">
       <OrdersTable
-        orders={filteredOrders}
+        orders={orders}
         columns={DEFAULT_ORDERS_COLUMNS}
         emptyMessage="No orders found"
         emptySubMessage="Try adjusting your column filters"
