@@ -9,6 +9,7 @@ import { useResetAppState } from 'hooks/useResetAppState';
 
 // import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { DevPanelLeft } from 'dev-tools/_Panels/DevPanelLeft';
+import { SnoozeTimer } from 'dev-tools/components/SnoozeTimer/SnoozeTimer';
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { DevScreenSize } from '../components/DevScreenSize/DevScreenSize';
 import { QueryDevtoolsPanel } from '../layers/QueryDevtoolsPanel/QueryDevtoolsPanel';
@@ -48,7 +49,7 @@ export const DevToolbarFrontEnd = () => {
         <Flex gap="3" align="center">
           {timers.some((timer) => timer.status === 'completed') && (
             <div className="button-box">
-              <MockTimersMin />
+              <SnoozeTimer />
             </div>
           )}
 

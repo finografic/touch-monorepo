@@ -12,13 +12,15 @@ export const DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to lo
 export const FORCE_DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format
 export const ENABLE_BROWSER_LANGUAGE_DETECTION = false as const;
 
-// Configuration expiry time (1 hour in milliseconds)
-export const CONFIG_EXPIRY_TIME_MS = 3_600_000;
+export const CONFIG_EXPIRY_TIME_MS = 3_600_000; // 1 hour
+export const SNOOZE_INTERVAL_MS = 120_000; // 2 minute
+export const POLLING_INTERVAL_MS = 5_000; // 5 seconds
 
 // Session storage keys
 export const STORAGE_KEYS = {
   LAST_CONFIG: 'touch_last_config',
   CONFIG_TIMESTAMP: 'touch_config_timestamp',
+  SNOOZE_TIMESTAMP: 'touch_snooze_timestamp',
 } as const;
 
 /**

@@ -41,6 +41,7 @@ import {
   ShieldUser as _ShieldUserIcon,
   Sun as _SunIcon,
   Thermometer as _TempIcon,
+  TimerReset as _TimerResetIcon,
   Trash2 as _Trash2Icon,
   User as _UserIcon,
   UserLock as _UserLockIcon,
@@ -106,6 +107,7 @@ export const PlusIcon = createIconWrapper(_PlusIcon);
 export const SpeakerLoudIcon = createIconWrapper(_SpeakerLoudIcon);
 export const StopIcon = createIconWrapper(_StopIcon);
 export const SettingsIcon = createIconWrapper(_SettingsIcon);
+export const TimerResetIcon = createIconWrapper(_TimerResetIcon);
 export const TrashIcon = createIconWrapper(_Trash2Icon);
 export const ZapIcon = createIconWrapper(_ZapIcon);
 export const ListChecksIcon = createIconWrapper(_ListChecksIcon);
@@ -161,6 +163,7 @@ export const ICON_MAP = {
   SpeakerLoudIcon,
   StopIcon,
   SettingsIcon,
+  TimerResetIcon,
   TrashIcon,
   ZapIcon,
   ListChecksIcon,

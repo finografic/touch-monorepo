@@ -23,6 +23,7 @@ export interface TimerItem {
 
 export interface TimersValues {
   [TimersKeys.timers]: TimerItem[];
+  [TimersKeys.snooze]: boolean;
 }
 
 type TimersSetters = CreateSettersType<TimersValues, typeof SETTER_PREFIX>;

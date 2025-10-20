@@ -11,10 +11,12 @@ export const SETTER_PREFIX = '';
 
 export enum TimersKeys {
   timers = 'timers',
+  snooze = 'snooze',
 }
 
 export const defaultValue: TimersValues = {
   timers: [],
+  snooze: false,
 };
 
 export const TimersContext = createZustandContext(({ initialValue }) => {
@@ -27,8 +29,6 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
           addTimer: (timerData: Omit<TimerItem, 'id' | 'createdAt'>) => {
             const { timers } = get();
-
-            // Check if there's already a timer for this slot
             const existingTimer = timers.find((t) => t.slotNumber === timerData.slotNumber);
 
             const newTimer: TimerItem = {
@@ -41,14 +41,12 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
             };
 
             if (existingTimer) {
-              // Replace existing timer
               const updatedTimers = timers.map((timer) =>
                 timer.slotNumber === timerData.slotNumber ? newTimer : timer,
               );
-
               set({ timers: updatedTimers });
             } else {
-              // Add new timer
+              // new timer..
               set({ timers: [...timers, newTimer] });
             }
           },
