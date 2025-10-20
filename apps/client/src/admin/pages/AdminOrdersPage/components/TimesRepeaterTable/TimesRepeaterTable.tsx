@@ -45,6 +45,16 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
   const formValues = watch();
   const timeRows = formValues[name] || [];
   const { isSubmitted } = formState;
+  const { isReady, isDirty, isValid, dirtyFields, touchedFields, errors } = formState;
+
+  // ======================================================================== //
+
+  // { isReady, isDirty, isValid, dirtyFields, touchedFields }
+
+  log('__DEV >>', 'orange', { isReady, isDirty, isValid, dirtyFields, touchedFields, errors });
+  log('__DEV >>', 'lime', formValues);
+
+  // ======================================================================== //
 
   // Use dev tools visibility for random buttons
   const { isDevToolsVisible } = useDev();
