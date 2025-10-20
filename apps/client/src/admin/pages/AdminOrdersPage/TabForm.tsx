@@ -21,10 +21,7 @@ export const TabForm: React.FC = () => {
   const navigate = useNavigate();
   const { orderId } = useParams<{ orderId?: string }>();
 
-  // Determine if we're in edit mode
-  const isEditMode = Boolean(orderId);
-
-  const { data: modes = [] } = useGetModes();
+  const { data: modes = [], isLoading: isModesLoading } = useGetModes();
   const modeOptions = modes.map((mode: ModeModel) => ({
     value: mode.id,
     label: String(mode.name),
@@ -44,7 +41,10 @@ export const TabForm: React.FC = () => {
     }),
   });
 
-  log('ORDER_DATA', 'lime', orderData);
+  // Determine if we're in edit mode
+  const isEditMode = Boolean(orderId);
+  // Determine if we're in edit mode
+  const isLoading = Boolean(isOrderLoading || isModesLoading);
 
   // Handle form submission for both create and update modes
   const handleAddOrder = (formData: {
@@ -93,7 +93,7 @@ export const TabForm: React.FC = () => {
     [isDrawerOpen],
   );
 
-  if (isEditMode && isOrderLoading) {
+  if (isEditMode && isLoading) {
     return (
       <Row className="form-section">
         <Col>
