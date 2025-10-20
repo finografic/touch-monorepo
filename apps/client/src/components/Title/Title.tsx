@@ -37,7 +37,7 @@ export const Title: React.FC<TitleProps> = ({
         <Heading size="8" className="title" align={align} {...headingProps}>
           {title}
           {subtitle && (
-            <span className="title-subtitle" style={{ opacity: 0.5 }}>
+            <span className="title-subtitle" style={{ opacity: 0.4 }}>
               {' '}
               : {subtitle}
             </span>

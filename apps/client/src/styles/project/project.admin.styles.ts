@@ -115,7 +115,7 @@ export const stylesAdminContent = css`
       font-weight: 700;
       span,
       span.title-subtitle {
-        opacity: 0.4;
+        opacity: 0.4 !important;
       }
     }
 
