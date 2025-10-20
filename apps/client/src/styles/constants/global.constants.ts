@@ -34,7 +34,7 @@ export const layout = {
     height: '70px',
   },
   footer: {
-    height: '80px',
+    height: '70px',
   },
   sidebar: {
     width: '300px',

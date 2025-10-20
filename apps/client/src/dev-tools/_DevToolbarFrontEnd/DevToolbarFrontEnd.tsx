@@ -46,6 +46,12 @@ export const DevToolbarFrontEnd = () => {
       </>
       <div css={styles} className={`theme-${theme}`}>
         <Flex gap="3" align="center">
+          {timers.some((timer) => timer.status === 'completed') && (
+            <div className="button-box">
+              <MockTimersMin />
+            </div>
+          )}
+
           {timers.some((timer) => timer.status === 'processing') && (
             <div className="button-box">
               <MockTimersMin />

@@ -37,7 +37,7 @@ export const styles = css`
       align-items: center;
       justify-content: center;
 
-      section {
+      > section {
         display: flex;
         flex-direction: column;
 
