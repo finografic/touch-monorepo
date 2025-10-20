@@ -87,7 +87,7 @@ export const forms = {
     },
 
     readOnly: {
-      background: colors.greyXXLight,
+      background: colors.greyXXLight25,
       border: {
         color: colors.greyLight,
         width: '1px',

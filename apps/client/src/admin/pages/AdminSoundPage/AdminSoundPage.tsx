@@ -60,7 +60,7 @@ export const AdminSoundPage: React.FC = () => {
         title="Sound Management"
         subtitle="Admin"
         description="Upload and configure sound files for timer events"
-        css={styles}
+        styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
@@ -77,7 +77,7 @@ export const AdminSoundPage: React.FC = () => {
       title="Sound Management"
       subtitle="Admin"
       description="Upload and configure sound files for timer events"
-      css={styles}
+      styles={styles}
     >
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SoundType)}>
         <Tabs.List>

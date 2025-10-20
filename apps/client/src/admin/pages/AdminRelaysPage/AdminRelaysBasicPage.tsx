@@ -88,7 +88,7 @@ export const AdminRelaysBasicPage: React.FC = () => {
 
   if (isLoadingStates) {
     return (
-      <AdminContentLayout title="Relay Control" subtitle="Loading..." css={styles}>
+      <AdminContentLayout title="Relay Control" subtitle="Loading..." styles={styles}>
         <Box className="loading">Loading relay states...</Box>
       </AdminContentLayout>
     );
@@ -99,7 +99,7 @@ export const AdminRelaysBasicPage: React.FC = () => {
       statesError.message?.includes('Network Error') || statesError.message?.includes('RPC Request Failed');
 
     return (
-      <AdminContentLayout title="Relay Control" subtitle="Connection Error" css={styles}>
+      <AdminContentLayout title="Relay Control" subtitle="Connection Error" styles={styles}>
         <Box className="error">
           <Flex direction="column" gap="4" align="center">
             <Text color="red" size="4" weight="bold">
@@ -133,7 +133,7 @@ export const AdminRelaysBasicPage: React.FC = () => {
     <AdminContentLayout
       title="Relay Control"
       description={`Test and control the ${NUM_RELAYS}-channel relay board`}
-      css={styles}
+      styles={styles}
     >
       <Box className="admin-relay-control">
         <Flex direction="column" gap="6">

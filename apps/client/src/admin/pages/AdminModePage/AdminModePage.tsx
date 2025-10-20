@@ -65,7 +65,7 @@ export const AdminModePage: React.FC = () => {
       <AdminContentLayout
         title="Mode Selection"
         description="Manage active modes for the system"
-        css={styles}
+        styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
@@ -80,7 +80,7 @@ export const AdminModePage: React.FC = () => {
       title="Mode Selection"
       subtitle="Admin"
       description="Manage active modes for the system"
-      css={styles}
+      styles={styles}
     >
       <AdminSection
         title="Active Mode Configuration"

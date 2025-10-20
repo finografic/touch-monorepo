@@ -14,7 +14,7 @@ export const AdminLanguagesBasicPage: React.FC = () => {
     <AdminContentLayout
       title={t('admin.pages.languages.title')}
       description={t('admin.pages.languages.subtitle')}
-      css={styles}
+      styles={styles}
     >
       <AdminSection>
         <Box className="selected-section" mb="6">

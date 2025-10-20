@@ -27,7 +27,7 @@ export const AdminSoundBasicPage: React.FC = () => {
         title="Sound Management"
         subtitle="User"
         description="Upload and configure sound files for timer events"
-        css={styles}
+        styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
@@ -43,7 +43,7 @@ export const AdminSoundBasicPage: React.FC = () => {
         title="Sound Management"
         subtitle="User"
         description="Upload and configure sound files for timer events"
-        css={styles}
+        styles={styles}
       >
         <AdminSection
           title="Alarm Sound Configuration"

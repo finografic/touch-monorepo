@@ -368,7 +368,7 @@ export const AdminTranslationsPage: React.FC = () => {
         title={t('admin.title')}
         subtitle={t('admin.pages.translations.content.editTables')}
         isLoading={true}
-        css={styles}
+        styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
@@ -390,7 +390,7 @@ export const AdminTranslationsPage: React.FC = () => {
         title={t('admin.title')}
         subtitle={t('admin.pages.translations.content.editTables')}
         error={error?.message || t('ui.states.error')}
-        css={styles}
+        styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Text color="red" size="4">
@@ -406,7 +406,7 @@ export const AdminTranslationsPage: React.FC = () => {
       <AdminContentLayout
         title={t('admin.title')}
         subtitle={t('admin.pages.translations.content.editTables')}
-        css={styles}
+        styles={styles}
       >
         <AdminSection>{formContent}</AdminSection>
       </AdminContentLayout>

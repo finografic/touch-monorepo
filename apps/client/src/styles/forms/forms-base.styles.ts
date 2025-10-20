@@ -179,4 +179,11 @@ export const formsBase = css`
       }
     }
   }
+
+  .field-label {
+    font-size: ${forms.inputs.label.fontSize};
+    font-weight: ${forms.inputs.label.fontWeight};
+    color: ${forms.inputs.label.color};
+    /* padding: ${forms.inputs.label.padding}; */
+  }
 `;

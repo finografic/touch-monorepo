@@ -205,7 +205,7 @@ export const AdminLanguagesPage: React.FC = () => {
         title={t('admin.pages.languages.title')}
         subtitle={t('admin.pages.languages.subtitle')}
         isLoading={true}
-        css={styles}
+        styles={styles}
       >
         <AdminSection>
           <Text>Loading supported languages...</Text>
@@ -220,7 +220,7 @@ export const AdminLanguagesPage: React.FC = () => {
         title={t('admin.pages.languages.title')}
         subtitle={t('admin.pages.languages.subtitle')}
         error={error.message}
-        css={styles}
+        styles={styles}
       >
         <AdminSection>
           <Text color="red">Error loading supported languages: {error.message}</Text>
@@ -233,7 +233,7 @@ export const AdminLanguagesPage: React.FC = () => {
     <AdminContentLayout
       title={t('admin.pages.languages.title')}
       subtitle={t('admin.pages.languages.subtitle')}
-      css={styles}
+      styles={styles}
     >
       <AdminSection>
         {/* Message Display */}
