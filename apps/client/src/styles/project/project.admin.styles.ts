@@ -71,9 +71,12 @@ export const stylesAdminContent = css`
 
   section.admin-page-content {
     color: ${colors.textDark};
-
     min-width: 100%;
     width: 100% !important;
+
+    display: flex;
+    flex-direction: column;
+    gap: ${spacing[6]};
 
     > .admin-page-title {
       padding: 2em;
@@ -265,6 +268,7 @@ export const stylesAdminContent = css`
     &:read-only {
       /* border: 1px solid red; */
       font-weight: 700;
+
       /* background-color: ${colors.greyXLight}; */
       /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
       color: ${colors.primary};

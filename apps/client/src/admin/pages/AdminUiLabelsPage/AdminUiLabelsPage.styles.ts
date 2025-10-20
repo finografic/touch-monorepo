@@ -34,12 +34,6 @@ export const styles = css`
     }
   }
 
-  .admin-page-content {
-    display: flex;
-    flex-direction: column;
-    gap: ${spacing[6]};
-  }
-
   /* Admin section styling */
   .admin-section {
     background-color: ${colors.white};

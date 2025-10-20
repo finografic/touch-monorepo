@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
+import { colors, min } from 'styles';
 import { cssInputText } from 'styles/forms/forms.FULL.styles';
 
 export const styles = css`
@@ -16,9 +16,28 @@ export const styles = css`
     position: fixed;
     display: inline-table !important;
     background-color: ${colors.white};
-
     z-index: 999999;
     transform: translate(-0.33rem, -100px) !important;
+
+    min-width: 98vw !important;
+    max-width: 980vw !important;
+    width: 98vw !important;
+
+    ${min.lg} {
+      min-width: 1000px !important;
+      max-width: 96vw !important;
+      width: 96vw !important;
+    }
+    ${min.xl} {
+      min-width: 1000px !important;
+      max-width: 88vw !important;
+      width: 88vw !important;
+    }
+    ${min.xxl} {
+      min-width: 1000px !important;
+      max-width: 60vw !important;
+      width: 60vw !important;
+    }
 
     /* Target the row inside the header */
     .rt-TableRow {

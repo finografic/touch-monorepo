@@ -1,7 +1,8 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
+import { colors, min } from 'styles';
 import { border, layout } from 'styles/constants/global.constants';
+import { BREAKPOINTS_PX } from 'styles/viewport/viewport.breakpoints';
 
 export const styles = css`
   .tab-content-list {
@@ -23,9 +24,6 @@ export const styles = css`
     overflow-y: hidden;
     position: fixed;
 
-    min-width: 1000px !important;
-    max-width: 60vw !important;
-    width: 86vw;
     height: 66vh;
     top: 380px;
 
@@ -38,6 +36,26 @@ export const styles = css`
 
     &.is-loading {
       opacity: 0 !important;
+    }
+
+    min-width: 98vw !important;
+    max-width: 980vw !important;
+    width: 98vw !important;
+
+    ${min.lg} {
+      min-width: 1000px !important;
+      max-width: 96vw !important;
+      width: 96vw !important;
+    }
+    ${min.xl} {
+      min-width: 1000px !important;
+      max-width: 88vw !important;
+      width: 88vw !important;
+    }
+    ${min.xxl} {
+      min-width: 1000px !important;
+      max-width: 60vw !important;
+      width: 60vw !important;
     }
   }
 
