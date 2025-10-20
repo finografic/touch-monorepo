@@ -41,7 +41,8 @@ export function useOrdersFilter({
   const orderIndexMap = useMemo(() => {
     const map = new Map<string, string>();
     ordersData.forEach((order, index) => {
-      map.set(order.id, String(index + 1).padStart(4, '0'));
+      // map.set(order.id, String(index + 1).padStart(4, '0'));
+      map.set(order.id, String(index + 1));
     });
     return map;
   }, [ordersData]);
