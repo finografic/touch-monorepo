@@ -25,6 +25,7 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlot
 import type { ValidGridSize } from 'types/menu.types';
 
 import { NUM_GRID_ITEMS } from 'config/app';
+import { SnoozeTimer } from 'dev-tools/components/SnoozeTimer/SnoozeTimer';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
 import { themeConfig } from 'styles/radix-ui/theme.config';
@@ -73,6 +74,7 @@ export const Layout: FC = () => {
                               </div>
                             </main>
                             <Footer />
+                            <SnoozeTimer />
                             <ToastSystem />
                             <AuthLoginDialog />
                           </AuthDialogGuard>

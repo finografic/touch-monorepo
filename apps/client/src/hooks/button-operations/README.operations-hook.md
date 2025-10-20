@@ -137,7 +137,7 @@ The refactoring is **100% backward compatible**. All existing imports will conti
 
 ```typescript
 // ✅ This still works exactly the same
-import { useButtonOperations } from 'hooks/useButtonOperations';
+import { useButtonOperations } from 'hooks/button-operations/useButtonOperations';
 
 const {
   handleProgramProduct,

@@ -6,12 +6,16 @@ export const styles = css`
   .snooze-timer {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    width: 100%;
-    height: 100%;
-    padding: 0 20px;
+    justify-content: center;
+    width: 150px;
+    height: 48px;
+    position: fixed;
+    bottom: 0;
+    left: 50vh;
+    transform: translate(33%, -15%);
+
+    padding: 0 15px 0 0;
     font-size: 14px;
-    color: inherit;
     color: ${colors.infoLight};
     opacity: 0.66;
     user-select: none;

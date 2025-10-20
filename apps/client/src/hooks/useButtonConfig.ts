@@ -2,8 +2,8 @@ import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
+import { useButtonOperations } from 'hooks/button-operations';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
-import { useButtonOperations } from 'hooks/useButtonOperations';
 import { useRouteHandler } from 'hooks/useRouteHandler';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
@@ -22,8 +22,6 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const location = useLocation();
   const { matchRoute, currentPathname } = useRouteMatching();
   const { t } = useTranslation();
-
-  // console.log('%c loop? 1', 'color:grey', filterKey);
 
   // Get actions from both specialized hooks
   const { handleNavigateBack, handleNavigateNext, getNavigationDisabled, isNavigationPending } =
