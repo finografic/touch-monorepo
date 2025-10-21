@@ -57,7 +57,7 @@ export const styles = css`
       display: flex;
       justify-content: flex-end;
       align-items: center;
-      padding-right: 1rem !important;
+      padding-right: 1.5rem !important;
     }
 
     h1 {
