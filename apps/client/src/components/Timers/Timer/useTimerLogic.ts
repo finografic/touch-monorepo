@@ -4,8 +4,8 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 
 import { getElapsedTimeAndEventNumberSec, playCompleteSound, playTickSound } from '../shared/timer.utils';
+import { timerManager } from '../shared/TimerManager';
 import { useTimerEvents } from '../shared/useTimerEvents';
-import { timerManager } from './TimerManager';
 
 /**
  * Custom hook for timer logic

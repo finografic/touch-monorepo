@@ -41,4 +41,4 @@ export type {
 } from './shared/timer.types';
 
 export type { TimerManagerState } from './shared/TimerManager';
-export type { UseTimerEventsProps, UseTimerEventsReturn } from './shared/useTimerEvents';
+export type { UseTimerEventsProps } from './shared/useTimerEvents';

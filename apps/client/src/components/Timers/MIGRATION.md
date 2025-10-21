@@ -11,7 +11,7 @@ Consolidate `Timer` and `SnoozeTimer` into a unified `Timers/` library with:
 
 ## 📊 Current Structure (Before)
 
-```
+```text
 components/
 ├── Timer/
 │   ├── Timer.tsx
@@ -26,7 +26,7 @@ components/
 
 ## 🎯 Target Structure (After)
 
-```
+```text
 components/
 └── Timers/
     ├── index.ts                    # Main exports
@@ -39,7 +39,7 @@ components/
     │   └── useTimerEvents.ts      # ✅ DONE (new shared hook)
     ├── CountdownTimer/
     │   ├── CountdownTimer.tsx     # TODO: Move from Timer/Timer.tsx
-    │   ├── useCountdownLogic.ts   # TODO: Move from Timer/useTimerLogic.ts
+    │   ├── useCountdownLogic.ts   # TODO: Move from Timer/useCountdownTimer.ts
     │   └── countdown.utils.ts     # TODO: Move from Timer/timers.utils.ts (if needed)
     └── SnoozeTimer/
         ├── SnoozeTimer.tsx        # TODO: Move from SnoozeTimer/SnoozeTimer.tsx
@@ -79,7 +79,7 @@ mv apps/client/src/components/Timer/Timer.tsx \
    apps/client/src/components/Timers/CountdownTimer/CountdownTimer.tsx
 
 # Move hook
-mv apps/client/src/components/Timer/useTimerLogic.ts \
+mv apps/client/src/components/Timer/useCountdownTimer.ts \
    apps/client/src/components/Timers/CountdownTimer/useCountdownLogic.ts
 ```
 

@@ -2,7 +2,7 @@
 
 ## 📁 Structure
 
-```
+```text
 Timers/
 ├── index.ts                        # Main exports
 ├── README.md                       # This file
@@ -198,7 +198,7 @@ export type * from './shared/timer.types';
 
 With this structure, adding new timer types is easy:
 
-```
+```text
 Timers/
 ├── shared/            # Reuse existing shared logic
 ├── CountdownTimer/    # Individual slot timers
