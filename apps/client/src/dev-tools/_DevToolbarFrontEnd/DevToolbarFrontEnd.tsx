@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
-import { SnoozeTimer } from 'components/SnoozeTimer/SnoozeTimer';
+import { SnoozeTimer } from 'components/Timers/SnoozeTimer/SnoozeTimer';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useTimers } from 'providers/TimersProvider';
 

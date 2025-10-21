@@ -1,10 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 
+import { getElapsedTimeAndEventNumberSec, playCompleteSound, playTickSound } from '../shared/timer.utils';
+import { useTimerEvents } from '../shared/useTimerEvents';
 import { timerManager } from './TimerManager';
-import { completeAction, getElapsedTimeAndEventNumber, tickAction } from './timers.utils';
 
 /**
  * Custom hook for timer logic
@@ -28,7 +29,20 @@ export const useTimerLogic = (slotNumber: number, onComplete?: () => void): UseT
   const { timers, updateTimer } = useTimers();
   const { mainPageSelectedSlots, setMainPageSelectedSlots } = useLayoutUi();
   const [remainingTime, setRemainingTime] = useState<number>(0);
-  const lastEventFiredRef = useRef<number>(-1);
+
+  // Use shared event handling hook
+  const { handleTickEvent, handleCompleteEvent } = useTimerEvents({
+    onTick: ({ elapsed, remaining, eventNumber }) => {
+      // Play tick sound when event fires
+      if (eventNumber > 0) {
+        playTickSound().catch(() => {});
+      }
+    },
+    onComplete: ({ elapsed, remaining, orderId }) => {
+      console.log('timer: COMPLETED.', { elapsed, remaining, orderId });
+      playCompleteSound().catch(() => {});
+    },
+  });
 
   // Find timer for this slot
   const timer = timers.find((t) => t.slotNumber === slotNumber);
@@ -81,7 +95,6 @@ export const useTimerLogic = (slotNumber: number, onComplete?: () => void): UseT
 
     // Set initial remaining time
     setRemainingTime(Math.max(0, duration));
-    lastEventFiredRef.current = -1;
 
     // If already expired, complete immediately
     if (duration <= 0) {
@@ -101,22 +114,19 @@ export const useTimerLogic = (slotNumber: number, onComplete?: () => void): UseT
         updateTimer(timer.id, { remaining: Math.max(0, remaining) });
       }
 
-      // Handle tick events
-      const { elapsed, eventNumber } = getElapsedTimeAndEventNumber(timer.duration, remaining);
-      if (eventNumber > lastEventFiredRef.current) {
-        lastEventFiredRef.current = eventNumber;
-        tickAction({ elapsed, remaining, orderId: timer.orderId, eventNumber });
-      }
+      // Handle tick events using shared hook
+      const { elapsed, eventNumber } = getElapsedTimeAndEventNumberSec(timer.duration, remaining);
+      handleTickEvent(eventNumber, { elapsed, remaining, orderId: timer.orderId, eventNumber });
 
       // Check if timer completed
       if (remaining <= 0) {
-        completeAction({ elapsed, remaining, orderId: timer.orderId });
+        handleCompleteEvent({ elapsed, remaining, orderId: timer.orderId });
         handleComplete();
       }
     });
 
     return cleanup;
-  }, [timer, slotNumber, updateTimer, handleComplete]);
+  }, [timer, slotNumber, updateTimer, handleComplete, handleTickEvent, handleCompleteEvent]);
 
   return {
     remainingTime,
