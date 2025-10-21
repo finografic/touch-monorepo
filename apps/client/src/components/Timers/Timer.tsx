@@ -1,31 +1,32 @@
-import { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 
-import { getElapsedTimeAndEventNumberSec, playCompleteSound, playTickSound } from '../shared/timer.utils';
-import { timerManager } from '../shared/TimerManager';
-import { useTimerEvents } from '../shared/useTimerEvents';
+import { formatTime } from 'utils/time.utils';
 
-/**
- * Custom hook for timer logic
- *
- * Encapsulates all timer-related logic including:
- * - Timer state management
- * - Interval handling
- * - Event callbacks
- * - Layout UI updates
- *
- * Returns timer state and actions for UI components to consume.
- */
-export interface UseTimerLogicReturn {
-  remainingTime: number;
-  status: 'idle' | 'processing' | 'completed';
-  isActive: boolean;
-  handleComplete: () => void;
+import { getElapsedTimeAndEventNumberSec, playCompleteSound, playTickSound } from './shared/timer.utils';
+import { timerManager } from './shared/TimerManager';
+import { useTimerEvents } from './shared/useTimerEvents';
+
+interface TimerProps {
+  slotNumber: number;
+  onComplete?: () => void;
 }
 
-export const useTimerLogic = (slotNumber: number, onComplete?: () => void): UseTimerLogicReturn => {
+/**
+ * Timer Component - Pure UI Component
+ *
+ * Displays timer countdown for a specific slot.
+ * All timer logic is handled by the useTimerLogic hook.
+ *
+ * Features:
+ * - Clean separation of concerns
+ * - Pure UI component
+ * - Automatic cleanup
+ * - Type-safe props
+ */
+export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
   const { timers, updateTimer } = useTimers();
   const { mainPageSelectedSlots, setMainPageSelectedSlots } = useLayoutUi();
   const [remainingTime, setRemainingTime] = useState<number>(0);
@@ -128,10 +129,10 @@ export const useTimerLogic = (slotNumber: number, onComplete?: () => void): UseT
     return cleanup;
   }, [timer, slotNumber, updateTimer, handleComplete, handleTickEvent, handleCompleteEvent]);
 
-  return {
-    remainingTime,
-    status,
-    isActive,
-    handleComplete,
-  };
+  // If no timer or timer is not processing, show empty
+  if (status !== 'processing') {
+    return <span>00:00</span>;
+  }
+
+  return <span>{formatTime(remainingTime)}</span>;
 };

@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import clsx from 'clsx';
 import { Pad } from 'components/Pads/Pad';
-import { Timer } from 'components/Timers/Timer/Timer';
+import { Timer } from 'components/Timers/Timer';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 

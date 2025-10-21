@@ -10,8 +10,8 @@ import {
   getElapsedTimeAndEventNumberMs,
   playCompleteSound,
   playTickSound,
-} from '../shared/timer.utils';
-import { useTimerEvents } from '../shared/useTimerEvents';
+} from './shared/timer.utils';
+import { useTimerEvents } from './shared/useTimerEvents';
 import { TimerResetIcon } from 'styles/icons/icons';
 import { styles } from './SnoozeTimer.styles';
 

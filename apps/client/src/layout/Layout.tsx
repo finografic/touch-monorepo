@@ -10,7 +10,7 @@ import { Footer } from 'components/Footer';
 import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
 import { Header } from 'components/Header/Header';
 import { PageHeader } from 'components/PageHeader';
-import { SnoozeTimer } from 'components/Timers/SnoozeTimer/SnoozeTimer';
+import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
 import { ToastProvider, ToastSystem } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
@@ -74,7 +74,7 @@ export const Layout: FC = () => {
                               </div>
                             </main>
                             <Footer />
-                            <SnoozeTimer />
+                            <SnoozeTimer shouldDebounce={true} />
                             <ToastSystem />
                             <AuthLoginDialog />
                           </AuthDialogGuard>

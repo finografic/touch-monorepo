@@ -8,8 +8,8 @@
 // Components
 // ============================================================================
 
-export { Timer as CountdownTimer } from './Timer/Timer'; // TODO: Move to CountdownTimer/
-export { SnoozeTimer } from './SnoozeTimer/SnoozeTimer'; // TODO: Move to SnoozeTimer/
+export { Timer as CountdownTimer } from './Timer'; // TODO: Move to CountdownTimer/
+export { SnoozeTimer } from './SnoozeTimer'; // TODO: Move to SnoozeTimer/
 
 // ============================================================================
 // Shared Utilities
