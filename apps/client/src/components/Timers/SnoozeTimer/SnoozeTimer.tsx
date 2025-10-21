@@ -153,9 +153,9 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   ]);
 
   // Don't render if there are no completed timers
-  if (!hasCompletedTimers || remainingTime <= 0) {
-    return null;
-  }
+  // if (!hasCompletedTimers || remainingTime <= 0) {
+  //   return null;
+  // }
 
   return (
     <div css={styles}>
