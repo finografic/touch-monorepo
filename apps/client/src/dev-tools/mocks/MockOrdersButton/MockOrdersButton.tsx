@@ -10,7 +10,7 @@ import { FLOW_TYPES } from 'types/flow.types';
 
 import { PATHS } from 'config';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
-import { StarIcon } from 'styles/icons';
+import { ListChecksIcon, StarIcon } from 'styles/icons';
 
 export const MockOrdersButton = () => {
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ export const MockOrdersButton = () => {
     setPageCurrent(Object.keys(mockFilters).length);
 
     // Navigate to container type page (last step before temperature)
-    navigate(PATHS.containerType);
+    navigate(PATHS.temperature);
 
     // Set all filters in FiltersContext (modern approach)
     setFilter('mode', mockFilters.mode);
@@ -94,7 +94,7 @@ export const MockOrdersButton = () => {
 
   return (
     <button className="button" onClick={handleMockData}>
-      <StarIcon />
+      <ListChecksIcon />
     </button>
   );
 };

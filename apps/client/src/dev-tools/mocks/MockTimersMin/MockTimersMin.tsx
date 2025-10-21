@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import { useTimers } from 'providers/TimersProvider';
 
-import { TimerIcon } from 'styles/icons';
+import { FastForwardIcon, TimerIcon } from 'styles/icons';
 
 export const MockTimersMin = () => {
   const { timers, updateTimerByOrderId } = useTimers();
@@ -40,7 +40,7 @@ export const MockTimersMin = () => {
 
   return (
     <button className="button" onClick={handleSetMinTimers}>
-      <TimerIcon />
+      <FastForwardIcon />
     </button>
   );
 };

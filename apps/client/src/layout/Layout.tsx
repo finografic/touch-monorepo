@@ -10,6 +10,7 @@ import { Footer } from 'components/Footer';
 import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
 import { Header } from 'components/Header/Header';
 import { PageHeader } from 'components/PageHeader';
+import { SnoozeTimer } from 'components/SnoozeTimer/SnoozeTimer';
 import { ToastProvider, ToastSystem } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
@@ -25,7 +26,6 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlot
 import type { ValidGridSize } from 'types/menu.types';
 
 import { NUM_GRID_ITEMS } from 'config/app';
-import { SnoozeTimer } from 'dev-tools/components/SnoozeTimer/SnoozeTimer';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
 import { themeConfig } from 'styles/radix-ui/theme.config';

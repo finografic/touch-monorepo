@@ -5,6 +5,7 @@ import { useTimersOptional } from 'providers/TimersProvider';
 import { formatTimeFromMs } from 'utils/time.utils';
 
 import { POLLING_INTERVAL_MS, SNOOZE_INTERVAL_MS } from 'config/app';
+import { getCycleNumber, getElapsedTimeAndEventNumber, repeatAction, tickAction } from './snooze.utils';
 import { TimerResetIcon } from 'styles/icons/icons';
 import { styles } from './SnoozeTimer.styles';
 
@@ -36,6 +37,12 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   // Track completed timer count for debouncing
   const previousCompletedCountRef = useRef<number>(0);
 
+  // Track last event fired to prevent duplicate events
+  const lastEventFiredRef = useRef<number>(-1);
+
+  // Track last cycle to detect when we've completed a full snooze cycle
+  const lastCycleRef = useRef<number>(0);
+
   // Get completed timers count
   const hasCompletedTimers = timersContext?.timers.some((t) => t.status === 'completed') ?? false;
   const completedCount = timersContext?.timers.filter((t) => t.status === 'completed').length ?? 0;
@@ -53,6 +60,8 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
     if (shouldDebounce && snoozeStartTime !== null && completedCount > previousCompletedCountRef.current) {
       console.log('🔄 SnoozeTimer: New timer completed, restarting snooze countdown');
       setSnoozeStartTime(Date.now()); // Restart the countdown
+      lastEventFiredRef.current = -1; // Reset event tracking
+      lastCycleRef.current = 0; // Reset cycle tracking
     }
 
     // Update the previous completed count
@@ -61,19 +70,44 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
     // If we have completed timers but no snooze start time, start the snooze timer
     if (!snoozeStartTime) {
       setSnoozeStartTime(Date.now());
+      lastEventFiredRef.current = -1;
+      lastCycleRef.current = 0;
     }
 
     const updateRemainingTime = () => {
       if (!snoozeStartTime) return;
 
       const now = Date.now();
-      const elapsed = now - snoozeStartTime;
-      const remaining = SNOOZE_INTERVAL_MS - (elapsed % SNOOZE_INTERVAL_MS);
+      const totalElapsed = now - snoozeStartTime;
+      const elapsed = totalElapsed % SNOOZE_INTERVAL_MS;
+      const remaining = SNOOZE_INTERVAL_MS - elapsed;
 
       setRemainingTime(remaining);
 
-      // When timer reaches 0, it will automatically restart due to modulo operation
-      // The % operator creates a repeating cycle
+      // Calculate which cycle we're in
+      const currentCycle = getCycleNumber(totalElapsed, SNOOZE_INTERVAL_MS);
+
+      // REPEAT ACTION: Fire when we complete a full cycle (remaining resets to SNOOZE_INTERVAL_MS)
+      if (currentCycle > lastCycleRef.current) {
+        lastCycleRef.current = currentCycle;
+        repeatAction({
+          elapsedMs: totalElapsed,
+          remainingMs: remaining,
+          cycleNumber: currentCycle,
+        });
+      }
+
+      // TICK ACTION: Fire at regular intervals (every TICK_INTERVAL_MS)
+      const { elapsedMs, eventNumber } = getElapsedTimeAndEventNumber(SNOOZE_INTERVAL_MS, remaining);
+
+      if (eventNumber > lastEventFiredRef.current) {
+        lastEventFiredRef.current = eventNumber;
+        tickAction({
+          elapsedMs,
+          remainingMs: remaining,
+          eventNumber,
+        });
+      }
     };
 
     // Initial calculation

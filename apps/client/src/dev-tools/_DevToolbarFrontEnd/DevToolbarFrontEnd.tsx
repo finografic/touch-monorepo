@@ -1,20 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 
-import { Box, Flex } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
+import { SnoozeTimer } from 'components/SnoozeTimer/SnoozeTimer';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useTimers } from 'providers/TimersProvider';
 
 import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
 import { useResetAppState } from 'hooks/useResetAppState';
 
-// import { DevPanelRight } from '../DevPanels/DevPanelRight';
 import { DevPanelLeft } from 'dev-tools/_Panels/DevPanelLeft';
-import { SnoozeTimer } from 'dev-tools/components/SnoozeTimer/SnoozeTimer';
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
-import { DevScreenSize } from '../components/DevScreenSize/DevScreenSize';
 import { QueryDevtoolsPanel } from '../layers/QueryDevtoolsPanel/QueryDevtoolsPanel';
 import { MockOrdersButton } from '../mocks/MockOrdersButton/MockOrdersButton';
-import { MockSessionTimer } from '../mocks/MockSessionTimer/MockSessionTimer';
 import { MockTimersMin } from '../mocks/MockTimersMin/MockTimersMin';
 import { LockIcon, RefreshIcon, TextAlignTopIcon } from 'styles/icons';
 import { styles } from './DevToolbarFrontEnd.styles';

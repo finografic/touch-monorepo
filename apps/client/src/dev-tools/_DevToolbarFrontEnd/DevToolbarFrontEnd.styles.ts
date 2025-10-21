@@ -6,6 +6,17 @@ import { colors } from 'styles';
 export const styles = css`
   ${baseToolbarStyles}
 
+  z-index: 999999999;
+  position: fixed;
+  bottom: 0;
+  /* right: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px); */
+  z-index: 999999999;
+
   justify-content: flex-end;
 
   .button-box button.button {

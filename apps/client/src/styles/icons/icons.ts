@@ -27,6 +27,7 @@ import {
   CircleUserRound as _CircleUserRoundIcon,
   Coffee as _CoffeeIcon,
   Cog as _SettingsIcon,
+  FastForward as _FastForwardIcon,
   House as _HomeIcon,
   Languages as _LanguagesIcon,
   ListChecks as _ListChecksIcon,
@@ -91,27 +92,28 @@ export const WineIcon = createIconWrapper(_WineIcon, 'WineIcon');
 export const AddIcon = createIconWrapper(_PlusIcon);
 export const BadgeCheckIcon = createIconWrapper(_BadgeCheckIcon);
 export const DeleteIcon = createIconWrapper(_DeleteIcon);
-export const HomeIcon = createIconWrapper(_HomeIcon);
-export const LockIcon = createIconWrapper(_LockIcon);
 export const EditIcon = createIconWrapper(_EditIcon);
+export const FastForwardIcon = createIconWrapper(_FastForwardIcon);
+export const HomeIcon = createIconWrapper(_HomeIcon);
 export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);
+export const ListChecksIcon = createIconWrapper(_ListChecksIcon);
+export const LockIcon = createIconWrapper(_LockIcon);
 export const MagnifyingGlassIcon = createIconWrapper(_MagnifyingGlassIcon);
 export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);
 export const PanelBottomOpenIcon = createIconWrapper(_PanelBottomOpenIcon);
-export const RefreshIcon = createIconWrapper(_RefreshCcwIcon);
-export const UserLockIcon = createIconWrapper(_UserLockIcon);
-export const UserIcon = createIconWrapper(_UserIcon);
-export const UserCircleIcon = createIconWrapper(_CircleUserRoundIcon);
-export const UserShildIcon = createIconWrapper(_ShieldUserIcon);
 export const PlusIcon = createIconWrapper(_PlusIcon);
+export const RefreshIcon = createIconWrapper(_RefreshCcwIcon);
+export const SettingsIcon = createIconWrapper(_SettingsIcon);
 export const SpeakerLoudIcon = createIconWrapper(_SpeakerLoudIcon);
 export const StopIcon = createIconWrapper(_StopIcon);
-export const SettingsIcon = createIconWrapper(_SettingsIcon);
 export const TimerResetIcon = createIconWrapper(_TimerResetIcon);
 export const TrashIcon = createIconWrapper(_Trash2Icon);
-export const ZapIcon = createIconWrapper(_ZapIcon);
-export const ListChecksIcon = createIconWrapper(_ListChecksIcon);
+export const UserCircleIcon = createIconWrapper(_CircleUserRoundIcon);
+export const UserIcon = createIconWrapper(_UserIcon);
+export const UserLockIcon = createIconWrapper(_UserLockIcon);
 export const UserRoundCheckIcon = createIconWrapper(_UserRoundCheckIcon);
+export const UserShildIcon = createIconWrapper(_ShieldUserIcon);
+export const ZapIcon = createIconWrapper(_ZapIcon);
 
 // ============================================================================
 // AUTOMATIC ICON MAP & TYPES
@@ -122,52 +124,53 @@ export const UserRoundCheckIcon = createIconWrapper(_UserRoundCheckIcon);
  * This creates a map of icon names to their components automatically
  */
 export const ICON_MAP = {
+  AddIcon,
+  BadgeCheckIcon,
+  CloseIcon,
+  CoffeeIcon,
   CountdownTimerIcon,
   Cross2Icon,
+  DeleteIcon,
   DialogIcon,
+  DoubleArrowLeftIcon,
+  DoubleArrowRightIcon,
+  DropdownIcon,
+  EditIcon,
   ExclamationTriangleIcon,
+  FastForwardIcon,
+  HomeIcon,
+  InfoCircledIcon,
+  LanguageIcon,
+  ListChecksIcon,
+  LockIcon,
+  MagnifyingGlassIcon,
+  MenuIcon,
+  MoonIcon,
+  PanelBottomCloseIcon,
+  PanelBottomOpenIcon,
+  PlusIcon,
+  RefreshIcon,
   ReloadIcon,
+  SettingsIcon,
   ShieldCheckIcon,
+  SpeakerLoudIcon,
   StarIcon,
+  StopIcon,
+  SunIcon,
+  TempIcon,
   TextAlignLeftIcon,
   TextAlignTopIcon,
   TimerIcon,
-  DoubleArrowLeftIcon,
-  DoubleArrowRightIcon,
-  CloseIcon,
-  DropdownIcon,
-  MenuIcon,
-  CoffeeIcon,
-  LanguageIcon,
-  MoonIcon,
-  SunIcon,
-  TempIcon,
-  WindowIcon,
-  WineIcon,
-  AddIcon,
-  BadgeCheckIcon,
-  DeleteIcon,
-  HomeIcon,
-  LockIcon,
-  EditIcon,
-  InfoCircledIcon,
-  MagnifyingGlassIcon,
-  PanelBottomCloseIcon,
-  PanelBottomOpenIcon,
-  UserLockIcon,
-  UserIcon,
-  UserCircleIcon,
-  UserShildIcon,
-  PlusIcon,
-  RefreshIcon,
-  SpeakerLoudIcon,
-  StopIcon,
-  SettingsIcon,
   TimerResetIcon,
   TrashIcon,
-  ZapIcon,
-  ListChecksIcon,
+  UserCircleIcon,
+  UserIcon,
+  UserLockIcon,
   UserRoundCheckIcon,
+  UserShildIcon,
+  WindowIcon,
+  WineIcon,
+  ZapIcon,
 } as const;
 
 /**
