@@ -17,11 +17,9 @@ export const LoginButton: FC = () => {
       await signOut({
         onSuccess: () => {
           toast({ variant: 'success', message: 'Successfully logged out' });
-          // signOut already handles redirect to /
         },
         onError: () => {
           toast({ variant: 'error', message: 'Failed to log out', subText: 'Please try again' });
-          // signOut still redirects to / even on error
         },
       });
     } catch (error) {
