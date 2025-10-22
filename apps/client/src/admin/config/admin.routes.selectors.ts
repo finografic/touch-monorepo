@@ -63,3 +63,31 @@ export function getAdminDashboardCards(isAuthenticated: boolean, role?: AuthRole
 export function getAdminEntryByPath(path: string): AdminRouteEntry | undefined {
   return ADMIN_ENTRIES.find((entry) => entry.path === path);
 }
+
+/**
+ * Check if a route requires authentication based on user role
+ * @param path - The route path to check
+ * @param role - The user's role (defaults to 'public' if not authenticated)
+ * @returns true if the route is blocked for this role, false if accessible
+ */
+export function isRouteProtected(path: string, role: AuthRoles = 'public'): boolean {
+  const entry = getAdminEntryByPath(path);
+
+  if (!entry) {
+    // No route config found - allow access
+    return false;
+  }
+
+  // Route is protected if the user's role doesn't have a component defined
+  return entry.element[role] === null;
+}
+
+/**
+ * Get all admin route paths that require admin authentication
+ * (paths where public: null and admin: Component)
+ */
+export function getProtectedAdminRoutes(): string[] {
+  return ADMIN_ENTRIES.filter((entry) => entry.element.public === null && entry.element.admin !== null).map(
+    (entry) => entry.path,
+  );
+}

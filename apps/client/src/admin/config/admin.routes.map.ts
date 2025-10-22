@@ -1,5 +1,7 @@
 import type React from 'react';
+import { Outlet } from 'react-router-dom';
 
+import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminFilterAnalysisPage } from 'admin/pages/AdminFilterAnalysisPage';
 import { AdminLanguagesBasicPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesBasicPage';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
@@ -42,16 +44,44 @@ export interface AdminRouteEntry extends AdminRouteBase {
 }
 
 export const ADMIN_ENTRIES: AdminRouteEntry[] = [
+  // DASHBOARD (accessible to all - index route)
+  {
+    key: 'dashboard',
+    path: '/admin',
+    element: {
+      public: Outlet,
+      admin: Outlet,
+    },
+    hasNav: { public: false, admin: false }, // Dashboard doesn't show in nav (it's the home)
+    hasCard: { public: false, admin: false }, // Dashboard doesn't show as a card
+    icon: LanguageIcon, // Not used, but required by type
+    color: 'blue',
+  },
+
   // PUBLIC ENTRIES (accessible without login)
+  // TODO: LEAVE THIS IN !!
+  // {
+  //   key: 'languages',
+  //   path: '/admin/languages',
+  //   element: {
+  //     public: AdminLanguagesBasicPage,
+  //     admin: AdminLanguagesPage,
+  //   },
+  //   hasNav: { public: true, admin: true },
+  //   hasCard: { public: true, admin: true },
+  //   icon: LanguageIcon,
+  //   color: 'green',
+  // },
+  // TOOD: DEV VERSION ONLY...
   {
     key: 'languages',
     path: '/admin/languages',
     element: {
-      public: AdminLanguagesBasicPage,
+      public: null,
       admin: AdminLanguagesPage,
     },
-    hasNav: { public: true, admin: true },
-    hasCard: { public: true, admin: true },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
     icon: LanguageIcon,
     color: 'green',
   },

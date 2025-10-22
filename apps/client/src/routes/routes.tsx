@@ -24,7 +24,6 @@ import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
-import { ProtectedAdminRoutes } from './auth/ProtectedAdminRoutes';
 
 export const routes: RouteObject[] = [
   {
@@ -90,79 +89,69 @@ export const routes: RouteObject[] = [
     ],
   },
   // ============================================== //
-  // Admin Routes with authentication
+  // Admin Routes - Protected by AuthDialogGuard
   // ============================================== //
   {
     path: '/admin',
     element: <AdminLayout />,
     children: [
-      // {
-      //   path: 'login',
-      //   element: <AdminLoginPage />,
-      // },
       {
-        // Protected admin section
-        element: <ProtectedAdminRoutes />,
+        index: true,
+        id: AdminFieldKeys.dashboard,
+        // element: <div style={{ padding: '20rem' }}>DASHBOARD</div>,
+        element: <AdminDashboardPage />,
+      },
+      {
+        path: 'orders',
+        id: AdminFieldKeys.itemsList,
+        element: <AdminOrdersPage />,
         children: [
           {
-            index: true,
-            id: AdminFieldKeys.dashboard,
-            element: <div style={{ padding: '20rem' }}>DASHBOARD</div>,
-            // element: <AdminDashboardPage />,
-          },
-          {
-            path: 'orders',
-            id: AdminFieldKeys.itemsList,
+            path: ':orderId',
+            id: 'order-edit',
             element: <AdminOrdersPage />,
-            children: [
-              {
-                path: ':orderId',
-                id: 'order-edit',
-                element: <AdminOrdersPage />,
-              },
-            ],
-          },
-          {
-            path: 'translations',
-            id: AdminFieldKeys.translations,
-            element: <AdminTranslationsPage />,
-          },
-          {
-            path: 'ui-labels',
-            id: AdminFieldKeys.translationsUi,
-            element: <AdminUiLabelsPage />,
-          },
-          {
-            path: 'languages',
-            id: AdminFieldKeys.languages,
-            element: <AdminLanguagesPage />,
-          },
-          {
-            path: 'filter-analysis',
-            id: 'filterAnalysis',
-            element: <AdminFilterAnalysisPage />,
-          },
-          {
-            path: 'sounds',
-            id: 'sounds',
-            element: <AdminSoundPage />,
-          },
-          {
-            path: 'slot-config',
-            id: 'slotConfig',
-            element: <AdminSlotsConfigPage />,
-          },
-          {
-            path: 'relays',
-            id: 'relays',
-            element: <AdminRelaysPage />,
-          },
-          {
-            path: 'mode',
-            id: 'modo',
-            element: <AdminModePage />,
           },
         ],
+      },
+      {
+        path: 'translations',
+        id: AdminFieldKeys.translations,
+        element: <AdminTranslationsPage />,
+      },
+      {
+        path: 'ui-labels',
+        id: AdminFieldKeys.translationsUi,
+        element: <AdminUiLabelsPage />,
+      },
+      {
+        path: 'languages',
+        id: AdminFieldKeys.languages,
+        element: <AdminLanguagesPage />,
+      },
+      {
+        path: 'filter-analysis',
+        id: 'filterAnalysis',
+        element: <AdminFilterAnalysisPage />,
+      },
+      {
+        path: 'sounds',
+        id: 'sounds',
+        element: <AdminSoundPage />,
+      },
+      {
+        path: 'slot-config',
+        id: 'slotConfig',
+        element: <AdminSlotsConfigPage />,
+      },
+      {
+        path: 'relays',
+        id: 'relays',
+        element: <AdminRelaysPage />,
+      },
+      {
+        path: 'mode',
+        id: 'modo',
+        element: <AdminModePage />,
       },
     ],
   },

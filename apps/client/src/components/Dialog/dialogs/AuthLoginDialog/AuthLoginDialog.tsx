@@ -1,5 +1,5 @@
 import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
@@ -18,15 +18,18 @@ interface AuthLoginDialogProps {
 export const AuthLoginDialog: FC<AuthLoginDialogProps> = ({ children = <React.Fragment /> }) => {
   const { isAuthenticated, refreshSession, isLoginDialogOpen, closeLoginDialog, signIn, signOut } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [password, setPassword] = useState(DEFAULT_PASSWORD);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('user');
+  const [activeTab, setActiveTab] = useState('admin'); // Default to admin tab
 
-  const deferToLogin = useMemo(
-    () => location.pathname.includes('/admin') && !isAuthenticated,
-    [location.pathname, isAuthenticated],
+  // When called from AuthDialogGuard, this dialog blocks access to protected routes
+  // We check if we're on an admin route (but not the dashboard) to determine if this is a blocking dialog
+  const isBlockingAccess = useMemo(
+    () => location.pathname.startsWith('/admin') && location.pathname !== '/admin',
+    [location.pathname],
   );
 
   const getCurrentEmail = () => {
@@ -47,8 +50,10 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = ({ children = <React.Fr
   };
 
   const handleCloseDialog = useCallback(() => {
-    deferToLogin ? navigate('/') : closeLoginDialog();
-  }, [closeLoginDialog, deferToLogin, navigate]);
+    // If blocking access to a protected route, navigate home
+    // Otherwise just close the dialog
+    isBlockingAccess ? navigate('/') : closeLoginDialog();
+  }, [closeLoginDialog, isBlockingAccess, navigate]);
 
   // Handle logout success: redirect to /
   useEffect(() => {
@@ -102,22 +107,22 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = ({ children = <React.Fr
       scaling: '110%',
     },
     tabs: [
-      {
-        id: 'user',
-        label: 'user',
-        icon: <UserIcon />,
-        content: (
-          <AuthLoginTabContent
-            activeTab={activeTab}
-            email={DEFAULT_USER_EMAIL}
-            password={password}
-            onPasswordChange={setPassword}
-            onSubmit={handleSubmit}
-            isLoading={isLoading}
-            error={error}
-          />
-        ),
-      },
+      // {
+      //   id: 'user',
+      //   label: 'user',
+      //   icon: <UserIcon />,
+      //   content: (
+      //     <AuthLoginTabContent
+      //       activeTab={activeTab}
+      //       email={DEFAULT_USER_EMAIL}
+      //       password={password}
+      //       onPasswordChange={setPassword}
+      //       onSubmit={handleSubmit}
+      //       isLoading={isLoading}
+      //       error={error}
+      //     />
+      //   ),
+      // },
       {
         id: 'admin',
         label: 'Admin',
@@ -137,28 +142,21 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = ({ children = <React.Fr
     ],
   };
 
-  if (deferToLogin) {
-    return (
-      <GenericDialog
-        isOpen={true}
-        onClose={handleCloseDialog}
-        config={config}
-        defaultTab={activeTab}
-        onTabChange={setActiveTab}
-      />
-    );
-  }
+  // When used by AuthDialogGuard to block access, always show as open
+  // When used via isLoginDialogOpen (header button), show based on state
+  const shouldShowDialog = isBlockingAccess || isLoginDialogOpen;
 
   return (
     <>
       <GenericDialog
-        isOpen={isLoginDialogOpen}
+        isOpen={shouldShowDialog}
         onClose={handleCloseDialog}
         config={config}
         defaultTab={activeTab}
         onTabChange={setActiveTab}
       />
-      {children}
+      {/* Only render children if not blocking access */}
+      {!isBlockingAccess && children}
     </>
   );
 };
