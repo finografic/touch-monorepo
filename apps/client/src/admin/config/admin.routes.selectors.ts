@@ -51,16 +51,10 @@ export function getAdminNavItems(isAuthenticated: boolean, role?: AuthRoles) {
 export function getAdminDashboardCards(isAuthenticated: boolean, role?: AuthRoles): AdminRouteEntry[] {
   const userRole = role || 'public';
 
-  console.log('🎴 getAdminDashboardCards:', { isAuthenticated, role, userRole });
-  const entries = getAdminEntries(isAuthenticated, userRole);
-  console.log('🎴 getAdminEntries result:', entries);
-  const filtered = entries.filter((entry) => {
-    const hasCard = entry.hasCard?.[userRole] === true;
-    console.log(`🎴 Entry ${entry.key}: hasCard[${userRole}] = ${hasCard}`);
-    return hasCard;
+  return getAdminEntries(isAuthenticated, userRole).filter((entry) => {
+    // Show cards that are explicitly enabled for the user role
+    return entry.hasCard?.[userRole] === true;
   });
-  console.log('🎴 Filtered cards:', filtered);
-  return filtered;
 }
 
 /**

@@ -17,21 +17,14 @@ export const ProtectedRoutesByRole: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const location = useLocation();
 
-  // Get the admin route entry for the current path
+  // Get the ADMIN_ENTRIES route configuration for the current path
   const currentRouteEntry = getAdminEntryByPath(location.pathname);
-
-  // ======================================================================== //
 
   if (location.pathname === '/admin') {
     return <Outlet />;
   }
 
-  // ======================================================================== //
-
-  // Handle authenticated users
   if (user && isAuthenticated) {
-    // Check if route is accessible for user role
-
     if (currentRouteEntry && currentRouteEntry.element.admin) {
       return <currentRouteEntry.element.admin />;
     }
@@ -49,7 +42,11 @@ export const ProtectedRoutesByRole: React.FC = () => {
       return <currentRouteEntry.element.public />;
     }
 
-    return <Navigate to="/admin" />;
+    if (location.pathname.startsWith('/admin')) {
+      return <Navigate to="/admin" />;
+    }
+
+    return location.pathname !== '/' ? <Navigate to="/" /> : <Outlet />;
   }
 
   // Fallback (should not reach here)

@@ -36,10 +36,7 @@ export const AdminDashboardPage: React.FC = () => {
 
   // Get dashboard cards for the current role
   const adminCards = React.useMemo(() => {
-    console.log('📊 Dashboard Debug:', { isAuthenticated, role, user });
-    const rawCards = getAdminDashboardCards(isAuthenticated, role);
-    console.log('📊 Raw Cards:', rawCards);
-    return rawCards.map((card) => {
+    return getAdminDashboardCards(isAuthenticated, role).map((card) => {
       const text = getCalloutText(t, role, card.key);
       return {
         id: card.key,

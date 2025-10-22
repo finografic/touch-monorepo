@@ -126,10 +126,10 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                 console.log('✅ Sign out successful - session cleared');
 
                 // Redirect to home page
-                const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
+                // const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
                 // window.location.assign(redirectUrl);
 
-                onSuccess?.();
+                // onSuccess?.();
               } else {
                 console.warn('⚠️ Server sign-out failed, clearing client-side state anyway');
                 // Still clear client state even if server fails

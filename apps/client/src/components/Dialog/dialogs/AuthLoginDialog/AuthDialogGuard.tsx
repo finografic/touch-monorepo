@@ -31,16 +31,7 @@ export const AuthDialogGuard: FC<AuthDialogGuardProps> = ({ children }) => {
     const userRole = isAuthenticated && user?.role === 'admin' ? 'admin' : 'public';
 
     // Check if this route is protected for this role
-    const protected_ = isRouteProtected(location.pathname, userRole);
-
-    console.log('🔒 AuthDialogGuard:', {
-      path: location.pathname,
-      userRole,
-      isAuthenticated,
-      protected: protected_,
-    });
-
-    return protected_;
+    return isRouteProtected(location.pathname, userRole);
   }, [location.pathname, isAuthenticated, user?.role]);
 
   if (deferToLogin) {
