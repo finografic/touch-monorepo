@@ -36,7 +36,6 @@ export const AdminSoundPage: React.FC = () => {
     }
   }, [soundFiles]);
 
-  // Test basic audio playback
   const handleTestAudio = async () => {
     try {
       await testAudioPlayback();
