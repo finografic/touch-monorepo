@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 
 import { Flex, Spinner, Text } from '@radix-ui/themes';
+import { AdminContentLayout, AdminSection } from 'admin/components';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
 import { useGetModes, useUpdateDefaultMode } from 'queries/modes';
 
-import { AdminContentLayout, AdminSection } from '../..';
-import { styles } from './AdminModePage.styles';
+import { styles } from './PublicModePage.styles';
 
 export const AdminModeBasicPage: React.FC = () => {
   const { toast } = useToast();

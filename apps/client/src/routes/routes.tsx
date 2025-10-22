@@ -1,10 +1,9 @@
 import type { RouteObject } from 'react-router-dom';
 
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
-import { AdminFilterAnalysisPage } from 'admin/pages/AdminFilterAnalysisPage';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
-import { AdminLoginPage } from 'admin/pages/AdminLoginPage/AdminLoginPage';
-import { AdminModePage } from 'admin/pages/AdminModePage/AdminModePage';
+// import { AdminLoginPage } from 'admin/pages/AdminLoginPage/AdminLoginPage';
+import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
@@ -14,7 +13,7 @@ import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
 import { Layout } from 'layout/Layout';
-import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
+// import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { GenericSelectPage } from 'pages/GenericSelectPage/GenericSelectPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { MainPage } from 'pages/MainPage/MainPage';
@@ -95,12 +94,35 @@ export const routes: RouteObject[] = [
     path: '/admin',
     element: <AdminLayout />,
     children: [
+      // DASHBOARD (accessible to all - index route)
       {
         index: true,
         id: AdminFieldKeys.dashboard,
-        // element: <div style={{ padding: '20rem' }}>DASHBOARD</div>,
-        element: <AdminDashboardPage />,
+        element: <AdminDashboardPage />, // <div style={{ padding: '20rem' }}>DASHBOARD</div>,
       },
+      // PUBLIC ENTRIES (accessible without login)
+      {
+        path: 'mode',
+        id: 'modo',
+        element: <PublicModePage />,
+      },
+      {
+        path: 'languages',
+        id: AdminFieldKeys.languages,
+        element: <AdminLanguagesPage />,
+      },
+      {
+        path: 'sounds',
+        id: 'sounds',
+        element: <AdminSoundPage />,
+      },
+
+      // {
+      //   path: 'mode', // main
+      //   id: 'modo',
+      //   element: <PublicModePage />,
+      // },
+      // AUTHENTICATED ENTRIES (only visible as admin)
       {
         path: 'orders',
         id: AdminFieldKeys.itemsList,
@@ -124,21 +146,6 @@ export const routes: RouteObject[] = [
         element: <AdminUiLabelsPage />,
       },
       {
-        path: 'languages',
-        id: AdminFieldKeys.languages,
-        element: <AdminLanguagesPage />,
-      },
-      {
-        path: 'filter-analysis',
-        id: 'filterAnalysis',
-        element: <AdminFilterAnalysisPage />,
-      },
-      {
-        path: 'sounds',
-        id: 'sounds',
-        element: <AdminSoundPage />,
-      },
-      {
         path: 'slot-config',
         id: 'slotConfig',
         element: <AdminSlotsConfigPage />,
@@ -147,11 +154,6 @@ export const routes: RouteObject[] = [
         path: 'relays',
         id: 'relays',
         element: <AdminRelaysPage />,
-      },
-      {
-        path: 'mode',
-        id: 'modo',
-        element: <AdminModePage />,
       },
     ],
   },

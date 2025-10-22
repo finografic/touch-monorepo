@@ -60,16 +60,21 @@ export const ROUTE_FILTER_KEYS: { [K in FilterKey | NavigationFieldKey]: K } = {
  * Useful for strongly-typed object access
  */
 export const AdminFieldKeys: { [K in string]: K } = {
+  // DASHBOARD (accessible to all - index route)
   dashboard: 'dashboard',
+
+  // PUBLIC ENTRIES
+  mode: 'mode', // public only
   languages: 'languages',
+  maintenance: 'maintenance',
+  sounds: 'sounds',
+
+  // AUTHENTICATED ENTRIES (only visible as admin)
   translations: 'translations',
   translationsUi: 'translationsUi',
   uiLabels: 'ui-labels',
   slotConfig: 'slot-config',
-  filterAnalysis: 'filter-analysis',
-  sounds: 'sounds',
-  mode: 'mode',
+  registros: 'registros',
   relays: 'relays',
-  maintenance: 'maintenance',
   itemsList: 'items-list',
 } as const;

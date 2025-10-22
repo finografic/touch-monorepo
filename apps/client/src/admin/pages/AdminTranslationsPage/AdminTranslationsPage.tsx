@@ -113,10 +113,12 @@ export const AdminTranslationsPage: React.FC = () => {
   // Track if form has been initialized to prevent re-initialization
   const isInitialized = useRef(false);
 
+  // ------------------------------------------------------------------------ //
+
   // Use supported languages from database - don't render until loaded
   // Convert to format expected by AdminTranslationsPage (needs isoCode field)
   const supportedLanguages = useMemo(() => {
-    if (!supportedLanguagesData) return [];
+    if (!supportedLanguagesData || !Array.isArray(supportedLanguagesData)) return [];
 
     // Map the database format to what AdminTranslationsPage expects
     return supportedLanguagesData.map((lang) => ({
@@ -125,6 +127,8 @@ export const AdminTranslationsPage: React.FC = () => {
       nativeName: lang.nativeName,
     }));
   }, [supportedLanguagesData]);
+
+  // ------------------------------------------------------------------------ //
 
   // Memoize default values to prevent unnecessary re-renders
   const defaultValues = useMemo(() => getEmptyFormData(), []);
@@ -148,6 +152,7 @@ export const AdminTranslationsPage: React.FC = () => {
         translationsData &&
         !isLoading &&
         supportedLanguagesData &&
+        Array.isArray(supportedLanguagesData) &&
         supportedLanguagesData.length > 0 &&
         !languagesLoading
       ) {

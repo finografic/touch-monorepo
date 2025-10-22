@@ -6,7 +6,7 @@ import { useToast } from 'components/Toast';
 import { useGetModes, useUpdateActiveStates } from 'queries/modes';
 
 import { AdminContentLayout, AdminSection } from '../..';
-import { styles } from './AdminModePage.styles';
+import { styles } from './PublicModePage.styles';
 
 export const AdminModePage: React.FC = () => {
   const { toast } = useToast();

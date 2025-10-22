@@ -7,7 +7,7 @@ import { LanguageSelector } from 'components/LanguageSelector/LanguageSelector';
 import { AdminContentLayout, AdminSection } from '../..';
 import { styles } from './AdminLanguagesPage.styles';
 
-export const AdminLanguagesBasicPage: React.FC = () => {
+export const PublicLanguagesPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
