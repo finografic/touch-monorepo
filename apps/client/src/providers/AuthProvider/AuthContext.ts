@@ -152,8 +152,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             const isAdmin = session?.user?.role === 'admin';
             set({
               session,
-              // user: session?.user || null,
-              role: session?.user?.role || 'public',
+              user: session?.user || null,
               isAuthenticated: !!session?.user,
               isAdmin,
               isLoading: false,

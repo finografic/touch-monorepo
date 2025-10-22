@@ -29,23 +29,28 @@ export const AdminDashboardPage: React.FC = () => {
     setLocale(currentLanguage as 'en-GB' | 'es-ES');
   }, [currentLanguage]);
 
-  const role: AuthRoles = user?.role || 'admin';
+  const role = user?.role === 'admin' ? 'admin' : 'public';
 
   // Use ParaglideJS `m` function with flat snake_case keys
   const dashboardTitle = m.admin_dashboard_title_role({ role });
 
   // Get dashboard cards for the current role
-  const adminCards = getAdminDashboardCards(isAuthenticated, role).map((card) => {
-    const text = getCalloutText(t, role, card.key);
-    return {
-      id: card.key,
-      title: text.title,
-      description: text.description,
-      icon: React.createElement(card.icon, { width: 32, height: 32 }),
-      path: card.path,
-      color: card.color,
-    };
-  });
+  const adminCards = React.useMemo(() => {
+    console.log('📊 Dashboard Debug:', { isAuthenticated, role, user });
+    const rawCards = getAdminDashboardCards(isAuthenticated, role);
+    console.log('📊 Raw Cards:', rawCards);
+    return rawCards.map((card) => {
+      const text = getCalloutText(t, role, card.key);
+      return {
+        id: card.key,
+        title: text.title,
+        description: text.description,
+        icon: React.createElement(card.icon, { width: 32, height: 32 }),
+        path: card.path,
+        color: card.color,
+      };
+    });
+  }, [isAuthenticated, role, t]);
 
   const handleCardClick = (path: string) => {
     navigateWithTransition(path);
@@ -60,15 +65,12 @@ export const AdminDashboardPage: React.FC = () => {
     cards: adminCards.map((c) => c.id),
   });
 
-  if (!isAuthenticated) {
-    return <NoAdminEntryRedirect />;
-  }
-
   return (
     <AdminContentLayout title={dashboardTitle} subtitle={m.admin_dashboard_description()} align="center">
       <Box className="admin-dashboard" css={styles}>
         {/* <SectionHeader title="Admin Configuration" align="center" /> */}
         {/* <AdminAccessTest /> */}
+        {/* <pre>{JSON.stringify(adminCards, null, 2)}</pre> */}
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
           {adminCards.map((card) => (
             <Card
