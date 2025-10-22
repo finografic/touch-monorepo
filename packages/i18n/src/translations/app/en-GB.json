@@ -120,9 +120,9 @@
           "description": "Select your preferred language"
         }
       },
-      "orders": {
-        "title": "Configuration Management",
-        "description": "Configure system languages and localization"
+      "items": {
+        "title": "Records Management",
+        "description": "Manage database records"
       },
       "uiLabels": {
         "title": "UI Labels / Translations",
@@ -131,10 +131,6 @@
       "slotConfig": {
         "title": "Grid",
         "description": "Configure MainPage grid layout and slot types"
-      },
-      "filterAnalysis": {
-        "title": "Filter Analysis",
-        "description": "Analyze orders data and filtering behavior"
       },
       "sounds": {
         "title": "Sound Management",

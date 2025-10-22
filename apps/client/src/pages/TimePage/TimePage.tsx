@@ -64,7 +64,7 @@ export const TimePage = () => {
               }}
               min={0}
               max={59}
-              step={1}
+              step={5}
               padZeros={2}
               suffix="Seg"
               loop={true}

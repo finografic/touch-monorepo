@@ -47,5 +47,7 @@
   "admin_maintenance_title": "Mantenimiento",
   "admin_maintenance_description": "Gestionar mantenimiento general",
   "admin_maintenance_card_public_title": "Mantenimiento",
-  "admin_maintenance_card_public_description": "Gestionar mantenimiento"
+  "admin_maintenance_card_public_description": "Gestionar mantenimiento",
+  "admin_items_title": "Gestión de Configuración",
+  "admin_items_description": "Configurar idiomas del sistema y localización"
 }

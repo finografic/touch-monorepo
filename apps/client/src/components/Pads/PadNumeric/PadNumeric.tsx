@@ -25,9 +25,6 @@ interface PadNumericProps {
   className?: string;
   disabled?: boolean;
   loop?: boolean; // Enable looping behavior (wrap around at min/max)
-  // Key-repeat timing (like macOS system settings)
-  initialRepeatDelay?: number; // "Delay until repeat" in ms (default: 500ms)
-  repeatInterval?: number; // "Key repeat rate" in ms (default: 100ms)
 }
 
 export const PadNumeric: FC<PadNumericProps> = ({
@@ -45,15 +42,7 @@ export const PadNumeric: FC<PadNumericProps> = ({
   className,
   disabled = false,
   loop = false,
-  initialRepeatDelay = DEFAULT_INITIAL_REPEAT_DELAY,
-  repeatInterval = DEFAULT_REPEAT_INTERVAL,
 }) => {
-  // Key-repeat state
-  const [isRepeating, setIsRepeating] = useState(false);
-  const repeatTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const repeatIntervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const isIncrementRef = useRef<boolean>(false);
-
   const formatValue = useCallback(
     (num: number): { numeric: string; prefix: string | ReactElement; suffix: string | ReactElement } => {
       const formatted = decimalPlaces > 0 ? num.toFixed(decimalPlaces) : Math.round(num).toString();
@@ -108,110 +97,6 @@ export const PadNumeric: FC<PadNumericProps> = ({
     onChange(newValue);
   }, [value, step, onChange, canDecrement, loop, min, max]);
 
-  // Repeat functions that bypass canIncrement/canDecrement checks
-  const repeatIncrement = useCallback(() => {
-    let newValue = value + step;
-
-    // Handle looping
-    if (loop && newValue > max) {
-      newValue = min;
-    }
-
-    console.log('PadNumeric: repeatIncrement', { value, step, newValue, loop, min, max });
-    onChange(newValue);
-  }, [value, step, onChange, loop, min, max]);
-
-  const repeatDecrement = useCallback(() => {
-    let newValue = value - step;
-
-    // Handle looping
-    if (loop && newValue < min) {
-      newValue = max;
-    }
-
-    console.log('PadNumeric: repeatDecrement', { value, step, newValue, loop, min, max });
-    onChange(newValue);
-  }, [value, step, onChange, loop, min, max]);
-
-  // Key-repeat functionality (like macOS system settings)
-  const startRepeat = useCallback(
-    (isIncrement: boolean) => {
-      if (isRepeating || disabled) return;
-
-      setIsRepeating(true);
-      isIncrementRef.current = isIncrement;
-
-      // Initial action (immediate response)
-      if (isIncrement) {
-        handleIncrement();
-      } else {
-        handleDecrement();
-      }
-
-      // Set up repeat after initial delay (like macOS "Delay until repeat")
-      repeatTimeoutRef.current = setTimeout(() => {
-        repeatIntervalRef.current = setInterval(() => {
-          if (isIncrementRef.current) {
-            repeatIncrement();
-          } else {
-            repeatDecrement();
-          }
-        }, repeatInterval); // Like macOS "Key repeat rate"
-      }, initialRepeatDelay);
-    },
-    [
-      isRepeating,
-      handleIncrement,
-      handleDecrement,
-      repeatIncrement,
-      repeatDecrement,
-      initialRepeatDelay,
-      repeatInterval,
-      disabled,
-    ],
-  );
-
-  // Enhanced mouse/touch event handlers (like system controls)
-  const handleMouseDown = useCallback(
-    (e: React.MouseEvent, isIncrement: boolean) => {
-      e.preventDefault(); // Prevent context menu and text selection
-      startRepeat(isIncrement);
-    },
-    [startRepeat],
-  );
-
-  const handleTouchStart = useCallback(
-    (e: React.TouchEvent, isIncrement: boolean) => {
-      e.preventDefault(); // Prevent scrolling and context menu
-      startRepeat(isIncrement);
-    },
-    [startRepeat],
-  );
-
-  const stopRepeat = useCallback(() => {
-    setIsRepeating(false);
-
-    if (repeatTimeoutRef.current) {
-      clearTimeout(repeatTimeoutRef.current);
-      repeatTimeoutRef.current = null;
-    }
-
-    if (repeatIntervalRef.current) {
-      clearInterval(repeatIntervalRef.current);
-      repeatIntervalRef.current = null;
-    }
-  }, []);
-
-  // Cleanup on unmount
-  const cleanup = useCallback(() => {
-    stopRepeat();
-  }, [stopRepeat]);
-
-  // Add cleanup effect
-  React.useEffect(() => {
-    return cleanup;
-  }, [cleanup]);
-
   return (
     <div css={styles} className={clsx('pad-numeric', className)}>
       <div className="pad-container">
@@ -225,12 +110,6 @@ export const PadNumeric: FC<PadNumericProps> = ({
           <Button
             className="control-button increment"
             onClick={handleIncrement}
-            onMouseDown={(e) => handleMouseDown(e, true)}
-            onMouseUp={stopRepeat}
-            onMouseLeave={stopRepeat}
-            onTouchStart={(e) => handleTouchStart(e, true)}
-            onTouchEnd={stopRepeat}
-            onTouchCancel={stopRepeat}
             disabled={!canIncrement()}
             variant="outline"
             color="gray"
@@ -245,12 +124,6 @@ export const PadNumeric: FC<PadNumericProps> = ({
           <Button
             className="control-button decrement"
             onClick={handleDecrement}
-            onMouseDown={(e) => handleMouseDown(e, false)}
-            onMouseUp={stopRepeat}
-            onMouseLeave={stopRepeat}
-            onTouchStart={(e) => handleTouchStart(e, false)}
-            onTouchEnd={stopRepeat}
-            onTouchCancel={stopRepeat}
             disabled={!canDecrement()}
             variant="outline"
             color="gray"
