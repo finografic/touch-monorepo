@@ -46,10 +46,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       public: Outlet,
       admin: Outlet,
     },
-    hasNav: { public: false, admin: false }, // Dashboard doesn't show in nav (it's the home)
-    hasCard: { public: false, admin: false }, // Dashboard doesn't show as a card
-    icon: LanguageIcon, // Not used, but required by type
-    color: 'blue',
+    hasNav: { public: false, admin: false }, // no nav
+    hasCard: { public: false, admin: false }, // no card
+    // icon: null,
+    // color: 'blue',
   },
   // PUBLIC ENTRIES (accessible without login) ============================== //
   {

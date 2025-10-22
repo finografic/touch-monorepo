@@ -32,6 +32,8 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
   const hasTabs = config.tabs.length > 1;
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
 
+  console.log('GenericDialog HAS_TABS:', hasTabs);
+
   const theme = {
     appearance: appTheme as 'light' | 'dark', // Use app theme instead of hardcoded dark
     scaling: '100%' as const,
@@ -85,7 +87,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
               </IconButton>
             </Flex>
           ) : (
-            <Flex display="flex" justify="end" align="center">
+            <Flex display="flex" justify="end" align="center" style={{ position: 'absolute', zIndex: 99999 }}>
               <VisuallyHidden>
                 <Dialog.Title />
               </VisuallyHidden>
@@ -135,7 +137,9 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
           ) : (
             <>
               {/* DIALOG CONTENT (NO TABS) --------------------------------- */}
-              <div className="dialog-content">{currentTab?.content}</div>
+              <div className="dialog-content" style={{ marginTop: '1.5rem' }}>
+                {currentTab?.content}
+              </div>
             </>
           )}
         </div>
