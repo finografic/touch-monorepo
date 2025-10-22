@@ -1,6 +1,7 @@
 import type React from 'react';
 import { Outlet } from 'react-router-dom';
 
+import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminLanguagesPage, PublicLanguagesPage } from 'admin/pages/AdminLanguagesPage';
 import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
@@ -92,7 +93,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'maintenance',
     path: '/admin/maintenance', // relays (public)
     element: {
-      public: AdminSlotsConfigPage,
+      public: AdminDashboardPage,
       admin: null,
     },
     hasNav: { public: true, admin: false },

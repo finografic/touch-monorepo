@@ -13,13 +13,14 @@ import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
 import { Layout } from 'layout/Layout';
-// import { ProtectedRoute } from 'components/ProtectedRoute/ProtectedRoute';
 import { GenericSelectPage } from 'pages/GenericSelectPage/GenericSelectPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { MainPage } from 'pages/MainPage/MainPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
+
+import { ProtectedRoutesByRole } from 'routes/auth/ProtectedRoutesByRole';
 
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
@@ -94,66 +95,72 @@ export const routes: RouteObject[] = [
     path: '/admin',
     element: <AdminLayout />,
     children: [
-      // DASHBOARD (accessible to all - index route)
       {
-        index: true,
-        id: AdminFieldKeys.dashboard,
-        element: <AdminDashboardPage />, // <div style={{ padding: '20rem' }}>DASHBOARD</div>,
-      },
-      // PUBLIC ENTRIES (accessible without login)
-      {
-        path: 'mode', // public-only
-        id: AdminFieldKeys.mode,
-        element: <PublicModePage />,
-      },
-      {
-        path: 'languages', // TODO: SHARED
-        id: AdminFieldKeys.languages,
-        element: <AdminLanguagesPage />,
-      },
-      {
-        path: 'sounds', // TODO: SHARED
-        id: AdminFieldKeys.sounds,
-        element: <AdminSoundPage />,
-      },
-
-      {
-        path: 'maintenance', // relays (public-only)
-        id: AdminFieldKeys.maintenance,
-        element: <AdminSlotsConfigPage />,
-      },
-      // AUTHENTICATED ENTRIES (only visible as admin)
-      {
-        path: 'items',
-        id: AdminFieldKeys.items,
-        element: <AdminOrdersPage />,
+        // Protected admin section
+        element: <ProtectedRoutesByRole />,
         children: [
+          // DASHBOARD (accessible to all - index route)
           {
-            path: ':orderId',
-            id: 'order-edit',
+            index: true,
+            id: AdminFieldKeys.dashboard,
+            element: <AdminDashboardPage />, // <div style={{ padding: '20rem' }}>DASHBOARD</div>,
+          },
+          // PUBLIC ENTRIES (accessible without login)
+          {
+            path: 'mode', // public-only
+            id: AdminFieldKeys.mode,
+            element: <PublicModePage />,
+          },
+          {
+            path: 'languages', // TODO: SHARED
+            id: AdminFieldKeys.languages,
+            element: <AdminLanguagesPage />,
+          },
+          {
+            path: 'sounds', // TODO: SHARED
+            id: AdminFieldKeys.sounds,
+            element: <AdminSoundPage />,
+          },
+
+          {
+            path: 'maintenance', // relays (public-only)
+            id: AdminFieldKeys.maintenance,
+            element: <AdminSlotsConfigPage />,
+          },
+          // AUTHENTICATED ENTRIES (only visible as admin)
+          {
+            path: 'items',
+            id: AdminFieldKeys.items,
             element: <AdminOrdersPage />,
+            children: [
+              {
+                path: ':orderId',
+                id: 'order-edit',
+                element: <AdminOrdersPage />,
+              },
+            ],
+          },
+          {
+            path: 'translations',
+            id: AdminFieldKeys.translations,
+            element: <AdminTranslationsPage />,
+          },
+          {
+            path: 'ui-labels',
+            id: AdminFieldKeys.translationsUi,
+            element: <AdminUiLabelsPage />,
+          },
+          {
+            path: 'slots-config',
+            id: 'slotsConfig',
+            element: <AdminSlotsConfigPage />,
+          },
+          {
+            path: 'relays',
+            id: 'relays',
+            element: <AdminRelaysPage />,
           },
         ],
-      },
-      {
-        path: 'translations',
-        id: AdminFieldKeys.translations,
-        element: <AdminTranslationsPage />,
-      },
-      {
-        path: 'ui-labels',
-        id: AdminFieldKeys.translationsUi,
-        element: <AdminUiLabelsPage />,
-      },
-      {
-        path: 'slots-config',
-        id: 'slotsConfig',
-        element: <AdminSlotsConfigPage />,
-      },
-      {
-        path: 'relays',
-        id: 'relays',
-        element: <AdminRelaysPage />,
       },
     ],
   },
