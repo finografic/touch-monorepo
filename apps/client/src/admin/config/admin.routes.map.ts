@@ -24,7 +24,7 @@ import {
   ZapIcon,
 } from 'styles/icons';
 
-export type AuthRoles = 'public' | 'user' | 'admin';
+export type AuthRoles = 'public' | 'admin';
 
 /** Base properties shared by all admin route entries */
 interface AdminRouteBase {
@@ -42,17 +42,16 @@ export interface AdminRouteEntry extends AdminRouteBase {
 }
 
 export const ADMIN_ENTRIES: AdminRouteEntry[] = [
-  // PUBLIC ENTRIES (visible to everyone)
+  // PUBLIC ENTRIES (accessible without login)
   {
     key: 'languages',
     path: '/admin/languages',
     element: {
-      public: null,
-      user: AdminLanguagesBasicPage,
+      public: AdminLanguagesBasicPage,
       admin: AdminLanguagesPage,
     },
-    hasNav: { public: false, user: true, admin: true },
-    hasCard: { public: false, user: true, admin: true },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
     icon: LanguageIcon,
     color: 'green',
   },
@@ -60,14 +59,11 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'sounds',
     path: '/admin/sounds',
     element: {
-      public: null,
-      // user: AdminSoundBasicPage,
-      user: AdminSoundBasicPage,
+      public: AdminSoundBasicPage,
       admin: AdminSoundBasicPage,
-      // admin: AdminSoundPage,
     },
-    hasNav: { public: false, user: true, admin: true },
-    hasCard: { public: false, user: true, admin: true },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
     icon: SpeakerLoudIcon,
     color: 'indigo',
   },
@@ -75,27 +71,23 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'mode',
     path: '/admin/mode',
     element: {
-      public: null,
-      user: AdminSoundBasicPage,
+      public: AdminModeBasicPage,
       admin: null,
     },
-    hasNav: { public: false, user: true, admin: false },
-    hasCard: { public: false, user: true, admin: false },
+    hasNav: { public: true, admin: false },
+    hasCard: { public: true, admin: false },
     icon: UserShildIcon,
     color: 'blue',
   },
-
-  // AUTHENTICATED ENTRIES (only visible when logged in)
   {
     key: 'translations',
     path: '/admin/translations',
     element: {
-      public: null,
-      user: AdminTranslationsPage,
+      public: AdminTranslationsPage,
       admin: AdminTranslationsPage,
     },
-    hasNav: { public: false, user: true, admin: true },
-    hasCard: { public: false, user: true, admin: true },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
     icon: EditIcon,
     color: 'blue',
   },
@@ -103,12 +95,11 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'uiLabels',
     path: '/admin/ui-labels',
     element: {
-      public: null,
-      user: AdminUiLabelsPage,
+      public: AdminUiLabelsPage,
       admin: AdminUiLabelsPage,
     },
-    hasNav: { public: false, user: true, admin: true },
-    hasCard: { public: false, user: true, admin: true },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
     icon: EditIcon,
     color: 'purple',
   },
@@ -117,11 +108,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     path: '/admin/maintenance',
     element: {
       public: AdminSlotsConfigPage,
-      user: null,
       admin: null,
     },
-    hasNav: { public: true, user: false, admin: false },
-    hasCard: { public: true, user: false, admin: false },
+    hasNav: { public: true, admin: false },
+    hasCard: { public: true, admin: false },
     icon: SettingsIcon,
     color: 'orange',
   },
@@ -129,53 +119,50 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'slotConfig',
     path: '/admin/slot-config',
     element: {
-      public: null,
-      user: AdminSlotsConfigPage,
+      public: AdminSlotsConfigPage,
       admin: AdminSlotsConfigPage,
     },
-    hasNav: { public: false, user: true, admin: true },
-    hasCard: { public: false, user: true, admin: true },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
     icon: UserShildIcon,
     color: 'orange',
   },
-
   {
     key: 'filterAnalysis',
     path: '/admin/filter-analysis',
     element: {
-      public: null,
-      user: AdminFilterAnalysisPage,
+      public: AdminFilterAnalysisPage,
       admin: AdminFilterAnalysisPage,
     },
-    hasNav: { public: false, user: true, admin: true },
-    hasCard: { public: false, user: true, admin: true },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
     icon: MagnifyingGlassIcon,
-    color: 'blue',
-  },
-  {
-    key: 'orders',
-    path: '/admin/orders',
-    element: {
-      public: null,
-      user: null,
-      admin: AdminOrdersPage,
-    },
-    hasNav: { public: false, user: false, admin: true },
-    hasCard: { public: false, user: false, admin: true },
-    icon: UserShildIcon,
     color: 'blue',
   },
   {
     key: 'relays',
     path: '/admin/relays',
     element: {
-      public: null,
-      user: AdminRelaysPage,
+      public: AdminRelaysBasicPage,
       admin: AdminRelaysPage,
     },
-    hasNav: { public: false, user: true, admin: true },
-    hasCard: { public: false, user: true, admin: true },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
     icon: ZapIcon,
     color: 'purple',
+  },
+
+  // ADMIN-ONLY ENTRIES (require admin login)
+  {
+    key: 'orders',
+    path: '/admin/orders',
+    element: {
+      public: null,
+      admin: AdminOrdersPage,
+    },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
+    icon: UserShildIcon,
+    color: 'blue',
   },
 ];

@@ -15,13 +15,11 @@ import { styles } from './UserToolbar.styles';
 
 export const UserToolbar: React.FC = () => {
   const { theme } = useAppConfig();
-  const { isAuthenticated } = useAuth();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const showHomeButton = location.pathname.startsWith('/admin');
-  const showAdminButton = !location.pathname.startsWith('/admin') && isAuthenticated;
+  const isAdminPath = location.pathname.startsWith('/admin');
 
   return (
     <div css={styles} className={`theme-${theme}`}>
@@ -37,20 +35,17 @@ export const UserToolbar: React.FC = () => {
         <div className="button-box">
           <ThemeToggle />
         </div>
-        {(showHomeButton || showAdminButton) && (
-          <div className="button-box">
-            {showHomeButton && (
-              <button className="button button-dialog" onClick={() => navigate('/')}>
-                <HomeIcon />
-              </button>
-            )}
-            {showAdminButton && (
-              <button className="button button-dialog" onClick={() => navigate('/admin')}>
-                <ShieldCheckIcon />
-              </button>
-            )}
-          </div>
-        )}
+        <div className="button-box">
+          {isAdminPath ? (
+            <button className="button button-dialog" onClick={() => navigate('/')}>
+              <HomeIcon />
+            </button>
+          ) : (
+            <button className="button button-dialog" onClick={() => navigate('/admin')}>
+              <ShieldCheckIcon />
+            </button>
+          )}
+        </div>
         <div className="button-box">
           <LoginButton />
         </div>

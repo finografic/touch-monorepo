@@ -37,28 +37,28 @@ export const AdminLayout: FC = () => {
           <ContentProvider>
             <DevProvider>
               <div id="admin-layout" css={styles}>
-                <AuthDialogGuard>
-                  <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
-                  <AdminNavigation />
-                  <main>
-                    <div className="main-content">
-                      <section>
-                        <PageHeader />
-                        <div className="page-content" role="main">
-                          <AdminErrorBoundary>
-                            <Suspense fallback={<Loader message="Loading..." />}>
-                              <Outlet />
-                            </Suspense>
-                          </AdminErrorBoundary>
-                        </div>
-                        <nav className="page-navigation">{/* optional navigation */}</nav>
-                      </section>
-                    </div>
-                  </main>
-                  <Footer />
-                  <ToastSystem />
-                  <AuthLoginDialog />
-                </AuthDialogGuard>
+                {/* <AuthDialogGuard> */}
+                <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
+                <AdminNavigation />
+                <main>
+                  <div className="main-content">
+                    <section>
+                      <PageHeader />
+                      <div className="page-content" role="main">
+                        <AdminErrorBoundary>
+                          <Suspense fallback={<Loader message="Loading..." />}>
+                            <Outlet />
+                          </Suspense>
+                        </AdminErrorBoundary>
+                      </div>
+                      <nav className="page-navigation">{/* optional navigation */}</nav>
+                    </section>
+                  </div>
+                </main>
+                <Footer />
+                <ToastSystem />
+                {/* <AuthLoginDialog /> */}
+                {/* </AuthDialogGuard> */}
               </div>
             </DevProvider>
           </ContentProvider>

@@ -96,10 +96,10 @@ export const routes: RouteObject[] = [
     path: '/admin',
     element: <AdminLayout />,
     children: [
-      {
-        path: 'login',
-        element: <AdminLoginPage />,
-      },
+      // {
+      //   path: 'login',
+      //   element: <AdminLoginPage />,
+      // },
       {
         // Protected admin section
         element: <ProtectedAdminRoutes />,
@@ -107,7 +107,8 @@ export const routes: RouteObject[] = [
           {
             index: true,
             id: AdminFieldKeys.dashboard,
-            element: <AdminDashboardPage />,
+            element: <div style={{ padding: '20rem' }}>DASHBOARD</div>,
+            // element: <AdminDashboardPage />,
           },
           {
             path: 'orders',

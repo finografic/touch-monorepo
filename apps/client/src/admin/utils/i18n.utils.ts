@@ -3,11 +3,10 @@ import type { TFunction } from 'i18next';
 
 /**
  * Resolve the current role label from auth booleans.
- * If you have a richer role model, replace this with your own mapper.
+ * Simplified to only support 'public' and 'admin' roles.
  */
 export function resolveRole(isAuthenticated: boolean, isAdmin: boolean = false): AuthRoles {
   if (isAuthenticated && isAdmin) return 'admin';
-  if (isAuthenticated) return 'auth';
   return 'public';
 }
 

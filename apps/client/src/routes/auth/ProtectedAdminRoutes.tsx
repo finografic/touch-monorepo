@@ -6,59 +6,45 @@ import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 import { useAuth } from 'providers/AuthProvider';
 
 /**
- * Protected Admin Routes - Single wrapper for all admin route access control
+ * Protected Admin Routes - Simple two-tier access control
  *
- * Handles role-based access using ADMIN_ENTRIES configuration:
- * - Authenticated users: Check if route is accessible for their role
- * - Unauthenticated users: Check if route has public access
- * - Fallback: Show unauthorized page
+ * Access levels:
+ * - Public: All routes accessible without login (unless marked admin-only)
+ * - Admin: Requires admin login for admin-only routes
+ *
+ * Logic:
+ * 1. /admin root path - always allow (shows dashboard)
+ * 2. Admin-only routes (element.admin !== null, element.public === null) - require admin login
+ * 3. Public routes (element.public !== null) - allow without login
  */
 export const ProtectedAdminRoutes: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const location = useLocation();
 
-  // Get the admin route entry for the current path
-  const currentRouteEntry = getAdminEntryByPath(location.pathname);
-
-  // Handle authenticated users
-  if (user && isAuthenticated) {
-    // Special case: /admin root path - always allow (handled by AdminDashboardPage)
-    if (location.pathname === '/admin') {
-      return <Outlet />;
-    }
-
-    // Check if route is accessible for user role
-    if (currentRouteEntry) {
-      const userRole = user.role || 'user';
-      const hasAccess = currentRouteEntry.element[userRole] !== null;
-
-      if (hasAccess) {
-        return <Outlet />; // Allow access
-      } else {
-        return <UnauthorizedPage />; // Role doesn't have access
-      }
-    }
-
-    // No specific config, allow access
+  // Always allow /admin root path (dashboard handles its own display logic)
+  if (location.pathname === '/admin') {
     return <Outlet />;
   }
 
-  // Handle unauthenticated users
-  if (!isAuthenticated) {
-    // Special case: /admin root path - always allow (handled by AdminDashboardPage)
-    if (location.pathname === '/admin') {
+  // Get the admin route entry for the current path
+  const currentRouteEntry = getAdminEntryByPath(location.pathname);
+
+  if (!currentRouteEntry) {
+    // No route config found - allow access
+    return <Outlet />;
+  }
+
+  // Check if this is an admin-only route
+  const isAdminOnly = currentRouteEntry.element.admin !== null && currentRouteEntry.element.public === null;
+
+  if (isAdminOnly) {
+    // Admin-only route - require admin authentication
+    if (isAuthenticated && user?.role === 'admin') {
       return <Outlet />;
     }
-
-    // Check if route has public access
-    if (currentRouteEntry && currentRouteEntry.element.public !== null) {
-      return <Outlet />;
-    }
-
-    // No public access - show unauthorized
     return <UnauthorizedPage />;
   }
 
-  // Fallback (should not reach here)
-  return <UnauthorizedPage />;
+  // Public route - allow access
+  return <Outlet />;
 };

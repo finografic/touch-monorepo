@@ -9,18 +9,14 @@ interface AuthRoleParams {
 /**
  * Get all admin entries filtered by authentication status and role
  * @param isAuthenticated - Whether the user is authenticated
- * @param role - Optional role filter (if not provided, uses auth status only)
+ * @param role - Optional role filter (defaults to 'public')
  */
 export function getAdminEntries(isAuthenticated: boolean, role?: AuthRoles): AdminRouteEntry[] {
-  return ADMIN_ENTRIES.filter((entry) => {
-    // If user is authenticated, show entries that have a component for their role or admin
-    if (isAuthenticated) {
-      const userRole = role || 'user';
-      return entry.element[userRole] !== null || entry.element.admin !== null;
-    }
+  const userRole = role || 'public';
 
-    // If user is not authenticated, only show routes that have a public component
-    return entry.element.public !== null;
+  return ADMIN_ENTRIES.filter((entry) => {
+    // If entry has a component for the user's role, include it
+    return entry.element[userRole] !== null;
   });
 }
 
@@ -34,9 +30,11 @@ export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntr
 /**
  * NAVIGATION ITEMS for the admin navbar
  */
-export function getAdminNavItems(isAuthenticated: boolean) {
+export function getAdminNavItems(isAuthenticated: boolean, role?: AuthRoles) {
+  const userRole = role || 'public';
+
   return getAdminEntriesForAuth(isAuthenticated)
-    .filter((entry) => (isAuthenticated ? entry.hasNav?.user || entry.hasNav?.admin : entry.hasNav?.public))
+    .filter((entry) => entry.hasNav?.[userRole] === true)
     .map((entry) => ({
       key: entry.key,
       label: entry.key, // Will be resolved from translations at render time
@@ -48,14 +46,14 @@ export function getAdminNavItems(isAuthenticated: boolean) {
 /**
  * Get dashboard cards filtered by authentication status and role
  * @param isAuthenticated - Whether the user is authenticated
- * @param role - Optional user role (defaults to 'user' if authenticated, 'public' if not)
+ * @param role - Optional user role (defaults to 'public')
  */
 export function getAdminDashboardCards(isAuthenticated: boolean, role?: AuthRoles): AdminRouteEntry[] {
-  const userRole = role || (isAuthenticated ? 'user' : 'public');
+  const userRole = role || 'public';
 
   return getAdminEntries(isAuthenticated, userRole).filter((entry) => {
-    // Check if this entry should show a card for this role
-    return entry.hasCard?.[userRole] || (userRole === 'user' && entry.hasCard?.admin);
+    // Show cards that are explicitly enabled for the user role
+    return entry.hasCard?.[userRole] === true;
   });
 }
 
