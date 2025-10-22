@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate, useSearchParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Button } from 'components/ButtonRadix/Button';
 import { Input } from 'components/Input/Input';
@@ -12,7 +12,7 @@ interface LoginFormProps {
   title: string;
   subtitle?: string;
   showSignUp?: boolean;
-  onSuccess?: () => void;
+  onSuccess?: (args: { redirectUrl: string }) => void;
 }
 
 export const LoginForm: React.FC<LoginFormProps> = ({
@@ -30,9 +30,10 @@ export const LoginForm: React.FC<LoginFormProps> = ({
   const [error, setError] = useState('');
 
   const { signIn, signUp } = useAuth();
-  const navigate = useNavigate();
-  const [searchParams] = useSearchParams();
-  const returnUrl = searchParams.get('returnUrl') || '/';
+  // const navigate = useNavigate();
+  const location = useLocation();
+
+  const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -48,8 +49,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({
       }
 
       if (result.success) {
-        onSuccess?.();
-        navigate(returnUrl);
+        onSuccess?.({ redirectUrl });
       } else {
         setError(result.error || 'Authentication failed');
       }

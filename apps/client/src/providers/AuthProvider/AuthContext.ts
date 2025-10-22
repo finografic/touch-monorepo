@@ -126,7 +126,8 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                 console.log('✅ Sign out successful - session cleared');
 
                 // Redirect to home page
-                window.location.assign('/');
+                const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
+                // window.location.assign(redirectUrl);
 
                 onSuccess?.();
               } else {

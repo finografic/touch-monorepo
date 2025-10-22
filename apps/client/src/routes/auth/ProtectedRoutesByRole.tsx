@@ -26,12 +26,7 @@ export const ProtectedRoutesByRole: React.FC = () => {
     return <Outlet />;
   }
 
-  // ======================================================================== //
-
-  // Handle authenticated users
   if (user && isAuthenticated) {
-    // Check if route is accessible for user role
-
     if (currentRouteEntry && currentRouteEntry.element.admin) {
       return <currentRouteEntry.element.admin />;
     }

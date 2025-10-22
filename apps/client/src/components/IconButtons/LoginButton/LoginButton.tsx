@@ -9,11 +9,8 @@ import { UserCircleIcon, UserLockIcon } from 'styles/icons';
 import { styles } from './LoginButton.styles';
 
 export const LoginButton: FC = () => {
-  const { user, isAuthenticated, signOut, openLoginDialog } = useAuth();
+  const { isAuthenticated, signOut, openLoginDialog } = useAuth();
   const { toast } = useToast();
-
-  // console.log('🔍 USER:', user);
-  // console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
 
   const handleLogout = useCallback(async () => {
     try {
@@ -35,7 +32,6 @@ export const LoginButton: FC = () => {
 
   const handleClick = useCallback(async () => {
     if (!isAuthenticated) {
-      // Open the global login dialog (managed by AuthProvider)
       openLoginDialog();
       return;
     }
