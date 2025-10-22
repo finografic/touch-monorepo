@@ -1,7 +1,6 @@
 import type React from 'react';
 import { Outlet } from 'react-router-dom';
 
-import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminLanguagesPage, PublicLanguagesPage } from 'admin/pages/AdminLanguagesPage';
 import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
@@ -10,6 +9,7 @@ import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlot
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
 import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage/AdminTranslationsPage';
 import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
+import NotFoundPage from 'pages/NotFound';
 
 import {
   EditIcon,
@@ -93,7 +93,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'maintenance',
     path: '/admin/maintenance', // relays (public)
     element: {
-      public: AdminDashboardPage,
+      public: NotFoundPage,
       admin: null,
     },
     hasNav: { public: true, admin: false },

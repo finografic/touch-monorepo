@@ -120,8 +120,8 @@ export const routes: RouteObject[] = [
             path: 'sounds', // TODO: SHARED
             id: AdminFieldKeys.sounds,
             element: <AdminSoundPage />,
+            // element: <div style={{ padding: '20rem' }}>SOUNDS</div>,
           },
-
           {
             path: 'maintenance', // relays (public-only)
             id: AdminFieldKeys.maintenance,

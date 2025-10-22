@@ -1,5 +1,5 @@
 import React from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Navigate, Outlet, useLocation } from 'react-router-dom';
 
 import { getAdminEntryByPath } from 'admin/config/admin.routes.selectors';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
@@ -20,43 +20,36 @@ export const ProtectedRoutesByRole: React.FC = () => {
   // Get the admin route entry for the current path
   const currentRouteEntry = getAdminEntryByPath(location.pathname);
 
+  // ======================================================================== //
+
+  if (location.pathname === '/admin') {
+    return <Outlet />;
+  }
+
+  // ======================================================================== //
+
   // Handle authenticated users
   if (user && isAuthenticated) {
-    // Special case: /admin root path - always allow (handled by AdminDashboardPage)
-    if (location.pathname === '/admin') {
-      return <Outlet />;
-    }
-
     // Check if route is accessible for user role
-    if (currentRouteEntry) {
-      const userRole = user.role || 'user';
-      const hasAccess = currentRouteEntry.element[userRole] !== null;
 
-      if (hasAccess) {
-        return <Outlet />; // Allow access
-      } else {
-        return <UnauthorizedPage />; // Role doesn't have access
-      }
+    if (currentRouteEntry && currentRouteEntry.element.admin) {
+      return <currentRouteEntry.element.admin />;
     }
 
-    // No specific config, allow access
-    return <Outlet />;
+    if (currentRouteEntry && currentRouteEntry.element.public) {
+      return <currentRouteEntry.element.public />;
+    }
+
+    return <Navigate to="/admin" />;
   }
 
   // Handle unauthenticated users
   if (!isAuthenticated) {
-    // Special case: /admin root path - always allow (handled by AdminDashboardPage)
-    if (location.pathname === '/admin') {
-      return <Outlet />;
+    if (currentRouteEntry && currentRouteEntry.element.public) {
+      return <currentRouteEntry.element.public />;
     }
 
-    // Check if route has public access
-    if (currentRouteEntry && currentRouteEntry.element.public !== null) {
-      return <Outlet />;
-    }
-
-    // No public access - show unauthorized
-    return <UnauthorizedPage />;
+    return <Navigate to="/admin" />;
   }
 
   // Fallback (should not reach here)
