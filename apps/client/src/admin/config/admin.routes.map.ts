@@ -88,7 +88,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: SpeakerLoudIcon,
     color: 'indigo',
   },
-
   {
     key: 'maintenance',
     path: '/admin/maintenance', // relays (public)
@@ -103,8 +102,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   },
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
   {
-    key: 'registros',
-    path: '/admin/registros',
+    key: 'items',
+    path: '/admin/items', // orders
     element: {
       public: null,
       admin: AdminOrdersPage,
@@ -145,8 +144,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       public: AdminSlotsConfigPage,
       admin: AdminSlotsConfigPage,
     },
-    hasNav: { public: true, admin: true },
-    hasCard: { public: true, admin: true },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
     icon: UserShildIcon,
     color: 'orange',
   },

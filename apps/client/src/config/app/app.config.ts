@@ -66,15 +66,14 @@ export const AdminFieldKeys: { [K in string]: K } = {
   // PUBLIC ENTRIES
   mode: 'mode', // public only
   languages: 'languages',
-  maintenance: 'maintenance',
   sounds: 'sounds',
+  maintenance: 'maintenance', // relays (public)
 
   // AUTHENTICATED ENTRIES (only visible as admin)
-  translations: 'translations',
-  translationsUi: 'translationsUi',
-  uiLabels: 'ui-labels',
-  slotConfig: 'slot-config',
-  registros: 'registros',
+  items: 'items', // orders
+  translations: 'translations', // translations
+  translationsUi: 'translationsUi', // translations
+  uiLabels: 'ui-labels', // translations
+  slotsConfig: 'slots-config',
   relays: 'relays',
-  itemsList: 'items-list',
 } as const;

@@ -102,30 +102,30 @@ export const routes: RouteObject[] = [
       },
       // PUBLIC ENTRIES (accessible without login)
       {
-        path: 'mode',
-        id: 'modo',
+        path: 'mode', // public-only
+        id: AdminFieldKeys.mode,
         element: <PublicModePage />,
       },
       {
-        path: 'languages',
+        path: 'languages', // TODO: SHARED
         id: AdminFieldKeys.languages,
         element: <AdminLanguagesPage />,
       },
       {
-        path: 'sounds',
-        id: 'sounds',
+        path: 'sounds', // TODO: SHARED
+        id: AdminFieldKeys.sounds,
         element: <AdminSoundPage />,
       },
 
-      // {
-      //   path: 'mode', // main
-      //   id: 'modo',
-      //   element: <PublicModePage />,
-      // },
+      {
+        path: 'maintenance', // relays (public-only)
+        id: AdminFieldKeys.maintenance,
+        element: <AdminSlotsConfigPage />,
+      },
       // AUTHENTICATED ENTRIES (only visible as admin)
       {
-        path: 'orders',
-        id: AdminFieldKeys.itemsList,
+        path: 'items',
+        id: AdminFieldKeys.items,
         element: <AdminOrdersPage />,
         children: [
           {
@@ -146,8 +146,8 @@ export const routes: RouteObject[] = [
         element: <AdminUiLabelsPage />,
       },
       {
-        path: 'slot-config',
-        id: 'slotConfig',
+        path: 'slots-config',
+        id: 'slotsConfig',
         element: <AdminSlotsConfigPage />,
       },
       {
