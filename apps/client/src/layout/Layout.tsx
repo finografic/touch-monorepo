@@ -76,7 +76,7 @@ export const Layout: FC = () => {
                             <Footer />
                             <SnoozeTimer shouldDebounce={true} />
                             <ToastSystem />
-                            <AuthLoginDialog />
+                            {/* <AuthLoginDialog /> */}
                           </AuthDialogGuard>
                           <div id="radix-portal-container" />
                         </div>
