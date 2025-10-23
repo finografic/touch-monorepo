@@ -26,8 +26,6 @@ export const PadNumericExample = () => {
           max={59}
           loop={true}
           suffix="s"
-          initialRepeatDelay={300} // Faster initial delay
-          repeatInterval={80} // Faster repeat rate
         />
       </div>
 
@@ -48,17 +46,7 @@ export const PadNumericExample = () => {
       {/* Hours with looping (1-12 for AM/PM) */}
       <div>
         <h3>Hours (1-12 AM/PM with looping)</h3>
-        <PadNumeric
-          label="Horas"
-          value={hours}
-          onChange={setHours}
-          min={1}
-          max={12}
-          loop={true}
-          suffix="h"
-          initialRepeatDelay={600} // Slower initial delay
-          repeatInterval={150} // Slower repeat rate
-        />
+        <PadNumeric label="Horas" value={hours} onChange={setHours} min={1} max={12} loop={true} suffix="h" />
       </div>
 
       {/* Display current values */}
@@ -74,9 +62,6 @@ export const PadNumericExample = () => {
         <h4>Usage Notes:</h4>
         <ul>
           <li>
-            <strong>Click and hold</strong> the +/- buttons for key-repeat behavior
-          </li>
-          <li>
             <strong>Seconds</strong> loop from 59→0 and 0→59
           </li>
           <li>
@@ -86,7 +71,8 @@ export const PadNumericExample = () => {
             <strong>Minutes</strong> stop at 0 and 59 (no looping)
           </li>
           <li>
-            Timing is configurable via <code>initialRepeatDelay</code> and <code>repeatInterval</code> props
+            When looping wraps to max, it rounds down to the nearest step (e.g., 59 with step=5 wraps to 55,
+            not 59)
           </li>
         </ul>
       </div>

@@ -1,14 +1,10 @@
 import type { FC, ReactElement } from 'react';
-import React, { useCallback, useRef, useState } from 'react';
+import { useCallback } from 'react';
 
 import { Button } from '@radix-ui/themes';
 import clsx from 'clsx';
 
 import { styles } from './PadNumeric.styles';
-
-// Key-repeat timing constants (like macOS system settings)
-const DEFAULT_INITIAL_REPEAT_DELAY = 500; // ms - "Delay until repeat" (Long to Short)
-const DEFAULT_REPEAT_INTERVAL = 100; // ms - "Key repeat rate" (Slow to Fast)
 
 interface PadNumericProps {
   value: number;
@@ -59,37 +55,44 @@ export const PadNumeric: FC<PadNumericProps> = ({
     [decimalPlaces, padZeros, prefix, suffix],
   );
 
-  const canIncrement = useCallback(() => {
-    if (disabled) return false;
-    if (loopEnabled) return true;
-    return value + step <= max;
-  }, [value, step, max, disabled, loopEnabled, min]);
+  const getIncrementedValue = useCallback((): number | null => {
+    if (disabled) return null;
 
-  const canDecrement = useCallback(() => {
-    if (disabled) return false;
-    if (loopEnabled && Number(value - step) < min) return true;
-    return Number(value - step) >= min;
-  }, [value, step, min, disabled, loopEnabled]);
+    const nextValue = value + step;
+
+    if (loopEnabled && nextValue > max) {
+      return min;
+    }
+
+    return nextValue <= max ? nextValue : null;
+  }, [value, step, max, min, disabled, loopEnabled]);
+
+  const getDecrementedValue = useCallback((): number | null => {
+    if (disabled) return null;
+
+    const nextValue = value - step;
+
+    if (loopEnabled && nextValue < min) {
+      const stepsFromMin = Math.floor((max - min) / step);
+      return min + stepsFromMin * step;
+    }
+
+    return nextValue >= min ? nextValue : null;
+  }, [value, step, min, max, disabled, loopEnabled]);
 
   const handleIncrement = useCallback(() => {
-    if (!canIncrement()) return;
-
-    if (loopEnabled && Number(value + step) > max) {
-      onChange(min);
-    } else {
-      onChange(value + step);
+    const nextValue = getIncrementedValue();
+    if (nextValue !== null) {
+      onChange(nextValue);
     }
-  }, [value, step, onChange, canIncrement, loopEnabled, min, max]);
+  }, [getIncrementedValue, onChange]);
 
   const handleDecrement = useCallback(() => {
-    if (!canDecrement()) return;
-
-    if (loopEnabled && Number(value - step) < min) {
-      onChange(max);
-    } else {
-      onChange(value - step);
+    const nextValue = getDecrementedValue();
+    if (nextValue !== null) {
+      onChange(nextValue);
     }
-  }, [value, step, onChange, canDecrement, loopEnabled, min, max]);
+  }, [getDecrementedValue, onChange]);
 
   return (
     <div css={styles} className={clsx('pad-numeric', className)}>
@@ -104,7 +107,7 @@ export const PadNumeric: FC<PadNumericProps> = ({
           <Button
             className="control-button increment"
             onClick={handleIncrement}
-            disabled={!canIncrement()}
+            disabled={getIncrementedValue() === null}
             variant="outline"
             color="gray"
           >
@@ -118,7 +121,7 @@ export const PadNumeric: FC<PadNumericProps> = ({
           <Button
             className="control-button decrement"
             onClick={handleDecrement}
-            disabled={!canDecrement()}
+            disabled={getDecrementedValue() === null}
             variant="outline"
             color="gray"
           >
