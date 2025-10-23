@@ -32,9 +32,7 @@
   "admin_ui_labels_description": "Editar etiquetas de interfaz de usuario y traducciones de archivos locales",
   "admin_slot_config_title": "Cuadrícula",
   "admin_slot_config_description": "Configurar diseño de cuadrícula de página principal y tipos de ranuras",
-  "admin_filter_analysis_title": "Análisis de Filtros",
-  "admin_filter_analysis_description": "Analizar datos de pedidos y comportamiento de filtrado",
-  "admin_sounds_title": "Gestión de Sonidos",
+  "admin_sounds_title": "Gestión de sonidos",
   "admin_sounds_description": "Subir y configurar archivos de sonido para eventos de temporizador",
   "admin_mode_title": "Modo",
   "admin_mode_description": "Seleccionar modo por defecto",
@@ -46,6 +44,6 @@
   "admin_maintenance_description": "Gestionar mantenimiento general",
   "admin_maintenance_card_public_title": "Mantenimiento",
   "admin_maintenance_card_public_description": "Gestionar mantenimiento",
-  "admin_items_title": "Gestión de Registros",
+  "admin_items_title": "Gestión de registros",
   "admin_items_description": "Gestionar registros de la base de datos"
 }

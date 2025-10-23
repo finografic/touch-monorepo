@@ -41,7 +41,7 @@ export const PadNumeric: FC<PadNumericProps> = ({
   suffix = '',
   className,
   disabled = false,
-  loop = false,
+  loop: loopEnabled = true,
 }) => {
   const formatValue = useCallback(
     (num: number): { numeric: string; prefix: string | ReactElement; suffix: string | ReactElement } => {
@@ -61,41 +61,35 @@ export const PadNumeric: FC<PadNumericProps> = ({
 
   const canIncrement = useCallback(() => {
     if (disabled) return false;
-    if (loop) return true; // Always allow increment when looping
+    if (loopEnabled) return true;
     return value + step <= max;
-  }, [value, step, max, disabled, loop]);
+  }, [value, step, max, disabled, loopEnabled, min]);
 
   const canDecrement = useCallback(() => {
     if (disabled) return false;
-    if (loop) return true; // Always allow decrement when looping
-    return value - step >= min;
-  }, [value, step, min, disabled, loop]);
+    if (loopEnabled && Number(value - step) < min) return true;
+    return Number(value - step) >= min;
+  }, [value, step, min, disabled, loopEnabled]);
 
   const handleIncrement = useCallback(() => {
     if (!canIncrement()) return;
 
-    let newValue = value + step;
-
-    // Handle looping
-    if (loop && newValue > max) {
-      newValue = min;
+    if (loopEnabled && Number(value + step) > max) {
+      onChange(min);
+    } else {
+      onChange(value + step);
     }
-
-    onChange(newValue);
-  }, [value, step, onChange, canIncrement, loop, min, max]);
+  }, [value, step, onChange, canIncrement, loopEnabled, min, max]);
 
   const handleDecrement = useCallback(() => {
     if (!canDecrement()) return;
 
-    let newValue = value - step;
-
-    // Handle looping
-    if (loop && newValue < min) {
-      newValue = max;
+    if (loopEnabled && Number(value - step) < min) {
+      onChange(max);
+    } else {
+      onChange(value - step);
     }
-
-    onChange(newValue);
-  }, [value, step, onChange, canDecrement, loop, min, max]);
+  }, [value, step, onChange, canDecrement, loopEnabled, min, max]);
 
   return (
     <div css={styles} className={clsx('pad-numeric', className)}>

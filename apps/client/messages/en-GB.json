@@ -32,8 +32,6 @@
   "admin_ui_labels_description": "Edit user interface labels and translations from local files",
   "admin_slot_config_title": "Grid",
   "admin_slot_config_description": "Configure MainPage grid layout and slot types",
-  "admin_filter_analysis_title": "Filter Analysis",
-  "admin_filter_analysis_description": "Analyze orders data and filtering behavior",
   "admin_sounds_title": "Sound Management",
   "admin_sounds_description": "Upload and configure sound files for timer events",
   "admin_mode_title": "Mode",
