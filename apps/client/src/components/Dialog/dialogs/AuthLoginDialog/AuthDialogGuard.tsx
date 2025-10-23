@@ -7,6 +7,7 @@ import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 interface AuthDialogGuardProps {
   children?: React.ReactNode | React.ReactElement;
+  // protectedBasePath?: string;
 }
 
 /**
@@ -17,9 +18,16 @@ interface AuthDialogGuardProps {
  * - Shows login dialog if route is blocked
  * - Allows access if route is accessible for user's role
  */
-export const AuthDialogGuard: FC<AuthDialogGuardProps> = ({ children }) => {
+export const AuthDialogGuard: FC<AuthDialogGuardProps> = ({
+  children,
+  //  protectedBasePath
+}) => {
   const { user, isAuthenticated } = useAuth();
   const location = useLocation();
+
+  // if (!protectedBasePath) {
+  //   return <>{children}</>;
+  // }
 
   const deferToLogin = useMemo(() => {
     // Special case: Always allow /admin dashboard (index route)
@@ -34,9 +42,9 @@ export const AuthDialogGuard: FC<AuthDialogGuardProps> = ({ children }) => {
     return isRouteProtected(location.pathname, userRole);
   }, [location.pathname, isAuthenticated, user?.role]);
 
-  if (deferToLogin) {
-    return <AuthLoginDialog />;
-  }
+  // if (deferToLogin) {
+  //   return <AuthLoginDialog />;
+  // }
 
   return <>{children}</>;
 };
