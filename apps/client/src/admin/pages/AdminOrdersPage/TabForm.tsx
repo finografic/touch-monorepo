@@ -69,7 +69,7 @@ export const TabForm: React.FC = () => {
         subText: `${formData.drinkType}${subtypeText} ${formData.volume} in ${formData.containerType}`,
       });
       // Navigate back to orders list
-      navigate('/admin/orders');
+      navigate('/admin/items');
     } else {
       // TODO: Implement actual API call to create order
       // For now, just show success toast

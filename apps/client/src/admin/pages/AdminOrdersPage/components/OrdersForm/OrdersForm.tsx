@@ -214,7 +214,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
       // Navigate after a small delay to ensure state is cleared
       setTimeout(() => {
-        navigate('/admin/orders', { replace: true });
+        navigate('/admin/items', { replace: true });
       }, 500);
     } catch (error) {
       toast({
@@ -462,7 +462,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
                   {/* Right side buttons */}
                   <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
-                    <Button type="button" onClick={() => navigate('/admin/orders')} color="default">
+                    <Button type="button" onClick={() => navigate('/admin/items')} color="default">
                       {isEditMode ? 'Cancelar' : 'Cancelar'}
                     </Button>
 

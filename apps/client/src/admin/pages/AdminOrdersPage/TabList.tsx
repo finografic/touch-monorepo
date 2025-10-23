@@ -42,7 +42,7 @@ export const TabList: React.FC<TabListProps> = ({
 
   const handleEditOrder = (orderId: string) => {
     console.log('Editing order:', orderId);
-    navigate(`/admin/orders/${orderId}`);
+    navigate(`/admin/items/${orderId}`);
   };
 
   const handleDeleteOrder = async (orderId: string) => {

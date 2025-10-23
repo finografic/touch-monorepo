@@ -127,7 +127,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
 
                 // Redirect to home page
                 // const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
-                // window.location.assign(redirectUrl);
+                // window.location.assign('redirectUrl');
 
                 // onSuccess?.();
               } else {

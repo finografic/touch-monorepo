@@ -28,8 +28,6 @@
   "admin_languages_description": "Configure system languages and localization",
   "admin_languages_card_public_title": "Language Selection",
   "admin_languages_card_public_description": "Select default language",
-  "admin_orders_title": "Configuration Management",
-  "admin_orders_description": "Configure system languages and localization",
   "admin_ui_labels_title": "UI Labels / Translations",
   "admin_ui_labels_description": "Edit user interface labels and translations from local files",
   "admin_slot_config_title": "Grid",
@@ -47,5 +45,7 @@
   "admin_maintenance_title": "Maintenance",
   "admin_maintenance_description": "Manage general maintenance",
   "admin_maintenance_card_public_title": "Maintenance",
-  "admin_maintenance_card_public_description": "Manage maintenance"
+  "admin_maintenance_card_public_description": "Manage maintenance",
+  "admin_items_title": "Records Management",
+  "admin_items_description": "Manage database records"
 }

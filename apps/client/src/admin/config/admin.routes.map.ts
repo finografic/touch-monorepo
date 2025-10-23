@@ -140,9 +140,9 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   },
   {
     key: 'slotConfig',
-    path: '/admin/slot-config',
+    path: '/admin/slots-config',
     element: {
-      public: AdminSlotsConfigPage,
+      public: null,
       admin: AdminSlotsConfigPage,
     },
     hasNav: { public: false, admin: true },

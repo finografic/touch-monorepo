@@ -28,8 +28,8 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = ({ children = <React.Fr
   // When called from AuthDialogGuard, this dialog blocks access to protected routes
   // We check if we're on an admin route (but not the dashboard) to determine if this is a blocking dialog
   const isBlockingAccess = useMemo(
-    () => location.pathname.startsWith('/admin') && location.pathname !== '/admin',
-    [location.pathname],
+    () => isLoginDialogOpen && !location.pathname.startsWith('/admin') && location.pathname !== '/admin',
+    [isLoginDialogOpen, location.pathname],
   );
 
   const getCurrentEmail = () => {
@@ -41,8 +41,9 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = ({ children = <React.Fr
   // Handle login success: close dialog and redirect to /admin
   const handleLoginSuccess = () => {
     // closeLoginDialog();
-    const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
-    navigate(redirectUrl);
+    // const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
+    // navigate(redirectUrl);
+    navigate('/admin');
   };
 
   // Handle login error
@@ -145,7 +146,8 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = ({ children = <React.Fr
 
   // When used by AuthDialogGuard to block access, always show as open
   // When used via isLoginDialogOpen (header button), show based on state
-  const shouldShowDialog = isBlockingAccess || isLoginDialogOpen;
+  // const shouldShowDialog = isBlockingAccess || isLoginDialogOpen;
+  const shouldShowDialog = isLoginDialogOpen;
 
   return (
     <>

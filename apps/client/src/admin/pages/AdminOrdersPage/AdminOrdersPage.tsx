@@ -134,8 +134,8 @@ export const AdminOrdersPage: React.FC = () => {
 
   const handleTabChange = useCallback(
     (tab: string) => {
-      if (tab === 'list') navigate('/admin/orders');
-      if (tab === 'new') navigate('/admin/orders#new');
+      if (tab === 'list') navigate('/admin/items');
+      if (tab === 'new') navigate('/admin/items#new');
     },
     [navigate],
   );

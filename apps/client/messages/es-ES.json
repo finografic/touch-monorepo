@@ -28,8 +28,6 @@
   "admin_languages_description": "Configurar idiomas del sistema y localización",
   "admin_languages_card_public_title": "Selección de Idioma",
   "admin_languages_card_public_description": "Seleccionar idioma por defecto",
-  "admin_orders_title": "Gestión de Configuración",
-  "admin_orders_description": "Configurar idiomas del sistema y localización",
   "admin_ui_labels_title": "Etiquetas UI / Traducciones",
   "admin_ui_labels_description": "Editar etiquetas de interfaz de usuario y traducciones de archivos locales",
   "admin_slot_config_title": "Cuadrícula",
@@ -48,6 +46,6 @@
   "admin_maintenance_description": "Gestionar mantenimiento general",
   "admin_maintenance_card_public_title": "Mantenimiento",
   "admin_maintenance_card_public_description": "Gestionar mantenimiento",
-  "admin_items_title": "Gestión de Configuración",
-  "admin_items_description": "Configurar idiomas del sistema y localización"
+  "admin_items_title": "Gestión de Registros",
+  "admin_items_description": "Gestionar registros de la base de datos"
 }

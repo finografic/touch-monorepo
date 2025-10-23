@@ -57,7 +57,7 @@ export const AdminLayout: FC = () => {
                   </main>
                   <Footer />
                   <ToastSystem />
-                  {/* <AuthLoginDialog />  */}
+                  <AuthLoginDialog />
                 </AuthDialogGuard>
               </div>
             </DevProvider>
