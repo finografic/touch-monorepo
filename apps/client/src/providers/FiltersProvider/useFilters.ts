@@ -42,14 +42,21 @@ export const useFilters = (): UseFiltersReturn => {
   // Use the ordersReadable data from OrdersContext - fetched once at provider level
   const data: OrderReadableModel[] = ordersReadable;
 
+  // 🚀 PERFORMANCE: Memoize safeData to prevent re-creating array on every render
+  const safeData: DataEntry[] = useMemo(() => {
+    return Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
+  }, [data]);
+
   // Get unique values for each filter key
-  const safeData: DataEntry[] = Array.isArray(data) ? (data as unknown as DataEntry[]) : [];
   const uniqueValues = useMemo(() => getUniqueFilterValues(safeData), [safeData]);
+
+  // 🚀 PERFORMANCE: Stringify filters for stable dependency checking
+  const filtersKey = useMemo(() => JSON.stringify(filters), [filters]);
 
   // Client-side filtering with orders_readable data using dedicated utility
   const { dataPool, dataFiltered } = useMemo(() => {
     // Only filter when loaderData is ready (non-empty dataset)
-    if (!Array.isArray(loaderData)) {
+    if (!Array.isArray(loaderData) || loaderData.length === 0) {
       return {
         dataPool: [],
         dataFiltered: [],
@@ -62,7 +69,8 @@ export const useFilters = (): UseFiltersReturn => {
       filterKey: filterKey || ('' as FilterKey),
       applyContainerTypeFix: true,
     });
-  }, [data, filters, filterKey, loaderData]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data.length, filtersKey, filterKey, loaderData.length]);
 
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {

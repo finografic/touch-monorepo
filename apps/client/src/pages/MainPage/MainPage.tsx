@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Flex, Spinner } from '@radix-ui/themes';
@@ -45,21 +45,26 @@ export function MainPage() {
     }
   }, [defaultMode, isModeLoading, setFilter]);
 
-  // 🚀 PERFORMANCE OPTIMIZATION: Use Map for O(n) timer lookups
-  const timerMap = new Map(timers.map((t) => [t.slotNumber, t]));
+  // 🚀 PERFORMANCE OPTIMIZATION: Use Map for O(1) timer lookups (memoized)
+  const timerMap = useMemo(() => {
+    return new Map(timers.map((t) => [t.slotNumber, t]));
+  }, [timers]);
 
-  // Get currently selected orders that are not processing or completed
-  const availableOrders = orders.filter((order) => {
-    if (!order.isSelected) return false;
+  // 🚀 PERFORMANCE OPTIMIZATION: Memoize available orders calculation
+  const availableOrders = useMemo(() => {
+    return orders.filter((order) => {
+      if (!order.isSelected) return false;
 
-    // Check if there's a timer for this order using Map lookup
-    const timer = timerMap.get(order.slotNumber);
-    if (timer && (timer.status === 'processing' || timer.status === 'completed')) {
-      return false; // Exclude orders with active timers
-    }
+      // Check if there's a timer for this order using Map lookup
+      const timer = timerMap.get(order.slotNumber);
+      if (timer && (timer.status === 'processing' || timer.status === 'completed')) {
+        return false; // Exclude orders with active timers
+      }
 
-    return true; // Include orders without timers
-  });
+      return true; // Include orders without timers
+    });
+  }, [orders, timerMap]);
+
   const numSelected = availableOrders.length;
 
   useEffect(() => {

@@ -2,7 +2,7 @@ import React, { type FC, useMemo } from 'react';
 import { useLocation } from 'react-router-dom';
 
 import { isRouteProtected } from 'admin/config/admin.routes.selectors';
-// import { AuthLoginDialog } from 'components/Dialog/dialogs/AuthLoginDialog/AuthLoginDialog';
+import { AuthLoginDialog } from 'components/Dialog/dialogs/AuthLoginDialog/AuthLoginDialog';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 interface AuthDialogGuardProps {

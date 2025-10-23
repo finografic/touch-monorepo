@@ -56,28 +56,28 @@ export const Layout: FC = () => {
                     <ContentProvider>
                       <DevProvider>
                         <div id="layout" css={styles}>
-                          <AuthDialogGuard>
-                            <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
-                            <main>
-                              <div className="main-content">
-                                <section>
-                                  <PageHeader />
-                                  <div className="page-content" role="main">
-                                    <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                      <Outlet />
-                                    </Suspense>
-                                  </div>
-                                  <nav className="page-navigation">
-                                    <FrontEndNavigation />
-                                  </nav>
-                                </section>
-                              </div>
-                            </main>
-                            <Footer />
-                            <SnoozeTimer shouldDebounce={true} />
-                            <ToastSystem />
-                            {/* <AuthLoginDialog /> */}
-                          </AuthDialogGuard>
+                          {/* <AuthDialogGuard> */}
+                          <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
+                          <main>
+                            <div className="main-content">
+                              <section>
+                                <PageHeader />
+                                <div className="page-content" role="main">
+                                  <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                    <Outlet />
+                                  </Suspense>
+                                </div>
+                                <nav className="page-navigation">
+                                  <FrontEndNavigation />
+                                </nav>
+                              </section>
+                            </div>
+                          </main>
+                          <Footer />
+                          <SnoozeTimer shouldDebounce={true} />
+                          <ToastSystem />
+                          {/* <AuthLoginDialog /> */}
+                          {/* </AuthDialogGuard> */}
                           <div id="radix-portal-container" />
                         </div>
                       </DevProvider>

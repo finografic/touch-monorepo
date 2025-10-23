@@ -1,17 +1,20 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { useOrders } from './OrdersContext';
 
 // Component that fetches orders readable data once when the provider initializes
 export const OrdersDataInitializer = () => {
   const { ordersReadable, fetchOrdersReadable } = useOrders();
+  const hasFetchedRef = useRef(false);
 
   useEffect(() => {
-    // Fetch orders readable data once when component mounts if not already loaded
-    if (ordersReadable.length === 0) {
+    // 🚀 PERFORMANCE: Only fetch once, even if ordersReadable changes
+    if (!hasFetchedRef.current && ordersReadable.length === 0) {
+      hasFetchedRef.current = true;
       fetchOrdersReadable();
     }
-  }, [ordersReadable.length, fetchOrdersReadable]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []); // Only run on mount
 
   return null; // This component doesn't render anything
 };
