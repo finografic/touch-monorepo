@@ -41,6 +41,7 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
 
   const handleCloseDialog = useCallback(() => {
     closeLoginDialog();
+    // TODO: leave comments in for now...
     // isBlockingAccess ? navigate('/') : closeLoginDialog();
   }, [closeLoginDialog, isBlockingAccess, navigate]);
 
@@ -50,29 +51,25 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
       setIsLoading(true);
       setError('');
 
-      try {
-        const result = await signIn({ email: getCurrentEmail(), password });
-        if (result.success) {
-          toast({ variant: 'success', message: result.message });
-          // await refreshSession();
-          // const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
-          closeLoginDialog();
-          navigate('/admin');
-        } else {
-          toast({
-            variant: 'error',
-            message: (result.error as string) || 'Failed to log in',
-            subText: 'Please try again',
-          });
-        }
-      } catch (error) {
-        console.error('Logout error:', error);
-        toast({ variant: 'error', message: 'Failed to log out', subText: 'Please try again' });
-      } finally {
-        setIsLoading(false);
+      const result = await signIn({ email: getCurrentEmail(), password });
+
+      if (result.success) {
+        toast({ variant: 'success', message: result.message || 'Signed in successfully' });
+        closeLoginDialog();
+        navigate('/admin');
+      } else {
+        const errorMessage = String(result.error || 'Failed to log in');
+        setError(errorMessage);
+        toast({
+          variant: 'error',
+          message: errorMessage,
+          subText: 'Please try again',
+        });
       }
+
+      setIsLoading(false);
     },
-    [signIn, toast],
+    [signIn, toast, closeLoginDialog, navigate, password],
   );
 
   const config: DialogConfig = {

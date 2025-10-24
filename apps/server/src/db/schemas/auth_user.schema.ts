@@ -7,7 +7,7 @@ export const user = sqliteTable('auth_user', {
   email: text('email').notNull().unique(),
   emailVerified: integer('emailVerified', { mode: 'boolean' }).notNull(),
   image: text('image'),
-  role: text('role', { enum: ['user', 'admin'] })
+  role: text('role', { enum: ['public', 'user', 'admin'] })
     .notNull()
     .default('user'),
   createdAt: integer('createdAt', { mode: 'timestamp' }).notNull(),

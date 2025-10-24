@@ -19,9 +19,8 @@ import { useShallow } from 'zustand/react/shallow';
 import { createSetters, createZustandContext } from 'utils/zustand';
 
 import type { AuthStore, AuthValues } from './AuthContext.types';
-import type { AuthSession, AuthSignInParams, AuthSignUpParams } from './auth.types';
-
-import { cleanupDialogBodyAttributes } from 'utils/ui.utils';
+import type { AuthSignInParams, AuthSignUpParams } from './auth.types';
+import { authClient } from 'lib/auth-client';
 
 export const DISPLAY_NAME = 'Auth';
 export const SETTER_PREFIX = '';
@@ -32,6 +31,8 @@ export enum AuthKeys {
   isLoading = 'isLoading',
   isAuthenticated = 'isAuthenticated',
   isAdmin = 'isAdmin',
+  role = 'role',
+  isLoginDialogOpen = 'isLoginDialogOpen',
 }
 
 export const defaultValue: AuthValues = {
@@ -40,6 +41,7 @@ export const defaultValue: AuthValues = {
   isLoading: false,
   isAuthenticated: false,
   isAdmin: false,
+  role: 'user',
   isLoginDialogOpen: false,
 };
 
@@ -52,105 +54,72 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
           signUp: async ({ email, password, name }: AuthSignUpParams) => {
-            try {
-              const response = await fetch('http://localhost:4040/api/auth/sign-up/email', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({ email, password, name }),
+            // ✅ Use Better Auth client
+            const { data, error } = await authClient.signUp.email({
+              email,
+              password,
+              name,
+            });
+
+            if (data?.user) {
+              // Better Auth returns user without role by default, we need to cast/transform
+              const userRole = (data.user as any).role || 'user';
+              const isAdmin = userRole === 'admin';
+
+              set({
+                session: data as any, // Better Auth session structure
+                user: { ...data.user, role: userRole } as any,
+                isAuthenticated: true,
+                role: userRole as 'admin' | 'user',
+                isAdmin,
+                isLoading: false,
               });
-
-              const result = await response.json();
-
-              if (response.ok && result.user) {
-                const isAdmin = result.user.role === 'admin';
-                set({ session: result, user: result.user, isAuthenticated: true, isAdmin, isLoading: false });
-                return { success: true };
-              } else {
-                set({ isLoading: false });
-                return { success: false, error: result.error || 'Sign up failed' };
-              }
-            } catch (error) {
+              return { success: true, message: 'Account created successfully' };
+            } else {
               set({ isLoading: false });
-              return { success: false, error: 'Sign up failed' };
+              return { success: false, error: error?.message || 'Sign up failed' };
             }
           },
           signIn: async ({ email, password }: AuthSignInParams) => {
-            try {
-              const response = await fetch('http://localhost:4040/api/auth/sign-in/email', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({ email, password }),
+            // ✅ Use Better Auth client
+            const { data, error } = await authClient.signIn.email({
+              email,
+              password,
+            });
+
+            if (data?.user) {
+              // Better Auth returns user without role by default, we need to cast/transform
+              const userRole = (data.user as any).role || 'user';
+              const isAdmin = userRole === 'admin';
+
+              set({
+                session: data as any, // Better Auth session structure
+                user: { ...data.user, role: userRole } as any,
+                isAuthenticated: true,
+                role: userRole as 'admin' | 'user',
+                isAdmin,
+                isLoading: false,
               });
-
-              const result = await response.json();
-
-              if (response.ok && result.user) {
-                const isAdmin = result.user.role === 'admin';
-                set({
-                  session: result,
-                  user: result.user,
-                  isAuthenticated: true,
-                  isAdmin,
-                  isLoading: false,
-                });
-
-                return { success: true };
-              } else {
-                set({ isLoading: false });
-
-                return { success: false, error: result.error || 'Sign in failed' };
-              }
-            } catch (error) {
-              console.error('Sign in error:', error);
+              return { success: true, message: 'Signed in successfully' };
+            } else {
               set({ isLoading: false });
-
-              return { success: false, error };
+              return { success: false, error: error?.message || 'Sign in failed' };
             }
           },
           signOut: async () => {
-            try {
-              // Call server to invalidate session in database
-              // Server will clear the HttpOnly cookie via Set-Cookie headers
-              const response = await fetch('http://localhost:4040/api/auth/sign-out', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                credentials: 'include',
-                body: JSON.stringify({}),
-              });
+            // ✅ Use Better Auth client
+            const { error } = await authClient.signOut();
 
-              // Clear client-side state after successful server response
-              if (response.ok) {
-                set({ ...defaultValue });
-                console.log('✅ Sign out successful - session cleared');
+            // Always clear state (even on error)
+            set({ ...defaultValue });
 
-                // Redirect to home page
-                // const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
-                // window.location.assign('redirectUrl');
-
-                return { success: true };
-              } else {
-                console.warn('⚠️ Server sign-out failed, clearing client-side state anyway');
-                // Still clear client state even if server fails
-                set({ ...defaultValue });
-
-                // Still redirect on error
-                // window.location.assign('/');
-
-                return { success: false, error: 'Sign out failed' };
-              }
-            } catch (error) {
-              console.error('Sign out error:', error);
-              // Even if there's an error, clear the session state
-              set({ ...defaultValue });
-
-              // Redirect anyway
-              // window.location.assign('/');
-
-              return { success: false, error: 'Sign out failed' };
+            if (error) {
+              return { success: false, error: error.message || 'Sign out failed' };
             }
+
+            return { success: true, message: 'Signed out successfully' };
           },
+
           setSession: (session: AuthSession | null) => {
             const isAdmin = session?.user?.role === 'admin';
             set({
@@ -165,27 +134,25 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             set({ isLoading });
           },
           refreshSession: async () => {
-            try {
-              set({ isLoading: true });
-              const response = await fetch('http://localhost:4040/api/auth/session', {
-                credentials: 'include',
-              });
+            set({ isLoading: true });
 
-              if (response.ok) {
-                const currentSession = await response.json();
-                const isAdmin = currentSession?.user?.role === 'admin';
-                set({
-                  session: currentSession,
-                  user: currentSession?.user || null,
-                  isAuthenticated: !!currentSession?.user,
-                  isAdmin,
-                  isLoading: false,
-                });
-              } else {
-                set({ ...defaultValue });
-              }
-            } catch (error) {
-              console.error('Failed to refresh session:', error);
+            // ✅ Use Better Auth client
+            const { data } = await authClient.getSession();
+
+            if (data?.user) {
+              // Better Auth returns user without role by default, we need to cast/transform
+              const userRole = (data.user as any).role || 'user';
+              const isAdmin = userRole === 'admin';
+
+              set({
+                session: data as any,
+                user: { ...data.user, role: userRole } as any,
+                isAuthenticated: true,
+                role: userRole as 'admin' | 'user',
+                isAdmin,
+                isLoading: false,
+              });
+            } else {
               set({ ...defaultValue });
             }
           },

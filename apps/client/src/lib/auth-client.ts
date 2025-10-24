@@ -1,8 +1,9 @@
 import { createAuthClient } from 'better-auth/client';
 import { adminClient } from 'better-auth/client/plugins';
+import { env } from 'env.client';
 
 export const authClient = createAuthClient({
-  baseURL: 'http://localhost:4040',
+  baseURL: `${env.API_PROTOCOL}://${env.API_HOST}:${env.API_PORT}`,
   plugins: [adminClient()],
 });
 
