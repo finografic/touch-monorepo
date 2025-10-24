@@ -55,6 +55,7 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
 
       if (result.success) {
         toast({ variant: 'success', message: result.message || 'Signed in successfully' });
+        await refreshSession();
         closeLoginDialog();
         navigate('/admin');
       } else {
@@ -123,6 +124,9 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
   // ======================================================================== //
   // 🧹 Cleanup: Only run when dialog is actually closed
   // Track previous state to detect close events (not open events)
+
+  /*
+  // TODO: NECESSARY ???
   const prevIsOpenRef = useRef(isLoginDialogOpen);
 
   useEffect(() => {
@@ -141,6 +145,7 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
 
     prevIsOpenRef.current = isLoginDialogOpen;
   }, [isLoginDialogOpen]);
+  */
 
   // ======================================================================== //
 

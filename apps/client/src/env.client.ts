@@ -1,12 +1,11 @@
 import { z } from 'zod';
 
-// Client environment schema - only validate Vite environment variables
 const envClientSchema = z.object({
-  VITE_APP_NAME: z.string().default('ServiFresh'),
+  // VITE_APP_NAME: z.string().default('ServiFresh'),
 });
 
 const envClientValidated = envClientSchema.parse({
-  VITE_APP_NAME: import.meta.env.VITE_APP_NAME,
+  // VITE_APP_NAME: import.meta.env.VITE_APP_NAME,
 });
 
 // Get shared environment from process.env (provided by Vite's define config)

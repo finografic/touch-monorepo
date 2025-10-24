@@ -4,7 +4,7 @@
 import type { EnvShared } from '../../env.shared.js';
 
 interface ImportMetaEnv {
-  readonly VITE_APP_TITLE: string;
+  // readonly VITE_APP_TITLE: string;
 }
 
 interface ImportMeta {
@@ -15,7 +15,7 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv extends EnvShared {
       NODE_ENV: string;
-      VITE_APP_NAME: string;
+      // VITE_APP_NAME: string;
     }
   }
 }

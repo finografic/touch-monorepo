@@ -28,7 +28,6 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     CLIENT_HOST: envShared.CLIENT_HOST,
     CLIENT_PORT: String(envShared.CLIENT_PORT),
     CLIENT_ORIGIN: envShared.CLIENT_ORIGIN,
-    VITE_APP_NAME: viteEnv.VITE_APP_NAME || 'ServiFresh',
   };
 
   return {
