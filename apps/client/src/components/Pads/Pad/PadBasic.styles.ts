@@ -23,8 +23,8 @@ export const padProps = {
 export const stylesPad = css`
   ${stylesButtonBase}
   font-size: ${button.fontSize.base};
-  font-weight: ${button.fontWeight.base};
-  padding: ${button.padding.base};
+  font-weight: ${button.fontWeight.large};
+  padding: ${button.padding.small};
   text-align: center;
 
   &.pad-slot {
@@ -67,7 +67,7 @@ export const stylesPadBasic = {
     margin: 0 auto;
 
     label {
-      font-size: 1.5rem;
+      font-size: 1.2rem;
       font-weight: 500;
       color: ${colors.textLight};
       text-align: center;

@@ -78,13 +78,13 @@ export const PublicSoundPage: React.FC = () => {
               </Flex>
               <Flex
                 direction="column"
-                gap="2"
+                gap="4"
                 align="center"
-                style={{ width: '100%', fontSize: '1.5rem', fontWeight: '600', padding: '0 4rem' }}
+                style={{ width: '100%', fontSize: '1.5rem', fontWeight: '600', padding: '0 6rem 2.33rem' }}
                 mr="8"
                 pr="8"
               >
-                <Text size="2" weight="medium" color="gray">
+                <Text size="3" weight="medium" color="gray" mb="1">
                   Volume
                 </Text>
                 <Slider
@@ -96,9 +96,9 @@ export const PublicSoundPage: React.FC = () => {
                   size="3"
                   className="volume-slider"
                 />
-                <Text size="3" color="gray">
+                {/* <Text size="3" color="gray">
                   {volume}%
-                </Text>
+                </Text> */}
               </Flex>
             </Flex>
           </Col>

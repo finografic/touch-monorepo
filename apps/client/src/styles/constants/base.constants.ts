@@ -141,12 +141,12 @@ export const button = {
     opacity: 0.55, // TODO: DEV VALUE (HIGH) FOR LIGHT MODE.. MAKE VALUE LIGHTER IF NEEDED
   },
   padding: {
-    base: '1rem',
-    small: '0.75rem',
-    large: '1.25rem',
+    base: '0.8rem',
+    small: '0.4rem',
+    large: '1rem',
   },
   fontSize: {
-    base: '1.5rem',
+    base: '1.4rem',
     small: '1.2rem',
     large: '1.8rem',
   },

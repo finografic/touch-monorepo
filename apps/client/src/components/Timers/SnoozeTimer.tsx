@@ -161,7 +161,7 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
     <div css={styles}>
       <div className="snooze-timer">
         <span>
-          <TimerResetIcon />
+          {process.env.NODE_ENV === 'development' && <TimerResetIcon />}
           <strong>{formatTimeFromMs(remainingTime)}</strong>
         </span>
       </div>

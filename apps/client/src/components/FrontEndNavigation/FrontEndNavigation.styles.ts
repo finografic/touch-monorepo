@@ -18,7 +18,7 @@ export const styles = css`
 
   .nav-list {
     display: flex;
-    gap: 1rem;
+    gap: 0.66rem;
     list-style: none;
     margin: 0;
     padding: 0.5rem;

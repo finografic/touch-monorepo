@@ -57,7 +57,7 @@ export const Layout: FC = () => {
                       <main>
                         <div className="main-content">
                           <section>
-                            <PageHeader />
+                            {/* <PageHeader /> */}
                             <div className="page-content" role="main">
                               <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
                                 <Outlet />

@@ -16,9 +16,9 @@ export const stylesPadAction = css`
   &.pad-rect {
     ${stylesPad}
     border-radius: 8px;
-    width: 310px;
+    width: 300px;
     min-height: 80px;
-    font-size: 1.5rem;
+    font-size: 1.4rem;
     padding: 1rem;
     text-align: center;
   }

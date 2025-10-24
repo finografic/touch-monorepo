@@ -194,13 +194,14 @@ export const stylesAdminContent = css`
 
     /* ADMIN-SECTIONS ======================================================= */
 
-    div.admin-section {
+    .admin-section {
       background-color: ${colors.white};
       border: 1px solid ${colors.greyXLight};
       border: 2px solid ${colors.greyXXLight50};
       border-radius: ${String(layout.borderRadius)};
       /* padding: ${String(layout.padding)}; */
       padding: 1.5rem 2rem 2.5rem 2rem;
+
       margin: 5.5rem 0;
 
       .section-header {
@@ -221,6 +222,8 @@ export const stylesAdminContent = css`
 
   .admin-section {
     overflow-x: hidden !important;
+    padding-top: 0.25rem;
+    padding-bottom: 0.75rem;
   }
 
   /* ======================================================================== */

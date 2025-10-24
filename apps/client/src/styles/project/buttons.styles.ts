@@ -133,8 +133,8 @@ export const stylesSmallButton = css`
   ${stylesButtonBase}
   font-size: ${button.fontSize.base};
   font-weight: ${button.fontWeight.base};
-  min-width: 200px;
-  padding: 1.1rem 4rem;
+  min-width: 180px;
+  padding: 0.9rem 3rem;
   margin: 0 0.33rem;
   line-height: 1;
   gap: 0.5rem;

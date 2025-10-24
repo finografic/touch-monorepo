@@ -28,11 +28,11 @@ export const styles = css`
   /* Main grid container for the three columns */
   .menu-main {
     width: 100%;
-    max-width: 1150px;
+    max-width: 700px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: auto 1.5rem auto 3rem 1fr; /* Left pads | small gap | middle | double gap | grey buttons */
-    gap: 2.5rem 0; /* Only row gap, column gaps handled by template */
+    gap: 2rem 0; /* Only row gap, column gaps handled by template */
     align-items: start;
     /* width: max-content;
     min-width: 100%; */
