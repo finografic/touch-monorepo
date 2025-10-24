@@ -90,7 +90,6 @@
   },
   "dependencies": {
     "@dotenvx/dotenvx": "1.48.4",
-    "@inlang/paraglide-js": "2.4.0",
     "date-fns": "4.1.0",
     "i18next": "24.2.0",
     "i18next-browser-languagedetector": "8.0.2",
@@ -98,13 +97,11 @@
   },
   "devDependencies": {
     "@finografic/project-scripts": "8.2.0",
-    "@inlang/cli": "3.0.12",
     "@microsoft/api-extractor": "^7.52.11",
     "@types/node": "20.11.24",
     "shx": "0.3.4",
     "tsup": "8.4.0",
-    "typescript": "^5.9.2",
-    "@inlang/paraglide-js": "2.4.0"
+    "typescript": "^5.9.2"
   },
   "peerDependencies": {
     "typescript": "^5.8.3"

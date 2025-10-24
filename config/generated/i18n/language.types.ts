@@ -1,7 +1,7 @@
 /**
  * Language and Internationalization Types
  * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated on 2025-10-23T00:03:33.276Z
+ * Generated on 2025-10-24T15:22:46.507Z
  */
 import { config } from 'config/i18n.config';
 
