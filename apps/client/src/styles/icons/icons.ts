@@ -29,6 +29,7 @@ import {
   Coffee as _CoffeeIcon,
   Cog as _SettingsIcon,
   FastForward as _FastForwardIcon,
+  Grid3x2Icon as _Grid3x2Icon,
   House as _HomeIcon,
   Languages as _LanguagesIcon,
   List as _ListIcon,
@@ -98,6 +99,7 @@ export const ClipboardIcon = createIconWrapper(_ClipboardIcon);
 export const DeleteIcon = createIconWrapper(_DeleteIcon);
 export const EditIcon = createIconWrapper(_EditIcon);
 export const FastForwardIcon = createIconWrapper(_FastForwardIcon);
+export const GridIcon = createIconWrapper(_Grid3x2Icon);
 export const HomeIcon = createIconWrapper(_HomeIcon);
 export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);
 export const ListIcon = createIconWrapper(_ListIcon);
@@ -145,6 +147,7 @@ export const ICON_MAP = {
   EditIcon,
   ExclamationTriangleIcon,
   FastForwardIcon,
+  GridIcon,
   HomeIcon,
   InfoCircledIcon,
   LanguageIcon,

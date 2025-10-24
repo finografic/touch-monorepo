@@ -311,7 +311,7 @@ export const AdminUiLabelsPage: React.FC = () => {
       // Call the save endpoint
       const response = await EndpointHelper.saveUiLabels({ sections: data.sections as any });
 
-      log('Save response:', LogColor.green, response);
+      log('Save response:', 'lime', response);
 
       setSubmitMessage({
         type: 'success',

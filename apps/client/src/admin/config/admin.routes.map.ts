@@ -14,6 +14,7 @@ import NotFoundPage from 'pages/NotFound';
 import {
   CoffeeIcon,
   EditIcon,
+  GridIcon,
   LanguageIcon,
   ListIcon,
   MagnifyingGlassIcon,
@@ -122,6 +123,18 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     color: 'blue',
   },
   {
+    key: 'slotConfig',
+    path: '/admin/slots-config',
+    element: {
+      public: null,
+      admin: AdminSlotsConfigPage,
+    },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
+    icon: GridIcon,
+    color: 'orange',
+  },
+  {
     key: 'translations',
     path: '/admin/translations',
     element: {
@@ -131,7 +144,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
     icon: EditIcon,
-    color: 'blue',
+    color: 'purple',
   },
   {
     key: 'uiLabels',
@@ -143,19 +156,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
     icon: EditIcon,
-    color: 'purple',
-  },
-  {
-    key: 'slotConfig',
-    path: '/admin/slots-config',
-    element: {
-      public: null,
-      admin: AdminSlotsConfigPage,
-    },
-    hasNav: { public: false, admin: true },
-    hasCard: { public: false, admin: true },
-    icon: UserShildIcon,
-    color: 'orange',
+    color: 'blue',
   },
   {
     key: 'relays',
@@ -167,6 +168,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
     icon: ZapIcon,
-    color: 'purple',
+    color: 'green',
   },
 ];
