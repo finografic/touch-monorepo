@@ -309,13 +309,13 @@ export const AdminUiLabelsPage: React.FC = () => {
       log('UI Labels data to save:', 'blue', data);
 
       // Call the save endpoint
-      const response = await EndpointHelper.saveUiLabels(data);
+      const response = await EndpointHelper.saveUiLabels({ sections: data.sections as any });
 
-      log('Save response:', 'green', response);
+      log('Save response:', LogColor.green, response);
 
       setSubmitMessage({
         type: 'success',
-        message: `UI Labels saved successfully! Updated ${response.filesUpdated?.length || 0} files: ${response.filesUpdated?.join(', ') || 'unknown'}`,
+        message: `UI Labels saved successfully! Updated ${response.data.filesUpdated?.length || 0} files: ${response.data.filesUpdated?.join(', ') || 'unknown'}`,
       });
 
       // Clear message after 8 seconds
