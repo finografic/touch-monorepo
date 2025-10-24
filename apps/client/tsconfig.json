@@ -3,7 +3,12 @@
   "compilerOptions": {
     "composite": true,
     "target": "ES2020",
-    "lib": ["ES2020", "DOM", "DOM.Iterable", "WebWorker"],
+    "lib": [
+      "ES2020",
+      "DOM",
+      "DOM.Iterable",
+      "WebWorker"
+    ],
     "verbatimModuleSyntax": true,
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -15,44 +20,115 @@
     "rootDir": "../../",
     "baseUrl": ".",
     "paths": {
-      "@config": ["../../config"],
-      "@config/*": ["../../config/*"],
-      "@config/i18n": ["../../config/i18n.config.ts"],
+      "@config": [
+        "../../config"
+      ],
+      "@config/*": [
+        "../../config/*"
+      ],
+      "@config/i18n": [
+        "../../config/i18n.config.ts"
+      ],
       // Local package absolute imports
       // "admin-tools": ["src/components/Toolbars"],
       // "admin-tools/*": ["src/components/Toolbars/*"],
-      "admin": ["./src/admin"],
-      "admin/*": ["./src/admin/*"],
-      "api": ["./src/api"],
-      "api/*": ["./src/api/*"],
-      "auth/*": ["./src/auth/*"],
-      "components/*": ["./src/components/*"],
-      "config": ["./src/config"],
-      "config/*": ["./src/config/*"],
-      "constants/*": ["./src/constants/*"],
-      "dev-tools": ["./src/dev-tools"],
-      "dev-tools/*": ["./src/dev-tools/*"],
-      "env.client": ["./src/env.client"],
-      "forms": ["./src/forms"],
-      "forms/*": ["./src/forms/*"],
-      "hooks/*": ["./src/hooks/*"],
-      "i18n/*": ["./src/i18n/*"],
-      "layout/*": ["./src/layout/*"],
-      "lib/*": ["./src/lib/*"],
-      "pages": ["./src/pages"],
-      "pages/*": ["./src/pages/*"],
-      "providers/*": ["./src/providers/*"],
-      "queries": ["./src/queries"],
-      "queries/*": ["./src/queries/*"],
-      "routes/*": ["./src/routes/*"],
-      "styles": ["./src/styles"],
-      "styles/*": ["./src/styles/*"],
-      "types": ["./src/types"],
-      "types/*": ["./src/types/*"],
-      "utils/*": ["./src/utils/*"],
+      "admin": [
+        "./src/admin"
+      ],
+      "admin/*": [
+        "./src/admin/*"
+      ],
+      "api": [
+        "./src/api"
+      ],
+      "api/*": [
+        "./src/api/*"
+      ],
+      "auth/*": [
+        "./src/auth/*"
+      ],
+      "components/*": [
+        "./src/components/*"
+      ],
+      "config": [
+        "./src/config"
+      ],
+      "config/*": [
+        "./src/config/*"
+      ],
+      "constants/*": [
+        "./src/constants/*"
+      ],
+      "dev-tools": [
+        "./src/dev-tools"
+      ],
+      "dev-tools/*": [
+        "./src/dev-tools/*"
+      ],
+      "env.client": [
+        "./src/env.client"
+      ],
+      "forms": [
+        "./src/forms"
+      ],
+      "forms/*": [
+        "./src/forms/*"
+      ],
+      "hooks/*": [
+        "./src/hooks/*"
+      ],
+      "i18n/*": [
+        "./src/i18n/*"
+      ],
+      "layout/*": [
+        "./src/layout/*"
+      ],
+      "lib/*": [
+        "./src/lib/*"
+      ],
+      "pages": [
+        "./src/pages"
+      ],
+      "pages/*": [
+        "./src/pages/*"
+      ],
+      "paraglide/*": [
+        "./src/paraglide/*"
+      ],
+      "providers/*": [
+        "./src/providers/*"
+      ],
+      "queries": [
+        "./src/queries"
+      ],
+      "queries/*": [
+        "./src/queries/*"
+      ],
+      "routes/*": [
+        "./src/routes/*"
+      ],
+      "styles": [
+        "./src/styles"
+      ],
+      "styles/*": [
+        "./src/styles/*"
+      ],
+      "types": [
+        "./src/types"
+      ],
+      "types/*": [
+        "./src/types/*"
+      ],
+      "utils/*": [
+        "./src/utils/*"
+      ],
       // Custom aliases for specific use cases
-      "@workspace/i18n/flags/images": ["src/components/LanguageSelector/languages/images"],
-      "@workspace/i18n/flags/images/*": ["src/components/LanguageSelector/languages/images/*"]
+      "@workspace/i18n/flags/images": [
+        "src/components/LanguageSelector/languages/images"
+      ],
+      "@workspace/i18n/flags/images/*": [
+        "src/components/LanguageSelector/languages/images/*"
+      ]
     },
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,
@@ -66,8 +142,15 @@
     "declaration": true,
     "declarationMap": true,
     "isolatedModules": true,
-    "types": ["@emotion/react/types/css-prop", "vitest"],
-    "typeRoots": ["../../packages/core/src/types", "../../node_modules/@types", "../../node_modules"]
+    "types": [
+      "@emotion/react/types/css-prop",
+      "vitest"
+    ],
+    "typeRoots": [
+      "../../packages/core/src/types",
+      "../../node_modules/@types",
+      "../../node_modules"
+    ]
   },
   "references": [
     {
