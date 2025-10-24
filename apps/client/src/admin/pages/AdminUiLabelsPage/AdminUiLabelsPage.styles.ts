@@ -4,25 +4,21 @@ import { colors, spacing } from 'styles';
 
 export const styles = css`
   width: 100%;
-  min-height: 100vh;
   background-color: ${colors.white};
   color: ${colors.text};
 
   .admin-page-container {
     max-width: 1600px; /* Wider to accommodate the translation fields */
     margin: 0 auto;
-    padding: ${spacing[8]};
   }
 
   .admin-page-header {
     text-align: center;
-    margin-bottom: ${spacing[8]};
 
     .admin-page-title {
       font-size: 2.5rem;
       font-weight: 700;
       color: ${colors.text};
-      margin-bottom: ${spacing[2]};
       line-height: 1.2;
     }
 
@@ -30,7 +26,6 @@ export const styles = css`
       font-size: 1.125rem;
       color: ${colors.greyDark};
       line-height: 1.5;
-      margin-bottom: ${spacing[6]};
     }
   }
 

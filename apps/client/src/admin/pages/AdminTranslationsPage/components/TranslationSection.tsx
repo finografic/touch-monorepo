@@ -37,9 +37,9 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
       <Box className="translation-section">
         <Flex direction="column" gap="4">
           <Box>
-            <Heading as="h2">{title}</Heading>
+            <Heading as="h2">YY{title}</Heading>
             <Text size="2" color="gray">
-              {description}
+              XX {description}
             </Text>
           </Box>
 

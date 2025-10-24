@@ -383,27 +383,24 @@ export const AdminUiLabelsPage: React.FC = () => {
   );
 
   return (
-    <section
-      id="admin-ui-labels"
-      className="admin-page-content"
-      //  css={styles}
-    >
-      <FormProvider {...methods}>
-        <AdminContentLayout
-          title={t('admin.title')}
-          subtitle="UI Labels / Translations"
-          message={
-            submitMessage
-              ? {
-                  type: submitMessage.type,
-                  content: submitMessage.message,
-                }
-              : undefined
-          }
-        >
-          <AdminSection>{formContent}</AdminSection>
-        </AdminContentLayout>
-      </FormProvider>
-    </section>
+    <FormProvider {...methods}>
+      <AdminContentLayout
+        title={t('admin.title')}
+        subtitle="UI Labels / Translations"
+        message={
+          submitMessage
+            ? {
+                type: submitMessage.type,
+                content: submitMessage.message,
+              }
+            : undefined
+        }
+        styles={styles}
+      >
+        {/* <AdminSection> */}
+        {formContent}
+        {/* </AdminSection> */}
+      </AdminContentLayout>
+    </FormProvider>
   );
 };
