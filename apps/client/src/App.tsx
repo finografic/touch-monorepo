@@ -3,7 +3,7 @@ import { ScreenClassProvider } from 'react-grid-system';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
 import { Global } from '@emotion/react';
-import { Spinner, Theme as RadixTheme } from '@radix-ui/themes';
+import { Spinner, Theme as RadixTheme, Theme } from '@radix-ui/themes';
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { AuthProviderWithInitialization } from 'providers/AuthProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
@@ -13,20 +13,27 @@ import { HydrateLoader } from 'routes/components/HydrateLoader';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 
 import { cssGlobal } from 'styles/global.styles';
+import { ToastProvider } from 'components/Toast/ToastContext';
+import { theme } from 'styles/themes/theme';
+import { themeConfig } from 'styles/radix-ui/theme.config';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>
     <Global styles={cssGlobal} />
     <AppConfigProvider>
-      <AuthProviderWithInitialization>
-        <SessionProvider>
-          <ScreenClassProvider>
-            <Suspense fallback={<Spinner size="3" />}>
-              <Outlet />
-            </Suspense>
-          </ScreenClassProvider>
-        </SessionProvider>
-      </AuthProviderWithInitialization>
+      <Theme {...themeConfig} appearance="light">
+        <ToastProvider>
+          <AuthProviderWithInitialization>
+            <SessionProvider>
+              <ScreenClassProvider>
+                <Suspense fallback={<Spinner size="3" />}>
+                  <Outlet />
+                </Suspense>
+              </ScreenClassProvider>
+            </SessionProvider>
+          </AuthProviderWithInitialization>
+        </ToastProvider>
+      </Theme>
     </AppConfigProvider>
   </ErrorBoundary>
 );

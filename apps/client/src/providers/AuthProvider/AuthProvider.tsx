@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { AuthContext, DISPLAY_NAME, useAuth } from './AuthContext';
 import type { AuthProviderProps } from './AuthContext.types';
-import { AuthLoginDialogV2 } from 'components/Dialog/dialogs/AuthLoginDialogV2';
+import { AuthLoginDialog } from 'providers/AuthProvider/AuthLoginDialog';
 
 export const AuthProvider = ({ children, initialValue }: AuthProviderProps) => {
   return <AuthContext.Provider initialValue={initialValue}>{children}</AuthContext.Provider>;
@@ -10,7 +10,6 @@ export const AuthProvider = ({ children, initialValue }: AuthProviderProps) => {
 
 AuthProvider.displayName = `${DISPLAY_NAME}Provider`;
 
-// Component that automatically initializes the session
 const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   const { refreshSession } = useAuth();
 
@@ -21,13 +20,12 @@ const AuthInitializer = ({ children }: { children: React.ReactNode }) => {
   return <>{children}</>;
 };
 
-// Provider with automatic initialization
 export const AuthProviderWithInitialization = ({ children, initialValue }: AuthProviderProps) => {
   return (
     <AuthProvider initialValue={initialValue}>
       <AuthInitializer>
         {children}
-        <AuthLoginDialogV2 />
+        <AuthLoginDialog />
       </AuthInitializer>
     </AuthProvider>
   );

@@ -1,4 +1,4 @@
 export { AdminToolsDialog } from './AdminToolsDialog';
-export { AuthDialogGuard } from './AuthLoginDialog';
-export { AuthLoginDialog } from './AuthLoginDialog';
+export { AuthDialogGuard } from '../../../providers/AuthProvider/AuthLoginDialog';
+export { AuthLoginDialog } from '../../../providers/AuthProvider/AuthLoginDialog';
 export { LanguageDialog } from './LanguageDialog';

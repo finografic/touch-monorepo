@@ -3,27 +3,7 @@ import type { ReactNode } from 'react';
 import type { CreateSettersType } from 'utils/zustand';
 
 import type { AuthKeys, SETTER_PREFIX } from './AuthContext';
-
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  image?: string | null;
-  emailVerified: boolean;
-  role: 'user' | 'admin'; // Admin plugin role field [Claude v3.5]
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface AuthSession {
-  user: User;
-  session: any;
-}
-
-export interface AuthSignOutCallbacks {
-  onSuccess?: () => void;
-  onError?: () => void;
-}
+import type { AuthSession, AuthSignUpParams, AuthReturnParams, AuthSignInParams, User } from './auth.types';
 
 export interface AuthValues {
   [AuthKeys.user]: User | null;
@@ -37,10 +17,9 @@ export interface AuthValues {
 type AuthSetters = CreateSettersType<AuthValues, typeof SETTER_PREFIX>;
 
 type AuthActions = AuthSetters & {
-  signIn: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
-  signUp: (email: string, password: string, name: string) => Promise<{ success: boolean; error?: string }>;
-  signOut(): Promise<void>;
-  signOut(params: AuthSignOutCallbacks): Promise<void>;
+  signUp: (params: AuthSignUpParams) => Promise<AuthReturnParams>;
+  signIn: (params: AuthSignInParams) => Promise<AuthReturnParams>;
+  signOut: () => Promise<AuthReturnParams>;
   setSession: (session: AuthSession | null) => void;
   setLoading: (isLoading: boolean) => void;
   refreshSession: () => Promise<void>;

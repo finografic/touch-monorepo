@@ -28,7 +28,7 @@
     /* Force dialog overlay to use theme-aware colors */
     .rt-BaseDialogOverlay,
     .rt-DialogOverlay {
-      background-color: rgba(0, 0, 0, 0.5) !important;
+      position: fixed;
       z-index: 1000;
     }
   }
@@ -45,14 +45,21 @@
 }
 
 /* Dynamic color scheme based on theme */
-:root {
-  color-scheme: light;
-}
-
+:root,
 [data-theme='light'] {
   color-scheme: light;
+
+  .rt-BaseDialogOverlay,
+  .rt-DialogOverlay {
+    background-color: rgba(255, 255, 255, 0.33) !important;
+  }
 }
 
 [data-theme='dark'] {
   color-scheme: dark;
+
+  .rt-BaseDialogOverlay,
+  .rt-DialogOverlay {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+  }
 }

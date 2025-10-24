@@ -1,9 +1,7 @@
 import React, { useCallback, useState } from 'react';
 
-import { Dialog, Flex, IconButton, Tabs, Theme, VisuallyHidden } from '@radix-ui/themes';
-// import { Button as Button } from 'components/Button';
+import { Dialog, Flex, IconButton, Tabs, VisuallyHidden } from '@radix-ui/themes';
 import clsx from 'clsx';
-// import { Button } from 'components/ButtonRadix';
 import { Button } from 'components/Button';
 import type { DialogConfig } from 'components/Dialog/GenericDialog.types';
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -111,49 +109,40 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
           </Dialog.Description>
         </div>
 
-        {/* ================================================================ */}
+        {/* DIALOG TABBED CONTENT ========================================== */}
 
         <div className="dialog-main">
           {hasTabs ? (
-            <>
-              {/* DIALOG TABBED CONTENT ------------------------------------ */}
-              <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
-                <Tabs.List>
-                  {config.tabs.map((tab) => (
-                    <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
-                      {tab.icon ? tab.icon : null} {tab.label}
-                    </Tabs.Trigger>
-                  ))}
-                </Tabs.List>
-                <div className="dialog-content">
-                  {config.tabs.map((tab) => (
-                    <Tabs.Content key={tab.id} value={tab.id}>
-                      {tab.content}
-                    </Tabs.Content>
-                  ))}
-                </div>
-              </Tabs.Root>
-            </>
-          ) : (
-            <>
-              {/* DIALOG CONTENT (NO TABS) --------------------------------- */}
-              <div className="dialog-content" style={{ marginTop: '1.5rem' }}>
-                {currentTab?.content}
+            <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
+              <Tabs.List>
+                {config.tabs.map((tab) => (
+                  <Tabs.Trigger key={tab.id} value={tab.id} disabled={tab.disabled}>
+                    {tab.icon ? tab.icon : null} {tab.label}
+                  </Tabs.Trigger>
+                ))}
+              </Tabs.List>
+              <div className="dialog-content">
+                {config.tabs.map((tab) => (
+                  <Tabs.Content key={tab.id} value={tab.id}>
+                    {tab.content}
+                  </Tabs.Content>
+                ))}
               </div>
-            </>
+            </Tabs.Root>
+          ) : (
+            <div className="dialog-content" style={{ marginTop: '1.5rem' }}>
+              {currentTab?.content}
+            </div>
           )}
         </div>
 
-        {/* ================================================================ */}
+        {/* FOOTER ========================================================= */}
 
-        {/* Footer - Fixed at bottom */}
         {config.footer && (
           <div className="footer">
             <Flex justify="end" gap="4" width="100%" id="__ABC__">
               {config.footer.secondaryButton && (
                 <Button
-                  // variant={config.footer.secondaryButton.variant || 'soft'}
-                  // color={config.footer.secondaryButton.color || 'gray'}
                   variant="outline"
                   color="default"
                   size="lg"
@@ -166,8 +155,6 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
 
               {config.footer.primaryButton && (
                 <Button
-                  // variant={config.footer.primaryButton.variant || 'soft'}
-                  // color={config.footer.primaryButton.color || 'blue'}
                   variant="outline"
                   color="default"
                   fullWidth={config.footer.primaryButton && !config.footer.secondaryButton}

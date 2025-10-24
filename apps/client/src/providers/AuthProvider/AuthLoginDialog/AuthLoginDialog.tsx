@@ -1,4 +1,4 @@
-import React, { type FC, useCallback, useEffect, useMemo, useState } from 'react';
+import React, { type FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
@@ -6,6 +6,8 @@ import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { AuthLoginTabContent } from './AuthTabContent';
 import { UserIcon, UserLockIcon } from 'styles/icons';
+import { cleanupDialogBodyAttributes } from 'utils/ui.utils';
+import { useToast } from 'components/Toast/ToastContext';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
@@ -15,86 +17,63 @@ interface AuthLoginDialogProps {
   children?: React.ReactNode | React.ReactElement;
 }
 
-export const AuthLoginDialog: FC<AuthLoginDialogProps> = ({ children = <React.Fragment /> }) => {
+export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
   const { isAuthenticated, refreshSession, isLoginDialogOpen, closeLoginDialog, signIn, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const { toast } = useToast();
 
   const [password, setPassword] = useState(DEFAULT_PASSWORD);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('admin'); // Default to admin tab
+  const [activeTab, setActiveTab] = useState('admin');
 
-  // When called from AuthDialogGuard, this dialog blocks access to protected routes
-  // We check if we're on an admin route (but not the dashboard) to determine if this is a blocking dialog
   const isBlockingAccess = useMemo(
     () => isLoginDialogOpen && !location.pathname.startsWith('/admin') && location.pathname !== '/admin',
     [isLoginDialogOpen, location.pathname],
   );
 
-  const getCurrentEmail = () => {
+  const getCurrentEmail = (): string => {
     const email = activeTab === 'admin' ? DEFAULT_ADMIN_EMAIL : DEFAULT_USER_EMAIL;
     console.log('getCurrentEmail', { tab: activeTab, email });
     return email;
   };
 
-  // Handle login success: close dialog and redirect to /admin
-  const handleLoginSuccess = () => {
-    // closeLoginDialog();
-    // const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
-    // navigate(redirectUrl);
-    navigate('/admin');
-  };
-
-  // Handle login error
-  const handleLoginError = (error: string) => {
-    console.error('Login failed:', error);
-  };
-
   const handleCloseDialog = useCallback(() => {
-    // If blocking access to a protected route, navigate home
-    // Otherwise just close the dialog
-    isBlockingAccess ? navigate('/') : closeLoginDialog();
+    closeLoginDialog();
+    // isBlockingAccess ? navigate('/') : closeLoginDialog();
   }, [closeLoginDialog, isBlockingAccess, navigate]);
 
-  // Handle logout success: redirect to /
-  useEffect(() => {
-    const handleAuthChange = async () => {
-      // This effect will trigger when auth state changes
-      // We'll use signOut callbacks for navigation
-    };
+  const handleSubmit = useCallback(
+    async (e: React.FormEvent) => {
+      e.preventDefault();
+      setIsLoading(true);
+      setError('');
 
-    return () => {
-      // Cleanup if needed
-    };
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError('');
-
-    try {
-      const result = await signIn(getCurrentEmail(), password);
-
-      if (result.success) {
-        // Refresh session to get updated user data with role
-        await refreshSession();
-        closeLoginDialog();
-        handleLoginSuccess();
-      } else {
-        const errorMessage = result.error || 'Authentication failed';
-        setError(errorMessage);
-        handleLoginError(errorMessage);
+      try {
+        const result = await signIn({ email: getCurrentEmail(), password });
+        if (result.success) {
+          toast({ variant: 'success', message: result.message });
+          // await refreshSession();
+          // const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
+          closeLoginDialog();
+          navigate('/admin');
+        } else {
+          toast({
+            variant: 'error',
+            message: (result.error as string) || 'Failed to log in',
+            subText: 'Please try again',
+          });
+        }
+      } catch (error) {
+        console.error('Logout error:', error);
+        toast({ variant: 'error', message: 'Failed to log out', subText: 'Please try again' });
+      } finally {
+        setIsLoading(false);
       }
-    } catch (err) {
-      const errorMessage = 'An unexpected error occurred';
-      setError(errorMessage);
-      handleLoginError(errorMessage);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+    },
+    [signIn, toast],
+  );
 
   const config: DialogConfig = {
     title: '',
@@ -144,22 +123,42 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = ({ children = <React.Fr
     ],
   };
 
+  // ======================================================================== //
+  // 🧹 Cleanup: Only run when dialog is actually closed
+  // Track previous state to detect close events (not open events)
+  const prevIsOpenRef = useRef(isLoginDialogOpen);
+
+  useEffect(() => {
+    const wasOpen = prevIsOpenRef.current;
+    const isNowClosed = wasOpen && !isLoginDialogOpen;
+
+    // Only cleanup when dialog transitions from open → closed
+    if (isNowClosed) {
+      const timeoutId = setTimeout(() => {
+        cleanupDialogBodyAttributes();
+      }, 150);
+
+      prevIsOpenRef.current = isLoginDialogOpen;
+      return () => clearTimeout(timeoutId);
+    }
+
+    prevIsOpenRef.current = isLoginDialogOpen;
+  }, [isLoginDialogOpen]);
+
+  // ======================================================================== //
+
   // When used by AuthDialogGuard to block access, always show as open
   // When used via isLoginDialogOpen (header button), show based on state
   // const shouldShowDialog = isBlockingAccess || isLoginDialogOpen;
-  const shouldShowDialog = isLoginDialogOpen;
+  // const shouldShowDialog = isLoginDialogOpen;
 
   return (
-    <>
-      <GenericDialog
-        isOpen={shouldShowDialog}
-        onClose={handleCloseDialog}
-        config={config}
-        defaultTab={activeTab}
-        onTabChange={setActiveTab}
-      />
-      {/* Only render children if not blocking access */}
-      {!isBlockingAccess && children}
-    </>
+    <GenericDialog
+      isOpen={isLoginDialogOpen}
+      onClose={handleCloseDialog}
+      config={config}
+      defaultTab={activeTab}
+      onTabChange={setActiveTab}
+    />
   );
 };

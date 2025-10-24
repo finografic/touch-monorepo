@@ -28,7 +28,6 @@ import type { ValidGridSize } from 'types/menu.types';
 import { NUM_GRID_ITEMS } from 'config/app';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
-import { themeConfig } from 'styles/radix-ui/theme.config';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';
 
@@ -45,50 +44,43 @@ export const Layout: FC = () => {
   }, []);
 
   return (
-    <Theme {...themeConfig} appearance={theme}>
-      <ToastProvider>
-        <TimersProvider>
-          <OrdersProvider>
-            <FiltersProvider>
-              <PaginationProvider>
-                <LayoutUiProvider initialValue={{ numItems }}>
-                  <AdminProvider>
-                    <ContentProvider>
-                      <DevProvider>
-                        <div id="layout" css={styles}>
-                          {/* <AuthDialogGuard> */}
-                          <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
-                          <main>
-                            <div className="main-content">
-                              <section>
-                                <PageHeader />
-                                <div className="page-content" role="main">
-                                  <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                    <Outlet />
-                                  </Suspense>
-                                </div>
-                                <nav className="page-navigation">
-                                  <FrontEndNavigation />
-                                </nav>
-                              </section>
+    <TimersProvider>
+      <OrdersProvider>
+        <FiltersProvider>
+          <PaginationProvider>
+            <LayoutUiProvider initialValue={{ numItems }}>
+              <AdminProvider>
+                <ContentProvider>
+                  <DevProvider>
+                    <div id="layout" css={styles}>
+                      <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
+                      <main>
+                        <div className="main-content">
+                          <section>
+                            <PageHeader />
+                            <div className="page-content" role="main">
+                              <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                                <Outlet />
+                              </Suspense>
                             </div>
-                          </main>
-                          <Footer />
-                          <SnoozeTimer shouldDebounce={true} />
-                          <ToastSystem />
-                          {/* <AuthLoginDialog /> */}
-                          {/* </AuthDialogGuard> */}
-                          <div id="radix-portal-container" />
+                            <nav className="page-navigation">
+                              <FrontEndNavigation />
+                            </nav>
+                          </section>
                         </div>
-                      </DevProvider>
-                    </ContentProvider>
-                  </AdminProvider>
-                </LayoutUiProvider>
-              </PaginationProvider>
-            </FiltersProvider>
-          </OrdersProvider>
-        </TimersProvider>
-      </ToastProvider>
-    </Theme>
+                      </main>
+                      <Footer />
+                      <SnoozeTimer shouldDebounce={true} />
+                      <ToastSystem />
+                      <div id="radix-portal-container" />
+                    </div>
+                  </DevProvider>
+                </ContentProvider>
+              </AdminProvider>
+            </LayoutUiProvider>
+          </PaginationProvider>
+        </FiltersProvider>
+      </OrdersProvider>
+    </TimersProvider>
   );
 };

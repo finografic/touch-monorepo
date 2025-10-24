@@ -191,4 +191,9 @@ export const cssGlobal = css`
       margin: 0;
     }
   }
+
+  div[data-state='open'].rt-BaseDialogOverlay.rt-DialogOverlay {
+    background-color: rgba(255, 255, 255, 0.33) !important;
+    position: fixed;
+  }
 `;

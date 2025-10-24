@@ -18,7 +18,10 @@ import { useShallow } from 'zustand/react/shallow';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
 
-import type { AuthSession, AuthSignOutCallbacks, AuthStore, AuthValues } from './AuthContext.types';
+import type { AuthStore, AuthValues } from './AuthContext.types';
+import type { AuthSession, AuthSignInParams, AuthSignUpParams } from './auth.types';
+
+import { cleanupDialogBodyAttributes } from 'utils/ui.utils';
 
 export const DISPLAY_NAME = 'Auth';
 export const SETTER_PREFIX = '';
@@ -48,42 +51,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
         ...initialValue,
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
-          signIn: async (email: string, password: string) => {
-            try {
-              const response = await fetch('http://localhost:4040/api/auth/sign-in/email', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                credentials: 'include',
-                body: JSON.stringify({ email, password }),
-              });
-
-              const result = await response.json();
-
-              if (response.ok && result.user) {
-                // BetterAuth returns user data directly on successful login
-                const isAdmin = result.user.role === 'admin';
-                set({
-                  session: result,
-                  user: result.user,
-                  isAuthenticated: true,
-                  isAdmin,
-                  isLoading: false,
-                  isLoginDialogOpen: false, // Close dialog on successful login
-                });
-                return { success: true };
-              } else {
-                set({ isLoading: false });
-                return { success: false, error: result.error || 'Sign in failed' };
-              }
-            } catch (error) {
-              console.error('Sign in error:', error);
-              set({ isLoading: false });
-              return { success: false, error: 'Sign in failed' };
-            }
-          },
-          signUp: async (email: string, password: string, name: string) => {
+          signUp: async ({ email, password, name }: AuthSignUpParams) => {
             try {
               const response = await fetch('http://localhost:4040/api/auth/sign-up/email', {
                 method: 'POST',
@@ -103,13 +71,45 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                 return { success: false, error: result.error || 'Sign up failed' };
               }
             } catch (error) {
-              console.error('Sign up error:', error);
               set({ isLoading: false });
-
               return { success: false, error: 'Sign up failed' };
             }
           },
-          signOut: async ({ onSuccess, onError }: AuthSignOutCallbacks = {}) => {
+          signIn: async ({ email, password }: AuthSignInParams) => {
+            try {
+              const response = await fetch('http://localhost:4040/api/auth/sign-in/email', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include',
+                body: JSON.stringify({ email, password }),
+              });
+
+              const result = await response.json();
+
+              if (response.ok && result.user) {
+                const isAdmin = result.user.role === 'admin';
+                set({
+                  session: result,
+                  user: result.user,
+                  isAuthenticated: true,
+                  isAdmin,
+                  isLoading: false,
+                });
+
+                return { success: true };
+              } else {
+                set({ isLoading: false });
+
+                return { success: false, error: result.error || 'Sign in failed' };
+              }
+            } catch (error) {
+              console.error('Sign in error:', error);
+              set({ isLoading: false });
+
+              return { success: false, error };
+            }
+          },
+          signOut: async () => {
             try {
               // Call server to invalidate session in database
               // Server will clear the HttpOnly cookie via Set-Cookie headers
@@ -129,14 +129,16 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                 // const redirectUrl = String(location.pathname.startsWith('/admin') ? '/admin' : '/');
                 // window.location.assign('redirectUrl');
 
-                // onSuccess?.();
+                return { success: true };
               } else {
                 console.warn('⚠️ Server sign-out failed, clearing client-side state anyway');
                 // Still clear client state even if server fails
                 set({ ...defaultValue });
 
                 // Still redirect on error
-                window.location.assign('/');
+                // window.location.assign('/');
+
+                return { success: false, error: 'Sign out failed' };
               }
             } catch (error) {
               console.error('Sign out error:', error);
@@ -144,9 +146,9 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               set({ ...defaultValue });
 
               // Redirect anyway
-              window.location.assign('/');
+              // window.location.assign('/');
 
-              onError?.();
+              return { success: false, error: 'Sign out failed' };
             }
           },
           setSession: (session: AuthSession | null) => {
