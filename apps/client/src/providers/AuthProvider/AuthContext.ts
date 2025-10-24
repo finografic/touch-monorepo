@@ -40,8 +40,7 @@ export const defaultValue: AuthValues = {
   session: null,
   isLoading: false,
   isAuthenticated: false,
-  isAdmin: false,
-  role: 'user',
+  role: null,
   isLoginDialogOpen: false,
 };
 
@@ -54,7 +53,6 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
         actions: {
           ...createSetters({ set, defaultValue, prefix: SETTER_PREFIX }),
           signUp: async ({ email, password, name }: AuthSignUpParams) => {
-            // ✅ Use Better Auth client
             const { data, error } = await authClient.signUp.email({
               email,
               password,
@@ -62,18 +60,15 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             });
 
             if (data?.user) {
-              // Better Auth returns user without role by default, we need to cast/transform
               const userRole = (data.user as any).role || 'user';
-              const isAdmin = userRole === 'admin';
-
               set({
                 session: data as any, // Better Auth session structure
                 user: { ...data.user, role: userRole } as any,
                 isAuthenticated: true,
                 role: userRole as 'admin' | 'user',
-                isAdmin,
                 isLoading: false,
               });
+
               return { success: true, message: 'Account created successfully' };
             } else {
               set({ isLoading: false });
@@ -81,7 +76,6 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             }
           },
           signIn: async ({ email, password }: AuthSignInParams) => {
-            // ✅ Use Better Auth client
             const { data, error } = await authClient.signIn.email({
               email,
               password,
@@ -90,16 +84,14 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             if (data?.user) {
               // Better Auth returns user without role by default, we need to cast/transform
               const userRole = (data.user as any).role || 'user';
-              const isAdmin = userRole === 'admin';
-
               set({
                 session: data as any, // Better Auth session structure
                 user: { ...data.user, role: userRole } as any,
                 isAuthenticated: true,
                 role: userRole as 'admin' | 'user',
-                isAdmin,
                 isLoading: false,
               });
+
               return { success: true, message: 'Signed in successfully' };
             } else {
               set({ isLoading: false });
@@ -110,7 +102,6 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             // ✅ Use Better Auth client
             const { error } = await authClient.signOut();
 
-            // Always clear state (even on error)
             set({ ...defaultValue });
 
             if (error) {
@@ -119,20 +110,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
 
             return { success: true, message: 'Signed out successfully' };
           },
-
-          setSession: (session: AuthSession | null) => {
-            const isAdmin = session?.user?.role === 'admin';
-            set({
-              session,
-              user: session?.user || null,
-              isAuthenticated: !!session?.user,
-              isAdmin,
-              isLoading: false,
-            });
-          },
-          setLoading: (isLoading: boolean) => {
-            set({ isLoading });
-          },
+          setLoading: (isLoading: boolean) => set({ isLoading }),
           refreshSession: async () => {
             set({ isLoading: true });
 
@@ -149,7 +127,6 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
                 user: { ...data.user, role: userRole } as any,
                 isAuthenticated: true,
                 role: userRole as 'admin' | 'user',
-                isAdmin,
                 isLoading: false,
               });
             } else {

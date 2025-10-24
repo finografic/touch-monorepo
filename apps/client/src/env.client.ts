@@ -2,8 +2,7 @@ import { z } from 'zod';
 
 // Client environment schema - only validate Vite environment variables
 const envClientSchema = z.object({
-  VITE_APP_NAME: z.string(),
-  // Add other VITE_ prefixed variables as needed
+  VITE_APP_NAME: z.string().default('ServiFresh'),
 });
 
 const envClientValidated = envClientSchema.parse({

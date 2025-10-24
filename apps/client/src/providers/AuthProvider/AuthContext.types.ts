@@ -9,11 +9,10 @@ import type { Session } from 'better-auth/types';
 
 export interface AuthValues {
   [AuthKeys.user]: User | null;
-  [AuthKeys.session]: Session | null;
+  [AuthKeys.session]: (Omit<Session, 'user'> & { user: User }) | null;
   [AuthKeys.isLoading]: boolean;
   [AuthKeys.isAuthenticated]: boolean;
-  [AuthKeys.isAdmin]: boolean;
-  [AuthKeys.role]: 'admin' | 'user';
+  [AuthKeys.role]: 'public' | 'user' | 'admin';
   [AuthKeys.isLoginDialogOpen]: boolean;
 }
 
