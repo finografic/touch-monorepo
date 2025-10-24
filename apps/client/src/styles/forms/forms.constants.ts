@@ -94,11 +94,11 @@ export const forms = {
         radius: '6px',
       },
       text: {
-        color: colors.greyDark,
+        color: colors.greyXLight,
         fontSize: '1rem',
-        fontWeight: 400, // Lighter weight for readonly text
+        fontWeight: 600, // Lighter weight for readonly text
       },
-      opacity: 0.8,
+      opacity: 0.45,
     },
   },
   validation: {

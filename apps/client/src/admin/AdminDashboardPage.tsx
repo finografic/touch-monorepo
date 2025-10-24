@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
 import type { AuthRoles } from 'admin/config/admin.routes.map';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { NoAdminEntryRedirect } from 'admin/NoAdminEntryRedirect';
-import { m } from 'src/paraglide/messages.js';
-import { setLocale } from 'src/paraglide/runtime.js';
+import { m } from 'paraglide/messages.js';
+import { setLocale } from 'paraglide/runtime.js';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
@@ -25,7 +25,7 @@ export const AdminDashboardPage: React.FC = () => {
   const { currentLanguage } = useAppConfig();
 
   // Set ParaglideJS locale to match app's current language
-  React.useEffect(() => {
+  useEffect(() => {
     setLocale(currentLanguage as 'en-GB' | 'es-ES');
   }, [currentLanguage]);
 
@@ -35,7 +35,7 @@ export const AdminDashboardPage: React.FC = () => {
   const dashboardTitle = m.admin_dashboard_title_role({ role });
 
   // Get dashboard cards for the current role
-  const adminCards = React.useMemo(() => {
+  const adminCards = useMemo(() => {
     return getAdminDashboardCards(isAuthenticated, role).map((card) => {
       const text = getCalloutText(t, role, card.key);
       return {

@@ -4,6 +4,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
 import { Global } from '@emotion/react';
 import { Spinner, Theme as RadixTheme, Theme } from '@radix-ui/themes';
+import { ToastProvider } from 'components/Toast/ToastContext';
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { AuthProviderWithInitialization } from 'providers/AuthProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
@@ -12,10 +13,9 @@ import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 
-import { cssGlobal } from 'styles/global.styles';
-import { ToastProvider } from 'components/Toast/ToastContext';
-import { theme } from 'styles/themes/theme';
 import { themeConfig } from 'styles/radix-ui/theme.config';
+// import { theme } from 'styles/themes/theme';
+import { cssGlobal } from 'styles/global.styles';
 
 const AppBaseLayout = () => (
   <ErrorBoundary>

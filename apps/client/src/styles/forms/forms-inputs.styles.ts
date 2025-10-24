@@ -124,32 +124,13 @@ export const formsInputs = css`
     }
   }
 
-  /* Times table specific styling */
-  /* .times-table {
-    .table-header {
-      background-color: ${colors.greyXLight};
-      border: 1px solid ${colors.greyLight};
-      font-weight: 600;
-      color: ${colors.text};
-    }
-
-    .table-row {
-      &:nth-of-type(even) {
-        background-color: ${colors.greyXLight25};
-      }
-
-      &.incomplete {
-        opacity: 0.7;
-      }
-
-      .delete-button {
-        opacity: 0;
-        transition: opacity 0.2s ease;
-      }
-
-      &:hover .delete-button {
-        opacity: 1;
-      }
-    }
-  } */
+  /* .rt-TextFieldInput:where(:disabled, :read-only), */
+  input:read-only {
+    opacity: 0.45 !important;
+    border-color: ${colors.grey50} !important;
+    background-color: ${colors.greyXXLight25} !important;
+    color: ${colors.textXDark} !important;
+    -webkit-text-fill-color: ${colors.textXDark} !important;
+    font-weight: ${forms.inputs.readOnly.text.fontWeight} !important;
+  }
 `;

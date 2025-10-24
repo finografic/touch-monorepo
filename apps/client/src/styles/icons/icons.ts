@@ -25,11 +25,13 @@ import {
   BadgeCheck as _BadgeCheckIcon,
   CircleStop as _StopIcon,
   CircleUserRound as _CircleUserRoundIcon,
+  Clipboard as _ClipboardIcon,
   Coffee as _CoffeeIcon,
   Cog as _SettingsIcon,
   FastForward as _FastForwardIcon,
   House as _HomeIcon,
   Languages as _LanguagesIcon,
+  List as _ListIcon,
   ListChecks as _ListChecksIcon,
   Lock as _LockIcon,
   Moon as _MoonIcon,
@@ -47,6 +49,7 @@ import {
   User as _UserIcon,
   UserLock as _UserLockIcon,
   UserRoundCheck as _UserRoundCheckIcon,
+  Volume2Icon as _Volume2Icon,
   Wine as _WineIcon,
   X as _DeleteIcon,
   Zap as _ZapIcon,
@@ -91,11 +94,13 @@ export const WineIcon = createIconWrapper(_WineIcon, 'WineIcon');
 // Admin & Actions
 export const AddIcon = createIconWrapper(_PlusIcon);
 export const BadgeCheckIcon = createIconWrapper(_BadgeCheckIcon);
+export const ClipboardIcon = createIconWrapper(_ClipboardIcon);
 export const DeleteIcon = createIconWrapper(_DeleteIcon);
 export const EditIcon = createIconWrapper(_EditIcon);
 export const FastForwardIcon = createIconWrapper(_FastForwardIcon);
 export const HomeIcon = createIconWrapper(_HomeIcon);
 export const InfoCircledIcon = createIconWrapper(_InfoCircledIcon);
+export const ListIcon = createIconWrapper(_ListIcon);
 export const ListChecksIcon = createIconWrapper(_ListChecksIcon);
 export const LockIcon = createIconWrapper(_LockIcon);
 export const MagnifyingGlassIcon = createIconWrapper(_MagnifyingGlassIcon);
@@ -113,6 +118,7 @@ export const UserIcon = createIconWrapper(_UserIcon);
 export const UserLockIcon = createIconWrapper(_UserLockIcon);
 export const UserRoundCheckIcon = createIconWrapper(_UserRoundCheckIcon);
 export const UserShildIcon = createIconWrapper(_ShieldUserIcon);
+export const VolumeIcon = createIconWrapper(_Volume2Icon);
 export const ZapIcon = createIconWrapper(_ZapIcon);
 
 // ============================================================================
@@ -126,6 +132,7 @@ export const ZapIcon = createIconWrapper(_ZapIcon);
 export const ICON_MAP = {
   AddIcon,
   BadgeCheckIcon,
+  ClipboardIcon,
   CloseIcon,
   CoffeeIcon,
   CountdownTimerIcon,
@@ -141,6 +148,7 @@ export const ICON_MAP = {
   HomeIcon,
   InfoCircledIcon,
   LanguageIcon,
+  ListIcon,
   ListChecksIcon,
   LockIcon,
   MagnifyingGlassIcon,
@@ -168,6 +176,7 @@ export const ICON_MAP = {
   UserLockIcon,
   UserRoundCheckIcon,
   UserShildIcon,
+  VolumeIcon,
   WindowIcon,
   WineIcon,
   ZapIcon,

@@ -1,11 +1,12 @@
 import type { ReactNode } from 'react';
 
+import type { Session } from 'better-auth/types';
+
+import type { User } from 'types/models/auth.model';
 import type { CreateSettersType } from 'utils/zustand';
 
+import type { AuthReturnParams, AuthSignInParams, AuthSignUpParams } from './auth.types';
 import type { AuthKeys, SETTER_PREFIX } from './AuthContext';
-import type { AuthSignUpParams, AuthReturnParams, AuthSignInParams } from './auth.types';
-import type { User } from 'types/models/auth.model';
-import type { Session } from 'better-auth/types';
 
 export interface AuthValues {
   [AuthKeys.user]: User | null;

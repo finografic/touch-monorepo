@@ -60,6 +60,16 @@ export const styles = css`
         box-shadow: none;
       }
     }
+
+    svg.icon.cog {
+      scale: 1.2;
+    }
+    svg.icon.shield-user {
+      scale: 1.1;
+    }
+    svg.icon.volume2 {
+      scale: 1.2;
+    }
   }
 
   .card-icon-box {

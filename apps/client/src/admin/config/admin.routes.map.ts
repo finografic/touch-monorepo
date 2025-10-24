@@ -12,12 +12,15 @@ import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
 import NotFoundPage from 'pages/NotFound';
 
 import {
+  CoffeeIcon,
   EditIcon,
   LanguageIcon,
+  ListIcon,
   MagnifyingGlassIcon,
   SettingsIcon,
   SpeakerLoudIcon,
   UserShildIcon,
+  VolumeIcon,
   ZapIcon,
 } from 'styles/icons';
 
@@ -62,7 +65,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     },
     hasNav: { public: true, admin: false },
     hasCard: { public: true, admin: false },
-    icon: UserShildIcon,
+    // icon: UserShildIcon,
+    icon: CoffeeIcon,
     color: 'blue',
   },
   {
@@ -86,8 +90,9 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     },
     hasNav: { public: true, admin: true },
     hasCard: { public: true, admin: true },
-    icon: SpeakerLoudIcon,
-    color: 'indigo',
+    // icon: SpeakerLoudIcon,
+    icon: VolumeIcon,
+    color: 'crimson',
   },
   {
     key: 'maintenance',
@@ -99,6 +104,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     hasNav: { public: true, admin: false },
     hasCard: { public: true, admin: false },
     icon: SettingsIcon,
+    // color: 'orange',
     color: 'orange',
   },
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
@@ -111,7 +117,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     },
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
-    icon: UserShildIcon,
+    // icon: UserShildIcon,
+    icon: ListIcon,
     color: 'blue',
   },
   {

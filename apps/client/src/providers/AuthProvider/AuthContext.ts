@@ -16,11 +16,11 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
+import { authClient } from 'lib/auth-client';
 import { createSetters, createZustandContext } from 'utils/zustand';
 
-import type { AuthStore, AuthValues } from './AuthContext.types';
 import type { AuthSignInParams, AuthSignUpParams } from './auth.types';
-import { authClient } from 'lib/auth-client';
+import type { AuthStore, AuthValues } from './AuthContext.types';
 
 export const DISPLAY_NAME = 'Auth';
 export const SETTER_PREFIX = '';
