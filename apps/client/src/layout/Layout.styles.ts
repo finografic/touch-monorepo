@@ -6,12 +6,16 @@ import { stylesAppContent } from 'styles/project/project.app.styles';
 export const styles = css`
   ${stylesAppContent}
 
+  transform: translate(-2%, -10%) scale(0.8);
+
   display: flex;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
   background-color: ${colors.background};
   overflow: hidden;
+  overflow-x: visible;
+  overflow-y: visible;
 
   > header {
     width: 100%;
@@ -27,8 +31,12 @@ export const styles = css`
     width: 100%;
     flex: 1;
     position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
+
+    /* transform: translate(0, -10%); */
+    /* overflow-y: hidden; */
+    /* overflow-y: auto; */
+    overflow-x: visible;
+    overflow-y: visible;
 
     .main-content {
       width: 100%;

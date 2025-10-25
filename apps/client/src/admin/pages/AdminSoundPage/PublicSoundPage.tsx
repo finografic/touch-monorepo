@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
@@ -15,6 +15,43 @@ import { styles } from './AdminSoundPage.styles';
 export const PublicSoundPage: React.FC = () => {
   // Global volume management
   const { volume, updateVolume } = useGlobalVolume();
+
+  // Local state for immediate UI feedback (prevents lag on slower machines)
+  const [displayVolume, setDisplayVolume] = useState(volume);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  // Sync local state when global volume changes (e.g., from other tabs)
+  useEffect(() => {
+    setDisplayVolume(volume);
+  }, [volume]);
+
+  // Debounced volume update handler
+  const handleVolumeChange = useCallback(
+    (newVolume: number) => {
+      // Update display immediately for responsive UI
+      setDisplayVolume(newVolume);
+
+      // Clear previous debounce timer
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+
+      // Debounce the actual storage/audio update (50ms for smooth but responsive feel)
+      debounceTimerRef.current = setTimeout(() => {
+        updateVolume(newVolume);
+      }, 50);
+    },
+    [updateVolume],
+  );
+
+  // Cleanup debounce timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
 
   // API hooks - only get alarm sounds for basic page
   const { data: soundFiles = [], isLoading: isLoadingFiles } = useGetSoundFiles('alarm');
@@ -84,21 +121,21 @@ export const PublicSoundPage: React.FC = () => {
                 mr="8"
                 pr="8"
               >
-                <Text size="3" weight="medium" color="gray" mb="1">
+                <Text size="3" weight="medium" color="gray" mt="7">
                   Volume
                 </Text>
                 <Slider
-                  value={[volume]}
-                  onValueChange={(value) => updateVolume(value[0])}
+                  value={[displayVolume]}
+                  onValueChange={(value) => handleVolumeChange(value[0])}
                   max={100}
                   min={0}
                   step={1}
                   size="3"
                   className="volume-slider"
                 />
-                {/* <Text size="3" color="gray">
-                  {volume}%
-                </Text> */}
+                <Text size="3" color="gray">
+                  {displayVolume}%
+                </Text>
               </Flex>
             </Flex>
           </Col>

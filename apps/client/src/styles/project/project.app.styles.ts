@@ -1,6 +1,10 @@
 import { css } from '@emotion/react';
 
 export const stylesAppContent = css`
+  #layout {
+    display: none !important;
+  }
+
   &.temperature-content,
   &.time-content {
     min-width: 800px;
