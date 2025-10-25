@@ -17,16 +17,30 @@
   "app_page_orders_description": "Ver pedidos",
   "admin_dashboard": [
     {
+      "declarations": [
+        "input element",
+        "input role"
+      ],
+      "selectors": [
+        "element",
+        "role"
+      ],
       "match": {
-        "role=admin,element=title": "Dashboard de Administrador",
-        "role=public,element=title": "Dashboard de Usuario",
-        "role=admin,element=description": "Panel de control para la gestión del sistema XX",
-        "role=public,element=description": "Panel de control de utilidades de mantenimiento"
+        "element=title, role=admin": "Dashboard de Administrador",
+        "element=title, role=public": "Dashboard de Usuario",
+        "element=description, role=admin": "Panel de control para la gestión del sistema",
+        "element=description, role=public": "Panel de control de utilidades de mantenimiento"
       }
     }
   ],
   "admin_dashboard_title": [
     {
+      "declarations": [
+        "input role"
+      ],
+      "selectors": [
+        "role"
+      ],
       "match": {
         "role=admin": "Admin Dashboard",
         "role=public": "User Dashboard"
@@ -35,6 +49,12 @@
   ],
   "admin_dashboard_description": [
     {
+      "declarations": [
+        "input role"
+      ],
+      "selectors": [
+        "role"
+      ],
       "match": {
         "role=admin": "Control panel - system management",
         "role=public": "Control panel - maintenance utilities"

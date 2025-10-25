@@ -19,16 +19,30 @@
   "admin_description": "Manage system configurations, translations and settings",
   "admin_dashboard": [
     {
+      "declarations": [
+        "input element",
+        "input role"
+      ],
+      "selectors": [
+        "element",
+        "role"
+      ],
       "match": {
-        "role=admin,element=title": "Admin Dashboard",
-        "role=public,element=title": "User Dashboard",
-        "role=admin,element=description": "Control panel - system management",
-        "role=public,element=description": "Control panel - maintenance utilities"
+        "element=title, role=admin": "Admin Dashboard",
+        "element=title, role=public": "User Dashboard",
+        "element=description, role=admin": "Control panel - system management",
+        "element=description, role=public": "Control panel - maintenance utilities"
       }
     }
   ],
   "admin_dashboard_title": [
     {
+      "declarations": [
+        "input role"
+      ],
+      "selectors": [
+        "role"
+      ],
       "match": {
         "role=admin": "Admin Dashboard",
         "role=public": "User Dashboard"
@@ -37,6 +51,12 @@
   ],
   "admin_dashboard_description": [
     {
+      "declarations": [
+        "input role"
+      ],
+      "selectors": [
+        "role"
+      ],
       "match": {
         "role=admin": "Control panel - system management",
         "role=public": "Control panel - maintenance utilities"
