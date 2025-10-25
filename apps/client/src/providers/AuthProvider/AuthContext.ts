@@ -80,13 +80,14 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             }
           },
           signIn: async ({ email, password }: AuthSignInParams) => {
+            clearAuthSessionToken(); // remove session cookie, if still remains..
+            await sleep(200);
+
             const result = await authClient.signIn.email({ email, password });
             await sleep(200);
 
             if (result.data?.user) {
               // Better Auth returns user without role by default, we need to cast/transform
-
-              await sleep(200);
               const userRole = (result.data.user as any).role || 'user';
               set({
                 session: result.data as any, // Better Auth session structure

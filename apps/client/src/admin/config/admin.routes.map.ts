@@ -25,19 +25,19 @@ import {
   ZapIcon,
 } from 'styles/icons';
 
-export type AuthRoles = 'public' | 'admin';
+export type AuthRoles = 'public' | 'user' | 'admin';
 
 /** Base properties shared by all admin route entries */
 interface AdminRouteBase {
   key: string;
   path: string;
-  element: Record<AuthRoles, React.ComponentType | null>;
+  element: Partial<Record<AuthRoles, React.ComponentType | null>>;
 }
 
 /** Main admin route entry interface - composed of base + optional consumer-specific properties */
 export interface AdminRouteEntry extends AdminRouteBase {
-  hasNav?: Record<AuthRoles, boolean>;
-  hasCard?: Record<AuthRoles, boolean>;
+  hasNav?: Partial<Record<AuthRoles, boolean>>;
+  hasCard?: Partial<Record<AuthRoles, boolean>>;
   icon?: React.ComponentType<any>;
   color?: 'blue' | 'green' | 'indigo' | 'orange' | 'purple' | string;
 }

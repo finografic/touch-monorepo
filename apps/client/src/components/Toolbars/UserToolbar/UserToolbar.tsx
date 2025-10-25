@@ -2,8 +2,10 @@ import React, { useCallback } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
+import clsx from 'clsx';
 import { Button } from 'components/Button';
 import { ThemeToggle } from 'components/IconButtons/ThemeToggle';
+import { useToast } from 'components/Toast';
 import { useAdmin } from 'providers/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
@@ -12,8 +14,6 @@ import type { Theme } from 'types/ui.types';
 
 import { HomeIcon, LanguageIcon, ShieldCheckIcon, UserCircleIcon, UserLockIcon } from 'styles/icons';
 import { styles } from './UserToolbar.styles';
-import clsx from 'clsx';
-import { useToast } from 'components/Toast';
 
 export const UserToolbar: React.FC = () => {
   const { theme } = useAppConfig();

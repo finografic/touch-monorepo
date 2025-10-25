@@ -30,17 +30,13 @@ export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntr
 /**
  * NAVIGATION ITEMS for the admin navbar
  */
-export function getAdminNavItems(isAuthenticated: boolean, role?: AuthRoles) {
-  const userRole = role || 'public';
-
-  return getAdminEntriesForAuth(isAuthenticated)
-    .filter((entry) => entry.hasNav?.[userRole] === true)
-    .map((entry) => ({
-      key: entry.key,
-      label: entry.key, // Will be resolved from translations at render time
-      icon: entry.icon!,
-      path: entry.path,
-    }));
+export function getAdminNavItems(isAuthenticated: boolean, role: AuthRoles = 'public') {
+  return ADMIN_ENTRIES.filter((entry) => entry.hasNav?.[role] === true).map((entry) => ({
+    key: entry.key,
+    path: entry.path,
+    label: entry.key, // Will be resolved from translations at render time
+    icon: entry.icon!,
+  }));
 }
 
 /**

@@ -1,4 +1,4 @@
-import React, { startTransition } from 'react';
+import React, { startTransition, useMemo } from 'react';
 import { hydrateRoot } from 'react-dom/client';
 import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
@@ -18,7 +18,7 @@ export const AdminNavigation: React.FC = () => {
   const { t } = useTranslation();
   const location = useLocation();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 100 });
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
 
   // ======================================================================== //
 
@@ -57,21 +57,23 @@ export const AdminNavigation: React.FC = () => {
   // ======================================================================== //
 
   // Get navigation items from the single source of truth
-  const configNavItems = getAdminNavItems(isAuthenticated);
 
-  // DASHBOARD first item (always visible)
-  const navItems = [
-    {
-      id: 'dashboard',
-      label: t('admin.pages.dashboard.title'),
-      path: '/admin',
-    },
-    ...configNavItems.map((item) => ({
-      id: item.key,
-      label: getNavLabel(t, item.key),
-      path: item.path,
-    })),
-  ];
+  const navItems = useMemo(() => {
+    const configNavItems = getAdminNavItems(isAuthenticated, user?.role);
+    // return; // DASHBOARD first item (always visible)
+    return [
+      {
+        id: 'dashboard',
+        label: t('admin.pages.dashboard.title'),
+        path: '/admin',
+      },
+      ...configNavItems.map((item) => ({
+        id: item.key,
+        label: getNavLabel(t, item.key),
+        path: item.path,
+      })),
+    ];
+  }, [t, isAuthenticated, location.pathname]);
 
   const handleNavigation = (path: string) => {
     if (location.pathname === path) return; // Don't navigate if already on the page
