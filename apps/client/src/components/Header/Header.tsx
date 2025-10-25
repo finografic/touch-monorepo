@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -13,7 +13,14 @@ import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import type { Theme } from 'types/ui.types';
 
+import type { BreakpointMap } from 'styles/viewport/viewport.types';
 import { styles } from './Header.styles';
+
+interface HeaderColumnWidths {
+  left: BreakpointMap<number>;
+  center: BreakpointMap<number>;
+  right: BreakpointMap<number>;
+}
 
 type HeaderProps =
   | {
@@ -41,15 +48,13 @@ export const Header: React.FC<HeaderProps> = ({
   // const { isNextDisabled } = usePagination();
 
   const { user, isAuthenticated } = useAuth();
-
-  console.log('🔍 USER:', user);
-  console.log('%c🔍 IS AUTHENTICATED:', 'color:yellow', isAuthenticated);
+  const isAdmin = location.pathname.startsWith('/admin');
   // const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
-  const isAdmin = location.pathname.startsWith('/admin');
-
   // NEW: Intelligent responsive column system [Claude v3.5]
-  const getColumnProps = () => {
+  const { left, center, right } = useMemo((): HeaderColumnWidths => {
+    log('🚹 USER:', 'skyblue', { isAuthenticated, role: user?.role }, user);
+
     // NOTE: (empty) | (title) | (toolbar)
     if (titleAlign === 'center') {
       return {
@@ -72,9 +77,25 @@ export const Header: React.FC<HeaderProps> = ({
       center: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
       right: { xs: 8, sm: 8, md: 8, lg: 8, xl: 8, xxl: 8 },
     };
+  }, [user]);
+
+  // ✅ Guard clause pattern - clean separation of logic and JSX
+  const getLeftContent = (): ReactNode => {
+    if (titleAlign === 'left') return <HeaderTitle />;
+    if (toolbar && toolbarAlign === 'left') return toolbar;
+    return null;
   };
 
-  const { left: leftColProps, center: centerColProps, right: rightColProps } = getColumnProps();
+  const getCenterContent = (): ReactNode => {
+    if (titleAlign === 'center') return <HeaderTitle />;
+    return null;
+  };
+
+  const getRightContent = (): ReactNode => {
+    if (titleAlign === 'right') return <HeaderTitle />;
+    if (toolbar && toolbarAlign === 'right') return toolbar;
+    return null;
+  };
 
   return (
     <div css={styles}>
@@ -82,32 +103,18 @@ export const Header: React.FC<HeaderProps> = ({
         <Container className="container" fluid>
           <Row justify="between" align="center">
             {/* LEFT column - responsive width */}
-            <Col {...leftColProps} className="col col-header-left">
-              <Flex justify="start">
-                {titleAlign === 'left' ? (
-                  <HeaderTitle />
-                ) : toolbar && toolbarAlign === 'left' ? (
-                  toolbar
-                ) : (
-                  <React.Fragment />
-                )}
-              </Flex>
+            <Col {...left} className="col col-header-left">
+              <Flex justify="start">{getLeftContent()}</Flex>
             </Col>
+
             {/* CENTER column - responsive width */}
-            <Col {...centerColProps} className="col col-header-center">
-              <Flex justify="center">{titleAlign === 'center' && <HeaderTitle />}</Flex>
+            <Col {...center} className="col col-header-center">
+              <Flex justify="center">{getCenterContent()}</Flex>
             </Col>
+
             {/* RIGHT column - responsive width */}
-            <Col {...rightColProps} className="col col-header-right">
-              <Flex justify="end">
-                {titleAlign === 'right' ? (
-                  <HeaderTitle />
-                ) : toolbar && toolbarAlign === 'right' ? (
-                  toolbar
-                ) : (
-                  <React.Fragment />
-                )}
-              </Flex>
+            <Col {...right} className="col col-header-right">
+              <Flex justify="end">{getRightContent()}</Flex>
             </Col>
           </Row>
         </Container>

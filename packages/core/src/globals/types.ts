@@ -1,5 +1,6 @@
 export type LogColor =
   | 'blue'
+  | 'skyblue'
   | 'cyan'
   | 'grey'
   | 'hotpink'

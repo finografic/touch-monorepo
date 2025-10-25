@@ -20,6 +20,107 @@
 - Add error boundaries for React components where appropriate
 - Log errors with sufficient context for debugging
 
+## Control Flow & Conditionals
+
+### Guard Clauses (Preferred)
+
+- **ALWAYS prefer guard clauses** for early returns over nested if/else
+- Guard clauses improve readability by handling edge cases first
+- Reduce cognitive load by flattening nested logic
+
+```typescript
+// ✅ GOOD: Guard clauses (flat, readable)
+function processUser(user: User): string {
+  if (!user) return 'No user';
+  if (!user.isActive) return 'Inactive user';
+  if (!user.permissions) return 'No permissions';
+
+  return `Welcome ${user.name}`;
+}
+
+// ❌ BAD: Nested if/else (hard to follow)
+function processUser(user: User): string {
+  if (user) {
+    if (user.isActive) {
+      if (user.permissions) {
+        return `Welcome ${user.name}`;
+      } else {
+        return 'No permissions';
+      }
+    } else {
+      return 'Inactive user';
+    }
+  } else {
+    return 'No user';
+  }
+}
+```
+
+### Ternaries (Use Sparingly)
+
+- **Single-level ternaries** are acceptable when simpler and more elegant
+- **NEVER use nested ternaries** - use guard clauses or helper functions instead
+- Ternaries are best for simple value assignments or JSX conditionals
+
+```typescript
+// ✅ GOOD: Simple ternary (clear intent)
+const label = isActive ? 'Active' : 'Inactive';
+const icon = <Icon name={isValid ? 'check' : 'error'} />;
+
+// ⚠️ ACCEPTABLE: Simple JSX conditional
+return isLoading ? <Spinner /> : <Content />;
+
+// ❌ BAD: Nested ternary (confusing)
+const status = isActive ? 'active' : isPending ? 'pending' : isError ? 'error' : 'unknown';
+
+// ✅ GOOD: Guard clauses instead
+function getStatus(): string {
+  if (isActive) return 'active';
+  if (isPending) return 'pending';
+  if (isError) return 'error';
+  return 'unknown';
+}
+```
+
+### React Conditional Rendering
+
+- Extract complex conditional logic into helper functions
+- Helper functions returning `ReactNode` are preferred over nested components
+- Keep JSX clean by moving logic outside the return statement
+
+```typescript
+// ✅ GOOD: Helper function with guard clauses
+const Header = () => {
+  const getContent = (): ReactNode => {
+    if (titleAlign === 'left') return <HeaderTitle />;
+    if (toolbar && toolbarAlign === 'left') return toolbar;
+    return null;
+  };
+
+  return <div>{getContent()}</div>;
+};
+
+// ❌ BAD: Nested ternary in JSX
+const Header = () => {
+  return (
+    <div>
+      {titleAlign === 'left' ? (
+        <HeaderTitle />
+      ) : toolbar && toolbarAlign === 'left' ? (
+        toolbar
+      ) : null}
+    </div>
+  );
+};
+```
+
+### Key Principles
+
+1. **Early returns** - Handle edge cases first, then normal flow
+2. **Flat over nested** - Avoid else/else-if chains when possible
+3. **Simple ternaries only** - Complex logic deserves proper functions
+4. **Self-documenting** - Code should read like prose
+
 ## Performance
 
 - Avoid unnecessary re-renders in React components

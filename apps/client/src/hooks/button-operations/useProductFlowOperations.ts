@@ -1,16 +1,17 @@
-import { useCallback, useMemo, useTransition } from 'react';
+import { useCallback, useDeferredValue, useMemo, useState, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import createCuid from '@bugsnag/cuid';
 import { useFiltersContext } from 'providers/FiltersProvider';
+import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 
-import { useProcessTimesFromTemperatureFilter } from 'hooks/useProcessTimesFromTemperatureFilter';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
+import { SlotType } from 'types/orders.types';
 import { FLOW_TYPES } from 'types/flow.types';
 
 import { PATHS } from 'config';
@@ -27,13 +28,19 @@ export const useProductFlowOperations = () => {
   const navigate = useNavigate();
   const [isPending, startTransition] = useTransition();
   const { setPageCurrent } = usePagination();
-  const { orders, toggleSlot, setOrdersSession } = useOrders();
+  const { orders, toggleSlot, setOrdersSession, profile } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId, clearSession, completeSession } =
     useSession();
   const { addTimer, timers } = useTimers();
   const { mainPageSelectedSlots, clearMainPageSelection } = useLayoutUi();
   const { setFilter, clearFilters, filters } = useFiltersContext();
+  const { dataFiltered } = useFilters();
   const orderItemsConfig = useSlotItemsConfig();
+
+  // Temperature control loading state
+  const [isTemperatureLoading, setIsTemperatureLoading] = useState(false);
+  const temperatureFilter = useDeferredValue(filters.temperature);
+  const temperatureProfiles = temperatureFilter?.temperatureProfiles || [];
 
   // Determine which slots to process
   const slotsToProcess = useMemo(() => {
@@ -43,62 +50,114 @@ export const useProductFlowOperations = () => {
   }, [mainPageSelectedSlots, orders]);
 
   // ========================================================================
-  // TEMPERATURE CONTROL HOOK
+  // TEMPERATURE CONTROL - Lazy Initialization (only runs when START is clicked)
   // ========================================================================
 
-  const { startTemperatureControl, isLoading: isTemperatureLoading } = useProcessTimesFromTemperatureFilter({
-    selectedSlots: mainPageSelectedSlots,
-    onSuccess: useCallback(
-      (calculatedDurations) => {
-        startTransition(function updateProcessForSelectedOrders() {
-          slotsToProcess.forEach((slotNumber) => {
-            const order = orders.find((o) => o.slotNumber === slotNumber);
-            if (order) {
-              const duration = calculatedDurations[order.slotNumber.toString()];
-              const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
-              const orderId = existingTimer?.orderId || createCuid();
+  /**
+   * ✅ OPTIMIZED: Calculate timer durations from temperature selection
+   * Only runs when user clicks START button on TemperaturePage
+   * Previously called unconditionally as a hook, now lazy-initialized
+   */
+  const startTemperatureControl = useCallback(async () => {
+    try {
+      setIsTemperatureLoading(true);
 
-              addTimer({
-                sessionId: currentSessionId!,
-                slotNumber,
-                orderId,
-                flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-                duration,
-                remaining: duration,
-                status: 'processing',
-                estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
-              });
-            }
-          });
+      // Validate temperature filter exists
+      if (!temperatureFilter?.initial || !temperatureFilter?.final) {
+        throw new Error('Initial and final temperatures must be set');
+      }
 
-          clearMainPageSelection();
+      if (!temperatureFilter?.closestInitialTemperature || !temperatureFilter?.closestFinalTemperature) {
+        throw new Error('Closest initial and final temperatures must be calculated');
+      }
 
-          // Mark the current session as complete when flow finishes
-          if (currentSessionId) {
-            completeSession(currentSessionId);
+      // Validate temperature profiles exist
+      if (temperatureProfiles.length === 0) {
+        throw new Error('Temperature profiles not available');
+      }
+
+      // Find closest temperature profiles
+      const initialProfile = temperatureProfiles.find(
+        (p) => p.temperature === temperatureFilter.closestInitialTemperature,
+      );
+      const finalProfile = temperatureProfiles.find(
+        (p) => p.temperature === temperatureFilter.closestFinalTemperature,
+      );
+
+      if (!initialProfile) {
+        throw new Error(
+          `No temperature profile found for closestInitialTemperature ${temperatureFilter.closestInitialTemperature}°C`,
+        );
+      }
+
+      if (!finalProfile) {
+        throw new Error(
+          `No temperature profile found for closestFinalTemperature ${temperatureFilter.closestFinalTemperature}°C`,
+        );
+      }
+
+      // Calculate durations for all slot types (A, B, C)
+      const slotTypeDurations = {
+        [SlotType.A]: Math.abs(finalProfile.timeA - initialProfile.timeA),
+        [SlotType.B]: Math.abs(finalProfile.timeB - initialProfile.timeB),
+        [SlotType.C]: Math.abs(finalProfile.timeC - initialProfile.timeC),
+      };
+
+      const calculatedDurations = orders.reduce<Record<string, number>>((acc, order) => {
+        acc[order.slotNumber.toString()] = slotTypeDurations[order.slotType] || 0;
+        return acc;
+      }, {});
+
+      // Create timers and navigate back to MainPage
+      startTransition(function updateProcessForSelectedOrders() {
+        slotsToProcess.forEach((slotNumber) => {
+          const order = orders.find((o) => o.slotNumber === slotNumber);
+          if (order) {
+            const duration = calculatedDurations[order.slotNumber.toString()];
+            const existingTimer = timers.find((t) => t.slotNumber === slotNumber);
+            const orderId = existingTimer?.orderId || createCuid();
+
+            addTimer({
+              sessionId: currentSessionId!,
+              slotNumber,
+              orderId,
+              flowType: FLOW_TYPES.PROGRAM_PRODUCT,
+              duration,
+              remaining: duration,
+              status: 'processing',
+              estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
+            });
           }
-
-          setPageCurrent(0);
-          navigate(PATHS.main, { replace: true });
         });
-      },
-      [
-        slotsToProcess,
-        orders,
-        timers,
-        addTimer,
-        currentSessionId,
-        clearMainPageSelection,
-        completeSession,
-        setPageCurrent,
-        navigate,
-      ],
-    ),
 
-    onError: useCallback((error) => {
+        clearMainPageSelection();
+
+        // Mark the current session as complete when flow finishes
+        if (currentSessionId) {
+          completeSession(currentSessionId);
+        }
+
+        setPageCurrent(0);
+        navigate(PATHS.main, { replace: true });
+      });
+    } catch (error) {
       console.error('Failed to control temperature:', error);
-    }, []),
-  });
+    } finally {
+      setIsTemperatureLoading(false);
+    }
+  }, [
+    temperatureFilter,
+    temperatureProfiles,
+    orders,
+    slotsToProcess,
+    timers,
+    addTimer,
+    currentSessionId,
+    clearMainPageSelection,
+    completeSession,
+    setPageCurrent,
+    navigate,
+  ]);
 
   // ========================================================================
   // PROGRAM PRODUCT (MainPage → DrinkType page)
