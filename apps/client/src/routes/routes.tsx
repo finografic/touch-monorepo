@@ -139,6 +139,11 @@ export const routes: RouteObject[] = [
                 id: 'order-edit',
                 element: <AdminOrdersPage />,
               },
+              // {
+              //   path: ':orderId',
+              //   id: 'order-edit',
+              //   element: <AdminOrdersPage />,
+              // },
             ],
           },
           {
