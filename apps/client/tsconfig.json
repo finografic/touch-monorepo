@@ -92,9 +92,6 @@
       "pages/*": [
         "./src/pages/*"
       ],
-      "paraglide/*": [
-        "./src/paraglide/*"
-      ],
       "providers/*": [
         "./src/providers/*"
       ],

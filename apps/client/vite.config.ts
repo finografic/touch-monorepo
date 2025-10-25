@@ -92,6 +92,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators/index.ts'),
         '@config': resolve(workspaceRoot, 'config'),
         '@config/i18n': resolve(workspaceRoot, 'config/i18n.config.ts'),
+        'paraglide/messages.js': resolve(__dirname, 'src/i18n/messages/messages.js'),
+        'paraglide/runtime.js': resolve(__dirname, 'src/i18n/messages/runtime.js'),
       },
     },
     build: {

@@ -3,6 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 import { AdminLanguagesPage, PublicLanguagesPage } from 'admin/pages/AdminLanguagesPage';
 import { PublicModePage } from 'admin/pages/AdminModePage';
+import { AdminModePage } from 'admin/pages/AdminModePage/__AdminModePage';
 import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
@@ -62,10 +63,10 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     path: '/admin/mode', // default mode (public)
     element: {
       public: PublicModePage,
-      admin: null,
+      admin: AdminModePage,
     },
-    hasNav: { public: true, admin: false },
-    hasCard: { public: true, admin: false },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
     // icon: UserShildIcon,
     icon: CoffeeIcon,
     color: 'blue',

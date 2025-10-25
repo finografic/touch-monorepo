@@ -3,13 +3,13 @@ import { useTranslation } from 'react-i18next';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
-import { m } from 'paraglide/messages.js';
-import { setLocale } from 'paraglide/runtime.js';
+import { setLocale } from 'i18n/messages/runtime';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
 
 import { usePageTransition } from 'hooks/usePageTransition';
+import { getAdminDashboard } from 'utils/i18n-variants';
 
 import { getCalloutText } from './utils/i18n.utils';
 import { AdminContentLayout } from '.';
@@ -28,6 +28,9 @@ export const AdminDashboardPage: React.FC = () => {
   }, [currentLanguage]);
 
   const role = user?.role === 'admin' ? 'admin' : 'public';
+
+  // NEW: 🈂️ inlang/paraglide i18n translations !!;
+  const admin_dashboard = getAdminDashboard({ role });
 
   const adminCards = useMemo(() => {
     return getAdminDashboardCards(isAuthenticated, role).map((card) => {
@@ -50,11 +53,7 @@ export const AdminDashboardPage: React.FC = () => {
   const gridColumns = adminCards.length === 1 ? 1 : 2;
 
   return (
-    <AdminContentLayout
-      title={m.admin_dashboard_title({ role })}
-      subtitle={m.admin_dashboard_description({ role })}
-      align="center"
-    >
+    <AdminContentLayout title={admin_dashboard.title} subtitle={admin_dashboard.description} align="center">
       <Box className="admin-dashboard" css={styles}>
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
           {adminCards.map((card) => (
