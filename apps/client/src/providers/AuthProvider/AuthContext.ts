@@ -12,13 +12,17 @@
  *
  */
 
+import { sleep } from '@workspace/core/utils';
+
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { authClient } from 'lib/auth-client';
+import { clearAuthSessionToken } from 'utils/storage.utils';
 import { createSetters, createZustandContext } from 'utils/zustand';
 
+import { STORAGE_KEYS } from 'config';
 import type { AuthSignInParams, AuthSignUpParams } from './auth.types';
 import type { AuthStore, AuthValues } from './AuthContext.types';
 
@@ -76,17 +80,17 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             }
           },
           signIn: async ({ email, password }: AuthSignInParams) => {
-            const { data, error } = await authClient.signIn.email({
-              email,
-              password,
-            });
+            const result = await authClient.signIn.email({ email, password });
+            await sleep(200);
 
-            if (data?.user) {
+            if (result.data?.user) {
               // Better Auth returns user without role by default, we need to cast/transform
-              const userRole = (data.user as any).role || 'user';
+
+              await sleep(200);
+              const userRole = (result.data.user as any).role || 'user';
               set({
-                session: data as any, // Better Auth session structure
-                user: { ...data.user, role: userRole } as any,
+                session: result.data as any, // Better Auth session structure
+                user: { ...result.data.user, role: userRole } as any,
                 isAuthenticated: true,
                 role: userRole as 'admin' | 'user',
                 isLoading: false,
@@ -95,18 +99,23 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               return { success: true, message: 'Signed in successfully' };
             } else {
               set({ isLoading: false });
-              return { success: false, error: error?.message || 'Sign in failed' };
+              return { success: false, error: result.error?.message || 'Sign in failed' };
             }
           },
           signOut: async () => {
             // ✅ Use Better Auth client
-            const { error } = await authClient.signOut();
+            const result = await authClient.signOut();
+            await sleep(200);
+
+            if (result.error && !result.data?.success) {
+              return { success: false, error: result.error.message || 'Sign out failed' };
+            }
+
+            await sleep(200);
+            clearAuthSessionToken(); // remove session cookie, if still remains..
 
             set({ ...defaultValue });
-
-            if (error) {
-              return { success: false, error: error.message || 'Sign out failed' };
-            }
+            await sleep(200);
 
             return { success: true, message: 'Signed out successfully' };
           },

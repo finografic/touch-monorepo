@@ -38,6 +38,7 @@ export default defineConfig({
     'src/globals/types.ts',
     // Utils files
     'src/utils/index.ts',
+    'src/utils/misc.utils.ts',
     'src/utils/string.utils.ts',
   ],
   outDir: './dist',

@@ -2,12 +2,13 @@ import React, { type FC, useCallback, useEffect, useMemo, useRef, useState } fro
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
+import { useToast } from 'components/Toast/ToastContext';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
+
+import { cleanupDialogBodyAttributes } from 'utils/ui.utils';
 
 import { AuthLoginTabContent } from './AuthTabContent';
 import { UserIcon, UserLockIcon } from 'styles/icons';
-import { cleanupDialogBodyAttributes } from 'utils/ui.utils';
-import { useToast } from 'components/Toast/ToastContext';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';

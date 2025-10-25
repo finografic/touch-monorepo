@@ -44,6 +44,8 @@ export const useTimeFlowOperations = () => {
         console.warn('No selected idle slots to program time for');
       }
 
+      log('__DEV: sessionId', 'orange', selectedIdleSlots);
+
       // Create orders for selected slots first
       selectedIdleSlots.forEach((slot) => {
         const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
@@ -57,8 +59,6 @@ export const useTimeFlowOperations = () => {
 
       // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
-
-      log('__DEV: sessionId', 'orange', selectedIdleSlots);
 
       assignOrdersToSession(
         sessionId,

@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
 
+import { AuthLoginDialog } from 'providers/AuthProvider/AuthLoginDialog';
+
 import { AuthContext, DISPLAY_NAME, useAuth } from './AuthContext';
 import type { AuthProviderProps } from './AuthContext.types';
-import { AuthLoginDialog } from 'providers/AuthProvider/AuthLoginDialog';
 
 export const AuthProvider = ({ children, initialValue }: AuthProviderProps) => {
   return <AuthContext.Provider initialValue={initialValue}>{children}</AuthContext.Provider>;

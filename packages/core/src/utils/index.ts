@@ -1,3 +1,4 @@
 // Export utility functions
-export * from './string.utils';
+export { capitalize } from './string.utils';
+export { sleep } from './misc.utils';
 // Add other utility exports here
