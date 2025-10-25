@@ -42,7 +42,6 @@ export const useTimeFlowOperations = () => {
 
       if (selectedIdleSlots.length === 0) {
         console.warn('No selected idle slots to program time for');
-        return;
       }
 
       // Create orders for selected slots first
@@ -59,10 +58,13 @@ export const useTimeFlowOperations = () => {
       // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
 
+      log('__DEV: sessionId', 'orange', selectedIdleSlots);
+
       assignOrdersToSession(
         sessionId,
         selectedIdleSlots.map((slot) => slot.slotNumber),
       );
+
       setOrdersSession({
         slotNumbers: selectedIdleSlots.map((slot) => slot.slotNumber),
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_TIME },

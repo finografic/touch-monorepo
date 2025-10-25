@@ -76,6 +76,7 @@ export const routes: RouteObject[] = [
         path: ALTERNATIVE_PATHS.time,
         id: 'time',
         element: <TimePage />,
+        // element: <UnauthorizedPage />,
       },
       // ============================================== //
       {

@@ -46,7 +46,7 @@ export const styles = css`
         /* min-width: 1100px;
         max-width: 66vw; */
         min-height: 600px;
-        max-height: 800px;
+        max-height: 680px;
 
         justify-content: space-between;
         align-items: center;
@@ -91,6 +91,7 @@ export const styles = css`
     display: flex;
     align-items: center;
     background-color: transparent;
+    margin-bottom: 2rem;
   }
 
   .title {
