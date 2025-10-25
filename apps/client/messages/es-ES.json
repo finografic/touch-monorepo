@@ -15,24 +15,6 @@
   "app_page_temperature_description": "Seleccionar temperatura",
   "app_page_orders_title": "Pedidos",
   "app_page_orders_description": "Ver pedidos",
-  "admin_dashboard": [
-    {
-      "declarations": [
-        "input element",
-        "input role"
-      ],
-      "selectors": [
-        "element",
-        "role"
-      ],
-      "match": {
-        "element=title, role=admin": "Dashboard de Administrador",
-        "element=title, role=public": "Dashboard de Usuario",
-        "element=description, role=admin": "Panel de control para la gestión del sistema",
-        "element=description, role=public": "Panel de control de utilidades de mantenimiento"
-      }
-    }
-  ],
   "admin_dashboard_title": [
     {
       "declarations": [
@@ -42,6 +24,7 @@
         "role"
       ],
       "match": {
+        "0": "Panel de Control",
         "role=admin": "Admin Dashboard",
         "role=public": "User Dashboard"
       }
@@ -56,6 +39,7 @@
         "role"
       ],
       "match": {
+        "0": "Resumen del sistema",
         "role=admin": "Control panel - system management",
         "role=public": "Control panel - maintenance utilities"
       }
@@ -86,5 +70,23 @@
   "admin_maintenance_card_public_title": "Mantenimiento",
   "admin_maintenance_card_public_description": "Gestionar mantenimiento",
   "admin_items_title": "Gestión de registros",
-  "admin_items_description": "Gestionar registros de la base de datos"
+  "admin_items_description": "Gestionar registros de la base de datos",
+  "admin_dashboard": [
+    {
+      "declarations": [
+        "input element",
+        "input role"
+      ],
+      "selectors": [
+        "element",
+        "role"
+      ],
+      "match": {
+        "element=title, role=admin": "Dashboard de Administrador",
+        "element=title, role=public": "Dashboard de Usuario",
+        "element=description, role=admin": "Panel de control para la gestión del sistema",
+        "element=description, role=public": "Panel de control de utilidades de mantenimiento"
+      }
+    }
+  ]
 }
