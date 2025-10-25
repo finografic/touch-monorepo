@@ -7,7 +7,7 @@ import { useLocation } from 'react-router-dom';
 import { TabNav } from '@radix-ui/themes';
 import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
 import { getNavLabel } from 'admin/utils/i18n.utils';
-import { getLocale, isLocale, setLocale } from 'paraglide/runtime.js';
+import { getLocale, isLocale, setLocale } from 'i18n/runtime';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { usePageTransition } from 'hooks/usePageTransition';

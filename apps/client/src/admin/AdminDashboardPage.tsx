@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
-import { setLocale } from 'i18n/messages/runtime';
+import { setLocale } from 'i18n/runtime';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
