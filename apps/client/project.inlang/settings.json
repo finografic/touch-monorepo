@@ -13,7 +13,7 @@
     "pathPattern": "./messages/{locale}.json"
   },
   "plugin.paraglide-js": {
-    "outdir": "./src/i18n/messages",
+    "outdir": "./src/i18n",
     "project": "./project.inlang"
   }
 }
