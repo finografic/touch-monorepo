@@ -48,7 +48,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       paraglideVitePlugin({
         project: './project.inlang',
         // outdir: './src/paraglide',
-        outdir: './src/i18n/messages',
+        outdir: './src/i18n',
         // Strategy order matters - first match wins
         // 1. localStorage: User's manual language selection (persisted)
         // 2. preferredLanguage: Browser/system language (first visit)
@@ -88,12 +88,12 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         '@workspace/core/types/utils': resolve(workspaceRoot, 'packages/core/src/types/utils'),
         // Point to SOURCE files for HMR during development
         '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src/index.ts'),
-        '@workspace/i18n/messages': resolve(workspaceRoot, 'packages/i18n/src/messages'),
         '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators/index.ts'),
         '@config': resolve(workspaceRoot, 'config'),
         '@config/i18n': resolve(workspaceRoot, 'config/i18n.config.ts'),
-        'paraglide/messages.js': resolve(__dirname, 'src/i18n/messages/messages.js'),
-        'paraglide/runtime.js': resolve(__dirname, 'src/i18n/messages/runtime.js'),
+        'i18n/messages.js': resolve(__dirname, 'src/i18n/messages/messages.js'),
+        'i18n/runtime.js': resolve(__dirname, 'src/i18n/messages/runtime.js'),
+        'messages': resolve(__dirname, '../messages'),
       },
     },
     build: {

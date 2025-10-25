@@ -12,12 +12,16 @@
   },
   "include": [
     "src/**/*",
-    "src/i18n/translations/*.json",
+    "./messages/*.json",
     "vite.config.ts"
   ],
   "exclude": [
     "node_modules",
     "dist",
+    // "src/i18n/messages",
+    // "src/i18n/*.js",
+    // "src/i18n/.gitignore",
+    // "src/i18n/.prettierignore",
     "eslint.config.mjs",
   ]
 }
