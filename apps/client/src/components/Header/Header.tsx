@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -43,19 +43,18 @@ export const Header: React.FC<HeaderProps> = ({
   const { theme } = useAppConfig();
   const navigate = useNavigate();
   const location = useLocation();
-  // const { currentSessionId } = useSession();
-  // const { currentLanguage } = useAppConfig();
-  // const { isNextDisabled } = usePagination();
 
   const { user, isAuthenticated } = useAuth();
   const isAdmin = location.pathname.startsWith('/admin');
   // const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
-  // NEW: Intelligent responsive column system [Claude v3.5]
-  const { left, center, right } = useMemo((): HeaderColumnWidths => {
-    log('🚹 USER:', 'skyblue', { isAuthenticated, role: user?.role }, user);
+  useEffect(
+    () => log('🚹 USER:', 'skyblue', { isAuthenticated, role: user?.role }, user),
+    [isAuthenticated, user?.role, user],
+  );
 
-    // NOTE: (empty) | (title) | (toolbar)
+  const { left, center, right } = useMemo((): HeaderColumnWidths => {
+    // (empty) | (title) | (toolbar)
     if (titleAlign === 'center') {
       return {
         left: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 },
@@ -63,7 +62,7 @@ export const Header: React.FC<HeaderProps> = ({
         right: { xs: 2, sm: 2, md: 3, lg: 3, xl: 3, xxl: 3 },
       };
     }
-    // NOTE: (title) | (empty) | (toolbar)
+    // (title) | (empty) | (toolbar)
     if (titleAlign === 'left') {
       return {
         left: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, xxl: 4 },
@@ -71,7 +70,7 @@ export const Header: React.FC<HeaderProps> = ({
         right: { xs: 6, sm: 6, md: 4, lg: 4, xl: 4, xxl: 4 },
       };
     }
-    // NOTE: (empty) | (empty) | (title + toolbar)
+    // (empty) | (empty) | (title + toolbar)
     return {
       left: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
       center: { xs: 2, sm: 2, md: 2, lg: 2, xl: 2, xxl: 2 },
@@ -79,7 +78,6 @@ export const Header: React.FC<HeaderProps> = ({
     };
   }, [user]);
 
-  // ✅ Guard clause pattern - clean separation of logic and JSX
   const getLeftContent = (): ReactNode => {
     if (titleAlign === 'left') return <HeaderTitle />;
     if (toolbar && toolbarAlign === 'left') return toolbar;
@@ -102,17 +100,12 @@ export const Header: React.FC<HeaderProps> = ({
       <header className={clsx('app-header', { 'admin-app-header': isAdmin })}>
         <Container className="container" fluid>
           <Row justify="between" align="center">
-            {/* LEFT column - responsive width */}
             <Col {...left} className="col col-header-left">
               <Flex justify="start">{getLeftContent()}</Flex>
             </Col>
-
-            {/* CENTER column - responsive width */}
             <Col {...center} className="col col-header-center">
               <Flex justify="center">{getCenterContent()}</Flex>
             </Col>
-
-            {/* RIGHT column - responsive width */}
             <Col {...right} className="col col-header-right">
               <Flex justify="end">{getRightContent()}</Flex>
             </Col>
