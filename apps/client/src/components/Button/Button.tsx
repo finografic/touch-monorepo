@@ -1,10 +1,12 @@
 import type { ReactElement } from 'react';
 import { forwardRef } from 'react';
 
+import { css } from '@emotion/react';
 import clsx from 'clsx';
 
-import type { ButtonProps } from './Button.types';
+import type { ButtonColor, ButtonProps } from './Button.types';
 import { LoadingSpinner } from './LoadingSpinner';
+import { colors, generateUiColorVariants } from 'styles';
 import { baseButtonStyles, fullWidthStyles, getVariantStyles, sizeStyles } from './Button.styles';
 
 /**
@@ -39,8 +41,31 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     // Determine if button should be disabled
     const isDisabled = disabled || loading;
 
+    // NOTE: ButtonColor names: 'primary' | 'secondary' | 'success' | 'warning' | 'danger' | 'info' | 'default' | 'grey'
+    const COLOR_VARIANTS: ButtonColor[] = [
+      'primary',
+      'secondary',
+      'success',
+      'warning',
+      'danger',
+      'info',
+      'default',
+      'grey',
+    ];
+
     // Generate styles
     const variantStyles = getVariantStyles(variant, color);
+    // const variantStyles = generateUiColorVariants(
+    //   'button',
+    //   (colorName, variants, componentType) => css`
+    //     &.${componentType}-${colorName} {
+    //       background-color: ${variants.dark};
+    //       border-color: ${variants.xdark};
+    //       color: ${colors.white};
+    //     }
+    //   `,
+    // );
+
     const sizeStyle = sizeStyles[size];
 
     // Build class names using clsx

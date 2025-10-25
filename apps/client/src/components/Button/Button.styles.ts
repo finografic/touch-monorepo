@@ -1,7 +1,19 @@
 import { css } from '@emotion/react';
 
 import type { ButtonColor, ButtonSize, ButtonVariant } from './Button.types';
-import { button, colors } from 'styles';
+import { button, colors, generateUiColorVariants } from 'styles';
+import { buttonColorVariants } from 'styles/project/buttons.styles';
+
+const TEST = generateUiColorVariants(
+  'button',
+  (colorName, variants, componentType) => css`
+    &.${componentType}-${colorName} {
+      background-color: ${variants.dark};
+      border-color: ${variants.xdark};
+      color: ${colors.white};
+    }
+  `,
+);
 
 /**
  * Base button styles - common to all variants
