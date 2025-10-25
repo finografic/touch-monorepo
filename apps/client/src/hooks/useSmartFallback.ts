@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { useFiltersContext } from 'providers/FiltersProvider/FiltersContext';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
@@ -8,6 +9,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { FLOW_TYPES } from 'types/flow.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
+import { PATHS } from 'config';
 
 const DEBUG_FALLBACK = false; // Set to true to enable debug logs
 
@@ -20,20 +22,23 @@ const DEBUG_FALLBACK = false; // Set to true to enable debug logs
  * ⚠️ ONLY FOR PRODUCT FLOW - Temperature profiles are only needed for product programming
  *
  * WHEN IT RUNS:
- * 1. ✅ On TemperaturePage when no matching orders exist (allows user to proceed)
- * 2. ✅ During product flow when dataFiltered.length === 0 (generates fallback to unblock UI)
- * 3. ❌ NEVER on TimePage (program-time flow doesn't need temperature profiles)
- * 4. ❌ NEVER on initial load (no session = no need for fallback)
+ * 1. ✅ On container-type page when no matching orders exist (allows user to proceed)
+ * 2. ✅ On TemperaturePage when no matching orders exist (allows user to proceed)
+ * 3. ❌ NEVER on early product flow pages (drink-type, volume, etc.)
+ * 4. ❌ NEVER on TimePage (program-time flow doesn't need temperature profiles)
+ * 5. ❌ NEVER on initial load (no session = no need for fallback)
  *
  * OPTIMIZATIONS:
- * - Only runs for 'program-product' sessions (skip 'program-time')
- * - Only runs when there's an active session (skip on initial load)
- * - Only creates fallback when absolutely necessary (dataFiltered is empty)
+ * - Route-based check: Only runs on container-type or temperature pages
+ * - Flow type check: Only runs for 'program-product' sessions (skip 'program-time')
+ * - Session check: Only runs when there's an active session (skip on initial load)
+ * - Data check: Only creates fallback when absolutely necessary (dataFiltered is empty)
  * - Memoizes expensive temperature profile generation
  * - Uses ref to prevent duplicate setProfile calls
  * - Conditional logging to reduce console overhead
  */
 export const useSmartFallback = () => {
+  const location = useLocation();
   const { filters, setFilter } = useFiltersContext();
   const { setProfile } = useOrders();
   const { dataFiltered } = useFilters();
@@ -77,6 +82,18 @@ export const useSmartFallback = () => {
     if (currentSession?.flowType === FLOW_TYPES.PROGRAM_TIME) {
       if (DEBUG_FALLBACK) {
         console.log('%c🚨 SMART FALLBACK: Program Time session, skipping temperature profiles', 'color:grey');
+      }
+      return null;
+    }
+
+    // 🎯 ROUTE CHECK: Only run on container-type or temperature pages
+    // Temperature profiles are ONLY needed at the end of the product flow
+    const isOnRelevantRoute =
+      location.pathname === PATHS.containerType || location.pathname === PATHS.temperature;
+
+    if (!isOnRelevantRoute) {
+      if (DEBUG_FALLBACK) {
+        console.log('%c🚨 SMART FALLBACK: Not on container-type or temperature page, skipping', 'color:grey');
       }
       return null;
     }
@@ -127,7 +144,7 @@ export const useSmartFallback = () => {
     }
 
     return fallbackEntry;
-  }, [currentSessionId, sessions, dataFiltered.length, filterKeys]);
+  }, [currentSessionId, sessions, dataFiltered.length, filterKeys, location.pathname]);
 
   // 🚨 SMART FALLBACK: Handle side effects (setProfile) in useEffect -- ONLY when fallback exists
   useEffect(() => {
@@ -161,6 +178,20 @@ export const useSmartFallback = () => {
       }
     }
 
+    // 🎯 ROUTE CHECK: Only run on container-type or temperature pages
+    const isOnRelevantRoute =
+      location.pathname === PATHS.containerType || location.pathname === PATHS.temperature;
+
+    if (!isOnRelevantRoute) {
+      if (DEBUG_FALLBACK) {
+        console.log(
+          '%c🚨 SMART FALLBACK: Not on container-type or temperature page, skipping filter setup',
+          'color:grey',
+        );
+      }
+      return;
+    }
+
     if (DEBUG_FALLBACK) {
       console.log('🚨 SMART FALLBACK: ContainerType selected, setting up temperature filter');
     }
@@ -185,6 +216,7 @@ export const useSmartFallback = () => {
     setFilter,
     currentSessionId,
     sessions,
+    location.pathname,
   ]);
 
   return {
