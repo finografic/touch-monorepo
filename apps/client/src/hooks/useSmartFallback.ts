@@ -5,6 +5,7 @@ import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
+import { FLOW_TYPES } from 'types/flow.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
 
@@ -16,7 +17,16 @@ const DEBUG_FALLBACK = false; // Set to true to enable debug logs
  * Creates context-aware fallback data that adapts to user's filter selections.
  * Uses real filters when possible, falls back to mock only when needed.
  *
+ * ⚠️ ONLY FOR PRODUCT FLOW - Temperature profiles are only needed for product programming
+ *
+ * WHEN IT RUNS:
+ * 1. ✅ On TemperaturePage when no matching orders exist (allows user to proceed)
+ * 2. ✅ During product flow when dataFiltered.length === 0 (generates fallback to unblock UI)
+ * 3. ❌ NEVER on TimePage (program-time flow doesn't need temperature profiles)
+ * 4. ❌ NEVER on initial load (no session = no need for fallback)
+ *
  * OPTIMIZATIONS:
+ * - Only runs for 'program-product' sessions (skip 'program-time')
  * - Only runs when there's an active session (skip on initial load)
  * - Only creates fallback when absolutely necessary (dataFiltered is empty)
  * - Memoizes expensive temperature profile generation
@@ -27,7 +37,7 @@ export const useSmartFallback = () => {
   const { filters, setFilter } = useFiltersContext();
   const { setProfile } = useOrders();
   const { dataFiltered } = useFilters();
-  const { currentSessionId } = useSession();
+  const { currentSessionId, sessions } = useSession();
 
   // Track if we've already set the fallback profile to prevent duplicate calls
   const hasSetFallbackRef = useRef(false);
@@ -58,6 +68,15 @@ export const useSmartFallback = () => {
     if (!currentSessionId) {
       if (DEBUG_FALLBACK) {
         console.log('%c🚨 SMART FALLBACK: No active session, skipping fallback', 'color:grey');
+      }
+      return null;
+    }
+
+    // 🎯 CRITICAL: Skip for 'program-time' flow (only needed for 'program-product')
+    const currentSession = sessions[currentSessionId];
+    if (currentSession?.flowType === FLOW_TYPES.PROGRAM_TIME) {
+      if (DEBUG_FALLBACK) {
+        console.log('%c🚨 SMART FALLBACK: Program Time session, skipping temperature profiles', 'color:grey');
       }
       return null;
     }
@@ -108,7 +127,7 @@ export const useSmartFallback = () => {
     }
 
     return fallbackEntry;
-  }, [currentSessionId, dataFiltered.length, filterKeys]);
+  }, [currentSessionId, sessions, dataFiltered.length, filterKeys]);
 
   // 🚨 SMART FALLBACK: Handle side effects (setProfile) in useEffect -- ONLY when fallback exists
   useEffect(() => {
@@ -128,6 +147,20 @@ export const useSmartFallback = () => {
       return;
     }
 
+    // 🎯 CRITICAL: Skip for 'program-time' flow (only needed for 'program-product')
+    if (currentSessionId) {
+      const currentSession = sessions[currentSessionId];
+      if (currentSession?.flowType === FLOW_TYPES.PROGRAM_TIME) {
+        if (DEBUG_FALLBACK) {
+          console.log(
+            '%c🚨 SMART FALLBACK: Program Time session, skipping temperature filter setup',
+            'color:grey',
+          );
+        }
+        return;
+      }
+    }
+
     if (DEBUG_FALLBACK) {
       console.log('🚨 SMART FALLBACK: ContainerType selected, setting up temperature filter');
     }
@@ -144,7 +177,15 @@ export const useSmartFallback = () => {
       closestFinalTemperature: 4,
       temperatureProfiles,
     });
-  }, [filters.containerType, filters.temperature, filterKeys.modeId, filterKeys.drinkType, setFilter]);
+  }, [
+    filters.containerType,
+    filters.temperature,
+    filterKeys.modeId,
+    filterKeys.drinkType,
+    setFilter,
+    currentSessionId,
+    sessions,
+  ]);
 
   return {
     createFallbackEntry: smartFallbackEntry,

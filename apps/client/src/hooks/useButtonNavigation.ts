@@ -55,9 +55,10 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   }, [navigate, previousPath, setPageCurrent, currentFlowStep, location.pathname]);
 
   const handleNavigateNext = useCallback(async () => {
+    // ⚠️ Only run product flow logic on /container-type route
     if (location.pathname === '/container-type' && dataFiltered.length > 0) {
       const orderId = dataFiltered[0].id;
-      const profileOrder = ordersReadable.find((order) => order.id === orderId);
+      const profileOrder = ordersReadable?.find((order) => order.id === orderId);
       if (profileOrder) {
         setProfile(profileOrder);
 

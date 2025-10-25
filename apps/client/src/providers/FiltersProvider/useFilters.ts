@@ -40,7 +40,9 @@ export const useFilters = (): UseFiltersReturn => {
   const { filters, setFilter, clearFilter, clearFilters } = useFiltersContext();
 
   // Use the ordersReadable data from OrdersContext - fetched once at provider level
-  const data: OrderReadableModel[] = ordersReadable;
+  // ⚠️ Can be undefined on alternative routes (like TimePage) where orders aren't needed
+  // For non-product-flow routes, ordersReadable might not be initialized yet
+  const data: OrderReadableModel[] = ordersReadable || [];
 
   // 🚀 PERFORMANCE: Memoize safeData to prevent re-creating array on every render
   const safeData: DataEntry[] = useMemo(() => {
@@ -70,7 +72,7 @@ export const useFilters = (): UseFiltersReturn => {
       applyContainerTypeFix: true,
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data.length, filtersKey, filterKey, loaderData.length]);
+  }, [data.length, filtersKey, filterKey, loaderData?.length]);
 
   // Map filter keys from app-local names to server-side field names
   const serverFieldMap = useMemo(() => {

@@ -1,28 +1,26 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 
 import { Box, Flex } from '@radix-ui/themes';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 
-import { timePageState } from 'utils/timePageState';
+import { useTimePageStore } from 'utils/timePageState';
 
 import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS } from 'config/app';
 
 export const TimePage = () => {
-  const [totalSeconds, setTotalSeconds] = useState<number>(TIME_DEFAULT_SECONDS);
+  // ✅ Use proper Zustand store instead of local state
+  const { timeSeconds, setTime, resetTime } = useTimePageStore();
 
   // Initialize with default time
   useEffect(() => {
-    setTotalSeconds(TIME_DEFAULT_SECONDS);
-    timePageState.setTime(TIME_DEFAULT_SECONDS);
-  }, []);
+    resetTime();
+  }, [resetTime]);
 
   const handleTimeChange = useCallback(
     (newTotalSeconds: number) => {
-      setTotalSeconds(newTotalSeconds);
-      timePageState.setTime(newTotalSeconds);
-      console.log('TimePage: Time changed to', newTotalSeconds, 'seconds');
+      setTime(newTotalSeconds);
     },
-    [setTotalSeconds],
+    [setTime],
   );
 
   return (
@@ -32,9 +30,9 @@ export const TimePage = () => {
           <Flex gap="3" justify="center">
             <PadNumeric
               label="Minutos"
-              value={Math.floor(totalSeconds / 60)}
+              value={Math.floor(timeSeconds / 60)}
               onChange={(minutes) => {
-                const newTotalSeconds = minutes * 60 + (totalSeconds % 60);
+                const newTotalSeconds = minutes * 60 + (timeSeconds % 60);
                 handleTimeChange(newTotalSeconds);
               }}
               min={0}
@@ -45,9 +43,9 @@ export const TimePage = () => {
             />
             <PadNumeric
               label="Segundos"
-              value={totalSeconds % 60}
+              value={timeSeconds % 60}
               onChange={(seconds) => {
-                const newTotalSeconds = Math.floor(totalSeconds / 60) * 60 + seconds;
+                const newTotalSeconds = Math.floor(timeSeconds / 60) * 60 + seconds;
                 handleTimeChange(newTotalSeconds);
               }}
               min={0}
