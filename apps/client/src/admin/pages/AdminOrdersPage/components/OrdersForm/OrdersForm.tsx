@@ -469,7 +469,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     <Button
                       type="submit"
                       className="button-success"
-                      disabled={!isValid || (isEditMode && !isDirty) || isSubmitLoading}
+                      // disabled={!isValid || (isEditMode && !isDirty) || isSubmitLoading}
                       loading={isSubmitLoading}
                       color={isEditMode ? 'success' : 'success'}
                     >
@@ -479,6 +479,14 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 </div>
               </Col>
             </Row>
+            {/* <pre>{JSON.stringify(formValues, null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(dropdownData, null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(tempItems, null, 2)}</pre> */}
+            <pre>canAddRow: {JSON.stringify(canAddRow, null, 2)}</pre>
+            <pre>isSubmitLoading: {JSON.stringify(isSubmitLoading, null, 2)}</pre>
+            <pre>isValid: {JSON.stringify(isValid, null, 2)}</pre>
+            <pre>isDirty: {JSON.stringify(isDirty, null, 2)}</pre>
+            <pre>isEditMode: {JSON.stringify(isEditMode, null, 2)}</pre>
           </form>
         </FormMiddlewareProvider>
       </FormProvider>

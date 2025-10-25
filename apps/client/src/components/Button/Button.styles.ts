@@ -95,8 +95,8 @@ export const fullWidthStyles = css`
  */
 export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
   const baseColor = colors[color];
-  const defaultColor = colors[`${color}XLight` as keyof typeof colors];
-  const lightColor = colors[`${color}Light` as keyof typeof colors];
+  const defaultColor = colors[`${color}Light` as keyof typeof colors];
+  const lightColor = colors[`${color}XLight` as keyof typeof colors];
   const darkColor = colors[`${color}Dark` as keyof typeof colors];
   const transparentColor = colors[`${color}25` as keyof typeof colors];
 
