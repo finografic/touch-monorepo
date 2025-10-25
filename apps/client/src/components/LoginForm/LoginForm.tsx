@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import { Button } from 'components/ButtonRadix/Button';
+import { Button } from 'components/Button';
 import { Input } from 'components/Input/Input';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
@@ -43,9 +43,9 @@ export const LoginForm: React.FC<LoginFormProps> = ({
     try {
       let result;
       if (isSignUp) {
-        result = await signUp(email, password, name);
+        result = await signUp({ email, password, name });
       } else {
-        result = await signIn(email, password);
+        result = await signIn({ email, password });
       }
 
       if (result.success) {
@@ -131,14 +131,14 @@ export const LoginForm: React.FC<LoginFormProps> = ({
             <p css={styles.switchText(variant)}>
               {isSignUp ? 'Already have an account?' : "Don't have an account?"}
             </p>
-            <button
+            <Button
               type="button"
               onClick={() => setIsSignUp(!isSignUp)}
               css={styles.switchButton(variant)}
               disabled={isLoading}
             >
               {isSignUp ? 'Sign In' : 'Sign Up'}
-            </button>
+            </Button>
           </div>
         )}
       </div>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import { Button } from 'components/ButtonRadix/Button';
+import { Button } from 'components/Button';
 import { Input } from 'components/Input/Input';
 
 import { styles } from './AuthLoginDialog.styles';
@@ -67,7 +67,7 @@ export const AuthLoginTabContent: React.FC<AuthLoginTabContentProps> = ({
 
           {error && <div className="error">{error}</div>}
 
-          <Button type="submit" disabled={isLoading} variant="soft" size="3" className="submit-button">
+          <Button type="submit" disabled={isLoading} variant="outline" size="md" className="submit-button">
             {isLoading ? 'Loading...' : 'Sign In'}
           </Button>
         </form>

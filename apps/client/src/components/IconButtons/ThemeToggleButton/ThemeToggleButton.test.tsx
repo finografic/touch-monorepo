@@ -6,7 +6,7 @@ import { ContentProvider } from 'providers/ContentProvider';
 
 import '@testing-library/jest-dom/vitest';
 
-import { ThemeToggle } from './ThemeToggle';
+import { ThemeToggleButton } from './ThemeToggleButton';
 
 // Mock the icon components
 vi.mock('styles/icons', () => ({
@@ -22,19 +22,18 @@ describe('themeToggle', () => {
   it('renders sun icon in dark mode', () => {
     render(
       <TestWrapper>
-        <ThemeToggle />
+        <ThemeToggleButton />
       </TestWrapper>,
     );
-
     // Sun icon should be visible initially; moon should not
-    expect(screen.getByTestId('sun-icon')).toBeInTheDocument();
-    expect(screen.queryByTestId('moon-icon')).not.toBeInTheDocument();
+    expect(screen.getByTestId('sun-icon')).toBeTruthy();
+    expect(screen.queryByTestId('moon-icon')).toBeFalsy();
   });
 
   it('toggles theme when clicked', () => {
     render(
       <TestWrapper>
-        <ThemeToggle />
+        <ThemeToggleButton />
       </TestWrapper>,
     );
 
@@ -42,19 +41,19 @@ describe('themeToggle', () => {
     fireEvent.click(button);
 
     // After clicking, should show moon icon and hide sun icon
-    expect(screen.getByTestId('moon-icon')).toBeInTheDocument();
-    expect(screen.queryByTestId('sun-icon')).not.toBeInTheDocument();
+    expect(screen.getByTestId('moon-icon')).toBeTruthy();
+    expect(screen.queryByTestId('sun-icon')).toBeFalsy();
   });
 
   it('has proper accessibility attributes', () => {
     render(
       <TestWrapper>
-        <ThemeToggle />
+        <ThemeToggleButton />
       </TestWrapper>,
     );
 
     const button = screen.getByRole('button');
-    expect(button).toHaveAttribute('aria-label');
-    expect(button).toHaveAttribute('title');
+    expect(button.getAttribute('aria-label')).toBe('Switch to dark mode');
+    expect(button.getAttribute('title')).toBe('Switch to dark mode');
   });
 });

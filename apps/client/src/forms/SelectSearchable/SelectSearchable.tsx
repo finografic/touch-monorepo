@@ -4,7 +4,6 @@ import { CheckIcon, ChevronDownIcon, Cross2Icon, MagnifyingGlassIcon } from '@ra
 import { TextField } from '@radix-ui/themes';
 import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
 import { matchSorter } from 'match-sorter';
-import { Button } from 'components/ButtonRadix';
 
 import type { SelectOption } from 'types/models/select-option.model';
 import { slugify } from 'utils/string.utils';

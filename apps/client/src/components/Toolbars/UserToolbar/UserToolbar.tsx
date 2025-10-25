@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React from 'react';
 
 import { Flex } from '@radix-ui/themes';
-import clsx from 'clsx';
 import { Button } from 'components/Button';
-import { ThemeToggle } from 'components/IconButtons/ThemeToggle';
+import { AdminToggleButton } from 'components/IconButtons/AdminToggleButton/AdminToggleButton';
+import { ThemeToggleButton } from 'components/IconButtons/ThemeToggleButton/ThemeToggleButton';
+import { UserAuthButton } from 'components/IconButtons/UserAuthButton/UserAuthButton';
 import { useToast } from 'components/Toast';
 import { useAdmin } from 'providers/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -12,76 +12,46 @@ import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import type { Theme } from 'types/ui.types';
 
-import { HomeIcon, LanguageIcon, ShieldCheckIcon, UserCircleIcon, UserLockIcon } from 'styles/icons';
+import { LanguageIcon } from 'styles/icons';
 import { styles } from './UserToolbar.styles';
 
 export const UserToolbar: React.FC = () => {
   const { theme } = useAppConfig();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
-  const { isAuthenticated, signOut, openLoginDialog } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
+  const { signOut } = useAuth();
   const { toast } = useToast();
 
-  const isAdminPath = location.pathname.startsWith('/admin');
-
-  const handleLogout = useCallback(async () => {
+  const handleLogout = async () => {
     const result = await signOut();
     if (result.success) {
-      toast({ variant: 'success', message: result.message });
+      toast({ variant: 'success', message: result.message as string });
     } else {
       toast({ variant: 'error', message: result.error as string, subText: 'Please try again' });
     }
-  }, [signOut, toast]);
+  };
 
   return (
     <div css={styles} className={`theme-${theme}`}>
       <Flex gap="0" align="center">
         <div className="button-box">
-          <button
+          <Button
             className="button button-language"
             onClick={() => setIsLanguageDialogOpen(!isLanguageDialogOpen)}
           >
             <LanguageIcon />
-          </button>
+          </Button>
         </div>
 
         <div className="button-box">
-          <ThemeToggle />
+          <ThemeToggleButton />
         </div>
 
         <div className="button-box">
-          {isAdminPath ? (
-            <Button variant="ghost" className="button button-dialog" onClick={() => navigate('/')}>
-              <HomeIcon />
-            </Button>
-          ) : (
-            <Button className="button button-dialog" onClick={() => navigate('/admin')}>
-              <ShieldCheckIcon />
-            </Button>
-          )}
+          <AdminToggleButton />
         </div>
 
         <div className="button-box">
-          {isAuthenticated ? (
-            <Button
-              className={clsx('button', 'button-auth', 'logged-in')}
-              onClick={handleLogout}
-              aria-label="Log out"
-              title="Log out"
-            >
-              <UserLockIcon />
-            </Button>
-          ) : (
-            <Button
-              className={clsx('button', 'button-auth', 'logged-out')}
-              onClick={openLoginDialog}
-              aria-label="Log in"
-              title="Log in"
-            >
-              <UserCircleIcon />
-            </Button>
-          )}
+          <UserAuthButton handleLogout={handleLogout} />
         </div>
       </Flex>
     </div>

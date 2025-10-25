@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Button } from 'components/ButtonRadix';
+import { Button } from 'components/Button';
 
 import { AddIcon } from 'styles/icons';
 
@@ -14,8 +14,8 @@ export const AddNewButton: React.FC<SearchableSelectProps> = ({ handleAddNew, se
     <div className="add-new-option">
       <Button
         type="button"
-        variant="soft"
-        size="2"
+        variant="outline"
+        size="md"
         color="success"
         onClick={handleAddNew}
         className="delete-button"

@@ -171,6 +171,5 @@
     "dist",
     "node_modules",
     "eslint.config.mjs",
-    "src/apps/client/src/components/ButtonRadix/radix-source-files/**/*"
   ]
 }

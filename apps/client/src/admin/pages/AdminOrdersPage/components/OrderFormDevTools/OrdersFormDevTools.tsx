@@ -3,7 +3,7 @@ import type { UseFormReturn } from 'react-hook-form';
 
 import { useOrdersFormDevTools } from 'admin/pages/AdminOrdersPage/components/OrderFormDevTools/useOrdersFormDevTools';
 import type { MockDataHandlers } from 'admin/pages/AdminOrdersPage/components/OrdersForm/orders-form.utils';
-import { Button } from 'components/ButtonRadix';
+import { Button } from 'components/Button';
 
 import { useDev } from 'dev-tools/providers/DevProvider';
 import type { OrdersFormValues } from '../OrdersForm/OrdersForm.schema';
@@ -59,7 +59,7 @@ export const OrdersFormDevTools: React.FC<OrdersFormDevToolsProps> = ({
           <Button
             type="button"
             variant="outline"
-            size="2"
+            size="md"
             onClick={handlers.handleMockPartial}
             color="default"
           >
@@ -68,19 +68,19 @@ export const OrdersFormDevTools: React.FC<OrdersFormDevToolsProps> = ({
           <Button
             type="button"
             variant="outline"
-            size="2"
+            size="md"
             onClick={handlers.handleMockTwoRows}
             color="default"
           >
             🎲 Mock 2 Rows
           </Button>
-          <Button type="button" variant="outline" size="2" onClick={handlers.handleMockAll} color="default">
+          <Button type="button" variant="outline" size="md" onClick={handlers.handleMockAll} color="default">
             📝 Mock All
           </Button>
           <Button
             type="button"
             variant="outline"
-            size="2"
+            size="md"
             onClick={handlers.handleMockAllRows}
             color="default"
           >

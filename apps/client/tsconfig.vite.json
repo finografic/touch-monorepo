@@ -10,11 +10,14 @@
     "noEmit": false,
     "sourceMap": true
   },
-  "include": ["src/**/*", "src/i18n/translations/*.json", "vite.config.ts"],
+  "include": [
+    "src/**/*",
+    "src/i18n/translations/*.json",
+    "vite.config.ts"
+  ],
   "exclude": [
     "node_modules",
     "dist",
     "eslint.config.mjs",
-    "src/apps/client/src/components/ButtonRadix/radix-source-files/**/*"
   ]
 }
