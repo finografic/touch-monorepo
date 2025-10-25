@@ -12,7 +12,10 @@
   "include": [
     "vite.config.ts",
     "postcss.config.mjs",
-    "src/utils/**/*.ts"
+    "src/utils/**/*.ts",
+    "messages/**/*.json",
+    "project.inlang/**/*",
+    "src/i18n/utils/**/*.ts",
   ],
   "exclude": [
     "eslint.config.mjs"
