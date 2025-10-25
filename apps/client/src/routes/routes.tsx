@@ -1,4 +1,4 @@
-import type { RouteObject } from 'react-router-dom';
+import { Outlet, type RouteObject } from 'react-router-dom';
 
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
@@ -99,6 +99,7 @@ export const routes: RouteObject[] = [
       {
         // Protected admin section
         element: <ProtectedRoutesByRole />,
+        // element: <Outlet />,
         children: [
           // DASHBOARD (accessible to all - index route)
           {

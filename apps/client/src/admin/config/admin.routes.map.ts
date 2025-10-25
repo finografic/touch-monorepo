@@ -26,7 +26,7 @@ import {
   ZapIcon,
 } from 'styles/icons';
 
-export type AuthRoles = 'public' | 'user' | 'admin';
+export type AuthRoles = 'public' | 'admin';
 
 /** Base properties shared by all admin route entries */
 interface AdminRouteBase {

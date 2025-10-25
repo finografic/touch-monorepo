@@ -58,7 +58,7 @@ export const OrdersFormDevTools: React.FC<OrdersFormDevToolsProps> = ({
         <>
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="md"
             onClick={handlers.handleMockPartial}
             color="default"
@@ -67,19 +67,19 @@ export const OrdersFormDevTools: React.FC<OrdersFormDevToolsProps> = ({
           </Button>
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="md"
             onClick={handlers.handleMockTwoRows}
             color="default"
           >
             🎲 Mock 2 Rows
           </Button>
-          <Button type="button" variant="outline" size="md" onClick={handlers.handleMockAll} color="default">
+          <Button type="button" variant="ghost" size="md" onClick={handlers.handleMockAll} color="default">
             📝 Mock All
           </Button>
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             size="md"
             onClick={handlers.handleMockAllRows}
             color="default"
