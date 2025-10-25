@@ -6,7 +6,7 @@ import { stylesAppContent } from 'styles/project/project.app.styles';
 export const styles = css`
   ${stylesAppContent}
 
-  transform: translate(-2%, -10%) scale(0.8);
+  /* transform: translate(-2%, -10%) scale(0.8); */
 
   display: flex;
   flex-direction: column;
