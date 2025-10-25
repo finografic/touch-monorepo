@@ -2,9 +2,7 @@ import React, { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
-import type { AuthRoles } from 'admin/config/admin.routes.map';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
-import { NoAdminEntryRedirect } from 'admin/NoAdminEntryRedirect';
 import { m } from 'paraglide/messages.js';
 import { setLocale } from 'paraglide/runtime.js';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
@@ -31,10 +29,6 @@ export const AdminDashboardPage: React.FC = () => {
 
   const role = user?.role === 'admin' ? 'admin' : 'public';
 
-  // Use ParaglideJS `m` function with flat snake_case keys
-  const dashboardTitle = m.admin_dashboard_title_role({ role });
-
-  // Get dashboard cards for the current role
   const adminCards = useMemo(() => {
     return getAdminDashboardCards(isAuthenticated, role).map((card) => {
       const text = getCalloutText(t, role, card.key);
@@ -53,21 +47,11 @@ export const AdminDashboardPage: React.FC = () => {
     navigateWithTransition(path);
   };
 
-  // Calculate grid columns based on card count (max 2 columns for wider cards)
   const gridColumns = adminCards.length === 1 ? 1 : 2;
 
-  console.log('🎴 Admin Dashboard:', {
-    cardCount: adminCards.length,
-    gridColumns,
-    cards: adminCards.map((c) => c.id),
-  });
-
   return (
-    <AdminContentLayout title={dashboardTitle} subtitle={m.admin_dashboard_description()} align="center">
+    <AdminContentLayout title={dashboardTitle} subtitle={m[`admin_dashboard_${role}_title`]()} align="center">
       <Box className="admin-dashboard" css={styles}>
-        {/* <SectionHeader title="Admin Configuration" align="center" /> */}
-        {/* <AdminAccessTest /> */}
-        {/* <pre>{JSON.stringify(adminCards, null, 2)}</pre> */}
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
           {adminCards.map((card) => (
             <Card

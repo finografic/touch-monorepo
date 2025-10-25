@@ -11,5 +11,10 @@
   ],
   "plugin.inlang.messageFormat": {
     "pathPattern": "./messages/{locale}.json"
+  },
+  "outdir": "./src/i18n/messages",
+  "plugin.paraglide-js": {
+    "outdir": "./src/i18n/messages",
+    "project": "./project.inlang"
   }
 }

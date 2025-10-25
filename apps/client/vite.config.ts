@@ -47,7 +47,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       }),
       paraglideVitePlugin({
         project: './project.inlang',
-        outdir: './src/paraglide',
+        // outdir: './src/paraglide',
+        outdir: './src/i18n/messages',
         // Strategy order matters - first match wins
         // 1. localStorage: User's manual language selection (persisted)
         // 2. preferredLanguage: Browser/system language (first visit)
