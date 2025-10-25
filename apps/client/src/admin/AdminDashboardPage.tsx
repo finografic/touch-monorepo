@@ -50,7 +50,11 @@ export const AdminDashboardPage: React.FC = () => {
   const gridColumns = adminCards.length === 1 ? 1 : 2;
 
   return (
-    <AdminContentLayout title={dashboardTitle} subtitle={m[`admin_dashboard_${role}_title`]()} align="center">
+    <AdminContentLayout
+      title={m.admin_dashboard_title({ role })}
+      subtitle={m.admin_dashboard_description({ role })}
+      align="center"
+    >
       <Box className="admin-dashboard" css={styles}>
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
           {adminCards.map((card) => (

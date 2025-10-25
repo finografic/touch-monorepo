@@ -169,6 +169,7 @@
     "vite": "^6.0.5",
     "vite-plugin-checker": "0.10.2",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "2.1.9"
+    "vitest": "2.1.9",
+    "@inlang/paraglide-js": "2.4.0"
   }
 }

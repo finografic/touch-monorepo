@@ -1,6 +1,6 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "app_title": "Servi Fresc",
+  "app_title": "Servi Fresc-EN",
   "app_tagline": "Perfect Temperature Service",
   "app_description": "Temperature control system for beverages",
   "app_page_main_title": "Main",
@@ -17,10 +17,22 @@
   "app_page_orders_description": "View orders",
   "admin_title": "Admin Panel",
   "admin_description": "Manage system configurations, translations and settings",
-  "admin_dashboard_public_title": "User Dashboard",
-  "admin_dashboard_public_description": "Control panel of maintenance utilities",
-  "admin_dashboard_admin_title": "Admin Dashboard",
-  "admin_dashboard_admin_description": "Control panel for system management",
+  "admin_dashboard": [
+    {
+      "declarations": ["input role"],
+      "selectors": ["role"],
+      "match": {
+        "role=admin": {
+          "title": "Admin Dashboard",
+          "description": "Control panel - system management"
+        },
+        "role=public": {
+          "title": "User Dashboard",
+          "description": "Control panel - maintenance utilities"
+        }
+      }
+    }
+  ],
   "admin_translations_title": "Translation Management",
   "admin_translations_description": "Edit translations for database content",
   "admin_translations_card_title": "Translation Management",

@@ -15,12 +15,22 @@
   "app_page_temperature_description": "Seleccionar temperatura",
   "app_page_orders_title": "Pedidos",
   "app_page_orders_description": "Ver pedidos",
-  "admin_title": "Panel de Administración",
-  "admin_description": "Gestionar configuraciones del sistema, traducciones y configuraciones",
-  "admin_dashboard_public_title": "Dashboard de Usuario",
-  "admin_dashboard_public_description": "Panel de control de utilidades de mantenimiento",
-  "admin_dashboard_admin_title": "Dashboard de Administrador",
-  "admin_dashboard_admin_description": "Panel de control para la gestión del sistema",
+  "admin_dashboard": [
+    {
+      "declarations": ["input role"],
+      "selectors": ["role"],
+      "match": {
+        "role=admin": {
+          "title": "Dashboard de Administrador",
+          "description": "Panel de control - gestión del sistema"
+        },
+        "role=public": {
+          "title": "Dashboard de Usuario",
+          "description": "Panel de control - utilidades de mantenimiento"
+        }
+      }
+    }
+  ],
   "admin_translations_title": "Gestión de Traducciones",
   "admin_translations_description": "Editar traducciones para contenido de base de datos",
   "admin_translations_card_title": "Gestión de Traducciones",

@@ -8,10 +8,6 @@
       "name": "🚀 @workspace/client",
       "path": "apps/client",
     },
-    {
-      "name": "🚀 @workspace/server",
-      "path": "apps/server",
-    },
   ],
   "settings": {
     "terminal.integrated.env.osx": {
