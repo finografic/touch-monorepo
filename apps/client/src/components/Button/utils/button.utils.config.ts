@@ -13,6 +13,6 @@ export const BUTTON_BASE_COLORS: Record<ButtonColor, ButtonColorVariants> = {
   warning: 'warningLight',
   danger: 'dangerLight',
   info: 'infoLight',
-  default: 'greyXLight',
+  default: 'greyXXLight',
   grey: 'greyXLight',
 };

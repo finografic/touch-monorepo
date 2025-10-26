@@ -37,10 +37,9 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ): ReactElement => {
-    const isDisabled = disabled || loading;
-
-    const variantStyles = getVariantStyles(variant, color);
+    const VARIANT_STYLES = getVariantStyles(variant, color);
     const sizeStyle = sizeStyles[size];
+    const isDisabled = disabled || loading;
 
     const buttonClasses = clsx(
       'button',
@@ -94,7 +93,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         data-color={color}
         data-size={size}
         className={buttonClasses}
-        css={[baseButtonStyles, sizeStyle, variantStyles, fullWidth && fullWidthStyles]}
+        css={[baseButtonStyles, sizeStyle, fullWidth && fullWidthStyles, VARIANT_STYLES]}
         aria-busy={loading}
         aria-disabled={isDisabled}
         {...rest}
