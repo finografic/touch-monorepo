@@ -29,8 +29,8 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
         border: ${button.border.width} solid ${lightColor};
 
         &:hover:not(:disabled):not([data-loading='true']) {
-          background-color: ${darkColor};
-          border-color: ${darkColor};
+          background-color: ${defaultColor};
+          border-color: ${defaultColor};
         }
 
         &:active:not(:disabled):not([data-loading='true']) {
@@ -102,7 +102,16 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
 function extractBaseColorName(colorKey: string): string {
   // Remove all shade variant suffixes to get the base name
   // Order matters: check longer variants first to avoid partial matches
-  for (const variant of [...SHADE_VARIANTS]) {
+  const shadeVariants = [
+    'XXDark',
+    'XDark',
+    'Dark',
+    //  '',
+    'Light',
+    'XLight',
+    'XXLight',
+  ];
+  for (const variant of shadeVariants) {
     if (colorKey.endsWith(variant)) {
       return colorKey.slice(0, -variant.length);
     }
@@ -118,7 +127,15 @@ function extractBaseColorName(colorKey: string): string {
 function shiftShadeVariant(currentVariant: ShadeVariant, shift: number): string {
   // Order from lightest to darkest
   // const shadeOrder: ShadeVariant[] = [...SHADE_VARIANTS].reverse();
-  const shadeOrder: ShadeVariant[] = [...SHADE_VARIANTS].reverse();
+  const shadeOrder = [
+    'XXLight',
+    'XLight',
+    'Light',
+    // '',
+    'Dark',
+    'XDark',
+    'XXDark',
+  ];
   const currentIndex = shadeOrder.indexOf(currentVariant);
 
   if (currentIndex === -1) {
