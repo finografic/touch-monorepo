@@ -81,10 +81,10 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
           },
           signIn: async ({ email, password }: AuthSignInParams) => {
             clearAuthSessionToken(); // remove session cookie, if still remains..
-            await sleep(200);
+            await sleep(300);
 
             const result = await authClient.signIn.email({ email, password });
-            await sleep(200);
+            await sleep(300);
 
             if (result.data?.user) {
               // Better Auth returns user without role by default, we need to cast/transform
@@ -106,17 +106,15 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
           signOut: async () => {
             // ✅ Use Better Auth client
             const result = await authClient.signOut();
-            await sleep(200);
+            await sleep(300);
 
             if (result.error && !result.data?.success) {
               return { success: false, error: result.error.message || 'Sign out failed' };
             }
-
-            await sleep(200);
-            clearAuthSessionToken(); // remove session cookie, if still remains..
-
+            // await sleep(200);
+            // clearAuthSessionToken(); // remove session cookie, if still remains..
             set({ ...defaultValue });
-            await sleep(200);
+            await sleep(300);
 
             return { success: true, message: 'Signed out successfully' };
           },
