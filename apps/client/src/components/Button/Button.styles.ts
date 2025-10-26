@@ -21,17 +21,6 @@ export const BUTTON_BASE_COLORS: Record<ButtonColor, ButtonColor | `${ButtonColo
   grey: 'greyXLight',
 };
 
-const TEST = generateUiColorVariants(
-  'button',
-  (colorName, variants, componentType) => css`
-    &.${componentType}-${colorName} {
-      background-color: ${variants.dark};
-      border-color: ${variants.xdark};
-      color: ${colors.white};
-    }
-  `,
-);
-
 /**
  * Base button styles - common to all variants
  */
