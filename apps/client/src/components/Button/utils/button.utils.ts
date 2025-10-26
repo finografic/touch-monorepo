@@ -117,6 +117,7 @@ function extractBaseColorName(colorKey: string): string {
  */
 function shiftShadeVariant(currentVariant: ShadeVariant, shift: number): string {
   // Order from lightest to darkest
+  // const shadeOrder: ShadeVariant[] = [...SHADE_VARIANTS].reverse();
   const shadeOrder: ShadeVariant[] = [...SHADE_VARIANTS].reverse();
   const currentIndex = shadeOrder.indexOf(currentVariant);
 
