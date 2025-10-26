@@ -27,11 +27,10 @@ export const UserToolbar: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    clearAuthSessionToken(); // remove session cookie, if still remains..
     const result = await signOut();
     if (result.success) {
       toast({ variant: 'success', message: result.message as string });
-      clearAuthSessionToken(); // remove session cookie, if still remains..
-      await sleep(300);
       navigate(PATHS.main, { replace: true });
     } else {
       toast({ variant: 'error', message: result.error as string, subText: 'Please try again' });

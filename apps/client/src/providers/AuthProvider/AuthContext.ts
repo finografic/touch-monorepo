@@ -106,15 +106,15 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
           signOut: async () => {
             // ✅ Use Better Auth client
             const result = await authClient.signOut();
-            await sleep(300);
+            // await sleep(300);
 
             if (result.error && !result.data?.success) {
               return { success: false, error: result.error.message || 'Sign out failed' };
             }
-            // await sleep(200);
+            await sleep(200);
             // clearAuthSessionToken(); // remove session cookie, if still remains..
             set({ ...defaultValue });
-            await sleep(300);
+            // await sleep(300);
 
             return { success: true, message: 'Signed out successfully' };
           },
