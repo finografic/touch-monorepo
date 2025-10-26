@@ -59,15 +59,15 @@ export const MockOrdersButton = () => {
     ordersContext.setOrders(updatedMockData);
     setPageCurrent(Object.keys(mockFilters).length);
 
-    // Navigate to container type page (last step before temperature)
-    navigate(PATHS.temperature);
+    // // Navigate to container type page (last step before temperature)
+    // navigate(PATHS.containerType);
 
     // Set all filters in FiltersContext (modern approach)
     setFilter('mode', mockFilters.mode);
     setFilter('drinkType', mockFilters.drinkType);
     setFilter('drinkSubtype', mockFilters.drinkSubtype);
     setFilter('drinkVolume', mockFilters.drinkVolume);
-    setFilter('containerType', mockFilters.containerType);
+    // setFilter('containerType', mockFilters.containerType);
 
     // Also update session filters for backward compatibility
     const sessionFilters = {
@@ -78,6 +78,9 @@ export const MockOrdersButton = () => {
       containerType: mockFilters.containerType,
     };
     updateSessionFilters(sessionId, sessionFilters);
+
+    // Navigate to container type page (last step before temperature)
+    navigate(PATHS.containerType);
 
     console.log('🎯 MOCK: Set all filters in FiltersContext:', sessionFilters);
   }, [

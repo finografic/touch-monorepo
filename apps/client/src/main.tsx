@@ -6,6 +6,7 @@ import { PersistQueryClientProvider } from 'providers/QueryClientProvider';
 
 import { RouteMetadataProvider } from 'routes/providers/RouteMetadataProvider';
 
+import 'providers/HeartbeatProvider/heartbeat.store';
 import '@workspace/core';
 
 import App from './App';
