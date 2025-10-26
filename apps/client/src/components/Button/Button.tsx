@@ -1,13 +1,12 @@
 import type { ReactElement } from 'react';
 import { forwardRef } from 'react';
 
-import { css } from '@emotion/react';
 import clsx from 'clsx';
+import { getVariantStyles } from 'components/Button/utils/button.utils';
 
-import type { ButtonColor, ButtonProps } from './Button.types';
+import type { ButtonProps } from './Button.types';
 import { LoadingSpinner } from './LoadingSpinner';
-import { colors, generateUiColorVariants } from 'styles';
-import { baseButtonStyles, fullWidthStyles, getVariantStyles, sizeStyles } from './Button.styles';
+import { baseButtonStyles, fullWidthStyles, sizeStyles } from './Button.styles';
 
 /**
  * Button - Modern, accessible button component
@@ -38,14 +37,11 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
     },
     ref,
   ): ReactElement => {
-    // Determine if button should be disabled
     const isDisabled = disabled || loading;
 
-    // Generate styles
     const variantStyles = getVariantStyles(variant, color);
     const sizeStyle = sizeStyles[size];
 
-    // Build class names using clsx
     const buttonClasses = clsx(
       'button',
       `button--${variant}`,
@@ -59,28 +55,23 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       className,
     );
 
-    // Determine spinner size based on button size
     const spinnerSize = size === 'sm' ? 14 : size === 'lg' ? 18 : 16;
 
-    // Render icon if provided
     const renderIcon = () => {
       if (!icon) return null;
       return <span className="button__icon">{icon}</span>;
     };
 
-    // Render content with proper icon positioning
     const renderContent = () => {
       if (loading) {
         return <LoadingSpinner size={spinnerSize} />;
       }
 
       if (icon && !children) {
-        // Icon-only button
         return renderIcon();
       }
 
       if (icon && children) {
-        // Button with both icon and text
         return (
           <>
             {iconPosition === 'left' && renderIcon()}
@@ -90,7 +81,6 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         );
       }
 
-      // Text-only button
       return <span className="button__text">{children}</span>;
     };
 
