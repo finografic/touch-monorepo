@@ -45,7 +45,6 @@ export const Header: React.FC<HeaderProps> = ({
   const location = useLocation();
 
   const { user, isAuthenticated } = useAuth();
-  const isAdmin = location.pathname.startsWith('/admin');
   // const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   useEffect(
@@ -97,7 +96,7 @@ export const Header: React.FC<HeaderProps> = ({
 
   return (
     <div css={styles}>
-      <header className={clsx('app-header', { 'admin-app-header': isAdmin })}>
+      <header className={clsx('app-header', { 'admin-app-header': location.pathname.startsWith('/admin') })}>
         <Container className="container" fluid>
           <Row justify="between" align="center">
             <Col {...left} className="col col-header-left">

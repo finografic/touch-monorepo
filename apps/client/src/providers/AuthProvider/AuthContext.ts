@@ -80,11 +80,10 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             }
           },
           signIn: async ({ email, password }: AuthSignInParams) => {
-            clearAuthSessionToken(); // remove session cookie, if still remains..
-            await sleep(300);
-
             const result = await authClient.signIn.email({ email, password });
+
             await sleep(300);
+            set({ isLoading: false });
 
             if (result.data?.user) {
               // Better Auth returns user without role by default, we need to cast/transform
@@ -98,43 +97,44 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               });
 
               return { success: true, message: 'Signed in successfully' };
-            } else {
-              set({ isLoading: false });
-              return { success: false, error: result.error?.message || 'Sign in failed' };
             }
+
+            return result.error
+              ? { success: false, error: result.error.message, message: 'Sign in failed' }
+              : { success: false, message: 'Unknown error' };
           },
           signOut: async () => {
-            // ✅ Use Better Auth client
             const result = await authClient.signOut();
-            // await sleep(300);
 
-            if (result.error && !result.data?.success) {
-              return { success: false, error: result.error.message || 'Sign out failed' };
+            await sleep(300);
+            set({ isLoading: false });
+
+            if (result && result.data.success) {
+              set({ ...defaultValue });
+              // clearAuthSessionToken(); // remove session cookie, if still remains..
+
+              return { success: true, message: 'Signed out successfully' };
             }
-            await sleep(200);
-            // clearAuthSessionToken(); // remove session cookie, if still remains..
-            set({ ...defaultValue });
-            // await sleep(300);
 
-            return { success: true, message: 'Signed out successfully' };
+            return result.error
+              ? { success: false, error: result.error.message, message: 'Sign out failed' }
+              : { success: false, message: 'Unknown error' };
           },
           setLoading: (isLoading: boolean) => set({ isLoading }),
           refreshSession: async () => {
             set({ isLoading: true });
 
-            // ✅ Use Better Auth client
             const { data } = await authClient.getSession();
 
             if (data?.user) {
               // Better Auth returns user without role by default, we need to cast/transform
               const userRole = (data.user as any).role || 'user';
-              const isAdmin = userRole === 'admin';
 
               set({
                 session: data as any,
                 user: { ...data.user, role: userRole } as any,
                 isAuthenticated: true,
-                role: userRole as 'admin' | 'user',
+                role: userRole as 'user' | 'admin',
                 isLoading: false,
               });
             } else {
