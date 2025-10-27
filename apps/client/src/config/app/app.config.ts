@@ -12,11 +12,11 @@ export const NUM_GRID_ITEMS: ValidGridSize = 10 as const; // Now 1-based: 1-9
 export const CONFIG_EXPIRY_TIME_MS = 3_600_000; // 1 hour
 
 // TODO: V1 - ORIG
-// export const SNOOZE_INTERVAL_MS = 120_000; // 2 minute
+export const SNOOZE_INTERVAL_MS = 120_000; // 2 minute
 // export const POLLING_INTERVAL_MS = 5_000; // 5 seconds
 
 /// NEW: V2 - DEV ONLY
-export const SNOOZE_INTERVAL_MS = 10_000; // 30 seconds (snooze cycle duration - when snooze alarm repeats)
+// export const SNOOZE_INTERVAL_MS = 10_000; // 30 seconds (snooze cycle duration - when snooze alarm repeats)
 export const POLLING_INTERVAL_MS = 1_000; // 1 second (UI update frequency)
 
 export const STORAGE_KEYS = {

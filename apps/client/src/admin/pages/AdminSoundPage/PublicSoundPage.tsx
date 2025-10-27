@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
+import { useDebouncedCallback } from 'use-debounce';
 
 import { useGlobalVolume } from 'hooks/useGlobalVolume';
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
@@ -25,21 +26,22 @@ export const PublicSoundPage: React.FC = () => {
     setDisplayVolume(volume);
   }, [volume]);
 
+  // Debounce warning display using use-debounce
+  const debouncedUpdateVolume = useDebouncedCallback((newVolume: number) => {
+    updateVolume(newVolume);
+  }, 500);
+
+  const handleVolumeChange = useDebouncedCallback((newVolume: number) => {
+    setDisplayVolume(newVolume);
+    // debouncedUpdateVolume(newVolume);
+    updateVolume(newVolume);
+  }, 10);
+
   // Debounced volume update handler
-  const handleVolumeChange = useCallback(
+  const handleVolumeChange__V1 = useCallback(
     (newVolume: number) => {
-      // Update display immediately for responsive UI
       setDisplayVolume(newVolume);
-
-      // Clear previous debounce timer
-      if (debounceTimerRef.current) {
-        clearTimeout(debounceTimerRef.current);
-      }
-
-      // Debounce the actual storage/audio update (50ms for smooth but responsive feel)
-      debounceTimerRef.current = setTimeout(() => {
-        updateVolume(newVolume);
-      }, 100);
+      debouncedUpdateVolume(newVolume);
     },
     [updateVolume],
   );
