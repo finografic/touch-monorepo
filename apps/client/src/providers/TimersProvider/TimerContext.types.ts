@@ -16,7 +16,7 @@ export interface TimerItem {
   duration: number;
   remaining: number;
   status: SlotStatus;
-  estimatedCompletionTime?: string;
+  completionTime?: string;
   createdAt: string;
   completedAt?: string;
 }

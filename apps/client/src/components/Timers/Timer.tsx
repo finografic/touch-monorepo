@@ -1,11 +1,17 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import type { duration } from 'node_modules/zod/v4/core/regexes.d.cts';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 
 import { formatTime } from 'utils/time.utils';
 
-import { getElapsedTimeAndEventNumberSec, playCompleteSound, playTickSound } from './shared/timer.utils';
+import {
+  getElapsedTimeAndEventNumberSec,
+  parseCompletionTime,
+  playCompleteSound,
+  playTickSound,
+} from './shared/timer.utils';
 import { timerManager } from './shared/TimerManager';
 import { useTimerEvents } from './shared/useTimerEvents';
 
@@ -31,16 +37,15 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
   const { mainPageSelectedSlots, setMainPageSelectedSlots } = useLayoutUi();
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
-  // Use shared event handling hook
   const { handleTickEvent, handleCompleteEvent } = useTimerEvents({
-    onTick: ({ elapsed, remaining, eventNumber }) => {
-      // Play tick sound when event fires
+    onTick: ({ remaining, eventNumber }) => {
       if (eventNumber > 0) {
+        console.log('timer: COMPLETED.', { remaining, eventNumber });
         playTickSound().catch(() => {});
       }
     },
-    onComplete: ({ elapsed, remaining, orderId }) => {
-      console.log('timer: COMPLETED.', { elapsed, remaining, orderId });
+    onComplete: ({ remaining, orderId }) => {
+      console.log('timer: COMPLETED.', { remaining, orderId });
       playCompleteSound().catch(() => {});
     },
   });
@@ -90,24 +95,19 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
       return cleanup;
     }
 
-    const endTime = new Date(timer.estimatedCompletionTime!).getTime();
-    const startTime = Date.now();
-    const duration = Math.floor((endTime - startTime) / 1000);
+    const { remaining } = parseCompletionTime(timer);
 
     // Set initial remaining time
-    setRemainingTime(Math.max(0, duration));
+    setRemainingTime(Math.max(0, remaining));
 
     // If already expired, complete immediately
-    if (duration <= 0) {
+    if (remaining <= 0) {
       handleComplete();
       return cleanup;
     }
 
     // Start timer interval
     timerManager.startTimer(slotNumber, () => {
-      const now = Date.now();
-      const remaining = Math.floor((endTime - now) / 1000);
-
       setRemainingTime(Math.max(0, remaining));
 
       // Update timer in context
@@ -116,12 +116,12 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
       }
 
       // Handle tick events using shared hook
-      const { elapsed, eventNumber } = getElapsedTimeAndEventNumberSec(timer.duration, remaining);
-      handleTickEvent(eventNumber, { elapsed, remaining, orderId: timer.orderId, eventNumber });
+      const { eventNumber } = getElapsedTimeAndEventNumberSec(timer.duration, remaining);
+      handleTickEvent(eventNumber, { remaining, orderId: timer.orderId, eventNumber });
 
       // Check if timer completed
       if (remaining <= 0) {
-        handleCompleteEvent({ elapsed, remaining, orderId: timer.orderId });
+        handleCompleteEvent({ remaining, orderId: timer.orderId });
         handleComplete();
       }
     });

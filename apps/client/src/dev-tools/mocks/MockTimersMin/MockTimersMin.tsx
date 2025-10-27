@@ -30,7 +30,7 @@ export const MockTimersMin = () => {
       updateTimerByOrderId(timer.orderId, {
         duration: newDuration,
         remaining: newDuration,
-        estimatedCompletionTime: new Date(Date.now() + newDuration * 1000).toISOString(),
+        completionTime: new Date(Date.now() + newDuration * 1000).toISOString(),
       });
     });
   }, [timers, updateTimerByOrderId]);

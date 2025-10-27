@@ -108,7 +108,7 @@ Perfect! Now I have a complete picture. Let me provide you with a detailed step-
          duration: 120,
          remaining: 120,
          status: "processing",
-         estimatedCompletionTime: "2025-01-20T04:15:00Z"
+         completionTime: "2025-01-20T04:15:00Z"
        }
        ```
 

@@ -6,7 +6,7 @@ interface Metadata {
   orderId: string;
   timestamp: string;
   status: string;
-  estimatedCompletionTime?: string;
+  completionTime?: string;
 }
 
 export const MetadataDataList = ({ data }: { data: Metadata | undefined }) => {
@@ -32,10 +32,10 @@ export const MetadataDataList = ({ data }: { data: Metadata | undefined }) => {
           <DataList.Label className="label">Status</DataList.Label>
           <DataList.Value className="value">{data.status}</DataList.Value>
         </DataList.Item>
-        {data.estimatedCompletionTime && (
+        {data.completionTime && (
           <DataList.Item>
             <DataList.Label className="label">Estimated Completion</DataList.Label>
-            <DataList.Value className="value">{data.estimatedCompletionTime}</DataList.Value>
+            <DataList.Value className="value">{data.completionTime}</DataList.Value>
           </DataList.Item>
         )}
       </DataList.Root>

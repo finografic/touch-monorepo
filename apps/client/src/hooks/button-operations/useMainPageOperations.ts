@@ -157,7 +157,7 @@ export const useMainPageOperations = () => {
             duration,
             remaining: duration,
             status: 'processing',
-            estimatedCompletionTime: new Date(Date.now() + duration * 1000).toISOString(),
+            completionTime: new Date(Date.now() + duration * 1000).toISOString(),
           });
         }
       });

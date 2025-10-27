@@ -8,7 +8,7 @@ export interface OrderWithMetadata extends SlotItem {
     orderId: string;
     timestamp: string;
     status: string;
-    estimatedCompletionTime?: string;
+    completionTime?: string;
   };
 }
 
