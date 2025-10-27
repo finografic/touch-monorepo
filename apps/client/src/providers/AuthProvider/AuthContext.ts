@@ -33,7 +33,6 @@ export enum AuthKeys {
   session = 'session',
   isLoading = 'isLoading',
   isAuthenticated = 'isAuthenticated',
-  isAdmin = 'isAdmin',
   role = 'role',
   isLoginDialogOpen = 'isLoginDialogOpen',
 }
@@ -50,7 +49,7 @@ export const defaultValue: AuthValues = {
 export const AuthContext = createZustandContext(({ initialValue }) => {
   return createStore<AuthStore>()(
     subscribeWithSelector(
-      (set, get): AuthStore => ({
+      (set, _get): AuthStore => ({
         ...defaultValue,
         ...initialValue,
         actions: {
