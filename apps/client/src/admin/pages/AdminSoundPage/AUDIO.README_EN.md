@@ -86,11 +86,11 @@ Modern browsers block audio playback unless triggered by a direct user gesture (
 ### Timer Integration
 
 ```typescript
-import { playTickSound, playCompleteSound } from 'utils/sound.utils';
+import { playAlarmSound, playCompleteSound } from 'utils/sound.utils';
 
 // Play alarm sound during timer intervals
 // Volume is automatically applied from global settings
-await playTickSound();
+await playAlarmSound();
 
 // Play finish sound when timer completes
 // Volume is automatically applied from global settings
@@ -100,11 +100,9 @@ await playCompleteSound();
 ### Sound Configuration
 
 ```typescript
-import { makeUserSound } from 'utils/sound.utils';
 import { playSoundByPath } from 'utils/soundCache.utils';
 
 // Play sounds by type (volume applied automatically)
-makeUserSound('alarm');
 makeUserSound('complete');
 
 // Play sound by file path (volume applied automatically)

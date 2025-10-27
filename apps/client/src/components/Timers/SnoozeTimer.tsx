@@ -2,15 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 
 import { useTimersOptional } from 'providers/TimersProvider';
 
+import { playAlarmSound } from 'utils/sound.utils';
 import { formatTimeFromMs } from 'utils/time.utils';
 
 import { POLLING_INTERVAL_MS, SNOOZE_INTERVAL_MS } from 'config/app';
-import {
-  getCycleNumber,
-  getElapsedTimeAndEventNumberMs,
-  playCompleteSound,
-  playTickSound,
-} from './shared/timer.utils';
+import { getCycleNumber, getElapsedTimeAndEventNumberMs, parseElapsedTime } from './shared/timer.utils';
 import { useTimerEvents } from './shared/useTimerEvents';
 import { TimerResetIcon } from 'styles/icons/icons';
 import { styles } from './SnoozeTimer.styles';
@@ -38,7 +34,7 @@ interface SnoozeTimerProps {
 export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   const timersContext = useTimersOptional();
   const [remainingTime, setRemainingTime] = useState<number>(0);
-  const [snoozeStartTime, setSnoozeStartTime] = useState<number | null>(null);
+  const [startTime, setStartTime] = useState<number | null>(null);
 
   // Track completed timer count for debouncing
   const previousCompletedCountRef = useRef<number>(0);
@@ -58,7 +54,7 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
       });
       // Play tick sound every tick interval
       if (eventNumber > 0) {
-        playTickSound().catch(() => {});
+        playAlarmSound().catch(() => {});
       }
     },
     onComplete: ({ elapsedMs, remainingMs, cycleNumber }) => {
@@ -70,7 +66,7 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
         remainingSec: Math.floor((remainingMs || 0) / 1000),
       });
       // Play completion sound when snooze cycle completes
-      playCompleteSound().catch(() => {});
+      playAlarmSound().catch(() => {});
       // TODO: Add custom notification logic here
     },
   });
@@ -82,16 +78,16 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   useEffect(() => {
     // If no completed timers, reset snooze timer
     if (!hasCompletedTimers) {
-      setSnoozeStartTime(null);
+      setStartTime(null);
       setRemainingTime(0);
       previousCompletedCountRef.current = 0;
       return;
     }
 
     // DEBOUNCE LOGIC: If shouldDebounce is true and a new timer just completed, restart the snooze
-    if (shouldDebounce && snoozeStartTime !== null && completedCount > previousCompletedCountRef.current) {
+    if (shouldDebounce && startTime !== null && completedCount > previousCompletedCountRef.current) {
       console.log('🔄 SnoozeTimer: New timer completed, restarting snooze countdown');
-      setSnoozeStartTime(Date.now()); // Restart the countdown
+      setStartTime(Date.now()); // Restart the countdown
       lastCycleRef.current = 0; // Reset cycle tracking
     }
 
@@ -99,18 +95,15 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
     previousCompletedCountRef.current = completedCount;
 
     // If we have completed timers but no snooze start time, start the snooze timer
-    if (!snoozeStartTime) {
-      setSnoozeStartTime(Date.now());
+    if (!startTime) {
+      setStartTime(Date.now());
       lastCycleRef.current = 0;
     }
 
     const updateRemainingTime = () => {
-      if (!snoozeStartTime) return;
+      if (!startTime) return;
 
-      const now = Date.now();
-      const totalElapsed = now - snoozeStartTime;
-      const elapsed = totalElapsed % SNOOZE_INTERVAL_MS;
-      const remaining = SNOOZE_INTERVAL_MS - elapsed;
+      const { remaining, totalElapsed } = parseElapsedTime({ startTime });
 
       setRemainingTime(remaining);
 
@@ -127,7 +120,7 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
         });
       }
 
-      // TICK ACTION: Fire at regular intervals (every TICK_INTERVAL_MS)
+      // TICK ACTION: Fire at regular intervals (every SNOOZE_INTERVAL_MS)
       const eventData = getElapsedTimeAndEventNumberMs(SNOOZE_INTERVAL_MS, remaining);
       handleTickEvent({
         elapsed: eventData.elapsed,
@@ -143,14 +136,7 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
     const intervalId = setInterval(updateRemainingTime, POLLING_INTERVAL_MS);
 
     return () => clearInterval(intervalId);
-  }, [
-    hasCompletedTimers,
-    snoozeStartTime,
-    shouldDebounce,
-    completedCount,
-    handleTickEvent,
-    handleCompleteEvent,
-  ]);
+  }, [hasCompletedTimers, startTime, shouldDebounce, completedCount, handleTickEvent, handleCompleteEvent]);
 
   // Don't render if there are no completed timers
   // if (!hasCompletedTimers || remainingTime <= 0) {

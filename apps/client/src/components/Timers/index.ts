@@ -15,15 +15,7 @@ export type {
   TimerEventData,
   TimerStatus,
 } from './shared/timer.types';
-export {
-  getCycleNumber,
-  getElapsedTimeAndEventNumberMs,
-  makeDefaultSound,
-  makeUserSound,
-  playCompleteSound,
-  playTickSound,
-  TICK_INTERVAL_MS,
-} from './shared/timer.utils';
+export { getCycleNumber, getElapsedTimeAndEventNumberMs } from './shared/timer.utils';
 
 // ============================================================================
 // Shared Utilities

@@ -7,18 +7,7 @@
 
 import type { TimerItem } from 'providers/TimersProvider';
 
-import { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound } from 'utils/sound.utils';
-
 import { SNOOZE_INTERVAL_MS } from 'config/app';
-
-// Re-export sound functions for convenience
-export { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound };
-
-/**
- * Tick interval: Fire tick events every 1/3 of the snooze cycle
- * Example: 30s snooze → ticks at 10s, 20s, 30s
- */
-export const TICK_INTERVAL_MS = SNOOZE_INTERVAL_MS;
 
 /**
  * Calculate elapsed time and event number (for millisecond-based timers like snooze)
@@ -26,7 +15,7 @@ export const TICK_INTERVAL_MS = SNOOZE_INTERVAL_MS;
 // NOTE: SnoozeTimer
 export function getElapsedTimeAndEventNumberMs(duration: number, remaining: number) {
   const elapsed = Math.max(0, duration - remaining);
-  const eventNumber = Math.floor(elapsed / TICK_INTERVAL_MS);
+  const eventNumber = Math.floor(elapsed / SNOOZE_INTERVAL_MS);
   return { elapsed, eventNumber };
 }
 
@@ -41,7 +30,7 @@ export function getCycleNumber(totalElapsed: number, intervalMs: number): number
 /**
  * Calculate cycle number (how many times a timer has repeated)
  */
-// NOTE: SnoozeTimer
+// NOTE: Timer
 export function parseCompletionTime({ completionTime }: TimerItem): {
   startTime: number;
   endTime: number;
@@ -52,4 +41,21 @@ export function parseCompletionTime({ completionTime }: TimerItem): {
   const remaining = Math.floor((endTime - startTime) / 1000);
 
   return { startTime, endTime, remaining };
+}
+
+/**
+ * Calculate cycle number (how many times a timer has repeated)
+ */
+// NOTE: SnoozeTimer
+export function parseElapsedTime({ startTime }: { startTime: number }): {
+  remaining: number;
+  elapsed: number;
+  totalElapsed: number;
+} {
+  const now = Date.now();
+  const totalElapsed = now - startTime;
+  const elapsed = totalElapsed % SNOOZE_INTERVAL_MS;
+  const remaining = SNOOZE_INTERVAL_MS - elapsed;
+
+  return { remaining, elapsed, totalElapsed };
 }

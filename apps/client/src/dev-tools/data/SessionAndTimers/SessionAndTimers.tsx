@@ -10,7 +10,8 @@ import { styles } from './SessionAndTimers.styles';
 export const SessionAndTimers = () => {
   const { filters } = useFiltersContext();
   const { sessions } = useSession();
-  const { timers } = useTimers();
+  // const { timers } = useTimers();
+  const { timers, snooze } = useTimers();
   const { selectedSlots } = useLayoutUi();
   const { orders } = useOrders();
 
@@ -19,9 +20,13 @@ export const SessionAndTimers = () => {
 
   return (
     <div id="dev-filter-results" css={styles}>
-      <div className="filters">
+      {/* <div className="filters">
         <h4>selectedSlots: {selectedSlots.length}:</h4>
         <pre>{JSON.stringify(selectedSlots, null, 2)}</pre>
+      </div> */}
+      <div className="filters">
+        <h4> snooze, timers: {selectedSlots.length}:</h4>
+        <pre>{JSON.stringify({ snooze, timers }, null, 2)}</pre>
       </div>
       {/* <div className="filters">
         <h4>orders: {orders.length}:</h4>
@@ -45,7 +50,6 @@ export const SessionAndTimers = () => {
           title={`Timers: ${timers.length}`}
           columns={[
             { key: 'orderId', strong: true },
-            { key: 'remaining', styles: { margin: 0 } },
             { key: 'duration', styles: { margin: 0 } },
             { key: 'status', styles: { margin: 0 } },
             { key: 'flowType', styles: { margin: 0 } },

@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 
+import { playAlarmSound, playCompleteSound } from 'utils/sound.utils';
 import { formatTime } from 'utils/time.utils';
 
 import { parseCompletionTime } from './shared/timer.utils';
@@ -27,15 +28,20 @@ interface TimerProps {
  * - Type-safe props
  */
 export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
-  const { timer, updateTimer } = useTimers({ slotNumber });
+  const { timer, updateTimer, snooze, setSnooze } = useTimers({ slotNumber });
   const { selectedSlots, setSelectedSlots } = useLayoutUi();
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
   const { handleCompleteEvent } = useTimerEvents({
     onComplete: ({ remaining, orderId }) => {
-      console.log('timer: COMPLETED.', { remaining, orderId });
+      log('timer: COMPLETED.', 'yellow', { snooze, remaining, orderId });
       // NEW: silent completion
-      // playCompleteSound().catch(() => {});
+      if (!snooze) {
+        // playAlarmSound().catch(() => {});
+        setSnooze(true);
+      } else {
+        // playCompleteSound().catch(() => {});
+      }
     },
   });
 

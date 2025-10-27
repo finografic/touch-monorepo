@@ -86,11 +86,11 @@ Los navegadores modernos bloquean la reproducción de audio a menos que sea acti
 ### Integración con Temporizador
 
 ```typescript
-import { playTickSound, playCompleteSound } from 'utils/sound.utils';
+import { playAlarmSound, playCompleteSound } from 'utils/sound.utils';
 
 // Reproducir sonido de alarma durante intervalos del temporizador
 // El volumen se aplica automáticamente desde la configuración global
-await playTickSound();
+await playAlarmSound();
 
 // Reproducir sonido de finalización cuando el temporizador se completa
 // El volumen se aplica automáticamente desde la configuración global
@@ -100,11 +100,9 @@ await playCompleteSound();
 ### Configuración de Sonidos
 
 ```typescript
-import { makeUserSound } from 'utils/sound.utils';
 import { playSoundByPath } from 'utils/soundCache.utils';
 
 // Reproducir sonidos por tipo (volumen aplicado automáticamente)
-makeUserSound('alarm');
 makeUserSound('complete');
 
 // Reproducir sonido por ruta de archivo (volumen aplicado automáticamente)

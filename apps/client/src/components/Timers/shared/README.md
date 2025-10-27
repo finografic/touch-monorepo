@@ -19,18 +19,18 @@ A **repeating countdown timer** that automatically starts when timers complete a
 
 ```typescript
 const [remainingTime, setRemainingTime] = useState<number>(0);
-const [snoozeStartTime, setSnoozeStartTime] = useState<number | null>(null);
+const [startTime, setStartTime] = useState<number | null>(null);
 ```
 
 - `remainingTime`: Milliseconds remaining in current cycle
-- `snoozeStartTime`: Timestamp when snooze started (for calculating cycles)
+- `startTime`: Timestamp when snooze started (for calculating cycles)
 
 ### **Key Logic**
 
 #### **Auto-repeat using Modulo**
 
 ```typescript
-const elapsed = now - snoozeStartTime;
+const elapsed = now - startTime;
 const remaining = SNOOZE_INTERVAL_MS - (elapsed % SNOOZE_INTERVAL_MS);
 ```
 
@@ -45,7 +45,7 @@ The `%` (modulo) operator creates an **infinite repeating cycle**:
 const hasCompletedTimers = timersContext?.timers.some((t) => t.status === 'completed') ?? false;
 
 if (!hasCompletedTimers) {
-  setSnoozeStartTime(null);
+  setStartTime(null);
   setRemainingTime(0);
   return; // Stop timer
 }
@@ -62,7 +62,7 @@ Timer A Completes (status = 'completed')
   ↓
 hasCompletedTimers = true
   ↓
-Start SnoozeTimer (snoozeStartTime = Date.now())
+Start SnoozeTimer (startTime = Date.now())
   ↓
 Countdown from 30s → 20s → 10s
   ↓
@@ -80,7 +80,7 @@ User clears completed timers
   ↓
 hasCompletedTimers = false
   ↓
-Stop SnoozeTimer (snoozeStartTime = null)
+Stop SnoozeTimer (startTime = null)
 ```
 
 ### **With Debounce** (shouldDebounce = true)
@@ -90,19 +90,19 @@ Timer A Completes (status = 'completed')
   ↓
 hasCompletedTimers = true
   ↓
-Start SnoozeTimer (snoozeStartTime = Date.now())
+Start SnoozeTimer (startTime = Date.now())
   ↓
 Countdown from 30s → 20s → 10s
   ↓
 [Timer B completes - NEW completion detected!]
   ↓
-🔄 RESTART SnoozeTimer (snoozeStartTime = Date.now())
+🔄 RESTART SnoozeTimer (startTime = Date.now())
   ↓
 Countdown from 30s → 25s → 15s
   ↓
 [Timer C completes - NEW completion detected!]
   ↓
-🔄 RESTART SnoozeTimer (snoozeStartTime = Date.now())
+🔄 RESTART SnoozeTimer (startTime = Date.now())
   ↓
 Countdown from 30s → 20s → ... → 0s
   ↓
@@ -116,7 +116,7 @@ User clears completed timers
   ↓
 hasCompletedTimers = false
   ↓
-Stop SnoozeTimer (snoozeStartTime = null)
+Stop SnoozeTimer (startTime = null)
 ```
 
 ## 🔄 Usage
@@ -218,7 +218,7 @@ To test the SnoozeTimer:
 
 **Solution**: Check that:
 - Modulo calculation is correct
-- `snoozeStartTime` is not being reset
+- `startTime` is not being reset
 - `hasCompletedTimers` remains true
 
 ## 📝 Notes

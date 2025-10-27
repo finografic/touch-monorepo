@@ -30,7 +30,7 @@ export interface UseTimerEventsReturn {
  * const { handleTickEvent, resetEventTracking } = useTimerEvents({
  *   onTick: ({ elapsed, remaining, eventNumber }) => {
  *     console.log('TICK', { elapsed, remaining, eventNumber });
- *     playTickSound();
+ *     playAlarmSound();
  *   },
  *   onComplete: ({ elapsed, remaining }) => {
  *     console.log('COMPLETE', { elapsed, remaining });
