@@ -39,7 +39,7 @@ export const PublicSoundPage: React.FC = () => {
       // Debounce the actual storage/audio update (50ms for smooth but responsive feel)
       debounceTimerRef.current = setTimeout(() => {
         updateVolume(newVolume);
-      }, 50);
+      }, 100);
     },
     [updateVolume],
   );

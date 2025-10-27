@@ -4,10 +4,12 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
 import { Global } from '@emotion/react';
 import { Spinner, Theme as RadixTheme, Theme } from '@radix-ui/themes';
+import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
 import { ToastProvider } from 'components/Toast/ToastContext';
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { AuthProviderWithInitialization } from 'providers/AuthProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
+import { TimersProvider } from 'providers/TimersProvider';
 
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
@@ -26,9 +28,12 @@ const AppBaseLayout = () => (
           <AuthProviderWithInitialization>
             <SessionProvider>
               <ScreenClassProvider>
-                <Suspense fallback={<Spinner size="3" />}>
-                  <Outlet />
-                </Suspense>
+                <TimersProvider>
+                  <Suspense fallback={<Spinner size="3" />}>
+                    <Outlet />
+                  </Suspense>
+                  <SnoozeTimer shouldDebounce={false} />
+                </TimersProvider>
               </ScreenClassProvider>
             </SessionProvider>
           </AuthProviderWithInitialization>

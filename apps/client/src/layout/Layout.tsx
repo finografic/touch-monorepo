@@ -44,43 +44,40 @@ export const Layout: FC = () => {
   }, []);
 
   return (
-    <TimersProvider>
-      <OrdersProvider>
-        <FiltersProvider>
-          <PaginationProvider>
-            <LayoutUiProvider initialValue={{ numItems }}>
-              <AdminProvider>
-                <ContentProvider>
-                  <DevProvider>
-                    <div id="layout" css={styles}>
-                      <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
-                      <main>
-                        <div className="main-content">
-                          <section>
-                            <PageHeader />
-                            <div className="page-content" role="main">
-                              <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
-                                <Outlet />
-                              </Suspense>
-                            </div>
-                            <nav className="page-navigation">
-                              <FrontEndNavigation />
-                            </nav>
-                          </section>
-                        </div>
-                      </main>
-                      <Footer />
-                      <SnoozeTimer shouldDebounce={false} />
-                      <ToastSystem />
-                      <div id="radix-portal-container" />
-                    </div>
-                  </DevProvider>
-                </ContentProvider>
-              </AdminProvider>
-            </LayoutUiProvider>
-          </PaginationProvider>
-        </FiltersProvider>
-      </OrdersProvider>
-    </TimersProvider>
+    <OrdersProvider>
+      <FiltersProvider>
+        <PaginationProvider>
+          <LayoutUiProvider initialValue={{ numItems }}>
+            <AdminProvider>
+              <ContentProvider>
+                <DevProvider>
+                  <div id="layout" css={styles}>
+                    <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
+                    <main>
+                      <div className="main-content">
+                        <section>
+                          <PageHeader />
+                          <div className="page-content" role="main">
+                            <Suspense fallback={<Loader message={t('ui.states.loading')} />}>
+                              <Outlet />
+                            </Suspense>
+                          </div>
+                          <nav className="page-navigation">
+                            <FrontEndNavigation />
+                          </nav>
+                        </section>
+                      </div>
+                    </main>
+                    <Footer />
+                    <ToastSystem />
+                    <div id="radix-portal-container" />
+                  </div>
+                </DevProvider>
+              </ContentProvider>
+            </AdminProvider>
+          </LayoutUiProvider>
+        </PaginationProvider>
+      </FiltersProvider>
+    </OrdersProvider>
   );
 };
