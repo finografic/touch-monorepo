@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { sleep } from '@workspace/core/utils';
 
@@ -22,7 +22,7 @@ import { styles } from './UserToolbar.styles';
 export const UserToolbar: React.FC = () => {
   const { theme } = useAppConfig();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
-  const { signOut } = useAuth();
+  const { isAuthenticated, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -35,6 +35,15 @@ export const UserToolbar: React.FC = () => {
       toast({ variant: 'error', message: result.error as string, subText: 'Please try again' });
     }
   };
+
+  useEffect(
+    function verifyAuthentication() {
+      if (!isAuthenticated) {
+        clearAuthSessionToken();
+      }
+    },
+    [isAuthenticated, isLanguageDialogOpen],
+  );
 
   return (
     <div css={styles} className={`theme-${theme}`}>

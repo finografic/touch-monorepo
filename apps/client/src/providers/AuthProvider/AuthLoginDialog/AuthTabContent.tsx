@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Button } from 'components/Button';
 import { Input } from 'components/Input/Input';
+import { useAuth } from 'providers/AuthProvider';
 
 import { styles } from './AuthLoginDialog.styles';
 
@@ -27,9 +28,12 @@ export const AuthLoginTabContent: React.FC<AuthLoginTabContentProps> = ({
   isLoading,
   error,
 }) => {
+  const AUTH = useAuth();
   const [placeholderMask, setPlaceholderMask] = useState('');
 
   useEffect(() => {
+    log('__DEV - AUTH', 'orange', AUTH);
+    log('__DEV', 'red', { activeTab, email, password, isLoading, error });
     const dotCount = Math.max(Math.round(Math.random() * 7) + Math.round(Math.random() * 7) * 0.7) + 6; // random dots;
     const randomPlaceholder = '•'.repeat(dotCount);
 
@@ -67,7 +71,7 @@ export const AuthLoginTabContent: React.FC<AuthLoginTabContentProps> = ({
 
           {error && <div className="error">{error}</div>}
 
-          <Button type="submit" disabled={isLoading} variant="outline" size="md" className="submit-button">
+          <Button type="submit" disabled={isLoading} size="md" color="info" className="submit-button">
             {isLoading ? 'Loading...' : 'Sign In'}
           </Button>
         </form>
