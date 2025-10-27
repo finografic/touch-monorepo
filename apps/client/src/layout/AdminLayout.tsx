@@ -9,7 +9,6 @@ import { Footer } from 'components/Footer/Footer';
 import { Header } from 'components/Header/Header';
 import { Loader } from 'components/Loader/Loader';
 import { PageHeader } from 'components/PageHeader/PageHeader';
-import { ToastSystem } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -45,12 +44,11 @@ export const AdminLayout: FC = () => {
                       </Suspense>
                     </AdminErrorBoundary>
                   </div>
-                  <nav className="page-navigation">{/* optional navigation */}</nav>
                 </section>
               </div>
             </main>
             <Footer />
-            <ToastSystem />
+            <nav className="page-navigation">{/* optional navigation */}</nav>
           </div>
         </DevProvider>
       </ContentProvider>

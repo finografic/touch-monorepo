@@ -3,8 +3,9 @@ import { ScreenClassProvider } from 'react-grid-system';
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
 import { Global } from '@emotion/react';
-import { Spinner, Theme as RadixTheme, Theme } from '@radix-ui/themes';
+import { Spinner, Theme as RadixTheme } from '@radix-ui/themes';
 import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
+import { Toaster } from 'components/Toast';
 import { ToastProvider } from 'components/Toast/ToastContext';
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { AuthProviderWithInitialization } from 'providers/AuthProvider';
@@ -23,12 +24,13 @@ const AppBaseLayout = () => (
   <ErrorBoundary>
     <Global styles={cssGlobal} />
     <AppConfigProvider>
-      <Theme {...themeConfig} appearance="light">
+      <RadixTheme {...themeConfig} appearance="light">
         <ToastProvider>
           <AuthProviderWithInitialization>
             <SessionProvider>
               <ScreenClassProvider>
                 <TimersProvider>
+                  <Toaster />
                   <Suspense fallback={<Spinner size="3" />}>
                     <Outlet />
                   </Suspense>
@@ -38,7 +40,7 @@ const AppBaseLayout = () => (
             </SessionProvider>
           </AuthProviderWithInitialization>
         </ToastProvider>
-      </Theme>
+      </RadixTheme>
     </AppConfigProvider>
   </ErrorBoundary>
 );

@@ -4,14 +4,10 @@ import { setConfiguration } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
 
-import { Theme } from '@radix-ui/themes';
-import { AuthDialogGuard, AuthLoginDialog } from 'components/Dialog/dialogs';
 import { Footer } from 'components/Footer';
 import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
 import { Header } from 'components/Header/Header';
 import { PageHeader } from 'components/PageHeader';
-import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
-import { ToastProvider, ToastSystem } from 'components/Toast';
 import { UserToolbar } from 'components/Toolbars';
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
@@ -20,7 +16,6 @@ import { FiltersProvider } from 'providers/FiltersProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
-import { TimersProvider } from 'providers/TimersProvider';
 
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
 import type { ValidGridSize } from 'types/menu.types';
@@ -62,14 +57,13 @@ export const Layout: FC = () => {
                               <Outlet />
                             </Suspense>
                           </div>
-                          <nav className="page-navigation">
-                            <FrontEndNavigation />
-                          </nav>
                         </section>
                       </div>
                     </main>
                     <Footer />
-                    <ToastSystem />
+                    <nav className="page-navigation">
+                      <FrontEndNavigation />
+                    </nav>
                     <div id="radix-portal-container" />
                   </div>
                 </DevProvider>

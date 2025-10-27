@@ -6,7 +6,7 @@ import { Toast } from './Toast';
 import { useToast } from './ToastContext';
 import { toastViewportStyles } from './Toast.styles';
 
-export const ToastSystem: React.FC = () => {
+export const Toaster: React.FC = () => {
   const { toasts, dismiss } = useToast();
 
   return (
