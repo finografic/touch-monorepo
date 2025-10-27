@@ -56,13 +56,11 @@ export function getCycleNumber(totalElapsed: number, intervalMs: number): number
 export function parseCompletionTime({ completionTime }: TimerItem): {
   startTime: number;
   endTime: number;
-  duration: number;
   remaining: number;
 } {
   const startTime = Date.now();
   const endTime = new Date(completionTime!).getTime();
-  const duration = Math.floor((endTime - startTime) / 1000);
   const remaining = Math.floor((endTime - startTime) / 1000);
 
-  return { startTime, endTime, duration, remaining };
+  return { startTime, endTime, remaining };
 }

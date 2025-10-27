@@ -42,11 +42,9 @@ export const createTimerManager = (): TimerManagerState => {
     }
   };
 
-  const startTimer = (slotNumber: number, callback: TimerCallback, intervalMs: number = 1000): void => {
-    // Stop existing timer if any
+  const startTimer = (slotNumber: number, callback: TimerCallback, intervalMs: number = 1000) => {
     stopTimer(slotNumber);
 
-    // Start new timer
     const intervalId = setInterval(callback, intervalMs);
     intervals.set(slotNumber, intervalId);
   };

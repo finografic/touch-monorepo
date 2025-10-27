@@ -1,5 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
+import type { duration } from 'node_modules/zod/v4/core/regexes.d.cts';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useTimers } from 'providers/TimersProvider';
 
@@ -36,10 +37,11 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
   const { mainPageSelectedSlots, setMainPageSelectedSlots } = useLayoutUi();
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
+  // Use shared event handling hook
   const { handleTickEvent, handleCompleteEvent } = useTimerEvents({
     onTick: ({ remaining, eventNumber }) => {
+      // Play tick sound when event fires
       if (eventNumber > 0) {
-        console.log('timer: COMPLETED.', { remaining, eventNumber });
         playTickSound().catch(() => {});
       }
     },
@@ -52,7 +54,7 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
   // Find timer for this slot
   const timer = timers.find((t) => t.slotNumber === slotNumber);
   const status = timer?.status || 'idle';
-  // const isActive = status === 'processing';
+  const isActive = status === 'processing';
 
   const handleComplete = useCallback(() => {
     console.debug('Timer: completing', { slotNumber });
@@ -64,8 +66,8 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
     if (timer) {
       updateTimer(timer.id, {
         status: 'completed',
-        // remaining: 0,
-        // completedAt: new Date().toISOString(),
+        remaining: 0,
+        completedAt: new Date().toISOString(),
       });
     }
 
@@ -107,9 +109,18 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
 
     // Start timer interval
     timerManager.startTimer(slotNumber, () => {
-      const { remaining } = parseCompletionTime(timer);
-      setRemainingTime(remaining);
+      setRemainingTime(Math.max(0, remaining));
 
+      // Update timer in context
+      if (timer) {
+        updateTimer(timer.id, { remaining: Math.max(0, remaining) });
+      }
+
+      // Handle tick events using shared hook
+      const { eventNumber } = getElapsedTimeAndEventNumberSec(timer.duration, remaining);
+      handleTickEvent(eventNumber, { remaining, orderId: timer.orderId, eventNumber });
+
+      // Check if timer completed
       if (remaining <= 0) {
         handleCompleteEvent({ remaining, orderId: timer.orderId });
         handleComplete();

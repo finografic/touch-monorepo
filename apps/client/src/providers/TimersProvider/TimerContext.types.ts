@@ -14,11 +14,11 @@ export interface TimerItem {
   orderId: string; // Persistent CUID that gets remembered
   flowType: FlowTypeValue;
   duration: number;
-  remaining: number;
+  // remaining: number;
   status: SlotStatus;
   completionTime?: string;
   createdAt: string;
-  completedAt?: string;
+  // completedAt?: string;
 }
 
 export interface TimersValues {

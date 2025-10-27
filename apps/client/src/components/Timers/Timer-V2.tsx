@@ -108,8 +108,18 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
     // Start timer interval
     timerManager.startTimer(slotNumber, () => {
       const { remaining } = parseCompletionTime(timer);
-      setRemainingTime(remaining);
+      setRemainingTime(Math.max(0, remaining));
 
+      // Update timer in context
+      // if (timer) {
+      //   updateTimer(timer.id, { remaining: Math.max(0, remaining) });
+      // }
+
+      // Handle tick events using shared hook
+      // const { eventNumber } = getElapsedTimeAndEventNumberSec(timer.duration, remaining);
+      // handleTickEvent(eventNumber, { remaining, orderId: timer.orderId, eventNumber });
+
+      // Check if timer completed
       if (remaining <= 0) {
         handleCompleteEvent({ remaining, orderId: timer.orderId });
         handleComplete();
