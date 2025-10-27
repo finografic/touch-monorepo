@@ -16,7 +16,7 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
   const currentVariant = baseColorKey.replace(baseName, '') as ShadeVariant;
 
   // NEW: derive other color variants by shifting relative to the base
-  const lightColor = colors[`${baseName}${shiftShadeVariant(currentVariant, -2)}` as keyof typeof colors];
+  const lightColor = colors[`${baseName}${shiftShadeVariant(currentVariant, -1)}` as keyof typeof colors];
   const defaultColor = colors[baseColorKey as keyof typeof colors]; // The base color itself
   const darkColor = colors[`${baseName}${shiftShadeVariant(currentVariant, +1)}` as keyof typeof colors];
   const transparentColor = colors[`${baseName}25` as keyof typeof colors];

@@ -32,8 +32,6 @@ export const AuthLoginTabContent: React.FC<AuthLoginTabContentProps> = ({
   const [placeholderMask, setPlaceholderMask] = useState('');
 
   useEffect(() => {
-    log('__DEV - AUTH', 'orange', AUTH);
-    log('__DEV', 'red', { activeTab, email, password, isLoading, error });
     const dotCount = Math.max(Math.round(Math.random() * 7) + Math.round(Math.random() * 7) * 0.7) + 6; // random dots;
     const randomPlaceholder = '•'.repeat(dotCount);
 
