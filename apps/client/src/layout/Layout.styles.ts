@@ -86,6 +86,11 @@ export const styles = css`
           width: 100%;
           padding: 1rem 2rem;
           flex-shrink: 0;
+          top: 5rem;
+          bottom: 5rem;
+          left: 0;
+          right: 0;
+          z-index: 1000;
         }
       }
     }

@@ -57,13 +57,13 @@ export const Layout: FC = () => {
                               <Outlet />
                             </Suspense>
                           </div>
+                          <nav className="page-navigation">
+                            <FrontEndNavigation />
+                          </nav>
                         </section>
                       </div>
                     </main>
                     <Footer />
-                    <nav className="page-navigation">
-                      <FrontEndNavigation />
-                    </nav>
                     <div id="radix-portal-container" />
                   </div>
                 </DevProvider>
