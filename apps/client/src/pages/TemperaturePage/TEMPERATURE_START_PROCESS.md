@@ -94,7 +94,7 @@ Perfect! Now I have a complete picture. Let me provide you with a detailed step-
 - **File**: `useButtonOperations.ts` → `onSuccess` callback
 - **Action**: `startTransition()` with `updateProcessForSelectedOrders()`
 - **Process**:
-  1. **Get Selected Slots**: Uses `mainPageSelectedSlots` or falls back to selected orders
+  1. **Get Selected Slots**: Uses `selectedSlots` or falls back to selected orders
   2. **Set Order Processing**: For each slot:
      - Calls `setOrderProcessing({ itemNumber, duration })`
      - Creates timer with `addTimer()`:

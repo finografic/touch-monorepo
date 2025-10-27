@@ -25,8 +25,8 @@ export const useMainPageOperations = () => {
     selectAllMainPageSlots,
     clearMainPageSelection,
     toggleMainPageSlot,
-    mainPageSelectedSlots,
-    setMainPageSelectedSlots,
+    selectedSlots,
+    setSelectedSlots,
   } = useLayoutUi();
   const { saveConfig } = useConfigStorage();
   const orderItemsConfig = useSlotItemsConfig();
@@ -41,7 +41,7 @@ export const useMainPageOperations = () => {
       clearCompletedTimers();
 
       // Save new configuration to reset timer
-      const selectedOrders = mainPageSelectedSlots
+      const selectedOrders = selectedSlots
         .map((slot) => orders.find((order) => order.slotNumber === slot.slotNumber))
         .filter(Boolean);
       saveConfig({
@@ -51,12 +51,12 @@ export const useMainPageOperations = () => {
         selectedOrders: selectedOrders.map((order) => order!.slotNumber),
       });
     });
-  }, [clearCompletedTimers, orders, saveConfig, mainPageSelectedSlots]);
+  }, [clearCompletedTimers, orders, saveConfig, selectedSlots]);
 
   const handleCancelCompleted = useCallback(() => {
     startTransition(() => {
       // Clear only timers that are SELECTED/checked
-      const selectedSlotsWithTimers = mainPageSelectedSlots.filter((slot) => {
+      const selectedSlotsWithTimers = selectedSlots.filter((slot) => {
         const timer = timers.find((t) => t.slotNumber === slot.slotNumber);
         return timer && (timer.status === 'processing' || timer.status === 'completed');
       });
@@ -75,7 +75,7 @@ export const useMainPageOperations = () => {
       });
 
       // Save new configuration to reset timer
-      const selectedOrders = mainPageSelectedSlots
+      const selectedOrders = selectedSlots
         .map((slot) => orders.find((order) => order.slotNumber === slot.slotNumber))
         .filter(Boolean);
       saveConfig({
@@ -85,7 +85,7 @@ export const useMainPageOperations = () => {
         selectedOrders: selectedOrders.map((order) => order!.slotNumber),
       });
     });
-  }, [mainPageSelectedSlots, timers, removeTimer, toggleMainPageSlot, orders, saveConfig]);
+  }, [selectedSlots, timers, removeTimer, toggleMainPageSlot, orders, saveConfig]);
 
   // ========================================================================
   // SELECTION OPERATIONS
@@ -136,7 +136,7 @@ export const useMainPageOperations = () => {
 
     startTransition(() => {
       // Apply configuration to all selected orders
-      mainPageSelectedSlots.forEach((slot) => {
+      selectedSlots.forEach((slot) => {
         const orderConfig = orderItemsConfig.find((cfg) => cfg.slotNumber === slot.slotNumber);
 
         if (orderConfig) {
@@ -145,8 +145,8 @@ export const useMainPageOperations = () => {
           const defaultDuration = config.durations?.default;
           const duration = slotTypeDuration || defaultDuration || 300;
 
-          const updatedSlots = mainPageSelectedSlots.filter((s) => s.slotNumber !== slot.slotNumber);
-          setMainPageSelectedSlots(updatedSlots);
+          const updatedSlots = selectedSlots.filter((s) => s.slotNumber !== slot.slotNumber);
+          setSelectedSlots(updatedSlots);
 
           // Create timer using the same logic as handleStartTimeProcess
           addTimer({
@@ -162,7 +162,7 @@ export const useMainPageOperations = () => {
         }
       });
     });
-  }, [mainPageSelectedSlots, addTimer, orderItemsConfig, setMainPageSelectedSlots]);
+  }, [selectedSlots, addTimer, orderItemsConfig, setSelectedSlots]);
 
   return {
     handleClearCompleted,

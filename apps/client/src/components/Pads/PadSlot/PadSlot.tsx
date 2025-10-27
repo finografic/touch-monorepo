@@ -21,9 +21,9 @@ export interface PadMenuProps {
 
 export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, className, variant = 'default' }) => {
   const { timers } = useTimers();
-  const { mainPageSelectedSlots, toggleMainPageSlot } = useLayoutUi();
+  const { selectedSlots, toggleMainPageSlot } = useLayoutUi();
 
-  const isChecked = mainPageSelectedSlots.some((selectedSlot) => selectedSlot.slotNumber === slotNumber);
+  const isChecked = selectedSlots.some((selectedSlot) => selectedSlot.slotNumber === slotNumber);
 
   const timer = timers.find((t) => t.slotNumber === slotNumber);
   const hasTimer = timer && (timer.status === 'processing' || timer.status === 'completed');
@@ -50,7 +50,7 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
   }, [slotNumber]);
 
   if (hasTimer) {
-    const isIdleSlotChecked = mainPageSelectedSlots.some((slot) => slot.status === 'idle');
+    const isIdleSlotChecked = selectedSlots.some((slot) => slot.status === 'idle');
 
     return (
       <div style={{ cursor: isIdleSlotChecked ? 'not-allowed' : 'auto' }}>

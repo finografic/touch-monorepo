@@ -17,7 +17,7 @@ export interface LayoutUiValues {
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadUI[];
   [LayoutUiKeys.padsFiltered]: PadUI[];
-  [LayoutUiKeys.mainPageSelectedSlots]: SlotMeta[];
+  [LayoutUiKeys.selectedSlots]: SlotMeta[];
   [LayoutUiKeys.mainPageIsSelectMode]: boolean;
 }
 
@@ -32,7 +32,7 @@ type LayoutUiActions = LayoutUiSetters & {
   toggleMainPageSlot: (slot: SlotMeta) => void;
   selectAllMainPageSlots: () => void;
   clearMainPageSelection: () => void;
-  setMainPageSelectedSlots: (slots: SlotMeta[]) => void;
+  setSelectedSlots: (slots: SlotMeta[]) => void;
 };
 
 export interface LayoutUiProviderProps {

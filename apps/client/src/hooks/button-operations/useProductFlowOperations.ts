@@ -32,7 +32,7 @@ export const useProductFlowOperations = () => {
   const { createSession, assignOrdersToSession, currentSessionId, clearSession, completeSession } =
     useSession();
   const { addTimer, timers } = useTimers();
-  const { mainPageSelectedSlots, clearMainPageSelection } = useLayoutUi();
+  const { selectedSlots, clearMainPageSelection } = useLayoutUi();
   const { setFilter, clearFilters, filters } = useFiltersContext();
   const { dataFiltered } = useFilters();
   const orderItemsConfig = useSlotItemsConfig();
@@ -44,10 +44,10 @@ export const useProductFlowOperations = () => {
 
   // Determine which slots to process
   const slotsToProcess = useMemo(() => {
-    return mainPageSelectedSlots.length > 0
-      ? mainPageSelectedSlots.map((slot) => slot.slotNumber)
+    return selectedSlots.length > 0
+      ? selectedSlots.map((slot) => slot.slotNumber)
       : orders.filter((order) => order.isSelected).map((order) => order.slotNumber);
-  }, [mainPageSelectedSlots, orders]);
+  }, [selectedSlots, orders]);
 
   // ========================================================================
   // TEMPERATURE CONTROL - Lazy Initialization (only runs when START is clicked)
@@ -170,7 +170,7 @@ export const useProductFlowOperations = () => {
     const ordersMap = new Map(orders.map((order) => [order.slotNumber, order]));
 
     // Get selected slots that are idle (not running timers)
-    const selectedIdleSlots = mainPageSelectedSlots.filter((slot) => {
+    const selectedIdleSlots = selectedSlots.filter((slot) => {
       const timer = timerMap.get(slot.slotNumber);
       return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
     });
@@ -229,7 +229,7 @@ export const useProductFlowOperations = () => {
     setPageCurrent(1);
     navigate(drinkTypePath);
   }, [
-    mainPageSelectedSlots,
+    selectedSlots,
     timers,
     createSession,
     assignOrdersToSession,

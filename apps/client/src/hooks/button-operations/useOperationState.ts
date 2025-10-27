@@ -19,14 +19,14 @@ export const useOperationState = (
   isTemperatureLoading: boolean,
 ) => {
   const location = useLocation();
-  const { mainPageSelectedSlots } = useLayoutUi();
+  const { selectedSlots } = useLayoutUi();
   const { timers, getCompletedTimers } = useTimers();
   const { profile } = useOrders();
 
   const completedTimers = getCompletedTimers();
   const hasCompletedTimers = completedTimers.length > 0;
-  const hasSelectedItems = mainPageSelectedSlots.length > 0;
-  const isTimerSelected = mainPageSelectedSlots.some(({ status }) => status === 'processing');
+  const hasSelectedItems = selectedSlots.length > 0;
+  const isTimerSelected = selectedSlots.some(({ status }) => status === 'processing');
 
   // Combined pending state
   const isPending = mainPagePending || timeFlowPending || productFlowPending;
@@ -37,16 +37,16 @@ export const useOperationState = (
       const timerMap = new Map(timers.map((t) => [t.slotNumber, t]));
 
       // Count available slots (not running timers) for operations that need idle slots
-      const numAvailableSelected = mainPageSelectedSlots.filter((slot) => {
+      const numAvailableSelected = selectedSlots.filter((slot) => {
         const timer = timerMap.get(slot.slotNumber);
         return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
       }).length;
 
       // Count any selected slots for UI state
-      const numAnySelected = mainPageSelectedSlots.length;
+      const numAnySelected = selectedSlots.length;
 
       // Count selected processing timers for cancel button
-      const numSelectedProcessing = mainPageSelectedSlots.filter((slot) => {
+      const numSelectedProcessing = selectedSlots.filter((slot) => {
         const timer = timerMap.get(slot.slotNumber);
         return timer && timer.status === 'processing';
       }).length;
@@ -121,7 +121,7 @@ export const useOperationState = (
       location.pathname,
       isPending,
       isTemperatureLoading,
-      mainPageSelectedSlots,
+      selectedSlots,
       timers,
       profile?.temperatureProfiles?.length,
       isTimerSelected,

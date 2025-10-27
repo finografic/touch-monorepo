@@ -25,7 +25,7 @@ export const useTimeFlowOperations = () => {
   const { orders, toggleSlot, setOrdersSession } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId, clearSession } = useSession();
   const { addTimer, timers } = useTimers();
-  const { mainPageSelectedSlots, clearMainPageSelection } = useLayoutUi();
+  const { selectedSlots, clearMainPageSelection } = useLayoutUi();
   const orderItemsConfig = useSlotItemsConfig();
 
   // ========================================================================
@@ -35,7 +35,7 @@ export const useTimeFlowOperations = () => {
   const handleProgramTime = useCallback(() => {
     startTransition(() => {
       // Get selected slots that are idle (not running timers)
-      const selectedIdleSlots = mainPageSelectedSlots.filter((slot) => {
+      const selectedIdleSlots = selectedSlots.filter((slot) => {
         const timer = timers.find((t: any) => t.slotNumber === slot.slotNumber);
         return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
       });
@@ -75,7 +75,7 @@ export const useTimeFlowOperations = () => {
     });
   }, [
     navigate,
-    mainPageSelectedSlots,
+    selectedSlots,
     timers,
     createSession,
     assignOrdersToSession,
@@ -92,7 +92,7 @@ export const useTimeFlowOperations = () => {
     (duration: number) => {
       startTransition(() => {
         // Add timers to TimerContext for each selected slot
-        mainPageSelectedSlots.forEach((slot) => {
+        selectedSlots.forEach((slot) => {
           // Check if there's already a timer for this slot
           const existingTimer = timers.find((t) => t.slotNumber === slot.slotNumber);
           const orderId = existingTimer?.orderId || createCuid();
@@ -116,7 +116,7 @@ export const useTimeFlowOperations = () => {
         navigate(PATHS.main, { replace: true });
       });
     },
-    [mainPageSelectedSlots, addTimer, currentSessionId, clearMainPageSelection, navigate, timers],
+    [selectedSlots, addTimer, currentSessionId, clearMainPageSelection, navigate, timers],
   );
 
   // ========================================================================

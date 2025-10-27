@@ -34,7 +34,7 @@ interface TimerProps {
  */
 export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
   const { timers, updateTimer } = useTimers();
-  const { mainPageSelectedSlots, setMainPageSelectedSlots } = useLayoutUi();
+  const { selectedSlots, setSelectedSlots } = useLayoutUi();
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
   // Use shared event handling hook
@@ -72,16 +72,16 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
     }
 
     // Remove from selected slots if present
-    const isTimerSelected = mainPageSelectedSlots.find((slot) => slot.slotNumber === slotNumber);
+    const isTimerSelected = selectedSlots.find((slot) => slot.slotNumber === slotNumber);
     if (isTimerSelected) {
-      const updatedSlots = mainPageSelectedSlots.filter((slot) => slot.slotNumber !== slotNumber);
+      const updatedSlots = selectedSlots.filter((slot) => slot.slotNumber !== slotNumber);
       console.log('TIMER_COMPLETE:', timer);
-      setMainPageSelectedSlots(updatedSlots);
+      setSelectedSlots(updatedSlots);
     }
 
     // Call external completion handler
     onComplete?.();
-  }, [slotNumber, timer, updateTimer, mainPageSelectedSlots, setMainPageSelectedSlots, onComplete]);
+  }, [slotNumber, timer, updateTimer, selectedSlots, setSelectedSlots, onComplete]);
 
   useEffect(() => {
     // Cleanup function

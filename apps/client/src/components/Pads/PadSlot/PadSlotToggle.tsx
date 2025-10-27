@@ -24,10 +24,10 @@ export const PadSlotToggle = ({
   children,
 }: PadSlotToggleProps) => {
   const {
-    // mainPageSelectedSlots,
+    // selectedSlots,
     toggleMainPageSlot,
   } = useLayoutUi();
-  // const isChecked = mainPageSelectedSlots.includes({
+  // const isChecked = selectedSlots.includes({
   //   slotType,
   //   slotNumber,
   //   isChecked,

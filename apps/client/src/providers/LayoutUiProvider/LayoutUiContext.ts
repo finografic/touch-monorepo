@@ -26,7 +26,7 @@ export enum LayoutUiKeys {
   numPads = 'numPads',
   pads = 'pads',
   padsFiltered = 'padsFiltered',
-  mainPageSelectedSlots = 'mainPageSelectedSlots',
+  selectedSlots = 'selectedSlots',
   mainPageIsSelectMode = 'mainPageIsSelectMode',
 }
 
@@ -36,7 +36,7 @@ export const defaultValue: LayoutUiValues = {
   numPads: 0,
   pads: [],
   padsFiltered: [],
-  mainPageSelectedSlots: [],
+  selectedSlots: [],
   mainPageIsSelectMode: false,
 };
 
@@ -144,7 +144,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
           // MainPage selection actions
           toggleMainPageSlot: (slot: SlotMeta) => {
             set((state) => {
-              const selectedSlots = state.mainPageSelectedSlots;
+              const selectedSlots = state.selectedSlots;
 
               // Check if slot is already selected by looking at the actual state
               const isCurrentlySelected = selectedSlots.some(
@@ -153,13 +153,11 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
 
               if (!isCurrentlySelected) {
                 return {
-                  mainPageSelectedSlots: [...selectedSlots, { ...slot, isChecked: true }],
+                  selectedSlots: [...selectedSlots, { ...slot, isChecked: true }],
                 };
               } else {
                 return {
-                  mainPageSelectedSlots: selectedSlots.filter(
-                    ({ slotNumber }) => slotNumber !== slot.slotNumber,
-                  ),
+                  selectedSlots: selectedSlots.filter(({ slotNumber }) => slotNumber !== slot.slotNumber),
                 };
               }
             });
@@ -167,7 +165,7 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
           selectAllMainPageSlots: () => {
             const { numItems } = get();
             set({
-              mainPageSelectedSlots: Array.from({ length: numItems }, (_, i) => ({
+              selectedSlots: Array.from({ length: numItems }, (_, i) => ({
                 slotType: 'A' as SlotType, // Default slot type, will be updated by actual config
                 slotNumber: i + 1,
                 isChecked: true,
@@ -175,11 +173,11 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               })),
             });
           },
-          setMainPageSelectedSlots: (slots: SlotMeta[]) => {
-            set({ mainPageSelectedSlots: slots });
+          setSelectedSlots: (slots: SlotMeta[]) => {
+            set({ selectedSlots: slots });
           },
           clearMainPageSelection: () => {
-            set({ mainPageSelectedSlots: [] });
+            set({ selectedSlots: [] });
           },
         },
       }),
