@@ -5,12 +5,7 @@ import { useTimers } from 'providers/TimersProvider';
 
 import { formatTime } from 'utils/time.utils';
 
-import {
-  getElapsedTimeAndEventNumberSec,
-  parseCompletionTime,
-  playCompleteSound,
-  playTickSound,
-} from './shared/timer.utils';
+import { parseCompletionTime } from './shared/timer.utils';
 import { timerManager } from './shared/TimerManager';
 import { useTimerEvents } from './shared/useTimerEvents';
 
@@ -32,27 +27,17 @@ interface TimerProps {
  * - Type-safe props
  */
 export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
-  const { timers, updateTimer } = useTimers();
+  const { timer, updateTimer } = useTimers({ slotNumber });
   const { selectedSlots, setSelectedSlots } = useLayoutUi();
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
-  const { handleTickEvent, handleCompleteEvent } = useTimerEvents({
-    onTick: ({ remaining, eventNumber }) => {
-      if (eventNumber > 0) {
-        console.log('timer: COMPLETED.', { remaining, eventNumber });
-        playTickSound().catch(() => {});
-      }
-    },
+  const { handleCompleteEvent } = useTimerEvents({
     onComplete: ({ remaining, orderId }) => {
       console.log('timer: COMPLETED.', { remaining, orderId });
-      playCompleteSound().catch(() => {});
+      // NEW: silent completion
+      // playCompleteSound().catch(() => {});
     },
   });
-
-  // Find timer for this slot
-  const timer = timers.find((t) => t.slotNumber === slotNumber);
-  const status = timer?.status || 'idle';
-  // const isActive = status === 'processing';
 
   const handleComplete = useCallback(() => {
     timerManager.stopTimer(slotNumber);
@@ -87,8 +72,6 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
       }
 
       const { remaining } = parseCompletionTime(timer);
-
-      // Set initial remaining time
       setRemainingTime(remaining);
 
       // If already expired, complete immediately
@@ -110,10 +93,10 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
 
       return cleanup;
     },
-    [timer, slotNumber, updateTimer, handleComplete, handleTickEvent, handleCompleteEvent],
+    [timer, slotNumber, updateTimer, handleComplete, handleCompleteEvent],
   );
 
-  if (status !== 'processing') {
+  if (timer.status !== 'processing') {
     return <span>00:00</span>;
   }
 

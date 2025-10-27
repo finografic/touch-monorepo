@@ -6,6 +6,7 @@ import { useTimers } from 'providers/TimersProvider';
 import { formatTime } from 'utils/time.utils';
 
 import {
+  getElapsedTimeAndEventNumberMs,
   getElapsedTimeAndEventNumberSec,
   parseCompletionTime,
   playCompleteSound,
@@ -38,9 +39,10 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
 
   const { handleTickEvent, handleCompleteEvent } = useTimerEvents({
     onTick: ({ remaining, eventNumber }) => {
+      // NEW: No Timer Events are fired.
       if (eventNumber > 0) {
-        console.log('timer: COMPLETED.', { remaining, eventNumber });
-        playTickSound().catch(() => {});
+        // log('timer: COMPLETED.', 'red', { remaining, eventNumber });
+        // playTickSound().catch(() => {});
       }
     },
     onComplete: ({ remaining, orderId }) => {
@@ -55,18 +57,10 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
   // const isActive = status === 'processing';
 
   const handleComplete = useCallback(() => {
-    console.debug('Timer: completing', { slotNumber });
-
-    // Stop timer interval
     timerManager.stopTimer(slotNumber);
 
-    // Update timer state
     if (timer) {
-      updateTimer(timer.id, {
-        status: 'completed',
-        // remaining: 0,
-        // completedAt: new Date().toISOString(),
-      });
+      updateTimer(timer.id, { status: 'completed' });
     }
 
     // Remove from selected slots if present
@@ -81,55 +75,48 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
     onComplete?.();
   }, [slotNumber, timer, updateTimer, selectedSlots, setSelectedSlots, onComplete]);
 
-  useEffect(() => {
-    // Cleanup function
-    const cleanup = () => {
-      timerManager.stopTimer(slotNumber);
-    };
+  useEffect(
+    function initializeTimerInstance() {
+      const cleanup = () => {
+        timerManager.stopTimer(slotNumber);
+      };
 
-    // If no timer or timer is not processing, reset state
-    if (!timer || timer.status !== 'processing') {
-      setRemainingTime(0);
-      cleanup();
-      return cleanup;
-    }
-
-    const { remaining } = parseCompletionTime(timer);
-
-    // Set initial remaining time
-    setRemainingTime(Math.max(0, remaining));
-
-    // If already expired, complete immediately
-    if (remaining <= 0) {
-      handleComplete();
-      return cleanup;
-    }
-
-    // Start timer interval
-    timerManager.startTimer(slotNumber, () => {
-      const { remaining } = parseCompletionTime(timer);
-      setRemainingTime(Math.max(0, remaining));
-
-      // Update timer in context
-      // if (timer) {
-      //   updateTimer(timer.id, { remaining: Math.max(0, remaining) });
-      // }
-
-      // Handle tick events using shared hook
-      // const { eventNumber } = getElapsedTimeAndEventNumberSec(timer.duration, remaining);
-      // handleTickEvent(eventNumber, { remaining, orderId: timer.orderId, eventNumber });
-
-      // Check if timer completed
-      if (remaining <= 0) {
-        handleCompleteEvent({ remaining, orderId: timer.orderId });
-        handleComplete();
+      // If no timer or timer is not processing, reset state
+      if (!timer || timer.status !== 'processing') {
+        setRemainingTime(0);
+        cleanup();
+        return cleanup;
       }
-    });
 
-    return cleanup;
-  }, [timer, slotNumber, updateTimer, handleComplete, handleTickEvent, handleCompleteEvent]);
+      const { remaining } = parseCompletionTime(timer);
+      setRemainingTime(remaining);
 
-  // If no timer or timer is not processing, show empty
+      // If already expired, complete immediately
+      if (remaining <= 0) {
+        handleComplete();
+        return cleanup;
+      }
+
+      // Start timer interval, loop callback
+      timerManager.startTimer(slotNumber, () => {
+        const { remaining } = parseCompletionTime(timer);
+        setRemainingTime(remaining);
+
+        // NEW: No Timer Events are fired.
+        // const { eventNumber } = getElapsedTimeAndEventNumberSec(timer.duration, remaining);
+        // handleTickEvent({ remaining, eventNumber, orderId: timer.orderId });
+
+        if (remaining <= 0) {
+          handleCompleteEvent({ remaining, orderId: timer.orderId });
+          handleComplete();
+        }
+      });
+
+      return cleanup;
+    },
+    [timer, slotNumber, updateTimer, handleComplete, handleTickEvent, handleCompleteEvent],
+  );
+
   if (status !== 'processing') {
     return <span>00:00</span>;
   }

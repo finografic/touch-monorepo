@@ -16,7 +16,7 @@ export interface UseTimerEventsProps {
 }
 
 export interface UseTimerEventsReturn {
-  handleTickEvent: (currentEventNumber: number, params: TickEventParams) => void;
+  handleTickEvent: (params: TickEventParams) => void;
   handleCompleteEvent: (params: CompleteEventParams) => void;
   resetEventTracking: () => void;
   lastEventNumber: number;
@@ -46,10 +46,10 @@ export interface UseTimerEventsReturn {
 export const useTimerEvents = ({ onTick, onComplete }: UseTimerEventsProps = {}): UseTimerEventsReturn => {
   const lastEventFiredRef = useRef<number>(-1);
 
-  const handleTickEvent = (currentEventNumber: number, params: TickEventParams) => {
+  const handleTickEvent = (params: TickEventParams) => {
     // Only fire if event number has increased (prevents duplicates)
-    if (currentEventNumber > lastEventFiredRef.current) {
-      lastEventFiredRef.current = currentEventNumber;
+    if (params.eventNumber > lastEventFiredRef.current) {
+      lastEventFiredRef.current = params.eventNumber;
       onTick?.(params);
     }
   };

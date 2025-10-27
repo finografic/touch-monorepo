@@ -8,15 +8,13 @@
 // Components
 // ============================================================================
 
-export { Timer as CountdownTimer } from './Timer'; // TODO: Move to CountdownTimer/
-export { SnoozeTimer } from './SnoozeTimer'; // TODO: Move to SnoozeTimer/
-
-// ============================================================================
-// Shared Utilities
-// ============================================================================
-
-export { timerManager } from './shared/TimerManager';
-export { useTimerEvents } from './shared/useTimerEvents';
+export type {
+  CompleteEventParams,
+  TickEventParams,
+  TimerCallback,
+  TimerEventData,
+  TimerStatus,
+} from './shared/timer.types';
 export {
   getCycleNumber,
   getElapsedTimeAndEventNumberMs,
@@ -29,16 +27,17 @@ export {
 } from './shared/timer.utils';
 
 // ============================================================================
+// Shared Utilities
+// ============================================================================
+
+export type { TimerManagerState } from './shared/TimerManager';
+export { timerManager } from './shared/TimerManager';
+export { useTimerEvents } from './shared/useTimerEvents';
+
+// ============================================================================
 // Types
 // ============================================================================
 
-export type {
-  CompleteEventParams,
-  TickEventParams,
-  TimerCallback,
-  TimerEventData,
-  TimerStatus,
-} from './shared/timer.types';
-
-export type { TimerManagerState } from './shared/TimerManager';
 export type { UseTimerEventsProps } from './shared/useTimerEvents';
+export { SnoozeTimer } from './SnoozeTimer'; // TODO: Move to SnoozeTimer/
+export { Timer as CountdownTimer } from './Timer'; // TODO: Move to CountdownTimer/

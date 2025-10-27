@@ -115,19 +115,26 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
 
 type TimersReturn = Omit<TimersStore, 'actions'> & TimersStore['actions'];
 
-export const useTimers = (): TimersReturn => {
+export const useTimers = (
+  { slotNumber }: { slotNumber: number } = { slotNumber: undefined },
+): TimersReturn & { timer: TimerItem | undefined } => {
   const store = TimersContext.useContext();
   if (!store) {
     throw new Error(`use${DISPLAY_NAME} must be used within a ${DISPLAY_NAME}Provider`);
   }
 
-  return useStore<StoreApi<TimersStore>, TimersReturn>(
+  // convenience - return timer if slot number is passed
+  const timer = store.getState().timers.find((t) => t.slotNumber === slotNumber);
+
+  const storeReturn = useStore<StoreApi<TimersStore>, TimersReturn>(
     store,
     useShallow(({ actions, ...state }) => ({
       ...state,
       ...actions,
     })),
   );
+
+  return { ...storeReturn, timer };
 };
 
 export const useTimersOptional = (): TimersReturn | null => {

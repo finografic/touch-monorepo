@@ -18,7 +18,7 @@ export { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound };
  * Tick interval: Fire tick events every 1/3 of the snooze cycle
  * Example: 30s snooze → ticks at 10s, 20s, 30s
  */
-export const TICK_INTERVAL_MS = SNOOZE_INTERVAL_MS / 3;
+export const TICK_INTERVAL_MS = SNOOZE_INTERVAL_MS;
 
 /**
  * Calculate elapsed time and event number (for second-based timers like countdown)
@@ -26,8 +26,7 @@ export const TICK_INTERVAL_MS = SNOOZE_INTERVAL_MS / 3;
 // NOTE: Timer
 export function getElapsedTimeAndEventNumberSec(duration: number, remaining: number) {
   const elapsed = Math.max(0, duration - remaining);
-  const tickIntervalSeconds = Math.floor(TICK_INTERVAL_MS / 1000);
-  const eventNumber = Math.floor(elapsed / tickIntervalSeconds);
+  const eventNumber = Math.floor(elapsed / Math.floor(TICK_INTERVAL_MS / 1000));
   return { elapsed, eventNumber };
 }
 
@@ -35,10 +34,10 @@ export function getElapsedTimeAndEventNumberSec(duration: number, remaining: num
  * Calculate elapsed time and event number (for millisecond-based timers like snooze)
  */
 // NOTE: SnoozeTimer
-export function getElapsedTimeAndEventNumberMs(durationMs: number, remainingMs: number) {
-  const elapsedMs = Math.max(0, durationMs - remainingMs);
-  const eventNumber = Math.floor(elapsedMs / TICK_INTERVAL_MS);
-  return { elapsedMs, eventNumber };
+export function getElapsedTimeAndEventNumberMs(duration: number, remaining: number) {
+  const elapsed = Math.max(0, duration - remaining);
+  const eventNumber = Math.floor(elapsed / TICK_INTERVAL_MS);
+  return { elapsed, eventNumber };
 }
 
 /**
