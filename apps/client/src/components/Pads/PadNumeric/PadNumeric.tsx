@@ -37,7 +37,7 @@ export const PadNumeric: FC<PadNumericProps> = ({
   suffix = '',
   className,
   disabled = false,
-  loop: loopEnabled = true,
+  loop: loopEnabled = false,
 }) => {
   const formatValue = useCallback(
     (num: number): { numeric: string; prefix: string | ReactElement; suffix: string | ReactElement } => {
