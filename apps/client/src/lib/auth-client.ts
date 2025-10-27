@@ -8,3 +8,7 @@ export const authClient = createAuthClient({
 });
 
 export type AuthClient = typeof authClient;
+
+// TODO: inspect these internal better-auth client hooks
+// useSession
+// useAuthQuery

@@ -61,7 +61,9 @@ export const auth = betterAuth({
       enabled: true,
       allowedOrigins: [
         'http://localhost:3000', // Vite dev server
-        ...(env.NODE_ENV === 'production' ? ['https://your-production-domain.com'] : []),
+        ...(env.NODE_ENV === 'production'
+          ? ['http://localhost:3000', 'https://your-production-domain.com']
+          : []),
       ],
       credentials: true, // Required for cookie-based authentication
     },
@@ -71,7 +73,7 @@ export const auth = betterAuth({
         name: 'auth_token', // Combined with cookiePrefix -> "touch-monorepo.session_token"
         attributes: {
           httpOnly: true, // Prevent JavaScript access (XSS protection)
-          sameSite: env.NODE_ENV === 'production' ? 'lax' : 'none', // 'none' required for localhost cross-origin
+          sameSite: env.NODE_ENV === 'production' ? 'lax' : 'lax', // Use 'lax' for consistency
           secure: env.NODE_ENV === 'production', // HTTPS only in production
           path: '/', // Available across entire domain
         },

@@ -19,10 +19,9 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { authClient } from 'lib/auth-client';
-import { clearAuthSessionToken } from 'utils/storage.utils';
+import { clearAuthSessionToken } from 'utils/auth.utils';
 import { createSetters, createZustandContext } from 'utils/zustand';
 
-import { STORAGE_KEYS } from 'config';
 import type { AuthSignInParams, AuthSignUpParams } from './auth.types';
 import type { AuthStore, AuthValues } from './AuthContext.types';
 
@@ -111,7 +110,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
 
             if (result && result.data.success) {
               set({ ...defaultValue });
-              // clearAuthSessionToken(); // remove session cookie, if still remains..
+              clearAuthSessionToken();
 
               return { success: true, message: 'Signed out successfully' };
             }

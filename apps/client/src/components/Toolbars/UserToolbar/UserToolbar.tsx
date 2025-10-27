@@ -13,7 +13,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import type { Theme } from 'types/ui.types';
-import { clearAuthSessionToken } from 'utils/storage.utils';
+import { clearAuthSessionToken } from 'utils/auth.utils';
 
 import { PATHS } from 'config/routes';
 import { LanguageIcon } from 'styles/icons';
@@ -27,7 +27,6 @@ export const UserToolbar: React.FC = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    clearAuthSessionToken(); // remove session cookie, if still remains..
     const result = await signOut();
     if (result.success) {
       toast({ variant: 'success', message: result.message as string });
