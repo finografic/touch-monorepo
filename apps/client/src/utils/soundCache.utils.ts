@@ -1,31 +1,58 @@
 import { api } from 'api';
 
 import type { SoundFile, SoundSettings } from 'types/sounds.types';
+import { applyStoredVolumeToAudio } from 'utils/volume.utils';
 
-import { applyStoredVolumeToAudio } from './volume.utils';
-
-// Audio instance manager to prevent overlapping sounds
+// Audio instance manager with multi-channel support to allow overlapping sounds
 class AudioManager {
-  #currentAudio: HTMLAudioElement | null = null;
-  #isPlaying = false;
+  #channels: Map<number, HTMLAudioElement> = new Map();
+  #maxChannels = 5; // Support up to 5 simultaneous sounds
+  #currentChannel = 0;
   #debounceTimers = new Map<string, ReturnType<typeof setTimeout>>();
 
-  // Stop current audio and reset state
-  stopCurrent = (): void => {
-    if (this.#currentAudio) {
-      this.#currentAudio.pause();
-      this.#currentAudio.currentTime = 0;
-      this.#currentAudio.src = '';
-      this.#currentAudio = null;
+  // Get next available channel (round-robin)
+  #getNextChannel = (): number => {
+    // Find a channel slot that's not currently playing
+    for (let i = 0; i < this.#maxChannels; i++) {
+      const channel = (this.#currentChannel + i) % this.#maxChannels;
+      const audio = this.#channels.get(channel);
+      if (!audio || audio.paused || audio.ended) {
+        this.#currentChannel = channel;
+        return channel;
+      }
     }
-    this.#isPlaying = false;
+    // All channels busy, use next in rotation
+    this.#currentChannel = (this.#currentChannel + 1) % this.#maxChannels;
+    return this.#currentChannel;
   };
 
-  // Play audio with debouncing and stopping current audio
+  // Stop specific channel
+  stopChannel = (channel: number): void => {
+    const audio = this.#channels.get(channel);
+    if (audio) {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.src = '';
+      this.#channels.delete(channel);
+    }
+  };
+
+  // Stop all audio and reset state
+  stopAll = (): void => {
+    this.#channels.forEach((audio, channel) => {
+      audio.pause();
+      audio.currentTime = 0;
+      audio.src = '';
+    });
+    this.#channels.clear();
+  };
+
+  // Play audio on next available channel with debouncing
   playAudio = async (audio: HTMLAudioElement, fileId: string, debounceMs: number = 300): Promise<void> => {
     // Apply global volume setting to the audio element
     applyStoredVolumeToAudio(audio);
     console.log(`🔊 Applied global volume (${audio.volume * 100}%) to sound: ${fileId}`);
+
     // Clear any existing debounce timer for this file
     const existingTimer = this.#debounceTimers.get(fileId);
     if (existingTimer) {
@@ -35,34 +62,33 @@ class AudioManager {
     // Set up debounce timer
     const timer = setTimeout(async () => {
       try {
-        // Stop any currently playing audio
-        this.stopCurrent();
+        // Get next available channel
+        const channel = this.#getNextChannel();
 
-        // Set up the new audio
-        this.#currentAudio = audio;
-        this.#isPlaying = true;
+        // Stop any audio already playing on this channel
+        const existingAudio = this.#channels.get(channel);
+        if (existingAudio && !existingAudio.paused) {
+          existingAudio.pause();
+          existingAudio.currentTime = 0;
+          existingAudio.src = '';
+        }
 
-        // Add event listeners to track when audio finishes
-        const onEnded = (): void => {
-          this.#isPlaying = false;
-          this.#currentAudio = null;
+        // Set up the new audio on this channel
+        this.#channels.set(channel, audio);
+
+        // Add event listeners to clean up when audio finishes
+        const cleanup = (): void => {
+          this.#channels.delete(channel);
         };
 
-        const onError = (): void => {
-          this.#isPlaying = false;
-          this.#currentAudio = null;
-        };
-
-        audio.addEventListener('ended', onEnded, { once: true });
-        audio.addEventListener('error', onError, { once: true });
+        audio.addEventListener('ended', cleanup, { once: true });
+        audio.addEventListener('error', cleanup, { once: true });
 
         // Play the audio
         await audio.play();
-        console.log(`Sound played successfully: ${fileId}`);
+        console.log(`Sound played successfully on channel ${channel}: ${fileId}`);
       } catch (error) {
-        this.#isPlaying = false;
-        this.#currentAudio = null;
-        throw error;
+        console.error('Error playing audio on channel:', error);
       } finally {
         // Clean up the timer
         this.#debounceTimers.delete(fileId);
@@ -73,24 +99,31 @@ class AudioManager {
     this.#debounceTimers.set(fileId, timer);
   };
 
-  // Check if audio is currently playing
+  // Check if any audio is currently playing
   getPlaying = (): boolean => {
-    return this.#isPlaying;
+    return (
+      this.#channels.size > 0 &&
+      Array.from(this.#channels.values()).some((audio) => !audio.paused && !audio.ended)
+    );
   };
 
-  // Update volume of currently playing audio
+  // Update volume of all currently playing audio
   updateVolume = (volume: number): void => {
-    if (this.#currentAudio && this.#isPlaying) {
-      // Scale down: 100% slider = 20% actual volume
-      const VOLUME_SCALE = 0.2;
-      this.#currentAudio.volume = (volume / 100) * VOLUME_SCALE;
-      console.log(`🔊 Updated playing audio volume to ${volume}% (actual: ${volume * VOLUME_SCALE}%)`);
-    }
+    // Scale down: 100% slider = 20% actual volume
+    const VOLUME_SCALE = 0.2;
+    const actualVolume = (volume / 100) * VOLUME_SCALE;
+
+    this.#channels.forEach((audio) => {
+      if (!audio.paused && !audio.ended) {
+        audio.volume = actualVolume;
+      }
+    });
+    console.log(`🔊 Updated all playing audio volume to ${volume}% (actual: ${actualVolume * 100}%)`);
   };
 
-  // Stop all audio and clear all timers
-  stopAll = (): void => {
-    this.stopCurrent();
+  // Stop all audio and clear all timers (panic button)
+  stopAllAudio = (): void => {
+    this.stopAll();
     this.#debounceTimers.forEach((timer) => clearTimeout(timer));
     this.#debounceTimers.clear();
   };
@@ -451,7 +484,7 @@ export const stopAllAudio = (): void => {
     console.log('🛑 PANIC: Stopping all audio playback');
 
     // Use the audio manager to stop all audio
-    audioManager.stopAll();
+    audioManager.stopAllAudio();
 
     // Also try to stop any Web Audio API contexts
     if (window.AudioContext || (window as any).webkitAudioContext) {
