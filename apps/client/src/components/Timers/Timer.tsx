@@ -55,18 +55,10 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
   // const isActive = status === 'processing';
 
   const handleComplete = useCallback(() => {
-    console.debug('Timer: completing', { slotNumber });
-
-    // Stop timer interval
     timerManager.stopTimer(slotNumber);
 
-    // Update timer state
     if (timer) {
-      updateTimer(timer.id, {
-        status: 'completed',
-        // remaining: 0,
-        // completedAt: new Date().toISOString(),
-      });
+      updateTimer(timer.id, { status: 'completed' });
     }
 
     // Remove from selected slots if present
@@ -81,45 +73,46 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
     onComplete?.();
   }, [slotNumber, timer, updateTimer, mainPageSelectedSlots, setMainPageSelectedSlots, onComplete]);
 
-  useEffect(() => {
-    // Cleanup function
-    const cleanup = () => {
-      timerManager.stopTimer(slotNumber);
-    };
+  useEffect(
+    function initializeTimerInstance() {
+      const cleanup = () => {
+        timerManager.stopTimer(slotNumber);
+      };
 
-    // If no timer or timer is not processing, reset state
-    if (!timer || timer.status !== 'processing') {
-      setRemainingTime(0);
-      cleanup();
-      return cleanup;
-    }
+      // If no timer or timer is not processing, reset state
+      if (!timer || timer.status !== 'processing') {
+        setRemainingTime(0);
+        cleanup();
+        return cleanup;
+      }
 
-    const { remaining } = parseCompletionTime(timer);
-
-    // Set initial remaining time
-    setRemainingTime(Math.max(0, remaining));
-
-    // If already expired, complete immediately
-    if (remaining <= 0) {
-      handleComplete();
-      return cleanup;
-    }
-
-    // Start timer interval
-    timerManager.startTimer(slotNumber, () => {
       const { remaining } = parseCompletionTime(timer);
+
+      // Set initial remaining time
       setRemainingTime(remaining);
 
+      // If already expired, complete immediately
       if (remaining <= 0) {
-        handleCompleteEvent({ remaining, orderId: timer.orderId });
         handleComplete();
+        return cleanup;
       }
-    });
 
-    return cleanup;
-  }, [timer, slotNumber, updateTimer, handleComplete, handleTickEvent, handleCompleteEvent]);
+      // Start timer interval, loop callback
+      timerManager.startTimer(slotNumber, () => {
+        const { remaining } = parseCompletionTime(timer);
+        setRemainingTime(remaining);
 
-  // If no timer or timer is not processing, show empty
+        if (remaining <= 0) {
+          handleCompleteEvent({ remaining, orderId: timer.orderId });
+          handleComplete();
+        }
+      });
+
+      return cleanup;
+    },
+    [timer, slotNumber, updateTimer, handleComplete, handleTickEvent, handleCompleteEvent],
+  );
+
   if (status !== 'processing') {
     return <span>00:00</span>;
   }
