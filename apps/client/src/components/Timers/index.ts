@@ -18,7 +18,6 @@ export type {
 export {
   getCycleNumber,
   getElapsedTimeAndEventNumberMs,
-  getElapsedTimeAndEventNumberSec,
   makeDefaultSound,
   makeUserSound,
   playCompleteSound,

@@ -128,11 +128,11 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
       }
 
       // TICK ACTION: Fire at regular intervals (every TICK_INTERVAL_MS)
-      const { elapsedMs, eventNumber } = getElapsedTimeAndEventNumberMs(SNOOZE_INTERVAL_MS, remaining);
-      handleTickEvent(eventNumber, {
-        elapsedMs,
-        remainingMs: remaining,
-        eventNumber,
+      const eventData = getElapsedTimeAndEventNumberMs(SNOOZE_INTERVAL_MS, remaining);
+      handleTickEvent({
+        elapsed: eventData.elapsed,
+        remaining,
+        eventNumber: eventData.eventNumber,
       });
     };
 

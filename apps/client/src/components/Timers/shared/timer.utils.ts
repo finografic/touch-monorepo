@@ -21,16 +21,6 @@ export { makeDefaultSound, makeUserSound, playCompleteSound, playTickSound };
 export const TICK_INTERVAL_MS = SNOOZE_INTERVAL_MS;
 
 /**
- * Calculate elapsed time and event number (for second-based timers like countdown)
- */
-// NOTE: Timer
-export function getElapsedTimeAndEventNumberSec(duration: number, remaining: number) {
-  const elapsed = Math.max(0, duration - remaining);
-  const eventNumber = Math.floor(elapsed / Math.floor(TICK_INTERVAL_MS / 1000));
-  return { elapsed, eventNumber };
-}
-
-/**
  * Calculate elapsed time and event number (for millisecond-based timers like snooze)
  */
 // NOTE: SnoozeTimer
