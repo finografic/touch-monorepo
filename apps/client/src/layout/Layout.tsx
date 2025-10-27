@@ -70,7 +70,7 @@ export const Layout: FC = () => {
                         </div>
                       </main>
                       <Footer />
-                      <SnoozeTimer shouldDebounce={true} />
+                      <SnoozeTimer shouldDebounce={false} />
                       <ToastSystem />
                       <div id="radix-portal-container" />
                     </div>

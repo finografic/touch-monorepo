@@ -121,12 +121,12 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
       }
 
       // TICK ACTION: Fire at regular intervals (every SNOOZE_INTERVAL_MS)
-      const eventData = getElapsedTimeAndEventNumberMs(SNOOZE_INTERVAL_MS, remaining);
-      handleTickEvent({
-        elapsed: eventData.elapsed,
-        remaining,
-        eventNumber: eventData.eventNumber,
-      });
+      // const eventData = getElapsedTimeAndEventNumberMs(SNOOZE_INTERVAL_MS, remaining);
+      // handleTickEvent({
+      //   elapsed: eventData.elapsed,
+      //   remaining,
+      //   eventNumber: eventData.eventNumber,
+      // });
     };
 
     // Initial calculation

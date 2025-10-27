@@ -37,10 +37,10 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
       log('timer: COMPLETED.', 'yellow', { snooze, remaining, orderId });
       // NEW: silent completion
       if (!snooze) {
-        // playAlarmSound().catch(() => {});
+        playAlarmSound().catch(() => {});
         setSnooze(true);
       } else {
-        // playCompleteSound().catch(() => {});
+        playCompleteSound().catch(() => {});
       }
     },
   });
