@@ -46,8 +46,8 @@ export const auth = betterAuth({
     updateAge: 24 * 60 * 60, // 24 hours
     cookieName: 'auth_token',
     cookieCache: {
-      enabled: false, // Disable cookie cache for JWT
-      maxAge: 5 * 60,
+      enabled: true, // Enable cookie cache for performance (reduces DB lookups)
+      maxAge: 5 * 60, // 5 minutes - short-lived for security
     },
   },
   advanced: {
