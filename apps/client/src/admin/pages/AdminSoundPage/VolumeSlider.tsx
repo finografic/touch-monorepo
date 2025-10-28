@@ -20,8 +20,6 @@ export const VolumeSlider: React.FC = () => {
       gap="4"
       align="center"
       style={{ width: '100%', fontSize: '1.5rem', fontWeight: '600', padding: '0 6rem 2.33rem' }}
-      mr="8"
-      pr="8"
     >
       <Text size="3" weight="medium" color="gray" mt="7">
         Volume

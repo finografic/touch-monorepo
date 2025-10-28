@@ -1,9 +1,9 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Col, Row } from 'react-grid-system';
 
-import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
+import { VolumeSlider } from 'admin/pages/AdminSoundPage/VolumeSlider';
 
-import { useGlobalVolume } from 'hooks/useGlobalVolume';
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
 import { stopAllAudio } from 'utils/soundCache.utils';
 
@@ -13,18 +13,6 @@ import { StopIcon } from 'styles/icons';
 import { styles } from './AdminSoundPage.styles';
 
 export const PublicSoundPage: React.FC = () => {
-  // Global volume management - handles state, storage, and audio updates
-  const { volume, updateVolume } = useGlobalVolume();
-
-  // Handle volume change - immediate updates for responsive UI
-  const handleVolumeChange = useCallback(
-    (newVolume: number) => {
-      updateVolume(newVolume);
-    },
-    [updateVolume],
-  );
-
-  // API hooks - only get alarm sounds for basic page
   const { data: soundFiles = [], isLoading: isLoadingFiles } = useGetSoundFiles('alarm');
   const { data: soundSettings = { alarm: null, finish: null }, isLoading: isLoadingSettings } =
     useGetSoundSettings();
@@ -83,29 +71,8 @@ export const PublicSoundPage: React.FC = () => {
                   </button>
                 </div>
               </Flex>
-              <Flex
-                direction="column"
-                gap="4"
-                align="center"
-                style={{ width: '100%', fontSize: '1.5rem', fontWeight: '600', padding: '0 6rem 2.33rem' }}
-                mr="8"
-                pr="8"
-              >
-                <Text size="3" weight="medium" color="gray" mt="7">
-                  Volume
-                </Text>
-                <Slider
-                  value={[volume]}
-                  onValueChange={(value) => handleVolumeChange(value[0])}
-                  max={100}
-                  min={0}
-                  step={1}
-                  size="3"
-                  className="volume-slider"
-                />
-                <Text size="3" color="gray">
-                  {volume}%
-                </Text>
+              <Flex direction="column" gap="4" align="center" width="100%" mr="8" pr="8">
+                <VolumeSlider />
               </Flex>
             </Flex>
           </Col>
