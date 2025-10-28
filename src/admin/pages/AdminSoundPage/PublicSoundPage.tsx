@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { Col, Row } from 'react-grid-system';
 
-import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 
 import { useGlobalVolume } from 'hooks/useGlobalVolume';
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
@@ -94,13 +94,17 @@ export const PublicSoundPage: React.FC = () => {
                 <Text size="3" weight="medium" color="gray" mt="7">
                   Volume
                 </Text>
-                <Slider
-                  value={[volume]}
-                  onValueChange={(value) => handleVolumeChange(value[0])}
-                  max={100}
-                  min={0}
-                  step={1}
-                  size="3"
+                <input
+                  type="range"
+                  min="0"
+                  max="100"
+                  step="1"
+                  value={volume}
+                  onChange={(e) => handleVolumeChange(Number.parseInt(e.target.value, 10))}
+                  style={{
+                    width: '100%',
+                    cursor: 'pointer',
+                  }}
                   className="volume-slider"
                 />
                 <Text size="3" color="gray">
