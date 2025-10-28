@@ -25,7 +25,8 @@ export const layout = {
   padding: String(createCSSProxy(baseLayout.padding, 5)) as any, // '1rem'
   // padding: baseLayout.padding, // '1rem'
   borderWidth: String(createCSSProxy(baseLayout.borderWidth, 2)) as any, // '2px'
-  borderRadius: String(createCSSProxy(baseLayout.borderRadius, 'lg')) as any, // '0.5rem'
+  // borderRadius: String(createCSSProxy(baseLayout.borderRadius, 'lg')) as any, // '0.5rem'
+  borderRadius: baseLayout.borderRadius.lg, // '0.5rem'
   pageColor: colors.white,
   bgColor: colors.white,
   radius: baseLayout.borderRadius.lg,

@@ -129,6 +129,7 @@
     "type-fest": "^4.41.0",
     "unplugin-turbo-console": "2.2.0",
     "use-debounce": "10.0.5",
+    "usehooks-ts": "3.1.1",
     "uuid": "^11.1.0",
     "zod": "^3.25.76",
     "zustand": "^5.0.7"

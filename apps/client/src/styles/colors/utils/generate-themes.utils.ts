@@ -40,6 +40,19 @@ function generateShadeVariants(
   const variants: Record<string, string> = {};
 
   // Generate shade variants with proper semantics and configurable variance/saturation
+  /*
+  const shades = [
+    // Lighter variants - maintain more chroma for OKLCH's clean variations
+    { name: 'XXLight', lighten: 0.8 * varianceFactor, saturate: baseSaturation * 0.85 }, // Much lighter, preserve chroma
+    { name: 'XLight', lighten: 0.6 * varianceFactor, saturate: baseSaturation * 0.9 }, // Lighter, clean saturation
+    { name: 'Light', lighten: 0.4 * varianceFactor, saturate: baseSaturation * 0.95 }, // Slightly lighter, minimal desaturation
+    // Darker variants - leverage OKLCH's better saturation handling
+    { name: 'Dark', lighten: -0.4 * varianceFactor, saturate: baseSaturation * 1.2 }, // Slightly darker, more vibrant
+    { name: 'XDark', lighten: -0.6 * varianceFactor, saturate: baseSaturation * 1.3 }, // Darker, rich saturation
+    { name: 'XXDark', lighten: -0.8 * varianceFactor, saturate: baseSaturation * 1.4 }, // Much darker, maximum vibrancy
+  ];
+  */
+
   const shades = [
     // Lighter variants - maintain more chroma for OKLCH's clean variations
     { name: 'XXLight', lighten: 0.8 * varianceFactor, saturate: baseSaturation * 0.85 }, // Much lighter, preserve chroma

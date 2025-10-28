@@ -10,7 +10,7 @@
  * - 0.8 = balanced variations (default)
  * - 1.0 = maximum variations
  */
-export const SHADE_VARIANCE_FACTOR = 0.75;
+export const SHADE_VARIANCE_FACTOR = 0.2;
 
 /**
  * Saturation factor for color variants

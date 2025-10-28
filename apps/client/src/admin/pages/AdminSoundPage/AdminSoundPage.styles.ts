@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, spacing } from 'styles';
+import { colors, layout, spacing } from 'styles';
 
 export const styles = css`
   width: 100%;
@@ -172,6 +172,21 @@ export const styles = css`
           outline-offset: 2px;
         }
       }
+    }
+  }
+
+  /* ======================== PRIME REACT STYLES ============================ */
+
+  .p-listbox {
+    background-color: ${colors.white};
+    /* border: 1px solid ${colors.greyLight}; */
+    border-radius: 8px;
+    /* padding: 0.75rem; */
+    .p-listbox-item {
+      padding: 0.75rem;
+      border: 1px solid ${colors.greyLight};
+      border-radius: ${layout.borderRadius};
+      margin-bottom: 0.25rem;
     }
   }
 `;
