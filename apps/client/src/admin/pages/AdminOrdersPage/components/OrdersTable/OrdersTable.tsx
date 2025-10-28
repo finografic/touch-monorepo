@@ -1,7 +1,9 @@
 import React, { type CSSProperties, useMemo } from 'react';
 
 import { Button, Flex, Table, Text } from '@radix-ui/themes';
+// import { useLockBodyScroll } from '@uidotdev/usehooks';
 import clsx from 'clsx';
+import { useScrollLock } from 'usehooks-ts';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
@@ -68,6 +70,9 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   onColumnSearchChange,
 }) => {
   const { currentLanguage } = useAppConfig();
+
+  useScrollLock({ autoLock: true, lockTarget: '#layout-main' });
+  // useLockBodyScroll();
 
   // Render cell content based on column key
   const renderCellContent = (column: ColumnDef, order: OrderReadableWithIndex, index: number) => {

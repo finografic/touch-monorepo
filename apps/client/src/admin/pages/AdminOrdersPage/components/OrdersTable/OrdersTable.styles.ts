@@ -14,8 +14,9 @@ export const styles = css`
     display: inline-table !important;
     background-color: ${colors.white};
     z-index: 999999;
-    transform: translate(-1rem, -100px) !important;
+    transform: translate(-1rem, -120px) !important;
 
+    max-height: 40px !important;
     width: 100% !important;
     max-width: 1240px !important;
 
@@ -108,6 +109,7 @@ export const styles = css`
   }
 
   .rt-TableBody.table-body {
+    padding-top: 2rem;
     /* transform: translate(0, 2rem) !important; */
 
     .rt-TableRow {

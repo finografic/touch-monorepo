@@ -9,7 +9,6 @@ export const styles = css`
     /* max-width: 60vw !important;
     min-width: 1000px !important; */
     margin-top: 0 !important;
-    border: 2px solid red !important;
   }
 
   /* ⭐ admin-section > tab-content > rote=tabpanel ======================= */
@@ -24,8 +23,12 @@ export const styles = css`
     overflow-y: hidden;
     position: fixed;
 
-    height: 66vh;
+    /* height: 66vh; */
     top: 380px;
+
+    /* height: 66vh; */
+    top: 380px;
+    bottom: 40px;
 
     left: auto;
     right: auto;

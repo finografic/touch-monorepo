@@ -57,7 +57,7 @@ export const styles = css`
   }
 
   .table-rows-container {
-    overflow-y: auto;
+    /* overflow-y: auto; */
     border: 1px solid ${colors.greyLight};
     border-radius: 0 0 6px 6px;
   }

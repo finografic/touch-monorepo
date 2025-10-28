@@ -33,7 +33,7 @@ export const AdminLayout: FC = () => {
           <div id="admin-layout" css={styles}>
             <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
             <AdminNavigation />
-            <main>
+            <main id="layout-main">
               <div className="main-content">
                 <section>
                   <PageHeader />
