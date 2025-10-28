@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { useDebouncedCallback } from 'use-debounce';
+
 import { updatePlayingAudioVolume } from 'utils/soundCache.utils';
 import { getStoredVolume, setStoredVolume } from 'utils/volume.utils';
 
@@ -10,17 +12,24 @@ import { getStoredVolume, setStoredVolume } from 'utils/volume.utils';
 export const useGlobalVolume = () => {
   const [volume, setVolume] = useState<number>(() => getStoredVolume());
 
-  // Update volume in state, storage, and any currently playing audio
-  const updateVolume = useCallback((newVolume: number) => {
-    // Update state immediately for responsive UI
-    setVolume(newVolume);
+  const debouncedUpdateVolume = useDebouncedCallback(
+    (newVolume: number) => {
+      setStoredVolume(newVolume);
+    },
+    500,
+    { leading: true, trailing: false },
+  );
 
-    // Update volume of currently playing audio immediately
-    updatePlayingAudioVolume(newVolume);
-
-    // Persist to storage (no debounce to ensure it's always saved)
-    setStoredVolume(newVolume);
-  }, []);
+  // Update volume in both state, storage, and any currently playing audio
+  const updateVolume = useCallback(
+    (newVolume: number) => {
+      setVolume(newVolume);
+      // setStoredVolume(newVolume);
+      debouncedUpdateVolume(newVolume);
+      updatePlayingAudioVolume(newVolume); // Update volume of currently playing audio
+    },
+    [debouncedUpdateVolume],
+  );
 
   // Listen for storage changes from other tabs/windows
   useEffect(() => {

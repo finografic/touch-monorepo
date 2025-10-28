@@ -1,7 +1,8 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Flex, Slider, Spinner, Text } from '@radix-ui/themes';
+import { useDebouncedCallback } from 'use-debounce';
 
 import { useGlobalVolume } from 'hooks/useGlobalVolume';
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
@@ -13,16 +14,46 @@ import { StopIcon } from 'styles/icons';
 import { styles } from './AdminSoundPage.styles';
 
 export const PublicSoundPage: React.FC = () => {
-  // Global volume management - handles state, storage, and audio updates
+  // Global volume management
   const { volume, updateVolume } = useGlobalVolume();
 
-  // Handle volume change - immediate updates for responsive UI
-  const handleVolumeChange = useCallback(
+  // Local state for immediate UI feedback (prevents lag on slower machines)
+  const [displayVolume, setDisplayVolume] = useState(volume);
+  const debounceTimerRef = useRef<ReturnType<typeof setTimeout>>();
+
+  // Sync local state when global volume changes (e.g., from other tabs)
+  useEffect(() => {
+    setDisplayVolume(volume);
+  }, [volume]);
+
+  // Debounce warning display using use-debounce
+  const debouncedUpdateVolume = useDebouncedCallback((newVolume: number) => {
+    updateVolume(newVolume);
+  }, 500);
+
+  const handleVolumeChange = useDebouncedCallback((newVolume: number) => {
+    setDisplayVolume(newVolume);
+    // debouncedUpdateVolume(newVolume);
+    updateVolume(newVolume);
+  }, 10);
+
+  // Debounced volume update handler
+  const handleVolumeChange__V1 = useCallback(
     (newVolume: number) => {
-      updateVolume(newVolume);
+      setDisplayVolume(newVolume);
+      debouncedUpdateVolume(newVolume);
     },
     [updateVolume],
   );
+
+  // Cleanup debounce timer on unmount
+  useEffect(() => {
+    return () => {
+      if (debounceTimerRef.current) {
+        clearTimeout(debounceTimerRef.current);
+      }
+    };
+  }, []);
 
   // API hooks - only get alarm sounds for basic page
   const { data: soundFiles = [], isLoading: isLoadingFiles } = useGetSoundFiles('alarm');
@@ -71,6 +102,7 @@ export const PublicSoundPage: React.FC = () => {
                 gap="2"
                 align="center"
                 style={{ width: '60px', fontSize: '1.5rem', fontWeight: '600', padding: '0' }}
+                // mr="0"
               >
                 {/* Panic button - stop all audio */}
                 <div className="button-box">
@@ -95,7 +127,7 @@ export const PublicSoundPage: React.FC = () => {
                   Volume
                 </Text>
                 <Slider
-                  value={[volume]}
+                  value={[displayVolume]}
                   onValueChange={(value) => handleVolumeChange(value[0])}
                   max={100}
                   min={0}
@@ -104,7 +136,7 @@ export const PublicSoundPage: React.FC = () => {
                   className="volume-slider"
                 />
                 <Text size="3" color="gray">
-                  {volume}%
+                  {displayVolume}%
                 </Text>
               </Flex>
             </Flex>
