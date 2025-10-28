@@ -13,7 +13,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import type { Theme } from 'types/ui.types';
-import { clearAuthSessionToken } from 'utils/storage.utils';
+import { clearAuthSessionToken } from 'utils/auth-V2.utils';
 
 import { PATHS } from 'config/routes';
 import { LanguageIcon } from 'styles/icons';
