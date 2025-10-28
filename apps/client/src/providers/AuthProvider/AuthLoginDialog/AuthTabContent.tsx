@@ -4,7 +4,7 @@ import { Button } from 'components/Button';
 import { Input } from 'components/Input/Input';
 import { useAuth } from 'providers/AuthProvider';
 
-import { clearAuthSessionToken } from 'utils/storage.utils';
+import { clearAuthSessionToken } from 'utils/auth-V2.utils';
 
 import { styles } from './AuthLoginDialog.styles';
 

@@ -1,4 +1,4 @@
-import { AUTH_COOKIE_NAME } from 'providers/AuthProvider/AuthContext';
+import { STORAGE_KEYS } from 'config/app';
 
 /**
  * Clears the auth session token cookie
@@ -8,7 +8,7 @@ import { AUTH_COOKIE_NAME } from 'providers/AuthProvider/AuthContext';
  * CRITICAL: Cookie deletion requires exact matching of attributes
  */
 export const clearAuthSessionToken = (): void => {
-  const cookieName = AUTH_COOKIE_NAME;
+  const cookieName = STORAGE_KEYS.AUTH_SESSION_TOKEN;
 
   console.log('🧹 Starting cookie deletion...', { cookieName, hostname: window.location.hostname });
   console.log('📋 Current cookies:', document.cookie);
