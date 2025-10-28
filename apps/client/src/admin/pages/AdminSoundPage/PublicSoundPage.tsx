@@ -2,7 +2,10 @@ import React from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Flex, Spinner, Text } from '@radix-ui/themes';
+import { ListBoxSelect } from 'admin/pages/AdminSoundPage/ListBoxSelect';
 import { VolumeSlider } from 'admin/pages/AdminSoundPage/VolumeSlider';
+import { VolumeSlider as VolumeSliderV2 } from 'admin/pages/AdminSoundPage/VolumeSlider-V2';
+import { ListBox } from 'primereact/listbox';
 
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
 import { stopAllAudio } from 'utils/soundCache.utils';
@@ -51,6 +54,7 @@ export const PublicSoundPage: React.FC = () => {
               soundSettings={soundSettings}
               soundType="alarm"
             />
+            <ListBoxSelect soundFiles={soundFiles} soundSettings={soundSettings} soundType="alarm" />
           </Col>
           <Col xs={6}>
             <Flex direction="row" gap="2" align="center" className="volume-control">
@@ -72,6 +76,7 @@ export const PublicSoundPage: React.FC = () => {
                 </div>
               </Flex>
               <Flex direction="column" gap="4" align="center" width="100%" mr="8" pr="8">
+                {/* <VolumeSliderV2 /> */}
                 <VolumeSlider />
               </Flex>
             </Flex>

@@ -17,6 +17,10 @@ import { HydrateLoader } from 'routes/components/HydrateLoader';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 
 import { themeConfig } from 'styles/radix-ui/theme.config';
+import 'primereact/resources/themes/lara-light-indigo/theme.css'; // theme
+import 'primereact/resources/primereact.min.css'; // core css
+// import 'primeicons/primeicons.css'; // icons
+// import 'primeflex/primeflex.css'; // flex
 // import { theme } from 'styles/themes/theme';
 import { cssGlobal } from 'styles/global.styles';
 

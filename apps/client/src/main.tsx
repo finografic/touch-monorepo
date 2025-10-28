@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { I18nextProvider } from 'react-i18next';
 
+import { PrimeReactProvider } from 'primereact/api';
 import { PersistQueryClientProvider } from 'providers/QueryClientProvider';
 
 import { RouteMetadataProvider } from 'routes/providers/RouteMetadataProvider';
@@ -22,7 +23,9 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <PersistQueryClientProvider>
       <I18nextProvider i18n={i18n}>
         <RouteMetadataProvider>
-          <App />
+          <PrimeReactProvider>
+            <App />
+          </PrimeReactProvider>
         </RouteMetadataProvider>
       </I18nextProvider>
     </PersistQueryClientProvider>
