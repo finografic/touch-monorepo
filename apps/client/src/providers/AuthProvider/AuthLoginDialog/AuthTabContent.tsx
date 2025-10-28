@@ -4,6 +4,8 @@ import { Button } from 'components/Button';
 import { Input } from 'components/Input/Input';
 import { useAuth } from 'providers/AuthProvider';
 
+import { clearAuthSessionToken } from 'utils/storage.utils';
+
 import { styles } from './AuthLoginDialog.styles';
 
 interface AuthLoginTabContentProps {
@@ -28,8 +30,19 @@ export const AuthLoginTabContent: React.FC<AuthLoginTabContentProps> = ({
   isLoading,
   error,
 }) => {
-  const AUTH = useAuth();
+  const { isAuthenticated } = useAuth();
   const [placeholderMask, setPlaceholderMask] = useState('');
+
+  useEffect(
+    function verfiyAuthentication() {
+      log('AUTH', 'orange', isAuthenticated);
+      if (!isAuthenticated) {
+        log('AUTH', 'red', isAuthenticated);
+        clearAuthSessionToken();
+      }
+    },
+    [isAuthenticated],
+  );
 
   useEffect(() => {
     const dotCount = Math.max(Math.round(Math.random() * 7) + Math.round(Math.random() * 7) * 0.7) + 6; // random dots;

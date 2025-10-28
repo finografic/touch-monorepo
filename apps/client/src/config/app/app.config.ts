@@ -24,6 +24,7 @@ export const STORAGE_KEYS = {
   CONFIG_TIMESTAMP: 'touch_config_timestamp',
   SNOOZE_TIMESTAMP: 'touch_snooze_timestamp',
   AUTH_SESSION_TOKEN: 'touch-monorepo.session_token',
+  // AUTH_SESSION_TOKEN: 'touch-monorepo.session_token',
 } as const;
 
 /**

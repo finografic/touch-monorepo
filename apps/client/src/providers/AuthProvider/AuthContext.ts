@@ -19,7 +19,7 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { authClient } from 'lib/auth-client';
-import { clearAuthSessionToken } from 'utils/auth.utils';
+import { clearAuthSessionToken } from 'utils/storage.utils';
 import { createSetters, createZustandContext } from 'utils/zustand';
 
 import type { AuthSignInParams, AuthSignUpParams } from './auth.types';
@@ -80,7 +80,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
           signIn: async ({ email, password }: AuthSignInParams) => {
             const result = await authClient.signIn.email({ email, password });
 
-            await sleep(300);
+            await sleep(200);
             set({ isLoading: false });
 
             if (result.data?.user) {
@@ -104,7 +104,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
           signOut: async () => {
             const result = await authClient.signOut();
 
-            await sleep(300);
+            await sleep(100);
             set({ isLoading: false });
 
             if (result && result.data.success) {
