@@ -1,5 +1,4 @@
-// import type { LanguageInfo } from '@workspace/i18n/types';
-import type { CountryCode, LanguageInfo } from '@config/i18n.config';
+import type { CountryCode, LanguageInfo } from '@workspace/config/i18n.config';
 
 // Interface for the search component results (matches LanguageOption from SearchableLanguageInput)
 interface LanguageOption {

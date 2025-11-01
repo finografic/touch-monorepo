@@ -85,6 +85,7 @@
     "@tanstack/react-query-devtools": "5.85.3",
     "@tanstack/react-query-persist-client": "5.85.3",
     "@uidotdev/usehooks": "2.4.1",
+    "@workspace/config": "workspace:*",
     "@workspace/core": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/server": "workspace:*",

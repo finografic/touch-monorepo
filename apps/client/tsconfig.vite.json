@@ -2,8 +2,6 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "composite": true,
-    // "baseUrl": ".",
-    // "rootDir": "src",
     "rootDir": ".",
     "declaration": true,
     "emitDeclarationOnly": true,
@@ -17,15 +15,5 @@
     "src/i18n/utils/**/*.ts",
     "vite.config.ts"
   ],
-  "exclude": [
-    "node_modules",
-    "dist",
-    "src/i18n/**/*.js",
-    "src/i18n/**/*.d.ts",
-    // "src/i18n/messages",
-    // "src/i18n/*.js",
-    // "src/i18n/.gitignore",
-    // "src/i18n/.prettierignore",
-    "eslint.config.mjs",
-  ]
+  "exclude": ["node_modules", "dist", "src/i18n/**/*.js", "src/i18n/**/*.d.ts", "eslint.config.mjs"]
 }

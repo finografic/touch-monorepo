@@ -10,6 +10,7 @@ import { devCookieClearPlugin, logApiURL } from './src/utils/vite.utils';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
   const viteEnv = loadEnv(mode as string, process.cwd(), '');
+
   if (mode) logApiURL({ mode });
 
   // Resolve paths relative to workspace root
@@ -55,7 +56,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         strategy: ['localStorage', 'preferredLanguage', 'baseLocale'],
       }),
       tailwindcss(),
-      mode === 'development' && devCookieClearPlugin(),
+      // mode === 'development' && devCookieClearPlugin(),
+      devCookieClearPlugin(),
     ].filter(Boolean),
     base: './',
     server: {
@@ -88,8 +90,6 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         // Point to SOURCE files for HMR during development
         '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src/index.ts'),
         '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators/index.ts'),
-        '@config': resolve(workspaceRoot, 'config'),
-        '@config/i18n': resolve(workspaceRoot, 'config/i18n.config.ts'),
         'i18n/utils': resolve(__dirname, 'src/i18n/utils/index.ts'),
         'i18n/messages.js': resolve(__dirname, 'src/i18n/messages/messages.js'),
         'i18n/runtime.js': resolve(__dirname, 'src/i18n/messages/runtime.js'),
@@ -109,12 +109,14 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       rollupOptions: {
         external: [
           // Explicitly exclude Node.js modules from browser builds
-          'node:fs',
-          'node:path',
+          // 'node:fs',
+          // 'node:os',
+          // 'node:path',
+          // 'node:url',
           'fs',
-          'path',
-          'node:os',
           'os',
+          'path',
+          'url',
         ],
         output: {
           format: 'es',

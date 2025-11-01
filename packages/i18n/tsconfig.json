@@ -8,12 +8,7 @@
     "declarationMap": true,
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
-    "baseUrl": ".",
-    "paths": {
-      "@config": ["../../../config"],
-      "@config/*": ["../../../config/*"],
-      "@config/i18n": ["../../../config/i18n.config.ts"]
-    }
+    "baseUrl": "."
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "src/translations/**/*.json"],
   "exclude": ["node_modules", "dist"]

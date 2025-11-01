@@ -55,7 +55,6 @@
       "path": "../../packages/core"
     }
   ],
-  // "include": ["src/**/*", "src/**/*.json", "package.json"],
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json"],
   "exclude": ["node_modules", "dist", "**/__tests__/**", "**/*.test.ts", "**/*.spec.ts"]
 }

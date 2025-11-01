@@ -1,6 +1,5 @@
+import type { LangCode } from '@workspace/config/i18n';
 import type { RegionLocale } from '@workspace/i18n';
-
-import type { LangCode } from '@config/i18n';
 
 interface LocalizedEntity {
   name?: string;

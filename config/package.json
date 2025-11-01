@@ -5,6 +5,12 @@
   "exports": {
     ".": {
       "import": "./index.ts"
+    },
+    "./i18n.config": {
+      "import": "./i18n.config.ts"
+    },
+    "./i18n": {
+      "import": "./i18n.config.ts"
     }
   }
 }
