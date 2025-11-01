@@ -1,0 +1,17 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "composite": true,
+    "baseUrl": ".",
+    "rootDir": "../",
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "sourceMap": true,
+    "paths": {
+      "config/*": ["./*"]
+    }
+  },
+  "include": ["./i18n.config.ts", "**/*.ts"],
+  "exclude": []
+}
