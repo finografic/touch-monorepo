@@ -10,13 +10,10 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "strict": true,
-    "types": [
-      // "node"
-    ],
+    "types": [],
     "paths": {
       // "./*": ["./*"],
       "@workspace/config/*": ["./*"],
-      // "@workspace/i18n/config/types": ["../packages/i18n/src/config/types.ts"]
       "@workspace/i18n/config/types": ["../packages/i18n/dist/config/index.d.ts"]
     }
   },

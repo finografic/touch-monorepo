@@ -39,6 +39,7 @@ export default defineConfig({
     // Utils files
     'src/utils/index.ts',
     'src/utils/misc.utils.ts',
+    'src/utils/monorepo.utils.ts',
     'src/utils/string.utils.ts',
   ],
   outDir: './dist',
