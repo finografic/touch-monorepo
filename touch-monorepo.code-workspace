@@ -4,10 +4,6 @@
       "name": "✨ touch-monorepo",
       "path": ".",
     },
-    {
-      "name": "🚀 @workspace/client",
-      "path": "apps/client",
-    },
   ],
   "settings": {
     "terminal.integrated.env.osx": {

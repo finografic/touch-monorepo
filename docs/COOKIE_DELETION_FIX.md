@@ -26,7 +26,7 @@ Added `Secure` attribute to all cookie deletion attempts:
 
 ```typescript
 export const clearAuthSessionToken = (): void => {
-  const cookieName = STORAGE_KEYS.AUTH_SESSION_TOKEN;
+  const cookieName = STORAGE_KEYS.AUTH_COOKIE_NAME;
   const secureCookieName = `__Secure-${cookieName}`;
 
   // Clear regular cookies (development/localhost)
