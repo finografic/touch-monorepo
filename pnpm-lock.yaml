@@ -670,6 +670,8 @@ importers:
         specifier: ^2.1.8
         version: 2.1.9(@types/node@22.18.13)(happy-dom@19.0.2)(lightningcss@1.30.1)
 
+  config: {}
+
   packages/build-deployment:
     dependencies:
       chalk:

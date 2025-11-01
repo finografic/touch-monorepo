@@ -1,0 +1,5 @@
+{
+  "name": "@workspace/config",
+  "private": true,
+  "type": "module"
+}
