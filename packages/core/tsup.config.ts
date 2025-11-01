@@ -10,7 +10,6 @@ export default defineConfig({
     'src/api/error.types.ts',
     'src/api/error.constants.ts',
     'src/api/error.schema.ts',
-
     'src/api/api.utils.ts',
     'src/api/api.types.ts',
     // Constants files
