@@ -4,9 +4,9 @@ import { Button } from 'components/Button';
 import { Input } from 'components/Input/Input';
 import { useAuth } from 'providers/AuthProvider';
 
-import { styles } from './AuthLogoutConfirm.styles';
+import { styles } from './LogoutConfirm.styles';
 
-interface AuthLogoutConfirmTabContentProps {
+interface LogoutConfirmTabContentProps {
   activeTab: string;
   email: string;
   password: string;
@@ -19,7 +19,7 @@ interface AuthLogoutConfirmTabContentProps {
 /**
  * Reusable tab content component for login dialog [Claude v3.5]
  */
-export const AuthLogoutConfirmTabContent: React.FC<AuthLogoutConfirmTabContentProps> = ({
+export const LogoutConfirmTabContent: React.FC<LogoutConfirmTabContentProps> = ({
   activeTab,
   email,
   password,

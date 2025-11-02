@@ -6,18 +6,18 @@ import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useToast } from 'components/Toast/ToastContext';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
-import { AuthLogoutConfirmTabContent } from './AuthTabContent';
+import { LogoutConfirmTabContent } from './LogoutConfirmContent';
 import { UserLockIcon } from 'styles/icons';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
 const DEFAULT_PASSWORD = 'password123';
 
-interface AuthLogoutConfirmDialogProps {
+interface LogoutConfirmDialogProps {
   children?: React.ReactNode | React.ReactElement;
 }
 
-export const AuthLogoutConfirmDialog: FC<AuthLogoutConfirmDialogProps> = () => {
+export const LogoutConfirmDialog: FC<LogoutConfirmDialogProps> = () => {
   const { refreshSession, isLoginDialogOpen, closeLoginDialog, signIn, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -92,7 +92,7 @@ export const AuthLogoutConfirmDialog: FC<AuthLogoutConfirmDialogProps> = () => {
         label: 'Admin',
         icon: <UserLockIcon />,
         content: (
-          <AuthLogoutConfirmTabContent
+          <LogoutConfirmTabContent
             activeTab={activeTab}
             email={DEFAULT_ADMIN_EMAIL}
             password={password}

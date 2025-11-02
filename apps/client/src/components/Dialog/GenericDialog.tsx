@@ -13,6 +13,7 @@ interface GenericDialogProps {
   isOpen: boolean;
   onClose: () => void;
   config: DialogConfig;
+  className?: string;
   defaultTab?: string;
   onTabChange?: (tab: string) => void;
 }
@@ -21,6 +22,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
   isOpen,
   onClose,
   config,
+  className,
   defaultTab,
   onTabChange,
 }) => {
@@ -65,7 +67,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
     <Dialog.Root open={isOpen} onOpenChange={onClose}>
       <Dialog.Content
         size={config.size || '4'}
-        className={clsx('dialog-content', `theme-${appTheme}`)}
+        className={clsx('dialog-content', `theme-${appTheme}`, className)}
         css={styles}
         style={dynamicStyles}
         container={portalContainer}
