@@ -27,7 +27,7 @@ export function devCookieClearPlugin(): Plugin {
           // Path and Domain must match the original cookie for successful deletion
           res.setHeader(
             'Set-Cookie',
-            'auth_token=; Path=/; Domain=localhost; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; SameSite=Lax',
+            `${envClient.AUTH_COOKIE_SUFFIX}=; Path=/; Domain=localhost; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; SameSite=Lax`,
           );
 
           // Reset the flag so this logic doesn't run on subsequent requests, refreshes, or HMR

@@ -76,7 +76,7 @@ router.post('/auth/sign-out', async (context) => {
     const response = context.json({ error: 'Sign out failed' }, 500);
 
     /*
-        // TODO: REMOVE..
+    // TODO: REMOVE..
     response.headers.set(
       'Set-Cookie',
       'touch-monorepo.session_token=; Max-Age=0; Path=/; HttpOnly; SameSite=None; Secure',
