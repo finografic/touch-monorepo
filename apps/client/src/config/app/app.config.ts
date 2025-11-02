@@ -23,7 +23,6 @@ export const STORAGE_KEYS = {
   LAST_CONFIG: 'touch_last_config',
   CONFIG_TIMESTAMP: 'touch_config_timestamp',
   SNOOZE_TIMESTAMP: 'touch_snooze_timestamp',
-  // AUTH_SESSION_TOKEN: 'touch-monorepo.session_token',
   AUTH_SESSION_TOKEN: 'touch-monorepo.session_data', // remains if 'session_token' is removed is set
 } as const;
 
@@ -44,7 +43,6 @@ export const ORDER_FIELD_KEYS = [
  * Type-safe mapping of field keys to themselves
  * Useful for strongly-typed object access
  */
-// export const ROUTE_FILTER_KEYS: { [K in FilterKey]: K } = {
 export const ROUTE_FILTER_KEYS: { [K in FilterKey | NavigationFieldKey]: K } = {
   main: 'main',
   mode: 'mode',
@@ -55,14 +53,11 @@ export const ROUTE_FILTER_KEYS: { [K in FilterKey | NavigationFieldKey]: K } = {
   temperature: 'temperature',
 } as const;
 
-// ======================================================================== //
-
 /**
  * Type-safe mapping of field keys to themselves
  * Useful for strongly-typed object access
  */
 export const AdminFieldKeys: { [K in string]: K } = {
-  // DASHBOARD (accessible to all - index route)
   dashboard: 'dashboard',
 
   // PUBLIC ENTRIES

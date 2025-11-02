@@ -1,9 +1,7 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    // "composite": true,
     "baseUrl": ".",
-    // "rootDir": "../",
     "declaration": true,
     "emitDeclarationOnly": true,
     "noEmit": true,
@@ -12,7 +10,6 @@
     "strict": true,
     "types": ["node"],
     "paths": {
-      // "./*": ["./*"],
       "@workspace/config/*": ["./*"],
       "@workspace/i18n/config/types": ["../packages/i18n/dist/config/index.d.ts"]
     }
