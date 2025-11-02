@@ -10,7 +10,7 @@ export const auth = betterAuth({
     provider: 'sqlite',
     schema: { user, account, session, verification },
   }),
-  basePath: '/auth', // No /api prefix since we're mounting directly
+  basePath: '/api/auth', // Full path including /api prefix from Hono mounting
   debug: true,
   emailAndPassword: {
     enabled: true,

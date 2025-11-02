@@ -4,6 +4,9 @@
       "name": "✨ touch-monorepo",
       "path": ".",
     },
+    {
+      "path": "../touch-monorepo_MASTER_SESSION",
+    },
   ],
   "settings": {
     "terminal.integrated.env.osx": {

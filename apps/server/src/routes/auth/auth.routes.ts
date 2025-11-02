@@ -94,10 +94,10 @@ router.post('/auth/sign-out', async (context) => {
 
 /**
  * Catch-all for remaining BetterAuth endpoints:
- * - POST /auth/sign-in/email
- * - POST /auth/sign-up/email
- * - POST /auth/reset-password
- * - POST /auth/verify-email
+ * - POST /auth/sign-in/email (mounted at /api/auth/sign-in/email)
+ * - POST /auth/sign-up/email (mounted at /api/auth/sign-up/email)
+ * - POST /auth/reset-password (mounted at /api/auth/reset-password)
+ * - POST /auth/verify-email (mounted at /api/auth/verify-email)
  * - etc.
  */
 router.all('/auth/*', async (context) => {
