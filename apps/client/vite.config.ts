@@ -62,7 +62,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     clearScreen: false,
     define: {
       'global': 'window',
-      'process.env': JSON.stringify(envClient),
+      'process.env': JSON.stringify({ ...envClient }),
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
@@ -90,10 +90,10 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       rollupOptions: {
         external: [
           // Explicitly exclude Node.js modules from browser builds
-          // 'node:fs',
-          // 'node:os',
-          // 'node:path',
-          // 'node:url',
+          'node:fs',
+          'node:os',
+          'node:path',
+          'node:url',
           'fs',
           'os',
           'path',

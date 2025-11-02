@@ -47,7 +47,9 @@ const SharedEnvSchema = z
     BETTER_AUTH_SECRET: z.string().default(''),
     BETTER_AUTH_URL: z.string().default(''),
     AUTH_COOKIE_PREFIX: z.string().default('touch-monorepo'),
-    AUTH_COOKIE_SUFFIX: z.string().default('auth_token'),
+    TOKEN_COOKIE_SUFFIX: z.string().default('session_token'),
+    DATA_COOKIE_SUFFIX: z.string().default('session_data'),
+    // Inlang + ParaglideJS translations
     INLANG_GOOGLE_TRANSLATE_API_KEY: z.string().optional().default(''),
     // Relay board configuration
     RELAY_ENABLED: z.boolean().default(false),
@@ -60,6 +62,18 @@ const SharedEnvSchema = z
     API_URL: `${env.API_PROTOCOL}://${env.API_HOST}:${env.API_PORT}${env.API_BASE_PATH || ''}`,
     API_BASE_URL: `${env.API_PROTOCOL}://${env.API_HOST}:${env.API_PORT}`,
     CLIENT_ORIGIN: `${env.CLIENT_PROTOCOL}://${env.CLIENT_HOST}:${env.CLIENT_PORT}`,
+    COOKIES: {
+      COOKIE_PREFIX: env.AUTH_COOKIE_PREFIX, // remains if 'session_token' is removed is set
+      TOKEN_COOKIE: `${env.AUTH_COOKIE_PREFIX}.${env.TOKEN_COOKIE_SUFFIX}`, // remains if 'session_token' is removed is set
+      DATA_COOKIE: `${env.AUTH_COOKIE_PREFIX}.${env.DATA_COOKIE_SUFFIX}`, // remains if 'session_token' is removed is set
+    },
+    COOKIE_DELETE_ATTRIBUTES: [
+      'Max-Age=0',
+      'Path=/',
+      'HttpOnly',
+      'SameSite=Lax',
+      ...(env.NODE_ENV === 'production' ? ['Secure'] : []),
+    ].join('; '),
   }));
 
 export const envShared = SharedEnvSchema.parse({
@@ -76,6 +90,11 @@ export const envShared = SharedEnvSchema.parse({
   BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
   AUTH_COOKIE_PREFIX: process.env.AUTH_COOKIE_PREFIX,
   AUTH_COOKIE_SUFFIX: process.env.AUTH_COOKIE_SUFFIX,
+  // COOKIES: {
+  //   COOKIE_PREFIX: process.env.AUTH_COOKIE_PREFIX, // remains if 'session_token' is removed is set
+  //   TOKEN_COOKIE: `${process.env.AUTH_COOKIE_PREFIX}.${process.env.TOKEN_COOKIE_SUFFIX}`, // remains if 'session_token' is removed is set
+  //   DATA_COOKIE: `${process.env.AUTH_COOKIE_PREFIX}.${process.env.DATA_COOKIE_SUFFIX}`, // remains if 'session_token' is removed is set
+  // },
   // INLANG_GOOGLE_TRANSLATE_API_KEY: process.env.INLANG_GOOGLE_TRANSLATE_API_KEY,
   RELAY_ENABLED: process.env.RELAY_ENABLED === 'true',
   RELAY_PORT: process.env.RELAY_PORT,

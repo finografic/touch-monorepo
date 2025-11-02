@@ -1,4 +1,4 @@
-import { AUTH_COOKIE_NAME } from 'config/auth.config';
+import { COOKIES } from '@workspace/config/cookies.config';
 
 type CookieSameSite = 'Strict' | 'Lax' | 'None';
 
@@ -37,7 +37,7 @@ export function buildCookieHeader(name: string, value: string, opts: CookieOptio
 /**
  * Generates a deletion cookie header with matching attributes.
  */
-export function buildDeleteCookieHeader(name = AUTH_COOKIE_NAME): string {
+export function buildDeleteCookieHeader(name = COOKIES.TOKEN_COOKIE): string {
   const secure = process.env.NODE_ENV === 'production';
   const sameSite: CookieSameSite = 'Lax';
 

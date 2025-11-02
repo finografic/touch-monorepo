@@ -37,7 +37,6 @@ export const Header: React.FC<HeaderProps> = ({
   toolbar = <React.Fragment />,
 }) => {
   const location = useLocation();
-
   const { user, isAuthenticated, session } = useAuth();
 
   useEffect(

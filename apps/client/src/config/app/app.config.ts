@@ -3,8 +3,6 @@ import type { RegionLocale } from '@workspace/i18n';
 import type { ValidGridSize } from 'types/menu.types';
 import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
 
-import envClient from 'config/envClient';
-
 export const DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format
 export const FORCE_DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format
 export const ENABLE_BROWSER_LANGUAGE_DETECTION = false as const;
@@ -25,7 +23,6 @@ export const STORAGE_KEYS = {
   LAST_CONFIG: 'touch_last_config',
   CONFIG_TIMESTAMP: 'touch_config_timestamp',
   SNOOZE_TIMESTAMP: 'touch_snooze_timestamp',
-  AUTH_SESSION_TOKEN: `${envClient.AUTH_COOKIE_PREFIX}.${envClient.AUTH_COOKIE_SUFFIX}`, // remains if 'session_token' is removed is set
 } as const;
 
 /**

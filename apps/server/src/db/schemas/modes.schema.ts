@@ -3,7 +3,7 @@ import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { relations } from 'drizzle-orm';
 import { temperature_profiles } from './temperature_profiles.schema';
 import createCuid from '@bugsnag/cuid';
-import { sqliteBooleanField } from 'lib/zod-utils';
+import { sqliteBooleanField } from 'lib/zod.utils';
 
 export const modes = sqliteTable('modes', {
   id: text('id')

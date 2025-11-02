@@ -4,6 +4,7 @@ import { admin } from 'better-auth/plugins';
 import { db } from 'db';
 import { account, session, user, verification } from '../db/schemas';
 import { env } from '../env.server';
+// import { COOKIES } from '@workspace/config/cookies.config';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
@@ -33,14 +34,14 @@ export const auth = betterAuth({
   session: {
     expiresIn: 30 * 24 * 60 * 60, // 30 days
     updateAge: 24 * 60 * 60, // 24 hours
-    cookieName: env.AUTH_COOKIE_SUFFIX, // auth_suffix
+    cookieName: env.COOKIES.DATA_COOKIE, // auth_suffix
     cookieCache: {
       enabled: true, // Enable cookie cache for performance (reduces DB lookups)
       maxAge: 5 * 60, // 5 minutes - short-lived for security
     },
   },
   advanced: {
-    cookiePrefix: env.AUTH_COOKIE_PREFIX, // "touch-monorepo" -> cookies named "touch-monorepo.session_token"
+    cookiePrefix: env.COOKIES.COOKIE_PREFIX, // "touch-monorepo" -> cookies named "touch-monorepo.session_token"
     useSecureCookies: env.NODE_ENV === 'production',
     database: {
       generateId: () => crypto.randomUUID(),
@@ -56,7 +57,7 @@ export const auth = betterAuth({
     },
     cookies: {
       sessionToken: {
-        name: env.AUTH_COOKIE_SUFFIX, // auth_token - Combined with cookiePrefix -> "touch-monorepo.session_token"
+        name: env.COOKIES.TOKEN_COOKIE, // auth_token - Combined with cookiePrefix -> "touch-monorepo.session_token"
         attributes: {
           httpOnly: true, // Prevent JavaScript access (XSS protection)
           sameSite: env.NODE_ENV === 'production' ? 'lax' : 'lax', // Use 'lax' for consistency

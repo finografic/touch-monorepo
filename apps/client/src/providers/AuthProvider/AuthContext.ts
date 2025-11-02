@@ -19,8 +19,6 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { authClient } from 'lib/auth-client';
-// import { clearAuthSessionToken } from 'utils/auth-V2.utils';
-import { clearAuthSessionToken } from 'utils/auth.utils';
 import { createSetters, createZustandContext } from 'utils/zustand';
 
 import type {
@@ -130,7 +128,6 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
 
             if (result && result.data.success) {
               set({ ...defaultValue });
-              clearAuthSessionToken();
 
               return { success: true, message: 'Signed out successfully' };
             }

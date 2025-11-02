@@ -1,7 +1,7 @@
 import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
-import { sqliteBooleanField } from '../../lib/zod-utils';
+import { sqliteBooleanField } from '../../lib/zod.utils';
 
 export const container_types = sqliteTable('container_types', {
   id: text('id')

@@ -1,6 +1,8 @@
-import { AUTH_COOKIE_PREFIX, COOKIE_DELETE_ATTRIBUTES } from 'config/auth.config';
 import { auth } from 'lib/auth';
 import { createRouter } from 'lib/create-app';
+import { env } from 'env.server';
+
+const { COOKIES, COOKIE_DELETE_ATTRIBUTES } = env;
 
 const router = createRouter();
 
@@ -58,8 +60,8 @@ router.get('/auth/session', async (context) => {
  */
 router.post('/auth/sign-out', async (context) => {
   // Two cookies to delete (see NOTE above)
-  const tokenCookie = `${AUTH_COOKIE_PREFIX}.session_token=; ${COOKIE_DELETE_ATTRIBUTES}`;
-  const dataCookie = `${AUTH_COOKIE_PREFIX}.session_data=; ${COOKIE_DELETE_ATTRIBUTES}`;
+  const tokenCookie = `${COOKIES.TOKEN_COOKIE}=; ${COOKIE_DELETE_ATTRIBUTES}`;
+  const dataCookie = `${COOKIES.DATA_COOKIE}=; ${COOKIE_DELETE_ATTRIBUTES}`;
 
   try {
     const result = await auth.api.signOut({

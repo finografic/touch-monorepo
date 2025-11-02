@@ -15,6 +15,9 @@ const ServerEnvSchema = z
     // Authentication
     BETTER_AUTH_SECRET: z.string().min(32),
     BETTER_AUTH_URL: z.string().url(),
+    AUTH_COOKIE_PREFIX: z.string().default('touch-monorepo'),
+    TOKEN_COOKIE_SUFFIX: z.string().default('session_token'),
+    DATA_COOKIE_SUFFIX: z.string().default('session_data'),
     // Relay board
     RELAY_ENABLED: z.boolean().default(false),
     RELAY_PORT: z.string().default('/dev/ttyUSB0'),
@@ -38,6 +41,9 @@ const envServer = ServerEnvSchema.parse({
   // Authentication
   BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
   BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+  AUTH_COOKIE_PREFIX: process.env.AUTH_COOKIE_PREFIX,
+  TOKEN_COOKIE_SUFFIX: process.env.TOKEN_COOKIE_SUFFIX,
+  DATA_COOKIE_SUFFIX: process.env.DATA_COOKIE_SUFFIX,
   // Relay board
   RELAY_ENABLED: process.env.RELAY_ENABLED === 'true',
   RELAY_PORT: process.env.RELAY_PORT,

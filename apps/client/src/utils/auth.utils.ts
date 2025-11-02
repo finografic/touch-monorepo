@@ -1,4 +1,4 @@
-import { STORAGE_KEYS } from 'config/app';
+import { COOKIES } from 'config/cookies.config';
 
 /**
  * Force-delete Better Auth cookies from the client side (LAST RESORT ONLY)
@@ -22,15 +22,11 @@ import { STORAGE_KEYS } from 'config/app';
  * - Cleanup after failed authentication attempts
  */
 export const forceDeleteAuthCookies = (): void => {
-  const cookiePrefix = 'touch-monorepo';
-  const sessionTokenCookie = `${cookiePrefix}.session_token`;
-  const sessionDataCookie = `${cookiePrefix}.session_data`;
-
   console.log('🧹 [FORCE DELETE] Attempting client-side cookie deletion...');
   document.cookie && console.log('📋 Current cookies:', document.cookie);
 
   const hostname = window.location.hostname;
-  const cookiesToDelete = [sessionTokenCookie, sessionDataCookie];
+  const cookiesToDelete = [COOKIES.TOKEN_COOKIE, COOKIES.DATA_COOKIE];
 
   // Generate deletion commands for each cookie (including __Secure- prefix for Windows)
   const deletionStrategies = cookiesToDelete.flatMap((cookieName) => [
@@ -65,12 +61,10 @@ export const forceDeleteAuthCookies = (): void => {
   });
 
   // Clear from browser storage (these WILL work)
-  sessionStorage.removeItem(sessionTokenCookie);
-  sessionStorage.removeItem(sessionDataCookie);
-  sessionStorage.removeItem(STORAGE_KEYS.AUTH_SESSION_TOKEN);
-  localStorage.removeItem(sessionTokenCookie);
-  localStorage.removeItem(sessionDataCookie);
-  localStorage.removeItem(STORAGE_KEYS.AUTH_SESSION_TOKEN);
+  sessionStorage.removeItem(COOKIES.TOKEN_COOKIE);
+  sessionStorage.removeItem(COOKIES.DATA_COOKIE);
+  localStorage.removeItem(COOKIES.TOKEN_COOKIE);
+  localStorage.removeItem(COOKIES.DATA_COOKIE);
 
   // Check results
   const cookiesAfter = document.cookie;

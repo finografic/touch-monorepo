@@ -1,3 +1,5 @@
+import { COOKIE_DELETE_ATTRIBUTES, COOKIES } from '@workspace/config/cookies.config';
+
 import chalk from 'chalk';
 import type { Plugin, UserConfig } from 'vite';
 
@@ -25,10 +27,16 @@ export function devCookieClearPlugin(): Plugin {
 
           // Set the 'auth_token' cookie to expire immediately
           // Path and Domain must match the original cookie for successful deletion
-          res.setHeader(
-            'Set-Cookie',
-            `${envClient.AUTH_COOKIE_SUFFIX}=; Path=/; Domain=localhost; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; SameSite=Lax`,
-          );
+          // res.setHeader(
+          //   'Set-Cookie',
+          //   `${envClient.AUTH_COOKIE_SUFFIX}=; Path=/; Domain=localhost; Expires=Thu, 01 Jan 1970 00:00:00 GMT; Max-Age=0; SameSite=Lax`,
+          // );
+
+          const tokenCookie = `${COOKIES.TOKEN_COOKIE}=; ${COOKIE_DELETE_ATTRIBUTES}`;
+          const dataCookie = `${COOKIES.DATA_COOKIE}=; ${COOKIE_DELETE_ATTRIBUTES}`;
+
+          res.setHeader('Set-Cookie', tokenCookie);
+          res.setHeader('Set-Cookie', dataCookie);
 
           // Reset the flag so this logic doesn't run on subsequent requests, refreshes, or HMR
           isFirstRequestAfterStartup = false;

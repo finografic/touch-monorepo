@@ -1,6 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import { modeSchemas } from 'db/schemas/modes.schema';
-import { notFoundSchema } from 'lib/constants';
+import { notFoundSchema } from 'lib/zod.errors';
 import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import { IdParamsSchema } from 'schemas/params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';

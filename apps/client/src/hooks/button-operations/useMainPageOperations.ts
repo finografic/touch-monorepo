@@ -155,7 +155,6 @@ export const useMainPageOperations = () => {
             orderId: createCuid(),
             flowType: FLOW_TYPES.PROGRAM_PRODUCT,
             duration,
-            remaining: duration,
             status: 'processing',
             completionTime: new Date(Date.now() + duration * 1000).toISOString(),
           });

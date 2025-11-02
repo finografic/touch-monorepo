@@ -17,7 +17,7 @@ import { mkdir, readdir, readFile, stat, unlink, writeFile } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
 import { Buffer } from 'buffer';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import { slugify } from 'utils/string.utils';
 
 import { CONFIG_PATHS, UPLOAD_PATHS } from '../../constants/paths.constants.js';

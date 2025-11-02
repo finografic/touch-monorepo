@@ -10,7 +10,7 @@ import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
 import { db } from 'db';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import { eq } from 'drizzle-orm';
 
 // @ts-ignore - Avoiding complex type inference issue

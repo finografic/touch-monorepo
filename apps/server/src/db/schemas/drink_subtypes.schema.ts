@@ -2,7 +2,7 @@ import createCuid from '@bugsnag/cuid';
 import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { drink_types } from './drink_types.schema';
-import { sqliteBooleanField } from '../../lib/zod-utils';
+import { sqliteBooleanField } from '../../lib/zod.utils';
 
 // Drink subtypes table (for beers: Rubia, Negra, etc.)
 export const drink_subtypes = sqliteTable('drink_subtypes', {

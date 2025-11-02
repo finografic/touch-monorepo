@@ -13,7 +13,7 @@ import { db } from 'db';
 import { modes } from 'db/schemas';
 import { eq } from 'drizzle-orm';
 import type { ModeEntity } from 'types/entities';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 

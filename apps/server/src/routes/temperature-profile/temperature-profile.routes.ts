@@ -2,7 +2,7 @@ import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { temperatureProfileSchemas } from 'db/schemas/temperature_profiles.schema';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
-import { notFoundSchema } from 'lib/constants';
+import { notFoundSchema } from 'lib/zod.errors';
 import { IdUuidParamsSchema } from 'schemas/id-uuid-params.schema';
 import { createErrorSchema, IdParamsSchema } from 'stoker/openapi/schemas';
 

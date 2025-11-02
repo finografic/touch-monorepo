@@ -1,6 +1,6 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import { userSchemas } from 'db/schemas/auth_user.schema';
-import { notFoundSchema } from 'lib/constants';
+import { notFoundSchema } from 'lib/zod.errors';
 import { IdCuidParamsSchema } from 'schemas/id-cuid-params.schema';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';

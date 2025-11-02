@@ -14,7 +14,7 @@
       "constants/*": ["./src/constants/*"],
       "db": ["./src/db"],
       "db/*": ["./src/db/*"],
-      "env": ["./src/env"],
+      "env.server": ["./src/env.server.ts"],
       "i18n/*": ["./src/i18n/*"],
       "lib/*": ["./src/lib/*"],
       "middlewares/*": ["./src/middlewares/*"],

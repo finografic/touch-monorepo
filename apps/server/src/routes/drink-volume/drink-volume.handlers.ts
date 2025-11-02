@@ -4,7 +4,7 @@ import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } fro
 import { db } from 'db';
 import { volumes } from 'db/schemas/volumes.schema';
 import { eq } from 'drizzle-orm';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/constants';
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
