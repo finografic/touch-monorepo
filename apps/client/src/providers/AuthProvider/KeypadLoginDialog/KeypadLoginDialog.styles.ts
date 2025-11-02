@@ -48,6 +48,55 @@ export const styles = css`
         font-size: 0.75rem;
       }
     }
+
+    .password-input-wrapper {
+      position: relative;
+      width: 100%;
+
+      .password-input-overlay {
+        position: absolute;
+        width: 100%;
+        color: transparent;
+        caret-color: transparent;
+        background: transparent;
+        border: 2px solid ${colors.grey};
+        border-radius: 8px;
+        padding: 12px 16px;
+        font-size: 16px;
+        z-index: 2;
+        top: 0;
+        left: 0;
+
+        &:focus {
+          outline: none;
+          border-color: ${colors.info};
+          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+        }
+      }
+
+      .password-display-mask {
+        position: relative;
+        width: 100%;
+        pointer-events: none;
+        z-index: 1;
+        padding: 12px 16px;
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-family: inherit;
+        color: ${colors.text};
+        border: 2px solid transparent;
+        border-radius: 8px;
+        letter-spacing: 0.3em;
+      }
+    }
   }
 `;
 

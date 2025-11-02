@@ -78,7 +78,7 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
     title: '',
     size: '2',
     maxWidth: '270px',
-    maxHeight: '60vh',
+    maxHeight: '500px',
     minHeight: '220px',
     minWidth: '220px',
     theme: {
@@ -90,7 +90,7 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
       {
         id: 'admin',
         label: 'Admin',
-        icon: <UserLockIcon />,
+        // icon: <UserLockIcon />,
         content: (
           <KeypadLoginTabContent
             activeTab={activeTab}
