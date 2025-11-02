@@ -60,7 +60,8 @@ export const keypadStyles = css`
   .keypad-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: repeat(4, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    /* grid-template-rows: repeat(4, 1fr); */
     gap: 0.8rem;
     width: 100%;
     max-width: 300px;

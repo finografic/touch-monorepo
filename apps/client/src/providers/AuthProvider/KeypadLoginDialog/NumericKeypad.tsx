@@ -142,7 +142,7 @@ export const NumericKeypad: React.FC<NumericKeypadProps> = ({
         </Button>
 
         {/* Row 4: *, 0, # */}
-        <Button
+        {/* <Button
           type="button"
           variant="outline"
           color="default"
@@ -153,8 +153,8 @@ export const NumericKeypad: React.FC<NumericKeypadProps> = ({
           title="Backspace"
         >
           ⌫
-        </Button>
-        <Button
+        </Button> */}
+        {/* <Button
           type="button"
           variant="outline"
           color="default"
@@ -164,8 +164,8 @@ export const NumericKeypad: React.FC<NumericKeypadProps> = ({
           className="keypad-button"
         >
           0
-        </Button>
-        <Button
+        </Button> */}
+        {/* <Button
           type="button"
           variant="outline"
           color="default"
@@ -175,7 +175,7 @@ export const NumericKeypad: React.FC<NumericKeypadProps> = ({
           title="Reserved"
         >
           #
-        </Button>
+        </Button> */}
       </div>
     </div>
   );
