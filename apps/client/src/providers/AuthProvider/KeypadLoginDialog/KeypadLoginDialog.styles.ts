@@ -5,7 +5,8 @@ import { colors } from 'styles';
 export const styles = css`
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
+  /* gap: 1.5rem;
+  gap: 1rem; */
   justify-content: center;
   align-items: center;
   margin-top: 1.25rem;
@@ -35,6 +36,11 @@ export const styles = css`
     flex-direction: column;
     gap: 0.5rem;
     width: 100%;
+    padding: 0.25rem 0 0;
+    margin-bottom: 0.1rem;
+    border: 1px solid red;
+    /* justify-content: center;
+    align-items: center; */
 
     .label {
       font-size: 0.875rem;
@@ -98,6 +104,10 @@ export const styles = css`
       }
     }
   }
+
+  form {
+    gap: 0.9rem !important;
+  }
 `;
 
 export const keypadStyles = css`
@@ -110,7 +120,6 @@ export const keypadStyles = css`
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    /* grid-template-rows: repeat(4, 1fr); */
     gap: 0.8rem;
     width: 100%;
     max-width: 300px;

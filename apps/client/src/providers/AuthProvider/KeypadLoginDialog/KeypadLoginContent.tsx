@@ -129,10 +129,6 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
       <div className="form-wrapper">
         <form className="form" onSubmit={onSubmit}>
           <div className="input-group">
-            <label className="label" htmlFor="password">
-              Password
-              <span className="hint">4 digits</span>
-            </label>
             <div className="password-input-wrapper">
               {/* Transparent input for actual value - allows keyboard input */}
               <input

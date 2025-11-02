@@ -7,7 +7,6 @@ import { useToast } from 'components/Toast/ToastContext';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { KeypadLoginTabContent } from './KeypadLoginContent';
-import { UserLockIcon } from 'styles/icons';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
