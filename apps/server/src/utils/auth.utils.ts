@@ -1,4 +1,6 @@
-import { COOKIES } from '@workspace/config/cookies.config';
+import { env } from 'env.server';
+
+const { TOKEN_COOKIE } = env.COOKIES;
 
 type CookieSameSite = 'Strict' | 'Lax' | 'None';
 
@@ -37,7 +39,7 @@ export function buildCookieHeader(name: string, value: string, opts: CookieOptio
 /**
  * Generates a deletion cookie header with matching attributes.
  */
-export function buildDeleteCookieHeader(name = COOKIES.TOKEN_COOKIE): string {
+export function buildDeleteCookieHeader(name = TOKEN_COOKIE): string {
   const secure = process.env.NODE_ENV === 'production';
   const sameSite: CookieSameSite = 'Lax';
 

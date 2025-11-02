@@ -1,7 +1,7 @@
 import Database from 'better-sqlite3';
 import chalk from 'chalk';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
-import { env } from '../env.server';
+import { env } from 'env.server';
 import * as schema from './schemas';
 import path, { dirname } from 'path';
 import { fileURLToPath } from 'url';

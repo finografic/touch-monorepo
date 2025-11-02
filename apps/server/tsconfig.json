@@ -14,7 +14,7 @@
       "constants/*": ["./src/constants/*"],
       "db": ["./src/db"],
       "db/*": ["./src/db/*"],
-      "env.server": ["./src/env.server.ts"],
+      "env.server": ["./env.server.ts"],
       "i18n/*": ["./src/i18n/*"],
       "lib/*": ["./src/lib/*"],
       "middlewares/*": ["./src/middlewares/*"],
@@ -55,6 +55,6 @@
       "path": "../../packages/core"
     }
   ],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "env.server.ts"],
   "exclude": ["node_modules", "dist", "**/__tests__/**", "**/*.test.ts", "**/*.spec.ts"]
 }

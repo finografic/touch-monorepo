@@ -30,7 +30,7 @@ const ServerEnvSchema = z
     DB_PATH: process.env.DB_PATH || path.resolve(paths.data.dir, env.DB_NAME),
   }));
 
-const envServer = ServerEnvSchema.parse({
+const envServerValidated = ServerEnvSchema.parse({
   // Database
   DB_HOST: process.env.DB_HOST,
   DB_USER: process.env.DB_USER,
@@ -54,9 +54,9 @@ const envServer = ServerEnvSchema.parse({
     : undefined,
 });
 
-export const env = {
-  ...envShared,
-  ...envServer,
-} as const;
+type EnvServer = typeof envShared & typeof envServerValidated;
 
-export type EnvServer = typeof env;
+export const env: EnvServer = {
+  ...envShared,
+  ...envServerValidated,
+} as const satisfies EnvServer;

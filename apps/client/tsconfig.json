@@ -47,8 +47,7 @@
       "utils/*": ["./src/utils/*"],
       // Custom aliases for specific use cases
       "@workspace/i18n/flags/images": ["./src/components/LanguageSelector/languages/images"],
-      "@workspace/i18n/flags/images/*": ["./src/components/LanguageSelector/languages/images/*"],
-      "@workspace/config/cookies.config": ["./src/config/cookies.config.ts"]
+      "@workspace/i18n/flags/images/*": ["./src/components/LanguageSelector/languages/images/*"]
     },
     "resolveJsonModule": true,
     "allowImportingTsExtensions": true,

@@ -76,7 +76,7 @@ const SharedEnvSchema = z
     ].join('; '),
   }));
 
-export const envShared = SharedEnvSchema.parse({
+export const envSharedValidated = SharedEnvSchema.parse({
   NODE_ENV: process.env.NODE_ENV,
   API_PROTOCOL: process.env.API_PROTOCOL,
   API_HOST: process.env.API_HOST,
@@ -90,12 +90,7 @@ export const envShared = SharedEnvSchema.parse({
   BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
   AUTH_COOKIE_PREFIX: process.env.AUTH_COOKIE_PREFIX,
   AUTH_COOKIE_SUFFIX: process.env.AUTH_COOKIE_SUFFIX,
-  // COOKIES: {
-  //   COOKIE_PREFIX: process.env.AUTH_COOKIE_PREFIX, // remains if 'session_token' is removed is set
-  //   TOKEN_COOKIE: `${process.env.AUTH_COOKIE_PREFIX}.${process.env.TOKEN_COOKIE_SUFFIX}`, // remains if 'session_token' is removed is set
-  //   DATA_COOKIE: `${process.env.AUTH_COOKIE_PREFIX}.${process.env.DATA_COOKIE_SUFFIX}`, // remains if 'session_token' is removed is set
-  // },
-  // INLANG_GOOGLE_TRANSLATE_API_KEY: process.env.INLANG_GOOGLE_TRANSLATE_API_KEY,
+  //
   RELAY_ENABLED: process.env.RELAY_ENABLED === 'true',
   RELAY_PORT: process.env.RELAY_PORT,
   RELAY_BAUD_RATE: Number(process.env.RELAY_BAUD_RATE),
@@ -105,4 +100,8 @@ export const envShared = SharedEnvSchema.parse({
     : undefined,
 });
 
-export type EnvShared = typeof envShared;
+export type EnvShared = typeof envSharedValidated;
+
+export const envShared: EnvShared = {
+  ...envSharedValidated,
+} as const satisfies EnvShared;

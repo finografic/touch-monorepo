@@ -3,8 +3,7 @@ import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin } from 'better-auth/plugins';
 import { db } from 'db';
 import { account, session, user, verification } from '../db/schemas';
-import { env } from '../env.server';
-// import { COOKIES } from '@workspace/config/cookies.config';
+import { env } from 'env.server';
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {

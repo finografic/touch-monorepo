@@ -1,4 +1,4 @@
-import { env } from '../env.server';
+import { env } from 'env.server';
 
 export const relayConfig = {
   enabled: env.RELAY_ENABLED,
