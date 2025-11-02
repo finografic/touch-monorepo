@@ -2,7 +2,25 @@ import { z } from 'zod';
 import { config } from '@dotenvx/dotenvx';
 import path from 'node:path';
 import fs from 'node:fs';
-import { findRootDir } from './env.utils';
+
+export const findRootDir = (): string => {
+  let currentDir = process.cwd();
+
+  while (currentDir !== path.parse(currentDir).root) {
+    if (fs.existsSync(path.join(currentDir, 'pnpm-workspace.yaml'))) {
+      return currentDir;
+    }
+    if (fs.existsSync(path.join(currentDir, 'package.json'))) {
+      const pkg = JSON.parse(fs.readFileSync(path.join(currentDir, 'package.json'), 'utf8'));
+      if (pkg.name === 'touch-monorepo') {
+        return currentDir;
+      }
+    }
+    currentDir = path.dirname(currentDir);
+  }
+
+  return process.cwd();
+};
 
 const rootDir = findRootDir();
 const NODE_ENV_VALUE = process.env.NODE_ENV || 'development';

@@ -10,9 +10,6 @@
       "import": "./env.shared.ts",
       "types": "./env.shared.ts"
     },
-    "./env.utils": {
-      "import": "./env.utils.ts"
-    },
     "./i18n.config": {
       "import": "./i18n.config.ts"
     },

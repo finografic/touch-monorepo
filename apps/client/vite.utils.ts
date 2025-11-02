@@ -1,11 +1,13 @@
 import chalk from 'chalk';
 import type { Plugin, UserConfig } from 'vite';
 
-export function logApiURL({ mode }: Pick<UserConfig, 'mode'>) {
-  const currentMode = mode || process.env.NODE_ENV || 'development';
-  const apiUrl = 'http://localhost:4040/api';
+import { envClient } from './env.client';
 
-  console.log(chalk.cyan.dim(`[API ${currentMode}]`), chalk.cyan.dim(apiUrl));
+export function logApiURL({ mode }: Pick<UserConfig, 'mode'>) {
+  console.log(
+    chalk.cyan.dim(`[API ${mode || envClient.NODE_ENV || 'development'}]`),
+    chalk.cyan.dim(envClient.API_URL),
+  );
 }
 
 export function devCookieClearPlugin(): Plugin {

@@ -6,11 +6,13 @@ const ClientEnvSchema = z.object({
   VITE_APP_NAME: z.string().default('ServiFresh'),
 });
 
-const clientVars = ClientEnvSchema.parse(import.meta.env);
+const envClientValidated = ClientEnvSchema.parse({
+  // VITE_APP_NAME: import.meta.env.VITE_APP_NAME,
+});
 
 export const envClient = {
   ...envShared,
-  ...clientVars,
+  ...envClientValidated,
 } as const;
 
 export type EnvClient = typeof envClient;

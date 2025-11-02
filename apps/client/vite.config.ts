@@ -1,24 +1,17 @@
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
-import chalk from 'chalk';
 import { resolve } from 'path';
 import { defineConfig, type UserConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-import { devCookieClearPlugin, logApiURL } from './src/utils/vite.utils';
 import { envClient } from './env.client';
+import { devCookieClearPlugin, logApiURL } from './vite.utils';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
   const workspaceRoot = resolve(__dirname, '../..');
   // const viteEnv = loadEnv(mode as string, process.cwd(), '');
-
-  if (mode) {
-    console.log(
-      chalk.cyan.dim(`[API ${mode || envClient.NODE_ENV || 'development'}]`),
-      chalk.cyan.dim(envClient.API_URL),
-    );
-  }
+  logApiURL({ mode });
 
   return {
     css: {
