@@ -30,8 +30,6 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
   const hasTabs = config.tabs.length > 1;
   const currentTab = config.tabs.find((tab) => tab.id === activeTab) || config.tabs[0];
 
-  console.log('GenericDialog HAS_TABS:', hasTabs);
-
   const theme = {
     appearance: appTheme as 'light' | 'dark', // Use app theme instead of hardcoded dark
     scaling: '100%' as const,

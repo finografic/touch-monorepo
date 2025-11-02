@@ -21,7 +21,6 @@
  */
 export const forceDeleteAuthCookies = (): void => {
   console.log('%c🧹 [FORCE DELETE] Attempting client-side cookie deletion...', 'color:red');
-  document.cookie && console.log('📋 Current cookies:', document.cookie);
 
   const hostname = window.location.hostname;
   const COOKIES = process.env.COOKIES;
@@ -78,8 +77,6 @@ export const forceDeleteAuthCookies = (): void => {
     });
   });
 
-  console.log(`🔄 Attempting ${deletionStrategies.length} deletion strategies...`);
-
   // Attempt all deletion strategies
   deletionStrategies.forEach((deletion) => {
     document.cookie = deletion;
@@ -93,7 +90,6 @@ export const forceDeleteAuthCookies = (): void => {
 
   // Check results
   const cookiesAfter = document.cookie;
-  console.log('📋 Cookies after deletion attempt:', cookiesAfter);
 
   // Check if any auth-related cookies still exist
   const authCookiePatterns = [cookiePrefix, 'session', 'auth', '__Secure-', '__Host-'];
@@ -104,10 +100,6 @@ export const forceDeleteAuthCookies = (): void => {
 
   if (remainingAuthCookies.length > 0) {
     console.warn('%c⚠️  Some cookies still exist (likely HttpOnly):', 'color:orange', remainingAuthCookies);
-    console.info('%c💡 HttpOnly cookies can ONLY be deleted by the server', 'color:cyan');
-    console.info('%c🔒 Use the sign-out endpoint to delete HttpOnly cookies', 'color:cyan');
-  } else {
-    console.log('%c✅ All accessible cookies cleared', 'color:green');
   }
 };
 
@@ -136,7 +128,6 @@ export const clearAllAuthCookiesServer = async (): Promise<boolean> => {
     });
 
     if (response.ok) {
-      console.log('✅ Server cookie deletion successful');
       // Also run client-side cleanup for non-HttpOnly cookies
       forceDeleteAuthCookies();
       return true;
@@ -150,12 +141,4 @@ export const clearAllAuthCookiesServer = async (): Promise<boolean> => {
     forceDeleteAuthCookies();
     return false;
   }
-};
-
-/**
- * Legacy function for backwards compatibility
- * @deprecated Use clearAllAuthCookiesServer() or forceDeleteAuthCookies() instead
- */
-export const clearAuthSessionToken = (): void => {
-  forceDeleteAuthCookies();
 };

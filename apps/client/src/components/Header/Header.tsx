@@ -39,10 +39,9 @@ export const Header: React.FC<HeaderProps> = ({
   const location = useLocation();
   const { user, isAuthenticated, session } = useAuth();
 
-  useEffect(
-    () => log('🚹 USER:', 'skyblue', { isAuthenticated, role: user?.role, session }, user),
-    [isAuthenticated, user?.role, user],
-  );
+  useEffect(() => {
+    user && log('🚹 USER:', 'skyblue', { isAuthenticated, role: user?.role, session }, user);
+  }, [isAuthenticated, user?.role, user]);
 
   const { left, center, right } = useMemo((): HeaderColumnWidths => {
     // (empty) | (title) | (toolbar)
