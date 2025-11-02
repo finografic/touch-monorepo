@@ -78,34 +78,42 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
   }, [password, onPasswordChange]);
 
   // Prevent keyboard input of non-numeric characters
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    // Allow: backspace, delete, tab, escape, enter, arrow keys
-    if (
-      [
-        'Backspace',
-        'Delete',
-        'Tab',
-        'Escape',
-        'Enter',
-        'ArrowLeft',
-        'ArrowRight',
-        'ArrowUp',
-        'ArrowDown',
-      ].includes(e.key)
-    ) {
-      return; // Allow these keys
-    }
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      // Handle backspace explicitly
+      if (e.key === 'Backspace' && password.length > 0) {
+        e.preventDefault();
+        const newValue = password.slice(0, -1);
+        onPasswordChange(newValue);
+        return;
+      }
 
-    // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
-    if (e.ctrlKey || e.metaKey) {
-      return;
-    }
+      // Handle delete key
+      if (e.key === 'Delete' && password.length > 0) {
+        e.preventDefault();
+        // For delete, treat it like backspace (delete last char)
+        const newValue = password.slice(0, -1);
+        onPasswordChange(newValue);
+        return;
+      }
 
-    // Block non-numeric keys
-    if (!/\d/.test(e.key)) {
-      e.preventDefault();
-    }
-  }, []);
+      // Allow: tab, escape, enter, arrow keys
+      if (['Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
+        return; // Allow these keys
+      }
+
+      // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+      if (e.ctrlKey || e.metaKey) {
+        return;
+      }
+
+      // Block non-numeric keys
+      if (!/\d/.test(e.key)) {
+        e.preventDefault();
+      }
+    },
+    [password, onPasswordChange],
+  );
 
   // Handle paste - only allow numeric characters
   const handlePaste = useCallback(
