@@ -40,7 +40,7 @@ export const styles = css`
       }
 
       .close-button {
-        transform: translate(0.25rem, 0rem);
+        transform: translate(0.5rem, 0rem);
         color: ${colors.textLight};
         &:hover {
           color: ${colors.warningLight};

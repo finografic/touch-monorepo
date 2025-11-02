@@ -11,6 +11,8 @@ export const styles = css`
   align-items: center;
   margin-top: 1.25rem;
 
+  overflow: hidden;
+
   .submit-button {
     width: 100%;
     color: ${colors.white};
@@ -38,9 +40,6 @@ export const styles = css`
     width: 100%;
     padding: 0.25rem 0 0;
     margin-bottom: 0.1rem;
-    border: 1px solid red;
-    /* justify-content: center;
-    align-items: center; */
 
     .label {
       font-size: 0.875rem;
@@ -100,13 +99,16 @@ export const styles = css`
         color: ${colors.text};
         border: 2px solid transparent;
         border-radius: 8px;
-        letter-spacing: 0.3em;
+        letter-spacing: 0.15em;
+        input {
+          border: 2px solid ${colors.greyXXLight75}!important;
+        }
       }
     }
   }
 
   form {
-    gap: 0.9rem !important;
+    gap: 1.1rem;
   }
 `;
 
