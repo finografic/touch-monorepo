@@ -23,6 +23,7 @@
       "components/*": ["./src/components/*"],
       "config": ["./src/config"],
       "config/*": ["./src/config/*"],
+      "envClient": ["./src/config/envClient.ts"],
       "constants/*": ["./src/constants/*"],
       "dev-tools": ["./src/dev-tools"],
       "dev-tools/*": ["./src/dev-tools/*"],

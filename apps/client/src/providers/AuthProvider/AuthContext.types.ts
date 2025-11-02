@@ -1,16 +1,20 @@
 import type { ReactNode } from 'react';
 
-import type { Session } from 'better-auth/types';
-
-import type { User } from 'types/models/auth.model';
+// import type { Session } from 'better-auth/types';
 import type { CreateSettersType } from 'utils/zustand';
 
-import type { AuthReturnParams, AuthSignInParams, AuthSignUpParams } from './auth.types';
+import type {
+  AuthReturnParams,
+  AuthSessionData,
+  AuthSignInParams,
+  AuthSignUpParams,
+  AuthUser,
+} from './auth.types';
 import type { AuthKeys, SETTER_PREFIX } from './AuthContext';
 
 export interface AuthValues {
-  [AuthKeys.user]: User | null;
-  [AuthKeys.session]: (Omit<Session, 'user'> & { user: User }) | null;
+  [AuthKeys.user]: AuthUser | null;
+  [AuthKeys.session]: AuthSessionData | null;
   [AuthKeys.isLoading]: boolean;
   [AuthKeys.isAuthenticated]: boolean;
   [AuthKeys.role]: 'public' | 'user' | 'admin';
@@ -23,7 +27,7 @@ type AuthActions = AuthSetters & {
   signUp: (params: AuthSignUpParams) => Promise<AuthReturnParams>;
   signIn: (params: AuthSignInParams) => Promise<AuthReturnParams>;
   signOut: () => Promise<AuthReturnParams>;
-  setSession: (session: Session | null) => void;
+  setSession: (session: AuthSessionData | null) => void;
   setLoading: (isLoading: boolean) => void;
   refreshSession: () => Promise<void>;
   openLoginDialog: () => void;

@@ -3,7 +3,7 @@ import type { RegionLocale } from '@workspace/i18n';
 import type { ValidGridSize } from 'types/menu.types';
 import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
 
-import envClient from 'config/env';
+import envClient from 'config/envClient';
 
 export const DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format
 export const FORCE_DEFAULT_LANGUAGE: RegionLocale = 'es-ES' as const; // Updated to locale format

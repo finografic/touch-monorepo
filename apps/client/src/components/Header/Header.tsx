@@ -44,11 +44,11 @@ export const Header: React.FC<HeaderProps> = ({
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, session } = useAuth();
   // const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   useEffect(
-    () => log('🚹 USER:', 'skyblue', { isAuthenticated, role: user?.role }, user),
+    () => log('🚹 USER:', 'skyblue', { isAuthenticated, role: user?.role, session }, user),
     [isAuthenticated, user?.role, user],
   );
 

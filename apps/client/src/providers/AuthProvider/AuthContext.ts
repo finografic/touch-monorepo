@@ -23,11 +23,29 @@ import { authClient } from 'lib/auth-client';
 import { clearAuthSessionToken } from 'utils/auth.utils';
 import { createSetters, createZustandContext } from 'utils/zustand';
 
-import type { AuthSignInParams, AuthSignUpParams } from './auth.types';
+import type {
+  AuthSessionData,
+  AuthSignInParams,
+  AuthSignUpParams,
+  AuthUser,
+  AuthUserResult,
+} from './auth.types';
 import type { AuthStore, AuthValues } from './AuthContext.types';
 
 export const DISPLAY_NAME = 'Auth';
 export const SETTER_PREFIX = '';
+
+const SESSION_KEYS = {
+  expiresAt: '2025-12-02T10:27:54.000Z',
+  token: 'c5FrCMep5yNPGi3Q3THb2wGfk41jrQ59',
+  createdAt: '2025-11-02T10:27:54.000Z',
+  updatedAt: '2025-11-02T10:27:54.000Z',
+  ipAddress: '',
+  userAgent:
+    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36',
+  userId: 'b5224042-c26f-42ac-ad26-d31bc8f5f67a',
+  id: '33eda23c-5578-46ac-be9d-8a4e9db475b4',
+};
 
 export enum AuthKeys {
   user = 'user',
@@ -85,13 +103,27 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             set({ isLoading: false });
 
             if (result.data?.user) {
-              // Better Auth returns user without role by default, we need to cast/transform
-              const userRole = (result.data.user as any).role || 'user';
+              const dataUser = result.data.user as AuthUserResult;
+              const userRole = dataUser.role || 'user';
+
+              const user: AuthUser = {
+                ...dataUser,
+                role: dataUser.role || 'user',
+                createdAt: dataUser.createdAt.getTime(),
+                updatedAt: dataUser.updatedAt.getTime(),
+              } as AuthUser;
+
+              const session: AuthSessionData = {
+                redirect: result.data.redirect,
+                token: result.data.token,
+                user,
+              };
+
               set({
-                session: result.data as any, // Better Auth session structure
-                user: { ...result.data.user, role: userRole } as any,
+                session, // Better Auth session structure
+                user,
                 isAuthenticated: true,
-                role: userRole as 'admin' | 'user',
+                role: userRole,
                 isLoading: false,
               });
 
