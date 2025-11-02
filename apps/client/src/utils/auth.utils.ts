@@ -20,8 +20,6 @@
  * - Cleanup after failed authentication attempts
  */
 export const forceDeleteAuthCookies = (): void => {
-  console.log('%c🧹 [FORCE DELETE] Attempting client-side cookie deletion...', 'color:red');
-
   const hostname = window.location.hostname;
   const COOKIES = process.env.COOKIES;
   const cookiePrefix = COOKIES.COOKIE_PREFIX; // "touch-monorepo"
@@ -117,7 +115,7 @@ export const forceDeleteAuthCookies = (): void => {
  */
 export const clearAllAuthCookiesServer = async (): Promise<boolean> => {
   try {
-    console.log('🧨 [NUCLEAR] Calling server to delete all auth cookies...');
+    console.log('%c🧨 [NUCLEAR] Calling server to delete all auth cookies...', 'color:grey');
 
     const response = await fetch(`${process.env.API_BASE_URL}/api/auth/clear-all-cookies`, {
       method: 'POST',
