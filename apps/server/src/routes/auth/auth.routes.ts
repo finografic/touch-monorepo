@@ -1,11 +1,12 @@
+import { AUTH_COOKIE_NAME, COOKIE_ATTRIBUTES_SECURE } from 'config/auth.config';
 import { auth } from 'lib/auth';
 import { createRouter } from 'lib/create-app';
 
 const router = createRouter();
 
-// ============================================
+// ======================================================
 // Explicit Auth Routes (Required for Hono routing)
-// ============================================
+// ======================================================
 
 /**
  * Get current session
@@ -52,12 +53,17 @@ router.post('/auth/sign-out', async (context) => {
     // Create response with explicit cookie deletion
     const response = context.json(result);
 
+    /*
+    // TODO: REMOVE..
     // Explicitly delete the session cookie
     // This ensures the browser removes it even if BetterAuth's Set-Cookie doesn't work
     response.headers.set(
       'Set-Cookie',
       'touch-monorepo.session_token=; Max-Age=0; Path=/; HttpOnly; SameSite=None; Secure',
     );
+    */
+
+    response.headers.set('Set-Cookie', `${AUTH_COOKIE_NAME}=; ${COOKIE_ATTRIBUTES_SECURE}`);
 
     return response;
   } catch (error) {
@@ -68,10 +74,15 @@ router.post('/auth/sign-out', async (context) => {
 
     // Even on error, try to clear the cookie
     const response = context.json({ error: 'Sign out failed' }, 500);
+
+    /*
+        // TODO: REMOVE..
     response.headers.set(
       'Set-Cookie',
       'touch-monorepo.session_token=; Max-Age=0; Path=/; HttpOnly; SameSite=None; Secure',
     );
+    */
+    response.headers.set('Set-Cookie', `${AUTH_COOKIE_NAME}=; ${COOKIE_ATTRIBUTES_SECURE}`);
 
     return response;
   }
