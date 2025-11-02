@@ -16,6 +16,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
 
   // Resolve paths relative to workspace root
   const workspaceRoot = resolve(__dirname, '../..');
+  // const workspaceRoot = paths.root;
 
   // Load environment variables from shared env configuration
   const envVars = {
