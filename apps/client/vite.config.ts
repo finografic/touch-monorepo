@@ -4,19 +4,18 @@ import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import { resolve } from 'path';
-import { defineConfig, loadEnv, type UserConfig } from 'vite';
+import { defineConfig, type UserConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 import { devCookieClearPlugin, logApiURL } from './src/utils/vite.utils';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
-  const viteEnv = loadEnv(mode as string, process.cwd(), '');
+  // const viteEnv = loadEnv(mode as string, process.cwd(), '');
 
   if (mode) logApiURL({ mode });
 
   // Resolve paths relative to workspace root
   const workspaceRoot = resolve(__dirname, '../..');
-  // const workspaceRoot = paths.root;
 
   // Load environment variables from shared env configuration
   const envVars = {
@@ -89,7 +88,6 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
       alias: {
         '@workspace/core/types': resolve(workspaceRoot, 'packages/core/src/types'),
         '@workspace/core/types/utils': resolve(workspaceRoot, 'packages/core/src/types/utils'),
-        // Point to SOURCE files for HMR during development
         '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src/index.ts'),
         '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators/index.ts'),
         'i18n/utils': resolve(__dirname, 'src/i18n/utils/index.ts'),
