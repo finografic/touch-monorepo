@@ -3,11 +3,12 @@
   "type": "module",
   "main": "index.ts",
   "exports": {
-    "./*": {
+    ".": {
       "import": "./index.ts"
     },
     "./env.shared": {
-      "import": "./env.shared.ts"
+      "import": "./env.shared.ts",
+      "types": "./env.shared.ts"
     },
     "./i18n.config": {
       "import": "./i18n.config.ts"

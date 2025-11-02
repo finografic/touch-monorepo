@@ -1,4 +1,4 @@
-import { envShared, paths } from '@workspace/config';
+import { envShared } from '@workspace/config/env.shared';
 
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
@@ -15,7 +15,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
   if (mode) logApiURL({ mode });
 
   // Resolve paths relative to workspace root
-  // const paths.root = resolve(__dirname, '../..');
+  const workspaceRoot = resolve(__dirname, '../..');
 
   // Load environment variables from shared env configuration
   const envVars = {
@@ -86,11 +86,11 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
       alias: {
-        '@workspace/core/types': resolve(paths.root, 'packages/core/src/types'),
-        '@workspace/core/types/utils': resolve(paths.root, 'packages/core/src/types/utils'),
+        '@workspace/core/types': resolve(workspaceRoot, 'packages/core/src/types'),
+        '@workspace/core/types/utils': resolve(workspaceRoot, 'packages/core/src/types/utils'),
         // Point to SOURCE files for HMR during development
-        '@workspace/i18n': resolve(paths.root, 'packages/i18n/src/index.ts'),
-        '@workspace/i18n/generators': resolve(paths.root, 'packages/i18n/src/generators/index.ts'),
+        '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src/index.ts'),
+        '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators/index.ts'),
         'i18n/utils': resolve(__dirname, 'src/i18n/utils/index.ts'),
         'i18n/messages.js': resolve(__dirname, 'src/i18n/messages/messages.js'),
         'i18n/runtime.js': resolve(__dirname, 'src/i18n/messages/runtime.js'),
