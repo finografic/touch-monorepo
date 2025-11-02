@@ -43,6 +43,17 @@ const SharedEnvSchema = z
     CLIENT_PROTOCOL: z.enum(['http', 'https']).default('http'),
     CLIENT_HOST: z.string().default('localhost'),
     CLIENT_PORT: z.number().default(3000),
+    //
+    BETTER_AUTH_SECRET: z.string().default(''),
+    BETTER_AUTH_URL: z.string().default(''),
+    AUTH_COOKIE_PREFIX: z.string().default('touch-monorepo'),
+    AUTH_COOKIE_SUFFIX: z.string().default('auth_token'),
+    INLANG_GOOGLE_TRANSLATE_API_KEY: z.string().optional().default(''),
+    // Relay board configuration
+    RELAY_ENABLED: z.boolean().default(false),
+    RELAY_PORT: z.string().default(''),
+    RELAY_BAUD_RATE: z.number().default(9600),
+    RELAY_TIMEOUT: z.number().optional().default(5000),
   })
   .transform((env) => ({
     ...env,
@@ -60,6 +71,21 @@ export const envShared = SharedEnvSchema.parse({
   CLIENT_ORIGIN: process.env.ORIGIN,
   CLIENT_HOST: process.env.CLIENT_HOST,
   CLIENT_PORT: Number(process.env.CLIENT_PORT),
+  //
+  BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET,
+  BETTER_AUTH_URL: process.env.BETTER_AUTH_URL,
+  AUTH_COOKIE_PREFIX: process.env.AUTH_COOKIE_PREFIX,
+  AUTH_COOKIE_SUFFIX: process.env.AUTH_COOKIE_SUFFIX,
+  // INLANG_GOOGLE_TRANSLATE_API_KEY: process.env.INLANG_GOOGLE_TRANSLATE_API_KEY,
+  // Relay board configuration
+  RELAY_ENABLED: process.env.RELAY_ENABLED === 'true',
+  RELAY_PORT: process.env.RELAY_PORT,
+  RELAY_BAUD_RATE: Number(process.env.RELAY_BAUD_RATE),
+  RELAY_TIMEOUT: process.env.RELAY_TIMEOUT ? Number(process.env.RELAY_TIMEOUT) : undefined,
+  RELAY_RECONNECT_ATTEMPTS: process.env.RELAY_RECONNECT_ATTEMPTS
+    ? Number(process.env.RELAY_RECONNECT_ATTEMPTS)
+    : undefined,
+  // Client-specific env vars
 });
 
 export type EnvShared = typeof envShared;

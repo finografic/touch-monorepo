@@ -19,5 +19,14 @@
     "./paths": {
       "import": "./paths.ts"
     }
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "1.48.4",
+    "@workspace/core": "workspace:*",
+    "chalk": "5.3.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@types/node": "20.11.24"
   }
 }
