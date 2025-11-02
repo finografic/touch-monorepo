@@ -3,7 +3,7 @@ import type { ColorPalette } from 'styles/colors/palette.types';
 /**
  * Light theme color palette - actual hex values for CSS variable generation
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-11-02 -- 17:41:15
+ * 📅 Generated: 2025-11-02 -- 18:08:04
  *
  * Run: pnpm generate:themes to update this file
  *

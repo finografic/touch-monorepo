@@ -30,7 +30,7 @@ const app = createApp();
 app.use(
   '/*',
   cors({
-    origin: [envShared.CLIENT_ORIGIN],
+    origin: [envShared.CLIENT_ORIGIN || ''],
     allowMethods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     credentials: true,
   }),

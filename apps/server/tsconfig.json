@@ -8,25 +8,25 @@
     /* Bundler mode */
     "moduleResolution": "bundler",
     "paths": {
-      // Local package absolute imports
-      "config": ["./src/config"],
-      "config/*": ["./src/config/*"],
-      "constants/*": ["./src/constants/*"],
-      "db": ["./src/db"],
-      "db/*": ["./src/db/*"],
-      "env.server": ["./env.server.ts"],
-      "i18n/*": ["./src/i18n/*"],
-      "lib/*": ["./src/lib/*"],
-      "middlewares/*": ["./src/middlewares/*"],
-      "openapi/*": ["./src/openapi/*"],
-      "routes/*": ["./src/routes/*"],
-      "schemas": ["./src/schemas"],
-      "schemas/*": ["./src/schemas/*"],
-      "types": ["./src/types"],
-      "types/*": ["./src/types/*"],
-      "utils/*": ["./src/utils/*"],
+      // Local package absolute imports (relative to baseUrl: "./src")
+      "config": ["./config"],
+      "config/*": ["./config/*"],
+      "constants/*": ["./constants/*"],
+      "db": ["./db"],
+      "db/*": ["./db/*"],
+      "env.server": ["../env.server.ts"],
+      "i18n/*": ["./i18n/*"],
+      "lib/*": ["./lib/*"],
+      "middlewares/*": ["./middlewares/*"],
+      "openapi/*": ["./openapi/*"],
+      "routes/*": ["./routes/*"],
+      "schemas": ["./schemas"],
+      "schemas/*": ["./schemas/*"],
+      "types": ["./types"],
+      "types/*": ["./types/*"],
+      "utils/*": ["./utils/*"],
       // Monorepo root references
-      "drizzle.config": ["../../drizzle.config"]
+      "drizzle.config": ["../../../drizzle.config"]
     },
     "allowJs": true,
     /* Linting */
@@ -40,9 +40,9 @@
     "noUnusedParameters": false,
     // ------------------------------------------------------------------------ //
     "declaration": true,
-    "baseUrl": ".",
-    "outDir": "./dist",
-    "rootDir": "./src",
+    "baseUrl": "./src",
+    "outDir": "../dist",
+    "rootDir": ".",
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
@@ -58,6 +58,6 @@
       "path": "../../config"
     }
   ],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "env.server.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "./env.server.ts"],
   "exclude": ["node_modules", "dist", "**/__tests__/**", "**/*.test.ts", "**/*.spec.ts"]
 }

@@ -1,6 +1,6 @@
+import { env } from 'env.server';
 import { auth } from 'lib/auth';
 import { createRouter } from 'lib/create-app';
-import { env } from 'env.server';
 
 const { COOKIES, COOKIE_DELETE_ATTRIBUTES } = env;
 

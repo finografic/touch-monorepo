@@ -76,7 +76,7 @@ const SharedEnvSchema = z
     ].join('; '),
   }));
 
-export const envSharedValidated = SharedEnvSchema.parse({
+const envSharedValidated = SharedEnvSchema.parse({
   NODE_ENV: process.env.NODE_ENV,
   API_PROTOCOL: process.env.API_PROTOCOL,
   API_HOST: process.env.API_HOST,
@@ -105,3 +105,7 @@ export type EnvShared = typeof envSharedValidated;
 export const envShared: EnvShared = {
   ...envSharedValidated,
 } as const satisfies EnvShared;
+
+// export const envShared = {
+//   ...envSharedValidated,
+// } as EnvShared;
