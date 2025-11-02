@@ -14,8 +14,9 @@ export const styles = css`
   &.theme-light {
     .button-box button.button {
       svg.icon {
-        color: ${colors.defaultXLight};
-        border-color: ${colors.defaultXLight};
+        color: ${colors.greyXLight};
+        border-color: ${colors.greyXLight};
+        stroke: ${colors.greyXLight};
       }
       &:hover {
         cursor: pointer;

@@ -104,7 +104,7 @@ export const styles = css`
     display: flex;
     align-items: center;
     background-color: transparent;
-    margin-bottom: 2rem;
+    margin-bottom: 0rem;
   }
 
   .title {

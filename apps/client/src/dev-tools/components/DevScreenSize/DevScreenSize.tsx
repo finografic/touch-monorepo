@@ -5,7 +5,7 @@ import { Visible } from 'react-grid-system';
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';
 import { styles } from './DevScreenSize.styles';
 
-export const DevScreenSize = ({ variant = 'light' }: { variant?: 'light' | 'dark' }): ReactElement => {
+export const DevScreenSize = ({ variant = 'dark' }: { variant?: 'light' | 'dark' }): ReactElement => {
   if (import.meta.env.NODE_ENV === 'production') return <Fragment />;
 
   const { isDevScreenSizeVisible, setIsDevScreenSizeVisible } = useDev();
