@@ -1,7 +1,7 @@
 /**
  * Language and Internationalization Types
  * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated on 2025-11-01T23:19:00.493Z
+ * Generated on 2025-11-01T23:58:29.206Z
  */
 import { config } from '@workspace/config/i18n.config';
 

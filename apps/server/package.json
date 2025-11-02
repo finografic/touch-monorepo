@@ -8,6 +8,14 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./config": {
+      "types": "./dist/config/index.d.ts",
+      "import": "./dist/config/index.js"
+    },
+    "./config/*": {
+      "types": "./dist/config/*.d.ts",
+      "import": "./dist/config/*.js"
+    },
     "./db": {
       "types": "./dist/db/index.d.ts",
       "import": "./dist/db/index.js"
