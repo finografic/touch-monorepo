@@ -1,4 +1,4 @@
-import { AUTH_COOKIE_NAME, COOKIE_ATTRIBUTES_SECURE } from 'config/auth.config';
+import { AUTH_COOKIE_PREFIX, COOKIE_DELETE_ATTRIBUTES } from 'config/auth.config';
 import { auth } from 'lib/auth';
 import { createRouter } from 'lib/create-app';
 
@@ -37,10 +37,30 @@ router.get('/auth/session', async (context) => {
 });
 
 /**
+ * NOTE: The Two Cookies
+ *
+ * touch-monorepo.session_token
+ * - The actual authentication JWT token
+ * - Long-lived (30 days in your config)
+ * - Used for authentication
+ * - HttpOnly, Secure (in production)
+ *
+ * touch-monorepo.session_data
+ * - Cached session data (user info, roles, etc.)
+ * - Short-lived (5 minutes in your config)
+ * - Reduces database lookups for better performance
+ * - Automatically refreshed when expired
+ */
+
+/**
  * Sign out current user
  * Uses BetterAuth API for session invalidation + explicit cookie deletion
  */
 router.post('/auth/sign-out', async (context) => {
+  // Two cookies to delete (see NOTE above)
+  const tokenCookie = `${AUTH_COOKIE_PREFIX}.session_token=; ${COOKIE_DELETE_ATTRIBUTES}`;
+  const dataCookie = `${AUTH_COOKIE_PREFIX}.session_data=; ${COOKIE_DELETE_ATTRIBUTES}`;
+
   try {
     const result = await auth.api.signOut({
       headers: context.req.raw.headers,
@@ -53,17 +73,13 @@ router.post('/auth/sign-out', async (context) => {
     // Create response with explicit cookie deletion
     const response = context.json(result);
 
-    /*
-    // TODO: REMOVE..
-    // Explicitly delete the session cookie
-    // This ensures the browser removes it even if BetterAuth's Set-Cookie doesn't work
-    response.headers.set(
-      'Set-Cookie',
-      'touch-monorepo.session_token=; Max-Age=0; Path=/; HttpOnly; SameSite=None; Secure',
-    );
-    */
+    // Delete BOTH Better Auth cookies (session_token AND session_data)
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🍪 Deleting cookies:', { tokenCookie, dataCookie });
+    }
 
-    response.headers.set('Set-Cookie', `${AUTH_COOKIE_NAME}=; ${COOKIE_ATTRIBUTES_SECURE}`);
+    response.headers.append('Set-Cookie', tokenCookie);
+    response.headers.append('Set-Cookie', dataCookie);
 
     return response;
   } catch (error) {
@@ -72,17 +88,11 @@ router.post('/auth/sign-out', async (context) => {
       error,
     });
 
-    // Even on error, try to clear the cookie
+    // Even on error, try to clear both cookies
     const response = context.json({ error: 'Sign out failed' }, 500);
 
-    /*
-    // TODO: REMOVE..
-    response.headers.set(
-      'Set-Cookie',
-      'touch-monorepo.session_token=; Max-Age=0; Path=/; HttpOnly; SameSite=None; Secure',
-    );
-    */
-    response.headers.set('Set-Cookie', `${AUTH_COOKIE_NAME}=; ${COOKIE_ATTRIBUTES_SECURE}`);
+    response.headers.append('Set-Cookie', tokenCookie);
+    response.headers.append('Set-Cookie', dataCookie);
 
     return response;
   }

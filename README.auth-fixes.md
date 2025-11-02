@@ -160,3 +160,109 @@ baseURL: `${env.API_PROTOCOL}://${env.API_HOST}:${env.API_PORT}`
 
 This fix aligns the current project with the working configuration pattern.
 
+---
+
+## Additional Fix: Cookie Deletion on Sign Out
+
+### Problem
+
+When signing out, the server invalidates the session in the database, but **both cookies remain in the browser**.
+
+### Root Cause
+
+Better Auth creates **two cookies**:
+1. `touch-monorepo.session_token` - The authentication JWT
+2. `touch-monorepo.session_data` - Cached session data (when `cookieCache.enabled: true`)
+
+The sign-out endpoint was only attempting to delete one cookie, or had incorrect cookie deletion attributes.
+
+### Solution
+
+**File:** `apps/server/src/config/auth.config.ts`
+
+```typescript
+// Cookie deletion attributes - must match Better Auth's cookie settings exactly
+// except Max-Age=0 for deletion
+const isProduction = envShared.NODE_ENV === 'production';
+export const COOKIE_DELETE_ATTRIBUTES = [
+  'Max-Age=0',
+  'Path=/',
+  'HttpOnly',
+  `SameSite=Lax`,
+  ...(isProduction ? ['Secure'] : []),
+].join('; ');
+```
+
+**File:** `apps/server/src/routes/auth/auth.routes.ts`
+
+```typescript
+router.post('/auth/sign-out', async (context) => {
+  try {
+    const result = await auth.api.signOut({
+      headers: context.req.raw.headers,
+    });
+
+    const response = context.json(result);
+
+    // Delete BOTH Better Auth cookies (session_token AND session_data)
+    const tokenCookie = `${AUTH_COOKIE_PREFIX}.session_token=; ${COOKIE_DELETE_ATTRIBUTES}`;
+    const dataCookie = `${AUTH_COOKIE_PREFIX}.session_data=; ${COOKIE_DELETE_ATTRIBUTES}`;
+
+    response.headers.append('Set-Cookie', tokenCookie);
+    response.headers.append('Set-Cookie', dataCookie);
+
+    return response;
+  } catch (error) {
+    // Even on error, try to clear both cookies
+    const response = context.json({ error: 'Sign out failed' }, 500);
+
+    response.headers.append(
+      'Set-Cookie',
+      `${AUTH_COOKIE_PREFIX}.session_token=; ${COOKIE_DELETE_ATTRIBUTES}`
+    );
+    response.headers.append(
+      'Set-Cookie',
+      `${AUTH_COOKIE_PREFIX}.session_data=; ${COOKIE_DELETE_ATTRIBUTES}`
+    );
+
+    return response;
+  }
+});
+```
+
+### Key Points
+
+1. **Delete both cookies** - Both `session_token` and `session_data` must be cleared
+2. **Match cookie attributes** - Deletion attributes must match the original cookie settings (Path, HttpOnly, SameSite, Secure)
+3. **Use `Max-Age=0`** - This immediately expires the cookie
+4. **Use `headers.append()`** - Not `headers.set()` to send multiple Set-Cookie headers
+
+### Verification
+
+After sign out, check the following:
+
+#### 1. Server Console (Development Mode)
+
+```
+🔐 Sign out successful: { success: true }
+🍪 Deleting cookies: {
+  tokenCookie: 'touch-monorepo.session_token=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax',
+  dataCookie: 'touch-monorepo.session_data=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax'
+}
+```
+
+#### 2. Network Tab Response Headers
+
+```
+Set-Cookie: touch-monorepo.session_token=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+Set-Cookie: touch-monorepo.session_data=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+```
+
+#### 3. Application Tab > Cookies
+
+Both cookies should be **immediately removed** from the browser after sign out. Refresh the page to confirm they don't reappear.
+
+### ✅ Status: WORKING
+
+This fix has been tested and verified to successfully delete both Better Auth cookies on sign out.
+

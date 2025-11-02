@@ -35,18 +35,6 @@ import type { AuthStore, AuthValues } from './AuthContext.types';
 export const DISPLAY_NAME = 'Auth';
 export const SETTER_PREFIX = '';
 
-const SESSION_KEYS = {
-  expiresAt: '2025-12-02T10:27:54.000Z',
-  token: 'c5FrCMep5yNPGi3Q3THb2wGfk41jrQ59',
-  createdAt: '2025-11-02T10:27:54.000Z',
-  updatedAt: '2025-11-02T10:27:54.000Z',
-  ipAddress: '',
-  userAgent:
-    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36',
-  userId: 'b5224042-c26f-42ac-ad26-d31bc8f5f67a',
-  id: '33eda23c-5578-46ac-be9d-8a4e9db475b4',
-};
-
 export enum AuthKeys {
   user = 'user',
   session = 'session',
