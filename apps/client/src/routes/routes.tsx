@@ -90,7 +90,7 @@ export const routes: RouteObject[] = [
     ],
   },
   // ============================================== //
-  // Admin Routes - Protected by AuthDialogGuard
+  // Admin Routes - Protected
   // ============================================== //
   {
     path: '/admin',
@@ -99,7 +99,6 @@ export const routes: RouteObject[] = [
       {
         // Protected admin section
         element: <ProtectedRoutesByRole />,
-        // element: <Outlet />,
         children: [
           // DASHBOARD (accessible to all - index route)
           {
@@ -140,11 +139,6 @@ export const routes: RouteObject[] = [
                 id: 'order-edit',
                 element: <AdminOrdersPage />,
               },
-              // {
-              //   path: ':orderId',
-              //   id: 'order-edit',
-              //   element: <AdminOrdersPage />,
-              // },
             ],
           },
           {

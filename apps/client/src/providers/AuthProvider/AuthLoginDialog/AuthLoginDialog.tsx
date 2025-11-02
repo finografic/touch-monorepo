@@ -1,14 +1,13 @@
-import React, { type FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import type { FC } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useToast } from 'components/Toast/ToastContext';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
-import { cleanupDialogBodyAttributes } from 'utils/ui.utils';
-
 import { AuthLoginTabContent } from './AuthTabContent';
-import { UserIcon, UserLockIcon } from 'styles/icons';
+import { UserLockIcon } from 'styles/icons';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
@@ -19,7 +18,7 @@ interface AuthLoginDialogProps {
 }
 
 export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
-  const { isAuthenticated, refreshSession, isLoginDialogOpen, closeLoginDialog, signIn, signOut } = useAuth();
+  const { refreshSession, isLoginDialogOpen, closeLoginDialog, signIn, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const { toast } = useToast();
@@ -122,39 +121,6 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
       },
     ],
   };
-
-  // ======================================================================== //
-  // 🧹 Cleanup: Only run when dialog is actually closed
-  // Track previous state to detect close events (not open events)
-
-  /*
-  // TODO: NECESSARY ???
-  const prevIsOpenRef = useRef(isLoginDialogOpen);
-
-  useEffect(() => {
-    const wasOpen = prevIsOpenRef.current;
-    const isNowClosed = wasOpen && !isLoginDialogOpen;
-
-    // Only cleanup when dialog transitions from open → closed
-    if (isNowClosed) {
-      const timeoutId = setTimeout(() => {
-        cleanupDialogBodyAttributes();
-      }, 150);
-
-      prevIsOpenRef.current = isLoginDialogOpen;
-      return () => clearTimeout(timeoutId);
-    }
-
-    prevIsOpenRef.current = isLoginDialogOpen;
-  }, [isLoginDialogOpen]);
-  */
-
-  // ======================================================================== //
-
-  // When used by AuthDialogGuard to block access, always show as open
-  // When used via isLoginDialogOpen (header button), show based on state
-  // const shouldShowDialog = isBlockingAccess || isLoginDialogOpen;
-  // const shouldShowDialog = isLoginDialogOpen;
 
   return (
     <GenericDialog
