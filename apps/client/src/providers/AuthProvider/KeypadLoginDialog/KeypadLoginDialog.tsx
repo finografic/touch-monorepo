@@ -107,19 +107,14 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
   };
 
   return (
-    <div
-      id="___KEYPAD___"
-      // style={{ border: '1px solid red', maxWidth: '320px', height: '100%' }}
-    >
-      <GenericDialog
-        // isOpen={isLoginDialogOpen}
-        isOpen={true}
-        onClose={handleCloseDialog}
-        config={config}
-        className="dialog-keypad"
-        defaultTab={activeTab}
-        onTabChange={setActiveTab}
-      />
-    </div>
+    <GenericDialog
+      // isOpen={isLoginDialogOpen}
+      isOpen={true}
+      onClose={handleCloseDialog}
+      config={config}
+      className="dialog-keypad"
+      defaultTab={activeTab}
+      onTabChange={setActiveTab}
+    />
   );
 };

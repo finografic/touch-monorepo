@@ -55,7 +55,6 @@ export const keypadStyles = css`
   width: 100%;
   display: flex;
   justify-content: center;
-  border: 1px solid red;
   margin: 0 auto;
 
   .keypad-grid {
