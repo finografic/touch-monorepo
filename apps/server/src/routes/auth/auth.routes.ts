@@ -59,10 +59,6 @@ router.get('/auth/session', async (context) => {
  * Uses BetterAuth API for session invalidation + explicit cookie deletion
  */
 router.post('/auth/sign-out', async (context) => {
-  // Two cookies to delete (see NOTE above)
-  const tokenCookie = `${COOKIES.TOKEN_COOKIE}=; ${COOKIE_DELETE_ATTRIBUTES}`;
-  const dataCookie = `${COOKIES.DATA_COOKIE}=; ${COOKIE_DELETE_ATTRIBUTES}`;
-
   try {
     const result = await auth.api.signOut({
       headers: context.req.raw.headers,
@@ -75,13 +71,24 @@ router.post('/auth/sign-out', async (context) => {
     // Create response with explicit cookie deletion
     const response = context.json(result);
 
-    // Delete BOTH Better Auth cookies (session_token AND session_data)
-    if (process.env.NODE_ENV === 'development') {
-      console.log('🍪 Deleting cookies:', { tokenCookie, dataCookie });
-    }
+    // Delete ALL Better Auth cookie variations (including __Secure- and __Host- prefixes)
+    const cookieNamesToDelete = [
+      COOKIES.TOKEN_COOKIE,
+      COOKIES.DATA_COOKIE,
+      `__Secure-${COOKIES.TOKEN_COOKIE}`,
+      `__Secure-${COOKIES.DATA_COOKIE}`,
+      `__Host-${COOKIES.TOKEN_COOKIE}`,
+      `__Host-${COOKIES.DATA_COOKIE}`,
+    ];
 
-    response.headers.append('Set-Cookie', tokenCookie);
-    response.headers.append('Set-Cookie', dataCookie);
+    // Delete each cookie variation
+    cookieNamesToDelete.forEach((cookieName) => {
+      response.headers.append('Set-Cookie', `${cookieName}=; ${COOKIE_DELETE_ATTRIBUTES}`);
+    });
+
+    if (process.env.NODE_ENV === 'development') {
+      console.log('🍪 Deleted cookies:', cookieNamesToDelete);
+    }
 
     return response;
   } catch (error) {
@@ -90,14 +97,73 @@ router.post('/auth/sign-out', async (context) => {
       error,
     });
 
-    // Even on error, try to clear both cookies
+    // Even on error, try to clear all cookie variations
     const response = context.json({ error: 'Sign out failed' }, 500);
 
-    response.headers.append('Set-Cookie', tokenCookie);
-    response.headers.append('Set-Cookie', dataCookie);
+    const cookieNamesToDelete = [
+      COOKIES.TOKEN_COOKIE,
+      COOKIES.DATA_COOKIE,
+      `__Secure-${COOKIES.TOKEN_COOKIE}`,
+      `__Secure-${COOKIES.DATA_COOKIE}`,
+      `__Host-${COOKIES.TOKEN_COOKIE}`,
+      `__Host-${COOKIES.DATA_COOKIE}`,
+    ];
+
+    cookieNamesToDelete.forEach((cookieName) => {
+      response.headers.append('Set-Cookie', `${cookieName}=; ${COOKIE_DELETE_ATTRIBUTES}`);
+    });
 
     return response;
   }
+});
+
+/**
+ * Nuclear option: Delete ALL cookies
+ * Use this endpoint when sign-out fails or cookies persist
+ * This is a safety net for development/debugging
+ */
+router.post('/auth/clear-all-cookies', async (context) => {
+  console.log('🧨 [NUCLEAR] Clearing all authentication cookies...');
+
+  const response = context.json({ success: true, message: 'All cookies cleared' });
+
+  // Every possible cookie name variation
+  const allPossibleCookieNames = [
+    // Standard names
+    COOKIES.TOKEN_COOKIE,
+    COOKIES.DATA_COOKIE,
+    // With __Secure- prefix
+    `__Secure-${COOKIES.TOKEN_COOKIE}`,
+    `__Secure-${COOKIES.DATA_COOKIE}`,
+    // With __Host- prefix
+    `__Host-${COOKIES.TOKEN_COOKIE}`,
+    `__Host-${COOKIES.DATA_COOKIE}`,
+    // Legacy/alternative names
+    `${COOKIES.COOKIE_PREFIX}.auth_token`,
+    `${COOKIES.COOKIE_PREFIX}.session`,
+    `__Secure-${COOKIES.COOKIE_PREFIX}.auth_token`,
+    `__Secure-${COOKIES.COOKIE_PREFIX}.session`,
+  ];
+
+  // Delete with all possible attribute combinations
+  const deletionAttributes = [
+    COOKIE_DELETE_ATTRIBUTES,
+    'Max-Age=0; Path=/; HttpOnly; SameSite=Lax',
+    'Max-Age=0; Path=/; HttpOnly; SameSite=None; Secure',
+    'Max-Age=0; Path=/; HttpOnly; SameSite=Strict; Secure',
+  ];
+
+  allPossibleCookieNames.forEach((cookieName) => {
+    deletionAttributes.forEach((attrs) => {
+      response.headers.append('Set-Cookie', `${cookieName}=; ${attrs}`);
+    });
+  });
+
+  console.log(
+    `🧨 [NUCLEAR] Attempted to delete ${allPossibleCookieNames.length * deletionAttributes.length} cookie variations`,
+  );
+
+  return response;
 });
 
 // ============================================

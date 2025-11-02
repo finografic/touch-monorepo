@@ -20,39 +20,65 @@
  * - Cleanup after failed authentication attempts
  */
 export const forceDeleteAuthCookies = (): void => {
-  console.log('🧹 [FORCE DELETE] Attempting client-side cookie deletion...');
+  console.log('%c🧹 [FORCE DELETE] Attempting client-side cookie deletion...', 'color:red');
   document.cookie && console.log('📋 Current cookies:', document.cookie);
 
   const hostname = window.location.hostname;
   const COOKIES = process.env.COOKIES;
-  const cookiesToDelete = [COOKIES.TOKEN_COOKIE, COOKIES.DATA_COOKIE];
+  const cookiePrefix = COOKIES.COOKIE_PREFIX; // "touch-monorepo"
 
-  // Generate deletion commands for each cookie (including __Secure- prefix for Windows)
-  const deletionStrategies = cookiesToDelete.flatMap((cookieName) => [
-    // Standard deletion with expires
-    `${cookieName}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Lax`,
-    `${cookieName}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=None`,
-    `${cookieName}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict`,
+  // All possible cookie name variations to delete
+  const cookieVariations = [
+    // Direct names from env
+    COOKIES.TOKEN_COOKIE,
+    COOKIES.DATA_COOKIE,
+    // With __Secure- prefix (Windows/production)
+    `__Secure-${COOKIES.TOKEN_COOKIE}`,
+    `__Secure-${COOKIES.DATA_COOKIE}`,
+    // With __Host- prefix (some browsers)
+    `__Host-${COOKIES.TOKEN_COOKIE}`,
+    `__Host-${COOKIES.DATA_COOKIE}`,
+    // Just the suffix (in case prefix is wrong)
+    'session_token',
+    'session_data',
+    'auth_token',
+    // With prefix variations
+    `${cookiePrefix}.session_token`,
+    `${cookiePrefix}.session_data`,
+    `__Secure-${cookiePrefix}.session_token`,
+    `__Secure-${cookiePrefix}.session_data`,
+    `__Host-${cookiePrefix}.session_token`,
+    `__Host-${cookiePrefix}.session_data`,
+  ];
 
-    // With domain
-    `${cookieName}=; path=/; domain=${hostname}; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Lax`,
+  // All possible deletion attribute combinations
+  const deletionAttributes = [
+    'path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC',
+    'path=/; max-age=0',
+    `path=/; domain=${hostname}; expires=Thu, 01 Jan 1970 00:00:00 UTC`,
+    `path=/; domain=.${hostname}; expires=Thu, 01 Jan 1970 00:00:00 UTC`,
+    'path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure',
+    'path=/; max-age=0; Secure',
+    'path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Lax',
+    'path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=None',
+    'path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; SameSite=Strict',
+    'path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Lax',
+    'path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=None',
+    'path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict',
+    'path=/; max-age=0; Secure; SameSite=Lax',
+    'path=/; max-age=0; Secure; SameSite=None',
+    'path=/; max-age=0; Secure; SameSite=Strict',
+  ];
 
-    // Max-Age method
-    `${cookieName}=; path=/; max-age=0; SameSite=Lax`,
-    `${cookieName}=; path=/; max-age=0; SameSite=None`,
+  // Try every combination of cookie name + deletion attributes
+  const deletionStrategies: string[] = [];
+  cookieVariations.forEach((cookieName) => {
+    deletionAttributes.forEach((attrs) => {
+      deletionStrategies.push(`${cookieName}=; ${attrs}`);
+    });
+  });
 
-    // With Secure flag (for HTTPS)
-    `${cookieName}=; path=/; max-age=0; Secure; SameSite=Lax`,
-    `${cookieName}=; path=/; max-age=0; Secure; SameSite=None`,
-
-    // __Secure- prefix (Windows browsers may add this prefix)
-    `__Secure-${cookieName}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Lax`,
-    `__Secure-${cookieName}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=None`,
-    `__Secure-${cookieName}=; path=/; expires=Thu, 01 Jan 1970 00:00:00 UTC; Secure; SameSite=Strict`,
-    `__Secure-${cookieName}=; path=/; Secure; max-age=0; SameSite=Lax`,
-    `__Secure-${cookieName}=; path=/; Secure; max-age=0; SameSite=None`,
-    `__Secure-${cookieName}=; path=/; Secure; max-age=0; SameSite=Strict`,
-  ]);
+  console.log(`🔄 Attempting ${deletionStrategies.length} deletion strategies...`);
 
   // Attempt all deletion strategies
   deletionStrategies.forEach((deletion) => {
@@ -60,30 +86,75 @@ export const forceDeleteAuthCookies = (): void => {
   });
 
   // Clear from browser storage (these WILL work)
-  sessionStorage.removeItem(COOKIES.TOKEN_COOKIE);
-  sessionStorage.removeItem(COOKIES.DATA_COOKIE);
-  localStorage.removeItem(COOKIES.TOKEN_COOKIE);
-  localStorage.removeItem(COOKIES.DATA_COOKIE);
+  cookieVariations.forEach((cookieName) => {
+    sessionStorage.removeItem(cookieName);
+    localStorage.removeItem(cookieName);
+  });
 
   // Check results
   const cookiesAfter = document.cookie;
   console.log('📋 Cookies after deletion attempt:', cookiesAfter);
 
-  // Check for both standard and __Secure- prefixed cookies
-  const allCookieVariants = [...cookiesToDelete, ...cookiesToDelete.map((name) => `__Secure-${name}`)];
+  // Check if any auth-related cookies still exist
+  const authCookiePatterns = [cookiePrefix, 'session', 'auth', '__Secure-', '__Host-'];
+  const remainingAuthCookies = cookiesAfter
+    .split(';')
+    .map((c) => c.trim())
+    .filter((c) => authCookiePatterns.some((pattern) => c.includes(pattern)));
 
-  const stillExists = allCookieVariants.filter((name) => cookiesAfter.includes(name));
-  if (stillExists.length > 0) {
-    console.warn('⚠️  Some cookies still exist (likely HttpOnly):', stillExists.join(', '));
-    console.info('💡 Use server-side sign-out endpoint for HttpOnly cookie deletion');
+  if (remainingAuthCookies.length > 0) {
+    console.warn('%c⚠️  Some cookies still exist (likely HttpOnly):', 'color:orange', remainingAuthCookies);
+    console.info('%c💡 HttpOnly cookies can ONLY be deleted by the server', 'color:cyan');
+    console.info('%c🔒 Use the sign-out endpoint to delete HttpOnly cookies', 'color:cyan');
   } else {
-    // console.log('✅ All cookies cleared (or were already deleted by server)');
+    console.log('%c✅ All accessible cookies cleared', 'color:green');
+  }
+};
+
+/**
+ * Server-side nuclear cookie deletion
+ *
+ * This calls the server's /api/auth/clear-all-cookies endpoint which uses
+ * Set-Cookie headers to delete HttpOnly cookies (which JavaScript cannot access).
+ *
+ * USE CASES:
+ * - When sign-out fails but cookies remain
+ * - Before login when corrupted cookies exist
+ * - Development/debugging to force clean state
+ * - When __Secure- or __Host- prefixed cookies persist
+ */
+export const clearAllAuthCookiesServer = async (): Promise<boolean> => {
+  try {
+    console.log('🧨 [NUCLEAR] Calling server to delete all auth cookies...');
+
+    const response = await fetch(`${process.env.API_BASE_URL}/api/auth/clear-all-cookies`, {
+      method: 'POST',
+      credentials: 'include', // Include cookies in request
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    if (response.ok) {
+      console.log('✅ Server cookie deletion successful');
+      // Also run client-side cleanup for non-HttpOnly cookies
+      forceDeleteAuthCookies();
+      return true;
+    } else {
+      console.error('❌ Server cookie deletion failed:', response.status, response.statusText);
+      return false;
+    }
+  } catch (error) {
+    console.error('❌ Server cookie deletion error:', error);
+    // Fallback to client-side cleanup
+    forceDeleteAuthCookies();
+    return false;
   }
 };
 
 /**
  * Legacy function for backwards compatibility
- * @deprecated Use forceDeleteAuthCookies() instead
+ * @deprecated Use clearAllAuthCookiesServer() or forceDeleteAuthCookies() instead
  */
 export const clearAuthSessionToken = (): void => {
   forceDeleteAuthCookies();

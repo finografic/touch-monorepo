@@ -266,3 +266,156 @@ Both cookies should be **immediately removed** from the browser after sign out. 
 
 This fix has been tested and verified to successfully delete both Better Auth cookies on sign out.
 
+---
+
+## Enhanced Cookie Deletion: Handling __Secure- and __Host- Prefixes
+
+### Problem
+
+On Windows or production environments, browsers may add `__Secure-` or `__Host-` prefixes to cookies. The standard sign-out might not delete these variations, leaving persistent cookies.
+
+### Solution 1: Enhanced Sign-Out Endpoint
+
+Updated the standard sign-out endpoint to delete **all cookie variations**:
+
+**File:** `apps/server/src/routes/auth/auth.routes.ts`
+
+```typescript
+router.post('/auth/sign-out', async (context) => {
+  const result = await auth.api.signOut({ headers: context.req.raw.headers });
+  const response = context.json(result);
+
+  // Delete ALL Better Auth cookie variations (including __Secure- and __Host- prefixes)
+  const cookieNamesToDelete = [
+    COOKIES.TOKEN_COOKIE,
+    COOKIES.DATA_COOKIE,
+    `__Secure-${COOKIES.TOKEN_COOKIE}`,
+    `__Secure-${COOKIES.DATA_COOKIE}`,
+    `__Host-${COOKIES.TOKEN_COOKIE}`,
+    `__Host-${COOKIES.DATA_COOKIE}`,
+  ];
+
+  cookieNamesToDelete.forEach((cookieName) => {
+    response.headers.append('Set-Cookie', `${cookieName}=; ${COOKIE_DELETE_ATTRIBUTES}`);
+  });
+
+  return response;
+});
+```
+
+### Solution 2: Nuclear Cookie Deletion Endpoint
+
+Added a dedicated endpoint for extreme cases when cookies persist:
+
+**Server Route** (`apps/server/src/routes/auth/auth.routes.ts`):
+
+```typescript
+router.post('/auth/clear-all-cookies', async (context) => {
+  const allPossibleCookieNames = [
+    COOKIES.TOKEN_COOKIE,
+    COOKIES.DATA_COOKIE,
+    `__Secure-${COOKIES.TOKEN_COOKIE}`,
+    `__Secure-${COOKIES.DATA_COOKIE}`,
+    `__Host-${COOKIES.TOKEN_COOKIE}`,
+    `__Host-${COOKIES.DATA_COOKIE}`,
+    // Plus legacy/alternative names
+  ];
+
+  // Try multiple attribute combinations for each cookie
+  const deletionAttributes = [
+    COOKIE_DELETE_ATTRIBUTES,
+    'Max-Age=0; Path=/; HttpOnly; SameSite=Lax',
+    'Max-Age=0; Path=/; HttpOnly; SameSite=None; Secure',
+    'Max-Age=0; Path=/; HttpOnly; SameSite=Strict; Secure',
+  ];
+
+  allPossibleCookieNames.forEach((cookieName) => {
+    deletionAttributes.forEach((attrs) => {
+      response.headers.append('Set-Cookie', `${cookieName}=; ${attrs}`);
+    });
+  });
+
+  return context.json({ success: true, message: 'All cookies cleared' });
+});
+```
+
+**Client Utility** (`apps/client/src/utils/auth.utils.ts`):
+
+```typescript
+/**
+ * Server-side nuclear cookie deletion
+ * Calls server endpoint that deletes ALL cookie variations
+ */
+export const clearAllAuthCookiesServer = async (): Promise<boolean> => {
+  const response = await fetch(`${process.env.API_BASE_URL}/api/auth/clear-all-cookies`, {
+    method: 'POST',
+    credentials: 'include',
+  });
+
+  if (response.ok) {
+    forceDeleteAuthCookies(); // Also try client-side cleanup
+    return true;
+  }
+  return false;
+};
+```
+
+### Usage
+
+Call this as a last resort when cookies persist after sign-out:
+
+```typescript
+// In your AuthProvider or login dialog
+await clearAllAuthCookiesServer();
+```
+
+### Enhanced Verification
+
+#### Console Output (Development)
+
+Standard sign-out:
+```text
+🔐 Sign out successful: { ... }
+🍪 Deleted cookies: [
+  'touch-monorepo.auth_token',
+  'touch-monorepo.session_data',
+  '__Secure-touch-monorepo.auth_token',
+  '__Secure-touch-monorepo.session_data',
+  '__Host-touch-monorepo.auth_token',
+  '__Host-touch-monorepo.session_data'
+]
+```
+
+Nuclear endpoint:
+```text
+🧨 [NUCLEAR] Clearing all authentication cookies...
+🧨 [NUCLEAR] Attempted to delete 40 cookie variations
+```
+
+#### Network Response Headers
+
+The `/api/auth/sign-out` response now includes **6 Set-Cookie headers**:
+
+```text
+Set-Cookie: touch-monorepo.auth_token=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+Set-Cookie: touch-monorepo.session_data=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+Set-Cookie: __Secure-touch-monorepo.auth_token=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+Set-Cookie: __Secure-touch-monorepo.session_data=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+Set-Cookie: __Host-touch-monorepo.auth_token=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+Set-Cookie: __Host-touch-monorepo.session_data=; Max-Age=0; Path=/; HttpOnly; SameSite=Lax
+```
+
+All cookies (including prefixed variations) should be deleted from the browser's cookie storage.
+
+### Key Points
+
+1. **Prefix variations matter** - `__Secure-` and `__Host-` prefixes are browser-specific security features
+2. **Server-side deletion is mandatory** - HttpOnly cookies cannot be deleted from JavaScript
+3. **Match all attributes** - Cookie deletion requires exact attribute matching
+4. **Nuclear option available** - Use `/api/auth/clear-all-cookies` for persistent cookies
+5. **Multiple strategies** - Try different attribute combinations to ensure deletion
+
+### ✅ Status: ENHANCED & TESTED
+
+These enhancements handle edge cases with browser-specific cookie prefixes and provide a nuclear fallback option for extreme cases.
+

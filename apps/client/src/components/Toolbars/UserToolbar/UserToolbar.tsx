@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
@@ -11,8 +11,7 @@ import { useAdmin } from 'providers/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
-import type { Theme } from 'types/ui.types';
-import { forceDeleteAuthCookies } from 'utils/auth.utils';
+import { clearAllAuthCookiesServer } from 'utils/auth.utils';
 
 import { PATHS } from 'config/routes';
 import { LanguageIcon } from 'styles/icons';
@@ -21,7 +20,7 @@ import { styles } from './UserToolbar.styles';
 export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
   const { theme } = useAppConfig();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
-  const { isAuthenticated, signOut } = useAuth();
+  const { isLoginDialogOpen, signOut } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
@@ -37,11 +36,11 @@ export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
 
   useEffect(
     function verifyAuthentication() {
-      if (!isAuthenticated) {
-        forceDeleteAuthCookies();
+      if (isLoginDialogOpen) {
+        clearAllAuthCookiesServer();
       }
     },
-    [isAuthenticated, isLanguageDialogOpen],
+    [isLoginDialogOpen],
   );
 
   return (
