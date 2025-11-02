@@ -17,7 +17,7 @@ export async function seed() {
     for (const userData of [
       {
         email: 'admin@example.com',
-        password: 'password123',
+        password: '7878',
         name: 'Admin User',
         role: 'admin',
       },

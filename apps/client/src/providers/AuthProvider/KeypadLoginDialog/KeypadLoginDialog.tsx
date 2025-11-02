@@ -107,8 +107,8 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
 
   return (
     <GenericDialog
-      // isOpen={isLoginDialogOpen}
-      isOpen={true}
+      isOpen={isLoginDialogOpen}
+      // isOpen={true}
       onClose={handleCloseDialog}
       config={config}
       className="dialog-keypad"

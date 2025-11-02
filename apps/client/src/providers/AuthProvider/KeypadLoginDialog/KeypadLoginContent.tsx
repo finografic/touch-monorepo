@@ -161,7 +161,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
             </div>
           </div>
 
-          {error && <div className="error">{error}</div>}
+          {/* {error && <div className="error">{error}</div>} */}
 
           <NumericKeypad onDigitPress={handleDigitPress} onBackspace={handleBackspace} disabled={isLoading} />
 
