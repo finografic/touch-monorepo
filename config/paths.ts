@@ -1,12 +1,10 @@
 import path from 'node:path';
 import fs from 'node:fs';
 
-// Simple root directory resolution
 const findRootDir = (): string => {
   let currentDir = process.cwd();
 
   while (currentDir !== path.parse(currentDir).root) {
-    // Look for workspace markers
     if (fs.existsSync(path.join(currentDir, 'pnpm-workspace.yaml'))) {
       return currentDir;
     }
@@ -19,7 +17,6 @@ const findRootDir = (): string => {
     currentDir = path.dirname(currentDir);
   }
 
-  // Fallback to process.cwd() if not found
   return process.cwd();
 };
 
