@@ -31,7 +31,7 @@ export const AdminLayout: FC = () => {
       <ContentProvider>
         <DevProvider>
           <div id="admin-layout" css={styles}>
-            <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar />} />
+            <Header titleAlign="left" toolbarAlign="right" toolbar={<UserToolbar variant="dark" />} />
             <AdminNavigation />
             <main id="layout-main">
               <div className="main-content">

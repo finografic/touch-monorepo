@@ -18,7 +18,7 @@ import { PATHS } from 'config/routes';
 import { LanguageIcon } from 'styles/icons';
 import { styles } from './UserToolbar.styles';
 
-export const UserToolbar: React.FC = () => {
+export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
   const { theme } = useAppConfig();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
   const { isAuthenticated, signOut } = useAuth();
@@ -45,7 +45,7 @@ export const UserToolbar: React.FC = () => {
   );
 
   return (
-    <div css={styles} className={`theme-${theme}`}>
+    <div css={styles} className={`theme-${variant || theme}`}>
       <Flex gap="0" align="center">
         <div className="button-box">
           <Button

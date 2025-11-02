@@ -26,7 +26,7 @@ export const styles = css`
       border: none;
       cursor: pointer;
       padding: 0.5rem 1rem;
-      border-radius: ${layout.borderRadius.lg};
+      border-radius: ${layout.borderRadius};
       transition: all 0.2s ease;
       opacity: 1;
       white-space: nowrap;
