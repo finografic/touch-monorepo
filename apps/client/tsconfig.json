@@ -26,6 +26,7 @@
       "constants/*": ["./src/constants/*"],
       "dev-tools": ["./src/dev-tools"],
       "dev-tools/*": ["./src/dev-tools/*"],
+      "env.client": ["./env.client.ts"],
       "forms": ["./src/forms"],
       "forms/*": ["./src/forms/*"],
       "hooks/*": ["./src/hooks/*"],

@@ -19,7 +19,8 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { authClient } from 'lib/auth-client';
-import { clearAuthSessionToken } from 'utils/auth-V2.utils';
+// import { clearAuthSessionToken } from 'utils/auth-V2.utils';
+import { clearAuthSessionToken } from 'utils/auth.utils';
 import { createSetters, createZustandContext } from 'utils/zustand';
 
 import type { AuthSignInParams, AuthSignUpParams } from './auth.types';
