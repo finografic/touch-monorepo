@@ -42,6 +42,7 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
 
   const handleCloseDialog = useCallback(() => {
     closeLoginDialog();
+    setError('');
     // TODO: leave comments in for now...
     // isBlockingAccess ? navigate('/') : closeLoginDialog();
   }, [closeLoginDialog, isBlockingAccess, navigate]);

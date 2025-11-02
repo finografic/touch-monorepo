@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { sleep } from '@workspace/core/utils';
 
 import { Flex } from '@radix-ui/themes';
 import { Button } from 'components/Button';
@@ -39,7 +38,7 @@ export const UserToolbar: React.FC = () => {
   useEffect(
     function verifyAuthentication() {
       if (!isAuthenticated) {
-        clearAuthSessionToken();
+        forceDeleteAuthCookies();
       }
     },
     [isAuthenticated, isLanguageDialogOpen],
