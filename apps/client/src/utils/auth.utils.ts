@@ -27,8 +27,7 @@ export const forceDeleteAuthCookies = (): void => {
   const sessionDataCookie = `${cookiePrefix}.session_data`;
 
   console.log('🧹 [FORCE DELETE] Attempting client-side cookie deletion...');
-  console.log('⚠️  Note: HttpOnly cookies cannot be deleted from JavaScript');
-  console.log('📋 Current cookies:', document.cookie);
+  document.cookie && console.log('📋 Current cookies:', document.cookie);
 
   const hostname = window.location.hostname;
   const cookiesToDelete = [sessionTokenCookie, sessionDataCookie];
@@ -85,7 +84,7 @@ export const forceDeleteAuthCookies = (): void => {
     console.warn('⚠️  Some cookies still exist (likely HttpOnly):', stillExists.join(', '));
     console.info('💡 Use server-side sign-out endpoint for HttpOnly cookie deletion');
   } else {
-    console.log('✅ All cookies cleared (or were already deleted by server)');
+    // console.log('✅ All cookies cleared (or were already deleted by server)');
   }
 };
 

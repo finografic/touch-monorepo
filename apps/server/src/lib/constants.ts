@@ -1,16 +1,6 @@
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import { createMessageObjectSchema } from 'stoker/openapi/schemas';
-
-export const TEMPERATURE_RANGES = {
-  CONSUMPTION: {
-    MIN: 3,
-    MAX: 8,
-  },
-  FREEZING: {
-    MIN: -10,
-    MAX: 0,
-  },
-} as const;
+import { TEMPERATURE_RANGES } from 'config/temperature.config';
 
 export const ZOD_ERROR_MESSAGES = {
   REQUIRED: 'Required',

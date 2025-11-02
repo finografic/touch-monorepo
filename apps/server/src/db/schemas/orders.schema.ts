@@ -8,8 +8,9 @@ import { container_types } from './container_types.schema';
 import { volumes } from './volumes.schema';
 import { temperature_profiles } from './temperature_profiles.schema';
 import { modes } from './modes.schema';
-import { TEMPERATURE_RANGES, ZOD_ERROR_MESSAGES } from '../../lib/constants';
-import { sqliteBooleanField } from '../../lib/zod-utils';
+import { ZOD_ERROR_MESSAGES } from 'lib/constants';
+import { TEMPERATURE_RANGES } from 'config/temperature.config';
+import { sqliteBooleanField } from 'lib/zod-utils';
 
 // Orders table with proper ID-based foreign keys
 export const orders = sqliteTable('orders', {

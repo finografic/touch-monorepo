@@ -1,14 +1,11 @@
 import type { ReactNode } from 'react';
 import React, { useEffect, useMemo } from 'react';
 import { Col, Container, Row } from 'react-grid-system';
-import { useTranslation } from 'react-i18next';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { HeaderTitle } from 'components/Header/HeaderTitle';
-import { useAdmin } from 'providers/AdminProvider';
-import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import type { Theme } from 'types/ui.types';
@@ -39,13 +36,9 @@ export const Header: React.FC<HeaderProps> = ({
   toolbarAlign = 'right',
   toolbar = <React.Fragment />,
 }) => {
-  const { t } = useTranslation();
-  const { theme } = useAppConfig();
-  const navigate = useNavigate();
   const location = useLocation();
 
   const { user, isAuthenticated, session } = useAuth();
-  // const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   useEffect(
     () => log('🚹 USER:', 'skyblue', { isAuthenticated, role: user?.role, session }, user),
