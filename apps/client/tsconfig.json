@@ -26,7 +26,7 @@
       "constants/*": ["./src/constants/*"],
       "dev-tools": ["./src/dev-tools"],
       "dev-tools/*": ["./src/dev-tools/*"],
-      "env.client": ["./src/env.client"],
+      // "env.client": ["./env.client"],
       "forms": ["./src/forms"],
       "forms/*": ["./src/forms/*"],
       "hooks/*": ["./src/hooks/*"],
@@ -79,7 +79,8 @@
     "src/i18n/utils/**/*.ts",
     "../../packages/core/src/types/countries.types.ts",
     "../../config/i18n.config.ts",
-    "../../config/generated/**/*.ts"
+    "../../config/generated/**/*.ts",
+    "env.client.ts"
   ],
   "exclude": ["dist", "node_modules", "eslint.config.mjs"]
 }

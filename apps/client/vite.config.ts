@@ -1,36 +1,24 @@
-import { envShared } from '@workspace/config/env.shared';
-
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
+import chalk from 'chalk';
 import { resolve } from 'path';
 import { defineConfig, type UserConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
 import { devCookieClearPlugin, logApiURL } from './src/utils/vite.utils';
+import { envClient } from './env.client';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
+  const workspaceRoot = resolve(__dirname, '../..');
   // const viteEnv = loadEnv(mode as string, process.cwd(), '');
 
-  if (mode) logApiURL({ mode });
-
-  // Resolve paths relative to workspace root
-  const workspaceRoot = resolve(__dirname, '../..');
-
-  // Load environment variables from shared env configuration
-  const envVars = {
-    NODE_ENV: envShared.NODE_ENV,
-    API_PROTOCOL: envShared.API_PROTOCOL,
-    API_HOST: envShared.API_HOST,
-    API_PORT: String(envShared.API_PORT),
-    API_BASE_PATH: envShared.API_BASE_PATH,
-    API_URL: envShared.API_URL,
-    API_BASE_URL: envShared.API_BASE_URL,
-    CLIENT_PROTOCOL: envShared.CLIENT_PROTOCOL,
-    CLIENT_HOST: envShared.CLIENT_HOST,
-    CLIENT_PORT: String(envShared.CLIENT_PORT),
-    CLIENT_ORIGIN: envShared.CLIENT_ORIGIN,
-  };
+  if (mode) {
+    console.log(
+      chalk.cyan.dim(`[API ${mode || envClient.NODE_ENV || 'development'}]`),
+      chalk.cyan.dim(envClient.API_URL),
+    );
+  }
 
   return {
     css: {
@@ -81,7 +69,7 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     clearScreen: false,
     define: {
       'global': 'window',
-      'process.env': envVars,
+      'process.env': JSON.stringify(envClient),
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
