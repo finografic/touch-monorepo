@@ -23,12 +23,18 @@
       "dependsOn": ["@workspace/core#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
+
+    "@workspace/config#build": {
+      "dependsOn": ["@workspace/i18n#build"],
+      "outputs": ["dist/**", "*.tsbuildinfo"]
+    },
+
     "@workspace/server#build": {
-      "dependsOn": ["@workspace/core#build", "@workspace/i18n#build"],
+      "dependsOn": ["@workspace/core#build", "@workspace/i18n#build", "@workspace/config#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/client#build": {
-      "dependsOn": ["@workspace/core#build", "@workspace/i18n#build"],
+      "dependsOn": ["@workspace/core#build", "@workspace/i18n#build", "@workspace/config#build"],
       "outputs": ["dist/**", "*.tsbuildinfo"]
     },
     "@workspace/core#dev": {

@@ -4,6 +4,7 @@
     "baseUrl": "."
   },
   "include": ["**/*.ts", "**/*.tsx"],
+  "types": ["node"],
   "exclude": ["node_modules", "dist", ".next", "build", "coverage", "**/*.spec.ts", "**/*.test.ts"],
   "references": [
     {

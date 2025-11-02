@@ -4,6 +4,8 @@
     "composite": true,
     "declaration": true,
     "emitDeclarationOnly": true,
+    "outDir": "./dist",
+    "rootDir": ".",
     "sourceMap": true,
     "resolveJsonModule": true,
     "strict": true,
@@ -16,9 +18,9 @@
     "baseUrl": ".",
     "paths": {
       "@workspace/config/*": ["./*"],
-      "@workspace/i18n/config/types": ["../packages/i18n/dist/config/index.d.ts"]
+      "@workspace/i18n/config/types": ["../packages/i18n/dist/config/types.d.ts"]
     }
   },
   "include": ["**/*.ts"],
-  "exclude": []
+  "exclude": ["node_modules", "dist"]
 }

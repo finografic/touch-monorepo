@@ -172,3 +172,4 @@ debug.log
 # !.vscode/*.code-snippets
 # !.vscode/settings.json
 # !.vscode/tasks.json
+config/dist
