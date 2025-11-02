@@ -6,11 +6,17 @@
     ".": {
       "import": "./index.ts"
     },
+    "./env.shared": {
+      "import": "./env.shared.ts"
+    },
     "./i18n.config": {
       "import": "./i18n.config.ts"
     },
     "./i18n": {
       "import": "./i18n.config.ts"
+    },
+    "./paths": {
+      "import": "./paths.ts"
     }
   }
 }

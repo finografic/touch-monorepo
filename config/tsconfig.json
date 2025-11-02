@@ -10,7 +10,7 @@
     "sourceMap": true,
     "resolveJsonModule": true,
     "strict": true,
-    "types": [],
+    "types": ["node"],
     "paths": {
       // "./*": ["./*"],
       "@workspace/config/*": ["./*"],

@@ -1,5 +1,6 @@
 import type { RequestMethod } from 'types/request.types';
-import { envShared } from './lib/env.js';
+// import { envShared } from './lib/env.js';
+import { envShared } from '@workspace/config/env.shared';
 import chalk from 'chalk';
 import { CLI } from 'utils/utils.cli';
 import { cors } from 'hono/cors';

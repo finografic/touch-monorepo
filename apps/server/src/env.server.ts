@@ -1,5 +1,7 @@
 import path from 'node:path';
-import { envShared, paths } from './lib/env.js';
+// import { envShared, paths } from './lib/env.js';
+import { envShared } from '@workspace/config/env.shared';
+import { paths } from '@workspace/config/paths';
 import { z } from 'zod';
 
 const envServerSchema = z

@@ -79,6 +79,7 @@ export const envShared = envSharedSchema.parse({
 
 export type EnvShared = typeof envShared;
 
+/*
 // Configurable paths utility to replace @workspace/config/paths
 // Allow override of base directories via environment variables
 const dataDir = process.env.DATA_DIR || 'data';
@@ -100,3 +101,4 @@ export const paths = {
     path: (...segments: string[]) => path.join(rootDir, logsDir, ...segments),
   },
 } as const;
+ */
