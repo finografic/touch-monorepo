@@ -2,12 +2,11 @@ import { defineConfig } from 'tsup';
 import type { Options } from 'tsup';
 
 export default defineConfig({
-  // entry: ['src/index.ts'],
   format: ['esm'], // ESM for modern Node.js
   dts: false, // Since we're using tsc for types
-  clean: true, // Clean output directory
-  target: 'ES2020', // Or your target Node version
-  sourcemap: true, // Helpful for debugging
+  clean: true,
+  target: 'ES2020',
+  sourcemap: true,
   env: {
     NODE_ENV: 'production',
   },

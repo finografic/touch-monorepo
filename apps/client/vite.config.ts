@@ -1,4 +1,5 @@
-/* eslint-disable simple-import-sort/imports */
+import { envShared } from '@workspace/config/env.shared';
+
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
@@ -6,8 +7,6 @@ import { resolve } from 'path';
 import { defineConfig, loadEnv, type UserConfig } from 'vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 
-// import { envShared } from '../../config/env.shared.js';
-import { envShared } from '@workspace/config/env.shared';
 import { devCookieClearPlugin, logApiURL } from './src/utils/vite.utils';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {

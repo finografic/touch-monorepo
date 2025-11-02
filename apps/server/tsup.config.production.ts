@@ -5,15 +5,15 @@ export default defineConfig({
   entry: ['src/index.ts'],
   format: ['esm'], // ESM for better compatibility with modern modules
   dts: false, // No types needed for production bundle
-  clean: true, // Clean output directory
-  target: 'ES2020', // Modern Node.js target
-  sourcemap: false, // No sourcemaps for production
+  clean: true,
+  target: 'ES2020',
+  sourcemap: false,
   bundle: true, // Bundle all dependencies
   minify: true, // Minify for smaller output
   splitting: false, // Single file output
-  treeshake: true, // Remove unused code
-  platform: 'node', // Specify Node.js platform
-  outDir: 'dist', // Ensure output goes to dist directory
+  treeshake: true,
+  platform: 'node',
+  outDir: 'dist',
   env: {
     NODE_ENV: 'production',
   },
@@ -82,7 +82,6 @@ export default defineConfig({
     'dotenv',
     '@dotenvx/*',
     '@scalar/*', // Bundle scalar modules
-
     '@workspace/core',
     '@workspace/i18n',
   ],
