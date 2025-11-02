@@ -10,10 +10,6 @@
     ".": {
       "import": "./index.ts"
     },
-    "./cookies.config": {
-      "import": "./cookies.config.ts",
-      "types": "./cookies.config.ts"
-    },
     "./env.shared": {
       "import": "./env.shared.ts",
       "types": "./env.shared.ts"

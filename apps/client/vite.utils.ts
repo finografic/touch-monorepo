@@ -1,5 +1,3 @@
-import { COOKIE_DELETE_ATTRIBUTES, COOKIES } from '@workspace/config/cookies.config';
-
 import chalk from 'chalk';
 import type { Plugin, UserConfig } from 'vite';
 
@@ -24,6 +22,9 @@ export function devCookieClearPlugin(): Plugin {
         // Check if this is the first request since the dev server started
         if (isFirstRequestAfterStartup) {
           console.log('🍪 [dev-cookie-clear] Clearing auth_token cookie on dev server startup...');
+
+          const COOKIES = envClient.COOKIES;
+          const COOKIE_DELETE_ATTRIBUTES = envClient.COOKIE_DELETE_ATTRIBUTES;
 
           // Set the 'auth_token' cookie to expire immediately
           // Path and Domain must match the original cookie for successful deletion

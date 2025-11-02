@@ -1,5 +1,3 @@
-import { COOKIES } from 'config/cookies.config';
-
 /**
  * Force-delete Better Auth cookies from the client side (LAST RESORT ONLY)
  *
@@ -26,6 +24,7 @@ export const forceDeleteAuthCookies = (): void => {
   document.cookie && console.log('📋 Current cookies:', document.cookie);
 
   const hostname = window.location.hostname;
+  const COOKIES = process.env.COOKIES;
   const cookiesToDelete = [COOKIES.TOKEN_COOKIE, COOKIES.DATA_COOKIE];
 
   // Generate deletion commands for each cookie (including __Secure- prefix for Windows)
