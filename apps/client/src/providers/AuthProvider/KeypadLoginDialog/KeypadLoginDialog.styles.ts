@@ -89,10 +89,12 @@ export const styles = css`
 
       input#password {
         min-height: 54px !important;
-        pointer-events: none;
-        user-select: none;
+        /* pointer-events: none;
+        user-select: none; */
         text-align: center !important;
+
         color: transparent !important;
+        color: ${colors.greyXLight} !important;
         border: ${forms.inputs.border.width} solid ${colors.greyXXLight75};
         background-color: transparent;
 
@@ -119,8 +121,8 @@ export const styles = css`
       .password-display-mask {
         position: relative;
         width: 100%;
-        pointer-events: none;
-        user-select: none;
+        /* pointer-events: none;
+        user-select: none; */
         z-index: 1;
         padding: 12px 16px;
         min-height: 48px;

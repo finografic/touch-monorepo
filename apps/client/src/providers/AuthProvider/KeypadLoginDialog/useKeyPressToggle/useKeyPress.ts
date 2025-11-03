@@ -1,6 +1,6 @@
 import { useCallback, useEffect } from 'react';
 
-export interface UseKeyPressToggleParams {
+export interface UseKeyPressParams {
   key: string;
   isActive: boolean;
   setIsActive: (value: boolean) => void;
@@ -12,12 +12,7 @@ export interface UseKeyPressToggleParams {
   };
 }
 
-export const useKeyPressToggle = ({
-  key,
-  isActive,
-  setIsActive,
-  modifiers = {},
-}: UseKeyPressToggleParams) => {
+export const useKeyPress = ({ key, isActive, setIsActive, modifiers = {} }: UseKeyPressParams) => {
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       if (event.key !== key) return;
@@ -30,7 +25,8 @@ export const useKeyPressToggle = ({
 
       if (!modifiersMatch) return;
 
-      setIsActive(!isActive);
+      // setIsActive(!isActive);
+      console.log('KEY_DOWN', 'cyan', { key: event.key, modifiersMatch });
     },
     [key, isActive, setIsActive, modifiers],
   );

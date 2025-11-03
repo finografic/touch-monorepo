@@ -79,8 +79,10 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
   // Prevent keyboard input of non-numeric characters
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
+      log('KEY_DOWN', 'cyan', { key: e.key, password });
       // Handle backspace explicitly
       if (e.key === 'Backspace' && password.length > 0) {
+        log('KEY_DOWN', 'cyan', { key: e.key, password });
         e.preventDefault();
         const newValue = password.slice(0, -1);
         onPasswordChange(newValue);

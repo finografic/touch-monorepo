@@ -23,7 +23,7 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
   const location = useLocation();
   const { toast } = useToast();
 
-  const [password, setPassword] = useState(DEFAULT_ADMIN_PASSWORD);
+  const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('admin');
