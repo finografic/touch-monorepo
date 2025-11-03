@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
+import { RelayAssign } from 'admin/pages/AdminRelaysPage/RelayAssign';
 
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
 import { SlotType } from 'types/orders.types';
@@ -150,37 +151,8 @@ export const AdminRelaysPage: React.FC = () => {
               <Flex direction="column" gap="4">
                 <Flex justify="between" align="center">
                   <Heading size="4">Relay Control Grid</Heading>
-                  <Flex gap="2" ml="4">
-                    <Button
-                      onClick={handleTurnAllOn}
-                      disabled={turnAllOnMutation.isPending}
-                      variant="solid"
-                      color="green"
-                      size="2"
-                    >
-                      {turnAllOnMutation.isPending ? 'Turning ON...' : 'All ON'}
-                    </Button>
-                    <Button
-                      onClick={handleTurnAllOff}
-                      disabled={turnAllOffMutation.isPending}
-                      variant="solid"
-                      color="red"
-                      size="2"
-                    >
-                      {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
-                    </Button>
-                    <Button
-                      onClick={handleResetAll}
-                      disabled={turnAllOffMutation.isPending}
-                      variant="outline"
-                      color="orange"
-                      size="2"
-                    >
-                      {turnAllOffMutation.isPending ? 'Resetting...' : 'Reset All'}
-                    </Button>
-                  </Flex>
                 </Flex>
-                <RelayGrid
+                <RelayAssign
                   configurations={relayConfigs}
                   onRelayToggle={handleRelayToggle}
                   isLoading={toggleRelayMutation.isPending}
