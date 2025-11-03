@@ -1,7 +1,9 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { KEY_PRESS } from '@workspace/core';
 
 import { Button } from 'components/Button';
 import { useAuth } from 'providers/AuthProvider';
+import { useKeyPress } from 'providers/AuthProvider/KeypadLoginDialog/useKeyPressToggle';
 
 import { NumericKeypad } from './NumericKeypad';
 import { styles } from './KeypadLoginDialog.styles';
@@ -33,6 +35,13 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // NOTE: the `backtick` key to toggle dev guides visibility
+  useKeyPress({
+    key: KEY_PRESS.DIGIT_0,
+    isActive: true,
+    setIsActive: () => {},
+  });
+
   // Sync input value with password prop
   useEffect(() => {
     if (inputRef.current && inputRef.current.value !== password) {
@@ -40,6 +49,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
     }
   }, [password]);
 
+  /*
   // Handle input change - only allow numbers
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -56,6 +66,9 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
     },
     [onPasswordChange],
   );
+  */
+
+  /*
 
   // Handle keypad digit press
   const handleDigitPress = useCallback(
@@ -75,7 +88,9 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
     const newValue = password.slice(0, -1);
     onPasswordChange(newValue);
   }, [password, onPasswordChange]);
+  */
 
+  /*
   // Prevent keyboard input of non-numeric characters
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -116,6 +131,8 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
     [password, onPasswordChange],
   );
 
+  */
+
   // Handle paste - only allow numeric characters
   const handlePaste = useCallback(
     (e: React.ClipboardEvent<HTMLInputElement>) => {
@@ -144,9 +161,9 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
                 inputMode="numeric"
                 pattern="[0-9]*"
                 value={password}
-                onChange={handleInputChange}
-                onKeyDown={handleKeyDown}
-                onPaste={handlePaste}
+                // onChange={handleInputChange}
+                // onKeyDown={handleKeyDown}
+                // onPaste={handlePaste}
                 placeholder="Enter 4-digit code"
                 required
                 disabled={isLoading}
@@ -163,7 +180,13 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
 
           {/* {error && <div className="error">{error}</div>} */}
 
-          <NumericKeypad onDigitPress={handleDigitPress} onBackspace={handleBackspace} disabled={isLoading} />
+          <NumericKeypad
+            //  onDigitPress={handleDigitPress}
+            //   onBackspace={handleBackspace}
+            onDigitPress={() => {}}
+            onBackspace={() => {}}
+            disabled={isLoading}
+          />
 
           <Button
             type="submit"
