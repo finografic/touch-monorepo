@@ -89,9 +89,9 @@ export const styles = css`
           border: ${forms.inputs.border.width} solid ${colors.greyXXLight75};
           background-color: transparent;
         }
-
+        &.input-filled,
         &:not(:empty) {
-          border: ${forms.inputs.border.width} solid ${colors.grey};
+          border: ${forms.inputs.border.width} solid ${colors.greyXLight}!important;
           background-color: transparent;
         }
 
@@ -113,17 +113,21 @@ export const styles = css`
       .password-display-mask {
         position: relative;
         width: 100%;
-        /* pointer-events: none;
-        user-select: none; */
+        pointer-events: none;
+        user-select: none;
         z-index: 1;
         padding: 12px 16px;
         min-height: 54px;
+        line-height: 1;
         display: flex;
         align-items: center;
         justify-content: center;
         /* font-size: 20px; */
         font-family: inherit;
-        color: ${colors.text};
+        font-weight: 600;
+        font-size: 1.25rem !important;
+        color: ${colors.textXLight}!important;
+        -webkit-text-fill-color: ${colors.textXLight}!important;
         border: ${forms.inputs.border.width} solid transparent;
         border-radius: 8px;
         letter-spacing: 0.15em;

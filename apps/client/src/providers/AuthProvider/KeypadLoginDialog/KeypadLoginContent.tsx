@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { KEY_PRESS } from '@workspace/core';
 
+import clsx from 'clsx';
 import { Button } from 'components/Button';
 import { useAuth } from 'providers/AuthProvider';
 
@@ -113,11 +114,11 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
                 placeholder="Enter 4-digit code"
                 required
                 disabled={isLoading}
-                maxLength={MAX_PASSWORD_LENGTH}
+                // maxLength={MAX_PASSWORD_LENGTH}
                 autoComplete="off"
-                className="password-input-overlay"
+                className={clsx('password-input-overlay', password.length > 0 && 'input-filled')}
                 // aria-invalid={error ? 'true' : 'false'}
-                aria-invalid={password.length > 0}
+                aria-invalid={password.length > 4}
               />
               {/* Centered dots display */}
               <div className="password-display-mask">{'•'.repeat(password.length)}</div>
