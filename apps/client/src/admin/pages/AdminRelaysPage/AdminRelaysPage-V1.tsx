@@ -9,7 +9,6 @@ import { SlotType } from 'types/orders.types';
 import { AdminContentLayout } from '../..';
 import { RelayGrid } from './RelayGrid';
 import { NUM_RELAYS } from './relays.config';
-import { RelaysStatus } from './RelaysStatus';
 import { useRelayHandlers } from './useRelayHandlers';
 import { styles } from './AdminRelaysPage.styles';
 
@@ -142,11 +141,52 @@ export const AdminRelaysPage: React.FC = () => {
       <Box className="admin-relay-control">
         <Flex direction="column" gap="6">
           {/* Connection Status */}
-          <RelaysStatus />
+          <Card size="3" variant="surface">
+            <Flex justify="between" align="center">
+              <Flex direction="column" gap="2">
+                <Heading size="4">Connection Status</Heading>
+                <Flex align="center" gap="3">
+                  <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">
+                    {relayStatus?.connected ? 'Connected' : 'Disconnected'}
+                  </Badge>
+                  <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
+                    Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
+                  </Badge>
+
+                  {relayStatus?.port && (
+                    <Text size="2" color="gray">
+                      Port: {relayStatus.port}
+                    </Text>
+                  )}
+                  {relayStatus?.error && (
+                    <Text size="2" color="red">
+                      Error: {relayStatus.error}
+                    </Text>
+                  )}
+                </Flex>
+              </Flex>
+              <Flex align="center" gap="3">
+                <Button
+                  onClick={() => handleReconnect(relayStatus)}
+                  disabled={reconnectMutation.isPending || disconnectMutation.isPending}
+                  variant="outline"
+                  size="2"
+                >
+                  {reconnectMutation.isPending || disconnectMutation.isPending
+                    ? relayStatus?.connected
+                      ? 'Disconnecting...'
+                      : 'Reconnecting...'
+                    : relayStatus?.connected
+                      ? 'Disconnect'
+                      : 'Reconnect'}
+                </Button>
+              </Flex>
+            </Flex>
+          </Card>
 
           {/* Relay Control */}
           <Card size="3" variant="surface">
-            <Flex gap="4" justify="between">
+            {/* <Flex gap="4" justify="between">
               <Flex direction="column" gap="4">
                 <Flex justify="between" align="center">
                   <Heading size="4">Relay Control Grid</Heading>
@@ -208,7 +248,7 @@ export const AdminRelaysPage: React.FC = () => {
                   </div>
                 </div>
               </Flex>
-            </Flex>
+            </Flex> */}
           </Card>
         </Flex>
       </Box>
