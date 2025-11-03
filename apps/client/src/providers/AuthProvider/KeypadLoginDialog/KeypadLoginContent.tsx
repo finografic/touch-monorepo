@@ -31,7 +31,6 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
   isLoading,
   error,
 }) => {
-  const { isAuthenticated } = useAuth();
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Sync input value with password prop
@@ -130,10 +129,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
   );
 
   return (
-    <div
-      css={styles}
-      // style={{ display: 'none' }}
-    >
+    <div css={styles}>
       <div className="form-wrapper">
         <form className="form" onSubmit={onSubmit}>
           <div className="input-group">
@@ -155,6 +151,8 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
                 maxLength={MAX_PASSWORD_LENGTH}
                 autoComplete="off"
                 className="password-input-overlay"
+                // aria-invalid={error ? 'true' : 'false'}
+                aria-invalid={password.length > 0}
               />
               {/* Centered dots display */}
               <div className="password-display-mask">{'•'.repeat(password.length)}</div>

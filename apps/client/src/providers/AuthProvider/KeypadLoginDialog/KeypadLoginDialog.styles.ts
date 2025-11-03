@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
 import { button, colors } from 'styles';
+import { forms } from 'styles/forms/forms.styles';
 
 export const styles = css`
   display: flex;
@@ -86,6 +87,35 @@ export const styles = css`
         }
       }
 
+      input#password {
+        min-height: 54px !important;
+        pointer-events: none;
+        user-select: none;
+        text-align: center !important;
+        color: transparent !important;
+        border: ${forms.inputs.border.width} solid ${colors.greyXXLight75};
+        background-color: transparent;
+
+        &:hover:not(:disabled) {
+          transform: scale(0.95);
+          transition: transform 0.1s ease;
+          border: ${forms.inputs.border.width} solid ${colors.grey};
+          background-color: transparent;
+        }
+
+        &:active:not(:disabled) {
+          transform: scale(0.95);
+          transition: transform 0.1s ease;
+          border: ${forms.inputs.border.width} solid ${colors.info};
+          background-color: transparent;
+        }
+
+        &[aria-invalid='true'] {
+          border: ${forms.inputs.border.width} solid ${colors.warningLight};
+          background-color: transparent;
+        }
+      }
+
       .password-display-mask {
         position: relative;
         width: 100%;
@@ -93,23 +123,16 @@ export const styles = css`
         user-select: none;
         z-index: 1;
         padding: 12px 16px;
-        min-height: 44px;
+        min-height: 48px;
         display: flex;
         align-items: center;
         justify-content: center;
         /* font-size: 20px; */
         font-family: inherit;
         color: ${colors.text};
-        border: 2px solid transparent;
+        border: ${forms.inputs.border.width} solid transparent;
         border-radius: 8px;
         letter-spacing: 0.15em;
-        input {
-          pointer-events: none;
-          user-select: none;
-          border: 2px solid red !important;
-          text-align: center !important;
-          /* border: 2px solid ${colors.greyXXLight75}!important; */
-        }
       }
     }
   }
