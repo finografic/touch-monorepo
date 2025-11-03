@@ -76,4 +76,18 @@ export const styles = css`
     border-color: ${colors.success};
     background: ${colors.successXXLight25}!important;
   }
+
+  button.slot-number.slot-selected {
+    background-color: ${colors.infoLight};
+    border-color: ${colors.info};
+    color: ${colors.info};
+    font-weight: 600;
+  }
+
+  button.slot-number.slot-used:not(.slot-selected) {
+    opacity: 0.5;
+    border-color: ${colors.greyLight};
+    color: ${colors.greyLight};
+    cursor: not-allowed;
+  }
 `;

@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useCallback, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
-import { Box, Button, Flex, SegmentedControl, Text } from '@radix-ui/themes';
+import { Box, Button, Flex, Text } from '@radix-ui/themes';
+import clsx from 'clsx';
 
 import type { SlotType } from 'types/orders.types';
 
@@ -20,6 +21,9 @@ interface RelayAssignProps {
   isLoading?: boolean;
 }
 
+// Map: rowNumber (1-8) -> selectedValue (1-8 | undefined)
+type Assignments = Record<number, number | undefined>;
+
 export const RelayAssign: React.FC<RelayAssignProps> = ({
   configurations,
   onRelayToggle,
@@ -27,6 +31,43 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 }) => {
   // Filter configurations to only show relays (1 to NUM_RELAYS)
   const relayConfigurations = configurations.filter((config) => config.slotNumber <= NUM_RELAYS);
+
+  // State: each row (1-8) has a unique assigned value (1-8) or undefined
+  const [assignments, setAssignments] = useState<Assignments>(() => {
+    const initial: Assignments = {};
+    for (let i = 1; i <= NUM_RELAYS; i++) {
+      initial[i] = undefined;
+    }
+    return initial;
+  });
+
+  const handleButtonClick = useCallback((rowNumber: number, buttonValue: number) => {
+    setAssignments((prev) => {
+      const currentAssignment = prev[rowNumber];
+
+      // If clicking the already-selected button, deselect it
+      if (currentAssignment === buttonValue) {
+        return { ...prev, [rowNumber]: undefined };
+      }
+
+      // Find which row (if any) currently has this buttonValue
+      const conflictingRow = Object.entries(prev).find(
+        ([row, value]) => Number(row) !== rowNumber && value === buttonValue,
+      )?.[0];
+
+      const updated: Assignments = { ...prev };
+
+      // Clear the conflicting row if it exists
+      if (conflictingRow) {
+        updated[Number(conflictingRow)] = undefined;
+      }
+
+      // Assign this value to the current row
+      updated[rowNumber] = buttonValue;
+
+      return updated;
+    });
+  }, []);
 
   const handleSlotClick = (slotNumber: number) => {
     const currentConfig = relayConfigurations.find((config) => config.slotNumber === slotNumber);
@@ -57,21 +98,34 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                   </Col>
                   <Col xs={10}>
                     <Flex direction="row" align="center" gap="3">
-                      {Array.from({ length: 8 }).map((_, index) => (
-                        <Button
-                          key={index}
-                          className="slot-number"
-                          disabled={true}
-                          variant="outline"
-                          size="3"
-                        >
-                          <Flex direction="column" align="center" gap="1">
-                            <Text size="4" weight="bold">
-                              {index + 1}
-                            </Text>
-                          </Flex>
-                        </Button>
-                      ))}
+                      {Array.from({ length: 8 }).map((_, index) => {
+                        const buttonValue = index + 1;
+                        const isSelected = assignments[config.slotNumber] === buttonValue;
+                        const isUsedByAnotherRow = Object.entries(assignments).some(
+                          ([row, value]) => Number(row) !== config.slotNumber && value === buttonValue,
+                        );
+
+                        return (
+                          <Button
+                            key={index}
+                            className={clsx(
+                              'slot-number',
+                              isSelected && 'slot-selected',
+                              isUsedByAnotherRow && 'slot-used',
+                            )}
+                            disabled={isLoading}
+                            variant={isSelected ? 'solid' : 'outline'}
+                            size="3"
+                            onClick={() => handleButtonClick(config.slotNumber, buttonValue)}
+                          >
+                            <Flex direction="column" align="center" gap="1">
+                              <Text size="4" weight="bold">
+                                {buttonValue}
+                              </Text>
+                            </Flex>
+                          </Button>
+                        );
+                      })}
                     </Flex>
                   </Col>
                 </Row>
