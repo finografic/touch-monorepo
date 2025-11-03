@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
+import { button, colors } from 'styles';
 
 export const styles = css`
   display: flex;
@@ -65,6 +65,8 @@ export const styles = css`
         caret-color: transparent;
         background: transparent;
         border: 2px solid ${colors.grey};
+        pointer-events: none;
+        user-select: none;
         border-radius: 8px;
         padding: 12px 16px;
         font-size: 16px;
@@ -88,20 +90,25 @@ export const styles = css`
         position: relative;
         width: 100%;
         pointer-events: none;
+        user-select: none;
         z-index: 1;
         padding: 12px 16px;
         min-height: 44px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 20px;
+        /* font-size: 20px; */
         font-family: inherit;
         color: ${colors.text};
         border: 2px solid transparent;
         border-radius: 8px;
         letter-spacing: 0.15em;
         input {
-          border: 2px solid ${colors.greyXXLight75}!important;
+          pointer-events: none;
+          user-select: none;
+          border: 2px solid red !important;
+          text-align: center !important;
+          /* border: 2px solid ${colors.greyXXLight75}!important; */
         }
       }
     }
@@ -137,9 +144,24 @@ export const keypadStyles = css`
       align-items: center;
       justify-content: center;
 
+      color: ${colors.greyLight};
+      border: 2px solid ${colors.greyXXLight};
+      background-color: transparent;
+
+      &:hover:not(:disabled) {
+        transform: scale(0.95);
+        transition: transform 0.1s ease;
+        color: ${colors.greyLight};
+        border: 2px solid ${colors.greyLight};
+        background-color: ${colors.greyXXLight50};
+      }
+
       &:active:not(:disabled) {
         transform: scale(0.95);
         transition: transform 0.1s ease;
+        color: ${colors.info};
+        border: 2px solid ${colors.info};
+        background-color: ${colors.infoLight50};
       }
 
       &.keypad-button-backspace {

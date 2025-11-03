@@ -10,14 +10,6 @@ interface NumericKeypadProps {
   disabled?: boolean;
 }
 
-/**
- * 3x4 Numeric Keypad Component
- * Standard phone keypad layout:
- *   1  2  3
- *   4  5  6
- *   7  8  9
- *   0  #
- */
 export const NumericKeypad: React.FC<NumericKeypadProps> = ({
   onDigitPress,
   onBackspace,
@@ -36,7 +28,6 @@ export const NumericKeypad: React.FC<NumericKeypadProps> = ({
   return (
     <div css={keypadStyles}>
       <div className="keypad-grid">
-        {/* Row 1 */}
         {[1, 2, 3, 4, 5, 6, 7, 8, 9].map((digit) => (
           <Button
             key={digit}
