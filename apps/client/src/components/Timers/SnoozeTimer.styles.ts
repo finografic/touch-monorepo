@@ -11,8 +11,8 @@ export const styles = css`
     height: 48px;
     position: fixed;
     bottom: 0;
-    left: 50vh;
-    transform: translate(33%, -15%);
+    left: 50vw;
+    transform: translate(-50%, -15%);
 
     padding: 0 15px 0 0;
     font-size: 14px;

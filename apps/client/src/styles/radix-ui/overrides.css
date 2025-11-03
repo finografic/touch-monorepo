@@ -39,8 +39,6 @@
   .rt-DialogContent button,
   .rt-BaseDialogContent button {
     all: revert; /* Complete CSS reset */
-
-    /* background-color: red !important; */
   }
 }
 
@@ -62,4 +60,9 @@
   .rt-DialogOverlay {
     background-color: rgba(0, 0, 0, 0.5) !important;
   }
+}
+
+.rt-TextFieldRoot,
+.rt-TextAreaRoot {
+  box-shadow: none !important;
 }
