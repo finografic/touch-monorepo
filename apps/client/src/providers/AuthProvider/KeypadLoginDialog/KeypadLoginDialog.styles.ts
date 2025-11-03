@@ -42,19 +42,6 @@ export const styles = css`
     padding: 0.25rem 0 0;
     margin-bottom: 0.1rem;
 
-    .label {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: ${colors.text};
-
-      .hint {
-        font-weight: 400;
-        color: ${colors.grey};
-        margin-left: 0.5rem;
-        font-size: 0.75rem;
-      }
-    }
-
     .password-input-wrapper {
       position: relative;
       width: 100%;
@@ -78,7 +65,7 @@ export const styles = css`
         &:focus {
           outline: none;
           border-color: ${colors.info};
-          box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+          /* box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); */
         }
 
         &:disabled {
@@ -89,25 +76,26 @@ export const styles = css`
 
       input#password {
         min-height: 54px !important;
-        /* pointer-events: none;
-        user-select: none; */
+        pointer-events: none;
+        user-select: none;
         text-align: center !important;
 
         color: transparent !important;
-        color: ${colors.greyXLight} !important;
-        border: ${forms.inputs.border.width} solid ${colors.greyXXLight75};
+        /* color: ${colors.greyXLight} !important; */
+        border: ${forms.inputs.border.width} solid ${colors.grey};
         background-color: transparent;
 
-        &:hover:not(:disabled) {
-          transform: scale(0.95);
-          transition: transform 0.1s ease;
+        &:empty {
+          border: ${forms.inputs.border.width} solid ${colors.greyXXLight75};
+          background-color: transparent;
+        }
+
+        &:not(:empty) {
           border: ${forms.inputs.border.width} solid ${colors.grey};
           background-color: transparent;
         }
 
         &:active:not(:disabled) {
-          transform: scale(0.95);
-          transition: transform 0.1s ease;
           border: ${forms.inputs.border.width} solid ${colors.info};
           background-color: transparent;
         }
@@ -115,6 +103,10 @@ export const styles = css`
         &[aria-invalid='true'] {
           border: ${forms.inputs.border.width} solid ${colors.warningLight};
           background-color: transparent;
+        }
+
+        &[aria-invalid='true'] + .password-display-mask {
+          color: ${colors.warning};
         }
       }
 
@@ -125,7 +117,7 @@ export const styles = css`
         user-select: none; */
         z-index: 1;
         padding: 12px 16px;
-        min-height: 48px;
+        min-height: 54px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -160,7 +152,6 @@ export const keypadStyles = css`
 
     .keypad-button {
       aspect-ratio: 1;
-      min-height: 60px;
       min-height: 70px;
       font-size: 1.25rem;
       font-weight: 600;

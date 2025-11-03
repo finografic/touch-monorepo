@@ -35,63 +35,6 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const handleDigitPress = useCallback(
-    (digit: string) => {
-      if (password.length >= MAX_PASSWORD_LENGTH) {
-        return; // Already at max length
-      }
-
-      const newValue = password + digit;
-      onPasswordChange(newValue);
-    },
-    [password, onPasswordChange],
-  );
-
-  // NOTE: the `backtick` key to toggle dev guides visibility
-  useKeyPress({
-    key: [
-      [KEY_PRESS.DIGIT_0, handleDigitPress],
-      [KEY_PRESS.DIGIT_1, handleDigitPress],
-      [KEY_PRESS.DIGIT_2, handleDigitPress],
-      [KEY_PRESS.DIGIT_3, handleDigitPress],
-      [KEY_PRESS.DIGIT_4, handleDigitPress],
-      [KEY_PRESS.DIGIT_5, handleDigitPress],
-      [KEY_PRESS.DIGIT_6, handleDigitPress],
-      [KEY_PRESS.DIGIT_7, handleDigitPress],
-      [KEY_PRESS.DIGIT_8, handleDigitPress],
-      [KEY_PRESS.DIGIT_9, handleDigitPress],
-    ],
-    isActive: true,
-  });
-
-  // Sync input value with password prop
-  useEffect(() => {
-    if (inputRef.current && inputRef.current.value !== password) {
-      inputRef.current.value = password;
-    }
-  }, [password]);
-
-  /*
-  // Handle input change - only allow numbers
-  const handleInputChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      const inputValue = e.target.value;
-
-      // Only allow numeric characters
-      const numericValue = inputValue.replace(/\D/g, '');
-
-      // Limit to max length
-      const trimmedValue = numericValue.slice(0, MAX_PASSWORD_LENGTH);
-
-      // Update the password
-      onPasswordChange(trimmedValue);
-    },
-    [onPasswordChange],
-  );
-  */
-
-  /*
-
   // Handle keypad digit press
   const handleDigitPress = useCallback(
     (digit: string) => {
@@ -110,50 +53,31 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
     const newValue = password.slice(0, -1);
     onPasswordChange(newValue);
   }, [password, onPasswordChange]);
-  */
 
-  /*
-  // Prevent keyboard input of non-numeric characters
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLInputElement>) => {
-      log('KEY_DOWN', 'cyan', { key: e.key, password });
-      // Handle backspace explicitly
-      if (e.key === 'Backspace' && password.length > 0) {
-        log('KEY_DOWN', 'cyan', { key: e.key, password });
-        e.preventDefault();
-        const newValue = password.slice(0, -1);
-        onPasswordChange(newValue);
-        return;
-      }
+  // Keyboard input handler - listens for numeric keys and backspace
+  useKeyPress({
+    key: [
+      [KEY_PRESS.DIGIT_0, handleDigitPress],
+      [KEY_PRESS.DIGIT_1, handleDigitPress],
+      [KEY_PRESS.DIGIT_2, handleDigitPress],
+      [KEY_PRESS.DIGIT_3, handleDigitPress],
+      [KEY_PRESS.DIGIT_4, handleDigitPress],
+      [KEY_PRESS.DIGIT_5, handleDigitPress],
+      [KEY_PRESS.DIGIT_6, handleDigitPress],
+      [KEY_PRESS.DIGIT_7, handleDigitPress],
+      [KEY_PRESS.DIGIT_8, handleDigitPress],
+      [KEY_PRESS.DIGIT_9, handleDigitPress],
+      [KEY_PRESS.BACKSPACE, handleBackspace],
+    ],
+    isActive: true,
+  });
 
-      // Handle delete key
-      if (e.key === 'Delete' && password.length > 0) {
-        e.preventDefault();
-        // For delete, treat it like backspace (delete last char)
-        const newValue = password.slice(0, -1);
-        onPasswordChange(newValue);
-        return;
-      }
-
-      // Allow: tab, escape, enter, arrow keys
-      if (['Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].includes(e.key)) {
-        return; // Allow these keys
-      }
-
-      // Allow Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
-      if (e.ctrlKey || e.metaKey) {
-        return;
-      }
-
-      // Block non-numeric keys
-      if (!/\d/.test(e.key)) {
-        e.preventDefault();
-      }
-    },
-    [password, onPasswordChange],
-  );
-
-  */
+  // Sync input value with password prop
+  useEffect(() => {
+    if (inputRef.current && inputRef.current.value !== password) {
+      inputRef.current.value = password;
+    }
+  }, [password]);
 
   // Handle paste - only allow numeric characters
   const handlePaste = useCallback(
@@ -202,13 +126,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
 
           {/* {error && <div className="error">{error}</div>} */}
 
-          <NumericKeypad
-            //  onDigitPress={handleDigitPress}
-            //   onBackspace={handleBackspace}
-            onDigitPress={() => {}}
-            onBackspace={() => {}}
-            disabled={isLoading}
-          />
+          <NumericKeypad onDigitPress={handleDigitPress} onBackspace={handleBackspace} disabled={isLoading} />
 
           <Button
             type="submit"
