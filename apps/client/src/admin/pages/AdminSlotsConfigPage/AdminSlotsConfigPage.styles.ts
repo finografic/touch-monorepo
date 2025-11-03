@@ -4,8 +4,8 @@ import { colors, layout } from 'styles';
 
 export const styles = css`
   .admin-slot-config {
-    max-width: 1200px;
-    margin: 0 auto;
+    /* max-width: 1200px; */
+    /* margin: 0 auto; */
     margin-top: 1rem;
     /* padding: 1rem; */
   }
@@ -52,7 +52,7 @@ export const styles = css`
     background-color: ${colors.greyXXLight25};
     border: 1px solid ${colors.greyXXLight25};
     padding: 0.5rem 1.5rem;
-    border-radius: ${layout.borderRadius.md};
+    border-radius: ${layout.borderRadius};
     width: 180px;
   }
 

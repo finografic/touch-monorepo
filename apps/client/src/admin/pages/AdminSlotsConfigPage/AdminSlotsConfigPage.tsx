@@ -174,11 +174,12 @@ export const AdminSlotsConfigPage: React.FC = () => {
   }
 
   return (
-    <section css={styles} id="admin-slot-config">
+    <>
       <FormProvider {...methods}>
         <AdminContentLayout
           title="Slot Configuration"
           subtitle="Configure the MainPage grid layout and slot types"
+          styles={styles}
         >
           <Box className="admin-slot-config">
             <Flex direction="column" gap="6">
@@ -287,6 +288,6 @@ export const AdminSlotsConfigPage: React.FC = () => {
           </Box>
         </AdminContentLayout>
       </FormProvider>
-    </section>
+    </>
   );
 };
