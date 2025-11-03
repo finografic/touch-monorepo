@@ -20,4 +20,8 @@ export const styles = css`
     color: ${colors.text};
     overflow: hidden;
   }
+
+  .col-form-table {
+    padding: 1rem 0 !important;
+  }
 `;

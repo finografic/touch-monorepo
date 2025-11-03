@@ -57,9 +57,19 @@ export const styles = css`
   }
 
   .table-rows-container {
-    /* overflow-y: auto; */
+    overflow-y: auto;
     border: 1px solid ${colors.greyLight};
+    border: 1px solid transparent;
     border-radius: 0 0 6px 6px;
+  }
+
+  .table-header {
+    box-shadow: 0 3px 3px 0px rgba(0, 0, 0, 0.15) !important;
+  }
+
+  .table-footer {
+    padding: 0.5rem;
+    box-shadow: 0 -3px 3px 0px rgba(0, 0, 0, 0.15) !important;
   }
 
   .table-row {
@@ -151,11 +161,6 @@ export const styles = css`
     display: flex;
     justify-content: center;
     padding: ${spacing[4]} 0;
-    border-top: 1px solid ${colors.greyXXLight};
-  }
-
-  .table-footer {
-    padding: 0.5rem;
     border-top: 1px solid ${colors.greyXXLight};
   }
 
