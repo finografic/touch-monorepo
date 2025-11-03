@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 import { MinusIcon, PlusIcon, ResetIcon } from '@radix-ui/react-icons';
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
+import clsx from 'clsx';
 import { useToast } from 'components/Toast';
 
 import {
@@ -15,6 +16,7 @@ import { SlotType } from 'types/orders.types';
 import { GRID_CONFIGS } from 'types/slot-config.types';
 
 import { AdminContentLayout } from '../..';
+import { AdminSection } from '../../components/AdminSection';
 import { SlotGrid } from './SlotGrid';
 import { styles } from './AdminSlotsConfigPage.styles';
 
@@ -181,111 +183,111 @@ export const AdminSlotsConfigPage: React.FC = () => {
           subtitle="Configure the MainPage grid layout and slot types"
           styles={styles}
         >
-          <Box className="admin-slot-config">
-            <Flex direction="column" gap="6">
-              <Card size="3" variant="surface">
-                <Flex gap="4" justify="between">
-                  {/* ====================================================================== */}
+          <AdminSection
+            // className={clsx('admin-slot-config-preview-')}
+            isLoading={isLoading}
+            // variant="none"
+          >
+            <Flex gap="4" justify="between">
+              {/* ====================================================================== */}
 
-                  <Flex direction="column" gap="4">
-                    <Heading size="4">Slot Grid Layout Preview</Heading>
-                    <Text size="2" color="gray">
-                      Click on slots to change their type. The last slot is positioned separately.
-                    </Text>
-                    <SlotGrid
-                      configurations={slots}
-                      gridConfig={GRID_CONFIGS[columns]}
-                      onConfigurationChange={handleGridConfigChange}
-                    />
-                    <Flex gap="4" align="center" mt="-4" pb="4">
-                      <Badge variant="soft" color="blue">
-                        {columns} columns × 3 rows = {GRID_CONFIGS[columns].totalSlots - 1} slots + 1 separate
-                        slot
-                      </Badge>
-                    </Flex>
-                  </Flex>
-
-                  {/* ====================================================================== */}
-
-                  <Flex direction="column" gap="4">
-                    <div className="slot-types-container">
-                      <Heading size="4">Slot Types</Heading>
-                      <div className="slot-legend">
-                        <Flex direction="column" gap="5">
-                          <Flex align="center" gap="4">
-                            <div className="legend-item legend-type-a">A</div>
-                            <Text size="3">Type A</Text>
-                          </Flex>
-                          <Flex align="center" gap="4">
-                            <div className="legend-item legend-type-b">B</div>
-                            <Text size="3">Type B</Text>
-                          </Flex>
-                          <Flex align="center" gap="4">
-                            <div className="legend-item legend-type-c">C</div>
-                            <Text size="3">Type C</Text>
-                          </Flex>
-                        </Flex>
-                      </div>
-                    </div>
-                  </Flex>
+              <Flex direction="column" gap="4" px="1">
+                <Heading size="4">Slot Grid Layout Preview</Heading>
+                <Text size="2" color="gray">
+                  Click on slots to change their type. The last slot is positioned separately.
+                </Text>
+                <SlotGrid
+                  configurations={slots}
+                  gridConfig={GRID_CONFIGS[columns]}
+                  onConfigurationChange={handleGridConfigChange}
+                />
+                <Flex gap="4" align="center" mt="-4" pb="4">
+                  <Badge variant="soft" color="blue">
+                    {columns} columns × 3 rows = {GRID_CONFIGS[columns].totalSlots - 1} slots + 1 separate
+                    slot
+                  </Badge>
                 </Flex>
+              </Flex>
 
-                <Flex justify="between" gap="4" pr="3">
-                  <Flex gap="2">
-                    <Button
-                      variant="outline"
-                      color="green"
-                      size="3"
-                      onClick={handleAddColumn}
-                      disabled={columns >= maxColumns}
-                    >
-                      <Flex justify="start" align="center" width="180px" gap="4" ml="4">
-                        <PlusIcon />
-                        Add Column
-                      </Flex>
-                    </Button>
-                    <Button
-                      variant="outline"
-                      color="orange"
-                      size="3"
-                      onClick={handleRemoveColumn}
-                      disabled={columns <= minColumns}
-                    >
-                      <Flex justify="start" align="center" width="180px" gap="4" ml="4">
-                        <MinusIcon />
-                        Remove Column
-                      </Flex>
-                    </Button>
-                  </Flex>
+              {/* ====================================================================== */}
 
-                  <Flex justify="between" gap="2">
-                    <Flex gap="2">
-                      <Button
-                        size="3"
-                        color="green"
-                        onClick={handleSubmit(onSave)}
-                        disabled={bulkUpdateMutation.isPending}
-                        loading={bulkUpdateMutation.isPending}
-                      >
-                        Save Configuration
-                      </Button>
-                      <Button
-                        size="3"
-                        variant="outline"
-                        color="gray"
-                        onClick={onReset}
-                        disabled={resetMutation.isPending}
-                        loading={resetMutation.isPending}
-                      >
-                        <ResetIcon />
-                        Reset to Default
-                      </Button>
+              <Flex direction="column" gap="4">
+                <div className="slot-types-container">
+                  <Heading size="4">Slot Types</Heading>
+                  <div className="slot-legend">
+                    <Flex direction="column" gap="5">
+                      <Flex align="center" gap="4">
+                        <div className="legend-item legend-type-a">A</div>
+                        <Text size="3">Type A</Text>
+                      </Flex>
+                      <Flex align="center" gap="4">
+                        <div className="legend-item legend-type-b">B</div>
+                        <Text size="3">Type B</Text>
+                      </Flex>
+                      <Flex align="center" gap="4">
+                        <div className="legend-item legend-type-c">C</div>
+                        <Text size="3">Type C</Text>
+                      </Flex>
                     </Flex>
-                  </Flex>
-                </Flex>
-              </Card>
+                  </div>
+                </div>
+              </Flex>
             </Flex>
-          </Box>
+
+            <Flex justify="between" gap="4" pr="3">
+              <Flex gap="2">
+                <Button
+                  variant="outline"
+                  color="green"
+                  size="3"
+                  onClick={handleAddColumn}
+                  disabled={columns >= maxColumns}
+                >
+                  <Flex justify="start" align="center" width="180px" gap="4" ml="4">
+                    <PlusIcon />
+                    Add Column
+                  </Flex>
+                </Button>
+                <Button
+                  variant="outline"
+                  color="orange"
+                  size="3"
+                  onClick={handleRemoveColumn}
+                  disabled={columns <= minColumns}
+                >
+                  <Flex justify="start" align="center" width="180px" gap="4" ml="4">
+                    <MinusIcon />
+                    Remove Column
+                  </Flex>
+                </Button>
+              </Flex>
+
+              <Flex justify="between" gap="2">
+                <Flex gap="2">
+                  <Button
+                    size="3"
+                    color="green"
+                    onClick={handleSubmit(onSave)}
+                    disabled={bulkUpdateMutation.isPending}
+                    loading={bulkUpdateMutation.isPending}
+                  >
+                    Save Configuration
+                  </Button>
+                  <Button
+                    size="3"
+                    variant="outline"
+                    color="gray"
+                    onClick={onReset}
+                    disabled={resetMutation.isPending}
+                    loading={resetMutation.isPending}
+                  >
+                    <ResetIcon />
+                    Reset to Default
+                  </Button>
+                </Flex>
+              </Flex>
+            </Flex>
+          </AdminSection>
         </AdminContentLayout>
       </FormProvider>
     </>
