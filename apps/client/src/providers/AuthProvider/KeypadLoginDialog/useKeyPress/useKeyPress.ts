@@ -78,20 +78,16 @@ export const useKeyPress = ({ key: keyMap, isActive, modifiers = {} }: UseKeyPre
       // Control keys
       [KEY_PRESS.BACKSPACE]: KEY_PRESS.BACKSPACE,
       [KEY_PRESS.DELETE]: KEY_PRESS.BACKSPACE, // Map Delete to Backspace
+      // Enter keys (both regular and numpad)
+      [KEY_PRESS.ENTER]: KEY_PRESS.ENTER,
+      [KEY_PRESS.NUMPAD_ENTER]: KEY_PRESS.ENTER, // Map NumpadEnter to Enter
+      // Escape key
+      [KEY_PRESS.ESCAPE]: KEY_PRESS.ESCAPE,
     };
 
     // Get the normalized key value (handles numpad -> digit mapping)
     const normalizedKey = keyValueMap[event.key];
     if (!normalizedKey) return;
-
-    // Check modifier keys
-    const modifiersMatch =
-      (!modifiersRef.current.ctrl || event.ctrlKey) &&
-      (!modifiersRef.current.alt || event.altKey) &&
-      (!modifiersRef.current.shift || event.shiftKey) &&
-      (!modifiersRef.current.meta || event.metaKey);
-
-    if (!modifiersMatch) return;
 
     // Find the handler for this key in our map
     const keyHandler = keyMapRef.current.find(([keyConstant]) => keyConstant === normalizedKey);

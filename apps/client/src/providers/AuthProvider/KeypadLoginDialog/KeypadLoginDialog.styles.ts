@@ -14,6 +14,10 @@ export const styles = css`
 
   overflow: hidden;
 
+  .form {
+    display: none;
+  }
+
   .submit-button {
     width: 100%;
     color: ${colors.white};

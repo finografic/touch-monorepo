@@ -49,13 +49,38 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
     [password, onPasswordChange],
   );
 
-  // Handle backspace
+  // Handle backspace (also handles Delete key)
   const handleBackspace = useCallback(() => {
     const newValue = password.slice(0, -1);
     onPasswordChange(newValue);
   }, [password, onPasswordChange]);
 
-  // Keyboard input handler - listens for numeric keys and backspace
+  // Handle Enter key - submit form if password is complete
+  const handleEnter = useCallback(
+    (_keyValue?: string) => {
+      if (password.length === MAX_PASSWORD_LENGTH && !isLoading) {
+        // Find the form and submit button
+        const form = inputRef.current?.closest('form');
+        const submitButton = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
+
+        if (form && submitButton && !submitButton.disabled) {
+          // Trigger form submission by clicking the submit button
+          // This ensures all form validation and handlers run properly
+          submitButton.click();
+        }
+      }
+    },
+    [password, isLoading],
+  );
+
+  const handleEscape = useCallback(
+    (_keyValue?: string) => {
+      console.log('escape');
+    },
+    [password, isLoading],
+  );
+
+  // Keyboard input handler - listens for numeric keys, backspace, delete, and enter
   useKeyPress({
     key: [
       [KEY_PRESS.DIGIT_0, handleDigitPress],
@@ -69,6 +94,9 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
       [KEY_PRESS.DIGIT_8, handleDigitPress],
       [KEY_PRESS.DIGIT_9, handleDigitPress],
       [KEY_PRESS.BACKSPACE, handleBackspace],
+      [KEY_PRESS.ENTER, handleEnter],
+      [KEY_PRESS.NUMPAD_ENTER, handleEnter],
+      [KEY_PRESS.ESCAPE, handleEscape],
     ],
     isActive: true,
   });
@@ -117,8 +145,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
                 // maxLength={MAX_PASSWORD_LENGTH}
                 autoComplete="off"
                 className={clsx('password-input-overlay', password.length > 0 && 'input-filled')}
-                // aria-invalid={error ? 'true' : 'false'}
-                aria-invalid={password.length > 4}
+                aria-invalid={error ? 'true' : 'false'}
               />
               {/* Centered dots display */}
               <div className="password-display-mask">{'•'.repeat(password.length)}</div>
