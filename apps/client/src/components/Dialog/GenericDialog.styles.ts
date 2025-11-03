@@ -14,6 +14,37 @@ export const styles = css`
     flex-direction: column;
     min-height: 240px !important;
 
+    /* Dialog open/close animations */
+    &[data-state='open'] {
+      animation: dialogOpen 200ms ease-out;
+    }
+
+    &[data-state='closed'] {
+      animation: dialogClose 200ms ease-in;
+    }
+
+    @keyframes dialogOpen {
+      from {
+        opacity: 0;
+        transform: scale(1.5);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    @keyframes dialogClose {
+      from {
+        opacity: 1;
+        transform: scale(1);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.5);
+      }
+    }
+
     .has-title {
       .close-button {
         transform: translate(0.25rem, -1rem);

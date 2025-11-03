@@ -16,6 +16,7 @@ export interface UseKeyPressParams {
     shift?: boolean;
     meta?: boolean;
   };
+  onKeyPress?: (keyValue: string) => void; // Callback to notify which key was pressed (for visual feedback)
 }
 
 /**
@@ -33,18 +34,20 @@ export interface UseKeyPressParams {
  * });
  * ```
  */
-export const useKeyPress = ({ key: keyMap, isActive, modifiers = {} }: UseKeyPressParams) => {
+export const useKeyPress = ({ key: keyMap, isActive, modifiers = {}, onKeyPress }: UseKeyPressParams) => {
   // Use refs to avoid recreating handlers on every render
   const keyMapRef = useRef(keyMap);
   const isActiveRef = useRef(isActive);
   const modifiersRef = useRef(modifiers);
+  const onKeyPressRef = useRef(onKeyPress);
 
   // Update refs when props change
   useEffect(() => {
     keyMapRef.current = keyMap;
     isActiveRef.current = isActive;
     modifiersRef.current = modifiers;
-  }, [keyMap, isActive, modifiers]);
+    onKeyPressRef.current = onKeyPress;
+  }, [keyMap, isActive, modifiers, onKeyPress]);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
     if (!isActiveRef.current) return;
@@ -90,6 +93,11 @@ export const useKeyPress = ({ key: keyMap, isActive, modifiers = {} }: UseKeyPre
       // Prevent default browser behavior for handled keys
       event.preventDefault();
       event.stopPropagation();
+
+      // Notify about key press for visual feedback (for digit keys)
+      if (onKeyPressRef.current && normalizedKey.match(/\d/)) {
+        onKeyPressRef.current(normalizedKey);
+      }
 
       // Call handler with the key value (the digit/character string)
       handler(normalizedKey);

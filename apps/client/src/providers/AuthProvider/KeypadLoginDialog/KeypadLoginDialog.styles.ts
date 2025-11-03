@@ -6,8 +6,6 @@ import { forms } from 'styles/forms/forms.styles';
 export const styles = css`
   display: flex;
   flex-direction: column;
-  /* gap: 1.5rem;
-  gap: 1rem; */
   justify-content: center;
   align-items: center;
   margin-top: 1.25rem;
@@ -65,11 +63,21 @@ export const styles = css`
         z-index: 2;
         top: 0;
         left: 0;
+        transition: border-color 0.1s ease;
 
         &:focus {
           outline: none;
           border-color: ${colors.info};
-          /* box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); */
+        }
+
+        &.input-max-length-warning {
+          border-color: ${colors.warningLight} !important;
+          animation: inputWarningPulse 100ms ease-out;
+        }
+
+        &.input-max-length-warning + .password-display-mask {
+          color: ${colors.warning} !important;
+          -webkit-text-fill-color: ${colors.warningLight}!important;
         }
 
         &:disabled {
@@ -87,6 +95,7 @@ export const styles = css`
         color: transparent !important;
         border: ${forms.inputs.border.width} solid ${colors.grey};
         background-color: transparent;
+        transition: border-color 0.1s ease;
 
         &.input-filled,
         &:not(:empty) {
@@ -97,6 +106,16 @@ export const styles = css`
         &:active:not(:disabled) {
           border: ${forms.inputs.border.width} solid ${colors.info};
           background-color: transparent;
+        }
+
+        &.input-max-length-warning {
+          border: ${forms.inputs.border.width} solid ${colors.warningLight} !important;
+          background-color: transparent;
+          animation: inputWarningPulse 100ms ease-out;
+        }
+
+        &.input-max-length-warning + .password-display-mask {
+          color: ${colors.warning} !important;
         }
 
         &[aria-invalid='true'] {
@@ -135,6 +154,19 @@ export const styles = css`
         border: ${forms.inputs.border.width} solid transparent;
         border-radius: 8px;
         letter-spacing: 0.15em;
+        transition: color 0.1s ease;
+      }
+    }
+
+    @keyframes inputWarningPulse {
+      0% {
+        border-color: ${colors.greyXLight};
+      }
+      50% {
+        border-color: ${colors.warning};
+      }
+      100% {
+        border-color: ${colors.warningLight};
       }
     }
   }
@@ -180,9 +212,14 @@ export const keypadStyles = css`
         background-color: ${colors.greyXXLight50};
       }
 
-      &:active:not(:disabled) {
+      &:active:not(:disabled),
+      &.keypad-button-active {
         transform: scale(0.95);
-        transition: transform 0.1s ease;
+        transition:
+          transform 0.1s ease,
+          color 0.1s ease,
+          border-color 0.1s ease,
+          background-color 0.1s ease;
         color: ${colors.info};
         border: 2px solid ${colors.info};
         background-color: ${colors.infoLight50};
