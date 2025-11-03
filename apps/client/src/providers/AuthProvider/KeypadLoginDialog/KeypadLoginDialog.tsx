@@ -10,7 +10,8 @@ import { KeypadLoginTabContent } from './KeypadLoginContent';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
-const DEFAULT_PASSWORD = 'password123';
+const DEFAULT_ADMIN_PASSWORD = '7878';
+const DEFAULT_USER_PASSWORD = 'password123';
 
 interface KeypadLoginDialogProps {
   children?: React.ReactNode | React.ReactElement;
@@ -22,7 +23,7 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
   const location = useLocation();
   const { toast } = useToast();
 
-  const [password, setPassword] = useState(DEFAULT_PASSWORD);
+  const [password, setPassword] = useState(DEFAULT_ADMIN_PASSWORD);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
   const [activeTab, setActiveTab] = useState('admin');
@@ -76,10 +77,10 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
   const config: DialogConfig = {
     title: '',
     size: '2',
-    maxWidth: '270px',
-    maxHeight: '540px',
-    minHeight: '500px',
     minWidth: '220px',
+    maxWidth: '270px',
+    minHeight: '500px',
+    maxHeight: '540px',
     theme: {
       accentColor: 'blue',
       grayColor: 'sand',
@@ -89,7 +90,6 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
       {
         id: 'admin',
         label: 'Admin',
-        // icon: <UserLockIcon />,
         content: (
           <KeypadLoginTabContent
             activeTab={activeTab}
@@ -107,8 +107,8 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
 
   return (
     <GenericDialog
-      isOpen={isLoginDialogOpen}
-      // isOpen={true}
+      // isOpen={isLoginDialogOpen}
+      isOpen={true}
       onClose={handleCloseDialog}
       config={config}
       className="dialog-keypad"

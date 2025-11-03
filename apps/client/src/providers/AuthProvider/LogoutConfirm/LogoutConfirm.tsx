@@ -77,10 +77,10 @@ export const LogoutConfirmDialog: FC<LogoutConfirmDialogProps> = () => {
   const config: DialogConfig = {
     title: '',
     size: '3',
-    maxWidth: '400px',
-    maxHeight: '220px',
-    minHeight: '200px',
     minWidth: '350px',
+    maxWidth: '400px',
+    minHeight: '200px',
+    maxHeight: '220px',
     theme: {
       accentColor: 'blue',
       grayColor: 'sand',

@@ -12,7 +12,7 @@ export const styles = css`
 
     display: flex;
     flex-direction: column;
-    min-height: 260px !important;
+    min-height: 240px !important;
 
     .has-title {
       .close-button {

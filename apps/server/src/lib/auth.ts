@@ -14,7 +14,7 @@ export const auth = betterAuth({
   debug: true,
   emailAndPassword: {
     enabled: true,
-    minPasswordLength: 8,
+    minPasswordLength: 4, // Set to 4 for 4-digit PIN support
     maxPasswordLength: 32,
     sendResetPassword: async ({ user, url, token }, request) => {
       console.log('Reset password requested for:', user.email);

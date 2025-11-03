@@ -77,10 +77,10 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
   const config: DialogConfig = {
     title: '',
     size: '3',
-    maxWidth: '400px',
-    maxHeight: '60vh',
-    minHeight: '280px',
     minWidth: '350px',
+    maxWidth: '400px',
+    minHeight: '280px',
+    maxHeight: '60vh',
     theme: {
       accentColor: 'blue',
       grayColor: 'sand',
