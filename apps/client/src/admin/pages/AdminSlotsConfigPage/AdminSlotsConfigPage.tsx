@@ -44,17 +44,30 @@ export const AdminSlotsConfigPage: React.FC = () => {
   // Helper to generate slots for a given column count
   const generateSlots = (columns: number, fromConfigs?: SlotConfigFormValue[]): SlotConfigFormValue[] => {
     const gridConfig = GRID_CONFIGS[columns];
-    const totalSlots = gridConfig.totalSlots;
+    const { rows, totalSlots } = gridConfig;
     const slots: SlotConfigFormValue[] = [];
 
-    // 1-based slot numbers: 1 to totalSlots
-    for (let i = 1; i <= totalSlots; i++) {
-      const existing = fromConfigs?.find((c) => c.slotNumber === i);
+    // Fill main grid (column-major numbering: 1..rows per column)
+    for (let row = 0; row < rows; row++) {
+      for (let col = 0; col < columns; col++) {
+        const slotNumber = col * rows + row + 1; // 1-based
+        const existing = fromConfigs?.find((c) => c.slotNumber === slotNumber);
+        slots.push({
+          slotNumber,
+          slotType: existing?.slotType || SlotType.B,
+        });
+      }
+    }
+
+    // Include the last special slot at the end (kept as totalSlots)
+    if (totalSlots > columns * rows) {
+      const existingLast = fromConfigs?.find((c) => c.slotNumber === totalSlots);
       slots.push({
-        slotNumber: i,
-        slotType: existing?.slotType || SlotType.B, // All slots can be any type
+        slotNumber: totalSlots,
+        slotType: existingLast?.slotType || SlotType.B,
       });
     }
+
     return slots;
   };
 
@@ -196,11 +209,13 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 <Text size="2" color="gray">
                   Click on slots to change their type. The last slot is positioned separately.
                 </Text>
+
                 <SlotGrid
                   configurations={slots}
                   gridConfig={GRID_CONFIGS[columns]}
                   onConfigurationChange={handleGridConfigChange}
                 />
+
                 <Flex gap="4" align="center" mt="-4" pb="4">
                   <Badge variant="soft" color="blue">
                     {columns} columns × 3 rows = {GRID_CONFIGS[columns].totalSlots - 1} slots + 1 separate
@@ -213,9 +228,11 @@ export const AdminSlotsConfigPage: React.FC = () => {
 
               <Flex direction="column" gap="4">
                 <div className="slot-types-container">
-                  <Heading size="4">Slot Types</Heading>
+                  <Heading size="4" ml="1">
+                    Slot Types
+                  </Heading>
                   <div className="slot-legend">
-                    <Flex direction="column" gap="5">
+                    <Flex direction="column" gap="4" pt="2">
                       <Flex align="center" gap="4">
                         <div className="legend-item legend-type-a">A</div>
                         <Text size="3">Type A</Text>

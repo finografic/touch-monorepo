@@ -25,8 +25,9 @@ export const SessionAndTimers = () => {
         <pre>{JSON.stringify(selectedSlots, null, 2)}</pre>
       </div> */}
       <div className="filters">
-        <h4> snooze, timers: {selectedSlots.length}:</h4>
+        <h4>snooze, timers: {selectedSlots.length}:</h4>
         <pre>{JSON.stringify({ snooze, timers }, null, 2)}</pre>
+        <pre>{JSON.stringify({ selectedSlots }, null, 2)}</pre>
       </div>
       {/* <div className="filters">
         <h4>orders: {orders.length}:</h4>

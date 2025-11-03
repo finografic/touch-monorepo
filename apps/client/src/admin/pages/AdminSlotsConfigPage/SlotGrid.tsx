@@ -4,6 +4,7 @@ import { Box, Button, Flex, Text } from '@radix-ui/themes';
 
 import { SlotType } from 'types/orders.types';
 import type { GridConfig } from 'types/slot-config.types';
+import { mapGridByColumns } from 'utils/grid.utils';
 
 import { styles } from './SlotGrid.styles';
 
@@ -66,29 +67,33 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
             minWidth: columns <= 3 ? '360px' : columns === 4 ? '480px' : '600px',
           }}
         >
-          {regularSlots.map((config) => (
-            <Flex key={config.slotNumber} className="slot-grid-item">
-              <Button
-                className={`slot-button slot-${getSlotColor(config.slotType)}`}
-                onClick={() => handleSlotClick(config.slotNumber)}
-                variant="outline"
-                size="3"
-              >
-                <Flex direction="column" align="center" gap="1">
-                  <Text size="4" weight="bold">
-                    {config.slotNumber}
-                  </Text>
-                  <Text size="2">{getSlotLabel(config.slotType)}</Text>
-                </Flex>
-              </Button>
-            </Flex>
-          ))}
+          {mapGridByColumns({ rows, columns }, (slotNumber) => {
+            const config = regularSlots.find((c) => c.slotNumber === slotNumber);
+            if (!config) return null;
+            return (
+              <Flex key={config.slotNumber} className="slot-grid-item">
+                <Button
+                  className={`slot-button slot-${getSlotColor(config.slotType)}`}
+                  onClick={() => handleSlotClick(config.slotNumber)}
+                  variant="outline"
+                  size="3"
+                >
+                  <Flex direction="column" align="center" gap="1">
+                    <Text size="4" weight="bold">
+                      {config.slotNumber}
+                    </Text>
+                    <Text size="2">{getSlotLabel(config.slotType)}</Text>
+                  </Flex>
+                </Button>
+              </Flex>
+            );
+          })}
         </div>
 
         {/* Last slot positioned separately */}
         {lastSlot && (
           <div className="slot-item-special">
-            <Button
+            {/* <Button
               className={`slot-button slot-${getSlotColor(lastSlot.slotType)}`}
               // onClick={() => handleSlotClick(lastSlot.slotNumber)}
               onClick={() => {}}
@@ -101,7 +106,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
                 </Text>
                 <Text size="2">{getSlotLabel(lastSlot.slotType)}</Text>
               </Flex>
-            </Button>
+            </Button> */}
           </div>
         )}
       </div>

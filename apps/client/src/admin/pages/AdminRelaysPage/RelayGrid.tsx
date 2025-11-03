@@ -3,6 +3,7 @@ import React from 'react';
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 
 import { SlotType } from 'types/orders.types';
+import { mapGridByColumns } from 'utils/grid.utils';
 
 import { NUM_RELAYS } from './relays.config';
 import { styles } from './RelayGrid.styles';
@@ -71,24 +72,28 @@ export const RelayGrid: React.FC<RelayGridProps> = ({ configurations, onRelayTog
             rowGap: '24px',
           }}
         >
-          {relayConfigurations.map((config) => (
-            <Flex key={config.slotNumber} className="slot-grid-item">
-              <Button
-                className={`slot-button slot-${getSlotColor(config.slotType, config.isOn)}`}
-                onClick={() => handleSlotClick(config.slotNumber)}
-                disabled={isLoading}
-                variant="outline"
-                size="3"
-              >
-                <Flex direction="column" align="center" gap="1">
-                  <Text size="4" weight="bold">
-                    {config.slotNumber}
-                  </Text>
-                  <Text size="2">{getSlotLabel(config.slotType, config.isOn)}</Text>
-                </Flex>
-              </Button>
-            </Flex>
-          ))}
+          {mapGridByColumns({ rows: 3, columns: 3 }, (slotNumber) => {
+            const config = relayConfigurations.find((c) => c.slotNumber === slotNumber);
+            if (!config || slotNumber > NUM_RELAYS) return null;
+            return (
+              <Flex key={config.slotNumber} className="slot-grid-item">
+                <Button
+                  className={`slot-button slot-${getSlotColor(config.slotType, config.isOn)}`}
+                  onClick={() => handleSlotClick(config.slotNumber)}
+                  disabled={isLoading}
+                  variant="outline"
+                  size="3"
+                >
+                  <Flex direction="column" align="center" gap="1">
+                    <Text size="4" weight="bold">
+                      {config.slotNumber}
+                    </Text>
+                    <Text size="2">{getSlotLabel(config.slotType, config.isOn)}</Text>
+                  </Flex>
+                </Button>
+              </Flex>
+            );
+          })}
         </div>
       </div>
     </Box>

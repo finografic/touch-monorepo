@@ -13,8 +13,9 @@ import { useTimers } from 'providers/TimersProvider';
 import { useButtonConfig } from 'hooks/useButtonConfig';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
-
 // import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
+import { mapGridByColumns } from 'utils/grid.utils';
+
 import { styles } from './MainPage.styles';
 
 export function MainPage() {
@@ -107,15 +108,12 @@ export function MainPage() {
                   columns <= 3 ? 'translateX(4rem)' : columns === 4 ? 'translateX(1rem)' : 'translateX(2rem)',
               }}
             >
-              {Array.from({ length: rows }).map((_, rowIdx) =>
-                Array.from({ length: columns }).map((_, colIdx) => {
-                  const slotNumber = rowIdx + colIdx * rows + 1;
-                  const slot = mainGridSlots.find((s) => s.slotNumber === slotNumber);
-                  return slot ? (
-                    <PadSlot key={slot.slotNumber} slotType={slot.slotType} slotNumber={slot.slotNumber} />
-                  ) : null;
-                }),
-              )}
+              {mapGridByColumns({ rows, columns }, (slotNumber) => {
+                const slot = mainGridSlots.find((s) => s.slotNumber === slotNumber);
+                return slot ? (
+                  <PadSlot key={slot.slotNumber} slotType={slot.slotType} slotNumber={slot.slotNumber} />
+                ) : null;
+              })}
             </div>
           </div>
         </Col>
