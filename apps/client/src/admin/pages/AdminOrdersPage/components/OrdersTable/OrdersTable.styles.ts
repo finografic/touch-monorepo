@@ -44,6 +44,10 @@ export const styles = css`
       box-shadow: none !important;
       border-bottom: none !important;
     }
+
+    input {
+      border: 2px solid ${colors.greyLight} !important;
+    }
   }
 
   /* TABLE_HEADER_CELLS ============================ */
