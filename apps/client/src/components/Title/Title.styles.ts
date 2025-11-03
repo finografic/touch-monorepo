@@ -101,4 +101,13 @@ export const styles = css`
       font-size: 0.8rem;
     }
   }
+
+  .title-wrapper {
+    .title-description {
+      font-size: 1rem;
+      font-weight: 600;
+      color: ${colors.textXLight};
+      margin-bottom: 1rem;
+    }
+  }
 `;
