@@ -5,7 +5,7 @@ import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { SlotType } from 'types/orders.types';
 import { mapGridByColumns } from 'utils/grid.utils';
 
-import { NUM_RELAYS } from './relays.config';
+import { NUM_RELAYS } from '../relays.config';
 import { styles } from './RelayGrid.styles';
 
 interface RelayConfig {
