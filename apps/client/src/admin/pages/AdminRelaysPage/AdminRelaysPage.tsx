@@ -7,7 +7,7 @@ import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'querie
 import { SlotType } from 'types/orders.types';
 
 import { AdminContentLayout } from '../..';
-import { RelayGrid } from './RelayGrid/RelayGrid';
+import { RelayGrid } from './RelayGrid';
 import { NUM_RELAYS } from './relays.config';
 import { RelaysStatus } from './RelaysStatus';
 import { useRelayHandlers } from './useRelayHandlers';

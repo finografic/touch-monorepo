@@ -51,7 +51,7 @@ export const styles = css`
     background-color: ${colors.greyXXLight25};
     border: 1px solid ${colors.greyXXLight25};
     padding: 0.5rem 1.5rem;
-    border-radius: ${layout.borderRadius.md};
+    border-radius: ${layout.borderRadius};
     width: 250px;
   }
 
