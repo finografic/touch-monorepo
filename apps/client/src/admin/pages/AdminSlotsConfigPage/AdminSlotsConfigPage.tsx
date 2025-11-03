@@ -184,7 +184,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
           styles={styles}
         >
           <AdminSection
-            // className={clsx('admin-slot-config-preview-')}
+            className={clsx('admin-slot-config')}
             isLoading={isLoading}
             // variant="none"
           >
