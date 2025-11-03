@@ -3,9 +3,9 @@ import { KEY_PRESS } from '@workspace/core';
 
 import { Button } from 'components/Button';
 import { useAuth } from 'providers/AuthProvider';
-import { useKeyPress } from 'providers/AuthProvider/KeypadLoginDialog/useKeyPressToggle';
 
 import { NumericKeypad } from './NumericKeypad';
+import { useKeyPress } from './useKeyPress';
 import { styles } from './KeypadLoginDialog.styles';
 
 interface KeypadLoginTabContentProps {
