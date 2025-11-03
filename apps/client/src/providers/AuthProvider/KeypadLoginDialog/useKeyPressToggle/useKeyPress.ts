@@ -1,11 +1,11 @@
 import { useCallback, useEffect } from 'react';
 import type { KEY_PRESS } from '@workspace/core';
 
-type KeyPress = [keyof typeof KEY_PRESS, (event: KeyboardEvent) => void];
+type KeyPress = [(typeof KEY_PRESS)[keyof typeof KEY_PRESS], (event: KeyboardEvent) => void];
+
 export interface UseKeyPressParams {
-  key: KeyPress | KeyPress[];
+  key: KeyPress[];
   isActive: boolean;
-  setIsActive: (value: boolean) => void;
   modifiers?: {
     ctrl?: boolean;
     alt?: boolean;
@@ -14,10 +14,10 @@ export interface UseKeyPressParams {
   };
 }
 
-export const useKeyPress = ({ key, isActive, setIsActive, modifiers = {} }: UseKeyPressParams) => {
+export const useKeyPress = ({ key, isActive, modifiers = {} }: UseKeyPressParams) => {
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
-      if (event.key !== key) return;
+      if (!key.includes(event.key)) return;
 
       const modifiersMatch =
         (!modifiers.ctrl || event.ctrlKey) &&
@@ -27,10 +27,9 @@ export const useKeyPress = ({ key, isActive, setIsActive, modifiers = {} }: UseK
 
       if (!modifiersMatch) return;
 
-      // setIsActive(!isActive);
       console.log('KEY_DOWN', 'cyan', { key: event.key, modifiersMatch });
     },
-    [key, isActive, setIsActive, modifiers],
+    [key, isActive, modifiers],
   );
 
   useEffect(() => {
