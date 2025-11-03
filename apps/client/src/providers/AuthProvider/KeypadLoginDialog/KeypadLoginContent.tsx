@@ -62,7 +62,6 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
       [KEY_PRESS.DIGIT_9, handleDigitPress],
     ],
     isActive: true,
-    setIsActive: () => {},
   });
 
   // Sync input value with password prop
