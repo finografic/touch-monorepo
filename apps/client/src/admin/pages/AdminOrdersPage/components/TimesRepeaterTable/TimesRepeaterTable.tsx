@@ -1,6 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
-import { useBoundingRect } from '@workspace/core/hooks';
 
 import { ShuffleIcon } from '@radix-ui/react-icons';
 import { Button, Text } from '@radix-ui/themes';
@@ -110,21 +109,6 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
       onCanAddRowChange(canAddRow);
     }
   }, [canAddRow, onCanAddRowChange]);
-
-  // ======================================================================== //
-
-  const headerRef = useRef<HTMLDivElement>(null);
-  const { rect: headerRect } = useBoundingRect(headerRef);
-  const [viewportHeight, setViewportHeight] = useState(400);
-
-  useEffect(() => {
-    if (!headerRect) return;
-    const paddingBottom = 24;
-    const height = window.innerHeight - headerRect.bottom - paddingBottom;
-    setViewportHeight(Math.max(200, height));
-  }, [headerRect]);
-
-  // ======================================================================== //
 
   // Calculate row height for scrolling (approximate height per row including gaps)
   const rowHeight = 60; // Estimated height per row in pixels
