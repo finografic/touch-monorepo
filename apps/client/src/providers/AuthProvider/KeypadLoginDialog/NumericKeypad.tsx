@@ -7,14 +7,12 @@ import { keypadStyles } from './KeypadLoginDialog.styles';
 
 interface NumericKeypadProps {
   onDigitPress: (digit: string) => void;
-  onBackspace: () => void;
   disabled?: boolean;
-  activeKey?: string; // The key that was pressed on physical keyboard
+  activeKey?: string;
 }
 
 export const NumericKeypad: React.FC<NumericKeypadProps> = ({
   onDigitPress,
-  onBackspace,
   disabled = false,
   activeKey,
 }) => {

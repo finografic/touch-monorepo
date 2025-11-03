@@ -9,8 +9,6 @@ import { useKeyPress } from './useKeyPress';
 import { styles } from './KeypadLoginDialog.styles';
 
 interface KeypadLoginTabContentProps {
-  activeTab: string;
-  email: string;
   password: string;
   onPasswordChange: (password: string) => void;
   onSubmit: (e: React.FormEvent) => void;
@@ -25,8 +23,6 @@ const MAX_PASSWORD_LENGTH = 12;
  * Only accepts numeric input, max 4 digits
  */
 export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
-  activeTab,
-  email,
   password,
   onPasswordChange,
   onSubmit,
@@ -42,6 +38,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
   // Handle keypad digit press
   const handleDigitPress = useCallback(
     (digit: string) => {
+      console.log(digit);
       if (password.length >= MAX_PASSWORD_LENGTH) {
         // Show warning when trying to add digit at max length
         setShowMaxLengthWarning(true);
@@ -69,8 +66,8 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
 
   const handleEnter = useCallback(
     (_keyValue?: string) => {
-      if (password.length === MAX_PASSWORD_LENGTH && !isLoading) {
-        // Find the form and submit button
+      console.log('handleEnter', _keyValue);
+      if (!isLoading) {
         const form = inputRef.current?.closest('form');
         const submitButton = form?.querySelector('button[type="submit"]') as HTMLButtonElement;
 
@@ -149,6 +146,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
                 defaultValue={password}
                 placeholder="Enter password"
                 required
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => console.log(e.target.value)}
                 disabled={isLoading}
                 maxLength={MAX_PASSWORD_LENGTH}
                 autoComplete="off"
@@ -156,20 +154,15 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
                   'password-input-overlay',
                   password.length > 0 && 'input-filled',
                   showMaxLengthWarning && 'input-max-length-warning',
+                  error && 'input-error',
                 )}
                 aria-invalid={error ? 'true' : 'false'}
               />
-              {/* Centered dots display */}
               <div className="password-display-mask">{'•'.repeat(password.length)}</div>
             </div>
           </div>
 
-          <NumericKeypad
-            onDigitPress={handleDigitPress}
-            onBackspace={handleBackspace}
-            disabled={isLoading}
-            activeKey={activeKey}
-          />
+          <NumericKeypad onDigitPress={handleDigitPress} disabled={isLoading} activeKey={activeKey} />
 
           <Button
             type="submit"

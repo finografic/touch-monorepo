@@ -54,11 +54,6 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
       } else {
         const errorMessage = String(result.error || 'Failed to log in');
         setError(errorMessage);
-        toast({
-          variant: 'error',
-          message: errorMessage,
-          subText: 'Please try again',
-        });
       }
 
       setIsLoading(false);
@@ -66,14 +61,25 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
     [signIn, toast, closeLoginDialog, navigate, password],
   );
 
-  useEffect(() => {
-    if (isLoginDialogOpen) {
-      setPassword('');
+  const handleOnChange = useCallback(
+    (value: string) => {
+      setPassword(value);
       setError('');
-      setIsLoading(false);
-      setActiveTab('admin');
-    }
-  }, [isLoginDialogOpen]);
+    },
+    [closeLoginDialog],
+  );
+
+  useEffect(
+    function initializeInputField() {
+      if (isLoginDialogOpen) {
+        setPassword('');
+        setError('');
+        setIsLoading(false);
+        setActiveTab('admin');
+      }
+    },
+    [isLoginDialogOpen],
+  );
 
   const config: DialogConfig = {
     title: '',
@@ -93,10 +99,8 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
         label: 'Admin',
         content: (
           <KeypadLoginTabContent
-            activeTab={activeTab}
-            email={DEFAULT_ADMIN_EMAIL}
             password={password}
-            onPasswordChange={setPassword}
+            onPasswordChange={handleOnChange}
             onSubmit={handleSubmit}
             isLoading={isLoading}
             error={error}
@@ -109,7 +113,6 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
   return (
     <GenericDialog
       isOpen={isLoginDialogOpen}
-      // isOpen={true}
       onClose={handleCloseDialog}
       config={config}
       className="dialog-keypad"

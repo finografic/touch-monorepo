@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { button, colors } from 'styles';
+import { colors } from 'styles';
 import { forms } from 'styles/forms/forms.styles';
 
 export const styles = css`
@@ -71,13 +71,13 @@ export const styles = css`
         }
 
         &.input-max-length-warning {
-          border-color: ${colors.warningLight} !important;
+          border-color: ${colors.warningLight};
           animation: inputWarningPulse 100ms ease-out;
         }
 
         &.input-max-length-warning + .password-display-mask {
-          color: ${colors.warning} !important;
-          -webkit-text-fill-color: ${colors.warningLight}!important;
+          color: ${colors.warning};
+          -webkit-text-fill-color: ${colors.warningLight};
         }
 
         &:disabled {
@@ -87,19 +87,19 @@ export const styles = css`
       }
 
       input#password {
-        min-height: 54px !important;
+        min-height: 54px;
         pointer-events: none;
         user-select: none;
-        text-align: center !important;
+        text-align: center;
 
-        color: transparent !important;
+        color: transparent;
         border: ${forms.inputs.border.width} solid ${colors.grey};
         background-color: transparent;
         transition: border-color 0.1s ease;
 
         &.input-filled,
         &:not(:empty) {
-          border: ${forms.inputs.border.width} solid ${colors.greyXLight}!important;
+          border: ${forms.inputs.border.width} solid ${colors.greyXLight};
           background-color: transparent;
         }
 
@@ -109,13 +109,13 @@ export const styles = css`
         }
 
         &.input-max-length-warning {
-          border: ${forms.inputs.border.width} solid ${colors.warningLight} !important;
+          border: ${forms.inputs.border.width} solid ${colors.warningLight};
           background-color: transparent;
           animation: inputWarningPulse 100ms ease-out;
         }
 
         &.input-max-length-warning + .password-display-mask {
-          color: ${colors.warning} !important;
+          color: ${colors.warning};
         }
 
         &[aria-invalid='true'] {
@@ -123,13 +123,24 @@ export const styles = css`
           background-color: transparent;
         }
 
-        &[aria-invalid='true']:not(:empty) + .password-display-mask {
-          color: ${colors.warning};
-        }
-
         &:empty {
           border: ${forms.inputs.border.width} solid ${colors.greyXXLight75};
           background-color: transparent;
+        }
+
+        &.input-error {
+          border: ${forms.inputs.border.width} solid ${colors.warningLight};
+          background-color: transparent;
+        }
+
+        &[aria-invalid='true']:not(:empty) + .password-display-mask {
+          color: ${colors.warning}!important;
+          -webkit-text-fill-color: ${colors.warningLight}!important;
+        }
+
+        &.input-error + .password-display-mask {
+          color: ${colors.warning}!important;
+          -webkit-text-fill-color: ${colors.warningLight}!important;
         }
       }
 

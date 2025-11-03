@@ -43,9 +43,10 @@ export const ColumnFilter: FC<ColumnFilterProps> = ({
   hasIcon = true,
   width = '100%',
 }) => {
+  // Small debounce to avoid excessive filter recalcs while typing rapidly
   const debouncedOnChange = useDebouncedCallback((newValue: string) => {
     onChange(newValue);
-  }, 100);
+  }, 75);
 
   // Render select variant
   if (variant === 'select' && options) {
@@ -68,12 +69,29 @@ export const ColumnFilter: FC<ColumnFilterProps> = ({
   return (
     <TextField.Root
       className="column-search-input"
-      placeholder={placeholder}
-      value={value}
-      onChange={(evt) => debouncedOnChange(evt.target.value)}
       size="1"
       variant="soft"
       style={{ width }}
+      placeholder={placeholder}
+      value={value}
+      onChange={(evt) => debouncedOnChange(evt.target.value)}
+      onKeyDown={(evt) => {
+        if (evt.key === 'Enter') {
+          const target = evt.target as HTMLElement;
+          const form = target.closest('form');
+          if (form) {
+            if (typeof (form as HTMLFormElement).requestSubmit === 'function') {
+              (form as HTMLFormElement).requestSubmit();
+            } else {
+              const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]') as
+                | HTMLButtonElement
+                | HTMLInputElement
+                | null;
+              submitBtn?.click();
+            }
+          }
+        }
+      }}
     >
       {hasIcon && (
         <TextField.Slot>

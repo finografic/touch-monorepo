@@ -140,7 +140,7 @@ export const GenericDialog: React.FC<GenericDialogProps> = ({
 
         {config.footer && (
           <div className="footer">
-            <Flex justify="end" gap="4" width="100%" id="__ABC__">
+            <Flex justify="end" gap="4" width="100%">
               {config.footer.secondaryButton && (
                 <Button
                   variant="outline"
