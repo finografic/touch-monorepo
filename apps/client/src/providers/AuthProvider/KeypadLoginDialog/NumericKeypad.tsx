@@ -10,19 +10,10 @@ interface NumericKeypadProps {
   disabled?: boolean;
 }
 
-export const NumericKeypad: React.FC<NumericKeypadProps> = ({
-  onDigitPress,
-  onBackspace,
-  disabled = false,
-}) => {
+export const NumericKeypad: React.FC<NumericKeypadProps> = ({ onDigitPress, disabled = false }) => {
   const handleKeyPress = (value: string) => {
     if (disabled) return;
     onDigitPress(value);
-  };
-
-  const handleBackspace = () => {
-    if (disabled) return;
-    onBackspace();
   };
 
   return (

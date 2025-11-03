@@ -47,13 +47,10 @@ export const useKeyPress = ({ key: keyMap, isActive, modifiers = {} }: UseKeyPre
   }, [keyMap, isActive, modifiers]);
 
   const handleKeyDown = useCallback((event: KeyboardEvent) => {
-    // Don't process if inactive
     if (!isActiveRef.current) return;
 
     // Map of event.key to KEY_PRESS constant for lookup
-    // Also handle numpad keys by mapping them to digit keys
     const keyValueMap: Record<string, string> = {
-      // Regular digit keys
       [KEY_PRESS.DIGIT_0]: KEY_PRESS.DIGIT_0,
       [KEY_PRESS.DIGIT_1]: KEY_PRESS.DIGIT_1,
       [KEY_PRESS.DIGIT_2]: KEY_PRESS.DIGIT_2,
@@ -64,7 +61,6 @@ export const useKeyPress = ({ key: keyMap, isActive, modifiers = {} }: UseKeyPre
       [KEY_PRESS.DIGIT_7]: KEY_PRESS.DIGIT_7,
       [KEY_PRESS.DIGIT_8]: KEY_PRESS.DIGIT_8,
       [KEY_PRESS.DIGIT_9]: KEY_PRESS.DIGIT_9,
-      // Numpad keys map to regular digits
       [KEY_PRESS.NUMPAD_0]: KEY_PRESS.DIGIT_0,
       [KEY_PRESS.NUMPAD_1]: KEY_PRESS.DIGIT_1,
       [KEY_PRESS.NUMPAD_2]: KEY_PRESS.DIGIT_2,
@@ -75,14 +71,10 @@ export const useKeyPress = ({ key: keyMap, isActive, modifiers = {} }: UseKeyPre
       [KEY_PRESS.NUMPAD_7]: KEY_PRESS.DIGIT_7,
       [KEY_PRESS.NUMPAD_8]: KEY_PRESS.DIGIT_8,
       [KEY_PRESS.NUMPAD_9]: KEY_PRESS.DIGIT_9,
-      // Control keys
       [KEY_PRESS.BACKSPACE]: KEY_PRESS.BACKSPACE,
       [KEY_PRESS.DELETE]: KEY_PRESS.BACKSPACE, // Map Delete to Backspace
-      // Enter keys (both regular and numpad)
-      [KEY_PRESS.ENTER]: KEY_PRESS.ENTER,
       [KEY_PRESS.NUMPAD_ENTER]: KEY_PRESS.ENTER, // Map NumpadEnter to Enter
-      // Escape key
-      [KEY_PRESS.ESCAPE]: KEY_PRESS.ESCAPE,
+      [KEY_PRESS.ENTER]: KEY_PRESS.ENTER,
     };
 
     // Get the normalized key value (handles numpad -> digit mapping)

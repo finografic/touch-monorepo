@@ -157,11 +157,13 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
               set({ ...defaultValue });
             }
           },
-          openLoginDialog: () => {
+          openLoginDialog: async () => {
             set({ isLoginDialogOpen: true });
+            await sleep(200);
           },
-          closeLoginDialog: () => {
+          closeLoginDialog: async () => {
             set({ isLoginDialogOpen: false });
+            await sleep(200);
           },
         },
       }),

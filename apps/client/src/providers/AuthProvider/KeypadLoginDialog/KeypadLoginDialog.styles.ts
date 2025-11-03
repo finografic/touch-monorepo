@@ -89,10 +89,6 @@ export const styles = css`
         border: ${forms.inputs.border.width} solid ${colors.grey};
         background-color: transparent;
 
-        &:empty {
-          border: ${forms.inputs.border.width} solid ${colors.greyXXLight75};
-          background-color: transparent;
-        }
         &.input-filled,
         &:not(:empty) {
           border: ${forms.inputs.border.width} solid ${colors.greyXLight}!important;
@@ -109,8 +105,13 @@ export const styles = css`
           background-color: transparent;
         }
 
-        &[aria-invalid='true'] + .password-display-mask {
+        &[aria-invalid='true']:not(:empty) + .password-display-mask {
           color: ${colors.warning};
+        }
+
+        &:empty {
+          border: ${forms.inputs.border.width} solid ${colors.greyXXLight75};
+          background-color: transparent;
         }
       }
 

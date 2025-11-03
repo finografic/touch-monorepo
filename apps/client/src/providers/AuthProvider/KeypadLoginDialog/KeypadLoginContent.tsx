@@ -39,9 +39,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
   // Handle keypad digit press
   const handleDigitPress = useCallback(
     (digit: string) => {
-      if (password.length >= MAX_PASSWORD_LENGTH) {
-        return; // Already at max length
-      }
+      if (password.length >= MAX_PASSWORD_LENGTH) return;
 
       const newValue = password + digit;
       onPasswordChange(newValue);
@@ -73,13 +71,6 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
     [password, isLoading],
   );
 
-  const handleEscape = useCallback(
-    (_keyValue?: string) => {
-      console.log('escape');
-    },
-    [password, isLoading],
-  );
-
   // Keyboard input handler - listens for numeric keys, backspace, delete, and enter
   useKeyPress({
     key: [
@@ -95,8 +86,6 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
       [KEY_PRESS.DIGIT_9, handleDigitPress],
       [KEY_PRESS.BACKSPACE, handleBackspace],
       [KEY_PRESS.ENTER, handleEnter],
-      [KEY_PRESS.NUMPAD_ENTER, handleEnter],
-      [KEY_PRESS.ESCAPE, handleEscape],
     ],
     isActive: true,
   });
@@ -107,20 +96,6 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
       inputRef.current.value = password;
     }
   }, [password]);
-
-  // Handle paste - only allow numeric characters
-  const handlePaste = useCallback(
-    (e: React.ClipboardEvent<HTMLInputElement>) => {
-      e.preventDefault();
-      const pastedText = e.clipboardData.getData('text');
-      const numericOnly = pastedText.replace(/\D/g, '').slice(0, MAX_PASSWORD_LENGTH);
-
-      if (numericOnly) {
-        onPasswordChange(numericOnly);
-      }
-    },
-    [onPasswordChange],
-  );
 
   return (
     <div css={styles}>
@@ -142,7 +117,7 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
                 placeholder="Enter 4-digit code"
                 required
                 disabled={isLoading}
-                // maxLength={MAX_PASSWORD_LENGTH}
+                maxLength={MAX_PASSWORD_LENGTH}
                 autoComplete="off"
                 className={clsx('password-input-overlay', password.length > 0 && 'input-filled')}
                 aria-invalid={error ? 'true' : 'false'}
@@ -152,13 +127,11 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
             </div>
           </div>
 
-          {/* {error && <div className="error">{error}</div>} */}
-
           <NumericKeypad onDigitPress={handleDigitPress} onBackspace={handleBackspace} disabled={isLoading} />
 
           <Button
             type="submit"
-            disabled={isLoading || password.length !== MAX_PASSWORD_LENGTH}
+            disabled={isLoading || password.length === 0}
             size="md"
             color="info"
             className="submit-button"

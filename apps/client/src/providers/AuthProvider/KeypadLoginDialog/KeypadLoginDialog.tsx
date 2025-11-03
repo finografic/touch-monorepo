@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
@@ -23,28 +23,20 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
   const location = useLocation();
   const { toast } = useToast();
 
+  const [activeTab, setActiveTab] = useState('admin');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-  const [activeTab, setActiveTab] = useState('admin');
 
   const isBlockingAccess = useMemo(
     () => isLoginDialogOpen && !location.pathname.startsWith('/admin') && location.pathname !== '/admin',
     [isLoginDialogOpen, location.pathname],
   );
 
-  const getCurrentEmail = (): string => {
-    const email = activeTab === 'admin' ? DEFAULT_ADMIN_EMAIL : DEFAULT_USER_EMAIL;
-    console.log('getCurrentEmail', { tab: activeTab, email });
-    return email;
-  };
-
   const handleCloseDialog = useCallback(() => {
     closeLoginDialog();
     setError('');
-    // TODO: leave comments in for now...
-    // isBlockingAccess ? navigate('/') : closeLoginDialog();
-  }, [closeLoginDialog, isBlockingAccess, navigate]);
+  }, [closeLoginDialog]);
 
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
@@ -52,12 +44,12 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
       setIsLoading(true);
       setError('');
 
-      const result = await signIn({ email: getCurrentEmail(), password });
+      const result = await signIn({ email: DEFAULT_ADMIN_EMAIL, password });
 
       if (result.success) {
         toast({ variant: 'success', message: result.message || 'Signed in successfully' });
         await refreshSession();
-        closeLoginDialog();
+        await closeLoginDialog();
         navigate('/admin');
       } else {
         const errorMessage = String(result.error || 'Failed to log in');
@@ -73,6 +65,15 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
     },
     [signIn, toast, closeLoginDialog, navigate, password],
   );
+
+  useEffect(() => {
+    if (isLoginDialogOpen) {
+      setPassword('');
+      setError('');
+      setIsLoading(false);
+      setActiveTab('admin');
+    }
+  }, [isLoginDialogOpen]);
 
   const config: DialogConfig = {
     title: '',
