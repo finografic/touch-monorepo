@@ -65,10 +65,10 @@
         "description": "Resumen del sistema"
       },
       "translations": {
-        "title": "Gestión de traducciones",
+        "title": "Idioma de productos",
         "description": "Editar traducciones para contenido de base de datos",
         "content": {
-          "management": "Gestión de traducciones",
+          "management": "Idioma de productos",
           "editTables": "Editar traducciones para tablas de base de datos",
           "drinkSubtypes": {
             "title": "Subtipos de bebidas",
@@ -88,7 +88,7 @@
           }
         },
         "card": {
-          "title": "Gestión de traducciones",
+          "title": "Idioma de productos",
           "description": "Editar traducciones para contenido de base de datos"
         }
       },
@@ -105,7 +105,7 @@
         "description": "Gestionar registros de la base de datos"
       },
       "uiLabels": {
-        "title": "UI Labels / Translations",
+        "title": "Idioma de etiquetas",
         "description": "Edit user interface labels and translations from local files"
       },
       "slotConfig": {

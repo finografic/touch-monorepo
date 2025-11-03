@@ -33,9 +33,9 @@
       }
     }
   ],
-  "admin_translations_title": "Gestión de Traducciones",
+  "admin_translations_title": "Idioma de productos",
   "admin_translations_description": "Editar traducciones para contenido de base de datos",
-  "admin_translations_card_title": "Gestión de Traducciones",
+  "admin_translations_card_title": "Idioma de productos",
   "admin_translations_card_description": "Editar traducciones para contenido de base de datos",
   "admin_languages_title": "Gestión de Idiomas",
   "admin_languages_description": "Configurar idiomas del sistema y localización",
@@ -51,7 +51,7 @@
   "admin_mode_description": "Seleccionar modo por defecto",
   "admin_mode_card_public_title": "Modo",
   "admin_mode_card_public_description": "Seleccionar modo por defecto",
-  "admin_relays_title": "Relés",
+  "admin_relays_title": "Gestión de relés",
   "admin_relays_description": "Gestionar relés",
   "admin_maintenance_title": "Mantenimiento",
   "admin_maintenance_description": "Gestionar mantenimiento general",
