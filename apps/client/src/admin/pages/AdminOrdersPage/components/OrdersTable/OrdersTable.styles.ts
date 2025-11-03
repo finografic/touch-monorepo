@@ -16,9 +16,9 @@ export const styles = css`
     z-index: 999999;
     transform: translate(-1rem, -120px) !important;
 
-    max-height: 40px !important;
     width: 100% !important;
     max-width: 1240px !important;
+    max-height: 40px !important;
 
     ${min.sm} {
       max-width: 96vw !important;

@@ -30,7 +30,7 @@ interface TimesRepeaterTableProps {
 export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
   name,
   emptyRowValues,
-  minRows = 50,
+  minRows = 15,
   minVisibleRows = 4,
   language = 'es-ES',
   onCanAddRowChange,
