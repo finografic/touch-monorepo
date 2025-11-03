@@ -35,9 +35,32 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
 
+  const handleDigitPress = useCallback(
+    (digit: string) => {
+      if (password.length >= MAX_PASSWORD_LENGTH) {
+        return; // Already at max length
+      }
+
+      const newValue = password + digit;
+      onPasswordChange(newValue);
+    },
+    [password, onPasswordChange],
+  );
+
   // NOTE: the `backtick` key to toggle dev guides visibility
   useKeyPress({
-    key: KEY_PRESS.DIGIT_0,
+    key: [
+      [KEY_PRESS.DIGIT_0, handleDigitPress],
+      [KEY_PRESS.DIGIT_1, handleDigitPress],
+      [KEY_PRESS.DIGIT_2, handleDigitPress],
+      [KEY_PRESS.DIGIT_3, handleDigitPress],
+      [KEY_PRESS.DIGIT_4, handleDigitPress],
+      [KEY_PRESS.DIGIT_5, handleDigitPress],
+      [KEY_PRESS.DIGIT_6, handleDigitPress],
+      [KEY_PRESS.DIGIT_7, handleDigitPress],
+      [KEY_PRESS.DIGIT_8, handleDigitPress],
+      [KEY_PRESS.DIGIT_9, handleDigitPress],
+    ],
     isActive: true,
     setIsActive: () => {},
   });

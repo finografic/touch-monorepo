@@ -1,7 +1,9 @@
 import { useCallback, useEffect } from 'react';
+import type { KEY_PRESS } from '@workspace/core';
 
+type KeyPress = [keyof typeof KEY_PRESS, (event: KeyboardEvent) => void];
 export interface UseKeyPressParams {
-  key: string;
+  key: KeyPress | KeyPress[];
   isActive: boolean;
   setIsActive: (value: boolean) => void;
   modifiers?: {
