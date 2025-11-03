@@ -18,7 +18,7 @@ interface RelayConfig {
   isOn: boolean;
 }
 
-export const AdminRelaysBasicPage: React.FC = () => {
+export const PublicRelaysPage: React.FC = () => {
   // Initialize relay service on mount
   const initializeRelayMutation = useInitializeRelay();
   useEffect(() => {
@@ -131,7 +131,8 @@ export const AdminRelaysBasicPage: React.FC = () => {
 
   return (
     <AdminContentLayout
-      title="Relay Control"
+      title="Maintenance"
+      subtitle="User"
       description={`Test and control the ${NUM_RELAYS}-channel relay board`}
       styles={styles}
     >

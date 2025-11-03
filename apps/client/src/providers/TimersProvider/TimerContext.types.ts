@@ -1,29 +1,15 @@
 import type { ReactNode } from 'react';
 
-import type { SlotStatus } from 'pages/MainPage/MainPage.types';
+import type { TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
 
-import type { FlowTypeValue } from 'types/flow.types';
 import type { CreateSettersType } from 'utils/zustand';
 
 import type { SETTER_PREFIX, TimersKeys } from './TimerContext';
 
-export interface TimerItem {
-  id: string;
-  sessionId: string;
-  slotNumber: number; // Position 0-9
-  orderId: string; // Persistent CUID that gets remembered
-  flowType: FlowTypeValue;
-  duration: number;
-  // remaining: number;
-  status: SlotStatus;
-  completionTime?: string;
-  createdAt: string;
-  // completedAt?: string;
-}
-
 export interface TimersValues {
   [TimersKeys.timers]: TimerItem[];
   [TimersKeys.snooze]: boolean;
+  [TimersKeys.maintenance]: TimerBasic;
 }
 
 type TimersSetters = CreateSettersType<TimersValues, typeof SETTER_PREFIX>;

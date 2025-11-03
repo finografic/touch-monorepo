@@ -6,6 +6,7 @@ import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminModePage } from 'admin/pages/AdminModePage/__AdminModePage';
 import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
+import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
 import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage/AdminTranslationsPage';
@@ -100,7 +101,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'maintenance',
     path: '/admin/maintenance', // relays (public)
     element: {
-      public: NotFoundPage,
+      public: PublicRelaysPage,
       admin: null,
     },
     hasNav: { public: true, admin: false },

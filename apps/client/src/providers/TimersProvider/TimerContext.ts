@@ -1,10 +1,11 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
+import type { TimerItem } from 'providers/TimersProvider/timer.types';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
 
-import type { TimerItem, TimersStore, TimersValues } from './TimerContext.types';
+import type { TimersStore, TimersValues } from './TimerContext.types';
 
 export const DISPLAY_NAME = 'Timers';
 export const SETTER_PREFIX = '';
@@ -12,11 +13,13 @@ export const SETTER_PREFIX = '';
 export enum TimersKeys {
   timers = 'timers',
   snooze = 'snooze',
+  maintenance = 'maintenance',
 }
 
 export const defaultValue: TimersValues = {
   timers: [],
   snooze: false,
+  maintenance: null,
 };
 
 export const TimersContext = createZustandContext(({ initialValue }) => {

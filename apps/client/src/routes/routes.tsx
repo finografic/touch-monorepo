@@ -2,10 +2,11 @@ import { Outlet, type RouteObject } from 'react-router-dom';
 
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
-// import { AdminLoginPage } from 'admin/pages/AdminLoginPage/AdminLoginPage';
 import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
+// import { AdminLoginPage } from 'admin/pages/AdminLoginPage/AdminLoginPage';
+import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
 import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage';
@@ -126,7 +127,7 @@ export const routes: RouteObject[] = [
           {
             path: 'maintenance', // relays (public-only)
             id: AdminFieldKeys.maintenance,
-            element: <AdminSlotsConfigPage />,
+            element: <PublicRelaysPage />,
           },
           // AUTHENTICATED ENTRIES (only visible as admin)
           {
