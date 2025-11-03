@@ -85,7 +85,6 @@ export const styles = css`
         text-align: center !important;
 
         color: transparent !important;
-        /* color: ${colors.greyXLight} !important; */
         border: ${forms.inputs.border.width} solid ${colors.grey};
         background-color: transparent;
 
