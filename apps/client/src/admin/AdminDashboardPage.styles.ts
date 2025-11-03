@@ -25,7 +25,7 @@ export const styles = css`
 
     .admin-card {
       border: 1px solid ${colors.greyXXLight25};
-      padding: 0.1rem 0.5rem;
+      padding: 0.5rem 0.5rem;
       min-height: 80px;
       transition: all 0.2s ease;
 
@@ -43,6 +43,10 @@ export const styles = css`
         transform: translateY(0);
       }
 
+      .card-header {
+        margin-bottom: 0;
+      }
+
       .section-title {
         font-size: 1.125rem;
         margin: 0.5rem 0 0.3rem 0;
@@ -50,8 +54,9 @@ export const styles = css`
       }
 
       .section-description {
+        display: table-cell;
         font-size: 0.9rem;
-        line-height: 1.2;
+        line-height: 20px;
       }
 
       &:before {
@@ -86,5 +91,9 @@ export const styles = css`
     margin-right: 1rem;
     padding: 1.5rem 1.25rem;
     border-radius: 0.6rem;
+
+    & + div {
+      padding-top: 0;
+    }
   }
 `;

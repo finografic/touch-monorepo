@@ -26,7 +26,7 @@ export function getNavLabel(t: TFunction, pageKey: string): string {
  * 2) admin.pages.{key}.title|description (defaults/source of truth)
  * 3) '' (empty string)
  */
-export function getCalloutText(
+export function getCalloutText__V1(
   t: TFunction,
   role: AuthRoles,
   pageKey: string,
@@ -56,6 +56,6 @@ export function getCalloutForEntry(
   const elementForRole = entry.element?.[role] ?? null;
   if (!elementForRole) return null;
 
-  const { title, description } = getCalloutText(t, role, entry.key);
+  const { title, description } = getCalloutText__V1(t, role, entry.key);
   return { key: entry.key, title, description, path: entry.path };
 }

@@ -11,6 +11,7 @@ export const styles = css`
   -webkit-user-select: none; /* Safari */
   -ms-user-select: none; /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
+  font-size: 0.8rem;
   &,
   &.variant-light {
     pre {
@@ -40,7 +41,7 @@ export const styles = css`
   }
 
   top: ${layout.padding} !important;
-  top: 2rem !important;
+  top: 1.5rem !important;
 
   pre {
     opacity: 0.66;
