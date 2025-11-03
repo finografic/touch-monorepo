@@ -26,9 +26,13 @@
       "types": "./dist/constants/*.d.ts",
       "import": "./dist/constants/*.js"
     },
-    "./react/hooks/*": {
-      "types": "./dist/react/hooks/*.d.ts",
-      "import": "./dist/react/hooks/*.js"
+    "./hooks": {
+      "types": "./dist/hooks/index.d.ts",
+      "import": "./dist/hooks/index.js"
+    },
+    "./hooks/*": {
+      "types": "./dist/hooks/*.d.ts",
+      "import": "./dist/hooks/*.js"
     },
     "./types": {
       "types": "./dist/types/index.d.ts",

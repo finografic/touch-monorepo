@@ -31,7 +31,7 @@ export function getCycleNumber(totalElapsed: number, intervalMs: number): number
  * Calculate cycle number (how many times a timer has repeated)
  */
 // NOTE: Timer
-export function parseCompletionTime({ completionTime }: TimerItem): {
+export function parseCompletionTime({ completionTime }: { completionTime?: string }): {
   startTime: number;
   endTime: number;
   remaining: number;

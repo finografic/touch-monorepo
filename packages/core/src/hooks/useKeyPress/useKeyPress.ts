@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from 'react';
-import { KEY_PRESS } from '@workspace/core';
+import { KEY_PRESS } from './keypress.constants';
 
 // Handler receives the key value (string) as its argument
 type KeyPressHandler = (keyValue: string) => void;

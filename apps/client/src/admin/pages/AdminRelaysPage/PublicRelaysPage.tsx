@@ -1,6 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
+import { UserTimer } from 'components/Timers/UserTimer';
+import { useTimers } from 'providers/TimersProvider';
 
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
 import { SlotType } from 'types/orders.types';
@@ -19,6 +21,17 @@ interface RelayConfig {
 }
 
 export const PublicRelaysPage: React.FC = () => {
+  // Maintenance timer controls (slot 15 default, 10 minutes)
+  const timersStore = useTimers();
+  const startMaintenance = useCallback(() => {
+    timersStore.startMaintenanceTimer(15, 600);
+  }, [timersStore]);
+  const stopMaintenance = useCallback(() => {
+    timersStore.stopMaintenanceTimer(15);
+  }, [timersStore]);
+  const resetMaintenance = useCallback(() => {
+    timersStore.resetMaintenanceTimer(15, 600);
+  }, [timersStore]);
   // Initialize relay service on mount
   const initializeRelayMutation = useInitializeRelay();
   useEffect(() => {
@@ -181,50 +194,31 @@ export const PublicRelaysPage: React.FC = () => {
               </Flex>
             </Flex>
           </Card>
-
           {/* Relay Control */}
           <Card size="3" variant="surface">
             <Flex gap="4" justify="between">
               <Flex direction="column" gap="4">
+                <Heading size="4">Desescarche</Heading>
+                <Flex gap="2">
+                  <UserTimer slotNumber={15} />
+                </Flex>
                 <Flex justify="between" align="center">
-                  <Heading size="4">Relay Control Grid</Heading>
-                  <Flex gap="2" ml="4">
-                    <Button
-                      onClick={handleTurnAllOn}
-                      disabled={turnAllOnMutation.isPending}
-                      variant="solid"
-                      color="green"
-                      size="2"
-                    >
-                      {turnAllOnMutation.isPending ? 'Turning ON...' : 'All ON'}
+                  <Flex gap="2">
+                    <Button onClick={startMaintenance} variant="solid" color="green" size="4">
+                      Iniciar
                     </Button>
-                    <Button
-                      onClick={handleTurnAllOff}
-                      disabled={turnAllOffMutation.isPending}
-                      variant="solid"
-                      color="red"
-                      size="2"
-                    >
-                      {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
-                    </Button>
-                    <Button
-                      onClick={handleResetAll}
-                      disabled={turnAllOffMutation.isPending}
-                      variant="outline"
-                      color="orange"
-                      size="2"
-                    >
-                      {turnAllOffMutation.isPending ? 'Resetting...' : 'Reset All'}
+                    <Button onClick={stopMaintenance} variant="outline" color="orange" size="4">
+                      Cancelar
                     </Button>
                   </Flex>
                 </Flex>
-                <RelayGrid
+                {/* <RelayGrid
                   configurations={relayConfigs}
                   onRelayToggle={handleRelayToggle}
                   isLoading={toggleRelayMutation.isPending}
-                />
+                /> */}
               </Flex>
-              <Flex direction="column" gap="4">
+              {/* <Flex direction="column" gap="4">
                 <div className="slot-types-container">
                   <Heading size="4">Relay Status</Heading>
                   <div className="slot-legend">
@@ -245,7 +239,7 @@ export const PublicRelaysPage: React.FC = () => {
                     </Flex>
                   </div>
                 </div>
-              </Flex>
+              </Flex> */}
             </Flex>
           </Card>
         </Flex>

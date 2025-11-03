@@ -90,13 +90,14 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
           <div className="slot-item-special">
             <Button
               className={`slot-button slot-${getSlotColor(lastSlot.slotType)}`}
-              onClick={() => handleSlotClick(lastSlot.slotNumber)}
+              // onClick={() => handleSlotClick(lastSlot.slotNumber)}
+              onClick={() => {}}
               variant="outline"
               size="3"
             >
               <Flex direction="column" align="center" gap="1">
                 <Text size="4" weight="bold">
-                  {lastSlot.slotNumber}
+                  13
                 </Text>
                 <Text size="2">{getSlotLabel(lastSlot.slotType)}</Text>
               </Flex>

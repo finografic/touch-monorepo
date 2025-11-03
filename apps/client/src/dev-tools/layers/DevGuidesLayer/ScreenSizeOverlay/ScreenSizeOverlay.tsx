@@ -1,6 +1,6 @@
 import type { ReactElement } from 'react';
 import { Row } from 'react-grid-system';
-import { KEY_PRESS, useKeyPressToggle } from '@workspace/core';
+import { KEY_PRESS, useKeyPressToggle } from '@workspace/core/hooks';
 
 import { DevScreenSize } from 'dev-tools/components/DevScreenSize/DevScreenSize';
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';

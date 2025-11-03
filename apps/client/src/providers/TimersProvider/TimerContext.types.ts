@@ -9,7 +9,7 @@ import type { SETTER_PREFIX, TimersKeys } from './TimerContext';
 export interface TimersValues {
   [TimersKeys.timers]: TimerItem[];
   [TimersKeys.snooze]: boolean;
-  [TimersKeys.maintenance]: TimerBasic;
+  [TimersKeys.maintenance]: TimerBasic[];
 }
 
 type TimersSetters = CreateSettersType<TimersValues, typeof SETTER_PREFIX>;
@@ -27,6 +27,11 @@ type TimersActions = TimersSetters & {
   getTimerBySlotNumber: (slotNumber: number) => TimerItem | undefined;
   getTimerMap: () => Map<number, TimerItem>;
   updateTimerByOrderId: (orderId: string, updates: Partial<TimerItem>) => void;
+  // Maintenance timers (basic timers)
+  startMaintenanceTimer: (slotNumber: number, durationSeconds?: number) => void;
+  stopMaintenanceTimer: (slotNumber: number) => void;
+  resetMaintenanceTimer: (slotNumber: number, durationSeconds?: number) => void;
+  getMaintenanceTimerBySlot: (slotNumber: number) => TimerBasic | undefined;
 };
 
 export interface TimersProviderProps {

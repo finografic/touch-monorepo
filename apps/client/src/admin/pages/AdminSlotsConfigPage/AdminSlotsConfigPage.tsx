@@ -184,6 +184,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
             <Flex direction="column" gap="6">
               <Card size="3" variant="surface">
                 <Flex gap="4" justify="between">
+                  {/* ====================================================================== */}
+
                   <Flex direction="column" gap="4">
                     <Heading size="4">Slot Grid Layout Preview</Heading>
                     <Text size="2" color="gray">
@@ -201,6 +203,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
                       </Badge>
                     </Flex>
                   </Flex>
+
+                  {/* ====================================================================== */}
+
                   <Flex direction="column" gap="4">
                     <div className="slot-types-container">
                       <Heading size="4">Slot Types</Heading>

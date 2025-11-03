@@ -1,7 +1,8 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
-import type { TimerItem } from 'providers/TimersProvider/timer.types';
+import type { SlotStatus } from 'pages/MainPage/MainPage.types';
+import type { TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
 
@@ -19,7 +20,7 @@ export enum TimersKeys {
 export const defaultValue: TimersValues = {
   timers: [],
   snooze: false,
-  maintenance: null,
+  maintenance: [],
 };
 
 export const TimersContext = createZustandContext(({ initialValue }) => {
@@ -109,6 +110,61 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
               return timer;
             });
             set({ timers: updatedTimers });
+          },
+          // ----- Maintenance timers (basic) -----
+          startMaintenanceTimer: (slotNumber: number, durationSeconds: number = 600) => {
+            const { maintenance } = get();
+            const now = Date.now();
+            const completionTime = new Date(now + durationSeconds * 1000).toISOString();
+
+            const id =
+              typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `maint-${now}`;
+            const timer: TimerBasic = {
+              id,
+              slotNumber,
+              duration: durationSeconds,
+              status: 'processing' as SlotStatus,
+              completionTime,
+              createdAt: new Date(now).toISOString(),
+            };
+
+            const existing = maintenance.find((t) => t.slotNumber === slotNumber);
+            if (existing) {
+              const updated = maintenance.map((t) => (t.slotNumber === slotNumber ? timer : t));
+              set({ maintenance: updated });
+            } else {
+              set({ maintenance: [...maintenance, timer] });
+            }
+          },
+          stopMaintenanceTimer: (slotNumber: number) => {
+            const { maintenance } = get();
+            const updated = maintenance.map((t) =>
+              t.slotNumber === slotNumber
+                ? ({ ...t, status: 'idle' as SlotStatus, completionTime: undefined } as TimerBasic)
+                : t,
+            );
+            set({ maintenance: updated });
+          },
+          resetMaintenanceTimer: (slotNumber: number, durationSeconds: number = 600) => {
+            const { maintenance } = get();
+            const now = Date.now();
+            const completionTime = new Date(now + durationSeconds * 1000).toISOString();
+            const updated = maintenance.map((t) =>
+              t.slotNumber === slotNumber
+                ? ({
+                    ...t,
+                    status: 'idle' as SlotStatus,
+                    duration: durationSeconds,
+                    completionTime,
+                    createdAt: new Date(now).toISOString(),
+                  } as TimerBasic)
+                : t,
+            );
+            set({ maintenance: updated });
+          },
+          getMaintenanceTimerBySlot: (slotNumber: number) => {
+            const { maintenance } = get();
+            return maintenance.find((t) => t.slotNumber === slotNumber);
           },
         },
       }),

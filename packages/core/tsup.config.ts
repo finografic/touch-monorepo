@@ -17,10 +17,13 @@ export default defineConfig({
     'src/constants/zod-errors.ts',
     'src/constants/misc.constants.ts',
     // React hooks files
-    'src/react/hooks/index.ts',
-    'src/react/hooks/useKeyPressToggle/index.ts',
-    'src/react/hooks/useKeyPressToggle/useKeyPressToggle.ts',
-    'src/react/hooks/useKeyPressToggle/keypress.constants.ts',
+    'src/hooks/index.ts',
+    'src/hooks/useBoundingRect/index.ts',
+    'src/hooks/useBoundingRect/useBoundingRect.ts',
+    'src/hooks/useKeyPress/index.ts',
+    'src/hooks/useKeyPress/keypress.constants.ts',
+    'src/hooks/useKeyPress/useKeyPress.ts',
+    'src/hooks/useKeyPress/useKeyPressToggle.ts',
     // Types files
     'src/types/index.ts',
     'src/types/utility.types.ts',

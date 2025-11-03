@@ -1,11 +1,11 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { KEY_PRESS } from '@workspace/core';
+import { useKeyPress } from '@workspace/core/hooks';
 
 import clsx from 'clsx';
 import { Button } from 'components/Button';
 
 import { NumericKeypad } from './NumericKeypad';
-import { useKeyPress } from './useKeyPress';
 import { styles } from './KeypadLoginDialog.styles';
 
 interface KeypadLoginTabContentProps {

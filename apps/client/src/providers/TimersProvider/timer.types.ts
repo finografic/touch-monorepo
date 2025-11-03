@@ -4,6 +4,7 @@ import type { FlowTypeValue } from 'types/flow.types';
 
 export interface TimerBasic {
   id: string;
+  slotNumber: number;
   duration: number;
   status: SlotStatus;
   completionTime?: string;
