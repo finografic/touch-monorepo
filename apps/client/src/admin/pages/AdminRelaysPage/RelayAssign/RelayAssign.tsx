@@ -1,7 +1,7 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
-import { Box, Button, Flex, Text } from '@radix-ui/themes';
+import { Box, Button, Checkbox, Flex, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 
 import type { SlotType } from 'types/orders.types';
@@ -33,39 +33,86 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   const relayConfigurations = configurations.filter((config) => config.slotNumber <= NUM_RELAYS);
 
   // State: each row (1-8) has a unique assigned value (1-8) or undefined
+  // Initialize with each row having its own row number selected
   const [assignments, setAssignments] = useState<Assignments>(() => {
     const initial: Assignments = {};
     for (let i = 1; i <= NUM_RELAYS; i++) {
-      initial[i] = undefined;
+      initial[i] = i; // Row 1 = value 1, Row 2 = value 2, etc.
     }
     return initial;
   });
 
-  const handleButtonClick = useCallback((rowNumber: number, buttonValue: number) => {
+  // State: column enable/disable (1-8) - all enabled by default
+  const [columnEnabled, setColumnEnabled] = useState<Record<number, boolean>>(() => {
+    const initial: Record<number, boolean> = {};
+    for (let i = 1; i <= NUM_RELAYS; i++) {
+      initial[i] = true; // All columns enabled by default
+    }
+    return initial;
+  });
+
+  // When a column is disabled, clear any assignments in that column
+  useEffect(() => {
     setAssignments((prev) => {
-      const currentAssignment = prev[rowNumber];
+      const updated = { ...prev };
+      let changed = false;
 
-      // If clicking the already-selected button, deselect it
-      if (currentAssignment === buttonValue) {
-        return { ...prev, [rowNumber]: undefined };
+      Object.entries(columnEnabled).forEach(([colNum, enabled]) => {
+        if (!enabled) {
+          // Column is disabled - clear any assignments that use this column value
+          Object.entries(prev).forEach(([rowNum, value]) => {
+            if (value === Number(colNum)) {
+              updated[Number(rowNum)] = undefined;
+              changed = true;
+            }
+          });
+        }
+      });
+
+      return changed ? updated : prev;
+    });
+  }, [columnEnabled]);
+
+  const handleButtonClick = useCallback(
+    (rowNumber: number, buttonValue: number) => {
+      // Don't allow clicking disabled columns
+      if (!columnEnabled[buttonValue]) {
+        return;
       }
 
-      // Find which row (if any) currently has this buttonValue
-      const conflictingRow = Object.entries(prev).find(
-        ([row, value]) => Number(row) !== rowNumber && value === buttonValue,
-      )?.[0];
+      setAssignments((prev) => {
+        const currentAssignment = prev[rowNumber];
 
-      const updated: Assignments = { ...prev };
+        // If clicking the already-selected button, deselect it
+        if (currentAssignment === buttonValue) {
+          return { ...prev, [rowNumber]: undefined };
+        }
 
-      // Clear the conflicting row if it exists
-      if (conflictingRow) {
-        updated[Number(conflictingRow)] = undefined;
-      }
+        // Find which row (if any) currently has this buttonValue
+        const conflictingRow = Object.entries(prev).find(
+          ([row, value]) => Number(row) !== rowNumber && value === buttonValue,
+        )?.[0];
 
-      // Assign this value to the current row
-      updated[rowNumber] = buttonValue;
+        const updated: Assignments = { ...prev };
 
-      return updated;
+        // Clear the conflicting row if it exists
+        if (conflictingRow) {
+          updated[Number(conflictingRow)] = undefined;
+        }
+
+        // Assign this value to the current row
+        updated[rowNumber] = buttonValue;
+
+        return updated;
+      });
+    },
+    [columnEnabled],
+  );
+
+  const handleColumnToggle = useCallback((columnNumber: number) => {
+    setColumnEnabled((prev) => {
+      const newState = { ...prev, [columnNumber]: !prev[columnNumber] };
+      return newState;
     });
   }, []);
 
@@ -81,39 +128,97 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   return (
     <Box css={styles}>
       <div className="slot-grid-container">
-        {/* Simple 3x3 grid layout for 8 relays */}
-        <div className="slot-list">
-          {relayConfigurations.map((config) => {
-            return (
-              <Flex key={config.slotNumber} className="slot-grid-item">
-                <Row>
-                  <Col xs={2}>
-                    <Button className="slot-number" disabled={true} variant="outline" size="3">
-                      <Flex direction="column" align="center" gap="1">
-                        <Text size="4" weight="bold">
-                          {config.slotNumber}
-                        </Text>
-                      </Flex>
-                    </Button>
+        {/* Column enable/disable header row */}
+        <Flex direction="column" gap="1">
+          <div className="slot-list-header">
+            <Row>
+              <Col xs={1}>
+                <Flex align="center" justify="center" style={{ height: '100%' }}>
+                  {/* <Text size="2" weight="bold" color="gray">
+                      Enable
+                    </Text> */}
+                </Flex>
+              </Col>
+              <Col xs={1}>
+                <Flex align="center" justify="center" style={{ height: '100%' }}>
+                  {/* <Text size="2" weight="bold" color="gray">
+                      Enable
+                    </Text> */}
+                </Flex>
+              </Col>
+              {/* <Col xs={10}> */}
+              {/* <Flex direction="row" align="center" gap="3"> */}
+              {Array.from({ length: 8 }).map((_, index) => {
+                const columnNumber = index + 1;
+                return (
+                  <Col xs={1}>
+                    {/* <Button className="slot-number" disabled={true} variant="outline" size="3"> */}
+                    <Flex direction="column" align="center" gap="1">
+                      <Checkbox
+                        key={columnNumber}
+                        checked={columnEnabled[columnNumber]}
+                        onCheckedChange={() => handleColumnToggle(columnNumber)}
+                        disabled={isLoading}
+                        className="column-toggle-checkbox"
+                      />
+                      {/* <Text size="4" weight="bold">
+                        {columnNumber}
+                      </Text> */}
+                    </Flex>
+                    {/* </Button> */}
                   </Col>
-                  <Col xs={10}>
-                    <Flex direction="row" align="center" gap="3">
-                      {Array.from({ length: 8 }).map((_, index) => {
-                        const buttonValue = index + 1;
-                        const isSelected = assignments[config.slotNumber] === buttonValue;
-                        const isUsedByAnotherRow = Object.entries(assignments).some(
-                          ([row, value]) => Number(row) !== config.slotNumber && value === buttonValue,
-                        );
+                );
+              })}
+              {/* </Flex> */}
+              {/* </Col> */}
+            </Row>
+          </div>
 
-                        return (
+          {/* Simple 3x3 grid layout for 8 relays */}
+          <div className="slot-list">
+            {relayConfigurations.map((config) => {
+              return (
+                <Flex key={config.slotNumber} className="slot-grid-item">
+                  <Row>
+                    <Col xs={1}>
+                      <Button className="slot-number" disabled={true} variant="outline" size="3">
+                        <Flex direction="column" align="center" gap="1">
+                          <Text size="4" weight="bold">
+                            {config.slotNumber}
+                          </Text>
+                        </Flex>
+                      </Button>
+                    </Col>
+                    <Col xs={1}>
+                      <Button className="slot-number" disabled={true} variant="outline" size="3">
+                        <Flex direction="column" align="center" gap="1">
+                          {/* <Text size="4" weight="bold">
+                            {config.slotNumber}
+                          </Text> */}
+                        </Flex>
+                      </Button>
+                    </Col>
+                    {/* <Col xs={10}> */}
+                    {/* <Flex direction="row" align="center" gap="3"> */}
+                    {Array.from({ length: 8 }).map((_, index) => {
+                      const buttonValue = index + 1;
+                      const isSelected = assignments[config.slotNumber] === buttonValue;
+                      const isUsedByAnotherRow = Object.entries(assignments).some(
+                        ([row, value]) => Number(row) !== config.slotNumber && value === buttonValue,
+                      );
+                      const isColumnDisabled = !columnEnabled[buttonValue];
+
+                      return (
+                        <Col xs={1}>
                           <Button
                             key={index}
                             className={clsx(
                               'slot-number',
                               isSelected && 'slot-selected',
                               isUsedByAnotherRow && 'slot-used',
+                              isColumnDisabled && 'slot-disabled',
                             )}
-                            disabled={isLoading}
+                            disabled={isLoading || isColumnDisabled}
                             variant={isSelected ? 'solid' : 'outline'}
                             size="3"
                             onClick={() => handleButtonClick(config.slotNumber, buttonValue)}
@@ -124,15 +229,17 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                               </Text>
                             </Flex>
                           </Button>
-                        );
-                      })}
-                    </Flex>
-                  </Col>
-                </Row>
-              </Flex>
-            );
-          })}
-        </div>
+                        </Col>
+                      );
+                    })}
+                    {/* </Flex> */}
+                    {/* </Col> */}
+                  </Row>
+                </Flex>
+              );
+            })}
+          </div>
+        </Flex>
       </div>
     </Box>
   );

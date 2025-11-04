@@ -14,6 +14,16 @@ export const styles = css`
     margin-bottom: 2rem;
   }
 
+  .slot-list-header {
+    width: 700px;
+    border: 1px solid ${colors.greyXXLight25};
+    padding: 1rem;
+    margin-bottom: 0.5rem;
+    border-radius: var(--radius-3);
+    background-color: ${colors.greyXXLight50};
+    border: 1px solid red;
+  }
+
   .slot-list {
     display: grid;
     row-gap: 1rem;
@@ -77,10 +87,21 @@ export const styles = css`
     background: ${colors.successXXLight25}!important;
   }
 
+  button.slot-number {
+    /* outline: none !important */
+    border: 1px solid transparent !important;
+  }
+
+  button.slot-used {
+    pointer-events: none;
+    /* border-color: ${colors.infoLight};
+    color: ${colors.infoLight}; */
+  }
+
   button.slot-number.slot-selected {
-    background-color: ${colors.infoLight};
-    border-color: ${colors.info};
-    color: ${colors.info};
+    background-color: ${colors.infoLight25};
+    /* border-color: ${colors.infoLight}; */
+    color: ${colors.infoLight};
     font-weight: 600;
   }
 
@@ -89,5 +110,20 @@ export const styles = css`
     border-color: ${colors.greyLight};
     color: ${colors.greyLight};
     cursor: not-allowed;
+  }
+
+  button.slot-number.slot-disabled {
+    opacity: 0.3;
+    border-color: ${colors.greyLight};
+    color: ${colors.greyLight};
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .column-toggle-checkbox {
+    min-width: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 `;

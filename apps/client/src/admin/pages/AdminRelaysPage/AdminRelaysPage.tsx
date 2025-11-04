@@ -184,7 +184,7 @@ export const AdminRelaysPage: React.FC = () => {
           </Card>
           {/* ====================================================================== */}
           {/* Relay Control */}
-          <Card size="3" variant="surface">
+          {/* <Card size="3" variant="surface">
             <Flex gap="4" justify="between">
               <Flex direction="column" gap="4">
                 <Flex justify="between" align="center">
@@ -248,7 +248,7 @@ export const AdminRelaysPage: React.FC = () => {
                 </div>
               </Flex>
             </Flex>
-          </Card>
+          </Card> */}
 
           {/* ====================================================================== */}
         </Flex>
