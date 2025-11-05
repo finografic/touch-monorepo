@@ -120,7 +120,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({ configurations, isLoad
             return (
               <Flex key={config.slotNumber} className="slot-grid-item">
                 <Row>
-                  <Col xs={3} className="col col-button">
+                  <Col xs={2} className="col col-button">
                     <Button
                       className="slot-button"
                       disabled={true}
@@ -144,8 +144,15 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({ configurations, isLoad
                       disabled={isLoading || isLoadingSlotConfigs}
                     />
                   </Col>
-                  <Col xs={4} className="col col-status">
-                    {/* TODO: move status HERE  */}
+                  <Col xs={5} className="col col-status">
+                    <Flex align="center" gap="3">
+                      <div className={`relay-status-indicator ${config.isOn ? 'relay-on' : 'relay-off'}`}>
+                        {config.slotNumber}
+                      </div>
+                      <Text size="3" className={config.isOn ? 'relay-status-on' : 'relay-status-off'}>
+                        Relay {config.slotNumber}: {config.isOn ? 'ON' : 'OFF'}
+                      </Text>
+                    </Flex>
                   </Col>
                 </Row>
               </Flex>

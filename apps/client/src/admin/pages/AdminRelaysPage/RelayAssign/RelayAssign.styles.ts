@@ -48,4 +48,40 @@ export const styles = css`
       width: 200px;
     }
   }
+
+  .col-status {
+    display: flex;
+    align-items: center;
+  }
+
+  .relay-status-indicator {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 1;
+    color: white;
+
+    &.relay-on {
+      background: ${colors.successLight};
+    }
+
+    &.relay-off {
+      background: ${colors.greyXLight50};
+    }
+  }
+
+  .relay-status-on {
+    color: ${colors.successLight};
+    font-weight: 600;
+  }
+
+  .relay-status-off {
+    color: ${colors.greyXXLight};
+    font-weight: 600;
+  }
 `;
