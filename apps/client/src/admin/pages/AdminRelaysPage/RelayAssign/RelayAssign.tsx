@@ -189,7 +189,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                     />
                   </Col>
                   <Col xs={4} className="col col-status">
-                    {/* TODO:  */}
+                    {/* TODO: move status HERE  */}
                   </Col>
                 </Row>
               </Flex>
