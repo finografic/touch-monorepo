@@ -112,4 +112,8 @@ export const styles = css`
       color: ${colors.greyXXLight};
     }
   }
+
+  .status-buttons-all {
+    transform: translateX(-1rem);
+  }
 `;

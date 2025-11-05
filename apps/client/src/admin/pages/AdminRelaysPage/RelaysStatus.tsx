@@ -27,7 +27,7 @@ export const RelaysStatus: React.FC = () => {
       <Flex justify="between" align="center">
         <Flex direction="column" gap="2">
           <Heading size="4">Connection Status</Heading>
-          <Flex align="center" gap="3">
+          <Flex align="center" gap="3" className="status-buttons">
             <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">
               {relayStatus?.connected ? 'Connected' : 'Disconnected'}
             </Badge>

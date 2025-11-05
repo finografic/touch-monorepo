@@ -8,7 +8,6 @@ export const styles = css`
     gap: 1rem;
     align-items: flex-start;
     margin-bottom: 2rem;
-    border: 1px solid ${colors.greyLight};
     width: 800px;
   }
 
@@ -30,6 +29,14 @@ export const styles = css`
     button {
       cursor: pointer;
     }
+
+    &.header {
+      /* padding: 0.5rem 1rem; */
+      color: ${colors.grey};
+      font-weight: 600;
+      margin-top: 1rem;
+      margin-bottom: 1.5rem;
+    }
   }
 
   .col {
@@ -43,14 +50,12 @@ export const styles = css`
       margin: 2px;
       width: 36px;
       height: 36px;
-      /* box-shadow: inset 0 0 1px 2px ${colors.greyLight}; */
       background-color: transparent;
       cursor: pointer;
     }
   }
 
   .col-select {
-    /* padding-left: 0 !important; */
     .relay-assign-select {
       width: 100%; /* Stretch select to fill column width */
       max-width: none; /* Remove max-width constraint */

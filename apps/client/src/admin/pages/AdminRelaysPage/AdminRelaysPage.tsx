@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
+import { Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { RelayAssign } from 'admin/pages/AdminRelaysPage/RelayAssign';
 
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
-import { SlotType } from 'types/orders.types';
+import { useGetSlotConfigurations } from 'queries/slot-configurations';
+import type { SlotType } from 'types/orders.types';
 
 import { AdminContentLayout } from '../..';
-import { RelayGrid } from './RelayGrid';
 import { NUM_RELAYS } from './relays.config';
 import { RelaysStatus } from './RelaysStatus';
 import { useRelayHandlers } from './useRelayHandlers';
@@ -22,7 +22,11 @@ interface RelayConfig {
 }
 
 export const AdminRelaysPage: React.FC = () => {
-  const { t } = useTranslation();
+  const {
+    data: slotConfigurations,
+    isSuccess,
+    isLoading: isLoadingSlotConfigurations,
+  } = useGetSlotConfigurations();
 
   // Initialize relay service on mount
   const initializeRelayMutation = useInitializeRelay();
@@ -63,35 +67,49 @@ export const AdminRelaysPage: React.FC = () => {
     disablePolling: disableStatusPolling,
   } = useGetRelayStatus();
 
+  const isLoading = useMemo(
+    () => isLoadingSlotConfigurations || isLoadingStates || isLoadingStatus,
+    [isLoadingSlotConfigurations, isLoadingStates, isLoadingStatus],
+  );
+
+  // ======================================================================== //
+
   // Local state for relay configurations
   const [relayConfigs, setRelayConfigs] = useState<RelayConfig[]>([]);
 
-  // Initialize relay configurations
-  useEffect(() => {
-    const initialConfigs: RelayConfig[] = Array.from({ length: NUM_RELAYS }, (_, index) => ({
-      slotNumber: index + 1,
-      slotType: SlotType.B, // Default slot type
-      isOn: false, // Will be updated from API
-    }));
-    setRelayConfigs(initialConfigs);
-  }, []);
+  useEffect(
+    function initializeRelayConfigs() {
+      if (isSuccess && slotConfigurations) {
+        const initialConfigs: RelayConfig[] = slotConfigurations.map((slotConfiguration) => ({
+          slotNumber: slotConfiguration.slotNumber,
+          slotType: slotConfiguration.slotType,
+          isOn: false, // Will be updated from API
+        }));
+        setRelayConfigs(initialConfigs);
+      }
+    },
+    [slotConfigurations],
+  );
 
   // Update relay configurations when API data changes
-  useEffect(() => {
-    if (relayStates && relayStates.length > 0) {
-      setRelayConfigs((prevConfigs) =>
-        prevConfigs.map((config) => {
-          const relayState = relayStates.find((state) => state.slotNumber === config.slotNumber);
-          return {
-            ...config,
-            isOn: relayState?.isOn ?? false,
-          };
-        }),
-      );
-    }
-  }, [relayStates]);
+  useEffect(
+    function handleRelayStatesChange() {
+      if (relayStates && relayStates.length > 0) {
+        setRelayConfigs((prevConfigs) =>
+          prevConfigs.map((config) => {
+            const relayState = relayStates.find((state) => state.slotNumber === config.slotNumber);
+            return {
+              ...config,
+              isOn: relayState?.isOn ?? false,
+            };
+          }),
+        );
+      }
+    },
+    [relayStates],
+  );
 
-  if (isLoadingStates) {
+  if (isLoading) {
     return (
       <AdminContentLayout title="Relay Control" subtitle="Loading..." styles={styles}>
         <Box className="loading">Loading relay states...</Box>
@@ -146,54 +164,12 @@ export const AdminRelaysPage: React.FC = () => {
           {/* Connection Status */}
           <RelaysStatus />
           {/* ====================================================================== */}
-
           <Card size="3" variant="surface">
             <Flex gap="4" justify="between">
               <Flex direction="column" gap="4">
                 <Flex justify="between" align="center">
                   <Heading size="4">Relay Control Grid</Heading>
-                </Flex>
-                {/* ====================================================================== */}
-                {/* Relay Assignment & Testing */}
-                <RelayAssign
-                  configurations={relayConfigs}
-                  onRelayToggle={handleRelayToggle}
-                  isLoading={toggleRelayMutation.isPending}
-                />
-                {/* ====================================================================== */}
-              </Flex>
-              <Flex direction="column" gap="4">
-                <div className="slot-types-container">
-                  <Heading size="4">Relay Status</Heading>
-                  <div className="slot-legend">
-                    <Flex direction="column" gap="3">
-                      {relayConfigs.map((config) => (
-                        <Flex
-                          key={config.slotNumber}
-                          align="center"
-                          gap="4"
-                          className={`legend-item ${config.isOn ? 'legend-relay-on' : 'legend-relay-off'}`}
-                        >
-                          <div>{config.slotNumber}</div>
-                          <Text size="3">
-                            Relay {config.slotNumber}: {config.isOn ? 'ON' : 'OFF'}
-                          </Text>
-                        </Flex>
-                      ))}
-                    </Flex>
-                  </div>
-                </div>
-              </Flex>
-            </Flex>
-          </Card>
-          {/* ====================================================================== */}
-          {/* Relay Control */}
-          <Card size="3" variant="surface">
-            <Flex gap="4" justify="between">
-              <Flex direction="column" gap="4">
-                <Flex justify="between" align="center">
-                  <Heading size="4">Relay Control Grid</Heading>
-                  <Flex gap="2" ml="4">
+                  <Flex gap="2" ml="2" className="status-buttons-all">
                     <Button
                       onClick={handleTurnAllOn}
                       disabled={turnAllOnMutation.isPending}
@@ -223,37 +199,16 @@ export const AdminRelaysPage: React.FC = () => {
                     </Button>
                   </Flex>
                 </Flex>
-                <RelayGrid
+                {/* ====================================================================== */}
+                <RelayAssign
                   configurations={relayConfigs}
                   onRelayToggle={handleRelayToggle}
                   isLoading={toggleRelayMutation.isPending}
                 />
-              </Flex>
-              <Flex direction="column" gap="4">
-                <div className="slot-types-container">
-                  <Heading size="4">Relay Status</Heading>
-                  <div className="slot-legend">
-                    <Flex direction="column" gap="3">
-                      {relayConfigs.map((config) => (
-                        <Flex
-                          key={config.slotNumber}
-                          align="center"
-                          gap="4"
-                          className={`legend-item ${config.isOn ? 'legend-relay-on' : 'legend-relay-off'}`}
-                        >
-                          <div>{config.slotNumber}</div>
-                          <Text size="3">
-                            Relay {config.slotNumber}: {config.isOn ? 'ON' : 'OFF'}
-                          </Text>
-                        </Flex>
-                      ))}
-                    </Flex>
-                  </div>
-                </div>
+                {/* ====================================================================== */}
               </Flex>
             </Flex>
           </Card>
-          {/* ====================================================================== */}
         </Flex>
       </Box>
     </AdminContentLayout>

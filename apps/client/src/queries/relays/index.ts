@@ -1,13 +1,18 @@
 export { useDisconnectRelay } from './useDisconnectRelay';
+export type { DisconnectRelayResponse } from './useDisconnectRelay';
 export { useGetRelayState } from './useGetRelayState';
 export type { RelayState } from './useGetRelayStates';
 export { useGetRelayStates } from './useGetRelayStates';
 export { useGetRelayStatus } from './useGetRelayStatus';
 export { useInitializeRelay } from './useInitializeRelay';
 export { useReconnectRelay } from './useReconnectRelay';
+export type { ReconnectResponse } from './useReconnectRelay';
 export { useToggleRelay } from './useToggleRelay';
+export type { ToggleRelayResponse } from './useToggleRelay';
 export { useTurnAllRelaysOff } from './useTurnAllRelaysOff';
+export type { BulkRelayResponse as BulkRelayOffResponse } from './useTurnAllRelaysOff';
 export { useTurnAllRelaysOn } from './useTurnAllRelaysOn';
+export type { BulkRelayResponse as BulkRelayOnResponse } from './useTurnAllRelaysOn';
 
 export const GET_RELAY_STATUS_QUERYKEY = ['get-relay-status'] as const;
 export const GET_RELAY_STATES_QUERYKEY = ['get-relay-states'] as const;

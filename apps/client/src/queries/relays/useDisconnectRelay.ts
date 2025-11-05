@@ -5,7 +5,7 @@ import { api } from 'api';
 
 import { GET_RELAY_STATES_QUERYKEY, GET_RELAY_STATUS_QUERYKEY } from 'queries/relays';
 
-interface DisconnectRelayResponse {
+export interface DisconnectRelayResponse {
   success: boolean;
   message: string;
 }
