@@ -128,97 +128,38 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   return (
     <Box css={styles}>
       <div className="slot-grid-container">
-        {/* Column enable/disable header row */}
-        <Flex direction="column" gap="1">
-          <div className="slot-list-header">
-            <Row>
-              <Col xs={1}>
-                <Flex align="center" justify="center" style={{ height: '100%' }}>
-                  {/* <Text size="2" weight="bold" color="gray">
-                      Enable
-                    </Text> */}
-                </Flex>
-              </Col>
-              <Col xs={1}>
-                <Flex align="center" justify="center" style={{ height: '100%' }}>
-                  {/* <Text size="2" weight="bold" color="gray">
-                      Enable
-                    </Text> */}
-                </Flex>
-              </Col>
-              {/* <Col xs={10}> */}
-              {/* <Flex direction="row" align="center" gap="3"> */}
-              {Array.from({ length: 8 }).map((_, index) => {
-                const columnNumber = index + 1;
-                return (
-                  <Col xs={1}>
-                    {/* <Button className="slot-number" disabled={true} variant="outline" size="3"> */}
-                    <Flex direction="column" align="center" gap="1">
-                      <Checkbox
-                        key={columnNumber}
-                        checked={columnEnabled[columnNumber]}
-                        onCheckedChange={() => handleColumnToggle(columnNumber)}
-                        disabled={isLoading}
-                        className="column-toggle-checkbox"
-                      />
-                      {/* <Text size="4" weight="bold">
-                        {columnNumber}
-                      </Text> */}
-                    </Flex>
-                    {/* </Button> */}
+        {/* Simple 3x3 grid layout for 8 relays */}
+        <div className="slot-list">
+          {relayConfigurations.map((config) => {
+            return (
+              <Flex key={config.slotNumber} className="slot-grid-item">
+                <Row>
+                  <Col xs={2}>
+                    <Button className="slot-number" disabled={true} variant="outline" size="3">
+                      <Flex direction="column" align="center" gap="1">
+                        <Text size="4" weight="bold">
+                          {config.slotNumber}
+                        </Text>
+                      </Flex>
+                    </Button>
                   </Col>
-                );
-              })}
-              {/* </Flex> */}
-              {/* </Col> */}
-            </Row>
-          </div>
-
-          {/* Simple 3x3 grid layout for 8 relays */}
-          <div className="slot-list">
-            {relayConfigurations.map((config) => {
-              return (
-                <Flex key={config.slotNumber} className="slot-grid-item">
-                  <Row>
-                    <Col xs={1}>
-                      <Button className="slot-number" disabled={true} variant="outline" size="3">
-                        <Flex direction="column" align="center" gap="1">
-                          <Text size="4" weight="bold">
-                            {config.slotNumber}
-                          </Text>
-                        </Flex>
-                      </Button>
-                    </Col>
-                    <Col xs={1}>
-                      <Button className="slot-number" disabled={true} variant="outline" size="3">
-                        <Flex direction="column" align="center" gap="1">
-                          {/* <Text size="4" weight="bold">
-                            {config.slotNumber}
-                          </Text> */}
-                        </Flex>
-                      </Button>
-                    </Col>
-                    {/* <Col xs={10}> */}
-                    {/* <Flex direction="row" align="center" gap="3"> */}
-                    {Array.from({ length: 8 }).map((_, index) => {
-                      const buttonValue = index + 1;
-                      const isSelected = assignments[config.slotNumber] === buttonValue;
-                      const isUsedByAnotherRow = Object.entries(assignments).some(
-                        ([row, value]) => Number(row) !== config.slotNumber && value === buttonValue,
-                      );
-                      const isColumnDisabled = !columnEnabled[buttonValue];
-
-                      return (
-                        <Col xs={1}>
+                  <Col xs={10}>
+                    <Flex direction="row" align="center" gap="3">
+                      {Array.from({ length: 8 }).map((_, index) => {
+                        const buttonValue = index + 1;
+                        const isSelected = assignments[config.slotNumber] === buttonValue;
+                        const isUsedByAnotherRow = Object.entries(assignments).some(
+                          ([row, value]) => Number(row) !== config.slotNumber && value === buttonValue,
+                        );
+                        return (
                           <Button
                             key={index}
                             className={clsx(
                               'slot-number',
                               isSelected && 'slot-selected',
                               isUsedByAnotherRow && 'slot-used',
-                              isColumnDisabled && 'slot-disabled',
                             )}
-                            disabled={isLoading || isColumnDisabled}
+                            disabled={isLoading}
                             variant={isSelected ? 'solid' : 'outline'}
                             size="3"
                             onClick={() => handleButtonClick(config.slotNumber, buttonValue)}
@@ -229,17 +170,15 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                               </Text>
                             </Flex>
                           </Button>
-                        </Col>
-                      );
-                    })}
-                    {/* </Flex> */}
-                    {/* </Col> */}
-                  </Row>
-                </Flex>
-              );
-            })}
-          </div>
-        </Flex>
+                        );
+                      })}
+                    </Flex>
+                  </Col>
+                </Row>
+              </Flex>
+            );
+          })}
+        </div>
       </div>
     </Box>
   );
