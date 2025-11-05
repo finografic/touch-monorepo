@@ -8,6 +8,8 @@ export const styles = css`
     gap: 1rem;
     align-items: flex-start;
     margin-bottom: 2rem;
+    border: 1px solid ${colors.greyLight};
+    width: 800px;
   }
 
   .slot-list {
@@ -40,6 +42,9 @@ export const styles = css`
   }
 
   .col-select {
-    padding-left: 0 !important;
+    /* padding-left: 0 !important; */
+    .relay-assign-select {
+      max-width: 150px;
+    }
   }
 `;

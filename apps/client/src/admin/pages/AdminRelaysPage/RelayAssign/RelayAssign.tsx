@@ -43,6 +43,12 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   // Filter configurations to only show relays (1 to NUM_RELAYS)
   const relayConfigurations = configurations.filter((config) => config.slotNumber <= NUM_RELAYS);
 
+  // Create a map of slotNumber -> slotType from slotConfigs for quick lookup
+  const slotTypeMap = useMemo(() => {
+    if (!slotConfigs) return new Map<number, SlotType>();
+    return new Map(slotConfigs.map((config) => [config.slotNumber, config.slotType]));
+  }, [slotConfigs]);
+
   // State: each row (1-8) has a unique assigned value (1-8) or undefined
   // Initialize with each row having its own row number selected
   const [assignments, setAssignments] = useState<Assignments>(() => {
@@ -68,7 +74,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
       const value = index + 1;
       return {
         value: value.toString(),
-        label: value.toString(),
+        label: `Relay ${value.toString()}`,
       };
     }).filter((option) => columnEnabled[Number(option.value)]);
   }, [columnEnabled]);
@@ -133,38 +139,42 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   const getSlotColor = (slotType: SlotType) => {
     switch (slotType) {
       case SlotType.A:
-        return 'default';
+        return colors.defaultLight;
       case SlotType.B:
-        return 'info';
+        return colors.infoLight;
       case SlotType.C:
-        return 'danger';
+        return colors.dangerLight;
       default:
-        return 'default';
+        return colors.defaultLight;
     }
   };
 
   return (
     <Box css={styles}>
-      <div className="slot-grid-container">{JSON.stringify(configurations)}</div>
       <div className="slot-grid-container">
         {/* Simple 3x3 grid layout for 8 relays */}
         <div className="slot-list">
           {relayConfigurations.map((config) => {
+            // Get the configured slotType from slotConfigs, fallback to config.slotType if not found
+            const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
+
             return (
               <Flex key={config.slotNumber} className="slot-grid-item">
                 <Row>
                   <Col xs={3} className="col col-button">
                     <Button
                       className="slot-button"
-                      // className={`slot-button slot-${getSlotColor(config.slotType)}`}
                       disabled={true}
                       variant="outline"
-                      style={{ boxShadow: `inset 0 0 1px 2px ${getSlotColor(config.slotType)}` }}
+                      style={{ boxShadow: `inset 0 0 1px 2px ${getSlotColor(configuredSlotType)}` }}
                     >
                       <Flex direction="column" align="center" gap="1">
-                        <Text size="3" weight="bold" style={{ color: `${getSlotColor(config.slotType)}` }}>
+                        <Text size="3" weight="bold" style={{ color: getSlotColor(configuredSlotType) }}>
                           {config.slotNumber}
                         </Text>
+                        {/* <Text size="1" weight="bold" style={{ color: getSlotColor(configuredSlotType) }}>
+                          {configuredSlotType}
+                        </Text> */}
                       </Flex>
                     </Button>
                   </Col>
@@ -175,7 +185,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                       placeholder="Select value..."
                       value={assignments[config.slotNumber]?.toString() || ''}
                       onSelect={(value) => handleSelectChange(config.slotNumber, value)}
-                      disabled={isLoading}
+                      disabled={isLoading || isLoadingSlotConfigs}
                     />
                   </Col>
                 </Row>
