@@ -8,7 +8,6 @@ import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'querie
 import { SlotType } from 'types/orders.types';
 
 import { AdminContentLayout } from '../..';
-import { RelayGrid } from './RelayGrid/RelayGrid';
 import { NUM_RELAYS } from './relays.config';
 import { useRelayHandlers } from './useRelayHandlers';
 import { styles } from './AdminRelaysPage.styles';
@@ -212,34 +211,7 @@ export const PublicRelaysPage: React.FC = () => {
                     </Button>
                   </Flex>
                 </Flex>
-                {/* <RelayGrid
-                  configurations={relayConfigs}
-                  onRelayToggle={handleRelayToggle}
-                  isLoading={toggleRelayMutation.isPending}
-                /> */}
               </Flex>
-              {/* <Flex direction="column" gap="4">
-                <div className="slot-types-container">
-                  <Heading size="4">Relay Status</Heading>
-                  <div className="slot-legend">
-                    <Flex direction="column" gap="3">
-                      {relayConfigs.map((config) => (
-                        <Flex
-                          key={config.slotNumber}
-                          align="center"
-                          gap="4"
-                          className={`legend-item ${config.isOn ? 'legend-relay-on' : 'legend-relay-off'}`}
-                        >
-                          <div>{config.slotNumber}</div>
-                          <Text size="3">
-                            Relay {config.slotNumber}: {config.isOn ? 'ON' : 'OFF'}
-                          </Text>
-                        </Flex>
-                      ))}
-                    </Flex>
-                  </div>
-                </div>
-              </Flex> */}
             </Flex>
           </Card>
         </Flex>
