@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
@@ -20,26 +20,16 @@ interface RelayConfig {
 
 interface RelayAssignProps {
   configurations: RelayConfig[];
-  onRelayToggle: (slotNumber: number, newState: boolean) => void;
+  onRelayToggle?: (slotNumber: number, newState: boolean) => void;
   isLoading?: boolean;
 }
 
 // Map: rowNumber (1-8) -> selectedValue (1-8 | undefined)
 type Assignments = Record<number, number | undefined>;
 
-export const RelayAssign: React.FC<RelayAssignProps> = ({
-  configurations,
-  onRelayToggle,
-  isLoading = false,
-}) => {
-  // ======================================================================== //
-  const {
-    data: slotConfigs,
-    isLoading: isLoadingSlotConfigs,
-    error: errorSlotConfigs,
-  } = useGetSlotConfigurations();
+export const RelayAssign: React.FC<RelayAssignProps> = ({ configurations, isLoading = false }) => {
+  const { data: slotConfigs, isLoading: isLoadingSlotConfigs } = useGetSlotConfigurations();
 
-  // ======================================================================== //
   // Filter configurations to only show relays (1 to NUM_RELAYS)
   const relayConfigurations = configurations.filter((config) => config.slotNumber <= NUM_RELAYS);
 
@@ -59,16 +49,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     return initial;
   });
 
-  // State: column enable/disable (1-8) - all enabled by default
-  const [columnEnabled, setColumnEnabled] = useState<Record<number, boolean>>(() => {
-    const initial: Record<number, boolean> = {};
-    for (let i = 1; i <= NUM_RELAYS; i++) {
-      initial[i] = true; // All columns enabled by default
-    }
-    return initial;
-  });
-
-  // Generate dropdown options (1-8), filtered by enabled columns
+  // Generate dropdown options (1-8)
   const dropdownOptions: SelectOption[] = useMemo(() => {
     return Array.from({ length: NUM_RELAYS }, (_, index) => {
       const value = index + 1;
@@ -76,30 +57,8 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
         value: value.toString(),
         label: `Relay ${value.toString()}`,
       };
-    }).filter((option) => columnEnabled[Number(option.value)]);
-  }, [columnEnabled]);
-
-  // When a column is disabled, clear any assignments in that column
-  useEffect(() => {
-    setAssignments((prev) => {
-      const updated = { ...prev };
-      let changed = false;
-
-      Object.entries(columnEnabled).forEach(([colNum, enabled]) => {
-        if (!enabled) {
-          // Column is disabled - clear any assignments that use this column value
-          Object.entries(prev).forEach(([rowNum, value]) => {
-            if (value === Number(colNum)) {
-              updated[Number(rowNum)] = undefined;
-              changed = true;
-            }
-          });
-        }
-      });
-
-      return changed ? updated : prev;
     });
-  }, [columnEnabled]);
+  }, []);
 
   const handleSelectChange = useCallback((rowNumber: number, selectedValue: string) => {
     const buttonValue = selectedValue ? Number(selectedValue) : undefined;
@@ -172,9 +131,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                         <Text size="3" weight="bold" style={{ color: getSlotColor(configuredSlotType) }}>
                           {config.slotNumber}
                         </Text>
-                        {/* <Text size="1" weight="bold" style={{ color: getSlotColor(configuredSlotType) }}>
-                          {configuredSlotType}
-                        </Text> */}
                       </Flex>
                     </Button>
                   </Col>

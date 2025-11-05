@@ -45,7 +45,7 @@ export const styles = css`
   .col-select {
     /* padding-left: 0 !important; */
     .relay-assign-select {
-      max-width: 400px;
+      width: 200px;
     }
   }
 `;
