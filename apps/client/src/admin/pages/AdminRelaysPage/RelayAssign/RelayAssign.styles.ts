@@ -25,10 +25,17 @@ export const styles = css`
     > div {
       display: flex;
       align-items: center; /* Vertically align button and dropdown */
+      width: 100%; /* Ensure Row takes full width */
     }
     button {
       cursor: pointer;
     }
+  }
+
+  .col {
+    display: flex;
+    flex-direction: column;
+    width: 100%; /* Ensure columns stretch to fill available space */
   }
 
   .col-button {
@@ -45,13 +52,15 @@ export const styles = css`
   .col-select {
     /* padding-left: 0 !important; */
     .relay-assign-select {
-      width: 200px;
+      width: 100%; /* Stretch select to fill column width */
+      max-width: none; /* Remove max-width constraint */
     }
   }
 
   .col-status {
     display: flex;
     align-items: center;
+    width: 100%; /* Ensure status column stretches */
   }
 
   .relay-status-indicator {
