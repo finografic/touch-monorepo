@@ -1,12 +1,14 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
-import { Box, Button, Checkbox, Flex, Text } from '@radix-ui/themes';
-import clsx from 'clsx';
+import { Box, Button, Flex, Text } from '@radix-ui/themes';
+import { SelectCustom } from 'forms/SelectCustom';
 
+import type { SelectOption } from 'types/models/select-option.model';
 import type { SlotType } from 'types/orders.types';
 
 import { NUM_RELAYS } from '../relays.config';
+import { colors } from 'styles';
 import { styles } from './RelayAssign.styles';
 
 interface RelayConfig {
@@ -51,6 +53,17 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     return initial;
   });
 
+  // Generate dropdown options (1-8), filtered by enabled columns
+  const dropdownOptions: SelectOption[] = useMemo(() => {
+    return Array.from({ length: NUM_RELAYS }, (_, index) => {
+      const value = index + 1;
+      return {
+        value: value.toString(),
+        label: value.toString(),
+      };
+    }).filter((option) => columnEnabled[Number(option.value)]);
+  }, [columnEnabled]);
+
   // When a column is disabled, clear any assignments in that column
   useEffect(() => {
     setAssignments((prev) => {
@@ -73,57 +86,40 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     });
   }, [columnEnabled]);
 
-  const handleButtonClick = useCallback(
-    (rowNumber: number, buttonValue: number) => {
-      // Don't allow clicking disabled columns
-      if (!columnEnabled[buttonValue]) {
-        return;
+  const handleSelectChange = useCallback((rowNumber: number, selectedValue: string) => {
+    const buttonValue = selectedValue ? Number(selectedValue) : undefined;
+
+    setAssignments((prev) => {
+      const currentAssignment = prev[rowNumber];
+
+      // If deselecting (empty value), just clear this row
+      if (!selectedValue) {
+        return { ...prev, [rowNumber]: undefined };
       }
 
-      setAssignments((prev) => {
-        const currentAssignment = prev[rowNumber];
+      // If selecting the same value, deselect it
+      if (currentAssignment === buttonValue) {
+        return { ...prev, [rowNumber]: undefined };
+      }
 
-        // If clicking the already-selected button, deselect it
-        if (currentAssignment === buttonValue) {
-          return { ...prev, [rowNumber]: undefined };
-        }
+      // Find which row (if any) currently has this buttonValue
+      const conflictingRow = Object.entries(prev).find(
+        ([row, value]) => Number(row) !== rowNumber && value === buttonValue,
+      )?.[0];
 
-        // Find which row (if any) currently has this buttonValue
-        const conflictingRow = Object.entries(prev).find(
-          ([row, value]) => Number(row) !== rowNumber && value === buttonValue,
-        )?.[0];
+      const updated: Assignments = { ...prev };
 
-        const updated: Assignments = { ...prev };
+      // Clear the conflicting row if it exists
+      if (conflictingRow) {
+        updated[Number(conflictingRow)] = undefined;
+      }
 
-        // Clear the conflicting row if it exists
-        if (conflictingRow) {
-          updated[Number(conflictingRow)] = undefined;
-        }
+      // Assign this value to the current row
+      updated[rowNumber] = buttonValue;
 
-        // Assign this value to the current row
-        updated[rowNumber] = buttonValue;
-
-        return updated;
-      });
-    },
-    [columnEnabled],
-  );
-
-  const handleColumnToggle = useCallback((columnNumber: number) => {
-    setColumnEnabled((prev) => {
-      const newState = { ...prev, [columnNumber]: !prev[columnNumber] };
-      return newState;
+      return updated;
     });
   }, []);
-
-  const handleSlotClick = (slotNumber: number) => {
-    const currentConfig = relayConfigurations.find((config) => config.slotNumber === slotNumber);
-    if (!currentConfig) return;
-
-    // Toggle relay state
-    const newIsOn = !currentConfig.isOn;
-    onRelayToggle(slotNumber, newIsOn);
-  };
 
   return (
     <Box css={styles}>
@@ -134,45 +130,29 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
             return (
               <Flex key={config.slotNumber} className="slot-grid-item">
                 <Row>
-                  <Col xs={2}>
-                    <Button className="slot-number" disabled={true} variant="outline" size="3">
+                  <Col xs={3} className="col col-button">
+                    <Button
+                      className="slot-number"
+                      disabled={true}
+                      variant="outline"
+                      style={{ boxShadow: `inset 0 0 1px 2px ${colors.greyLight}` }}
+                    >
                       <Flex direction="column" align="center" gap="1">
-                        <Text size="4" weight="bold">
+                        <Text size="3" weight="bold" style={{ color: `${colors.greyLight}` }}>
                           {config.slotNumber}
                         </Text>
                       </Flex>
                     </Button>
                   </Col>
-                  <Col xs={10}>
-                    <Flex direction="row" align="center" gap="3">
-                      {Array.from({ length: 8 }).map((_, index) => {
-                        const buttonValue = index + 1;
-                        const isSelected = assignments[config.slotNumber] === buttonValue;
-                        const isUsedByAnotherRow = Object.entries(assignments).some(
-                          ([row, value]) => Number(row) !== config.slotNumber && value === buttonValue,
-                        );
-                        return (
-                          <Button
-                            key={index}
-                            className={clsx(
-                              'slot-number',
-                              isSelected && 'slot-selected',
-                              isUsedByAnotherRow && 'slot-used',
-                            )}
-                            disabled={isLoading}
-                            variant={isSelected ? 'solid' : 'outline'}
-                            size="3"
-                            onClick={() => handleButtonClick(config.slotNumber, buttonValue)}
-                          >
-                            <Flex direction="column" align="center" gap="1">
-                              <Text size="4" weight="bold">
-                                {buttonValue}
-                              </Text>
-                            </Flex>
-                          </Button>
-                        );
-                      })}
-                    </Flex>
+                  <Col xs={9} className="col col-select">
+                    <SelectCustom
+                      className="relay-assign-select"
+                      options={dropdownOptions}
+                      placeholder="Select value..."
+                      value={assignments[config.slotNumber]?.toString() || ''}
+                      onSelect={(value) => handleSelectChange(config.slotNumber, value)}
+                      disabled={isLoading}
+                    />
                   </Col>
                 </Row>
               </Flex>
