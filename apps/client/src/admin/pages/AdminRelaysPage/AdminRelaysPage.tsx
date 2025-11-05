@@ -142,21 +142,25 @@ export const AdminRelaysPage: React.FC = () => {
     >
       <Box className="admin-relay-control">
         <Flex direction="column" gap="6">
+          {/* ====================================================================== */}
           {/* Connection Status */}
           <RelaysStatus />
           {/* ====================================================================== */}
-          {/* Relay Control */}
+
           <Card size="3" variant="surface">
             <Flex gap="4" justify="between">
               <Flex direction="column" gap="4">
                 <Flex justify="between" align="center">
                   <Heading size="4">Relay Control Grid</Heading>
                 </Flex>
+                {/* ====================================================================== */}
+                {/* Relay Assignment & Testing */}
                 <RelayAssign
                   configurations={relayConfigs}
                   onRelayToggle={handleRelayToggle}
                   isLoading={toggleRelayMutation.isPending}
                 />
+                {/* ====================================================================== */}
               </Flex>
               <Flex direction="column" gap="4">
                 <div className="slot-types-container">
