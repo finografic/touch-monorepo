@@ -57,7 +57,6 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
 
   return (
     <Box css={styles}>
-      <div className="slot-grid-container">{JSON.stringify(configurations)}</div>
       <div className="slot-grid-container">
         {/* Main grid */}
         <div
@@ -94,7 +93,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
         {/* Last slot positioned separately */}
         {lastSlot && (
           <div className="slot-item-special">
-            {/* <Button
+            <Button
               className={`slot-button slot-${getSlotColor(lastSlot.slotType)}`}
               // onClick={() => handleSlotClick(lastSlot.slotNumber)}
               onClick={() => {}}
@@ -107,7 +106,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
                 </Text>
                 <Text size="2">{getSlotLabel(lastSlot.slotType)}</Text>
               </Flex>
-            </Button> */}
+            </Button>
           </div>
         )}
       </div>

@@ -1,16 +1,31 @@
 import { css } from '@emotion/react';
 
+import { min } from 'styles';
 import { colors } from 'styles/colors/colors.styles';
 
 export const styles = css`
   &.form-container {
-    width: 77vw;
-    max-width: 77vw !important;
+    width: 100vw;
+    max-width: 100vw !important;
     min-width: 1000px !important;
+
+    ${min.lg} {
+      max-width: 88vw !important;
+    }
+    ${min.xl} {
+      max-width: 77vh !important;
+    }
 
     .tab-content-new,
     .tab-content-edit {
-      max-width: 66vw !important;
+      max-width: 100vw !important;
+
+      ${min.lg} {
+        max-width: 88vw !important;
+      }
+      ${min.xl} {
+        max-width: 66vh !important;
+      }
     }
 
     height: 66vh !important;
