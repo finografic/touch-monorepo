@@ -28,14 +28,14 @@ interface UseOrdersFilterReturn {
  * @param ordersData - Array of orders to filter
  * @param searchTerm - Global search term (optional)
  * @param columnSearches - Column-specific search terms (optional)
- * @param maxResults - Maximum number of results to return (default: 200)
+ * @param maxResults - Maximum number of results to return (default: undefined, no limit)
  * @returns Filtered orders and metadata about the filtering state
  */
 export function useOrdersFilter({
   ordersData,
   searchTerm = '',
   columnSearches = {},
-  maxResults = 200,
+  maxResults,
 }: UseOrdersFilterProps): UseOrdersFilterReturn {
   // Create a map of orderId to displayIndex (based on original order in the data)
   const orderIndexMap = useMemo(() => {
@@ -95,8 +95,9 @@ export function useOrdersFilter({
       });
     });
 
-    // Add displayIndex to each order and limit results
-    return results.slice(0, maxResults).map((order) => ({
+    // Add displayIndex to each order and limit results (if maxResults is specified)
+    const limitedResults = maxResults ? results.slice(0, maxResults) : results;
+    return limitedResults.map((order) => ({
       ...order,
       displayIndex: orderIndexMap.get(order.id) || '0000',
     }));
