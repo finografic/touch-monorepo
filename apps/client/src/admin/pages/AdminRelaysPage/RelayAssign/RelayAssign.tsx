@@ -178,7 +178,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                       </Flex>
                     </Button>
                   </Col>
-                  <Col xs={9} className="col col-select">
+                  <Col xs={5} className="col col-select">
                     <SelectCustom
                       className="relay-assign-select"
                       options={dropdownOptions}
@@ -187,6 +187,9 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                       onSelect={(value) => handleSelectChange(config.slotNumber, value)}
                       disabled={isLoading || isLoadingSlotConfigs}
                     />
+                  </Col>
+                  <Col xs={4} className="col col-status">
+                    {/* TODO:  */}
                   </Col>
                 </Row>
               </Flex>

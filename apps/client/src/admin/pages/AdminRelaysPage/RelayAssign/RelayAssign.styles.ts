@@ -21,6 +21,7 @@ export const styles = css`
 
   .slot-grid-item {
     /* Target the Row component (react-grid-system) */
+    width: 800px;
     > div {
       display: flex;
       align-items: center; /* Vertically align button and dropdown */
@@ -44,7 +45,7 @@ export const styles = css`
   .col-select {
     /* padding-left: 0 !important; */
     .relay-assign-select {
-      max-width: 150px;
+      max-width: 400px;
     }
   }
 `;
