@@ -29,11 +29,11 @@ export const styles = css`
   }
 
   .col-button {
-    button.slot-number {
+    button.slot-button {
       margin: 2px;
       width: 36px;
       height: 36px;
-      box-shadow: inset 0 0 1px 2px ${colors.greyLight};
+      /* box-shadow: inset 0 0 1px 2px ${colors.greyLight}; */
       background-color: transparent;
       cursor: pointer;
     }

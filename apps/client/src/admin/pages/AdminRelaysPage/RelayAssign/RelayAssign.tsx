@@ -4,8 +4,9 @@ import { Col, Row } from 'react-grid-system';
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { SelectCustom } from 'forms/SelectCustom';
 
+import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
 import type { SelectOption } from 'types/models/select-option.model';
-import type { SlotType } from 'types/orders.types';
+import { SlotType } from 'types/orders.types';
 
 import { NUM_RELAYS } from '../relays.config';
 import { colors } from 'styles';
@@ -31,6 +32,14 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   onRelayToggle,
   isLoading = false,
 }) => {
+  // ======================================================================== //
+  const {
+    data: slotConfigs,
+    isLoading: isLoadingSlotConfigs,
+    error: errorSlotConfigs,
+  } = useGetSlotConfigurations();
+
+  // ======================================================================== //
   // Filter configurations to only show relays (1 to NUM_RELAYS)
   const relayConfigurations = configurations.filter((config) => config.slotNumber <= NUM_RELAYS);
 
@@ -121,8 +130,22 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     });
   }, []);
 
+  const getSlotColor = (slotType: SlotType) => {
+    switch (slotType) {
+      case SlotType.A:
+        return 'default';
+      case SlotType.B:
+        return 'info';
+      case SlotType.C:
+        return 'danger';
+      default:
+        return 'default';
+    }
+  };
+
   return (
     <Box css={styles}>
+      <div className="slot-grid-container">{JSON.stringify(configurations)}</div>
       <div className="slot-grid-container">
         {/* Simple 3x3 grid layout for 8 relays */}
         <div className="slot-list">
@@ -132,13 +155,14 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                 <Row>
                   <Col xs={3} className="col col-button">
                     <Button
-                      className="slot-number"
+                      className="slot-button"
+                      // className={`slot-button slot-${getSlotColor(config.slotType)}`}
                       disabled={true}
                       variant="outline"
-                      style={{ boxShadow: `inset 0 0 1px 2px ${colors.greyLight}` }}
+                      style={{ boxShadow: `inset 0 0 1px 2px ${getSlotColor(config.slotType)}` }}
                     >
                       <Flex direction="column" align="center" gap="1">
-                        <Text size="3" weight="bold" style={{ color: `${colors.greyLight}` }}>
+                        <Text size="3" weight="bold" style={{ color: `${getSlotColor(config.slotType)}` }}>
                           {config.slotNumber}
                         </Text>
                       </Flex>

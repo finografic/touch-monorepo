@@ -57,6 +57,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
 
   return (
     <Box css={styles}>
+      <div className="slot-grid-container">{JSON.stringify(configurations)}</div>
       <div className="slot-grid-container">
         {/* Main grid */}
         <div
