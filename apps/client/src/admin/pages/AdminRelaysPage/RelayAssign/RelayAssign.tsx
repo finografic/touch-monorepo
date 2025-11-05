@@ -113,6 +113,34 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({ configurations, isLoad
       <div className="slot-grid-container">
         {/* Simple 3x3 grid layout for 8 relays */}
         <div className="slot-list">
+          <Flex className="slot-grid-item">
+            <Row>
+              <Col xs={2} className="col col-button">
+                <Button
+                  className="slot-button"
+                  disabled={true}
+                  variant="outline"
+                  style={{ boxShadow: `inset 0 0 1px 2px ${colors.defaultLight}` }}
+                >
+                  <Flex direction="column" align="center" gap="1">
+                    <Text size="3" weight="bold">
+                      ABC
+                    </Text>
+                  </Flex>
+                </Button>
+              </Col>
+              <Col xs={5} className="col col-select">
+                Select Assignment
+              </Col>
+              <Col xs={5} className="col col-status">
+                <Flex align="center" gap="3">
+                  <div className="relay-status-indicator">#</div>
+                  <Text size="3">Relay Test Status</Text>
+                </Flex>
+              </Col>
+            </Row>
+          </Flex>
+
           {relayConfigurations.map((config) => {
             // Get the configured slotType from slotConfigs, fallback to config.slotType if not found
             const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
