@@ -58,7 +58,6 @@ export const PadCheckbox: React.FC<PadProps> = ({
         }
       }}
     >
-      <div style={{ fontSize: '1rem', color: '#666' }}>{id}</div>
       {children ?? label}
       <Checkbox.Indicator />
     </Checkbox.Root>

@@ -1,9 +1,10 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { SelectCustom } from 'forms/SelectCustom';
 
+import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 import type { SelectOption } from 'types/models/select-option.model';
 import { SlotType } from 'types/orders.types';
 
@@ -12,8 +13,10 @@ import { colors } from 'styles';
 import { styles } from './RelayAssign.styles';
 
 interface RelayConfig {
+  id: string;
   slotNumber: number;
   slotType: SlotType;
+  relayNumber: number | null;
   isOn: boolean;
 }
 
@@ -31,8 +34,15 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   onRelayToggle,
   isLoading = false,
 }) => {
+  const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
+
   // Filter configurations to only show relays (1 to NUM_RELAYS)
-  const relayConfigurations = configurations.filter((config) => config.slotNumber <= NUM_RELAYS);
+  // Sort by slotNumber ASC
+  const relayConfigurations = useMemo(() => {
+    return configurations
+      .filter((config) => config.slotNumber <= NUM_RELAYS)
+      .sort((a, b) => a.slotNumber - b.slotNumber);
+  }, [configurations]);
 
   // Create a map of slotNumber -> slotType from slotConfigs for quick lookup
   const slotTypeMap = useMemo(() => {
@@ -41,60 +51,118 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   }, [configurations]);
 
   // State: each row (1-8) has a unique assigned value (1-8) or undefined
-  // Initialize with each row having its own row number selected
+  // Initialize with relayNumber from configurations (null becomes undefined)
   const [assignments, setAssignments] = useState<Assignments>(() => {
     const initial: Assignments = {};
-    for (let i = 1; i <= NUM_RELAYS; i++) {
-      initial[i] = i; // Row 1 = value 1, Row 2 = value 2, etc.
-    }
+    configurations
+      .filter((config) => config.slotNumber <= NUM_RELAYS)
+      .forEach((config) => {
+        initial[config.slotNumber] = config.relayNumber ?? undefined;
+      });
     return initial;
   });
 
-  // Generate dropdown options (1-8)
-  const dropdownOptions: SelectOption[] = useMemo(() => {
+  // Synchronize assignments state with configurations prop changes
+  // This ensures unique assignment logic works from the first change
+  useEffect(() => {
+    const initial: Assignments = {};
+    configurations
+      .filter((config) => config.slotNumber <= NUM_RELAYS)
+      .forEach((config) => {
+        initial[config.slotNumber] = config.relayNumber ?? undefined;
+      });
+    setAssignments(initial);
+  }, [configurations]);
+
+  // Base dropdown options (1-8)
+  const baseOptions: SelectOption[] = useMemo(() => {
     return Array.from({ length: NUM_RELAYS }, (_, index) => {
       const value = index + 1;
-      return {
-        value: value.toString(),
-        label: `Relay ${value.toString()}`,
-      };
+      return { value: value.toString(), label: `Relay ${value}` };
     });
   }, []);
 
-  const handleSelectChange = useCallback((rowNumber: number, selectedValue: string) => {
-    const buttonValue = selectedValue ? Number(selectedValue) : undefined;
+  // Helper function to update all configurations in bulk
+  const updateAllConfigurations = useCallback(
+    (newAssignments: Assignments) => {
+      // Build updated configurations array with all slots
+      const updatedConfigs = configurations.map((config) => {
+        // Check if this slot number exists in newAssignments (even if value is undefined)
+        const hasAssignment = config.slotNumber in newAssignments;
+        const assignment = newAssignments[config.slotNumber];
 
-    setAssignments((prev) => {
-      const currentAssignment = prev[rowNumber];
+        if (hasAssignment) {
+          // Slot is explicitly in the assignments map - use its value (undefined -> null)
+          return {
+            slotNumber: config.slotNumber,
+            slotType: config.slotType,
+            relayNumber: assignment ?? null,
+          };
+        }
+        // Slot not in assignments - keep existing value
+        return {
+          slotNumber: config.slotNumber,
+          slotType: config.slotType,
+          relayNumber: config.relayNumber,
+        };
+      });
 
-      // If deselecting (empty value), just clear this row
-      if (!selectedValue) {
-        return { ...prev, [rowNumber]: undefined };
-      }
+      // Send bulk update with all configurations
+      bulkUpdateMutation.mutate({
+        configurations: updatedConfigs,
+      });
+    },
+    [configurations, bulkUpdateMutation],
+  );
 
-      // If selecting the same value, deselect it
-      if (currentAssignment === buttonValue) {
-        return { ...prev, [rowNumber]: undefined };
-      }
+  const handleSelectChange = useCallback(
+    (slotNumber: number, selectedValue: string) => {
+      const relayValue = selectedValue ? Number(selectedValue) : undefined;
+      const config = relayConfigurations.find((c) => c.slotNumber === slotNumber);
+      if (!config) return;
 
-      // Find which row (if any) currently has this buttonValue
-      const conflictingRow = Object.entries(prev).find(
-        ([row, value]) => Number(row) !== rowNumber && value === buttonValue,
-      )?.[0];
+      setAssignments((prev) => {
+        const currentAssignment = prev[slotNumber];
 
-      const updated: Assignments = { ...prev };
+        // If deselecting (empty value), just clear this row
+        if (!selectedValue) {
+          const updated = { ...prev, [slotNumber]: undefined };
+          // Update all affected configurations in bulk
+          updateAllConfigurations(updated);
+          return updated;
+        }
 
-      // Clear the conflicting row if it exists
-      if (conflictingRow) {
-        updated[Number(conflictingRow)] = undefined;
-      }
+        // If selecting the same value, deselect it
+        if (currentAssignment === relayValue) {
+          const updated = { ...prev, [slotNumber]: undefined };
+          // Update all affected configurations in bulk
+          updateAllConfigurations(updated);
+          return updated;
+        }
 
-      // Assign this value to the current row
-      updated[rowNumber] = buttonValue;
+        // Find which row (if any) currently has this relayValue
+        const conflictingSlotNumber = Object.keys(prev).find(
+          (key) => Number(key) !== slotNumber && prev[Number(key)] === relayValue,
+        );
 
-      return updated;
-    });
-  }, []);
+        const updated: Assignments = { ...prev };
+
+        // Clear the conflicting row if it exists
+        if (conflictingSlotNumber) {
+          updated[Number(conflictingSlotNumber)] = undefined;
+        }
+
+        // Assign this value to the current row
+        updated[slotNumber] = relayValue;
+
+        // Update all affected configurations in bulk
+        updateAllConfigurations(updated);
+
+        return updated;
+      });
+    },
+    [relayConfigurations, updateAllConfigurations],
+  );
 
   const getSlotColor = (slotType: SlotType, isOn = false) => {
     // If relay is ON, use success color regardless of slot type
@@ -116,13 +184,12 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 
   const handleSlotClick = useCallback(
     (slotNumber: number) => {
-      // TODO: MUST ASSIGN *RELAY NUMBER* -- NOT, REASSIGN SLOT NUMBER !!!!
       const currentConfig = relayConfigurations.find((config) => config.slotNumber === slotNumber);
-      if (!currentConfig) return;
+      if (!currentConfig || !currentConfig.relayNumber) return;
 
-      // Toggle relay state
+      // Toggle relay state (only if relayNumber is assigned)
       const newIsOn = !currentConfig.isOn;
-      onRelayToggle(slotNumber, newIsOn);
+      onRelayToggle?.(currentConfig.relayNumber, newIsOn);
     },
     [onRelayToggle, relayConfigurations],
   );
@@ -186,11 +253,11 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                     {/* ------ SELECT ASSIGNMENT ------ */}
                     <SelectCustom
                       className="relay-assign-select"
-                      options={dropdownOptions}
-                      placeholder="Select value..."
-                      value={assignments[config.slotNumber]?.toString() || ''}
+                      options={baseOptions}
+                      placeholder="Please select..."
+                      value={config.relayNumber?.toString() || undefined}
                       onSelect={(value) => handleSelectChange(config.slotNumber, value)}
-                      disabled={isLoading}
+                      disabled={isLoading || bulkUpdateMutation.isPending}
                     />
                   </Col>
                   <Col xs={5} className="col col-status">

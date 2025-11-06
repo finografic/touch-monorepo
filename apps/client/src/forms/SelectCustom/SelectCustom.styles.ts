@@ -67,7 +67,7 @@ export const stylesDropdown = css`
   border-radius: var(--radius-3);
   border: 1px solid var(--gray-6);
   overflow: hidden;
-  max-height: 300px;
+  max-height: 360px;
   overflow-y: auto;
 
   .option {

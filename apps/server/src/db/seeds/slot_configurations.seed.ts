@@ -1,26 +1,26 @@
 import { db } from '../db.adapter';
-import { slot_configurations, volumes } from '../schemas';
-import { randomUUID } from 'node:crypto';
+import { slot_configurations } from '../schemas';
+import createCuid from '@bugsnag/cuid';
 
 // Default configuration matching current SLOT_ITEMS_CONFIG
 const DEFAULT_SLOT_CONFIG = [
   // First row (1-3)
-  { slotNumber: 1, slotType: 'A' as const },
-  { slotNumber: 2, slotType: 'B' as const },
-  { slotNumber: 3, slotType: 'B' as const },
+  { slotNumber: 1, slotType: 'A' as const, relayNumber: 1 },
+  { slotNumber: 2, slotType: 'B' as const, relayNumber: 2 },
+  { slotNumber: 3, slotType: 'B' as const, relayNumber: 3 },
 
   // Second row (4-6)
-  { slotNumber: 4, slotType: 'B' as const },
-  { slotNumber: 5, slotType: 'B' as const },
-  { slotNumber: 6, slotType: 'B' as const },
+  { slotNumber: 4, slotType: 'B' as const, relayNumber: 4 },
+  { slotNumber: 5, slotType: 'B' as const, relayNumber: 5 },
+  { slotNumber: 6, slotType: 'B' as const, relayNumber: 6 },
 
   // Third row (7-9)
-  { slotNumber: 7, slotType: 'B' as const },
-  { slotNumber: 8, slotType: 'B' as const },
-  { slotNumber: 9, slotType: 'B' as const },
+  { slotNumber: 7, slotType: 'B' as const, relayNumber: 7 },
+  { slotNumber: 8, slotType: 'B' as const, relayNumber: 8 },
+  { slotNumber: 9, slotType: 'B' as const, relayNumber: null },
 
   // Last slot (positioned separately)
-  { slotNumber: 10, slotType: 'C' as const },
+  { slotNumber: 10, slotType: 'C' as const, relayNumber: null },
 ];
 
 export async function seed() {
@@ -34,9 +34,10 @@ export async function seed() {
     }
 
     const configsToInsert = DEFAULT_SLOT_CONFIG.map((config) => ({
-      id: randomUUID(),
+      id: createCuid(),
       slotNumber: config.slotNumber,
       slotType: config.slotType,
+      relayNumber: config.relayNumber,
     }));
 
     await db.insert(slot_configurations).values(configsToInsert);

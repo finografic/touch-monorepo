@@ -2,6 +2,35 @@ import { db } from '../db.adapter';
 import { modes } from '../schemas';
 import createCuid from '@bugsnag/cuid';
 
+// Default modes configuration
+const DEFAULT_MODES_CONFIG = [
+  {
+    name: '1',
+    isDefault: false,
+    isActive: true,
+  },
+  {
+    name: '2',
+    isDefault: false,
+    isActive: true,
+  },
+  {
+    name: '3',
+    isDefault: true,
+    isActive: true,
+  },
+  {
+    name: '4',
+    isDefault: false,
+    isActive: false,
+  },
+  {
+    name: '5',
+    isDefault: false,
+    isActive: false,
+  },
+];
+
 export async function seed() {
   console.log('Seeding modes...');
 
@@ -13,41 +42,14 @@ export async function seed() {
     }
 
     // Insert the five basic modes
-    const insertedModes = await db
-      .insert(modes)
-      .values([
-        {
-          id: createCuid(),
-          name: '1',
-          isDefault: false,
-          isActive: true,
-        },
-        {
-          id: createCuid(),
-          name: '2',
-          isDefault: false,
-          isActive: true,
-        },
-        {
-          id: createCuid(),
-          name: '3',
-          isDefault: true,
-          isActive: true,
-        },
-        {
-          id: createCuid(),
-          name: '4',
-          isDefault: false,
-          isActive: false,
-        },
-        {
-          id: createCuid(),
-          name: '5',
-          isDefault: false,
-          isActive: false,
-        },
-      ])
-      .returning();
+    const modesToInsert = DEFAULT_MODES_CONFIG.map((mode) => ({
+      id: createCuid(),
+      name: mode.name,
+      isDefault: mode.isDefault,
+      isActive: mode.isActive,
+    }));
+
+    const insertedModes = await db.insert(modes).values(modesToInsert).returning();
 
     console.log('✅ Modes seed completed successfully!');
     return insertedModes;

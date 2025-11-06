@@ -15,14 +15,14 @@ export const useUpdateSlotConfiguration = () => {
 
   return useMutation({
     mutationFn: async ({
-      slotNumber,
+      id,
       data,
     }: {
-      slotNumber: number;
+      id: string;
       data: UpdateSlotConfigRequest;
     }): Promise<SlotConfiguration> => {
       try {
-        const response = await api.put(`/slot-configurations/${slotNumber}`, data);
+        const response = await api.patch(`/slot-configurations/${id}`, data);
         return response.data;
       } catch (error) {
         throw transformAxiosError(error);

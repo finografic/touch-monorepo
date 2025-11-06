@@ -24,6 +24,7 @@ import { styles } from './AdminSlotsConfigPage.styles';
 interface SlotConfigFormValue {
   slotNumber: number;
   slotType: SlotType;
+  relayNumber: number;
 }
 interface SlotConfigForm {
   columns: number;
@@ -55,6 +56,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
         slots.push({
           slotNumber,
           slotType: existing?.slotType || SlotType.B,
+          relayNumber: existing?.relayNumber || slotNumber,
         });
       }
     }
@@ -65,6 +67,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
       slots.push({
         slotNumber: totalSlots,
         slotType: existingLast?.slotType || SlotType.B,
+        relayNumber: existingLast?.relayNumber || totalSlots,
       });
     }
 
@@ -255,18 +258,6 @@ export const AdminSlotsConfigPage: React.FC = () => {
               <Flex gap="2">
                 <Button
                   variant="outline"
-                  color="green"
-                  size="3"
-                  onClick={handleAddColumn}
-                  disabled={columns >= maxColumns}
-                >
-                  <Flex justify="start" align="center" width="180px" gap="4" ml="4">
-                    <PlusIcon />
-                    Add Column
-                  </Flex>
-                </Button>
-                <Button
-                  variant="outline"
                   color="orange"
                   size="3"
                   onClick={handleRemoveColumn}
@@ -277,19 +268,22 @@ export const AdminSlotsConfigPage: React.FC = () => {
                     Remove Column
                   </Flex>
                 </Button>
+                <Button
+                  variant="outline"
+                  color="green"
+                  size="3"
+                  onClick={handleAddColumn}
+                  disabled={columns >= maxColumns}
+                >
+                  <Flex justify="start" align="center" width="180px" gap="4" ml="4">
+                    <PlusIcon />
+                    Add Column
+                  </Flex>
+                </Button>
               </Flex>
 
               <Flex justify="between" gap="2">
                 <Flex gap="2">
-                  <Button
-                    size="3"
-                    color="green"
-                    onClick={handleSubmit(onSave)}
-                    disabled={bulkUpdateMutation.isPending}
-                    loading={bulkUpdateMutation.isPending}
-                  >
-                    Save Configuration
-                  </Button>
                   <Button
                     size="3"
                     variant="outline"
@@ -300,6 +294,15 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   >
                     <ResetIcon />
                     Reset to Default
+                  </Button>
+                  <Button
+                    size="3"
+                    color="green"
+                    onClick={handleSubmit(onSave)}
+                    disabled={bulkUpdateMutation.isPending}
+                    loading={bulkUpdateMutation.isPending}
+                  >
+                    Save Configuration
                   </Button>
                 </Flex>
               </Flex>

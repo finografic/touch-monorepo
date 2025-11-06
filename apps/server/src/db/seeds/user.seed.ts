@@ -19,7 +19,7 @@ export async function seed() {
     const usersToCreate = [
       {
         email: 'admin@example.com',
-        password: '7878', // 4-digit PIN
+        password: '8787', // 4-digit PIN
         name: 'Admin User',
         role: 'admin' as const,
       },

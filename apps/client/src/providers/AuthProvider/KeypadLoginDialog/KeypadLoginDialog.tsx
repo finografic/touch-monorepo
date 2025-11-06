@@ -1,6 +1,7 @@
 import type { FC } from 'react';
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { sleep } from '@workspace/core';
 
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useToast } from 'components/Toast/ToastContext';
@@ -10,7 +11,7 @@ import { KeypadLoginTabContent } from './KeypadLoginContent';
 
 const DEFAULT_USER_EMAIL = 'user@example.com';
 const DEFAULT_ADMIN_EMAIL = 'admin@example.com';
-const DEFAULT_ADMIN_PASSWORD = '7878';
+const DEFAULT_ADMIN_PASSWORD = '8787';
 const DEFAULT_USER_PASSWORD = 'password123';
 
 interface KeypadLoginDialogProps {
@@ -18,20 +19,14 @@ interface KeypadLoginDialogProps {
 }
 
 export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
-  const { refreshSession, isLoginDialogOpen, closeLoginDialog, signIn, signOut } = useAuth();
+  const { refreshSession, isLoginDialogOpen, closeLoginDialog, signIn } = useAuth();
   const navigate = useNavigate();
-  const location = useLocation();
   const { toast } = useToast();
 
   const [activeTab, setActiveTab] = useState('admin');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
-
-  const isBlockingAccess = useMemo(
-    () => isLoginDialogOpen && !location.pathname.startsWith('/admin') && location.pathname !== '/admin',
-    [isLoginDialogOpen, location.pathname],
-  );
 
   const handleCloseDialog = useCallback(() => {
     closeLoginDialog();
@@ -48,6 +43,7 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
 
       if (result.success) {
         toast({ variant: 'success', message: result.message || 'Signed in successfully' });
+        await sleep(100);
         await refreshSession();
         await closeLoginDialog();
         navigate('/admin');

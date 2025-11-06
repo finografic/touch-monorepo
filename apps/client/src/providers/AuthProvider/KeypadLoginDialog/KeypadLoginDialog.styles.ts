@@ -156,7 +156,6 @@ export const styles = css`
         display: flex;
         align-items: center;
         justify-content: center;
-        /* font-size: 20px; */
         font-family: inherit;
         font-weight: 600;
         font-size: 1.25rem !important;

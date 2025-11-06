@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
 
-import { AuthLoginDialog } from 'providers/AuthProvider/AuthLoginDialog';
 import { KeypadLoginDialog } from 'providers/AuthProvider/KeypadLoginDialog';
-import { LogoutConfirmDialog } from 'providers/AuthProvider/LogoutConfirm';
 
 import { AuthContext, DISPLAY_NAME, useAuth } from './AuthContext';
 import type { AuthProviderProps } from './AuthContext.types';
@@ -28,8 +26,6 @@ export const AuthProviderWithInitialization = ({ children, initialValue }: AuthP
     <AuthProvider initialValue={initialValue}>
       <AuthInitializer>
         {children}
-        {/* <AuthLoginDialog /> */}
-        {/* <LogoutConfirmDialog /> */}
         <KeypadLoginDialog />
       </AuthInitializer>
     </AuthProvider>

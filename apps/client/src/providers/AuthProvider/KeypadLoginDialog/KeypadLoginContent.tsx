@@ -35,7 +35,6 @@ export const KeypadLoginTabContent: React.FC<KeypadLoginTabContentProps> = ({
   const [activeKey, setActiveKey] = useState<string | undefined>();
   const [showMaxLengthWarning, setShowMaxLengthWarning] = useState(false);
 
-  // Handle keypad digit press
   const handleDigitPress = useCallback(
     (digit: string) => {
       console.log(digit);

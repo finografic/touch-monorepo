@@ -45,7 +45,8 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
     // Get display value - prioritize label over value
     const displayValue = value !== undefined ? value : defaultValue || '';
     const selectedOption = options.find((option) => option.value === displayValue);
-    const displayText = selectedOption ? selectedOption.label || selectedOption.value : displayValue;
+    // If no option is selected and displayValue is empty, show placeholder (empty string)
+    const displayText = selectedOption ? selectedOption.label || selectedOption.value : '';
 
     const handleValueChange = useCallback(
       (newValue: string) => {

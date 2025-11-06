@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { RelayAssign } from 'admin/pages/AdminRelaysPage/RelayAssign';
@@ -16,8 +15,10 @@ import { styles } from './AdminRelaysPage.styles';
 
 // Types for relay configuration
 interface RelayConfig {
+  id: string;
   slotNumber: number;
   slotType: SlotType;
+  relayNumber: number | null;
   isOn: boolean;
 }
 
@@ -81,14 +82,16 @@ export const AdminRelaysPage: React.FC = () => {
     function initializeRelayConfigs() {
       if (isSuccess && slotConfigurations) {
         const initialConfigs: RelayConfig[] = slotConfigurations.map((slotConfiguration) => ({
+          id: slotConfiguration.id,
           slotNumber: slotConfiguration.slotNumber,
           slotType: slotConfiguration.slotType,
+          relayNumber: slotConfiguration.relayNumber,
           isOn: false, // Will be updated from API
         }));
         setRelayConfigs(initialConfigs);
       }
     },
-    [slotConfigurations],
+    [slotConfigurations, isSuccess],
   );
 
   // Update relay configurations when API data changes
@@ -161,52 +164,49 @@ export const AdminRelaysPage: React.FC = () => {
       <Box className="admin-relay-control">
         <Flex direction="column" gap="6">
           {/* ====================================================================== */}
-          {/* Connection Status */}
           <RelaysStatus />
           {/* ====================================================================== */}
           <Card size="3" variant="surface">
-            <Flex gap="4" justify="between">
-              <Flex direction="column" gap="4">
-                <Flex justify="between" align="center">
-                  <Heading size="4">Relay Control Grid</Heading>
-                  <Flex gap="2" ml="2" className="status-buttons-all">
-                    <Button
-                      onClick={handleTurnAllOn}
-                      disabled={turnAllOnMutation.isPending}
-                      variant="solid"
-                      color="green"
-                      size="2"
-                    >
-                      {turnAllOnMutation.isPending ? 'Turning ON...' : 'All ON'}
-                    </Button>
-                    <Button
-                      onClick={handleTurnAllOff}
-                      disabled={turnAllOffMutation.isPending}
-                      variant="solid"
-                      color="red"
-                      size="2"
-                    >
-                      {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
-                    </Button>
-                    <Button
-                      onClick={handleResetAll}
-                      disabled={turnAllOffMutation.isPending}
-                      variant="outline"
-                      color="orange"
-                      size="2"
-                    >
-                      {turnAllOffMutation.isPending ? 'Resetting...' : 'Reset All'}
-                    </Button>
-                  </Flex>
+            <Flex direction="column" gap="4">
+              <Flex justify="start" align="center" gap="3">
+                <Heading size="4">Relay Control Grid</Heading>
+                <Flex gap="2" ml="8" className="status-buttons-all">
+                  <Button
+                    onClick={handleTurnAllOn}
+                    disabled={turnAllOnMutation.isPending}
+                    variant="solid"
+                    color="green"
+                    size="2"
+                  >
+                    {turnAllOnMutation.isPending ? 'Turning ON...' : 'All ON'}
+                  </Button>
+                  <Button
+                    onClick={handleTurnAllOff}
+                    disabled={turnAllOffMutation.isPending}
+                    variant="solid"
+                    color="red"
+                    size="2"
+                  >
+                    {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
+                  </Button>
+                  <Button
+                    onClick={handleResetAll}
+                    disabled={turnAllOffMutation.isPending}
+                    variant="outline"
+                    color="orange"
+                    size="2"
+                  >
+                    {turnAllOffMutation.isPending ? 'Resetting...' : 'Reset All'}
+                  </Button>
                 </Flex>
-                {/* ====================================================================== */}
-                <RelayAssign
-                  configurations={relayConfigs}
-                  onRelayToggle={handleRelayToggle}
-                  isLoading={toggleRelayMutation.isPending}
-                />
-                {/* ====================================================================== */}
               </Flex>
+              {/* ====================================================================== */}
+              <RelayAssign
+                configurations={relayConfigs}
+                onRelayToggle={handleRelayToggle}
+                isLoading={toggleRelayMutation.isPending}
+              />
+              {/* ====================================================================== */}
             </Flex>
           </Card>
         </Flex>
