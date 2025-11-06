@@ -154,7 +154,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
           {/* ====================================================================== */}
 
           {/* TODO: ORDER BY *SLOT NUMBER* */}
-          {relayConfigurations.map((config, i) => {
+          {relayConfigurations.map((config) => {
             const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
 
             return (
