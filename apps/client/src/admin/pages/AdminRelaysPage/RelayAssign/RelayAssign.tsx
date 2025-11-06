@@ -116,6 +116,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 
   const handleSlotClick = useCallback(
     (slotNumber: number) => {
+      // TODO: MUST ASSIGN *RELAY NUMBER* -- NOT, REASSIGN SLOT NUMBER !!!!
       const currentConfig = relayConfigurations.find((config) => config.slotNumber === slotNumber);
       if (!currentConfig) return;
 
@@ -152,7 +153,8 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 
           {/* ====================================================================== */}
 
-          {relayConfigurations.map((config) => {
+          {/* TODO: ORDER BY *SLOT NUMBER* */}
+          {relayConfigurations.map((config, i) => {
             const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
 
             return (

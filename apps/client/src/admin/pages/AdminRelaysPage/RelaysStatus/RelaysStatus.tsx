@@ -5,7 +5,7 @@ import { Loader } from 'components/Loader/Loader';
 
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
 
-import { useRelayHandlers } from './useRelayHandlers';
+import { useRelayHandlers } from '../useRelayHandlers';
 
 export const RelaysStatus: React.FC = () => {
   const initializeRelayMutation = useInitializeRelay();

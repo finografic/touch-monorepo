@@ -54,6 +54,7 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
 
     return (
       <div style={{ cursor: isIdleSlotChecked ? 'not-allowed' : 'auto' }}>
+        <div>NUMBER: {slotNumber}</div>
         <PadSlotToggle
           css={styles}
           slotType={slotType}
