@@ -141,21 +141,6 @@ export const styles = css`
     }
   }
 
-  /* Admin section styling */
-  .admin-section {
-    background-color: ${colors.white};
-    border: 1px solid ${colors.greyLight};
-    border-radius: 12px;
-    padding: ${spacing[8]};
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-
-    .section-content {
-      display: flex;
-      flex-direction: column;
-      gap: ${spacing[6]};
-    }
-  }
-
   /* Translation form grid */
   .translation-grid {
     display: grid;
@@ -276,11 +261,6 @@ export const styles = css`
 
     .admin-page-header .admin-page-title {
       font-size: 2rem;
-    }
-
-    .admin-section {
-      padding: ${spacing[6]};
-      border-radius: 8px;
     }
   }
 `;

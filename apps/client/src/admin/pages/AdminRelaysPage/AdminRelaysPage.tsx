@@ -8,7 +8,7 @@ import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'querie
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import type { SlotType } from 'types/orders.types';
 
-import { AdminContentLayout } from '../..';
+import { AdminContentLayout, AdminSection } from '../..';
 import { NUM_RELAYS } from './relays.config';
 import { RelaysStatus } from './RelaysStatus';
 import { useRelayHandlers } from './useRelayHandlers';
@@ -166,8 +166,13 @@ export const AdminRelaysPage: React.FC = () => {
           {/* ====================================================================== */}
           <RelaysStatus />
           {/* ====================================================================== */}
-          <Card size="3" variant="surface">
-            <Flex direction="column" gap="4">
+          {/* <Card size="3" variant="surface"> */}
+          <Flex direction="column" gap="4">
+            <AdminSection
+              title="Relay Board One"
+              variant="border-solid"
+              // description="Add new alarm sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
+            >
               <Flex justify="start" align="center" gap="3">
                 <Heading size="4">Relay Control Grid</Heading>
                 <RelayButtons
@@ -187,8 +192,9 @@ export const AdminRelaysPage: React.FC = () => {
                 isLoading={toggleRelayMutation.isPending}
               />
               {/* ====================================================================== */}
-            </Flex>
-          </Card>
+            </AdminSection>
+          </Flex>
+          {/* </Card> */}
         </Flex>
       </Box>
     </AdminContentLayout>

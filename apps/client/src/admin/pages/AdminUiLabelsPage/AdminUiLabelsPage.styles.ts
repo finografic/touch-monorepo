@@ -29,15 +29,6 @@ export const styles = css`
     }
   }
 
-  /* Admin section styling */
-  .admin-section {
-    background-color: ${colors.white};
-    border: 1px solid ${colors.greyLight};
-    border-radius: 12px;
-    padding: ${spacing[6]};
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
   /* Form styling */
   form {
     width: 100%;
