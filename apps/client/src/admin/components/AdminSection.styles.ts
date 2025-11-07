@@ -45,6 +45,7 @@ export const styles = css`
   }
 
   /* ====================================================================== */
+
   .section-content {
     border: 1px solid transparent;
     &.variant-border-solid {

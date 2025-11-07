@@ -18,12 +18,15 @@ export const PublicModePage: React.FC = () => {
   const updateDefaultModeMutation = useUpdateDefaultMode();
 
   // Transform active modes into dropdown options
-  const modeOptions = modes
-    .filter((mode) => mode.isActive)
-    .map((mode) => ({
-      value: mode.id,
-      label: mode.name,
-    }));
+  const modeOptions = [
+    { value: 'placeholder', label: 'Please select a mode...' },
+    ...modes
+      .filter((mode) => mode.isActive)
+      .map((mode) => ({
+        value: mode.id,
+        label: mode.name,
+      })),
+  ];
 
   // Load default mode from database on component mount
   useEffect(() => {
@@ -93,31 +96,38 @@ export const PublicModePage: React.FC = () => {
         title="Default Mode Configuration"
         description="Choose the default mode that will be used when no specific mode is selected"
       >
-        <Flex direction="column" gap="4" align="start">
-          <Flex direction="column" gap="2" style={{ width: '100%', maxWidth: '400px' }}>
-            <Text size="3" weight="medium">
-              Select Default Mode
-            </Text>
-            <SelectCustom
-              className="mode-select"
-              options={modeOptions}
-              placeholder="Choose a default mode..."
-              value={defaultModeId}
-              onSelect={handleModeSelect}
-            />
-          </Flex>
+        <Flex align="start" justify="between">
+          <Flex direction="column" gap="4" align="start">
+            <Flex direction="column" gap="2" style={{ width: '100%', maxWidth: '400px' }}>
+              <Text size="3" weight="medium">
+                Select Default Mode
+              </Text>
+              <SelectCustom
+                className="mode-select"
+                options={modeOptions}
+                placeholder="Choose a default mode..."
+                value={defaultModeId}
+                onSelect={handleModeSelect}
+              />
+            </Flex>
 
-          <Flex direction="column" gap="2">
-            {defaultModeId ? (
-              <Text size="2" color="gray">
-                Current default mode:{' '}
-                <Text weight="bold">{modes.find((m) => m.id === defaultModeId)?.name}</Text>
-              </Text>
-            ) : (
-              <Text size="2" color="gray">
-                No default mode is currently set
-              </Text>
-            )}
+            <Flex direction="column" gap="2">
+              {defaultModeId ? (
+                <Text size="2" color="gray">
+                  Current default mode:{' '}
+                  <Text weight="bold">{modes.find((m) => m.id === defaultModeId)?.name}</Text>
+                </Text>
+              ) : (
+                <Text size="2" color="gray">
+                  No default mode is currently set
+                </Text>
+              )}
+            </Flex>
+          </Flex>
+          <Flex gap="8" align="start" style={{ fontSize: '0.8rem', width: '100%', maxWidth: '400px' }}>
+            {/* <pre>{JSON.stringify({ defaultModeId }, null, 2)}</pre> */}
+            <pre>{JSON.stringify({ modeOptions }, null, 2)}</pre>
+            {/* <pre>{JSON.stringify({ modes }, null, 2)}</pre> */}
           </Flex>
         </Flex>
       </AdminSection>
