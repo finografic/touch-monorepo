@@ -58,7 +58,6 @@ export const AdminRelaysPage: React.FC = () => {
     error: statesError,
     isPollingEnabled: statesPollingEnabled,
     enablePolling: enableStatesPolling,
-    disablePolling: disableStatesPolling,
   } = useGetRelayStates();
 
   const {
