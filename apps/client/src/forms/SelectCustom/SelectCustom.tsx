@@ -15,6 +15,7 @@ interface SelectCustomProps {
   className?: string;
   defaultValue?: string;
   onSelect?: (value: string) => void;
+  allowEmpty?: boolean;
   placeholder?: string;
   disabled?: boolean;
   name?: string;
@@ -30,6 +31,7 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
       defaultValue,
       onSelect,
       placeholder = '',
+      allowEmpty = true,
       disabled = false,
       name,
       onChange,

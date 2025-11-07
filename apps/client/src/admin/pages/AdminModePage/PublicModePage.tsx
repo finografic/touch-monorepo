@@ -18,15 +18,12 @@ export const PublicModePage: React.FC = () => {
   const updateDefaultModeMutation = useUpdateDefaultMode();
 
   // Transform active modes into dropdown options
-  const modeOptions = [
-    { value: 'placeholder', label: 'Please select a mode...' },
-    ...modes
-      .filter((mode) => mode.isActive)
-      .map((mode) => ({
-        value: mode.id,
-        label: mode.name,
-      })),
-  ];
+  const modeOptions = modes
+    .filter((mode) => mode.isActive)
+    .map((mode) => ({
+      value: mode.id,
+      label: mode.name,
+    }));
 
   // Load default mode from database on component mount
   useEffect(() => {
@@ -108,6 +105,7 @@ export const PublicModePage: React.FC = () => {
                 placeholder="Choose a default mode..."
                 value={defaultModeId}
                 onSelect={handleModeSelect}
+                allowEmpty={true}
               />
             </Flex>
 
