@@ -73,18 +73,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     color: 'blue',
   },
   {
-    key: 'languages',
-    path: '/admin/languages',
-    element: {
-      public: PublicLanguagesPage,
-      admin: AdminLanguagesPage,
-    },
-    hasNav: { public: true, admin: true },
-    hasCard: { public: true, admin: true },
-    icon: LanguageIcon,
-    color: 'green',
-  },
-  {
     key: 'sounds',
     path: '/admin/sounds',
     element: {
@@ -110,7 +98,44 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     // color: 'orange',
     color: 'orange',
   },
+  // LANGUAGE ENTRY (public and admin) ====================================== //
+  {
+    key: 'languages',
+    path: '/admin/languages',
+    element: {
+      public: PublicLanguagesPage,
+      admin: AdminLanguagesPage,
+    },
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
+    icon: LanguageIcon,
+    color: 'green',
+  },
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
+  {
+    key: 'uiLabels',
+    path: '/admin/ui-labels',
+    element: {
+      public: AdminUiLabelsPage,
+      admin: AdminUiLabelsPage,
+    },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
+    icon: EditIcon,
+    color: 'blue',
+  },
+  {
+    key: 'translations',
+    path: '/admin/translations',
+    element: {
+      public: null,
+      admin: AdminTranslationsPage,
+    },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
+    icon: EditIcon,
+    color: 'purple',
+  },
   {
     key: 'items',
     path: '/admin/items', // orders
@@ -135,30 +160,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     hasCard: { public: false, admin: true },
     icon: GridIcon,
     color: 'orange',
-  },
-  {
-    key: 'translations',
-    path: '/admin/translations',
-    element: {
-      public: null,
-      admin: AdminTranslationsPage,
-    },
-    hasNav: { public: false, admin: true },
-    hasCard: { public: false, admin: true },
-    icon: EditIcon,
-    color: 'purple',
-  },
-  {
-    key: 'uiLabels',
-    path: '/admin/ui-labels',
-    element: {
-      public: AdminUiLabelsPage,
-      admin: AdminUiLabelsPage,
-    },
-    hasNav: { public: false, admin: true },
-    hasCard: { public: false, admin: true },
-    icon: EditIcon,
-    color: 'blue',
   },
   {
     key: 'relays',

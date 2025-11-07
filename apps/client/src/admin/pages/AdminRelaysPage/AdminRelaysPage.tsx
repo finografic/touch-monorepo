@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 
 import { Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
 import { RelayAssign } from 'admin/pages/AdminRelaysPage/RelayAssign';
+import { RelayButtons } from 'admin/pages/AdminRelaysPage/RelayButtons';
 
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
@@ -170,35 +171,15 @@ export const AdminRelaysPage: React.FC = () => {
             <Flex direction="column" gap="4">
               <Flex justify="start" align="center" gap="3">
                 <Heading size="4">Relay Control Grid</Heading>
-                <Flex gap="2" ml="8" className="status-buttons-all">
-                  <Button
-                    onClick={handleTurnAllOn}
-                    disabled={turnAllOnMutation.isPending}
-                    variant="solid"
-                    color="green"
-                    size="2"
-                  >
-                    {turnAllOnMutation.isPending ? 'Turning ON...' : 'All ON'}
-                  </Button>
-                  <Button
-                    onClick={handleTurnAllOff}
-                    disabled={turnAllOffMutation.isPending}
-                    variant="solid"
-                    color="red"
-                    size="2"
-                  >
-                    {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
-                  </Button>
-                  <Button
-                    onClick={handleResetAll}
-                    disabled={turnAllOffMutation.isPending}
-                    variant="outline"
-                    color="orange"
-                    size="2"
-                  >
-                    {turnAllOffMutation.isPending ? 'Resetting...' : 'Reset All'}
-                  </Button>
-                </Flex>
+                <RelayButtons
+                  handleTurnAllOn={handleTurnAllOn}
+                  handleTurnAllOff={handleTurnAllOff}
+                  handleResetAll={handleResetAll}
+                  turnAllOnMutation={turnAllOnMutation}
+                  turnAllOffMutation={turnAllOffMutation}
+                  reconnectMutation={reconnectMutation}
+                  disconnectMutation={disconnectMutation}
+                />
               </Flex>
               {/* ====================================================================== */}
               <RelayAssign
