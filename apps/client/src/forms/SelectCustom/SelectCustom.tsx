@@ -31,7 +31,7 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
       defaultValue,
       onSelect,
       placeholder = '',
-      allowEmpty = true,
+      allowEmpty = false,
       disabled = false,
       name,
       onChange,
