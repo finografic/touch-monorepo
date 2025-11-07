@@ -99,15 +99,16 @@ export const stylesDropdown = css`
     }
 
     .option-value {
-      font-size: 0.875rem; /* size="2" equivalent */
-      font-weight: 400; /* Remove bold */
+      font-size: 0.875rem;
+      font-weight: 400;
       color: var(--gray-12);
       line-height: 1.4;
     }
 
     .option-label {
-      font-size: 0.75rem; /* size="1" equivalent */
-      color: var(--gray-9);
+      font-size: 0.75rem;
+      /* color: var(--gray-9); */
+
       font-weight: 400;
       line-height: 1.4;
     }
@@ -125,15 +126,15 @@ export const stylesDropdown = css`
   }
 
   &::-webkit-scrollbar-track {
-    background: var(--gray-2);
+    /* background: var(--gray-2); */
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--gray-6);
+    /* background: var(--gray-6); */
     border-radius: 3px;
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: var(--gray-8);
+    /* background: var(--gray-8); */
   }
 `;

@@ -95,7 +95,7 @@ export const PublicModePage: React.FC = () => {
       >
         <Flex align="start" justify="between">
           <Flex direction="column" gap="4" align="start">
-            <Flex direction="column" gap="2" style={{ width: '100%', maxWidth: '400px' }}>
+            <Flex direction="column" gap="2" style={{ minWidth: '260px' }}>
               <Text size="3" weight="medium">
                 Select Default Mode
               </Text>
