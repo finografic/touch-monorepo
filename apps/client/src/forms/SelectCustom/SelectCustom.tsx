@@ -92,7 +92,7 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
       if (!isOpen) {
         if (e.key === 'ArrowDown' || e.key === 'Enter') {
           setIsOpen(true);
-          setFocusedIndex(0);
+          setFocusedIndex(allowEmpty ? -1 : 0);
           e.preventDefault();
         }
         return;
@@ -100,15 +100,25 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
 
       switch (e.key) {
         case 'ArrowDown':
-          setFocusedIndex((prev) => (prev < options.length - 1 ? prev + 1 : prev));
+          if (allowEmpty && focusedIndex === -1) {
+            setFocusedIndex(0);
+          } else {
+            setFocusedIndex((prev) => (prev < options.length - 1 ? prev + 1 : prev));
+          }
           e.preventDefault();
           break;
         case 'ArrowUp':
-          setFocusedIndex((prev) => (prev > 0 ? prev - 1 : -1));
+          if (allowEmpty && focusedIndex === 0) {
+            setFocusedIndex(-1);
+          } else {
+            setFocusedIndex((prev) => (prev > 0 ? prev - 1 : 0));
+          }
           e.preventDefault();
           break;
         case 'Enter':
-          if (focusedIndex >= 0 && focusedIndex < options.length) {
+          if (focusedIndex === -1 && allowEmpty) {
+            handleSelectOption({ value: '', label: placeholder });
+          } else if (focusedIndex >= 0 && focusedIndex < options.length) {
             handleSelectOption(options[focusedIndex]);
           }
           e.preventDefault();
@@ -168,6 +178,19 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
           css={stylesDropdown}
         >
           <div>
+            {allowEmpty && (
+              <div
+                key="empty-option"
+                className={`option ${focusedIndex === -1 ? 'focused' : ''}`}
+                onClick={() => handleSelectOption({ value: '', label: placeholder })}
+                onMouseEnter={() => setFocusedIndex(-1)}
+                style={{ fontStyle: 'italic', opacity: 0.7 }}
+              >
+                <div className="option-content">
+                  <span className="option-value">{placeholder || '(None)'}</span>
+                </div>
+              </div>
+            )}
             {options.length > 0 ? (
               options.map((option, index) => (
                 <div
