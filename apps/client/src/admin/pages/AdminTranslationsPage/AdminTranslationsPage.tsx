@@ -11,7 +11,7 @@ import { useToast } from 'components/Toast';
 
 import { LanguagesDto, useGetSupportedLanguages } from 'queries/supported-languages';
 
-import { AdminContentLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
 import { TranslationForm } from './components/TranslationForm';
 import {
   compareTranslationItems,
@@ -369,7 +369,7 @@ export const AdminTranslationsPage: React.FC = () => {
 
   if (isLoading || languagesLoading || !isDataReady || supportedLanguages.length === 0) {
     return (
-      <AdminContentLayout
+      <AdminPageLayout
         title={t('admin.title')}
         subtitle={t('admin.pages.translations.content.editTables')}
         isLoading={true}
@@ -385,13 +385,13 @@ export const AdminTranslationsPage: React.FC = () => {
                 : 'Preparing translation form...'}
           </Text>
         </Flex>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   if (isError) {
     return (
-      <AdminContentLayout
+      <AdminPageLayout
         title={t('admin.title')}
         subtitle={t('admin.pages.translations.content.editTables')}
         error={error?.message || t('ui.states.error')}
@@ -402,19 +402,19 @@ export const AdminTranslationsPage: React.FC = () => {
             {t('ui.states.error')}: {error?.message || t('ui.states.error')}
           </Text>
         </Flex>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   return (
     <FormProvider {...methods}>
-      <AdminContentLayout
+      <AdminPageLayout
         title={t('admin.title')}
         subtitle={t('admin.pages.translations.content.editTables')}
         styles={styles}
       >
         <AdminSection>{formContent}</AdminSection>
-      </AdminContentLayout>
+      </AdminPageLayout>
     </FormProvider>
   );
 };

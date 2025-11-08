@@ -7,7 +7,7 @@ import { useTimers } from 'providers/TimersProvider';
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
 import { SlotType } from 'types/orders.types';
 
-import { AdminContentLayout } from '../..';
+import { AdminPageLayout } from '../..';
 import { NUM_RELAYS } from './relays.config';
 import { useRelayHandlers } from './useRelayHandlers';
 import { styles } from './AdminRelaysPage.styles';
@@ -100,9 +100,9 @@ export const PublicRelaysPage: React.FC = () => {
 
   if (isLoadingStates) {
     return (
-      <AdminContentLayout title="Relay Control" subtitle="Loading..." styles={styles}>
+      <AdminPageLayout title="Relay Control" subtitle="Loading..." styles={styles}>
         <Box className="loading">Loading relay states...</Box>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
@@ -111,7 +111,7 @@ export const PublicRelaysPage: React.FC = () => {
       statesError.message?.includes('Network Error') || statesError.message?.includes('RPC Request Failed');
 
     return (
-      <AdminContentLayout title="Relay Control" subtitle="Connection Error" styles={styles}>
+      <AdminPageLayout title="Relay Control" subtitle="Connection Error" styles={styles}>
         <Box className="error">
           <Flex direction="column" gap="4" align="center">
             <Text color="red" size="4" weight="bold">
@@ -137,12 +137,12 @@ export const PublicRelaysPage: React.FC = () => {
             </Flex>
           </Flex>
         </Box>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   return (
-    <AdminContentLayout
+    <AdminPageLayout
       title="Maintenance"
       subtitle="User"
       description={`Test and control the ${NUM_RELAYS}-channel relay board`}
@@ -216,6 +216,6 @@ export const PublicRelaysPage: React.FC = () => {
           </Card>
         </Flex>
       </Box>
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };

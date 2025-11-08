@@ -8,17 +8,6 @@ export const stylesAdminContent = css`
   /* ADMIN-PAGE-LAYOUT ======================================================= */
 
   color: ${colors.textDark};
-  /* min-width: 100%;
-    width: 100% !important;
-
-    display: flex;
-    flex-direction: column;
-    gap: ${spacing[6]}; */
-
-  > .admin-page-title {
-    padding: 2em;
-    background-color: ${colors.greyDark};
-  }
 
   h1 {
     font-size: 2rem;

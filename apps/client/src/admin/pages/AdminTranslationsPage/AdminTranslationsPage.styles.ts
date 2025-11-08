@@ -195,15 +195,4 @@ export const styles = css`
       text-align: center;
     }
   }
-
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .admin-page-container {
-      padding: ${spacing[6]};
-    }
-
-    .admin-page-header .admin-page-title {
-      font-size: 2rem;
-    }
-  }
 `;

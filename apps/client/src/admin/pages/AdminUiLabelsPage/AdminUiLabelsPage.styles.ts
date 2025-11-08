@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, spacing } from 'styles';
+import { colors, min, spacing } from 'styles';
 
 export const styles = css`
   width: 100%;
@@ -12,39 +12,18 @@ export const styles = css`
     margin: 0 auto;
   }
 
-  .admin-page-header {
-    text-align: center;
-
-    .admin-page-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: ${colors.text};
-      line-height: 1.2;
-    }
-
-    .admin-page-subtitle {
-      font-size: 1.125rem;
-      color: ${colors.greyDark};
-      line-height: 1.5;
-    }
-  }
-
   /* Form styling */
   form {
     width: 100%;
   }
 
-  /* Responsive adjustments */
-  @media (max-width: 1200px) {
-    .admin-page-container {
-      max-width: 100%;
-      padding: ${spacing[6]};
-    }
+  ${min.md} {
+    /* max-width: 96vw !important; */
   }
-
-  @media (max-width: 768px) {
-    .admin-page-container {
-      padding: ${spacing[4]};
-    }
+  ${min.lg} {
+    /* max-width: 96vw !important; */
+  }
+  ${min.xl} {
+    /* max-width: 1240px !important; */
   }
 `;

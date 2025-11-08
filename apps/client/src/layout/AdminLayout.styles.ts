@@ -189,14 +189,17 @@ export const styles = css`
         justify-content: flex-start;
         align-items: stretch;
 
-        header {
+        header.admin-page-title {
           width: 100%;
           height: auto;
           min-height: auto;
           max-height: none;
-          padding: 1rem 2rem;
+          padding: 0 0 1rem 0;
           flex-shrink: 0;
-          border: 1px solid red !important;
+          border: 1px solid blue !important;
+          h1 {
+            margin: 0;
+          }
         }
 
         .page-content {

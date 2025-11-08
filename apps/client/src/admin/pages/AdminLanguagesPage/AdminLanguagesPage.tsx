@@ -19,7 +19,7 @@ import {
 } from 'queries/supported-languages';
 import { getFlagUrl } from 'utils/i18n/flag.utils';
 
-import { AdminContentLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
 import { LanguageDeleteDialog } from './components/LanguageDeleteDialog';
 import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';
 import { convertSearchResultToLanguageInfo } from './languages.utils';
@@ -200,7 +200,7 @@ export const AdminLanguagesPage: React.FC = () => {
   // Handle loading and error states
   if (isLoading) {
     return (
-      <AdminContentLayout
+      <AdminPageLayout
         title={t('admin.pages.languages.title')}
         subtitle={t('admin.pages.languages.subtitle')}
         isLoading={true}
@@ -209,13 +209,13 @@ export const AdminLanguagesPage: React.FC = () => {
         <AdminSection>
           <Text>Loading supported languages...</Text>
         </AdminSection>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   if (error) {
     return (
-      <AdminContentLayout
+      <AdminPageLayout
         title={t('admin.pages.languages.title')}
         subtitle={t('admin.pages.languages.subtitle')}
         error={error.message}
@@ -224,12 +224,12 @@ export const AdminLanguagesPage: React.FC = () => {
         <AdminSection>
           <Text color="red">Error loading supported languages: {error.message}</Text>
         </AdminSection>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   return (
-    <AdminContentLayout
+    <AdminPageLayout
       title={t('admin.pages.languages.title')}
       subtitle={t('admin.pages.languages.subtitle')}
       styles={styles}
@@ -314,6 +314,6 @@ export const AdminLanguagesPage: React.FC = () => {
         onConfirm={handleConfirmDelete}
         isLoading={deleteLanguageMutation.isPending}
       />
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };

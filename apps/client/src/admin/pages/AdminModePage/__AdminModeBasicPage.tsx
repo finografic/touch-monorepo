@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Flex, Spinner, Text } from '@radix-ui/themes';
-import { AdminContentLayout, AdminSection } from 'admin/components';
+import { AdminPageLayout, AdminSection } from 'admin/components';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
@@ -69,7 +69,7 @@ export const AdminModeBasicPage: React.FC = () => {
 
   if (isLoadingModes) {
     return (
-      <AdminContentLayout
+      <AdminPageLayout
         title="Mode Selection"
         subtitle="User"
         description="Select default mode for the system"
@@ -79,16 +79,12 @@ export const AdminModeBasicPage: React.FC = () => {
           <Spinner size="3" />
           <Text>Loading available modes...</Text>
         </Flex>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   return (
-    <AdminContentLayout
-      title="Mode Selection"
-      description="Select default mode for the system"
-      styles={styles}
-    >
+    <AdminPageLayout title="Mode Selection" description="Select default mode for the system" styles={styles}>
       <AdminSection
         title="Default Mode Configuration"
         description="Choose the default mode that will be used when no specific mode is selected"
@@ -121,6 +117,6 @@ export const AdminModeBasicPage: React.FC = () => {
           </Flex>
         </Flex>
       </AdminSection>
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };

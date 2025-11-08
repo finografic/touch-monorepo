@@ -9,7 +9,7 @@ import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import { EndpointHelper } from 'api/api.endpoints';
 import { z } from 'zod';
 
-import { AdminContentLayout, AdminSection, UiLabelSection } from '../..';
+import { AdminPageLayout, AdminSection, UiLabelSection } from '../..';
 import { styles } from './AdminUiLabelsPage.styles';
 
 interface SupportedLanguage {
@@ -345,12 +345,12 @@ export const AdminUiLabelsPage: React.FC = () => {
 
   if (!isDataReady) {
     return (
-      <AdminContentLayout title={t('admin.title')} subtitle="UI Labels / Translations" isLoading={true}>
+      <AdminPageLayout title={t('admin.title')} subtitle="UI Labels / Translations" isLoading={true}>
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
           <Spinner size="3" />
           <Text>Loading UI translation files...</Text>
         </Flex>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
@@ -384,7 +384,7 @@ export const AdminUiLabelsPage: React.FC = () => {
 
   return (
     <FormProvider {...methods}>
-      <AdminContentLayout
+      <AdminPageLayout
         title={t('admin.title')}
         subtitle="UI Labels / Translations"
         message={
@@ -400,7 +400,7 @@ export const AdminUiLabelsPage: React.FC = () => {
         {/* <AdminSection> */}
         {formContent}
         {/* </AdminSection> */}
-      </AdminContentLayout>
+      </AdminPageLayout>
     </FormProvider>
   );
 };

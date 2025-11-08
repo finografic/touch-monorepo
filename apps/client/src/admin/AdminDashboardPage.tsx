@@ -14,7 +14,7 @@ import { getAdminDashboard } from 'utils/i18n-variants';
 
 import { getCalloutText__V1 } from './utils/i18n.utils';
 import { getCalloutText } from './utils/i18n-inlang.utils';
-import { AdminContentLayout } from '.';
+import { AdminPageLayout } from '.';
 import { styles } from './AdminDashboardPage.styles';
 
 export const AdminDashboardPage: React.FC = () => {
@@ -57,7 +57,7 @@ export const AdminDashboardPage: React.FC = () => {
   const gridColumns = adminCards.length === 1 ? 1 : 2;
 
   return (
-    <AdminContentLayout title={admin_dashboard.title} subtitle={admin_dashboard.description} align="center">
+    <AdminPageLayout title={admin_dashboard.title} subtitle={admin_dashboard.description} align="center">
       <Box className="admin-dashboard" css={styles}>
         <div className="admin-cards" style={{ ['--cols' as any]: gridColumns }}>
           {adminCards.map((card) => (
@@ -94,6 +94,6 @@ export const AdminDashboardPage: React.FC = () => {
           ))}
         </div>
       </Box>
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };

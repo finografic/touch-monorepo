@@ -167,12 +167,12 @@ export const AdminDashboardPage: React.FC = () => {
   const role = user?.role || 'admin';
 
   return (
-    <AdminContentLayout
+    <AdminPageLayout
       title={m.admin_dashboard_title_role({ role })}
       subtitle={m.admin_dashboard_description()}
     >
       {/* content */}
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };
 ```

@@ -15,7 +15,7 @@ import {
 import { SlotType } from 'types/orders.types';
 import { GRID_CONFIGS } from 'types/slot-config.types';
 
-import { AdminContentLayout } from '../..';
+import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection';
 import { SlotGrid } from './SlotGrid';
 import { styles } from './AdminSlotsConfigPage.styles';
@@ -176,25 +176,25 @@ export const AdminSlotsConfigPage: React.FC = () => {
 
   if (isLoading) {
     return (
-      <AdminContentLayout title="Slot Configuration" subtitle="Loading...">
+      <AdminPageLayout title="Slot Configuration" subtitle="Loading...">
         <Box className="loading">Loading slot configurations...</Box>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
   if (error) {
     return (
-      <AdminContentLayout title="Slot Configuration" subtitle="Error">
+      <AdminPageLayout title="Slot Configuration" subtitle="Error">
         <Box className="error">
           <Text color="red">Error loading slot configurations: {error.message}</Text>
         </Box>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   return (
     <>
       <FormProvider {...methods}>
-        <AdminContentLayout
+        <AdminPageLayout
           title="Slot Configuration"
           subtitle="Configure the MainPage grid layout and slot types"
           styles={styles}
@@ -308,7 +308,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
               </Flex>
             </Flex>
           </AdminSection>
-        </AdminContentLayout>
+        </AdminPageLayout>
       </FormProvider>
     </>
   );

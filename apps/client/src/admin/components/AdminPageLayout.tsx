@@ -7,9 +7,9 @@ import { Title } from 'components/Title';
 
 import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
 
-import { styles as stylesLayout } from './AdminContentLayout.styles';
+import { styles as stylesLayout } from './AdminPageLayout.styles';
 
-interface AdminContentLayoutProps {
+interface AdminPageLayoutProps {
   title?: string;
   subtitle?: string;
   description?: string;
@@ -24,11 +24,12 @@ interface AdminContentLayoutProps {
   styles?: SerializedStyles;
 }
 
-export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
+export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
   ({ title, subtitle, description, align = 'left', children, message, isLoading = false, error, styles }) => {
     return (
       <section css={[stylesLayout, styles]} className="container admin-page-container">
         <Title
+          className="admin-page-title"
           title={title}
           subtitle={subtitle}
           size="7"
@@ -36,7 +37,6 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
           mb="2"
           description={description}
           align={align}
-          className="admin-page-title"
         />
 
         {error && (
@@ -55,9 +55,7 @@ export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
           </Callout.Root>
         )}
 
-        <Flex direction="column" className="admin-page-content">
-          {children}
-        </Flex>
+        <Flex direction="column">{children}</Flex>
       </section>
     );
   },

@@ -6,7 +6,7 @@ import { useToast } from 'components/Toast';
 
 import { useGetModes, useUpdateDefaultMode } from 'queries/modes';
 
-import { AdminContentLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
 import { styles } from './PublicModePage.styles';
 
 export const PublicModePage: React.FC = () => {
@@ -69,7 +69,7 @@ export const PublicModePage: React.FC = () => {
 
   if (isLoadingModes) {
     return (
-      <AdminContentLayout
+      <AdminPageLayout
         title="Mode Selection"
         subtitle="User"
         description="Select default mode for the system"
@@ -80,16 +80,12 @@ export const PublicModePage: React.FC = () => {
           <Spinner size="3" />
           <Text>Loading available modes...</Text>
         </Flex>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   return (
-    <AdminContentLayout
-      title="Mode Selection"
-      description="Select default mode for the system"
-      // styles={styles}
-    >
+    <AdminPageLayout title="Mode Selection" description="Select default mode for the system" styles={styles}>
       <AdminSection
         title="Default Mode Configuration"
         description="Choose the default mode that will be used when no specific mode is selected"
@@ -131,6 +127,6 @@ export const PublicModePage: React.FC = () => {
           </Flex>
         </Flex>
       </AdminSection>
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };

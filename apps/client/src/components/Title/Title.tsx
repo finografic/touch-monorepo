@@ -35,7 +35,7 @@ export const Title: React.FC<TitleProps> = ({
 }) => {
   return (
     <div css={styles}>
-      <header className={clsx('title-wrapper', { align, className })}>
+      <header className={clsx('title-wrapper', className, { align })}>
         <Heading size="8" className="title" align={align} {...headingProps}>
           {title}
           {subtitle && (

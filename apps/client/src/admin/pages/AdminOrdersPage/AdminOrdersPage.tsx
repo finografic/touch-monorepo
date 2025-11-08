@@ -9,7 +9,7 @@ import type { DialogConfig } from 'components/Dialog';
 
 import { useGetOrdersReadable } from 'queries/orders';
 
-import { AdminContentLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
 import type { ColumnSearchState } from './components/OrdersTable';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
 import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
@@ -142,7 +142,7 @@ export const AdminOrdersPage: React.FC = () => {
   );
 
   return (
-    <AdminContentLayout title={title} subtitle={subtitle} styles={styles}>
+    <AdminPageLayout title={title} subtitle={subtitle} styles={styles}>
       <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
         <Tabs.List>
           {config.tabs.map((tab) => (
@@ -163,6 +163,6 @@ export const AdminOrdersPage: React.FC = () => {
           </Tabs.Content>
         ))}
       </Tabs.Root>
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };

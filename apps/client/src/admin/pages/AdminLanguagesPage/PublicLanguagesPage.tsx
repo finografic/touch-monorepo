@@ -4,14 +4,14 @@ import { useTranslation } from 'react-i18next';
 import { Box } from '@radix-ui/themes';
 import { LanguageSelector } from 'components/LanguageSelector/LanguageSelector';
 
-import { AdminContentLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
 import { styles } from './AdminLanguagesPage.styles';
 
 export const PublicLanguagesPage: React.FC = () => {
   const { t } = useTranslation();
 
   return (
-    <AdminContentLayout
+    <AdminPageLayout
       title={t('admin.pages.languages.title')}
       description={t('admin.pages.languages.subtitle')}
       styles={styles}
@@ -21,6 +21,6 @@ export const PublicLanguagesPage: React.FC = () => {
           <LanguageSelector />
         </Box>
       </AdminSection>
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };

@@ -5,7 +5,7 @@ import { useToast } from 'components/Toast';
 
 import { useGetModes, useUpdateActiveStates } from 'queries/modes';
 
-import { AdminContentLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
 import { styles } from './PublicModePage.styles';
 
 export const AdminModePage: React.FC = () => {
@@ -62,7 +62,7 @@ export const AdminModePage: React.FC = () => {
 
   if (isLoadingModes) {
     return (
-      <AdminContentLayout
+      <AdminPageLayout
         title="Mode Selection"
         description="Manage active modes for the system"
         styles={styles}
@@ -71,12 +71,12 @@ export const AdminModePage: React.FC = () => {
           <Spinner size="3" />
           <Text>Loading available modes...</Text>
         </Flex>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   return (
-    <AdminContentLayout
+    <AdminPageLayout
       title="Mode Selection"
       subtitle="Admin"
       description="Manage active modes for the system"
@@ -145,6 +145,6 @@ export const AdminModePage: React.FC = () => {
           </Flex>
         </Flex>
       </AdminSection>
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };

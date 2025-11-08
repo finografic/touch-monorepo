@@ -7,7 +7,7 @@ import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
 import type { SoundType } from 'types/sounds.types';
 import { preloadSounds, testAudioPlayback, updateCachedSoundFiles } from 'utils/soundCache.utils';
 
-import { AdminContentLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
 import { FileUploadSection, SoundConfigurationSection, SoundLibrarySection } from './components';
 import { styles } from './AdminSoundPage.styles';
 
@@ -55,7 +55,7 @@ export const AdminSoundPage: React.FC = () => {
 
   if (isLoadingFiles || isLoadingSettings || isLoadingActiveTabFiles) {
     return (
-      <AdminContentLayout
+      <AdminPageLayout
         title="Sound Management"
         subtitle="Admin"
         description="Upload and configure sound files for timer events"
@@ -65,14 +65,14 @@ export const AdminSoundPage: React.FC = () => {
           <Spinner size="3" />
           <Text>Loading sound settings...</Text>
         </Flex>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   log('__DEV: soundFiles', 'orange', soundFiles);
 
   return (
-    <AdminContentLayout
+    <AdminPageLayout
       title="Sound Management"
       subtitle="Admin"
       description="Upload and configure sound files for timer events"
@@ -154,6 +154,6 @@ export const AdminSoundPage: React.FC = () => {
           </Tabs.Content>
         </Tabs.Root>
       </Flex>
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };

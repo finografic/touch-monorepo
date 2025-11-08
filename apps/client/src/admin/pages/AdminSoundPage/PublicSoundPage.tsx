@@ -10,7 +10,7 @@ import { ListBox } from 'primereact/listbox';
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
 import { stopAllAudio } from 'utils/soundCache.utils';
 
-import { AdminContentLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
 import { SoundConfigurationSection } from './components';
 import { StopIcon } from 'styles/icons';
 import { styles } from './AdminSoundPage.styles';
@@ -22,7 +22,7 @@ export const PublicSoundPage: React.FC = () => {
 
   if (isLoadingFiles || isLoadingSettings) {
     return (
-      <AdminContentLayout
+      <AdminPageLayout
         title="Sound Management"
         subtitle="User"
         description="Upload and configure sound files for timer events"
@@ -32,12 +32,12 @@ export const PublicSoundPage: React.FC = () => {
           <Spinner size="3" />
           <Text>Loading sound settings...</Text>
         </Flex>
-      </AdminContentLayout>
+      </AdminPageLayout>
     );
   }
 
   return (
-    <AdminContentLayout
+    <AdminPageLayout
       title="Sound Management"
       subtitle="User"
       description="Upload and configure sound files for timer events"
@@ -83,6 +83,6 @@ export const PublicSoundPage: React.FC = () => {
           </Col>
         </Row>
       </AdminSection>
-    </AdminContentLayout>
+    </AdminPageLayout>
   );
 };

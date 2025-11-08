@@ -26,16 +26,16 @@ export const styles = css`
     /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
 
     ${min.sm} {
-      max-width: 96vw !important;
+      max-width: 96vw;
     }
     ${min.md} {
-      max-width: 96vw !important;
+      max-width: 96vw;
     }
     ${min.lg} {
-      max-width: 96vw !important;
+      max-width: 96vw;
     }
     ${min.xl} {
-      max-width: 1240px !important;
+      max-width: 1240px;
     }
 
     background-color: ${colors.white};
@@ -43,7 +43,7 @@ export const styles = css`
     border: 2px solid ${colors.greyXXLight50};
     border-radius: ${String(layout.borderRadius)};
 
-    margin: 5.5rem 0;
+    /* margin: 5.5rem 0; */
     /* overflow-x: hidden !important; */
 
     padding: 1.5rem 2rem 2.5rem 2rem;
