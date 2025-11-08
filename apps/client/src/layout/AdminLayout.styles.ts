@@ -113,9 +113,7 @@ export const styles = css`
     border: ${layout.borderWidth} solid transparent;
   }
 
-  form {
-    ${cssForms}
-  }
+  ${cssForms}
 
   display: flex;
   flex-direction: column;
@@ -229,17 +227,6 @@ export const styles = css`
       justify-content: center;
     }
   }
-
-  /* .title {
-    ${typography.h1};
-    color: ${colors.text};
-    margin-bottom: ${spacing[4]};
-  } */
-
-  /* .subtitle {
-    ${typography.body};
-    color: ${colors.textLight};
-  } */
 
   p {
     color: ${colors.text};

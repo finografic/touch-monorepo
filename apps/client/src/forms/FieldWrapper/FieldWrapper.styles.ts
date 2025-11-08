@@ -1,13 +1,12 @@
 import { css } from '@emotion/react';
 
-import { colors, spacing } from 'styles';
+import { colors } from 'styles';
 import { forms } from 'styles/forms/forms.constants';
 
 export const styles = css`
   flex: 1;
   display: block;
   position: relative;
-  /* min-width: 180px; */
   padding: 0.5rem 0 0.25rem;
 
   label.field-label {

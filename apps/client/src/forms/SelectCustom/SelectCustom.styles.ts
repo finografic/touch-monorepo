@@ -2,6 +2,8 @@ import { css } from '@emotion/react';
 
 import { colors } from 'styles';
 import { forms } from 'styles/forms/forms.constants';
+import { cssForms } from 'styles/forms/forms.styles';
+// import { cssPlaceholder } from 'styles/forms/forms-inputs.styles';
 
 export const styles = css`
   &.searchable-select {
@@ -120,21 +122,7 @@ export const stylesDropdown = css`
     flex-shrink: 0;
   }
 
-  /* Custom scrollbar for dropdown */
-  &::-webkit-scrollbar {
-    width: 6px;
-  }
+  /* ${cssForms} */
 
-  &::-webkit-scrollbar-track {
-    /* background: var(--gray-2); */
-  }
-
-  &::-webkit-scrollbar-thumb {
-    /* background: var(--gray-6); */
-    border-radius: 3px;
-  }
-
-  &::-webkit-scrollbar-thumb:hover {
-    /* background: var(--gray-8); */
-  }
+  /***** PLACEHOLDERS *****/
 `;

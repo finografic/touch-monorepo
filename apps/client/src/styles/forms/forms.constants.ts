@@ -23,7 +23,7 @@ export const forms = {
     },
 
     label: {
-      color: colors.textDark,
+      color: colors.text,
       fontSize: '0.9rem',
       fontWeight: 700,
       marginBottom: '0.33rem',
@@ -36,12 +36,11 @@ export const forms = {
     },
 
     placeholder: {
-      color: colors.grey,
-      opacity: 0.5,
+      color: colors.greyXLight,
+      opacity: 0.66,
       fontWeight: 500,
       disabled: {
-        color: colors.grey,
-        opacity: 0.66,
+        color: colors.greyXLight,
         fontWeight: 500,
       },
     },

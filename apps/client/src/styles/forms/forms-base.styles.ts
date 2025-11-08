@@ -61,13 +61,6 @@ export const formsBase = css`
     transition: ${forms.inputs.transition};
     padding: ${forms.inputs.padding};
 
-    &::placeholder {
-      color: ${forms.inputs.placeholder.color};
-      opacity: ${forms.inputs.placeholder.opacity};
-      font-weight: ${forms.inputs.placeholder.fontWeight};
-      /* padding: ${forms.inputs.padding}; */
-    }
-
     &:hover:not(:disabled):not(:focus) {
       border-color: ${forms.inputs.hover.border.color};
     }
@@ -83,11 +76,8 @@ export const formsBase = css`
       border-color: ${forms.inputs.disabled.border.color};
       color: ${forms.inputs.placeholder.disabled.color};
       font-weight: ${forms.inputs.placeholder.disabled.fontWeight};
-      opacity: ${forms.inputs.placeholder.disabled.opacity};
+      opacity: ${forms.inputs.disabled.opacity};
       cursor: not-allowed;
-      &::placeholder {
-        opacity: 0.8;
-      }
     }
 
     &:read-only {

@@ -105,6 +105,28 @@ export const PublicModePage: React.FC = () => {
                   allowEmpty={true}
                 />
               </FieldWrapper>
+              {/* <FieldWrapper label="Select Default Mode"> */}
+              <h2>Input</h2>
+              <input
+                className="mode-select"
+                // options={modeOptions}
+                placeholder="Choose a default mode..."
+                value={defaultModeId}
+                // onSelect={handleModeSelect}
+                // allowEmpty={true}
+              />
+              {/* </FieldWrapper> */}
+              <h2>Input (FieldWrapper)</h2>
+              <FieldWrapper label="Select Default Mode">
+                <input
+                  className="mode-select"
+                  // options={modeOptions}
+                  placeholder="Choose a default mode..."
+                  value={defaultModeId}
+                  // onSelect={handleModeSelect}
+                  // allowEmpty={true}
+                />
+              </FieldWrapper>
             </Flex>
 
             <Flex direction="column" gap="2">
