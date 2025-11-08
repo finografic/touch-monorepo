@@ -45,9 +45,9 @@ export const styles = css`
   .admin-section-content {
     display: flex;
     flex-direction: column;
-    margin: 1rem -${baseLayout.padding[6]};
-
     gap: 1;
+
+    margin: 1rem -${baseLayout.padding[6]};
 
     > .section-header {
       margin-top: 0.5rem;
@@ -65,6 +65,15 @@ export const styles = css`
     h2 {
       margin: 0;
       padding: 0;
+    }
+
+    /***** NOTE: NESTED SECTIONS -- OMIT NEGATIVE MARGIN/PADDING FOR INNER SECTIONS  *****/
+
+    > .admin-section {
+      margin: 0rem 0;
+      .admin-section-content {
+        margin: 0.5rem 0;
+      }
     }
   }
 `;

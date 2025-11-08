@@ -83,73 +83,95 @@ export const AdminSoundPage: React.FC = () => {
             <Tabs.Trigger value="finish">Finish Sounds</Tabs.Trigger>
           </Tabs.List>
 
+          {/* ====================================================================== */}
+
           <Tabs.Content value="alarm">
-            {/* Alarm Sound Settings Section */}
             <AdminSection
               title="Alarm Sound Configuration"
               description="Select which sound file to use for alarm events"
             >
-              <SoundConfigurationSection
-                soundFiles={activeTabSoundFiles}
-                soundSettings={soundSettings}
-                soundType="alarm"
-              />
-            </AdminSection>
+              {/* Alarm Sound Settings Section */}
+              <AdminSection
+                title="Alarm Sound Configuration"
+                description="Select which sound file to use for alarm events"
+                variant="border-solid"
+              >
+                <SoundConfigurationSection
+                  soundFiles={activeTabSoundFiles}
+                  soundSettings={soundSettings}
+                  soundType="alarm"
+                />
+              </AdminSection>
 
-            {/* Alarm File Upload Section */}
-            <AdminSection
-              title="Upload Alarm Sound Files"
-              description="Add new alarm sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
-            >
-              <FileUploadSection soundType="alarm" />
-            </AdminSection>
+              {/* Alarm File Upload Section */}
+              <AdminSection
+                title="Upload Alarm Sound Files"
+                description="Add new alarm sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
+                variant="border-solid"
+              >
+                <FileUploadSection soundType="alarm" />
+              </AdminSection>
 
-            {/* Alarm File Library Section */}
-            <AdminSection
-              title="Alarm Sound Library"
-              description={`${activeTabSoundFiles.length} alarm sound file(s) available`}
-            >
-              <SoundLibrarySection
-                soundFiles={activeTabSoundFiles}
-                soundSettings={soundSettings}
-                soundType="alarm"
-              />
+              {/* Alarm File Library Section */}
+              <AdminSection
+                title="Alarm Sound Library"
+                description={`${activeTabSoundFiles.length} alarm sound file(s) available`}
+                variant="border-solid"
+              >
+                <SoundLibrarySection
+                  soundFiles={activeTabSoundFiles}
+                  soundSettings={soundSettings}
+                  soundType="alarm"
+                />
+              </AdminSection>
             </AdminSection>
           </Tabs.Content>
+
+          {/* ====================================================================== */}
 
           <Tabs.Content value="finish">
             {/* Finish Sound Settings Section */}
             <AdminSection
-              title="Finish Sound Configuration"
-              description="Select which sound file to use for finish events"
+              title="Alarm Sound Configuration"
+              // description="Select which sound file to use for alarm events"
             >
-              <SoundConfigurationSection
-                soundFiles={activeTabSoundFiles}
-                soundSettings={soundSettings}
-                soundType="finish"
-              />
-            </AdminSection>
+              <AdminSection
+                // title="Finish Sound Configuration"
+                description="Select which sound file to use for finish events"
+                variant="border-solid"
+              >
+                <SoundConfigurationSection
+                  soundFiles={activeTabSoundFiles}
+                  soundSettings={soundSettings}
+                  soundType="finish"
+                />
+              </AdminSection>
 
-            {/* Finish File Upload Section */}
-            <AdminSection
-              title="Upload Finish Sound Files"
-              description="Add new finish sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
-            >
-              <FileUploadSection soundType="finish" />
-            </AdminSection>
+              {/* Finish File Upload Section */}
+              <AdminSection
+                title="Upload Finish Sound Files"
+                description="Add new finish sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
+                variant="border-solid"
+              >
+                <FileUploadSection soundType="finish" />
+              </AdminSection>
 
-            {/* Finish File Library Section */}
-            <AdminSection
-              title="Finish Sound Library"
-              description={`${activeTabSoundFiles.length} finish sound file(s) available`}
-            >
-              <SoundLibrarySection
-                soundFiles={activeTabSoundFiles}
-                soundSettings={soundSettings}
-                soundType="finish"
-              />
+              {/* Finish File Library Section */}
+              <AdminSection
+                title="Finish Sound Library"
+                description={`${activeTabSoundFiles.length} finish sound file(s) available`}
+                variant="border-solid"
+              >
+                <SoundLibrarySection
+                  soundFiles={activeTabSoundFiles}
+                  soundSettings={soundSettings}
+                  soundType="finish"
+                />
+              </AdminSection>
             </AdminSection>
           </Tabs.Content>
+
+          {/* ====================================================================== */}
         </Tabs.Root>
       </Flex>
     </AdminPageLayout>
