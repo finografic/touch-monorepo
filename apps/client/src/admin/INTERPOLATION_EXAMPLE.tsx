@@ -1,6 +1,9 @@
 // Example: Using interpolation in AdminDashboardPage
 import React from 'react';
-import { getMessages, interpolate, pluralize, formatDate } from '@workspace/i18n';
+import { formatDate, formatNumber, getMessages, interpolate, pluralize } from '@workspace/i18n';
+
+import { useAppConfig } from 'providers/AppConfigProvider';
+// Alternative: Create a custom hook for cleaner syntax
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
 
@@ -34,10 +37,6 @@ export const AdminDashboardPageWithInterpolation: React.FC = () => {
     </div>
   );
 };
-
-// Alternative: Create a custom hook for cleaner syntax
-import { useAppConfig } from 'providers/AppConfigProvider';
-import { getMessages, interpolate, pluralize, formatNumber, formatDate } from '@workspace/i18n';
 
 export function useMessages() {
   const { currentLanguage } = useAppConfig();

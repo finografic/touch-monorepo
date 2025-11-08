@@ -1,5 +1,4 @@
 import type { OrderFilters } from 'types/filters.types';
-
 import { PATHS } from 'config';
 
 /**

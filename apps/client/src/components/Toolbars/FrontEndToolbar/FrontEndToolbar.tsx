@@ -9,7 +9,6 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useStorageTimer } from 'providers/TimersProvider';
 
 import type { Theme } from 'types/ui.types';
-
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
 import { useDev } from 'dev-tools/providers/DevProvider';
 import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';

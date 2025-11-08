@@ -5,8 +5,8 @@ import { UserTimer } from 'components/Timers/UserTimer';
 import { useTimers } from 'providers/TimersProvider';
 
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
-import { SlotType } from 'types/orders.types';
 
+import { SlotType } from 'types/orders.types';
 import { AdminPageLayout } from '../..';
 import { NUM_RELAYS } from './relays.config';
 import { useRelayHandlers } from './useRelayHandlers';

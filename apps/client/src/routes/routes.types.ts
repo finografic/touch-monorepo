@@ -1,10 +1,9 @@
 import type { ReactElement } from 'react';
 import type { RouteObject } from 'react-router-dom';
 
-import type { User } from 'types/models/auth.model';
 import type { RouteButtonConfig } from 'types/button.types';
+import type { User } from 'types/models/auth.model';
 import type { FilterKey } from 'types/orders.types';
-
 import type { PATHS } from 'config/routes';
 
 export type RoutePath = (typeof PATHS)[keyof typeof PATHS];

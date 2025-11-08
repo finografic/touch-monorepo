@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-
 import type { ColumnKey, ColumnSearchState } from '../components/OrdersTable';
 
 export interface OrderReadableWithIndex extends OrderReadableModel {

@@ -1,7 +1,6 @@
 import { DataList } from '@radix-ui/themes';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-
 import { styles } from './OrderDataList.styles';
 
 export const OrderDataList = ({ data }: { data: OrderReadableModel }) => {

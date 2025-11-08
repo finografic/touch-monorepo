@@ -6,9 +6,9 @@ import { useToast } from 'components/Toast';
 import { useAuth } from 'providers/AuthProvider';
 
 import { useUpdateSoundSettings } from 'queries/sounds';
-import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
 import { playSoundByPath } from 'utils/soundCache.utils';
 
+import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
 import { SpeakerLoudIcon } from 'styles/icons';
 import { styles } from './SoundConfigurationSection.styles';
 

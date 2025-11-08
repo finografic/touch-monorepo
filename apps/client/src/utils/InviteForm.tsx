@@ -8,14 +8,14 @@ import type { SelectOption } from 'forms/FormUI/Select';
 import { Select } from 'forms/FormUI/Select';
 import { matchSorter } from 'match-sorter';
 import { useDataFilter } from 'store/DataFilterContext';
-import type { DataEntry } from 'types';
 import { DataSearch } from 'components/DataSearch';
 import { DetailFilter } from 'components/DetailFilter';
 import { usePagination } from 'components/Pagination';
 
-import { METADATA } from 'types';
 import { slugify } from 'utils/string.utils';
 
+import type { DataEntry } from 'types';
+import { METADATA } from 'types';
 import { useInviteFilters } from '../InviteFiltersContext';
 import { Summary } from '../invitesDEV';
 import { RESET } from './invite-form.contants';

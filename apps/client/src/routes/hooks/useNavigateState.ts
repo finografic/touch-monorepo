@@ -4,8 +4,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { cleanRoutePath } from 'routes/utils/routes.utils';
 import { getFromLocation } from 'routes/utils/useRouter.utils';
-import type { LocationState, LocationWithState } from 'types/location.types';
 
+import type { LocationState, LocationWithState } from 'types/location.types';
 import { ROUTES_CONFIG } from 'config';
 
 type NavigateWithState = (to: To | number, options?: NavigateOptions) => Promise<void>;

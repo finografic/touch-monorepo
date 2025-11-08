@@ -5,14 +5,14 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 import type { SlotMeta, SlotStatus } from 'pages/MainPage/MainPage.types';
 
+import { parsePadConfig } from 'utils/pads.utils';
+import { createSetters, createZustandContext } from 'utils/zustand';
+
 import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { FilterKey, SlotType } from 'types/orders.types';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
-import { parsePadConfig } from 'utils/pads.utils';
-import { createSetters, createZustandContext } from 'utils/zustand';
-
 import { NUM_GRID_ITEMS } from 'config/app';
 import type { HandleRouteChangeParams } from './layout-ui-utils.types';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';

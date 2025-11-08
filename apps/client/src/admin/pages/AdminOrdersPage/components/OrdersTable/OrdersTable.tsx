@@ -6,10 +6,10 @@ import clsx from 'clsx';
 import { useScrollLock } from 'usehooks-ts';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
-import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { SelectOption } from 'types/models/select-option.model';
 import { formatUnixTimestamp } from 'utils/date.utils';
 
+import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { SelectOption } from 'types/models/select-option.model';
 import type { OrderReadableWithIndex } from '../../hooks/useOrdersFilter';
 import { ColumnFilter } from './ColumnSearchInput';
 import { EditIcon, TrashIcon } from 'styles/icons';

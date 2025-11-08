@@ -5,7 +5,6 @@ import isEqual from 'lodash/isEqual';
 
 import type { FilterKey } from 'types/orders.types';
 import type { PadUI } from 'types/pads.types';
-
 import { PadButton } from './PadButton';
 import { PadCheckbox } from './PadCheckbox';
 import { PadRadio } from './PadRadio';

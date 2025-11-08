@@ -12,9 +12,9 @@ import {
   useGetSlotConfigurations,
   useResetSlotConfigurations,
 } from 'queries/slot-configurations';
+
 import { SlotType } from 'types/orders.types';
 import { GRID_CONFIGS } from 'types/slot-config.types';
-
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection';
 import { SlotGrid } from './SlotGrid';

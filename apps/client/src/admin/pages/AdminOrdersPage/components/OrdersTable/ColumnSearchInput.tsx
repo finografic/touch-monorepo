@@ -5,7 +5,6 @@ import { SelectSearchable } from 'forms/SelectSearchable';
 import { useDebouncedCallback } from 'use-debounce';
 
 import type { SelectOption } from 'types/models/select-option.model';
-
 import { MagnifyingGlassIcon } from 'styles/icons';
 
 interface ColumnFilterBaseProps {

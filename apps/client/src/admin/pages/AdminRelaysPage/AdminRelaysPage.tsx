@@ -6,8 +6,8 @@ import { RelayButtons } from 'admin/pages/AdminRelaysPage/RelayButtons';
 
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
-import type { SlotType } from 'types/orders.types';
 
+import type { SlotType } from 'types/orders.types';
 import { AdminPageLayout, AdminSection } from '../..';
 import { NUM_RELAYS } from './relays.config';
 import { RelaysStatus } from './RelaysStatus';

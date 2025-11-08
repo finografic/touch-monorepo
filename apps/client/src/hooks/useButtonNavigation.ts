@@ -8,8 +8,8 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
 import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
-import type { TemperatureFilter } from 'types/temperature.types';
 
+import type { TemperatureFilter } from 'types/temperature.types';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 
 const NAVIGATION_ACTIONS = {

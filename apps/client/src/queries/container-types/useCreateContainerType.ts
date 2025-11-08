@@ -4,9 +4,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
-import type { ContainerType } from 'types/models/container.model';
 import { slugify } from 'utils/string.utils';
 
+import type { ContainerType } from 'types/models/container.model';
 import { GET_CONTAINER_TYPES_QUERYKEY } from '.';
 
 export interface CreateContainerTypeInput {

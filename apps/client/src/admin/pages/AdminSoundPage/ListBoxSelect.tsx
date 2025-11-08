@@ -6,6 +6,7 @@ import type { SelectItemOptionsType } from 'primereact/selectitem';
 import { useToast } from 'components/Toast';
 
 import { useUpdateSoundSettings } from 'queries/sounds';
+
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
 
 interface ListBoxSelectProps {

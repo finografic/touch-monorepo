@@ -3,7 +3,6 @@ import { PadTemperature } from 'components/Pads/PadTemperature/PadTemperature';
 
 import type { Temperature } from 'types/orders.types';
 import { TemperatureKey } from 'types/temperature.types';
-
 import { MIN_TEMP_DIFFERENCE } from 'config/app';
 import { styles } from './TemperaturePage.styles';
 

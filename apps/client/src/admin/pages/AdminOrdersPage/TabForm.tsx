@@ -9,8 +9,8 @@ import { useToast } from 'components/Toast';
 
 import { useGetModes } from 'queries/modes';
 import { useGetOrderReadableById } from 'queries/orders';
-import type { ModeModel } from 'types/models/mode.model';
 
+import type { ModeModel } from 'types/models/mode.model';
 import { AdminSection } from '../..';
 // import { styles } from './AdminOrdersPage.styles';
 

@@ -8,9 +8,9 @@ import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 import { useSmartFallback } from 'hooks/useSmartFallback';
+
 import type { Temperature } from 'types/orders.types';
 import { TemperatureKey } from 'types/temperature.types';
-
 // import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';
 import { TEMPERATURE_DESCRIPTIONS } from './temperature.constants';

@@ -11,9 +11,9 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
+
 import { FLOW_TYPES } from 'types/flow.types';
 import { SlotType } from 'types/orders.types';
-
 import { PATHS } from 'config';
 
 /**

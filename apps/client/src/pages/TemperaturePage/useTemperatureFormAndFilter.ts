@@ -7,10 +7,10 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { TemperatureProfile } from 'types/temperature.types';
 import { findClosestProfile } from 'utils/temperature.utils';
 
+import type { OrderReadableModel } from 'types/models/order-readable.model';
+import type { TemperatureProfile } from 'types/temperature.types';
 import { FINAL_TEMP_DEFAULT, INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE, ROUTE_FILTER_KEYS } from 'config/app';
 
 interface UseTemperatureManagementProps {

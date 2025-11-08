@@ -69,15 +69,32 @@ export default fino({
       {
         groups: [
           // React imports + React-related packages (merged) - including type imports from react
-          ['^react', '^@react',  '^@finografic', '^@workspace'],
+          ['^react', '^@react', '^@finografic', '^@workspace'],
           // Internal absolute imports: components, providers, pages
           ['^@?\\w', '^(components|providers|pages)(/.*|$)'],
           // The rest of internal absolute imports + relative imports
-          ['^(types|utils|hooks|routes|constants|lib|queries)(/.*|$)'],
+          // NOTE: V1
+          // ['^(types|utils|hooks|routes|constants|lib|queries)(/.*|$)'],
+          // NEW: V2
+          ['^(utils|hooks|routes|lib|queries)(/.*|$)'],
           // Side effect imports
           ['^\\u0000'],
           // All relative imports (parent + same-folder + styles merged)
-          ['^(config|dev-tools)', '^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$', '^(styles)', '^.+\\.s?css$', '^.+\\.styles$'],
+          // NOTE: V1
+          // ['^(config|dev-tools)', '^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$', '^(styles)', '^.+\\.s?css$', '^.+\\.styles$'],
+          // NEW: V2
+          [
+            '^(types|constants)',
+            '^(config|dev-tools)',
+            '^\\.\\.(?!/?$)',
+            '^\\.\\./?$',
+            '^\\./(?=.*/)(?!/?$)',
+            '^\\.(?!/?$)',
+            '^\\./?$',
+            '^(styles)',
+            '^.+\\.s?css$',
+            '^.+\\.styles$',
+          ],
         ],
       },
     ],

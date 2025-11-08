@@ -7,7 +7,6 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
 import { FLOW_TYPES } from 'types/flow.types';
-
 import { PATHS } from 'config';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
 import { ListChecksIcon, StarIcon } from 'styles/icons';

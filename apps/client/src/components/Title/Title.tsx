@@ -4,7 +4,6 @@ import { Heading, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 
 import type { Align, Theme } from 'types/ui.types';
-
 import type { TitleHeadingProps } from './Title.types';
 import { styles } from './Title.styles';
 

@@ -2,11 +2,11 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
+import { createSetters, createZustandContext } from 'utils/zustand';
+
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import { FLOW_TYPES } from 'types/flow.types';
-import { createSetters, createZustandContext } from 'utils/zustand';
-
 import type { ConfigurationSession, SessionStore, SessionValues } from './SessionContext.types';
 
 export const DISPLAY_NAME = 'Session';

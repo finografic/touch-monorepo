@@ -1,6 +1,7 @@
 import type { Location, NavigateOptions } from 'react-router-dom';
 
 import type { RouteConfig } from 'routes/routes.types';
+
 import type { Generic } from 'types/data.types';
 
 export interface LocationState extends Generic {

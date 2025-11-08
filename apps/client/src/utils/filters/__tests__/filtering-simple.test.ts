@@ -1,7 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-
 import { createMockData, createMockFilters } from '../mocks/filters.utils.mocks';
 
 // Simple filtering function for testing

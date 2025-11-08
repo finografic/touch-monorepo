@@ -6,7 +6,6 @@ import { Callout, Flex } from '@radix-ui/themes';
 import { Title } from 'components/Title';
 
 import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
-
 import { styles as stylesLayout } from './AdminPageLayout.styles';
 
 interface AdminPageLayoutProps {

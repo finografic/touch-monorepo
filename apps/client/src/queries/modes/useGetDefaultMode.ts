@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
 
 import type { ModeModel } from 'types/models/mode.model';
-
 import { GET_MODES_QUERYKEY } from '.';
 
 const getDefaultMode = async (): Promise<ModeModel | null> => {

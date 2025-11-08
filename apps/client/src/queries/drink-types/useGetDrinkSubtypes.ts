@@ -5,7 +5,6 @@ import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
 
 import type { DrinkSubtype } from 'types/models/drink-type.model';
-
 import { GET_DRINK_SUBTYPES_QUERYKEY } from '.';
 
 interface SubtypesResponse {

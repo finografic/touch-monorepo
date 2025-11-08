@@ -7,9 +7,9 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { LanguagesDto } from 'queries/supported-languages';
 import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
-import type { SupportedLanguage } from 'types/models/supported-language.model';
 import { getFlagUrl } from 'utils/i18n/flag.utils';
 
+import type { SupportedLanguage } from 'types/models/supported-language.model';
 import { styles } from './LanguageSelector.styles';
 
 export const LanguageSelector = ({ onLanguageChange }: LanguageSelectorProps) => {

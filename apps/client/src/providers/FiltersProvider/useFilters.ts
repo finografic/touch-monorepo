@@ -4,11 +4,12 @@ import { useFiltersContext } from 'providers/FiltersProvider';
 import { useOrders } from 'providers/OrdersProvider';
 
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
+import { filterData, getUniqueFilterValues } from 'utils/filters/filters.utils';
+
 import type { DataEntry } from 'types/data.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { FilterKey } from 'types/orders.types';
-import { filterData, getUniqueFilterValues } from 'utils/filters/filters.utils';
 
 interface UseFiltersReturn {
   // Data arrays - using the OrderReadableModel type for human-readable data

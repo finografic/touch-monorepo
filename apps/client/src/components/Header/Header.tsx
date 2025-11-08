@@ -9,7 +9,6 @@ import { HeaderTitle } from 'components/Header/HeaderTitle';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import type { Theme } from 'types/ui.types';
-
 import type { BreakpointMap } from 'styles/viewport/viewport.types';
 import { styles } from './Header.styles';
 

@@ -4,7 +4,6 @@ import { Select } from '@radix-ui/themes';
 import clsx from 'clsx';
 
 import type { SelectOption } from 'types/models/select-option.model';
-
 import { styles } from './SelectBasic.styles';
 
 interface SelectBasicProps {

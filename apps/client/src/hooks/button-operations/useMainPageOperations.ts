@@ -7,8 +7,8 @@ import { useTimers } from 'providers/TimersProvider';
 
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
-import { FLOW_TYPES } from 'types/flow.types';
 
+import { FLOW_TYPES } from 'types/flow.types';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 
 /**

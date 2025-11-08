@@ -18,8 +18,8 @@ import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
 
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
-import type { ValidGridSize } from 'types/menu.types';
 
+import type { ValidGridSize } from 'types/menu.types';
 import { NUM_GRID_ITEMS } from 'config/app';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';

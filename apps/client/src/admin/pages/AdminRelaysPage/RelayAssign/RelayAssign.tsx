@@ -5,9 +5,9 @@ import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { SelectCustom } from 'forms/SelectCustom';
 
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
+
 import type { SelectOption } from 'types/models/select-option.model';
 import { SlotType } from 'types/orders.types';
-
 import { NUM_RELAYS } from '../relays.config';
 import { colors } from 'styles';
 import { styles } from './RelayAssign.styles';

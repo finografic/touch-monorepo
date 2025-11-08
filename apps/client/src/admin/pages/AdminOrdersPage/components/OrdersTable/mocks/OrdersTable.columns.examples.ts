@@ -1,5 +1,4 @@
 import type { SelectOption } from 'types/models/select-option.model';
-
 import type { ColumnDef } from '../OrdersTable';
 
 /**

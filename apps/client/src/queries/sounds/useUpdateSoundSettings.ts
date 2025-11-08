@@ -1,8 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 
-import type { SoundSettings } from 'types/sounds.types';
 import { clearSoundCache } from 'utils/soundCache.utils';
+
+import type { SoundSettings } from 'types/sounds.types';
 
 // API function
 export const updateSoundSettings = async (settings: SoundSettings): Promise<SoundSettings> => {
