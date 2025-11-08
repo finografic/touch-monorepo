@@ -7,6 +7,8 @@ import { Title } from 'components/Title';
 
 import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
 
+import { styles as stylesMain } from './AdminContentLayout.styles';
+
 interface AdminContentLayoutProps {
   title?: string;
   subtitle?: string;
@@ -25,7 +27,13 @@ interface AdminContentLayoutProps {
 export const AdminContentLayout: React.FC<AdminContentLayoutProps> = memo(
   ({ title, subtitle, description, align = 'left', children, message, isLoading = false, error, styles }) => {
     return (
-      <section css={styles} className="container admin-page-container">
+      <section
+        // css={`
+        //   ${styles} ${stylesMain}
+        // `}
+        css={stylesMain}
+        className="container admin-page-container"
+      >
         <Title
           title={title}
           subtitle={subtitle}

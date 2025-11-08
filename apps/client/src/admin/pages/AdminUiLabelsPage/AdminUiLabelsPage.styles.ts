@@ -46,15 +46,5 @@ export const styles = css`
     .admin-page-container {
       padding: ${spacing[4]};
     }
-
-    .admin-page-header {
-      .admin-page-title {
-        font-size: 2rem;
-      }
-
-      .admin-page-subtitle {
-        font-size: 1rem;
-      }
-    }
   }
 `;

@@ -96,7 +96,7 @@ export const TabForm: React.FC = () => {
       <Row className="form-section">
         <Col>
           <AdminSection
-            className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
+            className={clsx('page-section', isEditMode ? 'mode-edit' : 'mode-new')}
             title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
             isLoading={true}
           >
@@ -116,7 +116,7 @@ export const TabForm: React.FC = () => {
       <Row className="form-section">
         <Col>
           <AdminSection
-            className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
+            className={clsx('page-section', isEditMode ? 'mode-edit' : 'mode-new')}
             title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
             // error={errorMessage as any}
           >

@@ -24,7 +24,7 @@ export const baseLayout = {
     1: '0.25rem',
     2: '0.5rem',
     3: '0.75rem',
-    4: '1rem',
+    default: '1rem',
     5: '1.25rem',
     6: '1.5rem',
     8: '2rem',
@@ -33,7 +33,7 @@ export const baseLayout = {
   },
   borderWidth: {
     0: '0',
-    DEFAULT: '1px',
+    default: '1px',
     2: '2px',
     4: '4px',
     8: '8px',
@@ -41,7 +41,7 @@ export const baseLayout = {
   borderRadius: {
     'none': '0',
     'sm': '0.125rem',
-    'DEFAULT': '0.25rem',
+    'default': '0.25rem',
     'md': '0.375rem',
     'lg': '0.5rem',
     'xl': '0.75rem',

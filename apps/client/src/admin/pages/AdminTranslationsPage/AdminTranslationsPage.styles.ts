@@ -84,63 +84,6 @@ export const styles = css`
   background-color: ${colors.white};
   color: ${colors.text};
 
-  .admin-page-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: ${spacing[8]};
-  }
-
-  .admin-page-header {
-    text-align: center;
-    margin-bottom: ${spacing[8]};
-
-    .admin-page-title {
-      font-size: 2.5rem;
-      font-weight: 700;
-      color: ${colors.text};
-      margin-bottom: ${spacing[2]};
-      line-height: 1.2;
-    }
-
-    .admin-page-subtitle {
-      font-size: 1.125rem;
-      color: ${colors.greyDark};
-      line-height: 1.5;
-      margin-bottom: ${spacing[6]};
-    }
-
-    .admin-page-message {
-      padding: ${spacing[4]} ${spacing[6]};
-      border-radius: 8px;
-      margin-bottom: ${spacing[6]};
-      font-weight: 500;
-
-      &.success {
-        background-color: ${colors.successLight};
-        color: ${colors.successDark};
-        border: 1px solid ${colors.success};
-      }
-
-      &.error {
-        background-color: ${colors.dangerLight};
-        color: ${colors.dangerDark};
-        border: 1px solid ${colors.danger};
-      }
-
-      &.warning {
-        background-color: ${colors.warningLight};
-        color: ${colors.warningDark};
-        border: 1px solid ${colors.warning};
-      }
-
-      &.info {
-        background-color: ${colors.infoLight};
-        color: ${colors.infoDark};
-        border: 1px solid ${colors.info};
-      }
-    }
-  }
-
   /* Translation form grid */
   .translation-grid {
     display: grid;

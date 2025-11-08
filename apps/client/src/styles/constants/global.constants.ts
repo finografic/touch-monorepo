@@ -6,7 +6,6 @@
 
 import { css } from '@emotion/react';
 
-import { createCSSProxy } from '../utils/proxy-css-default.utils';
 import { baseLayout, button } from './base.constants';
 import { colors } from '../colors/colors.styles';
 
@@ -19,14 +18,10 @@ export const border = css`
 
 // LAYOUT VARIABLES
 export const layout = {
-  // Wrap with String() to force string coercion before passing to Emotion
-  // This converts the proxy object to a primitive string that Emotion can use
-  fontSize: String(createCSSProxy(baseLayout.fontSize, 'base')) as any, // '1rem'
-  padding: String(createCSSProxy(baseLayout.padding, 5)) as any, // '1rem'
-  // padding: baseLayout.padding, // '1rem'
-  borderWidth: String(createCSSProxy(baseLayout.borderWidth, 2)) as any, // '2px'
-  // borderRadius: String(createCSSProxy(baseLayout.borderRadius, 'lg')) as any, // '0.5rem'
-  borderRadius: baseLayout.borderRadius.lg, // '0.5rem'
+  fontSize: baseLayout.fontSize.base,
+  padding: baseLayout.padding.default,
+  borderWidth: baseLayout.borderWidth[2],
+  borderRadius: baseLayout.borderRadius.xl, // '0.5rem'
   pageColor: colors.white,
   bgColor: colors.white,
   radius: baseLayout.borderRadius.lg,

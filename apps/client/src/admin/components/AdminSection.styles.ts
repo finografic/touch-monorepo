@@ -3,11 +3,11 @@ import { css } from '@emotion/react';
 import { border, colors, layout, min, spacing } from 'styles';
 
 export const styles = css`
-  /* ⭐ admin-section > tab-content > rote=tabpanel ======================= */
+  /* ⭐ page-section > tab-content > rote=tabpanel ======================= */
 
   /* NOTE: SCROLL-WINDOW */
 
-  .admin-section {
+  .page-section {
     padding: 0 !important;
     border: 0 !important;
 
@@ -18,11 +18,12 @@ export const styles = css`
     width: 100% !important;
     max-width: 1240px !important;
 
-    background-color: ${colors.white};
-    border: 1px solid ${colors.greyLight};
-    border-radius: 12px;
-    padding: ${spacing[8]};
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    /* background-color: ${colors.white}; */
+    /* border: 1px solid ${colors.greyLight}; */
+    /* border: ${layout.borderWidth} solid pink !important; */
+    border-radius: ${layout.borderRadius};
+    padding: 0;
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
 
     ${min.sm} {
       max-width: 96vw !important;
@@ -38,16 +39,17 @@ export const styles = css`
     }
   }
 
-  .section-content {
+  .page-section-content {
     display: flex;
     flex-direction: column;
+    margin: -${layout.padding};
     gap: ${spacing[6]};
     border: ${layout.borderWidth} solid transparent;
 
-    &.variant-border-solid {
-      border: ${layout.borderWidth} solid #e2e8f0;
-      padding: ${spacing[6]};
-      border-radius: 8px;
+    &.border-solid {
+      border: ${layout.borderWidth} solid ${colors.greyXXLight};
+      padding: ${layout.padding};
+      border-radius: ${layout.borderRadius};
     }
   }
 `;

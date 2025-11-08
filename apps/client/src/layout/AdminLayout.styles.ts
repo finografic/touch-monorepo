@@ -1,11 +1,132 @@
 import { css } from '@emotion/react';
 
 import { colors, layout, max, min, spacing, typography } from 'styles';
-import { cssForms } from 'styles/forms/forms.styles';
-import { stylesAdminContent } from 'styles/project/project.admin.styles';
+import { cssForms, forms } from 'styles/forms/forms.styles';
+import { stylesAdminContent } from 'styles/project/project.styles';
 
 export const styles = css`
   ${stylesAdminContent}
+  /* ADMIN-APP-LAYOUT ======================================================= */
+  header.app-header.admin-app-header {
+    width: 100%;
+    max-width: none;
+    background-color: ${colors.greyDark};
+    color: ${colors.white};
+
+    h1,
+    h1 span {
+      color: ${colors.white};
+    }
+  }
+
+  .admin-navigation {
+    padding: 0 3rem;
+
+    a[data-active] span {
+      color: ${colors.info};
+    }
+  }
+
+  /* ADMIN-SECTIONS ======================================================= */
+
+  .page-section {
+    background-color: ${colors.white};
+    border: 1px solid ${colors.greyXLight};
+    border: 2px solid ${colors.greyXXLight50};
+    border-radius: ${String(layout.borderRadius)};
+
+    margin: 5.5rem 0;
+    /* overflow-x: hidden !important; */
+
+    padding: 1.5rem 2rem 2.5rem 2rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.75rem;
+  }
+
+  /* ======================================================================== */
+  /* ======================================================================== */
+  /* ======================================================================== */
+
+  .field-label {
+    width: 100%;
+    padding: 1rem 0rem 0.5rem 0rem;
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .item-label {
+    .value-key {
+      opacity: 0.66;
+      pointer-events: none;
+      user-select: none;
+      /* box-shadow: inset 0px 0px 0px 2px red; */
+      outline: none;
+      &:focus-visible {
+        pointer-events: none;
+        box-shadow: inset 0px 0px 0px 2px #dcdcdc;
+      }
+    }
+  }
+
+  input[type='text'],
+  input[type='email'],
+  input[type='password'],
+  input[type='number'],
+  input[type='date'],
+  input[type='time'],
+  input[type='datetime-local'],
+  input[type='url'],
+  input[type='search'] {
+    &:read-only {
+      /* border: 1px solid red; */
+      font-weight: 700;
+
+      /* background-color: ${colors.greyXLight}; */
+      /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
+      color: ${colors.primary};
+      padding: 0.5em 0.5em;
+      opacity: 0.66;
+      ::selection {
+        background-color: transparent;
+        /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
+        color: ${colors.text};
+      }
+      :focus {
+        outline: none;
+        /* border: ${layout.borderWidth} solid ${colors.greyXLight}; */
+      }
+      :before,
+      :after {
+        border: none;
+        inset: unset;
+      }
+
+      cursor: not-allowed;
+    }
+  }
+
+  select:focus,
+  textarea:focus,
+  input[type='date']:focus,
+  input[type='datetime-local']:focus,
+  input[type='email']:focus,
+  input[type='month']:focus,
+  input[type='number']:focus,
+  input[type='password']:focus,
+  input[type='search']:focus,
+  input[type='tel']:focus,
+  input[type='text']:focus,
+  input[type='time']:focus,
+  input[type='url']:focus,
+  input[type='week']:focus,
+  button:focus,
+  input[type='reset']:focus,
+  input[type='submit']:focus,
+  input[type='button']:focus,
+  input::file-selector-button:focus {
+    outline: 0;
+    border: ${layout.borderWidth} solid transparent;
+  }
 
   form {
     ${cssForms}
@@ -63,8 +184,6 @@ export const styles = css`
 
         width: 100%;
         height: 100%;
-        /* min-width: 1100px; */
-        /* max-width: 98vw; */
         min-height: 600px;
 
         justify-content: flex-start;

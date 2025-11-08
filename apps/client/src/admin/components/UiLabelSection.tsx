@@ -2,6 +2,7 @@ import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
+import { AdminSection } from 'admin/components/AdminSection';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 import { styles } from './UiLabelSection.styles';
@@ -42,54 +43,48 @@ export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
 
     return (
       <Box className={`ui-label-section ${className}`} css={styles}>
-        <Flex direction="column" gap="4">
-          <Box className="section-header">
-            <SectionHeader title={title} description={description} />
-          </Box>
+        <AdminSection title={title} description={description} variant="border-solid">
+          {/* Data rows - similar to TranslationSection */}
+          <Flex direction="column" gap="4" className="labels-grid-content">
+            {items.map((item) => (
+              <Box key={item.key} className="translation-item">
+                <Grid columns={gridColumns} gap="3" align="center">
+                  {/* Key column (readonly) */}
+                  <Box>
+                    <Text size="1" weight="medium" color="gray" mb="1">
+                      {t('ui.forms.labels.name')}
+                    </Text>
+                    <TextField.Root
+                      value={item.key}
+                      readOnly
+                      variant="soft"
+                      color="gray"
+                      size="3"
+                      className="key-field"
+                    />
+                  </Box>
 
-          <Box className="section-content">
-            {/* Data rows - similar to TranslationSection */}
-            <Flex direction="column" gap="4" className="labels-grid-content">
-              {items.map((item) => (
-                <Box key={item.key} className="translation-item">
-                  <Grid columns={gridColumns} gap="3" align="center">
-                    {/* Key column (readonly) */}
-                    <Box>
-                      <Text size="1" weight="medium" color="gray" mb="1">
-                        {t('ui.forms.labels.name')}
+                  {/* Language value columns */}
+                  {supportedLanguages.map((language) => (
+                    <Box key={language.isoCode}>
+                      <Text size="1" weight="medium" mb="1">
+                        {language.displayName}
                       </Text>
                       <TextField.Root
-                        value={item.key}
-                        readOnly
-                        variant="soft"
-                        color="gray"
+                        value={item.values[language.isoCode] || ''}
+                        onChange={(e) => handleInputChange(item.key, language.isoCode, e.target.value)}
+                        placeholder={t('ui.forms.placeholders.enterText')}
+                        readOnly={readOnly}
                         size="3"
-                        className="key-field"
+                        className="translation-field"
                       />
                     </Box>
-
-                    {/* Language value columns */}
-                    {supportedLanguages.map((language) => (
-                      <Box key={language.isoCode}>
-                        <Text size="1" weight="medium" mb="1">
-                          {language.displayName}
-                        </Text>
-                        <TextField.Root
-                          value={item.values[language.isoCode] || ''}
-                          onChange={(e) => handleInputChange(item.key, language.isoCode, e.target.value)}
-                          placeholder={t('ui.forms.placeholders.enterText')}
-                          readOnly={readOnly}
-                          size="3"
-                          className="translation-field"
-                        />
-                      </Box>
-                    ))}
-                  </Grid>
-                </Box>
-              ))}
-            </Flex>
-          </Box>
-        </Flex>
+                  ))}
+                </Grid>
+              </Box>
+            ))}
+          </Flex>
+        </AdminSection>
       </Box>
     );
   },

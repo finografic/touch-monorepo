@@ -73,6 +73,7 @@ export const PublicModePage: React.FC = () => {
         title="Mode Selection"
         subtitle="User"
         description="Select default mode for the system"
+        isLoading={isLoadingModes}
         styles={styles}
       >
         <Flex direction="column" gap="4" align="center" justify="center" p="6">
@@ -87,7 +88,7 @@ export const PublicModePage: React.FC = () => {
     <AdminContentLayout
       title="Mode Selection"
       description="Select default mode for the system"
-      styles={styles}
+      // styles={styles}
     >
       <AdminSection
         title="Default Mode Configuration"

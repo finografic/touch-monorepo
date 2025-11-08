@@ -10,6 +10,18 @@ export const styles = css`
     /* padding-bottom: ${spacing[3]}; */
     /* border-bottom: 1px solid ${colors.greyLight}; */
 
+    h2 {
+      color: ${colors.textLight};
+      margin-top: 0.5rem;
+    }
+    h3 {
+      color: ${colors.textLight};
+      font-size: 1.66rem;
+      font-weight: 700;
+      /* margin-bottom: ${spacing[2]};
+          padding-bottom: ${spacing[2]}; */
+    }
+
     .section-title {
       color: ${colors.text};
       margin-bottom: ${spacing[2]};
