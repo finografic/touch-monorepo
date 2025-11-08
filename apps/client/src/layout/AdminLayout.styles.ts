@@ -121,7 +121,6 @@ export const styles = css`
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
 
   background-color: ${colors.white};
   color: ${colors.text};
@@ -150,8 +149,6 @@ export const styles = css`
     width: 100%;
     flex: 1;
     position: relative;
-    overflow-y: auto;
-    overflow-x: hidden;
 
     background-color: ${colors.white};
 

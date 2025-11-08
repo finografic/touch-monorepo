@@ -18,9 +18,6 @@ export const styles = css`
     width: 100%;
     max-width: 1240px;
 
-    padding: 0;
-    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
-
     ${min.sm} {
       max-width: 96vw;
     }
@@ -38,18 +35,22 @@ export const styles = css`
     border-radius: ${layout.borderRadius};
 
     /* padding: 1.5rem 2rem 2.5rem 2rem; */
+    padding: 0;
     padding-top: 0.25rem;
     padding-bottom: 0.75rem;
     padding-left: 0;
+
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
   }
 
   .admin-section-content {
-    /* display: flex;
+    display: flex;
     flex-direction: column;
     margin: -${layout.padding};
-    gap: ${spacing[6]};
-    border: ${layout.borderWidth} solid transparent; */
-    border: 1px solid red;
+    /* gap: ${spacing[6]}; */
+    /* border: ${layout.borderWidth} solid transparent; */
+    /* border: 1px solid red; */
+    overflow: visible !important;
 
     &.border-solid {
       border: ${layout.borderWidth} solid ${colors.greyXXLight};

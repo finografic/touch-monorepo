@@ -61,7 +61,7 @@ export const cssGlobal = css`
     background-color: var(--color-background) !important;
 
     height: 100vh;
-    overflow: hidden;
+    /* overflow: hidden; */
   }
 
   /* Ensure html also uses theme background */
