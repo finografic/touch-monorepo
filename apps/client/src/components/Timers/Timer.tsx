@@ -5,7 +5,6 @@ import { useTimers } from 'providers/TimersProvider';
 
 import { playAlarmSound, playCompleteSound } from 'utils/sound.utils';
 import { formatTime } from 'utils/time.utils';
-
 import { parseCompletionTime } from './shared/timer.utils';
 import { timerManager } from './shared/TimerManager';
 import { useTimerEvents } from './shared/useTimerEvents';

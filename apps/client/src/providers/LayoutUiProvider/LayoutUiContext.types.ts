@@ -3,7 +3,6 @@ import type { ReactNode } from 'react';
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 import type { CreateSettersType } from 'utils/zustand';
-
 import type { DataEntry } from 'types/data.types';
 import type { ValidGridSize } from 'types/menu.types';
 import type { FilterKey } from 'types/orders.types';

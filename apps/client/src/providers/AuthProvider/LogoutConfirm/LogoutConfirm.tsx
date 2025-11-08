@@ -4,6 +4,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useToast } from 'components/Toast/ToastContext';
+
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { LogoutConfirmTabContent } from './LogoutConfirmContent';

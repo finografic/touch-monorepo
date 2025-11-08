@@ -5,8 +5,8 @@ import { Card, Flex, IconButton, Switch, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 
 import { useToggleSupportedLanguageActive } from 'queries/supported-languages';
-import { canDeleteLanguage } from 'utils/i18n/language.utils';
 
+import { canDeleteLanguage } from 'utils/i18n/language.utils';
 import { LanguageItem } from './LanguageItem';
 import { LockIcon, TrashIcon } from 'styles/icons';
 

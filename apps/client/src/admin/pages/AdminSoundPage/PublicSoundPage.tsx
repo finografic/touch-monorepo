@@ -8,8 +8,8 @@ import { VolumeSlider as VolumeSliderV2 } from 'admin/pages/AdminSoundPage/Volum
 import { ListBox } from 'primereact/listbox';
 
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
-import { stopAllAudio } from 'utils/soundCache.utils';
 
+import { stopAllAudio } from 'utils/soundCache.utils';
 import { AdminPageLayout, AdminSection } from '../..';
 import { SoundConfigurationSection } from './components';
 import { StopIcon } from 'styles/icons';

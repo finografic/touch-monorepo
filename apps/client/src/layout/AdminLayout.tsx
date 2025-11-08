@@ -10,6 +10,7 @@ import { Header } from 'components/Header/Header';
 import { Loader } from 'components/Loader/Loader';
 import { PageHeader } from 'components/PageHeader/PageHeader';
 import { UserToolbar } from 'components/Toolbars/UserToolbar/UserToolbar';
+
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { ContentProvider } from 'providers/ContentProvider';

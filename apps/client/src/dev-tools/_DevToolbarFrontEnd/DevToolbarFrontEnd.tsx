@@ -2,11 +2,11 @@ import { useNavigate } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
 import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
-import { useAppConfig } from 'providers/AppConfigProvider';
-import { useTimers } from 'providers/TimersProvider';
 
 import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
 import { useResetAppState } from 'hooks/useResetAppState';
+import { useAppConfig } from 'providers/AppConfigProvider';
+import { useTimers } from 'providers/TimersProvider';
 
 import { DevPanelLeft } from 'dev-tools/_Panels/DevPanelLeft';
 import { useDev } from 'dev-tools/providers/DevProvider/DevContext';

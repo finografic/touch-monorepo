@@ -2,6 +2,7 @@ import * as React from 'react';
 
 import * as Checkbox from '@radix-ui/react-checkbox';
 import clsx from 'clsx';
+
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 
 import { PAD_TYPE } from 'types/pads.types';

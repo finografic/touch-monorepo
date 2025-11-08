@@ -4,7 +4,6 @@ import { Box, Flex } from '@radix-ui/themes';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 
 import { useTimePageStore } from 'utils/timePageState';
-
 import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS } from 'config/app';
 
 export const TimePage = () => {

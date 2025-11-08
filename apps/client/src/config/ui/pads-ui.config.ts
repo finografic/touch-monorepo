@@ -1,5 +1,4 @@
 import { getLabelKey } from 'utils/i18n/localization.utils';
-
 import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
 import type { PadConfig, PadUI } from 'types/pads.types';
 import { API_FILTER_FIELDS, ROUTE_FILTER_KEYS } from 'config/app';

@@ -13,7 +13,6 @@ import { DetailFilter } from 'components/DetailFilter';
 import { usePagination } from 'components/Pagination';
 
 import { slugify } from 'utils/string.utils';
-
 import type { DataEntry } from 'types';
 import { METADATA } from 'types';
 import { useInviteFilters } from '../InviteFiltersContext';

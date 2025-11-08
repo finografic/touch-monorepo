@@ -2,6 +2,7 @@ import React from 'react';
 
 import clsx from 'clsx';
 import { Button } from 'components/Button';
+
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { UserCircleIcon, UserLockIcon } from 'styles/icons';

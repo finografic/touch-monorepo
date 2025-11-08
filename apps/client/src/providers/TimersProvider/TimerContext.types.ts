@@ -3,7 +3,6 @@ import type { ReactNode } from 'react';
 import type { TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
 
 import type { CreateSettersType } from 'utils/zustand';
-
 import type { SETTER_PREFIX, TimersKeys } from './TimerContext';
 
 export interface TimersValues {

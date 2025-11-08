@@ -2,10 +2,10 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 import type { SlotStatus } from 'pages/MainPage/MainPage.types';
+
 import type { TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
-
 import type { TimersStore, TimersValues } from './TimerContext.types';
 
 export const DISPLAY_NAME = 'Timers';

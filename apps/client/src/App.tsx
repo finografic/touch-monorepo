@@ -7,11 +7,11 @@ import { Spinner, Theme as RadixTheme } from '@radix-ui/themes';
 import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
 import { Toaster } from 'components/Toast';
 import { ToastProvider } from 'components/Toast/ToastContext';
+
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { AuthProviderWithInitialization } from 'providers/AuthProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { TimersProvider } from 'providers/TimersProvider';
-
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
 import { HydrateLoader } from 'routes/components/HydrateLoader';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';

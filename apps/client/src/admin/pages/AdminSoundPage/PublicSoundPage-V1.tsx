@@ -6,8 +6,8 @@ import { useDebouncedCallback } from 'use-debounce';
 
 import { useGlobalVolume } from 'hooks/useGlobalVolume';
 import { useGetSoundFiles, useGetSoundSettings } from 'queries/sounds';
-import { stopAllAudio } from 'utils/soundCache.utils';
 
+import { stopAllAudio } from 'utils/soundCache.utils';
 import { AdminPageLayout, AdminSection } from '../..';
 import { SoundConfigurationSection } from './components';
 import { StopIcon } from 'styles/icons';

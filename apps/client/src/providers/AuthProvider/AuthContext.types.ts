@@ -2,7 +2,6 @@ import type { ReactNode } from 'react';
 
 // import type { Session } from 'better-auth/types';
 import type { CreateSettersType } from 'utils/zustand';
-
 import type {
   AuthReturnParams,
   AuthSessionData,

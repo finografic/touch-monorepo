@@ -3,11 +3,11 @@ import React, { useCallback } from 'react';
 import { Box, Button, Flex, Heading, Text } from '@radix-ui/themes';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
+
 import { useAuth } from 'providers/AuthProvider';
-
 import { useUpdateSoundSettings } from 'queries/sounds';
-import { playSoundByPath } from 'utils/soundCache.utils';
 
+import { playSoundByPath } from 'utils/soundCache.utils';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
 import { SpeakerLoudIcon } from 'styles/icons';
 import { styles } from './SoundConfigurationSection.styles';

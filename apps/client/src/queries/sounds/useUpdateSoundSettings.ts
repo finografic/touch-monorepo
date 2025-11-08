@@ -2,7 +2,6 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
 
 import { clearSoundCache } from 'utils/soundCache.utils';
-
 import type { SoundSettings } from 'types/sounds.types';
 
 // API function

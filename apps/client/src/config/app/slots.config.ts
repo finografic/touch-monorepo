@@ -1,5 +1,4 @@
 import { getSlotsConfig, type SlotItemConfig } from 'utils/slot-config.utils';
-
 import { type SlotItem, SlotType } from 'types/orders.types';
 
 export type { SlotItemConfig } from 'utils/slot-config.utils';

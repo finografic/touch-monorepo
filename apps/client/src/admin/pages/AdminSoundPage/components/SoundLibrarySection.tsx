@@ -4,8 +4,8 @@ import { Button, Callout, Flex, Text } from '@radix-ui/themes';
 import { useToast } from 'components/Toast';
 
 import { useRemoveSoundFile } from 'queries/sounds';
-import { playSoundByPath } from 'utils/soundCache.utils';
 
+import { playSoundByPath } from 'utils/soundCache.utils';
 import type { SoundFile, SoundSettings, SoundType } from 'types/sounds.types';
 // import { CheckIcon, SpeakerLoudIcon } from '@radix-ui/react-icons';
 import { BadgeCheckIcon, SpeakerLoudIcon } from 'styles/icons';

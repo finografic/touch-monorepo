@@ -7,12 +7,12 @@ import { AdminToggleButton } from 'components/IconButtons/AdminToggleButton/Admi
 import { ThemeToggleButton } from 'components/IconButtons/ThemeToggleButton/ThemeToggleButton';
 import { UserAuthButton } from 'components/IconButtons/UserAuthButton/UserAuthButton';
 import { useToast } from 'components/Toast';
+
 import { useAdmin } from 'providers/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { clearAllAuthCookiesServer } from 'utils/auth.utils';
-
 import { PATHS } from 'config/routes';
 import { LanguageIcon } from 'styles/icons';
 import { styles } from './UserToolbar.styles';

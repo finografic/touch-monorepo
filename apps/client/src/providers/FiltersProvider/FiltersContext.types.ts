@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 
 import type { CreateSettersType } from 'utils/zustand';
-
 import type { OrderFilters } from 'types/filters.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { FiltersKeys, SETTER_PREFIX } from './FiltersContext';

@@ -17,10 +17,9 @@ import { sleep } from '@workspace/core/utils';
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
-
 import { authClient } from 'lib/auth-client';
-import { createSetters, createZustandContext } from 'utils/zustand';
 
+import { createSetters, createZustandContext } from 'utils/zustand';
 import type {
   AuthSessionData,
   AuthSignInParams,

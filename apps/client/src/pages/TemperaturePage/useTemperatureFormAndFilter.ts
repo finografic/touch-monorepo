@@ -1,14 +1,14 @@
 import { useCallback, useMemo, useRef } from 'react';
 
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
+
 import { useFiltersContext } from 'providers/FiltersProvider/FiltersContext';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
-import { findClosestProfile } from 'utils/temperature.utils';
 
+import { findClosestProfile } from 'utils/temperature.utils';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { TemperatureProfile } from 'types/temperature.types';
 import { FINAL_TEMP_DEFAULT, INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE, ROUTE_FILTER_KEYS } from 'config/app';

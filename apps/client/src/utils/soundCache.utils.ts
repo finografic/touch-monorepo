@@ -1,7 +1,6 @@
 import { api } from 'api';
 
 import { applyStoredVolumeToAudio } from 'utils/volume.utils';
-
 import type { SoundFile, SoundSettings } from 'types/sounds.types';
 
 // Audio instance manager with multi-channel support to allow overlapping sounds

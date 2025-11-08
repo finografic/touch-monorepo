@@ -1,7 +1,6 @@
 import type { ReactNode } from 'react';
 
 import type { CreateSettersType } from 'utils/zustand';
-
 import type { HeartbeatKeys, SETTER_PREFIX } from './HeartbeatContext';
 
 export interface HeartbeatValues {

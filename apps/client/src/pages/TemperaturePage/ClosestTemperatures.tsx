@@ -3,7 +3,6 @@ import { useMemo } from 'react';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
 
 import { findClosestProfile } from 'utils/temperature.utils';
-
 import type { TemperatureProfile } from 'types/temperature.types';
 
 export const ClosestTemperatures = ({

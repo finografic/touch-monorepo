@@ -6,6 +6,7 @@ import { useLocation } from 'react-router-dom';
 import { Flex } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { HeaderTitle } from 'components/Header/HeaderTitle';
+
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import type { Theme } from 'types/ui.types';

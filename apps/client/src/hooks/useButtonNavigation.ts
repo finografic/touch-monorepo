@@ -6,7 +6,6 @@ import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
-
 import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
 
 import type { TemperatureFilter } from 'types/temperature.types';

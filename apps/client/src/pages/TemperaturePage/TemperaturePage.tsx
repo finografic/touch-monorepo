@@ -4,10 +4,10 @@ import { Box, Flex } from '@radix-ui/themes';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 import { ClosestTemperatures } from 'pages/TemperaturePage/ClosestTemperatures';
 import type { TemperatureState } from 'pages/TemperaturePage/TemperaturePage.types';
-import { useFilters } from 'providers/FiltersProvider/useFilters';
-import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 import { useSmartFallback } from 'hooks/useSmartFallback';
+import { useFilters } from 'providers/FiltersProvider/useFilters';
+import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
 import type { Temperature } from 'types/orders.types';
 import { TemperatureKey } from 'types/temperature.types';

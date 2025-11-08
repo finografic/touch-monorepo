@@ -4,7 +4,6 @@ import { useTimersOptional } from 'providers/TimersProvider';
 
 import { playAlarmSound } from 'utils/sound.utils';
 import { formatTimeFromMs } from 'utils/time.utils';
-
 import { POLLING_INTERVAL_MS, SNOOZE_INTERVAL_MS } from 'config/app';
 import { getCycleNumber, getElapsedTimeAndEventNumberMs, parseElapsedTime } from './shared/timer.utils';
 import { useTimerEvents } from './shared/useTimerEvents';

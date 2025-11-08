@@ -3,8 +3,8 @@ import ReactDOM from 'react-dom/client';
 import { I18nextProvider } from 'react-i18next';
 
 import { PrimeReactProvider } from 'primereact/api';
-import { PersistQueryClientProvider } from 'providers/QueryClientProvider';
 
+import { PersistQueryClientProvider } from 'providers/QueryClientProvider';
 import { RouteMetadataProvider } from 'routes/providers/RouteMetadataProvider';
 
 import 'providers/HeartbeatProvider/heartbeat.store';

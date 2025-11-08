@@ -17,8 +17,8 @@ import {
   useDeleteSupportedLanguage,
   useGetSupportedLanguages,
 } from 'queries/supported-languages';
-import { getFlagUrl } from 'utils/i18n/flag.utils';
 
+import { getFlagUrl } from 'utils/i18n/flag.utils';
 import { AdminPageLayout, AdminSection } from '../..';
 import { LanguageDeleteDialog } from './components/LanguageDeleteDialog';
 import { LanguagesList, LanguagesListSelected, LaungaugeDataStats } from './components';

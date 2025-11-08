@@ -9,6 +9,7 @@ import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNaviga
 import { Header } from 'components/Header/Header';
 import { PageHeader } from 'components/PageHeader';
 import { UserToolbar } from 'components/Toolbars';
+
 import { AdminProvider } from 'providers/AdminProvider/AdminProvider';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { ContentProvider } from 'providers/ContentProvider';
@@ -16,7 +17,6 @@ import { FiltersProvider } from 'providers/FiltersProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
-
 import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
 
 import type { ValidGridSize } from 'types/menu.types';

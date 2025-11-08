@@ -2,12 +2,12 @@ import { useCallback, useMemo, useTransition } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import createCuid from '@bugsnag/cuid';
+
+import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
-
-import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 
 import { FLOW_TYPES } from 'types/flow.types';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';

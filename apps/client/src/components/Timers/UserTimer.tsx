@@ -3,7 +3,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { useTimers } from 'providers/TimersProvider';
 
 import { formatTime, formatTimeFromMs } from 'utils/time.utils';
-
 import { parseCompletionTime } from './shared/timer.utils';
 import { timerManager } from './shared/TimerManager';
 import { TimerResetIcon } from 'styles/icons/icons';

@@ -1,5 +1,6 @@
 import { subscribeWithSelector } from 'zustand/middleware';
 import { createStore } from 'zustand/vanilla';
+
 import type { HeartbeatValues } from 'providers/HeartbeatProvider/HeartbeatContext.types';
 
 export const heartbeatStore = createStore<HeartbeatValues>()(

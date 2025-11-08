@@ -1,7 +1,6 @@
 import { useMemo } from 'react';
 
 import { useFiltersContext } from 'providers/FiltersProvider';
-
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 import {
   getActualNextPath,

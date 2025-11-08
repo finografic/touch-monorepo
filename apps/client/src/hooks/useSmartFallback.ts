@@ -7,7 +7,6 @@ import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
 import { generateTemperatureProfiles } from 'utils/temperature-profile-generator';
-
 import { FLOW_TYPES } from 'types/flow.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { PATHS } from 'config';

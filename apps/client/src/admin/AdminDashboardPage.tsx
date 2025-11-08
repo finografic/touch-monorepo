@@ -6,12 +6,12 @@ import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
 import { snakeCase } from 'change-case';
 import { setLocale } from 'i18n/runtime';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
+
+import { usePageTransition } from 'hooks/usePageTransition';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
 
-import { usePageTransition } from 'hooks/usePageTransition';
 import { getAdminDashboard } from 'utils/i18n-variants';
-
 import { getCalloutText__V1 } from './utils/i18n.utils';
 import { getCalloutText } from './utils/i18n-inlang.utils';
 import { AdminPageLayout } from '.';

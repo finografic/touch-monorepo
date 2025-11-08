@@ -2,6 +2,8 @@ import { useCallback, useDeferredValue, useMemo, useState, useTransition } from 
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import createCuid from '@bugsnag/cuid';
+
+import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
@@ -9,8 +11,6 @@ import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
-
-import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 
 import { FLOW_TYPES } from 'types/flow.types';
 import { SlotType } from 'types/orders.types';

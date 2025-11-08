@@ -6,7 +6,6 @@ import { AddNewButton } from 'forms/SelectSearchable/AddNewButton';
 import { matchSorter } from 'match-sorter';
 
 import { slugify } from 'utils/string.utils';
-
 import type { SelectOption } from 'types/models/select-option.model';
 import { DropdownPortal } from './DropdownPortal';
 import { colors } from 'styles';

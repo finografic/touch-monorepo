@@ -2,6 +2,7 @@ import type { FC } from 'react';
 
 import clsx from 'clsx';
 import { Button } from 'components/Button/Button';
+
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { MoonIcon, SunIcon } from 'styles/icons';

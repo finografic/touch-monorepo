@@ -1,12 +1,12 @@
 import { useCallback, useTransition } from 'react';
 
 import createCuid from '@bugsnag/cuid';
-import { useLayoutUi } from 'providers/LayoutUiProvider';
-import { useOrders } from 'providers/OrdersProvider';
-import { useTimers } from 'providers/TimersProvider';
 
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
+import { useLayoutUi } from 'providers/LayoutUiProvider';
+import { useOrders } from 'providers/OrdersProvider';
+import { useTimers } from 'providers/TimersProvider';
 
 import { FLOW_TYPES } from 'types/flow.types';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';

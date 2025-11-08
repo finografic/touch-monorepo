@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { Button } from 'components/Button';
 import { Input } from 'components/Input/Input';
+
 import { useAuth } from 'providers/AuthProvider';
 
 import { styles } from './AuthLoginDialog.styles';

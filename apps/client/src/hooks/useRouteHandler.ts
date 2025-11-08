@@ -1,8 +1,8 @@
 import { useLocation } from 'react-router-dom';
 
 import { useButtonOperations } from 'hooks/button-operations';
-import { useTimePageStore } from 'utils/timePageState';
 
+import { useTimePageStore } from 'utils/timePageState';
 import { ALTERNATIVE_PATHS } from 'config';
 
 export const useRouteHandler = () => {

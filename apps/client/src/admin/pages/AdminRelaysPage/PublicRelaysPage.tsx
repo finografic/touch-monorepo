@@ -1,13 +1,13 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
-import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
-import { UserTimer } from 'components/Timers/UserTimer';
-import { useTimers } from 'providers/TimersProvider';
+import { Badge, Box, Button, Flex, Text } from '@radix-ui/themes';
 
+import { useTimers } from 'providers/TimersProvider';
 import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
 
 import { SlotType } from 'types/orders.types';
-import { AdminPageLayout } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
+import { RelayDefrost } from './RelayDefrost/RelayDefrost';
 import { NUM_RELAYS } from './relays.config';
 import { useRelayHandlers } from './useRelayHandlers';
 import { styles } from './AdminRelaysPage.styles';
@@ -148,72 +148,54 @@ export const PublicRelaysPage: React.FC = () => {
       description={`Test and control the ${NUM_RELAYS}-channel relay board`}
       styles={styles}
     >
+      <AdminSection
+        title="Connection Status"
+        description="Choose the default mode that will be used when no specific mode is selected"
+        variant="border-solid"
+      >
+        <Flex justify="between" align="center">
+          <Flex direction="column" gap="2">
+            <Flex align="center" gap="3">
+              <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">
+                {relayStatus?.connected ? 'Connected' : 'Disconnected'}
+              </Badge>
+              <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
+                Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
+              </Badge>
+
+              {relayStatus?.port && (
+                <Text size="2" color="gray">
+                  Port: {relayStatus.port}
+                </Text>
+              )}
+              {relayStatus?.error && (
+                <Text size="2" color="red">
+                  Error: {relayStatus.error}
+                </Text>
+              )}
+            </Flex>
+          </Flex>
+          <Flex align="center" gap="3">
+            <Button
+              onClick={() => handleReconnect(relayStatus)}
+              disabled={reconnectMutation.isPending || disconnectMutation.isPending}
+              variant="outline"
+              size="2"
+            >
+              {reconnectMutation.isPending || disconnectMutation.isPending
+                ? relayStatus?.connected
+                  ? 'Disconnecting...'
+                  : 'Reconnecting...'
+                : relayStatus?.connected
+                  ? 'Disconnect'
+                  : 'Reconnect'}
+            </Button>
+          </Flex>
+        </Flex>
+      </AdminSection>
       <Box className="admin-relay-control">
         <Flex direction="column" gap="6">
-          {/* Connection Status */}
-          <Card size="3" variant="surface">
-            <Flex justify="between" align="center">
-              <Flex direction="column" gap="2">
-                <Heading size="4">Connection Status</Heading>
-                <Flex align="center" gap="3">
-                  <Badge color={relayStatus?.connected ? 'green' : 'red'} variant="soft" size="3">
-                    {relayStatus?.connected ? 'Connected' : 'Disconnected'}
-                  </Badge>
-                  <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
-                    Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
-                  </Badge>
-
-                  {relayStatus?.port && (
-                    <Text size="2" color="gray">
-                      Port: {relayStatus.port}
-                    </Text>
-                  )}
-                  {relayStatus?.error && (
-                    <Text size="2" color="red">
-                      Error: {relayStatus.error}
-                    </Text>
-                  )}
-                </Flex>
-              </Flex>
-              <Flex align="center" gap="3">
-                <Button
-                  onClick={() => handleReconnect(relayStatus)}
-                  disabled={reconnectMutation.isPending || disconnectMutation.isPending}
-                  variant="outline"
-                  size="2"
-                >
-                  {reconnectMutation.isPending || disconnectMutation.isPending
-                    ? relayStatus?.connected
-                      ? 'Disconnecting...'
-                      : 'Reconnecting...'
-                    : relayStatus?.connected
-                      ? 'Disconnect'
-                      : 'Reconnect'}
-                </Button>
-              </Flex>
-            </Flex>
-          </Card>
-          {/* Relay Control */}
-          <Card size="3" variant="surface">
-            <Flex gap="4" justify="between">
-              <Flex direction="column" gap="4">
-                <Heading size="4">Desescarche</Heading>
-                <Flex gap="2">
-                  <UserTimer slotNumber={15} />
-                </Flex>
-                <Flex justify="between" align="center">
-                  <Flex gap="2">
-                    <Button onClick={startMaintenance} variant="solid" color="green" size="4">
-                      Iniciar
-                    </Button>
-                    <Button onClick={stopMaintenance} variant="outline" color="orange" size="4">
-                      Cancelar
-                    </Button>
-                  </Flex>
-                </Flex>
-              </Flex>
-            </Flex>
-          </Card>
+          <RelayDefrost />
         </Flex>
       </Box>
     </AdminPageLayout>

@@ -3,12 +3,12 @@ import type { LanguageSelectorProps, RegionLocale } from '@workspace/config/i18n
 
 import { Flex, RadioCards, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
-import { useAppConfig } from 'providers/AppConfigProvider';
 
+import { useAppConfig } from 'providers/AppConfigProvider';
 import { LanguagesDto } from 'queries/supported-languages';
 import { useGetSupportedLanguages } from 'queries/supported-languages/useSupportedLanguages';
-import { getFlagUrl } from 'utils/i18n/flag.utils';
 
+import { getFlagUrl } from 'utils/i18n/flag.utils';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import { styles } from './LanguageSelector.styles';
 

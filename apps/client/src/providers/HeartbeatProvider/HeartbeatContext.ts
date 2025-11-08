@@ -3,7 +3,6 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
-
 import type { HeartbeatStore, HeartbeatValues } from './HeartbeatContext.types';
 
 let heartbeatInterval: ReturnType<typeof setInterval> | null = null;
