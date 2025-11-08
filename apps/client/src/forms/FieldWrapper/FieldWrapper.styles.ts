@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors, spacing } from 'styles';
+import { forms } from 'styles/forms/forms.constants';
 
 export const styles = css`
   flex: 1;
@@ -11,6 +12,10 @@ export const styles = css`
 
   label.field-label {
     /* NOTE: MOVED TO forms-base.styles.ts */
+    font-size: ${forms.inputs.label.fontSize};
+    font-weight: ${forms.inputs.label.fontWeight};
+    color: ${forms.inputs.label.color};
+    margin-bottom: ${forms.inputs.label.marginBottom};
 
     & + div {
       width: 100%;

@@ -192,6 +192,12 @@ export const AdminRelaysPage: React.FC = () => {
                 isLoading={toggleRelayMutation.isPending}
               />
               {/* ====================================================================== */}
+              <RelayAssign
+                configurations={relayConfigs}
+                onRelayToggle={handleRelayToggle}
+                isLoading={toggleRelayMutation.isPending}
+              />
+              {/* ====================================================================== */}
             </AdminSection>
           </Flex>
           {/* </Card> */}

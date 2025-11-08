@@ -85,14 +85,8 @@ export const FieldWrapper: React.FC<FieldWrapperProps> = ({
     >
       {label && (
         <label className="field-label" htmlFor={fieldId}>
-          <Text size="2" mb="2" weight="medium">
-            {label} {required && '*'}
-          </Text>
-          {hint && (
-            <Text size="2" mb="2" weight="medium">
-              <span className="label-hint">{hint}</span>
-            </Text>
-          )}
+          {label} {required && '*'}
+          {hint && <span className="label-hint">{hint}</span>}
         </label>
       )}
 

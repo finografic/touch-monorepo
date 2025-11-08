@@ -23,9 +23,10 @@ export const forms = {
     },
 
     label: {
-      color: colors.textXDark,
+      color: colors.textDark,
       fontSize: '0.9rem',
-      fontWeight: 600,
+      fontWeight: 700,
+      marginBottom: '0.33rem',
     },
 
     text: {

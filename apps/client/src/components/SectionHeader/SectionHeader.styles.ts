@@ -4,7 +4,8 @@ import { colors, spacing } from 'styles';
 
 export const styles = css`
   &.section-header {
-    margin-bottom: ${spacing[4]};
+    margin-top: ${spacing[6]};
+    margin-bottom: ${spacing[6]};
 
     /* margin-bottom: ${spacing[6]}; */
     /* padding-bottom: ${spacing[3]}; */
@@ -12,25 +13,18 @@ export const styles = css`
 
     .section-title {
       color: ${colors.text};
-      margin-bottom: ${spacing[2]};
+      margin-bottom: ${spacing[1]};
     }
 
     .section-description {
       color: ${colors.greyDark};
+      color: ${colors.greyLight};
       line-height: 1.5;
     }
 
-    /* .section-title {
-      font-size: 1.5rem;
-      font-weight: 600;
-      color: ${colors.text};
-      margin-bottom: ${spacing[2]};
+    .section-title + .section-description {
+      margin-top: 0;
+      padding-top: 0;
     }
-
-    .section-description {
-      font-size: 0.875rem;
-      color: ${colors.greyDark};
-      line-height: 1.5;
-    } */
   }
 `;

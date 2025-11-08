@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Flex, Spinner, Text } from '@radix-ui/themes';
+import { FieldWrapper } from 'forms/FieldWrapper';
 import { SelectCustom } from 'forms/SelectCustom';
 import { useToast } from 'components/Toast';
 
@@ -94,17 +95,16 @@ export const PublicModePage: React.FC = () => {
         <Flex align="start" justify="between">
           <Flex direction="column" gap="4" align="start">
             <Flex direction="column" gap="2" style={{ minWidth: '260px' }}>
-              <Text size="3" weight="medium">
-                Select Default Mode
-              </Text>
-              <SelectCustom
-                className="mode-select"
-                options={modeOptions}
-                placeholder="Choose a default mode..."
-                value={defaultModeId}
-                onSelect={handleModeSelect}
-                allowEmpty={true}
-              />
+              <FieldWrapper label="Select Default Mode">
+                <SelectCustom
+                  className="mode-select"
+                  options={modeOptions}
+                  placeholder="Choose a default mode..."
+                  value={defaultModeId}
+                  onSelect={handleModeSelect}
+                  allowEmpty={true}
+                />
+              </FieldWrapper>
             </Flex>
 
             <Flex direction="column" gap="2">
