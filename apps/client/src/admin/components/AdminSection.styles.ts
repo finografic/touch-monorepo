@@ -1,55 +1,53 @@
 import { css } from '@emotion/react';
 
-import { colors, spacing } from 'styles';
+import { border, colors, layout, min, spacing } from 'styles';
 
 export const styles = css`
-  /* Admin section styling */
-  .admin-section {
-    background-color: ${colors.white};
-    border: 1px solid ${colors.greyLight};
-    border-radius: 12px;
-    padding: ${spacing[6]};
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
+  /* ⭐ admin-section > tab-content > rote=tabpanel ======================= */
 
-  /* Admin section styling */
+  /* NOTE: SCROLL-WINDOW */
+
   .admin-section {
+    padding: 0 !important;
+    border: 0 !important;
+
+    &.is-loading {
+      opacity: 0 !important;
+    }
+
+    width: 100% !important;
+    max-width: 1240px !important;
+
     background-color: ${colors.white};
     border: 1px solid ${colors.greyLight};
     border-radius: 12px;
     padding: ${spacing[8]};
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 
-    .section-content {
-      display: flex;
-      flex-direction: column;
-      gap: ${spacing[6]};
+    ${min.sm} {
+      max-width: 96vw !important;
+    }
+    ${min.md} {
+      max-width: 96vw !important;
+    }
+    ${min.lg} {
+      max-width: 96vw !important;
+    }
+    ${min.xl} {
+      max-width: 1240px !important;
     }
   }
-
-  /* Admin section styling */
-  .admin-section {
-    background-color: ${colors.white};
-    border: 1px solid ${colors.greyLight};
-    border-radius: 12px;
-    padding: ${spacing[6]};
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    .admin-section {
-      padding: ${spacing[6]};
-      border-radius: 8px;
-    }
-  }
-
-  /* ====================================================================== */
 
   .section-content {
-    border: 1px solid transparent;
+    display: flex;
+    flex-direction: column;
+    gap: ${spacing[6]};
+    border: ${layout.borderWidth} solid transparent;
+
     &.variant-border-solid {
-      border: 1px solid #e2e8f0;
+      border: ${layout.borderWidth} solid #e2e8f0;
+      padding: ${spacing[6]};
+      border-radius: 8px;
     }
   }
 `;

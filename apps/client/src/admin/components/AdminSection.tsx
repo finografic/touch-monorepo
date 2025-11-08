@@ -23,8 +23,8 @@ export const AdminSection: React.FC<AdminSectionProps> = memo(
         className={clsx('admin-section', className, { 'is-loading': isLoading })}
         style={{ overflowY: className.includes('tab-content-list') ? 'scroll' : 'hidden' }}
       >
-        {(title || description) && <SectionHeader title={title} description={description} />}
         <div className={clsx('section-content', { 'variant-border-solid': variant === 'border-solid' })}>
+          {(title || description) && <SectionHeader title={title} description={description} />}
           {children}
         </div>
       </div>

@@ -98,7 +98,7 @@ export const TabForm: React.FC = () => {
           <AdminSection
             className={clsx('admin-section', isEditMode ? 'mode-edit' : 'mode-new')}
             title={isEditMode ? 'Editar registro' : 'Nuevo registro'}
-            // isLoading={true}
+            isLoading={true}
           >
             <Flex direction="column" gap="4" align="center" justify="center" p="6">
               <Spinner size="3" />

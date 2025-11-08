@@ -122,6 +122,7 @@ export const AdminOrdersPage: React.FC = () => {
   // - /admin/orders/{orderId} → 'edit' tab
   // - /admin/orders#new → 'new' tab
   // - /admin/orders → 'list' tab (default)
+
   const defaultActiveTab = isEditMode ? 'edit' : isNewMode ? 'new' : 'list';
   const [activeTab, setActiveTab] = React.useState(defaultActiveTab);
 
@@ -150,19 +151,17 @@ export const AdminOrdersPage: React.FC = () => {
             </Tabs.Trigger>
           ))}
         </Tabs.List>
-        <div className={clsx('tab-content')}>
-          {config.tabs.map((tab) => (
-            <Tabs.Content key={tab.id} id={`tab-content-${tab.id}`} value={tab.id}>
-              <AdminSection
-                className={clsx(`tab-content-${tab.id}`, isEditMode ? 'mode-edit' : 'mode-new')}
-                isLoading={isLoading}
-                variant="none"
-              >
-                {tab.content}
-              </AdminSection>
-            </Tabs.Content>
-          ))}
-        </div>
+        {config.tabs.map((tab) => (
+          <Tabs.Content key={tab.id} id={`tab-content-${tab.id}`} value={tab.id}>
+            <AdminSection
+              className={clsx(`tab-content tab-content-${tab.id}`, isEditMode ? 'mode-edit' : 'mode-new')}
+              isLoading={isLoading}
+              variant="none"
+            >
+              {tab.content}
+            </AdminSection>
+          </Tabs.Content>
+        ))}
       </Tabs.Root>
     </AdminContentLayout>
   );
