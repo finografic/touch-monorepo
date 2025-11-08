@@ -21,6 +21,7 @@ export const AdminSection: React.FC<AdminSectionProps> = memo(
       <div
         css={styles}
         className={clsx('admin-section', className, { 'is-loading': isLoading })}
+        // TODO: INVESTIGATE TABS HIDDEN..
         // style={{ overflowY: className.includes('tab-content-list') ? 'scroll' : 'hidden' }}
       >
         <div className={clsx('admin-section-content', { 'border-solid': variant === 'border-solid' })}>
