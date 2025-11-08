@@ -1,12 +1,6 @@
 import React from 'react';
 
 import { Button, Flex } from '@radix-ui/themes';
-import type { UseMutationResult } from '@tanstack/react-query';
-import type { AxiosError } from 'api/axios-source';
-
-import type { BulkRelayResponse } from 'queries/relays/useTurnAllRelaysOn';
-
-import { useRelayHandlers } from '../useRelayHandlers';
 
 // Types for relay configuration
 interface RelayButtonsProps {

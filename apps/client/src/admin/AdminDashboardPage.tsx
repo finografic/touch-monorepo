@@ -73,18 +73,19 @@ export const AdminDashboardPage: React.FC = () => {
                 transition: 'opacity 0.2s ease',
               }}
             >
-              <Flex direction="row" gap="0" align="center" height="100%">
-                <Box
-                  className="card-icon-box"
-                  style={{ color: `var(--${card.color}-9)`, backgroundColor: `var(--${card.color}-3)` }}
-                >
-                  {React.cloneElement(card.icon)}
-                </Box>
-                <Flex direction="column" gap="1" align="start" p="3" style={{ flex: 1 }}>
+              <Flex direction="row" gap="1" justify="start" align="stretch" height="100%" py="2">
+                <Flex>
+                  <Box
+                    className="card-icon-box"
+                    style={{ color: `var(--${card.color}-9)`, backgroundColor: `var(--${card.color}-3)` }}
+                  >
+                    {React.cloneElement(card.icon)}
+                  </Box>
+                </Flex>
+                <Flex direction="column" gap="1" align="stretch" justify="start" pt="2">
                   <SectionHeader
                     className="card-header"
                     title={card.title}
-                    // title={`${card.id} // ${snakeCase(card.id)}`}
                     description={card.description}
                     align="left"
                   />

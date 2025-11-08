@@ -38,25 +38,22 @@ export const RelayDefrost: React.FC = () => {
   }, []);
 
   return (
-    <Card size="3" variant="surface">
-      <Flex gap="4" justify="between">
-        <Flex direction="column" gap="4">
-          <Heading size="4">Desescarche</Heading>
+    <Flex gap="4" justify="between">
+      <Flex direction="column" gap="4">
+        <Flex gap="2">
+          <UserTimer slotNumber={15} />
+        </Flex>
+        <Flex justify="between" align="center">
           <Flex gap="2">
-            <UserTimer slotNumber={15} />
-          </Flex>
-          <Flex justify="between" align="center">
-            <Flex gap="2">
-              <Button onClick={startMaintenance} variant="solid" color="green" size="4">
-                Iniciar
-              </Button>
-              <Button onClick={stopMaintenance} variant="outline" color="orange" size="4">
-                Cancelar
-              </Button>
-            </Flex>
+            <Button onClick={startMaintenance} variant="solid" color="green" size="4">
+              Iniciar
+            </Button>
+            <Button onClick={stopMaintenance} variant="outline" color="orange" size="4">
+              Cancelar
+            </Button>
           </Flex>
         </Flex>
       </Flex>
-    </Card>
+    </Flex>
   );
 };

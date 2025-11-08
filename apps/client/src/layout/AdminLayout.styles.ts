@@ -175,6 +175,7 @@ export const styles = css`
           padding: 0 0.5rem;
           flex-shrink: 0;
           h1 {
+            font-size: 1.8rem;
             margin: 0 0 0.33rem 0;
           }
         }
@@ -187,7 +188,7 @@ export const styles = css`
           /* justify-content: center; */
           /* align-items: flex-start; */
           h2 {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
             color: ${colors.textLight};
           }
         }

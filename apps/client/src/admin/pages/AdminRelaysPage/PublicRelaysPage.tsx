@@ -193,11 +193,13 @@ export const PublicRelaysPage: React.FC = () => {
           </Flex>
         </Flex>
       </AdminSection>
-      <Box className="admin-relay-control">
-        <Flex direction="column" gap="6">
-          <RelayDefrost />
-        </Flex>
-      </Box>
+      <AdminSection title="Desescarche" variant="border-solid">
+        <Box className="admin-relay-control">
+          <Flex direction="column" gap="6">
+            <RelayDefrost />
+          </Flex>
+        </Box>
+      </AdminSection>
     </AdminPageLayout>
   );
 };

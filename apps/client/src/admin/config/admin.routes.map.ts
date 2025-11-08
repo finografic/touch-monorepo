@@ -121,7 +121,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     },
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
-    icon: EditIcon,
+    icon: LanguageIcon,
     color: 'blue',
   },
   {

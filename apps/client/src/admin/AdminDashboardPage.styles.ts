@@ -26,6 +26,7 @@ export const styles = css`
     .admin-card {
       border: 1px solid ${colors.greyXXLight25};
       padding: 0.5rem 0.5rem;
+      padding: 0 0.5rem;
       min-height: 80px;
       transition: all 0.2s ease;
 
@@ -44,19 +45,19 @@ export const styles = css`
       }
 
       .card-header {
-        margin-bottom: 0;
-      }
+        margin: 0;
+        .section-title {
+          font-size: 1.125rem;
+          margin: 0 0 0.3rem 0;
+          line-height: 1;
+        }
 
-      .section-title {
-        font-size: 1.125rem;
-        margin: 0.5rem 0 0.3rem 0;
-        line-height: 1;
-      }
-
-      .section-description {
-        display: table-cell;
-        font-size: 0.9rem;
-        line-height: 20px;
+        .section-description {
+          display: table-cell;
+          font-size: 0.9rem;
+          line-height: 20px;
+          padding: 0;
+        }
       }
 
       &:before {
