@@ -8,6 +8,9 @@ export { colors as colorsDirect } from './colors/colors-direct';
 export { lightTheme, darkTheme, themes } from './themes/generate-emotion-themes';
 export type { EmotionTheme } from './themes/emotion-theme.types';
 
+// 🎨 OKLCH color space themes - better perceptual uniformity
+export { oklchLightTheme, oklchDarkTheme, oklchThemes } from './themes/generate-oklch-themes';
+
 // 🎯 Zero-migration hooks - use these for easiest transition!
 export { useColors, useThemeName } from './hooks/useColors';
 

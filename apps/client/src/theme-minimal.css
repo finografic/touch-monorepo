@@ -15,20 +15,34 @@
  * This eliminates ~500+ CSS variables for better performance!
  */
 
-/* Minimal theme variables for Radix UI compatibility */
-@theme inline {
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
+/* Essential CSS variables for global styles and Radix UI */
+[data-theme='light'] {
+  --color-background: #fefefe;
+  --color-text: #000000;
+  --color-text-dark: #000000;
+  --color-primary: #1e3a8a;
+  --color-primary-xxl-20: rgba(30, 58, 138, 0.2);
+  --color-warning: #92400e;
+  --color-warning-xxl-20: rgba(146, 64, 14, 0.2);
+  --color-grey-light: #696d75;
 }
 
-@layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+[data-theme='dark'] {
+  --color-background: #0f172a;
+  --color-text: #ffffff;
+  --color-text-dark: #adadad;
+  --color-primary: #93c5fd;
+  --color-primary-xxl-20: rgba(147, 197, 253, 0.2);
+  --color-warning: #fcd34d;
+  --color-warning-xxl-20: rgba(252, 211, 77, 0.2);
+  --color-grey-light: #e1e2e6;
+}
+
+/* Minimal theme variables for Radix UI compatibility */
+@theme inline {
+  --radius-sm: calc(var(--radius, 0.5rem) - 4px);
+  --radius-md: calc(var(--radius, 0.5rem) - 2px);
+  --radius-lg: var(--radius, 0.5rem);
+  --radius-xl: calc(var(--radius, 0.5rem) + 4px);
 }
 
