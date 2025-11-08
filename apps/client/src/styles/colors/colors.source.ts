@@ -23,18 +23,6 @@ export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'>
   grey: { value: 'oklch(55.2% 0.016 285.938)' }, // Tailwind zinc-500
 } as const;
 
-export const COLOR_MAPPING__V2: Omit<ColorMapping, 'white' | 'black' | 'background'> = {
-  primary: { value: 'oklch(68.8% 0.243 264.376)' }, // Lightened +20% from blue-700
-  secondary: { value: 'oklch(69.6% 0.265 301.924)' }, // Lightened +20% from purple-700
-  success: { value: 'oklch(82.7% 0.194 149.214)' }, // Lightened +20% from green-600
-  warning: { value: 'oklch(96.9% 0.188 70.08)' }, // Lightened +20% from amber-500
-  danger: { value: 'oklch(77.7% 0.245 27.325)' }, // Lightened +20% from red-600
-  info: { value: 'oklch(78.8% 0.158 241.966)' }, // Lightened +20% from cyan-500
-  default: { value: 'oklch(75.3% 0.013 58.071)' }, // Lightened +20% from stone-500
-  text: { value: 'oklch(46.9% 0 0)' }, // Lightened +20% from neutral-800
-  grey: { value: 'oklch(75.2% 0.016 285.938)' }, // Lightened +20% from zinc-500
-} as const;
-
 export const colors: ColorPalette = {
   ...generateColorPaletteWithCssVars({ colors: COLOR_MAPPING }),
   background: 'var(--color-background)' as any,
