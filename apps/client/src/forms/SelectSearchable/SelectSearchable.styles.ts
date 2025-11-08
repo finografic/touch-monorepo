@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
+import { colorsDirect as colors } from 'styles';
 
 // Main component styles (for the input and container)
 export const styles = css`

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, spacing } from 'styles';
+import { colorsDirect as colors, spacing } from 'styles';
 
 export const styles = css`
   &.section-header {

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { styles as buttonStyles } from 'components/ButtonControl/ButtonControl.styles';
 
-import { colors, layout } from 'styles';
+import { colorsDirect as colors, layout } from 'styles';
 
 export const styles = css`
   ${buttonStyles}

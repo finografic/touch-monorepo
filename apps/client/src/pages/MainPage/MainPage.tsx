@@ -17,8 +17,11 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 // import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { mapGridByColumns } from 'utils/grid.utils';
 import { styles } from './MainPage.styles';
+import { useColors } from 'styles/hooks/useColors';
 
 export function MainPage() {
+  const colors = useColors();
+  log('colors:', 'cyan', colors);
   const { orders } = useOrders();
   const { timers } = useTimers();
   const { contentButtons } = useButtonConfig();

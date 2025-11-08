@@ -14,6 +14,7 @@ import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
 import { Layout } from 'layout/Layout';
+import { ColorTestPage } from 'pages/ColorTestPage';
 import { GenericSelectPage } from 'pages/GenericSelectPage/GenericSelectPage';
 import { LoginPage } from 'pages/LoginPage/LoginPage';
 import { MainPage } from 'pages/MainPage/MainPage';
@@ -35,6 +36,11 @@ export const routes: RouteObject[] = [
         index: true,
         id: 'main',
         element: <MainPage />,
+      },
+      {
+        path: '/color-test',
+        id: 'color-test',
+        element: <ColorTestPage />,
       },
       // ============================================== //
       // Drink Configuration Flow

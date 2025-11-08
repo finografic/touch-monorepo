@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, max, min, spacing, typography } from 'styles';
+import { colorsDirect as colors, layout, max, min, spacing, typography } from 'styles';
 import { cssForms, forms } from 'styles/forms/forms.styles';
 import { stylesAdminContent } from 'styles/project/project.styles';
 

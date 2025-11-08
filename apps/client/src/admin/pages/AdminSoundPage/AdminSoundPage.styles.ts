@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout, spacing } from 'styles';
+import { colorsDirect as colors, layout, spacing } from 'styles';
 
 export const styles = css`
   width: 100%;

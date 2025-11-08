@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { button, colors } from 'styles';
+import { button, colorsDirect as colors } from 'styles';
 
 /**
  * Base button styles - common to all variants

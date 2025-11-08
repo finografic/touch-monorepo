@@ -1,5 +1,5 @@
 import { css } from '@emotion/react';
-// import { colors } from 'styles';
+// import { colorsDirect as colors } from 'styles';
 
 export const styles = css`
   ul {
