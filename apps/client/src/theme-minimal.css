@@ -1,0 +1,34 @@
+@import 'tailwindcss';
+
+@plugin "tailwindcss-animate";
+
+@custom-variant dark (&:is(.dark *));
+
+/**
+ * MINIMAL THEME FILE
+ *
+ * This file contains only:
+ * - Tailwind imports (for preflight reset)
+ * - Essential theme variables for Radix UI compatibility
+ *
+ * All color theming is now handled by Emotion ThemeProvider
+ * This eliminates ~500+ CSS variables for better performance!
+ */
+
+/* Minimal theme variables for Radix UI compatibility */
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+

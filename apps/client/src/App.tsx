@@ -10,6 +10,7 @@ import { ToastProvider } from 'components/Toast/ToastContext';
 
 import { AppConfigProvider } from 'providers/AppConfigProvider';
 import { AuthProviderWithInitialization } from 'providers/AuthProvider';
+import { EmotionThemeProvider } from 'providers/EmotionThemeProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { TimersProvider } from 'providers/TimersProvider';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
@@ -27,25 +28,27 @@ import { cssGlobal } from 'styles/global.styles';
 const AppBaseLayout = () => (
   <ErrorBoundary>
     <Global styles={cssGlobal} />
-    <AppConfigProvider>
-      <RadixTheme {...themeConfig} appearance="light">
-        <ToastProvider>
-          <AuthProviderWithInitialization>
-            <SessionProvider>
-              <ScreenClassProvider>
-                <TimersProvider>
-                  <Toaster />
-                  <Suspense fallback={<Spinner size="3" />}>
-                    <Outlet />
-                  </Suspense>
-                  <SnoozeTimer shouldDebounce={false} />
-                </TimersProvider>
-              </ScreenClassProvider>
-            </SessionProvider>
-          </AuthProviderWithInitialization>
-        </ToastProvider>
-      </RadixTheme>
-    </AppConfigProvider>
+    <EmotionThemeProvider>
+      <AppConfigProvider>
+        <RadixTheme {...themeConfig} appearance="light">
+          <ToastProvider>
+            <AuthProviderWithInitialization>
+              <SessionProvider>
+                <ScreenClassProvider>
+                  <TimersProvider>
+                    <Toaster />
+                    <Suspense fallback={<Spinner size="3" />}>
+                      <Outlet />
+                    </Suspense>
+                    <SnoozeTimer shouldDebounce={false} />
+                  </TimersProvider>
+                </ScreenClassProvider>
+              </SessionProvider>
+            </AuthProviderWithInitialization>
+          </ToastProvider>
+        </RadixTheme>
+      </AppConfigProvider>
+    </EmotionThemeProvider>
   </ErrorBoundary>
 );
 

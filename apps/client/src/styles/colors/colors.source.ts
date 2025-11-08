@@ -1,4 +1,4 @@
-import tailwindColors from 'tailwindcss/colors';
+// import tailwindColors from 'tailwindcss/colors';
 
 import { generateColorPaletteWithCssVars } from './utils/generate-project-palette.utils';
 import type { ColorMapping, HexColor } from './colors.types';
