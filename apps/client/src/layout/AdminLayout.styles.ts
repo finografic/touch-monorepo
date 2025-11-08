@@ -6,6 +6,7 @@ import { stylesAdminContent } from 'styles/project/project.styles';
 
 export const styles = css`
   ${stylesAdminContent}
+
   /* ADMIN-APP-LAYOUT ======================================================= */
   header.app-header.admin-app-header {
     width: 100%;
@@ -29,22 +30,6 @@ export const styles = css`
 
   /* ADMIN-SECTIONS ======================================================= */
 
-  .page-section {
-    background-color: ${colors.white};
-    border: 1px solid ${colors.greyXLight};
-    border: 2px solid ${colors.greyXXLight50};
-    border-radius: ${String(layout.borderRadius)};
-
-    margin: 5.5rem 0;
-    /* overflow-x: hidden !important; */
-
-    padding: 1.5rem 2rem 2.5rem 2rem;
-    padding-top: 0.25rem;
-    padding-bottom: 0.75rem;
-  }
-
-  /* ======================================================================== */
-  /* ======================================================================== */
   /* ======================================================================== */
 
   .field-label {
@@ -194,28 +179,20 @@ export const styles = css`
           height: auto;
           min-height: auto;
           max-height: none;
-          padding: 0 0 1rem 0;
+          padding: 0 2rem;
           flex-shrink: 0;
-          border: 1px solid blue !important;
           h1 {
-            margin: 0;
+            margin: 0 0 0.33rem 0;
           }
         }
 
-        .page-content {
+        .admin-page-content {
           flex: 1;
           width: 100%;
-
           padding: 0rem 2rem 2rem 2rem;
-
           display: flex;
           justify-content: center;
           align-items: flex-start;
-
-          > * {
-            /* width: fit-content;
-            max-width: 100%; */
-          }
         }
 
         nav.page-navigation {

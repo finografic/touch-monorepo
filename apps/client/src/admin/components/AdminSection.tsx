@@ -20,10 +20,10 @@ export const AdminSection: React.FC<AdminSectionProps> = memo(
     return (
       <div
         css={styles}
-        className={clsx('page-section', className, { 'is-loading': isLoading })}
+        className={clsx('admin-section', className, { 'is-loading': isLoading })}
         style={{ overflowY: className.includes('tab-content-list') ? 'scroll' : 'hidden' }}
       >
-        <div className={clsx('page-section-content', { 'border-solid': variant === 'border-solid' })}>
+        <div className={clsx('admin-section-content', { 'border-solid': variant === 'border-solid' })}>
           {(title || description) && <SectionHeader title={title} description={description} />}
           {children}
         </div>

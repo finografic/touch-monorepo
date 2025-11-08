@@ -89,7 +89,7 @@ export const PublicModePage: React.FC = () => {
       <AdminSection
         title="Default Mode Configuration"
         description="Choose the default mode that will be used when no specific mode is selected"
-        variant="border-solid"
+        // variant="border-solid"
       >
         <Flex align="start" justify="between">
           <Flex direction="column" gap="4" align="start">

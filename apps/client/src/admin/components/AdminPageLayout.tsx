@@ -55,7 +55,9 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
           </Callout.Root>
         )}
 
-        <Flex direction="column">{children}</Flex>
+        <Flex direction="column" className="admin-page-content">
+          {children}
+        </Flex>
       </section>
     );
   },
