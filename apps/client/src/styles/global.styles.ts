@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colorsDirect as colors } from 'styles';
+import { colors } from 'styles';
 import { cssFontDefaults, cssFontMono } from './fonts/fonts.styles';
 import { forms } from 'styles/forms/forms.styles';
 

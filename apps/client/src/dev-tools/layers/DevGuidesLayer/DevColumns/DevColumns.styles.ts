@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colorsDirect as colors } from 'styles';
+import { colors } from 'styles';
 
 const colsColor = colors.greyXLight;
 const colsOpacity = 0.5;

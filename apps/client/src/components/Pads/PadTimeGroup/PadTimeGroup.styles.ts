@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { stylesPadBasic } from 'components/Pads/Pad/PadBasic.styles';
 
-import { colorsDirect as colors } from 'styles';
+import { colors } from 'styles';
 
 export const styles = css`
   /* .time-group-container {

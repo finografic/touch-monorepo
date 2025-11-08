@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colorsDirect as colors, fontSizes, fontWeights, spacing, typography } from 'styles';
+import { colors, fontSizes, fontWeights, spacing, typography } from 'styles';
 
 export const styles = css`
   min-height: 100vh;

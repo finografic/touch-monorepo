@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colorsDirect as colors } from 'styles';
+import { colors } from 'styles';
 
 export const styles = css`
   .slot-grid-container {

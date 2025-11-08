@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colorsDirect as colors } from 'styles';
+import { colors } from 'styles';
 import { stylesPlaceholder } from 'styles/forms/forms-placeholders.styles';
 import { forms } from 'styles/forms/forms.constants';
 

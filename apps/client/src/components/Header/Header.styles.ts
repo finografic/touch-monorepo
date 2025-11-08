@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colorsDirect as colors, layout, min } from 'styles';
+import { colors, layout, min } from 'styles';
 
 export const styles = css`
   /* Header content styling - layout handled by Layout.styles.ts */

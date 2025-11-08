@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colorsDirect as colors } from 'styles';
+import { colors } from 'styles';
 import { forms } from 'styles/forms/forms.constants';
 
 export const styles = css`

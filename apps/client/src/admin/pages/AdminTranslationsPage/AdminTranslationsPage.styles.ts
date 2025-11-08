@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colorsDirect as colors, layout, spacing } from 'styles';
+import { colors, layout, spacing } from 'styles';
 
 export const stylesItemsGrid = css`
   .items-grid {

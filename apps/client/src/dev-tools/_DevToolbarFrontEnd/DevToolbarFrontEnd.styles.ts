@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import { baseToolbarStyles } from 'components/Toolbars/toolbar.styles';
 
-import { colorsDirect as colors } from 'styles';
+import { colors } from 'styles';
 
 export const styles = css`
   ${baseToolbarStyles}
