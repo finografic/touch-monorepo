@@ -37,6 +37,18 @@ export const styles = css`
     ${min.xl} {
       max-width: 1240px !important;
     }
+
+    background-color: ${colors.white};
+    border: 1px solid ${colors.greyXLight};
+    border: 2px solid ${colors.greyXXLight50};
+    border-radius: ${String(layout.borderRadius)};
+
+    margin: 5.5rem 0;
+    /* overflow-x: hidden !important; */
+
+    padding: 1.5rem 2rem 2.5rem 2rem;
+    padding-top: 0.25rem;
+    padding-bottom: 0.75rem;
   }
 
   .page-section-content {

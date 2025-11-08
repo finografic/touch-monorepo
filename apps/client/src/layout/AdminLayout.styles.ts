@@ -189,13 +189,14 @@ export const styles = css`
         justify-content: flex-start;
         align-items: stretch;
 
-        header.page-header {
+        header {
           width: 100%;
           height: auto;
           min-height: auto;
           max-height: none;
           padding: 1rem 2rem;
           flex-shrink: 0;
+          border: 1px solid red !important;
         }
 
         .page-content {
@@ -268,61 +269,5 @@ export const styles = css`
     max-width: 400px;
     line-height: 1.6;
     padding-bottom: 2rem;
-  }
-
-  button.button-logout {
-    padding: 0.5rem 1rem;
-    background-color: transparent;
-    border: 1px solid #e5e7eb;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: all 0.2s;
-
-    &:hover {
-      background-color: #f3f4f6;
-    }
-  }
-
-  .logoutButton {
-    padding: 0.5rem 1rem;
-    background-color: transparent;
-    border: 1px solid ${colors.white};
-    border-radius: 4px;
-    color: ${colors.white};
-    cursor: pointer;
-    transition: all 0.2s;
-    font-size: 0.875rem;
-
-    &:hover {
-      background-color: ${colors.white};
-      color: ${colors.background};
-    }
-  }
-
-  ${min.xl} {
-  }
-
-  ${max.xl} {
-    > header .header-content {
-      padding: 0 ${spacing[4]};
-
-      h1 {
-        font-size: 1.25rem;
-      }
-    }
-
-    > footer .footer-content {
-      padding: 0 ${spacing[4]};
-    }
-
-    > main .main-content section {
-      min-width: 100%;
-
-      header.page-header,
-      .page-content,
-      nav.page-navigation {
-        padding: 1rem;
-      }
-    }
   }
 `;

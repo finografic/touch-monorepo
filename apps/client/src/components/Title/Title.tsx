@@ -19,6 +19,7 @@ interface TitleProps extends Partial<TitleHeadingProps> {
   };
   isLoading?: boolean;
   error?: string;
+  className?: string;
 }
 
 export const Title: React.FC<TitleProps> = ({
@@ -29,11 +30,12 @@ export const Title: React.FC<TitleProps> = ({
   message,
   isLoading = false,
   error,
+  className,
   ...headingProps
 }) => {
   return (
     <div css={styles}>
-      <header className={clsx('title-wrapper', { align })}>
+      <header className={clsx('title-wrapper', { align, className })}>
         <Heading size="8" className="title" align={align} {...headingProps}>
           {title}
           {subtitle && (
