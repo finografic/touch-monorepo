@@ -200,15 +200,16 @@ export const AdminSlotsConfigPage: React.FC = () => {
           styles={styles}
         >
           <AdminSection
+            title="Slot Grid Layout Preview"
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
-            // variant="none"
+            variant="border-solid"
           >
             <Flex gap="4" justify="between">
               {/* ====================================================================== */}
 
               <Flex direction="column" gap="4" px="1">
-                <Heading size="4">Slot Grid Layout Preview</Heading>
+                {/* <Heading size="4">Slot Grid Layout Preview</Heading> */}
                 <Text size="2" color="gray">
                   Click on slots to change their type. The last slot is positioned separately.
                 </Text>
@@ -231,9 +232,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
 
               <Flex direction="column" gap="4">
                 <div className="slot-types-container">
-                  <Heading size="4" ml="1">
+                  {/* <Heading size="4" ml="1">
                     Slot Types
-                  </Heading>
+                  </Heading> */}
                   <div className="slot-legend">
                     <Flex direction="column" gap="4" pt="2">
                       <Flex align="center" gap="4">

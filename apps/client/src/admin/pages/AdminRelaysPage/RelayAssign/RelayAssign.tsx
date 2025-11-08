@@ -238,6 +238,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                       value={config.relayNumber?.toString() || undefined}
                       onSelect={(value) => handleSelectChange(config.slotNumber, value)}
                       disabled={isLoading || bulkUpdateMutation.isPending}
+                      allowEmpty={true}
                     />
                   </Col>
                   <Col xs={5} className="col col-status">

@@ -28,22 +28,22 @@ export const styles = css`
 
     *,
     *:focus {
-      box-shadow: none;
-      border: none;
+      box-shadow: none !important;
+      border: none !important;
     }
 
     input {
-      font-size: 1rem;
-      font-weight: 600;
-      opacity: 1;
-      background-color: white;
-      box-shadow: none;
+      font-size: 1rem !important;
+      font-weight: 600 !important;
+      opacity: 1 !important;
+      background-color: white !important;
+      box-shadow: none !important;
       &,
       &:focus {
-        border: none;
-        border-left: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
-        border-top: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
-        border-bottom: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
+        border: none !important;
+        border-left: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
+        border-top: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
+        border-bottom: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
       }
     }
   }
@@ -52,12 +52,12 @@ export const styles = css`
   .rt-TextFieldRoot:where(.rt-r-size-3) :where(.rt-TextFieldSlot),
   .rt-TextFieldSlot:where([data-side='right']),
   .rt-TextFieldSlot:where(.rt-TextFieldSlot:not([data-side='left'])) {
-    gap: var(--space-2);
-    padding-left: var(--space-2);
-    padding-right: var(--space-2);
-    border-top-right-radius: ${forms.inputs.border.radius};
-    border-bottom-right-radius: ${forms.inputs.border.radius};
-    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
+    gap: var(--space-2) !important;
+    padding-left: var(--space-2) !important;
+    padding-right: var(--space-2) !important;
+    border-top-right-radius: ${forms.inputs.border.radius} !important;
+    border-bottom-right-radius: ${forms.inputs.border.radius} !important;
+    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
   }
 `;
 

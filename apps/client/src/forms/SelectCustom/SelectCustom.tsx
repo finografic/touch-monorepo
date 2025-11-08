@@ -179,10 +179,10 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
             {allowEmpty && (
               <div
                 key="empty-option"
-                className={`option ${focusedIndex === -1 ? 'focused' : ''}`}
+                className={`option empty-option ${focusedIndex === -1 ? 'focused' : ''}`}
                 onClick={() => handleSelectOption({ value: '', label: placeholder })}
                 onMouseEnter={() => setFocusedIndex(-1)}
-                style={{ fontStyle: 'italic', opacity: 0.7 }}
+                // style={{ fontStyle: 'italic', opacity: 0.7 }}
               >
                 <div className="option-content">
                   <span className="option-value">{placeholder || '(None)'}</span>
