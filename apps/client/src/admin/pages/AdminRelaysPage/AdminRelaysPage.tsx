@@ -168,7 +168,7 @@ export const AdminRelaysPage: React.FC = () => {
         <Flex direction="column" gap="6">
           <Flex direction="column" gap="4">
             <AdminSection title="Relay Board One" variant="border-solid">
-              <Flex justify="end" align="center" mt="-6">
+              <Flex justify="end" align="center" mt="-6" mb="2">
                 <RelayButtons
                   handleTurnAllOn={handleTurnAllOn}
                   handleTurnAllOff={handleTurnAllOff}
@@ -179,14 +179,11 @@ export const AdminRelaysPage: React.FC = () => {
                   disconnectMutation={disconnectMutation}
                 />
               </Flex>
-
-              {/* ====================================================================== */}
               <RelayAssign
                 configurations={relayConfigs}
                 onRelayToggle={handleRelayToggle}
                 isLoading={toggleRelayMutation.isPending}
               />
-              {/* ====================================================================== */}
             </AdminSection>
           </Flex>
         </Flex>

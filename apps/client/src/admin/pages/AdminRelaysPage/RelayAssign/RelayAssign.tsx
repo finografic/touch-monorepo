@@ -200,26 +200,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
         <div className="slot-list">
           {/* ====================================================================== */}
 
-          <Flex className="slot-grid-item header">
-            <Row>
-              <Col xs={2} className="col col-button">
-                <Flex direction="column" align="start" gap="1" pl="4">
-                  #
-                </Flex>
-              </Col>
-              <Col xs={5} className="col col-select">
-                Select Assignment
-              </Col>
-              <Col xs={5} className="col col-status">
-                <Flex align="center" gap="3">
-                  Relay Test Status
-                </Flex>
-              </Col>
-            </Row>
-          </Flex>
-
-          {/* ====================================================================== */}
-
           {/* TODO: ORDER BY *SLOT NUMBER* */}
           {relayConfigurations.map((config) => {
             const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;

@@ -51,7 +51,7 @@ export const styles = css`
 
     > .section-header {
       margin-top: 0.5rem;
-      margin-bottom: 0.25rem;
+      margin-bottom: 0.5rem;
     }
 
     &.border-solid {
