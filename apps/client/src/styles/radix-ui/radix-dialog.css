@@ -159,11 +159,11 @@
 /* Tailwind Preset for Radix Themes */
 /* NOTE: https://github.com/viktorbonino/radix-themes-tw */
 
-@import 'radix-themes-tw';
+/* @import 'radix-themes-tw'; */
 
 /* Radix UI Colors - Light Mode */
 
-@import '@radix-ui/colors/gray.css';
+/* @import '@radix-ui/colors/gray.css';
 @import '@radix-ui/colors/slate.css';
 @import '@radix-ui/colors/sand.css';
 @import '@radix-ui/colors/red.css';
@@ -179,7 +179,7 @@
 @import '@radix-ui/colors/amber.css';
 @import '@radix-ui/colors/yellow.css';
 @import '@radix-ui/colors/gold.css';
-@import '@radix-ui/colors/orange.css';
+@import '@radix-ui/colors/orange.css'; */
 
 /* Radix UI Colors - Dark Mode */
 
