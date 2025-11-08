@@ -69,8 +69,6 @@ export const AdminSoundPage: React.FC = () => {
     );
   }
 
-  log('__DEV: soundFiles', 'orange', soundFiles);
-
   return (
     <AdminPageLayout
       title="Sound Management"

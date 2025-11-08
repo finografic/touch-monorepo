@@ -17,12 +17,14 @@ export const styles = css`
     margin-bottom: ${spacing[6]};
   }
 
-  /* DIALOG TABS ========================================================== */
+  /* TABS ========================================================== */
 
   [role='tablist'] {
     /* tab-horizontal-rule */
     box-shadow: inset 0 -2px 0 0 transparent;
     box-shadow: inset 0 -0.2rem 0 0 ${colors.defaultXXLight25};
+
+    margin: 0 -1.5rem;
 
     button[role='tab'] {
       height: 4rem;
