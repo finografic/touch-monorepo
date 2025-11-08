@@ -46,13 +46,21 @@ export const styles = css`
     display: flex;
     flex-direction: column;
     margin: 1rem -${baseLayout.padding[6]};
+
     gap: 1;
+
+    > .section-header {
+      margin-top: 0.5rem;
+      margin-bottom: 0.25rem;
+    }
 
     &.border-solid {
       border: ${layout.borderWidth} solid ${colors.greyXXLight50};
       padding: ${baseLayout.padding[6]};
       border-radius: ${layout.borderRadius};
     }
+
+    padding-bottom: 2.25rem !important;
 
     h2 {
       margin: 0;
