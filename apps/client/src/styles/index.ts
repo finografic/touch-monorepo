@@ -1,16 +1,17 @@
-// 🎨 Color exports - DIRECT VALUES (recommended - default export)
-export { colors } from './colors/colors-direct'; // ✅ Direct hex values (no CSS variables)
+// 🎨 Color exports - OKLCH COLOR SPACE (recommended - default export)
+export { colors } from './colors/colors-direct'; // ✅ OKLCH values (perceptually uniform!)
 export type { ColorBaseName, ColorName, HexColor } from './colors/colors.types';
 export type { ColorPalette } from './colors/palette.types';
 
-// 🔧 Legacy exports - CSS variable references (backwards compatibility only)
-export { colors as colorsCSS } from './colors/colors.styles'; // ⚠️ Deprecated: Use 'colors' instead
-export { colors as colorsDirect } from './colors/colors-direct'; // Alias for compatibility
-export { lightTheme, darkTheme, themes } from './themes/generate-emotion-themes';
+// 🎨 OKLCH themes - now the default! (better perceptual uniformity)
+export { lightTheme, darkTheme, themes } from './colors/colors-direct'; // Re-exported OKLCH themes
 export type { EmotionTheme } from './themes/emotion-theme.types';
 
-// 🎨 OKLCH color space themes - better perceptual uniformity
-export { oklchLightTheme, oklchDarkTheme, oklchThemes } from './themes/generate-oklch-themes';
+// 🔧 Legacy exports - for backwards compatibility only
+export { colors as colorsCSS } from './colors/colors.styles'; // ⚠️ CSS variables
+export { colors as colorsDirect } from './colors/colors-direct'; // Alias
+export { lightTheme as hexLightTheme, darkTheme as hexDarkTheme, themes as hexThemes } from './themes/generate-emotion-themes'; // Hex-based
+export { oklchLightTheme, oklchDarkTheme, oklchThemes } from './themes/generate-oklch-themes'; // Explicit OKLCH
 
 // 🎯 Zero-migration hooks - use these for easiest transition!
 export { useColors, useThemeName } from './hooks/useColors';

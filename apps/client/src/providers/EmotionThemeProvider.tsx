@@ -1,11 +1,13 @@
 /**
  * Emotion Theme Provider
  * Manages theme switching and provides theme context to Emotion-styled components
+ *
+ * 🎨 Now using OKLCH color space for better perceptual uniformity!
  */
 
 import { ThemeProvider } from '@emotion/react';
 import { useEffect, useState, type ReactNode } from 'react';
-import { lightTheme, darkTheme } from 'styles/themes/generate-emotion-themes';
+import { oklchLightTheme as lightTheme, oklchDarkTheme as darkTheme } from 'styles/themes/generate-oklch-themes';
 
 interface EmotionThemeProviderProps {
   children: ReactNode;

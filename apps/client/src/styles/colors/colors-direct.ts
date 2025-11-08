@@ -1,6 +1,12 @@
 /**
- * Direct color export - uses actual hex values instead of CSS variables
+ * Direct color export - uses OKLCH color space for better perceptual uniformity
  * This version eliminates CSS variable overhead for better performance
+ *
+ * 🎨 OKLCH Benefits:
+ * - Perceptually uniform colors (equal distance = equal perceived difference)
+ * - Smoother gradients and transitions
+ * - Better color mixing and transparency
+ * - Wider color gamut support (P3 displays)
  *
  * For use in Emotion-styled components with theme support:
  *
@@ -19,19 +25,19 @@
  * import { colors } from 'styles/colors/colors-direct';
  *
  * const styles = css`
- *   color: ${colors.primary};
+ *   color: ${colors.primary}; // OKLCH color!
  * `;
  * ```
  */
 
-import { lightTheme } from '../themes/generate-emotion-themes';
+import { oklchLightTheme } from '../themes/generate-oklch-themes';
 
 /**
- * Direct colors export - uses light theme by default
+ * Direct colors export - uses OKLCH light theme by default
  * For theme-aware styling, use theme.colors instead
  */
-export const colors = lightTheme.colors;
+export const colors = oklchLightTheme.colors;
 
-// Re-export theme objects for direct access
-export { lightTheme, darkTheme, themes } from '../themes/generate-emotion-themes';
+// Re-export OKLCH theme objects for direct access
+export { oklchLightTheme as lightTheme, oklchDarkTheme as darkTheme, oklchThemes as themes } from '../themes/generate-oklch-themes';
 
