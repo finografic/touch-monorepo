@@ -8,7 +8,11 @@ export const styles = css`
   /* NOTE: SCROLL-WINDOW */
 
   .admin-section {
+    margin: 3rem;
     padding: 0;
+    padding-top: 0.25rem;
+    padding-bottom: 0.75rem;
+
     border: 0;
 
     &.is-loading {
@@ -34,23 +38,14 @@ export const styles = css`
     background-color: ${colors.white};
     border-radius: ${layout.borderRadius};
 
-    /* padding: 1.5rem 2rem 2.5rem 2rem; */
-    padding: 0;
-    padding-top: 0.25rem;
-    padding-bottom: 0.75rem;
-    padding-left: 0;
-
     /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
   }
 
   .admin-section-content {
     display: flex;
     flex-direction: column;
-    margin: -${layout.padding};
-    /* gap: ${spacing[6]}; */
-    /* border: ${layout.borderWidth} solid transparent; */
-    /* border: 1px solid red; */
-    overflow: visible !important;
+    margin: 1rem -${layout.padding};
+    gap: 1;
 
     &.border-solid {
       border: ${layout.borderWidth} solid ${colors.greyXXLight};

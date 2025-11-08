@@ -9,6 +9,10 @@ export const styles = css`
     width: 100%;
     max-width: 1240px;
 
+    .admin-page-content {
+      margin: 0rem 0rem;
+    }
+
     ${min.sm} {
       max-width: 96vw;
     }
