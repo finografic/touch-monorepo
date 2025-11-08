@@ -1,1 +1,1 @@
-export const NUM_RELAYS = 8;
+export const NUM_RELAYS = 16;

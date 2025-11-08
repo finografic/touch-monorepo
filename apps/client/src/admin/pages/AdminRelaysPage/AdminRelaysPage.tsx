@@ -161,20 +161,14 @@ export const AdminRelaysPage: React.FC = () => {
       description={`Test and control the ${NUM_RELAYS}-channel relay board`}
       styles={styles}
     >
+      <AdminSection title="Connection Status" variant="border-solid">
+        <RelaysStatus />
+      </AdminSection>
       <Box className="admin-relay-control">
         <Flex direction="column" gap="6">
-          {/* ====================================================================== */}
-          <RelaysStatus />
-          {/* ====================================================================== */}
-          {/* <Card size="3" variant="surface"> */}
           <Flex direction="column" gap="4">
-            <AdminSection
-              title="Relay Board One"
-              variant="border-solid"
-              // description="Add new alarm sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
-            >
-              <Flex justify="start" align="center" gap="3">
-                <Heading size="4">Relay Control Grid</Heading>
+            <AdminSection title="Relay Board One" variant="border-solid">
+              <Flex justify="end" align="center" mt="-6">
                 <RelayButtons
                   handleTurnAllOn={handleTurnAllOn}
                   handleTurnAllOff={handleTurnAllOff}
@@ -185,12 +179,7 @@ export const AdminRelaysPage: React.FC = () => {
                   disconnectMutation={disconnectMutation}
                 />
               </Flex>
-              {/* ====================================================================== */}
-              <RelayAssign
-                configurations={relayConfigs}
-                onRelayToggle={handleRelayToggle}
-                isLoading={toggleRelayMutation.isPending}
-              />
+
               {/* ====================================================================== */}
               <RelayAssign
                 configurations={relayConfigs}
@@ -200,7 +189,6 @@ export const AdminRelaysPage: React.FC = () => {
               {/* ====================================================================== */}
             </AdminSection>
           </Flex>
-          {/* </Card> */}
         </Flex>
       </Box>
     </AdminPageLayout>
