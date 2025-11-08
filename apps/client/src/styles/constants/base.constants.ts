@@ -4,7 +4,7 @@
  * These are pure values that can be shared across different apps
  */
 
-import { colors } from 'styles/colors/colors.styles';
+import { colors } from '../colors/colors-direct';
 
 export const baseLayout = {
   fontSize: {

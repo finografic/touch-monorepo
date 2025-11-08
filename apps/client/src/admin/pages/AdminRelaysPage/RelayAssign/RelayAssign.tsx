@@ -9,7 +9,7 @@ import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 import type { SelectOption } from 'types/models/select-option.model';
 import { SlotType } from 'types/orders.types';
 import { NUM_RELAYS } from '../relays.config';
-import { colors } from 'styles';
+import { useColors } from 'styles';
 import { styles } from './RelayAssign.styles';
 
 interface RelayConfig {
@@ -163,6 +163,8 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     },
     [relayConfigurations, updateAllConfigurations],
   );
+
+  const colors = useColors();
 
   const getSlotColor = (slotType: SlotType, isOn = false) => {
     // If relay is ON, use success color regardless of slot type

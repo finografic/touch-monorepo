@@ -25,9 +25,12 @@ import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';
+import { useTheme } from '@emotion/react';
+import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
+  const emotionTheme = useTheme() as EmotionTheme;
   const { data: slotConfigs } = useGetSlotConfigurations();
   const numItems = (slotConfigs ? slotConfigs.length : NUM_GRID_ITEMS) as ValidGridSize;
 
@@ -46,7 +49,7 @@ export const Layout: FC = () => {
             <AdminProvider>
               <ContentProvider>
                 <DevProvider>
-                  <div id="layout" css={styles}>
+                  <div id="layout" css={styles(emotionTheme)}>
                     <Header titleAlign="center" toolbarAlign="right" toolbar={<UserToolbar />} />
                     <main>
                       <div className="main-content">

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors } from '../colors/colors.styles';
+import { colors } from '../colors/colors-direct';
 
 // ======================================================================== //
 // FORM CONFIGURATION - Single source of truth for form styling

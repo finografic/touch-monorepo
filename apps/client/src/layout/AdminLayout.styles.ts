@@ -131,7 +131,7 @@ export const styles = css`
 
     display: flex;
     align-items: center;
-    background-color: ${colors.background};
+    background-color: var(--color-background);
     border-bottom: 1px solid ${colors.greyDark};
     z-index: 100;
 
@@ -209,7 +209,7 @@ export const styles = css`
     max-height: ${layout.footer.height};
     display: flex;
     align-items: center;
-    background-color: ${colors.background};
+    background-color: var(--color-background);
     z-index: 2000;
 
     .footer-content {

@@ -1,10 +1,11 @@
-// 🎨 Color exports
-export { colors } from './colors/colors.styles'; // Legacy: CSS variable references
+// 🎨 Color exports - DIRECT VALUES (recommended - default export)
+export { colors } from './colors/colors-direct'; // ✅ Direct hex values (no CSS variables)
 export type { ColorBaseName, ColorName, HexColor } from './colors/colors.types';
 export type { ColorPalette } from './colors/palette.types';
 
-// 🚀 Performance exports - direct values (recommended)
-export { colors as colorsDirect } from './colors/colors-direct';
+// 🔧 Legacy exports - CSS variable references (backwards compatibility only)
+export { colors as colorsCSS } from './colors/colors.styles'; // ⚠️ Deprecated: Use 'colors' instead
+export { colors as colorsDirect } from './colors/colors-direct'; // Alias for compatibility
 export { lightTheme, darkTheme, themes } from './themes/generate-emotion-themes';
 export type { EmotionTheme } from './themes/emotion-theme.types';
 

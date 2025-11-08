@@ -1,9 +1,10 @@
 import { css } from '@emotion/react';
 
+import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
 import { colorsDirect as colors, layout, spacing, typography } from 'styles';
 import { stylesAppContent } from 'styles/project/project.app.styles';
 
-export const styles = css`
+export const styles = (theme: EmotionTheme) => css`
   ${stylesAppContent}
 
   /* transform: translate(-2%, -10%) scale(0.8); */
@@ -12,7 +13,8 @@ export const styles = css`
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  background-color: ${colors.background};
+  background-color: ${theme.colors.background};
+  color: ${theme.colors.text};
   overflow: hidden;
   overflow-x: visible;
   overflow-y: visible;

@@ -6,7 +6,7 @@ import { IconButton, TextField } from '@radix-ui/themes';
 import { formatTime, parseTime } from 'utils/time.utils';
 import { STEP_BUTTON_SIZE, STEP_BUTTON_VARIANT } from '../FormMiddleware/FormMiddleware.constants';
 import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
-import { colors } from 'styles';
+import { useColors } from 'styles';
 import { styles } from './InputTime.styles';
 
 interface InputTimeProps {
@@ -33,6 +33,8 @@ export const InputTime: React.FC<InputTimeProps> = ({
   disabled = false,
   onTimeChange,
 }) => {
+  const colors = useColors();
+
   // Try to get FormMiddleware context (will be null if not in a FormMiddleware form)
   let middleware = null;
   try {

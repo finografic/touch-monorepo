@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import type { ButtonColor, ButtonVariant } from '../Button.types';
 import { BUTTON_BASE_COLORS } from './button.utils.config';
 import type { ButtonColorVariants } from './button.utils.types';
-import { button, colors } from 'styles';
+import { button, colorsDirect as colors } from 'styles';
 import { SHADE_VARIANTS, type ShadeVariant } from 'styles/colors/colors.types';
 
 /**

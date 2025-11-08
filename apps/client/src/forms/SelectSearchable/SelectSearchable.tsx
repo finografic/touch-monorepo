@@ -8,7 +8,7 @@ import { matchSorter } from 'match-sorter';
 import { slugify } from 'utils/string.utils';
 import type { SelectOption } from 'types/models/select-option.model';
 import { DropdownPortal } from './DropdownPortal';
-import { colors } from 'styles';
+import { useColors } from 'styles';
 import { AddIcon, PlusIcon } from 'styles/icons';
 import { styles, stylesDropdown } from './SelectSearchable.styles';
 
@@ -35,6 +35,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   allowAddNew = true,
   value = '',
 }) => {
+  const colors = useColors();
   const [displayValue, setDisplayValue] = useState(value);
   const [searchValue, setSearchValue] = useState('');
   const [isOpen, setIsOpen] = useState(false);
