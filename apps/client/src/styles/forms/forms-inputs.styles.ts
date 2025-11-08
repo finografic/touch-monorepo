@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { forms } from 'styles/forms/forms.constants';
-import { colors } from '../colors/colors.styles';
+import { colors } from 'styles';
 
 // ======================================================================== //
 // INPUT STYLES + RADIX OVERRIDES

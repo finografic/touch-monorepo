@@ -1,16 +1,20 @@
-import tailwindColors from 'tailwindcss/colors';
-
-import { generateColorPaletteWithCssVars } from './utils/generate-project-palette.utils';
-import type { ColorMapping, HexColor } from './colors.types';
-import type { ColorPalette } from './palette.types';
+import type { ColorMapping } from './colors.types';
 
 /**
- * 🎨 Color mapping configuration using OKLCH color space
- * OKLCH provides perceptually uniform colors with wider gamut support
+ * 🎨 Color Mapping - OKLCH Color Space Source
+ *
+ * This is the SINGLE SOURCE OF TRUTH for all color values in the app.
+ *
+ * OKLCH provides:
+ * - Perceptually uniform colors (equal distance = equal perceived difference)
+ * - Wider gamut support (P3 displays)
+ * - Better color mixing and gradients
+ *
  * @see https://oklch.com - OKLCH color space reference
- * @see https://tailwindcss.com/docs/colors - Source: Tailwind color palette
+ * @see https://www.w3.org/TR/css-color-4/#ok-lab - W3C specification
+ *
+ * Based on Tailwind color palette values, converted to OKLCH
  */
-
 export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'> = {
   primary: { value: 'oklch(48.8% 0.243 264.376)' }, // Tailwind blue-700
   secondary: { value: 'oklch(49.6% 0.265 301.924)' }, // Tailwind purple-700
@@ -22,8 +26,3 @@ export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'>
   text: { value: 'oklch(26.9% 0 0)' }, // Tailwind neutral-800
   grey: { value: 'oklch(55.2% 0.016 285.938)' }, // Tailwind zinc-500
 } as const;
-
-export const colors: ColorPalette = {
-  ...generateColorPaletteWithCssVars({ colors: COLOR_MAPPING }),
-  background: 'var(--color-background)' as any,
-};

@@ -5,7 +5,7 @@
 
 import { describe, expect } from 'vitest';
 
-import { colors } from '../colors/colors.styles';
+import { colors } from 'styles';
 
 describe('enhanced Color System', () => {
   describe('base Colors', () => {

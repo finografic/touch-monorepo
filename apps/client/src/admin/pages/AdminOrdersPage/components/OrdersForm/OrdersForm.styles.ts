@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { min } from 'styles';
-import { colors } from 'styles/colors/colors.styles';
+import { colors } from 'styles';
 
 export const styles = css`
   &.form-container {
