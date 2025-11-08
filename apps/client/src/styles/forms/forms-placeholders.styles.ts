@@ -8,6 +8,8 @@ export const stylesPlaceholder = css`
   color: ${colors.default75};
   -webkit-text-fill-color: ${colors.default75};
   opacity: 0.4;
+  text-indent: 0;
+  font-style: italic;
 `;
 
 export const cssPlaceholder = css`

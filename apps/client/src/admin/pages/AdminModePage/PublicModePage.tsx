@@ -105,28 +105,6 @@ export const PublicModePage: React.FC = () => {
                   allowEmpty={true}
                 />
               </FieldWrapper>
-              {/* <FieldWrapper label="Select Default Mode"> */}
-              <h2>Input</h2>
-              <input
-                className="mode-select"
-                // options={modeOptions}
-                placeholder="Choose a default mode..."
-                value={defaultModeId}
-                // onSelect={handleModeSelect}
-                // allowEmpty={true}
-              />
-              {/* </FieldWrapper> */}
-              <h2>Input (FieldWrapper)</h2>
-              <FieldWrapper label="Select Default Mode">
-                <input
-                  className="mode-select"
-                  // options={modeOptions}
-                  placeholder="Choose a default mode..."
-                  value={defaultModeId}
-                  // onSelect={handleModeSelect}
-                  // allowEmpty={true}
-                />
-              </FieldWrapper>
             </Flex>
 
             <Flex direction="column" gap="2">
@@ -142,7 +120,7 @@ export const PublicModePage: React.FC = () => {
               )}
             </Flex>
           </Flex>
-          <Flex gap="8" align="start" style={{ fontSize: '0.8rem', width: '100%', maxWidth: '400px' }}>
+          <Flex gap="8" align="start" style={{ fontSize: '0.9rem', width: '100%', maxWidth: '400px' }}>
             {/* <pre>{JSON.stringify({ defaultModeId }, null, 2)}</pre> */}
             <pre>{JSON.stringify({ modeOptions }, null, 2)}</pre>
             {/* <pre>{JSON.stringify({ modes }, null, 2)}</pre> */}
