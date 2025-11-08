@@ -91,36 +91,12 @@ export const formsInputs = css`
         font-weight: ${forms.inputs.text.fontWeight};
         color: ${forms.inputs.text.color};
 
-        &::placeholder {
-          color: ${forms.inputs.placeholder.color}!important;
-          opacity: ${forms.inputs.placeholder.opacity};
-          font-weight: ${forms.inputs.placeholder.fontWeight};
-          &:focus {
-          }
-        }
-
         &:disabled {
           background-color: ${forms.inputs.disabled.background};
           color: ${forms.inputs.disabled.text.color}!important;
           font-weight: ${forms.inputs.disabled.text.fontWeight};
           opacity: ${forms.inputs.disabled.opacity};
         }
-        /* ::-webkit-input-placeholder {
-          color: transparent;
-          -webkit-text-fill-color: transparent;
-        }
-        &::-moz-placeholder {
-          color: transparent;
-          -webkit-text-fill-color: transparent;
-        }
-        :-ms-input-placeholder {
-          color: transparent;
-          -webkit-text-fill-color: transparent;
-        }
-        ::placeholder {
-          color: transparent;
-          -webkit-text-fill-color: transparent;
-        } */
       }
 
       .input-controls,

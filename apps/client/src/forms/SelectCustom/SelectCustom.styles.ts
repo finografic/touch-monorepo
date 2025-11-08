@@ -2,8 +2,6 @@ import { css } from '@emotion/react';
 
 import { colors } from 'styles';
 import { forms } from 'styles/forms/forms.constants';
-import { cssForms } from 'styles/forms/forms.styles';
-// import { cssPlaceholder } from 'styles/forms/forms-inputs.styles';
 
 export const styles = css`
   &.searchable-select {
@@ -121,8 +119,4 @@ export const stylesDropdown = css`
     object-fit: cover;
     flex-shrink: 0;
   }
-
-  /* ${cssForms} */
-
-  /***** PLACEHOLDERS *****/
 `;

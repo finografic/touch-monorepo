@@ -5,11 +5,9 @@ import { colors } from 'styles/colors/colors.styles';
 
 export const stylesPlaceholder = css`
   font-weight: ${forms.inputs.placeholder.fontWeight};
-  color: ${colors.grey};
-  -webkit-text-fill-color: ${colors.grey};
-  color: ${colors.success};
-  -webkit-text-fill-color: ${colors.success};
-  opacity: 0.5;
+  color: ${colors.default75};
+  -webkit-text-fill-color: ${colors.default75};
+  opacity: 0.4;
 `;
 
 export const cssPlaceholder = css`
@@ -35,19 +33,16 @@ export const cssPlaceholder = css`
   div[role='textbox']:read-only {
     ::-webkit-input-placeholder {
       ${stylesPlaceholder}
-      opacity: 1!important;
     }
     ::-moz-placeholder {
       ${stylesPlaceholder}
-      opacity: 1!important;
     }
     :-ms-input-placeholder {
       ${stylesPlaceholder}
-      opacity: 1!important;
     }
     ::placeholder {
       ${stylesPlaceholder}
-      opacity: 1!important;
+      opacity: 0.40!important;
     }
   }
 `;

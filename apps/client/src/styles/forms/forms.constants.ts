@@ -36,11 +36,11 @@ export const forms = {
     },
 
     placeholder: {
-      color: colors.greyXLight,
-      opacity: 0.66,
+      color: colors.default75,
+      opacity: 0.4,
       fontWeight: 500,
       disabled: {
-        color: colors.greyXLight,
+        color: colors.default75,
         fontWeight: 500,
       },
     },

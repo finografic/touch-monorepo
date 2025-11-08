@@ -430,9 +430,9 @@ export const cssInputBox = css`
 
 export const cssPlaceholder = css`
   font-weight: ${forms.inputs.fontWeight};
-  color: ${colors.grey};
-  -webkit-text-fill-color: ${colors.grey};
-  opacity: 0.5;
+  color: ${colors.default75};
+  -webkit-text-fill-color: ${colors.default75};
+  opacity: 0.4;
 `;
 
 export const cssInputSpecialUI = css`
@@ -617,61 +617,6 @@ export const cssForms = css`
   input:autofill {
   }
 
-  /***** PLACEHOLDERS *****/
-
-  input,
-  textarea,
-  div[role='textbox'] {
-    ::-webkit-input-placeholder {
-      ${cssPlaceholder}
-    }
-    ::-moz-placeholder {
-      ${cssPlaceholder}
-    }
-    :-ms-input-placeholder {
-      ${cssPlaceholder}
-    }
-    ::placeholder {
-      ${cssPlaceholder}
-    }
-  }
-
-  .placeholder,
-  input[type='date']:empty {
-    ${cssPlaceholder}
-  }
-
-  .select__placeholder {
-    ${cssPlaceholder}
-  }
-
-  /***** FOCUSSED *****/
-
-  input,
-  textarea,
-  select,
-  div > .select__control,
-  div[role='textbox'] {
-    &:focus {
-      ::-webkit-input-placeholder {
-        color: transparent;
-        -webkit-text-fill-color: transparent;
-      }
-      &::-moz-placeholder {
-        color: transparent;
-        -webkit-text-fill-color: transparent;
-      }
-      :-ms-input-placeholder {
-        color: transparent;
-        -webkit-text-fill-color: transparent;
-      }
-      ::placeholder {
-        color: transparent;
-        -webkit-text-fill-color: transparent;
-      }
-    }
-  }
-
   /***** DISABLED *****/
 
   input,
@@ -684,11 +629,6 @@ export const cssForms = css`
       ${cssInputText}
       ${cssInputBox}
       cursor: not-allowed;
-    }
-  }
-  .select__control {
-    .select__placeholder {
-      /* display: none !important; */
     }
   }
 
