@@ -163,7 +163,6 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
                   transition: 'transform 0.2s ease',
                   marginLeft: '2px',
                   marginRight: '4px',
-                  // border: isOpen ? 'none' : 'none',
                 }}
               />
             </TextField.Slot>
@@ -201,9 +200,6 @@ export const SelectCustom = forwardRef<HTMLInputElement, SelectCustomProps>(
                 >
                   <div className="option-content">
                     <span className="option-value">{option.label || option.value}</span>
-                    {/* {option.label && option.label !== option.value && (
-                      <span className="option-label">{option.value}</span>
-                    )} */}
                   </div>
                 </div>
               ))

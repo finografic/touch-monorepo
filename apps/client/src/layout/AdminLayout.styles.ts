@@ -150,8 +150,6 @@ export const styles = css`
     flex: 1;
     position: relative;
 
-    background-color: ${colors.white};
-
     .main-content {
       width: 100%;
       height: 100%;
@@ -188,8 +186,12 @@ export const styles = css`
           width: 100%;
           padding: 0rem 2rem 2rem 2rem;
           display: flex;
-          justify-content: center;
-          align-items: flex-start;
+          /* justify-content: center; */
+          /* align-items: flex-start; */
+          h2 {
+            font-size: 1.5rem;
+            color: ${colors.textLight};
+          }
         }
 
         nav.page-navigation {

@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
 import { border, colors, layout, min, spacing } from 'styles';
+import { baseLayout } from 'styles/constants/base.constants';
 
 export const styles = css`
   /* ⭐ page-section > tab-content > rote=tabpanel ======================= */
@@ -44,13 +45,18 @@ export const styles = css`
   .admin-section-content {
     display: flex;
     flex-direction: column;
-    margin: 1rem -${layout.padding};
+    margin: 1rem -${baseLayout.padding[6]};
     gap: 1;
 
     &.border-solid {
-      border: ${layout.borderWidth} solid ${colors.greyXXLight};
-      padding: ${layout.padding};
+      border: ${layout.borderWidth} solid ${colors.greyXXLight50};
+      padding: ${baseLayout.padding[6]};
       border-radius: ${layout.borderRadius};
+    }
+
+    h2 {
+      margin: 0;
+      padding: 0;
     }
   }
 `;

@@ -37,7 +37,7 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
         </Heading>
       )}
       {description && (
-        <Text className="section-description" align={align} mt="8rem" mb="8rem">
+        <Text className="section-description" align={align}>
           {description}
         </Text>
       )}
