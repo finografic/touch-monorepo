@@ -21,7 +21,8 @@ export { useColors, useThemeName } from './hooks/useColors';
 
 // 📐 Layout & spacing
 export { spacing } from './constants/global.constants';
-export { cssBorder, button, layout } from './constants/global.constants';
+export { cssBorder, layout } from './constants/global.constants';
+export { button } from './constants/button.constants';
 
 // 📝 Typography
 export { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from './fonts/typography.contants';

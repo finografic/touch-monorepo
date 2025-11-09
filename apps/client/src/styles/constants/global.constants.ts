@@ -6,7 +6,8 @@
 
 import { css } from '@emotion/react';
 
-import { baseLayout, button } from './base.constants';
+import { baseLayout } from './base.constants';
+import { button } from './button.constants';
 import { colors } from '../colors/colors-direct';
 
 // Base border styles using button constants
