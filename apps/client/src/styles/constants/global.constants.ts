@@ -8,6 +8,7 @@ import { css } from '@emotion/react';
 
 import { baseLayout } from './base.constants';
 import { button } from './button.constants';
+import { typography } from './typography.constants';
 import { colors } from '../colors/colors-direct';
 
 // Base border styles using button constants
@@ -19,7 +20,7 @@ export const cssBorder = css`
 
 // LAYOUT VARIABLES
 export const layout = {
-  fontSize: baseLayout.fontSize.base,
+  fontSize: typography.fontSize.base,
   padding: baseLayout.padding.default,
   borderWidth: baseLayout.borderWidth[2],
   borderRadius: baseLayout.borderRadius.xl, // '0.5rem'

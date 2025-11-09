@@ -25,7 +25,8 @@ export { cssBorder, layout } from './constants/global.constants';
 export { button } from './constants/button.constants';
 
 // 📝 Typography
-export { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from './fonts/typography.contants';
+export { typography } from './constants/typography.constants';
+export { fontFamilies, fontSizes, fontWeights, lineHeights } from './fonts/typography.contants';
 
 // 🌐 Global styles
 export { cssGlobal } from './global.styles';

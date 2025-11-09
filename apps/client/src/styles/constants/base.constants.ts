@@ -1,22 +1,10 @@
 /**
  * Core design system constants
  * Base values derived from Tailwind, used as foundation for the design system
- * These are pure values that can be shared across different apps
+ * These are pure layout values that can be shared across different apps
  */
 
 export const baseLayout = {
-  fontSize: {
-    'xs': '0.75rem',
-    'sm': '0.875rem',
-    'base': '1rem',
-    'lg': '1.125rem',
-    'xl': '1.25rem',
-    '2xl': '1.5rem',
-    '3xl': '1.875rem',
-    '4xl': '2.25rem',
-    '5xl': '3rem',
-    '6xl': '3.75rem',
-  },
   padding: {
     0: '0',
     1: '0.25rem',
@@ -46,57 +34,5 @@ export const baseLayout = {
     '2xl': '1rem',
     '3xl': '1.5rem',
     'full': '9999px',
-  },
-};
-
-export const typography = {
-  fontFamily: {
-    sans: [
-      '-apple-system', // macOS system font (specific)
-      'BlinkMacSystemFont', // macOS system font (specific)
-      '"Segoe UI"', // Windows system font (specific)
-      'Roboto', // Android/Chrome font (specific)
-      '"Helvetica Neue"', // Fallback sans-serif (specific)
-      'Arial', // Universal fallback (specific)
-      'sans-serif', // Generic fallback (generic)
-      'ui-sans-serif', // Generic system font (generic)
-      'system-ui', // Generic system font (generic)
-      '"Apple Color Emoji"',
-      '"Segoe UI Emoji"',
-      '"Segoe UI Symbol"',
-      '"Noto Color Emoji"',
-    ],
-    serif: ['ui-serif', 'Georgia', 'Cambria', '"Times New Roman"', 'Times', 'serif'],
-    mono: [
-      'ui-monospace',
-      'SFMono-Regular',
-      '"Menlo"',
-      'Monaco',
-      'Consolas',
-      '"Liberation Mono"',
-      '"Courier New"',
-      'monospace',
-    ],
-  },
-  fontWeight: {
-    thin: '100',
-    extralight: '200',
-    light: '300',
-    normal: '400',
-    medium: '500',
-    semibold: '600',
-    bold: '700',
-    extrabold: '800',
-    black: '900',
-  },
-  fontSmoothing: {
-    'antialiased': {
-      '-webkit-font-smoothing': 'antialiased',
-      '-moz-osx-font-smoothing': 'grayscale',
-    },
-    'subpixel-antialiased': {
-      '-webkit-font-smoothing': 'auto',
-      '-moz-osx-font-smoothing': 'auto',
-    },
   },
 } as const;
