@@ -18,12 +18,6 @@ export const styles = css`
       color: var(--gray-12) !important; /* Force white text for readonly input */
       background-color: white !important;
       cursor: pointer !important; /* Make entire input clickable */
-
-      &::placeholder {
-        color: ${colors.grey};
-        opacity: 0.7;
-        font-weight: 500;
-      }
     }
 
     *,
@@ -38,6 +32,7 @@ export const styles = css`
       opacity: 1;
       background-color: white;
       box-shadow: none;
+      text-indent: 0;
       &,
       &:focus {
         border: none;
@@ -57,7 +52,7 @@ export const styles = css`
     padding-right: var(--space-2);
     border-top-right-radius: ${forms.inputs.border.radius};
     border-bottom-right-radius: ${forms.inputs.border.radius};
-    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
+    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
   }
 `;
 

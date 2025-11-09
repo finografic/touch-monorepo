@@ -5,11 +5,14 @@ import { colors } from 'styles';
 
 export const stylesPlaceholder = css`
   font-weight: ${forms.inputs.placeholder.fontWeight};
+  text-indent: 0;
+  font-style: italic;
   color: ${colors.default75};
   -webkit-text-fill-color: ${colors.default75};
   opacity: 0.4;
-  text-indent: 0;
-  font-style: italic;
+  color: ${colors.grey};
+  -webkit-text-fill-color: ${colors.grey};
+  opacity: 0.7;
 `;
 
 export const cssPlaceholder = css`
@@ -44,7 +47,7 @@ export const cssPlaceholder = css`
     }
     ::placeholder {
       ${stylesPlaceholder}
-      opacity: 0.40!important;
+      opacity: 1!important;
     }
   }
 `;

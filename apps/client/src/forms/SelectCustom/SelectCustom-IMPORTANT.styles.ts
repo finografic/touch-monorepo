@@ -38,6 +38,7 @@ export const styles = css`
       opacity: 1 !important;
       background-color: white !important;
       box-shadow: none !important;
+      text-indent: 0 !important;
       &,
       &:focus {
         border: none !important;
