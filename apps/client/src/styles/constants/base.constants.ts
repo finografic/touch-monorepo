@@ -36,3 +36,22 @@ export const baseLayout = {
     'full': '9999px',
   },
 } as const;
+
+export const border = {
+  width: {
+    none: '0',
+    thin: '1px',
+    default: '2px',
+    thick: '4px',
+  },
+  radius: {
+    none: '0',
+    xs: '0.25rem',
+    sm: '0.5rem',
+    default: '0.75rem',
+    lg: '1rem',
+    xl: '1.25rem',
+    xxl: '1.5rem',
+    full: '50%',
+  },
+};
