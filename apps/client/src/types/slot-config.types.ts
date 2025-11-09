@@ -4,6 +4,7 @@ export interface SlotConfiguration {
   id: string;
   slotNumber: number;
   slotType: SlotType;
+  isActive: boolean;
   relayNumber: number | null;
   createdAt: string;
   updatedAt: string;
@@ -12,11 +13,13 @@ export interface SlotConfiguration {
 export interface CreateSlotConfigRequest {
   slotNumber: number;
   slotType: SlotType;
+  isActive: boolean;
   relayNumber: number | null;
 }
 
 export interface UpdateSlotConfigRequest {
   slotType?: SlotType;
+  isActive?: boolean;
   relayNumber?: number | null;
 }
 
@@ -24,6 +27,7 @@ export interface BulkUpdateSlotConfigRequest {
   configurations: Array<{
     slotNumber: number;
     slotType: SlotType;
+    isActive: boolean;
     relayNumber: number | null;
   }>;
 }

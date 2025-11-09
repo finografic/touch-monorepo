@@ -2,35 +2,35 @@ import { db } from '../db.adapter';
 import { slot_configurations } from '../schemas';
 import createCuid from '@bugsnag/cuid';
 
-// Default configuration matching current SLOT_ITEMS_CONFIG
+// Default configuration: All 16 slots, first 10 active (3 columns x 3 rows + 1 separate)
 const DEFAULT_SLOT_CONFIG = [
-  // First row (1-3)
-  { slotNumber: 1, slotType: 'A' as const, relayNumber: 1 },
-  { slotNumber: 2, slotType: 'B' as const, relayNumber: 2 },
-  { slotNumber: 3, slotType: 'B' as const, relayNumber: 3 },
+  // First column (active)
+  { slotNumber: 1, slotType: 'A' as const, isActive: true, relayNumber: 1 },
+  { slotNumber: 2, slotType: 'B' as const, isActive: true, relayNumber: 2 },
+  { slotNumber: 3, slotType: 'B' as const, isActive: true, relayNumber: 3 },
 
-  // Second row (4-6)
-  { slotNumber: 4, slotType: 'B' as const, relayNumber: 4 },
-  { slotNumber: 5, slotType: 'B' as const, relayNumber: 5 },
-  { slotNumber: 6, slotType: 'B' as const, relayNumber: 6 },
+  // Second column (active)
+  { slotNumber: 4, slotType: 'B' as const, isActive: true, relayNumber: 4 },
+  { slotNumber: 5, slotType: 'B' as const, isActive: true, relayNumber: 5 },
+  { slotNumber: 6, slotType: 'B' as const, isActive: true, relayNumber: 6 },
 
-  // Third row (7-9)
-  { slotNumber: 7, slotType: 'B' as const, relayNumber: 7 },
-  { slotNumber: 8, slotType: 'B' as const, relayNumber: 8 },
-  { slotNumber: 9, slotType: 'B' as const, relayNumber: 9 },
+  // Third column (active)
+  { slotNumber: 7, slotType: 'B' as const, isActive: true, relayNumber: 7 },
+  { slotNumber: 8, slotType: 'B' as const, isActive: true, relayNumber: 8 },
+  { slotNumber: 9, slotType: 'B' as const, isActive: true, relayNumber: 9 },
 
-  // Second row (10-12)
-  { slotNumber: 10, slotType: 'B' as const, relayNumber: 10 },
-  { slotNumber: 11, slotType: 'B' as const, relayNumber: 11 },
-  { slotNumber: 12, slotType: 'B' as const, relayNumber: 12 },
+  // Fourth column (inactive)
+  { slotNumber: 10, slotType: 'C' as const, isActive: true, relayNumber: 10 },
+  { slotNumber: 11, slotType: 'B' as const, isActive: false, relayNumber: 11 },
+  { slotNumber: 12, slotType: 'B' as const, isActive: false, relayNumber: 12 },
 
-  // Second row (13-15)
-  { slotNumber: 13, slotType: 'B' as const, relayNumber: 13 },
-  { slotNumber: 14, slotType: 'B' as const, relayNumber: 14 },
-  { slotNumber: 15, slotType: 'B' as const, relayNumber: 15 },
+  // Fifth column (inactive)
+  { slotNumber: 13, slotType: 'B' as const, isActive: false, relayNumber: 13 },
+  { slotNumber: 14, slotType: 'B' as const, isActive: false, relayNumber: 14 },
+  { slotNumber: 15, slotType: 'B' as const, isActive: false, relayNumber: 15 },
 
-  // Last slot (positioned separately)
-  { slotNumber: 16, slotType: 'C' as const, relayNumber: null },
+  // Last slot (active, positioned separately)
+  { slotNumber: 16, slotType: 'C' as const, isActive: false, relayNumber: 16 },
 ];
 
 export async function seed() {
@@ -47,6 +47,7 @@ export async function seed() {
       id: createCuid(),
       slotNumber: config.slotNumber,
       slotType: config.slotType,
+      isActive: config.isActive,
       relayNumber: config.relayNumber,
     }));
 

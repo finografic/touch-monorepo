@@ -26,7 +26,7 @@ interface RelayAssignProps {
   isLoading?: boolean;
 }
 
-// Map: rowNumber (1-8) -> selectedValue (1-8 | undefined)
+// Map: rowNumber (1-16) -> selectedValue (1-16 | undefined)
 type Assignments = Record<number, number | undefined>;
 
 export const RelayAssign: React.FC<RelayAssignProps> = ({
@@ -47,7 +47,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     return new Map(configurations.map((config) => [config.slotNumber, config.slotType]));
   }, [configurations]);
 
-  // Each slot has a unique relay assignment (1-8 or undefined)
+  // Each slot has a unique relay assignment (1-16 or undefined)
   // Null values from DB are converted to undefined for UI state
   const [assignments, setAssignments] = useState<Assignments>(() => {
     const initial: Assignments = {};
@@ -213,7 +213,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                       className="relay-assign-select"
                       options={baseOptions}
                       placeholder="Please select..."
-                      value={config.relayNumber?.toString() || undefined}
+                      value={assignments[config.slotNumber]?.toString() || undefined}
                       onSelect={(value) => handleSelectChange(config.slotNumber, value)}
                       disabled={isLoading || bulkUpdateMutation.isPending}
                       allowEmpty={true}

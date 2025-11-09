@@ -2,13 +2,13 @@
 
 ## Overview
 
-The `RelayAssign` component provides an interface for assigning relay numbers (1-8) to slot numbers (1-8) in a one-to-one relationship. Each slot can be assigned to at most one relay, and each relay can be assigned to at most one slot.
+The `RelayAssign` component provides an interface for assigning relay numbers (1-16) to slot numbers (1-16) in a one-to-one relationship. Each slot can be assigned to at most one relay, and each relay can be assigned to at most one slot.
 
 ## Key Behaviors
 
 ### Unique Assignment Logic
 
-- **One-to-One Mapping**: Each relay number (1-8) can only be assigned to a single slot at a time.
+- **One-to-One Mapping**: Each relay number (1-16) can only be assigned to a single slot at a time.
 - **Automatic Reassignment**: When a relay number is assigned to a new slot, it is automatically unset from its previous slot.
 - **Unset State**: Slots can have no relay assignment (`relayNumber: null`), which displays the placeholder "Please select..." in the dropdown.
 
@@ -34,7 +34,7 @@ The component uses the `useBulkUpdateSlotConfigurations` hook from `queries/slot
 #### Local State: `assignments`
 
 - **Type**: `Record<number, number | undefined>`
-- **Purpose**: Tracks relay assignments for slots 1-8
+- **Purpose**: Tracks relay assignments for slots 1-16
 - **Synchronization**: Automatically syncs with the `configurations` prop via `useEffect` to ensure consistency with server data
 
 #### State Synchronization
@@ -54,7 +54,7 @@ When a user changes a relay assignment:
    - The new assignment is set for the current slot
 
 2. **Build Full Configuration**: The `updateAllConfigurations` helper function:
-   - Maps over **all** slot configurations (not just 1-8)
+   - Maps over **all** slot configurations (not just 1-16)
    - Updates `relayNumber` for slots that have changed assignments
    - Preserves existing `relayNumber` for slots not in the assignments map
    - Converts `undefined` to `null` for database storage
@@ -79,7 +79,7 @@ The `slot_configurations` table includes:
 ## UI Components
 
 - **Slot Button**: Displays slot number with color-coded border based on slot type (A/B/C) and relay state (ON/OFF)
-- **SelectCustom Dropdown**: Shows relay options (1-8) or placeholder when unset
+- **SelectCustom Dropdown**: Shows relay options (1-16) or placeholder when unset
 - **Relay Status**: Displays current ON/OFF state of each relay
 
 ## Props
@@ -94,6 +94,6 @@ interface RelayAssignProps {
 
 ## Notes
 
-- The component filters configurations to only display slots 1-8 (`NUM_RELAYS`)
-- All slots (up to 16) are included in bulk updates, even though only 1-8 are displayed
+- The component filters configurations to only display slots 1-16 (`NUM_RELAYS`)
+- All slots are included in bulk updates
 - The placeholder "Please select..." appears when `relayNumber` is `null` or `undefined`
