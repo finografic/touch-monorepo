@@ -23,6 +23,6 @@ export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'>
   danger: { value: 'oklch(57.7% 0.245 27.325)' }, // Tailwind red-600
   info: { value: 'oklch(58.8% 0.158 241.966)' }, // Tailwind cyan-500
   default: { value: 'oklch(55.3% 0.013 58.071)' }, // Tailwind stone-500
-  text: { value: 'oklch(26.9% 0 0)' }, // Tailwind neutral-800
   grey: { value: 'oklch(55.2% 0.016 285.938)' }, // Tailwind zinc-500
+  text: { value: 'oklch(28% 0 0)' }, // Tailwind neutral-800
 } as const;
