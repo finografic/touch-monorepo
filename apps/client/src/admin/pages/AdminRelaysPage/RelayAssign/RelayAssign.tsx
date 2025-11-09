@@ -36,22 +36,19 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 }) => {
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
 
-  // Filter configurations to only show relays (1 to NUM_RELAYS)
-  // Sort by slotNumber ASC
   const relayConfigurations = useMemo(() => {
     return configurations
       .filter((config) => config.slotNumber <= NUM_RELAYS)
       .sort((a, b) => a.slotNumber - b.slotNumber);
   }, [configurations]);
 
-  // Create a map of slotNumber -> slotType from slotConfigs for quick lookup
   const slotTypeMap = useMemo(() => {
     if (!configurations) return new Map<number, SlotType>();
     return new Map(configurations.map((config) => [config.slotNumber, config.slotType]));
   }, [configurations]);
 
-  // State: each row (1-8) has a unique assigned value (1-8) or undefined
-  // Initialize with relayNumber from configurations (null becomes undefined)
+  // Each slot has a unique relay assignment (1-8 or undefined)
+  // Null values from DB are converted to undefined for UI state
   const [assignments, setAssignments] = useState<Assignments>(() => {
     const initial: Assignments = {};
     configurations
@@ -74,7 +71,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     setAssignments(initial);
   }, [configurations]);
 
-  // Base dropdown options (1-8)
   const baseOptions: SelectOption[] = useMemo(() => {
     return Array.from({ length: NUM_RELAYS }, (_, index) => {
       const value = index + 1;
@@ -82,24 +78,22 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     });
   }, []);
 
-  // Helper function to update all configurations in bulk
   const updateAllConfigurations = useCallback(
     (newAssignments: Assignments) => {
-      // Build updated configurations array with all slots
       const updatedConfigs = configurations.map((config) => {
-        // Check if this slot number exists in newAssignments (even if value is undefined)
+        // Check if slot is in newAssignments (even if value is undefined)
         const hasAssignment = config.slotNumber in newAssignments;
         const assignment = newAssignments[config.slotNumber];
 
         if (hasAssignment) {
-          // Slot is explicitly in the assignments map - use its value (undefined -> null)
+          // Convert undefined back to null for DB
           return {
             slotNumber: config.slotNumber,
             slotType: config.slotType,
             relayNumber: assignment ?? null,
           };
         }
-        // Slot not in assignments - keep existing value
+
         return {
           slotNumber: config.slotNumber,
           slotType: config.slotType,
@@ -107,7 +101,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
         };
       });
 
-      // Send bulk update with all configurations
       bulkUpdateMutation.mutate({
         configurations: updatedConfigs,
       });
@@ -124,40 +117,27 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
       setAssignments((prev) => {
         const currentAssignment = prev[slotNumber];
 
-        // If deselecting (empty value), just clear this row
-        if (!selectedValue) {
+        // Deselect if empty or clicking the same value (toggle behavior)
+        if (!selectedValue || currentAssignment === relayValue) {
           const updated = { ...prev, [slotNumber]: undefined };
-          // Update all affected configurations in bulk
           updateAllConfigurations(updated);
           return updated;
         }
 
-        // If selecting the same value, deselect it
-        if (currentAssignment === relayValue) {
-          const updated = { ...prev, [slotNumber]: undefined };
-          // Update all affected configurations in bulk
-          updateAllConfigurations(updated);
-          return updated;
-        }
-
-        // Find which row (if any) currently has this relayValue
+        // Find any conflicting slot that already has this relay assigned
         const conflictingSlotNumber = Object.keys(prev).find(
           (key) => Number(key) !== slotNumber && prev[Number(key)] === relayValue,
         );
 
         const updated: Assignments = { ...prev };
 
-        // Clear the conflicting row if it exists
+        // Swap: clear the conflict and assign to current slot
         if (conflictingSlotNumber) {
           updated[Number(conflictingSlotNumber)] = undefined;
         }
-
-        // Assign this value to the current row
         updated[slotNumber] = relayValue;
 
-        // Update all affected configurations in bulk
         updateAllConfigurations(updated);
-
         return updated;
       });
     },
@@ -187,9 +167,9 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   const handleSlotClick = useCallback(
     (slotNumber: number) => {
       const currentConfig = relayConfigurations.find((config) => config.slotNumber === slotNumber);
+      // Can only toggle if relay is assigned
       if (!currentConfig || !currentConfig.relayNumber) return;
 
-      // Toggle relay state (only if relayNumber is assigned)
       const newIsOn = !currentConfig.isOn;
       onRelayToggle?.(currentConfig.relayNumber, newIsOn);
     },
@@ -200,8 +180,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     <Box css={styles}>
       <div className="slot-grid-container">
         <div className="slot-list">
-          {/* ====================================================================== */}
-
           {/* TODO: ORDER BY *SLOT NUMBER* */}
           {relayConfigurations.map((config) => {
             const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
@@ -210,7 +188,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
               <Flex key={config.slotNumber} className="slot-grid-item">
                 <Row>
                   <Col xs={2} className="col col-button">
-                    {/* ------ RELAY SLOT NUMBER + BUTTON ------ */}
                     <Button
                       className="slot-button"
                       onClick={() => handleSlotClick(config.slotNumber)}
@@ -232,7 +209,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                     </Button>
                   </Col>
                   <Col xs={5} className="col col-select">
-                    {/* ------ SELECT ASSIGNMENT ------ */}
                     <SelectCustom
                       className="relay-assign-select"
                       options={baseOptions}
@@ -244,7 +220,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                     />
                   </Col>
                   <Col xs={5} className="col col-status">
-                    {/* ------ RELAY TEST STATUS ------ */}
                     <Flex align="center" gap="3">
                       <div className={`relay-status-indicator ${config.isOn ? 'relay-on' : 'relay-off'}`}>
                         {config.slotNumber}
