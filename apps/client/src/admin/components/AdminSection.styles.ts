@@ -47,7 +47,7 @@ export const styles = css`
     flex-direction: column;
     gap: 1;
 
-    margin: 1rem -${baseLayout.padding[6]};
+    margin: 1rem -${baseLayout.padding.lg};
 
     > .section-header {
       margin-top: 0.5rem;
@@ -56,7 +56,7 @@ export const styles = css`
 
     &.border-solid {
       border: ${layout.borderWidth} solid ${colors.greyXXLight50};
-      padding: ${baseLayout.padding[6]};
+      padding: ${baseLayout.padding.lg};
       border-radius: ${layout.borderRadius};
     }
 

@@ -88,7 +88,7 @@ export const styles = css`
   .translation-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: ${spacing[4]};
+    gap: ${spacing.default};
     align-items: start;
 
     @media (max-width: 1200px) {
@@ -102,7 +102,7 @@ export const styles = css`
     .translation-item {
       display: flex;
       flex-direction: column;
-      gap: ${spacing[2]};
+      gap: ${spacing.sm};
 
       .translation-label {
         font-size: 0.75rem;
@@ -110,12 +110,12 @@ export const styles = css`
         color: ${colors.greyDark};
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        margin-bottom: ${spacing[1]};
+        margin-bottom: ${spacing.xs};
       }
 
       .translation-input {
         width: 100%;
-        padding: ${spacing[3]};
+        padding: ${spacing.md};
         border: 1px solid ${colors.greyLight};
         border-radius: 6px;
         background-color: ${colors.white};
@@ -143,7 +143,7 @@ export const styles = css`
       .translation-error {
         color: ${colors.danger};
         font-size: 0.75rem;
-        margin-top: ${spacing[1]};
+        margin-top: ${spacing.xs};
       }
     }
   }
@@ -152,9 +152,9 @@ export const styles = css`
   .form-actions {
     display: flex;
     justify-content: center;
-    gap: ${spacing[4]};
-    margin-top: ${spacing[8]};
-    padding-top: ${spacing[6]};
+    gap: ${spacing.default};
+    margin-top: ${spacing.xxxl};
+    padding-top: ${spacing.xl};
     border-top: 1px solid ${colors.greyLight};
 
     @media (max-width: 768px) {
@@ -172,7 +172,7 @@ export const styles = css`
     color: ${colors.greyDark};
 
     .loading-spinner {
-      margin-bottom: ${spacing[4]};
+      margin-bottom: ${spacing.default};
     }
 
     .loading-text {

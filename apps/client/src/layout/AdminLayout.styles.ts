@@ -216,7 +216,7 @@ export const styles = css`
       width: 100%;
       max-width: 1200px;
       margin: 0 auto;
-      padding: 0 ${spacing[6]};
+      padding: 0 ${spacing.xl};
       display: flex;
       justify-content: center;
       align-items: center;

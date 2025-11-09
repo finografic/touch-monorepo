@@ -6,29 +6,30 @@
 
 export const baseLayout = {
   padding: {
-    0: '0',
-    1: '0.25rem',
-    2: '0.5rem',
-    3: '0.75rem',
-    default: '1rem',
-    5: '1.25rem',
-    6: '1.5rem',
-    8: '2rem',
-    10: '2.5rem',
-    12: '3rem',
+    none: '0',
+    px: '1px',
+    xs: '0.25rem', // 4px
+    sm: '0.5rem', // 8px
+    md: '0.75rem', // 12px
+    default: '1rem', // 16px - DEFAULT (aligned with spacing)
+    lg: '1.25rem', // 20px
+    xl: '1.5rem', // 24px
+    xxl: '1.75rem', // 28px
+    xxxl: '2rem', // 32px
+    xxxxl: '2.25rem', // 36px
   },
   spacing: {
-    0: '0',
+    none: '0',
     px: '1px',
-    1: '0.25rem', // 4px
-    2: '0.5rem', // 8px
-    3: '0.75rem', // 12px
-    4: '1rem', // 16px
-    5: '1.25rem', // 20px
-    6: '1.5rem', // 24px
-    7: '1.75rem', // 28px
-    8: '2rem', // 32px
-    9: '2.25rem', // 36px
+    xs: '0.25rem', // 4px
+    sm: '0.5rem', // 8px
+    md: '0.75rem', // 12px
+    default: '1rem', // 16px - DEFAULT (most common)
+    lg: '1.25rem', // 20px
+    xl: '1.5rem', // 24px
+    xxl: '1.75rem', // 28px
+    xxxl: '2rem', // 32px
+    xxxxl: '2.25rem', // 36px
   },
 } as const;
 

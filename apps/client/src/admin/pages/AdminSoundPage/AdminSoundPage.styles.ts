@@ -14,7 +14,7 @@ export const styles = css`
     font-size: 1.125rem;
     font-weight: 700;
     line-height: 1.5;
-    margin-bottom: ${spacing[6]};
+    margin-bottom: ${spacing.xl};
   }
 
   /* TABS ========================================================== */

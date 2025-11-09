@@ -112,7 +112,7 @@ export const styles = (theme: EmotionTheme) => css`
   .title {
     ${typography.h1};
     color: ${colors.text};
-    margin-bottom: ${spacing[4]};
+    margin-bottom: ${spacing.default};
   }
 
   .subtitle {

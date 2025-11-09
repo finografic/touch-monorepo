@@ -28,9 +28,9 @@ export const styles = css`
   }
 
   .admin-page-message {
-    padding: ${spacing[4]} ${spacing[6]};
+    padding: ${spacing.default} ${spacing.xl};
     border-radius: ${layout.borderRadius};
-    margin-bottom: ${spacing[6]};
+    margin-bottom: ${spacing.xl};
     font-weight: 500;
 
     &.success {

@@ -75,9 +75,9 @@ export const styles = css`
   .table-row {
     display: grid;
     grid-template-columns: 2.5rem 1fr 1fr 1fr 1fr auto; /* Fixed width for line numbers, temp, time A, time B, time C, actions */
-    gap: ${spacing[4]};
+    gap: ${spacing.default};
     align-items: center;
-    padding: ${spacing[2]} 0; /* Remove horizontal padding to match header */
+    padding: ${spacing.sm} 0; /* Remove horizontal padding to match header */
     border-bottom: 1px solid ${colors.greyXXLight};
     transition: background-color 0.15s ease;
 
@@ -149,7 +149,7 @@ export const styles = css`
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    padding-right: ${spacing[2]};
+    padding-right: ${spacing.sm};
 
     span {
       font-weight: 700;
@@ -160,7 +160,7 @@ export const styles = css`
   .add-row-container {
     display: flex;
     justify-content: center;
-    padding: ${spacing[4]} 0;
+    padding: ${spacing.default} 0;
     border-top: 1px solid ${colors.greyXXLight};
   }
 

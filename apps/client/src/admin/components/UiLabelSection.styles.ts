@@ -4,15 +4,15 @@ import { colors, spacing } from 'styles';
 
 export const styles = css`
   .ui-label-section {
-    margin-bottom: ${spacing[6]};
+    margin-bottom: ${spacing.xl};
 
     .labels-grid-content {
       .translation-item {
         background-color: ${colors.white};
         border: 1px solid ${colors.greyLight};
         border-radius: 8px;
-        padding: ${spacing[4]};
-        margin-bottom: ${spacing[4]};
+        padding: ${spacing.default};
+        margin-bottom: ${spacing.default};
 
         &:hover {
           border-color: ${colors.greyDark};
@@ -54,12 +54,12 @@ export const styles = css`
   /* Responsive adjustments */
   @media (max-width: 768px) {
     .ui-label-section {
-      padding: ${spacing[4]};
+      padding: ${spacing.default};
 
       .labels-grid-header,
       .label-item-row {
         grid-template-columns: 1fr;
-        gap: ${spacing[2]};
+        gap: ${spacing.sm};
       }
 
       .labels-grid-header {

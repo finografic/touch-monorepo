@@ -4,16 +4,16 @@ import { colors, spacing } from 'styles';
 
 export const styles = css`
   &.section-header {
-    margin-top: ${spacing[6]};
-    margin-bottom: ${spacing[6]};
+    margin-top: ${spacing.xl};
+    margin-bottom: ${spacing.xl};
 
-    /* margin-bottom: ${spacing[6]}; */
-    /* padding-bottom: ${spacing[3]}; */
+    /* margin-bottom: ${spacing.xl}; */
+    /* padding-bottom: ${spacing.md}; */
     /* border-bottom: 1px solid ${colors.greyLight}; */
 
     .section-title {
       color: ${colors.text};
-      margin-bottom: ${spacing[1]};
+      margin-bottom: ${spacing.xs};
     }
 
     .section-description {

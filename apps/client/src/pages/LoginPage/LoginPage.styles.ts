@@ -12,10 +12,10 @@ export const styles = css`
     min-width: 600px;
     max-width: 1400px;
     margin: 0 auto;
-    /* padding: ${spacing[8]}; */
+    /* padding: ${spacing.xxxl}; */
     display: flex;
     flex-direction: column;
-    /* gap: ${spacing[6]}; */
+    /* gap: ${spacing.xl}; */
   }
 
   .title {
@@ -26,14 +26,14 @@ export const styles = css`
   .error-message {
     background-color: ${colors.dangerXLight};
     color: ${colors.dangerDark};
-    padding: ${spacing[3]};
+    padding: ${spacing.md};
     border-radius: 4px;
   }
 
   .form-group {
     display: flex;
     flex-direction: column;
-    gap: ${spacing[2]};
+    gap: ${spacing.sm};
 
     label {
       font-size: ${fontSizes.sm};
@@ -42,7 +42,7 @@ export const styles = css`
 
     input {
       width: 100%;
-      padding: ${spacing[2]};
+      padding: ${spacing.sm};
       border: 1px solid ${colors.greyLight};
       border-radius: 4px;
       font-size: ${fontSizes.base};
@@ -57,7 +57,7 @@ export const styles = css`
 
   button {
     width: 100%;
-    padding: ${spacing[3]};
+    padding: ${spacing.md};
     background-color: ${colors.primary[500]};
     color: white;
     border: none;
