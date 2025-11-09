@@ -14,7 +14,7 @@ import {
 } from 'queries/slot-configurations';
 
 import { SlotType } from 'types/orders.types';
-import { GRID_CONFIGS } from 'types/slot-config.types';
+import { NUM_ROWS, NUM_SLOTS, MIN_COLUMNS, MAX_COLUMNS, calculateColumns } from 'types/slot-config.types';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection';
 import { SlotGrid } from './SlotGrid';
@@ -24,6 +24,7 @@ import { styles } from './AdminSlotsConfigPage.styles';
 interface SlotConfigFormValue {
   slotNumber: number;
   slotType: SlotType;
+  isActive: boolean;
   relayNumber: number;
 }
 interface SlotConfigForm {
@@ -37,60 +38,18 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
   const resetMutation = useResetSlotConfigurations();
   const { toast } = useToast();
-  const initialColumns = 3;
-  const minColumns = 2;
-  const maxColumns = 5;
-  const defaultGridConfig = GRID_CONFIGS[initialColumns];
 
-  // Helper to generate slots for a given column count
-  const generateSlots = (columns: number, fromConfigs?: SlotConfigFormValue[]): SlotConfigFormValue[] => {
-    const gridConfig = GRID_CONFIGS[columns];
-    const { rows, totalSlots } = gridConfig;
-    const slots: SlotConfigFormValue[] = [];
-
-    // Fill main grid (column-major numbering: 1..rows per column)
-    for (let row = 0; row < rows; row++) {
-      for (let col = 0; col < columns; col++) {
-        const slotNumber = col * rows + row + 1; // 1-based
-        const existing = fromConfigs?.find((c) => c.slotNumber === slotNumber);
-        slots.push({
-          slotNumber,
-          slotType: existing?.slotType || SlotType.B,
-          relayNumber: existing?.relayNumber || slotNumber,
-        });
-      }
-    }
-
-    // Include the last special slot at the end (kept as totalSlots)
-    if (totalSlots > columns * rows) {
-      const existingLast = fromConfigs?.find((c) => c.slotNumber === totalSlots);
-      slots.push({
-        slotNumber: totalSlots,
-        slotType: existingLast?.slotType || SlotType.B,
-        relayNumber: existingLast?.relayNumber || totalSlots,
-      });
-    }
-
-    return slots;
-  };
-
-  // Helper to determine columns from slot configs
+  // Calculate columns dynamically from active slots
   const getColumnsFromConfigs = (configs: SlotConfigFormValue[]): number => {
-    const totalSlots = configs.length;
-    // Find the grid config that matches this total slots
-    for (let cols = minColumns; cols <= maxColumns; cols++) {
-      if (GRID_CONFIGS[cols].totalSlots === totalSlots) {
-        return cols;
-      }
-    }
-    return initialColumns; // fallback
+    const activeCount = configs.filter((c) => c.isActive).length;
+    return calculateColumns(activeCount);
   };
 
   // Setup RHF
   const methods = useForm<SlotConfigForm>({
     defaultValues: {
-      columns: initialColumns,
-      slots: generateSlots(initialColumns),
+      columns: 3,
+      slots: [],
     },
     mode: 'onChange',
   });
@@ -99,33 +58,27 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const columns = watch('columns');
   const slots = watch('slots');
 
-  // Keep slots in sync with columns
-  const prevColumns = useRef(columns);
-  useEffect(() => {
-    if (columns !== prevColumns.current) {
-      replace(generateSlots(columns, slots));
-      prevColumns.current = columns;
-    }
-  }, [columns, replace, slots]);
+  // Calculate columns dynamically from active slots
+  const activeSlots = slots.filter((s) => s.isActive);
+  const calculatedColumns = activeSlots.length > 0 ? calculateColumns(activeSlots.length) : 3;
 
   // Update form when API data changes (e.g., after save/reset or page refresh)
   const prevSlotConfigs = useRef<SlotConfigFormValue[] | undefined>(undefined);
   useEffect(() => {
-    // Only update if slotConfigs actually changed and we have data
-    if (slotConfigs && slotConfigs.length > 0) {
+    // Only update if slotConfigs actually changed and we have data (expecting 16 slots)
+    if (slotConfigs && slotConfigs.length === NUM_SLOTS) {
       const configsString = JSON.stringify(slotConfigs);
       const prevConfigsString = JSON.stringify(prevSlotConfigs.current);
 
       if (configsString !== prevConfigsString) {
-        const columns = getColumnsFromConfigs(slotConfigs);
-        const newSlots = generateSlots(columns, slotConfigs);
+        const calculatedColumns = getColumnsFromConfigs(slotConfigs);
 
         console.log('Updating form with new slot configs:', slotConfigs);
-        console.log('New form values:', { columns, slots: newSlots });
+        console.log('Calculated columns:', calculatedColumns);
 
         reset({
-          columns,
-          slots: newSlots,
+          columns: calculatedColumns,
+          slots: slotConfigs,
         });
         prevSlotConfigs.current = slotConfigs;
       }
@@ -135,6 +88,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
   // Save handler
   const onSave = async (data: SlotConfigForm) => {
     try {
+      // TODO: REMOVE ??
       await bulkUpdateMutation.mutateAsync({ configurations: data.slots });
       // After successful save, the API will refetch and update slotConfigs
       // which will trigger the useEffect above to reset the form
@@ -146,6 +100,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
   // Reset handler
   const onReset = async () => {
     try {
+      // TODO: REMOVE ??
       await resetMutation.mutateAsync();
       // After successful reset, the API will refetch and update slotConfigs
       // which will trigger the useEffect above to reset the form
@@ -155,13 +110,38 @@ export const AdminSlotsConfigPage: React.FC = () => {
   };
 
   const handleAddColumn = () => {
-    if (columns < maxColumns) {
-      setValue('columns', columns + 1);
+    if (calculatedColumns < MAX_COLUMNS) {
+      // Activate the next 3 slots (next column)
+      const nextInactiveSlots = slots
+        .filter((s) => !s.isActive)
+        .sort((a, b) => a.slotNumber - b.slotNumber)
+        .slice(0, NUM_ROWS);
+
+      if (nextInactiveSlots.length > 0) {
+        const updatedSlots = slots.map((slot) =>
+          nextInactiveSlots.some((s) => s.slotNumber === slot.slotNumber)
+            ? { ...slot, isActive: true }
+            : slot,
+        );
+        setValue('slots', updatedSlots, { shouldDirty: true });
+      }
     }
   };
+
   const handleRemoveColumn = () => {
-    if (columns > minColumns) {
-      setValue('columns', columns - 1);
+    if (calculatedColumns > MIN_COLUMNS) {
+      // Deactivate the last 3 active slots (last column, excluding special slot)
+      const activeGridSlots = slots
+        .filter((s) => s.isActive && s.slotNumber !== NUM_SLOTS)
+        .sort((a, b) => b.slotNumber - a.slotNumber)
+        .slice(0, NUM_ROWS);
+
+      if (activeGridSlots.length > 0) {
+        const updatedSlots = slots.map((slot) =>
+          activeGridSlots.some((s) => s.slotNumber === slot.slotNumber) ? { ...slot, isActive: false } : slot,
+        );
+        setValue('slots', updatedSlots, { shouldDirty: true });
+      }
     }
   };
 
@@ -197,10 +177,11 @@ export const AdminSlotsConfigPage: React.FC = () => {
         <AdminPageLayout
           title="Slot Configuration"
           subtitle="Configure the MainPage grid layout and slot types"
+          description={`COLUMNS: ${calculatedColumns} | ROWS: ${NUM_ROWS} | ACTIVE SLOTS: ${activeSlots.length} / ${NUM_SLOTS}`}
           styles={styles}
         >
           <AdminSection
-            title="Slot Grid Layout Preview"
+            title={`Slot Grid Layout Preview - ${calculatedColumns} Columns`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
             variant="border-solid"
@@ -209,21 +190,21 @@ export const AdminSlotsConfigPage: React.FC = () => {
               {/* ====================================================================== */}
 
               <Flex direction="column" gap="4" px="1">
-                {/* <Heading size="4">Slot Grid Layout Preview</Heading> */}
                 <Text size="2" color="gray">
-                  Click on slots to change their type. The last slot is positioned separately.
+                  Click on slots to change their type. Slot #{NUM_SLOTS} is positioned separately.
                 </Text>
 
                 <SlotGrid
-                  configurations={slots}
-                  gridConfig={GRID_CONFIGS[columns]}
+                  configurations={activeSlots}
+                  columns={calculatedColumns}
+                  rows={NUM_ROWS}
                   onConfigurationChange={handleGridConfigChange}
                 />
 
                 <Flex gap="4" align="center" mt="-4" pb="4">
                   <Badge variant="soft" color="blue">
-                    {columns} columns × 3 rows = {GRID_CONFIGS[columns].totalSlots - 1} slots + 1 separate
-                    slot
+                    {calculatedColumns} columns × {NUM_ROWS} rows = {activeSlots.length - 1} grid slots + 1
+                    special slot
                   </Badge>
                 </Flex>
               </Flex>
@@ -262,7 +243,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   color="orange"
                   size="3"
                   onClick={handleRemoveColumn}
-                  disabled={columns <= minColumns}
+                  disabled={calculatedColumns <= MIN_COLUMNS}
                 >
                   <Flex justify="start" align="center" width="180px" gap="4" ml="4">
                     <MinusIcon />
@@ -274,7 +255,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   color="green"
                   size="3"
                   onClick={handleAddColumn}
-                  disabled={columns >= maxColumns}
+                  disabled={calculatedColumns >= MAX_COLUMNS}
                 >
                   <Flex justify="start" align="center" width="180px" gap="4" ml="4">
                     <PlusIcon />
@@ -307,6 +288,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   </Button>
                 </Flex>
               </Flex>
+              {/* <pre>{JSON.stringify({ slots, columns }, null, 2)}</pre> */}
             </Flex>
           </AdminSection>
         </AdminPageLayout>

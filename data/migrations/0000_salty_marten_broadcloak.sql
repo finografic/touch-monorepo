@@ -117,6 +117,7 @@ CREATE TABLE `slot_configurations` (
 	`id` text PRIMARY KEY NOT NULL,
 	`slot_number` integer NOT NULL,
 	`slot_type` text NOT NULL,
+	`is_active` integer DEFAULT true NOT NULL,
 	`relay_number` integer,
 	`created_at` text DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` text DEFAULT CURRENT_TIMESTAMP

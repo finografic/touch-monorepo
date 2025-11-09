@@ -49,16 +49,14 @@ export interface SlotConfigErrorResponse {
   error: string;
 }
 
-// Grid configuration types
-export interface GridConfig {
-  columns: number; // 2-5 columns
-  rows: number; // Always 3 rows
-  totalSlots: number; // columns * rows + 1 (special pad)
-}
+// Grid configuration constants
+export const NUM_ROWS = 3; // Always 3 rows
+export const NUM_SLOTS = 16; // Always 16 total slots
+export const MIN_COLUMNS = 2;
+export const MAX_COLUMNS = 5;
 
-export const GRID_CONFIGS: Record<number, GridConfig> = {
-  2: { columns: 2, rows: 3, totalSlots: 7 }, // 0-5 + special pad 6
-  3: { columns: 3, rows: 3, totalSlots: 10 }, // 0-8 + special pad 9
-  4: { columns: 4, rows: 3, totalSlots: 13 }, // 0-11 + special pad 12
-  5: { columns: 5, rows: 3, totalSlots: 16 }, // 0-14 + special pad 15
+// Helper to calculate columns from active slots
+export const calculateColumns = (activeSlotCount: number): number => {
+  // activeSlotCount includes the special slot, so we subtract 1 for grid slots
+  return Math.floor((activeSlotCount - 1) / NUM_ROWS);
 };

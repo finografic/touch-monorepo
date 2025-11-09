@@ -4,25 +4,31 @@ import { Box, Button, Flex, Text } from '@radix-ui/themes';
 
 import { mapGridByColumns } from 'utils/grid.utils';
 import { SlotType } from 'types/orders.types';
-import type { GridConfig } from 'types/slot-config.types';
+import { NUM_SLOTS } from 'types/slot-config.types';
 import { styles } from './SlotGrid.styles';
 
 interface SlotConfig {
   slotNumber: number;
   slotType: SlotType;
+  isActive: boolean;
 }
 
 interface SlotGridProps {
-  configurations: SlotConfig[];
-  gridConfig: GridConfig;
+  configurations: SlotConfig[]; // Only active slots
+  columns: number;
+  rows: number;
   onConfigurationChange: (slotNumber: number, newConfig: Partial<SlotConfig>) => void;
 }
 
-export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, onConfigurationChange }) => {
-  const { columns, rows } = gridConfig;
-  const totalSlots = gridConfig.totalSlots;
-  const regularSlots = configurations.filter((config) => config.slotNumber < totalSlots);
-  const lastSlot = configurations.find((config) => config.slotNumber === totalSlots);
+export const SlotGrid: React.FC<SlotGridProps> = ({
+  configurations,
+  columns,
+  rows,
+  onConfigurationChange,
+}) => {
+  // Separate grid slots from the special slot (#16)
+  const regularSlots = configurations.filter((config) => config.slotNumber !== NUM_SLOTS);
+  const lastSlot = configurations.find((config) => config.slotNumber === NUM_SLOTS);
 
   const getSlotColor = (slotType: SlotType) => {
     switch (slotType) {
@@ -90,11 +96,10 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
         </div>
 
         {/* Last slot positioned separately */}
-        {lastSlot && (
+        {/* {lastSlot && (
           <div className="slot-item-special">
             <Button
               className={`slot-button slot-${getSlotColor(lastSlot.slotType)}`}
-              // onClick={() => handleSlotClick(lastSlot.slotNumber)}
               onClick={() => {}}
               variant="outline"
               size="3"
@@ -107,7 +112,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({ configurations, gridConfig, 
               </Flex>
             </Button>
           </div>
-        )}
+        )} */}
       </div>
     </Box>
   );

@@ -18,6 +18,7 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import { mapGridByColumns } from 'utils/grid.utils';
 import { styles } from './MainPage.styles';
 import { useColors } from 'styles/hooks/useColors';
+import { SlotType } from 'types/orders.types';
 
 export function MainPage() {
   const colors = useColors();
@@ -80,14 +81,14 @@ export function MainPage() {
   }
 
   // Dynamically determine grid dimensions
-  const totalSlots = slotsConfig?.length;
+  const totalSlots = slotsConfig.filter((slot) => slot.isActive).length;
   const mainGridSlots = slotsConfig.slice(0, totalSlots - 1); // All except the last
   const lastSlot = slotsConfig[totalSlots - 1]; // The last slot
 
   // log('MAIN_PAGE_SLOTS:', 'cyan', mainGridSlots);
 
   const rows = 3; // Always 3 rows
-  const columns = Math.floor((totalSlots - 1) / rows); // Dynamic columns
+  const columns = Math.floor((totalSlots - 1) / rows); // Dynamic columns (2,3,4,5)
 
   return (
     <Flex css={styles} gap="3" direction="column">
@@ -139,7 +140,9 @@ export function MainPage() {
             {lastSlot && (
               <PadSlot
                 key={lastSlot.slotNumber}
-                slotType={lastSlot.slotType}
+                // slotType={lastSlot.slotType}
+                // slotNumber={lastSlot.slotNumber}
+                slotType={SlotType.C}
                 slotNumber={lastSlot.slotNumber}
                 variant="large"
               />

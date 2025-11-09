@@ -53,4 +53,3 @@ export const button = {
     large: '600',
   },
 } as const;
-

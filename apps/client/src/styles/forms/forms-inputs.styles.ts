@@ -8,6 +8,9 @@ import { colors } from 'styles';
 // ======================================================================== //
 
 export const formsInputs = css`
+  input:not(:disabled):not(:focus) {
+    color: ${colors.textLight};
+  }
   /* INPUT SLOTS - Standardized classes for consistent styling */
   .input-slot-left,
   .input-slot-right {
@@ -126,5 +129,10 @@ export const formsInputs = css`
     color: ${colors.textXDark} !important;
     -webkit-text-fill-color: ${colors.textXDark} !important;
     font-weight: ${forms.inputs.readOnly.text.fontWeight} !important;
+  }
+
+  /***** NEW: WIP.. !!!!! *****/
+  input:hover:not(:disabled):not(:focus) {
+    border-color: ${forms.inputs.border.color} !important;
   }
 `;
