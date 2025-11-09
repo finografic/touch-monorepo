@@ -37,19 +37,7 @@ export const AdminRelaysPage: React.FC = () => {
   }, []);
 
   // Use custom hook for all relay handlers
-  const {
-    handleRelayToggle,
-    handleTurnAllOn,
-    handleTurnAllOff,
-    handleResetAll,
-    handleReconnect,
-    handleRetryConnection,
-    toggleRelayMutation,
-    turnAllOnMutation,
-    turnAllOffMutation,
-    reconnectMutation,
-    disconnectMutation,
-  } = useRelayHandlers();
+  const { handlers, mutations } = useRelayHandlers();
 
   // API hooks with smart polling
   const {
@@ -138,7 +126,7 @@ export const AdminRelaysPage: React.FC = () => {
             </Text>
             <Flex gap="3" align="center">
               <Button
-                onClick={() => handleRetryConnection(enableStatesPolling, enableStatusPolling)}
+                onClick={() => handlers.retryConnection(enableStatesPolling, enableStatusPolling)}
                 variant="solid"
                 color="blue"
                 size="3"
@@ -169,20 +157,12 @@ export const AdminRelaysPage: React.FC = () => {
           <Flex direction="column" gap="4">
             <AdminSection title="Relay Board One" variant="border-solid">
               <Flex justify="end" align="center" mt="-6" mb="2">
-                <RelayButtons
-                  handleTurnAllOn={handleTurnAllOn}
-                  handleTurnAllOff={handleTurnAllOff}
-                  handleResetAll={handleResetAll}
-                  turnAllOnMutation={turnAllOnMutation}
-                  turnAllOffMutation={turnAllOffMutation}
-                  reconnectMutation={reconnectMutation}
-                  disconnectMutation={disconnectMutation}
-                />
+                <RelayButtons handlers={handlers} mutations={mutations} />
               </Flex>
               <RelayAssign
                 configurations={relayConfigs}
-                onRelayToggle={handleRelayToggle}
-                isLoading={toggleRelayMutation.isPending}
+                onRelayToggle={handlers.relayToggle}
+                isLoading={mutations.toggleRelay.isPending}
               />
             </AdminSection>
           </Flex>

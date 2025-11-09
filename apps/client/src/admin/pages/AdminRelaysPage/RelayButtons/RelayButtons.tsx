@@ -2,52 +2,50 @@ import React from 'react';
 
 import { Button, Flex } from '@radix-ui/themes';
 
-// Types for relay configuration
+import type { RelayHandlers, RelayMutations } from '../useRelayHandlers';
+
+// ============================================================================
+// Types
+// ============================================================================
+
 interface RelayButtonsProps {
-  handleTurnAllOn: () => void;
-  handleTurnAllOff: () => void;
-  handleResetAll: () => void;
-  turnAllOnMutation: any;
-  turnAllOffMutation: any;
-  reconnectMutation: any;
-  disconnectMutation: any;
+  handlers: Pick<RelayHandlers, 'turnAllOn' | 'turnAllOff' | 'resetAll'>;
+  mutations: Pick<RelayMutations, 'turnAllOn' | 'turnAllOff'>;
 }
 
-export const RelayButtons: React.FC<RelayButtonsProps> = ({
-  handleTurnAllOn,
-  handleTurnAllOff,
-  handleResetAll,
-  turnAllOnMutation,
-  turnAllOffMutation,
-}) => {
+// ============================================================================
+// Component
+// ============================================================================
+
+export const RelayButtons: React.FC<RelayButtonsProps> = ({ handlers, mutations }) => {
   return (
     <Flex gap="2" ml="8" className="status-buttons-all">
       <Button
-        onClick={handleTurnAllOn}
-        disabled={turnAllOnMutation.isPending}
+        onClick={handlers.turnAllOn}
+        disabled={mutations.turnAllOn.isPending}
         variant="solid"
         color="green"
         size="2"
       >
-        {turnAllOnMutation.isPending ? 'Turning ON...' : 'All ON'}
+        {mutations.turnAllOn.isPending ? 'Turning ON...' : 'All ON'}
       </Button>
       <Button
-        onClick={handleTurnAllOff}
-        disabled={turnAllOffMutation.isPending}
+        onClick={handlers.turnAllOff}
+        disabled={mutations.turnAllOff.isPending}
         variant="solid"
         color="red"
         size="2"
       >
-        {turnAllOffMutation.isPending ? 'Turning OFF...' : 'All OFF'}
+        {mutations.turnAllOff.isPending ? 'Turning OFF...' : 'All OFF'}
       </Button>
       <Button
-        onClick={handleResetAll}
-        disabled={turnAllOffMutation.isPending}
+        onClick={handlers.resetAll}
+        disabled={mutations.turnAllOff.isPending}
         variant="outline"
         color="orange"
         size="2"
       >
-        {turnAllOffMutation.isPending ? 'Resetting...' : 'Reset All'}
+        {mutations.turnAllOff.isPending ? 'Resetting...' : 'Reset All'}
       </Button>
     </Flex>
   );

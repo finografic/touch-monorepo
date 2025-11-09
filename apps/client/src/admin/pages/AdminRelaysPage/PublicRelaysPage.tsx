@@ -38,19 +38,7 @@ export const PublicRelaysPage: React.FC = () => {
   }, []);
 
   // Use custom hook for all relay handlers
-  const {
-    handleRelayToggle,
-    handleTurnAllOn,
-    handleTurnAllOff,
-    handleResetAll,
-    handleReconnect,
-    handleRetryConnection,
-    toggleRelayMutation,
-    turnAllOnMutation,
-    turnAllOffMutation,
-    reconnectMutation,
-    disconnectMutation,
-  } = useRelayHandlers();
+  const { handlers, mutations } = useRelayHandlers();
 
   // API hooks with smart polling
   const {
@@ -124,7 +112,7 @@ export const PublicRelaysPage: React.FC = () => {
             </Text>
             <Flex gap="3" align="center">
               <Button
-                onClick={() => handleRetryConnection(enableStatesPolling, enableStatusPolling)}
+                onClick={() => handlers.retryConnection(enableStatesPolling, enableStatusPolling)}
                 variant="solid"
                 color="blue"
                 size="3"
@@ -177,12 +165,12 @@ export const PublicRelaysPage: React.FC = () => {
           </Flex>
           <Flex align="center" gap="3">
             <Button
-              onClick={() => handleReconnect(relayStatus)}
-              disabled={reconnectMutation.isPending || disconnectMutation.isPending}
+              onClick={() => handlers.reconnect(relayStatus)}
+              disabled={mutations.reconnect.isPending || mutations.disconnect.isPending}
               variant="outline"
               size="2"
             >
-              {reconnectMutation.isPending || disconnectMutation.isPending
+              {mutations.reconnect.isPending || mutations.disconnect.isPending
                 ? relayStatus?.connected
                   ? 'Disconnecting...'
                   : 'Reconnecting...'

@@ -1,19 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
-import { Badge, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
+import { Badge, Button, Flex, Text } from '@radix-ui/themes';
 import { Loader } from 'components/Loader/Loader';
 
-import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
+import { useGetRelayStates, useGetRelayStatus } from 'queries/relays';
 
 import { useRelayHandlers } from '../useRelayHandlers';
 
 export const RelaysStatus: React.FC = () => {
-  const initializeRelayMutation = useInitializeRelay();
-  useEffect(() => {
-    initializeRelayMutation.mutate();
-  }, []);
-
-  const { handleReconnect, reconnectMutation, disconnectMutation } = useRelayHandlers();
+  const { handlers, mutations } = useRelayHandlers();
   const { isLoading: isLoadingStates, isPollingEnabled: statesPollingEnabled } = useGetRelayStates();
 
   const { data: relayStatus } = useGetRelayStatus();
@@ -47,12 +42,12 @@ export const RelaysStatus: React.FC = () => {
       </Flex>
       <Flex align="center" gap="3">
         <Button
-          onClick={() => handleReconnect(relayStatus)}
-          disabled={reconnectMutation.isPending || disconnectMutation.isPending}
+          onClick={() => handlers.reconnect(relayStatus)}
+          disabled={mutations.reconnect.isPending || mutations.disconnect.isPending}
           variant="outline"
           size="2"
         >
-          {reconnectMutation.isPending || disconnectMutation.isPending
+          {mutations.reconnect.isPending || mutations.disconnect.isPending
             ? relayStatus?.connected
               ? 'Disconnecting...'
               : 'Reconnecting...'

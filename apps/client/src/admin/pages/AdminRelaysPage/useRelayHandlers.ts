@@ -1,5 +1,6 @@
 import { useCallback } from 'react';
 
+import type { UseMutationResult } from '@tanstack/react-query';
 import { useQueryClient } from '@tanstack/react-query';
 import { useToast } from 'components/Toast';
 
@@ -12,7 +13,37 @@ import {
   useTurnAllRelaysOn,
 } from 'queries/relays';
 
-export const useRelayHandlers = () => {
+// ============================================================================
+// Types
+// ============================================================================
+
+export interface RelayHandlers {
+  relayToggle: (slotNumber: number, newState: boolean) => Promise<void>;
+  turnAllOn: () => Promise<void>;
+  turnAllOff: () => Promise<void>;
+  resetAll: () => Promise<void>;
+  reconnect: (relayStatus?: { connected?: boolean }) => Promise<void>;
+  retryConnection: (enableStatesPolling: () => void, enableStatusPolling: () => void) => void;
+}
+
+export interface RelayMutations {
+  toggleRelay: UseMutationResult<any, any, any, any>;
+  turnAllOn: UseMutationResult<any, any, any, any>;
+  turnAllOff: UseMutationResult<any, any, any, any>;
+  reconnect: UseMutationResult<any, any, any, any>;
+  disconnect: UseMutationResult<any, any, any, any>;
+}
+
+export interface UseRelayHandlersReturn {
+  handlers: RelayHandlers;
+  mutations: RelayMutations;
+}
+
+// ============================================================================
+// Hook
+// ============================================================================
+
+export const useRelayHandlers = (): UseRelayHandlersReturn => {
   const { toast } = useToast();
   const queryClient = useQueryClient();
 
@@ -22,6 +53,10 @@ export const useRelayHandlers = () => {
   const turnAllOffMutation = useTurnAllRelaysOff();
   const reconnectMutation = useReconnectRelay();
   const disconnectMutation = useDisconnectRelay();
+
+  // ========================================================================
+  // Handlers
+  // ========================================================================
 
   const handleRelayToggle = useCallback(
     async (slotNumber: number, newState: boolean) => {
@@ -154,19 +189,25 @@ export const useRelayHandlers = () => {
     [toast],
   );
 
+  // ========================================================================
+  // Return grouped objects
+  // ========================================================================
+
   return {
-    // Handlers
-    handleRelayToggle,
-    handleTurnAllOn,
-    handleTurnAllOff,
-    handleResetAll,
-    handleReconnect,
-    handleRetryConnection,
-    // Mutation states for UI
-    toggleRelayMutation,
-    turnAllOnMutation,
-    turnAllOffMutation,
-    reconnectMutation,
-    disconnectMutation,
+    handlers: {
+      relayToggle: handleRelayToggle,
+      turnAllOn: handleTurnAllOn,
+      turnAllOff: handleTurnAllOff,
+      resetAll: handleResetAll,
+      reconnect: handleReconnect,
+      retryConnection: handleRetryConnection,
+    },
+    mutations: {
+      toggleRelay: toggleRelayMutation,
+      turnAllOn: turnAllOnMutation,
+      turnAllOff: turnAllOffMutation,
+      reconnect: reconnectMutation,
+      disconnect: disconnectMutation,
+    },
   };
 };
