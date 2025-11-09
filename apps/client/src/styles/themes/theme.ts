@@ -1,4 +1,4 @@
-import { spacing } from '../constants/global.constants';
+import { spacing } from '../constants/base.constants';
 import { fontFamilies, fontSizes, fontWeights, lineHeights, typography } from '../fonts/typography.contants';
 import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
 import { colors } from '../colors/colors-direct';
