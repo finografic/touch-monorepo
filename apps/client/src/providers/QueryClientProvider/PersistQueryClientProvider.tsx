@@ -4,7 +4,6 @@ import { createSyncStoragePersister } from '@tanstack/query-sync-storage-persist
 import { QueryClient } from '@tanstack/react-query';
 import { PersistQueryClientProvider } from '@tanstack/react-query-persist-client';
 
-import { HydrateLoader } from 'routes/components/HydrateLoader';
 // import { QueryDevtoolsPanel } from './QueryDevtoolsPanel';
 
 // Helper: Safe localStorage access
@@ -105,8 +104,6 @@ export default function ({ children }: Props) {
       }}
     >
       {children}
-      {/* Show loading state while hydrating */}
-      <HydrateLoader />
     </PersistQueryClientProvider>
   );
 }

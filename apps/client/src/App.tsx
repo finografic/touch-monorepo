@@ -14,7 +14,6 @@ import { EmotionThemeProvider } from 'providers/EmotionThemeProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { TimersProvider } from 'providers/TimersProvider';
 import { ErrorBoundary } from 'routes/components/ErrorBoundary';
-import { HydrateLoader } from 'routes/components/HydrateLoader';
 import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 
 import { themeConfig } from 'styles/radix-ui/theme.config';
@@ -61,7 +60,6 @@ const App = () => {
       path: '/',
       loader: () => routesData,
       element: <AppBaseLayout />,
-      hydrateFallbackElement: <HydrateLoader />,
       children: isInitialized
         ? [...routesData.routes]
         : [{ id: 'pending-routes', path: '*', element: <Spinner size="2" /> }],

@@ -11,7 +11,7 @@ export const styles = css`
   header.app-header.admin-app-header {
     width: 100%;
     max-width: none;
-    background-color: ${colors.greyDark};
+    background-color: ${colors.greyXXDark};
     color: ${colors.white};
 
     h1,

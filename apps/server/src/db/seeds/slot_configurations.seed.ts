@@ -17,10 +17,20 @@ const DEFAULT_SLOT_CONFIG = [
   // Third row (7-9)
   { slotNumber: 7, slotType: 'B' as const, relayNumber: 7 },
   { slotNumber: 8, slotType: 'B' as const, relayNumber: 8 },
-  { slotNumber: 9, slotType: 'B' as const, relayNumber: null },
+  { slotNumber: 9, slotType: 'B' as const, relayNumber: 9 },
+
+  // Second row (10-12)
+  { slotNumber: 10, slotType: 'B' as const, relayNumber: 10 },
+  { slotNumber: 11, slotType: 'B' as const, relayNumber: 11 },
+  { slotNumber: 12, slotType: 'B' as const, relayNumber: 12 },
+
+  // Second row (13-15)
+  { slotNumber: 13, slotType: 'B' as const, relayNumber: 13 },
+  { slotNumber: 14, slotType: 'B' as const, relayNumber: 14 },
+  { slotNumber: 15, slotType: 'B' as const, relayNumber: 15 },
 
   // Last slot (positioned separately)
-  { slotNumber: 10, slotType: 'C' as const, relayNumber: null },
+  { slotNumber: 16, slotType: 'C' as const, relayNumber: null },
 ];
 
 export async function seed() {
