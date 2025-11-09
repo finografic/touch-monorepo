@@ -10,7 +10,7 @@ import { baseLayout, button } from './base.constants';
 import { colors } from '../colors/colors-direct';
 
 // Base border styles using button constants
-export const border = css`
+export const cssBorder = css`
   border-color: ${colors.greyXLight};
   border-style: ${button.border.style};
   border-width: ${button.border.width};

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { border, colors, layout, min, spacing } from 'styles';
+import { colors, layout, min, spacing } from 'styles';
 
 export const styles = css`
   &.admin-page-container {

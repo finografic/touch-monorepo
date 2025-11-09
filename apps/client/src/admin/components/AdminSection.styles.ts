@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { border, colors, layout, min, spacing } from 'styles';
+import { colors, layout, min } from 'styles';
 import { baseLayout } from 'styles/constants/base.constants';
 
 export const styles = css`
