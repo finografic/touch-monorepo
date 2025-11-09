@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { button, colors, layout } from 'styles';
-import { baseLayout } from 'styles/constants/base.constants';
+import { border } from 'styles/constants/base.constants';
 
 export const styles = css`
   /* Trigger button styling (closed state) */
@@ -51,7 +51,7 @@ export const styles = css`
     /* border: ${button.border.width} solid ${colors.defaultXXLight50}; */
     outline: none !important;
 
-    border-radius: ${baseLayout.borderRadius.lg}!important;
+    border-radius: ${border.radius.sm}!important;
 
     box-shadow: inset 0 0 0 0 transparent !important; /* TEST: Add a green box-shadow to the button */
 

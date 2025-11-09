@@ -4,7 +4,7 @@
  */
 
 import { colors } from '../colors/colors-direct';
-import { baseLayout } from './base.constants';
+import { border } from './base.constants';
 
 export const button = {
   background: colors.defaultXLight25,
@@ -27,7 +27,7 @@ export const button = {
     minWidth: '200px',
     minHeight: '60px',
   },
-  radius: baseLayout.borderRadius.lg,
+  radius: border.radius.sm,
   transform: {
     hoverScale: 1.025,
     padHoverScale: 1.05,

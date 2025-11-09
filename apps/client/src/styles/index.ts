@@ -20,7 +20,7 @@ export { oklchLightTheme, oklchDarkTheme, oklchThemes } from './themes/generate-
 export { useColors, useThemeName } from './hooks/useColors';
 
 // 📐 Layout & spacing
-export { spacing } from './constants/global.constants';
+export { border, spacing } from './constants/global.constants';
 export { cssBorder, layout } from './constants/global.constants';
 export { button } from './constants/button.constants';
 

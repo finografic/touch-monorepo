@@ -6,7 +6,7 @@
 
 import { css } from '@emotion/react';
 
-import { baseLayout, spacing } from './base.constants';
+import { baseLayout, border, spacing } from './base.constants';
 import { button } from './button.constants';
 import { typography } from './typography.constants';
 import { colors } from '../colors/colors-direct';
@@ -22,12 +22,12 @@ export const cssBorder = css`
 export const layout = {
   fontSize: typography.fontSize.base,
   padding: baseLayout.padding.default,
-  borderWidth: baseLayout.borderWidth[2],
-  borderRadius: baseLayout.borderRadius.xl, // '0.5rem'
+  borderWidth: border.width.default,
+  borderRadius: border.radius.default, // '0.75rem'
   pageColor: colors.white,
   bgColor: colors.white,
-  radius: baseLayout.borderRadius.lg,
-  radiusInner: baseLayout.borderRadius.md,
+  radius: border.radius.sm,
+  radiusInner: border.radius.xs,
   header: {
     height: '70px',
   },
@@ -50,8 +50,8 @@ export const layout = {
   },
 } as const;
 
-// Re-export spacing from base.constants for convenience
-export { spacing };
+// Re-export from base.constants for convenience
+export { border, spacing };
 
 // Export button constants for easy access
 export { button };
