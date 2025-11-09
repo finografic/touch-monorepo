@@ -7,15 +7,72 @@ import { useGetRelayStates, useGetRelayStatus } from 'queries/relays';
 
 import { useRelayHandlers } from '../useRelayHandlers';
 
+// ============================================================================
+// Component
+// ============================================================================
+
 export const RelaysStatus: React.FC = () => {
   const { handlers, mutations } = useRelayHandlers();
-  const { isLoading: isLoadingStates, isPollingEnabled: statesPollingEnabled } = useGetRelayStates();
+
+  // Call hooks directly - this component owns connection status!
+  const {
+    isLoading: isLoadingStates,
+    isPollingEnabled: statesPollingEnabled,
+    error: statesError,
+    enablePolling: enableStatesPolling,
+  } = useGetRelayStates();
 
   const { data: relayStatus } = useGetRelayStatus();
+
+  // ========================================================================
+  // Loading State
+  // ========================================================================
 
   if (isLoadingStates) {
     return <Loader message="Loading relay states..." />;
   }
+
+  // ========================================================================
+  // Error State
+  // ========================================================================
+
+  if (statesError) {
+    const isNetworkError =
+      statesError.message?.includes('Network Error') || statesError.message?.includes('RPC Request Failed');
+
+    return (
+      <Flex direction="column" gap="4" align="center" py="6">
+        <Text color="red" size="5" weight="bold">
+          {isNetworkError ? '🔴 Server Unavailable' : '⚠️ Connection Error'}
+        </Text>
+        <Text color="gray" size="3" align="center" style={{ maxWidth: '600px' }}>
+          {isNetworkError
+            ? 'The development server appears to be stopped. Polling has been disabled to prevent conflicts.'
+            : `Error loading relay states: ${statesError.message}`}
+        </Text>
+        <Flex gap="3" align="center">
+          <Button
+            onClick={() => {
+              enableStatesPolling();
+              // Status polling will restart automatically via React Query
+            }}
+            variant="solid"
+            color="blue"
+            size="3"
+          >
+            🔄 Retry Connection
+          </Button>
+          <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
+            Polling: {statesPollingEnabled ? 'Active' : 'Disabled'}
+          </Badge>
+        </Flex>
+      </Flex>
+    );
+  }
+
+  // ========================================================================
+  // Normal Status Display
+  // ========================================================================
 
   return (
     <Flex justify="between" align="center">

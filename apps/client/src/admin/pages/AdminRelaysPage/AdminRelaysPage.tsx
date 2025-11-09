@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useState } from 'react';
 
-import { Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
+import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { RelayAssign } from 'admin/pages/AdminRelaysPage/RelayAssign';
 import { RelayButtons } from 'admin/pages/AdminRelaysPage/RelayButtons';
 
-import { useGetRelayStates, useGetRelayStatus, useInitializeRelay } from 'queries/relays';
+import { useGetRelayStates, useInitializeRelay } from 'queries/relays';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 import type { SlotType } from 'types/orders.types';
@@ -39,26 +39,15 @@ export const AdminRelaysPage: React.FC = () => {
   // Use custom hook for all relay handlers
   const { handlers, mutations } = useRelayHandlers();
 
-  // API hooks with smart polling
-  const {
-    data: relayStates,
-    isLoading: isLoadingStates,
-    error: statesError,
-    isPollingEnabled: statesPollingEnabled,
-    enablePolling: enableStatesPolling,
-  } = useGetRelayStates();
+  // API hooks - Only what THIS page needs
+  const { data: relayStates, isLoading: isLoadingStates } = useGetRelayStates();
 
-  const {
-    data: relayStatus,
-    isLoading: isLoadingStatus,
-    isPollingEnabled: statusPollingEnabled,
-    enablePolling: enableStatusPolling,
-    disablePolling: disableStatusPolling,
-  } = useGetRelayStatus();
+  // Note: Error handling moved to RelaysStatus component - it owns connection status!
+  // Note: useGetRelayStatus removed - RelaysStatus calls it directly
 
   const isLoading = useMemo(
-    () => isLoadingSlotConfigurations || isLoadingStates || isLoadingStatus,
-    [isLoadingSlotConfigurations, isLoadingStates, isLoadingStatus],
+    () => isLoadingSlotConfigurations || isLoadingStates,
+    [isLoadingSlotConfigurations, isLoadingStates],
   );
 
   // ======================================================================== //
@@ -100,45 +89,11 @@ export const AdminRelaysPage: React.FC = () => {
     [relayStates],
   );
 
+  // Show loading state while fetching slot configurations
   if (isLoading) {
     return (
-      <AdminPageLayout title="Relay Control" subtitle="Loading..." styles={styles}>
-        <Box className="loading">Loading relay states...</Box>
-      </AdminPageLayout>
-    );
-  }
-
-  if (statesError) {
-    const isNetworkError =
-      statesError.message?.includes('Network Error') || statesError.message?.includes('RPC Request Failed');
-
-    return (
-      <AdminPageLayout title="Relay Control" subtitle="Connection Error" styles={styles}>
-        <Box className="error">
-          <Flex direction="column" gap="4" align="center">
-            <Text color="red" size="4" weight="bold">
-              {isNetworkError ? 'Server Unavailable' : 'Error'}
-            </Text>
-            <Text color="gray" size="3">
-              {isNetworkError
-                ? 'The development server appears to be stopped. Polling has been disabled to prevent conflicts.'
-                : `Error loading relay states: ${statesError.message}`}
-            </Text>
-            <Flex gap="3" align="center">
-              <Button
-                onClick={() => handlers.retryConnection(enableStatesPolling, enableStatusPolling)}
-                variant="solid"
-                color="blue"
-                size="3"
-              >
-                🔄 Retry Connection
-              </Button>
-              <Text size="2" color="gray">
-                Polling: {statesPollingEnabled ? '🟢 Active' : '🔴 Disabled'}
-              </Text>
-            </Flex>
-          </Flex>
-        </Box>
+      <AdminPageLayout title="Relay Control" isLoading={true} styles={styles}>
+        <Box />
       </AdminPageLayout>
     );
   }

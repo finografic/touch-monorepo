@@ -7,6 +7,7 @@ import { Title } from 'components/Title';
 
 import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
 import { styles as stylesLayout } from './AdminPageLayout.styles';
+import { Loader } from 'components/Loader/Loader';
 
 interface AdminPageLayoutProps {
   title?: string;
@@ -38,6 +39,8 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
           align={align}
         />
 
+        {isLoading ? <Loader message="Loading..." /> : null}
+
         {error && (
           <Callout.Root color="red" style={{ marginBottom: '1.5rem' }}>
             <Callout.Text>Error: {error}</Callout.Text>
@@ -55,7 +58,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
         )}
 
         <Flex direction="column" className="admin-page-content">
-          {children}
+          {isLoading || error ? null : children}
         </Flex>
       </section>
     );
