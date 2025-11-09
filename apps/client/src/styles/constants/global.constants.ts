@@ -6,7 +6,7 @@
 
 import { css } from '@emotion/react';
 
-import { baseLayout, border, spacing } from './base.constants';
+import { baseLayout, border } from './base.constants';
 import { button } from './button.constants';
 import { typography } from './typography.constants';
 import { colors } from '../colors/colors-direct';
@@ -51,7 +51,10 @@ export const layout = {
 } as const;
 
 // Re-export from base.constants for convenience
-export { border, spacing };
+export { border };
+
+// Re-export spacing for convenience
+export const spacing = baseLayout.spacing;
 
 // Export button constants for easy access
 export { button };
