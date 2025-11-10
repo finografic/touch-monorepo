@@ -75,5 +75,7 @@ export const styles = css`
         margin: 0.5rem 0;
       }
     }
+
+    border: 1px solid red;
   }
 `;

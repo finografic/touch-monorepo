@@ -6,7 +6,7 @@ import { TabList } from 'admin/pages/AdminOrdersPage/TabList';
 
 import { useGetOrdersReadable } from 'queries/orders';
 
-import { AdminPageHeader, AdminSection } from '../..';
+import { AdminPageHeader, AdminPageLayout, AdminSection } from '../..';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
 
 export const AdminOrdersListPage: React.FC = () => {
@@ -33,7 +33,11 @@ export const AdminOrdersListPage: React.FC = () => {
   }, [isFiltered, filteredCount, totalCount]);
 
   return (
-    <>
+    <AdminPageLayout
+    // title="Mode Selection"
+    // subtitle="Admin"
+    // description="Manage active modes for the system"
+    >
       <AdminPageHeader
         title={title}
         subtitle={subtitle}
@@ -46,6 +50,6 @@ export const AdminOrdersListPage: React.FC = () => {
       <AdminSection isLoading={isLoading} variant="none">
         <TabList orders={filteredOrders} isLoading={isLoading} error={error} />
       </AdminSection>
-    </>
+    </AdminPageLayout>
   );
 };
