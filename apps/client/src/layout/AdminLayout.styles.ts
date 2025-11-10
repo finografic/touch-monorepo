@@ -183,7 +183,7 @@ export const styles = css`
         .admin-page-content {
           flex: 1;
           width: 100%;
-          padding: 0rem 1rem 2rem 2rem;
+          /* padding: 0rem 1rem 2rem 2rem; */
           display: flex;
           /* justify-content: center; */
           /* align-items: flex-start; */
