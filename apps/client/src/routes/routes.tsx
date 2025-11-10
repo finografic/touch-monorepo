@@ -140,8 +140,13 @@ export const routes: RouteObject[] = [
           {
             path: 'items',
             id: AdminFieldKeys.items,
-            element: <AdminOrdersListPage />,
+            element: <Outlet />, // Parent route with Outlet for nested routes
             children: [
+              {
+                index: true,
+                id: 'order-list',
+                element: <AdminOrdersListPage />,
+              },
               {
                 path: ':orderId',
                 id: 'order-edit',

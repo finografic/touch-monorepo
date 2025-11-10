@@ -59,13 +59,14 @@ export const ProtectedRoutesByRole: React.FC = () => {
   // Handle authenticated users
   if (user && isAuthenticated) {
     // Check if route is accessible for user role
-
     if (currentRouteEntry && currentRouteEntry.element.admin) {
-      return <currentRouteEntry.element.admin />;
+      // ✅ Let React Router handle the actual route rendering
+      return <Outlet />;
     }
 
     if (currentRouteEntry && currentRouteEntry.element.public) {
-      return <currentRouteEntry.element.public />;
+      // ✅ Let React Router handle the actual route rendering
+      return <Outlet />;
     }
 
     return <Navigate to="/admin" />;
@@ -74,7 +75,8 @@ export const ProtectedRoutesByRole: React.FC = () => {
   // Handle unauthenticated users
   if (!isAuthenticated) {
     if (currentRouteEntry && currentRouteEntry.element.public) {
-      return <currentRouteEntry.element.public />;
+      // ✅ Let React Router handle the actual route rendering
+      return <Outlet />;
     }
 
     return <Navigate to="/admin" />;

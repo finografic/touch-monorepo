@@ -4,15 +4,13 @@ import { Outlet } from 'react-router-dom';
 import { AdminLanguagesPage, PublicLanguagesPage } from 'admin/pages/AdminLanguagesPage';
 import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminModePage } from 'admin/pages/AdminModePage/__AdminModePage';
-import { AdminOrdersListPage } from 'admin/pages/AdminOrdersPage';
-import { AdminOrderEditPage } from 'admin/pages/AdminOrdersPage/AdminOrderEditPage';
+import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
 import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage/AdminTranslationsPage';
 import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
-import NotFoundPage from 'pages/NotFound';
 
 import {
   CoffeeIcon,
@@ -20,10 +18,7 @@ import {
   GridIcon,
   LanguageIcon,
   ListIcon,
-  MagnifyingGlassIcon,
   SettingsIcon,
-  SpeakerLoudIcon,
-  UserShildIcon,
   VolumeIcon,
   ZapIcon,
 } from 'styles/icons';
@@ -139,14 +134,13 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   },
   {
     key: 'items',
-    path: '/admin/items', // orders
+    path: '/admin/items', // orders (parent route for list + edit)
     element: {
       public: null,
-      admin: AdminOrdersListPage,
+      admin: AdminOrdersPage, // ✅ Parent component with Outlet
     },
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
-    // icon: UserShildIcon,
     icon: ListIcon,
     color: 'blue',
   },
