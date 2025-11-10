@@ -1,47 +1,52 @@
-import React, { type CSSProperties, useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 
-import { Button, Flex, Table, Text } from '@radix-ui/themes';
-// import { useLockBodyScroll } from '@uidotdev/usehooks';
-import clsx from 'clsx';
-import { useScrollLock } from 'usehooks-ts';
+import { Button as RadixButton, Text } from '@radix-ui/themes';
+import { DataTable } from 'primereact/datatable';
+import { Column } from 'primereact/column';
+import { InputText } from 'primereact/inputtext';
+import { FilterMatchMode } from 'primereact/api';
+import type { DataTableFilterMeta } from 'primereact/datatable';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { formatUnixTimestamp } from 'utils/date.utils';
-import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { SelectOption } from 'types/models/select-option.model';
 import type { OrderReadableWithIndex } from '../../hooks/useOrdersFilter';
-import { ColumnFilter } from './ColumnSearchInput';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import { styles } from './OrdersTable.styles';
+
+import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import 'primereact/resources/primereact.min.css';
+
+// ============================================================================
+// Constants
+// ============================================================================
+
+export const PAGINATOR_NUM_ENTRIES = 50;
 
 // ============================================================================
 // Column definition types
 // ============================================================================
 
 export type ColumnKey =
-  | 'index'
+  | 'displayIndex'
   | 'id'
   | 'mode'
   | 'drinkType'
-  | 'subtype'
+  | 'drinkSubtype'
   | 'volume'
-  | 'container'
-  | 'temperature'
-  | 'created'
-  | 'edit'
-  | 'delete';
+  | 'containerType'
+  | 'defaultTempConsume'
+  | 'createdAt'
+  | 'actions';
 
 export interface ColumnDef {
-  key: ColumnKey;
-  label: string;
-  width?: string;
-  maxWidth?: string;
-  className?: string;
-  searchable?: boolean; // Whether this column should have a filter
-  filterVariant?: 'search' | 'select'; // Type of filter: text search or select dropdown
-  filterOptions?: SelectOption[]; // Options for select variant
-  filterPlaceholder?: string; // Custom placeholder for filter
+  field: string;
+  header: string;
+  sortable?: boolean;
+  filter?: boolean;
+  filterPlaceholder?: string;
+  style?: React.CSSProperties;
+  body?: (rowData: OrderReadableWithIndex) => React.ReactNode;
 }
 
 export interface ColumnSearchState {
@@ -50,188 +55,162 @@ export interface ColumnSearchState {
 
 export interface OrdersTableProps {
   orders: OrderReadableWithIndex[];
-  columns: ColumnDef[];
   emptyMessage?: string;
-  emptySubMessage?: string;
   onClickEdit: (orderId: string) => void;
   onClickDelete: (orderId: string) => void;
-  columnSearches?: ColumnSearchState;
-  onColumnSearchChange?: (columnKey: ColumnKey, value: string) => void;
 }
 
 export const OrdersTable: React.FC<OrdersTableProps> = ({
   orders,
-  columns,
   emptyMessage = 'No orders found',
-  emptySubMessage = 'Try adjusting your search term',
   onClickEdit,
   onClickDelete,
-  columnSearches = {},
-  onColumnSearchChange,
 }) => {
   const { currentLanguage } = useAppConfig();
 
-  useScrollLock({ autoLock: true, lockTarget: '#layout-main' });
-  // useLockBodyScroll();
+  // Initialize filters for PrimeReact DataTable
+  const [filters, setFilters] = useState<DataTableFilterMeta>({
+    displayIndex: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    mode: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    drinkType: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    drinkSubtype: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    volume: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    containerType: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    defaultTempConsume: { value: null, matchMode: FilterMatchMode.CONTAINS },
+  });
 
-  // Render cell content based on column key
-  const renderCellContent = (column: ColumnDef, order: OrderReadableWithIndex, index: number) => {
-    switch (column.key) {
-      case 'index':
-        return (
-          <Text size="2" weight="bold">
-            {order.displayIndex}
-          </Text>
-        );
+  // ============================================================================
+  // Body Templates (Custom Cell Renderers)
+  // ============================================================================
 
-      case 'id':
-        return (
-          <div className="td-order-id">
-            <Text size="2" weight="medium">
-              {order.id}
-            </Text>
-          </div>
-        );
-
-      case 'mode':
-        return order.mode || '-';
-
-      case 'drinkType':
-        return order.drinkType || '-';
-
-      case 'subtype':
-        return order.drinkSubtype || '-';
-
-      case 'volume':
-        return order.volume || '-';
-
-      case 'container':
-        return order.containerType || '-';
-
-      case 'temperature':
-        return order.defaultTempConsume ? `${order.defaultTempConsume}°C` : '-';
-
-      case 'created':
-        return <Text size="1">{formatUnixTimestamp(order.createdAt, currentLanguage)}</Text>;
-
-      case 'edit':
-        return (
-          <Button
-            className="button button-edit"
-            onClick={() => onClickEdit(order.id)}
-            variant="ghost"
-            size="2"
-          >
-            <EditIcon className="icon-edit" />
-          </Button>
-        );
-
-      case 'delete':
-        return (
-          <Button
-            className="button button-delete"
-            onClick={() => onClickDelete(order.id)}
-            variant="ghost"
-            size="2"
-            color="red"
-          >
-            <TrashIcon className="icon-delete" />
-          </Button>
-        );
-
-      default:
-        return '-';
-    }
+  const indexBodyTemplate = (rowData: OrderReadableWithIndex) => {
+    return (
+      <Text size="2" weight="bold" style={{ opacity: 0.4 }}>
+        {rowData.displayIndex}
+      </Text>
+    );
   };
 
-  const columnStyles = useMemo(() => {
-    return columns.map((column) => {
-      const styles = {} as CSSProperties;
-      if (column.width) Object.assign(styles, { width: column.width });
-      if (column.maxWidth) Object.assign(styles, { maxWidth: column.maxWidth });
+  const temperatureBodyTemplate = (rowData: OrderReadableWithIndex) => {
+    return rowData.defaultTempConsume ? `${rowData.defaultTempConsume}°C` : '-';
+  };
 
-      return styles;
-    });
-  }, [columns]);
+  const createdBodyTemplate = (rowData: OrderReadableWithIndex) => {
+    return <Text size="1">{formatUnixTimestamp(rowData.createdAt, currentLanguage)}</Text>;
+  };
+
+  const actionsBodyTemplate = (rowData: OrderReadableWithIndex) => {
+    return (
+      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+        <RadixButton
+          className="button button-edit"
+          onClick={() => onClickEdit(rowData.id)}
+          variant="ghost"
+          size="2"
+        >
+          <EditIcon className="icon-edit" />
+        </RadixButton>
+        <RadixButton
+          className="button button-delete"
+          onClick={() => onClickDelete(rowData.id)}
+          variant="ghost"
+          size="2"
+          color="red"
+        >
+          <TrashIcon className="icon-delete" />
+        </RadixButton>
+      </div>
+    );
+  };
 
   return (
     <section css={styles} className="admin-page-content table-container">
-      {orders.length >= 0 ? (
-        <Table.Root>
-          <Table.Header style={{ width: '100%', position: 'fixed', display: 'table-header-group' }}>
-            <Table.Row>
-              {columns.map((column, i) => (
-                <Table.ColumnHeaderCell
-                  key={column.key}
-                  className={clsx('th', `th-${column.key}`, column.className)}
-                  style={
-                    i === 0 ? { ...columnStyles[i], width: '20px', maxWidth: '20px' } : { ...columnStyles[i] }
-                  }
-                >
-                  <Flex direction="column" gap="2">
-                    <Text>{column.label}</Text>
-                    {column.searchable && onColumnSearchChange && (
-                      <>
-                        {column.filterVariant === 'select' && column.filterOptions ? (
-                          <ColumnFilter
-                            variant="select"
-                            value={columnSearches[column.key] || ''}
-                            onChange={(value) => onColumnSearchChange(column.key, value)}
-                            options={column.filterOptions}
-                            placeholder=""
-                          />
-                        ) : (
-                          <ColumnFilter
-                            variant="search"
-                            value={columnSearches[column.key] || ''}
-                            onChange={(value) => onColumnSearchChange(column.key, value)}
-                            placeholder=""
-                            hasIcon={false}
-                            width={`${Number(column.width.replace('px', '')) * 1.6}px`}
-                          />
-                        )}
-                      </>
-                    )}
-                  </Flex>
-                </Table.ColumnHeaderCell>
-              ))}
-            </Table.Row>
-          </Table.Header>
-          <Table.Body className="table-body">
-            {orders.map((order, rowIndex) => (
-              <Table.Row key={order.id}>
-                {columns.map((column, i) => (
-                  <Table.Cell
-                    key={column.key}
-                    className={clsx('td', `td-${column.key}`, column.className)}
-                    style={
-                      i === 0
-                        ? {
-                            ...columnStyles[i],
-                            width: '20px',
-                            maxWidth: '20px',
-                            fontWeight: '900',
-                          }
-                        : { ...columnStyles[i] }
-                    }
-                  >
-                    {renderCellContent(column, order, rowIndex)}
-                  </Table.Cell>
-                ))}
-              </Table.Row>
-            ))}
-          </Table.Body>
-        </Table.Root>
-      ) : (
-        <Flex direction="column" align="center" justify="center" py="8">
-          <Text size="3" color="gray">
-            {emptyMessage}
-          </Text>
-          <Text size="2" color="gray">
-            {emptySubMessage}
-          </Text>
-        </Flex>
-      )}
+      <DataTable
+        value={orders}
+        paginator
+        rows={PAGINATOR_NUM_ENTRIES}
+        dataKey="id"
+        filters={filters}
+        filterDisplay="row"
+        emptyMessage={emptyMessage}
+        className="orders-datatable"
+        stripedRows
+        removableSort
+        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        rowsPerPageOptions={[25, 50, 100]}
+      >
+        <Column
+          field="displayIndex"
+          header="#"
+          sortable
+          filter
+          filterPlaceholder="Search"
+          style={{ minWidth: '60px', maxWidth: '80px' }}
+          body={indexBodyTemplate}
+        />
+        <Column
+          field="mode"
+          header="Mode"
+          sortable
+          filter
+          filterPlaceholder="Search"
+          style={{ minWidth: '80px', maxWidth: '100px' }}
+        />
+        <Column
+          field="drinkType"
+          header="Drink Type"
+          sortable
+          filter
+          filterPlaceholder="Search"
+          style={{ minWidth: '120px', maxWidth: '150px' }}
+        />
+        <Column
+          field="drinkSubtype"
+          header="Subtype"
+          sortable
+          filter
+          filterPlaceholder="Search"
+          style={{ minWidth: '120px', maxWidth: '150px' }}
+        />
+        <Column
+          field="volume"
+          header="Volume"
+          sortable
+          filter
+          filterPlaceholder="Search"
+          style={{ minWidth: '100px', maxWidth: '120px' }}
+        />
+        <Column
+          field="containerType"
+          header="Container"
+          sortable
+          filter
+          filterPlaceholder="Search"
+          style={{ minWidth: '100px', maxWidth: '120px' }}
+        />
+        <Column
+          field="defaultTempConsume"
+          header="Temperature"
+          sortable
+          filter
+          filterPlaceholder="Search"
+          style={{ minWidth: '120px', maxWidth: '140px' }}
+          body={temperatureBodyTemplate}
+        />
+        <Column
+          field="createdAt"
+          header="Created"
+          sortable
+          style={{ minWidth: '140px', maxWidth: '160px' }}
+          body={createdBodyTemplate}
+        />
+        <Column
+          header="Actions"
+          style={{ minWidth: '120px', maxWidth: '140px' }}
+          body={actionsBodyTemplate}
+        />
+      </DataTable>
     </section>
   );
 };

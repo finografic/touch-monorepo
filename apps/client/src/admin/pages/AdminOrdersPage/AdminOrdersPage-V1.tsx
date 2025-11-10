@@ -10,6 +10,7 @@ import type { DialogConfig } from 'components/Dialog';
 import { useGetOrdersReadable } from 'queries/orders';
 
 import { AdminPageLayout, AdminSection } from '../..';
+import type { ColumnSearchState } from './components/OrdersTable';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
 import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
 import { styles } from './AdminOrdersPage.styles';
@@ -24,17 +25,18 @@ export const AdminOrdersPage: React.FC = () => {
   const isEditMode = Boolean(orderId);
   const isNewMode = hash === 'new';
 
-  // State for search/filter (empty for PrimeReact's built-in filtering)
+  // State for search/filter
   const [searchTerm] = useState('');
+  const [columnSearches, setColumnSearches] = useState<ColumnSearchState>({});
 
   // Fetch orders data at page level
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
 
-  // Filter orders using custom hook (PrimeReact handles column filtering internally)
+  // Filter orders using custom hook
   const { filteredOrders, isFiltered, totalCount, filteredCount, getOrderIndex } = useOrdersFilter({
     ordersData,
     searchTerm,
-    columnSearches: {}, // PrimeReact handles its own column filtering
+    columnSearches,
   });
 
   const { title, subtitle } = useMemo(() => {
@@ -79,7 +81,15 @@ export const AdminOrdersPage: React.FC = () => {
         id: 'list',
         label: 'Listado de registros',
         icon: <ListChecksIcon />,
-        content: <TabList orders={filteredOrders} isLoading={isLoading} error={error} />,
+        content: (
+          <TabList
+            orders={filteredOrders}
+            columnSearches={columnSearches}
+            onColumnSearchChange={setColumnSearches}
+            isLoading={isLoading}
+            error={error}
+          />
+        ),
       },
       isEditMode || isNewMode
         ? isEditMode

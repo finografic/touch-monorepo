@@ -1,21 +1,35 @@
-import React from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Col, Row } from 'react-grid-system';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { Flex, Spinner, Text } from '@radix-ui/themes';
+import type { ColumnKey, ColumnSearchState } from 'admin/pages/AdminOrdersPage/components/OrdersTable';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/components/OrdersTable';
+import { DEFAULT_ORDERS_COLUMNS } from 'admin/pages/AdminOrdersPage/components/OrdersTable/OrdersTable.columns';
+import clsx from 'clsx';
 import { useToast } from 'components/Toast';
 
 import { useDeleteOrder } from 'queries/orders';
 
+import { AdminSection } from '../..';
 import type { OrderReadableWithIndex } from './hooks/useOrdersFilter';
 
 interface TabListProps {
   orders: OrderReadableWithIndex[];
+  columnSearches: ColumnSearchState;
+  onColumnSearchChange: React.Dispatch<React.SetStateAction<ColumnSearchState>>;
   isLoading: boolean;
   error: Error | null;
 }
 
-export const TabList: React.FC<TabListProps> = ({ orders, isLoading, error }) => {
+export const TabList: React.FC<TabListProps> = ({
+  orders,
+  columnSearches,
+  onColumnSearchChange,
+  isLoading,
+  error,
+}) => {
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
   const { orderId } = useParams<{ orderId?: string }>();
@@ -56,6 +70,26 @@ export const TabList: React.FC<TabListProps> = ({ orders, isLoading, error }) =>
     }
   };
 
+  // Handle column search change
+  const handleColumnSearchChange = useCallback(
+    (columnKey: ColumnKey, value: string) => {
+      onColumnSearchChange((prev) => ({
+        ...prev,
+        [columnKey]: value,
+      }));
+    },
+    [onColumnSearchChange],
+  );
+
+  useEffect(
+    function initSearchBox() {
+      if (!isDrawerOpen) {
+        onColumnSearchChange({});
+      }
+    },
+    [isDrawerOpen, onColumnSearchChange],
+  );
+
   if (isLoading || isEditMode) {
     return (
       <Flex direction="column" gap="4" align="center" justify="center" p="6">
@@ -77,10 +111,19 @@ export const TabList: React.FC<TabListProps> = ({ orders, isLoading, error }) =>
   }
 
   return (
-    <Flex direction="column" width="100%" gap="6">
+    <Flex
+      direction="column"
+      width="100%"
+      gap="6"
+      //  style={{ border: '2px solid red"', overflowY: 'scroll' }}
+    >
       <OrdersTable
         orders={orders}
-        emptyMessage="No orders found. Try adjusting your filters."
+        columns={DEFAULT_ORDERS_COLUMNS}
+        emptyMessage="No orders found"
+        emptySubMessage="Try adjusting your column filters"
+        columnSearches={columnSearches}
+        onColumnSearchChange={handleColumnSearchChange}
         onClickEdit={handleEditOrder}
         onClickDelete={handleDeleteOrder}
       />
