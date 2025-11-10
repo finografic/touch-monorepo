@@ -1,14 +1,16 @@
 import React, { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
+import { Button } from '@radix-ui/themes';
 import { TabForm } from 'admin/pages/AdminOrdersPage/TabForm';
 
 import { useGetOrdersReadable } from 'queries/orders';
 
-import { AdminPageLayout, AdminSection } from '../..';
+import { AdminPageHeader, AdminSection } from '../..';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
 
 export const AdminOrderEditPage: React.FC = () => {
+  const navigate = useNavigate();
   const { orderId } = useParams<{ orderId?: string }>();
 
   // Fetch orders data to get the display index
@@ -37,10 +39,24 @@ export const AdminOrderEditPage: React.FC = () => {
   }, [orderId, getOrderIndex]);
 
   return (
-    <AdminPageLayout title={title} subtitle={subtitle}>
+    <>
+      <AdminPageHeader
+        title={title}
+        subtitle={subtitle}
+        actions={
+          <>
+            <Button size="3" variant="outline" color="gray" onClick={() => navigate('/admin/items')}>
+              Cancelar
+            </Button>
+            <Button size="3" color="green" type="submit" form="order-form">
+              CONFIRM CHANGES
+            </Button>
+          </>
+        }
+      />
       <AdminSection isLoading={isLoading} variant="none">
         <TabForm />
       </AdminSection>
-    </AdminPageLayout>
+    </>
   );
 };

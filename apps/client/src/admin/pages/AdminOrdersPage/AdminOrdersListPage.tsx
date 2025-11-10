@@ -1,13 +1,17 @@
 import React, { useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { Button } from '@radix-ui/themes';
 import { TabList } from 'admin/pages/AdminOrdersPage/TabList';
 
 import { useGetOrdersReadable } from 'queries/orders';
 
-import { AdminPageLayout, AdminSection } from '../..';
+import { AdminPageHeader, AdminSection } from '../..';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
 
 export const AdminOrdersListPage: React.FC = () => {
+  const navigate = useNavigate();
+
   // State for search/filter (empty for PrimeReact's built-in filtering)
   const [searchTerm] = useState('');
 
@@ -29,10 +33,19 @@ export const AdminOrdersListPage: React.FC = () => {
   }, [isFiltered, filteredCount, totalCount]);
 
   return (
-    <AdminPageLayout title={title} subtitle={subtitle}>
+    <>
+      <AdminPageHeader
+        title={title}
+        subtitle={subtitle}
+        actions={
+          <Button size="3" color="green" onClick={() => navigate('/admin/items/new')}>
+            + Create New
+          </Button>
+        }
+      />
       <AdminSection isLoading={isLoading} variant="none">
         <TabList orders={filteredOrders} isLoading={isLoading} error={error} />
       </AdminSection>
-    </AdminPageLayout>
+    </>
   );
 };
