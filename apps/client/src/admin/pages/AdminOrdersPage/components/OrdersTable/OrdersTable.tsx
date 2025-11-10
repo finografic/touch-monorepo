@@ -110,12 +110,12 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
 
   const actionsBodyTemplate = (rowData: OrderReadableWithIndex) => {
     return (
-      <div style={{ display: 'flex', gap: '0.5rem', justifyContent: 'center' }}>
+      <div className="action-buttons">
         <RadixButton
           className="button button-edit"
           onClick={() => onClickEdit(rowData.id)}
           variant="ghost"
-          size="2"
+          size="4"
         >
           <EditIcon className="icon-edit" />
         </RadixButton>
@@ -123,7 +123,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           className="button button-delete"
           onClick={() => onClickDelete(rowData.id)}
           variant="ghost"
-          size="2"
+          size="4"
           color="red"
         >
           <TrashIcon className="icon-delete" />
@@ -144,6 +144,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         stripedRows
         removableSort
         scrollable
+        // scrollHeight="600px"
         scrollHeight="flex"
         {...PAGINATOR_PROPS}
       >

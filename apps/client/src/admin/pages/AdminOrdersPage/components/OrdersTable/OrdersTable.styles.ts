@@ -4,9 +4,13 @@ import { colors, min } from 'styles';
 
 export const styles = css`
   width: 100%;
-  min-height: 100vh;
+  height: 100%;
+  max-height: calc(100vh - 200px); /* Account for header/footer */
   background-color: ${colors.white};
   color: ${colors.text};
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 
   /* ============================================================================
      PRIMEREACT DATATABLE CUSTOMIZATION
@@ -14,12 +18,21 @@ export const styles = css`
 
   .orders-datatable {
     font-size: 0.95rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 
     /* Table header styling */
     .p-datatable-header {
       background-color: ${colors.white};
       border: none;
       padding: 1rem;
+    }
+
+    /* Scrollable wrapper */
+    .p-datatable-wrapper {
+      overflow-y: auto;
+      flex: 1;
     }
 
     /* Column headers - STICKY */
@@ -32,7 +45,8 @@ export const styles = css`
       font-size: 0.9rem;
       position: sticky;
       top: 0;
-      z-index: 1;
+      z-index: 100;
+      background-color: ${colors.greyXXLight25}; /* Ensure solid background */
     }
 
     /* Filter inputs in header */
@@ -157,8 +171,8 @@ export const styles = css`
   }
 
   /* ============================================================================
-     ACTION BUTTONS
-     ============================================================================ */
+    ACTION BUTTONS
+    ============================================================================ */
 
   .button-edit,
   .button-delete {
@@ -321,26 +335,6 @@ export const styles = css`
     .td-mode {
       transform: translate(1rem, 0) !important;
     }
-
-    .button-edit {
-      svg.icon-edit {
-        /* color: ${colors.infoXLight}; */
-      }
-    }
-    .button-delete {
-      svg.icon-delete {
-        color: ${colors.greyXXLight};
-        &:hover {
-          color: #aa0000;
-        }
-      }
-    }
-
-    .button-edit,
-    .button-delete {
-      transform: scale(0.8);
-      padding: 0.5rem 0.5rem !important;
-    }
   }
 
   .td {
@@ -394,12 +388,12 @@ export const styles = css`
   }
 
   .td-action.action-edit button {
-    color: ${colors.infoXDark};
+    color: ${colors.infoXDark}!important;
     background-color: transparent;
 
     &:hover {
-      color: ${colors.successXDark};
-      background-color: ${colors.success25};
+      color: ${colors.successXDark}!important;
+      background-color: ${colors.success25}!important;
     }
     &.active {
       color: ${colors.warningDark};
@@ -412,7 +406,6 @@ export const styles = css`
   }
 
   .td-action.action-delete button {
-    opacity: 0.75;
     color: ${colors.infoXDark};
     background-color: transparent;
 
@@ -431,11 +424,24 @@ export const styles = css`
   }
 
   .column-search-input {
-    /* ${cssInputText} */
     background-color: transparent;
     svg.icon {
       stroke: ${colors.greyXXLight50};
       transform: scale(0.75) !important;
     }
+  }
+  .action-buttons {
+    display: flex;
+    gap: 3rem;
+    justify-content: center;
+    align-items: center;
+    margin: -1rem;
+    height: 2rem;
+    padding: 0 2rem 0 0;
+  }
+
+  .button-edit,
+  .button-delete {
+    transform: scale(1.2);
   }
 `;
