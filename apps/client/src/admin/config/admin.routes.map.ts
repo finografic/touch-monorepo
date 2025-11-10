@@ -150,14 +150,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: ListIcon,
     color: 'blue',
   },
-  // {
-  //   key: 'item-edit',
-  //   path: '/admin/items/:orderId',
-  //   element: {
-  //     public: null,
-  //     admin: AdminOrderEditPage,
-  //   },
-  // },
   {
     key: 'slotConfig',
     path: '/admin/slots-config',
