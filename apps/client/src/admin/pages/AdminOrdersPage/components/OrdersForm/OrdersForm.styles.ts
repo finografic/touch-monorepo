@@ -39,4 +39,47 @@ export const styles = css`
   .col-form-table {
     padding: 1rem 0 !important;
   }
+
+  /* ============================================================================
+     PRIMEREACT PANEL - TEMPERATURE PROFILES
+     ============================================================================ */
+
+  .temperature-profiles-panel {
+    margin-top: 1.5rem;
+    border: 2px solid ${colors.greyXLight};
+    border-radius: 8px;
+    box-shadow: 0 2px 8px ${colors.greyXXLight25};
+
+    /* Panel Header */
+    .p-panel-header {
+      background-color: ${colors.greyXXLight25};
+      border-bottom: 2px solid ${colors.greyXLight};
+      padding: 1rem 1.5rem;
+      border-radius: 6px 6px 0 0;
+
+      .p-panel-title {
+        font-size: 1.2rem;
+        font-weight: 700;
+        color: ${colors.text};
+      }
+    }
+
+    /* Panel Content */
+    .p-panel-content {
+      padding: 1.5rem;
+      background-color: ${colors.white};
+    }
+
+    /* Panel Footer */
+    .p-panel-footer {
+      background-color: ${colors.backgroundLight};
+      border-top: 2px solid ${colors.greyXLight};
+      padding: 1rem 1.5rem;
+      border-radius: 0 0 6px 6px;
+
+      button {
+        min-width: 120px;
+      }
+    }
+  }
 `;

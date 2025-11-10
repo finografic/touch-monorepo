@@ -6,7 +6,7 @@ import { TabForm } from 'admin/pages/AdminOrdersPage/TabForm';
 
 import { useGetOrdersReadable } from 'queries/orders';
 
-import { AdminPageHeader, AdminSection } from '../..';
+import { AdminPageHeader, AdminPageLayout, AdminSection } from '../..';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
 
 export const AdminOrderEditPage: React.FC = () => {
@@ -40,23 +40,30 @@ export const AdminOrderEditPage: React.FC = () => {
 
   return (
     <>
-      <AdminPageHeader
-        title={title}
-        subtitle={subtitle}
-        actions={
-          <>
-            <Button size="3" variant="outline" color="gray" onClick={() => navigate('/admin/items')}>
-              Cancelar
-            </Button>
-            <Button size="3" color="green" type="submit" form="order-form">
-              CONFIRM CHANGES
-            </Button>
-          </>
-        }
-      />
-      <AdminSection isLoading={isLoading} variant="none">
-        <TabForm />
-      </AdminSection>
+      <AdminPageLayout
+      // title="Mode Selection"
+      // subtitle="Admin"
+      // description="Manage active modes for the system"
+      // styles={styles}
+      >
+        <AdminPageHeader
+          title={title}
+          subtitle={subtitle}
+          actions={
+            <>
+              <Button size="3" variant="outline" color="gray" onClick={() => navigate('/admin/items')}>
+                Cancelar
+              </Button>
+              <Button size="3" color="green" type="submit" form="order-form">
+                CONFIRM CHANGES
+              </Button>
+            </>
+          }
+        />
+        <AdminSection isLoading={isLoading} variant="none">
+          <TabForm />
+        </AdminSection>
+      </AdminPageLayout>
     </>
   );
 };

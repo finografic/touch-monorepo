@@ -4,6 +4,7 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Panel } from 'primereact/panel';
 import {
   ORDER_FORM_SCHEMA,
   type OrdersFormValues,
@@ -40,6 +41,9 @@ import {
   useDropdownData,
 } from './orders-form.utils';
 import { styles } from './OrdersForm.styles';
+
+import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import 'primereact/resources/primereact.min.css';
 
 // ============================================================================
 // Form Schema & Types
@@ -292,7 +296,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
           defaultLocale={language}
           onFieldChange={handleFieldChange}
         >
-          <form onSubmit={handleSubmit(formSubmissionHandler)} noValidate>
+          <form id="order-form" onSubmit={handleSubmit(formSubmissionHandler)} noValidate>
             <Row className="row">
               <Col xs={12} md={12} className="col">
                 <Row className="row">
@@ -422,61 +426,47 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 </Row>
 
                 <Col xs={12} md={12} className="col col-form-fields col-form-table">
-                  <TimesRepeaterTable
-                    name="timeRows"
-                    emptyRowValues={PROFILE_ITEM_VALUES_EMPTY}
-                    minRows={MIN_TABLE_ROWS}
-                    minVisibleRows={MIN_TABLE_VISIBLE_ROWS}
-                    language={language}
-                    onCanAddRowChange={handleCanAddRowChange}
-                    onGenerateRandomValues={mockDataHandlers.generateRandomValuesForRow}
-                  />
+                  {/* Panel with Temperature Profiles Table */}
+                  <Panel
+                    header="Temperature Profiles"
+                    className="temperature-profiles-panel"
+                    footer={
+                      <div
+                        style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.5rem 0' }}
+                      >
+                        {/* Add Row Button */}
+                        <Button
+                          type="button"
+                          className="button-success"
+                          onClick={handleAddRow}
+                          disabled={!canAddRow}
+                          color="success"
+                        >
+                          + Add Row
+                        </Button>
+
+                        {/* Mock/Dev Tools Buttons */}
+                        <OrdersFormDevTools
+                          formValues={formValues}
+                          methods={methods}
+                          mockDataHandlers={mockDataHandlers}
+                          canAddRow={canAddRow}
+                          onAddRow={handleAddRow}
+                        />
+                      </div>
+                    }
+                  >
+                    <TimesRepeaterTable
+                      name="timeRows"
+                      emptyRowValues={PROFILE_ITEM_VALUES_EMPTY}
+                      minRows={MIN_TABLE_ROWS}
+                      minVisibleRows={MIN_TABLE_VISIBLE_ROWS}
+                      language={language}
+                      onCanAddRowChange={handleCanAddRowChange}
+                      onGenerateRandomValues={mockDataHandlers.generateRandomValuesForRow}
+                    />
+                  </Panel>
                 </Col>
-              </Col>
-            </Row>
-
-            <Row className="row">
-              <Col xs={12} md={12} className="col col-form-buttons">
-                <div style={{ display: 'flex', alignItems: 'center', width: '100%' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    {/* Add Row Button */}
-                    <Button
-                      type="button"
-                      className="button-success"
-                      onClick={handleAddRow}
-                      disabled={!canAddRow}
-                      color="success"
-                    >
-                      + Add Row
-                    </Button>
-                  </div>
-
-                  {/* Left side buttons */}
-                  <OrdersFormDevTools
-                    formValues={formValues}
-                    methods={methods}
-                    mockDataHandlers={mockDataHandlers}
-                    canAddRow={canAddRow}
-                    onAddRow={handleAddRow}
-                  />
-
-                  {/* Right side buttons */}
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginLeft: 'auto' }}>
-                    <Button type="button" onClick={() => navigate('/admin/items')} color="default">
-                      {isEditMode ? 'Cancelar' : 'Cancelar'}
-                    </Button>
-
-                    <Button
-                      type="submit"
-                      className="button-success"
-                      // disabled={!isValid || (isEditMode && !isDirty) || isSubmitLoading}
-                      loading={isSubmitLoading}
-                      color={isEditMode ? 'success' : 'success'}
-                    >
-                      {isEditMode ? 'CONFIRM CHANGES' : 'GUARDAR'}
-                    </Button>
-                  </div>
-                </div>
               </Col>
             </Row>
             {/* <pre>{JSON.stringify(formValues, null, 2)}</pre> */}
