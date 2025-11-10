@@ -386,7 +386,7 @@ export const styles = css`
       }
     }
   }
-
+  /*
   .td-action.action-edit button {
     color: ${colors.infoXDark}!important;
     background-color: transparent;
@@ -403,15 +403,15 @@ export const styles = css`
         background-color: ${colors.warning25};
       }
     }
-  }
+  } */
 
-  .td-action.action-delete button {
-    color: ${colors.infoXDark};
+  /* .td-action.action-delete button {
+    color: ${colors.infoXDark}!important;
     background-color: transparent;
 
     &:hover {
-      color: ${colors.successXDark};
-      background-color: ${colors.success25};
+      color: ${colors.successXDark}!important;
+      background-color: ${colors.success25}!important;
     }
     &.active {
       color: ${colors.warningDark};
@@ -421,7 +421,7 @@ export const styles = css`
         background-color: ${colors.warning25};
       }
     }
-  }
+  } */
 
   .column-search-input {
     background-color: transparent;
@@ -435,9 +435,9 @@ export const styles = css`
     gap: 3rem;
     justify-content: center;
     align-items: center;
-    margin: -1rem;
+    margin: -1rem 2rem -1rem 0rem;
     height: 2rem;
-    padding: 0 2rem 0 0;
+    padding: 0 3rem 0 0;
   }
 
   .button-edit,

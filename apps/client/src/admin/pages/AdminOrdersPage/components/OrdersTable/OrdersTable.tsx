@@ -215,7 +215,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         />
         <Column
           header="Actions"
-          style={{ minWidth: '120px', maxWidth: '140px' }}
+          style={{ minWidth: '140px', maxWidth: '180px' }}
           body={actionsBodyTemplate}
         />
       </DataTable>
