@@ -10,11 +10,12 @@ export const styles = css`
   color: ${colors.text};
 
   .rt-TableHeader {
-    position: fixed;
+    /* position: fixed; */
     display: inline-table !important;
     background-color: ${colors.white};
     z-index: 999999;
-    transform: translate(-1rem, -120px) !important;
+    /* transform: translate(-1rem, -120px) !important; */
+    /* top: 400px; */
 
     width: 100% !important;
     max-width: 1240px !important;
@@ -27,7 +28,7 @@ export const styles = css`
       max-width: 96vw !important;
     }
     ${min.lg} {
-      max-width: 96vw !important;
+      /* max-width: 96vw !important; */
     }
     ${min.xl} {
       max-width: 1240px !important;

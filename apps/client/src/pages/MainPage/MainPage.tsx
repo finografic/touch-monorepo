@@ -28,7 +28,6 @@ export function MainPage() {
   const { contentButtons } = useButtonConfig();
   const { setIsNextDisabled } = usePagination();
   const { setFilter } = useFiltersContext();
-  // const slotsConfig = useslotsConfig();
   const { data: slotsConfig, isLoading, error } = useGetSlotConfigurations();
 
   // 🚀 PERFORMANCE OPTIMIZATION: Use ref to prevent re-fetching on every render
@@ -84,8 +83,6 @@ export function MainPage() {
   const totalSlots = slotsConfig.filter((slot) => slot.isActive).length;
   const mainGridSlots = slotsConfig.slice(0, totalSlots - 1); // All except the last
   const lastSlot = slotsConfig[totalSlots - 1]; // The last slot
-
-  // log('MAIN_PAGE_SLOTS:', 'cyan', mainGridSlots);
 
   const rows = 3; // Always 3 rows
   const columns = Math.floor((totalSlots - 1) / rows); // Dynamic columns (2,3,4,5)

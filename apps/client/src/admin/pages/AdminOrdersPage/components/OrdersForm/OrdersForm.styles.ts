@@ -10,10 +10,10 @@ export const styles = css`
     min-width: 1000px !important;
 
     ${min.lg} {
-      max-width: 88vw !important;
+      /* max-width: 88vw !important; */
     }
     ${min.xl} {
-      max-width: 77vh !important;
+      /* max-width: 77vh !important; */
     }
 
     .tab-content-new,
@@ -21,15 +21,15 @@ export const styles = css`
       max-width: 100vw !important;
 
       ${min.lg} {
-        max-width: 88vw !important;
+        /* max-width: 88vw !important; */
       }
       ${min.xl} {
-        max-width: 66vh !important;
+        /* max-width: 66vh !important; */
       }
     }
 
-    height: 66vh !important;
-    min-height: 100vh;
+    /* height: 66vh !important; */
+    /* min-height: 100vh; */
 
     background-color: ${colors.white};
     color: ${colors.text};

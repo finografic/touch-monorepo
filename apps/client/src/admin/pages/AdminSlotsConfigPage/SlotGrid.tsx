@@ -96,7 +96,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({
         </div>
 
         {/* Last slot positioned separately */}
-        {/* {lastSlot && (
+        {lastSlot && (
           <div className="slot-item-special">
             <Button
               className={`slot-button slot-${getSlotColor(lastSlot.slotType)}`}
@@ -112,7 +112,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({
               </Flex>
             </Button>
           </div>
-        )} */}
+        )}
       </div>
     </Box>
   );
