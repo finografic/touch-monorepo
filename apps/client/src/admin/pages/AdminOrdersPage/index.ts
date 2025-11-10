@@ -1,1 +1,2 @@
-export * from './AdminOrdersPage';
+export { AdminOrdersListPage } from './AdminOrdersListPage';
+export { AdminOrderEditPage } from './AdminOrderEditPage';

@@ -10,14 +10,13 @@ import type { DialogConfig } from 'components/Dialog';
 import { useGetOrdersReadable } from 'queries/orders';
 
 import { AdminPageLayout, AdminSection } from '../..';
-import type { ColumnSearchState } from './components/OrdersTable';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
 import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
-import { styles } from './AdminOrdersPage.styles';
+// import { styles } from './AdminOrdersPage.styles';
 
 export const NUM_TABS = 2;
 
-export const AdminOrdersPage: React.FC = () => {
+export const AdminOrderEditPage: React.FC = () => {
   const navigate = useNavigate();
   const { orderId } = useParams<{ orderId?: string }>();
   const hash = window.location.hash.slice(1);
@@ -25,18 +24,17 @@ export const AdminOrdersPage: React.FC = () => {
   const isEditMode = Boolean(orderId);
   const isNewMode = hash === 'new';
 
-  // State for search/filter
+  // State for search/filter (empty for PrimeReact's built-in filtering)
   const [searchTerm] = useState('');
-  const [columnSearches, setColumnSearches] = useState<ColumnSearchState>({});
 
   // Fetch orders data at page level
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
 
-  // Filter orders using custom hook
+  // Filter orders using custom hook (PrimeReact handles column filtering internally)
   const { filteredOrders, isFiltered, totalCount, filteredCount, getOrderIndex } = useOrdersFilter({
     ordersData,
     searchTerm,
-    columnSearches,
+    columnSearches: {}, // PrimeReact handles its own column filtering
   });
 
   const { title, subtitle } = useMemo(() => {
@@ -81,15 +79,7 @@ export const AdminOrdersPage: React.FC = () => {
         id: 'list',
         label: 'Listado de registros',
         icon: <ListChecksIcon />,
-        content: (
-          <TabList
-            orders={filteredOrders}
-            columnSearches={columnSearches}
-            onColumnSearchChange={setColumnSearches}
-            isLoading={isLoading}
-            error={error}
-          />
-        ),
+        content: <TabList orders={filteredOrders} isLoading={isLoading} error={error} />,
       },
       isEditMode || isNewMode
         ? isEditMode
@@ -142,7 +132,11 @@ export const AdminOrdersPage: React.FC = () => {
   );
 
   return (
-    <AdminPageLayout title={title} subtitle={subtitle} styles={styles}>
+    <AdminPageLayout
+      title={title}
+      subtitle={subtitle}
+      // styles={styles}
+    >
       <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
         <Tabs.List>
           {config.tabs.map((tab) => (

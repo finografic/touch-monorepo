@@ -5,7 +5,7 @@ import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode } from 'primereact/api';
-import type { DataTableFilterMeta } from 'primereact/datatable';
+import type { DataTableFilterMeta, DataTableProps } from 'primereact/datatable';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -22,6 +22,15 @@ import 'primereact/resources/primereact.min.css';
 // ============================================================================
 
 export const PAGINATOR_NUM_ENTRIES = 50;
+
+export const PAGINATOR_PROPS = {
+  paginator: true,
+  rows: PAGINATOR_NUM_ENTRIES,
+  paginatorTemplate:
+    'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown',
+  currentPageReportTemplate: 'Showing {first} to {last} of {totalRecords} entries',
+  rowsPerPageOptions: [25, 50, 100],
+} satisfies Partial<DataTableProps<any>>;
 
 // ============================================================================
 // Column definition types
@@ -127,8 +136,6 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     <section css={styles} className="admin-page-content table-container">
       <DataTable
         value={orders}
-        paginator
-        rows={PAGINATOR_NUM_ENTRIES}
         dataKey="id"
         filters={filters}
         filterDisplay="row"
@@ -136,9 +143,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         className="orders-datatable"
         stripedRows
         removableSort
-        paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        rowsPerPageOptions={[25, 50, 100]}
+        {...PAGINATOR_PROPS}
       >
         <Column
           field="displayIndex"

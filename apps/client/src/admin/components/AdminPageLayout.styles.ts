@@ -7,14 +7,14 @@ export const styles = css`
     margin: 0 auto;
 
     width: 100%;
-    max-width: 1240px;
+    /* max-width: 1240px; */
 
     .admin-page-content {
       margin: 0rem 0rem;
     }
 
     ${min.sm} {
-      max-width: 96vw;
+      /* max-width: 96vw; */
     }
     ${min.md} {
       max-width: 96vw;

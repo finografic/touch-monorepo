@@ -4,7 +4,8 @@ import { Outlet } from 'react-router-dom';
 import { AdminLanguagesPage, PublicLanguagesPage } from 'admin/pages/AdminLanguagesPage';
 import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminModePage } from 'admin/pages/AdminModePage/__AdminModePage';
-import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
+import { AdminOrdersListPage } from 'admin/pages/AdminOrdersPage';
+import { AdminOrderEditPage } from 'admin/pages/AdminOrdersPage/AdminOrderEditPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
@@ -141,7 +142,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     path: '/admin/items', // orders
     element: {
       public: null,
-      admin: AdminOrdersPage,
+      admin: AdminOrdersListPage,
     },
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
@@ -149,6 +150,14 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: ListIcon,
     color: 'blue',
   },
+  // {
+  //   key: 'item-edit',
+  //   path: '/admin/items/:orderId',
+  //   element: {
+  //     public: null,
+  //     admin: AdminOrderEditPage,
+  //   },
+  // },
   {
     key: 'slotConfig',
     path: '/admin/slots-config',

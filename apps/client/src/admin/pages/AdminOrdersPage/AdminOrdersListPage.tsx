@@ -12,11 +12,11 @@ import { useGetOrdersReadable } from 'queries/orders';
 import { AdminPageLayout, AdminSection } from '../..';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
 import { AddIcon, EditIcon, ListChecksIcon } from 'styles/icons';
-import { styles } from './AdminOrdersPage.styles';
+// import { styles } from './AdminOrdersPage.styles';
 
 export const NUM_TABS = 2;
 
-export const AdminOrdersPage: React.FC = () => {
+export const AdminOrdersListPage: React.FC = () => {
   const navigate = useNavigate();
   const { orderId } = useParams<{ orderId?: string }>();
   const hash = window.location.hash.slice(1);
@@ -132,7 +132,11 @@ export const AdminOrdersPage: React.FC = () => {
   );
 
   return (
-    <AdminPageLayout title={title} subtitle={subtitle} styles={styles}>
+    <AdminPageLayout
+      title={title}
+      subtitle={subtitle}
+      // styles={styles}
+    >
       <Tabs.Root value={activeTab} onValueChange={handleTabChange}>
         <Tabs.List>
           {config.tabs.map((tab) => (

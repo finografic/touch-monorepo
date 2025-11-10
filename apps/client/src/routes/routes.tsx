@@ -3,7 +3,8 @@ import { Outlet, type RouteObject } from 'react-router-dom';
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
 import { PublicModePage } from 'admin/pages/AdminModePage';
-import { AdminOrdersPage } from 'admin/pages/AdminOrdersPage/AdminOrdersPage';
+import { AdminOrdersListPage } from 'admin/pages/AdminOrdersPage/AdminOrdersListPage';
+import { AdminOrderEditPage } from 'admin/pages/AdminOrdersPage/AdminOrderEditPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 // import { AdminLoginPage } from 'admin/pages/AdminLoginPage/AdminLoginPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
@@ -139,12 +140,12 @@ export const routes: RouteObject[] = [
           {
             path: 'items',
             id: AdminFieldKeys.items,
-            element: <AdminOrdersPage />,
+            element: <AdminOrdersListPage />,
             children: [
               {
                 path: ':orderId',
                 id: 'order-edit',
-                element: <AdminOrdersPage />,
+                element: <AdminOrderEditPage />,
               },
             ],
           },
