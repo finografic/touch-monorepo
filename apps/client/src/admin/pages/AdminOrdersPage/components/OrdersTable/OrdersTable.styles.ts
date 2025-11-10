@@ -22,7 +22,7 @@ export const styles = css`
       padding: 1rem;
     }
 
-    /* Column headers */
+    /* Column headers - STICKY */
     .p-datatable-thead > tr > th {
       background-color: ${colors.greyXXLight25};
       color: ${colors.textLight};
@@ -30,6 +30,9 @@ export const styles = css`
       padding: 0.75rem 1rem;
       border-bottom: 2px solid ${colors.greyLight};
       font-size: 0.9rem;
+      position: sticky;
+      top: 0;
+      z-index: 1;
     }
 
     /* Filter inputs in header */

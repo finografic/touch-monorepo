@@ -143,6 +143,8 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         className="orders-datatable"
         stripedRows
         removableSort
+        scrollable
+        scrollHeight="flex"
         {...PAGINATOR_PROPS}
       >
         <Column
