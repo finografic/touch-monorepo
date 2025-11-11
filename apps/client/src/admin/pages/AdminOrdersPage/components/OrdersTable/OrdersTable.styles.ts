@@ -80,11 +80,6 @@ export const styles = css`
     /* Table body rows */
     .p-datatable-tbody > tr {
       background-color: ${colors.white};
-      transition: background-color 0.15s ease;
-
-      &:hover {
-        background-color: ${colors.greyXXLight25};
-      }
 
       /* Striped rows */
       &.p-row-odd {
