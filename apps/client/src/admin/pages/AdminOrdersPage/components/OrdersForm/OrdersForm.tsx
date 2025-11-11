@@ -430,6 +430,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   <Panel
                     header="Temperature Profiles"
                     className="temperature-profiles-panel"
+                    toggleable
                     footer={
                       <div
                         style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.5rem 0' }}

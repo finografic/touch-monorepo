@@ -64,10 +64,18 @@ export const styles = css`
       }
     }
 
-    /* Panel Content */
+    /* Panel Content - NO scrollbar, show full content */
     .p-panel-content {
       padding: 1.5rem;
       background-color: ${colors.white};
+      overflow: visible !important; /* Remove any overflow restrictions */
+      max-height: none !important; /* Remove any height restrictions */
+    }
+
+    /* Ensure the toggleable content wrapper also doesn't restrict height */
+    .p-toggleable-content {
+      overflow: visible !important;
+      max-height: none !important;
     }
 
     /* Panel Footer */

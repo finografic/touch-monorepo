@@ -148,6 +148,11 @@ export const routes: RouteObject[] = [
                 element: <AdminOrdersListPage />,
               },
               {
+                path: 'new',
+                id: 'order-create',
+                element: <AdminOrderEditPage />, // Same component, different mode
+              },
+              {
                 path: ':orderId',
                 id: 'order-edit',
                 element: <AdminOrderEditPage />,
