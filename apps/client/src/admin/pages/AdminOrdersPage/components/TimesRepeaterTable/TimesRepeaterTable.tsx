@@ -229,9 +229,9 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
       </div>
 
       {/* Total rows counter */}
-      <div className="table-footer"></div>
-      {/* Add Row Button - only show when all existing rows are complete AND no external callback is provided */}
-      {canAddRow && !hideInternalAddButton && (
+      <div className="table-footer">
+        {/* Add Row Button - only show when all existing rows are complete AND no external callback is provided */}
+        {/* {canAddRow && !hideInternalAddButton && ( */}
         <div className="add-row-container">
           <Button
             type="button"
@@ -239,12 +239,13 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
             onClick={() => append(emptyRowValues)}
             disabled={!canAddRow}
             color="success"
-            variant="outline"
+            // variant="outline"
           >
             + Add Row
           </Button>
         </div>
-      )}
+        {/* )} */}
+      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, spacing } from 'styles';
+import { colors, layout, spacing } from 'styles';
 import { cssFontMono } from 'styles/fonts/fonts.styles';
 
 export const styles = css`
@@ -150,7 +150,7 @@ export const styles = css`
   .add-row-container {
     display: flex;
     justify-content: center;
-    padding: ${spacing.default} 0;
+    padding: 1.5rem 1.5rem 0;
     border-top: 1px solid ${colors.greyXXLight};
   }
 
