@@ -50,7 +50,7 @@ export const styles = css`
 
   .admin-section-content {
     display: flex;
-    display: grid;
+    /* display: grid; */
     flex-direction: column;
     gap: 1;
 
@@ -84,7 +84,7 @@ export const styles = css`
     }
 
     /* Ensure overflow is visible for paginated tables */
-    overflow: visible;
-    min-height: 0; /* Allow flex shrinking */
+    /* overflow: visible; */
+    /* min-height: 0; */
   }
 `;

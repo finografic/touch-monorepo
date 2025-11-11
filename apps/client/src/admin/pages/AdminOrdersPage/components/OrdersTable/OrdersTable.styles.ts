@@ -5,7 +5,7 @@ import { colors, min } from 'styles';
 export const styles = css`
   width: 100%;
   height: 100%;
-  max-height: calc(100vh - 200px); /* Account for header/footer */
+  /* max-height: calc(100vh - 200px); */
   background-color: ${colors.white};
   color: ${colors.text};
   display: flex;
