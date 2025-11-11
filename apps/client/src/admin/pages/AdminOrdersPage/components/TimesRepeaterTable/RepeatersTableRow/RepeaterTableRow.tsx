@@ -34,15 +34,6 @@ interface RepeaterTableRowProps {
   canDelete: boolean;
 }
 
-/**
- * RepeaterTableRow - Individual row component for TimesRepeaterTable
- *
- * Handles:
- * - Temperature and time input fields
- * - Row state (editable, disabled, validation)
- * - Action buttons (random, delete)
- * - Grid layout matching table header
- */
 export const RepeaterTableRow: React.FC<RepeaterTableRowProps> = ({
   field,
   index,
