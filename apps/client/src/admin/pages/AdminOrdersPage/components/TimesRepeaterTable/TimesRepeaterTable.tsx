@@ -4,7 +4,7 @@ import { useFieldArray, useFormContext } from 'react-hook-form';
 import { ShuffleIcon } from '@radix-ui/react-icons';
 import { Text } from '@radix-ui/themes';
 import { Button } from 'components/Button';
-import { InputTemperature } from 'forms/InputTemperature';
+import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { InputTime } from 'forms/InputTime';
 
 import { useDev } from 'dev-tools/providers/DevProvider';
@@ -161,7 +161,13 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
               </div>
 
               <div className={`input-wrapper ${tempValidationClass}`}>
-                <InputTemperature name={`${name}.${index}.temperature`} disabled={!isEditable} />
+                <TemperatureInputField
+                  name={`${name}.${index}.temperature`}
+                  locale={language}
+                  min={defaultTempFreeze}
+                  max={50}
+                  disabled={!isEditable}
+                />
               </div>
               <div className={`input-wrapper ${timeAValidationClass}`}>
                 <InputTime

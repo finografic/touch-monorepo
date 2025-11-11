@@ -1,11 +1,10 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
-import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Panel } from 'primereact/panel';
-import { InputNumber } from 'primereact/inputnumber';
 import {
   ORDER_FORM_SCHEMA,
   type OrdersFormValues,
@@ -13,19 +12,14 @@ import {
 import { TimesRepeaterTable } from 'admin/pages/AdminOrdersPage/components/TimesRepeaterTable';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { FormMiddlewareProvider } from 'forms/FormMiddleware';
-import {
-  DEFAULT_TEMP_MAX,
-  DEFAULT_TEMP_MIN,
-  MIN_TABLE_ROWS,
-  MIN_TABLE_VISIBLE_ROWS,
-  TEMP_STEP,
-} from 'forms/FormMiddleware/FormMiddleware.constants';
+import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
 import {
   ordersFormFieldConfigs,
   type OrdersFormValues as MiddlewareOrdersFormValues,
 } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
 import { SelectCustom } from 'forms/SelectCustom';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
+import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { useToast } from 'components/Toast';
 import { Text } from '@radix-ui/themes';
 
@@ -434,37 +428,17 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   <Col xs={2} md={2} className="col col-form-fields">
                     {/* Temperatura consumo */}
                     <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
-                      <Controller
+                      <TemperatureInputField
                         name="defaultTempConsume"
-                        control={control}
-                        render={({ field }) => (
-                          <div className="p-inputgroup">
-                            <InputNumber
-                              id={field.name}
-                              value={field.value}
-                              onValueChange={(e) => {
-                                field.onChange(e.value);
-                                // Manually trigger the dynamic constraint check
-                                handleFieldChange(
-                                  'defaultTempConsume',
-                                  e.value,
-                                  formValues as MiddlewareOrdersFormValues,
-                                );
-                              }}
-                              locale={currentLanguage}
-                              showButtons
-                              buttonLayout="stacked"
-                              step={TEMP_STEP}
-                              min={DEFAULT_TEMP_MIN}
-                              max={DEFAULT_TEMP_MAX}
-                              minFractionDigits={1}
-                              maxFractionDigits={1}
-                              placeholder="Temperature"
-                              style={{ width: '100%' }}
-                            />
-                            <span className="p-inputgroup-addon">°C</span>
-                          </div>
-                        )}
+                        locale={currentLanguage}
+                        onChange={(value) => {
+                          // Trigger dynamic constraint check for freeze temp
+                          handleFieldChange(
+                            'defaultTempConsume',
+                            value,
+                            formValues as MiddlewareOrdersFormValues,
+                          );
+                        }}
                       />
                     </FieldWrapper>
                   </Col>
@@ -472,36 +446,14 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   <Col xs={2} md={2} className="col col-form-fields">
                     {/* Temperatura congelación */}
                     <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
-                      <Controller
+                      <TemperatureInputField
                         name="defaultTempFreeze"
-                        control={control}
-                        render={({ field }) => {
-                          // Dynamic max: must be at least MIN_TEMP_DIFFERENCE below consume temp
-                          const dynamicMax = formValues.defaultTempConsume
+                        locale={currentLanguage}
+                        max={
+                          formValues.defaultTempConsume
                             ? formValues.defaultTempConsume - MIN_TEMP_DIFFERENCE
-                            : DEFAULT_TEMP_MAX;
-
-                          return (
-                            <div className="p-inputgroup">
-                              <InputNumber
-                                id={field.name}
-                                value={field.value}
-                                onValueChange={(e) => field.onChange(e.value)}
-                                locale={currentLanguage}
-                                showButtons
-                                buttonLayout="stacked"
-                                step={TEMP_STEP}
-                                min={DEFAULT_TEMP_MIN}
-                                max={dynamicMax}
-                                minFractionDigits={1}
-                                maxFractionDigits={1}
-                                placeholder="Temperature"
-                                style={{ width: '100%' }}
-                              />
-                              <span className="p-inputgroup-addon">°C</span>
-                            </div>
-                          );
-                        }}
+                            : undefined
+                        }
                       />
                     </FieldWrapper>
                   </Col>

@@ -1,14 +1,15 @@
-import { MIN_TEMP_DIFFERENCE } from 'config/app';
-import {
-  DEFAULT_SPANISH_LOCALE,
-  DEFAULT_TEMP_MAX,
-  DEFAULT_TEMP_MIN,
-  MAX_TIME_SECONDS,
-  TEMP_CONSUME_MAX,
-  TEMP_STEP,
-  TIME_STEP,
-} from './FormMiddleware.constants';
+import { MAX_TIME_SECONDS, TIME_STEP } from './FormMiddleware.constants';
 import type { FieldConfig } from './FormMiddleware.types';
+
+/**
+ * OrdersForm Field Configurations - Middleware Configuration
+ *
+ * NOTE: This middleware configuration is now LEAN and focused!
+ * - Temperature inputs: Handled by PrimeReact InputNumber (no middleware needed)
+ * - Time inputs: Still use middleware for mm:ss conversion logic
+ *
+ * The middleware now only handles time inputs in the timeRows field array.
+ */
 
 // Complete type for the production OrdersForm values
 export interface OrdersFormValues {
@@ -27,9 +28,10 @@ export interface OrdersFormValues {
   }>;
 }
 
-// Complete field configurations for production OrdersForm
+// Minimal field configurations - only for fields that need middleware
+// Currently: Only time inputs in the timeRows array use middleware
 export const ordersFormFieldConfigs: FieldConfig<OrdersFormValues>[] = [
-  // Mode field
+  // Mode field (basic validation only)
   {
     name: 'modeId',
     type: 'text',
@@ -38,7 +40,7 @@ export const ordersFormFieldConfigs: FieldConfig<OrdersFormValues>[] = [
     },
   },
 
-  // Text fields
+  // Text fields (basic validation only)
   {
     name: 'drinkType',
     type: 'text',
@@ -68,65 +70,36 @@ export const ordersFormFieldConfigs: FieldConfig<OrdersFormValues>[] = [
     },
   },
 
-  // Temperature consume field
+  // NOTE: Temperature fields (defaultTempConsume, defaultTempFreeze, timeRows.*.temperature)
+  // are now handled by PrimeReact InputNumber components and don't need middleware configs!
+
+  // Time fields in timeRows still use middleware for mm:ss conversion
+  // Pattern-based configuration matches: timeRows.0.timeA, timeRows.1.timeB, etc.
   {
-    name: 'defaultTempConsume',
-    type: 'temperature',
+    name: 'timeRows.*.timeA' as any,
+    type: 'time',
     validation: {
-      required: true,
-      min: -40,
-      max: TEMP_CONSUME_MAX,
-    },
-    localization: {
-      locale: DEFAULT_SPANISH_LOCALE,
-      formatOnDisplay: true,
-      parseOnInput: true,
+      required: false,
+      min: 0,
+      max: MAX_TIME_SECONDS,
     },
   },
-
-  // Temperature freeze field with dynamic constraint
   {
-    name: 'defaultTempFreeze',
-    type: 'temperature',
+    name: 'timeRows.*.timeB' as any,
+    type: 'time',
     validation: {
-      required: true,
-      min: DEFAULT_TEMP_MIN,
-      max: TEMP_CONSUME_MAX,
-    },
-    localization: {
-      locale: DEFAULT_SPANISH_LOCALE,
-      formatOnDisplay: true,
-      parseOnInput: true,
-    },
-    constraints: {
-      // Dynamic max based on consume temperature
-      dynamicMax: (formValues) => {
-        const consumeTemp = formValues.defaultTempConsume;
-        return consumeTemp ? consumeTemp - MIN_TEMP_DIFFERENCE : TEMP_CONSUME_MAX;
-      },
+      required: false,
+      min: 0,
+      max: MAX_TIME_SECONDS,
     },
   },
-
-  // TimeRows temperature fields (pattern-based configuration)
-  // This will match any field like "timeRows.0.temperature", "timeRows.1.temperature", etc.
   {
-    name: 'timeRows.*.temperature' as any, // Pattern matching for dynamic field names
-    type: 'temperature',
+    name: 'timeRows.*.timeC' as any,
+    type: 'time',
     validation: {
-      required: false, // Individual table rows are optional
-      min: DEFAULT_TEMP_MIN,
-      max: DEFAULT_TEMP_MAX,
-    },
-    localization: {
-      locale: DEFAULT_SPANISH_LOCALE,
-      formatOnDisplay: true,
-      parseOnInput: true,
-    },
-    constraints: {
-      // Dynamic min based on freeze temperature
-      dynamicMin: (formValues) => {
-        return formValues.defaultTempFreeze ?? DEFAULT_TEMP_MIN;
-      },
+      required: false,
+      min: 0,
+      max: MAX_TIME_SECONDS,
     },
   },
 ];
