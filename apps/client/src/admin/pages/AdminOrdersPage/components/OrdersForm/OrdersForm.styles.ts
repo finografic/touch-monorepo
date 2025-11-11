@@ -97,6 +97,33 @@ export const styles = css`
         color: ${colors.text};
       }
 
+      button.p-panel-toggler {
+        border: none !important;
+        outline: none !important;
+        margin-right: 0.75rem;
+        svg.icon {
+          width: 28px;
+          height: 28px;
+          &.icon-is-collapsed {
+            color: ${colors.greyXLight};
+            stroke: ${colors.greyXLight};
+            &:hover {
+              color: ${colors.grey};
+              stroke: ${colors.grey};
+            }
+          }
+
+          &.icon-is-open {
+            color: ${colors.grey};
+            stroke: ${colors.grey};
+            &:hover {
+              color: ${colors.greyDark};
+              stroke: ${colors.greyDark};
+            }
+          }
+        }
+      }
+
       /* Custom toggle icons - more prominent */
       .p-panel-icons {
         .panel-toggle-icon {

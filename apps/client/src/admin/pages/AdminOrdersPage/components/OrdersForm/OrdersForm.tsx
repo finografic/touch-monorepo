@@ -23,7 +23,7 @@ import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { useToast } from 'components/Toast';
 import { Text } from '@radix-ui/themes';
 
-import { EditIcon, CheckCircleIcon } from 'styles/icons';
+import { EditIcon, CheckCircleIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'styles/icons';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -465,9 +465,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   <Panel
                     headerTemplate={(options) => {
                       const toggleIcon = isPanelCollapsed ? (
-                        <EditIcon className="panel-toggle-icon" />
+                        // <EditIcon className="panel-toggle-icon icon-edit" />
+                        <ChevronLeftIcon className="panel-toggle-icon icon-is-collapsed" />
                       ) : (
-                        <CheckCircleIcon className="panel-toggle-icon" />
+                        // <CheckCircleIcon className="panel-toggle-icon icon-check" />
+                        <ChevronDownIcon className="panel-toggle-icon icon-is-open" />
                       );
 
                       return (

@@ -2,7 +2,7 @@
 // ref + search: https://lucide.dev/icons/
 
 import {
-  ChevronDownIcon as _ChevronDownIcon,
+  // ChevronDownIcon as _ChevronDownIcon,
   CountdownTimerIcon as _CountdownTimerIcon,
   Cross2Icon as _Cross2Icon,
   DoubleArrowLeftIcon as _DoubleArrowLeftIcon,
@@ -26,6 +26,10 @@ import {
   CircleStop as _StopIcon,
   CircleUserRound as _CircleUserRoundIcon,
   Clipboard as _ClipboardIcon,
+  ChevronDownIcon as _ChevronDownIcon,
+  ChevronLeftIcon as _ChevronLeftIcon,
+  ChevronRightIcon as _ChevronRightIcon,
+  ChevronUpIcon as _ChevronUpIcon,
   Coffee as _CoffeeIcon,
   Cog as _SettingsIcon,
   CheckCircle2 as _CheckCircle2Icon,
@@ -97,6 +101,10 @@ export const WineIcon = createIconWrapper(_WineIcon, 'WineIcon');
 export const AddIcon = createIconWrapper(_PlusIcon);
 export const BadgeCheckIcon = createIconWrapper(_BadgeCheckIcon);
 export const CheckCircleIcon = createIconWrapper(_CheckCircle2Icon);
+export const ChevronLeftIcon = createIconWrapper(_ChevronLeftIcon);
+export const ChevronRightIcon = createIconWrapper(_ChevronRightIcon);
+export const ChevronUpIcon = createIconWrapper(_ChevronUpIcon);
+export const ChevronDownIcon = createIconWrapper(_ChevronDownIcon);
 export const ClipboardIcon = createIconWrapper(_ClipboardIcon);
 export const DeleteIcon = createIconWrapper(_DeleteIcon);
 export const EditIcon = createIconWrapper(_EditIcon);
@@ -137,6 +145,10 @@ export const ICON_MAP = {
   AddIcon,
   BadgeCheckIcon,
   CheckCircleIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronUpIcon,
+  ChevronDownIcon,
   ClipboardIcon,
   CloseIcon,
   CoffeeIcon,
