@@ -442,7 +442,15 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                             <InputNumber
                               id={field.name}
                               value={field.value}
-                              onValueChange={(e) => field.onChange(e.value)}
+                              onValueChange={(e) => {
+                                field.onChange(e.value);
+                                // Manually trigger the dynamic constraint check
+                                handleFieldChange(
+                                  'defaultTempConsume',
+                                  e.value,
+                                  formValues as MiddlewareOrdersFormValues,
+                                );
+                              }}
                               locale={currentLanguage}
                               showButtons
                               buttonLayout="stacked"
@@ -467,26 +475,33 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       <Controller
                         name="defaultTempFreeze"
                         control={control}
-                        render={({ field }) => (
-                          <div className="p-inputgroup">
-                            <InputNumber
-                              id={field.name}
-                              value={field.value}
-                              onValueChange={(e) => field.onChange(e.value)}
-                              locale={currentLanguage}
-                              showButtons
-                              buttonLayout="stacked"
-                              step={TEMP_STEP}
-                              min={DEFAULT_TEMP_MIN}
-                              max={DEFAULT_TEMP_MAX}
-                              minFractionDigits={1}
-                              maxFractionDigits={1}
-                              placeholder="Temperature"
-                              style={{ width: '100%' }}
-                            />
-                            <span className="p-inputgroup-addon">°C</span>
-                          </div>
-                        )}
+                        render={({ field }) => {
+                          // Dynamic max: must be at least MIN_TEMP_DIFFERENCE below consume temp
+                          const dynamicMax = formValues.defaultTempConsume
+                            ? formValues.defaultTempConsume - MIN_TEMP_DIFFERENCE
+                            : DEFAULT_TEMP_MAX;
+
+                          return (
+                            <div className="p-inputgroup">
+                              <InputNumber
+                                id={field.name}
+                                value={field.value}
+                                onValueChange={(e) => field.onChange(e.value)}
+                                locale={currentLanguage}
+                                showButtons
+                                buttonLayout="stacked"
+                                step={TEMP_STEP}
+                                min={DEFAULT_TEMP_MIN}
+                                max={dynamicMax}
+                                minFractionDigits={1}
+                                maxFractionDigits={1}
+                                placeholder="Temperature"
+                                style={{ width: '100%' }}
+                              />
+                              <span className="p-inputgroup-addon">°C</span>
+                            </div>
+                          );
+                        }}
                       />
                     </FieldWrapper>
                   </Col>
