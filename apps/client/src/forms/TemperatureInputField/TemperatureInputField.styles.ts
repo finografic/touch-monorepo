@@ -4,11 +4,39 @@ import { colors } from 'styles';
 import { forms } from 'styles/forms/forms.styles';
 
 export const styles = css`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 1.25rem;
+  &.p-inputgroup {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* border: 1px solid red; */
+    height: ${forms.inputs.height};
+
+    /* border: 1px solid blue !important; */
+
+    .p-inputwrapper {
+      padding: 0;
+    }
+
+    .p-inputnumber-button-group,
+    .p-inputgroup-addon {
+      /* height: ${forms.inputs.height}; */
+      border: ${forms.inputs.border.width} solid ${forms.inputs.border.color};
+    }
+
+    .p-inputnumber-input {
+      flex: 2;
+    }
+
+    .p-inputnumber-button-group,
+    .p-inputnumber-input,
+    .p-inputgroup-addon {
+      height: ${forms.inputs.height};
+    }
+
+    .p-inputgroup-addon {
+      border-left: none;
+    }
+  }
 
   .error {
     color: ${colors.danger};
