@@ -17,6 +17,13 @@ export const styles = css`
       padding: 0;
     }
 
+    /* Remove gap between button group and input */
+    .p-inputnumber {
+      display: flex;
+      gap: 0;
+      flex: 1;
+    }
+
     .p-inputnumber-button-group,
     .p-inputgroup-addon {
       /* height: ${forms.inputs.height}; */
@@ -24,7 +31,10 @@ export const styles = css`
     }
 
     .p-inputnumber-input {
-      flex: 2;
+      flex: 1;
+      margin: 0;
+      text-align: right;
+      padding: 0 0.75rem;
     }
 
     .p-inputnumber-button-group,
@@ -33,47 +43,19 @@ export const styles = css`
       height: ${forms.inputs.height};
     }
 
+    .p-inputnumber-button-group {
+      border-right: none !important;
+      border-radius: ${forms.inputs.border.radius} 0 0 ${forms.inputs.border.radius} !important;
+      button.p-inputnumber-button {
+        color: ${colors.greyLight};
+        &:not(:disabled):hover {
+          background-color: ${colors.greyXXLight25} !important;
+        }
+      }
+    }
+
     .p-inputgroup-addon {
       border-left: none;
-    }
-  }
-
-  .error {
-    color: ${colors.danger};
-    font-size: 0.875rem;
-    text-align: center;
-    padding: 0.5rem;
-    background-color: ${colors.danger25};
-    border-radius: 4px;
-    border: 1px solid ${colors.danger25};
-  }
-
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    width: 100%;
-    padding: 0.25rem 0 0;
-    margin-bottom: 0.1rem;
-
-    &:focus {
-      outline: none;
-      border-color: ${colors.info};
-    }
-
-    &.input-max-length-warning {
-      border-color: ${colors.warningLight};
-      animation: inputWarningPulse 100ms ease-out;
-    }
-
-    &.input-max-length-warning + .password-display-mask {
-      color: ${colors.warning};
-      -webkit-text-fill-color: ${colors.warningLight};
-    }
-
-    &:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
     }
   }
 `;

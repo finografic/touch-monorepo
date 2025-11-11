@@ -49,7 +49,7 @@ export const styles = css`
     display: flex;
     align-items: stretch;
     justify-content: space-between;
-    gap: 0.5rem;
+    gap: 0; /* Removed gap to eliminate space between buttons and input */
     padding: 0.25rem 1.5rem;
     border-radius: 0 0 ${layout.borderRadius} ${layout.borderRadius};
     .p-inputnumber-button-group {
