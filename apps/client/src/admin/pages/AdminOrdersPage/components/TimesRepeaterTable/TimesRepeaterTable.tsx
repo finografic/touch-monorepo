@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
 import { ShuffleIcon } from '@radix-ui/react-icons';
-import { Button, Text } from '@radix-ui/themes';
+import { Text } from '@radix-ui/themes';
+import { Button } from 'components/Button';
 import { InputTemperature } from 'forms/InputTemperature';
 import { InputTime } from 'forms/InputTime';
 
@@ -197,9 +198,9 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
                   onGenerateRandomValues && (
                     <Button
                       type="button"
-                      variant="soft"
-                      size="1"
-                      color="gray"
+                      variant="outline"
+                      size="md"
+                      color="info"
                       onClick={() => onGenerateRandomValues?.(index)}
                       className="random-button"
                       title="Generate random values"
@@ -212,9 +213,9 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
                 {fields.length > 1 && isRowCompleteAndValid(index) && (
                   <Button
                     type="button"
-                    variant="soft"
-                    size="1"
-                    color="red"
+                    variant="outline"
+                    size="md"
+                    color="danger"
                     onClick={() => remove(index)}
                     className="delete-button"
                   >
@@ -227,23 +228,23 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
         })}
       </div>
 
+      {/* Total rows counter */}
+      <div className="table-footer"></div>
       {/* Add Row Button - only show when all existing rows are complete AND no external callback is provided */}
       {canAddRow && !hideInternalAddButton && (
         <div className="add-row-container">
-          <Button type="button" variant="soft" size="2" onClick={() => append(emptyRowValues)}>
+          <Button
+            type="button"
+            className="button-success"
+            onClick={() => append(emptyRowValues)}
+            disabled={!canAddRow}
+            color="success"
+            variant="outline"
+          >
             + Add Row
           </Button>
         </div>
       )}
-
-      {/* Total rows counter */}
-      <div className="table-footer">
-        <div className="total-rows-counter">
-          <Text size="2" weight="medium" color="gray">
-            filas completas: {fields.length}
-          </Text>
-        </div>
-      </div>
     </div>
   );
 };

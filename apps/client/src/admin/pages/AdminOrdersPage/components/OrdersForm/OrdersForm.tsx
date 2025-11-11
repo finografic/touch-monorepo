@@ -20,8 +20,8 @@ import {
 import { InputTemperature } from 'forms/InputTemperature';
 import { SelectCustom } from 'forms/SelectCustom';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
-import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
+import { Text } from '@radix-ui/themes';
 
 import { EditIcon, BadgeCheckIcon } from 'styles/icons';
 
@@ -459,16 +459,11 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       <div
                         style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.5rem 0' }}
                       >
-                        {/* Add Row Button */}
-                        <Button
-                          type="button"
-                          className="button-success"
-                          onClick={handleAddRow}
-                          disabled={!canAddRow}
-                          color="success"
-                        >
-                          + Add Row
-                        </Button>
+                        <div className="total-rows-counter">
+                          <Text size="3" weight="bold" color="gray">
+                            Filas completas: {formValues.timeRows?.length}
+                          </Text>
+                        </div>
 
                         {/* Mock/Dev Tools Buttons */}
                         <OrdersFormDevTools

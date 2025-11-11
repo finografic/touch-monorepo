@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { min } from 'styles';
+import { layout, min } from 'styles';
 import { colors } from 'styles';
 
 export const styles = css`
@@ -54,7 +54,7 @@ export const styles = css`
       background-color: ${colors.greyXXLight25};
       border-bottom: 2px solid ${colors.greyXLight};
       padding: 1rem 1.5rem;
-      border-radius: 6px 6px 0 0;
+      border-radius: ${layout.borderRadius} ${layout.borderRadius} 0 0;
 
       .p-panel-title {
         font-size: 1.2rem;
@@ -103,8 +103,8 @@ export const styles = css`
     .p-panel-footer {
       background-color: ${colors.backgroundLight};
       border-top: 2px solid ${colors.greyXLight};
-      padding: 1rem 1.5rem;
-      border-radius: 0 0 6px 6px;
+      padding: 0.25rem 1.5rem;
+      border-radius: 0 0 ${layout.borderRadius} ${layout.borderRadius};
       transition: border-color 0.25s ease-in-out;
 
       button {
