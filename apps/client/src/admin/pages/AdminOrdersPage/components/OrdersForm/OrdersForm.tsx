@@ -269,6 +269,20 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     append(PROFILE_ITEM_VALUES_EMPTY);
   }, [append]);
 
+  // Calculate number of populated rows (rows with at least one non-empty field)
+  const populatedRowsCount = useMemo(() => {
+    return (
+      formValues.timeRows?.filter((row) => {
+        return (
+          row.temperature !== undefined ||
+          row.timeA !== undefined ||
+          row.timeB !== undefined ||
+          row.timeC !== undefined
+        );
+      }).length || 0
+    );
+  }, [formValues.timeRows]);
+
   const selectedModeId = useMemo(() => {
     if (dropdownData?.modeOptions) {
       const modeLabels = dropdownData.modeOptions.map((option) => option.label);
@@ -461,7 +475,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       >
                         <div className="total-rows-counter">
                           <Text size="3" weight="bold" color="gray">
-                            Filas completas: {formValues.timeRows?.length}
+                            Filas completas: {populatedRowsCount} / {MIN_TABLE_ROWS}
                           </Text>
                         </div>
 
