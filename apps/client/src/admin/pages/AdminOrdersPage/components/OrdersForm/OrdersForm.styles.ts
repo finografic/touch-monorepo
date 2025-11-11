@@ -40,6 +40,21 @@ export const styles = css`
     padding: 1rem 0 !important;
   }
 
+  .p-inputnumber-buttons-stacked {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: 0.5rem;
+    padding: 0.25rem 1.5rem;
+    border-radius: 0 0 ${layout.borderRadius} ${layout.borderRadius};
+    .p-inputnumber-button-group {
+      order: 0;
+    }
+    .p-inputnumber-input {
+      order: 1;
+    }
+  }
+
   /* ============================================================================
      PRIMEREACT PANEL - TEMPERATURE PROFILES
      ============================================================================ */

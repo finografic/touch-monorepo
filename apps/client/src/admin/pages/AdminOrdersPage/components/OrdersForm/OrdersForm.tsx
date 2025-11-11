@@ -1,10 +1,11 @@
 import React, { useCallback, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import { Controller, FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Panel } from 'primereact/panel';
+import { InputNumber } from 'primereact/inputnumber';
 import {
   ORDER_FORM_SCHEMA,
   type OrdersFormValues,
@@ -12,12 +13,17 @@ import {
 import { TimesRepeaterTable } from 'admin/pages/AdminOrdersPage/components/TimesRepeaterTable';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { FormMiddlewareProvider } from 'forms/FormMiddleware';
-import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
+import {
+  DEFAULT_TEMP_MAX,
+  DEFAULT_TEMP_MIN,
+  MIN_TABLE_ROWS,
+  MIN_TABLE_VISIBLE_ROWS,
+  TEMP_STEP,
+} from 'forms/FormMiddleware/FormMiddleware.constants';
 import {
   ordersFormFieldConfigs,
   type OrdersFormValues as MiddlewareOrdersFormValues,
 } from 'forms/FormMiddleware/OrdersFormFieldConfigs';
-import { InputTemperature } from 'forms/InputTemperature';
 import { SelectCustom } from 'forms/SelectCustom';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { useToast } from 'components/Toast';
@@ -428,14 +434,60 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   <Col xs={2} md={2} className="col col-form-fields">
                     {/* Temperatura consumo */}
                     <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
-                      <InputTemperature name="defaultTempConsume" />
+                      <Controller
+                        name="defaultTempConsume"
+                        control={control}
+                        render={({ field }) => (
+                          <div className="p-inputgroup">
+                            <InputNumber
+                              id={field.name}
+                              value={field.value}
+                              onValueChange={(e) => field.onChange(e.value)}
+                              locale={currentLanguage}
+                              showButtons
+                              buttonLayout="stacked"
+                              step={TEMP_STEP}
+                              min={DEFAULT_TEMP_MIN}
+                              max={DEFAULT_TEMP_MAX}
+                              minFractionDigits={1}
+                              maxFractionDigits={1}
+                              placeholder="Temperature"
+                              style={{ width: '100%' }}
+                            />
+                            <span className="p-inputgroup-addon">°C</span>
+                          </div>
+                        )}
+                      />
                     </FieldWrapper>
                   </Col>
 
                   <Col xs={2} md={2} className="col col-form-fields">
                     {/* Temperatura congelación */}
                     <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
-                      <InputTemperature name="defaultTempFreeze" />
+                      <Controller
+                        name="defaultTempFreeze"
+                        control={control}
+                        render={({ field }) => (
+                          <div className="p-inputgroup">
+                            <InputNumber
+                              id={field.name}
+                              value={field.value}
+                              onValueChange={(e) => field.onChange(e.value)}
+                              locale={currentLanguage}
+                              showButtons
+                              buttonLayout="stacked"
+                              step={TEMP_STEP}
+                              min={DEFAULT_TEMP_MIN}
+                              max={DEFAULT_TEMP_MAX}
+                              minFractionDigits={1}
+                              maxFractionDigits={1}
+                              placeholder="Temperature"
+                              style={{ width: '100%' }}
+                            />
+                            <span className="p-inputgroup-addon">°C</span>
+                          </div>
+                        )}
+                      />
                     </FieldWrapper>
                   </Col>
                 </Row>
