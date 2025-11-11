@@ -1,5 +1,5 @@
 import React from 'react';
-import { Controller, useFormContext } from 'react-hook-form';
+import { useController, useFormContext } from 'react-hook-form';
 
 import { InputNumber } from 'primereact/inputnumber';
 
@@ -23,7 +23,7 @@ interface TemperatureInputFieldProps {
  * - Automatic locale formatting (Spanish: "25,0" vs English: "25.0")
  * - Spinner buttons for easy increment/decrement
  * - Min/max constraints with validation
- * - Integrates with React Hook Form via Controller
+ * - Integrates with React Hook Form via useController hook
  * - Displays °C suffix
  *
  * @example
@@ -51,37 +51,37 @@ export const TemperatureInputField: React.FC<TemperatureInputFieldProps> = ({
 }) => {
   const { control } = useFormContext();
 
+  // Use useController hook instead of Controller component for cleaner code
+  const { field } = useController({
+    name,
+    control,
+  });
+
   return (
-    <Controller
-      name={name}
-      control={control}
-      render={({ field }) => (
-        <div className="p-inputgroup">
-          <InputNumber
-            id={field.name}
-            value={field.value}
-            onValueChange={(e) => {
-              field.onChange(e.value);
-              if (onChange) {
-                onChange(e.value);
-              }
-            }}
-            locale={locale}
-            showButtons
-            buttonLayout="stacked"
-            step={step}
-            min={min}
-            max={max}
-            minFractionDigits={1}
-            maxFractionDigits={1}
-            placeholder={placeholder}
-            disabled={disabled}
-            style={{ width: '100%' }}
-          />
-          <span className="p-inputgroup-addon">°C</span>
-        </div>
-      )}
-    />
+    <div className="p-inputgroup">
+      <InputNumber
+        id={field.name}
+        value={field.value}
+        onValueChange={(e) => {
+          field.onChange(e.value);
+          if (onChange) {
+            onChange(e.value);
+          }
+        }}
+        onBlur={field.onBlur}
+        locale={locale}
+        showButtons
+        buttonLayout="stacked"
+        step={step}
+        min={min}
+        max={max}
+        minFractionDigits={1}
+        maxFractionDigits={1}
+        placeholder={placeholder}
+        disabled={disabled}
+        style={{ width: '100%' }}
+      />
+      <span className="p-inputgroup-addon">°C</span>
+    </div>
   );
 };
-
