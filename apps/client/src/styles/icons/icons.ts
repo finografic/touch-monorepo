@@ -28,6 +28,7 @@ import {
   Clipboard as _ClipboardIcon,
   Coffee as _CoffeeIcon,
   Cog as _SettingsIcon,
+  CheckCircle2 as _CheckCircle2Icon,
   FastForward as _FastForwardIcon,
   Grid3x2Icon as _Grid3x2Icon,
   House as _HomeIcon,
@@ -95,6 +96,7 @@ export const WineIcon = createIconWrapper(_WineIcon, 'WineIcon');
 // Admin & Actions
 export const AddIcon = createIconWrapper(_PlusIcon);
 export const BadgeCheckIcon = createIconWrapper(_BadgeCheckIcon);
+export const CheckCircleIcon = createIconWrapper(_CheckCircle2Icon);
 export const ClipboardIcon = createIconWrapper(_ClipboardIcon);
 export const DeleteIcon = createIconWrapper(_DeleteIcon);
 export const EditIcon = createIconWrapper(_EditIcon);
@@ -134,6 +136,7 @@ export const ZapIcon = createIconWrapper(_ZapIcon);
 export const ICON_MAP = {
   AddIcon,
   BadgeCheckIcon,
+  CheckCircleIcon,
   ClipboardIcon,
   CloseIcon,
   CoffeeIcon,

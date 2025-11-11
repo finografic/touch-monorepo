@@ -77,14 +77,19 @@ export const styles = css`
   .temperature-profiles-panel {
     margin-top: 1.5rem;
     border: 2px solid ${colors.greyXLight};
-    border-radius: 8px;
+    border-radius: ${layout.borderRadius};
 
     /* Panel Header */
     .p-panel-header {
       background-color: ${colors.greyXXLight25};
-      border-bottom: 2px solid ${colors.greyXLight};
+      border-bottom: 2px solid ${colors.greyXXLight};
       padding: 1rem 1.5rem;
       border-radius: ${layout.borderRadius} ${layout.borderRadius} 0 0;
+
+      &:hover {
+        background-color: ${colors.greyXXLight50};
+        cursor: pointer;
+      }
 
       .p-panel-title {
         font-size: 1.2rem;
