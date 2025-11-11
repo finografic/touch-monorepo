@@ -48,10 +48,18 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
           background-color: ${transparentColor};
           border-color: ${darkColor};
           color: ${darkColor};
+          /* opacity: 0.1 !important; */
         }
 
         &:active:not(:disabled):not([data-loading='true']) {
           transform: translateY(1px);
+        }
+
+        &:disabled {
+          background-color: ${colors.greyXXLight25};
+          border-color: ${darkColor};
+          color: ${darkColor};
+          opacity: 0.4 !important;
         }
       `;
 

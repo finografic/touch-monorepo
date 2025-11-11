@@ -1,14 +1,11 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
-import { ShuffleIcon } from '@radix-ui/react-icons';
 import { Text } from '@radix-ui/themes';
 import { Button } from 'components/Button';
-import { TemperatureInputField } from 'forms/TemperatureInputField';
-import { InputTime } from 'forms/InputTime';
 
 import { useDev } from 'dev-tools/providers/DevProvider';
-import { DeleteIcon } from 'styles/icons';
+import { RepeaterTableRow } from './RepeatersTableRow/RepeaterTableRow';
 import { styles } from './TimesRepeaterTable.styles';
 
 interface TimeRowData {
@@ -142,94 +139,24 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
           const isFirst = index === 0;
           const isLast = index === fields.length - 1;
 
-          // Validation classes for first row
-          const tempValidationClass = isFirst && isFirstRowFieldRequired('temperature') ? 'field-error' : '';
-          const timeAValidationClass = isFirst && isFirstRowFieldRequired('timeA') ? 'field-error' : '';
-          const timeBValidationClass = isFirst && isFirstRowFieldRequired('timeB') ? 'field-error' : '';
-          const timeCValidationClass = isFirst && isFirstRowFieldRequired('timeC') ? 'field-error' : '';
-
           return (
-            <div
+            <RepeaterTableRow
               key={field.id}
-              className={`table-row ${isEditable ? 'row-editable' : 'row-disabled'} ${isFirst ? 'first' : ''} ${isLast ? 'last' : ''}`}
-            >
-              {/* Line number */}
-              <div className="line-number-cell">
-                <Text size="2" weight="bold" color="gray">
-                  {index + 1}
-                </Text>
-              </div>
-
-              <div className={`input-wrapper ${tempValidationClass}`}>
-                <TemperatureInputField
-                  name={`${name}.${index}.temperature`}
-                  locale={language}
-                  min={defaultTempFreeze}
-                  max={50}
-                  disabled={!isEditable}
-                />
-              </div>
-              <div className={`input-wrapper ${timeAValidationClass}`}>
-                <InputTime
-                  name={`${name}.${index}.timeA`}
-                  min={0}
-                  max={3600}
-                  step={30}
-                  disabled={!isEditable}
-                />
-              </div>
-              <div className={`input-wrapper ${timeBValidationClass}`}>
-                <InputTime
-                  name={`${name}.${index}.timeB`}
-                  min={0}
-                  max={3600}
-                  step={30}
-                  disabled={!isEditable}
-                />
-              </div>
-              <div className={`input-wrapper ${timeCValidationClass}`}>
-                <InputTime
-                  name={`${name}.${index}.timeC`}
-                  min={0}
-                  max={3600}
-                  step={30}
-                  disabled={!isEditable}
-                />
-              </div>
-              <div className="rows-actions-container">
-                {/* Random values button - only show on editable rows */}
-                {isDevToolsVisible &&
-                  isEditable &&
-                  !isRowCompleteAndValid(index) &&
-                  onGenerateRandomValues && (
-                    <Button
-                      type="button"
-                      variant="outline"
-                      size="md"
-                      color="info"
-                      onClick={() => onGenerateRandomValues?.(index)}
-                      className="random-button"
-                      title="Generate random values"
-                    >
-                      <ShuffleIcon style={{ height: '14px', width: '14px' }} />
-                    </Button>
-                  )}
-
-                {/* Delete button */}
-                {fields.length > 1 && isRowCompleteAndValid(index) && (
-                  <Button
-                    type="button"
-                    variant="outline"
-                    size="md"
-                    color="danger"
-                    onClick={() => remove(index)}
-                    className="delete-button"
-                  >
-                    <DeleteIcon />
-                  </Button>
-                )}
-              </div>
-            </div>
+              field={field}
+              index={index}
+              name={name}
+              language={language}
+              defaultTempFreeze={defaultTempFreeze}
+              isEditable={isEditable}
+              isFirst={isFirst}
+              isLast={isLast}
+              isRowCompleteAndValid={isRowCompleteAndValid}
+              isFirstRowFieldRequired={isFirstRowFieldRequired}
+              onGenerateRandomValues={onGenerateRandomValues}
+              onRemove={remove}
+              isDevToolsVisible={isDevToolsVisible}
+              canDelete={fields.length > 1}
+            />
           );
         })}
       </div>
@@ -245,7 +172,7 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
             onClick={() => append(emptyRowValues)}
             disabled={!canAddRow}
             color="success"
-            // variant="outline"
+            variant="outline"
           >
             + Add Row
           </Button>
