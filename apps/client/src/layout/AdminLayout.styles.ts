@@ -150,9 +150,9 @@ export const styles = css`
 
     .main-content {
       width: 100%;
-      height: 100%;
+      min-height: 100%; /* Changed from height: 100% to allow natural growth */
       display: flex;
-      align-items: center;
+      align-items: flex-start; /* Changed from center to allow natural overflow */
       justify-content: center;
       padding: 2rem 0;
 
@@ -161,8 +161,7 @@ export const styles = css`
         flex-direction: column;
 
         width: 100%;
-        height: 100%;
-        min-height: 600px;
+        min-height: 600px; /* Removed height: 100% to allow natural growth */
 
         justify-content: flex-start;
         align-items: stretch;

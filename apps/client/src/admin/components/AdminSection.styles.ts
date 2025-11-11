@@ -40,10 +40,17 @@ export const styles = css`
     border-radius: ${layout.borderRadius};
 
     /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
+
+    /* Ensure overflow is visible for nested scrollable content */
+    /* overflow: visible; */
+    display: flex;
+    flex-direction: column;
+    /* min-height: 0;  */
   }
 
   .admin-section-content {
     display: flex;
+    display: grid;
     flex-direction: column;
     gap: 1;
 
@@ -76,6 +83,8 @@ export const styles = css`
       }
     }
 
-    border: 1px solid red;
+    /* Ensure overflow is visible for paginated tables */
+    overflow: visible;
+    min-height: 0; /* Allow flex shrinking */
   }
 `;
