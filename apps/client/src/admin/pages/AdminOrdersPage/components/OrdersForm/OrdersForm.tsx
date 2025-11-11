@@ -23,6 +23,8 @@ import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
+import { EditIcon, BadgeCheckIcon } from 'styles/icons';
+
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
@@ -428,7 +430,26 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 <Col xs={12} md={12} className="col col-form-fields col-form-table">
                   {/* Panel with Temperature Profiles Table */}
                   <Panel
-                    header="Temperature Profiles"
+                    headerTemplate={(options) => {
+                      const toggleIcon = options.collapsed ? (
+                        <EditIcon className="panel-toggle-icon" />
+                      ) : (
+                        <BadgeCheckIcon className="panel-toggle-icon" />
+                      );
+
+                      return (
+                        <div className={options.className}>
+                          <span className={options.titleClassName}>Temperature Profiles</span>
+                          <button
+                            className={options.togglerClassName}
+                            onClick={options.onTogglerClick}
+                            type="button"
+                          >
+                            {toggleIcon}
+                          </button>
+                        </div>
+                      );
+                    }}
                     className="temperature-profiles-panel"
                     toggleable
                     footer={
@@ -461,7 +482,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       name="timeRows"
                       emptyRowValues={PROFILE_ITEM_VALUES_EMPTY}
                       minRows={MIN_TABLE_ROWS}
-                      minVisibleRows={MIN_TABLE_VISIBLE_ROWS}
+                      // minVisibleRows={MIN_TABLE_VISIBLE_ROWS}
                       language={language}
                       onCanAddRowChange={handleCanAddRowChange}
                       onGenerateRandomValues={mockDataHandlers.generateRandomValuesForRow}

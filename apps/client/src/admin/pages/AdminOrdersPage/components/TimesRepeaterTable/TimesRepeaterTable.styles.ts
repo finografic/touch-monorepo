@@ -57,8 +57,7 @@ export const styles = css`
   }
 
   .table-rows-container {
-    overflow-y: auto;
-    border: 1px solid ${colors.greyLight};
+    overflow-y: visible; /* Changed from auto to visible - no scrollbar */
     border: 1px solid transparent;
     border-radius: 0 0 6px 6px;
   }

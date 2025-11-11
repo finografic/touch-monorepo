@@ -62,6 +62,35 @@ export const styles = css`
         font-weight: 700;
         color: ${colors.text};
       }
+
+      /* Custom toggle icons - more prominent */
+      .p-panel-icons {
+        .panel-toggle-icon {
+          width: 22px;
+          height: 22px;
+          color: ${colors.info};
+          transition: all 0.2s ease;
+          opacity: 0.9;
+
+          &:hover {
+            color: ${colors.infoDark};
+            opacity: 1;
+            transform: scale(1.1);
+          }
+        }
+      }
+
+      /* Style the toggle button container */
+      button.p-panel-header-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          background-color: ${colors.infoXLight25};
+        }
+      }
     }
 
     /* Panel Content - NO scrollbar, show full content */

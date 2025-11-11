@@ -13,7 +13,7 @@ import { useOrdersFilter } from './hooks/useOrdersFilter';
 export const AdminOrdersListPage: React.FC = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  
+
   // State for search/filter (empty for PrimeReact's built-in filtering)
   const [searchTerm] = useState('');
 

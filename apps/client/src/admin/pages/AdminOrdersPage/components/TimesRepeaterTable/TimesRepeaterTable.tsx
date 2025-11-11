@@ -110,10 +110,6 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
     }
   }, [canAddRow, onCanAddRowChange]);
 
-  // Calculate row height for scrolling (approximate height per row including gaps)
-  const rowHeight = 60; // Estimated height per row in pixels
-  const containerHeight = minVisibleRows * rowHeight + 16;
-
   // Calculate if internal add button should be hidden (when external callback is provided)
   const hideInternalAddButton = Boolean(onCanAddRowChange);
 
@@ -135,8 +131,8 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
         <div className="header-column header-actions"></div>
       </div>
 
-      {/* Scrollable Table Rows Container */}
-      <div className="table-rows-container" style={{ height: `${containerHeight}px` }}>
+      {/* Table Rows Container - Full height, no scrolling */}
+      <div className="table-rows-container">
         {fields.map((field, index) => {
           // A row is editable if:
           // 1. It's the current editable row (first incomplete/invalid), OR
