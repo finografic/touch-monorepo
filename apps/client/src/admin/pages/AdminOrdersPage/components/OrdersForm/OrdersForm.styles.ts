@@ -40,6 +40,11 @@ export const styles = css`
     padding: 1rem 0 !important;
   }
 
+  /* TODO: Consider extracting to a styled wrapper component for PrimeReact InputNumber
+   * Potential component: <StyledInputNumberStacked /> or enhance TemperatureInputField
+   * This styling is specific to stacked button layout and could be encapsulated
+   * Lines: 43-56
+   */
   .p-inputnumber-buttons-stacked {
     display: flex;
     align-items: stretch;
@@ -59,6 +64,16 @@ export const styles = css`
      PRIMEREACT PANEL - TEMPERATURE PROFILES
      ============================================================================ */
 
+  /* TODO: Consider extracting to a dedicated component: <TemperatureProfilesPanel />
+   * This is a large, self-contained visual component with:
+   * - Custom panel header styling
+   * - Toggle icon behavior
+   * - Footer with action buttons
+   * - Collapse/expand animations
+   * Could become: components/TemperatureProfilesPanel/TemperatureProfilesPanel.tsx
+   * Benefits: Reusable, testable, better separation of concerns
+   * Lines: 62-136
+   */
   .temperature-profiles-panel {
     margin-top: 1.5rem;
     border: 2px solid ${colors.greyXLight};

@@ -12,6 +12,14 @@ export const styles = css`
     width: 100%;
   }
 
+  /* TODO: Consider extracting to component: <RepeaterTableHeader />
+   * Self-contained table header with:
+   * - Grid layout configuration
+   * - Header column styling
+   * - Sticky positioning
+   * Could accept column configs as props
+   * Lines: 15-51
+   */
   .table-header {
     display: grid;
     grid-template-columns: 2.8rem 1fr 1fr 1fr 1fr auto;
@@ -66,6 +74,15 @@ export const styles = css`
   .table-footer {
   }
 
+  /* TODO: Consider extracting to component: <RepeaterTableRow />
+   * Complex row component with:
+   * - Grid layout matching header
+   * - Multiple input wrappers (temperature, time fields)
+   * - Row state management (disabled, first, validation)
+   * - Action buttons (random, delete)
+   * Could accept: rowData, isEditable, isFirst, handlers as props
+   * Lines: 69-135
+   */
   .table-row {
     display: grid;
     grid-template-columns: 2.5rem 1fr 1fr 1fr 1fr auto; /* Fixed width for line numbers, temp, time A, time B, time C, actions */
@@ -99,12 +116,12 @@ export const styles = css`
         /* padding: 0.5rem; */
         padding-top: 0.5rem;
       }
-      .action-button-container {
+      .rows-actions-container {
         padding-top: 0.5rem;
       }
     }
 
-    .action-button-container {
+    .rows-actions-container {
       width: 40px;
       display: flex;
       flex-direction: column;
@@ -134,6 +151,12 @@ export const styles = css`
     }
   }
 
+  /* TODO: Consider extracting to component: <LineNumberCell />
+   * Simple presentational component displaying row number
+   * Could accept: number, isActive props
+   * Very reusable across different table contexts
+   * Lines: 137-148
+   */
   .line-number-cell {
     width: 2.5rem;
     display: flex;
@@ -147,6 +170,13 @@ export const styles = css`
     }
   }
 
+  /* TODO: Consider extracting to component: <TableFooter />
+   * Footer section with:
+   * - Add row button
+   * - Row counter display
+   * Could accept: onAddRow, currentRows, totalRows, canAddRow props
+   * Lines: 150-165
+   */
   .add-row-container {
     display: flex;
     justify-content: center;

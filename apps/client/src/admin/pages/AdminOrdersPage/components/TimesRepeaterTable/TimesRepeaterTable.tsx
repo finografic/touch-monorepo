@@ -196,7 +196,7 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
                   disabled={!isEditable}
                 />
               </div>
-              <div className="action-button-container">
+              <div className="rows-actions-container">
                 {/* Random values button - only show on editable rows */}
                 {isDevToolsVisible &&
                   isEditable &&

@@ -459,8 +459,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   </Col>
                 </Row>
 
+                {/* PANEL + TEMPERATURE PROFILES TABLE ===================== */}
+
                 <Col xs={12} md={12} className="col col-form-fields col-form-table">
-                  {/* Panel with Temperature Profiles Table */}
                   <Panel
                     headerTemplate={(options) => {
                       const toggleIcon = isPanelCollapsed ? (
@@ -470,7 +471,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       );
 
                       return (
-                        <div className={options.className}>
+                        <div className={options.className} onClick={options.onTogglerClick}>
                           <span className={options.titleClassName}>Temperature Profiles</span>
                           <button
                             className={options.togglerClassName}
