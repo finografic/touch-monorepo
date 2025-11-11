@@ -84,6 +84,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     containerTypes: [],
   });
   const [canAddRow, setCanAddRow] = useState(false);
+  const [isPanelCollapsed, setIsPanelCollapsed] = useState(false);
   const { currentLanguage } = useAppConfig();
 
   // ========================================================================
@@ -287,8 +288,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   // Render
   // ========================================================================
 
-  log('MODES', 'yellow', dropdownData.modeOptions);
-
   return (
     <section css={styles} className="admin-page-content form-container">
       <FormProvider {...methods}>
@@ -431,7 +430,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   {/* Panel with Temperature Profiles Table */}
                   <Panel
                     headerTemplate={(options) => {
-                      const toggleIcon = options.collapsed ? (
+                      const toggleIcon = isPanelCollapsed ? (
                         <EditIcon className="panel-toggle-icon" />
                       ) : (
                         <BadgeCheckIcon className="panel-toggle-icon" />
@@ -452,6 +451,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     }}
                     className="temperature-profiles-panel"
                     toggleable
+                    collapsed={isPanelCollapsed}
+                    onToggle={(e) => setIsPanelCollapsed(e.value)}
+                    transitionOptions={{ timeout: 300, easing: 'ease-in-out' }}
+                    data-collapsed={isPanelCollapsed}
                     footer={
                       <div
                         style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.5rem 0' }}

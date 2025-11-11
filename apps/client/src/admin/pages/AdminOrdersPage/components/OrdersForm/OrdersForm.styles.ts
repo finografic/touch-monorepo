@@ -48,7 +48,6 @@ export const styles = css`
     margin-top: 1.5rem;
     border: 2px solid ${colors.greyXLight};
     border-radius: 8px;
-    box-shadow: 0 2px 8px ${colors.greyXXLight25};
 
     /* Panel Header */
     .p-panel-header {
@@ -69,7 +68,7 @@ export const styles = css`
           width: 22px;
           height: 22px;
           color: ${colors.info};
-          transition: all 0.2s ease;
+          transition: all 0.25s ease-in-out; /* Smooth bidirectional transition */
           opacity: 0.9;
 
           &:hover {
@@ -79,32 +78,25 @@ export const styles = css`
           }
         }
       }
-
-      /* Style the toggle button container */
-      button.p-panel-header-icon {
-        width: 2.5rem;
-        height: 2.5rem;
-        border-radius: 6px;
-        transition: all 0.2s ease;
-
-        &:hover {
-          background-color: ${colors.infoXLight25};
-        }
-      }
     }
 
     /* Panel Content - NO scrollbar, show full content */
     .p-panel-content {
       padding: 1.5rem;
       background-color: ${colors.white};
-      overflow: visible !important; /* Remove any overflow restrictions */
-      max-height: none !important; /* Remove any height restrictions */
     }
 
-    /* Ensure the toggleable content wrapper also doesn't restrict height */
+    /* Toggleable content wrapper - allow smooth transitions */
     .p-toggleable-content {
-      overflow: visible !important;
-      max-height: none !important;
+      /* Don't force overflow or max-height - let PrimeReact handle the animation */
+      /* After animation completes, content will be visible naturally */
+    }
+
+    /* When panel is expanded, ensure content flows naturally */
+    &:not(.p-panel-collapsed) {
+      .p-panel-content {
+        overflow: visible; /* Allow content to flow naturally when expanded */
+      }
     }
 
     /* Panel Footer */
@@ -113,9 +105,17 @@ export const styles = css`
       border-top: 2px solid ${colors.greyXLight};
       padding: 1rem 1.5rem;
       border-radius: 0 0 6px 6px;
+      transition: border-color 0.25s ease-in-out;
 
       button {
         min-width: 120px;
+      }
+    }
+
+    /* When panel is collapsed, hide footer border */
+    &[data-collapsed='true'] {
+      .p-panel-footer {
+        border-top-color: transparent;
       }
     }
   }

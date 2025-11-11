@@ -17,8 +17,6 @@ export const styles = css`
     grid-template-columns: 2.8rem 1fr 1fr 1fr 1fr auto;
     gap: 8px;
     padding: 0;
-    /* background-color: ${colors.greyXXLight}; */
-    border-radius: 6px 6px 0 0;
     position: sticky;
     top: 0;
     z-index: 1;
@@ -59,16 +57,13 @@ export const styles = css`
   .table-rows-container {
     overflow-y: visible; /* Changed from auto to visible - no scrollbar */
     border: 1px solid transparent;
-    border-radius: 0 0 6px 6px;
   }
 
   .table-header {
-    box-shadow: 0 3px 3px 0px rgba(0, 0, 0, 0.15) !important;
+    border-bottom: 1px solid ${colors.greyXXLight};
   }
 
   .table-footer {
-    padding: 0.5rem;
-    box-shadow: 0 -3px 3px 0px rgba(0, 0, 0, 0.15) !important;
   }
 
   .table-row {
@@ -107,10 +102,6 @@ export const styles = css`
       .action-button-container {
         padding-top: 0.5rem;
       }
-    }
-
-    &.last {
-      border-radius: 0 0 6px 6px;
     }
 
     .action-button-container {

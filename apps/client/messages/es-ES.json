@@ -49,7 +49,7 @@
   "admin_sounds_description": "Subir y configurar archivos de sonido para eventos de temporizador",
   "admin_mode_title": "Modo",
   "admin_mode_description": "Seleccionar modo por defecto",
-  "admin_mode_card_public_title": "Modo",
+  "admin_mode_card_public_title": "Modo por defecto",
   "admin_mode_card_public_description": "Seleccionar modo por defecto",
   "admin_relays_title": "Gestión de relés",
   "admin_relays_description": "Gestionar relés",
@@ -58,5 +58,7 @@
   "admin_maintenance_card_public_title": "Mantenimiento",
   "admin_maintenance_card_public_description": "Gestionar mantenimiento",
   "admin_items_title": "Gestión de registros",
-  "admin_items_description": "Gestionar registros de la base de datos"
+  "admin_items_description": "Gestionar registros de la base de datos",
+  "admin_mode_card_admin_title": "Modos",
+  "admin_mode_card_admin_description": "Seleccionar modo por defecto"
 }

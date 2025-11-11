@@ -44,10 +44,10 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
 
       if (result.success) {
         toast({ variant: 'success', message: result.message || 'Signed in successfully' });
-        await sleep(100);
         await refreshSession();
-        await closeLoginDialog();
         navigate('/admin');
+        await sleep(100);
+        await closeLoginDialog();
       } else {
         const errorMessage = String(result.error || 'Failed to log in');
         setError(errorMessage);

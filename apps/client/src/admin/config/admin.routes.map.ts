@@ -56,6 +56,44 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   },
   // PUBLIC ENTRIES (accessible without login) ============================== //
   {
+    key: 'items',
+    path: '/admin/items', // orders (parent route for list + edit)
+    element: {
+      public: null,
+      admin: AdminOrdersPage, // ✅ Parent component with Outlet
+    },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
+    icon: ListIcon,
+    color: 'blue',
+  },
+  {
+    key: 'slotConfig',
+    path: '/admin/slots-config',
+    element: {
+      public: null,
+      admin: AdminSlotsConfigPage,
+    },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
+    icon: GridIcon,
+    color: 'orange',
+  },
+
+  {
+    key: 'relays',
+    path: '/admin/relays',
+    element: {
+      public: null,
+      admin: AdminRelaysPage,
+    },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
+    icon: ZapIcon,
+    color: 'green',
+  },
+
+  {
     key: 'mode',
     path: '/admin/mode', // default mode (public)
     element: {
@@ -66,6 +104,18 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     hasCard: { public: true, admin: true },
     // icon: UserShildIcon,
     icon: CoffeeIcon,
+    color: 'blue',
+  },
+  {
+    key: 'uiLabels',
+    path: '/admin/ui-labels',
+    element: {
+      public: AdminUiLabelsPage,
+      admin: AdminUiLabelsPage,
+    },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
+    icon: LanguageIcon,
     color: 'blue',
   },
   {
@@ -94,32 +144,9 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     // color: 'orange',
     color: 'orange',
   },
-  // LANGUAGE ENTRY (public and admin) ====================================== //
-  {
-    key: 'languages',
-    path: '/admin/languages',
-    element: {
-      public: PublicLanguagesPage,
-      admin: AdminLanguagesPage,
-    },
-    hasNav: { public: true, admin: true },
-    hasCard: { public: true, admin: true },
-    icon: LanguageIcon,
-    color: 'green',
-  },
+
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
-  {
-    key: 'uiLabels',
-    path: '/admin/ui-labels',
-    element: {
-      public: AdminUiLabelsPage,
-      admin: AdminUiLabelsPage,
-    },
-    hasNav: { public: false, admin: true },
-    hasCard: { public: false, admin: true },
-    icon: LanguageIcon,
-    color: 'blue',
-  },
+
   {
     key: 'translations',
     path: '/admin/translations',
@@ -132,40 +159,17 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: EditIcon,
     color: 'purple',
   },
+  // LANGUAGE ENTRY (public and admin) ====================================== //
   {
-    key: 'items',
-    path: '/admin/items', // orders (parent route for list + edit)
+    key: 'languages',
+    path: '/admin/languages',
     element: {
-      public: null,
-      admin: AdminOrdersPage, // ✅ Parent component with Outlet
+      public: PublicLanguagesPage,
+      admin: AdminLanguagesPage,
     },
-    hasNav: { public: false, admin: true },
-    hasCard: { public: false, admin: true },
-    icon: ListIcon,
-    color: 'blue',
-  },
-  {
-    key: 'slotConfig',
-    path: '/admin/slots-config',
-    element: {
-      public: null,
-      admin: AdminSlotsConfigPage,
-    },
-    hasNav: { public: false, admin: true },
-    hasCard: { public: false, admin: true },
-    icon: GridIcon,
-    color: 'orange',
-  },
-  {
-    key: 'relays',
-    path: '/admin/relays',
-    element: {
-      public: null,
-      admin: AdminRelaysPage,
-    },
-    hasNav: { public: false, admin: true },
-    hasCard: { public: false, admin: true },
-    icon: ZapIcon,
+    hasNav: { public: true, admin: true },
+    hasCard: { public: true, admin: true },
+    icon: LanguageIcon,
     color: 'green',
   },
 ];
