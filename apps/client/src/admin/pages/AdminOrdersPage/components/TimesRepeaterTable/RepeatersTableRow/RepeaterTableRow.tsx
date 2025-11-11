@@ -102,6 +102,7 @@ export const RepeaterTableRow: React.FC<RepeaterTableRowProps> = ({
           <Button
             type="button"
             variant="outline"
+            // variant="ghost"
             size="md"
             color="info"
             onClick={() => onGenerateRandomValues(index)}
@@ -117,10 +118,11 @@ export const RepeaterTableRow: React.FC<RepeaterTableRowProps> = ({
           <Button
             type="button"
             variant="outline"
+            // variant="ghost"
             size="md"
             color="danger"
             onClick={() => onRemove(index)}
-            className="delete-button"
+            className="button-delete"
           >
             <DeleteIcon />
           </Button>

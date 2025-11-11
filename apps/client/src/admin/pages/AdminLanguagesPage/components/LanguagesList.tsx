@@ -80,7 +80,7 @@ export const LanguagesList: React.FC<LanguagesListProps> = ({ languages, onDelet
                 {/* Delete Button */}
                 <Flex align="center" className="col col-delete">
                   <IconButton
-                    className={clsx('delete-button', {
+                    className={clsx('button-delete', {
                       'is-disabled': !isDeletable,
                     })}
                     variant="soft"

@@ -88,7 +88,7 @@ export const styles = css`
 
       .col-delete {
         min-width: auto;
-        .delete-button {
+        .button-delete {
           padding: 1.25rem;
           svg {
             width: 1.5rem;

@@ -50,7 +50,25 @@ export const styles = css`
       gap: 4px;
       padding-right: 1rem;
 
-      .random-button {
+      button,
+      button.button-delete,
+      button.random-button {
+        transition: opacity 0.2s ease;
+        padding: 0;
+        width: 36px;
+        height: 36px;
+        svg.icon {
+          transform: scale(0.7) !important;
+        }
+      }
+
+      button.random-button {
+        svg {
+          transform: scale(1.2) !important;
+        }
+      }
+
+      /* .random-button {
         opacity: 0.8;
         padding: 4px;
         transition: opacity 0.2s ease;
@@ -58,16 +76,16 @@ export const styles = css`
         &:hover {
           opacity: 1;
         }
-      }
+      } */
 
-      .delete-button {
+      /* .button-delete {
         padding: 0.5rem 0.2rem 0.5rem 0.2rem;
         opacity: 1;
         svg.icon {
           width: 18px;
           height: 18px;
         }
-      }
+      } */
     }
   }
 `;

@@ -62,7 +62,7 @@ export const LanguagesListSelected: React.FC<LanguagesListSelectedProps> = ({
                   {/* Delete Button */}
                   <Flex align="center" className="col col-delete">
                     <IconButton
-                      className={clsx('delete-button')}
+                      className={clsx('button-delete')}
                       variant="soft"
                       color="orange"
                       onClick={() => onRemoveLanguage(language.code, language.countryCode)}

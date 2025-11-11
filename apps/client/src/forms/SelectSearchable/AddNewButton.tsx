@@ -18,7 +18,7 @@ export const AddNewButton: React.FC<SearchableSelectProps> = ({ handleAddNew, se
         size="md"
         color="success"
         onClick={handleAddNew}
-        className="delete-button"
+        className="button-delete"
       >
         <AddIcon /> Añadir:
       </Button>
