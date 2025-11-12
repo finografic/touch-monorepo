@@ -461,7 +461,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
                 {/* PANEL + TEMPERATURE PROFILES TABLE ===================== */}
 
-                {/* <Col xs={12} md={12} className="col col-form-fields col-form-table">
+                <Col xs={12} md={12} className="col col-form-fields col-form-table">
                   <Panel
                     headerTemplate={(options) => {
                       const toggleIcon = isPanelCollapsed ? (
@@ -518,17 +518,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       onGenerateRandomValues={mockDataHandlers.generateRandomValuesForRow}
                     />
                   </Panel>
-                </Col> */}
+                </Col>
               </Col>
             </Row>
-            {/* <pre>{JSON.stringify(formValues, null, 2)}</pre> */}
-            {/* <pre>{JSON.stringify(dropdownData, null, 2)}</pre> */}
-            {/* <pre>{JSON.stringify(tempItems, null, 2)}</pre> */}
-            {/* <pre>canAddRow: {JSON.stringify(canAddRow, null, 2)}</pre>
-            <pre>isSubmitLoading: {JSON.stringify(isSubmitLoading, null, 2)}</pre>
-            <pre>isValid: {JSON.stringify(isValid, null, 2)}</pre>
-            <pre>isDirty: {JSON.stringify(isDirty, null, 2)}</pre>
-            <pre>isEditMode: {JSON.stringify(isEditMode, null, 2)}</pre> */}
           </form>
         </FormMiddlewareProvider>
       </FormProvider>

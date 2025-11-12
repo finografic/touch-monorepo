@@ -20,8 +20,9 @@ export const styles = css`
     /* Style disabled slots */
     &:has(.rt-TextFieldInput:disabled) .rt-TextFieldSlot {
       background-color: ${colors.greyXXLight50}; /* Lighter background for slot */
-      border-color: ${colors.greyXLight}; /* Dimmed border */
+      border-color: ${colors.greyXXLight}; /* Dimmed border */
       opacity: 0.7; /* Additional dimming */
+      background-color: ${colors.greyXXLight25};
 
       /* Disabled buttons in left slot */
       &.time-controls-slot .rt-IconButton:disabled {
@@ -29,6 +30,17 @@ export const styles = css`
         border-color: ${colors.greyXLight};
         color: ${colors.greyLight};
         opacity: 0.5;
+      }
+    }
+
+    svg {
+      height: 18px !important;
+      width: 18px !important;
+      &:nth-of-type(1) {
+        padding-top: 2px !important;
+      }
+      &:nth-of-type(2) {
+        padding-bottom: 2px !important;
       }
     }
 

@@ -43,19 +43,32 @@ export const styles = css`
       height: ${forms.inputs.height};
     }
 
+    .p-inputgroup-addon {
+      border-left: none;
+    }
+
     .p-inputnumber-button-group {
       border-right: none !important;
       border-radius: ${forms.inputs.border.radius} 0 0 ${forms.inputs.border.radius} !important;
       button.p-inputnumber-button {
         color: ${colors.greyLight};
+        svg {
+          height: 16px;
+          width: 16px;
+        }
         &:not(:disabled):hover {
           background-color: ${colors.greyXXLight25} !important;
         }
       }
     }
 
-    .p-inputgroup-addon {
-      border-left: none;
+    &.is-disabled {
+      .p-inputnumber-button-group {
+        button.p-inputnumber-button {
+          color: ${colors.greyLight};
+          background-color: ${colors.greyXXLight25};
+        }
+      }
     }
   }
 `;

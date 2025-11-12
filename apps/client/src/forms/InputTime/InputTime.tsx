@@ -216,7 +216,14 @@ export const InputTime: React.FC<InputTimeProps> = ({
       >
         <TextField.Slot side="left" className="input-slot-left time-controls-slot">
           {!isInvalid && (
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginRight: '4px' }}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'column',
+                gap: '2px',
+                marginRight: '4px',
+              }}
+            >
               <IconButton
                 type="button"
                 variant={STEP_BUTTON_VARIANT}
