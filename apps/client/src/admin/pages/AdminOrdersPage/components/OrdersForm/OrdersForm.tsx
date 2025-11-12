@@ -136,10 +136,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     formState: { isValid, isDirty },
   } = methods;
 
-  const { append } = useFieldArray({
-    control,
-    name: 'timeRows',
-  });
+  const { append } = useFieldArray({ control, name: 'timeRows' });
 
   const formValues = watch();
 
@@ -315,8 +312,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
             <Row className="row">
               <Col xs={12} md={12} className="col">
                 <Row className="row">
-                  <Col xs={2} md={2} className="col col-form-fields">
-                    {/* Mode */}
+                  {/* <Col xs={3} md={3} className="col col-form-fields">
                     <FieldWrapper name="mode" label="Mode" required>
                       <SelectCustom
                         {...register('modeId')}
@@ -329,9 +325,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         }}
                       />
                     </FieldWrapper>
-                  </Col>
+                  </Col> */}
 
-                  <Col xs={5} md={5} className="col col-form-fields">
+                  <Col xs={6} md={6} className="col col-form-fields">
                     {/* Drink Type */}
                     <FieldWrapper
                       name="drinkType"
@@ -357,7 +353,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     </FieldWrapper>
                   </Col>
 
-                  <Col xs={5} md={5} className="col col-form-fields">
+                  <Col xs={6} md={6} className="col col-form-fields">
                     {/* Drink Subtype */}
                     <FieldWrapper
                       name="drinkSubtype"
@@ -385,7 +381,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 </Row>
 
                 <Row className="row">
-                  <Col xs={4} md={4} className="col col-form-fields">
+                  <Col xs={6} md={6} className="col col-form-fields">
                     {/* Volume */}
                     <FieldWrapper
                       name="volume"
@@ -405,7 +401,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     </FieldWrapper>
                   </Col>
 
-                  <Col xs={4} md={4} className="col col-form-fields">
+                  <Col xs={6} md={6} className="col col-form-fields">
                     {/* Container Type */}
                     <FieldWrapper
                       name="containerType"
@@ -424,8 +420,25 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       />
                     </FieldWrapper>
                   </Col>
+                </Row>
 
-                  <Col xs={2} md={2} className="col col-form-fields">
+                <Row className="row">
+                  <Col xs={4} md={4} className="col col-form-fields">
+                    <FieldWrapper name="mode" label="Mode" required>
+                      <SelectCustom
+                        {...register('modeId')}
+                        className="mode-select"
+                        options={dropdownData.modeOptions}
+                        placeholder="Select mode"
+                        value={selectedModeId}
+                        onSelect={(value) => {
+                          handleSimpleFieldChange('modeId', value);
+                        }}
+                      />
+                    </FieldWrapper>
+                  </Col>
+
+                  <Col xs={4} md={4} className="col col-form-fields">
                     {/* Temperatura consumo */}
                     <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
                       <TemperatureInputField
@@ -443,7 +456,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     </FieldWrapper>
                   </Col>
 
-                  <Col xs={2} md={2} className="col col-form-fields">
+                  <Col xs={4} md={4} className="col col-form-fields">
                     {/* Temperatura congelación */}
                     <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
                       <TemperatureInputField

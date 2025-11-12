@@ -116,4 +116,22 @@ export const styles = css`
     letter-spacing: 0.025em;
     padding: 0.25rem 0;
   }
+
+  .table-row.row-disabled {
+    .p-inputnumber-buttons-stacked {
+    }
+    .p-inputnumber-button-group {
+      svg {
+        opacity: 0.66;
+      }
+    }
+    .p-inputgroup-addon {
+      color: ${colors.greyXLight};
+    }
+    .time-controls-slot {
+      svg {
+        color: ${colors.grey};
+      }
+    }
+  }
 `;
