@@ -12,7 +12,6 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
 
 import { getAdminDashboard } from 'utils/i18n-variants';
-import { getCalloutText__V1 } from './utils/i18n.utils';
 import { getCalloutText } from './utils/i18n-inlang.utils';
 import { AdminPageLayout } from '.';
 import { styles } from './AdminDashboardPage.styles';
@@ -36,7 +35,6 @@ export const AdminDashboardPage: React.FC = () => {
 
   const adminCards = useMemo(() => {
     return getAdminDashboardCards(isAuthenticated, role).map((card) => {
-      const __text = getCalloutText__V1(t, role, card.key);
       const text = getCalloutText(role, card.key);
 
       return {

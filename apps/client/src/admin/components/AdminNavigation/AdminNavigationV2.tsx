@@ -6,7 +6,8 @@ import { useLocation } from 'react-router-dom';
 import { ChevronDownIcon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { DropdownMenu, TabNav } from '@radix-ui/themes';
 import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
-import { getNavLabel } from 'admin/utils/i18n.utils';
+import { getNavItemText } from 'admin/utils/i18n-inlang.utils';
+import { m } from 'i18n/messages';
 
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
@@ -22,7 +23,7 @@ export const AdminNavigationV2: React.FC<AdminNavigationV2Props> = ({ mobileBrea
   const { t } = useTranslation();
   const location = useLocation();
   const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 100 });
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Get navigation items from the single source of truth
@@ -30,21 +31,21 @@ export const AdminNavigationV2: React.FC<AdminNavigationV2Props> = ({ mobileBrea
 
   // DASHBOARD first item (always visible)
   // useMemo to prevent infinite re-renders by stabilizing the array reference
-  const navItems = useMemo(
-    () => [
+  const navItems = useMemo(() => {
+    const configNavItems = getAdminNavItems(isAuthenticated, user?.role);
+    return [
       {
         id: 'dashboard',
-        label: t('admin.pages.dashboard.title'),
+        label: m.admin_dashboard_title({ role: user?.role }),
         path: '/admin',
       },
       ...configNavItems.map((item) => ({
         id: item.key,
-        label: getNavLabel(t, item.key),
+        label: getNavItemText(user?.role, item.key),
         path: item.path,
       })),
-    ],
-    [t, configNavItems],
-  );
+    ];
+  }, [t, isAuthenticated, location.pathname, user?.role]);
 
   const { containerRef, registerItem, visibleItems, overflowItems, isMobile, hasOverflow } = useResponsiveNav(
     {

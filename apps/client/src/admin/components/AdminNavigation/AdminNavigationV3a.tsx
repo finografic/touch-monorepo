@@ -1,5 +1,4 @@
 import React, { startTransition, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import { hydrateRoot } from 'react-dom/client';
 import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
@@ -7,7 +6,8 @@ import { useBoundingRect } from '@workspace/core/hooks';
 
 import { TabNav } from '@radix-ui/themes';
 import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
-import { getNavLabel } from 'admin/utils/i18n.utils';
+import { getNavItemText } from 'admin/utils/i18n-inlang.utils';
+import { m } from 'i18n/messages';
 import { getLocale, isLocale, setLocale } from 'i18n/runtime';
 
 import { usePageTransition } from 'hooks/usePageTransition';
@@ -23,25 +23,8 @@ export const AdminNavigation: React.FC = () => {
 
   // ======================================================================== //
 
-  // Example of filtering locales for a language switcher
-  function getTenantSupportedLocales(hostname) {
-    // Determine which tenant we're on based on hostname
-    if (hostname.includes('customer1.com')) {
-      // Customer1 only supports English and German
-      return ['en', 'de'];
-    } else if (hostname.includes('customer2.com')) {
-      // Customer2 only supports French and Spanish
-      return ['fr', 'es'];
-    } else if (hostname.includes('customer3.com')) {
-      // Customer3 supports all locales
-      return ['en', 'de', 'fr', 'es'];
-    }
-  }
-
   startTransition(() => {
     const hostname = window.location.hostname;
-    const supportedLocales = getTenantSupportedLocales(hostname);
-    console.log('Supported locales:', supportedLocales);
   });
 
   const handleNavigation = (path: string) => {
@@ -58,20 +41,19 @@ export const AdminNavigation: React.FC = () => {
 
   const navItems = useMemo(() => {
     const configNavItems = getAdminNavItems(isAuthenticated, user?.role);
-    // return; // DASHBOARD first item (always visible)
     return [
       {
         id: 'dashboard',
-        label: t('admin.pages.dashboard.title'),
+        label: m.admin_dashboard_title({ role: user?.role }),
         path: '/admin',
       },
       ...configNavItems.map((item) => ({
         id: item.key,
-        label: getNavLabel(t, item.key),
+        label: getNavItemText(user?.role, item.key),
         path: item.path,
       })),
     ];
-  }, [t, isAuthenticated, location.pathname]);
+  }, [t, isAuthenticated, location.pathname, user?.role]);
 
   // ======================================================================== //
 

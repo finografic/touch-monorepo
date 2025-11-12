@@ -45,5 +45,7 @@
   "admin_maintenance_card_public_title": "Maintenance",
   "admin_maintenance_card_public_description": "Manage maintenance",
   "admin_items_title": "Records Management",
-  "admin_items_description": "Manage database records"
+  "admin_items_description": "Manage database records",
+  "admin_dashboard_title": "Dashboard de Usuario",
+  "admin_dashboard_description": "Panel de control de utilidades de mantenimiento"
 }

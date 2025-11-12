@@ -13,15 +13,6 @@ export function resolveRole(isAuthenticated: boolean, isAdmin: boolean = false):
 }
 
 // ======================================================================== //
-/**
- * Get navigation label for a given page key.
- * Uses admin.pages.{key}.title as the source of truth.
- */
-export function getNavLabel(t: TFunction, pageKey: string): string {
-  return t(`admin.pages.${pageKey}.title`, { defaultValue: pageKey });
-}
-
-// ======================================================================== //
 // NEW: 🈂️ inlang/paraglide i18n translations !!
 
 /**
@@ -41,7 +32,7 @@ export function getNavLabel(t: TFunction, pageKey: string): string {
  * @returns {{ title: string; description: string }} Localized title and description pair.
  */
 
-export function getNavItemText(role: AuthRoles, pageKey: string) {
+export function getNavItemText(role: AuthRoles = 'public', pageKey: string) {
   log('getNavItemText', 'red', role, pageKey);
   const baseKey = `admin_${snakeCase(pageKey)}`;
   const prefixes = [
@@ -62,7 +53,7 @@ export function getNavItemText(role: AuthRoles, pageKey: string) {
   return m[`${prefixMatch}_title`]();
 }
 
-export function getCalloutText(role: AuthRoles, pageKey: string) {
+export function getCalloutText(role: AuthRoles = 'public', pageKey: string) {
   const baseKey = `admin_${snakeCase(pageKey)}`;
   const prefixes = [
     `${baseKey}_card_${role}`, // most specific

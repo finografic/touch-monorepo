@@ -1,19 +1,18 @@
 import React, { startTransition, useMemo } from 'react';
-import { hydrateRoot } from 'react-dom/client';
 import { Col, Container, Row } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { useLocation } from 'react-router-dom';
 
 import { TabNav } from '@radix-ui/themes';
 import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
-import { getNavLabel } from 'admin/utils/i18n.utils';
+import { getNavItemText } from 'admin/utils/i18n-inlang.utils';
+import { m } from 'i18n/messages';
 import { getLocale, isLocale, setLocale } from 'i18n/runtime';
 
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { styles } from './AdminNavigation.styles';
-import { getCalloutText, getNavItemText } from 'admin/utils/i18n-inlang.utils';
 
 export const AdminNavigation: React.FC = () => {
   const { t } = useTranslation();
@@ -44,18 +43,14 @@ export const AdminNavigation: React.FC = () => {
 
   const navItems = useMemo(() => {
     const configNavItems = getAdminNavItems(isAuthenticated, user?.role);
-    // return; // DASHBOARD first item (always visible)
     return [
       {
         id: 'dashboard',
-        // label: t('admin.pages.dashboard.title'),
-        // label: getNavItemText(user?.role, 'dashboard'),
-        label: getNavItemText(user?.role, 'dashboard'),
+        label: m.admin_dashboard_title({ role: user?.role }),
         path: '/admin',
       },
       ...configNavItems.map((item) => ({
         id: item.key,
-        // label: getNavLabel(t, item.key),
         label: getNavItemText(user?.role, item.key),
         path: item.path,
       })),
