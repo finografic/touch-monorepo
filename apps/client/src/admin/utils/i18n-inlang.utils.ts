@@ -11,7 +11,6 @@ export function resolveRole(isAuthenticated: boolean, isAdmin: boolean = false):
   if (isAuthenticated && isAdmin) return 'admin';
   return 'public';
 }
-// ======================================================================== //
 
 // ======================================================================== //
 /**
@@ -41,6 +40,26 @@ export function getNavLabel(t: TFunction, pageKey: string): string {
  * @param {string} pageKey - The base page identifier (e.g. "maintenance").
  * @returns {{ title: string; description: string }} Localized title and description pair.
  */
+
+export function getNavItemText(role: AuthRoles = 'public', pageKey: string) {
+  const baseKey = `admin_${snakeCase(pageKey)}`;
+  const prefixes = [
+    // NOTE: use dashboard 'card' to avoid repetition
+    `${baseKey}_card_${role}`, // most specific
+    `${baseKey}_card_public`, // fallback to public card
+    `${baseKey}_card`, // generic card
+    `${baseKey}`, // page-level
+  ];
+
+  const prefixMatch = prefixes.find((prefix) => m[`${prefix}_title`]);
+
+  // 🎯 if nothing matches, return defaults
+  if (!prefixMatch) {
+    return `⚠️ Missing translation for ${baseKey}`;
+  }
+
+  return m[`${prefixMatch}_title`]();
+}
 
 export function getCalloutText(role: AuthRoles, pageKey: string) {
   const baseKey = `admin_${snakeCase(pageKey)}`;

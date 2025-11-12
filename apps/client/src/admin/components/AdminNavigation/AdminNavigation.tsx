@@ -13,6 +13,7 @@ import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { styles } from './AdminNavigation.styles';
+import { getCalloutText, getNavItemText } from 'admin/utils/i18n-inlang.utils';
 
 export const AdminNavigation: React.FC = () => {
   const { t } = useTranslation();
@@ -22,28 +23,11 @@ export const AdminNavigation: React.FC = () => {
 
   // ======================================================================== //
 
-  // Example of filtering locales for a language switcher
-  function getTenantSupportedLocales(hostname) {
-    // Determine which tenant we're on based on hostname
-    if (hostname.includes('customer1.com')) {
-      // Customer1 only supports English and German
-      return ['en', 'de'];
-    } else if (hostname.includes('customer2.com')) {
-      // Customer2 only supports French and Spanish
-      return ['fr', 'es'];
-    } else if (hostname.includes('customer3.com')) {
-      // Customer3 supports all locales
-      return ['en', 'de', 'fr', 'es'];
-    }
-  }
-
   startTransition(() => {
     // const lang = hydrateLang('language-tag', availableLanguageTags);
     // setLanguageTag(lang);
 
     const hostname = window.location.hostname;
-    const supportedLocales = getTenantSupportedLocales(hostname);
-    console.log('Supported locales:', supportedLocales);
 
     // console.log('Hydrate lang:', lang);
     // hydrateRoot(
@@ -64,12 +48,15 @@ export const AdminNavigation: React.FC = () => {
     return [
       {
         id: 'dashboard',
-        label: t('admin.pages.dashboard.title'),
+        // label: t('admin.pages.dashboard.title'),
+        // label: getNavItemText(user?.role, 'dashboard'),
+        label: getNavItemText(user?.role, 'dashboard'),
         path: '/admin',
       },
       ...configNavItems.map((item) => ({
         id: item.key,
-        label: getNavLabel(t, item.key),
+        // label: getNavLabel(t, item.key),
+        label: getNavItemText(user?.role, item.key),
         path: item.path,
       })),
     ];

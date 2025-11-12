@@ -88,5 +88,10 @@
         "role=public": "Control panel - maintenance utilities"
       }
     }
-  ]
+  ],
+  "admin______________________": "____________________________________________",
+  "admin_dashboard_title_admin": "Dashboard de Administrador",
+  "admin_dashboard_title_public": "Dashboard de Usuario",
+  "admin_dashboard_description_admin": "Panel de control para la gestión del sistema",
+  "admin_dashboard_description_public": "Panel de control de utilidades de mantenimiento"
 }
