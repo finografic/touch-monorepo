@@ -15,6 +15,11 @@
   "app_page_temperature_description": "Seleccionar temperatura",
   "app_page_orders_title": "Pedidos",
   "app_page_orders_description": "Ver pedidos",
+  "admin______________________": "____________________________________________",
+  "admin_dashboard_title_admin": "Dashboard de Administrador",
+  "admin_dashboard_title_public": "Dashboard de Usuario",
+  "admin_dashboard_description_admin": "Panel de control para la gestión del sistema",
+  "admin_dashboard_description_public": "Panel de control de utilidades de mantenimiento",
   "admin_translations_title": "Idioma de productos",
   "admin_translations_description": "Editar traducciones para contenido de base de datos",
   "admin_translations_card_title": "Idioma de productos",
@@ -42,10 +47,5 @@
   "admin_items_title": "Gestión de registros",
   "admin_items_description": "Gestionar registros de la base de datos",
   "admin_mode_card_admin_title": "Modos",
-  "admin_mode_card_admin_description": "Seleccionar modo por defecto",
-  "admin_dashboard_title_admin": "Dashboard de Administrador",
-  "admin_dashboard_title_public": "Dashboard de Usuario",
-  "admin_dashboard_description_admin": "Panel de control para la gestión del sistema",
-  "admin_dashboard_description_public": "Panel de control de utilidades de mantenimiento",
-  "admin______________________": "____________________________________________"
+  "admin_mode_card_admin_description": "Seleccionar modo por defecto"
 }

@@ -15,26 +15,11 @@
   "app_page_temperature_description": "Select temperature",
   "app_page_orders_title": "Orders",
   "app_page_orders_description": "View orders",
-  "admin_title": "Admin Panel",
-  "admin_description": "Manage system configurations, translations and settings",
-  "admin_dashboard": [
-    {
-      "declarations": [
-        "input element",
-        "input role"
-      ],
-      "selectors": [
-        "element",
-        "role"
-      ],
-      "match": {
-        "element=title, role=admin": "Admin Dashboard",
-        "element=title, role=public": "User Dashboard",
-        "element=description, role=admin": "Control panel - system management",
-        "element=description, role=public": "Control panel - maintenance utilities"
-      }
-    }
-  ],
+  "admin______________________": "____________________________________________",
+  "admin_dashboard_title_admin": "Admin Dashboard",
+  "admin_dashboard_description_admin": "Control panel - system management",
+  "admin_dashboard_title_public": "User Dashboard",
+  "admin_dashboard_description_public": "Control panel - maintenance utilities",
   "admin_translations_title": "Translation Management",
   "admin_translations_description": "Edit translations for database content",
   "admin_translations_card_title": "Translation Management",
@@ -60,30 +45,5 @@
   "admin_maintenance_card_public_title": "Maintenance",
   "admin_maintenance_card_public_description": "Manage maintenance",
   "admin_items_title": "Records Management",
-  "admin_items_description": "Manage database records",
-  "admin_dashboard_title": [
-    {
-      "declarations": [],
-      "selectors": [],
-      "match": {
-        "0": "User Dashboard",
-        "role=admin": "Admin Dashboard",
-        "role=public": "User Dashboard"
-      }
-    }
-  ],
-  "admin_dashboard_description": [
-    {
-      "declarations": [],
-      "selectors": [],
-      "match": {
-        "0": "Control panel - maintenance utilities",
-        "role=admin": "Control panel - system management",
-        "role=public": "Control panel - maintenance utilities"
-      }
-    }
-  ],
-  "admin______________________": "____________________________________________",
-  "admin_dashboard_title_admin": "Admin Dashboard",
-  "admin_dashboard_description_admin": "Control panel - system management"
+  "admin_items_description": "Manage database records"
 }
