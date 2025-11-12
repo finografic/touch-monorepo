@@ -63,13 +63,10 @@
   "admin_items_description": "Manage database records",
   "admin_dashboard_title": [
     {
-      "declarations": [
-        "input role"
-      ],
-      "selectors": [
-        "role"
-      ],
+      "declarations": [],
+      "selectors": [],
       "match": {
+        "0": "User Dashboard",
         "role=admin": "Admin Dashboard",
         "role=public": "User Dashboard"
       }
@@ -77,21 +74,16 @@
   ],
   "admin_dashboard_description": [
     {
-      "declarations": [
-        "input role"
-      ],
-      "selectors": [
-        "role"
-      ],
+      "declarations": [],
+      "selectors": [],
       "match": {
+        "0": "Control panel - maintenance utilities",
         "role=admin": "Control panel - system management",
         "role=public": "Control panel - maintenance utilities"
       }
     }
   ],
   "admin______________________": "____________________________________________",
-  "admin_dashboard_title_admin": "Dashboard de Administrador",
-  "admin_dashboard_title_public": "Dashboard de Usuario",
-  "admin_dashboard_description_admin": "Panel de control para la gestión del sistema",
-  "admin_dashboard_description_public": "Panel de control de utilidades de mantenimiento"
+  "admin_dashboard_title_admin": "Admin Dashboard",
+  "admin_dashboard_description_admin": "Control panel - system management"
 }

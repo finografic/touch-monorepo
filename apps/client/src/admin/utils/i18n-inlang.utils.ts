@@ -41,7 +41,8 @@ export function getNavLabel(t: TFunction, pageKey: string): string {
  * @returns {{ title: string; description: string }} Localized title and description pair.
  */
 
-export function getNavItemText(role: AuthRoles = 'public', pageKey: string) {
+export function getNavItemText(role: AuthRoles, pageKey: string) {
+  log('getNavItemText', 'red', role, pageKey);
   const baseKey = `admin_${snakeCase(pageKey)}`;
   const prefixes = [
     // NOTE: use dashboard 'card' to avoid repetition
