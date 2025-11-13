@@ -79,8 +79,10 @@ export const styles = css`
     > .admin-section {
       margin: 0rem 0;
       .admin-section-content {
-        background: pink;
-        margin: 0.5rem 0;
+        padding: ${baseLayout.padding.xl} ${baseLayout.padding.xxl}!important;
+        margin: ${baseLayout.padding.xl} -${baseLayout.padding.xl} 0;
+        /* background: pink; */
+        /* margin: 0.5rem 0; */
       }
     }
 
