@@ -3,11 +3,11 @@ import React, { memo } from 'react';
 
 import type { SerializedStyles } from '@emotion/react';
 import { Callout, Flex } from '@radix-ui/themes';
+import { Loader } from 'components/Loader/Loader';
 import { Title } from 'components/Title';
 
 import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
 import { styles as stylesLayout } from './AdminPageLayout.styles';
-import { Loader } from 'components/Loader/Loader';
 
 interface AdminPageLayoutProps {
   title?: string;
