@@ -22,7 +22,7 @@ export const AdminModePage: React.FC = () => {
   }, [modes]);
 
   // Handle mode toggle (multi-select)
-  const handleModeToggle = (modeId: string) => {
+  const handleMultiModeToggle = (modeId: string) => {
     const isCurrentlyActive = activeModeIds.includes(modeId);
     const newActiveIds = isCurrentlyActive
       ? activeModeIds.filter((id) => id !== modeId)
@@ -77,13 +77,13 @@ export const AdminModePage: React.FC = () => {
 
   return (
     <AdminPageLayout
-      title="Mode Selection- B"
+      title="Mode Selection - DEV"
       subtitle="Admin"
       description="Manage active modes for the system"
       styles={styles}
     >
       <AdminSection
-        title="Active Mode Configuration - B"
+        title="Active Mode Configuration - DEV"
         description="Select which modes should be active and available for use"
       >
         <Flex direction="column" gap="4" align="start">
@@ -98,7 +98,7 @@ export const AdminModePage: React.FC = () => {
                   <Flex
                     key={mode.id}
                     className={`mode-checkbox-item ${isActive ? 'selected' : ''}`}
-                    onClick={() => handleModeToggle(mode.id)}
+                    onClick={() => handleMultiModeToggle(mode.id)}
                     style={{
                       padding: '12px 16px',
                       borderRadius: '8px',

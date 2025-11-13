@@ -18,7 +18,6 @@ export const ProtectedRoutesByRole: React.FC = () => {
   const { user, isAuthenticated } = useAuth();
   const location = useLocation();
 
-  // Helper function to extract base path from dynamic routes
   const getBasePath = (pathname: string): string => {
     // Handle dynamic routes like /admin/items/123 or /admin/items/cmgzcttyr0001y7lwsmcow4xt -> /admin/items
     const pathSegments = pathname.split('/');
@@ -28,7 +27,6 @@ export const ProtectedRoutesByRole: React.FC = () => {
     if (pathSegments.length >= 4 && pathSegments[3]) {
       const lastSegment = pathSegments[3];
 
-      // Skip if it's a static route like "new"
       if (lastSegment === 'new') {
         return pathSegments.slice(0, 3).join('/');
       }
@@ -47,24 +45,16 @@ export const ProtectedRoutesByRole: React.FC = () => {
     return pathname;
   };
 
-  // Get the base path for route matching
-  const basePath = getBasePath(location.pathname);
-
-  // Get the admin route entry for the base path
-  const currentRouteEntry = getAdminEntryByPath(basePath);
-
-  // ======================================================================== //
-
   if (location.pathname === '/admin') {
     return <Outlet />;
   }
 
   // ======================================================================== //
 
-  // Handle authenticated users
-  if (user && isAuthenticated) {
-    // Check if route is accessible for user role
+  const basePath = getBasePath(location.pathname);
+  const currentRouteEntry = getAdminEntryByPath(basePath);
 
+  if (user && isAuthenticated) {
     if (currentRouteEntry && currentRouteEntry.element.admin) {
       return <currentRouteEntry.element.admin />;
     }
@@ -76,7 +66,6 @@ export const ProtectedRoutesByRole: React.FC = () => {
     return <Navigate to="/admin" />;
   }
 
-  // Handle unauthenticated users
   if (!isAuthenticated) {
     if (currentRouteEntry && currentRouteEntry.element.public) {
       return <currentRouteEntry.element.public />;

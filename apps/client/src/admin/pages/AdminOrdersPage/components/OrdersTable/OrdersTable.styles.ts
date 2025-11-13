@@ -34,6 +34,7 @@ export const styles = css`
       tr:nth-of-type(1) {
         th {
           padding-top: 1rem;
+          border-top: 1px solid ${colors.greyXXLight};
           border-bottom: ${layout.borderWidth} solid ${colors.greyXXLight};
           border-bottom: none;
         }
