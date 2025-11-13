@@ -1,7 +1,6 @@
 import { css } from '@emotion/react';
 
-import { layout, min } from 'styles';
-import { colors } from 'styles';
+import { colors, layout, min } from 'styles';
 
 export const styles = css`
   &.form-container {
@@ -28,12 +27,15 @@ export const styles = css`
       }
     }
 
-    /* height: 66vh !important; */
-    /* min-height: 100vh; */
-
     background-color: ${colors.white};
     color: ${colors.text};
     overflow: hidden;
+  }
+
+  .col-temperature-inputs {
+    label {
+      transform: translateX(-0.25rem);
+    }
   }
 
   .col-form-table {

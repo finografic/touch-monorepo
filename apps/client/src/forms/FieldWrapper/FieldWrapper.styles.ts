@@ -15,6 +15,7 @@ export const styles = css`
     font-weight: ${forms.inputs.label.fontWeight};
     color: ${forms.inputs.label.color};
     margin-bottom: ${forms.inputs.label.marginBottom};
+    white-space: nowrap;
 
     & + div {
       width: 100%;

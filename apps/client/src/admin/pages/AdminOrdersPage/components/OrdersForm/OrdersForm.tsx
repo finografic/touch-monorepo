@@ -4,7 +4,7 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Panel } from 'primereact/panel';
+import { Text } from '@radix-ui/themes';
 import {
   ORDER_FORM_SCHEMA,
   type OrdersFormValues,
@@ -20,10 +20,8 @@ import {
 import { SelectCustom } from 'forms/SelectCustom';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
+import { Panel } from 'primereact/panel';
 import { useToast } from 'components/Toast';
-import { Text } from '@radix-ui/themes';
-
-import { EditIcon, CheckCircleIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon } from 'styles/icons';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -42,10 +40,10 @@ import {
   type TempItems,
   useDropdownData,
 } from './orders-form.utils';
-import { styles } from './OrdersForm.styles';
-
+import { CheckCircleIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, EditIcon } from 'styles/icons';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
+import { styles } from './OrdersForm.styles';
 
 // ============================================================================
 // Form Schema & Types
@@ -136,7 +134,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     formState: { isValid, isDirty },
   } = methods;
 
-  const { append } = useFieldArray({ control, name: 'timeRows' });
+  const { append } = useFieldArray({
+    control,
+    name: 'timeRows',
+  });
 
   const formValues = watch();
 
@@ -312,7 +313,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
             <Row className="row">
               <Col xs={12} md={12} className="col">
                 <Row className="row">
-                  {/* <Col xs={3} md={3} className="col col-form-fields">
+                  <Col xs={2} md={2} className="col col-form-fields">
+                    {/* Mode */}
                     <FieldWrapper name="mode" label="Mode" required>
                       <SelectCustom
                         {...register('modeId')}
@@ -325,9 +327,9 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         }}
                       />
                     </FieldWrapper>
-                  </Col> */}
+                  </Col>
 
-                  <Col xs={6} md={6} className="col col-form-fields">
+                  <Col xs={5} md={5} className="col col-form-fields">
                     {/* Drink Type */}
                     <FieldWrapper
                       name="drinkType"
@@ -353,7 +355,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     </FieldWrapper>
                   </Col>
 
-                  <Col xs={6} md={6} className="col col-form-fields">
+                  <Col xs={5} md={5} className="col col-form-fields">
                     {/* Drink Subtype */}
                     <FieldWrapper
                       name="drinkSubtype"
@@ -380,8 +382,10 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                   </Col>
                 </Row>
 
+                {/* ====================================================================== */}
+
                 <Row className="row">
-                  <Col xs={6} md={6} className="col col-form-fields">
+                  <Col xs={4} md={4} className="col col-form-fields">
                     {/* Volume */}
                     <FieldWrapper
                       name="volume"
@@ -401,7 +405,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     </FieldWrapper>
                   </Col>
 
-                  <Col xs={6} md={6} className="col col-form-fields">
+                  <Col xs={4} md={4} className="col col-form-fields" style={{ paddingRight: '1.25rem' }}>
                     {/* Container Type */}
                     <FieldWrapper
                       name="containerType"
@@ -420,25 +424,8 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                       />
                     </FieldWrapper>
                   </Col>
-                </Row>
 
-                <Row className="row">
-                  <Col xs={4} md={4} className="col col-form-fields">
-                    <FieldWrapper name="mode" label="Mode" required>
-                      <SelectCustom
-                        {...register('modeId')}
-                        className="mode-select"
-                        options={dropdownData.modeOptions}
-                        placeholder="Select mode"
-                        value={selectedModeId}
-                        onSelect={(value) => {
-                          handleSimpleFieldChange('modeId', value);
-                        }}
-                      />
-                    </FieldWrapper>
-                  </Col>
-
-                  <Col xs={4} md={4} className="col col-form-fields">
+                  <Col xs={2} md={2} className="col col-form-fields col-temperature-inputs">
                     {/* Temperatura consumo */}
                     <FieldWrapper name="defaultTempConsume" label="Temperatura consumo" required>
                       <TemperatureInputField
@@ -456,7 +443,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                     </FieldWrapper>
                   </Col>
 
-                  <Col xs={4} md={4} className="col col-form-fields">
+                  <Col xs={2} md={2} className="col col-form-fields col-temperature-inputs">
                     {/* Temperatura congelación */}
                     <FieldWrapper name="defaultTempFreeze" label="Temperatura congelación" required>
                       <TemperatureInputField
