@@ -54,6 +54,7 @@ export const styles = css`
     flex-direction: column;
     gap: 1;
 
+    padding: ${baseLayout.padding.xxl}!important;
     margin: 1rem -${baseLayout.padding.lg};
 
     > .section-header {

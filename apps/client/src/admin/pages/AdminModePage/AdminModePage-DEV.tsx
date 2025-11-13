@@ -8,7 +8,7 @@ import { useGetModes, useUpdateActiveStates } from 'queries/modes';
 import { AdminPageLayout, AdminSection } from '../..';
 import { styles } from './PublicModePage.styles';
 
-export const AdminModePage: React.FC = () => {
+export const AdminModePageDEV: React.FC = () => {
   const { toast } = useToast();
   const [activeModeIds, setActiveModeIds] = useState<string[]>([]);
 
