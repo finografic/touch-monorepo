@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
-import { colors, min } from 'styles';
+import { colors, layout, min } from 'styles';
+import { theme } from 'styles/themes/theme';
 
 export const styles = css`
   width: 100%;
@@ -21,13 +22,33 @@ export const styles = css`
     display: flex;
     flex-direction: column;
 
-    p-column-filter
-
     /* Table header styling */
-    .p-datatable-header {
-      background-color: ${colors.white};
-      border: none;
-      padding: 1rem;
+
+    .p-datatable-thead {
+      .p-column-header-content {
+        border: none;
+        padding: 0;
+        display: flex;
+        justify-content: space-between;
+      }
+      tr:nth-of-type(1) {
+        th {
+          padding-top: 1rem;
+          border-bottom: ${layout.borderWidth} solid ${colors.greyXXLight};
+          border-bottom: none;
+        }
+        & + tr th {
+          padding-top: 0;
+          input {
+            border-color: ${colors.greyXXLight};
+          }
+        }
+      }
+      tr:last-child {
+        th {
+          border-bottom: 1px solid ${colors.greyXXLight};
+        }
+      }
     }
 
     /* Scrollable wrapper */

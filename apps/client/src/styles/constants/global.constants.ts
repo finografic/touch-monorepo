@@ -6,10 +6,10 @@
 
 import { css } from '@emotion/react';
 
+import { colors } from '../colors/colors-direct';
 import { baseLayout, border } from './base.constants';
 import { button } from './button.constants';
 import { typography } from './typography.constants';
-import { colors } from '../colors/colors-direct';
 
 // Base border styles using button constants
 export const cssBorder = css`
