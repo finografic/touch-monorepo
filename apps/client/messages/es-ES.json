@@ -47,5 +47,7 @@
   "admin_items_title": "Gestión de registros",
   "admin_items_description": "Gestionar registros de la base de datos",
   "admin_mode_card_admin_title": "Modos",
-  "admin_mode_card_admin_description": "Seleccionar modo por defecto"
+  "admin_mode_card_admin_description": "Seleccionar modo por defecto",
+  "admin_dashboard_title": "Dashboard de Administrador*",
+  "admin_dashboard_description": "Panel de control para la gestión del sistema*"
 }

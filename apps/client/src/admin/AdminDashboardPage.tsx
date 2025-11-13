@@ -12,7 +12,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
 
 import { getAdminDashboard } from 'utils/i18n-variants';
-import { getCalloutText } from './utils/i18n-inlang.utils';
+import { getCalloutText } from '../utils/i18n/i18n-inlang.utils';
 import { AdminPageLayout } from '.';
 import { styles } from './AdminDashboardPage.styles';
 

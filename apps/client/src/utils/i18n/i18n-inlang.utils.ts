@@ -1,7 +1,14 @@
 import type { AdminRouteEntry, AuthRoles } from 'admin/config/admin.routes.map';
 import { snakeCase } from 'change-case';
 import { m } from 'i18n/messages';
-import type { TFunction } from 'i18next';
+
+type MessageKey = keyof typeof m;
+export function getText<K extends MessageKey>(key: K): string {
+  return m[key]();
+}
+
+// usage ✅ still gets Sherlock hover hint:
+export const label = getText('admin_dashboard_title_public');
 
 /**
  * Resolve the current role label from auth booleans.
@@ -32,15 +39,50 @@ export function resolveRole(isAuthenticated: boolean, isAdmin: boolean = false):
  * @returns {{ title: string; description: string }} Localized title and description pair.
  */
 
-export function getNavItemText(role: AuthRoles = 'public', pageKey: string) {
-  log('getNavItemText', 'red', role, pageKey);
+export function getPageTexts(role: AuthRoles = 'public', pageKey: string) {
   const baseKey = `admin_${snakeCase(pageKey)}`;
   const prefixes = [
-    // NOTE: use dashboard 'card' to avoid repetition
-    `${baseKey}_card_${role}`, // most specific
-    `${baseKey}_card_public`, // fallback to public card
-    `${baseKey}_card`, // generic card
+    `${baseKey}_${role}`, // most specific
+    `${baseKey}_public`, // fallback to public card
     `${baseKey}`, // page-level
+  ];
+
+  // 🧠 helper to find first prefix that actually exists
+  const findExistingPrefix = () => {
+    for (const prefix of prefixes) {
+      if (m[`${prefix}_title`] && m[`${prefix}_description`]) {
+        return prefix;
+      }
+    }
+    return undefined;
+  };
+
+  const prefixMatch = findExistingPrefix();
+
+  // 🎯 if nothing matches, return defaults
+  if (!prefixMatch) {
+    return {
+      title: `⚠️ Missing translation for ${baseKey}`,
+      description: '',
+    };
+  }
+
+  return {
+    title: m[`${prefixMatch}_title`](),
+    description: m[`${prefixMatch}_description`](),
+  };
+}
+
+// ======================================================================== //
+
+export function getNavItemText(role: AuthRoles = 'public', pageKey: string) {
+  const baseKey = `admin_${snakeCase(pageKey)}`;
+  const prefixes = [
+    // NOTE: use dashboard 'card' (same as nav item) to avoid repetition
+    `${baseKey}_card_${role}`, // by role
+    `${baseKey}_card_public`, // by public role (fallback)
+    `${baseKey}_card`, // by element (generic fallback)
+    `${baseKey}`, // by page-level (fallback)
   ];
 
   const prefixMatch = prefixes.find((prefix) => m[`${prefix}_title`]);

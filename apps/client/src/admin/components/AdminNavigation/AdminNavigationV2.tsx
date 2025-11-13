@@ -6,12 +6,12 @@ import { useLocation } from 'react-router-dom';
 import { ChevronDownIcon, HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { DropdownMenu, TabNav } from '@radix-ui/themes';
 import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
-import { getNavItemText } from 'admin/utils/i18n-inlang.utils';
 import { m } from 'i18n/messages';
 
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
+import { getNavItemText } from 'utils/i18n/i18n-inlang.utils';
 import { useResponsiveNav } from './useResponsiveNav';
 import { styles } from './AdminNavigation.styles';
 

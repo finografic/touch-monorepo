@@ -6,13 +6,13 @@ import { useBoundingRect } from '@workspace/core/hooks';
 
 import { TabNav } from '@radix-ui/themes';
 import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
-import { getNavItemText } from 'admin/utils/i18n-inlang.utils';
 import { m } from 'i18n/messages';
 import { getLocale, isLocale, setLocale } from 'i18n/runtime';
 
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
+import { getNavItemText } from 'utils/i18n/i18n-inlang.utils';
 import { styles } from './AdminNavigation.styles';
 
 export const AdminNavigation: React.FC = () => {
