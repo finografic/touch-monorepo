@@ -7,11 +7,6 @@ export const styles = css`
   background-color: ${colors.white};
   color: ${colors.text};
 
-  .admin-page-container {
-    max-width: 1600px; /* Wider to accommodate the translation fields */
-    margin: 0 auto;
-  }
-
   /* Form styling */
   form {
     width: 100%;

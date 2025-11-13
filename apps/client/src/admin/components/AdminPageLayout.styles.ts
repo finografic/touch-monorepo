@@ -5,25 +5,26 @@ import { colors, layout, min, spacing } from 'styles';
 export const styles = css`
   &.admin-page-container {
     margin: 0 auto;
+    padding: 0 ${layout.padding};
 
     width: 100%;
     /* max-width: 1240px; */
-
-    .admin-page-content {
-      margin: 0rem 0rem;
-    }
 
     ${min.sm} {
       /* max-width: 96vw; */
     }
     ${min.md} {
-      max-width: 96vw;
+      /* max-width: 96vw; */
     }
     ${min.lg} {
-      max-width: 96vw;
+      /* max-width: 96vw; */
     }
     ${min.xl} {
-      max-width: 1240px;
+      /* max-width: 1240px; */
+    }
+
+    .admin-page-content {
+      margin: 0rem 0rem;
     }
   }
 
