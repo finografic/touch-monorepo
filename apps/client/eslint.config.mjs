@@ -32,7 +32,7 @@ export default fino({
     'no-undef': [ERROR, { typeof: true }],
     'node/prefer-global/process': [ERROR, 'always'],
     'regexp/prefer-w': OFF,
-    'style/jsx-one-expression-per-line': OFF,
+    // 'style/jsx-one-expression-per-line': OFF,
     'style/no-multi-spaces': OFF,
     'ts/no-unused-vars': OFF,
     'unused-imports/no-unused-imports': OFF, // Don't remove unused imports automatically
@@ -100,5 +100,6 @@ export default fino({
       },
     ],
     'simple-import-sort/exports': ERROR,
+    'style/jsx-one-expression-per-line': OFF,
   },
 });

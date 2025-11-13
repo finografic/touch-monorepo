@@ -63,7 +63,7 @@ export const AdminModePage: React.FC = () => {
   if (isLoadingModes) {
     return (
       <AdminPageLayout
-        title="Mode Selection"
+        title="Mode Selection - C"
         description="Manage active modes for the system"
         styles={styles}
       >
@@ -77,13 +77,13 @@ export const AdminModePage: React.FC = () => {
 
   return (
     <AdminPageLayout
-      title="Mode Selection"
+      title="Mode Selection - C"
       subtitle="Admin"
       description="Manage active modes for the system"
       styles={styles}
     >
       <AdminSection
-        title="Active Mode Configuration"
+        title="Active Mode Configuration - C"
         description="Select which modes should be active and available for use"
       >
         <Flex direction="column" gap="4" align="start">

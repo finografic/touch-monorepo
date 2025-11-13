@@ -84,9 +84,13 @@ export const AdminModeBasicPage: React.FC = () => {
   }
 
   return (
-    <AdminPageLayout title="Mode Selection" description="Select default mode for the system" styles={styles}>
+    <AdminPageLayout
+      title="Mode Selection - D"
+      description="Select default mode for the system"
+      styles={styles}
+    >
       <AdminSection
-        title="Default Mode Configuration"
+        title="Default Mode Configuration - D"
         description="Choose the default mode that will be used when no specific mode is selected"
       >
         <Flex direction="column" gap="4" align="start">

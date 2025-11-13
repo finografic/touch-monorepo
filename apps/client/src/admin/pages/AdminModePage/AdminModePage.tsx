@@ -77,13 +77,13 @@ export const AdminModePage: React.FC = () => {
 
   return (
     <AdminPageLayout
-      title="Mode Selection"
+      title="Mode Selection - A"
       subtitle="Admin"
       description="Manage active modes for the system"
       styles={styles}
     >
       <AdminSection
-        title="Active Mode Configuration"
+        title="Active Mode Configuration - A"
         description="Select which modes should be active and available for use"
       >
         <Flex direction="column" gap="4" align="start">
