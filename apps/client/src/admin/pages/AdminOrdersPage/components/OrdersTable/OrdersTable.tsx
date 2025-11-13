@@ -1,21 +1,20 @@
 import React, { useMemo, useState } from 'react';
 
 import { Button as RadixButton, Text } from '@radix-ui/themes';
-import { DataTable } from 'primereact/datatable';
-import { Column } from 'primereact/column';
-import { InputText } from 'primereact/inputtext';
 import { FilterMatchMode } from 'primereact/api';
+import { Column } from 'primereact/column';
 import type { DataTableFilterMeta, DataTableProps } from 'primereact/datatable';
+import { DataTable } from 'primereact/datatable';
+import { InputText } from 'primereact/inputtext';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { formatUnixTimestamp } from 'utils/date.utils';
 import type { OrderReadableWithIndex } from '../../hooks/useOrdersFilter';
 import { EditIcon, TrashIcon } from 'styles/icons';
-import { styles } from './OrdersTable.styles';
-
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
+import { styles } from './OrdersTable.styles';
 
 // ============================================================================
 // Constants
@@ -29,7 +28,7 @@ export const PAGINATOR_PROPS = {
   paginatorTemplate:
     'FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown',
   currentPageReportTemplate: 'Showing {first} to {last} of {totalRecords} entries',
-  rowsPerPageOptions: [25, 50, 100],
+  // rowsPerPageOptions: [25, 50, 100],
 } satisfies Partial<DataTableProps<any>>;
 
 // ============================================================================

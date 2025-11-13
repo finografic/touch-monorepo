@@ -58,6 +58,7 @@
         "element=description, role=public": "Panel de control de utilidades de mantenimiento"
       }
     }
+<<<<<<< Updated upstream
   ],
   "admin______________________": "____________________________________________",
   "admin_dashboard_title_admin": "Dashboard de Administrador",
@@ -66,4 +67,7 @@
   "admin_dashboard_description_public": "Panel de control de utilidades de mantenimiento",
   "admin_dashboard_title": "Dashboard de Administrador*",
   "admin_dashboard_description": "Panel de control para la gestión del sistema*"
+=======
+  ]
+>>>>>>> Stashed changes
 }

@@ -21,6 +21,8 @@ export const styles = css`
     display: flex;
     flex-direction: column;
 
+    p-column-filter
+
     /* Table header styling */
     .p-datatable-header {
       background-color: ${colors.white};
@@ -51,10 +53,11 @@ export const styles = css`
     /* Filter inputs in header */
     .p-column-filter {
       width: 100%;
-      margin-top: 0.5rem;
+      margin-top: 0.25rem;
 
       input {
         width: 100%;
+        min-width: 60px;
         padding: 0.4rem 0.6rem;
         font-size: 0.85rem;
         border: 2px solid ${colors.greyLight};
@@ -73,6 +76,10 @@ export const styles = css`
           color: ${colors.greyXLight};
           opacity: 0.6;
         }
+      }
+
+      button {
+        display: none;
       }
     }
 

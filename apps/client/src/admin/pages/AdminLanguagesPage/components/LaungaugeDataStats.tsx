@@ -1,5 +1,5 @@
 import React from 'react';
-import type { LanguageInfo } from '@workspace/i18n/types';
+import type { LanguageInfo } from '@workspace/config/i18n.config';
 
 import { Text } from '@radix-ui/themes';
 import languagesData from 'components/LanguageSelector/languages/languages.data.min.json';

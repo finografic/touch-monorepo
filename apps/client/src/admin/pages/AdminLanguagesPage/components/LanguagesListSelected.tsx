@@ -1,5 +1,5 @@
 import React from 'react';
-import type { LanguageInfo } from '@workspace/i18n/types';
+import type { LanguageInfo } from '@workspace/config/i18n.config';
 
 import { InfoCircledIcon } from '@radix-ui/react-icons';
 import { Box, Callout, Card, Flex, Heading, IconButton } from '@radix-ui/themes';
