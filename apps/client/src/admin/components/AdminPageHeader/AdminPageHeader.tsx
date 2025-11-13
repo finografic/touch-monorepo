@@ -54,9 +54,11 @@ export const AdminPageHeader: React.FC<AdminPageHeaderProps> = memo(
           {/* Left side: Title & Subtitle (50%) */}
           <Flex direction="column" gap="1" className="admin-page-header-left" style={{ flex: '1 1 50%' }}>
             <Flex align="baseline" gap="3">
-              <Heading size="7" as="h1" className="admin-page-header-title">
-                {title}
-              </Heading>
+              {title && (
+                <Text size="7" weight="bold" className="admin-page-header-title">
+                  {title}
+                </Text>
+              )}
               {subtitle && (
                 <Text size="5" color="gray" className="admin-page-header-subtitle">
                   : {subtitle}
@@ -89,4 +91,3 @@ export const AdminPageHeader: React.FC<AdminPageHeaderProps> = memo(
 );
 
 AdminPageHeader.displayName = 'AdminPageHeader';
-

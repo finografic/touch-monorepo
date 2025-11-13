@@ -50,12 +50,11 @@ export const styles = css`
 
   .admin-section-content {
     display: flex;
-    /* display: grid; */
     flex-direction: column;
     gap: 1;
 
-    padding: ${baseLayout.padding.xxl}!important;
-    margin: 1rem -${baseLayout.padding.lg};
+    padding: ${baseLayout.padding.lg} ${baseLayout.padding.xxl}!important;
+    margin: ${baseLayout.padding.xl} -${baseLayout.padding.lg} 0;
 
     > .section-header {
       margin-top: 0.5rem;
@@ -80,6 +79,7 @@ export const styles = css`
     > .admin-section {
       margin: 0rem 0;
       .admin-section-content {
+        background: pink;
         margin: 0.5rem 0;
       }
     }

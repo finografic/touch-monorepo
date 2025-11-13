@@ -5,7 +5,7 @@ import { colors } from 'styles';
 export const styles = css`
   width: 100%;
   padding: 0 0.5rem 1.5rem 0.5rem;
-  margin-bottom: 1.5rem;
+  /* margin-bottom: 1.5rem; */
   border-bottom: 2px solid ${colors.greyXXLight25};
 
   .admin-page-header-title {
@@ -44,4 +44,3 @@ export const styles = css`
     }
   }
 `;
-
