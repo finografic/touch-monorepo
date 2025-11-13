@@ -21,18 +21,12 @@ export const ProtectedRoutesByRole: React.FC = () => {
   // Helper function to extract base path from dynamic routes
   const getBasePath = (pathname: string): string => {
     // Handle dynamic routes like /admin/items/123 or /admin/items/cmgzcttyr0001y7lwsmcow4xt -> /admin/items
-    // But NOT /admin/items/new (which is a static route)
     const pathSegments = pathname.split('/');
 
     // Check if this looks like a dynamic route (has a segment that could be an ID)
     // We check for patterns that look like IDs: numeric, UUID-like, or long alphanumeric strings
     if (pathSegments.length >= 4 && pathSegments[3]) {
       const lastSegment = pathSegments[3];
-
-      // Skip if it's a static route like "new"
-      if (lastSegment === 'new') {
-        return pathSegments.slice(0, 3).join('/');
-      }
 
       // Check if it's a numeric ID
       if (!Number.isNaN(Number(lastSegment))) {
@@ -65,14 +59,13 @@ export const ProtectedRoutesByRole: React.FC = () => {
   // Handle authenticated users
   if (user && isAuthenticated) {
     // Check if route is accessible for user role
+
     if (currentRouteEntry && currentRouteEntry.element.admin) {
-      // ✅ Let React Router handle the actual route rendering
-      return <Outlet />;
+      return <currentRouteEntry.element.admin />;
     }
 
     if (currentRouteEntry && currentRouteEntry.element.public) {
-      // ✅ Let React Router handle the actual route rendering
-      return <Outlet />;
+      return <currentRouteEntry.element.public />;
     }
 
     return <Navigate to="/admin" />;
@@ -81,8 +74,7 @@ export const ProtectedRoutesByRole: React.FC = () => {
   // Handle unauthenticated users
   if (!isAuthenticated) {
     if (currentRouteEntry && currentRouteEntry.element.public) {
-      // ✅ Let React Router handle the actual route rendering
-      return <Outlet />;
+      return <currentRouteEntry.element.public />;
     }
 
     return <Navigate to="/admin" />;
