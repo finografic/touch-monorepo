@@ -356,7 +356,7 @@ export const AdminUiLabelsPage: React.FC = () => {
 
   const formContent = (
     <form onSubmit={methods.handleSubmit(onSubmit)}>
-      <Flex direction="column" gap="6">
+      <Flex direction="column" gap="2">
         {uiLabelData.map((section) => (
           <UiLabelSection
             key={section.key}
@@ -397,9 +397,7 @@ export const AdminUiLabelsPage: React.FC = () => {
         }
         styles={styles}
       >
-        {/* <AdminSection> */}
         {formContent}
-        {/* </AdminSection> */}
       </AdminPageLayout>
     </FormProvider>
   );

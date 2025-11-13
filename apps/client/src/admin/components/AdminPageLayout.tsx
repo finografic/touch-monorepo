@@ -57,7 +57,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
           </Callout.Root>
         )}
 
-        <Flex direction="column" className="admin-page-content">
+        <Flex direction="column" className="admin-page-content" gap="2">
           {isLoading || error ? null : children}
         </Flex>
       </section>
