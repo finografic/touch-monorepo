@@ -61,7 +61,7 @@ export const styles = css`
     border-radius: var(--radius-2);
   }
 
-  .legend-item {
+  .legend-circle {
     div {
       width: 32px;
       height: 32px;

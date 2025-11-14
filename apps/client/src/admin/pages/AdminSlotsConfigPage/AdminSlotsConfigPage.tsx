@@ -189,7 +189,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 />
 
                 <Flex gap="4" align="center" mt="-4" pb="4">
-                  <Badge size="3" variant="soft" color="blue">
+                  <Badge size="3" variant="soft" color="blue" className="dimesions-badge">
                     {calculatedColumns} columns × {NUM_ROWS} rows = {activeSlots.length - 1} grid slots + 1
                     special slot
                   </Badge>
@@ -206,15 +206,15 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   <div className="slot-legend">
                     <Flex direction="column" gap="4" pt="2">
                       <Flex align="center" gap="4">
-                        <div className="legend-item legend-type-a">A</div>
+                        <div className="legend-circle legend-type-a">A</div>
                         <Text size="3">Type A</Text>
                       </Flex>
                       <Flex align="center" gap="4">
-                        <div className="legend-item legend-type-b">B</div>
+                        <div className="legend-circle legend-type-b">B</div>
                         <Text size="3">Type B</Text>
                       </Flex>
                       <Flex align="center" gap="4">
-                        <div className="legend-item legend-type-c">C</div>
+                        <div className="legend-circle legend-type-c">C</div>
                         <Text size="3">Type C</Text>
                       </Flex>
                     </Flex>

@@ -20,6 +20,12 @@ export const styles = css`
     color: var(--red-9);
   }
 
+  .dimesions-badge {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    margin: 0 -0.25rem 1rem -0.25rem;
+  }
+
   .slot-list-container {
     display: flex;
     flex-direction: column;
@@ -54,6 +60,7 @@ export const styles = css`
     padding: 0.5rem 1.5rem;
     border-radius: ${layout.borderRadius};
     width: 180px;
+    font-weight: 600;
   }
 
   .slot-legend {
@@ -62,18 +69,22 @@ export const styles = css`
     border-radius: var(--radius-2);
   }
 
-  .legend-item {
-    width: 32px;
-    height: 32px;
+  .legend-circle {
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-left: 0.25rem;
     font-weight: bold;
     font-size: 14px;
-    line-height: 1;
     color: white;
+    & + span {
+      margin-left: 0.33rem;
+      font-weight: 600;
+      color: ${colors.textLight};
+      padding-bottom: 0.15rem;
+    }
   }
 
   .legend-type-a {
