@@ -1,8 +1,9 @@
 import React, { useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
+import { Flex, Spinner, Text } from '@radix-ui/themes';
 import { OrdersForm } from 'admin/pages/AdminOrdersPage/OrdersForm';
+import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
 import { useGetModes } from 'queries/modes';
@@ -79,10 +80,10 @@ export const AdminOrderEditPage: React.FC = () => {
       subtitle={subtitle}
       headerActions={
         <>
-          <Button size="3" variant="outline" color="gray" onClick={() => navigate('/admin/items')}>
+          <Button variant="outline" color="default" onClick={() => navigate('/admin/items')}>
             Cancelar
           </Button>
-          <Button size="3" color="green" type="submit" form="order-form">
+          <Button color="success" type="submit" form="order-form">
             {isEditMode ? 'CONFIRM CHANGES' : 'GUARDAR'}
           </Button>
         </>
