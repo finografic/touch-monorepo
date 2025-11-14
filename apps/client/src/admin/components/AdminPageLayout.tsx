@@ -45,9 +45,9 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
         {/* Page Header - Integrated AdminPageHeader */}
         {showHeader && (
           <header className="admin-page-header">
-            <Flex justify="between" align="center" gap="4" wrap="wrap">
-              {/* Left side: Title (50%) */}
-              <Flex className="admin-page-header-left" style={{ flex: '1 1 50%' }}>
+            <Flex justify="between" align="center" gap="4">
+              {/* Left side: Title - Flexible width */}
+              <Flex className="admin-page-header-left" style={{ flex: '1 1 auto', minWidth: 0 }}>
                 <Title
                   title={title}
                   subtitle={subtitle}
@@ -57,14 +57,14 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
                 />
               </Flex>
 
-              {/* Right side: Action Buttons (50%) */}
+              {/* Right side: Action Buttons - Flexible but no wrap */}
               {headerActions && (
                 <Flex
                   gap="3"
                   align="center"
                   justify="end"
                   className="admin-page-header-actions"
-                  style={{ flex: '1 1 50%' }}
+                  style={{ flex: '0 0 auto' }}
                 >
                   {headerActions}
                 </Flex>
