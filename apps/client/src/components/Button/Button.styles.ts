@@ -33,23 +33,11 @@ export const baseButtonStyles = css`
       transform: scale(1.25);
       font-weight: 700;
     }
-    &.button-icon-left {
-      margin-right: 5.5rem;
-    }
-    &.button-icon-right {
-      margin-left: 5.5rem;
-    }
   }
 
   .button-icon {
     font-weight: 700;
     transform: scale(1.25);
-    &.button-icon-left {
-      margin-right: 5.5rem;
-    }
-    &.button-icon-right {
-      margin-left: 5.5rem;
-    }
   }
 
   &:focus-visible {
