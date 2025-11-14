@@ -27,10 +27,10 @@ export const styles = css`
       width: 100%;
       padding: 0 0.5rem 1.5rem 0.5rem;
       border-bottom: 2px solid ${colors.greyXXLight25};
+      margin-bottom: 0;
 
-      .admin-page-header-title {
-        margin: 0;
-        font-weight: 600;
+      .title-wrapper h1 {
+        margin: 0.25rem 0 0.5rem 0;
         color: ${colors.text};
       }
 
@@ -46,6 +46,7 @@ export const styles = css`
       }
 
       .admin-page-header-actions {
+        flex: 0 0 auto;
         button {
           min-width: 120px;
         }
