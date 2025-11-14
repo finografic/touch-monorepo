@@ -41,10 +41,7 @@ function toOKLCHString(l: number, c: number, h: number): string {
  * Generate shade variants in OKLCH space
  * This provides better perceptual uniformity than RGB manipulation
  */
-function generateOKLCHShades(
-  oklchString: string,
-  mode: 'light' | 'dark'
-): Record<string, string> {
+function generateOKLCHShades(oklchString: string, mode: 'light' | 'dark'): Record<string, string> {
   const { l, c, h } = parseOKLCH(oklchString);
 
   const variants: Record<string, string> = {};
@@ -54,23 +51,29 @@ function generateOKLCHShades(
   const isLightTheme = mode === 'light';
 
   if (isLightTheme) {
-    // Light theme: darker base, lighter variants
-    variants.base = toOKLCHString(l, c, h);
+    // NOTE: LIGHT THEME - darker base, lighter variants
+    // light shades
     variants.XXLight = toOKLCHString(Math.min(l + 0.25, 0.95), c * 0.7, h);
-    variants.XLight = toOKLCHString(Math.min(l + 0.18, 0.90), c * 0.75, h);
+    variants.XLight = toOKLCHString(Math.min(l + 0.18, 0.9), c * 0.75, h);
     variants.Light = toOKLCHString(Math.min(l + 0.12, 0.85), c * 0.85, h);
+    // default
+    variants.base = toOKLCHString(l, c, h);
+    // dark shades
     variants.Dark = toOKLCHString(Math.max(l - 0.12, 0.15), c * 1.1, h);
-    variants.XDark = toOKLCHString(Math.max(l - 0.18, 0.10), c * 1.15, h);
+    variants.XDark = toOKLCHString(Math.max(l - 0.18, 0.1), c * 1.15, h);
     variants.XXDark = toOKLCHString(Math.max(l - 0.25, 0.05), c * 1.2, h);
   } else {
-    // Dark theme: lighter base, even lighter variants
-    variants.base = toOKLCHString(l, c, h);
+    // NOTE: DARK THEME - lighter base, even lighter variants
+    // light shades
     variants.XXLight = toOKLCHString(Math.min(l + 0.15, 0.98), c * 0.6, h);
-    variants.XLight = toOKLCHString(Math.min(l + 0.10, 0.95), c * 0.7, h);
-    variants.Light = toOKLCHString(Math.min(l + 0.06, 0.90), c * 0.8, h);
-    variants.Dark = toOKLCHString(Math.max(l - 0.15, 0.30), c * 1.1, h);
-    variants.XDark = toOKLCHString(Math.max(l - 0.22, 0.20), c * 1.15, h);
-    variants.XXDark = toOKLCHString(Math.max(l - 0.30, 0.15), c * 1.2, h);
+    variants.XLight = toOKLCHString(Math.min(l + 0.1, 0.95), c * 0.7, h);
+    variants.Light = toOKLCHString(Math.min(l + 0.06, 0.9), c * 0.8, h);
+    // default
+    variants.base = toOKLCHString(l, c, h);
+    // dark shades
+    variants.Dark = toOKLCHString(Math.max(l - 0.15, 0.3), c * 1.1, h);
+    variants.XDark = toOKLCHString(Math.max(l - 0.22, 0.2), c * 1.15, h);
+    variants.XXDark = toOKLCHString(Math.max(l - 0.3, 0.15), c * 1.2, h);
   }
 
   return variants;
