@@ -67,6 +67,10 @@ export const styles = css`
       border-radius: ${layout.borderRadius};
     }
 
+    &:not(.border-solid) {
+      margin-top: 0;
+    }
+
     padding-bottom: 2.25rem !important;
 
     h2 {

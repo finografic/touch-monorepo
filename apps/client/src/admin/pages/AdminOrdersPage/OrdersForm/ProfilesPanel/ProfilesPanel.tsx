@@ -11,9 +11,9 @@ import { PROFILE_ITEM_VALUES_EMPTY } from '../orders-form.utils';
 import type { OrdersFormValues } from '../OrdersForm.schema';
 import { TimesRepeaterTable } from '../TimesRepeaterTable';
 import { ChevronDownIcon, ChevronLeftIcon } from 'styles/icons';
-import { styles } from './TemperatureProfilesPanel.styles';
+import { styles } from './ProfilesPanel.styles';
 
-interface TemperatureProfilesPanelProps {
+interface ProfilesPanelProps {
   populatedRowsCount: number;
   formValues: OrdersFormValues;
   methods: UseFormReturn<OrdersFormValues>;
@@ -25,7 +25,7 @@ interface TemperatureProfilesPanelProps {
   onGenerateRandomValues: (rowIndex: number) => void;
 }
 
-export const TemperatureProfilesPanel: React.FC<TemperatureProfilesPanelProps> = ({
+export const ProfilesPanel: React.FC<ProfilesPanelProps> = ({
   populatedRowsCount,
   formValues,
   methods,
@@ -50,11 +50,7 @@ export const TemperatureProfilesPanel: React.FC<TemperatureProfilesPanelProps> =
         headerTemplate={(options) => (
           <div className={options.className} onClick={options.onTogglerClick}>
             <span className={options.titleClassName}>Temperature Profiles</span>
-            <button
-              className={options.togglerClassName}
-              onClick={options.onTogglerClick}
-              type="button"
-            >
+            <button className={options.togglerClassName} onClick={options.onTogglerClick} type="button">
               {toggleIcon}
             </button>
           </div>

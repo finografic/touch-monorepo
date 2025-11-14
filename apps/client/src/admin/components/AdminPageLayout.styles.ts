@@ -25,8 +25,8 @@ export const styles = css`
 
     .admin-page-header {
       width: 100%;
-      padding: 0 0.5rem 1.5rem 0.5rem;
-      border-bottom: 2px solid ${colors.greyXXLight25};
+      padding: 0 0.5rem 1rem 0.5rem;
+      /* border-bottom: 2px solid ${colors.greyXXLight25}; */
       margin-bottom: 0;
 
       .title-wrapper h1 {
@@ -67,7 +67,7 @@ export const styles = css`
     }
 
     .admin-page-content {
-      margin: 0rem 0rem;
+      margin: 0;
     }
   }
 

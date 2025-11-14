@@ -132,7 +132,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   };
 
   return (
-    <section css={styles} className="admin-page-content table-container">
+    <section css={styles} className="table-container">
       <DataTable
         value={orders}
         dataKey="id"

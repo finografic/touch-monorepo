@@ -84,7 +84,7 @@ Best for:
 
 ### Use Case 1: Rapid Component Refactoring
 
-**Scenario:** You need to extract the TemperatureProfilesPanel component.
+**Scenario:** You need to extract the ProfilesPanel component.
 
 ```
 1. Open Continue in Cursor

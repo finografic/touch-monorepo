@@ -66,13 +66,13 @@ export const styles = css`
      PRIMEREACT PANEL - TEMPERATURE PROFILES
      ============================================================================ */
 
-  /* TODO: Consider extracting to a dedicated component: <TemperatureProfilesPanel />
+  /* TODO: Consider extracting to a dedicated component: <ProfilesPanel />
    * This is a large, self-contained visual component with:
    * - Custom panel header styling
    * - Toggle icon behavior
    * - Footer with action buttons
    * - Collapse/expand animations
-   * Could become: components/TemperatureProfilesPanel/TemperatureProfilesPanel.tsx
+   * Could become: components/ProfilesPanel/ProfilesPanel.tsx
    * Benefits: Reusable, testable, better separation of concerns
    * Lines: 62-136
    */

@@ -7,6 +7,7 @@
 The project uses `simple-import-sort` for consistent import ordering. Imports must follow these grouping rules (in order):
 
 1. **React & External Packages** - React, third-party libraries
+
    ```typescript
    import React from 'react';
    import { ComponentA } from 'react-library';
@@ -14,33 +15,39 @@ The project uses `simple-import-sort` for consistent import ordering. Imports mu
    ```
 
 2. **Internal Absolute Imports** - Components, forms, hooks
+
    ```typescript
    import { useToast } from 'components/Toast';
    import { FieldWrapper } from 'forms/FieldWrapper';
    ```
 
 3. **Providers & App Context**
+
    ```typescript
    import { useAppConfig } from 'providers/AppConfigProvider';
    ```
 
 4. **Config & Utilities**
+
    ```typescript
    import { MIN_TEMP_DIFFERENCE } from 'config/app';
    ```
 
 5. **Admin/Pages (Absolute Imports)**
+
    ```typescript
    import { ORDER_FORM_SCHEMA, type OrdersFormValues } from 'admin/pages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
    ```
 
 6. **Relative Imports** - Local files, utilities
+
    ```typescript
    import { createFormSubmissionHandler } from './orders-form.submission';
-   import { TemperatureProfilesPanel } from './TemperatureProfilesPanel';
+   import { ProfilesPanel } from './ProfilesPanel';
    ```
 
 7. **Side Effect Imports** - CSS, global styles
+
    ```typescript
    import 'primereact/resources/themes/lara-light-cyan/theme.css';
    ```
@@ -54,6 +61,7 @@ The project uses `simple-import-sort` for consistent import ordering. Imports mu
 ### Common Import Sorting Issues
 
 **Problem**: Imports not in the correct order
+
 ```typescript
 // ❌ Incorrect - mixed groupings
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -64,6 +72,7 @@ import { MIN_TEMP_DIFFERENCE } from 'config/app';
 ```
 
 **Solution**: Group by category with blank lines between groups
+
 ```typescript
 // ✅ Correct
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -110,16 +119,19 @@ return (
 ## Running ESLint Fixes
 
 ### Auto-fix specific file
+
 ```bash
 pnpm lint.fix -- path/to/file.tsx
 ```
 
 ### Auto-fix all TypeScript files in a directory
+
 ```bash
 pnpm lint.fix -- "src/**/*.tsx"
 ```
 
 ### Check without fixing
+
 ```bash
 pnpm lint -- path/to/file.tsx
 ```

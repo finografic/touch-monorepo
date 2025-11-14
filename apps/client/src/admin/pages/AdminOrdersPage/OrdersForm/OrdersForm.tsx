@@ -36,7 +36,7 @@ import {
   type TempItems,
   useDropdownData,
 } from './orders-form.utils';
-import { TemperatureProfilesPanel } from './TemperatureProfilesPanel';
+import { ProfilesPanel } from './ProfilesPanel';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { styles } from './OrdersForm.styles';
@@ -296,7 +296,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   // ========================================================================
 
   return (
-    <section css={styles} className="admin-page-content form-container">
+    <section css={styles} className="form-container">
       <FormProvider {...methods}>
         <FormMiddlewareProvider<OrdersFormValues>
           formMethods={methods}
@@ -457,7 +457,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 {/* PANEL + TEMPERATURE PROFILES TABLE ===================== */}
 
                 <Col xs={12} md={12} className="col col-form-fields col-form-table">
-                  <TemperatureProfilesPanel
+                  <ProfilesPanel
                     populatedRowsCount={populatedRowsCount}
                     formValues={formValues}
                     methods={methods}

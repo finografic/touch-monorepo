@@ -59,13 +59,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
 
               {/* Right side: Action Buttons - Flexible but no wrap */}
               {headerActions && (
-                <Flex
-                  gap="3"
-                  align="center"
-                  justify="end"
-                  className="admin-page-header-actions"
-                  style={{ flex: '0 0 auto' }}
-                >
+                <Flex gap="3" align="center" justify="end" className="admin-page-header-actions" style={{}}>
                   {headerActions}
                 </Flex>
               )}

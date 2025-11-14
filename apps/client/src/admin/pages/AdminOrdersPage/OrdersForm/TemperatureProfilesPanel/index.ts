@@ -1,1 +1,0 @@
-export { TemperatureProfilesPanel } from './TemperatureProfilesPanel';
