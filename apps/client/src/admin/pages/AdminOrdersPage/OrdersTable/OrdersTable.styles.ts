@@ -34,7 +34,7 @@ export const styles = css`
       th {
         svg {
           transition: all 150ms ease;
-          opacity: 0.4;
+          opacity: 0.5;
           :hover {
             opacity: 1;
           }
