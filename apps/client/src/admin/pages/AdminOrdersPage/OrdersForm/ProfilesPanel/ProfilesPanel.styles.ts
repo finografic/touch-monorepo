@@ -8,7 +8,7 @@ export const styles = css`
   .temperature-profiles-panel {
     /* PrimeReact Panel base styling */
     &.p-panel {
-      border-radius: 8px;
+      /* border-radius: 8px; */
     }
 
     /* Header styling */

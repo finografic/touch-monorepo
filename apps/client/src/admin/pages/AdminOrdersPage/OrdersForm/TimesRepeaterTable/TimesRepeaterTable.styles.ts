@@ -104,7 +104,6 @@ export const styles = css`
     display: flex;
     justify-content: center;
     padding: 1.5rem 1.5rem 0;
-    border-top: 1px solid ${colors.greyXXLight};
   }
 
   .total-rows-counter {
