@@ -3,20 +3,20 @@
  * Creates complete theme objects with direct hex/rgba values (no CSS variables!)
  */
 
-import type { ColorPalette } from '../colors/palette.types';
 import type { HexColor } from '../colors/colors.types';
-import { lightColors } from './light.colors';
+import type { ColorPalette } from '../colors/palette.types';
 import { darkColors } from './dark.colors';
 import type { EmotionTheme } from './emotion-theme.types';
+import { lightColors } from './light.colors';
 
 /**
  * Convert hex color to rgba with alpha
  */
 function hexToRgba(hex: string, alpha: number): string {
   const cleanHex = hex.replace('#', '');
-  const r = parseInt(cleanHex.substring(0, 2), 16);
-  const g = parseInt(cleanHex.substring(2, 4), 16);
-  const b = parseInt(cleanHex.substring(4, 6), 16);
+  const r = Number.parseInt(cleanHex.substring(0, 2), 16);
+  const g = Number.parseInt(cleanHex.substring(2, 4), 16);
+  const b = Number.parseInt(cleanHex.substring(4, 6), 16);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
@@ -66,4 +66,3 @@ export const themes = {
   light: lightTheme,
   dark: darkTheme,
 } as const;
-

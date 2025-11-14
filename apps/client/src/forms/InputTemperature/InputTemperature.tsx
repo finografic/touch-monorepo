@@ -14,8 +14,8 @@ import {
   TEMP_STEP,
 } from '../FormMiddleware/FormMiddleware.constants';
 import { useFormMiddleware } from '../FormMiddleware/FormMiddleware.simple';
-import { styles } from './InputTemperature.styles';
 import { useColors } from 'styles';
+import { styles } from './InputTemperature.styles';
 
 interface InputTemperatureProps {
   name: string;

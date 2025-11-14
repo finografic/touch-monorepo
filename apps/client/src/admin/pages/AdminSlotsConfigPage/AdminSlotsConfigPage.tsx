@@ -13,8 +13,8 @@ import {
   useResetSlotConfigurations,
 } from 'queries/slot-configurations';
 
-import { SlotType } from 'types/orders.types';
-import { NUM_ROWS, NUM_SLOTS, MIN_COLUMNS, MAX_COLUMNS, calculateColumns } from 'types/slot-config.types';
+import type { SlotType } from 'types/orders.types';
+import { calculateColumns, MAX_COLUMNS, MIN_COLUMNS, NUM_ROWS, NUM_SLOTS } from 'types/slot-config.types';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection';
 import { SlotGrid } from './SlotGrid';

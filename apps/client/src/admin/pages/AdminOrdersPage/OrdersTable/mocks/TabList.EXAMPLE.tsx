@@ -15,7 +15,7 @@ import {
   type ColumnKey,
   type ColumnSearchState,
   OrdersTable,
-} from 'admin/pages/AdminOrdersPage/components/OrdersTable';
+} from 'admin/pages/AdminOrdersPage/OrdersTable';
 
 import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
 

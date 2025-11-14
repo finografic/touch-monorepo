@@ -16,9 +16,9 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 // import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { mapGridByColumns } from 'utils/grid.utils';
-import { styles } from './MainPage.styles';
-import { useColors } from 'styles/hooks/useColors';
 import { SlotType } from 'types/orders.types';
+import { useColors } from 'styles/hooks/useColors';
+import { styles } from './MainPage.styles';
 
 export function MainPage() {
   const colors = useColors();

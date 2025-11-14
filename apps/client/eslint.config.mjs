@@ -48,6 +48,8 @@ export default fino({
     'prefer-arrow-callback': OFF,
     'test/prefer-lowercase-title': OFF,
 
+    // Disable JSX parentheses rules that conflict with Prettier
+    'style/jsx-wrap-multilines': OFF,
     // Disable conflicting rules with simple-import-sort
     'perfectionist/sort-named-imports': OFF,
     'perfectionist/sort-object-types': OFF,

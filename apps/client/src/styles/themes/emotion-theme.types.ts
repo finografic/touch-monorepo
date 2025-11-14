@@ -14,4 +14,3 @@ export interface EmotionTheme {
 declare module '@emotion/react' {
   export interface Theme extends EmotionTheme {}
 }
-

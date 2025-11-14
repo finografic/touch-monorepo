@@ -4,6 +4,7 @@
  */
 
 import { css } from '@emotion/react';
+
 import { useColors, useThemeName } from 'styles';
 
 export function ColorTestPage() {
@@ -121,7 +122,8 @@ export function ColorTestPage() {
           background: ${colors.greyLight};
           padding: 1rem;
           border-radius: 0.5rem;
-        `}>
+        `}
+        >
           <div css={colorSwatchStyles(colors.primary)}>100%</div>
           <div css={colorSwatchStyles(colors.primary75)}>75%</div>
           <div css={colorSwatchStyles(colors.primary50)}>50%</div>
@@ -170,7 +172,8 @@ export function ColorTestPage() {
           color: ${colors.white};
           font-size: 1.5rem;
           font-weight: 600;
-        `}>
+        `}
+        >
           Smooth Gradient
         </div>
       </div>
@@ -190,7 +193,8 @@ export function ColorTestPage() {
             overflow: auto;
             max-height: 400px;
             font-size: 0.875rem;
-          `}>
+          `}
+          >
             {JSON.stringify(colors, null, 2)}
           </pre>
         </details>
@@ -198,4 +202,3 @@ export function ColorTestPage() {
     </div>
   );
 }
-

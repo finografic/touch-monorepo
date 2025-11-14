@@ -1,5 +1,5 @@
 // Hooks
-export { useOrdersFormDevTools } from '../OrderFormDevTools/useOrdersFormDevTools';
+export { useOrdersFormDevTools } from './OrderFormDevTools/useOrdersFormDevTools';
 export * from './orders-form.submission';
 
 // Utils and types

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 
-import { Text } from '@radix-ui/themes';
 import { Button } from 'components/Button';
 
 import { useDev } from 'dev-tools/providers/DevProvider';
@@ -19,7 +18,6 @@ interface TimesRepeaterTableProps {
   name: string;
   emptyRowValues: TimeRowData;
   minRows?: number;
-  minVisibleRows?: number;
   language?: string;
   onCanAddRowChange?: (canAdd: boolean) => void; // Callback to notify parent when add state changes
   onGenerateRandomValues?: (rowIndex: number) => void; // External function to generate random values
@@ -29,7 +27,6 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
   name,
   emptyRowValues,
   minRows = 15,
-  minVisibleRows = 4,
   language = 'es-ES',
   onCanAddRowChange,
   onGenerateRandomValues,

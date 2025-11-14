@@ -1,11 +1,11 @@
 import React from 'react';
 import { useController, useFormContext } from 'react-hook-form';
 
+import clsx from 'clsx';
 import { InputNumber } from 'primereact/inputnumber';
 
 import { DEFAULT_TEMP_MAX, DEFAULT_TEMP_MIN, TEMP_STEP } from '../FormMiddleware/FormMiddleware.constants';
 import { styles } from './TemperatureInputField.styles';
-import clsx from 'clsx';
 
 interface TemperatureInputFieldProps {
   name: string;

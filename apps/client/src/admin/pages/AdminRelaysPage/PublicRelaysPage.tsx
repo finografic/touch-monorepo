@@ -6,8 +6,8 @@ import { useInitializeRelay } from 'queries/relays';
 
 import { AdminPageLayout, AdminSection } from '../..';
 import { RelayDefrost } from './RelayDefrost/RelayDefrost';
-import { RelaysStatus } from './RelaysStatus';
 import { NUM_RELAYS } from './relays.config';
+import { RelaysStatus } from './RelaysStatus';
 import { styles } from './AdminRelaysPage.styles';
 
 export const PublicRelaysPage: React.FC = () => {

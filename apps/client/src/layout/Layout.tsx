@@ -4,6 +4,7 @@ import { setConfiguration } from 'react-grid-system';
 import { useTranslation } from 'react-i18next';
 import { Outlet } from 'react-router-dom';
 
+import { useTheme } from '@emotion/react';
 import { Footer } from 'components/Footer';
 import { FrontEndNavigation } from 'components/FrontEndNavigation/FrontEndNavigation';
 import { Header } from 'components/Header/Header';
@@ -23,10 +24,9 @@ import type { ValidGridSize } from 'types/menu.types';
 import { NUM_GRID_ITEMS } from 'config/app';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
+import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
 import { BREAKPOINT_VALUES } from 'styles/viewport/viewport.breakpoints';
 import { styles } from './Layout.styles';
-import { useTheme } from '@emotion/react';
-import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();

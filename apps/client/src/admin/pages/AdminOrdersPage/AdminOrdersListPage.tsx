@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button, Flex, Text } from '@radix-ui/themes';
-import { OrdersTable } from 'admin/pages/AdminOrdersPage/components/OrdersTable';
+import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
 import { useToast } from 'components/Toast';
 
 import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';

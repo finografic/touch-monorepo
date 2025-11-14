@@ -10,7 +10,7 @@ import { InputText } from 'primereact/inputtext';
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { formatUnixTimestamp } from 'utils/date.utils';
-import type { OrderReadableWithIndex } from '../../hooks/useOrdersFilter';
+import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';

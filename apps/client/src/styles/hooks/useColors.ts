@@ -24,6 +24,7 @@
  */
 
 import { useTheme } from '@emotion/react';
+
 import type { ColorPalette } from '../colors/palette.types';
 
 /**
@@ -42,4 +43,3 @@ export function useThemeName(): 'light' | 'dark' {
   const theme = useTheme();
   return theme.name;
 }
-

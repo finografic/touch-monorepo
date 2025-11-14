@@ -3,9 +3,23 @@
  * Demonstrates the new performance-optimized approach
  */
 
-import { css } from '@emotion/react';
-import { useTheme } from '@emotion/react';
 import type { FC } from 'react';
+
+import { css, useTheme  } from '@emotion/react';
+
+// ============================================================================
+// EXAMPLE 2: Using Direct Colors (Static)
+// ============================================================================
+import { colorsDirect as colors } from 'styles';
+// ============================================================================
+// EXAMPLE 6: Migration from Old System
+// ============================================================================
+// ❌ OLD WAY (CSS Variables)
+import { colors as oldColors } from 'styles';
+// ============================================================================
+// EXAMPLE 7: Utility Function with Theme
+// ============================================================================
+import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
 
 // ============================================================================
 // EXAMPLE 1: Theme-Aware Button Component
@@ -74,12 +88,6 @@ const ThemedButton: FC<ButtonProps> = ({
 
   return <button css={buttonStyles}>{children}</button>;
 };
-
-// ============================================================================
-// EXAMPLE 2: Using Direct Colors (Static)
-// ============================================================================
-
-import { colorsDirect as colors } from 'styles';
 
 const StaticCard: FC<{ children: React.ReactNode }> = ({ children }) => {
   const cardStyles = css`
@@ -179,7 +187,8 @@ const ComplexCard: FC<{ children: React.ReactNode }> = ({ children }) => (
         font-size: 1rem;
       }
     }
-  `}>
+  `}
+  >
     {children}
   </div>
 );
@@ -213,25 +222,20 @@ const GradientBanner: FC = () => {
         font-size: 1.25rem;
         opacity: 0.9;
       }
-    `}>
+    `}
+    >
       <h1>Welcome to Your App</h1>
       <p>Theme-aware components with no CSS variable overhead!</p>
     </div>
   );
 };
 
-// ============================================================================
-// EXAMPLE 6: Migration from Old System
-// ============================================================================
-
-// ❌ OLD WAY (CSS Variables)
-import { colors as oldColors } from 'styles';
-
 const OldButton: FC = () => (
   <button css={css`
     background: ${oldColors.primary}; // Returns: var(--color-primary)
     color: ${oldColors.white};
-  `}>
+  `}
+  >
     Old Button
   </button>
 );
@@ -241,16 +245,11 @@ const NewButton: FC = () => (
   <button css={css`
     background: ${({ theme }) => theme.colors.primary}; // Returns: #1e3a8a
     color: ${({ theme }) => theme.colors.white};
-  `}>
+  `}
+  >
     New Button
   </button>
 );
-
-// ============================================================================
-// EXAMPLE 7: Utility Function with Theme
-// ============================================================================
-
-import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
 
 /**
  * Generate status color based on value
@@ -276,13 +275,15 @@ const StatusIndicator: FC<{ value: number }> = ({ value }) => {
       border: 1px solid ${statusColor};
       color: ${statusColor};
       font-weight: 500;
-    `}>
+    `}
+    >
       <span css={css`
         width: 8px;
         height: 8px;
         border-radius: 50%;
         background: ${statusColor};
-      `} />
+      `}
+      />
       {value}%
     </div>
   );
@@ -293,13 +294,12 @@ const StatusIndicator: FC<{ value: number }> = ({ value }) => {
 // ============================================================================
 
 export {
-  ThemedButton,
-  StaticCard,
-  ThemeAwareAlert,
   ComplexCard,
   GradientBanner,
-  OldButton,
   NewButton,
+  OldButton,
+  StaticCard,
   StatusIndicator,
+  ThemeAwareAlert,
+  ThemedButton,
 };
-

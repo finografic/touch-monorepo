@@ -11,9 +11,9 @@
  * - Smoother gradients
  */
 
+import { COLOR_MAPPING } from '../colors/colors.source';
 import type { ColorPalette } from '../colors/palette.types';
 import type { EmotionTheme } from './emotion-theme.types';
-import { COLOR_MAPPING } from '../colors/colors.source';
 
 /**
  * Parse OKLCH string to components
@@ -24,9 +24,9 @@ function parseOKLCH(oklchString: string): { l: number; c: number; h: number } {
   if (!match) throw new Error(`Invalid OKLCH string: ${oklchString}`);
 
   return {
-    l: parseFloat(match[1]) / 100, // Convert percentage to 0-1
-    c: parseFloat(match[2]),
-    h: parseFloat(match[3]),
+    l: Number.parseFloat(match[1]) / 100, // Convert percentage to 0-1
+    c: Number.parseFloat(match[2]),
+    h: Number.parseFloat(match[3]),
   };
 }
 
@@ -164,4 +164,3 @@ export const oklchThemes = {
   light: oklchLightTheme,
   dark: oklchDarkTheme,
 } as const;
-

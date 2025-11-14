@@ -5,9 +5,11 @@
  * 🎨 Now using OKLCH color space for better perceptual uniformity!
  */
 
+import { type ReactNode, useEffect, useState } from 'react';
+
 import { ThemeProvider } from '@emotion/react';
-import { useEffect, useState, type ReactNode } from 'react';
-import { oklchLightTheme as lightTheme, oklchDarkTheme as darkTheme } from 'styles/themes/generate-oklch-themes';
+
+import { oklchDarkTheme as darkTheme, oklchLightTheme as lightTheme } from 'styles/themes/generate-oklch-themes';
 
 interface EmotionThemeProviderProps {
   children: ReactNode;
@@ -48,4 +50,3 @@ export const EmotionThemeProvider = ({ children }: EmotionThemeProviderProps) =>
 
   return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
 };
-

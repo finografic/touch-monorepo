@@ -4,15 +4,13 @@ import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Text } from '@radix-ui/themes';
 import {
   ORDER_FORM_SCHEMA,
   type OrdersFormValues,
-} from 'admin/pages/AdminOrdersPage/components/OrdersForm/OrdersForm.schema';
-import { TimesRepeaterTable } from 'admin/pages/AdminOrdersPage/components/TimesRepeaterTable';
+} from 'admin/pages/AdminOrdersPage/OrdersForm/OrdersForm.schema';
 import { FieldWrapper } from 'forms/FieldWrapper';
 import { FormMiddlewareProvider } from 'forms/FormMiddleware';
-import { MIN_TABLE_ROWS, MIN_TABLE_VISIBLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
+import { MIN_TABLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
 import {
   ordersFormFieldConfigs,
   type OrdersFormValues as MiddlewareOrdersFormValues,
@@ -20,14 +18,12 @@ import {
 import { SelectCustom } from 'forms/SelectCustom';
 import { SelectSearchable } from 'forms/SelectSearchable/SelectSearchable';
 import { TemperatureInputField } from 'forms/TemperatureInputField';
-import { Panel } from 'primereact/panel';
 import { useToast } from 'components/Toast';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { MIN_TEMP_DIFFERENCE } from 'config/app';
-import { OrdersFormDevTools } from '../OrderFormDevTools/OrdersFormDevTools';
 import {
   createFormSubmissionHandler,
   getSubmissionLoadingState,
@@ -40,7 +36,7 @@ import {
   type TempItems,
   useDropdownData,
 } from './orders-form.utils';
-import { CheckCircleIcon, ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, EditIcon } from 'styles/icons';
+import { TemperatureProfilesPanel } from './TemperatureProfilesPanel';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { styles } from './OrdersForm.styles';
@@ -82,7 +78,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     containerTypes: [],
   });
   const [canAddRow, setCanAddRow] = useState(false);
-  const [isPanelCollapsed, setIsPanelCollapsed] = useState(false);
   const { currentLanguage } = useAppConfig();
 
   // ========================================================================
@@ -462,62 +457,17 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                 {/* PANEL + TEMPERATURE PROFILES TABLE ===================== */}
 
                 <Col xs={12} md={12} className="col col-form-fields col-form-table">
-                  <Panel
-                    headerTemplate={(options) => {
-                      const toggleIcon = isPanelCollapsed ? (
-                        <ChevronLeftIcon className="panel-toggle-icon icon-is-collapsed" />
-                      ) : (
-                        <ChevronDownIcon className="panel-toggle-icon icon-is-open" />
-                      );
-
-                      return (
-                        <div className={options.className} onClick={options.onTogglerClick}>
-                          <span className={options.titleClassName}>Temperature Profiles</span>
-                          <button
-                            className={options.togglerClassName}
-                            onClick={options.onTogglerClick}
-                            type="button"
-                          >
-                            {toggleIcon}
-                          </button>
-                        </div>
-                      );
-                    }}
-                    className="temperature-profiles-panel"
-                    toggleable
-                    collapsed={isPanelCollapsed}
-                    onToggle={(e) => setIsPanelCollapsed(e.value)}
-                    transitionOptions={{ timeout: 300, easing: 'ease-in-out' }}
-                    data-collapsed={isPanelCollapsed}
-                    footer={
-                      <div
-                        style={{ display: 'flex', alignItems: 'center', gap: '1rem', padding: '0.5rem 0' }}
-                      >
-                        <div className="total-rows-counter">
-                          <Text size="3" weight="bold" color="gray">
-                            Filas completas: {populatedRowsCount} / {MIN_TABLE_ROWS}
-                          </Text>
-                        </div>
-                        <OrdersFormDevTools
-                          formValues={formValues}
-                          methods={methods}
-                          mockDataHandlers={mockDataHandlers}
-                          canAddRow={canAddRow}
-                          onAddRow={handleAddRow}
-                        />
-                      </div>
-                    }
-                  >
-                    <TimesRepeaterTable
-                      name="timeRows"
-                      emptyRowValues={PROFILE_ITEM_VALUES_EMPTY}
-                      minRows={MIN_TABLE_ROWS}
-                      // minVisibleRows={MIN_TABLE_VISIBLE_ROWS}
-                      language={language}
-                      onCanAddRowChange={handleCanAddRowChange}
-                      onGenerateRandomValues={mockDataHandlers.generateRandomValuesForRow}
-                    />
-                  </Panel>
+                  <TemperatureProfilesPanel
+                    populatedRowsCount={populatedRowsCount}
+                    formValues={formValues}
+                    methods={methods}
+                    mockDataHandlers={mockDataHandlers}
+                    canAddRow={canAddRow}
+                    onAddRow={handleAddRow}
+                    language={language}
+                    onCanAddRowChange={handleCanAddRowChange}
+                    onGenerateRandomValues={mockDataHandlers.generateRandomValuesForRow}
+                  />
                 </Col>
               </Col>
             </Row>

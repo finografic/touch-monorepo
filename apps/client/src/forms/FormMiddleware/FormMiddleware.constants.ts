@@ -137,9 +137,6 @@ export const TOAST_WARNING_DURATION = 5000;
 // export const MIN_TABLE_ROWS = 50; // TODO: 50
 export const MIN_TABLE_ROWS = 15; // TODO: 50
 
-/** Minimum visible rows for times table repeater (with scroll) */
-export const MIN_TABLE_VISIBLE_ROWS = 4;
-
 /** Default table row values */
 export const DEFAULT_EMPTY_ROW = {
   temperature: undefined,

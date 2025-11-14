@@ -1,9 +1,7 @@
 import React, { useEffect, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 
 import { Box, Card, Flex } from '@radix-ui/themes';
 import { getAdminDashboardCards } from 'admin/config/admin.routes.selectors';
-import { snakeCase } from 'change-case';
 import { setLocale } from 'i18n/runtime';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
@@ -17,11 +15,13 @@ import { AdminPageLayout } from '.';
 import { styles } from './AdminDashboardPage.styles';
 
 export const AdminDashboardPage: React.FC = () => {
-  const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
-
-  const { t } = useTranslation();
   const { user, isAuthenticated } = useAuth();
   const { currentLanguage } = useAppConfig();
+  const { navigateWithTransition, isTransitioning } = usePageTransition({ delay: 150 });
+
+  const handleCardClick = (path: string) => {
+    navigateWithTransition(path);
+  };
 
   // Set ParaglideJS locale to match app's current language
   useEffect(() => {
@@ -30,13 +30,12 @@ export const AdminDashboardPage: React.FC = () => {
 
   const role = user?.role === 'admin' ? 'admin' : 'public';
 
-  // NEW: 🈂️ inlang/paraglide i18n translations !!;
+  // NEW: 🈂️ inlang/paraglide i18n translations
   const admin_dashboard = getAdminDashboard({ role });
 
   const adminCards = useMemo(() => {
     return getAdminDashboardCards(isAuthenticated, role).map((card) => {
       const text = getCalloutText(role, card.key);
-
       return {
         id: card.key,
         title: text.title,
@@ -46,11 +45,7 @@ export const AdminDashboardPage: React.FC = () => {
         color: card.color,
       };
     });
-  }, [isAuthenticated, role, t]);
-
-  const handleCardClick = (path: string) => {
-    navigateWithTransition(path);
-  };
+  }, [isAuthenticated, role]);
 
   const gridColumns = adminCards.length === 1 ? 1 : 2;
 

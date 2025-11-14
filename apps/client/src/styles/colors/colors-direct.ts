@@ -39,5 +39,4 @@ import { oklchLightTheme } from '../themes/generate-oklch-themes';
 export const colors = oklchLightTheme.colors;
 
 // Re-export OKLCH theme objects for direct access
-export { oklchLightTheme as lightTheme, oklchDarkTheme as darkTheme, oklchThemes as themes } from '../themes/generate-oklch-themes';
-
+export { oklchDarkTheme as darkTheme, oklchLightTheme as lightTheme, oklchThemes as themes } from '../themes/generate-oklch-themes';
