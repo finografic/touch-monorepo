@@ -48,7 +48,10 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
           background-color: ${transparentColor};
           border-color: ${darkColor};
           color: ${darkColor};
-          /* opacity: 0.1 !important; */
+        }
+
+        &:focus:not(:disabled):not([data-loading='true']) {
+          border-color: ${defaultColor};
         }
 
         &:active:not(:disabled):not([data-loading='true']) {
@@ -56,8 +59,8 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
         }
 
         &:disabled {
-          border-color: ${darkColor};
-          color: ${darkColor};
+          border-color: ${defaultColor};
+          color: ${defaultColor};
           opacity: 0.6 !important;
           filter: grayscale(0.5);
         }
