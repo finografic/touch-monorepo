@@ -59,9 +59,9 @@ function generateShadeVariants(
     { name: 'XLight', lighten: 0.6 * varianceFactor, saturate: baseSaturation * 0.9 }, // Lighter, clean saturation
     { name: 'Light', lighten: 0.4 * varianceFactor, saturate: baseSaturation * 0.95 }, // Slightly lighter, minimal desaturation
     // Darker variants - leverage OKLCH's better saturation handling
-    { name: 'Dark', lighten: -0.4 * varianceFactor, saturate: baseSaturation * 1.2 }, // Slightly darker, more vibrant
-    { name: 'XDark', lighten: -0.6 * varianceFactor, saturate: baseSaturation * 1.3 }, // Darker, rich saturation
-    { name: 'XXDark', lighten: -0.8 * varianceFactor, saturate: baseSaturation * 1.4 }, // Much darker, maximum vibrancy
+    { name: 'Dark', lighten: -0.5 * varianceFactor, saturate: baseSaturation * 1.4 }, // Slightly darker, more vibrant
+    { name: 'XDark', lighten: -0.66 * varianceFactor, saturate: baseSaturation * 1.5 }, // Darker, rich saturation
+    { name: 'XXDark', lighten: -0.8 * varianceFactor, saturate: baseSaturation * 1.6 }, // Much darker, maximum vibrancy
   ];
 
   shades.forEach(({ name, lighten, saturate }) => {

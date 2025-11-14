@@ -24,13 +24,13 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
   switch (variant) {
     case 'solid':
       return css`
-        background-color: ${lightColor};
+        background-color: ${defaultColor};
         color: ${color === 'default' || color === 'grey' ? colors.white : colors.white};
-        border: ${button.border.width} solid ${lightColor};
+        border: ${button.border.width} solid ${defaultColor};
 
         &:hover:not(:disabled):not([data-loading='true']) {
-          background-color: ${defaultColor};
-          border-color: ${defaultColor};
+          background-color: ${darkColor};
+          border-color: ${darkColor};
         }
 
         &:active:not(:disabled):not([data-loading='true']) {

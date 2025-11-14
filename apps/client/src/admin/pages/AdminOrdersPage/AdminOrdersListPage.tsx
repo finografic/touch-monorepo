@@ -1,8 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { Button, Flex, Text } from '@radix-ui/themes';
+import { Flex, Text } from '@radix-ui/themes';
 import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
+import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
 import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
@@ -17,18 +18,14 @@ export const AdminOrdersListPage: React.FC = () => {
   // State for search/filter (empty for PrimeReact's built-in filtering)
   const [searchTerm] = useState('');
 
-  // Fetch orders data at page level
   const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
-
-  // Delete order mutation
-  const deleteOrderMutation = useDeleteOrder();
-
-  // Filter orders using custom hook (PrimeReact handles column filtering internally)
   const { filteredOrders, isFiltered, totalCount, filteredCount } = useOrdersFilter({
     ordersData,
     searchTerm,
     columnSearches: {}, // PrimeReact handles its own column filtering
   });
+
+  const deleteOrderMutation = useDeleteOrder();
 
   const { title, subtitle } = useMemo(() => {
     return {
@@ -37,34 +34,45 @@ export const AdminOrdersListPage: React.FC = () => {
     };
   }, [isFiltered, filteredCount, totalCount]);
 
-  // Handlers
-  const handleEditOrder = (orderId: string) => {
-    navigate(`/admin/items/${orderId}`);
+  // Simple button handler - no memoization needed
+  const handleCreateNew = () => {
+    navigate('/admin/items/new');
   };
 
-  const handleDeleteOrder = async (orderId: string) => {
-    const confirmDelete = window.confirm(
-      'Are you sure you want to delete this order? This action cannot be undone.',
-    );
+  // Passed to OrdersTable (memoized) - use useCallback
+  const handleEditOrder = useCallback(
+    (orderId: string) => {
+      navigate(`/admin/items/${orderId}`);
+    },
+    [navigate],
+  );
 
-    if (confirmDelete) {
-      try {
-        await deleteOrderMutation.mutateAsync(orderId);
-        toast({
-          variant: 'success',
-          message: 'Order deleted successfully!',
-          subText: `Order ${orderId} has been removed`,
-        });
-      } catch (error) {
-        console.error('Failed to delete order:', error);
-        toast({
-          variant: 'error',
-          message: 'Failed to delete order',
-          subText: 'Please try again or contact support',
-        });
+  const handleDeleteOrder = useCallback(
+    async (orderId: string) => {
+      // eslint-disable-next-line no-alert
+      const confirmDelete = window.confirm(
+        'Are you sure you want to delete this order? This action cannot be undone.',
+      );
+      if (confirmDelete) {
+        try {
+          await deleteOrderMutation.mutateAsync(orderId);
+          toast({
+            variant: 'success',
+            message: 'Order deleted successfully!',
+            subText: `Order ${orderId} has been removed`,
+          });
+        } catch (error) {
+          console.error('Failed to delete order:', error);
+          toast({
+            variant: 'error',
+            message: 'Failed to delete order',
+            subText: 'Please try again or contact support',
+          });
+        }
       }
-    }
-  };
+    },
+    [deleteOrderMutation, toast],
+  );
 
   return (
     <AdminPageLayout>
@@ -72,7 +80,7 @@ export const AdminOrdersListPage: React.FC = () => {
         title={title}
         subtitle={subtitle}
         actions={
-          <Button size="3" color="green" onClick={() => navigate('/admin/items/new')}>
+          <Button color="success" onClick={handleCreateNew}>
             + Create New
           </Button>
         }
