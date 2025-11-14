@@ -7,7 +7,7 @@ import { colors } from 'styles';
 const getVariantColor = (variant: ToastVariant): string => {
   switch (variant) {
     case 'success':
-      return colors.successXLight;
+      return colors.success;
     case 'error':
       return colors.dangerXLight;
     case 'warning':
