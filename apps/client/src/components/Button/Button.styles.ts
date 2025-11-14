@@ -14,7 +14,6 @@ export const baseButtonStyles = css`
   gap: 0.5rem;
 
   font-family: inherit;
-  font-weight: 500;
   text-decoration: none;
   white-space: nowrap;
 
@@ -22,6 +21,11 @@ export const baseButtonStyles = css`
   user-select: none;
 
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &,
+  & span {
+    font-weight: 700;
+  }
 
   &:focus-visible {
     /* outline: 2px solid ${colors.primary}; */
@@ -53,14 +57,14 @@ export const baseButtonStyles = css`
 export const sizeStyles = {
   sm: css`
     height: 2rem;
-    padding: 0 0.75rem;
+    padding: 0 1rem;
     font-size: 0.875rem;
     font-weight: 600;
     border-radius: 0.375rem;
   `,
   md: css`
     height: 3rem;
-    padding: 0 1rem;
+    padding: 0 1.5rem;
     font-size: 1rem;
     font-weight: 600;
     border-radius: 0.5rem;
@@ -68,7 +72,7 @@ export const sizeStyles = {
   lg: css`
     height: 4rem;
     padding: 0 1.5rem;
-    font-size: 1.25rem;
+    font-size: 2rem;
     font-weight: 600;
     border-radius: 0.5rem;
   `,

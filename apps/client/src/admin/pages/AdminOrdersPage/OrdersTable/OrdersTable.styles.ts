@@ -31,6 +31,15 @@ export const styles = css`
         display: flex;
         justify-content: space-between;
       }
+      th {
+        svg {
+          transition: all 150ms ease;
+          opacity: 0.4;
+          :hover {
+            opacity: 1;
+          }
+        }
+      }
       tr:nth-of-type(1) {
         th {
           padding-top: 1rem;
