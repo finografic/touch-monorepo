@@ -1,4 +1,3 @@
-export { AdminPageHeader } from './components/AdminPageHeader';
 // Shared admin page components
 export { AdminPageLayout } from './components/AdminPageLayout';
 export { AdminSection } from './components/AdminSection';

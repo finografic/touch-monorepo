@@ -9,7 +9,7 @@ import { useGetModes } from 'queries/modes';
 import { useGetOrderReadableById, useGetOrdersReadable } from 'queries/orders';
 
 import type { ModeModel } from 'types/models/mode.model';
-import { AdminPageHeader, AdminPageLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
 
 export const AdminOrderEditPage: React.FC = () => {
@@ -74,21 +74,20 @@ export const AdminOrderEditPage: React.FC = () => {
   };
 
   return (
-    <AdminPageLayout>
-      <AdminPageHeader
-        title={title}
-        subtitle={subtitle}
-        actions={
-          <>
-            <Button size="3" variant="outline" color="gray" onClick={() => navigate('/admin/items')}>
-              Cancelar
-            </Button>
-            <Button size="3" color="green" type="submit" form="order-form">
-              {isEditMode ? 'CONFIRM CHANGES' : 'GUARDAR'}
-            </Button>
-          </>
-        }
-      />
+    <AdminPageLayout
+      title={title}
+      subtitle={subtitle}
+      headerActions={
+        <>
+          <Button size="3" variant="outline" color="gray" onClick={() => navigate('/admin/items')}>
+            Cancelar
+          </Button>
+          <Button size="3" color="green" type="submit" form="order-form">
+            {isEditMode ? 'CONFIRM CHANGES' : 'GUARDAR'}
+          </Button>
+        </>
+      }
+    >
       <AdminSection isLoading={isLoading} variant="none">
         {isLoading && isEditMode ? (
           <Flex direction="column" gap="4" align="center" justify="center" p="6">

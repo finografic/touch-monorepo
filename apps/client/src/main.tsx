@@ -10,6 +10,7 @@ import { RouteMetadataProvider } from 'routes/providers/RouteMetadataProvider';
 import 'providers/HeartbeatProvider/heartbeat.store';
 import '@workspace/core';
 
+import { primeReactOptions } from 'config/app/primereact.config.ts';
 import App from './App';
 import i18n from './i18n.config.ts';
 // NOTE: CSS files
@@ -24,7 +25,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
     <PersistQueryClientProvider>
       <I18nextProvider i18n={i18n}>
         <RouteMetadataProvider>
-          <PrimeReactProvider>
+          <PrimeReactProvider value={primeReactOptions}>
             <App />
           </PrimeReactProvider>
         </RouteMetadataProvider>
