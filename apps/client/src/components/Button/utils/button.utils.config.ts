@@ -10,7 +10,7 @@ export const BUTTON_BASE_COLORS: Record<ButtonColor, ButtonColorVariants> = {
   primary: 'primaryLight',
   secondary: 'secondaryLight',
   success: 'successDark',
-  warning: 'warningLight',
+  warning: 'warning',
   danger: 'dangerLight',
   info: 'infoLight',
   default: 'greyLight',

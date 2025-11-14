@@ -27,6 +27,31 @@ export const baseButtonStyles = css`
     font-weight: 700;
   }
 
+  .button-text {
+    font-weight: 700;
+    svg {
+      transform: scale(1.25);
+      font-weight: 700;
+    }
+    &.button-icon-left {
+      margin-right: 5.5rem;
+    }
+    &.button-icon-right {
+      margin-left: 5.5rem;
+    }
+  }
+
+  .button-icon {
+    font-weight: 700;
+    transform: scale(1.25);
+    &.button-icon-left {
+      margin-right: 5.5rem;
+    }
+    &.button-icon-right {
+      margin-left: 5.5rem;
+    }
+  }
+
   &:focus-visible {
     /* outline: 2px solid ${colors.primary}; */
     /* outline-offset: 2px; */

@@ -56,10 +56,10 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
         }
 
         &:disabled {
-          background-color: ${colors.greyXXLight25};
           border-color: ${darkColor};
           color: ${darkColor};
-          opacity: 0.5 !important;
+          opacity: 0.6 !important;
+          filter: grayscale(0.5);
         }
       `;
 

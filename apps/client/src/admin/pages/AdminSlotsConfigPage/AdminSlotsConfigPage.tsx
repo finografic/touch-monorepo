@@ -2,8 +2,9 @@ import React, { useEffect, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
-import { Badge, Box, Button, Flex, Text } from '@radix-ui/themes';
+import { Badge, Box, Flex, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
+import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
 import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
@@ -162,13 +163,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
   return (
     <>
       <FormProvider {...methods}>
-        <AdminPageLayout
-          title="Slot Configuration"
-          subtitle="Configure the MainPage grid layout and slot types"
-          // description={`COLUMNS: ${calculatedColumns} | ROWS: ${NUM_ROWS} | ACTIVE SLOTS: ${activeSlots.length} / ${NUM_SLOTS}`}
-          // description={`Click on slots to change their type. Slot ${NUM_SLOTS} is positioned separately`}
-          styles={styles}
-        >
+        <AdminPageLayout title="Slot Configuration" subtitle="Main page grid layout" styles={styles}>
           <AdminSection
             title="Slot Grid Layout Preview"
             subtitle={`${calculatedColumns} columns`}
@@ -224,11 +219,10 @@ export const AdminSlotsConfigPage: React.FC = () => {
             </Flex>
 
             <Flex justify="between" gap="4" pr="3">
-              <Flex gap="2">
+              <Flex gap="4">
                 <Button
                   variant="outline"
-                  color="orange"
-                  size="3"
+                  color="warning"
                   onClick={handleRemoveColumn}
                   disabled={calculatedColumns <= MIN_COLUMNS}
                 >
@@ -239,8 +233,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 </Button>
                 <Button
                   variant="outline"
-                  color="green"
-                  size="3"
+                  color="success"
                   onClick={handleAddColumn}
                   disabled={calculatedColumns >= MAX_COLUMNS}
                 >
