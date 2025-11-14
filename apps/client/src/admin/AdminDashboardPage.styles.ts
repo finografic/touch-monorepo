@@ -46,13 +46,13 @@ export const styles = css`
 
       .card-header {
         margin: 0;
-        .section-title {
+        .section-header-title {
           font-size: 1.125rem;
           margin: 0 0 0.3rem 0;
           line-height: 1;
         }
 
-        .section-description {
+        .section-header-description {
           display: table-cell;
           font-size: 0.9rem;
           line-height: 20px;

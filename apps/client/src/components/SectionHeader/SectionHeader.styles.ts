@@ -7,22 +7,20 @@ export const styles = css`
     margin-top: ${spacing.xl};
     margin-bottom: ${spacing.xl};
 
-    /* margin-bottom: ${spacing.xl}; */
-    /* padding-bottom: ${spacing.md}; */
-    /* border-bottom: 1px solid ${colors.greyLight}; */
-
-    .section-title {
+    .section-header-title {
       color: ${colors.text};
       margin-bottom: ${spacing.xs};
     }
 
-    .section-description {
+    .section-header-description {
       color: ${colors.greyDark};
       color: ${colors.greyLight};
       line-height: 1.5;
+      font-size: 1rem;
+      font-weight: 700 !important;
     }
 
-    .section-title + .section-description {
+    .section-header-title + .section-header-description {
       margin-top: 0;
       padding-top: 0;
     }

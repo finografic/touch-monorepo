@@ -39,12 +39,7 @@ export const Title: React.FC<TitleProps> = ({
       <AsWrapperElement className={clsx('title-wrapper', className, { align })}>
         <Heading size="8" className="title" align={align} {...headingProps}>
           {title}
-          {subtitle && (
-            <span className="title-subtitle" style={{ opacity: 0.4 }}>
-              {' '}
-              : {subtitle}
-            </span>
-          )}
+          {subtitle && <span className="title-subtitle"> : {subtitle}</span>}
         </Heading>
         {description && (
           <div className="title-description">

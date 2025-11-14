@@ -8,6 +8,7 @@ import { styles } from './SectionHeader.styles';
 
 interface SectionHeaderProps {
   title?: string;
+  subtitle?: string;
   description?: string;
   headingLevel?: 2 | 3 | 4 | 5 | 6;
   align?: Responsive<'left' | 'center' | 'right'>;
@@ -16,16 +17,19 @@ interface SectionHeaderProps {
 
 export const SectionHeader: React.FC<SectionHeaderProps> = ({
   title,
+  subtitle,
   description,
   headingLevel = 2,
   align = 'left',
   className,
 }) => {
+  // TODO: USE Title.tsx ??
+  // see: apps/client/src/admin/components/AdminPageLayout.tsx
   return (
     <Box className={clsx('section-header', className)} css={styles}>
       {title && (
         <Heading
-          className="section-title"
+          className="section-header-title"
           as={`h${headingLevel}`}
           size="5"
           weight="bold"
@@ -34,10 +38,11 @@ export const SectionHeader: React.FC<SectionHeaderProps> = ({
           align={align}
         >
           {title}
+          {subtitle && <span className="title-subtitle"> : {subtitle}</span>}
         </Heading>
       )}
       {description && (
-        <Text className="section-description" align={align}>
+        <Text size="3" weight="medium" className="section-header-description" align={align}>
           {description}
         </Text>
       )}

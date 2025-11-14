@@ -179,12 +179,12 @@ export const AdminSlotsConfigPage: React.FC = () => {
         <AdminPageLayout
           title="Slot Configuration"
           subtitle="Configure the MainPage grid layout and slot types"
-          description={`COLUMNS: ${calculatedColumns} | ROWS: ${NUM_ROWS} | ACTIVE SLOTS: ${activeSlots.length} / ${NUM_SLOTS}`}
+          // description={`COLUMNS: ${calculatedColumns} | ROWS: ${NUM_ROWS} | ACTIVE SLOTS: ${activeSlots.length} / ${NUM_SLOTS}`}
           styles={styles}
         >
           <AdminSection
-            title={`Slot Grid Layout Preview - ${calculatedColumns} Columns`}
-            subtitle={`COLUMNS: ${calculatedColumns} | Columns`}
+            title="Slot Grid Layout Preview"
+            subtitle={`${calculatedColumns} columns`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
             variant="border-solid"

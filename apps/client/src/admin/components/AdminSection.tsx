@@ -8,6 +8,7 @@ import { styles } from './AdminSection.styles';
 
 interface AdminSectionProps {
   title?: string;
+  subtitle?: string;
   description?: string;
   children: ReactNode;
   className?: string;
@@ -16,7 +17,7 @@ interface AdminSectionProps {
 }
 
 export const AdminSection: React.FC<AdminSectionProps> = memo(
-  ({ title, description, children, className = '', variant = 'none', isLoading = false }) => {
+  ({ title, subtitle, description, children, className = '', variant = 'none', isLoading = false }) => {
     return (
       <div
         css={styles}
@@ -25,7 +26,9 @@ export const AdminSection: React.FC<AdminSectionProps> = memo(
         // style={{ overflowY: className.includes('tab-content-list') ? 'scroll' : 'hidden' }}
       >
         <div className={clsx('admin-section-content', { 'border-solid': variant === 'border-solid' })}>
-          {(title || description) && <SectionHeader title={title} description={description} />}
+          {(title || description) && (
+            <SectionHeader title={title} subtitle={subtitle} description={description} />
+          )}
           {children}
         </div>
       </div>
