@@ -41,6 +41,9 @@ export const styles = css`
       }
 
       .admin-page-header-description {
+        font-size: 1rem;
+        font-weight: 500;
+        color: ${colors.textLight};
         margin-top: 0.5rem;
         line-height: 1.5;
       }

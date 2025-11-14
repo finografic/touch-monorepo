@@ -166,11 +166,13 @@ export const AdminSlotsConfigPage: React.FC = () => {
           title="Slot Configuration"
           subtitle="Configure the MainPage grid layout and slot types"
           // description={`COLUMNS: ${calculatedColumns} | ROWS: ${NUM_ROWS} | ACTIVE SLOTS: ${activeSlots.length} / ${NUM_SLOTS}`}
+          // description={`Click on slots to change their type. Slot ${NUM_SLOTS} is positioned separately`}
           styles={styles}
         >
           <AdminSection
             title="Slot Grid Layout Preview"
             subtitle={`${calculatedColumns} columns`}
+            description={`Click on slots to change their type. Slot ${NUM_SLOTS} is positioned separately`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
             variant="border-solid"
@@ -178,11 +180,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
             <Flex gap="4" justify="between">
               {/* ====================================================================== */}
 
-              <Flex direction="column" gap="4" px="1">
-                <Text size="2" color="gray">
-                  Click on slots to change their type. Slot #{NUM_SLOTS} is positioned separately.
-                </Text>
-
+              <Flex direction="column" gap="6" px="1">
                 <SlotGrid
                   configurations={activeSlots}
                   columns={calculatedColumns}
@@ -191,7 +189,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 />
 
                 <Flex gap="4" align="center" mt="-4" pb="4">
-                  <Badge variant="soft" color="blue">
+                  <Badge size="3" variant="soft" color="blue">
                     {calculatedColumns} columns × {NUM_ROWS} rows = {activeSlots.length - 1} grid slots + 1
                     special slot
                   </Badge>

@@ -45,7 +45,6 @@ export const styles = css`
     /* overflow: visible; */
     display: flex;
     flex-direction: column;
-    /* min-height: 0;  */
   }
 
   .admin-section-content {
@@ -76,6 +75,15 @@ export const styles = css`
     h2 {
       margin: 0;
       padding: 0;
+    }
+
+    .section-header-subtitle {
+    }
+
+    .section-header-description {
+      font-size: 0.95em;
+      font-weight: 500;
+      color: ${colors.textLight75};
     }
 
     /***** NOTE: NESTED SECTIONS -- OMIT NEGATIVE MARGIN/PADDING FOR INNER SECTIONS  *****/
