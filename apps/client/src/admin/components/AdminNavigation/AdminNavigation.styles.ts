@@ -20,7 +20,7 @@ export const styles = css`
     position: relative;
 
     button.rt-TabNavLink.nav-button {
-      color: ${colors.text};
+      color: ${colors.text75};
       background-color: transparent;
       font-weight: 700;
       border: none;
@@ -39,19 +39,25 @@ export const styles = css`
         color: ${colors.text};
       }
 
-      /* background-color: transparent !important;
-      color: red !important; */
-
       &.active {
-        /* color: red; */
-
+        color: ${colors.info};
+        font-weight: 700;
+        :before {
+          border-bottom: 2px solid ${colors.info};
+        }
         & span {
           font-weight: 700;
+          background-color: transparent;
         }
         :hover {
-          color: pink;
-          background-color: transparent !important;
-          color: ${colors.infoDark};
+          color: ${colors.infoXDark};
+          :before {
+            border-bottom: 2px solid ${colors.infoXDark};
+          }
+          & span {
+            font-weight: 700;
+            background-color: transparent;
+          }
         }
       }
 
