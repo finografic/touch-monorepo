@@ -1,17 +1,12 @@
 import React, { useEffect, useRef } from 'react';
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-import { useTranslation } from 'react-i18next';
+import { FormProvider, useForm } from 'react-hook-form';
 
-import { MinusIcon, PlusIcon, ResetIcon } from '@radix-ui/react-icons';
-import { Badge, Box, Button, Card, Flex, Heading, Text } from '@radix-ui/themes';
+import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
+import { Badge, Box, Button, Flex, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useToast } from 'components/Toast';
 
-import {
-  useBulkUpdateSlotConfigurations,
-  useGetSlotConfigurations,
-  useResetSlotConfigurations,
-} from 'queries/slot-configurations';
+import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
 
 import type { SlotType } from 'types/orders.types';
 import { calculateColumns, MAX_COLUMNS, MIN_COLUMNS, NUM_ROWS, NUM_SLOTS } from 'types/slot-config.types';
@@ -33,10 +28,8 @@ interface SlotConfigForm {
 }
 
 export const AdminSlotsConfigPage: React.FC = () => {
-  const { t } = useTranslation();
   const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
-  const resetMutation = useResetSlotConfigurations();
   const { toast } = useToast();
 
   // Calculate columns dynamically from active slots
@@ -53,9 +46,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
     },
     mode: 'onChange',
   });
-  const { control, handleSubmit, reset, watch, setValue } = methods;
-  const { replace } = useFieldArray({ control, name: 'slots' });
-  const columns = watch('columns');
+  const { control, reset, watch, setValue } = methods;
   const slots = watch('slots');
 
   // Calculate columns dynamically from active slots
@@ -85,31 +76,24 @@ export const AdminSlotsConfigPage: React.FC = () => {
     }
   }, [slotConfigs, reset]);
 
-  // Save handler
-  const onSave = async (data: SlotConfigForm) => {
+  // Save configuration helper
+  const saveConfiguration = async (updatedSlots: SlotConfigFormValue[]) => {
     try {
-      // TODO: REMOVE ??
-      await bulkUpdateMutation.mutateAsync({ configurations: data.slots });
-      // After successful save, the API will refetch and update slotConfigs
-      // which will trigger the useEffect above to reset the form
+      await bulkUpdateMutation.mutateAsync({ configurations: updatedSlots });
+      toast({
+        variant: 'success',
+        message: 'Slot configuration saved',
+      });
     } catch (error) {
       console.error('Failed to save configurations:', error);
+      toast({
+        variant: 'error',
+        message: 'Failed to save slot configuration',
+      });
     }
   };
 
-  // Reset handler
-  const onReset = async () => {
-    try {
-      // TODO: REMOVE ??
-      await resetMutation.mutateAsync();
-      // After successful reset, the API will refetch and update slotConfigs
-      // which will trigger the useEffect above to reset the form
-    } catch (error) {
-      console.error('Failed to reset configurations:', error);
-    }
-  };
-
-  const handleAddColumn = () => {
+  const handleAddColumn = async () => {
     if (calculatedColumns < MAX_COLUMNS) {
       // Activate the next 3 slots (next column) and reset type to default Type B
       const nextInactiveSlots = slots
@@ -124,11 +108,12 @@ export const AdminSlotsConfigPage: React.FC = () => {
             : slot,
         );
         setValue('slots', updatedSlots, { shouldDirty: true });
+        await saveConfiguration(updatedSlots);
       }
     }
   };
 
-  const handleRemoveColumn = () => {
+  const handleRemoveColumn = async () => {
     if (calculatedColumns > MIN_COLUMNS) {
       // Deactivate the last 3 active slots (last column, excluding special slot) and reset type to default Type B
       const activeGridSlots = slots
@@ -143,17 +128,18 @@ export const AdminSlotsConfigPage: React.FC = () => {
             : slot,
         );
         setValue('slots', updatedSlots, { shouldDirty: true });
+        await saveConfiguration(updatedSlots);
       }
     }
   };
 
   // SlotGrid change handler
-  const handleGridConfigChange = (slotNumber: number, newConfig: Partial<SlotConfigFormValue>) => {
-    setValue(
-      'slots',
-      slots.map((slot) => (slot.slotNumber === slotNumber ? { ...slot, ...newConfig } : slot)),
-      { shouldDirty: true },
+  const handleGridConfigChange = async (slotNumber: number, newConfig: Partial<SlotConfigFormValue>) => {
+    const updatedSlots = slots.map((slot) =>
+      slot.slotNumber === slotNumber ? { ...slot, ...newConfig } : slot,
     );
+    setValue('slots', updatedSlots, { shouldDirty: true });
+    await saveConfiguration(updatedSlots);
   };
 
   if (isLoading) {
@@ -267,30 +253,6 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 </Button>
               </Flex>
 
-              <Flex justify="between" gap="2">
-                <Flex gap="2">
-                  <Button
-                    size="3"
-                    variant="outline"
-                    color="gray"
-                    onClick={onReset}
-                    disabled={resetMutation.isPending}
-                    loading={resetMutation.isPending}
-                  >
-                    <ResetIcon />
-                    Reset to Default
-                  </Button>
-                  <Button
-                    size="3"
-                    color="green"
-                    onClick={handleSubmit(onSave)}
-                    disabled={bulkUpdateMutation.isPending}
-                    loading={bulkUpdateMutation.isPending}
-                  >
-                    Save Configuration
-                  </Button>
-                </Flex>
-              </Flex>
               {/* <pre>{JSON.stringify({ slots, columns }, null, 2)}</pre> */}
             </Flex>
           </AdminSection>

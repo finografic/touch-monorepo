@@ -68,27 +68,11 @@ export const styles = css`
       margin: 0 0 0 0.8rem;
       white-space: nowrap;
       margin: 0;
-
-      span.current-language {
-        font-size: 1.1rem;
-        font-weight: 600;
-        margin: 0 0 0 0.8rem;
-        opacity: 0.4;
-        text-transform: none;
-      }
     }
 
     div[role='menuitem'][data-highlighted] {
       color: ${colors.white} !important;
       background-color: transparent !important;
-    }
-
-    .current-language {
-      color: ${colors.grey};
-      font-size: 1.1rem;
-      font-weight: 400;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
     }
 
     .dev-session-a,

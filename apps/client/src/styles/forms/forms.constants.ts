@@ -37,7 +37,7 @@ export const forms = {
 
     placeholder: {
       color: colors.default75,
-      opacity: 0.4,
+      opacity: 0.45,
       fontWeight: 500,
       disabled: {
         color: colors.default75,

@@ -7,9 +7,6 @@ export const stylesPlaceholder = css`
   font-weight: ${forms.inputs.placeholder.fontWeight};
   text-indent: 0;
   font-style: italic;
-  color: ${colors.default75};
-  -webkit-text-fill-color: ${colors.default75};
-  opacity: 0.4;
   color: ${colors.grey};
   -webkit-text-fill-color: ${colors.grey};
   opacity: 0.7;

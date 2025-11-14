@@ -42,9 +42,9 @@ export const stylesAdminContent = css`
   h4 {
     letter-spacing: -0.025em;
     font-weight: 700;
-    span,
     span.title-subtitle {
-      opacity: 0.4 !important;
+      opacity: 0.45;
+      text-indent: 0.25em;
     }
   }
 

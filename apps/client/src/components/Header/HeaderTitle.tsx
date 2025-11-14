@@ -14,9 +14,8 @@ export const HeaderTitle: React.FC = () => {
   return (
     <Flex direction="column" justify="end" align="center">
       <h1>
-        {t('app.title')} <span className="current-language">({currentLanguage})</span>
+        {t('app.title')} <span className="title-subtitle">({currentLanguage})</span>
       </h1>
-      {/* <pre className="current-language">{String(currentSessionId)}</pre> */}
     </Flex>
   );
 };

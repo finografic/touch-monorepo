@@ -59,7 +59,7 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
           background-color: ${colors.greyXXLight25};
           border-color: ${darkColor};
           color: ${darkColor};
-          opacity: 0.4 !important;
+          opacity: 0.5 !important;
         }
       `;
 
