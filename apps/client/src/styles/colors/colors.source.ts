@@ -18,7 +18,7 @@ import type { ColorMapping } from './colors.types';
 export const COLOR_MAPPING: Omit<ColorMapping, 'white' | 'black' | 'background'> = {
   primary: { value: 'oklch(48.8% 0.243 264.376)' }, // Tailwind blue-700
   secondary: { value: 'oklch(49.6% 0.265 301.924)' }, // Tailwind purple-700
-  success: { value: 'oklch(72.7% 0.204 149.214)' }, // Tailwind green-600
+  success: { value: 'oklch(65.4% 0.194 149.214)' }, // Tailwind green-600
   warning: { value: 'oklch(76.9% 0.188 70.08)' }, // Tailwind amber-500
   danger: { value: 'oklch(57.7% 0.245 27.325)' }, // Tailwind red-600
   info: { value: 'oklch(58.8% 0.158 241.966)' }, // Tailwind cyan-500
