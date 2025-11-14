@@ -7,7 +7,6 @@ import { Loader } from 'components/Loader/Loader';
 import { Title } from 'components/Title';
 
 import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
-import { styles as stylesHeader } from './AdminPageHeader/AdminPageHeader.styles';
 import { styles as stylesLayout } from './AdminPageLayout.styles';
 
 interface AdminPageLayoutProps {
@@ -45,7 +44,7 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
       <section css={[stylesLayout, styles]} className="container admin-page-container">
         {/* Page Header - Integrated AdminPageHeader */}
         {showHeader && (
-          <header css={stylesHeader} className="admin-page-header">
+          <header className="admin-page-header">
             <Flex justify="between" align="center" gap="4" wrap="wrap">
               {/* Left side: Title (50%) */}
               <Flex className="admin-page-header-left" style={{ flex: '1 1 50%' }}>

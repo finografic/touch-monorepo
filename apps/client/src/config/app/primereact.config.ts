@@ -1,7 +1,7 @@
 import type { APIOptions } from 'primereact/api';
 
 export const primeReactOptions: Partial<APIOptions> = {
-  locale: 'es',
+  // locale: 'es',
   // locale: 'es-ES',
   /*
   locale: {
