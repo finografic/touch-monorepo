@@ -111,7 +111,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
 
   const handleAddColumn = () => {
     if (calculatedColumns < MAX_COLUMNS) {
-      // Activate the next 3 slots (next column)
+      // Activate the next 3 slots (next column) and reset type to default Type B
       const nextInactiveSlots = slots
         .filter((s) => !s.isActive)
         .sort((a, b) => a.slotNumber - b.slotNumber)
@@ -120,7 +120,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
       if (nextInactiveSlots.length > 0) {
         const updatedSlots = slots.map((slot) =>
           nextInactiveSlots.some((s) => s.slotNumber === slot.slotNumber)
-            ? { ...slot, isActive: true }
+            ? { ...slot, isActive: true, slotType: 'B' as SlotType }
             : slot,
         );
         setValue('slots', updatedSlots, { shouldDirty: true });
@@ -130,7 +130,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
 
   const handleRemoveColumn = () => {
     if (calculatedColumns > MIN_COLUMNS) {
-      // Deactivate the last 3 active slots (last column, excluding special slot)
+      // Deactivate the last 3 active slots (last column, excluding special slot) and reset type to default Type B
       const activeGridSlots = slots
         .filter((s) => s.isActive && s.slotNumber !== NUM_SLOTS)
         .sort((a, b) => b.slotNumber - a.slotNumber)
@@ -138,7 +138,9 @@ export const AdminSlotsConfigPage: React.FC = () => {
 
       if (activeGridSlots.length > 0) {
         const updatedSlots = slots.map((slot) =>
-          activeGridSlots.some((s) => s.slotNumber === slot.slotNumber) ? { ...slot, isActive: false } : slot,
+          activeGridSlots.some((s) => s.slotNumber === slot.slotNumber)
+            ? { ...slot, isActive: false, slotType: 'B' as SlotType }
+            : slot,
         );
         setValue('slots', updatedSlots, { shouldDirty: true });
       }
@@ -182,6 +184,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
         >
           <AdminSection
             title={`Slot Grid Layout Preview - ${calculatedColumns} Columns`}
+            subtitle={`COLUMNS: ${calculatedColumns} | Columns`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
             variant="border-solid"
