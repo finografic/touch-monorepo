@@ -19,7 +19,7 @@ export const styles = css`
     overflow: visible;
     position: relative;
 
-    .nav-button {
+    button.rt-TabNavLink.nav-button {
       color: ${colors.text};
       background-color: transparent;
       font-weight: 700;
@@ -34,14 +34,24 @@ export const styles = css`
       align-items: center;
       justify-content: center;
 
-      &:hover {
-        background-color: rgba(255, 255, 255, 0.1);
+      :hover {
+        background-color: transparent !important;
+        color: ${colors.text};
       }
 
+      /* background-color: transparent !important;
+      color: red !important; */
+
       &.active {
-        color: ${colors.infoLight};
+        /* color: red; */
+
         & span {
           font-weight: 700;
+        }
+        :hover {
+          color: pink;
+          background-color: transparent !important;
+          color: ${colors.infoDark};
         }
       }
 
