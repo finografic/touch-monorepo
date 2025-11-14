@@ -76,104 +76,102 @@ export const AdminSoundPage: React.FC = () => {
       description="Upload and configure sound files for timer events"
       styles={styles}
     >
-      <Flex pt="4">
-        <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SoundType)}>
-          <Tabs.List>
-            <Tabs.Trigger value="alarm">Alarm Sounds</Tabs.Trigger>
-            <Tabs.Trigger value="finish">Finish Sounds</Tabs.Trigger>
-          </Tabs.List>
+      <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SoundType)}>
+        <Tabs.List>
+          <Tabs.Trigger value="alarm">Alarm Sounds</Tabs.Trigger>
+          <Tabs.Trigger value="finish">Finish Sounds</Tabs.Trigger>
+        </Tabs.List>
 
-          {/* ====================================================================== */}
+        {/* ====================================================================== */}
 
-          <Tabs.Content value="alarm">
+        <Tabs.Content value="alarm">
+          <AdminSection
+            title="Alarm Sound Configuration"
+            description="Select which sound file to use for alarm events"
+          >
+            {/* Alarm Sound Settings Section */}
             <AdminSection
               title="Alarm Sound Configuration"
               description="Select which sound file to use for alarm events"
+              variant="border-solid"
             >
-              {/* Alarm Sound Settings Section */}
-              <AdminSection
-                title="Alarm Sound Configuration"
-                description="Select which sound file to use for alarm events"
-                variant="border-solid"
-              >
-                <SoundConfigurationSection
-                  soundFiles={activeTabSoundFiles}
-                  soundSettings={soundSettings}
-                  soundType="alarm"
-                />
-              </AdminSection>
-
-              {/* Alarm File Upload Section */}
-              <AdminSection
-                title="Upload Alarm Sound Files"
-                description="Add new alarm sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
-                variant="border-solid"
-              >
-                <FileUploadSection soundType="alarm" />
-              </AdminSection>
-
-              {/* Alarm File Library Section */}
-              <AdminSection
-                title="Alarm Sound Library"
-                description={`${activeTabSoundFiles.length} alarm sound file(s) available`}
-                variant="border-solid"
-              >
-                <SoundLibrarySection
-                  soundFiles={activeTabSoundFiles}
-                  soundSettings={soundSettings}
-                  soundType="alarm"
-                />
-              </AdminSection>
+              <SoundConfigurationSection
+                soundFiles={activeTabSoundFiles}
+                soundSettings={soundSettings}
+                soundType="alarm"
+              />
             </AdminSection>
-          </Tabs.Content>
 
-          {/* ====================================================================== */}
-
-          <Tabs.Content value="finish">
-            {/* Finish Sound Settings Section */}
+            {/* Alarm File Upload Section */}
             <AdminSection
-              title="Alarm Sound Configuration"
-              // description="Select which sound file to use for alarm events"
+              title="Upload Alarm Sound Files"
+              description="Add new alarm sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
+              variant="border-solid"
             >
-              <AdminSection
-                // title="Finish Sound Configuration"
-                description="Select which sound file to use for finish events"
-                variant="border-solid"
-              >
-                <SoundConfigurationSection
-                  soundFiles={activeTabSoundFiles}
-                  soundSettings={soundSettings}
-                  soundType="finish"
-                />
-              </AdminSection>
-
-              {/* Finish File Upload Section */}
-              <AdminSection
-                title="Upload Finish Sound Files"
-                description="Add new finish sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
-                variant="border-solid"
-              >
-                <FileUploadSection soundType="finish" />
-              </AdminSection>
-
-              {/* Finish File Library Section */}
-              <AdminSection
-                title="Finish Sound Library"
-                description={`${activeTabSoundFiles.length} finish sound file(s) available`}
-                variant="border-solid"
-              >
-                <SoundLibrarySection
-                  soundFiles={activeTabSoundFiles}
-                  soundSettings={soundSettings}
-                  soundType="finish"
-                />
-              </AdminSection>
+              <FileUploadSection soundType="alarm" />
             </AdminSection>
-          </Tabs.Content>
 
-          {/* ====================================================================== */}
-        </Tabs.Root>
-      </Flex>
+            {/* Alarm File Library Section */}
+            <AdminSection
+              title="Alarm Sound Library"
+              description={`${activeTabSoundFiles.length} alarm sound file(s) available`}
+              variant="border-solid"
+            >
+              <SoundLibrarySection
+                soundFiles={activeTabSoundFiles}
+                soundSettings={soundSettings}
+                soundType="alarm"
+              />
+            </AdminSection>
+          </AdminSection>
+        </Tabs.Content>
+
+        {/* ====================================================================== */}
+
+        <Tabs.Content value="finish">
+          {/* Finish Sound Settings Section */}
+          <AdminSection
+            title="Alarm Sound Configuration"
+            // description="Select which sound file to use for alarm events"
+          >
+            <AdminSection
+              // title="Finish Sound Configuration"
+              description="Select which sound file to use for finish events"
+              variant="border-solid"
+            >
+              <SoundConfigurationSection
+                soundFiles={activeTabSoundFiles}
+                soundSettings={soundSettings}
+                soundType="finish"
+              />
+            </AdminSection>
+
+            {/* Finish File Upload Section */}
+            <AdminSection
+              title="Upload Finish Sound Files"
+              description="Add new finish sound files to your library (MP3, WAV, AIFF supported - AIFF/WAV files are automatically converted to MP3 for optimal web compatibility and smaller file sizes)"
+              variant="border-solid"
+            >
+              <FileUploadSection soundType="finish" />
+            </AdminSection>
+
+            {/* Finish File Library Section */}
+            <AdminSection
+              title="Finish Sound Library"
+              description={`${activeTabSoundFiles.length} finish sound file(s) available`}
+              variant="border-solid"
+            >
+              <SoundLibrarySection
+                soundFiles={activeTabSoundFiles}
+                soundSettings={soundSettings}
+                soundType="finish"
+              />
+            </AdminSection>
+          </AdminSection>
+        </Tabs.Content>
+
+        {/* ====================================================================== */}
+      </Tabs.Root>
     </AdminPageLayout>
   );
 };

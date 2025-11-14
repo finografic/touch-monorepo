@@ -52,12 +52,12 @@ export const styles = css`
     flex-direction: column;
     gap: 1;
 
-    padding: ${baseLayout.padding.xl} ${baseLayout.padding.xxl}!important;
+    padding: ${baseLayout.padding.md} ${baseLayout.padding.xxl}!important;
     margin: ${baseLayout.padding.xl} -${baseLayout.padding.lg} 0;
 
     > .section-header {
       margin-top: 0.5rem;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0;
     }
 
     &.border-solid {

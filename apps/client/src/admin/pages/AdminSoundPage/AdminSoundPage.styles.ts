@@ -24,7 +24,7 @@ export const styles = css`
     box-shadow: inset 0 -2px 0 0 transparent;
     box-shadow: inset 0 -0.2rem 0 0 ${colors.defaultXXLight25};
 
-    margin: 0 -1.5rem;
+    margin: -1rem -1.5rem 1rem;
 
     button[role='tab'] {
       height: 4rem;
