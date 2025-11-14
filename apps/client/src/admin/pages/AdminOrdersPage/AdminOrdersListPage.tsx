@@ -8,7 +8,7 @@ import { useToast } from 'components/Toast';
 
 import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
 
-import { AdminPageHeader, AdminPageLayout, AdminSection } from '../..';
+import { AdminPageLayout, AdminSection } from '../..';
 import { useOrdersFilter } from './hooks/useOrdersFilter';
 
 export const AdminOrdersListPage: React.FC = () => {
@@ -75,16 +75,15 @@ export const AdminOrdersListPage: React.FC = () => {
   );
 
   return (
-    <AdminPageLayout>
-      <AdminPageHeader
-        title={title}
-        subtitle={subtitle}
-        actions={
-          <Button color="success" onClick={handleCreateNew}>
-            + Create New
-          </Button>
-        }
-      />
+    <AdminPageLayout
+      title={title}
+      subtitle={subtitle}
+      headerActions={
+        <Button color="success" onClick={handleCreateNew}>
+          + Create New
+        </Button>
+      }
+    >
       <AdminSection isLoading={isLoading} variant="none">
         {error ? (
           <Flex direction="column" gap="4" align="center" justify="center" p="6">

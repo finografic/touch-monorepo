@@ -7,6 +7,7 @@ import { Loader } from 'components/Loader/Loader';
 import { Title } from 'components/Title';
 
 import { type Align, STATUS_TO_CALLOUT_COLOR, type StatusType } from 'types/ui.types';
+import { styles as stylesHeader } from './AdminPageHeader/AdminPageHeader.styles';
 import { styles as stylesLayout } from './AdminPageLayout.styles';
 
 interface AdminPageLayoutProps {
@@ -14,6 +15,7 @@ interface AdminPageLayoutProps {
   subtitle?: string;
   description?: string;
   align?: Align;
+  headerActions?: ReactNode;
   children: ReactNode;
   message?: {
     type: StatusType;
@@ -25,19 +27,52 @@ interface AdminPageLayoutProps {
 }
 
 export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
-  ({ title, subtitle, description, align = 'left', children, message, isLoading = false, error, styles }) => {
+  ({
+    title,
+    subtitle,
+    description,
+    align = 'left',
+    headerActions,
+    children,
+    message,
+    isLoading = false,
+    error,
+    styles,
+  }) => {
+    const showHeader = title || subtitle || description || headerActions;
+
     return (
       <section css={[stylesLayout, styles]} className="container admin-page-container">
-        <Title
-          className="admin-page-title"
-          title={title}
-          subtitle={subtitle}
-          size="7"
-          as="div"
-          mb="2"
-          description={description}
-          align={align}
-        />
+        {/* Page Header - Integrated AdminPageHeader */}
+        {showHeader && (
+          <header css={stylesHeader} className="admin-page-header">
+            <Flex justify="between" align="center" gap="4" wrap="wrap">
+              {/* Left side: Title (50%) */}
+              <Flex className="admin-page-header-left" style={{ flex: '1 1 50%' }}>
+                <Title
+                  title={title}
+                  subtitle={subtitle}
+                  description={description}
+                  className="admin-page-header-title"
+                  as="div"
+                />
+              </Flex>
+
+              {/* Right side: Action Buttons (50%) */}
+              {headerActions && (
+                <Flex
+                  gap="3"
+                  align="center"
+                  justify="end"
+                  className="admin-page-header-actions"
+                  style={{ flex: '1 1 50%' }}
+                >
+                  {headerActions}
+                </Flex>
+              )}
+            </Flex>
+          </header>
+        )}
 
         {isLoading ? <Loader message="Loading..." /> : null}
 
