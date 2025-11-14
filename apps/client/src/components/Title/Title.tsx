@@ -30,11 +30,13 @@ export const Title: React.FC<TitleProps> = ({
   isLoading = false,
   error,
   className,
+  as = 'header',
   ...headingProps
 }) => {
+  const AsWrapperElement = as;
   return (
     <div css={styles}>
-      <header className={clsx('title-wrapper', className, { align })}>
+      <AsWrapperElement className={clsx('title-wrapper', className, { align })}>
         <Heading size="8" className="title" align={align} {...headingProps}>
           {title}
           {subtitle && (
@@ -49,7 +51,7 @@ export const Title: React.FC<TitleProps> = ({
             <Text>{description}</Text>
           </div>
         )}
-      </header>
+      </AsWrapperElement>
     </div>
   );
 };

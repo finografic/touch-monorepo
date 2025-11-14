@@ -60,6 +60,7 @@ export const AdminPageHeader: React.FC<AdminPageHeaderProps> = memo(
               subtitle={subtitle}
               description={description}
               className="admin-page-header-title"
+              as="div"
             />
           </Flex>
 

@@ -56,5 +56,5 @@ export interface TitleHeadingProps {
     | Partial<Record<'initial' | 'xs' | 'sm' | 'md' | 'lg' | 'xl', 'bold' | 'light' | 'medium' | 'regular'>>;
   size: SizeValuePositive;
   asChild: boolean;
-  as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  as: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'header' | 'div';
 }
