@@ -54,27 +54,18 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const activeSlots = slots.filter((s) => s.isActive);
   const numActiveColumns = activeSlots.length > 0 ? calculateColumns(activeSlots.length) : 3;
 
-  // Update form when API data changes (e.g., after save/reset or page refresh)
-  const prevSlotConfigs = useRef<SlotConfigFormValue[] | undefined>(undefined);
-
   useEffect(() => {
     // Only update if slotConfigs actually changed and we have data (expecting 16 slots)
     if (slotConfigs && slotConfigs.length === NUM_RELAYS) {
-      const configsString = JSON.stringify(slotConfigs);
-      const prevConfigsString = JSON.stringify(prevSlotConfigs.current);
+      const numActiveColumns = getColumnsFromConfigs(slotConfigs);
 
-      if (configsString !== prevConfigsString) {
-        const numActiveColumns = getColumnsFromConfigs(slotConfigs);
+      log('Updating form with new slot configs:', 'red', slotConfigs);
+      log('Calculated columns:', 'red', numActiveColumns);
 
-        console.log('Updating form with new slot configs:', slotConfigs);
-        console.log('Calculated columns:', numActiveColumns);
-
-        reset({
-          columns: numActiveColumns,
-          slots: slotConfigs,
-        });
-        prevSlotConfigs.current = slotConfigs;
-      }
+      reset({
+        columns: numActiveColumns,
+        slots: slotConfigs,
+      });
     }
   }, [slotConfigs, reset]);
 
@@ -97,48 +88,62 @@ export const AdminSlotsConfigPage: React.FC = () => {
 
   const handleAddColumn = async () => {
     if (numActiveColumns < MAX_COLUMNS) {
-      log('>> NEXT INACTIVE SLOTS:', 'cyan', numActiveColumns);
-      // Activate the next 3 slots (next column) and reset type to default Type B
-      // const nextInactiveSlots = slots
-      //   .filter((s) => !s.isActive)
-      //   .sort((a, b) => a.slotNumber - b.slotNumber)
-      //   .slice(0, NUM_ROWS);
+      const prevColumns = numActiveColumns;
+      const newColumns = Math.min(MAX_COLUMNS, prevColumns + 1);
 
-      const nextInactiveSlots = slots
-        .filter((s) => !s.isActive)
-        .sort((a, b) => a.slotNumber - b.slotNumber)
-        .slice(0, NUM_ROWS);
+      const prevLastIndex = prevColumns * NUM_ROWS; // inclusive, 1-indexed slotNumber
+      const newLastIndex = newColumns * NUM_ROWS;
 
-      if (nextInactiveSlots.length > 0) {
-        const updatedSlots = slots.map((slot) =>
-          nextInactiveSlots.some((s) => s.slotNumber === slot.slotNumber)
-            ? { ...slot, isActive: true, slotType: 'B' as SlotType }
-            : slot,
-        );
-        setValue('slots', updatedSlots, { shouldDirty: true });
-        await saveConfiguration(updatedSlots);
-      }
+      const updatedSlots = slots.map((slot) => {
+        const n = slot.slotNumber;
+        if (n <= prevLastIndex) {
+          log('ADD - A', 'lime', numActiveColumns);
+          // already displayed columns remain unchanged
+          return { ...slot };
+        }
+        if (n > prevLastIndex && n <= newLastIndex) {
+          log('ADD - B', 'lime', numActiveColumns);
+          // newly added slots become active and type B
+          return { ...slot, isActive: true, slotType: 'B' as SlotType };
+        }
+
+        log('ADD - C', 'lime', numActiveColumns);
+        // remaining slots become inactive and type B
+        return { ...slot, isActive: false, slotType: 'B' as SlotType };
+      });
+
+      log('ADD UPDATED', 'lime', updatedSlots);
+
+      // update form columns and slots
+      setValue('columns', newColumns, { shouldDirty: true });
+      setValue('slots', updatedSlots, { shouldDirty: true });
+      await saveConfiguration(updatedSlots);
     }
   };
 
   const handleRemoveColumn = async () => {
     if (numActiveColumns > MIN_COLUMNS) {
-      log('>> NEXT INACTIVE SLOTS:', 'orange', numActiveColumns);
-      // Deactivate the last 3 active slots (last column, excluding special slot) and reset type to default Type B
-      const activeGridSlots = slots
-        .filter((s) => s.isActive && s.slotNumber !== NUM_RELAYS)
-        .sort((a, b) => b.slotNumber - a.slotNumber)
-        .slice(0, NUM_ROWS);
+      const prevColumns = numActiveColumns;
+      const newColumns = Math.max(MIN_COLUMNS, prevColumns - 1);
 
-      if (activeGridSlots.length > 0) {
-        const updatedSlots = slots.map((slot) =>
-          activeGridSlots.some((s) => s.slotNumber === slot.slotNumber)
-            ? { ...slot, isActive: false, slotType: 'B' as SlotType }
-            : slot,
-        );
-        setValue('slots', updatedSlots, { shouldDirty: true });
-        await saveConfiguration(updatedSlots);
-      }
+      const prevLastIndex = prevColumns * NUM_ROWS;
+      const newLastIndex = newColumns * NUM_ROWS;
+
+      const updatedSlots = slots.map((slot) => {
+        const n = slot.slotNumber;
+        if (n <= newLastIndex) {
+          // slots that remain displayed remain unchanged
+          return { ...slot };
+        }
+        // removed slots and all others become inactive and type B
+        return { ...slot, isActive: false, slotType: 'B' as SlotType };
+      });
+
+      log('ADD UPDATED', 'orange', updatedSlots);
+
+      setValue('columns', newColumns, { shouldDirty: true });
+      setValue('slots', updatedSlots, { shouldDirty: true });
+      await saveConfiguration(updatedSlots);
     }
   };
 
@@ -204,11 +209,29 @@ export const AdminSlotsConfigPage: React.FC = () => {
 
               <Flex direction="column" gap="4">
                 <div className="slot-types-container">
-                  {/* <Heading size="4" ml="1">
-                    Slot Types
-                  </Heading> */}
                   <div className="slot-legend">
-                    <Flex direction="column" gap="4" pt="2">
+                    <pre
+                      style={{
+                        position: 'absolute',
+                        zIndex: 999999,
+                        fontSize: '0.6rem',
+                        transform: 'translate(-150px, -300px)',
+                      }}
+                    >
+                      {JSON.stringify(
+                        [
+                          ...slots.map((s) => ({
+                            slotNumber: s.slotNumber,
+                            slotType: s.slotType,
+                            isActive: s.isActive,
+                            // relayNumber: s.relayNumber,
+                          })),
+                        ],
+                        null,
+                        2,
+                      )}
+                    </pre>
+                    {/* <Flex direction="column" gap="4" pt="2">
                       <Flex align="center" gap="4">
                         <div className="legend-circle legend-type-a">A</div>
                         <Text size="3">Type A</Text>
@@ -221,7 +244,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                         <div className="legend-circle legend-type-c">C</div>
                         <Text size="3">Type C</Text>
                       </Flex>
-                    </Flex>
+                    </Flex> */}
                   </div>
                 </div>
               </Flex>
@@ -252,8 +275,6 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   </Flex>
                 </Button>
               </Flex>
-
-              {/* <pre>{JSON.stringify({ slots, columns }, null, 2)}</pre> */}
             </Flex>
           </AdminSection>
         </AdminPageLayout>

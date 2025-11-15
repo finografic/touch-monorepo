@@ -30,7 +30,7 @@ const DEFAULT_SLOT_CONFIG = [
   { slotNumber: 15, slotType: 'B' as const, isActive: false, relayNumber: 15 },
 
   // Last slot (active, positioned separately)
-  { slotNumber: 16, slotType: 'C' as const, isActive: true, relayNumber: 16 },
+  { slotNumber: 16, slotType: 'C' as const, isActive: false, relayNumber: 16 },
 ];
 
 export async function seed() {

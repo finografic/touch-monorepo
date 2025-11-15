@@ -57,6 +57,14 @@ export const MAX_COLUMNS = 4;
 
 // Helper to calculate columns from active slots
 export const calculateColumns = (activeSlotCount: number): number => {
-  // activeSlotCount includes the special slot, so we subtract 1 for grid slots
-  return Math.floor((activeSlotCount - 1) / NUM_ROWS);
+  // activeSlotCount may include the special slot (slotNumber === NUM_RELAYS).
+  // Calculate number of grid slots (exclude the special slot if present by convention)
+  const gridSlots = Math.max(0, activeSlotCount - 1);
+
+  // Use ceiling so N grid slots fill to the next full column (3 rows per column)
+  let cols = Math.ceil(gridSlots / NUM_ROWS);
+
+  // Clamp to allowed range
+  cols = Math.max(MIN_COLUMNS, Math.min(MAX_COLUMNS, cols));
+  return cols;
 };

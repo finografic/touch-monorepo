@@ -118,7 +118,7 @@ export const SlotGrid: React.FC<SlotGridProps> = ({
                 </Flex>
               </Button>
             </div>
-            <pre>{JSON.stringify(lastSlot, null, 2)}</pre>
+            {/* <pre>{JSON.stringify(lastSlot, null, 2)}</pre> */}
           </>
         )}
       </div>
