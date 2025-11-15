@@ -9,7 +9,7 @@ import { useToast } from 'components/Toast';
 
 import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
 
-import type { SlotType } from 'types/orders.types';
+import type { SlotType } from 'types/slots.types';
 import { calculateColumns, MAX_COLUMNS, MIN_COLUMNS, NUM_ROWS, NUM_SLOTS } from 'types/slot-config.types';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection';

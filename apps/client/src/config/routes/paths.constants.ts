@@ -1,6 +1,6 @@
 import type { ConstMapOf } from '@workspace/core/types/utils';
 
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 
 export const ROUTE_PATHS: Partial<ConstMapOf<FilterKey | 'main', string>> = {
   main: '/',

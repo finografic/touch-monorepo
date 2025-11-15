@@ -5,7 +5,7 @@ import type { CreateSettersType } from 'utils/zustand';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { SlotItem, SlotType } from 'types/orders.types';
+import type { SlotItem, SlotType } from 'types/slots.types';
 import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
 
 export interface OrdersValues {

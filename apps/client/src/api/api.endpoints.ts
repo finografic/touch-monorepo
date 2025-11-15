@@ -23,7 +23,7 @@ import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import type { TemperatureProfileEntity } from 'types/models/temperature.model';
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 
 // Utility type for endpoint functions
 type EndpointFunction = (...args: any[]) => Promise<any>;

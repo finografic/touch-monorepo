@@ -1,4 +1,4 @@
-import type { SlotItem } from 'types/orders.types';
+import type { SlotItem } from 'types/slots.types';
 
 export interface OrderWithMetadata extends SlotItem {
   id?: string;

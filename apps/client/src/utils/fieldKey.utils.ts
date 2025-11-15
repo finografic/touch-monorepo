@@ -1,4 +1,4 @@
-import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
+import type { FilterKey, NavigationFieldKey } from 'types/slots.types';
 
 /**
  * Type guard to check if a field key is a filter field key

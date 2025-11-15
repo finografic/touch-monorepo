@@ -16,7 +16,7 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 // import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { mapGridByColumns } from 'utils/grid.utils';
-import { SlotType } from 'types/orders.types';
+import { SlotType } from 'types/slots.types';
 import { useColors } from 'styles/hooks/useColors';
 import { styles } from './MainPage.styles';
 

@@ -7,7 +7,7 @@ import { RelayButtons } from 'admin/pages/AdminRelaysPage/RelayButtons';
 import { useGetRelayStates, useInitializeRelay } from 'queries/relays';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
-import type { SlotType } from 'types/orders.types';
+import type { SlotType } from 'types/slots.types';
 import { AdminPageLayout, AdminSection } from '../..';
 import { NUM_RELAYS } from './relays.config';
 import { RelaysStatus } from './RelaysStatus';
@@ -110,7 +110,7 @@ export const AdminRelaysPage: React.FC = () => {
       <Box className="admin-relay-control">
         <Flex direction="column" gap="6">
           <Flex direction="column" gap="4">
-            <AdminSection title="Relay Board One" variant="border-solid">
+            <AdminSection title="Relay Boards" variant="border-solid">
               <Flex justify="end" align="center" mt="-6" mb="2">
                 <RelayButtons handlers={handlers} mutations={mutations} />
               </Flex>

@@ -1,4 +1,4 @@
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 import { ROUTE_FILTER_KEYS } from './app.config';
 
 /**

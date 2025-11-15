@@ -4,7 +4,7 @@ import { useShallow } from 'zustand/react/shallow';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrderFilters } from 'types/filters.types';
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 import type { FiltersStore, FiltersValues } from './FiltersContext.types';
 
 export const DISPLAY_NAME = 'Filters';

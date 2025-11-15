@@ -13,7 +13,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 
 import { FLOW_TYPES } from 'types/flow.types';
-import { SlotType } from 'types/orders.types';
+import { SlotType } from 'types/slots.types';
 import { PATHS } from 'config';
 
 /**

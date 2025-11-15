@@ -1,7 +1,7 @@
 import type { DataEntry } from 'types/data.types';
 import type { OrderFilters } from 'types/filters.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 import { ROUTE_FILTER_KEYS, SLOT_FILTERS } from 'config/app';
 
 /**

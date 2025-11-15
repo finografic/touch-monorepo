@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 import { createMockData, createMockFilters } from '../mocks/filters.utils.mocks';
 
 // Mock the external dependencies to avoid import issues

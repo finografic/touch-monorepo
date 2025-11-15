@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 import { useEffect, useState } from 'react';
 
-import type { Temperature } from 'types/orders.types';
+import type { Temperature } from 'types/slots.types';
 import type { TemperatureKey } from 'types/temperature.types';
 import { styles } from './PadTemperature.styles';
 

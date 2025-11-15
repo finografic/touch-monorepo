@@ -1,5 +1,5 @@
 import type { DrinkSubtype, DrinkType } from 'types/models/drink-type.model';
-import type { ContainerType, FilterKey, Temperature, Volume } from 'types/orders.types';
+import type { ContainerType, FilterKey, Temperature, Volume } from 'types/slots.types';
 import type { TemperatureFilter } from 'types/temperature.types';
 import type { API_FILTER_FIELDS } from 'config/app';
 

@@ -9,7 +9,7 @@ import { useSmartFallback } from 'hooks/useSmartFallback';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 
-import type { Temperature } from 'types/orders.types';
+import type { Temperature } from 'types/slots.types';
 import { TemperatureKey } from 'types/temperature.types';
 // import { stylesAppContent } from 'styles/project/project.app.styles';
 import { INITIAL_TEMP_DEFAULT, MIN_TEMP_DIFFERENCE } from 'config/app';

@@ -1,4 +1,4 @@
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 
 /**
  * Defines the order of filter steps in the product flow

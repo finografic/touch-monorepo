@@ -55,6 +55,10 @@ export const styles = css`
     }
   }
 
+  .col-type {
+    color: ${colors.greyXLight};
+  }
+
   .col-select {
     .relay-assign-select {
       width: 100%; /* Stretch select to fill column width */

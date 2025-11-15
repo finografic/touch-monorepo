@@ -1,5 +1,5 @@
-import type { SlotItem } from 'types/orders.types';
-import { SlotType } from 'types/orders.types';
+import type { SlotItem } from 'types/slots.types';
+import { SlotType } from 'types/slots.types';
 
 export const MOCK_ORDERS_DATA: SlotItem[] = [
   {

@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useOrders } from 'providers/OrdersProvider';
 
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 
 interface UseOrderSelectionProps<T> {
   field: FilterKey;

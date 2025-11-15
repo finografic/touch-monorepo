@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as RadioGroup from '@radix-ui/react-radio-group';
 import { CheckboxGroup } from '@radix-ui/themes';
 
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 import type { PadType, PadUI } from 'types/pads.types';
 import { PAD_TYPE } from 'types/pads.types';
 import { PadButton, PadCheckbox, PadRadio } from '../Pad/index';

@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 import {
   FILTER_STEP_ORDER,
   getFiltersToClearAhead,

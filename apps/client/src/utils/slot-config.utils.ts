@@ -1,4 +1,4 @@
-import { SlotType } from 'types/orders.types';
+import { SlotType } from 'types/slots.types';
 import type { SlotConfiguration } from 'types/slot-config.types';
 
 export interface SlotItemConfig {

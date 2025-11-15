@@ -2,7 +2,7 @@ import type { ConstEnumOf } from '@workspace/core/types/utils';
 
 import type { DataEntry } from 'types/data.types';
 import type { FilterApiKey } from 'types/filters.types';
-import type { FilterKey, NavigationFieldKey } from 'types/orders.types';
+import type { FilterKey, NavigationFieldKey } from 'types/slots.types';
 
 export type PadType = 'radio' | 'checkbox' | 'button';
 

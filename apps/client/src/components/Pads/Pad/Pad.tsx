@@ -3,7 +3,7 @@ import { memo } from 'react';
 
 import isEqual from 'lodash/isEqual';
 
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 import type { PadUI } from 'types/pads.types';
 import { PadButton } from './PadButton';
 import { PadCheckbox } from './PadCheckbox';

@@ -1,4 +1,4 @@
-import type { SlotType } from './orders.types';
+import type { SlotType } from './slots.types';
 
 export interface SlotConfiguration {
   id: string;

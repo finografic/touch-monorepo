@@ -7,7 +7,7 @@ import { SelectCustom } from 'forms/SelectCustom';
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 
 import type { SelectOption } from 'types/models/select-option.model';
-import { SlotType } from 'types/orders.types';
+import { SlotType } from 'types/slots.types';
 import { NUM_RELAYS } from '../relays.config';
 import { useColors } from 'styles';
 import { styles } from './RelayAssign.styles';
@@ -187,7 +187,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
             return (
               <Flex key={config.slotNumber} className="slot-grid-item">
                 <Row>
-                  <Col xs={2} className="col col-button">
+                  <Col xs={1} className="col col-button">
                     <Button
                       className="slot-button"
                       onClick={() => handleSlotClick(config.slotNumber)}
@@ -207,6 +207,9 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                         </Text>
                       </Flex>
                     </Button>
+                  </Col>
+                  <Col xs={1} className="col col-type">
+                    --
                   </Col>
                   <Col xs={5} className="col col-select">
                     <SelectCustom

@@ -4,7 +4,7 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 import type { SlotItemConfig } from 'utils/slot-config.utils';
 import { convertSlotConfigsToOrderConfig } from 'utils/slot-config.utils';
-import { SlotType } from 'types/orders.types';
+import { SlotType } from 'types/slots.types';
 
 /**
  * Hook to get order items configuration from slot configurations API

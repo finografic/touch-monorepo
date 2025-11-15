@@ -22,7 +22,7 @@ import type { ContainerType, DrinkSubtype, DrinkType, DrinkVolume } from 'types/
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import type { TemperatureProfileEntity } from 'types/models/temperature.model';
-import type { FilterKey } from 'types/orders.types';
+import type { FilterKey } from 'types/slots.types';
 import { fetchClient } from './fetch-client';
 
 /**
