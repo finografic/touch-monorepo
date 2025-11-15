@@ -39,10 +39,10 @@ export function calculateTransformValues(
   const isTextColor = category === 'text';
   const isGreyColor = category === 'grey';
 
-  // Status: More room for lighter shades
-  // Text: Much smaller steps (high contrast but limited range to avoid pure black)
+  // Status: More room for lighter shades (1.25x)
+  // Text: More room for lighter shades (1.3x), much smaller dark steps (0.25x)
   // Grey: Normal distribution (symmetric)
-  const lightMultiplier = isStatusColor ? 1.25 : 1.0;
+  const lightMultiplier = isStatusColor ? 1.25 : isTextColor ? 1.3 : 1.0;
   const darkMultiplier = isStatusColor ? 0.85 : isTextColor ? 0.25 : 1.0;
 
   if (mode === 'light') {

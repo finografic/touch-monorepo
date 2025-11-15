@@ -3,7 +3,7 @@ import type { ColorPalette } from 'styles/colors/palette.types';
 /**
  * Light theme color palette - hex values converted from OKLCH
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-11-15 -- 15:05:35
+ * 📅 Generated: 2025-11-15 -- 15:10:28
  *
  * Run: pnpm generate:themes to update this file
  *
@@ -64,9 +64,9 @@ export const lightColors: ColorPalette = {
   infoXDark: '#00419c',
   infoXXDark: '#002889',
 
-  textXXLight: '#696969',
-  textXLight: '#585858',
-  textLight: '#484848',
+  textXXLight: '#7e7e7e',
+  textXLight: '#676767',
+  textLight: '#515151',
   text: '#292929',
   textDark: '#222222',
   textXDark: '#1e1e1e',
