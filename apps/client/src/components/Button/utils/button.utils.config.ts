@@ -9,9 +9,10 @@ import type { ButtonColorVariants } from './button.utils.types';
 export const BUTTON_BASE_COLORS: Record<ButtonColor, ButtonColorVariants> = {
   primary: 'primaryLight',
   secondary: 'secondaryLight',
-  success: 'successDark',
+  success: 'success',
   warning: 'warning',
   danger: 'dangerLight',
+  // danger: 'danger',
   info: 'infoLight',
   default: 'greyLight',
   grey: 'greyLight',

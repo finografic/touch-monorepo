@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Button, Flex } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
+import { Button } from 'components/Button';
 
 import type { RelayHandlers, RelayMutations } from '../useRelayHandlers';
 
@@ -24,8 +25,8 @@ export const RelayButtons: React.FC<RelayButtonsProps> = ({ handlers, mutations 
         onClick={handlers.turnAllOn}
         disabled={mutations.turnAllOn.isPending}
         variant="solid"
-        color="green"
-        size="2"
+        color="success"
+        size="sm"
       >
         {mutations.turnAllOn.isPending ? 'Turning ON...' : 'All ON'}
       </Button>
@@ -33,8 +34,8 @@ export const RelayButtons: React.FC<RelayButtonsProps> = ({ handlers, mutations 
         onClick={handlers.turnAllOff}
         disabled={mutations.turnAllOff.isPending}
         variant="solid"
-        color="red"
-        size="2"
+        color="danger"
+        size="sm"
       >
         {mutations.turnAllOff.isPending ? 'Turning OFF...' : 'All OFF'}
       </Button>
@@ -42,8 +43,8 @@ export const RelayButtons: React.FC<RelayButtonsProps> = ({ handlers, mutations 
         onClick={handlers.resetAll}
         disabled={mutations.turnAllOff.isPending}
         variant="outline"
-        color="orange"
-        size="2"
+        color="warning"
+        size="sm"
       >
         {mutations.turnAllOff.isPending ? 'Resetting...' : 'Reset All'}
       </Button>

@@ -1,9 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
 import { Badge, Box, Flex, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
+import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
@@ -13,7 +14,7 @@ import { calculateColumns, MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS, NUM_ROWS } from
 import type { SlotType } from 'types/slots.types';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection';
-import { SlotGrid } from './SlotGrid';
+import { SlotGrid } from './SlotGrid/SlotGrid';
 import { styles } from './AdminSlotsConfigPage.styles';
 
 // Types for form values
@@ -23,6 +24,7 @@ interface SlotConfigFormValue {
   isActive: boolean;
   relayNumber: number;
 }
+
 interface SlotConfigForm {
   columns: number;
   slots: SlotConfigFormValue[];
@@ -33,58 +35,70 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
   const { toast } = useToast();
 
-  // Calculate columns dynamically from active slots
   const getColumnsFromConfigs = (configs: SlotConfigFormValue[]): number => {
     const activeCount = configs.filter((c) => c.isActive).length;
     return calculateColumns(activeCount);
   };
 
-  // Setup RHF
   const methods = useForm<SlotConfigForm>({
-    defaultValues: {
-      columns: 3,
-      slots: [],
-    },
+    defaultValues: { columns: 3, slots: [] },
     mode: 'onChange',
   });
-  const { control, reset, watch, setValue } = methods;
-  const slots = watch('slots').sort((a, b) => a.slotNumber - b.slotNumber);
+  const { reset, watch, setValue } = methods;
 
-  // Calculate columns dynamically from active slots
+  // Watch the slots field but avoid mutating the watched value directly.
+  const watchedSlots = watch('slots');
+  const slots = useMemo(() => {
+    if (!watchedSlots) return [] as SlotConfigFormValue[];
+    return [...watchedSlots].sort((a, b) => a.slotNumber - b.slotNumber);
+  }, [watchedSlots]);
+
   const activeSlots = slots.filter((s) => s.isActive);
   const numActiveColumns = activeSlots.length > 0 ? calculateColumns(activeSlots.length) : 3;
 
+  const prevSlotConfigs = useRef<SlotConfigFormValue[] | undefined>(undefined);
+
   useEffect(() => {
-    // Only update if slotConfigs actually changed and we have data (expecting 16 slots)
     if (slotConfigs && slotConfigs.length === NUM_RELAYS) {
-      const numActiveColumns = getColumnsFromConfigs(slotConfigs);
+      const configsString = JSON.stringify(slotConfigs);
+      const prevConfigsString = JSON.stringify(prevSlotConfigs.current);
 
-      log('Updating form with new slot configs:', 'red', slotConfigs);
-      log('Calculated columns:', 'red', numActiveColumns);
-
-      reset({
-        columns: numActiveColumns,
-        slots: slotConfigs,
-      });
+      if (configsString !== prevConfigsString) {
+        const numActiveColumns = getColumnsFromConfigs(slotConfigs);
+        reset({
+          columns: numActiveColumns,
+          slots: slotConfigs,
+        });
+        prevSlotConfigs.current = slotConfigs;
+      }
     }
   }, [slotConfigs, reset]);
 
   // Save configuration helper
-  const saveConfiguration = async (updatedSlots: SlotConfigFormValue[]) => {
-    try {
-      await bulkUpdateMutation.mutateAsync({ configurations: updatedSlots });
-      toast({
-        variant: 'success',
-        message: 'Slot configuration saved',
-      });
-    } catch (error) {
-      console.error('Failed to save configurations:', error);
-      toast({
-        variant: 'error',
-        message: 'Failed to save slot configuration',
-      });
-    }
-  };
+  const saveConfiguration = useCallback(
+    async (updatedSlots: SlotConfigFormValue[]) => {
+      try {
+        await bulkUpdateMutation.mutateAsync({ configurations: updatedSlots });
+        toast({
+          variant: 'success',
+          message: 'Slot configuration saved',
+        });
+      } catch (error) {
+        console.error('Failed to save configurations:', error);
+        toast({
+          variant: 'error',
+          message: 'Failed to save slot configuration',
+        });
+      }
+    },
+    [bulkUpdateMutation, toast],
+  );
+
+  const debouncedSave = useDebouncedCallback(
+    (updatedSlots: SlotConfigFormValue[]) => saveConfiguration(updatedSlots),
+    700,
+    { maxWait: 1000 },
+  );
 
   const handleAddColumn = async () => {
     if (numActiveColumns < MAX_COLUMNS) {
@@ -92,27 +106,21 @@ export const AdminSlotsConfigPage: React.FC = () => {
       const newColumns = Math.min(MAX_COLUMNS, prevColumns + 1);
 
       const prevLastIndex = prevColumns * NUM_ROWS; // inclusive, 1-indexed slotNumber
-      const newLastIndex = newColumns * NUM_ROWS;
+      const newLastIndex = newColumns * NUM_ROWS + 1;
 
       const updatedSlots = slots.map((slot) => {
         const n = slot.slotNumber;
         if (n <= prevLastIndex) {
-          log('ADD - A', 'lime', numActiveColumns);
-          // already displayed columns remain unchanged
           return { ...slot };
         }
-        if (n > prevLastIndex && n <= newLastIndex) {
-          log('ADD - B', 'lime', numActiveColumns);
-          // newly added slots become active and type B
+        if (n > prevLastIndex && n < newLastIndex) {
           return { ...slot, isActive: true, slotType: 'B' as SlotType };
         }
-
-        log('ADD - C', 'lime', numActiveColumns);
-        // remaining slots become inactive and type B
+        if (n === newLastIndex) {
+          return { ...slot, isActive: true, slotType: 'C' as SlotType };
+        }
         return { ...slot, isActive: false, slotType: 'B' as SlotType };
       });
-
-      log('ADD UPDATED', 'lime', updatedSlots);
 
       // update form columns and slots
       setValue('columns', newColumns, { shouldDirty: true });
@@ -126,20 +134,18 @@ export const AdminSlotsConfigPage: React.FC = () => {
       const prevColumns = numActiveColumns;
       const newColumns = Math.max(MIN_COLUMNS, prevColumns - 1);
 
-      const prevLastIndex = prevColumns * NUM_ROWS;
-      const newLastIndex = newColumns * NUM_ROWS;
+      const newLastIndex = newColumns * NUM_ROWS + 1;
 
       const updatedSlots = slots.map((slot) => {
         const n = slot.slotNumber;
-        if (n <= newLastIndex) {
-          // slots that remain displayed remain unchanged
+        if (n < newLastIndex) {
           return { ...slot };
         }
-        // removed slots and all others become inactive and type B
+        if (n === newLastIndex) {
+          return { ...slot, isActive: true, slotType: 'C' as SlotType };
+        }
         return { ...slot, isActive: false, slotType: 'B' as SlotType };
       });
-
-      log('ADD UPDATED', 'orange', updatedSlots);
 
       setValue('columns', newColumns, { shouldDirty: true });
       setValue('slots', updatedSlots, { shouldDirty: true });
@@ -147,13 +153,13 @@ export const AdminSlotsConfigPage: React.FC = () => {
     }
   };
 
-  // SlotGrid change handler
-  const handleGridConfigChange = async (slotNumber: number, newConfig: Partial<SlotConfigFormValue>) => {
+  // SlotGrid change handler - uses debouncing for rapid slot clicks
+  const handleGridConfigChange = (slotNumber: number, newConfig: Partial<SlotConfigFormValue>) => {
     const updatedSlots = slots.map((slot) =>
       slot.slotNumber === slotNumber ? { ...slot, ...newConfig } : slot,
     );
     setValue('slots', updatedSlots, { shouldDirty: true });
-    await saveConfiguration(updatedSlots);
+    debouncedSave(updatedSlots);
   };
 
   if (isLoading) {
@@ -186,17 +192,13 @@ export const AdminSlotsConfigPage: React.FC = () => {
             variant="border-solid"
           >
             <Flex gap="4" justify="between">
-              {/* ====================================================================== */}
-
               <Flex direction="column" gap="6" px="1">
                 <SlotGrid
-                  // configurations={activeSlots}
-                  configurations={slotConfigs}
+                  configurations={slots}
                   columns={numActiveColumns}
                   rows={NUM_ROWS}
                   onConfigurationChange={handleGridConfigChange}
                 />
-
                 <Flex gap="4" align="center" mt="-4" pb="4">
                   <Badge size="3" variant="soft" color="blue" className="dimesions-badge">
                     {numActiveColumns} columns × {NUM_ROWS} rows = {activeSlots.length - 1} grid slots + 1
@@ -204,34 +206,10 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   </Badge>
                 </Flex>
               </Flex>
-
-              {/* ====================================================================== */}
-
               <Flex direction="column" gap="4">
                 <div className="slot-types-container">
                   <div className="slot-legend">
-                    <pre
-                      style={{
-                        position: 'absolute',
-                        zIndex: 999999,
-                        fontSize: '0.6rem',
-                        transform: 'translate(-150px, -300px)',
-                      }}
-                    >
-                      {JSON.stringify(
-                        [
-                          ...slots.map((s) => ({
-                            slotNumber: s.slotNumber,
-                            slotType: s.slotType,
-                            isActive: s.isActive,
-                            // relayNumber: s.relayNumber,
-                          })),
-                        ],
-                        null,
-                        2,
-                      )}
-                    </pre>
-                    {/* <Flex direction="column" gap="4" pt="2">
+                    <Flex direction="column" gap="4" pt="2">
                       <Flex align="center" gap="4">
                         <div className="legend-circle legend-type-a">A</div>
                         <Text size="3">Type A</Text>
@@ -244,7 +222,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                         <div className="legend-circle legend-type-c">C</div>
                         <Text size="3">Type C</Text>
                       </Flex>
-                    </Flex> */}
+                    </Flex>
                   </div>
                 </div>
               </Flex>

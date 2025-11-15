@@ -58,8 +58,8 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
     // Status colors: High visibility for UI feedback
     status: {
       // contrast: contrast(6), // Higher contrast for clarity
-      contrast: contrast(6.5), // ~10% increase: wider gradient spread
-      chromaShift: chromaShift(1), // More vibrant in shades
+      contrast: contrast(5), // ~10% increase: wider gradient spread
+      chromaShift: chromaShift(0.8), // More vibrant in shades
       // chromaShift: chromaShift(1.0), // More vibrant in shades
     },
 

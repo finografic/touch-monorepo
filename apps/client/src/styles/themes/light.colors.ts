@@ -3,7 +3,7 @@ import type { ColorPalette } from 'styles/colors/palette.types';
 /**
  * Light theme color palette - hex values converted from OKLCH
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-11-15 -- 15:23:49
+ * 📅 Generated: 2025-11-15 -- 23:41:16
  *
  * Run: pnpm generate:themes to update this file
  *
@@ -32,37 +32,37 @@ export const lightColors: ColorPalette = {
   secondaryXDark: '#470098',
   secondaryXXDark: '#360081',
 
-  successXXLight: '#abffbc',
-  successXLight: '#a1ffb6',
-  successLight: '#76eb90',
+  successXXLight: '#a4ffb8',
+  successXLight: '#84f49c',
+  successLight: '#61dd80',
   success: '#00af46',
-  successDark: '#008700',
-  successXDark: '#007400',
-  successXXDark: '#006000',
+  successDark: '#009013',
+  successXDark: '#008100',
+  successXXDark: '#007200',
 
-  warningXXLight: '#ffdf88',
-  warningXLight: '#ffdc7a',
-  warningLight: '#ffda6a',
+  warningXXLight: '#ffdd7d',
+  warningXLight: '#ffdb71',
+  warningLight: '#ffcf58',
   warning: '#fe9a00',
-  warningDark: '#d76a00',
-  warningXDark: '#c45100',
-  warningXXDark: '#b03800',
+  warningDark: '#e07500',
+  warningXDark: '#d26200',
+  warningXXDark: '#c34f00',
 
-  dangerXXLight: '#ffbfaf',
-  dangerXLight: '#ff9d8d',
-  dangerLight: '#ff7467',
+  dangerXXLight: '#ffa191',
+  dangerXLight: '#ff8274',
+  dangerLight: '#ff6156',
   danger: '#e7000b',
-  dangerDark: '#bf0000',
-  dangerXDark: '#aa0000',
-  dangerXXDark: '#940000',
+  dangerDark: '#c90000',
+  dangerXDark: '#b90000',
+  dangerXXDark: '#a90000',
 
-  infoXXLight: '#aaf8ff',
-  infoXLight: '#8be1ff',
-  infoLight: '#61c2ff',
+  infoXXLight: '#8fe4ff',
+  infoXLight: '#6fccff',
+  infoLight: '#4cb3fa',
   info: '#0084d1',
-  infoDark: '#005aae',
-  infoXDark: '#00459d',
-  infoXXDark: '#002f8b',
+  infoDark: '#0064b7',
+  infoXDark: '#0054aa',
+  infoXXDark: '#00449b',
 
   textXXLight: '#9f9f9f',
   textXLight: '#7f7f7f',
@@ -80,13 +80,13 @@ export const lightColors: ColorPalette = {
   greyXDark: '#2e2e37',
   greyXXDark: '#1a1a23',
 
-  defaultXXLight: '#f1ebe6',
-  defaultXLight: '#d1cbc6',
-  defaultLight: '#b3aca7',
+  defaultXXLight: '#d4cdc8',
+  defaultXLight: '#bcb5b0',
+  defaultLight: '#a59e99',
   default: '#79716b',
-  defaultDark: '#544b45',
-  defaultXDark: '#423a34',
-  defaultXXDark: '#312923',
+  defaultDark: '#5c544e',
+  defaultXDark: '#4e4640',
+  defaultXXDark: '#403833',
 
   background: '#fefefe',
   transparent: 'transparent',
