@@ -4,7 +4,15 @@ import type { ButtonColor, ButtonVariant } from '../Button.types';
 import { BUTTON_BASE_COLORS } from './button.utils.config';
 import type { ButtonColorVariants } from './button.utils.types';
 import { button, colors } from 'styles';
-import { SHADE_VARIANTS, type ShadeVariant } from 'styles/colors/colors.types';
+import type { ShadeVariant } from 'styles/colors/colors.types';
+
+// If you need a custom opacity, you could create a helper:
+function withOpacity(color: string, opacity: number): string {
+  // If using OKLCH (which your system supports):
+  // You'd need to parse and modify the OKLCH string
+  // Or use CSS color-mix() function
+  return `color-mix(in srgb, ${color} ${opacity * 100}%, transparent)`;
+}
 
 /**
  * Generate variant styles for a specific color
@@ -19,7 +27,10 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
   const lightColor = colors[`${baseName}${shiftShadeVariant(currentVariant, -1)}` as keyof typeof colors];
   const defaultColor = colors[baseColorKey as keyof typeof colors]; // The base color itself
   const darkColor = colors[`${baseName}${shiftShadeVariant(currentVariant, +1)}` as keyof typeof colors];
-  const transparentColor = colors[`${baseName}25` as keyof typeof colors];
+  const transparentColor = withOpacity(lightColor, 0.15);
+  // const transparentColor = colors[`${baseName}25` as keyof typeof colors];
+  // const transparentColor =
+  //   colors[`${baseName}${shiftShadeVariant(currentVariant, -1)}25` as keyof typeof colors];
 
   switch (variant) {
     case 'solid':

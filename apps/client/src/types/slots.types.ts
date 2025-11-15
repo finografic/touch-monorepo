@@ -17,7 +17,7 @@ export type FilterKey =
 
 export type NavigationFieldKey = 'main';
 
-// ======================================================================== //
+// ------------------------------------------------------------------------ //
 
 export type SlotFilterKeyKebab = CamelToKebab<FilterKey | NavigationFieldKey>;
 export type SlotFilterKeySnake = CamelToSnake<FilterKey | NavigationFieldKey>;

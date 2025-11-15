@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { button, colors, layout } from 'styles';
+import { button, colors } from 'styles';
 import { generateUiColorVariants } from 'styles/utils/generate-ui-color-variants.utils';
 
 // Generate semantic button color variants using the utility
@@ -53,8 +53,8 @@ export const stylesButtonBase = css`
   position: relative; /* For absolute positioning of icons */
   box-shadow: none;
 
-  /* color: ${colors.infoDark};
-  border-color: ${colors.infoDark}; */
+  color: ${colors.infoDark};
+  border-color: ${colors.infoDark};
   border-width: ${button.border.width};
   border-style: ${button.border.style};
 
@@ -62,9 +62,6 @@ export const stylesButtonBase = css`
   border-color: ${colors.infoLight};
 
   &:hover {
-    /* color: ${colors.infoDark};
-    border-color: ${colors.info};
-    background-color: ${colors.infoLight}; */
     color: ${colors.infoDark};
     border-color: ${colors.infoDark};
     background-color: ${colors.infoLight25};
@@ -76,12 +73,11 @@ export const stylesButtonBase = css`
   &.disabled,
   &[data-disabled='true'] {
     opacity: ${button.disabled.opacity};
-    cursor: not-allowed;
     color: ${colors.default50} !important;
     border-color: ${colors.defaultLight50};
     background-color: transparent;
-    /* pointer-events: none; */
     user-select: none;
+    cursor: not-allowed;
 
     /* Ensure hover states don't override */
     &:hover {

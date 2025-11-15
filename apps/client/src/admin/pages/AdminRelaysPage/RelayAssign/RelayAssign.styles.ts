@@ -93,7 +93,6 @@ export const styles = css`
       font-size: 14px;
       line-height: 1;
       color: white;
-      /* color: ${colors.successLight}; */
     }
 
     &.status-on {

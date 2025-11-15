@@ -3,10 +3,10 @@ export { colors } from './colors/colors-direct'; // ✅ OKLCH values (perceptual
 export { darkTheme, lightTheme, themes } from './colors/colors-direct'; // Re-exported OKLCH themes
 // 🔧 Legacy exports - for backwards compatibility (if you need hex values)
 export { colors as colorsDirect } from './colors/colors-direct'; // Alias (same as colors)
-
 // 🎨 Color exports - OKLCH COLOR SPACE (default - recommended!)
 export type { ColorBaseName, ColorName, HexColor } from './colors/colors.types';
 export type { ColorPalette } from './colors/palette.types';
+export { withOpacity } from './colors/utils/colors.utils';
 
 // 📐 Layout & spacing
 export { button } from './constants/button.constants';
