@@ -151,11 +151,9 @@ export const formsBase = css`
   }
 
   /* Buttons - basic enhancement */
-  .rt-Button,
-  button[type='submit'],
-  button[type='button'] {
-
-  .field-label {
+  .rt-Button .field-label,
+  button[type='submit'] .field-label,
+  button[type='button'] .field-label {
     font-size: ${forms.inputs.label.fontSize};
     font-weight: ${forms.inputs.label.fontWeight};
     color: ${forms.inputs.label.color};

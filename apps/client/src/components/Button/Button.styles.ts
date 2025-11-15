@@ -45,16 +45,13 @@ export const baseButtonStyles = css`
   }
 
   &:focus-visible {
-    /* outline: 2px solid ${colors.primary}; */
-    /* outline-offset: 2px; */
     outline: none;
   }
 
   &:disabled {
     cursor: not-allowed;
-    /* opacity: 1 !important; */
-    /* opacity: 0.66; */
-    /* filter: grayscale(0.5) !important; */
+    opacity: 0.66;
+    filter: grayscale(0.75);
     /* filter: brightness(0.5) !important; */
     /* filter: contrast(0.5) !important; */
     /* filter: invert(0.5) !important; */
@@ -64,7 +61,7 @@ export const baseButtonStyles = css`
     /* filter: brightness(0.5) !important; */
     /* filter: contrast(0.5) !important; */
     /* filter: invert(0.5) !important; */
-    /* filter: saturate(0.5) !important; */
+    /* filter: saturate(0.33) !important; */
     /* filter: sepia(0.5) !important; */
     /* filter: hue-rotate(0.5) !important; */
     /* opacity: 0.2 !important; */
@@ -77,6 +74,10 @@ export const baseButtonStyles = css`
     & > *:not([data-loading-spinner]) {
       opacity: 0;
     }
+  }
+
+  &:active:not(:disabled):not([data-loading='true']) {
+    transform: translateY(1px);
   }
 
   border-width: ${button.border.width};

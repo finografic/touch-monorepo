@@ -32,10 +32,6 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
           background-color: ${darkColor};
           border-color: ${darkColor};
         }
-
-        &:active:not(:disabled):not([data-loading='true']) {
-          transform: translateY(1px);
-        }
       `;
 
     case 'outline':
@@ -56,17 +52,6 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
         &:focus:not(:disabled):not([data-loading='true']) {
           border-color: ${defaultColor};
         }
-
-        &:active:not(:disabled):not([data-loading='true']) {
-          transform: translateY(1px);
-        }
-
-        &:disabled {
-          /* border-color: ${defaultColor};
-          color: ${defaultColor}; */
-          /* opacity: 0.6 !important;
-          filter: grayscale(0.5); */
-        }
       `;
 
     case 'ghost':
@@ -78,10 +63,6 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${transparentColor};
           color: ${darkColor};
-        }
-
-        &:active:not(:disabled):not([data-loading='true']) {
-          transform: translateY(1px);
         }
       `;
 
