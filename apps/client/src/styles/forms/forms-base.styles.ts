@@ -154,20 +154,6 @@ export const formsBase = css`
   .rt-Button,
   button[type='submit'],
   button[type='button'] {
-    font-weight: 600;
-    transition: all 0.15s ease;
-    cursor: pointer;
-
-    &:disabled {
-      opacity: 0.66;
-      cursor: not-allowed;
-
-      /* Preserve color but make it faded */
-      &[data-color] {
-        opacity: 0.66;
-      }
-    }
-  }
 
   .field-label {
     font-size: ${forms.inputs.label.fontSize};

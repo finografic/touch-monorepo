@@ -1,4 +1,5 @@
-import type { SlotType } from 'types/slots.types';
+import { SlotSpecial, SlotType } from 'types/slots.types';
+import type { ColorName } from 'styles';
 
 export interface RelayConfig {
   id: string;
@@ -7,3 +8,11 @@ export interface RelayConfig {
   relayNumber: number | null;
   isOn: boolean;
 }
+
+export const RELAY_SLOT_COLORS: Record<SlotType | SlotSpecial, ColorName> = {
+  [SlotType.A]: 'default',
+  [SlotType.B]: 'success',
+  [SlotType.C]: 'danger',
+  [SlotSpecial.ENF]: 'grey',
+  [SlotSpecial.MTO]: 'grey',
+};

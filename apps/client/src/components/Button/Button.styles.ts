@@ -52,7 +52,22 @@ export const baseButtonStyles = css`
 
   &:disabled {
     cursor: not-allowed;
-    opacity: 0.66;
+    /* opacity: 1 !important; */
+    /* opacity: 0.66; */
+    /* filter: grayscale(0.5) !important; */
+    /* filter: brightness(0.5) !important; */
+    /* filter: contrast(0.5) !important; */
+    /* filter: invert(0.5) !important; */
+    /* filter: saturate(0.5) !important; */
+    /* filter: sepia(0.5) !important; */
+    /* filter: hue-rotate(0.5) !important; */
+    /* filter: brightness(0.5) !important; */
+    /* filter: contrast(0.5) !important; */
+    /* filter: invert(0.5) !important; */
+    /* filter: saturate(0.5) !important; */
+    /* filter: sepia(0.5) !important; */
+    /* filter: hue-rotate(0.5) !important; */
+    /* opacity: 0.2 !important; */
   }
 
   &[data-loading='true'] {

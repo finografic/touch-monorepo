@@ -1,5 +1,5 @@
 import type { RelayConfig } from 'types/relays.types';
-import { SlotType } from 'types/slots.types';
+import { SlotSpecial, SlotType } from 'types/slots.types';
 
 export const getRelaySlotType = (config: RelayConfig, configurations: RelayConfig[]) => {
   const numConfigs = configurations.length;
@@ -7,11 +7,19 @@ export const getRelaySlotType = (config: RelayConfig, configurations: RelayConfi
 
   log('>> CONFIG:', 'yellow', config);
 
-  if (config.slotNumber === numConfigs) {
-    return 'LAST';
+  if (config.slotNumber === numConfigs - 2) {
+    return SlotSpecial.ENF;
   }
 
-  return config.slotType.toString();
+  if (config.slotNumber === numConfigs - 1) {
+    return SlotSpecial.MTO;
+  }
+
+  if (config.slotNumber === numConfigs) {
+    return '--';
+  }
+
+  return config.slotType;
 
   // switch (config.slotType) {
   //   case SlotType.A:

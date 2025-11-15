@@ -6,16 +6,6 @@ import type { FlowTypeValue } from 'types/flow.types';
 // ======================================================================== //
 // TODO: CONOSLIDATE THESE TYPES with FilterKey
 
-// filters.types.ts
-// FieldKey
-// FieldZZZKey
-
-// orders.types.ts
-// FilterKey
-// FilterYYYFieldYYYKey
-
-// ======================================================================== //
-
 // Separate field key types for better type safety
 export type FilterKey =
   | 'mode'
@@ -24,11 +14,8 @@ export type FilterKey =
   | 'drinkVolume'
   | 'containerType'
   | 'temperature';
-export type NavigationFieldKey = 'main';
 
-// export type FilterKey = FilterKey | NavigationFieldKey;
-// export type SlotFilterKeyKebab = CamelToKebab<FilterKey>;
-// export type SlotFilterKeySnake = CamelToSnake<FilterKey>;
+export type NavigationFieldKey = 'main';
 
 // ======================================================================== //
 
@@ -42,8 +29,8 @@ export enum SlotType {
 }
 
 export enum SlotSpecial {
-  ENF = 'ENF',
-  MTO = 'MTO',
+  ENF = 'Enfr',
+  MTO = 'Mto',
 }
 
 // Base properties that every order has

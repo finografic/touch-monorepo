@@ -21,7 +21,7 @@ export const styles = {
       box-shadow: 0 0 0 3px ${variant === 'dark' ? 'rgba(59, 130, 246, 0.1)' : 'rgba(37, 99, 235, 0.1)'};
     }
 
-    &:disabled {
+    &:not(button):disabled {
       opacity: 0.6;
       cursor: not-allowed;
     }
