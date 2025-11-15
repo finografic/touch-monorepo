@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
@@ -24,7 +24,7 @@ interface RelayAssignProps {
 // Map: rowNumber (1-16) -> selectedValue (1-16 | undefined)
 type Assignments = Record<number, number | undefined>;
 
-export const RelayAssign: React.FC<RelayAssignProps> = ({
+const RelayAssignComponent: React.FC<RelayAssignProps> = ({
   configurations,
   onRelayToggle,
   isLoading = false,
@@ -270,3 +270,43 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     </Box>
   );
 };
+
+// Memoize component to prevent re-renders when props haven't changed
+// Custom comparison: only re-render if configurations array contents changed or other props changed
+export const RelayAssign = memo(RelayAssignComponent, (prevProps, nextProps) => {
+  // Compare configurations array - check if length or any item changed
+  if (prevProps.configurations.length !== nextProps.configurations.length) {
+    return false; // Re-render needed
+  }
+
+  // Deep compare each configuration item
+  for (let i = 0; i < prevProps.configurations.length; i++) {
+    const prev = prevProps.configurations[i];
+    const next = nextProps.configurations[i];
+
+    // Compare all relevant fields
+    if (
+      prev.id !== next.id ||
+      prev.slotNumber !== next.slotNumber ||
+      prev.slotType !== next.slotType ||
+      prev.relayNumber !== next.relayNumber ||
+      prev.isActive !== next.isActive ||
+      prev.isOn !== next.isOn
+    ) {
+      return false; // Re-render needed
+    }
+  }
+
+  // Compare other props
+  if (prevProps.isLoading !== nextProps.isLoading) {
+    return false; // Re-render needed
+  }
+
+  // onRelayToggle is a function - compare by reference (should be stable if memoized in parent)
+  if (prevProps.onRelayToggle !== nextProps.onRelayToggle) {
+    return false; // Re-render needed
+  }
+
+  // All props are equal - skip re-render
+  return true;
+});

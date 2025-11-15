@@ -51,17 +51,55 @@ export const AdminRelaysPage: React.FC = () => {
 
   // ======================================================================== //
   // Memoized relay configurations - combines slotConfigurations with relayStates
-  // Only updates when slotConfigurations or relayStates actually change
+  // Only updates when slotConfigurations or relayStates isOn values actually change
   // ======================================================================== //
 
-  // Create a stable map of relay states by slotNumber for efficient lookup
+  // Use ref to track previous relayStates to detect actual isOn changes
+  const prevRelayStatesRef = useRef<Map<number, boolean>>(new Map());
+  const relayStatesMapRef = useRef<Map<number, boolean>>(new Map());
+
+  // Only update relayStatesMap if isOn values actually changed
   const relayStatesMap = useMemo(() => {
-    if (!relayStates) return new Map<number, boolean>();
-    return new Map(relayStates.map((state) => [state.slotNumber, state.isOn]));
+    if (!relayStates) {
+      // If no relayStates, return empty map but only update if we had states before
+      if (prevRelayStatesRef.current.size === 0) {
+        return relayStatesMapRef.current;
+      }
+      const newMap = new Map<number, boolean>();
+      relayStatesMapRef.current = newMap;
+      prevRelayStatesRef.current = newMap;
+      return newMap;
+    }
+
+    // Create a map of current states
+    const currentMap = new Map(relayStates.map((state) => [state.slotNumber, state.isOn]));
+
+    // Compare with previous map to see if any isOn values changed
+    let hasChanged = false;
+    if (prevRelayStatesRef.current.size !== currentMap.size) {
+      hasChanged = true;
+    } else {
+      for (const [slotNumber, isOn] of currentMap.entries()) {
+        if (prevRelayStatesRef.current.get(slotNumber) !== isOn) {
+          hasChanged = true;
+          break;
+        }
+      }
+    }
+
+    // Only update if values actually changed
+    if (hasChanged) {
+      relayStatesMapRef.current = currentMap;
+      prevRelayStatesRef.current = currentMap;
+      return currentMap;
+    }
+
+    // Return previous map reference to maintain stability
+    return relayStatesMapRef.current;
   }, [relayStates]);
 
   // Memoize relayConfigs to prevent unnecessary re-renders
-  // Only recalculates when slotConfigurations or relayStatesMap changes
+  // Only recalculates when slotConfigurations or relayStatesMap reference changes
   const relayConfigs = useMemo<RelayConfig[]>(() => {
     if (!isSuccess || !slotConfigurations) return [];
 
