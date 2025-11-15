@@ -40,6 +40,7 @@ function generateShadeVariants(
   const variants: Record<string, string> = {};
 
   // Generate shade variants with proper semantics and configurable variance/saturation
+
   /*
   const shades = [
     // Lighter variants - maintain more chroma for OKLCH's clean variations

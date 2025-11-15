@@ -2,13 +2,12 @@
  * Palette type definitions
  * Defines the structure and types for the generated color palette
  */
-import type { RadixColorVariable } from '../radix-ui/radix.types';
 import type {
   ColorBaseName,
   ColorName,
   ColorNameExtended,
+  ColorNameNoShadeVariant,
   ColorValue,
-  HexColor,
   ShadeVariant,
   TransparencyLevel,
 } from './colors.types';
@@ -133,12 +132,3 @@ export type ColorPalette =
     transparent: 'transparent';
     background: ColorValue;
   };
-
-/**
- * Helper type to extract the actual color value based on environment
- */
-export type ColorPaletteValue<T> = T extends RadixColorVariable
-  ? typeof window extends undefined
-    ? RadixColorVariable
-    : HexColor
-  : T;

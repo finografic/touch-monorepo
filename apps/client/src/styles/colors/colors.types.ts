@@ -1,7 +1,6 @@
 /**
  * Basic color type definitions and hex color validation
  */
-import type { RadixColorName } from '../radix-ui/radix.types';
 
 // ======================================================================== //
 // COLOR NAMES
@@ -152,24 +151,15 @@ export type OklchColor = `oklch(${string})`;
 export type ColorValue = HexColor | OklchColor | string;
 
 // ======================================================================== //
-// RADIX COLOR INTEGRATION
+// COLOR MAPPING
 // ======================================================================== //
 
 /**
- * Valid base shades for Radix colors (allowing +/- 3 for variants)
- */
-export type RadixBaseShade = 4 | 5 | 6 | 7 | 8 | 9;
-
-/**
- * Color mapping structure for Radix integration
+ * Color mapping structure - defines the source values for all colors
+ * Each color must have a value property containing an OKLCH color string
  */
 export type ColorMapping = {
-  [K in ColorBaseName]:
-    | {
-        color: RadixColorName;
-        shade: RadixBaseShade;
-      }
-    | {
-        value: HexColor | string; // Allow both HexColor and Tailwind OKLCH strings
-      };
+  [K in ColorBaseName]: {
+    value: OklchColor;
+  };
 };
