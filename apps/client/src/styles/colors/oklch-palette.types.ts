@@ -47,19 +47,61 @@ export function getColorCategory(colorName: ColorBaseName): ColorCategory {
 // ============================================================================
 
 /**
+ * Contrast value: 1-10 range
+ * Use `contrast()` helper to create a valid contrast value
+ */
+export type Contrast = number & { readonly __brand: 'Contrast' };
+
+/**
+ * Chroma shift value: 0-2 range
+ * Use `chromaShift()` helper to create a valid chromaShift value
+ */
+export type ChromaShift = number & { readonly __brand: 'ChromaShift' };
+
+/**
+ * Helper to create a valid Contrast value (1-10 range)
+ * Clamps values outside range with a warning
+ */
+export function contrast(value: number): Contrast {
+  if (value < 1 || value > 10) {
+    console.warn(
+      `⚠️  Contrast value ${value} is outside valid range (1-10). ` +
+        `Clamping to ${Math.max(1, Math.min(10, value))}.`,
+    );
+  }
+  return Math.max(1, Math.min(10, value)) as Contrast;
+}
+
+/**
+ * Helper to create a valid ChromaShift value (0-2 range)
+ * Clamps values outside range with a warning
+ */
+export function chromaShift(value: number): ChromaShift {
+  if (value < 0 || value > 2) {
+    console.warn(
+      `⚠️  ChromaShift value ${value} is outside valid range (0-2). ` +
+        `Clamping to ${Math.max(0, Math.min(2, value))}.`,
+    );
+  }
+  return Math.max(0, Math.min(2, value)) as ChromaShift;
+}
+
+/**
  * Transformation configuration for a color category
  *
  * @property contrast - Controls difference between shades (1-10)
  *   - Higher = more visible difference between Light/Dark variants
+ *   - Use `contrast()` helper to create valid values
  *
  * @property chromaShift - Controls saturation changes (0-2)
  *   - Higher = more saturation change in darker/lighter shades
+ *   - Use `chromaShift()` helper to create valid values
  */
 export interface CategoryTransformConfig {
   /** Contrast level: 1 (subtle) to 10 (extreme) */
-  contrast: number;
+  contrast: Contrast;
   /** Chroma shift intensity: 0 (none) to 2 (strong) */
-  chromaShift: number;
+  chromaShift: ChromaShift;
 }
 
 /**

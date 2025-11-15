@@ -28,6 +28,7 @@
  */
 
 import type { OKLCHPaletteConfig } from './oklch-palette.types';
+import { chromaShift, contrast } from './oklch-palette.types';
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 // 🎨 OKLCH PALETTE CONFIGURATION
@@ -48,26 +49,26 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
   light: {
     // Theme colors (primary, secondary): Balanced contrast
     theme: {
-      contrast: 5, // Medium contrast
-      chromaShift: 1.0, // Moderate saturation changes
+      contrast: contrast(5), // Medium contrast
+      chromaShift: chromaShift(1.0), // Moderate saturation changes
     },
 
     // Status colors: High visibility for UI feedback
     status: {
-      contrast: 6, // Higher contrast for clarity
-      chromaShift: 1.2, // More vibrant in shades
+      contrast: contrast(6), // Higher contrast for clarity
+      chromaShift: chromaShift(1.2), // More vibrant in shades
     },
 
     // Grey colors: Subtle transitions
     grey: {
-      contrast: 4, // Subtle differences
-      chromaShift: 0.3, // Minimal saturation changes
+      contrast: contrast(4), // Subtle differences
+      chromaShift: chromaShift(0.3), // Minimal saturation changes
     },
 
     // Text colors: High contrast for readability
     text: {
-      contrast: 8, // Strong contrast between variants
-      chromaShift: 0.2, // Keep neutral (low saturation)
+      contrast: contrast(8), // Strong contrast between variants
+      chromaShift: chromaShift(0.2), // Keep neutral (low saturation)
     },
   },
 
@@ -77,26 +78,26 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
   dark: {
     // Theme colors: Slightly higher contrast in dark mode
     theme: {
-      contrast: 5.5, // Slightly higher than light
-      chromaShift: 1.1, // Slightly more vibrant
+      contrast: contrast(5.5), // Slightly higher than light
+      chromaShift: chromaShift(1.1), // Slightly more vibrant
     },
 
     // Status colors: High visibility maintained
     status: {
-      contrast: 6.5, // Higher contrast for dark backgrounds
-      chromaShift: 1.3, // More saturation shift
+      contrast: contrast(6.5), // Higher contrast for dark backgrounds
+      chromaShift: chromaShift(1.3), // More saturation shift
     },
 
     // Grey colors: Subtle but visible
     grey: {
-      contrast: 4.5, // Slightly more contrast than light
-      chromaShift: 0.4, // Minimal saturation
+      contrast: contrast(4.5), // Slightly more contrast than light
+      chromaShift: chromaShift(0.4), // Minimal saturation
     },
 
     // Text colors: High contrast for dark mode readability
     text: {
-      contrast: 8.5, // Very high contrast
-      chromaShift: 0.2, // Stay neutral
+      contrast: contrast(8.5), // Very high contrast
+      chromaShift: chromaShift(0.2), // Stay neutral
     },
   },
 };
