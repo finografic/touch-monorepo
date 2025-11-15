@@ -39,7 +39,7 @@ export const AdminRelaysPage: React.FC = () => {
   // Use custom hook for all relay handlers
   const { handlers, mutations } = useRelayHandlers();
 
-  // API hooks - Only what THIS page needs
+  // TODO: API hooks - Only what THIS page needs
   const { data: relayStates, isLoading: isLoadingStates } = useGetRelayStates();
 
   // Note: Error handling moved to RelaysStatus component - it owns connection status!

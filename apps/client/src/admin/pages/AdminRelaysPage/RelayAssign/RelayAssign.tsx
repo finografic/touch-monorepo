@@ -2,24 +2,18 @@ import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
+import { getRelaySlotType } from 'admin/utils/relays.utils';
 import { SelectCustom } from 'forms/SelectCustom';
 
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 
 import type { SelectOption } from 'types/models/select-option.model';
+import type { RelayConfig } from 'types/relays.types';
 import type { SlotSpecial } from 'types/slots.types';
 import { SlotType } from 'types/slots.types';
 import { NUM_RELAYS } from '../relays.config';
 import { useColors } from 'styles';
 import { styles } from './RelayAssign.styles';
-
-interface RelayConfig {
-  id: string;
-  slotNumber: number;
-  slotType: SlotType;
-  relayNumber: number | null;
-  isOn: boolean;
-}
 
 interface RelayAssignProps {
   configurations: RelayConfig[];
@@ -222,7 +216,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                   </Button>
                 </Col>
                 <Col xs={1} className="col col-type">
-                  {displaySlotType(configuredSlotType)}
+                  {getRelaySlotType(config, relayConfigurations)}
                 </Col>
                 <Col xs={5} className="col col-select">
                   <SelectCustom

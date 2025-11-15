@@ -69,14 +69,14 @@ export const styles = css`
       &:nth-of-type(1) {
       }
       &:nth-of-type(2) {
-        margin-left: 1rem;
+        margin-left: 0.75rem;
       }
       &:nth-of-type(3) {
         width: 1.25rem;
       }
       &:nth-of-type(4) {
         justify-content: center;
-        width: 2.5rem;
+        width: 2rem;
         margin-left: 0.25rem;
         font-weight: 900;
       }
