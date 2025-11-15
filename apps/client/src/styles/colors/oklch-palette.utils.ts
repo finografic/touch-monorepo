@@ -37,9 +37,11 @@ export function calculateTransformValues(
   // Category-specific step distribution adjustments
   const isStatusColor = category === 'status';
   const isTextColor = category === 'text';
+  const isGreyColor = category === 'grey';
 
   // Status: More room for lighter shades
   // Text: Much smaller steps (high contrast but limited range to avoid pure black)
+  // Grey: Normal distribution (symmetric)
   const lightMultiplier = isStatusColor ? 1.25 : 1.0;
   const darkMultiplier = isStatusColor ? 0.85 : isTextColor ? 0.25 : 1.0;
 

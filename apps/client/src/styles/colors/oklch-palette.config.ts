@@ -100,7 +100,7 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
 
     // Grey colors: Subtle but visible
     grey: {
-      contrast: contrast(4.5), // Slightly more contrast than light
+      contrast: contrast(6), // Slightly more contrast than light
       chromaShift: chromaShift(0.4), // Minimal saturation
       // chromaShift: chromaShift(0.3), // Minimal saturation
     },

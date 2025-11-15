@@ -3,7 +3,7 @@ import type { ColorPalette } from 'styles/colors/palette.types';
 /**
  * Light theme color palette - hex values converted from OKLCH
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-11-15 -- 14:59:23
+ * 📅 Generated: 2025-11-15 -- 15:05:35
  *
  * Run: pnpm generate:themes to update this file
  *
@@ -33,44 +33,44 @@ export const lightColors: ColorPalette = {
   secondaryXXDark: '#360081',
 
   successXXLight: '#b2ffc1',
-  successXLight: '#97f9ab',
-  successLight: '#70e08a',
+  successXLight: '#a7ffba',
+  successLight: '#7eee97',
   success: '#00af46',
-  successDark: '#007d00',
-  successXDark: '#006500',
-  successXXDark: '#004d00',
+  successDark: '#008500',
+  successXDark: '#007100',
+  successXXDark: '#005c00',
 
   warningXXLight: '#ffe193',
   warningXLight: '#ffde83',
-  warningLight: '#ffd66c',
+  warningLight: '#ffdb71',
   warning: '#fe9a00',
-  warningDark: '#cd5e00',
-  warningXDark: '#b63e00',
-  warningXXDark: '#9c1700',
+  warningDark: '#d66600',
+  warningXDark: '#c24b00',
+  warningXXDark: '#ad2d00',
 
-  dangerXXLight: '#ffb6a7',
-  dangerXLight: '#ff9284',
-  dangerLight: '#ff6e61',
+  dangerXXLight: '#ffc3b4',
+  dangerXLight: '#ffa798',
+  dangerLight: '#ff7c6e',
   danger: '#e7000b',
-  dangerDark: '#b40000',
-  dangerXDark: '#9a0000',
-  dangerXXDark: '#7d0000',
+  dangerDark: '#be0000',
+  dangerXDark: '#a80000',
+  dangerXXDark: '#900000',
 
-  infoXXLight: '#a7edff',
-  infoXLight: '#82d2ff',
-  infoLight: '#5bb8fa',
+  infoXXLight: '#b1f8ff',
+  infoXLight: '#96e7ff',
+  infoLight: '#69c6ff',
   info: '#0084d1',
-  infoDark: '#0050a5',
-  infoXDark: '#003590',
-  infoXXDark: '#001579',
+  infoDark: '#0058ae',
+  infoXDark: '#00419c',
+  infoXXDark: '#002889',
 
   textXXLight: '#696969',
   textXLight: '#585858',
   textLight: '#484848',
   text: '#292929',
-  textDark: '#0d0d0d',
-  textXDark: '#030303',
-  textXXDark: '#000000',
+  textDark: '#222222',
+  textXDark: '#1e1e1e',
+  textXXDark: '#1b1b1b',
 
   greyXXLight: '#ababb5',
   greyXLight: '#9c9ca6',
@@ -80,13 +80,13 @@ export const lightColors: ColorPalette = {
   greyXDark: '#494953',
   greyXXDark: '#3c3c46',
 
-  defaultXXLight: '#ddd8d4',
-  defaultXLight: '#c3bdb8',
-  defaultLight: '#aaa39e',
+  defaultXXLight: '#f3ede9',
+  defaultXLight: '#d7d1cc',
+  defaultLight: '#b7afaa',
   default: '#79716b',
-  defaultDark: '#4b423c',
-  defaultXDark: '#352d27',
-  defaultXXDark: '#211913',
+  defaultDark: '#514943',
+  defaultXDark: '#3f3730',
+  defaultXXDark: '#2d251f',
 
   background: '#fefefe',
   transparent: 'transparent',
