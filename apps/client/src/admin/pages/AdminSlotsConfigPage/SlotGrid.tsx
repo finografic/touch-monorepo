@@ -3,8 +3,8 @@ import React from 'react';
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 
 import { mapGridByColumns } from 'utils/grid.utils';
+import { NUM_RELAYS } from 'types/slot-config.types';
 import { SlotType } from 'types/slots.types';
-import { NUM_SLOTS } from 'types/slot-config.types';
 import { styles } from './SlotGrid.styles';
 
 interface SlotConfig {
@@ -27,8 +27,8 @@ export const SlotGrid: React.FC<SlotGridProps> = ({
   onConfigurationChange,
 }) => {
   // Separate grid slots from the special slot (#16)
-  const regularSlots = configurations.filter((config) => config.slotNumber !== NUM_SLOTS);
-  const lastSlot = configurations.find((config) => config.slotNumber === NUM_SLOTS);
+  const regularSlots = configurations.filter((config) => config.slotNumber !== NUM_RELAYS);
+  const lastSlot = configurations.find((config) => config.slotNumber === NUM_RELAYS);
 
   const getSlotColor = (slotType: SlotType) => {
     switch (slotType) {

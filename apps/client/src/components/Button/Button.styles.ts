@@ -77,7 +77,7 @@ export const baseButtonStyles = css`
   }
 
   &:active:not(:disabled):not([data-loading='true']) {
-    transform: translateY(1px);
+    /* transform: translateY(1px); */
   }
 
   border-width: ${button.border.width};

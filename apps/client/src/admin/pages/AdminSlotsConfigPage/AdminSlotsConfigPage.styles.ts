@@ -66,7 +66,7 @@ export const styles = css`
   .slot-legend {
     margin-top: 1rem;
     padding: 0 0 1rem 0;
-    border-radius: var(--radius-2);
+    border-radius: ${layout.borderRadius};
   }
 
   .legend-circle {

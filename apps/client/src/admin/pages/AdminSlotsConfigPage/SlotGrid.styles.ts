@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
+import { colors, layout } from 'styles';
 
 export const styles = css`
   hr {
@@ -9,20 +9,20 @@ export const styles = css`
 
   .slot-grid-container {
     display: flex;
-    gap: 1rem;
+    gap: 0rem;
     align-items: flex-start;
     margin-bottom: 2rem;
   }
 
   .slot-grid {
     display: grid;
-    row-gap: 1rem;
+    column-gap: 0rem;
+    row-gap: 1.5rem;
     padding: 1rem 0;
-    border-radius: var(--radius-3);
+    border-radius: ${layout.borderRadius};
   }
 
   .slot-grid-item {
-    max-width: 100px;
     button {
       cursor: pointer;
     }
@@ -33,14 +33,14 @@ export const styles = css`
     flex-direction: column;
     gap: 1rem;
     padding: 1rem 0;
-    border-radius: var(--radius-3);
-    min-width: 100px;
+    border-radius: ${layout.borderRadius};
+    /* min-width: 100px; */
   }
 
   button.slot-button {
     aspect-ratio: 1;
-    min-width: 90px;
-    min-height: 90px;
+    width: 90px;
+    height: 90px;
     box-shadow: 0 0 1px 2px;
     background-color: transparent;
     cursor: pointer;

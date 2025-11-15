@@ -51,9 +51,9 @@ export interface SlotConfigErrorResponse {
 
 // Grid configuration constants
 export const NUM_ROWS = 3; // Always 3 rows
-export const NUM_SLOTS = 16; // Always 16 total slots
+export const NUM_RELAYS = 16; // Always 16 total slots
 export const MIN_COLUMNS = 2;
-export const MAX_COLUMNS = 5;
+export const MAX_COLUMNS = 4;
 
 // Helper to calculate columns from active slots
 export const calculateColumns = (activeSlotCount: number): number => {

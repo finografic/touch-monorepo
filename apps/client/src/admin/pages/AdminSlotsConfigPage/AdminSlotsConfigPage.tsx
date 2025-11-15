@@ -9,8 +9,8 @@ import { useToast } from 'components/Toast';
 
 import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
 
+import { calculateColumns, MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS, NUM_ROWS } from 'types/slot-config.types';
 import type { SlotType } from 'types/slots.types';
-import { calculateColumns, MAX_COLUMNS, MIN_COLUMNS, NUM_ROWS, NUM_SLOTS } from 'types/slot-config.types';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection';
 import { SlotGrid } from './SlotGrid';
@@ -58,7 +58,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
   const prevSlotConfigs = useRef<SlotConfigFormValue[] | undefined>(undefined);
   useEffect(() => {
     // Only update if slotConfigs actually changed and we have data (expecting 16 slots)
-    if (slotConfigs && slotConfigs.length === NUM_SLOTS) {
+    if (slotConfigs && slotConfigs.length === NUM_RELAYS) {
       const configsString = JSON.stringify(slotConfigs);
       const prevConfigsString = JSON.stringify(prevSlotConfigs.current);
 
@@ -118,7 +118,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
     if (calculatedColumns > MIN_COLUMNS) {
       // Deactivate the last 3 active slots (last column, excluding special slot) and reset type to default Type B
       const activeGridSlots = slots
-        .filter((s) => s.isActive && s.slotNumber !== NUM_SLOTS)
+        .filter((s) => s.isActive && s.slotNumber !== NUM_RELAYS)
         .sort((a, b) => b.slotNumber - a.slotNumber)
         .slice(0, NUM_ROWS);
 
@@ -167,7 +167,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
           <AdminSection
             title="Slot Grid Layout Preview"
             subtitle={`${calculatedColumns} columns`}
-            description={`Click on slots to change their type. Slot ${NUM_SLOTS} is positioned separately`}
+            description={`Click on slots to change their type. Slot ${NUM_RELAYS} is positioned separately`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
             variant="border-solid"

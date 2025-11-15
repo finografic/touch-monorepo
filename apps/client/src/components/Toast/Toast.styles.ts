@@ -165,7 +165,7 @@ export const toastCloseButtonStyles = css`
   transition: all 150ms ease;
 
   &:hover {
-    background-color: ${colors.backgroundLight};
+    background-color: ${colors.background};
     color: ${colors.text};
   }
 
@@ -186,12 +186,12 @@ export const toaststylesPadAction = css`
   height: 28px;
   cursor: pointer;
   transition: all 150ms ease;
-  background-color: ${colors.backgroundLight};
+  background-color: ${colors.background};
   color: ${colors.text};
   border: 1px solid ${colors.grey};
 
   &:hover {
-    background-color: ${colors.backgroundXLight};
+    background-color: ${colors.background};
   }
 
   &:focus {
