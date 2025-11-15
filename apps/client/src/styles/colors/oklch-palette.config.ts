@@ -51,24 +51,30 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
     theme: {
       contrast: contrast(5), // Medium contrast
       chromaShift: chromaShift(1.0), // Moderate saturation changes
+      // chromaShift: chromaShift(0.8), // Moderate saturation changes
     },
 
     // Status colors: High visibility for UI feedback
     status: {
-      contrast: contrast(6), // Higher contrast for clarity
+      // contrast: contrast(6), // Higher contrast for clarity
+      contrast: contrast(6.9), // ~10% increase: wider gradient spread
       chromaShift: chromaShift(1.2), // More vibrant in shades
+      // chromaShift: chromaShift(1.0), // More vibrant in shades
     },
 
     // Grey colors: Subtle transitions
     grey: {
       contrast: contrast(4), // Subtle differences
       chromaShift: chromaShift(0.3), // Minimal saturation changes
+      // chromaShift: chromaShift(0.2), // Minimal saturation changes
     },
 
     // Text colors: High contrast for readability
     text: {
-      contrast: contrast(8), // Strong contrast between variants
+      // contrast: contrast(8), // Strong contrast between variants
       chromaShift: chromaShift(0.2), // Keep neutral (low saturation)
+      contrast: contrast(5), // Moderate contrast (prevent collapsing to black)
+      // chromaShift: chromaShift(0.1), // Keep neutral (low saturation)
     },
   },
 
@@ -80,24 +86,30 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
     theme: {
       contrast: contrast(5.5), // Slightly higher than light
       chromaShift: chromaShift(1.1), // Slightly more vibrant
+      // chromaShift: chromaShift(0.9), // Slightly more vibrant
     },
 
     // Status colors: High visibility maintained
     status: {
       contrast: contrast(6.5), // Higher contrast for dark backgrounds
+      // contrast: contrast(7.2), // ~10% increase: wider gradient spread
       chromaShift: chromaShift(1.3), // More saturation shift
+      // chromaShift: chromaShift(1.1), // More saturation shift
     },
 
     // Grey colors: Subtle but visible
     grey: {
       contrast: contrast(4.5), // Slightly more contrast than light
       chromaShift: chromaShift(0.4), // Minimal saturation
+      // chromaShift: chromaShift(0.3), // Minimal saturation
     },
 
     // Text colors: High contrast for dark mode readability
     text: {
-      contrast: contrast(8.5), // Very high contrast
-      chromaShift: chromaShift(0.2), // Stay neutral
+      // contrast: contrast(8.5), // Very high contrast
+      contrast: contrast(5), // Moderate contrast (prevent collapsing to black)
+      // chromaShift: chromaShift(0.2), // Stay neutral
+      chromaShift: chromaShift(0.1), // Stay neutral
     },
   },
 };

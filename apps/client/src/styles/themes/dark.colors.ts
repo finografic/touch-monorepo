@@ -3,7 +3,7 @@ import type { ColorPalette } from 'styles/colors/palette.types';
 /**
  * Dark theme color palette - hex values converted from OKLCH
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-11-15 -- 14:00:17
+ * 📅 Generated: 2025-11-15 -- 14:53:18
  *
  * Run: pnpm generate:themes to update this file
  *
@@ -64,9 +64,9 @@ export const darkColors: ColorPalette = {
   infoXDark: '#002987',
   infoXXDark: '#000068',
 
-  textXXLight: '#7c7c7c',
-  textXLight: '#5f5f5f',
-  textLight: '#484848',
+  textXXLight: '#585858',
+  textXLight: '#484848',
+  textLight: '#3b3b3b',
   text: '#292929',
   textDark: '#0b0b0b',
   textXDark: '#0b0b0b',

@@ -67,7 +67,7 @@ function generateOKLCHShades(
   // Get category-specific transformation config
   const category = getColorCategory(colorName);
   const categoryConfig = OKLCH_PALETTE_CONFIG[mode][category];
-  const transformValues = calculateTransformValues(categoryConfig, mode);
+  const transformValues = calculateTransformValues(categoryConfig, mode, category);
 
   const variants: Record<string, string> = {};
   const { lightnessSteps, chromaMultipliers, lightnessClamps } = transformValues;

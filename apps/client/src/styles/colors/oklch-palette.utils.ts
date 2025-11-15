@@ -15,11 +15,13 @@ import type { CategoryTransformConfig, OKLCHTransformValues } from './oklch-pale
  *
  * @param config - Simple contrast/chromaShift config
  * @param mode - Light or dark theme mode
+ * @param category - Optional category for category-specific adjustments
  * @returns Actual OKLCH transformation values
  */
 export function calculateTransformValues(
   config: CategoryTransformConfig,
   mode: 'light' | 'dark',
+  category?: string,
 ): OKLCHTransformValues {
   const { contrast, chromaShift } = config;
 
@@ -32,15 +34,24 @@ export function calculateTransformValues(
   // Lighter shades reduce chroma, darker shades increase it
   const chromaBase = 0.15 * chromaShift;
 
+  // Category-specific step distribution adjustments
+  const isStatusColor = category === 'status';
+  const isTextColor = category === 'text';
+
+  // Status: More room for lighter shades
+  // Text: Much smaller steps (high contrast but limited range to avoid pure black)
+  const lightMultiplier = isStatusColor ? 1.25 : 1.0;
+  const darkMultiplier = isStatusColor ? 0.85 : isTextColor ? 0.25 : 1.0;
+
   if (mode === 'light') {
     return {
       lightnessSteps: {
-        XXLight: baseStepLight * 2.0, // Largest step
-        XLight: baseStepLight * 1.5,
-        Light: baseStepLight * 1.0,
-        Dark: baseStepDark * 1.0,
-        XDark: baseStepDark * 1.5,
-        XXDark: baseStepDark * 2.0,
+        XXLight: baseStepLight * 2.0 * lightMultiplier, // More room for lighter shades
+        XLight: baseStepLight * 1.5 * lightMultiplier,
+        Light: baseStepLight * 1.0 * lightMultiplier,
+        Dark: baseStepDark * 1.0 * darkMultiplier, // Less aggressive dark steps
+        XDark: baseStepDark * 1.5 * darkMultiplier,
+        XXDark: baseStepDark * 2.0 * darkMultiplier,
       },
       chromaMultipliers: {
         XXLight: 1 - chromaBase * 2, // Most desaturated
@@ -60,12 +71,12 @@ export function calculateTransformValues(
     // Dark theme: slightly different ratios
     return {
       lightnessSteps: {
-        XXLight: baseStepLight * 1.5, // Smaller steps in dark mode
-        XLight: baseStepLight * 1.0,
-        Light: baseStepLight * 0.6,
-        Dark: baseStepDark * 1.2,
-        XDark: baseStepDark * 1.8,
-        XXDark: baseStepDark * 2.5, // Larger dark steps
+        XXLight: baseStepLight * 1.5 * lightMultiplier,
+        XLight: baseStepLight * 1.0 * lightMultiplier,
+        Light: baseStepLight * 0.6 * lightMultiplier,
+        Dark: baseStepDark * 1.2 * darkMultiplier,
+        XDark: baseStepDark * 1.8 * darkMultiplier,
+        XXDark: baseStepDark * 2.5 * darkMultiplier,
       },
       chromaMultipliers: {
         XXLight: 1 - chromaBase * 1.5,
@@ -83,4 +94,3 @@ export function calculateTransformValues(
     };
   }
 }
-
