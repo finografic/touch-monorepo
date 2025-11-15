@@ -3,6 +3,7 @@ export { useDisconnectRelay } from './useDisconnectRelay';
 export { useGetRelayState } from './useGetRelayState';
 export type { RelayState } from './useGetRelayStates';
 export { useGetRelayStates } from './useGetRelayStates';
+export { useStableRelayStates } from './useStableRelayStates';
 export { useGetRelayStatus } from './useGetRelayStatus';
 export { useInitializeRelay } from './useInitializeRelay';
 export type { ReconnectResponse } from './useReconnectRelay';
