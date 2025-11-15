@@ -284,14 +284,23 @@ export const ${themeName}Colors: ColorPalette = {
 
   // Process colors in the defined order
   for (const baseName of colorOrder) {
-    // Add base color
+    // Add lighter shades first (lightest to light)
+    const lighterShades = ['XXLight', 'XLight', 'Light'];
+    for (const shade of lighterShades) {
+      const key = `${baseName}${shade}`;
+      if (hexPalette[key]) {
+        sortedColors.push([key, hexPalette[key]]);
+      }
+    }
+
+    // Add base color in the middle (creates visual gradient)
     if (hexPalette[baseName]) {
       sortedColors.push([baseName, hexPalette[baseName]]);
     }
 
-    // Add shade variants in order
-    const shadeOrder = ['XXLight', 'XLight', 'Light', 'Dark', 'XDark', 'XXDark'];
-    for (const shade of shadeOrder) {
+    // Add darker shades (dark to darkest)
+    const darkerShades = ['Dark', 'XDark', 'XXDark'];
+    for (const shade of darkerShades) {
       const key = `${baseName}${shade}`;
       if (hexPalette[key]) {
         sortedColors.push([key, hexPalette[key]]);

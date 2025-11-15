@@ -176,21 +176,39 @@ function generateThemeContent(themeName: 'light' | 'dark'): string {
 export const ${themeName}Colors: ColorPalette = {
 `;
 
-  // Filter out fixed colors to handle separately
-  const colorGroups = Object.entries(themeColors).filter(
-    ([name]) => !['white', 'black', 'transparent', 'background'].includes(name),
-  );
+  // Define color order (matches OKLCH generator)
+  const colorOrder = [
+    'primary',
+    'secondary',
+    'success',
+    'warning',
+    'danger',
+    'info',
+    'text',
+    'grey',
+    'default',
+  ];
 
   // Generate each color group with spacing
-  for (const [colorName, baseHex] of colorGroups) {
-    // Add base color
+  for (const colorName of colorOrder) {
+    const baseHex = themeColors[colorName as keyof typeof themeColors];
+    if (!baseHex) continue;
+
+    // Generate shade variants
+    const variants = generateShadeVariants(baseHex, colorName);
+
+    // Add lighter shades first (lightest to light)
+    content += `  ${colorName}XXLight: '${variants.XXLight}',\n`;
+    content += `  ${colorName}XLight: '${variants.XLight}',\n`;
+    content += `  ${colorName}Light: '${variants.Light}',\n`;
+
+    // Add base color in the middle (creates visual gradient)
     content += `  ${colorName}: '${baseHex}',\n`;
 
-    // Generate and add shade variants
-    const variants = generateShadeVariants(baseHex, colorName);
-    Object.entries(variants).forEach(([variantName, hexValue]) => {
-      content += `  ${colorName}${variantName}: '${hexValue}',\n`;
-    });
+    // Add darker shades (dark to darkest)
+    content += `  ${colorName}Dark: '${variants.Dark}',\n`;
+    content += `  ${colorName}XDark: '${variants.XDark}',\n`;
+    content += `  ${colorName}XXDark: '${variants.XXDark}',\n`;
 
     // Add blank line after each color group
     content += '\n';
@@ -215,14 +233,14 @@ function main() {
   try {
     const themesDir = join(__dirname, '../..', 'themes');
 
-    // Generate light theme
+    // Generate light theme (old RGB-based hex file)
     const lightContent = generateThemeContent('light');
-    const lightPath = join(themesDir, 'light.colors.ts');
+    const lightPath = join(themesDir, 'light.colors.hex.ts');
     writeFileSync(lightPath, lightContent, 'utf-8');
 
-    // Generate dark theme
+    // Generate dark theme (old RGB-based hex file)
     const darkContent = generateThemeContent('dark');
-    const darkPath = join(themesDir, 'dark.colors.ts');
+    const darkPath = join(themesDir, 'dark.colors.hex.ts');
     writeFileSync(darkPath, darkContent, 'utf-8');
 
     console.log('✅ Generated theme files successfully!');
