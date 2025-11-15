@@ -49,7 +49,8 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
   light: {
     // Theme colors (primary, secondary): Balanced contrast
     theme: {
-      contrast: contrast(5), // Medium contrast
+      // contrast: contrast(5), // Medium contrast
+      contrast: contrast(6.9), // increase: wider gradient spread
       chromaShift: chromaShift(1.0), // Moderate saturation changes
       // chromaShift: chromaShift(0.8), // Moderate saturation changes
     },

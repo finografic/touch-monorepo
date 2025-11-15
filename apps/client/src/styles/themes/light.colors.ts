@@ -3,7 +3,7 @@ import type { ColorPalette } from 'styles/colors/palette.types';
 /**
  * Light theme color palette - hex values converted from OKLCH
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-11-15 -- 14:53:18
+ * 📅 Generated: 2025-11-15 -- 14:59:23
  *
  * Run: pnpm generate:themes to update this file
  *
@@ -16,21 +16,21 @@ import type { ColorPalette } from 'styles/colors/palette.types';
  * - Ensures consistency between OKLCH (runtime) and hex (visual reference)
  */
 export const lightColors: ColorPalette = {
-  primaryXXLight: '#70a2ff',
-  primaryXLight: '#598dff',
-  primaryLight: '#4177fc',
+  primaryXXLight: '#8cc0ff',
+  primaryXLight: '#6da3ff',
+  primaryLight: '#4e86ff',
   primary: '#1447e6',
-  primaryDark: '#0600cb',
-  primaryXDark: '#1500bd',
-  primaryXXDark: '#2000ad',
+  primaryDark: '#0e00bb',
+  primaryXDark: '#1e00a5',
+  primaryXXDark: '#27008e',
 
-  secondaryXXLight: '#c089ff',
-  secondaryXLight: '#b070fe',
-  secondaryLight: '#a056f2',
+  secondaryXXLight: '#dda6ff',
+  secondaryXLight: '#c586ff',
+  secondaryLight: '#ae65ff',
   secondary: '#8200db',
-  secondaryDark: '#6500be',
-  secondaryXDark: '#5800b0',
-  secondaryXXDark: '#4b00a0',
+  secondaryDark: '#5900ae',
+  secondaryXDark: '#470098',
+  secondaryXXDark: '#360081',
 
   successXXLight: '#b2ffc1',
   successXLight: '#97f9ab',
