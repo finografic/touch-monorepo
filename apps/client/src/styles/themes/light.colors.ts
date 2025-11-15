@@ -3,7 +3,7 @@ import type { ColorPalette } from 'styles/colors/palette.types';
 /**
  * Light theme color palette - hex values converted from OKLCH
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-11-15 -- 15:10:28
+ * 📅 Generated: 2025-11-15 -- 15:12:18
  *
  * Run: pnpm generate:themes to update this file
  *
@@ -72,13 +72,13 @@ export const lightColors: ColorPalette = {
   textXDark: '#1e1e1e',
   textXXDark: '#1b1b1b',
 
-  greyXXLight: '#ababb5',
-  greyXLight: '#9c9ca6',
-  greyLight: '#8d8d98',
+  greyXXLight: '#d7d7e2',
+  greyXLight: '#bcbcc7',
+  greyLight: '#a3a3ad',
   grey: '#71717b',
-  greyDark: '#565660',
-  greyXDark: '#494953',
-  greyXXDark: '#3c3c46',
+  greyDark: '#43434d',
+  greyXDark: '#2e2e37',
+  greyXXDark: '#1a1a23',
 
   defaultXXLight: '#f3ede9',
   defaultXLight: '#d7d1cc',

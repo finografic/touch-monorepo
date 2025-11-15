@@ -58,14 +58,15 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
     // Status colors: High visibility for UI feedback
     status: {
       // contrast: contrast(6), // Higher contrast for clarity
-      contrast: contrast(6.9), // ~10% increase: wider gradient spread
+      contrast: contrast(6.5), // ~10% increase: wider gradient spread
       chromaShift: chromaShift(1.2), // More vibrant in shades
       // chromaShift: chromaShift(1.0), // More vibrant in shades
     },
 
     // Grey colors: Subtle transitions
     grey: {
-      contrast: contrast(4), // Subtle differences
+      // contrast: contrast(4), // Subtle differences
+      contrast: contrast(6.9), // Subtle differences
       chromaShift: chromaShift(0.3), // Minimal saturation changes
       // chromaShift: chromaShift(0.2), // Minimal saturation changes
     },
@@ -100,7 +101,7 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
 
     // Grey colors: Subtle but visible
     grey: {
-      contrast: contrast(6.9), // Slightly more contrast than light
+      contrast: contrast(4.5), // Slightly more contrast than light
       chromaShift: chromaShift(0.4), // Minimal saturation
       // chromaShift: chromaShift(0.3), // Minimal saturation
     },
