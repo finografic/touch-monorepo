@@ -20,8 +20,7 @@ export const useStableRelayStates = () => {
   // Use refs to track previous values and detect actual changes
   const prevStatesRef = useRef<Map<number, boolean>>(new Map());
   const stableStatesRef = useRef<RelayState[]>([]);
-  const prevIsLoadingRef = useRef<boolean | undefined>(undefined);
-  const prevIsErrorRef = useRef<boolean | undefined>(undefined);
+  const stableIsLoadingRef = useRef<boolean>(false);
 
   // Only update stableStatesRef when isOn values actually change
   const stableStates = useMemo(() => {
@@ -59,11 +58,23 @@ export const useStableRelayStates = () => {
     return stableStatesRef.current;
   }, [queryResult.data]);
 
+  // Stabilize isLoading - only update when transitioning from false->true or true->false
+  // This prevents re-renders when isLoading flickers during polling
+  const stableIsLoading = useMemo(() => {
+    const currentIsLoading = queryResult.isLoading ?? false;
+    // Only update if there's a meaningful state change
+    if (stableIsLoadingRef.current !== currentIsLoading) {
+      stableIsLoadingRef.current = currentIsLoading;
+      return currentIsLoading;
+    }
+    return stableIsLoadingRef.current;
+  }, [queryResult.isLoading]);
+
   // Return only essential properties with stable data reference
   // This prevents spreading the entire queryResult which includes many changing properties
   return {
     data: stableStates, // Stable reference - only changes when isOn values change
-    isLoading: queryResult.isLoading, // Keep original - needed for loading states
+    isLoading: stableIsLoading, // Stabilized - only changes on meaningful state transitions
     isError: queryResult.isError, // Keep original - needed for error states
     error: queryResult.error, // Keep original - needed for error handling
     isPollingEnabled: queryResult.isPollingEnabled, // Keep original - needed for status
@@ -71,4 +82,3 @@ export const useStableRelayStates = () => {
     disablePolling: queryResult.disablePolling, // Keep original - needed for control
   };
 };
-

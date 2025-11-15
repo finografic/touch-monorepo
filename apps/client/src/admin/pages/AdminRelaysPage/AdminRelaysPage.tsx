@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { RelayAssign } from 'admin/pages/AdminRelaysPage/RelayAssign';
@@ -44,6 +44,23 @@ export const AdminRelaysPage: React.FC = () => {
   // Note: useGetRelayStates is called in RelaysStatus component for status display
   // React Query will deduplicate the calls automatically
   const { data: relayStates, isLoading: isLoadingStates } = useStableRelayStates();
+
+  // Stabilize mutation pending state to prevent unnecessary re-renders
+  // Use ref + state to only update when value actually changes
+  const prevIsPendingRef = useRef<boolean>(false);
+  const [isTogglePending, setIsTogglePending] = useState(false);
+
+  useEffect(
+    function detectRelayStatusChange() {
+      const currentIsPending = mutations.toggleRelay.isPending;
+      // Only update state if value actually changed
+      if (prevIsPendingRef.current !== currentIsPending) {
+        prevIsPendingRef.current = currentIsPending;
+        setIsTogglePending(currentIsPending);
+      }
+    },
+    [mutations.toggleRelay.isPending],
+  );
 
   const isLoading = useMemo(
     () => isLoadingSlotConfigurations || isLoadingStates,
@@ -106,7 +123,7 @@ export const AdminRelaysPage: React.FC = () => {
               <RelayAssign
                 configurations={relayConfigs}
                 onRelayToggle={handlers.relayToggle}
-                isLoading={mutations.toggleRelay.isPending}
+                isLoading={isTogglePending}
               />
             </AdminSection>
           </Flex>

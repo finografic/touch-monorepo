@@ -44,7 +44,7 @@ export const useGetRelayStates = (): UseQueryResult<RelayState[], ErrorResponse>
   const query = useQuery({
     queryKey: [...GET_RELAY_STATES_QUERYKEY],
     queryFn: getRelayStates,
-    enabled: true,
+    enabled: false,
     retry: 1,
     staleTime: 1000 * 5, // 5 seconds - relay states change frequently
     refetchInterval: isPollingEnabled ? 3000 : false, // Conditional polling
