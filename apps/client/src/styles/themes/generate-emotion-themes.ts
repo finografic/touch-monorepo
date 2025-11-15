@@ -5,9 +5,9 @@
 
 import type { HexColor } from '../colors/colors.types';
 import type { ColorPalette } from '../colors/palette.types';
-import { darkColors } from './dark.colors';
+import { darkColors } from './dark.colors.hex';
 import type { EmotionTheme } from './emotion-theme.types';
-import { lightColors } from './light.colors';
+import { lightColors } from './light.colors.hex';
 
 /**
  * Convert hex color to rgba with alpha

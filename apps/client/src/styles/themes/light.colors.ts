@@ -1,86 +1,92 @@
 import type { ColorPalette } from 'styles/colors/palette.types';
 
 /**
- * Light theme color palette - actual hex values for CSS variable generation
+ * Light theme color palette - hex values converted from OKLCH
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-11-14 -- 18:51:45
+ * 📅 Generated: 2025-11-15 -- 13:45:15
  *
  * Run: pnpm generate:themes to update this file
  *
- * These colors are used to generate the CSS variables that the main colors object references
+ * ⚠️  VISUAL REFERENCE ONLY - App uses OKLCH colors from generate-oklch-themes.ts
+ *
+ * These hex values are OKLCH → Hex conversions for IDE color preview.
+ * They use the same category-based transformation logic as the OKLCH palette:
+ * - Configured via oklch-palette.config.ts
+ * - Different transformation rules for theme/status/grey/text colors
+ * - Ensures consistency between OKLCH (runtime) and hex (visual reference)
  */
 export const lightColors: ColorPalette = {
-  primary: '#1e3a8a',
-  primaryXXLight: '#b3bace',
-  primaryXLight: '#919bb9',
-  primaryLight: '#6d7ca5',
-  primaryDark: '#0f2258',
-  primaryXDark: '#0a1947',
-  primaryXXDark: '#061338',
+  primary: '#1447e6',
+  primaryXXLight: '#70a2ff',
+  primaryXLight: '#598dff',
+  primaryLight: '#4177fc',
+  primaryDark: '#0600cb',
+  primaryXDark: '#1500bd',
+  primaryXXDark: '#2000ad',
 
-  secondary: '#7e22ce',
-  secondaryXXLight: '#d0b9e3',
-  secondaryXLight: '#bb99da',
-  secondaryLight: '#a677d0',
-  secondaryDark: '#4c0e82',
-  secondaryXDark: '#3b0869',
-  secondaryXXDark: '#2d0352',
+  secondary: '#8200db',
+  secondaryXXLight: '#c089ff',
+  secondaryXLight: '#b070fe',
+  secondaryLight: '#a056f2',
+  secondaryDark: '#6500be',
+  secondaryXDark: '#5800b0',
+  secondaryXXDark: '#4b00a0',
 
-  success: '#065f46',
-  successXXLight: '#a0c9bd',
-  successXLight: '#75b3a1',
-  successLight: '#479d85',
-  successDark: '#005232',
-  successXDark: '#004429',
-  successXXDark: '#003520',
+  success: '#00af46',
+  successXXLight: '#afffbe',
+  successXLight: '#8deea0',
+  successLight: '#69d983',
+  successDark: '#008400',
+  successXDark: '#006f00',
+  successXXDark: '#005a00',
 
-  warning: '#92400e',
-  warningXXLight: '#dfb9a2',
-  warningXLight: '#d39a77',
-  warningLight: '#ca7a49',
-  warningDark: '#881f00',
-  warningXDark: '#6f1700',
-  warningXXDark: '#591100',
+  warning: '#fe9a00',
+  warningXXLight: '#ffe193',
+  warningXLight: '#ffde83',
+  warningLight: '#ffcf64',
+  warningDark: '#d56500',
+  warningXDark: '#c14900',
+  warningXXDark: '#ab2b00',
 
-  danger: '#991b1b',
-  dangerXXLight: '#e2a9a9',
-  dangerXLight: '#d98080',
-  dangerLight: '#d25858',
-  dangerDark: '#940000',
-  dangerXDark: '#790000',
-  dangerXXDark: '#610000',
+  danger: '#e7000b',
+  dangerXXLight: '#ffa899',
+  dangerXLight: '#ff887a',
+  dangerLight: '#ff665b',
+  dangerDark: '#bd0000',
+  dangerXDark: '#a70000',
+  dangerXXDark: '#8e0000',
 
-  info: '#1e40af',
-  infoXXLight: '#a8b7ea',
-  infoXLight: '#7f97e4',
-  infoLight: '#5575e2',
-  infoDark: '#0015a1',
-  infoXDark: '#000f86',
-  infoXXDark: '#000a6a',
+  info: '#0084d1',
+  infoXXLight: '#99dfff',
+  infoXLight: '#78c8ff',
+  infoLight: '#54b1f3',
+  infoDark: '#0057ad',
+  infoXDark: '#003f9a',
+  infoXXDark: '#002687',
 
-  text: '#000000',
-  textXXLight: '#a3a3a3',
-  textXLight: '#7a7a7a',
-  textLight: '#525252',
-  textDark: '#000000',
+  text: '#292929',
+  textXXLight: '#939393',
+  textXLight: '#777777',
+  textLight: '#5b5b5b',
+  textDark: '#020202',
   textXDark: '#000000',
   textXXDark: '#000000',
 
-  grey: '#1f2937',
-  greyXXLight: '#afb2b6',
-  greyXLight: '#8d9095',
-  greyLight: '#696d75',
-  greyDark: '#121922',
-  greyXDark: '#0e131b',
-  greyXXDark: '#0a0f15',
+  grey: '#71717b',
+  greyXXLight: '#ababb5',
+  greyXLight: '#9c9ca6',
+  greyLight: '#8d8d98',
+  greyDark: '#565660',
+  greyXDark: '#494953',
+  greyXXDark: '#3c3c46',
 
-  default: '#111827',
-  defaultXXLight: '#aaacb0',
-  defaultXLight: '#84878d',
-  defaultLight: '#5f626a',
-  defaultDark: '#090e18',
-  defaultXDark: '#070b13',
-  defaultXXDark: '#05090f',
+  default: '#79716b',
+  defaultXXLight: '#cfcac6',
+  defaultXLight: '#b8b3ae',
+  defaultLight: '#a39c97',
+  defaultDark: '#514842',
+  defaultXDark: '#3e352f',
+  defaultXXDark: '#2c231d',
 
   background: '#fefefe',
   transparent: 'transparent',

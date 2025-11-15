@@ -7,7 +7,7 @@ import { writeFileSync } from 'fs';
 import { dirname, join } from 'path';
 import { fileURLToPath } from 'url';
 
-import { lightColors } from '../../themes/light.colors';
+import { lightColors } from '../../themes/light.colors.hex';
 import { COLOR_MAPPING } from '../colors.source';
 import { SHADE_VARIANTS } from '../colors.types';
 import { SHADE_VARIANCE_FACTOR } from '../constants/js.constants';
