@@ -58,7 +58,7 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
     // Status colors: High visibility for UI feedback
     status: {
       // contrast: contrast(6), // Higher contrast for clarity
-      contrast: contrast(6.9), // ~10% increase: wider gradient spread
+      contrast: contrast(6.5), // ~10% increase: wider gradient spread
       chromaShift: chromaShift(1), // More vibrant in shades
       // chromaShift: chromaShift(1.0), // More vibrant in shades
     },
@@ -74,7 +74,7 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
     // Text colors: High contrast for readability
     text: {
       // contrast: contrast(8), // Strong contrast between variants
-      chromaShift: chromaShift(0.2), // Keep neutral (low saturation)
+      chromaShift: chromaShift(4), // Keep neutral (low saturation)
       contrast: contrast(5), // Moderate contrast (prevent collapsing to black)
       // chromaShift: chromaShift(0.1), // Keep neutral (low saturation)
     },
