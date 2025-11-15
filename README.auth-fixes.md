@@ -1,5 +1,7 @@
 # Better Auth Configuration Fix
 
+📅 Nov 01, 2025 (approx)
+
 ## Problem
 
 The auth session endpoint was returning `404 Not Found` when the client attempted to fetch the session:
@@ -374,6 +376,7 @@ await clearAllAuthCookiesServer();
 #### Console Output (Development)
 
 Standard sign-out:
+
 ```text
 🔐 Sign out successful: { ... }
 🍪 Deleted cookies: [
@@ -387,6 +390,7 @@ Standard sign-out:
 ```
 
 Nuclear endpoint:
+
 ```text
 🧨 [NUCLEAR] Clearing all authentication cookies...
 🧨 [NUCLEAR] Attempted to delete 40 cookie variations

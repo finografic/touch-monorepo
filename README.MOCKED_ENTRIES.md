@@ -1,5 +1,7 @@
 # README: Mocked Entries System
 
+📅 Oct 11, 2025 (approx)
+
 ## 🚨 Overview
 
 This document describes the **Mocked Entries System** implemented through two core hooks:
