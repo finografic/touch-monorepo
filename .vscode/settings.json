@@ -75,6 +75,8 @@
     "comments": false,
     "strings": true
   },
+  // "editor.acceptSuggestionOnEnter": "on",
+  // "editor.acceptSuggestionOnCommitCharacter": false,
   "tailwindCSS.includeLanguages": {
     "typescript": "javascript",
     "typescriptreact": "javascript"

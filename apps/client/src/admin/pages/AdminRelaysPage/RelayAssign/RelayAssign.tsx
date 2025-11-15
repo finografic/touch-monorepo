@@ -7,6 +7,7 @@ import { SelectCustom } from 'forms/SelectCustom';
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 
 import type { SelectOption } from 'types/models/select-option.model';
+import type { SlotSpecial } from 'types/slots.types';
 import { SlotType } from 'types/slots.types';
 import { NUM_RELAYS } from '../relays.config';
 import { useColors } from 'styles';
@@ -59,10 +60,9 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     return initial;
   });
 
-  // Synchronize assignments state with configurations prop changes
-  // This ensures unique assignment logic works from the first change
   useEffect(
     function synchronizeAssignments() {
+      // This ensures unique assignment logic works from the FIRST change
       const initial: Assignments = {};
       configurations
         .filter((config) => config.slotNumber <= NUM_RELAYS)
@@ -179,67 +179,80 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     [onRelayToggle, relayConfigurations],
   );
 
+  const displaySlotType = (slotType: SlotType | SlotSpecial) => {
+    switch (slotType) {
+      // case SlotSpecial.ENF:
+      //   return 'ENF';
+      // case SlotSpecial.MTO:
+      //   return 'MTO';
+      default:
+        return slotType.toString();
+    }
+  };
+
   return (
     <Box css={styles}>
-      <div className="slot-grid-container">
-        <div className="slot-list">
-          {/* TODO: ORDER BY *SLOT NUMBER* */}
-          {relayConfigurations.map((config) => {
-            const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
+      <div className="slot-list">
+        {/* TODO: ORDER BY *SLOT NUMBER* */}
+        {relayConfigurations.map((config) => {
+          const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
 
-            return (
-              <Flex key={config.slotNumber} className="slot-grid-item">
-                <Row>
-                  <Col xs={1} className="col col-button">
-                    <Button
-                      className="slot-button"
-                      onClick={() => handleSlotClick(config.slotNumber)}
-                      disabled={isLoading}
-                      variant="outline"
-                      style={{
-                        boxShadow: `inset 0 0 1px 2px ${getSlotColor(configuredSlotType, config.isOn)}`,
-                      }}
-                    >
-                      <Flex direction="column" align="center" gap="1">
-                        <Text
-                          size="3"
-                          weight="bold"
-                          style={{ color: getSlotColor(configuredSlotType, config.isOn) }}
-                        >
-                          {config.slotNumber}
-                        </Text>
-                      </Flex>
-                    </Button>
-                  </Col>
-                  <Col xs={1} className="col col-type">
-                    --
-                  </Col>
-                  <Col xs={5} className="col col-select">
-                    <SelectCustom
-                      className="relay-assign-select"
-                      options={baseOptions}
-                      placeholder="Please select..."
-                      value={assignments[config.slotNumber]?.toString() || undefined}
-                      onSelect={(value) => handleSelectChange(config.slotNumber, value)}
-                      disabled={isLoading || bulkUpdateMutation.isPending}
-                      allowEmpty={true}
-                    />
-                  </Col>
-                  <Col xs={5} className="col col-status">
-                    <Flex align="center" gap="3">
-                      <div className={`relay-status-indicator ${config.isOn ? 'relay-on' : 'relay-off'}`}>
+          return (
+            <div key={config.slotNumber} className="slot-grid-item">
+              <Row>
+                <Col xs={1} className="col col-button">
+                  <Button
+                    className="slot-button"
+                    onClick={() => handleSlotClick(config.slotNumber)}
+                    disabled={isLoading}
+                    variant="outline"
+                    style={{
+                      boxShadow: `inset 0 0 1px 2px ${getSlotColor(configuredSlotType, config.isOn)}`,
+                    }}
+                  >
+                    <Flex direction="column" align="center" gap="1">
+                      <Text
+                        size="3"
+                        weight="bold"
+                        style={{ color: getSlotColor(configuredSlotType, config.isOn) }}
+                      >
                         {config.slotNumber}
-                      </div>
-                      <Text size="3" className={config.isOn ? 'relay-status-on' : 'relay-status-off'}>
-                        Relay {config.slotNumber}: {config.isOn ? 'ON' : 'OFF'}
                       </Text>
                     </Flex>
-                  </Col>
-                </Row>
-              </Flex>
-            );
-          })}
-        </div>
+                  </Button>
+                </Col>
+                <Col xs={1} className="col col-type">
+                  {displaySlotType(configuredSlotType)}
+                </Col>
+                <Col xs={5} className="col col-select">
+                  <SelectCustom
+                    className="relay-assign-select"
+                    options={baseOptions}
+                    placeholder="Please select..."
+                    value={assignments[config.slotNumber]?.toString() || undefined}
+                    onSelect={(value) => handleSelectChange(config.slotNumber, value)}
+                    disabled={isLoading || bulkUpdateMutation.isPending}
+                    allowEmpty={true}
+                  />
+                </Col>
+                <Col xs={5} className="col col-status">
+                  <Flex
+                    align="center"
+                    gap="2"
+                    ml="3"
+                    className={`relay-status ${config.isOn ? 'status-on' : 'status-off'}`}
+                  >
+                    <Flex className="relay-status-indicator">{config.slotNumber}</Flex>
+
+                    <Flex justify="end">Relay</Flex>
+                    <Flex justify="center">{config.slotNumber}:</Flex>
+                    <Flex>{config.isOn ? 'ON' : 'OFF'}</Flex>
+                  </Flex>
+                </Col>
+              </Row>
+            </div>
+          );
+        })}
       </div>
     </Box>
   );
