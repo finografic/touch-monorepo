@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
@@ -44,28 +44,45 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 
   // Each slot has a unique relay assignment (1-16 or undefined)
   // Null values from DB are converted to undefined for UI state
-  const [assignments, setAssignments] = useState<Assignments>(() => {
-    const initial: Assignments = {};
+  // Memoize relayNumber map to prevent unnecessary updates when only isOn changes
+  const relayNumberMap = useMemo(() => {
+    const map = new Map<number, number | undefined>();
     configurations
       .filter((config) => config.slotNumber <= NUM_RELAYS)
       .forEach((config) => {
-        initial[config.slotNumber] = config.relayNumber ?? undefined;
+        map.set(config.slotNumber, config.relayNumber ?? undefined);
       });
+    return map;
+  }, [configurations]);
+
+  const [assignments, setAssignments] = useState<Assignments>(() => {
+    const initial: Assignments = {};
+    relayNumberMap.forEach((relayNumber, slotNumber) => {
+      initial[slotNumber] = relayNumber;
+    });
     return initial;
   });
 
+  // Use ref to track previous relayNumberMap to detect actual changes
+  const prevRelayNumberMapRef = useRef<Map<number, number | undefined>>(relayNumberMap);
+
   useEffect(
     function synchronizeAssignments() {
-      // This ensures unique assignment logic works from the FIRST change
-      const initial: Assignments = {};
-      configurations
-        .filter((config) => config.slotNumber <= NUM_RELAYS)
-        .forEach((config) => {
-          initial[config.slotNumber] = config.relayNumber ?? undefined;
+      // Only update if relayNumber values actually changed (not just isOn)
+      const hasChanged = Array.from(relayNumberMap.entries()).some(
+        ([slotNumber, relayNumber]) => prevRelayNumberMapRef.current.get(slotNumber) !== relayNumber,
+      );
+
+      if (hasChanged) {
+        const initial: Assignments = {};
+        relayNumberMap.forEach((relayNumber, slotNumber) => {
+          initial[slotNumber] = relayNumber;
         });
-      setAssignments(initial);
+        setAssignments(initial);
+        prevRelayNumberMapRef.current = relayNumberMap;
+      }
     },
-    [configurations],
+    [relayNumberMap],
   );
 
   const baseOptions: SelectOption[] = useMemo(() => {
@@ -87,6 +104,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
           return {
             slotNumber: config.slotNumber,
             slotType: config.slotType,
+            isActive: config.isActive, // Preserve existing isActive
             relayNumber: assignment ?? null,
           };
         }
@@ -94,6 +112,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
         return {
           slotNumber: config.slotNumber,
           slotType: config.slotType,
+          isActive: config.isActive, // Preserve existing isActive
           relayNumber: config.relayNumber,
         };
       });

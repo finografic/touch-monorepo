@@ -6,6 +6,7 @@ export interface RelayConfig {
   slotNumber: number;
   slotType: SlotType;
   relayNumber: number | null;
+  isActive: boolean;
   isOn: boolean;
 }
 

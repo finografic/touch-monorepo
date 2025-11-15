@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef } from 'react';
 
 import { Box, Button, Flex, Text } from '@radix-ui/themes';
 import { RelayAssign } from 'admin/pages/AdminRelaysPage/RelayAssign';
@@ -14,12 +14,12 @@ import { RelaysStatus } from './RelaysStatus';
 import { useRelayHandlers } from './useRelayHandlers';
 import { styles } from './AdminRelaysPage.styles';
 
-// Types for relay configuration
 interface RelayConfig {
   id: string;
   slotNumber: number;
   slotType: SlotType;
   relayNumber: number | null;
+  isActive: boolean;
   isOn: boolean;
 }
 
@@ -39,11 +39,10 @@ export const AdminRelaysPage: React.FC = () => {
   // Use custom hook for all relay handlers
   const { handlers, mutations } = useRelayHandlers();
 
-  // TODO: API hooks - Only what THIS page needs
+  // Note: useGetRelayStates is called in RelaysStatus component for status display
+  // We only need it here to update isOn state in relayConfigs
+  // React Query will deduplicate the calls automatically
   const { data: relayStates, isLoading: isLoadingStates } = useGetRelayStates();
-
-  // Note: Error handling moved to RelaysStatus component - it owns connection status!
-  // Note: useGetRelayStatus removed - RelaysStatus calls it directly
 
   const isLoading = useMemo(
     () => isLoadingSlotConfigurations || isLoadingStates,
@@ -51,43 +50,31 @@ export const AdminRelaysPage: React.FC = () => {
   );
 
   // ======================================================================== //
+  // Memoized relay configurations - combines slotConfigurations with relayStates
+  // Only updates when slotConfigurations or relayStates actually change
+  // ======================================================================== //
 
-  // Local state for relay configurations
-  const [relayConfigs, setRelayConfigs] = useState<RelayConfig[]>([]);
+  // Create a stable map of relay states by slotNumber for efficient lookup
+  const relayStatesMap = useMemo(() => {
+    if (!relayStates) return new Map<number, boolean>();
+    return new Map(relayStates.map((state) => [state.slotNumber, state.isOn]));
+  }, [relayStates]);
 
-  useEffect(
-    function initializeRelayConfigs() {
-      if (isSuccess && slotConfigurations) {
-        const initialConfigs: RelayConfig[] = slotConfigurations.map((slotConfiguration) => ({
-          id: slotConfiguration.id,
-          slotNumber: slotConfiguration.slotNumber,
-          slotType: slotConfiguration.slotType,
-          relayNumber: slotConfiguration.relayNumber,
-          isOn: false, // Will be updated from API
-        }));
-        setRelayConfigs(initialConfigs);
-      }
-    },
-    [slotConfigurations, isSuccess],
-  );
+  // Memoize relayConfigs to prevent unnecessary re-renders
+  // Only recalculates when slotConfigurations or relayStatesMap changes
+  const relayConfigs = useMemo<RelayConfig[]>(() => {
+    if (!isSuccess || !slotConfigurations) return [];
 
-  // Update relay configurations when API data changes
-  useEffect(
-    function handleRelayStatesChange() {
-      if (relayStates && relayStates.length > 0) {
-        setRelayConfigs((prevConfigs) =>
-          prevConfigs.map((config) => {
-            const relayState = relayStates.find((state) => state.slotNumber === config.slotNumber);
-            return {
-              ...config,
-              isOn: relayState?.isOn ?? false,
-            };
-          }),
-        );
-      }
-    },
-    [relayStates],
-  );
+    return slotConfigurations.map((slotConfiguration) => ({
+      id: slotConfiguration.id,
+      slotNumber: slotConfiguration.slotNumber,
+      slotType: slotConfiguration.slotType,
+      relayNumber: slotConfiguration.relayNumber,
+      isActive: slotConfiguration.isActive,
+      // Get isOn from relayStatesMap, default to false if not found
+      isOn: relayStatesMap.get(slotConfiguration.slotNumber) ?? false,
+    }));
+  }, [slotConfigurations, isSuccess, relayStatesMap]);
 
   // Show loading state while fetching slot configurations
   if (isLoading) {
