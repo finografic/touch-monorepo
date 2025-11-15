@@ -48,14 +48,15 @@ export const AdminSlotsConfigPage: React.FC = () => {
     mode: 'onChange',
   });
   const { control, reset, watch, setValue } = methods;
-  const slots = watch('slots');
+  const slots = watch('slots').sort((a, b) => a.slotNumber - b.slotNumber);
 
   // Calculate columns dynamically from active slots
   const activeSlots = slots.filter((s) => s.isActive);
-  const calculatedColumns = activeSlots.length > 0 ? calculateColumns(activeSlots.length) : 3;
+  const numActiveColumns = activeSlots.length > 0 ? calculateColumns(activeSlots.length) : 3;
 
   // Update form when API data changes (e.g., after save/reset or page refresh)
   const prevSlotConfigs = useRef<SlotConfigFormValue[] | undefined>(undefined);
+
   useEffect(() => {
     // Only update if slotConfigs actually changed and we have data (expecting 16 slots)
     if (slotConfigs && slotConfigs.length === NUM_RELAYS) {
@@ -63,13 +64,13 @@ export const AdminSlotsConfigPage: React.FC = () => {
       const prevConfigsString = JSON.stringify(prevSlotConfigs.current);
 
       if (configsString !== prevConfigsString) {
-        const calculatedColumns = getColumnsFromConfigs(slotConfigs);
+        const numActiveColumns = getColumnsFromConfigs(slotConfigs);
 
         console.log('Updating form with new slot configs:', slotConfigs);
-        console.log('Calculated columns:', calculatedColumns);
+        console.log('Calculated columns:', numActiveColumns);
 
         reset({
-          columns: calculatedColumns,
+          columns: numActiveColumns,
           slots: slotConfigs,
         });
         prevSlotConfigs.current = slotConfigs;
@@ -95,8 +96,14 @@ export const AdminSlotsConfigPage: React.FC = () => {
   };
 
   const handleAddColumn = async () => {
-    if (calculatedColumns < MAX_COLUMNS) {
+    if (numActiveColumns < MAX_COLUMNS) {
+      log('>> NEXT INACTIVE SLOTS:', 'cyan', numActiveColumns);
       // Activate the next 3 slots (next column) and reset type to default Type B
+      // const nextInactiveSlots = slots
+      //   .filter((s) => !s.isActive)
+      //   .sort((a, b) => a.slotNumber - b.slotNumber)
+      //   .slice(0, NUM_ROWS);
+
       const nextInactiveSlots = slots
         .filter((s) => !s.isActive)
         .sort((a, b) => a.slotNumber - b.slotNumber)
@@ -115,7 +122,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
   };
 
   const handleRemoveColumn = async () => {
-    if (calculatedColumns > MIN_COLUMNS) {
+    if (numActiveColumns > MIN_COLUMNS) {
+      log('>> NEXT INACTIVE SLOTS:', 'orange', numActiveColumns);
       // Deactivate the last 3 active slots (last column, excluding special slot) and reset type to default Type B
       const activeGridSlots = slots
         .filter((s) => s.isActive && s.slotNumber !== NUM_RELAYS)
@@ -166,7 +174,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
         <AdminPageLayout title="Slot Configuration" subtitle="Main page grid layout" styles={styles}>
           <AdminSection
             title="Slot Grid Layout Preview"
-            subtitle={`${calculatedColumns} columns`}
+            subtitle={`${numActiveColumns} columns`}
             description={`Click on slots to change their type. Slot ${NUM_RELAYS} is positioned separately`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
@@ -177,15 +185,16 @@ export const AdminSlotsConfigPage: React.FC = () => {
 
               <Flex direction="column" gap="6" px="1">
                 <SlotGrid
-                  configurations={activeSlots}
-                  columns={calculatedColumns}
+                  // configurations={activeSlots}
+                  configurations={slotConfigs}
+                  columns={numActiveColumns}
                   rows={NUM_ROWS}
                   onConfigurationChange={handleGridConfigChange}
                 />
 
                 <Flex gap="4" align="center" mt="-4" pb="4">
                   <Badge size="3" variant="soft" color="blue" className="dimesions-badge">
-                    {calculatedColumns} columns × {NUM_ROWS} rows = {activeSlots.length - 1} grid slots + 1
+                    {numActiveColumns} columns × {NUM_ROWS} rows = {activeSlots.length - 1} grid slots + 1
                     special slot
                   </Badge>
                 </Flex>
@@ -224,7 +233,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   variant="outline"
                   color="warning"
                   onClick={handleRemoveColumn}
-                  disabled={calculatedColumns <= MIN_COLUMNS}
+                  disabled={numActiveColumns <= MIN_COLUMNS}
                 >
                   <Flex justify="start" align="center" width="180px" gap="4" ml="4">
                     <MinusIcon />
@@ -235,7 +244,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
                   variant="outline"
                   color="success"
                   onClick={handleAddColumn}
-                  disabled={calculatedColumns >= MAX_COLUMNS}
+                  disabled={numActiveColumns >= MAX_COLUMNS}
                 >
                   <Flex justify="start" align="center" width="180px" gap="4" ml="4">
                     <PlusIcon />

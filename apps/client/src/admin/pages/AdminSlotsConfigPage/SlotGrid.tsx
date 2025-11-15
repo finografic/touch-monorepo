@@ -26,11 +26,12 @@ export const SlotGrid: React.FC<SlotGridProps> = ({
   rows,
   onConfigurationChange,
 }) => {
-  log('>> CONFIGURATIONS:', 'yellow', configurations);
+  const activeSlots = configurations.filter((s) => s.isActive);
+  // log('>> CONFIGURATIONS:', 'yellow', configurations);
   // Separate grid slots from the special slot (#16)
-  const regularSlots = configurations.filter((config) => config.slotNumber !== NUM_RELAYS);
+  const regularSlots = activeSlots.filter((config) => config.slotNumber !== NUM_RELAYS);
   // const lastSlot = configurations.find((config) => config.slotNumber === NUM_RELAYS);
-  const lastSlot = configurations.find((config) => config.slotNumber === columns * rows);
+  const lastSlot = activeSlots.find((config) => config.slotNumber === columns * rows);
 
   const getSlotColor = (slotType: SlotType) => {
     switch (slotType) {
@@ -50,7 +51,8 @@ export const SlotGrid: React.FC<SlotGridProps> = ({
   };
 
   const handleSlotClick = (slotNumber: number) => {
-    const currentConfig = configurations.find((config) => config.slotNumber === slotNumber);
+    // const currentConfig = configurations.find((config) => config.slotNumber === slotNumber);
+    const currentConfig = activeSlots.find((config) => config.slotNumber === slotNumber);
     if (!currentConfig) return;
 
     // Cycle through item types: A -> B -> C -> A
