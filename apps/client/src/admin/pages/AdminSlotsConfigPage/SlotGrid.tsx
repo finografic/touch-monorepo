@@ -26,9 +26,11 @@ export const SlotGrid: React.FC<SlotGridProps> = ({
   rows,
   onConfigurationChange,
 }) => {
+  log('>> CONFIGURATIONS:', 'yellow', configurations);
   // Separate grid slots from the special slot (#16)
   const regularSlots = configurations.filter((config) => config.slotNumber !== NUM_RELAYS);
-  const lastSlot = configurations.find((config) => config.slotNumber === NUM_RELAYS);
+  // const lastSlot = configurations.find((config) => config.slotNumber === NUM_RELAYS);
+  const lastSlot = configurations.find((config) => config.slotNumber === columns * rows);
 
   const getSlotColor = (slotType: SlotType) => {
     switch (slotType) {
@@ -97,21 +99,25 @@ export const SlotGrid: React.FC<SlotGridProps> = ({
 
         {/* Last slot positioned separately */}
         {lastSlot && (
-          <div className="slot-item-special">
-            <Button
-              className={`slot-button slot-${getSlotColor(lastSlot.slotType)}`}
-              onClick={() => {}}
-              variant="outline"
-              size="3"
-            >
-              <Flex direction="column" align="center" gap="1">
-                <Text size="4" weight="bold">
-                  13
-                </Text>
-                <Text size="2">{getSlotLabel(lastSlot.slotType)}</Text>
-              </Flex>
-            </Button>
-          </div>
+          <>
+            <div className="slot-item-special">
+              <Button
+                className={`slot-button slot-${getSlotColor(lastSlot.slotType)}`}
+                onClick={() => {}}
+                variant="outline"
+                size="3"
+              >
+                <Flex direction="column" align="center" gap="1">
+                  <Text size="4" weight="bold">
+                    {/* 13 */}
+                    {lastSlot.slotNumber}
+                  </Text>
+                  <Text size="2">{getSlotLabel(lastSlot.slotType)}</Text>
+                </Flex>
+              </Button>
+            </div>
+            <pre>{JSON.stringify(lastSlot, null, 2)}</pre>
+          </>
         )}
       </div>
     </Box>
