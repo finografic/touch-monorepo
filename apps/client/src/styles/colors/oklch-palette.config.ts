@@ -74,8 +74,8 @@ export const OKLCH_PALETTE_CONFIG: OKLCHPaletteConfig = {
     // Text colors: High contrast for readability
     text: {
       // contrast: contrast(8), // Strong contrast between variants
-      chromaShift: chromaShift(4), // Keep neutral (low saturation)
-      contrast: contrast(5), // Moderate contrast (prevent collapsing to black)
+      contrast: contrast(6.8), // Moderate contrast (prevent collapsing to black)
+      chromaShift: chromaShift(0.2), // Keep neutral (low saturation)
       // chromaShift: chromaShift(0.1), // Keep neutral (low saturation)
     },
   },
