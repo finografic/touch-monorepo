@@ -9,18 +9,9 @@
  * - Wider color gamut than sRGB
  * - Better for generating shade variants
  * - Smoother gradients
- *
- * NEW: Category-based transformations
- * - Different color categories (theme, status, grey, text) have distinct transformation rules
- * - Configured via simple contrast/chromaShift values in oklch-palette.config.ts
  */
 
 import { COLOR_MAPPING } from '../colors/colors.source';
-import type { ColorBaseName } from '../colors/colors.types';
-import { OKLCH_PALETTE_CONFIG } from '../colors/oklch-palette.config';
-import type { OKLCHTransformValues } from '../colors/oklch-palette.types';
-import { getColorCategory } from '../colors/oklch-palette.types';
-import { calculateTransformValues } from '../colors/oklch-palette.utils';
 import type { ColorPalette } from '../colors/palette.types';
 import type { EmotionTheme } from './emotion-theme.types';
 
@@ -47,98 +38,42 @@ function toOKLCHString(l: number, c: number, h: number): string {
 }
 
 /**
- * Generate shade variants in OKLCH space using category-specific configuration
- *
- * This provides better perceptual uniformity than RGB manipulation,
- * and allows different transformation rules per color category.
- *
- * @param oklchString - Base OKLCH color string
- * @param colorName - Color name (to determine category)
- * @param mode - Light or dark theme mode
- * @returns Object with all shade variants
+ * Generate shade variants in OKLCH space
+ * This provides better perceptual uniformity than RGB manipulation
  */
-function generateOKLCHShades(
-  oklchString: string,
-  colorName: ColorBaseName,
-  mode: 'light' | 'dark',
-): Record<string, string> {
+function generateOKLCHShades(oklchString: string, mode: 'light' | 'dark'): Record<string, string> {
   const { l, c, h } = parseOKLCH(oklchString);
 
-  // Get category-specific transformation config
-  const category = getColorCategory(colorName);
-  const categoryConfig = OKLCH_PALETTE_CONFIG[mode][category];
-  const transformValues = calculateTransformValues(categoryConfig, mode);
-
   const variants: Record<string, string> = {};
-  const { lightnessSteps, chromaMultipliers, lightnessClamps } = transformValues;
 
-  // Generate variants based on calculated transformation values
-  if (mode === 'light') {
-    // LIGHT THEME: base is darker, variants go lighter/darker
-    variants.XXLight = toOKLCHString(
-      Math.min(l + lightnessSteps.XXLight, lightnessClamps.max),
-      c * chromaMultipliers.XXLight,
-      h,
-    );
-    variants.XLight = toOKLCHString(
-      Math.min(l + lightnessSteps.XLight, lightnessClamps.max),
-      c * chromaMultipliers.XLight,
-      h,
-    );
-    variants.Light = toOKLCHString(
-      Math.min(l + lightnessSteps.Light, lightnessClamps.max),
-      c * chromaMultipliers.Light,
-      h,
-    );
-    variants.base = toOKLCHString(l, c * chromaMultipliers.base, h);
-    variants.Dark = toOKLCHString(
-      Math.max(l - lightnessSteps.Dark, lightnessClamps.min),
-      c * chromaMultipliers.Dark,
-      h,
-    );
-    variants.XDark = toOKLCHString(
-      Math.max(l - lightnessSteps.XDark, lightnessClamps.min),
-      c * chromaMultipliers.XDark,
-      h,
-    );
-    variants.XXDark = toOKLCHString(
-      Math.max(l - lightnessSteps.XXDark, lightnessClamps.min),
-      c * chromaMultipliers.XXDark,
-      h,
-    );
+  // Light theme: base is darker, variants go lighter
+  // Dark theme: base is lighter, variants go lighter
+  const isLightTheme = mode === 'light';
+
+  if (isLightTheme) {
+    // NOTE: LIGHT THEME - darker base, lighter variants
+    // light shades
+    variants.XXLight = toOKLCHString(Math.min(l + 0.25, 0.95), c * 0.7, h);
+    variants.XLight = toOKLCHString(Math.min(l + 0.18, 0.9), c * 0.75, h);
+    variants.Light = toOKLCHString(Math.min(l + 0.12, 0.85), c * 0.85, h);
+    // default
+    variants.base = toOKLCHString(l, c, h);
+    // dark shades
+    variants.Dark = toOKLCHString(Math.max(l - 0.12, 0.15), c * 1.1, h);
+    variants.XDark = toOKLCHString(Math.max(l - 0.18, 0.1), c * 1.15, h);
+    variants.XXDark = toOKLCHString(Math.max(l - 0.25, 0.05), c * 1.2, h);
   } else {
-    // DARK THEME: base is lighter, variants go lighter/darker
-    variants.XXLight = toOKLCHString(
-      Math.min(l + lightnessSteps.XXLight, lightnessClamps.max),
-      c * chromaMultipliers.XXLight,
-      h,
-    );
-    variants.XLight = toOKLCHString(
-      Math.min(l + lightnessSteps.XLight, lightnessClamps.max),
-      c * chromaMultipliers.XLight,
-      h,
-    );
-    variants.Light = toOKLCHString(
-      Math.min(l + lightnessSteps.Light, lightnessClamps.max),
-      c * chromaMultipliers.Light,
-      h,
-    );
-    variants.base = toOKLCHString(l, c * chromaMultipliers.base, h);
-    variants.Dark = toOKLCHString(
-      Math.max(l - lightnessSteps.Dark, lightnessClamps.min),
-      c * chromaMultipliers.Dark,
-      h,
-    );
-    variants.XDark = toOKLCHString(
-      Math.max(l - lightnessSteps.XDark, lightnessClamps.min),
-      c * chromaMultipliers.XDark,
-      h,
-    );
-    variants.XXDark = toOKLCHString(
-      Math.max(l - lightnessSteps.XXDark, lightnessClamps.min),
-      c * chromaMultipliers.XXDark,
-      h,
-    );
+    // NOTE: DARK THEME - lighter base, even lighter variants
+    // light shades
+    variants.XXLight = toOKLCHString(Math.min(l + 0.15, 0.98), c * 0.6, h);
+    variants.XLight = toOKLCHString(Math.min(l + 0.1, 0.95), c * 0.7, h);
+    variants.Light = toOKLCHString(Math.min(l + 0.06, 0.9), c * 0.8, h);
+    // default
+    variants.base = toOKLCHString(l, c, h);
+    // dark shades
+    variants.Dark = toOKLCHString(Math.max(l - 0.15, 0.3), c * 1.1, h);
+    variants.XDark = toOKLCHString(Math.max(l - 0.22, 0.2), c * 1.15, h);
+    variants.XXDark = toOKLCHString(Math.max(l - 0.3, 0.15), c * 1.2, h);
   }
 
   return variants;
@@ -160,15 +95,14 @@ function generateOKLCHTransparency(oklchString: string): Record<string, string> 
 
 /**
  * Generate complete OKLCH-based color palette
- * Now uses category-specific transformation rules for each color
  */
 function generateOKLCHPalette(mode: 'light' | 'dark'): ColorPalette {
   const palette: any = {};
 
   // Process each color from the mapping
   Object.entries(COLOR_MAPPING).forEach(([colorName, { value }]) => {
-    // Generate base color and shades using category-specific config
-    const shades = generateOKLCHShades(value, colorName as ColorBaseName, mode);
+    // Generate base color and shades
+    const shades = generateOKLCHShades(value, mode);
 
     palette[colorName] = shades.base;
     palette[`${colorName}XXLight`] = shades.XXLight;
