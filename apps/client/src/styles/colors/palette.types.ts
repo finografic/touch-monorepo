@@ -120,14 +120,12 @@ export type ColorPalette =
   } & {
     // Shade + transparency variants (e.g., primaryXXLight25, primaryDark50)
     [K in ColorWithShades as `${K}${ShadeVariant}${TransparencyLevel}`]: ColorValue;
-  } &
-  // White and black: ONLY transparency variants (no shades)
+  } & // White and black: ONLY transparency variants (no shades)
   {
     [K in ColorNameNoShadeVariant]: ColorValue;
   } & {
     [K in ColorNameNoShadeVariant as `${K}${TransparencyLevel}`]: ColorValue;
-  } &
-  // Special colors: transparent (no variants), background (no variants - fixed value)
+  } & // Special colors: transparent (no variants), background (no variants - fixed value)
   {
     transparent: 'transparent';
     background: ColorValue;
