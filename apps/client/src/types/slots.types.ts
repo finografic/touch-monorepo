@@ -41,6 +41,11 @@ export enum SlotType {
   C = 'C',
 }
 
+export enum SlotSpecial {
+  ENF = 'ENF',
+  MTO = 'MTO',
+}
+
 // Base properties that every order has
 export interface OrderBaseProps {
   slotType: SlotType;

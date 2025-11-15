@@ -61,15 +61,18 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 
   // Synchronize assignments state with configurations prop changes
   // This ensures unique assignment logic works from the first change
-  useEffect(() => {
-    const initial: Assignments = {};
-    configurations
-      .filter((config) => config.slotNumber <= NUM_RELAYS)
-      .forEach((config) => {
-        initial[config.slotNumber] = config.relayNumber ?? undefined;
-      });
-    setAssignments(initial);
-  }, [configurations]);
+  useEffect(
+    function synchronizeAssignments() {
+      const initial: Assignments = {};
+      configurations
+        .filter((config) => config.slotNumber <= NUM_RELAYS)
+        .forEach((config) => {
+          initial[config.slotNumber] = config.relayNumber ?? undefined;
+        });
+      setAssignments(initial);
+    },
+    [configurations],
+  );
 
   const baseOptions: SelectOption[] = useMemo(() => {
     return Array.from({ length: NUM_RELAYS }, (_, index) => {
