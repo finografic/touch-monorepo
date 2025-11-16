@@ -51,7 +51,9 @@ export const baseButtonStyles = css`
   &:disabled {
     cursor: not-allowed;
     opacity: 0.66;
-    filter: grayscale(0.75);
+    filter: saturate(0.5);
+    /* filter: grayscale(0.75); */
+
     /* filter: brightness(0.5) !important; */
     /* filter: contrast(0.5) !important; */
     /* filter: invert(0.5) !important; */
@@ -61,7 +63,7 @@ export const baseButtonStyles = css`
     /* filter: brightness(0.5) !important; */
     /* filter: contrast(0.5) !important; */
     /* filter: invert(0.5) !important; */
-    /* filter: saturate(0.33) !important; */
+
     /* filter: sepia(0.5) !important; */
     /* filter: hue-rotate(0.5) !important; */
     /* opacity: 0.2 !important; */

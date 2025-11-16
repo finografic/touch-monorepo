@@ -66,6 +66,19 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
         color: ${color === 'default' || color === 'grey' ? colors.white : colors.white};
         border: ${button.border.width} solid ${defaultColor};
 
+        /* &:disabled,
+        &:disabled svg,
+        &:disabled .button-text {
+          cursor: not-allowed;
+        }
+
+        &:disabled {
+          opacity: 0.66;
+          svg {
+            opacity: 1 !important;
+          }
+        } */
+
         &:hover:not(:disabled):not([data-loading='true']) {
           background-color: ${darkColor};
           border-color: ${darkColor};

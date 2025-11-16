@@ -57,7 +57,11 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
 
       if (result.success) {
         toast({ variant: 'success', message: result.message || 'Signed in successfully' });
+        // Wait for auth state to fully update before navigating
+        // signIn() already updates the state, but refreshSession ensures consistency
         await refreshSession();
+        // Small delay to ensure state propagation to all components
+        await new Promise((resolve) => setTimeout(resolve, 100));
         closeLoginDialog();
         navigate('/admin');
       } else {

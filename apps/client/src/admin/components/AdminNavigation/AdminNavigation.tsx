@@ -55,7 +55,7 @@ export const AdminNavigation: React.FC = () => {
         path: item.path,
       })),
     ];
-  }, [t, isAuthenticated, location.pathname]);
+  }, [t, isAuthenticated, user?.role, location.pathname]);
 
   const handleNavigation = (path: string) => {
     if (location.pathname === path) return; // Don't navigate if already on the page
