@@ -1,6 +1,6 @@
 # tRCP in monorepo
 
-📅 Nov 15, 2025 (approx)
+📅 Nov 15, 2025
 
 ## **Would tRPC Be a Good Choice for Your Project?**
 

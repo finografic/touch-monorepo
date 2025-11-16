@@ -1,6 +1,6 @@
 # Better Auth Configuration Fix
 
-📅 Nov 01, 2025 (approx)
+📅 Nov 01, 2025
 
 ## Problem
 

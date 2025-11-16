@@ -1,6 +1,6 @@
 # tRCP + Hono in monorepo
 
-📅 Nov 15, 2025 (approx)
+📅 Nov 15, 2025
 
 ## **Does tRPC Replace Hono?**
 

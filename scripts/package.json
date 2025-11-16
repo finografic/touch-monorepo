@@ -36,6 +36,7 @@
     "db.test": "tsx ./src/db-setup",
     "dev.v2": "npx @eslint/config-inspector --config eslint.config.ts",
     "watch": "tsup --format esm,cjs --watch",
+    "md.date-tags": "tsx ./src/add-md-date-tags.ts",
     "·········· BUILD": "·····················································",
     "build": "tsup",
     "·········· PYTHON_ENV": "················································",
