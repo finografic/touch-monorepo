@@ -1,6 +1,7 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
+import { border, colors, layout } from 'styles';
+import { forms } from 'styles/forms/forms.styles';
 
 // Main component styles (for the input and container)
 export const styles = css`
@@ -9,24 +10,43 @@ export const styles = css`
     width: 100%;
   }
 
-  /* SearchableSelect input styling */
-  .searchable-select {
-    .rt-TextFieldInput {
-      &::placeholder {
-        color: ${colors.grey};
-        opacity: 0.7;
-        font-weight: 500;
-      }
+  .input-slot-left,
+  .input-slot-right {
+    border: ${forms.inputs.border.width} solid ${forms.inputs.border.color}!important;
+  }
+
+  .input-slot-left {
+    border-right: none !important;
+  }
+
+  .input-slot-right {
+    border-left: none !important;
+  }
+
+  /* Remove blue glow from root when input is focused */
+  .rt-TextFieldRoot {
+    &:focus-within {
+      box-shadow: none !important;
+      outline: none !important;
+    }
+  }
+
+  .rt-TextFieldInput {
+    &:focus {
+      border: ${forms.inputs.border.width} solid ${forms.inputs.border.color} !important;
+      /* Remove box-shadow glow from input itself */
+      box-shadow: none !important;
+      outline: none !important;
     }
   }
 `;
 
 // Dropdown portal styles (for the dropdown content rendered in portal)
 export const stylesDropdown = css`
-  background: white; /* Use explicit white instead of CSS variable */
+  background: ${colors.white};
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
-  border-radius: var(--radius-3);
-  border: 1px solid var(--gray-6);
+  border-radius: ${border.radius.sm};
+  border: ${layout.borderWidth} solid ${colors.greyXXLight};
   overflow: hidden;
   max-height: 300px;
   overflow-y: auto;
@@ -34,9 +54,10 @@ export const stylesDropdown = css`
   .option {
     cursor: pointer;
     transition: background-color 0.15s ease;
-    border-bottom: 1px solid var(--gray-3);
+    border-top: none;
+    border-bottom: ${layout.borderWidth} solid ${colors.greyXXLight};
     padding: 0.75rem 1rem; /* Direct padding instead of using Flex p="3" */
-    background: white; /* Ensure options have white background */
+    background: ${colors.white}; /* Ensure options have white background */
 
     &:last-child {
       border-bottom: none;
@@ -44,14 +65,13 @@ export const stylesDropdown = css`
 
     &:hover,
     &.focused {
-      background-color: ${colors.primary25};
-      border-color: red !important;
-      /* background-color: yellow; */
+      background-color: ${colors.greyXXLight50};
+      border-color: ${colors.greyXXLight};
+      border-top: none;
     }
 
     &:active {
-      background-color: var(--gray-3);
-      background-color: pink;
+      background-color: ${colors.greyXLight};
     }
 
     /* Text styling within options */
@@ -113,11 +133,11 @@ export const stylesDropdown = css`
   .window-info {
     padding: 0.5rem 1rem;
     text-align: center;
-    border-top: 1px solid var(--gray-6);
-    background: var(--gray-2);
+    border-top: ${layout.borderWidth} solid ${colors.greyLight};
+    background: ${colors.greyXXLight};
 
     font-size: 0.75rem;
-    color: var(--blue-11);
+    color: ${colors.infoDark};
     line-height: 1.4;
   }
 
@@ -133,15 +153,15 @@ export const stylesDropdown = css`
   }
 
   &::-webkit-scrollbar-track {
-    background: var(--gray-2);
+    background: ${colors.greyXXLight};
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--gray-6);
-    border-radius: 3px;
+    background: ${colors.greyLight};
+    border-radius: ${border.radius.sm};
   }
 
   &::-webkit-scrollbar-thumb:hover {
-    background: var(--gray-8);
+    background: ${colors.greyDark};
   }
 `;
