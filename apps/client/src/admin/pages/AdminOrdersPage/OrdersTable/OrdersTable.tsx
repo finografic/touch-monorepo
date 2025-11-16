@@ -229,13 +229,13 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           style={{ minWidth: '120px', maxWidth: '140px' }}
           body={temperatureBodyTemplate}
         />
-        <Column
+        {/* <Column
           field="createdAt"
           header="Created"
           sortable
           style={{ minWidth: '140px', maxWidth: '160px' }}
           body={createdBodyTemplate}
-        />
+        /> */}
         <Column
           header="Actions"
           style={{ minWidth: '140px', maxWidth: '180px' }}

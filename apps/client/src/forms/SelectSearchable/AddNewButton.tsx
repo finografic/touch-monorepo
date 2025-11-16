@@ -14,8 +14,8 @@ export const AddNewButton: React.FC<SearchableSelectProps> = ({ handleAddNew, se
     <div className="add-new-option">
       <Button
         type="button"
-        variant="outline"
-        size="md"
+        variant="ghost"
+        size="sm"
         color="success"
         onClick={handleAddNew}
         className="button-delete"
@@ -23,7 +23,7 @@ export const AddNewButton: React.FC<SearchableSelectProps> = ({ handleAddNew, se
         <AddIcon /> Añadir:
       </Button>
       <span className="new-option-label">
-        <span className="new-option-value">"{searchValue}"</span>
+        <span className="new-option-value">{searchValue ? <>"{searchValue}"</> : <></>}</span>
       </span>
     </div>
   );

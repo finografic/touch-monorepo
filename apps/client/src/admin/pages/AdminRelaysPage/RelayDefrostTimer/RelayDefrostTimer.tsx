@@ -5,7 +5,7 @@ import { UserTimer } from 'components/Timers/UserTimer';
 
 import { useTimers } from 'providers/TimersProvider';
 
-export const RelayDefrost: React.FC = () => {
+export const RelayDefrostTimer: React.FC = () => {
   // Maintenance timer controls (slot 15 default, 10 minutes)
   const timersStore = useTimers();
 

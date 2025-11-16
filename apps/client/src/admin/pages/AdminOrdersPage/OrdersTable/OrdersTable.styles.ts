@@ -120,13 +120,14 @@ export const styles = css`
 
       /* Striped rows */
       &.p-row-odd {
-        background-color: ${colors.backgroundLight};
+        background-color: ${colors.white};
       }
 
       > td {
         padding: 0.75rem 1rem;
         border-bottom: 1px solid ${colors.greyXLight};
         color: ${colors.text};
+        font-weight: 600;
       }
     }
 

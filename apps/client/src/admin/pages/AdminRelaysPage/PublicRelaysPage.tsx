@@ -5,7 +5,7 @@ import { Box, Flex } from '@radix-ui/themes';
 import { useInitializeRelay } from 'queries/relays';
 
 import { AdminPageLayout, AdminSection } from '../..';
-import { RelayDefrost } from './RelayDefrost/RelayDefrost';
+import { RelayDefrostTimer } from './RelayDefrostTimer/RelayDefrostTimer';
 import { NUM_RELAYS } from './relays.config';
 import { RelaysStatus } from './RelaysStatus';
 import { styles } from './AdminRelaysPage.styles';
@@ -19,7 +19,7 @@ export const PublicRelaysPage: React.FC = () => {
 
   // Note: All state management moved to child components!
   // - RelaysStatus handles connection status, errors, and retry
-  // - RelayDefrost handles maintenance timer controls
+  // - RelayDefrostTimer handles maintenance timer controls
 
   return (
     <AdminPageLayout
@@ -34,7 +34,7 @@ export const PublicRelaysPage: React.FC = () => {
       <AdminSection title="Desescarche" variant="border-solid">
         <Box className="admin-relay-control">
           <Flex direction="column" gap="6">
-            <RelayDefrost />
+            <RelayDefrostTimer />
           </Flex>
         </Box>
       </AdminSection>
