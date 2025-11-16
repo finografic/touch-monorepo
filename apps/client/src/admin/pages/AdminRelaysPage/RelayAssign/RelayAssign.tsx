@@ -163,24 +163,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 
   const colors = useColors();
 
-  const getSlotColor = (slotType: SlotType, isOn = false) => {
-    // If relay is ON, use success color regardless of slot type
-    if (isOn) {
-      return 'success';
-    }
-
-    switch (slotType) {
-      case SlotType.A:
-        return colors.defaultLight;
-      case SlotType.B:
-        return colors.infoLight;
-      case SlotType.C:
-        return colors.dangerLight;
-      default:
-        return colors.defaultLight;
-    }
-  };
-
   const handleSlotClick = useCallback(
     (slotNumber: number) => {
       const currentConfig = relayConfigurations.find((config) => config.slotNumber === slotNumber);
@@ -230,6 +212,51 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     // return RELAY_SLOT_COLORS[slotType] as ButtonColor;
   };
 
+  const getSlotColor__V1 = (slotType: SlotType, isOn = false) => {
+    // If relay is ON, use success color regardless of slot type
+    if (isOn) {
+      return 'success';
+    }
+
+    switch (slotType) {
+      case SlotType.A:
+        return colors.defaultLight;
+      case SlotType.B:
+        return colors.infoLight;
+      case SlotType.C:
+        return colors.dangerLight;
+      default:
+        return colors.defaultLight;
+    }
+  };
+
+  const getSlotColor = (config: RelayConfig) => {
+    // If relay is ON, use success color regardless of slot type
+
+    if (config.slotNumber === 14) {
+      return colors[RELAY_SLOT_COLORS[SlotSpecial.ENF]];
+    }
+
+    if (config.slotNumber === 15) {
+      return colors[RELAY_SLOT_COLORS[SlotSpecial.MTO]];
+    }
+
+    if (config.slotNumber === 16) {
+      return colors.greyXLight75;
+    }
+
+    switch (config.slotType) {
+      case SlotType.A:
+        return colors.defaultLight;
+      case SlotType.B:
+        return colors.infoLight;
+      case SlotType.C:
+        return colors.dangerLight;
+      default:
+        return colors.defaultLight;
+    }
+  };
+
   return (
     <Box css={styles}>
       <div className="slot-list">
@@ -237,48 +264,39 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
         {relayConfigurations.map((config) => {
           const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
 
-          const COLOR = getRelaySlotColor(configuredSlotType);
-          log('COLOR:', 'lime', COLOR);
-
           return (
             <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
               <Row>
-                <Col xs={1} className="col col-button">
-                  <Button
-                    className="slot-button"
-                    onClick={() => handleSlotClick(config.slotNumber)}
-                    disabled={isLoading}
-                    variant="outline"
-                    // color="primary"
-                    color={getRelaySlotColor(config) as ButtonColor}
-                    // color={getSlotColor(configuredSlotType, config.isOn) as ButtonColor}
-                  >
-                    {/* <Flex direction="column" align="center" gap="1">
-                      <Text
-                        size="3"
-                        weight="bold"
-                        style={{ color: String(getSlotColor(configuredSlotType, config.isOn)) }}
-                      > */}
-                    {config.slotNumber}
-                    {/* </Text> */}
-                    {/* </Flex> */}
-                  </Button>
-                </Col>
-                <Col xs={1} className="col col-type">
-                  {getRelaySlotType(config, relayConfigurations)}
+                <Col xs={2} className="col">
+                  <Flex gap="4">
+                    <Flex
+                      className="slot-square"
+                      style={{
+                        borderColor: getSlotColor(config),
+                        color: getSlotColor(config),
+                      }}
+                    >
+                      {config.slotNumber}
+                    </Flex>
+                    <Flex className="col col-type" style={{ color: getSlotColor(config) }}>
+                      {getRelaySlotType(config, relayConfigurations)}
+                    </Flex>
+                  </Flex>
                 </Col>
                 <Col xs={5} className="col col-select">
-                  <SelectCustom
-                    className="relay-assign-select"
-                    options={baseOptions}
-                    placeholder="Please select..."
-                    value={assignments[config.slotNumber]?.toString() || undefined}
-                    onSelect={(value) => handleSelectChange(config.slotNumber, value)}
-                    disabled={isLoading || bulkUpdateMutation.isPending}
-                    allowEmpty={true}
-                  />
+                  <Flex pl="4">
+                    <SelectCustom
+                      className="relay-assign-select"
+                      options={baseOptions}
+                      placeholder="Please select..."
+                      value={assignments[config.slotNumber]?.toString() || undefined}
+                      onSelect={(value) => handleSelectChange(config.slotNumber, value)}
+                      disabled={isLoading || bulkUpdateMutation.isPending}
+                      allowEmpty={true}
+                    />
+                  </Flex>
                 </Col>
-                <Col xs={5} className="col col-status">
+                <Col xs={4} className="col col-status">
                   <Flex
                     align="center"
                     gap="2"
@@ -300,6 +318,30 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     </Box>
   );
 };
+
+// <Flex
+// className="slot-square"
+// // onClick={() => handleSlotClick(config.slotNumber)}
+// // disabled={isLoading}
+// // variant="outline"
+// // color="primary"
+// // color={getRelaySlotColor(config) as ButtonColor}
+// // color={getSlotColor(configuredSlotType, config.isOn) as ButtonColor}
+// style={{
+//   borderColor: getSlotColor(config),
+//   color: getSlotColor(config),
+// }}
+// >
+// {/* <Flex direction="column" align="center" gap="1">
+//   <Text
+//     size="3"
+//     weight="bold"
+//     style={{ color: String(getSlotColor(configuredSlotType, config.isOn)) }}
+//   > */}
+// {config.slotNumber}
+// {/* </Text> */}
+// {/* </Flex> */}
+// </Flex>
 
 /*
 // Memoize component to prevent re-renders when props haven't changed

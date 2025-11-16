@@ -16,7 +16,7 @@ export const styles = css`
   }
 
   .error {
-    color: var(--red-9);
+    color: ${colors.danger};
   }
 
   .slot-list-container {
@@ -58,7 +58,7 @@ export const styles = css`
   .slot-legend {
     margin-top: 2rem;
     padding: 0 0 1rem 0;
-    border-radius: var(--radius-2);
+    border-radius: ${layout.borderRadius};
   }
 
   .legend-circle {

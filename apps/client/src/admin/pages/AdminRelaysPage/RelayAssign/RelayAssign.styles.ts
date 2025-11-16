@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
+import { border, colors, layout } from 'styles';
 
 export const styles = css`
   .slot-list {
@@ -31,7 +31,24 @@ export const styles = css`
     width: 100%;
   }
 
-  .col-button {
+  .slot-square {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2px;
+    width: 38px;
+    height: 38px;
+    padding: 0.5rem 1rem;
+    background-color: transparent;
+    border-width: ${layout.borderWidth};
+    border-style: solid;
+    border-color: transparent;
+    border-radius: ${border.radius.sm};
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+
+  /* .col-button {
     button.slot-button {
       margin: 2px;
       width: 2.5rem;
@@ -40,11 +57,17 @@ export const styles = css`
       background-color: transparent;
       cursor: pointer;
     }
-  }
+  } */
 
   .col-type {
-    color: ${colors.greyXLight};
+    display: flex;
+    align-items: center;
     justify-content: center;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: ${colors.greyLight};
+    /* border: 1px solid ${colors.greyXXLight}; */
+    width: 3rem;
   }
 
   .col-select {
@@ -79,7 +102,7 @@ export const styles = css`
         justify-content: center;
         width: 2rem;
         margin-left: 0.25rem;
-        font-weight: 900;
+        font-weight: 600;
       }
     }
 

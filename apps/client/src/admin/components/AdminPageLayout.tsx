@@ -42,7 +42,6 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
 
     return (
       <section css={[stylesLayout, styles]} className="container admin-page-container">
-        {/* Page Header - Integrated AdminPageHeader */}
         {showHeader && (
           <header className="admin-page-header">
             <Flex justify="between" align="center" gap="4">
@@ -52,11 +51,11 @@ export const AdminPageLayout: React.FC<AdminPageLayoutProps> = memo(
                   title={title}
                   subtitle={subtitle}
                   description={description}
+                  align={align}
                   className="admin-page-header-title"
                   as="div"
                 />
               </Flex>
-
               {/* Right side: Action Buttons - Flexible but no wrap */}
               {headerActions && (
                 <Flex gap="3" align="center" justify="end" className="admin-page-header-actions" style={{}}>
