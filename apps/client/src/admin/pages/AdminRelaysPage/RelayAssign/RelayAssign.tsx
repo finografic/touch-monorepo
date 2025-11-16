@@ -193,24 +193,32 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     [onRelayToggle, relayConfigurations],
   );
 
-  const getRelaySlotColor = (slotType: SlotType | SlotSpecial) => {
+  const getRelaySlotColor = (config: RelayConfig) => {
     // switch (slotType) {
     // case SlotSpecial.ENF:
     //   return 'ENF';
     // case SlotSpecial.MTO:
     //   return 'MTO';
 
-    switch (slotType) {
+    if (config.slotNumber === 14) {
+      return RELAY_SLOT_COLORS[SlotSpecial.ENF];
+    }
+
+    if (config.slotNumber === 15) {
+      return RELAY_SLOT_COLORS[SlotSpecial.MTO];
+    }
+
+    switch (config.slotType) {
       case SlotType.A:
         return RELAY_SLOT_COLORS[SlotType.A];
       case SlotType.B:
         return RELAY_SLOT_COLORS[SlotType.B];
       case SlotType.C:
         return RELAY_SLOT_COLORS[SlotType.C];
-      case SlotSpecial.ENF:
-        return RELAY_SLOT_COLORS[SlotSpecial.ENF];
-      case SlotSpecial.MTO:
-        return RELAY_SLOT_COLORS[SlotSpecial.MTO];
+      // case SlotSpecial.ENF:
+      //   return RELAY_SLOT_COLORS[SlotSpecial.ENF];
+      // case SlotSpecial.MTO:
+      //   return RELAY_SLOT_COLORS[SlotSpecial.MTO];
       default:
         return RELAY_SLOT_COLORS[SlotType.A];
     }
@@ -219,7 +227,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     // return slotType.toString() as ButtonColor;
     // }
 
-    return RELAY_SLOT_COLORS[slotType] as ButtonColor;
+    // return RELAY_SLOT_COLORS[slotType] as ButtonColor;
   };
 
   return (
@@ -242,18 +250,18 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                     disabled={isLoading}
                     variant="outline"
                     // color="primary"
-                    color={getRelaySlotColor(configuredSlotType) as ButtonColor}
+                    color={getRelaySlotColor(config) as ButtonColor}
                     // color={getSlotColor(configuredSlotType, config.isOn) as ButtonColor}
                   >
-                    <Flex direction="column" align="center" gap="1">
+                    {/* <Flex direction="column" align="center" gap="1">
                       <Text
                         size="3"
                         weight="bold"
                         style={{ color: String(getSlotColor(configuredSlotType, config.isOn)) }}
-                      >
-                        {config.slotNumber}
-                      </Text>
-                    </Flex>
+                      > */}
+                    {config.slotNumber}
+                    {/* </Text> */}
+                    {/* </Flex> */}
                   </Button>
                 </Col>
                 <Col xs={1} className="col col-type">

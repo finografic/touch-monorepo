@@ -119,7 +119,7 @@ const SlotGridComponent: React.FC<SlotGridProps> = ({
             <SlotButton
               slotNumber={lastSlot.slotNumber}
               slotType={lastSlot.slotType}
-              onClick={() => {}}
+              onClick={handleSlotClick}
               label={getSlotLabel(lastSlot.slotType)}
               color={getSlotColor(lastSlot.slotType)}
             />
