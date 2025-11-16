@@ -295,8 +295,6 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
   // Render
   // ========================================================================
 
-  log('SUB_TYPES:', 'yellow', dropdownData.drinkSubtypeOptions);
-
   return (
     <section css={styles} className="form-container">
       <FormProvider {...methods}>

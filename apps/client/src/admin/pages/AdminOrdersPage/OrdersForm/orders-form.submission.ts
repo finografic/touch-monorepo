@@ -70,6 +70,8 @@ export const useFormSubmissionMutations = () => {
 interface UpdateOrderDependencies {
   updateOrder: any;
   updateTemperatureProfiles: any;
+  createDrinkSubtype: any;
+  updateDrinkType: any;
   findIdByName: (
     items: any[],
     name: string,
@@ -78,6 +80,7 @@ interface UpdateOrderDependencies {
   drinkTypes: any[];
   volumes: any[];
   containerTypes: any[];
+  tempItems: TempItems;
   onSubmit: (data: OrdersFormValues) => void;
 }
 
@@ -89,19 +92,59 @@ const handleUpdateOrder = async (
   const {
     updateOrder,
     updateTemperatureProfiles,
+    createDrinkSubtype,
+    updateDrinkType,
     findIdByName,
     drinkTypes,
     volumes,
     containerTypes,
+    tempItems,
     onSubmit,
   } = deps;
 
   try {
+    // Create new subtype if needed (similar to handleCreateOrder)
+    let drinkSubtypeId: string | null | undefined = null;
+
+    if (data.drinkSubtype) {
+      const drinkSubtypeTemp = tempItems.drinkSubtypes.find((item) => item.value === data.drinkSubtype);
+
+      if (drinkSubtypeTemp) {
+        // New subtype needs to be created
+        const drinkTypeId = findIdByName(drinkTypes, data.drinkType, 'drinkType');
+
+        if (!drinkTypeId) {
+          throw new Error('Cannot create subtype: missing drinkTypeId');
+        }
+
+        // Check if the parent drink type has hasSubtypes set to true
+        const existingDrinkType = drinkTypes.find((dt) => dt.id === drinkTypeId);
+        if (existingDrinkType && !existingDrinkType.hasSubtypes) {
+          console.log('Updating parent drink type to allow subtypes:', drinkTypeId);
+          await updateDrinkType.mutateAsync({
+            id: drinkTypeId,
+            updates: { hasSubtypes: true },
+          });
+        }
+
+        const drinkSubtypeResponse = await createDrinkSubtype.mutateAsync({
+          name: drinkSubtypeTemp.displayValue,
+          drinkTypeId,
+          defaultTempConsume: data.defaultTempConsume,
+          defaultTempFreeze: data.defaultTempFreeze,
+        });
+        drinkSubtypeId = drinkSubtypeResponse.id;
+      } else {
+        // Existing subtype - find its ID
+        drinkSubtypeId = findIdByName([], data.drinkSubtype, 'drinkSubtype') || null;
+      }
+    }
+
     // Convert form values to IDs for API
     const orderUpdates = {
       modeId: data.modeId,
       drinkTypeId: findIdByName(drinkTypes, data.drinkType, 'drinkType'),
-      drinkSubtypeId: data.drinkSubtype ? findIdByName([], data.drinkSubtype, 'drinkSubtype') : null,
+      drinkSubtypeId,
       volumeId: findIdByName(volumes, data.volume, 'volume'),
       containerTypeId: findIdByName(containerTypes, data.containerType, 'containerType'),
       defaultTempConsume: data.defaultTempConsume,
@@ -395,10 +438,13 @@ export const createFormSubmissionHandler = (
       await handleUpdateOrder(data, orderData, {
         updateOrder,
         updateTemperatureProfiles,
+        createDrinkSubtype,
+        updateDrinkType,
         findIdByName,
         drinkTypes,
         volumes,
         containerTypes,
+        tempItems,
         onSubmit,
       });
     } else {

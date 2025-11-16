@@ -7,7 +7,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { slugify } from 'utils/string.utils';
 import type { DrinkSubtype } from 'types/models/drink-type.model';
-import { GET_DRINK_TYPES_QUERYKEY } from '.';
+import { GET_DRINK_SUBTYPES_QUERYKEY, GET_DRINK_TYPES_QUERYKEY } from '.';
 
 export interface CreateDrinkSubtypeInput {
   name: string;
@@ -45,25 +45,42 @@ export const useCreateDrinkSubtype = () => {
           defaultTempFreeze: data.defaultTempFreeze || -2,
           translations,
         });
-        const entity = response.data.data;
+
+        // Handle both response structures:
+        // - Direct: response.data = { id, name, ... }
+        // - Wrapped: response.data = { data: { id, name, ... } }
+        const entity = response.data?.data || response.data;
+
+        if (!entity || !entity.id) {
+          throw new Error('Invalid response: missing subtype data');
+        }
+
         return {
           id: entity.id,
           name: entity.name,
-          drinkTypeId: entity.drink_type_id,
-          defaultTempConsume: entity.default_temp_consume,
-          defaultTempFreeze: entity.default_temp_freeze,
-          isActive: Boolean(entity.is_active),
-          createdAt: new Date(entity.created_at * 1000),
-          updatedAt: new Date(entity.updated_at * 1000),
+          drinkTypeId: entity.drink_type_id || entity.drinkTypeId,
+          defaultTempConsume: entity.default_temp_consume ?? entity.defaultTempConsume,
+          defaultTempFreeze: entity.default_temp_freeze ?? entity.defaultTempFreeze,
+          isActive: Boolean(entity.is_active ?? entity.isActive),
+          createdAt: entity.created_at
+            ? new Date(typeof entity.created_at === 'string' ? entity.created_at : entity.created_at * 1000)
+            : new Date(),
+          updatedAt: entity.updated_at
+            ? new Date(typeof entity.updated_at === 'string' ? entity.updated_at : entity.updated_at * 1000)
+            : new Date(),
           translations: entity.translations || {},
         };
       } catch (error) {
         throw transformAxiosError(error);
       }
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       // Invalidate drink types query to refetch the list
       queryClient.invalidateQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
+      // Invalidate subtypes query for the specific drink type to include the new subtype
+      queryClient.invalidateQueries({
+        queryKey: [...GET_DRINK_SUBTYPES_QUERYKEY, data.drinkTypeId]
+      });
     },
   });
 };

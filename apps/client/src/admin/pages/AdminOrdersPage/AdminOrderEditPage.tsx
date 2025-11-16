@@ -61,11 +61,13 @@ export const AdminOrderEditPage: React.FC = () => {
       };
     }
 
+    // Calculate next index for new entries
+    const nextIndex = ordersData.length + 1;
     return {
       title: 'Nuevo registro',
-      subtitle: '',
+      subtitle: String(nextIndex),
     };
-  }, [orderId, getOrderIndex]);
+  }, [orderId, getOrderIndex, ordersData.length]);
 
   // Handle form submission callback (actual submission is in OrdersForm)
   const handleSubmit = () => {
