@@ -47,10 +47,19 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Sync with external value changes
+  // Find the option that matches the current value to get its label
+  const selectedOption = useMemo(() => {
+    return options.find((option) => option.value === value);
+  }, [options, value]);
+
+  // Sync with external value changes - display label if available, otherwise value
   useEffect(() => {
-    setDisplayValue(value);
-  }, [value]);
+    if (selectedOption?.label) {
+      setDisplayValue(selectedOption.label);
+    } else {
+      setDisplayValue(value);
+    }
+  }, [value, selectedOption]);
 
   // Use match-sorter for intelligent search
   const allFilteredOptions = useMemo(() => {
@@ -93,8 +102,10 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   }, [allFilteredOptions, displayStart, windowSize]);
 
   const handleSelectOption = (option: SelectOption) => {
+    // Always pass the value to onSelect for form submission
     onSelect(option.value);
-    setDisplayValue(option.value);
+    // Display the label in the input (or value if no label)
+    setDisplayValue(option.label || option.value);
     setSearchValue('');
     setIsOpen(false);
     setFocusedIndex(-1);
@@ -209,9 +220,13 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
   };
 
   const handleBlur = () => {
-    // If the input loses focus and the search value is empty, revert to display value
+    // If the input loses focus and the search value is empty, revert to label (or value if no label)
     if (searchValue === '') {
-      setDisplayValue(value);
+      if (selectedOption?.label) {
+        setDisplayValue(selectedOption.label);
+      } else {
+        setDisplayValue(value);
+      }
     }
   };
 
@@ -337,8 +352,8 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
                 onMouseEnter={() => setFocusedIndex(index)}
               >
                 <div className="option-content">
-                  <span className="option-value">{option.value}</span>
                   {option.label && <span className="option-label">{option.label}</span>}
+                  <span className="option-value">{option.value}</span>
                 </div>
               </div>
             ))

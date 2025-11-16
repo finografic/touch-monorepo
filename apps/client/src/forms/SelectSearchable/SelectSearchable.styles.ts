@@ -81,16 +81,16 @@ export const stylesDropdown = css`
       gap: 0.5rem;
     }
 
-    .option-value {
+    .option-label {
       font-size: 0.9rem; /* size="2" equivalent */
-      font-weight: 600; /* Remove bold */
-      color: ${colors.text75};
+      font-weight: 600;
+      color: ${colors.text75}; /* Dark - label is primary */
       line-height: 1.4;
     }
 
-    .option-label {
+    .option-value {
       font-size: 0.9rem; /* size="1" equivalent */
-      color: ${colors.text25};
+      color: ${colors.text25}; /* Lighter - value is secondary */
       font-weight: 600;
       line-height: 1.4;
     }
