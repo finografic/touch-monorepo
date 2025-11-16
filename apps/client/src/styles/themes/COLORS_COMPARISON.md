@@ -1,5 +1,7 @@
 # Color Palette Comparison
 
+📅 Nov 15, 2025
+
 This document explains the different color files in the `themes/` folder.
 
 ---

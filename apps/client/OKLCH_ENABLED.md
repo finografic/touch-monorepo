@@ -1,5 +1,7 @@
 # 🎨 OKLCH Color Space Enabled!
 
+📅 Nov 8, 2025
+
 ## What Changed
 
 Your app now uses **OKLCH color space** instead of hex/RGB colors for better color science and perceptual uniformity!

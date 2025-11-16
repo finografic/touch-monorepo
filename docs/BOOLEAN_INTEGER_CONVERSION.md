@@ -1,5 +1,7 @@
 # Boolean/Integer Conversion for SQLite
 
+📅 Jul 12, 2025
+
 ## Problem Description
 
 SQLite stores boolean values as integers (0 = false, 1 = true), but the frontend can send actual boolean values. This causes validation errors when the Zod schemas expect specific types.

@@ -1,5 +1,7 @@
 # ParaglideJS Setup - Touch Monorepo
 
+📅 Oct 20, 2025
+
 ## Overview
 
 Successfully integrated `@inlang/paraglide-js` for type-safe, compile-time i18n alongside existing `i18next-react` setup. This allows gradual migration from i18next to ParaglideJS.

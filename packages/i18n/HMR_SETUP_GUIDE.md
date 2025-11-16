@@ -1,5 +1,7 @@
 # HMR (Hot Module Replacement) Setup for i18n Messages
 
+📅 Oct 19, 2025
+
 ## 🎯 TL;DR - Which Files to Use?
 
 ### ✅ **USE: Source TypeScript Files**

@@ -1,5 +1,7 @@
 # Responsive Collapsing Navigation
 
+📅 Oct 15, 2025
+
 A smart navigation component that automatically collapses overflow items into a "More" dropdown menu, with mobile hamburger support.
 
 ## Features

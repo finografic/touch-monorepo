@@ -1,5 +1,7 @@
 # 🚀 Script Runner
 
+📅 Jul 4, 2025
+
 A sophisticated CLI tool for choosing and executing npm/pnpm scripts with a beautiful two-level menu interface.
 
 ## Architecture

@@ -1,5 +1,7 @@
 # Cookie Deletion Fix for __Secure- Cookies
 
+📅 Oct 28, 2025
+
 ## Problem
 
 On Windows 10 machines running the application over HTTPS, cookies were prefixed with `__Secure-`. These cookies **cannot be deleted** without including the `Secure` attribute in the deletion command.

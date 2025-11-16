@@ -1,5 +1,7 @@
 # ref: `package.json` hooks
 
+📅 Apr 5, 2025
+
 ```sh
 # insallation hooks
 preinstall

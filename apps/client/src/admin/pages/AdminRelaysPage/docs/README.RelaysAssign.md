@@ -1,5 +1,7 @@
 # Relay Assignment: `RelayAssign.tsx`
 
+📅 Nov 6, 2025
+
 ## Overview
 
 The `RelayAssign` component provides an interface for assigning relay numbers (1-16) to slot numbers (1-16) in a one-to-one relationship. Each slot can be assigned to at most one relay, and each relay can be assigned to at most one slot.

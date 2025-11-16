@@ -1,5 +1,7 @@
 # 🔐 Better Auth API Routes Documentation
 
+📅 Oct 4, 2025
+
 This document outlines all available Better Auth endpoints in your Hono.js server, formatted in an OpenAPI-style documentation.
 
 ## 📋 **Base URL**

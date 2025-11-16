@@ -1,5 +1,7 @@
 # Ollama Local AI Setup
 
+📅 Nov 14, 2025
+
 ## Overview
 
 Local AI models running on your Mac for **private, offline development assistance**. No cloud, no API keys, no data leaving your machine.

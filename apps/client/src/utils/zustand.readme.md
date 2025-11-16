@@ -1,5 +1,7 @@
 # @finografic/zustand-context-creator
 
+📅 Jul 13, 2025
+
 A lightweight, type-safe utility for creating Zustand stores with React Context integration. Create quick, dead-simple stores with minimal boilerplate while maintaining full type safety and excellent developer experience.
 
 Inspired by patterns from Matt Pocock's TypeScript work, this utility abstracts and enhances the integration between Zustand and React Context, providing a clean, maintainable pattern for state management in React applications.

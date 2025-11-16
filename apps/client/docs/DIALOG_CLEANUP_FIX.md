@@ -1,5 +1,7 @@
 # Dialog Body Attributes Cleanup Fix
 
+📅 Oct 24, 2025
+
 ## Problem
 
 After closing Radix UI dialogs (specifically `AuthLoginDialog`), the following attributes were persisting on the `<body>` element:

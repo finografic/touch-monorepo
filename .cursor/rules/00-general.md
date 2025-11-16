@@ -12,6 +12,7 @@
 - Follow TypeScript parameter patterns from `07-typescript-patterns.md`
 - Follow testing patterns from `08-testing-patterns.md`
 - Follow provider/context patterns from `09-provider-context-patterns.md`
+- Follow documentation patterns from `11-documentation.md`
 
 ## Error Handling
 

@@ -1,5 +1,7 @@
 # Generic Dialog System
 
+📅 Jun 20, 2025
+
 A configuration-driven dialog system built on top of Radix UI with automatic tab management.
 
 ## Features

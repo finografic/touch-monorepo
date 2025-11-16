@@ -1,5 +1,7 @@
 # Color System Migration Guide
 
+📅 Nov 8, 2025
+
 ## Overview
 
 This migration removes **~500+ CSS variables** from your theme, replacing them with direct Emotion theme values for significantly better performance.

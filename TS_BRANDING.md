@@ -1,5 +1,7 @@
 # TypeScript Branded Types (Nominal Typing)
 
+📅 Nov 15, 2025
+
 ## What is Type Branding?
 
 **Branded types** (also called **nominal types** or **opaque types**) are a TypeScript pattern that creates **distinct types from primitive types** to prevent accidental misuse.

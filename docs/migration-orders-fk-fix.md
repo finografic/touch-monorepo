@@ -1,5 +1,7 @@
 # Orders Table Foreign Key Migration
 
+📅 Jun 30, 2025
+
 ## Problem
 
 Current `orders` table uses string-based foreign keys referencing `name` fields instead of proper `id` fields:

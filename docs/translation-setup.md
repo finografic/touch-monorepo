@@ -1,5 +1,7 @@
 # Translation Setup Guide
 
+📅 Jun 28, 2025
+
 ## Current Status
 
 The auto-translation system now uses a **fallback hierarchy** for maximum reliability:

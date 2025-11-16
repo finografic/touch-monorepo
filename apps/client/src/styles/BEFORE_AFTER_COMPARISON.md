@@ -1,5 +1,7 @@
 # Before vs After - Visual Comparison
 
+📅 Nov 8, 2025
+
 ## Architecture Flow
 
 ### BEFORE (Old System)

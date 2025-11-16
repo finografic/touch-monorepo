@@ -1,5 +1,7 @@
 # Language Selector & i18n Implementation
 
+📅 Jun 14, 2025
+
 ## Current Implementation
 
 We have a solid i18n foundation with:

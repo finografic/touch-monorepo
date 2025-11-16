@@ -1,5 +1,7 @@
 # HW-554 USB Relay Board: Combined Technical Summary
 
+📅 Sep 21, 2025
+
 This document summarizes the key technical details of the HW-554 USB relay board, drawing information from both provided reference manuals.
 
 ## 1. Hardware Overview

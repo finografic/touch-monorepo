@@ -1,5 +1,7 @@
 # Dialog Cleanup: Proper Timing and State Transitions
 
+📅 Oct 24, 2025
+
 ## ⚠️ CRITICAL: Don't Cleanup on Every Render
 
 ### Common Mistake That Breaks Dialog Opening

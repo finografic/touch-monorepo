@@ -1,5 +1,7 @@
 # 🔥 Critical Fix: Dialog Cleanup Must Track State Transitions
 
+📅 Oct 24, 2025
+
 ## The Problem You Encountered
 
 **Symptoms:**

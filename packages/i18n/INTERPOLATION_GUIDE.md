@@ -1,5 +1,7 @@
 # Interpolation & i18n Features Without ParaglideJS
 
+📅 Oct 19, 2025
+
 You're right - plain JavaScript objects don't have interpolation! But we've added simple utilities to give you all the features you need.
 
 ## ✅ Features Available

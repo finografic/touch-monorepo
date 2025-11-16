@@ -1,5 +1,7 @@
 # Sistema de Emparejamiento de Perfiles de Temperatura
 
+📅 Jul 13, 2025
+
 ## Descripción General
 
 Este documento explica cómo funciona el sistema de emparejamiento de perfiles de temperatura en la aplicación de servicio de bebidas. Está dirigido tanto a desarrolladores como a partes interesadas no técnicas (como clientes) que puedan necesitar entender o justificar el comportamiento del sistema.

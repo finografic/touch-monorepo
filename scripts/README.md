@@ -1,5 +1,7 @@
 # Scripts
 
+📅 Aug 8, 2025
+
 This directory contains various utility scripts for the Touch Monorepo project.
 
 ## Available Scripts

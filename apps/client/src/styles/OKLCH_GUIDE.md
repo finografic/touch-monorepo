@@ -1,5 +1,7 @@
 # 🎨 OKLCH Color Space Guide
 
+📅 Nov 8, 2025
+
 ## What is OKLCH?
 
 OKLCH is a perceptually uniform color space that provides:

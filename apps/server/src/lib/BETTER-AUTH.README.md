@@ -1,5 +1,7 @@
 # 🔐 Better Auth Setup Guide
 
+📅 Oct 4, 2025
+
 This document outlines the **PROPER** configuration for Better Auth in your Hono.js server, including the `betterAuth()` initialization, routing, and response formatting.
 
 ## 🎯 **Key Success Factors**

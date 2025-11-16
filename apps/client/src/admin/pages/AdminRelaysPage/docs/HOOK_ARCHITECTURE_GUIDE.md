@@ -1,5 +1,7 @@
 # 🏗️ Hook Architecture Guide - Relay Components
 
+📅 Nov 9, 2025
+
 ## The Question
 
 **Should relay hooks be moved into child components, even if duplicated?**

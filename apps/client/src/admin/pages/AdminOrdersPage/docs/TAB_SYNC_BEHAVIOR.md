@@ -1,5 +1,7 @@
 # Admin Orders Page - Tab & URL Sync Behavior
 
+📅 Oct 19, 2025
+
 ## Overview
 
 The AdminOrdersPage manages two tabs with dynamic labels based on the URL state:

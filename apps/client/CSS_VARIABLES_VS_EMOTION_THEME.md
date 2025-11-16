@@ -1,5 +1,7 @@
 # CSS Variables vs Emotion Theme: Why Your Inline Style Was Needed
 
+📅 Nov 8, 2025
+
 ## What You Discovered
 
 You found that `background-color: var(--color-background)` in Emotion CSS **didn't work**, but using:

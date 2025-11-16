@@ -1,5 +1,7 @@
 # USB Relay Control System Documentation
 
+📅 Sep 24, 2025
+
 ## Overview
 
 The USB Relay Control System provides hardware control for the HW-554 USB relay board (8 channels) within the Touch Monorepo project. This system enables web-based control of physical relays through a modern React frontend and Node.js backend architecture.

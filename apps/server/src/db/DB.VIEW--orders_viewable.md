@@ -1,5 +1,7 @@
 # DB VIEW: `orders_readable
 
+📅 Jul 4, 2025
+
 ## from Drizzle Studio
 
 - SQL Console

@@ -1,5 +1,7 @@
 # @finografic/i18n
 
+📅 Jun 14, 2025
+
 Internationalization package providing:
 - Configuration and type generation
 - Language mappings and validation

@@ -1,5 +1,7 @@
 # Temperature Profile Matching System
 
+📅 Jul 13, 2025
+
 ## Overview
 
 This document explains how the temperature profile matching system works in the beverage service application. It is intended for both developers and non-technical stakeholders (such as clients) who may need to understand or justify the system's behavior.

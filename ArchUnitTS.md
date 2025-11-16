@@ -1,6 +1,9 @@
 
 eline integration.
 
+📅 Nov 8, 2025
+
+
 The #1 architecture testing library for TypeScript, measured by GitHub stars.
 
 _Inspired by the amazing ArchUnit library but we are not affiliated with ArchUnit._

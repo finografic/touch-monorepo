@@ -1,5 +1,7 @@
 # 🔐 Authentication & Session Management
 
+📅 Oct 16, 2025
+
 > **Complete guide** to authentication, session management, and route protection in the Touch Monorepo using BetterAuth with HttpOnly cookies.
 
 ---

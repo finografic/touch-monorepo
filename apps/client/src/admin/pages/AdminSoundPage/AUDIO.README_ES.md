@@ -1,5 +1,7 @@
 # Sistema de Gestión de Sonidos
 
+📅 Jul 13, 2025
+
 Este documento explica el sistema de gestión de sonidos para eventos de temporizador en la aplicación Touch.
 
 ## Resumen

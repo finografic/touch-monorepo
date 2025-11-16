@@ -1,5 +1,7 @@
 # 🎨 OKLCH Category-Based Color System
 
+📅 Nov 15, 2025
+
 ## Overview
 
 The OKLCH palette generation system has been **extended** to support **category-specific transformations**. This allows different types of colors (theme, status, grey, text) to have distinct shade generation rules, solving the problem of insufficient contrast in certain color categories (e.g., text colors) while maintaining optimal appearance for others.

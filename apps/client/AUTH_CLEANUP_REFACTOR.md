@@ -1,5 +1,7 @@
 # Auth Context Cleanup & Better Auth Client Integration
 
+📅 Oct 24, 2025
+
 ## Changes Made
 
 ### ✅ 1. Migrated to Better Auth Client

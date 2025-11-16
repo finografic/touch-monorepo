@@ -1,5 +1,7 @@
 # I18n Update Workflow
 
+📅 Jun 18, 2025
+
 This document explains how to efficiently update translations in the monorepo.
 
 ## Quick Start

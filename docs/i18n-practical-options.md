@@ -1,5 +1,7 @@
 # 🛠️ Opciones Prácticas para i18n: Recomendaciones Específicas
 
+📅 Jun 25, 2025
+
 *Practical i18n Options: Specific Recommendations*
 
 ---

@@ -1,5 +1,7 @@
 # Auth API
 
+📅 Apr 5, 2025
+
 ```sh
 Request: /api/auth/signup
 Request body: {
