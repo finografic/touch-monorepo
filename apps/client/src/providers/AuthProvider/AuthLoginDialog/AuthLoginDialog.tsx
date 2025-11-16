@@ -1,6 +1,7 @@
 import type { FC } from 'react';
 import React, { useCallback, useMemo, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { sleep } from '@workspace/core';
 
 import { type DialogConfig, GenericDialog } from 'components/Dialog';
 import { useToast } from 'components/Toast/ToastContext';
@@ -61,7 +62,7 @@ export const AuthLoginDialog: FC<AuthLoginDialogProps> = () => {
         // signIn() already updates the state, but refreshSession ensures consistency
         await refreshSession();
         // Small delay to ensure state propagation to all components
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await sleep(100);
         closeLoginDialog();
         navigate('/admin');
       } else {

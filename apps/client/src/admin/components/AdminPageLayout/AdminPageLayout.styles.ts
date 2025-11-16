@@ -52,6 +52,7 @@ export const styles = css`
         flex: 0 0 auto;
         button {
           min-width: 120px;
+          font-size: 1.1rem;
         }
       }
 
