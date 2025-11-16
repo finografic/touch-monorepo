@@ -4,7 +4,7 @@ import { useQueries } from '@tanstack/react-query';
 import { api } from 'api';
 
 import { useGetContainerTypes } from 'queries/container-types';
-import { useGetDrinkTypes } from 'queries/drink-types';
+import { GET_DRINK_SUBTYPES_QUERYKEY, useGetDrinkSubtypes, useGetDrinkTypes } from 'queries/drink-types';
 import { useGetDrinkVolumes } from 'queries/drink-volumes';
 import { useGetModes } from 'queries/modes';
 import { useGetOrdersReadable } from 'queries/orders';
@@ -30,19 +30,26 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
 
   const subtypeQueries = useQueries({
     queries: drinkTypesWithSubtypes.map((dt) => ({
-      queryKey: ['get-drink-subtypes', dt.id],
+      queryKey: [...GET_DRINK_SUBTYPES_QUERYKEY, dt.id],
       queryFn: async () => {
         interface SubtypesResponse {
           data?: DrinkSubtype[];
           success: boolean;
         }
-        const response = await api.get<SubtypesResponse>(`/drink-types/${dt.id}/subtypes`);
+        const response = await api.get<SubtypesResponse | DrinkSubtype[]>(`/drink-types/${dt.id}/subtypes`);
+
         if (response.status !== 200) {
           throw new Error('Failed to fetch drink subtypes');
         }
-        // Match the structure from useGetDrinkSubtypes - response.data is the SubtypesResponse
-        // and response.data.data is the DrinkSubtype[] array
-        return response.data?.data || [];
+
+        // Axios: response.data is the parsed JSON body
+        // Server returns array directly: response.data = [...]
+        // Handle both structures for safety (though server returns array)
+        if (Array.isArray(response.data)) {
+          return response.data;
+        }
+        // Fallback: if wrapped in object { data: [...], success: true }
+        return (response.data as SubtypesResponse)?.data || [];
       },
       enabled: Boolean(dt.id && dt.hasSubtypes),
     })),
@@ -68,11 +75,12 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
       };
     });
     const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, ROUTE_FILTER_KEYS.drinkType);
+    // Duplicates are okay - labelMappings will prioritize Database labels
     return [...databaseOptions, ...ordersOptions];
   }, [drinkTypes, ordersData, language]);
 
   const drinkSubtypeOptions = useMemo(() => {
-    // Map database subtypes with translations
+    // Map database subtypes with translations (capitalized labels like "Rubia", "Tinto")
     const databaseOptions = allSubtypes.map((subtype) => {
       const translatedLabel = subtype.translations?.[language] || subtype.name || '';
       return {
@@ -81,8 +89,29 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
         category: 'Database' as const,
       };
     });
-    // Extract custom subtypes from orders data (for values not in database)
-    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, ROUTE_FILTER_KEYS.drinkSubtype);
+
+    // Create a map of Database labels by value for quick lookup
+    const databaseLabelMap = new Map<string, string>();
+    databaseOptions.forEach((opt) => {
+      databaseLabelMap.set(opt.value, opt.label);
+    });
+
+    // Extract custom subtypes from orders data
+    // Overwrite labels with Database labels when the value exists in Database
+    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, ROUTE_FILTER_KEYS.drinkSubtype).map(
+      (opt) => {
+        // If this value exists in Database, use the Database label (properly capitalized)
+        const databaseLabel = databaseLabelMap.get(opt.value);
+        if (databaseLabel) {
+          return {
+            ...opt,
+            label: databaseLabel,
+          };
+        }
+        return opt;
+      },
+    );
+
     return [...databaseOptions, ...ordersOptions];
   }, [allSubtypes, ordersData, language]);
 
@@ -97,6 +126,7 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
       };
     });
     const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, ROUTE_FILTER_KEYS.drinkVolume);
+    // Duplicates are okay - labelMappings will prioritize Database labels
     return [...databaseOptions, ...ordersOptions];
   }, [volumes, ordersData, language]);
 
@@ -123,10 +153,13 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
 
   // Create value-to-label maps for fast lookup
   // Priority: Database options (with translations) > Orders options (raw values)
-  // This ensures translated labels are used when available
+  // This ensures:
+  // - Translated labels are used when available (e.g., "Rubia", "Tinto" with proper capitalization)
+  // - Database labels take precedence over orders labels (which may be lowercase like "rubia", "tinto")
+  // - Custom values from orders are still available if not in database
   const labelMappings = useMemo(() => {
     const drinkTypeMap = new Map<string, string>();
-    // Process database options first (they have translations)
+    // Process database options first (they have translations and proper capitalization)
     drinkTypeOptions
       .filter((opt) => opt.category === 'Database')
       .forEach((opt) => {
@@ -142,11 +175,13 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
       });
 
     const drinkSubtypeMap = new Map<string, string>();
+    // Process database options first (capitalized labels like "Rubia", "Tinto")
     drinkSubtypeOptions
       .filter((opt) => opt.category === 'Database')
       .forEach((opt) => {
         drinkSubtypeMap.set(opt.value, opt.label);
       });
+    // Then add orders options only if they don't already exist (lowercase like "rubia", "tinto" - won't override Database)
     drinkSubtypeOptions
       .filter((opt) => opt.category !== 'Database')
       .forEach((opt) => {

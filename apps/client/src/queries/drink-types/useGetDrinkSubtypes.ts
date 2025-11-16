@@ -36,7 +36,14 @@ export const useGetDrinkSubtypes = ({
         throw new Error('Failed to fetch drink subtypes');
       }
 
-      return response.data || [];
+      // Axios: response.data is the parsed JSON body
+      // Server returns array directly: response.data = [...]
+      // Handle both structures for safety (though server returns array)
+      if (Array.isArray(response.data)) {
+        return response.data;
+      }
+      // Fallback: if wrapped in object { data: [...], success: true }
+      return (response.data as SubtypesResponse)?.data || [];
     },
     enabled: enabled !== false && !!drinkTypeId,
   });

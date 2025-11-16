@@ -137,7 +137,7 @@ export const styles = css`
         display: inline-flex;
         justify-content: flex-end;
         text-align: right;
-        color: ${colors.info50};
+        color: ${colors.infoLight};
         width: 2.5rem;
         padding-right: 0.75rem;
       }
