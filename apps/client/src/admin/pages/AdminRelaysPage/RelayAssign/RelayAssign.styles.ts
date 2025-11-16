@@ -90,7 +90,7 @@ export const styles = css`
     justify-content: center;
     max-width: 400px;
     padding: 5rem;
-    font-size: 0.9rem;
+    font-size: 1.1rem;
   }
 
   .relay-status {

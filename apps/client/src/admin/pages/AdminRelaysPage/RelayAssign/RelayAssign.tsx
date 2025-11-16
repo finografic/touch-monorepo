@@ -176,12 +176,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   );
 
   const getRelaySlotColor = (config: RelayConfig) => {
-    // switch (slotType) {
-    // case SlotSpecial.ENF:
-    //   return 'ENF';
-    // case SlotSpecial.MTO:
-    //   return 'MTO';
-
     if (config.slotNumber === 14) {
       return RELAY_SLOT_COLORS[SlotSpecial.ENF];
     }
@@ -204,12 +198,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
       default:
         return RELAY_SLOT_COLORS[SlotType.A];
     }
-
-    // default:
-    // return slotType.toString() as ButtonColor;
-    // }
-
-    // return RELAY_SLOT_COLORS[slotType] as ButtonColor;
   };
 
   const getSlotColor__V1 = (slotType: SlotType, isOn = false) => {
@@ -231,16 +219,12 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   };
 
   const getSlotColor = (config: RelayConfig) => {
-    // If relay is ON, use success color regardless of slot type
-
     if (config.slotNumber === 14) {
       return colors[RELAY_SLOT_COLORS[SlotSpecial.ENF]];
     }
-
     if (config.slotNumber === 15) {
       return colors[RELAY_SLOT_COLORS[SlotSpecial.MTO]];
     }
-
     if (config.slotNumber === 16) {
       return colors.greyXLight75;
     }
