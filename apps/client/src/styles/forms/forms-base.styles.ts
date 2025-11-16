@@ -60,14 +60,21 @@ export const formsBase = css`
     color: ${forms.inputs.text.color};
     transition: ${forms.inputs.transition};
     padding: ${forms.inputs.padding};
+    /* Prevent layout shift from outline */
+    outline: none !important;
 
     &:hover:not(:disabled):not(:focus) {
       border-color: ${forms.inputs.hover.border.color};
     }
 
     &:focus {
+      /* Maintain border width to prevent layout shift */
+      border-width: ${forms.inputs.border.width} !important;
       border-color: ${forms.inputs.focus.border.color};
+      /* Use box-shadow for focus ring instead of outline to prevent shift */
       box-shadow: 0 0 0 3px ${colors.primaryLight25};
+      outline: none !important;
+      outline-offset: 0 !important;
     }
 
     &:disabled {
@@ -147,6 +154,27 @@ export const formsBase = css`
       .rt-TextFieldSlot:where(.rt-TextFieldSlot:not([data-side='left'])) {
         border: none !important;
       }
+    }
+  }
+
+  /* Switch focus styles - prevent layout shift */
+  .rt-SwitchRoot {
+    /* Remove outline that causes layout shift */
+    outline: none !important;
+    /* Ensure no border changes on focus */
+    border: none !important;
+
+    /* Focus state - use transparent box-shadow to prevent layout shift */
+    &:focus,
+    &:focus-visible {
+      outline: none !important;
+      outline-offset: 0 !important;
+      /* Transparent box-shadow to prevent layout shift without visible ring */
+      box-shadow: 0 0 0 2px transparent !important;
+      /* Ensure no border is added on focus */
+      border: none !important;
+      /* Prevent any transform changes */
+      transform: none !important;
     }
   }
 
