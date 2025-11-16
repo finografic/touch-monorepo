@@ -11,6 +11,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 
 import { formatUnixTimestamp } from 'utils/date.utils';
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
+import { useTableLabelMappings } from './useTableLabelMappings';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
@@ -75,6 +76,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   onClickDelete,
 }) => {
   const { currentLanguage } = useAppConfig();
+  const { getLabel } = useTableLabelMappings(currentLanguage);
 
   // Initialize filters for PrimeReact DataTable
   const [filters, setFilters] = useState<DataTableFilterMeta>({
@@ -97,6 +99,26 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         {rowData.displayIndex}
       </Text>
     );
+  };
+
+  const modeBodyTemplate = (rowData: OrderReadableWithIndex) => {
+    return <Text size="2">{getLabel.mode(rowData.mode)}</Text>;
+  };
+
+  const drinkTypeBodyTemplate = (rowData: OrderReadableWithIndex) => {
+    return <Text size="2">{getLabel.drinkType(rowData.drinkType)}</Text>;
+  };
+
+  const drinkSubtypeBodyTemplate = (rowData: OrderReadableWithIndex) => {
+    return <Text size="2">{getLabel.drinkSubtype(rowData.drinkSubtype)}</Text>;
+  };
+
+  const volumeBodyTemplate = (rowData: OrderReadableWithIndex) => {
+    return <Text size="2">{getLabel.volume(rowData.volume)}</Text>;
+  };
+
+  const containerTypeBodyTemplate = (rowData: OrderReadableWithIndex) => {
+    return <Text size="2">{getLabel.containerType(rowData.containerType)}</Text>;
   };
 
   const temperatureBodyTemplate = (rowData: OrderReadableWithIndex) => {
@@ -160,6 +182,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           filter
           filterPlaceholder="Search"
           style={{ minWidth: '80px', maxWidth: '100px' }}
+          body={modeBodyTemplate}
         />
         <Column
           field="drinkType"
@@ -168,6 +191,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           filter
           filterPlaceholder="Search"
           style={{ minWidth: '120px', maxWidth: '150px' }}
+          body={drinkTypeBodyTemplate}
         />
         <Column
           field="drinkSubtype"
@@ -176,6 +200,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           filter
           filterPlaceholder="Search"
           style={{ minWidth: '120px', maxWidth: '150px' }}
+          body={drinkSubtypeBodyTemplate}
         />
         <Column
           field="volume"
@@ -184,6 +209,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           filter
           filterPlaceholder="Search"
           style={{ minWidth: '100px', maxWidth: '120px' }}
+          body={volumeBodyTemplate}
         />
         <Column
           field="containerType"
@@ -192,6 +218,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
           filter
           filterPlaceholder="Search"
           style={{ minWidth: '100px', maxWidth: '120px' }}
+          body={containerTypeBodyTemplate}
         />
         <Column
           field="defaultTempConsume"
