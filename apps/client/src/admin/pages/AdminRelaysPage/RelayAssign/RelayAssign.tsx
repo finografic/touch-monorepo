@@ -16,6 +16,7 @@ import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
 import type { SlotType } from 'types/slots.types';
 import { SlotSpecial } from 'types/slots.types';
 import { NUM_RELAYS } from '../relays.config';
+import { AdminSlotTimer } from './AdminSlotTimer';
 import { RelaySelectWithButton } from './RelaySelectWithButton';
 import { useColors } from 'styles';
 import { RadioIcon } from 'styles/icons';
@@ -212,7 +213,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
               return (
                 <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
                   <Row>
-                    <Col xs={2} className="col">
+                    <Col xs={2} className="col col-square-type">
                       <Flex gap="4">
                         <Flex
                           className="slot-square"
@@ -228,7 +229,12 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                         </Flex>
                       </Flex>
                     </Col>
-                    <Col xs={5} className="col col-select">
+                    <Col xs={2} className="col col-timer">
+                      <Flex>
+                        <AdminSlotTimer slotNumber={config.slotNumber} />
+                      </Flex>
+                    </Col>
+                    <Col xs={4} className="col col-select">
                       <Flex gap="6">
                         <Flex width="220px">
                           <SelectCustom
@@ -241,7 +247,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                             allowEmpty={true}
                           />
                         </Flex>
-                        <Flex width="140px">
+                        <Flex>
                           {assignments[config.slotNumber] ? (
                             <Button
                               className="button-relay-test"
@@ -254,7 +260,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                               <RadioIcon /> test
                             </Button>
                           ) : (
-                            <Flex align="center" gap="2" ml="3" className="relay-status status-off">
+                            <Flex align="center" gap="2" ml="3" className="status-off">
                               <Text color="gray" size="2">
                                 {/* No relay assigned */}
                               </Text>
@@ -263,30 +269,29 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                         </Flex>
                       </Flex>
                     </Col>
-                    <Col xs={2} className="col col-timer">
-                      <Flex>{/* TODO: TIMER COMPONENT HERE */}</Flex>
-                    </Col>
-                    <Col xs={3} className="col col-status">
-                      {assignments[config.slotNumber] ? (
-                        <Flex
-                          align="center"
-                          gap="2"
-                          ml="3"
-                          className={`relay-status ${config.isOn ? 'status-on' : 'status-off'}`}
-                        >
-                          <Flex className="relay-status-indicator">{assignments[config.slotNumber]}</Flex>
-                          <Flex justify="end">Relay</Flex>
-                          <Flex justify="center">{assignments[config.slotNumber]}:</Flex>
-                          <Flex>{config.isOn ? 'ON' : 'OFF'}</Flex>
-                        </Flex>
-                      ) : (
-                        <Flex align="center" gap="2" ml="3" className="relay-status status-off">
-                          <Flex className="relay-status-indicator status-off" />
-                          <Flex />
-                          <Flex />
-                          <Flex />
-                        </Flex>
-                      )}
+                    <Col xs={4} className="col col-status">
+                      <Flex
+                        align="center"
+                        gap="2"
+                        ml="3"
+                        className={`relay-status ${config.isOn ? 'status-on' : 'status-off'}`}
+                      >
+                        {assignments[config.slotNumber] ? (
+                          <>
+                            <Flex className="relay-status-indicator">{assignments[config.slotNumber]}</Flex>
+                            <Flex justify="end">Relay</Flex>
+                            <Flex justify="center">{assignments[config.slotNumber]}:</Flex>
+                            <Flex>{config.isOn ? 'ON' : 'OFF'}</Flex>
+                          </>
+                        ) : (
+                          <>
+                            <Flex className="relay-status-indicator status-off" />
+                            <Flex />
+                            <Flex />
+                            <Flex />
+                          </>
+                        )}
+                      </Flex>
                     </Col>
                   </Row>
                 </div>
@@ -294,15 +299,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
             })}
           </div>
         </Flex>
-        {/* <Flex className="col col-json">
-          <pre>
-            {JSON.stringify(
-              assignments,
-              (key, value) => (value === undefined ? null : value), // Convert undefined to null for JSON display
-              2,
-            )}
-          </pre>
-        </Flex> */}
       </Flex>
     </Box>
   );

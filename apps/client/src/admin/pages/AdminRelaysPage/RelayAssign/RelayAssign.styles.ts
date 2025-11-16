@@ -20,10 +20,18 @@ export const styles = css`
   }
 
   .slot-grid-item {
+    &:first-of-type {
+      > div {
+        padding: 0.75rem 0 0 0;
+        border-top: 1px solid ${colors.greyXXLight};
+      }
+    }
     > div {
       display: flex;
       align-items: center;
       width: 100%;
+      padding: 0;
+      border-bottom: 1px solid ${colors.greyXXLight};
     }
     button {
       cursor: pointer;
@@ -34,6 +42,7 @@ export const styles = css`
     display: flex;
     align-items: center;
     width: 100%;
+    padding: 0 0 0.75rem 0;
   }
 
   .slot-square {
@@ -53,6 +62,16 @@ export const styles = css`
     font-size: 0.9rem;
   }
 
+  .col-square-type {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: ${colors.greyLight};
+    max-width: 10rem !important;
+  }
+
   .col-type {
     display: flex;
     align-items: center;
@@ -61,6 +80,14 @@ export const styles = css`
     font-size: 0.95rem;
     color: ${colors.greyLight};
     width: 4rem;
+    padding: 0.15rem 0 0;
+  }
+
+  .col-timer {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    max-width: 9rem !important;
   }
 
   .col-select {
@@ -90,7 +117,7 @@ export const styles = css`
   }
 
   .col-status > div {
-    margin-right: 4rem;
+    margin-right: 3rem;
     width: 100%;
     display: flex;
     justify-content: end;
@@ -106,8 +133,7 @@ export const styles = css`
   }
 
   .relay-status {
-    width: 100%;
-    min-width: 180px;
+    flex-grow: 1;
     font-weight: 600;
     color: ${colors.greyXLight};
 
