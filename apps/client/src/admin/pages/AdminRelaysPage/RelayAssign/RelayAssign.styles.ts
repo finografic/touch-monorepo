@@ -12,7 +12,6 @@ export const styles = css`
     max-width: 800px;
     padding: 1rem;
     margin-bottom: 2rem;
-    border: 1px solid ${colors.greyXXLight};
   }
 
   .slot-grid-item {
@@ -48,17 +47,6 @@ export const styles = css`
     font-weight: 600;
     font-size: 0.9rem;
   }
-
-  /* .col-button {
-    button.slot-button {
-      margin: 2px;
-      width: 2.5rem;
-      height: 2.5rem;
-      padding: 0.5rem 1rem;
-      background-color: transparent;
-      cursor: pointer;
-    }
-  } */
 
   .col-type {
     display: flex;

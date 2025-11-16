@@ -38,11 +38,6 @@ export const styles = css`
 
     background-color: ${colors.white};
     border-radius: ${layout.borderRadius};
-
-    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); */
-
-    /* Ensure overflow is visible for nested scrollable content */
-    /* overflow: visible; */
     display: flex;
     flex-direction: column;
   }
