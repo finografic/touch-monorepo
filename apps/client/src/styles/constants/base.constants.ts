@@ -43,11 +43,11 @@ export const border = {
   radius: {
     none: '0',
     xs: '0.25rem',
-    sm: '0.5rem',
-    default: '0.75rem',
-    lg: '1rem',
-    xl: '1.25rem',
-    xxl: '1.5rem',
+    sm: '0.33rem',
+    default: '0.5rem',
+    lg: '0.66rem',
+    xl: '1.00rem',
+    xxl: '1.25rem',
     full: '50%',
   },
 } as const;

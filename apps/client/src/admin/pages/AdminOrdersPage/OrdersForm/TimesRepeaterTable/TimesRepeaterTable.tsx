@@ -41,10 +41,7 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
   const timeRows = formValues[name] || [];
   const { isSubmitted } = formState;
 
-  // Use dev tools visibility for random buttons
   const { isDevToolsVisible } = useDev();
-
-  // Get defaultTempFreeze for minimum temperature constraint
   const defaultTempFreeze = formValues.defaultTempFreeze || -50;
 
   const isRowComplete = (index: number) => {
@@ -61,7 +58,6 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
     const row = timeRows[index];
     if (!row) return false;
 
-    // Check if all fields are present and within valid ranges
     const tempValid =
       typeof row.temperature === 'number' && row.temperature >= defaultTempFreeze && row.temperature <= 50;
     const timeAValid = typeof row.timeA === 'number' && row.timeA >= 0 && row.timeA <= 3600;
@@ -76,10 +72,8 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
   };
 
   const getEditableRowIndex = () => {
-    // First row is always editable
     if (fields.length === 0) return 0;
 
-    // Check each row sequentially
     for (let i = 0; i < fields.length; i++) {
       if (!isRowCompleteAndValid(i)) {
         return i; // This is the first incomplete/invalid row, so it's editable
@@ -89,7 +83,6 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
     return -1; // All rows complete and valid
   };
 
-  // Check if first row field is empty and should show validation error
   const isFirstRowFieldRequired = (fieldName: string) => {
     return isSubmitted && (timeRows[0]?.[fieldName] === undefined || timeRows[0]?.[fieldName] === '');
   };
@@ -98,12 +91,14 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
   const canAddRow = editableRowIndex === -1; // All rows are complete and valid
   const canDeleteRow = fields.length > minRows;
 
-  // Notify parent when canAddRow state changes
-  useEffect(() => {
-    if (onCanAddRowChange) {
-      onCanAddRowChange(canAddRow);
-    }
-  }, [canAddRow, onCanAddRowChange]);
+  useEffect(
+    function handleCanAddRowChange() {
+      if (onCanAddRowChange) {
+        onCanAddRowChange(canAddRow);
+      }
+    },
+    [canAddRow, onCanAddRowChange],
+  );
 
   // Calculate if internal add button should be hidden (when external callback is provided)
   const hideInternalAddButton = Boolean(onCanAddRowChange);
@@ -153,6 +148,7 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
               onRemove={remove}
               isDevToolsVisible={isDevToolsVisible}
               canDelete={fields.length > 1}
+              // canDelete={canDeleteRow}
             />
           );
         })}
@@ -161,7 +157,6 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
       {/* Total rows counter */}
       <div className="table-footer">
         {/* Add Row Button - only show when all existing rows are complete AND no external callback is provided */}
-        {/* {canAddRow && !hideInternalAddButton && ( */}
         <div className="add-row-container">
           <Button
             type="button"
@@ -174,7 +169,6 @@ export const TimesRepeaterTable: React.FC<TimesRepeaterTableProps> = ({
             + Add Row
           </Button>
         </div>
-        {/* )} */}
       </div>
     </div>
   );

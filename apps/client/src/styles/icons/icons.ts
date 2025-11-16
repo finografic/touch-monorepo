@@ -44,6 +44,7 @@ import {
   PanelBottomClose as _PanelBottomCloseIcon,
   PanelBottomOpen as _PanelBottomOpenIcon,
   PencilLine as _EditIcon,
+  Radio as _RadioIcon,
   RefreshCcwIcon as _RefreshCcwIcon,
   Search as _MagnifyingGlassIcon,
   ShieldCheck as _ShieldCheckIcon,
@@ -119,6 +120,7 @@ export const MagnifyingGlassIcon = createIconWrapper(_MagnifyingGlassIcon);
 export const PanelBottomCloseIcon = createIconWrapper(_PanelBottomCloseIcon);
 export const PanelBottomOpenIcon = createIconWrapper(_PanelBottomOpenIcon);
 export const PlusIcon = createIconWrapper(_PlusIcon);
+export const RadioIcon = createIconWrapper(_RadioIcon);
 export const RefreshIcon = createIconWrapper(_RefreshCcwIcon);
 export const SettingsIcon = createIconWrapper(_SettingsIcon);
 export const SpeakerLoudIcon = createIconWrapper(_SpeakerLoudIcon);
@@ -175,6 +177,7 @@ export const ICON_MAP = {
   PanelBottomCloseIcon,
   PanelBottomOpenIcon,
   PlusIcon,
+  RadioIcon,
   RefreshIcon,
   ReloadIcon,
   SettingsIcon,

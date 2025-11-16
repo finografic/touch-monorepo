@@ -43,7 +43,8 @@ export const buttonColorVariants = generateUiColorVariants(
 
 // Base styles shared across all interactive buttons
 export const stylesButtonBase = css`
-  ${buttonColorVariants}
+  /* TODO: NEEDED ?? ADD A LOT OF EXCESS CSS !!! */
+  /* ${buttonColorVariants} */
   cursor: pointer;
   background: transparent;
   transition: ${button.transition};
@@ -61,7 +62,7 @@ export const stylesButtonBase = css`
   color: ${colors.infoLight};
   border-color: ${colors.infoLight};
 
-  &:hover {
+  :hover {
     color: ${colors.infoDark};
     border-color: ${colors.infoDark};
     background-color: ${colors.infoLight25};
@@ -69,20 +70,21 @@ export const stylesButtonBase = css`
   }
 
   /* Override Radix UI disabled styles */
-  &:disabled,
+  :disabled,
   &.disabled,
   &[data-disabled='true'] {
     opacity: ${button.disabled.opacity};
-    color: ${colors.default50} !important;
-    border-color: ${colors.defaultLight50};
+    color: ${colors.defaultXLight};
+    border-color: ${colors.defaultXLight};
     background-color: transparent;
     user-select: none;
     cursor: not-allowed;
 
     /* Ensure hover states don't override */
-    &:hover {
-      color: ${colors.default50} !important;
-      border-color: ${colors.defaultLight50}!important;
+    :hover,
+    :active {
+      color: ${colors.defaultXLight};
+      border-color: ${colors.defaultXLight};
       background-color: transparent;
       transform: none;
     }

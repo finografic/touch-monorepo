@@ -29,11 +29,8 @@ export {
 export { oklchDarkTheme, oklchLightTheme, oklchThemes } from './themes/generate-oklch-themes'; // Explicit OKLCH aliases
 
 // 🎨 Color utilities
-export type { ColorVariants, UiColorVariants } from './utils/generate-ui-color-variants.utils';
-export {
-  generateComponentColorVariants,
-  generateUiColorVariants,
-} from './utils/generate-ui-color-variants.utils';
+export type { UiColorVariants } from './utils/generate-ui-color-variants.utils';
+export { generateUiColorVariants } from './utils/generate-ui-color-variants.utils';
 
 // 📱 Viewport
 export { BREAKPOINTS } from './viewport/viewport.breakpoints';

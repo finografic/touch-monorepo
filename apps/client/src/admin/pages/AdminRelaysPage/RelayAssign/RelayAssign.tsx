@@ -4,6 +4,7 @@ import { Col, Row } from 'react-grid-system';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { getRelaySlotType } from 'admin/utils/relays.utils';
 import clsx from 'clsx';
+import { SelectAlt } from 'forms/SelectAlt';
 import { SelectCustom } from 'forms/SelectCustom';
 import { Button, type ButtonColor } from 'components/Button';
 
@@ -13,6 +14,7 @@ import type { SelectOption } from 'types/models/select-option.model';
 import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
 import { SlotSpecial, SlotType } from 'types/slots.types';
 import { NUM_RELAYS } from '../relays.config';
+import { RelaySelectWithButton } from './RelaySelectWithButton';
 import { useColors } from 'styles';
 import { styles } from './RelayAssign.styles';
 
@@ -180,49 +182,6 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     [onRelayToggle, relayConfigurations],
   );
 
-  const getRelaySlotColor = (config: RelayConfig) => {
-    if (config.slotNumber === 14) {
-      return RELAY_SLOT_COLORS[SlotSpecial.ENF];
-    }
-
-    if (config.slotNumber === 15) {
-      return RELAY_SLOT_COLORS[SlotSpecial.MTO];
-    }
-
-    switch (config.slotType) {
-      case SlotType.A:
-        return RELAY_SLOT_COLORS[SlotType.A];
-      case SlotType.B:
-        return RELAY_SLOT_COLORS[SlotType.B];
-      case SlotType.C:
-        return RELAY_SLOT_COLORS[SlotType.C];
-      // case SlotSpecial.ENF:
-      //   return RELAY_SLOT_COLORS[SlotSpecial.ENF];
-      // case SlotSpecial.MTO:
-      //   return RELAY_SLOT_COLORS[SlotSpecial.MTO];
-      default:
-        return RELAY_SLOT_COLORS[SlotType.A];
-    }
-  };
-
-  const getSlotColor__V1 = (slotType: SlotType, isOn = false) => {
-    // If relay is ON, use success color regardless of slot type
-    if (isOn) {
-      return 'success';
-    }
-
-    switch (slotType) {
-      case SlotType.A:
-        return colors.defaultLight;
-      case SlotType.B:
-        return colors.infoLight;
-      case SlotType.C:
-        return colors.dangerLight;
-      default:
-        return colors.defaultLight;
-    }
-  };
-
   const getSlotColor = (config: RelayConfig) => {
     if (config.slotNumber === 14) {
       return colors[RELAY_SLOT_COLORS[SlotSpecial.ENF]];
@@ -275,8 +234,9 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                       </Flex>
                     </Col>
                     <Col xs={5} className="col col-select">
-                      <Flex pl="2">
-                        <SelectCustom
+                      <Flex direction="column" gap="2">
+                        {/* Original SelectCustom */}
+                        {/* <SelectCustom
                           className="relay-assign-select"
                           options={baseOptions}
                           placeholder="Please select..."
@@ -284,6 +244,25 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                           onSelect={(value) => handleSelectChange(config.slotNumber, value)}
                           disabled={isLoading || bulkUpdateMutation.isPending}
                           allowEmpty={true}
+                        /> */}
+                        {/* New InputGroup version with Button */}
+                        {/* <SelectAlt
+                          options={baseOptions}
+                          value={assignments[config.slotNumber]?.toString() || undefined}
+                          onSelect={(value) => handleSelectChange(config.slotNumber, value)}
+                          placeholder="Please select..."
+                          allowEmpty={true}
+                          disabled={isLoading}
+                        /> */}
+                        {/* New InputGroup version with Button */}
+                        <RelaySelectWithButton
+                          options={baseOptions}
+                          placeholder="Please select..."
+                          value={assignments[config.slotNumber]?.toString() || undefined}
+                          onSelect={(value) => handleSelectChange(config.slotNumber, value)}
+                          disabled={isLoading || bulkUpdateMutation.isPending}
+                          allowEmpty={true}
+                          slotNumber={config.slotNumber}
                         />
                       </Flex>
                     </Col>
@@ -315,7 +294,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
             })}
           </div>
         </Flex>
-        <Flex className="col col-json">
+        {/* <Flex className="col col-json">
           <pre>
             {JSON.stringify(
               assignments,
@@ -323,7 +302,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
               2,
             )}
           </pre>
-        </Flex>
+        </Flex> */}
       </Flex>
     </Box>
   );

@@ -20,16 +20,6 @@ import { UI_COLOR_NAMES } from 'styles/colors/colors.types';
  *     color: ${colors.white};
  *   }
  * `);
- *
- * @example
- * // Generate alert color variants
- * const alertColorVariants = generateUiColorVariants('alert', (colorName, variants) => css`
- *   &.alert-${colorName} {
- *     background-color: ${variants.light};
- *     border-color: ${variants.dark};
- *     color: ${variants.dark};
- *   }
- * `);
  */
 export function generateUiColorVariants(
   componentType: string,
@@ -77,13 +67,3 @@ export interface UiColorVariants {
   xdark: string;
   xxdark: string;
 }
-
-/**
- * @deprecated Use generateUiColorVariants instead
- */
-export const generateComponentColorVariants = generateUiColorVariants;
-
-/**
- * @deprecated Use UiColorVariants instead
- */
-export type ColorVariants = UiColorVariants;

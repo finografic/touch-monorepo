@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { Badge, Button, Flex, Text } from '@radix-ui/themes';
+import { Badge, Flex, Text } from '@radix-ui/themes';
+import { Button } from 'components/Button';
 import { Loader } from 'components/Loader/Loader';
 
 import { useGetRelayStates, useGetRelayStatus } from 'queries/relays';
@@ -51,15 +52,7 @@ export const RelaysStatus: React.FC = () => {
             : `Error loading relay states: ${statesError.message}`}
         </Text>
         <Flex gap="3" align="center">
-          <Button
-            onClick={() => {
-              enableStatesPolling();
-              // Status polling will restart automatically via React Query
-            }}
-            variant="solid"
-            color="blue"
-            size="3"
-          >
+          <Button onClick={() => enableStatesPolling()} variant="solid" color="info">
             🔄 Retry Connection
           </Button>
           <Badge color={statesPollingEnabled ? 'green' : 'red'} variant="soft" size="3">
@@ -102,7 +95,7 @@ export const RelaysStatus: React.FC = () => {
           onClick={() => handlers.reconnect(relayStatus)}
           disabled={mutations.reconnect.isPending || mutations.disconnect.isPending}
           variant="outline"
-          size="2"
+          size="sm"
         >
           {mutations.reconnect.isPending || mutations.disconnect.isPending
             ? relayStatus?.connected

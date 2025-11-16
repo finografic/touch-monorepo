@@ -32,6 +32,20 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
   // const transparentColor =
   //   colors[`${baseName}${shiftShadeVariant(currentVariant, -1)}25` as keyof typeof colors];
 
+  // NEW: SPECIAL COMBINATION CASE
+  if (color === 'grey' && variant === 'solid') {
+    return css`
+      background-color: ${lightColor};
+      color: ${colors.white};
+      border: ${button.border.width} solid ${lightColor};
+
+      &:hover:not(:disabled):not([data-loading='true']) {
+        background-color: ${colors.infoLight};
+        border-color: ${colors.infoLight};
+      }
+    `;
+  }
+
   switch (variant) {
     case 'solid':
       return css`

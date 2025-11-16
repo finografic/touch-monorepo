@@ -1,5 +1,7 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as HID from 'node-hid';
+
+import { USBRelayService } from '../usbrelay.service';
 
 // Mock node-hid
 vi.mock('node-hid', () => ({
@@ -24,9 +26,7 @@ vi.mock('../usbrelay.service', async () => {
   };
 });
 
-import { USBRelayService } from '../usbrelay.service';
-
-describe('USBRelayService', () => {
+describe('uSBRelayService', () => {
   let mockDevice: any;
   let mockHID: any;
 
@@ -59,7 +59,7 @@ describe('USBRelayService', () => {
     vi.restoreAllMocks();
   });
 
-  describe('Device Detection', () => {
+  describe('device detection', () => {
     it('should detect USBRelay8 device', () => {
       const devices = HID.devices();
       expect(devices).toHaveLength(1);
@@ -73,7 +73,7 @@ describe('USBRelayService', () => {
     });
   });
 
-  describe('Initialization', () => {
+  describe('initialization', () => {
     it('should initialize successfully when device is available', async () => {
       const mockInitialize = vi.mocked(USBRelayService.initialize);
       mockInitialize.mockResolvedValue(true);
@@ -91,7 +91,7 @@ describe('USBRelayService', () => {
     });
   });
 
-  describe('Relay Control', () => {
+  describe('relay control', () => {
     beforeEach(() => {
       // Mock successful initialization
       vi.mocked(USBRelayService.getConnectionStatus).mockReturnValue({ connected: true });
@@ -142,7 +142,7 @@ describe('USBRelayService', () => {
     });
   });
 
-  describe('Status and State Management', () => {
+  describe('status and state management', () => {
     it('should get relay states', async () => {
       const mockStates = [
         { slotNumber: 1, isOn: false, lastUpdated: new Date() },
@@ -186,7 +186,7 @@ describe('USBRelayService', () => {
     });
   });
 
-  describe('Connection Management', () => {
+  describe('connection Management', () => {
     it('should disconnect successfully', async () => {
       const mockDisconnect = vi.mocked(USBRelayService.disconnect);
       mockDisconnect.mockResolvedValue(undefined);
@@ -206,7 +206,7 @@ describe('USBRelayService', () => {
     });
   });
 
-  describe('Error Handling', () => {
+  describe('error Handling', () => {
     it('should handle device write errors', async () => {
       const mockToggleRelay = vi.mocked(USBRelayService.toggleRelay);
       mockToggleRelay.mockRejectedValue(new Error('Write failed'));
