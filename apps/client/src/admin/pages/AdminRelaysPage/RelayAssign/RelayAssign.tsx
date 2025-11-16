@@ -263,8 +263,8 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                         </Flex>
                       </Flex>
                     </Col>
-                    <Col xs={2} className="col col-time">
-                      {/* <Flex>{config.slotNumber}</Flex> */}
+                    <Col xs={2} className="col col-timer">
+                      <Flex>{/* TODO: TIMER COMPONENT HERE */}</Flex>
                     </Col>
                     <Col xs={3} className="col col-status">
                       {assignments[config.slotNumber] ? (
