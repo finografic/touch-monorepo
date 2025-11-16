@@ -13,7 +13,7 @@ import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queri
 import { calculateColumns, MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS, NUM_ROWS } from 'types/slot-config.types';
 import type { SlotType } from 'types/slots.types';
 import { AdminPageLayout } from '../..';
-import { AdminSection } from '../../components/AdminSection';
+import { AdminSection } from '../../components/AdminSection/AdminSection';
 import { SlotGrid } from './SlotGrid/SlotGrid';
 import { styles } from './AdminSlotsConfigPage.styles';
 

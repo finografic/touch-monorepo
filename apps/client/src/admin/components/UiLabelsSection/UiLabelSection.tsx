@@ -2,7 +2,7 @@ import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
-import { AdminSection } from 'admin/components/AdminSection';
+import { AdminSection } from 'admin/components/AdminSection/AdminSection';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 import { styles } from './UiLabelSection.styles';
