@@ -56,11 +56,15 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     return map;
   }, [configurations]);
 
+  // Initialize assignments with ALL slot numbers (1-16), even if unset
+  // This ensures all slots are always present in the object
   const [assignments, setAssignments] = useState<Assignments>(() => {
     const initial: Assignments = {};
-    relayNumberMap.forEach((relayNumber, slotNumber) => {
-      initial[slotNumber] = relayNumber;
-    });
+    // Initialize all slots from 1 to NUM_RELAYS
+    for (let slotNumber = 1; slotNumber <= NUM_RELAYS; slotNumber++) {
+      // Get value from relayNumberMap if it exists, otherwise undefined
+      initial[slotNumber] = relayNumberMap.get(slotNumber) ?? undefined;
+    }
     return initial;
   });
 
@@ -76,9 +80,10 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 
       if (hasChanged) {
         const initial: Assignments = {};
-        relayNumberMap.forEach((relayNumber, slotNumber) => {
-          initial[slotNumber] = relayNumber;
-        });
+        // Initialize all slots from 1 to NUM_RELAYS to ensure all slots are present
+        for (let slotNumber = 1; slotNumber <= NUM_RELAYS; slotNumber++) {
+          initial[slotNumber] = relayNumberMap.get(slotNumber) ?? undefined;
+        }
         setAssignments(initial);
         prevRelayNumberMapRef.current = relayNumberMap;
       }
@@ -303,7 +308,13 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
           </div>
         </Flex>
         <Flex className="col col-json">
-          <pre>{JSON.stringify(assignments, null, 2)}</pre>
+          <pre>
+            {JSON.stringify(
+              assignments,
+              (key, value) => (value === undefined ? null : value), // Convert undefined to null for JSON display
+              2,
+            )}
+          </pre>
         </Flex>
       </Flex>
     </Box>
