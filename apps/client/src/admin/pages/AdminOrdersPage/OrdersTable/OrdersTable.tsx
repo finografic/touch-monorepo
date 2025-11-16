@@ -95,7 +95,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
 
   const indexBodyTemplate = (rowData: OrderReadableWithIndex) => {
     return (
-      <Text size="2" weight="bold" style={{ opacity: 0.4 }}>
+      <Text size="2" weight="bold" className="td-index">
         {rowData.displayIndex}
       </Text>
     );
@@ -238,7 +238,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         /> */}
         <Column
           header="Actions"
-          style={{ minWidth: '140px', maxWidth: '180px' }}
+          // style={{ minWidth: '140px', maxWidth: '180px' }}
           body={actionsBodyTemplate}
         />
       </DataTable>

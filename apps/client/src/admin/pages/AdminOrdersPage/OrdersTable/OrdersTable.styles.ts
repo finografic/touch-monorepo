@@ -42,6 +42,9 @@ export const styles = css`
       }
       tr:nth-of-type(1) {
         th {
+          &:nth-of-type(1) {
+            padding-left: 1.5rem;
+          }
           padding-top: 1rem;
           border-top: 1px solid ${colors.greyXXLight};
           border-bottom: ${layout.borderWidth} solid ${colors.greyXXLight};
@@ -126,8 +129,17 @@ export const styles = css`
       > td {
         padding: 0.75rem 1rem;
         border-bottom: 1px solid ${colors.greyXLight};
-        color: ${colors.text};
+        color: ${colors.textLight};
         font-weight: 600;
+      }
+
+      .td-index {
+        display: inline-flex;
+        justify-content: flex-end;
+        text-align: right;
+        color: ${colors.info50};
+        width: 2.5rem;
+        padding-right: 0.75rem;
       }
     }
 
@@ -253,9 +265,9 @@ export const styles = css`
     gap: 3rem;
     justify-content: center;
     align-items: center;
-    margin: -1rem 2rem -1rem 0rem;
+    margin: -1rem 0rem -1rem -3rem;
     height: 2rem;
-    padding: 0 3rem 0 0;
+    padding: 0 0 0 0;
   }
 
   .button-edit,
