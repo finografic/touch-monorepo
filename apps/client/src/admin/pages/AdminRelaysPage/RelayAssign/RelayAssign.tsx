@@ -258,7 +258,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
               return (
                 <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
                   <Row>
-                    <Col xs={2} className="col">
+                    <Col xs={3} className="col">
                       <Flex gap="4">
                         <Flex
                           className="slot-square"
@@ -275,7 +275,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                       </Flex>
                     </Col>
                     <Col xs={5} className="col col-select">
-                      <Flex pl="4">
+                      <Flex pl="2">
                         <SelectCustom
                           className="relay-assign-select"
                           options={baseOptions}
@@ -288,18 +288,26 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                       </Flex>
                     </Col>
                     <Col xs={4} className="col col-status">
-                      <Flex
-                        align="center"
-                        gap="2"
-                        ml="3"
-                        className={`relay-status ${config.isOn ? 'status-on' : 'status-off'}`}
-                      >
-                        <Flex className="relay-status-indicator">{config.slotNumber}</Flex>
+                      {assignments[config.slotNumber] ? (
+                        <Flex
+                          align="center"
+                          gap="2"
+                          ml="3"
+                          className={`relay-status ${config.isOn ? 'status-on' : 'status-off'}`}
+                        >
+                          <Flex className="relay-status-indicator">{assignments[config.slotNumber]}</Flex>
 
-                        <Flex justify="end">Relay</Flex>
-                        <Flex justify="center">{config.slotNumber}:</Flex>
-                        <Flex>{config.isOn ? 'ON' : 'OFF'}</Flex>
-                      </Flex>
+                          <Flex justify="end">Relay</Flex>
+                          <Flex justify="center">{assignments[config.slotNumber]}:</Flex>
+                          <Flex>{config.isOn ? 'ON' : 'OFF'}</Flex>
+                        </Flex>
+                      ) : (
+                        <Flex align="center" gap="2" ml="3" className="relay-status status-off">
+                          <Text color="gray" size="2">
+                            {/* No relay assigned */}
+                          </Text>
+                        </Flex>
+                      )}
                     </Col>
                   </Row>
                 </div>
