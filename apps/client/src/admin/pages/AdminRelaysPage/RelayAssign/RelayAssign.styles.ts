@@ -12,6 +12,7 @@ export const styles = css`
     max-width: 800px;
     padding: 1rem;
     margin-bottom: 2rem;
+    border: 1px solid ${colors.greyXXLight};
   }
 
   .slot-grid-item {
@@ -81,6 +82,15 @@ export const styles = css`
     > div {
       margin-left: 7rem;
     }
+  }
+
+  .col-json {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    max-width: 400px;
+    padding: 5rem;
+    font-size: 0.9rem;
   }
 
   .relay-status {

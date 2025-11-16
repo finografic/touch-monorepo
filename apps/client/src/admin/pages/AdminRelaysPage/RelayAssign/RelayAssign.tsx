@@ -259,62 +259,69 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 
   return (
     <Box css={styles}>
-      <div className="slot-list">
-        {/* TODO: ORDER BY *SLOT NUMBER* */}
-        {relayConfigurations.map((config) => {
-          const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
+      <Flex justify="between" gap="4">
+        <Flex gap="4">
+          <div className="slot-list">
+            {/* TODO: ORDER BY *SLOT NUMBER* */}
+            {relayConfigurations.map((config) => {
+              const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
 
-          return (
-            <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
-              <Row>
-                <Col xs={2} className="col">
-                  <Flex gap="4">
-                    <Flex
-                      className="slot-square"
-                      style={{
-                        borderColor: getSlotColor(config),
-                        color: getSlotColor(config),
-                      }}
-                    >
-                      {config.slotNumber}
-                    </Flex>
-                    <Flex className="col col-type" style={{ color: getSlotColor(config) }}>
-                      {getRelaySlotType(config, relayConfigurations)}
-                    </Flex>
-                  </Flex>
-                </Col>
-                <Col xs={5} className="col col-select">
-                  <Flex pl="4">
-                    <SelectCustom
-                      className="relay-assign-select"
-                      options={baseOptions}
-                      placeholder="Please select..."
-                      value={assignments[config.slotNumber]?.toString() || undefined}
-                      onSelect={(value) => handleSelectChange(config.slotNumber, value)}
-                      disabled={isLoading || bulkUpdateMutation.isPending}
-                      allowEmpty={true}
-                    />
-                  </Flex>
-                </Col>
-                <Col xs={4} className="col col-status">
-                  <Flex
-                    align="center"
-                    gap="2"
-                    ml="3"
-                    className={`relay-status ${config.isOn ? 'status-on' : 'status-off'}`}
-                  >
-                    <Flex className="relay-status-indicator">{config.slotNumber}</Flex>
+              return (
+                <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
+                  <Row>
+                    <Col xs={2} className="col">
+                      <Flex gap="4">
+                        <Flex
+                          className="slot-square"
+                          style={{
+                            borderColor: getSlotColor(config),
+                            color: getSlotColor(config),
+                          }}
+                        >
+                          {config.slotNumber}
+                        </Flex>
+                        <Flex className="col col-type" style={{ color: getSlotColor(config) }}>
+                          {getRelaySlotType(config, relayConfigurations)}
+                        </Flex>
+                      </Flex>
+                    </Col>
+                    <Col xs={5} className="col col-select">
+                      <Flex pl="4">
+                        <SelectCustom
+                          className="relay-assign-select"
+                          options={baseOptions}
+                          placeholder="Please select..."
+                          value={assignments[config.slotNumber]?.toString() || undefined}
+                          onSelect={(value) => handleSelectChange(config.slotNumber, value)}
+                          disabled={isLoading || bulkUpdateMutation.isPending}
+                          allowEmpty={true}
+                        />
+                      </Flex>
+                    </Col>
+                    <Col xs={4} className="col col-status">
+                      <Flex
+                        align="center"
+                        gap="2"
+                        ml="3"
+                        className={`relay-status ${config.isOn ? 'status-on' : 'status-off'}`}
+                      >
+                        <Flex className="relay-status-indicator">{config.slotNumber}</Flex>
 
-                    <Flex justify="end">Relay</Flex>
-                    <Flex justify="center">{config.slotNumber}:</Flex>
-                    <Flex>{config.isOn ? 'ON' : 'OFF'}</Flex>
-                  </Flex>
-                </Col>
-              </Row>
-            </div>
-          );
-        })}
-      </div>
+                        <Flex justify="end">Relay</Flex>
+                        <Flex justify="center">{config.slotNumber}:</Flex>
+                        <Flex>{config.isOn ? 'ON' : 'OFF'}</Flex>
+                      </Flex>
+                    </Col>
+                  </Row>
+                </div>
+              );
+            })}
+          </div>
+        </Flex>
+        <Flex className="col col-json">
+          <pre>{JSON.stringify(assignments, null, 2)}</pre>
+        </Flex>
+      </Flex>
     </Box>
   );
 };
