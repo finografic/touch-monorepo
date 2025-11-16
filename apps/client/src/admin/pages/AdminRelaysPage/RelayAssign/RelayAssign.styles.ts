@@ -34,8 +34,9 @@ export const styles = css`
   .col-button {
     button.slot-button {
       margin: 2px;
-      width: 36px;
-      height: 36px;
+      width: 2.5rem;
+      height: 2.5rem;
+      padding: 0.5rem 1rem;
       background-color: transparent;
       cursor: pointer;
     }

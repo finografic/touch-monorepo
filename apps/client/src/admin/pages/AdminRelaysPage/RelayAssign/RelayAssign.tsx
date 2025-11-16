@@ -1,16 +1,17 @@
 import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
-import { Box, Button, Flex, Text } from '@radix-ui/themes';
+import { Box, Flex, Text } from '@radix-ui/themes';
 import { getRelaySlotType } from 'admin/utils/relays.utils';
+import clsx from 'clsx';
 import { SelectCustom } from 'forms/SelectCustom';
+import { Button, type ButtonColor } from 'components/Button';
 
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 
 import type { SelectOption } from 'types/models/select-option.model';
-import type { RelayConfig } from 'types/relays.types';
-import type { SlotSpecial } from 'types/slots.types';
-import { SlotType } from 'types/slots.types';
+import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
+import { SlotSpecial, SlotType } from 'types/slots.types';
 import { NUM_RELAYS } from '../relays.config';
 import { useColors } from 'styles';
 import { styles } from './RelayAssign.styles';
@@ -24,7 +25,7 @@ interface RelayAssignProps {
 // Map: rowNumber (1-16) -> selectedValue (1-16 | undefined)
 type Assignments = Record<number, number | undefined>;
 
-const RelayAssignComponent: React.FC<RelayAssignProps> = ({
+export const RelayAssign: React.FC<RelayAssignProps> = ({
   configurations,
   onRelayToggle,
   isLoading = false,
@@ -192,15 +193,33 @@ const RelayAssignComponent: React.FC<RelayAssignProps> = ({
     [onRelayToggle, relayConfigurations],
   );
 
-  const displaySlotType = (slotType: SlotType | SlotSpecial) => {
+  const getRelaySlotColor = (slotType: SlotType | SlotSpecial) => {
+    // switch (slotType) {
+    // case SlotSpecial.ENF:
+    //   return 'ENF';
+    // case SlotSpecial.MTO:
+    //   return 'MTO';
+
     switch (slotType) {
-      // case SlotSpecial.ENF:
-      //   return 'ENF';
-      // case SlotSpecial.MTO:
-      //   return 'MTO';
+      case SlotType.A:
+        return RELAY_SLOT_COLORS[SlotType.A];
+      case SlotType.B:
+        return RELAY_SLOT_COLORS[SlotType.B];
+      case SlotType.C:
+        return RELAY_SLOT_COLORS[SlotType.C];
+      case SlotSpecial.ENF:
+        return RELAY_SLOT_COLORS[SlotSpecial.ENF];
+      case SlotSpecial.MTO:
+        return RELAY_SLOT_COLORS[SlotSpecial.MTO];
       default:
-        return slotType.toString();
+        return RELAY_SLOT_COLORS[SlotType.A];
     }
+
+    // default:
+    // return slotType.toString() as ButtonColor;
+    // }
+
+    return RELAY_SLOT_COLORS[slotType] as ButtonColor;
   };
 
   return (
@@ -210,8 +229,11 @@ const RelayAssignComponent: React.FC<RelayAssignProps> = ({
         {relayConfigurations.map((config) => {
           const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
 
+          const COLOR = getRelaySlotColor(configuredSlotType);
+          log('COLOR:', 'lime', COLOR);
+
           return (
-            <div key={config.slotNumber} className="slot-grid-item">
+            <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
               <Row>
                 <Col xs={1} className="col col-button">
                   <Button
@@ -219,15 +241,15 @@ const RelayAssignComponent: React.FC<RelayAssignProps> = ({
                     onClick={() => handleSlotClick(config.slotNumber)}
                     disabled={isLoading}
                     variant="outline"
-                    style={{
-                      boxShadow: `inset 0 0 1px 2px ${getSlotColor(configuredSlotType, config.isOn)}`,
-                    }}
+                    // color="primary"
+                    color={getRelaySlotColor(configuredSlotType) as ButtonColor}
+                    // color={getSlotColor(configuredSlotType, config.isOn) as ButtonColor}
                   >
                     <Flex direction="column" align="center" gap="1">
                       <Text
                         size="3"
                         weight="bold"
-                        style={{ color: getSlotColor(configuredSlotType, config.isOn) }}
+                        style={{ color: String(getSlotColor(configuredSlotType, config.isOn)) }}
                       >
                         {config.slotNumber}
                       </Text>
@@ -271,6 +293,7 @@ const RelayAssignComponent: React.FC<RelayAssignProps> = ({
   );
 };
 
+/*
 // Memoize component to prevent re-renders when props haven't changed
 // Custom comparison: only re-render if configurations array contents changed or other props changed
 export const RelayAssign = memo(RelayAssignComponent, (prevProps, nextProps) => {
@@ -310,3 +333,4 @@ export const RelayAssign = memo(RelayAssignComponent, (prevProps, nextProps) => 
   // All props are equal - skip re-render
   return true;
 });
+*/

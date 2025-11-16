@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
-import { Box, Button, Flex, Text } from '@radix-ui/themes';
+import { Box, Flex } from '@radix-ui/themes';
 import { RelayAssign } from 'admin/pages/AdminRelaysPage/RelayAssign';
 import { RelayButtons } from 'admin/pages/AdminRelaysPage/RelayButtons';
 

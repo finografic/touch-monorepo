@@ -12,7 +12,7 @@ export interface RelayConfig {
 
 export const RELAY_SLOT_COLORS: Record<SlotType | SlotSpecial, ColorName> = {
   [SlotType.A]: 'default',
-  [SlotType.B]: 'success',
+  [SlotType.B]: 'info',
   [SlotType.C]: 'danger',
   [SlotSpecial.ENF]: 'grey',
   [SlotSpecial.MTO]: 'grey',
