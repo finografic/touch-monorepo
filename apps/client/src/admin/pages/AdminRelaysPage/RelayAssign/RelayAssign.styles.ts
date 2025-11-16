@@ -1,16 +1,21 @@
 import { css } from '@emotion/react';
+import { getVariantStyles } from 'components/Button/utils/button.utils';
 
 import { border, colors, layout } from 'styles';
 
 export const styles = css`
+  width: 100%;
+
   .slot-list {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     column-gap: 1rem;
     row-gap: 1rem;
-    max-width: 800px;
-    padding: 1rem;
+    width: 100%;
+    /* max-width: 1000px; */
+    padding: 2rem 0 2rem 0;
+    margin-top: 0.5rem;
     margin-bottom: 2rem;
   }
 
@@ -51,25 +56,44 @@ export const styles = css`
   .col-type {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: start;
     font-weight: 600;
     font-size: 0.95rem;
     color: ${colors.greyLight};
-    /* border: 1px solid ${colors.greyXXLight}; */
-    width: 3rem;
+    width: 4rem;
   }
 
   .col-select {
     .relay-assign-select {
       width: 100%;
     }
+
+    button.button-relay-test {
+      width: 100%;
+      max-width: 33%;
+      max-width: 5.5rem;
+      height: 38px;
+      flex-shrink: 0;
+      padding: 0rem 3.25rem;
+
+      ${getVariantStyles('solid', 'grey')}
+
+      .button-text {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: ${colors.white};
+        svg {
+          width: 1.5rem;
+        }
+      }
+    }
   }
 
-  .col-status {
+  .col-status > div {
+    margin-right: 4rem;
     width: 100%;
-    > div {
-      margin-left: 7rem;
-    }
+    display: flex;
+    justify-content: end;
   }
 
   .col-json {
@@ -89,9 +113,14 @@ export const styles = css`
 
     > div {
       &:nth-of-type(1) {
+        &.status-off {
+          opacity: 0.45;
+          opacity: 0;
+        }
       }
       &:nth-of-type(2) {
         margin-left: 0.75rem;
+        width: 2.2rem;
       }
       &:nth-of-type(3) {
         width: 1.25rem;

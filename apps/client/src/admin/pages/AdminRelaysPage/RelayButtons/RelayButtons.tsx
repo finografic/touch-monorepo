@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Flex } from '@radix-ui/themes';
+import { Flex, Switch, Text } from '@radix-ui/themes';
 import { Button } from 'components/Button';
 
 import type { RelayHandlers, RelayMutations } from '../useRelayHandlers';
@@ -12,15 +12,36 @@ import type { RelayHandlers, RelayMutations } from '../useRelayHandlers';
 interface RelayButtonsProps {
   handlers: Pick<RelayHandlers, 'turnAllOn' | 'turnAllOff' | 'resetAll'>;
   mutations: Pick<RelayMutations, 'turnAllOn' | 'turnAllOff'>;
+  isForceTestEnabled: boolean;
+  onSetIsForceTestEnabled: (checked: boolean) => void;
 }
 
 // ============================================================================
 // Component
 // ============================================================================
 
-export const RelayButtons: React.FC<RelayButtonsProps> = ({ handlers, mutations }) => {
+export const RelayButtons: React.FC<RelayButtonsProps> = ({
+  handlers,
+  mutations,
+  isForceTestEnabled,
+  onSetIsForceTestEnabled,
+}) => {
   return (
-    <Flex gap="2" ml="8" className="status-buttons-all">
+    <Flex className="status-buttons-all" align="center" gap="3" ml="8">
+      <Flex className="status-dev-switch" gap="3" justify="between" align="center" pr="2">
+        <Text size="3" weight="bold" color="gray" style={{ opacity: 0.66 }}>
+          connection only
+        </Text>
+        <Switch
+          size="3"
+          checked={!isForceTestEnabled}
+          color="gray"
+          disabled={false}
+          onCheckedChange={() => onSetIsForceTestEnabled(!isForceTestEnabled)}
+          style={{ outline: 'none' }}
+        />
+      </Flex>
+
       <Button
         onClick={handlers.turnAllOn}
         disabled={mutations.turnAllOn.isPending}

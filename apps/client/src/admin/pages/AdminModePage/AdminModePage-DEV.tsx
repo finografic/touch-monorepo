@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import { Flex, Spinner, Text } from '@radix-ui/themes';
-import { SelectAlt } from 'forms/SelectAlt';
-import { SelectWithNew, type SelectWithNewResult } from 'forms/SelectWithNew';
 import { useToast } from 'components/Toast';
 
 import { useGetModes, useUpdateActiveStates } from 'queries/modes';
@@ -10,33 +8,12 @@ import { useGetModes, useUpdateActiveStates } from 'queries/modes';
 import { AdminPageLayout, AdminSection } from '../..';
 import { styles } from './PublicModePage.styles';
 
-// Mock data for testing SelectWithNew component
-const MOCK_FRUITS = [
-  { value: 'apple', label: 'Apple' },
-  { value: 'banana', label: 'Banana' },
-  { value: 'orange', label: 'Orange' },
-  { value: 'grape', label: 'Grape' },
-  { value: 'strawberry', label: 'Strawberry' },
-  { value: 'blueberry', label: 'Blueberry' },
-  { value: 'mango', label: 'Mango' },
-  { value: 'pineapple', label: 'Pineapple' },
-];
-
 export const AdminModePageDEV: React.FC = () => {
   const { toast } = useToast();
   const [activeModeIds, setActiveModeIds] = useState<string[]>([]);
 
   const { data: modes = [], isLoading: isLoadingModes } = useGetModes();
   const updateActiveStatesMutation = useUpdateActiveStates();
-
-  // ======================================================================== //
-  // TEST STATE FOR SelectWithNew COMPONENT
-  // ======================================================================== //
-
-  const [testSelected, setTestSelected] = useState<SelectWithNewResult | null>(null);
-  const [mockOptions, setMockOptions] = useState(MOCK_FRUITS);
-
-  // ======================================================================== //
 
   // Load active modes from database on component mount
   useEffect(() => {
@@ -76,21 +53,6 @@ export const AdminModePageDEV: React.FC = () => {
         },
       },
     );
-  };
-
-  // Handle SelectWithNew selection
-  const handleSelectWithNew = (result: SelectWithNewResult) => {
-    console.log('Selected:', result);
-    setTestSelected(result);
-
-    // If it's a new option, it's already added to the component's internal state
-    // But we can also update our mock options if needed
-    setMockOptions((prev) => {
-      if (prev.some((opt) => opt.value === result.value)) {
-        return prev; // Already exists
-      }
-      return [...prev, { value: result.value, label: result.label }];
-    });
   };
 
   if (isLoadingModes) {
@@ -177,39 +139,8 @@ export const AdminModePageDEV: React.FC = () => {
                 })}
               </Flex>
               <Flex direction="column" gap="3" style={{ width: '100%', maxWidth: '400px' }}>
-                <Text size="4" weight="bold">
-                  SelectWithNew Component Test
-                </Text>
-                <Text size="2" color="gray">
-                  Type a fruit name that doesn't exist to see the "Add new" option appear
-                </Text>
                 <Flex direction="column" gap="2">
-                  <SelectWithNew
-                    options={mockOptions}
-                    value={testSelected?.value}
-                    onSelect={handleSelectWithNew}
-                    placeholder="Select or type a fruit..."
-                    allowEmpty={true}
-                    disabled={false}
-                  />
-                  {testSelected && (
-                    <Flex
-                      direction="column"
-                      gap="1"
-                      p="3"
-                      style={{ backgroundColor: 'var(--gray-2)', borderRadius: '8px' }}
-                    >
-                      <Text size="2" weight="medium">
-                        Selected:
-                      </Text>
-                      <Text size="2">
-                        <strong>Value:</strong> {testSelected.value}
-                      </Text>
-                      <Text size="2">
-                        <strong>Label:</strong> {testSelected.label}
-                      </Text>
-                    </Flex>
-                  )}
+                  {/* TODO: TEST NEW COMPONENT HERE */}
                 </Flex>
               </Flex>
             </Flex>

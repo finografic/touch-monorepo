@@ -50,6 +50,9 @@ export const AdminRelaysPage: React.FC = () => {
   const prevIsPendingRef = useRef<boolean>(false);
   const [isTogglePending, setIsTogglePending] = useState(false);
 
+  // Development mode: allow test buttons to work without connection
+  const [isForceTestEnabled, setIsForceTestEnabled] = useState(false);
+
   useEffect(
     function detectRelayStatusChange() {
       const currentIsPending = mutations.toggleRelay.isPending;
@@ -113,22 +116,25 @@ export const AdminRelaysPage: React.FC = () => {
       <AdminSection title="Connection Status" variant="border-solid">
         <RelaysStatus />
       </AdminSection>
-      <Box className="admin-relay-control">
-        <Flex direction="column" gap="6">
-          <Flex direction="column" gap="4">
-            <AdminSection title="Relay Boards" variant="border-solid">
-              <Flex justify="end" align="center" mt="-6" mb="2">
-                <RelayButtons handlers={handlers} mutations={mutations} />
-              </Flex>
-              <RelayAssign
-                configurations={relayConfigs}
-                onRelayToggle={handlers.relayToggle}
-                isLoading={isTogglePending}
-              />
-            </AdminSection>
-          </Flex>
+
+      <AdminSection title="Relay Boards" variant="border-solid">
+        <Flex justify="end" align="center" mt="-6" mb="2">
+          <RelayButtons
+            handlers={handlers}
+            mutations={mutations}
+            isForceTestEnabled={isForceTestEnabled}
+            onSetIsForceTestEnabled={setIsForceTestEnabled}
+          />
         </Flex>
-      </Box>
+        <Flex>
+          <RelayAssign
+            configurations={relayConfigs}
+            onRelayToggle={handlers.relayToggle}
+            isLoading={isTogglePending}
+            isForceTestEnabled={isForceTestEnabled}
+          />
+        </Flex>
+      </AdminSection>
     </AdminPageLayout>
   );
 };

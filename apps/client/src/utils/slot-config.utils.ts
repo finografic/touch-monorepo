@@ -1,5 +1,5 @@
-import { SlotType } from 'types/slots.types';
 import type { SlotConfiguration } from 'types/slot-config.types';
+import { SlotType } from 'types/slots.types';
 
 export interface SlotItemConfig {
   slotType: SlotType;

@@ -4,24 +4,28 @@ import { Col, Row } from 'react-grid-system';
 import { Box, Flex, Text } from '@radix-ui/themes';
 import { getRelaySlotType } from 'admin/utils/relays.utils';
 import clsx from 'clsx';
-import { SelectAlt } from 'forms/SelectAlt';
 import { SelectCustom } from 'forms/SelectCustom';
-import { Button, type ButtonColor } from 'components/Button';
+import { Button } from 'components/Button';
 
+import { useGetRelayStatus } from 'queries/relays';
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 
+import { getSlotColor } from 'utils/slots.utils';
 import type { SelectOption } from 'types/models/select-option.model';
 import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
-import { SlotSpecial, SlotType } from 'types/slots.types';
+import type { SlotType } from 'types/slots.types';
+import { SlotSpecial } from 'types/slots.types';
 import { NUM_RELAYS } from '../relays.config';
 import { RelaySelectWithButton } from './RelaySelectWithButton';
 import { useColors } from 'styles';
+import { RadioIcon } from 'styles/icons';
 import { styles } from './RelayAssign.styles';
 
 interface RelayAssignProps {
   configurations: RelayConfig[];
   onRelayToggle?: (slotNumber: number, newState: boolean) => void;
   isLoading?: boolean;
+  isForceTestEnabled?: boolean;
 }
 
 // Map: rowNumber (1-16) -> selectedValue (1-16 | undefined)
@@ -31,8 +35,16 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   configurations,
   onRelayToggle,
   isLoading = false,
+  isForceTestEnabled = false,
 }) => {
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
+
+  // Get connection status to determine if test buttons should be enabled
+  const { data: relayStatus } = useGetRelayStatus();
+  const isConnected = relayStatus?.connected ?? false;
+
+  // Test buttons are enabled if: connected OR isForceTestEnabled is true
+  const canTest = isConnected || isForceTestEnabled;
 
   const relayConfigurations = useMemo(() => {
     return configurations
@@ -182,33 +194,16 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     [onRelayToggle, relayConfigurations],
   );
 
-  const getSlotColor = (config: RelayConfig) => {
-    if (config.slotNumber === 14) {
-      return colors[RELAY_SLOT_COLORS[SlotSpecial.ENF]];
-    }
-    if (config.slotNumber === 15) {
-      return colors[RELAY_SLOT_COLORS[SlotSpecial.MTO]];
-    }
-    if (config.slotNumber === 16) {
-      return colors.greyXLight75;
-    }
+  const handleClickTest = (relayNumber: number | null) => {
+    if (!relayNumber) return;
 
-    switch (config.slotType) {
-      case SlotType.A:
-        return colors.defaultLight;
-      case SlotType.B:
-        return colors.infoLight;
-      case SlotType.C:
-        return colors.dangerLight;
-      default:
-        return colors.defaultLight;
-    }
+    log('[RELAY TEST]:', 'lime', relayNumber);
   };
 
   return (
     <Box css={styles}>
-      <Flex justify="between" gap="4">
-        <Flex gap="4">
+      <Flex justify="between" gap="4" width="100%">
+        <Flex gap="4" width="100%">
           <div className="slot-list">
             {/* TODO: ORDER BY *SLOT NUMBER* */}
             {relayConfigurations.map((config) => {
@@ -217,7 +212,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
               return (
                 <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
                   <Row>
-                    <Col xs={3} className="col">
+                    <Col xs={2} className="col">
                       <Flex gap="4">
                         <Flex
                           className="slot-square"
@@ -234,39 +229,44 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                       </Flex>
                     </Col>
                     <Col xs={5} className="col col-select">
-                      <Flex direction="column" gap="2">
-                        {/* Original SelectCustom */}
-                        {/* <SelectCustom
-                          className="relay-assign-select"
-                          options={baseOptions}
-                          placeholder="Please select..."
-                          value={assignments[config.slotNumber]?.toString() || undefined}
-                          onSelect={(value) => handleSelectChange(config.slotNumber, value)}
-                          disabled={isLoading || bulkUpdateMutation.isPending}
-                          allowEmpty={true}
-                        /> */}
-                        {/* New InputGroup version with Button */}
-                        {/* <SelectAlt
-                          options={baseOptions}
-                          value={assignments[config.slotNumber]?.toString() || undefined}
-                          onSelect={(value) => handleSelectChange(config.slotNumber, value)}
-                          placeholder="Please select..."
-                          allowEmpty={true}
-                          disabled={isLoading}
-                        /> */}
-                        {/* New InputGroup version with Button */}
-                        <RelaySelectWithButton
-                          options={baseOptions}
-                          placeholder="Please select..."
-                          value={assignments[config.slotNumber]?.toString() || undefined}
-                          onSelect={(value) => handleSelectChange(config.slotNumber, value)}
-                          disabled={isLoading || bulkUpdateMutation.isPending}
-                          allowEmpty={true}
-                          slotNumber={config.slotNumber}
-                        />
+                      <Flex gap="6">
+                        <Flex width="220px">
+                          <SelectCustom
+                            className="relay-assign-select"
+                            options={baseOptions}
+                            placeholder="Please select..."
+                            value={assignments[config.slotNumber]?.toString() || undefined}
+                            onSelect={(value) => handleSelectChange(config.slotNumber, value)}
+                            disabled={isLoading || bulkUpdateMutation.isPending}
+                            allowEmpty={true}
+                          />
+                        </Flex>
+                        <Flex width="140px">
+                          {assignments[config.slotNumber] ? (
+                            <Button
+                              className="button-relay-test"
+                              onClick={() => handleClickTest(config.relayNumber)}
+                              variant="solid"
+                              color="info"
+                              size="sm"
+                              disabled={!canTest}
+                            >
+                              <RadioIcon /> test
+                            </Button>
+                          ) : (
+                            <Flex align="center" gap="2" ml="3" className="relay-status status-off">
+                              <Text color="gray" size="2">
+                                {/* No relay assigned */}
+                              </Text>
+                            </Flex>
+                          )}
+                        </Flex>
                       </Flex>
                     </Col>
-                    <Col xs={4} className="col col-status">
+                    <Col xs={2} className="col col-time">
+                      {/* <Flex>{config.slotNumber}</Flex> */}
+                    </Col>
+                    <Col xs={3} className="col col-status">
                       {assignments[config.slotNumber] ? (
                         <Flex
                           align="center"
@@ -275,16 +275,16 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                           className={`relay-status ${config.isOn ? 'status-on' : 'status-off'}`}
                         >
                           <Flex className="relay-status-indicator">{assignments[config.slotNumber]}</Flex>
-
                           <Flex justify="end">Relay</Flex>
                           <Flex justify="center">{assignments[config.slotNumber]}:</Flex>
                           <Flex>{config.isOn ? 'ON' : 'OFF'}</Flex>
                         </Flex>
                       ) : (
                         <Flex align="center" gap="2" ml="3" className="relay-status status-off">
-                          <Text color="gray" size="2">
-                            {/* No relay assigned */}
-                          </Text>
+                          <Flex className="relay-status-indicator status-off" />
+                          <Flex />
+                          <Flex />
+                          <Flex />
                         </Flex>
                       )}
                     </Col>
@@ -307,69 +307,3 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     </Box>
   );
 };
-
-// <Flex
-// className="slot-square"
-// // onClick={() => handleSlotClick(config.slotNumber)}
-// // disabled={isLoading}
-// // variant="outline"
-// // color="primary"
-// // color={getRelaySlotColor(config) as ButtonColor}
-// // color={getSlotColor(configuredSlotType, config.isOn) as ButtonColor}
-// style={{
-//   borderColor: getSlotColor(config),
-//   color: getSlotColor(config),
-// }}
-// >
-// {/* <Flex direction="column" align="center" gap="1">
-//   <Text
-//     size="3"
-//     weight="bold"
-//     style={{ color: String(getSlotColor(configuredSlotType, config.isOn)) }}
-//   > */}
-// {config.slotNumber}
-// {/* </Text> */}
-// {/* </Flex> */}
-// </Flex>
-
-/*
-// Memoize component to prevent re-renders when props haven't changed
-// Custom comparison: only re-render if configurations array contents changed or other props changed
-export const RelayAssign = memo(RelayAssignComponent, (prevProps, nextProps) => {
-  // Compare configurations array - check if length or any item changed
-  if (prevProps.configurations.length !== nextProps.configurations.length) {
-    return false; // Re-render needed
-  }
-
-  // Deep compare each configuration item
-  for (let i = 0; i < prevProps.configurations.length; i++) {
-    const prev = prevProps.configurations[i];
-    const next = nextProps.configurations[i];
-
-    // Compare all relevant fields
-    if (
-      prev.id !== next.id ||
-      prev.slotNumber !== next.slotNumber ||
-      prev.slotType !== next.slotType ||
-      prev.relayNumber !== next.relayNumber ||
-      prev.isActive !== next.isActive ||
-      prev.isOn !== next.isOn
-    ) {
-      return false; // Re-render needed
-    }
-  }
-
-  // Compare other props
-  if (prevProps.isLoading !== nextProps.isLoading) {
-    return false; // Re-render needed
-  }
-
-  // onRelayToggle is a function - compare by reference (should be stable if memoized in parent)
-  if (prevProps.onRelayToggle !== nextProps.onRelayToggle) {
-    return false; // Re-render needed
-  }
-
-  // All props are equal - skip re-render
-  return true;
-});
-*/
