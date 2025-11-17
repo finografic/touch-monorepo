@@ -197,6 +197,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 
   const handleClickTest = (relayNumber: number | null) => {
     if (!relayNumber) return;
+    handleSlotClick(relayNumber);
 
     log('[RELAY TEST]:', 'lime', relayNumber);
   };

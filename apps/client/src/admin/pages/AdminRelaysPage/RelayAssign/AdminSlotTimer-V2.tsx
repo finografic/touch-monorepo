@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 
 import clsx from 'clsx';
 import { useStore } from 'zustand';
@@ -110,15 +110,22 @@ export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onCo
   );
 
   // Get status class for styling
-  const statusClass = timer ? `status-${timer.status}` : 'status-none';
+  // const statusClass = timer ? `status-${timer.status}` : 'status-none';
 
   // Force "00:00" when status is "completed" (for both program-time and program-product)
   // Only show countdown when status is "processing"
-  const isCompleted = timer.status === 'completed';
+  // const isCompleted = timer.status === 'completed';
   const isProcessing = timer.status === 'processing';
-  const displayTime = isCompleted ? '00:00' : formatTime(remainingTime);
+  // const displayTime = isCompleted ? '00:00' : formatTime(remainingTime);
 
   log('TIMER:', 'cyan', remainingTime, timer.status);
+  const { displayTime, statusClass } = useMemo(() => {
+    const isCompleted = remainingTime <= 0;
+    return {
+      displayTime: isCompleted ? '00:00' : formatTime(remainingTime),
+      statusClass: isCompleted ? 'status-completed' : 'status-processing',
+    };
+  }, [remainingTime]);
 
   return (
     <div css={styles}>
