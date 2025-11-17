@@ -8,6 +8,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
 
+import { stopAllAudio } from 'utils/soundCache.utils';
 import { FLOW_TYPES } from 'types/flow.types';
 import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 
@@ -37,6 +38,7 @@ export const useMainPageOperations = () => {
 
   const handleClearCompleted = useCallback(() => {
     startTransition(() => {
+      stopAllAudio();
       // Clear all completed timers using the new TimerContext
       clearCompletedTimers();
 

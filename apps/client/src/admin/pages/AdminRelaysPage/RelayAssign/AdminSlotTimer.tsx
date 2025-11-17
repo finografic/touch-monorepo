@@ -1,12 +1,11 @@
 import React, { useCallback, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
-import { useStore } from 'zustand';
 import { parseCompletionTime } from 'components/Timers/shared/timer.utils';
 import { timerManager } from 'components/Timers/shared/TimerManager';
+import { useTimerEvents } from 'components/Timers/shared/useTimerEvents';
 
-import type { TimerItem } from 'providers/TimersProvider/timer.types';
-import { TimersContext, useTimers } from 'providers/TimersProvider/TimerContext';
+import { useTimers } from 'providers/TimersProvider/TimerContext';
 
 import { formatTime } from 'utils/time.utils';
 import { styles } from './AdminSlotTimer.styles';
@@ -29,46 +28,41 @@ interface AdminSlotTimerProps {
  * - Type-safe props
  */
 export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onComplete }) => {
-  const { getTimerBySlotNumber } = useTimers();
-  const timer = getTimerBySlotNumber(slotNumber);
+  const { timer, updateTimer, snooze, setSnooze } = useTimers({ slotNumber });
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
-  // Don't render if timer is not in the timers[] array
   if (!timer) {
     return null;
   }
 
+  const { handleCompleteEvent } = useTimerEvents({
+    onComplete: () => {
+      // TODO: handle snooze logic ??
+      if (!snooze) {
+        setSnooze(true);
+      }
+    },
+  });
+
   const handleComplete = useCallback(() => {
     timerManager.stopTimer(slotNumber);
-    onComplete?.();
-  }, [slotNumber, onComplete]);
 
-  // Reset remainingTime when status changes to completed
-  // Watch timer.status specifically to ensure reactivity
-  useEffect(() => {
-    if (timer && timer.status === 'completed') {
-      setRemainingTime(0);
-      timerManager.stopTimer(slotNumber);
+    if (timer) {
+      updateTimer(timer.id, { status: 'completed' });
     }
-  }, [timer?.status, slotNumber]);
+
+    // Call external completion handler
+    onComplete?.();
+  }, [slotNumber, timer, updateTimer, onComplete]);
 
   useEffect(
     function initializeTimerInstance() {
-      if (!timer) return;
-
       const cleanup = () => {
         timerManager.stopTimer(slotNumber);
       };
 
-      // If timer is not processing, reset state and cleanup
-      if (timer.status !== 'processing') {
-        setRemainingTime(0);
-        cleanup();
-        return cleanup;
-      }
-
-      // Calculate remaining time from completionTime
-      if (!timer.completionTime) {
+      // If no timer or timer is not processing, reset state
+      if (!timer || timer.status !== 'processing') {
         setRemainingTime(0);
         cleanup();
         return cleanup;
@@ -85,45 +79,24 @@ export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onCo
 
       // Start timer interval, loop callback
       timerManager.startTimer(slotNumber, () => {
-        // Get current timer from store to check latest status
-        const currentTimer = getTimerBySlotNumber(slotNumber);
+        const { remaining } = parseCompletionTime(timer);
+        setRemainingTime(remaining);
 
-        // Stop updating if timer no longer exists or is not processing
-        if (!currentTimer || currentTimer.status !== 'processing') {
-          setRemainingTime(0);
-          timerManager.stopTimer(slotNumber);
-          return;
-        }
-
-        // Recalculate remaining time from current timer's completionTime
-        const { remaining: currentRemaining } = parseCompletionTime(currentTimer);
-        setRemainingTime(currentRemaining);
-
-        if (currentRemaining <= 0) {
+        if (remaining <= 0) {
+          handleCompleteEvent({ remaining, orderId: timer.orderId });
           handleComplete();
         }
       });
 
       return cleanup;
     },
-    [timer?.status, timer?.completionTime, timer?.id, slotNumber, handleComplete],
+    [timer, slotNumber, updateTimer, handleComplete, handleCompleteEvent],
   );
-
-  // Get status class for styling
-  const statusClass = timer ? `status-${timer.status}` : 'status-none';
-
-  // Force "00:00" when status is "completed" (for both program-time and program-product)
-  // Only show countdown when status is "processing"
-  const isCompleted = timer.status === 'completed';
-  const isProcessing = timer.status === 'processing';
-  const displayTime = isCompleted ? '00:00' : formatTime(remainingTime);
-
-  log('TIMER:', 'cyan', remainingTime, timer.status);
 
   return (
     <div css={styles}>
-      <div className={clsx('admin-slot-timer', statusClass)}>
-        <span>{isProcessing ? <span>{displayTime}</span> : <span>00:00</span>}</span>
+      <div className={clsx('admin-slot-timer', `status-${timer.status}`)}>
+        <span>{timer.status === 'completed' ? '00:00' : formatTime(remainingTime)}</span>
       </div>
     </div>
   );
