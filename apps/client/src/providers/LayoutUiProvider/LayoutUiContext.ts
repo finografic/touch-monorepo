@@ -1,5 +1,3 @@
-import type { RegionLocale } from '@workspace/i18n';
-
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
@@ -10,8 +8,8 @@ import { createSetters, createZustandContext } from 'utils/zustand';
 import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { FilterKey, SlotType } from 'types/slots.types';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
+import type { FilterKey, SlotType } from 'types/slots.types';
 import { NUM_GRID_ITEMS } from 'config/app';
 import type { HandleRouteChangeParams } from './layout-ui-utils.types';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';

@@ -66,6 +66,7 @@ export interface Volume {
   amount: number;
   unit: string;
 }
+
 export interface Temperature {
   value: number;
   unit: '°C';
