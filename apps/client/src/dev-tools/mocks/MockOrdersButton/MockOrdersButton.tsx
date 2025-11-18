@@ -83,7 +83,7 @@ export const MockOrdersButton = () => {
     setFilter('drinkType', mockFilters.drinkType);
     setFilter('drinkSubtype', mockFilters.drinkSubtype);
     setFilter('drinkVolume', mockFilters.drinkVolume);
-    // setFilter('containerType', mockFilters.containerType);
+    setFilter('containerType', mockFilters.containerType);
 
     // Also update session filters for backward compatibility
     const sessionFilters = {
