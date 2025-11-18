@@ -62,6 +62,43 @@ export default fino({
     //     ],
     //   },
     // ],
+    // Import sorting rules
+    'simple-import-sort/imports': [
+      ERROR,
+      {
+        groups: [
+          // React imports + React-related packages (merged) - including type imports from react
+          ['^react', '^@react', '^@finografic', '^@workspace'],
+          // Internal absolute imports: components, providers, pages
+          ['^@?\\w', '^(pages|components|lib)(/.*|$)'],
+          // The rest of internal absolute imports + relative imports
+          // NOTE: V1
+          // ['^(types|utils|hooks|routes|constants|lib|queries)(/.*|$)'],
+          // NEW: V2
+          ['^(hooks|routes|providers|queries)(/.*|$)'],
+          // Side effect imports
+          ['^\\u0000'],
+          // All relative imports (parent + same-folder + styles merged)
+          // NOTE: V1
+          // ['^(config|dev-tools)', '^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$', '^(styles)', '^.+\\.s?css$', '^.+\\.styles$'],
+          // NEW: V2
+          [
+            '^(utils)',
+            '^(types|constants)',
+            '^(config|dev-tools)',
+            '^\\.\\.(?!/?$)',
+            '^\\.\\./?$',
+            '^\\./(?=.*/)(?!/?$)',
+            '^\\.(?!/?$)',
+            '^\\./?$',
+            '^(styles)',
+            '^.+\\.s?css$',
+            '^.+\\.styles$',
+          ],
+        ],
+      },
+    ],
+    'simple-import-sort/exports': ERROR,
   },
 
   // overrides: {

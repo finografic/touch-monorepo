@@ -106,18 +106,18 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     icon: CoffeeIcon,
     color: 'blue',
   },
-  {
-    key: 'uiLabels',
-    path: '/admin/ui-labels',
-    element: {
-      public: AdminUiLabelsPage,
-      admin: AdminUiLabelsPage,
-    },
-    hasNav: { public: false, admin: true },
-    hasCard: { public: false, admin: true },
-    icon: LanguageIcon,
-    color: 'blue',
-  },
+  // {
+  //   key: 'uiLabels',
+  //   path: '/admin/ui-labels',
+  //   element: {
+  //     public: AdminUiLabelsPage,
+  //     admin: AdminUiLabelsPage,
+  //   },
+  //   hasNav: { public: false, admin: true },
+  //   hasCard: { public: false, admin: true },
+  //   icon: LanguageIcon,
+  //   color: 'blue',
+  // },
   {
     key: 'sounds',
     path: '/admin/sounds',
@@ -146,7 +146,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
   },
 
   // AUTHENTICATED ENTRIES (only visible as admin) ========================== //
-
   {
     key: 'translations',
     path: '/admin/translations',
@@ -158,6 +157,18 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     hasCard: { public: false, admin: true },
     icon: EditIcon,
     color: 'purple',
+  },
+  {
+    key: 'uiLabels',
+    path: '/admin/ui-labels',
+    element: {
+      public: AdminUiLabelsPage,
+      admin: AdminUiLabelsPage,
+    },
+    hasNav: { public: false, admin: true },
+    hasCard: { public: false, admin: true },
+    icon: LanguageIcon,
+    color: 'blue',
   },
   // LANGUAGE ENTRY (public and admin) ====================================== //
   {

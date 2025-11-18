@@ -45,8 +45,14 @@ export const KeypadLoginDialog: FC<KeypadLoginDialogProps> = () => {
       if (result.success) {
         toast({ variant: 'success', message: result.message || 'Signed in successfully' });
         await refreshSession();
+        if (location.pathname.startsWith('/admin')) {
+          // navigate('/admin');
+          await sleep(500);
+        } else {
+          // navigate('/');
+        }
+
         navigate('/admin');
-        await sleep(100);
         await closeLoginDialog();
       } else {
         const errorMessage = String(result.error || 'Failed to log in');

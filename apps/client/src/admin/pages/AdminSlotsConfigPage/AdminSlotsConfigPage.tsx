@@ -186,7 +186,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
           <AdminSection
             title="Slot Grid Layout Preview"
             subtitle={`${numActiveColumns} columns`}
-            description={`Click on slots to change their type. Slot ${NUM_RELAYS} is positioned separately`}
+            description={`Click on slots to change their type. Slot ${numActiveColumns * NUM_ROWS + 1} is positioned separately`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
             variant="border-solid"
