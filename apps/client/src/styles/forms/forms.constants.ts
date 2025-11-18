@@ -23,10 +23,14 @@ export const forms = {
     },
 
     label: {
-      color: colors.text,
+      color: colors.textLight,
       fontSize: '0.9rem',
-      fontWeight: 700,
-      marginBottom: '0.33rem',
+      fontWeight: 600,
+      minHeight: '32px',
+      marginTop: '0',
+      marginBottom: '0.25rem',
+      paddingTop: '0.25rem',
+      paddingBottom: '0rem',
     },
 
     text: {

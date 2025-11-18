@@ -14,7 +14,12 @@ export const styles = css`
     font-size: ${forms.inputs.label.fontSize};
     font-weight: ${forms.inputs.label.fontWeight};
     color: ${forms.inputs.label.color};
+
+    margin-top: ${forms.inputs.label.marginBottom};
     margin-bottom: ${forms.inputs.label.marginBottom};
+    padding-top: ${forms.inputs.label.paddingTop};
+    padding-bottom: ${forms.inputs.label.paddingBottom};
+    min-height: ${forms.inputs.label.minHeight};
     white-space: nowrap;
 
     & + div {

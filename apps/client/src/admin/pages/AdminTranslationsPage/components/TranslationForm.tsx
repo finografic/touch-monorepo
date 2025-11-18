@@ -23,7 +23,7 @@ export const TranslationForm: React.FC<TranslationFormProps> = memo(({ supported
   } = useFormContext();
 
   return (
-    <Flex direction="column" gap="6">
+    <Flex direction="column">
       <TranslationSection
         title={t('admin.pages.translations.content.drinkSubtypes.title')}
         description={t('admin.pages.translations.content.drinkSubtypes.description')}

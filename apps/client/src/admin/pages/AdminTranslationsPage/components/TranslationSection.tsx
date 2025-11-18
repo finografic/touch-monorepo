@@ -1,9 +1,10 @@
 import React, { memo } from 'react';
-import type { FieldError } from 'react-hook-form';
 import { useFieldArray, useFormContext } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
-import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
+import { Box, Grid, TextField } from '@radix-ui/themes';
+import { AdminSection } from 'admin/components';
+import { FieldWrapper } from 'forms/FieldWrapper/FieldWrapper';
 
 import { getLanguageFieldName } from '../utils/translation-helpers';
 
@@ -34,83 +35,67 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
     const gridColumns = String(1 + supportedLanguages.length);
 
     return (
-      <Box className="translation-section">
-        <Flex direction="column" gap="4">
-          <Box>
-            <Heading as="h2">{title}</Heading>
-            <Text size="2" color="gray">
-              {description}
-            </Text>
-          </Box>
-
-          <Flex direction="column" gap="4">
-            {fields.map((field, index) => (
-              <Box key={field.id} className="translation-item">
-                <Grid columns={gridColumns} gap="3" align="center">
-                  {/* Base name (readonly) */}
-                  <Box>
-                    <Text size="1" weight="medium" color="gray" mb="1" className="field-label">
-                      {t('ui.forms.labels.name')}
-                    </Text>
-                    <TextField.Root
-                      {...register(`${fieldName}.${index}.name`)}
-                      className="value-key"
-                      readOnly
-                      variant="soft"
-                      size="3"
-                    />
-                  </Box>
-
-                  {/* Dynamic language fields */}
-                  {supportedLanguages.map((language) => {
-                    const filterKey = getLanguageFieldName(language.isoCode);
-                    const fieldPath = `${fieldName}.${index}.${filterKey}`;
-
-                    return (
-                      <Box key={language.isoCode}>
-                        <Text size="1" weight="medium" mb="1">
-                          {language.displayName}
-                        </Text>
-                        <TextField.Root
-                          {...register(fieldPath)}
-                          placeholder={t('ui.forms.placeholders.enterText')}
-                          size="3"
-                        />
-                        {errors?.[index]?.[filterKey] && (
-                          <Text size="1" color="red" mt="1">
-                            {errors[index][filterKey].message}
-                          </Text>
-                        )}
-                      </Box>
-                    );
-                  })}
-
-                  {/* Hidden fields */}
-                  <input type="hidden" {...register(`${fieldName}.${index}.id`)} />
-                  {/* Additional hidden fields for specific entity types */}
-                  {fieldName === 'drinkSubtypes' && (
-                    <>
-                      <input type="hidden" {...register(`${fieldName}.${index}.drinkTypeId`)} />
-                      <input type="hidden" {...register(`${fieldName}.${index}.isActive`)} />
-                    </>
-                  )}
-                  {(fieldName === 'drinkTypes' ||
-                    fieldName === 'volumes' ||
-                    fieldName === 'containerTypes') && (
-                    <input type="hidden" {...register(`${fieldName}.${index}.isActive`)} />
-                  )}
-                  {fieldName === 'drinkTypes' && (
-                    <input type="hidden" {...register(`${fieldName}.${index}.hasSubtypes`)} />
-                  )}
-                  {fieldName === 'containerTypes' && (
-                    <input type="hidden" {...register(`${fieldName}.${index}.thermalConductivity`)} />
-                  )}
-                </Grid>
+      <AdminSection title={title} description={description} variant="border-solid">
+        {fields.map((field, index) => (
+          <Box key={field.id} className="translation-item">
+            <Grid columns={gridColumns} gap="3" align="center">
+              {/* Base name (readonly) */}
+              <Box>
+                <FieldWrapper label=" ">
+                  <TextField.Root
+                    {...register(`${fieldName}.${index}.name`)}
+                    className="value-key"
+                    readOnly
+                    variant="soft"
+                    size="3"
+                  />
+                </FieldWrapper>
               </Box>
-            ))}
-          </Flex>
-        </Flex>
-      </Box>
+
+              {/* Dynamic language fields */}
+              {supportedLanguages.map((language) => {
+                const filterKey = getLanguageFieldName(language.isoCode);
+                const fieldPath = `${fieldName}.${index}.${filterKey}`;
+
+                return (
+                  <Box key={language.isoCode}>
+                    <FieldWrapper
+                      name={fieldPath}
+                      label={language.displayName}
+                      error={errors?.[index]?.[filterKey] && errors[index][filterKey].message}
+                    >
+                      <TextField.Root
+                        {...register(fieldPath)}
+                        placeholder={t('ui.forms.placeholders.enterText')}
+                        size="3"
+                      />
+                    </FieldWrapper>
+                  </Box>
+                );
+              })}
+
+              {/* Hidden fields */}
+              <input type="hidden" {...register(`${fieldName}.${index}.id`)} />
+              {/* Additional hidden fields for specific entity types */}
+              {fieldName === 'drinkSubtypes' && (
+                <>
+                  <input type="hidden" {...register(`${fieldName}.${index}.drinkTypeId`)} />
+                  <input type="hidden" {...register(`${fieldName}.${index}.isActive`)} />
+                </>
+              )}
+              {(fieldName === 'drinkTypes' || fieldName === 'volumes' || fieldName === 'containerTypes') && (
+                <input type="hidden" {...register(`${fieldName}.${index}.isActive`)} />
+              )}
+              {fieldName === 'drinkTypes' && (
+                <input type="hidden" {...register(`${fieldName}.${index}.hasSubtypes`)} />
+              )}
+              {fieldName === 'containerTypes' && (
+                <input type="hidden" {...register(`${fieldName}.${index}.thermalConductivity`)} />
+              )}
+            </Grid>
+          </Box>
+        ))}
+      </AdminSection>
     );
   },
 );

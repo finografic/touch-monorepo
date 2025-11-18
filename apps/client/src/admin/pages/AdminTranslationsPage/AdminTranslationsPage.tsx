@@ -3,7 +3,7 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button, Callout, Flex, Heading, Spinner, Text } from '@radix-ui/themes';
+import { Box, Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import type { ContainerTypeUpdate, DrinkSubtypeUpdate, DrinkTypeUpdate, VolumeUpdate } from 'api/endpoints';
 import { useBatchUpdateTranslations, useGetAllTranslations } from 'api/hooks/useTranslations';
 import { z } from 'zod';
@@ -336,7 +336,7 @@ export const AdminTranslationsPage: React.FC = () => {
   const formContent = useMemo(
     () => (
       <form onSubmit={methods.handleSubmit(onSubmit)}>
-        <Flex direction="column" gap="8">
+        <Flex direction="column">
           <TranslationForm supportedLanguages={supportedLanguages} />
 
           <Flex justify="center" gap="4">
@@ -367,53 +367,16 @@ export const AdminTranslationsPage: React.FC = () => {
     ],
   );
 
-  if (isLoading || languagesLoading || !isDataReady || supportedLanguages.length === 0) {
-    return (
-      <AdminPageLayout
-        title={t('admin.title')}
-        subtitle={t('admin.pages.translations.content.editTables')}
-        isLoading={true}
-        styles={styles}
-      >
-        <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <Spinner size="3" />
-          <Text>
-            {isLoading
-              ? t('ui.states.loading')
-              : languagesLoading
-                ? 'Loading supported languages...'
-                : 'Preparing translation form...'}
-          </Text>
-        </Flex>
-      </AdminPageLayout>
-    );
-  }
-
-  if (isError) {
-    return (
-      <AdminPageLayout
-        title={t('admin.title')}
-        subtitle={t('admin.pages.translations.content.editTables')}
-        error={error?.message || t('ui.states.error')}
-        styles={styles}
-      >
-        <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <Text color="red" size="4">
-            {t('ui.states.error')}: {error?.message || t('ui.states.error')}
-          </Text>
-        </Flex>
-      </AdminPageLayout>
-    );
-  }
-
   return (
     <FormProvider {...methods}>
       <AdminPageLayout
         title={t('admin.title')}
         subtitle={t('admin.pages.translations.content.editTables')}
+        isLoading={isLoading || languagesLoading || !isDataReady || supportedLanguages.length === 0}
+        error={isError ? error?.message || t('ui.states.error') : undefined}
         styles={styles}
       >
-        <AdminSection>{formContent}</AdminSection>
+        {formContent}
       </AdminPageLayout>
     </FormProvider>
   );

@@ -79,10 +79,16 @@ export const stylesItemsGrid = css`
 `;
 
 export const styles = css`
-  width: 100%;
-  min-height: 100vh;
-  background-color: ${colors.white};
-  color: ${colors.text};
+  .admin-section {
+    margin-bottom: 0.5rem;
+    &:last-of-type {
+      margin-bottom: 2rem;
+    }
+  }
+
+  .validation-error {
+    display: none;
+  }
 
   /* Translation form grid */
   .translation-grid {
