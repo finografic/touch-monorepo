@@ -24,10 +24,10 @@ export const MOCK_ORDERS_DATA: OrderFilters = {
     id: 'cmi0ps04i0005g7lwxfz5w8kq',
     name: '50cl',
   },
-  // containerType: {
-  //   id: 'cmi0przbd0000d9lw99ksdmmf',
-  //   name: 'plastico',
-  // },
+  containerType: {
+    id: 'cmi0przbd0000d9lw99ksdmmf',
+    name: 'plastico',
+  },
 };
 
 export const MOCK_SELECTED_SLOTS_DATA: SlotMeta[] = [

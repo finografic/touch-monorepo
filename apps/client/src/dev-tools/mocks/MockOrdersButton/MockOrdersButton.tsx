@@ -1,7 +1,9 @@
 import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
+import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
@@ -10,14 +12,17 @@ import type { OrderFilters } from 'types/filters.types';
 import { FLOW_TYPES } from 'types/flow.types';
 import { PATHS } from 'config';
 import { MOCK_ORDERS_DATA, MOCK_SELECTED_SLOTS_DATA } from './mock-orders.data';
-import { ListChecksIcon, StarIcon } from 'styles/icons';
+import { ListChecksIcon } from 'styles/icons';
 
 export const MockOrdersButton = () => {
   const navigate = useNavigate();
   const ordersContext = useOrders();
   const { createSession, assignOrdersToSession, updateSessionFilters } = useSession();
+  const { setSelectedSlots } = useLayoutUi();
   const { setPageCurrent } = usePagination();
   const { setFilter } = useFiltersContext();
+  const { toggleSlot, setOrdersSession } = useOrders();
+  const orderItemsConfig = useSlotItemsConfig();
 
   const handleMockData = useCallback(() => {
     if (!ordersContext?.setOrders) return;
@@ -31,7 +36,29 @@ export const MockOrdersButton = () => {
 
     // Assign orders to session
     const slotNumbers = MOCK_SELECTED_SLOTS_DATA.map((slot) => slot.slotNumber);
+
+    // Ensure orders are created and selected for the mock slots
+    MOCK_SELECTED_SLOTS_DATA.forEach((slot) => {
+      const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
+      if (orderConfig) {
+        toggleSlot({
+          slotType: orderConfig.slotType,
+          slotNumber: slot.slotNumber,
+        });
+      }
+    });
+
+    // Set selected slots in LayoutUi context
+    setSelectedSlots(MOCK_SELECTED_SLOTS_DATA);
+
+    // Assign slotNumbers to session
     assignOrdersToSession(sessionId, slotNumbers);
+
+    // Link orders to session (this is critical for persistence)
+    setOrdersSession({
+      slotNumbers,
+      session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
+    });
 
     // 🚀 PERFORMANCE OPTIMIZATION: Get mode from localStorage instead of API call
     try {
@@ -80,6 +107,10 @@ export const MockOrdersButton = () => {
     assignOrdersToSession,
     updateSessionFilters,
     setFilter,
+    setSelectedSlots,
+    toggleSlot,
+    setOrdersSession,
+    orderItemsConfig,
   ]);
 
   if (!ordersContext) return null;

@@ -6,7 +6,9 @@ import { PadAction } from 'components/Pads/PadAction/PadAction';
 import { PadSlot } from 'components/Pads/PadSlot';
 
 import { useButtonConfig } from 'hooks/useButtonConfig';
+import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
+import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
@@ -14,8 +16,8 @@ import { useTimers } from 'providers/TimersProvider';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
-// import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { mapGridByColumns } from 'utils/grid.utils';
+import type { SlotMeta } from './MainPage.types';
 import { SlotType } from 'types/slots.types';
 import { useColors } from 'styles/hooks/useColors';
 import { styles } from './MainPage.styles';
@@ -29,9 +31,13 @@ export function MainPage() {
   const { setIsNextDisabled } = usePagination();
   const { setFilter } = useFiltersContext();
   const { data: slotsConfig, isLoading, error } = useGetSlotConfigurations();
+  const { currentSessionId, sessions } = useSession();
+  const { setSelectedSlots, selectedSlots } = useLayoutUi();
+  const orderItemsConfig = useSlotItemsConfig();
 
   // 🚀 PERFORMANCE OPTIMIZATION: Use ref to prevent re-fetching on every render
   const hasInitializedMode = useRef(false);
+  const hasRestoredSlots = useRef(false);
 
   // 🚀 PERFORMANCE OPTIMIZATION: Pre-fetch default mode on MainPage (only once)
   const { data: defaultMode, isLoading: isModeLoading } = useGetDefaultMode();
@@ -48,6 +54,49 @@ export function MainPage() {
       setFilter('mode', modeFilter);
     }
   }, [defaultMode, isModeLoading, setFilter]);
+
+  // Restore selected slots from current session when navigating back to MainPage
+  useEffect(() => {
+    if (currentSessionId && sessions[currentSessionId] && !hasRestoredSlots.current) {
+      const session = sessions[currentSessionId];
+      const sessionSlotNumbers = session.slotNumbers;
+
+      // Only restore if we have slotNumbers and selectedSlots is empty or doesn't match
+      if (sessionSlotNumbers.length > 0) {
+        const currentSlotNumbers = selectedSlots.map((slot) => slot.slotNumber);
+        const slotNumbersMatch = sessionSlotNumbers.every((num) => currentSlotNumbers.includes(num))
+          && currentSlotNumbers.length === sessionSlotNumbers.length;
+
+        if (!slotNumbersMatch) {
+          // Rebuild selectedSlots from session's slotNumbers
+          const restoredSlots: SlotMeta[] = sessionSlotNumbers
+            .map((slotNumber) => {
+              const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slotNumber);
+              if (orderConfig) {
+                return {
+                  slotType: orderConfig.slotType,
+                  slotNumber,
+                  isChecked: true,
+                  status: 'idle' as const,
+                };
+              }
+              return null;
+            })
+            .filter((slot): slot is SlotMeta => slot !== null);
+
+          if (restoredSlots.length > 0) {
+            setSelectedSlots(restoredSlots);
+            hasRestoredSlots.current = true;
+          }
+        } else {
+          hasRestoredSlots.current = true;
+        }
+      }
+    } else if (!currentSessionId) {
+      // Reset the flag when there's no current session
+      hasRestoredSlots.current = false;
+    }
+  }, [currentSessionId, sessions, selectedSlots, setSelectedSlots, orderItemsConfig]);
 
   // 🚀 PERFORMANCE OPTIMIZATION: Use Map for O(1) timer lookups (memoized)
   const timerMap = useMemo(() => {
