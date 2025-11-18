@@ -356,7 +356,7 @@ export const AdminUiLabelsPage: React.FC = () => {
 
   const formContent = (
     <form onSubmit={methods.handleSubmit(onSubmit)}>
-      <Flex direction="column" gap="2">
+      <Flex direction="column">
         {uiLabelData.map((section) => (
           <UiLabelSection
             key={section.key}

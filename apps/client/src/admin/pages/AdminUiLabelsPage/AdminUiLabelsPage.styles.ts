@@ -3,13 +3,19 @@ import { css } from '@emotion/react';
 import { colors, min, spacing } from 'styles';
 
 export const styles = css`
-  width: 100%;
-  background-color: ${colors.white};
-  color: ${colors.text};
+  .admin-section {
+    margin-bottom: 0.5rem;
+    &:last-of-type {
+      margin-bottom: 2rem;
+    }
+  }
 
-  /* Form styling */
-  form {
-    width: 100%;
+  input:read-only,
+  input:read-only:focus {
+    pointer-events: none !important;
+    user-select: none !important;
+    outline: none !important;
+    box-shadow: none !important;
   }
 
   ${min.md} {

@@ -48,6 +48,7 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
                     readOnly
                     variant="soft"
                     size="3"
+                    style={{ pointerEvents: 'none', userSelect: 'none' }}
                   />
                 </FieldWrapper>
               </Box>
@@ -58,19 +59,18 @@ export const TranslationSection: React.FC<TranslationSectionProps> = memo(
                 const fieldPath = `${fieldName}.${index}.${filterKey}`;
 
                 return (
-                  <Box key={language.isoCode}>
-                    <FieldWrapper
-                      name={fieldPath}
-                      label={language.displayName}
-                      error={errors?.[index]?.[filterKey] && errors[index][filterKey].message}
-                    >
-                      <TextField.Root
-                        {...register(fieldPath)}
-                        placeholder={t('ui.forms.placeholders.enterText')}
-                        size="3"
-                      />
-                    </FieldWrapper>
-                  </Box>
+                  <FieldWrapper
+                    key={language.isoCode}
+                    name={fieldPath}
+                    label={language.displayName}
+                    error={errors?.[index]?.[filterKey] && errors[index][filterKey].message}
+                  >
+                    <TextField.Root
+                      {...register(fieldPath)}
+                      placeholder={t('ui.forms.placeholders.enterText')}
+                      size="3"
+                    />
+                  </FieldWrapper>
                 );
               })}
 

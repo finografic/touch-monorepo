@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 
 import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
 import { AdminSection } from 'admin/components/AdminSection/AdminSection';
+import { FieldWrapper } from 'forms/FieldWrapper';
 import { SectionHeader } from 'components/SectionHeader/SectionHeader';
 
 import { styles } from './UiLabelSection.styles';
@@ -45,45 +46,44 @@ export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
       <Box className={`ui-label-section ${className}`} css={styles}>
         <AdminSection title={title} description={description} variant="border-solid">
           {/* Data rows - similar to TranslationSection */}
-          <Flex direction="column" gap="4" className="labels-grid-content">
-            {items.map((item) => (
-              <Box key={item.key} className="translation-item">
-                <Grid columns={gridColumns} gap="3" align="center">
-                  {/* Key column (readonly) */}
-                  <Box>
-                    <Text size="1" weight="medium" color="gray" mb="1">
-                      {t('ui.forms.labels.name')}
-                    </Text>
-                    <TextField.Root
-                      value={item.key}
-                      readOnly
-                      variant="soft"
-                      color="gray"
-                      size="3"
-                      className="key-field"
-                    />
-                  </Box>
+          {items.map((item) => (
+            <Box key={item.key} className="translation-item">
+              <Grid columns={gridColumns} gap="3" align="center">
+                {/* Key column (readonly) */}
 
-                  {/* Language value columns */}
-                  {supportedLanguages.map((language) => (
-                    <Box key={language.isoCode}>
-                      <Text size="1" weight="medium" mb="1">
-                        {language.displayName}
-                      </Text>
-                      <TextField.Root
-                        value={item.values[language.isoCode] || ''}
-                        onChange={(e) => handleInputChange(item.key, language.isoCode, e.target.value)}
-                        placeholder={t('ui.forms.placeholders.enterText')}
-                        readOnly={readOnly}
-                        size="3"
-                        className="translation-field"
-                      />
-                    </Box>
-                  ))}
-                </Grid>
-              </Box>
-            ))}
-          </Flex>
+                <FieldWrapper label=" ">
+                  <TextField.Root
+                    value={item.key}
+                    readOnly
+                    variant="soft"
+                    color="gray"
+                    size="3"
+                    className="key-field"
+                    style={{ pointerEvents: 'none', userSelect: 'none' }}
+                  />
+                </FieldWrapper>
+
+                {/* Language value columns */}
+                {supportedLanguages.map((language) => (
+                  <FieldWrapper
+                    key={language.isoCode}
+                    // name={`${fieldName}.${index}.${filterKey}`}
+                    label={language.displayName}
+                    // error={errors?.[index]?.[filterKey] && errors[index][filterKey].message}
+                  >
+                    <TextField.Root
+                      value={item.values[language.isoCode] || ''}
+                      onChange={(e) => handleInputChange(item.key, language.isoCode, e.target.value)}
+                      placeholder={t('ui.forms.placeholders.enterText')}
+                      readOnly={readOnly}
+                      size="3"
+                      className="translation-field"
+                    />
+                  </FieldWrapper>
+                ))}
+              </Grid>
+            </Box>
+          ))}
         </AdminSection>
       </Box>
     );
