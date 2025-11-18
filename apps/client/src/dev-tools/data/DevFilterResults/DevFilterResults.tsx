@@ -1,4 +1,5 @@
 import { useFilters } from 'providers/FiltersProvider/useFilters';
+import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
 import type { OrderFilters } from 'types/filters.types';
@@ -7,6 +8,7 @@ import { styles } from './DevFilterResults.styles';
 
 export const DevFilterResults = () => {
   const { filters, dataFiltered } = useFilters();
+  const { selectedSlots } = useLayoutUi();
   // const { sessions, currentSessionId } = useSession();
 
   // const { filters: ordersFilters } = useOrders();
@@ -28,6 +30,10 @@ export const DevFilterResults = () => {
 
   return (
     <div id="dev-filter-results" css={styles}>
+      <div className="filters">
+        <h4>snooze, timers: {selectedSlots.length}:</h4>
+        <pre>{JSON.stringify({ selectedSlots }, null, 2)}</pre>
+      </div>
       <div className="filters">
         <h4>Filters ({Object.keys(filters).length}):</h4>
         <pre>{JSON.stringify(filters, null, 2)}</pre>

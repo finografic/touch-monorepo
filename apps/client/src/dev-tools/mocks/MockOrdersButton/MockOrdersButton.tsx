@@ -6,9 +6,10 @@ import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 
+import type { OrderFilters } from 'types/filters.types';
 import { FLOW_TYPES } from 'types/flow.types';
 import { PATHS } from 'config';
-import { MOCK_ORDERS_DATA } from './mock-orders.data';
+import { MOCK_ORDERS_DATA, MOCK_SELECTED_SLOTS_DATA } from './mock-orders.data';
 import { ListChecksIcon, StarIcon } from 'styles/icons';
 
 export const MockOrdersButton = () => {
@@ -25,20 +26,11 @@ export const MockOrdersButton = () => {
     const sessionId = createSession(FLOW_TYPES.PROGRAM_PRODUCT);
 
     // 🎯 NEW APPROACH: Use FiltersContext instead of individual order filters
-    const mockFilters = MOCK_ORDERS_DATA[0].filters;
-
-    // Create orders with session assignment (no individual filters needed)
-    const updatedMockData = MOCK_ORDERS_DATA.map((mockOrder, index) => ({
-      ...mockOrder,
-      id: `mock-order-${index + 1}`,
-      session: {
-        id: sessionId,
-        flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-      },
-    }));
+    // const mockFilters = MOCK_ORDERS_DATA[0].filters;
+    const mockFilters = MOCK_ORDERS_DATA as OrderFilters;
 
     // Assign orders to session
-    const slotNumbers = updatedMockData.map((order) => order.slotNumber);
+    const slotNumbers = MOCK_SELECTED_SLOTS_DATA.map((slot) => slot.slotNumber);
     assignOrdersToSession(sessionId, slotNumbers);
 
     // 🚀 PERFORMANCE OPTIMIZATION: Get mode from localStorage instead of API call
@@ -54,8 +46,6 @@ export const MockOrdersButton = () => {
       console.error('🔍 MOCK: Error parsing stored mode:', error);
     }
 
-    // Set orders and navigate immediately
-    ordersContext.setOrders(updatedMockData);
     setPageCurrent(Object.keys(mockFilters).length);
 
     // // Navigate to container type page (last step before temperature)
