@@ -1,14 +1,17 @@
 import type { AppRouteHandler } from 'types/app.types';
 import type { SaveRoute } from './ui-labels.routes';
 import { readFile, writeFile } from 'fs/promises';
-import { join } from 'path';
+import { join, dirname } from 'path';
 import { existsSync } from 'fs';
+import { fileURLToPath } from 'url';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+import { findProjectRoot } from '@finografic/project-scripts/utils';
 
-// Path to translation files
-const TRANSLATIONS_BASE_PATH = join(process.cwd(), 'packages/i18n/src/translations/common');
+const rootDir = findProjectRoot();
+
+const TRANSLATIONS_BASE_PATH = join(rootDir, 'packages/i18n/src/translations/common');
 
 // Language file mapping
 const LANGUAGE_FILES = {
@@ -57,7 +60,9 @@ export const save: AppRouteHandler<SaveRoute> = async (context) => {
     for (const item of section.items) {
       for (const [langCode, value] of Object.entries(item.values)) {
         if (langCode in languageData && typeof value === 'string') {
-          languageData[langCode as LanguageCode][item.key] = value;
+          // Build the flattened key: sectionKey.itemKey (e.g., "buttons.add")
+          const flattenedKey = `${section.key}.${item.key}`;
+          languageData[langCode as LanguageCode][flattenedKey] = value;
         }
       }
     }
@@ -71,6 +76,7 @@ export const save: AppRouteHandler<SaveRoute> = async (context) => {
 
     // Check if file exists
     if (!existsSync(filePath)) {
+      console.error(`[ui-labels] Translation file missing: ${filePath}`);
       return context.json(
         {
           success: false,
@@ -78,8 +84,8 @@ export const save: AppRouteHandler<SaveRoute> = async (context) => {
             issues: [
               {
                 code: 'FILE_NOT_FOUND',
-                path: [fileName],
-                message: `Translation file not found: ${fileName}`,
+                path: [filePath],
+                message: `Translation file not found at path: ${filePath}`,
               },
             ],
             name: 'FileNotFoundError',
@@ -107,7 +113,7 @@ export const save: AppRouteHandler<SaveRoute> = async (context) => {
       await writeFile(filePath, `${JSON.stringify(updatedData, null, 2)}\n`, 'utf-8');
       filesUpdated.push(fileName);
     } catch (fileError) {
-      console.error(`Error processing file ${fileName}:`, fileError);
+      console.error(`[ui-labels] Error processing file ${filePath}:`, fileError);
       return context.json(
         {
           success: false,
@@ -115,8 +121,8 @@ export const save: AppRouteHandler<SaveRoute> = async (context) => {
             issues: [
               {
                 code: 'FILE_PROCESSING_ERROR',
-                path: [fileName],
-                message: `Failed to process translation file: ${fileName}`,
+                path: [filePath],
+                message: `Failed to process translation file: ${filePath}`,
               },
             ],
             name: 'FileProcessingError',

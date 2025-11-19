@@ -1,73 +1,28 @@
 {
   "ui": {
     "buttons": {
-      "save": "Guardar",
-      "cancel": "Cancelar",
-      "edit": "Editar",
-      "delete": "Eliminar",
-      "view": "Ver",
-      "back": "Atrás",
-      "next": "Siguiente",
-      "previous": "Anterior",
-      "ok": "Aceptar",
-      "close": "Cerrar",
-      "submit": "Enviar",
-      "reset": "Restablecer",
-      "update": "Actualizar",
       "add": "Añadir",
-      "remove": "Eliminar",
-      "select": "Seleccionar",
-      "clear": "Limpiar",
       "all": "TODOS",
-      "start": "INICIAR",
-      "programTime": "Programar Tiempo",
+      "back": "Atrás",
+      "cancel": "Cancelar",
+      "clear": "Limpiar",
+      "close": "Cerrar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "next": "Siguiente",
+      "ok": "Aceptar",
+      "previous": "Anterior",
       "programProduct": "Programar Producto",
-      "repeatSelection": "Repetir Selección"
-    },
-    "forms": {
-      "labels": {
-        "name": "Nombre",
-        "displayName": "Nombre de visualización",
-        "description": "Descripción",
-        "isActive": "Activo",
-        "createdAt": "Creado en",
-        "updatedAt": "Actualizado en",
-        "email": "Correo electrónico",
-        "password": "Contraseña",
-        "confirmPassword": "Confirmar contraseña"
-      },
-      "placeholders": {
-        "selectOption": "Seleccione una opción...",
-        "enterText": "Ingrese texto...",
-        "searchPlaceholder": "Buscar..."
-      },
-      "validation": {
-        "required": "Este campo es obligatorio",
-        "invalid": "Valor no válido",
-        "tooShort": "Demasiado corto",
-        "tooLong": "Demasiado largo"
-      }
-    },
-    "navigation": {
-      "home": "Inicio",
-      "settings": "Configuración",
-      "profile": "Perfil",
-      "logout": "Cerrar sesión",
-      "login": "Iniciar sesión"
-    },
-    "states": {
-      "loading": "Cargando...",
-      "saving": "Guardando...",
-      "saved": "Guardado",
-      "error": "Error",
-      "success": "Éxito",
-      "empty": "No hay datos disponibles",
-      "notFound": "No encontrado"
-    },
-    "actions": {
-      "confirm": "¿Está seguro?",
-      "confirmDelete": "¿Está seguro de que desea eliminar este elemento?",
-      "unsavedChanges": "Tiene cambios sin guardar"
+      "programTime": "Programar Tiempo",
+      "remove": "Eliminar",
+      "repeatSelection": "Repetir Selección",
+      "reset": "Restablecer",
+      "save": "Guardar",
+      "select": "Seleccionar",
+      "start": "INICIAR",
+      "submit": "Enviar",
+      "update": "Actualizar",
+      "view": "Ver"
     }
   },
   "time": {

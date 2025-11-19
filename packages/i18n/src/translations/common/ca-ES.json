@@ -1,73 +1,28 @@
 {
   "ui": {
     "buttons": {
-      "save": "Desar",
-      "cancel": "Cancel·lar",
-      "edit": "Editar",
-      "delete": "Eliminar",
-      "view": "Veure",
-      "back": "Enrere",
-      "next": "Següent",
-      "previous": "Anterior",
-      "ok": "Acceptar",
-      "close": "Tancar",
-      "submit": "Enviar",
-      "reset": "Restablir",
-      "update": "Actualitzar",
       "add": "Afegir",
-      "remove": "Eliminar",
-      "select": "Seleccionar",
-      "clear": "Netejar",
       "all": "TOTS",
-      "start": "INICIAR",
-      "programTime": "Programar Temps",
+      "back": "Enrere",
+      "cancel": "Cancel·lar",
+      "clear": "Netejar",
+      "close": "Tancar",
+      "delete": "Eliminar",
+      "edit": "Editar",
+      "next": "Següent",
+      "ok": "Acceptar",
+      "previous": "Anterior",
       "programProduct": "Programar Producte",
-      "repeatSelection": "Repetir Selecció"
-    },
-    "forms": {
-      "labels": {
-        "name": "Nom",
-        "displayName": "Nom de visualització",
-        "description": "Descripció",
-        "isActive": "Actiu",
-        "createdAt": "Creat el",
-        "updatedAt": "Actualitzat el",
-        "email": "Correu electrònic",
-        "password": "Contrasenya",
-        "confirmPassword": "Confirmar contrasenya"
-      },
-      "placeholders": {
-        "selectOption": "Seleccioneu una opció...",
-        "enterText": "Introduïu text...",
-        "searchPlaceholder": "Cercar..."
-      },
-      "validation": {
-        "required": "Aquest camp és obligatori",
-        "invalid": "Valor no vàlid",
-        "tooShort": "Massa curt",
-        "tooLong": "Massa llarg"
-      }
-    },
-    "navigation": {
-      "home": "Inici",
-      "settings": "Configuració",
-      "profile": "Perfil",
-      "logout": "Tancar sessió",
-      "login": "Iniciar sessió"
-    },
-    "states": {
-      "loading": "Carregant...",
-      "saving": "Desant...",
-      "saved": "Desat",
-      "error": "Error",
-      "success": "Èxit",
-      "empty": "No hi ha dades disponibles",
-      "notFound": "No trobat"
-    },
-    "actions": {
-      "confirm": "Esteu segur?",
-      "confirmDelete": "Esteu segur que voleu eliminar aquest element?",
-      "unsavedChanges": "Teniu canvis sense desar"
+      "programTime": "Programar Temps",
+      "remove": "Eliminar",
+      "repeatSelection": "Repetir Selecció",
+      "reset": "Restablir",
+      "save": "Desar",
+      "select": "Seleccionar",
+      "start": "INICIAR",
+      "submit": "Enviar",
+      "update": "Actualitzar",
+      "view": "Veure"
     }
   },
   "time": {

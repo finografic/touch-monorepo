@@ -26,6 +26,7 @@ interface UiLabelSectionProps {
   supportedLanguages: SupportedLanguage[];
   onItemChange?: (itemKey: string, languageCode: string, value: string) => void;
   readOnly?: boolean;
+  hasError?: boolean;
   className?: string;
   children?: React.ReactNode;
 }
@@ -38,6 +39,7 @@ export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
     supportedLanguages,
     onItemChange,
     readOnly = false,
+    hasError = false,
     className = '',
     children,
   }) => {
@@ -54,7 +56,7 @@ export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
 
     return (
       <Box className={`ui-label-section ${className}`} css={styles}>
-        <AdminSection title={title} description={description} variant="border-solid">
+        <AdminSection title={title} description={description} variant="border-solid" hasError={hasError}>
           {/* Data rows - similar to TranslationSection */}
           {items.map((item) => (
             <Box key={item.key} className="translation-item">

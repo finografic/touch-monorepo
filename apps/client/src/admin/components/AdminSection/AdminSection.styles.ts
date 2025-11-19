@@ -61,6 +61,10 @@ export const styles = css`
       border-radius: ${layout.borderRadius};
     }
 
+    &.has-error {
+      border: ${layout.borderWidth} solid ${colors.danger50};
+    }
+
     &:not(.border-solid) {
       margin-top: 0;
     }

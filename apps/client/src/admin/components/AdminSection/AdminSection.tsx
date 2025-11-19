@@ -12,20 +12,30 @@ interface AdminSectionProps {
   description?: string;
   children: ReactNode;
   className?: string;
-  variant?: 'border-solid' | 'border-dashed' | 'none';
+  variant?: 'border-solid' | 'none';
   isLoading?: boolean;
+  hasError?: boolean;
 }
 
 export const AdminSection: React.FC<AdminSectionProps> = memo(
-  ({ title, subtitle, description, children, className = '', variant = 'none', isLoading = false }) => {
+  ({
+    title,
+    subtitle,
+    description,
+    children,
+    className = '',
+    variant = 'none',
+    isLoading = false,
+    hasError = false,
+  }) => {
     return (
-      <div
-        css={styles}
-        className={clsx('admin-section', className, { 'is-loading': isLoading })}
-        // TODO: INVESTIGATE TABS HIDDEN..
-        // style={{ overflowY: className.includes('tab-content-list') ? 'scroll' : 'hidden' }}
-      >
-        <div className={clsx('admin-section-content', { 'border-solid': variant === 'border-solid' })}>
+      <div css={styles} className={clsx('admin-section', className, { 'is-loading': isLoading })}>
+        <div
+          className={clsx('admin-section-content', {
+            'border-solid': variant === 'border-solid',
+            'has-error': hasError,
+          })}
+        >
           {(title || description) && (
             <SectionHeader title={title} subtitle={subtitle} description={description} />
           )}

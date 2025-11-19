@@ -60,13 +60,21 @@ export const UiSectionFormCard: React.FC<UiSectionFormCardProps> = ({
         items={section.items}
         supportedLanguages={supportedLanguages}
         onItemChange={handleSectionChange}
+        hasError={statusType === 'error'}
       >
-        <Flex justify="end" align="center" mt="6" gap="2">
-          {statusMessage && (
-            <Text color={statusType === 'error' ? 'red' : 'green'} size="2">
-              {statusMessage}
-            </Text>
-          )}
+        <Flex justify="between" align="center" mt="6" gap="2">
+          <Flex>
+            {statusMessage && (
+              <Text
+                weight="bold"
+                size="3"
+                style={{ textTransform: 'capitalize' }}
+                color={statusType === 'error' ? 'red' : 'green'}
+              >
+                {statusMessage}
+              </Text>
+            )}
+          </Flex>
           <Flex justify="end" gap="3">
             <Button
               type="button"
