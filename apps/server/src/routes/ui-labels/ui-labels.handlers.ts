@@ -1,16 +1,14 @@
 import type { AppRouteHandler } from 'types/app.types';
 import type { SaveRoute } from './ui-labels.routes';
 import { readFile, writeFile } from 'fs/promises';
-import { join, dirname } from 'path';
+import { join } from 'path';
 import { existsSync } from 'fs';
-import { fileURLToPath } from 'url';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 import { findProjectRoot } from '@finografic/project-scripts/utils';
 
 const rootDir = findProjectRoot();
-
 const TRANSLATIONS_BASE_PATH = join(rootDir, 'packages/i18n/src/translations/common');
 
 // Language file mapping
