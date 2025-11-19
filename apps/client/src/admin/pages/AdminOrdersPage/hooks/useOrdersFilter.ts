@@ -73,13 +73,13 @@ export function useOrdersFilter({
         switch (columnKey as ColumnKey) {
           case 'drinkType':
             return order.drinkType?.toLowerCase().includes(searchLower);
-          case 'subtype':
+          case 'drinkSubtype':
             return order.drinkSubtype?.toLowerCase().includes(searchLower);
           case 'volume':
             return order.volume?.toLowerCase().includes(searchLower);
-          case 'container':
+          case 'containerType':
             return order.containerType?.toLowerCase().includes(searchLower);
-          case 'temperature':
+          case 'defaultTempConsume':
             return order.defaultTempConsume?.toString().includes(searchLower);
           case 'id':
             return order.id?.toLowerCase().includes(searchLower);

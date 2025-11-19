@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Box, Button, Flex, Spinner, Text } from '@radix-ui/themes';
 import type { ContainerTypeUpdate, DrinkSubtypeUpdate, DrinkTypeUpdate, VolumeUpdate } from 'api/endpoints';
 import { useBatchUpdateTranslations, useGetAllTranslations } from 'api/hooks/useTranslations';
-import { z } from 'zod';
+import type { z } from 'zod';
 import { useToast } from 'components/Toast';
 
 import { LanguagesDto, useGetSupportedLanguages } from 'queries/supported-languages';
@@ -21,56 +21,8 @@ import {
   getLanguageCodesFromData,
   getLanguageFieldName,
 } from './utils/translation-helpers';
+import { createTranslationSchema } from './translations-product.schema';
 import { styles } from './TranslationsProductPage.styles';
-
-// Create dynamic schema based on supported languages
-const createTranslationSchema = (
-  t: (key: string) => string,
-  supportedLanguages: Array<{ isoCode: string }>,
-) => {
-  // Create dynamic fields object for language translations
-  const languageFields: Record<string, z.ZodString> = {};
-  supportedLanguages.forEach((lang) => {
-    const fieldName = getLanguageFieldName(lang.isoCode);
-    languageFields[fieldName] = z.string().min(1, t('ui.forms.validation.required'));
-  });
-
-  const baseFields = {
-    id: z.string(),
-    name: z.string().min(1, t('ui.forms.validation.required')),
-    ...languageFields,
-  };
-
-  return z.object({
-    drinkSubtypes: z.array(
-      z.object({
-        ...baseFields,
-        drinkTypeId: z.string(),
-        isActive: z.boolean().optional(),
-      }),
-    ),
-    volumes: z.array(
-      z.object({
-        ...baseFields,
-        isActive: z.boolean().optional(),
-      }),
-    ),
-    drinkTypes: z.array(
-      z.object({
-        ...baseFields,
-        hasSubtypes: z.boolean().optional(),
-        isActive: z.boolean().optional(),
-      }),
-    ),
-    containerTypes: z.array(
-      z.object({
-        ...baseFields,
-        thermalConductivity: z.number().optional(),
-        isActive: z.boolean().optional(),
-      }),
-    ),
-  });
-};
 
 type TranslationFormData = z.infer<ReturnType<typeof createTranslationSchema>>;
 
