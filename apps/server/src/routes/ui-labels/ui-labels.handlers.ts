@@ -112,16 +112,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
         return context.json(
           {
             success: false,
-            error: {
-              issues: [
-                {
-                  code: 'FILE_NOT_FOUND',
-                  path: [filePath],
-                  message: `Translation file not found at path: ${filePath}`,
-                },
-              ],
-              name: 'FileNotFoundError',
-            },
+            message: `Translation file not found at path: ${filePath}`,
           },
           HttpStatusCodes.INTERNAL_SERVER_ERROR,
         );
@@ -137,15 +128,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
       return context.json(
         {
           success: false,
-          error: {
-            issues: [
-              {
-                code: 'MISSING_TRANSLATIONS',
-                message: 'Translation data not found in one or more language files',
-              },
-            ],
-            name: 'MissingTranslationsError',
-          },
+          message: 'Translation data not found in one or more language files',
         },
         HttpStatusCodes.INTERNAL_SERVER_ERROR,
       );
@@ -264,15 +247,7 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
     return context.json(
       {
         success: false,
-        error: {
-          issues: [
-            {
-              code: 'LOAD_ERROR',
-              message: `Failed to load UI labels: ${error instanceof Error ? error.message : 'Unknown error'}`,
-            },
-          ],
-          name: 'LoadError',
-        },
+        message: `Failed to load UI labels: ${error instanceof Error ? error.message : 'Unknown error'}`,
       },
       HttpStatusCodes.INTERNAL_SERVER_ERROR,
     );

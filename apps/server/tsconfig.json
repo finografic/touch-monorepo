@@ -14,7 +14,7 @@
       "constants/*": ["./constants/*"],
       "db": ["./db"],
       "db/*": ["./db/*"],
-      "env.server": ["../env.server.ts"],
+      "env.server": ["./env.server.d.ts"],
       "i18n/*": ["./i18n/*"],
       "lib/*": ["./lib/*"],
       "middlewares/*": ["./middlewares/*"],
@@ -41,14 +41,15 @@
     // ------------------------------------------------------------------------ //
     "declaration": true,
     "baseUrl": "./src",
-    "outDir": "../dist",
-    "rootDir": ".",
+    "outDir": "./dist",
+    "rootDir": "./src",
     "emitDeclarationOnly": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "types": ["node"]
+    "types": ["node"],
+    "skipDefaultLibCheck": true
   },
   "references": [
     {
@@ -58,6 +59,6 @@
       "path": "../../config"
     }
   ],
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json", "./env.server.ts"],
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.json"],
   "exclude": ["node_modules", "dist", "**/__tests__/**", "**/*.test.ts", "**/*.spec.ts"]
 }
