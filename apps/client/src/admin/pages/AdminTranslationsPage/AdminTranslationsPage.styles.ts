@@ -12,10 +12,6 @@ export const styles = css`
     }
   }
 
-  .validation-error {
-    display: none;
-  }
-
   input:read-only,
   input:read-only:focus {
     pointer-events: none !important;

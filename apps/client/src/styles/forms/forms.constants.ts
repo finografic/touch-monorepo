@@ -27,10 +27,10 @@ export const forms = {
       fontSize: '0.9rem',
       fontWeight: 600,
       minHeight: '32px',
-      marginTop: '0',
-      marginBottom: '0.25rem',
+      marginTop: '0.25rem',
+      marginBottom: '0.1rem',
       paddingTop: '0.25rem',
-      paddingBottom: '0rem',
+      paddingBottom: '0.25rem',
     },
 
     text: {

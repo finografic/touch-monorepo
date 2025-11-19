@@ -7,7 +7,7 @@ export const styles = css`
   flex: 1;
   display: block;
   position: relative;
-  padding: 0.5rem 0 0.25rem;
+  padding: 0.75rem 0 0.25rem;
 
   label.field-label {
     /* NOTE: MOVED TO forms-base.styles.ts */
@@ -15,7 +15,7 @@ export const styles = css`
     font-weight: ${forms.inputs.label.fontWeight};
     color: ${forms.inputs.label.color};
 
-    margin-top: ${forms.inputs.label.marginBottom};
+    margin-top: ${forms.inputs.label.marginTop};
     margin-bottom: ${forms.inputs.label.marginBottom};
     padding-top: ${forms.inputs.label.paddingTop};
     padding-bottom: ${forms.inputs.label.paddingBottom};
@@ -56,10 +56,20 @@ export const styles = css`
   }
 
   .validation-error {
+    justify-content: end;
     color: ${colors.dangerDark};
+    transform: translate(-0.1rem, -0.33rem);
+    svg.icon {
+      margin-top: 0.1rem;
+    }
   }
 
   .validation-warning {
+    justify-content: end;
     color: ${colors.warningDark};
+    transform: translate(-0.1rem, -0.33rem);
+    svg.icon {
+      margin-top: 0.1rem;
+    }
   }
 `;
