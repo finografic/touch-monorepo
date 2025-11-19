@@ -1,6 +1,7 @@
+import createCuid from '@bugsnag/cuid';
+
 import { db } from '../db.adapter';
 import { modes } from '../schemas';
-import createCuid from '@bugsnag/cuid';
 
 // Default modes configuration
 const DEFAULT_MODES_CONFIG = [

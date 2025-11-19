@@ -1,3 +1,10 @@
+import createCuid from '@bugsnag/cuid';
+import { eq } from 'drizzle-orm';
+import * as HttpStatusCodes from 'stoker/http-status-codes';
+import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+
+import { db } from 'db';
+import { slot_configurations } from 'db/schemas';
 import type { AppRouteHandler } from 'types/app.types';
 import type {
   BulkUpdateRoute,
@@ -8,12 +15,6 @@ import type {
   RemoveRoute,
   ResetRoute,
 } from './slot-configurations.routes';
-import { db } from 'db';
-import { slot_configurations } from 'db/schemas';
-import { eq } from 'drizzle-orm';
-import createCuid from '@bugsnag/cuid';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
 function cleanTimestamps<T extends { createdAt?: string | null; updatedAt?: string | null }>(
   obj: T,

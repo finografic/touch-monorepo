@@ -1,8 +1,12 @@
 import { ERROR, fino, OFF } from '@finografic/eslint-config';
 
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+
 export default fino({
-  typescript: true,
-  gitignore: true,
+  ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
+  plugins: {
+    'simple-import-sort': simpleImportSort,
+  },
   languageOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -11,12 +15,7 @@ export default fino({
       getDotEnv: 'readonly',
     },
   },
-  // plugins: {
-  //   prettier: prettierPlugin,
-  // lodash: pluginLodash,
-  // import: pluginImport,
-  // },
-  // files: [...INCLUDE_FILES_TS],
+  typescript: true,
   rules: {
     // ...prettier.rules,
     // 'prettier/prettier': [
@@ -68,14 +67,10 @@ export default fino({
       {
         groups: [
           // React imports + React-related packages (merged) - including type imports from react
-          ['^react', '^@react', '^@finografic', '^@workspace'],
+          ['^@finografic', '^@workspace'],
+          ['^@?\\w', '^(drizzle|drizzle-orm|stoker|zod)(/.*|$)'],
           // Internal absolute imports: components, providers, pages
-          ['^@?\\w', '^(pages|components|lib)(/.*|$)'],
-          // The rest of internal absolute imports + relative imports
-          // NOTE: V1
-          // ['^(types|utils|hooks|routes|constants|lib|queries)(/.*|$)'],
-          // NEW: V2
-          ['^(hooks|routes|providers|queries)(/.*|$)'],
+          ['^@?\\w', '^(pages|components)(/.*|$)'],
           // Side effect imports
           ['^\\u0000'],
           // All relative imports (parent + same-folder + styles merged)
@@ -83,9 +78,14 @@ export default fino({
           // ['^(config|dev-tools)', '^\\.\\.(?!/?$)', '^\\.\\./?$', '^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$', '^(styles)', '^.+\\.s?css$', '^.+\\.styles$'],
           // NEW: V2
           [
+            '^(i18n)',
+            '^(openapi)',
+            '^(routes)',
+            '^(middlewares)',
+            '^(db|schemas|lib)',
             '^(utils)',
             '^(types|constants)',
-            '^(config|dev-tools)',
+            '^(config)',
             '^\\.\\.(?!/?$)',
             '^\\.\\./?$',
             '^\\./(?=.*/)(?!/?$)',

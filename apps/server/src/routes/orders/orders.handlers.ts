@@ -1,4 +1,12 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
+import { eq, sql } from 'drizzle-orm';
+import * as HttpStatusCodes from 'stoker/http-status-codes';
+import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+
+import { db } from 'db';
+import { orders } from 'db/schemas/orders.schema';
+import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import type { AppRouteHandler } from 'types/app.types';
 import type {
   CreateRoute,
@@ -10,13 +18,6 @@ import type {
   PatchRoute,
   RemoveRoute,
 } from './orders.routes';
-import { db } from 'db';
-import { orders } from 'db/schemas/orders.schema';
-import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
-import { eq, sql } from 'drizzle-orm';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const drinkOrders = await db.query.orders.findMany({

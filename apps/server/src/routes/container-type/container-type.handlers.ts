@@ -1,11 +1,12 @@
-import type { AppRouteHandler } from 'types/app.types';
-import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './container-type.routes';
-import { db } from 'db';
-import { container_types } from 'db/schemas/container_types.schema';
 import { eq } from 'drizzle-orm';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+
+import { db } from 'db';
+import { container_types } from 'db/schemas/container_types.schema';
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
+import type { AppRouteHandler } from 'types/app.types';
+import type { CreateRoute, GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './container-type.routes';
 
 // @ts-ignore - Avoiding complex type inference issue
 export const list: AppRouteHandler<ListRoute> = async (context) => {

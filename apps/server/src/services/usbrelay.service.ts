@@ -1,4 +1,5 @@
 import * as HID from 'node-hid';
+
 import { relayConfig } from '../config/relay.config';
 
 export interface RelayState {
@@ -25,8 +26,8 @@ const validSlotNumbers = [1, 2, 3, 4, 5, 6, 7, 8] as const;
 const maxReconnectAttempts = relayConfig.maxReconnectAttempts;
 
 // USBRelay8 HID protocol constants
-const USBRELAY_VENDOR_ID = 0x16c0;
-const USBRELAY_PRODUCT_ID = 0x05df;
+const USBRELAY_VENDOR_ID = 0x16C0;
+const USBRELAY_PRODUCT_ID = 0x05DF;
 
 // Helper functions
 // Helper function to read actual hardware state (if possible)
@@ -150,10 +151,10 @@ const buildRelayCommand = (slotNumber: number, state: boolean): number[] => {
 
   if (state) {
     // Turn relay ON
-    return [0xff, slotNumber, slotNumber, slotNumber];
+    return [0xFF, slotNumber, slotNumber, slotNumber];
   } else {
     // Turn relay OFF
-    return [0xfd, slotNumber, slotNumber, slotNumber];
+    return [0xFD, slotNumber, slotNumber, slotNumber];
   }
 };
 
@@ -283,7 +284,7 @@ export const USBRelayService = {
     }
 
     try {
-      const command = state ? [0xfe] : [0xfc]; // All ON or All OFF
+      const command = state ? [0xFE] : [0xFC]; // All ON or All OFF
       console.log(`🔌 Sending HID command to all relays: ${state ? 'ON' : 'OFF'}`, command);
 
       await sendHIDCommand(command);

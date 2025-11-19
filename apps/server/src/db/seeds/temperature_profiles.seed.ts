@@ -1,6 +1,7 @@
+import { randomUUID } from 'node:crypto';
+
 import { db } from '../db.adapter';
 import { drink_types, modes, orders, temperature_profiles } from '../schemas';
-import { randomUUID } from 'node:crypto';
 
 // Define the type for our temperature profile rows
 type TemperatureProfileRow = typeof temperature_profiles.$inferInsert;

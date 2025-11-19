@@ -1,6 +1,7 @@
 import createCuid from '@bugsnag/cuid';
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+
 import { sqliteBooleanField } from '../../lib/zod.utils';
 
 // Supported languages table - single source of truth for language configuration

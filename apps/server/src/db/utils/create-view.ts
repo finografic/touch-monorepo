@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { sql } from 'drizzle-orm';
+
 import { db } from '../db.adapter';
 
 // Convert URL to file path for ES modules

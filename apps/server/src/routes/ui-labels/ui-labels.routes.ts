@@ -1,8 +1,9 @@
 import { createRoute, z } from '@hono/zod-openapi';
-import { notFoundSchema } from 'lib/zod.errors';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
 import { createErrorSchema } from 'stoker/openapi/schemas';
+
+import { notFoundSchema } from 'lib/zod.errors';
 
 const tags = ['UiLabels'];
 

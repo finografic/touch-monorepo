@@ -1,9 +1,10 @@
-import type { AppBindings, AppOpenAPI } from 'types/app.types';
 import { OpenAPIHono } from '@hono/zod-openapi';
-import { pinoLogger } from 'middlewares/pino-logger';
 // import { pinoLogger } from 'middlewares/pino.middleware';
 import { notFound, onError, serveEmojiFavicon } from 'stoker/middlewares';
 import { defaultHook } from 'stoker/openapi';
+
+import { pinoLogger } from 'middlewares/pino-logger';
+import type { AppBindings, AppOpenAPI } from 'types/app.types';
 
 // NOTE: OpenAPI + Homo + Zod
 // ref: https://www.speakeasy.com/openapi/frameworks/hono

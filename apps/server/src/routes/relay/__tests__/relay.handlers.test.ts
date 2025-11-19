@@ -1,5 +1,15 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import type { Context } from 'hono';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+
+import {
+  disconnectRelay,
+  getRelayStates,
+  getRelayStatus,
+  initializeRelay,
+  toggleAllRelays,
+  toggleRelay,
+} from '../../routes/relay/relay.handlers';
+import { USBRelayService } from '../../services/usbrelay.service';
 
 // Mock the USBRelayService
 vi.mock('../../services/usbrelay.service', () => ({
@@ -14,17 +24,7 @@ vi.mock('../../services/usbrelay.service', () => ({
   },
 }));
 
-import { USBRelayService } from '../../services/usbrelay.service';
-import {
-  toggleRelay,
-  toggleAllRelays,
-  getRelayStates,
-  getRelayStatus,
-  disconnectRelay,
-  initializeRelay,
-} from '../../routes/relay/relay.handlers';
-
-describe('Relay API Handlers', () => {
+describe('relay API Handlers', () => {
   let mockContext: Partial<Context>;
 
   beforeEach(() => {

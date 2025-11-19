@@ -1,3 +1,10 @@
+import { eq } from 'drizzle-orm';
+import * as HttpStatusCodes from 'stoker/http-status-codes';
+import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+
+import { db } from 'db';
+import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
 import type { AppRouteHandler } from 'types/app.types';
 import type {
   CreateRoute,
@@ -6,12 +13,6 @@ import type {
   PatchRoute,
   RemoveRoute,
 } from './temperature-profile.routes';
-import { temperature_profiles } from 'db/schemas/temperature_profiles.schema';
-import { db } from 'db';
-import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import { eq } from 'drizzle-orm';
 
 // @ts-ignore - Avoiding complex type inference issue
 export const list: AppRouteHandler<ListRoute> = async (context) => {

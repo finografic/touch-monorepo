@@ -1,6 +1,7 @@
+import createCuid from '@bugsnag/cuid';
+
 import { db } from '../db.adapter';
 import { slot_configurations } from '../schemas';
-import createCuid from '@bugsnag/cuid';
 
 // Default configuration: All 16 slots, first 10 active (3 columns x 3 rows + 1 separate)
 const DEFAULT_SLOT_CONFIG = [

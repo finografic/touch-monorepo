@@ -1,6 +1,7 @@
+import { eq } from 'drizzle-orm';
+
 import { db } from '../db';
 import { account, user } from '../db/schemas';
-import { eq } from 'drizzle-orm';
 
 async function checkAdminUser() {
   try {

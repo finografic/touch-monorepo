@@ -2,11 +2,12 @@
 import { confirm } from '@inquirer/prompts';
 import Database from 'better-sqlite3';
 import chalk from 'chalk';
+import { env } from 'env.server';
+import path from 'node:path';
 import { drizzle } from 'drizzle-orm/better-sqlite3';
 import { migrate } from 'drizzle-orm/better-sqlite3/migrator';
-import { env } from 'env.server';
+
 import { DATABASE_PATHS } from '../../constants/paths.constants.js';
-import path from 'node:path';
 
 interface TableInfo {
   name: string;

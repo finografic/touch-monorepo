@@ -1,5 +1,5 @@
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import * as HID from 'node-hid';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 
 import { USBRelayService } from '../usbrelay.service';
 

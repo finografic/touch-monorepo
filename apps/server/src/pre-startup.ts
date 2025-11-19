@@ -5,8 +5,8 @@ import * as HID from 'node-hid';
 console.log('🔧 Pre-startup: Resetting relay board...');
 
 // USBRelay8 HID protocol constants
-const USBRELAY_VENDOR_ID = 0x16c0;
-const USBRELAY_PRODUCT_ID = 0x05df;
+const USBRELAY_VENDOR_ID = 0x16C0;
+const USBRELAY_PRODUCT_ID = 0x05DF;
 
 const resetRelayBoard = async (): Promise<void> => {
   try {
@@ -26,7 +26,7 @@ const resetRelayBoard = async (): Promise<void> => {
     const device = new HID.HID(relayDevice.path!);
 
     console.log('🧹 Sending ALL RELAYS OFF command...');
-    device.write([0xfc]); // All relays OFF command
+    device.write([0xFC]); // All relays OFF command
 
     console.log('⏰ Waiting 1 second for command to process...');
     await new Promise((resolve) => setTimeout(resolve, 1000));

@@ -1,29 +1,29 @@
-import type { RequestMethod } from 'types/request.types';
 import { envShared } from '@workspace/config/env.shared';
+
 import chalk from 'chalk';
-import { CLI } from 'utils/utils.cli';
 import { cors } from 'hono/cors';
 
-import configureOpenAPI from 'lib/configure-open-api';
-import createApp from 'lib/create-app';
 import auth from 'routes/auth/auth.routes';
-
+import containerType from 'routes/container-type';
+import drinkSubtypes from 'routes/drink-subtypes';
+import drinkType from 'routes/drink-type';
 import health from 'routes/health-check/health-check.index';
 // Import routes
 import index from 'routes/index.route';
+import orders from 'routes/orders';
+import relay from 'routes/relay';
+import slotConfigurations from 'routes/slot-configurations';
+import sounds from 'routes/sounds';
+import supportedLanguage from 'routes/supported-language';
+import uiLabels from 'routes/ui-labels';
 import users from 'routes/users';
-import drinkType from 'routes/drink-type';
-import drinkSubtypes from 'routes/drink-subtypes';
+import configureOpenAPI from 'lib/configure-open-api';
+import createApp from 'lib/create-app';
+import { CLI } from 'utils/utils.cli';
+import type { RequestMethod } from 'types/request.types';
 import drinkVolume from './routes/drink-volume';
-import containerType from 'routes/container-type';
 import modes from './routes/modes';
 import temperatureProfile from './routes/temperature-profile';
-import orders from 'routes/orders';
-import supportedLanguage from 'routes/supported-language';
-import sounds from 'routes/sounds';
-import slotConfigurations from 'routes/slot-configurations';
-import uiLabels from 'routes/ui-labels';
-import relay from 'routes/relay';
 
 const app = createApp();
 

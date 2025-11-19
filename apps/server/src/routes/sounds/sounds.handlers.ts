@@ -1,7 +1,15 @@
 // @ts-nocheck - Bypassing complex type inference issues throughout this file
-import { z } from 'zod';
+import { Buffer } from 'buffer';
+import { existsSync } from 'fs';
+import { mkdir, readdir, readFile, stat, unlink, writeFile } from 'fs/promises';
+import { join } from 'path';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
+import { z } from 'zod';
+
+import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
+import { slugify } from 'utils/string.utils';
 import type { AppRouteHandler } from 'types/app.types';
+import { CONFIG_PATHS, UPLOAD_PATHS } from '../../constants/paths.constants.js';
 import type {
   GetSettingsRoute,
   ListByTypeRoute,
@@ -13,14 +21,6 @@ import type {
   UploadByTypeRoute,
   UploadRoute,
 } from './sounds.routes';
-import { mkdir, readdir, readFile, stat, unlink, writeFile } from 'fs/promises';
-import { join } from 'path';
-import { existsSync } from 'fs';
-import { Buffer } from 'buffer';
-import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import { slugify } from 'utils/string.utils';
-
-import { CONFIG_PATHS, UPLOAD_PATHS } from '../../constants/paths.constants.js';
 
 // In-memory storage for demo purposes
 // In production, this would be replaced with database storage

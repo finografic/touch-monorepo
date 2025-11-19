@@ -1,5 +1,6 @@
-import { SerialPort } from 'serialport';
 import { Buffer } from 'buffer';
+import { SerialPort } from 'serialport';
+
 import { relayConfig } from '../config/relay.config';
 
 export interface RelayState {

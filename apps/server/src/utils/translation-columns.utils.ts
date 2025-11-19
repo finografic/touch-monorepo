@@ -1,6 +1,7 @@
+import { sql } from 'drizzle-orm';
+
 import { db } from 'db';
 import { translatable_entities } from 'db/schemas/translatable_entities.schema';
-import { sql } from 'drizzle-orm';
 import { autoTranslateExistingContent } from './auto-translate.utils';
 
 /**

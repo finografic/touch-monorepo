@@ -1,6 +1,7 @@
 import { createRoute, z } from '@hono/zod-openapi';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import { jsonContent, jsonContentRequired } from 'stoker/openapi/helpers';
+
 import { USBRelayService } from '../../services/usbrelay.service';
 
 const tags = ['Relay'];

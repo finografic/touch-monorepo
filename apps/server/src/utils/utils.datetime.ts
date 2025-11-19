@@ -1,7 +1,8 @@
-import type { DateRange } from 'types/date.types';
 import { format, lastDayOfMonth, parseISO } from 'date-fns';
+
 import { DATE_FILTER, DATETIME_FORMAT } from 'i18n/datetime';
 import { ES } from 'i18n/locale';
+import type { DateRange } from 'types/date.types';
 import { camelCaseToSentence, toTitleCase } from './utils.string.format';
 
 // CHAR-COUNTS FOR SPLICING FULL DATE-STRING

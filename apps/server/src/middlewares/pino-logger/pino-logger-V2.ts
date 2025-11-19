@@ -1,5 +1,6 @@
 import { pinoLogger as logger } from 'hono-pino';
 import pino from 'pino';
+
 import { pinoLoggerModuleOptions } from './pino-http.options';
 
 export function pinoLogger() {

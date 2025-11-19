@@ -1,9 +1,10 @@
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import { randomUUID } from 'crypto';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { relations } from 'drizzle-orm';
-import { orders } from './orders.schema';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+
 import { modes } from './modes.schema';
-import { randomUUID } from 'crypto';
+import { orders } from './orders.schema';
 
 export const temperature_profiles = sqliteTable('temperature_profiles', {
   id: text('id')

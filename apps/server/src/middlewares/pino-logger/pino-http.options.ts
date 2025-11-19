@@ -1,5 +1,6 @@
-import type { StrictPinoOptions } from './pino-logger.types';
 import { randomUUID } from 'node:crypto';
+
+import type { StrictPinoOptions } from './pino-logger.types';
 
 export const customMessages: Pick<
   StrictPinoOptions,

@@ -1,5 +1,5 @@
-import { defineConfig } from 'tsup';
 import type { Options } from 'tsup';
+import { defineConfig } from 'tsup';
 
 export default defineConfig({
   format: ['esm'], // ESM for modern Node.js

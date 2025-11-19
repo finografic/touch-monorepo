@@ -1,18 +1,19 @@
-import type { AppRouteHandler } from 'types/app.types';
-import type {
-  ToggleRelayRoute,
-  GetRelayStatesRoute,
-  GetRelayStateRoute,
-  GetRelayStatusRoute,
-  TurnAllRelaysOnRoute,
-  TurnAllRelaysOffRoute,
-  ReconnectRelayRoute,
-  DisconnectRelayRoute,
-  InitializeRelayRoute,
-} from './relay.routes';
-import { USBRelayService } from '../../services/usbrelay.service';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
+
+import type { AppRouteHandler } from 'types/app.types';
+import { USBRelayService } from '../../services/usbrelay.service';
+import type {
+  DisconnectRelayRoute,
+  GetRelayStateRoute,
+  GetRelayStatesRoute,
+  GetRelayStatusRoute,
+  InitializeRelayRoute,
+  ReconnectRelayRoute,
+  ToggleRelayRoute,
+  TurnAllRelaysOffRoute,
+  TurnAllRelaysOnRoute,
+} from './relay.routes';
 
 // @ts-ignore - Avoiding complex type inference issue
 export const toggleRelay: AppRouteHandler<ToggleRelayRoute> = async (context) => {

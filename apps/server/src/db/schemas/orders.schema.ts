@@ -1,16 +1,17 @@
 import createCuid from '@bugsnag/cuid';
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { relations } from 'drizzle-orm';
-import { drink_types } from './drink_types.schema';
-import { drink_subtypes } from './drink_subtypes.schema';
-import { container_types } from './container_types.schema';
-import { volumes } from './volumes.schema';
-import { temperature_profiles } from './temperature_profiles.schema';
-import { modes } from './modes.schema';
+import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+
 import { ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
-import { TEMPERATURE_RANGES } from 'config/temperature.config';
 import { sqliteBooleanField } from 'lib/zod.utils';
+import { TEMPERATURE_RANGES } from 'config/temperature.config';
+import { container_types } from './container_types.schema';
+import { drink_subtypes } from './drink_subtypes.schema';
+import { drink_types } from './drink_types.schema';
+import { modes } from './modes.schema';
+import { temperature_profiles } from './temperature_profiles.schema';
+import { volumes } from './volumes.schema';
 
 // Orders table with proper ID-based foreign keys
 export const orders = sqliteTable('orders', {

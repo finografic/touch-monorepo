@@ -1,12 +1,12 @@
-import type { AppRouteHandler } from 'types/app.types';
-import type { GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './users.routes';
-import { db } from 'db';
-import { user as userSchema } from 'db/schemas';
 import { eq } from 'drizzle-orm';
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
+import { db } from 'db';
+import { user as userSchema } from 'db/schemas';
 import { ZOD_ERROR_CODES, ZOD_ERROR_MESSAGES } from 'lib/zod.errors';
+import type { AppRouteHandler } from 'types/app.types';
+import type { GetOneRoute, ListRoute, PatchRoute, RemoveRoute } from './users.routes';
 
 export const list: AppRouteHandler<ListRoute> = async (context) => {
   const users = await db.query.user.findMany();
