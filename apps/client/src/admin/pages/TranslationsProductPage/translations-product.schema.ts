@@ -50,3 +50,19 @@ export const createTranslationSchema = (
     ),
   });
 };
+
+export const createUiLabelsSchema = () => {
+  return z.object({
+    sections: z.array(
+      z.object({
+        key: z.string(),
+        items: z.array(
+          z.object({
+            key: z.string(),
+            values: z.record(z.string()),
+          }),
+        ),
+      }),
+    ),
+  });
+};

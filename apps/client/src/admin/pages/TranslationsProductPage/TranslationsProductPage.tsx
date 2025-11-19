@@ -3,10 +3,11 @@ import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Box, Button, Flex, Spinner, Text } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
 import type { ContainerTypeUpdate, DrinkSubtypeUpdate, DrinkTypeUpdate, VolumeUpdate } from 'api/endpoints';
 import { useBatchUpdateTranslations, useGetAllTranslations } from 'api/hooks/useTranslations';
 import type { z } from 'zod';
+import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
 import { LanguagesDto, useGetSupportedLanguages } from 'queries/supported-languages';
@@ -290,14 +291,13 @@ export const TranslationsProductPage: React.FC = () => {
       <form onSubmit={methods.handleSubmit(onSubmit)}>
         <Flex direction="column">
           <TranslationForm supportedLanguages={supportedLanguages} />
-
           <Flex justify="center" gap="4">
-            <Button type="button" variant="soft" color="gray" onClick={handleReset}>
+            <Button type="button" variant="outline" color="warning" onClick={handleReset}>
               {t('ui.buttons.reset')}
             </Button>
             <Button
-              type="submit"
               variant="solid"
+              color="success"
               disabled={methods.formState.isSubmitting || batchUpdateMutation.isPending}
             >
               {methods.formState.isSubmitting || batchUpdateMutation.isPending

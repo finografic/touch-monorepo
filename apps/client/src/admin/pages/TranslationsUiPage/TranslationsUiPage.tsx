@@ -1,90 +1,25 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
-// Import the common translation files directly (these contain the UI translations)
+import type { LanguageInfo } from '@workspace/config/i18n.config';
+// NOTE: Import the common translation files directly (these contain the UI translations)
 import { commonCa, commonEn, commonEs } from '@workspace/i18n';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button, Flex, Spinner, Text } from '@radix-ui/themes';
+import { Flex } from '@radix-ui/themes';
+import { flattenObject, groupBySection } from 'admin/pages/TranslationsUiPage/translations-ui.utils';
+import type {
+  UiLabelItem,
+  UiLabelSectionData,
+  UiLabelsFormData,
+} from 'admin/pages/TranslationsUiPage/TranslationsUiPage.types';
 import { EndpointHelper } from 'api/api.endpoints';
-import { z } from 'zod';
+import { Button } from 'components/Button';
 
-import { AdminPageLayout, AdminSection, UiLabelSection } from '../..';
+import type { SupportedLanguage } from 'types/models/supported-language.model';
+import { AdminPageLayout, UiLabelSection } from '../..';
+import { createUiLabelsSchema } from '../TranslationsProductPage/translations-product.schema';
 import { styles } from './TranslationsUiPage.styles';
-
-interface SupportedLanguage {
-  isoCode: string;
-  displayName: string;
-  nativeName: string;
-}
-
-interface UiLabelItem {
-  key: string;
-  values: Record<string, string>;
-}
-
-interface UiLabelSectionData {
-  key: string;
-  title: string;
-  description: string;
-  items: UiLabelItem[];
-}
-
-// Create schema for form validation
-const createUiLabelsSchema = (t: any) => {
-  return z.object({
-    sections: z.array(
-      z.object({
-        key: z.string(),
-        items: z.array(
-          z.object({
-            key: z.string(),
-            values: z.record(z.string()),
-          }),
-        ),
-      }),
-    ),
-  });
-};
-
-type UiLabelsFormData = z.infer<ReturnType<typeof createUiLabelsSchema>>;
-
-// Helper function to flatten nested objects with dot notation
-const flattenObject = (obj: any, prefix = ''): Record<string, any> => {
-  const flattened: Record<string, any> = {};
-
-  for (const [key, value] of Object.entries(obj)) {
-    const newKey = prefix ? `${prefix}.${key}` : key;
-
-    if (value && typeof value === 'object' && !Array.isArray(value)) {
-      Object.assign(flattened, flattenObject(value, newKey));
-    } else {
-      flattened[newKey] = value;
-    }
-  }
-
-  return flattened;
-};
-
-// Helper function to group flattened keys by their first level (since we already extracted 'ui')
-const groupBySection = (flattenedData: Record<string, any>): Record<string, Record<string, any>> => {
-  const sections: Record<string, Record<string, any>> = {};
-
-  for (const [key, value] of Object.entries(flattenedData)) {
-    const pathParts = key.split('.');
-    if (pathParts.length >= 2) {
-      const sectionKey = pathParts[0]; // buttons, forms, navigation, etc.
-      const itemKey = pathParts.slice(1).join('.'); // The rest of the path
-
-      if (!sections[sectionKey]) {
-        sections[sectionKey] = {};
-      }
-      sections[sectionKey][itemKey] = value;
-    }
-  }
-
-  return sections;
-};
 
 export const TranslationsUiPage: React.FC = () => {
   const { t } = useTranslation();
@@ -108,7 +43,8 @@ export const TranslationsUiPage: React.FC = () => {
 
   // Supported languages - these match the actual translation files
   // Reordered to put English as second column
-  const supportedLanguages: SupportedLanguage[] = useMemo(
+  // const supportedLanguages: LanguageInfo[] = useMemo(
+  const supportedLanguages = useMemo(
     () => [
       { isoCode: 'es-ES', displayName: 'Spanish', nativeName: 'Español' },
       { isoCode: 'en-GB', displayName: 'English', nativeName: 'English' },
@@ -343,17 +279,6 @@ export const TranslationsUiPage: React.FC = () => {
     setSubmitMessage(null);
   }, [methods, processedSections]);
 
-  if (!isDataReady) {
-    return (
-      <AdminPageLayout title={t('admin.title')} subtitle="UI Labels / Translations" isLoading={true}>
-        <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <Spinner size="3" />
-          <Text>Loading UI translation files...</Text>
-        </Flex>
-      </AdminPageLayout>
-    );
-  }
-
   const formContent = (
     <form onSubmit={methods.handleSubmit(onSubmit)}>
       <Flex direction="column">
@@ -371,10 +296,10 @@ export const TranslationsUiPage: React.FC = () => {
         ))}
 
         <Flex justify="center" gap="4" pt="4">
-          <Button type="button" variant="soft" color="gray" onClick={handleReset}>
+          <Button type="button" variant="outline" color="warning" onClick={handleReset}>
             {t('ui.buttons.reset')}
           </Button>
-          <Button type="submit" variant="solid" disabled={methods.formState.isSubmitting}>
+          <Button type="submit" variant="solid" color="success" disabled={methods.formState.isSubmitting}>
             {methods.formState.isSubmitting ? t('ui.states.saving') : t('ui.buttons.save')}
           </Button>
         </Flex>
@@ -395,6 +320,7 @@ export const TranslationsUiPage: React.FC = () => {
               }
             : undefined
         }
+        isLoading={!isDataReady}
         styles={styles}
       >
         {formContent}
