@@ -1,9 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { SectionedTranslationPage } from 'admin/components/SectionedTranslationPage';
 import { UiLabelSection } from 'admin/components/UiLabelsSection/UiLabelSection';
 
-import { AdminPageLayout } from '../..';
 import { useUiLabelSections } from './hooks/useUiLabelSections';
 import { styles } from './TranslationsUiPage.styles';
 
@@ -20,26 +20,30 @@ export const TranslationsUiPage: React.FC = () => {
   } = useUiLabelSections();
 
   return (
-    <AdminPageLayout
-      title={t('admin.title')}
+    <SectionedTranslationPage
       subtitle="UI Labels / Translations"
+      sections={sections}
+      supportedLanguages={supportedLanguages}
       isLoading={isLoading}
-      styles={styles}
-    >
-      {sections.map((section) => (
+      handleValueChange={handleValueChange}
+      resetSection={resetSection}
+      saveSection={saveSection}
+      isSectionDirty={isSectionDirty}
+      renderSection={(props) => (
         <UiLabelSection
-          key={section.key}
-          sectionKey={section.key}
-          title={section.title}
-          description={section.description}
-          items={section.items}
-          supportedLanguages={supportedLanguages}
-          onItemChange={handleValueChange}
-          onReset={() => resetSection(section.key)}
-          onSave={() => saveSection(section.key)}
-          isDirty={isSectionDirty(section.key)}
+          key={props.sectionKey}
+          sectionKey={props.sectionKey}
+          title={props.title}
+          description={props.description}
+          items={props.items}
+          supportedLanguages={props.supportedLanguages}
+          onItemChange={props.onItemChange}
+          onReset={props.onReset}
+          onSave={props.onSave}
+          isDirty={props.isDirty}
         />
-      ))}
-    </AdminPageLayout>
+      )}
+      styles={styles}
+    />
   );
 };

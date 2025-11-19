@@ -3,6 +3,14 @@ import { css } from '@emotion/react';
 import { colors, min, spacing } from 'styles';
 
 export const styles = css`
+  /* Spacing between independent form sections */
+  form {
+    margin-bottom: 2rem;
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
   .admin-section {
     margin-bottom: 0.5rem;
     &:last-of-type {

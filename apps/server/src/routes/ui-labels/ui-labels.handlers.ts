@@ -44,15 +44,28 @@ function flattenObject(obj: any, prefix = ''): Record<string, any> {
   return flattened;
 }
 
-// Helper function to group flattened keys by their first level
+// Helper function to group flattened keys by their section (second level)
+// Keys are now in format: topLevel.section.item (e.g., "ui.buttons.add", "time.units.seconds")
 function groupBySection(flattenedData: Record<string, any>): Record<string, Record<string, any>> {
   const sections: Record<string, Record<string, any>> = {};
 
   for (const [key, value] of Object.entries(flattenedData)) {
     const pathParts = key.split('.');
-    if (pathParts.length >= 2) {
-      const sectionKey = pathParts[0]; // buttons, forms, navigation, etc.
-      const itemKey = pathParts.slice(1).join('.'); // The rest of the path
+    // Need at least 3 parts: topLevel.section.item
+    // Or 2 parts for backward compatibility: section.item
+    if (pathParts.length >= 3) {
+      // New format: topLevel.section.item
+      const sectionKey = pathParts[1]; // buttons, units, relative, etc.
+      const itemKey = pathParts.slice(2).join('.'); // The rest of the path (item)
+
+      if (!sections[sectionKey]) {
+        sections[sectionKey] = {};
+      }
+      sections[sectionKey][itemKey] = value;
+    } else if (pathParts.length === 2) {
+      // Backward compatibility: section.item (for old ui-only structure)
+      const sectionKey = pathParts[0];
+      const itemKey = pathParts[1];
 
       if (!sections[sectionKey]) {
         sections[sectionKey] = {};
@@ -118,17 +131,17 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
       translationData[langCode] = JSON.parse(fileContent);
     }
 
-    // Check if UI translations exist
-    if (!translationData['en-GB']?.ui || !translationData['es-ES']?.ui || !translationData['ca-ES']?.ui) {
-      console.error('[ui-labels] Missing UI translations in common files', translationData);
+    // Check if translation data exists
+    if (!translationData['en-GB'] || !translationData['es-ES'] || !translationData['ca-ES']) {
+      console.error('[ui-labels] Missing translation data in common files', translationData);
       return context.json(
         {
           success: false,
           error: {
             issues: [
               {
-                code: 'MISSING_UI_TRANSLATIONS',
-                message: 'UI translations not found in one or more language files',
+                code: 'MISSING_TRANSLATIONS',
+                message: 'Translation data not found in one or more language files',
               },
             ],
             name: 'MissingTranslationsError',
@@ -138,15 +151,43 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
       );
     }
 
-    // Flatten each language's UI translations
+    // Flatten each language's translations (all top-level keys: ui, time, etc.)
     const flattenedTranslations: Record<string, Record<string, any>> = {};
 
     for (const [langCode, translation] of Object.entries(translationData)) {
-      flattenedTranslations[langCode] = translation?.ui ? flattenObject(translation.ui) : {};
+      if (!translation) {
+        flattenedTranslations[langCode] = {};
+        continue;
+      }
+
+      // Flatten all top-level keys (ui, time, etc.) into a single flat structure
+      const allFlattened: Record<string, any> = {};
+      for (const [topLevelKey, topLevelValue] of Object.entries(translation)) {
+        if (typeof topLevelValue === 'object' && topLevelValue !== null) {
+          const flattened = flattenObject(topLevelValue);
+          // Prefix keys with the top-level key to avoid collisions
+          for (const [key, value] of Object.entries(flattened)) {
+            allFlattened[`${topLevelKey}.${key}`] = value;
+          }
+        }
+      }
+      flattenedTranslations[langCode] = allFlattened;
     }
 
     // Group by sections using English as the base
     const sections = groupBySection(flattenedTranslations['en-GB']);
+
+    // Map section keys to their top-level parent (ui, time, etc.)
+    // This is used to reconstruct the full flattened key when looking up values
+    const sectionToTopLevel: Record<string, string> = {
+      buttons: 'ui',
+      forms: 'ui',
+      navigation: 'ui',
+      states: 'ui',
+      actions: 'ui',
+      units: 'time',
+      relative: 'time',
+    };
 
     // Section titles and descriptions
     const sectionTitles: Record<string, { title: string; description: string }> = {
@@ -170,15 +211,25 @@ export const list: AppRouteHandler<ListRoute> = async (context) => {
         title: 'User Actions',
         description: 'Confirmation dialogs and action-related messages',
       },
+      units: {
+        title: 'Time Units',
+        description: 'Time unit labels (seconds, minutes, hours, days)',
+      },
+      relative: {
+        title: 'Relative Time',
+        description: 'Relative time expressions (now, just now, minutes ago, etc.)',
+      },
     };
 
     // Build sections array
     const processedSections = Object.entries(sections).map(([sectionKey, sectionItems]) => {
+      const topLevelKey = sectionToTopLevel[sectionKey] || 'ui'; // Default to 'ui' if not mapped
       const items = Object.keys(sectionItems).map((itemKey) => {
         const values: Record<string, string> = {};
 
         for (const language of SUPPORTED_LANGUAGES) {
-          const fullKey = `${sectionKey}.${itemKey}`;
+          // Reconstruct the full flattened key: topLevel.section.item (e.g., "ui.buttons.add")
+          const fullKey = `${topLevelKey}.${sectionKey}.${itemKey}`;
           values[language.isoCode] = flattenedTranslations[language.isoCode]?.[fullKey] || '';
         }
 
@@ -239,15 +290,49 @@ export const save: AppRouteHandler<SaveRoute> = async (context) => {
     'ca-ES': {},
   };
 
+  // Map section keys to their top-level parent (ui, time, etc.)
+  // This determines where each section should be saved in the JSON structure
+  const sectionToTopLevel: Record<string, string> = {
+    buttons: 'ui',
+    forms: 'ui',
+    navigation: 'ui',
+    states: 'ui',
+    actions: 'ui',
+    units: 'time',
+    relative: 'time',
+  };
+
   // Process sections and items to build flattened language data
+  // Group by top-level key first, then by section
+  const topLevelData: Record<LanguageCode, Record<string, Record<string, string>>> = {
+    'en-GB': {},
+    'es-ES': {},
+    'ca-ES': {},
+  };
+
   for (const section of sections) {
+    const topLevelKey = sectionToTopLevel[section.key] || 'ui'; // Default to 'ui' if not mapped
+
     for (const item of section.items) {
       for (const [langCode, value] of Object.entries(item.values)) {
-        if (langCode in languageData && typeof value === 'string') {
-          // Build the flattened key: sectionKey.itemKey (e.g., "buttons.add")
+        if (langCode in topLevelData && typeof value === 'string') {
+          if (!topLevelData[langCode as LanguageCode][topLevelKey]) {
+            topLevelData[langCode as LanguageCode][topLevelKey] = {};
+          }
+          // Build the flattened key: sectionKey.itemKey (e.g., "buttons.add", "units.seconds")
           const flattenedKey = `${section.key}.${item.key}`;
-          languageData[langCode as LanguageCode][flattenedKey] = value;
+          topLevelData[langCode as LanguageCode][topLevelKey][flattenedKey] = value;
         }
+      }
+    }
+  }
+
+  // Convert to the format expected by unflattenObject
+  for (const langCode of Object.keys(languageData) as LanguageCode[]) {
+    for (const [topLevelKey, sectionData] of Object.entries(topLevelData[langCode])) {
+      for (const [key, value] of Object.entries(sectionData)) {
+        // Prefix with top-level key: "ui.buttons.add" or "time.units.seconds"
+        languageData[langCode][`${topLevelKey}.${key}`] = value;
       }
     }
   }
@@ -284,13 +369,13 @@ export const save: AppRouteHandler<SaveRoute> = async (context) => {
       const fileContent = await readFile(filePath, 'utf-8');
       const existingData = JSON.parse(fileContent);
 
-      // Unflatten the UI data back to nested structure
-      const uiData = unflattenObject(languageData[langCode as LanguageCode]);
+      // Unflatten the data back to nested structure
+      const unflattenedData = unflattenObject(languageData[langCode as LanguageCode]);
 
-      // Update the UI section while preserving other sections
+      // Update each top-level key (ui, time, etc.) while preserving others
       const updatedData = {
         ...existingData,
-        ui: uiData,
+        ...unflattenedData,
       };
 
       // Write back to file with proper formatting
