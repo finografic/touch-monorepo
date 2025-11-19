@@ -1,11 +1,5 @@
 import type { LetterLower, LetterUpper } from '@workspace/core/types/utils';
 
-export interface SupportedLanguage {
-  isoCode: string;
-  displayName: string;
-  nativeName: string;
-}
-
 /**
  * Unified language interface that combines API data with country data
  * This should replace all other language interfaces throughout the app

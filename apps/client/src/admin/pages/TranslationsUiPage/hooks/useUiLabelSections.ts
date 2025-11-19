@@ -52,14 +52,16 @@ export const useUiLabelSections = () => {
   const [sections, setSections] = useState<UiLabelSectionData[]>([]);
   const [initialSections, setInitialSections] = useState<UiLabelSectionData[]>([]);
   const [isReady, setIsReady] = useState(false);
+  const isMountedRef = useRef(true);
 
   useEffect(function fetchSections() {
-    let isMounted = true;
+    // Reset to true when effect runs
+    isMountedRef.current = true;
 
     const fetchSections = async () => {
       try {
         const response = await EndpointHelper.getUiLabels();
-        if (!isMounted) return;
+        if (!isMountedRef.current) return;
 
         // Handle both wrapped (ApiResponse) and unwrapped responses
         const data = (response as any).data || response;
@@ -69,11 +71,11 @@ export const useUiLabelSections = () => {
           setInitialSections(data.sections.map(cloneSection));
         }
       } catch (error) {
-        if (isMounted) {
+        if (isMountedRef.current) {
           console.error('[useUiLabelSections] Failed to load UI labels:', error);
         }
       } finally {
-        if (isMounted) {
+        if (isMountedRef.current) {
           setIsReady(true);
         }
       }
@@ -82,7 +84,7 @@ export const useUiLabelSections = () => {
     fetchSections();
 
     return () => {
-      isMounted = false;
+      isMountedRef.current = false;
     };
   }, []);
 
