@@ -9,8 +9,8 @@ import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
-import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage/AdminTranslationsPage';
-import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
+import { TranslationsProductPage } from 'admin/pages/TranslationsProductPage';
+import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
 
 import {
   CoffeeIcon,
@@ -151,7 +151,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     path: '/admin/translations',
     element: {
       public: null,
-      admin: AdminTranslationsPage,
+      admin: TranslationsProductPage,
     },
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },
@@ -162,8 +162,8 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     key: 'uiLabels',
     path: '/admin/ui-labels',
     element: {
-      public: AdminUiLabelsPage,
-      admin: AdminUiLabelsPage,
+      public: null,
+      admin: TranslationsUiPage,
     },
     hasNav: { public: false, admin: true },
     hasCard: { public: false, admin: true },

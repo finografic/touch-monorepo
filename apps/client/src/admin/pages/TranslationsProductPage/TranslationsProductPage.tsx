@@ -21,7 +21,7 @@ import {
   getLanguageCodesFromData,
   getLanguageFieldName,
 } from './utils/translation-helpers';
-import { styles } from './AdminTranslationsPage.styles';
+import { styles } from './TranslationsProductPage.styles';
 
 // Create dynamic schema based on supported languages
 const createTranslationSchema = (
@@ -102,7 +102,7 @@ const getEmptyFormData = (): TranslationFormData => ({
   containerTypes: [],
 });
 
-export const AdminTranslationsPage: React.FC = () => {
+export const TranslationsProductPage: React.FC = () => {
   const { t } = useTranslation();
   const { toast } = useToast();
   const { data: translationsData, isLoading, isError, error } = useGetAllTranslations();

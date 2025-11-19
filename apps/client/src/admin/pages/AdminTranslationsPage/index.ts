@@ -1,1 +1,0 @@
-export { AdminTranslationsPage } from './AdminTranslationsPage';

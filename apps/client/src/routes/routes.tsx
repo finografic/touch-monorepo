@@ -10,8 +10,8 @@ import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
-import { AdminTranslationsPage } from 'admin/pages/AdminTranslationsPage';
-import { AdminUiLabelsPage } from 'admin/pages/AdminUiLabelsPage';
+import { TranslationsProductPage } from 'admin/pages/TranslationsProductPage';
+import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
 import { LoaderDataHelper } from 'api/loaders/loader.data';
 import { AdminLayout } from 'layout/AdminLayout';
 import { Layout } from 'layout/Layout';
@@ -160,16 +160,6 @@ export const routes: RouteObject[] = [
             ],
           },
           {
-            path: 'translations',
-            id: AdminFieldKeys.translations,
-            element: <AdminTranslationsPage />,
-          },
-          {
-            path: 'ui-labels',
-            id: AdminFieldKeys.translationsUi,
-            element: <AdminUiLabelsPage />,
-          },
-          {
             path: 'slots-config',
             id: 'slotsConfig',
             element: <AdminSlotsConfigPage />,
@@ -178,6 +168,16 @@ export const routes: RouteObject[] = [
             path: 'relays',
             id: 'relays',
             element: <AdminRelaysPage />,
+          },
+          {
+            path: 'translations',
+            id: AdminFieldKeys.translations,
+            element: <TranslationsProductPage />,
+          },
+          {
+            path: 'ui-labels',
+            id: AdminFieldKeys.translationsUi,
+            element: <TranslationsUiPage />,
           },
         ],
       },
