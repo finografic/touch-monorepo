@@ -10,7 +10,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { stopAllAudio } from 'utils/soundCache.utils';
 import type { Theme } from 'types/ui.types';
 import { PATHS } from 'config';
-import { ConfigTimer } from '../../ConfigTimer/ConfigTimer';
+import { ConfigTimer } from '../../Timers/ConfigTimer';
 import { HomeIcon, StopIcon, TimerIcon } from 'styles/icons';
 import { styles } from './AdminToolbar.styles';
 

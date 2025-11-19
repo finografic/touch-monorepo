@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { ConfigTimer } from 'components/ConfigTimer/ConfigTimer';
+import { ConfigTimer } from 'apps/client/src/components/Timers/ConfigTimer/ConfigTimer';
 import { DataDump } from 'components/DataDump/DataDump';
 import { CalculationDataList } from 'components/DataList/CalculationDataList/CalculationDataList';
 import { ConfigDataList } from 'components/DataList/ConfigDataList/ConfigDataList';

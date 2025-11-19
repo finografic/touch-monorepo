@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useTimersOptional } from 'providers/TimersProvider';
+import { useStorageTimer, useTimersOptional } from 'providers/TimersProvider';
 
 import { playAlarmSound } from 'utils/sound.utils';
 import { formatTimeFromMs } from 'utils/time.utils';
 import { POLLING_INTERVAL_MS, SNOOZE_INTERVAL_MS } from 'config/app';
-import { getCycleNumber, getElapsedTimeAndEventNumberMs, parseElapsedTime } from './shared/timer.utils';
+import { getCycleNumber, parseElapsedTime } from './shared/timer.utils';
 import { useTimerEvents } from './shared/useTimerEvents';
 import { TimerResetIcon } from 'styles/icons/icons';
 import { styles } from './SnoozeTimer.styles';
@@ -32,6 +32,7 @@ interface SnoozeTimerProps {
  */
 export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   const timersContext = useTimersOptional();
+  const { hasActiveTimer } = useStorageTimer();
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
 
@@ -41,21 +42,11 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   // Track last cycle to detect when we've completed a full snooze cycle
   const lastCycleRef = useRef<number>(0);
 
+  // Track last beep time to ensure we beep every 2 minutes
+  const lastBeepTimeRef = useRef<number>(0);
+
   // Use shared event handling hook
-  const { handleTickEvent, handleCompleteEvent } = useTimerEvents({
-    onTick: ({ elapsedMs, remainingMs, eventNumber }) => {
-      console.log('🔔 SnoozeTimer: TICK', {
-        elapsedMs,
-        remainingMs,
-        eventNumber,
-        elapsedSec: Math.floor((elapsedMs || 0) / 1000),
-        remainingSec: Math.floor((remainingMs || 0) / 1000),
-      });
-      // Play tick sound every tick interval
-      if (eventNumber > 0) {
-        playAlarmSound().catch(() => {});
-      }
-    },
+  const { handleCompleteEvent } = useTimerEvents({
     onComplete: ({ elapsedMs, remainingMs, cycleNumber }) => {
       console.log('🔁 SnoozeTimer: REPEAT (cycle complete)', {
         elapsedMs,
@@ -75,11 +66,12 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   const completedCount = timersContext?.timers.filter((t) => t.status === 'completed').length ?? 0;
 
   useEffect(() => {
-    // If no completed timers, reset snooze timer
-    if (!hasCompletedTimers) {
+    // Only run if storage timer is active AND there are completed timers
+    if (!hasActiveTimer || !hasCompletedTimers) {
       setStartTime(null);
       setRemainingTime(0);
       previousCompletedCountRef.current = 0;
+      lastBeepTimeRef.current = 0;
       return;
     }
 
@@ -95,8 +87,12 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
 
     // If we have completed timers but no snooze start time, start the snooze timer
     if (!startTime) {
-      setStartTime(Date.now());
+      const now = Date.now();
+      setStartTime(now);
       lastCycleRef.current = 0;
+      lastBeepTimeRef.current = now; // Initialize beep timer
+      // Beep immediately when starting
+      playAlarmSound().catch(() => {});
     }
 
     const updateRemainingTime = () => {
@@ -119,13 +115,15 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
         });
       }
 
-      // TICK ACTION: Fire at regular intervals (every SNOOZE_INTERVAL_MS)
-      // const eventData = getElapsedTimeAndEventNumberMs(SNOOZE_INTERVAL_MS, remaining);
-      // handleTickEvent({
-      //   elapsed: eventData.elapsed,
-      //   remaining,
-      //   eventNumber: eventData.eventNumber,
-      // });
+      // BEEP every 2 minutes (SNOOZE_INTERVAL_MS)
+      // Check if 2 minutes have passed since last beep
+      const now = Date.now();
+      const timeSinceLastBeep = now - lastBeepTimeRef.current;
+
+      if (timeSinceLastBeep >= SNOOZE_INTERVAL_MS) {
+        playAlarmSound().catch(() => {});
+        lastBeepTimeRef.current = now;
+      }
     };
 
     // Initial calculation
@@ -135,12 +133,12 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
     const intervalId = setInterval(updateRemainingTime, POLLING_INTERVAL_MS);
 
     return () => clearInterval(intervalId);
-  }, [hasCompletedTimers, startTime, shouldDebounce, completedCount, handleTickEvent, handleCompleteEvent]);
+  }, [hasActiveTimer, hasCompletedTimers, startTime, shouldDebounce, completedCount, handleCompleteEvent]);
 
-  // Don't render if there are no completed timers
-  // if (!hasCompletedTimers || remainingTime <= 0) {
-  //   return null;
-  // }
+  // Don't render if storage timer is not active or there are no completed timers
+  if (!hasActiveTimer || !hasCompletedTimers || remainingTime <= 0) {
+    return null;
+  }
 
   return (
     <div css={styles}>

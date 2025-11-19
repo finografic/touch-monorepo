@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import createCuid from '@bugsnag/cuid';
 
+import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
@@ -36,6 +37,7 @@ export const useProductFlowOperations = () => {
   const { setFilter, clearFilters, filters } = useFiltersContext();
   const { dataFiltered } = useFilters();
   const orderItemsConfig = useSlotItemsConfig();
+  const { saveConfig } = useConfigStorage();
 
   // Temperature control loading state
   const [isTemperatureLoading, setIsTemperatureLoading] = useState(false);
@@ -130,6 +132,23 @@ export const useProductFlowOperations = () => {
           }
         });
 
+        // Save configuration to sessionStorage so hasActiveTimer works
+        saveConfig({
+          filters: filters, // Save all current filters (mode, drinkType, drinkSubtype, drinkVolume, containerType, temperature with profiles)
+          temperatures: {
+            default: temperatureFilter?.final || 25,
+            initial: temperatureFilter?.initial || 25,
+            final: temperatureFilter?.final || 25,
+          },
+          durations: {
+            default: slotTypeDurations[SlotType.B] || 300, // Default to B slot duration
+            A: slotTypeDurations[SlotType.A] || 0,
+            B: slotTypeDurations[SlotType.B] || 0,
+            C: slotTypeDurations[SlotType.C] || 0,
+          },
+          selectedOrders: slotsToProcess,
+        });
+
         clearMainPageSelection();
 
         // Mark the current session as complete when flow finishes
@@ -157,6 +176,8 @@ export const useProductFlowOperations = () => {
     completeSession,
     setPageCurrent,
     navigate,
+    saveConfig,
+    filters,
   ]);
 
   // ========================================================================

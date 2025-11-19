@@ -1,7 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 
 import { Flex } from '@radix-ui/themes';
-import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
 
 import { useKeyPressFrontEnd } from 'hooks/useKeyPressFrontEnd';
 import { useResetAppState } from 'hooks/useResetAppState';
