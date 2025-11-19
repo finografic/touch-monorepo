@@ -66,7 +66,27 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
-  const result = await db.update(drink_types).set(updates).where(eq(drink_types.id, id)).returning();
+  // Handle partial translations updates - merge with existing translations
+  const dbUpdates: any = { ...updates };
+  if (updates.translations && typeof updates.translations === 'object') {
+    // Get current record to merge translations
+    const [current] = await db
+      .select({ translations: drink_types.translations })
+      .from(drink_types)
+      .where(eq(drink_types.id, id))
+      .limit(1);
+
+    if (current) {
+      // Merge partial translations with existing translations
+      const currentTranslations = (current.translations as Record<string, string>) || {};
+      dbUpdates.translations = {
+        ...currentTranslations,
+        ...updates.translations,
+      };
+    }
+  }
+
+  const result = await db.update(drink_types).set(dbUpdates).where(eq(drink_types.id, id)).returning();
 
   if (result.length === 0) {
     return context.json({ message: HttpStatusPhrases.NOT_FOUND }, HttpStatusCodes.NOT_FOUND);

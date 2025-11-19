@@ -67,11 +67,23 @@ export const drinkSubtypeEndpoints = {
 
   /**
    * Update a drink subtype with new translations
-   * Note: There's no direct drink-subtype endpoint, so this needs to be implemented
+   * Requires drinkTypeId to use the nested endpoint: /drink-types/{drinkTypeId}/subtypes/{id}
    */
-  updateDrinkSubtype: async (id: string, updates: DrinkSubtypeUpdate): Promise<DrinkSubtypeTranslation> => {
-    // Note: There's no direct drink-subtype endpoint, so we'll need to handle this differently
-    // For now, we'll throw an error to indicate this needs to be implemented
-    throw new Error('Direct drink subtype updates not supported. Use drink type management instead.');
+  updateDrinkSubtype: async (
+    id: string,
+    updates: DrinkSubtypeUpdate,
+    drinkTypeId: string,
+  ): Promise<DrinkSubtypeTranslation> => {
+    try {
+      if (!drinkTypeId) {
+        throw new Error('drinkTypeId is required to update drink subtypes');
+      }
+
+      const response = await api.patch(`/drink-types/${drinkTypeId}/subtypes/${id}`, updates);
+      const data = response.data?.data || response.data;
+      return transformDrinkSubtype(data);
+    } catch (error) {
+      throw transformAxiosError(error);
+    }
   },
 } as const;

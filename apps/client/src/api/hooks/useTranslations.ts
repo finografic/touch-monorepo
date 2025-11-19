@@ -136,8 +136,15 @@ export const useUpdateDrinkSubtype = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ id, updates }: { id: string; updates: DrinkSubtypeUpdate }) =>
-      drinkSubtypeEndpoints.updateDrinkSubtype(id, updates),
+    mutationFn: ({
+      id,
+      updates,
+      drinkTypeId,
+    }: {
+      id: string;
+      updates: DrinkSubtypeUpdate;
+      drinkTypeId: string;
+    }) => drinkSubtypeEndpoints.updateDrinkSubtype(id, updates, drinkTypeId),
     onSuccess: (updatedSubtype) => {
       // Update the cache with the new data
       queryClient.setQueryData<DrinkSubtypeTranslation[]>(TRANSLATION_QUERY_KEYS.drinkSubtypes, (oldData) => {

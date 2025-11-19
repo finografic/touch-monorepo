@@ -8,8 +8,11 @@ import { forms } from 'styles/forms/forms.constants';
 // ======================================================================== //
 
 export const formsInputs = css`
+  input {
+    text-indent: 0;
+  }
   input:not(:disabled):not(:focus) {
-    color: ${colors.textLight};
+    color: ${colors.text};
   }
   /* INPUT SLOTS - Standardized classes for consistent styling */
   .input-slot-left,

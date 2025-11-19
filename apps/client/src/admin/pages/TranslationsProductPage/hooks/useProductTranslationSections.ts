@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
+import { useQueryClient } from '@tanstack/react-query';
 import type { ContainerTypeUpdate, DrinkSubtypeUpdate, DrinkTypeUpdate, VolumeUpdate } from 'api/endpoints';
 import { batchTranslationEndpoints } from 'api/endpoints';
-import { useGetAllTranslations } from 'api/hooks/useTranslations';
+import { TRANSLATION_QUERY_KEYS, useGetAllTranslations } from 'api/hooks/useTranslations';
 
 import { useGetSupportedLanguages } from 'queries/supported-languages';
 
@@ -67,7 +68,12 @@ const areSectionsEqual = (
 };
 
 export const useProductTranslationSections = () => {
-  const { data: translationsData, isLoading: translationsLoading } = useGetAllTranslations();
+  const queryClient = useQueryClient();
+  const {
+    data: translationsData,
+    isLoading: translationsLoading,
+    refetch: refetchTranslations,
+  } = useGetAllTranslations();
   const { data: supportedLanguagesData, isLoading: languagesLoading } = useGetSupportedLanguages();
   const isMountedRef = useRef(true);
 
@@ -140,6 +146,8 @@ export const useProductTranslationSections = () => {
             })),
           );
           setIsReady(true);
+          // Allow re-initialization when data changes (e.g., after save and refetch)
+          // This ensures the UI updates with fresh data from the server
           isInitializedRef.current = true;
         }
       }
@@ -223,18 +231,56 @@ export const useProductTranslationSections = () => {
       }
 
       // Prepare batch update data
+      // For drinkSubtypes, we need to include drinkTypeId with each update
       const batchData: any = { [sectionKey]: updates };
 
-      // Note: drinkSubtypes are not directly updatable via API
       if (sectionKey === 'drinkSubtypes') {
-        console.warn('Drink subtype updates are not currently supported via direct API calls');
-        throw new Error('Drink subtype updates are not currently supported');
+        // Drink subtypes require drinkTypeId, so we need to include it in each update
+        batchData[sectionKey] = updates.map((update: any) => {
+          const item = section.items.find((i) => i.id === update.id);
+          if (!item?.drinkTypeId) {
+            throw new Error(`drinkTypeId is required for drink subtype ${update.id}`);
+          }
+          return {
+            ...update,
+            drinkTypeId: item.drinkTypeId,
+          };
+        });
       }
 
       await batchTranslationEndpoints.batchUpdateTranslations(batchData);
 
+      // Invalidate React Query cache to ensure fresh data on next fetch
+      // This ensures the UI shows updated values when navigating away and back
+      await queryClient.invalidateQueries({
+        queryKey: TRANSLATION_QUERY_KEYS.all,
+      });
+
+      // Also invalidate the specific section's query key
+      const sectionQueryKey = TRANSLATION_QUERY_KEYS[sectionKey as keyof typeof TRANSLATION_QUERY_KEYS];
+      if (sectionQueryKey) {
+        await queryClient.invalidateQueries({
+          queryKey: sectionQueryKey,
+        });
+      }
+
       // Update initial sections to reflect saved state
+      // This keeps local state in sync with what was saved
+      // We update local state directly instead of refetching to avoid overwriting user input
       setInitialSections((prev) =>
+        prev.map((s) =>
+          s.key === sectionKey
+            ? {
+                ...s,
+                items: section.items.map(cloneItem),
+              }
+            : s,
+        ),
+      );
+
+      // Also update the current sections to match what was saved
+      // This ensures the form shows the saved values immediately
+      setSections((prev) =>
         prev.map((s) =>
           s.key === sectionKey
             ? {

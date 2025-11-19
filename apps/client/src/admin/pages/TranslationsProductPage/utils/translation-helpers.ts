@@ -10,6 +10,7 @@ export const getLanguageFieldName = (isoCode: string) => {
 };
 
 // Helper function to compare translation items and detect changes (now works with JSON)
+// Only includes fields that have actually changed - supports partial saves
 export const compareTranslationItems = (
   current: Record<string, any>,
   original: Record<string, any>,
@@ -17,31 +18,31 @@ export const compareTranslationItems = (
 ): Record<string, any> => {
   const changes: Record<string, any> = {};
 
-  // Check base name field
+  // Check base name field - only include if changed (empty strings are allowed)
   if (current.name !== original.name) {
     changes.name = current.name;
   }
 
   // Check translations object - compare each language
+  // Only include languages that have changed (supports partial updates)
   const currentTranslations = current.translations || {};
   const originalTranslations = original.translations || {};
 
-  let translationsChanged = false;
-  const updatedTranslations = { ...originalTranslations };
+  const changedTranslations: Record<string, string> = {};
 
   supportedLanguages.forEach((lang) => {
-    const currentValue = currentTranslations[lang.isoCode] || '';
-    const originalValue = originalTranslations[lang.isoCode] || '';
+    const currentValue = currentTranslations[lang.isoCode] ?? '';
+    const originalValue = originalTranslations[lang.isoCode] ?? '';
 
+    // Include if changed (empty strings are valid values)
     if (currentValue !== originalValue) {
-      translationsChanged = true;
-      updatedTranslations[lang.isoCode] = currentValue;
+      changedTranslations[lang.isoCode] = currentValue;
     }
   });
 
-  // Include updated translations if any changed
-  if (translationsChanged) {
-    changes.translations = updatedTranslations;
+  // Only include translations object if any language changed
+  if (Object.keys(changedTranslations).length > 0) {
+    changes.translations = changedTranslations;
   }
 
   return changes;
@@ -107,6 +108,7 @@ export const convertTranslationsToLegacyFields = (
 };
 
 // Helper function to convert legacy fields back to JSON translations format
+// Only includes fields that are defined - supports partial data
 export const convertLegacyFieldsToTranslations = (
   item: any,
   supportedLanguages: Array<{ isoCode: string }>,
@@ -115,13 +117,19 @@ export const convertLegacyFieldsToTranslations = (
   const translations: Record<string, string> = {};
 
   // Extract translations from legacy field names
+  // Only include fields that are defined (undefined fields are excluded for partial saves)
   supportedLanguages.forEach((lang) => {
     const fieldName = getLanguageFieldName(lang.isoCode);
-    if (item[fieldName] !== undefined) {
-      translations[lang.isoCode] = item[fieldName];
+    if (item[fieldName] !== undefined && item[fieldName] !== null) {
+      // Include empty strings as they are valid values
+      translations[lang.isoCode] = item[fieldName] || '';
     }
   });
 
-  result.translations = translations;
+  // Only include translations object if it has any values
+  if (Object.keys(translations).length > 0) {
+    result.translations = translations;
+  }
+
   return result;
 };

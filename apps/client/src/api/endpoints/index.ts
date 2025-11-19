@@ -49,10 +49,18 @@ export const batchTranslationEndpoints = {
       );
     }
 
-    // Update drink subtypes - Skip for now as there's no direct endpoint
-    // TODO: Implement drink subtype updates via a different mechanism
-    if (data.drinkSubtypes && data.drinkSubtypes.length > 0) {
-      console.warn('Drink subtype updates are not currently supported via direct API calls');
+    // Update drink subtypes - requires drinkTypeId for each subtype
+    if (data.drinkSubtypes) {
+      // Note: drinkSubtypes need drinkTypeId, which should be included in the update data
+      // We'll need to get drinkTypeId from the original item data
+      promises.push(
+        ...data.drinkSubtypes.map(({ id, updates, drinkTypeId }: any) => {
+          if (!drinkTypeId) {
+            throw new Error(`drinkTypeId is required for drink subtype ${id}`);
+          }
+          return drinkSubtypeEndpoints.updateDrinkSubtype(id, updates, drinkTypeId);
+        }),
+      );
     }
 
     // Update volumes

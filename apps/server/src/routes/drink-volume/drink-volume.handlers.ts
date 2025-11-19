@@ -67,9 +67,29 @@ export const patch: AppRouteHandler<PatchRoute> = async (context) => {
     );
   }
 
+  // Handle partial translations updates - merge with existing translations
+  const dbUpdates: any = { ...updates };
+  if (updates.translations && typeof updates.translations === 'object') {
+    // Get current record to merge translations
+    const [current] = await db
+      .select({ translations: volumes.translations })
+      .from(volumes)
+      .where(eq(volumes.id, id))
+      .limit(1);
+
+    if (current) {
+      // Merge partial translations with existing translations
+      const currentTranslations = (current.translations as Record<string, string>) || {};
+      dbUpdates.translations = {
+        ...currentTranslations,
+        ...updates.translations,
+      };
+    }
+  }
+
   const [drinkVolume] = await db
     .update(volumes)
-    .set(updates as any)
+    .set(dbUpdates as any)
     .where(eq(volumes.id, id))
     .returning();
 

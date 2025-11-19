@@ -47,5 +47,5 @@
   "admin_translations_description": "Editar traducciones para contenido de base de datos",
   "admin_translations_title": "Idioma de productos",
   "admin_ui_labels_description": "Editar etiquetas de interfaz de usuario y traducciones de archivos locales",
-  "admin_ui_labels_title": "Traducción etiquetas"
+  "admin_ui_labels_title": "Traducción UI"
 }
