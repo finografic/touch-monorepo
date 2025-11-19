@@ -27,10 +27,20 @@ interface UiLabelSectionProps {
   onItemChange?: (itemKey: string, languageCode: string, value: string) => void;
   readOnly?: boolean;
   className?: string;
+  children?: React.ReactNode;
 }
 
 export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
-  ({ title, description, items, supportedLanguages, onItemChange, readOnly = false, className = '' }) => {
+  ({
+    title,
+    description,
+    items,
+    supportedLanguages,
+    onItemChange,
+    readOnly = false,
+    className = '',
+    children,
+  }) => {
     const { t } = useTranslation();
 
     // Calculate grid columns based on number of languages (key + languages)
@@ -84,6 +94,7 @@ export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
               </Grid>
             </Box>
           ))}
+          {children}
         </AdminSection>
       </Box>
     );

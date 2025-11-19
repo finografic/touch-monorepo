@@ -1,7 +1,6 @@
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 import type { OrderFilters } from 'types/filters.types';
-import type { SlotItem } from 'types/slots.types';
 import { SlotType } from 'types/slots.types';
 
 export const MOCK_ORDERS_DATA: OrderFilters = {
