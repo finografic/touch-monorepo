@@ -23,6 +23,7 @@ import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { SupportedLanguage } from 'types/models/supported-language.model';
 import type { TemperatureProfileEntity } from 'types/models/temperature.model';
+import type { TranslationsUiModel } from 'types/models/translations-ui.model';
 import type { FilterKey } from 'types/slots.types';
 
 // Utility type for endpoint functions
@@ -137,6 +138,7 @@ export const EndpointHelper = createEndpoints({
   deleteSupportedLanguage: async (id: string) => await api.delete<void>(`/supported-languages/${id}`),
 
   // UI Labels endpoints
+  getUiLabels: async () => await api.get<ApiResponse<TranslationsUiModel>>('/ui-labels'),
   saveUiLabels: async (data: {
     sections: Array<{ key: string; items: Array<{ key: string; values: Record<string, string> }> }>;
   }) =>

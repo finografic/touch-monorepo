@@ -52,7 +52,7 @@ export function pinoLogger() {
         if (data.req) {
           // Extract method and colorize it
           const method = data.req.method || 'UNKNOWN';
-          const methodColor = methodColors[method] || reset;
+          const methodColor = methodColors[method as keyof typeof methodColors] || reset;
           const methodDisplay = `${methodColor}[${method}]${reset}`;
 
           // Extract status code and colorize it

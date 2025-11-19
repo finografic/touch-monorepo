@@ -52,26 +52,30 @@ export const useUiLabelSections = () => {
   const [sections, setSections] = useState<UiLabelSectionData[]>([]);
   const [initialSections, setInitialSections] = useState<UiLabelSectionData[]>([]);
   const [isReady, setIsReady] = useState(false);
+  const isMountedRef = useRef(true);
 
-  useEffect(function fetchSections() {
-    let isMounted = true;
+  useEffect(() => {
+    isMountedRef.current = true;
 
     const fetchSections = async () => {
       try {
-        const response = await EndpointHelper.getUiLabels<TranslationsUiModel>();
-        if (!isMounted) return;
+        // EndpointHelper returns ApiResponse<TranslationsUiModel>, so we need response.data.sections
+        const response = await EndpointHelper.getUiLabels();
+        if (!isMountedRef.current) return;
 
-        if (response?.sections) {
-          const clonedSections = response.sections.map(cloneSection);
+        // ApiResponse structure: { data: TranslationsUiModel, message?: string, timestamp: number }
+        // The EndpointHelper unwraps one level, so response is ApiResponse<TranslationsUiModel>
+        if (response?.data?.sections) {
+          const clonedSections = response.data.sections.map(cloneSection);
           setSections(clonedSections);
-          setInitialSections(response.sections.map(cloneSection));
+          setInitialSections(response.data.sections.map(cloneSection));
         }
       } catch (error) {
-        if (isMounted) {
+        if (isMountedRef.current) {
           console.error('[useUiLabelSections] Failed to load UI labels:', error);
         }
       } finally {
-        if (isMounted) {
+        if (isMountedRef.current) {
           setIsReady(true);
         }
       }
@@ -80,7 +84,7 @@ export const useUiLabelSections = () => {
     fetchSections();
 
     return () => {
-      isMounted = false;
+      isMountedRef.current = false;
     };
   }, []);
 

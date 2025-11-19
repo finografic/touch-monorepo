@@ -26,6 +26,26 @@ const saveResponseSchema = z.object({
   filesUpdated: z.array(z.string()),
 });
 
+// Response schema for GET - includes sections with titles and descriptions
+const uiLabelSectionWithMetadataSchema = uiLabelSectionSchema.extend({
+  title: z.string(),
+  description: z.string(),
+});
+
+const getUiLabelsResponseSchema = z.object({
+  sections: z.array(uiLabelSectionWithMetadataSchema),
+});
+
+export const list = createRoute({
+  path: '/ui-labels',
+  method: 'get',
+  tags,
+  responses: {
+    [HttpStatusCodes.OK]: jsonContent(getUiLabelsResponseSchema, 'UI labels retrieved successfully'),
+    [HttpStatusCodes.INTERNAL_SERVER_ERROR]: jsonContent(notFoundSchema, 'Failed to load UI labels'),
+  },
+});
+
 export const save = createRoute({
   path: '/ui-labels/save',
   method: 'post',
@@ -42,4 +62,5 @@ export const save = createRoute({
   },
 });
 
+export type ListRoute = typeof list;
 export type SaveRoute = typeof save;

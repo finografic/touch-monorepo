@@ -1,8 +1,9 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import { UiLabelSection } from 'admin/components/UiLabelsSection/UiLabelSection';
+
 import { AdminPageLayout } from '../..';
-import { UiSectionFormCard } from './components/UiSectionFormCard';
 import { useUiLabelSections } from './hooks/useUiLabelSections';
 import { styles } from './TranslationsUiPage.styles';
 
@@ -26,11 +27,14 @@ export const TranslationsUiPage: React.FC = () => {
       styles={styles}
     >
       {sections.map((section) => (
-        <UiSectionFormCard
+        <UiLabelSection
           key={section.key}
-          section={section}
+          sectionKey={section.key}
+          title={section.title}
+          description={section.description}
+          items={section.items}
           supportedLanguages={supportedLanguages}
-          onValueChange={handleValueChange}
+          onItemChange={handleValueChange}
           onReset={() => resetSection(section.key)}
           onSave={() => saveSection(section.key)}
           isDirty={isSectionDirty(section.key)}

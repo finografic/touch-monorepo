@@ -1,10 +1,11 @@
 import React, { memo } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Box, Flex, Grid, Heading, Text, TextField } from '@radix-ui/themes';
+import { Box, Flex, Grid, Text, TextField } from '@radix-ui/themes';
 import { AdminSection } from 'admin/components/AdminSection/AdminSection';
 import { FieldWrapper } from 'forms/FieldWrapper';
-import { SectionHeader } from 'components/SectionHeader/SectionHeader';
+import { Button } from 'components/Button';
+import { useUiSectionForm } from 'admin/pages/TranslationsUiPage/hooks/useUiSectionForm';
 
 import { styles } from './UiLabelSection.styles';
 
@@ -24,7 +25,11 @@ interface UiLabelSectionProps {
   description: string;
   items: UiLabelItem[];
   supportedLanguages: SupportedLanguage[];
-  onItemChange?: (itemKey: string, languageCode: string, value: string) => void;
+  sectionKey: string;
+  onItemChange?: (sectionKey: string, itemKey: string, languageCode: string, value: string) => void;
+  onReset?: () => void;
+  onSave?: () => Promise<any>;
+  isDirty?: boolean;
   readOnly?: boolean;
   hasError?: boolean;
   className?: string;
@@ -37,7 +42,11 @@ export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
     description,
     items,
     supportedLanguages,
+    sectionKey,
     onItemChange,
+    onReset,
+    onSave,
+    isDirty = false,
     readOnly = false,
     hasError = false,
     className = '',
@@ -45,18 +54,39 @@ export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
   }) => {
     const { t } = useTranslation();
 
+    // Form logic (only used if onSave and onReset are provided)
+    const isFormMode = !!onSave && !!onReset;
+    const {
+      handleReset,
+      handleSubmit,
+      isDirty: dirty,
+      isSaving,
+      statusMessage,
+      statusType,
+    } = useUiSectionForm({
+      sectionKey,
+      isDirty: isDirty || false,
+      onReset: onReset || (() => {}),
+      onSubmit: onSave || (async () => ({})),
+    });
+
     // Calculate grid columns based on number of languages (key + languages)
     const gridColumns = String(1 + supportedLanguages.length);
 
     const handleInputChange = (itemKey: string, languageCode: string, value: string) => {
       if (onItemChange && !readOnly) {
-        onItemChange(itemKey, languageCode, value);
+        onItemChange(sectionKey, itemKey, languageCode, value);
       }
     };
 
-    return (
+    const content = (
       <Box className={`ui-label-section ${className}`} css={styles}>
-        <AdminSection title={title} description={description} variant="border-solid" hasError={hasError}>
+        <AdminSection
+          title={title}
+          description={description}
+          variant="border-solid"
+          hasError={hasError || statusType === 'error'}
+        >
           {/* Data rows - similar to TranslationSection */}
           {items.map((item) => (
             <Box key={item.key} className="translation-item">
@@ -96,10 +126,57 @@ export const UiLabelSection: React.FC<UiLabelSectionProps> = memo(
               </Grid>
             </Box>
           ))}
-          {children}
+          {isFormMode ? (
+            <Flex justify="between" align="center" mt="6" gap="2">
+              <Flex>
+                {statusMessage && (
+                  <Text
+                    weight="bold"
+                    size="3"
+                    style={{ textTransform: 'capitalize' }}
+                    color={statusType === 'error' ? 'red' : 'green'}
+                  >
+                    {statusMessage}
+                  </Text>
+                )}
+              </Flex>
+              <Flex justify="end" gap="3">
+                <Button
+                  type="button"
+                  variant="outline"
+                  color="warning"
+                  onClick={handleReset}
+                  disabled={!dirty || isSaving}
+                >
+                  {t('ui.buttons.reset')}
+                </Button>
+                <Button type="submit" variant="solid" color="success" disabled={!dirty || isSaving}>
+                  {isSaving ? t('ui.states.saving') : t('ui.buttons.save')}
+                </Button>
+              </Flex>
+            </Flex>
+          ) : (
+            children
+          )}
         </AdminSection>
       </Box>
     );
+
+    // Wrap in form if form mode is enabled
+    if (isFormMode) {
+      return (
+        <form
+          onSubmit={(event) => {
+            event.preventDefault();
+            handleSubmit();
+          }}
+        >
+          {content}
+        </form>
+      );
+    }
+
+    return content;
   },
 );
 
