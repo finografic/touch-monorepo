@@ -4,6 +4,7 @@ import createCuid from '@bugsnag/cuid';
 
 import { useConfigStorage } from 'hooks/useConfigStorage';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
+import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
@@ -29,8 +30,9 @@ export const useMainPageOperations = () => {
     selectedSlots,
     setSelectedSlots,
   } = useLayoutUi();
-  const { saveConfig } = useConfigStorage();
+  const { saveConfig, loadConfig } = useConfigStorage();
   const orderItemsConfig = useSlotItemsConfig();
+  const { setFilter } = useFiltersContext();
 
   // ========================================================================
   // TIMER OPERATIONS
@@ -121,22 +123,28 @@ export const useMainPageOperations = () => {
       return;
     }
 
-    // Load saved configuration
-    const configString = sessionStorage.getItem(STORAGE_KEYS.LAST_CONFIG);
-    if (!configString) {
+    // Load saved configuration using the hook
+    const config = loadConfig();
+    if (!config) {
       console.error('No saved configuration found');
       return;
     }
 
-    let config;
-    try {
-      config = JSON.parse(configString);
-    } catch (e) {
-      console.error('Failed to parse saved configuration:', e);
-      return;
-    }
-
     startTransition(() => {
+      // Apply stored filters to FiltersContext
+      if (config.filters && typeof config.filters === 'object') {
+        const savedFilters = config.filters as Record<string, unknown>;
+
+        // Apply each filter from the saved configuration
+        Object.entries(savedFilters).forEach(([key, value]) => {
+          if (value !== null && value !== undefined) {
+            setFilter(key as any, value);
+          }
+        });
+
+        console.log('🎯 REPEAT: Applied stored filters to FiltersContext:', savedFilters);
+      }
+
       // Apply configuration to all selected orders
       selectedSlots.forEach((slot) => {
         const orderConfig = orderItemsConfig.find((cfg) => cfg.slotNumber === slot.slotNumber);
@@ -163,7 +171,7 @@ export const useMainPageOperations = () => {
         }
       });
     });
-  }, [selectedSlots, addTimer, orderItemsConfig, setSelectedSlots]);
+  }, [selectedSlots, addTimer, orderItemsConfig, setSelectedSlots, loadConfig, setFilter]);
 
   return {
     handleClearCompleted,
