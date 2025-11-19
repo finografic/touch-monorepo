@@ -58,13 +58,15 @@ export const useUiLabelSections = () => {
 
     const fetchSections = async () => {
       try {
-        const response = await EndpointHelper.getUiLabels<TranslationsUiModel>();
+        const response = await EndpointHelper.getUiLabels();
         if (!isMounted) return;
 
-        if (response?.sections) {
-          const clonedSections = response.sections.map(cloneSection);
+        // Handle both wrapped (ApiResponse) and unwrapped responses
+        const data = (response as any).data || response;
+        if (data?.sections) {
+          const clonedSections = data.sections.map(cloneSection);
           setSections(clonedSections);
-          setInitialSections(response.sections.map(cloneSection));
+          setInitialSections(data.sections.map(cloneSection));
         }
       } catch (error) {
         if (isMounted) {

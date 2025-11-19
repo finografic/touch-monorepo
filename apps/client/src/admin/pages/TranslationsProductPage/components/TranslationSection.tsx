@@ -6,13 +6,8 @@ import { Box, Grid, TextField } from '@radix-ui/themes';
 import { AdminSection } from 'admin/components';
 import { FieldWrapper } from 'forms/FieldWrapper/FieldWrapper';
 
+import type { SupportedLanguage } from 'types/models/supported-language.model';
 import { getLanguageFieldName } from '../utils/translation-helpers';
-
-interface SupportedLanguage {
-  isoCode: string;
-  displayName: string;
-  nativeName: string;
-}
 
 interface TranslationSectionProps {
   title: string;

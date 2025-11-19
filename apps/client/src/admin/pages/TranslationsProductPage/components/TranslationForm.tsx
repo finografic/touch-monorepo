@@ -4,13 +4,8 @@ import { useTranslation } from 'react-i18next';
 
 import { Flex } from '@radix-ui/themes';
 
+import type { SupportedLanguage } from 'types/models/supported-language.model';
 import { TranslationSection } from './TranslationSection';
-
-interface SupportedLanguage {
-  isoCode: string;
-  displayName: string;
-  nativeName: string;
-}
 
 interface TranslationFormProps {
   supportedLanguages: SupportedLanguage[];
