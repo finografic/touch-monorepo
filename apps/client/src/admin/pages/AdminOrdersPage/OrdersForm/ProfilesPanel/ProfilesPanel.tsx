@@ -6,7 +6,7 @@ import { MIN_TABLE_ROWS } from 'forms/FormMiddleware/FormMiddleware.constants';
 import { Panel } from 'primereact/panel';
 
 import { OrdersFormDevTools } from '../OrderFormDevTools/OrdersFormDevTools';
-import type { MockDataHandlers } from '../orders-form.utils';
+import type { MockDataHandlers } from '../mock-orders.utils';
 import { PROFILE_ITEM_VALUES_EMPTY } from '../orders-form.utils';
 import type { OrdersFormValues } from '../OrdersForm.schema';
 import { TimesRepeaterTable } from '../TimesRepeaterTable';

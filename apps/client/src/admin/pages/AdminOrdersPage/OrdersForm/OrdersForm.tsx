@@ -24,13 +24,13 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { MIN_TEMP_DIFFERENCE } from 'config/app';
+import { createMockDataHandlers } from './mock-orders.utils';
 import {
   createFormSubmissionHandler,
   getSubmissionLoadingState,
   useFormSubmissionMutations,
 } from './orders-form.submission';
 import {
-  createMockDataHandlers,
   createTempItemHandlers,
   PROFILE_ITEM_VALUES_EMPTY,
   type TempItems,
