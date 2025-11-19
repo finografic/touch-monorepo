@@ -66,3 +66,30 @@
 .rt-TextAreaRoot {
   box-shadow: none !important;
 }
+
+/* Disable Radix TabNav's built-in responsive hamburger behavior */
+/* Force TabNav to always render in horizontal layout */
+.rt-TabNavRoot {
+  /* Prevent Radix from collapsing to hamburger menu */
+  /* Ensure TabNav stays horizontal at all screen sizes */
+  display: flex !important;
+  flex-direction: row !important;
+}
+
+/* Ensure TabNav items stay visible and don't get hidden by Radix's responsive behavior */
+.rt-TabNavList {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow: visible !important;
+  flex-direction: row !important;
+}
+
+/* Prevent any Radix responsive behavior that might hide/show items */
+@media (max-width: 768px) {
+  .rt-TabNavRoot,
+  .rt-TabNavList {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+  }
+}

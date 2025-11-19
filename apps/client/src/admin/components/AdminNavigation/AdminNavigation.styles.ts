@@ -87,4 +87,21 @@ export const styles = css`
       }
     }
   }
+
+  /* More button specific styles */
+  .more-button {
+    /* Add any specific styles for the More button trigger */
+  }
+
+  .more-dropdown {
+    /* Add any specific styles for the More dropdown content */
+  }
+
+  /* Disable Radix TabNav's built-in responsive hamburger behavior */
+  .admin-nav {
+    /* Force TabNav to always show horizontal layout, never collapse to hamburger */
+    @media (max-width: 768px) {
+      /* Override any Radix responsive behavior */
+    }
+  }
 `;
