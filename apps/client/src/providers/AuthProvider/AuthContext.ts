@@ -39,6 +39,7 @@ export enum AuthKeys {
   isAuthenticated = 'isAuthenticated',
   role = 'role',
   isLoginDialogOpen = 'isLoginDialogOpen',
+  isConfirmLogoutOpen = 'isConfirmLogoutOpen',
 }
 
 export const defaultValue: AuthValues = {
@@ -48,7 +49,11 @@ export const defaultValue: AuthValues = {
   isAuthenticated: false,
   role: null,
   isLoginDialogOpen: false,
+  isConfirmLogoutOpen: false,
 };
+
+// Store the promise resolver for logout confirmation
+let logoutConfirmResolver: ((confirmed: boolean) => void) | null = null;
 
 export const AuthContext = createZustandContext(({ initialValue }) => {
   return createStore<AuthStore>()(
@@ -84,7 +89,7 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
           signIn: async ({ email, password }: AuthSignInParams) => {
             const result = await authClient.signIn.email({ email, password });
 
-            await sleep(200);
+            await sleep(100);
             set({ isLoading: false });
 
             if (result.data?.user) {
@@ -158,11 +163,25 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
           },
           openLoginDialog: async () => {
             set({ isLoginDialogOpen: true });
-            await sleep(200);
+            await sleep(100);
           },
           closeLoginDialog: async () => {
             set({ isLoginDialogOpen: false });
-            await sleep(200);
+            await sleep(100);
+          },
+          openConfirmLogout: async (): Promise<boolean> => {
+            return new Promise<boolean>((resolve) => {
+              logoutConfirmResolver = resolve;
+              set({ isConfirmLogoutOpen: true });
+            });
+          },
+          closeConfirmLogout: async (confirmed: boolean = false) => {
+            if (logoutConfirmResolver) {
+              logoutConfirmResolver(confirmed);
+              logoutConfirmResolver = null;
+            }
+            set({ isConfirmLogoutOpen: false });
+            await sleep(100);
           },
         },
       }),

@@ -4,26 +4,26 @@ import { colors } from 'styles';
 
 export const styles = css`
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   margin-top: 1.25rem;
+  overflow: hidden;
 
-  > div {
-    .subtitle {
-      color: ${colors.textLight};
-      font-size: 1.1em;
-      font-weight: 400;
-      text-align: center;
-      margin: 1.33rem;
-    }
+  height: 180px;
+
+  .form-wrapper {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: stretch;
-    min-height: 160px;
-    overflow: hidden;
+    gap: 1.5rem;
+    height: 180px;
+
+    .subtitle {
+      margin-top: 1rem;
+      text-align: center;
+    }
   }
 
   .submit-button {
@@ -37,19 +37,7 @@ export const styles = css`
     }
   }
 
-  .button {
-    &.button--full-width {
-      width: 100%;
-    }
-  }
-
-  .error {
-    color: ${colors.danger};
-    font-size: 0.875rem;
-    text-align: center;
-    padding: 0.5rem;
-    background-color: ${colors.danger25};
-    border-radius: 4px;
-    border: 1px solid ${colors.danger25};
+  form {
+    gap: 1.1rem;
   }
 `;

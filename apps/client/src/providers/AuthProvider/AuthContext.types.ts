@@ -18,6 +18,7 @@ export interface AuthValues {
   [AuthKeys.isAuthenticated]: boolean;
   [AuthKeys.role]: 'public' | 'user' | 'admin';
   [AuthKeys.isLoginDialogOpen]: boolean;
+  [AuthKeys.isConfirmLogoutOpen]: boolean;
 }
 
 type AuthSetters = CreateSettersType<AuthValues, typeof SETTER_PREFIX>;
@@ -31,6 +32,8 @@ type AuthActions = AuthSetters & {
   refreshSession: () => Promise<void>;
   openLoginDialog: () => void;
   closeLoginDialog: () => void;
+  openConfirmLogout: () => Promise<boolean>;
+  closeConfirmLogout: (confirmed?: boolean) => Promise<void>;
 };
 
 export interface AuthStore extends AuthValues {

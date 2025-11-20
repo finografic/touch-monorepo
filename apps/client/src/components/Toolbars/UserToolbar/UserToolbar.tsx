@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { sleep } from '@workspace/core';
 
 import { Flex } from '@radix-ui/themes';
 import { Button } from 'components/Button';
@@ -20,12 +21,18 @@ import { styles } from './UserToolbar.styles';
 export const UserToolbar = ({ variant }: { variant?: 'light' | 'dark' }) => {
   const { theme } = useAppConfig();
   const { isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
-  const { isLoginDialogOpen, signOut } = useAuth();
+  const { isLoginDialogOpen, signOut, openConfirmLogout } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    const isConfirmed = await openConfirmLogout();
+
+    if (!isConfirmed) {
+      return;
+    }
     const result = await signOut();
+    // await sleep(200);
     if (result.success) {
       toast({ variant: 'success', message: result.message as string });
       navigate(PATHS.main, { replace: true });
