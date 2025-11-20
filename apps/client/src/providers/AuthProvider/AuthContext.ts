@@ -52,9 +52,6 @@ export const defaultValue: AuthValues = {
   isConfirmLogoutOpen: false,
 };
 
-// Store the promise resolver for logout confirmation
-let logoutConfirmResolver: ((confirmed: boolean) => void) | null = null;
-
 export const AuthContext = createZustandContext(({ initialValue }) => {
   return createStore<AuthStore>()(
     subscribeWithSelector(
@@ -169,17 +166,11 @@ export const AuthContext = createZustandContext(({ initialValue }) => {
             set({ isLoginDialogOpen: false });
             await sleep(100);
           },
-          openConfirmLogout: async (): Promise<boolean> => {
-            return new Promise<boolean>((resolve) => {
-              logoutConfirmResolver = resolve;
-              set({ isConfirmLogoutOpen: true });
-            });
+          openConfirmLogout: async () => {
+            set({ isConfirmLogoutOpen: true });
+            await sleep(100);
           },
-          closeConfirmLogout: async (confirmed: boolean = false) => {
-            if (logoutConfirmResolver) {
-              logoutConfirmResolver(confirmed);
-              logoutConfirmResolver = null;
-            }
+          closeConfirmLogout: async () => {
             set({ isConfirmLogoutOpen: false });
             await sleep(100);
           },

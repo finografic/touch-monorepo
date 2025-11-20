@@ -32,8 +32,8 @@ type AuthActions = AuthSetters & {
   refreshSession: () => Promise<void>;
   openLoginDialog: () => void;
   closeLoginDialog: () => void;
-  openConfirmLogout: () => Promise<boolean>;
-  closeConfirmLogout: (confirmed?: boolean) => Promise<void>;
+  openConfirmLogout: () => void;
+  closeConfirmLogout: () => void;
 };
 
 export interface AuthStore extends AuthValues {
