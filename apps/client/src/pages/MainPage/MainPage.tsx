@@ -1,9 +1,6 @@
 import { useEffect, useMemo, useRef } from 'react';
-import { Col, Row } from 'react-grid-system';
 
 import { Flex, Spinner } from '@radix-ui/themes';
-import { PadAction } from 'components/Pads/PadAction/PadAction';
-import { PadSlot } from 'components/Pads/PadSlot';
 
 import { useButtonConfig } from 'hooks/useButtonConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
@@ -16,15 +13,11 @@ import { useTimers } from 'providers/TimersProvider';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
-import { mapGridByColumns } from 'utils/grid.utils';
+import { MainPageSlotGrid } from './MainPageSlotGrid/MainPageSlotGrid';
 import type { SlotMeta } from './MainPage.types';
-import { SlotType } from 'types/slots.types';
-import { useColors } from 'styles/hooks/useColors';
 import { styles } from './MainPage.styles';
 
 export function MainPage() {
-  const colors = useColors();
-  log('colors:', 'cyan', colors);
   const { orders } = useOrders();
   const { timers } = useTimers();
   const { contentButtons } = useButtonConfig();
@@ -64,8 +57,9 @@ export function MainPage() {
       // Only restore if we have slotNumbers and selectedSlots is empty or doesn't match
       if (sessionSlotNumbers.length > 0) {
         const currentSlotNumbers = selectedSlots.map((slot) => slot.slotNumber);
-        const slotNumbersMatch = sessionSlotNumbers.every((num) => currentSlotNumbers.includes(num))
-          && currentSlotNumbers.length === sessionSlotNumbers.length;
+        const slotNumbersMatch =
+          sessionSlotNumbers.every((num) => currentSlotNumbers.includes(num)) &&
+          currentSlotNumbers.length === sessionSlotNumbers.length;
 
         if (!slotNumbersMatch) {
           // Rebuild selectedSlots from session's slotNumbers
@@ -82,7 +76,7 @@ export function MainPage() {
               }
               return null;
             })
-            .filter((slot): slot is SlotMeta => slot !== null);
+            .filter((slot): slot is NonNullable<typeof slot> => slot !== null);
 
           if (restoredSlots.length > 0) {
             setSelectedSlots(restoredSlots);
@@ -129,88 +123,13 @@ export function MainPage() {
   }
 
   // Dynamically determine grid dimensions
-  const totalSlots = slotsConfig.filter((slot) => slot.isActive).length;
-  const mainGridSlots = slotsConfig.slice(0, totalSlots - 1); // All except the last
-  const lastSlot = slotsConfig[totalSlots - 1]; // The last slot
-
   const rows = 3; // Always 3 rows
+  const totalSlots = slotsConfig.filter((slot) => slot.isActive).length;
   const columns = Math.floor((totalSlots - 1) / rows); // Dynamic columns (2,3,4,5)
 
   return (
     <Flex css={styles} gap="3" direction="column">
-      <Row
-        className="menu-main"
-        style={{
-          minWidth: columns <= 3 ? '1000px' : columns === 4 ? '1200px' : '1350px',
-        }}
-      >
-        <Col>
-          <div className="menu-grid-left">
-            {/* Render grid in true column-major order: outer loop rows, inner loop columns */}
-            <div
-              style={{
-                gap: '2.5rem',
-                display: 'grid',
-                gridTemplateColumns: `repeat(${columns}, 1fr)`,
-                gridTemplateRows: `repeat(${rows}, 1fr)`,
-                minWidth: columns <= 3 ? '420px' : columns === 4 ? '560px' : '600px',
-                transform:
-                  columns <= 3 ? 'translateX(4rem)' : columns === 4 ? 'translateX(1rem)' : 'translateX(2rem)',
-              }}
-            >
-              {mapGridByColumns({ rows, columns }, (slotNumber) => {
-                const slot = mainGridSlots.find((s) => s.slotNumber === slotNumber);
-                return slot ? (
-                  <PadSlot key={slot.slotNumber} slotType={slot.slotType} slotNumber={slot.slotNumber} />
-                ) : null;
-              })}
-            </div>
-          </div>
-        </Col>
-
-        <Col>
-          <div
-            className="menu-grid-right"
-            style={{
-              maxWidth: '360px',
-              alignItems: columns <= 3 ? 'center' : columns === 4 ? 'center' : 'flex-end',
-              transform:
-                columns <= 3
-                  ? 'translateX(3rem)'
-                  : columns === 4
-                    ? 'translateX(1.5rem)'
-                    : 'translateX(2.5rem)',
-            }}
-          >
-            {/* Last slot positioned separately */}
-            {lastSlot && (
-              <PadSlot
-                key={lastSlot.slotNumber}
-                // slotType={lastSlot.slotType}
-                // slotNumber={lastSlot.slotNumber}
-                slotType={SlotType.C}
-                slotNumber={lastSlot.slotNumber}
-                variant="large"
-              />
-            )}
-            <div className="pad-special power" />
-          </div>
-        </Col>
-
-        <Col>
-          <div
-            className="menu-grid-base"
-            style={{
-              transform:
-                columns <= 3 ? 'translateX(4rem)' : columns === 4 ? 'translateX(0)' : 'translateX(2.5rem)',
-            }}
-          >
-            {contentButtons.map((buttonProps) => (
-              <PadAction key={buttonProps.id} {...buttonProps} />
-            ))}
-          </div>
-        </Col>
-      </Row>
+      <MainPageSlotGrid slots={slotsConfig} columns={columns} rows={rows} contentButtons={contentButtons} />
     </Flex>
   );
 }
