@@ -12,12 +12,14 @@ export enum AppConfigKeys {
   currentLanguage = 'currentLanguage',
   theme = 'theme',
   title = 'title',
+  isPowerEnabled = 'isPowerEnabled',
 }
 
 export const defaultValue: AppConfigValues = {
   currentLanguage: 'es-ES', // ✅ Use full locale code as the default
   theme: 'light', // ✅ Default theme
   title: import.meta.env.VITE_APP_TITLE,
+  isPowerEnabled: true,
 };
 
 export const AppConfigContext = createZustandContext(({ initialValue }) => {
@@ -52,6 +54,9 @@ export const AppConfigContext = createZustandContext(({ initialValue }) => {
               localStorage.setItem('touch-app-theme', newTheme);
               return { theme: newTheme };
             });
+          },
+          setIsPowerEnabled: (isPowerEnabled: boolean) => {
+            set({ isPowerEnabled: !isPowerEnabled });
           },
         },
       }),

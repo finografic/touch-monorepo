@@ -2,21 +2,11 @@ import { env } from 'env.server';
 
 export const relayConfig = {
   enabled: env.RELAY_ENABLED,
+  numRelays: Number(env.RELAY_NUM_RELAYS),
   port: env.RELAY_PORT,
   baudRate: env.RELAY_BAUD_RATE,
   timeout: env.RELAY_TIMEOUT,
   maxReconnectAttempts: env.RELAY_RECONNECT_ATTEMPTS,
-  slotMapping: {
-    // Map UI slots to physical relays (1-8)
-    1: 1,
-    2: 2,
-    3: 3,
-    4: 4,
-    5: 5,
-    6: 6,
-    7: 7,
-    8: 8,
-  },
   // FTDI chip identifiers for device detection
   ftdiVendorId: '0403',
   ftdiProductId: '6001',

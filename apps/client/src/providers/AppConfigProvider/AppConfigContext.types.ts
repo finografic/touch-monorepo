@@ -8,6 +8,7 @@ export interface AppConfigValues {
   [AppConfigKeys.currentLanguage]: string;
   [AppConfigKeys.theme]: Theme;
   [AppConfigKeys.title]: string;
+  [AppConfigKeys.isPowerEnabled]: boolean;
 }
 
 const SETTER_PREFIX = 'AppConfig';
@@ -17,6 +18,7 @@ export type AppConfigActions = AppConfigSetters & {
   setCurrentLanguage: (languageCode: string) => void;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
+  setIsPowerEnabled: (isPowerEnabled: boolean) => void;
 };
 
 export interface AppConfigStore extends AppConfigValues {

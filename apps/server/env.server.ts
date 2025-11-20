@@ -21,6 +21,7 @@ const ServerEnvSchema = z
     DATA_COOKIE_SUFFIX: z.string().default('session_data'),
     // Relay board
     RELAY_ENABLED: z.boolean().default(false),
+    RELAY_NUM_RELAYS: z.enum(['8', '16']).default('8'),
     RELAY_PORT: z.string().default('/dev/ttyUSB0'),
     RELAY_BAUD_RATE: z.number().default(9600),
     RELAY_TIMEOUT: z.number().optional().default(5000),
@@ -47,6 +48,7 @@ const envServerValidated = ServerEnvSchema.parse({
   DATA_COOKIE_SUFFIX: process.env.DATA_COOKIE_SUFFIX,
   // Relay board
   RELAY_ENABLED: process.env.RELAY_ENABLED === 'true',
+  RELAY_NUM_RELAYS: process.env.RELAY_NUM_RELAYS === '16' ? '16' : '8',
   RELAY_PORT: process.env.RELAY_PORT,
   RELAY_BAUD_RATE: Number(process.env.RELAY_BAUD_RATE),
   RELAY_TIMEOUT: process.env.RELAY_TIMEOUT ? Number(process.env.RELAY_TIMEOUT) : undefined,

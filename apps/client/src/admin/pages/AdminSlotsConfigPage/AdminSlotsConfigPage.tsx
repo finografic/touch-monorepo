@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 
 import { MinusIcon, PlusIcon } from '@radix-ui/react-icons';
-import { Badge, Box, Flex, Text } from '@radix-ui/themes';
+import { Badge, Flex, Text } from '@radix-ui/themes';
 import clsx from 'clsx';
 import { useDebouncedCallback } from 'use-debounce';
 import { Button } from 'components/Button';
@@ -162,27 +162,16 @@ export const AdminSlotsConfigPage: React.FC = () => {
     debouncedSave(updatedSlots);
   };
 
-  if (isLoading) {
-    return (
-      <AdminPageLayout title="Slot Configuration" subtitle="Loading...">
-        <Box className="loading">Loading slot configurations...</Box>
-      </AdminPageLayout>
-    );
-  }
-  if (error) {
-    return (
-      <AdminPageLayout title="Slot Configuration" subtitle="Error">
-        <Box className="error">
-          <Text color="red">Error loading slot configurations: {error.message}</Text>
-        </Box>
-      </AdminPageLayout>
-    );
-  }
-
   return (
     <>
       <FormProvider {...methods}>
-        <AdminPageLayout title="Slot Configuration" subtitle="Main page grid layout" styles={styles}>
+        <AdminPageLayout
+          title="Slot Configuration"
+          subtitle="Main page grid layout"
+          isLoading={isLoading}
+          error={error ? error.message : undefined}
+          styles={styles}
+        >
           <AdminSection
             title="Slot Grid Layout Preview"
             subtitle={`${numActiveColumns} columns`}

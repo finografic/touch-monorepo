@@ -1,7 +1,7 @@
 import * as HttpStatusCodes from 'stoker/http-status-codes';
-import * as HttpStatusPhrases from 'stoker/http-status-phrases';
 
 import type { AppRouteHandler } from 'types/app.types';
+import { relayConfig } from 'config/relay.config';
 import { USBRelayService } from '../../services/usbrelay.service';
 import type {
   DisconnectRelayRoute,
@@ -20,7 +20,7 @@ export const toggleRelay: AppRouteHandler<ToggleRelayRoute> = async (context) =>
   try {
     const { slotNumber, state } = context.req.valid('param');
 
-    if (isNaN(slotNumber) || slotNumber < 1 || slotNumber > 8) {
+    if (Number.isNaN(slotNumber) || slotNumber < 1 || slotNumber > 8) {
       return context.json(
         {
           success: false,
@@ -78,7 +78,7 @@ export const getRelayState: AppRouteHandler<GetRelayStateRoute> = async (context
   try {
     const { slotNumber } = context.req.valid('param');
 
-    if (isNaN(slotNumber) || slotNumber < 1 || slotNumber > 8) {
+    if (Number.isNaN(slotNumber) || slotNumber < 1 || slotNumber > 8) {
       return context.json(
         {
           success: false,
@@ -132,7 +132,7 @@ export const getRelayStatus: AppRouteHandler<GetRelayStatusRoute> = async (conte
 // @ts-ignore - Avoiding complex type inference issue
 export const turnAllRelaysOn: AppRouteHandler<TurnAllRelaysOnRoute> = async (context) => {
   try {
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= relayConfig.numRelays; i++) {
       await USBRelayService.toggleRelay(i, true);
     }
 
@@ -156,7 +156,7 @@ export const turnAllRelaysOn: AppRouteHandler<TurnAllRelaysOnRoute> = async (con
 // @ts-ignore - Avoiding complex type inference issue
 export const turnAllRelaysOff: AppRouteHandler<TurnAllRelaysOffRoute> = async (context) => {
   try {
-    for (let i = 1; i <= 8; i++) {
+    for (let i = 1; i <= relayConfig.numRelays; i++) {
       await USBRelayService.toggleRelay(i, false);
     }
 

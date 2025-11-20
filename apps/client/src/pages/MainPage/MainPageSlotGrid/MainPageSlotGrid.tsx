@@ -1,11 +1,10 @@
 import React, { memo, useMemo } from 'react';
 
-import { PadAction } from 'components/Pads/PadAction/PadAction';
+import { PadPower } from 'components/Pads/PadPower';
 import { PadSlot } from 'components/Pads/PadSlot';
 
 import { mapGridByColumns } from 'utils/grid.utils';
-import type { PadActionProps } from 'types/button.types';
-import { SlotType } from 'types/slots.types';
+import { SlotSpecial, SlotType } from 'types/slots.types';
 import { styles } from './MainPageSlotGrid.styles';
 
 interface SlotConfig {
@@ -18,17 +17,11 @@ interface MainPageSlotGridProps {
   slots: SlotConfig[];
   columns: number;
   rows: number;
-  contentButtons: PadActionProps[];
 }
 
 const NUM_ROWS = 3; // Always 3 rows
 
-const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
-  slots,
-  columns,
-  rows = NUM_ROWS,
-  contentButtons,
-}) => {
+const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({ slots, columns, rows = NUM_ROWS }) => {
   const activeSlots = useMemo(() => slots.filter((s) => s.isActive), [slots]);
   const totalSlots = activeSlots.length;
   const mainGridSlots = activeSlots.slice(0, totalSlots - 1); // All except the last
@@ -42,46 +35,33 @@ const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
 
   return (
     <div css={styles} className="main-page-slot-grid">
-      <div className="grid-container" data-columns={columns}>
-        {/* Left side: Grid + Special slot */}
-        <div className="grid-left-group">
-          {/* Main grid */}
-          <div
-            className="slot-grid"
-            style={{
-              gridTemplateColumns: `repeat(${columns}, 1fr)`,
-              gridTemplateRows: `repeat(${rows}, 1fr)`,
-              width: `${gridWidth}px`,
-            }}
-          >
-            {mapGridByColumns({ rows, columns }, (slotNumber) => {
-              const slot = mainGridSlots.find((s) => s.slotNumber === slotNumber);
-              return slot ? (
-                <PadSlot key={slot.slotNumber} slotType={slot.slotType} slotNumber={slot.slotNumber} />
-              ) : null;
-            })}
-          </div>
+      <div
+        className="slot-grid"
+        style={{
+          gridTemplateColumns: `repeat(${columns}, 1fr)`,
+          gridTemplateRows: `repeat(${rows}, 1fr)`,
+          width: `${gridWidth}px`,
+        }}
+      >
+        {mapGridByColumns({ rows, columns }, (slotNumber) => {
+          const slot = mainGridSlots.find((s) => s.slotNumber === slotNumber);
+          return slot ? (
+            <PadSlot key={slot.slotNumber} slotType={slot.slotType} slotNumber={slot.slotNumber} />
+          ) : null;
+        })}
+      </div>
 
-          {/* Special slot (last slot) */}
-          <div className="special-slot-container">
-            {lastSlot && (
-              <PadSlot
-                key={lastSlot.slotNumber}
-                slotType={SlotType.C}
-                slotNumber={lastSlot.slotNumber}
-                variant="large"
-              />
-            )}
-            <div className="pad-special power" />
-          </div>
-        </div>
-
-        {/* Right side: Content buttons (RED and GREEN buttons) */}
-        <div className="content-buttons">
-          {contentButtons.map((buttonProps) => (
-            <PadAction key={buttonProps.id} {...buttonProps} />
-          ))}
-        </div>
+      <div className="slot-col-lg">
+        {lastSlot && (
+          <PadSlot
+            key={lastSlot.slotNumber}
+            slotType={SlotType.C}
+            slotNumber={lastSlot.slotNumber}
+            variant="large"
+          />
+        )}
+        {/* <div className="pad-special power" /> */}
+        <PadPower key={lastSlot.slotNumber + 1} slotType={SlotSpecial.ENF} variant="large" />
       </div>
     </div>
   );

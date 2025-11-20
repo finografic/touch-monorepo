@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef } from 'react';
 
 import { Flex, Spinner } from '@radix-ui/themes';
+import { PadAction } from 'components/Pads/PadAction/PadAction';
 
 import { useButtonConfig } from 'hooks/useButtonConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
@@ -128,8 +129,16 @@ export function MainPage() {
   const columns = Math.floor((totalSlots - 1) / rows); // Dynamic columns (2,3,4,5)
 
   return (
-    <Flex css={styles} gap="3" direction="column">
-      <MainPageSlotGrid slots={slotsConfig} columns={columns} rows={rows} contentButtons={contentButtons} />
+    <Flex css={styles} direction="column">
+      <div className="main-content">
+        <MainPageSlotGrid slots={slotsConfig} columns={columns} rows={rows} />
+
+        <div className="content-buttons">
+          {contentButtons.map((buttonProps) => (
+            <PadAction key={buttonProps.id} {...buttonProps} />
+          ))}
+        </div>
+      </div>
     </Flex>
   );
 }

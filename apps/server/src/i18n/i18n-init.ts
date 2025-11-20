@@ -1,6 +1,6 @@
 import translations_en from 'i18n/translations/en.json';
 import translations_es from 'i18n/translations/es.json';
-import { default as i18next } from 'i18next';
+import i18next from 'i18next';
 
 const translations = {
   en: { translation: translations_en },
