@@ -5,9 +5,11 @@
 
 import type { ColorPalette } from '../colors/palette.types';
 
+export type ThemeMode = 'light' | 'dark';
+
 export interface EmotionTheme {
   colors: ColorPalette;
-  name: 'light' | 'dark';
+  name: ThemeMode;
 }
 
 // Extend Emotion's theme types

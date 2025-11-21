@@ -5,9 +5,11 @@
 ## Issue 1: Empty Screen (Fixed!)
 
 ### Problem
+
 CSS files were referencing `var(--color-*)` variables that no longer existed after removing the 500+ CSS variables.
 
 ### Solution
+
 Added **minimal essential CSS variables** to `theme-minimal.css`:
 
 ```css
@@ -58,6 +60,7 @@ You were right to want OKLCH! It provides:
 - Maintains perceptual uniformity throughout
 
 **Features:**
+
 ```ts
 // Direct OKLCH colors (not converted to hex!)
 oklchLightTheme.colors = {
@@ -93,7 +96,7 @@ import { useColors } from 'styles';
 import { oklchThemes } from 'styles';
 
 const Component = () => {
-  const colors = useColors(); // Hex colors
+  const { colors } = useColors(); // Hex colors
 
   return (
     <div css={css`
@@ -122,19 +125,23 @@ const Component = () => {
 ### Comparison: RGB vs OKLCH Shade Generation
 
 **RGB-based (Hex themes):**
+
 ```
 primary: #1e3a8a
 primaryLight: #6d7ca5  ← Moves toward white
 primaryDark: #15275c   ← Moves toward black
 ```
+
 Problem: Uneven perceptual steps, can look muddy
 
 **OKLCH-based:**
+
 ```
 primary: oklch(68.8% 0.243 264.376)
 primaryLight: oklch(80.8% 0.207 264.376)  ← Perceptually lighter
 primaryDark: oklch(56.8% 0.267 264.376)   ← Perceptually darker
 ```
+
 Benefit: Even perceptual steps, vibrant colors maintained
 
 ---
@@ -162,17 +169,20 @@ Benefit: Even perceptual steps, vibrant colors maintained
 
 ## Next Steps
 
-### Immediate:
+### Immediate
+
 1. ✅ Your app should load now!
 2. ✅ Test theme switching (light/dark)
 3. ✅ Verify no console errors
 
-### Optional:
+### Optional
+
 1. **Try OKLCH**: Switch to OKLCH themes for better color science
 2. **Compare**: Look at gradients in hex vs OKLCH
 3. **Decide**: Keep hex for max compatibility, or use OKLCH for quality
 
-### Migration:
+### Migration
+
 - **Zero migration needed** for hex themes (keep as is)
 - **One line change** to switch to OKLCH (if desired)
 - **Both work** with `useColors()` hook
@@ -184,7 +194,7 @@ Benefit: Even perceptual steps, vibrant colors maintained
 ```tsx
 // Test hex theme (current)
 import { useColors } from 'styles';
-const colors = useColors();
+const { colors } = useColors();
 console.log(colors.primary); // '#1e3a8a'
 
 // Test OKLCH theme (optional)

@@ -181,7 +181,7 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     [relayConfigurations, updateAllConfigurations],
   );
 
-  const colors = useColors();
+  const { colors } = useColors();
 
   const handleSlotClick = useCallback(
     (slotNumber: number) => {

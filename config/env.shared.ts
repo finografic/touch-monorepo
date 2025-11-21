@@ -82,7 +82,7 @@ const envSharedValidated = SharedEnvSchema.parse({
   API_HOST: process.env.API_HOST,
   API_PORT: Number(process.env.API_PORT),
   API_BASE_PATH: process.env.API_BASE_PATH,
-  CLIENT_ORIGIN: process.env.ORIGIN,
+  CLIENT_PROTOCOL: process.env.CLIENT_PROTOCOL,
   CLIENT_HOST: process.env.CLIENT_HOST,
   CLIENT_PORT: Number(process.env.CLIENT_PORT),
   //

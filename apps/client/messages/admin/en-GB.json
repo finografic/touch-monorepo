@@ -1,25 +1,17 @@
 {
   "$schema": "https://inlang.com/schema/inlang-message-format",
-  "app_title": "Servi Fresc-EN",
-  "app_tagline": "Perfect Temperature Service",
-  "app_description": "Temperature control system for beverages",
-  "app_page_drink_subtypes_description": "Select drink subtype",
-  "app_page_drink_subtypes_title": "Drink Subtypes",
-  "app_page_drink_type_description": "Select drink type",
-  "app_page_drink_type_title": "Drink Types",
-  "app_page_main_description": "Main page",
-  "app_page_main_title": "Main",
-  "app_page_orders_description": "View orders",
-  "app_page_orders_title": "Orders",
-  "app_page_temperature_description": "Select temperature",
-  "app_page_temperature_title": "Temperature",
-  "app_page_volumes_description": "Select volume",
-  "app_page_volumes_title": "Volumes",
-  "admin______________________": "____________________________________________",
-  "admin_dashboard_description_admin": "Control panel - system management",
-  "admin_dashboard_description_public": "Control panel - maintenance utilities",
-  "admin_dashboard_title_admin": "Admin Dashboard",
-  "admin_dashboard_title_public": "User Dashboard",
+  "admin_dashboard": [
+    {
+      "declarations": ["input element", "input role"],
+      "selectors": ["element", "role"],
+      "match": {
+        "element=title, role=admin": "Admin Dashboard",
+        "element=title, role=public": "User Dashboard",
+        "element=description, role=admin": "Control panel - system management",
+        "element=description, role=public": "Control panel - maintenance utilities"
+      }
+    }
+  ],
   "admin_items_description": "Manage database records",
   "admin_items_title": "Records Management",
   "admin_languages_card_public_description": "Select default language",

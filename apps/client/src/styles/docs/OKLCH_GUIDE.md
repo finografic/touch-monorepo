@@ -14,7 +14,7 @@ OKLCH is a perceptually uniform color space that provides:
 
 ## When to Use OKLCH vs Hex
 
-### Use OKLCH When:
+### Use OKLCH When
 
 1. **Generating Color Shades** - Better perceptual uniformity
 2. **Creating Gradients** - Smoother color transitions
@@ -22,7 +22,7 @@ OKLCH is a perceptually uniform color space that provides:
 4. **Brand Colors** - Want to maintain vibrancy across themes
 5. **Future-Proofing** - Supporting P3 displays and wider gamuts
 
-### Use Hex When:
+### Use Hex When
 
 1. **Browser Compatibility** - Targeting older browsers
 2. **Performance Critical** - Need fastest possible rendering
@@ -31,7 +31,8 @@ OKLCH is a perceptually uniform color space that provides:
 
 ## Browser Support
 
-### OKLCH Support:
+### OKLCH Support
+
 - ✅ Chrome 111+ (March 2023)
 - ✅ Safari 15.4+ (March 2022)
 - ✅ Firefox 113+ (May 2023)
@@ -39,7 +40,8 @@ OKLCH is a perceptually uniform color space that provides:
 
 **Coverage**: ~92% of users (as of Nov 2024)
 
-### Fallback Strategy:
+### Fallback Strategy
+
 ```css
 /* Hex fallback for older browsers */
 color: #1e3a8a;
@@ -69,7 +71,7 @@ import { useColors } from 'styles';
 import { oklchLightTheme } from 'styles';
 
 const Component = () => {
-  const colors = useColors(); // Hex colors
+  const { colors } = useColors(); // Hex colors
 
   return (
     <div css={css`
@@ -92,6 +94,7 @@ const Component = () => {
 ## Color Comparison
 
 ### Hex Themes (Current)
+
 ```ts
 lightTheme.colors = {
   primary: '#1e3a8a',           // Converted to hex
@@ -101,6 +104,7 @@ lightTheme.colors = {
 ```
 
 ### OKLCH Themes (New)
+
 ```ts
 oklchLightTheme.colors = {
   primary: 'oklch(68.8% 0.243 264.376)',        // Direct OKLCH
@@ -111,7 +115,8 @@ oklchLightTheme.colors = {
 
 ## Shade Generation Comparison
 
-### RGB-based (Hex themes):
+### RGB-based (Hex themes)
+
 ```
 XXLight: Lighten by moving toward white
 Light: Partially lighten
@@ -122,7 +127,8 @@ XXDark: Much darker
 Problem: Uneven perceptual steps
 ```
 
-### OKLCH-based:
+### OKLCH-based
+
 ```
 XXLight: L + 25%, reduce C by 30%
 Light: L + 12%, reduce C by 15%
@@ -147,13 +153,15 @@ background: rgba(30, 58, 138, 0.5);
 
 ## Gradients
 
-### RGB Gradients (Muddy in middle):
+### RGB Gradients (Muddy in middle)
+
 ```css
 background: linear-gradient(to right, #ff0000, #0000ff);
 /* Goes through muddy grey in middle */
 ```
 
-### OKLCH Gradients (Smooth):
+### OKLCH Gradients (Smooth)
+
 ```css
 background: linear-gradient(
   to right,
@@ -165,23 +173,27 @@ background: linear-gradient(
 
 ## Performance Considerations
 
-### OKLCH Rendering:
+### OKLCH Rendering
+
 - **Parse time**: Slightly slower (~5-10% overhead)
 - **Render time**: Same as hex once parsed
 - **Memory**: Same as hex
 - **File size**: Slightly larger string representation
 
-### Recommendation:
+### Recommendation
+
 Use OKLCH unless you're targeting very old browsers or have extreme performance requirements.
 
 ## Migration Path
 
 ### Phase 1: Test OKLCH (Current)
+
 - ✅ OKLCH themes created
 - ✅ Available alongside hex themes
 - Test in your target browsers
 
 ### Phase 2: Gradual Adoption (Optional)
+
 ```tsx
 // Start with gradients and transitions
 background: linear-gradient(
@@ -191,12 +203,14 @@ background: linear-gradient(
 ```
 
 ### Phase 3: Full Switch (Optional)
+
 ```tsx
 // Update EmotionThemeProvider to use OKLCH themes
 setTheme(currentTheme === 'dark' ? oklchDarkTheme : oklchLightTheme);
 ```
 
 ### Phase 4: Fallbacks (If needed)
+
 ```tsx
 // Add hex fallbacks for older browsers
 const styles = css`
@@ -207,14 +221,16 @@ const styles = css`
 
 ## Tools & Resources
 
-### OKLCH Tools:
-- https://oklch.com - OKLCH color picker
-- https://evilmartians.com/oklch - Color space converter
+### OKLCH Tools
+
+- <https://oklch.com> - OKLCH color picker
+- <https://evilmartians.com/oklch> - Color space converter
 - Chrome DevTools - Built-in OKLCH support
 
-### Color Space Info:
-- https://bottosson.github.io/posts/oklab/ - OKLAB paper
-- https://www.w3.org/TR/css-color-4/ - CSS Color Module Level 4
+### Color Space Info
+
+- <https://bottosson.github.io/posts/oklab/> - OKLAB paper
+- <https://www.w3.org/TR/css-color-4/> - CSS Color Module Level 4
 
 ## Examples
 
@@ -307,19 +323,22 @@ const AccessibleCard = () => {
 
 ## Summary
 
-### Benefits:
+### Benefits
+
 ✅ Better color science
 ✅ Smoother gradients
 ✅ Easier accessibility
 ✅ Future-proof
 ✅ More vibrant colors
 
-### Trade-offs:
+### Trade-offs
+
 ⚠️ Slightly larger strings
 ⚠️ 8% browser coverage gap
 ⚠️ Different from hex (learning curve)
 
-### Recommendation:
+### Recommendation
+
 **Use OKLCH for new projects and modern browsers. Add hex fallbacks if needed.**
 
 Your OKLCH theme is ready to use! Just switch the theme provider to use `oklchLightTheme` and `oklchDarkTheme` instead of the hex-based themes.

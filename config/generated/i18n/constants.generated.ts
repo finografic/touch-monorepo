@@ -1,7 +1,7 @@
 /**
  * Generated Constants for i18n
  * 🤖 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * Generated on 2025-11-19T21:55:18.932Z
+ * Generated on 2025-11-22T08:03:27.802Z
  */
 
 import type { RegionLocale, LangCode2, CountryCode } from './language.types';

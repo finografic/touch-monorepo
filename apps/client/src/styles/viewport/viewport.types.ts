@@ -20,14 +20,7 @@ export interface BreakpointDefaults extends BreakpointMap<number> {
   // xxxl?: number;
 }
 
-export interface MediaQueryMap {
-  xs?: string;
-  sm: string;
-  md: string;
-  lg: string;
-  xl: string;
-  xxl?: string;
-  // xxxl?: string;
-}
+export type MediaQueryType = 'min' | 'max';
+export type MediaQueryMap = { [key in MediaQueryType]: Partial<BreakpointMap<number>> };
 
 export interface ColumnSizes extends BreakpointMap<number> {}

@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { button, colors, layout } from 'styles';
-import { border } from 'styles/constants/base.constants';
+import { border } from 'styles/layout/base.constants';
 
 export const styles = css`
   /* Trigger button styling (closed state) */

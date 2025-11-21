@@ -21,10 +21,13 @@
 import { m } from 'i18n/messages';
 
 // Admin Dashboard variants
-export const getAdminDashboard = (inputs: { role: 'public' | 'admin' }) => ({
-  title: m.admin_dashboard_title(inputs),
-  description: m.admin_dashboard_description(inputs),
-});
+export const getAdminDashboard = (inputs: { role: 'public' | 'admin' }) => {
+  // log('MESSAGE', 'orange', m.admin_dashboard({ element: 'title', role: inputs.role }));
+  return {
+    title: m.admin_dashboard({ element: 'title', role: inputs.role }),
+    description: m.admin_dashboard({ element: 'description', role: inputs.role }),
+  };
+};
 
 // Future: Admin Translations variants (when you implement them)
 export const getAdminTranslations = (_inputs: { role: 'public' | 'admin' }) => ({

@@ -1,12 +1,13 @@
 {
-  "dialogs_admin_tabs_languages": "Idiomes",
-  "dialogs_admin_tabs_orderSelections": "Seleccions de comandes",
-  "dialogs_admin_tabs_storedConfiguration": "Configuració emmagatzemada",
-  "dialogs_admin_title": "Eines d'administració",
-  "languageSelector_change": "Canviar idioma",
-  "languageSelector_title": "Seleccionar idioma",
-  "notifications_orderCancelled": "Comanda cancel·lada",
-  "notifications_orderReady": "Traduccions actualitzades correctament!",
-  "notifications_systemError": "S'ha produït un error del sistema",
-  "notifications_temperatureReached": "Temperatura objectiu assolida"
+  "$schema": "https://inlang.com/schema/inlang-message-format",
+  "shared_admin_tabs_languages": "Idiomes",
+  "shared_admin_tabs_order_selections": "Seleccions de comandes",
+  "shared_admin_tabs_stored_configuration": "Configuració emmagatzemada",
+  "shared_admin_title": "Eines d'administració",
+  "shared_change": "Canviar idioma",
+  "shared_order_cancelled": "Comanda cancel·lada",
+  "shared_order_ready": "Traduccions actualitzades correctament!",
+  "shared_system_error": "S'ha produït un error del sistema",
+  "shared_temperature_reached": "Temperatura objectiu assolida",
+  "shared_title": "Seleccionar idioma"
 }

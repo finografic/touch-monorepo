@@ -12,7 +12,7 @@
  *
  * @example
  * ```typescript
- * const padding = createCSSProxy(baseLayout.padding, 4);
+ * const padding = createCSSProxy(padding, 4);
  *
  * // Direct usage (gets default)
  * css`padding: ${padding};` // → '1rem'

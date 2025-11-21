@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors, layout, max, min, spacing, typography } from 'styles';
-import { baseLayout } from 'styles/constants/base.constants';
+import { padding } from 'styles/layout/base.constants';
 import { cssForms, forms } from 'styles/forms/forms.styles';
 import { stylesAdminContent } from 'styles/project/project.styles';
 
@@ -173,7 +173,7 @@ export const styles = css`
           min-height: auto;
           max-height: none;
           padding: 0 0.5rem;
-          padding: 0 ${baseLayout.padding.xs};
+          padding: 0 ${padding.xs};
           flex-shrink: 0;
           h1 {
             font-size: 1.8rem;

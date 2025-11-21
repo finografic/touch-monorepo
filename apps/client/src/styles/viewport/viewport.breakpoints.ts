@@ -9,9 +9,10 @@ import {
 // BREAKPOINT DEFAULT pixel values (from Carbon) best defined NUMERICALLY,
 // allowing for calculations etc..
 
-// NOTE: breakpoints from radix-ui
+// NOTE: breakpoints - radix-ui
+// https://www.radix-ui.com/themes/docs/theme/breakpoints
 export const BREAKPOINTS_RADIX: BreakpointMap<number> = {
-  xs: 0, // (not really used)
+  xs: 0,
   sm: 520,
   md: 768,
   lg: 1024,
@@ -19,9 +20,9 @@ export const BREAKPOINTS_RADIX: BreakpointMap<number> = {
   xxl: 1640,
 } as const;
 
-// NOTE: breakpoints from radix-ui
+// NOTE: breakpoints - tailwindcss
 export const BREAKPOINTS_TW: BreakpointMap<number> = {
-  xs: 0, // (not really used)
+  xs: 0,
   sm: 640,
   md: 768,
   lg: 1024,
@@ -31,17 +32,6 @@ export const BREAKPOINTS_TW: BreakpointMap<number> = {
 
 export const BREAKPOINTS = BREAKPOINTS_RADIX;
 export const BREAKPOINT_VALUES = Object.values(BREAKPOINTS).slice(1);
-
-// Type to access either xxl or 2xl
-export interface TailwindBreakpoints {
-  'xs'?: number;
-  'sm': number;
-  'md': number;
-  'lg': number;
-  'xl': number;
-  'xxl': number;
-  '2xl': number;
-}
 
 /**
  * NOTE: xs:320 as a breakpoint is redundant, as the smallest range

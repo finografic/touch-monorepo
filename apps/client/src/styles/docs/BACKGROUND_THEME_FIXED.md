@@ -1,4 +1,4 @@
-# ✅ Background Theme Switching Fixed!
+# ✅ Background Theme Switching Fixed
 
 📅 Nov 8, 2025
 
@@ -27,28 +27,34 @@ Since Layout and AdminLayout wrap the entire app, they were overriding the body 
 ## Files Fixed
 
 ### 1. `/layout/Layout.styles.ts`
+
 **Before:**
+
 ```ts
 background-color: ${colors.background}; // Static #fefefe
 ```
 
 **After:**
+
 ```ts
 background-color: var(--color-background); // Dynamic!
 color: var(--color-text); // Also added text color
 ```
 
 ### 2. `/layout/AdminLayout.styles.ts` (2 instances)
+
 **Fixed in:**
 - Header section (line 134)
 - Footer section (line 212)
 
 **Before:**
+
 ```ts
 background-color: ${colors.background}; // Static
 ```
 
 **After:**
+
 ```ts
 background-color: var(--color-background); // Dynamic!
 ```
@@ -88,6 +94,7 @@ When you toggle the theme:
 For theme-aware backgrounds/colors, `.styles.ts` files should use:
 
 ### ✅ Use CSS Variables (Theme-aware)
+
 ```ts
 css`
   background-color: var(--color-background);
@@ -97,6 +104,7 @@ css`
 ```
 
 ### ✅ Or Use colorsDirect (Static, no theme switching)
+
 ```ts
 import { colorsDirect as colors } from 'styles';
 
@@ -104,9 +112,11 @@ css`
   background-color: ${colors.background}; // Always light theme
 `;
 ```
+
 **Use this for:** Buttons, cards, decorative elements that don't need to change with theme
 
 ### ❌ Don't Mix (Causes issues)
+
 ```ts
 // This locks the background to light theme forever!
 background-color: ${colors.background}; // Static
@@ -120,7 +130,7 @@ For React components that need theme switching, use `useColors()`:
 import { useColors } from 'styles';
 
 const MyComponent = () => {
-  const colors = useColors(); // Updates with theme!
+  const { colors } = useColors(); // Updates with theme!
 
   return (
     <div css={css`

@@ -4,7 +4,7 @@
  */
 
 import { colors } from '../colors/colors-direct';
-import { border } from './base.constants';
+import { border } from '../layout/base.constants';
 
 export const button = {
   background: colors.defaultXLight25,

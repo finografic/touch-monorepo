@@ -33,7 +33,7 @@ export const InputTime: React.FC<InputTimeProps> = ({
   disabled = false,
   onTimeChange,
 }) => {
-  const colors = useColors();
+  const { colors } = useColors();
 
   // Try to get FormMiddleware context (will be null if not in a FormMiddleware form)
   let middleware = null;

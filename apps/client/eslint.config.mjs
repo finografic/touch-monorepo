@@ -5,7 +5,7 @@ import { ERROR, fino, OFF } from '@finografic/eslint-config';
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import globals from 'globals';
 
-export default fino({
+const baseConfig = fino({
   ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
   plugins: {
     'simple-import-sort': simpleImportSort,
@@ -61,6 +61,17 @@ export default fino({
     'import/sort-imports': OFF,
     'sort-imports': OFF,
 
+    // Merge imports/exports from the same source
+    'import/no-duplicates': [
+      ERROR,
+      {
+        'prefer-inline': false,
+        'considerQueryString': false,
+      },
+    ],
+    // Enable fino import deduplication (may be more aggressive)
+    'fino/import-dedupe': ERROR,
+
     // Disable unused import removal rules
     'import/no-unused-modules': OFF,
     'import/no-unresolved': OFF,
@@ -105,3 +116,15 @@ export default fino({
     'style/jsx-one-expression-per-line': OFF,
   },
 });
+
+export default baseConfig;
+
+// export default [
+//   ...(Array.isArray(baseConfig) ? baseConfig : [baseConfig]),
+//   {
+//     files: ['src/i18n/**/*'],
+//     rules: {
+//       'eslint-comments/no-unlimited-disable': OFF,
+//     },
+//   },
+// ];

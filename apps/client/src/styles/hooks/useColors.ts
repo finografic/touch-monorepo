@@ -9,7 +9,7 @@
  * import { useColors } from 'styles/hooks/useColors';
  *
  * const Component = () => {
- *   const colors = useColors();
+ *   const { colors } = useColors();
  *
  *   return (
  *     <div css={css`
@@ -31,15 +31,15 @@ import type { ColorPalette } from '../colors/palette.types';
  * Hook that returns the current theme's colors
  * Automatically switches between light and dark based on theme context
  */
-export function useColors(): ColorPalette {
+export function useColors(): { colors: ColorPalette } {
   const theme = useTheme();
-  return theme.colors;
+  return { colors: theme.colors };
 }
 
 /**
  * Hook that returns the current theme name
  */
-export function useThemeName(): 'light' | 'dark' {
+export function useColorTheme(): { theme: 'light' | 'dark' } {
   const theme = useTheme();
-  return theme.name;
+  return { theme: theme.name };
 }

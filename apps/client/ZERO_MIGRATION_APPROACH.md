@@ -1,8 +1,8 @@
-# 🎯 Zero-Migration Approach - The Easiest Path!
+# 🎯 Zero-Migration Approach - The Easiest Path
 
 📅 Nov 8, 2025
 
-## You Were Right!
+## You Were Right
 
 Since you already have `lightColors` and `darkColors` with **identical structure**, we can make theme switching work with **minimal to zero code changes**!
 
@@ -10,9 +10,10 @@ Since you already have `lightColors` and `darkColors` with **identical structure
 
 Instead of importing a static `colors` object, use the `useColors()` hook that automatically switches between light and dark:
 
-### Migration: Change 1 Line!
+### Migration: Change 1 Line
 
 **Before:**
+
 ```tsx
 import { css } from '@emotion/react';
 import { colors } from 'styles';
@@ -32,12 +33,13 @@ const Component = () => {
 ```
 
 **After:**
+
 ```tsx
 import { css } from '@emotion/react';
 import { useColors } from 'styles';  // ← Changed this line!
 
 const Component = () => {
-  const colors = useColors();         // ← Added this line!
+  const { colors } = useColors();         // ← Added this line!
 
   return (
     <div css={css`
@@ -65,25 +67,29 @@ const Component = () => {
 ## Migration Paths (Choose Your Adventure!)
 
 ### Path 1: No Migration (Keep Old System)
+
 ```tsx
 import { colors } from 'styles';
 // Still works! Uses CSS variables (slower)
 ```
 
 ### Path 2: One-Line Change (Recommended!)
+
 ```tsx
 import { useColors } from 'styles';
-const colors = useColors();
+const { colors } = useColors();
 // Minimal change, maximum benefit!
 ```
 
 ### Path 3: Direct Import (Static Colors)
+
 ```tsx
 import { colorsDirect as colors } from 'styles';
 // No theme switching, but fast
 ```
 
 ### Path 4: Theme Prop (Most Explicit)
+
 ```tsx
 css`
   color: ${({ theme }) => theme.colors.primary};
@@ -96,6 +102,7 @@ css`
 ### Example 1: Button Component (Simplest Migration)
 
 **Before:**
+
 ```tsx
 import { colors } from 'styles';
 
@@ -115,11 +122,12 @@ export const Button = ({ children, variant = 'primary' }) => {
 ```
 
 **After (2 lines changed):**
+
 ```tsx
 import { useColors } from 'styles';  // ← Changed
 
 export const Button = ({ children, variant = 'primary' }) => {
-  const colors = useColors();        // ← Added
+  const { colors } = useColors();        // ← Added
 
   const buttonStyles = css`
     background: ${colors[`${variant}Light`]};  // ← Same!
@@ -138,6 +146,7 @@ export const Button = ({ children, variant = 'primary' }) => {
 ### Example 2: Card Component
 
 **Before:**
+
 ```tsx
 import { colors, spacing } from 'styles';
 
@@ -155,11 +164,12 @@ export const Card = ({ children }) => (
 ```
 
 **After:**
+
 ```tsx
 import { useColors, spacing } from 'styles';  // ← Changed
 
 export const Card = ({ children }) => {
-  const colors = useColors();                 // ← Added
+  const { colors } = useColors();                 // ← Added
 
   return (
     <div css={css`
@@ -178,6 +188,7 @@ export const Card = ({ children }) => {
 ### Example 3: Your Button Utils (Dynamic Colors)
 
 **Before:**
+
 ```tsx
 // button.utils.ts
 import { colors } from 'styles';
@@ -199,12 +210,13 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
 ```
 
 **After (Can't use hook in utils - need component):**
+
 ```tsx
 // Button.tsx
 import { useColors } from 'styles';
 
 export const Button = ({ variant, color }) => {
-  const colors = useColors();  // ← Get colors in component
+  const { colors } = useColors();  // ← Get colors in component
 
   const baseColorKey = BUTTON_BASE_COLORS[color];
   const baseName = extractBaseColorName(baseColorKey);
@@ -226,6 +238,7 @@ export const Button = ({ variant, color }) => {
 ```
 
 Or keep the utility function but pass colors:
+
 ```tsx
 // button.utils.ts
 export function getVariantStyles(
@@ -240,7 +253,7 @@ export function getVariantStyles(
 import { useColors } from 'styles';
 
 export const Button = ({ variant, color }) => {
-  const colors = useColors();
+  const { colors } = useColors();
   const styles = getVariantStyles(variant, color, colors);
 
   return <button css={styles}>{children}</button>;
@@ -250,11 +263,13 @@ export const Button = ({ variant, color }) => {
 ## Benefits of This Approach
 
 ### ✅ Minimal Code Changes
+
 - Change import: `import { colors }` → `import { useColors }`
-- Add one line: `const colors = useColors();`
+- Add one line: `const { colors } = useColors();`
 - Everything else stays the same!
 
 ### ✅ All Color Names Preserved
+
 Since `lightColors` and `darkColors` have identical keys:
 - `colors.primary` works
 - `colors.primaryLight` works
@@ -263,16 +278,19 @@ Since `lightColors` and `darkColors` have identical keys:
 - **Every color key is exactly the same!**
 
 ### ✅ Automatic Theme Switching
+
 - Theme changes → Hook updates → Component re-renders
 - No manual theme detection needed
 - Works with your existing `data-theme` attribute system
 
 ### ✅ Performance Benefits
+
 - Direct hex values (no CSS variable lookups)
 - Smaller CSS bundle (30 lines vs 643)
 - Faster DevTools
 
 ### ✅ Type Safety
+
 - Full TypeScript support
 - Autocomplete for all color keys
 - Compile-time checks
@@ -285,17 +303,19 @@ Since `lightColors` and `darkColors` have identical keys:
 - Global styles
 - Exported constants
 
-### Solutions:
+### Solutions
 
 **Option 1: Move logic into component**
+
 ```tsx
 const Component = () => {
-  const colors = useColors();
+  const { colors } = useColors();
   // Do color logic here
 };
 ```
 
 **Option 2: Pass colors as parameter**
+
 ```tsx
 // utils.ts
 export function getStyles(colors: ColorPalette) {
@@ -304,12 +324,13 @@ export function getStyles(colors: ColorPalette) {
 
 // Component.tsx
 const Component = () => {
-  const colors = useColors();
+  const { colors } = useColors();
   const styles = getStyles(colors);
 };
 ```
 
 **Option 3: Use theme prop in css** (for Emotion styled)
+
 ```tsx
 const styles = css`
   color: ${({ theme }) => theme.colors.primary};
@@ -317,6 +338,7 @@ const styles = css`
 ```
 
 **Option 4: Keep static import** (if theme switching not needed)
+
 ```tsx
 import { colorsDirect as colors } from 'styles';
 ```
@@ -330,7 +352,7 @@ import { colorsDirect as colors } from 'styles';
 | `colorsDirect` import | 1 line per file | ❌ No | ⚡ Fast | Static/utility files |
 | Old `colors` import | 0 lines | ✅ Yes | 🐢 Slower | Legacy code |
 
-## Your Existing Structure is Perfect!
+## Your Existing Structure is Perfect
 
 ```ts
 // light.colors.ts
@@ -355,11 +377,12 @@ Since the structures are **identical**, `useColors()` gives you the right object
 ## Quick Start
 
 1. **In any component:**
+
    ```tsx
    import { useColors } from 'styles';
 
    const MyComponent = () => {
-     const colors = useColors();
+     const { colors } = useColors();
      // Now use colors.primary, colors.primaryLight, etc.
    };
    ```
@@ -367,38 +390,45 @@ Since the structures are **identical**, `useColors()` gives you the right object
 2. **That's it!** Theme switching happens automatically.
 
 3. **Check theme if needed:**
-   ```tsx
-   import { useThemeName } from 'styles';
 
-   const themeName = useThemeName(); // 'light' or 'dark'
+   ```tsx
+   import { useColorTheme } from 'styles';
+
+   const { theme } = useColorTheme(); // 'light' or 'dark'
    ```
 
 ## Migration Strategy
 
 ### Phase 1: New Components (Immediate)
+
 Use `useColors()` in all new components going forward.
 
 ### Phase 2: Hot Paths (Next)
+
 Convert frequently-rendered components for maximum performance gain.
 
 ### Phase 3: Gradual Migration (Ongoing)
+
 Convert existing components as you touch them.
 
 ### Phase 4: Legacy Code (Optional)
+
 Old code can stay with CSS variables indefinitely - it still works!
 
 ## Summary
 
 You were **absolutely right** - since `lightColors` and `darkColors` have identical structures, we can leverage that for a **nearly zero-migration** path!
 
-### The Magic:
+### The Magic
+
 1. ✅ `EmotionThemeProvider` provides current theme
 2. ✅ `useColors()` hook returns current theme's colors
 3. ✅ Components use `colors.primary` (same as before!)
 4. ✅ Theme changes automatically switch color values
 5. ✅ **Nearly zero code changes needed!**
 
-### Your Options (Best → Good):
+### Your Options (Best → Good)
+
 1. 🥇 **`useColors()` hook** - Easiest migration, theme-aware, fast
 2. 🥈 **`theme.colors` prop** - Most explicit, slightly more verbose
 3. 🥉 **`colorsDirect` import** - Zero migration, no theme switching

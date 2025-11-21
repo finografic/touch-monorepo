@@ -20,11 +20,13 @@ The migration script (`migrate-colors-imports.sh`) only fixed `*.styles.ts` file
 3. **Constants files** (`*.constants.ts`)
 
 These files were still importing:
+
 ```ts
 import { colors } from 'styles'; // ❌ CSS variable references
 ```
 
 Instead of:
+
 ```ts
 import { colorsDirect as colors } from 'styles'; // ✅ Direct hex values
 ```
@@ -36,14 +38,17 @@ import { colorsDirect as colors } from 'styles'; // ✅ Direct hex values
 ### 1️⃣ Utility Files (2 files)
 
 #### `styles/utils/generate-ui-color-variants.utils.ts`
+
 **Impact:** This generates button color variants for ALL buttons!
 
 **Before:**
+
 ```ts
 import { colors } from 'styles'; // ❌ CSS vars
 ```
 
 **After:**
+
 ```ts
 import { colorsDirect as colors } from 'styles'; // ✅ Direct values
 ```
@@ -53,14 +58,17 @@ import { colorsDirect as colors } from 'styles'; // ✅ Direct values
 ---
 
 #### `components/Button/utils/button.utils.ts`
+
 **Impact:** Button variant generation
 
 **Before:**
+
 ```ts
 import { button, colors } from 'styles'; // ❌
 ```
 
 **After:**
+
 ```ts
 import { button, colorsDirect as colors } from 'styles'; // ✅
 ```
@@ -70,9 +78,11 @@ import { button, colorsDirect as colors } from 'styles'; // ✅
 ### 2️⃣ Component Files (4 files) - JSX Usage
 
 #### `admin/pages/AdminRelaysPage/RelayAssign/RelayAssign.tsx`
+
 **Usage:** Direct color references in component logic
 
 **Before:**
+
 ```ts
 import { colors } from 'styles'; // ❌
 
@@ -85,11 +95,12 @@ switch (slotType) {
 ```
 
 **After:**
+
 ```ts
 import { useColors } from 'styles'; // ✅
 
 // Inside component:
-const colors = useColors(); // ✅ Theme-aware hook
+const { colors } = useColors(); // ✅ Theme-aware hook
 
 switch (slotType) {
   case SlotType.A:
@@ -101,9 +112,11 @@ switch (slotType) {
 ---
 
 #### `forms/InputTime/InputTime.tsx`
+
 **Usage:** Inline style colors
 
 **Before:**
+
 ```ts
 import { colors } from 'styles'; // ❌
 
@@ -115,10 +128,11 @@ import { colors } from 'styles'; // ❌
 ```
 
 **After:**
+
 ```ts
 import { useColors } from 'styles'; // ✅
 
-const colors = useColors(); // ✅
+const { colors } = useColors(); // ✅
 
 <ExclamationTriangleIcon
   style={{
@@ -130,29 +144,35 @@ const colors = useColors(); // ✅
 ---
 
 #### `forms/InputTemperature/InputTemperature.tsx`
+
 **Before:**
+
 ```ts
 import { colors } from 'styles/colors/colors.styles'; // ❌
 ```
 
 **After:**
+
 ```ts
 import { useColors } from 'styles'; // ✅
-const colors = useColors(); // ✅
+const { colors } = useColors(); // ✅
 ```
 
 ---
 
 #### `forms/SelectSearchable/SelectSearchable.tsx`
+
 **Before:**
+
 ```ts
 import { colors } from 'styles'; // ❌
 ```
 
 **After:**
+
 ```ts
 import { useColors } from 'styles'; // ✅
-const colors = useColors(); // ✅
+const { colors } = useColors(); // ✅
 ```
 
 ---
@@ -160,12 +180,15 @@ const colors = useColors(); // ✅
 ### 3️⃣ Constants Files (3 files)
 
 #### `styles/forms/forms.constants.ts`
+
 **Before:**
+
 ```ts
 import { colors } from '../colors/colors.styles'; // ❌
 ```
 
 **After:**
+
 ```ts
 import { colorsDirect as colors } from '../colors/colors-direct'; // ✅
 ```
@@ -173,12 +196,15 @@ import { colorsDirect as colors } from '../colors/colors-direct'; // ✅
 ---
 
 #### `styles/constants/global.constants.ts`
+
 **Before:**
+
 ```ts
 import { colors } from '../colors/colors.styles'; // ❌
 ```
 
 **After:**
+
 ```ts
 import { colorsDirect as colors } from '../colors/colors-direct'; // ✅
 ```
@@ -186,12 +212,15 @@ import { colorsDirect as colors } from '../colors/colors-direct'; // ✅
 ---
 
 #### `styles/constants/base.constants.ts`
+
 **Before:**
+
 ```ts
 import { colors } from 'styles/colors/colors.styles'; // ❌
 ```
 
 **After:**
+
 ```ts
 import { colorsDirect as colors } from 'styles/colors/colors-direct'; // ✅
 ```
@@ -201,12 +230,15 @@ import { colorsDirect as colors } from 'styles/colors/colors-direct'; // ✅
 ### 4️⃣ Theme Files (2 files)
 
 #### `styles/themes/theme.ts`
+
 **Before:**
+
 ```ts
 import { colors } from '../colors/colors.styles'; // ❌
 ```
 
 **After:**
+
 ```ts
 import { colorsDirect as colors } from '../colors/colors-direct'; // ✅
 ```
@@ -216,6 +248,7 @@ import { colorsDirect as colors } from '../colors/colors-direct'; // ✅
 ## The Two Patterns
 
 ### Pattern A: Static Imports (Utils & Constants)
+
 **For:** Files that export constants or generate static CSS
 
 ```ts
@@ -230,6 +263,7 @@ export const styles = css`
 ---
 
 ### Pattern B: React Hook (Components)
+
 **For:** React components that need theme switching
 
 ```ts
@@ -237,7 +271,7 @@ export const styles = css`
 import { useColors } from 'styles';
 
 const MyComponent = () => {
-  const colors = useColors(); // Updates with theme!
+  const { colors } = useColors(); // Updates with theme!
 
   return (
     <div style={{ color: colors.primary }}>

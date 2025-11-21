@@ -10,7 +10,7 @@
 import { useColors } from 'styles';
 
 const Component = () => {
-  const colors = useColors();
+  const { colors } = useColors();
 
   return (
     <div css={css`color: ${colors.primary}`}>
@@ -117,6 +117,7 @@ import { colors } from 'styles';
 ### Pattern 1: Component with Inline Styles
 
 **Before:**
+
 ```tsx
 import { colors } from 'styles';
 
@@ -132,11 +133,12 @@ export const Alert = ({ type, children }) => (
 ```
 
 **After (useColors):**
+
 ```tsx
 import { useColors } from 'styles';
 
 export const Alert = ({ type, children }) => {
-  const colors = useColors();
+  const { colors } = useColors();
 
   return (
     <div css={css`
@@ -155,6 +157,7 @@ export const Alert = ({ type, children }) => {
 ### Pattern 2: Component with Separate Styles Function
 
 **Before:**
+
 ```tsx
 import { colors } from 'styles';
 
@@ -171,6 +174,7 @@ export const Button = ({ variant, children }) => (
 ```
 
 **After (Option A - Pass colors):**
+
 ```tsx
 import { useColors } from 'styles';
 
@@ -180,7 +184,7 @@ const getButtonStyles = (variant, colors) => css`
 `;
 
 export const Button = ({ variant, children }) => {
-  const colors = useColors();
+  const { colors } = useColors();
 
   return (
     <button css={getButtonStyles(variant, colors)}>
@@ -191,11 +195,12 @@ export const Button = ({ variant, children }) => {
 ```
 
 **After (Option B - Move inline):**
+
 ```tsx
 import { useColors } from 'styles';
 
 export const Button = ({ variant, children }) => {
-  const colors = useColors();
+  const { colors } = useColors();
 
   const styles = css`
     background: ${colors[variant]};
@@ -211,6 +216,7 @@ export const Button = ({ variant, children }) => {
 ### Pattern 3: Utility File (Can't Use Hook)
 
 **Before:**
+
 ```tsx
 // utils/colors.ts
 import { colors } from 'styles';
@@ -225,6 +231,7 @@ export function getStatusColor(status) {
 ```
 
 **After (Option A - Use static colors):**
+
 ```tsx
 // utils/colors.ts
 import { colorsDirect as colors } from 'styles';
@@ -239,6 +246,7 @@ export function getStatusColor(status) {
 ```
 
 **After (Option B - Accept colors parameter):**
+
 ```tsx
 // utils/colors.ts
 import type { ColorPalette } from 'styles';
@@ -253,7 +261,7 @@ export function getStatusColor(status, colors: ColorPalette) {
 
 // In component:
 import { useColors } from 'styles';
-const colors = useColors();
+const { colors } = useColors();
 const color = getStatusColor('success', colors);
 ```
 
@@ -262,6 +270,7 @@ const color = getStatusColor('success', colors);
 ### Pattern 4: Global Styles
 
 **Before:**
+
 ```tsx
 import { colors } from 'styles';
 
@@ -274,6 +283,7 @@ export const cssGlobal = css`
 ```
 
 **After (Keep CSS variables or use theme):**
+
 ```tsx
 // Option A: Keep CSS variables (works fine)
 import { colors } from 'styles';
@@ -360,11 +370,12 @@ After making changes to `main.tsx`:
 ## Summary
 
 **Best approach for most cases:**
+
 ```tsx
 import { useColors } from 'styles';
 
 const MyComponent = () => {
-  const colors = useColors();
+  const { colors } = useColors();
   // Use colors.primary, colors.primaryLight, etc.
 };
 ```

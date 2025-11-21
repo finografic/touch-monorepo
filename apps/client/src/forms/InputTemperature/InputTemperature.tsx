@@ -25,7 +25,7 @@ interface InputTemperatureProps {
 
 export const InputTemperature = forwardRef<HTMLInputElement, InputTemperatureProps>(
   ({ name, placeholder = TEMP_INPUT_PLACEHOLDER, disabled = false, ...props }, ref) => {
-    const colors = useColors();
+    const { colors } = useColors();
     const middleware = useFormMiddleware();
     const [displayValue, setDisplayValue] = useState('');
     const [isTyping, setIsTyping] = useState(false);

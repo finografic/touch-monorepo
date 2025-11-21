@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors } from 'styles';
-import { layout } from 'styles/constants/global.constants';
+import { layout } from 'styles/layout/layout.config';
 
 export const styles = css`
   .tab-content-list {

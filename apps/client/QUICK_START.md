@@ -44,6 +44,7 @@ Your app is now using the optimized color system with **~500 fewer CSS variables
 ### Easiest Migration: useColors() Hook (Recommended!)
 
 **Before:**
+
 ```tsx
 import { colors } from 'styles';
 import { css } from '@emotion/react';
@@ -57,12 +58,13 @@ import { css } from '@emotion/react';
 ```
 
 **After (Change 2 lines!):**
+
 ```tsx
 import { useColors } from 'styles';  // ← Changed this line
 import { css } from '@emotion/react';
 
 const Component = () => {
-  const colors = useColors();        // ← Added this line
+  const { colors } = useColors();        // ← Added this line
 
   return (
     <button css={css`
@@ -80,12 +82,14 @@ All your color names stay exactly the same! See `ZERO_MIGRATION_APPROACH.md` for
 ## Performance Comparison
 
 ### Before
+
 - **CSS Variables**: ~500+
 - **theme.css**: 643 lines
 - **DevTools**: Sluggish
 - **Overhead**: High
 
 ### After
+
 - **CSS Variables**: ~10 (just Tailwind essentials)
 - **theme-minimal.css**: 30 lines
 - **DevTools**: Snappy ⚡

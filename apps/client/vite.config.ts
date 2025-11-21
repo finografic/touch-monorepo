@@ -36,6 +36,8 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
         // 2. preferredLanguage: Browser/system language (first visit)
         // 3. baseLocale: Fallback to en-GB
         strategy: ['localStorage', 'preferredLanguage', 'baseLocale'],
+        // includeEslintDisableComment: false,
+        cleanOutdir: true,
       }),
       tailwindcss(),
       // mode === 'development' && devCookieClearPlugin(),

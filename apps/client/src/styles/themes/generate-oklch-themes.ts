@@ -16,13 +16,13 @@
  */
 
 import { COLOR_MAPPING } from '../colors/colors.source';
-import type { ColorBaseName } from '../colors/colors.types';
+import { type ColorBaseName, SHADE_VARIANTS } from '../colors/colors.types';
 import { OKLCH_PALETTE_CONFIG } from '../colors/oklch-palette.config';
 import type { OKLCHTransformValues } from '../colors/oklch-palette.types';
 import { getColorCategory } from '../colors/oklch-palette.types';
 import { calculateTransformValues } from '../colors/oklch-palette.utils';
 import type { ColorPalette } from '../colors/palette.types';
-import type { EmotionTheme } from './emotion-theme.types';
+import type { EmotionTheme, ThemeMode } from './emotion-theme.types';
 
 /**
  * Parse OKLCH string to components
@@ -60,7 +60,7 @@ function toOKLCHString(l: number, c: number, h: number): string {
 function generateOKLCHShades(
   oklchString: string,
   colorName: ColorBaseName,
-  mode: 'light' | 'dark',
+  mode: ThemeMode,
 ): Record<string, string> {
   const { l, c, h } = parseOKLCH(oklchString);
 
@@ -162,7 +162,7 @@ function generateOKLCHTransparency(oklchString: string): Record<string, string> 
  * Generate complete OKLCH-based color palette
  * Now uses category-specific transformation rules for each color
  */
-function generateOKLCHPalette(mode: 'light' | 'dark'): ColorPalette {
+function generateOKLCHPalette(mode: ThemeMode): ColorPalette {
   const palette: any = {};
 
   // Process each color from the mapping
@@ -185,7 +185,7 @@ function generateOKLCHPalette(mode: 'light' | 'dark'): ColorPalette {
     palette[`${colorName}75`] = transparency['75'];
 
     // Generate transparency variants for each shade
-    ['XXLight', 'XLight', 'Light', 'Dark', 'XDark', 'XXDark'].forEach((shade) => {
+    SHADE_VARIANTS.forEach((shade) => {
       const trans = generateOKLCHTransparency(shades[shade]);
       palette[`${colorName}${shade}25`] = trans['25'];
       palette[`${colorName}${shade}50`] = trans['50'];

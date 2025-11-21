@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 
 import { colors, layout, min } from 'styles';
-import { baseLayout } from 'styles/constants/base.constants';
+import { padding } from 'styles/layout/base.constants';
 
 export const styles = css`
   /* ⭐ page-section > tab-content > rote=tabpanel ======================= */
@@ -47,8 +47,8 @@ export const styles = css`
     flex-direction: column;
     gap: 1;
 
-    padding: ${baseLayout.padding.md} ${baseLayout.padding.xxl}!important;
-    margin: ${baseLayout.padding.xl} -${baseLayout.padding.lg} 0;
+    padding: ${padding.md} ${padding.xxl}!important;
+    margin: ${padding.xl} -${padding.lg} 0;
 
     > .section-header {
       margin-top: 0.5rem;
@@ -57,7 +57,7 @@ export const styles = css`
 
     &.border-solid {
       border: ${layout.borderWidth} solid ${colors.greyXXLight50};
-      padding: ${baseLayout.padding.lg};
+      padding: ${padding.lg};
       border-radius: ${layout.borderRadius};
     }
 
@@ -90,8 +90,8 @@ export const styles = css`
     > .admin-section {
       margin: 0rem 0;
       .admin-section-content {
-        padding: ${baseLayout.padding.xl} ${baseLayout.padding.xxl}!important;
-        margin: ${baseLayout.padding.xl} -${baseLayout.padding.xl} 0;
+        padding: ${padding.xl} ${padding.xxl}!important;
+        margin: ${padding.xl} -${padding.xl} 0;
         /* background: pink; */
         /* margin: 0.5rem 0; */
       }
