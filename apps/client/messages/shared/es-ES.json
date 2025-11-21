@@ -1,0 +1,12 @@
+{
+  "dialogs_admin_tabs_languages": "Idiomas",
+  "dialogs_admin_tabs_orderSelections": "Selecciones de pedidos",
+  "dialogs_admin_tabs_storedConfiguration": "Configuración almacenada",
+  "dialogs_admin_title": "Herramientas de administración",
+  "languageSelector_change": "Cambiar idioma",
+  "languageSelector_title": "Seleccionar idioma",
+  "notifications_orderCancelled": "Pedido cancelado",
+  "notifications_orderReady": "¡Traducciones actualizadas correctamente!",
+  "notifications_systemError": "Ocurrió un error del sistema",
+  "notifications_temperatureReached": "Temperatura objetivo alcanzada"
+}

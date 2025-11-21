@@ -1,0 +1,12 @@
+{
+  "dialogs_admin_tabs_languages": "Languages",
+  "dialogs_admin_tabs_orderSelections": "Order Selections",
+  "dialogs_admin_tabs_storedConfiguration": "Stored Configuration",
+  "dialogs_admin_title": "Admin Tools",
+  "languageSelector_change": "Change Language",
+  "languageSelector_title": "Select Language",
+  "notifications_orderCancelled": "Order cancelled",
+  "notifications_orderReady": "Translations updated successfully!",
+  "notifications_systemError": "System error occurred",
+  "notifications_temperatureReached": "Target temperature reached"
+}

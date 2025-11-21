@@ -73,7 +73,6 @@ export const AdminNavigation: React.FC = () => {
                         <span style={{ marginLeft: '0.5rem' }}>Menu</span>
                       </button>
                     </DropdownMenu.Trigger>
-
                     <DropdownMenu.Content>
                       {navItems.map((item) => (
                         <DropdownMenu.Item
@@ -96,9 +95,7 @@ export const AdminNavigation: React.FC = () => {
                           key={item.id}
                           asChild
                           active={location.pathname === item.path}
-                          style={{
-                            display: isOverflow ? 'none' : undefined,
-                          }}
+                          style={{ display: isOverflow ? 'none' : undefined }}
                         >
                           <button
                             ref={(el) => registerItem(item.id, el)}
@@ -114,7 +111,6 @@ export const AdminNavigation: React.FC = () => {
                         </TabNav.Link>
                       );
                     })}
-
                     {/* DESKTOP: More Dropdown for Overflow */}
                     {hasOverflow && (
                       <MoreButton

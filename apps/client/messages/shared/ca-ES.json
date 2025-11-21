@@ -1,0 +1,12 @@
+{
+  "dialogs_admin_tabs_languages": "Idiomes",
+  "dialogs_admin_tabs_orderSelections": "Seleccions de comandes",
+  "dialogs_admin_tabs_storedConfiguration": "Configuració emmagatzemada",
+  "dialogs_admin_title": "Eines d'administració",
+  "languageSelector_change": "Canviar idioma",
+  "languageSelector_title": "Seleccionar idioma",
+  "notifications_orderCancelled": "Comanda cancel·lada",
+  "notifications_orderReady": "Traduccions actualitzades correctament!",
+  "notifications_systemError": "S'ha produït un error del sistema",
+  "notifications_temperatureReached": "Temperatura objectiu assolida"
+}
