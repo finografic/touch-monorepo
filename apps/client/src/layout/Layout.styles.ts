@@ -110,13 +110,13 @@ export const styles = (theme: EmotionTheme) => css`
   }
 
   .title {
-    ${typography.h1};
+    ${typography.fontSize.h1};
     color: ${colors.text};
     margin-bottom: ${spacing.default};
   }
 
   .subtitle {
-    ${typography.body};
+    ${typography.fontSize.lg};
     color: ${colors.textLight};
   }
 

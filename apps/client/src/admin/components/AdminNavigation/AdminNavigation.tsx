@@ -63,7 +63,7 @@ export const AdminNavigation: React.FC = () => {
           <Col xs={12}>
             {/* Wrapper div for measurement - TabNav might interfere */}
             <div ref={containerRef} style={{ width: '100%' }}>
-              <TabNav.Root size="2" className="admin-nav" style={{ width: '100%' }}>
+              <TabNav.Root size="2" className="admin-nav" style={{ justifyContent: 'center' }}>
                 {/* MOBILE: Hamburger Menu */}
                 {isMobile ? (
                   <DropdownMenu.Root open={isMenuOpen} onOpenChange={setIsMenuOpen}>

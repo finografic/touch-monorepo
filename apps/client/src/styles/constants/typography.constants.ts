@@ -43,7 +43,22 @@ export const typography = {
     '4xl': '2.25rem',
     '5xl': '3rem',
     '6xl': '3.75rem',
+    'h1': '3.75rem',
   },
+  /*
+  fontSize: {
+    xs: '0.75rem',
+    sm: '0.875rem',
+    base: '1rem',
+    lg: '1.125rem',
+    xl: '1.25rem',
+    xxl: '1.5rem',
+    xxxl: '1.875rem',
+    h3: '2.25rem',
+    h2: '3rem',
+    h1: '3.75rem',
+  },
+  */
   fontWeight: {
     thin: '100',
     extralight: '200',
