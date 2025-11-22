@@ -1,3 +1,5 @@
+import { findProjectRoot } from '@finografic/project-scripts/utils';
+
 import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
@@ -9,7 +11,7 @@ import { envClient } from './env.client';
 import { devCookieClearPlugin, logApiURL } from './vite.utils';
 
 export default defineConfig(({ mode }: UserConfig): UserConfig => {
-  const workspaceRoot = resolve(__dirname, '../..');
+  const WORKSPACE_ROOT = resolve(__dirname, '../..');
   // const viteEnv = loadEnv(mode as string, process.cwd(), '');
   logApiURL({ mode });
 
@@ -64,15 +66,15 @@ export default defineConfig(({ mode }: UserConfig): UserConfig => {
     clearScreen: false,
     define: {
       'global': 'window',
-      'process.env': JSON.stringify({ ...envClient }),
+      'process.env': JSON.stringify({ ...envClient, WORKSPACE_ROOT }),
     },
     resolve: {
       extensions: ['.tsx', '.ts', '.jsx', '.js', '.mjs', '.cjs', '.json'],
       alias: {
-        '@workspace/core/types': resolve(workspaceRoot, 'packages/core/src/types'),
-        '@workspace/core/types/utils': resolve(workspaceRoot, 'packages/core/src/types/utils'),
-        '@workspace/i18n': resolve(workspaceRoot, 'packages/i18n/src/index.ts'),
-        '@workspace/i18n/generators': resolve(workspaceRoot, 'packages/i18n/src/generators/index.ts'),
+        '@workspace/core/types': resolve(WORKSPACE_ROOT, 'packages/core/src/types'),
+        '@workspace/core/types/utils': resolve(WORKSPACE_ROOT, 'packages/core/src/types/utils'),
+        '@workspace/i18n': resolve(WORKSPACE_ROOT, 'packages/i18n/src/index.ts'),
+        '@workspace/i18n/generators': resolve(WORKSPACE_ROOT, 'packages/i18n/src/generators/index.ts'),
         'i18n/utils': resolve(__dirname, 'src/i18n/utils/index.ts'),
         'i18n/messages.js': resolve(__dirname, 'src/i18n/messages/messages.js'),
         'i18n/runtime.js': resolve(__dirname, 'src/i18n/messages/runtime.js'),

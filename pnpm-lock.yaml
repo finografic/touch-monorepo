@@ -184,6 +184,9 @@ importers:
       '@inlang/paraglide-js':
         specifier: 2.4.0
         version: 2.4.0(babel-plugin-macros@3.1.0)
+      '@inlang/sdk':
+        specifier: 2.4.9
+        version: 2.4.9(babel-plugin-macros@3.1.0)
       '@lix-js/plugin-json':
         specifier: 1.0.0-preview.0
         version: 1.0.0-preview.0
