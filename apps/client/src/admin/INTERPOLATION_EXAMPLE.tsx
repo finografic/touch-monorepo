@@ -3,8 +3,6 @@ import React from 'react';
 import { formatDate, formatNumber, getMessages, interpolate, pluralize } from '@workspace/i18n';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
-// Alternative: Create a custom hook for cleaner syntax
-import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
 
 export const AdminDashboardPageWithInterpolation: React.FC = () => {

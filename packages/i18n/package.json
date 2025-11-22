@@ -55,6 +55,22 @@
     "./utils": {
       "import": "./dist/utils/index.js",
       "types": "./dist/utils/index.d.ts"
+    },
+    "./constants": {
+      "types": "./dist/constants/index.d.ts",
+      "import": "./dist/constants/index.js"
+    },
+    "./lib": {
+      "types": "./dist/lib/locale.d.ts",
+      "import": "./dist/lib/locale.js"
+    },
+    "./types": {
+      "types": "./dist/types/index.d.ts",
+      "import": "./dist/types/index.js"
+    },
+    "./iso-codes": {
+      "types": "./dist/iso-codes/index.d.ts",
+      "import": "./dist/iso-codes/index.js"
     }
   },
   "scripts": {
