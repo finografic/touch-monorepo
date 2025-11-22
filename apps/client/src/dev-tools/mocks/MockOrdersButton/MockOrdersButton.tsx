@@ -7,6 +7,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { useOrders } from 'providers/OrdersProvider';
 import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
+import { useTimers } from 'providers/TimersProvider/TimerContext';
 
 import type { OrderFilters } from 'types/filters.types';
 import { FLOW_TYPES } from 'types/flow.types';
@@ -18,11 +19,18 @@ export const MockOrdersButton = () => {
   const navigate = useNavigate();
   const ordersContext = useOrders();
   const { createSession, assignOrdersToSession, updateSessionFilters } = useSession();
-  const { setSelectedSlots } = useLayoutUi();
+  const { selectedSlots, setSelectedSlots } = useLayoutUi();
   const { setPageCurrent } = usePagination();
   const { setFilter } = useFiltersContext();
   const { toggleSlot, setOrdersSession } = useOrders();
   const orderItemsConfig = useSlotItemsConfig();
+  const { timers } = useTimers();
+  const timerMap = new Map(timers.map((t) => [t.slotNumber, t]));
+
+  const getSelectedMockSlots = useCallback(() => {
+    const slotsTimers = timers.map((slot) => slot.slotNumber);
+    const slotsSelected = selectedSlots.map((slot) => slot.slotNumber);
+  }, [selectedSlots, timers.length]);
 
   const handleMockData = useCallback(() => {
     if (!ordersContext?.setOrders) return;

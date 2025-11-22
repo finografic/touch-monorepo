@@ -1,7 +1,7 @@
 import { useCallback } from 'react';
 
 import { clearSessionTimer, isSessionTimerExpired } from 'utils/sessionTimer.utils';
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
+import { STORAGE_KEYS } from 'config/app';
 
 interface ConfigData {
   filters: Record<string, unknown>;
@@ -12,10 +12,11 @@ interface ConfigData {
 
 export const useConfigStorage = () => {
   const saveConfig = useCallback((config: ConfigData) => {
-    // Save configuration
     sessionStorage.setItem(STORAGE_KEYS.LAST_CONFIG, JSON.stringify(config));
-    // Update timestamp
-    sessionStorage.setItem(STORAGE_KEYS.CONFIG_TIMESTAMP, Date.now().toString());
+
+    if (isSessionTimerExpired()) {
+      sessionStorage.setItem(STORAGE_KEYS.CONFIG_TIMESTAMP, Date.now().toString());
+    }
   }, []);
 
   const loadConfig = useCallback((): ConfigData | null => {
@@ -25,9 +26,7 @@ export const useConfigStorage = () => {
       return null;
     }
 
-    // Check if expired using shared utility
     if (isSessionTimerExpired()) {
-      // Clear expired data
       sessionStorage.removeItem(STORAGE_KEYS.LAST_CONFIG);
       clearSessionTimer();
       return null;
