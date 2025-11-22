@@ -23,7 +23,6 @@ type Locale = (typeof SUPPORTED_LOCALES)[number];
 const MESSAGE_FOLDERS = ['app', 'admin', 'shared'] as const;
 type MessageFolder = (typeof MESSAGE_FOLDERS)[number];
 
-type MessageSection__V1 = { [key in MessageFolder]: { [key in Locale]: Record<string, any> } };
 type MessageSection = { [key in Locale]: Record<string, any> };
 
 /**
