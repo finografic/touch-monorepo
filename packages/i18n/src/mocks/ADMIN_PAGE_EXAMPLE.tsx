@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Example: How to use the new messages system in your admin page
 // File: apps/client/src/admin/AdminDashboardPage.tsx
 

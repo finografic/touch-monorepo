@@ -1,63 +1,26 @@
 /**
  * I18n Configuration Types
  * Defines the structure for configuring the i18n system
+ *
+ * This file reuses types from @workspace/i18n/types where possible,
+ * and adds config-specific utility types (RegionLocale, LanguageConfigMap, etc.)
  */
 
-// Basic type definitions
+// Re-export types from the main types package
+export type { LanguageConfig, LanguageInfo } from '../types/language.types';
+export type { TypeGenerationConfig } from '../types/type-generation.types';
+export type { I18nConfig } from '../types/i18n.types';
+
+// Import for use in this file
+import type { LanguageConfig } from '../types/language.types';
+
+// Config-specific utility types (used by constants and config system)
 export type LangCode2 = string;
 export type CountryCode = string;
 export type RegionLocale = `${LangCode2}-${CountryCode}`;
 
 /**
- * Language configuration for a specific locale
- */
-export interface LanguageConfig {
-  /** ISO 639-2 (3-char) code */
-  iso3: string;
-  /** ISO 639-1 (2-char) code */
-  iso2: string;
-  /** Display name in English */
-  name: string;
-  /** Native name (in the language itself) */
-  nativeName: string;
-  /** Optional sort order */
-  sortOrder?: number;
-  /** Whether this is a default language */
-  isDefault?: boolean;
-}
-
-/**
  * Language configuration mapping interface
+ * Maps region locales (e.g., "es-ES") to language configurations
  */
 export type LanguageConfigMap = Record<RegionLocale, LanguageConfig>;
-
-/**
- * Configuration for type generation
- */
-export interface TypeGenerationConfig {
-  /** Where to output the generated types */
-  outputPath: string;
-  /** Custom language mappings (3-char to 2-char) */
-  languageMapping: Record<string, string>;
-  /** Supported country codes (ISO 3166-1 alpha-2) */
-  supportedCountries: string[];
-  /** Default country code for each language */
-  defaultCountries: Record<string, string>;
-}
-
-/**
- * Main i18n configuration interface
- */
-export interface I18nConfig {
-  /** Supported languages configuration */
-  languages: LanguageConfig[];
-  /** Type generation settings */
-  typeGeneration: TypeGenerationConfig;
-  /** Optional custom validation rules */
-  validation?: {
-    /** Whether to strictly validate language codes */
-    strict?: boolean;
-    /** Additional allowed language codes */
-    additionalCodes?: string[];
-  };
-}

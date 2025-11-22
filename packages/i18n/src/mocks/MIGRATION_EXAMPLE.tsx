@@ -1,3 +1,4 @@
+// @ts-nocheck
 // Integration Example: Co-existence with existing i18next system
 // File: apps/client/src/admin/AdminDashboardPage.tsx
 

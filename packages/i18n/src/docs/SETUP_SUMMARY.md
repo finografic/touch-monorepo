@@ -6,22 +6,22 @@
 
 ```
 packages/i18n/src/
-├── messages/app/                    # NEW: TypeScript messages (your custom system)
-│   ├── messages.en-GB.ts           # English TypeScript messages
-│   ├── messages.es-ES.ts           # Spanish TypeScript messages
-│   └── index.ts                     # Message exports & getAppMessages()
-│
-├── translations/app/                # EXISTING: i18next JSON files
-│   ├── en-GB.json                  # English i18next translations
-│   ├── es-ES.json                  # Spanish i18next translations
-│   └── (other locales)
-│
-├── utils/
-│   └── messages.utils.ts           # getMessages() utility
-│
-├── config/                          # Configuration & type generation
-├── generators/                      # Type generation scripts
-└── index.ts                        # Main package exports
+    ├── messages/app/                    # NEW: TypeScript messages (your custom system)
+    │   ├── messages.en-GB.ts           # English TypeScript messages
+    │   ├── messages.es-ES.ts           # Spanish TypeScript messages
+    │   └── index.ts                     # Message exports & getAppMessages()
+    │
+    ├── translations/app/                # EXISTING: i18next JSON files
+    │   ├── en-GB.json                  # English i18next translations
+    │   ├── es-ES.json                  # Spanish i18next translations
+    │   └── (other locales)
+    │
+    ├── utils/
+    │   └── messages.utils.ts           # getMessages() utility
+    │
+    ├── config/                          # Configuration & type generation
+    ├── generators/                      # Type generation scripts
+    └── index.ts                        # Main package exports
 ```
 
 ## 🎯 Migration Strategy
