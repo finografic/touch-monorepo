@@ -27,7 +27,12 @@
   },
 
   "plugin.inlang.m-function-matcher": {
-    "defaultSelectorOrder": ["element", "role"]
+    "defaultSelectorOrder": ["namespace", "element", "role"],
+    "selectors": {
+      "namespace": {
+        "match": "./messages/{namespace}/{locale}.json"
+      }
+    }
   },
 
   "plugin.paraglide-js": {

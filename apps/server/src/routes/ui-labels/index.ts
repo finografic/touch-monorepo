@@ -1,5 +1,6 @@
 import { createRouter } from 'lib/create-app';
-import * as handlers from './ui-labels.handlers';
+// Use file manager approach instead of SDK import/export to avoid file merging issues
+import * as handlers from './ui-labels.handlers.inlang';
 import * as routes from './ui-labels.routes';
 
 export default createRouter()
