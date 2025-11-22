@@ -17,7 +17,13 @@
       "./messages/app/{locale}.json",
       "./messages/admin/{locale}.json",
       "./messages/shared/{locale}.json"
-    ]
+    ],
+    "format": {
+      "nestedObjects": false
+    },
+    "parse": {
+      "nestedObjects": false
+    }
   },
 
   "plugin.inlang.m-function-matcher": {

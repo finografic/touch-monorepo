@@ -13,7 +13,7 @@ import type {
 } from 'admin/pages/TranslationsUiPage/TranslationsUiPage.types';
 
 // Import the Inlang SDK bridge
-import { getMessagesHybrid, saveMessagesHybrid } from 'utils/i18n/inlang-sdk-bridge';
+import { getMessagesHybrid, saveMessagesHybrid } from 'utils/i18n/inlang-sdk-bridge.client';
 
 const SUPPORTED_LANGUAGES: SupportedLanguage[] = [
   { isoCode: 'es-ES', displayName: 'Spanish', nativeName: 'Español' },
