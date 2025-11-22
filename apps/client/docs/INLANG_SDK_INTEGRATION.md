@@ -44,7 +44,9 @@ pnpm add @inlang/sdk
 
 ### Option 1: File Manager (Recommended - Already Implemented)
 
-The file manager (`apps/server/src/lib/inlang-file-manager.ts`) directly manipulates Inlang JSON files:
+The file manager (`apps/server/src/lib/inlang-file-manager.server.ts`) directly manipulates Inlang JSON files:
+
+**Note:** The file manager is **server-side only**. There is no client-side file manager because browsers cannot access the file system directly.
 
 **Features:**
 - ✅ Understands Inlang message format (flat and variant)
@@ -59,7 +61,7 @@ The file manager (`apps/server/src/lib/inlang-file-manager.ts`) directly manipul
 import {
   getInlangMessagesFromFiles,
   saveInlangMessagesToFiles,
-} from '../../lib/inlang-file-manager';
+} from '../../lib/inlang-file-manager.server';
 
 export const list = async (context) => {
   const data = await getInlangMessagesFromFiles();
@@ -74,11 +76,8 @@ export const save = async (context) => {
 ```
 
 **To Use:**
-1. Replace imports in `apps/server/src/routes/ui-labels/index.ts`:
+1. The handlers are already configured in `apps/server/src/routes/ui-labels/index.ts`:
    ```typescript
-   // Change from:
-   import * as handlers from './ui-labels.handlers';
-   // To:
    import * as handlers from './ui-labels.handlers.inlang';
    ```
 
@@ -86,25 +85,36 @@ export const save = async (context) => {
 
 If you need SDK features (validation, linting, etc.), use the SDK bridge:
 
-```typescript
-import { createInlangProject } from '@inlang/sdk';
+**Important:** Use `loadProjectFromDirectory` for unpacked Inlang projects (directories), not `createInlangProject` (which doesn't exist).
 
-const project = await createInlangProject({
-  projectPath: './apps/client/project.inlang',
+```typescript
+import { loadProjectFromDirectory } from '@inlang/sdk';
+import fs from 'node:fs';
+
+// Load project from directory (for unpacked .inlang projects)
+const project = await loadProjectFromDirectory({
+  path: './apps/client/project.inlang',
+  fs,
 });
 
-// Read messages
-const messages = await project.query.messages.getAll();
+// Access settings and namespaces
+const settings = await project.settings.get();
+const mfConfig = settings['plugin.inlang.messageFormat'];
+const namespaces = mfConfig?.namespaces;
 
-// Update message
-await project.mutate.messages.update({
-  id: 'admin_dashboard_title',
-  languageTag: 'en-GB',
-  pattern: [{ type: 'Text', value: 'New Title' }],
+// Query messages using database API
+const messages = await project.db
+  .selectFrom('message')
+  .selectAll()
+  .execute();
+
+// For file operations, use importFiles/exportFiles
+const exportedFiles = await project.exportFiles({
+  pluginKey: 'plugin.inlang.messageFormat',
 });
 ```
 
-**Note:** SDK is better for validation and advanced features, but file manager is simpler for basic read/write operations.
+**Note:** SDK is better for validation and advanced features, but file manager is simpler for basic read/write operations. The SDK's `importFiles`/`exportFiles` can cause file merging issues with multiple `pathPattern` entries, so the file manager is recommended for file operations.
 
 ## Migration Steps
 
@@ -133,12 +143,60 @@ Once file manager is working:
 2. Keep only the Inlang handlers
 3. Update any direct file access to use the file manager
 
+## Namespace Support
+
+Inlang supports namespaces for organizing translations by category (app, admin, shared). Configure namespaces in `project.inlang/settings.json`:
+
+```json
+{
+  "plugin.inlang.m-function-matcher": {
+    "defaultSelectorOrder": ["namespace", "element", "role"],
+    "selectors": {
+      "namespace": {
+        "match": "./messages/{namespace}/{locale}.json"
+      }
+    }
+  }
+}
+```
+
+**Accessing Namespaces via SDK:**
+
+```typescript
+import { loadProjectFromDirectory } from '@inlang/sdk';
+import fs from 'node:fs';
+
+const project = await loadProjectFromDirectory({
+  path: './apps/client/project.inlang',
+  fs,
+});
+
+const settings = await project.settings.get();
+const mfConfig = settings['plugin.inlang.messageFormat'];
+const namespaces = mfConfig?.namespaces;
+
+// Or via plugin config
+const mfMatcherConfig = settings['plugin.inlang.m-function-matcher'];
+const namespaceSelector = mfMatcherConfig?.selectors?.namespace;
+```
+
+**Using Namespaces in UI:**
+
+The file manager automatically includes `namespace` in section data. Filter sections by namespace to create tabbed interfaces:
+
+```typescript
+// Filter sections by namespace
+const appSections = sections.filter(s => s.namespace === 'app');
+const adminSections = sections.filter(s => s.namespace === 'admin');
+const sharedSections = sections.filter(s => s.namespace === 'shared');
+```
+
 ## Dynamic Language Support
 
 The file manager reads locales from `SUPPORTED_LOCALES` constant. To support dynamic languages:
 
 ```typescript
-// In inlang-file-manager.ts
+// In inlang-file-manager.server.ts
 // Read from project.inlang/settings.json instead of hardcoded
 import { readFile } from 'fs/promises';
 import { join } from 'path';
@@ -175,7 +233,14 @@ const SUPPORTED_LOCALES = settings.locales; // Dynamic!
 ## Next Steps
 
 1. ✅ File manager is ready to use
-2. Switch server handlers to use Inlang file manager
-3. Test with your existing UI
-4. Gradually migrate other translation editors
-5. Consider SDK for advanced features (validation, linting)
+2. ✅ Server handlers are already using Inlang file manager
+3. ✅ UI is connected and working
+4. Consider adding namespace-based tabs for better UX
+5. Gradually migrate other translation editors
+6. Consider SDK for advanced features (validation, linting)
+
+## Namespace-Based Tab Interface
+
+To improve UX, you can organize translations by namespace using tabs. The file manager includes `namespace` in each section, allowing you to filter and display sections by category.
+
+See `apps/client/src/admin/pages/TranslationsUiPage/TranslationsUiPage.tsx` for an example implementation using PrimeReact's `TabMenu` component.

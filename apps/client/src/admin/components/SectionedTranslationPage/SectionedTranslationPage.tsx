@@ -36,6 +36,7 @@ export interface SectionedTranslationPageProps<
     onSave: () => Promise<any>;
     isDirty: boolean;
   }) => React.ReactNode;
+  renderHeader?: () => React.ReactNode; // Optional header content (e.g., TabMenu)
   styles?: any;
 }
 
@@ -66,6 +67,7 @@ export const SectionedTranslationPage = <
   saveSection,
   isSectionDirty,
   renderSection,
+  renderHeader,
   styles,
 }: SectionedTranslationPageProps<TItem, TLanguage, TValueChangeHandler>) => {
   const { t } = useTranslation();
@@ -77,6 +79,7 @@ export const SectionedTranslationPage = <
       isLoading={isLoading}
       styles={styles}
     >
+      {renderHeader && renderHeader()}
       {sections.map((section) =>
         renderSection({
           section,

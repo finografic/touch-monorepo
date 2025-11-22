@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { formatTimeFromMs } from 'utils/time.utils';
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
+import { CONFIG_EXPIRY_TIME_MS, POLLING_INTERVAL_1MS, STORAGE_KEYS } from 'config/app';
 import { styles } from './ConfigTimer.styles';
 
 export const ConfigTimer = () => {
@@ -32,8 +32,7 @@ export const ConfigTimer = () => {
     // Initial check
     checkRemainingTime();
 
-    // Update every 5 seconds
-    const intervalId = setInterval(checkRemainingTime, 5000);
+    const intervalId = setInterval(checkRemainingTime, POLLING_INTERVAL_1MS);
 
     return () => clearInterval(intervalId);
   }, []);

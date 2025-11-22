@@ -32,8 +32,6 @@ export const FrontEndToolbar: React.FC = () => {
   // 🎯 NEW: Use the centralized storage timer hook
   const { hasActiveTimer } = useStorageTimer();
 
-  log('FRONTEND_TOOLBAR', 'orange', hasActiveTimer);
-
   if (!isAdminToolsVisible) return null;
 
   return (

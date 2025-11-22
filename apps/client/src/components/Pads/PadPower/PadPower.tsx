@@ -5,7 +5,7 @@ import { Pad } from 'components/Pads/Pad';
 
 import { useAppConfig } from 'providers/AppConfigProvider/AppConfigContext';
 
-import type { FilterKey, SlotSpecial, SlotType } from 'types/slots.types';
+import type { FilterKey, SlotSpecial } from 'types/slots.types';
 import { ROUTE_FILTER_KEYS } from 'config/app';
 import { styles } from '../PadSlot/PadSlot.styles';
 
@@ -16,7 +16,7 @@ export interface PadMenuProps {
 }
 
 export const PadPower: React.FC<PadMenuProps> = ({ slotType, className }) => {
-  const { isPowerEnabled, setIsPowerEnabled } = useAppConfig();
+  const { isPowerEnabled, setTogglePowerEnabled } = useAppConfig();
 
   const mergedClassNames = useMemo(
     () =>
@@ -28,10 +28,6 @@ export const PadPower: React.FC<PadMenuProps> = ({ slotType, className }) => {
     [slotType, isPowerEnabled, className],
   );
 
-  const handleSelect = React.useCallback(() => {
-    setIsPowerEnabled(!isPowerEnabled);
-  }, [isPowerEnabled, setIsPowerEnabled]);
-
   return (
     <Pad
       css={styles}
@@ -42,7 +38,9 @@ export const PadPower: React.FC<PadMenuProps> = ({ slotType, className }) => {
       filterKey={ROUTE_FILTER_KEYS.main as FilterKey}
       isChecked={isPowerEnabled}
       className={mergedClassNames}
-      onSelect={handleSelect}
+      onSelect={() => {
+        setTogglePowerEnabled(!isPowerEnabled);
+      }}
     />
   );
 };

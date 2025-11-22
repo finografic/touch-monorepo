@@ -79,6 +79,6 @@ export const baseToolbarStyles = css`
     padding-right: 20px;
     width: fit-content;
     height: auto;
-    color: ${colors.warningLight};
+    color: ${colors.warningDark75};
   }
 `;

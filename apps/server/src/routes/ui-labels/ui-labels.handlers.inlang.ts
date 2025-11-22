@@ -8,7 +8,7 @@
 import * as HttpStatusCodes from 'stoker/http-status-codes';
 
 // Import the Inlang file manager
-import { getInlangMessagesFromFiles, saveInlangMessagesToFiles } from 'lib/inlang-file-manager';
+import { getInlangMessagesFromFiles, saveInlangMessagesToFiles } from 'lib/inlang-file-manager.server';
 import type { AppRouteHandler } from 'types/app.types';
 import type { ListRoute, SaveRoute } from './ui-labels.routes';
 

@@ -1,14 +1,17 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
+import React, { useMemo, useState } from 'react';
 
 import { SectionedTranslationPage } from 'admin/components/SectionedTranslationPage';
 import { UiLabelSection } from 'admin/components/UiLabelsSection/UiLabelSection';
+import type { MenuItem } from 'primereact/menuitem';
+import { TabMenu } from 'primereact/tabmenu';
 
 import { useUiLabelSections } from './hooks/useUiLabelSections';
-import { styles } from './TranslationsUiPage.styles';
+import { styles, stylesTabs } from './TranslationsUiPage.styles';
+
+const NAMESPACES = ['app', 'admin', 'shared'] as const;
+type Namespace = (typeof NAMESPACES)[number];
 
 export const TranslationsUiPage: React.FC = () => {
-  const { t } = useTranslation();
   const {
     sections,
     supportedLanguages,
@@ -19,10 +22,30 @@ export const TranslationsUiPage: React.FC = () => {
     isSectionDirty,
   } = useUiLabelSections();
 
+  const [activeNamespace, setActiveNamespace] = useState<Namespace>('app');
+
+  const tabItems = useMemo<MenuItem[]>(() => {
+    return NAMESPACES.map((namespace) => ({
+      label: namespace.charAt(0).toUpperCase() + namespace.slice(1),
+      command: () => setActiveNamespace(namespace),
+    }));
+  }, []);
+
+  const filteredSections = React.useMemo(() => {
+    if (!activeNamespace) return [...sections];
+
+    return [...sections.filter((section) => section.namespace === activeNamespace)];
+  }, [sections, activeNamespace]);
+
+  const activeIndex = useMemo(() => {
+    return NAMESPACES.indexOf(activeNamespace);
+  }, [activeNamespace]);
+
   return (
     <SectionedTranslationPage
+      key={activeNamespace}
       subtitle="UI Labels / Translations"
-      sections={sections}
+      sections={filteredSections}
       supportedLanguages={supportedLanguages}
       isLoading={isLoading}
       handleValueChange={handleValueChange}
@@ -33,7 +56,7 @@ export const TranslationsUiPage: React.FC = () => {
         <UiLabelSection
           key={props.sectionKey}
           sectionKey={props.sectionKey}
-          title={props.title}
+          title={props.title.replace(/^(app|admin|shared)\s+/i, '')}
           description={props.description}
           items={props.items}
           supportedLanguages={props.supportedLanguages}
@@ -44,6 +67,19 @@ export const TranslationsUiPage: React.FC = () => {
         />
       )}
       styles={styles}
+      renderHeader={() => (
+        <div css={stylesTabs}>
+          <TabMenu
+            model={tabItems}
+            activeIndex={activeIndex}
+            onTabChange={(e) => {
+              if (e.index !== undefined) {
+                setActiveNamespace(NAMESPACES[e.index]);
+              }
+            }}
+          />
+        </div>
+      )}
     />
   );
 };

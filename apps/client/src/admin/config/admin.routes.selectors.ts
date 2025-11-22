@@ -25,7 +25,7 @@ export function getAdminEntriesForAuth(isAuthenticated: boolean): AdminRouteEntr
 /**
  * NAVIGATION ITEMS for the admin navbar
  */
-export function getAdminNavItems(_isAuthenticated: boolean, role: AuthRoles = 'public') {
+export function getAdminNavItems(role: AuthRoles = 'public') {
   return ADMIN_ENTRIES.filter((entry) => entry.hasNav?.[role] === true).map((entry) => ({
     key: entry.key,
     path: entry.path,

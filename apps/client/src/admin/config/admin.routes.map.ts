@@ -49,7 +49,7 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
       public: Outlet,
       admin: Outlet,
     },
-    hasNav: { public: false, admin: false }, // no nav
+    hasNav: { public: true, admin: true }, // no nav
     hasCard: { public: false, admin: false }, // no card
     // icon: null,
     // color: 'blue',

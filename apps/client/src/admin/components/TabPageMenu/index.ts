@@ -1,0 +1,1 @@
+export { TabPageMenu } from './TabPageMenu';

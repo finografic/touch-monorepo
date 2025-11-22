@@ -64,24 +64,29 @@ export const styles = css`
       cursor: pointer;
 
       &.power {
-        pointer-events: none;
         border-radius: 10px;
         grid-row: span 2;
         width: ${props.special.width};
         height: ${props.special.height};
         color: ${colors.successXLight};
-        border-color: ${colors.successXLight};
+        border-color: ${colors.successLight};
 
         &:hover {
           color: ${colors.successDark};
           border-color: ${colors.successDark};
-          background-color: ${colors.successLight};
+          background-color: ${colors.successLight50};
         }
 
         &.checked {
           color: ${colors.successDark};
           border-color: ${colors.successDark};
-          background-color: ${colors.successLight};
+          background-color: ${colors.successXXLight50};
+
+          &:hover {
+            color: ${colors.successDark};
+            border-color: ${colors.successDark};
+            background-color: ${colors.successLight50};
+          }
         }
       }
     }

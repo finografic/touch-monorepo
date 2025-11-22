@@ -19,7 +19,7 @@ export const defaultValue: AppConfigValues = {
   currentLanguage: 'es-ES', // ✅ Use full locale code as the default
   theme: 'light', // ✅ Default theme
   title: import.meta.env.VITE_APP_TITLE,
-  isPowerEnabled: true,
+  isPowerEnabled: false,
 };
 
 export const AppConfigContext = createZustandContext(({ initialValue }) => {
@@ -55,8 +55,8 @@ export const AppConfigContext = createZustandContext(({ initialValue }) => {
               return { theme: newTheme };
             });
           },
-          setIsPowerEnabled: (isPowerEnabled: boolean) => {
-            set({ isPowerEnabled: !isPowerEnabled });
+          setTogglePowerEnabled: (isPowerEnabled: boolean) => {
+            set({ isPowerEnabled });
           },
         },
       }),

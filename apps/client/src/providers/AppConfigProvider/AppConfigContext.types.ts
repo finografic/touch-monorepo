@@ -18,7 +18,7 @@ export type AppConfigActions = AppConfigSetters & {
   setCurrentLanguage: (languageCode: string) => void;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
-  setIsPowerEnabled: (isPowerEnabled: boolean) => void;
+  setTogglePowerEnabled: (isPowerEnabled: boolean) => void;
 };
 
 export interface AppConfigStore extends AppConfigValues {
