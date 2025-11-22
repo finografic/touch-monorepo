@@ -2,7 +2,6 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "admin_dashboard": [
     {
-      "declarations": ["input element", "input role"],
       "selectors": ["element", "role"],
       "match": {
         "element=title, role=admin": "Panell d'Administrador",
