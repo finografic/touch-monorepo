@@ -87,33 +87,33 @@
   },
   "dependencies": {
     "@workspace/i18n": "workspace:*",
-    "axios": "^1.12.0",
+    "axios": "^1.13.2",
     "lodash": "4.17.21",
     "react": "^18.3.1",
-    "stoker": "^1.0.0"
+    "stoker": "1.4.2"
   },
   "devDependencies": {
     "@finografic/project-scripts": "8.2.0",
     "@types/eslint": "9.6.1",
-    "@types/lodash": "4.17.13",
+    "@types/lodash": "4.17.21",
     "@types/node": "20.11.24",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.5",
-    "@typescript-eslint/eslint-plugin": "8.39.1",
-    "@typescript-eslint/parser": "8.39.1",
+    "@typescript-eslint/eslint-plugin": "8.47.0",
+    "@typescript-eslint/parser": "8.47.0",
     "@workspace/scripts": "workspace:*",
-    "eslint": "9.16.0",
+    "eslint": "^9.33.0",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5.2.0",
-    "shx": "0.3.4",
-    "tsup": "8.4.0",
-    "tsx": "4.19.2",
-    "typescript": "^5.8.3",
-    "typescript-eslint": "8.18.2",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "shx": "0.4.0",
+    "tsup": "8.5.1",
+    "tsx": "4.20.6",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "8.47.0",
     "zod": "^3.25.76"
   },
   "peerDependencies": {
-    "typescript": "^5.8.3",
+    "typescript": "^5.9.2",
     "zod": "^3.25.76"
   }
 }

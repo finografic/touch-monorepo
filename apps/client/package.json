@@ -88,7 +88,7 @@
     "@tanstack/react-query": "^5.90.10",
     "@tanstack/react-query-devtools": "5.91.0",
     "@tanstack/react-query-persist-client": "5.90.12",
-    "@types/better-sqlite3": "7.6.13",
+    "@types/better-sqlite3": "^7.6.13",
     "@uidotdev/usehooks": "2.4.1",
     "@workspace/config": "workspace:*",
     "@workspace/core": "workspace:*",
@@ -133,7 +133,7 @@
     "tailwindcss": "4.1.17",
     "tailwindcss-animate": "1.0.7",
     "ts-extras": "0.16.0",
-    "type-fest": "5.2.0",
+    "type-fest": "^5.2.0",
     "unplugin-turbo-console": "2.3.0",
     "use-debounce": "10.0.6",
     "usehooks-ts": "3.1.1",
@@ -143,11 +143,11 @@
   },
   "devDependencies": {
     "@eslint-react/eslint-plugin": "2.3.7",
-    "@finografic/eslint-config": "9.0.8",
+    "@finografic/eslint-config": "9.18.4",
     "@finografic/project-scripts": "8.2.0",
     "@fullhuman/postcss-purgecss": "7.0.2",
     "@inlang/cli": "3.0.12",
-    "@inlang/paraglide-js": "2.4.0",
+    "@inlang/paraglide-js": "2.5.0",
     "@inlang/plugin-m-function-matcher": "2.1.0",
     "@tailwindcss/forms": "0.5.10",
     "@tanstack/eslint-plugin-query": "5.91.2",
@@ -180,6 +180,6 @@
     "vite": "^7.2.4",
     "vite-plugin-checker": "0.11.0",
     "vite-tsconfig-paths": "^5.1.4",
-    "vitest": "4.0.13"
+    "vitest": "^4.0.13"
   }
 }

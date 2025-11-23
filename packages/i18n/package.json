@@ -103,19 +103,19 @@
   },
   "dependencies": {
     "date-fns": "4.1.0",
-    "i18next": "24.2.0",
-    "i18next-browser-languagedetector": "8.0.2",
-    "react-i18next": "15.4.0"
+    "i18next": "25.6.3",
+    "i18next-browser-languagedetector": "8.2.0",
+    "react-i18next": "16.3.5"
   },
   "devDependencies": {
     "@finografic/project-scripts": "8.2.0",
     "@microsoft/api-extractor": "^7.52.11",
     "@types/node": "20.11.24",
-    "shx": "0.3.4",
-    "tsup": "8.4.0",
+    "shx": "0.4.0",
+    "tsup": "8.5.1",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {
-    "typescript": "^5.8.3"
+    "typescript": "^5.9.2"
   }
 }
