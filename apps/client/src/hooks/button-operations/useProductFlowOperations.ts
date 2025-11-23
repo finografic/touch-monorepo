@@ -137,21 +137,25 @@ export const useProductFlowOperations = () => {
         });
 
         // Save configuration to sessionStorage so hasActiveTimer works
-        saveConfig({
-          filters: filters, // Save all current filters (mode, drinkType, drinkSubtype, drinkVolume, containerType, temperature with profiles)
-          temperatures: {
-            default: temperatureFilter?.final || 25,
-            initial: temperatureFilter?.initial || 25,
-            final: temperatureFilter?.final || 25,
+        // Force reset timer for Program Product flow (always overwrite/reset)
+        saveConfig(
+          {
+            filters: filters, // Save all current filters (mode, drinkType, drinkSubtype, drinkVolume, containerType, temperature with profiles)
+            temperatures: {
+              default: temperatureFilter?.final || 25,
+              initial: temperatureFilter?.initial || 25,
+              final: temperatureFilter?.final || 25,
+            },
+            durations: {
+              default: slotTypeDurations[SlotType.B] || 300, // Default to B slot duration
+              A: slotTypeDurations[SlotType.A] || 0,
+              B: slotTypeDurations[SlotType.B] || 0,
+              C: slotTypeDurations[SlotType.C] || 0,
+            },
+            selectedOrders: filteredSlotsToProcess,
           },
-          durations: {
-            default: slotTypeDurations[SlotType.B] || 300, // Default to B slot duration
-            A: slotTypeDurations[SlotType.A] || 0,
-            B: slotTypeDurations[SlotType.B] || 0,
-            C: slotTypeDurations[SlotType.C] || 0,
-          },
-          selectedOrders: filteredSlotsToProcess,
-        });
+          true, // Force reset timer for Program Product flow
+        );
 
         clearMainPageSelection();
 

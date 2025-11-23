@@ -13,10 +13,12 @@ interface ConfigData {
 }
 
 export const useConfigStorage = () => {
-  const saveConfig = useCallback((config: ConfigData) => {
+  const saveConfig = useCallback((config: ConfigData, forceResetTimer = false) => {
+    // Always overwrite the config (full replacement)
     sessionStorage.setItem(STORAGE_KEYS.LAST_CONFIG, JSON.stringify(config));
 
-    if (isSessionTimerExpired()) {
+    // Reset timer if forced (Program Product flow) or if expired (Program Time flow)
+    if (forceResetTimer || isSessionTimerExpired()) {
       sessionStorage.setItem(STORAGE_KEYS.CONFIG_TIMESTAMP, Date.now().toString());
     }
   }, []);
