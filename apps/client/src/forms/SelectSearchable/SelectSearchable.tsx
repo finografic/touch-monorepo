@@ -125,6 +125,10 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
       setDisplayStart(0);
       setLastScrollTop(0);
 
+      log('>>>>>', 'orange', displayValue);
+      log('>>>', 'grey', 'handleAddNew', displayValue, kebabValue);
+      log('>>>', 'grey', 'handleAddNew', displayValue, kebabValue);
+
       // Show check icon briefly
       setJustAdded(true);
       setTimeout(() => setJustAdded(false), 1500);
@@ -360,9 +364,12 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
           ) : options.length > 0 ? (
             /* No options message */
             <>
-              <div className="option" style={{ textAlign: 'center', fontStyle: 'italic' }}>
-                <span className="option-label">
-                  {options.length}
+              <div
+                className="option"
+                style={{ textAlign: 'center', fontStyle: 'italic', pointerEvents: 'none' }}
+              >
+                <span className="option-label" style={{ color: colors.textXXLight75 }}>
+                  {/* {options.length} */}
                   {searchValue ? `No options found for "${searchValue}"` : 'No options available'}
                 </span>
               </div>

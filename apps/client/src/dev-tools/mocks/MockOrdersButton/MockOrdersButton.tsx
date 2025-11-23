@@ -12,7 +12,8 @@ import { useTimers } from 'providers/TimersProvider/TimerContext';
 import type { OrderFilters } from 'types/filters.types';
 import { FLOW_TYPES } from 'types/flow.types';
 import { PATHS } from 'config';
-import { MOCK_ORDERS_DATA, generateSmartMockSlots } from './mock-orders.data';
+import { MOCK_ORDERS_DATA } from './mock-orders.data';
+import { generateSmartMockSlots } from './mock-orders.utils';
 import { ListChecksIcon } from 'styles/icons';
 
 export const MockOrdersButton = () => {
@@ -50,6 +51,8 @@ export const MockOrdersButton = () => {
 
     // Extract slot numbers for session assignment
     const slotNumbers = mockSlots.map((slot) => slot.slotNumber);
+
+    log('------>>', 'lime', slotNumbers);
 
     // Ensure orders are created and selected for the mock slots
     mockSlots.forEach((slot) => {
