@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { config } from '@dotenvx/dotenvx';
+import dotenv from 'dotenv';
 import path from 'node:path';
 import fs from 'node:fs';
 
@@ -28,7 +28,7 @@ const envPaths = [path.resolve(rootDir, `.env.${NODE_ENV_VALUE}`), path.resolve(
 
 for (const envPath of envPaths) {
   if (fs.existsSync(envPath)) {
-    config({ path: envPath });
+    dotenv.config({ path: envPath });
     break;
   }
 }

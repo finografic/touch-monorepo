@@ -94,7 +94,7 @@
     "·········· CLEAN": "·····················································",
     "clean": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --detach",
     "clean.dry": "pnpm --package=@finografic/project-scripts dlx purge-builds --recursive --dry-run",
-    "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
+    "project-scripts": "pnpm update @finografic/project-scripts --latest --recursive",
     "·········· LINTING": "···················································",
     "lint": "eslint .",
     "lint.fix": "eslint . --fix",
@@ -102,7 +102,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@dotenvx/dotenvx": "1.48.4",
     "date-fns": "4.1.0",
     "i18next": "24.2.0",
     "i18next-browser-languagedetector": "8.0.2",

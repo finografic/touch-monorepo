@@ -80,7 +80,6 @@ export default defineConfig({
     'drizzle-orm',
     'zod',
     'dotenv',
-    '@dotenvx/*',
     '@scalar/*', // Bundle scalar modules
     '@workspace/core',
     '@workspace/i18n',
