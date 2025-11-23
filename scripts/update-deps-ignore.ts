@@ -6,7 +6,7 @@
  *   tsx scripts/update-deps-ignore.ts
  *
  * Or via npm script:
- *   pnpm upgrade.deps.all.ignore
+ *   pnpm update.deps.all.ignore
  */
 
 import { readFile, writeFile } from 'fs/promises';

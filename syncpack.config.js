@@ -7,15 +7,17 @@ module.exports = {
     {
       // Sync these critical packages across all packages (both dependencies and devDependencies)
       dependencies: [
-        'zod',
-        'typescript',
-        'eslint',
-        '@types/node',
         '@finografic/eslint-config',
         '@finografic/project-scripts',
+        '@types/node',
+        'drizzle-kit',
         'drizzle-orm',
         'drizzle-zod',
-        'drizzle-kit',
+        'eslint',
+        'tsup',
+        'tsx',
+        'typescript',
+        'zod',
       ],
       packages: ['**'],
     },
