@@ -1,7 +1,9 @@
+import type { ApiResponse } from '@workspace/core/api';
 import { transformAxiosError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
+import type { DrinkTypeEntity } from '@workspace/server/types';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
@@ -47,16 +49,30 @@ export const useCreateDrinkType = () => {
           defaultTempFreeze: data.defaultTempFreeze || -2,
           translations,
         });
-        const entity = response.data.data;
+
+        // Axios wraps the response: response.data contains the server response
+        // Server may return { data: entity } or entity directly
+        // Check both structures to handle either case
+        const entity = (response as any).data?.data || (response as any).data;
+
+        if (!entity || !entity.id) {
+          console.error('Invalid response structure:', response);
+          throw new Error('Invalid response from server: missing drink type data');
+        }
+
         return {
           id: entity.id,
           name: entity.name,
-          hasSubtypes: Boolean(entity.has_subtypes),
-          defaultTempConsume: entity.default_temp_consume,
-          defaultTempFreeze: entity.default_temp_freeze,
-          isActive: Boolean(entity.is_active),
-          createdAt: new Date(entity.created_at * 1000),
-          updatedAt: new Date(entity.updated_at * 1000),
+          hasSubtypes: Boolean(entity.has_subtypes ?? entity.hasSubtypes),
+          defaultTempConsume: entity.default_temp_consume ?? entity.defaultTempConsume,
+          defaultTempFreeze: entity.default_temp_freeze ?? entity.defaultTempFreeze,
+          isActive: Boolean(entity.is_active ?? entity.isActive ?? true),
+          createdAt: entity.created_at
+            ? new Date(typeof entity.created_at === 'string' ? entity.created_at : entity.created_at * 1000)
+            : new Date(),
+          updatedAt: entity.updated_at
+            ? new Date(typeof entity.updated_at === 'string' ? entity.updated_at : entity.updated_at * 1000)
+            : new Date(),
           translations: entity.translations || {},
         };
       } catch (error) {
@@ -64,8 +80,10 @@ export const useCreateDrinkType = () => {
       }
     },
     onSuccess: () => {
-      // Invalidate drink types query to refetch the list
+      // Invalidate and refetch drink types query to update the list
       queryClient.invalidateQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
+      // Force a refetch to ensure the dropdown updates immediately
+      queryClient.refetchQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
     },
   });
 };

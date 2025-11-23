@@ -75,10 +75,14 @@ export const useCreateDrinkSubtype = () => {
       }
     },
     onSuccess: (data) => {
-      // Invalidate drink types query to refetch the list
+      // Invalidate and refetch drink types query to update the list
       queryClient.invalidateQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
-      // Invalidate subtypes query for the specific drink type to include the new subtype
+      queryClient.refetchQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
+      // Invalidate and refetch subtypes query for the specific drink type to include the new subtype
       queryClient.invalidateQueries({
+        queryKey: [...GET_DRINK_SUBTYPES_QUERYKEY, data.drinkTypeId]
+      });
+      queryClient.refetchQueries({
         queryKey: [...GET_DRINK_SUBTYPES_QUERYKEY, data.drinkTypeId]
       });
     },

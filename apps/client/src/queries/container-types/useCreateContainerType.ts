@@ -42,14 +42,27 @@ export const useCreateContainerType = () => {
           thermalConductivity: data.thermalConductivity,
           translations,
         });
-        const entity = response.data.data;
+
+        // Handle both response structures:
+        // - Direct: response.data = { id, name, ... }
+        // - Wrapped: response.data = { data: { id, name, ... } }
+        const entity = response.data?.data || response.data;
+
+        if (!entity || !entity.id) {
+          throw new Error('Invalid response: missing container type data');
+        }
+
         return {
           id: entity.id,
           name: entity.name,
-          thermalConductivity: entity.thermal_conductivity,
-          isActive: Boolean(entity.is_active),
-          createdAt: new Date(entity.created_at * 1000),
-          updatedAt: new Date(entity.updated_at * 1000),
+          thermalConductivity: entity.thermal_conductivity ?? entity.thermalConductivity,
+          isActive: Boolean(entity.is_active ?? entity.isActive),
+          createdAt: entity.created_at
+            ? new Date(typeof entity.created_at === 'string' ? entity.created_at : entity.created_at * 1000)
+            : new Date(),
+          updatedAt: entity.updated_at
+            ? new Date(typeof entity.updated_at === 'string' ? entity.updated_at : entity.updated_at * 1000)
+            : new Date(),
           translations: entity.translations || {},
         };
       } catch (error) {
@@ -57,8 +70,9 @@ export const useCreateContainerType = () => {
       }
     },
     onSuccess: () => {
-      // Invalidate container types query to refetch the list
+      // Invalidate and refetch container types query to update the list
       queryClient.invalidateQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
+      queryClient.refetchQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
     },
   });
 };

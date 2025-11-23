@@ -21,6 +21,15 @@ import { TemperatureInputField } from 'forms/TemperatureInputField';
 import { useToast } from 'components/Toast';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { useCreateDrinkType } from 'queries/drink-types/useCreateDrinkType';
+import { useCreateDrinkSubtype } from 'queries/drink-types/useCreateDrinkSubtype';
+import { useCreateVolume } from 'queries/drink-volumes/useCreateVolume';
+import { useCreateContainerType } from 'queries/container-types/useCreateContainerType';
+import { useQueryClient } from '@tanstack/react-query';
+import { slugify } from 'utils/string.utils';
+import { GET_DRINK_TYPES_QUERYKEY, GET_DRINK_SUBTYPES_QUERYKEY } from 'queries/drink-types';
+import { GET_DRINK_VOLUMES_QUERYKEY } from 'queries/drink-volumes';
+import { GET_CONTAINER_TYPES_QUERYKEY } from 'queries/container-types';
 
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import { MIN_TEMP_DIFFERENCE } from 'config/app';
@@ -148,12 +157,17 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
 
   const mutations = useFormSubmissionMutations();
   const isSubmitLoading = getSubmissionLoadingState(mutations);
+  const queryClient = useQueryClient();
 
   // ========================================================================
   // Handlers
   // ========================================================================
 
   const tempItemHandlers = createTempItemHandlers(setTempItems);
+  const createDrinkTypeMutation = useCreateDrinkType();
+  const createDrinkSubtypeMutation = useCreateDrinkSubtype();
+  const createVolumeMutation = useCreateVolume();
+  const createContainerTypeMutation = useCreateContainerType();
 
   const mockDataHandlers = createMockDataHandlers({
     drinkTypeOptions: dropdownData.drinkTypeOptions,
@@ -246,8 +260,187 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
     handleFieldChange(field, value, formValues as MiddlewareOrdersFormValues);
   };
 
-  const handleAddSubtype = async (value: string) => {
-    return tempItemHandlers.handleAddSubtype(value, formValues.drinkType);
+  const handleAddDrinkSubtype = async (displayValue: string): Promise<string> => {
+    if (!displayValue.trim() || !formValues.drinkType) return '';
+
+    const kebabValue = slugify(displayValue.trim());
+
+    // Get the drink type ID
+    const selectedDrinkType = dropdownData.drinkTypes.find((dt) => dt.name === formValues.drinkType);
+    if (!selectedDrinkType?.id) {
+      toast({
+        variant: 'error',
+        message: 'Please select a drink type first',
+      });
+      return '';
+    }
+
+    // Optimistic update: set the form value immediately
+    handleSimpleFieldChange('drinkSubtype', kebabValue);
+
+    try {
+      // Create the drink subtype in the database
+      const createdSubtype = await createDrinkSubtypeMutation.mutateAsync({
+        name: displayValue.trim(),
+        drinkTypeId: selectedDrinkType.id,
+        defaultTempConsume: formValues.defaultTempConsume || 5,
+        defaultTempFreeze: formValues.defaultTempFreeze || -2,
+      });
+
+      // Wait for the query to refetch
+      await queryClient.refetchQueries({
+        queryKey: [...GET_DRINK_SUBTYPES_QUERYKEY, selectedDrinkType.id],
+      });
+
+      // Ensure the form value is set correctly
+      const finalValue = createdSubtype.name || kebabValue;
+      handleSimpleFieldChange('drinkSubtype', finalValue);
+
+      toast({
+        variant: 'success',
+        message: `Drink subtype "${displayValue.trim()}" created successfully`,
+      });
+
+      return finalValue;
+    } catch (error) {
+      // On error, revert the optimistic update
+      handleSimpleFieldChange('drinkSubtype', '');
+      toast({
+        variant: 'error',
+        message: 'Failed to create drink subtype',
+        subText:
+          error instanceof Error ? error.message : 'An error occurred while creating the drink subtype.',
+      });
+      throw error;
+    }
+  };
+
+  const handleAddVolume = async (displayValue: string): Promise<string> => {
+    if (!displayValue.trim()) return '';
+
+    const kebabValue = slugify(displayValue.trim());
+
+    // Optimistic update: set the form value immediately
+    handleSimpleFieldChange('volume', kebabValue);
+
+    try {
+      // Create the volume in the database
+      const createdVolume = await createVolumeMutation.mutateAsync({
+        name: displayValue.trim(),
+        valueInMl: 500, // Default value, can be updated later
+        sortOrder: dropdownData.volumes.length + 1,
+      });
+
+      // Wait for the query to refetch
+      await queryClient.refetchQueries({ queryKey: GET_DRINK_VOLUMES_QUERYKEY });
+
+      // Ensure the form value is set correctly
+      const finalValue = createdVolume.name || kebabValue;
+      handleSimpleFieldChange('volume', finalValue);
+
+      toast({
+        variant: 'success',
+        message: `Volume "${displayValue.trim()}" created successfully`,
+      });
+
+      return finalValue;
+    } catch (error) {
+      // On error, revert the optimistic update
+      handleSimpleFieldChange('volume', '');
+      toast({
+        variant: 'error',
+        message: 'Failed to create volume',
+        subText: error instanceof Error ? error.message : 'An error occurred while creating the volume.',
+      });
+      throw error;
+    }
+  };
+
+  const handleAddContainerType = async (displayValue: string): Promise<string> => {
+    if (!displayValue.trim()) return '';
+
+    const kebabValue = slugify(displayValue.trim());
+
+    // Optimistic update: set the form value immediately
+    handleSimpleFieldChange('containerType', kebabValue);
+
+    try {
+      // Create the container type in the database
+      const createdContainerType = await createContainerTypeMutation.mutateAsync({
+        name: displayValue.trim(),
+        thermalConductivity: 50, // Default value, can be updated later
+      });
+
+      // Wait for the query to refetch
+      await queryClient.refetchQueries({ queryKey: GET_CONTAINER_TYPES_QUERYKEY });
+
+      // Ensure the form value is set correctly
+      const finalValue = createdContainerType.name || kebabValue;
+      handleSimpleFieldChange('containerType', finalValue);
+
+      toast({
+        variant: 'success',
+        message: `Container type "${displayValue.trim()}" created successfully`,
+      });
+
+      return finalValue;
+    } catch (error) {
+      // On error, revert the optimistic update
+      handleSimpleFieldChange('containerType', '');
+      toast({
+        variant: 'error',
+        message: 'Failed to create container type',
+        subText:
+          error instanceof Error ? error.message : 'An error occurred while creating the container type.',
+      });
+      throw error;
+    }
+  };
+
+  const handleAddDrinkType = async (displayValue: string): Promise<string> => {
+    if (!displayValue.trim()) return '';
+
+    const kebabValue = slugify(displayValue.trim());
+
+    // Optimistic update: set the form value immediately with kebab-case name
+    // The form uses names (not IDs), so this will work even before the API responds
+    handleSimpleFieldChange('drinkType', kebabValue);
+    handleSimpleFieldChange('drinkSubtype', ''); // Clear subtype when drink type changes
+
+    try {
+      // Create the drink type in the database
+      const createdDrinkType = await createDrinkTypeMutation.mutateAsync({
+        name: displayValue.trim(),
+        hasSubtypes: false, // Default to false, can be updated later
+        defaultTempConsume: formValues.defaultTempConsume || 5,
+        defaultTempFreeze: formValues.defaultTempFreeze || -2,
+      });
+
+      // Wait for the query to refetch to ensure dropdown options are updated
+      // The mutation's onSuccess already invalidates and refetches, but we wait here to ensure it completes
+      await queryClient.refetchQueries({ queryKey: GET_DRINK_TYPES_QUERYKEY });
+
+      // Ensure the form value is set to the created drink type's name
+      // Use the name from the created entity (should be kebab-case)
+      const finalValue = createdDrinkType.name || kebabValue;
+      handleSimpleFieldChange('drinkType', finalValue);
+
+      toast({
+        variant: 'success',
+        message: `Drink type "${displayValue.trim()}" created successfully`,
+      });
+
+      return finalValue;
+    } catch (error) {
+      // On error, revert the optimistic update
+      handleSimpleFieldChange('drinkType', '');
+      toast({
+        variant: 'error',
+        message: 'Failed to create drink type',
+        subText: error instanceof Error ? error.message : 'An error occurred while creating the drink type.',
+      });
+      throw error;
+    }
   };
 
   // ========================================================================
@@ -342,7 +535,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                           handleSimpleFieldChange('drinkType', '');
                           handleSimpleFieldChange('drinkSubtype', '');
                         }}
-                        onAddNew={(value) => tempItemHandlers.handleAddNew('drinkTypes', value)}
+                        onAddNew={handleAddDrinkType}
                         options={dropdownData.drinkTypeOptions}
                         placeholder="e.g., Coffee, Tea, Juice"
                         windowSize={15}
@@ -365,7 +558,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         value={formValues.drinkSubtype}
                         onSelect={(value) => handleSimpleFieldChange('drinkSubtype', value)}
                         onClear={() => handleSimpleFieldChange('drinkSubtype', '')}
-                        onAddNew={handleAddSubtype}
+                        onAddNew={handleAddDrinkSubtype}
                         options={dropdownData.drinkSubtypeOptions}
                         placeholder={
                           formValues.drinkType ? 'Select or add new subtype' : 'Select drink type first'
@@ -392,7 +585,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         value={formValues.volume}
                         onSelect={(value) => handleSimpleFieldChange('volume', value)}
                         onClear={() => handleSimpleFieldChange('volume', '')}
-                        onAddNew={(value) => tempItemHandlers.handleAddNew('volumes', value)}
+                        onAddNew={handleAddVolume}
                         options={dropdownData.volumeOptions}
                         placeholder="e.g., 250ml, 500ml, 1L"
                         windowSize={15}
@@ -412,7 +605,7 @@ export const OrdersForm: React.FC<OrdersFormProps> = ({
                         value={formValues.containerType}
                         onSelect={(value) => handleSimpleFieldChange('containerType', value)}
                         onClear={() => handleSimpleFieldChange('containerType', '')}
-                        onAddNew={(value) => tempItemHandlers.handleAddNew('containerTypes', value)}
+                        onAddNew={handleAddContainerType}
                         options={dropdownData.containerTypeOptions}
                         placeholder="e.g., Cup, Bottle, Can"
                         windowSize={15}

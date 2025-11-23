@@ -46,16 +46,29 @@ export const useCreateVolume = () => {
           coolingFactor: data.coolingFactor || 1,
           translations,
         });
-        const entity = response.data.data;
+
+        // Handle both response structures:
+        // - Direct: response.data = { id, name, ... }
+        // - Wrapped: response.data = { data: { id, name, ... } }
+        const entity = response.data?.data || response.data;
+
+        if (!entity || !entity.id) {
+          throw new Error('Invalid response: missing volume data');
+        }
+
         return {
           id: entity.id,
           name: entity.name,
-          valueInMl: entity.value_in_ml,
-          sortOrder: entity.sort_order,
-          coolingFactor: entity.cooling_factor,
-          isActive: Boolean(entity.is_active),
-          createdAt: new Date(entity.created_at * 1000),
-          updatedAt: new Date(entity.updated_at * 1000),
+          valueInMl: entity.value_in_ml ?? entity.valueInMl,
+          sortOrder: entity.sort_order ?? entity.sortOrder,
+          coolingFactor: entity.cooling_factor ?? entity.coolingFactor,
+          isActive: Boolean(entity.is_active ?? entity.isActive),
+          createdAt: entity.created_at
+            ? new Date(typeof entity.created_at === 'string' ? entity.created_at : entity.created_at * 1000)
+            : new Date(),
+          updatedAt: entity.updated_at
+            ? new Date(typeof entity.updated_at === 'string' ? entity.updated_at : entity.updated_at * 1000)
+            : new Date(),
           translations: entity.translations || {},
         };
       } catch (error) {
@@ -63,8 +76,9 @@ export const useCreateVolume = () => {
       }
     },
     onSuccess: () => {
-      // Invalidate volumes query to refetch the list
+      // Invalidate and refetch volumes query to update the list
       queryClient.invalidateQueries({ queryKey: GET_DRINK_VOLUMES_QUERYKEY });
+      queryClient.refetchQueries({ queryKey: GET_DRINK_VOLUMES_QUERYKEY });
     },
   });
 };
