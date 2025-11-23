@@ -125,7 +125,7 @@ export const useProductFlowOperations = () => {
               orderId,
               flowType: FLOW_TYPES.PROGRAM_PRODUCT,
               duration,
-              remaining: duration,
+              remaining: duration, // TODO: KEEPING --or-- REMOVE ??
               status: 'processing',
               completionTime: new Date(Date.now() + duration * 1000).toISOString(),
             });

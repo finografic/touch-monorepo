@@ -6,6 +6,7 @@ export interface TimerBasic {
   id: string;
   slotNumber: number;
   duration: number;
+  remaining?: number;
   status: SlotStatus;
   completionTime?: string;
   createdAt: string;

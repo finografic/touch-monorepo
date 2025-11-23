@@ -11,7 +11,7 @@ type TemperatureProfileRow = typeof temperature_profiles.$inferInsert;
 // ======================================================================== //
 
 const TEMPERATURE_RANGE = [25, 15, 8, 2];
-const TIME_FACTORS = [1.0, 1.5, 2];
+const TIME_FACTORS = [1.0, 1.6, 2.6]; // TODO: MERGE WITH DUP
 const MIN_TIME = 30;
 const MAX_TIME = 240;
 const TIME_INCREMENT = 30; // Seconds to add between temperature points

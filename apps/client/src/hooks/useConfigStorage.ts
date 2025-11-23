@@ -2,9 +2,11 @@ import { useCallback } from 'react';
 
 import { clearSessionTimer, isSessionTimerExpired } from 'utils/sessionTimer.utils';
 import { STORAGE_KEYS } from 'config/app';
+import type { OrderFilters } from 'types/filters.types';
 
 interface ConfigData {
-  filters: Record<string, unknown>;
+  // filters: Record<string, unknown>;
+  filters: OrderFilters;
   temperatures: Record<string, number>;
   durations: Record<string, number>;
   selectedOrders?: number[];
