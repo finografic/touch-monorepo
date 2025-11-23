@@ -19,11 +19,11 @@ const betterAuthConfig = {
     provider: 'sqlite',
     schema: { user, account, session, verification },
   }),
-  basePath: '/api/auth', // Full path including /api prefix from Hono mounting
+  basePath: '/api/auth',
   trustedOrigins: [env.CLIENT_ORIGIN],
   emailAndPassword: {
     enabled: true,
-    minPasswordLength: 4, // Set to 4 for 4-digit PIN support
+    minPasswordLength: 4,
     maxPasswordLength: 32,
     sendResetPassword: async ({ user, url, token }, request) => {
       console.log('Reset password requested for:', user.email);
@@ -32,24 +32,22 @@ const betterAuthConfig = {
     },
   },
   session: {
-    // enabled: true,
     expiresIn: 30 * 24 * 60 * 60, // 30 days
     updateAge: 24 * 60 * 60, // 24 hours
-    // cookieName: env.COOKIES.DATA_COOKIE, // auth_suffix
     cookieCache: {
       enabled: true, // Enable cookie cache for performance (reduces DB lookups)
       maxAge: 5 * 60, // 5 minutes - short-lived for security
     },
   },
   advanced: {
-    cookiePrefix: env.COOKIES.COOKIE_PREFIX, // "touch-monorepo" -> cookies named "touch-monorepo.session_token"
+    cookiePrefix: env.COOKIES.COOKIE_PREFIX,
     useSecureCookies: env.NODE_ENV === 'production',
     database: {
       generateId: () => crypto.randomUUID(),
     },
     cookies: {
       sessionToken: {
-        name: env.COOKIES.TOKEN_COOKIE, // auth_token - Combined with cookiePrefix -> "touch-monorepo.session_token"
+        name: env.COOKIES.TOKEN_COOKIE,
         attributes: {
           httpOnly: true, // Prevent JavaScript access (XSS protection)
           sameSite: env.NODE_ENV === 'production' ? 'lax' : 'lax', // Use 'lax' for consistency
