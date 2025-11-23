@@ -51,6 +51,9 @@ export const getFallbackSlotsConfig = (): SlotItemConfig[] => [
   { slotType: SlotType.B, slotNumber: 8 },
   { slotType: SlotType.B, slotNumber: 9 },
   { slotType: SlotType.C, slotNumber: 10 },
+  { slotType: SlotType.B, slotNumber: 11 },
+  { slotType: SlotType.B, slotNumber: 12 },
+  { slotType: SlotType.C, slotNumber: 13 },
 ];
 
 /**

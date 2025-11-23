@@ -30,6 +30,16 @@ export const MockOrdersButton = () => {
   const getSelectedMockSlots = useCallback(() => {
     const slotsTimers = timers.map((slot) => slot.slotNumber);
     const slotsSelected = selectedSlots.map((slot) => slot.slotNumber);
+
+    const TEST = MOCK_SELECTED_SLOTS_DATA.forEach((slot) => {
+      const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
+      if (orderConfig) {
+        toggleSlot({
+          slotType: orderConfig.slotType,
+          slotNumber: slot.slotNumber,
+        });
+      }
+    });
   }, [selectedSlots, timers.length]);
 
   const handleMockData = useCallback(() => {

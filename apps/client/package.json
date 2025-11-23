@@ -28,6 +28,8 @@
     "·········· PACKAGES": "···················································",
     "eslint-config": "dotenvx run -- pnpm update @finografic/eslint-config --latest",
     "project-scripts": "dotenvx run -- pnpm update @finografic/project-scripts --latest --recursive",
+    "upgrade.deps.all": "pnpm update --latest",
+    "upgrade.deps.all.ignore": "npx tsx scripts/update-deps-ignore.ts",
     "db.sqlite3.rebuild": "node ../../scripts/bin/sqlite-rebuild.js",
     "·········· LINTING": "····················································",
     "lint": "eslint .",
