@@ -8,7 +8,6 @@ import { useButtonNavigation } from 'hooks/useButtonNavigation';
  */
 export const useButtons = () => {
   const { footerButtons, contentButtons } = useButtonConfig();
-
   const { handleNavigateBack, handleNavigateNext, isNavigationPending } = useButtonNavigation();
 
   const {
