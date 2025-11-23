@@ -49,7 +49,7 @@ const IGNORE_PACKAGES: string[] = [
   // - @tanstack/react-query* (usually fine, but check peer deps)
   // - eslint-plugin-react* (usually fine)
 
-  // TODO: POSSIBLY NODE-DEPENDENT PACKAGES - CAUTION REQUIRED
+  // TODO: NODE-DEPENDENT PACKAGES - MAY REQURIE REBUILDING
   'better-sqlite3',
   '@types/better-sqlite3',
 
