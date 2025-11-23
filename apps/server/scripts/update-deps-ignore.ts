@@ -36,6 +36,11 @@ const IGNORE_PACKAGES: string[] = [
   'better-auth',
   'better-sqlite3',
   '@types/better-sqlite3',
+  '@hono/zod-openapi',
+  '@hono/zod-validator',
+  'drizzle-kit',
+  'drizzle-orm',
+  'drizzle-zod',
   'stoker',
   'zod',
 
