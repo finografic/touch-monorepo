@@ -92,8 +92,10 @@ export const styles = css`
   .volume-control {
     .volume-slider {
       width: 100%;
-      max-width: 320px;
-      transform: scale(1.5);
+      max-width: 400px;
+      height: 6px;
+
+      /* transform: scale(1.5); */
 
       /* Custom slider track */
       [data-radix-slider-track] {
@@ -144,5 +146,20 @@ export const styles = css`
       border-radius: ${layout.borderRadius};
       margin-bottom: 0.25rem;
     }
+  }
+
+  .p-slider-handle {
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid ${colors.infoLight};
+    border-radius: 50%;
+    transform: translateY(-50%);
+    :hover {
+      background-color: ${colors.white};
+    }
+  }
+
+  .p-slider-range {
+    background-color: ${colors.infoXLight};
   }
 `;
