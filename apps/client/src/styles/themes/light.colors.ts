@@ -3,7 +3,7 @@ import type { ColorPalette } from 'styles/colors/palette.types';
 /**
  * Light theme color palette - hex values converted from OKLCH
  * 🚨 AUTO-GENERATED - DO NOT EDIT MANUALLY
- * 📅 Generated: 2025-11-23 -- 10:24:40
+ * 📅 Generated: 2025-11-23 -- 11:44:43
  *
  * Run: pnpm generate:themes to update this file
  *

@@ -21,7 +21,12 @@ export default defineConfig({
     // Only external modules that can't be bundled
     'better-sqlite3', // Native module - keep external
     'fsevents', // Mac-specific native module
-    // Node.js built-in modules - must be external
+    'dotenv', // Uses require('fs') which doesn't work in ESM bundles
+    // Node.js built-in modules - must be external (both formats)
+    'fs', // Some packages use require('fs')
+    'path', // Some packages use require('path')
+    'os', // Some packages use require('os')
+    'crypto', // Some packages use require('crypto')
     'node:process',
     'node:os',
     'node:tty',
@@ -72,6 +77,13 @@ export default defineConfig({
     options.define = {
       'process.env.NODE_ENV': '"production"',
     };
+    // Configure esbuild to resolve env.server from the root
+    // Path is relative to the entry point (src/), so we go up one level
+    options.alias = {
+      ...options.alias,
+      'env.server': './env.server.ts',
+    };
+    options.resolveExtensions = ['.ts', '.tsx', '.js', '.jsx'];
   },
   noExternal: [
     // Force bundling of these modules that are usually external
@@ -79,7 +91,7 @@ export default defineConfig({
     '@hono/*',
     'drizzle-orm',
     'zod',
-    'dotenv',
+    // Note: dotenv is kept external because it uses require('fs') which doesn't work in ESM bundles
     '@scalar/*', // Bundle scalar modules
     '@workspace/core',
     '@workspace/i18n',

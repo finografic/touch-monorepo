@@ -1,5 +1,4 @@
 import { betterAuth } from 'better-auth';
-import type { BetterAuthOptions, BetterAuthPlugin } from 'better-auth';
 import { drizzleAdapter } from 'better-auth/adapters/drizzle';
 import { admin } from 'better-auth/plugins';
 import { env } from 'env.server';
@@ -7,20 +6,13 @@ import { env } from 'env.server';
 import { db } from 'db';
 import { account, session, user, verification } from '../db/schemas';
 
-const plugins = [
-  admin({
-    defaultRole: 'user',
-    adminRoles: ['admin'],
-  }) as BetterAuthPlugin,
-];
-
-const betterAuthConfig = {
+export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: 'sqlite',
     schema: { user, account, session, verification },
   }),
   basePath: '/api/auth', // Full path including /api prefix from Hono mounting
-  trustedOrigins: [env.CLIENT_ORIGIN],
+  debug: true,
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 4, // Set to 4 for 4-digit PIN support
@@ -31,11 +23,18 @@ const betterAuthConfig = {
       // TODO: Implement email sending
     },
   },
+  emailVerification: {
+    enabled: false, // Disable email verification for development
+    sendVerificationEmail: async ({ user, url, token }, request) => {
+      console.log('Verification email requested for:', user.email);
+      console.log('Verification URL:', url, token, request);
+      // TODO: Implement email sending
+    },
+  },
   session: {
-    // enabled: true,
     expiresIn: 30 * 24 * 60 * 60, // 30 days
     updateAge: 24 * 60 * 60, // 24 hours
-    // cookieName: env.COOKIES.DATA_COOKIE, // auth_suffix
+    cookieName: env.COOKIES.DATA_COOKIE, // auth_suffix
     cookieCache: {
       enabled: true, // Enable cookie cache for performance (reduces DB lookups)
       maxAge: 5 * 60, // 5 minutes - short-lived for security
@@ -46,6 +45,15 @@ const betterAuthConfig = {
     useSecureCookies: env.NODE_ENV === 'production',
     database: {
       generateId: () => crypto.randomUUID(),
+    },
+    // CORS configuration for cross-origin requests (dev: localhost:3000 -> localhost:4040)
+    cors: {
+      enabled: true,
+      allowedOrigins: [
+        env.CLIENT_ORIGIN,
+        ...(env.NODE_ENV === 'production' ? [env.CLIENT_ORIGIN, 'https://your-production-domain.com'] : []),
+      ],
+      credentials: true, // Required for cookie-based authentication
     },
     cookies: {
       sessionToken: {
@@ -59,9 +67,12 @@ const betterAuthConfig = {
       },
     },
   },
-  plugins,
-} satisfies BetterAuthOptions;
-
-export const auth = betterAuth(betterAuthConfig);
+  plugins: [
+    admin({
+      defaultRole: 'user',
+      adminRoles: ['admin'],
+    }),
+  ],
+});
 
 export type Session = typeof auth.$Infer.Session;
