@@ -37,7 +37,6 @@ export const useTimeFlowOperations = () => {
 
   const handleProgramTime = useCallback(() => {
     startTransition(() => {
-      // Get selected slots that are idle (not running timers)
       const selectedIdleSlots = selectedSlots.filter((slot) => {
         const timer = timers.find((t: any) => t.slotNumber === slot.slotNumber);
         return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
@@ -126,8 +125,11 @@ export const useTimeFlowOperations = () => {
         // Clear selection when timers start (ensures green color shows)
         clearMainPageSelection();
 
-        // Navigate back to main page
-        navigate(PATHS.main, { replace: true });
+        // Navigate back to main page with state indicating flow completion (not cancellation)
+        navigate(PATHS.main, {
+          replace: true,
+          state: { flowCompleted: true, flowType: FLOW_TYPES.PROGRAM_TIME },
+        });
       });
     },
     [selectedSlots, addTimer, currentSessionId, clearMainPageSelection, navigate, timers, saveConfig],

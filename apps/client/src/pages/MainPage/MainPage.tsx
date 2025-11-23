@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { Flex, Spinner } from '@radix-ui/themes';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
@@ -19,6 +20,7 @@ import type { SlotMeta } from './MainPage.types';
 import { styles } from './MainPage.styles';
 
 export function MainPage() {
+  const location = useLocation();
   const { orders } = useOrders();
   const { timers } = useTimers();
   const { contentButtons } = useButtonConfig();
@@ -28,6 +30,9 @@ export function MainPage() {
   const { currentSessionId, sessions } = useSession();
   const { setSelectedSlots, selectedSlots } = useLayoutUi();
   const orderItemsConfig = useSlotItemsConfig();
+
+  // Check if we're returning from a completed flow (not a cancellation)
+  const flowCompleted = (location.state as any)?.flowCompleted === true;
 
   // 🚀 PERFORMANCE OPTIMIZATION: Use ref to prevent re-fetching on every render
   const hasInitializedMode = useRef(false);
@@ -50,7 +55,13 @@ export function MainPage() {
   }, [defaultMode, isModeLoading, setFilter]);
 
   // Restore selected slots from current session when navigating back to MainPage
+  // BUT: Skip restoration if we're returning from a completed flow (not a cancellation)
   useEffect(() => {
+    // Don't restore if flow was completed (START was clicked, not CANCEL)
+    if (flowCompleted) {
+      return;
+    }
+
     if (currentSessionId && sessions[currentSessionId] && !hasRestoredSlots.current) {
       const session = sessions[currentSessionId];
       const sessionSlotNumbers = session.slotNumbers;
@@ -91,7 +102,7 @@ export function MainPage() {
       // Reset the flag when there's no current session
       hasRestoredSlots.current = false;
     }
-  }, [currentSessionId, sessions, selectedSlots, setSelectedSlots, orderItemsConfig]);
+  }, [currentSessionId, sessions, selectedSlots, setSelectedSlots, orderItemsConfig, flowCompleted]);
 
   // 🚀 PERFORMANCE OPTIMIZATION: Use Map for O(1) timer lookups (memoized)
   const timerMap = useMemo(() => {

@@ -181,10 +181,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         removableSort
         {...PAGINATOR_PROPS}
       >
-        <Column
-          selectionMode="multiple"
-          headerStyle={{ width: '3rem' }}
-        />
+        <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
         <Column
           field="displayIndex"
           header="#"

@@ -29,6 +29,7 @@ type LayoutUiActions = LayoutUiSetters & {
   handleRouteChange: (params: HandleRouteChangeParams) => void;
   // MainPage selection actions
   toggleMainPageSlot: (slot: SlotMeta) => void;
+  filterSlotsWithTimers: (hasActiveTimer: (slotNumber: number) => boolean) => void;
   selectAllMainPageSlots: () => void;
   clearMainPageSelection: () => void;
   setSelectedSlots: (slots: SlotMeta[]) => void;

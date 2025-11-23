@@ -159,6 +159,20 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               }
             });
           },
+          // Filter out slots with active timers from selection
+          filterSlotsWithTimers: (hasActiveTimer: (slotNumber: number) => boolean) => {
+            set((state) => {
+              const filteredSlots = state.selectedSlots.filter(
+                (slot) => !hasActiveTimer(slot.slotNumber),
+              );
+
+              // Only update if selection actually changed
+              if (filteredSlots.length !== state.selectedSlots.length) {
+                return { selectedSlots: filteredSlots };
+              }
+              return state;
+            });
+          },
           selectAllMainPageSlots: () => {
             const { numItems } = get();
             set({

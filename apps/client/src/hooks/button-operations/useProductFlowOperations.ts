@@ -165,7 +165,11 @@ export const useProductFlowOperations = () => {
         }
 
         setPageCurrent(0);
-        navigate(PATHS.main, { replace: true });
+        // Navigate back to main page with state indicating flow completion (not cancellation)
+        navigate(PATHS.main, {
+          replace: true,
+          state: { flowCompleted: true, flowType: FLOW_TYPES.PROGRAM_PRODUCT },
+        });
       });
     } catch (error) {
       console.error('Failed to control temperature:', error);
