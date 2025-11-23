@@ -43,6 +43,9 @@ export const styles = css`
       tr:nth-of-type(1) {
         th {
           &:nth-of-type(1) {
+            padding-left: 0rem;
+          }
+          &:nth-of-type(2) {
             padding-left: 1.5rem;
           }
           padding-top: 1rem;
@@ -197,6 +200,32 @@ export const styles = css`
     PAGINATOR STYLES
      ============================================================================ */
 
+  input[type='checkbox']:checked {
+    & + .p-checkbox-box {
+      background-color: ${colors.danger50};
+      &:hover {
+        background-color: ${colors.dangerDark};
+      }
+    }
+    &:hover {
+      background-color: ${colors.dangerDark};
+      & + .p-checkbox-box {
+        background-color: ${colors.dangerDark};
+      }
+    }
+  }
+
+  input[type='checkbox']:not(:checked) {
+    & + .p-checkbox-box {
+      background-color: ${colors.greyXXLight75};
+    }
+    &:hover {
+      background-color: ${colors.greyXLight};
+      & + .p-checkbox-box {
+        background-color: ${colors.greyXLight};
+      }
+    }
+  }
   /* Paginator styling */
   .p-paginator {
     background-color: ${colors.white};

@@ -17,7 +17,7 @@ function withOpacity(color: string, opacity: number): string {
 /**
  * Generate variant styles for a specific color
  */
-export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
+export function getVariantStyles(variant: ButtonVariant = 'solid', color: ButtonColor = 'default') {
   const baseColorKey = BUTTON_BASE_COLORS[color] as ButtonColorVariants;
 
   const baseName = extractBaseColorName(baseColorKey);
@@ -158,7 +158,7 @@ function extractBaseColorName(colorKey: string): string {
     'XXLight',
   ];
   for (const variant of shadeVariants) {
-    if (colorKey.endsWith(variant)) {
+    if (colorKey && colorKey.endsWith(variant)) {
       return colorKey.slice(0, -variant.length);
     }
   }

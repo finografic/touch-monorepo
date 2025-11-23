@@ -67,6 +67,8 @@ export interface OrdersTableProps {
   emptyMessage?: string;
   onClickEdit: (orderId: string) => void;
   onClickDelete: (orderId: string) => void;
+  onSelectionChange?: (selectedOrders: OrderReadableWithIndex[]) => void;
+  selectedOrders?: OrderReadableWithIndex[];
 }
 
 export const OrdersTable: React.FC<OrdersTableProps> = ({
@@ -74,9 +76,20 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
   emptyMessage = 'No orders found',
   onClickEdit,
   onClickDelete,
+  onSelectionChange,
+  selectedOrders: externalSelectedOrders,
 }) => {
   const { currentLanguage } = useAppConfig();
   const { getLabel } = useTableLabelMappings(currentLanguage);
+
+  // Internal state for selection if not controlled externally
+  const [internalSelectedOrders, setInternalSelectedOrders] = useState<OrderReadableWithIndex[]>([]);
+
+  // Use external selection if provided, otherwise use internal state
+  const selectedOrders = externalSelectedOrders ?? internalSelectedOrders;
+  const setSelectedOrders = onSelectionChange
+    ? (orders: OrderReadableWithIndex[]) => onSelectionChange(orders)
+    : setInternalSelectedOrders;
 
   // Initialize filters for PrimeReact DataTable
   const [filters, setFilters] = useState<DataTableFilterMeta>({
@@ -158,6 +171,8 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
       <DataTable
         value={orders}
         dataKey="id"
+        selection={selectedOrders}
+        onSelectionChange={(e) => setSelectedOrders(e.value as OrderReadableWithIndex[])}
         filters={filters}
         filterDisplay="row"
         emptyMessage={emptyMessage}
@@ -166,6 +181,10 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         removableSort
         {...PAGINATOR_PROPS}
       >
+        <Column
+          selectionMode="multiple"
+          headerStyle={{ width: '3rem' }}
+        />
         <Column
           field="displayIndex"
           header="#"

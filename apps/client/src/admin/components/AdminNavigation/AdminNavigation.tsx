@@ -7,11 +7,9 @@ import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { DropdownMenu, TabNav } from '@radix-ui/themes';
 import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
 
-// import { m } from 'i18n/messages';
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
-// import { getMessageTexts } from 'utils/i18n/i18n-inlang.AI.3.utils';
 import { getNavItemText } from 'utils/i18n/i18n-inlang.utils';
 import { MoreButton } from './MoreButton';
 import { useResponsiveNav } from './useResponsiveNav';
