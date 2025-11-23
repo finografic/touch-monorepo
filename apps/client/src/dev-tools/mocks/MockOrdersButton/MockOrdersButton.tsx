@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
+import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { useOrders } from 'providers/OrdersProvider';
@@ -25,6 +26,7 @@ export const MockOrdersButton = () => {
   const { setFilter } = useFiltersContext();
   const { toggleSlot, setOrdersSession } = useOrders();
   const orderItemsConfig = useSlotItemsConfig();
+  const { data: slotConfigurations } = useGetSlotConfigurations();
   const { timers } = useTimers();
 
   const handleMockData = useCallback(() => {
@@ -43,11 +45,16 @@ export const MockOrdersButton = () => {
     // Get slots with active timers (blocked from assignment)
     const slotsTimers = timers.map((timer) => timer.slotNumber);
 
+    // Get only active slot numbers from slot configurations
+    const activeSlotNumbers =
+      slotConfigurations?.filter((config) => config.isActive).map((config) => config.slotNumber) || [];
+
     // Generate smart mock slots that:
     // - Exclude slots with timers
+    // - Exclude slots that are not active (isActive: false)
     // - Prioritize user-selected slots
     // - Try to match slotType when possible
-    const mockSlots = generateSmartMockSlots(orderItemsConfig, slotsTimers, selectedSlots);
+    const mockSlots = generateSmartMockSlots(orderItemsConfig, slotsTimers, selectedSlots, activeSlotNumbers);
 
     // Extract slot numbers for session assignment
     const slotNumbers = mockSlots.map((slot) => slot.slotNumber);
@@ -126,6 +133,7 @@ export const MockOrdersButton = () => {
     toggleSlot,
     setOrdersSession,
     orderItemsConfig,
+    slotConfigurations,
     timers,
     selectedSlots,
   ]);

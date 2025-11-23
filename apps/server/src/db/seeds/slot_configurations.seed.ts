@@ -21,7 +21,7 @@ const DEFAULT_SLOT_CONFIG = [
   { slotNumber: 9, slotType: 'B' as const, isActive: true, relayNumber: 9 },
 
   // Fourth column (inactive)
-  { slotNumber: 10, slotType: 'C' as const, isActive: false, relayNumber: 10 },
+  { slotNumber: 10, slotType: 'C' as const, isActive: true, relayNumber: 10 },
   { slotNumber: 11, slotType: 'B' as const, isActive: false, relayNumber: 11 },
   { slotNumber: 12, slotType: 'B' as const, isActive: false, relayNumber: 12 },
 

@@ -125,13 +125,8 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
       setDisplayStart(0);
       setLastScrollTop(0);
 
-      log('>>>>>', 'orange', displayValue);
-      log('>>>', 'grey', 'handleAddNew', displayValue, kebabValue);
-      log('>>>', 'grey', 'handleAddNew', displayValue, kebabValue);
-
-      // Show check icon briefly
       setJustAdded(true);
-      setTimeout(() => setJustAdded(false), 1500);
+      setTimeout(() => setJustAdded(false), 2000);
 
       inputRef.current?.blur();
     }
@@ -319,7 +314,7 @@ export const SelectSearchable: React.FC<SearchableSelectProps> = ({
                 marginRight: '2px',
                 marginBottom: '2px',
                 cursor: shouldShowAddIcon ? 'pointer' : 'default',
-                color: shouldShowAddIcon ? colors.infoDark : justAdded ? colors.successDark : 'inherit',
+                color: shouldShowAddIcon ? colors.infoLight : justAdded ? colors.successLight : 'inherit',
               },
               onClick: shouldShowAddIcon ? handleAddNew : undefined,
             })}

@@ -93,8 +93,15 @@ export const useTimeFlowOperations = () => {
   const handleStartTimeProcess = useCallback(
     (duration: number) => {
       startTransition(() => {
-        // Add timers to TimerContext for each selected slot
-        selectedSlots.forEach((slot) => {
+        // Filter out slots that have timers with status "processing" or "completed"
+        const slotsToProcess = selectedSlots.filter((slot) => {
+          const existingTimer = timers.find((t) => t.slotNumber === slot.slotNumber);
+          // Only include slots that don't have a timer, or have a timer with status other than "processing" or "completed"
+          return !existingTimer || (existingTimer.status !== 'processing' && existingTimer.status !== 'completed');
+        });
+
+        // Add timers to TimerContext for each filtered slot
+        slotsToProcess.forEach((slot) => {
           // Check if there's already a timer for this slot
           const existingTimer = timers.find((t) => t.slotNumber === slot.slotNumber);
           const orderId = existingTimer?.orderId || createCuid();
@@ -116,7 +123,7 @@ export const useTimeFlowOperations = () => {
           filters: {},
           temperatures: { default: 25 },
           durations: { default: duration },
-          selectedOrders: selectedSlots.map((slot) => slot.slotNumber),
+          selectedOrders: slotsToProcess.map((slot) => slot.slotNumber),
         });
 
         // Clear selection when timers start (ensures green color shows)

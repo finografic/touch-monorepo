@@ -7,6 +7,7 @@ import { MOCK_SELECTED_SLOTS_TEMPLATE } from 'dev-tools/mocks/MockOrdersButton/m
 /**
  * Generate smart random slot assignments
  * - Excludes slots with active timers
+ * - Excludes slots that are not active (isActive: false)
  * - Prioritizes user-selected slots
  * - Tries to match slotType when possible, falls back to any available slot
  */
@@ -14,13 +15,24 @@ export function generateSmartMockSlots(
   orderItemsConfig: SlotItemConfig[],
   timersSlotNumbers: number[],
   userSelectedSlots: SlotMeta[],
+  activeSlotNumbers?: number[],
 ): SlotMeta[] {
-  const allSlots = orderItemsConfig.map((config) => config.slotNumber);
+  // Filter to only include active slots if activeSlotNumbers is provided
+  const configsToUse = activeSlotNumbers
+    ? orderItemsConfig.filter((config) => activeSlotNumbers.includes(config.slotNumber))
+    : orderItemsConfig;
+
+  // Filter user-selected slots to only include active ones
+  const activeUserSelectedSlots = activeSlotNumbers
+    ? userSelectedSlots.filter((slot) => activeSlotNumbers.includes(slot.slotNumber))
+    : userSelectedSlots;
+
+  const allSlots = configsToUse.map((config) => config.slotNumber);
   const availableSlots = allSlots.filter((slotNum) => !timersSlotNumbers.includes(slotNum));
 
-  // Create a map of slotNumber -> slotType for quick lookup
+  // Create a map of slotNumber -> slotType for quick lookup (only for active slots)
   const slotTypeMap = new Map<number, SlotType>();
-  orderItemsConfig.forEach((config) => {
+  configsToUse.forEach((config) => {
     slotTypeMap.set(config.slotNumber, config.slotType);
   });
 
@@ -29,7 +41,7 @@ export function generateSmartMockSlots(
 
   // Generate assignments for each template slotType
   const assignments: SlotMeta[] = MOCK_SELECTED_SLOTS_TEMPLATE.map((template) => {
-    const userSelectedMatching = userSelectedSlots.filter(
+    const userSelectedMatching = activeUserSelectedSlots.filter(
       (slot) => slot.slotType === template.slotType && !assignedSlotNumbers.has(slot.slotNumber),
     );
 
@@ -41,7 +53,7 @@ export function generateSmartMockSlots(
     } else {
       // No matches for this slotType - prioritize user-selected slots (any type) that are available
       // (not in timers and not already assigned)
-      const userSelectedAvailable = userSelectedSlots.filter(
+      const userSelectedAvailable = activeUserSelectedSlots.filter(
         (slot) => !timersSlotNumbers.includes(slot.slotNumber) && !assignedSlotNumbers.has(slot.slotNumber),
       );
 
@@ -62,7 +74,7 @@ export function generateSmartMockSlots(
     // Final fallback: if we still don't have a slot, try any user-selected slot (even if it has a timer)
     // This should rarely happen, but provides a last resort
     if (selectedSlotNumber === null) {
-      const userSelectedNotAssigned = userSelectedSlots.filter(
+      const userSelectedNotAssigned = activeUserSelectedSlots.filter(
         (slot) => !assignedSlotNumbers.has(slot.slotNumber),
       );
 

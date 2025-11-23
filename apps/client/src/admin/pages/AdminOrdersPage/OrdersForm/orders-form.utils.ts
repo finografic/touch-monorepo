@@ -207,6 +207,8 @@ export const useDropdownData = ({ language, tempItems, formDrinkType }: UseDropd
   };
 };
 
+export type UseDropdownDataReturn = ReturnType<typeof useDropdownData>;
+
 // ============================================================================
 // Temp Item Handlers
 // ============================================================================
