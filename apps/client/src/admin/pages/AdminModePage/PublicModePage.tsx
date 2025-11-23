@@ -126,7 +126,7 @@ export const PublicModePage: React.FC = () => {
           </Flex>
           <Flex gap="8" align="start" style={{ fontSize: '0.9rem', width: '100%', maxWidth: '400px' }}>
             {/* <pre>{JSON.stringify({ defaultModeId }, null, 2)}</pre> */}
-            <pre>{JSON.stringify({ modeOptions }, null, 2)}</pre>
+            {/* <pre>{JSON.stringify({ modeOptions }, null, 2)}</pre> */}
             {/* <pre>{JSON.stringify({ modes }, null, 2)}</pre> */}
           </Flex>
         </Flex>

@@ -54,7 +54,7 @@ export const PublicSoundPage: React.FC = () => {
               soundSettings={soundSettings}
               soundType="alarm"
             />
-            <ListBoxSelect soundFiles={soundFiles} soundSettings={soundSettings} soundType="alarm" />
+            {/* <ListBoxSelect soundFiles={soundFiles} soundSettings={soundSettings} soundType="alarm" /> */}
           </Col>
           <Col xs={6}>
             <Flex direction="row" gap="2" align="center" className="volume-control">
