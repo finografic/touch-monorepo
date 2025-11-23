@@ -12,6 +12,7 @@ import { useTimers } from 'providers/TimersProvider';
 
 import { FLOW_TYPES } from 'types/flow.types';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
+import { filterSlotsAvailable } from './timer-filter.utils';
 
 /**
  * Handles Time Flow operations:
@@ -94,11 +95,7 @@ export const useTimeFlowOperations = () => {
     (duration: number) => {
       startTransition(() => {
         // Filter out slots that have timers with status "processing" or "completed"
-        const slotsToProcess = selectedSlots.filter((slot) => {
-          const existingTimer = timers.find((t) => t.slotNumber === slot.slotNumber);
-          // Only include slots that don't have a timer, or have a timer with status other than "processing" or "completed"
-          return !existingTimer || (existingTimer.status !== 'processing' && existingTimer.status !== 'completed');
-        });
+        const slotsToProcess = filterSlotsAvailable(selectedSlots, timers);
 
         // Add timers to TimerContext for each filtered slot
         slotsToProcess.forEach((slot) => {

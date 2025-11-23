@@ -16,6 +16,7 @@ import { useTimers } from 'providers/TimersProvider';
 import { FLOW_TYPES } from 'types/flow.types';
 import { SlotType } from 'types/slots.types';
 import { PATHS } from 'config';
+import { filterSlotsAvailable } from './timer-filter.utils';
 
 /**
  * Handles Product Flow operations:
@@ -112,7 +113,10 @@ export const useProductFlowOperations = () => {
 
       // Create timers and navigate back to MainPage
       startTransition(function updateProcessForSelectedOrders() {
-        slotsToProcess.forEach((slotNumber) => {
+        // Filter out slots that have timers with status "processing" or "completed"
+        const filteredSlotsToProcess = filterSlotsAvailable(slotsToProcess, timers);
+
+        filteredSlotsToProcess.forEach((slotNumber) => {
           const order = orders.find((o) => o.slotNumber === slotNumber);
           if (order) {
             const duration = calculatedDurations[order.slotNumber.toString()];
@@ -146,7 +150,7 @@ export const useProductFlowOperations = () => {
             B: slotTypeDurations[SlotType.B] || 0,
             C: slotTypeDurations[SlotType.C] || 0,
           },
-          selectedOrders: slotsToProcess,
+          selectedOrders: filteredSlotsToProcess,
         });
 
         clearMainPageSelection();
