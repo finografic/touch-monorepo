@@ -42,44 +42,47 @@ export const TranslationsUiPage: React.FC = () => {
   }, [activeNamespace]);
 
   return (
-    <SectionedTranslationPage
-      key={activeNamespace}
-      subtitle="UI Labels / Translations"
-      sections={filteredSections}
-      supportedLanguages={supportedLanguages}
-      isLoading={isLoading}
-      handleValueChange={handleValueChange}
-      resetSection={resetSection}
-      saveSection={saveSection}
-      isSectionDirty={isSectionDirty}
-      renderSection={(props) => (
-        <UiLabelSection
-          key={props.sectionKey}
-          sectionKey={props.sectionKey}
-          title={props.title.replace(/^(app|admin|shared)\s+/i, '')}
-          description={props.description}
-          items={props.items}
-          supportedLanguages={props.supportedLanguages}
-          onItemChange={props.onItemChange}
-          onReset={props.onReset}
-          onSave={props.onSave}
-          isDirty={props.isDirty}
-        />
-      )}
-      styles={styles}
-      renderHeader={() => (
-        <div css={stylesTabs}>
-          <TabMenu
-            model={tabItems}
-            activeIndex={activeIndex}
-            onTabChange={(e) => {
-              if (e.index !== undefined) {
-                setActiveNamespace(NAMESPACES[e.index]);
-              }
-            }}
+    <>
+      {/* <pre>{JSON.stringify(filteredSections, null, 2)}</pre> */}
+      <SectionedTranslationPage
+        key={activeNamespace}
+        subtitle="UI Labels / Translations"
+        sections={filteredSections}
+        supportedLanguages={supportedLanguages}
+        isLoading={isLoading}
+        handleValueChange={handleValueChange}
+        resetSection={resetSection}
+        saveSection={saveSection}
+        isSectionDirty={isSectionDirty}
+        renderSection={(props) => (
+          <UiLabelSection
+            key={props.sectionKey}
+            sectionKey={props.sectionKey}
+            title={props.title.replace(/^(app|admin|shared)\s+/i, '')}
+            description={props.description}
+            items={props.items}
+            supportedLanguages={props.supportedLanguages}
+            onItemChange={props.onItemChange}
+            onReset={props.onReset}
+            onSave={props.onSave}
+            isDirty={props.isDirty}
           />
-        </div>
-      )}
-    />
+        )}
+        styles={styles}
+        renderHeader={() => (
+          <div css={stylesTabs}>
+            <TabMenu
+              model={tabItems}
+              activeIndex={activeIndex}
+              onTabChange={(e) => {
+                if (e.index !== undefined) {
+                  setActiveNamespace(NAMESPACES[e.index]);
+                }
+              }}
+            />
+          </div>
+        )}
+      />
+    </>
   );
 };

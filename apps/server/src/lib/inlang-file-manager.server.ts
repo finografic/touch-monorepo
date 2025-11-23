@@ -123,7 +123,9 @@ export async function getInlangMessagesFromFiles() {
                 const itemKey = element;
 
                 // Create section key (group by namespace, section, and role)
+                // Include role in the key to make sections unique
                 const fullSectionKey = `${namespace}_${sectionKey}_${role}`;
+                const sectionKeyWithRole = role ? `${sectionKey}_${role}` : sectionKey;
 
                 if (!sections[fullSectionKey]) {
                   const metadata = SECTION_METADATA[sectionKey] || {
@@ -132,7 +134,7 @@ export async function getInlangMessagesFromFiles() {
                   };
 
                   sections[fullSectionKey] = {
-                    key: sectionKey,
+                    key: sectionKeyWithRole, // Include role in key to make it unique
                     namespace,
                     role,
                     title: `${metadata.title} (${role})`,
@@ -162,6 +164,7 @@ export async function getInlangMessagesFromFiles() {
             const sectionKey = parts[1] || 'other'; // "items"
             const itemKey = parts.slice(2).join('_') || parts[parts.length - 1]; // "title"
 
+            // Flat messages don't have roles, so use simple key
             const fullSectionKey = `${namespace}_${sectionKey}`;
 
             if (!sections[fullSectionKey]) {
@@ -171,7 +174,7 @@ export async function getInlangMessagesFromFiles() {
               };
 
               sections[fullSectionKey] = {
-                key: sectionKey,
+                key: sectionKey, // No role for flat messages
                 namespace,
                 title: `${namespace} ${metadata.title}`,
                 description: metadata.description,
@@ -243,28 +246,35 @@ export async function saveInlangMessagesToFiles(data: {
 
   // Process sections and items
   for (const section of data.sections) {
-    // Determine namespace from section structure
-    // Sections may have format: "dashboard", "dashboard_admin", "dashboard_public"
-    let namespace: MessageFolder = 'admin'; // Default
+    // Use namespace and role from section if available, otherwise parse from key
+    let namespace: MessageFolder = (section as any).namespace || 'admin'; // Default
     let sectionKey = section.key;
-    let role: string | null = null;
+    let role: string | null = (section as any).role || null;
 
-    // Check if section key includes namespace prefix
-    if (sectionKey.startsWith('app_')) {
-      namespace = 'app';
-      sectionKey = sectionKey.replace('app_', '');
-    } else if (sectionKey.startsWith('shared_')) {
-      namespace = 'shared';
-      sectionKey = sectionKey.replace('shared_', '');
-    } else if (sectionKey.startsWith('admin_')) {
-      namespace = 'admin';
-      sectionKey = sectionKey.replace('admin_', '');
+    // If namespace/role not provided, try to parse from key
+    if (!(section as any).namespace) {
+      // Check if section key includes namespace prefix
+      if (sectionKey.startsWith('app_')) {
+        namespace = 'app';
+        sectionKey = sectionKey.replace('app_', '');
+      } else if (sectionKey.startsWith('shared_')) {
+        namespace = 'shared';
+        sectionKey = sectionKey.replace('shared_', '');
+      } else if (sectionKey.startsWith('admin_')) {
+        namespace = 'admin';
+        sectionKey = sectionKey.replace('admin_', '');
+      }
     }
 
-    // Check if this is a variant message (has role suffix)
-    const roleMatch = sectionKey.match(/_([^_]+)$/);
-    if (roleMatch && ['admin', 'public'].includes(roleMatch[1])) {
-      role = roleMatch[1];
+    // If role not provided, check if this is a variant message (has role suffix)
+    if (!role) {
+      const roleMatch = sectionKey.match(/_([^_]+)$/);
+      if (roleMatch && ['admin', 'public'].includes(roleMatch[1])) {
+        role = roleMatch[1];
+        sectionKey = sectionKey.replace(`_${role}`, '');
+      }
+    } else {
+      // Role is provided, remove it from sectionKey if present
       sectionKey = sectionKey.replace(`_${role}`, '');
     }
 

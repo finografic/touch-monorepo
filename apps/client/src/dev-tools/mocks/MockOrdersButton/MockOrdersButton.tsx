@@ -12,7 +12,7 @@ import { useTimers } from 'providers/TimersProvider/TimerContext';
 import type { OrderFilters } from 'types/filters.types';
 import { FLOW_TYPES } from 'types/flow.types';
 import { PATHS } from 'config';
-import { MOCK_ORDERS_DATA, MOCK_SELECTED_SLOTS_DATA } from './mock-orders.data';
+import { MOCK_ORDERS_DATA, generateSmartMockSlots } from './mock-orders.data';
 import { ListChecksIcon } from 'styles/icons';
 
 export const MockOrdersButton = () => {
@@ -25,22 +25,6 @@ export const MockOrdersButton = () => {
   const { toggleSlot, setOrdersSession } = useOrders();
   const orderItemsConfig = useSlotItemsConfig();
   const { timers } = useTimers();
-  const timerMap = new Map(timers.map((t) => [t.slotNumber, t]));
-
-  const getSelectedMockSlots = useCallback(() => {
-    const slotsTimers = timers.map((slot) => slot.slotNumber);
-    const slotsSelected = selectedSlots.map((slot) => slot.slotNumber);
-
-    const TEST = MOCK_SELECTED_SLOTS_DATA.forEach((slot) => {
-      const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
-      if (orderConfig) {
-        toggleSlot({
-          slotType: orderConfig.slotType,
-          slotNumber: slot.slotNumber,
-        });
-      }
-    });
-  }, [selectedSlots, timers.length]);
 
   const handleMockData = useCallback(() => {
     if (!ordersContext?.setOrders) return;
@@ -52,11 +36,23 @@ export const MockOrdersButton = () => {
     // const mockFilters = MOCK_ORDERS_DATA[0].filters;
     const mockFilters = MOCK_ORDERS_DATA as OrderFilters;
 
-    // Assign orders to session
-    const slotNumbers = MOCK_SELECTED_SLOTS_DATA.map((slot) => slot.slotNumber);
+    // ======================================================================== //
+    // SMART RANDOM ASSIGNMENT LOGIC
+
+    // Get slots with active timers (blocked from assignment)
+    const slotsTimers = timers.map((timer) => timer.slotNumber);
+
+    // Generate smart mock slots that:
+    // - Exclude slots with timers
+    // - Prioritize user-selected slots
+    // - Try to match slotType when possible
+    const mockSlots = generateSmartMockSlots(orderItemsConfig, slotsTimers, selectedSlots);
+
+    // Extract slot numbers for session assignment
+    const slotNumbers = mockSlots.map((slot) => slot.slotNumber);
 
     // Ensure orders are created and selected for the mock slots
-    MOCK_SELECTED_SLOTS_DATA.forEach((slot) => {
+    mockSlots.forEach((slot) => {
       const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
       if (orderConfig) {
         toggleSlot({
@@ -66,8 +62,10 @@ export const MockOrdersButton = () => {
       }
     });
 
+    // ======================================================================== //
+
     // Set selected slots in LayoutUi context
-    setSelectedSlots(MOCK_SELECTED_SLOTS_DATA);
+    setSelectedSlots(mockSlots);
 
     // Assign slotNumbers to session
     assignOrdersToSession(sessionId, slotNumbers);
@@ -129,6 +127,8 @@ export const MockOrdersButton = () => {
     toggleSlot,
     setOrdersSession,
     orderItemsConfig,
+    timers,
+    selectedSlots,
   ]);
 
   if (!ordersContext) return null;
