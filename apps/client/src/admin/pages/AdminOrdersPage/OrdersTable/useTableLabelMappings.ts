@@ -12,6 +12,8 @@ import { useGetOrdersReadable } from 'queries/orders';
 import type { ContainerType, DrinkSubtype, DrinkType, DrinkVolume } from 'types/models';
 import { SelectOptionDto } from 'types/models/select-option.model';
 import { ROUTE_FILTER_KEYS } from 'config/app';
+import startCase from 'lodash/startCase';
+import camelCase from 'lodash/camelCase';
 
 /**
  * Hook to generate value-to-label mappings for table display
@@ -232,7 +234,7 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
     };
   }, [drinkTypeOptions, drinkSubtypeOptions, volumeOptions, containerTypeOptions, modeOptions]);
 
-  // Helper functions to get labels
+  // Helper functions to get labels (backward compatibility)
   const getLabel = useMemo(
     () => ({
       drinkType: (value: string | null | undefined): string => {
@@ -259,8 +261,32 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
     [labelMappings],
   );
 
+  // Dynamic labels object with field display names
+  // Maps field names to their display labels (for headers, etc.)
+  const labels = useMemo(() => {
+    // Custom label mappings for fields (can be extended)
+    const customLabels: Record<string, string> = {
+      mode: labelMappings.mode.get('mode'),
+      drinkType: labelMappings.drinkType.get('drinkType'),
+      drinkSubtype: labelMappings.drinkSubtype.get('drinkSubtype'), // Note: "Subtype" not "Drink Subtype"
+      volume: labelMappings.volume.get('volume'),
+      containerType: labelMappings.containerType.get('containerType'), // Note: "Container" not "Container Type"
+    };
+
+    // Create labels object dynamically from labelMappings keys
+    const fieldLabels: Record<string, string> = {};
+
+    Object.keys(labelMappings).forEach((key) => {
+      // Use custom label if available, otherwise convert camelCase to Title Case
+      fieldLabels[key] = customLabels[key] || startCase(camelCase(key));
+    });
+
+    return fieldLabels;
+  }, [labelMappings]);
+
   return {
     labelMappings,
-    getLabel,
+    getLabel, // Backward compatibility
+    labels, // New: object with field display names
   };
 };

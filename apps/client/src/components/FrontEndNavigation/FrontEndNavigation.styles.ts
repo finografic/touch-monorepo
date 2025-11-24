@@ -1,6 +1,6 @@
 import { css } from '@emotion/react';
 
-import { colors, layout } from 'styles';
+import { button, colors, layout } from 'styles';
 import { stylesSmallButton } from 'styles/project/buttons.styles';
 
 export const styles = css`
@@ -37,6 +37,23 @@ export const styles = css`
   .small-button,
   .small-button {
     ${stylesSmallButton}
+  }
+
+  button[id^='button-cancel-'] {
+    background-color: transparent;
+    color: ${colors.warning};
+
+    border: ${button.border.width} solid ${colors.warning};
+
+    &:hover:not(:disabled):not([data-loading='true']) {
+      background-color: ${colors.warningXXLight50};
+      border-color: ${colors.warningDark};
+      color: ${colors.warningDark};
+    }
+
+    &:focus:not(:disabled):not([data-loading='true']) {
+      border-color: ${colors.warningDark};
+    }
   }
 
   /* Button color variants are now handled globally in buttons.styles.ts */

@@ -9,6 +9,7 @@ export const styles = css`
   ${stylesAdminContent}
 
   /* ADMIN-APP-LAYOUT ======================================================= */
+
   header.app-header.admin-app-header {
     width: 100%;
     max-width: none;
@@ -30,8 +31,6 @@ export const styles = css`
   }
 
   /* ADMIN-SECTIONS ======================================================= */
-
-  /* ======================================================================== */
 
   .field-label {
     width: 100%;

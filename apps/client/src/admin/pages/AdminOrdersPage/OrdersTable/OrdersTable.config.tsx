@@ -114,6 +114,71 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     );
   };
 
+  const COLUMNS: ColumnProps[] = [
+    {
+      field: 'displayIndex',
+      header: '#',
+      sortable: true,
+      filter: true,
+      filterPlaceholder: 'Search',
+      style: { minWidth: '60px', maxWidth: '80px' },
+      body: indexBodyTemplate,
+      selectionMode: 'multiple',
+      headerStyle: { width: '3rem' },
+    },
+    {
+      field: 'mode',
+      header: 'Mode',
+      sortable: true,
+      filter: true,
+      filterPlaceholder: 'Search',
+      style: { minWidth: '80px', maxWidth: '100px' },
+      body: (rowData: OrderReadableWithIndex) => <Text size="2">{getLabel.mode(rowData.mode)}</Text>,
+    },
+    {
+      field: 'drinkType',
+      header: 'Drink Type',
+      sortable: true,
+      filter: true,
+      filterPlaceholder: 'Search',
+      style: { minWidth: '120px', maxWidth: '150px' },
+      body: (rowData: OrderReadableWithIndex) => (
+        <Text size="2">{getLabel.drinkType(rowData.drinkType)}</Text>
+      ),
+    },
+    {
+      field: 'drinkSubtype',
+      header: 'Subtype',
+      sortable: true,
+      filter: true,
+      filterPlaceholder: 'Search',
+      style: { minWidth: '120px', maxWidth: '150px' },
+      body: (rowData: OrderReadableWithIndex) => (
+        <Text size="2">{getLabel.drinkSubtype(rowData.drinkSubtype)}</Text>
+      ),
+    },
+    {
+      field: 'volume',
+      header: 'Volume',
+      sortable: true,
+      filter: true,
+      filterPlaceholder: 'Search',
+      style: { minWidth: '100px', maxWidth: '120px' },
+      body: (rowData: OrderReadableWithIndex) => <Text size="2">{getLabel.volume(rowData.volume)}</Text>,
+    },
+    {
+      field: 'containerType',
+      header: 'Container',
+      sortable: true,
+      filter: true,
+      filterPlaceholder: 'Search',
+      style: { minWidth: '100px', maxWidth: '120px' },
+      body: (rowData: OrderReadableWithIndex) => (
+        <Text size="2">{getLabel.containerType(rowData.containerType)}</Text>
+      ),
+    },
+  ];
+
   const modeBodyTemplate = (rowData: OrderReadableWithIndex) => {
     return <Text size="2">{getLabel.mode(rowData.mode)}</Text>;
   };
