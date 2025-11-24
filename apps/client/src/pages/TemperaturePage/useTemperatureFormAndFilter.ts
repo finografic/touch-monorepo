@@ -111,7 +111,7 @@ export const useTemperatureFormAndFilter = ({ profiles, dataFiltered }: UseTempe
       if (refIsInitialized.current) return;
 
       const initial = INITIAL_TEMP_DEFAULT;
-      const final = filters.temperature.defaultConsume ?? FINAL_TEMP_DEFAULT;
+      const final = filters?.temperature?.defaultConsume ?? FINAL_TEMP_DEFAULT;
       setTemperatures({ initial, final });
       updateFilters({ initial, final });
 
