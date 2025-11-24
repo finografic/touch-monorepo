@@ -17,6 +17,8 @@ export interface UiLabelSectionData {
   title: string;
   description: string;
   items: UiLabelItem[];
+  namespace?: string; // 'app' | 'admin' | 'shared'
+  role?: string; // For variant messages (e.g., 'admin', 'public')
 }
 
 export type UiLabelsFormData = z.infer<ReturnType<typeof createUiLabelsSchema>>;
