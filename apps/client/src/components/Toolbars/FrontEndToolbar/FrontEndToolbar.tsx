@@ -12,7 +12,7 @@ import { useStorageTimer } from 'providers/TimersProvider';
 import type { Theme } from 'types/ui.types';
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
 import { useDev } from 'dev-tools/providers/DevProvider';
-import { ConfigTimer } from '../../Timers/ConfigTimer';
+import { RecallTimer } from '../../Timers/RecallTimer';
 import { DialogIcon, TimerIcon } from 'styles/icons';
 import { styles } from './FrontEndToolbar.styles';
 
@@ -74,7 +74,7 @@ export const FrontEndToolbar: React.FC = () => {
           {/* Config expiry timer */}
           {isStorageTimerVisible && hasActiveTimer && (
             <Box className="timer-container">
-              <ConfigTimer />
+              <RecallTimer />
             </Box>
           )}
         </Flex>

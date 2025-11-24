@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import createCuid from '@bugsnag/cuid';
 
-import { useConfigStorage } from 'hooks/useConfigStorage';
+import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useFilters } from 'providers/FiltersProvider/useFilters';
@@ -38,7 +38,7 @@ export const useProductFlowOperations = () => {
   const { setFilter, clearFilters, filters } = useFiltersContext();
   const { dataFiltered } = useFilters();
   const orderItemsConfig = useSlotItemsConfig();
-  const { saveConfig } = useConfigStorage();
+  const { saveConfig } = useRecallConfig();
 
   // Temperature control loading state
   const [isTemperatureLoading, setIsTemperatureLoading] = useState(false);

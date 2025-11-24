@@ -3,7 +3,7 @@ import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 /**
  * Shared utility functions for session storage timer management
  *
- * These functions are used by both useConfigStorage and useStorageTimer
+ * These functions are used by both useRecallConfig and useStorageTimer
  * to avoid code duplication while maintaining separation of concerns.
  */
 

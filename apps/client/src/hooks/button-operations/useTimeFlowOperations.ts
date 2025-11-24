@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import createCuid from '@bugsnag/cuid';
 
-import { useConfigStorage } from 'hooks/useConfigStorage';
+import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
@@ -29,7 +29,7 @@ export const useTimeFlowOperations = () => {
   const { addTimer, timers } = useTimers();
   const { selectedSlots, clearMainPageSelection } = useLayoutUi();
   const orderItemsConfig = useSlotItemsConfig();
-  const { saveConfig } = useConfigStorage();
+  const { saveConfig } = useRecallConfig();
 
   // ========================================================================
   // PROGRAM TIME (MainPage → TimePage)

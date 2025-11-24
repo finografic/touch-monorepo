@@ -2,7 +2,7 @@ import { useCallback, useTransition } from 'react';
 
 import createCuid from '@bugsnag/cuid';
 
-import { useConfigStorage } from 'hooks/useConfigStorage';
+import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
@@ -30,7 +30,7 @@ export const useMainPageOperations = () => {
     selectedSlots,
     setSelectedSlots,
   } = useLayoutUi();
-  const { saveConfig, loadConfig } = useConfigStorage();
+  const { saveConfig, loadConfig } = useRecallConfig();
   const orderItemsConfig = useSlotItemsConfig();
   const { setFilter } = useFiltersContext();
 

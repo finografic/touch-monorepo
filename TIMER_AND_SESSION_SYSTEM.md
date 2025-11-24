@@ -20,13 +20,13 @@ The session storage timer system manages a 1-hour configuration expiry timer tha
   - Returns `remainingTime` in milliseconds
   - Used by UI components to determine if configuration features should be enabled
 
-- **`ConfigTimer` Component** (`components/Timers/ConfigTimer.tsx`)
+- **`RecallTimer` Component** (`components/Timers/RecallTimer.tsx`)
   - Displays countdown timer showing when configuration expires
   - Subscribes to heartbeat timer (updates every 1 second)
   - Uses `getSessionTimerStatus()` utility to calculate remaining time
   - Automatically clears expired configuration from sessionStorage
 
-- **`useConfigStorage` Hook** (`hooks/useConfigStorage.ts`)
+- **`useRecallConfig` Hook** (`hooks/useRecallConfig.ts`)
   - `saveConfig()`: Saves configuration to `touch_last_config` and sets `touch_config_timestamp`
   - `loadConfig()`: Loads and validates saved configuration (checks expiry)
   - `clearConfig()`: Clears both config and timestamp from sessionStorage
@@ -68,7 +68,7 @@ A centralized master timer that ticks every second, used by all timer components
 - **Timer Components Using Heartbeat**
   - `Timer.tsx`: Subscribes to heartbeat via `tick` dependency
   - `UserTimer.tsx`: Subscribes to heartbeat via `tick` dependency
-  - `ConfigTimer.tsx`: Subscribes to heartbeat via `tick` dependency
+  - `RecallTimer.tsx`: Subscribes to heartbeat via `tick` dependency
   - `SnoozeTimer.tsx`: Uses heartbeat for countdown updates
 
 #### Benefits
@@ -167,7 +167,7 @@ CONFIG_TIMESTAMP set to Date.now()
   ↓
 hasActiveTimer becomes true
   ↓
-ConfigTimer displays countdown
+RecallTimer displays countdown
   ↓
 SnoozeTimer becomes active (if completed timers exist)
 ```
@@ -234,7 +234,7 @@ Stops when:
 
 - **"Repetir Selección" button**: Only enabled when `hasActiveTimer === true`
 - **SnoozeTimer**: Only active when `hasActiveTimer === true`
-- **ConfigTimer**: Only displays when timer is active
+- **RecallTimer**: Only displays when timer is active
 
 ### Session → Slot Persistence
 
@@ -275,7 +275,7 @@ Stops when:
          │                       │
          │                       ▼
          │              ┌──────────────────┐
-         │              │  ConfigTimer     │
+         │              │  RecallTimer     │
          │              │  SnoozeTimer     │
          │              │  Repeat Button   │
          │              └──────────────────┘

@@ -3,10 +3,12 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 import type { SlotStatus } from 'pages/MainPage/MainPage.types';
 
+import { CONFIG_EXPIRY_TIME_MS } from 'config/app';
+
 import type { TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
-import type { TimersStore, TimersValues } from './TimerContext.types';
+import type { RecallConfig, TimersStore, TimersValues } from './TimerContext.types';
 
 export const DISPLAY_NAME = 'Timers';
 export const SETTER_PREFIX = '';
@@ -15,12 +17,17 @@ export enum TimersKeys {
   timers = 'timers',
   snooze = 'snooze',
   maintenance = 'maintenance',
+  recall = 'recall',
 }
 
 export const defaultValue: TimersValues = {
   timers: [],
   snooze: false,
   maintenance: [],
+  recall: {
+    config: null,
+    expiresAt: null,
+  },
 };
 
 export const TimersContext = createZustandContext(({ initialValue }) => {
@@ -165,6 +172,74 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
           getMaintenanceTimerBySlot: (slotNumber: number) => {
             const { maintenance } = get();
             return maintenance.find((t) => t.slotNumber === slotNumber);
+          },
+          // ----- Recall config (configuration recall system) -----
+          setRecallConfig: (config: RecallConfig, forceResetTimer = false) => {
+            const { recall } = get();
+            const now = Date.now();
+
+            // Check if current recall is expired
+            const isExpired = recall.expiresAt === null || now >= recall.expiresAt;
+
+            // Set new config and reset timer if forced or expired
+            if (forceResetTimer || isExpired) {
+              set({
+                recall: {
+                  config,
+                  expiresAt: now + CONFIG_EXPIRY_TIME_MS,
+                },
+              });
+            } else {
+              // Just update config, keep existing expiresAt
+              set({
+                recall: {
+                  config,
+                  expiresAt: recall.expiresAt,
+                },
+              });
+            }
+          },
+          clearRecallConfig: () => {
+            set({
+              recall: {
+                config: null,
+                expiresAt: null,
+              },
+            });
+          },
+          getRecallConfig: (): RecallConfig | null => {
+            const { recall } = get();
+            const now = Date.now();
+
+            // Return null if expired
+            if (recall.expiresAt === null || now >= recall.expiresAt) {
+              // Auto-clear if expired
+              set({
+                recall: {
+                  config: null,
+                  expiresAt: null,
+                },
+              });
+              return null;
+            }
+
+            return recall.config;
+          },
+          isRecallExpired: (): boolean => {
+            const { recall } = get();
+            const now = Date.now();
+            return recall.expiresAt === null || now >= recall.expiresAt;
+          },
+          getRecallRemainingTime: (): number => {
+            const { recall } = get();
+            const now = Date.now();
+
+            if (recall.expiresAt === null) {
+              return 0;
+            }
+
+            const remaining = recall.expiresAt - now;
+            return Math.max(0, remaining);
           },
         },
       }),

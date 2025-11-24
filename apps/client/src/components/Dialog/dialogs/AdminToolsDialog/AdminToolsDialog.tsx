@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { ConfigTimer } from 'apps/client/src/components/Timers/ConfigTimer/ConfigTimer';
+import { RecallTimer } from 'apps/client/src/components/Timers/RecallTimer/RecallTimer';
 import { DataDump } from 'components/DataDump/DataDump';
 import { CalculationDataList } from 'components/DataList/CalculationDataList/CalculationDataList';
 import { ConfigDataList } from 'components/DataList/ConfigDataList/ConfigDataList';
 import { MetadataDataList } from 'components/DataList/MetadataDataList/MetadataDataList';
 import { OrderDataList } from 'components/DataList/OrderDataList/OrderDataList';
 
-import { useConfigStorage } from 'hooks/useConfigStorage';
+import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useOrderSelection } from 'hooks/useOrderSelection';
 
 import { ROUTE_FILTER_KEYS } from 'config/app';
@@ -23,7 +23,7 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
   });
   const [calculation, setCalculation] = useState<Calculation | null>(null);
   const [viewMode, setViewMode] = useState<'json' | 'list'>('json');
-  const { loadConfig } = useConfigStorage();
+  const { loadConfig } = useRecallConfig();
 
   // Safe storage access helper
   function safeLoadCalculationFromStorage(slotNumber: string): Calculation | null {
@@ -115,7 +115,7 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
     label: 'Stored Configuration',
     content: (
       <div className="configContent">
-        <ConfigTimer />
+        <RecallTimer />
         {viewMode === 'list' ? (
           <div className="data-list">
             <ConfigDataList data={storedConfig} />

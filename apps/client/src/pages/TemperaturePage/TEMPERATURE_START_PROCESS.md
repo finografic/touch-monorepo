@@ -61,7 +61,7 @@ Perfect! Now I have a complete picture. Let me provide you with a detailed step-
 
 ### **7. Configuration Saving**
 
-- **File**: `useConfigStorage.ts` → `saveConfig()`
+- **File**: `useRecallConfig.ts` → `saveConfig()`
 - **Data Saved**:
 
   ```javascript
@@ -138,7 +138,7 @@ Perfect! Now I have a complete picture. Let me provide you with a detailed step-
 2. **useTemperatureManagement** → Updates filters in multiple contexts
 3. **START Button** → Triggers `startTemperatureControl()`
 4. **useTemperatureControl** → Calculates durations from temperature profiles
-5. **useConfigStorage** → Saves configuration to session storage
+5. **useRecallConfig** → Saves configuration to session storage
 6. **useButtonOperations** → Creates timers and processes orders
 7. **Multiple Contexts** → Update state (Orders, Timers, Layout, Pagination)
 8. **Navigation** → Return to main page with active timers

@@ -5,27 +5,27 @@ import { SlotType } from 'types/slots.types';
 
 export const MOCK_ORDERS_DATA: OrderFilters = {
   mode: {
-    id: 'cmic2h9kn0002jg7nevni8zl1',
+    id: 'cmid93kry0002k67nzbp15fas',
     name: '3',
   },
   drinkType: {
-    id: 'cmic2h6cf0001e67n3l9vswcc',
+    id: 'cmid93hj30001cq7njlsiwvt8',
     name: 'vino',
     hasSubtypes: true,
     defaultTempConsume: 15,
   },
   drinkSubtype: {
-    id: 'cmic2h6cg0009e67nd7hetfns',
+    id: 'cmid93hj40009cq7ny6a6ds21',
     name: 'tinto',
     defaultTempConsume: 15,
   },
   drinkVolume: {
-    id: 'cmic2h8r60004i47n3ol3umwy',
-    name: '75cl',
+    id: 'cmid93jyn0006ie7nu0c4efck',
+    name: '33cl',
   },
   containerType: {
-    id: 'cmic2h7xt0002gx7n62hhiefs',
-    name: 'metal',
+    id: 'cmid93j5a0001ga7nvk2iqpkq',
+    name: 'vidrio',
   },
 };
 

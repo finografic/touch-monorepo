@@ -10,7 +10,7 @@ import { useAppConfig } from 'providers/AppConfigProvider';
 import { stopAllAudio } from 'utils/soundCache.utils';
 import type { Theme } from 'types/ui.types';
 import { PATHS } from 'config';
-import { ConfigTimer } from '../../Timers/ConfigTimer';
+import { RecallTimer } from '../../Timers/RecallTimer';
 import { HomeIcon, StopIcon, TimerIcon } from 'styles/icons';
 import { styles } from './AdminToolbar.styles';
 
@@ -53,7 +53,7 @@ export const AdminToolbar: React.FC = () => {
           {/* Config expiry timer */}
           {isStorageTimerVisible && hasActiveTimer && (
             <div className="timer-container">
-              <ConfigTimer />
+              <RecallTimer />
             </div>
           )}
         </Flex>
