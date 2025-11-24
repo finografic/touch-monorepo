@@ -11,6 +11,7 @@ import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
 import { getNavItemText } from 'utils/i18n/i18n-inlang.utils';
+import { getMessageText, getMessageText__V1 } from 'utils/i18n/i18n-inlang.AI.4.utils';
 import { MoreButton } from './MoreButton';
 import { useResponsiveNav } from './useResponsiveNav';
 import { styles } from './AdminNavigation.styles';
@@ -28,8 +29,10 @@ export const AdminNavigation: React.FC = () => {
     return [
       ...configNavItems.map((item) => ({
         id: item.key,
-        label: getNavItemText(user?.role, item.key),
+        // label: getNavItemText(user?.role, item.key),
         // label: getMessageTexts(['admin', item.key], ['card', 'title'], user?.role)?.title, // V3
+        // label: getMessageText(['admin', item.key], ['card', 'title'], user?.role).title, // V4
+        label: getMessageText__V1(['admin', item.key], ['card', 'title'], user?.role)?.title, // V4
         path: item.path,
       })),
     ];

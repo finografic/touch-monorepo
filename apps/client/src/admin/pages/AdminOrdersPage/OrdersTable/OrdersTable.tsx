@@ -1,27 +1,29 @@
-import React, { useMemo, useState } from 'react';
+import React, { useState } from 'react';
 
 import { Button as RadixButton, Text } from '@radix-ui/themes';
 import { FilterMatchMode } from 'primereact/api';
 import { Column } from 'primereact/column';
+import type { ColumnProps } from 'primereact/column';
 import type { DataTableFilterMeta, DataTableProps } from 'primereact/datatable';
 import { DataTable } from 'primereact/datatable';
-import { InputText } from 'primereact/inputtext';
 
 import { useAppConfig } from 'providers/AppConfigProvider';
 
-import { formatUnixTimestamp } from 'utils/date.utils';
 import type { OrderReadableWithIndex } from '../hooks/useOrdersFilter';
 import { useTableLabelMappings } from './useTableLabelMappings';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { styles } from './OrdersTable.styles';
+import {
+  ORDERS_TABLE_COLUMNS,
+  type OrdersTableColumnBodyType,
+  PAGINATOR_NUM_ENTRIES,
+} from './OrdersTable.config';
 
 // ============================================================================
 // Constants
 // ============================================================================
-
-export const PAGINATOR_NUM_ENTRIES = 50;
 
 export const PAGINATOR_PROPS = {
   paginator: true,
@@ -45,7 +47,6 @@ export type ColumnKey =
   | 'volume'
   | 'containerType'
   | 'defaultTempConsume'
-  | 'createdAt'
   | 'actions';
 
 export interface ColumnDef {
@@ -138,10 +139,6 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     return rowData.defaultTempConsume ? `${rowData.defaultTempConsume}°C` : '-';
   };
 
-  const createdBodyTemplate = (rowData: OrderReadableWithIndex) => {
-    return <Text size="1">{formatUnixTimestamp(rowData.createdAt, currentLanguage)}</Text>;
-  };
-
   const actionsBodyTemplate = (rowData: OrderReadableWithIndex) => {
     return (
       <div className="action-buttons">
@@ -166,11 +163,23 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     );
   };
 
+  const bodyRenderers: Record<OrdersTableColumnBodyType, ColumnProps['body']> = {
+    index: indexBodyTemplate,
+    mode: modeBodyTemplate,
+    drinkType: drinkTypeBodyTemplate,
+    drinkSubtype: drinkSubtypeBodyTemplate,
+    volume: volumeBodyTemplate,
+    containerType: containerTypeBodyTemplate,
+    temperature: temperatureBodyTemplate,
+    actions: actionsBodyTemplate,
+  };
+
   return (
     <section css={styles} className="table-container">
       <DataTable
         value={orders}
         dataKey="id"
+        selectionMode="multiple"
         selection={selectedOrders}
         onSelectionChange={(e) => setSelectedOrders(e.value as OrderReadableWithIndex[])}
         filters={filters}
@@ -182,70 +191,19 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         {...PAGINATOR_PROPS}
       >
         <Column selectionMode="multiple" headerStyle={{ width: '3rem' }} />
-        <Column
-          field="displayIndex"
-          header="#"
-          sortable
-          filter
-          filterPlaceholder="Search"
-          style={{ minWidth: '60px', maxWidth: '80px' }}
-          body={indexBodyTemplate}
-        />
-        <Column
-          field="mode"
-          header="Mode"
-          sortable
-          filter
-          filterPlaceholder="Search"
-          style={{ minWidth: '80px', maxWidth: '100px' }}
-          body={modeBodyTemplate}
-        />
-        <Column
-          field="drinkType"
-          header="Drink Type"
-          sortable
-          filter
-          filterPlaceholder="Search"
-          style={{ minWidth: '120px', maxWidth: '150px' }}
-          body={drinkTypeBodyTemplate}
-        />
-        <Column
-          field="drinkSubtype"
-          header="Subtype"
-          sortable
-          filter
-          filterPlaceholder="Search"
-          style={{ minWidth: '120px', maxWidth: '150px' }}
-          body={drinkSubtypeBodyTemplate}
-        />
-        <Column
-          field="volume"
-          header="Volume"
-          sortable
-          filter
-          filterPlaceholder="Search"
-          style={{ minWidth: '100px', maxWidth: '120px' }}
-          body={volumeBodyTemplate}
-        />
-        <Column
-          field="containerType"
-          header="Container"
-          sortable
-          filter
-          filterPlaceholder="Search"
-          style={{ minWidth: '100px', maxWidth: '120px' }}
-          body={containerTypeBodyTemplate}
-        />
-        <Column
-          field="defaultTempConsume"
-          header="Temperature"
-          sortable
-          filter
-          filterPlaceholder="Search"
-          style={{ minWidth: '120px', maxWidth: '140px' }}
-          body={temperatureBodyTemplate}
-        />
-        <Column header="Actions" body={actionsBodyTemplate} />
+        {ORDERS_TABLE_COLUMNS.map((column) => (
+          <Column
+            key={column.field}
+            field={column.field === 'actions' ? undefined : column.field}
+            header={column.header}
+            sortable={column.sortable !== undefined ? column.sortable : true}
+            filter={column.filter !== undefined ? column.filter : true}
+            filterPlaceholder={column.filterPlaceholder ?? 'Search'}
+            style={column.style ?? { minWidth: '100px', maxWidth: '120px' }}
+            headerStyle={column.headerStyle}
+            body={bodyRenderers[column.bodyType]}
+          />
+        ))}
       </DataTable>
     </section>
   );
