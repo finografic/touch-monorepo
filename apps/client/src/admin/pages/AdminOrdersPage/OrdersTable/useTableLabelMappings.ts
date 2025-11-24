@@ -65,85 +65,69 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
       .filter(Boolean) as DrinkSubtype[];
   }, [subtypeQueries]);
 
-  // Create options using the same logic as the form
-  // Note: DrinkType has id and name properties (camelCase version of DrinkTypeEntity)
-  const drinkTypeOptions = useMemo(() => {
-    const databaseOptions = drinkTypes.map((dt) => {
-      const translatedLabel = dt.translations?.[language] || dt.name || '';
+  // Helper function to create database options from entities with translations
+  const createDatabaseOptions = <T extends { name?: string; translations?: Record<string, string> }>(
+    entities: T[],
+    getValue: (entity: T) => string = (e) => e.name || '',
+  ) => {
+    return entities.map((entity) => {
+      const translatedLabel = entity.translations?.[language] || entity.name || '';
       return {
-        value: dt.name || '',
-        label: translatedLabel,
-        category: 'Database',
-      };
-    });
-    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, ROUTE_FILTER_KEYS.drinkType);
-    // Duplicates are okay - labelMappings will prioritize Database labels
-    return [...databaseOptions, ...ordersOptions];
-  }, [drinkTypes, ordersData, language]);
-
-  const drinkSubtypeOptions = useMemo(() => {
-    // Map database subtypes with translations (capitalized labels like "Rubia", "Tinto")
-    const databaseOptions = allSubtypes.map((subtype) => {
-      const translatedLabel = subtype.translations?.[language] || subtype.name || '';
-      return {
-        value: subtype.name || '',
+        value: getValue(entity),
         label: translatedLabel,
         category: 'Database' as const,
       };
     });
+  };
 
-    // Create a map of Database labels by value for quick lookup
-    const databaseLabelMap = new Map<string, string>();
-    databaseOptions.forEach((opt) => {
-      databaseLabelMap.set(opt.value, opt.label);
-    });
+  // Helper function to merge database and orders options
+  const mergeOptions = (
+    databaseOptions: Array<{ value: string; label: string; category: 'Database' }>,
+    ordersOptions: Array<{ value: string; label: string; category?: string }>,
+    mergeLabels = false, // For subtypes: merge database labels into orders options
+  ) => {
+    if (mergeLabels) {
+      // Create a map of Database labels by value for quick lookup
+      const databaseLabelMap = new Map<string, string>();
+      databaseOptions.forEach((opt) => {
+        databaseLabelMap.set(opt.value, opt.label);
+      });
 
-    // Extract custom subtypes from orders data
-    // Overwrite labels with Database labels when the value exists in Database
-    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, ROUTE_FILTER_KEYS.drinkSubtype).map(
-      (opt) => {
-        // If this value exists in Database, use the Database label (properly capitalized)
+      // Overwrite labels with Database labels when the value exists in Database
+      const mergedOrdersOptions = ordersOptions.map((opt) => {
         const databaseLabel = databaseLabelMap.get(opt.value);
-        if (databaseLabel) {
-          return {
-            ...opt,
-            label: databaseLabel,
-          };
-        }
-        return opt;
-      },
-    );
+        return databaseLabel ? { ...opt, label: databaseLabel } : opt;
+      });
+
+      return [...databaseOptions, ...mergedOrdersOptions];
+    }
 
     return [...databaseOptions, ...ordersOptions];
+  };
+
+  // Create options using the same logic as the form
+  const drinkTypeOptions = useMemo(() => {
+    const databaseOptions = createDatabaseOptions(drinkTypes);
+    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, ROUTE_FILTER_KEYS.drinkType);
+    return mergeOptions(databaseOptions, ordersOptions);
+  }, [drinkTypes, ordersData, language]);
+
+  const drinkSubtypeOptions = useMemo(() => {
+    const databaseOptions = createDatabaseOptions(allSubtypes);
+    const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, ROUTE_FILTER_KEYS.drinkSubtype);
+    return mergeOptions(databaseOptions, ordersOptions, true); // Merge labels for subtypes
   }, [allSubtypes, ordersData, language]);
 
   const volumeOptions = useMemo(() => {
-    // DrinkVolume has id and name properties (camelCase version of VolumeEntity)
-    const databaseOptions = volumes.map((v) => {
-      const translatedLabel = v.translations?.[language] || v.name || '';
-      return {
-        value: v.name || '',
-        label: translatedLabel,
-        category: 'Database',
-      };
-    });
+    const databaseOptions = createDatabaseOptions(volumes);
     const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, ROUTE_FILTER_KEYS.drinkVolume);
-    // Duplicates are okay - labelMappings will prioritize Database labels
-    return [...databaseOptions, ...ordersOptions];
+    return mergeOptions(databaseOptions, ordersOptions);
   }, [volumes, ordersData, language]);
 
   const containerTypeOptions = useMemo(() => {
-    // ContainerType has id and name properties (camelCase version of ContainerTypeEntity)
-    const databaseOptions = containerTypes.map((ct) => {
-      const translatedLabel = ct.translations?.[language] || ct.name || '';
-      return {
-        value: ct.name || '',
-        label: translatedLabel,
-        category: 'Database',
-      };
-    });
+    const databaseOptions = createDatabaseOptions(containerTypes);
     const ordersOptions = SelectOptionDto.fromOrdersData(ordersData, ROUTE_FILTER_KEYS.containerType);
-    return [...databaseOptions, ...ordersOptions];
+    return mergeOptions(databaseOptions, ordersOptions);
   }, [containerTypes, ordersData, language]);
 
   const modeOptions = useMemo(() => {
@@ -153,6 +137,40 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
     }));
   }, [modes]);
 
+  // Helper function to create a Map from options with Database priority
+  const createLabelMap = (
+    options: Array<{ value: string; label: string; category?: string }>,
+  ): Map<string, string> => {
+    const map = new Map<string, string>();
+
+    // Process database options first (they have translations and proper capitalization)
+    options
+      .filter((opt) => opt.category === 'Database')
+      .forEach((opt) => {
+        map.set(opt.value, opt.label);
+      });
+
+    // Then add other options only if they don't already exist (for custom values)
+    options
+      .filter((opt) => opt.category !== 'Database')
+      .forEach((opt) => {
+        if (!map.has(opt.value)) {
+          map.set(opt.value, opt.label);
+        }
+      });
+
+    return map;
+  };
+
+  // Helper function to create a Map from simple options (no category)
+  const createSimpleLabelMap = (options: Array<{ value: string; label: string }>): Map<string, string> => {
+    const map = new Map<string, string>();
+    options.forEach((opt) => {
+      map.set(opt.value, opt.label);
+    });
+    return map;
+  };
+
   // Create value-to-label maps for fast lookup
   // Priority: Database options (with translations) > Orders options (raw values)
   // This ensures:
@@ -160,77 +178,12 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
   // - Database labels take precedence over orders labels (which may be lowercase like "rubia", "tinto")
   // - Custom values from orders are still available if not in database
   const labelMappings = useMemo(() => {
-    const drinkTypeMap = new Map<string, string>();
-    // Process database options first (they have translations and proper capitalization)
-    drinkTypeOptions
-      .filter((opt) => opt.category === 'Database')
-      .forEach((opt) => {
-        drinkTypeMap.set(opt.value, opt.label);
-      });
-    // Then add orders options only if they don't already exist (for custom values)
-    drinkTypeOptions
-      .filter((opt) => opt.category !== 'Database')
-      .forEach((opt) => {
-        if (!drinkTypeMap.has(opt.value)) {
-          drinkTypeMap.set(opt.value, opt.label);
-        }
-      });
-
-    const drinkSubtypeMap = new Map<string, string>();
-    // Process database options first (capitalized labels like "Rubia", "Tinto")
-    drinkSubtypeOptions
-      .filter((opt) => opt.category === 'Database')
-      .forEach((opt) => {
-        drinkSubtypeMap.set(opt.value, opt.label);
-      });
-    // Then add orders options only if they don't already exist (lowercase like "rubia", "tinto" - won't override Database)
-    drinkSubtypeOptions
-      .filter((opt) => opt.category !== 'Database')
-      .forEach((opt) => {
-        if (!drinkSubtypeMap.has(opt.value)) {
-          drinkSubtypeMap.set(opt.value, opt.label);
-        }
-      });
-
-    const volumeMap = new Map<string, string>();
-    volumeOptions
-      .filter((opt) => opt.category === 'Database')
-      .forEach((opt) => {
-        volumeMap.set(opt.value, opt.label);
-      });
-    volumeOptions
-      .filter((opt) => opt.category !== 'Database')
-      .forEach((opt) => {
-        if (!volumeMap.has(opt.value)) {
-          volumeMap.set(opt.value, opt.label);
-        }
-      });
-
-    const containerTypeMap = new Map<string, string>();
-    containerTypeOptions
-      .filter((opt) => opt.category === 'Database')
-      .forEach((opt) => {
-        containerTypeMap.set(opt.value, opt.label);
-      });
-    containerTypeOptions
-      .filter((opt) => opt.category !== 'Database')
-      .forEach((opt) => {
-        if (!containerTypeMap.has(opt.value)) {
-          containerTypeMap.set(opt.value, opt.label);
-        }
-      });
-
-    const modeMap = new Map<string, string>();
-    modeOptions.forEach((opt) => {
-      modeMap.set(opt.value, opt.label);
-    });
-
     return {
-      drinkType: drinkTypeMap,
-      drinkSubtype: drinkSubtypeMap,
-      volume: volumeMap,
-      containerType: containerTypeMap,
-      mode: modeMap,
+      drinkType: createLabelMap(drinkTypeOptions),
+      drinkSubtype: createLabelMap(drinkSubtypeOptions),
+      volume: createLabelMap(volumeOptions),
+      containerType: createLabelMap(containerTypeOptions),
+      mode: createSimpleLabelMap(modeOptions),
     };
   }, [drinkTypeOptions, drinkSubtypeOptions, volumeOptions, containerTypeOptions, modeOptions]);
 
