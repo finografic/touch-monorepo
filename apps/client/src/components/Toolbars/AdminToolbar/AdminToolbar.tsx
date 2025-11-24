@@ -6,6 +6,7 @@ import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useAppConfig } from 'providers/AppConfigProvider';
+import { useTimers } from 'providers/TimersProvider';
 
 import { stopAllAudio } from 'utils/soundCache.utils';
 import type { Theme } from 'types/ui.types';
@@ -24,12 +25,10 @@ export const AdminToolbar: React.FC = () => {
     setIsLanguageDialogOpen,
   } = useAdmin();
 
-  const [hasActiveTimer, setHasActiveTimer] = useState(false);
+  // Check if recall config is active (exists and not expired)
+  const { recall, isRecallExpired } = useTimers();
+  const hasActiveTimer = recall.config !== null && !isRecallExpired();
   const navigate = useNavigate();
-
-  useEffect(function checkActiveStorageTimer() {
-    log('ADMIN_INIT', 'orange', { isAdminToolsVisible, isStorageTimerVisible, isLanguageDialogOpen });
-  }, []);
 
   if (!isAdminToolsVisible) return null;
 

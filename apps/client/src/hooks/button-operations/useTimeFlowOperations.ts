@@ -3,7 +3,6 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import createCuid from '@bugsnag/cuid';
 
-import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
@@ -29,7 +28,6 @@ export const useTimeFlowOperations = () => {
   const { addTimer, timers } = useTimers();
   const { selectedSlots, clearMainPageSelection } = useLayoutUi();
   const orderItemsConfig = useSlotItemsConfig();
-  const { saveConfig } = useRecallConfig();
 
   // ========================================================================
   // PROGRAM TIME (MainPage → TimePage)
@@ -114,14 +112,6 @@ export const useTimeFlowOperations = () => {
           });
         });
 
-        // Save configuration to sessionStorage so hasActiveTimer works
-        saveConfig({
-          filters: {},
-          temperatures: { default: 25 },
-          durations: { default: duration },
-          selectedOrders: slotsToProcess.map((slot) => slot.slotNumber),
-        });
-
         // Clear selection when timers start (ensures green color shows)
         clearMainPageSelection();
 
@@ -132,7 +122,7 @@ export const useTimeFlowOperations = () => {
         });
       });
     },
-    [selectedSlots, addTimer, currentSessionId, clearMainPageSelection, navigate, timers, saveConfig],
+    [selectedSlots, addTimer, currentSessionId, clearMainPageSelection, navigate, timers],
   );
 
   // ========================================================================

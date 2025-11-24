@@ -6,7 +6,7 @@ import { useTimers } from 'providers/TimersProvider/TimerContext';
 import { styles } from './RecallTimer.styles';
 
 export const RecallTimer = () => {
-  const { recall } = useTimers();
+  const { recall, clearRecallConfig } = useTimers();
   const [now, setNow] = useState(() => Date.now());
 
   // Calculate remaining time based on recall state
@@ -26,6 +26,13 @@ export const RecallTimer = () => {
 
     return () => clearInterval(intervalId);
   }, []);
+
+  // Auto-clear when expired
+  useEffect(() => {
+    if (remainingTime <= 0 && recall.config !== null) {
+      clearRecallConfig();
+    }
+  }, [remainingTime, recall.config, clearRecallConfig]);
 
   if (remainingTime <= 0 || !recall.config) {
     return null;

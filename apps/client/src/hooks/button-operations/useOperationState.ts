@@ -6,7 +6,6 @@ import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
 
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 import type { OperationActionType } from './button-operations.types';
 
 /**
@@ -20,7 +19,7 @@ export const useOperationState = (
 ) => {
   const location = useLocation();
   const { selectedSlots } = useLayoutUi();
-  const { timers, getCompletedTimers } = useTimers();
+  const { timers, getCompletedTimers, recall, isRecallExpired } = useTimers();
   const { profile } = useOrders();
 
   const completedTimers = getCompletedTimers();
@@ -84,22 +83,12 @@ export const useOperationState = (
           return numAvailableSelected === 0 || location.pathname !== PATHS.main || isPending;
         case 'repeat-selection': {
           if (isTimerSelected) return true;
-          // Check if session storage timer is active
-          const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
-          if (!timestamp) return true;
+          // Check if recall config is active (exists and not expired)
+          const hasActiveRecall = recall.config !== null && !isRecallExpired();
 
-          const startTime = Number.parseInt(timestamp, 10);
-          const now = Date.now();
-          const elapsed = now - startTime;
-          const remaining = Math.max(0, CONFIG_EXPIRY_TIME_MS - elapsed);
-
-          // Check if we have saved configuration
-          const configString = sessionStorage.getItem(STORAGE_KEYS.LAST_CONFIG);
-
-          // Enable only if: session timer active + saved config exists + orders selected + on main page
+          // Enable only if: recall config active + orders selected + on main page
           return (
-            remaining <= 0 ||
-            !configString ||
+            !hasActiveRecall ||
             numAnySelected === 0 ||
             location.pathname !== PATHS.main ||
             isPending

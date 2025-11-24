@@ -11,7 +11,6 @@ import { useTimers } from 'providers/TimersProvider';
 
 import { stopAllAudio } from 'utils/soundCache.utils';
 import { FLOW_TYPES } from 'types/flow.types';
-import { CONFIG_EXPIRY_TIME_MS, STORAGE_KEYS } from 'config/app';
 
 /**
  * Handles MainPage-specific operations:
@@ -31,6 +30,7 @@ export const useMainPageOperations = () => {
     setSelectedSlots,
   } = useLayoutUi();
   const { saveConfig, loadConfig } = useRecallConfig();
+  const { isRecallExpired, recall } = useTimers();
   const orderItemsConfig = useSlotItemsConfig();
   const { setFilter } = useFiltersContext();
 
@@ -106,20 +106,9 @@ export const useMainPageOperations = () => {
   // ========================================================================
 
   const handleRepeatSelection = useCallback(() => {
-    // Check if session storage timer is active
-    const timestamp = sessionStorage.getItem(STORAGE_KEYS.CONFIG_TIMESTAMP);
-    if (!timestamp) {
-      console.error('No session timer found');
-      return;
-    }
-
-    const startTime = Number.parseInt(timestamp, 10);
-    const now = Date.now();
-    const elapsed = now - startTime;
-    const remaining = Math.max(0, CONFIG_EXPIRY_TIME_MS - elapsed);
-
-    if (remaining <= 0) {
-      console.error('Session timer expired');
+    // Check if recall config is active (exists and not expired)
+    if (!recall.config || isRecallExpired()) {
+      console.error('No active recall config found');
       return;
     }
 
@@ -171,7 +160,7 @@ export const useMainPageOperations = () => {
         }
       });
     });
-  }, [selectedSlots, addTimer, orderItemsConfig, setSelectedSlots, loadConfig, setFilter]);
+  }, [selectedSlots, addTimer, orderItemsConfig, setSelectedSlots, loadConfig, setFilter, recall, isRecallExpired]);
 
   return {
     handleClearCompleted,

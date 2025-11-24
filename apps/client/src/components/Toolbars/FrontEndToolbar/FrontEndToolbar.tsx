@@ -7,7 +7,7 @@ import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useAppConfig } from 'providers/AppConfigProvider';
 // import { AdminToolsDialog } from 'components/Dialog/dialogs/AdminToolsDialog';
-import { useStorageTimer } from 'providers/TimersProvider';
+import { useTimers } from 'providers/TimersProvider';
 
 import type { Theme } from 'types/ui.types';
 import { MockSessionTimer } from 'dev-tools/mocks/MockSessionTimer/MockSessionTimer';
@@ -29,8 +29,9 @@ export const FrontEndToolbar: React.FC = () => {
     setIsLanguageDialogOpen,
   } = useAdmin();
 
-  // 🎯 NEW: Use the centralized storage timer hook
-  const { hasActiveTimer } = useStorageTimer();
+  // Check if recall config is active (exists and not expired)
+  const { recall, isRecallExpired } = useTimers();
+  const hasActiveTimer = recall.config !== null && !isRecallExpired();
 
   if (!isAdminToolsVisible) return null;
 

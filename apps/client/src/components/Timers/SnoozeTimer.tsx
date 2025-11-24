@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useStorageTimer, useTimersOptional } from 'providers/TimersProvider';
+import { useTimersOptional } from 'providers/TimersProvider';
 
 import { playAlarmSound } from 'utils/sound.utils';
 import { formatTimeFromMs } from 'utils/time.utils';
@@ -32,7 +32,10 @@ interface SnoozeTimerProps {
  */
 export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   const timersContext = useTimersOptional();
-  const { hasActiveTimer } = useStorageTimer();
+  // Check if recall config is active (exists and not expired)
+  const hasActiveTimer = timersContext
+    ? timersContext.recall.config !== null && !timersContext.isRecallExpired()
+    : false;
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
 
