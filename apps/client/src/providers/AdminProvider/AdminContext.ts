@@ -2,7 +2,7 @@ import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
-import type { AdminStore } from 'providers/AdminProvider/AdminContext.types';
+import type { AdminStore, AdminValues } from 'providers/AdminProvider/AdminContext.types';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
 
@@ -13,14 +13,12 @@ export enum AdminKeys {
   isAdminToolsVisible = 'isAdminToolsVisible',
   isAdminToolsDialogOpen = 'isAdminToolsDialogOpen',
   isLanguageDialogOpen = 'isLanguageDialogOpen',
-  isStorageTimerVisible = 'isStorageTimerVisible',
 }
 
-export const defaultValue = {
+export const defaultValue: AdminValues = {
   isAdminToolsVisible: true,
   isAdminToolsDialogOpen: false,
   isLanguageDialogOpen: false,
-  isStorageTimerVisible: true,
 };
 
 export const AdminContext = createZustandContext(({ initialValue }) => {

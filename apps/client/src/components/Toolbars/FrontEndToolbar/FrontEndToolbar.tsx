@@ -21,8 +21,6 @@ export const FrontEndToolbar: React.FC = () => {
   const { isDevToolsVisible } = useDev();
   const {
     isAdminToolsVisible,
-    isStorageTimerVisible,
-    setIsStorageTimerVisible,
     isAdminToolsDialogOpen,
     setIsAdminToolsDialogOpen,
     isLanguageDialogOpen,
@@ -53,14 +51,14 @@ export const FrontEndToolbar: React.FC = () => {
             </button>
           </div> */}
 
-          {hasActiveTimer && isDevToolsVisible && (
+          {hasActiveTimer && (
             <div className="button-box">
               <MockSessionTimer />
             </div>
           )}
 
           {/* Timer visibility toggle - only show if there's an active timer */}
-          {hasActiveTimer && (
+          {/* {hasActiveTimer && (
             <div className="button-box">
               <button
                 className={`button button-admin ${isStorageTimerVisible ? 'active' : ''}`}
@@ -70,10 +68,10 @@ export const FrontEndToolbar: React.FC = () => {
                 <TimerIcon />
               </button>
             </div>
-          )}
+          )} */}
 
           {/* Config expiry timer */}
-          {isStorageTimerVisible && hasActiveTimer && (
+          {hasActiveTimer && (
             <Box className="timer-container">
               <RecallTimer />
             </Box>

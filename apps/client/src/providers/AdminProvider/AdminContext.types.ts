@@ -7,7 +7,6 @@ export interface AdminValues {
   [AdminKeys.isAdminToolsVisible]: boolean;
   [AdminKeys.isAdminToolsDialogOpen]: boolean;
   [AdminKeys.isLanguageDialogOpen]: boolean;
-  [AdminKeys.isStorageTimerVisible]: boolean;
 }
 
 type AdminSetters = CreateSettersType<AdminValues, typeof SETTER_PREFIX>;

@@ -17,13 +17,7 @@ import { styles } from './AdminToolbar.styles';
 
 export const AdminToolbar: React.FC = () => {
   const { theme } = useAppConfig();
-  const {
-    isAdminToolsVisible,
-    isStorageTimerVisible,
-    setIsStorageTimerVisible,
-    isLanguageDialogOpen,
-    setIsLanguageDialogOpen,
-  } = useAdmin();
+  const { isAdminToolsVisible, isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   // Check if recall config is active (exists and not expired)
   const { recall, isRecallExpired } = useTimers();
@@ -37,7 +31,7 @@ export const AdminToolbar: React.FC = () => {
       <div css={styles} className={`theme-${theme}`}>
         <Flex gap="3" align="center">
           {/* Timer visibility toggle - only show if there's an active timer */}
-          {hasActiveTimer && (
+          {/* {hasActiveTimer && (
             <div className="button-box">
               <button
                 className={`button button-admin ${isStorageTimerVisible ? 'active' : ''}`}
@@ -47,10 +41,10 @@ export const AdminToolbar: React.FC = () => {
                 <TimerIcon />
               </button>
             </div>
-          )}
+          )} */}
 
           {/* Config expiry timer */}
-          {isStorageTimerVisible && hasActiveTimer && (
+          {hasActiveTimer && (
             <div className="timer-container">
               <RecallTimer />
             </div>
