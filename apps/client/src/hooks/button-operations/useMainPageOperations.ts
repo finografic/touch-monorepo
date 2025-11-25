@@ -142,7 +142,8 @@ export const useMainPageOperations = () => {
           // Get duration for this specific item type from saved config
           const slotTypeDuration = config.durations?.[orderConfig.slotType];
           const defaultDuration = config.durations?.default;
-          const duration = slotTypeDuration || defaultDuration || 300;
+          // Use nullish coalescing (??) instead of || to allow 0 values
+          const duration = slotTypeDuration ?? defaultDuration ?? 300;
 
           const updatedSlots = selectedSlots.filter((s) => s.slotNumber !== slot.slotNumber);
           setSelectedSlots(updatedSlots);
