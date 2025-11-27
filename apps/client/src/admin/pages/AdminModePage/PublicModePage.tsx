@@ -37,12 +37,10 @@ export const PublicModePage: React.FC = () => {
   // Handle default mode selection
   const handleModeSelect = (modeId: string) => {
     const previousModeId = defaultModeId;
+    const selectedMode = modes.find((mode) => mode.id === modeId);
 
     // Update local state immediately for responsive UI
     setDefaultModeId(modeId);
-
-    // Find the selected mode name for toast
-    const selectedMode = modes.find((mode) => mode.id === modeId);
 
     // Update database
     updateDefaultModeMutation.mutate(
@@ -68,27 +66,11 @@ export const PublicModePage: React.FC = () => {
     );
   };
 
-  if (isLoadingModes) {
-    return (
-      <AdminPageLayout
-        title="Mode Selection **"
-        subtitle="User"
-        description="Select default mode for the system"
-        isLoading={isLoadingModes}
-        styles={styles}
-      >
-        <Flex direction="column" gap="4" align="center" justify="center" p="6">
-          <Spinner size="3" />
-          <Text>Loading available modes...</Text>
-        </Flex>
-      </AdminPageLayout>
-    );
-  }
-
   return (
     <AdminPageLayout
       title="Mode Selection - PUBLIC"
       description="Select default mode for the system"
+      isLoading={isLoadingModes}
       styles={styles}
     >
       <AdminSection
