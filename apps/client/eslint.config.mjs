@@ -8,6 +8,8 @@ import globals from 'globals';
 const baseConfig = fino({
   ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
   plugins: {
+    // 'react': reactPlugin,
+    // 'react-hooks': reactHooksPlugin,
     'simple-import-sort': simpleImportSort,
   },
   languageOptions: {
@@ -35,6 +37,15 @@ const baseConfig = fino({
     // 'style/jsx-one-expression-per-line': OFF,
     'style/no-multi-spaces': OFF,
     'ts/no-unused-vars': OFF,
+    'ts/consistent-type-imports': [
+      ERROR,
+      {
+        prefer: 'type-imports',
+        disallowTypeAnnotations: true,
+        fixStyle: 'separate-type-imports',
+      },
+    ],
+    'jsdoc/check-alignment': OFF,
     'unused-imports/no-unused-imports': OFF, // Don't remove unused imports automatically
     // 'ts/consistent-type-imports': [
     //   ERROR,
@@ -44,7 +55,6 @@ const baseConfig = fino({
     //     fixStyle: 'separate-type-imports',
     //   },
     // ],
-    'jsdoc/check-alignment': OFF,
     'prefer-arrow-callback': OFF,
     'test/prefer-lowercase-title': OFF,
 
@@ -118,13 +128,3 @@ const baseConfig = fino({
 });
 
 export default baseConfig;
-
-// export default [
-//   ...(Array.isArray(baseConfig) ? baseConfig : [baseConfig]),
-//   {
-//     files: ['src/i18n/**/*'],
-//     rules: {
-//       'eslint-comments/no-unlimited-disable': OFF,
-//     },
-//   },
-// ];
