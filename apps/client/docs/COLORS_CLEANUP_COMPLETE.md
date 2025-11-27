@@ -81,7 +81,7 @@ Successfully removed **13 deprecated files** and cleaned up the color system!
 
 ### Core Files
 
-- ✅ `src/theme-minimal.css` (30 lines - 16 essential CSS variables)
+- ✅ `src/theme.css` (30 lines - 16 essential CSS variables)
 - ✅ `src/styles/colors/colors.source.ts` (COLOR_MAPPING - OKLCH source)
 - ✅ `src/styles/colors/colors-direct.ts` (OKLCH colors export)
 - ✅ `src/styles/colors/palette.types.ts` (Fully typed ColorPalette)
@@ -109,7 +109,7 @@ OKLCH Color System (Modern!)
 ├── colors-direct.ts           ← Exports OKLCH colors
 ├── generate-oklch-themes.ts   ← Generates OKLCH themes
 ├── palette.types.ts           ← Fully typed (262 keys with autocomplete!)
-└── theme-minimal.css          ← 16 essential CSS variables
+└── theme.css          ← 16 essential CSS variables
 
 Backwards Compatibility (Optional)
 ├── generate-emotion-themes.ts ← Hex theme generator

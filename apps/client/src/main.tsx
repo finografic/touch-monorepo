@@ -15,7 +15,7 @@ import App from './App';
 import i18n from './i18n.config.ts';
 // NOTE: CSS files
 // import './theme.css';
-import './theme-minimal.css';
+import './theme.css';
 import '@radix-ui/themes/styles.css';
 import './styles/radix-ui/overrides.css';
 import './styles/icons/icons.css';

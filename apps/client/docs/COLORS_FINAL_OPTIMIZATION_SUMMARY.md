@@ -76,7 +76,7 @@ export { colors as colorsDirect } from './colors/colors-direct'; // Backwards co
 │  (Global Styles & Portals - 16 essential vars)      │
 ├─────────────────────────────────────────────────────┤
 │                                                     │
-│  theme-minimal.css:                                │
+│  theme.css:                                │
 │  [data-theme='light'] {                            │
 │    --color-background: #fefefe;                    │
 │    --color-text: #000000;                          │
@@ -159,7 +159,7 @@ const MyComponent = () => {
 
 ## CSS Variables (Only 16 Essential)
 
-### What's Left in `theme-minimal.css`
+### What's Left in `theme.css`
 
 ```css
 [data-theme='light'] {

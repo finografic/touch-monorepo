@@ -7,7 +7,7 @@
 The app background wasn't changing when toggling between light/dark themes, even though:
 - ✅ The ColorTestPage background WAS changing (showing EmotionThemeProvider works)
 - ✅ The theme toggle button WAS updating the `data-theme` attribute
-- ✅ The CSS variables WERE defined in `theme-minimal.css`
+- ✅ The CSS variables WERE defined in `theme.css`
 
 ## Root Cause
 
@@ -61,7 +61,7 @@ background-color: var(--color-background); // Dynamic!
 
 ## Why This Works
 
-The CSS variables in `theme-minimal.css` update automatically when the `data-theme` attribute changes:
+The CSS variables in `theme.css` update automatically when the `data-theme` attribute changes:
 
 ```css
 [data-theme='light'] {

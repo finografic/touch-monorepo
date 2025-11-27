@@ -18,6 +18,7 @@ Your color system has been optimized to eliminate **~500+ CSS variables** that w
 ## What Changed
 
 ### Before
+
 ```css
 /* theme.css - 643 lines */
 [data-theme='light'] {
@@ -36,6 +37,7 @@ export const colors = {
 ```
 
 ### After
+
 ```ts
 // Emotion theme with direct values
 export const lightTheme = {
@@ -50,7 +52,7 @@ export const lightTheme = {
 ```
 
 ```css
-/* theme-minimal.css - 30 lines */
+/* theme.css - 30 lines */
 @import 'tailwindcss';
 /* Only Tailwind and essentials */
 ```
@@ -58,30 +60,36 @@ export const lightTheme = {
 ## Files Created
 
 ### 1. **Emotion Theme Types**
+
 - `src/styles/themes/emotion-theme.types.ts`
 - Defines theme structure and extends Emotion's types
 
 ### 2. **Emotion Theme Generator**
+
 - `src/styles/themes/generate-emotion-themes.ts`
 - Creates light/dark themes with transparency variants
 - Converts hex to rgba for opacity support
 
 ### 3. **Emotion Theme Provider**
+
 - `src/providers/EmotionThemeProvider.tsx`
 - Wraps app with Emotion ThemeProvider
 - Watches `data-theme` attribute for automatic switching
 
 ### 4. **Direct Colors Export**
+
 - `src/styles/colors/colors-direct.ts`
 - Exports colors with actual hex values (not CSS vars)
 - Backward-compatible alternative to existing colors
 
 ### 5. **Minimal Theme CSS**
-- `src/theme-minimal.css`
+
+- `src/theme.css`
 - Replaces 643-line theme.css
 - Only has Tailwind imports + essentials
 
 ### 6. **Documentation**
+
 - `src/styles/MIGRATION_GUIDE.md` - Step-by-step migration
 - `src/styles/colors/README.PERFORMANCE_OPTIMIZATION.md` - Deep dive
 - `src/styles/colors/EXAMPLE_USAGE.tsx` - Code examples
@@ -89,10 +97,12 @@ export const lightTheme = {
 ## Files Modified
 
 ### 1. **App.tsx**
+
 - ✅ Added `EmotionThemeProvider` wrapper
 - Wraps entire app for theme context
 
 ### 2. **styles/index.ts**
+
 - ✅ Added exports for `colorsDirect`, themes, and types
 - Maintains backward compatibility with old exports
 
@@ -152,11 +162,13 @@ const Component = () => {
 ### Q: Am I importing Tailwind colors?
 
 **A: No!** You have this line:
+
 ```ts
 import tailwindColors from 'tailwindcss/colors';
 ```
 
 But you're not actually using it. You're using OKLCH values **inspired by** Tailwind:
+
 ```ts
 primary: { value: 'oklch(68.8% 0.243 264.376)' }, // NOT tailwindColors.blue[700]
 ```
@@ -208,7 +220,7 @@ All your color architecture is intact:
 import './theme.css';
 
 // To this:
-import './theme-minimal.css';
+import './theme.css';
 ```
 
 ### 2. Remove Unused Tailwind Colors Import

@@ -9,12 +9,14 @@ This migration removes **~500+ CSS variables** from your theme, replacing them w
 ## What Changed
 
 ### Before (Old System)
+
 - ❌ 643-line `theme.css` with massive CSS variable definitions
 - ❌ Colors object returning `var(--color-primary)` references
 - ❌ Browser parsing/tracking ~500+ CSS variables
 - ❌ No Emotion theme support
 
 ### After (New System)
+
 - ✅ Minimal `theme.css` (just Tailwind + essentials)
 - ✅ Colors object with direct hex values
 - ✅ Emotion ThemeProvider for theme-aware components
@@ -25,11 +27,13 @@ This migration removes **~500+ CSS variables** from your theme, replacing them w
 ### 1. Update Imports
 
 **Old way:**
+
 ```ts
 import { colors } from 'styles';
 ```
 
 **New way (backward compatible):**
+
 ```ts
 import { colors } from 'styles/colors/colors-direct';
 ```
@@ -37,6 +41,7 @@ import { colors } from 'styles/colors/colors-direct';
 ### 2. Use Theme in Emotion Components
 
 **For theme-aware styling:**
+
 ```tsx
 import { css } from '@emotion/react';
 
@@ -52,6 +57,7 @@ const styles = css`
 ```
 
 **For static colors (no theme switching):**
+
 ```tsx
 import { colors } from 'styles/colors/colors-direct';
 
@@ -68,7 +74,7 @@ const styles = css`
 import './theme.css';
 
 // New minimal theme import
-import './theme-minimal.css';
+import './theme.css';
 ```
 
 ### 4. EmotionThemeProvider (Already Added)
@@ -78,6 +84,7 @@ The `EmotionThemeProvider` is now wrapping your app in `App.tsx` and automatical
 ## Component Examples
 
 ### Button Component
+
 ```tsx
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
@@ -98,6 +105,7 @@ const buttonStyles = css`
 ```
 
 ### With useTheme Hook
+
 ```tsx
 import { useTheme } from '@emotion/react';
 
@@ -115,12 +123,14 @@ function MyComponent() {
 ## Benefits
 
 ### Performance Improvements
+
 - **~500 fewer CSS variables** to parse and track
 - **Faster DevTools** - no more sluggish inspector
 - **Smaller CSS bundle** - from 643 lines to ~30 lines
 - **Better runtime performance** - direct values vs variable lookups
 
 ### Developer Experience
+
 - **Theme-aware components** via Emotion
 - **TypeScript autocomplete** for all color variants
 - **Cleaner DevTools** - no variable clutter
@@ -179,7 +189,7 @@ A: Yes, for specific cases. But Emotion themes are preferred for performance.
 
 If you need to rollback:
 
-1. Change `theme-minimal.css` back to `theme.css` in main.tsx
+1. Change `theme.css` back to `theme.css` in main.tsx
 2. Remove `EmotionThemeProvider` from App.tsx
 3. Use old `colors` import from `styles`
 

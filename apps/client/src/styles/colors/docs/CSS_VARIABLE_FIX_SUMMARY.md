@@ -5,7 +5,7 @@
 ## Problem
 
 Buttons (Pads) were not displaying because they were using **undefined CSS variables** like:
-- `var(--color-default-xlight)` ❌ (Not defined in `theme-minimal.css`)
+- `var(--color-default-xlight)` ❌ (Not defined in `theme.css`)
 - `var(--color-info-light)` ❌
 - `var(--color-grey-xxlight)` ❌
 

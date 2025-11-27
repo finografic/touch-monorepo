@@ -190,20 +190,24 @@ export function getVariantStyles(variant: ButtonVariant, color: ButtonColor) {
 ## Why This Works Better
 
 ### 1. **No Runtime Variable Lookups**
+
 - CSS variables: `var(--color-primary)` → browser lookup → final value
 - Direct values: `#1e3a8a` → immediate use
 
 ### 2. **Compile-Time Optimization**
+
 - Emotion injects actual computed styles
 - No CSS variable declarations to parse
 - Smaller runtime overhead
 
 ### 3. **Better DevTools**
+
 - Inspect element shows actual colors, not variables
 - No giant list of CSS variables to scroll through
 - Faster rendering in inspector
 
 ### 4. **Type Safety**
+
 - TypeScript knows exact color keys
 - Autocomplete for all variants
 - Compile-time error checking
@@ -232,17 +236,20 @@ primaryLight25, dangerDark50, successXLight75, etc.
 ## Migration Strategy
 
 ### Immediate (Done)
+
 ✅ EmotionThemeProvider added
 ✅ Direct color exports available
 ✅ Minimal theme.css created
 ✅ Backward compatibility maintained
 
 ### Gradual Migration
+
 1. New components: Use theme-aware patterns
 2. Existing components: Migrate when touched
 3. Global styles: Can stay with old `colors` for now
 
 ### No Breaking Changes
+
 - Old `colors` import still works
 - CSS variables still available if needed
 - Can migrate at your own pace
@@ -285,7 +292,7 @@ export const COLOR_MAPPING = {
 import './theme.css'; // 643 lines!
 
 // New
-import './theme-minimal.css'; // 30 lines!
+import './theme.css'; // 30 lines!
 ```
 
 ### Start Using Theme-Aware Components

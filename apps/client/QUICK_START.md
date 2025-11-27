@@ -13,7 +13,7 @@ Change this line in `src/main.tsx`:
 import './theme.css';
 
 // NEW
-import './theme-minimal.css';
+import './theme.css';
 ```
 
 ### Step 2: Test Your App (5 minutes)
@@ -91,7 +91,7 @@ All your color names stay exactly the same! See `ZERO_MIGRATION_APPROACH.md` for
 ### After
 
 - **CSS Variables**: ~10 (just Tailwind essentials)
-- **theme-minimal.css**: 30 lines
+- **theme.css**: 30 lines
 - **DevTools**: Snappy ⚡
 - **Overhead**: Minimal
 

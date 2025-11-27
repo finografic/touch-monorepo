@@ -10,7 +10,7 @@ CSS files were referencing `var(--color-*)` variables that no longer existed aft
 
 ### Solution
 
-Added **minimal essential CSS variables** to `theme-minimal.css`:
+Added **minimal essential CSS variables** to `theme.css`:
 
 ```css
 [data-theme='light'] {
@@ -148,7 +148,7 @@ Benefit: Even perceptual steps, vibrant colors maintained
 
 ## Files Modified
 
-1. ✅ `theme-minimal.css` - Added 16 essential variables
+1. ✅ `theme.css` - Added 16 essential variables
 2. ✅ `styles/index.ts` - Exported OKLCH themes
 
 ## Files Created
