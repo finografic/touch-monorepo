@@ -1,58 +1,5 @@
 import type { ReactNode } from 'react';
-import type { ConstEnumOf } from '@workspace/core/types/utils';
 import { createConstUpperEnum } from '@workspace/core/types/utils';
-
-// 1. Define the button type union as source of truth (what the buttons represent)
-type ButtonType =
-  | 'reset'
-  | 'all'
-  | 'back'
-  | 'next'
-  | 'start'
-  | 'finish-product'
-  | 'cancel'
-  | 'cancel-time-session'
-  | 'cancel-product-session'
-  | 'program-product'
-  | 'program-time'
-  | 'repeat-selection';
-
-// 2. Derive the const object from the union using your enhanced utility
-export const BUTTON_TYPES: ConstEnumOf<ButtonType> = {
-  RESET: 'reset',
-  ALL: 'all',
-  BACK: 'back',
-  NEXT: 'next',
-  START: 'start',
-  FINISH_PRODUCT: 'finish-product',
-  CANCEL: 'cancel',
-  CANCEL_TIME_SESSION: 'cancel-time-session',
-  CANCEL_PRODUCT_SESSION: 'cancel-product-session',
-  PROGRAM_PRODUCT: 'program-product',
-  PROGRAM_TIME: 'program-time',
-  REPEAT_SELECTION: 'repeat-selection',
-} as const;
-
-// 3. Export the derived type
-export type PadActionType = ButtonType;
-
-// Action types that buttons can trigger (what they do when clicked)
-// export type ButtonActionType =
-//   | 'clear-completed'
-//   | 'cancel-completed'
-//   | 'select-all'
-//   | 'navigate-back'
-//   | 'navigate-next'
-//   | 'start-process'
-//   | 'finish-product-process'
-//   | 'program-product'
-//   | 'program-time'
-//   | 'repeat-selection'
-//   | 'cancel-time-session'
-//   | 'cancel-product-session';
-
-// 2. Derive the const object from the union using your enhanced utility
-// export const BUTTON_ACTION: ConstUpperEnumOf<ButtonActionType> = {
 
 const BUTTON_ACTIONS = [
   'CLEAR_COMPLETED',
@@ -70,12 +17,21 @@ const BUTTON_ACTIONS = [
 ] as const;
 
 export const BUTTON_ACTION = createConstUpperEnum(BUTTON_ACTIONS);
-
 export type ButtonActionType = keyof typeof BUTTON_ACTION;
+
+// Legacy mapping: old button types → actions (for migration)
+// RESET → CLEAR_COMPLETED
+// ALL → SELECT_ALL
+// BACK → NAVIGATE_BACK
+// NEXT → NAVIGATE_NEXT
+// START → START_PROCESS
+// FINISH_PRODUCT → FINISH_PRODUCT_PROCESS
+// CANCEL → CANCEL_COMPLETED
+// Others map 1:1
 
 export interface PadActionConfig {
   id: string;
-  type: PadActionType;
+  type: ButtonActionType;
   labelKey: `ui.buttons.${string}`;
   className?: string;
   icon?: 'chevron-left' | 'chevron-right';
@@ -83,8 +39,8 @@ export interface PadActionConfig {
 }
 
 export interface RouteButtonConfig {
-  footer: PadActionType[];
-  content: PadActionType[];
+  footer: ButtonActionType[];
+  content: ButtonActionType[];
 }
 
 export interface PadActionProps extends Omit<PadActionConfig, 'labelKey'> {

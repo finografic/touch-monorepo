@@ -1,6 +1,6 @@
 import type { RouteConfig } from 'routes/routes.types';
 
-import { BUTTON_TYPES } from 'types/button.types';
+import { BUTTON_ACTION } from 'types/button.types';
 import { PATHS } from './paths.constants';
 
 export const ROUTES_CONFIG: RouteConfig[] = [
@@ -9,8 +9,8 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'main',
     title: 'ServiFresc',
     buttons: {
-      footer: [BUTTON_TYPES.CANCEL, BUTTON_TYPES.RESET, BUTTON_TYPES.ALL],
-      content: [BUTTON_TYPES.PROGRAM_TIME, BUTTON_TYPES.PROGRAM_PRODUCT, BUTTON_TYPES.REPEAT_SELECTION],
+      footer: [BUTTON_ACTION.CANCEL_COMPLETED, BUTTON_ACTION.CLEAR_COMPLETED, BUTTON_ACTION.SELECT_ALL],
+      content: [BUTTON_ACTION.PROGRAM_TIME, BUTTON_ACTION.PROGRAM_PRODUCT, BUTTON_ACTION.REPEAT_SELECTION],
     },
     navigation: {
       flowStep: -1, // Special case: not part of the main flow
@@ -21,7 +21,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'drinkType',
     title: 'Select drink type:',
     buttons: {
-      footer: [BUTTON_TYPES.CANCEL_PRODUCT_SESSION, BUTTON_TYPES.NEXT],
+      footer: [BUTTON_ACTION.CANCEL_PRODUCT_SESSION, BUTTON_ACTION.NAVIGATE_NEXT],
       content: [],
     },
     navigation: {
@@ -35,7 +35,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'drinkSubtype',
     title: 'Select drink subtype:',
     buttons: {
-      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
+      footer: [BUTTON_ACTION.NAVIGATE_BACK, BUTTON_ACTION.NAVIGATE_NEXT],
       content: [],
     },
     navigation: {
@@ -49,7 +49,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'drinkVolume',
     title: 'Select volume:',
     buttons: {
-      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
+      footer: [BUTTON_ACTION.NAVIGATE_BACK, BUTTON_ACTION.NAVIGATE_NEXT],
       content: [],
     },
     navigation: {
@@ -63,7 +63,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'containerType',
     title: 'Select container type:',
     buttons: {
-      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.NEXT],
+      footer: [BUTTON_ACTION.NAVIGATE_BACK, BUTTON_ACTION.NAVIGATE_NEXT],
       content: [],
     },
     navigation: {
@@ -77,7 +77,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'temperature',
     title: 'Select initial and final temperatures:',
     buttons: {
-      footer: [BUTTON_TYPES.BACK, BUTTON_TYPES.FINISH_PRODUCT],
+      footer: [BUTTON_ACTION.NAVIGATE_BACK, BUTTON_ACTION.FINISH_PRODUCT_PROCESS],
       content: [],
     },
     navigation: {

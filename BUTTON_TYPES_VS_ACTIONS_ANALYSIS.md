@@ -1,30 +1,30 @@
-# BUTTON_TYPES vs BUTTON_ACTION Analysis
+# BUTTON_TYPE vs BUTTON_ACTION Analysis
 
 ## Overview
 
 The codebase uses two separate enums for buttons:
-- **BUTTON_TYPES** - Represents button identity (what button is this?)
+- **BUTTON_TYPE** - Represents button identity (what button is this?)
 - **BUTTON_ACTION** - Represents button behavior (what does it do when clicked?)
 
 This analysis examines whether they could be consolidated.
 
 ---
 
-## 1. Where BUTTON_TYPES is Used
+## 1. Where BUTTON_TYPE is Used
 
 ### Usage Locations
 
 1. **`config/routes/routes.config.ts`** (Route Configuration)
    - Defines which buttons appear on which routes
-   - Used in: `footer: [BUTTON_TYPES.CANCEL, ...]`, `content: [BUTTON_TYPES.PROGRAM_TIME, ...]`
+   - Used in: `footer: [BUTTON_TYPE.CANCEL, ...]`, `content: [BUTTON_TYPE.PROGRAM_TIME, ...]`
    - **Purpose**: Declarative route button layout
 
 2. **`config/ui/button.config.ts`** (Button UI Configuration)
    - Defines button appearance and metadata
-   - Maps `BUTTON_TYPES` → `PadActionConfig` (id, labelKey, className, icon, actionType)
+   - Maps `BUTTON_TYPE` → `PadActionConfig` (id, labelKey, className, icon, actionType)
    - **Purpose**: Button UI/display configuration
 
-### BUTTON_TYPES Values
+### BUTTON_TYPE Values
 
 ```typescript
 'reset' | 'all' | 'back' | 'next' | 'start' | 'finish-product' |
@@ -58,7 +58,7 @@ This analysis examines whether they could be consolidated.
 
 ---
 
-## 3. Mapping Between BUTTON_TYPES and BUTTON_ACTION
+## 3. Mapping Between BUTTON_TYPE and BUTTON_ACTION
 
 From `button.config.ts`, here's the mapping:
 
@@ -83,7 +83,7 @@ From `button.config.ts`, here's the mapping:
 
 ---
 
-## 4. Could BUTTON_ACTION Replace BUTTON_TYPES?
+## 4. Could BUTTON_ACTION Replace BUTTON_TYPE?
 
 ### Arguments FOR Consolidation
 
@@ -96,7 +96,7 @@ From `button.config.ts`, here's the mapping:
 
 1. **Semantic separation** - Button identity vs. behavior are conceptually different
 2. **UI flexibility** - Same action could theoretically have different button appearances
-3. **Route configuration clarity** - `BUTTON_TYPES.BACK` is clearer than `BUTTON_ACTION.NAVIGATE_BACK` in route configs
+3. **Route configuration clarity** - `BUTTON_TYPE.BACK` is clearer than `BUTTON_ACTION.NAVIGATE_BACK` in route configs
 4. **The 7 mismatched buttons** suggest intentional separation:
    - `reset` button → `clear-completed` action (more descriptive)
    - `all` button → `select-all` action (more descriptive)
@@ -110,9 +110,9 @@ From `button.config.ts`, here's the mapping:
 ## 5. Current Architecture Flow
 
 ```
-Route Config (BUTTON_TYPES)
+Route Config (BUTTON_TYPE)
     ↓
-Button Config (BUTTON_TYPES → PadActionConfig)
+Button Config (BUTTON_TYPE → PadActionConfig)
     ↓
 PadActionConfig.type = BUTTON_TYPE
 PadActionConfig.actionType = BUTTON_ACTION
@@ -138,11 +138,11 @@ If consolidating, you could:
 - **Pros**: Single source of truth
 - **Cons**: Route configs less readable (`NAVIGATE_BACK` vs `BACK`)
 
-### Option B: Use BUTTON_TYPES everywhere
+### Option B: Use BUTTON_TYPE everywhere
 
-- Route config uses `BUTTON_TYPES` (already does)
-- Button config uses `BUTTON_TYPES` as key (already does)
-- Remove `BUTTON_ACTION`, use `BUTTON_TYPES` in switch statements
+- Route config uses `BUTTON_TYPE` (already does)
+- Button config uses `BUTTON_TYPE` as key (already does)
+- Remove `BUTTON_ACTION`, use `BUTTON_TYPE` in switch statements
 - **Pros**: Simpler, one enum
 - **Cons**: Action names less descriptive (`reset` vs `clear-completed`)
 
@@ -161,7 +161,7 @@ If consolidating, you could:
 
 1. **Semantic clarity**: Button identity (`reset`) vs. action (`clear-completed`) are different concepts
 2. **Future flexibility**: You might want multiple buttons with same action but different UI
-3. **Readability**: Route configs are cleaner with `BUTTON_TYPES.BACK` than `BUTTON_ACTION.NAVIGATE_BACK`
+3. **Readability**: Route configs are cleaner with `BUTTON_TYPE.BACK` than `BUTTON_ACTION.NAVIGATE_BACK`
 4. **Action names are more descriptive**: `clear-completed` is clearer than `reset` for what it does
 
 **However**, consider:

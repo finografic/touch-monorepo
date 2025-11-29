@@ -8,7 +8,7 @@ Keys are SCREAMING_SNAKE_CASE versions of kebab-case union members, values remai
 ```
 type ButtonType = "reset" | "program-time" | "repeat-selection";
 
-const BUTTON_TYPES: ConstEnumOf<ButtonType> = {
+const BUTTON_TYPE: ConstEnumOf<ButtonType> = {
   RESET: "reset",
   PROGRAM_TIME: "program-time",
   REPEAT_SELECTION: "repeat-selection",
