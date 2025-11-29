@@ -76,32 +76,13 @@ export const BUTTON_ACTION = createConstUpperEnum(BUTTON_ACTIONS);
 
 export type ButtonActionType = keyof typeof BUTTON_ACTION;
 
-// Mapping from SCREAMING_SNAKE_CASE keys to kebab-case values (for runtime use)
-export const BUTTON_ACTION_VALUES = {
-  CLEAR_COMPLETED: 'clear-completed',
-  CANCEL_COMPLETED: 'cancel-completed',
-  SELECT_ALL: 'select-all',
-  NAVIGATE_BACK: 'navigate-back',
-  NAVIGATE_NEXT: 'navigate-next',
-  START_PROCESS: 'start-process',
-  FINISH_PRODUCT_PROCESS: 'finish-product-process',
-  PROGRAM_PRODUCT: 'program-product',
-  PROGRAM_TIME: 'program-time',
-  REPEAT_SELECTION: 'repeat-selection',
-  CANCEL_TIME_SESSION: 'cancel-time-session',
-  CANCEL_PRODUCT_SESSION: 'cancel-product-session',
-} as const satisfies Record<ButtonActionType, string>;
-
-// Type for the kebab-case action values (used in configs and runtime)
-export type ButtonActionValue = (typeof BUTTON_ACTION_VALUES)[ButtonActionType];
-
 export interface PadActionConfig {
   id: string;
   type: PadActionType;
   labelKey: ButtonTranslationKey;
   className?: string;
   icon?: 'chevron-left' | 'chevron-right';
-  actionType: ButtonActionValue;
+  actionType: ButtonActionType;
 }
 
 export interface RouteButtonConfig {
