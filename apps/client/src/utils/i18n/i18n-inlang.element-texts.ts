@@ -47,7 +47,7 @@ export function getMessageText(
 
 // NEW: 5. FINAL get object texts
 
-export function getMessageTexts(
+export function getElementTexts(
   messages: MessageBundle,
   segments: string[],
   role?: AuthRole,
@@ -65,7 +65,7 @@ export function getMessageTexts(
 # ✨ Usage
 
 ```ts
-const msgs = getMessageTexts(messages, ["pages", "dashboard"], "admin");
+const msgs = getElementTexts(messages, ["pages", "dashboard"], "admin");
 
 console.log(msgs.title);
 console.log(msgs.description);
