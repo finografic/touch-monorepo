@@ -54,7 +54,7 @@ export const useOperationState = (
       switch (actionType) {
         case BUTTON_TYPE.CLEAR_COMPLETED:
           return !hasCompletedTimers || location.pathname !== PATHS.main || isPending;
-        case BUTTON_TYPE.CANCEL_COMPLETED:
+        case BUTTON_TYPE.CANCEL_SELECTED:
           return numSelectedProcessing === 0 || location.pathname !== PATHS.main || isPending;
         case BUTTON_TYPE.SELECT_ALL:
           return location.pathname !== PATHS.main || isPending;

@@ -47,12 +47,12 @@ export const BUTTON_CONFIGS: Record<ButtonType, PadActionConfig> = {
     className: 'small-button button-success',
     actionType: BUTTON_TYPE.FINISH_PRODUCT_PROCESS,
   },
-  [BUTTON_TYPE.CANCEL_COMPLETED]: {
+  [BUTTON_TYPE.CANCEL_SELECTED]: {
     id: 'button-cancel',
-    type: BUTTON_TYPE.CANCEL_COMPLETED,
+    type: BUTTON_TYPE.CANCEL_SELECTED,
     labelKey: 'ui.buttons.cancel',
     className: 'small-button button-warning',
-    actionType: BUTTON_TYPE.CANCEL_COMPLETED,
+    actionType: BUTTON_TYPE.CANCEL_SELECTED,
   },
   [BUTTON_TYPE.CANCEL_TIME_SESSION]: {
     id: 'button-cancel-time-session',

@@ -65,7 +65,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
           return handleNavigateNext();
         case BUTTON_TYPE.CLEAR_COMPLETED:
           return handleClearCompleted();
-        case BUTTON_TYPE.CANCEL_COMPLETED:
+        case BUTTON_TYPE.CANCEL_SELECTED:
           return handleCancelCompleted();
         case BUTTON_TYPE.SELECT_ALL:
           return handleSelectAll();

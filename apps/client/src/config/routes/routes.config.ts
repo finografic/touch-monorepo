@@ -9,7 +9,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'main',
     title: 'ServiFresc',
     buttons: {
-      footer: [BUTTON_TYPE.CANCEL_COMPLETED, BUTTON_TYPE.CLEAR_COMPLETED, BUTTON_TYPE.SELECT_ALL],
+      footer: [BUTTON_TYPE.CANCEL_SELECTED, BUTTON_TYPE.CLEAR_COMPLETED, BUTTON_TYPE.SELECT_ALL],
       content: [BUTTON_TYPE.PROGRAM_TIME, BUTTON_TYPE.PROGRAM_PRODUCT, BUTTON_TYPE.REPEAT_SELECTION],
     },
     navigation: {

@@ -3,7 +3,7 @@ import { createConstUpperEnum } from '@workspace/core/types/utils/enum.utils.typ
 
 const BUTTON_TYPES = [
   'CLEAR_COMPLETED',
-  'CANCEL_COMPLETED',
+  'CANCEL_SELECTED',
   'SELECT_ALL',
   'NAVIGATE_BACK',
   'NAVIGATE_NEXT',
