@@ -1,9 +1,6 @@
 import type { ReactNode } from 'react';
-import type { ConstEnumOf, ConstUpperEnumOf } from '@workspace/core/types/utils';
+import type { ConstEnumOf } from '@workspace/core/types/utils';
 import { createConstUpperEnum } from '@workspace/core/types/utils';
-
-// Button translation key type - for now using string literal pattern
-type ButtonTranslationKey = `ui.buttons.${string}`;
 
 // 1. Define the button type union as source of truth (what the buttons represent)
 type ButtonType =
@@ -79,7 +76,7 @@ export type ButtonActionType = keyof typeof BUTTON_ACTION;
 export interface PadActionConfig {
   id: string;
   type: PadActionType;
-  labelKey: ButtonTranslationKey;
+  labelKey: `ui.buttons.${string}`;
   className?: string;
   icon?: 'chevron-left' | 'chevron-right';
   actionType: ButtonActionType;
