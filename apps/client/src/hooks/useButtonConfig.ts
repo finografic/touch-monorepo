@@ -7,7 +7,7 @@ import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useRouteHandler } from 'hooks/useRouteHandler';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 
-import { BUTTON_ACTIONS, type PadActionProps, type PadActionType } from 'types/button.types';
+import { BUTTON_ACTION, type PadActionProps, type PadActionType } from 'types/button.types';
 import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config';
 import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
 
@@ -59,30 +59,30 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const executeAction = useCallback(
     (actionType: string) => {
       switch (actionType) {
-        case BUTTON_ACTIONS.NAVIGATE_BACK:
+        case BUTTON_ACTION.NAVIGATE_BACK:
           return handleNavigateBack();
-        case BUTTON_ACTIONS.NAVIGATE_NEXT:
+        case BUTTON_ACTION.NAVIGATE_NEXT:
           return handleNavigateNext();
-        case BUTTON_ACTIONS.CLEAR_COMPLETED:
+        case BUTTON_ACTION.CLEAR_COMPLETED:
           return handleClearCompleted();
-        case BUTTON_ACTIONS.CANCEL_COMPLETED:
+        case BUTTON_ACTION.CANCEL_COMPLETED:
           return handleCancelCompleted();
-        case BUTTON_ACTIONS.SELECT_ALL:
+        case BUTTON_ACTION.SELECT_ALL:
           return handleSelectAll();
-        case BUTTON_ACTIONS.START_PROCESS:
+        case BUTTON_ACTION.START_PROCESS:
           // Use route-specific handler
           return getStartHandler()();
-        case BUTTON_ACTIONS.FINISH_PRODUCT_PROCESS:
+        case BUTTON_ACTION.FINISH_PRODUCT_PROCESS:
           return handleFinishProductProcess();
-        case BUTTON_ACTIONS.PROGRAM_TIME:
+        case BUTTON_ACTION.PROGRAM_TIME:
           return handleProgramTime();
-        case BUTTON_ACTIONS.PROGRAM_PRODUCT:
+        case BUTTON_ACTION.PROGRAM_PRODUCT:
           return handleProgramProduct();
-        case BUTTON_ACTIONS.REPEAT_SELECTION:
+        case BUTTON_ACTION.REPEAT_SELECTION:
           return handleRepeatSelection();
-        case BUTTON_ACTIONS.CANCEL_TIME_SESSION:
+        case BUTTON_ACTION.CANCEL_TIME_SESSION:
           return handleCancelTimeSession();
-        case BUTTON_ACTIONS.CANCEL_PRODUCT_SESSION:
+        case BUTTON_ACTION.CANCEL_PRODUCT_SESSION:
           return handleCancelProductSession();
         default:
           console.warn(`Unknown action type: ${actionType}`);

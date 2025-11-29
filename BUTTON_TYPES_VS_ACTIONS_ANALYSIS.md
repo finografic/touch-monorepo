@@ -1,10 +1,10 @@
-# BUTTON_TYPES vs BUTTON_ACTIONS Analysis
+# BUTTON_TYPES vs BUTTON_ACTION Analysis
 
 ## Overview
 
 The codebase uses two separate enums for buttons:
 - **BUTTON_TYPES** - Represents button identity (what button is this?)
-- **BUTTON_ACTIONS** - Represents button behavior (what does it do when clicked?)
+- **BUTTON_ACTION** - Represents button behavior (what does it do when clicked?)
 
 This analysis examines whether they could be consolidated.
 
@@ -12,7 +12,7 @@ This analysis examines whether they could be consolidated.
 
 ## 1. Where BUTTON_TYPES is Used
 
-### Usage Locations:
+### Usage Locations
 
 1. **`config/routes/routes.config.ts`** (Route Configuration)
    - Defines which buttons appear on which routes
@@ -24,7 +24,8 @@ This analysis examines whether they could be consolidated.
    - Maps `BUTTON_TYPES` → `PadActionConfig` (id, labelKey, className, icon, actionType)
    - **Purpose**: Button UI/display configuration
 
-### BUTTON_TYPES Values:
+### BUTTON_TYPES Values
+
 ```typescript
 'reset' | 'all' | 'back' | 'next' | 'start' | 'finish-product' |
 'cancel' | 'cancel-time-session' | 'cancel-product-session' |
@@ -35,16 +36,17 @@ This analysis examines whether they could be consolidated.
 
 ---
 
-## 2. Where BUTTON_ACTIONS is Used
+## 2. Where BUTTON_ACTION is Used
 
-### Usage Locations:
+### Usage Locations
 
 1. **`hooks/useButtonConfig.ts`** (Action Execution)
-   - Switch statement that executes actions based on `BUTTON_ACTIONS` values
+   - Switch statement that executes actions based on `BUTTON_ACTION` values
    - Used for: `executeAction()`, `getActionDisabled()`, `getActionLoading()`
    - **Purpose**: Runtime behavior execution
 
-### BUTTON_ACTIONS Values:
+### BUTTON_ACTION Values
+
 ```typescript
 'clear-completed' | 'cancel-completed' | 'select-all' |
 'navigate-back' | 'navigate-next' | 'start-process' |
@@ -56,7 +58,7 @@ This analysis examines whether they could be consolidated.
 
 ---
 
-## 3. Mapping Between BUTTON_TYPES and BUTTON_ACTIONS
+## 3. Mapping Between BUTTON_TYPES and BUTTON_ACTION
 
 From `button.config.ts`, here's the mapping:
 
@@ -81,20 +83,20 @@ From `button.config.ts`, here's the mapping:
 
 ---
 
-## 4. Could BUTTON_ACTIONS Replace BUTTON_TYPES?
+## 4. Could BUTTON_ACTION Replace BUTTON_TYPES?
 
-### Arguments FOR Consolidation:
+### Arguments FOR Consolidation
 
 1. **5 out of 12 buttons already match** (42% overlap)
 2. **Reduces duplication** - one enum instead of two
 3. **Simpler mental model** - button type IS its action
 4. **Less mapping code** - no need for `actionType` field in config
 
-### Arguments AGAINST Consolidation:
+### Arguments AGAINST Consolidation
 
 1. **Semantic separation** - Button identity vs. behavior are conceptually different
 2. **UI flexibility** - Same action could theoretically have different button appearances
-3. **Route configuration clarity** - `BUTTON_TYPES.BACK` is clearer than `BUTTON_ACTIONS.NAVIGATE_BACK` in route configs
+3. **Route configuration clarity** - `BUTTON_TYPES.BACK` is clearer than `BUTTON_ACTION.NAVIGATE_BACK` in route configs
 4. **The 7 mismatched buttons** suggest intentional separation:
    - `reset` button → `clear-completed` action (more descriptive)
    - `all` button → `select-all` action (more descriptive)
@@ -128,21 +130,24 @@ executeAction switches on BUTTON_ACTION
 
 If consolidating, you could:
 
-### Option A: Use BUTTON_ACTIONS everywhere
-- Route config uses `BUTTON_ACTIONS`
-- Button config uses `BUTTON_ACTIONS` as key
+### Option A: Use BUTTON_ACTION everywhere
+
+- Route config uses `BUTTON_ACTION`
+- Button config uses `BUTTON_ACTION` as key
 - Remove `actionType` field (redundant)
 - **Pros**: Single source of truth
 - **Cons**: Route configs less readable (`NAVIGATE_BACK` vs `BACK`)
 
 ### Option B: Use BUTTON_TYPES everywhere
+
 - Route config uses `BUTTON_TYPES` (already does)
 - Button config uses `BUTTON_TYPES` as key (already does)
-- Remove `BUTTON_ACTIONS`, use `BUTTON_TYPES` in switch statements
+- Remove `BUTTON_ACTION`, use `BUTTON_TYPES` in switch statements
 - **Pros**: Simpler, one enum
 - **Cons**: Action names less descriptive (`reset` vs `clear-completed`)
 
 ### Option C: Keep both, but make mapping explicit
+
 - Create a mapping function: `getActionForButtonType(type: ButtonType): ButtonActionType`
 - Makes the relationship explicit
 - **Pros**: Clear separation, explicit mapping
@@ -156,7 +161,7 @@ If consolidating, you could:
 
 1. **Semantic clarity**: Button identity (`reset`) vs. action (`clear-completed`) are different concepts
 2. **Future flexibility**: You might want multiple buttons with same action but different UI
-3. **Readability**: Route configs are cleaner with `BUTTON_TYPES.BACK` than `BUTTON_ACTIONS.NAVIGATE_BACK`
+3. **Readability**: Route configs are cleaner with `BUTTON_TYPES.BACK` than `BUTTON_ACTION.NAVIGATE_BACK`
 4. **Action names are more descriptive**: `clear-completed` is clearer than `reset` for what it does
 
 **However**, consider:
