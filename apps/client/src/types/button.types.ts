@@ -1,7 +1,16 @@
 import type { ReactNode } from 'react';
-import { createConstUpperEnum } from '@workspace/core/types/utils';
+import { createConstUpperEnum } from '@workspace/core/types/utils/enum.utils.types';
+// Legacy mapping: old button types → actions (for migration)
+// RESET → CLEAR_COMPLETED
+// ALL → SELECT_ALL
+// BACK → NAVIGATE_BACK
+// NEXT → NAVIGATE_NEXT
+// START → START_PROCESS
+// FINISH_PRODUCT → FINISH_PRODUCT_PROCESS
+// CANCEL → CANCEL_COMPLETED
+// Others map 1:1
 
-const BUTTON_ACTIONS = [
+const BUTTON_TYPES = [
   'CLEAR_COMPLETED',
   'CANCEL_COMPLETED',
   'SELECT_ALL',
@@ -16,18 +25,8 @@ const BUTTON_ACTIONS = [
   'CANCEL_PRODUCT_SESSION',
 ] as const;
 
-export const BUTTON_ACTION = createConstUpperEnum(BUTTON_ACTIONS);
-export type ButtonActionType = keyof typeof BUTTON_ACTION;
-
-// Legacy mapping: old button types → actions (for migration)
-// RESET → CLEAR_COMPLETED
-// ALL → SELECT_ALL
-// BACK → NAVIGATE_BACK
-// NEXT → NAVIGATE_NEXT
-// START → START_PROCESS
-// FINISH_PRODUCT → FINISH_PRODUCT_PROCESS
-// CANCEL → CANCEL_COMPLETED
-// Others map 1:1
+export const BUTTON_TYPE = createConstUpperEnum(BUTTON_TYPES);
+export type ButtonActionType = keyof typeof BUTTON_TYPE;
 
 export interface PadActionConfig {
   id: string;

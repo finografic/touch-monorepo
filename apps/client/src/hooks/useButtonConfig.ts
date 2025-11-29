@@ -7,7 +7,7 @@ import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useRouteHandler } from 'hooks/useRouteHandler';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 
-import { BUTTON_ACTION, type ButtonActionType, type PadActionProps } from 'types/button.types';
+import { BUTTON_TYPE, type ButtonActionType, type PadActionProps } from 'types/button.types';
 import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config';
 import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
 
@@ -59,30 +59,30 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const executeAction = useCallback(
     (actionType: string) => {
       switch (actionType) {
-        case BUTTON_ACTION.NAVIGATE_BACK:
+        case BUTTON_TYPE.NAVIGATE_BACK:
           return handleNavigateBack();
-        case BUTTON_ACTION.NAVIGATE_NEXT:
+        case BUTTON_TYPE.NAVIGATE_NEXT:
           return handleNavigateNext();
-        case BUTTON_ACTION.CLEAR_COMPLETED:
+        case BUTTON_TYPE.CLEAR_COMPLETED:
           return handleClearCompleted();
-        case BUTTON_ACTION.CANCEL_COMPLETED:
+        case BUTTON_TYPE.CANCEL_COMPLETED:
           return handleCancelCompleted();
-        case BUTTON_ACTION.SELECT_ALL:
+        case BUTTON_TYPE.SELECT_ALL:
           return handleSelectAll();
-        case BUTTON_ACTION.START_PROCESS:
+        case BUTTON_TYPE.START_PROCESS:
           // Use route-specific handler
           return getStartHandler()();
-        case BUTTON_ACTION.FINISH_PRODUCT_PROCESS:
+        case BUTTON_TYPE.FINISH_PRODUCT_PROCESS:
           return handleFinishProductProcess();
-        case BUTTON_ACTION.PROGRAM_TIME:
+        case BUTTON_TYPE.PROGRAM_TIME:
           return handleProgramTime();
-        case BUTTON_ACTION.PROGRAM_PRODUCT:
+        case BUTTON_TYPE.PROGRAM_PRODUCT:
           return handleProgramProduct();
-        case BUTTON_ACTION.REPEAT_SELECTION:
+        case BUTTON_TYPE.REPEAT_SELECTION:
           return handleRepeatSelection();
-        case BUTTON_ACTION.CANCEL_TIME_SESSION:
+        case BUTTON_TYPE.CANCEL_TIME_SESSION:
           return handleCancelTimeSession();
-        case BUTTON_ACTION.CANCEL_PRODUCT_SESSION:
+        case BUTTON_TYPE.CANCEL_PRODUCT_SESSION:
           return handleCancelProductSession();
         default:
           console.warn(`Unknown action type: ${actionType}`);
@@ -107,9 +107,9 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const getActionDisabled = useCallback(
     (actionType: string): boolean => {
       // Check navigation actions first
-      if (actionType === BUTTON_ACTION.NAVIGATE_BACK || actionType === BUTTON_ACTION.NAVIGATE_NEXT) {
+      if (actionType === BUTTON_TYPE.NAVIGATE_BACK || actionType === BUTTON_TYPE.NAVIGATE_NEXT) {
         return getNavigationDisabled(
-          actionType as typeof BUTTON_ACTION.NAVIGATE_BACK | typeof BUTTON_ACTION.NAVIGATE_NEXT,
+          actionType as typeof BUTTON_TYPE.NAVIGATE_BACK | typeof BUTTON_TYPE.NAVIGATE_NEXT,
         );
       }
 
@@ -122,7 +122,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const getActionLoading = useCallback(
     (actionType: string): boolean => {
       // Navigation actions use their own pending state
-      if (actionType === BUTTON_ACTION.NAVIGATE_BACK || actionType === BUTTON_ACTION.NAVIGATE_NEXT) {
+      if (actionType === BUTTON_TYPE.NAVIGATE_BACK || actionType === BUTTON_TYPE.NAVIGATE_NEXT) {
         return isNavigationPending;
       }
 
@@ -142,7 +142,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
           id: `unknown-${buttonType}`,
           type: buttonType,
           label: buttonType,
-          actionType: BUTTON_ACTION.NAVIGATE_NEXT,
+          actionType: BUTTON_TYPE.NAVIGATE_NEXT,
           disabled: true,
         };
       }

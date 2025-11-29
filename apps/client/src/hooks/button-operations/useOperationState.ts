@@ -6,7 +6,7 @@ import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
 
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
-import { BUTTON_ACTION } from 'types/button.types';
+import { BUTTON_TYPE } from 'types/button.types';
 import type { OperationActionType } from './button-operations.types';
 
 /**
@@ -52,13 +52,13 @@ export const useOperationState = (
       }).length;
 
       switch (actionType) {
-        case BUTTON_ACTION.CLEAR_COMPLETED:
+        case BUTTON_TYPE.CLEAR_COMPLETED:
           return !hasCompletedTimers || location.pathname !== PATHS.main || isPending;
-        case BUTTON_ACTION.CANCEL_COMPLETED:
+        case BUTTON_TYPE.CANCEL_COMPLETED:
           return numSelectedProcessing === 0 || location.pathname !== PATHS.main || isPending;
-        case BUTTON_ACTION.SELECT_ALL:
+        case BUTTON_TYPE.SELECT_ALL:
           return location.pathname !== PATHS.main || isPending;
-        case BUTTON_ACTION.START_PROCESS:
+        case BUTTON_TYPE.START_PROCESS:
           // On TimePage: check if we have selected items
           if (location.pathname === ALTERNATIVE_PATHS.time) {
             return !hasSelectedItems || isPending;
@@ -69,20 +69,20 @@ export const useOperationState = (
             !profile?.temperatureProfiles?.length || // Check if we have temperature profiles
             location.pathname !== PATHS.temperature
           );
-        case BUTTON_ACTION.FINISH_PRODUCT_PROCESS:
+        case BUTTON_TYPE.FINISH_PRODUCT_PROCESS:
           return (
             isTemperatureLoading ||
             isPending ||
             !profile?.temperatureProfiles?.length ||
             location.pathname !== PATHS.temperature
           );
-        case BUTTON_ACTION.PROGRAM_TIME:
+        case BUTTON_TYPE.PROGRAM_TIME:
           // Enable only if there are selected IDLE orders
           return numAvailableSelected === 0 || location.pathname !== PATHS.main || isPending;
-        case BUTTON_ACTION.PROGRAM_PRODUCT:
+        case BUTTON_TYPE.PROGRAM_PRODUCT:
           // Enable only if there are selected IDLE orders
           return numAvailableSelected === 0 || location.pathname !== PATHS.main || isPending;
-        case BUTTON_ACTION.REPEAT_SELECTION: {
+        case BUTTON_TYPE.REPEAT_SELECTION: {
           if (isTimerSelected) return true;
           // Check if recall config is active (exists and not expired)
           const hasActiveRecall = recall.config !== null && !isRecallExpired();
@@ -90,10 +90,10 @@ export const useOperationState = (
           // Enable only if: recall config active + orders selected + on main page
           return !hasActiveRecall || numAnySelected === 0 || location.pathname !== PATHS.main || isPending;
         }
-        case BUTTON_ACTION.CANCEL_TIME_SESSION:
+        case BUTTON_TYPE.CANCEL_TIME_SESSION:
           // Always enabled on TimePage
           return false;
-        case BUTTON_ACTION.CANCEL_PRODUCT_SESSION:
+        case BUTTON_TYPE.CANCEL_PRODUCT_SESSION:
           // Always enabled on product flow pages
           return false;
         default:
@@ -116,8 +116,8 @@ export const useOperationState = (
   const getOperationLoading = useCallback(
     (actionType: OperationActionType): boolean => {
       switch (actionType) {
-        case BUTTON_ACTION.START_PROCESS:
-        case BUTTON_ACTION.FINISH_PRODUCT_PROCESS:
+        case BUTTON_TYPE.START_PROCESS:
+        case BUTTON_TYPE.FINISH_PRODUCT_PROCESS:
           // On TimePage, use basic pending state
           if (location.pathname === ALTERNATIVE_PATHS.time) {
             return isPending;

@@ -9,10 +9,10 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
 
 import type { TemperatureFilter } from 'types/temperature.types';
-import { BUTTON_ACTION, type ButtonActionType } from 'types/button.types';
+import { BUTTON_TYPE, type ButtonActionType } from 'types/button.types';
 import { ALTERNATIVE_PATHS, PATHS } from 'config';
 
-type NavigationActionType = typeof BUTTON_ACTION.NAVIGATE_BACK | typeof BUTTON_ACTION.NAVIGATE_NEXT;
+type NavigationActionType = typeof BUTTON_TYPE.NAVIGATE_BACK | typeof BUTTON_TYPE.NAVIGATE_NEXT;
 
 interface UseButtonNavigationReturn {
   handleNavigateBack: () => void;
@@ -114,13 +114,13 @@ export const useButtonNavigation = (): UseButtonNavigationReturn => {
   const getNavigationDisabled = useCallback(
     (actionType: NavigationActionType): boolean => {
       switch (actionType) {
-        case BUTTON_ACTION.NAVIGATE_BACK:
+        case BUTTON_TYPE.NAVIGATE_BACK:
           if (location.pathname === ALTERNATIVE_PATHS.time) {
             return isPending;
           }
 
           return location.pathname === PATHS.main || isFirstStep || isPending;
-        case BUTTON_ACTION.NAVIGATE_NEXT: {
+        case BUTTON_TYPE.NAVIGATE_NEXT: {
           const disabled = isNextDisabled || isPending || !nextPath;
           return disabled;
         }
