@@ -40,10 +40,12 @@ export const useMainPageOperations = () => {
 
   const handleClearCompleted = useCallback(() => {
     startTransition(() => {
+      log('1. handleClearCompleted', 'magenta', { ID: 1 });
       stopAllAudio();
-      // Clear all completed timers using the new TimerContext
       clearCompletedTimers();
 
+      // TODO: CONFIRM IF OK TO REMOVE THIS (SHOULD BE!!)
+      /*
       // Save new configuration to reset timer
       const selectedOrders = selectedSlots
         .map((slot) => orders.find((order) => order.slotNumber === slot.slotNumber))
@@ -54,11 +56,13 @@ export const useMainPageOperations = () => {
         durations: { default: 300 },
         selectedOrders: selectedOrders.map((order) => order!.slotNumber),
       });
+      */
     });
   }, [clearCompletedTimers, orders, saveConfig, selectedSlots]);
 
   const handleCancelCompleted = useCallback(() => {
     startTransition(() => {
+      log('2. handleCancelCompleted', 'magenta', { ID: 2 });
       // Clear only timers that are SELECTED/checked
       const selectedSlotsWithTimers = selectedSlots.filter((slot) => {
         const timer = timers.find((t) => t.slotNumber === slot.slotNumber);
@@ -78,6 +82,8 @@ export const useMainPageOperations = () => {
         toggleMainPageSlot(slot);
       });
 
+      // TODO: CONFIRM IF OK TO REMOVE THIS (SHOULD BE!!)
+      /*
       // Save new configuration to reset timer
       const selectedOrders = selectedSlots
         .map((slot) => orders.find((order) => order.slotNumber === slot.slotNumber))
@@ -88,6 +94,7 @@ export const useMainPageOperations = () => {
         durations: { default: 300 },
         selectedOrders: selectedOrders.map((order) => order!.slotNumber),
       });
+      */
     });
   }, [selectedSlots, timers, removeTimer, toggleMainPageSlot, orders, saveConfig]);
 
@@ -97,6 +104,7 @@ export const useMainPageOperations = () => {
 
   const handleSelectAll = useCallback(() => {
     startTransition(() => {
+      log('3. handleSelectAll', 'magenta', { ID: 3 });
       selectAllMainPageSlots();
     });
   }, [selectAllMainPageSlots]);
@@ -107,6 +115,7 @@ export const useMainPageOperations = () => {
 
   const handleRepeatSelection = useCallback(() => {
     // Check if recall config is active (exists and not expired)
+    log('4. handleRepeatSelection', 'magenta', { ID: 4 });
     if (!recall.config || isRecallExpired()) {
       console.error('No active recall config found');
       return;
@@ -161,7 +170,16 @@ export const useMainPageOperations = () => {
         }
       });
     });
-  }, [selectedSlots, addTimer, orderItemsConfig, setSelectedSlots, loadConfig, setFilter, recall, isRecallExpired]);
+  }, [
+    selectedSlots,
+    addTimer,
+    orderItemsConfig,
+    setSelectedSlots,
+    loadConfig,
+    setFilter,
+    recall,
+    isRecallExpired,
+  ]);
 
   return {
     handleClearCompleted,
