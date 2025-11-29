@@ -1,5 +1,5 @@
 import type { SlotStatus } from 'pages/MainPage/MainPage.types';
-
+import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 
 export interface TimerBasic {
@@ -17,4 +17,16 @@ export interface TimerItem extends TimerBasic {
   slotNumber: number; // Position 0-9
   orderId: string; // Persistent CUID that gets remembered
   flowType: FlowTypeValue;
+}
+
+export interface RecallConfig {
+  filters: OrderFilters;
+  temperatures: Record<string, number>;
+  durations: Record<string, number>;
+  selectedOrders?: number[];
+}
+
+export interface RecallState {
+  config: RecallConfig | null;
+  expiresAt: number | null; // Timestamp when config expires
 }

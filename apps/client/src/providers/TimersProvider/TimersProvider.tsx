@@ -1,5 +1,5 @@
-import { DISPLAY_NAME, TimersContext } from './TimerContext';
-import type { TimersProviderProps } from './TimerContext.types';
+import { DISPLAY_NAME, TimersContext } from './TimersContext';
+import type { TimersProviderProps } from './TimersContext.types';
 
 export const TimersProvider = ({ initialValue, children }: TimersProviderProps) => {
   return <TimersContext.Provider initialValue={initialValue}>{children}</TimersContext.Provider>;

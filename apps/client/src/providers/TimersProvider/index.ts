@@ -1,3 +1,3 @@
-export { useTimers, useTimersOptional } from './TimerContext';
-export type { TimerItem } from './TimerContext.types';
-export { TimersProvider } from './TimerProvider';
+export { useTimers, useTimersOptional } from './TimersContext';
+export type { TimerItem, TimerBasic } from './timer.types';
+export { TimersProvider } from './TimersProvider';

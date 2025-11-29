@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 
 import { formatTimeFromMs } from 'utils/time.utils';
 import { POLLING_INTERVAL_1MS } from 'config/app';
-import { useTimers } from 'providers/TimersProvider/TimerContext';
+import { useTimers } from 'providers/TimersProvider/TimersContext';
 import { styles } from './RecallTimer.styles';
 
 export const RecallTimer = () => {

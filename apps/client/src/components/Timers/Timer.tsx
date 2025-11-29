@@ -95,6 +95,7 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
         setRemainingTime(remaining);
 
         if (remaining <= 0) {
+          log('🔴 STOPPING TIMER', 'red', { slotNumber });
           handleCompleteEvent({ remaining, orderId: timer.orderId });
           handleComplete();
         }

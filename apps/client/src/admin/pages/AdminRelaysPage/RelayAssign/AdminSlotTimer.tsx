@@ -5,7 +5,7 @@ import { parseCompletionTime } from 'components/Timers/shared/timer.utils';
 import { timerManager } from 'components/Timers/shared/TimerManager';
 import { useTimerEvents } from 'components/Timers/shared/useTimerEvents';
 
-import { useTimers } from 'providers/TimersProvider/TimerContext';
+import { useTimers } from 'providers/TimersProvider/TimersContext';
 
 import { formatTime } from 'utils/time.utils';
 import { styles } from './AdminSlotTimer.styles';

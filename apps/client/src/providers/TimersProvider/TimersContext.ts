@@ -8,7 +8,8 @@ import { CONFIG_EXPIRY_TIME_MS } from 'config/app';
 import type { TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
 
 import { createSetters, createZustandContext } from 'utils/zustand';
-import type { RecallConfig, TimersStore, TimersValues } from './TimerContext.types';
+import type { TimersStore, TimersValues } from './TimersContext.types';
+import type { RecallConfig } from './timer.types';
 
 export const DISPLAY_NAME = 'Timers';
 export const SETTER_PREFIX = '';

@@ -1,22 +1,7 @@
 import type { ReactNode } from 'react';
-
-import type { TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
-import type { OrderFilters } from 'types/filters.types';
-
+import type { RecallConfig, RecallState, TimerBasic, TimerItem } from 'providers/TimersProvider/timer.types';
 import type { CreateSettersType } from 'utils/zustand';
-import type { SETTER_PREFIX, TimersKeys } from './TimerContext';
-
-export interface RecallConfig {
-  filters: OrderFilters;
-  temperatures: Record<string, number>;
-  durations: Record<string, number>;
-  selectedOrders?: number[];
-}
-
-export interface RecallState {
-  config: RecallConfig | null;
-  expiresAt: number | null; // Timestamp when config expires
-}
+import type { SETTER_PREFIX, TimersKeys } from './TimersContext';
 
 export interface TimersValues {
   [TimersKeys.timers]: TimerItem[];
