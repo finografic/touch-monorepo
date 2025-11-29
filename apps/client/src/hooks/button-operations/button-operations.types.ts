@@ -2,17 +2,13 @@
  * Shared types for button operations
  */
 
-export type OperationActionType =
-  | 'clear-completed'
-  | 'cancel-completed'
-  | 'select-all'
-  | 'start-process'
-  | 'finish-product-process'
-  | 'program-time'
-  | 'program-product'
-  | 'repeat-selection'
-  | 'cancel-time-session'
-  | 'cancel-product-session';
+import type { ButtonActionType } from 'types/button.types';
+
+/**
+ * Operation actions are all button actions EXCEPT navigation actions.
+ * Navigation actions (navigate-back, navigate-next) are handled separately.
+ */
+export type OperationActionType = Exclude<ButtonActionType, 'navigate-back' | 'navigate-next'>;
 
 export interface OperationState {
   isDisabled: boolean;
