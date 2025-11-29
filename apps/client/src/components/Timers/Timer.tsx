@@ -6,7 +6,7 @@ import { useTimers } from 'providers/TimersProvider';
 import { playAlarmSound, playCompleteSound } from 'utils/sound.utils';
 import { formatTime } from 'utils/time.utils';
 import { parseCompletionTime } from './shared/timer.utils';
-import { timerManager } from './shared/TimerManager';
+import { timerSubscriptionRegistry } from './shared/TimerSubscriptionRegistry';
 import { useTimerEvents } from './shared/useTimerEvents';
 
 interface TimerProps {
@@ -49,7 +49,7 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
   });
 
   const handleComplete = useCallback(() => {
-    timerManager.stopTimer(slotNumber);
+    timerSubscriptionRegistry.unregister(slotNumber);
 
     if (timer) {
       updateTimer(timer.id, { status: 'completed' });
@@ -70,7 +70,7 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
   useEffect(
     function initializeTimerInstance() {
       const cleanup = () => {
-        timerManager.stopTimer(slotNumber);
+        timerSubscriptionRegistry.unregister(slotNumber);
       };
 
       // If no timer or timer is not processing, reset state
@@ -89,8 +89,9 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
         return cleanup;
       }
 
-      // Start timer interval, loop callback
-      timerManager.startTimer(slotNumber, () => {
+      // Register callback with timer registry (subscribes to heartbeat)
+      timerSubscriptionRegistry.register(slotNumber, () => {
+        // Re-parse timer to get current remaining time
         const { remaining } = parseCompletionTime(timer);
         setRemainingTime(remaining);
 

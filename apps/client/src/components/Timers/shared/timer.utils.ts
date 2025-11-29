@@ -47,13 +47,13 @@ export function parseCompletionTime({ completionTime }: { completionTime?: strin
  * Calculate cycle number (how many times a timer has repeated)
  */
 // NOTE: SnoozeTimer
-export function parseElapsedTime({ startTime }: { startTime: number }): {
+export function parseElapsedTime({ startTime, now }: { startTime: number; now?: number }): {
   remaining: number;
   elapsed: number;
   totalElapsed: number;
 } {
-  const now = Date.now();
-  const totalElapsed = now - startTime;
+  const currentTime = now ?? Date.now();
+  const totalElapsed = currentTime - startTime;
   const elapsed = totalElapsed % SNOOZE_INTERVAL_MS;
   const remaining = SNOOZE_INTERVAL_MS - elapsed;
 

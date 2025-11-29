@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import clsx from 'clsx';
 import { parseCompletionTime } from 'components/Timers/shared/timer.utils';
-import { timerManager } from 'components/Timers/shared/TimerManager';
+import { timerSubscriptionRegistry } from 'components/Timers/shared/TimerSubscriptionRegistry';
 import { useTimerEvents } from 'components/Timers/shared/useTimerEvents';
 
 import { useTimers } from 'providers/TimersProvider/TimersContext';
@@ -45,7 +45,7 @@ export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onCo
   });
 
   const handleComplete = useCallback(() => {
-    timerManager.stopTimer(slotNumber);
+    timerSubscriptionRegistry.unregister(slotNumber);
 
     if (timer) {
       updateTimer(timer.id, { status: 'completed' });
@@ -58,7 +58,7 @@ export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onCo
   useEffect(
     function initializeTimerInstance() {
       const cleanup = () => {
-        timerManager.stopTimer(slotNumber);
+        timerSubscriptionRegistry.unregister(slotNumber);
       };
 
       // If no timer or timer is not processing, reset state
@@ -77,8 +77,8 @@ export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onCo
         return cleanup;
       }
 
-      // Start timer interval, loop callback
-      timerManager.startTimer(slotNumber, () => {
+      // Register callback with timer subscription registry (subscribes to heartbeat service)
+      timerSubscriptionRegistry.register(slotNumber, () => {
         const { remaining } = parseCompletionTime(timer);
         setRemainingTime(remaining);
 

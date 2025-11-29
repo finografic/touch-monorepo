@@ -4,7 +4,7 @@ import { useTimers } from 'providers/TimersProvider';
 
 import { formatTime, formatTimeFromMs } from 'utils/time.utils';
 import { parseCompletionTime } from './shared/timer.utils';
-import { timerManager } from './shared/TimerManager';
+import { timerSubscriptionRegistry } from './shared/TimerSubscriptionRegistry';
 import { TimerResetIcon } from 'styles/icons/icons';
 import { styles } from './UserTimer.styles';
 
@@ -32,7 +32,7 @@ export const UserTimer: React.FC<UserTimerProps> = ({ slotNumber, onComplete }) 
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
   const handleComplete = useCallback(() => {
-    timerManager.stopTimer(slotNumber);
+    timerSubscriptionRegistry.unregister(slotNumber);
     // For maintenance, mark as idle
     stopMaintenanceTimer(slotNumber);
     onComplete?.();
@@ -41,7 +41,7 @@ export const UserTimer: React.FC<UserTimerProps> = ({ slotNumber, onComplete }) 
   useEffect(
     function initializeTimerInstance() {
       const cleanup = () => {
-        timerManager.stopTimer(slotNumber);
+        timerSubscriptionRegistry.unregister(slotNumber);
       };
 
       // If no timer or timer is not processing, reset state
@@ -60,8 +60,9 @@ export const UserTimer: React.FC<UserTimerProps> = ({ slotNumber, onComplete }) 
         return cleanup;
       }
 
-      // Start timer interval, loop callback
-      timerManager.startTimer(slotNumber, () => {
+      // Register callback with timer registry (subscribes to heartbeat)
+      timerSubscriptionRegistry.register(slotNumber, () => {
+        // Re-parse timer to get current remaining time
         const { remaining } = parseCompletionTime(maintenanceTimer);
         setRemainingTime(remaining);
 

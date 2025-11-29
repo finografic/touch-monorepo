@@ -11,12 +11,14 @@ export const SessionAndTimers = () => {
   const { filters } = useFiltersContext();
   const { sessions } = useSession();
   // const { timers } = useTimers();
-  const { timers, snooze } = useTimers();
+  const { timers, snooze, recall, isRecallExpired } = useTimers();
   const { selectedSlots } = useLayoutUi();
   const { orders } = useOrders();
 
   const previousSessions = Object.values(sessions).filter((session) => !session.isActive) || [];
   const activeSession = Object.values(sessions).find((session) => session.isActive) || {};
+
+  const showRecallInfo = recall.config !== null && !isRecallExpired();
 
   return (
     <div id="dev-filter-results" css={styles}>
@@ -25,10 +27,24 @@ export const SessionAndTimers = () => {
         <pre>{JSON.stringify(selectedSlots, null, 2)}</pre>
       </div> */}
       <div className="filters">
-        <h4>snooze, timers: {selectedSlots.length}:</h4>
-        <pre>{JSON.stringify({ snooze, timers }, null, 2)}</pre>
+        <h4>SELECTED SLOTS: {selectedSlots.length}:</h4>
         <pre>{JSON.stringify({ selectedSlots }, null, 2)}</pre>
       </div>
+      <div className="filters">
+        <h4>timers: {timers.length}:</h4>
+        <pre>{JSON.stringify({ timers }, null, 2)}</pre>
+      </div>
+
+      <div className="filters">
+        <h4>snooze:</h4>
+        <pre>{JSON.stringify({ snooze }, null, 2)}</pre>
+      </div>
+      {showRecallInfo && (
+        <div className="filters">
+          <h4>recall:</h4>
+          <pre>{JSON.stringify({ recall }, null, 2)}</pre>
+        </div>
+      )}
       {/* <div className="filters">
         <h4>orders: {orders.length}:</h4>
         <pre>{JSON.stringify(orders, null, 2)}</pre>

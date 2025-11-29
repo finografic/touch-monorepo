@@ -4,9 +4,10 @@ import { useTimersOptional } from 'providers/TimersProvider';
 
 import { playAlarmSound } from 'utils/sound.utils';
 import { formatTimeFromMs } from 'utils/time.utils';
-import { POLLING_INTERVAL_MS, SNOOZE_INTERVAL_MS } from 'config/app';
+import { SNOOZE_INTERVAL_MS } from 'config/app';
 import { getCycleNumber, parseElapsedTime } from './shared/timer.utils';
 import { useTimerEvents } from './shared/useTimerEvents';
+import { useHeartbeatSubscription } from './shared/useHeartbeatSubscription';
 import { TimerResetIcon } from 'styles/icons/icons';
 import { styles } from './SnoozeTimer.styles';
 
@@ -38,6 +39,7 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
     : false;
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
+  const now = useHeartbeatSubscription(); // Subscribe to global heartbeat
 
   // Track completed timer count for debouncing
   const previousCompletedCountRef = useRef<number>(0);
@@ -68,6 +70,7 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   const hasCompletedTimers = timersContext?.timers.some((t) => t.status === 'completed') ?? false;
   const completedCount = timersContext?.timers.filter((t) => t.status === 'completed').length ?? 0;
 
+  // Setup/teardown logic for snooze timer
   useEffect(() => {
     // Only run if storage timer is active AND there are completed timers
     if (!hasActiveTimer || !hasCompletedTimers) {
@@ -90,53 +93,45 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
 
     // If we have completed timers but no snooze start time, start the snooze timer
     if (!startTime) {
-      const now = Date.now();
-      setStartTime(now);
+      const currentTime = Date.now();
+      setStartTime(currentTime);
       lastCycleRef.current = 0;
-      lastBeepTimeRef.current = now; // Initialize beep timer
+      lastBeepTimeRef.current = currentTime; // Initialize beep timer
       // Beep immediately when starting
       playAlarmSound().catch(() => {});
     }
+  }, [hasActiveTimer, hasCompletedTimers, startTime, shouldDebounce, completedCount]);
 
-    const updateRemainingTime = () => {
-      if (!startTime) return;
+  // Update remaining time when heartbeat ticks (now changes)
+  useEffect(() => {
+    if (!startTime) return;
 
-      const { remaining, totalElapsed } = parseElapsedTime({ startTime });
+    const { remaining, totalElapsed } = parseElapsedTime({ startTime, now });
 
-      setRemainingTime(remaining);
+    setRemainingTime(remaining);
 
-      // Calculate which cycle we're in
-      const currentCycle = getCycleNumber(totalElapsed, SNOOZE_INTERVAL_MS);
+    // Calculate which cycle we're in
+    const currentCycle = getCycleNumber(totalElapsed, SNOOZE_INTERVAL_MS);
 
-      // REPEAT ACTION: Fire when we complete a full cycle (remaining resets to SNOOZE_INTERVAL_MS)
-      if (currentCycle > lastCycleRef.current) {
-        lastCycleRef.current = currentCycle;
-        handleCompleteEvent({
-          elapsedMs: totalElapsed,
-          remainingMs: remaining,
-          cycleNumber: currentCycle,
-        });
-      }
+    // REPEAT ACTION: Fire when we complete a full cycle (remaining resets to SNOOZE_INTERVAL_MS)
+    if (currentCycle > lastCycleRef.current) {
+      lastCycleRef.current = currentCycle;
+      handleCompleteEvent({
+        elapsedMs: totalElapsed,
+        remainingMs: remaining,
+        cycleNumber: currentCycle,
+      });
+    }
 
-      // BEEP every 2 minutes (SNOOZE_INTERVAL_MS)
-      // Check if 2 minutes have passed since last beep
-      const now = Date.now();
-      const timeSinceLastBeep = now - lastBeepTimeRef.current;
+    // BEEP every 2 minutes (SNOOZE_INTERVAL_MS)
+    // Check if 2 minutes have passed since last beep
+    const timeSinceLastBeep = now - lastBeepTimeRef.current;
 
-      if (timeSinceLastBeep >= SNOOZE_INTERVAL_MS) {
-        playAlarmSound().catch(() => {});
-        lastBeepTimeRef.current = now;
-      }
-    };
-
-    // Initial calculation
-    updateRemainingTime();
-
-    // Update every POLLING_INTERVAL_MS
-    const intervalId = setInterval(updateRemainingTime, POLLING_INTERVAL_MS);
-
-    return () => clearInterval(intervalId);
-  }, [hasActiveTimer, hasCompletedTimers, startTime, shouldDebounce, completedCount, handleCompleteEvent]);
+    if (timeSinceLastBeep >= SNOOZE_INTERVAL_MS) {
+      playAlarmSound().catch(() => {});
+      lastBeepTimeRef.current = now;
+    }
+  }, [now, startTime, handleCompleteEvent]);
 
   // Don't render if storage timer is not active or there are no completed timers
   if (!hasActiveTimer || !hasCompletedTimers || remainingTime <= 0) {

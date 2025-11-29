@@ -21,8 +21,12 @@ export { getCycleNumber, getElapsedTimeAndEventNumberMs } from './shared/timer.u
 // Shared Utilities
 // ============================================================================
 
-export type { TimerManagerState } from './shared/TimerManager';
-export { timerManager } from './shared/TimerManager';
+export type {
+  TimerManagerState,
+  TimerRegistryState,
+  TimerSubscriptionRegistryState,
+} from './shared/TimerSubscriptionRegistry';
+export { timerSubscriptionRegistry } from './shared/TimerSubscriptionRegistry';
 export { useTimerEvents } from './shared/useTimerEvents';
 
 // ============================================================================

@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 
 import type { OrderFilters } from 'types/filters.types';
 import { useTimers } from 'providers/TimersProvider/TimersContext';
-import type { RecallConfig } from 'providers/TimersProvider/TimersContext.types';
+import type { RecallConfig } from 'providers/TimersProvider/timer.types';
 
 interface ConfigData {
   // filters: Record<string, unknown>;
