@@ -11,6 +11,7 @@ import { useTimers } from 'providers/TimersProvider';
 
 import { stopAllAudio } from 'utils/soundCache.utils';
 import { FLOW_TYPES } from 'types/flow.types';
+import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 /**
  * Handles MainPage-specific operations:
@@ -22,16 +23,11 @@ export const useMainPageOperations = () => {
   const [isPending, startTransition] = useTransition();
   const { orders } = useOrders();
   const { addTimer, clearCompletedTimers, timers, removeTimer } = useTimers();
-  const {
-    selectAllMainPageSlots,
-    clearMainPageSelection,
-    toggleMainPageSlot,
-    selectedSlots,
-    setSelectedSlots,
-  } = useLayoutUi();
+  const { clearMainPageSelection, toggleMainPageSlot, selectedSlots, setSelectedSlots } = useLayoutUi();
   const { saveConfig, loadConfig } = useRecallConfig();
   const { isRecallExpired, recall } = useTimers();
   const orderItemsConfig = useSlotItemsConfig();
+  const slotsConfigQuery = useGetSlotConfigurations();
   const { setFilter } = useFiltersContext();
 
   // ========================================================================
@@ -104,10 +100,22 @@ export const useMainPageOperations = () => {
 
   const handleSelectAll = useCallback(() => {
     startTransition(() => {
+      if (slotsConfigQuery.isLoading || slotsConfigQuery.isError || !slotsConfigQuery.data) {
+        return;
+      }
       log('3. handleSelectAll', 'magenta', { ID: 3 });
-      selectAllMainPageSlots();
+      slotsConfigQuery.data
+        .filter((slot) => slot.isActive)
+        .forEach((config) =>
+          toggleMainPageSlot({
+            slotType: config.slotType,
+            slotNumber: config.slotNumber,
+            isChecked: true,
+            status: 'idle',
+          }),
+        );
     });
-  }, [selectAllMainPageSlots]);
+  }, [slotsConfigQuery.isLoading, slotsConfigQuery.isSuccess, slotsConfigQuery.data]);
 
   // ========================================================================
   // REPEAT CONFIGURATION

@@ -9,7 +9,6 @@ import { stylesRight } from './DevPanels.styles';
 export const DevPanelRight = () => {
   const { data, dataFiltered } = useFilters();
   const { loaderData } = useRouteConfig();
-  const { numItems } = useLayoutUi();
   const ordersContext = useOrders();
   const orders = ordersContext?.orders || [];
 
@@ -25,7 +24,6 @@ export const DevPanelRight = () => {
   */
 
   const devDataRight = {
-    numItems,
     count: orders.length,
     // orders: cleanOrdersForDisplay,
     DATA_TOTAL: data?.length,

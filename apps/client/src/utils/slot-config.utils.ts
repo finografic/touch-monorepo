@@ -47,6 +47,7 @@ export const convertSlotConfigsToOrderConfig = (slotConfigs: SlotConfiguration[]
   // If slotNumbers are 1-based, sort by slotNumber
   return slotConfigs
     .sort((a, b) => a.slotNumber - b.slotNumber)
+    .filter((config) => config.isActive)
     .map((config) => ({
       slotType: config.slotType,
       slotNumber: config.slotNumber,

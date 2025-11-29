@@ -62,35 +62,55 @@ interface UseButtonOperationsReturn {
  */
 export const useButtonOperations = (): UseButtonOperationsReturn => {
   // Flow-specific hooks
-  const mainPageOps = useMainPageOperations();
-  const timeFlowOps = useTimeFlowOperations();
-  const productFlowOps = useProductFlowOperations();
+  const {
+    handleClearCompleted,
+    handleCancelCompleted,
+    handleSelectAll,
+    handleRepeatSelection,
+    isPending: isMainPagePending,
+  } = useMainPageOperations();
+
+  const {
+    handleProgramTime,
+    handleStartTimeProcess,
+    handleCancelTimeSession,
+    isPending: isTimeFlowPending,
+  } = useTimeFlowOperations();
+
+  const {
+    handleProgramProduct,
+    handleStartProductProcess,
+    handleFinishProductProcess,
+    handleCancelProductSession,
+    isPending: isProductFlowPending,
+    isTemperatureLoading,
+  } = useProductFlowOperations();
 
   // Shared state logic
   const operationState = useOperationState(
-    mainPageOps.isPending,
-    timeFlowOps.isPending,
-    productFlowOps.isPending,
-    productFlowOps.isTemperatureLoading,
+    isMainPagePending,
+    isTimeFlowPending,
+    isProductFlowPending,
+    isTemperatureLoading,
   );
 
   return {
     // MainPage operations
-    handleClearCompleted: mainPageOps.handleClearCompleted,
-    handleCancelCompleted: mainPageOps.handleCancelCompleted,
-    handleSelectAll: mainPageOps.handleSelectAll,
-    handleRepeatSelection: mainPageOps.handleRepeatSelection,
+    handleClearCompleted,
+    handleCancelCompleted,
+    handleSelectAll,
+    handleRepeatSelection,
 
     // Time flow operations
-    handleProgramTime: timeFlowOps.handleProgramTime,
-    handleStartTimeProcess: timeFlowOps.handleStartTimeProcess,
-    handleCancelTimeSession: timeFlowOps.handleCancelTimeSession,
+    handleProgramTime,
+    handleStartTimeProcess,
+    handleCancelTimeSession,
 
     // Product flow operations
-    handleProgramProduct: productFlowOps.handleProgramProduct,
-    handleStartProductProcess: productFlowOps.handleStartProductProcess,
-    handleFinishProductProcess: productFlowOps.handleFinishProductProcess,
-    handleCancelProductSession: productFlowOps.handleCancelProductSession,
+    handleProgramProduct,
+    handleStartProductProcess,
+    handleFinishProductProcess,
+    handleCancelProductSession,
 
     // State queries
     getOperationDisabled: operationState.getOperationDisabled,

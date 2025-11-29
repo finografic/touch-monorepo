@@ -32,7 +32,6 @@ export const Layout: FC = () => {
   const { t } = useTranslation();
   const emotionTheme = useTheme() as EmotionTheme;
   const { data: slotConfigs } = useGetSlotConfigurations();
-  const numItems = (slotConfigs ? slotConfigs.length : NUM_GRID_ITEMS) as ValidGridSize;
 
   const { theme } = useAppConfig();
   setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
@@ -45,7 +44,7 @@ export const Layout: FC = () => {
     <OrdersProvider>
       <FiltersProvider>
         <PaginationProvider>
-          <LayoutUiProvider initialValue={{ numItems }}>
+          <LayoutUiProvider>
             <AdminProvider>
               <ContentProvider>
                 <DevProvider>

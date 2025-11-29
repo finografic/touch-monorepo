@@ -4,14 +4,12 @@ import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 import type { CreateSettersType } from 'utils/zustand';
 import type { DataEntry } from 'types/data.types';
-import type { ValidGridSize } from 'types/menu.types';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import type { FilterKey } from 'types/slots.types';
 import type { HandleRouteChangeParams } from './layout-ui-utils.types';
 import type { LayoutUiKeys, SETTER_PREFIX } from './LayoutUiContext';
 
 export interface LayoutUiValues {
-  [LayoutUiKeys.numItems]: ValidGridSize;
   [LayoutUiKeys.filterKey]: FilterKey | undefined;
   [LayoutUiKeys.numPads]: number;
   [LayoutUiKeys.pads]: PadUI[];
@@ -30,7 +28,6 @@ type LayoutUiActions = LayoutUiSetters & {
   // MainPage selection actions
   toggleMainPageSlot: (slot: SlotMeta) => void;
   filterSlotsWithTimers: (hasActiveTimer: (slotNumber: number) => boolean) => void;
-  selectAllMainPageSlots: () => void;
   clearMainPageSelection: () => void;
   setSelectedSlots: (slots: SlotMeta[]) => void;
 };

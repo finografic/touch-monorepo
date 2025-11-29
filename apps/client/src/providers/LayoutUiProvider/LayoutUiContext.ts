@@ -10,7 +10,6 @@ import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
 import type { FilterKey, SlotType } from 'types/slots.types';
-import { NUM_GRID_ITEMS } from 'config/app';
 import type { HandleRouteChangeParams } from './layout-ui-utils.types';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 
@@ -18,7 +17,6 @@ export const DISPLAY_NAME = 'LayoutUi';
 export const SETTER_PREFIX = 'Ui';
 
 export enum LayoutUiKeys {
-  numItems = 'numItems',
   filterKey = 'filterKey',
   numPads = 'numPads',
   pads = 'pads',
@@ -28,7 +26,6 @@ export enum LayoutUiKeys {
 }
 
 export const defaultValue: LayoutUiValues = {
-  numItems: NUM_GRID_ITEMS,
   filterKey: undefined,
   numPads: 0,
   pads: [],
@@ -169,17 +166,6 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
                 return { selectedSlots: filteredSlots };
               }
               return state;
-            });
-          },
-          selectAllMainPageSlots: () => {
-            const { numItems } = get();
-            set({
-              selectedSlots: Array.from({ length: numItems }, (_, i) => ({
-                slotType: 'A' as SlotType, // Default slot type, will be updated by actual config
-                slotNumber: i + 1,
-                isChecked: true,
-                status: 'idle' as SlotStatus, // Default status
-              })),
             });
           },
           setSelectedSlots: (slots: SlotMeta[]) => {
