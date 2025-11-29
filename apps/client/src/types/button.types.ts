@@ -39,35 +39,39 @@ export const BUTTON_TYPES: ConstEnumOf<ButtonType> = {
 export type PadActionType = ButtonType;
 
 // Action types that buttons can trigger (what they do when clicked)
-export type ButtonActionType =
-  | 'clear-completed'
-  | 'cancel-completed'
-  | 'select-all'
-  | 'navigate-back'
-  | 'navigate-next'
-  | 'start-process'
-  | 'finish-product-process'
-  | 'program-product'
-  | 'program-time'
-  | 'repeat-selection'
-  | 'cancel-time-session'
-  | 'cancel-product-session';
+// export type ButtonActionType =
+//   | 'clear-completed'
+//   | 'cancel-completed'
+//   | 'select-all'
+//   | 'navigate-back'
+//   | 'navigate-next'
+//   | 'start-process'
+//   | 'finish-product-process'
+//   | 'program-product'
+//   | 'program-time'
+//   | 'repeat-selection'
+//   | 'cancel-time-session'
+//   | 'cancel-product-session';
 
 // 2. Derive the const object from the union using your enhanced utility
-export const BUTTON_ACTIONS: ConstEnumOf<ButtonActionType> = {
-  CLEAR_COMPLETED: 'clear-completed',
-  CANCEL_COMPLETED: 'cancel-completed',
-  SELECT_ALL: 'select-all',
-  NAVIGATE_BACK: 'navigate-back',
-  NAVIGATE_NEXT: 'navigate-next',
-  START_PROCESS: 'start-process',
-  FINISH_PRODUCT_PROCESS: 'finish-product-process',
-  PROGRAM_PRODUCT: 'program-product',
-  PROGRAM_TIME: 'program-time',
-  REPEAT_SELECTION: 'repeat-selection',
-  CANCEL_TIME_SESSION: 'cancel-time-session',
-  CANCEL_PRODUCT_SESSION: 'cancel-product-session',
+// export const BUTTON_ACTIONS: ConstUpperEnumOf<ButtonActionType> = {
+
+export const BUTTON_ACTIONS = {
+  CLEAR_COMPLETED: 'CLEAR_COMPLETED',
+  CANCEL_COMPLETED: 'CANCEL_COMPLETED',
+  SELECT_ALL: 'SELECT_ALL',
+  NAVIGATE_BACK: 'NAVIGATE_BACK',
+  NAVIGATE_NEXT: 'NAVIGATE_NEXT',
+  START_PROCESS: 'START_PROCESS',
+  FINISH_PRODUCT_PROCESS: 'FINISH_PRODUCT_PROCESS',
+  PROGRAM_PRODUCT: 'PROGRAM_PRODUCT',
+  PROGRAM_TIME: 'PROGRAM_TIME',
+  REPEAT_SELECTION: 'REPEAT_SELECTION',
+  CANCEL_TIME_SESSION: 'CANCEL_TIME_SESSION',
+  CANCEL_PRODUCT_SESSION: 'CANCEL_PRODUCT_SESSION',
 } as const;
+
+export type ButtonActionType = keyof typeof BUTTON_ACTIONS;
 
 export interface PadActionConfig {
   id: string;
