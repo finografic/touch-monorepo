@@ -17,20 +17,20 @@ const BUTTON_TYPES = [
 ] as const;
 
 export const BUTTON_TYPE = createConstUpperEnum(BUTTON_TYPES);
-export type ButtonActionType = keyof typeof BUTTON_TYPE;
+export type ButtonType = keyof typeof BUTTON_TYPE;
 
 export interface PadActionConfig {
   id: string;
-  type: ButtonActionType;
+  type: ButtonType;
   labelKey: `ui.buttons.${string}`;
   className?: string;
   icon?: 'chevron-left' | 'chevron-right';
-  actionType: ButtonActionType;
+  actionType: ButtonType;
 }
 
 export interface RouteButtonConfig {
-  footer: ButtonActionType[];
-  content: ButtonActionType[];
+  footer: ButtonType[];
+  content: ButtonType[];
 }
 
 export interface PadActionProps extends Omit<PadActionConfig, 'labelKey'> {

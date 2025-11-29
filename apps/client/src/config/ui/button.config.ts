@@ -1,8 +1,8 @@
-import type { PadActionConfig, ButtonActionType } from 'types/button.types';
+import type { PadActionConfig, ButtonType } from 'types/button.types';
 import { BUTTON_TYPE } from 'types/button.types';
 
 // Base button configurations (UI + behavior definitions)
-export const BUTTON_CONFIGS: Record<ButtonActionType, PadActionConfig> = {
+export const BUTTON_CONFIGS: Record<ButtonType, PadActionConfig> = {
   [BUTTON_TYPE.CLEAR_COMPLETED]: {
     id: 'button-reset',
     type: BUTTON_TYPE.CLEAR_COMPLETED,

@@ -148,7 +148,7 @@ If consolidating, you could:
 
 ### Option C: Keep both, but make mapping explicit
 
-- Create a mapping function: `getActionForButtonType(type: ButtonType): ButtonActionType`
+- Create a mapping function: `getActionForButtonType(type: ButtonType): ButtonType`
 - Makes the relationship explicit
 - **Pros**: Clear separation, explicit mapping
 - **Cons**: Still two enums, but relationship is clear

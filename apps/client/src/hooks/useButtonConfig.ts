@@ -7,14 +7,14 @@ import { useButtonNavigation } from 'hooks/useButtonNavigation';
 import { useRouteHandler } from 'hooks/useRouteHandler';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
 
-import { BUTTON_TYPE, type ButtonActionType, type PadActionProps } from 'types/button.types';
+import { BUTTON_TYPE, type ButtonType, type PadActionProps } from 'types/button.types';
 import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config';
 import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
 
 interface UseButtonConfigReturn {
   footerButtons: PadActionProps[];
   contentButtons: PadActionProps[];
-  getButtonProps: (buttonType: ButtonActionType) => PadActionProps;
+  getButtonProps: (buttonType: ButtonType) => PadActionProps;
 }
 
 export const useButtonConfig = (): UseButtonConfigReturn => {
@@ -133,7 +133,7 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   );
 
   const getButtonProps = useMemo(() => {
-    return (buttonType: ButtonActionType): PadActionProps => {
+    return (buttonType: ButtonType): PadActionProps => {
       const config = BUTTON_CONFIGS[buttonType];
 
       if (!config) {
