@@ -22,6 +22,27 @@ export type ConstEnumOf<T extends string> = {
 
 export type ConstUpperEnumOf<T extends string> = { readonly [K in Uppercase<T>]: Uppercase<K> };
 
+/**
+ * Creates a const object from an array of strings where each string becomes both key and value.
+ * Useful for creating enum-like objects from arrays without repetition.
+ * @category Utility
+ * @example
+ * ```
+ * const ACTIONS = ['CLEAR', 'CANCEL', 'SELECT'] as const;
+ * const ACTION = createConstUpperEnum(ACTIONS);
+ * // Result: { CLEAR: 'CLEAR', CANCEL: 'CANCEL', SELECT: 'SELECT' } as const
+ * ```
+ */
+export function createConstUpperEnum<T extends readonly string[]>(array: T): ConstUpperEnumOf<T[number]> {
+  return array.reduce(
+    (acc, key) => {
+      (acc as Record<string, string>)[key] = key;
+      return acc;
+    },
+    {} as ConstUpperEnumOf<T[number]>,
+  ) as ConstUpperEnumOf<T[number]>;
+}
+
 // -------------------------------------------------------------------------- //
 
 /**

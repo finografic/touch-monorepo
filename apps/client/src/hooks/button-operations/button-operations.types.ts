@@ -2,13 +2,13 @@
  * Shared types for button operations
  */
 
-import type { ButtonActionType } from 'types/button.types';
+import type { ButtonActionValue } from 'types/button.types';
 
 /**
- * Operation actions are all button actions EXCEPT navigation actions.
+ * Operation actions are all button action values EXCEPT navigation actions.
  * Navigation actions (navigate-back, navigate-next) are handled separately.
  */
-export type OperationActionType = Exclude<ButtonActionType, 'navigate-back' | 'navigate-next'>;
+export type OperationActionType = Exclude<ButtonActionValue, 'navigate-back' | 'navigate-next'>;
 
 export interface OperationState {
   isDisabled: boolean;

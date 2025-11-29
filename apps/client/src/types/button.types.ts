@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import type { ConstEnumOf, ConstUpperEnumOf } from '@workspace/core/types/utils';
+import { createConstUpperEnum } from '@workspace/core/types/utils';
 
 // Button translation key type - for now using string literal pattern
 type ButtonTranslationKey = `ui.buttons.${string}`;
@@ -69,26 +70,30 @@ const BUTTON_ACTIONS = [
   'REPEAT_SELECTION',
   'CANCEL_TIME_SESSION',
   'CANCEL_PRODUCT_SESSION',
-];
+] as const;
 
-export const BUTTON_ACTION: ConstUpperEnumOf<(typeof BUTTON_ACTIONS)[number]> = {
-  // CLEAR_COMPLETED: 'CLEAR_COMPLETED',
-  // CANCEL_COMPLETED: 'CANCEL_COMPLETED',
-  // SELECT_ALL: 'SELECT_ALL',
-  // NAVIGATE_BACK: 'NAVIGATE_BACK',
-  // NAVIGATE_NEXT: 'NAVIGATE_NEXT',
-  // START_PROCESS: 'START_PROCESS',
-  // FINISH_PRODUCT_PROCESS: 'FINISH_PRODUCT_PROCESS',
-  // PROGRAM_PRODUCT: 'PROGRAM_PRODUCT',
-  // PROGRAM_TIME: 'PROGRAM_TIME',
-  // REPEAT_SELECTION: 'REPEAT_SELECTION',
-  // CANCEL_TIME_SESSION: 'CANCEL_TIME_SESSION',
-  // CANCEL_PRODUCT_SESSION: 'CANCEL_PRODUCT_SESSION',
-} as const;
-
-const TEST = BUTTON_ACTION.CLEAR_COMPLETED;
+export const BUTTON_ACTION = createConstUpperEnum(BUTTON_ACTIONS);
 
 export type ButtonActionType = keyof typeof BUTTON_ACTION;
+
+// Mapping from SCREAMING_SNAKE_CASE keys to kebab-case values (for runtime use)
+export const BUTTON_ACTION_VALUES = {
+  CLEAR_COMPLETED: 'clear-completed',
+  CANCEL_COMPLETED: 'cancel-completed',
+  SELECT_ALL: 'select-all',
+  NAVIGATE_BACK: 'navigate-back',
+  NAVIGATE_NEXT: 'navigate-next',
+  START_PROCESS: 'start-process',
+  FINISH_PRODUCT_PROCESS: 'finish-product-process',
+  PROGRAM_PRODUCT: 'program-product',
+  PROGRAM_TIME: 'program-time',
+  REPEAT_SELECTION: 'repeat-selection',
+  CANCEL_TIME_SESSION: 'cancel-time-session',
+  CANCEL_PRODUCT_SESSION: 'cancel-product-session',
+} as const satisfies Record<ButtonActionType, string>;
+
+// Type for the kebab-case action values (used in configs and runtime)
+export type ButtonActionValue = (typeof BUTTON_ACTION_VALUES)[ButtonActionType];
 
 export interface PadActionConfig {
   id: string;
@@ -96,7 +101,7 @@ export interface PadActionConfig {
   labelKey: ButtonTranslationKey;
   className?: string;
   icon?: 'chevron-left' | 'chevron-right';
-  actionType: ButtonActionType;
+  actionType: ButtonActionValue;
 }
 
 export interface RouteButtonConfig {
