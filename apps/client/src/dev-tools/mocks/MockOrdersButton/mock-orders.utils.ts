@@ -9,7 +9,8 @@ import { MOCK_SELECTED_SLOTS_TEMPLATE } from 'dev-tools/mocks/MockOrdersButton/m
  * - Excludes slots with active timers
  * - Excludes slots that are not active (isActive: false)
  * - Prioritizes user-selected slots
- * - Tries to match slotType when possible, falls back to any available slot
+ * - Ensures exactly ONE slot per type (A, B, C) - ONLY if that slot type is available
+ * - If a slot type is not available, it is skipped (not replaced with a different type)
  */
 export function generateSmartMockSlots(
   orderItemsConfig: SlotItem[],
@@ -27,8 +28,10 @@ export function generateSmartMockSlots(
     ? userSelectedSlots.filter((slot) => activeSlotNumbers.includes(slot.slotNumber))
     : userSelectedSlots;
 
-  const allSlots = configsToUse.map((config) => config.slotNumber);
-  const availableSlots = allSlots.filter((slotNum) => !timersSlotNumbers.includes(slotNum));
+  // Get available slots (not in timers) with their slotTypes
+  const availableSlots = configsToUse
+    .filter((config) => !timersSlotNumbers.includes(config.slotNumber))
+    .map((config) => config.slotNumber);
 
   // Create a map of slotNumber -> slotType for quick lookup (only for active slots)
   const slotTypeMap = new Map<number, SlotType>();
@@ -39,67 +42,46 @@ export function generateSmartMockSlots(
   // Track which slots have been assigned to avoid duplicates
   const assignedSlotNumbers = new Set<number>();
 
-  // Generate assignments for each template slotType
+  // Generate assignments for each template slotType - ONLY if that type is available
   const assignments: SlotMeta[] = MOCK_SELECTED_SLOTS_TEMPLATE.map((template) => {
-    const userSelectedMatching = activeUserSelectedSlots.filter(
-      (slot) => slot.slotType === template.slotType && !assignedSlotNumbers.has(slot.slotNumber),
+    // Find available slots of the exact slotType (not assigned, not in timers)
+    const availableSlotsOfType = availableSlots.filter(
+      (slotNum) => slotTypeMap.get(slotNum) === template.slotType && !assignedSlotNumbers.has(slotNum),
     );
 
-    let selectedSlotNumber: number | null = null;
+    // If no slots of this type are available, skip it (return null to filter out later)
+    if (availableSlotsOfType.length === 0) {
+      return null;
+    }
+
+    // Prioritize user-selected slots of this type
+    const userSelectedMatching = activeUserSelectedSlots.filter(
+      (slot) =>
+        slot.slotType === template.slotType &&
+        availableSlotsOfType.includes(slot.slotNumber) &&
+        !assignedSlotNumbers.has(slot.slotNumber),
+    );
+
+    let selectedSlotNumber: number;
 
     if (userSelectedMatching.length > 0) {
+      // Use a user-selected slot of the matching type
       const randomIndex = Math.floor(Math.random() * userSelectedMatching.length);
       selectedSlotNumber = userSelectedMatching[randomIndex].slotNumber;
     } else {
-      // No matches for this slotType - prioritize user-selected slots (any type) that are available
-      // (not in timers and not already assigned)
-      const userSelectedAvailable = activeUserSelectedSlots.filter(
-        (slot) => !timersSlotNumbers.includes(slot.slotNumber) && !assignedSlotNumbers.has(slot.slotNumber),
-      );
-
-      if (userSelectedAvailable.length > 0) {
-        const randomIndex = Math.floor(Math.random() * userSelectedAvailable.length);
-        selectedSlotNumber = userSelectedAvailable[randomIndex].slotNumber;
-      } else {
-        // No user-selected slots available, use any available slot (but keep the slotType from template)
-        const availableNotAssigned = availableSlots.filter((slotNum) => !assignedSlotNumbers.has(slotNum));
-
-        if (availableNotAssigned.length > 0) {
-          const randomIndex = Math.floor(Math.random() * availableNotAssigned.length);
-          selectedSlotNumber = availableNotAssigned[randomIndex];
-        }
-      }
+      // No user-selected slots of this type, pick randomly from available slots of this type
+      const randomIndex = Math.floor(Math.random() * availableSlotsOfType.length);
+      selectedSlotNumber = availableSlotsOfType[randomIndex];
     }
 
-    // Final fallback: if we still don't have a slot, try any user-selected slot (even if it has a timer)
-    // This should rarely happen, but provides a last resort
-    if (selectedSlotNumber === null) {
-      const userSelectedNotAssigned = activeUserSelectedSlots.filter(
-        (slot) => !assignedSlotNumbers.has(slot.slotNumber),
-      );
-
-      if (userSelectedNotAssigned.length > 0) {
-        const randomIndex = Math.floor(Math.random() * userSelectedNotAssigned.length);
-        selectedSlotNumber = userSelectedNotAssigned[randomIndex].slotNumber;
-      } else {
-        // Absolute last resort: use any available slot (shouldn't happen in normal operation)
-        const availableNotAssigned = availableSlots.filter((slotNum) => !assignedSlotNumbers.has(slotNum));
-        if (availableNotAssigned.length > 0) {
-          const randomIndex = Math.floor(Math.random() * availableNotAssigned.length);
-          selectedSlotNumber = availableNotAssigned[randomIndex];
-        }
-      }
-    }
-
-    if (selectedSlotNumber !== null) {
-      assignedSlotNumbers.add(selectedSlotNumber);
-    }
+    // Mark as assigned
+    assignedSlotNumbers.add(selectedSlotNumber);
 
     return {
       ...template,
-      slotNumber: selectedSlotNumber || 1,
+      slotNumber: selectedSlotNumber,
     };
-  });
+  }).filter((assignment): assignment is SlotMeta => assignment !== null);
 
   return assignments;
 }

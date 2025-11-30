@@ -147,53 +147,32 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
             const { maintenance } = get();
             return maintenance.find((t) => t.slotNumber === slotNumber);
           },
+
           // ----- Recall config (configuration recall system) -----
+
           setRecallConfig: (config: RecallConfig, forceResetTimer = false) => {
             const { recall } = get();
             const now = Date.now();
 
-            // Check if current recall is expired
             const isExpired = recall.expiresAt === null || now >= recall.expiresAt;
 
             // Set new config and reset timer if forced or expired
             if (forceResetTimer || isExpired) {
-              set({
-                recall: {
-                  config,
-                  expiresAt: now + CONFIG_EXPIRY_TIME_MS,
-                },
-              });
+              set({ recall: { config, expiresAt: now + CONFIG_EXPIRY_TIME_MS } });
             } else {
               // Just update config, keep existing expiresAt
-              set({
-                recall: {
-                  config,
-                  expiresAt: recall.expiresAt,
-                },
-              });
+              set({ recall: { config, expiresAt: recall.expiresAt } });
             }
           },
           clearRecallConfig: () => {
-            set({
-              recall: {
-                config: null,
-                expiresAt: null,
-              },
-            });
+            set({ recall: { config: null, expiresAt: null } });
           },
           getRecallConfig: (): RecallConfig | null => {
             const { recall } = get();
             const now = Date.now();
 
-            // Return null if expired
             if (recall.expiresAt === null || now >= recall.expiresAt) {
-              // Auto-clear if expired
-              set({
-                recall: {
-                  config: null,
-                  expiresAt: null,
-                },
-              });
+              set({ recall: { config: null, expiresAt: null } });
               return null;
             }
 

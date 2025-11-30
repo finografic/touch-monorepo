@@ -59,8 +59,6 @@ export const MockOrdersButton = () => {
     // Extract slot numbers for session assignment
     const slotNumbers = mockSlots.map((slot) => slot.slotNumber);
 
-    log('>>>>>>>>', 'blue', slotNumbers);
-
     // Ensure orders are created and selected for the mock slots
     mockSlots.forEach((slot) => {
       const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
