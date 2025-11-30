@@ -1,7 +1,7 @@
 import { createStore, type StoreApi, useStore } from 'zustand';
 import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
-import type { SlotMeta, SlotStatus } from 'pages/MainPage/MainPage.types';
+import type { SlotMeta } from 'pages/MainPage/MainPage.types';
 
 import { parsePadConfig } from 'utils/pads.utils';
 import { createSetters, createZustandContext } from 'utils/zustand';
@@ -9,7 +9,7 @@ import type { DataEntry, Dataset } from 'types/data.types';
 import type { OrderModel } from 'types/models/order.model';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { PadConfig, PadType, PadUI } from 'types/pads.types';
-import type { FilterKey, SlotType } from 'types/slots.types';
+import type { FilterKey } from 'types/slots.types';
 import type { HandleRouteChangeParams } from './layout-ui-utils.types';
 import type { LayoutUiStore, LayoutUiValues } from './LayoutUiContext.types';
 
@@ -85,6 +85,22 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               return { pads };
             });
           },
+          // MainPage selection actions
+          toggleMainPageSlot: (slot: SlotMeta) => {
+            set((state) => {
+              const selectedSlots = state.selectedSlots;
+              const isCurrentlySelected = selectedSlots.some(
+                (selectedSlot) => selectedSlot.slotNumber === slot.slotNumber,
+              );
+
+              return isCurrentlySelected
+                ? { selectedSlots: selectedSlots.filter(({ slotNumber }) => slotNumber !== slot.slotNumber) }
+                : { selectedSlots: [...selectedSlots, { ...slot, isChecked: true }] };
+            });
+          },
+          setSelectedSlots: (slots: SlotMeta[]) => {
+            set({ selectedSlots: slots });
+          },
           handleRouteChange: ({
             filterKey,
             loaderData,
@@ -97,14 +113,12 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
               set({ pads: [], numPads: 0, filterKey: undefined });
               return;
             }
-
             if (loaderData && padsConfig && dataPool) {
               const filterApiKey = padsConfig.filterApiKey as keyof (
                 | DataEntry
                 | OrderModel
                 | OrderReadableModel
               );
-
               // 🚨 FIX: Use dataPool to determine visible options, but don't filter loaderData
               // This ensures UI shows all options from dataPool, not just filtered loaderData
               const visiblePadNames = [
@@ -114,7 +128,6 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
                     .filter(Boolean),
                 ),
               ];
-
               // Filter loaderData by visiblePadNames to show only valid options
               const filteredLoaderData = (Array.isArray(loaderData) ? loaderData : [loaderData]).filter(
                 (padData) => visiblePadNames.includes(padData.name),
@@ -134,45 +147,6 @@ export const LayoutUiContext = createZustandContext(({ initialValue }) => {
             } else {
               set({ pads: [], numPads: 0, filterKey });
             }
-          },
-          // MainPage selection actions
-          toggleMainPageSlot: (slot: SlotMeta) => {
-            set((state) => {
-              const selectedSlots = state.selectedSlots;
-
-              // Check if slot is already selected by looking at the actual state
-              const isCurrentlySelected = selectedSlots.some(
-                (selectedSlot) => selectedSlot.slotNumber === slot.slotNumber,
-              );
-
-              if (!isCurrentlySelected) {
-                return {
-                  selectedSlots: [...selectedSlots, { ...slot, isChecked: true }],
-                };
-              } else {
-                return {
-                  selectedSlots: selectedSlots.filter(({ slotNumber }) => slotNumber !== slot.slotNumber),
-                };
-              }
-            });
-          },
-          // Filter out slots with active timers from selection
-          filterSlotsWithTimers: (hasActiveTimer: (slotNumber: number) => boolean) => {
-            set((state) => {
-              const filteredSlots = state.selectedSlots.filter((slot) => !hasActiveTimer(slot.slotNumber));
-
-              // Only update if selection actually changed
-              if (filteredSlots.length !== state.selectedSlots.length) {
-                return { selectedSlots: filteredSlots };
-              }
-              return state;
-            });
-          },
-          setSelectedSlots: (slots: SlotMeta[]) => {
-            set({ selectedSlots: slots });
-          },
-          clearMainPageSelection: () => {
-            set({ selectedSlots: [] });
           },
         },
       }),

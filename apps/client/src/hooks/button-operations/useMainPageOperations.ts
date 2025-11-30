@@ -1,4 +1,4 @@
-import { useCallback, useTransition } from 'react';
+import { useCallback, useMemo, useTransition } from 'react';
 
 import createCuid from '@bugsnag/cuid';
 
@@ -6,7 +6,6 @@ import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
 
 import { stopAllAudio } from 'utils/soundCache.utils';
@@ -21,17 +20,22 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
  */
 export const useMainPageOperations = () => {
   const [isPending, startTransition] = useTransition();
-  const { orders } = useOrders();
-  const { addTimer, resetCompletedTimers, timers, removeTimer } = useTimers();
-  const { clearMainPageSelection, toggleMainPageSlot, selectedSlots, setSelectedSlots } = useLayoutUi();
-  const { saveRecallConfig, loadRecallConfig } = useRecallConfig();
-  const { isRecallExpired, recall } = useTimers();
+  const { addTimer, timers, removeTimer } = useTimers();
+  const { toggleMainPageSlot, selectedSlots, setSelectedSlots } = useLayoutUi();
+  const { loadRecallConfig, isRecallExpired, recallConfig } = useRecallConfig();
+  const { updateTimers } = useTimers();
   const orderItemsConfig = useSlotItemsConfig();
   const slotsConfigQuery = useGetSlotConfigurations();
   const { setFilter } = useFiltersContext();
 
-  const timerSlots = timers.map((timer) => timer.slotNumber);
-  const activeSlots = slotsConfigQuery.data.filter((slot) => slot.isActive);
+  const timerSlots = useMemo(() => timers.map((timer) => timer.slotNumber), [timers]);
+  const timersBySlot = useMemo(() => new Map(timers.map((t) => [t.slotNumber, t])), [timers]);
+  const activeTimers = useMemo(() => timers.filter((timer) => timer.status !== 'completed'), [timers]);
+
+  const activeSlots = useMemo(
+    () => slotsConfigQuery.data.filter((slot) => slot.isActive),
+    [slotsConfigQuery.data],
+  );
 
   // ========================================================================
   // TIMER OPERATIONS
@@ -39,62 +43,23 @@ export const useMainPageOperations = () => {
 
   const handleCancelSelected = useCallback(() => {
     startTransition(() => {
-      log('1. handleCancelSelected', 'magenta', { ID: 1 });
-      // Clear only timers that are SELECTED/checked
-      const selectedSlotsWithTimers = selectedSlots.filter((slot) => {
-        const timer = timers.find((t) => t.slotNumber === slot.slotNumber);
-        return timer && (timer.status === 'processing' || timer.status === 'completed');
-      });
-
-      // Remove timers for selected slots
-      selectedSlotsWithTimers.forEach((slot) => {
-        const timer = timers.find((t) => t.slotNumber === slot.slotNumber);
-        if (timer) removeTimer(timer.id);
-        toggleMainPageSlot(slot);
-      });
-
-      // Clear selection for slots that had timers
-      // selectedSlotsWithTimers.forEach((slot) => {
-      //   toggleMainPageSlot(slot);
-      // });
-
-      // TODO: CONFIRM IF OK TO REMOVE THIS (SHOULD BE!!)
-      /*
-      // Save new configuration to reset timer
-      const selectedOrders = selectedSlots
-        .map((slot) => orders.find((order) => order.slotNumber === slot.slotNumber))
-        .filter(Boolean);
-      saveConfig({
-        filters: {},
-        temperatures: { default: 25 },
-        durations: { default: 300 },
-        selectedOrders: selectedOrders.map((order) => order!.slotNumber),
-      });
-      */
+      for (const slot of selectedSlots) {
+        const timer = timersBySlot.get(slot.slotNumber);
+        if (timer?.status === 'processing' || timer?.status === 'completed') {
+          removeTimer(timer.id);
+          toggleMainPageSlot(slot);
+        }
+      }
     });
-  }, [selectedSlots, timers, removeTimer, toggleMainPageSlot, orders, saveRecallConfig]);
+  }, [timersBySlot, selectedSlots, removeTimer, toggleMainPageSlot]);
 
   const handleResetCompleted = useCallback(() => {
     startTransition(() => {
-      log('1. handleResetCompleted', 'magenta', { ID: 2 });
       stopAllAudio();
-      resetCompletedTimers();
-
-      // TODO: CONFIRM IF OK TO REMOVE THIS (SHOULD BE!!)
-      /*
-      // Save new configuration to reset timer
-      const selectedOrders = selectedSlots
-        .map((slot) => orders.find((order) => order.slotNumber === slot.slotNumber))
-        .filter(Boolean);
-      saveConfig({
-        filters: {},
-        temperatures: { default: 25 },
-        durations: { default: 300 },
-        selectedOrders: selectedOrders.map((order) => order!.slotNumber),
-      });
-      */
+      updateTimers(activeTimers);
     });
-  }, [resetCompletedTimers, orders, saveRecallConfig, selectedSlots]);
+  }, [activeTimers]);
+
   // ========================================================================
   // SELECTION OPERATIONS
   // ========================================================================
@@ -109,7 +74,7 @@ export const useMainPageOperations = () => {
         }
       }
     });
-  }, [selectedSlots]);
+  }, [activeSlots, selectedSlots, toggleMainPageSlot]);
 
   // ========================================================================
   // REPEAT CONFIGURATION
@@ -118,7 +83,7 @@ export const useMainPageOperations = () => {
   const handleRepeatSelection = useCallback(() => {
     // Check if recall config is active (exists and not expired)
     log('4. handleRepeatSelection', 'magenta', { ID: 4 });
-    if (!recall.config || isRecallExpired()) {
+    if (!recallConfig || isRecallExpired) {
       console.error('No active recall config found');
       return;
     }
@@ -179,7 +144,7 @@ export const useMainPageOperations = () => {
     setSelectedSlots,
     loadRecallConfig,
     setFilter,
-    recall,
+    recallConfig,
     isRecallExpired,
   ]);
 

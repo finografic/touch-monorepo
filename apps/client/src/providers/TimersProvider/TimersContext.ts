@@ -79,40 +79,9 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
             set({ timers: filteredTimers });
           },
           // NOTE: REMOVE ? useMainPageOperations - handleResetCompleted
-          resetCompletedTimers: () => {
-            const { timers } = get();
-            const activeTimers = timers.filter((timer) => timer.status !== 'completed');
-            set({ timers: activeTimers });
+          updateTimers: (updatedTimers: TimerItem[]) => {
+            set({ timers: updatedTimers });
           },
-          // TODO: REMOVE
-          clearAllTimers: () => {
-            set({ timers: [] });
-          },
-          // // TODO: REMOVE
-          // getRunningTimers: () => {
-          //   const { timers } = get();
-          //   return timers.filter((timer) => timer.status === 'processing');
-          // },
-          // // TODO: REMOVE
-          // getCompletedTimers: () => {
-          //   const { timers } = get();
-          //   return timers.filter((timer) => timer.status === 'completed');
-          // },
-          // // TODO: REMOVE
-          // getTimerByOrderId: (orderId: string) => {
-          //   const { timers } = get();
-          //   return timers.find((timer) => timer.orderId === orderId);
-          // },
-          // // TODO: REMOVE
-          // getTimerBySlotNumber: (slotNumber: number) => {
-          //   const { timers } = get();
-          //   return timers.find((timer) => timer.slotNumber === slotNumber);
-          // },
-          // // TODO: REMOVE
-          // getTimerMap: () => {
-          //   const { timers } = get();
-          //   return new Map(timers.map((timer) => [timer.slotNumber, timer]));
-          // },
           updateTimerByOrderId: (orderId: string, updates: Partial<TimerItem>) => {
             const { timers } = get();
             const updatedTimers = timers.map((timer) => {
@@ -229,22 +198,6 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
             }
 
             return recall.config;
-          },
-          isRecallExpired: (): boolean => {
-            const { recall } = get();
-            const now = Date.now();
-            return recall.expiresAt === null || now >= recall.expiresAt;
-          },
-          getRecallRemainingTime: (): number => {
-            const { recall } = get();
-            const now = Date.now();
-
-            if (recall.expiresAt === null) {
-              return 0;
-            }
-
-            const remaining = recall.expiresAt - now;
-            return Math.max(0, remaining);
           },
         },
       }),

@@ -24,12 +24,10 @@ type LayoutUiActions = LayoutUiSetters & {
   initPadsFromLoaderData: (loaderData: DataEntry[], padsConfig: PadConfig, filterKey: FilterKey) => void;
   updatePadState: (filterKey: FilterKey, updater: (pads: PadUI[]) => PadUI[]) => void;
   togglePad: (filterKey: FilterKey, padId: string, type: PadType) => void;
-  handleRouteChange: (params: HandleRouteChangeParams) => void;
   // MainPage selection actions
   toggleMainPageSlot: (slot: SlotMeta) => void;
-  filterSlotsWithTimers: (hasActiveTimer: (slotNumber: number) => boolean) => void;
-  clearMainPageSelection: () => void;
   setSelectedSlots: (slots: SlotMeta[]) => void;
+  handleRouteChange?: (params: HandleRouteChangeParams) => void;
 };
 
 export interface LayoutUiProviderProps {

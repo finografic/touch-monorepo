@@ -11,7 +11,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
  * Intended for transitions back to the main FE flow (e.g., after logout).
  */
 export const useResetAppState = () => {
-  const { clearMainPageSelection, setUiMainPageIsSelectMode } = useLayoutUi();
+  const { setSelectedSlots, setUiMainPageIsSelectMode } = useLayoutUi();
   const { clearFilters } = useFiltersContext();
   const { clearAllSessions } = useSession();
   const { setOrders, setOrdersReadable, setFilters: setOrdersFilters } = useOrders();
@@ -20,7 +20,7 @@ export const useResetAppState = () => {
   const resetAppState = useCallback(() => {
     try {
       // Selections and UI
-      clearMainPageSelection();
+      setSelectedSlots([]);
       setUiMainPageIsSelectMode(false);
 
       // Filters and sessions
@@ -42,7 +42,7 @@ export const useResetAppState = () => {
   }, [
     clearAllSessions,
     clearFilters,
-    clearMainPageSelection,
+    setSelectedSlots,
     setOrders,
     setOrdersFilters,
     setOrdersReadable,

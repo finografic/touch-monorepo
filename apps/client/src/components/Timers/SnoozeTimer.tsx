@@ -35,7 +35,11 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   const timersContext = useTimersOptional();
   // Check if recall config is active (exists and not expired)
   const hasActiveTimer = timersContext
-    ? timersContext.recall.config !== null && !timersContext.isRecallExpired()
+    ? (() => {
+        const now = Date.now();
+        const isExpired = timersContext.recall.expiresAt === null || now >= timersContext.recall.expiresAt;
+        return timersContext.recall.config !== null && !isExpired;
+      })()
     : false;
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);

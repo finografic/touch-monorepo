@@ -16,8 +16,7 @@ type TimersActions = TimersSetters & {
   addTimer: (timer: Omit<TimerItem, 'id' | 'createdAt'>) => void;
   updateTimer: (id: string, updates: Partial<TimerItem>) => void;
   removeTimer: (id: string) => void;
-  resetCompletedTimers: () => void;
-  clearAllTimers: () => void;
+  updateTimers: (updatedTimers: TimerItem[]) => void;
   updateTimerByOrderId: (orderId: string, updates: Partial<TimerItem>) => void;
   // Maintenance timers (basic timers)
   startMaintenanceTimer: (slotNumber: number, durationSeconds?: number) => void;
@@ -28,8 +27,6 @@ type TimersActions = TimersSetters & {
   setRecallConfig: (config: RecallConfig, forceResetTimer?: boolean) => void;
   clearRecallConfig: () => void;
   getRecallConfig: () => RecallConfig | null;
-  isRecallExpired: () => boolean;
-  getRecallRemainingTime: () => number; // Returns remaining time in ms, or 0 if expired
 };
 
 export interface TimersProviderProps {

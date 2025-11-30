@@ -6,7 +6,7 @@ import { LanguageDialog } from 'components/Dialog/dialogs/LanguageDialog';
 
 import { useAdmin } from 'providers/AdminProvider/AdminContext';
 import { useAppConfig } from 'providers/AppConfigProvider';
-import { useTimers } from 'providers/TimersProvider';
+import { useRecallConfig } from 'hooks/useRecallConfig';
 
 import type { Theme } from 'types/ui.types';
 import { RecallTimer } from '../../Timers/RecallTimer';
@@ -17,8 +17,8 @@ export const AdminToolbar: React.FC = () => {
   const { isAdminToolsVisible, isLanguageDialogOpen, setIsLanguageDialogOpen } = useAdmin();
 
   // Check if recall config is active (exists and not expired)
-  const { recall, isRecallExpired } = useTimers();
-  const hasActiveTimer = recall.config !== null && !isRecallExpired();
+  const { recallConfig, isRecallExpired } = useRecallConfig();
+  const hasActiveTimer = recallConfig !== null && !isRecallExpired;
   const navigate = useNavigate();
 
   if (!isAdminToolsVisible) return null;

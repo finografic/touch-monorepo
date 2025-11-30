@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 import type { OrderFilters } from 'types/filters.types';
 import { useTimers } from 'providers/TimersProvider/TimersContext';
@@ -12,7 +12,7 @@ interface ConfigData {
 }
 
 export const useRecallConfig = () => {
-  const { setRecallConfig, getRecallConfig, clearRecallConfig } = useTimers();
+  const { recall, setRecallConfig, getRecallConfig, clearRecallConfig } = useTimers();
 
   const saveRecallConfig = useCallback(
     (config: ConfigData, forceResetTimer = false) => {
@@ -45,9 +45,28 @@ export const useRecallConfig = () => {
     };
   }, [getRecallConfig]);
 
+  // Utility methods (moved from TimersContext)
+  // These are computed on each render to ensure they're current
+  const isRecallExpired = useMemo((): boolean => {
+    const now = Date.now();
+    return recall.expiresAt === null || now >= recall.expiresAt;
+  }, [recall.expiresAt]);
+
+  const getRecallRemainingTime = useCallback((): number => {
+    if (recall.expiresAt === null) {
+      return 0;
+    }
+    const now = Date.now();
+    const remaining = recall.expiresAt - now;
+    return Math.max(0, remaining);
+  }, [recall.expiresAt]);
+
   return {
     saveRecallConfig,
     loadRecallConfig,
     clearRecallConfig,
+    isRecallExpired,
+    getRecallRemainingTime,
+    recallConfig: recall.config,
   };
 };

@@ -8,6 +8,7 @@ import { useTimers } from 'providers/TimersProvider';
 import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 import { BUTTON_TYPE } from 'types/button.types';
 import type { OperationActionType } from './button-operations.types';
+import { useRecallConfig } from 'hooks/useRecallConfig';
 
 /**
  * Shared logic for determining operation disabled/loading states
@@ -20,7 +21,8 @@ export const useOperationState = (
 ) => {
   const location = useLocation();
   const { selectedSlots } = useLayoutUi();
-  const { timers, recall, isRecallExpired } = useTimers();
+  const { timers } = useTimers();
+  const { isRecallExpired, recallConfig } = useRecallConfig();
   const { profile } = useOrders();
 
   // const completedTimers = getCompletedTimers();
@@ -79,7 +81,7 @@ export const useOperationState = (
         case BUTTON_TYPE.REPEAT_SELECTION: {
           if (isTimerSelected) return true;
           // Check if recall config is active (exists and not expired)
-          const hasActiveRecall = recall.config !== null && !isRecallExpired();
+          const hasActiveRecall = recallConfig !== null && !isRecallExpired;
 
           // Enable only if: recall config active + orders selected + on main page
           return !hasActiveRecall || numAnySelected === 0 || location.pathname !== PATHS.main || isPending;

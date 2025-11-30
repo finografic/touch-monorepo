@@ -1,5 +1,5 @@
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
-import type { SlotItem } from 'apps/client/src/utils/slots.utils';
+import type { SlotItem } from 'types/slot-config.types';
 
 import { SlotType } from 'types/slots.types';
 import { MOCK_SELECTED_SLOTS_TEMPLATE } from 'dev-tools/mocks/MockOrdersButton/mock-orders.data';

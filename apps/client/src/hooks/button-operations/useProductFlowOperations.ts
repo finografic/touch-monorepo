@@ -34,7 +34,7 @@ export const useProductFlowOperations = () => {
   const { createSession, assignOrdersToSession, currentSessionId, clearSession, completeSession } =
     useSession();
   const { addTimer, timers } = useTimers();
-  const { selectedSlots, clearMainPageSelection } = useLayoutUi();
+  const { selectedSlots, setSelectedSlots } = useLayoutUi();
   const { setFilter, clearFilters, filters } = useFiltersContext();
   const { dataFiltered } = useFilters();
   const orderItemsConfig = useSlotItemsConfig();
@@ -157,7 +157,7 @@ export const useProductFlowOperations = () => {
           true, // Force reset timer for Program Product flow
         );
 
-        clearMainPageSelection();
+        setSelectedSlots([]);
 
         // Mark the current session as complete when flow finishes
         if (currentSessionId) {
@@ -184,7 +184,6 @@ export const useProductFlowOperations = () => {
     timers,
     addTimer,
     currentSessionId,
-    clearMainPageSelection,
     completeSession,
     setPageCurrent,
     navigate,

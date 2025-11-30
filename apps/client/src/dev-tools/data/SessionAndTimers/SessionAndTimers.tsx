@@ -3,6 +3,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
 import { useOrders } from 'providers/OrdersProvider/OrdersContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
+import { useRecallConfig } from 'hooks/useRecallConfig';
 
 import { DevDataTable } from 'dev-tools/components/DevDataTable';
 import { styles } from './SessionAndTimers.styles';
@@ -11,14 +12,15 @@ export const SessionAndTimers = () => {
   const { filters } = useFiltersContext();
   const { sessions } = useSession();
   // const { timers } = useTimers();
-  const { timers, snooze, recall, isRecallExpired } = useTimers();
+  const { timers, snooze, recall } = useTimers();
+  const { recallConfig, isRecallExpired } = useRecallConfig();
   const { selectedSlots } = useLayoutUi();
   const { orders } = useOrders();
 
   const previousSessions = Object.values(sessions).filter((session) => !session.isActive) || [];
   const activeSession = Object.values(sessions).find((session) => session.isActive) || {};
 
-  const showRecallInfo = recall.config !== null && !isRecallExpired();
+  const showRecallInfo = recallConfig !== null && !isRecallExpired;
 
   return (
     <div id="dev-filter-results" css={styles}>

@@ -114,7 +114,7 @@ Perfect! Now I have a complete picture. Let me provide you with a detailed step-
        }
        ```
 
-  3. **Clear Selection**: `clearMainPageSelection()`
+  3. **Clear Selection**: `setSelectedSlots([])`
   4. **Navigate**: `navigate(pathnames[0])` back to main page
 
 ### **9. UI State Updates**

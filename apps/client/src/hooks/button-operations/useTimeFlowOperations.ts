@@ -26,7 +26,7 @@ export const useTimeFlowOperations = () => {
   const { orders, toggleSlot, setOrdersSession } = useOrders();
   const { createSession, assignOrdersToSession, currentSessionId, clearSession } = useSession();
   const { addTimer, timers } = useTimers();
-  const { selectedSlots, clearMainPageSelection } = useLayoutUi();
+  const { selectedSlots, setSelectedSlots } = useLayoutUi();
   const orderItemsConfig = useSlotItemsConfig();
 
   // ========================================================================
@@ -113,7 +113,7 @@ export const useTimeFlowOperations = () => {
         });
 
         // Clear selection when timers start (ensures green color shows)
-        clearMainPageSelection();
+        setSelectedSlots([]);
 
         // Navigate back to main page with state indicating flow completion (not cancellation)
         navigate(PATHS.main, {
@@ -122,7 +122,7 @@ export const useTimeFlowOperations = () => {
         });
       });
     },
-    [selectedSlots, addTimer, currentSessionId, clearMainPageSelection, navigate, timers],
+    [selectedSlots, addTimer, currentSessionId, setSelectedSlots, navigate, timers],
   );
 
   // ========================================================================
