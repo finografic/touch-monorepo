@@ -36,11 +36,8 @@ export const DevToolbarFrontEnd = () => {
 
   return (
     <>
-      <>
-        {/* <DevScreenSize /> */}
-        {isDevToolsVisible && <DevPanelLeft />}
-        {/* {isDevToolsVisible && <DevPanelRight />} */}
-      </>
+      {isDevToolsVisible && <DevPanelLeft />}
+
       <div css={styles} className={`theme-${theme}`}>
         <Flex gap="3" align="center">
           {timers.some((timer) => timer.status === 'processing') && (

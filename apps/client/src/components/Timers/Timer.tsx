@@ -33,19 +33,11 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
 
   const { handleCompleteEvent } = useTimerEvents({
     onComplete: ({ remaining, orderId }) => {
-      log('timer: COMPLETED.', 'cyan', { snooze, remaining, orderId });
       if (snooze) {
-        playCompleteSound().catch(() => {
-          log('timer: COMPLETED (DING)', 'yellow', { snooze, remaining, orderId });
-        });
-        // playAlarmSound().catch(() => {
-        //   log('timer: COMPLETED (ALARM)', 'red', { snooze, remaining, orderId });
-        // });
+        playCompleteSound().catch(() => {});
       } else {
         setSnooze(true);
-        playCompleteSound().catch(() => {
-          log('timer: COMPLETED (DING)', 'yellow', { snooze, remaining, orderId });
-        });
+        playAlarmSound().catch(() => {});
       }
     },
   });
@@ -61,7 +53,6 @@ export const Timer: React.FC<TimerProps> = ({ slotNumber, onComplete }) => {
     const isTimerSelected = selectedSlots.find((slot) => slot.slotNumber === slotNumber);
     if (isTimerSelected) {
       const updatedSlots = selectedSlots.filter((slot) => slot.slotNumber !== slotNumber);
-      console.log('TIMER_COMPLETE:', timer);
       setSelectedSlots(updatedSlots);
     }
 

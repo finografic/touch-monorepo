@@ -81,8 +81,6 @@ export const useMainPageOperations = () => {
   // ========================================================================
 
   const handleRepeatSelection = useCallback(() => {
-    // Check if recall config is active (exists and not expired)
-    log('4. handleRepeatSelection', 'magenta', { ID: 4 });
     if (!recallConfig || isRecallExpired) {
       console.error('No active recall config found');
       return;
@@ -112,19 +110,15 @@ export const useMainPageOperations = () => {
 
       // Apply configuration to all selected orders
       selectedSlots.forEach((slot) => {
-        const orderConfig = orderItemsConfig.find((cfg) => cfg.slotNumber === slot.slotNumber);
+        const orderConfig = orderItemsConfig.find((o) => o.slotNumber === slot.slotNumber);
 
         if (orderConfig) {
           // Get duration for this specific item type from saved config
           const slotTypeDuration = config.durations?.[orderConfig.slotType];
           const defaultDuration = config.durations?.default;
           // Use nullish coalescing (??) instead of || to allow 0 values
-          const duration = slotTypeDuration ?? defaultDuration ?? 300;
+          const duration = slotTypeDuration ?? defaultDuration;
 
-          const updatedSlots = selectedSlots.filter((s) => s.slotNumber !== slot.slotNumber);
-          setSelectedSlots(updatedSlots);
-
-          // Create timer using the same logic as handleStartTimeProcess
           addTimer({
             sessionId: 'repeat-session',
             slotNumber: slot.slotNumber,
@@ -136,6 +130,8 @@ export const useMainPageOperations = () => {
           });
         }
       });
+      // uncheck slots
+      setSelectedSlots([]);
     });
   }, [
     selectedSlots,

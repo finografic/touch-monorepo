@@ -6,7 +6,6 @@ import { playAlarmSound } from 'utils/sound.utils';
 import { formatTimeFromMs } from 'utils/time.utils';
 import { SNOOZE_INTERVAL_MS } from 'config/app';
 import { getCycleNumber, parseElapsedTime } from './shared/timer.utils';
-import { useTimerEvents } from './shared/useTimerEvents';
 import { useHeartbeatSubscription } from './shared/useHeartbeatSubscription';
 import { TimerResetIcon } from 'styles/icons/icons';
 import { styles } from './SnoozeTimer.styles';
@@ -33,6 +32,9 @@ interface SnoozeTimerProps {
  */
 export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   const timersContext = useTimersOptional();
+  const [remainingTime, setRemainingTime] = useState<number>(0);
+  const [startTime, setStartTime] = useState<number | null>(null);
+
   // Check if recall config is active (exists and not expired)
   const hasActiveTimer = timersContext
     ? (() => {
@@ -41,34 +43,12 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
         return timersContext.recall.config !== null && !isExpired;
       })()
     : false;
-  const [remainingTime, setRemainingTime] = useState<number>(0);
-  const [startTime, setStartTime] = useState<number | null>(null);
+
   const now = useHeartbeatSubscription(); // Subscribe to global heartbeat
 
-  // Track completed timer count for debouncing
   const previousCompletedCountRef = useRef<number>(0);
-
-  // Track last cycle to detect when we've completed a full snooze cycle
   const lastCycleRef = useRef<number>(0);
-
-  // Track last beep time to ensure we beep every 2 minutes
   const lastBeepTimeRef = useRef<number>(0);
-
-  // Use shared event handling hook
-  const { handleCompleteEvent } = useTimerEvents({
-    onComplete: ({ elapsedMs, remainingMs, cycleNumber }) => {
-      console.log('🔁 SnoozeTimer: REPEAT (cycle complete)', {
-        elapsedMs,
-        remainingMs,
-        cycleNumber,
-        elapsedSec: Math.floor((elapsedMs || 0) / 1000),
-        remainingSec: Math.floor((remainingMs || 0) / 1000),
-      });
-      // Play completion sound when snooze cycle completes
-      playAlarmSound().catch(() => {});
-      // TODO: Add custom notification logic here
-    },
-  });
 
   // Get completed timers count
   const hasCompletedTimers = timersContext?.timers.some((t) => t.status === 'completed') ?? false;
@@ -101,8 +81,6 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
       setStartTime(currentTime);
       lastCycleRef.current = 0;
       lastBeepTimeRef.current = currentTime; // Initialize beep timer
-      // Beep immediately when starting
-      playAlarmSound().catch(() => {});
     }
   }, [hasActiveTimer, hasCompletedTimers, startTime, shouldDebounce, completedCount]);
 
@@ -111,31 +89,19 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
     if (!startTime) return;
 
     const { remaining, totalElapsed } = parseElapsedTime({ startTime, now });
-
     setRemainingTime(remaining);
-
-    // Calculate which cycle we're in
-    const currentCycle = getCycleNumber(totalElapsed, SNOOZE_INTERVAL_MS);
-
-    // REPEAT ACTION: Fire when we complete a full cycle (remaining resets to SNOOZE_INTERVAL_MS)
-    if (currentCycle > lastCycleRef.current) {
-      lastCycleRef.current = currentCycle;
-      handleCompleteEvent({
-        elapsedMs: totalElapsed,
-        remainingMs: remaining,
-        cycleNumber: currentCycle,
-      });
-    }
 
     // BEEP every 2 minutes (SNOOZE_INTERVAL_MS)
     // Check if 2 minutes have passed since last beep
     const timeSinceLastBeep = now - lastBeepTimeRef.current;
 
     if (timeSinceLastBeep >= SNOOZE_INTERVAL_MS) {
-      playAlarmSound().catch(() => {});
+      const currentCycle = getCycleNumber(totalElapsed, SNOOZE_INTERVAL_MS);
       lastBeepTimeRef.current = now;
+      lastCycleRef.current = currentCycle;
+      playAlarmSound().catch(() => {});
     }
-  }, [now, startTime, handleCompleteEvent]);
+  }, [now, startTime]);
 
   // Don't render if storage timer is not active or there are no completed timers
   if (!hasActiveTimer || !hasCompletedTimers || remainingTime <= 0) {
