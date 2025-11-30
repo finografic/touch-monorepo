@@ -68,13 +68,13 @@ export const PublicModePage: React.FC = () => {
 
   return (
     <AdminPageLayout
-      title="Mode Selection - PUBLIC"
+      title="Mode Selection"
       description="Select default mode for the system"
       isLoading={isLoadingModes}
       styles={styles}
     >
       <AdminSection
-        title="Default Mode Configuration - PUBLIC"
+        title="Default Mode Configuration"
         description="Choose the default mode that will be used when no specific mode is selected"
         variant="border-solid"
       >

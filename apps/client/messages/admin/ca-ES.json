@@ -2,13 +2,12 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "admin_dashboard": [
     {
-      "selectors": [
-        "element",
-        "role"
-      ],
+      "selectors": ["element", "role"],
       "match": {
         "element=title, role=admin": "Panell d'Administrador",
-        "element=description, role=admin": "Panell de control - gestió del sistema"
+        "element=description, role=admin": "Panell de control - gestió del sistema",
+        "element=title": "Panell d'Usuari",
+        "element=description": "Panell de control - utilitats de manteniment"
       }
     }
   ],

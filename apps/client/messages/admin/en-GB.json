@@ -2,13 +2,12 @@
   "$schema": "https://inlang.com/schema/inlang-message-format",
   "admin_dashboard": [
     {
-      "selectors": [
-        "element",
-        "role"
-      ],
+      "selectors": ["element", "role"],
       "match": {
-        "element=title, role=admin": "Admin DashboardXXX",
-        "element=description, role=admin": "Control panel - system management"
+        "element=title, role=admin": "Admin Dashboard",
+        "element=description, role=admin": "Control panel - system management",
+        "element=title": "User Dashboard",
+        "element=description": "Control panel - maintenance utilities"
       }
     }
   ],

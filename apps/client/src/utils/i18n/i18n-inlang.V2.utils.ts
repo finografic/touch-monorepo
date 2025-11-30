@@ -1,5 +1,6 @@
 import type { AuthRoles } from 'admin/config/admin.routes.map';
 import { snakeCase } from 'change-case';
+import { getMatchedKey } from './i18n-inlang.AI.4.utils';
 import { m } from 'i18n/messages';
 
 // ======================================================================== //
@@ -17,7 +18,7 @@ export function resolveRole(isAuthenticated: boolean, isAdmin: boolean = false):
 /**
  * Helper function to get a single message text for a given element
  */
-function getMatchedKey(baseKey: string, element: string, role?: AuthRoles): string {
+function getMatchedKey__LOCAL(baseKey: string, element: string, role?: AuthRoles): string {
   // 1.a 🏆 Try first to get by element directly (with selectors)
   if (typeof m[baseKey] === 'function' && role) {
     return role ? m[baseKey]({ element, role }) : m[baseKey]({ element });
