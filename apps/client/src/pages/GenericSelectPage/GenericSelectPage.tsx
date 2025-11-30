@@ -15,6 +15,7 @@ import { getFiltersToClearAhead } from 'utils/filters/filters-flow.utils';
 import type { FilterKey, NavigationFieldKey } from 'types/slots.types';
 import type { PadType, PadUI } from 'types/pads.types';
 import { getGridFlowClasses } from './utils/getGridFlowClasses';
+
 import { stylesItemsGrid } from './grid.styles';
 
 export const GenericSelectPage = () => {

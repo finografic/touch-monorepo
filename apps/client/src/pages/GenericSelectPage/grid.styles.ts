@@ -16,6 +16,12 @@ export const stylesItemsGrid = css`
     grid-auto-rows: minmax(80px, auto);
     align-items: stretch;
 
+    /* Switch to 3 columns when there are 9+ items */
+    &.three-columns {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 900px;
+    }
+
     /* When vertical-flow class is added, items flow down columns instead of across rows */
     &.vertical-flow {
       grid-auto-flow: column;

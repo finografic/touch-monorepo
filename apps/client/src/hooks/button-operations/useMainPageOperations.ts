@@ -30,6 +30,9 @@ export const useMainPageOperations = () => {
   const slotsConfigQuery = useGetSlotConfigurations();
   const { setFilter } = useFiltersContext();
 
+  const timerSlots = timers.map((timer) => timer.slotNumber);
+  const activeSlots = slotsConfigQuery.data.filter((slot) => slot.isActive);
+
   // ========================================================================
   // TIMER OPERATIONS
   // ========================================================================
@@ -97,35 +100,16 @@ export const useMainPageOperations = () => {
   // ========================================================================
 
   const handleSelectAll = useCallback(() => {
-    if (slotsConfigQuery.isLoading || slotsConfigQuery.isError || !slotsConfigQuery.data) {
-      return;
-    }
-
-    const activeSlots = slotsConfigQuery.data.filter((slot) => slot.isActive);
+    const ignores = [...timerSlots, ...selectedSlots.map((slot) => slot.slotNumber)];
 
     startTransition(() => {
-      log('3. handleSelectAll', 'magenta', { ID: 3 });
-
       for (const slot of activeSlots) {
-        log(`SLOT_${slot.slotNumber}`, 'grey', slot);
-        // toggleMainPageSlot({
-        //   slotType: slot.slotType,
-        //   slotNumber: slot.slotNumber,
-        //   isChecked: true,
-        //   status: 'idle',
-        // });
+        if (!ignores.includes(slot.slotNumber)) {
+          toggleMainPageSlot({ ...slot, isChecked: true, status: 'idle' });
+        }
       }
-
-      // activeSlots.forEach((config) =>
-      //   toggleMainPageSlot({
-      //     slotType: config.slotType,
-      //     slotNumber: config.slotNumber,
-      //     isChecked: true,
-      //     status: 'idle',
-      //   }),
-      // );
     });
-  }, [slotsConfigQuery.isLoading, slotsConfigQuery.isSuccess, slotsConfigQuery.data]);
+  }, [selectedSlots]);
 
   // ========================================================================
   // REPEAT CONFIGURATION
