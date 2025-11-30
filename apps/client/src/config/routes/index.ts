@@ -1,2 +1,2 @@
-export { ALTERNATIVE_PATHS, PATHS, ROUTE_ACTION_SLUGS } from './paths.constants';
-export { ROUTES_CONFIG } from './routes.config';
+export * from './paths.constants';
+export * from './routes.config';

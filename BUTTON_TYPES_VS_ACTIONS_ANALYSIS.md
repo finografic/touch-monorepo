@@ -6,7 +6,7 @@ The codebase now uses a **single, unified button type system**:
 - **`BUTTON_TYPE`** - The const object containing all button type constants
 - **`ButtonType`** - The TypeScript type derived from `BUTTON_TYPE`
 
-All buttons use SCREAMING_SNAKE_CASE constants (e.g., `BUTTON_TYPE.CLEAR_COMPLETED`) for both identity and action.
+All buttons use SCREAMING_SNAKE_CASE constants (e.g., `BUTTON_TYPE.RESET_COMPLETED`) for both identity and action.
 
 ---
 
@@ -16,18 +16,18 @@ All buttons use SCREAMING_SNAKE_CASE constants (e.g., `BUTTON_TYPE.CLEAR_COMPLET
 
 ```typescript
 const BUTTON_TYPES = [
-  'CLEAR_COMPLETED',
-  'CANCEL_SELECTED',
-  'SELECT_ALL',
   'NAVIGATE_BACK',
   'NAVIGATE_NEXT',
-  'START_PROCESS',
-  'FINISH_PRODUCT_PROCESS',
-  'PROGRAM_PRODUCT',
-  'PROGRAM_TIME',
+  'CANCEL_SELECTED',
+  'RESET_COMPLETED',
+  'SELECT_ALL_SLOTS',
   'REPEAT_SELECTION',
+  'PROGRAM_TIME',
+  'PROGRAM_PRODUCT',
   'CANCEL_TIME_SESSION',
   'CANCEL_PRODUCT_SESSION',
+  'START_TIME_PROCESS',
+  'START_PRODUCT_PROCESS',
 ] as const;
 
 export const BUTTON_TYPE = createConstUpperEnum(BUTTON_TYPES);
@@ -40,7 +40,7 @@ export type ButtonType = keyof typeof BUTTON_TYPE;
 
    ```typescript
    buttons: {
-     footer: [BUTTON_TYPE.CLEAR_COMPLETED, BUTTON_TYPE.SELECT_ALL],
+     footer: [BUTTON_TYPE.RESET_COMPLETED, BUTTON_TYPE.SELECT_ALL_SLOTS],
      content: [BUTTON_TYPE.PROGRAM_TIME, BUTTON_TYPE.PROGRAM_PRODUCT],
    }
    ```
@@ -49,10 +49,10 @@ export type ButtonType = keyof typeof BUTTON_TYPE;
 
    ```typescript
    export const BUTTON_CONFIGS: Record<ButtonType, PadActionConfig> = {
-     [BUTTON_TYPE.CLEAR_COMPLETED]: {
+     [BUTTON_TYPE.RESET_COMPLETED]: {
        id: 'button-reset',
-       type: BUTTON_TYPE.CLEAR_COMPLETED,
-       actionType: BUTTON_TYPE.CLEAR_COMPLETED,
+       type: BUTTON_TYPE.RESET_COMPLETED,
+       actionType: BUTTON_TYPE.RESET_COMPLETED,
        // ...
      },
    };
@@ -62,8 +62,8 @@ export type ButtonType = keyof typeof BUTTON_TYPE;
 
    ```typescript
    switch (actionType) {
-     case BUTTON_TYPE.CLEAR_COMPLETED:
-       return handleClearCompleted();
+     case BUTTON_TYPE.RESET_COMPLETED:
+       return handleResetCompleted();
      case BUTTON_TYPE.NAVIGATE_BACK:
        return handleNavigateBack();
      // ...
@@ -100,18 +100,25 @@ These were consolidated into a single `BUTTON_TYPE` system where:
 All 12 button types:
 
 ```typescript
-'CLEAR_COMPLETED'           // Clear all completed timers
-'CANCEL_SELECTED'          // Cancel selected active timers
-'SELECT_ALL'                // Select all MainPage slots
+// navigation buttons
 'NAVIGATE_BACK'             // Navigate to previous page
 'NAVIGATE_NEXT'             // Navigate to next page
-'START_PROCESS'             // Start time/product process
-'FINISH_PRODUCT_PROCESS'    // Finish product flow
-'PROGRAM_PRODUCT'           // Start product programming flow
+
+// MainPage - bottom buttons
+'RESET_COMPLETED'     // Clear all completed timers
+'CANCEL_SELECTED'     // Cancel selected active timers
+'SELECT_ALL_SLOTS'           // Select all MainPage slots
+
+ // MainPage - right buttons (large)
 'PROGRAM_TIME'              // Start time programming flow
+'PROGRAM_PRODUCT'           // Start product programming flow
 'REPEAT_SELECTION'          // Repeat last saved configuration
+
+// in-flow buttons
 'CANCEL_TIME_SESSION'       // Cancel time session
 'CANCEL_PRODUCT_SESSION'    // Cancel product session
+'START_TIME_PROCESS'        // Start time/product process
+'START_PRODUCT_PROCESS'     // Start time/product process
 ```
 
 ---

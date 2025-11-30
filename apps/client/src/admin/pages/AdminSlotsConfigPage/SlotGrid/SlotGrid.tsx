@@ -3,7 +3,7 @@ import React, { memo, useCallback, useMemo } from 'react';
 import { Box } from '@radix-ui/themes';
 
 import { mapGridByColumns } from 'utils/grid.utils';
-import { NUM_RELAYS } from 'types/slot-config.types';
+import { NUM_RELAYS } from 'config/app/slots.config';
 import { SlotType } from 'types/slots.types';
 import { SlotButton } from './SlotButton';
 import { styles } from './SlotGrid.styles';

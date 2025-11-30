@@ -9,7 +9,7 @@ import {
 } from 'routes/hooks/useRouteNavigation.utils';
 
 import type { OrderFilters } from 'types/filters.types';
-import { PATHS, ROUTES_CONFIG } from 'config';
+import { PATHS, ROUTES_CONFIG } from 'config/routes';
 
 /**
  * Hook to get navigation information for the current route.

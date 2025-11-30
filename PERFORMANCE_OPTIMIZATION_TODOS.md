@@ -68,11 +68,11 @@
   - `handleProgramTime`
   - `handleProgramProduct`
   - `handleRepeatSelection`
-  - `handleClearCompleted`
-  - `handleCancelCompleted`
+  - `handleResetCompleted`
+  - `handleCancelSelected`
 - [ ] **`useTemperaturePageOperations`** - TemperaturePage specific operations
   - `handleStartProductProcess`
-  - `handleFinishProductProcess`
+  - `handleStartProductProcess`
 - [ ] **`useSessionOperations`** - Session management operations
   - `handleCancelTimeSession`
   - `handleCancelProductSession`
@@ -82,15 +82,15 @@
 **Option B: Split by Action Type**
 - [ ] **`useSlotOperations`** - Slot selection and management
   - `handleSelectAll`
-  - `handleClearCompleted`
-  - `handleCancelCompleted`
+  - `handleResetCompleted`
+  - `handleCancelSelected`
 - [ ] **`useFlowOperations`** - Flow navigation and configuration
   - `handleProgramTime`
   - `handleProgramProduct`
   - `handleRepeatSelection`
 - [ ] **`useProcessOperations`** - Process execution
   - `handleStartProductProcess`
-  - `handleFinishProductProcess`
+  - `handleStartProductProcess`
   - `handleStartTimeProcess`
 - [ ] **`useSessionOperations`** - Session lifecycle
   - `handleCancelTimeSession`
@@ -103,14 +103,14 @@
   - `handleRepeatSelection`
 - [ ] **`useTimersOperations`** - Operations requiring timers data
   - `handleStartTimeProcess`
-  - `handleClearCompleted`
-  - `handleCancelCompleted`
+  - `handleResetCompleted`
+  - `handleCancelSelected`
 - [ ] **`useSessionOperations`** - Operations requiring session data
   - `handleCancelTimeSession`
   - `handleCancelProductSession`
 - [ ] **`useTemperatureOperations`** - Operations requiring temperature data
   - `handleStartProductProcess`
-  - `handleFinishProductProcess`
+  - `handleStartProductProcess`
 
 #### **🎯 RECOMMENDED APPROACH: Option A (Page-based)**
 
@@ -149,15 +149,15 @@
 
 - [ ] **`useSimpleOperations`** - Simple, stateless operations
   - `handleSelectAll`
-  - `handleClearCompleted`
-  - `handleCancelCompleted`
+  - `handleResetCompleted`
+  - `handleCancelSelected`
 - [ ] **`useComplexOperations`** - Complex operations with multiple dependencies
   - `handleProgramProduct`
   - `handleProgramTime`
   - `handleRepeatSelection`
 - [ ] **`useAsyncOperations`** - Operations with async/API calls
   - `handleStartProductProcess`
-  - `handleFinishProductProcess`
+  - `handleStartProductProcess`
 
 #### **Option E: Split by User Intent**
 
@@ -167,11 +167,11 @@
   - `handleProgramProduct`
 - [ ] **`useExecutionOperations`** - User executing processes
   - `handleStartProductProcess`
-  - `handleFinishProductProcess`
+  - `handleStartProductProcess`
   - `handleStartTimeProcess`
 - [ ] **`useCleanupOperations`** - User cleaning up/canceling
-  - `handleClearCompleted`
-  - `handleCancelCompleted`
+  - `handleResetCompleted`
+  - `handleCancelSelected`
   - `handleCancelTimeSession`
   - `handleCancelProductSession`
 
@@ -179,15 +179,15 @@
 
 - [ ] **`useSlotManagement`** - Slot-related operations
   - `handleSelectAll`
-  - `handleClearCompleted`
-  - `handleCancelCompleted`
+  - `handleResetCompleted`
+  - `handleCancelSelected`
 - [ ] **`useFlowManagement`** - Flow-related operations
   - `handleProgramTime`
   - `handleProgramProduct`
   - `handleRepeatSelection`
 - [ ] **`useProcessManagement`** - Process-related operations
   - `handleStartProductProcess`
-  - `handleFinishProductProcess`
+  - `handleStartProductProcess`
   - `handleStartTimeProcess`
 - [ ] **`useSessionManagement`** - Session-related operations
   - `handleCancelTimeSession`

@@ -5,7 +5,7 @@ import { useLayoutUi } from 'providers/LayoutUiProvider';
 import { useOrders } from 'providers/OrdersProvider';
 import { useTimers } from 'providers/TimersProvider';
 
-import { ALTERNATIVE_PATHS, PATHS } from 'config';
+import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 import { BUTTON_TYPE } from 'types/button.types';
 import type { OperationActionType } from './button-operations.types';
 
@@ -20,10 +20,11 @@ export const useOperationState = (
 ) => {
   const location = useLocation();
   const { selectedSlots } = useLayoutUi();
-  const { timers, getCompletedTimers, recall, isRecallExpired } = useTimers();
+  const { timers, recall, isRecallExpired } = useTimers();
   const { profile } = useOrders();
 
-  const completedTimers = getCompletedTimers();
+  // const completedTimers = getCompletedTimers();
+  const completedTimers = timers.filter((timer) => timer.status === 'completed');
   const hasCompletedTimers = completedTimers.length > 0;
   const hasSelectedItems = selectedSlots.length > 0;
   const isTimerSelected = selectedSlots.some(({ status }) => status === 'processing');
@@ -52,13 +53,13 @@ export const useOperationState = (
       }).length;
 
       switch (actionType) {
-        case BUTTON_TYPE.CLEAR_COMPLETED:
+        case BUTTON_TYPE.RESET_COMPLETED:
           return !hasCompletedTimers || location.pathname !== PATHS.main || isPending;
         case BUTTON_TYPE.CANCEL_SELECTED:
           return numSelectedProcessing === 0 || location.pathname !== PATHS.main || isPending;
-        case BUTTON_TYPE.SELECT_ALL:
+        case BUTTON_TYPE.SELECT_ALL_SLOTS:
           return location.pathname !== PATHS.main || isPending;
-        case BUTTON_TYPE.START_PROCESS:
+        case BUTTON_TYPE.START_PRODUCT_PROCESS:
           // On TimePage: check if we have selected items
           if (location.pathname === ALTERNATIVE_PATHS.time) {
             return !hasSelectedItems || isPending;
@@ -67,13 +68,6 @@ export const useOperationState = (
             isTemperatureLoading ||
             isPending ||
             !profile?.temperatureProfiles?.length || // Check if we have temperature profiles
-            location.pathname !== PATHS.temperature
-          );
-        case BUTTON_TYPE.FINISH_PRODUCT_PROCESS:
-          return (
-            isTemperatureLoading ||
-            isPending ||
-            !profile?.temperatureProfiles?.length ||
             location.pathname !== PATHS.temperature
           );
         case BUTTON_TYPE.PROGRAM_TIME:
@@ -116,8 +110,7 @@ export const useOperationState = (
   const getOperationLoading = useCallback(
     (actionType: OperationActionType): boolean => {
       switch (actionType) {
-        case BUTTON_TYPE.START_PROCESS:
-        case BUTTON_TYPE.FINISH_PRODUCT_PROCESS:
+        case BUTTON_TYPE.START_PRODUCT_PROCESS:
           // On TimePage, use basic pending state
           if (location.pathname === ALTERNATIVE_PATHS.time) {
             return isPending;

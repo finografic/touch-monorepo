@@ -10,7 +10,8 @@ import { useToast } from 'components/Toast';
 
 import { useBulkUpdateSlotConfigurations, useGetSlotConfigurations } from 'queries/slot-configurations';
 
-import { calculateColumns, MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS, NUM_ROWS } from 'types/slot-config.types';
+import { MAX_COLUMNS, MIN_COLUMNS, NUM_RELAYS, NUM_ROWS_DEFAULT } from 'config/app/slots.config';
+import { calculateColumns } from 'utils/slots.utils';
 import type { SlotType } from 'types/slots.types';
 import { AdminPageLayout } from '../..';
 import { AdminSection } from '../../components/AdminSection/AdminSection';
@@ -105,8 +106,8 @@ export const AdminSlotsConfigPage: React.FC = () => {
       const prevColumns = numActiveColumns;
       const newColumns = Math.min(MAX_COLUMNS, prevColumns + 1);
 
-      const prevLastIndex = prevColumns * NUM_ROWS; // inclusive, 1-indexed slotNumber
-      const newLastIndex = newColumns * NUM_ROWS + 1;
+      const prevLastIndex = prevColumns * NUM_ROWS_DEFAULT; // inclusive, 1-indexed slotNumber
+      const newLastIndex = newColumns * NUM_ROWS_DEFAULT + 1;
 
       const updatedSlots = slots.map((slot) => {
         const n = slot.slotNumber;
@@ -134,7 +135,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
       const prevColumns = numActiveColumns;
       const newColumns = Math.max(MIN_COLUMNS, prevColumns - 1);
 
-      const newLastIndex = newColumns * NUM_ROWS + 1;
+      const newLastIndex = newColumns * NUM_ROWS_DEFAULT + 1;
 
       const updatedSlots = slots.map((slot) => {
         const n = slot.slotNumber;
@@ -175,7 +176,7 @@ export const AdminSlotsConfigPage: React.FC = () => {
           <AdminSection
             title="Slot Grid Layout Preview"
             subtitle={`${numActiveColumns} columns`}
-            description={`Click on slots to change their type. Slot ${numActiveColumns * NUM_ROWS + 1} is positioned separately`}
+            description={`Click on slots to change their type. Slot ${numActiveColumns * NUM_ROWS_DEFAULT + 1} is positioned separately`}
             className={clsx('admin-slot-config')}
             isLoading={isLoading}
             variant="border-solid"
@@ -185,13 +186,13 @@ export const AdminSlotsConfigPage: React.FC = () => {
                 <SlotGrid
                   configurations={slots}
                   columns={numActiveColumns}
-                  rows={NUM_ROWS}
+                  rows={NUM_ROWS_DEFAULT}
                   onConfigurationChange={handleGridConfigChange}
                 />
                 <Flex gap="4" align="center" mt="-4" pb="4">
                   <Badge size="3" variant="soft" color="blue" className="dimesions-badge">
-                    {numActiveColumns} columns × {NUM_ROWS} rows = {activeSlots.length - 1} grid slots + 1
-                    special slot
+                    {numActiveColumns} columns × {NUM_ROWS_DEFAULT} rows = {activeSlots.length - 1} grid slots
+                    + 1 special slot
                   </Badge>
                 </Flex>
               </Flex>

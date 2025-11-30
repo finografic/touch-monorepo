@@ -9,7 +9,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'main',
     title: 'ServiFresc',
     buttons: {
-      footer: [BUTTON_TYPE.CANCEL_SELECTED, BUTTON_TYPE.CLEAR_COMPLETED, BUTTON_TYPE.SELECT_ALL],
+      footer: [BUTTON_TYPE.CANCEL_SELECTED, BUTTON_TYPE.RESET_COMPLETED, BUTTON_TYPE.SELECT_ALL_SLOTS],
       content: [BUTTON_TYPE.PROGRAM_TIME, BUTTON_TYPE.PROGRAM_PRODUCT, BUTTON_TYPE.REPEAT_SELECTION],
     },
     navigation: {
@@ -77,7 +77,7 @@ export const ROUTES_CONFIG: RouteConfig[] = [
     id: 'temperature',
     title: 'Select initial and final temperatures:',
     buttons: {
-      footer: [BUTTON_TYPE.NAVIGATE_BACK, BUTTON_TYPE.FINISH_PRODUCT_PROCESS],
+      footer: [BUTTON_TYPE.NAVIGATE_BACK, BUTTON_TYPE.START_PRODUCT_PROCESS],
       content: [],
     },
     navigation: {

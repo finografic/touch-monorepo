@@ -7,7 +7,7 @@ interface GridRowsColumns {
 // NOTE: MAIN GRID BUILDER UTILITY: Domain-friendly alias
 export function mapGridByColumns<T>(
   { rows, columns }: GridRowsColumns,
-  mapCell: (slotNumber: number, row: number, col: number) => T,
+  mapCell: (slotNumber: number, row?: number, col?: number) => T,
 ): T[] {
   return mapColumnMajor({ rows, columns }, mapCell);
 }

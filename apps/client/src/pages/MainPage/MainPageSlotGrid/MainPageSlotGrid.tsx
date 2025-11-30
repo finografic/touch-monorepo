@@ -6,6 +6,7 @@ import { PadSlot } from 'components/Pads/PadSlot';
 import { mapGridByColumns } from 'utils/grid.utils';
 import { SlotSpecial, SlotType } from 'types/slots.types';
 import { styles } from './MainPageSlotGrid.styles';
+import { NUM_ROWS_DEFAULT } from 'config/app/slots.config';
 
 interface SlotConfig {
   slotNumber: number;
@@ -19,9 +20,11 @@ interface MainPageSlotGridProps {
   rows: number;
 }
 
-const NUM_ROWS = 3; // Always 3 rows
-
-const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({ slots, columns, rows = NUM_ROWS }) => {
+const MainPageSlotGridComponent: React.FC<MainPageSlotGridProps> = ({
+  slots,
+  columns,
+  rows = NUM_ROWS_DEFAULT,
+}) => {
   const activeSlots = useMemo(() => slots.filter((s) => s.isActive), [slots]);
   const totalSlots = activeSlots.length;
   const mainGridSlots = activeSlots.slice(0, totalSlots - 1); // All except the last

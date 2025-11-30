@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 
-import { RecallTimer } from 'apps/client/src/components/Timers/RecallTimer/RecallTimer';
 import { DataDump } from 'components/DataDump/DataDump';
 import { CalculationDataList } from 'components/DataList/CalculationDataList/CalculationDataList';
 import { ConfigDataList } from 'components/DataList/ConfigDataList/ConfigDataList';
@@ -16,6 +15,7 @@ import type { DialogConfig } from '../../GenericDialog.types';
 // Local imports
 import type { AdminToolsDialogProps, Calculation, OrderWithMetadata } from './AdminToolsDialog.types';
 import { cleanCalculationData, cleanOrderData, loadCalculationFromStorage } from './AdminToolsDialog.utils';
+import { RecallTimer } from 'components/Timers/RecallTimer';
 
 export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => {
   const { orders } = useOrderSelection<OrderWithMetadata>({
@@ -23,7 +23,7 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
   });
   const [calculation, setCalculation] = useState<Calculation | null>(null);
   const [viewMode, setViewMode] = useState<'json' | 'list'>('json');
-  const { loadConfig } = useRecallConfig();
+  const { loadRecallConfig } = useRecallConfig();
 
   // Safe storage access helper
   function safeLoadCalculationFromStorage(slotNumber: string): Calculation | null {
@@ -35,9 +35,9 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
     }
   }
 
-  function safeLoadConfig() {
+  function safeLoadRecallConfig() {
     try {
-      return loadConfig() ?? {};
+      return loadRecallConfig() ?? {};
     } catch (err) {
       console.warn('[AdminToolsDialog] Failed to load config from storage:', err);
       return {};
@@ -59,7 +59,7 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
   const cleanedOrderData = cleanOrderData((orders ?? []) as OrderWithMetadata[]);
   const cleanedCalculationData = cleanCalculationData(calculation);
   const hasMetadata = (orders?.[0] as OrderWithMetadata)?.metadata ?? null;
-  const storedConfig = safeLoadConfig();
+  const storedConfig = safeLoadRecallConfig();
 
   // Build tabs dynamically based on available data
   const tabs = [

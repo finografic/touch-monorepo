@@ -1,6 +1,18 @@
-import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
+import { MAX_COLUMNS, MIN_COLUMNS, NUM_ROWS_DEFAULT } from 'config/app/slots.config';
 import { SlotSpecial, SlotType } from 'types/slots.types';
+import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
 import { colors } from 'styles';
+
+/**
+ * Computes how many columns are needed to fit all slots (except special slot),
+ * using NUM_ROWS_DEFAULT rows per column.
+ */
+export const calculateColumns = (activeSlotCount: number): number => {
+  const usableSlots = Math.max(0, activeSlotCount - 1);
+  const rawCols = Math.ceil(usableSlots / NUM_ROWS_DEFAULT);
+
+  return Math.max(MIN_COLUMNS, Math.min(MAX_COLUMNS, rawCols));
+};
 
 export const getSlotColor = (config: RelayConfig) => {
   if (config.slotNumber === 14) {

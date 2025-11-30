@@ -58,8 +58,8 @@ const {
 #### **useMainPageOperations**
 
 Handles MainPage-specific operations:
-- ✅ `handleClearCompleted` - Clear all completed timers
-- ✅ `handleCancelCompleted` - Cancel selected active timers
+- ✅ `handleResetCompleted` - Clear all completed timers
+- ✅ `handleCancelSelected` - Cancel selected active timers
 - ✅ `handleSelectAll` - Select all MainPage slots
 - ✅ `handleRepeatSelection` - Repeat last saved configuration
 
@@ -68,7 +68,7 @@ Handles MainPage-specific operations:
 ```typescript
 import { useMainPageOperations } from 'hooks/button-operations';
 
-const { handleClearCompleted, handleSelectAll } = useMainPageOperations();
+const { handleResetCompleted, handleSelectAll } = useMainPageOperations();
 ```
 
 ---
@@ -95,7 +95,7 @@ const { handleProgramTime, handleStartTimeProcess } = useTimeFlowOperations();
 Handles Product Flow (Program Product):
 - ✅ `handleProgramProduct` - Navigate from MainPage → DrinkType page
 - ✅ `handleStartProductProcess` - Start product process from DrinkType page
-- ✅ `handleFinishProductProcess` - Finish product process from Temperature page
+- ✅ `handleStartProductProcess` - Finish product process from Temperature page
 - ✅ `handleCancelProductSession` - Cancel product session and return to MainPage
 
 **Use case**: Product programming flow (drink selection → temperature → timers)
@@ -105,7 +105,7 @@ import { useProductFlowOperations } from 'hooks/button-operations';
 
 const {
   handleProgramProduct,
-  handleFinishProductProcess,
+  handleStartProductProcess,
   isTemperatureLoading,
 } = useProductFlowOperations();
 ```
@@ -156,7 +156,7 @@ For better performance and clarity, you can import only what you need:
 // ✅ Recommended for new code
 import { useMainPageOperations } from 'hooks/button-operations';
 
-const { handleClearCompleted, handleSelectAll } = useMainPageOperations();
+const { handleResetCompleted, handleSelectAll } = useMainPageOperations();
 ```
 
 ---
@@ -199,7 +199,7 @@ Each hook can now be tested independently:
 import { renderHook } from '@testing-library/react';
 import { useMainPageOperations } from 'hooks/button-operations';
 
-test('handleClearCompleted clears all completed timers', () => {
+test('handleResetCompleted clears all completed timers', () => {
   const { result } = renderHook(() => useMainPageOperations());
   // ... test logic
 });

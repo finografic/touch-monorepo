@@ -2,18 +2,18 @@ import type { ReactNode } from 'react';
 import { createConstUpperEnum } from '@workspace/core/types/utils/enum.utils.types';
 
 const BUTTON_TYPES = [
-  'CLEAR_COMPLETED',
-  'CANCEL_SELECTED',
-  'SELECT_ALL',
   'NAVIGATE_BACK',
   'NAVIGATE_NEXT',
-  'START_PROCESS',
-  'FINISH_PRODUCT_PROCESS',
-  'PROGRAM_PRODUCT',
-  'PROGRAM_TIME',
+  'CANCEL_SELECTED',
+  'RESET_COMPLETED',
+  'SELECT_ALL_SLOTS',
   'REPEAT_SELECTION',
+  'PROGRAM_TIME',
+  'PROGRAM_PRODUCT',
   'CANCEL_TIME_SESSION',
   'CANCEL_PRODUCT_SESSION',
+  'START_TIME_PROCESS',
+  'START_PRODUCT_PROCESS',
 ] as const;
 
 export const BUTTON_TYPE = createConstUpperEnum(BUTTON_TYPES);

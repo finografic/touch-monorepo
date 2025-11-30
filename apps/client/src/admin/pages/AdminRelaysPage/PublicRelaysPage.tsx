@@ -6,7 +6,7 @@ import { useInitializeRelay } from 'queries/relays';
 
 import { AdminPageLayout, AdminSection } from '../..';
 import { RelayDefrostTimer } from './RelayDefrostTimer/RelayDefrostTimer';
-import { NUM_RELAYS } from './relays.config';
+import { NUM_RELAYS } from 'config/app/slots.config';
 import { RelaysStatus } from './RelaysStatus';
 import { styles } from './AdminRelaysPage.styles';
 

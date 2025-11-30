@@ -72,43 +72,47 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
             });
             set({ timers: updatedTimers });
           },
+          // NOTE: REMOVE ? useMainPageOperations - handleCancelSelected
           removeTimer: (id: string) => {
             const { timers } = get();
             const filteredTimers = timers.filter((timer) => timer.id !== id);
             set({ timers: filteredTimers });
           },
-          clearCompletedTimers: () => {
+          // NOTE: REMOVE ? useMainPageOperations - handleResetCompleted
+          resetCompletedTimers: () => {
             const { timers } = get();
             const activeTimers = timers.filter((timer) => timer.status !== 'completed');
             set({ timers: activeTimers });
           },
+          // TODO: REMOVE
           clearAllTimers: () => {
             set({ timers: [] });
           },
-          getTimersBySession: (sessionId: string) => {
-            const { timers } = get();
-            return timers.filter((timer) => timer.sessionId === sessionId);
-          },
-          getRunningTimers: () => {
-            const { timers } = get();
-            return timers.filter((timer) => timer.status === 'processing');
-          },
-          getCompletedTimers: () => {
-            const { timers } = get();
-            return timers.filter((timer) => timer.status === 'completed');
-          },
-          getTimerByOrderId: (orderId: string) => {
-            const { timers } = get();
-            return timers.find((timer) => timer.orderId === orderId);
-          },
-          getTimerBySlotNumber: (slotNumber: number) => {
-            const { timers } = get();
-            return timers.find((timer) => timer.slotNumber === slotNumber);
-          },
-          getTimerMap: () => {
-            const { timers } = get();
-            return new Map(timers.map((timer) => [timer.slotNumber, timer]));
-          },
+          // // TODO: REMOVE
+          // getRunningTimers: () => {
+          //   const { timers } = get();
+          //   return timers.filter((timer) => timer.status === 'processing');
+          // },
+          // // TODO: REMOVE
+          // getCompletedTimers: () => {
+          //   const { timers } = get();
+          //   return timers.filter((timer) => timer.status === 'completed');
+          // },
+          // // TODO: REMOVE
+          // getTimerByOrderId: (orderId: string) => {
+          //   const { timers } = get();
+          //   return timers.find((timer) => timer.orderId === orderId);
+          // },
+          // // TODO: REMOVE
+          // getTimerBySlotNumber: (slotNumber: number) => {
+          //   const { timers } = get();
+          //   return timers.find((timer) => timer.slotNumber === slotNumber);
+          // },
+          // // TODO: REMOVE
+          // getTimerMap: () => {
+          //   const { timers } = get();
+          //   return new Map(timers.map((timer) => [timer.slotNumber, timer]));
+          // },
           updateTimerByOrderId: (orderId: string, updates: Partial<TimerItem>) => {
             const { timers } = get();
             const updatedTimers = timers.map((timer) => {

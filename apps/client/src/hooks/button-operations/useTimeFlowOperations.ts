@@ -10,7 +10,7 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 
 import { FLOW_TYPES } from 'types/flow.types';
-import { ALTERNATIVE_PATHS, PATHS } from 'config';
+import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 import { filterSlotsAvailable } from './timer-filter.utils';
 
 /**

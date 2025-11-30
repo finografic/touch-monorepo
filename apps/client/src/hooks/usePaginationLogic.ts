@@ -6,7 +6,7 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useRouteConfig } from 'routes/hooks/useRouteConfig';
 import { useCurrentFlowStep } from 'routes/hooks/useRouteNavigation';
 
-import { PATHS } from 'config';
+import { PATHS } from 'config/routes';
 
 /**
  * Consolidated pagination hook that handles both management and synchronization

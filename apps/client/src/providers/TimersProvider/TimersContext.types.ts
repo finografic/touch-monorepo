@@ -16,14 +16,8 @@ type TimersActions = TimersSetters & {
   addTimer: (timer: Omit<TimerItem, 'id' | 'createdAt'>) => void;
   updateTimer: (id: string, updates: Partial<TimerItem>) => void;
   removeTimer: (id: string) => void;
-  clearCompletedTimers: () => void;
+  resetCompletedTimers: () => void;
   clearAllTimers: () => void;
-  getTimersBySession: (sessionId: string) => TimerItem[];
-  getRunningTimers: () => TimerItem[];
-  getCompletedTimers: () => TimerItem[];
-  getTimerByOrderId: (orderId: string) => TimerItem | undefined;
-  getTimerBySlotNumber: (slotNumber: number) => TimerItem | undefined;
-  getTimerMap: () => Map<number, TimerItem>;
   updateTimerByOrderId: (orderId: string, updates: Partial<TimerItem>) => void;
   // Maintenance timers (basic timers)
   startMaintenanceTimer: (slotNumber: number, durationSeconds?: number) => void;

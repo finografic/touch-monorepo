@@ -22,9 +22,9 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 export const useMainPageOperations = () => {
   const [isPending, startTransition] = useTransition();
   const { orders } = useOrders();
-  const { addTimer, clearCompletedTimers, timers, removeTimer } = useTimers();
+  const { addTimer, resetCompletedTimers, timers, removeTimer } = useTimers();
   const { clearMainPageSelection, toggleMainPageSlot, selectedSlots, setSelectedSlots } = useLayoutUi();
-  const { saveConfig, loadConfig } = useRecallConfig();
+  const { saveRecallConfig, loadRecallConfig } = useRecallConfig();
   const { isRecallExpired, recall } = useTimers();
   const orderItemsConfig = useSlotItemsConfig();
   const slotsConfigQuery = useGetSlotConfigurations();
@@ -34,31 +34,9 @@ export const useMainPageOperations = () => {
   // TIMER OPERATIONS
   // ========================================================================
 
-  const handleClearCompleted = useCallback(() => {
+  const handleCancelSelected = useCallback(() => {
     startTransition(() => {
-      log('1. handleClearCompleted', 'magenta', { ID: 1 });
-      stopAllAudio();
-      clearCompletedTimers();
-
-      // TODO: CONFIRM IF OK TO REMOVE THIS (SHOULD BE!!)
-      /*
-      // Save new configuration to reset timer
-      const selectedOrders = selectedSlots
-        .map((slot) => orders.find((order) => order.slotNumber === slot.slotNumber))
-        .filter(Boolean);
-      saveConfig({
-        filters: {},
-        temperatures: { default: 25 },
-        durations: { default: 300 },
-        selectedOrders: selectedOrders.map((order) => order!.slotNumber),
-      });
-      */
-    });
-  }, [clearCompletedTimers, orders, saveConfig, selectedSlots]);
-
-  const handleCancelCompleted = useCallback(() => {
-    startTransition(() => {
-      log('2. handleCancelCompleted', 'magenta', { ID: 2 });
+      log('1. handleCancelSelected', 'magenta', { ID: 1 });
       // Clear only timers that are SELECTED/checked
       const selectedSlotsWithTimers = selectedSlots.filter((slot) => {
         const timer = timers.find((t) => t.slotNumber === slot.slotNumber);
@@ -68,15 +46,14 @@ export const useMainPageOperations = () => {
       // Remove timers for selected slots
       selectedSlotsWithTimers.forEach((slot) => {
         const timer = timers.find((t) => t.slotNumber === slot.slotNumber);
-        if (timer) {
-          removeTimer(timer.id);
-        }
+        if (timer) removeTimer(timer.id);
+        toggleMainPageSlot(slot);
       });
 
       // Clear selection for slots that had timers
-      selectedSlotsWithTimers.forEach((slot) => {
-        toggleMainPageSlot(slot);
-      });
+      // selectedSlotsWithTimers.forEach((slot) => {
+      //   toggleMainPageSlot(slot);
+      // });
 
       // TODO: CONFIRM IF OK TO REMOVE THIS (SHOULD BE!!)
       /*
@@ -92,28 +69,61 @@ export const useMainPageOperations = () => {
       });
       */
     });
-  }, [selectedSlots, timers, removeTimer, toggleMainPageSlot, orders, saveConfig]);
+  }, [selectedSlots, timers, removeTimer, toggleMainPageSlot, orders, saveRecallConfig]);
 
+  const handleResetCompleted = useCallback(() => {
+    startTransition(() => {
+      log('1. handleResetCompleted', 'magenta', { ID: 2 });
+      stopAllAudio();
+      resetCompletedTimers();
+
+      // TODO: CONFIRM IF OK TO REMOVE THIS (SHOULD BE!!)
+      /*
+      // Save new configuration to reset timer
+      const selectedOrders = selectedSlots
+        .map((slot) => orders.find((order) => order.slotNumber === slot.slotNumber))
+        .filter(Boolean);
+      saveConfig({
+        filters: {},
+        temperatures: { default: 25 },
+        durations: { default: 300 },
+        selectedOrders: selectedOrders.map((order) => order!.slotNumber),
+      });
+      */
+    });
+  }, [resetCompletedTimers, orders, saveRecallConfig, selectedSlots]);
   // ========================================================================
   // SELECTION OPERATIONS
   // ========================================================================
 
   const handleSelectAll = useCallback(() => {
+    if (slotsConfigQuery.isLoading || slotsConfigQuery.isError || !slotsConfigQuery.data) {
+      return;
+    }
+
+    const activeSlots = slotsConfigQuery.data.filter((slot) => slot.isActive);
+
     startTransition(() => {
-      if (slotsConfigQuery.isLoading || slotsConfigQuery.isError || !slotsConfigQuery.data) {
-        return;
-      }
       log('3. handleSelectAll', 'magenta', { ID: 3 });
-      slotsConfigQuery.data
-        .filter((slot) => slot.isActive)
-        .forEach((config) =>
-          toggleMainPageSlot({
-            slotType: config.slotType,
-            slotNumber: config.slotNumber,
-            isChecked: true,
-            status: 'idle',
-          }),
-        );
+
+      for (const slot of activeSlots) {
+        log(`SLOT_${slot.slotNumber}`, 'grey', slot);
+        // toggleMainPageSlot({
+        //   slotType: slot.slotType,
+        //   slotNumber: slot.slotNumber,
+        //   isChecked: true,
+        //   status: 'idle',
+        // });
+      }
+
+      // activeSlots.forEach((config) =>
+      //   toggleMainPageSlot({
+      //     slotType: config.slotType,
+      //     slotNumber: config.slotNumber,
+      //     isChecked: true,
+      //     status: 'idle',
+      //   }),
+      // );
     });
   }, [slotsConfigQuery.isLoading, slotsConfigQuery.isSuccess, slotsConfigQuery.data]);
 
@@ -130,7 +140,7 @@ export const useMainPageOperations = () => {
     }
 
     // Load saved configuration using the hook
-    const config = loadConfig();
+    const config = loadRecallConfig();
     if (!config) {
       console.error('No saved configuration found');
       return;
@@ -183,15 +193,15 @@ export const useMainPageOperations = () => {
     addTimer,
     orderItemsConfig,
     setSelectedSlots,
-    loadConfig,
+    loadRecallConfig,
     setFilter,
     recall,
     isRecallExpired,
   ]);
 
   return {
-    handleClearCompleted,
-    handleCancelCompleted,
+    handleResetCompleted,
+    handleCancelSelected,
     handleSelectAll,
     handleRepeatSelection,
     isPending,

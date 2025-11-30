@@ -44,7 +44,7 @@ export interface OrderBaseProps {
 export type OrderStatus = 'idle' | 'processing' | 'completed' | 'error' | 'pending';
 
 // The complete order type combining selection fields and base properties
-export interface SlotItem {
+export interface SelectedSlotItem {
   id: string; // Unique order ID from backend
   slotNumber: number;
   slotType: SlotType;

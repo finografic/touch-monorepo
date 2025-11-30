@@ -12,7 +12,7 @@ import { useTimers } from 'providers/TimersProvider/TimersContext';
 
 import type { OrderFilters } from 'types/filters.types';
 import { FLOW_TYPES } from 'types/flow.types';
-import { PATHS } from 'config';
+import { PATHS } from 'config/routes';
 import { MOCK_ORDERS_DATA } from './mock-orders.data';
 import { generateSmartMockSlots } from './mock-orders.utils';
 import { ListChecksIcon } from 'styles/icons';

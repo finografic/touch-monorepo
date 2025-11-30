@@ -1,14 +1,13 @@
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useLocation } from 'react-router-dom';
 
 import { useButtonOperations } from 'hooks/button-operations';
 import { useButtonNavigation } from 'hooks/useButtonNavigation';
-import { useRouteHandler } from 'hooks/useRouteHandler';
 import { useRouteMatching } from 'routes/hooks/useRouteMatching';
+import { useTimePageStore } from 'pages/TimePage/useTimePageStore';
 
 import { BUTTON_TYPE, type ButtonType, type PadActionProps } from 'types/button.types';
-import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config';
+import { ALTERNATIVE_PATHS, ROUTES_CONFIG } from 'config/routes';
 import { ALTERNATIVE_ROUTE_BUTTON_CONFIG, BUTTON_CONFIGS } from 'config/ui';
 
 interface UseButtonConfigReturn {
@@ -18,7 +17,6 @@ interface UseButtonConfigReturn {
 }
 
 export const useButtonConfig = (): UseButtonConfigReturn => {
-  const location = useLocation();
   const { matchRoute, currentPathname } = useRouteMatching();
   const { t } = useTranslation();
 
@@ -27,23 +25,22 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     useButtonNavigation();
 
   const {
-    handleClearCompleted,
-    handleCancelCompleted,
+    handleCancelSelected,
+    handleResetCompleted,
     handleSelectAll,
     handleProgramTime,
     handleProgramProduct,
     handleRepeatSelection,
     handleCancelTimeSession,
     handleCancelProductSession,
+    handleStartTimeProcess,
     handleStartProductProcess,
-    handleFinishProductProcess,
     getOperationDisabled,
     getOperationLoading,
-    // isOperationPending,
   } = useButtonOperations();
 
-  // Use route-specific handler
-  const { getStartHandler } = useRouteHandler();
+  // Get time from Zustand store for TimePage
+  const timeSeconds = useTimePageStore((state) => state.timeSeconds);
 
   const routeConfig = useMemo(() => {
     // Check if we're on an alternative route (like TimePage)
@@ -59,31 +56,39 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
   const executeAction = useCallback(
     (actionType: string) => {
       switch (actionType) {
+        // navigation buttons
         case BUTTON_TYPE.NAVIGATE_BACK:
           return handleNavigateBack();
         case BUTTON_TYPE.NAVIGATE_NEXT:
           return handleNavigateNext();
-        case BUTTON_TYPE.CLEAR_COMPLETED:
-          return handleClearCompleted();
+
+        // MainPage - bottom buttons
         case BUTTON_TYPE.CANCEL_SELECTED:
-          return handleCancelCompleted();
-        case BUTTON_TYPE.SELECT_ALL:
+          return handleCancelSelected();
+        case BUTTON_TYPE.RESET_COMPLETED:
+          return handleResetCompleted();
+        case BUTTON_TYPE.SELECT_ALL_SLOTS:
           return handleSelectAll();
-        case BUTTON_TYPE.START_PROCESS:
-          // Use route-specific handler
-          return getStartHandler()();
-        case BUTTON_TYPE.FINISH_PRODUCT_PROCESS:
-          return handleFinishProductProcess();
+
+        // MainPage - right buttons (large)
         case BUTTON_TYPE.PROGRAM_TIME:
           return handleProgramTime();
         case BUTTON_TYPE.PROGRAM_PRODUCT:
           return handleProgramProduct();
         case BUTTON_TYPE.REPEAT_SELECTION:
           return handleRepeatSelection();
+
+        // in-flow buttons
         case BUTTON_TYPE.CANCEL_TIME_SESSION:
           return handleCancelTimeSession();
         case BUTTON_TYPE.CANCEL_PRODUCT_SESSION:
           return handleCancelProductSession();
+
+        case BUTTON_TYPE.START_TIME_PROCESS:
+          return handleStartTimeProcess(timeSeconds);
+        case BUTTON_TYPE.START_PRODUCT_PROCESS:
+          return handleStartProductProcess();
+
         default:
           console.warn(`Unknown action type: ${actionType}`);
       }
@@ -91,11 +96,12 @@ export const useButtonConfig = (): UseButtonConfigReturn => {
     [
       handleNavigateBack,
       handleNavigateNext,
-      handleClearCompleted,
-      handleCancelCompleted,
+      handleResetCompleted,
+      handleCancelSelected,
       handleSelectAll,
-      getStartHandler,
-      handleFinishProductProcess,
+      timeSeconds,
+      handleStartTimeProcess,
+      handleStartProductProcess,
       handleProgramTime,
       handleProgramProduct,
       handleRepeatSelection,

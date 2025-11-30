@@ -4,13 +4,12 @@ import { subscribeWithSelector } from 'zustand/middleware';
 import { useShallow } from 'zustand/react/shallow';
 
 import { findOrderByNumber } from 'utils/context.utils';
-import type { SlotItemConfig } from 'utils/slot-config.utils';
 import { createSetters, createZustandContext } from 'utils/zustand';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { FilterKey, SlotType } from 'types/slots.types';
-import { INITIAL_SLOT_ITEM, ORDER_FIELD_KEYS, SLOT_ITEMS_CONFIG } from 'config/app';
+import { INITIAL_SLOT_ITEM, ORDER_FIELD_KEYS } from 'config/app';
 import type { OrdersStore, OrdersValues } from './OrdersContext.types';
 
 export const DISPLAY_NAME = 'Orders';
@@ -128,19 +127,6 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
 
               set({ orders: updatedOrders });
             }
-          },
-          selectAllOrders: (config: SlotItemConfig[] = SLOT_ITEMS_CONFIG) => {
-            const newOrders = config.map(({ slotType, slotNumber }) => ({
-              ...INITIAL_SLOT_ITEM,
-              id:
-                typeof crypto !== 'undefined' && crypto.randomUUID
-                  ? crypto.randomUUID()
-                  : `order-${slotNumber}`,
-              slotType,
-              slotNumber,
-              isSelected: true,
-            }));
-            set({ orders: newOrders });
           },
           setOrdersSession: ({
             slotNumbers,

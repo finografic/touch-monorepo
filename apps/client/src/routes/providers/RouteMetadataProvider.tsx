@@ -9,7 +9,7 @@ import { routes } from 'routes/routes';
 import { flatttenChildren } from 'routes/utils/routes.utils.flatten';
 import { withRouteMetadata } from 'routes/utils/withRouteMetadata';
 
-import { ROUTES_CONFIG } from 'config';
+import { ROUTES_CONFIG } from 'config/routes';
 import { RouteMetadataContext } from './RouteMetadataContext';
 
 interface RouteMetadataProviderProps {

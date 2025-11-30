@@ -9,8 +9,8 @@ import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useCurrentFlowStep, useRouteNavigation } from 'routes/hooks/useRouteNavigation';
 
 import type { TemperatureFilter } from 'types/temperature.types';
-import { BUTTON_TYPE, type ButtonType } from 'types/button.types';
-import { ALTERNATIVE_PATHS, PATHS } from 'config';
+import { BUTTON_TYPE } from 'types/button.types';
+import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 
 type NavigationActionType = typeof BUTTON_TYPE.NAVIGATE_BACK | typeof BUTTON_TYPE.NAVIGATE_NEXT;
 

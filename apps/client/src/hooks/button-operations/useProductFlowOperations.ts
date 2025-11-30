@@ -15,7 +15,7 @@ import { useTimers } from 'providers/TimersProvider';
 
 import { FLOW_TYPES } from 'types/flow.types';
 import { SlotType } from 'types/slots.types';
-import { PATHS } from 'config';
+import { PATHS } from 'config/routes';
 import { filterSlotsAvailable } from './timer-filter.utils';
 
 /**
@@ -38,7 +38,7 @@ export const useProductFlowOperations = () => {
   const { setFilter, clearFilters, filters } = useFiltersContext();
   const { dataFiltered } = useFilters();
   const orderItemsConfig = useSlotItemsConfig();
-  const { saveConfig } = useRecallConfig();
+  const { saveRecallConfig } = useRecallConfig();
 
   // Temperature control loading state
   const [isTemperatureLoading, setIsTemperatureLoading] = useState(false);
@@ -138,7 +138,7 @@ export const useProductFlowOperations = () => {
 
         // Save configuration to sessionStorage so hasActiveTimer works
         // Force reset timer for Program Product flow (always overwrite/reset)
-        saveConfig(
+        saveRecallConfig(
           {
             filters: filters, // Save all current filters (mode, drinkType, drinkSubtype, drinkVolume, containerType, temperature with profiles)
             temperatures: {
@@ -188,7 +188,7 @@ export const useProductFlowOperations = () => {
     completeSession,
     setPageCurrent,
     navigate,
-    saveConfig,
+    saveRecallConfig,
     filters,
   ]);
 
@@ -277,18 +277,10 @@ export const useProductFlowOperations = () => {
   ]);
 
   // ========================================================================
-  // START PRODUCT PROCESS (DrinkType page)
-  // ========================================================================
-
-  const handleStartProductProcess = useCallback(() => {
-    startTemperatureControl();
-  }, [startTemperatureControl]);
-
-  // ========================================================================
   // FINISH PRODUCT PROCESS (Temperature page START button)
   // ========================================================================
 
-  const handleFinishProductProcess = useCallback(() => {
+  const handleStartProductProcess = useCallback(() => {
     console.log('🎯 FINISH: Starting finish product process...');
     startTemperatureControl();
   }, [startTemperatureControl]);
@@ -340,7 +332,6 @@ export const useProductFlowOperations = () => {
   return {
     handleProgramProduct,
     handleStartProductProcess,
-    handleFinishProductProcess,
     handleCancelProductSession,
     isTemperatureLoading,
     isPending,

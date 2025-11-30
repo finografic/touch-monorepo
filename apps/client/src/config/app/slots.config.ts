@@ -1,11 +1,12 @@
-import { getSlotsConfig, type SlotItemConfig } from 'utils/slot-config.utils';
-import { type SlotItem, SlotType } from 'types/slots.types';
+import { type SelectedSlotItem, SlotType } from 'types/slots.types';
+import type { SlotItem } from 'types/slot-config.types';
 
-export type { SlotItemConfig } from 'utils/slot-config.utils';
+export const NUM_ROWS_DEFAULT = 3; // Always 3 rows
+export const NUM_RELAYS = 16; // Always 16 total slots
+export const MIN_COLUMNS = 2;
+export const MAX_COLUMNS = 4;
 
-export const SLOT_ITEMS_CONFIG: SlotItemConfig[] = getSlotsConfig();
-
-export const INITIAL_SLOT_ITEM: SlotItem = {
+export const INITIAL_SLOT_ITEM: SelectedSlotItem = {
   id: '',
   slotType: SlotType.A,
   slotNumber: 0,
@@ -14,7 +15,7 @@ export const INITIAL_SLOT_ITEM: SlotItem = {
   session: undefined,
 };
 
-export const DEFAULT_SLOTS_CONFIG: SlotItemConfig[] = [
+export const DEFAULT_SLOTS_CONFIG: SlotItem[] = [
   { slotType: SlotType.A, slotNumber: 1 },
   { slotType: SlotType.B, slotNumber: 2 },
   { slotType: SlotType.B, slotNumber: 3 },

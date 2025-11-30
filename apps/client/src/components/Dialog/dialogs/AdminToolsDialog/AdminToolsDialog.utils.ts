@@ -1,10 +1,11 @@
+import type { OrderReadableModel } from 'types/models/order-readable.model';
 import type { Calculation, OrderWithMetadata } from './AdminToolsDialog.types';
 
-export const cleanOrderData = (orders: OrderWithMetadata[]) => {
+export const cleanOrderData = (orders: OrderWithMetadata[]): OrderReadableModel | null => {
   if (!orders?.[0]) return null;
   // @ts-ignore - isSelected and process may not exist on all order types
   const { id, hasSubtypes, isActive, isSelected, process, ...cleanOrder } = orders[0];
-  return cleanOrder;
+  return cleanOrder as OrderReadableModel;
 };
 
 export const cleanCalculationData = (calculation: Calculation | null) => {

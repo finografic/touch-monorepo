@@ -33,16 +33,3 @@ export const useTimePageStore = create<TimePageState>((set) => ({
     set({ timeSeconds: DEFAULT_TIME });
   },
 }));
-
-// ⚠️ DEPRECATED: Legacy API for backward compatibility
-// TODO: Migrate all usages to useTimePageStore hook
-export const timePageState = {
-  getTime: () => {
-    console.warn('⚠️ timePageState.getTime() is deprecated. Use useTimePageStore() hook instead.');
-    return useTimePageStore.getState().timeSeconds;
-  },
-  setTime: (seconds: number) => {
-    console.warn('⚠️ timePageState.setTime() is deprecated. Use useTimePageStore() hook instead.');
-    useTimePageStore.getState().setTime(seconds);
-  },
-};

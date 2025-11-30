@@ -10,17 +10,18 @@ import { Button } from 'components/Button';
 import { useGetRelayStatus } from 'queries/relays';
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 
-import { getSlotColor } from 'utils/slots.utils';
 import type { SelectOption } from 'types/models/select-option.model';
 import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
 import type { SlotType } from 'types/slots.types';
 import { SlotSpecial } from 'types/slots.types';
-import { NUM_RELAYS } from '../relays.config';
+
 import { AdminSlotTimer } from './AdminSlotTimer';
 import { RelaySelectWithButton } from './RelaySelectWithButton';
 import { useColors } from 'styles';
 import { RadioIcon } from 'styles/icons';
 import { styles } from './RelayAssign.styles';
+import { NUM_RELAYS } from 'config/app/slots.config';
+import { getSlotColor } from 'utils/slots.utils';
 
 interface RelayAssignProps {
   configurations: RelayConfig[];

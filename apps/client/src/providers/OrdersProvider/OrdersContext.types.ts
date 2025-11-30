@@ -1,15 +1,14 @@
 import type { ReactNode } from 'react';
 
-import type { SlotItemConfig } from 'utils/slot-config.utils';
 import type { CreateSettersType } from 'utils/zustand';
 import type { OrderFilters } from 'types/filters.types';
 import type { FlowTypeValue } from 'types/flow.types';
 import type { OrderReadableModel } from 'types/models/order-readable.model';
-import type { SlotItem, SlotType } from 'types/slots.types';
+import type { SelectedSlotItem, SlotType } from 'types/slots.types';
 import type { OrdersKeys, SETTER_PREFIX } from './OrdersContext';
 
 export interface OrdersValues {
-  [OrdersKeys.orders]: SlotItem[];
+  [OrdersKeys.orders]: SelectedSlotItem[];
   [OrdersKeys.profile]: OrderReadableModel | null;
   [OrdersKeys.ordersReadable]: OrderReadableModel[];
   [OrdersKeys.filters]: OrderFilters;
@@ -28,7 +27,6 @@ export type OrdersActions = OrdersSetters & {
   // setOrderFilters: (filters: OrderFilters) => void;
   setOrdersFilter: ({ slotNumber, filter }: { slotNumber: number; filter: Partial<OrderFilters> }) => void;
   toggleSlot: ({ slotType, slotNumber }: { slotType: SlotType; slotNumber: number }) => void;
-  selectAllOrders: (config?: SlotItemConfig[]) => void;
   setOrdersSession: ({
     slotNumbers,
     session,

@@ -4,7 +4,7 @@ import cloneDeep from 'lodash/cloneDeep';
 
 import type { RouteConfig } from 'routes/routes.types';
 
-import { ROUTE_ACTION_SLUGS } from 'config';
+import { ROUTE_ACTION_SLUGS } from 'config/routes';
 
 export const generatePathname = (path: string | undefined, parentPath: string = ''): string => {
   if (!path) return parentPath || '/';

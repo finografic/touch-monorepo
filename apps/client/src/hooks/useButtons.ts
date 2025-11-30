@@ -12,36 +12,39 @@ export const useButtons = () => {
   const { handleNavigateBack, handleNavigateNext, isNavigationPending } = useButtonNavigation();
 
   const {
-    handleClearCompleted,
-    handleCancelCompleted,
+    handleResetCompleted,
+    handleCancelSelected,
     handleSelectAll,
-    handleStartProductProcess,
     handleProgramTime,
     handleProgramProduct,
     handleRepeatSelection,
   } = useButtonOperations();
 
   // Unified button click handler
-  const handleButtonClick = (actionType: string) => {
+  const handleButtonClick = (actionType: string, args?: any) => {
     switch (actionType) {
+      // navigation buttons
       case BUTTON_TYPE.NAVIGATE_BACK:
         return handleNavigateBack();
       case BUTTON_TYPE.NAVIGATE_NEXT:
         return handleNavigateNext();
-      case BUTTON_TYPE.PROGRAM_PRODUCT:
-        return handleProgramProduct();
-      case BUTTON_TYPE.CLEAR_COMPLETED:
-        return handleClearCompleted();
+
+      // MainPage - bottom buttons (small)
       case BUTTON_TYPE.CANCEL_SELECTED:
-        return handleCancelCompleted();
-      case BUTTON_TYPE.SELECT_ALL:
+        return handleCancelSelected();
+      case BUTTON_TYPE.RESET_COMPLETED:
+        return handleResetCompleted();
+      case BUTTON_TYPE.SELECT_ALL_SLOTS:
         return handleSelectAll();
-      case BUTTON_TYPE.START_PROCESS:
-        return handleStartProductProcess();
+
+      // MainPage - right buttons (large)
       case BUTTON_TYPE.PROGRAM_TIME:
         return handleProgramTime();
+      case BUTTON_TYPE.PROGRAM_PRODUCT:
+        return handleProgramProduct();
       case BUTTON_TYPE.REPEAT_SELECTION:
         return handleRepeatSelection();
+
       default:
         console.warn(`Unknown action type: ${actionType}`);
     }
@@ -62,10 +65,9 @@ export const useButtons = () => {
     handleNavigateBack,
     handleNavigateNext,
     handleProgramProduct,
-    handleClearCompleted,
-    handleCancelCompleted,
+    handleResetCompleted,
+    handleCancelSelected,
     handleSelectAll,
-    handleStartProductProcess,
     handleProgramTime,
     handleRepeatSelection,
   };

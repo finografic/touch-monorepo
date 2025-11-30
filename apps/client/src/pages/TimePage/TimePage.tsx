@@ -3,8 +3,8 @@ import { useCallback, useEffect } from 'react';
 import { Box, Flex } from '@radix-ui/themes';
 import { PadNumeric } from 'components/Pads/PadNumeric';
 
-import { useTimePageStore } from 'utils/timePageState';
-import { TIME_DEFAULT_SECONDS, TIME_MAX_SECONDS } from 'config/app';
+import { useTimePageStore } from './useTimePageStore';
+import { TIME_MAX_SECONDS } from 'config/app';
 
 export const TimePage = () => {
   // ✅ Use proper Zustand store instead of local state

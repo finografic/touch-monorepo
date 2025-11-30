@@ -12,9 +12,6 @@
  * - Static data: 15min cache
  */
 
-// Development mode - always fetch fresh data
-const IS_DEVELOPMENT = import.meta.env.MODE === 'development';
-
 // Development override config
 export const DEV_QUERY_CONFIG = {
   staleTime: 0, // Always stale
@@ -24,21 +21,22 @@ export const DEV_QUERY_CONFIG = {
   refetchOnReconnect: true,
 } as const;
 
+// Admin data (changes more frequently, shorter cache)
+export const ADMIN_DATA_QUERY_CONFIG =
+  import.meta.env.MODE === 'development'
+    ? DEV_QUERY_CONFIG // In dev: always fresh
+    : {
+        staleTime: 30 * 1000, // 30 seconds in production
+        gcTime: 2 * 60 * 1000, // 2 minutes
+        refetchOnMount: true,
+        refetchOnWindowFocus: false, // Less aggressive in production
+      };
+
 // User-facing data (can be cached longer)
 export const USER_DATA_QUERY_CONFIG = {
   staleTime: 5 * 60 * 1000, // 5 minutes
   gcTime: 10 * 60 * 1000, // 10 minutes
 } as const;
-
-// Admin data (changes more frequently, shorter cache)
-export const ADMIN_DATA_QUERY_CONFIG = IS_DEVELOPMENT
-  ? DEV_QUERY_CONFIG // In dev: always fresh
-  : {
-      staleTime: 30 * 1000, // 30 seconds in production
-      gcTime: 2 * 60 * 1000, // 2 minutes
-      refetchOnMount: true,
-      refetchOnWindowFocus: false, // Less aggressive in production
-    };
 
 // Static/reference data (rarely changes, can cache longer)
 export const STATIC_DATA_QUERY_CONFIG = {

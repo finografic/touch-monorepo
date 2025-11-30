@@ -9,7 +9,7 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 import type { SlotType } from 'types/slots.types';
 import { AdminPageLayout, AdminSection } from '../..';
-import { NUM_RELAYS } from './relays.config';
+import { NUM_RELAYS } from 'config/app/slots.config';
 import { RelaysStatus } from './RelaysStatus';
 import { useRelayHandlers } from './useRelayHandlers';
 import { styles } from './AdminRelaysPage.styles';

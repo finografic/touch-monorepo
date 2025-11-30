@@ -1,7 +1,7 @@
 import type { RouteConfig } from 'routes/routes.types';
 
 import type { LocationWithState } from 'types/location.types';
-import { ROUTES_CONFIG } from 'config';
+import { ROUTES_CONFIG } from 'config/routes';
 
 // FROM-LOCATION + DEFAULT ROUTE SETTING ================================== //
 

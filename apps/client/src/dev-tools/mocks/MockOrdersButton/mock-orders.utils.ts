@@ -1,5 +1,5 @@
 import type { SlotMeta } from 'pages/MainPage/MainPage.types';
-import type { SlotItemConfig } from 'utils/slot-config.utils';
+import type { SlotItem } from 'apps/client/src/utils/slots.utils';
 
 import { SlotType } from 'types/slots.types';
 import { MOCK_SELECTED_SLOTS_TEMPLATE } from 'dev-tools/mocks/MockOrdersButton/mock-orders.data';
@@ -12,7 +12,7 @@ import { MOCK_SELECTED_SLOTS_TEMPLATE } from 'dev-tools/mocks/MockOrdersButton/m
  * - Tries to match slotType when possible, falls back to any available slot
  */
 export function generateSmartMockSlots(
-  orderItemsConfig: SlotItemConfig[],
+  orderItemsConfig: SlotItem[],
   timersSlotNumbers: number[],
   userSelectedSlots: SlotMeta[],
   activeSlotNumbers?: number[],

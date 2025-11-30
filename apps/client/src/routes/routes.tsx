@@ -25,7 +25,7 @@ import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
 
 import { ProtectedRoutesByRole } from 'routes/auth/ProtectedRoutesByRole';
 
-import { ALTERNATIVE_PATHS, PATHS } from 'config';
+import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
 
 export const routes: RouteObject[] = [

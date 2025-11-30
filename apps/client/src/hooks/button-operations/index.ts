@@ -19,8 +19,8 @@ import { useTimeFlowOperations } from './useTimeFlowOperations';
 
 interface UseButtonOperationsReturn {
   // MainPage operations
-  handleClearCompleted: () => void;
-  handleCancelCompleted: () => void;
+  handleResetCompleted: () => void;
+  handleCancelSelected: () => void;
   handleSelectAll: () => void;
   handleRepeatSelection: () => void;
 
@@ -32,7 +32,6 @@ interface UseButtonOperationsReturn {
   // Product flow operations
   handleProgramProduct: () => void;
   handleStartProductProcess: () => void;
-  handleFinishProductProcess: () => void;
   handleCancelProductSession: () => void;
 
   // State queries
@@ -63,8 +62,8 @@ interface UseButtonOperationsReturn {
 export const useButtonOperations = (): UseButtonOperationsReturn => {
   // Flow-specific hooks
   const {
-    handleClearCompleted,
-    handleCancelCompleted,
+    handleResetCompleted,
+    handleCancelSelected,
     handleSelectAll,
     handleRepeatSelection,
     isPending: isMainPagePending,
@@ -80,7 +79,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
   const {
     handleProgramProduct,
     handleStartProductProcess,
-    handleFinishProductProcess,
     handleCancelProductSession,
     isPending: isProductFlowPending,
     isTemperatureLoading,
@@ -96,8 +94,8 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
 
   return {
     // MainPage operations
-    handleClearCompleted,
-    handleCancelCompleted,
+    handleResetCompleted,
+    handleCancelSelected,
     handleSelectAll,
     handleRepeatSelection,
 
@@ -109,7 +107,6 @@ export const useButtonOperations = (): UseButtonOperationsReturn => {
     // Product flow operations
     handleProgramProduct,
     handleStartProductProcess,
-    handleFinishProductProcess,
     handleCancelProductSession,
 
     // State queries
