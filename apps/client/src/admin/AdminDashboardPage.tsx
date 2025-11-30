@@ -9,9 +9,7 @@ import { usePageTransition } from 'hooks/usePageTransition';
 import { useAppConfig } from 'providers/AppConfigProvider';
 import { useAuth } from 'providers/AuthProvider';
 
-import { getAdminDashboard } from 'utils/i18n/i18n-inlang.messages';
-// import { getMessageTexts } from 'utils/i18n/i18n-inlang.V2.utils';
-import { getMessageTexts } from 'utils/i18n/i18n-inlang.AI.5.utils';
+import { getMessageTexts } from 'utils/i18n/i18n-inlang.AI.utils';
 import { getCalloutText } from '../utils/i18n/i18n-inlang.utils';
 import { AdminPageLayout } from '.';
 import { styles } from './AdminDashboardPage.styles';
@@ -33,12 +31,10 @@ export const AdminDashboardPage: React.FC = () => {
   const role = user?.role === 'admin' ? 'admin' : 'public';
 
   // NEW: 🈂️ inlang/paraglide i18n translations
-  // const admin_dashboard = getAdminDashboard({ role });
   const admin_dashboard = getMessageTexts(['admin', 'dashboard'], {
     elements: ['title', 'description'],
     role,
   });
-  // const admin_dashboard = getMessageTexts('dashboard', ['title', 'description'], role);
 
   const adminCards = useMemo(() => {
     return getAdminDashboardCards(isAuthenticated, role).map((card) => {

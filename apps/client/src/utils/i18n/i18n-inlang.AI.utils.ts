@@ -1,4 +1,5 @@
 import type { AuthRoles } from 'admin/config/admin.routes.map';
+import { snakeCase } from 'change-case';
 import { m } from 'i18n/messages';
 
 type MessageParams = Record<string, unknown>;
@@ -16,10 +17,11 @@ export function getMessageTexts<
 ): Record<Elements[number], string> {
   const { elements, role, ...params } = options;
 
-  const base = segments.join('_');
+  const base = segments.map((s) => snakeCase(s)).join('_');
   const result: Record<string, string> = {};
 
-  for (const element of elements) {
+  for (const e of elements) {
+    const element = snakeCase(e);
     const candidates = [
       role ? `${base}_${element}_${role}` : undefined, //  1. New preferred convention:  role last
       role ? `${base}_${role}_${element}` : undefined, //  2. Older legacy convention: role before element
