@@ -7,8 +7,9 @@ import clsx from 'clsx';
 import { SelectCustom } from 'forms/SelectCustom';
 import { Button } from 'components/Button';
 
-import { useGetRelayStatus } from 'queries/relays';
+import { useGetRelayStatus, useToggleRelay } from 'queries/relays';
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
+import { useTimers } from 'providers/TimersProvider';
 
 import type { SelectOption } from 'types/models/select-option.model';
 import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
@@ -33,6 +34,9 @@ interface RelayAssignProps {
 // Map: rowNumber (1-16) -> selectedValue (1-16 | undefined)
 type Assignments = Record<number, number | undefined>;
 
+// Test duration constant (5 seconds)
+const RELAY_TEST_DURATION_MS = 5000;
+
 export const RelayAssign: React.FC<RelayAssignProps> = ({
   configurations,
   onRelayToggle,
@@ -40,6 +44,8 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   isForceTestEnabled = false,
 }) => {
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
+  const toggleRelayMutation = useToggleRelay();
+  const { timers } = useTimers();
 
   // Get connection status to determine if test buttons should be enabled
   const { data: relayStatus } = useGetRelayStatus();
@@ -47,6 +53,11 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 
   // Test buttons are enabled if: connected OR isForceTestEnabled is true
   const canTest = isConnected || isForceTestEnabled;
+
+  // Track which relays are currently in test mode (turned ON by test button)
+  const [testingRelays, setTestingRelays] = useState<Set<number>>(new Set());
+  // Track timeout refs to clean up on unmount
+  const testTimeoutsRef = useRef<Map<number, NodeJS.Timeout>>(new Map());
 
   const relayConfigurations = useMemo(() => {
     return configurations
@@ -196,12 +207,88 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     [onRelayToggle, relayConfigurations],
   );
 
-  const handleClickTest = (relayNumber: number | null) => {
-    if (!relayNumber) return;
-    handleSlotClick(relayNumber);
+  // Check if a slot has an active timer (processing status)
+  const hasActiveTimer = useCallback(
+    (slotNumber: number): boolean => {
+      return timers.some((timer) => timer.slotNumber === slotNumber && timer.status === 'processing');
+    },
+    [timers],
+  );
 
-    log('[RELAY TEST]:', 'lime', relayNumber);
-  };
+  // Check if a relay is controlled by an active timer
+  const isRelayControlledByTimer = useCallback(
+    (relayNumber: number | null, slotNumber: number): boolean => {
+      if (!relayNumber) return false;
+      // Check if this slot has an active timer
+      return hasActiveTimer(slotNumber);
+    },
+    [hasActiveTimer],
+  );
+
+  // Clean up timeouts on unmount
+  useEffect(() => {
+    return () => {
+      testTimeoutsRef.current.forEach((timeout) => clearTimeout(timeout));
+      testTimeoutsRef.current.clear();
+    };
+  }, []);
+
+  const handleClickTest = useCallback(
+    (relayNumber: number | null, slotNumber: number) => {
+      if (!relayNumber) return;
+
+      // Don't allow test if relay is controlled by an active timer
+      if (isRelayControlledByTimer(relayNumber, slotNumber)) {
+        // Test blocked - relay is controlled by active timer
+        return;
+      }
+
+      // Don't allow test if already testing
+      if (testingRelays.has(relayNumber)) {
+        return;
+      }
+
+      // Turn relay ON
+      toggleRelayMutation.mutate(
+        {
+          slotNumber: relayNumber,
+          state: true,
+        },
+        {
+          onSuccess: () => {
+            // Add to testing set
+            setTestingRelays((prev) => new Set(prev).add(relayNumber));
+
+            // Set timeout to turn relay OFF after 5 seconds
+            const timeout = setTimeout(() => {
+              toggleRelayMutation.mutate(
+                {
+                  slotNumber: relayNumber,
+                  state: false,
+                },
+                {
+                  onSuccess: () => {
+                    // Remove from testing set
+                    setTestingRelays((prev) => {
+                      const next = new Set(prev);
+                      next.delete(relayNumber);
+                      return next;
+                    });
+                    // Clean up timeout ref
+                    testTimeoutsRef.current.delete(relayNumber);
+                  },
+                },
+              );
+            }, RELAY_TEST_DURATION_MS);
+
+            // Store timeout ref for cleanup
+            testTimeoutsRef.current.set(relayNumber, timeout);
+          },
+        },
+      );
+    },
+    [testingRelays, toggleRelayMutation, isRelayControlledByTimer],
+  );
 
   return (
     <Box css={styles}>
@@ -211,6 +298,9 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
             {/* TODO: ORDER BY *SLOT NUMBER* */}
             {relayConfigurations.map((config) => {
               const configuredSlotType = slotTypeMap.get(config.slotNumber) || config.slotType;
+
+              const isActive1 = !canTest || isRelayControlledByTimer(config.relayNumber, config.slotNumber);
+              const isActive2 = config.isOn || testingRelays.has(config.relayNumber ?? 0);
 
               return (
                 <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
@@ -252,12 +342,18 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                         <Flex>
                           {assignments[config.slotNumber] ? (
                             <Button
-                              className="button-relay-test"
-                              onClick={() => handleClickTest(config.relayNumber)}
+                              className={clsx('button-relay-test', {
+                                // active: testingRelays.has(config.relayNumber ?? 0),
+                                active:
+                                  !canTest || isRelayControlledByTimer(config.relayNumber, config.slotNumber),
+                              })}
+                              onClick={() => handleClickTest(config.relayNumber, config.slotNumber)}
                               variant="solid"
                               color="info"
                               size="sm"
-                              disabled={!canTest}
+                              // disabled={
+                              //   !canTest || isRelayControlledByTimer(config.relayNumber, config.slotNumber)
+                              // }
                             >
                               <RadioIcon /> test
                             </Button>
@@ -276,14 +372,18 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                         align="center"
                         gap="2"
                         ml="3"
-                        className={`relay-status ${config.isOn ? 'status-on' : 'status-off'}`}
+                        className={clsx('relay-status', {
+                          active: config.isOn || testingRelays.has(config.relayNumber ?? 0),
+                        })}
                       >
                         {assignments[config.slotNumber] ? (
                           <>
                             <Flex className="relay-status-indicator">{assignments[config.slotNumber]}</Flex>
                             <Flex justify="end">Relay</Flex>
                             <Flex justify="center">{assignments[config.slotNumber]}:</Flex>
-                            <Flex>{config.isOn ? 'ON' : 'OFF'}</Flex>
+                            <Flex>
+                              {config.isOn || testingRelays.has(config.relayNumber ?? 0) ? 'ON' : 'OFF'}
+                            </Flex>
                           </>
                         ) : (
                           <>

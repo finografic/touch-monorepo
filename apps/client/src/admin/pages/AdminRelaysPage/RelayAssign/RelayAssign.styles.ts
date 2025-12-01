@@ -105,6 +105,10 @@ export const styles = css`
 
       ${getVariantStyles('solid', 'grey')}
 
+      &.active {
+        ${getVariantStyles('solid', 'success')}
+      }
+
       .button-text {
         font-size: 1.1rem;
         font-weight: 600;
@@ -136,6 +140,10 @@ export const styles = css`
     flex-grow: 1;
     font-weight: 600;
     color: ${colors.greyXLight};
+
+    &.active {
+      color: ${colors.successDark};
+    }
 
     > div {
       &:nth-of-type(1) {
@@ -172,15 +180,14 @@ export const styles = css`
       color: white;
     }
 
-    &.status-on {
-      .relay-status-indicator {
-        background: ${colors.successLight};
-      }
+    .relay-status-indicator {
+      background: ${colors.greyXLight50};
     }
 
-    &.status-off {
+    &.status-on,
+    &.active {
       .relay-status-indicator {
-        background: ${colors.greyXLight50};
+        background: ${colors.success};
       }
     }
   }
