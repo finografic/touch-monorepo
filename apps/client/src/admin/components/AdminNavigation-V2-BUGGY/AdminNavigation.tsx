@@ -10,6 +10,7 @@ import { getAdminNavItems } from 'admin/config/admin.routes.selectors';
 import { usePageTransition } from 'hooks/usePageTransition';
 import { useAuth } from 'providers/AuthProvider/AuthContext';
 
+import { getMessageTexts } from 'utils/i18n/i18n-inlang.utils';
 import { MoreButton } from './MoreButton';
 import { useResponsiveNav } from './useResponsiveNav';
 import { styles } from './AdminNavigation.styles';
@@ -24,11 +25,19 @@ export const AdminNavigation: React.FC = () => {
 
   // Get navigation items from the single source of truth
   const navItems = useMemo(() => {
-    return getAdminNavItems(user?.role).map((item) => ({
-      id: item.key,
-      label: getAdminNavItemText({ key: item.key, role: user?.role }),
-      path: item.path,
-    }));
+    const configNavItems = getAdminNavItems(user?.role);
+    return [
+      ...configNavItems.map((item) => ({
+        id: item.key,
+        // label: getNavItemText(user?.role, item.key),
+        // label: getMessageTexts(['admin', item.key], ['card', 'title'], user?.role)?.title, // V3
+        // label: getMessageText(['admin', item.key], ['card', 'title'], user?.role).title, // V4
+        // label: getMessageText__V1(['admin', item.key], ['card', 'title'], user?.role)?.title, // V4
+        // label: getMessageTexts(['admin', item.key], { elements: ['card', 'title'], role: user?.role }).title,
+        label: getAdminNavItemText({ key: item.key, role: user?.role }),
+        path: item.path,
+      })),
+    ];
   }, [t, isAuthenticated, user?.role, location.pathname]);
 
   const { containerRef, registerItem, visibleItems, overflowItems, isMobile, hasOverflow } = useResponsiveNav(

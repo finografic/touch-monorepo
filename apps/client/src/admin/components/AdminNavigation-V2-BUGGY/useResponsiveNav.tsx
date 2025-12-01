@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { BREAKPOINTS } from 'styles/viewport/viewport.breakpoints';
 
 export interface NavItem {
   id: string;
@@ -11,12 +12,12 @@ export interface UseResponsiveNavProps {
   mobileBreakpoint?: 'sm' | 'md' | 'lg' | 'xl';
 }
 
-const BREAKPOINTS = {
-  sm: 576,
-  md: 768,
-  lg: 992,
-  xl: 1200,
-};
+// const BREAKPOINTS = {
+//   sm: 576,
+//   md: 768,
+//   lg: 992,
+//   xl: 1200,
+// };
 
 /**
  * Hook to manage responsive navigation with overflow menu
