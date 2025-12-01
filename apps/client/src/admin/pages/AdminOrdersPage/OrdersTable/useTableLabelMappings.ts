@@ -38,20 +38,15 @@ export const useTableLabelMappings = (language: string = 'es-ES') => {
           data?: DrinkSubtype[];
           success: boolean;
         }
-        const response = await api.get<SubtypesResponse | DrinkSubtype[]>(`/drink-types/${dt.id}/subtypes`);
+        // Fetch client returns data directly (unwraps ApiResponse)
+        const data = await api.get<SubtypesResponse | DrinkSubtype[]>(`/drink-types/${dt.id}/subtypes`);
 
-        if (response.status !== 200) {
-          throw new Error('Failed to fetch drink subtypes');
-        }
-
-        // Axios: response.data is the parsed JSON body
-        // Server returns array directly: response.data = [...]
-        // Handle both structures for safety (though server returns array)
-        if (Array.isArray(response.data)) {
-          return response.data;
+        // Handle both response formats for safety
+        if (Array.isArray(data)) {
+          return data;
         }
         // Fallback: if wrapped in object { data: [...], success: true }
-        return (response.data as SubtypesResponse)?.data || [];
+        return (data as SubtypesResponse)?.data || [];
       },
       enabled: Boolean(dt.id && dt.hasSubtypes),
     })),

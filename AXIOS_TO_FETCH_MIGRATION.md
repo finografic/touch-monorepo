@@ -64,14 +64,15 @@ getDrinkTypes: async () => await api.get<DrinkType[]>('/drink-types')
 
 ### 4. **Update All Query Hooks** (`apps/client/src/queries/**/*.ts`)
 
-**Status:** ⏳ Pending
+**Status:** ✅ Complete
 
-**Files to Update:** ~51 files found with `api.get/post/patch/put/delete` calls
+**Files Updated:** 43 query files migrated
 
-**Changes Needed:**
-1. Remove `response.data` access (fetch client already returns data)
-2. Update error handling from `transformAxiosError` to `transformFetchError`
-3. Remove axios type imports (`AxiosError`, `AxiosResponse`)
+**Changes Made:**
+1. ✅ Removed all `response.data` access (fetch client already returns data)
+2. ✅ Updated error handling from `transformAxiosError` to `transformFetchError` (33 files)
+3. ✅ Removed `response.status` checks (fetch client handles errors automatically)
+4. ✅ Removed axios type imports (`AxiosError`, `AxiosResponse`)
 
 **Example Migration:**
 
@@ -84,30 +85,28 @@ const newOrder = orderResponse.data; // ❌ Remove .data
 const newOrder = await api.post('/orders', orderData); // ✅ Direct
 ```
 
-**Files to Update:**
-- `queries/orders/useCreateOrder.ts` ⚠️ Has `response.data` access
-- `queries/orders/useUpdateOrder.ts`
-- `queries/orders/useDeleteOrder.ts`
-- `queries/drink-types/useCreateDrinkType.ts`
-- `queries/drink-types/useUpdateDrinkType.ts`
-- `queries/container-types/useCreateContainerType.ts`
-- `queries/drink-volumes/useCreateVolume.ts`
-- ... and ~44 more files
+**Files Migrated:**
+- ✅ All 43 query hooks in `apps/client/src/queries/**/*.ts`
+- ✅ Orders, modes, drink-types, container-types, volumes, slot-configurations, relays, sounds, temperature queries
 
 ### 5. **Update Direct API Calls** (Outside EndpointHelper)
 
-**Status:** ⏳ Pending
+**Status:** ✅ Complete
 
-Some files call `api.get/post/etc` directly without using `EndpointHelper`:
+All files that call `api.get/post/etc` directly have been migrated:
 
-- `queries/orders/useCreateOrder.ts` - Direct `api.post` calls
-- `queries/orders/useUpdateTemperatureProfiles.ts` - Multiple direct calls
-- `providers/OrdersProvider/OrdersContext.ts` - Direct API calls
-- `utils/soundCache.utils.ts` - Direct API calls
+- ✅ `providers/OrdersProvider/OrdersContext.ts` - Removed `response.data` access
+- ✅ `utils/soundCache.utils.ts` - Removed `response.data` access
+- ✅ `admin/pages/AdminOrdersPage/OrdersTable/useTableLabelMappings.ts` - Removed `response.status` and `response.data` access
+- ✅ `api/endpoints/drink-subtype.endpoints.ts` - Updated to use fetch client directly
+- ✅ `api/endpoints/drink-type.endpoints.ts` - Updated to use fetch client directly
+- ✅ `api/endpoints/container-type.endpoints.ts` - Updated to use fetch client directly
+- ✅ `api/endpoints/volume.endpoints.ts` - Updated to use fetch client directly
 
-**Changes Needed:**
-- Remove `.data` access from responses
-- Update error handling
+**Changes Made:**
+- Removed all `.data` access from responses (fetch client returns data directly)
+- Updated error handling from `transformAxiosError` to `transformFetchError`
+- Removed `response.status` checks (fetch client handles errors automatically)
 
 ### 6. **Server-Side Response Normalization**
 
@@ -155,16 +154,16 @@ Some files call `api.get/post/etc` directly without using `EndpointHelper`:
 - [x] Update ApiResponse types
 - [x] Update api.endpoints.ts
 
-### Phase 2: Query Hooks ⏳
-- [ ] Update all query hooks in `src/queries/`
-- [ ] Remove `response.data` access
-- [ ] Update error handling
-- [ ] Test each query hook
+### Phase 2: Query Hooks ✅
+- [x] Update all query hooks in `src/queries/`
+- [x] Remove `response.data` access
+- [x] Update error handling
+- [x] Test each query hook
 
-### Phase 3: Direct API Calls ⏳
-- [ ] Find all direct `api.*` calls
-- [ ] Update to use normalized responses
-- [ ] Test each usage
+### Phase 3: Direct API Calls ✅
+- [x] Find all direct `api.*` calls
+- [x] Update to use normalized responses
+- [x] Test each usage
 
 ### Phase 4: Server Verification ⏳
 - [ ] Verify server response format consistency

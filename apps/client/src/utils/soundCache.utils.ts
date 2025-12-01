@@ -150,8 +150,8 @@ export const getCachedSoundFiles = async (): Promise<SoundFile[]> => {
   }
 
   try {
-    const response = await api.get('/sounds');
-    cachedSoundFiles = response.data as SoundFile[];
+    // Fetch client returns data directly
+    cachedSoundFiles = await api.get<SoundFile[]>('/sounds');
     return cachedSoundFiles;
   } catch (error) {
     console.error('Error fetching sound files:', error);
@@ -386,8 +386,8 @@ export const getCachedSettings = async (): Promise<SoundSettings> => {
   }
 
   try {
-    const response = await api.get('/sounds/settings');
-    cachedSettings = response.data as SoundSettings;
+    // Fetch client returns data directly
+    cachedSettings = await api.get<SoundSettings>('/sounds/settings');
     return cachedSettings;
   } catch (error) {
     console.error('Error fetching sound settings:', error);

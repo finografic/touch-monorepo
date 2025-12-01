@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { api } from 'api';
 
@@ -31,11 +31,12 @@ export const volumeEndpoints = {
    */
   getVolumes: async (): Promise<VolumeTranslation[]> => {
     try {
-      const response = await api.get('/drink-volumes');
-      const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
-      return data.map(transformVolume);
+      // Fetch client returns data directly
+      const data = await api.get<any[]>('/drink-volumes');
+      const volumesArray = Array.isArray(data) ? data : [];
+      return volumesArray.map(transformVolume);
     } catch (error) {
-      throw transformAxiosError(error);
+      throw transformFetchError(error);
     }
   },
 
@@ -44,11 +45,11 @@ export const volumeEndpoints = {
    */
   updateVolume: async (id: string, updates: VolumeUpdate): Promise<VolumeTranslation> => {
     try {
-      const response = await api.patch(`/drink-volumes/${id}`, updates);
-      const data = response.data?.data || response.data;
+      // Fetch client returns data directly
+      const data = await api.patch<any>(`/drink-volumes/${id}`, updates);
       return transformVolume(data);
     } catch (error) {
-      throw transformAxiosError(error);
+      throw transformFetchError(error);
     }
   },
 } as const;

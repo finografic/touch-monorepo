@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { api } from 'api';
 
@@ -35,12 +35,11 @@ export const drinkSubtypeEndpoints = {
   getDrinkSubtypes: async (): Promise<DrinkSubtypeTranslation[]> => {
     try {
       // Get all drink types first, then fetch their subtypes
-      const drinkTypesResponse = await api.get('/drink-types');
-      const drinkTypesData = Array.isArray(drinkTypesResponse.data)
-        ? drinkTypesResponse.data
-        : drinkTypesResponse.data?.data || [];
+      // Fetch client returns data directly (unwraps ApiResponse)
+      const drinkTypesData = await api.get<any[]>('/drink-types');
+      const drinkTypesArray = Array.isArray(drinkTypesData) ? drinkTypesData : [];
 
-      const drinkTypes = drinkTypesData.map((dt: any) => ({
+      const drinkTypes = drinkTypesArray.map((dt: any) => ({
         id: dt.id,
         hasSubtypes: dt.hasSubtypes ?? dt.has_subtypes ?? false,
       }));
@@ -49,9 +48,10 @@ export const drinkSubtypeEndpoints = {
         .filter((dt) => dt.hasSubtypes)
         .map(async (dt) => {
           try {
-            const response = await api.get(`/drink-types/${dt.id}/subtypes`);
-            const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
-            return data.map(transformDrinkSubtype);
+            // Fetch client returns data directly
+            const data = await api.get<any[]>(`/drink-types/${dt.id}/subtypes`);
+            const subtypesArray = Array.isArray(data) ? data : [];
+            return subtypesArray.map(transformDrinkSubtype);
           } catch (error) {
             console.warn(`Failed to fetch subtypes for drink type ${dt.id}:`, error);
             return [];
@@ -61,7 +61,7 @@ export const drinkSubtypeEndpoints = {
       const subtypesResponses = await Promise.all(subtypesPromises);
       return subtypesResponses.flat();
     } catch (error) {
-      throw transformAxiosError(error);
+      throw transformFetchError(error);
     }
   },
 
@@ -79,11 +79,11 @@ export const drinkSubtypeEndpoints = {
         throw new Error('drinkTypeId is required to update drink subtypes');
       }
 
-      const response = await api.patch(`/drink-types/${drinkTypeId}/subtypes/${id}`, updates);
-      const data = response.data?.data || response.data;
+      // Fetch client returns data directly
+      const data = await api.patch<any>(`/drink-types/${drinkTypeId}/subtypes/${id}`, updates);
       return transformDrinkSubtype(data);
     } catch (error) {
-      throw transformAxiosError(error);
+      throw transformFetchError(error);
     }
   },
 } as const;

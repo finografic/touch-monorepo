@@ -44,8 +44,8 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
 
           fetchOrderWithProfiles: async (orderId: string): Promise<OrderReadableModel> => {
             try {
-              const response = await api.get(`/orders-readable/${orderId}`);
-              const fullOrder = response.data as OrderReadableModel;
+              // Fetch client returns data directly
+              const fullOrder = await api.get<OrderReadableModel>(`/orders-readable/${orderId}`);
               set({ profile: fullOrder }); // This will have temperatureProfiles + timeRows
 
               return fullOrder;
@@ -148,13 +148,13 @@ export const OrdersContext = createZustandContext(({ initialValue }) => {
           },
           fetchOrdersReadable: async () => {
             try {
-              const response = await api.get<{ data: OrderReadableModel[] }>('/orders-readable');
-              // const readableOrders = response.data.data || response.data;
-              // NEW: Ensure we always get an array, handling both response formats
-              const readableOrders = Array.isArray(response.data.data)
-                ? response.data.data
-                : Array.isArray(response.data)
-                  ? response.data
+              // Fetch client returns data directly (unwraps ApiResponse)
+              const data = await api.get<OrderReadableModel[] | { data: OrderReadableModel[] }>('/orders-readable');
+              // Handle both response formats for safety
+              const readableOrders = Array.isArray(data)
+                ? data
+                : Array.isArray((data as any)?.data)
+                  ? (data as any).data
                   : [];
               set({ ordersReadable: readableOrders });
             } catch (error) {

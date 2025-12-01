@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { api } from 'api';
 
@@ -33,11 +33,12 @@ export const containerTypeEndpoints = {
    */
   getContainerTypes: async (): Promise<ContainerTypeTranslation[]> => {
     try {
-      const response = await api.get('/container-types');
-      const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
-      return data.map(transformContainerType);
+      // Fetch client returns data directly
+      const data = await api.get<any[]>('/container-types');
+      const containerTypesArray = Array.isArray(data) ? data : [];
+      return containerTypesArray.map(transformContainerType);
     } catch (error) {
-      throw transformAxiosError(error);
+      throw transformFetchError(error);
     }
   },
 
@@ -49,11 +50,11 @@ export const containerTypeEndpoints = {
     updates: ContainerTypeUpdate,
   ): Promise<ContainerTypeTranslation> => {
     try {
-      const response = await api.patch(`/container-types/${id}`, updates);
-      const data = response.data?.data || response.data;
+      // Fetch client returns data directly
+      const data = await api.patch<any>(`/container-types/${id}`, updates);
       return transformContainerType(data);
     } catch (error) {
-      throw transformAxiosError(error);
+      throw transformFetchError(error);
     }
   },
 } as const;

@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { api } from 'api';
 
@@ -33,11 +33,12 @@ export const drinkTypeEndpoints = {
    */
   getDrinkTypes: async (): Promise<DrinkTypeTranslation[]> => {
     try {
-      const response = await api.get('/drink-types');
-      const data = Array.isArray(response.data) ? response.data : response.data?.data || [];
-      return data.map(transformDrinkType);
+      // Fetch client returns data directly
+      const data = await api.get<any[]>('/drink-types');
+      const drinkTypesArray = Array.isArray(data) ? data : [];
+      return drinkTypesArray.map(transformDrinkType);
     } catch (error) {
-      throw transformAxiosError(error);
+      throw transformFetchError(error);
     }
   },
 
@@ -46,11 +47,11 @@ export const drinkTypeEndpoints = {
    */
   updateDrinkType: async (id: string, updates: DrinkTypeUpdate): Promise<DrinkTypeTranslation> => {
     try {
-      const response = await api.patch(`/drink-types/${id}`, updates);
-      const data = response.data?.data || response.data;
+      // Fetch client returns data directly
+      const data = await api.patch<any>(`/drink-types/${id}`, updates);
       return transformDrinkType(data);
     } catch (error) {
-      throw transformAxiosError(error);
+      throw transformFetchError(error);
     }
   },
 } as const;
