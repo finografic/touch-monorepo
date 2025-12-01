@@ -115,9 +115,7 @@ All files that call `api.get/post/etc` directly have been migrated:
 **Findings:**
 1. ✅ **No axios-specific code**: No axios imports or axios-specific response crafting found in server
 2. ✅ **Server returns data directly**: All handlers use `context.json(data)` - returning data directly, NOT wrapped in `ApiResponse<T>`
-3. ✅ **Fetch client handles both formats**: The fetch client already has logic to handle both:
-   - If server returns `ApiResponse<T>` (with `data` property), it unwraps it
-   - If server returns `T` directly, it uses it as-is
+3. ✅ **Fetch client simplified**: The fetch client now directly returns the server response data (no unwrapping needed)
 
 **Server Response Format:**
 The server returns data directly (not wrapped in `ApiResponse<T>`):
@@ -127,17 +125,17 @@ return context.json(drinkTypes); // Returns DrinkType[] directly
 ```
 
 **Fetch Client Handling:**
-The fetch client automatically handles both formats:
+The fetch client directly returns the server response data:
 ```typescript
-// In fetch.ts - handles both formats
-if (response.data && typeof response.data === 'object' && 'data' in response.data) {
-  return (response.data as ApiResponse<T>).data; // Unwrap if wrapped
+// In fetch.ts - simplified to return data directly
+async get<T>(endpoint: string, config?: FetchRequestConfig): Promise<T> {
+  const response = await request<T>(endpoint, { ...config, method: 'GET' });
+  return response.data; // Server returns data directly, so we return it directly
 }
-return response.data as T; // Use directly if not wrapped
 ```
 
 **Conclusion:**
-✅ No server changes needed - the fetch client is already designed to handle direct data responses. The current implementation is correct and works with both formats.
+✅ Server returns data directly, and the fetch client returns it directly. No wrapping/unwrapping needed. This follows standard best practices and is simpler than the previous Axios-compatible approach.
 
 ### 7. **Remove Axios Dependencies**
 
@@ -159,7 +157,7 @@ return response.data as T; // Use directly if not wrapped
 
 **Note:**
 - `transformAxiosError` remains as an alias for `transformFetchError` for backward compatibility
-- Old type files (`api-V1.types.ts`, `api-V2-SGGESTION.types.ts`) exist but are not imported anywhere
+- Deprecated wrapper files (`api-V1.types.ts`, `api-V2-SGGESTION.types.ts`) have been removed
 
 ---
 
@@ -199,20 +197,20 @@ return response.data as T; // Use directly if not wrapped
 
 ### Response Normalization
 
-**The Problem:**
+**The Problem (Before Migration):**
 ```typescript
-// Inconsistent response handling
+// Inconsistent response handling with Axios
 const response = await api.get('/users');
 const user = response.data.data; // Sometimes needed
 const user2 = response.json()?.json(); // Sometimes needed
 ```
 
-**The Solution:**
+**The Solution (After Migration):**
 ```typescript
-// Always consistent
+// Always consistent with native Fetch
 const user = await api.get<User>('/users'); // Direct data
-// Server returns: { data: User, ... }
-// Client receives: User (automatically unwrapped)
+// Server returns: User (directly)
+// Client receives: User (directly, no unwrapping needed)
 ```
 
 ### Error Handling
@@ -313,6 +311,8 @@ const order = await api.post('/orders', data); // ✅ Direct
 
 - The `transformAxiosError` function is kept as an alias for backward compatibility
 - All existing error types (`ErrorResponse`, `ApplicationError`) remain unchanged
-- Server-side code should continue returning `ApiResponse<T>` format
-- The fetch client automatically unwraps `ApiResponse<T>` to return `T` directly
+- Server returns data directly (not wrapped in `ApiResponse<T>`)
+- The fetch client returns data directly (no unwrapping needed)
+- Deprecated wrapper files (`api-V1.types.ts`, `api-V2-SGGESTION.types.ts`) have been removed
+- The `ApiResponse<T>` type in `api.types.ts` is kept for documentation purposes but is not used in the current implementation
 

@@ -5,7 +5,7 @@
  * Provides consistent error handling, request/response transformation, and authentication.
  */
 
-import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
+import type { ErrorResponse } from '@workspace/core/api';
 
 // Base configuration
 const API_BASE_URL = 'http://localhost:4040/api';

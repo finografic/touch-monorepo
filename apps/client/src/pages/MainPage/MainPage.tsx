@@ -43,17 +43,19 @@ export function MainPage() {
   const { data: defaultMode, isLoading: isModeLoading } = useGetDefaultMode();
 
   // 🚀 PERFORMANCE OPTIMIZATION: Set default mode filter when loaded (only once)
-  useEffect(() => {
-    if (defaultMode && !isModeLoading && !hasInitializedMode.current) {
-      hasInitializedMode.current = true;
-
-      const modeFilter = {
-        id: defaultMode.id,
-        name: defaultMode.name,
-      };
-      setFilter('mode', modeFilter);
-    }
-  }, [defaultMode, isModeLoading, setFilter]);
+  useEffect(
+    function initializeDefaultModeFilter() {
+      if (defaultMode && !isModeLoading && !hasInitializedMode.current) {
+        hasInitializedMode.current = true;
+        const modeFilter = {
+          id: defaultMode.id,
+          name: defaultMode.name,
+        };
+        setFilter('mode', modeFilter);
+      }
+    },
+    [defaultMode, isModeLoading, setFilter],
+  );
 
   // Restore selected slots from current session when navigating back to MainPage
   // BUT: Skip restoration if we're returning from a completed flow (not a cancellation)

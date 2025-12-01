@@ -18,10 +18,7 @@ import { FiltersProvider } from 'providers/FiltersProvider';
 import { LayoutUiProvider } from 'providers/LayoutUiProvider/LayoutUiProvider';
 import { OrdersProvider } from 'providers/OrdersProvider/OrdersProvider';
 import { PaginationProvider } from 'providers/PaginationProvider/PaginationProvider';
-import { useGetSlotConfigurations } from 'queries/slot-configurations/useGetSlotConfigurations';
 
-import type { ValidGridSize } from 'types/menu.types';
-import { NUM_GRID_ITEMS } from 'config/app';
 import { DevProvider } from 'dev-tools/providers/DevProvider/DevProvider';
 import { Loader } from '../components/Loader/Loader';
 import type { EmotionTheme } from 'styles/themes/emotion-theme.types';
@@ -30,15 +27,14 @@ import { styles } from './Layout.styles';
 
 export const Layout: FC = () => {
   const { t } = useTranslation();
-  const emotionTheme = useTheme() as EmotionTheme;
-  const { data: slotConfigs } = useGetSlotConfigurations();
-
   const { theme } = useAppConfig();
-  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
+  const emotionTheme = useTheme() as EmotionTheme;
 
   useEffect(function initializeLayoutTheme() {
     document.documentElement.setAttribute('data-theme', theme);
   }, []);
+
+  setConfiguration({ breakpoints: [...BREAKPOINT_VALUES] });
 
   return (
     <OrdersProvider>
