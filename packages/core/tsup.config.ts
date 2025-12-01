@@ -12,6 +12,7 @@ export default defineConfig({
     'src/api/error.schema.ts',
     'src/api/api.utils.ts',
     'src/api/api.types.ts',
+    'src/api/fetch.utils.ts',
     // Constants files
     'src/constants/index.ts',
     'src/constants/zod-errors.ts',
