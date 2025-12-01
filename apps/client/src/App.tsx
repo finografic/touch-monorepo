@@ -66,6 +66,8 @@ const App = () => {
     },
   ]);
 
+  // Note: HydrateFallback warning is expected for client-only apps using createBrowserRouter.
+  // This is informational and doesn't affect functionality since we're not using SSR.
   return <RouterProvider router={router} />;
 };
 

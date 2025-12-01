@@ -18,6 +18,7 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import { MainPageSlotGrid } from './MainPageSlotGrid/MainPageSlotGrid';
 import type { SlotMeta } from './MainPage.types';
 import { styles } from './MainPage.styles';
+import { NUM_ROWS_DEFAULT } from 'config/app';
 
 export function MainPage() {
   const location = useLocation();
@@ -56,53 +57,56 @@ export function MainPage() {
 
   // Restore selected slots from current session when navigating back to MainPage
   // BUT: Skip restoration if we're returning from a completed flow (not a cancellation)
-  useEffect(() => {
-    // Don't restore if flow was completed (START was clicked, not CANCEL)
-    if (flowCompleted) {
-      return;
-    }
+  useEffect(
+    function restoreSelectedSlots() {
+      // Don't restore if flow was completed (START was clicked, not CANCEL)
+      if (flowCompleted) {
+        return;
+      }
 
-    if (currentSessionId && sessions[currentSessionId] && !hasRestoredSlots.current) {
-      const session = sessions[currentSessionId];
-      const sessionSlotNumbers = session.slotNumbers;
+      if (currentSessionId && sessions[currentSessionId] && !hasRestoredSlots.current) {
+        const session = sessions[currentSessionId];
+        const sessionSlotNumbers = session.slotNumbers;
 
-      // Only restore if we have slotNumbers and selectedSlots is empty or doesn't match
-      if (sessionSlotNumbers.length > 0) {
-        const currentSlotNumbers = selectedSlots.map((slot) => slot.slotNumber);
-        const slotNumbersMatch =
-          sessionSlotNumbers.every((num) => currentSlotNumbers.includes(num)) &&
-          currentSlotNumbers.length === sessionSlotNumbers.length;
+        // Only restore if we have slotNumbers and selectedSlots is empty or doesn't match
+        if (sessionSlotNumbers.length > 0) {
+          const currentSlotNumbers = selectedSlots.map((slot) => slot.slotNumber);
+          const slotNumbersMatch =
+            sessionSlotNumbers.every((num) => currentSlotNumbers.includes(num)) &&
+            currentSlotNumbers.length === sessionSlotNumbers.length;
 
-        if (!slotNumbersMatch) {
-          // Rebuild selectedSlots from session's slotNumbers
-          const restoredSlots: SlotMeta[] = sessionSlotNumbers
-            .map((slotNumber) => {
-              const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slotNumber);
-              if (orderConfig) {
-                return {
-                  slotType: orderConfig.slotType,
-                  slotNumber,
-                  isChecked: true,
-                  status: 'idle' as const,
-                };
-              }
-              return null;
-            })
-            .filter((slot): slot is NonNullable<typeof slot> => slot !== null);
+          if (!slotNumbersMatch) {
+            // Rebuild selectedSlots from session's slotNumbers
+            const restoredSlots: SlotMeta[] = sessionSlotNumbers
+              .map((slotNumber) => {
+                const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slotNumber);
+                if (orderConfig) {
+                  return {
+                    slotType: orderConfig.slotType,
+                    slotNumber,
+                    isChecked: true,
+                    status: 'idle' as const,
+                  };
+                }
+                return null;
+              })
+              .filter((slot): slot is NonNullable<typeof slot> => slot !== null);
 
-          if (restoredSlots.length > 0) {
-            setSelectedSlots(restoredSlots);
+            if (restoredSlots.length > 0) {
+              setSelectedSlots(restoredSlots);
+              hasRestoredSlots.current = true;
+            }
+          } else {
             hasRestoredSlots.current = true;
           }
-        } else {
-          hasRestoredSlots.current = true;
         }
+      } else if (!currentSessionId) {
+        // Reset the flag when there's no current session
+        hasRestoredSlots.current = false;
       }
-    } else if (!currentSessionId) {
-      // Reset the flag when there's no current session
-      hasRestoredSlots.current = false;
-    }
-  }, [currentSessionId, sessions, selectedSlots, setSelectedSlots, orderItemsConfig, flowCompleted]);
+    },
+    [currentSessionId, sessions, selectedSlots, setSelectedSlots, orderItemsConfig, flowCompleted],
+  );
 
   // 🚀 PERFORMANCE OPTIMIZATION: Use Map for O(1) timer lookups (memoized)
   const timerMap = useMemo(() => {
@@ -130,19 +134,18 @@ export function MainPage() {
     setIsNextDisabled(numSelected === 0);
   }, [numSelected, setIsNextDisabled]);
 
-  if (isLoading) {
+  if (isLoading || !slotsConfig) {
     return <Spinner size="3" />;
   }
 
   // Dynamically determine grid dimensions
-  const rows = 3; // Always 3 rows
   const totalSlots = slotsConfig.filter((slot) => slot.isActive).length;
-  const columns = Math.floor((totalSlots - 1) / rows); // Dynamic columns (2,3,4,5)
+  const columns = Math.floor((totalSlots - 1) / NUM_ROWS_DEFAULT); // Dynamic columns (2,3,4,5)
 
   return (
     <Flex css={styles} direction="column">
       <div className="main-content">
-        <MainPageSlotGrid slots={slotsConfig} columns={columns} rows={rows} />
+        <MainPageSlotGrid slots={slotsConfig} columns={columns} rows={NUM_ROWS_DEFAULT} />
 
         <div className="content-buttons">
           {contentButtons.map((buttonProps) => (

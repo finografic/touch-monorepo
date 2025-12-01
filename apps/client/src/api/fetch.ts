@@ -5,7 +5,7 @@
  * and modern web standards. Provides consistent error handling and response normalization.
  */
 
-import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
+import type { ErrorResponse } from '@workspace/core/api';
 import { ERROR_CODES, ERROR_MESSAGES } from '@workspace/core/api';
 
 // TypeScript now knows API_URL exists and is a string
@@ -56,9 +56,28 @@ function createTimeout(timeout: number): Promise<never> {
 
 /**
  * Builds URL with query parameters
+ * Handles endpoints with or without leading slashes correctly
  */
-function buildUrl(baseURL: string, endpoint: string, params?: Record<string, string | number | boolean | null | undefined>): string {
-  const url = new URL(endpoint, baseURL);
+function buildUrl(
+  baseURL: string,
+  endpoint: string,
+  params?: Record<string, string | number | boolean | null | undefined>,
+): string {
+  // Parse baseURL to get origin and pathname
+  const baseUrlObj = new URL(baseURL);
+
+  // Remove leading slash from endpoint if present (to make it relative)
+  // This ensures the baseURL's path (e.g., /api) is preserved
+  const normalizedEndpoint = endpoint.startsWith('/') ? endpoint.slice(1) : endpoint;
+
+  // Build the full pathname by combining baseURL pathname with endpoint
+  const basePath = baseUrlObj.pathname.endsWith('/')
+    ? baseUrlObj.pathname.slice(0, -1) // Remove trailing slash
+    : baseUrlObj.pathname;
+  const fullPathname = `${basePath}/${normalizedEndpoint}`;
+
+  // Create new URL with the combined pathname
+  const url = new URL(fullPathname, baseUrlObj.origin);
 
   if (params) {
     Object.entries(params).forEach(([key, value]) => {
@@ -73,7 +92,7 @@ function buildUrl(baseURL: string, endpoint: string, params?: Record<string, str
 
 /**
  * Normalizes fetch response to consistent structure
- * This is the KEY to avoiding res.json vs res.json?.json issues
+ * Parses JSON response body into a consistent format
  */
 async function normalizeResponse<T>(response: Response): Promise<FetchResponse<T>> {
   // Always parse JSON - if response is not JSON, this will throw
@@ -123,10 +142,7 @@ function isRetryableError(error: FetchError): boolean {
 /**
  * Core request method with timeout and error handling
  */
-async function request<T>(
-  endpoint: string,
-  config: FetchRequestConfig = {},
-): Promise<FetchResponse<T>> {
+async function request<T>(endpoint: string, config: FetchRequestConfig = {}): Promise<FetchResponse<T>> {
   const {
     baseURL = API_URL,
     timeout = 30000, // 30 seconds default
@@ -161,9 +177,7 @@ async function request<T>(
 
     const timeoutPromise = timeout > 0 ? createTimeout(timeout) : null;
 
-    const response = timeoutPromise
-      ? await Promise.race([fetchPromise, timeoutPromise])
-      : await fetchPromise;
+    const response = timeoutPromise ? await Promise.race([fetchPromise, timeoutPromise]) : await fetchPromise;
 
     // Clear timeout if request completed
     if (timeoutId) {
@@ -214,124 +228,85 @@ async function request<T>(
     }
 
     // Unknown error
-    throw new FetchError(
-      error instanceof Error ? error.message : String(error),
-      0,
-      undefined,
-      false,
-    );
+    throw new FetchError(error instanceof Error ? error.message : String(error), 0, undefined, false);
   }
 }
 
 /**
- * API Client with normalized response handling
- * All methods return the data directly (not wrapped in response.data)
- * This normalizes the API to avoid res.json vs res.json?.json issues
+ * API Client
+ * All methods return the data directly from the server response
+ * Server returns data directly (not wrapped in ApiResponse<T>)
  */
 export const api = {
   /**
    * GET request
-   * Returns: T (the data directly, not wrapped in ApiResponse)
+   * Returns: T (the data directly from server)
    */
   async get<T>(endpoint: string, config?: FetchRequestConfig): Promise<T> {
-    const response = await request<ApiResponse<T>>(endpoint, { ...config, method: 'GET' });
-
-    // Normalize: If server returns ApiResponse<T>, extract data
-    // If server returns T directly, use it as-is
-    if (response.data && typeof response.data === 'object' && 'data' in response.data) {
-      return (response.data as ApiResponse<T>).data;
-    }
-
-    // Server returned T directly
-    return response.data as T;
+    const response = await request<T>(endpoint, { ...config, method: 'GET' });
+    return response.data;
   },
 
   /**
    * POST request
-   * Returns: T (the data directly, not wrapped in ApiResponse)
+   * Returns: T (the data directly from server)
    */
   async post<T>(endpoint: string, data?: any, config?: FetchRequestConfig): Promise<T> {
     // Handle FormData - don't stringify it, pass as-is
     const isFormData = data instanceof FormData;
-    const body = isFormData ? data : (data ? JSON.stringify(data) : undefined);
+    const body = isFormData ? data : data ? JSON.stringify(data) : undefined;
 
-    const response = await request<ApiResponse<T>>(endpoint, {
+    const response = await request<T>(endpoint, {
       ...config,
       method: 'POST',
       body,
     });
 
-    // Normalize: If server returns ApiResponse<T>, extract data
-    if (response.data && typeof response.data === 'object' && 'data' in response.data) {
-      return (response.data as ApiResponse<T>).data;
-    }
-
-    // Server returned T directly
-    return response.data as T;
+    return response.data;
   },
 
   /**
    * PATCH request
-   * Returns: T (the data directly, not wrapped in ApiResponse)
+   * Returns: T (the data directly from server)
    */
   async patch<T>(endpoint: string, data?: any, config?: FetchRequestConfig): Promise<T> {
     // Handle FormData - don't stringify it, pass as-is
     const isFormData = data instanceof FormData;
-    const body = isFormData ? data : (data ? JSON.stringify(data) : undefined);
+    const body = isFormData ? data : data ? JSON.stringify(data) : undefined;
 
-    const response = await request<ApiResponse<T>>(endpoint, {
+    const response = await request<T>(endpoint, {
       ...config,
       method: 'PATCH',
       body,
     });
 
-    // Normalize: If server returns ApiResponse<T>, extract data
-    if (response.data && typeof response.data === 'object' && 'data' in response.data) {
-      return (response.data as ApiResponse<T>).data;
-    }
-
-    // Server returned T directly
-    return response.data as T;
+    return response.data;
   },
 
   /**
    * PUT request
-   * Returns: T (the data directly, not wrapped in ApiResponse)
+   * Returns: T (the data directly from server)
    */
   async put<T>(endpoint: string, data?: any, config?: FetchRequestConfig): Promise<T> {
     // Handle FormData - don't stringify it, pass as-is
     const isFormData = data instanceof FormData;
-    const body = isFormData ? data : (data ? JSON.stringify(data) : undefined);
+    const body = isFormData ? data : data ? JSON.stringify(data) : undefined;
 
-    const response = await request<ApiResponse<T>>(endpoint, {
+    const response = await request<T>(endpoint, {
       ...config,
       method: 'PUT',
       body,
     });
 
-    // Normalize: If server returns ApiResponse<T>, extract data
-    if (response.data && typeof response.data === 'object' && 'data' in response.data) {
-      return (response.data as ApiResponse<T>).data;
-    }
-
-    // Server returned T directly
-    return response.data as T;
+    return response.data;
   },
 
   /**
    * DELETE request
-   * Returns: T (the data directly, not wrapped in ApiResponse)
+   * Returns: T (the data directly from server)
    */
   async delete<T>(endpoint: string, config?: FetchRequestConfig): Promise<T> {
-    const response = await request<ApiResponse<T>>(endpoint, { ...config, method: 'DELETE' });
-
-    // Normalize: If server returns ApiResponse<T>, extract data
-    if (response.data && typeof response.data === 'object' && 'data' in response.data) {
-      return (response.data as ApiResponse<T>).data;
-    }
-
-    // Server returned T directly
-    return response.data as T;
+    const response = await request<T>(endpoint, { ...config, method: 'DELETE' });
+    return response.data;
   },
 };
-
