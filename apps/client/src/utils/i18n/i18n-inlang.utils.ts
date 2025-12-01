@@ -32,7 +32,7 @@ export function getMessageTexts<
     const foundKey = candidates.find((k) => k in m);
 
     if (!foundKey) {
-      console.warn(`⚠️ Missing translation for: ${base}_${element}`);
+      // console.warn(`⚠️ Missing translation for: ${base}_${element}`);
       result[element] = `${base}_${element}`;
       continue;
     }
