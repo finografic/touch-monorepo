@@ -89,18 +89,21 @@ export const transformFetchError = (error: unknown): ApplicationError => {
 
     // Handle HTTP errors with specific status codes
     if (status >= 400 && status < 600) {
+      // Type-safe access: check if status exists in ERROR_MESSAGES, otherwise use fallback
+      const errorMessage = (status in ERROR_MESSAGES ? ERROR_MESSAGES[status as keyof typeof ERROR_MESSAGES] : null) || fetchError.message || 'HTTP error';
       return {
         code: 'HTTP_ERROR',
-        message: ERROR_MESSAGES[status] || fetchError.message || 'HTTP error',
+        message: errorMessage,
         status,
         isRetryable: isRetryableError(fetchError),
       };
     }
 
     // Handle network errors (status 0)
+    const networkErrorMessage = (status in ERROR_MESSAGES ? ERROR_MESSAGES[status as keyof typeof ERROR_MESSAGES] : null) || fetchError.message || 'Network error';
     return {
       code: 'NETWORK_ERROR',
-      message: ERROR_MESSAGES[status] || fetchError.message || 'Network error',
+      message: networkErrorMessage,
       status,
       isRetryable: true,
     };
