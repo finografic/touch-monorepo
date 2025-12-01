@@ -28,13 +28,13 @@ export const useMainPageOperations = () => {
   const slotsConfigQuery = useGetSlotConfigurations();
   const { setFilter } = useFiltersContext();
 
+  const slotsConfig = slotsConfigQuery.isSuccess ? slotsConfigQuery.data : [];
   const timerSlots = useMemo(() => timers.map((timer) => timer.slotNumber), [timers]);
   const timersBySlot = useMemo(() => new Map(timers.map((t) => [t.slotNumber, t])), [timers]);
   const activeTimers = useMemo(() => timers.filter((timer) => timer.status !== 'completed'), [timers]);
 
   const activeSlots = useMemo(() => {
     if (slotsConfigQuery.isLoading || slotsConfigQuery.isError) return [];
-    const slotsConfig = slotsConfigQuery?.data;
 
     return slotsConfig.filter((slot) => slot.isActive);
   }, [slotsConfigQuery.isLoading, slotsConfigQuery.isSuccess, slotsConfigQuery.data]);
