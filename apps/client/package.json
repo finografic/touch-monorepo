@@ -94,7 +94,6 @@
     "@workspace/core": "workspace:*",
     "@workspace/i18n": "workspace:*",
     "@workspace/server": "workspace:*",
-    "axios": "^1.13.2",
     "better-auth": "1.3.6",
     "change-case": "5.4.4",
     "class-variance-authority": "0.7.1",

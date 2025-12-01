@@ -8,11 +8,7 @@ export interface ErrorResponse {
 export interface ErrorResponse_DEV {
   message: string;
   code?: string;
-  // TODO: omitted axios error props
-  // config?: InternalAxiosRequestConfig<D>,
-  // request?: any,
-  // response?: AxiosResponse<T, D>,
-  details?: unknown; // TODO: non-axios error prop
+  details?: unknown;
 }
 
 export interface ValidationError {
