@@ -10,12 +10,9 @@ export const uploadSoundFiles = async (files: File[], soundType: SoundType): Pro
     formData.append('files', file);
   });
 
-  const response = await api.post(`/sounds/${soundType}/upload`, formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    },
-  });
-  return response.data;
+  // Fetch client returns data directly
+  // Note: Don't set Content-Type header for FormData - browser will set it with boundary automatically
+  return await api.post<SoundFile[]>(`/sounds/${soundType}/upload`, formData);
 };
 
 // React Query hook

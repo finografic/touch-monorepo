@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
@@ -24,10 +24,10 @@ export const useToggleRelay = () => {
       state: boolean;
     }): Promise<ToggleRelayResponse> => {
       try {
-        const response = await api.post(`/relay/toggle/${slotNumber}/${state}`);
-        return response.data;
+        // Fetch client returns data directly
+        return await api.post<ToggleRelayResponse>(`/relay/toggle/${slotNumber}/${state}`);
       } catch (error) {
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     onSuccess: (data) => {

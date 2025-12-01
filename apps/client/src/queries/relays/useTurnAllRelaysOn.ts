@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
@@ -16,10 +16,10 @@ export const useTurnAllRelaysOn = () => {
   return useMutation({
     mutationFn: async (): Promise<BulkRelayResponse> => {
       try {
-        const response = await api.post('/relay/all-on');
-        return response.data;
+        // Fetch client returns data directly
+        return await api.post<BulkRelayResponse>('/relay/all-on');
       } catch (error) {
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     onSuccess: () => {

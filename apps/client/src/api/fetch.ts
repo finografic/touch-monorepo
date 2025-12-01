@@ -137,10 +137,9 @@ async function request<T>(
 
   const url = buildUrl(baseURL, endpoint, params);
 
-  // Merge headers
-  const defaultHeaders: HeadersInit = {
-    'Content-Type': 'application/json',
-  };
+  // Merge headers - but don't set Content-Type for FormData (browser will set it with boundary)
+  const isFormData = fetchConfig.body instanceof FormData;
+  const defaultHeaders: HeadersInit = isFormData ? {} : { 'Content-Type': 'application/json' };
 
   const finalHeaders = {
     ...defaultHeaders,
@@ -252,10 +251,14 @@ export const api = {
    * Returns: T (the data directly, not wrapped in ApiResponse)
    */
   async post<T>(endpoint: string, data?: any, config?: FetchRequestConfig): Promise<T> {
+    // Handle FormData - don't stringify it, pass as-is
+    const isFormData = data instanceof FormData;
+    const body = isFormData ? data : (data ? JSON.stringify(data) : undefined);
+
     const response = await request<ApiResponse<T>>(endpoint, {
       ...config,
       method: 'POST',
-      body: data ? JSON.stringify(data) : undefined,
+      body,
     });
 
     // Normalize: If server returns ApiResponse<T>, extract data
@@ -272,10 +275,14 @@ export const api = {
    * Returns: T (the data directly, not wrapped in ApiResponse)
    */
   async patch<T>(endpoint: string, data?: any, config?: FetchRequestConfig): Promise<T> {
+    // Handle FormData - don't stringify it, pass as-is
+    const isFormData = data instanceof FormData;
+    const body = isFormData ? data : (data ? JSON.stringify(data) : undefined);
+
     const response = await request<ApiResponse<T>>(endpoint, {
       ...config,
       method: 'PATCH',
-      body: data ? JSON.stringify(data) : undefined,
+      body,
     });
 
     // Normalize: If server returns ApiResponse<T>, extract data
@@ -292,10 +299,14 @@ export const api = {
    * Returns: T (the data directly, not wrapped in ApiResponse)
    */
   async put<T>(endpoint: string, data?: any, config?: FetchRequestConfig): Promise<T> {
+    // Handle FormData - don't stringify it, pass as-is
+    const isFormData = data instanceof FormData;
+    const body = isFormData ? data : (data ? JSON.stringify(data) : undefined);
+
     const response = await request<ApiResponse<T>>(endpoint, {
       ...config,
       method: 'PUT',
-      body: data ? JSON.stringify(data) : undefined,
+      body,
     });
 
     // Normalize: If server returns ApiResponse<T>, extract data

@@ -1,5 +1,5 @@
-import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
-import { transformAxiosError } from '@workspace/core/api';
+import type { ErrorResponse } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
@@ -10,13 +10,10 @@ import { GET_DRINK_VOLUMES_QUERYKEY } from '.';
 
 const getDrinkVolume = async (id: string) => {
   try {
-    const response = await api.get<DrinkVolume>(`/drink-volumes/${id}`);
-    if (response.status !== 200) {
-      throw new Error(`Failed to fetch drink volume: ${response.statusText}`);
-    }
-    return response.data;
+    // Fetch client returns data directly and handles errors
+    return await api.get<DrinkVolume>(`/drink-volumes/${id}`);
   } catch (error) {
-    throw transformAxiosError(error);
+    throw transformFetchError(error);
   }
 };
 

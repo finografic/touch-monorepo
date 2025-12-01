@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
@@ -16,10 +16,10 @@ export const useGetOrdersReadable = () => {
     queryKey: ORDERS_READABLE_QUERY_KEYS.lists(),
     queryFn: async (): Promise<OrderReadableModel[]> => {
       try {
-        const response = await api.get('/orders-readable');
-        return response.data;
+        // Fetch client returns data directly
+        return await api.get<OrderReadableModel[]>('/orders-readable');
       } catch (error) {
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     staleTime: 5 * 60 * 1000, // 5 minutes

@@ -1,5 +1,5 @@
 import type { ErrorResponse } from '@workspace/core/api';
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
@@ -16,13 +16,11 @@ export interface RelayStateResponse {
 
 const getRelayState = async (slotNumber: number): Promise<boolean> => {
   try {
-    const response = await api.get<RelayStateResponse>(`/relay/state/${slotNumber}`);
-    if (response.status !== 200) {
-      throw new Error(`Failed to fetch relay state: ${response.statusText}`);
-    }
-    return response.data.state;
+    // Fetch client returns data directly
+    const data = await api.get<RelayStateResponse>(`/relay/state/${slotNumber}`);
+    return data.state;
   } catch (error) {
-    throw transformAxiosError(error);
+    throw transformFetchError(error);
   }
 };
 

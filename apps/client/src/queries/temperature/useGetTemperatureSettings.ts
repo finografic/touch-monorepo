@@ -1,5 +1,5 @@
-import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
-import { transformAxiosError } from '@workspace/core/api';
+import type { ErrorResponse } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
@@ -23,18 +23,18 @@ export interface GetTemperatureSettingsRequest {
 
 const getTemperatureSettings = async (
   params: GetTemperatureSettingsRequest,
-): Promise<ApiResponse<TemperatureSettings>> => {
+): Promise<TemperatureSettings> => {
   try {
-    const response = await api.get<ApiResponse<TemperatureSettings>>('/temperature/settings', { params });
-    return response.data;
+    // Fetch client returns data directly (unwraps ApiResponse)
+    return await api.get<TemperatureSettings>('/temperature/settings', { params });
   } catch (error) {
-    throw transformAxiosError(error);
+    throw transformFetchError(error);
   }
 };
 
 export const useGetTemperatureSettings = (
   params: GetTemperatureSettingsRequest,
-): UseQueryResult<ApiResponse<TemperatureSettings>, ErrorResponse> => {
+): UseQueryResult<TemperatureSettings, ErrorResponse> => {
   return useQuery({
     queryKey: [...GET_TEMPERATURE_SETTINGS_QUERYKEY, params],
     queryFn: async () => await getTemperatureSettings(params),

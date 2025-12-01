@@ -1,6 +1,5 @@
-// @ts-nocheck
 import type { ApiResponse, ErrorResponse } from '@workspace/core/api';
-import { isRetryableError, transformAxiosError } from '@workspace/core/api';
+import { isRetryableError, transformFetchError } from '@workspace/core/api';
 import type {
   ContainerTypeEntity,
   DrinkSubtypeEntity,
@@ -10,7 +9,6 @@ import type {
 
 import { useQuery } from '@tanstack/react-query';
 import { api } from 'api';
-import type { AxiosError, AxiosResponse } from 'axios';
 
 import type {
   SupportedLanguageInput,
@@ -31,7 +29,9 @@ type EndpointFunction = (...args: any[]) => Promise<any>;
 
 /**
  * Creates a wrapper around API endpoints with consistent error handling
- * and response transformation
+ *
+ * Note: The fetch client already returns data directly (not wrapped in response.data),
+ * so this wrapper mainly adds error transformation and endpoint context.
  */
 const createEndpoints = <T extends Record<string, EndpointFunction>>(endpoints: T) => {
   return Object.entries(endpoints).reduce(
@@ -39,32 +39,21 @@ const createEndpoints = <T extends Record<string, EndpointFunction>>(endpoints: 
       ...acc,
       [key]: async (...args: Parameters<typeof fn>) => {
         try {
-          const response = await fn(...args);
-
-          // Handle non-200 responses that might not throw
-          if (response.status >= 400) {
-            throw new Error(response?.data?.message || 'Request failed', {
-              cause: {
-                status: response.status,
-                data: response.data,
-              },
-            });
-          }
-
-          return response.data;
+          // Fetch client already returns data directly (normalized)
+          return await fn(...args);
         } catch (error) {
-          const transformedError = transformAxiosError(error);
+          const transformedError = transformFetchError(error);
 
           // Add endpoint-specific context to the error
-          transformedError.endpoint = key;
-          transformedError.params = args;
+          (transformedError as any).endpoint = key;
+          (transformedError as any).params = args;
 
           throw transformedError;
         }
       },
     }),
     {} as {
-      [K in keyof T]: (...args: Parameters<T[K]>) => Promise<Awaited<ReturnType<T[K]>>['data']>;
+      [K in keyof T]: (...args: Parameters<T[K]>) => Promise<Awaited<ReturnType<T[K]>>>;
     },
   );
 };
@@ -85,7 +74,7 @@ export const useEndpointQuery = <TData>(
       try {
         return await endpointFn();
       } catch (error) {
-        const transformedError = transformAxiosError(error);
+        const transformedError = transformFetchError(error);
         throw transformedError;
       }
     },
@@ -102,47 +91,49 @@ export const useEndpointQuery = <TData>(
 };
 
 // Example endpoints with type safety
+// Note: The fetch client automatically unwraps ApiResponse<T> to return T directly
 export const EndpointHelper = createEndpoints({
-  getDrinkTypes: async () => await api.get<ApiResponse<DrinkType[]>>('/drink-types'),
-  getDrinkType: async (id: string) => await api.get<ApiResponse<DrinkTypeEntity>>(`/drink-types/${id}`),
+  getDrinkTypes: async () => await api.get<DrinkType[]>('/drink-types'),
+  getDrinkType: async (id: string) => await api.get<DrinkTypeEntity>(`/drink-types/${id}`),
 
   getDrinkSubtypes: async ({ drinkTypeId }: { drinkTypeId: string }) =>
-    await api.get<ApiResponse<DrinkSubtypeEntity>>(`/drink-types/${drinkTypeId}/subtypes`),
+    await api.get<DrinkSubtypeEntity>(`/drink-types/${drinkTypeId}/subtypes`),
 
-  getDrinkVolumes: async () => await api.get<ApiResponse<DrinkVolume[]>>('/drink-volumes'),
-  getDrinkVolume: async (id: string) => await api.get<ApiResponse<DrinkVolumeEntity>>(`/drink-volumes/${id}`),
+  getDrinkVolumes: async () => await api.get<DrinkVolume[]>('/drink-volumes'),
+  getDrinkVolume: async (id: string) => await api.get<DrinkVolumeEntity>(`/drink-volumes/${id}`),
 
-  getContainerTypes: async () => await api.get<ApiResponse<ContainerType[]>>('/container-types'),
-  getContainerType: async (id: string) =>
-    await api.get<ApiResponse<ContainerTypeEntity>>(`/container-types/${id}`),
+  getContainerTypes: async () => await api.get<ContainerType[]>('/container-types'),
+  getContainerType: async (id: string) => await api.get<ContainerTypeEntity>(`/container-types/${id}`),
 
   getTemperatureProfile: async (id: string) =>
-    await api.get<ApiResponse<TemperatureProfileEntity>>(`/temperature-profiles/${id}`),
-  getOrdersReadable: async () => await api.get<ApiResponse<OrderReadableModel[]>>('/orders-readable'),
+    await api.get<TemperatureProfileEntity>(`/temperature-profiles/${id}`),
+  getOrdersReadable: async () => await api.get<OrderReadableModel[]>('/orders-readable'),
   getAnalytics: async (params: { from: Date; to: Date }) =>
-    await api.get<ApiResponse<AnalyticsData>>('/analytics', {
-      params,
-      // Example of endpoint-specific configuration
+    await api.get<AnalyticsData>('/analytics', {
+      params: {
+        from: params.from.toISOString(),
+        to: params.to.toISOString(),
+      },
       timeout: 30000,
       headers: {
         'Cache-Control': 'no-cache',
       },
     }),
-  getSupportedLanguages: async () => await api.get<ApiResponse<SupportedLanguage[]>>('/supported-languages'),
+  getSupportedLanguages: async () => await api.get<SupportedLanguage[]>('/supported-languages'),
   getSupportedLanguage: async (id: string) =>
-    await api.get<ApiResponse<SupportedLanguage>>(`/supported-languages/${id}`),
+    await api.get<SupportedLanguage>(`/supported-languages/${id}`),
   createSupportedLanguage: async (data: SupportedLanguageInput) =>
-    await api.post<ApiResponse<SupportedLanguage>>('/supported-languages', data),
+    await api.post<SupportedLanguage>('/supported-languages', data),
   updateSupportedLanguage: async (id: string, data: SupportedLanguageUpdate) =>
-    await api.patch<ApiResponse<SupportedLanguage>>(`/supported-languages/${id}`, data),
+    await api.patch<SupportedLanguage>(`/supported-languages/${id}`, data),
   deleteSupportedLanguage: async (id: string) => await api.delete<void>(`/supported-languages/${id}`),
 
   // UI Labels endpoints
-  getUiLabels: async () => await api.get<ApiResponse<TranslationsUiModel>>('/ui-labels'),
+  getUiLabels: async () => await api.get<TranslationsUiModel>('/ui-labels'),
   saveUiLabels: async (data: {
     sections: Array<{ key: string; items: Array<{ key: string; values: Record<string, string> }> }>;
   }) =>
-    await api.post<ApiResponse<{ success: boolean; message: string; filesUpdated: string[] }>>(
+    await api.post<{ success: boolean; message: string; filesUpdated: string[] }>(
       '/ui-labels/save',
       data,
     ),

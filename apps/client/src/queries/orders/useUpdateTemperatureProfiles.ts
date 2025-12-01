@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
@@ -77,12 +77,13 @@ export const useUpdateTemperatureProfiles = () => {
 
         // Execute all operations
         await Promise.all(deletePromises);
+        // Fetch client returns data directly, no need to extract .data
         const upsertResults = await Promise.all(upsertPromises);
 
-        return upsertResults.map((r) => r.data);
+        return upsertResults;
       } catch (error) {
         console.error('Error updating temperature profiles:', error);
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     onSuccess: (_, { orderId }) => {

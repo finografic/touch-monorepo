@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
@@ -36,8 +36,7 @@ export const useCreateOrder = () => {
       try {
         // Step 1: Create the order
         console.log('Creating new order with:', orderData);
-        const orderResponse = await api.post('/orders', orderData);
-        const newOrder = orderResponse.data;
+        const newOrder = await api.post('/orders', orderData);
 
         console.log('Created order:', newOrder);
 
@@ -61,7 +60,7 @@ export const useCreateOrder = () => {
         return newOrder;
       } catch (error) {
         console.error('Error creating order:', error);
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     onSuccess: () => {

@@ -5,8 +5,8 @@ import type { SoundSettings } from 'types/sounds.types';
 
 // API function
 export const getSoundSettings = async (): Promise<SoundSettings> => {
-  const response = await api.get('/sounds/settings');
-  return response.data;
+  // Fetch client returns data directly
+  return await api.get<SoundSettings>('/sounds/settings');
 };
 
 // React Query hook

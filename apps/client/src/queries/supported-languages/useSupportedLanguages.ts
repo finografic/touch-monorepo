@@ -19,8 +19,8 @@ export const useGetSupportedLanguages = () => {
   return useQuery({
     queryKey: supportedLanguagesKeys.lists(),
     queryFn: async () => {
-      const response = await EndpointHelper.getSupportedLanguages();
-      return response.data || response; // Handle both wrapped and unwrapped responses
+      // EndpointHelper already returns data directly (fetch client unwraps ApiResponse)
+      return await EndpointHelper.getSupportedLanguages();
     },
     ...ADMIN_DATA_QUERY_CONFIG, // Use admin-specific caching strategy
   });

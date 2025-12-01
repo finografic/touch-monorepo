@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
@@ -14,10 +14,10 @@ export const useResetSlotConfigurations = () => {
   return useMutation({
     mutationFn: async (): Promise<{ success: boolean; message: string }> => {
       try {
-        const response = await api.post('/slot-configurations/reset');
-        return response.data;
+        // Fetch client returns data directly
+        return await api.post<{ success: boolean; message: string }>('/slot-configurations/reset');
       } catch (error) {
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     onSuccess: () => {

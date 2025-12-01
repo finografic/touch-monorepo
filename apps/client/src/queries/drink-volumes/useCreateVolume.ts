@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
@@ -39,7 +39,8 @@ export const useCreateVolume = () => {
           [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
         };
 
-        const response = await api.post('/drink-volumes', {
+        // Fetch client returns data directly
+        const response = await api.post<any>('/drink-volumes', {
           name: kebabName, // Use kebab-case name for storage
           valueInMl: data.valueInMl,
           sortOrder: data.sortOrder,
@@ -48,9 +49,9 @@ export const useCreateVolume = () => {
         });
 
         // Handle both response structures:
-        // - Direct: response.data = { id, name, ... }
-        // - Wrapped: response.data = { data: { id, name, ... } }
-        const entity = response.data?.data || response.data;
+        // - Direct: response = { id, name, ... }
+        // - Wrapped: response = { data: { id, name, ... } }
+        const entity = response?.data || response;
 
         if (!entity || !entity.id) {
           throw new Error('Invalid response: missing volume data');
@@ -72,7 +73,7 @@ export const useCreateVolume = () => {
           translations: entity.translations || {},
         };
       } catch (error) {
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     onSuccess: () => {

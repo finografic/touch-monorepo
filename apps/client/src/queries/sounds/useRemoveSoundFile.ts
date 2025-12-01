@@ -6,8 +6,8 @@ import type { SoundType } from 'types/sounds.types';
 
 // API function
 export const removeSoundFile = async (id: string, soundType: SoundType): Promise<{ message: string }> => {
-  const response = await api.delete(`/sounds/${soundType}/${id}`);
-  return response.data;
+  // Fetch client returns data directly
+  return await api.delete<{ message: string }>(`/sounds/${soundType}/${id}`);
 };
 
 // React Query hook

@@ -1,5 +1,5 @@
 import type { ErrorResponse } from '@workspace/core/api';
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery } from '@tanstack/react-query';
@@ -10,16 +10,13 @@ import { GET_MODES_QUERYKEY } from '.';
 
 const getDefaultMode = async (): Promise<ModeModel | null> => {
   try {
-    const response = await api.get<ModeModel[]>('/modes');
-    if (response.status !== 200) {
-      throw new Error(`Failed to fetch modes: ${response.statusText}`);
-    }
-
-    const defaultMode = response.data.find((mode) => mode.isDefault);
+    // Fetch client returns data directly
+    const modes = await api.get<ModeModel[]>('/modes');
+    const defaultMode = modes.find((mode) => mode.isDefault);
     return defaultMode || null;
   } catch (error) {
     console.error('🔍 getDefaultMode: Error occurred:', error);
-    throw transformAxiosError(error);
+    throw transformFetchError(error);
   }
 };
 

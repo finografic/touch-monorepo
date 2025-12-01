@@ -1,5 +1,4 @@
-import type { ApiResponse } from '@workspace/core/api';
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
@@ -42,7 +41,8 @@ export const useCreateDrinkType = () => {
           [currentLanguage]: data.name, // Use original name for current language (overrides empty string)
         };
 
-        const response = await api.post('/drink-types', {
+        // Fetch client returns data directly
+        const response = await api.post<any>('/drink-types', {
           name: kebabName, // Use kebab-case name for storage
           hasSubtypes: data.hasSubtypes ? 1 : 0,
           defaultTempConsume: data.defaultTempConsume || 5,
@@ -50,10 +50,9 @@ export const useCreateDrinkType = () => {
           translations,
         });
 
-        // Axios wraps the response: response.data contains the server response
         // Server may return { data: entity } or entity directly
         // Check both structures to handle either case
-        const entity = (response as any).data?.data || (response as any).data;
+        const entity = response?.data || response;
 
         if (!entity || !entity.id) {
           console.error('Invalid response structure:', response);
@@ -76,7 +75,7 @@ export const useCreateDrinkType = () => {
           translations: entity.translations || {},
         };
       } catch (error) {
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     onSuccess: () => {

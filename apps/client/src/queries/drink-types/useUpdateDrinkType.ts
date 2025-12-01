@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
@@ -28,13 +28,15 @@ export const useUpdateDrinkType = () => {
       updates: UpdateDrinkTypeInput;
     }): Promise<DrinkType> => {
       try {
-        const response = await api.patch(`/drink-types/${id}`, {
+        // Fetch client returns data directly
+        const response = await api.patch<{ data: any }>(`/drink-types/${id}`, {
           hasSubtypes: updates.hasSubtypes ? 1 : 0,
           defaultTempConsume: updates.defaultTempConsume,
           defaultTempFreeze: updates.defaultTempFreeze,
           translations: updates.translations,
         });
-        const entity = response.data.data;
+        // Handle nested data structure if server returns { data: {...} }
+        const entity = (response as any)?.data || response;
         return {
           id: entity.id,
           name: entity.name,
@@ -47,7 +49,7 @@ export const useUpdateDrinkType = () => {
           translations: entity.translations || {},
         };
       } catch (error) {
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     onSuccess: () => {

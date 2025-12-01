@@ -30,20 +30,15 @@ export const useGetDrinkSubtypes = ({
   return useQuery({
     queryKey: [...GET_DRINK_SUBTYPES_QUERYKEY, drinkTypeId],
     queryFn: async () => {
-      const response = await api.get<SubtypesResponse>(`/drink-types/${drinkTypeId}/subtypes`);
+      // Fetch client returns data directly
+      const data = await api.get<DrinkSubtype[] | SubtypesResponse>(`/drink-types/${drinkTypeId}/subtypes`);
 
-      if (response.status !== 200) {
-        throw new Error('Failed to fetch drink subtypes');
-      }
-
-      // Axios: response.data is the parsed JSON body
-      // Server returns array directly: response.data = [...]
       // Handle both structures for safety (though server returns array)
-      if (Array.isArray(response.data)) {
-        return response.data;
+      if (Array.isArray(data)) {
+        return data;
       }
       // Fallback: if wrapped in object { data: [...], success: true }
-      return (response.data as SubtypesResponse)?.data || [];
+      return (data as SubtypesResponse)?.data || [];
     },
     enabled: enabled !== false && !!drinkTypeId,
   });

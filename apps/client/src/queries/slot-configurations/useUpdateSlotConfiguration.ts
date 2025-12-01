@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
@@ -21,10 +21,10 @@ export const useUpdateSlotConfiguration = () => {
       data: UpdateSlotConfigRequest;
     }): Promise<SlotConfiguration> => {
       try {
-        const response = await api.patch(`/slot-configurations/${id}`, data);
-        return response.data;
+        // Fetch client returns data directly
+        return await api.patch<SlotConfiguration>(`/slot-configurations/${id}`, data);
       } catch (error) {
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     onSuccess: (updatedConfig) => {

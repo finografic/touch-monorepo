@@ -1,4 +1,4 @@
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from 'api';
@@ -28,10 +28,9 @@ export const useUpdateOrder = () => {
       };
     }): Promise<any> => {
       try {
-        const response = await api.patch(`/orders/${id}`, updates);
-        return response.data;
+        return await api.patch(`/orders/${id}`, updates);
       } catch (error) {
-        throw transformAxiosError(error);
+        throw transformFetchError(error);
       }
     },
     onSuccess: (updatedOrder) => {

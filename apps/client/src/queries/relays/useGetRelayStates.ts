@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import type { ErrorResponse } from '@workspace/core/api';
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import type { UseQueryResult } from '@tanstack/react-query';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
@@ -22,13 +22,11 @@ export interface RelayStatesResponse {
 
 const getRelayStates = async (): Promise<RelayState[]> => {
   try {
-    const response = await api.get<RelayStatesResponse>('/relay/states');
-    if (response.status !== 200) {
-      throw new Error(`Failed to fetch relay states: ${response.statusText}`);
-    }
-    return response.data.states;
+    // Fetch client returns data directly
+    const data = await api.get<RelayStatesResponse>('/relay/states');
+    return data.states;
   } catch (error) {
-    throw transformAxiosError(error);
+    throw transformFetchError(error);
   }
 };
 

@@ -1,5 +1,5 @@
 import type { ErrorResponse } from '@workspace/core/api';
-import { transformAxiosError } from '@workspace/core/api';
+import { transformFetchError } from '@workspace/core/api';
 
 import type { UseMutationResult } from '@tanstack/react-query';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -14,13 +14,10 @@ interface UpdateDefaultModeRequest {
 
 const updateDefaultMode = async (request: UpdateDefaultModeRequest): Promise<ModeModel[]> => {
   try {
-    const response = await api.patch<ModeModel[]>('/modes/default-mode', request);
-    if (response.status !== 200) {
-      throw new Error(`Failed to update default mode: ${response.statusText}`);
-    }
-    return response.data;
+    // Fetch client returns data directly and handles errors
+    return await api.patch<ModeModel[]>('/modes/default-mode', request);
   } catch (error) {
-    throw transformAxiosError(error);
+    throw transformFetchError(error);
   }
 };
 
