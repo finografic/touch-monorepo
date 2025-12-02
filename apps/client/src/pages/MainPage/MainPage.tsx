@@ -5,7 +5,6 @@ import { Flex, Spinner } from '@radix-ui/themes';
 import { PadAction } from 'components/Pads/PadAction/PadAction';
 
 import { useButtonConfig } from 'hooks/useButtonConfig';
-import { useRelayTimerControl } from 'hooks/useRelayTimerControl';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider/LayoutUiContext';
@@ -32,9 +31,6 @@ export function MainPage() {
   const { currentSessionId, sessions } = useSession();
   const { setSelectedSlots, selectedSlots } = useLayoutUi();
   const orderItemsConfig = useSlotItemsConfig();
-
-  // Automatically control relays based on timer status
-  useRelayTimerControl();
 
   // Check if we're returning from a completed flow (not a cancellation)
   const flowCompleted = (location.state as any)?.flowCompleted === true;
