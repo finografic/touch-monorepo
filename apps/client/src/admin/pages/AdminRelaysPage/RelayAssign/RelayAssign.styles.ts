@@ -105,17 +105,19 @@ export const styles = css`
 
       ${getVariantStyles('solid', 'grey')}
 
-      &.active {
-        ${getVariantStyles('solid', 'success')}
-      }
-
       .button-text {
         font-size: 1.1rem;
         font-weight: 600;
         color: ${colors.white};
+        pointer-events: auto;
         svg {
           width: 1.5rem;
         }
+      }
+
+      &.active {
+        ${getVariantStyles('solid', 'success')}
+        cursor: default;
       }
     }
   }

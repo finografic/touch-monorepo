@@ -349,16 +349,14 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                         <Flex>
                           {assignments[config.slotNumber] ? (
                             <Button
-                              className={clsx('button-relay-test', {
-                                active: isRelayActive,
-                              })}
+                              className={clsx('button-relay-test', { active: isRelayActive })}
                               onClick={() => handleClickTest(config.relayNumber, config.slotNumber)}
                               variant="solid"
                               color="info"
                               size="sm"
-                              disabled={
-                                !canTest || isRelayControlledByTimer(config.relayNumber, config.slotNumber)
-                              }
+                              // disabled={
+                              //   !canTest || isRelayControlledByTimer(config.relayNumber, config.slotNumber)
+                              // }
                             >
                               <RadioIcon /> test
                             </Button>
