@@ -29,16 +29,7 @@ export const useMainPageOperations = () => {
   const slotsConfigQuery = useGetSlotConfigurations();
   const { setFilter } = useFiltersContext();
 
-  // const slotsConfig = slotsConfigQuery.isSuccess ? slotsConfigQuery.data : [];
-  // const timerSlots = useMemo(() => timers.map((timer) => timer.slotNumber), [timers]);
-  // const timersBySlot = useMemo(() => new Map(timers.map((t) => [t.slotNumber, t])), [timers]);
-  // const activeTimers = useMemo(() => timers.filter((timer) => timer.status !== 'completed'), [timers]);
-
   const slotsConfig = slotsConfigQuery.isSuccess ? slotsConfigQuery.data : [];
-  // const configBySlot = new Map(orderItemsConfig.map((o) => [o.slotNumber, o]));
-  // const timerSlots = useMemo(() => timers.map((timer) => timer.slotNumber), [timers]);
-  // const timersBySlot = useMemo(() => new Map(timers.map((t) => [t.slotNumber, t])), [timers]);
-  // const activeTimers = useMemo(() => timers.filter((timer) => timer.status !== 'completed'), [timers]);
 
   const { timerSlots, timersBySlot, activeTimers, configBySlot } = useMemo(() => {
     const bySlot = new Map<number, TimerItem>();
@@ -143,7 +134,6 @@ export const useMainPageOperations = () => {
       }
 
       const ignores = new Set(timerSlots);
-      // const configBySlot = new Map(orderItemsConfig.map((o) => [o.slotNumber, o]));
 
       for (const slot of selectedSlots) {
         if (ignores.has(slot.slotNumber)) continue;
