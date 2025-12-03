@@ -65,6 +65,8 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
       return;
     }
 
+    log('SNOOZE', 'blue', 'SnoozeTimer: setup/teardown logic');
+
     // DEBOUNCE LOGIC: If shouldDebounce is true and a new timer just completed, restart the snooze
     if (shouldDebounce && startTime !== null && completedCount > previousCompletedCountRef.current) {
       console.log('🔄 SnoozeTimer: New timer completed, restarting snooze countdown');
@@ -85,23 +87,26 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
   }, [hasActiveTimer, hasCompletedTimers, startTime, shouldDebounce, completedCount]);
 
   // Update remaining time when heartbeat ticks (now changes)
-  useEffect(() => {
-    if (!startTime) return;
+  useEffect(
+    function updateRemainingTime() {
+      if (!startTime) return;
 
-    const { remaining, totalElapsed } = parseElapsedTime({ startTime, now });
-    setRemainingTime(remaining);
+      const { remaining, totalElapsed } = parseElapsedTime({ startTime, now });
+      setRemainingTime(remaining);
 
-    // BEEP every 2 minutes (SNOOZE_INTERVAL_MS)
-    // Check if 2 minutes have passed since last beep
-    const timeSinceLastBeep = now - lastBeepTimeRef.current;
+      // ALARM every 2 minutes (SNOOZE_INTERVAL_MS)
+      // Check if 2 minutes have passed since last beep
+      const timeSinceLastBeep = now - lastBeepTimeRef.current;
 
-    if (timeSinceLastBeep >= SNOOZE_INTERVAL_MS) {
-      const currentCycle = getCycleNumber(totalElapsed, SNOOZE_INTERVAL_MS);
-      lastBeepTimeRef.current = now;
-      lastCycleRef.current = currentCycle;
-      playAlarmSound().catch(() => {});
-    }
-  }, [now, startTime]);
+      if (timeSinceLastBeep >= SNOOZE_INTERVAL_MS) {
+        const currentCycle = getCycleNumber(totalElapsed, SNOOZE_INTERVAL_MS);
+        lastBeepTimeRef.current = now;
+        lastCycleRef.current = currentCycle;
+        playAlarmSound().catch(() => {});
+      }
+    },
+    [now, startTime],
+  );
 
   // Don't render if storage timer is not active or there are no completed timers
   if (!hasActiveTimer || !hasCompletedTimers || remainingTime <= 0) {

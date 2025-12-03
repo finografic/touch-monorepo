@@ -46,7 +46,7 @@ export const PadSlot: React.FC<PadMenuProps> = ({ slotType, slotNumber, classNam
   }, [slotNumber, toggleMainPageSlot]);
 
   const handleTimerComplete = React.useCallback(() => {
-    console.log('PadMenu: Timer completed for order', slotNumber);
+    console.log(`PadSlot Timer ${slotNumber}: completed - do nothing (from component handler)`);
   }, [slotNumber]);
 
   if (hasTimer) {
