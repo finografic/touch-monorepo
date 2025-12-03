@@ -6,11 +6,12 @@ import { useRecallConfig } from 'hooks/useRecallConfig';
 import { useSlotItemsConfig } from 'hooks/useSlotItemsConfig';
 import { useFiltersContext } from 'providers/FiltersProvider';
 import { useLayoutUi } from 'providers/LayoutUiProvider';
-import { useTimers } from 'providers/TimersProvider';
+import { useTimers, type TimerItem } from 'providers/TimersProvider';
 
 import { stopAllAudio } from 'utils/soundCache.utils';
 import { FLOW_TYPES } from 'types/flow.types';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
+import type { SlotItem } from 'types/slot-config.types';
 
 /**
  * Handles MainPage-specific operations:
@@ -28,10 +29,40 @@ export const useMainPageOperations = () => {
   const slotsConfigQuery = useGetSlotConfigurations();
   const { setFilter } = useFiltersContext();
 
+  // const slotsConfig = slotsConfigQuery.isSuccess ? slotsConfigQuery.data : [];
+  // const timerSlots = useMemo(() => timers.map((timer) => timer.slotNumber), [timers]);
+  // const timersBySlot = useMemo(() => new Map(timers.map((t) => [t.slotNumber, t])), [timers]);
+  // const activeTimers = useMemo(() => timers.filter((timer) => timer.status !== 'completed'), [timers]);
+
   const slotsConfig = slotsConfigQuery.isSuccess ? slotsConfigQuery.data : [];
-  const timerSlots = useMemo(() => timers.map((timer) => timer.slotNumber), [timers]);
-  const timersBySlot = useMemo(() => new Map(timers.map((t) => [t.slotNumber, t])), [timers]);
-  const activeTimers = useMemo(() => timers.filter((timer) => timer.status !== 'completed'), [timers]);
+  // const configBySlot = new Map(orderItemsConfig.map((o) => [o.slotNumber, o]));
+  // const timerSlots = useMemo(() => timers.map((timer) => timer.slotNumber), [timers]);
+  // const timersBySlot = useMemo(() => new Map(timers.map((t) => [t.slotNumber, t])), [timers]);
+  // const activeTimers = useMemo(() => timers.filter((timer) => timer.status !== 'completed'), [timers]);
+
+  const { timerSlots, timersBySlot, activeTimers, configBySlot } = useMemo(() => {
+    const bySlot = new Map<number, TimerItem>();
+    const active: TimerItem[] = [];
+    const slots = new Set<number>();
+    const configMap = new Map<number, SlotItem>();
+
+    for (const o of orderItemsConfig) {
+      configMap.set(o.slotNumber, o);
+    }
+
+    for (const t of timers) {
+      bySlot.set(t.slotNumber, t);
+      slots.add(t.slotNumber);
+      if (t.status !== 'completed') active.push(t);
+    }
+
+    return {
+      timerSlots: slots,
+      timersBySlot: bySlot,
+      activeTimers: active,
+      configBySlot: configMap,
+    };
+  }, [timers, orderItemsConfig]);
 
   const activeSlots = useMemo(() => {
     if (slotsConfigQuery.isLoading || slotsConfigQuery.isError) return [];
@@ -111,33 +142,34 @@ export const useMainPageOperations = () => {
         console.log('🎯 REPEAT: Applied stored filters to FiltersContext:', savedFilters);
       }
 
-      // Apply configuration to all selected orders
-      selectedSlots.forEach((slot) => {
-        const orderConfig = orderItemsConfig.find((o) => o.slotNumber === slot.slotNumber);
+      const ignores = new Set(timerSlots);
+      // const configBySlot = new Map(orderItemsConfig.map((o) => [o.slotNumber, o]));
 
-        if (orderConfig) {
-          // Get duration for this specific item type from saved config
-          const slotTypeDuration = config.durations?.[orderConfig.slotType];
-          const defaultDuration = config.durations?.default;
-          // Use nullish coalescing (??) instead of || to allow 0 values
-          const duration = slotTypeDuration ?? defaultDuration;
+      for (const slot of selectedSlots) {
+        if (ignores.has(slot.slotNumber)) continue;
 
-          addTimer({
-            sessionId: 'repeat-session',
-            slotNumber: slot.slotNumber,
-            orderId: createCuid(),
-            flowType: FLOW_TYPES.PROGRAM_PRODUCT,
-            duration,
-            status: 'processing',
-            completionTime: new Date(Date.now() + duration * 1000).toISOString(),
-          });
-        }
-      });
-      // uncheck slots
+        const orderConfig = configBySlot.get(slot.slotNumber);
+        if (!orderConfig) continue;
+
+        const duration = config.durations?.[orderConfig.slotType] ?? config.durations?.default;
+        if (duration == null) continue;
+
+        addTimer({
+          sessionId: 'repeat-session',
+          slotNumber: slot.slotNumber,
+          orderId: createCuid(),
+          flowType: FLOW_TYPES.PROGRAM_PRODUCT,
+          duration,
+          status: 'processing',
+          completionTime: new Date(Date.now() + duration * 1000).toISOString(),
+        });
+      }
+
       setSelectedSlots([]);
     });
   }, [
     selectedSlots,
+    configBySlot,
     addTimer,
     orderItemsConfig,
     setSelectedSlots,
