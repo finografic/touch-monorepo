@@ -3,37 +3,62 @@ import { useMemo } from 'react';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 import { DEFAULT_SLOTS_CONFIG } from 'config/app/slots.config';
-import type { SlotItem } from 'types/slot-config.types';
+import type { SlotConfiguration, SlotItem } from 'types/slot-config.types';
+import type { ErrorResponse } from '@workspace/core/api';
+
+interface SlotItemsConfigReturn {
+  items: SlotItem[];
+  itemsBySlot: Map<number, SlotItem>;
+  allSlots: SlotConfiguration[];
+  isLoading: boolean;
+  isError: boolean;
+  error: ErrorResponse | null;
+  isSuccess: boolean;
+  refetch: () => void;
+}
 
 /**
  * Hook to get order items configuration from slot configurations API
  * Falls back to hardcoded config if API fails or data is not available
  */
-export const useSlotItemsConfig = (): SlotItem[] => {
-  const { data: slotConfigs, isLoading, error } = useGetSlotConfigurations();
+export const useSlotItemsConfig = (options?: { onlyActive?: boolean }): SlotItemsConfigReturn => {
+  const query = useGetSlotConfigurations();
 
-  const orderItemsConfig = useMemo((): SlotItem[] => {
-    if (isLoading || error || !slotConfigs || slotConfigs.length === 0) {
-      return [...DEFAULT_SLOTS_CONFIG];
+  const allSlots = query.data ?? (DEFAULT_SLOTS_CONFIG as SlotConfiguration[]);
+
+  const items = useMemo((): SlotItem[] => {
+    let list = allSlots
+      .slice()
+      .sort((a, b) => a.slotNumber - b.slotNumber)
+      .map((cfg) => ({
+        slotNumber: cfg.slotNumber,
+        slotType: cfg.slotType,
+        isActive: cfg.isActive,
+      }));
+
+    if (options?.onlyActive) {
+      list = list.filter((item) => item.isActive);
     }
 
-    try {
-      // const config = convertSlotConfigsToOrderConfig(slotConfigs);
-      // return config;
+    return list;
+  }, [allSlots, options?.onlyActive]);
 
-      return slotConfigs
-        .sort((a, b) => a.slotNumber - b.slotNumber)
-        .filter((config) => config.isActive)
-        .map((config) => ({
-          slotType: config.slotType,
-          slotNumber: config.slotNumber,
-        }));
-    } catch (error) {
-      console.error('Error converting slot configs to order config:', error);
-
-      return [...DEFAULT_SLOTS_CONFIG];
+  const itemsBySlot = useMemo(() => {
+    const map = new Map<number, SlotItem>();
+    for (const item of items) {
+      map.set(item.slotNumber, item);
     }
-  }, [slotConfigs, isLoading, error]);
+    return map;
+  }, [items]);
 
-  return orderItemsConfig;
+  return {
+    items,
+    itemsBySlot,
+    allSlots, // raw API response
+    isLoading: query.isLoading,
+    isError: query.isError,
+    error: query.error,
+    isSuccess: query.isSuccess,
+    refetch: query.refetch,
+  };
 };

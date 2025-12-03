@@ -37,7 +37,8 @@ export const useProductFlowOperations = () => {
   const { selectedSlots, setSelectedSlots } = useLayoutUi();
   const { setFilter, clearFilters, filters } = useFiltersContext();
   const { dataFiltered } = useFilters();
-  const orderItemsConfig = useSlotItemsConfig();
+  // const orderItemsConfig = useSlotItemsConfig();
+  const { items: orderItemsConfig } = useSlotItemsConfig();
   const { saveRecallConfig } = useRecallConfig();
 
   // Temperature control loading state

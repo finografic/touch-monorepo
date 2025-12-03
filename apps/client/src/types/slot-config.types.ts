@@ -3,6 +3,7 @@ import type { SlotType } from './slots.types';
 export interface SlotItem {
   slotType: SlotType;
   slotNumber: number;
+  isActive?: boolean;
 }
 
 export interface SlotConfiguration {

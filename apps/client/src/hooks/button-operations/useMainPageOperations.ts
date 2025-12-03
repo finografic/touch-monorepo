@@ -1,5 +1,4 @@
 import { useCallback, useMemo, useTransition } from 'react';
-
 import createCuid from '@bugsnag/cuid';
 
 import { useRecallConfig } from 'hooks/useRecallConfig';
@@ -10,36 +9,25 @@ import { useTimers, type TimerItem } from 'providers/TimersProvider';
 
 import { stopAllAudio } from 'utils/soundCache.utils';
 import { FLOW_TYPES } from 'types/flow.types';
-import { useGetSlotConfigurations } from 'queries/slot-configurations';
-import type { SlotItem } from 'types/slot-config.types';
 
-/**
- * Handles MainPage-specific operations:
- * - Timer management (clear/cancel completed)
- * - Selection operations (select all)
- * - Repeat last configuration
- */
 export const useMainPageOperations = () => {
   const [isPending, startTransition] = useTransition();
-  const { addTimer, timers, removeTimer } = useTimers();
+  const { addTimer, timers, removeTimer, updateTimers, setSnooze } = useTimers();
   const { toggleMainPageSlot, selectedSlots, setSelectedSlots } = useLayoutUi();
   const { loadRecallConfig, isRecallExpired, recallConfig } = useRecallConfig();
-  const { updateTimers, setSnooze } = useTimers();
-  const orderItemsConfig = useSlotItemsConfig();
-  const slotsConfigQuery = useGetSlotConfigurations();
   const { setFilter } = useFiltersContext();
 
-  const slotsConfig = slotsConfigQuery.isSuccess ? slotsConfigQuery.data : [];
+  // Get slot config data
+  const {
+    items: slotItems, // SlotItem[]
+    itemsBySlot: slotItemsBySlot, // Map<number, SlotItem>
+  } = useSlotItemsConfig();
 
-  const { timerSlots, timersBySlot, activeTimers, configBySlot } = useMemo(() => {
+  // Precompute timer lookup structures
+  const { timerSlots, timersBySlot, activeTimers } = useMemo(() => {
     const bySlot = new Map<number, TimerItem>();
     const active: TimerItem[] = [];
     const slots = new Set<number>();
-    const configMap = new Map<number, SlotItem>();
-
-    for (const o of orderItemsConfig) {
-      configMap.set(o.slotNumber, o);
-    }
 
     for (const t of timers) {
       bySlot.set(t.slotNumber, t);
@@ -51,15 +39,11 @@ export const useMainPageOperations = () => {
       timerSlots: slots,
       timersBySlot: bySlot,
       activeTimers: active,
-      configBySlot: configMap,
     };
-  }, [timers, orderItemsConfig]);
+  }, [timers]);
 
-  const activeSlots = useMemo(() => {
-    if (slotsConfigQuery.isLoading || slotsConfigQuery.isError) return [];
-
-    return slotsConfig.filter((slot) => slot.isActive);
-  }, [slotsConfigQuery.isLoading, slotsConfigQuery.isSuccess, slotsConfigQuery.data]);
+  // Derived active slots from slot config data
+  const activeSlots = useMemo(() => slotItems.filter((s) => s.isActive), [slotItems]);
 
   // ========================================================================
   // TIMER OPERATIONS
@@ -90,55 +74,42 @@ export const useMainPageOperations = () => {
   // ========================================================================
 
   const handleSelectAll = useCallback(() => {
-    const ignores = [...timerSlots, ...selectedSlots.map((slot) => slot.slotNumber)];
+    // slots that cannot be selected:
+    // - slots that already have timers running
+    // - slots that are already selected
+    const ignores = new Set<number>([...timerSlots, ...selectedSlots.map((slot) => slot.slotNumber)]);
 
     startTransition(() => {
       for (const slot of activeSlots) {
-        if (!ignores.includes(slot.slotNumber)) {
+        if (!ignores.has(slot.slotNumber)) {
           toggleMainPageSlot({ ...slot, isChecked: true, status: 'idle' });
         }
       }
     });
-  }, [activeSlots, selectedSlots, toggleMainPageSlot]);
+  }, [activeSlots, timerSlots, selectedSlots, toggleMainPageSlot]);
 
   // ========================================================================
   // REPEAT CONFIGURATION
   // ========================================================================
 
   const handleRepeatSelection = useCallback(() => {
-    if (!recallConfig || isRecallExpired) {
-      console.error('No active recall config found');
-      return;
-    }
-
-    // Load saved configuration using the hook
+    if (!recallConfig || isRecallExpired) return;
     const config = loadRecallConfig();
-    if (!config) {
-      console.error('No saved configuration found');
-      return;
-    }
+    if (!config) return;
 
     startTransition(() => {
-      // Apply stored filters to FiltersContext
-      if (config.filters && typeof config.filters === 'object') {
-        const savedFilters = config.filters as Record<string, unknown>;
-
-        // Apply each filter from the saved configuration
-        Object.entries(savedFilters).forEach(([key, value]) => {
-          if (value !== null && value !== undefined) {
-            setFilter(key as any, value);
-          }
-        });
-
-        console.log('🎯 REPEAT: Applied stored filters to FiltersContext:', savedFilters);
+      if (config.filters) {
+        for (const [key, value] of Object.entries(config.filters)) {
+          if (value != null) setFilter(key as any, value);
+        }
       }
 
-      const ignores = new Set(timerSlots);
+      const ignores = timerSlots;
 
       for (const slot of selectedSlots) {
         if (ignores.has(slot.slotNumber)) continue;
 
-        const orderConfig = configBySlot.get(slot.slotNumber);
+        const orderConfig = slotItemsBySlot.get(slot.slotNumber);
         if (!orderConfig) continue;
 
         const duration = config.durations?.[orderConfig.slotType] ?? config.durations?.default;
@@ -159,14 +130,14 @@ export const useMainPageOperations = () => {
     });
   }, [
     selectedSlots,
-    configBySlot,
+    slotItemsBySlot,
     addTimer,
-    orderItemsConfig,
     setSelectedSlots,
     loadRecallConfig,
     setFilter,
     recallConfig,
     isRecallExpired,
+    timerSlots,
   ]);
 
   return {

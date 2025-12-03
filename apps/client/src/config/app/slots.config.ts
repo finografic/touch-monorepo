@@ -1,5 +1,5 @@
 import { type SelectedSlotItem, SlotType } from 'types/slots.types';
-import type { SlotItem } from 'types/slot-config.types';
+import type { SlotConfiguration, SlotItem } from 'types/slot-config.types';
 
 export const NUM_ROWS_DEFAULT = 3; // Always 3 rows
 export const NUM_RELAYS = 16; // Always 16 total slots
@@ -16,17 +16,21 @@ export const INITIAL_SLOT_ITEM: SelectedSlotItem = {
 };
 
 export const DEFAULT_SLOTS_CONFIG: SlotItem[] = [
-  { slotType: SlotType.A, slotNumber: 1 },
-  { slotType: SlotType.B, slotNumber: 2 },
-  { slotType: SlotType.B, slotNumber: 3 },
-  { slotType: SlotType.B, slotNumber: 4 },
-  { slotType: SlotType.B, slotNumber: 5 },
-  { slotType: SlotType.B, slotNumber: 6 },
-  { slotType: SlotType.B, slotNumber: 7 },
-  { slotType: SlotType.B, slotNumber: 8 },
-  { slotType: SlotType.B, slotNumber: 9 },
-  { slotType: SlotType.C, slotNumber: 10 },
-  { slotType: SlotType.B, slotNumber: 11 },
-  { slotType: SlotType.B, slotNumber: 12 },
-  { slotType: SlotType.C, slotNumber: 13 },
+  // export const DEFAULT_SLOTS_CONFIG: Partial<SlotConfiguration>[] = [
+  { slotType: SlotType.A, slotNumber: 1, isActive: true },
+  { slotType: SlotType.B, slotNumber: 2, isActive: true },
+  { slotType: SlotType.B, slotNumber: 3, isActive: true },
+  { slotType: SlotType.B, slotNumber: 4, isActive: true },
+  { slotType: SlotType.B, slotNumber: 5, isActive: true },
+  { slotType: SlotType.B, slotNumber: 6, isActive: true },
+  { slotType: SlotType.B, slotNumber: 7, isActive: true },
+  { slotType: SlotType.B, slotNumber: 8, isActive: true },
+  { slotType: SlotType.B, slotNumber: 9, isActive: true },
+  { slotType: SlotType.C, slotNumber: 10, isActive: false },
+  { slotType: SlotType.B, slotNumber: 11, isActive: false },
+  { slotType: SlotType.B, slotNumber: 12, isActive: false },
+  { slotType: SlotType.C, slotNumber: 13, isActive: false },
+  { slotType: SlotType.B, slotNumber: 14, isActive: false },
+  { slotType: SlotType.B, slotNumber: 15, isActive: false },
+  { slotType: SlotType.C, slotNumber: 16, isActive: false },
 ];

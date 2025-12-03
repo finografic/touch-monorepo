@@ -27,7 +27,12 @@ export const useTimeFlowOperations = () => {
   const { createSession, assignOrdersToSession, currentSessionId, clearSession } = useSession();
   const { addTimer, timers } = useTimers();
   const { selectedSlots, setSelectedSlots } = useLayoutUi();
-  const orderItemsConfig = useSlotItemsConfig();
+  const { itemsBySlot: slotItemsBySlot } = useSlotItemsConfig();
+
+  // Precompute active timer slots
+  const timerSlots = useMemo(() => {
+    return new Set(timers.map((t) => t.slotNumber));
+  }, [timers]);
 
   // ========================================================================
   // PROGRAM TIME (MainPage → TimePage)
@@ -35,70 +40,60 @@ export const useTimeFlowOperations = () => {
 
   const handleProgramTime = useCallback(() => {
     startTransition(() => {
-      const selectedIdleSlots = selectedSlots.filter((slot) => {
-        const timer = timers.find((t: any) => t.slotNumber === slot.slotNumber);
-        return !timer || (timer.status !== 'processing' && timer.status !== 'completed');
-      });
+      // Determine which slots are idle
+      const selectedIdleSlots = selectedSlots.filter((slot) => !timerSlots.has(slot.slotNumber));
 
       if (selectedIdleSlots.length === 0) {
         console.warn('No selected idle slots to program time for');
       }
 
-      log('__DEV: sessionId', 'orange', selectedIdleSlots);
-
-      // Create orders for selected slots first
-      selectedIdleSlots.forEach((slot) => {
-        const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slot.slotNumber);
+      // Create orders for selected slots using Map lookup
+      for (const slot of selectedIdleSlots) {
+        const orderConfig = slotItemsBySlot.get(slot.slotNumber);
         if (orderConfig) {
           toggleSlot({
             slotType: orderConfig.slotType,
             slotNumber: slot.slotNumber,
           });
         }
-      });
+      }
 
-      // Create new session and assign selected slots
       const sessionId = createSession(FLOW_TYPES.PROGRAM_TIME);
 
-      assignOrdersToSession(
-        sessionId,
-        selectedIdleSlots.map((slot) => slot.slotNumber),
-      );
+      const slotNumbers = selectedIdleSlots.map((s) => s.slotNumber);
+
+      assignOrdersToSession(sessionId, slotNumbers);
 
       setOrdersSession({
-        slotNumbers: selectedIdleSlots.map((slot) => slot.slotNumber),
+        slotNumbers,
         session: { id: sessionId, flowType: FLOW_TYPES.PROGRAM_TIME },
       });
 
-      // Navigate to time page
       navigate(ALTERNATIVE_PATHS.time);
     });
   }, [
-    navigate,
     selectedSlots,
-    timers,
+    toggleSlot,
     createSession,
     assignOrdersToSession,
     setOrdersSession,
-    toggleSlot,
-    orderItemsConfig,
+    navigate,
+    slotItemsBySlot,
+    timerSlots,
   ]);
 
   // ========================================================================
-  // START TIME PROCESS (TimePage → MainPage with timers)
+  // START TIME PROCESS (TimePage → MainPage)
   // ========================================================================
 
   const handleStartTimeProcess = useCallback(
     (duration: number) => {
       startTransition(() => {
-        // Filter out slots that have timers with status "processing" or "completed"
         const slotsToProcess = filterSlotsAvailable(selectedSlots, timers);
 
-        // Add timers to TimerContext for each filtered slot
-        slotsToProcess.forEach((slot) => {
-          // Check if there's already a timer for this slot
+        for (const slot of slotsToProcess) {
           const existingTimer = timers.find((t) => t.slotNumber === slot.slotNumber);
-          const orderId = existingTimer?.orderId || createCuid();
+          const orderId = existingTimer?.orderId ?? createCuid();
 
           addTimer({
             sessionId: currentSessionId!,
@@ -110,12 +105,10 @@ export const useTimeFlowOperations = () => {
             status: 'processing',
             completionTime: new Date(Date.now() + duration * 1000).toISOString(),
           });
-        });
+        }
 
-        // Clear selection when timers start (ensures green color shows)
         setSelectedSlots([]);
 
-        // Navigate back to main page with state indicating flow completion (not cancellation)
         navigate(PATHS.main, {
           replace: true,
           state: { flowCompleted: true, flowType: FLOW_TYPES.PROGRAM_TIME },
@@ -131,30 +124,23 @@ export const useTimeFlowOperations = () => {
 
   const handleCancelTimeSession = useCallback(() => {
     startTransition(() => {
-      // Only proceed if we're on the TimePage
       if (location.pathname !== ALTERNATIVE_PATHS.time) {
         console.warn('handleCancelTimeSession: Called but not on TimePage');
         return;
       }
 
-      // Remove the current session
       if (currentSessionId) {
-        console.log('Cancelling time session:', currentSessionId);
-
-        // Clear any orders that were created for this session
-        const sessionOrders = orders.filter((order) => order.session?.id === currentSessionId);
-        sessionOrders.forEach((order) => {
+        const sessionOrders = orders.filter((o) => o.session?.id === currentSessionId);
+        for (const order of sessionOrders) {
           toggleSlot({
             slotType: order.slotType,
             slotNumber: order.slotNumber,
           });
-        });
+        }
 
-        // Remove the session from SessionContext
         clearSession(currentSessionId);
       }
 
-      // Navigate back to main page
       navigate(PATHS.main, { replace: true });
     });
   }, [location.pathname, currentSessionId, orders, toggleSlot, navigate, clearSession]);

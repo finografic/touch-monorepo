@@ -13,7 +13,6 @@ import { usePagination } from 'providers/PaginationProvider/PaginationContext';
 import { useSession } from 'providers/SessionProvider/SessionContext';
 import { useTimers } from 'providers/TimersProvider';
 import { useGetDefaultMode } from 'queries/modes/useGetDefaultMode';
-import { useGetSlotConfigurations } from 'queries/slot-configurations';
 
 import { MainPageSlotGrid } from './MainPageSlotGrid/MainPageSlotGrid';
 import type { SlotMeta } from './MainPage.types';
@@ -27,10 +26,9 @@ export function MainPage() {
   const { contentButtons } = useButtonConfig();
   const { setIsNextDisabled } = usePagination();
   const { setFilter } = useFiltersContext();
-  const { data: slotsConfig, isLoading, error } = useGetSlotConfigurations();
   const { currentSessionId, sessions } = useSession();
   const { setSelectedSlots, selectedSlots } = useLayoutUi();
-  const orderItemsConfig = useSlotItemsConfig();
+  const { allSlots: slotsConfig, isLoading } = useSlotItemsConfig();
 
   // Check if we're returning from a completed flow (not a cancellation)
   const flowCompleted = (location.state as any)?.flowCompleted === true;
@@ -81,7 +79,7 @@ export function MainPage() {
             // Rebuild selectedSlots from session's slotNumbers
             const restoredSlots: SlotMeta[] = sessionSlotNumbers
               .map((slotNumber) => {
-                const orderConfig = orderItemsConfig.find((config) => config.slotNumber === slotNumber);
+                const orderConfig = slotsConfig.find((config) => config.slotNumber === slotNumber);
                 if (orderConfig) {
                   return {
                     slotType: orderConfig.slotType,
@@ -107,7 +105,7 @@ export function MainPage() {
         hasRestoredSlots.current = false;
       }
     },
-    [currentSessionId, sessions, selectedSlots, setSelectedSlots, orderItemsConfig, flowCompleted],
+    [currentSessionId, sessions, selectedSlots, setSelectedSlots, slotsConfig, flowCompleted],
   );
 
   // 🚀 PERFORMANCE OPTIMIZATION: Use Map for O(1) timer lookups (memoized)

@@ -7,15 +7,10 @@ import { mapGridByColumns } from 'utils/grid.utils';
 import { SlotSpecial, SlotType } from 'types/slots.types';
 import { styles } from './MainPageSlotGrid.styles';
 import { NUM_ROWS_DEFAULT } from 'config/app/slots.config';
-
-interface SlotConfig {
-  slotNumber: number;
-  slotType: SlotType;
-  isActive: boolean;
-}
+import type { SlotConfiguration } from 'types/slot-config.types';
 
 interface MainPageSlotGridProps {
-  slots: SlotConfig[];
+  slots: SlotConfiguration[];
   columns: number;
   rows: number;
 }

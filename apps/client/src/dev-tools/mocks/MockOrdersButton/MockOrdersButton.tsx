@@ -25,7 +25,7 @@ export const MockOrdersButton = () => {
   const { setPageCurrent } = usePagination();
   const { setFilter } = useFiltersContext();
   const { toggleSlot, setOrdersSession } = useOrders();
-  const orderItemsConfig = useSlotItemsConfig();
+  const { items: orderItemsConfig } = useSlotItemsConfig();
   const { data: slotConfigurations } = useGetSlotConfigurations();
   const { timers } = useTimers();
 

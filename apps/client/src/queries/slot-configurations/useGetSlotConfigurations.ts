@@ -20,6 +20,9 @@ const getSlotConfigurations = async () => {
 export const useGetSlotConfigurations = (): UseQueryResult<SlotConfiguration[], ErrorResponse> => {
   return useQuery({
     queryKey: SLOT_CONFIGURATIONS_QUERY_KEYS.lists(),
-    queryFn: async () => getSlotConfigurations(),
+    queryFn: getSlotConfigurations,
+    staleTime: 1000 * 60 * 10, // 10 minutes
+    retry: 1,
+    refetchOnWindowFocus: false,
   });
 };
