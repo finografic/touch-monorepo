@@ -23,7 +23,7 @@ export const useMainPageOperations = () => {
   const { addTimer, timers, removeTimer } = useTimers();
   const { toggleMainPageSlot, selectedSlots, setSelectedSlots } = useLayoutUi();
   const { loadRecallConfig, isRecallExpired, recallConfig } = useRecallConfig();
-  const { updateTimers } = useTimers();
+  const { updateTimers, setSnooze } = useTimers();
   const orderItemsConfig = useSlotItemsConfig();
   const slotsConfigQuery = useGetSlotConfigurations();
   const { setFilter } = useFiltersContext();
@@ -58,9 +58,10 @@ export const useMainPageOperations = () => {
   const handleResetCompleted = useCallback(() => {
     startTransition(() => {
       stopAllAudio();
+      setSnooze(false);
       updateTimers(activeTimers);
     });
-  }, [activeTimers]);
+  }, [activeTimers, updateTimers, setSnooze]);
 
   // ========================================================================
   // SELECTION OPERATIONS

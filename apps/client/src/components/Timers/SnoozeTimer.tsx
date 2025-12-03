@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { useTimersOptional } from 'providers/TimersProvider';
+import { useTimers } from 'providers/TimersProvider';
 
 import { playAlarmSound } from 'utils/sound.utils';
 import { formatTimeFromMs } from 'utils/time.utils';
@@ -31,33 +31,26 @@ interface SnoozeTimerProps {
  * 6. (Optional) Debounce mode: Restarts countdown when new timers complete
  */
 export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
-  const timersContext = useTimersOptional();
+  const timersContext = useTimers();
   const [remainingTime, setRemainingTime] = useState<number>(0);
   const [startTime, setStartTime] = useState<number | null>(null);
 
-  // Check if recall config is active (exists and not expired)
-  const hasActiveTimer = timersContext
-    ? (() => {
-        const now = Date.now();
-        const isExpired = timersContext.recall.expiresAt === null || now >= timersContext.recall.expiresAt;
-        return timersContext.recall.config !== null && !isExpired;
-      })()
-    : false;
-
-  const now = useHeartbeatSubscription(); // Subscribe to global heartbeat
+  const heartbeatNow = useHeartbeatSubscription(); // Subscribe to global heartbeat
 
   const previousCompletedCountRef = useRef<number>(0);
   const lastCycleRef = useRef<number>(0);
   const lastBeepTimeRef = useRef<number>(0);
 
   // Get completed timers count
-  const hasCompletedTimers = timersContext?.timers.some((t) => t.status === 'completed') ?? false;
-  const completedCount = timersContext?.timers.filter((t) => t.status === 'completed').length ?? 0;
+  const hasCompletedTimers = timersContext.timers.some((t) => t.status === 'completed');
+  const completedCount = timersContext.timers.filter((t) => t.status === 'completed').length;
 
   // Setup/teardown logic for snooze timer
   useEffect(() => {
-    // Only run if storage timer is active AND there are completed timers
-    if (!hasActiveTimer || !hasCompletedTimers) {
+    // Run if there are any completed timers (regardless of flow type)
+    const shouldRun = hasCompletedTimers;
+
+    if (!shouldRun) {
       setStartTime(null);
       setRemainingTime(0);
       previousCompletedCountRef.current = 0;
@@ -84,32 +77,33 @@ export const SnoozeTimer = ({ shouldDebounce = false }: SnoozeTimerProps) => {
       lastCycleRef.current = 0;
       lastBeepTimeRef.current = currentTime; // Initialize beep timer
     }
-  }, [hasActiveTimer, hasCompletedTimers, startTime, shouldDebounce, completedCount]);
+  }, [hasCompletedTimers, startTime, shouldDebounce, completedCount]);
 
-  // Update remaining time when heartbeat ticks (now changes)
+  // Update remaining time when heartbeat ticks (heartbeatNow changes)
   useEffect(
     function updateRemainingTime() {
       if (!startTime) return;
 
-      const { remaining, totalElapsed } = parseElapsedTime({ startTime, now });
+      const { remaining, totalElapsed } = parseElapsedTime({ startTime, now: heartbeatNow });
       setRemainingTime(remaining);
 
       // ALARM every 2 minutes (SNOOZE_INTERVAL_MS)
       // Check if 2 minutes have passed since last beep
-      const timeSinceLastBeep = now - lastBeepTimeRef.current;
+      const timeSinceLastBeep = heartbeatNow - lastBeepTimeRef.current;
 
       if (timeSinceLastBeep >= SNOOZE_INTERVAL_MS) {
         const currentCycle = getCycleNumber(totalElapsed, SNOOZE_INTERVAL_MS);
-        lastBeepTimeRef.current = now;
+        lastBeepTimeRef.current = heartbeatNow;
         lastCycleRef.current = currentCycle;
         playAlarmSound().catch(() => {});
       }
     },
-    [now, startTime],
+    [heartbeatNow, startTime],
   );
 
-  // Don't render if storage timer is not active or there are no completed timers
-  if (!hasActiveTimer || !hasCompletedTimers || remainingTime <= 0) {
+  // Don't render if there are no completed timers or remaining time is 0
+  const shouldRender = hasCompletedTimers && remainingTime > 0;
+  if (!shouldRender) {
     return null;
   }
 

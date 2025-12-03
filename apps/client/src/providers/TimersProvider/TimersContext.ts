@@ -207,11 +207,3 @@ export const useTimers = (
 
   return { ...storeReturn, timer };
 };
-
-export const useTimersOptional = (): TimersReturn | null => {
-  try {
-    return useTimers();
-  } catch (error) {
-    return null;
-  }
-};
