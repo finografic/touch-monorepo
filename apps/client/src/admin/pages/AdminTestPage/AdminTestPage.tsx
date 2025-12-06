@@ -1,149 +1,126 @@
 import React, { useCallback, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
-import { Flex, Text } from '@radix-ui/themes';
-import { TranslationsTable } from 'admin/pages/AdminTestPage/TranslationsTable';
-import { Button } from 'components/Button';
+import { Flex, Spinner, Tabs, Text } from '@radix-ui/themes';
 import { useToast } from 'components/Toast';
 
-import { useDeleteOrder, useGetOrdersReadable } from 'queries/orders';
-
 import { AdminPageLayout, AdminSection } from '../..';
-import { useOrdersFilter } from './hooks/useOrdersFilter';
-import type { OrderReadableWithIndex } from './hooks/useOrdersFilter';
+import { useProductTranslationSections } from '../TranslationsProductPage/hooks/useProductTranslationSections';
+import { ProductTranslationsTable } from './ProductTranslationsTable/ProductTranslationsTable';
+import { styles } from './AdminTestPage.styles';
+
+type SectionKey = 'drinkSubtypes' | 'volumes' | 'drinkTypes' | 'containerTypes';
 
 export const AdminTestPage: React.FC = () => {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
   const { toast } = useToast();
 
-  // State for search/filter (empty for PrimeReact's built-in filtering)
-  const [searchTerm] = useState('');
+  const {
+    sections,
+    supportedLanguages,
+    isLoading,
+    handleValueChange,
+    resetSection,
+    saveSection,
+    isSectionDirty,
+  } = useProductTranslationSections();
 
-  // State for selected orders (for batch deletion)
-  const [selectedOrders, setSelectedOrders] = useState<OrderReadableWithIndex[]>([]);
+  const [activeTab, setActiveTab] = useState<SectionKey>('drinkTypes');
 
-  const { data: ordersData = [], isLoading, error } = useGetOrdersReadable();
-  const { filteredOrders, isFiltered, totalCount, filteredCount } = useOrdersFilter({
-    ordersData,
-    searchTerm,
-    columnSearches: {}, // PrimeReact handles its own column filtering
-  });
+  // Get the active section based on the selected tab
+  const activeSection = useMemo(() => {
+    return sections.find((section) => section.key === activeTab);
+  }, [sections, activeTab]);
 
-  const deleteOrderMutation = useDeleteOrder();
-
-  const { title, subtitle } = useMemo(() => {
-    return {
-      title: 'Gestión de configuraciones',
-      subtitle: isFiltered ? `${filteredCount} results` : `${totalCount} entries`,
-    };
-  }, [isFiltered, filteredCount, totalCount]);
-
-  // Simple button handler - no memoization needed
-  const handleCreateNew = () => {
-    navigate('/admin/items/new');
-  };
-
-  // Passed to TranslationsTable (memoized) - use useCallback
-  const handleEditOrder = useCallback(
-    (orderId: string) => {
-      navigate(`/admin/items/${orderId}`);
+  const handleItemChange = useCallback(
+    (itemId: string, fieldName: string, value: string) => {
+      handleValueChange(activeTab, itemId, fieldName, value);
     },
-    [navigate],
+    [activeTab, handleValueChange],
   );
 
-  const handleDeleteOrder = useCallback(
-    async (orderId: string) => {
-      // eslint-disable-next-line no-alert
-      const confirmDelete = window.confirm(
-        'Are you sure you want to delete this order? This action cannot be undone.',
-      );
-      if (confirmDelete) {
-        try {
-          await deleteOrderMutation.mutateAsync(orderId);
-          toast({
-            variant: 'success',
-            message: 'Order deleted successfully!',
-            subText: `Order ${orderId} has been removed`,
-          });
-        } catch (error) {
-          console.error('Failed to delete order:', error);
-          toast({
-            variant: 'error',
-            message: 'Failed to delete order',
-            subText: 'Please try again or contact support',
-          });
-        }
-      }
-    },
-    [deleteOrderMutation, toast],
-  );
-
-  const handleDeleteSelected = useCallback(async () => {
-    if (selectedOrders.length === 0) return;
-
-    // eslint-disable-next-line no-alert
-    const confirmDelete = window.confirm(
-      `Are you sure you want to delete ${selectedOrders.length} selected order(s)? This action cannot be undone.`,
-    );
-
-    if (!confirmDelete) return;
-
+  const handleSave = useCallback(async () => {
     try {
-      // Delete all selected orders sequentially
-      const deletePromises = selectedOrders.map((order) => deleteOrderMutation.mutateAsync(order.id));
-      await Promise.all(deletePromises);
-
+      const result = await saveSection(activeTab);
       toast({
         variant: 'success',
-        message: 'Orders deleted successfully!',
-        subText: `${selectedOrders.length} order(s) have been removed`,
+        message: result.message || 'Changes saved successfully',
       });
-
-      // Clear selection after successful deletion
-      setSelectedOrders([]);
     } catch (error) {
-      console.error('Failed to delete selected orders:', error);
+      console.error('Failed to save translations:', error);
       toast({
         variant: 'error',
-        message: 'Failed to delete some orders',
-        subText: 'Please try again or contact support',
+        message: 'Failed to save translations',
+        subText: 'Please try again',
       });
     }
-  }, [selectedOrders, deleteOrderMutation, toast]);
+  }, [activeTab, saveSection, toast]);
+
+  const handleReset = useCallback(() => {
+    resetSection(activeTab);
+    toast({
+      variant: 'info',
+      message: 'Changes reset',
+    });
+  }, [activeTab, resetSection, toast]);
+
+  if (isLoading || !activeSection) {
+    return (
+      <AdminPageLayout
+        title={t('admin.pages.translations.content.editTables')}
+        subtitle="Admin"
+        description="Manage product translations"
+        styles={styles}
+      >
+        <Flex direction="column" gap="4" align="center" justify="center" p="6">
+          <Spinner size="3" />
+          <Text>Loading translations...</Text>
+        </Flex>
+      </AdminPageLayout>
+    );
+  }
 
   return (
     <AdminPageLayout
-      title={title}
-      subtitle={subtitle}
-      headerActions={
-        <Flex gap="2" align="center">
-          {selectedOrders.length > 0 && (
-            <Button color="danger" onClick={handleDeleteSelected}>
-              Delete Selected ({selectedOrders.length})
-            </Button>
-          )}
-          <Button color="success" onClick={handleCreateNew}>
-            + Create New
-          </Button>
-        </Flex>
-      }
+      title={t('admin.pages.translations.content.editTables')}
+      subtitle="Admin"
+      description="Manage product translations"
+      styles={styles}
     >
-      <AdminSection isLoading={isLoading} variant="none">
-        {error ? (
-          <Flex direction="column" gap="4" align="center" justify="center" p="6">
-            <Text color="red">Error loading orders: {error.message}</Text>
-          </Flex>
-        ) : (
-          <TranslationsTable
-            orders={filteredOrders}
-            emptyMessage="No orders found. Try adjusting your filters."
-            onClickEdit={handleEditOrder}
-            onClickDelete={handleDeleteOrder}
-            selectedOrders={selectedOrders}
-            onSelectionChange={setSelectedOrders}
-          />
-        )}
-      </AdminSection>
+      <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
+        <Tabs.List>
+          <Tabs.Trigger value="drinkTypes">
+            {t('admin.pages.translations.content.drinkTypes.title')}
+          </Tabs.Trigger>
+          <Tabs.Trigger value="drinkSubtypes">
+            {t('admin.pages.translations.content.drinkSubtypes.title')}
+          </Tabs.Trigger>
+          <Tabs.Trigger value="volumes">{t('admin.pages.translations.content.volumes.title')}</Tabs.Trigger>
+          <Tabs.Trigger value="containerTypes">
+            {t('admin.pages.translations.content.containerTypes.title')}
+          </Tabs.Trigger>
+        </Tabs.List>
+
+        {sections.map((section) => (
+          <Tabs.Content key={section.key} value={section.key}>
+            <AdminSection
+              title={t(section.title)}
+              description={t(section.description)}
+              variant="border-solid"
+            >
+              <ProductTranslationsTable
+                sectionKey={section.key}
+                items={section.items}
+                supportedLanguages={supportedLanguages}
+                onItemChange={handleItemChange}
+                onSave={handleSave}
+                onReset={handleReset}
+                isDirty={isSectionDirty(section.key)}
+              />
+            </AdminSection>
+          </Tabs.Content>
+        ))}
+      </Tabs.Root>
     </AdminPageLayout>
   );
 };

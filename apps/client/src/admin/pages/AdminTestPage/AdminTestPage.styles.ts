@@ -1,29 +1,30 @@
 import { css } from '@emotion/react';
 
-import { colors } from 'styles';
-import { layout } from 'styles/layout/layout.config';
+import { colors, spacing } from 'styles';
 
 export const styles = css`
-  .tab-content-list {
-    /* max-width: 60vw !important;
-    min-width: 1000px !important; */
-    margin-top: 0 !important;
+  width: 100%;
+  min-height: 100vh;
+  background-color: ${colors.white};
+  color: ${colors.text};
+
+  div[role='tab'] {
+    padding: 0.5rem 1rem;
+    color: ${colors.text};
+    font-size: 1.125rem;
+    font-weight: 700;
+    line-height: 1.5;
+    margin-bottom: ${spacing.xl};
   }
 
-  .tab-content {
-    height: 66vh;
-    .tab-content-new,
-    .tab-content-edit {
-      overflow-y: hidden;
-      top: 260px;
-    }
-  }
-
-  /* DIALOG TABS ========================================================== */
+  /* TABS ========================================================== */
 
   [role='tablist'] {
+    /* tab-horizontal-rule */
     box-shadow: inset 0 -2px 0 0 transparent;
     box-shadow: inset 0 -0.2rem 0 0 ${colors.defaultXXLight25};
+
+    margin: -1rem -1.5rem 1rem;
 
     button[role='tab'] {
       height: 4rem;
@@ -34,26 +35,20 @@ export const styles = css`
       span {
         padding: 0.8em 1.25em;
         font-size: 1rem;
-        font-weight: 700;
+        font-weight: 600;
         color: ${colors.textLight75};
-      }
-
-      svg.icon {
-        margin-left: -0.33rem;
-        margin-right: 0rem;
-        transform: translate(-0.25rem, 0) scale(0.8) !important;
-        color: ${colors.textXLight75};
       }
 
       &:nth-of-type(1) {
         margin-left: 0rem;
       }
-      &:last-of-type {
+      &:last-child {
         margin-right: 0rem;
       }
     }
 
     button[role='tab'][data-state='active'] {
+      /* active-tab */
       &:before {
         background-color: ${colors.infoLight};
         height: 0.2rem;
