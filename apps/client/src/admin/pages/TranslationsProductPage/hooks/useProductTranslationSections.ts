@@ -427,6 +427,7 @@ export const useProductTranslationSections = () => {
 
   return {
     sections,
+    initialSections,
     supportedLanguages,
     isLoading: translationsLoading || languagesLoading || !isReady,
     handleValueChange,

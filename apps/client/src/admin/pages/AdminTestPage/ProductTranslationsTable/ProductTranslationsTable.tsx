@@ -1,28 +1,31 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { InputText } from 'primereact/inputtext';
-import type { ColumnEditorOptions } from 'primereact/column';
 import { Flex, Text } from '@radix-ui/themes';
+import { PAGINATOR_NUM_ENTRIES as ADMIN_PAGINATOR_NUM_ENTRIES } from 'admin/config/admin.tables.config';
 import { FilterMatchMode } from 'primereact/api';
+import type { ColumnEditorOptions } from 'primereact/column';
 import { Column } from 'primereact/column';
-import type { DataTableRowEditCompleteEvent } from 'primereact/datatable';
-import type { DataTableFilterMeta, DataTableProps } from 'primereact/datatable';
+import type {
+  DataTableFilterMeta,
+  DataTableProps,
+  DataTableRowEditCompleteEvent,
+} from 'primereact/datatable';
 import { DataTable } from 'primereact/datatable';
+import { InputText } from 'primereact/inputtext';
 import { useDebouncedCallback } from 'use-debounce';
-
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
+import { slugify } from 'utils/string.utils';
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import { getLanguageFieldName } from '../../TranslationsProductPage/utils/translation-helpers';
-import { slugify } from 'utils/string.utils';
-import { PlusIcon, TrashIcon } from 'styles/icons';
-import 'primereact/resources/themes/lara-light-cyan/theme.css';
-import 'primereact/resources/primereact.min.css';
-import { styles } from './ProductTranslationsTable.styles';
+import { TableFormButtons } from '../TableFormButtons/TableFormButtons';
 import { PAGINATOR_NUM_ENTRIES } from './ProductTranslationsTable.config';
-import { PAGINATOR_NUM_ENTRIES as ADMIN_PAGINATOR_NUM_ENTRIES } from 'admin/config/admin.tables.config';
+import { TrashIcon } from 'styles/icons';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/lara-light-cyan/theme.css';
+import { styles } from './ProductTranslationsTable.styles';
 
 // ============================================================================
 // Types
@@ -37,6 +40,7 @@ interface TranslationItem {
 export interface ProductTranslationsTableProps {
   sectionKey: string;
   items: TranslationItem[];
+  initialItems?: TranslationItem[]; // Original items for dirty field detection
   supportedLanguages: LanguageInfo[];
   onItemChange: (itemId: string, fieldName: string, value: string) => void;
   onAddNew?: () => void;
@@ -68,6 +72,7 @@ const getPaginatorProps = (itemsCount: number) => {
 export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> = ({
   sectionKey,
   items,
+  initialItems = [],
   supportedLanguages,
   onItemChange,
   onAddNew,
@@ -91,6 +96,58 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
 
   // Track previous es-ES values to detect changes
   const prevEsESValuesRef = useRef<Map<string, string>>(new Map());
+
+  // Create a map of dirty fields: itemId -> Set of fieldNames that are dirty
+  const dirtyFieldsMap = useMemo(() => {
+    const dirtyMap = new Map<string, Set<string>>();
+
+    if (initialItems.length === 0) return dirtyMap;
+
+    // Create a map of initial items by id for quick lookup
+    const initialItemsMap = new Map<string, TranslationItem>();
+    initialItems.forEach((item) => {
+      initialItemsMap.set(item.id, item);
+    });
+
+    // Compare current items with initial items
+    items.forEach((currentItem) => {
+      const initialItem = initialItemsMap.get(currentItem.id);
+      if (!initialItem) {
+        // New item - all fields are considered dirty
+        const dirtyFields = new Set<string>();
+        Object.keys(currentItem).forEach((key) => {
+          if (key !== 'id') dirtyFields.add(key);
+        });
+        dirtyMap.set(currentItem.id, dirtyFields);
+        return;
+      }
+
+      // Compare each field
+      const dirtyFields = new Set<string>();
+      Object.keys(currentItem).forEach((fieldName) => {
+        if (fieldName === 'id') return;
+        const currentValue = currentItem[fieldName] || '';
+        const initialValue = initialItem[fieldName] || '';
+        if (currentValue !== initialValue) {
+          dirtyFields.add(fieldName);
+        }
+      });
+
+      if (dirtyFields.size > 0) {
+        dirtyMap.set(currentItem.id, dirtyFields);
+      }
+    });
+
+    return dirtyMap;
+  }, [items, initialItems]);
+
+  // Helper function to check if a field is dirty
+  const isFieldDirty = useCallback(
+    (itemId: string, fieldName: string): boolean => {
+      return dirtyFieldsMap.get(itemId)?.has(fieldName) ?? false;
+    },
+    [dirtyFieldsMap],
+  );
 
   // Initialize filters for PrimeReact DataTable
   const [filters, setFilters] = useState<DataTableFilterMeta>(() => {
@@ -316,20 +373,22 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   // ============================================================================
 
   const nameBodyTemplate = (rowData: TranslationItem) => {
+    const isDirty = isFieldDirty(rowData.id, 'name');
     return (
-      <Text size="2" weight="bold" className="td-name">
+      <Text size="2" weight="bold" className={isDirty ? 'td-name field-dirty' : 'td-name'}>
         {rowData.name}
       </Text>
     );
   };
 
-  // Language field body template - just display the value
+  // Language field body template - just display the value with dirty styling
   const createLanguageBodyTemplate = (isoCode: string) => {
     const fieldName = getLanguageFieldName(isoCode);
     return (rowData: TranslationItem) => {
       const value = rowData[fieldName] || '';
+      const isDirty = isFieldDirty(rowData.id, fieldName);
       return (
-        <Text size="2" style={{ flex: 1 }}>
+        <Text size="2" style={{ flex: 1 }} className={isDirty ? 'field-dirty' : ''}>
           {value || '-'}
         </Text>
       );
@@ -364,55 +423,15 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     });
 
     return renderers;
-  }, [supportedLanguages]);
+  }, [supportedLanguages, isFieldDirty]);
 
   return (
     <section css={styles} className="table-container">
       <Flex justify="between" align="center" mb="4" gap="2">
         <Text size="2" color="gray">
-          {items.length} {items.length === 1 ? 'item' : 'items'}
+          {/* {items.length} {items.length === 1 ? 'item' : 'items'} */}
         </Text>
-        {(onSave || onReset) && (
-          <Flex gap="2">
-            {onReset && (
-              <Button
-                type="button"
-                variant="outline"
-                color="warning"
-                onClick={onReset}
-                disabled={!isDirty}
-                size="sm"
-              >
-                {t('ui.buttons.reset')}
-              </Button>
-            )}
-            {onSave && (
-              <Button
-                type="button"
-                variant="solid"
-                color="success"
-                onClick={handleSave}
-                disabled={!isDirty}
-                size="sm"
-              >
-                {t('ui.buttons.save')}
-              </Button>
-            )}
-            {onAddNew && (
-              <Button
-                type="button"
-                variant="solid"
-                color="info"
-                onClick={handleAddNew}
-                size="sm"
-                aria-label={t('ui.buttons.addNew') || 'Add new translation entry'}
-                title={t('ui.buttons.addNew') || 'Add new translation entry'}
-              >
-                <PlusIcon />
-              </Button>
-            )}
-          </Flex>
-        )}
+        <TableFormButtons onReset={onReset} onSave={handleSave} onAddNew={handleAddNew} isDirty={isDirty} />
       </Flex>
 
       <DataTable
@@ -432,7 +451,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
         {/* Name column - read-only */}
         <Column
           field="name"
-          header="Name (Key)"
+          header="db key"
           // sortable
           // filter
           filterPlaceholder="Search"

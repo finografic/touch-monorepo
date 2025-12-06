@@ -17,6 +17,7 @@ export const AdminTestPage: React.FC = () => {
 
   const {
     sections,
+    initialSections,
     supportedLanguages,
     isLoading,
     handleValueChange,
@@ -89,7 +90,6 @@ export const AdminTestPage: React.FC = () => {
     <AdminPageLayout
       title={t('admin.pages.translations.content.editTables')}
       subtitle="Admin"
-      description="Manage product translations"
       styles={styles}
     >
       <Tabs.Root value={activeTab} onValueChange={(value) => setActiveTab(value as SectionKey)}>
@@ -108,14 +108,11 @@ export const AdminTestPage: React.FC = () => {
 
         {sections.map((section) => (
           <Tabs.Content key={section.key} value={section.key}>
-            <AdminSection
-              title={t(section.title)}
-              description={t(section.description)}
-              variant="border-solid"
-            >
+            <AdminSection title={t(section.title)} description={t(section.description)}>
               <ProductTranslationsTable
                 sectionKey={section.key}
                 items={section.items}
+                initialItems={initialSections.find((s) => s.key === section.key)?.items || []}
                 supportedLanguages={supportedLanguages}
                 onItemChange={handleItemChange}
                 onAddNew={handleAddNew}

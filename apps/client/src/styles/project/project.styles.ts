@@ -97,4 +97,54 @@ export const stylesAdminContent = css`
     min-height: ${forms.inputs.height};
     box-shadow: inset 0px 0px 0px 2px ${colors.greyXLight};
   }
+
+  [role='tablist'] {
+    margin-top: 0.8rem;
+    box-shadow: inset 0 -0.12rem 0 0 ${colors.greyXXLight75};
+    padding: 0 2px;
+    button[role='tab'] {
+      height: 3.2rem;
+      margin: 0.2rem 0rem 0 1px;
+      span {
+        font-size: 1rem;
+        font-weight: 700;
+        color: ${colors.info75};
+        color: ${colors.textXLight75};
+        border: 2px solid ${colors.greyXXLight75};
+        border-bottom: none;
+        border-radius: ${layout.borderRadius};
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      &:hover {
+        cursor: pointer;
+        span {
+          color: ${colors.textXLight};
+          color: ${colors.info};
+          border: 2px solid ${colors.greyXLight};
+          border-bottom: none;
+        }
+      }
+
+      &[data-state='active'] {
+        span {
+          color: ${colors.info};
+          border: 3px solid ${colors.infoLight};
+          border-bottom: none;
+        }
+
+        &:before {
+          background-color: ${colors.white};
+        }
+
+        box-shadow: 3px 4px 3px -3px ${colors.greyXXLight50};
+      }
+    }
+    button[role='tab'][data-state='active'] + button[role='tab'] {
+      span {
+        border-left: 2px solid ${colors.greyXXLight25};
+      }
+    }
+  }
 `;
