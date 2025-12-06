@@ -16,9 +16,9 @@
   "scripts": {
     "========== DEV": "=======================================================",
     "dev": "run-p dev.turbo db.studio",
-    "dev.deploy": "pnpm build.deployment",
     "dev.reset": "run-s reset",
     "dev.db.reset": "run-s db.reset",
+    "dev.deploy": "pnpm build.deployment",
     "dev.client": "pnpm build.client && pnpm dev",
     "dev.i18n.update": "pnpm i18n.force && pnpm dev",
     "dev.turbo": "turbo run dev",

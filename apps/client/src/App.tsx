@@ -22,6 +22,7 @@ import 'primereact/resources/themes/lara-light-indigo/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
 
 import { Global } from '@emotion/react';
+
 import { Suspense } from 'react';
 
 // import 'primeicons/primeicons.css'; // icons

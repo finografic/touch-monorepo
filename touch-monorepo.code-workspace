@@ -4,12 +4,6 @@
       "name": "✨ touch-monorepo",
       "path": ".",
     },
-    {
-      "path": "../@finografic-zustand-context-creator",
-    },
-    {
-      "path": "../touch-monorepo 10",
-    },
   ],
   "settings": {
     "terminal.integrated.env.osx": {
