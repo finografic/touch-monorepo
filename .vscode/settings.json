@@ -157,7 +157,7 @@
 
   // Git diff settings - only show when explicitly requested
   "diffEditor.ignoreTrimWhitespace": true,
-  "diffEditor.renderSideBySide": true,
+  "diffEditor.renderSideBySide": false,
   "diffEditor.codeLens": false, // Disable code lens in diff view
 
   // File explorer - don't show git status

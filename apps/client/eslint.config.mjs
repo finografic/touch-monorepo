@@ -69,17 +69,6 @@ export default fino({
     'import/sort-imports': OFF,
     'sort-imports': OFF,
 
-    // Merge imports/exports from the same source
-    'import/no-duplicates': [
-      ERROR,
-      {
-        'prefer-inline': false,
-        'considerQueryString': false,
-      },
-    ],
-    // Enable fino import deduplication (may be more aggressive)
-    'fino/import-dedupe': ERROR,
-
     // Disable unused import removal rules
     'import/no-unused-modules': OFF,
     'import/no-unresolved': OFF,

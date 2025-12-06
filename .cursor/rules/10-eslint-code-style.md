@@ -169,8 +169,10 @@ export default configWithPlugin;
 ```typescript
 // ✅ CORRECT - Plugin directly in fino() call
 // This is the ONLY pattern that works reliably
+// This is the FINAL WORKING VERSION - tested and confirmed working
 import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import { ERROR, fino, OFF } from '@finografic/eslint-config';
+import globals from 'globals';
 
 export default fino({
   ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
@@ -178,15 +180,100 @@ export default fino({
     'simple-import-sort': simpleImportSort,
   },
   languageOptions: {
-    // ... options
+    ecmaVersion: 'latest',
+    globals: {
+      ...globals.browser,
+      getDotEnv: 'readonly',
+      log: 'readonly',
+    },
   },
+  formatters: true,
+  typescript: true,
   rules: {
-    'simple-import-sort/imports': [ERROR, { ... }],
+    'fino/top-level-function': OFF,
+    'no-undef': [ERROR, { typeof: true }],
+    'node/prefer-global/process': [ERROR, 'always'],
+    'regexp/prefer-w': OFF,
+    'style/no-multi-spaces': OFF,
+    'ts/no-unused-vars': OFF,
+    'ts/consistent-type-imports': [
+      ERROR,
+      {
+        prefer: 'type-imports',
+        disallowTypeAnnotations: true,
+        fixStyle: 'separate-type-imports',
+      },
+    ],
+    'jsdoc/check-alignment': OFF,
+    'unused-imports/no-unused-imports': OFF,
+    'prefer-arrow-callback': OFF,
+    'test/prefer-lowercase-title': OFF,
+
+    // Disable JSX parentheses rules that conflict with Prettier
+    'style/jsx-wrap-multilines': OFF,
+
+    // Disable conflicting rules with simple-import-sort
+    'perfectionist/sort-named-imports': OFF,
+    'perfectionist/sort-object-types': OFF,
+    'perfectionist/sort-objects': OFF,
+    'perfectionist/sort-imports': OFF,
+
+    // Disable other import-related rules that conflict
+    'import/order': OFF,
+    'import/sort-imports': OFF,
+    'sort-imports': OFF,
+
+    // Disable unused import removal rules
+    'import/no-unused-modules': OFF,
+    'import/no-unresolved': OFF,
+
+    // Import sorting rules
+    'simple-import-sort/imports': [
+      ERROR,
+      {
+        groups: [
+          // React imports + React-related packages (merged)
+          ['^react', '^@react', '^@finografic', '^@workspace'],
+          // Internal absolute imports: components, providers, pages
+          ['^@?\\w', '^(pages|components|lib)(/.*|$)'],
+          // The rest of internal absolute imports
+          ['^(hooks|routes|providers|queries)(/.*|$)'],
+          // Side effect imports
+          ['^\\u0000'],
+          // All relative imports (parent + same-folder + styles merged)
+          [
+            '^(utils)',
+            '^(types|constants)',
+            '^(config|dev-tools)',
+            '^\\.\\.(?!/?$)',
+            '^\\.\\./?$',
+            '^\\./(?=.*/)(?!/?$)',
+            '^\\.(?!/?$)',
+            '^\\./?$',
+            '^(styles)',
+            '^.+\\.s?css$',
+            '^.+\\.styles$',
+          ],
+        ],
+      },
+    ],
     'simple-import-sort/exports': ERROR,
-    // ... other rules
+    'style/jsx-one-expression-per-line': OFF,
   },
 });
 ```
+
+### ⚠️ CRITICAL: Rules That MUST Be Removed
+
+**DO NOT add these rules** - they break import sorting:
+
+```typescript
+// ❌ NEVER ADD THESE - They break simple-import-sort
+'import/no-duplicates': [ERROR, { 'prefer-inline': false, 'considerQueryString': false }],
+'fino/import-dedupe': ERROR,
+```
+
+These rules conflict with `simple-import-sort` and cause it to stop working completely.
 
 ### Why This Matters
 
@@ -198,11 +285,13 @@ export default fino({
 
 ### If Import Sorting Stops Working
 
-1. **First**: Check the config structure matches the correct pattern above
-2. **Second**: Try rebuilding the project (`pnpm install` or full rebuild)
-3. **Third**: Check `@finografic/eslint-config` version - compare with known working version
-4. **Fourth**: Compare with git history or backup to verify structure
-5. **Never**: Manually merge configs - always use the direct structure shown above
+1. **First**: Check the config structure matches the correct pattern above (exact match required)
+2. **Second**: Verify that `import/no-duplicates` and `fino/import-dedupe` are NOT present in rules
+3. **Third**: Try rebuilding the project (`pnpm install` or full rebuild) - this often fixes transient issues
+4. **Fourth**: Check `@finografic/eslint-config` version - latest version (9.18.4+) works correctly
+5. **Fifth**: Compare with git history or backup to verify structure matches the working version
+6. **Never**: Manually merge configs - always use the direct structure shown above
+7. **Never**: Add `import/no-duplicates` or `fino/import-dedupe` - these break simple-import-sort
 
 ### Troubleshooting Checklist
 
@@ -210,7 +299,10 @@ export default fino({
 - [ ] Plugins are defined directly in the `plugins` object inside `fino()` call
 - [ ] No manual config merging or array mapping after `fino()` call
 - [ ] No spreading or combining of config objects after `fino()` returns
-- [ ] Project has been rebuilt after any config changes
+- [ ] `import/no-duplicates` rule is NOT present (conflicts with simple-import-sort)
+- [ ] `fino/import-dedupe` rule is NOT present (conflicts with simple-import-sort)
+- [ ] Config structure matches the exact working version shown above
+- [ ] Project has been rebuilt after any config changes (`pnpm install` or full rebuild)
 
 ## Best Practices
 
