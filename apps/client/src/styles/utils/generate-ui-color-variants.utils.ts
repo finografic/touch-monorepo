@@ -1,6 +1,5 @@
 import { css } from '@emotion/react';
-
-import { colors } from '../colors/colors-direct';
+import { colors } from 'styles/colors/colors-direct';
 import { UI_COLOR_NAMES } from 'styles/colors/colors.types';
 
 /**
@@ -29,17 +28,12 @@ export function generateUiColorVariants(
     componentType: string,
   ) => ReturnType<typeof css>,
 ): ReturnType<typeof css> {
-  // Use the UI color names constant for component variants
-  const colorNames = UI_COLOR_NAMES;
-
-  // Generate CSS for each color variant
-  const variantStyles = colorNames.map((colorName) => {
-    // Create variant object with color system references
+  const variantStyles = UI_COLOR_NAMES.map((colorName) => {
     const variants: UiColorVariants = {
-      base: colors[colorName],
       xxlight: colors[`${colorName}XXLight` as keyof typeof colors] || colors[colorName],
       xlight: colors[`${colorName}XLight` as keyof typeof colors] || colors[colorName],
       light: colors[`${colorName}Light` as keyof typeof colors] || colors[colorName],
+      base: colors[colorName],
       dark: colors[`${colorName}Dark` as keyof typeof colors] || colors[colorName],
       xdark: colors[`${colorName}XDark` as keyof typeof colors] || colors[colorName],
       xxdark: colors[`${colorName}XXDark` as keyof typeof colors] || colors[colorName],
@@ -59,10 +53,10 @@ export function generateUiColorVariants(
  * Type definition for UI color variants passed to template function
  */
 export interface UiColorVariants {
-  base: string;
   xxlight: string;
   xlight: string;
   light: string;
+  base: string;
   dark: string;
   xdark: string;
   xxdark: string;

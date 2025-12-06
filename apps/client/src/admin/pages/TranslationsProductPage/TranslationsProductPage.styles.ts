@@ -1,32 +1,9 @@
 import { css } from '@emotion/react';
-
-import { colors, layout, min, spacing } from 'styles';
-
-export const stylesItemsGrid = css``;
+import { colors, spacing } from 'styles';
 
 export const styles = css`
-  .admin-section {
-    margin-bottom: 0.5rem;
-    &:last-of-type {
-      margin-bottom: 2rem;
-    }
-  }
-
-  input:read-only,
-  input:read-only:focus {
-    pointer-events: none !important;
-    user-select: none !important;
-    outline: none !important;
-    box-shadow: none !important;
-  }
-
-  ${min.md} {
-    /* max-width: 96vw !important; */
-  }
-  ${min.lg} {
-    /* max-width: 96vw !important; */
-  }
-  ${min.xl} {
-    /* max-width: 1240px !important; */
-  }
+  width: 100%;
+  min-height: 100vh;
+  background-color: ${colors.white};
+  color: ${colors.text};
 `;

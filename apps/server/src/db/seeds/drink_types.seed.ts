@@ -107,7 +107,7 @@ export async function seed() {
     // Insert subtypes for beer and wine with JSON translations
     await db.insert(drink_subtypes).values([
       {
-        name: 'rubia',
+        name: 'cerveza--rubia',
         translations: {
           'en-GB': 'Blonde',
           'es-ES': 'Rubia',
@@ -118,7 +118,7 @@ export async function seed() {
         defaultTempFreeze: -2,
       },
       {
-        name: 'negra',
+        name: 'cerveza--negra',
         translations: {
           'en-GB': 'Dark',
           'es-ES': 'Negra',
@@ -129,7 +129,7 @@ export async function seed() {
         defaultTempFreeze: -6,
       },
       {
-        name: 'tinto',
+        name: 'vino--tinto',
         translations: {
           'en-GB': 'Red',
           'es-ES': 'Tinto',
@@ -140,7 +140,7 @@ export async function seed() {
         defaultTempFreeze: 12,
       },
       {
-        name: 'blanco',
+        name: 'vino--blanco',
         translations: {
           'en-GB': 'White',
           'es-ES': 'Blanco',

@@ -1,10 +1,12 @@
 {
-  "editor.formatOnSave": true,
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  // IMPORTANT: ESLint must run BEFORE Prettier to preserve blank lines between import groups
+  // Order: ESLint fixes imports (adds blank lines) → Prettier formats (preserves them)
   "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": "explicit",
+    "source.fixAll.eslint": "explicit", // Run ESLint FIRST (sorts imports, adds blank lines)
     "source.organizeImports": "never" // Disable built-in organize imports
   },
+  // "editor.formatOnSave": true, // Run Prettier AFTER ESLint (formats but preserves blank lines)
+  // "editor.defaultFormatter": "esbenp.prettier-vscode",
   "eslint.enable": true,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -27,7 +29,12 @@
       "mode": "auto"
     }
   ],
-  "eslint.validate": ["javascript", "javascriptreact", "typescript", "typescriptreact"],
+  "eslint.validate": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact"
+  ],
   "eslint.nodePath": null,
   "eslint.runtime": "node",
   "npm.packageManager": "pnpm",

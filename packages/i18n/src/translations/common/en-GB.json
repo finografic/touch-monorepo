@@ -23,6 +23,24 @@
       "submit": "Submit",
       "update": "Update",
       "view": "View"
+    },
+    "tables": {
+      "headers": {
+        "displayIndex": "#",
+        "index": "#",
+        "mode": "Mode",
+        "drinkType": "Drink Type",
+        "drinkSubtype": "Subtype",
+        "subtype": "Subtype",
+        "volume": "Volume",
+        "containerType": "Container",
+        "container": "Container",
+        "temperature": "Temperature",
+        "defaultTempConsume": "Temperature",
+        "actions": "Actions",
+        "name": "Name",
+        "dbKey": "db key"
+      }
     }
   },
   "time": {

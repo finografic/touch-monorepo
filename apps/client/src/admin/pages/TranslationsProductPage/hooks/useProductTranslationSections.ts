@@ -1,17 +1,15 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-
 import { useQueryClient } from '@tanstack/react-query';
 import type { ContainerTypeUpdate, DrinkSubtypeUpdate, DrinkTypeUpdate, VolumeUpdate } from 'api/endpoints';
 import { batchTranslationEndpoints } from 'api/endpoints';
 import { TRANSLATION_QUERY_KEYS, useGetAllTranslations } from 'api/hooks/useTranslations';
-
 import { useGetSupportedLanguages } from 'queries/supported-languages';
-
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import {
   compareTranslationItems,
   convertLegacyFieldsToTranslations,
   convertTranslationsToLegacyFields,
+  ensureLanguageFields,
   getLanguageFieldName,
 } from '../utils/translation-helpers';
 
@@ -31,12 +29,11 @@ interface SectionData {
 }
 
 const cloneItem = (item: TranslationItem): TranslationItem => {
+  // Deep clone all fields to ensure proper comparison
   const cloned: TranslationItem = { ...item };
-  // Clone all language fields
+  // Copy all properties (including language fields like name_es_es, name_en_gb, etc.)
   Object.keys(item).forEach((key) => {
-    if (key.startsWith('name_')) {
-      cloned[key] = item[key];
-    }
+    cloned[key] = item[key];
   });
   return cloned;
 };
@@ -240,8 +237,30 @@ export const useProductTranslationSections = () => {
       for (const item of nonEmptyItems) {
         const originalItem = initialSection.items.find((orig) => orig.id === item.id);
 
-        // If item doesn't exist in original, it's a new item - skip (already filtered out empty ones)
+        // If item doesn't exist in original, it's a new item - include it in updates
         if (!originalItem) {
+          // Convert to JSON format for new items
+          const convertedItem = convertLegacyFieldsToTranslations(item, supportedLanguages);
+
+          // Ensure all language fields are included (even if empty) for new items
+          const translations: Record<string, string> = {};
+          supportedLanguages.forEach((lang) => {
+            const fieldName = getLanguageFieldName(lang.isoCode);
+            translations[lang.isoCode] = item[fieldName] || '';
+          });
+
+          // For new items, include all fields (name and translations)
+          const newItemUpdate: any = {
+            name: convertedItem.name || item.name || '',
+            translations,
+          };
+
+          // For drinkSubtypes, include drinkTypeId
+          if (sectionKey === 'drinkSubtypes' && item.drinkTypeId) {
+            newItemUpdate.drinkTypeId = item.drinkTypeId;
+          }
+
+          updates.push({ id: item.id, updates: newItemUpdate });
           continue;
         }
 
@@ -307,8 +326,9 @@ export const useProductTranslationSections = () => {
           }
 
           // Otherwise, find it from the current or original item
-          const item = section.items.find((i) => i.id === update.id) ||
-                       initialSection.items.find((i) => i.id === update.id);
+          const item =
+            section.items.find((i) => i.id === update.id) ||
+            initialSection.items.find((i) => i.id === update.id);
 
           if (!item?.drinkTypeId) {
             throw new Error(`drinkTypeId is required for drink subtype ${update.id}`);
@@ -321,10 +341,76 @@ export const useProductTranslationSections = () => {
         });
       }
 
-      await batchTranslationEndpoints.batchUpdateTranslations(batchData);
+      const results = await batchTranslationEndpoints.batchUpdateTranslations(batchData);
+
+      // Track successfully saved item IDs (for clearing dirty state)
+      const successfullySavedIds = new Set<string>();
+
+      // Map temp IDs to new CUIDs from server response (for newly created items)
+      const tempIdToNewIdMap = new Map<string, string>();
+
+      // Helper to convert API result to legacy format
+      // This ensures we use the actual saved data from the server, not local state
+      const convertResultToLegacy = (result: any): TranslationItem => {
+        return convertTranslationsToLegacyFields(result, supportedLanguages) as TranslationItem;
+      };
+      if (sectionKey === 'drinkSubtypes' && batchData.drinkSubtypes) {
+        // Calculate the starting index for drinkSubtype results in the results array
+        // Results are in order: drinkTypes, drinkSubtypes, volumes, containerTypes
+        let drinkSubtypeResultIndex = 0;
+        if (batchData.drinkTypes) {
+          drinkSubtypeResultIndex += batchData.drinkTypes.length;
+        }
+
+        // Map temp IDs to new CUIDs and track successfully saved items
+        batchData.drinkSubtypes.forEach((update: any, index: number) => {
+          const result = results[drinkSubtypeResultIndex + index];
+          if (result && result.id) {
+            if (update.id.startsWith('temp-')) {
+              // This is a new item - map temp ID to new CUID
+              tempIdToNewIdMap.set(update.id, result.id);
+              successfullySavedIds.add(result.id); // Track by new CUID
+            } else {
+              // This is an existing item - track by original ID
+              successfullySavedIds.add(update.id);
+            }
+          }
+        });
+      } else {
+        // For other section types (drinkTypes, volumes, containerTypes), track all successfully saved items
+        const sectionUpdates = batchData[sectionKey as keyof typeof batchData] as
+          | Array<{ id: string }>
+          | undefined;
+        if (sectionUpdates) {
+          // Calculate the starting index for this section's results
+          // Results are in order: drinkTypes, drinkSubtypes, volumes, containerTypes
+          let sectionResultIndex = 0;
+          if (sectionKey === 'drinkTypes') {
+            // drinkTypes are first, so index starts at 0
+            sectionResultIndex = 0;
+          } else if (sectionKey === 'volumes') {
+            // volumes start after drinkTypes and drinkSubtypes
+            if (batchData.drinkTypes) sectionResultIndex += batchData.drinkTypes.length;
+            if (batchData.drinkSubtypes) sectionResultIndex += batchData.drinkSubtypes.length;
+          } else if (sectionKey === 'containerTypes') {
+            // containerTypes start after drinkTypes, drinkSubtypes, and volumes
+            if (batchData.drinkTypes) sectionResultIndex += batchData.drinkTypes.length;
+            if (batchData.drinkSubtypes) sectionResultIndex += batchData.drinkSubtypes.length;
+            if (batchData.volumes) sectionResultIndex += batchData.volumes.length;
+          }
+
+          sectionUpdates.forEach((update: any, index: number) => {
+            const result = results[sectionResultIndex + index];
+            if (result && result.id) {
+              successfullySavedIds.add(update.id);
+            }
+          });
+        }
+      }
 
       // Invalidate React Query cache to ensure fresh data on next fetch
       // This ensures the UI shows updated values when navigating away and back
+      // Invalidate translation query keys (used by translation page)
       await queryClient.invalidateQueries({
         queryKey: TRANSLATION_QUERY_KEYS.all,
       });
@@ -337,11 +423,103 @@ export const useProductTranslationSections = () => {
         });
       }
 
-      // Update initial sections to reflect saved state
-      // Remove empty items and deleted items from the saved state
-      const savedItems = nonEmptyItems.filter((item) => !deletions.includes(item.id));
+      // IMPORTANT: Also invalidate the actual data query keys used by dropdowns in other pages
+      // These are different from the translation query keys
+      // This ensures dropdowns in AdminOrdersPage, etc. show updated data immediately
+      if (sectionKey === 'drinkTypes') {
+        await queryClient.invalidateQueries({
+          queryKey: ['get-drink-types'],
+        });
+      } else if (sectionKey === 'drinkSubtypes') {
+        // Invalidate all drink subtype queries (they're keyed by drinkTypeId)
+        await queryClient.invalidateQueries({
+          queryKey: ['get-drink-subtypes'],
+        });
+        // Also invalidate drink types since subtypes affect drink type data
+        await queryClient.invalidateQueries({
+          queryKey: ['get-drink-types'],
+        });
+      } else if (sectionKey === 'volumes') {
+        await queryClient.invalidateQueries({
+          queryKey: ['get-drink-volumes'],
+        });
+      } else if (sectionKey === 'containerTypes') {
+        await queryClient.invalidateQueries({
+          queryKey: ['get-container-types'],
+        });
+      }
 
-      setInitialSections((prev) =>
+      // Refetch translations data to update sections with fresh data from server
+      // This ensures that when switching tabs, the data is up-to-date
+      // Note: refetchTranslations() calls refetch on all individual queries
+      // The data will be updated via React Query, and the useEffect will handle re-initialization
+      // However, we need to allow re-initialization after save, so we reset the guard
+      await refetchTranslations();
+
+      // Reset initialization guard to allow sections to update with fresh data
+      // This ensures tabs show updated data when switching
+      isInitializedRef.current = false;
+
+      // Update items: replace temp IDs with new CUIDs and remove deleted items
+      // Separate existing items from new items to ensure new items are appended to the END
+      const existingItems = nonEmptyItems.filter(
+        (item) => !deletions.includes(item.id) && !tempIdToNewIdMap.has(item.id),
+      );
+      const newItems = nonEmptyItems
+        .filter((item) => !deletions.includes(item.id) && tempIdToNewIdMap.has(item.id))
+        .map((item) => {
+          // Replace temp ID with the new CUID from server
+          return {
+            ...item,
+            id: tempIdToNewIdMap.get(item.id)!,
+          };
+        });
+
+      // Append new items to the END of the array
+      const savedItems = [...existingItems, ...newItems];
+
+      // Extract saved results from API response for this section
+      // This is the actual data from the server, which we'll use to update initialSections
+      let savedResultsFromAPI: any[] = [];
+      if (sectionKey === 'drinkSubtypes' && batchData.drinkSubtypes) {
+        let drinkSubtypeResultIndex = 0;
+        if (batchData.drinkTypes) {
+          drinkSubtypeResultIndex += batchData.drinkTypes.length;
+        }
+        savedResultsFromAPI = results.slice(
+          drinkSubtypeResultIndex,
+          drinkSubtypeResultIndex + batchData.drinkSubtypes.length,
+        );
+      } else {
+        let sectionResultIndex = 0;
+        if (sectionKey === 'drinkTypes') {
+          sectionResultIndex = 0;
+        } else if (sectionKey === 'volumes') {
+          if (batchData.drinkTypes) sectionResultIndex += batchData.drinkTypes.length;
+          if (batchData.drinkSubtypes) sectionResultIndex += batchData.drinkSubtypes.length;
+        } else if (sectionKey === 'containerTypes') {
+          if (batchData.drinkTypes) sectionResultIndex += batchData.drinkTypes.length;
+          if (batchData.drinkSubtypes) sectionResultIndex += batchData.drinkSubtypes.length;
+          if (batchData.volumes) sectionResultIndex += batchData.volumes.length;
+        }
+        const sectionUpdates = batchData[sectionKey as keyof typeof batchData] as
+          | Array<{ id: string }>
+          | undefined;
+        if (sectionUpdates) {
+          savedResultsFromAPI = results.slice(sectionResultIndex, sectionResultIndex + sectionUpdates.length);
+        }
+      }
+
+      // Convert API results to legacy format
+      // Ensure all language fields are included by using ensureLanguageFields
+      const savedItemsFromAPI = savedResultsFromAPI.map((result) => {
+        const converted = convertResultToLegacy(result);
+        // Ensure all language fields exist (even if empty) for proper comparison
+        return ensureLanguageFields(converted, supportedLanguages) as TranslationItem;
+      });
+
+      // Also update the current sections to match what was saved (with new CUIDs)
+      setSections((prev) =>
         prev.map((s) =>
           s.key === sectionKey
             ? {
@@ -352,14 +530,42 @@ export const useProductTranslationSections = () => {
         ),
       );
 
-      // Also update the current sections to match what was saved
-      // Remove empty items and deleted items
-      setSections((prev) =>
+      // Update initial sections to reflect saved state (this clears dirty state)
+      // Use the actual API response data, not local state, to ensure accuracy
+      setInitialSections((prev) =>
         prev.map((s) =>
           s.key === sectionKey
             ? {
                 ...s,
-                items: savedItems.map(cloneItem),
+                items: s.items
+                  .filter((initialItem) => {
+                    // Remove deleted items from initialSections (they were successfully deleted)
+                    return !(deletions.includes(initialItem.id) && successfullySavedIds.has(initialItem.id));
+                  })
+                  .map((initialItem) => {
+                    // Find the corresponding saved item from API response
+                    const savedItemFromAPI = savedItemsFromAPI.find((item) => item.id === initialItem.id);
+
+                    // If this item was successfully saved, update initialItem with API response data
+                    if (savedItemFromAPI && successfullySavedIds.has(initialItem.id)) {
+                      return cloneItem(savedItemFromAPI);
+                    }
+
+                    // If item was not saved (or failed), keep original initialItem (preserves dirty state)
+                    return initialItem;
+                  })
+                  .concat(
+                    // Add new items that were successfully saved (they don't exist in initialItems yet)
+                    // These are items with temp IDs that got new CUIDs from the server
+                    savedItemsFromAPI
+                      .filter((item) => {
+                        // Check if this is a new item that was successfully saved
+                        // New items have IDs that don't exist in initialItems
+                        const existsInInitial = s.items.some((initial) => initial.id === item.id);
+                        return !existsInInitial && successfullySavedIds.has(item.id);
+                      })
+                      .map((item) => cloneItem(item)),
+                  ),
               }
             : s,
         ),
@@ -425,6 +631,21 @@ export const useProductTranslationSections = () => {
     [sections, supportedLanguages],
   );
 
+  const deleteItem = useCallback((sectionKey: SectionKey, itemId: string) => {
+    // Remove the item from the current items array
+    // On next save, if the item exists in initialItems but not in items, it will be marked for deletion
+    setSections((prev) =>
+      prev.map((s) =>
+        s.key === sectionKey
+          ? {
+              ...s,
+              items: s.items.filter((item) => item.id !== itemId),
+            }
+          : s,
+      ),
+    );
+  }, []);
+
   return {
     sections,
     initialSections,
@@ -435,5 +656,6 @@ export const useProductTranslationSections = () => {
     saveSection,
     isSectionDirty,
     addNewItem,
+    deleteItem,
   };
 };

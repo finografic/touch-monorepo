@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 
 import type { LanguageInfo } from 'types/models/supported-language.model';
-import { getLanguageFieldName } from '../../TranslationsProductPage/utils/translation-helpers';
+import { getLanguageFieldName } from '../utils/translation-helpers';
 
 export const PAGINATOR_NUM_ENTRIES = 50;
 
@@ -23,8 +23,6 @@ export const getProductTranslationsTableColumns = (
     {
       field: 'name',
       header: 'Name (Key)',
-      // sortable: true,
-      // filter: true,
       filterPlaceholder: 'Search',
       style: { minWidth: '150px', maxWidth: '200px' },
       headerStyle: { width: '150px' },
@@ -37,8 +35,6 @@ export const getProductTranslationsTableColumns = (
     columns.push({
       field: fieldName,
       header: `${lang.displayName} (${lang.isoCode})`,
-      // sortable: true,
-      // filter: true,
       filterPlaceholder: 'Search',
       style: { minWidth: '150px', maxWidth: '200px' },
     });
@@ -48,8 +44,6 @@ export const getProductTranslationsTableColumns = (
   columns.push({
     field: 'actions',
     header: 'Actions',
-    // sortable: false,
-    // filter: false,
     style: { minWidth: '80px', maxWidth: '100px' },
     headerStyle: { width: '80px' },
   });
@@ -62,8 +56,6 @@ export const PRODUCT_TRANSLATIONS_TABLE_COLUMNS: ProductTranslationsTableColumnC
   {
     field: 'name',
     header: 'Name (Key)',
-    // sortable: true,
-    // filter: true,
     filterPlaceholder: 'Search',
     style: { minWidth: '150px', maxWidth: '200px' },
     headerStyle: { width: '150px' },
@@ -71,32 +63,24 @@ export const PRODUCT_TRANSLATIONS_TABLE_COLUMNS: ProductTranslationsTableColumnC
   {
     field: 'name_en_gb',
     header: 'English (en-GB)',
-    // sortable: true,
-    // filter: true,
     filterPlaceholder: 'Search',
     style: { minWidth: '150px', maxWidth: '200px' },
   },
   {
     field: 'name_es_es',
     header: 'Spanish (es-ES)',
-    // sortable: true,
-    // filter: true,
     filterPlaceholder: 'Search',
     style: { minWidth: '150px', maxWidth: '200px' },
   },
   {
     field: 'name_ca_es',
     header: 'Catalan (ca-ES)',
-    // sortable: true,
-    // filter: true,
     filterPlaceholder: 'Search',
     style: { minWidth: '150px', maxWidth: '200px' },
   },
   {
-    field: 'actions',
-    header: 'Actions',
-    // sortable: false,
-    // filter: false,
+    field: 'actions8',
+    header: 'Actions8',
     style: { minWidth: '80px', maxWidth: '100px' },
     headerStyle: { width: '80px' },
   },

@@ -1,5 +1,4 @@
 import { transformFetchError } from '@workspace/core/api';
-
 import { api } from 'api';
 
 // Types for drink subtype translations
@@ -60,6 +59,36 @@ export const drinkSubtypeEndpoints = {
 
       const subtypesResponses = await Promise.all(subtypesPromises);
       return subtypesResponses.flat();
+    } catch (error) {
+      throw transformFetchError(error);
+    }
+  },
+
+  /**
+   * Create a new drink subtype
+   * Uses POST to /drink-types/{drinkTypeId}/subtypes
+   */
+  createDrinkSubtype: async (
+    updates: DrinkSubtypeUpdate & { drinkTypeId: string },
+  ): Promise<DrinkSubtypeTranslation> => {
+    try {
+      const { drinkTypeId, ...subtypeData } = updates;
+      if (!drinkTypeId) {
+        throw new Error('drinkTypeId is required to create drink subtypes');
+      }
+
+      // Ensure required fields have defaults for new items
+      const createData = {
+        name: subtypeData.name || '',
+        translations: subtypeData.translations || {},
+        defaultTempConsume: subtypeData.defaultTempConsume ?? 5,
+        defaultTempFreeze: subtypeData.defaultTempFreeze ?? -2,
+        ...subtypeData, // Allow overriding defaults
+      };
+
+      // Fetch client returns data directly
+      const data = await api.post<any>(`/drink-types/${drinkTypeId}/subtypes`, createData);
+      return transformDrinkSubtype(data);
     } catch (error) {
       throw transformFetchError(error);
     }

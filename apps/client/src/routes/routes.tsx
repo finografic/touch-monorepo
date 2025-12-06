@@ -1,13 +1,10 @@
 import { Outlet, type RouteObject } from 'react-router-dom';
-
 import { AdminDashboardPage } from 'admin/AdminDashboardPage';
 import { AdminLanguagesPage } from 'admin/pages/AdminLanguagesPage/AdminLanguagesPage';
 import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminOrderEditPage } from 'admin/pages/AdminOrdersPage/AdminOrderEditPage';
 import { AdminOrdersListPage } from 'admin/pages/AdminOrdersPage/AdminOrdersListPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
-// import { AdminLoginPage } from 'admin/pages/AdminLoginPage/AdminLoginPage';
-import { AdminTestPage } from 'admin/pages/AdminTestPage/AdminTestPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
@@ -23,11 +20,9 @@ import { MainPage } from 'pages/MainPage/MainPage';
 import { TemperaturePage } from 'pages/TemperaturePage/TemperaturePage';
 import { TimePage } from 'pages/TimePage/TimePage';
 import { UnauthorizedPage } from 'pages/UnauthorizedPage/UnauthorizedPage';
-
 import { ProtectedRoutesByRole } from 'routes/auth/ProtectedRoutesByRole';
-
-import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 import { AdminFieldKeys, ROUTE_FILTER_KEYS } from 'config/app';
+import { ALTERNATIVE_PATHS, PATHS } from 'config/routes';
 
 export const routes: RouteObject[] = [
   {
@@ -105,11 +100,6 @@ export const routes: RouteObject[] = [
     path: '/admin',
     element: <AdminLayout />,
     children: [
-      {
-        path: 'translations-test',
-        id: AdminFieldKeys.translationsTest,
-        element: <AdminTestPage />,
-      },
       {
         // Protected admin section
         element: <ProtectedRoutesByRole />,

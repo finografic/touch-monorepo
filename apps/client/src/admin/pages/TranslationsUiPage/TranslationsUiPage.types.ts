@@ -1,4 +1,4 @@
-import type { createUiLabelsSchema } from 'admin/pages/TranslationsProductPage/translations-product.schema';
+import type { createUiLabelsSchema } from './translations-ui.schema';
 import type { z } from 'zod';
 
 export interface SupportedLanguage {

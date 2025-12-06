@@ -23,6 +23,24 @@
       "submit": "Enviar",
       "update": "Actualitzar",
       "view": "Veure"
+    },
+    "tables": {
+      "headers": {
+        "displayIndex": "#",
+        "index": "#",
+        "mode": "Mode",
+        "drinkType": "Tipus de Beguda",
+        "drinkSubtype": "Subtipus",
+        "subtype": "Subtipus",
+        "volume": "Volum",
+        "containerType": "Envas",
+        "container": "Envas",
+        "temperature": "Temperatura",
+        "defaultTempConsume": "Temperatura",
+        "actions": "Accions",
+        "name": "Nom",
+        "dbKey": "clau db"
+      }
     }
   },
   "time": {

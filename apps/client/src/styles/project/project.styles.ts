@@ -1,5 +1,4 @@
 import { css } from '@emotion/react';
-
 import { forms } from '../forms/forms.constants';
 import { colors, layout, min, spacing } from 'styles';
 import { BREAKPOINTS, BREAKPOINTS_PX } from 'styles/viewport/viewport.breakpoints';
@@ -95,21 +94,28 @@ export const stylesAdminContent = css`
 
   div.rt-TextFieldRoot {
     min-height: ${forms.inputs.height};
-    box-shadow: inset 0px 0px 0px 2px ${colors.greyXLight};
+    /* box-shadow: inset 0px 0px 0px 2px ${colors.greyXLight}; */
   }
 
   [role='tablist'] {
-    margin-top: 0.8rem;
+    margin-top: 1.2rem;
     box-shadow: inset 0 -0.12rem 0 0 ${colors.greyXXLight75};
+    box-shadow: inset 0 -0.11rem 0 0 ${colors.infoLight};
+    /* box-shadow: none !important; */
+    border-bottom: none !important;
     padding: 0 2px;
+
     button[role='tab'] {
-      height: 3.2rem;
-      margin: 0.2rem 0rem 0 1px;
+      height: 3rem;
+      margin: 0.2rem 0.05rem 0;
+      padding: 0;
+      border: 0 !important;
       span {
         font-size: 1rem;
         font-weight: 700;
         color: ${colors.info75};
         color: ${colors.textXLight75};
+        padding: 0.8em 1.25em;
         border: 2px solid ${colors.greyXXLight75};
         border-bottom: none;
         border-radius: ${layout.borderRadius};
@@ -132,6 +138,7 @@ export const stylesAdminContent = css`
           color: ${colors.info};
           border: 3px solid ${colors.infoLight};
           border-bottom: none;
+          margin-left: -1px;
         }
 
         &:before {
@@ -140,10 +147,19 @@ export const stylesAdminContent = css`
 
         box-shadow: 3px 4px 3px -3px ${colors.greyXXLight50};
       }
+
+      &:nth-of-type(1) {
+        margin-left: 0rem;
+      }
+      &:last-child {
+        margin-right: 0rem;
+      }
     }
+
     button[role='tab'][data-state='active'] + button[role='tab'] {
       span {
-        border-left: 2px solid ${colors.greyXXLight25};
+        /* border-left: 2px solid ${colors.greyXXLight25}; */
+        margin-left: -1px;
       }
     }
   }

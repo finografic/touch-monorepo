@@ -7,30 +7,30 @@
 // 2. "prefer-arrow-callback": "off"
 
 const prettierDefaults = {
-  arrowParens: 'always', // (default: 'always' | 'avoid') - Include parentheses around a sole arrow function parameter.
-  bracketSameLine: false, // (default: false | true) - Put > of a multi-line HTML (HTML, JSX, Vue, Angular) element at the end of the last line instead of being alone on the next line.
-  bracketSpacing: true, // (default: true | false) - Print spaces between brackets.
-  cursorOffset: -1, // (default: -1) - Cursor offset for formatting a selected range. -1 means format the whole document.
-  embeddedLanguageFormatting: 'auto', // (default: 'auto' | 'off') - Control whether Prettier formats quoted code embedded in the file.
-  endOfLine: 'lf', // (default: 'lf' | 'crlf' | 'cr' | 'auto') - Line ending setting.
+  arrowParens: 'always',
+  bracketSameLine: false,
+  bracketSpacing: true,
+  cursorOffset: -1,
+  embeddedLanguageFormatting: 'auto',
+  endOfLine: 'lf',
   hexLiterals: 'uppercase',
-  htmlWhitespaceSensitivity: 'css', // (default: 'css' | 'strict' | 'ignore') - How to handle whitespaces in HTML.
-  insertPragma: false, // (default: false | true) - Insert a special @format marker at the top of files specifying that the file has been formatted with Prettier.
-  jsxSingleQuote: false, // (default: false | true) - Use single quotes instead of double quotes in JSX.
-  printWidth: 80, // (default: 80) - The line length where Prettier will try to wrap.
-  proseWrap: 'preserve', // (default: 'preserve' | 'always' | 'never') - How to wrap prose.
-  quoteProps: 'as-needed', // (default: 'as-needed' | 'consistent' | 'preserve') - Change when properties in objects are quoted.
-  rangeEnd: Infinity, // (default: Infinity) - Format code ending at a given character offset (exclusive).
-  rangeStart: 0, // (default: 0) - Format code starting at a given character offset.
-  requirePragma: false, // (default: false | true) - Require a special comment to format a file.
-  semi: true, // (default: true | false) - Print semicolons.
-  singleQuote: false, // (default: false | true) - Use single quotes instead of double quotes.
-  tabWidth: 2, // (default: 2) - Number of spaces per indentation level.
-  trailingComma: 'es5', // (default: 'es5' | 'none' | 'all') - Print trailing commas wherever possible when multi-line.
-  useTabs: false, // (default: false | true) - Indent with tabs instead of spaces.
-  vueIndentScriptAndStyle: false, // (default: false | true) - Indent <script> and <style> tags in Vue files.
-  plugins: [], // (default: []) - Path to Prettier plugins.
-  overrides: [], // (default: []) - Override settings for specific file patterns.
+  htmlWhitespaceSensitivity: 'css',
+  insertPragma: false,
+  jsxSingleQuote: false,
+  printWidth: 80,
+  proseWrap: 'preserve',
+  quoteProps: 'as-needed',
+  rangeEnd: Infinity,
+  rangeStart: 0,
+  requirePragma: false,
+  semi: true,
+  singleQuote: false,
+  tabWidth: 2,
+  trailingComma: 'es5',
+  useTabs: false,
+  vueIndentScriptAndStyle: false,
+  plugins: [],
+  overrides: [],
 };
 
 const customOverrides = {
@@ -40,41 +40,59 @@ const customOverrides = {
   quoteProps: 'consistent',
 };
 
-// Import sorting plugin configuration
-// This replaces ESLint's simple-import-sort for more reliable import sorting
+// Import sorting: ESLint handles sorting, Prettier only formats (doesn't sort)
+// This allows both to work together - ESLint sorts, Prettier formats without removing blank lines
 
 module.exports = {
   ...prettierDefaults,
   ...customOverrides,
-  plugins: ['@ianvs/prettier-plugin-sort-imports'],
-  importOrder: [
-    // React & External Packages (specific ones first)
-    '^react',
-    '^@react',
-    '^@finografic',
-    '^@workspace',
-    // Other external packages
-    '^@',
-    '<THIRD_PARTY_MODULES>',
-    // Internal absolute imports: components, providers, pages
-    '^(pages|components|lib)(/.*|$)',
-    // Hooks, routes, providers, queries
-    '^(hooks|routes|providers|queries)(/.*|$)',
-    // Utils, types, constants, config
-    '^(utils)(/.*|$)',
-    '^(types|constants)(/.*|$)',
-    '^(config|dev-tools)(/.*|$)',
-    // Relative imports (parent directories)
-    '^\\.\\.(?!/?$)',
-    '^\\.\\./?$',
-    '^\\./(?=.*/)(?!/?$)',
-    '^\\.(?!/?$)',
-    '^\\./?$',
-    // Styles (CSS imports last)
-    '^(styles)',
-    '^.+\\.s?css$',
-    '^.+\\.styles$',
+  // DO NOT enable @ianvs/prettier-plugin-sort-imports - it conflicts with ESLint
+  // ESLint's simple-import-sort handles all import sorting
+  // plugins: ['@ianvs/prettier-plugin-sort-imports'],
+  // importOrder: [
+  //   // React & External Packages (specific ones first)
+  //   '^react',
+  //   '^@react',
+  //   '^@finografic',
+  //   '^@workspace',
+  //   // Other external packages
+  //   '^@',
+  //   '<THIRD_PARTY_MODULES>',
+  //   // Internal absolute imports: components, providers, pages
+  //   '^(pages|components|lib)(/.*|$)',
+  //   // Hooks, routes, providers, queries
+  //   '^(hooks|routes|providers|queries)(/.*|$)',
+  //   // Utils, types, constants, config
+  //   '^(utils)(/.*|$)',
+  //   '^(types|constants)(/.*|$)',
+  //   '^(config|dev-tools)(/.*|$)',
+  //   // Relative imports (parent directories)
+  //   '^\\.\\.(?!/?$)',
+  //   '^\\.\\./?$',
+  //   '^\\./(?=.*/)(?!/?$)',
+  //   '^\\.(?!/?$)',
+  //   '^\\./?$',
+  //   // Styles (CSS imports last)
+  //   '^(styles)',
+  //   '^.+\\.s?css$',
+  //   '^.+\\.styles$',
+  // ],
+  // importOrderSeparation: true, // Add blank lines between groups
+  // importOrderSortSpecifiers: true, // Sort imports within each group
+  // importOrderCaseInsensitive: true, // Sort imports case-insensitively
+  // importOrderParserPlugins: ['typescript', 'jsx', 'decorators-legacy'], // Parse plugins for import sorting
+  // importOrderMergeDuplicateImports: true, // Merge duplicate imports
+  // importOrderCombineTypeSpecifier: false, // Combine type specifiers
+  // importOrderCombineImportType: true, // Combine import type
+  // Prettier will format code but preserve blank lines between import groups
+  overrides: [
+    {
+      files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
+      options: {
+        // Preserve blank lines - don't collapse multiple blank lines
+        // This ensures ESLint's blank lines between import groups are kept
+        printWidth: customOverrides.printWidth,
+      },
+    },
   ],
-  importOrderSeparation: true, // Add blank lines between groups
-  importOrderSortSpecifiers: true, // Sort imports within each group
 };

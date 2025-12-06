@@ -1,6 +1,5 @@
 import type React from 'react';
 import { Outlet } from 'react-router-dom';
-
 import { AdminLanguagesPage, PublicLanguagesPage } from 'admin/pages/AdminLanguagesPage';
 import { PublicModePage } from 'admin/pages/AdminModePage';
 import { AdminModePageDEV } from 'admin/pages/AdminModePage/AdminModePage-DEV';
@@ -11,7 +10,6 @@ import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlot
 import { AdminSoundPage, PublicSoundPage } from 'admin/pages/AdminSoundPage';
 import { TranslationsProductPage } from 'admin/pages/TranslationsProductPage';
 import { TranslationsUiPage } from 'admin/pages/TranslationsUiPage';
-
 import {
   CoffeeIcon,
   EditIcon,
@@ -51,8 +49,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     },
     hasNav: { public: true, admin: true }, // no nav
     hasCard: { public: false, admin: false }, // no card
-    // icon: null,
-    // color: 'blue',
   },
   // PUBLIC ENTRIES (accessible without login) ============================== //
   {
@@ -102,22 +98,9 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     },
     hasNav: { public: true, admin: true },
     hasCard: { public: true, admin: true },
-    // icon: UserShildIcon,
     icon: CoffeeIcon,
     color: 'blue',
   },
-  // {
-  //   key: 'uiLabels',
-  //   path: '/admin/ui-labels',
-  //   element: {
-  //     public: AdminUiLabelsPage,
-  //     admin: AdminUiLabelsPage,
-  //   },
-  //   hasNav: { public: false, admin: true },
-  //   hasCard: { public: false, admin: true },
-  //   icon: LanguageIcon,
-  //   color: 'blue',
-  // },
   {
     key: 'sounds',
     path: '/admin/sounds',
@@ -127,7 +110,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     },
     hasNav: { public: true, admin: true },
     hasCard: { public: true, admin: true },
-    // icon: SpeakerLoudIcon,
     icon: VolumeIcon,
     color: 'crimson',
   },
@@ -141,7 +123,6 @@ export const ADMIN_ENTRIES: AdminRouteEntry[] = [
     hasNav: { public: true, admin: false },
     hasCard: { public: true, admin: false },
     icon: SettingsIcon,
-    // color: 'orange',
     color: 'orange',
   },
 

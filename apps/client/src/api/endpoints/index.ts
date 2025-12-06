@@ -58,7 +58,21 @@ export const batchTranslationEndpoints = {
           if (!drinkTypeId) {
             throw new Error(`drinkTypeId is required for drink subtype ${id}`);
           }
-          return drinkSubtypeEndpoints.updateDrinkSubtype(id, updates, drinkTypeId);
+
+          // Check if this is a new item (temp ID starts with "temp-")
+          // For new items, use POST to create; for existing items, use PATCH to update
+          const isNewItem = id.startsWith('temp-');
+
+          if (isNewItem) {
+            // Create new subtype using POST (no ID in URL)
+            return drinkSubtypeEndpoints.createDrinkSubtype({
+              ...updates,
+              drinkTypeId,
+            });
+          } else {
+            // Update existing subtype using PATCH (ID in URL)
+            return drinkSubtypeEndpoints.updateDrinkSubtype(id, updates, drinkTypeId);
+          }
         }),
       );
     }
