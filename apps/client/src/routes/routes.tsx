@@ -7,6 +7,7 @@ import { AdminOrderEditPage } from 'admin/pages/AdminOrdersPage/AdminOrderEditPa
 import { AdminOrdersListPage } from 'admin/pages/AdminOrdersPage/AdminOrdersListPage';
 import { AdminRelaysPage } from 'admin/pages/AdminRelaysPage/AdminRelaysPage';
 // import { AdminLoginPage } from 'admin/pages/AdminLoginPage/AdminLoginPage';
+import { AdminTestPage } from 'admin/pages/AdminTestPage/AdminTestPage';
 import { PublicRelaysPage } from 'admin/pages/AdminRelaysPage/PublicRelaysPage';
 import { AdminSlotsConfigPage } from 'admin/pages/AdminSlotsConfigPage/AdminSlotsConfigPage';
 import { AdminSoundPage } from 'admin/pages/AdminSoundPage/AdminSoundPage';
@@ -173,6 +174,11 @@ export const routes: RouteObject[] = [
             path: 'translations',
             id: AdminFieldKeys.translations,
             element: <TranslationsProductPage />,
+          },
+          {
+            path: 'translations-test',
+            id: AdminFieldKeys.translationsTest,
+            element: <AdminTestPage />,
           },
           {
             path: 'ui-labels',

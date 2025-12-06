@@ -63,6 +63,7 @@ export const AdminFieldKeys: { [K in string]: K } = {
   // AUTHENTICATED ENTRIES (only visible as admin)
   items: 'items', // orders
   translations: 'translations', // translations
+  translationsTest: 'translations-test', // translations
   translationsUi: 'translationsUi', // translations
   uiLabels: 'ui-labels', // translations
   slotsConfig: 'slots-config',
