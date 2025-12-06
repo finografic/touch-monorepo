@@ -1,8 +1,10 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 
 import { AppConfigContext as AppConfig, DISPLAY_NAME, useAppConfig } from './AppConfigContext';
 import type { AppConfigProviderProps } from './AppConfigContext.types';
+import { useGetSlotConfigurations } from 'queries/slot-configurations';
+import { useToggleRelay } from 'queries/relays';
 
 const LOCALE_MAPPING = {
   es: 'es-ES',
@@ -64,10 +66,68 @@ const LanguageSync = () => {
   return null;
 };
 
+// Fixed slot number that maps to the power button
+const POWER_SLOT_NUMBER = 14;
+
+const PowerRelaySync = () => {
+  const { isPowerEnabled } = useAppConfig();
+  const { data: slotConfigurations, isLoading } = useGetSlotConfigurations();
+  const toggleRelayMutation = useToggleRelay();
+
+  // Track previous state to avoid unnecessary API calls
+  const prevPowerStateRef = useRef<boolean | null>(null);
+  const hasInitializedRef = useRef(false);
+
+  // Find slot 14 configuration to get its relay number
+  const slot14Config = slotConfigurations?.find((config) => config.slotNumber === POWER_SLOT_NUMBER);
+  const relayNumber = slot14Config?.relayNumber;
+
+  useEffect(
+    function syncPowerRelay() {
+      // Wait for slot configurations to load
+      if (isLoading || !slotConfigurations) {
+        return;
+      }
+
+      // Don't do anything if relay is not assigned to slot 14
+      if (!relayNumber) {
+        return;
+      }
+
+      // Skip if this is the first render and state hasn't changed
+      if (!hasInitializedRef.current) {
+        hasInitializedRef.current = true;
+        prevPowerStateRef.current = isPowerEnabled;
+
+        // Set initial relay state based on current isPowerEnabled
+        toggleRelayMutation.mutate({
+          slotNumber: relayNumber,
+          state: isPowerEnabled,
+        });
+        return;
+      }
+
+      // Only toggle if state actually changed
+      if (prevPowerStateRef.current !== isPowerEnabled) {
+        prevPowerStateRef.current = isPowerEnabled;
+
+        toggleRelayMutation.mutate({
+          slotNumber: relayNumber,
+          state: isPowerEnabled,
+        });
+      }
+    },
+    [isPowerEnabled, relayNumber, toggleRelayMutation, isLoading, slotConfigurations],
+  );
+
+  return null;
+};
+
 export const AppConfigProvider = ({ initialValue, children }: AppConfigProviderProps) => {
   return (
     <AppConfig.Provider initialValue={initialValue}>
       <LanguageSync />
+      <PowerRelaySync />
       {children}
     </AppConfig.Provider>
   );

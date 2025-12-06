@@ -6,13 +6,12 @@ import {
   getRelayStates,
   getRelayStatus,
   initializeRelay,
-  toggleAllRelays,
   toggleRelay,
-} from '../../routes/relay/relay.handlers';
-import { USBRelayService } from '../../services/usbrelay.service';
+} from '../relay.handlers';
+import { USBRelayService } from '../../../services/usbrelay.service';
 
 // Mock the USBRelayService
-vi.mock('../../services/usbrelay.service', () => ({
+vi.mock('../../../services/usbrelay.service', () => ({
   USBRelayService: {
     initialize: vi.fn(),
     toggleRelay: vi.fn(),

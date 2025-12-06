@@ -207,9 +207,16 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     [onRelayToggle, relayConfigurations],
   );
 
+  // Fixed slots that are controlled by other mechanisms (not timers)
+  const FIXED_SLOTS = [14] as const;
+
   // Check if a slot has an active timer (processing status)
   const hasActiveTimer = useCallback(
     (slotNumber: number): boolean => {
+      // Fixed slots are never controlled by timers
+      if (FIXED_SLOTS.includes(slotNumber as any)) {
+        return false;
+      }
       return timers.some((timer) => timer.slotNumber === slotNumber && timer.status === 'processing');
     },
     [timers],
@@ -219,6 +226,10 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   const isRelayControlledByTimer = useCallback(
     (relayNumber: number | null, slotNumber: number): boolean => {
       if (!relayNumber) return false;
+      // Fixed slots are never controlled by timers
+      if (FIXED_SLOTS.includes(slotNumber as any)) {
+        return false;
+      }
       // Check if this slot has an active timer
       return hasActiveTimer(slotNumber);
     },

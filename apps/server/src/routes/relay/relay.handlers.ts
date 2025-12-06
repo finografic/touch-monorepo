@@ -20,11 +20,11 @@ export const toggleRelay: AppRouteHandler<ToggleRelayRoute> = async (context) =>
   try {
     const { slotNumber, state } = context.req.valid('param');
 
-    if (Number.isNaN(slotNumber) || slotNumber < 1 || slotNumber > 8) {
+    if (Number.isNaN(slotNumber) || slotNumber < 1 || slotNumber > 16) {
       return context.json(
         {
           success: false,
-          error: 'Invalid slot number. Must be between 1-8.',
+          error: 'Invalid slot number. Must be between 1-16.',
         },
         HttpStatusCodes.BAD_REQUEST,
       );

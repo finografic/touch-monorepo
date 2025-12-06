@@ -16,13 +16,18 @@ export interface RelayConnectionStatus {
 
 type ConnectionState = 'disconnected' | 'connecting' | 'connected';
 
-// Internal state
-let device: any = null;
+// Internal state - support multiple boards
+let device1: any = null; // Board 1 (relays 1-8)
+let device2: any = null; // Board 2 (relays 9-16)
 const relayStates = new Map<number, boolean>();
 let connectionState: ConnectionState = 'disconnected';
 let reconnectAttempts = 0;
 
-const validSlotNumbers = [1, 2, 3, 4, 5, 6, 7, 8] as const;
+// Support up to 16 relays (2 boards of 8 each)
+// Relay 1-8: Board 1, channels 1-8
+// Relay 9-16: Board 2, channels 1-8
+const MAX_RELAYS = 16;
+const validSlotNumbers = Array.from({ length: MAX_RELAYS }, (_, i) => i + 1) as readonly number[];
 const maxReconnectAttempts = relayConfig.maxReconnectAttempts;
 
 // USBRelay8 HID protocol constants
@@ -46,6 +51,7 @@ const readHardwareState = async (): Promise<Map<number, boolean>> => {
     console.log('💡 Server will initialize with all relays OFF');
 
     // Initialize all relays as OFF (hardware state unknown)
+    // This initializes all 16 relays (both boards)
     validSlotNumbers.forEach((slotNumber) => {
       hardwareStates.set(slotNumber, false);
     });
@@ -56,29 +62,44 @@ const readHardwareState = async (): Promise<Map<number, boolean>> => {
   return hardwareStates;
 };
 
-const findRelayDevice = (): any => {
+const findRelayDevices = (): { device1: any; device2: any } => {
   try {
     const devices = HID.devices();
-    const relayDevice = devices.find(
+    const relayDevices = devices.filter(
       (device: any) => device.vendorId === USBRELAY_VENDOR_ID && device.productId === USBRELAY_PRODUCT_ID,
     );
 
-    if (!relayDevice) {
-      return null;
+    if (relayDevices.length === 0) {
+      return { device1: null, device2: null };
     }
 
-    console.log('🎯 Found USBRelay8 device:', {
-      vendorId: relayDevice.vendorId?.toString(16),
-      productId: relayDevice.productId?.toString(16),
-      manufacturer: relayDevice.manufacturer,
-      product: relayDevice.product,
-      path: relayDevice.path,
+    // Log all found devices
+    relayDevices.forEach((relayDevice, index) => {
+      console.log(`🎯 Found USBRelay8 device ${index + 1}:`, {
+        vendorId: relayDevice.vendorId?.toString(16),
+        productId: relayDevice.productId?.toString(16),
+        manufacturer: relayDevice.manufacturer,
+        product: relayDevice.product,
+        path: relayDevice.path,
+      });
     });
 
-    return new HID.HID(relayDevice.path!);
+    // Connect to first device (Board 1)
+    const device1 = relayDevices[0] ? new HID.HID(relayDevices[0].path!) : null;
+
+    // Connect to second device if available (Board 2)
+    const device2 = relayDevices[1] ? new HID.HID(relayDevices[1].path!) : null;
+
+    if (relayDevices.length === 1) {
+      console.log('⚠️  Only one USBRelay8 device found. Relays 9-16 will not work.');
+    } else if (relayDevices.length >= 2) {
+      console.log('✅ Found 2 USBRelay8 devices. Full 16-relay support enabled.');
+    }
+
+    return { device1, device2 };
   } catch (error) {
-    console.error('❌ Error finding relay device:', error);
-    return null;
+    console.error('❌ Error finding relay devices:', error);
+    return { device1: null, device2: null };
   }
 };
 
@@ -102,17 +123,26 @@ connectToRelayBoard = async (): Promise<void> => {
   if (connectionState === 'connected') return;
 
   connectionState = 'connecting';
-  console.log('🔌 Searching for USBRelay8 device...');
+  console.log('🔌 Searching for USBRelay8 devices...');
 
   try {
-    device = findRelayDevice();
-    if (!device) {
+    const { device1: newDevice1, device2: newDevice2 } = findRelayDevices();
+
+    if (!newDevice1) {
       throw new Error('No USBRelay8 device detected. Please check USB connection.');
     }
 
+    device1 = newDevice1;
+    device2 = newDevice2;
+
     connectionState = 'connected';
     reconnectAttempts = 0;
-    console.log('✅ USBRelay8 connected successfully');
+
+    if (device2) {
+      console.log('✅ USBRelay8 boards connected successfully (2 boards, 16 relays)');
+    } else {
+      console.log('✅ USBRelay8 board connected successfully (1 board, 8 relays)');
+    }
   } catch (error) {
     connectionState = 'disconnected';
     console.error('❌ Failed to connect to USBRelay8:', error);
@@ -121,21 +151,32 @@ connectToRelayBoard = async (): Promise<void> => {
 };
 
 const validateSlotNumber = (slotNumber: number): void => {
-  if (!validSlotNumbers.includes(slotNumber as any)) {
-    throw new Error(`Invalid slot number: ${slotNumber}. Must be between 1-8.`);
+  if (slotNumber < 1 || slotNumber > MAX_RELAYS) {
+    throw new Error(`Invalid slot number: ${slotNumber}. Must be between 1-${MAX_RELAYS}.`);
   }
 };
 
 const isConnected = (): boolean => {
-  return device !== null && connectionState === 'connected';
+  // Connected if at least board 1 is connected
+  return device1 !== null && connectionState === 'connected';
 };
 
-const sendHIDCommand = async (command: number[]): Promise<void> => {
-  if (!device) throw new Error('Device not available');
+const getDeviceForRelay = (slotNumber: number): any => {
+  // Relays 1-8 use device1 (Board 1)
+  // Relays 9-16 use device2 (Board 2)
+  if (slotNumber <= 8) {
+    return device1;
+  } else {
+    return device2;
+  }
+};
+
+const sendHIDCommand = async (command: number[], targetDevice: any): Promise<void> => {
+  if (!targetDevice) throw new Error('Device not available');
 
   try {
     // USBRelay8 uses direct HID commands (no padding needed)
-    device.write(command);
+    targetDevice.write(command);
     console.log('📤 Sent HID command:', command);
   } catch (error) {
     console.error('❌ Failed to send HID command:', error);
@@ -148,13 +189,20 @@ const buildRelayCommand = (slotNumber: number, state: boolean): number[] => {
   // Individual relay: [0xFF, relay_number, relay_number, relay_number] for ON
   //                   [0xFD, relay_number, relay_number, relay_number] for OFF
   // All relays:       [0xFE] for ON, [0xFC] for OFF
+  //
+  // For 2 boards:
+  // Relay 1-8: Board 1, channels 1-8
+  // Relay 9-16: Board 2, channels 1-8 (map to 1-8 on board 2)
+
+  // Map relay number to board channel (1-8)
+  const boardChannel = slotNumber <= 8 ? slotNumber : slotNumber - 8;
 
   if (state) {
     // Turn relay ON
-    return [0xFF, slotNumber, slotNumber, slotNumber];
+    return [0xFF, boardChannel, boardChannel, boardChannel];
   } else {
     // Turn relay OFF
-    return [0xFD, slotNumber, slotNumber, slotNumber];
+    return [0xFD, boardChannel, boardChannel, boardChannel];
   }
 };
 
@@ -195,13 +243,21 @@ export const USBRelayService = {
       throw new Error('USBRelay8 not connected. Please check hardware connection.');
     }
 
+    // Get the correct device for this relay
+    const targetDevice = getDeviceForRelay(slotNumber);
+    if (!targetDevice) {
+      const boardNum = slotNumber <= 8 ? 1 : 2;
+      throw new Error(`Board ${boardNum} not connected. Relay ${slotNumber} requires board ${boardNum}.`);
+    }
+
     try {
       const command = buildRelayCommand(slotNumber, state);
-      console.log(`🔌 Sending HID command to relay ${slotNumber}: ${state ? 'ON' : 'OFF'}`, command);
+      const boardNum = slotNumber <= 8 ? 1 : 2;
+      console.log(`🔌 Sending HID command to relay ${slotNumber} (Board ${boardNum}): ${state ? 'ON' : 'OFF'}`, command);
 
-      await sendHIDCommand(command);
+      await sendHIDCommand(command, targetDevice);
       relayStates.set(slotNumber, state);
-      console.log(`✅ Relay ${slotNumber} set to ${state ? 'ON' : 'OFF'}`);
+      console.log(`✅ Relay ${slotNumber} (Board ${boardNum}) set to ${state ? 'ON' : 'OFF'}`);
     } catch (error) {
       console.error(`❌ Failed to control relay ${slotNumber}:`, error);
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
@@ -228,9 +284,13 @@ export const USBRelayService = {
     }
 
     if (connectionState === 'connected') {
+      const boards = [];
+      if (device1) boards.push('Board 1');
+      if (device2) boards.push('Board 2');
+      const deviceInfo = boards.length > 0 ? `USBRelay8 (${boards.join(', ')})` : 'USBRelay8 (HID)';
       return {
         connected: true,
-        device: 'USBRelay8 (HID)',
+        device: deviceInfo,
       };
     }
 
@@ -258,13 +318,20 @@ export const USBRelayService = {
   },
 
   async disconnect(): Promise<void> {
-    if (!device) return;
+    if (!device1 && !device2) return;
 
     try {
-      device.close();
-      console.log('🔌 USBRelay8 disconnected');
+      if (device1) {
+        device1.close();
+        console.log('🔌 USBRelay8 Board 1 disconnected');
+      }
+      if (device2) {
+        device2.close();
+        console.log('🔌 USBRelay8 Board 2 disconnected');
+      }
     } finally {
-      device = null;
+      device1 = null;
+      device2 = null;
       connectionState = 'disconnected';
     }
   },
@@ -287,7 +354,13 @@ export const USBRelayService = {
       const command = state ? [0xFE] : [0xFC]; // All ON or All OFF
       console.log(`🔌 Sending HID command to all relays: ${state ? 'ON' : 'OFF'}`, command);
 
-      await sendHIDCommand(command);
+      // Send command to both boards
+      if (device1) {
+        await sendHIDCommand(command, device1);
+      }
+      if (device2) {
+        await sendHIDCommand(command, device2);
+      }
 
       // Update all relay states
       validSlotNumbers.forEach((slotNumber) => {

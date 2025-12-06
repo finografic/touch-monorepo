@@ -11,7 +11,11 @@ import { useTimers } from 'providers/TimersProvider';
  * When a timer completes (status: 'completed'), the associated relay turns OFF
  *
  * Only controls relays that have a relayNumber assigned in slot configurations
+ *
+ * Fixed slots (e.g., slot #14) are excluded from timer-based control
  */
+const FIXED_SLOTS = [14] as const; // Slots that are controlled by other mechanisms (e.g., power button)
+
 export const useRelayTimerControl = () => {
   const { timers } = useTimers();
   const { data: slotConfigurations } = useGetSlotConfigurations();
@@ -35,6 +39,11 @@ export const useRelayTimerControl = () => {
 
     // Process each timer
     timers.forEach((timer) => {
+      // Skip fixed slots - they are controlled by other mechanisms
+      if (FIXED_SLOTS.includes(timer.slotNumber as any)) {
+        return;
+      }
+
       const relayNumber = slotToRelayMap.get(timer.slotNumber);
       if (!relayNumber) return; // Skip if no relay assigned
 
