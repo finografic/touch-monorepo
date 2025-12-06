@@ -150,8 +150,11 @@ These rules are intentionally disabled to improve developer experience:
 
 **NEVER attempt to manually merge or combine ESLint configs after the `fino()` call.**
 
+This is a **CRITICAL RULE** that has caused import sorting to break multiple times. The pattern below **MUST NEVER BE USED**:
+
 ```typescript
 // ❌ NEVER DO THIS - This breaks ESLint completely
+// This pattern breaks plugin registration and causes simple-import-sort to stop working
 const finoConfig = fino({ ... });
 const baseConfig = Array.isArray(finoConfig) ? finoConfig : [finoConfig];
 const configWithPlugin = baseConfig.map((config) => ({
@@ -161,16 +164,26 @@ const configWithPlugin = baseConfig.map((config) => ({
 export default configWithPlugin;
 ```
 
-**ALWAYS use the direct structure:**
+**ALWAYS use the direct structure - this is the ONLY correct pattern:**
 
 ```typescript
 // ✅ CORRECT - Plugin directly in fino() call
+// This is the ONLY pattern that works reliably
+import simpleImportSort from 'eslint-plugin-simple-import-sort';
+import { ERROR, fino, OFF } from '@finografic/eslint-config';
+
 export default fino({
+  ignores: ['**/*.md', '**/*.mdx', '**/*.json', '**/*.jsonc'],
   plugins: {
     'simple-import-sort': simpleImportSort,
   },
+  languageOptions: {
+    // ... options
+  },
   rules: {
     'simple-import-sort/imports': [ERROR, { ... }],
+    'simple-import-sort/exports': ERROR,
+    // ... other rules
   },
 });
 ```
@@ -178,16 +191,26 @@ export default fino({
 ### Why This Matters
 
 - The `fino()` wrapper from `@finografic/eslint-config` handles plugin registration internally
-- Manually merging configs after `fino()` breaks plugin registration
+- Manually merging configs after `fino()` breaks plugin registration completely
 - This causes `simple-import-sort` and other plugins to stop working
 - The issue is subtle - ESLint may still run but plugins won't be recognized
+- **This has broken multiple times** - always use the direct structure
 
 ### If Import Sorting Stops Working
 
-1. **Check the config structure** - Ensure plugins are directly in `fino()` call
-2. **Check `@finografic/eslint-config` version** - Newer versions may have breaking changes
-3. **Compare with working backup** - Use git history or backup to verify structure
-4. **Never manually merge configs** - Always use the direct structure shown above
+1. **First**: Check the config structure matches the correct pattern above
+2. **Second**: Try rebuilding the project (`pnpm install` or full rebuild)
+3. **Third**: Check `@finografic/eslint-config` version - compare with known working version
+4. **Fourth**: Compare with git history or backup to verify structure
+5. **Never**: Manually merge configs - always use the direct structure shown above
+
+### Troubleshooting Checklist
+
+- [ ] Config uses `export default fino({ ... })` directly (not wrapped in another function)
+- [ ] Plugins are defined directly in the `plugins` object inside `fino()` call
+- [ ] No manual config merging or array mapping after `fino()` call
+- [ ] No spreading or combining of config objects after `fino()` returns
+- [ ] Project has been rebuilt after any config changes
 
 ## Best Practices
 

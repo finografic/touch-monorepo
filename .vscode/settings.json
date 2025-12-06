@@ -128,7 +128,73 @@
 
   // Additional import-related settings
   "typescript.suggest.includeCompletionsForImportStatements": true,
-  "typescript.suggest.includeCompletionsWithSnippetText": true
+  "typescript.suggest.includeCompletionsWithSnippetText": true,
 
   // ESLint will handle import sorting and organization
+
+  // ============================================================================
+  // Git & Diff View Settings - Control when diffs are shown
+  // ============================================================================
+
+  // Disable automatic diff opening
+  "git.autoRepositoryDetection": false,
+  "git.autofetch": false,
+
+  // Only show diffs when explicitly requested
+  "scm.diffDecorations": "none", // Don't show inline diff decorations
+  "scm.diffDecorationsGutterVisibility": "never", // Never show gutter decorations
+
+  // Disable automatic diff view on file open
+  "git.openRepositoryInParentFolders": "never",
+
+  // Control Source Control panel behavior
+  "scm.alwaysShowActions": false,
+  "scm.alwaysShowRepositories": false,
+
+  // Disable Cursor's automatic code review panels
+  "cursor.chat.showDiff": false, // Don't auto-show diffs in chat
+  "cursor.chat.autoReview": false, // Don't auto-create review panels
+
+  // Git diff settings - only show when explicitly requested
+  "diffEditor.ignoreTrimWhitespace": true,
+  "diffEditor.renderSideBySide": true,
+  "diffEditor.codeLens": false, // Disable code lens in diff view
+
+  // File explorer - don't show git status
+  "explorer.decorations.badges": false,
+  "explorer.decorations.colors": false,
+
+  // ============================================================================
+  // Problems Panel Settings - Disable auto-opening
+  // ============================================================================
+
+  // Prevent Problems panel from auto-opening when issues are detected
+  "problems.showCurrentInStatus": false, // Don't show problem count in status bar
+  "problems.autoReveal": false, // Don't auto-reveal problems in editor
+  "problems.showNearby": false, // Don't show nearby problems
+
+  // Disable automatic panel opening
+  "workbench.panel.opensMaximized": "never", // Never auto-maximize panels
+  "workbench.panel.defaultLocation": "bottom", // Keep it at bottom but don't auto-open
+
+  // Terminal panel settings (if terminal is what's opening)
+  "terminal.integrated.showExitAlert": false, // Don't show alerts when terminal exits
+
+  // Output panel settings
+  "output.smartScroll.enabled": false, // Disable smart scrolling in output
+
+  // Disable automatic reveal of panels
+  "workbench.editor.revealIfOpen": false, // Don't auto-reveal editors
+  "workbench.editor.enablePreview": false, // Disable preview mode (prevents auto-opening)
+
+  // Diagnostic/TypeScript settings
+  "typescript.tsserver.experimental.enableProjectDiagnostics": false, // Disable project-wide diagnostics
+  "typescript.disableAutomaticTypeAcquisition": false, // Keep this enabled but control panel
+
+  // ESLint settings - prevent auto-opening
+  "eslint.alwaysShowStatus": false, // Don't always show ESLint status
+  "eslint.run": "onType", // Only run on type, not on save (reduces panel triggers)
+
+  // General panel behavior
+  "workbench.panel.alwaysShowTabs": false // Keep activity bar visible
 }

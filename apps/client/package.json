@@ -62,7 +62,7 @@
     "@emotion/css": "11.13.5",
     "@emotion/react": "11.14.0",
     "@emotion/styled": "11.14.1",
-    "@finografic/zustand-context-creator": "0.6.0",
+    "@finografic/zustand-context-creator": "0.7.1",
     "@hookform/resolvers": "5.2.2",
     "@inlang/paraglide-js": "2.5.0",
     "@inlang/sdk": "2.4.9",

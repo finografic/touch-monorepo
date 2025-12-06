@@ -1,16 +1,15 @@
+import { Suspense } from 'react';
 import { ScreenClassProvider } from 'react-grid-system';
-
-import { AuthProviderWithInitialization } from 'providers/AuthProvider';
-
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom';
 
+import { Global } from '@emotion/react';
 import { Spinner, Theme as RadixTheme } from '@radix-ui/themes';
 import { SnoozeTimer } from 'components/Timers/SnoozeTimer';
 import { Toaster } from 'components/Toast';
 import { ToastProvider } from 'components/Toast/ToastContext';
 
 import { AppConfigProvider } from 'providers/AppConfigProvider';
-
+import { AuthProviderWithInitialization } from 'providers/AuthProvider';
 import { EmotionThemeProvider } from 'providers/EmotionProvider';
 import { SessionProvider } from 'providers/SessionProvider/SessionProvider';
 import { TimersProvider } from 'providers/TimersProvider';
@@ -20,11 +19,6 @@ import { useRouteMetadata } from 'routes/providers/RouteMetadataContext';
 import { themeConfig } from 'styles/radix-ui/theme.config';
 import 'primereact/resources/themes/lara-light-indigo/theme.css'; // theme
 import 'primereact/resources/primereact.min.css'; // core css
-
-import { Global } from '@emotion/react';
-
-import { Suspense } from 'react';
-
 // import 'primeicons/primeicons.css'; // icons
 // import 'primeflex/primeflex.css'; // flex
 // import { theme } from 'styles/themes/theme';
