@@ -73,6 +73,30 @@ export const styles = css`
       border-radius: 4px;
       font-size: 0.875rem;
     }
+
+    /* Row editor buttons styling */
+    .p-row-editor-init,
+    .p-row-editor-save,
+    .p-row-editor-cancel {
+      margin: 0 0.25rem;
+      padding: 0.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+
+    /* Editable cell input styling */
+    .p-cell-editor input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid ${colors.greyLight};
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
   }
 `;
 

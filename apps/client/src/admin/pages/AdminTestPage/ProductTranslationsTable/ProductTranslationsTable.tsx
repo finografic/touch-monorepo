@@ -1,23 +1,27 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
-import { Button as RadixButton, Flex, Text } from '@radix-ui/themes';
+import { InputText } from 'primereact/inputtext';
+import type { ColumnEditorOptions } from 'primereact/column';
+import { Flex, Text } from '@radix-ui/themes';
 import { FilterMatchMode } from 'primereact/api';
 import { Column } from 'primereact/column';
-import type { ColumnProps } from 'primereact/column';
+import type { DataTableRowEditCompleteEvent } from 'primereact/datatable';
 import type { DataTableFilterMeta, DataTableProps } from 'primereact/datatable';
 import { DataTable } from 'primereact/datatable';
+import { useDebouncedCallback } from 'use-debounce';
 
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
 import type { LanguageInfo } from 'types/models/supported-language.model';
 import { getLanguageFieldName } from '../../TranslationsProductPage/utils/translation-helpers';
-import { EditIcon, TrashIcon } from 'styles/icons';
+import { slugify } from 'utils/string.utils';
+import { TrashIcon } from 'styles/icons';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
 import { styles } from './ProductTranslationsTable.styles';
-import { getProductTranslationsTableColumns, PAGINATOR_NUM_ENTRIES } from './ProductTranslationsTable.config';
+import { PAGINATOR_NUM_ENTRIES } from './ProductTranslationsTable.config';
 
 // ============================================================================
 // Types
@@ -67,9 +71,14 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   const { t } = useTranslation();
   const { toast } = useToast();
 
-  // State for editing - track which item and field is being edited
-  const [editingCell, setEditingCell] = useState<{ itemId: string; fieldName: string } | null>(null);
-  const [editValue, setEditValue] = useState<string>('');
+  // Find es-ES language field name
+  const esESFieldName = useMemo(() => {
+    const esESLang = supportedLanguages.find((lang) => lang.isoCode === 'es-ES');
+    return esESLang ? getLanguageFieldName(esESLang.isoCode) : null;
+  }, [supportedLanguages]);
+
+  // Track previous es-ES values to detect changes
+  const prevEsESValuesRef = useRef<Map<string, string>>(new Map());
 
   // Initialize filters for PrimeReact DataTable
   const [filters, setFilters] = useState<DataTableFilterMeta>(() => {
@@ -83,27 +92,125 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     return filterMeta;
   });
 
+  // Debounced function to update name field from es-ES translation
+  const debouncedUpdateName = useDebouncedCallback(
+    (itemId: string, esESValue: string) => {
+      if (!esESValue || !esESValue.trim()) return;
+
+      const slugifiedName = slugify(esESValue);
+      if (slugifiedName) {
+        onItemChange(itemId, 'name', slugifiedName);
+      }
+    },
+    100, // 500ms debounce
+  );
+
+  // Initialize previous values on mount
+  useEffect(() => {
+    if (!esESFieldName) return;
+
+    items.forEach((item) => {
+      const currentEsESValue = item[esESFieldName] || '';
+      if (!prevEsESValuesRef.current.has(item.id)) {
+        prevEsESValuesRef.current.set(item.id, currentEsESValue);
+      }
+    });
+  }, [items, esESFieldName]);
+
+  // Watch for changes to es-ES translations and update name field (live with debounce)
+  useEffect(() => {
+    if (!esESFieldName) return;
+
+    items.forEach((item) => {
+      const currentEsESValue = item[esESFieldName] || '';
+      const prevEsESValue = prevEsESValuesRef.current.get(item.id) || '';
+
+      // If es-ES value changed, update the name field with debounce
+      if (currentEsESValue !== prevEsESValue && currentEsESValue) {
+        prevEsESValuesRef.current.set(item.id, currentEsESValue);
+        debouncedUpdateName(item.id, currentEsESValue);
+      }
+    });
+  }, [items, esESFieldName, debouncedUpdateName]);
+
+  // ============================================================================
+  // Editors
+  // ============================================================================
+
+  // Text editor for language fields
+  const textEditor = (options: ColumnEditorOptions) => {
+    return (
+      <InputText
+        type="text"
+        value={options.value || ''}
+        onChange={(e) => options.editorCallback?.(e.target.value)}
+        style={{ width: '100%' }}
+      />
+    );
+  };
+
+  // Custom editor for es-ES field that also updates the name field live
+  const esESEditor = useCallback(
+    (options: ColumnEditorOptions) => {
+      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newValue = e.target.value;
+        options.editorCallback?.(newValue);
+
+        // Update name field live with debounce when es-ES changes
+        if (newValue && newValue.trim()) {
+          const rowData = options.rowData as TranslationItem;
+          if (rowData?.id) {
+            debouncedUpdateName(rowData.id, newValue);
+          }
+        }
+      };
+
+      return (
+        <InputText
+          type="text"
+          value={options.value || ''}
+          onChange={handleChange}
+          style={{ width: '100%' }}
+        />
+      );
+    },
+    [debouncedUpdateName],
+  );
+
   // ============================================================================
   // Handlers
   // ============================================================================
 
-  const handleEditClick = useCallback((itemId: string, fieldName: string, currentValue: string) => {
-    setEditingCell({ itemId, fieldName });
-    setEditValue(currentValue || '');
-  }, []);
+  // Handle row edit completion - this is called when user clicks save (checkmark)
+  const onRowEditComplete = useCallback(
+    (e: DataTableRowEditCompleteEvent) => {
+      const { newData, index } = e;
+      const originalData = items[index];
 
-  const handleEditSave = useCallback(() => {
-    if (!editingCell) return;
+      if (!originalData) return;
 
-    onItemChange(editingCell.itemId, editingCell.fieldName, editValue);
-    setEditingCell(null);
-    setEditValue('');
-  }, [editingCell, editValue, onItemChange]);
+      // Update all changed fields in the row
+      Object.keys(newData).forEach((fieldName) => {
+        if (fieldName !== 'id' && newData[fieldName] !== originalData[fieldName]) {
+          onItemChange(originalData.id, fieldName, newData[fieldName] || '');
+        }
+      });
 
-  const handleEditCancel = useCallback(() => {
-    setEditingCell(null);
-    setEditValue('');
-  }, []);
+      // Sync name field with es-ES translation if es-ES was changed
+      if (esESFieldName && newData[esESFieldName] && newData[esESFieldName] !== originalData[esESFieldName]) {
+        const esESValue = newData[esESFieldName] || '';
+        if (esESValue.trim()) {
+          const slugifiedName = slugify(esESValue);
+          if (slugifiedName) {
+            // Update immediately (no debounce needed since user confirmed the edit)
+            onItemChange(originalData.id, 'name', slugifiedName);
+            prevEsESValuesRef.current.set(originalData.id, esESValue);
+          }
+        }
+      }
+    },
+    [items, onItemChange, esESFieldName],
+  );
 
   const handleDelete = useCallback(
     (itemId: string, itemName: string) => {
@@ -148,59 +255,15 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     );
   };
 
+  // Language field body template - just display the value
   const createLanguageBodyTemplate = (isoCode: string) => {
     const fieldName = getLanguageFieldName(isoCode);
     return (rowData: TranslationItem) => {
-      const isEditing = editingCell?.itemId === rowData.id && editingCell?.fieldName === fieldName;
       const value = rowData[fieldName] || '';
-
-      if (isEditing) {
-        return (
-          <Flex gap="2" align="center">
-            <input
-              type="text"
-              value={editValue}
-              onChange={(e) => setEditValue(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  handleEditSave();
-                } else if (e.key === 'Escape') {
-                  handleEditCancel();
-                }
-              }}
-              autoFocus
-              style={{
-                padding: '0.25rem 0.5rem',
-                border: '1px solid #ccc',
-                borderRadius: '4px',
-                fontSize: '0.875rem',
-                width: '100%',
-              }}
-            />
-            <RadixButton size="1" onClick={handleEditSave} variant="solid" color="green">
-              ✓
-            </RadixButton>
-            <RadixButton size="1" onClick={handleEditCancel} variant="outline" color="gray">
-              ✕
-            </RadixButton>
-          </Flex>
-        );
-      }
-
       return (
-        <Flex gap="2" align="center" justify="between">
-          <Text size="2" style={{ flex: 1 }}>
-            {value || '-'}
-          </Text>
-          <RadixButton
-            size="1"
-            onClick={() => handleEditClick(rowData.id, fieldName, value)}
-            variant="ghost"
-            style={{ padding: '0.25rem' }}
-          >
-            <EditIcon style={{ width: '0.875rem', height: '0.875rem' }} />
-          </RadixButton>
-        </Flex>
+        <Text size="2" style={{ flex: 1 }}>
+          {value || '-'}
+        </Text>
       );
     };
   };
@@ -208,27 +271,21 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
   const actionsBodyTemplate = (rowData: TranslationItem) => {
     return (
       <div className="action-buttons">
-        <RadixButton
+        <button
           className="button button-delete"
           onClick={() => handleDelete(rowData.id, rowData.name)}
-          variant="ghost"
-          size="4"
-          color="red"
+          type="button"
+          aria-label="Delete"
         >
           <TrashIcon className="icon-delete" />
-        </RadixButton>
+        </button>
       </div>
     );
   };
 
-  // Generate columns dynamically based on supported languages
-  const tableColumns = useMemo(() => {
-    return getProductTranslationsTableColumns(supportedLanguages);
-  }, [supportedLanguages]);
-
   // Create body renderers for all languages
   const bodyRenderers = useMemo(() => {
-    const renderers: Record<string, ColumnProps['body']> = {
+    const renderers: Record<string, any> = {
       name: nameBodyTemplate,
       actions: actionsBodyTemplate,
     };
@@ -239,7 +296,7 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
     });
 
     return renderers;
-  }, [supportedLanguages, editingCell, editValue, handleEditSave, handleEditCancel, handleEditClick]);
+  }, [supportedLanguages]);
 
   return (
     <section css={styles} className="table-container">
@@ -262,7 +319,14 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
               </Button>
             )}
             {onSave && (
-              <Button type="button" variant="solid" color="success" onClick={handleSave} disabled={!isDirty} size="sm">
+              <Button
+                type="button"
+                variant="solid"
+                color="success"
+                onClick={handleSave}
+                disabled={!isDirty}
+                size="sm"
+              >
                 {t('ui.buttons.save')}
               </Button>
             )}
@@ -272,7 +336,9 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
 
       <DataTable
         value={items}
+        editMode="row"
         dataKey="id"
+        onRowEditComplete={onRowEditComplete}
         filters={filters}
         filterDisplay="row"
         emptyMessage="No translations found"
@@ -281,21 +347,54 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
         removableSort
         {...PAGINATOR_PROPS}
       >
-        {tableColumns.map((column) => (
-          <Column
-            key={column.field}
-            field={column.field === 'actions' ? undefined : column.field}
-            header={column.header}
-            sortable={column.sortable !== undefined ? column.sortable : true}
-            filter={column.filter !== undefined ? column.filter : true}
-            filterPlaceholder={column.filterPlaceholder ?? 'Search'}
-            style={column.style ?? { minWidth: '120px', maxWidth: '200px' }}
-            headerStyle={column.headerStyle}
-            body={bodyRenderers[column.field]}
-          />
-        ))}
+        {/* Name column - read-only */}
+        <Column
+          field="name"
+          header="Name (Key)"
+          sortable
+          filter
+          filterPlaceholder="Search"
+          style={{ minWidth: '150px', maxWidth: '200px' }}
+          headerStyle={{ width: '150px' }}
+          body={bodyRenderers.name}
+        />
+
+        {/* Language columns - editable */}
+        {supportedLanguages.map((lang) => {
+          const fieldName = getLanguageFieldName(lang.isoCode);
+          const isEsES = lang.isoCode === 'es-ES';
+          return (
+            <Column
+              key={fieldName}
+              field={fieldName}
+              header={`${lang.displayName} (${lang.isoCode})`}
+              sortable
+              filter
+              filterPlaceholder="Search"
+              style={{ minWidth: '150px', maxWidth: '200px' }}
+              body={bodyRenderers[fieldName]}
+              editor={(options) => (isEsES ? esESEditor(options) : textEditor(options))}
+            />
+          );
+        })}
+
+        {/* Row editor column - PrimeReact built-in edit/save/cancel controls */}
+        <Column
+          rowEditor
+          headerStyle={{ width: '10%', minWidth: '8rem' }}
+          bodyStyle={{ textAlign: 'center' }}
+        />
+
+        {/* Actions column - delete button (LAST) */}
+        <Column
+          header="Actions"
+          sortable={false}
+          filter={false}
+          style={{ minWidth: '80px', maxWidth: '100px' }}
+          headerStyle={{ width: '80px' }}
+          body={bodyRenderers.actions}
+        />
       </DataTable>
     </section>
   );
 };
-
