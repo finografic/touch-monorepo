@@ -14,12 +14,12 @@ import { useTableLabelMappings } from './useTableLabelMappings';
 import { EditIcon, TrashIcon } from 'styles/icons';
 import 'primereact/resources/themes/lara-light-cyan/theme.css';
 import 'primereact/resources/primereact.min.css';
-import { styles } from './OrdersTable.styles';
+import { styles } from './TranslationsTable.styles';
 import {
   ORDERS_TABLE_COLUMNS,
-  type OrdersTableColumnBodyType,
+  type TranslationsTableColumnBodyType,
   PAGINATOR_NUM_ENTRIES,
-} from './OrdersTable.config';
+} from './TranslationsTable.config';
 
 // ============================================================================
 // Constants
@@ -63,7 +63,7 @@ export interface ColumnSearchState {
   [key: string]: string; // Maps column key to search term
 }
 
-export interface OrdersTableProps {
+export interface TranslationsTableProps {
   orders: OrderReadableWithIndex[];
   emptyMessage?: string;
   onClickEdit: (orderId: string) => void;
@@ -72,7 +72,7 @@ export interface OrdersTableProps {
   selectedOrders?: OrderReadableWithIndex[];
 }
 
-export const OrdersTable: React.FC<OrdersTableProps> = ({
+export const TranslationsTable: React.FC<TranslationsTableProps> = ({
   orders,
   emptyMessage = 'No orders found',
   onClickEdit,
@@ -163,7 +163,7 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
     );
   };
 
-  const bodyRenderers: Record<OrdersTableColumnBodyType, ColumnProps['body']> = {
+  const bodyRenderers: Record<TranslationsTableColumnBodyType, ColumnProps['body']> = {
     index: indexBodyTemplate,
     mode: modeBodyTemplate,
     drinkType: drinkTypeBodyTemplate,

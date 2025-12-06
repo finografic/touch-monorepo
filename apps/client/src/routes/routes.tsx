@@ -106,6 +106,11 @@ export const routes: RouteObject[] = [
     element: <AdminLayout />,
     children: [
       {
+        path: 'translations-test',
+        id: AdminFieldKeys.translationsTest,
+        element: <AdminTestPage />,
+      },
+      {
         // Protected admin section
         element: <ProtectedRoutesByRole />,
         children: [
@@ -175,11 +180,7 @@ export const routes: RouteObject[] = [
             id: AdminFieldKeys.translations,
             element: <TranslationsProductPage />,
           },
-          {
-            path: 'translations-test',
-            id: AdminFieldKeys.translationsTest,
-            element: <AdminTestPage />,
-          },
+
           {
             path: 'ui-labels',
             id: AdminFieldKeys.translationsUi,

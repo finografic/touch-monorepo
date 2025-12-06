@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react';
 import type { DataTableProps } from 'primereact/datatable';
 
-import type { ColumnKey } from './OrdersTable';
+import type { ColumnKey } from './TranslationsTable';
 
 // ============================================================================
 // Constants
@@ -18,7 +18,7 @@ export const PAGINATOR_PROPS = {
   // rowsPerPageOptions: [25, 50, 100],
 } satisfies Partial<DataTableProps<any>>;
 
-export type OrdersTableColumnBodyType =
+export type TranslationsTableColumnBodyType =
   | 'index'
   | 'mode'
   | 'drinkType'
@@ -28,7 +28,7 @@ export type OrdersTableColumnBodyType =
   | 'temperature'
   | 'actions';
 
-export interface OrdersTableColumnConfig {
+export interface TranslationsTableColumnConfig {
   field: ColumnKey;
   header: string;
   sortable?: boolean;
@@ -36,10 +36,10 @@ export interface OrdersTableColumnConfig {
   filterPlaceholder?: string;
   style?: CSSProperties;
   headerStyle?: CSSProperties;
-  bodyType: OrdersTableColumnBodyType;
+  bodyType: TranslationsTableColumnBodyType;
 }
 
-export const ORDERS_TABLE_COLUMNS: OrdersTableColumnConfig[] = [
+export const ORDERS_TABLE_COLUMNS: TranslationsTableColumnConfig[] = [
   {
     field: 'displayIndex',
     header: '#',

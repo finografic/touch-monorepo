@@ -2,7 +2,7 @@ import React, { useCallback, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Flex, Text } from '@radix-ui/themes';
-import { OrdersTable } from 'admin/pages/AdminOrdersPage/OrdersTable';
+import { TranslationsTable } from 'admin/pages/AdminTestPage/TranslationsTable';
 import { Button } from 'components/Button';
 import { useToast } from 'components/Toast';
 
@@ -43,7 +43,7 @@ export const AdminTestPage: React.FC = () => {
     navigate('/admin/items/new');
   };
 
-  // Passed to OrdersTable (memoized) - use useCallback
+  // Passed to TranslationsTable (memoized) - use useCallback
   const handleEditOrder = useCallback(
     (orderId: string) => {
       navigate(`/admin/items/${orderId}`);
@@ -134,7 +134,7 @@ export const AdminTestPage: React.FC = () => {
             <Text color="red">Error loading orders: {error.message}</Text>
           </Flex>
         ) : (
-          <OrdersTable
+          <TranslationsTable
             orders={filteredOrders}
             emptyMessage="No orders found. Try adjusting your filters."
             onClickEdit={handleEditOrder}
