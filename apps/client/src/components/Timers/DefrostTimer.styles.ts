@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { colors } from 'styles';
 
 export const styles = css`
-  .user-timer {
+  .defrost-timer {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -16,7 +16,7 @@ export const styles = css`
 
     padding: 3rem 0;
     font-size: 3rem;
-    font-weight: 400;
+    font-weight: 600;
     color: ${colors.infoLight};
     /* opacity: 0.66; */
     user-select: none;

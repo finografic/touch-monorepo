@@ -20,7 +20,7 @@ export const styles = css`
 
     span {
       font-size: 1.45rem;
-      font-weight: 700;
+      font-weight: 600;
       white-space: nowrap;
     }
   }

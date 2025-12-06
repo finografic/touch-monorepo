@@ -82,7 +82,7 @@ export const DefrostTimer: React.FC<DefrostTimerProps> = ({ slotNumber, onComple
 
   return (
     <div css={styles}>
-      <div className="user-timer">
+      <div className="defrost-timer">
         <span>
           {/* {process.env.NODE_ENV === 'development' && <TimerResetIcon />} */}
           {/* <strong>{formatTimeFromMs(remainingTime)}</strong> */}
