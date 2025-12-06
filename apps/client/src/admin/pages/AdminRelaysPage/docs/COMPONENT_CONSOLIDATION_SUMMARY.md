@@ -263,7 +263,7 @@ export const Page = () => {
 - ✅ Calls `useGetSlotConfigurations()`
 - ✅ Calls `useGetRelayStates()` (data only)
 - ✅ Manages relay slot assignments
-- ✅ Composes `RelaysStatus`, `RelayButtons`, `RelayAssign`
+- ✅ Composes `RelaysStatus`, `RelayButtons`, `RelaysTable`
 
 ### `PublicRelaysPage` 📄
 

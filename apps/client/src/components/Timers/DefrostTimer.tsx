@@ -2,13 +2,12 @@ import React, { useCallback, useEffect, useState } from 'react';
 
 import { useTimers } from 'providers/TimersProvider';
 
-import { formatTime, formatTimeFromMs } from 'utils/time.utils';
+import { formatTime } from 'utils/time.utils';
 import { parseCompletionTime } from './shared/timer.utils';
 import { timerSubscriptionRegistry } from './shared/TimerSubscriptionRegistry';
-import { TimerResetIcon } from 'styles/icons/icons';
-import { styles } from './UserTimer.styles';
+import { styles } from './DefrostTimer.styles';
 
-interface UserTimerProps {
+interface DefrostTimerProps {
   slotNumber: number;
   onComplete?: () => void;
 }
@@ -25,18 +24,17 @@ interface UserTimerProps {
  * - Automatic cleanup
  * - Type-safe props
  */
-export const UserTimer: React.FC<UserTimerProps> = ({ slotNumber, onComplete }) => {
-  const store = useTimers();
-  const maintenanceTimer = store.getMaintenanceTimerBySlot(slotNumber);
-  const { startMaintenanceTimer, stopMaintenanceTimer } = store;
+export const DefrostTimer: React.FC<DefrostTimerProps> = ({ slotNumber, onComplete }) => {
+  const { stopDefrostTimer, defrost } = useTimers();
+
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
   const handleComplete = useCallback(() => {
     timerSubscriptionRegistry.unregister(slotNumber);
     // For maintenance, mark as idle
-    stopMaintenanceTimer(slotNumber);
+    stopDefrostTimer(slotNumber);
     onComplete?.();
-  }, [slotNumber, stopMaintenanceTimer, onComplete]);
+  }, [slotNumber, stopDefrostTimer, onComplete]);
 
   useEffect(
     function initializeTimerInstance() {
@@ -45,13 +43,13 @@ export const UserTimer: React.FC<UserTimerProps> = ({ slotNumber, onComplete }) 
       };
 
       // If no timer or timer is not processing, reset state
-      if (!maintenanceTimer || maintenanceTimer.status !== 'processing') {
+      if (!defrost || defrost.status !== 'processing') {
         setRemainingTime(0);
         cleanup();
         return cleanup;
       }
 
-      const { remaining } = parseCompletionTime(maintenanceTimer);
+      const { remaining } = parseCompletionTime(defrost);
       setRemainingTime(remaining);
 
       // If already expired, complete immediately
@@ -63,7 +61,7 @@ export const UserTimer: React.FC<UserTimerProps> = ({ slotNumber, onComplete }) 
       // Register callback with timer registry (subscribes to heartbeat)
       timerSubscriptionRegistry.register(slotNumber, () => {
         // Re-parse timer to get current remaining time
-        const { remaining } = parseCompletionTime(maintenanceTimer);
+        const { remaining } = parseCompletionTime(defrost);
         setRemainingTime(remaining);
 
         if (remaining <= 0) {
@@ -73,7 +71,7 @@ export const UserTimer: React.FC<UserTimerProps> = ({ slotNumber, onComplete }) 
 
       return cleanup;
     },
-    [maintenanceTimer, slotNumber, handleComplete],
+    [defrost, slotNumber, handleComplete],
   );
 
   // if (!maintenanceTimer || maintenanceTimer.status !== 'processing') {
@@ -88,7 +86,7 @@ export const UserTimer: React.FC<UserTimerProps> = ({ slotNumber, onComplete }) 
         <span>
           {/* {process.env.NODE_ENV === 'development' && <TimerResetIcon />} */}
           {/* <strong>{formatTimeFromMs(remainingTime)}</strong> */}
-          {maintenanceTimer && maintenanceTimer.status === 'processing' ? (
+          {defrost && defrost.status === 'processing' ? (
             <strong>{formatTime(remainingTime)}</strong>
           ) : (
             <span>00:00</span>

@@ -12,7 +12,7 @@ import { useRelayHandlers } from '../useRelayHandlers';
 // Component
 // ============================================================================
 
-export const RelaysStatus: React.FC = () => {
+export const RelaysConnectionStatus: React.FC = () => {
   const { handlers, mutations } = useRelayHandlers();
 
   // Call hooks directly - this component owns connection status!

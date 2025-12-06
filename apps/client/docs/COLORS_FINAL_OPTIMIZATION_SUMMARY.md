@@ -104,7 +104,7 @@ export { colors as colorsDirect } from './colors/colors-direct'; // Backwards co
 ### Manually Fixed (11 files)
 
 - ✅ 2 utility files (button utils, UI variants)
-- ✅ 4 component files (InputTime, InputTemperature, SelectSearchable, RelayAssign)
+- ✅ 4 component files (InputTime, InputTemperature, SelectSearchable, RelaysTable)
 - ✅ 3 constants files (base, global, forms)
 - ✅ 2 theme files (theme.ts, colors-direct.ts)
 

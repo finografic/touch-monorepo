@@ -11,17 +11,17 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import type { RelayConfig } from 'types/relays.types';
 import type { SlotType } from 'types/slots.types';
 
-import { styles } from './RelayAssign.styles';
+import { styles } from './RelaysTable.styles';
 import { NUM_RELAYS } from 'config/app/slots.config';
 import { getSlotColor } from 'utils/slots.utils';
 
 /**
- * Simplified read-only version of RelayAssign
+ * Simplified read-only version of RelaysTable
  * - No timers
  * - No relay select dropdowns
  * - Shows only: slot number, type, relay assignment, and status
  */
-export const RelayAssignReadOnly: React.FC = () => {
+export const RelaysTableReadOnly: React.FC = () => {
   const { data: slotConfigurations } = useGetSlotConfigurations();
   const { data: relayStates } = useStableRelayStates();
 
@@ -119,4 +119,3 @@ export const RelayAssignReadOnly: React.FC = () => {
     </Box>
   );
 };
-

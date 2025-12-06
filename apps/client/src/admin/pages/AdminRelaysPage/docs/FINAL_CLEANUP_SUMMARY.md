@@ -18,13 +18,13 @@
 // Lines 24-34 - DUPLICATE!
 const timersStore = useTimers();
 const startMaintenance = useCallback(() => {
-  timersStore.startMaintenanceTimer(15, 600);
+  timersStore.startDefrostTimer(15, 600);
 }, [timersStore]);
 const stopMaintenance = useCallback(() => {
-  timersStore.stopMaintenanceTimer(15);
+  timersStore.stopDefrostTimer(15);
 }, [timersStore]);
 const resetMaintenance = useCallback(() => {
-  timersStore.resetMaintenanceTimer(15, 600);
+  timersStore.resetDefrostTimer(15, 600);
 }, [timersStore]);
 ```
 
@@ -80,7 +80,7 @@ if (isLoadingStates) {
 
 ```tsx
 // GONE! This page doesn't need relay configurations
-// (AdminRelaysPage uses them for RelayAssign component)
+// (AdminRelaysPage uses them for RelaysTable component)
 ```
 
 ---
@@ -223,9 +223,9 @@ export const PublicRelaysPage: React.FC = () => {
 **Purpose:** Relay board configuration
 **What it does:**
 - Manages slot configurations
-- Renders RelayButtons, RelayAssign
+- Renders RelayButtons, RelaysTable
 - Needs handlers/mutations for RelayButtons
-- Needs relayStates for RelayAssign
+- Needs relayStates for RelaysTable
 
 ### PublicRelaysPage (43 lines) 🌟
 
@@ -241,7 +241,7 @@ export const PublicRelaysPage: React.FC = () => {
 AdminRelaysPage (131 lines)
   ├─ RelaysStatus ✅
   ├─ RelayButtons
-  └─ RelayAssign
+  └─ RelaysTable
 
 PublicRelaysPage (43 lines)
   ├─ RelaysStatus ✅ (REUSED!)
@@ -294,7 +294,7 @@ const { data } = useGetRelayStatus();
 
 **AdminRelaysPage needs:**
 - Slot configurations (unique to this page)
-- Relay states (for RelayAssign)
+- Relay states (for RelaysTable)
 - Handlers/mutations (for RelayButtons)
 
 **PublicRelaysPage needs:**

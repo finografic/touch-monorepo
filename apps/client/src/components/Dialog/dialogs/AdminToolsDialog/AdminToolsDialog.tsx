@@ -16,7 +16,7 @@ import type { DialogConfig } from '../../GenericDialog.types';
 import type { AdminToolsDialogProps, Calculation, OrderWithMetadata } from './AdminToolsDialog.types';
 import { cleanCalculationData, cleanOrderData, loadCalculationFromStorage } from './AdminToolsDialog.utils';
 import { RecallTimer } from 'components/Timers/RecallTimer';
-import { RelayAssignReadOnly } from 'admin/pages/AdminRelaysPage/RelayAssign/RelayAssignReadOnly';
+import { RelaysTableReadOnly } from 'admin/pages/AdminRelaysPage/RelaysTable/RelaysTableReadOnly';
 
 export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => {
   const { orders } = useOrderSelection<OrderWithMetadata>({
@@ -114,7 +114,7 @@ export const AdminToolsDialog = ({ isOpen, onClose }: AdminToolsDialogProps) => 
   tabs.push({
     id: 'relays',
     label: 'Relay Status',
-    content: <RelayAssignReadOnly />,
+    content: <RelaysTableReadOnly />,
   });
 
   // Add config tab

@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { Box, Flex } from '@radix-ui/themes';
-import { RelayAssign } from 'admin/pages/AdminRelaysPage/RelayAssign';
-import { RelayButtons } from 'admin/pages/AdminRelaysPage/RelayButtons';
+import { RelaysTable } from 'admin/pages/AdminRelaysPage/RelaysTable';
+import { BulkRelayControls } from 'admin/pages/AdminRelaysPage/BulkRelayControls';
 
 import { useInitializeRelay, useStableRelayStates } from 'queries/relays';
 import { useGetSlotConfigurations } from 'queries/slot-configurations';
@@ -10,7 +10,7 @@ import { useGetSlotConfigurations } from 'queries/slot-configurations';
 import type { SlotType } from 'types/slots.types';
 import { AdminPageLayout, AdminSection } from '../..';
 import { NUM_RELAYS } from 'config/app/slots.config';
-import { RelaysStatus } from './RelaysStatus';
+import { RelaysConnectionStatus } from './RelaysConnectionStatus';
 import { useRelayHandlers } from './useRelayHandlers';
 import { styles } from './AdminRelaysPage.styles';
 
@@ -114,12 +114,12 @@ export const AdminRelaysPage: React.FC = () => {
       styles={styles}
     >
       <AdminSection title="Connection Status" variant="border-solid">
-        <RelaysStatus />
+        <RelaysConnectionStatus />
       </AdminSection>
 
       <AdminSection title="Relay Boards" variant="border-solid">
         <Flex justify="end" align="center" mt="-6" mb="2">
-          <RelayButtons
+          <BulkRelayControls
             handlers={handlers}
             mutations={mutations}
             isForceTestEnabled={isForceTestEnabled}
@@ -127,7 +127,7 @@ export const AdminRelaysPage: React.FC = () => {
           />
         </Flex>
         <Flex>
-          <RelayAssign
+          <RelaysTable
             configurations={relayConfigs}
             onRelayToggle={handlers.relayToggle}
             isLoading={isTogglePending}

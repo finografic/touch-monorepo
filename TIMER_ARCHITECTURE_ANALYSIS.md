@@ -184,7 +184,7 @@ const now = useHeartbeatSubscription(); // Updates every second
 
 ## 5. How They Work Together
 
-### Pattern 1: Slot-Based Timers (Timer.tsx, UserTimer.tsx)
+### Pattern 1: Slot-Based Timers (Timer.tsx, DefrostTimer.tsx)
 
 ```typescript
 // 1. Get timer STATE from TimersContext
@@ -248,7 +248,7 @@ useEffect(() => {
 ### ✅ Uses TimersContext + TimerSubscriptionRegistry
 
 - `Timer.tsx` - Main timer component (slot-based)
-- `UserTimer.tsx` - Maintenance timer component (slot-based)
+- `DefrostTimer.tsx` - Maintenance timer component (slot-based)
 - `AdminSlotTimer.tsx` - Admin timer component (slot-based)
 
 ### ✅ Uses TimersContext + useHeartbeatSubscription
@@ -324,7 +324,7 @@ useEffect(() => {
         ▼                               ▼
 ┌───────────────────┐         ┌──────────────────────┐
 │  Timer.tsx         │         │  SnoozeTimer.tsx     │
-│  UserTimer.tsx     │         │  RecallTimer.tsx     │
+│  DefrostTimer.tsx     │         │  RecallTimer.tsx     │
 └───────────────────┘         └──────────────────────┘
         │
         │ (reads state)

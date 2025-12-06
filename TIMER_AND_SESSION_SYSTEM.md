@@ -67,7 +67,7 @@ A centralized master timer that ticks every second, used by all timer components
 
 - **Timer Components Using Heartbeat**
   - `Timer.tsx`: Subscribes to heartbeat via `tick` dependency
-  - `UserTimer.tsx`: Subscribes to heartbeat via `tick` dependency
+  - `DefrostTimer.tsx`: Subscribes to heartbeat via `tick` dependency
   - `RecallTimer.tsx`: Subscribes to heartbeat via `tick` dependency
   - `SnoozeTimer.tsx`: Uses heartbeat for countdown updates
 

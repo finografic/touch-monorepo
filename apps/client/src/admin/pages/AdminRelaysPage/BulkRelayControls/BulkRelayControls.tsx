@@ -9,7 +9,7 @@ import type { RelayHandlers, RelayMutations } from '../useRelayHandlers';
 // Types
 // ============================================================================
 
-interface RelayButtonsProps {
+interface BulkRelayControlsProps {
   handlers: Pick<RelayHandlers, 'turnAllOn' | 'turnAllOff' | 'resetAll'>;
   mutations: Pick<RelayMutations, 'turnAllOn' | 'turnAllOff'>;
   isForceTestEnabled: boolean;
@@ -20,7 +20,7 @@ interface RelayButtonsProps {
 // Component
 // ============================================================================
 
-export const RelayButtons: React.FC<RelayButtonsProps> = ({
+export const BulkRelayControls: React.FC<BulkRelayControlsProps> = ({
   handlers,
   mutations,
   isForceTestEnabled,

@@ -6,6 +6,7 @@ import { timerSubscriptionRegistry } from 'components/Timers/shared/TimerSubscri
 import { useTimerEvents } from 'components/Timers/shared/useTimerEvents';
 
 import { useTimers } from 'providers/TimersProvider/TimersContext';
+import { DEFROST_SLOT_NUMBER } from 'admin/config/admin.slots.config';
 
 import { formatTime } from 'utils/time.utils';
 import { styles } from './AdminSlotTimer.styles';
@@ -18,20 +19,25 @@ interface AdminSlotTimerProps {
 /**
  * Admin Slot Timer Component
  *
- * Displays timer countdown for a specific slot using the regular timers from TimersContext.
- * Unlike UserTimer which uses maintenance timers, this uses the main timers array.
+ * Displays timer countdown for a specific slot.
+ * - For regular slots: Uses the regular timers from TimersContext.timers array
+ * - For defrost slot (slot 15): Uses the defrost timer from TimersContext.defrost
  *
  * Features:
- * - Uses getTimerBySlotNumber to find timers
+ * - Uses getTimerBySlotNumber to find regular timers
+ * - Uses defrost timer for slot 15
  * - Displays countdown for processing timers
  * - Automatic cleanup
  * - Type-safe props
  */
 export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onComplete }) => {
-  const { timer, updateTimer, snooze, setSnooze } = useTimers({ slotNumber });
+  const { timer, defrost, updateTimer, snooze, setSnooze } = useTimers({ slotNumber });
   const [remainingTime, setRemainingTime] = useState<number>(0);
 
-  if (!timer) {
+  // For defrost slot, use defrost timer instead of regular timer
+  const activeTimer = slotNumber === DEFROST_SLOT_NUMBER ? defrost : timer;
+
+  if (!activeTimer) {
     return null;
   }
 
@@ -47,7 +53,8 @@ export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onCo
   const handleComplete = useCallback(() => {
     timerSubscriptionRegistry.unregister(slotNumber);
 
-    if (timer) {
+    // Only update regular timers (defrost timer is handled separately)
+    if (timer && slotNumber !== DEFROST_SLOT_NUMBER) {
       updateTimer(timer.id, { status: 'completed' });
     }
 
@@ -62,13 +69,13 @@ export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onCo
       };
 
       // If no timer or timer is not processing, reset state
-      if (!timer || timer.status !== 'processing') {
+      if (!activeTimer || activeTimer.status !== 'processing') {
         setRemainingTime(0);
         cleanup();
         return cleanup;
       }
 
-      const { remaining } = parseCompletionTime(timer);
+      const { remaining } = parseCompletionTime(activeTimer);
       setRemainingTime(remaining);
 
       // If already expired, complete immediately
@@ -79,24 +86,27 @@ export const AdminSlotTimer: React.FC<AdminSlotTimerProps> = ({ slotNumber, onCo
 
       // Register callback with timer subscription registry (subscribes to heartbeat service)
       timerSubscriptionRegistry.register(slotNumber, () => {
-        const { remaining } = parseCompletionTime(timer);
+        const { remaining } = parseCompletionTime(activeTimer);
         setRemainingTime(remaining);
 
         if (remaining <= 0) {
-          handleCompleteEvent({ remaining, orderId: timer.orderId });
+          // Only call handleCompleteEvent for regular timers (has orderId)
+          if (slotNumber !== DEFROST_SLOT_NUMBER && timer && 'orderId' in timer) {
+            handleCompleteEvent({ remaining, orderId: timer.orderId });
+          }
           handleComplete();
         }
       });
 
       return cleanup;
     },
-    [timer, slotNumber, updateTimer, handleComplete, handleCompleteEvent],
+    [activeTimer, slotNumber, updateTimer, handleComplete, handleCompleteEvent],
   );
 
   return (
     <div css={styles}>
-      <div className={clsx('admin-slot-timer', `status-${timer.status}`)}>
-        <span>{timer.status === 'completed' ? '00:00' : formatTime(remainingTime)}</span>
+      <div className={clsx('admin-slot-timer', `status-${activeTimer.status}`)}>
+        <span>{activeTimer.status === 'completed' ? '00:00' : formatTime(remainingTime)}</span>
       </div>
     </div>
   );

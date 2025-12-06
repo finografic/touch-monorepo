@@ -39,7 +39,7 @@ const {
 - Harder to understand what the component actually uses
 - Creates unnecessary coupling
 
-### Problem 2: `RelaysStatus` Component is Already Self-Contained!
+### Problem 2: `RelaysStatus` Component is Already Self-Contained
 
 ```tsx
 // ✅ GOOD: Component calls hooks directly and only takes what it needs!
@@ -193,7 +193,7 @@ const { isLoading: isLoadingStatus } = useGetRelayStatus();
 
 ### 2️⃣ Mutation Hooks (Write Operations)
 
-#### `useToggleRelay()`, `useTurnAllRelaysOn()`, etc.
+#### `useToggleRelay()`, `useTurnAllRelaysOn()`, etc
 
 **⚠️ Better to keep centralized!**
 
@@ -203,6 +203,7 @@ const { isLoading: isLoadingStatus } = useGetRelayStatus();
 - May want to show single loading indicator for all mutations
 
 **Current Approach (GOOD!):**
+
 ```tsx
 // useRelayHandlers.ts - All mutations in one place ✅
 const toggleRelayMutation = useToggleRelay();
@@ -234,6 +235,7 @@ return {
 - May need to coordinate between components
 
 **Current Approach (PERFECT!):**
+
 ```tsx
 // AdminRelaysPage.tsx
 const { handlers, mutations } = useRelayHandlers();
@@ -244,6 +246,7 @@ const { handlers, mutations } = useRelayHandlers();
 ```
 
 **⚠️ Exception:** If a component is used in isolation and needs different behavior:
+
 ```tsx
 // IsolatedComponent.tsx - Has its own instance
 const { handlers, mutations } = useRelayHandlers();
@@ -282,6 +285,7 @@ useEffect(() => {
 ### Fix 1: Simplify `AdminRelaysPage.tsx`
 
 **Current (lines 51-57):**
+
 ```tsx
 const {
   data: relayStatus,              // ❌ Not used in page
@@ -293,12 +297,14 @@ const {
 ```
 
 **Option A: Only destructure what you need**
+
 ```tsx
 // ✅ GOOD: Only take what you need
 const { isLoading: isLoadingStatus } = useGetRelayStatus();
 ```
 
 **Option B: Remove entirely** (Recommended!)
+
 ```tsx
 // ✅ BETTER: Remove from page, let RelaysStatus handle it
 // Remove useGetRelayStatus() entirely
@@ -312,7 +318,7 @@ const isLoading = useMemo(
 
 ---
 
-### Fix 2: `PublicRelaysPage.tsx` is Actually Good!
+### Fix 2: `PublicRelaysPage.tsx` is Actually Good
 
 ```tsx
 // ✅ This page uses ALL the props, so it's fine!
@@ -329,7 +335,7 @@ const {
 
 ---
 
-### Fix 3: `RelaysStatus.tsx` is Perfect!
+### Fix 3: `RelaysStatus.tsx` is Perfect
 
 ```tsx
 // ✅ Already optimized - only takes what it needs!
@@ -379,6 +385,7 @@ const { data } = useGetRelayStatus(); // 3️⃣ Still cached!
 ```
 
 **React Query Configuration (from your hooks):**
+
 ```tsx
 staleTime: 1000 * 10,          // Data fresh for 10 seconds
 refetchInterval: 5000,         // Refetch every 5 seconds
@@ -428,7 +435,7 @@ const TweetList = () => {
 
 ## Summary & Action Items
 
-### ✅ Do This:
+### ✅ Do This
 
 1. **Remove `useGetRelayStatus` from `AdminRelaysPage`** if it's only used for `isLoading`
    - Let `RelaysStatus` component call it directly
@@ -446,7 +453,7 @@ const TweetList = () => {
    - Only call once per page
    - Already doing this correctly! ✅
 
-### ❌ Don't Do This:
+### ❌ Don't Do This
 
 1. ❌ Don't prop-drill query data if the child can call the hook directly
 2. ❌ Don't call `useInitializeRelay` in multiple components
@@ -481,7 +488,7 @@ export const AdminRelaysPage = () => {
     <>
       <RelaysStatus handlers={handlers} mutations={mutations} />
       <RelayButtons handlers={handlers} mutations={mutations} />
-      <RelayAssign
+      <RelaysTable
         configurations={slotConfigurations}
         onRelayToggle={handlers.relayToggle}
       />

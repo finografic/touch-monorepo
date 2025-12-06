@@ -17,14 +17,14 @@ export const SETTER_PREFIX = '';
 export enum TimersKeys {
   timers = 'timers',
   snooze = 'snooze',
-  maintenance = 'maintenance',
+  defrost = 'defrost',
   recall = 'recall',
 }
 
 export const defaultValue: TimersValues = {
   timers: [],
   snooze: false,
-  maintenance: [],
+  defrost: null,
   recall: {
     config: null,
     expiresAt: null,
@@ -93,11 +93,9 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
             set({ timers: updatedTimers });
           },
           // ----- Maintenance timers (basic) -----
-          startMaintenanceTimer: (slotNumber: number, durationSeconds: number = 600) => {
-            const { maintenance } = get();
+          startDefrostTimer: (slotNumber: number, durationSeconds: number = 600) => {
             const now = Date.now();
             const completionTime = new Date(now + durationSeconds * 1000).toISOString();
-
             const id =
               typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `maint-${now}`;
             const timer: TimerBasic = {
@@ -109,43 +107,18 @@ export const TimersContext = createZustandContext(({ initialValue }) => {
               createdAt: new Date(now).toISOString(),
             };
 
-            const existing = maintenance.find((t) => t.slotNumber === slotNumber);
-            if (existing) {
-              const updated = maintenance.map((t) => (t.slotNumber === slotNumber ? timer : t));
-              set({ maintenance: updated });
-            } else {
-              set({ maintenance: [...maintenance, timer] });
-            }
+            set({ defrost: timer });
           },
-          stopMaintenanceTimer: (slotNumber: number) => {
-            const { maintenance } = get();
-            const updated = maintenance.map((t) =>
-              t.slotNumber === slotNumber
-                ? ({ ...t, status: 'idle' as SlotStatus, completionTime: undefined } as TimerBasic)
-                : t,
-            );
-            set({ maintenance: updated });
-          },
-          resetMaintenanceTimer: (slotNumber: number, durationSeconds: number = 600) => {
-            const { maintenance } = get();
-            const now = Date.now();
-            const completionTime = new Date(now + durationSeconds * 1000).toISOString();
-            const updated = maintenance.map((t) =>
-              t.slotNumber === slotNumber
-                ? ({
-                    ...t,
-                    status: 'idle' as SlotStatus,
-                    duration: durationSeconds,
-                    completionTime,
-                    createdAt: new Date(now).toISOString(),
-                  } as TimerBasic)
-                : t,
-            );
-            set({ maintenance: updated });
-          },
-          getMaintenanceTimerBySlot: (slotNumber: number) => {
-            const { maintenance } = get();
-            return maintenance.find((t) => t.slotNumber === slotNumber);
+          stopDefrostTimer: (slotNumber: number) => {
+            const { defrost } = get();
+            set({
+              defrost: {
+                ...defrost,
+                slotNumber,
+                status: 'idle' as SlotStatus,
+                completionTime: undefined,
+              } as TimerBasic,
+            });
           },
 
           // ----- Recall config (configuration recall system) -----

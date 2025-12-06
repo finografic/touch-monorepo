@@ -16,7 +16,7 @@ export const styles = css`
 
     padding: 3rem 0;
     font-size: 3rem;
-    font-weight: 200;
+    font-weight: 400;
     color: ${colors.infoLight};
     /* opacity: 0.66; */
     user-select: none;

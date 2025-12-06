@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { Col, Row } from 'react-grid-system';
 
 import { Box, Flex, Text } from '@radix-ui/themes';
@@ -10,21 +10,21 @@ import { Button } from 'components/Button';
 import { useGetRelayStatus, useToggleRelay } from 'queries/relays';
 import { useBulkUpdateSlotConfigurations } from 'queries/slot-configurations';
 import { useTimers } from 'providers/TimersProvider';
+import { useAppConfig } from 'providers/AppConfigProvider';
 
 import type { SelectOption } from 'types/models/select-option.model';
-import { RELAY_SLOT_COLORS, type RelayConfig } from 'types/relays.types';
+import { type RelayConfig } from 'types/relays.types';
 import type { SlotType } from 'types/slots.types';
-import { SlotSpecial } from 'types/slots.types';
 
-import { AdminSlotTimer } from './AdminSlotTimer';
-import { RelaySelectWithButton } from './RelaySelectWithButton';
+import { AdminSlotTimer } from './components/AdminSlotTimer';
 import { useColors } from 'styles';
 import { RadioIcon } from 'styles/icons';
-import { styles } from './RelayAssign.styles';
+import { styles } from './RelaysTable.styles';
 import { NUM_RELAYS } from 'config/app/slots.config';
 import { getSlotColor } from 'utils/slots.utils';
+import { DEFROST_SLOT_NUMBER, POWER_SLOT_NUMBER } from 'admin/config/admin.slots.config';
 
-interface RelayAssignProps {
+interface RelaysTableProps {
   configurations: RelayConfig[];
   onRelayToggle?: (slotNumber: number, newState: boolean) => void;
   isLoading?: boolean;
@@ -37,7 +37,7 @@ type Assignments = Record<number, number | undefined>;
 // Test duration constant (5 seconds)
 const RELAY_TEST_DURATION_MS = 5000;
 
-export const RelayAssign: React.FC<RelayAssignProps> = ({
+export const RelaysTable: React.FC<RelaysTableProps> = ({
   configurations,
   onRelayToggle,
   isLoading = false,
@@ -45,7 +45,8 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
 }) => {
   const bulkUpdateMutation = useBulkUpdateSlotConfigurations();
   const toggleRelayMutation = useToggleRelay();
-  const { timers } = useTimers();
+  const { timers, defrost } = useTimers();
+  const { isPowerEnabled } = useAppConfig();
 
   // Get connection status to determine if test buttons should be enabled
   const { data: relayStatus } = useGetRelayStatus();
@@ -208,12 +209,12 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
   );
 
   // Fixed slots that are controlled by other mechanisms (not timers)
-  const FIXED_SLOTS = [14] as const;
+  const FIXED_SLOTS = [POWER_SLOT_NUMBER, DEFROST_SLOT_NUMBER] as const;
 
   // Check if a slot has an active timer (processing status)
   const hasActiveTimer = useCallback(
     (slotNumber: number): boolean => {
-      // Fixed slots are never controlled by timers
+      // Fixed slots are handled separately (power button or defrost timer)
       if (FIXED_SLOTS.includes(slotNumber as any)) {
         return false;
       }
@@ -222,11 +223,19 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
     [timers],
   );
 
+  // Check if slot 15 has an active defrost timer
+  const hasActiveDefrostTimer = useCallback(
+    (slotNumber: number): boolean => {
+      return slotNumber === DEFROST_SLOT_NUMBER && defrost !== null && defrost.status === 'processing';
+    },
+    [defrost],
+  );
+
   // Check if a relay is controlled by an active timer
   const isRelayControlledByTimer = useCallback(
     (relayNumber: number | null, slotNumber: number): boolean => {
       if (!relayNumber) return false;
-      // Fixed slots are never controlled by timers
+      // Fixed slots are handled separately
       if (FIXED_SLOTS.includes(slotNumber as any)) {
         return false;
       }
@@ -234,6 +243,23 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
       return hasActiveTimer(slotNumber);
     },
     [hasActiveTimer],
+  );
+
+  // Check if slot 14 is controlled by power button
+  const isSlotControlledByPower = useCallback(
+    (slotNumber: number): boolean => {
+      return slotNumber === POWER_SLOT_NUMBER && isPowerEnabled;
+    },
+    [isPowerEnabled],
+  );
+
+  // Check if slot 15 is controlled by defrost timer
+  const isSlotControlledByDefrost = useCallback(
+    (relayNumber: number | null, slotNumber: number): boolean => {
+      if (!relayNumber) return false;
+      return hasActiveDefrostTimer(slotNumber);
+    },
+    [hasActiveDefrostTimer],
   );
 
   // Clean up timeouts on unmount
@@ -314,11 +340,15 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
               // - Relay is active (ON) if:
               //   - hardware state reports ON (config.isOn), OR
               //   - it's currently in test mode, OR
-              //   - the slot has an active timer (processing)
+              //   - the slot has an active timer (processing), OR
+              //   - slot 14 is controlled by power button (isPowerEnabled), OR
+              //   - slot 15 is controlled by defrost timer
               const isRelayActive =
                 config.isOn ||
                 testingRelays.has(config.relayNumber ?? 0) ||
-                isRelayControlledByTimer(config.relayNumber, config.slotNumber);
+                isRelayControlledByTimer(config.relayNumber, config.slotNumber) ||
+                isSlotControlledByPower(config.slotNumber) ||
+                isSlotControlledByDefrost(config.relayNumber, config.slotNumber);
 
               return (
                 <div key={config.slotNumber} className={clsx('slot-grid-item', { 'is-loading': isLoading })}>
@@ -360,14 +390,19 @@ export const RelayAssign: React.FC<RelayAssignProps> = ({
                         <Flex>
                           {assignments[config.slotNumber] ? (
                             <Button
-                              className={clsx('button-relay-test', { active: isRelayActive })}
+                              className={clsx('button-relay-test', {
+                                active:
+                                  //  isRelayActive
+                                  // hasActiveTimer(config.slotNumber),
+                                  testingRelays.has(config.relayNumber ?? 0),
+                              })}
                               onClick={() => handleClickTest(config.relayNumber, config.slotNumber)}
                               variant="solid"
-                              color="info"
+                              color="success"
                               size="sm"
-                              // disabled={
-                              //   !canTest || isRelayControlledByTimer(config.relayNumber, config.slotNumber)
-                              // }
+                              disabled={
+                                !canTest || isRelayControlledByTimer(config.relayNumber, config.slotNumber)
+                              }
                             >
                               <RadioIcon /> test
                             </Button>

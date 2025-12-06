@@ -77,7 +77,7 @@ import { button, colorsDirect as colors } from 'styles'; // ✅
 
 ### 2️⃣ Component Files (4 files) - JSX Usage
 
-#### `admin/pages/AdminRelaysPage/RelayAssign/RelayAssign.tsx`
+#### `admin/pages/AdminRelaysPage/RelaysTable/RelaysTable.tsx`
 
 **Usage:** Direct color references in component logic
 

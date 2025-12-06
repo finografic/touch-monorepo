@@ -6,7 +6,7 @@ import type { SETTER_PREFIX, TimersKeys } from './TimersContext';
 export interface TimersValues {
   [TimersKeys.timers]: TimerItem[];
   [TimersKeys.snooze]: boolean;
-  [TimersKeys.maintenance]: TimerBasic[];
+  [TimersKeys.defrost]: TimerBasic | null;
   [TimersKeys.recall]: RecallState;
 }
 
@@ -19,10 +19,8 @@ type TimersActions = TimersSetters & {
   updateTimers: (updatedTimers: TimerItem[]) => void;
   updateTimerByOrderId: (orderId: string, updates: Partial<TimerItem>) => void;
   // Maintenance timers (basic timers)
-  startMaintenanceTimer: (slotNumber: number, durationSeconds?: number) => void;
-  stopMaintenanceTimer: (slotNumber: number) => void;
-  resetMaintenanceTimer: (slotNumber: number, durationSeconds?: number) => void;
-  getMaintenanceTimerBySlot: (slotNumber: number) => TimerBasic | undefined;
+  startDefrostTimer: (slotNumber: number, durationSeconds?: number) => void;
+  stopDefrostTimer: (slotNumber: number) => void;
   // Recall config (configuration recall system)
   setRecallConfig: (config: RecallConfig, forceResetTimer?: boolean) => void;
   clearRecallConfig: () => void;

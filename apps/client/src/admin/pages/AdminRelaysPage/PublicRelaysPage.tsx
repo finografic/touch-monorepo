@@ -1,16 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { Box, Flex } from '@radix-ui/themes';
 
 import { useInitializeRelay } from 'queries/relays';
 
 import { AdminPageLayout, AdminSection } from '../..';
-import { RelayDefrostTimer } from './RelayDefrostTimer/RelayDefrostTimer';
 import { NUM_RELAYS } from 'config/app/slots.config';
-import { RelaysStatus } from './RelaysStatus';
+import { RelaysConnectionStatus } from './RelaysConnectionStatus';
 import { styles } from './AdminRelaysPage.styles';
+import { DEFROST_SLOT_NUMBER } from 'admin/config/admin.slots.config';
+import { useTimers } from 'providers/TimersProvider';
+import { DefrostTimer } from 'components/Timers/DefrostTimer';
+import { Button } from 'components/Button';
 
 export const PublicRelaysPage: React.FC = () => {
+  // Maintenance timer controls (slot 15 default, 10 minutes)
+  const { startDefrostTimer, stopDefrostTimer } = useTimers();
+
   // Initialize relay service on mount
   const initializeRelayMutation = useInitializeRelay();
   useEffect(() => {
@@ -29,12 +35,38 @@ export const PublicRelaysPage: React.FC = () => {
       styles={styles}
     >
       <AdminSection title="Connection Status" variant="border-solid">
-        <RelaysStatus />
+        <RelaysConnectionStatus />
       </AdminSection>
       <AdminSection title="Desescarche" variant="border-solid">
         <Box className="admin-relay-control">
           <Flex direction="column" gap="6">
-            <RelayDefrostTimer />
+            <Flex gap="4" justify="between">
+              <Flex direction="column" gap="4">
+                <Flex gap="2">
+                  <DefrostTimer slotNumber={DEFROST_SLOT_NUMBER} />
+                </Flex>
+                <Flex justify="between" align="center">
+                  <Flex gap="2">
+                    <Button
+                      onClick={() => startDefrostTimer(DEFROST_SLOT_NUMBER, 600)}
+                      variant="solid"
+                      color="success"
+                      size="sm"
+                    >
+                      Start
+                    </Button>
+                    <Button
+                      onClick={() => stopDefrostTimer(DEFROST_SLOT_NUMBER)}
+                      variant="outline"
+                      color="warning"
+                      size="sm"
+                    >
+                      Stop
+                    </Button>
+                  </Flex>
+                </Flex>
+              </Flex>
+            </Flex>
           </Flex>
         </Box>
       </AdminSection>

@@ -1,4 +1,4 @@
-import type { AuthRoles } from 'admin/config/admin.routes.map';
+import type { AuthRoles } from 'apps/client/src/admin/config/admin-routes.map';
 import { snakeCase } from 'change-case';
 import { m } from 'i18n/messages';
 

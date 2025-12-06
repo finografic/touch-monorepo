@@ -15,12 +15,12 @@ export const styles = css`
     }
 
     &.status-processing {
-      color: ${colors.successDark};
+      color: ${colors.success};
     }
 
     span {
-      font-size: 1.15rem;
-      font-weight: 600;
+      font-size: 1.45rem;
+      font-weight: 700;
       white-space: nowrap;
     }
   }

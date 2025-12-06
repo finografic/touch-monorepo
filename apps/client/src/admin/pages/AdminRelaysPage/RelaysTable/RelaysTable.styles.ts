@@ -105,6 +105,16 @@ export const styles = css`
 
       ${getVariantStyles('solid', 'grey')}
 
+      &:hover {
+        ${getVariantStyles('solid', 'success')}
+      }
+
+      &:disabled {
+        ${getVariantStyles('solid', 'grey')}
+
+        opacity: 0.45!important;
+      }
+
       .button-text {
         font-size: 1.1rem;
         font-weight: 600;
@@ -117,6 +127,7 @@ export const styles = css`
 
       &.active {
         ${getVariantStyles('solid', 'success')}
+
         cursor: default;
       }
     }
