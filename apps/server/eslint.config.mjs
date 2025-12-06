@@ -31,36 +31,38 @@ export default fino({
     // '@typescript-eslint/no-unused-vars': WARN,
     // '@typescript-eslint/no-shadow': OFF,
     // 'no-console': 0,
+    'style/no-multi-spaces': OFF,
     'ts/no-unused-vars': OFF,
+    'ts/consistent-type-imports': [
+      ERROR,
+      {
+        prefer: 'type-imports',
+        disallowTypeAnnotations: true,
+        fixStyle: 'separate-type-imports',
+      },
+    ],
     'ts/no-undef': OFF,
     'no-unused-vars': OFF,
     'fino/top-level-function': OFF,
-    // 'unicorn/number-literal-case': ERROR,
-    // 'simple-import-sort/imports': [
-    //   ERROR,
-    //   {
-    //     groups: [
-    //       [
-    //         // Side effect imports
-    //         '^\\u0000',
-    //         // `react`-> `@sage`packages ->`carbon-react`->`RTL`, then other packages in alphabetical order
-    //         '^react',
-    //         '^@sage',
-    //         '^carbon-react',
-    //         '^@testing-library',
-    //         '^@',
-    //         '^[a-z]',
-    //         // Imports starting with `../`
-    //         '^\\.\\.(?!/?$)',
-    //         '^\\.\\./?$',
-    //         // Imports starting with `./`
-    //         '^\\./(?=.*/)(?!/?$)',
-    //         '^\\.(?!/?$)',
-    //         '^\\./?$',
-    //       ],
-    //     ],
-    //   },
-    // ],
+    'jsdoc/check-alignment': OFF,
+
+    'unused-imports/no-unused-imports': OFF, // Don't remove unused imports automatically
+
+    // Disable conflicting rules with simple-import-sort
+    'perfectionist/sort-named-imports': OFF,
+    'perfectionist/sort-object-types': OFF,
+    'perfectionist/sort-objects': OFF,
+    'perfectionist/sort-imports': OFF,
+
+    // Disable other import-related rules that conflict
+    'import/order': OFF,
+    'import/sort-imports': OFF,
+    'sort-imports': OFF,
+
+    // Disable unused import removal rules
+    'import/no-unused-modules': OFF,
+    'import/no-unresolved': OFF,
+
     // Import sorting rules
     'simple-import-sort/imports': [
       ERROR,
@@ -99,6 +101,7 @@ export default fino({
       },
     ],
     'simple-import-sort/exports': ERROR,
+    'style/jsx-one-expression-per-line': OFF,
   },
 
   // overrides: {
