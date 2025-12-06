@@ -52,10 +52,11 @@ const SharedEnvSchema = z
     // Inlang + ParaglideJS translations
     INLANG_GOOGLE_TRANSLATE_API_KEY: z.string().optional().default(''),
     // Relay board configuration
-    RELAY_ENABLED: z.boolean().default(false),
-    RELAY_PORT: z.string().default(''),
-    RELAY_BAUD_RATE: z.number().default(9600),
-    RELAY_TIMEOUT: z.number().optional().default(5000),
+    RELAY_ENABLED: z.boolean().default(true),
+    RELAY_NUM_RELAYS: z.union([z.literal(8), z.literal(16)]).default(16),
+    RELAY_RECONNECT_ATTEMPTS: z.number().default(5),
+    USBRELAY_VENDOR_ID: z.string().default('0x16c0'),
+    USBRELAY_PRODUCT_ID: z.string().default('0x05df'),
   })
   .transform((env) => ({
     ...env,
@@ -92,12 +93,16 @@ const envSharedValidated = SharedEnvSchema.parse({
   AUTH_COOKIE_SUFFIX: process.env.AUTH_COOKIE_SUFFIX,
   //
   RELAY_ENABLED: process.env.RELAY_ENABLED === 'true',
-  RELAY_PORT: process.env.RELAY_PORT,
-  RELAY_BAUD_RATE: Number(process.env.RELAY_BAUD_RATE),
-  RELAY_TIMEOUT: process.env.RELAY_TIMEOUT ? Number(process.env.RELAY_TIMEOUT) : undefined,
-  RELAY_RECONNECT_ATTEMPTS: process.env.RELAY_RECONNECT_ATTEMPTS
-    ? Number(process.env.RELAY_RECONNECT_ATTEMPTS)
-    : undefined,
+  RELAY_NUM_RELAYS:
+    process.env.RELAY_NUM_RELAYS && process.env.RELAY_NUM_RELAYS.trim() !== ''
+      ? Number(process.env.RELAY_NUM_RELAYS)
+      : undefined,
+  RELAY_RECONNECT_ATTEMPTS:
+    process.env.RELAY_RECONNECT_ATTEMPTS && process.env.RELAY_RECONNECT_ATTEMPTS.trim() !== ''
+      ? Number(process.env.RELAY_RECONNECT_ATTEMPTS)
+      : undefined,
+  USBRELAY_VENDOR_ID: process.env.USBRELAY_VENDOR_ID,
+  USBRELAY_PRODUCT_ID: process.env.USBRELAY_PRODUCT_ID,
 });
 
 export type EnvShared = typeof envSharedValidated;

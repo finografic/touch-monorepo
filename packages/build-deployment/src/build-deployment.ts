@@ -205,10 +205,12 @@ async function consolidateEnvironmentFiles(): Promise<void> {
       'LOGS_DIR=./dist/data/logs',
       'UPLOADS_DIR=./dist/data/uploads',
       '',
-      '# Relay Serial Connection',
+      '# Relay Board Configuration (HID-based USBRelay8)',
       'RELAY_ENABLED=true',
-      'RELAY_PORT=/dev/usbmodem11401  # or COM3 on Windows',
-      'RELAY_BAUD_RATE=9600',
+      'RELAY_NUM_RELAYS=16',
+      'RELAY_RECONNECT_ATTEMPTS=5',
+      'USBRELAY_VENDOR_ID=0x16c0',
+      'USBRELAY_PRODUCT_ID=0x05df',
       '',
     ];
 

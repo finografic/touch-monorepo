@@ -579,6 +579,22 @@ const findRelayPort = (ports: any[]): any | undefined => {
 
 ### ✅ Environment Variables
 
+
+
+# ⚠️ DEPRECATED
+
+```bash
+# .env
+RELAY_ENABLED=true
+RELAY_PORT=/dev/ttyUSB0  # Linux/macOS
+# RELAY_PORT=COM3        # Windows
+RELAY_BAUD_RATE=9600
+RELAY_TIMEOUT=5000
+RELAY_RECONNECT_ATTEMPTS=5
+```
+
+# ✅ NEW
+
 ```bash
 # .env
 RELAY_ENABLED=true

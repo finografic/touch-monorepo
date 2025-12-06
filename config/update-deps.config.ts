@@ -35,7 +35,6 @@ const IGNORE_PACKAGES_SERVER: string[] = [
   'node-gyp', // Build tool for native modules (tied to Node.js version)
   'better-sqlite3', // Native SQLite bindings (requires node-gyp)
   'node-hid', // Native USB HID bindings (requires node-gyp)
-  'serialport', // Native serial port bindings (requires node-gyp)
   'better-sqlite3',
   '@types/better-sqlite3',
 

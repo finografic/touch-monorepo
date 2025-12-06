@@ -4,9 +4,15 @@ import * as HID from 'node-hid';
 
 console.log('🔧 Pre-startup: Resetting relay board...');
 
-// USBRelay8 HID protocol constants
-const USBRELAY_VENDOR_ID = 0x16C0;
-const USBRELAY_PRODUCT_ID = 0x05DF;
+// USBRelay8 HID protocol constants (from env or defaults)
+const parseHexString = (hexStr: string | undefined, defaultValue: number): number => {
+  if (!hexStr) return defaultValue;
+  const cleaned = hexStr.startsWith('0x') || hexStr.startsWith('0X') ? hexStr.slice(2) : hexStr;
+  return parseInt(cleaned, 16);
+};
+
+const USBRELAY_VENDOR_ID = parseHexString(process.env.USBRELAY_VENDOR_ID, 0x16c0);
+const USBRELAY_PRODUCT_ID = parseHexString(process.env.USBRELAY_PRODUCT_ID, 0x05df);
 
 const resetRelayBoard = async (): Promise<void> => {
   try {
@@ -26,7 +32,7 @@ const resetRelayBoard = async (): Promise<void> => {
     const device = new HID.HID(relayDevice.path!);
 
     console.log('🧹 Sending ALL RELAYS OFF command...');
-    device.write([0xFC]); // All relays OFF command
+    device.write([0xfc]); // All relays OFF command
 
     console.log('⏰ Waiting 1 second for command to process...');
     await new Promise((resolve) => setTimeout(resolve, 1000));

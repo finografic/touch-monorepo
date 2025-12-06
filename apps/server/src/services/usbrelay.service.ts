@@ -26,13 +26,13 @@ let reconnectAttempts = 0;
 // Support up to 16 relays (2 boards of 8 each)
 // Relay 1-8: Board 1, channels 1-8
 // Relay 9-16: Board 2, channels 1-8
-const MAX_RELAYS = 16;
-const validSlotNumbers = Array.from({ length: MAX_RELAYS }, (_, i) => i + 1) as readonly number[];
+const NUM_RELAYS = relayConfig.numRelays;
+const validSlotNumbers = Array.from({ length: NUM_RELAYS }, (_, i) => i + 1) as readonly number[];
 const maxReconnectAttempts = relayConfig.maxReconnectAttempts;
 
-// USBRelay8 HID protocol constants
-const USBRELAY_VENDOR_ID = 0x16C0;
-const USBRELAY_PRODUCT_ID = 0x05DF;
+// USBRelay8 HID protocol constants (from config)
+const USBRELAY_VENDOR_ID = relayConfig.usbrelayVendorId;
+const USBRELAY_PRODUCT_ID = relayConfig.usbrelayProductId;
 
 // Helper functions
 // Helper function to read actual hardware state (if possible)
@@ -151,8 +151,8 @@ connectToRelayBoard = async (): Promise<void> => {
 };
 
 const validateSlotNumber = (slotNumber: number): void => {
-  if (slotNumber < 1 || slotNumber > MAX_RELAYS) {
-    throw new Error(`Invalid slot number: ${slotNumber}. Must be between 1-${MAX_RELAYS}.`);
+  if (slotNumber < 1 || slotNumber > NUM_RELAYS) {
+    throw new Error(`Invalid slot number: ${slotNumber}. Must be between 1-${NUM_RELAYS}.`);
   }
 };
 
@@ -199,10 +199,10 @@ const buildRelayCommand = (slotNumber: number, state: boolean): number[] => {
 
   if (state) {
     // Turn relay ON
-    return [0xFF, boardChannel, boardChannel, boardChannel];
+    return [0xff, boardChannel, boardChannel, boardChannel];
   } else {
     // Turn relay OFF
-    return [0xFD, boardChannel, boardChannel, boardChannel];
+    return [0xfd, boardChannel, boardChannel, boardChannel];
   }
 };
 
@@ -253,7 +253,10 @@ export const USBRelayService = {
     try {
       const command = buildRelayCommand(slotNumber, state);
       const boardNum = slotNumber <= 8 ? 1 : 2;
-      console.log(`🔌 Sending HID command to relay ${slotNumber} (Board ${boardNum}): ${state ? 'ON' : 'OFF'}`, command);
+      console.log(
+        `🔌 Sending HID command to relay ${slotNumber} (Board ${boardNum}): ${state ? 'ON' : 'OFF'}`,
+        command,
+      );
 
       await sendHIDCommand(command, targetDevice);
       relayStates.set(slotNumber, state);
@@ -351,7 +354,7 @@ export const USBRelayService = {
     }
 
     try {
-      const command = state ? [0xFE] : [0xFC]; // All ON or All OFF
+      const command = state ? [0xfe] : [0xfc]; // All ON or All OFF
       console.log(`🔌 Sending HID command to all relays: ${state ? 'ON' : 'OFF'}`, command);
 
       // Send command to both boards

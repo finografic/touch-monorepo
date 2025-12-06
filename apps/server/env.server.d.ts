@@ -12,11 +12,10 @@ declare const envServerValidated: {
     TOKEN_COOKIE_SUFFIX: string;
     DATA_COOKIE_SUFFIX: string;
     RELAY_ENABLED: boolean;
-    RELAY_NUM_RELAYS: "8" | "16";
-    RELAY_PORT: string;
-    RELAY_BAUD_RATE: number;
-    RELAY_TIMEOUT: number;
+    RELAY_NUM_RELAYS: 8 | 16;
     RELAY_RECONNECT_ATTEMPTS: number;
+    USBRELAY_VENDOR_ID: string;
+    USBRELAY_PRODUCT_ID: string;
     DB_PASS?: string | undefined;
 };
 type EnvServer = typeof envShared & typeof envServerValidated;
