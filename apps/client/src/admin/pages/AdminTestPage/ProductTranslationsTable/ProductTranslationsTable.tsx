@@ -340,10 +340,10 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
         dataKey="id"
         onRowEditComplete={onRowEditComplete}
         filters={filters}
-        filterDisplay="row"
+        // filterDisplay="row"
         emptyMessage="No translations found"
         className="product-translations-datatable"
-        stripedRows
+        // stripedRows
         removableSort
         {...PAGINATOR_PROPS}
       >
@@ -351,11 +351,11 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
         <Column
           field="name"
           header="Name (Key)"
-          sortable
-          filter
+          // sortable
+          // filter
           filterPlaceholder="Search"
-          style={{ minWidth: '150px', maxWidth: '200px' }}
-          headerStyle={{ width: '150px' }}
+          style={{ minWidth: '250px', maxWidth: '300px' }}
+          headerStyle={{ width: '250px' }}
           body={bodyRenderers.name}
         />
 
@@ -368,8 +368,8 @@ export const ProductTranslationsTable: React.FC<ProductTranslationsTableProps> =
               key={fieldName}
               field={fieldName}
               header={`${lang.displayName} (${lang.isoCode})`}
-              sortable
-              filter
+              // sortable
+              // filter
               filterPlaceholder="Search"
               style={{ minWidth: '150px', maxWidth: '200px' }}
               body={bodyRenderers[fieldName]}
